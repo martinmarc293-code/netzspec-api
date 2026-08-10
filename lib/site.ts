@@ -37,11 +37,47 @@ export const SITE = {
     { slug: "topsec", name: "Topsec", sells: false },
     { slug: "moresec", name: "MoreSec", sells: false },
   ] as { slug: string; name: string; sells: boolean }[],
+  // Product-type axis (the itprice pattern). `covered` = we have verified parts today →
+  // indexable hub; the rest render as "coverage expanding" (noindex) so the taxonomy is
+  // visible without shipping thin pages.
   categories: [
-    { slug: "switches", en: "Switches", de: "Switches" },
-    { slug: "transceiver", en: "Transceivers", de: "Transceiver" },
-  ],
+    { slug: "switches", en: "Switches", de: "Switches", covered: true,
+      taglineEn: "Managed, stackable & modular", taglineDe: "Managed, stackable & modular",
+      blurbEn: "Enterprise access, aggregation and core switches — port specs, list-price context, EOL status and the transceivers that fit each uplink.",
+      blurbDe: "Enterprise Access-, Aggregation- und Core-Switches — Port-Specs, Listenpreis-Kontext, EOL-Status und die passenden Transceiver für jeden Uplink." },
+    { slug: "transceiver", en: "Transceivers", de: "Transceiver", covered: true,
+      taglineEn: "SFP · SFP+ · QSFP optics", taglineDe: "SFP · SFP+ · QSFP Optiken",
+      blurbEn: "SFP, SFP+, QSFP and QSFP28 optics — reach, wavelength, connector and verified switch compatibility.",
+      blurbDe: "SFP-, SFP+-, QSFP- und QSFP28-Optiken — Reichweite, Wellenlänge, Stecker und geprüfte Switch-Kompatibilität." },
+    { slug: "routers", en: "Routers", de: "Router", covered: false,
+      taglineEn: "Edge, branch & core", taglineDe: "Edge, Branch & Core",
+      blurbEn: "Branch, edge and service-provider routers — throughput, interfaces and lifecycle.",
+      blurbDe: "Branch-, Edge- und Service-Provider-Router — Durchsatz, Schnittstellen und Lifecycle." },
+    { slug: "firewalls", en: "Firewalls", de: "Firewalls", covered: false,
+      taglineEn: "NGFW & security", taglineDe: "NGFW & Security",
+      blurbEn: "Next-generation firewalls and security appliances — throughput, sessions and licensing.",
+      blurbDe: "Next-Generation-Firewalls und Security-Appliances — Durchsatz, Sessions und Lizenzierung." },
+    { slug: "wireless", en: "Wireless", de: "Wireless", covered: false,
+      taglineEn: "Access points & controllers", taglineDe: "Access Points & Controller",
+      blurbEn: "Wi-Fi 6/6E/7 access points and controllers — radios, throughput and PoE draw.",
+      blurbDe: "Wi-Fi 6/6E/7 Access Points und Controller — Funkmodule, Durchsatz und PoE-Bedarf." },
+    { slug: "servers", en: "Servers", de: "Server", covered: false,
+      taglineEn: "Rack & blade", taglineDe: "Rack & Blade",
+      blurbEn: "Rack and blade servers — CPU, memory and drive-bay configuration.",
+      blurbDe: "Rack- und Blade-Server — CPU, Speicher und Laufwerksschächte." },
+    { slug: "storage", en: "Storage", de: "Storage", covered: false,
+      taglineEn: "SAN, NAS & drives", taglineDe: "SAN, NAS & Laufwerke",
+      blurbEn: "SAN, NAS and drive modules — capacity, interface and compatibility.",
+      blurbDe: "SAN-, NAS- und Laufwerksmodule — Kapazität, Schnittstelle und Kompatibilität." },
+    { slug: "accessories", en: "Cables & Accessories", de: "Kabel & Zubehör", covered: false,
+      taglineEn: "DACs, power & mounts", taglineDe: "DACs, Strom & Montage",
+      blurbEn: "Direct-attach cables, power supplies, fans and mounting accessories.",
+      blurbDe: "Direct-Attach-Kabel, Netzteile, Lüfter und Montagezubehör." },
+  ] as { slug: string; en: string; de: string; covered: boolean; taglineEn: string; taglineDe: string; blurbEn: string; blurbDe: string }[],
 };
+
+/** Category metadata by slug (undefined for unknown slugs). */
+export const catBySlug = (slug: string) => SITE.categories.find((c) => c.slug === slug);
 
 export const localePath = (locale: Locale, path = "") => `/${locale}${path.startsWith("/") ? path : path ? "/" + path : ""}`;
 

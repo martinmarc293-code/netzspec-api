@@ -52,6 +52,20 @@ export async function vendorCounts(): Promise<Record<string, number>> {
   return Object.fromEntries(rows.map((r) => [r._id as string, r.n as number]));
 }
 
+export async function categoryCounts(): Promise<Record<string, number>> {
+  const db = await getDb();
+  const rows = await db.collection("parts").aggregate([{ $group: { _id: "$category", n: { $sum: 1 } } }]).toArray();
+  return Object.fromEntries(rows.map((r) => [r._id as string, r.n as number]));
+}
+
+/** Parts in a category, grouped by vendor (for a category hub). */
+export async function partsByCategoryGrouped(category: string): Promise<Record<string, Part[]>> {
+  const parts = await listParts({ category });
+  const out: Record<string, Part[]> = {};
+  for (const p of parts) (out[p.vendor] ||= []).push(p);
+  return out;
+}
+
 // ---- Guides ----------------------------------------------------------------
 export async function listGuides(limit = 500): Promise<Guide[]> {
   const db = await getDb();
