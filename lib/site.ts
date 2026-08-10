@@ -4,8 +4,9 @@ export const SITE = {
   name: "Netzspec",
   domain: "netzspec.com",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://netzspec.com",
-  // the money site (used ONLY for editorial buy-links, never in schema)
-  hexwaren: "https://www.hexwaren.de",
+  // the money site (used ONLY for editorial buy-links, never in schema).
+  // non-www is canonical — www 302-redirects to it, so link direct to avoid the hop.
+  hexwaren: "https://hexwaren.de",
   operator: "Hexwaren GmbH", // legal Impressum operator
   locales: ["en", "de"] as Locale[],
   defaultLocale: "en" as Locale,
@@ -80,6 +81,12 @@ export const SITE = {
 export const catBySlug = (slug: string) => SITE.categories.find((c) => c.slug === slug);
 
 export const localePath = (locale: Locale, path = "") => `/${locale}${path.startsWith("/") ? path : path ? "/" + path : ""}`;
+
+// hexwaren uses "hpe-aruba" as the path for Aruba products; others match our slug.
+const HEX_VENDOR: Record<string, string> = { aruba: "hpe-aruba" };
+export const hexVendorPath = (vendor: string) => HEX_VENDOR[vendor] || vendor;
+/** Best-guess hexwaren product URL (fallback when a part has no explicit hexwarenUrl). */
+export const hexwarenProductUrl = (vendor: string, sku: string) => `${SITE.hexwaren}/${hexVendorPath(vendor)}/${sku.toLowerCase()}`;
 
 /** Absolute canonical + hreflang alternates for a path (path WITHOUT locale prefix, e.g. "/cisco/glc-te"). */
 export function alternatesFor(path: string) {
