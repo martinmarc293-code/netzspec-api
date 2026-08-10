@@ -1,4 +1,8 @@
-// Shared domain types for netzspec.com
+// Shared domain types for netzspec.com — BILINGUAL (English default + German).
+
+export type Locale = "en" | "de";
+export const LOCALES: Locale[] = ["en", "de"];
+export const DEFAULT_LOCALE: Locale = "en";
 
 export interface Attribute {
   name: string;
@@ -11,65 +15,79 @@ export interface Faq {
 }
 
 export interface Eol {
-  status: string; // "Aktiv" | "EoS angekündigt" | ...
+  status: string; // language-neutral key resolved in UI, or short label
   source: string;
 }
 
-/** A part-number reference page — the core ranking + funnel asset. */
-export interface Part {
-  sku: string;
-  slug: string;
-  vendor: string; // cisco | hpe | aruba | juniper
-  category: string; // switches | transceiver | ...
-  type: string; // switch | transceiver
+/** Per-locale content for a part. */
+export interface PartL10n {
   name: string;
   shortDesc: string;
-  description: string; // HTML (verified, from HexCat)
+  description: string; // HTML
   seoTitle: string;
   metaDesc: string;
   attributes: Attribute[];
   faq: Faq[];
+}
+
+/** A part-number reference page — bilingual. Neutral fields + per-locale content. */
+export interface Part {
+  sku: string;
+  slug: string;
+  vendor: string;
+  category: string;
+  type: string;
   listPriceEUR: number | null;
   priceNote?: string;
   eol: Eol;
-  condition: string; // NewCondition
-  compatible: string[]; // SKUs
+  condition: string;
+  compatible: string[];
   dataSource: string;
-  verifiedBy?: string; // author slug — the expert who verified the data
-  hexwarenUrl?: string | null; // the funnel target
-  views?: number; // social-proof signal
+  verifiedBy?: string; // author slug
+  hexwarenUrl?: string | null; // funnel target (German shop)
+  views?: number;
   updatedAt: string;
+  i18n: Record<Locale, PartL10n>;
 }
 
-/** Editorial content — buying guides, authenticity, comparisons (link/AI-citation magnets). */
-export interface Guide {
-  slug: string;
+export interface GuideL10n {
   title: string;
   excerpt: string;
-  category: string; // Authentizität | Vergleich | Ratgeber | Lifecycle
   body: string; // markdown-lite
-  relatedSkus: string[];
-  authorSlug?: string;
   seoTitle: string;
   metaDesc: string;
-  readMinutes?: number;
-  updatedAt: string;
-  publishedAt?: string;
 }
 
-/** Expert author/profile — seeds the "authoritative team" behind the data + guides (E-E-A-T). */
+export interface Guide {
+  slug: string;
+  category: string;
+  relatedSkus: string[];
+  authorSlug?: string;
+  readMinutes?: number;
+  publishedAt?: string;
+  updatedAt: string;
+  i18n: Record<Locale, GuideL10n>;
+}
+
+export interface AuthorL10n {
+  role: string;
+  bio: string;
+}
+
 export interface Author {
   slug: string;
-  name: string;
-  role: string; // "Netzwerk-Ingenieur (CCNP)"
-  bio: string;
+  name: string; // neutral
   credentials?: string;
-  expertise: string[]; // vendors/topics
-  avatarColor?: string; // deterministic avatar tint
-  guides?: number; // count, for profile display
-  verifiedParts?: number;
+  expertise: string[];
+  avatarColor?: string;
   createdAt: string;
+  i18n: Record<Locale, AuthorL10n>;
 }
 
 export const VENDORS = ["cisco", "hpe", "aruba", "juniper"] as const;
 export type Vendor = (typeof VENDORS)[number];
+
+/** Pull the right locale content, falling back to the default locale. */
+export function loc<T>(map: Record<Locale, T>, locale: Locale): T {
+  return map[locale] ?? map[DEFAULT_LOCALE];
+}
