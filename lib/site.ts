@@ -1,7 +1,7 @@
 import type { Locale } from "./types";
 
 export const SITE = {
-  name: "NetSpec",
+  name: "Netzspec",
   domain: "netzspec.com",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://netzspec.com",
   // the money site (used ONLY for editorial buy-links, never in schema)
