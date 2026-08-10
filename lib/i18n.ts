@@ -107,3 +107,15 @@ const dicts: Record<Locale, Dict> = { en, de };
 export function t(locale: Locale, key: keyof typeof en): string {
   return dicts[locale]?.[key] ?? en[key] ?? String(key);
 }
+
+// Guide-category labels, localized (stored value is the German key).
+const catMap: Record<string, Record<Locale, string>> = {
+  "Vergleich": { en: "Comparison", de: "Vergleich" },
+  "Lifecycle": { en: "Lifecycle", de: "Lifecycle" },
+  "How-to": { en: "How-to", de: "How-to" },
+  "Authentizität": { en: "Authenticity", de: "Authentizität" },
+  "Ratgeber": { en: "Guide", de: "Ratgeber" },
+};
+export function catLabel(locale: Locale, cat: string): string {
+  return catMap[cat]?.[locale] ?? cat;
+}
