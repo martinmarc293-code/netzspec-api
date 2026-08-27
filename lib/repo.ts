@@ -2,9 +2,11 @@ import { getDb } from "./mongodb";
 import type { Part, Guide, Author } from "./types";
 
 // ---- Parts -----------------------------------------------------------------
+// listParts returns INDEXABLE parts only (hubs/homepage/related). HexCat stubs are
+// excluded here; the tools reach all SKUs via searchParts / getPartBySku / listSwitches.
 export async function listParts(filter: Partial<Pick<Part, "vendor" | "category" | "type">> = {}, limit = 5000): Promise<Part[]> {
   const db = await getDb();
-  return db.collection<Part>("parts").find(filter as object, { projection: { _id: 0 } }).sort({ sku: 1 }).limit(limit).toArray();
+  return db.collection<Part>("parts").find({ ...(filter as object), indexable: { $ne: false } }, { projection: { _id: 0 } }).sort({ sku: 1 }).limit(limit).toArray();
 }
 
 export async function getPartBySlug(vendor: string, slug: string): Promise<Part | null> {
@@ -24,13 +26,37 @@ export async function getPartsBySkus(skus: string[]): Promise<Part[]> {
 }
 
 /** Bidirectional verified compatibility for a part. */
+// Compatible parts by explicit pairs (curated) OR form-factor matching (HexCat stubs).
+// switch → optics whose formFactor ∈ switch.acceptsFF; optic → switches that accept its formFactor.
 export async function compatibleFor(part: Part): Promise<Part[]> {
   const db = await getDb();
+  const p = part as Part & { type?: string; acceptsFF?: string[]; formFactor?: string };
+  const or: object[] = [{ sku: { $in: part.compatible || [] } }, { compatible: part.sku }];
+  if (p.type === "switch" && p.acceptsFF?.length) or.push({ type: { $ne: "switch" }, formFactor: { $in: p.acceptsFF } });
+  else if (p.type !== "switch" && p.formFactor) or.push({ type: "switch", acceptsFF: p.formFactor });
   const rows = await db.collection<Part>("parts")
-    .find({ $or: [{ sku: { $in: part.compatible || [] } }, { compatible: part.sku }] }, { projection: { _id: 0 } })
-    .toArray();
+    .find({ $or: or }, { projection: { _id: 0 } })
+    .limit(120).toArray();
   const seen = new Set<string>();
-  return rows.filter((p) => (p.sku !== part.sku && !seen.has(p.sku) ? (seen.add(p.sku), true) : false));
+  return rows.filter((r) => (r.sku !== part.sku && !seen.has(r.sku) ? (seen.add(r.sku), true) : false)).slice(0, 60);
+}
+
+// Lightweight refs for INDEXABLE parts only (tiny projection) — for sitemap + static params.
+// Curated parts have no `indexable` field → `$ne: false` includes them; stubs are excluded.
+export async function indexablePartRefs(): Promise<{ vendor: string; slug: string; category: string }[]> {
+  const db = await getDb();
+  return db.collection<Part>("parts")
+    .find({ indexable: { $ne: false } }, { projection: { _id: 0, vendor: 1, slug: 1, category: 1 } })
+    .toArray() as unknown as { vendor: string; slug: string; category: string }[];
+}
+
+// Minimal switch list for the compat-tool dropdown (name + sku only; details fetched on select).
+export async function listSwitches(): Promise<{ sku: string; slug: string; vendor: string; name_de: string }[]> {
+  const db = await getDb();
+  const rows = await db.collection<Part>("parts")
+    .find({ type: "switch" }, { projection: { _id: 0, sku: 1, slug: 1, vendor: 1, "i18n.de.name": 1 } })
+    .toArray();
+  return rows.map((r) => ({ sku: r.sku, slug: r.slug, vendor: r.vendor, name_de: r.i18n?.de?.name || r.sku }));
 }
 
 export async function searchParts(q: string, limit = 40): Promise<Part[]> {
@@ -48,13 +74,13 @@ export async function countParts(filter: object = {}): Promise<number> {
 
 export async function vendorCounts(): Promise<Record<string, number>> {
   const db = await getDb();
-  const rows = await db.collection("parts").aggregate([{ $group: { _id: "$vendor", n: { $sum: 1 } } }]).toArray();
+  const rows = await db.collection("parts").aggregate([{ $match: { indexable: { $ne: false } } }, { $group: { _id: "$vendor", n: { $sum: 1 } } }]).toArray();
   return Object.fromEntries(rows.map((r) => [r._id as string, r.n as number]));
 }
 
 export async function categoryCounts(): Promise<Record<string, number>> {
   const db = await getDb();
-  const rows = await db.collection("parts").aggregate([{ $group: { _id: "$category", n: { $sum: 1 } } }]).toArray();
+  const rows = await db.collection("parts").aggregate([{ $match: { indexable: { $ne: false } } }, { $group: { _id: "$category", n: { $sum: 1 } } }]).toArray();
   return Object.fromEntries(rows.map((r) => [r._id as string, r.n as number]));
 }
 
