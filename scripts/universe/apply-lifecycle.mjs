@@ -17,13 +17,20 @@ const env = Object.fromEntries(
     .map((l) => { const i = l.indexOf("="); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; })
 );
 
-// same normalisation as scraper _norm_pid: unify C1-/WS- ordering variants + strip ++/= suffixes
+// Normalise a Cisco PID to a hardware core so bulletin coding (WS3850-24P/K9) and netzspec
+// coding (WS-C3850-24P-E) unify. SAFE strips only: software/spare packaging (/K9, ++, =),
+// vendor/ordering prefix (WS-C/WSC/WS/C1-, bare leading C), and a trailing HYPHENATED license
+// grade (-E/-S/-L/-A). Port-type letters (…-12S, …-48U) are kept — no lossy concatenated strip,
+// so 3850-12S never false-merges with a different port config.
 const normPid = (s) => {
   let p = String(s || "").trim().toUpperCase();
-  if (!p || p.includes(" ") || !p.includes("-") || p.length < 5) return null;
-  p = p.replace(/[+=]+$/, "");
-  for (const pre of ["C1-", "WS-"]) if (p.startsWith(pre)) p = p.slice(pre.length);
-  return p || null;
+  if (!p || p.includes(" ") || p.length < 5) return null;
+  p = p.replace(/\/K9(\+\+)?$/, "").replace(/[+=]+$/, "");
+  p = p.replace(/^(WS-C|WSC|WS-|WS|C1-)/, "");
+  p = p.replace(/^C(?=\d)/, "");
+  p = p.replace(/-([ESLA])$/, "");
+  if (!p.includes("-") || !/\d{3,4}/.test(p) || p.length < 5) return null;
+  return p;
 };
 const dateFields = (lc) => ["announce_date", "end_of_sale_date", "last_ship_date", "end_of_sw_maint", "end_of_vuln_support", "last_day_of_support"].filter((k) => lc?.[k]).length;
 
