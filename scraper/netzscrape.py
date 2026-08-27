@@ -120,6 +120,33 @@ class PoliteBrowser:
             print(f"  ! HTTP {status} for {url}", file=sys.stderr)
         return html
 
+    def api_json(self, origin_url: str, api_path: str, *, method: str = "POST", payload: dict | None = None):
+        """Call a same-origin JSON API from inside the page (passes bot-detection the way normal
+        XHR does). Visits origin_url once (throttled, robots-checked), then evaluates fetch().
+        Used by SPA adapters (e.g. Cisco TMG) whose data comes from a runtime API, not static HTML."""
+        if getattr(self, "_origin", None) != origin_url:
+            allowed, _ = self._robots_ok(origin_url)
+            if not allowed:
+                raise PoliteBlocked(f"robots.txt disallows {origin_url}")
+            self._wait(urlparse(origin_url).netloc)
+            self._page.goto(origin_url, wait_until="domcontentloaded", timeout=45000)
+            self._origin = origin_url
+        self._wait(urlparse(origin_url).netloc)
+        self.stats["fetches"] += 1
+        result = self._page.evaluate(
+            """async ([path, method, payload]) => {
+                const opts = { method, headers: { 'Content-Type': 'application/json' } };
+                if (payload) opts.body = JSON.stringify(payload);
+                const r = await fetch(path, opts);
+                let body; try { body = await r.json(); } catch(e) { body = null; }
+                return { status: r.status, body };
+            }""",
+            [api_path, method, payload],
+        )
+        _ledger({"url": origin_url + api_path, "status": result.get("status"), "host": urlparse(origin_url).netloc,
+                 "robots": "allow", "fetched_at": _now(), "api": True})
+        return result
+
     def close(self) -> None:
         try:
             self._browser.close(); self._pw.stop()
