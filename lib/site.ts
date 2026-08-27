@@ -82,11 +82,9 @@ export const catBySlug = (slug: string) => SITE.categories.find((c) => c.slug ==
 
 export const localePath = (locale: Locale, path = "") => `/${locale}${path.startsWith("/") ? path : path ? "/" + path : ""}`;
 
-// hexwaren uses "hpe-aruba" as the path for Aruba products; others match our slug.
-const HEX_VENDOR: Record<string, string> = { aruba: "hpe-aruba" };
-export const hexVendorPath = (vendor: string) => HEX_VENDOR[vendor] || vendor;
-/** Best-guess hexwaren product URL (fallback when a part has no explicit hexwarenUrl). */
-export const hexwarenProductUrl = (vendor: string, sku: string) => `${SITE.hexwaren}/${hexVendorPath(vendor)}/${sku.toLowerCase()}`;
+// NOTE: hexwaren URL-construction helpers were removed (WP1). Never construct a
+// hexwaren URL — the commerce module links only a stored, verified part.hexwarenUrl,
+// and the funnel is sponsored/branded only (see lib/crossSiteLinks.ts + DECISIONS.md).
 
 /** Absolute canonical + hreflang alternates for a path (path WITHOUT locale prefix, e.g. "/cisco/glc-te"). */
 export function alternatesFor(path: string) {
@@ -95,4 +93,41 @@ export function alternatesFor(path: string) {
   for (const l of SITE.locales) languages[l] = `${SITE.url}/${l}${clean}`;
   languages["x-default"] = `${SITE.url}/${SITE.defaultLocale}${clean}`;
   return languages;
+}
+
+// ---- Structured data (single source of truth) ------------------------------
+// The Organization/WebSite entity graph. NETZSPEC ONLY — hexwaren.de never
+// appears here (locked in docs/DECISIONS.md; the ownership tie is disclosed in
+// the visible Impressum/Footer, not in schema).
+export function organizationLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE.name,
+    url: SITE.url,
+    logo: `${SITE.url}/${SITE.defaultLocale}/icon.svg`,
+    description: "Manufacturer-independent reference for enterprise network hardware: part-number specifications, price context, EOL/EOS status and verified compatibility.",
+    areaServed: ["DE", "AT", "CH", "EU"],
+    knowsAbout: [
+      "enterprise network switches", "SFP/SFP+/QSFP transceivers", "network routers",
+      "next-generation firewalls", "enterprise wireless", "hardware lifecycle (EOL/EOS)",
+      ...SITE.vendors.filter((v) => v.sells).map((v) => v.name),
+    ],
+  };
+}
+
+export function websiteLd(locale: Locale) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE.name,
+    url: `${SITE.url}/${locale}`,
+    inLanguage: locale === "de" ? "de-DE" : "en",
+    publisher: { "@type": "Organization", name: SITE.name, url: SITE.url },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${SITE.url}/${locale}/search?q={query}`,
+      "query-input": "required name=query",
+    },
+  };
 }
