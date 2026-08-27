@@ -20,3 +20,6 @@ Format: `date · decision · source`.
 - Footer ownership disclosure: operator earlier said "no Hexwaren in footer"; v2 reverses this (disclose openly). Implemented per v2 (unlinked text) 2026-08-27 — **operator to confirm or veto**.
 - Real Hexwaren GmbH legal details for Impressum/Datenschutz (address, HRB, USt-IdNr, Geschäftsführer) still placeholders.
 - Whether price-context block gets populated for Tranche 1 (§6.5 memo pending).
+- **Canonical locale (EN vs DE).** 2026-08-27: default locale, `x-default`, and sitemap `<loc>` all resolve to EN, but the money site targets Germany. SKUs are language-neutral → EN-default defensible, but German being non-canonical is a real SEO call. **Web to decide before scaling pages.**
+- v2 strategy + A–H artifacts absent from `docs/strategy/` — operator to add.
+- llms.txt: German descriptions currently sit on `/en/` URLs — align language↔locale, or split per locale.
