@@ -14,15 +14,22 @@ from __future__ import annotations
 import hashlib, json, time, os, sys
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.robotparser import RobotFileParser
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent
 CACHE = ROOT / "cache"
 LEDGER = ROOT / "ledger.jsonl"
 CACHE.mkdir(exist_ok=True)
 THROTTLE = float(os.environ.get("NETZSCRAPE_THROTTLE", "2.0"))  # seconds between same-host hits
+UA_TOKEN = "netzspec-datasheet-bot"  # the product token robots.txt rules are matched against
 UA = os.environ.get("NETZSCRAPE_UA",
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                     "(KHTML, like Gecko) Chrome/126.0 Safari/537.36 netzspec-datasheet-bot (+https://netzspec.com; kontakt@netzspec.com)")
+
+
+class PoliteBlocked(Exception):
+    """Raised when robots.txt disallows a URL for our UA — the adapter skips it."""
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -47,6 +54,8 @@ class PoliteBrowser:
             extra_http_headers={"Accept-Language": "en-US,en;q=0.9"})
         self._page = self._ctx.new_page()
         self._last_hit: dict[str, float] = {}
+        self._robots: dict[str, RobotFileParser | None] = {}  # host -> parser (None = no robots.txt)
+        self.stats = {"cache_hits": 0, "fetches": 0, "robots_blocked": 0}
 
     def _wait(self, host: str) -> None:
         last = self._last_hit.get(host, 0.0)
@@ -55,23 +64,57 @@ class PoliteBrowser:
             time.sleep(THROTTLE - dt)
         self._last_hit[host] = time.monotonic()
 
+    def _robots_for(self, host: str) -> RobotFileParser | None:
+        """Fetch + parse robots.txt for a host once (via the real browser, so no 403), cache it."""
+        if host in self._robots:
+            return self._robots[host]
+        rp = RobotFileParser()
+        try:
+            self._wait(host)
+            r = self._page.goto(f"https://{host}/robots.txt", wait_until="domcontentloaded", timeout=20000)
+            if r and r.status == 200:
+                # page.content() wraps text in <html><body><pre>…</pre> — strip to raw lines
+                txt = self._page.evaluate("() => document.body ? document.body.innerText : ''") or ""
+                rp.parse(txt.splitlines())
+            else:
+                rp = None  # no robots.txt => allow all
+        except Exception:  # noqa
+            rp = None
+        self._robots[host] = rp
+        return rp
+
+    def _robots_ok(self, url: str) -> tuple[bool, str]:
+        host = urlparse(url).netloc
+        rp = self._robots_for(host)
+        if rp is None:
+            return True, "no-robots"
+        allowed = rp.can_fetch(UA_TOKEN, url) and rp.can_fetch("*", url)
+        return allowed, "allow" if allowed else "disallow"
+
     def fetch(self, url: str, *, force: bool = False, wait_until: str = "domcontentloaded", timeout: int = 45000) -> str:
-        """Return page HTML. Served from cache unless force=True. Logs to the ledger."""
+        """Return page HTML. Served from cache unless force=True. Honors robots.txt. Logs to the ledger."""
         cf = CACHE / f"{_key(url)}.html"
         if cf.exists() and not force:
+            self.stats["cache_hits"] += 1
             return cf.read_text(encoding="utf-8", errors="replace")
-        from urllib.parse import urlparse
-        self._wait(urlparse(url).netloc)
+        host = urlparse(url).netloc
+        allowed, decision = self._robots_ok(url)
+        if not allowed:
+            self.stats["robots_blocked"] += 1
+            _ledger({"url": url, "status": "ROBOTS_BLOCKED", "host": host, "robots": decision, "fetched_at": _now()})
+            raise PoliteBlocked(f"robots.txt disallows {url}")
+        self._wait(host)
         status = None
         try:
             r = self._page.goto(url, wait_until=wait_until, timeout=timeout)
             status = r.status if r else None
             html = self._page.content()
         except Exception as e:  # noqa
-            _ledger({"url": url, "status": "ERROR", "error": str(e)[:200], "fetched_at": _now()})
+            _ledger({"url": url, "status": "ERROR", "host": host, "error": str(e)[:200], "fetched_at": _now()})
             raise
+        self.stats["fetches"] += 1
         cf.write_text(html, encoding="utf-8")
-        _ledger({"url": url, "status": status, "fetched_at": _now(),
+        _ledger({"url": url, "status": status, "host": host, "robots": decision, "fetched_at": _now(),
                  "sha256": hashlib.sha256(html.encode()).hexdigest(), "bytes": len(html)})
         if status and status >= 400:
             print(f"  ! HTTP {status} for {url}", file=sys.stderr)
@@ -82,6 +125,38 @@ class PoliteBrowser:
             self._browser.close(); self._pw.stop()
         except Exception:  # noqa
             pass
+
+def ledger_report() -> dict:
+    """Aggregate the ledger by host: network fetches, status mix, robots decisions (§0.7)."""
+    hosts: dict[str, dict] = {}
+    if not LEDGER.exists():
+        return hosts
+    for line in LEDGER.read_text(encoding="utf-8").splitlines():
+        try:
+            r = json.loads(line)
+        except Exception:  # noqa
+            continue
+        host = r.get("host") or (urlparse(r.get("url", "")).netloc)
+        h = hosts.setdefault(host, {"fetches": 0, "robots_allow": 0, "robots_blocked": 0, "errors": 0, "status": {}})
+        st = str(r.get("status"))
+        if st == "ROBOTS_BLOCKED":
+            h["robots_blocked"] += 1
+        elif st == "ERROR":
+            h["errors"] += 1
+        else:
+            h["fetches"] += 1
+            h["status"][st] = h["status"].get(st, 0) + 1
+            if r.get("robots") == "allow":
+                h["robots_allow"] += 1
+    return hosts
+
+
+def print_ledger_report() -> None:
+    rep = ledger_report()
+    print("\n=== ledger report (per host) — §0.7 robots compliance + fetch counts ===")
+    for host, h in sorted(rep.items(), key=lambda kv: -kv[1]["fetches"]):
+        print(f"  {host}: fetches={h['fetches']} robots_allow={h['robots_allow']} robots_blocked={h['robots_blocked']} errors={h['errors']} status={h['status']}")
+
 
 def write_output(source: str, records: list[dict]) -> Path:
     """Write adapter output to ../data/universe/{source}_{YYYY-MM-DD}.json."""
