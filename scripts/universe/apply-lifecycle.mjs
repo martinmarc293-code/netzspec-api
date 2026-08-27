@@ -14,7 +14,19 @@ const env = Object.fromEntries(
     .map((l) => { const i = l.indexOf("="); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; })
 );
 const parsed = JSON.parse(fs.readFileSync(file, "utf8"));
-const bulletins = parsed.bulletins || parsed.records || []; // hand-authored or scraper output
+const raw = parsed.bulletins || parsed.records || []; // hand-authored or scraper output
+// Dedupe per (vendor, family_match): a series has several bulletins (main + fanless/fiber/
+// older variants) — keep the CANONICAL one (most non-null lifecycle milestones; tie → latest EoS).
+const dateFields = (lc) => ["announce_date", "end_of_sale_date", "last_ship_date", "end_of_sw_maint", "end_of_vuln_support", "last_day_of_support"].filter((k) => lc?.[k]).length;
+const best = new Map();
+for (const b of raw) {
+  const key = `${b.vendor}::${b.family_match}`;
+  const cur = best.get(key);
+  const better = !cur || dateFields(b.lifecycle) > dateFields(cur.lifecycle)
+    || (dateFields(b.lifecycle) === dateFields(cur.lifecycle) && (b.lifecycle?.end_of_sale_date || "") > (cur.lifecycle?.end_of_sale_date || ""));
+  if (better) best.set(key, b);
+}
+const bulletins = [...best.values()];
 
 const client = new MongoClient(env.MONGODB_URI);
 await client.connect();
