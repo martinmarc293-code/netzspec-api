@@ -36,11 +36,15 @@ def _ledger(rec: dict) -> None:
 
 class PoliteBrowser:
     """A single Chromium context; fetch() caches + throttles per host."""
-    def __init__(self, headless: bool = True, locale: str = "de-DE"):
+    def __init__(self, headless: bool = True, locale: str = "en-US"):
+        # locale en-US + explicit Accept-Language so vendor CDNs serve the canonical English
+        # source (dates + prose), not a geo/locale-translated variant (Cisco served French under de-DE).
         from playwright.sync_api import sync_playwright
         self._pw = sync_playwright().start()
         self._browser = self._pw.chromium.launch(headless=headless)
-        self._ctx = self._browser.new_context(user_agent=UA, locale=locale)
+        self._ctx = self._browser.new_context(
+            user_agent=UA, locale=locale,
+            extra_http_headers={"Accept-Language": "en-US,en;q=0.9"})
         self._page = self._ctx.new_page()
         self._last_hit: dict[str, float] = {}
 

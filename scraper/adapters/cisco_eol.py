@@ -27,6 +27,23 @@ def _iso(date_text: str) -> str | None:
         return None
     return f"{m.group(3)}-{mon:02d}-{int(m.group(2)):02d}"
 
+def _norm_pid(cell: str) -> str | None:
+    """Normalise a table cell to a comparable Cisco PID core, or None if it isn't a PID.
+    Strips ordering prefixes (C1-/WS-) and spare/relicense suffixes (++, =) so
+    'C1-C2960X-24PD-L', 'WS-C2960X-24PD-L' and 'C1-C2960X-24PD-L++' all unify."""
+    if not cell:
+        return None
+    p = cell.strip().upper()
+    if " " in p or "-" not in p or len(p) < 5 or len(p) > 32:
+        return None  # descriptions have spaces; PIDs don't
+    if not any(c.isdigit() for c in p) or not re.match(r"^[A-Z0-9][A-Z0-9./+=-]+$", p):
+        return None
+    p = p.rstrip("+=")
+    for pre in ("C1-", "WS-"):
+        if p.startswith(pre):
+            p = p[len(pre):]
+    return p or None
+
 # milestone label (substring, lowercased) -> our field
 MILESTONE_MAP = [
     ("end-of-life announcement", "announce_date"),
@@ -40,9 +57,11 @@ MILESTONE_MAP = [
 def _bulletin_links(listing_html: str) -> list[str]:
     soup = BeautifulSoup(listing_html, "lxml")
     out = []
+    # skip localized duplicates (…-fr.html, -de.html, -es.html, …): keep only canonical English
+    LANG = re.compile(r"-(fr|de|es|it|pt|ja|ko|zh|ru|nl|pl|tr)\.html$", re.I)
     for a in soup.select("a[href]"):
         href = a["href"]
-        if "eol" in href.lower() and href.endswith(".html") and "/collateral/" in href:
+        if "eol" in href.lower() and href.endswith(".html") and "/collateral/" in href and not LANG.search(href):
             out.append(href if href.startswith("http") else BASE + href)
     # dedupe, keep order
     seen, uniq = set(), []
@@ -79,16 +98,27 @@ def parse_bulletin(html: str, url: str) -> dict | None:
         break
     if not milestone:
         return None
-    # successor: look for a replacement PID / "migrat" hint (kept minimal; refined per family)
-    succ = None
-    m = re.search(r"(Catalyst\s+9[0-9]{3})", text)
-    if m:
-        succ = m.group(1)
+    # Table 2 — affected part numbers + per-PID replacement. Matched by PID-pattern ROWS
+    # (locale-independent: the header may be French/German), col0 = affected, col2 = successor.
+    affected: list[dict] = []
+    for tbl in soup.find_all("table"):
+        rows_pids = []
+        for tr in tbl.find_all("tr"):
+            cells = [td.get_text(" ", strip=True) for td in tr.find_all(["td", "th"])]
+            if len(cells) < 2:
+                continue
+            pid = _norm_pid(cells[0])
+            if not pid:
+                continue
+            succ = _norm_pid(cells[2]) if len(cells) > 2 else None
+            rows_pids.append({"pid": pid, "successor": succ})
+        if len(rows_pids) >= 2:  # a real affected-products table
+            affected = rows_pids
+            break
     return {
         "doc_id": doc_id, "source_url": url, "is_hardware": is_hw,
-        "lifecycle": {**milestone, "status": "eol_announced",
-                      "successor_note": (f"Nachfolger: {succ}" if succ else None),
-                      "successor_sku": (succ.split()[-1] if succ else None)},
+        "affected_pids": affected,
+        "lifecycle": {**milestone, "status": "eol_announced"},
     }
 
 def run(browser, series_list: list[str]) -> list[dict]:
@@ -113,6 +143,7 @@ def run(browser, series_list: list[str]) -> list[dict]:
                 continue  # skip License/Accessory bulletins
             records.append({"vendor": "cisco", "family_match": family_match,
                             "doc_id": b["doc_id"], "source_url": b["source_url"],
-                            "verified_at": today, "lifecycle": b["lifecycle"]})
-            print(f"    HW bulletin {b['doc_id']} -> {b['lifecycle'].get('end_of_sale_date')}")
+                            "verified_at": today, "affected_pids": b["affected_pids"],
+                            "lifecycle": b["lifecycle"]})
+            print(f"    HW bulletin {b['doc_id']} -> EoS {b['lifecycle'].get('end_of_sale_date')} · {len(b['affected_pids'])} PIDs")
     return records
