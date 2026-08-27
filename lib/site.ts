@@ -99,20 +99,32 @@ export function alternatesFor(path: string) {
 // The Organization/WebSite entity graph. NETZSPEC ONLY — hexwaren.de never
 // appears here (locked in docs/DECISIONS.md; the ownership tie is disclosed in
 // the visible Impressum/Footer, not in schema).
+// Entity graph. Entity disclosure to Hexwaren via parentOrganization + sameAs is
+// REQUIRED by web 2026-08-28 §0.3.1 (makes the cross-site links first-party in
+// Google's graph). Still banned: offers/price/seller/any Offer. knowsAbout = plain
+// topic strings only (no `sells` derivation — §0.3.3). All keys are schema.org-valid.
 export function organizationLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${SITE.url}/#organization`,
     name: SITE.name,
     url: SITE.url,
-    logo: `${SITE.url}/${SITE.defaultLocale}/icon.svg`,
+    logo: `${SITE.url}/${SITE.defaultLocale}/apple-icon`, // raster (Google prefers over SVG)
     description: "Manufacturer-independent reference for enterprise network hardware: part-number specifications, price context, EOL/EOS status and verified compatibility.",
     areaServed: ["DE", "AT", "CH", "EU"],
     knowsAbout: [
       "enterprise network switches", "SFP/SFP+/QSFP transceivers", "network routers",
       "next-generation firewalls", "enterprise wireless", "hardware lifecycle (EOL/EOS)",
-      ...SITE.vendors.filter((v) => v.sells).map((v) => v.name),
+      ...SITE.vendors.map((v) => v.name),
     ],
+    parentOrganization: {
+      "@type": "Organization",
+      "@id": "https://hexwaren.de/#organization",
+      name: SITE.operator,
+      url: SITE.hexwaren,
+    },
+    sameAs: [SITE.hexwaren],
   };
 }
 
