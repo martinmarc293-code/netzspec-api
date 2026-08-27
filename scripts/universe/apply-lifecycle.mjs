@@ -41,6 +41,18 @@ const raw = parsed.bulletins || parsed.records || [];
 // A PID can appear in several bulletins (main + variant); keep the one with the most milestones,
 // tie -> latest EoS. This is accurate: only PIDs a bulletin actually lists receive its dates.
 const byPid = new Map();
+// milestone DATES are per-bulletin (match by core); the SUCCESSOR is per-PID (grade-specific), so
+// also index successors by a grade-PRESERVING key so a -S switch gets its -S successor, not the -E one.
+const normFull = (s) => {
+  let p = String(s || "").trim().toUpperCase();
+  if (!p || p.includes(" ") || p.length < 5) return null;
+  p = p.replace(/\/K9(\+\+)?$/, "").replace(/[+=]+$/, "");
+  p = p.replace(/^(WS-C|WSC|WS-|WS|C1-)/, "");
+  p = p.replace(/^C(?=\d)/, "");
+  return p.includes("-") && /\d{3,4}/.test(p) ? p : null;
+};
+const succByFull = new Map();   // grade key -> successor (only when the bulletin gives one)
+const presentFull = new Set();  // every grade key the bulletin lists (even with a BLANK successor)
 let bulletinPidCount = 0;
 for (const b of raw) {
   const aff = b.affected_pids || [];
@@ -54,8 +66,17 @@ for (const b of raw) {
       || dateFields(b.lifecycle) > dateFields(cur.b.lifecycle)
       || (dateFields(b.lifecycle) === dateFields(cur.b.lifecycle) && (b.lifecycle?.end_of_sale_date || "") > (cur.b.lifecycle?.end_of_sale_date || ""));
     if (better) byPid.set(core, cand);
+    const full = normFull(row.pid);
+    if (full) { presentFull.add(full); if (row.successor && !succByFull.has(full)) succByFull.set(full, row.successor); }
   }
 }
+// successor precedence: exact grade successor > explicitly-listed-blank (honor ∅) > core-level fallback
+const resolveSuccessor = (sku, coreSucc) => {
+  const full = normFull(sku);
+  if (full && succByFull.has(full)) return succByFull.get(full);
+  if (full && presentFull.has(full)) return null; // bulletin lists this PID with no successor
+  return coreSucc;
+};
 console.log(`indexed ${byPid.size} distinct affected PID(s) from ${raw.length} bulletin(s) (${bulletinPidCount} PID rows total)`);
 
 const client = new MongoClient(env.MONGODB_URI);
@@ -78,10 +99,11 @@ for (const p of cisco) {
   if (!hit) continue;
   matched++;
   perDoc[hit.b.doc_id] = (perDoc[hit.b.doc_id] || 0) + 1;
+  const successor = resolveSuccessor(p.sku, hit.successor);
   if (COMMIT) {
     const lifecycle = {
       ...hit.b.lifecycle,
-      ...(hit.successor ? { successor_sku: hit.successor, successor_note: `Nachfolger (Cisco): ${hit.successor}` } : {}),
+      ...(successor ? { successor_sku: successor, successor_note: `Nachfolger (Cisco): ${successor}` } : {}),
       source_url: hit.b.source_url, source_doc_id: hit.b.doc_id, last_verified: hit.b.verified_at,
     };
     await P.updateOne({ sku: p.sku }, { $set: { lifecycle } });
