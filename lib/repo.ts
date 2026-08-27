@@ -50,6 +50,14 @@ export async function indexablePartRefs(): Promise<{ vendor: string; slug: strin
     .toArray() as unknown as { vendor: string; slug: string; category: string }[];
 }
 
+// §3.5: the promote pass sets tranche:N + promoted_at; this powers sitemap-tranche-NN.xml (/de URLs).
+export async function tranchePartRefs(tranche: number): Promise<{ vendor: string; slug: string; promoted_at?: string }[]> {
+  const db = await getDb();
+  return db.collection<Part>("parts")
+    .find({ tranche, indexable: true }, { projection: { _id: 0, vendor: 1, slug: 1, promoted_at: 1 } })
+    .toArray() as unknown as { vendor: string; slug: string; promoted_at?: string }[];
+}
+
 // Minimal switch list for the compat-tool dropdown (name + sku only; details fetched on select).
 export async function listSwitches(): Promise<{ sku: string; slug: string; vendor: string; name_de: string }[]> {
   const db = await getDb();
