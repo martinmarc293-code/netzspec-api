@@ -45,6 +45,13 @@ export interface Part {
   dataSource: string;
   verifiedBy?: string; // author slug
   hexwarenUrl?: string | null; // funnel target (German shop)
+  family?: string; // product-line family (canonical name; drives block 5/6 + c5)
+  indexable?: boolean; // false = noindex stub; absent/true = indexable
+  lifecycle?: Record<string, unknown>; // verified EoL milestones (block 3)
+  provenance?: { source_url?: string; verified_at?: string; doc_id?: string };
+  compat?: { sku?: string; relation?: string; source_url?: string; kind?: string; note?: string; inDb?: boolean }[];
+  completeness_score?: number;
+  tranche?: number;
   views?: number;
   updatedAt: string;
   i18n: Record<Locale, PartL10n>;
