@@ -15,6 +15,7 @@ Format: `date · decision · source`.
 - 2026-08-27 · **No `offers`/`price`/`priceSpecification` in netzspec JSON-LD, ever**; price renders as dated text with provenance · Spec B §2 / prompt rule 5
 - 2026-08-27 · **No condition/sourcing claims on netzspec** except the fixed commerce-module body line "{SKU} – neu & originalverpackt" · UWG discipline / prompt rule 6
 - 2026-08-27 · EOL-Radar (first citable dataset) deferred to Sprint 2 (ship gate ≥250 bulletin-verified SKUs); capture lifecycle fields with source_url + last_verified now · prompt §1 Q7
+- 2026-08-27 · **hexwaren.de never appears in netzspec JSON-LD/structured data** (not as `sameAs`, `url`, `publisher`, `parentOrganization`, or offers) — existing code rule at lib/site.ts:8; the domain association lives only in visible Impressum/Footer disclosure + `rel="sponsored"` buy-links. Web may revisit direction; until then this is locked · lib/site.ts / Spec B
 
 ## Open (awaiting operator/evidence)
 - Footer ownership disclosure: operator earlier said "no Hexwaren in footer"; v2 reverses this (disclose openly). Implemented per v2 (unlinked text) 2026-08-27 — **operator to confirm or veto**.
