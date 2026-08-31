@@ -46,6 +46,24 @@ ffOnly.compat = [{ relation: "form_factor", source_url: "" }];
 ffOnly.lifecycle = { status: "active", source_url: "x" }; // no successor
 check("c4 strict: form-factor does NOT pass c4", isIndexable(ffOnly).failing.includes("c4"));
 
+// c4 STRICT — a vendor-verified relation WITH source_url passes; WITHOUT source_url fails
+const vvNoSrc: IndexPart = JSON.parse(JSON.stringify(full));
+vvNoSrc.compat = [{ relation: "vendor_verified", source_url: "" }];
+vvNoSrc.lifecycle = { status: "active", source_url: "x" }; // no successor
+check("c4 strict: vendor_verified without source_url fails c4", isIndexable(vvNoSrc).failing.includes("c4"));
+
+// c4 STRICT — successor-only (no compat at all) passes c4 (Cisco EoL successor path)
+const succOnly: IndexPart = JSON.parse(JSON.stringify(full));
+succOnly.compat = [];
+succOnly.lifecycle = { status: "eol_announced", source_url: "https://cisco.com/eol.html", successor_sku: "C9300-24P-A" };
+check("c4 strict: successor with source_url passes c4", !isIndexable(succOnly).failing.includes("c4"));
+
+// c4 STRICT — TMG vendor-verified equivalence (the optic path) passes c4
+const tmgOptic: IndexPart = JSON.parse(JSON.stringify(full));
+tmgOptic.compat = [{ relation: "vendor_verified", source_url: "https://www.cisco.com/.../data_sheet_c78-455693.html" }];
+tmgOptic.lifecycle = { status: "active", source_url: "https://tmgmatrix.cisco.com/" };
+check("c4 strict: TMG vendor-verified equivalence passes c4", !isIndexable(tmgOptic).failing.includes("c4"));
+
 // c5 via reviewedFamilies set (not the flag)
 const viaSet: IndexPart = JSON.parse(JSON.stringify(full));
 viaSet.reviewedProse = false;
