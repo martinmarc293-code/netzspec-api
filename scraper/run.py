@@ -33,6 +33,7 @@ def main() -> int:
     ap.add_argument("--series", default="", help="comma-separated series slugs (cisco-eol)")
     ap.add_argument("--platforms", default="", help="comma-separated platform PIDs (cisco-tmg)")
     ap.add_argument("--urls", default="", help="comma-separated datasheet URLs (cisco-datasheets)")
+    ap.add_argument("--urls-file", default="", help="file of datasheet URLs, one per line (batch)")
     ap.add_argument("--headed", action="store_true", help="visible browser (watch / pass a challenge)")
     args = ap.parse_args()
 
@@ -51,7 +52,10 @@ def main() -> int:
             platforms = [s.strip() for s in args.platforms.split(",") if s.strip()]
             records = mod.run(br, platforms)
         elif args.adapter in ("cisco-datasheets", "cisco-datasheet-specs", "cisco-specs-deep"):
-            urls = [s.strip() for s in args.urls.split(",") if s.strip()]
+            if args.urls_file:
+                urls = [ln.strip() for ln in Path(args.urls_file).read_text(encoding="utf-8").splitlines() if ln.strip()]
+            else:
+                urls = [s.strip() for s in args.urls.split(",") if s.strip()]
             records = mod.run(br, urls)
         else:  # hpe-aruba-eol and future no-arg adapters
             records = mod.run(br)

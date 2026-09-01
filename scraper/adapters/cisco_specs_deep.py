@@ -28,7 +28,8 @@ already lives - one definition of the schema, not two.
 Usage: python scraper/run.py cisco-specs-deep --urls <url1,url2,...>
 """
 from __future__ import annotations
-import re, sys
+import re, sys, json as _json
+from pathlib import Path as _Path
 
 # A Cisco hardware PID as it appears in a datasheet's model column.
 HW_PID = re.compile(r"^(C1-)?(C\d{3,4}[A-Z]{0,3}|WS-C\d{3,4}[A-Z]?)-[0-9A-Z]")
@@ -41,12 +42,44 @@ MODEL_HDR = re.compile(r"^(model|sku|part number|product number|product id)$", r
 # A label cell that is really a heading, not an attribute we want.
 SECTION_NOISE = re.compile(r"^(general specifications?|specifications?|features?|table \d+)", re.I)
 
+# --- known-SKU matching (the keystone for all 21 categories) ----------------------------------
+# The enumeration already mapped every SKU to its datasheet. Rather than widen HW_PID to every
+# Cisco PID shape (firewalls FPR-, servers UCSC-, APs AIR-/C9xxxAX, routers ASR-/ISR, optics ONS-
+# — all different and tangled with licence/accessory SKUs), match a table's model column against
+# the KNOWN SKU list for THIS datasheet. That is ground truth, not a guess, and generalises to
+# every category with no per-family regex. HW_PID stays as a fallback for switch sheets.
+_SKU_MAP: dict[str, list[str]] = {}
+_KNOWN_NORM: set[str] = set()   # normalised known PIDs for the datasheet being parsed
+
+
+def _load_sku_map() -> dict[str, list[str]]:
+    global _SKU_MAP
+    if not _SKU_MAP:
+        p = _Path("data/universe/datasheet-skus.json")
+        if p.exists():
+            _SKU_MAP = _json.loads(p.read_text(encoding="utf-8"))
+    return _SKU_MAP
+
+
+def _norm_pid(s: str) -> str:
+    """Conservative match key: upper, trim, drop a trailing '=' (spare) and a '/K9' crypto suffix.
+    Deliberately light — over-normalising would collide distinct PIDs."""
+    s = s.strip().upper()
+    if s.endswith("="):
+        s = s[:-1]
+    s = re.sub(r"/K9$", "", s)
+    return s
+
 
 def _txt(cell) -> str:
     return cell.get_text(" ", strip=True)
 
 
 def _is_pid(s: str) -> bool:
+    # ground truth first: a cell that IS a known SKU for this datasheet is a model row, whatever
+    # its shape. Fall back to the switch-shaped regex for sheets whose PIDs we somehow do not hold.
+    if _KNOWN_NORM and _norm_pid(s) in _KNOWN_NORM:
+        return True
     return bool(HW_PID.match(s)) and not NOT_HW.search(s)
 
 
@@ -265,6 +298,7 @@ def run(browser, urls: list[str]) -> list[dict]:
         print("give --urls datasheet_url1,url2,...", file=sys.stderr)
         return []
     from bs4 import BeautifulSoup
+    global _KNOWN_NORM
     out: list[dict] = []
     for url in urls:
         try:
@@ -277,6 +311,8 @@ def run(browser, urls: list[str]) -> list[dict]:
         except ValueError as e:
             print(f"  ! {url}: {e}", file=sys.stderr)
             continue
+        # this datasheet's known SKUs become the model-row ground truth for _is_pid
+        _KNOWN_NORM = {_norm_pid(k) for k in _load_sku_map().get(url, [])}
         soup = BeautifulSoup(html, "lxml")
         tables = soup.find_all("table")
         rows_all = [_rows(t) for t in tables]

@@ -290,6 +290,101 @@
       "^wireless ",
       "__backlog",
       "embedded-wireless sub-table"
+    ],
+    [
+      "^firewall throughput|^firewall$|^stateful.*firewall.*throughput",
+      "firewall_throughput",
+      "NGFW"
+    ],
+    [
+      "^ngfw.*throughput|^ngfw$|^threat inspection.*throughput|^threat$|^avc.*ips.*throughput",
+      "threat_throughput",
+      "NGFW+AVC+IPS"
+    ],
+    [
+      "^ips throughput|^ips$",
+      "ips_throughput",
+      ""
+    ],
+    [
+      "^ipsec vpn throughput|^vpn throughput",
+      "vpn_throughput",
+      ""
+    ],
+    [
+      "^maximum concurrent (sessions|connections)|^concurrent (sessions|connections)",
+      "concurrent_sessions",
+      ""
+    ],
+    [
+      "^new connections per second|^connections per second",
+      "new_conn_per_sec",
+      ""
+    ],
+    [
+      "^ipsec vpn peers|^vpn peers|^site-to-site vpn peers",
+      "vpn_peers",
+      ""
+    ],
+    [
+      "^maximum number of interfaces|^maximum interfaces",
+      "max_interfaces",
+      ""
+    ],
+    [
+      "^onboard storage|^local storage|^ssd$|^storage$",
+      "storage_capacity",
+      ""
+    ],
+    [
+      "wi-fi 7|wi-fi 6e|wi-fi 6|802.11ax|802.11ac|wireless standard|wi-fi standard|radio protocols",
+      "wifi_generation",
+      "WLAN"
+    ],
+    [
+      "spatial streams|number of spatial streams|mu-mimo streams",
+      "spatial_streams",
+      ""
+    ],
+    [
+      "number of radios|^radios$|radio configuration",
+      "radio_count",
+      ""
+    ],
+    [
+      "maximum data rate|aggregate data rate|^data rate$|maximum aggregate",
+      "max_data_rate",
+      ""
+    ],
+    [
+      "clients per radio|maximum clients per|associated clients per",
+      "ap_max_clients",
+      ""
+    ],
+    [
+      "maximum access points|access points supported|maximum number of access points|maximum aps",
+      "wlc_ap_capacity",
+      ""
+    ],
+    [
+      "maximum clients supported|concurrent clients|maximum number of clients",
+      "wlc_client_capacity",
+      ""
+    ],
+    [
+      "system throughput|aggregate throughput|ip throughput|wan throughput|total throughput|maximum throughput",
+      "router_throughput",
+      "routing"
+    ],
+    [
+      "ipsec throughput|encrypted throughput|crypto throughput",
+      "ipsec_throughput",
+      ""
+    ],
+    [
+      "ipsec tunnels|vpn tunnels|maximum tunnels|number of tunnels|site-to-site tunnels",
+      "ipsec_tunnels",
+      ""
     ]
   ]
 }

@@ -169,6 +169,33 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   cable_length: { key: "cable_length", de: "Kabellänge", en: "Cable length", type: "n", unit: "m", band: [0.1, 100], etim: [], icecat: null },
   wire_gauge: { key: "wire_gauge", de: "Leiterquerschnitt", en: "Wire gauge", type: "n", unit: "AWG", band: [20, 34], etim: [], icecat: null },
   msa: { key: "msa", de: "MSA-Konformität", en: "MSA compliance", type: "ls", examples: ["sff-8472", "sff-8636", "qsfp-dd-msa"], etim: [], icecat: null },
+
+  // --- security / firewall (NGFW) -------------------------------------------------------------
+  // Datasheet throughput is quoted in Gbps (large boxes) and Mbps (branch); the normaliser folds
+  // both to Gbit/s so a comparison tool can rank them on one axis. Sessions run to billions.
+  firewall_throughput: { key: "firewall_throughput", de: "Firewall-Durchsatz", en: "Firewall throughput", type: "n", unit: "Gbit/s", band: [0.02, 5000], etim: [], icecat: null },
+  threat_throughput: { key: "threat_throughput", de: "Threat-Inspection-Durchsatz", en: "Threat inspection throughput", type: "n", unit: "Gbit/s", band: [0.02, 5000], etim: [], icecat: null },
+  ips_throughput: { key: "ips_throughput", de: "IPS-Durchsatz", en: "IPS throughput", type: "n", unit: "Gbit/s", band: [0.02, 5000], etim: [], icecat: null },
+  vpn_throughput: { key: "vpn_throughput", de: "IPsec-VPN-Durchsatz", en: "IPsec VPN throughput", type: "n", unit: "Gbit/s", band: [0.01, 5000], etim: [], icecat: null },
+  concurrent_sessions: { key: "concurrent_sessions", de: "Gleichzeitige Sessions", en: "Concurrent sessions", type: "n", unit: "Sessions", band: [1000, 3000000000], etim: [], icecat: null },
+  new_conn_per_sec: { key: "new_conn_per_sec", de: "Neue Verbindungen/s", en: "New connections per second", type: "n", unit: "1/s", band: [100, 30000000], etim: [], icecat: null },
+  vpn_peers: { key: "vpn_peers", de: "IPsec-VPN-Peers", en: "IPsec VPN peers", type: "n", unit: "Peers", band: [1, 200000], etim: [], icecat: null },
+  max_interfaces: { key: "max_interfaces", de: "Max. Schnittstellen", en: "Maximum interfaces", type: "n", band: [1, 400], etim: [], icecat: null },
+  storage_capacity: { key: "storage_capacity", de: "Onboard-Speicher", en: "Onboard storage", type: "n", unit: "GB", band: [1, 200000], etim: [], icecat: null },
+
+  // --- wireless (access points / WLAN controllers) --------------------------------------------
+  wifi_generation: { key: "wifi_generation", de: "WLAN-Generation", en: "Wi-Fi generation", type: "s", examples: ["Wi-Fi 6", "Wi-Fi 6E", "Wi-Fi 7", "802.11ax"], etim: [], icecat: null },
+  spatial_streams: { key: "spatial_streams", de: "Spatial Streams", en: "Spatial streams", type: "s", examples: ["4x4:4", "2x2:2", "8x8:8"], etim: [], icecat: null },
+  radio_count: { key: "radio_count", de: "Anzahl Funkmodule", en: "Radio count", type: "n", band: [1, 8], etim: [], icecat: null },
+  max_data_rate: { key: "max_data_rate", de: "Max. Datenrate", en: "Maximum data rate", type: "n", unit: "Gbit/s", band: [0.05, 100], etim: [], icecat: null },
+  ap_max_clients: { key: "ap_max_clients", de: "Max. Clients je AP", en: "Max clients per AP", type: "n", band: [1, 10000], etim: [], icecat: null },
+  wlc_ap_capacity: { key: "wlc_ap_capacity", de: "Max. Access Points (Controller)", en: "Max access points (controller)", type: "n", band: [1, 200000], etim: [], icecat: null },
+  wlc_client_capacity: { key: "wlc_client_capacity", de: "Max. Clients (Controller)", en: "Max clients (controller)", type: "n", band: [1, 2000000], etim: [], icecat: null },
+
+  // --- routing (ISR / ASR / Catalyst 8000) ----------------------------------------------------
+  router_throughput: { key: "router_throughput", de: "System-Durchsatz", en: "System throughput", type: "n", unit: "Gbit/s", band: [0.005, 10000], etim: [], icecat: null },
+  ipsec_throughput: { key: "ipsec_throughput", de: "IPsec-Durchsatz", en: "IPsec throughput", type: "n", unit: "Gbit/s", band: [0.005, 5000], etim: [], icecat: null },
+  ipsec_tunnels: { key: "ipsec_tunnels", de: "IPsec-Tunnel", en: "IPsec tunnels", type: "n", band: [1, 2000000], etim: [], icecat: null },
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -221,6 +248,52 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     power_max: req, temp_class: req,
     cable_length: cond({ field: "media", inList: ["dac-copper", "aoc"] }),
     wire_gauge: opt, msa: opt, dimensions: opt, weight: opt, certifications: opt, mtbf: opt,
+  },
+  security: {
+    vendor: req, series: req, form_factor: req,
+    rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
+    firewall_throughput: req, threat_throughput: req, ips_throughput: opt, vpn_throughput: opt,
+    concurrent_sessions: req, new_conn_per_sec: opt, vpn_peers: opt,
+    max_interfaces: opt, storage_capacity: opt,
+    psu_config: opt, psu_redundant: opt, power_max: opt, power_typical: opt,
+    temp_operating: opt, humidity_operating: opt, altitude_max: opt,
+    dimensions: req, weight: req, certifications: opt, mtbf: opt,
+  },
+  wireless: {
+    vendor: req, series: req,
+    wifi_generation: req, spatial_streams: opt, radio_count: opt,
+    max_data_rate: opt, ap_max_clients: opt,
+    wlc_ap_capacity: opt, wlc_client_capacity: opt,
+    poe_standard: opt, power_max: opt,
+    dimensions: opt, weight: opt, temp_operating: opt, certifications: opt, mtbf: opt,
+  },
+  routers: {
+    vendor: req, series: req, form_factor: opt,
+    rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
+    router_throughput: req, forwarding_rate: opt, ipsec_throughput: opt, ipsec_tunnels: opt,
+    dram: opt, flash: opt, mgmt_ports: opt, module_slots: opt,
+    psu_config: opt, psu_redundant: opt, power_max: opt, power_typical: opt,
+    temp_operating: opt, humidity_operating: opt, dimensions: opt, weight: opt, certifications: opt, mtbf: opt,
+  },
+  // MDS storage-networking switches are Fibre Channel switches — the switch dictionary fields apply.
+  "storage-networking": {
+    vendor: req, series: req, form_factor: opt,
+    rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
+    ports: opt, switching_capacity: opt, forwarding_rate: opt, latency: opt, module_slots: opt,
+    psu_config: opt, psu_redundant: opt, power_max: opt, cooling: opt, airflow: opt,
+    temp_operating: opt, dimensions: opt, weight: opt, certifications: opt, mtbf: opt,
+  },
+  // Transponders / muxponders / DWDM systems — reuse the transceiver optical fields.
+  "optical-networking": {
+    vendor: req, series: req, form_factor: opt,
+    data_rate: opt, wavelength: opt, reach_max: opt, connector: opt, fec: opt,
+    power_max: opt, dimensions: opt, weight: opt, temp_operating: opt, certifications: opt, mtbf: opt,
+  },
+  // Line cards, network modules, interface cards.
+  "interfaces-modules": {
+    vendor: req, series: req, form_factor: opt,
+    ports: opt, uplink_ports: opt, poe_standard: opt, module_slots: opt,
+    power_max: opt, dimensions: opt, weight: opt, temp_operating: opt, certifications: opt,
   },
 };
 
