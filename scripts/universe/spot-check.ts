@@ -32,6 +32,11 @@ if (fs.existsSync(pidFile)) {
   docs = Object.keys(store).length;
   for (const d of Object.values(store) as { pids?: string[] }[]) for (const p of d.pids || []) pids.add(p);
 }
+const merakiFile = path.join(root, "data/universe/meraki-pids.json");
+if (fs.existsSync(merakiFile)) {
+  const m = JSON.parse(fs.readFileSync(merakiFile, "utf8"));
+  for (const d of Object.values(m) as { pids?: string[] }[]) for (const p of d.pids || []) pids.add(p);
+}
 const eolFile = path.join(root, "data/universe/cisco-eol-pids.json");
 if (fs.existsSync(eolFile)) {
   const eol = JSON.parse(fs.readFileSync(eolFile, "utf8"));

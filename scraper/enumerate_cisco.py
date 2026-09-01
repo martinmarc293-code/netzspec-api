@@ -207,6 +207,61 @@ def _collateral_links(soup, want_pdf: bool = False) -> list[str]:
     return list(dict.fromkeys(out))
 
 
+def phase_support_docs(br, limit: int = 0) -> dict:
+    """Harvest EVERY collateral document from each series' SUPPORT page, not just datasheets.
+
+    Discovery so far looked only for datasheets: of 1,626 documents found, 2,078 matched a
+    datasheet pattern and ZERO were ordering guides. But Cisco publishes ordering guides,
+    compatibility matrices and product bulletins as separate collateral, and those are
+    purpose-built part-number lists.
+
+    The support series page is also simply a richer index than datasheet-listing.html - measured
+    on three series: 36 vs 4 collateral links for the Catalyst 9300, 29 vs 2 for the 9100AX,
+    79 vs 40 for UCS C-series.
+
+    Feeding non-ordering documents to the extractor is safe: it only takes values from columns
+    Cisco labels as part numbers, so a white paper simply yields nothing.
+    """
+    from bs4 import BeautifulSoup
+    series = load(F_SERIES, [])
+    docs = load(F_DOCS, {})
+    todo = [s for s in series if not docs.get(s["url"], {}).get("support_docs_checked")]
+    if limit:
+        todo = todo[:limit]
+    print(f"[support-docs] {len(todo)} series to harvest from the support hierarchy")
+    added = 0
+    for i, s in enumerate(todo, 1):
+        url = f"{BASE}/c/en/us/support/{s['category']}/{s['series_slug']}/series.html"
+        rec = docs.setdefault(s["url"], {"category": s["category"], "series_slug": s["series_slug"],
+                                         "series_name": s["series_name"], "datasheets": []})
+        rec["support_docs_checked"] = True
+        try:
+            html = br.fetch(url, timeout=60000)
+        except Exception:  # noqa - not every series has a support page
+            continue
+        html_docs, pdf_docs = [], []
+        for a in BeautifulSoup(html, "lxml").find_all("a", href=True):
+            p = urlparse(urljoin(BASE, a["href"])).path
+            if "/collateral/" not in p or "/login" in p or "/cdc/" in p:
+                continue
+            if p.endswith(".html"):
+                html_docs.append(urljoin(BASE, p))
+            elif p.endswith(".pdf"):
+                pdf_docs.append(urljoin(BASE, p))
+        before = len(rec["datasheets"])
+        rec["datasheets"] = list(dict.fromkeys(rec["datasheets"] + html_docs))
+        if pdf_docs:
+            rec["datasheets_pdf"] = list(dict.fromkeys(rec.get("datasheets_pdf", []) + pdf_docs))
+        added += len(rec["datasheets"]) - before
+        if i % 10 == 0 or i == len(todo):
+            save_merged(F_DOCS, docs)
+            print(f"   {i}/{len(todo)} series · +{added} new documents")
+    save_merged(F_DOCS, docs)
+    uniq = {u for v in docs.values() for u in v.get("datasheets", [])}
+    print(f"[support-docs] +{added} documents; {len(uniq)} unique HTML documents known")
+    return docs
+
+
 def phase_listing(br, limit: int = 0) -> dict:
     """Second discovery pass, and the better one.
 
@@ -746,7 +801,7 @@ def report():
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--phase", choices=["series", "support", "expand", "docs", "listing", "pids", "pdf", "eol", "all"], default=None)
+    ap.add_argument("--phase", choices=["series", "support", "support-docs", "expand", "docs", "listing", "pids", "pdf", "eol", "manual", "all"], default=None)
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--report", action="store_true")
     ap.add_argument("--refresh", action="store_true", help="re-parse cached documents (no refetch)")
@@ -761,6 +816,8 @@ def main() -> int:
             phase_series(br)
         if a.phase in ("support", "all"):
             phase_support(br, a.limit)
+        if a.phase in ("support-docs", "all"):
+            phase_support_docs(br, a.limit)
         if a.phase in ("expand", "all"):
             phase_expand(br, a.limit)
         if a.phase in ("docs", "all"):
