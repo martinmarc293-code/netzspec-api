@@ -21,6 +21,7 @@ ADAPTERS = {
     "cisco-eol": ("adapters.cisco_eol", "cisco-eol"),
     "hpe-aruba-eol": ("adapters.hpe_aruba_eol", "hpe-aruba-eol"),
     "cisco-tmg": ("adapters.cisco_tmg", "cisco-tmg"),
+    "cisco-tmg-platform": ("adapters.cisco_tmg_platform", "cisco-tmg-platform"),
     "cisco-datasheets": ("adapters.cisco_datasheets", "cisco-datasheets"),
 }
 
@@ -44,7 +45,7 @@ def main() -> int:
             if not series:
                 print("give --series slug1,slug2,...", file=sys.stderr); return 2
             records = mod.run(br, series)
-        elif args.adapter == "cisco-tmg":
+        elif args.adapter in ("cisco-tmg", "cisco-tmg-platform"):
             platforms = [s.strip() for s in args.platforms.split(",") if s.strip()]
             records = mod.run(br, platforms)
         elif args.adapter == "cisco-datasheets":
