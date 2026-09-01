@@ -1,0 +1,204 @@
+"""cisco_specs_deep — WP3. The depth fix (brief D2/D3).
+
+The existing cisco_datasheet_specs adapter reads ONE table shape: a PID-per-row grid whose
+COLUMN HEADERS are attribute names. Those are the model-comparison tables near the top of a
+datasheet, and they carry 10-25 columns - which is exactly the 12-17 field ceiling the whole
+database is stuck at.
+
+Measured on the Catalyst 9300 datasheet [M 2026-09-01], a datasheet actually contains THREE
+shapes, and the deep specification data lives in the two the old adapter never looked at:
+
+  Shape A  PID-per-row x attribute-per-column          (table 1, 3, 10 - already handled)
+  Shape B  attribute-per-row x variant-per-column      (table 9: MAC addresses, IPv4 routes,
+                                                        IPv6 routing entries, multicast, QoS)
+  Shape C  SECTIONED, stateful: a single-cell row sets the current attribute label, an optional
+           "Model | ..." row sets the sub-columns, then PID rows carry the values
+                                                       (table 19, 177 rows: dimensions in inches
+                                                        AND cm, weight, MTBF per PSU, acoustic
+                                                        noise, environmental ranges)
+
+Shape C is why a stateless table parser finds nothing here: row 3 of that table is
+"C9300X-48HX | 1.73 x 17.5 x 19 | ..." and means nothing until you have carried down the label
+"Dimensions (H x W x D) in inches" from row 1 and the sub-header "Chassis only" from row 2.
+
+This adapter emits RAW labels and values with a locator, and does NOT decide field_keys. Mapping
+to the schema happens in TypeScript (scripts/universe/map-deep-specs.ts) where lib/fieldSchema.ts
+already lives - one definition of the schema, not two.
+
+Usage: python scraper/run.py cisco-specs-deep --urls <url1,url2,...>
+"""
+from __future__ import annotations
+import re, sys
+
+# A Cisco hardware PID as it appears in a datasheet's model column.
+HW_PID = re.compile(r"^(C1-)?(C\d{3,4}[A-Z]{0,3}|WS-C\d{3,4}[A-Z]?)-[0-9A-Z]")
+NOT_HW = re.compile(r"-\d+Y$|^CON-|^DNA-|LIC|^NW-|^SWSS|^E-", re.I)
+# accessories that legitimately appear in a model column but are not the switch itself
+ACCESSORY = re.compile(r"^(PWR-|FAN-|STACK-|C9300X?-NM-|C9300L?-STACK|MA-)", re.I)
+
+MODEL_HDR = re.compile(r"^(model|sku|part number|product number|product id)$", re.I)
+
+# A label cell that is really a heading, not an attribute we want.
+SECTION_NOISE = re.compile(r"^(general specifications?|specifications?|features?|table \d+)", re.I)
+
+
+def _txt(cell) -> str:
+    return cell.get_text(" ", strip=True)
+
+
+def _is_pid(s: str) -> bool:
+    return bool(HW_PID.match(s)) and not NOT_HW.search(s)
+
+
+def _looks_like_label(s: str) -> bool:
+    """An attribute label: prose-ish, not a PID, not empty, not absurdly long."""
+    if not s or len(s) > 120:
+        return False
+    if _is_pid(s) or ACCESSORY.match(s):
+        return False
+    return bool(re.search(r"[a-z]{3}", s))
+
+
+def _rows(table):
+    out = []
+    for tr in table.find_all("tr"):
+        cells = tr.find_all(["td", "th"])
+        if cells:
+            out.append([_txt(c) for c in cells])
+    return out
+
+
+def parse_shape_a(rows, ti, url):
+    """PID-per-row x attribute-per-column. Header row names the attributes."""
+    recs = []
+    if len(rows) < 2:
+        return recs
+    header = rows[0]
+    if not header or not MODEL_HDR.match(header[0].strip()):
+        return recs
+    for ri, cells in enumerate(rows[1:], start=1):
+        pid = cells[0].strip()
+        if not _is_pid(pid):
+            continue
+        for ci in range(1, min(len(cells), len(header))):
+            label, val = header[ci].strip(), cells[ci].strip()
+            if label and val and val not in ("-", "--", "N/A", "n/a", ""):
+                recs.append({"sku": pid, "label": label, "value": val[:160],
+                             "shape": "A", "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url})
+    return recs
+
+
+def parse_shape_b(rows, ti, url):
+    """attribute-per-row x variant-per-column. Header row names variants/families; col0 is the
+    attribute. Emitted as FAMILY-scoped facts (no PID), because the columns are model FAMILIES
+    ('Catalyst 9300X modular uplink') not part numbers. The scope check in the merge step decides
+    whether a given SKU may inherit them - never this adapter."""
+    recs = []
+    if len(rows) < 2:
+        return recs
+    header = rows[0]
+    if MODEL_HDR.match((header[0] or "").strip()):
+        return recs                      # that is shape A
+    if not any(_looks_like_label(h) for h in header[1:]):
+        return recs
+    if len(header) < 2:
+        return recs
+    for ri, cells in enumerate(rows[1:], start=1):
+        label = (cells[0] or "").strip()
+        if not _looks_like_label(label) or SECTION_NOISE.match(label):
+            continue
+        for ci in range(1, min(len(cells), len(header))):
+            variant, val = header[ci].strip(), cells[ci].strip()
+            if val and val not in ("-", "--", "N/A", "n/a"):
+                recs.append({"family_scope": variant, "label": label, "value": val[:160],
+                             "shape": "B", "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url})
+    return recs
+
+
+def parse_shape_c(rows, ti, url):
+    """SECTIONED stateful table. Carries down:
+         current_label   - from a row whose cells collapse to ONE non-empty value
+         sub_headers     - from a following 'Model | a | b | c' row
+       then attributes each PID row against label + sub-header.
+    This is where dimensions, weight, MTBF, acoustics and environmental ranges live."""
+    recs = []
+    current_label = None
+    sub_headers: list[str] = []
+    for ri, cells in enumerate(rows):
+        nonempty = [c for c in cells if c.strip()]
+        # a label row: one meaningful cell
+        if len(nonempty) == 1 and not _is_pid(nonempty[0]) and not ACCESSORY.match(nonempty[0]):
+            lbl = nonempty[0].strip()
+            if SECTION_NOISE.match(lbl):
+                current_label = None      # a pure heading resets context rather than becoming one
+            elif _looks_like_label(lbl):
+                current_label = lbl
+                sub_headers = []
+            continue
+        # a sub-header row under the current label
+        if cells and MODEL_HDR.match(cells[0].strip()):
+            sub_headers = [c.strip() for c in cells]
+            continue
+        # a data row
+        pid = cells[0].strip() if cells else ""
+        if not cells or not current_label:
+            continue
+        if _is_pid(pid):
+            for ci in range(1, len(cells)):
+                val = cells[ci].strip()
+                if not val or val in ("-", "--", "N/A", "n/a"):
+                    continue
+                qualifier = sub_headers[ci] if ci < len(sub_headers) and sub_headers[ci] else ""
+                label = f"{current_label} [{qualifier}]" if qualifier else current_label
+                recs.append({"sku": pid, "label": label, "value": val[:160],
+                             "shape": "C", "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url})
+        elif len(cells) == 2 and _looks_like_label(pid):
+            # "Acoustic noise ... | With AC power supply ..." - an attribute/value pair scoped to
+            # the whole family, not to a PID
+            recs.append({"family_scope": "__document__", "label": f"{current_label}: {pid}"[:120],
+                         "value": cells[1].strip()[:160], "shape": "C",
+                         "locator": f"t{ti}:r{ri}:c1", "source_url": url})
+    return recs
+
+
+def document_pids(rows_all) -> list[str]:
+    """Every PID the DOCUMENT itself enumerates. This is the scope set for any family-level fact
+    (Q5): a family value may only be inherited by a SKU this document actually lists."""
+    pids = set()
+    for rows in rows_all:
+        for cells in rows:
+            if cells and _is_pid(cells[0].strip()):
+                pids.add(cells[0].strip())
+    return sorted(pids)
+
+
+def run(browser, urls: list[str]) -> list[dict]:
+    if not urls:
+        print("give --urls datasheet_url1,url2,...", file=sys.stderr)
+        return []
+    from bs4 import BeautifulSoup
+    out: list[dict] = []
+    for url in urls:
+        try:
+            html = browser.fetch(url, timeout=60000)
+        except Exception as e:  # noqa
+            print(f"  ! {url}: {e}", file=sys.stderr)
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        tables = soup.find_all("table")
+        rows_all = [_rows(t) for t in tables]
+        pids = document_pids(rows_all)
+        before = len(out)
+        counts = {"A": 0, "B": 0, "C": 0}
+        for ti, rows in enumerate(rows_all):
+            if len(rows) < 2:
+                continue
+            for fn, shape in ((parse_shape_a, "A"), (parse_shape_b, "B"), (parse_shape_c, "C")):
+                recs = fn(rows, ti, url)
+                counts[shape] += len(recs)
+                out.extend(recs)
+        # the document's own PID list rides along so the merge step can enforce inheritance scope
+        out.append({"__doc__": True, "source_url": url, "pid_list": pids, "tables": len(tables)})
+        print(f"  [cisco-specs-deep] {url[-46:]}: {len(out)-before-1} facts "
+              f"(A={counts['A']} B={counts['B']} C={counts['C']}), {len(pids)} PIDs, {len(tables)} tables")
+    return out

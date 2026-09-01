@@ -24,6 +24,7 @@ ADAPTERS = {
     "cisco-tmg-platform": ("adapters.cisco_tmg_platform", "cisco-tmg-platform"),
     "cisco-datasheets": ("adapters.cisco_datasheets", "cisco-datasheets"),
     "cisco-datasheet-specs": ("adapters.cisco_datasheet_specs", "cisco-datasheet-specs"),
+    "cisco-specs-deep": ("adapters.cisco_specs_deep", "cisco-specs-deep"),
 }
 
 def main() -> int:
@@ -49,7 +50,7 @@ def main() -> int:
         elif args.adapter in ("cisco-tmg", "cisco-tmg-platform"):
             platforms = [s.strip() for s in args.platforms.split(",") if s.strip()]
             records = mod.run(br, platforms)
-        elif args.adapter in ("cisco-datasheets", "cisco-datasheet-specs"):
+        elif args.adapter in ("cisco-datasheets", "cisco-datasheet-specs", "cisco-specs-deep"):
             urls = [s.strip() for s in args.urls.split(",") if s.strip()]
             records = mod.run(br, urls)
         else:  # hpe-aruba-eol and future no-arg adapters
