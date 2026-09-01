@@ -29,7 +29,13 @@ HW_PID = re.compile(
     r")"
 )
 # not hardware: subscription terms, services, licenses, power supplies, memory/SSD, pluggable modules
-NOT_HW = re.compile(r"-\d+Y$|^CON-|DNA|LIC|^NW-|^PWR-|^MEM-|^SSD-|^S[AC]?-|^GLC-|^SFP|^QSFP|^C9300-NM|^C3850-NM|^C9K-", re.I)
+NOT_HW = re.compile(r"-\d+Y$|^CON-|DNA|LIC|^NW-|^PWR-|^MEM-|^SSD-|^S[AC]?-|^GLC-|^SFP|^QSFP|^C9300-NM|^C3850-NM|^C9K-|-PUV-|-PSU|-FAN|WATT|-BLWR", re.I)
+
+
+def _type_for(pid: str) -> str:
+    if re.match(r"^(ISR|ASR|C8[0-9]{3})", pid):
+        return "router"
+    return "switch"  # Catalyst + Nexus are switches
 DESC_RX = re.compile(r"\bport|PoE|uplink|Gigabit|Multigig|mGig|data\b", re.I)
 
 
@@ -38,9 +44,10 @@ def _clean(pid: str) -> str:
 
 
 def _family_from_url(url: str) -> str:
-    m = re.search(r"/switches/([a-z0-9-]+)/", url)
+    m = re.search(r"/(?:switches|routers|storage-networking|wireless|interfaces-modules)/([a-z0-9-]+)/", url)
     slug = m.group(1) if m else "cisco"
-    return "Cisco " + re.sub(r"-series-switches$|-switches$", "", slug).replace("-", " ").title()
+    slug = re.sub(r"-series(-switches|-edge-platforms|-integrated-services-routers-isr|-aggregation-services-routers)?$|-switches$|-platform-switches$", "", slug)
+    return "Cisco " + slug.replace("-", " ").title()
 
 
 def run(browser, urls: list[str]) -> list[dict]:
@@ -69,7 +76,7 @@ def run(browser, urls: list[str]) -> list[dict]:
                 rec = records.get(pid)
                 # keep the most description-like col1 seen for this PID
                 if not rec:
-                    records[pid] = {"vendor": "cisco", "sku": pid, "type": "switch",
+                    records[pid] = {"vendor": "cisco", "sku": pid, "type": _type_for(pid),
                                     "product_family": family, "description": desc if DESC_RX.search(desc) else "",
                                     "datasheet_url": url}
                     found += 1

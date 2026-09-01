@@ -17,7 +17,7 @@ const env = Object.fromEntries(
 );
 const today = new Date().toISOString().slice(0, 10);
 const recs = (JSON.parse(fs.readFileSync(file, "utf8")).records) || [];
-const catFor = (type) => (type === "transceiver" ? "transceivers" : "switches");
+const catFor = (type) => (type === "transceiver" ? "transceivers" : type === "router" ? "routers" : "switches");
 const slugFor = (sku) => sku.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 const docId = (url) => (url ? (url.split("/").pop() || "").replace(/\.html?$/, "").slice(0, 60) : null);
 
