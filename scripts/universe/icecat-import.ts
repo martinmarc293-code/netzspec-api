@@ -184,7 +184,8 @@ async function main() {
       if (m.action === "insert") additions.push(m.entry);
     }
     if (additions.length && COMMIT) {
-      await P.updateOne({ sku: p.sku }, { $push: { specs_v2: { $each: additions } } });
+      await P.updateOne({ sku: p.sku },
+        { $push: { specs_v2: { $each: additions } } } as unknown as Record<string, unknown>);
       wrote += additions.length;
     } else { wrote += additions.length; }
   }

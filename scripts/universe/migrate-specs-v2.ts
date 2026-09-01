@@ -65,6 +65,29 @@ function buildSpecs(part: Record<string, unknown>): SpecEntry[] {
   const out: SpecEntry[] = [];
   const seen = new Set<string>();
 
+  // Identity fields already live on the part DOCUMENT (vendor, family) rather than in the
+  // attribute array, so the first gap ledger reported them missing on every single SKU. They are
+  // not missing — they were simply never projected into the spec record. They are operator-owned,
+  // so they enter at tier 0 like the rest of the reviewed seed.
+  const identity: [string, unknown][] = [
+    ["vendor", part.vendor],
+    ["series", part.family],
+  ];
+  for (const [k, v] of identity) {
+    if (!v || !profile || !profile[k]) continue;
+    const r = normalizeField(category, k, String(v));
+    if (!r.ok) {
+      qStream.push(JSON.stringify({ sku: part.sku, name: `(identity) ${k}`, field: k, value: String(v), reason: r.reason, detail: r.detail }));
+      continue;
+    }
+    seen.add(k);
+    (stats.perField[k] ||= { ok: 0, fail: 0 }).ok++;
+    stats.stored++;
+    out.push({ k, raw: String(v), value: r.value, unit: r.unit, state: "verified",
+      prov: { tier: 0, method: SEED_METHOD, locator: "part:identity",
+        extracted_at: prov.verified_at, norm_v: NORM_VERSION } });
+  }
+
   for (const a of attrs) {
     stats.attrs++;
     const rawTarget = ALIASES[a.name];
