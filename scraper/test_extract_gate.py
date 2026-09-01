@@ -107,6 +107,28 @@ except ValueError:
     got = "FALSE_POSITIVE"
 check("S20", "English page (control case)", "ACCEPTED", got)
 
+# ---- S21 — the part-number test must accept real PIDs and reject prose --------------------------
+# Every REJECT below was observed in a real Cisco ordering column, and every ACCEPT that is marked
+# was at some point wrongly rejected: "CBS350-8T-E-2G-xx" by an upper-case-only shape rule (losing
+# the entire Cisco Business SMB range) and "ACI-VPOD-MGMT=" by a rule demanding a digit.
+import importlib.util as _ilu
+_spec = _ilu.spec_from_file_location("_ec", str(Path(__file__).resolve().parent / "enumerate_cisco.py"))
+_ec = _ilu.module_from_spec(_spec)
+_spec.loader.exec_module(_ec)
+
+PID_CASES = [
+    ("C9300-24P", True), ("WS-C3850-48P", True), ("SFP-10G-SR", True), ("GLC-TE", True),
+    ("PWR-C1-715WAC-P", True), ("UCSC-C220-M5SX", True), ("ISR4331/K9", True),
+    ("CBS350-8T-E-2G-xx", True),   # region placeholder is lower case
+    ("ACI-VPOD-MGMT=", True),      # no digit anywhere
+    ("802.11ac", False), ("Security", False), ("Gigabit Ethernet", False),
+    ("Maximum clients", False), ("Trustworthy solutions", False), ("IEEE 802.3", False),
+    ("N/A", False), ("2.5", False),
+]
+bad = [(t, e) for t, e in PID_CASES if _ec.is_pid(t) != e]
+check("S21", "part-number test vs 17 real accepts/rejects",
+      "17/17", f"{len(PID_CASES) - len(bad)}/{len(PID_CASES)}" + (f" (wrong: {bad[:3]})" if bad else ""))
+
 print("case | defect                                             | expected                 | got")
 print("-" * 128)
 for r in results:

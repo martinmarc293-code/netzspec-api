@@ -1,0 +1,88 @@
+{
+  "listings": {
+    "https://www.cisco.com/c/en/us/products/routers/8500-series-secure-routers/index.html": {
+      "category": "routers",
+      "series_name": "8500 Series Secure Routers",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/routers/8400-series-secure-routers/index.html": {
+      "category": "routers",
+      "series_name": "8400 Series Secure Routers",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/routers/8300-series-secure-routers/index.html": {
+      "category": "routers",
+      "series_name": "8300 Series Secure Routers",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/routers/8200-series-secure-routers/index.html": {
+      "category": "routers",
+      "series_name": "8200 Series Secure Routers",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/routers/8100-series-secure-routers/index.html": {
+      "category": "routers",
+      "series_name": "8100 Series Secure Routers",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/routers/8000-series-routers/index.html": {
+      "category": "routers",
+      "series_name": "8000 Series Routers",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/wireless/7600-wireless-security-gateway/index.html": {
+      "category": "wireless",
+      "series_name": "7600 Wireless Security Gateway",
+      "bulletins": [
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/7600-wireless-security-gateway/eos-eol-notice-c51-736397.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/7600-wireless-security-gateway/eos-eol-notice-c51-736397-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/7600-wireless-security-gateway/eos-eol-notice-c51-729878.html"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/switches/6000-series-switches/index.html": {
+      "category": "switches",
+      "series_name": "6000 Series Switches",
+      "bulletins": []
+    }
+  },
+  "bulletins": {
+    "https://www.cisco.com/c/en/us/products/collateral/wireless/7600-wireless-security-gateway/eos-eol-notice-c51-736397.html": {
+      "category": "wireless",
+      "series_name": "7600 Wireless Security Gateway",
+      "pids": [
+        "ASR5K-00-WGSEC-K9",
+        "FL-SS-10K-SUB",
+        "FL-SS-10K-SUB=",
+        "MEM-SAMI-6P-2GB",
+        "MEM-SAMI-6P-2GB=",
+        "MEM-SAMI-6P-4GB",
+        "MEM-SAMI-6P-4GB=",
+        "SC-SBC-NAP-SAMI-1",
+        "SC-SBC-NAP-SAMI-1=",
+        "SSAS20K9-COSLI20",
+        "SSAS20K9-COSLI20=",
+        "SSAS30K9-COSLI30",
+        "SSAS30K9-COSLI30=",
+        "SSAS40K9-COSLI30",
+        "SSAS40K9-COSLI30=",
+        "WS-SVC-SAMI-BB-K9",
+        "WS-SVC-SAMI-BB-K9="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/wireless/7600-wireless-security-gateway/eos-eol-notice-c51-736397-fr.html": {
+      "category": "wireless",
+      "series_name": "7600 Wireless Security Gateway",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/wireless/7600-wireless-security-gateway/eos-eol-notice-c51-729878.html": {
+      "category": "wireless",
+      "series_name": "7600 Wireless Security Gateway",
+      "pids": [
+        "SSAS10K9-COSLI10",
+        "SSAS10K9-COSLI10=",
+        "SSAS30K9-COSLI30",
+        "SSAS30K9-COSLI30="
+      ]
+    }
+  }
+}

@@ -25,7 +25,10 @@ import argparse, json, re, sys, io
 from pathlib import Path
 from urllib.parse import urljoin, urlparse
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+# Only rebind stdout when run as a script. Doing it at import time closed the caller's stdout
+# and broke test_extract_gate.py, which imports this module for its part-number cases.
+if __name__ == "__main__":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import netzscrape  # noqa: E402
 
@@ -40,13 +43,14 @@ AZ_INDEX = "https://www.cisco.com/c/en/us/products/a-to-z-series-index.html"
 BASE = "https://www.cisco.com"
 
 # A column header that means "this column holds part numbers".
+# "Part #" is Cisco's most common spelling after "Product ID" and matched nothing until now.
+# "Item" and "Model" are included even though they are also used for ordinary spec tables - the
+# shape test below is what separates "C9300-24P" from "Maximum clients".
 PID_HEADER = re.compile(
-    r"(part\s*(number|no)|product\s*(number|id|code)|\bpid\b|order(ing)?\s*(information|number|code)?"
-    r"|^sku$|^model(\s*number)?$|^models?$)", re.I)
+    r"(part\s*(number|no|#)|product\s*(number|id|code)|\bpid\b|order(ing)?\s*(information|number|code)?"
+    r"|order\s*product\s*id|product\s*order\s*id"
+    r"|^sku$|^model(\s*number)?$|^models?$|^item$)", re.I)
 
-# Shape check only - the column header is what makes it a PID. Cisco PIDs are upper-case
-# alphanumeric with hyphens, may carry a /K9 suffix, a trailing '=' (spare) or '++'.
-PID_SHAPE = re.compile(r"^[A-Z0-9][A-Z0-9./+=-]{3,44}$")
 HAS_DIGIT = re.compile(r"\d")
 # things that pass the shape check but are not part numbers
 NOT_PID = re.compile(
@@ -55,6 +59,33 @@ NOT_PID = re.compile(
     r"|^\d{1,2}/\d{1,2}(/\d{2,4})?$"          # dates
     r"|^(IEEE|RFC|ISO|IEC|EN|UL|CSA|IETF)[-\s]?\d"
     r"|^\d+(GBASE|BASE|G|M|W|MM|CM|IN|KG|LB|MHZ|GHZ|MBPS|GBPS)$", re.I)
+
+# Allows a lower-case tail so Cisco's REGION PLACEHOLDER survives: the Cisco Business range is
+# published as "CBS350-8T-E-2G-xx", where xx stands for -NA/-UK/-EU. An upper-case-only shape
+# test rejected every one of them, losing the whole CBS110/CBS220/CBS350 SMB switch line.
+PID_SHAPE = re.compile(r"^[A-Z0-9][A-Za-z0-9./+=_-]{3,44}$")
+
+
+def is_pid(tok: str) -> bool:
+    """Does this cell value look like a Cisco part number?
+
+    The column header is the primary evidence; this is the filter that keeps prose out of a
+    column Cisco labelled loosely ("Item", "Model" are used for spec tables too).
+
+    Two rules learned from real rejections:
+      - a PID need NOT contain a digit. "ACI-VPOD-MGMT=" is a real part number, so requiring a
+        digit dropped it; a hyphenated all-caps token counts instead.
+      - a PID is predominantly UPPER CASE. That is what separates "CBS350-8T-E-2G-xx" (75% upper)
+        from "802.11ac" (0% of its letters upper) and "Maximum clients".
+    """
+    if not tok or " " in tok or not (4 <= len(tok) <= 45):
+        return False
+    if not PID_SHAPE.match(tok) or NOT_PID.search(tok):
+        return False
+    letters = [c for c in tok if c.isalpha()]
+    if letters and sum(1 for c in letters if c.isupper()) / len(letters) < 0.6:
+        return False
+    return bool(HAS_DIGIT.search(tok) or ("-" in tok and len(letters) >= 3))
 
 
 def load(p: Path, default):
@@ -106,6 +137,73 @@ def phase_series(br) -> list[dict]:
 # phase 2 — datasheet URLs per series
 # ---------------------------------------------------------------------------------------------
 DS_HINT = re.compile(r"data[-_]?sheet|datasheet|\bds\b|product-data", re.I)
+
+
+def _collateral_links(soup, want_pdf: bool = False) -> list[str]:
+    out = []
+    for a in soup.find_all("a", href=True):
+        full = urljoin(BASE, a["href"])
+        path = urlparse(full).path
+        if "/collateral/" not in path:
+            continue
+        if "/login" in path or "/cdc/" in path:
+            continue
+        is_pdf, is_html = path.endswith(".pdf"), path.endswith(".html")
+        if not (is_html or (want_pdf and is_pdf)):
+            continue
+        if not (DS_HINT.search(path) or DS_HINT.search(a.get_text(" ", strip=True))):
+            continue
+        out.append(urljoin(BASE, path))
+    return list(dict.fromkeys(out))
+
+
+def phase_listing(br, limit: int = 0) -> dict:
+    """Second discovery pass, and the better one.
+
+    The series INDEX page turned out to be a poor source: 213 of 367 series linked no datasheet
+    at all, and 171 of those carried no /collateral/ link whatsoever - refetching one with
+    wait_until=networkidle grew it from 124 KB to 631 KB and still produced no datasheet link, so
+    the link genuinely is not on that page rather than being hidden behind JavaScript.
+
+    Cisco publishes a purpose-built index per series instead:
+        /c/en/us/products/<category>/<series>/datasheet-listing.html
+    This pass visits that URL for every series and merges what it finds. PDFs are collected too -
+    several series (the 8300/8400/8500 secure routers among them) publish only a PDF datasheet.
+    """
+    from bs4 import BeautifulSoup
+    series = load(F_SERIES, [])
+    docs = load(F_DOCS, {})
+    todo = [s for s in series if not docs.get(s["url"], {}).get("listing_checked")]
+    if limit:
+        todo = todo[:limit]
+    print(f"[listing] {len(todo)} series to check via datasheet-listing.html")
+    added = 0
+    for i, s in enumerate(todo, 1):
+        base_dir = s["url"].rsplit("/", 1)[0]
+        url = f"{base_dir}/datasheet-listing.html"
+        rec = docs.setdefault(s["url"], {"category": s["category"], "series_slug": s["series_slug"],
+                                         "series_name": s["series_name"], "datasheets": []})
+        rec["listing_checked"] = True
+        try:
+            html = br.fetch(url, timeout=60000)
+        except Exception:  # noqa - a missing listing page is normal, not an error worth recording
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        html_ds = _collateral_links(soup, want_pdf=False)
+        pdf_ds = [u for u in _collateral_links(soup, want_pdf=True) if u.endswith(".pdf")]
+        before = len(rec["datasheets"])
+        rec["datasheets"] = list(dict.fromkeys(rec["datasheets"] + html_ds))
+        if pdf_ds:
+            rec["datasheets_pdf"] = list(dict.fromkeys(rec.get("datasheets_pdf", []) + pdf_ds))
+        added += len(rec["datasheets"]) - before
+        if i % 10 == 0 or i == len(todo):
+            save(F_DOCS, docs)
+            print(f"   {i}/{len(todo)} · +{added} new HTML datasheets")
+    save(F_DOCS, docs)
+    tot = sum(len(v.get("datasheets", [])) for v in docs.values())
+    pdfs = sum(len(v.get("datasheets_pdf", [])) for v in docs.values())
+    print(f"[listing] done. {tot} HTML datasheets, {pdfs} PDF datasheets across {len(docs)} series")
+    return docs
 
 
 def phase_docs(br, limit: int = 0) -> dict:
@@ -187,7 +285,7 @@ def pids_from_html(html: str) -> list[tuple[str, str]]:
                         continue
                     if " " in tok:
                         continue
-                    if not PID_SHAPE.match(tok) or not HAS_DIGIT.search(tok) or NOT_PID.search(tok):
+                    if not is_pid(tok):
                         continue
                     found.setdefault(tok, header[ci] or "")
     return list(found.items())
@@ -200,10 +298,11 @@ def phase_pids(br, limit: int = 0) -> dict:
         return {}
     store = load(F_PIDS, {"documents": {}, "generated": None})
     done = store["documents"]
+    refresh = "--refresh" in sys.argv
     jobs = []
     for series_url, d in docs.items():
         for ds in d.get("datasheets", []):
-            if ds in done:
+            if ds in done and not refresh:
                 continue
             jobs.append((ds, d.get("category", "?"), d.get("series_slug", "?"), d.get("series_name", "?")))
     if limit:
@@ -231,6 +330,93 @@ def phase_pids(br, limit: int = 0) -> dict:
             tot = len({p for v in done.values() for p in v.get("pids", [])})
             print(f"   {i}/{len(jobs)} docs · {tot} distinct PIDs so far")
     save(F_PIDS, store)
+    return store
+
+
+# ---------------------------------------------------------------------------------------------
+# phase 4 — End-of-Life bulletins (discontinued part numbers)
+# ---------------------------------------------------------------------------------------------
+F_EOL = OUT / "cisco-eol-pids.json"
+EOL_LISTING = "{dir}/eos-eol-notice-listing.html"
+
+
+def phase_eol(br, limit: int = 0) -> dict:
+    """Discontinued part numbers.
+
+    A datasheet exists while a product is sold. Once it is withdrawn the datasheet is retired, so
+    a datasheet-only sweep systematically misses everything Cisco no longer sells - which for a
+    reseller of end-of-life hardware is precisely the interesting half of the catalogue.
+
+    Every series has (or may have) /eos-eol-notice-listing.html linking its EoL bulletins, and each
+    bulletin carries a table of the part numbers it affects. The existing cisco_eol adapter reads
+    those bulletins for lifecycle DATES; this pass reads them for the PIDs alone, across all 367
+    series rather than the hardcoded 'switches' path that adapter uses.
+    """
+    from bs4 import BeautifulSoup
+    from adapters.cisco_specs_deep import _rows
+    series = load(F_SERIES, [])
+    store = load(F_EOL, {"listings": {}, "bulletins": {}})
+    listings, bulletins = store["listings"], store["bulletins"]
+
+    todo = [s for s in series if s["url"] not in listings]
+    if limit:
+        todo = todo[:limit]
+    print(f"[eol] {len(todo)} series listings to check")
+    for i, s in enumerate(todo, 1):
+        url = EOL_LISTING.format(dir=s["url"].rsplit("/", 1)[0])
+        try:
+            html = br.fetch(url, timeout=60000)
+        except Exception:  # noqa - most series have no EoL listing; that is not an error
+            listings[s["url"]] = {"bulletins": []}
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        links = []
+        for a in soup.find_all("a", href=True):
+            path = urlparse(urljoin(BASE, a["href"])).path
+            if "eos-eol-notice" in path and path.endswith(".html") and "listing" not in path:
+                links.append(urljoin(BASE, path))
+        listings[s["url"]] = {"category": s["category"], "series_name": s["series_name"],
+                              "bulletins": list(dict.fromkeys(links))}
+        if i % 10 == 0 or i == len(todo):
+            save(F_EOL, store)
+            print(f"   {i}/{len(todo)} listings · {sum(len(v['bulletins']) for v in listings.values())} bulletins found")
+    save(F_EOL, store)
+
+    jobs = []
+    for surl, v in listings.items():
+        for b in v.get("bulletins", []):
+            if b not in bulletins:
+                jobs.append((b, v.get("category", "?"), v.get("series_name", "?")))
+    if limit:
+        jobs = jobs[:limit]
+    print(f"[eol] {len(jobs)} bulletins to read")
+    for i, (url, cat, name) in enumerate(jobs, 1):
+        try:
+            html = br.fetch(url, timeout=60000)
+        except Exception as e:  # noqa
+            bulletins[url] = {"error": str(e)[:80], "pids": []}
+            continue
+        found: set[str] = set()
+        soup = BeautifulSoup(html, "lxml")
+        for t in soup.find_all("table"):
+            rows = _rows(t)
+            if len(rows) < 2:
+                continue
+            cols = [i for i, h in enumerate(rows[0]) if PID_HEADER.search((h or "").strip())]
+            for r in rows[1:]:
+                for ci in cols:
+                    if ci < len(r):
+                        tok = (r[ci] or "").strip().rstrip(".,;")
+                        if is_pid(tok):
+                            found.add(tok)
+        bulletins[url] = {"category": cat, "series_name": name, "pids": sorted(found)}
+        if i % 10 == 0 or i == len(jobs):
+            save(F_EOL, store)
+            tot = len({p for v in bulletins.values() for p in v.get("pids", [])})
+            print(f"   {i}/{len(jobs)} bulletins · {tot} distinct EoL PIDs")
+    save(F_EOL, store)
+    tot = len({p for v in bulletins.values() for p in v.get("pids", [])})
+    print(f"[eol] {len(bulletins)} bulletins read, {tot} distinct discontinued PIDs -> {F_EOL.name}")
     return store
 
 
@@ -263,9 +449,10 @@ def report():
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--phase", choices=["series", "docs", "pids", "all"], default=None)
+    ap.add_argument("--phase", choices=["series", "docs", "listing", "pids", "eol", "all"], default=None)
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--report", action="store_true")
+    ap.add_argument("--refresh", action="store_true", help="re-parse cached documents (no refetch)")
     ap.add_argument("--headed", action="store_true")
     a = ap.parse_args()
     if a.report and not a.phase:
@@ -277,8 +464,12 @@ def main() -> int:
             phase_series(br)
         if a.phase in ("docs", "all"):
             phase_docs(br, a.limit)
+        if a.phase in ("listing", "all"):
+            phase_listing(br, a.limit)
         if a.phase in ("pids", "all"):
             phase_pids(br, a.limit)
+        if a.phase in ("eol", "all"):
+            phase_eol(br, a.limit)
     finally:
         br.close()
         netzscrape.print_ledger_report()
