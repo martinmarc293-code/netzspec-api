@@ -337,3 +337,120 @@ export function profileCounts(category: string) {
 }
 
 export const CATEGORIES = Object.keys(PROFILES);
+
+// ---------------------------------------------------------------------------------------------
+// Display labels for enum SLUGS
+// ---------------------------------------------------------------------------------------------
+// Enum values are stored as machine slugs so they are comparable and filterable ("l3", "rack-19",
+// "802.3at"). A page must never show the slug: „Switching-Ebene: l3" is worse than the prose it
+// replaced. These are the human strings, emitted into lib/fieldLabels.generated.ts for the
+// content session's reader.
+//
+// form_factor carries both the switch and the optic domain. Their slugs do not collide, so one
+// flat map per field key is unambiguous.
+export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string }>> = {
+  vendor: {
+    cisco: { de: "Cisco", en: "Cisco" }, hpe: { de: "HPE", en: "HPE" },
+    aruba: { de: "Aruba", en: "Aruba" }, juniper: { de: "Juniper", en: "Juniper" },
+    arista: { de: "Arista", en: "Arista" }, "dell-emc": { de: "Dell EMC", en: "Dell EMC" },
+    lenovo: { de: "Lenovo", en: "Lenovo" }, extreme: { de: "Extreme Networks", en: "Extreme Networks" },
+    fortinet: { de: "Fortinet", en: "Fortinet" }, nvidia: { de: "NVIDIA", en: "NVIDIA" },
+    mikrotik: { de: "MikroTik", en: "MikroTik" }, ubiquiti: { de: "Ubiquiti", en: "Ubiquiti" },
+    supermicro: { de: "Supermicro", en: "Supermicro" },
+  },
+  mgmt_class: {
+    managed: { de: "Managed", en: "Managed" },
+    "smart-managed": { de: "Smart Managed", en: "Smart managed" },
+    unmanaged: { de: "Unmanaged", en: "Unmanaged" },
+  },
+  layer: {
+    l2: { de: "Layer 2", en: "Layer 2" }, l2plus: { de: "Layer 2+", en: "Layer 2+" },
+    l3: { de: "Layer 3", en: "Layer 3" },
+  },
+  form_factor: {
+    "rack-19": { de: "19-Zoll-Rackmontage", en: "19-inch rack" },
+    desktop: { de: "Desktop", en: "Desktop" },
+    "din-rail": { de: "DIN-Schienenmontage", en: "DIN rail" },
+    "modular-chassis": { de: "Modulares Chassis", en: "Modular chassis" },
+    gbic: { de: "GBIC", en: "GBIC" }, x2: { de: "X2", en: "X2" },
+    xenpak: { de: "XENPAK", en: "XENPAK" }, xfp: { de: "XFP", en: "XFP" },
+    sfp: { de: "SFP", en: "SFP" }, "sfp-plus": { de: "SFP+", en: "SFP+" },
+    sfp28: { de: "SFP28", en: "SFP28" }, sfp56: { de: "SFP56", en: "SFP56" },
+    "qsfp-plus": { de: "QSFP+", en: "QSFP+" }, qsfp28: { de: "QSFP28", en: "QSFP28" },
+    qsfp56: { de: "QSFP56", en: "QSFP56" }, "qsfp-dd": { de: "QSFP-DD", en: "QSFP-DD" },
+    cfp: { de: "CFP", en: "CFP" }, cfp2: { de: "CFP2", en: "CFP2" },
+  },
+  deploy_role: {
+    access: { de: "Access", en: "Access" }, aggregation: { de: "Aggregation", en: "Aggregation" },
+    core: { de: "Core", en: "Core" },
+    "datacenter-tor": { de: "Rechenzentrum (Top-of-Rack)", en: "Data centre (top-of-rack)" },
+    industrial: { de: "Industrie", en: "Industrial" },
+  },
+  poe_standard: {
+    none: { de: "Kein PoE", en: "No PoE" },
+    "802.3af": { de: "PoE (IEEE 802.3af)", en: "PoE (IEEE 802.3af)" },
+    "802.3at": { de: "PoE+ (IEEE 802.3at)", en: "PoE+ (IEEE 802.3at)" },
+    "802.3bt-t3": { de: "PoE++ (IEEE 802.3bt Typ 3)", en: "PoE++ (IEEE 802.3bt Type 3)" },
+    "802.3bt-t4": { de: "PoE++ (IEEE 802.3bt Typ 4)", en: "PoE++ (IEEE 802.3bt Type 4)" },
+    upoe: { de: "Cisco UPOE", en: "Cisco UPOE" }, "upoe-plus": { de: "Cisco UPOE+", en: "Cisco UPOE+" },
+  },
+  psu_config: {
+    "fixed-internal": { de: "Fest eingebautes Netzteil", en: "Fixed internal PSU" },
+    "modular-single": { de: "Modulares Netzteil (einzeln)", en: "Modular PSU (single)" },
+    "modular-redundant": { de: "Modulare Netzteile, redundant", en: "Modular PSUs, redundant" },
+    external: { de: "Externes Netzteil", en: "External PSU" },
+  },
+  cooling: {
+    fanless: { de: "Lüfterlos", en: "Fanless" },
+    "fixed-fans": { de: "Fest verbaute Lüfter", en: "Fixed fans" },
+    "redundant-replaceable": { de: "Redundante, austauschbare Lüfter", en: "Redundant, field-replaceable fans" },
+  },
+  airflow: {
+    "front-to-back": { de: "Vorne nach hinten", en: "Front to back" },
+    "back-to-front": { de: "Hinten nach vorne", en: "Back to front" },
+    side: { de: "Seitlich", en: "Side" }, reversible: { de: "Umkehrbar", en: "Reversible" },
+  },
+  mgmt_ports: {
+    "console-rj45": { de: "Konsole (RJ45)", en: "Console (RJ45)" },
+    "console-usb": { de: "Konsole (USB)", en: "Console (USB)" },
+    "oob-ethernet": { de: "Out-of-Band-Ethernet", en: "Out-of-band Ethernet" },
+    "usb-a": { de: "USB-A", en: "USB-A" }, "usb-c": { de: "USB-C", en: "USB-C" },
+    bluetooth: { de: "Bluetooth", en: "Bluetooth" },
+  },
+  media: {
+    mmf: { de: "Multimode-Faser (MMF)", en: "Multimode fibre (MMF)" },
+    smf: { de: "Singlemode-Faser (SMF)", en: "Single-mode fibre (SMF)" },
+    "dac-copper": { de: "DAC-Kupferkabel", en: "DAC copper" },
+    "rj45-copper": { de: "RJ45-Kupfer", en: "RJ45 copper" },
+    aoc: { de: "AOC (aktives optisches Kabel)", en: "AOC (active optical cable)" },
+  },
+  fiber_type: {
+    om1: { de: "OM1", en: "OM1" }, om2: { de: "OM2", en: "OM2" }, om3: { de: "OM3", en: "OM3" },
+    om4: { de: "OM4", en: "OM4" }, om5: { de: "OM5", en: "OM5" },
+    os1: { de: "OS1", en: "OS1" }, os2: { de: "OS2", en: "OS2" },
+  },
+  connector: {
+    "lc-duplex": { de: "LC Duplex", en: "LC duplex" }, "lc-simplex": { de: "LC Simplex", en: "LC simplex" },
+    sc: { de: "SC", en: "SC" }, "mpo-12": { de: "MPO-12", en: "MPO-12" },
+    "mpo-16": { de: "MPO-16", en: "MPO-16" }, rj45: { de: "RJ45", en: "RJ45" },
+    integrated: { de: "Fest konfektioniert", en: "Integrated" },
+  },
+  laser_type: {
+    vcsel: { de: "VCSEL", en: "VCSEL" }, fp: { de: "Fabry-Pérot (FP)", en: "Fabry-Pérot (FP)" },
+    dfb: { de: "DFB", en: "DFB" }, eml: { de: "EML", en: "EML" },
+  },
+  mode: {
+    duplex: { de: "Duplex (Zweifaser)", en: "Duplex (two-fibre)" },
+    "simplex-bidi": { de: "BiDi (Einzelfaser)", en: "BiDi (single-fibre)" },
+  },
+  fec: {
+    none: { de: "Nicht erforderlich", en: "Not required" },
+    "rs-fec": { de: "RS-FEC", en: "RS-FEC" }, "fc-fec": { de: "FC-FEC", en: "FC-FEC" },
+    "host-dependent": { de: "Host-abhängig", en: "Host dependent" },
+  },
+  temp_class: {
+    commercial: { de: "Kommerziell", en: "Commercial" },
+    extended: { de: "Erweitert", en: "Extended" },
+    industrial: { de: "Industrie", en: "Industrial" },
+  },
+};

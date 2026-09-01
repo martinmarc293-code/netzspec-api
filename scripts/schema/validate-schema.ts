@@ -10,7 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   FIELD_DICTIONARY, PROFILES, CATEGORIES, profileCounts, requirementFor,
-  domainFor, unitFor, type Condition,
+  domainFor, unitFor, ENUM_LABELS, type Condition,
 } from "../../lib/fieldSchema.js";
 
 const DB = process.argv.includes("--db");
@@ -89,6 +89,24 @@ for (const cat of CATEGORIES) {
 }
 if (unitFor("transceiver", "weight") !== "g") warn("transceiver weight unit override missing (expected g)");
 if (unitFor("switches", "weight") !== "kg") warn("switches weight unit should be kg");
+
+// ---- 6b. every enum slug that can be STORED must have a display label --------------------------
+// Enum values are stored as slugs so they compare cleanly. If a slug has no label the page shows
+// "Switching-Ebene: l3", which is worse than the prose it replaced. This is the check that makes
+// that impossible rather than merely unlikely.
+for (const cat of CATEGORIES) {
+  for (const key of Object.keys(PROFILES[cat])) {
+    const d = FIELD_DICTIONARY[key];
+    if (!d || (d.type !== "e" && d.type !== "ls")) continue;
+    const domain = domainFor(cat, key);
+    if (!domain) continue;              // open list (certifications, ieee_standards) - no labels needed
+    const labels = ENUM_LABELS[key];
+    if (!labels) { warn(`enum field "${key}" has a closed domain but no ENUM_LABELS entry`); continue; }
+    for (const slug of domain) {
+      if (!labels[slug]) warn(`enum "${key}" slug "${slug}" (${cat}) has no display label`);
+    }
+  }
+}
 
 // ---- 7. alias coverage: the sample record, then optionally the whole DB ------------------------
 // The 14 attribute names on C9200L-24P-4G, the richest record in the database [M 2026-09-01].
