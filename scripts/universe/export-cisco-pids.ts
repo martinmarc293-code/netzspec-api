@@ -27,7 +27,7 @@ if (!fs.existsSync(file)) { console.error(`missing ${file} — run scraper/enume
 const store = JSON.parse(fs.readFileSync(file, "utf8"));
 const docs: Record<string, DocRec> = store.documents || {};
 
-type Row = { pid: string; category: string; series: string; doc: string };
+type Row = { pid: string; category: string; series: string; doc: string; lifecycle: string };
 const rows: Row[] = [];
 const distinct = new Set<string>();
 const byCategory = new Map<string, Set<string>>();
@@ -35,16 +35,13 @@ const bySeries = new Map<string, Set<string>>();
 const seriesCategory = new Map<string, string>();
 let docsRead = 0, docsErrored = 0, docsEmpty = 0;
 
-for (const [url, d] of Object.entries(docs)) {
-  if (d.error) { docsErrored++; continue; }
-  docsRead++;
+function absorb(url: string, d: DocRec, lifecycle: string) {
   const pids = d.pids || [];
-  if (!pids.length) docsEmpty++;
   const cat = d.category || "uncategorised";
   const series = d.series_name || d.series_slug || "unknown";
   seriesCategory.set(series, cat);
   for (const pid of pids) {
-    rows.push({ pid, category: cat, series, doc: url });
+    rows.push({ pid, category: cat, series, doc: url, lifecycle });
     distinct.add(pid);
     if (!byCategory.has(cat)) byCategory.set(cat, new Set());
     byCategory.get(cat)!.add(pid);
@@ -53,12 +50,35 @@ for (const [url, d] of Object.entries(docs)) {
   }
 }
 
+for (const [url, d] of Object.entries(docs)) {
+  if (d.error) { docsErrored++; continue; }
+  docsRead++;
+  if (!(d.pids || []).length) docsEmpty++;
+  absorb(url, d, "current");
+}
+
+// End-of-Life bulletins: discontinued part numbers. A datasheet only exists while a product is
+// sold, so these are invisible to the datasheet sweep — and for a reseller of EoL hardware they
+// are the commercially interesting half of the catalogue.
+let eolBulletins = 0, eolOnly = 0;
+const eolFile = path.join(root, "data/universe/cisco-eol-pids.json");
+if (fs.existsSync(eolFile)) {
+  const eol = JSON.parse(fs.readFileSync(eolFile, "utf8"));
+  const fromDatasheets = new Set(distinct);
+  for (const [url, d] of Object.entries(eol.bulletins as Record<string, DocRec>)) {
+    if (d.error) continue;
+    eolBulletins++;
+    for (const p of d.pids || []) if (!fromDatasheets.has(p)) eolOnly++;
+    absorb(url, d, "end-of-life");
+  }
+}
+
 rows.sort((a, b) => a.category.localeCompare(b.category) || a.series.localeCompare(b.series) || a.pid.localeCompare(b.pid));
 
 // ---- CSV -----------------------------------------------------------------------------------------
 const esc = (s: string) => (/[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s);
-const csv = ["part_number,category,series,source_datasheet"];
-for (const r of rows) csv.push([r.pid, r.category, r.series, r.doc].map(esc).join(","));
+const csv = ["part_number,category,series,lifecycle,source_document"];
+for (const r of rows) csv.push([r.pid, r.category, r.series, r.lifecycle, r.doc].map(esc).join(","));
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(`${OUT}.csv`, csv.join("\n") + "\n");
 
@@ -111,6 +131,7 @@ for (const [series, set] of [...bySeries.entries()].sort((a, b) => b[1].size - a
 L.push(``);
 L.push(`## Coverage caveats — read before treating this as complete`);
 L.push(``);
+L.push(`- **${eolBulletins}** End-of-Life bulletins contributed **${eolOnly}** part numbers that appear in NO current datasheet — discontinued hardware the datasheet sweep alone cannot see.`);
 L.push(`- **${docsErrored}** datasheets could not be read (fetch error or robots).`);
 L.push(`- **${docsEmpty}** datasheets were read but contained no ordering table with a`);
 L.push(`  part-number column, so they contributed nothing. Some product pages carry their`);
@@ -126,4 +147,5 @@ fs.writeFileSync(`${OUT}.md`, L.join("\n") + "\n");
 console.log(`distinct part numbers: ${distinct.size}`);
 console.log(`categories: ${byCategory.size} | series: ${bySeries.size}`);
 console.log(`documents: ${docsRead} read, ${docsErrored} errored, ${docsEmpty} with no ordering table`);
+console.log(`EoL bulletins: ${eolBulletins} | part numbers only found there: ${eolOnly}`);
 console.log(`wrote ${OUT}.csv (${rows.length} rows), ${OUT}.md, ${OUT}.json`);

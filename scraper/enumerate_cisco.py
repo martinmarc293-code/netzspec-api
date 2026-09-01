@@ -267,6 +267,45 @@ def phase_docs(br, limit: int = 0) -> dict:
 # ---------------------------------------------------------------------------------------------
 # phase 3 — PIDs per datasheet
 # ---------------------------------------------------------------------------------------------
+# Headers whose CELLS are part-number-shaped but are not part numbers: "10GBASE-LR" under
+# Compliance, "SMF-9/125" under Fiber Type. Found by auditing columns that the content test
+# below would otherwise have accepted. Blacklisted so the content test cannot pull them in.
+SPEC_HEADER = re.compile(
+    r"wave.?length|fib(re|er)\s*type|complian|standard|reach|distance|data\s*rate|"
+    r"connector|temperature|dimension|weight|power\s*(consumption|draw)|throughput|latency|"
+    r"protocol|interface\s*type|form\s*factor|speed|capacity|frequency|voltage", re.I)
+
+
+def pid_columns(rows: list[list[str]]) -> dict[int, str]:
+    """Which columns of this table hold part numbers, and on what evidence.
+
+    Two routes, because header-matching alone was demonstrably too narrow:
+      1. the header says so ("Product Number", "Part #", "PID", ...) - strongest evidence;
+      2. the column's CONTENTS are overwhelmingly part-number-shaped and its header is not a
+         spec header. This is what recovers accessories: PWR-C1-715WAC-P sits under "Primary
+         power supply" and STACK-T1-50CM under "Optional stacking hardware", so a header-only
+         rule dropped every power supply, stack cable, fan tray and uplink module in the
+         catalogue - including part numbers that were visible in datasheets already read.
+    """
+    header = rows[0]
+    ncols = max(len(r) for r in rows)
+    cols: dict[int, str] = {}
+    for i in range(ncols):
+        h = (header[i] if i < len(header) else "").strip()
+        if PID_HEADER.search(h):
+            cols[i] = h or "(header)"
+            continue
+        if SPEC_HEADER.search(h):
+            continue
+        vals = [(r[i] or "").strip() for r in rows[1:] if i < len(r) and (r[i] or "").strip()]
+        if len(vals) < 2:
+            continue
+        hits = sum(1 for v in vals if is_pid(v))
+        if hits >= 2 and hits / len(vals) >= 0.6:
+            cols[i] = h or "(content-detected)"
+    return cols
+
+
 def pids_from_html(html: str) -> list[tuple[str, str]]:
     """Return (pid, evidence_header) pairs found in ordering-style tables."""
     from bs4 import BeautifulSoup
@@ -278,7 +317,8 @@ def pids_from_html(html: str) -> list[tuple[str, str]]:
         if len(rows) < 2:
             continue
         header = rows[0]
-        pid_cols = [i for i, h in enumerate(header) if PID_HEADER.search(h or "")]
+        colmap = pid_columns(rows)
+        pid_cols = list(colmap)
         if not pid_cols:
             continue
         for r in rows[1:]:
@@ -295,7 +335,7 @@ def pids_from_html(html: str) -> list[tuple[str, str]]:
                         continue
                     if not is_pid(tok):
                         continue
-                    found.setdefault(tok, header[ci] or "")
+                    found.setdefault(tok, colmap.get(ci, "") or "")
     return list(found.items())
 
 
@@ -338,6 +378,213 @@ def phase_pids(br, limit: int = 0) -> dict:
             tot = len({p for v in done.values() for p in v.get("pids", [])})
             print(f"   {i}/{len(jobs)} docs · {tot} distinct PIDs so far")
     save(F_PIDS, store)
+    return store
+
+
+# ---------------------------------------------------------------------------------------------
+# phase 1b — expand the series list beyond the A-to-Z index
+# ---------------------------------------------------------------------------------------------
+COLLATERAL_SERIES = re.compile(r"/products/collateral/([a-z0-9-]+)/([a-z0-9-]+)/")
+SUPPORT_SERIES = re.compile(r"/c/en/us/support/([a-z0-9-]+)/([a-z0-9-]+)/(?:series|model|tsd-products-support-series-home)\.html")
+SUPPORT_HUB = BASE + "/c/en/us/support/index.html"
+
+
+def phase_support(br, limit: int = 0) -> list[dict]:
+    """A SECOND, independent root for the series list.
+
+    The products A-to-Z index lists what Cisco currently markets. The SUPPORT hierarchy lists what
+    Cisco supports, which includes every mature and end-of-sale line the marketing index drops -
+    and those are exactly the products a reseller of used and EoL hardware cares about.
+
+    Measured: /support/switches/index.html alone names 84 switch series, among them
+    catalyst-2960-x, catalyst-2960-plus, catalyst-2960-c and catalyst-3750 - none of which appear
+    in the A-to-Z index. WS-C2960X-24TS-L was missing from the whole catalogue for exactly that
+    reason: not an extraction failure (the PID sits under a "Part number" header, which we match),
+    but a document we never discovered because its series was invisible to our only root.
+    """
+    from bs4 import BeautifulSoup
+    series = load(F_SERIES, [])
+    known = {s["series_slug"] for s in series}
+
+    cats: set[str] = {s["category"] for s in series}
+    try:
+        hub = br.fetch(SUPPORT_HUB, timeout=60000)
+        for a in BeautifulSoup(hub, "lxml").find_all("a", href=True):
+            m = re.search(r"/c/en/us/support/([a-z0-9-]+)/index\.html", a["href"])
+            if m:
+                cats.add(m.group(1))
+    except Exception as e:  # noqa
+        print(f"[support] hub fetch failed ({str(e)[:50]}); using the categories we already know")
+    cat_list = sorted(cats)
+    if limit:
+        cat_list = cat_list[:limit]
+    print(f"[support] scanning {len(cat_list)} support category indexes")
+
+    added = 0
+    for i, cat in enumerate(cat_list, 1):
+        try:
+            html = br.fetch(f"{BASE}/c/en/us/support/{cat}/index.html", timeout=60000)
+        except Exception:  # noqa - a category without a support index is normal
+            continue
+        for a in BeautifulSoup(html, "lxml").find_all("a", href=True):
+            m = SUPPORT_SERIES.search(a["href"])
+            if not m:
+                continue
+            scat, slug = m.group(1), m.group(2)
+            if slug in known or slug == "index":
+                continue
+            known.add(slug)
+            added += 1
+            series.append({"category": scat, "series_slug": slug,
+                           "series_name": a.get_text(" ", strip=True) or slug.replace("-", " ").title(),
+                           "url": f"{BASE}/c/en/us/products/{scat}/{slug}/index.html",
+                           "discovered_from": "support-index"})
+        if i % 5 == 0 or i == len(cat_list):
+            save(F_SERIES, series)
+            print(f"   {i}/{len(cat_list)} categories · +{added} new series")
+    save(F_SERIES, series)
+    print(f"[support] +{added} series from the support hierarchy (now {len(series)})")
+    return series
+
+
+def phase_expand(br, limit: int = 0) -> list[dict]:
+    """The A-to-Z index is NOT a complete list of Cisco series, and building everything on that one
+    source left real holes.
+
+    Proof, from spot-checking 22 part numbers known to exist: ISR4331/K9, WS-C2960X-24TS-L,
+    AIR-AP1815I-B-K9, MS120-8-HW, UCSC-C220-M6S and FPR-1010-NGFW-K9 were all absent, because the
+    A-to-Z index simply does not list Catalyst 2960, Catalyst 1000 or ISR 4000 as series - mature
+    and end-of-sale lines are missing from it.
+
+    Every collateral URL, though, encodes its own series: /products/collateral/<category>/<series>/.
+    So the 1,124 datasheets and 1,532 EoL bulletins already discovered name series the index never
+    mentioned. This pass harvests those, adds the new ones, and lets the next listing/eol pass find
+    THEIR documents - repeat until nothing new appears.
+    """
+    series = load(F_SERIES, [])
+    known = {s["series_slug"] for s in series}
+    urls: list[str] = []
+    docs = load(F_DOCS, {})
+    for v in docs.values():
+        urls += v.get("datasheets", []) + v.get("datasheets_pdf", [])
+    pidstore = load(F_PIDS, {"documents": {}})
+    urls += list(pidstore["documents"].keys())
+    eol = load(F_EOL, {"listings": {}, "bulletins": {}})
+    for v in eol["listings"].values():
+        urls += v.get("bulletins", [])
+    urls += list(eol["bulletins"].keys())
+
+    found: dict[str, str] = {}
+    for u in urls:
+        m = COLLATERAL_SERIES.search(u)
+        if m and m.group(2) not in known:
+            found.setdefault(m.group(2), m.group(1))
+    if not found:
+        print("[expand] no new series found — the series list has closed")
+        return series
+    for slug, cat in sorted(found.items()):
+        series.append({"category": cat, "series_slug": slug,
+                       "series_name": slug.replace("-", " ").title(),
+                       "url": f"{BASE}/c/en/us/products/{cat}/{slug}/index.html",
+                       "discovered_from": "collateral-url"})
+    save(F_SERIES, series)
+    print(f"[expand] +{len(found)} series discovered from collateral URLs (now {len(series)})")
+    cats: dict[str, int] = {}
+    for c in found.values():
+        cats[c] = cats.get(c, 0) + 1
+    for c, n in sorted(cats.items(), key=lambda kv: -kv[1])[:12]:
+        print(f"   +{n:4}  {c}")
+    return series
+
+
+# ---------------------------------------------------------------------------------------------
+# phase 3b — PDF datasheets
+# ---------------------------------------------------------------------------------------------
+def pids_from_pdf(data: bytes) -> list[tuple[str, str]]:
+    """Part numbers from a PDF datasheet's ordering tables.
+
+    Same rule as the HTML path: a value counts only if its COLUMN HEADER says part number. Two
+    extractors, because neither alone is enough:
+      - pdfplumber finds ruled tables and gives real rows/columns;
+      - a text fallback catches the 'Ordering information' sections that are laid out as text
+        rather than as a table object, which pdfplumber returns as nothing at all.
+    """
+    found: dict[str, str] = {}
+    try:
+        import pdfplumber
+    except ImportError:
+        return []
+    import io as _io
+    with pdfplumber.open(_io.BytesIO(data)) as pdf:
+        for page in pdf.pages:
+            try:
+                tables = page.extract_tables() or []
+            except Exception:  # noqa
+                tables = []
+            for tbl in tables:
+                if not tbl or len(tbl) < 2:
+                    continue
+                header = [(c or "").strip().replace("\n", " ") for c in tbl[0]]
+                cols = [i for i, h in enumerate(header) if PID_HEADER.search(h)]
+                if not cols:
+                    continue
+                for row in tbl[1:]:
+                    for ci in cols:
+                        if ci >= len(row):
+                            continue
+                        cell = (row[ci] or "").replace("\n", " ").strip()
+                        for tok in re.split(r"[,;]|\s{2,}", cell):
+                            tok = tok.strip().rstrip(".,;")
+                            if is_pid(tok):
+                                found.setdefault(tok, header[ci][:40])
+            # text fallback: a line of the form "<PID>   <description>" beneath an ordering heading
+            try:
+                text = page.extract_text() or ""
+            except Exception:  # noqa
+                text = ""
+            if re.search(r"ordering\s+information|product\s+(id|number)|part\s+number", text, re.I):
+                for line in text.splitlines():
+                    tok = line.strip().split(" ")[0].rstrip(".,;")
+                    if is_pid(tok):
+                        found.setdefault(tok, "pdf-text:ordering-section")
+    return list(found.items())
+
+
+def phase_pdf(br, limit: int = 0) -> dict:
+    docs = load(F_DOCS, {})
+    store = load(F_PIDS, {"documents": {}, "generated": None})
+    done = store["documents"]
+    jobs = []
+    for _, d in docs.items():
+        for u in d.get("datasheets_pdf", []):
+            if u not in done:
+                jobs.append((u, d.get("category", "?"), d.get("series_slug", "?"), d.get("series_name", "?")))
+    if limit:
+        jobs = jobs[:limit]
+    print(f"[pdf] {len(jobs)} PDF datasheets to read")
+    for i, (url, cat, slug, name) in enumerate(jobs, 1):
+        try:
+            data = br.fetch_binary(url, timeout=90000)
+        except Exception as e:  # noqa
+            done[url] = {"error": str(e)[:80], "pids": []}
+            continue
+        if data[:5] != b"%PDF-":
+            done[url] = {"error": "not-a-pdf", "pids": []}
+            continue
+        try:
+            pairs = pids_from_pdf(data)
+        except Exception as e:  # noqa
+            done[url] = {"error": "parse:" + str(e)[:70], "pids": []}
+            continue
+        done[url] = {"category": cat, "series_slug": slug, "series_name": name, "doc_type": "pdf",
+                     "pids": [p for p, _ in pairs], "evidence": {p: h for p, h in pairs[:5]}}
+        if i % 5 == 0 or i == len(jobs):
+            save(F_PIDS, store)
+            tot = len({p for v in done.values() for p in v.get("pids", [])})
+            print(f"   {i}/{len(jobs)} PDFs · {tot} distinct PIDs overall")
+    save(F_PIDS, store)
+    npdf = sum(1 for v in done.values() if v.get("doc_type") == "pdf" and v.get("pids"))
+    print(f"[pdf] done. {npdf} PDFs yielded part numbers")
     return store
 
 
@@ -457,7 +704,7 @@ def report():
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--phase", choices=["series", "docs", "listing", "pids", "eol", "all"], default=None)
+    ap.add_argument("--phase", choices=["series", "support", "expand", "docs", "listing", "pids", "pdf", "eol", "all"], default=None)
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--report", action="store_true")
     ap.add_argument("--refresh", action="store_true", help="re-parse cached documents (no refetch)")
@@ -470,12 +717,18 @@ def main() -> int:
     try:
         if a.phase in ("series", "all"):
             phase_series(br)
+        if a.phase in ("support", "all"):
+            phase_support(br, a.limit)
+        if a.phase in ("expand", "all"):
+            phase_expand(br, a.limit)
         if a.phase in ("docs", "all"):
             phase_docs(br, a.limit)
         if a.phase in ("listing", "all"):
             phase_listing(br, a.limit)
         if a.phase in ("pids", "all"):
             phase_pids(br, a.limit)
+        if a.phase in ("pdf", "all"):
+            phase_pdf(br, a.limit)
         if a.phase in ("eol", "all"):
             phase_eol(br, a.limit)
     finally:
