@@ -60,11 +60,54 @@ def _looks_like_label(s: str) -> bool:
 
 
 def _rows(table):
+    """Expand a table into a RECTANGULAR grid, honouring rowspan and colspan.
+
+    BeautifulSoup's find_all('td') returns only the cells physically present in a <tr>, so a table
+    using rowspan hands back short rows whose values no longer line up with the header. Measured
+    on real Cisco datasheets [M 2026-09-01]: the 3850 sheet produced 12 short rows and 28
+    misaligned ones, the 3650 sheet 21 — every one of them real data that the arity guard was
+    correctly refusing to file under the wrong column.
+
+    Expanding the spans fixes the cause: a cell with rowspan=3 is written into all three rows at
+    its own column index, so arity matches and values land under the right header. The arity guard
+    stays, and now only fires on tables that are genuinely broken."""
     out = []
+    spans: dict[int, list] = {}   # column -> [text, rows_remaining]
     for tr in table.find_all("tr"):
         cells = tr.find_all(["td", "th"])
-        if cells:
-            out.append([_txt(c) for c in cells])
+        if not cells and not spans:
+            continue
+        row: dict[int, str] = {}
+        # first place any cell carried down from an earlier row's rowspan
+        for col in sorted(spans):
+            st = spans[col]
+            row[col] = st[0]
+            st[1] -= 1
+            if st[1] <= 0:
+                del spans[col]
+        col = 0
+        for c in cells:
+            while col in row:
+                col += 1
+            txt = _txt(c)
+            try:
+                cs = max(1, int(c.get("colspan") or 1))
+            except (TypeError, ValueError):
+                cs = 1
+            try:
+                rs = max(1, int(c.get("rowspan") or 1))
+            except (TypeError, ValueError):
+                rs = 1
+            for _ in range(cs):
+                while col in row:
+                    col += 1
+                row[col] = txt
+                if rs > 1:
+                    spans[col] = [txt, rs - 1]
+                col += 1
+        if row:
+            width = max(row) + 1
+            out.append([row.get(i, "") for i in range(width)])
     return out
 
 
@@ -139,9 +182,20 @@ def parse_shape_b(rows, ti, url):
             continue
         for ci in range(1, min(len(cells), len(header))):
             variant, val = header[ci].strip(), cells[ci].strip()
-            if val and val not in ("-", "--", "N/A", "n/a"):
-                recs.append({"family_scope": variant, "label": label, "value": val[:160],
-                             "shape": "B", "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url})
+            if not val or val in ("-", "--", "N/A", "n/a"):
+                continue
+            rec = {"label": label, "value": val[:160], "shape": "B",
+                   "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url}
+            # A column header can be a FAMILY ("Catalyst 9300L/LM fixed uplink models") or an
+            # actual PID ("C1000-24T-4G-L"). Treating both as family scope threw away every
+            # per-SKU fact on the sheets that lay their specs out attribute-per-row: the 1000,
+            # 1300 and 2960-L datasheets produced 1,465 / 7,748 / 740 shape-B facts and ZERO
+            # SKU-scoped ones. If the header is a PID, this is a per-SKU measurement.
+            if _is_pid(variant):
+                rec["sku"] = variant
+            else:
+                rec["family_scope"] = variant
+            recs.append(rec)
     return recs
 
 
@@ -156,8 +210,12 @@ def parse_shape_c(rows, ti, url):
     sub_headers: list[str] = []
     for ri, cells in enumerate(rows):
         nonempty = [c for c in cells if c.strip()]
-        # a label row: one meaningful cell
-        if len(nonempty) == 1 and not _is_pid(nonempty[0]) and not ACCESSORY.match(nonempty[0]):
+        # A label row carries ONE distinct value. Before span expansion that meant literally one
+        # cell; now a colspanned label is repeated across the row's full width, so the test is on
+        # DISTINCT text, not cell count. Missing this collapsed shape-C output from 2,164 facts to
+        # 7 on the 9300 sheet — the labels were still there, they just no longer looked singular.
+        distinct = set(nonempty)
+        if len(distinct) == 1 and not _is_pid(nonempty[0]) and not ACCESSORY.match(nonempty[0]):
             lbl = nonempty[0].strip()
             if SECTION_NOISE.match(lbl):
                 current_label = None      # a pure heading resets context rather than becoming one
@@ -226,13 +284,26 @@ def run(browser, urls: list[str]) -> list[dict]:
         before = len(out)
         counts = {"A": 0, "B": 0, "C": 0}
         defects: list[dict] = []
+        # Expanding rowspans necessarily repeats a spanned cell into every row it covers, so the
+        # same (subject, label, value) triple can be emitted many times from one table - the 1300
+        # sheet produced 1,302 identical "Supported SFP modules" rows. Duplicates are not extra
+        # evidence, they are the same cell seen repeatedly, so collapse them here and keep the
+        # first locator. Counting them would make the yield look far better than it is.
+        seen_triples: set[tuple] = set()
         for ti, rows in enumerate(rows_all):
             if len(rows) < 2:
                 continue
             for fn, shape in ((parse_shape_a, "A"), (parse_shape_b, "B"), (parse_shape_c, "C")):
                 recs = fn(rows, ti, url, defects) if fn is parse_shape_a else fn(rows, ti, url)
-                counts[shape] += len(recs)
-                out.extend(recs)
+                fresh = []
+                for r in recs:
+                    key = (r.get("sku") or r.get("family_scope") or "", r["label"], r["value"])
+                    if key in seen_triples:
+                        continue
+                    seen_triples.add(key)
+                    fresh.append(r)
+                counts[shape] += len(fresh)
+                out.extend(fresh)
         # the document's own PID list rides along so the merge step can enforce inheritance scope
         out.append({"__doc__": True, "source_url": url, "pid_list": pids, "tables": len(tables),
                     "defects": defects})

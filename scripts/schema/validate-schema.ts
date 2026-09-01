@@ -71,6 +71,26 @@ for (const [name, target] of Object.entries(ALIASES)) {
   }
 }
 
+// ---- 4b. the ENGLISH alias map (deep extractor) ------------------------------------------------
+// This map had no validation at all, which let a rule point at a field_key that does not exist:
+// the value then reached normalizeField, came back UNMAPPED_HEADER and was quarantined — data
+// lost to a typo that nothing was checking for.
+const enAliasPath = path.join(root, "data/schema/attribute-aliases.en.json");
+if (fs.existsSync(enAliasPath)) {
+  const enFile = JSON.parse(fs.readFileSync(enAliasPath, "utf8"));
+  const rules = enFile.rules as [string, string, string][];
+  const seenPatterns = new Set<string>();
+  rules.forEach(([pattern, key], i) => {
+    if (seenPatterns.has(pattern)) warn(`en-alias rule ${i}: duplicate pattern ${pattern}`);
+    seenPatterns.add(pattern);
+    try { new RegExp(pattern, enFile.case_insensitive ? "i" : ""); }
+    catch (e) { warn(`en-alias rule ${i}: invalid regex ${pattern} (${String(e).slice(0, 60)})`); }
+    if (SENTINELS.has(key) || key === "__duplicate_unit") return;
+    if (!FIELD_DICTIONARY[key]) warn(`en-alias rule ${i} (${pattern}) -> "${key}" is not a dictionary field`);
+  });
+  console.error(`  [en-alias] ${rules.length} rules checked`);
+}
+
 // ---- 5. ETIM map agrees with the dictionary ---------------------------------------------------
 for (const [key, codes] of Object.entries(etimFile.field_to_ef as Record<string, string[]>)) {
   const d = FIELD_DICTIONARY[key];

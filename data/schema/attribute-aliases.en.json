@@ -4,69 +4,285 @@
     "Separate from attribute-aliases.de.json because that one maps HexCat's authored GERMAN",
     "attribute names; this one maps Cisco's own English table labels.",
     "",
-    "Rules are ORDERED REGEXES, not exact strings, because shape-C labels carry a qualifier in",
-    "brackets ('Dimensions (H x W x D) in inches [Chassis only]') and shape-A headers vary in",
-    "wording between datasheet generations. First match wins, so specific patterns come first:",
-    "'Switching capacity with stacking' must be matched before 'Switching capacity'.",
+    "Rules are ORDERED REGEXES matched CASE-INSENSITIVELY, because the same fact is worded",
+    "differently across datasheet generations and even within one sheet:",
+    "  'Product Description' / 'Product description' / '[Product description]'",
+    "  'MTBF hours' / 'MTBF Hours' / 'MTBF (hours)' / 'Mean time between failures (hours)'",
+    "  'Power consumption (worst case)' / 'Power consumption (W) (no more than)' /",
+    "  'Power Consumption (Watts) (No More Than)'",
+    "First match wins, so specific patterns come first: 'Switching capacity with stacking' must",
+    "be matched before 'Switching capacity'.",
     "",
-    "Sentinels behave as in the German map. Two are specific to this side:",
-    "  __duplicate_unit : the same fact in a second unit (inches alongside centimetres, pounds",
-    "                     alongside kilograms). Dropped deliberately - storing both would double",
-    "                     count the field and inflate completeness.",
+    "Sentinels:",
+    "  __not_a_spec     : ordering/marketing/licensing metadata that must never enter specs_v2",
+    "  __compat         : a real fact that belongs in the COMPAT store, not a spec field",
+    "                     ('Supported SFP modules' - 1,302 rows across the 10 golden sheets)",
+    "  __duplicate_unit : the same fact in a second unit (inches beside centimetres, pounds",
+    "                     beside kilograms). Dropped so completeness is not double counted.",
     "  __backlog        : a real spec with no field_key yet; a NAMED gap, reported not guessed.",
     "",
-    "Observed on the Catalyst 9300 datasheet [M 2026-09-01]: 39 distinct SKU-scoped labels and",
-    "20 distinct family-scoped labels."
+    "AXIS ORDER: dimension labels are not consistently H x W x D. The 3850/3650 sheets use",
+    "'Unit dimensions (W x D x H)'. map-deep-specs.ts reads the axis order out of the label and",
+    "reorders the parsed triple; storing it positionally would silently file width as height.",
+    "",
+    "Two corrections after reading real values [M 2026-09-01]: 'Default AC power supply' yields '715W AC' (a rating) and was mapped to the psu_config ENUM, producing ENUM_VIOLATION on every row; it now feeds psu_options. 'Network module' yields 'C3850-NM-4-1G, C3850-NM-2-10G, ...' (a module list) and was mapped to the numeric module_slots, producing RANGE_VIOLATION; it is now __compat. Both were the mapping being wrong, not the data."
   ],
+  "case_insensitive": true,
   "rules": [
-    ["^Dimensions .*(centimet|cm)", "dimensions", "canonical metric form"],
-    ["^Dimensions .*(inch|in\\b)", "__duplicate_unit", "same fact, imperial"],
-    ["^Weight.*\\[Kilograms\\]", "weight", ""],
-    ["^Weight.*\\[Pounds\\]", "__duplicate_unit", ""],
-    ["^Weight", "weight", "unqualified weight row"],
-    ["^Mean time between failures", "mtbf", ""],
-    ["^Switching capacity with stacking", "__backlog", "stack-aggregate figure, needs its own field"],
-    ["^Switching capacity", "switching_capacity", ""],
-    ["^Forwarding rate with stacking", "__backlog", "stack-aggregate figure"],
-    ["^Forwarding rate", "forwarding_rate", ""],
-    ["^Stacking bandwidth", "stacking_bandwidth", ""],
-    ["^Stacking support", "stackable", ""],
-    ["^Available PoE", "poe_budget", ""],
-    ["^Perpetual PoE", "__backlog", ""],
-    ["^Total 10/100/1000|^Total ports|^Total MGig|^Downlink", "ports", ""],
-    ["^Uplink configuration|^Uplink ports|^Modular uplink|^Fixed uplink", "uplink_ports", ""],
-    ["^Network module", "module_slots", ""],
-    ["^(Default AC power supply|Primary power supply|Power supply|Default or upgrade)", "psu_config", ""],
-    ["^With \\d+W secondary PS", "__backlog", "PoE budget with a specific second PSU - a matrix, not a scalar"],
-    ["Measured P\\(W\\) \\[100%\\]", "power_max", "full-load draw is the max figure"],
-    ["Measured P\\(W\\) \\[50%\\]", "power_typical", "Cisco's 50%-load figure is the conventional typical"],
-    ["Measured P\\(W\\)", "__backlog", "other load points (0.01%/EEE, 10%, 30%, 90%, FEP, Uplink, Input)"],
-    ["^Total number of MAC addresses|^MAC address", "mac_table", ""],
-    ["^Total number of IPv4 routes|^IPv4 rout", "ipv4_routes", ""],
-    ["^IPv6 rout", "ipv6_routes", ""],
-    ["^Multicast routing scale|^Multicast group", "multicast_groups", ""],
-    ["^ACL scale entries|^ACL entries", "acl_entries", ""],
-    ["^Packet buffer", "packet_buffer", ""],
-    ["^Jumbo frame", "jumbo_mtu", ""],
-    ["^Flash", "flash", ""],
-    ["^DRAM|^Memory", "dram", ""],
-    ["^Latency", "latency", ""],
-    ["^Acoustic noise", "acoustic_noise", ""],
-    ["^Operating temperature|^Environmental ranges.*temperature", "temp_operating", ""],
-    ["^Storage temperature", "temp_storage", ""],
-    ["^(Operating |Relative )?[Hh]umidity", "humidity_operating", ""],
-    ["^(Operating )?[Aa]ltitude", "altitude_max", ""],
-    ["^Heat dissipation|BTU", "heat_dissipation", ""],
-    ["^Input voltage|^AC input voltage", "input_voltage", ""],
-    ["^Input frequency|^AC input frequency", "input_freq", ""],
-    ["^VLAN|^Total switched virtual interfaces", "__backlog", "SVI count is not vlan_max"],
-    ["^Total VLANs|^Active VLANs", "vlan_max", ""],
-
-    ["\\[Product description\\]$", "__not_a_spec", "ordering-table description column"],
-    ["^Description$", "__not_a_spec", ""],
-    ["^(Packages|Tiers|Portability|Management options|Included support)", "__not_a_spec", "licensing table"],
-    ["^(QoS scale entries|FNF entries|PVST Instances|STP virtual ports|Total routed ports|Total switched virtual)", "__backlog", "real scale figures, no field_key yet"],
-    ["^PoE\\+? on all ports", "__backlog", "per-port PoE capability matrix"],
-    ["^Cisco StackWise.*Accessories", "__not_a_spec", ""]
+    [
+      "^switching capacity with stacking",
+      "__backlog",
+      "stack-aggregate figure, needs its own field"
+    ],
+    [
+      "^switching capacity|^switching bandwidth",
+      "switching_capacity",
+      ""
+    ],
+    [
+      "^forwarding rate with stacking",
+      "__backlog",
+      "stack-aggregate figure"
+    ],
+    [
+      "^forwarding rate|^forwarding performance",
+      "forwarding_rate",
+      ""
+    ],
+    [
+      "^unit dimensions|^platform physical specifications|^dimensions|^chassis dimensions",
+      "dimensions",
+      "axis order read from the label"
+    ],
+    [
+      "^(unit )?weight.*\\[pounds\\]|^pounds$",
+      "__duplicate_unit",
+      "same fact, imperial"
+    ],
+    [
+      "^(unit )?weight|^kilograms$",
+      "weight",
+      ""
+    ],
+    [
+      "mean time between failures|^mtbf",
+      "mtbf",
+      ""
+    ],
+    [
+      "^stacking bandwidth",
+      "stacking_bandwidth",
+      ""
+    ],
+    [
+      "^stacking support|^stack support",
+      "stackable",
+      ""
+    ],
+    [
+      "^available poe|^poe power budget|^total poe",
+      "poe_budget",
+      ""
+    ],
+    [
+      "^perpetual poe|^poe\\+? on all ports",
+      "__backlog",
+      "per-port PoE capability matrix"
+    ],
+    [
+      "^total 10/100/1000|^total ports|^total mgig|^downlink|^ethernet interfaces|^10/100/1000 ethernet|^gigabit ethernet|^10 gigabit ethernet|^ports$|^port configuration",
+      "ports",
+      ""
+    ],
+    [
+      "^uplink configuration|^uplink ports|^uplink interfaces|^uplink module|^modular uplink|^fixed uplink",
+      "uplink_ports",
+      ""
+    ],
+    [
+      "^network module",
+      "__compat",
+      "a list of compatible module PIDs, not a slot count - belongs in the compat store"
+    ],
+    [
+      "^(default ac power supply|primary power supply|power supply|default or upgrade)",
+      "psu_options",
+      "the datasheet column gives a PSU RATING ('715W AC'), not the config enum; psu_config comes from the reviewed seed"
+    ],
+    [
+      "^optional secondary power supply|^secondary ps|^redundant power",
+      "psu_options",
+      ""
+    ],
+    [
+      "^with \\d+w secondary ps",
+      "__backlog",
+      "PoE budget with a named second PSU - a matrix, not a scalar"
+    ],
+    [
+      "measured p\\(w\\) \\[100%\\]|power consumption.*(worst case|no more than)",
+      "power_max",
+      "full-load draw is the max figure"
+    ],
+    [
+      "measured p\\(w\\) \\[50%\\]",
+      "power_typical",
+      "Cisco's 50%-load figure is the conventional typical"
+    ],
+    [
+      "measured p\\(w\\)|^\\d+% traffic|^half port traffic",
+      "__backlog",
+      "other load points (EEE, 10%, 30%, 90%, FEP, uplink, input)"
+    ],
+    [
+      "^total number of mac addresses|^mac address",
+      "mac_table",
+      ""
+    ],
+    [
+      "^total number of ipv4 routes|^ipv4 rout",
+      "ipv4_routes",
+      ""
+    ],
+    [
+      "^ipv6 rout",
+      "ipv6_routes",
+      ""
+    ],
+    [
+      "^multicast routing scale|^multicast group",
+      "multicast_groups",
+      ""
+    ],
+    [
+      "^acl scale entries|^acl entries",
+      "acl_entries",
+      ""
+    ],
+    [
+      "^packet buffer",
+      "packet_buffer",
+      ""
+    ],
+    [
+      "^jumbo frame",
+      "jumbo_mtu",
+      ""
+    ],
+    [
+      "^flash",
+      "flash",
+      ""
+    ],
+    [
+      "^dram|^memory",
+      "dram",
+      ""
+    ],
+    [
+      "^latency",
+      "latency",
+      ""
+    ],
+    [
+      "^acoustic noise",
+      "acoustic_noise",
+      ""
+    ],
+    [
+      "^operating temperature|environmental ranges.*temperature",
+      "temp_operating",
+      ""
+    ],
+    [
+      "^storage temperature|^nonoperating temperature",
+      "temp_storage",
+      ""
+    ],
+    [
+      "^(operating |relative )?humidity",
+      "humidity_operating",
+      ""
+    ],
+    [
+      "^(operating |nonoperating )?altitude",
+      "altitude_max",
+      ""
+    ],
+    [
+      "^heat dissipation|btu",
+      "heat_dissipation",
+      ""
+    ],
+    [
+      "^input voltage|^ac input voltage|^dc input voltage",
+      "input_voltage",
+      ""
+    ],
+    [
+      "^input frequency|^ac input frequency",
+      "input_freq",
+      ""
+    ],
+    [
+      "^standards$|^standards |^ieee standards|^compliance standards",
+      "ieee_standards",
+      ""
+    ],
+    [
+      "^total vlans|^active vlans|^vlan ids|^number of vlans",
+      "vlan_max",
+      ""
+    ],
+    [
+      "^total switched virtual interfaces|^svis",
+      "__backlog",
+      "SVI count is not vlan_max"
+    ],
+    [
+      "^supported sfp modules|^supported transceivers|^compatible (sfp|optics|modules)",
+      "__compat",
+      "belongs in the compat relation store, not specs_v2"
+    ],
+    [
+      "\\[product description\\]$|^product description$|^description$|^order product id$|^product id$|^part number$",
+      "__not_a_spec",
+      "ordering table columns"
+    ],
+    [
+      "^(packages|tiers|portability|management options|included support|management)$",
+      "__not_a_spec",
+      "licensing / management-model table"
+    ],
+    [
+      "^cisco catalyst .*(series|bundles|models)$|^compact models$",
+      "__not_a_spec",
+      "section heading, not an attribute"
+    ],
+    [
+      "^cisco (ios|dna) software|software (feature set|licenses)|network (essentials|advantage)",
+      "__not_a_spec",
+      "software licensing"
+    ],
+    [
+      "^cisco stackwise.*accessories",
+      "__not_a_spec",
+      ""
+    ],
+    [
+      "^(qos scale entries|fnf entries|pvst instances|stp virtual ports|total routed ports)",
+      "__backlog",
+      "real scale figures, no field_key yet"
+    ],
+    [
+      "^stackwise|^stackpower|^flexstack",
+      "__backlog",
+      "stacking technology name used as a row label"
+    ],
+    [
+      "^wireless ",
+      "__backlog",
+      "embedded-wireless sub-table"
+    ]
   ]
 }

@@ -21,7 +21,26 @@ const ONLY = si >= 0 ? process.argv[si + 1] : null;
 const root = process.cwd();
 const en = JSON.parse(fs.readFileSync(path.join(root, "data/schema/attribute-aliases.en.json"), "utf8"));
 const RULES: [RegExp, string, string][] = (en.rules as [string, string, string][])
-  .map(([re, key, note]) => [new RegExp(re), key, note]);
+  .map(([re, key, note]) => [new RegExp(re, en.case_insensitive ? "i" : ""), key, note]);
+
+// Dimension labels are NOT consistently H x W x D. The 3850 and 3650 sheets say
+// "Unit dimensions (W x D x H)". The parser reads the triple positionally as {h,w,d}, so without
+// this the width would be filed as the height on those sheets — silently, and only on some
+// families. Read the axis order out of the label and reorder.
+const AXIS_RE = /\(\s*([HWD])\s*[x×]\s*([HWD])\s*[x×]\s*([HWD])\s*\)/i;
+function reorderDimensions(label: string, value: unknown): unknown {
+  if (!value || typeof value !== "object") return value;
+  const v = value as Record<string, number>;
+  if (!("h" in v && "w" in v && "d" in v)) return value;
+  const m = AXIS_RE.exec(label);
+  if (!m) return value;                       // no declared order — assume the H x W x D default
+  const order = [m[1], m[2], m[3]].map((x) => x.toLowerCase());
+  if (order.join("") === "hwd") return value;
+  const positional = [v.h, v.w, v.d];         // as parsed: first, second, third
+  const out: Record<string, number> = {};
+  order.forEach((axis, i) => { out[axis] = positional[i]; });
+  return { h: out.h, w: out.w, d: out.d };
+}
 
 function mapLabel(label: string): { key: string; note: string } | null {
   for (const [re, key, note] of RULES) if (re.test(label)) return { key, note };
@@ -59,7 +78,7 @@ const recs = all.filter((r) => !r.__doc__);
 const docPids = new Set<string>(docs.flatMap((d) => d.pid_list || []));
 
 const stats = { total: recs.length, mapped: 0, normalised: 0, unmapped: 0,
-  not_a_spec: 0, backlog: 0, duplicate_unit: 0, familyScoped: 0,
+  not_a_spec: 0, backlog: 0, duplicate_unit: 0, compat: 0, familyScoped: 0,
   reasons: {} as Record<string, number>, unmappedLabels: {} as Record<string, number> };
 
 // per SKU: field_key -> normalised value
@@ -76,6 +95,10 @@ for (const r of recs) {
   if (m.key === "__not_a_spec") { stats.not_a_spec++; continue; }
   if (m.key === "__backlog") { stats.backlog++; continue; }
   if (m.key === "__duplicate_unit") { stats.duplicate_unit++; continue; }
+  // __compat was missing from this list, so 'Supported SFP modules' and 'Network module' rows
+  // fell through to the normaliser and came back UNMAPPED_HEADER — a sentinel being quarantined
+  // as if it were a defect. They belong in the compat store and are counted, not normalised.
+  if (m.key === "__compat") { stats.compat++; continue; }
   stats.mapped++;
   if (!r.sku) {
     // family-scoped (shape B). NOT applied to any SKU here — Q5 forbids inheriting without the
@@ -87,8 +110,9 @@ for (const r of recs) {
   const norm = normalizeField("switches", m.key, r.value, { locale: "en", unitHint: unitFromLabel(r.label) });
   if (!norm.ok) { stats.reasons[norm.reason] = (stats.reasons[norm.reason] || 0) + 1; continue; }
   stats.normalised++;
+  const finalValue = m.key === "dimensions" ? reorderDimensions(r.label, norm.value) : norm.value;
   const bag = bySku.get(r.sku) || new Map();
-  if (!bag.has(m.key)) bag.set(m.key, { value: norm.value, unit: norm.unit, raw: r.value, locator: r.locator });
+  if (!bag.has(m.key)) bag.set(m.key, { value: finalValue, unit: norm.unit, raw: r.value, locator: r.locator });
   bySku.set(r.sku, bag);
 }
 
@@ -97,7 +121,7 @@ console.log(`source docs: ${docs.length}  |  document PID list: ${docPids.size}`
 console.log(`raw facts: ${stats.total}`);
 console.log(`  mapped to a field_key: ${stats.mapped}  (of those, ${stats.familyScoped} family-scoped, held for WP5 scope check)`);
 console.log(`  normalised onto a SKU: ${stats.normalised}`);
-console.log(`  __not_a_spec: ${stats.not_a_spec}  __backlog: ${stats.backlog}  __duplicate_unit: ${stats.duplicate_unit}`);
+console.log(`  __not_a_spec: ${stats.not_a_spec}  __backlog: ${stats.backlog}  __duplicate_unit: ${stats.duplicate_unit}  __compat: ${stats.compat}`);
 console.log(`  unmapped labels: ${stats.unmapped}`);
 console.log(`  normalise failures: ${JSON.stringify(stats.reasons)}`);
 
