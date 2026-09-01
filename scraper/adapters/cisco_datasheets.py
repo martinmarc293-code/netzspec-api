@@ -14,8 +14,20 @@ Usage: python scraper/run.py cisco-datasheets --urls <datasheet_url1,url2,...>
 from __future__ import annotations
 import re, sys
 
-# a Cisco switch chassis PID: C9300-24T, C9300L-24T-4G, WS-C3850-24T, C1000-48P-4G, C9200L-24P-4G …
-HW_PID = re.compile(r"^(C1-)?(C\d{3,4}[A-Z]{0,2}|WS-C\d{3,4}[A-Z]?)-\d+[A-Z]")
+# Cisco hardware PID across lines:
+#   Catalyst switch  C9300-24T, C9300L-24T-4G, WS-C3850-24T, C1000-48P-4G
+#   Nexus            N9K-C93180YC-FX, N3K-C3172PQ, N5K-C5548UP, N9K-X9736C-FX
+#   ISR/ASR router   ISR4331, ASR1001-X, C8300-1N1S-4T2X, C8200-1N-4T
+HW_PID = re.compile(
+    r"^(C1-)?("
+    r"C\d{3,4}[A-Z]{0,2}-\d+[A-Z]"           # Catalyst fixed-config
+    r"|WS-C\d{3,4}[A-Z]?-\d+[A-Z]"            # legacy WS-C
+    r"|N\d[KX]?-[A-Z0-9][A-Z0-9-]{3,}"        # Nexus chassis/line-card
+    r"|ISR\d{3,4}[A-Z/]"                       # ISR router
+    r"|ASR\d{3,4}[A-Z-]"                       # ASR router
+    r"|C8[0-9]{3}-[0-9A-Z]"                    # Catalyst 8000 edge
+    r")"
+)
 # not hardware: subscription terms, services, licenses, power supplies, memory/SSD, pluggable modules
 NOT_HW = re.compile(r"-\d+Y$|^CON-|DNA|LIC|^NW-|^PWR-|^MEM-|^SSD-|^S[AC]?-|^GLC-|^SFP|^QSFP|^C9300-NM|^C3850-NM|^C9K-", re.I)
 DESC_RX = re.compile(r"\bport|PoE|uplink|Gigabit|Multigig|mGig|data\b", re.I)
