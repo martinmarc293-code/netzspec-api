@@ -6,12 +6,19 @@ answer an automated PDF request with a 200 and an HTML interstitial; a naive pro
 records "reachable" and the whole cycle gets planned on a fiction. So every PDF probe
 asserts the %PDF magic bytes, and the verdict distinguishes:
 
-  OK          - got the thing itself (PDF magic, or expected JSON/HTML)
-  NOT_PDF     - 200 but the body is HTML (interstitial / login / soft-block)
-  BLOCKED     - 401/403 (auth wall or bot wall) - a boundary, not a failure
-  ROBOTS      - robots.txt disallows us; we skip, we never work around (constraint 4/5)
-  HTTP_<n>    - any other status
-  ERROR       - transport failed
+  OK            - got the thing itself (PDF magic, or expected JSON/HTML)
+  NOT_PDF       - 200 but the body is HTML (interstitial / login / soft-block)
+  BOT_CHALLENGE - 200 but the body is a bot-challenge interstitial (Arista serves one
+                  on EVERY path, 3,038 bytes; a probe that only checked status would
+                  have recorded three healthy PDFs)
+  BLOCKED       - 401/403 (auth wall or bot wall) - a boundary, not a failure
+  RESET         - TLS completed and the request was sent, then the server reset the
+                  connection. This is an ACTIVE application-layer block, categorically
+                  different from a transport fault, and worth its own verdict: HPE
+                  resets us from both our egresses (home ISP and the Hetzner VPS).
+  ROBOTS        - robots.txt disallows us; we skip, we never work around (constraint 4/5)
+  HTTP_<n>      - any other status
+  ERROR         - transport failed for some other reason
 
 Run: python scraper/probe_sources.py [--refresh]
 """
@@ -34,16 +41,27 @@ QUICKSPECS = [
 
 # (b)/(c) Juniper + Arista: the PDF URL is DISCOVERED from the product page, not guessed.
 # A guessed datasheet URL that 404s would measure nothing about reachability.
+# NOTE [M 2026-09-01]: juniper.net/us/en/products/switches/ex-series.html now 301s to
+# www.hpe.com/us/en/juniper-ex-series-switches.html - HPE has folded Juniper's product pages
+# into hpe.com post-acquisition. So Juniper depth and HPE depth are now ONE reachability
+# problem, not two independent ones. That collapses rows 2 and 3 of the strategist's Q2 table.
 DISCOVER = [
     ("juniper-ex-datasheet", "https://www.juniper.net/us/en/products/switches/ex-series.html"),
     ("arista-switch-datasheet", "https://www.arista.com/en/products/7050x3-series"),
 ]
+
+# Direct-path control for Arista: proves the challenge is served on EVERY path, not just SPA pages.
+ARISTA_DIRECT = ("arista-datasheet-direct",
+                 "https://www.arista.com/assets/data/pdf/Datasheets/7050X3-Datasheet.pdf")
 
 # (d) ETIM viewer - the strategist fetched EC000734 from the web and wants it confirmed our side.
 ETIM = ("etim-ec000734", "https://viewer.etim-international.com/class/EC000734?lang=de-DE")
 
 PDF_HREF = re.compile(r'href=["\']([^"\']+\.pdf[^"\']*)["\']', re.I)
 DATASHEET_HINT = re.compile(r"datasheet|data-sheet|datenblatt|dam/jnpr|assets/data/pdf", re.I)
+
+
+CHALLENGE = re.compile(rb"Client Challenge|Just a moment|cf-browser-verification|Access Denied", re.I)
 
 
 def classify(status, body: bytes, expect: str) -> str:
@@ -53,6 +71,8 @@ def classify(status, body: bytes, expect: str) -> str:
         return "BLOCKED"
     if status >= 400:
         return f"HTTP_{status}"
+    if CHALLENGE.search(body[:4000]):
+        return "BOT_CHALLENGE"
     if expect == "pdf":
         return "OK" if body[:5] == b"%PDF-" else "NOT_PDF"
     return "OK"
@@ -64,8 +84,12 @@ def probe_binary(br, key: str, url: str, expect: str = "pdf") -> dict:
     except netzscrape.PoliteBlocked:
         return {"key": key, "url": url, "status": None, "bytes": 0, "robots": "disallow", "verdict": "ROBOTS"}
     except Exception as e:  # noqa
+        msg = str(e)
+        # ECONNRESET after a completed TLS handshake + sent request is an ACTIVE block, not a
+        # transport fault. Confirmed by `curl -v`: ALPN negotiated, request sent, then RST.
+        v = "RESET" if ("ECONNRESET" in msg or "socket hang up" in msg) else "ERROR"
         return {"key": key, "url": url, "status": None, "bytes": 0, "robots": "allow",
-                "verdict": "ERROR", "detail": str(e)[:120]}
+                "verdict": v, "detail": msg.split("\n")[0][:110]}
     # status is not returned by fetch_binary; recover it from the ledger's last row for this url
     status = last_status(url)
     return {"key": key, "url": url, "status": status, "bytes": len(body), "robots": "allow",
@@ -94,9 +118,18 @@ def probe_discover(br, key: str, page_url: str) -> list[dict]:
     rows = []
     try:
         html = br.fetch(page_url)
-        rows.append({"key": key + "-page", "url": page_url, "status": last_status(page_url),
-                     "bytes": len(html), "robots": "allow",
-                     "verdict": "OK" if len(html) > 2000 else "THIN"})
+        # Classify the BODY, never the byte count. Arista's challenge page is 3,105 bytes -
+        # comfortably over any size threshold - and an earlier version of this probe passed it
+        # as OK for exactly that reason. Size is a proxy; content is the thing.
+        st = last_status(page_url)
+        v = classify(st, html.encode("utf-8", "replace"), "html")
+        if v == "OK" and len(html) < 2000:
+            v = "THIN"
+        rows.append({"key": key + "-page", "url": page_url, "status": st,
+                     "bytes": len(html), "robots": "allow", "verdict": v,
+                     "detail": "challenge interstitial" if v == "BOT_CHALLENGE" else ""})
+        if v == "BOT_CHALLENGE":
+            return rows  # no point hunting for datasheet links inside a challenge page
     except netzscrape.PoliteBlocked:
         rows.append({"key": key + "-page", "url": page_url, "status": None, "bytes": 0,
                      "robots": "disallow", "verdict": "ROBOTS"})
@@ -140,8 +173,13 @@ def probe_icecat() -> list[dict]:
                  "robots": "n/a", "verdict": "skipped-no-creds"}]
     rows = []
     from urllib.parse import quote
+    # Two Cisco codes on purpose. C9300-48P answers 404 "not in the Icecat database" while
+    # WS-C2960X-24TS-L answers 403 "Full Icecat required" - i.e. Cisco products ARE in Icecat
+    # and the wall is the licence, not the catalogue. On one sample we would have concluded the
+    # opposite and told the operator that requesting Cisco brand authorization was pointless.
     for label, brand, code in [("icecat-open-tplink", "TP-Link", "TL-SG108"),
-                               ("icecat-full-cisco", "Cisco", "C9300-48P"),
+                               ("icecat-cisco-gated", "Cisco", "WS-C2960X-24TS-L"),
+                               ("icecat-cisco-absent", "Cisco", "C9300-48P"),
                                ("icecat-full-hpe", "HPE", "JL675A")]:
         url = (f"https://live.icecat.biz/api/?UserName={quote(user)}&app_key={quote(key)}"
                f"&lang=de&Brand={quote(brand)}&ProductCode={quote(code)}")
@@ -184,6 +222,7 @@ def main() -> int:
             rows.append(probe_binary(br, key, url))
         for key, url in DISCOVER:
             rows.extend(probe_discover(br, key, url))
+        rows.append(probe_binary(br, ARISTA_DIRECT[0], ARISTA_DIRECT[1]))
         try:
             html = br.fetch(ETIM[1])
             has_feat = "EF00" in html or "Feature" in html

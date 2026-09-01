@@ -1,0 +1,55 @@
+{
+  "_readme": [
+    "ETIM mapping. RULE (prompt §0.2): no ETIM code enters this repo without the viewer URL it was",
+    "read from, recorded next to it. An invented class code propagates into every record and is",
+    "worse than a blank. Blanks here are honest; guesses would not be.",
+    "",
+    "Standing decision: the netzspec Field Schema Registry is canonical. ETIM is a MAPPING COLUMN,",
+    "not the backbone. EC000734 carries 37 features, all electrical-wholesale grade - no forwarding",
+    "rate, no switching capacity, no MAC table, no packet buffer, no operating temperature, no",
+    "weight, no MTBF. It cannot express a site whose entire pitch is Icecat-class depth.",
+    "",
+    "Verified our side [M 2026-09-01]: scraper/probe_sources.py fetched the viewer class page,",
+    "HTTP 200, 42,563 bytes, EF-codes present in the DOM."
+  ],
+  "classes": {
+    "switches": {
+      "etim_class": "EC000734",
+      "etim_class_de": "Netzwerk Switch",
+      "etim_group": "EG000037",
+      "releases": ["ETIM-9.0", "ETIM-10.0"],
+      "source_url": "https://viewer.etim-international.com/class/EC000734?lang=de-DE",
+      "verified_at": "2026-09-01",
+      "verified_by": "scraper/probe_sources.py (HTTP 200, 42563 bytes, EF-codes present)",
+      "feature_count": 37
+    },
+    "transceiver": {
+      "etim_class": null,
+      "reason": "not verified in the strategist's research and not resolved this cycle. Left blank per the standing rule rather than guessed.",
+      "resolution_path": "viewer.etim-international.com search for the transceiver/SFP class, record class id + URL here"
+    },
+    "routers": { "etim_class": null, "reason": "category profile deferred to next cycle", "resolution_path": "same as transceiver" },
+    "firewalls": { "etim_class": null, "reason": "category profile deferred to next cycle", "resolution_path": "same as transceiver" },
+    "wireless-ap": { "etim_class": null, "reason": "category profile deferred to next cycle", "resolution_path": "same as transceiver" },
+    "wireless-controller": { "etim_class": null, "reason": "category profile deferred to next cycle", "resolution_path": "same as transceiver" },
+    "cables-dac-aoc": { "etim_class": null, "reason": "category profile deferred to next cycle", "resolution_path": "same as transceiver" },
+    "power-supplies": { "etim_class": null, "reason": "category profile deferred to next cycle", "resolution_path": "same as transceiver" },
+    "modules": { "etim_class": null, "reason": "category profile deferred to next cycle", "resolution_path": "same as transceiver" }
+  },
+  "field_to_ef": {
+    "mgmt_class": ["EF004912"],
+    "layer": ["EF004883", "EF004884"],
+    "form_factor": ["EF000003"],
+    "ports": ["EF003549", "EF004316", "EF000902", "EF012063", "EF008850", "EF008849", "EF004321", "EF012061", "EF012062", "EF004849", "EF004318", "EF007643"],
+    "module_slots": ["EF003597"],
+    "poe_standard": ["EF009714"],
+    "poe_ports": ["EF009715"],
+    "poe_budget": ["EF009716"],
+    "stack_max_members": ["EF003598"],
+    "psu_redundant": ["EF012482"],
+    "power_max": ["EF001003"],
+    "dimensions": ["EF000040", "EF000008", "EF000049"],
+    "ip_rating": ["EF005474"]
+  },
+  "coverage_note": "13 of 54 switch fields carry an ETIM mapping. The other 41 have NO ETIM feature - a closed mapping gap, recorded as an empty array in the dictionary, not an open TODO."
+}
