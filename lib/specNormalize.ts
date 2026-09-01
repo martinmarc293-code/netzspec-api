@@ -320,15 +320,17 @@ export function normalizeField(category: string, key: string, raw: string, opts:
       const parts = s.split(/[,;/]|\s+und\s+|\s+and\s+/).map((p) => p.trim()).filter(Boolean);
       if (!parts.length) return bad("PARSE_FAIL", `${key}: empty list`);
       const domain = domainFor(category, key);
-      const mapped = parts.map((p) => p.toLowerCase().replace(/\s+/g, "-"));
       if (domain) {
-        const unknown = mapped.filter((p) => !domain.includes(p));
-        if (unknown.length === mapped.length) {
-          return bad("ENUM_VIOLATION", `${key}: no member of "${s}" is in the domain`);
-        }
-        return ok(mapped.filter((p) => domain.includes(p)));
+        // Closed list: slugify so members compare against the domain.
+        const mapped = parts.map((p) => p.toLowerCase().replace(/\s+/g, "-"));
+        const known = mapped.filter((p) => domain.includes(p));
+        if (!known.length) return bad("ENUM_VIOLATION", `${key}: no member of "${s}" is in the domain`);
+        return ok(known);
       }
-      return ok(mapped);
+      // OPEN list (psu_options, certifications, ieee_standards, msa): the strings ARE the value.
+      // Slugifying them turned "715W AC" into "715w-ac" — a machine form for something that has
+      // no machine domain to compare against, and that a page then has to display.
+      return ok(parts);
     }
     case "s":
       return ok(s);

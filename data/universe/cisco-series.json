@@ -1,0 +1,2204 @@
+[
+  {
+    "category": "routers",
+    "series_slug": "8500-series-secure-routers",
+    "series_name": "8500 Series Secure Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/8500-series-secure-routers/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "8400-series-secure-routers",
+    "series_name": "8400 Series Secure Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/8400-series-secure-routers/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "8300-series-secure-routers",
+    "series_name": "8300 Series Secure Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/8300-series-secure-routers/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "8200-series-secure-routers",
+    "series_name": "8200 Series Secure Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/8200-series-secure-routers/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "8100-series-secure-routers",
+    "series_name": "8100 Series Secure Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/8100-series-secure-routers/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "8000-series-routers",
+    "series_name": "8000 Series Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/8000-series-routers/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "7600-wireless-security-gateway",
+    "series_name": "7600 Wireless Security Gateway",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/7600-wireless-security-gateway/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "6000-series-switches",
+    "series_name": "6000 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/6000-series-switches/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "industrial-security-appliance-isa",
+    "series_name": "3000 Series Industrial Security Appliances (ISA)",
+    "url": "https://www.cisco.com/c/en/us/products/security/industrial-security-appliance-isa/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "1000-series-integrated-services-routers-isr",
+    "series_name": "1000 Series Integrated Services Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/1000-series-integrated-services-routers-isr/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "asr-9000-series-aggregation-services-routers",
+    "series_name": "ASR 9000 Series Aggregation Services Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/asr-9000-series-aggregation-services-routers/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "asr-5000-series",
+    "series_name": "ASR 5000 Series",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/asr-5000-series/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "asr-5000-session-control-manager",
+    "series_name": "ASR 5000 Session Control Manager",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/asr-5000-session-control-manager/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "asr-5000-small-cell-gateway",
+    "series_name": "ASR 5000 Small Cell Gateway",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/asr-5000-small-cell-gateway/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "asr-1000-series-aggregation-services-routers",
+    "series_name": "ASR 1000 Series Aggregation Services Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/asr-1000-series-aggregation-services-routers/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "asr-920-series-aggregation-services-router",
+    "series_name": "ASR 920 Series Aggregation Services Router",
+    "url": "https://www.cisco.com/c/en/us/products/routers/asr-920-series-aggregation-services-router/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "asr-903-series-aggregation-services-routers",
+    "series_name": "ASR 900 Series Aggregation Services Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/asr-903-series-aggregation-services-routers/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "ata-190-series-analog-telephone-adapters",
+    "series_name": "ATA 190 Series Analog Telephone Adapters",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/ata-190-series-analog-telephone-adapters/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "access-manager",
+    "series_name": "Access Manager",
+    "url": "https://www.cisco.com/c/en/us/products/security/access-manager/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "aironet-access-point-modules",
+    "series_name": "Access Point Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/aironet-access-point-modules/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "adaptive-wireless-ips-software",
+    "series_name": "Adaptive Wireless IPS Software",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/adaptive-wireless-ips-software/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "agile-services-networking",
+    "series_name": "Agile Services Networking",
+    "url": "https://www.cisco.com/c/en/us/products/routers/agile-services-networking/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "application-centric-infrastructure-simulator",
+    "series_name": "Application Centric Infrastructure Simulator",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/application-centric-infrastructure-simulator/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "application-centric-infrastructure-virtual-edge",
+    "series_name": "Application Centric Infrastructure Virtual Edge",
+    "url": "https://www.cisco.com/c/en/us/products/switches/application-centric-infrastructure-virtual-edge/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "application-centric-infrastructure-virtual-pod",
+    "series_name": "Application Centric Infrastructure Virtual Pod",
+    "url": "https://www.cisco.com/c/en/us/products/switches/application-centric-infrastructure-virtual-pod/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "application-networking-services-modules",
+    "series_name": "Application Networking Services Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/application-networking-services-modules/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "application-policy-infrastructure-controller-apic",
+    "series_name": "Application Policy Infrastructure Controller (APIC)",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/application-policy-infrastructure-controller-apic/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "webex-board",
+    "series_name": "Board Series",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/webex-board/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "breach-protection-suite",
+    "series_name": "Breach Protection Suite",
+    "url": "https://www.cisco.com/c/en/us/products/security/breach-protection-suite/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "broadworks",
+    "series_name": "BroadWorks",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/broadworks/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "broadband-configurator",
+    "series_name": "Broadband Configurator",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/broadband-configurator/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "business-350-series-managed-switches",
+    "series_name": "Business 350 Series Managed Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/business-350-series-managed-switches/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "business-220-series-smart-switches",
+    "series_name": "Business 220 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/business-220-series-smart-switches/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "business-200-series-access-points",
+    "series_name": "Business 200 Series Access Points",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/business-200-series-access-points/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "business-110-series-unmanaged-switches",
+    "series_name": "Business 110 Series Unmanaged Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/business-110-series-unmanaged-switches/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "business-100-series-access-points",
+    "series_name": "Business 100 Series Access Points",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/business-100-series-access-points/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "business-100-series-mesh-extenders",
+    "series_name": "Business 100 Series Mesh Extenders",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/business-100-series-mesh-extenders/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "business-edition-7000",
+    "series_name": "Business Edition 7000",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/business-edition-7000/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "business-edition-6000",
+    "series_name": "Business Edition 6000",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/business-edition-6000/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "business-mobile-app",
+    "series_name": "Business Mobile App",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/business-mobile-app/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "c9610-series-smart-switches",
+    "series_name": "C9610 Series Smart Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/c9610-series-smart-switches/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "9550-series-switches",
+    "series_name": "C9550 Series Smart Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/9550-series-switches/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "c9350-series-smart-switches",
+    "series_name": "C9350 Series Smart Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/c9350-series-smart-switches/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "c800-series",
+    "series_name": "C800 Series",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/c800-series/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "catalyst-9800-series-wireless-controllers",
+    "series_name": "Catalyst 9800 Series Wireless Controllers",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/catalyst-9800-series-wireless-controllers/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-9600-series-switches",
+    "series_name": "Catalyst 9600 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-9600-series-switches/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-9500-series-switches",
+    "series_name": "Catalyst 9500 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-9500-series-switches/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-9400-series-switches",
+    "series_name": "Catalyst 9400 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-9400-series-switches/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-9300-series-switches",
+    "series_name": "Catalyst 9300 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-9300-series-switches/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-9200-series-switches",
+    "series_name": "Catalyst 9200 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-9200-series-switches/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "catalyst-9120ax-series-access-points",
+    "series_name": "Catalyst 9120AX Series Access Points",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/catalyst-9120ax-series-access-points/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "catalyst-9100ax-access-points",
+    "series_name": "Catalyst 9100 Access Points",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/catalyst-9100ax-access-points/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "catalyst-8500-series-edge-platforms",
+    "series_name": "Catalyst 8500 Series Edge Platforms",
+    "url": "https://www.cisco.com/c/en/us/products/routers/catalyst-8500-series-edge-platforms/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "catalyst-8500l-series-edge-platforms",
+    "series_name": "Catalyst 8500L Series Edge Platforms",
+    "url": "https://www.cisco.com/c/en/us/products/routers/catalyst-8500l-series-edge-platforms/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "catalyst-8300-series-edge-platforms",
+    "series_name": "Catalyst 8300 Series Edge Platforms",
+    "url": "https://www.cisco.com/c/en/us/products/routers/catalyst-8300-series-edge-platforms/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "catalyst-8300-series-edge-ucpe",
+    "series_name": "Catalyst 8300 Series Edge uCPE",
+    "url": "https://www.cisco.com/c/en/us/products/routers/catalyst-8300-series-edge-ucpe/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "catalyst-8200-series-edge-platforms",
+    "series_name": "Catalyst 8200 Series Edge Platforms",
+    "url": "https://www.cisco.com/c/en/us/products/routers/catalyst-8200-series-edge-platforms/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "catalyst-8000v-edge-software",
+    "series_name": "Catalyst 8000V Edge Software",
+    "url": "https://www.cisco.com/c/en/us/products/routers/catalyst-8000v-edge-software/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-1300-series-switches",
+    "series_name": "Catalyst 1300 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-1300-series-switches/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-1300x-series-switches",
+    "series_name": "Catalyst 1300X Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-1300x-series-switches/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-1200-series-switches",
+    "series_name": "Catalyst 1200 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-1200-series-switches/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "catalyst-cellular-gateways",
+    "series_name": "Catalyst Cellular Gateways",
+    "url": "https://www.cisco.com/c/en/us/products/routers/catalyst-cellular-gateways/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "dna-center",
+    "series_name": "Catalyst Center",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/dna-center/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-ess9300-embedded-series",
+    "series_name": "Catalyst ESS9300 Embedded Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-ess9300-embedded-series/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-ie9300-rugged-series",
+    "series_name": "Catalyst IE9300 Rugged Series",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-ie9300-rugged-series/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-ie3400-heavy-duty-series",
+    "series_name": "Catalyst IE3400 Heavy Duty Series",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-ie3400-heavy-duty-series/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-ie3400-rugged-series",
+    "series_name": "Catalyst IE3400 Rugged Series",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-ie3400-rugged-series/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-ie3300-rugged-series",
+    "series_name": "Catalyst IE3300 Rugged Series",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-ie3300-rugged-series/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-ie3200-rugged-series",
+    "series_name": "Catalyst IE3200 Rugged Series",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-ie3200-rugged-series/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-ie3100-heavy-duty-series",
+    "series_name": "Catalyst IE3100 Heavy Duty Series",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-ie3100-heavy-duty-series/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-ie3100-rugged-series",
+    "series_name": "Catalyst IE3100 Rugged Series",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-ie3100-rugged-series/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "catalyst-ir8300-rugged-series-router",
+    "series_name": "Catalyst IR8300 Rugged Series Router",
+    "url": "https://www.cisco.com/c/en/us/products/routers/catalyst-ir8300-rugged-series-router/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "catalyst-ir8100-heavy-duty-series-routers",
+    "series_name": "Catalyst IR8100 Heavy Duty Series Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/catalyst-ir8100-heavy-duty-series-routers/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "catalyst-ir1800-rugged-series-routers",
+    "series_name": "Catalyst IR1800 Rugged Series Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/catalyst-ir1800-rugged-series-routers/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "1100-series-industrial-integrated-services-routers",
+    "series_name": "Catalyst IR1100 Rugged Series Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/1100-series-industrial-integrated-services-routers/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "catalyst-iw9167-series",
+    "series_name": "Catalyst IW9167 Heavy Duty Series",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/catalyst-iw9167-series/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "catalyst-iw9165-heavy-duty-series",
+    "series_name": "Catalyst IW9165 Heavy Duty Series",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/catalyst-iw9165-heavy-duty-series/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "catalyst-iw9165-rugged-series",
+    "series_name": "Catalyst IW9165 Rugged Series",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/catalyst-iw9165-rugged-series/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-micro-switches",
+    "series_name": "Catalyst Micro Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-micro-switches/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "business-dashboard",
+    "series_name": "Cisco Business Dashboard",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/business-dashboard/index.html"
+  },
+  {
+    "category": "software",
+    "series_slug": "dna-subscription-wan",
+    "series_name": "Cisco DNA for Routing",
+    "url": "https://www.cisco.com/c/en/us/products/software/dna-subscription-wan/index.html"
+  },
+  {
+    "category": "software",
+    "series_slug": "dna-subscription-switching",
+    "series_name": "Cisco DNA for Switching",
+    "url": "https://www.cisco.com/c/en/us/products/software/dna-subscription-switching/index.html"
+  },
+  {
+    "category": "software",
+    "series_slug": "dna-subscription-wireless",
+    "series_name": "Cisco DNA for Wireless",
+    "url": "https://www.cisco.com/c/en/us/products/software/dna-subscription-wireless/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "telemetry-broker",
+    "series_name": "Cisco Telemetry Broker",
+    "url": "https://www.cisco.com/c/en/us/products/security/telemetry-broker/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "cloud-native-broadband-network-gateway-bng",
+    "series_name": "Cloud Native Broadband Network Gateway (BNG)",
+    "url": "https://www.cisco.com/c/en/us/products/routers/cloud-native-broadband-network-gateway-bng/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "cloud-protection-suite",
+    "series_name": "Cloud Protection Suite",
+    "url": "https://www.cisco.com/c/en/us/products/security/cloud-protection-suite/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "cloudlock",
+    "series_name": "Cloudlock",
+    "url": "https://www.cisco.com/c/en/us/products/security/cloudlock/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "collaboration-flex-plan",
+    "series_name": "Collaboration Flex Plan",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/collaboration-flex-plan/index.html"
+  },
+  {
+    "category": "conferencing",
+    "series_slug": "collaboration-meeting-rooms-cmr",
+    "series_name": "Collaboration Meeting Rooms (CMR)",
+    "url": "https://www.cisco.com/c/en/us/products/conferencing/collaboration-meeting-rooms-cmr/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "unified-communications-system",
+    "series_name": "Collaboration Systems Release",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-communications-system/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "compact-nodes",
+    "series_name": "Compact Nodes",
+    "url": "https://www.cisco.com/c/en/us/products/video/compact-nodes/index.html"
+  },
+  {
+    "category": "hyperconverged-infrastructure",
+    "series_slug": "compute-hyperconverged",
+    "series_name": "Compute Hyperconverged with Nutanix",
+    "url": "https://www.cisco.com/c/en/us/products/hyperconverged-infrastructure/compute-hyperconverged/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "configuration-engine",
+    "series_name": "Configuration Engine",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/configuration-engine/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "cam-for-iot-intelligence",
+    "series_name": "Connected Asset Manager for IoT Intelligence",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/cam-for-iot-intelligence/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "connectivity",
+    "series_name": "Connectivity",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/connectivity/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "converged-services-platform",
+    "series_name": "Converged Services Platform",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/converged-services-platform/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "crosswork-cloud",
+    "series_name": "Crosswork Cloud",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/crosswork-cloud/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "crosswork-network-automation",
+    "series_name": "Crosswork Network Automation",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/crosswork-network-automation/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "network-services-orchestrator",
+    "series_name": "Crosswork Network Services Orchestrator",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/network-services-orchestrator/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "crosswork-workflow-manager",
+    "series_name": "Crosswork Workflow Manager",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/crosswork-workflow-manager/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "cyber-vision",
+    "series_name": "Cyber Vision",
+    "url": "https://www.cisco.com/c/en/us/products/security/cyber-vision/index.html"
+  },
+  {
+    "category": "software",
+    "series_slug": "data-center-networking-subscription",
+    "series_name": "Data Center Networking Software Subscriptions",
+    "url": "https://www.cisco.com/c/en/us/products/software/data-center-networking-subscription/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "webex-desk-series",
+    "series_name": "Desk Series",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/webex-desk-series/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "differentiated-services",
+    "series_name": "Differentiated Services",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/differentiated-services/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "duo",
+    "series_name": "Duo",
+    "url": "https://www.cisco.com/c/en/us/products/security/duo/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "dynamic-fabric-automation",
+    "series_name": "Dynamic Fabric Automation",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/dynamic-fabric-automation/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "6300-series-embedded-service-routers",
+    "series_name": "ESR6300 Embedded Series Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/6300-series-embedded-service-routers/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "edge-intelligence",
+    "series_name": "Edge Intelligence",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/edge-intelligence/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "edge-qam-modulators",
+    "series_name": "Edge QAM Modulators",
+    "url": "https://www.cisco.com/c/en/us/products/video/edge-qam-modulators/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "elastic-services-controller-esc",
+    "series_name": "Elastic Services Controller",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/elastic-services-controller-esc/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "email-encryption",
+    "series_name": "Email Encryption",
+    "url": "https://www.cisco.com/c/en/us/products/security/email-encryption/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "embedded-service-3300-series-switches",
+    "series_name": "Embedded Services 3300 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/embedded-service-3300-series-switches/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "emergency-responder",
+    "series_name": "Emergency Responder",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/emergency-responder/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "enhanced-charging-service",
+    "series_name": "Enhanced Charging Service",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/enhanced-charging-service/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "enterprise-class-teleworker-ect-solution",
+    "series_name": "Enterprise Class Teleworker (ECT) Solution",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/enterprise-class-teleworker-ect-solution/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "enterprise-nfv-infrastructure-software",
+    "series_name": "Enterprise NFV Infrastructure Software",
+    "url": "https://www.cisco.com/c/en/us/products/routers/enterprise-nfv-infrastructure-software/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "ethernet-switching-network-modules",
+    "series_name": "Ethernet Switching Network Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/ethernet-switching-network-modules/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "evolved-programmable-network-epn-manager",
+    "series_name": "Evolved Programmable Network Manager",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/evolved-programmable-network-epn-manager/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "expressway-series",
+    "series_name": "Expressway Series",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/expressway-series/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "extensible-provisioning-operations-manager",
+    "series_name": "Extensible Provisioning and Operations Manager",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/extensible-provisioning-operations-manager/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "epdg-evolved-packet-data-gateway",
+    "series_name": "ePDG Evolved Packet Data Gateway",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/epdg-evolved-packet-data-gateway/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "fiber-management",
+    "series_name": "Fiber Management",
+    "url": "https://www.cisco.com/c/en/us/products/video/fiber-management/index.html"
+  },
+  {
+    "category": "contact-center",
+    "series_slug": "finesse",
+    "series_name": "Finesse",
+    "url": "https://www.cisco.com/c/en/us/products/contact-center/finesse/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "firepower-9000-series",
+    "series_name": "Firepower 9300 Series",
+    "url": "https://www.cisco.com/c/en/us/products/security/firepower-9000-series/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "firepower-1000-series",
+    "series_name": "Firepower 1000 Series",
+    "url": "https://www.cisco.com/c/en/us/products/security/firepower-1000-series/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "fog-director",
+    "series_name": "Fog Director",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/fog-director/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "ggsn-gateway-gprs-support-node",
+    "series_name": "GGSN Gateway GPRS Support Node",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/ggsn-gateway-gprs-support-node/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "gs7000-node",
+    "series_name": "GS7000 Nodes",
+    "url": "https://www.cisco.com/c/en/us/products/video/gs7000-node/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "gs7000-optical-hub-hub-node",
+    "series_name": "GS7000 Optical Hub and Hub-Node",
+    "url": "https://www.cisco.com/c/en/us/products/video/gs7000-optical-hub-hub-node/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "group-encrypted-transport-vpn",
+    "series_name": "Group Encrypted Transport VPN",
+    "url": "https://www.cisco.com/c/en/us/products/security/group-encrypted-transport-vpn/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "headset-700-series",
+    "series_name": "Headset 700 Series",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/headset-700-series/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "headset-500-series",
+    "series_name": "Headset 500 Series",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/headset-500-series/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "hosted-unified-communications-services",
+    "series_name": "Hosted Unified Communications Services",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/hosted-unified-communications-services/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "hybrid-cloud-platform-google-cloud",
+    "series_name": "Hybrid Cloud Platform for Google Cloud",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/hybrid-cloud-platform-google-cloud/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "hybrid-solution-kubernetes-on-aws",
+    "series_name": "Hybrid Solution for Kubernetes on AWS",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/hybrid-solution-kubernetes-on-aws/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "hypershield",
+    "series_name": "Hypershield",
+    "url": "https://www.cisco.com/c/en/us/products/security/hypershield/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-ie3500-heavy-duty-series",
+    "series_name": "IE3500 Heavy Duty Series",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-ie3500-heavy-duty-series/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "catalyst-ie3500-rugged-series",
+    "series_name": "IE3500 Rugged Series",
+    "url": "https://www.cisco.com/c/en/us/products/switches/catalyst-ie3500-rugged-series/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-embedded-event-manager-eem",
+    "series_name": "IOS Embedded Event Manager (EEM)",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-embedded-event-manager-eem/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-embedded-packet-capture",
+    "series_name": "IOS Embedded Packet Capture",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-embedded-packet-capture/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-ip-service-level-agreements-slas",
+    "series_name": "IOS IP Service Level Agreements (SLAs)",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-ip-service-level-agreements-slas/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-ipsec",
+    "series_name": "IOS IPsec",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-ipsec/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-netflow",
+    "series_name": "IOS NetFlow",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-netflow/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-packaging",
+    "series_name": "IOS Packaging",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-packaging/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-xr-software",
+    "series_name": "IOS XR Software",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-xr-software/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "ios-xrd",
+    "series_name": "IOS XRd",
+    "url": "https://www.cisco.com/c/en/us/products/routers/ios-xrd/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "ip-communications-voice-fax-network-modules",
+    "series_name": "IP Communications Voice/Fax Network Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/ip-communications-voice-fax-network-modules/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "ip-dect-6800-series-multiplatform-firmware",
+    "series_name": "IP DECT 6800 Series with Multiplatform Firmware",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/ip-dect-6800-series-multiplatform-firmware/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "unified-ip-phone-8800-series",
+    "series_name": "IP Phone 8800 Series",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/unified-ip-phone-8800-series/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "ip-phone-8800-series-multiplatform-firmware",
+    "series_name": "IP Phone 8800 Series with Multiplatform Firmware",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/ip-phone-8800-series-multiplatform-firmware/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "unified-ip-phone-7800-series",
+    "series_name": "IP Phone 7800 Series",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/unified-ip-phone-7800-series/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "ip-phone-7800-series-multiplatform-firmware",
+    "series_name": "IP Phone 7800 Series with Multiplatform Firmware",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/ip-phone-7800-series-multiplatform-firmware/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "ip-phone-6800-series",
+    "series_name": "IP Phone 6800 Series with Multiplatform Firmware",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/ip-phone-6800-series/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "ip-routing",
+    "series_name": "IP Routing",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ip-routing/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "ip-services",
+    "series_name": "IP Services",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ip-services/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "ipv6-first-hop-security-fhs",
+    "series_name": "IPv6 First Hop Security (FHS)",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ipv6-first-hop-security-fhs/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "ir1000-series-rugged-secure-routers",
+    "series_name": "IR1000 Series Rugged Secure Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/ir1000-series-rugged-secure-routers/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "identity-services-engine",
+    "series_name": "Identity Services Engine",
+    "url": "https://www.cisco.com/c/en/us/products/security/identity-services-engine/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "in-service-software-upgrade-issu",
+    "series_name": "In-Service Software Upgrade (ISSU)",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/in-service-software-upgrade-issu/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "industrial-ethernet-4010-series-switches",
+    "series_name": "Industrial Ethernet 4010 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/industrial-ethernet-4010-series-switches/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "industrial-ethernet-1000-series-switches",
+    "series_name": "Industrial Ethernet 1000 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/industrial-ethernet-1000-series-switches/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-c-series-integrated-management-controller",
+    "series_name": "Integrated Management Controller",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-c-series-integrated-management-controller/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "integrated-management-controller-imc-supervisor",
+    "series_name": "Integrated Management Controller (IMC) Supervisor",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/integrated-management-controller-imc-supervisor/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "integrated-services",
+    "series_name": "Integrated Services",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/integrated-services/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "interface-processors",
+    "series_name": "Interface Processors",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/interface-processors/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "intersight",
+    "series_name": "Intersight",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/intersight/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "iot-field-network-director",
+    "series_name": "IoT Field Network Director",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/iot-field-network-director/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "jabber",
+    "series_name": "Jabber",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/jabber/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "jabber-softphone-for-vdi",
+    "series_name": "Jabber Softphone for VDI",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/jabber-softphone-for-vdi/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "jabber-software-development-kit",
+    "series_name": "Jabber Software Development Kit",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/jabber-software-development-kit/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "jabber-android",
+    "series_name": "Jabber for Android",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/jabber-android/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "jabber-mac",
+    "series_name": "Jabber for Mac",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/jabber-mac/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "jabber-windows",
+    "series_name": "Jabber for Windows",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/jabber-windows/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "jabber-iphone-ipad",
+    "series_name": "Jabber for iPhone and iPad",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/jabber-iphone-ipad/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "layer-3-vpns-l3vpn",
+    "series_name": "Layer 3 VPNs (L3VPN)",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/layer-3-vpns-l3vpn/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "layer-2-vpns",
+    "series_name": "Layer 2 VPNs",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/layer-2-vpns/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "legacy-system-amplifiers-line-extenders",
+    "series_name": "Legacy System Amplifiers and Line Extenders",
+    "url": "https://www.cisco.com/c/en/us/products/video/legacy-system-amplifiers-line-extenders/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "line-cards",
+    "series_name": "Line cards",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/line-cards/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "lumin-optical-transmission-platform",
+    "series_name": "Lumin Optical Transmission Platform",
+    "url": "https://www.cisco.com/c/en/us/products/video/lumin-optical-transmission-platform/index.html"
+  },
+  {
+    "category": "storage-networking",
+    "series_slug": "mds-9700-series-multilayer-directors",
+    "series_name": "MDS 9700 Series Multilayer Directors",
+    "url": "https://www.cisco.com/c/en/us/products/storage-networking/mds-9700-series-multilayer-directors/index.html"
+  },
+  {
+    "category": "storage-networking",
+    "series_slug": "mds-9300-series-multilayer-fabric-switches",
+    "series_name": "MDS 9300 Series Multilayer Fabric Switches",
+    "url": "https://www.cisco.com/c/en/us/products/storage-networking/mds-9300-series-multilayer-fabric-switches/index.html"
+  },
+  {
+    "category": "storage-networking",
+    "series_slug": "mds-9200-series-multiservice-switches",
+    "series_name": "MDS 9200 Series Multiservice Switches",
+    "url": "https://www.cisco.com/c/en/us/products/storage-networking/mds-9200-series-multiservice-switches/index.html"
+  },
+  {
+    "category": "storage-networking",
+    "series_slug": "mds-9100-series-multilayer-fabric-switches",
+    "series_name": "MDS 9100 Series Multilayer Fabric Switches",
+    "url": "https://www.cisco.com/c/en/us/products/storage-networking/mds-9100-series-multilayer-fabric-switches/index.html"
+  },
+  {
+    "category": "storage-networking",
+    "series_slug": "mds-9000-nx-os-san-os-software",
+    "series_name": "MDS 9000 NX-OS and SAN-OS Software",
+    "url": "https://www.cisco.com/c/en/us/products/storage-networking/mds-9000-nx-os-san-os-software/index.html"
+  },
+  {
+    "category": "storage-networking",
+    "series_slug": "mds-9000-san-management",
+    "series_name": "MDS 9000 SAN Management",
+    "url": "https://www.cisco.com/c/en/us/products/storage-networking/mds-9000-san-management/index.html"
+  },
+  {
+    "category": "storage-networking",
+    "series_slug": "mds-9000-series-multilayer-switches",
+    "series_name": "MDS 9000 Series Multilayer Switches",
+    "url": "https://www.cisco.com/c/en/us/products/storage-networking/mds-9000-series-multilayer-switches/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "media-gateway-controller-node-manager",
+    "series_name": "Media Gateway Controller Node Manager",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/media-gateway-controller-node-manager/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "media-gateway-controller-software",
+    "series_name": "Media Gateway Controller Software",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/media-gateway-controller-software/index.html"
+  },
+  {
+    "category": "conferencing",
+    "series_slug": "meeting-server",
+    "series_name": "Meeting Server",
+    "url": "https://www.cisco.com/c/en/us/products/conferencing/meeting-server/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "meraki-cloud-managed-mdm",
+    "series_name": "Meraki Cloud Managed MDM",
+    "url": "https://www.cisco.com/c/en/us/products/security/meraki-cloud-managed-mdm/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "meraki-cloud-managed-security-appliances",
+    "series_name": "Meraki Cloud Managed Security Appliances",
+    "url": "https://www.cisco.com/c/en/us/products/security/meraki-cloud-managed-security-appliances/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "meraki-cloud-managed-switches",
+    "series_name": "Meraki Cloud Managed Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/meraki-cloud-managed-switches/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "telepresence-microphones",
+    "series_name": "Microphones",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/telepresence-microphones/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "mobile-ad-hoc-networking",
+    "series_name": "Mobile Ad Hoc Networking",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/mobile-ad-hoc-networking/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "mobile-office-net-software",
+    "series_name": "Mobile Office Net Software",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/mobile-office-net-software/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "mobile-vpn",
+    "series_name": "Mobile VPN",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/mobile-vpn/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "mobility-unified-reporting-system",
+    "series_name": "Mobility Unified Reporting System",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/mobility-unified-reporting-system/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "multicast-label-distribution-protocol-mldp",
+    "series_name": "Multicast Label Distribution Protocol (MLDP)",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/multicast-label-distribution-protocol-mldp/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "multicloud-defense",
+    "series_name": "Multicloud Defense",
+    "url": "https://www.cisco.com/c/en/us/products/security/multicloud-defense/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "multiprocessor-wan-application-modules",
+    "series_name": "Multiprocessor WAN Application Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/multiprocessor-wan-application-modules/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "multiprotocol-label-switching-archive",
+    "series_name": "Multiprotocol Label Switching Archive",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/multiprotocol-label-switching-archive/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "9300-series-smart-switches",
+    "series_name": "N9300 Series Smart Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/9300-series-smart-switches/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "n9100-series-switches",
+    "series_name": "N9100 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/n9100-series-switches/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "network-based-application-recognition-nbar",
+    "series_name": "Network Based Application Recognition (NBAR)",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/network-based-application-recognition-nbar/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "network-convergence-system-5700-series",
+    "series_name": "Network Convergence System 5700 Series",
+    "url": "https://www.cisco.com/c/en/us/products/routers/network-convergence-system-5700-series/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "network-convergence-system-5500-series",
+    "series_name": "Network Convergence System 5500 Series",
+    "url": "https://www.cisco.com/c/en/us/products/routers/network-convergence-system-5500-series/index.html"
+  },
+  {
+    "category": "optical-networking",
+    "series_slug": "network-convergence-system-4200-series",
+    "series_name": "Network Convergence System 4200 Series",
+    "url": "https://www.cisco.com/c/en/us/products/optical-networking/network-convergence-system-4200-series/index.html"
+  },
+  {
+    "category": "optical-networking",
+    "series_slug": "network-convergence-system-4000-series",
+    "series_name": "Network Convergence System 4000 Series",
+    "url": "https://www.cisco.com/c/en/us/products/optical-networking/network-convergence-system-4000-series/index.html"
+  },
+  {
+    "category": "optical-networking",
+    "series_slug": "network-convergence-system-2000-series",
+    "series_name": "Network Convergence System 2000 Series",
+    "url": "https://www.cisco.com/c/en/us/products/optical-networking/network-convergence-system-2000-series/index.html"
+  },
+  {
+    "category": "optical-networking",
+    "series_slug": "network-convergence-system-1000-series",
+    "series_name": "Network Convergence System 1000 Series",
+    "url": "https://www.cisco.com/c/en/us/products/optical-networking/network-convergence-system-1000-series/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "network-convergence-system-560-series-routers",
+    "series_name": "Network Convergence System 560 Series Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/network-convergence-system-560-series-routers/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "network-convergence-system-540-series-routers",
+    "series_name": "Network Convergence System 540 Series Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/network-convergence-system-540-series-routers/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "network-convergence-system-500-series-routers",
+    "series_name": "Network Convergence System 500 Series Routers",
+    "url": "https://www.cisco.com/c/en/us/products/routers/network-convergence-system-500-series-routers/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "network-modules",
+    "series_name": "Network Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/network-modules/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "network-processing-engines",
+    "series_name": "Network Processing Engines",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/network-processing-engines/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "network-processor-modules",
+    "series_name": "Network Processor Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/network-processor-modules/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "network-route-director",
+    "series_name": "Network Route Director",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/network-route-director/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "network-services-manager",
+    "series_name": "Network Services Manager",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/network-services-manager/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "nexus-9000-series-switches",
+    "series_name": "Nexus 9000 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/nexus-9000-series-switches/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "nexus-3550-series",
+    "series_name": "Nexus 3550 Series",
+    "url": "https://www.cisco.com/c/en/us/products/switches/nexus-3550-series/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "nexus-3000-series-switches",
+    "series_name": "Nexus 3000 Series Switches",
+    "url": "https://www.cisco.com/c/en/us/products/switches/nexus-3000-series-switches/index.html"
+  },
+  {
+    "category": "data-center-analytics",
+    "series_slug": "nexus-dashboard",
+    "series_name": "Nexus Dashboard",
+    "url": "https://www.cisco.com/c/en/us/products/data-center-analytics/nexus-dashboard/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "nexus-data-broker",
+    "series_name": "Nexus Dashboard Data Broker",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/nexus-data-broker/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "prime-data-center-network-manager",
+    "series_name": "Nexus Dashboard Fabric Controller",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/prime-data-center-network-manager/index.html"
+  },
+  {
+    "category": "data-center-analytics",
+    "series_slug": "nexus-insights",
+    "series_name": "Nexus Dashboard Insights",
+    "url": "https://www.cisco.com/c/en/us/products/data-center-analytics/nexus-insights/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "multi-site-orchestrator",
+    "series_name": "Nexus Dashboard Orchestrator",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/multi-site-orchestrator/index.html"
+  },
+  {
+    "category": "software",
+    "series_slug": "nexus-firmware-development-kit-fdk",
+    "series_name": "Nexus FDK",
+    "url": "https://www.cisco.com/c/en/us/products/software/nexus-firmware-development-kit-fdk/index.html"
+  },
+  {
+    "category": "data-center-networking",
+    "series_slug": "nexus-hyperfabric",
+    "series_name": "Nexus Hyperfabric",
+    "url": "https://www.cisco.com/c/en/us/products/data-center-networking/nexus-hyperfabric/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "nexus-smartnic",
+    "series_name": "Nexus SmartNIC",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/nexus-smartnic/index.html"
+  },
+  {
+    "category": "software",
+    "series_slug": "one-advanced-security",
+    "series_name": "ONE for Advanced Security",
+    "url": "https://www.cisco.com/c/en/us/products/software/one-advanced-security/index.html"
+  },
+  {
+    "category": "optical-networking",
+    "series_slug": "ons-15454-series-multiservice-transport-platforms",
+    "series_name": "ONS 15454 Series Multiservice Transport Platforms",
+    "url": "https://www.cisco.com/c/en/us/products/optical-networking/ons-15454-series-multiservice-transport-platforms/index.html"
+  },
+  {
+    "category": "optical-networking",
+    "series_slug": "ons-15200-series-dwdm-systems",
+    "series_name": "ONS 15200 Series DWDM Systems",
+    "url": "https://www.cisco.com/c/en/us/products/optical-networking/ons-15200-series-dwdm-systems/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "optical-passive-components",
+    "series_name": "Optical Passive Components",
+    "url": "https://www.cisco.com/c/en/us/products/video/optical-passive-components/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "optical-services-modules",
+    "series_name": "Optical Services Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/optical-services-modules/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "optical-transponders",
+    "series_name": "Optical Transponders",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/optical-transponders/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "other-optoelectronic",
+    "series_name": "Other Optoelectronic Products",
+    "url": "https://www.cisco.com/c/en/us/products/video/other-optoelectronic/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "pgw-packet-data-network-gateway",
+    "series_name": "PGW Packet Data Network Gateway",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/pgw-packet-data-network-gateway/index.html"
+  },
+  {
+    "category": "contact-center",
+    "series_slug": "packaged-contact-center-enterprise",
+    "series_name": "Packaged Contact Center Enterprise",
+    "url": "https://www.cisco.com/c/en/us/products/contact-center/packaged-contact-center-enterprise/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "paging-server",
+    "series_name": "Paging Server",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/paging-server/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "physical-security-modules-routers",
+    "series_name": "Physical Security Modules for Routers",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/physical-security-modules-routers/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "policy-suite-mobile",
+    "series_name": "Policy Suite for Mobile",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/policy-suite-mobile/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "port-adapters",
+    "series_name": "Port Adapters",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/port-adapters/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "power-supply",
+    "series_name": "Power Supply",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/power-supply/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "prime-cable-provisioning",
+    "series_name": "Prime Cable Provisioning",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/prime-cable-provisioning/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "prime-network-control-system-series-appliances",
+    "series_name": "Prime Network Control System Series Appliances",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/prime-network-control-system-series-appliances/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "prime-network-registrar",
+    "series_name": "Prime Network Registrar",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/prime-network-registrar/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "prisma-d-pon",
+    "series_name": "Prisma D-PON",
+    "url": "https://www.cisco.com/c/en/us/products/video/prisma-d-pon/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "prisma-high-density-receiver",
+    "series_name": "Prisma High Density Receiver Products",
+    "url": "https://www.cisco.com/c/en/us/products/video/prisma-high-density-receiver/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "prisma-strand-mounted-optical-amplifier",
+    "series_name": "Prisma Strand-Mounted Optical Amplifier Products",
+    "url": "https://www.cisco.com/c/en/us/products/video/prisma-strand-mounted-optical-amplifier/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "private-5g",
+    "series_name": "Private 5G",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/private-5g/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "accedian-skylight",
+    "series_name": "Provider Connectivity Assurance (formerly Accedian Skylight)",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/accedian-skylight/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "provider-connectivity-assurance-sensors",
+    "series_name": "Provider Connectivity Assurance Sensors",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/provider-connectivity-assurance-sensors/index.html"
+  },
+  {
+    "category": "ios-nx-os-software",
+    "series_slug": "provisioning-monitoring-management",
+    "series_name": "Provisioning, Monitoring, and Management",
+    "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/provisioning-monitoring-management/index.html"
+  },
+  {
+    "category": "video",
+    "series_slug": "rf-signal-management",
+    "series_name": "RF Signal Management",
+    "url": "https://www.cisco.com/c/en/us/products/video/rf-signal-management/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "rsvp-agent",
+    "series_name": "RSVP Agent",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/rsvp-agent/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "registered-envelope-service",
+    "series_name": "Registered Envelope Service",
+    "url": "https://www.cisco.com/c/en/us/products/security/registered-envelope-service/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "webex-room-navigator",
+    "series_name": "Room Navigator",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/webex-room-navigator/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "route-processors-route-switch-processors",
+    "series_name": "Route Processors and Route Switch Processors",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/route-processors-route-switch-processors/index.html"
+  },
+  {
+    "category": "optical-networking",
+    "series_slug": "routed-optical-networking",
+    "series_name": "Routed Optical Networking",
+    "url": "https://www.cisco.com/c/en/us/products/optical-networking/routed-optical-networking/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "router-security",
+    "series_name": "Router Security",
+    "url": "https://www.cisco.com/c/en/us/products/security/router-security/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "router-web-setup-tool",
+    "series_name": "Router Web SetUp Tool",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/router-web-setup-tool/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "sd-wan",
+    "series_name": "SD-WAN",
+    "url": "https://www.cisco.com/c/en/us/products/routers/sd-wan/index.html"
+  },
+  {
+    "category": "switches",
+    "series_slug": "sfs-solution-dell",
+    "series_name": "SFS Solution for Dell",
+    "url": "https://www.cisco.com/c/en/us/products/switches/sfs-solution-dell/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "sgsn-serving-gprs-support-node",
+    "series_name": "SGSN Serving GPRS Support Node",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/sgsn-serving-gprs-support-node/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "sgw-serving-gateway",
+    "series_name": "SGW Serving Gateway",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/sgw-serving-gateway/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "sip-ip-phone-software",
+    "series_name": "SIP IP Phone Software",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/sip-ip-phone-software/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "secure-access",
+    "series_name": "Secure Access",
+    "url": "https://www.cisco.com/c/en/us/products/security/secure-access/index.html"
+  },
+  {
+    "category": "software",
+    "series_slug": "secure-choice-enterprise-agreement",
+    "series_name": "Secure Choice Enterprise Agreement",
+    "url": "https://www.cisco.com/c/en/us/products/software/secure-choice-enterprise-agreement/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "anyconnect-secure-mobility-client",
+    "series_name": "Secure Client (including AnyConnect)",
+    "url": "https://www.cisco.com/c/en/us/products/security/anyconnect-secure-mobility-client/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "secure-ddos-protection",
+    "series_name": "Secure DDoS Protection",
+    "url": "https://www.cisco.com/c/en/us/products/security/secure-ddos-protection/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "content-security-management-appliance",
+    "series_name": "Secure Email and Web Manager",
+    "url": "https://www.cisco.com/c/en/us/products/security/content-security-management-appliance/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "amp-for-endpoints",
+    "series_name": "Secure Endpoint",
+    "url": "https://www.cisco.com/c/en/us/products/security/amp-for-endpoints/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "fireamp-private-cloud-virtual-appliance",
+    "series_name": "Secure Endpoint Private Cloud",
+    "url": "https://www.cisco.com/c/en/us/products/security/fireamp-private-cloud-virtual-appliance/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "secure-equipment-access",
+    "series_name": "Secure Equipment Access",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/secure-equipment-access/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "secure-firewall-6100-series",
+    "series_name": "Secure Firewall 6100 Series",
+    "url": "https://www.cisco.com/c/en/us/products/security/secure-firewall-6100-series/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "secure-firewall-4200-series",
+    "series_name": "Secure Firewall 4200 Series",
+    "url": "https://www.cisco.com/c/en/us/products/security/secure-firewall-4200-series/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "secure-firewall-3100-series",
+    "series_name": "Secure Firewall 3100 Series",
+    "url": "https://www.cisco.com/c/en/us/products/security/secure-firewall-3100-series/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "secure-firewall-1200-series",
+    "series_name": "Secure Firewall 1200 Series",
+    "url": "https://www.cisco.com/c/en/us/products/security/secure-firewall-1200-series/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "adaptive-security-device-manager",
+    "series_name": "Secure Firewall ASDM",
+    "url": "https://www.cisco.com/c/en/us/products/security/adaptive-security-device-manager/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "firepower-management-center",
+    "series_name": "Secure Firewall Management Center",
+    "url": "https://www.cisco.com/c/en/us/products/security/firepower-management-center/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "secure-firewall-migration-tool",
+    "series_name": "Secure Firewall Migration Tool",
+    "url": "https://www.cisco.com/c/en/us/products/security/secure-firewall-migration-tool/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "threat-grid",
+    "series_name": "Secure Malware Analytics Appliances",
+    "url": "https://www.cisco.com/c/en/us/products/security/threat-grid/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "stealthwatch",
+    "series_name": "Secure Network Analytics",
+    "url": "https://www.cisco.com/c/en/us/products/security/stealthwatch/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "secure-sign-on",
+    "series_name": "Secure Sign-On",
+    "url": "https://www.cisco.com/c/en/us/products/security/secure-sign-on/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "web-security-appliance",
+    "series_name": "Secure Web Appliance",
+    "url": "https://www.cisco.com/c/en/us/products/security/web-security-appliance/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "tetration",
+    "series_name": "Secure Workload",
+    "url": "https://www.cisco.com/c/en/us/products/security/tetration/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "security-cloud",
+    "series_name": "Security Cloud",
+    "url": "https://www.cisco.com/c/en/us/products/security/security-cloud/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "defense-orchestrator",
+    "series_name": "Security Cloud Control",
+    "url": "https://www.cisco.com/c/en/us/products/security/defense-orchestrator/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "security-connector",
+    "series_name": "Security Connector",
+    "url": "https://www.cisco.com/c/en/us/products/security/security-connector/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "security-modules-physical-security-appliances",
+    "series_name": "Security Modules for Physical Security Appliances",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/security-modules-physical-security-appliances/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "security-modules-security-appliances",
+    "series_name": "Security Modules for Security Appliances",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/security-modules-security-appliances/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "service-adapters",
+    "series_name": "Service Adapters",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/service-adapters/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "services-modules",
+    "series_name": "Services Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/services-modules/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "services-ready-engine-sre-modules",
+    "series_name": "Services-Ready Engine (SRE) Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/services-ready-engine-sre-modules/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "small-business-network-accessories",
+    "series_name": "Small Business Network Accessories",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/small-business-network-accessories/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "storage-networking-modules",
+    "series_name": "Storage Networking Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/storage-networking-modules/index.html"
+  },
+  {
+    "category": "conferencing",
+    "series_slug": "telepresence-mcu-conference-director",
+    "series_name": "TelePresence MCU Conference Director",
+    "url": "https://www.cisco.com/c/en/us/products/conferencing/telepresence-mcu-conference-director/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "terminal-services-gateways",
+    "series_name": "Terminal Services Gateways",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/terminal-services-gateways/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "thousandeyes-end-user-monitoring",
+    "series_name": "ThousandEyes End User Monitoring",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/thousandeyes-end-user-monitoring/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "thousandeyes-internet-insights",
+    "series_name": "ThousandEyes Internet Insights",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/thousandeyes-internet-insights/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "thousandeyes-network-application-synthetics",
+    "series_name": "ThousandEyes Network and Application Synthetics",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/thousandeyes-network-application-synthetics/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "transceiver-modules",
+    "series_name": "Transceiver Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/transceiver-modules/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "uc-integration-tm-microsoft-lync",
+    "series_name": "UC Integration(TM) for Microsoft Lync",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/uc-integration-tm-microsoft-lync/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-6600-series-fabric-interconnects",
+    "series_name": "UCS 6600 Series Fabric Interconnects",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-6600-series-fabric-interconnects/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-6500-series-fabric-interconnects",
+    "series_name": "UCS 6500 Series Fabric Interconnects",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-6500-series-fabric-interconnects/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-6400-series-fabric-interconnects",
+    "series_name": "UCS 6400 Series Fabric Interconnects",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-6400-series-fabric-interconnects/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-c-series-rack-servers",
+    "series_name": "UCS C-Series Rack Servers",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-c-series-rack-servers/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-central-software",
+    "series_name": "UCS Central Software",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-central-software/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-director",
+    "series_name": "UCS Director",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-director/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-e-series-servers",
+    "series_name": "UCS E-Series Servers",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-e-series-servers/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-manager",
+    "series_name": "UCS Manager",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-manager/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-x-series-direct",
+    "series_name": "UCS X-Series Direct",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-x-series-direct/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-x-series-modular-system",
+    "series_name": "UCS X-Series Modular System",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-x-series-modular-system/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "ultra-services-proxy",
+    "series_name": "Ultra Services Proxy",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/ultra-services-proxy/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "ultra-traffic-optimization",
+    "series_name": "Ultra Traffic Optimization",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/ultra-traffic-optimization/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "ultra-reliable-wireless-backhaul",
+    "series_name": "Ultra-Reliable Wireless Backhaul",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/ultra-reliable-wireless-backhaul/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "umbrella",
+    "series_name": "Umbrella",
+    "url": "https://www.cisco.com/c/en/us/products/security/umbrella/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "unified-attendant-consoles",
+    "series_name": "Unified Attendant Consoles",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-attendant-consoles/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "unified-border-element",
+    "series_name": "Unified Border Element",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "unified-callconnectors",
+    "series_name": "Unified CallConnectors",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-callconnectors/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "unified-communications-licensing",
+    "series_name": "Unified Communications Licensing",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-communications-licensing/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "unified-communications-manager-callmanager",
+    "series_name": "Unified Communications Manager (CallManager)",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-communications-manager-callmanager/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "unified-communications-manager-assistant",
+    "series_name": "Unified Communications Manager Assistant",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-communications-manager-assistant/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "unified-communications-manager-express",
+    "series_name": "Unified Communications Manager Express",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-communications-manager-express/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "unified-presence",
+    "series_name": "Unified Communications Manager IM & Presence Service",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-presence/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "unified-communications-widgets",
+    "series_name": "Unified Communications Widgets",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-communications-widgets/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "unified-computing-system-adapters",
+    "series_name": "Unified Computing System Adapters",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/unified-computing-system-adapters/index.html"
+  },
+  {
+    "category": "contact-center",
+    "series_slug": "unified-contact-center-enterprise",
+    "series_name": "Unified Contact Center Enterprise",
+    "url": "https://www.cisco.com/c/en/us/products/contact-center/unified-contact-center-enterprise/index.html"
+  },
+  {
+    "category": "contact-center",
+    "series_slug": "unified-contact-center-express",
+    "series_name": "Unified Contact Center Express",
+    "url": "https://www.cisco.com/c/en/us/products/contact-center/unified-contact-center-express/index.html"
+  },
+  {
+    "category": "contact-center",
+    "series_slug": "unified-customer-voice-portal",
+    "series_name": "Unified Customer Voice Portal",
+    "url": "https://www.cisco.com/c/en/us/products/contact-center/unified-customer-voice-portal/index.html"
+  },
+  {
+    "category": "servers-unified-computing",
+    "series_slug": "unified-edge",
+    "series_name": "Unified Edge",
+    "url": "https://www.cisco.com/c/en/us/products/servers-unified-computing/unified-edge/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "unified-ip-phone-6900-series",
+    "series_name": "Unified IP Phone 6900 Series",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/unified-ip-phone-6900-series/index.html"
+  },
+  {
+    "category": "contact-center",
+    "series_slug": "unified-intelligence-center",
+    "series_name": "Unified Intelligence Center",
+    "url": "https://www.cisco.com/c/en/us/products/contact-center/unified-intelligence-center/index.html"
+  },
+  {
+    "category": "contact-center",
+    "series_slug": "unified-intelligent-contact-management-enterprise",
+    "series_name": "Unified Intelligent Contact Management Enterprise",
+    "url": "https://www.cisco.com/c/en/us/products/contact-center/unified-intelligent-contact-management-enterprise/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "unified-sip-phone-3900-series",
+    "series_name": "Unified SIP Phone 3900 Series",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/unified-sip-phone-3900-series/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "unified-survivable-remote-site-telephony",
+    "series_name": "Unified Survivable Remote Site Telephony",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-survivable-remote-site-telephony/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "unity-connection",
+    "series_name": "Unity Connection",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unity-connection/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "universal-broadband-router-line-cards",
+    "series_name": "Universal Broadband Router Line Card",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/universal-broadband-router-line-cards/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "universal-serial-bus-usb-cards",
+    "series_name": "Universal Serial Bus (USB) Cards",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/universal-serial-bus-usb-cards/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "user-protection-suite",
+    "series_name": "User Protection Suite",
+    "url": "https://www.cisco.com/c/en/us/products/security/user-protection-suite/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "vg-series-gateways",
+    "series_name": "VG Series Gateways",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/vg-series-gateways/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "versatile-interface-processors",
+    "series_name": "Versatile Interface Processors",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/versatile-interface-processors/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "virtual-topology-system",
+    "series_name": "Virtual Topology System",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/virtual-topology-system/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "voice-provisioning-tool",
+    "series_name": "Voice Provisioning Tool",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/voice-provisioning-tool/index.html"
+  },
+  {
+    "category": "cloud-systems-management",
+    "series_slug": "voice-services-provisioning-tool",
+    "series_name": "Voice Services Provisioning Tool",
+    "url": "https://www.cisco.com/c/en/us/products/cloud-systems-management/voice-services-provisioning-tool/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "vulnerability-management",
+    "series_name": "Vulnerability Management",
+    "url": "https://www.cisco.com/c/en/us/products/security/vulnerability-management/index.html"
+  },
+  {
+    "category": "routers",
+    "series_slug": "wan-automation-engine",
+    "series_name": "WAN Automation Engine (WAE)",
+    "url": "https://www.cisco.com/c/en/us/products/routers/wan-automation-engine/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "wan-switching-modules",
+    "series_name": "WAN Switching Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/wan-switching-modules/index.html"
+  },
+  {
+    "category": "interfaces-modules",
+    "series_slug": "wdm-transmission-modules",
+    "series_name": "WDM Transmission Modules",
+    "url": "https://www.cisco.com/c/en/us/products/interfaces-modules/wdm-transmission-modules/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "secure-web-application-firewall",
+    "series_name": "Web Application and API Protection",
+    "url": "https://www.cisco.com/c/en/us/products/security/secure-web-application-firewall/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "webattendant",
+    "series_name": "WebAttendant",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/webattendant/index.html"
+  },
+  {
+    "category": "conferencing",
+    "series_slug": "webex-meetings",
+    "series_name": "WebEx Meetings",
+    "url": "https://www.cisco.com/c/en/us/products/conferencing/webex-meetings/index.html"
+  },
+  {
+    "category": "conferencing",
+    "series_slug": "webex-cloud-connected-audio",
+    "series_name": "Webex Cloud Connected Audio",
+    "url": "https://www.cisco.com/c/en/us/products/conferencing/webex-cloud-connected-audio/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "webex-cloud-connected-uc",
+    "series_name": "Webex Cloud-Connected UC",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/webex-cloud-connected-uc/index.html"
+  },
+  {
+    "category": "contact-center",
+    "series_slug": "webex-contact-center",
+    "series_name": "Webex Contact Center",
+    "url": "https://www.cisco.com/c/en/us/products/contact-center/webex-contact-center/index.html"
+  },
+  {
+    "category": "conferencing",
+    "series_slug": "webex-edge",
+    "series_name": "Webex Edge",
+    "url": "https://www.cisco.com/c/en/us/products/conferencing/webex-edge/index.html"
+  },
+  {
+    "category": "conferencing",
+    "series_slug": "webex-legislate",
+    "series_name": "Webex Legislate",
+    "url": "https://www.cisco.com/c/en/us/products/conferencing/webex-legislate/index.html"
+  },
+  {
+    "category": "conferencing",
+    "series_slug": "webex-support",
+    "series_name": "Webex Support",
+    "url": "https://www.cisco.com/c/en/us/products/conferencing/webex-support/index.html"
+  },
+  {
+    "category": "conferencing",
+    "series_slug": "webex-training",
+    "series_name": "Webex Training",
+    "url": "https://www.cisco.com/c/en/us/products/conferencing/webex-training/index.html"
+  },
+  {
+    "category": "conferencing",
+    "series_slug": "webex-webcasting",
+    "series_name": "Webex Webcasting",
+    "url": "https://www.cisco.com/c/en/us/products/conferencing/webex-webcasting/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "webex-work",
+    "series_name": "Webex Work",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/webex-work/index.html"
+  },
+  {
+    "category": "unified-communications",
+    "series_slug": "webex-broadworks",
+    "series_name": "Webex for  Cisco BroadWorks",
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/webex-broadworks/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "wireless-9177-series-access-points",
+    "series_name": "Wireless 9177 Series Access Points",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/wireless-9177-series-access-points/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "wireless-control-system-navigator",
+    "series_name": "Wireless Control System Navigator",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/wireless-control-system-navigator/index.html"
+  },
+  {
+    "category": "wireless",
+    "series_slug": "wireless-location-appliance",
+    "series_name": "Wireless Location Appliance",
+    "url": "https://www.cisco.com/c/en/us/products/wireless/wireless-location-appliance/index.html"
+  },
+  {
+    "category": "collaboration-endpoints",
+    "series_slug": "webex-wireless-phone",
+    "series_name": "Wireless Phone",
+    "url": "https://www.cisco.com/c/en/us/products/collaboration-endpoints/webex-wireless-phone/index.html"
+  },
+  {
+    "category": "security",
+    "series_slug": "xdr",
+    "series_name": "XDR",
+    "url": "https://www.cisco.com/c/en/us/products/security/xdr/index.html"
+  }
+]

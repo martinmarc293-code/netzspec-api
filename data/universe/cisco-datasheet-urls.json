@@ -1,0 +1,212 @@
+{
+  "https://www.cisco.com/c/en/us/products/routers/8500-series-secure-routers/index.html": {
+    "category": "routers",
+    "series_slug": "8500-series-secure-routers",
+    "series_name": "8500 Series Secure Routers",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/routers/8400-series-secure-routers/index.html": {
+    "category": "routers",
+    "series_slug": "8400-series-secure-routers",
+    "series_name": "8400 Series Secure Routers",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/routers/8300-series-secure-routers/index.html": {
+    "category": "routers",
+    "series_slug": "8300-series-secure-routers",
+    "series_name": "8300 Series Secure Routers",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/routers/8200-series-secure-routers/index.html": {
+    "category": "routers",
+    "series_slug": "8200-series-secure-routers",
+    "series_name": "8200 Series Secure Routers",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/computing/unified-edge/cisco-ucs-xe9305-chassis-ds.html"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/routers/8100-series-secure-routers/index.html": {
+    "category": "routers",
+    "series_slug": "8100-series-secure-routers",
+    "series_name": "8100 Series Secure Routers",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/solutions/collateral/enterprise-networks/4g-lte-solutions/datasheet-c78-743503.html"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/routers/8000-series-routers/index.html": {
+    "category": "routers",
+    "series_slug": "8000-series-routers",
+    "series_name": "8000 Series Routers",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8010-series-large-density-fixed-routers-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8010-series-medium-density-fixed-routers-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8100-series-router-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8200-series-routers-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8700-series-routers-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8800-series-modular-routers-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8000-series-p100-line-card-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8800-series-q200-basedline-cards-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8800-series-p200-basedline-cards-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8800-3rd-gen-se-line-cards-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8404-router-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8608-router-ds.html"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/7600-wireless-security-gateway/index.html": {
+    "category": "wireless",
+    "series_slug": "7600-wireless-security-gateway",
+    "series_name": "7600 Wireless Security Gateway",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/switches/6000-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "6000-series-switches",
+    "series_name": "6000 Series Switches",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/6000-series-switches/6000-series-switches-ds.html"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/security/industrial-security-appliance-isa/index.html": {
+    "category": "security",
+    "series_slug": "industrial-security-appliance-isa",
+    "series_name": "3000 Series Industrial Security Appliances (ISA)",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/routers/1000-series-integrated-services-routers-isr/index.html": {
+    "category": "routers",
+    "series_slug": "1000-series-integrated-services-routers-isr",
+    "series_name": "1000 Series Integrated Services Routers",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/1000-series-integrated-services-routers-isr/datasheet-c78-739512.html"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/routers/asr-9000-series-aggregation-services-routers/index.html": {
+    "category": "routers",
+    "series_slug": "asr-9000-series-aggregation-services-routers",
+    "series_name": "ASR 9000 Series Aggregation Services Routers",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/data_sheet_c78-501767.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/datasheet-c78-744035.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/datasheet-c78-744663.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/datasheet-c78-740540.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9001-router/data_sheet_c78-685687.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/data_sheet_c78-673744.html"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/asr-5000-series/index.html": {
+    "category": "wireless",
+    "series_slug": "asr-5000-series",
+    "series_name": "ASR 5000 Series",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/asr-5000-session-control-manager/index.html": {
+    "category": "wireless",
+    "series_slug": "asr-5000-session-control-manager",
+    "series_name": "ASR 5000 Session Control Manager",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/asr-5000-small-cell-gateway/index.html": {
+    "category": "wireless",
+    "series_slug": "asr-5000-small-cell-gateway",
+    "series_name": "ASR 5000 Small Cell Gateway",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/routers/asr-1000-series-aggregation-services-routers/index.html": {
+    "category": "routers",
+    "series_slug": "asr-1000-series-aggregation-services-routers",
+    "series_name": "ASR 1000 Series Aggregation Services Routers",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/datasheet-c78-731632.html"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/routers/asr-920-series-aggregation-services-router/index.html": {
+    "category": "routers",
+    "series_slug": "asr-920-series-aggregation-services-router",
+    "series_name": "ASR 920 Series Aggregation Services Router",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/routers/asr-903-series-aggregation-services-routers/index.html": {
+    "category": "routers",
+    "series_slug": "asr-903-series-aggregation-services-routers",
+    "series_name": "ASR 900 Series Aggregation Services Routers",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/ata-190-series-analog-telephone-adapters/index.html": {
+    "category": "unified-communications",
+    "series_slug": "ata-190-series-analog-telephone-adapters",
+    "series_name": "ATA 190 Series Analog Telephone Adapters",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/ata-190-series-analog-telephone-adapters/datasheet-c78-739907.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/ata-190-series-analog-telephone-adapters/datasheet-c78-740013.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/ata-190-series-analog-telephone-adapters/datasheet-c78-740014.html"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/security/access-manager/index.html": {
+    "category": "security",
+    "series_slug": "access-manager",
+    "series_name": "Access Manager",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/access-manager/access-manager-data-sheet.html"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/aironet-access-point-modules/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "aironet-access-point-modules",
+    "series_name": "Access Point Modules",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/adaptive-wireless-ips-software/index.html": {
+    "category": "wireless",
+    "series_slug": "adaptive-wireless-ips-software",
+    "series_name": "Adaptive Wireless IPS Software",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/routers/agile-services-networking/index.html": {
+    "category": "routers",
+    "series_slug": "agile-services-networking",
+    "series_name": "Agile Services Networking",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/application-centric-infrastructure-simulator/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "application-centric-infrastructure-simulator",
+    "series_name": "Application Centric Infrastructure Simulator",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/application-centric-infrastructure-simulator/datasheet-c78-733252.html"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/switches/application-centric-infrastructure-virtual-edge/index.html": {
+    "category": "switches",
+    "series_slug": "application-centric-infrastructure-virtual-edge",
+    "series_name": "Application Centric Infrastructure Virtual Edge",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/application-centric-infrastructure-virtual-edge/datasheet-c78-740249.html"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/switches/application-centric-infrastructure-virtual-pod/index.html": {
+    "category": "switches",
+    "series_slug": "application-centric-infrastructure-virtual-pod",
+    "series_name": "Application Centric Infrastructure Virtual Pod",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/application-centric-infrastructure-virtual-pod/datasheet-c78-741503.html"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/application-networking-services-modules/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "application-networking-services-modules",
+    "series_name": "Application Networking Services Modules",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/application-policy-infrastructure-controller-apic/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "application-policy-infrastructure-controller-apic",
+    "series_name": "Application Policy Infrastructure Controller (APIC)",
+    "datasheets": []
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/webex-board/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "webex-board",
+    "series_name": "Board Series",
+    "datasheets": []
+  }
+}

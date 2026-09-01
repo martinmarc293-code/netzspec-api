@@ -25,7 +25,14 @@
     "'Unit dimensions (W x D x H)'. map-deep-specs.ts reads the axis order out of the label and",
     "reorders the parsed triple; storing it positionally would silently file width as height.",
     "",
-    "Two corrections after reading real values [M 2026-09-01]: 'Default AC power supply' yields '715W AC' (a rating) and was mapped to the psu_config ENUM, producing ENUM_VIOLATION on every row; it now feeds psu_options. 'Network module' yields 'C3850-NM-4-1G, C3850-NM-2-10G, ...' (a module list) and was mapped to the numeric module_slots, producing RANGE_VIOLATION; it is now __compat. Both were the mapping being wrong, not the data."
+    "Two corrections after reading real values [M 2026-09-01]: 'Default AC power supply' yields '715W AC' (a rating) and was mapped to the psu_config ENUM, producing ENUM_VIOLATION on every row; it now feeds psu_options. 'Network module' yields 'C3850-NM-4-1G, C3850-NM-2-10G, ...' (a module list) and was mapped to the numeric module_slots, producing RANGE_VIOLATION; it is now __compat. Both were the mapping being wrong, not the data.",
+    "",
+    "THREE FIELDS PULLED BACK TO __backlog 2026-09-01 after checking column semantics by hand.",
+    "The provenance audit passed 10,493/10,493 - every value really was in the cell we recorded - but",
+    "passing that says nothing about whether the LABEL over the cell means what we assumed. Two of",
+    "these tables are keyed by a configuration (which PSU, which input voltage, half vs full port",
+    "traffic) that the schema has nowhere to record, so 'first row wins' silently picked one.",
+    "Better to hold the field than to publish a number that is right for a configuration nobody asked about."
   ],
   "case_insensitive": true,
   "rules": [
@@ -81,8 +88,8 @@
     ],
     [
       "^available poe|^poe power budget|^total poe",
-      "poe_budget",
-      ""
+      "__backlog",
+      "CONFIGURATION-DEPENDENT: table 3 lists one row per PSU. C9300-24P appears twice - 445W with the DEFAULT 715W PSU and 720W with the upgrade 1100W PSU. Storing whichever row comes first presents an upgrade figure as the part's PoE budget."
     ],
     [
       "^perpetual poe|^poe\\+? on all ports",
@@ -121,13 +128,13 @@
     ],
     [
       "measured p\\(w\\) \\[100%\\]|power consumption.*(worst case|no more than)",
-      "power_max",
-      "full-load draw is the max figure"
+      "__backlog",
+      "AMBIGUOUS: the 9300/9200 power table's 'Measured P(W)' columns are HALF-port traffic; the true maximum is a separate 'Full port traffic' column. Needs multi-level header capture before it can be power_max."
     ],
     [
       "measured p\\(w\\) \\[50%\\]",
-      "power_typical",
-      "Cisco's 50%-load figure is the conventional typical"
+      "__backlog",
+      "AMBIGUOUS: half-port traffic at 50% load, and the table repeats per PSU and per input voltage (115Vac/230Vac). Not a single 'typical' figure."
     ],
     [
       "measured p\\(w\\)|^\\d+% traffic|^half port traffic",

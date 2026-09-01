@@ -1,0 +1,227 @@
+{
+  "documents": {
+    "https://www.cisco.com/site/us/en/products/collateral/computing/unified-edge/cisco-ucs-xe9305-chassis-ds.html": {
+      "category": "routers",
+      "series_slug": "8200-series-secure-routers",
+      "series_name": "8200 Series Secure Routers",
+      "pids": [
+        "UCSXE-M8-MLB",
+        "UCSXE-9305-U",
+        "UCSXE-9305="
+      ],
+      "evidence": {
+        "UCSXE-M8-MLB": "Part number",
+        "UCSXE-9305-U": "Part number",
+        "UCSXE-9305=": "Part number"
+      }
+    },
+    "https://www.cisco.com/c/en/us/solutions/collateral/enterprise-networks/4g-lte-solutions/datasheet-c78-743503.html": {
+      "category": "routers",
+      "series_slug": "8100-series-secure-routers",
+      "series_name": "8100 Series Secure Routers",
+      "pids": [
+        "C1109-2PLTEGB",
+        "C1109-2PLTEUS",
+        "C1109-2PLTEVZ",
+        "C1111-4PLTEEA",
+        "C1111-4PLTELA",
+        "C1111-8PLTEEA",
+        "C1111-8PLTELA",
+        "C1112-8PLTEEA",
+        "C1112-8PLTEEAWE",
+        "C1113-8PLTEEA",
+        "C1113-8PLTELA",
+        "C1113-8PLTELAWZ",
+        "C1113-8PMLTEEA",
+        "C1116-4PLTEEA",
+        "C1116-4PLTEEAWE",
+        "C1117-4PLTEEA",
+        "C1117-4PLTELA",
+        "C1117-4PLTELAWZ",
+        "C1117-4PMLTEEA",
+        "C1117-4PMLTEEAWE",
+        "C921-4PLTEAU",
+        "C921-4PLTEAS",
+        "C921-4PLTEGB",
+        "C926-4PLTEGB",
+        "C927-4PLTEAU",
+        "C927-4PLTENA",
+        "ISR1100-4GLTEGB",
+        "ISR1100-4GLTENA"
+      ],
+      "evidence": {
+        "C1109-2PLTEGB": "Product ID",
+        "C1109-2PLTEUS": "Product ID",
+        "C1109-2PLTEVZ": "Product ID",
+        "C1111-4PLTEEA": "Product ID",
+        "C1111-4PLTELA": "Product ID"
+      }
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8010-series-large-density-fixed-routers-ds.html": {
+      "category": "routers",
+      "series_slug": "8000-series-routers",
+      "series_name": "8000 Series Routers",
+      "pids": [
+        "CBL-BRKT-V2",
+        "RCKMT-19-KIT1",
+        "RCKMT-19-KIT2",
+        "RCKMT-ETSI-KIT1",
+        "RCKMT-ETSI-KIT2",
+        "RCKMT-23-KIT1",
+        "RCKMT-23-KIT2",
+        "CAB-48DC-40A-8AWG",
+        "ESS-NGA-10G-RTU",
+        "ADN-NGA-10G-RTU",
+        "PRM-NGA-10G-RTU",
+        "NGA-L-SIA-3",
+        "NGA-L-SIA-5"
+      ],
+      "evidence": {
+        "CBL-BRKT-V2": "Product ID",
+        "RCKMT-19-KIT1": "Product ID",
+        "RCKMT-19-KIT2": "Product ID",
+        "RCKMT-ETSI-KIT1": "Product ID",
+        "RCKMT-ETSI-KIT2": "Product ID"
+      }
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8010-series-medium-density-fixed-routers-ds.html": {
+      "category": "routers",
+      "series_slug": "8000-series-routers",
+      "series_name": "8000 Series Routers",
+      "pids": [
+        "ESS-NGA-10G-RTU",
+        "ADN-NGA-10G-RTU",
+        "PRM-NGA-10G-RTU",
+        "NGA-M-SIA-3",
+        "NGA-M-SIA-5"
+      ],
+      "evidence": {
+        "ESS-NGA-10G-RTU": "Product ID",
+        "ADN-NGA-10G-RTU": "Product ID",
+        "PRM-NGA-10G-RTU": "Product ID",
+        "NGA-M-SIA-3": "Product ID",
+        "NGA-M-SIA-5": "Product ID"
+      }
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8100-series-router-ds.html": {
+      "category": "routers",
+      "series_slug": "8000-series-routers",
+      "series_name": "8000 Series Routers",
+      "pids": [
+        "8101-32H-O",
+        "8102-64H-O",
+        "8101-32FH-O",
+        "8122-64EH-O",
+        "8122-64EHF-O",
+        "8102-28FH-DPU-O"
+      ],
+      "evidence": {
+        "8101-32H-O": "PID",
+        "8102-64H-O": "PID",
+        "8101-32FH-O": "PID",
+        "8122-64EH-O": "PID",
+        "8122-64EHF-O": "PID"
+      }
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8200-series-routers-ds.html": {
+      "category": "routers",
+      "series_slug": "8000-series-routers",
+      "series_name": "8000 Series Routers",
+      "pids": [
+        "8201-24H8FH",
+        "8201-32FH/8201-32FH-O",
+        "8202-32FH-M",
+        "8212-48FH-M",
+        "8223-64E-M",
+        "8223-64E-MO",
+        "8223-64EF-M",
+        "8223-64EF-MO"
+      ],
+      "evidence": {
+        "8201-24H8FH": "PID",
+        "8201-32FH/8201-32FH-O": "PID",
+        "8202-32FH-M": "PID",
+        "8212-48FH-M": "PID",
+        "8223-64E-M": "PID"
+      }
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8700-series-routers-ds.html": {
+      "category": "routers",
+      "series_slug": "8000-series-routers",
+      "series_name": "8000 Series Routers",
+      "pids": [
+        "8711-32FH-M",
+        "8711-48Z-M",
+        "8711-28H8F-M",
+        "8712-MOD-M",
+        "FAN-1RU-PI-V2",
+        "FAN-1RU-PE-V2",
+        "PSU2KW-ACPI",
+        "PSU2KW-ACPE",
+        "PSU2KW-DCPI",
+        "PSU2KW-DCPE",
+        "PWR-2KW-DC-CBL",
+        "8000-QSFP-DCAP",
+        "8700-1RU-4P-KIT",
+        "8700-1RU-2P-KIT",
+        "ESS-8KE-100G-RTU",
+        "ADN-8KE-100G-RTU",
+        "PRM-8KE-100G-RTU",
+        "8KSW-B-SIA-3",
+        "8KSW-B-SIA-5",
+        "8KSW-ESS-B-P",
+        "8KSW-ADN-B-P",
+        "8KSW-PRM-B-P",
+        "PSU1100W-ACPI",
+        "PSU1100W-ACPE",
+        "PSU1.2KW-DCPI",
+        "PSU1.2KW-DCPE",
+        "NC55-SFP-DCAP",
+        "8KSW-A-SIA-3",
+        "8KSW-A-SIA-5",
+        "8KSW-ESS-A-P",
+        "8KSW-ADN-A-P",
+        "8KSW-PRM-A-P",
+        "8K-MPA-4D",
+        "8K-MPA-16H",
+        "8K-MPA-16Z2D",
+        "8K-MPA-18Z1D",
+        "FAN-PI-V3",
+        "FAN-PE-V3",
+        "NC57-2RU-ACC-KIT",
+        "NC57-2RU-ACC-KIT2",
+        "NC57-2RU-ACC-KIT3",
+        "NC57-2RU-ACC-KIT4"
+      ],
+      "evidence": {
+        "8711-32FH-M": "Product ID",
+        "8711-48Z-M": "Product ID",
+        "8711-28H8F-M": "Product ID",
+        "8712-MOD-M": "Product ID",
+        "FAN-1RU-PI-V2": "Product ID"
+      }
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8800-series-modular-routers-ds.html": {
+      "category": "routers",
+      "series_slug": "8000-series-routers",
+      "series_name": "8000 Series Routers",
+      "pids": [],
+      "evidence": {}
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8000-series-p100-line-card-ds.html": {
+      "category": "routers",
+      "series_slug": "8000-series-routers",
+      "series_name": "8000 Series Routers",
+      "pids": [],
+      "evidence": {}
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8800-series-q200-basedline-cards-ds.html": {
+      "category": "routers",
+      "series_slug": "8000-series-routers",
+      "series_name": "8000 Series Routers",
+      "pids": [],
+      "evidence": {}
+    }
+  },
+  "generated": null
+}
