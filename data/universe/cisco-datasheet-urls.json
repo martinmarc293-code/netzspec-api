@@ -3891,7 +3891,8 @@
     "category": "conferencing",
     "series_slug": "webex-cloud-connected-audio",
     "series_name": "Webex Cloud Connected Audio",
-    "datasheets": []
+    "datasheets": [],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/unified-communications/webex-cloud-connected-uc/index.html": {
     "category": "unified-communications",
@@ -3899,55 +3900,74 @@
     "series_name": "Webex Cloud-Connected UC",
     "datasheets": [
       "https://www.cisco.com/c/en/us/products/collateral/unified-communications/webex-cloud-connected-uc/datasheet-c78-743868.html"
-    ]
+    ],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/contact-center/webex-contact-center/index.html": {
     "category": "contact-center",
     "series_slug": "webex-contact-center",
     "series_name": "Webex Contact Center",
-    "datasheets": []
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/contact-center/webex-contact-center/datasheet-c78-744541.html",
+      "https://www.cisco.com/c/en/us/products/collateral/contact-center/webex-contact-center/datasheet-c78-742822.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741220.html",
+      "https://www.cisco.com/c/en/us/products/collateral/contact-center/unified-contact-center-express/datasheet-c78-743932.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/contact-center/unified-contact-center-express/webex-workforce-optimization-ds.pdf"
+    ]
   },
   "https://www.cisco.com/c/en/us/products/conferencing/webex-edge/index.html": {
     "category": "conferencing",
     "series_slug": "webex-edge",
     "series_name": "Webex Edge",
-    "datasheets": []
+    "datasheets": [],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/conferencing/webex-legislate/index.html": {
     "category": "conferencing",
     "series_slug": "webex-legislate",
     "series_name": "Webex Legislate",
-    "datasheets": []
+    "datasheets": [],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/conferencing/webex-support/index.html": {
     "category": "conferencing",
     "series_slug": "webex-support",
     "series_name": "Webex Support",
-    "datasheets": []
+    "datasheets": [],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/conferencing/webex-training/index.html": {
     "category": "conferencing",
     "series_slug": "webex-training",
     "series_name": "Webex Training",
-    "datasheets": []
+    "datasheets": [],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/conferencing/webex-webcasting/index.html": {
     "category": "conferencing",
     "series_slug": "webex-webcasting",
     "series_name": "Webex Webcasting",
-    "datasheets": []
+    "datasheets": [],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/unified-communications/webex-work/index.html": {
     "category": "unified-communications",
     "series_slug": "webex-work",
     "series_name": "Webex Work",
-    "datasheets": []
+    "datasheets": [],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/unified-communications/webex-broadworks/index.html": {
     "category": "unified-communications",
     "series_slug": "webex-broadworks",
     "series_name": "Webex for  Cisco BroadWorks",
-    "datasheets": []
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/webex-broadworks/datasheet-c78-743959.html"
+    ],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/wireless/wireless-9177-series-access-points/index.html": {
     "category": "wireless",
@@ -3974,30 +3994,43 @@
       "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9100ax-access-points/datasheet-c78-744062.html",
       "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9100ax-access-points/nb-06-cat9124-ser-ap-ds-cte-en.html",
       "https://www.cisco.com/c/en/us/products/collateral/networking/software/networking-subscription-ds.html"
-    ]
+    ],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/wireless/wireless-control-system-navigator/index.html": {
     "category": "wireless",
     "series_slug": "wireless-control-system-navigator",
     "series_name": "Wireless Control System Navigator",
-    "datasheets": []
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/wireless-control-system-navigator/product_data_sheet0900aecd8065bd19.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/wireless-control-system-navigator/product_data_sheet0900aecd80633649.html"
+    ],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/wireless/wireless-location-appliance/index.html": {
     "category": "wireless",
     "series_slug": "wireless-location-appliance",
     "series_name": "Wireless Location Appliance",
-    "datasheets": []
+    "datasheets": [],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/collaboration-endpoints/webex-wireless-phone/index.html": {
     "category": "collaboration-endpoints",
     "series_slug": "webex-wireless-phone",
     "series_name": "Wireless Phone",
-    "datasheets": []
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/desk-phone-9800-series/wireless-phone-9821-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-wireless-phone/datasheet-c78-744461.html"
+    ],
+    "listing_checked": true
   },
   "https://www.cisco.com/c/en/us/products/security/xdr/index.html": {
     "category": "security",
     "series_slug": "xdr",
     "series_name": "XDR",
-    "datasheets": []
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/xdr/xdr-ds.html"
+    ],
+    "listing_checked": true
   }
 }

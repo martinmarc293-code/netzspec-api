@@ -43,6 +43,411 @@
       "category": "switches",
       "series_name": "6000 Series Switches",
       "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/security/industrial-security-appliance-isa/index.html": {
+      "category": "security",
+      "series_name": "3000 Series Industrial Security Appliances (ISA)",
+      "bulletins": [
+        "https://www.cisco.com/c/en/us/products/collateral/security/industrial-security-appliance-isa/eos-eol-notice-c51-743156.html",
+        "https://www.cisco.com/c/en/us/products/collateral/security/industrial-security-appliance-isa/eos-eol-notice-c51-743156-fr.html"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/routers/1000-series-integrated-services-routers-isr/index.html": {
+      "category": "routers",
+      "series_name": "1000 Series Integrated Services Routers",
+      "bulletins": [
+        "https://www.cisco.com/c/en/us/products/collateral/routers/1000-series-integrated-services-routers-isr/eos-eol-notice-c51-2450671.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/1000-series-integrated-services-routers-isr/eos-eol-notice-c51-2450671-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/ios-nx-os-software/ios-xe-17/eos-eol-notice-c51-744388.html",
+        "https://www.cisco.com/c/en/us/products/collateral/ios-nx-os-software/ios-xe-16/eos-eol-notice-c51-744154.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/eos-eol-notice-c51-743638.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/1000-series-integrated-services-routers-isr/eos-eol-notice-c51-743112.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-742965.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-742700.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/1000-series-integrated-services-routers-isr/eos-eol-notice-c51-742343.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/1000-series-integrated-services-routers-isr/eos-eol-notice-c51-743112-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-742700-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/1000-series-integrated-services-routers-isr/eos-eol-notice-c51-742343-fr.html"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/routers/asr-9000-series-aggregation-services-routers/index.html": {
+      "category": "routers",
+      "series_name": "ASR 9000 Series Aggregation Services Routers",
+      "bulletins": [
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-744626.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-744603.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-731882.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-737819.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-742896.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-741582.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-742549.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-741363.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-740753.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-740269.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-739617.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-739434.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-739355.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-738854.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-737659.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-734029.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-733321.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-734174.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-736940.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-737924.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-744626-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-744603-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-742549-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-741582-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-741363-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-740753-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-739617-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-737819-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-739434-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-739355-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-738854-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-737924-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-9000-series-aggregation-services-routers/eos-eol-notice-c51-736940-fr.html"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/wireless/asr-5000-series/index.html": {
+      "category": "wireless",
+      "series_name": "ASR 5000 Series",
+      "bulletins": [
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-2432154.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-744708.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-744650.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-743782.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-743600.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-743379.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-743114.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-742966.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-742967.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-735573.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-736442.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-742811.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-742237.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-740422.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-740378.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-740233.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-740218.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-739604.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-739017.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-739245.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-737041.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-738280.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-737510.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-737253.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-737025.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-session-control-manager/eos-eol-notice-c51-736399.html",
+        "https://www.cisco.com/c/en/us/products/wireless/asr-5000-small-cell-gateway/eos-eol-notice-c51-735774.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-734772.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-734558.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice_C51-734559.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-733462.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-732831.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-732444.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-729931.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-729930.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-2432154-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-744708-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-744650-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-743782-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-743379-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-743114-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-742967-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-742811-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-740422-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-740378-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-739604-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-739017-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-739245-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-735573-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-736442-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-737041-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-738280-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-737253-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-737025-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/wireless/asr-5000-series/eos-eol-notice-c51-734772-fr.html"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/wireless/asr-5000-session-control-manager/index.html": {
+      "category": "wireless",
+      "series_name": "ASR 5000 Session Control Manager",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/wireless/asr-5000-small-cell-gateway/index.html": {
+      "category": "wireless",
+      "series_name": "ASR 5000 Small Cell Gateway",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/routers/asr-1000-series-aggregation-services-routers/index.html": {
+      "category": "routers",
+      "series_name": "ASR 1000 Series Aggregation Services Routers",
+      "bulletins": [
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-2430053.html",
+        "https://www.cisco.com/c/en/us/products/collateral/ios-nx-os-software/ios-xe-17/eos-eol-notice-c51-744388.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-744439.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-744362.html",
+        "https://www.cisco.com/c/en/us/products/collateral/ios-nx-os-software/ios-xe-16/eos-eol-notice-c51-744154.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-743738.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-743743.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-743721.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/eos-eol-notice-c51-743638.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-743120.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-742965.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-742333.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-742700.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-742069.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-741918.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-740983.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-740476.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-740376.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-3850-series-switches/eos-eol-notice-c51-740255.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-3850-series-switches/eos-eol-notice-c51-739568.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-3850-series-switches/eos-eol-notice-c51-738673.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-738519.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-738519-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-734572.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-737081.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-736752.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-736431.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-735307.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-734263.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-734193.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-733479.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-732203.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-732167.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-730604.html",
+        "https://www.cisco.com/c/en/us/products/collateral/application-networking-services/wide-area-application-services-waas-software/eos-eol-notice-c51-730604.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-2430053-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-744439-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-743721-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-744388-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-744362-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-744154-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-743743-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-743120-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-742700-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-742333-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-742069-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-741918-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-740983-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-740476-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-3850-series-switches/eos-eol-notice-c51-739568-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-3850-series-switches/eos-eol-notice-c51-738673-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-737081-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-736752-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-736431-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-735307-fr.html"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/routers/asr-920-series-aggregation-services-router/index.html": {
+      "category": "routers",
+      "series_name": "ASR 920 Series Aggregation Services Router",
+      "bulletins": [
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-743642.html",
+        "https://www.cisco.com/c/en/us/products/collateral/ios-nx-os-software/ios-xe-17/eos-eol-notice-c51-2442351.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/eos-eol-notice-c51-743638.html",
+        "https://www.cisco.com/c/en/us/products/collateral/ios-nx-os-software/ios-xe-16/eos-eol-notice-c51-744154.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-742965.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-742700.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-741918.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-741716.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-741024.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-740983.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-739574.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-739385.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-737189.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-736335.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-734759.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-733935.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-743642-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-742700-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-741918-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-741716-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-741024-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-740983-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-739385-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-739574-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-737189-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-736335-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-920-series-aggregation-services-router/eos-eol-notice-c51-734759-fr.html"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/routers/asr-903-series-aggregation-services-routers/index.html": {
+      "category": "routers",
+      "series_name": "ASR 900 Series Aggregation Services Routers",
+      "bulletins": [
+        "https://www.cisco.com/c/en/us/products/collateral/ios-nx-os-software/ios-xe-17/eos-eol-notice-c51-2442351.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-2460703.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-23758825.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-744799.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/eos-eol-notice-c51-743638.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-742965.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-742700.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-741918.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-740983.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-739574.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-739383.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-739183.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-738035.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-737190.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-736336.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-736323.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-734758.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-731424.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-734224.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-733936.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-730871.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-2460703-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-23758825-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-744799-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/ios-nx-os-software/ios-xe-16/eos-eol-notice-c51-744154.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-742700-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-741918-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/eos-eol-notice-c51-740983-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-739383-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-739183-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-738035-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-737190-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-736323-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-739574-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-736336-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-734758-fr.html"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/unified-communications/ata-190-series-analog-telephone-adapters/index.html": {
+      "category": "unified-communications",
+      "series_name": "ATA 190 Series Analog Telephone Adapters",
+      "bulletins": [
+        "https://www.cisco.com/c/en/us/products/collateral/unified-communications/ata-190-series-analog-telephone-adapters/eos-eol-notice-c51-744389.html",
+        "https://www.cisco.com/c/en/us/products/collateral/unified-communications/ata-190-series-analog-telephone-adapters/eos-eol-notice-c51-741354.html",
+        "https://www.cisco.com/c/en/us/products/collateral/unified-communications/ata-190-series-analog-telephone-adapters/eos-eol-notice-c51-744389-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/unified-communications/ata-190-series-analog-telephone-adapters/eos-eol-notice-c51-741354-fr.html"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/security/access-manager/index.html": {
+      "category": "security",
+      "series_name": "Access Manager",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/interfaces-modules/aironet-access-point-modules/index.html": {
+      "category": "interfaces-modules",
+      "series_name": "Access Point Modules",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/wireless/adaptive-wireless-ips-software/index.html": {
+      "category": "wireless",
+      "series_name": "Adaptive Wireless IPS Software",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/routers/agile-services-networking/index.html": {
+      "category": "routers",
+      "series_name": "Agile Services Networking",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/cloud-systems-management/application-centric-infrastructure-simulator/index.html": {
+      "category": "cloud-systems-management",
+      "series_name": "Application Centric Infrastructure Simulator",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/switches/application-centric-infrastructure-virtual-edge/index.html": {
+      "category": "switches",
+      "series_name": "Application Centric Infrastructure Virtual Edge",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/switches/application-centric-infrastructure-virtual-pod/index.html": {
+      "category": "switches",
+      "series_name": "Application Centric Infrastructure Virtual Pod",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/interfaces-modules/application-networking-services-modules/index.html": {
+      "category": "interfaces-modules",
+      "series_name": "Application Networking Services Modules",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/cloud-systems-management/application-policy-infrastructure-controller-apic/index.html": {
+      "category": "cloud-systems-management",
+      "series_name": "Application Policy Infrastructure Controller (APIC)",
+      "bulletins": [
+        "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/application-policy-infrastructure-controller-apic/eos-eol-notice-c51-744749.html",
+        "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/application-policy-infrastructure-controller-apic/eos-eol-notice-c51-742143.html",
+        "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/application-policy-infrastructure-controller-apic/eos-eol-notice-c51-740340.html",
+        "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/application-policy-infrastructure-controller-apic/eos-eol-notice-c51-737079.html",
+        "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/application-policy-infrastructure-controller-apic/eos-eol-notice-c51-744749-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/application-policy-infrastructure-controller-apic/eos-eol-notice-c51-742143-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/application-policy-infrastructure-controller-apic/eos-eol-notice-c51-740340-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/application-policy-infrastructure-controller-apic/eos-eol-notice-c51-737079-fr.html"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collaboration-endpoints/webex-board/index.html": {
+      "category": "collaboration-endpoints",
+      "series_name": "Board Series",
+      "bulletins": [
+        "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spark-board/eos-eol-notice-c51-742496.html",
+        "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-board/eos-eol-notice-c51-741694.html",
+        "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-board/eos-eol-notice-c51-741602.html",
+        "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spark-board/eos-eol-notice-c51-740781.html",
+        "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spark-board/eos-eol-notice-c51-742496-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-board/eos-eol-notice-c51-741694-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-board/eos-eol-notice-c51-741602-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spark-board/eos-eol-notice-c51-740781-fr.html",
+        "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/collaboration-peripherals/eos-eol-notice-c51-742386.html"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/security/breach-protection-suite/index.html": {
+      "category": "security",
+      "series_name": "Breach Protection Suite",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/unified-communications/broadworks/index.html": {
+      "category": "unified-communications",
+      "series_name": "BroadWorks",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/cloud-systems-management/broadband-configurator/index.html": {
+      "category": "cloud-systems-management",
+      "series_name": "Broadband Configurator",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/switches/business-350-series-managed-switches/index.html": {
+      "category": "switches",
+      "series_name": "Business 350 Series Managed Switches",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/switches/business-220-series-smart-switches/index.html": {
+      "category": "switches",
+      "series_name": "Business 220 Series Switches",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/wireless/business-200-series-access-points/index.html": {
+      "category": "wireless",
+      "series_name": "Business 200 Series Access Points",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/switches/business-110-series-unmanaged-switches/index.html": {
+      "category": "switches",
+      "series_name": "Business 110 Series Unmanaged Switches",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/wireless/business-100-series-access-points/index.html": {
+      "category": "wireless",
+      "series_name": "Business 100 Series Access Points",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/wireless/business-100-series-mesh-extenders/index.html": {
+      "category": "wireless",
+      "series_name": "Business 100 Series Mesh Extenders",
+      "bulletins": []
+    },
+    "https://www.cisco.com/c/en/us/products/unified-communications/business-edition-7000/index.html": {
+      "category": "unified-communications",
+      "series_name": "Business Edition 7000",
+      "bulletins": [
+        "https://www.cisco.com/c/en/us/products/collateral/unified-communications/business-edition-7000/eos-eol-notice-c51-740521.html",
+        "https://www.cisco.com/c/en/us/products/collateral/unified-communications/business-edition-7000/eos-eol-notice-c51-734056.html",
+        "https://www.cisco.com/c/en/us/products/collateral/unified-communications/business-edition-7000/eos-eol-notice-c51-740521-fr.html"
+      ]
     }
   },
   "bulletins": {

@@ -46,10 +46,18 @@ BASE = "https://www.cisco.com"
 # "Part #" is Cisco's most common spelling after "Product ID" and matched nothing until now.
 # "Item" and "Model" are included even though they are also used for ordinary spec tables - the
 # shape test below is what separates "C9300-24P" from "Maximum clients".
+#
+# The last four alternatives were found by auditing the 176 datasheets that produced NOTHING and
+# asking which of their columns were >70% part-number-shaped. That surfaced 411 PIDs behind
+# headers like "Bundle", "System Bundles", "PIDs" and "Product Name". The same audit also flagged
+# "Rx Wavelength (nm)", "Fiber Type ***" and "Compliance ****" — columns whose CONTENTS look
+# PID-shaped but are nothing of the kind, which is exactly why matching is header-first and the
+# shape test is only a filter. Those are deliberately not added.
 PID_HEADER = re.compile(
     r"(part\s*(number|no|#)|product\s*(number|id|code)|\bpid\b|order(ing)?\s*(information|number|code)?"
     r"|order\s*product\s*id|product\s*order\s*id"
-    r"|^sku$|^model(\s*number)?$|^models?$|^item$)", re.I)
+    r"|^sku$|^model(\s*number)?$|^models?$|^item$"
+    r"|^(system\s+)?bundles?$|^(hardware|software)?\s*pids$|^product\s*name$|^lan/wan module$)", re.I)
 
 HAS_DIGIT = re.compile(r"\d")
 # things that pass the shape check but are not part numbers
