@@ -50,6 +50,24 @@ export async function indexablePartRefs(): Promise<{ vendor: string; slug: strin
     .toArray() as unknown as { vendor: string; slug: string; category: string }[];
 }
 
+// EOL content pages: switch families with verified lifecycle + enough models to be a real page.
+export async function eolFamilies(): Promise<{ family: string; count: number }[]> {
+  const db = await getDb();
+  const r = await db.collection<Part>("parts").aggregate([
+    { $match: { type: "switch", "lifecycle.end_of_sale_date": { $exists: true, $ne: null } } },
+    { $group: { _id: "$family", count: { $sum: 1 } } },
+    { $match: { _id: { $ne: null }, count: { $gte: 5 } } },
+    { $sort: { count: -1 } },
+  ]).toArray();
+  return r.map((x) => ({ family: x._id as string, count: x.count as number }));
+}
+export async function eolFamilyParts(family: string): Promise<Part[]> {
+  const db = await getDb();
+  return db.collection<Part>("parts")
+    .find({ family, "lifecycle.end_of_sale_date": { $exists: true } }, { projection: { _id: 0 } })
+    .toArray() as unknown as Part[];
+}
+
 // §3.5: the promote pass sets tranche:N + promoted_at; this powers sitemap-tranche-NN.xml (/de URLs).
 export async function tranchePartRefs(tranche: number): Promise<{ vendor: string; slug: string; promoted_at?: string }[]> {
   const db = await getDb();
@@ -90,6 +108,30 @@ export async function categoryCounts(): Promise<Record<string, number>> {
   const db = await getDb();
   const rows = await db.collection("parts").aggregate([{ $match: { indexable: { $ne: false } } }, { $group: { _id: "$category", n: { $sum: 1 } } }]).toArray();
   return Object.fromEntries(rows.map((r) => [r._id as string, r.n as number]));
+}
+// ALL parts (stubs included) — for browse counts + tools. Stubs stay noindex; these are just numbers /
+// a search surface, never thousands of crawlable links.
+export async function categoryCountsAll(): Promise<Record<string, number>> {
+  const db = await getDb();
+  const rows = await db.collection("parts").aggregate([{ $group: { _id: "$category", n: { $sum: 1 } } }]).toArray();
+  return Object.fromEntries(rows.map((r) => [r._id as string, r.n as number]));
+}
+export async function vendorCountsAll(): Promise<Record<string, number>> {
+  const db = await getDb();
+  const rows = await db.collection("parts").aggregate([{ $group: { _id: "$vendor", n: { $sum: 1 } } }]).toArray();
+  return Object.fromEntries(rows.map((r) => [r._id as string, r.n as number]));
+}
+// lean projection of EVERY part for the EOL tool (covers the whole universe, small payload).
+export async function eolToolParts(): Promise<{ sku: string; slug: string; vendor: string; name: string; status: string; lc: { status: string; eos: string; ldos: string; successor: string; doc: string } | null }[]> {
+  const db = await getDb();
+  const rows = await db.collection<Part>("parts")
+    .find({}, { projection: { _id: 0, sku: 1, slug: 1, vendor: 1, "i18n.de.name": 1, "eol.status": 1, lifecycle: 1 } })
+    .toArray();
+  return rows.map((r) => {
+    const lc = (r as { lifecycle?: Record<string, string> }).lifecycle;
+    return { sku: r.sku, slug: r.slug, vendor: r.vendor, name: r.i18n?.de?.name || r.sku, status: r.eol?.status || "",
+      lc: lc ? { status: lc.status || "", eos: lc.end_of_sale_date || "", ldos: lc.last_day_of_support || "", successor: lc.successor_sku || "", doc: lc.source_doc_id || "" } : null };
+  });
 }
 
 /** Parts in a category, grouped by vendor (for a category hub). */

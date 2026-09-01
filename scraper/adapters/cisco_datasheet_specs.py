@@ -19,20 +19,31 @@ NOT_HW = re.compile(r"-\d+Y$|^CON-|DNA|LIC|^NW-|^PWR-|^MEM-|^SSD-", re.I)
 # english header substring (lowercased) -> German attribute name (HexCat vocabulary). First match wins.
 HEADER_MAP = [
     ("total 10/100/1000", "Ports (Kupfer)"), ("total mgig", "Multigigabit-Ports"), ("total ports", "Portanzahl"),
-    ("downlink", "Downlink-Ports"), ("uplink", "Uplink-Optionen"),
-    ("available poe", "PoE-Budget"), ("poe power", "PoE-Budget"), ("perpetual poe", "Perpetual PoE"),
+    ("downlink", "Downlink-Ports"), ("uplink", "Uplink-Optionen"), ("network module", "Netzwerkmodul"),
+    ("available poe", "PoE-Budget"), ("poe power", "PoE-Budget"), ("perpetual poe", "Perpetual PoE"), ("poe", "PoE"),
     ("switching capacity", "Switching-Kapazität"), ("forwarding rate", "Durchsatz (Forwarding Rate)"),
     ("default ac power", "Netzteil (Standard)"), ("primary power supply", "Netzteil"), ("power supply", "Netzteil"),
-    ("dram", "DRAM"), ("flash", "Flash-Speicher"), ("weight", "Gewicht"), ("dimensions", "Abmessungen"),
-    ("stack", "Stacking"), ("vlan", "VLANs"),
+    ("secondary ps", "Zweitnetzteil"), ("dram", "DRAM"), ("flash", "Flash-Speicher"), ("memory", "Speicher"),
+    ("weight", "Gewicht"), ("dimension", "Abmessungen"), ("chassis only", "Abmessungen (Chassis)"),
+    ("stack", "Stacking"), ("vlan", "VLANs"), ("jumbo", "Jumbo-Frames"), ("mac address", "MAC-Adressen"),
+    ("latency", "Latenz"), ("buffer", "Paketpuffer"), ("mtbf", "MTBF"), ("operating temp", "Betriebstemperatur"),
+    ("humidity", "Luftfeuchtigkeit"), ("acoustic", "Geräuschpegel"), ("airflow", "Luftstrom"),
+    ("rack", "Rack-Höhe"), ("layer", "Layer"), ("throughput", "Durchsatz"),
 ]
+# english -> German for common column headers we don't have an explicit map for (kept in German site voice)
+GENERIC_DE = {"model": None, "sku": None, "description": "Beschreibung", "type": "Typ", "port": "Ports"}
 
 
 def _german(header: str) -> str | None:
-    h = header.lower()
+    h = header.lower().strip()
+    if h in ("", "model", "sku", "product number", "product id"):
+        return None  # the PID column, not a spec
     for sub, name in HEADER_MAP:
         if sub in h:
             return name
+    # keep any other real column header as-is (English), so we capture the full breadth of the table
+    if 2 < len(header) < 45 and not header[0].isdigit():
+        return header.strip()
     return None
 
 
