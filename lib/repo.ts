@@ -50,6 +50,42 @@ export async function indexablePartRefs(): Promise<{ vendor: string; slug: strin
     .toArray() as unknown as { vendor: string; slug: string; category: string }[];
 }
 
+// Comparison pages: an EoL switch family vs its successor family (highest-intent "[A] vs [B]" query).
+const SUCC_FAM = (sku: string): string | null =>
+  /C9300/.test(sku) ? "Cisco Catalyst 9300" : /C9200/.test(sku) ? "Cisco Catalyst 9200" :
+  /C9500/.test(sku) ? "Cisco Catalyst 9500" : /C9400/.test(sku) ? "Cisco Catalyst 9400" : null;
+
+// the richest-spec representative part of a family (for the side-by-side spec table)
+export async function familyReprPart(family: string): Promise<{ sku: string; slug: string; vendor: string; name: string; attributes: { name: string; value: string }[] } | null> {
+  const db = await getDb();
+  const parts = await db.collection<Part>("parts")
+    .find({ family, type: "switch" }, { projection: { _id: 0, sku: 1, slug: 1, vendor: 1, "i18n.de.name": 1, "i18n.de.attributes": 1 } }).toArray();
+  parts.sort((a, b) => (b.i18n?.de?.attributes?.length || 0) - (a.i18n?.de?.attributes?.length || 0));
+  const p = parts[0];
+  if (!p || (p.i18n?.de?.attributes?.length || 0) < 8) return null;
+  return { sku: p.sku, slug: p.slug, vendor: p.vendor, name: p.i18n?.de?.name || p.sku, attributes: (p.i18n?.de?.attributes || []) as { name: string; value: string }[] };
+}
+
+export async function comparisonPairs(): Promise<{ eolFamily: string; successorFamily: string; slug: string }[]> {
+  const eol = await eolFamilies();
+  const out: { eolFamily: string; successorFamily: string; slug: string }[] = [];
+  const seen = new Set<string>();
+  for (const f of eol) {
+    const parts = await eolFamilyParts(f.family);
+    const succCounts: Record<string, number> = {};
+    for (const p of parts) { const s = (p as { lifecycle?: Record<string, string> }).lifecycle?.successor_sku; const fam = s ? SUCC_FAM(s) : null; if (fam) succCounts[fam] = (succCounts[fam] || 0) + 1; }
+    const succFam = Object.entries(succCounts).sort((a, b) => b[1] - a[1])[0]?.[0];
+    if (!succFam || succFam === f.family) continue;
+    // both sides must have a spec'd representative
+    if (!(await familyReprPart(f.family)) || !(await familyReprPart(succFam))) continue;
+    const sl = (x: string) => x.replace("Cisco Catalyst ", "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const slug = `catalyst-${sl(f.family)}-vs-${sl(succFam)}`;
+    if (seen.has(slug)) continue; seen.add(slug);
+    out.push({ eolFamily: f.family, successorFamily: succFam, slug });
+  }
+  return out;
+}
+
 // Compat content pages: switch families with vendor-verified optic compatibility (Cisco TMG).
 export async function compatFamilies(): Promise<{ family: string; count: number }[]> {
   const db = await getDb();
@@ -117,6 +153,16 @@ export async function searchParts(q: string, limit = 40): Promise<Part[]> {
   return db.collection<Part>("parts")
     .find({ $or: [{ sku: rx }, { "i18n.en.name": rx }, { "i18n.de.name": rx }] }, { projection: { _id: 0 } })
     .limit(limit).toArray();
+}
+
+// a few well-specced representative parts per category (visual richness on the category page; a small
+// curated set, not thousands of links).
+export async function featuredParts(category: string, n = 8): Promise<{ sku: string; slug: string; vendor: string; name: string }[]> {
+  const db = await getDb();
+  const rows = await db.collection<Part>("parts")
+    .find({ category, "i18n.de.attributes.11": { $exists: true } }, { projection: { _id: 0, sku: 1, slug: 1, vendor: 1, "i18n.de.name": 1 } })
+    .sort({ sku: 1 }).limit(n).toArray();
+  return rows.map((r) => ({ sku: r.sku, slug: r.slug, vendor: r.vendor, name: r.i18n?.de?.name || r.sku }));
 }
 
 // public search over the WHOLE universe (stubs included), lean + with lifecycle summary. Powers the
