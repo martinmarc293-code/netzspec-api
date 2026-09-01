@@ -21,6 +21,7 @@ ADAPTERS = {
     "cisco-eol": ("adapters.cisco_eol", "cisco-eol"),
     "hpe-aruba-eol": ("adapters.hpe_aruba_eol", "hpe-aruba-eol"),
     "cisco-tmg": ("adapters.cisco_tmg", "cisco-tmg"),
+    "cisco-datasheets": ("adapters.cisco_datasheets", "cisco-datasheets"),
 }
 
 def main() -> int:
@@ -28,6 +29,7 @@ def main() -> int:
     ap.add_argument("adapter", choices=list(ADAPTERS))
     ap.add_argument("--series", default="", help="comma-separated series slugs (cisco-eol)")
     ap.add_argument("--platforms", default="", help="comma-separated platform PIDs (cisco-tmg)")
+    ap.add_argument("--urls", default="", help="comma-separated datasheet URLs (cisco-datasheets)")
     ap.add_argument("--headed", action="store_true", help="visible browser (watch / pass a challenge)")
     args = ap.parse_args()
 
@@ -45,6 +47,9 @@ def main() -> int:
         elif args.adapter == "cisco-tmg":
             platforms = [s.strip() for s in args.platforms.split(",") if s.strip()]
             records = mod.run(br, platforms)
+        elif args.adapter == "cisco-datasheets":
+            urls = [s.strip() for s in args.urls.split(",") if s.strip()]
+            records = mod.run(br, urls)
         else:  # hpe-aruba-eol and future no-arg adapters
             records = mod.run(br)
     finally:
