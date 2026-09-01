@@ -62,7 +62,7 @@ export async function familyReprPart(family: string): Promise<{ sku: string; slu
     .find({ family, type: "switch" }, { projection: { _id: 0, sku: 1, slug: 1, vendor: 1, "i18n.de.name": 1, "i18n.de.attributes": 1 } }).toArray();
   parts.sort((a, b) => (b.i18n?.de?.attributes?.length || 0) - (a.i18n?.de?.attributes?.length || 0));
   const p = parts[0];
-  if (!p || (p.i18n?.de?.attributes?.length || 0) < 8) return null;
+  if (!p || (p.i18n?.de?.attributes?.length || 0) < 6) return null;
   return { sku: p.sku, slug: p.slug, vendor: p.vendor, name: p.i18n?.de?.name || p.sku, attributes: (p.i18n?.de?.attributes || []) as { name: string; value: string }[] };
 }
 

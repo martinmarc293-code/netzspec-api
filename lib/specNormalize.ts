@@ -32,25 +32,39 @@ const bad = (reason: NormReason, detail: string): NormFail => ({ ok: false, reas
 // number + unit
 // ---------------------------------------------------------------------------------------------
 
-/** "41,67" -> 41.67 · "1.500" -> 1500 · "10 000" -> 10000. German conventions, not English. */
-export function parseGermanNumber(s: string): number | null {
-  let t = s.trim().replace(/ | |\s/g, "");
+export type Locale = "de" | "en";
+
+/** Number parsing is LOCALE-DEPENDENT, and getting it wrong is silent and catastrophic.
+ *  German source (HexCat):         "41,67" = 41.67    "250.000" = 250000
+ *  English source (Cisco sheets):  "32,000" = 32000   "1.73"    = 1.73
+ *  The SAME string "32,000" means 32.0 under German rules and 32000 under English ones. The
+ *  deep extractor reads English datasheets, so it must say so: MAC-table "32,000" silently
+ *  became 32.0 before this parameter existed. The plausibility bands caught that particular
+ *  one, but a band is a backstop, not a substitute for knowing the source's locale. */
+export function parseNumber(s: string, locale: Locale = "de"): number | null {
+  let t = s.trim().replace(/[  \s]/g, "");
   if (!t) return null;
   const hasComma = t.includes(","), hasDot = t.includes(".");
   if (hasComma && hasDot) {
-    // whichever separator is LAST is the decimal one
+    // whichever separator is LAST is the decimal one - true in both locales
     t = t.lastIndexOf(",") > t.lastIndexOf(".") ? t.replace(/\./g, "").replace(",", ".") : t.replace(/,/g, "");
   } else if (hasComma) {
-    // a comma with exactly 3 digits after it is ambiguous ("1,500"); German usage treats a single
-    // comma as decimal, so that is what we do — and the plausibility band catches the rare miss.
-    t = t.replace(",", ".");
+    // "1,335,012" is unambiguous in either locale: repeated 3-digit groups are thousands.
+    if (locale === "en" || /^\d{1,3}(,\d{3})+$/.test(t)) t = t.replace(/,/g, "");
+    else t = t.replace(",", ".");
   } else if (hasDot) {
-    const parts = t.split(".");
-    if (parts.length > 2 || (parts[1] && parts[1].length === 3)) t = t.replace(/\./g, "");
+    if (locale === "de") {
+      const parts = t.split(".");
+      if (parts.length > 2 || (parts[1] && parts[1].length === 3)) t = t.replace(/\./g, "");
+    }
+    // English: a dot is always the decimal point - leave it alone
   }
   const n = Number(t);
   return Number.isFinite(n) ? n : null;
 }
+
+/** Kept for the German call sites. */
+export const parseGermanNumber = (s: string) => parseNumber(s, "de");
 
 /** unit token (lowercased, spaces stripped) -> [dimension, factor to that dimension's base].
  *  Dimension-aware rather than pinned to one canonical unit, so any unit converts to any other
@@ -73,6 +87,7 @@ const UNITS: Record<string, [string, number]> = {
   // length — base metre (nm lives here too: a wavelength given in metres converts, and a
   // cable length mistakenly given in nm trips the plausibility band rather than being stored)
   "nm": ["length", 1e-9], "mm": ["length", 1e-3], "cm": ["length", 1e-2], "km": ["length", 1e3],
+  "in": ["length", 0.0254], "inch": ["length", 0.0254], "inches": ["length", 0.0254], "ft": ["length", 0.3048],
   // mass — base gram
   "kg": ["mass", 1e3], "lb": ["mass", 453.59237], "lbs": ["mass", 453.59237],
   // duration — base second
@@ -130,8 +145,9 @@ function firstNumberUnit(s: string): { n: number; unit: string } | null {
   return { n, unit: (m[2] || "").trim() };
 }
 
-function convert(n: number, rawUnit: string, canonical: string | undefined, key: string): NormResult {
+function convert(n: number, rawUnit: string, canonical: string | undefined, key: string, unitHint?: string): NormResult {
   if (!canonical) return ok(n);
+  if (!rawUnit && unitHint) rawUnit = unitHint;   // shape-C puts the unit in the LABEL, not the cell
   if (!rawUnit) {
     // A bare number is acceptable only for count-like fields, which have no canonical unit
     // beyond a label. Anything physical must carry its unit or we cannot know what it means.
@@ -227,7 +243,18 @@ const BOOL_HINTS: Record<string, RegExp> = {
 // entry point
 // ---------------------------------------------------------------------------------------------
 
-export function normalizeField(category: string, key: string, raw: string): NormResult {
+export type NormOpts = {
+  /** decimal/thousands convention of the SOURCE document ("en" for Cisco datasheets) */
+  locale?: Locale;
+  /** unit carried by the ROW LABEL rather than the cell — "Mean time between failures (hours)",
+   *  "Weight ... [Kilograms]", "Dimensions ... in centimeters". Without this, 607 deep-extracted
+   *  values were rejected UNIT_MISSING while their unit sat in plain sight in the label. */
+  unitHint?: string;
+};
+
+export function normalizeField(category: string, key: string, raw: string, opts: NormOpts = {}): NormResult {
+  const locale: Locale = opts.locale ?? "de";
+  const hint = opts.unitHint;
   const def = FIELD_DICTIONARY[key];
   if (!def) return bad("UNMAPPED_HEADER", `no dictionary entry for "${key}"`);
   const s = String(raw ?? "").trim();
@@ -262,7 +289,7 @@ export function normalizeField(category: string, key: string, raw: string): Norm
     case "n": {
       const hit = firstNumberUnit(s);
       if (!hit) return bad("PARSE_FAIL", `${key}: no number in "${s}"`);
-      const conv = convert(hit.n, hit.unit, canonical, key);
+      const conv = convert(hit.n, hit.unit, canonical, key, hint);
       if (!conv.ok) return conv;
       const viol = inBand(key, conv.value as number);
       return viol ?? conv;
@@ -274,15 +301,15 @@ export function normalizeField(category: string, key: string, raw: string): Norm
         // a single value is a legitimate degenerate range ("max. 45 °C")
         const hit = firstNumberUnit(s);
         if (!hit) return bad("PARSE_FAIL", `${key}: no range or number in "${s}"`);
-        const c1 = convert(hit.n, hit.unit, canonical, key);
+        const c1 = convert(hit.n, hit.unit, canonical, key, hint);
         if (!c1.ok) return c1;
         const v1 = c1.value as number;
         return inBand(key, v1) ?? ok({ min: v1, max: v1 }, canonical);
       }
-      const lo = parseGermanNumber(m[1]), hi = parseGermanNumber(m[3]);
+      const lo = parseNumber(m[1], locale), hi = parseNumber(m[3], locale);
       if (lo === null || hi === null) return bad("PARSE_FAIL", `${key}: unparsable range "${s}"`);
       const unit = (m[4] || m[2] || "").trim();
-      const cl = convert(lo, unit, canonical, key), ch = convert(hi, unit, canonical, key);
+      const cl = convert(lo, unit, canonical, key, hint), ch = convert(hi, unit, canonical, key, hint);
       if (!cl.ok) return cl;
       if (!ch.ok) return ch;
       const min = cl.value as number, max = ch.value as number;
@@ -305,11 +332,29 @@ export function normalizeField(category: string, key: string, raw: string): Norm
     }
     case "s":
       return ok(s);
-    case "struct":
-      // Structs (port layouts, dimensions, reach tables) need a per-field parser. Legacy prose
-      // like "24x Gigabit-RJ45 (PoE+, 30 W) + 4x 1G-SFP (Uplink)" is not reliably decomposable,
-      // and a wrong port map is worse than a recorded gap. Reported, never guessed.
+    case "struct": {
+      // dimensions is mechanical: "1.73 x 17.5 x 19" / "4.4 x 44.5 x 48.3", H x W x D, with the
+      // unit in the label. Everything else (port layouts, reach tables) is NOT reliably
+      // decomposable from prose - "24x Gigabit-RJ45 (PoE+, 30 W) + 4x 1G-SFP (Uplink)" - and a
+      // wrong port map is worse than a recorded gap. Reported, never guessed.
+      if (key === "dimensions") {
+        // NOTE: inside a TEMPLATE LITERAL, "\s" is not a valid string escape and collapses to a
+        // literal "s", and "\u00d7" becomes the \u00d7 character itself. Both must be double-escaped
+        // to survive into the regex. The first version of this line silently matched nothing.
+        const m = new RegExp(`(${NUM})\\s*[x\\u00d7X]\\s*(${NUM})\\s*[x\\u00d7X]\\s*(${NUM})`).exec(s);
+        if (!m) return bad("STRUCT_UNPARSED", `${key}: no HxWxD triple in "${s}"`);
+        const nums = [m[1], m[2], m[3]].map((x) => parseNumber(x.replace(/[^0-9.,-]/g, ""), locale));
+        if (nums.some((n) => n === null)) return bad("PARSE_FAIL", `${key}: unparsable triple "${s}"`);
+        const tail = s.slice(m.index + m[0].length).trim();
+        const rawUnit = (new RegExp(`^${UNIT_TOKEN}`).exec(tail)?.[0] || "") || hint || "";
+        const conv = nums.map((n) => convert(n as number, rawUnit, "mm", key, hint));
+        const firstBad = conv.find((c) => !c.ok);
+        if (firstBad && !firstBad.ok) return firstBad;
+        const [h, w, d] = conv.map((c) => (c as NormOk).value as number);
+        return ok({ h, w, d }, "mm");
+      }
       return bad("STRUCT_UNPARSED", `${key}: struct field needs a dedicated parser`);
+    }
     default:
       return bad("PARSE_FAIL", `${key}: unhandled type ${def.type}`);
   }

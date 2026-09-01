@@ -68,19 +68,49 @@ def _rows(table):
     return out
 
 
-def parse_shape_a(rows, ti, url):
+GERMAN_MARKERS = ("Datenblatt", "Übersicht", "Bestellinformationen", "Technische Daten",
+                  "Produktübersicht", "Vorteile", "Merkmale und Vorteile")
+
+
+def assert_english(html: str) -> None:
+    """S15. netzscrape forces locale=en-US because Cisco's CDN served French under de-DE and
+    silently broke the parser. Forcing it is not the same as verifying it, so verify: a page that
+    comes back German means every label we are about to map is in the wrong language, and the run
+    must stop rather than produce plausible-looking rubbish."""
+    hits = [m for m in GERMAN_MARKERS if m in html]
+    if len(hits) >= 2:
+        raise ValueError(f"LOCALE_MISMATCH: page appears German despite en-US ({', '.join(hits[:3])})")
+
+
+def parse_shape_a(rows, ti, url, defects=None):
     """PID-per-row x attribute-per-column. Header row names the attributes."""
     recs = []
+    defects = defects if defects is not None else []
     if len(rows) < 2:
         return recs
     header = rows[0]
     if not header or not MODEL_HDR.match(header[0].strip()):
+        # S1. A shifted header row leaves a PID sitting where the column names belong. Every value
+        # would then be attributed to the wrong column - silently, and for the whole table.
+        if header and _is_pid(header[0].strip()):
+            defects.append({"code": "SCHEMA_MATCH_LOW", "locator": f"t{ti}:r0",
+                            "detail": f"header row starts with a PID ({header[0].strip()}); header likely shifted"})
         return recs
+    ncols = len(header)
     for ri, cells in enumerate(rows[1:], start=1):
         pid = cells[0].strip()
         if not _is_pid(pid):
             continue
-        for ci in range(1, min(len(cells), len(header))):
+        # S14/S2. A data row whose arity does not match the header means a colspan/rowspan merge
+        # or a table split across a page break. Either way the cells no longer line up with the
+        # headers, so every value in the row would be filed under the wrong attribute. Reject the
+        # ROW, record why, and keep the rest of the table.
+        if len(cells) != ncols:
+            code = "TABLE_SPLIT_DETECTED" if len(cells) < ncols - 1 else "GRID_MISALIGNED"
+            defects.append({"code": code, "locator": f"t{ti}:r{ri}",
+                            "detail": f"{pid}: row has {len(cells)} cells, header has {ncols}"})
+            continue
+        for ci in range(1, min(len(cells), ncols)):
             label, val = header[ci].strip(), cells[ci].strip()
             if label and val and val not in ("-", "--", "N/A", "n/a", ""):
                 recs.append({"sku": pid, "label": label, "value": val[:160],
@@ -184,21 +214,32 @@ def run(browser, urls: list[str]) -> list[dict]:
         except Exception as e:  # noqa
             print(f"  ! {url}: {e}", file=sys.stderr)
             continue
+        try:
+            assert_english(html)
+        except ValueError as e:
+            print(f"  ! {url}: {e}", file=sys.stderr)
+            continue
         soup = BeautifulSoup(html, "lxml")
         tables = soup.find_all("table")
         rows_all = [_rows(t) for t in tables]
         pids = document_pids(rows_all)
         before = len(out)
         counts = {"A": 0, "B": 0, "C": 0}
+        defects: list[dict] = []
         for ti, rows in enumerate(rows_all):
             if len(rows) < 2:
                 continue
             for fn, shape in ((parse_shape_a, "A"), (parse_shape_b, "B"), (parse_shape_c, "C")):
-                recs = fn(rows, ti, url)
+                recs = fn(rows, ti, url, defects) if fn is parse_shape_a else fn(rows, ti, url)
                 counts[shape] += len(recs)
                 out.extend(recs)
         # the document's own PID list rides along so the merge step can enforce inheritance scope
-        out.append({"__doc__": True, "source_url": url, "pid_list": pids, "tables": len(tables)})
+        out.append({"__doc__": True, "source_url": url, "pid_list": pids, "tables": len(tables),
+                    "defects": defects})
+        dc = {}
+        for d in defects:
+            dc[d["code"]] = dc.get(d["code"], 0) + 1
         print(f"  [cisco-specs-deep] {url[-46:]}: {len(out)-before-1} facts "
-              f"(A={counts['A']} B={counts['B']} C={counts['C']}), {len(pids)} PIDs, {len(tables)} tables")
+              f"(A={counts['A']} B={counts['B']} C={counts['C']}), {len(pids)} PIDs, "
+              f"{len(tables)} tables, defects={dc or '{}'}")
     return out

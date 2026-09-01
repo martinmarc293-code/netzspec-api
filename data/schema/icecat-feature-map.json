@@ -1,0 +1,52 @@
+{
+  "_readme": [
+    "Icecat feature-ID -> netzspec field_key.",
+    "",
+    "PROVENANCE RULE, same as the ETIM map: no feature-ID enters this file from memory. Every",
+    "entry below was READ from a live Icecat API response and the response that produced it is",
+    "recorded in `observed_from`. A guessed feature-ID would silently mis-join every record that",
+    "uses it, and would be indistinguishable from a correct one until someone compared values.",
+    "",
+    "This is a PARTIAL map, seeded from one Open-tier product. The complete map needs Icecat's",
+    "reference files (FeaturesList), which require credentials the operator must supply -",
+    "[OPERATOR] item. Feature-IDs with no entry here are written to",
+    "data/schema/icecat-feature-backlog.json by the importer: a named gap, never a guess.",
+    "",
+    "The feature ID is the join key precisely because it is language-independent: the same ID",
+    "carries 'Switch-Typ' in de and 'Switch type' in en. The previous importer de-duplicated on",
+    "the localised display name and threw the ID away."
+  ],
+  "observed_from": [
+    {
+      "request": "live.icecat.biz/api/?lang=de&Brand=TP-Link&ProductCode=TL-SG108",
+      "icecat_id": "79344157",
+      "observed_at": "2026-09-01",
+      "features_returned": 50,
+      "note": "Open-tier product; Cisco/HPE return 403 until Full Icecat + brand authorization"
+    }
+  ],
+  "features": {
+    "3769": "mgmt_class",
+    "3241": "layer",
+    "13503": "ports",
+    "1802": "ieee_standards",
+    "1801": "switching_capacity",
+    "7675": "forwarding_rate",
+    "566": "mac_table",
+    "21666": "jumbo_mtu",
+    "13509": "packet_buffer",
+    "35026": "acl_entries"
+  },
+  "feature_labels_at_observation": {
+    "3769": "Switch-Typ",
+    "3241": "Switch-Ebene",
+    "13503": "Anzahl der basisschaltenden Ports",
+    "1802": "Netzstandard",
+    "1801": "Routing-/Switching-Kapazität",
+    "7675": "Transferrate",
+    "566": "MAC-Adressentabelle",
+    "21666": "Jumbo-Frames",
+    "13509": "Datenpaket-Pufferspeicher",
+    "35026": "Zugriffskontrollliste (ACL)"
+  }
+}
