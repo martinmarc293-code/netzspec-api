@@ -8395,5 +8395,159 @@
     "series_name": "Catalyst 9800 for Cloud",
     "datasheets": [],
     "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/mobility-express/index.html": {
+    "category": "wireless",
+    "series_slug": "mobility-express",
+    "series_name": "Aironet Mobility Express",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/embedded-wireless-controller-catalyst-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "embedded-wireless-controller-catalyst-access-points",
+    "series_name": "Catalyst Embedded Controller",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/virtual-wireless-controller/index.html": {
+    "category": "wireless",
+    "series_slug": "virtual-wireless-controller",
+    "series_name": "Virtual Wireless Controller",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/virtual-wireless-controller/data_sheet_c78-714543.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/wireless-lan-controller-software/index.html": {
+    "category": "wireless",
+    "series_slug": "wireless-lan-controller-software",
+    "series_name": "Wireless Controller Software",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/spectrum-expert/index.html": {
+    "category": "wireless",
+    "series_slug": "spectrum-expert",
+    "series_name": "Spectrum Expert",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/connected-mobile-experiences/index.html": {
+    "category": "wireless",
+    "series_slug": "connected-mobile-experiences",
+    "series_name": "Connected Mobile Experiences (CMX)",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/mobility-services-engine/datasheet-c78-734648.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/connected-mobile-experiences-cmx-cloud/index.html": {
+    "category": "wireless",
+    "series_slug": "connected-mobile-experiences-cmx-cloud",
+    "series_name": "Connected Mobile Experiences (CMX) Cloud",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/mobility-services-engine/index.html": {
+    "category": "wireless",
+    "series_slug": "mobility-services-engine",
+    "series_name": "Mobility Services Engine",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/mobility-services-engine/data_sheet_c07-473865.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/mobility-services-engine/datasheet-c78-734648.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/interface-module-lorawan/index.html": {
+    "category": "routers",
+    "series_slug": "interface-module-lorawan",
+    "series_name": "Wireless Gateway for LoRaWAN",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/se/internet-of-things/datasheet-c78-737307.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/1101-industrial-integrated-services-router/datasheet-c78-741709.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/ultra-cloud-core-access-mobility-management-function/index.html": {
+    "category": "wireless",
+    "series_slug": "ultra-cloud-core-access-mobility-management-function",
+    "series_name": "Access and Mobility Management Function",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/ultra-cloud-core-converged-policy-charging/index.html": {
+    "category": "wireless",
+    "series_slug": "ultra-cloud-core-converged-policy-charging",
+    "series_name": "Converged Policy and Charging",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/ultra-cloud-core-network-repository-function/index.html": {
+    "category": "wireless",
+    "series_slug": "ultra-cloud-core-network-repository-function",
+    "series_name": "Network Repository Function",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/ultra-cloud-core-policy-control-function/index.html": {
+    "category": "wireless",
+    "series_slug": "ultra-cloud-core-policy-control-function",
+    "series_name": "Policy Control Function",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/ultra-cloud-core-serving-gateway-function/index.html": {
+    "category": "wireless",
+    "series_slug": "ultra-cloud-core-serving-gateway-function",
+    "series_name": "Serving Gateway Function",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/ultra-cloud-core-session-management-function/index.html": {
+    "category": "wireless",
+    "series_slug": "ultra-cloud-core-session-management-function",
+    "series_name": "Session Management Function",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/ultra-cloud-core-subscriber-microservices-infrastructure/index.html": {
+    "category": "wireless",
+    "series_slug": "ultra-cloud-core-subscriber-microservices-infrastructure",
+    "series_name": "Subscriber Microservices Infrastructure",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/ultra-cloud-core-user-plane-function/index.html": {
+    "category": "wireless",
+    "series_slug": "ultra-cloud-core-user-plane-function",
+    "series_name": "User Plane Function",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/virtual-packet-core/index.html": {
+    "category": "wireless",
+    "series_slug": "virtual-packet-core",
+    "series_name": "Ultra Packet Core",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
   }
 }
