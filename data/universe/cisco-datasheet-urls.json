@@ -6840,5 +6840,1560 @@
     "series_name": "1000 Connected Grid",
     "datasheets": [],
     "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/2010-connected-grid-router/index.html": {
+    "category": "routers",
+    "series_slug": "2010-connected-grid-router",
+    "series_name": "2000 Connected Grid",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/ic3000-industrial-compute-gateway/index.html": {
+    "category": "routers",
+    "series_slug": "ic3000-industrial-compute-gateway",
+    "series_name": "3000 Compute Gateway",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/6300-embedded-service-router/index.html": {
+    "category": "routers",
+    "series_slug": "6300-embedded-service-router",
+    "series_name": "ESR6300 Embedded",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/carrier-routing-system/index.html": {
+    "category": "routers",
+    "series_slug": "carrier-routing-system",
+    "series_name": "Carrier Routing System",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-726136.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/product_data_sheet0900aecd804ff54e.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/product_data_sheet0900aecd80660fde.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/datasheet-c78-730789.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/product_data_sheet0900aecd8053b020.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/crs-1-16-slot-single-shelf-system/product_data_sheet09186a008022d5f1.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/crs-1-8-slot-single-shelf-system/product_data_sheet0900aecd801d53aa.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/product_data_sheet0900aecd80501c66.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/datasheet-c78-730790.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/datasheet-c78-730793.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-723232.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/datasheet-c78-730791.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/product_data_sheet0900aecd80280a68.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-614893.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/crs-1-16-slot-single-shelf-system/product_data_sheet09186a008022d5f0.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/datasheet-c78-730792.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-553670.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-553672.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/crs-1-16-slot-single-shelf-system/product_data_sheet09186a008022d5e9.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-553671.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/datasheet-c78-734068.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-549654.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/crs-1-8-slot-single-shelf-system/product_data_sheet0900aecd80395b82.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/product_data_sheet0900aecd80395bbe.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-478689.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/12000-series-routers/product_data_sheet0900aecd804dfd10.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-717299.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-726678.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-608171.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-659773.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-659947.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-728888.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-728681.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd804d884d.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd80715dc5.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd804dc62d.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-659772.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/datasheet_c78-478689_0629.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-608169.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/data_sheet_c78-408226.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd80350cc5.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd803398df.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/cloud-native-bng-control-plane/index.html": {
+    "category": "routers",
+    "series_slug": "cloud-native-bng-control-plane",
+    "series_name": "Cloud Native Broadband Network Gateway (cnBNG)",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/routed-pon/index.html": {
+    "category": "routers",
+    "series_slug": "routed-pon",
+    "series_name": "Routed PON",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/pon-sfp-modules-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/quantum-wan-automation-visibility-engine/index.html": {
+    "category": "routers",
+    "series_slug": "quantum-wan-automation-visibility-engine",
+    "series_name": "WAN Automation Engine (WAE)",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/5900-series-embedded-services-routers/index.html": {
+    "category": "routers",
+    "series_slug": "5900-series-embedded-services-routers",
+    "series_name": "5900 Embedded Services",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/5900-series-embedded-services-routers/datasheet_c78_630483.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/5921-embedded-services-router/data_sheet_c78-729702.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/5900-series-embedded-services-routers/data_sheet_c78-680067.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/catalyst-wireless-gateway-cg110-series/index.html": {
+    "category": "routers",
+    "series_slug": "catalyst-wireless-gateway-cg110-series",
+    "series_name": "Catalyst Wireless Gateway CG113",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-wireless-gateway-cg110-series/nb-06-cat-wireless-gateway-cg113-ds-cte-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/interface-module-lorawan-868mhz-915mhz/index.html": {
+    "category": "routers",
+    "series_slug": "interface-module-lorawan-868mhz-915mhz",
+    "series_name": "Wireless Gateway for LoRaWAN",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/secure-firewall-200-series/index.html": {
+    "category": "security",
+    "series_slug": "secure-firewall-200-series",
+    "series_name": "200 Secure",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/firewalls/secure-firewall-200-series/secure-firewall-220-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/firepower-2100-series/index.html": {
+    "category": "security",
+    "series_slug": "firepower-2100-series",
+    "series_name": "2100 Firepower",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/firepower-2100-series/datasheet-c78-742473.html",
+      "https://www.cisco.com/c/en/us/products/collateral/security/ngips/datasheet-c78-742472.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/firepower-4100-series/index.html": {
+    "category": "security",
+    "series_slug": "firepower-4100-series",
+    "series_name": "4100 Firepower",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/firepower-4100-series/datasheet-c78-742474.html",
+      "https://www.cisco.com/c/en/us/products/collateral/security/ngips/datasheet-c78-742472.html",
+      "https://www.cisco.com/c/en/us/products/collateral/security/adaptive-security-virtual-appliance-asav/adapt-security-virtual-appliance-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/asa-firepower-services/index.html": {
+    "category": "security",
+    "series_slug": "asa-firepower-services",
+    "series_name": "5500-X ASA with Firepower",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/asa-5500-series-next-generation-firewalls/datasheet-c78-730903.html",
+      "https://www.cisco.com/c/en/us/products/collateral/security/asa-firepower-services/datasheet-c78-742475.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/adaptive-security-appliance-asa-software/index.html": {
+    "category": "security",
+    "series_slug": "adaptive-security-appliance-asa-software",
+    "series_name": "ASA",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/adaptive-security-appliance-asa-software/data_sheet_c78-714849.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/virtual-adaptive-security-appliance-firewall/index.html": {
+    "category": "security",
+    "series_slug": "virtual-adaptive-security-appliance-firewall",
+    "series_name": "ASA Virtual",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/adaptive-security-virtual-appliance-asav/adapt-security-virtual-appliance-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/defense-center-virtual-appliance/index.html": {
+    "category": "security",
+    "series_slug": "defense-center-virtual-appliance",
+    "series_name": "Management Center Virtual",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/firewall-migration-manager/index.html": {
+    "category": "security",
+    "series_slug": "firewall-migration-manager",
+    "series_name": "Migration Manager",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/firepower-ngfw-virtual/index.html": {
+    "category": "security",
+    "series_slug": "firepower-ngfw-virtual",
+    "series_name": "Threat Defense Virtual",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/firewalls/threat-defense-container-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/security/firewalls/threat-defense-virtual-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/dynamic-multipoint-vpn-dmvpn/index.html": {
+    "category": "security",
+    "series_slug": "dynamic-multipoint-vpn-dmvpn",
+    "series_name": "Dynamic Multipoint VPN (DMVPN)",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/dynamic-multipoint-vpn-dmvpn/data_sheet_c78-468520.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/flexvpn/index.html": {
+    "category": "security",
+    "series_slug": "flexvpn",
+    "series_name": "FlexVPN",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/ios-easy-vpn/index.html": {
+    "category": "security",
+    "series_slug": "ios-easy-vpn",
+    "series_name": "IOS Easy VPN",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/ios-easy-vpn/data_sheet_c78-457320.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/ios-sslvpn/index.html": {
+    "category": "security",
+    "series_slug": "ios-sslvpn",
+    "series_name": "IOS SSL VPN",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/cloud-email-security/index.html": {
+    "category": "security",
+    "series_slug": "cloud-email-security",
+    "series_name": "Cloud Email",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/cloud-email-security/datasheet-c78-742868.html",
+      "https://www.cisco.com/c/en/us/products/collateral/security/cloud-email-security/secure-email-threat-defense-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/security/email-security-appliance/data_sheet_c78-677121.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/security/email-security-appliance/datasheet_C78-726116.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/security/email-security-virtual-appliance/index.html": {
+    "category": "security",
+    "series_slug": "email-security-virtual-appliance",
+    "series_name": "Email Gateway Virtual",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/cloud-mailbox-defense/index.html": {
+    "category": "security",
+    "series_slug": "cloud-mailbox-defense",
+    "series_name": "Email Threat Defense",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/web-security-virtual-appliance/index.html": {
+    "category": "security",
+    "series_slug": "web-security-virtual-appliance",
+    "series_name": "Web Appliance Virtual",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/content-security-management-virtual-appliance/index.html": {
+    "category": "security",
+    "series_slug": "content-security-management-virtual-appliance",
+    "series_name": "Email and Web Manager Virtual",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/security-manager/index.html": {
+    "category": "security",
+    "series_slug": "security-manager",
+    "series_name": "Security Manager",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/security-manager/datasheet-C78-737182.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/endpoint-security-analytics-built-on-splunk/index.html": {
+    "category": "security",
+    "series_slug": "endpoint-security-analytics-built-on-splunk",
+    "series_name": "Endpoint Security Analytics Built on Splunk",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/amp-threat-grid-appliances/index.html": {
+    "category": "security",
+    "series_slug": "amp-threat-grid-appliances",
+    "series_name": "Secure Malware Analytics",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/amp-threat-grid-cloud/index.html": {
+    "category": "security",
+    "series_slug": "amp-threat-grid-cloud",
+    "series_name": "Secure Malware Analytics Cloud",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/ios-firewall/index.html": {
+    "category": "security",
+    "series_slug": "ios-firewall",
+    "series_name": "IOS Firewall",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/secure-application-delivery-controller/index.html": {
+    "category": "security",
+    "series_slug": "secure-application-delivery-controller",
+    "series_name": "Secure Application Delivery Controller",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/firepower-7000-series-appliances/index.html": {
+    "category": "security",
+    "series_slug": "firepower-7000-series-appliances",
+    "series_name": "FirePOWER 7000 Appliances",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/firepower-8000-series-appliances/index.html": {
+    "category": "security",
+    "series_slug": "firepower-8000-series-appliances",
+    "series_name": "FirePOWER 8000 Appliances",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/ngips-virtual-appliance/index.html": {
+    "category": "security",
+    "series_slug": "ngips-virtual-appliance",
+    "series_name": "NGIPS Virtual Appliance",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/secure-cloud-insights/index.html": {
+    "category": "security",
+    "series_slug": "secure-cloud-insights",
+    "series_name": "Attack Surface Management",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/ise-passive-identity-connector/index.html": {
+    "category": "security",
+    "series_slug": "ise-passive-identity-connector",
+    "series_name": "ISE Passive Identity Connector",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/identity-services-engine/datasheet-c78-738846.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/security-analytics-logging/index.html": {
+    "category": "security",
+    "series_slug": "security-analytics-logging",
+    "series_name": "Security Analytics and Logging",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/stealthwatch-data-store/index.html": {
+    "category": "security",
+    "series_slug": "stealthwatch-data-store",
+    "series_name": "Data Store",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/stealthwatch/datasheet-c78-739398.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/stealthwatch-flow-collector-series/index.html": {
+    "category": "security",
+    "series_slug": "stealthwatch-flow-collector-series",
+    "series_name": "Flow Collector",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/stealthwatch/datasheet-c78-739398.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/stealthwatch-flow-sensor-series/index.html": {
+    "category": "security",
+    "series_slug": "stealthwatch-flow-sensor-series",
+    "series_name": "Flow Sensor",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/stealthwatch/datasheet-c78-739398.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/stealthwatch-management-console/index.html": {
+    "category": "security",
+    "series_slug": "stealthwatch-management-console",
+    "series_name": "Manager",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/stealthwatch/datasheet-c78-739398.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/stealthwatch-udp-director/index.html": {
+    "category": "security",
+    "series_slug": "stealthwatch-udp-director",
+    "series_name": "UDP Director",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/stealthwatch-management-console-virtual-appliance/index.html": {
+    "category": "security",
+    "series_slug": "stealthwatch-management-console-virtual-appliance",
+    "series_name": "Virtual Releases",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/ai-defense/index.html": {
+    "category": "security",
+    "series_slug": "ai-defense",
+    "series_name": "AI Defense",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/ai-defense/ai-defense-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/stealthwatch-cloud/index.html": {
+    "category": "security",
+    "series_slug": "stealthwatch-cloud",
+    "series_name": "Secure Cloud Analytics",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/security/stealthwatch/datasheet-c78-744520.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/security/stealthwatch/secure-cloud-analytics-ds.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/storage-networking/san-insights-discovery/index.html": {
+    "category": "storage-networking",
+    "series_slug": "san-insights-discovery",
+    "series_name": "SAN Analytics Insights Discovery",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/storage-networking/mds-9000-software-licensing/index.html": {
+    "category": "storage-networking",
+    "series_slug": "mds-9000-software-licensing",
+    "series_name": "Software Licensing",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9000-software-licensing/product_data_sheet09186a00801ca6ac.html",
+      "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9000-series-multilayer-switches/product_data_sheet09186a00801d7e8f.html",
+      "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9000-software-licensing/product_data_sheet0900aecd8059ec4f.html",
+      "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9000-series-multilayer-switches/product_data_sheet09186a00801cc917.html",
+      "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9000-series-multilayer-switches/product_data_sheet0900aecd8017a6eb.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/storage-networking/mds-9000-software-licensing/product_data_sheet0900aecd80692ec1.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/storage-networking/mds-9000-software-licensing/product_data_sheet0900aecd80692ec9.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-1000-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-1000-series-switches",
+    "series_name": "1000",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1000-series-switches/nb-06-cat1k-ser-switch-ds-cte-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-2960-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-2960-series-switches",
+    "series_name": "2960",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-2960-series-switches/product_data_sheet0900aecd80322c0c.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-2960-series-switches/product_data_sheet0900aecd806b0bd8.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-2960-c-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-2960-c-series-switches",
+    "series_name": "2960-C",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-2960-c-series-switches/data_sheet_c78-639705.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-2960-cx-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-2960-cx-series-switches",
+    "series_name": "2960-CX",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-3560-cx-series-switches/datasheet-c78-733229.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-2960-l-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-2960-l-series-switches",
+    "series_name": "2960-L",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-2960-l-series-switches/nb-06-cat2960-l-ser-data-sheet-cte-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-2960-plus-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-2960-plus-series-switches",
+    "series_name": "2960-Plus",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-2960-plus-series-switches/data_sheet_c78-728003.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-2960-s-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-2960-s-series-switches",
+    "series_name": "2960-S",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-2960-s-series-switches/data_sheet_c78-726680.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-2960-x-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-2960-x-series-switches",
+    "series_name": "2960-X",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-2960-x-series-switches/datasheet_c78-728232.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-2960-xr-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-2960-xr-series-switches",
+    "series_name": "2960-XR",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-2960-x-series-switches/datasheet_c78-728232.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-3560-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-3560-series-switches",
+    "series_name": "3560",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-3560-c-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-3560-c-series-switches",
+    "series_name": "3560-C",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-2960-c-series-switches/data_sheet_c78-639705.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-3560-cx-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-3560-cx-series-switches",
+    "series_name": "3560-CX",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-3560-cx-series-switches/datasheet-c78-733229.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-3650-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-3650-series-switches",
+    "series_name": "3650",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-3650-series-switches/data_sheet-c78-729449.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-3750-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-3750-series-switches",
+    "series_name": "3750",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-3750-series-switches/product_data_sheet0900aecd80371991.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-3750-x-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-3750-x-series-switches",
+    "series_name": "3750-X",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-3560-x-series-switches/data_sheet_c78-584733.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-4500-x-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-4500-x-series-switches",
+    "series_name": "4500-X",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-4500-x-series-switches/data_sheet_c78-696791.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-4900-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-4900-series-switches",
+    "series_name": "4900",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-4900-series-switches/product_data_sheet0900aecd80246552.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-4900-series-switches/product_data_sheet0900aecd8017a72e.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-4900-series-switches/Data_Sheet_Cat_4900M.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-6500-virtual-switching-system-1440/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-6500-virtual-switching-system-1440",
+    "series_name": "6500 VSS 1440",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-6500-series-switches/product_data_sheet09186a0080159856.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-6800-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-6800-series-switches",
+    "series_name": "6800",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-6880-x-switch/data_sheet_c78-728228.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-6800-series-switches/datasheet-c78-739155.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-6840-x-switch/datasheet-c78-734470.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-6800-series-switches/datasheet-c78-733662.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/catalyst-6800-series-supervisor-engine-6t/datasheet-c78-736408.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-6807-xl-switch/datasheet-c78-728229.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-6800-series-switches/datasheet-c78-733663.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-9200-r-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-9200-r-series-switches",
+    "series_name": "9200",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/nb-06-cat9200-ser-data-sheet-cte-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-digital-building-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-digital-building-series-switches",
+    "series_name": "Digital Building Series",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-digital-building-series-switches/datasheet-c78-738206.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/catalyst-pon-series/index.html": {
+    "category": "switches",
+    "series_slug": "catalyst-pon-series",
+    "series_name": "PON Series",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-pon-series/nb-06-cat-pon-datasheet-cte-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/redundant-power-systems/index.html": {
+    "category": "switches",
+    "series_slug": "redundant-power-systems",
+    "series_name": "Redundant Power Systems",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/redundant-power-system-2300/product_data_sheet0900aecd805bbef6.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/nexus-2000-series-fabric-extenders/index.html": {
+    "category": "switches",
+    "series_slug": "nexus-2000-series-fabric-extenders",
+    "series_name": "Nexus 2000 Fabric Extenders",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-2000-series-fabric-extenders/datasheet-c78-731663.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-b22-blade-fabric-extender/data_sheet_c78-685265.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-2000-series-fabric-extenders/data_sheet_c78-507093.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-5000-series-switches/data_sheet_c78-657397.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-5000-series-switches/data_sheet_c78-618603.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/nexus-5000-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "nexus-5000-series-switches",
+    "series_name": "Nexus 5000",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-5624q-switch/datasheet-c78-733100.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-5000-series-switches/datasheet-c78-730760.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-5000-series-switches/data_sheet_c78-618603.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/nexus-6000-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "nexus-6000-series-switches",
+    "series_name": "Nexus 6000",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-6001-switch/data_sheet_c78-726128.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-6000-series-switches/datasheet-c78-732277.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/nexus-7000-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "nexus-7000-series-switches",
+    "series_name": "Nexus 7000",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/Data_Sheet_C78-437762.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-728187.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-740949.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-741087.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-728591.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-728596.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-710881.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-684211.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/Data_Sheet_C78-437758.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/Data_Sheet_C78-437760.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-736538.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-741486.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-728423.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-719524.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-728412.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-730273.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-738173.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-738174.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-733366.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-736537.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-738175.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-728422.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-728409.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-720322.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-685394.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-605622.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-695858.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-695859.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-706775.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-574915.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-605482.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-574928.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/nexus-7000-series-network-analysis-module-nam-nx1/data_sheet_c78-723132.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/Data_Sheet_C78-437759.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-736900.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-736901.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-729141.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/Data_Sheet_C78-437761.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data_sheet_c78-602255.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-731406.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/cloud-services-platform-5000/index.html": {
+    "category": "switches",
+    "series_slug": "cloud-services-platform-5000",
+    "series_name": "Cloud Services Platform 5000",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/cloud-services-platform-5000/nb-06-csp-5k-data-sheet-cte-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/95-series-unmanaged-switches/index.html": {
+    "category": "switches",
+    "series_slug": "95-series-unmanaged-switches",
+    "series_name": "95 Unmanaged",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/110-series-unmanaged-switches/index.html": {
+    "category": "switches",
+    "series_slug": "110-series-unmanaged-switches",
+    "series_name": "110 Unmanaged",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/110-series-unmanaged-switches/datasheet-c78-734450.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/small-business-220-series-smart-plus-switches/index.html": {
+    "category": "switches",
+    "series_slug": "small-business-220-series-smart-plus-switches",
+    "series_name": "220 Smart",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-220-series-smart-plus-switches/datasheet-c78-731284.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/250-series-smart-switches/index.html": {
+    "category": "switches",
+    "series_slug": "250-series-smart-switches",
+    "series_name": "250 Smart",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/250-series-smart-switches/datasheet-c78-737061.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/250-series-smart-switches/datasheet-c78-737061-chinese.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/250-series-smart-switches/datasheet-c78-737061-french.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/250-series-smart-switches/datasheet-c78-737061-german.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/250-series-smart-switches/datasheet-c78-737061-italian.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/250-series-smart-switches/datasheet-c78-737061-spanish.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/switches/350-series-managed-switches/index.html": {
+    "category": "switches",
+    "series_slug": "350-series-managed-switches",
+    "series_name": "350 Managed",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/350-series-managed-switches/data-sheet-c78-737359-chinese.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/350-series-managed-switches/data-sheet-c78-737359-french.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/350-series-managed-switches/data-sheet-c78-737359-german.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/350-series-managed-switches/data-sheet-c78-737359-italian.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/350-series-managed-switches/data-sheet-c78-737359-spanish.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/switches/350x-series-stackable-managed-switches/index.html": {
+    "category": "switches",
+    "series_slug": "350x-series-stackable-managed-switches",
+    "series_name": "350X Stackable Managed",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/350x-series-stackable-managed-switches/350x-stackable-managed-switches-ds-ch.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/350x-series-stackable-managed-switches/350x-stackable-managed-switches-ds-de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/350x-series-stackable-managed-switches/350x-stackable-managed-switches-ds-it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/350x-series-stackable-managed-switches/350x-stackable-managed-switches-ds-es.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/switches/550x-series-stackable-managed-switches/index.html": {
+    "category": "switches",
+    "series_slug": "550x-series-stackable-managed-switches",
+    "series_name": "550X Stackable Managed",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/550x-series-stackable-managed-switches/datasheet-c78-735874.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/550x-series-stackable-managed-switches/550x-stackable-managed-switches-ds-ch.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/550x-series-stackable-managed-switches/550x-stackable-managed-switches-ds-fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/550x-series-stackable-managed-switches/550x-stackable-managed-switches-ds-de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/550x-series-stackable-managed-switches/550x-stackable-managed-switches-ds-it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/550x-series-stackable-managed-switches/550x-stackable-managed-switches-ds-es.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/switches/business-250-series-smart-switches/index.html": {
+    "category": "switches",
+    "series_slug": "business-250-series-smart-switches",
+    "series_name": "Business 250 Smart",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en-ar.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en-nl.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en-de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en-it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en-es-xl.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en-fr.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/switches/2500-series-connected-grid-switches/index.html": {
+    "category": "switches",
+    "series_slug": "2500-series-connected-grid-switches",
+    "series_name": "CGS 2500 Connected Grid",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/2500-series-connected-grid-switches/data_sheet_c78_593672.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/industrial-ethernet-2000-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "industrial-ethernet-2000-series-switches",
+    "series_name": "IE 2000",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/industrial-ethernet-2000-series-switches/datasheet-c78-730729.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/industrial-ethernet-2000-series-switches/datasheet-c78-731074.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/industrial-ethernet-switches/datasheet-c78-742180.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/industrial-ethernet-2000u-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "industrial-ethernet-2000u-series-switches",
+    "series_name": "IE 2000U",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/industrial-ethernet-2000u-series-switches/datasheet_C78-729056.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/industrial-ethernet-3000-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "industrial-ethernet-3000-series-switches",
+    "series_name": "IE 3000",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/industrial-ethernet-3000-series-switches/data_sheet_c78-440930.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/industrial-ethernet-switches/datasheet-c78-742180.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/switches/industrial-ethernet-3000-series-switches/industrial-ethernet-3000-layers-ss-ds-fr.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/switches/industrial-ethernet-3010-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "industrial-ethernet-3010-series-switches",
+    "series_name": "IE 3010",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/industrial-ethernet-3000-series-switches/datasheet_c78-637080.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/industrial-ethernet-4000-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "industrial-ethernet-4000-series-switches",
+    "series_name": "IE 4000",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/industrial-ethernet-switches/datasheet-c78-742180.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/industrial-ethernet-4000-series-switches/datasheet-c78-733058.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/embedded-service-2020-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "embedded-service-2020-series-switches",
+    "series_name": "Embedded Services 2020",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/embedded-service-2020-series-switches/datasheet-c78-737661.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/ie3500-heavy-duty-series/index.html": {
+    "category": "switches",
+    "series_slug": "ie3500-heavy-duty-series",
+    "series_name": "IE3500 Heavy Duty",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/ie3500-rugged-series/index.html": {
+    "category": "switches",
+    "series_slug": "ie3500-rugged-series",
+    "series_name": "IE3500 Rugged",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/me-3400e-series-ethernet-access-switches/index.html": {
+    "category": "switches",
+    "series_slug": "me-3400e-series-ethernet-access-switches",
+    "series_name": "ME 3400E Ethernet Access",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/switches/me-3400e-series-ethernet-access-switches/data_sheet_c78-495220.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/hosted-collaboration-solution-hcs/index.html": {
+    "category": "unified-communications",
+    "series_slug": "hosted-collaboration-solution-hcs",
+    "series_name": "Hosted Collaboration Solution (HCS)",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/unified-communications-manager-cloud/index.html": {
+    "category": "unified-communications",
+    "series_slug": "unified-communications-manager-cloud",
+    "series_name": "Unified Communications Manager Cloud",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/small-business-voice-gateways-ata/index.html": {
+    "category": "unified-communications",
+    "series_slug": "small-business-voice-gateways-ata",
+    "series_name": "Small Business Voice Gateways and ATAs",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/small-business-voice-gateways-ata/datasheet_C78-691107.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/small-business-voice-gateways-ata/datasheet_C78-691106.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/unified-communications/small-business-voice-gateways-ata/data_sheet_c78-691107_fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/unified-communications/small-business-voice-gateways-ata/data_sheet_c78-691107_de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/unified-communications/small-business-voice-gateways-ata/data_sheet_c78-691107_it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/unified-communications/small-business-voice-gateways-ata/data_sheet_c78-691107_es-xl.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/unified-communications/small-business-voice-gateways-ata/data_sheet_c78-691106_fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/unified-communications/small-business-voice-gateways-ata/data_sheet_c78-691106_de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/unified-communications/small-business-voice-gateways-ata/data_sheet_c78-691106_it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/unified-communications/small-business-voice-gateways-ata/data_sheet_c78-691106_es-xl.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/tdm-gateways/index.html": {
+    "category": "unified-communications",
+    "series_slug": "tdm-gateways",
+    "series_name": "TDM Gateways",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/tdm-gateways/data-sheet-c78-729824.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/telepresence-video-communication-server-vcs/index.html": {
+    "category": "unified-communications",
+    "series_slug": "telepresence-video-communication-server-vcs",
+    "series_name": "TelePresence Video Communication Server (VCS)",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/telepresence-video-communication-server-vcs/data_sheet_c78-626491.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/telepresence-video-communication-server-vcs/datasheet-c78-736436.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/unified-sip-proxy-software/index.html": {
+    "category": "unified-communications",
+    "series_slug": "unified-sip-proxy-software",
+    "series_name": "Unified SIP Proxy (CUSP)",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/unified-sip-proxy-software/datasheet-c78-736437.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/spark/index.html": {
+    "category": "unified-communications",
+    "series_slug": "spark",
+    "series_name": "Webex App",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/webex-calling/index.html": {
+    "category": "unified-communications",
+    "series_slug": "webex-calling",
+    "series_name": "Webex Calling",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/video/prisma-ii/index.html": {
+    "category": "video",
+    "series_slug": "prisma-ii",
+    "series_name": "Prisma II Products",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/datasheet-c78-740439.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/datasheet-c78-734755.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/datasheet-c78-733672.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/datasheet-c78-736232.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/datasheet-c78-732221.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/datasheet-c78-728786.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/data_sheet_c78-722115.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/datasheet-c78-732693.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/datasheet-c78-739371.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/data_sheet_c78-726657.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/datasheet-c78-736955.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/datasheet-c78-736954.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/datasheet-c78-734574.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/prisma-ii/datasheet-c78-733547.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/video/prisma-ii/product_data_sheet0900aecd806c4b1a.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/video/prisma-ii/product_data_sheet0900aecd806c4b14.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/video/prisma-ii/product_data_sheet0900aecd806c4ac4.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/video/prisma-ii/product_data_sheet0900aecd806c4b0c.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/video/prisma-ii/product_data_sheet0900aecd806c4b1e.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/video/prisma-ii/product_data_sheet0900aecd806c4b1c.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/video/prisma-ii/product_data_sheet0900aecd806c4b0e.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/video/prisma-ii/product_data_sheet0900aecd806c4b12.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/video/remote-phy-devices/index.html": {
+    "category": "video",
+    "series_slug": "remote-phy-devices",
+    "series_name": "Remote PHY Shelves",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/video/cbr-series-converged-broadband-routers/datasheet-c78-741697.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/cbr-series-converged-broadband-routers/datasheet-c78-739789.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/video/rf-gateway-series/index.html": {
+    "category": "video",
+    "series_slug": "rf-gateway-series",
+    "series_name": "RF Gateway Series",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/video/rf-gateway-series/data_sheet_c78-711986.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/rf-gateway-series/data_sheet_c78-514534.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/rf-gateway-series/data_sheet_c78-514538.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/rf-gateway-series/product_data_sheet0900aecd8066a0d4.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/rf-gateway-series/data_sheet_c78-711989.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/rf-gateway-series/data_sheet_c78-514532.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/video/smart-phy/index.html": {
+    "category": "video",
+    "series_slug": "smart-phy",
+    "series_name": "Smart PHY",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-1800-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-1800-access-points",
+    "series_name": "1800 Family",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1850-series-access-points/datasheet-c78-734256.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1840-series-access-points/datasheet-c78-742125.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1830-series-access-points/datasheet-c78-735582.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1815-series-access-points/datasheet-c78-738243.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1815-series-access-points/datasheet-c78-738499.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1815-series-access-points/datasheet-c78-738482.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1815-series-access-points/datasheet-c78-738481.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-1800-series/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-1800-series",
+    "series_name": "- 1800",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-active-sensor/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-active-sensor",
+    "series_name": "- 1800s Active Sensor",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-active-sensor/nb-09-air-act-sen-data-sheet-cte-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-1810-series-officeextend-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-1810-series-officeextend-access-points",
+    "series_name": "- 1810 OfficeExtend",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-1810w-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-1810w-series-access-points",
+    "series_name": "- 1810w",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-1815-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-1815-series-access-points",
+    "series_name": "- 1815",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1815-series-access-points/datasheet-c78-738481.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1815-series-access-points/datasheet-c78-738243.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1815-series-access-points/datasheet-c78-738499.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1815-series-access-points/datasheet-c78-738482.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-1830-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-1830-series-access-points",
+    "series_name": "- 1830",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1830-series-access-points/datasheet-c78-735582.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-1840-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-1840-series-access-points",
+    "series_name": "- 1840",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1840-series-access-points/datasheet-c78-742125.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1815-series-access-points/datasheet-c78-738481.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1815-series-access-points/datasheet-c78-738243.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1815-series-access-points/datasheet-c78-738499.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1850-series-access-points/datasheet-c78-734256.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1830-series-access-points/datasheet-c78-735582.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1815-series-access-points/datasheet-c78-738482.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-1850-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-1850-series-access-points",
+    "series_name": "- 1850",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1850-series-access-points/datasheet-c78-734256.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-2800-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-2800-series-access-points",
+    "series_name": "2800",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-2800-series-access-points/datasheet-c78-736497.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-3800-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-3800-series-access-points",
+    "series_name": "3800",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-3800-series-access-points/datasheet-c78-741682.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-4800-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-4800-series-access-points",
+    "series_name": "4800",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-4800-access-point/nb-09-air-4800-acces-ds-cte-en.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-4800-access-point/nb-09-air-4800-acces-ds-cte.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-antennas-accessories/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-antennas-accessories",
+    "series_name": "Antennas/Accessories",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-antennas-accessories/product_data_sheet09186a008008883b.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/aironet-antennas-accessories/data_sheet_ant5135sdw.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/aironet-antennas-accessories/data_sheet_ant2422sdw.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/aironet-antennas-accessories/data_sheet_ant2452v.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/aironet-antennas-accessories/data_sheet_ant5140nv.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/aironet-antennas-accessories/data_sheet_ant5160np.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/aironet-antennas-accessories/data_sheet_ant2440nv.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/aironet-antennas-accessories/data_sheet_ant2460np.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/catalyst-9105ax-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "catalyst-9105ax-series-access-points",
+    "series_name": "- 9105AX",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9100ax-access-points/datasheet-c78-744062.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/catalyst-9115ax-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "catalyst-9115ax-series-access-points",
+    "series_name": "- 9115AX",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/catalyst-9117ax-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "catalyst-9117ax-series-access-points",
+    "series_name": "- 9117AX",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/catalyst-9130ax-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "catalyst-9130ax-series-access-points",
+    "series_name": "- 9130AX",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9100ax-access-points/nb-06-cat-9130-ser-ap-ds-cte-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/catalyst-9162-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "catalyst-9162-series-access-points",
+    "series_name": "- 9162",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9100ax-access-points/cat-9162-series-access-points-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/wireless-9171-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "wireless-9171-series-access-points",
+    "series_name": "9171",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9100ax-access-points/wireless-9171-series-acc-point-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/wireless-9172-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "wireless-9172-series-access-points",
+    "series_name": "9172",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9100ax-access-points/wireless-9172-series-access-points-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/catalyst-9174-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "catalyst-9174-series-access-points",
+    "series_name": "9174",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/wireless/campus-gateway-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/wireless-9176-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "wireless-9176-series-access-points",
+    "series_name": "9176",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9100ax-access-points/wireless-9176-series-acc-point-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/wireless-9178-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "wireless-9178-series-access-points",
+    "series_name": "9178",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9100ax-access-points/wireless-9178-series-access-point-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/wireless-9179-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "wireless-9179-series-access-points",
+    "series_name": "9179",
+    "datasheets": [],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/access-points/wireless-9179-series-access-points/wireless-9179f-access-point-ds.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-1540-series/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-1540-series",
+    "series_name": "Aironet 1540",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1540-series/datasheet-c78-738585.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-1550-series/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-1550-series",
+    "series_name": "Aironet 1550",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1550-series/datasheet-c78-737788.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1550-series/data_sheet_c78-641373.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-1560-series/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-1560-series",
+    "series_name": "Aironet 1560",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1560-series/datasheet-c78-737416.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/aironet-1570-series/index.html": {
+    "category": "wireless",
+    "series_slug": "aironet-1570-series",
+    "series_name": "Aironet 1570",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/aironet-1570-series/datasheet-c78-732348.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/catalyst-9124ax-series/index.html": {
+    "category": "wireless",
+    "series_slug": "catalyst-9124ax-series",
+    "series_name": "Catalyst 9124AX",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9100ax-access-points/nb-06-cat9124-ser-ap-ds-cte-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/catalyst-9136-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "catalyst-9136-series-access-points",
+    "series_name": "Catalyst 9136",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9100ax-access-points/nb-06-cat9136-access-point-ds-cte-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/catalyst-9163-series-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "catalyst-9163-series-access-points",
+    "series_name": "Catalyst 9163",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9163e-access-point/nb-06-cat-9163e-series-access-ds-cte-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/industrial-wireless-3700-series/index.html": {
+    "category": "wireless",
+    "series_slug": "industrial-wireless-3700-series",
+    "series_name": "IW 3700 Industrial",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/industrial-wireless-3700-series/datasheet-c78-734968.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/6300-series-embedded-services-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "6300-series-embedded-services-access-points",
+    "series_name": "IW 6300 Embedded Services",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/6300-series-embedded-services-access-points/datasheet-c78-742906.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/industrial-wireless-6300-series/index.html": {
+    "category": "wireless",
+    "series_slug": "industrial-wireless-6300-series",
+    "series_name": "IW 6300 Catalyst Heavy Duty",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/industrial-wireless-6300-series/datasheet-c78-742907.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/small-business-100-series-wireless-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "small-business-100-series-wireless-access-points",
+    "series_name": "Small Business 100",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/small-business-100-series-wireless-access-points/datasheet-c78-738881.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/small-business-100-series-wireless-access-points/datasheet-c78-736450.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/small-business-100-series-wireless-access-points/datasheet-c78-733616.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/wap121-wireless-n-access-point-single-point-setup/c78-697404_data_sheet.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-100-series-wireless-access-points/datasheet-c78-738881-cn.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-100-series-wireless-access-points/datasheet-c78-738881-fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-100-series-wireless-access-points/datasheet-c78-738881-de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-100-series-wireless-access-points/datasheet-c78-738881-it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-100-series-wireless-access-points/datasheet-c78-738881-es.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-100-series-wireless-access-points/datasheet-c78-736450-fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-100-series-wireless-access-points/datasheet-c78-736450-de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-100-series-wireless-access-points/datasheet-c78-736450-es.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/wap121-wireless-n-access-point-single-point-setup/wap131-datasheet-franch.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/wap121-wireless-n-access-point-single-point-setup/wap131-datasheet-german.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/wap121-wireless-n-access-point-single-point-setup/wap131-datasheet-italian.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/wap121-wireless-n-access-point-single-point-setup/wap131-datasheet-spanish.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/wap121-wireless-n-access-point-single-point-setup/datasheet_c78-697404_cn.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/wap121-wireless-n-access-point-single-point-setup/data_sheet_c78-697404_fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/wap121-wireless-n-access-point-single-point-setup/data_sheet_c78-697404_de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/wap121-wireless-n-access-point-single-point-setup/data_sheet_c78-697404_it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/wap121-wireless-n-access-point-single-point-setup/data_sheet_c78-697404_es-xl.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/small-business-300-series-wireless-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "small-business-300-series-wireless-access-points",
+    "series_name": "Small Business 300",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/small-business-300-series-wireless-access-points/datasheet-c78-732143.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/small-business-300-series-wireless-access-points/datasheet-c78-736452.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-300-series-wireless-access-points/datasheet-c78-732143-zhcn.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-300-series-wireless-access-points/datasheet-c78-732143-fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-300-series-wireless-access-points/datasheet-c78-732143-de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-300-series-wireless-access-points/datasheet-c78-732143-it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-300-series-wireless-access-points/datasheet-c78-732143-esxl.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-300-series-wireless-access-points/datasheet-c78-736452-fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-300-series-wireless-access-points/datasheet-c78-736452-de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-300-series-wireless-access-points/datasheet-c78-736452-it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-300-series-wireless-access-points/datasheet-c78-736452-es.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/small-business-500-series-wireless-access-points/index.html": {
+    "category": "wireless",
+    "series_slug": "small-business-500-series-wireless-access-points",
+    "series_name": "Small Business 500",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-738872.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-736449.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-736451.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-738872-de.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-738872-es.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-736449-de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-736451-de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-736449-fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-736449-it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-736449-es.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-736451-fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-736451-it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-736451-es.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-738872-de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-738872-fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-738872-it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/wireless/small-business-500-series-wireless-access-points/datasheet-c78-738872-es.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/2500-series-wireless-controllers/index.html": {
+    "category": "wireless",
+    "series_slug": "2500-series-wireless-controllers",
+    "series_name": "2500",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/2500-series-wireless-controllers/data_sheet_c78-645111.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/3500-series-wireless-controllers/index.html": {
+    "category": "wireless",
+    "series_slug": "3500-series-wireless-controllers",
+    "series_name": "3500",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/3504-wireless-controller/datasheet-c78-738484.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/5500-series-wireless-controllers/index.html": {
+    "category": "wireless",
+    "series_slug": "5500-series-wireless-controllers",
+    "series_name": "5500",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/5520-wireless-controller/datasheet-c78-734257.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/5500-series-wireless-controllers/data_sheet_c78-521631.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/8500-series-wireless-controllers/index.html": {
+    "category": "wireless",
+    "series_slug": "8500-series-wireless-controllers",
+    "series_name": "8500",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/8540-wireless-controller/datasheet-c78-734258.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/8500-series-wireless-controllers/data_sheet_c78-713207.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/catalyst-9800-wireless-controllers-cloud/index.html": {
+    "category": "wireless",
+    "series_slug": "catalyst-9800-wireless-controllers-cloud",
+    "series_name": "Catalyst 9800 for Cloud",
+    "datasheets": [],
+    "listing_checked": true
   }
 }
