@@ -1,9 +1,9 @@
 {
   "documents": {
     "https://www.cisco.com/site/us/en/products/collateral/computing/unified-edge/cisco-ucs-xe9305-chassis-ds.html": {
-      "category": "servers-unified-computing",
-      "series_slug": "unified-edge",
-      "series_name": "Unified Edge",
+      "category": "routers",
+      "series_slug": "8200-series-secure-routers",
+      "series_name": "8200 Series Secure Routers",
       "pids": [
         "UCSXE-M8-MLB",
         "UCSXE-9305-U",
@@ -20,7 +20,12 @@
       "series_slug": "8100-series-secure-routers",
       "series_name": "8100 Series Secure Routers",
       "pids": [
+        "CAT18",
+        "CAT7",
+        "CAT6",
+        "CAT4",
         "P-LTE-JN",
+        "CAT3",
         "WIM-LTE-AS",
         "WIM-LTE-LT",
         "WIM-LTE-AL",
@@ -54,11 +59,11 @@
         "ISR1100-4GLTENA"
       ],
       "evidence": {
-        "P-LTE-JN": "Product ID",
-        "WIM-LTE-AS": "Product ID",
-        "WIM-LTE-LT": "Product ID",
-        "WIM-LTE-AL": "Product ID",
-        "C1109-2PLTEGB": "Product ID"
+        "CAT18": "Cellular",
+        "CAT7": "Cellular",
+        "CAT6": "Cellular",
+        "CAT4": "Cellular",
+        "P-LTE-JN": "Product ID"
       }
     },
     "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8010-series-large-density-fixed-routers-ds.html": {
@@ -66,6 +71,10 @@
       "series_slug": "8000-series-routers",
       "series_name": "8000 Series Routers",
       "pids": [
+        "CBL-BRKT-V1",
+        "RCKMT-19-V1",
+        "RCKMT-ETSI-V1",
+        "RCKMT-23-V1",
         "CBL-BRKT-V2",
         "RCKMT-19-KIT1",
         "RCKMT-19-KIT2",
@@ -95,11 +104,11 @@
         "CAB-AC-SUI"
       ],
       "evidence": {
-        "CBL-BRKT-V2": "Product ID",
-        "RCKMT-19-KIT1": "Product ID",
-        "RCKMT-19-KIT2": "Product ID",
-        "RCKMT-ETSI-KIT1": "Product ID",
-        "RCKMT-ETSI-KIT2": "Product ID"
+        "CBL-BRKT-V1": "Accessories",
+        "RCKMT-19-V1": "Accessories",
+        "RCKMT-ETSI-V1": "Accessories",
+        "RCKMT-23-V1": "Accessories",
+        "CBL-BRKT-V2": "Product ID"
       }
     },
     "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8010-series-medium-density-fixed-routers-ds.html": {
@@ -107,6 +116,13 @@
       "series_slug": "8000-series-routers",
       "series_name": "8000 Series Routers",
       "pids": [
+        "CBL-BRKT-V1",
+        "RCKMT-19-A",
+        "RCKMT-19-D",
+        "RCKMT-ETSI-A",
+        "RCKMT-ETSI-D",
+        "RCKMT-23-A",
+        "RCKMT-23-D",
         "ESS-NGA-10G-RTU",
         "ADN-NGA-10G-RTU",
         "PRM-NGA-10G-RTU",
@@ -128,11 +144,11 @@
         "CAB-AC-SUI"
       ],
       "evidence": {
-        "ESS-NGA-10G-RTU": "Product ID",
-        "ADN-NGA-10G-RTU": "Product ID",
-        "PRM-NGA-10G-RTU": "Product ID",
-        "NGA-M-SIA-3": "Product ID",
-        "NGA-M-SIA-5": "Product ID"
+        "CBL-BRKT-V1": "Accessories",
+        "RCKMT-19-A": "Accessories",
+        "RCKMT-19-D": "Accessories",
+        "RCKMT-ETSI-A": "Accessories",
+        "RCKMT-ETSI-D": "Accessories"
       }
     },
     "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8100-series-router-ds.html": {
@@ -145,14 +161,15 @@
         "8101-32FH-O",
         "8122-64EH-O",
         "8122-64EHF-O",
+        "8501-SYS-MT",
         "8102-28FH-DPU-O"
       ],
       "evidence": {
-        "8101-32H-O": "PID",
-        "8102-64H-O": "PID",
-        "8101-32FH-O": "PID",
-        "8122-64EH-O": "PID",
-        "8122-64EHF-O": "PID"
+        "8101-32H-O": "Series or model",
+        "8102-64H-O": "Series or model",
+        "8101-32FH-O": "Series or model",
+        "8122-64EH-O": "Series or model",
+        "8122-64EHF-O": "Series or model"
       }
     },
     "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8200-series-routers-ds.html": {

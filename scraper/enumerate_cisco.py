@@ -121,26 +121,32 @@ def save_merged(p: Path, data, dict_keys: tuple[str, ...] = ()):
     So: re-read the file immediately before writing and merge our entries over it. Our data wins
     for keys we actually processed; anything we never touched is preserved.
     """
+    NOTE_MUST_MUTATE_IN_PLACE = True  # see below; do not "simplify" this to a reassignment
     on_disk = load(p, None)
     if isinstance(on_disk, dict) and isinstance(data, dict):
         if dict_keys:
             for k in dict_keys:
-                merged = dict(on_disk.get(k) or {})
-                merged.update(data.get(k) or {})
-                data[k] = merged
+                cur = data.get(k)
+                if not isinstance(cur, dict):
+                    continue
+                # MUTATE cur, never rebind data[k]. The first version of this did
+                # `data[k] = merged`, which pointed store["documents"] at a NEW dict while the
+                # caller's loop still held the OLD one. From then on every document went into an
+                # orphaned dict and each save rewrote the frozen first snapshot: the run processed
+                # all 1,658 documents and reached 13,545 part numbers, then wrote 1,060 and 10,814
+                # to disk. Exit code 0, no error, most of the work gone.
+                for kk, vv in (on_disk.get(k) or {}).items():
+                    cur.setdefault(kk, vv)   # keep disk entries we never touched; ours win
         else:
-            merged = dict(on_disk)
-            merged.update(data)
-            data = merged
+            for kk, vv in on_disk.items():
+                data.setdefault(kk, vv)
     elif isinstance(on_disk, list) and isinstance(data, list):
-        seen, out = set(), []
-        for item in on_disk + data:
+        have = {item.get("series_slug") if isinstance(item, dict) else str(item) for item in data}
+        for item in on_disk:
             key = item.get("series_slug") if isinstance(item, dict) else str(item)
-            if key in seen:
-                continue
-            seen.add(key)
-            out.append(item)
-        data = out
+            if key not in have:
+                data.append(item)
+                have.add(key)
     save(p, data)
     return data
 
