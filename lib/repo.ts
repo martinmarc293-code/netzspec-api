@@ -93,6 +93,26 @@ export async function searchParts(q: string, limit = 40): Promise<Part[]> {
     .limit(limit).toArray();
 }
 
+// public search over the WHOLE universe (stubs included), lean + with lifecycle summary. Powers the
+// EOL tool + category search without shipping the full DB to the client. Never returns price fields.
+export async function searchPartsLean(q: string, opts: { category?: string; type?: string } = {}, limit = 25):
+  Promise<{ sku: string; slug: string; vendor: string; name: string; type: string; category: string; lc: { status: string; eos: string; ldos: string; successor: string; doc: string } | null }[]> {
+  const db = await getDb();
+  const filter: Record<string, unknown> = {};
+  if (opts.category) filter.category = opts.category;
+  if (opts.type) filter.type = opts.type;
+  const qt = q.trim();
+  if (qt) { const rx = new RegExp(qt.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"); filter.$or = [{ sku: rx }, { "i18n.de.name": rx }, { "i18n.en.name": rx }]; }
+  const rows = await db.collection<Part>("parts")
+    .find(filter, { projection: { _id: 0, sku: 1, slug: 1, vendor: 1, type: 1, category: 1, "i18n.de.name": 1, lifecycle: 1 } })
+    .sort({ sku: 1 }).limit(limit).toArray();
+  return rows.map((r) => {
+    const lc = (r as { lifecycle?: Record<string, string> }).lifecycle;
+    return { sku: r.sku, slug: r.slug, vendor: r.vendor, type: r.type, category: r.category, name: r.i18n?.de?.name || r.sku,
+      lc: lc ? { status: lc.status || "", eos: lc.end_of_sale_date || "", ldos: lc.last_day_of_support || "", successor: lc.successor_sku || "", doc: lc.source_doc_id || "" } : null };
+  });
+}
+
 export async function countParts(filter: object = {}): Promise<number> {
   const db = await getDb();
   return db.collection("parts").countDocuments(filter);
