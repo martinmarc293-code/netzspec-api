@@ -262,7 +262,7 @@ export function evalCondition(c: Condition, v: PartValues): boolean {
   if ("all" in c) return c.all.every((x) => evalCondition(x, v));
   const actual = v[c.field];
   if ("eq" in c) return actual === c.eq;
-  if ("ne" in c) return actual !== c.ne;
+  if ("ne" in c) return actual !== undefined && actual !== c.ne;
   if ("inList" in c) return actual !== undefined && c.inList.includes(actual as string | number);
   if ("gte" in c) return typeof actual === "number" && actual >= c.gte;
   if ("truthy" in c) return Boolean(actual);

@@ -14,25 +14,50 @@
     "                 validate-schema.ts and resolved when the category profile is written.",
     "",
     "An incoming name that appears in none of these is UNMAPPED_HEADER: quarantined, never stored",
-    "as a field name. That is what stops the free-text drift from coming back."
+    "as a field name. That is what stops the free-text drift from coming back.",
+    "",
+    "VALUE-ROUTED ALIASES: a target may be an ORDERED LIST of candidate field_keys. One legacy name genuinely carries different concepts across parts - 'Formfaktor' is SFP+ on one optic and 'LR4' (an optical STANDARD) on the next. The normaliser tries each candidate in order and takes the first that validates; if none does, the value is quarantined as before. Measured 2026-09-01: name->single-key routing quarantined 3,180 values as ENUM_VIOLATION, most of them correct data filed under a name that meant something else."
   ],
   "aliases": {
     "Betriebstemperatur": "temp_operating",
     "Betriebstemperatur (getestet)": "temp_operating",
     "Betriebstemperatur (Gehäuse)": "temp_operating",
     "Temperaturbereich": "temp_class",
-    "Formfaktor": "form_factor",
-    "Bauform": "form_factor",
-    "Transceiver Typ": "form_factor",
-    "Transceiver-Typ": "form_factor",
-    "Transceiver": "form_factor",
+    "Formfaktor": [
+      "form_factor",
+      "standard"
+    ],
+    "Bauform": [
+      "form_factor"
+    ],
+    "Transceiver Typ": [
+      "form_factor",
+      "standard"
+    ],
+    "Transceiver-Typ": [
+      "form_factor",
+      "standard"
+    ],
+    "Transceiver": [
+      "form_factor",
+      "standard"
+    ],
     "Switching-Kapazität": "switching_capacity",
     "Durchsatz": "forwarding_rate",
     "Durchsatz (Forwarding Rate)": "forwarding_rate",
     "Kühlung": "cooling",
-    "Stromversorgung": "psu_config",
-    "Netzteil": "psu_config",
-    "Netzteil (Standard)": "psu_config",
+    "Stromversorgung": [
+      "psu_config",
+      "input_voltage"
+    ],
+    "Netzteil": [
+      "psu_config",
+      "power_max"
+    ],
+    "Netzteil (Standard)": [
+      "psu_config",
+      "power_max"
+    ],
     "Redundanz": "psu_redundant",
     "Switch-Typ": "mgmt_class",
     "Layer": "layer",
@@ -60,16 +85,39 @@
     "DOM/DDM": "ddm",
     "DDM/DOM": "ddm",
     "DOM Unterstützung": "ddm",
-    "Anschluss": "connector",
-    "Anschlusstyp": "connector",
-    "Anschlussenden": "connector",
-    "Standard": "standard",
+    "Anschluss": [
+      "connector",
+      "form_factor"
+    ],
+    "Anschlusstyp": [
+      "connector",
+      "form_factor"
+    ],
+    "Anschlussenden": [
+      "connector",
+      "form_factor"
+    ],
+    "Standard": [
+      "standard"
+    ],
     "Schnittstellenstandard": "standard",
-    "Kabeltyp": "media",
-    "Medientyp": "media",
-    "Fasertyp": "fiber_type",
+    "Kabeltyp": [
+      "media",
+      "form_factor"
+    ],
+    "Medientyp": [
+      "media",
+      "fiber_type"
+    ],
+    "Fasertyp": [
+      "fiber_type",
+      "media"
+    ],
     "Länge": "cable_length",
-    "Optischer Typ": "laser_type",
+    "Optischer Typ": [
+      "laser_type",
+      "standard"
+    ],
     "Sendeleistung": "tx_power",
     "Max. Sendeleistung": "tx_power",
     "Empfängerempfindlichkeit": "rx_sensitivity",
@@ -78,14 +126,11 @@
     "Streckenbudget": "link_budget",
     "FEC": "fec",
     "Übertragung": "mode",
-
     "Zustand": "__not_a_spec",
     "Anwendung": "__not_a_spec",
     "Garantie": "__not_a_spec",
-
     "Kompatible Serie": "__compat",
     "Unterstützte Supervisor-Engines": "__compat",
-
     "Faseranzahl": "__backlog",
     "Modultyp": "__backlog",
     "Aufteilung": "__backlog",

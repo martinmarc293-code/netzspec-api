@@ -22,7 +22,7 @@ const warn = (m: string) => problems.push(m);
 const root = process.cwd();
 const aliasFile = JSON.parse(fs.readFileSync(path.join(root, "data/schema/attribute-aliases.de.json"), "utf8"));
 const etimFile = JSON.parse(fs.readFileSync(path.join(root, "data/schema/etim-map.json"), "utf8"));
-const ALIASES: Record<string, string> = aliasFile.aliases;
+const ALIASES: Record<string, string | string[]> = aliasFile.aliases;
 
 // ---- 1. dictionary integrity -----------------------------------------------------------------
 const dictKeys = Object.keys(FIELD_DICTIONARY);
@@ -63,8 +63,12 @@ for (const cat of CATEGORIES) {
 
 // ---- 4. alias map targets ---------------------------------------------------------------------
 for (const [name, target] of Object.entries(ALIASES)) {
-  if (SENTINELS.has(target)) continue;
-  if (!FIELD_DICTIONARY[target]) warn(`alias "${name}" -> "${target}" which is not a dictionary field`);
+  const candidates = Array.isArray(target) ? target : [target];
+  if (candidates.length === 1 && SENTINELS.has(candidates[0])) continue;
+  for (const t of candidates) {
+    if (SENTINELS.has(t)) warn(`alias "${name}": sentinel "${t}" cannot appear in a candidate list`);
+    else if (!FIELD_DICTIONARY[t]) warn(`alias "${name}" -> "${t}" which is not a dictionary field`);
+  }
 }
 
 // ---- 5. ETIM map agrees with the dictionary ---------------------------------------------------
