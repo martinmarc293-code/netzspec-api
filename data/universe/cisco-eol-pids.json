@@ -3554,8 +3554,8 @@
       "pids": []
     },
     "https://www.cisco.com/c/en/us/products/collateral/ios-nx-os-software/ios-xe-16/eos-eol-notice-c51-744154.html": {
-      "category": "optical-networking",
-      "series_name": "Network Convergence System 4200 Series",
+      "category": "routers",
+      "series_name": "Network Convergence System 500 Series Routers",
       "pids": []
     },
     "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/eos-eol-notice-c51-743638.html": {
@@ -3574,13 +3574,13 @@
       ]
     },
     "https://www.cisco.com/c/en/us/products/collateral/routers/asr-903-series-aggregation-services-routers/eos-eol-notice-c51-742965.html": {
-      "category": "optical-networking",
-      "series_name": "Network Convergence System 4200 Series",
+      "category": "routers",
+      "series_name": "Network Convergence System 500 Series Routers",
       "pids": []
     },
     "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-742700.html": {
-      "category": "optical-networking",
-      "series_name": "Network Convergence System 4200 Series",
+      "category": "routers",
+      "series_name": "Network Convergence System 500 Series Routers",
       "pids": []
     },
     "https://www.cisco.com/c/en/us/products/collateral/routers/1000-series-integrated-services-routers-isr/eos-eol-notice-c51-742343.html": {
@@ -3603,8 +3603,8 @@
       "pids": []
     },
     "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/eos-eol-notice-c51-742700-fr.html": {
-      "category": "optical-networking",
-      "series_name": "Network Convergence System 4200 Series",
+      "category": "routers",
+      "series_name": "Network Convergence System 500 Series Routers",
       "pids": []
     },
     "https://www.cisco.com/c/en/us/products/collateral/routers/1000-series-integrated-services-routers-isr/eos-eol-notice-c51-742343-fr.html": {
@@ -11718,8 +11718,8 @@
       "pids": []
     },
     "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-744184.html": {
-      "category": "storage-networking",
-      "series_name": "MDS 9000 Series Multilayer Switches",
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
       "pids": [
         "C1-N3K-C31108PC-V",
         "C1-N3K-C31108TC-V",
@@ -11939,8 +11939,8 @@
       "pids": []
     },
     "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-744184-fr.html": {
-      "category": "storage-networking",
-      "series_name": "MDS 9000 Series Multilayer Switches",
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
       "pids": []
     },
     "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9000-series-multilayer-switches/eos-eol-notice-c51-740012-fr.html": {
@@ -12334,6 +12334,2252 @@
         "NCS4009-FC-S=",
         "NCS4009-FC2-S",
         "NCS4009-FC2-S="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-4000-series/eos-eol-notice-c51-736642.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 4000 Series",
+      "pids": [
+        "NCS4K-20T-O-S",
+        "NCS4K-20T-O-S++=",
+        "NCS4K-20T-O-S=",
+        "NCS4K-2H-O-K",
+        "NCS4K-2H-O-K++=",
+        "NCS4K-2H-O-K=",
+        "NCS4K-2H10T-OP-KS="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-4000-series/eos-eol-notice-c51-741708-fr.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 4000 Series",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-4000-series/eos-eol-notice-c51-741359-fr.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 4000 Series",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-2000-series/eos-eol-notice-c51-744878.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 2000 Series",
+      "pids": [
+        "15454-40-SMR2-C++=",
+        "15454-40-SMR2-C=",
+        "15454-M-TNCE-K9=",
+        "15454-M-TNCEK9++=",
+        "15454-M-TSCE-K9=",
+        "15454-M-TSCEK9++=",
+        "15454-M-WSE-K9",
+        "15454-M-WSE-K9++",
+        "15454-M-WSE-K9++=",
+        "15454-M-WSE-K9=",
+        "15454-M-WSEL-K9++",
+        "15454-M-WSEL-K9++=",
+        "15454-OPT-AMP-C++=",
+        "15454-OPT-AMP-C=",
+        "15454-OPT-EDFA-24=",
+        "15454-OPT-RAMP-C=",
+        "15454-OPT-RAMPC++=",
+        "15454-OPTEDFA24++=",
+        "NCS2015-SYS-AC",
+        "NCS2015-SYS-AC++",
+        "NCS2015-SYS-DC",
+        "NCS2015-SYS-DC++",
+        "NCS2K-200G-CK-C++=",
+        "NCS2K-200G-CK-C=",
+        "NCS2K-400G-XP++=",
+        "NCS2K-400G-XP=",
+        "NCS2K-MR-MXP-LIC=",
+        "NCS2K-MR-MXPLIC++="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-2000-series/eos-eol-notice-c51-744876.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 2000 Series",
+      "pids": [
+        "15454-LIC-9.6.1K9",
+        "15454-LIC-9.8.1K9",
+        "15454-LIC-UPG",
+        "15454-R9.6.1SWK9",
+        "15454-R9.6.1SWK9=",
+        "15454-R9.8.1SWK9",
+        "15454-R9.8.1SWK9=",
+        "15454C-LIC-9.6.1K9",
+        "15454C-LIC-9.8.1K9",
+        "15454C-R10.1K9-A=",
+        "15454C-R10.3K9-A=",
+        "15454C-R9.6.1K9-A=",
+        "15454C-R9.6.1SWK9",
+        "15454C-R9.6.1SWK9=",
+        "15454C-R9.8.1SWK9",
+        "15454C-R9.8.1SWK9=",
+        "15454M-LIC-10.0K9",
+        "15454M-LIC-10.0K9=",
+        "15454M-LIC-10.1K9",
+        "15454M-LIC-10.3K9",
+        "15454M-LIC-1001K9",
+        "15454M-LIC-1002K9",
+        "15454M-R10.0SWK9",
+        "15454M-R10.0SWK9=",
+        "15454M-R10.1SWK9",
+        "15454M-R10.1SWK9=",
+        "15454M-R10.3SWK9",
+        "15454M-R10.3SWK9=",
+        "15454M-R1001SWK9",
+        "15454M-R1001SWK9=",
+        "15454M-R1002SWK9",
+        "15454M-R1002SWK9=",
+        "E-NCS2K-B1200K9",
+        "E-NCS2K-B1200K9=",
+        "E-NCS2K-S1200K9",
+        "E-NCS2K-S1200K9=",
+        "NCS2K-L-R10.0K9",
+        "NCS2K-L-R10.0K9=",
+        "NCS2K-L-R10.1FSK9",
+        "NCS2K-L-R10.1K9",
+        "NCS2K-L-R10.3FSK9",
+        "NCS2K-L-R10.3K9",
+        "NCS2K-L-R1001FSK9",
+        "NCS2K-L-R1001K9",
+        "NCS2K-L-R1002FSK9",
+        "NCS2K-L-R1002K9",
+        "NCS2K-M-R10.0DOC=",
+        "NCS2K-M-R10.0FSK9",
+        "NCS2K-M-R10.0FSK9=",
+        "NCS2K-M-R10.0K9",
+        "NCS2K-M-R10.0K9=",
+        "NCS2K-M-R10.1DOC=",
+        "NCS2K-M-R10.1FSK9",
+        "NCS2K-M-R10.1FSK9=",
+        "NCS2K-M-R10.1K9",
+        "NCS2K-M-R10.1K9=",
+        "NCS2K-M-R10.3FSK9",
+        "NCS2K-M-R10.3FSK9=",
+        "NCS2K-M-R10.3K9",
+        "NCS2K-M-R10.3K9=",
+        "NCS2K-M-R1001FSK9",
+        "NCS2K-M-R1001FSK9=",
+        "NCS2K-M-R1001K9",
+        "NCS2K-M-R1001K9=",
+        "NCS2K-M-R1002FSK9",
+        "NCS2K-M-R1002FSK9=",
+        "NCS2K-M-R1002K9",
+        "NCS2K-M-R1002K9=",
+        "NCS2K-R-B1200K9",
+        "NCS2K-R-B1200K9=",
+        "NCS2K-R-S1200K9",
+        "NCS2K-R-S1200K9=",
+        "SF-NCS2K-B12.0K9",
+        "SF-NCS2K-R10.0FSK9",
+        "SF-NCS2K-R10.0K9",
+        "SF-NCS2K-R10.1FSK9",
+        "SF-NCS2K-R10.1K9",
+        "SF-NCS2K-R10.3FSK9",
+        "SF-NCS2K-R10.3K9",
+        "SF-NCS2K-R1001FSK9",
+        "SF-NCS2K-R1001K9",
+        "SF-NCS2K-R1002FSK9",
+        "SF-NCS2K-R1002K9",
+        "SF-NCS2K-R12.0K9",
+        "SF-NCS2K-S12.0K9",
+        "SF15454M-R10.0K9",
+        "SF15454M-R10.1K9",
+        "SF15454M-R10.3K9",
+        "SF15454M-R1001K9",
+        "SF15454M-R1002K9",
+        "SF15454M-R9.6.1K9",
+        "SF15454M-R9.8.1K9",
+        "SF15454MC-10.1K9A",
+        "SF15454MC-10.3K9A",
+        "SF15454MC-R10.0K9",
+        "SF15454MC-R10.1K9",
+        "SF15454MC-R10.3K9",
+        "SF15454MC-R1001K9",
+        "SF15454MC-R1002K9",
+        "SF15454MC-R9.6.1K9",
+        "SF15454MC-R9.8.1K9",
+        "SF15454MC9.6.1K9A",
+        "SF15454ME-R9.6.1K9",
+        "SF15454MECR9.6.1K9",
+        "SF15454W-R10.0K9",
+        "SF15454W-R10.1K9",
+        "SF15454W-R10.3K9",
+        "SF15454W-R1001K9",
+        "SF15454W-R1002K9",
+        "SF15454W-R9.6.1K9",
+        "SF15454W-R9.8.1K9",
+        "SF15454WC-R10.0K9",
+        "SF15454WC-R10.1K9",
+        "SF15454WC-R10.3K9",
+        "SF15454WC-R1001K9",
+        "SF15454WC-R1002K9",
+        "SF15454WC-R9.6.1K9",
+        "SF15454WC-R9.8.1K9",
+        "SF15454WC9.6.1K9A",
+        "SF15454WE-R9.6.1K9",
+        "SF15454WECR9.6.1K9"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-2000-series/eos-eol-notice-c51-742449.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 2000 Series",
+      "pids": [
+        "15454-M-100G-LC-C",
+        "15454-M-100G-LC-C=",
+        "15454-M-100G-ME-C",
+        "15454-M-100G-ME-C=",
+        "15454-M-100GC-LIC",
+        "15454-M-100GC-LIC=",
+        "NCS2006-30X10M-SK",
+        "NCS2K-100G-CK-C",
+        "NCS2K-100G-CK-C=",
+        "NCS2K-100GS-CK-C",
+        "NCS2K-100GS-CK-C=",
+        "NCS2K-100GS-CKC++=",
+        "NCS2K-100ME-CKC",
+        "NCS2K-100ME-CKC=",
+        "NCS2K-400G-XP="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-2000-series/eos-eol-notice-c51-738930.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 2000 Series",
+      "pids": [
+        "NCS2006-FS-RDR-SK",
+        "NCS2K-16-WXC-FS",
+        "NCS2K-16-WXC-FS=",
+        "NCS2K-20-SMRFS-CV="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-2000-series/eos-eol-notice-c51-744878-fr.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 2000 Series",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-2000-series/eos-eol-notice-c51-744876-fr.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 2000 Series",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-2000-series/eos-eol-notice-c51-742449-fr.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 2000 Series",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-2000-series/eos-eol-notice-c51-738930-fr.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 2000 Series",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/eos-eol-notice-c51-743115.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 1000 Series",
+      "pids": [
+        "E-XR-NCS1K1-701K9=",
+        "E-XR-NCS1K4-701K9=",
+        "SF-NCS1K1-R701K9",
+        "SF-NCS1K4-R701K9",
+        "XR-NCS1K1-701K9",
+        "XR-NCS1K1-701K9=",
+        "XR-NCS1K1-L-701K9",
+        "XR-NCS1K4-701K9",
+        "XR-NCS1K4-701K9="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/eos-eol-notice-c51-739235.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 1000 Series",
+      "pids": [
+        "SF-NCS1K-R600K9",
+        "SF-NCS1K-R601K9",
+        "SF-NCS1K-R621K9",
+        "XR-NCS1K-600K9",
+        "XR-NCS1K-600K9=",
+        "XR-NCS1K-601K9",
+        "XR-NCS1K-601K9=",
+        "XR-NCS1K-621K9",
+        "XR-NCS1K-621K9="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/eos-eol-notice-c51-743115-fr.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 1000 Series",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/eos-eol-notice-c51-739235-fr.html": {
+      "category": "optical-networking",
+      "series_name": "Network Convergence System 1000 Series",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/eos-eol-notice-c51-2450672.html": {
+      "category": "interfaces-modules",
+      "series_name": "Network Modules",
+      "pids": [
+        "2900-ZTD-CFG",
+        "2911-BEZEL=",
+        "3810-APM-EM",
+        "3810-DVM-BNC",
+        "3810-E1-75-BRI-S",
+        "3810-E1-BNC",
+        "3810-T1-BRI-U",
+        "3810-T1E1",
+        "3810-VCM3",
+        "3900-ZTD-CFG",
+        "ACS-2900-RM-23",
+        "ACS-2900-RM-23=",
+        "ACS-2900-RM-ETSI",
+        "ACS-2900-RM-ETSI=",
+        "ACS-2901-RM-23",
+        "ACS-2901-RM-23=",
+        "ACS-2901-RM-ETSI",
+        "ACS-2901-RM-ETSI=",
+        "C2900ISR-CICS-SL",
+        "C3900ISR-CICS-SL",
+        "CAB-E1-D15M-PRI",
+        "CAB-NM-ANALOGMOD=",
+        "CONE-2921-AP-P",
+        "CONE-2921-AP-P=",
+        "CVO1900-CFG",
+        "FIPS-SHIELD-2901=",
+        "FIPS-SHIELD-2911=",
+        "FIPS-SHIELD-2921=",
+        "FIPS-SHIELD-2951=",
+        "FL-1900-256U512MB",
+        "FL-1900-256U512MB=",
+        "FL-29-HSEC-K9",
+        "FL-29-SNA",
+        "FL-29-SNA=",
+        "FL-39-HSEC-K9",
+        "FL-39-SNA",
+        "FL-39-SNA=",
+        "FL-39E-HSEC-K9",
+        "FL-C1921-WAASX",
+        "L-FL-39-SNA",
+        "L-FL-39-SNA=",
+        "L-SL-19-SECNPE-K9",
+        "L-SL-19-SECNPE-K9=",
+        "L-SL-29-APP-K9=",
+        "L-SL-29-SECNPE-K9",
+        "L-SL-29-SECNPE-K9=",
+        "L-SL-39-APP-K9=",
+        "LL-EAR-2811=",
+        "LL-EAR-2901=",
+        "LL-EAR-2911=",
+        "LL-EAR-2951=",
+        "MEM-2951-512U2.5GB",
+        "NAL-FOC-2901",
+        "NAL-FOC-2911",
+        "NAL-FOC-2951",
+        "RPS-COVER-2911=",
+        "RPS-COVER-2921-51=",
+        "S190NPEK9-15501T",
+        "S190NPEK9-15501T=",
+        "S190NPEK9-15502T",
+        "S190NPEK9-15502T=",
+        "S190NPEK9-15602T",
+        "S190NPEK9-15602T=",
+        "S190UK9-15502T",
+        "S190UK9-15502T=",
+        "S19CNPEK9-15502T",
+        "S19CNPEK9-15502T=",
+        "S19CUK9-15502T",
+        "S19CUK9-15502T=",
+        "S280AISK9-12422GC=",
+        "S28AISK9-12422GC=",
+        "S2951NPEK9-15501T",
+        "S2951NPEK9-15501T=",
+        "S2951NPEK9-15502T",
+        "S2951NPEK9-15502T=",
+        "S2951NPEK9-15602T",
+        "S2951NPEK9-15602T=",
+        "S2951UK9-15501T",
+        "S2951UK9-15501T=",
+        "S2951UK9-15502T",
+        "S2951UK9-15502T=",
+        "S2951UK9-15602T",
+        "S2951UK9-15602T=",
+        "S29NPEK9-15102T",
+        "S29NPEK9-15201T",
+        "S29NPEK9-15501T",
+        "S29NPEK9-15501T=",
+        "S29NPEK9-15502T",
+        "S29NPEK9-15502T=",
+        "S29UK9-15102T",
+        "S29UK9-15201T",
+        "S29UK9-15501T",
+        "S29UK9-15501T=",
+        "S29UK9-15502T",
+        "S29UK9-15502T=",
+        "S29UK9-15602T",
+        "S29UK9-15602T=",
+        "S39ENPEK9-15501T",
+        "S39ENPEK9-15501T=",
+        "S39ENPEK9-15502T",
+        "S39ENPEK9-15502T=",
+        "S39EUK9-15501T",
+        "S39EUK9-15501T=",
+        "S39EUK9-15502T",
+        "S39EUK9-15502T=",
+        "S39EUK9-15602T",
+        "S39EUK9-15602T=",
+        "S39NPEK9-15102T",
+        "S39NPEK9-15201T",
+        "S39NPEK9-15201T=",
+        "S39NPEK9-15501T",
+        "S39NPEK9-15501T=",
+        "S39NPEK9-15502T",
+        "S39NPEK9-15502T=",
+        "S39NPEK9-15602T",
+        "S39NPEK9-15602T=",
+        "S39UK9-15102T",
+        "S39UK9-15201T",
+        "S39UK9-15201T=",
+        "S39UK9-15501T",
+        "S39UK9-15501T=",
+        "S39UK9-15502T",
+        "S39UK9-15502T=",
+        "S39UK9-15602T",
+        "S39UK9-15602T=",
+        "SL-19-IPB-K9",
+        "SL-19-IPB-K9=",
+        "SL-19-SECNPE-K9",
+        "SL-19-SECNPE-K9=",
+        "SL-29-APP-K9",
+        "SL-29-IPB-K9",
+        "SL-29-IPB-K9=",
+        "SL-29-SEC-K9",
+        "SL-29-SEC-K9=",
+        "SL-29-SECNPE-K9",
+        "SL-29-SECNPE-K9=",
+        "SL-29-UC-K9",
+        "SL-29-UC-K9=",
+        "SL-39-APP-K9",
+        "SL-39-IPB-K9",
+        "SL-39-IPB-K9=",
+        "SL-39-SEC-K9",
+        "SL-39-SEC-K9=",
+        "SL-39-UC-K9",
+        "SL-39-UC-K9=",
+        "SLFL-29=",
+        "SLFL-39=",
+        "SVG2XAISK9-15501T",
+        "SVG2XAISK9-15501T=",
+        "SVG2XAISK9-15502T",
+        "SVG2XAISK9-15502T=",
+        "SVG2XIPV-15501T",
+        "SVG2XIPV-15501T=",
+        "SVG2XIPV-15502T",
+        "SVG2XIPV-15502T=",
+        "SVG35NPEK9-15501T",
+        "SVG35NPEK9-15501T=",
+        "SVG35NPEK9-15502T",
+        "SVG35NPEK9-15502T=",
+        "SVG35UK9-15501T",
+        "SVG35UK9-15501T=",
+        "SVG35UK9-15502T",
+        "SVG35UK9-15502T=",
+        "SVG3XNPEK9-15501T",
+        "SVG3XNPEK9-15501T=",
+        "SVG3XNPEK9-15502T",
+        "SVG3XNPEK9-15502T=",
+        "SVG3XUK9-15501T",
+        "SVG3XUK9-15501T=",
+        "SVG3XUK9-15502T",
+        "SVG3XUK9-15502T="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/eos-eol-notice-c51-744615.html": {
+      "category": "interfaces-modules",
+      "series_name": "Network Modules",
+      "pids": [
+        "SM-X-16G4M2X",
+        "SM-X-16G4M2X=",
+        "SM-X-40G8M2X",
+        "SM-X-40G8M2X=",
+        "SM-X-ES3-16-P",
+        "SM-X-ES3-16-P++=",
+        "SM-X-ES3-16-P=",
+        "SM-X-ES3-24-P",
+        "SM-X-ES3-24-P++=",
+        "SM-X-ES3-24-P=",
+        "SM-X-ES3D-48-P",
+        "SM-X-ES3D-48-P++=",
+        "SM-X-ES3D-48-P="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/eos-eol-notice-c51-744453.html": {
+      "category": "interfaces-modules",
+      "series_name": "Network Modules",
+      "pids": [
+        "L-ES3-16-IPS",
+        "L-ES3-16-IPS=",
+        "L-ES3-24-48-IPS",
+        "L-ES3-24-48-IPS=",
+        "L-ES3=",
+        "L-ES3G-16-IPS",
+        "L-ES3G-16-IPS=",
+        "L-ES3G-24-48-IPS",
+        "L-ES3G-24-48-IPS=",
+        "SL-ES3-16-IPS",
+        "SL-ES3-16-IPS=",
+        "SL-ES3-24-48-IPS",
+        "SL-ES3-24-48-IPS=",
+        "SL-ES3=",
+        "SL-ES3G-16-IPS",
+        "SL-ES3G-16-IPS=",
+        "SL-ES3G-24-48-IPS",
+        "SL-ES3G-24-48-IPS="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/eos-eol-notice-c51-743737.html": {
+      "category": "interfaces-modules",
+      "series_name": "Network Modules",
+      "pids": [
+        "SM-D-ES2-48",
+        "SM-D-ES2-48=",
+        "SM-D-ES3-48-P",
+        "SM-D-ES3-48-P=",
+        "SM-D-ES3G-48-P",
+        "SM-D-ES3G-48-P=",
+        "SM-ES2-16-P",
+        "SM-ES2-16-P=",
+        "SM-ES2-24",
+        "SM-ES2-24-P",
+        "SM-ES2-24-P=",
+        "SM-ES2-24=",
+        "SM-ES3-16-P",
+        "SM-ES3-16-P=",
+        "SM-ES3-24-P",
+        "SM-ES3-24-P=",
+        "SM-ES3G-16-P",
+        "SM-ES3G-16-P=",
+        "SM-ES3G-24-P",
+        "SM-ES3G-24-P="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/eos-eol-notice-c51-741231.html": {
+      "category": "interfaces-modules",
+      "series_name": "Network Modules",
+      "pids": [
+        "EHWIC-1GE-SFP-CU",
+        "EHWIC-1GE-SFP-CU=",
+        "EHWIC-1GE-SFPCU++=",
+        "EHWIC-4ESG",
+        "EHWIC-4ESG-P",
+        "EHWIC-4ESG-P=",
+        "EHWIC-4ESG=",
+        "EHWIC-4G-LTE-AT",
+        "EHWIC-4G-LTE-AT=",
+        "EHWIC-4G-LTE-ATPRM",
+        "EHWIC-4G-LTE-AU",
+        "EHWIC-4G-LTE-AU=",
+        "EHWIC-4G-LTE-CA",
+        "EHWIC-4G-LTE-CA=",
+        "EHWIC-4G-LTE-GB",
+        "EHWIC-4G-LTE-GB=",
+        "EHWIC-4G-LTE-GBPRM",
+        "EHWIC-4G-LTE-ST",
+        "EHWIC-4G-LTE-ST=",
+        "EHWIC-4G-LTE-STPRM",
+        "EHWIC-4G-LTE-VZ",
+        "EHWIC-4G-LTE-VZ=",
+        "EHWIC-4G-LTE-VZPRM",
+        "EHWIC-4SHDSL-EA",
+        "EHWIC-4SHDSL-EA=",
+        "EHWIC-8SHDSL-E",
+        "EHWIC-D-8ESG",
+        "EHWIC-D-8ESG-P",
+        "EHWIC-D-8ESG-P=",
+        "EHWIC-D-8ESG=",
+        "EHWIC-LTE-CI",
+        "EHWIC-LTE-CI=",
+        "EHWIC-LTE-GB-AX",
+        "EHWIC-LTE-GB-AX=",
+        "EHWIC-LTE-JN",
+        "EHWIC-LTE-JN=",
+        "EHWIC-LTE-LA",
+        "EHWIC-LTE-LA=",
+        "EHWIC-VA-DSL-A",
+        "EHWIC-VA-DSL-A=",
+        "EHWIC-VA-DSL-B",
+        "EHWIC-VA-DSL-B=",
+        "EHWIC-VA-DSL-M",
+        "EHWIC-VA-DSL-M=",
+        "HWIC-16A",
+        "HWIC-16A=",
+        "HWIC-1B-U-X",
+        "HWIC-1CE1T1-PRI",
+        "HWIC-1CE1T1-PRI=",
+        "HWIC-1DSU-56K4",
+        "HWIC-1DSU-56K4=",
+        "HWIC-1DSU-T1",
+        "HWIC-1DSU-T1=",
+        "HWIC-1T",
+        "HWIC-1T=",
+        "HWIC-2CE1T1-PRI",
+        "HWIC-2CE1T1-PRI=",
+        "HWIC-2FE",
+        "HWIC-2FE=",
+        "HWIC-2T",
+        "HWIC-2T=",
+        "HWIC-4A/S",
+        "HWIC-4A/S=",
+        "HWIC-4B-S/T",
+        "HWIC-4B-S/T=",
+        "HWIC-4T1/E1-X",
+        "HWIC-8A",
+        "HWIC-8A/S-232",
+        "HWIC-8A/S-232=",
+        "HWIC-8A=",
+        "SM-NM-ADPTR",
+        "SM-NM-ADPTR-S",
+        "SM-NM-ADPTR="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/eos-eol-notice-c51-739277.html": {
+      "category": "interfaces-modules",
+      "series_name": "Network Modules",
+      "pids": [
+        "CAB-X21FC",
+        "CAB-X21FC=",
+        "CAB-X21MT",
+        "CAB-X21MT="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/eos-eol-notice-c51-2450672-fr.html": {
+      "category": "interfaces-modules",
+      "series_name": "Network Modules",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/eos-eol-notice-c51-744615-fr.html": {
+      "category": "interfaces-modules",
+      "series_name": "Network Modules",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/eos-eol-notice-c51-744453-fr.html": {
+      "category": "interfaces-modules",
+      "series_name": "Network Modules",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/eos-eol-notice-c51-743737-fr.html": {
+      "category": "interfaces-modules",
+      "series_name": "Network Modules",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/eos-eol-notice-c51-741231-fr.html": {
+      "category": "interfaces-modules",
+      "series_name": "Network Modules",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/eos-eol-notice-c51-739277-fr.html": {
+      "category": "interfaces-modules",
+      "series_name": "Network Modules",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-2745057.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-C9508-FM-E",
+        "N9K-C9508-FM-E=",
+        "N9K-C9508-FM-G",
+        "N9K-C9508-FM-G="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-744909.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-C9504-FM-G",
+        "N9K-C9504-FM-G=",
+        "N9K-C9504-FM-S",
+        "N9K-C9504-FM-S=",
+        "N9K-C9508-FM-G",
+        "N9K-C9508-FM-S",
+        "N9K-C9508-FM-S="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-744908.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-X9432C-S",
+        "N9K-X9432C-S=",
+        "N9K-X9736C-FX"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743847.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-SUP-B",
+        "N9K-SUP-B+",
+        "N9K-SUP-B++=",
+        "N9K-SUP-B+=",
+        "N9K-SUP-B="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743851.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-X9432PQ",
+        "N9K-X9432PQ=",
+        "N9K-X9736C-FX",
+        "N9K-X9736C-FX=",
+        "N9K-X9736Q-FX"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743850.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-X9464TX2",
+        "N9K-X9464TX2=",
+        "N9K-X9788TC-FX"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743849.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-X9464PX",
+        "N9K-X9464PX++=",
+        "N9K-X9464PX=",
+        "N9K-X97160YC-EX",
+        "N9K-X97160YC-EX++=",
+        "N9K-X97160YC-EX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743848.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-SUP-A",
+        "N9K-SUP-A+",
+        "N9K-SUP-A++=",
+        "N9K-SUP-A+=",
+        "N9K-SUP-A="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743846.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-C9508-FM",
+        "N9K-C9508-FM-E2",
+        "N9K-C9508-FM-E2=",
+        "N9K-C9508-FM="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743845.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-C9516-FM",
+        "N9K-C9516-FM-E2",
+        "N9K-C9516-FM-E2=",
+        "N9K-C9516-FM="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743844.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-C9516-FM-E",
+        "N9K-C9516-FM-E2",
+        "N9K-C9516-FM-E2=",
+        "N9K-C9516-FM-E="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743843.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-C9504-FM",
+        "N9K-C9504-FM-E",
+        "N9K-C9504-FM-E=",
+        "N9K-C9504-FM="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743273.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "NDB-3.0",
+        "NDB-3.1",
+        "NDB-3.2",
+        "NDB-3.3",
+        "NDB-3.4",
+        "NDB-3.5",
+        "NDB-3.8"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742443.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-X9732C-EXM",
+        "N9K-X9732C-EXM=",
+        "N9K-X9736C-FX",
+        "N9K-X9736C-FX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739494.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-X9732C-EX",
+        "N9K-X9732C-EX=",
+        "N9K-X9736PQ",
+        "N9K-X9736PQ="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739495.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-X9536PQ",
+        "N9K-X9536PQ=",
+        "N9K-X9732C-EX",
+        "N9K-X9732C-EX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739496.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-X9464TX2",
+        "N9K-X9464TX2=",
+        "N9K-X9564TX",
+        "N9K-X9564TX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739497.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-X9564PX",
+        "N9K-X9564PX=",
+        "N9K-X97160YC-EX",
+        "N9K-X97160YC-EX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739498.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-X9636PQ",
+        "N9K-X9636PQ=",
+        "N9K-X9732C-EX",
+        "N9K-X9732C-EX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-738612.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-X9408PC-CFP2",
+        "N9K-X9408PC-CFP2=",
+        "N9K-X9732C-EX",
+        "N9K-X9732C-EX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-738518.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-X9464TX",
+        "N9K-X9464TX2",
+        "N9K-X9464TX2=",
+        "N9K-X9464TX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743538.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "C1-N9K-C92160-B18Q",
+        "C1-N9K-C92160-BUN",
+        "C1-N9K-C92160YC-X",
+        "N9K-C92160YC-X",
+        "N9K-C92160YC-X-B1",
+        "N9K-C92160YC-X=",
+        "N9K-C92160YCX-B18Q",
+        "N9K-C92160YCX-BUN"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743529.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "C1-N9K-C9272Q",
+        "N9K-C9272Q",
+        "N9K-C9272Q="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742776.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "C1-N9K-C93120TX",
+        "C1-N9KC93120TX-BUN",
+        "C1-N9KC93120TXB18Q",
+        "N9K-C92300YC",
+        "N9K-C92300YC=",
+        "N9K-C93120TX",
+        "N9K-C93120TX++",
+        "N9K-C93120TX-B18Q",
+        "N9K-C93120TX-BUN",
+        "N9K-C93120TX=",
+        "N9K-PAC-1200W",
+        "N9K-PAC-1200W-B",
+        "N9K-PAC-1200W-B=",
+        "N9K-PAC-1200W="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742775.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "C1-N9K-C93180L-BUN",
+        "C1-N9K-C93180LC-EX",
+        "C1-N9K-C93180LCB2",
+        "N9K-C93180LC-EX",
+        "N9K-C93180LC-EX-B",
+        "N9K-C93180LC-EX-B2",
+        "N9K-C93180LC-EX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742778.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-C9300-FAN1",
+        "N9K-C9300-FAN1-B",
+        "N9K-C9300-FAN1-B=",
+        "N9K-C9300-FAN1=",
+        "N9K-C9300-FAN2",
+        "N9K-C9300-FAN2-B",
+        "N9K-C9300-FAN2-B=",
+        "N9K-C9300-FAN2=",
+        "N9K-PAC-650W",
+        "N9K-PAC-650W-B",
+        "N9K-PAC-650W-B=",
+        "N9K-PAC-650W="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742694.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "C1-N9K-C9236C",
+        "N9K-C9236C",
+        "N9K-C9236C-2PK",
+        "N9K-C9236C-BUN",
+        "N9K-C9236C=",
+        "TA-N9K-C9236C"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742059.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "C1-N9K-C92304QC",
+        "C1-N9K-C9236C",
+        "N9K-C92304QC",
+        "N9K-C92304QC-ZZ-PE",
+        "N9K-C92304QC-ZZ-PI",
+        "N9K-C92304QC=",
+        "N9K-C9236C",
+        "N9K-C9236C=",
+        "TA-N9K-C9236C"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-741302.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "ACI-C9336-APIC-B1",
+        "ACI-C9336-B3-EAL",
+        "ACI-C9336-BL-96PX",
+        "ACI-C9336-BL-EAL",
+        "C1-N9K-C9332PQ",
+        "N9K-C9332PQ",
+        "N9K-C9332PQ=",
+        "N9K-C9336PQ",
+        "N9K-C9336PQ="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-740713.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "C1-N9K-C9372PX-E",
+        "C1-N9K-C9372TX-E",
+        "C1-N9KC9372PXE-BUN",
+        "C1-N9KC9372PXEB18Q",
+        "C1-N9KC9372TXE-BUN",
+        "C1-N9KC9372TXEB18Q",
+        "N9K-C9372PX-E",
+        "N9K-C9372PX-E-B18Q",
+        "N9K-C9372PX-E-BUN",
+        "N9K-C9372PX-E=",
+        "N9K-C9372TX-E",
+        "N9K-C9372TX-E-B18Q",
+        "N9K-C9372TX-E-BUN",
+        "N9K-C9372TX-E=",
+        "TA-N9K-C9372PX-E",
+        "TA-N9K-C9372PX-E=",
+        "TA-N9K-C9372TX-E",
+        "TA-N9K-C9372TX-E="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739452.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "C1-N9K-C9396PX",
+        "C1-N9K-C9396PX-BUN",
+        "C1-N9K-C9396PXB18Q",
+        "N77-F3-2N9396-16BD",
+        "N7K-F3-2N9396-16BD",
+        "N9300-4FEX-10G",
+        "N9300-4FEX-10GT",
+        "N9300-4FEX-1G",
+        "N9K-C9396PX",
+        "N9K-C9396PX-B18Q",
+        "N9K-C9396PX-BA-L3",
+        "N9K-C9396PX-BUN",
+        "N9K-C9396PX-FA-L3",
+        "N9K-C9396PX=",
+        "N9K-M12PQ",
+        "N9K-M12PQ=",
+        "N9K-M6PQ-E",
+        "N9K-M6PQ-E="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742156.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "CVR-2QSFP28-8SFP",
+        "CVR-2QSFP28-8SFP="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739451.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "C1-N9K-C9372PX",
+        "C1-N9K-C9372PX-BUN",
+        "C1-N9K-C9372PXB18Q",
+        "C1-N9K-C9372TX",
+        "C1-N9K-C9372TX-BUN",
+        "C1-N9K-C9372TXB18Q",
+        "N9K-C9372PX",
+        "N9K-C9372PX-B18Q",
+        "N9K-C9372PX-BUN",
+        "N9K-C9372PX=",
+        "N9K-C9372TX",
+        "N9K-C9372TX-B18Q",
+        "N9K-C9372TX-BUN",
+        "N9K-C9372TX-ZV",
+        "N9K-C9372TX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-738968.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "C1-N9K-C93128TX",
+        "N9K-C93128TX",
+        "N9K-C93128TX-B18Q",
+        "N9K-C93128TX-BA",
+        "N9K-C93128TX-BA-L3",
+        "N9K-C93128TX-BUN",
+        "N9K-C93128TX-FA-L3",
+        "N9K-C93128TX2",
+        "N9K-C93128TX2=",
+        "N9K-C93128TX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-738969.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "C1-N9K-C9396TX",
+        "C1-N9K-C9396TX-BUN",
+        "C1-N9K-C9396TXB18Q",
+        "N9K-C9396TX",
+        "N9K-C9396TX-B18Q",
+        "N9K-C9396TX-BUN",
+        "N9K-C9396TX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-737823.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9K-M4PC-CFP2",
+        "N9K-M4PC-CFP2=",
+        "N9K-M6PQ",
+        "N9K-M6PQ-E",
+        "N9K-M6PQ-E=",
+        "N9K-M6PQ="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-744378.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "NXOS-9.2.1",
+        "NXOS-9.2.2",
+        "NXOS-9.2.3",
+        "NXOS-9.2.4",
+        "NXOS-9.3.5"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743017.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "NXOS-703F3.3",
+        "NXOS-703F3.3=",
+        "NXOS-703F3.4",
+        "NXOS-703F3.4=",
+        "NXOS-703F3.5",
+        "NXOS-9.2.4"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742176.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "NXOS-703F1.1",
+        "NXOS-703F1.1=",
+        "NXOS-703F2.1",
+        "NXOS-703F2.1=",
+        "NXOS-703F3.1",
+        "NXOS-703F3.1=",
+        "NXOS-703F3.2",
+        "NXOS-703F3.2=",
+        "NXOS-9.2.3"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742582.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "NXOS-70314.3",
+        "NXOS-703I4.1",
+        "NXOS-703I4.1=",
+        "NXOS-703I4.2",
+        "NXOS-703I4.2=",
+        "NXOS-703I4.3",
+        "NXOS-703I4.3=",
+        "NXOS-703I4.4",
+        "NXOS-703I4.4=",
+        "NXOS-703I4.5",
+        "NXOS-703I4.5=",
+        "NXOS-703I4.6",
+        "NXOS-703I4.6=",
+        "NXOS-703I4.7",
+        "NXOS-703I4.7=",
+        "NXOS-703I4.8",
+        "NXOS-703I4.8=",
+        "NXOS-703I4.8A",
+        "NXOS-703I4.8A=",
+        "NXOS-703I4.8B",
+        "NXOS-703I4.8B=",
+        "NXOS-703I4.9",
+        "NXOS-703I4.9=",
+        "NXOS-703I7.6"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-741754.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "NXOS-703I5.1",
+        "NXOS-703I5.1=",
+        "NXOS-703I5.2",
+        "NXOS-703I5.2=",
+        "NXOS-703I6.1",
+        "NXOS-703I6.1=",
+        "NXOS-703I6.2",
+        "NXOS-703I6.2=",
+        "NXOS-703I7.5A"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-741290.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "NXOS-703I2.1",
+        "NXOS-703I2.1=",
+        "NXOS-703I2.2",
+        "NXOS-703I2.2=",
+        "NXOS-703I2.2A",
+        "NXOS-703I2.2A=",
+        "NXOS-703I2.2B",
+        "NXOS-703I2.2B=",
+        "NXOS-703I2.2C",
+        "NXOS-703I2.2C=",
+        "NXOS-703I2.2D",
+        "NXOS-703I2.2D=",
+        "NXOS-703I2.2E",
+        "NXOS-703I2.2E=",
+        "NXOS-703I2.3",
+        "NXOS-703I2.3=",
+        "NXOS-703I2.4",
+        "NXOS-703I2.5",
+        "NXOS-703I2.5=",
+        "NXOS-703I3.1",
+        "NXOS-703I3.1=",
+        "NXOS-703I7.4"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-737027.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9KDK9-703I1.1",
+        "N9KDK9-703I1.3",
+        "N9KDK9-703I1.3=",
+        "N9KDK9-703IX1",
+        "NXOS-703I2.2A",
+        "NXOS-703I3.1"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-737197.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9KDK9-612I3.1",
+        "N9KDK9-612I3.1=",
+        "N9KDK9-612I3.2",
+        "N9KDK9-612I3.2=",
+        "N9KDK9-612I3.3",
+        "N9KDK9-612I3.3=",
+        "N9KDK9-612I3.4",
+        "N9KDK9-612I3.4=",
+        "N9KDK9-612I3.5",
+        "N9KDK9-612I3.5=",
+        "NXOS-703I2.2A"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-736141.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": [
+        "N9KDK9-612I1.1",
+        "N9KDK9-612I1.1=",
+        "N9KDK9-612I1.1A",
+        "N9KDK9-612I1.1A=",
+        "N9KDK9-612I1.2",
+        "N9KDK9-612I1.2=",
+        "N9KDK9-612I1.3",
+        "N9KDK9-612I1.3=",
+        "N9KDK9-612I2.1",
+        "N9KDK9-612I2.1=",
+        "N9KDK9-612I2.2",
+        "N9KDK9-612I2.2=",
+        "N9KDK9-612I2.2A",
+        "N9KDK9-612I2.2A=",
+        "N9KDK9-612I2.2B",
+        "N9KDK9-612I2.2B=",
+        "N9KDK9-612I2.3",
+        "N9KDK9-612I2.3=",
+        "N9KDK9-612I3.4A"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-2745057-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-744909-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-744908-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743847-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743851-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743850-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743849-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743848-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743846-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743845-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743844-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743843-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742443-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739494-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739495-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739496-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739497-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-738518-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739498-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-738612-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743538-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743529-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742778-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742776-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742775-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742694-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742059-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-741302-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-740713-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739452-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-739451-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-738968-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-738969-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742156-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-737823-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-744378-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-743017-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742582-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-742176-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-741754-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-741290-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-737027-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-736141-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/eos-eol-notice-c51-737197-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 9000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743427.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "C1-N3K-C3048TP",
+        "N3K-C3048-1PS",
+        "N3K-C3048-BA-L3",
+        "N3K-C3048-BD-L3",
+        "N3K-C3048-FA-L3",
+        "N3K-C3048-FD-L3",
+        "N3K-C3048-OE",
+        "N3K-C3048-OE=",
+        "N3K-C3048-ZF-1BA",
+        "N3K-C3048-ZF-1BD",
+        "N3K-C3048-ZF-1FA",
+        "N3K-C3048-ZF-1FD",
+        "N3K-C3048-ZM-1BS",
+        "N3K-C3048-ZM-1FS",
+        "N3K-C3048-ZM-2BS",
+        "N3K-C3048-ZM-2FS",
+        "N3K-C3048-ZM-B",
+        "N3K-C3048-ZM-F",
+        "N3K-C3048TP-10PK",
+        "N3K-C3048TP-10PKBN",
+        "N3K-C3048TP-1GE",
+        "N3K-C3048TP-1GE++",
+        "N3K-C3048TP-1GE=",
+        "N3K-UCS3048-F",
+        "N9K-C92348GC-X",
+        "N9K-C92348GC-X="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-2353526.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3K-C3172-BD-L3",
+        "N3K-C3172-FA-L3",
+        "N3K-C3172-FD-L3",
+        "N3K-C3172PQ-10GE",
+        "N3K-C3172PQ-10GE++",
+        "N3K-C3172PQ-10GE=",
+        "N3K-C3172PQ-4BD",
+        "N3K-C3172PQ-6BD",
+        "N3K-C3172PQ-OE",
+        "N3K-C3172PQ-OE=",
+        "N3K-C3172PQ-XL",
+        "N3K-C3172PQ-XL-4BD",
+        "N3K-C3172PQ-XL-OE",
+        "N3K-C3172PQ-XL-OE=",
+        "N3K-C3172PQ-XL=",
+        "N3K-C3172PQ-ZC",
+        "N3K-C3172PQ-ZZ",
+        "N9K-C93180YC-FX3"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-2353538.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3K-C3172-BA-L3",
+        "N3K-C3172TQ-10GT",
+        "N3K-C3172TQ-10GT=",
+        "N3K-C3172TQ-10PK",
+        "N3K-C3172TQ-10PKBN",
+        "N3K-C3172TQ-32T",
+        "N3K-C3172TQ-32T=",
+        "N3K-C3172TQ-4BD",
+        "N3K-C3172TQ-6BD",
+        "N3K-C3172TQ-XL",
+        "N3K-C3172TQ-XL++",
+        "N3K-C3172TQ-XL-4BD",
+        "N3K-C3172TQ-XL=",
+        "N3K-C3172TQ-ZV",
+        "N3K-C3172TQ-ZZ",
+        "N9K-C93108TC-FX3P"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-2353550.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3K-C31128PQ-10GE",
+        "N3K-C31128PQ-10GE=",
+        "N3K-C3132C-Z",
+        "N3K-C3132C-Z=",
+        "N3K-C3264C-E",
+        "N3K-C3264C-E=",
+        "N9K-C93360YC-FX2",
+        "N9K-C9336C-FX2",
+        "N9K-C9364C-GX"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743712.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3K-C34-SLBUN",
+        "N3K-C3464C",
+        "N3K-C3464C-B",
+        "N3K-C3464C-OE",
+        "N3K-C3464C-OE=",
+        "N3K-C3464C=",
+        "N9K-C9364C-GX",
+        "N9K-C9364C-GX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743711.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3K-C34180YC",
+        "N3K-C34180YC-B",
+        "N3K-C34180YC-OE",
+        "N3K-C34180YC-OE=",
+        "N3K-C34180YC=",
+        "N9K-C93180YC-FX",
+        "N9K-C93180YC-FX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743393.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3KUK9-602A8.1",
+        "N3KUK9-602A8.10",
+        "N3KUK9-602A8.10=",
+        "N3KUK9-602A8.11",
+        "N3KUK9-602A8.11=",
+        "N3KUK9-602A8.1=",
+        "N3KUK9-602A8.2",
+        "N3KUK9-602A8.2=",
+        "N3KUK9-602A8.3",
+        "N3KUK9-602A8.3=",
+        "N3KUK9-602A8.4",
+        "N3KUK9-602A8.4=",
+        "N3KUK9-602A8.5",
+        "N3KUK9-602A8.5=",
+        "N3KUK9-602A8.6",
+        "N3KUK9-602A8.6=",
+        "N3KUK9-602A8.7",
+        "N3KUK9-602A8.7=",
+        "N3KUK9-602A8.8",
+        "N3KUK9-602A8.8=",
+        "N3KUK9-602A8.9",
+        "N3KUK9-602A8.9=",
+        "NXOS-703I7.7"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743063.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "C1-N3K-C3264Q",
+        "N3K-C3264C-E",
+        "N3K-C3264C-E=",
+        "N3K-C3264Q",
+        "N3K-C3264Q-2PK-BD",
+        "N3K-C3264Q-2PK-L3",
+        "N3K-C3264Q-3PK",
+        "N3K-C3264Q-BUN",
+        "N3K-C3264Q-OE",
+        "N3K-C3264Q-OE=",
+        "N3K-C3264Q-ZZ-PE",
+        "N3K-C3264Q-ZZ-PI",
+        "N3K-C3264Q="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743062.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "C1-N3K-C3132Q-XL",
+        "N3K-C3132C-Z",
+        "N3K-C3132C-Z=",
+        "N3K-C3132Q-XL",
+        "N3K-C3132Q-XL="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743061.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3K-C3132-X-ZZ-B",
+        "N3K-C3132-X-ZZ-F",
+        "N3K-C3132C-Z",
+        "N3K-C3132C-Z=",
+        "N3K-C3132Q-40GX",
+        "N3K-C3132Q-40GX=",
+        "N3K-C3132Q-X-16BD",
+        "N3K-C3132Q-X-8BD",
+        "N3K-C3132Q-X-BA-L3",
+        "N3K-C3132Q-X-BD-L3",
+        "N3K-C3132Q-X-FA-L3",
+        "N3K-C3132Q-X-FD-L3",
+        "N3K-C3132Q-X-OE",
+        "N3K-C3132Q-X-OE="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-742599.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3K-C3064-FAN",
+        "N3K-C3064-FAN-B",
+        "N3K-C3064-FAN-B=",
+        "N3K-C3064-FAN="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-742504.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "C1-N3K-C3164Q",
+        "N3K-C3164-ZZ-PE",
+        "N3K-C3164-ZZ-PI",
+        "N3K-C3164Q-16BD",
+        "N3K-C3164Q-2PK",
+        "N3K-C3164Q-40GE",
+        "N3K-C3164Q-40GE=",
+        "N3K-C3164Q-B",
+        "N3K-C3264C-E",
+        "N3K-C3264C-E="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-741755.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3KUK9-602U6.1",
+        "N3KUK9-602U6.10",
+        "N3KUK9-602U6.10=",
+        "N3KUK9-602U6.1=",
+        "N3KUK9-602U6.2",
+        "N3KUK9-602U6.2=",
+        "N3KUK9-602U6.3",
+        "N3KUK9-602U6.3=",
+        "N3KUK9-602U6.4",
+        "N3KUK9-602U6.4=",
+        "N3KUK9-602U6.5",
+        "N3KUK9-602U6.5=",
+        "N3KUK9-602U6.5B",
+        "N3KUK9-602U6.5B=",
+        "N3KUK9-602U6.5C",
+        "N3KUK9-602U6.5C=",
+        "N3KUK9-602U6.6",
+        "N3KUK9-602U6.6=",
+        "N3KUK9-602U6.7",
+        "N3KUK9-602U6.7=",
+        "N3KUK9-602U6.8",
+        "N3KUK9-602U6.8=",
+        "N3KUK9-602U6.9",
+        "N3KUK9-602U6.9=",
+        "NXOS-703I7.5A"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-741753.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3KUK9-602A6.1",
+        "N3KUK9-602A6.1=",
+        "N3KUK9-602A6.3",
+        "N3KUK9-602A6.3=",
+        "N3KUK9-602A6.4",
+        "N3KUK9-602A6.4=",
+        "N3KUK9-602A6.5",
+        "N3KUK9-602A6.5=",
+        "N3KUK9-602A6.6",
+        "N3KUK9-602A6.6=",
+        "N3KUK9-602A6.7",
+        "N3KUK9-602A6.7=",
+        "N3KUK9-602A6.8",
+        "N3KUK9-602A6.8=",
+        "N3KUK9-602A8.10A"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-741292.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3KUK9-602U2.1",
+        "N3KUK9-602U2.1=",
+        "N3KUK9-602U2.2",
+        "N3KUK9-602U2.2=",
+        "N3KUK9-602U2.3",
+        "N3KUK9-602U2.3=",
+        "N3KUK9-602U2.4",
+        "N3KUK9-602U2.4=",
+        "N3KUK9-602U2.5",
+        "N3KUK9-602U2.5=",
+        "N3KUK9-602U2.6",
+        "N3KUK9-602U2.6=",
+        "N3KUK9-602U3.1",
+        "N3KUK9-602U3.1=",
+        "N3KUK9-602U3.2",
+        "N3KUK9-602U3.2=",
+        "N3KUK9-602U3.3",
+        "N3KUK9-602U3.3=",
+        "N3KUK9-602U3.4",
+        "N3KUK9-602U3.4=",
+        "N3KUK9-602U3.5",
+        "N3KUK9-602U3.5=",
+        "N3KUK9-602U3.7",
+        "N3KUK9-602U3.7=",
+        "N3KUK9-602U3.8",
+        "N3KUK9-602U3.8=",
+        "N3KUK9-602U3.9",
+        "N3KUK9-602U3.9=",
+        "N3KUK9-602U4.1",
+        "N3KUK9-602U4.1=",
+        "N3KUK9-602U4.2",
+        "N3KUK9-602U4.2=",
+        "N3KUK9-602U4.3",
+        "N3KUK9-602U4.3=",
+        "N3KUK9-602U4.4",
+        "N3KUK9-602U4.4=",
+        "N3KUK9-602U5.1",
+        "N3KUK9-602U5.1=",
+        "N3KUK9-602U5.2",
+        "N3KUK9-602U5.2=",
+        "N3KUK9-602U5.3",
+        "N3KUK9-602U5.3=",
+        "NXOS-703I7.4"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-741291.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3KUK9-602A3.1",
+        "N3KUK9-602A3.1=",
+        "N3KUK9-602A3.2",
+        "N3KUK9-602A3.2=",
+        "N3KUK9-602A4.1",
+        "N3KUK9-602A4.1=",
+        "N3KUK9-602A4.4",
+        "N3KUK9-602A4.4=",
+        "N3KUK9-602A4.5",
+        "N3KUK9-602A4.5=",
+        "N3KUK9-602A4.6",
+        "N3KUK9-602A4.6=",
+        "N3KUK9-602A7.1",
+        "N3KUK9-602A7.1=",
+        "N3KUK9-602A7.2",
+        "N3KUK9-602A7.2=",
+        "N3KUK9-602A8.9"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-738099.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3K-C3064-X-BA-L3",
+        "N3K-C3064-X-BD-L3",
+        "N3K-C3064-X-FA",
+        "N3K-C3064-X-FA-L3",
+        "N3K-C3064-X-FD-L3",
+        "N3K-C3064-X-OE",
+        "N3K-C3064-X-OE=",
+        "N3K-C3064-X-ZC",
+        "N3K-C3064-X-ZM-1B",
+        "N3K-C3064-X-ZM-1F",
+        "N3K-C3064-X-ZM-2B",
+        "N3K-C3064-X-ZM-2F",
+        "N3K-C3064-X-ZZ",
+        "N3K-C3064-X-ZZ-BA",
+        "N3K-C3064-X-ZZ-BD",
+        "N3K-C3064-X-ZZ-FA",
+        "N3K-C3064-X-ZZ-FD",
+        "N3K-C3064PQ-10GX",
+        "N3K-C3064PQ-10GX=",
+        "N3K-C3064PQ-10GXW",
+        "N3K-C31108PC-V",
+        "N3K-C31108PC-V=",
+        "N3K-C3172PQ-XL",
+        "N3K-C3172PQ-XL=",
+        "N3K-XNC-MM-B-SM",
+        "N3K-XNC-MM-B-ST"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-737142.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "C1-N3K-C3132Q",
+        "N3K-C3132Q-40G",
+        "N3K-C3132Q-40G=",
+        "N3K-C3132Q-40GE",
+        "N3K-C3132Q-40GE=",
+        "N3K-C3132Q-40GEW",
+        "N3K-C3132Q-FA",
+        "N3K-C3132Q-XL",
+        "N3K-C3132Q-XL=",
+        "N3K-C3132Q-Z-BUN",
+        "N3K-C3132Q-ZZ-4PK"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-737069.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "C1-N3K-C3548P",
+        "C1-N3K-C3548X",
+        "N3K-C3524P-10G",
+        "N3K-C3524P-10G=",
+        "N3K-C3524P-10GX",
+        "N3K-C3524P-10GX=",
+        "N3K-C3524P-L3",
+        "N3K-C3524P-L3=",
+        "N3K-C3524P-SBUN",
+        "N3K-C3548-X-SPL3A",
+        "N3K-C3548P-10G",
+        "N3K-C3548P-10G=",
+        "N3K-C3548P-10GX",
+        "N3K-C3548P-10GX=",
+        "N3K-C3548P-BA-L3A",
+        "N3K-C3548P-BD-L3A",
+        "N3K-C3548P-FA-L3A",
+        "N3K-C3548P-FD-L3A"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-736390.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3K-C3064-T-BA-L3",
+        "N3K-C3064-T-FA-L3",
+        "N3K-C3064-T-ZV",
+        "N3K-C3064TQ-10GT",
+        "N3K-C3064TQ-10GT=",
+        "N3K-C3064TQ-32T",
+        "N3K-C3064TQ-32T=",
+        "N3K-C3172TQ-32T",
+        "N3K-C3172TQ-32T=",
+        "N3K-C3172TQ-XL"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-736391.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3K-C3064-E-BD-L3",
+        "N3K-C3064-E-FA-L3",
+        "N3K-C3064-E-FD-L3",
+        "N3K-C3064-E-ZM-1B",
+        "N3K-C3064-E-ZM-1F",
+        "N3K-C3064-E-ZM-B",
+        "N3K-C3064-E-ZM-F",
+        "N3K-C3064PQ-10GE",
+        "N3K-C3064PQ-10GE=",
+        "N3K-C3064PQ-FA-L3",
+        "N3K-C3172PQ-XL"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-736140.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3KUK9-503A1.1",
+        "N3KUK9-503A1.1=",
+        "N3KUK9-503A1.2",
+        "N3KUK9-503A1.2=",
+        "N3KUK9-503A1.2A",
+        "N3KUK9-503A1.2A=",
+        "N3KUK9-503A1.2B",
+        "N3KUK9-503A1.2B=",
+        "N3KUK9-602A1.1",
+        "N3KUK9-602A1.1=",
+        "N3KUK9-602A1.1B",
+        "N3KUK9-602A1.1B=",
+        "N3KUK9-602A1.1C",
+        "N3KUK9-602A1.1C=",
+        "N3KUK9-602A4.6"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-736142.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3KUK9-503U2.2B",
+        "N3KUK9-503U2.2B=",
+        "N3KUK9-503U2.2C",
+        "N3KUK9-503U2.2C=",
+        "N3KUK9-503U2.2D",
+        "N3KUK9-503U2.2D=",
+        "N3KUK9-503U3.1",
+        "N3KUK9-503U3.1=",
+        "N3KUK9-503U3.2",
+        "N3KUK9-503U3.2=",
+        "N3KUK9-503U3.2A",
+        "N3KUK9-503U3.2B",
+        "N3KUK9-503U4.1",
+        "N3KUK9-503U4.1=",
+        "N3KUK9-503U5.1",
+        "N3KUK9-503U5.1=",
+        "N3KUK9-503U5.1A",
+        "N3KUK9-503U5.1A=",
+        "N3KUK9-503U5.1B",
+        "N3KUK9-503U5.1B=",
+        "N3KUK9-503U5.1C",
+        "N3KUK9-503U5.1C=",
+        "N3KUK9-503U5.1D",
+        "N3KUK9-503U5.1D=",
+        "N3KUK9-503U5.1E",
+        "N3KUK9-503U5.1E=",
+        "N3KUK9-503U5.1F",
+        "N3KUK9-503U5.1F=",
+        "N3KUK9-503U5.1G",
+        "N3KUK9-503U5.1G=",
+        "N3KUK9-503U5.1H",
+        "N3KUK9-503U5.1I",
+        "N3KUK9-503U5.1I=",
+        "N3KUK9-503U5.1J",
+        "N3KUK9-503U5.1J=",
+        "N3KUK9-602U1.1",
+        "N3KUK9-602U1.1=",
+        "N3KUK9-602U1.1A",
+        "N3KUK9-602U1.1A=",
+        "N3KUK9-602U1.2",
+        "N3KUK9-602U1.2=",
+        "N3KUK9-602U1.3",
+        "N3KUK9-602U1.3=",
+        "N3KUK9-602U1.4",
+        "N3KUK9-602U1.4=",
+        "N3KUK9-602U3.8",
+        "N3KUK9-602U5.2"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-734491.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": [
+        "N3K-C3016-BA-L3",
+        "N3K-C3016-FA-L3",
+        "N3K-C3016-FD-L3",
+        "N3K-C3016Q-40GE",
+        "N3K-C3016Q-40GE=",
+        "N3K-C3132Q-40GX",
+        "N3K-C3132Q-40GX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-2353526-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-2353538-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-2353550-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743712-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743711-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743393-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743063-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743061-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-742599-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-742504-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-741755-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-741753-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-741292-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-741291-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-738099-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-737142-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-737069-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-736390-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-736391-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-736140-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-736142-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-3000-series-switches/eos-eol-notice-c51-743427-fr.html": {
+      "category": "switches",
+      "series_name": "Nexus 3000 Series Switches",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/nexus-data-broker/eos-eol-notice-c51-743517.html": {
+      "category": "cloud-systems-management",
+      "series_name": "Nexus Dashboard Data Broker",
+      "pids": [
+        "NDB-2.0",
+        "NDB-2.1",
+        "NDB-2.2",
+        "NDB-3.8"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/nexus-data-broker/eos-eol-notice-c51-743517-fr.html": {
+      "category": "cloud-systems-management",
+      "series_name": "Nexus Dashboard Data Broker",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-data-center-network-manager/eos-eol-notice-c51-744236.html": {
+      "category": "cloud-systems-management",
+      "series_name": "Nexus Dashboard Fabric Controller",
+      "pids": [
+        "DCNM-SVR-11-K9",
+        "DCNM-SVR-11-K9=",
+        "DCNM-SVR-60-K9",
+        "DCNM-SVR-60-K9=",
+        "DCNM-SVR-70-K9",
+        "DCNM-SVR-70-K9=",
+        "L-DCNM-SVR-60-K9",
+        "L-DCNM-SVR-60-K9=",
+        "L-DCNM-SVR-70-K9=",
+        "R-DCNM-SVR-60-K9",
+        "R-DCNM-SVR-60-K9=",
+        "R-DCNM-SVR-70-K9",
+        "R-DCNM-SVR-70-K9="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-data-center-network-manager/eos-eol-notice-c51-735794.html": {
+      "category": "cloud-systems-management",
+      "series_name": "Nexus Dashboard Fabric Controller",
+      "pids": [
+        "DCNM-S-M91EH8K9=",
+        "DCNM-S-M91XK9"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-data-center-network-manager/eos-eol-notice-c51-744236-fr.html": {
+      "category": "cloud-systems-management",
+      "series_name": "Nexus Dashboard Fabric Controller",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/data-center-analytics/nexus-insights/eos-eol-notice-c51-744602.html": {
+      "category": "data-center-analytics",
+      "series_name": "Nexus Dashboard Insights",
+      "pids": [
+        "D2OPS-FXD-1Y",
+        "D2OPS-FXD-3Y",
+        "D2OPS-FXD-5Y",
+        "D2OPS-MOD-3Y",
+        "D2OPS-MOD-5Y",
+        "NIA-FXD-1Y",
+        "NIA-FXD-3Y",
+        "NIA-FXD-5Y",
+        "NIA-M4-3Y",
+        "NIA-M4-5Y",
+        "NIA-M8-16-3Y",
+        "NIA-M8-16-5Y",
+        "NIR-FXD-1Y",
+        "NIR-FXD-3Y",
+        "NIR-FXD-5Y",
+        "NIR-M4-3Y",
+        "NIR-M4-5Y",
+        "NIR-M8-16-3Y",
+        "NIR-M8-16-5Y"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/data-center-analytics/nexus-insights/eos-eol-notice-c51-744602-fr.html": {
+      "category": "data-center-analytics",
+      "series_name": "Nexus Dashboard Insights",
+      "pids": []
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/ons-15454-series-multiservice-transport-platforms/eos-eol-notice-c51-744877.html": {
+      "category": "optical-networking",
+      "series_name": "ONS 15454 Series Multiservice Transport Platforms",
+      "pids": [
+        "15454-AR-MXP-LIC=",
+        "15454-AR-MXP=",
+        "15454-AR-XP-LIC",
+        "15454-AR-XP-LIC=",
+        "15454-AR-XP=",
+        "15454-AR-XPE=",
+        "15454-ARE-K9-SK",
+        "15454-ARE-L-K9-SK"
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/ons-15454-series-multiservice-transport-platforms/eos-eol-notice-c51-743901.html": {
+      "category": "optical-networking",
+      "series_name": "ONS 15454 Series Multiservice Transport Platforms",
+      "pids": [
+        "15216-MD-ID-50=",
+        "ONS-CFP2-WDM-1KE",
+        "ONS-CFP2-WDM-1KE=",
+        "ONS-SE+-10G-LR=",
+        "ONS-SE-200-MM",
+        "ONS-SE-200-MM=",
+        "ONS-SE-GE-ZX",
+        "ONS-SE-GE-ZX=",
+        "ONS-SI+-10G-LR=",
+        "ONS-SI-GE-ZX",
+        "ONS-SI-GE-ZX="
+      ]
+    },
+    "https://www.cisco.com/c/en/us/products/collateral/optical-networking/ons-15454-series-multiservice-transport-platforms/eos-eol-notice-c51-742266.html": {
+      "category": "optical-networking",
+      "series_name": "ONS 15454 Series Multiservice Transport Platforms",
+      "pids": [
+        "15454W-100X10G-SK",
+        "CISCO-15454-M6"
       ]
     }
   }

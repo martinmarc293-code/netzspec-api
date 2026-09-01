@@ -4813,5 +4813,2032 @@
     "series_name": "Mds 9000 32 Port Storage Services Module",
     "datasheets": [],
     "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/storage-networking/mds-9100-multilayer-fabric-switch/index.html": {
+    "category": "storage-networking",
+    "series_slug": "mds-9100-multilayer-fabric-switch",
+    "series_name": "Mds 9100 Multilayer Fabric Switch",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/storage-networking/mds-9148s-16g-multilayer-fabric-switch/index.html": {
+    "category": "storage-networking",
+    "series_slug": "mds-9148s-16g-multilayer-fabric-switch",
+    "series_name": "Mds 9148S 16G Multilayer Fabric Switch",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/storage-networking/mds-9148t-32-gbps-48-port-fibre-channel-switch/index.html": {
+    "category": "storage-networking",
+    "series_slug": "mds-9148t-32-gbps-48-port-fibre-channel-switch",
+    "series_name": "Mds 9148T 32 Gbps 48 Port Fibre Channel Switch",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/storage-networking/mds-9250i-multiservice-fabric-switch/index.html": {
+    "category": "storage-networking",
+    "series_slug": "mds-9250i-multiservice-fabric-switch",
+    "series_name": "Mds 9250I Multiservice Fabric Switch",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/storage-networking/mds-9396s-16g-multilayer-fabric-switch/index.html": {
+    "category": "storage-networking",
+    "series_slug": "mds-9396s-16g-multilayer-fabric-switch",
+    "series_name": "Mds 9396S 16G Multilayer Fabric Switch",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/storage-networking/mds-9396t-32-gbps-96-port-fibre-channel-switch/index.html": {
+    "category": "storage-networking",
+    "series_slug": "mds-9396t-32-gbps-96-port-fibre-channel-switch",
+    "series_name": "Mds 9396T 32 Gbps 96 Port Fibre Channel Switch",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/storage-networking/mds-9500-series-multilayer-directors/index.html": {
+    "category": "storage-networking",
+    "series_slug": "mds-9500-series-multilayer-directors",
+    "series_name": "Mds 9500 Series Multilayer Directors",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9000-series-multilayer-switches/product_data_sheet09186a00801bc698.html",
+      "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9513-multilayer-director/product_data_sheet0900aecd80446023.html",
+      "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9506-multilayer-director/product_data_sheet09186a00801ce948.html",
+      "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9500-series-multilayer-directors/product_data_sheet.html",
+      "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9500-series-multilayer-directors/data_sheet_c78_605104.html",
+      "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9000-series-multilayer-switches/data_sheet_c78-492690.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/storage-networking-modules/data_sheet_c78-639748.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/mds-9000-18-4-port-multiservice-module/product_data_sheet0900aecd80694b27.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/mds-9000-10-gbps-8-port-fcoe-module/data_sheet_c78-643937.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/storage-networking/mds-9706-multilayer-director/index.html": {
+    "category": "storage-networking",
+    "series_slug": "mds-9706-multilayer-director",
+    "series_name": "Mds 9706 Multilayer Director",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/conferencing/meeting-server-1000/index.html": {
+    "category": "conferencing",
+    "series_slug": "meeting-server-1000",
+    "series_name": "Meeting Server 1000",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/conferencing/meeting-server-2000/index.html": {
+    "category": "conferencing",
+    "series_slug": "meeting-server-2000",
+    "series_name": "Meeting Server 2000",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/mgx-8250-edge-concentrator/index.html": {
+    "category": "switches",
+    "series_slug": "mgx-8250-edge-concentrator",
+    "series_name": "Mgx 8250 Edge Concentrator",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/mgx-8800-8900-series-route-processor-module/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "mgx-8800-8900-series-route-processor-module",
+    "series_name": "Mgx 8800 8900 Series Route Processor Module",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/mgx-8800-series-switches/index.html": {
+    "category": "switches",
+    "series_slug": "mgx-8800-series-switches",
+    "series_name": "Mgx 8800 Series Switches",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/network-convergence-system-5000-series/index.html": {
+    "category": "routers",
+    "series_slug": "network-convergence-system-5000-series",
+    "series_name": "Network Convergence System 5000 Series",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5000-series/datasheet-c78-736546.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5000-series/datasheet-c78-736153.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/network-registrar/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "network-registrar",
+    "series_name": "Network Registrar",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/nexus-31128pq-switch/index.html": {
+    "category": "switches",
+    "series_slug": "nexus-31128pq-switch",
+    "series_name": "Nexus 31128Pq Switch",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/nexus-3132q-switch/index.html": {
+    "category": "switches",
+    "series_slug": "nexus-3132q-switch",
+    "series_name": "Nexus 3132Q Switch",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/nexus-3232c-switch/index.html": {
+    "category": "switches",
+    "series_slug": "nexus-3232c-switch",
+    "series_name": "Nexus 3232C Switch",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/nexus-3264q-switch/index.html": {
+    "category": "switches",
+    "series_slug": "nexus-3264q-switch",
+    "series_name": "Nexus 3264Q Switch",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/switches/nexus-3548-switch/index.html": {
+    "category": "switches",
+    "series_slug": "nexus-3548-switch",
+    "series_name": "Nexus 3548 Switch",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/ngips/index.html": {
+    "category": "security",
+    "series_slug": "ngips",
+    "series_name": "Ngips",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/software/one-wan-subscription/index.html": {
+    "category": "software",
+    "series_slug": "one-wan-subscription",
+    "series_name": "One Wan Subscription",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/software/one-wireless-subscription/index.html": {
+    "category": "software",
+    "series_slug": "one-wireless-subscription",
+    "series_name": "One Wireless Subscription",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/software/one-wireless-subscription/nb-06-dna-sw-sub-wl-data-sheet-ctp-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/optical-networking/ons-15216-dwdm-system/index.html": {
+    "category": "optical-networking",
+    "series_slug": "ons-15216-dwdm-system",
+    "series_name": "Ons 15216 Dwdm System",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/optical-networking/ons-15454-m12-multiservice-transport-platform-mstp/index.html": {
+    "category": "optical-networking",
+    "series_slug": "ons-15454-m12-multiservice-transport-platform-mstp",
+    "series_name": "Ons 15454 M12 Multiservice Transport Platform Mstp",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/optical-networking/ons-15454-m2-multiservice-transport-platform-mstp/index.html": {
+    "category": "optical-networking",
+    "series_slug": "ons-15454-m2-multiservice-transport-platform-mstp",
+    "series_name": "Ons 15454 M2 Multiservice Transport Platform Mstp",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/optical-networking/ons-15454-m6-multiservice-transport-platform-mstp/index.html": {
+    "category": "optical-networking",
+    "series_slug": "ons-15454-m6-multiservice-transport-platform-mstp",
+    "series_name": "Ons 15454 M6 Multiservice Transport Platform Mstp",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/ons-15454-ml-series-8-port-sfp-based-100base-fx-ethernet-card/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "ons-15454-ml-series-8-port-sfp-based-100base-fx-ethernet-card",
+    "series_name": "Ons 15454 Ml Series 8 Port Sfp Based 100Base Fx Ethernet Card",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/optical-networking/ons-15454-series-multiservice-provisioning-platforms/index.html": {
+    "category": "optical-networking",
+    "series_slug": "ons-15454-series-multiservice-provisioning-platforms",
+    "series_name": "Ons 15454 Series Multiservice Provisioning Platforms",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/performance-routing-pfr/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "performance-routing-pfr",
+    "series_name": "Performance Routing Pfr",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/physical-security/physical-access-gateways/index.html": {
+    "category": "physical-security",
+    "series_slug": "physical-access-gateways",
+    "series_name": "Physical Access Gateways",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/physical-security/index.html": {
+    "category": "security",
+    "series_slug": "physical-security",
+    "series_name": "Physical Security",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/policy-suite-bng/index.html": {
+    "category": "wireless",
+    "series_slug": "policy-suite-bng",
+    "series_name": "Policy Suite Bng",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/prime-access-registrar/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "prime-access-registrar",
+    "series_name": "Prime Access Registrar",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-access-registrar/datasheet-c78-734533.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/prime-network-registrar-jumpstart/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "prime-network-registrar-jumpstart",
+    "series_name": "Prime Network Registrar Jumpstart",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-network-registrar-jumpstart/datasheet-c78-734578.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-network-registrar-jumpstart/datasheet-c78-731726.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-network-registrar-jumpstart/data_sheet_c78-704320.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/provider-connectivity-assurance/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "provider-connectivity-assurance",
+    "series_name": "Provider Connectivity Assurance",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/quantum-policy-suite-mobile/index.html": {
+    "category": "wireless",
+    "series_slug": "quantum-policy-suite-mobile",
+    "series_name": "Quantum Policy Suite Mobile",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/policy-suite-mobile/datasheet-c78-2391753.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/policy-suite-mobile/datasheet-c78-2391318.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/networking/sdwan-routers/index.html": {
+    "category": "networking",
+    "series_slug": "sdwan-routers",
+    "series_name": "Sdwan Routers",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/secure-routers/index.html": {
+    "category": "routers",
+    "series_slug": "secure-routers",
+    "series_name": "Secure Routers",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/security/security-cloud-control/index.html": {
+    "category": "security",
+    "series_slug": "security-cloud-control",
+    "series_name": "Security Cloud Control",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/small-business-12v-power-adapter/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "small-business-12v-power-adapter",
+    "series_name": "Small Business 12V Power Adapter",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/small-business-gigabit-power-over-ethernet-injector/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "small-business-gigabit-power-over-ethernet-injector",
+    "series_name": "Small Business Gigabit Power Over Ethernet Injector",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/networking/software/index.html": {
+    "category": "networking",
+    "series_slug": "software",
+    "series_name": "Software",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/sonet-sdh-sfp-modules/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "sonet-sdh-sfp-modules",
+    "series_name": "Sonet Sdh Sfp Modules",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/spark-board/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "spark-board",
+    "series_name": "Spark Board",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-board/webex-board-pro-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-board/board-pro-g3-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-board/board-pro-g2-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/collaboration-peripherals/datasheet-c78-741432.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/spark-flex-plan/index.html": {
+    "category": "unified-communications",
+    "series_slug": "spark-flex-plan",
+    "series_name": "Spark Flex Plan",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/hybrid-work-from-home-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/collaboration-flex-plan3-data-sheet.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/cisco-collaboration-flex-plan-education-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/collaboration-flex-plan3-fedramp-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/spark-flex-plan/collaboration-flex-plan-meeting-data-sheet.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-742080.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/spark-flex-plan/datasheet-c78-740756.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/spark-flex-plan/datasheet-c78-740395.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741648.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-742548.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741649.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741647.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-744934.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741974.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741975.html",
+      "https://www.cisco.com/c/en/us/products/collateral/contact-center/webex-contact-center-enterprise/datasheet-c78-743365.html",
+      "https://www.cisco.com/c/en/us/products/collateral/customer-collaboration/collab-flex-3-contact-center-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-744220.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-743548.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741220.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/networking/switches/index.html": {
+    "category": "networking",
+    "series_slug": "switches",
+    "series_name": "Switches",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/data-center-analytics/tetration-analytics/index.html": {
+    "category": "data-center-analytics",
+    "series_slug": "tetration-analytics",
+    "series_name": "Tetration Analytics",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/data-center-analytics/tetration-analytics/cisco-secure-workload-dsv3a.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-6300-series-fabric-interconnects/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-6300-series-fabric-interconnects",
+    "series_name": "Ucs 6300 Series Fabric Interconnects",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-6300-series-fabric-interconnects/datasheet-c78-675243.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-6300-series-fabric-interconnects/datasheet-c78-732207.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-6300-series-fabric-interconnects/datasheet-c78-736682.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-6300-series-fabric-interconnects/data_sheet_c78-675243.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-b-series-blade-servers/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-b-series-blade-servers",
+    "series_name": "Ucs B Series Blade Servers",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/datasheet-c78-739296.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/datasheet-c78-739280.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/datasheet-c78-2368888.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/intersight/intersight-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/data_sheet_c78-520522.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-6300-series-fabric-interconnects/data_sheet_c78-675243.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-6300-series-fabric-interconnects/datasheet-c78-675243.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/datasheet-c78-742624.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/unified-computing-system-adapters/datasheet-c78-741130.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/ucs-virtual-interface-card-1340/datasheet-c78-732517.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/ucs-virtual-interface-card-1380/datasheet-c78-732516.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/data_sheet_c78-706603.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/data_sheet_c78-646961.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b200-m4-blade-server/datasheet-c78-732434.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b200-m3-blade-server/data_sheet_c78-700625.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/data_sheet_c78-706100.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/data_sheet_c78-703587.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/data_sheet_c78-703582.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/data_sheet_c78-623738.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/data_sheet_c78-623739.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/data_sheet_c78-726905.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/data_sheet_c78-525049.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/data_sheet_c78-727854.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-c240-m3-rack-server/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-c240-m3-rack-server",
+    "series_name": "Ucs C240 M3 Rack Server",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-c240-m4-rack-server/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-c240-m4-rack-server",
+    "series_name": "Ucs C240 M4 Rack Server",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-c3160-rack-server/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-c3160-rack-server",
+    "series_name": "Ucs C3160 Rack Server",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-c4200-series-rack-server-chassis/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-c4200-series-rack-server-chassis",
+    "series_name": "Ucs C4200 Series Rack Server Chassis",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-c4200-series-rack-server-chassis/datasheet-c78-740839.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-director-express-big-data/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-director-express-big-data",
+    "series_name": "Ucs Director Express Big Data",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/ucs-virtual-interface-card-1225/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "ucs-virtual-interface-card-1225",
+    "series_name": "Ucs Virtual Interface Card 1225",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/ucs-virtual-interface-card-1340/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "ucs-virtual-interface-card-1340",
+    "series_name": "Ucs Virtual Interface Card 1340",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/ucs-virtual-interface-card-1380/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "ucs-virtual-interface-card-1380",
+    "series_name": "Ucs Virtual Interface Card 1380",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/unified-attendant-console/index.html": {
+    "category": "unified-communications",
+    "series_slug": "unified-attendant-console",
+    "series_name": "Unified Attendant Console",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/unified-attendant-console/datasheet-c78-740351.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/unified-attendant-console/datasheet-c78-739479.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/unified-attendant-console/data_sheet_C78-731867.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/unified-attendant-console-enterprise-edition/data_sheet_c78-520987.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/unified-mobile-communicator/data_sheet_c78-709217.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/unified-mobile-communicator/product_data_sheet0900aecd805e6a67.html",
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/unified-mobile-communicator/product_data_sheet0900aecd805e6a5f.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/unified-attendant-console-enterprise-edition/index.html": {
+    "category": "unified-communications",
+    "series_slug": "unified-attendant-console-enterprise-edition",
+    "series_name": "Unified Attendant Console Enterprise Edition",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/unified-callconnector-microsoft-dynamics-crm/index.html": {
+    "category": "unified-communications",
+    "series_slug": "unified-callconnector-microsoft-dynamics-crm",
+    "series_name": "Unified Callconnector Microsoft Dynamics Crm",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/unified-communications-manager-session-management-edition/index.html": {
+    "category": "unified-communications",
+    "series_slug": "unified-communications-manager-session-management-edition",
+    "series_name": "Unified Communications Manager Session Management Edition",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/unified-ip-conference-phone-8831/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "unified-ip-conference-phone-8831",
+    "series_name": "Unified Ip Conference Phone 8831",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/unified-ip-phone-6901/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "unified-ip-phone-6901",
+    "series_name": "Unified Ip Phone 6901",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/unified-mobile-communicator/index.html": {
+    "category": "unified-communications",
+    "series_slug": "unified-mobile-communicator",
+    "series_name": "Unified Mobile Communicator",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/unified-sip-phone-3905/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "unified-sip-phone-3905",
+    "series_name": "Unified Sip Phone 3905",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/unified-sip-proxy/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "unified-sip-proxy",
+    "series_name": "Unified Sip Proxy",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/unity/index.html": {
+    "category": "unified-communications",
+    "series_slug": "unity",
+    "series_name": "Unity",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/wireless/universal-small-cell-5310/index.html": {
+    "category": "wireless",
+    "series_slug": "universal-small-cell-5310",
+    "series_name": "Universal Small Cell 5310",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/vg450-analog-voice-gateways/index.html": {
+    "category": "unified-communications",
+    "series_slug": "vg450-analog-voice-gateways",
+    "series_name": "Vg450 Analog Voice Gateways",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/virtualization-experience-media-engine/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "virtualization-experience-media-engine",
+    "series_name": "Virtualization Experience Media Engine",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/unified-communications/jabber-softphone-for-vdi/data-sheet-c78-740478.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-739437.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-738973.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-737713.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-736425.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/data_sheet_c78-702849.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-739435.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-738971.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-737712.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-736878.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-739436.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-738972.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-737714.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-736877.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-739438.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/virtualization-experience-media-engine/datasheet-c78-738974.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/contact-center/webex-contact-center-enterprise/index.html": {
+    "category": "contact-center",
+    "series_slug": "webex-contact-center-enterprise",
+    "series_name": "Webex Contact Center Enterprise",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/contact-center/webex-contact-center-enterprise/datasheet-c78-743858.html",
+      "https://www.cisco.com/c/en/us/products/collateral/contact-center/webex-contact-center-enterprise/datasheet-c78-743365.html",
+      "https://www.cisco.com/c/en/us/products/collateral/contact-center/webex-contact-center-enterprise/webex-cc-enterprise-govt-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/conferencing/webex-meeting-center/index.html": {
+    "category": "conferencing",
+    "series_slug": "webex-meeting-center",
+    "series_name": "Webex Meeting Center",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/conferencing/webex-meeting-center/datasheet-c78-732060.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/digital-media-manager/datasheet-c78-734272.html",
+      "https://www.cisco.com/c/en/us/products/collateral/video/digital-media-manager/datasheet-c78-734273.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/webex-room-series/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "webex-room-series",
+    "series_name": "Webex Room Series",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/collaboration-peripherals/datasheet-c78-741432.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/webex-room-bar-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/room-bar-pro-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spark-room-kit-series/room-kit-eq-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spark-room-kit-series/room-kit-eqx-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/datasheet-c78-741052.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/room-kit-pro-g2-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/datasheet-c78-744227.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/datasheet-c78-744228.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/collaboration-room-endpoints/datasheet-c78-743064.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/collaboration-peripherals/webex-ptz-4k-camera-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/datasheet-c78-743861.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/datasheet-c78-743862.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spark-room-kit-series/datasheet-c78-738729.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/datasheet-c78-741523.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spark-room-kit-series/datasheet-c78-738752.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/webex-room-kit-ptz-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-usb/webex-room-usb-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/wide-area-application-services-waas-modules-integrated-service-routers-isr/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "wide-area-application-services-waas-modules-integrated-service-routers-isr",
+    "series_name": "Wide Area Application Services Waas Modules Integrated Service Routers Isr",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/application-networking-services/wide-area-application-services-waas-software/index.html": {
+    "category": "application-networking-services",
+    "series_slug": "wide-area-application-services-waas-software",
+    "series_name": "Wide Area Application Services Waas Software",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/networking/wireless/index.html": {
+    "category": "networking",
+    "series_slug": "wireless",
+    "series_name": "Wireless",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/wireless-ip-phone-8821/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "wireless-ip-phone-8821",
+    "series_name": "Wireless Ip Phone 8821",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/wireless-ip-phone-8821-ex/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "wireless-ip-phone-8821-ex",
+    "series_name": "Wireless Ip Phone 8821 Ex",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/xr-12000-series-router/index.html": {
+    "category": "routers",
+    "series_slug": "xr-12000-series-router",
+    "series_name": "Xr 12000 Series Router",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/prime-infrastructure/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "prime-infrastructure",
+    "series_name": "Prime Infrastructure",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-infrastructure/data_sheet_c78-728789.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-infrastructure/datasheet-c78-735696.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-infrastructure/datasheet-c78-731516.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-infrastructure/data_sheet_c78-729088.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-infrastructure/datasheet-c78-729879.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-infrastructure/datasheet-c78-729877.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-infrastructure/data_sheet_c78-715144.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/prime-infrastructure/data_sheet_c78-696118.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/smart-software-manager-satellite/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "smart-software-manager-satellite",
+    "series_name": "Smart Software Manager",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/smart-software-manager-satellite/datasheet-c78-734539.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/nx-os-software/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "nx-os-software",
+    "series_name": "NX-OS Software",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/ios-nx-os-software/nx-os-software/data_sheet_c78-652063.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/catalyst-center-global-manager/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "catalyst-center-global-manager",
+    "series_name": "Catalyst Center Global Manager",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/catalyst-center/catalyst-center-global-manager-1-3-1-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/dna-traffic-telemetry-appliances/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "dna-traffic-telemetry-appliances",
+    "series_name": "DNA Traffic Telemetry Appliance",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/findit-network-management/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "findit-network-management",
+    "series_name": "FindIT Network Management",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/findit-network-management/datasheet-c78-737934.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/findit-network-management/datasheet-c78-737934-cn.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/findit-network-management/datasheet-c78-737934-fr.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/findit-network-management/datasheet-c78-737934-de.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/findit-network-management/datasheet-c78-737934-jp.html",
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/findit-network-management/datasheet-c78-737934-es.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/modeling-labs/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "modeling-labs",
+    "series_name": "Modeling Labs",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/networking/software/networking-subscription-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/remote-automation-development-kit/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "remote-automation-development-kit",
+    "series_name": "Remote Automation Development Kit (RADKit)",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/prime-license-manager/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "prime-license-manager",
+    "series_name": "Prime License Manager",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/networking/software/networking-subscription-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/prime-network-services-controller/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "prime-network-services-controller",
+    "series_name": "Prime Network Services Controller",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/networking/software/networking-subscription-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/configuration-assistant-cca/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "configuration-assistant-cca",
+    "series_name": "Configuration Assistant (CCA)",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/configuration-assistant-cca/data_sheet_c78-682273.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/configuration-professional-express/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "configuration-professional-express",
+    "series_name": "Configuration Professional Express",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/networking/software/networking-subscription-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/configuration-professional-catalyst/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "configuration-professional-catalyst",
+    "series_name": "Configuration Professional for Catalyst",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/configuration-professional-catalyst/datasheet-c78-739734.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/managed-services-accelerator/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "managed-services-accelerator",
+    "series_name": "Managed Services Accelerator",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/virtual-managed-services/datasheet-c78-741096.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/cloudcenter-suite/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "cloudcenter-suite",
+    "series_name": "CloudCenter Suite",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/cloudcenter-suite/datasheet-c78-741886.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/intersight-workload-optimizer/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "intersight-workload-optimizer",
+    "series_name": "Intersight Workload Optimizer",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/intersight-workload-optimizer/datasheet-c78-744509.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/stack-automation-quali/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "stack-automation-quali",
+    "series_name": "Stack Automation by Quali",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/virtualized-infrastructure-manager/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "virtualized-infrastructure-manager",
+    "series_name": "Virtualized Infrastructure Manager",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/virtualized-infrastructure-manager/datasheet-c78-739507.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/industrial-network-director/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "industrial-network-director",
+    "series_name": "Industrial Network Director",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/industrial-network-director/datasheet-c78-737848.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/industrial-wireless-monitor/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "industrial-wireless-monitor",
+    "series_name": "Industrial Wireless Monitor",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/networking/software/networking-subscription-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/iot-operations-dashboard/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "iot-operations-dashboard",
+    "series_name": "IoT Operations Dashboard",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/iot-operations-dashboard/datasheet-c78-2363146.html",
+      "https://www.cisco.com/c/en/us/products/collateral/security/industrial-security/secure-equipment-access/sec-equipment-access-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/crosswork-planning/index.html": {
+    "category": "routers",
+    "series_slug": "crosswork-planning",
+    "series_name": "Crosswork Planning",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/software/one-subscription-switching/index.html": {
+    "category": "software",
+    "series_slug": "one-subscription-switching",
+    "series_name": "Catalyst Software Subscription for Switching",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/software/one-data-center-networking-subscription/index.html": {
+    "category": "software",
+    "series_slug": "one-data-center-networking-subscription",
+    "series_name": "Data Center Networking Subscriptions",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/common-services-platform-collector-cspc/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "common-services-platform-collector-cspc",
+    "series_name": "Common Services Platform Collector (CSPC)",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/cx-collector/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "cx-collector",
+    "series_name": "CX Cloud Agent",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/networking/software/networking-subscription-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/cloud-systems-management/smart-call-home/index.html": {
+    "category": "cloud-systems-management",
+    "series_slug": "smart-call-home",
+    "series_name": "Smart Call Home",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/networking/software/networking-subscription-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/desktop-collaboration-experience-dx600-series/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "desktop-collaboration-experience-dx600-series",
+    "series_name": "Desk Series",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-desk-series/datasheet-c78-731878.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-desk-series/datasheet-c78-736570.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-desk-series/webex-desk-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-desk-series/desk-camera-1080p-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration/datasheet-c78-744525.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-desk-pro/datasheet-c78-743105.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/telepresence-mx-series/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "telepresence-mx-series",
+    "series_name": "TelePresence MX Series",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/telepresence-mx-series/datasheet-c78-731263.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/telepresence-mx-series/data_sheet_c78-669335.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/spark-room-kit-series/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "spark-room-kit-series",
+    "series_name": "Room Series",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/collaboration-peripherals/datasheet-c78-741432.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/webex-room-bar-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/room-bar-pro-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spark-room-kit-series/room-kit-eq-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spark-room-kit-series/room-kit-eqx-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/datasheet-c78-741052.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/room-kit-pro-g2-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/datasheet-c78-744227.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/datasheet-c78-744228.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/collaboration-room-endpoints/datasheet-c78-743064.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/collaboration-peripherals/webex-ptz-4k-camera-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/datasheet-c78-743861.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/datasheet-c78-743862.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spark-room-kit-series/datasheet-c78-738729.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/datasheet-c78-741523.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spark-room-kit-series/datasheet-c78-738752.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-series/webex-room-kit-ptz-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-usb/webex-room-usb-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/telepresence-administration-software/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "telepresence-administration-software",
+    "series_name": "TelePresence Administration Software",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/ix5000-series/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "ix5000-series",
+    "series_name": "TelePresence IX5000 Series",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/ix5000-series/datasheet-c78-733257.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/telepresence-quick-set-series/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "telepresence-quick-set-series",
+    "series_name": "TelePresence SX Series (QuickSet)",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/telepresence-quick-set-series/datasheet-c78-731242.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/telepresence-quick-set-series/datasheet-c78-731274.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/webex-room-phone/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "webex-room-phone",
+    "series_name": "Room Phone",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-room-phone/datasheet-c78-743770.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/telepresence-touch/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "telepresence-touch",
+    "series_name": "Touch",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/webex-share/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "webex-share",
+    "series_name": "Webex Share",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/webex-share/datasheet-c78-741592.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/ip-phone-6800-series-multiplatform-firmware/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "ip-phone-6800-series-multiplatform-firmware",
+    "series_name": "6800 - IP Phone w/Multiplatform Firmware",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/ip-phone-6800-series-multiplatform-firmware/ip-phone-6800-multiplatform-firmware-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/unified-ip-phone-7900-series/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "unified-ip-phone-7900-series",
+    "series_name": "7900 - Unified IP Phone",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/unified-wireless-ip-phone-7920-multi-charger/product_data_sheet0900aecd806d595d.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/unified-ip-phone-power-injector/product_data_sheet0900aecd804b4649.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/unified-wideband-handset/product_data_sheet0900aecd806aab2b.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/unified-ip-phone-7900-series/product_data_sheet09186a00800925a8.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/unified-ip-phone-7900-series/product_data_sheet0900aecd805efaeb.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/unified-ip-phone-7900-series/product_data_sheet0900aecd805e315d.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/unified-ip-phone-7900-series/product_data_sheet0900aecd80422da7.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/headset-300-series/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "headset-300-series",
+    "series_name": "320 Series Headsets",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/headset-300-series/headset-320-series-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/headset-900-series/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "headset-900-series",
+    "series_name": "900 Series Bang & Olufsen Headsets",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/headsets/bang-olufsen-980-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/headsets/bang-olufsen-950-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/headsets/headset-usb-c-adapter-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/telepresence-speaker-track-60/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "telepresence-speaker-track-60",
+    "series_name": "SpeakerTrack 60",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/telepresence-speaker-track-60/datasheet-c78-729836.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/conferencing-cameras/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "conferencing-cameras",
+    "series_name": "Conferencing Cameras",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/telepresence-precision-cameras/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "telepresence-precision-cameras",
+    "series_name": "TelePresence Precision Cameras (P60)",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/telepresence-precision-cameras/datasheet-c78-669051.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/telepresence-precisionhd-cameras/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "telepresence-precisionhd-cameras",
+    "series_name": "TelePresence PrecisionHD Cameras",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/telepresence-precisionhd-cameras/data_sheet_c78-669051.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/small-business-spa300-series-ip-phones/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "small-business-spa300-series-ip-phones",
+    "series_name": "SPA300 IP Phones",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spa302d-multi-line-dect-handset/data_sheet_c78-717757.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/small-business-spa300-series-ip-phones/data_sheet_c78-601648.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/small-business-spa300-series-ip-phones/data_sheet_c78-601647.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/collaboration-endpoints/small-business-spa500-series-ip-phones/index.html": {
+    "category": "collaboration-endpoints",
+    "series_slug": "small-business-spa500-series-ip-phones",
+    "series_name": "SPA500 IP Phones",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spa525g2-5-line-ip-phone/data_sheet_c78-603725.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spa525g-5-line-ip-phone-color-display/data_sheet_c78-508997.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spa514g-4-line-gige-ip-phone/c78-698951_data_sheet.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spa512g-1-line-gige-ip-phone/c78-698950_data_sheet.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/spa500ds-digital-expansion-module/data_sheet_c78-711964.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/small-business-spa500-series-ip-phones/data_sheet_c78-548281.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/small-business-spa500-series-ip-phones/data_sheet_c78-548558.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/small-business-spa500-series-ip-phones/data_sheet_c78-548561.html",
+      "https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/small-business-spa500-series-ip-phones/data_sheet_c78-548564.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/spa525g2-5-line-ip-phone/data_sheet_c78-603725_french.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/spa525g2-5-line-ip-phone/data_sheet_c78-603725_german.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/spa525g2-5-line-ip-phone/data_sheet_c78-603725_italian.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/spa525g2-5-line-ip-phone/data_sheet_c78-603725_spanish.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/small-business-spa500-series-ip-phones/data_sheet_c78-698951_fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/small-business-spa500-series-ip-phones/data_sheet_c78-698951_de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/small-business-spa500-series-ip-phones/data_sheet_c78-698951_it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/small-business-spa500-series-ip-phones/data_sheet_c78-698950_fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/small-business-spa500-series-ip-phones/data_sheet_c78-698950_de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/small-business-spa500-series-ip-phones/data_sheet_c78-698950_it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/small-business-spa500-series-ip-phones/data_sheet_c78-698950_es-xl.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/spa500ds-digital-expansion-module/data_sheet_c78-711964_fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/spa500ds-digital-expansion-module/data_sheet_c78-711964_de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/spa500ds-digital-expansion-module/data_sheet_c78-711964_it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/spa500ds-digital-expansion-module/data_sheet_c78-711964_pt.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/collaboration-endpoints/spa500ds-digital-expansion-module/data_sheet_c78-711964_es_eu.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/conferencing/webex-control-hub/index.html": {
+    "category": "conferencing",
+    "series_slug": "webex-control-hub",
+    "series_name": "Webex Control Hub",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/conferencing/webex-control-hub/datasheet-c78-740770.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/conferencing/meeting-management/index.html": {
+    "category": "conferencing",
+    "series_slug": "meeting-management",
+    "series_name": "Cisco Meeting Management",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/conferencing/telepresence-management-suite-tms/index.html": {
+    "category": "conferencing",
+    "series_slug": "telepresence-management-suite-tms",
+    "series_name": "TelePresence Management Suite (TMS)",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/conferencing/telepresence-management-suite-tms/data_sheet_c78-707901.html",
+      "https://www.cisco.com/c/en/us/products/collateral/conferencing/telepresence-management-suite-tms/data_sheet_c78-707529.html",
+      "https://www.cisco.com/c/en/us/products/collateral/conferencing/telepresence-management-suite-tms/data_sheet_c78-704865.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/conferencing/telepresence-management-suite-extensions/index.html": {
+    "category": "conferencing",
+    "series_slug": "telepresence-management-suite-extensions",
+    "series_name": "TelePresence Management Suite Extensions",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/conferencing/ai-pods-collaboration/index.html": {
+    "category": "conferencing",
+    "series_slug": "ai-pods-collaboration",
+    "series_name": "AI PODs for Collaboration",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/conferencing/ai-pods-collaboration/ai-pods-collaboration-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/contact-center/webex-contact-center-enterprise-government/index.html": {
+    "category": "contact-center",
+    "series_slug": "webex-contact-center-enterprise-government",
+    "series_name": "Webex Contact Center Enterprise for Government",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/contact-center/webex-workforce-optimization/index.html": {
+    "category": "contact-center",
+    "series_slug": "webex-workforce-optimization",
+    "series_name": "Webex Workforce Optimization",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/contact-center/unified-contact-center-express/datasheet-c78-743932.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/customer-collaboration/unified-contact-center-domain-manager/index.html": {
+    "category": "customer-collaboration",
+    "series_slug": "unified-contact-center-domain-manager",
+    "series_name": "Domain Manager",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/customer-collaboration/unified-contact-center-enterprise/datasheet-c78-741866.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/customer-collaboration/cisco-enterprise-chat-email/index.html": {
+    "category": "customer-collaboration",
+    "series_slug": "cisco-enterprise-chat-email",
+    "series_name": "Enterprise Chat and Email",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/customer-collaboration/collab-flex-3-contact-center-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/customer-collaboration/unified-ip-interactive-voice-response-ivr/index.html": {
+    "category": "customer-collaboration",
+    "series_slug": "unified-ip-interactive-voice-response-ivr",
+    "series_name": "IP Interactive Voice Response (IVR)",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/customer-collaboration/unified-ip-interactive-voice-response-ivr/datasheet-c78-732610.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/customer-collaboration/unified-contact-center-management-portal/index.html": {
+    "category": "customer-collaboration",
+    "series_slug": "unified-contact-center-management-portal",
+    "series_name": "Management Portal",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/customer-collaboration/unified-contact-center-enterprise/data_sheet_c78-713333.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/contact-center/contact-center-sip-proxy/index.html": {
+    "category": "contact-center",
+    "series_slug": "contact-center-sip-proxy",
+    "series_name": "SIP Proxy (CCCSP)",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/customer-collaboration/collab-flex-3-contact-center-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/customer-collaboration/virtualized-voice-browser/index.html": {
+    "category": "customer-collaboration",
+    "series_slug": "virtualized-voice-browser",
+    "series_name": "Virtualized Voice Browser",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/customer-collaboration/collab-flex-3-contact-center-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-5100-series-blade-server-chassis/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-5100-series-blade-server-chassis",
+    "series_name": "5100 Blade Series",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/datasheet-c78-741116.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/datasheet-c78-742624.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-6300-series-fabric-interconnects/datasheet-c78-675243.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-6300-series-fabric-interconnects/data_sheet_c78-675243.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-mini/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-mini",
+    "series_name": "Mini Series",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/datasheet-c78-739296.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/datasheet-c78-739280.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-c-series-rack-servers/datasheet-c78-739281.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-5100-series-blade-server-chassis/data_sheet_c78-526830.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-6300-series-fabric-interconnects/datasheet-c78-732207.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/datasheet-c78-2368888.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-s-series-storage-servers/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-s-series-storage-servers",
+    "series_name": "S Series Storage",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-s-series-storage-servers/datasheet-c78-738059.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-b-series-blade-server-software/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-b-series-blade-server-software",
+    "series_name": "B Series Blade Software",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-x-series-modular-system/ai-infrast-pods-inferencing-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-c-series-rack-mount-standalone-server-software/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-c-series-rack-mount-standalone-server-software",
+    "series_name": "C Series Rack-Mount Standalone Software",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-x-series-modular-system/ai-infrast-pods-inferencing-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-c-series-rack-mount-ucs-managed-server-software/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-c-series-rack-mount-ucs-managed-server-software",
+    "series_name": "C Series Rack-Mount UCS-Managed Software",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-x-series-modular-system/ai-infrast-pods-inferencing-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-e-series-software/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-e-series-software",
+    "series_name": "E Series Software",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-x-series-modular-system/ai-infrast-pods-inferencing-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/unified-computing-system/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "unified-computing-system",
+    "series_name": "Unified Computing System",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-x-series-modular-system/ai-infrast-pods-inferencing-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-hypervisors-operating-systems/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-hypervisors-operating-systems",
+    "series_name": "Hypervisors and Operating Systems",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-x-series-modular-system/ai-infrast-pods-inferencing-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-infrastructure-ucs-manager-software/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-infrastructure-ucs-manager-software",
+    "series_name": "Infrastructure and UCS Manager Software",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-x-series-modular-system/ai-infrast-pods-inferencing-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-management-partner-ecosystem-software/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-management-partner-ecosystem-software",
+    "series_name": "Management - Partner Ecosystem",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-x-series-modular-system/ai-infrast-pods-inferencing-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/workload-optimization-manager/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "workload-optimization-manager",
+    "series_name": "Workload Optimization Manager",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/hyperconverged-infrastructure/compute-hyperconverged-vmware-vsan/index.html": {
+    "category": "hyperconverged-infrastructure",
+    "series_slug": "compute-hyperconverged-vmware-vsan",
+    "series_name": "Compute Hyperconverged with VMware vSAN",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/hyperconverged-infrastructure/compute-hyperconverged/vsan-c220-m8-rack-server-family-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/hyperconverged-systems/hyperflex-hx-data-platform-software/index.html": {
+    "category": "hyperconverged-systems",
+    "series_slug": "hyperflex-hx-data-platform-software",
+    "series_name": "HyperFlex HX Data Platform",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/hyperconverged-systems/hyperflex-hx-series/index.html": {
+    "category": "hyperconverged-systems",
+    "series_slug": "hyperflex-hx-series",
+    "series_name": "HyperFlex HX Series",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-6200-series-fabric-interconnects/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-6200-series-fabric-interconnects",
+    "series_name": "6200 Fabric Interconnects",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-b-series-blade-servers/data_sheet_c78-520522.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-6200-series-fabric-interconnects/data_sheet_c78-675245.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-6300-series-fabric-interconnects/data_sheet_c78-675243.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-9100-series-fabric-interconnects/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-9100-series-fabric-interconnects",
+    "series_name": "9100 Fabric Interconnects",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ucs-x-series-modular-system/ucs-x-series-direct-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/r-series-racks/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "r-series-racks",
+    "series_name": "R Series Racks",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/r-series-racks/datasheet-c78-738217.html",
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/r-series-racks/data_sheet_c78-638922.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/rp-series-power-distribution-units/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "rp-series-power-distribution-units",
+    "series_name": "RP Series Power Distribution Units",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/rp-series-power-distribution-units/datasheet-c78-638923.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/servers-unified-computing/ucs-virtual-interface-card/index.html": {
+    "category": "servers-unified-computing",
+    "series_slug": "ucs-virtual-interface-card",
+    "series_name": "UCS Virtual Interface Cards",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/unified-computing-system-adapters/ucs-vic-15000-series-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/unified-computing-system-adapters/datasheet-c78-741130.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/unified-computing-system-adapters/datasheet-c78-736683.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/unified-computing-system-adapters/datasheet-c78-734727.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/crs-1-modules/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "crs-1-modules",
+    "series_name": "CRS-1 Modules",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/5g-wireless-wan-interfaces/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "5g-wireless-wan-interfaces",
+    "series_name": "5G Wireless WAN Interfaces",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/10gbase-modules/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "10gbase-modules",
+    "series_name": "10GBASE Modules",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/connected-grid-modules/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "connected-grid-modules",
+    "series_name": "Connected Grid Modules",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/cwdm-gbic-sfp/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "cwdm-gbic-sfp",
+    "series_name": "CWDM GBIC/SFP",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/high-speed-wan-interface-cards/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "high-speed-wan-interface-cards",
+    "series_name": "High-Speed WAN Interface Cards",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/4g-lte-wireless-wan-enhanced-high-speed-wan-interface-card/datasheet-c78-737320.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/4g-lte-wireless-wan-enhanced-high-speed-wan-interface-card/datasheet_c78-710314.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/high-speed-wan-interface-cards/data_sheet_c78_439537.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/high-speed-wan-interface-cards/data_sheet_c78-599774.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/1800-2800-3800-series-ap-ag-802-11a-b-g-high-speed-wan-interface-card/product_data_sheet0900aecd8028cc7b.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/3g-wireless-wan-high-speed-wan-interface-card/product_data_sheet0900aecd80600f41.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/high-speed-wan-interface-cards/data_sheet_c78-692767.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/high-speed-wan-interface-cards/datasheet_c78-491363.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/high-speed-wan-interface-cards/data_sheet_c78-659405.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/4g-lte-wireless-wan-enhanced-high-speed-wan-interface-card/datasheet_c78-696872.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/network-modules/product_data_sheet0900aecd80710c88.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/product_data_sheet0900aecd80710c77.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/data_sheet_c78_439536.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/1800-2800-3800-8-wire-symmetric-high-speed-dsl-g-shdsl-high-speed-wan-interface-card/product_data_sheet0900aecd80581fa0.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/1800-2800-3800-series-16-port-async-high-speed-wan-interface-card/product_data_sheet0900aecd80274416.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/high-speed-wan-interface-cards/data_sheet_c78-660124.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/1841-integrated-services-router-isr/product_data_sheet0900aecd80600f41.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/4g-lte-wireless-wan-enhanced-high-speed-wan-interface-card/datasheet_c78-732559.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/high-speed-wan-interface-cards/product_data_sheet0900aecd8016bf0b.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/2800-series-integrated-services-routers-isr/product_data_sheet0900aecd8016be8d.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/integrated-services-router-isr-modules/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "integrated-services-router-isr-modules",
+    "series_name": "Integrated Services Router (ISR) Modules",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/interface-cards/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "interface-cards",
+    "series_name": "Interface Cards",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/lte-wireless-wan-interfaces/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "lte-wireless-wan-interfaces",
+    "series_name": "LTE Wireless WAN Interfaces",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/sfps/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "sfps",
+    "series_name": "SFPs",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/sonet-sdh-sfp-modules/datasheet-c78-744016.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/fast-ethernet-sfp-modules/datasheet-c78-486906.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/shared-port-adapters-spa-interface-processors/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "shared-port-adapters-spa-interface-processors",
+    "series_name": "Shared Port Adapters/SPA Interface Processors",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/datasheet-c78-730890.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/data_sheet_C78-487941.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd804b41db.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/datasheet-c78-734125.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd8057f0a1.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd805bad2b.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd8027ca10.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd80350cd7.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd8027cb99.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd80730cdf.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd8027cb4d.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd804d884d.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/data_sheet_c78-612423.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd8027cba7.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd8027cb3f.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd8027ca19.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/data_sheet_c78-495983.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/prod_data_sheet0900aecd8073c18b.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd80351ee0.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd803398f8.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd80350cc5.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd804b424e.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/data_sheet_c78-396176.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/data_sheet_c78-396175.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd805bad23.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd80350c53.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd803398df.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd8027cb63.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd805fa99f.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd80715dc5.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd804dc62d.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/shared-port-adapters-spa-interface-processors/product_data_sheet0900aecd8027cb78.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/12000-series-routers/product_data_sheet0900aecd804dfd03.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/12000-series-routers/product_data_sheet0900aecd804dfd10.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/interfaces-modules/wan-interface-cards/index.html": {
+    "category": "interfaces-modules",
+    "series_slug": "wan-interface-cards",
+    "series_name": "WAN Interface Cards",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/3600-series-multiservice-platforms/product_data_sheet09186a00800921f0.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/1-port-docsis-based-cable-high-speed-wan-interface-card-hwic/product_data_sheet0900aecd804b4478.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/3600-series-multiservice-platforms/product_data_sheet09186a0080091b9c.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/voice-modules-interface-cards/product_data_sheet0900aecd8028cf5d.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-15-0se/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-15-0se",
+    "series_name": "15.0 SE",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-15-2e/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-15-2e",
+    "series_name": "15.2 E",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-15-3m-t/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-15-3m-t",
+    "series_name": "15.3 M & T",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-software-release-15-6m-t/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-software-release-15-6m-t",
+    "series_name": "15.6 M & T",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-15-7m-t/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-15-7m-t",
+    "series_name": "15.7 M & T",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-15-8m-t/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-15-8m-t",
+    "series_name": "15.8 M & T",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-15-9m-t/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-15-9m-t",
+    "series_name": "15.9 M & T",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-xe-3e/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-xe-3e",
+    "series_name": "XE 3E",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-xe-26/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-xe-26",
+    "series_name": "XE 26",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-xr-software-end-of-sale/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-xr-software-end-of-sale",
+    "series_name": "XR (End-of-Sale)",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-xrv-software/index.html": {
+    "category": "ios-nx-os-software",
+    "series_slug": "ios-xrv-software",
+    "series_name": "XRv",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/network-convergence-system-520-router/index.html": {
+    "category": "routers",
+    "series_slug": "network-convergence-system-520-router",
+    "series_name": "520",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/network-convergence-system-6000-series-router/index.html": {
+    "category": "routers",
+    "series_slug": "network-convergence-system-6000-series-router",
+    "series_name": "6000",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/optical-networking/automated-subsea-tuning/index.html": {
+    "category": "optical-networking",
+    "series_slug": "automated-subsea-tuning",
+    "series_name": "Automated Subsea Tuning",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/network-convergence-system-1014-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/network-conver-system-1010-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/datasheet-c78-2558054.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/optical-networking/optical-network-controller/index.html": {
+    "category": "optical-networking",
+    "series_slug": "optical-network-controller",
+    "series_name": "Optical Network Controller",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/network-convergence-system-1014-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/network-conver-system-1010-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/datasheet-c78-2558054.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/optical-networking/optical-network-planner/index.html": {
+    "category": "optical-networking",
+    "series_slug": "optical-network-planner",
+    "series_name": "Optical Network Planner",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/network-convergence-system-1014-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/network-conver-system-1010-ds.html",
+      "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/datasheet-c78-2558054.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/optical-networking/transportplanner/index.html": {
+    "category": "optical-networking",
+    "series_slug": "transportplanner",
+    "series_name": "TransportPlanner",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/optical-networking/ons-15454-series-multiservice-transport-platforms/data_sheet_c78-658849.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/900-series-integrated-services-routers-isr/index.html": {
+    "category": "routers",
+    "series_slug": "900-series-integrated-services-routers-isr",
+    "series_name": "900 ISR",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/900-series-integrated-services-routers-isr/datasheet-c78-741615.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/900-series-integrated-services-routers-isr/datasheet-c78-741616.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/1900-series-integrated-services-routers-isr/index.html": {
+    "category": "routers",
+    "series_slug": "1900-series-integrated-services-routers-isr",
+    "series_name": "1900 ISR",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/1900-series-integrated-services-routers-isr/data_sheet_c78_556319.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/1900-series-integrated-services-routers-isr/data_sheet_c78-598389.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/2800-series-integrated-services-routers-isr/product_data_sheet0900aecd8022e567.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/flex-7500-series-wireless-controllers/data_sheet_c78-648142.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/2900-series-integrated-services-routers-isr/index.html": {
+    "category": "routers",
+    "series_slug": "2900-series-integrated-services-routers-isr",
+    "series_name": "2900 ISR",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/2900-series-integrated-services-routers-isr/data_sheet_c78_553896.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/2600-series-multiservice-platforms/product_data_sheet0900aecd8016c784.html",
+      "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/voice-modules-interface-cards/product_data_sheet0900aecd801b97a6.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/3900-series-integrated-services-routers-isr/data_sheet_c78-612429.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/2800-series-integrated-services-routers-isr/product_data_sheet0900aecd8022e567.html",
+      "https://www.cisco.com/c/en/us/products/collateral/wireless/flex-7500-series-wireless-controllers/data_sheet_c78-648142.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/2600-series-multiservice-platforms/product_data_sheet09186a00800921e7.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/2800-series-integrated-services-routers-isr/product_data_sheet0900aecd8057f2e0.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/routers/4000-series-integrated-services-routers-isr/index.html": {
+    "category": "routers",
+    "series_slug": "4000-series-integrated-services-routers-isr",
+    "series_name": "4000 ISR",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/data_sheet-c78-732542.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/nb-06-sm-x-bas-switc-ds-cte-en.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/data_sheet_c78-728546.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet-c78-730527.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet-c78-740935.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet-c78-739968.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/data_sheet_c78-612808.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet-c78-730357.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet_C78-738511.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet-C78-734341.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet_C78-738218.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet-c78-732155.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet-c78-733645.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet-c78-739839.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/data_sheet_c78-728307.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/data_sheet_c78-728308.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet-c78-733646.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet-c78-739991.html",
+      "https://www.cisco.com/c/en/us/products/collateral/security/router-security/datasheet-c78-736114.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/secure-console-servers/index.html": {
+    "category": "routers",
+    "series_slug": "secure-console-servers",
+    "series_name": "Secure Console Servers",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/networking/sdwan-routers/secure-console-servers-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/asr-901-series-aggregation-services-routers/index.html": {
+    "category": "routers",
+    "series_slug": "asr-901-series-aggregation-services-routers",
+    "series_name": "ASR 901",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/asr-901-series-aggregation-services-routers/data_sheet_c78-686453.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/asr-901-10g-series-aggregation-services-routers/index.html": {
+    "category": "routers",
+    "series_slug": "asr-901-10g-series-aggregation-services-routers",
+    "series_name": "ASR 901 10G",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/800-series-routers/index.html": {
+    "category": "routers",
+    "series_slug": "800-series-routers",
+    "series_name": "800",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet-c78-740962.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800m-integrated-services-router-isr/datasheet-c78-732678.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800m-integrated-services-router-isr/datasheet-c78-734538.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800m-integrated-services-router-isr/datasheet-c78-734540.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-737332.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/data_sheet_c78-519930.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-732744.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/887-integrated-services-router-isr/data_sheet_c78_459542.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/data_sheet_c78-613481.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/data_sheet_c78_461543.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/data_sheet_c78-693249.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/810-integrated-services-routers-isr/datasheet-c78-737344.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/819-integrated-services-router-isr/datasheet_c78-732558.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/819-integrated-services-router-isr/datasheet-C78-734216.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/819-integrated-services-router-isr/data_sheet_c78-678459.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_C78-721036.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_C78-728353.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-680001.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet-c78-734157.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/829-industrial-router/datasheet-c78-734981.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/809-industrial-router/datasheet-c78-734980.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/880-3g-integrated-services-router-isr/data_sheet_c78_498096.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/880g-integrated-services-router-isr/data_sheet_c78-682548.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/810-integrated-services-routers-isr/datasheet-c78-737319.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/routers/small-business-rv-series-routers/index.html": {
+    "category": "routers",
+    "series_slug": "small-business-rv-series-routers",
+    "series_name": "RV Series",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/small-business-rv-series-routers/datasheet-c78-739257.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/small-business-rv-series-routers/datasheet-c78-738374.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/small-business-rv-series-routers/datasheet-c78-736465.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/small-business-rv-series-routers/datasheet-c78-736464.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/rv215w-wireless-n-vpn-router/data_sheet_c78-712088.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/rv110w-wireless-n-vpn-firewall/data_sheet_c78-660141.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/rv042g-dual-gigabit-wan-vpn-router/data_sheet_c78-706724.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/rvl200-4-port-ssl-ipsec-vpn-router/data_sheet_c78-502734.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/small-business-rv-series-routers/datasheet-c78-738909.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/rv042-dual-wan-vpn-router/data_sheet_c78-501225.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/rv260-vpn-router/datasheet-c78-741409.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/rv160-vpn-router/datasheet-c78-741410.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/small-business-rv-series-routers/datasheet-c78-742350.html"
+    ],
+    "listing_checked": true,
+    "datasheets_pdf": [
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rvl200-4-port-ssl-ipsec-vpn-router/data_sheet_c78-502734_fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rvl200-4-port-ssl-ipsec-vpn-router/data_sheet_c78-502734_de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rvl200-4-port-ssl-ipsec-vpn-router/data_sheet_c78-502734_it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rvl200-4-port-ssl-ipsec-vpn-router/data_sheet_c78-502734_es.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rv215w-wireless-n-vpn-router/data_sheet_c78-712088_fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rv215w-wireless-n-vpn-router/data_sheet_c78-712088_de.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rv215w-wireless-n-vpn-router/data_sheet_c78-712088_it.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rv215w-wireless-n-vpn-router/data_sheet_c78-712088_es.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rv042-dual-wan-vpn-router/data_sheet_c78-501225_fr.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rv042g-dual-gigabit-wan-vpn-router/data_sheet_c78-706724-FR.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rv042g-dual-gigabit-wan-vpn-router/data_sheet_c78-706724-IT.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rv042g-dual-gigabit-wan-vpn-router/data_sheet_c78-706724-ES-XL.pdf",
+      "https://www.cisco.com/c/dam/en/us/products/collateral/routers/rv215w-wireless-n-vpn-router/datasheet_c78-712088_cn.pdf"
+    ]
+  },
+  "https://www.cisco.com/c/en/us/products/routers/8000-series-virtual-router-emulator/index.html": {
+    "category": "routers",
+    "series_slug": "8000-series-virtual-router-emulator",
+    "series_name": "8000 Virtual Emulator",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/catalyst-8200-series-edge-ucpe/index.html": {
+    "category": "routers",
+    "series_slug": "catalyst-8200-series-edge-ucpe",
+    "series_name": "Catalyst 8200 Edge uCPE",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8200-series-edge-ucpe/nb-06-cat8200-series-edge-ucpe-ds-cte-en.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/sd-routing/index.html": {
+    "category": "routers",
+    "series_slug": "sd-routing",
+    "series_name": "SD-Routing",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/sd-wan-network-hub/index.html": {
+    "category": "routers",
+    "series_slug": "sd-wan-network-hub",
+    "series_name": "SD-WAN Cloud OnRamp for Co-Location",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/sdwan-routers/8000-secure-routers/8300-series-secure-routers-ds.html",
+      "https://www.cisco.com/site/us/en/products/collateral/networking/sdwan-routers/8000-secure-routers/8200-series-secure-routers-ds.html",
+      "https://www.cisco.com/site/us/en/products/collateral/networking/sdwan-routers/8000-secure-routers/8100-series-secure-routers-ds.html",
+      "https://www.cisco.com/site/us/en/products/collateral/networking/sdwan-routers/8000-secure-routers/8500-series-secure-routers-ds.html",
+      "https://www.cisco.com/site/us/en/products/collateral/networking/sdwan-routers/8000-secure-routers/8400-series-secure-routers-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/vedge-router-model/index.html": {
+    "category": "routers",
+    "series_slug": "vedge-router-model",
+    "series_name": "vEdge Router",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/xe-sd-wan-routers/index.html": {
+    "category": "routers",
+    "series_slug": "xe-sd-wan-routers",
+    "series_name": "XE SD-WAN Routers",
+    "datasheets": [
+      "https://www.cisco.com/site/us/en/products/collateral/networking/sdwan-routers/8000-secure-routers/8300-series-secure-routers-ds.html",
+      "https://www.cisco.com/site/us/en/products/collateral/networking/sdwan-routers/8000-secure-routers/8200-series-secure-routers-ds.html",
+      "https://www.cisco.com/site/us/en/products/collateral/networking/sdwan-routers/8000-secure-routers/8100-series-secure-routers-ds.html",
+      "https://www.cisco.com/site/us/en/products/collateral/networking/sdwan-routers/8000-secure-routers/8500-series-secure-routers-ds.html",
+      "https://www.cisco.com/site/us/en/products/collateral/networking/sdwan-routers/8000-secure-routers/8400-series-secure-routers-ds.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/5000-series-enterprise-network-compute-system/index.html": {
+    "category": "routers",
+    "series_slug": "5000-series-enterprise-network-compute-system",
+    "series_name": "5000 Enterprise Network Compute",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/5400-enterprise-network-compute-system/datasheet-c78-738512.html",
+      "https://www.cisco.com/c/en/us/products/collateral/security/adaptive-security-virtual-appliance-asav/datasheet-c78-733399.html",
+      "https://www.cisco.com/c/en/us/products/collateral/security/firepower-ngfw/datasheet-c78-742480.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/cloud-services-router-1000v/index.html": {
+    "category": "routers",
+    "series_slug": "cloud-services-router-1000v",
+    "series_name": "Cloud Services 1000V",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/integrated-services-virtual-router/index.html": {
+    "category": "routers",
+    "series_slug": "integrated-services-virtual-router",
+    "series_name": "Integrated Services Virtual Router",
+    "datasheets": [],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/ios-xrv-9000-router/index.html": {
+    "category": "routers",
+    "series_slug": "ios-xrv-9000-router",
+    "series_name": "IOS XRv 9000",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/ios-xrv-9000-router/datasheet-c78-734034.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/500-series-wpan-industrial-routers/index.html": {
+    "category": "routers",
+    "series_slug": "500-series-wpan-industrial-routers",
+    "series_name": "500 WPAN",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/500-series-wpan-industrial-routers/datasheet-c78-740199.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/500-series-wpan-industrial-routers/datasheet-c78-740201.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/500-series-wpan-industrial-routers/datasheet-c78-740200.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/500-series-wpan-industrial-routers/datasheet-c78-730550.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/800-series-industrial-routers/index.html": {
+    "category": "routers",
+    "series_slug": "800-series-industrial-routers",
+    "series_name": "800 ISR",
+    "datasheets": [
+      "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-industrial-routers/datasheet-c78-739643.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/809-industrial-router/datasheet-c78-734980.html",
+      "https://www.cisco.com/c/en/us/products/collateral/routers/829-industrial-router/datasheet-c78-734981.html",
+      "https://www.cisco.com/c/en/us/products/collateral/switches/industrial-ethernet-switches/datasheet-c78-742180.html"
+    ],
+    "listing_checked": true
+  },
+  "https://www.cisco.com/c/en/us/products/routers/1000-series-connected-grid-routers/index.html": {
+    "category": "routers",
+    "series_slug": "1000-series-connected-grid-routers",
+    "series_name": "1000 Connected Grid",
+    "datasheets": [],
+    "listing_checked": true
   }
 }

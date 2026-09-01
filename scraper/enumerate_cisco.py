@@ -109,6 +109,42 @@ def save(p: Path, data):
     p.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
+def save_merged(p: Path, data, dict_keys: tuple[str, ...] = ()):
+    """Write a store WITHOUT clobbering work another process did while we were running.
+
+    Every phase does load() ... work ... save(). Run two phases at once and the second save wipes
+    whatever the first wrote in between: last writer wins, silently. That cost real data here - the
+    widened PID extraction had already recovered PWR-C1-715WAC-P, and a concurrently running phase
+    then wrote back its older snapshot, dropping the whole re-parse. The spot check fell from 12/22
+    to 11/22 and nothing errored, which is exactly why it was worth chasing.
+
+    So: re-read the file immediately before writing and merge our entries over it. Our data wins
+    for keys we actually processed; anything we never touched is preserved.
+    """
+    on_disk = load(p, None)
+    if isinstance(on_disk, dict) and isinstance(data, dict):
+        if dict_keys:
+            for k in dict_keys:
+                merged = dict(on_disk.get(k) or {})
+                merged.update(data.get(k) or {})
+                data[k] = merged
+        else:
+            merged = dict(on_disk)
+            merged.update(data)
+            data = merged
+    elif isinstance(on_disk, list) and isinstance(data, list):
+        seen, out = set(), []
+        for item in on_disk + data:
+            key = item.get("series_slug") if isinstance(item, dict) else str(item)
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append(item)
+        data = out
+    save(p, data)
+    return data
+
+
 # ---------------------------------------------------------------------------------------------
 # phase 1 — series
 # ---------------------------------------------------------------------------------------------
@@ -205,9 +241,9 @@ def phase_listing(br, limit: int = 0) -> dict:
             rec["datasheets_pdf"] = list(dict.fromkeys(rec.get("datasheets_pdf", []) + pdf_ds))
         added += len(rec["datasheets"]) - before
         if i % 10 == 0 or i == len(todo):
-            save(F_DOCS, docs)
+            save_merged(F_DOCS, docs)
             print(f"   {i}/{len(todo)} · +{added} new HTML datasheets")
-    save(F_DOCS, docs)
+    save_merged(F_DOCS, docs)
     tot = sum(len(v.get("datasheets", [])) for v in docs.values())
     pdfs = sum(len(v.get("datasheets_pdf", [])) for v in docs.values())
     print(f"[listing] done. {tot} HTML datasheets, {pdfs} PDF datasheets across {len(docs)} series")
@@ -255,10 +291,10 @@ def phase_docs(br, limit: int = 0) -> dict:
         docs[s["url"]] = {"category": s["category"], "series_slug": s["series_slug"],
                           "series_name": s["series_name"], "datasheets": found}
         if i % 10 == 0 or i == len(todo):
-            save(F_DOCS, docs)
+            save_merged(F_DOCS, docs)
             total = sum(len(v.get("datasheets", [])) for v in docs.values())
             print(f"   {i}/{len(todo)} series · {total} datasheet URLs so far")
-    save(F_DOCS, docs)
+    save_merged(F_DOCS, docs)
     total = sum(len(v.get("datasheets", [])) for v in docs.values())
     print(f"[docs] {len(docs)} series visited, {total} datasheet URLs -> {F_DOCS.name}")
     return docs
@@ -374,10 +410,10 @@ def phase_pids(br, limit: int = 0) -> dict:
                      "pids": [p for p, _ in pairs],
                      "evidence": {p: h[:40] for p, h in pairs[:5]}}
         if i % 10 == 0 or i == len(jobs):
-            save(F_PIDS, store)
+            save_merged(F_PIDS, store, ("documents",))
             tot = len({p for v in done.values() for p in v.get("pids", [])})
             print(f"   {i}/{len(jobs)} docs · {tot} distinct PIDs so far")
-    save(F_PIDS, store)
+    save_merged(F_PIDS, store, ("documents",))
     return store
 
 
@@ -440,9 +476,9 @@ def phase_support(br, limit: int = 0) -> list[dict]:
                            "url": f"{BASE}/c/en/us/products/{scat}/{slug}/index.html",
                            "discovered_from": "support-index"})
         if i % 5 == 0 or i == len(cat_list):
-            save(F_SERIES, series)
+            save_merged(F_SERIES, series)
             print(f"   {i}/{len(cat_list)} categories · +{added} new series")
-    save(F_SERIES, series)
+    save_merged(F_SERIES, series)
     print(f"[support] +{added} series from the support hierarchy (now {len(series)})")
     return series
 
@@ -487,7 +523,7 @@ def phase_expand(br, limit: int = 0) -> list[dict]:
                        "series_name": slug.replace("-", " ").title(),
                        "url": f"{BASE}/c/en/us/products/{cat}/{slug}/index.html",
                        "discovered_from": "collateral-url"})
-    save(F_SERIES, series)
+    save_merged(F_SERIES, series)
     print(f"[expand] +{len(found)} series discovered from collateral URLs (now {len(series)})")
     cats: dict[str, int] = {}
     for c in found.values():
@@ -579,10 +615,10 @@ def phase_pdf(br, limit: int = 0) -> dict:
         done[url] = {"category": cat, "series_slug": slug, "series_name": name, "doc_type": "pdf",
                      "pids": [p for p, _ in pairs], "evidence": {p: h for p, h in pairs[:5]}}
         if i % 5 == 0 or i == len(jobs):
-            save(F_PIDS, store)
+            save_merged(F_PIDS, store, ("documents",))
             tot = len({p for v in done.values() for p in v.get("pids", [])})
             print(f"   {i}/{len(jobs)} PDFs · {tot} distinct PIDs overall")
-    save(F_PIDS, store)
+    save_merged(F_PIDS, store, ("documents",))
     npdf = sum(1 for v in done.values() if v.get("doc_type") == "pdf" and v.get("pids"))
     print(f"[pdf] done. {npdf} PDFs yielded part numbers")
     return store
@@ -633,9 +669,9 @@ def phase_eol(br, limit: int = 0) -> dict:
         listings[s["url"]] = {"category": s["category"], "series_name": s["series_name"],
                               "bulletins": list(dict.fromkeys(links))}
         if i % 10 == 0 or i == len(todo):
-            save(F_EOL, store)
+            save_merged(F_EOL, store, ("listings", "bulletins"))
             print(f"   {i}/{len(todo)} listings · {sum(len(v['bulletins']) for v in listings.values())} bulletins found")
-    save(F_EOL, store)
+    save_merged(F_EOL, store, ("listings", "bulletins"))
 
     jobs = []
     for surl, v in listings.items():
@@ -666,10 +702,10 @@ def phase_eol(br, limit: int = 0) -> dict:
                             found.add(tok)
         bulletins[url] = {"category": cat, "series_name": name, "pids": sorted(found)}
         if i % 10 == 0 or i == len(jobs):
-            save(F_EOL, store)
+            save_merged(F_EOL, store, ("listings", "bulletins"))
             tot = len({p for v in bulletins.values() for p in v.get("pids", [])})
             print(f"   {i}/{len(jobs)} bulletins · {tot} distinct EoL PIDs")
-    save(F_EOL, store)
+    save_merged(F_EOL, store, ("listings", "bulletins"))
     tot = len({p for v in bulletins.values() for p in v.get("pids", [])})
     print(f"[eol] {len(bulletins)} bulletins read, {tot} distinct discontinued PIDs -> {F_EOL.name}")
     return store
