@@ -49,7 +49,7 @@ type SpecEntry = {
 
 const stats = {
   parts: 0, attrs: 0, mapped: 0, stored: 0,
-  not_a_spec: 0, compat: 0, backlog: 0, unmapped: 0, out_of_profile: 0, rerouted: 0,
+  not_a_spec: 0, compat: 0, backlog: 0, unmapped: 0, out_of_profile: 0, rerouted: 0, identity: 0,
   reasons: {} as Record<string, number>,
   perField: {} as Record<string, { ok: number; fail: number }>,
 };
@@ -81,8 +81,7 @@ function buildSpecs(part: Record<string, unknown>): SpecEntry[] {
       continue;
     }
     seen.add(k);
-    (stats.perField[k] ||= { ok: 0, fail: 0 }).ok++;
-    stats.stored++;
+    stats.identity++;
     out.push({ k, raw: String(v), value: r.value, unit: r.unit, state: "verified",
       prov: { tier: 0, method: SEED_METHOD, locator: "part:identity",
         extracted_at: prov.verified_at, norm_v: NORM_VERSION } });
@@ -226,6 +225,7 @@ async function main() {
   console.log(`legacy attributes seen: ${stats.attrs}`);
   console.log(`  -> mapped to a profile field: ${stats.mapped}`);
   console.log(`     -> normalised + stored:    ${stats.stored}`);
+  console.log(`  + identity fields projected from the part document (vendor, series): ${stats.identity}`);
   console.log(`     -> quarantined:            ${stats.mapped - stats.stored}`);
   console.log(`  -> __not_a_spec (commerce/marketing, deliberately dropped): ${stats.not_a_spec}`);
   console.log(`  -> __compat (belongs in the compat store):                  ${stats.compat}`);
