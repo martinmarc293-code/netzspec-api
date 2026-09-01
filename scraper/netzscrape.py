@@ -147,6 +147,38 @@ class PoliteBrowser:
                  "robots": "allow", "fetched_at": _now(), "api": True})
         return result
 
+    def fetch_binary(self, url: str, *, force: bool = False, timeout: int = 60000) -> bytes:
+        """Return raw bytes for a non-HTML asset (PDF datasheets, QuickSpecs). Uses the browser
+        CONTEXT's request API, so the fetch carries the same UA, cookies and TLS fingerprint as a
+        real navigation — page.goto() on a PDF renders a viewer instead of giving us the file.
+        Same discipline as fetch(): robots-checked, throttled, cached, ledgered.
+        Cache key is the URL, stored as cache/<sha1>.bin."""
+        cf = CACHE / f"{_key(url)}.bin"
+        if cf.exists() and not force:
+            self.stats["cache_hits"] += 1
+            return cf.read_bytes()
+        host = urlparse(url).netloc
+        allowed, decision = self._robots_ok(url)
+        if not allowed:
+            self.stats["robots_blocked"] += 1
+            _ledger({"url": url, "status": "ROBOTS_BLOCKED", "host": host, "robots": decision, "fetched_at": _now()})
+            raise PoliteBlocked(f"robots.txt disallows {url}")
+        self._wait(host)
+        try:
+            r = self._ctx.request.get(url, timeout=timeout)
+            status, body = r.status, r.body()
+        except Exception as e:  # noqa
+            _ledger({"url": url, "status": "ERROR", "host": host, "error": str(e)[:200], "fetched_at": _now(), "binary": True})
+            raise
+        self.stats["fetches"] += 1
+        if status < 400:
+            cf.write_bytes(body)
+        _ledger({"url": url, "status": status, "host": host, "robots": decision, "fetched_at": _now(),
+                 "sha256": hashlib.sha256(body).hexdigest(), "bytes": len(body), "binary": True})
+        if status >= 400:
+            print(f"  ! HTTP {status} for {url}", file=sys.stderr)
+        return body
+
     def close(self) -> None:
         try:
             self._browser.close(); self._pw.stop()
