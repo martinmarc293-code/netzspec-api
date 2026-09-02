@@ -39,6 +39,17 @@ const CASES = [
   ["61W", "power_max", "61W"],
   // the typical/max rule must NOT fire on a field that is not a maximum
   ["425 watts typical, 525 watts maximum", "power_typical", "425 watts typical, 525 watts maximum"],
+
+  // --- composite values: read the figure the FIELD means ----------------------------------
+  // "4 ports, 120W total" — the first number is a port count. Storing it as a power budget
+  // would understate every PoE appliance by two orders of magnitude.
+  ["4 ports, 120W total", "poe_budget", "120 W"],
+  ["8 ports, 240W total", "poe_budget", "240 W"],
+  // quoted at several fan speeds; the loudest is the one that matters for rack planning
+  [`23.5 dBA @ 80.6${DEG}F(27${DEG}C) 42.7 dBA @ maximum fan speed`, "acoustic_noise", "42.7 dB(A)"],
+  ["52.1 dBA", "acoustic_noise", "52.1 dB(A)"],
+  // these rules must not touch other fields
+  ["4 ports, 120W total", "power_max", "4 ports, 120W total"],
 ];
 
 let pass = 0;

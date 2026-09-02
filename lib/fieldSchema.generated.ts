@@ -13,6 +13,10 @@
 import type { FieldDef, Requirement } from "./fieldSchema";
 
 export const GENERATED_FIELDS: Record<string, FieldDef> = {
+  // security appliances: stated beside firewall throughput on every Secure Firewall datasheet
+  threat_defense_throughput: { key: "threat_defense_throughput", de: "Threat-Defense-Durchsatz", en: "Threat Defense throughput", type: "n", unit: "Gbit/s", etim: [], icecat: null },
+  // security appliances: stated beside firewall throughput on every Secure Firewall datasheet
+  tls_throughput: { key: "tls_throughput", de: "TLS-Entschlüsselungsdurchsatz", en: "TLS decryption throughput", type: "n", unit: "Gbit/s", etim: [], icecat: null },
   // routers, ios-nx-os-software — QoS capability lists appear on ~80 router datasheets across three label spellings and have no home i
   qos_features: { key: "qos_features", de: "QoS-Funktionen", en: "QoS features", type: "s", etim: [], icecat: null },
   // routers, collaboration-endpoints, storage-networking — Values are concrete security capability lists (Trusted Anchor Module, hardware-accelerated crypto, S
@@ -1453,6 +1457,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     wlc_client_capacity: { kind: "opt" },
   },
   "security": {
+    threat_defense_throughput: { kind: "opt" },
+    tls_throughput: { kind: "opt" },
     acl_entries: { kind: "opt" },
     acoustic_noise: { kind: "opt" },
     advanced_functions: { kind: "opt" },

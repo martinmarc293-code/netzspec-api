@@ -37,6 +37,51 @@
  "case_insensitive": true,
  "rules": [
   [
+   "(non[- ]?operating|nonoperating|storage|shipping).*humidit|humidit.*(non[- ]?operating|nonoperating|storage|shipping)",
+   "humidity_storage",
+   "1210CP: non-operating humidity was landing on humidity_operating"
+  ],
+  [
+   "(non[- ]?operating|nonoperating|storage|shipping).*altitude|altitude.*(non[- ]?operating|nonoperating|storage|shipping)",
+   "altitude_storage",
+   "1210CP: non-operating altitude was landing on altitude_max"
+  ],
+  [
+   "^integrated interfaces?$|^built[- ]in interfaces?$",
+   "ports",
+   "1210CP: '8x 1000BASE-T' is a port configuration, was landing on data_rate"
+  ],
+  [
+   "^threat defense( throughput)?$|^ngfw throughput$|^threat inspection throughput$",
+   "threat_defense_throughput",
+   "firewall datasheets state this beside firewall/IPS throughput"
+  ],
+  [
+   "^tls( decryption)?( throughput)?$|^ssl decryption throughput$",
+   "tls_throughput",
+   "TLS/SSL decryption throughput, a separate figure from firewall throughput"
+  ],
+  [
+   "^power consumption, ?typical$|^typical power consumption$",
+   "power_typical",
+   "explicit typical figure; power_max already covers the maximum"
+  ],
+  [
+   "^power consumption, ?max(imum)?$|^max(imum)? power consumption$",
+   "power_max",
+   "explicit maximum figure"
+  ],
+  [
+   "^ac current draw(, ?max(imum)?)?$|^input current(, ?max(imum)?)?$|^current draw",
+   "input_current",
+   "amperage at the mains input"
+  ],
+  [
+   "^power over ethernet$|^poe power budget$|^poe budget$",
+   "poe_budget",
+   "'4 ports, 120W total' — the PoE budget of the appliance"
+  ],
+  [
    "^switching capacity with stacking",
    "__backlog",
    "stack-aggregate figure, needs its own field"

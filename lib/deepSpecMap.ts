@@ -81,7 +81,26 @@ export function reorderDimensions(label: string, value: unknown): unknown {
 
 /** Map + normalise one raw fact. Cisco datasheets are English, so locale "en" — "32,000" is
  *  thirty-two thousand there and thirty-two in the German seed data. */
+/** A row whose VALUE repeats its own LABEL is a section heading, not a measurement.
+ *
+ *  Cisco spans a heading across a spec table -- "Operating range",
+ *  "Non-operating/storage environment", "Power supply" -- and the row expander copies the
+ *  spanned cell into every column, so the fact arrives as label === value. That published
+ *  "PSU options = Power supply" on the live 1210CP page: a field whose value is the name of
+ *  the field. It has to be caught here rather than by an alias, because the label itself is a
+ *  perfectly good spec name -- "Power supply" SHOULD map to psu_options when it has a real
+ *  value beside it. What disqualifies it is the value, not the label.
+ */
+function isSectionHeading(label: string, value: string): boolean {
+  const norm = (s: string) => String(s ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const l = norm(label);
+  return l.length > 2 && l === norm(value);
+}
+
 export function mapFact(fact: RawFact, category = "switches"): MappedFact {
+  if (isSectionHeading(fact.label, fact.value)) {
+    return { kind: "sentinel", sentinel: "__section_heading" };
+  }
   const key = mapLabel(fact.label);
   if (!key) return { kind: "unmapped", label: fact.label };
   if (key.startsWith("__")) return { kind: "sentinel", sentinel: key };

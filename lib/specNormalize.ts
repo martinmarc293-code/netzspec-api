@@ -295,6 +295,22 @@ export function preprocessValue(raw: string, key: string): string {
     if (tm) return `${tm[3]}${tm[4] ? " " + tm[4] : (tm[2] ? " " + tm[2] : "")}`.trim();
   }
 
+  // A PoE budget is stated as a port count AND a wattage — "4 ports, 120W total". The field is
+  // watts, so read the watts; the first number on the line is the port count and storing that
+  // as a power budget would understate every PoE appliance by two orders of magnitude.
+  if (key === "poe_budget") {
+    const w = /([0-9][0-9.,]*)\s*W\b/i.exec(s);
+    if (w) return `${w[1]} W`;
+  }
+
+  // Acoustic noise is quoted at more than one fan speed — "23.5 dBA @ 27°C 42.7 dBA @ maximum
+  // fan speed". The meaningful figure for rack and office planning is the LOUDEST one, and
+  // reading the first would advertise a machine as quieter than it is.
+  if (key === "acoustic_noise") {
+    const all = [...s.matchAll(/([0-9][0-9.,]*)\s*dB\s*\(?A\)?/gi)].map((m) => parseFloat(m[1].replace(",", ".")));
+    if (all.length) return `${Math.max(...all)} dB(A)`;
+  }
+
   // imperial outside, metric inside the parentheses -> keep the metric
   if (IMPERIAL_LEAD.test(s)) {
     const mp = METRIC_PAREN.exec(s);
