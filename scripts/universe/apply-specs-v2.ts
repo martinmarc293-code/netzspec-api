@@ -165,10 +165,27 @@ async function main() {
   const plan: string[] = [];
 
   const skus = ONLY ? [ONLY] : [...incoming.keys()];
+
+  // Fetch every part this run touches in BATCHES rather than one findOne per SKU.
+  //
+  // The per-SKU version issued thousands of round trips, and a run died partway through with
+  // MongoServerSelectionError ("connection to ...:27017 timed out") because a CPU-heavy job was
+  // running alongside it and the driver's monitor could not keep the topology fresh between
+  // calls. Thousands of sequential round trips is a lot of surface for that: any one of them
+  // failing kills the whole apply after it has already done the work.
+  const partBySku = new Map<string, { sku: string; category?: string; specs_v2?: unknown[] }>();
+  for (let i = 0; i < skus.length; i += 500) {
+    const chunk = skus.slice(i, i + 500);
+    const rows = await P.find({ sku: { $in: chunk } },
+      { projection: { _id: 0, sku: 1, category: 1, specs_v2: 1 } }).toArray();
+    for (const r of rows) partBySku.set(String(r.sku), r as never);
+  }
+  console.log(`parts fetched for merge: ${partBySku.size} of ${skus.length} SKUs`);
+
   for (const sku of skus) {
     const add = incoming.get(sku) || [];
     if (!add.length) continue;
-    const part = await P.findOne({ sku }, { projection: { _id: 0, sku: 1, category: 1, specs_v2: 1 } });
+    const part = partBySku.get(sku);
     if (!part) { stats.notInDb++; continue; }
     const cat = String(part.category || "");
     if (!PROFILES[cat]) continue;
