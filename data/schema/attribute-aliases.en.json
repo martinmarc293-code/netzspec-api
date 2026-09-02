@@ -2430,6 +2430,1601 @@
    "^rail[ -]?kit options$",
    "mounting",
    "hyperconverged-systems: \"Cisco ball-bearing rail kit with optional reversible cable-management arm\" is rack-mounting hardware, which mounting already "
+  ],
+  [
+   "^Quality\\s+of\\s+Service\\s+\\(QoS\\)$",
+   "qos_features",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^QoS\\s+features$",
+   "qos_features",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^Traffic\\s+management$",
+   "qos_features",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^Cryptographic\\s+Algorithms$",
+   "crypto_algorithms",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^WAN\\s+interfaces$",
+   "wan_interfaces",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^LAN\\s+interfaces$",
+   "lan_interfaces",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^Cellular$",
+   "cellular_category",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^Bands\\s+supported$",
+   "cellular_bands",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^Bands$",
+   "cellular_bands",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^Download/upload\\s+Bandwidth$",
+   "cellular_throughput",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^SD-WAN$",
+   "sdwan_capable",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^LED\\s+indicators$",
+   "led_indicators",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^Front-panel\\s+LEDs$",
+   "led_indicators",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^AC\\s+input\\s+current\\s+range,\\s+AC\\s+power\\s+supply\\s+\\(maximum\\)$",
+   "input_current",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^AC\\s+input\\s+surge\\s+current$",
+   "inrush_current",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^Storage\\s+\\(relative\\)\\s+humidity$",
+   "humidity_storage",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^External\\s+USB\\s+2\\.0\\s+slots\\s+\\(type\\s+A\\)$",
+   "usb_ports",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^OIR\\s+\\(all\\s+I/O\\s+modules\\)$",
+   "oir_support",
+   "routers: label cited as evidence for the field"
+  ],
+  [
+   "^Input\\s+current$",
+   "input_current",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^Current$",
+   "input_current",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^PoE\\+$",
+   "poe_at_support",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^IEEE\\s+802\\.3at\\s+PoE\\+$",
+   "poe_at_support",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^PoE/PoE\\+\\s+support\\s+1$",
+   "poe_at_support",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^IEEE\\s+802\\.3af\\s+PoE$",
+   "poe_af_support",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^RoHS\\s+compliance$",
+   "rohs_compliance",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^Wattage$",
+   "psu_output_power",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^Output\\s+ratings$",
+   "psu_output_rating",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^Power\\s+Load\\s+\\(idle/max\\)$",
+   "power_load_idle_max",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^Output\\s+holdup\\s+time$",
+   "output_holdup_time",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^USB\\s+ports$",
+   "usb_ports",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^RS-232\\s+serial\\s+ports$",
+   "console_ports_serial",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^NetFlow\\s+ACL$",
+   "netflow_acl_entries",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^SNMP\\s+MIB\\s+objects$",
+   "snmp_mibs",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^MIB\\s+support$",
+   "snmp_mibs",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^SFP\\s+ports$",
+   "sfp_ports",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^Storage\\s+altitude$",
+   "altitude_storage",
+   "switches: label cited as evidence for the field"
+  ],
+  [
+   "^Antenna\\s+type$",
+   "antenna_type",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^Internal\\s+antennas$",
+   "antenna_type",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^Azimuth\\s+3-dB\\s+beamwidth$",
+   "beamwidth_azimuth",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^Indicators$",
+   "led_indicators",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^LED\\s+Indicators$",
+   "led_indicators",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^Physical\\s+Security$",
+   "physical_security",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^Physical\\s+security$",
+   "physical_security",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^Maximum\\s+number\\s+of\\s+nonoverlapping\\s+channels$",
+   "nonoverlapping_channels",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^Maximum\\s+number\\s+of\\s+non-overlapping\\s+channels$",
+   "nonoverlapping_channels",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^Operating\\s+system$",
+   "operating_system",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^Storage\\s+humidity$",
+   "humidity_storage",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^Multiple\\s+SSIDs$",
+   "max_ssids",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^Authentication\\s+and\\s+security$",
+   "wireless_security",
+   "wireless: label cited as evidence for the field"
+  ],
+  [
+   "^Language\\s+support$",
+   "ui_languages",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Display$",
+   "display",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Graphical\\s+display$",
+   "display",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Hardware\\s+Features:\\s+Graphical\\s+display$",
+   "display",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Digital\\s+signage$",
+   "digital_signage",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Cloud\\s+device\\s+management$",
+   "cloud_management",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Room\\s+booking$",
+   "room_booking",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Audio\\s+features$",
+   "audio_features",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Audio$",
+   "audio_features",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Audio\\s+standards$",
+   "audio_codecs",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Audio\\s+codec\\s+support$",
+   "audio_codecs",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Video\\s+standards$",
+   "video_codecs",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Bandwidth$",
+   "call_bandwidth",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Embedded\\s+encryption$",
+   "encryption",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Google\\s+Meet\\s+interop\\s+\\(WebRTC\\)$",
+   "google_meet_interop",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Zoom\\s+Meetings\\s+interop$",
+   "zoom_interop",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Standards-based\\s+video\\s+interop\\s+\\(SIP/H\\.323\\s+dialing\\)$",
+   "sip_h323_interop",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Native\\s+Microsoft\\s+Teams\\s+Rooms\\s+meeting\\s+experience$",
+   "mtr_native",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Native\\s+Webex\\s+meeting\\s+experience$",
+   "webex_native",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Enterprise\\s+calling$",
+   "calling_platform",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Deployment\\s+options$",
+   "deployment_options",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Custom\\s+controls\\s+with\\s+Macros\\s+and\\s+User\\s+Interface\\s+extensions$",
+   "macro_customization",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Firewall\\s+traversal$",
+   "firewall_traversal",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Video\\s+inputs$",
+   "video_inputs",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Video\\s+outputs$",
+   "video_outputs",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Audio\\s+inputs$",
+   "audio_inputs",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Audio\\s+outputs$",
+   "audio_outputs",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Content\\s+sharing\\s+resolution$",
+   "content_share_resolution",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Content\\s+share\\s+resolution$",
+   "content_share_resolution",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Simultaneous\\s+content\\s+sources\\s+for\\s+local\\s+presentation\\s+\\(outside\\s+video\\s+meeting\\)$",
+   "simultaneous_content_sources",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Simultaneous\\s+content\\s+sources\\s+for\\s+local\\s+sharing\\s+\\(out\\s+of\\s+active\\s+video\\s+meeting\\)$",
+   "simultaneous_content_sources",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Native,\\s+third-party\\s+web\\s+apps$",
+   "third_party_apps",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Third-party\\s+apps$",
+   "third_party_apps",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Whiteboarding$",
+   "whiteboarding",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Presenter\\s+tracking$",
+   "presenter_tracking",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Multipoint\\s+support$",
+   "multipoint",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Dual\\s+stream$",
+   "dual_stream",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Encode\\s+and\\s+decode$",
+   "video_encode_decode",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Resolution$",
+   "max_resolution",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^IPv6\\s+network\\s+support$",
+   "ipv6_support",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Ethernet\\s+switch$",
+   "ethernet_switch",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Network\\s+interfaces$",
+   "network_interfaces",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^System\\s+management$",
+   "system_management",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Compliance\\s+model\\s+number$",
+   "compliance_model",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Compliance\\s+Model\\s+Number$",
+   "compliance_model",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^C\\s+ompliance\\s+model\\s+number$",
+   "compliance_model",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Cisco\\s+Unified\\s+Communications\\s+Manager$",
+   "cucm_versions",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Call-Control\\s+Support:\\s+Cisco\\s+Unified\\s+Communications\\s+Manager$",
+   "cucm_versions",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Call\\s+control$",
+   "call_control",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Voice\\s+Lines$",
+   "voice_lines",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Keys$",
+   "keys_buttons",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Hardware\\s+Features:\\s+Keys$",
+   "keys_buttons",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Buttons$",
+   "keys_buttons",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Handset$",
+   "handset",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Headset$",
+   "headset_support",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Analog\\s+headset$",
+   "headset_support",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^User\\s+interface$",
+   "touchscreen",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Sensors$",
+   "sensors",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Phone-casing\\s+composition$",
+   "housing_material",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^USB\\s+passthrough$",
+   "usb_passthrough",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^USB\\s+Passthrough$",
+   "usb_passthrough",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Optional\\s+hardware\\s+components$",
+   "optional_accessories",
+   "collaboration-endpoints: label cited as evidence for the field"
+  ],
+  [
+   "^Transmitter\\s+Wavelength\\s+Range\\s+\\(nm\\)$",
+   "tx_wavelength",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Type$",
+   "modulation_format",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Optical\\s+Transmitter:\\s+Type$",
+   "modulation_format",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^●\\s+Canada\\s+●\\s+United\\s+States\\s+●\\s+Korea\\s+●\\s+Japan\\s+●\\s+European\\s+Union$",
+   "regions_supported",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Countries\\s+Supported:\\s+●\\s+Canada\\s+●\\s+United\\s+States\\s+●\\s+Korea\\s+●\\s+Japan\\s+●\\s+European\\s+Union$",
+   "regions_supported",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Gain\\s+range$",
+   "gain_range",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Standard\\s+gain\\s+range$",
+   "gain_range",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Extended\\s+gain\\s+range$",
+   "gain_range",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Noise\\s+figure\\s+at\\s+nominal\\s+gain$",
+   "noise_figure",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Noise\\s+figure\\s+at\\s+minimum\\s+gain$",
+   "noise_figure",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Noise\\s+figure\\s+at\\s+maximum\\s+gain$",
+   "noise_figure",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Insertion\\s+loss$",
+   "insertion_loss",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Return\\s+loss$",
+   "return_loss",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Return\\s+Loss$",
+   "return_loss",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Maximum\\s+total\\s+output\\s+power$",
+   "total_output_power",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Signal\\s+output\\s+power\\s+range$",
+   "total_output_power",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Overload$",
+   "rx_overload",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Laser\\s+safety\\s+class$",
+   "laser_safety_class",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Frequency\\s+\\(THz\\)$",
+   "optical_frequency",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Size$",
+   "slots_occupied",
+   "optical-networking: label cited as evidence for the field"
+  ],
+  [
+   "^LC\\s+Status$",
+   "led_indicators",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Status$",
+   "led_indicators",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Carrier/Alarm$",
+   "led_indicators",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Carrier/alarm$",
+   "led_indicators",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Port\\s+Active/Loopback$",
+   "led_indicators",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Active/Loopback$",
+   "led_indicators",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Side-mode\\s+suppression\\s+ratio$",
+   "smsr",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Spectral\\s+width$",
+   "spectral_width",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Extinction\\s+ratio$",
+   "extinction_ratio",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Transmitter\\s+extinction\\s+ratio$",
+   "extinction_ratio",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Insertion\\s+Loss$",
+   "insertion_loss",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Multi\\s+fiber\\s+Connector$",
+   "insertion_loss",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Reflectance$",
+   "return_loss",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Maximum\\s+input\\s+power$",
+   "max_optical_input_power",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Receiver\\s+overload$",
+   "max_optical_input_power",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Receiver\\s+damage\\s+threshold$",
+   "max_optical_input_power",
+   "interfaces-modules: label cited as evidence for the field"
+  ],
+  [
+   "^Pass\\s+band$",
+   "passband",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Pass\\s+Band$",
+   "passband",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Frequency\\s+response$",
+   "frequency_response",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Operational\\s+gain\\s+\\(minimum\\)$",
+   "rf_gain",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Amplifier\\s+type$",
+   "amplifier_type",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Hum\\s+modulation\\s+at\\s+12A$",
+   "hum_modulation_12a",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Hum\\s+Modulation\\s+at\\s+12\\s+A$",
+   "hum_modulation_12a",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Hum\\s+modulation\\s+at\\s+15A$",
+   "hum_modulation_15a",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Hum\\s+Modulation\\s+at\\s+15\\s+A$",
+   "hum_modulation_15a",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Internal\\s+tilt\\s+\\(±1\\s+dB\\)$",
+   "internal_tilt",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Internal\\s+tilt\\s+\\(\\+/-1\\s+dB\\)$",
+   "internal_tilt",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Tilt\\s+\\(±1\\.0\\s+dB\\)$",
+   "internal_tilt",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Directivity$",
+   "directivity",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Isolation$",
+   "isolation",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Isolation\\s+\\(maximum\\)$",
+   "isolation",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Path-to-path\\s+isolation$",
+   "path_isolation",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Port\\s+to\\s+port\\s+isolation\\s+with\\s+full\\s+segmentation$",
+   "path_isolation",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Port\\s+to\\s+port\\s+isolation\\s+with\\s+left/right\\s+segmentation$",
+   "path_isolation",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Input\\s+and\\s+output\\s+port\\s+return\\s+loss$",
+   "return_loss",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Input/Output\\s+Port\\s+Return\\s+Loss$",
+   "return_loss",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Optical\\s+return\\s+loss$",
+   "optical_return_loss",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Optical\\s+input\\s+range$",
+   "optical_input_range",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Input\\s+Power$",
+   "optical_input_range",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^RF\\s+output\\s+level$",
+   "rf_output_level",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Rx\\s+RF\\s+output\\s+level\\s+at\\s+0\\s+dBm\\s+optical\\s+Rx\\s+power$",
+   "rf_output_level",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Test\\s+Points\\s+\\(±\\s+0\\.5\\s+dB\\)$",
+   "test_point_level",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Test\\s+points\\s+\\(±1\\.0\\s+dB\\)$",
+   "test_point_level",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Rx\\s+RF\\s+output\\s+test\\s+point\\s+\\(±\\s+1\\.0\\s+dB\\)$",
+   "test_point_level",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Optical\\s+input\\s+test\\s+point\\s+\\(±10%\\)$",
+   "optical_test_point_scale",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Composite\\s+triple\\s+beat$",
+   "composite_triple_beat",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Composite\\s+second\\s+order\\s+\\(high\\s+side\\)$",
+   "composite_second_order",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Cross\\s+modulation$",
+   "cross_modulation",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Noise\\s+figure$",
+   "noise_figure",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Channel\\s+spacing$",
+   "channel_spacing",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Insertion\\s+Loss\\s+\\(see\\s+note\\)$",
+   "insertion_loss",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^AC\\s+Current\\s+\\(A\\)$",
+   "ac_current",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Max\\.\\s+AC\\s+Through\\s+Current\\s+\\(continuous\\)$",
+   "ac_through_current",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Depth$",
+   "depth",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Depth\\s+\\(maximum\\)$",
+   "depth",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Faceplate\\s+height$",
+   "height",
+   "video: label cited as evidence for the field"
+  ],
+  [
+   "^Cisco\\s+Intersight$",
+   "management_mode",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Fabric\\s+interconnect$",
+   "supported_fabric_interconnects",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Internal\\s+storage$",
+   "internal_storage",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Other\\s+storage$",
+   "boot_storage",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Mezzanine\\s+adapter\\s+\\(rear\\)$",
+   "mezzanine_options",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Mezzanine\\s+module\\s+\\(front\\)$",
+   "mezzanine_options",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^RAID\\s+controllers$",
+   "raid_controller",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Hypervisor$",
+   "hypervisor",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Number\\s+of\\s+cores$",
+   "cpu_cores",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Number\\s+of\\s+threads$",
+   "cpu_threads",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Network\\s+adapter$",
+   "network_adapter",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Front-panel\\s+connectors$",
+   "front_panel_ports",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Random\\s+read\\s+operations\\s+at\\s+4-KB\\s+block\\s+size\\s+\\(IOPS\\)$",
+   "iops_random_read_4k",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Random\\s+write\\s+operations\\s+at\\s+4-KB\\s+block\\s+size\\s+\\(IOPS\\)$",
+   "iops_random_write_4k",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Random\\s+mixed\\s+IOPS\\s+\\(70%\\s+read\\s+and\\s+30%\\s+write,\\s+4\\s+KB\\)$",
+   "iops_random_mixed_4k",
+   "servers-unified-computing: label cited as evidence for the field"
+  ],
+  [
+   "^Queues\\s+per\\s+port$",
+   "queues_per_port",
+   "transceiver: label cited as evidence for the field"
+  ],
+  [
+   "^Physical\\s+Interfaces:\\s+Queues\\s+per\\s+port$",
+   "queues_per_port",
+   "transceiver: label cited as evidence for the field"
+  ],
+  [
+   "^Maximum\\s+port\\s+density$",
+   "max_port_density",
+   "transceiver: label cited as evidence for the field"
+  ],
+  [
+   "^Physical\\s+Interfaces:\\s+Maximum\\s+port\\s+density$",
+   "max_port_density",
+   "transceiver: label cited as evidence for the field"
+  ],
+  [
+   "^Environmental:\\s+Safety$",
+   "safety_standards",
+   "transceiver: label cited as evidence for the field"
+  ],
+  [
+   "^System:\\s+Front-panel\\s+LEDs$",
+   "status_leds",
+   "transceiver: label cited as evidence for the field"
+  ],
+  [
+   "^Maximum\\s+WLANs$",
+   "max_wlans",
+   "transceiver: label cited as evidence for the field"
+  ],
+  [
+   "^Network\\s+interface$",
+   "network_interfaces",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Serial\\s+ports$",
+   "console_ports",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Serial\\s+port$",
+   "console_ports",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Serial\\s+Ports$",
+   "console_ports",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^USB\\s+2\\.0\\s+ports$",
+   "usb_ports",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^USB\\s+2\\.0\\s+Ports$",
+   "usb_ports",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^High\\s+Availability\\s+\\(Clustering\\)$",
+   "high_availability",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^High\\s+Availability\\s+\\(Active\\s+/\\s+Standby\\)$",
+   "high_availability",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Cores\\s+per\\s+processor$",
+   "cpu_cores",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Vibration$",
+   "vibration",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Solid-state\\s+drive$",
+   "ssd_capacity",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^AC\\s+Current$",
+   "input_current",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^DC\\s+Domestic\\s+Line\\s+Voltage$",
+   "dc_input_voltage",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^DC\\s+International\\s+Line\\s+Voltage$",
+   "dc_input_voltage",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^DC\\s+Current$",
+   "dc_input_current",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Hardware\\s+RAID$",
+   "raid_level",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Security\\s+Contexts\\s+\\(Included/\\s+Maximum\\)\\s+\\[7\\]$",
+   "security_contexts",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Number\\s+of\\s+flow\\s+events\\s+that\\s+can\\s+be\\s+processed\\s+per\\s+second$",
+   "flows_per_second",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Unified\\s+Communications\\s+Proxy\\s+Maximum\\s+Sessions$",
+   "uc_proxy_sessions",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^TPM\\s+chip$",
+   "tpm",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Management\\s+via\\s+Cisco\\s+Firewall\\s+Management\\s+Center$",
+   "managed_by_fmc",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Management\\s+via\\s+Firewall\\s+Management\\s+Center$",
+   "managed_by_fmc",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Management\\s+via\\s+Cisco\\s+Firewall\\s+Device\\s+Manager$",
+   "managed_by_fdm",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Management\\s+via\\s+Firewall\\s+Device\\s+Manager$",
+   "managed_by_fdm",
+   "security: label cited as evidence for the field"
+  ],
+  [
+   "^Web\\s+browsers\\s+supported$",
+   "supported_browsers",
+   "unified-communications: label cited as evidence for the field"
+  ],
+  [
+   "^User\\s+Interface:\\s+Web\\s+browsers\\s+supported$",
+   "supported_browsers",
+   "unified-communications: label cited as evidence for the field"
+  ],
+  [
+   "^Reserved\\s+CPU\\s+resource$",
+   "vm_reserved_cpu",
+   "unified-communications: label cited as evidence for the field"
+  ],
+  [
+   "^Reserved\\s+RAM$",
+   "vm_reserved_ram",
+   "unified-communications: label cited as evidence for the field"
+  ],
+  [
+   "^Number\\s+of\\s+FXS\\s+ports$",
+   "fxs_ports",
+   "unified-communications: label cited as evidence for the field"
+  ],
+  [
+   "^Built-in\\s+FXO\\s+failover\\s+bypass\\s+ports$",
+   "fxo_ports",
+   "unified-communications: label cited as evidence for the field"
+  ],
+  [
+   "^Conference\\s+call$",
+   "conference_parties_max",
+   "unified-communications: label cited as evidence for the field"
+  ],
+  [
+   "^Impromptu\\s+conference\\s+call$",
+   "conference_parties_max",
+   "unified-communications: label cited as evidence for the field"
+  ],
+  [
+   "^Attendant\\s+console\\s+client\\s+localization$",
+   "languages_supported",
+   "unified-communications: label cited as evidence for the field"
+  ],
+  [
+   "^Endpoints$",
+   "max_endpoints",
+   "cloud-systems-management: label cited as evidence for the field"
+  ],
+  [
+   "^IPv4:\\s+SGT\\s+bindings$",
+   "sgt_bindings",
+   "cloud-systems-management: label cited as evidence for the field"
+  ],
+  [
+   "^SG-ACEs\\s+\\(contract\\s+actions\\)$",
+   "sgacl_entries",
+   "cloud-systems-management: label cited as evidence for the field"
+  ],
+  [
+   "^SGT/DGT\\s+policies$",
+   "sgt_policies",
+   "cloud-systems-management: label cited as evidence for the field"
+  ],
+  [
+   "^Fabric\\s+host\\s+entries\\s+2\\s+\\(host\\s+/32\\s+or\\s+/128\\)$",
+   "fabric_host_entries",
+   "cloud-systems-management: label cited as evidence for the field"
+  ],
+  [
+   "^Virtual\\s+networks$",
+   "virtual_networks",
+   "cloud-systems-management: label cited as evidence for the field"
+  ],
+  [
+   "^Virtual\\s+networks\\s+1$",
+   "virtual_networks",
+   "cloud-systems-management: label cited as evidence for the field"
+  ],
+  [
+   "^Non-operating\\s+humidity$",
+   "humidity_storage",
+   "cloud-systems-management: label cited as evidence for the field"
+  ],
+  [
+   "^OS\\s+requirements$",
+   "host_os_support",
+   "cloud-systems-management: label cited as evidence for the field"
+  ],
+  [
+   "^Maximum\\s+number\\s+of\\s+devices\\s+across\\s+networks$",
+   "managed_devices_max",
+   "cloud-systems-management: label cited as evidence for the field"
+  ],
+  [
+   "^Network\\s+Operation$",
+   "forwarding_mode",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Operation\\s+Mode:\\s+Network\\s+Operation$",
+   "forwarding_mode",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Operation\\s+Mode:\\s+Deployment\\s+Modes$",
+   "deployment_mode",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^10/100/1000\\s+Copper\\s+Ethernet$",
+   "copper_ethernet_ports",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Management\\s+Console$",
+   "console_port",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Block\\s+Actions$",
+   "mitigation_actions",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Max\\s+Programmable\\s+Mitigation\\s+Throughput$",
+   "ddos_mitigation_throughput",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Max\\s+Mitigation\\s+Capacity/Throughput$",
+   "ddos_mitigation_throughput",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Maximal\\s+DDoS\\s+Blocking\\s+Throughput$",
+   "ddos_blocking_throughput",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Accelerated\\s+Blocking\\s+Throughput$",
+   "ddos_blocking_throughput",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^DDoS\\s+Flood\\s+Attack\\s+Prevention\\s+Rate$",
+   "ddos_prevention_rate",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Max\\s+DDoS\\s+Flood\\s+Attack\\s+Prevention\\s+Rate$",
+   "ddos_prevention_rate",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Distributed\\s+Denial\\s+of\\s+Service\\s+\\(DDoS\\)\\s+Flood\\s+Attack\\s+Prevention\\s+Rate$",
+   "ddos_prevention_rate",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Maximal\\s+DDoS\\s+Blocking\\s+\\(Packets\\s+per\\s+Second\\s+\\[PPS\\]\\)$",
+   "ddos_blocking_rate",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Accelerated\\s+Blocking\\s+\\(pps\\)$",
+   "ddos_blocking_rate",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^SSL/TLS\\s+Connections\\s+per\\s+Second$",
+   "ssl_connections_per_sec",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^SSL/Transport\\s+Layer\\s+Security\\s+\\(TLS\\)\\s+Connections\\s+per\\s+Second$",
+   "ssl_connections_per_sec",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Fail-open/\\s+fail-close\\s+2$",
+   "fail_open_close",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Fail-Open/Fail-Close\\s+\\[1\\]$",
+   "fail_open_close",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Fail-Open/\\s+Fail-Close\\s+2$",
+   "fail_open_close",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Export\\s+Control\\s+Classification\\s+Number\\s+\\(ECCN\\)$",
+   "eccn",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Max\\s+Attack\\s+Concurrent\\s+Sessions$",
+   "attack_concurrent_sessions",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Real-Time\\s+Signatures$",
+   "attack_protection_time",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^TLS\\s+1\\.3\\s+Perfect\\s+Forward\\s+Secrecy\\s+\\(PFS\\)\\s+HW\\s+Acceleration\\s+Support$",
+   "tls_hw_acceleration",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Boot\\s+drives$",
+   "boot_drive",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Graphics\\s+Processing\\s+Units\\s+\\(GPUs\\)$",
+   "gpu_options",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^Number\\s+of\\s+nodes$",
+   "cluster_min_nodes",
+   "hyperconverged-infrastructure: label cited as evidence for the field"
+  ],
+  [
+   "^3dB\\s+Beamwidth\\s+H\\s+and\\s+V\\s+50˚\\+-10˚$",
+   "beamwidth_3db",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Efficiency\\s+>\\s+60%\\s+\\(-2\\.2\\s+db\\)$",
+   "antenna_efficiency",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Gain\\s+Ripple\\s+<3$",
+   "antenna_gain_ripple",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Isolation\\s+>\\s+-20$",
+   "antenna_isolation",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Front\\s+to\\s+Back\\s+>15dbr$",
+   "antenna_front_to_back",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Field\\s+of\\s+View$",
+   "field_of_view",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Image\\s+Sensor$",
+   "image_sensor",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Video$",
+   "video_quality_max",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Max\\s+Video\\s+Quality$",
+   "video_quality_max",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Maximum\\s+Possible\\s+Video\\s+Quality\\s+\\(\\s+Full\\s+quality\\s+options\\s+here\\s+\\)$",
+   "video_quality_max",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^DORI\\s+Specifications\\s+\\(Maximum\\s+Resolution\\)$",
+   "dori_distances",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Focal\\s+Length$",
+   "focal_length",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Aperture$",
+   "lens_aperture",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^IR\\s+Illuminators$",
+   "ir_illumination",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Shutter\\s+Speed$",
+   "shutter_speed",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Lens\\s+Adjustment\\s+Range$",
+   "lens_adjustment_range",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Minimum\\s+illumination\\s+\\(Standard\\s+/\\s+Night\\s+mode\\)$",
+   "min_illumination",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Optical\\s+Zoom$",
+   "optical_zoom",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^120G\\s+Hardware\\s+Stack\\s+Port$",
+   "stack_ports",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Max\\s+Available\\s+PoE\\s+W/\\s+Secondary\\s+PS\\*\\*\\*$",
+   "poe_budget_redundant",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^#\\s+of\\s+Batteries$",
+   "battery_count",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Expected\\s+Battery\\s+Life$",
+   "battery_life",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^External\\s+Power$",
+   "external_power",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^GSM\\s+Bands$",
+   "cellular_bands",
+   "meraki: label cited as evidence for the field"
+  ],
+  [
+   "^Configuration$",
+   "chassis_config",
+   "storage-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Chassis\\s+slot\\s+configuration$",
+   "chassis_config",
+   "storage-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Maximum\\s+Insertion\\s+Loss\\s+\\(dB\\)$",
+   "insertion_loss_max",
+   "storage-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Dispersion\\s+penalty\\s+at\\s+100\\s+km\\s+\\(62\\.1\\s+mi\\)$",
+   "dispersion_penalty",
+   "storage-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Supply\\s+Current$",
+   "supply_current",
+   "storage-networking: label cited as evidence for the field"
+  ],
+  [
+   "^Timing$",
+   "timing_sync",
+   "ios-nx-os-software: label cited as evidence for the field"
+  ],
+  [
+   "^Segment\\s+routing$",
+   "segment_routing_features",
+   "ios-nx-os-software: label cited as evidence for the field"
+  ],
+  [
+   "^Surge\\s+Rating\\s+As\\s+per\\s+IEC\\s+61000-4-5$",
+   "surge_rating",
+   "ios-nx-os-software: label cited as evidence for the field"
+  ],
+  [
+   "^CPU\\s+Memory\\s+Storage$",
+   "compute_subsystem",
+   "ios-nx-os-software: label cited as evidence for the field"
+  ],
+  [
+   "^Boot$",
+   "boot_drive_options",
+   "hyperconverged-systems: label cited as evidence for the field"
+  ],
+  [
+   "^Cache$",
+   "cache_drive_options",
+   "hyperconverged-systems: label cited as evidence for the field"
+  ],
+  [
+   "^Data\\s+options$",
+   "capacity_drive_options",
+   "hyperconverged-systems: label cited as evidence for the field"
+  ],
+  [
+   "^Housekeeping$",
+   "housekeeping_drive_options",
+   "hyperconverged-systems: label cited as evidence for the field"
+  ],
+  [
+   "^CPU\\s+options$",
+   "cpu_options",
+   "hyperconverged-systems: label cited as evidence for the field"
+  ],
+  [
+   "^Chip\\s+set$",
+   "chipset",
+   "hyperconverged-systems: label cited as evidence for the field"
+  ],
+  [
+   "^Interconnect$",
+   "cpu_interconnect",
+   "hyperconverged-systems: label cited as evidence for the field"
   ]
  ]
 }

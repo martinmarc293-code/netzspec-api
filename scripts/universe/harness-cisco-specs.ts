@@ -90,24 +90,40 @@ from bs4 import BeautifulSoup
 import hashlib, pathlib
 req = json.load(sys.stdin)
 cache = pathlib.Path("scraper/cache")
-out = []
-grids = {}
-for item in req:
-    url = item["url"]
+out = [None] * len(req)
+
+# Group the requests BY DOCUMENT and keep only the current document's grid in memory.
+#
+# The first version cached every grid it built, keyed by url. Over 3,272 documents that was
+# survivable; at 2,696 documents alongside four parallel PDF workers it exhausted RAM and the
+# audit sat there swapping, producing no output and no error for fifteen minutes -- which
+# looks exactly like a slow run. Grids are large (every table of a datasheet, fully expanded),
+# so holding them all is the one thing this loop must not do.
+#
+# Results are written back by ORIGINAL INDEX, so grouping does not disturb the order the
+# caller matches against.
+by_url = {}
+for i, item in enumerate(req):
+    by_url.setdefault(item["url"], []).append(i)
+
+for url, idxs in by_url.items():
     key = hashlib.sha1(url.encode()).hexdigest()
     f = cache / (key + ".html")
     if not f.exists():
-        out.append({"status": "no_cache"}); continue
-    if url not in grids:
-        soup = BeautifulSoup(f.read_text(encoding="utf-8", errors="replace"), "lxml")
-        grids[url] = [_rows(t) for t in soup.find_all("table")]
-    g = grids[url]
-    t, r, c = item["t"], item["r"], item["c"]
-    try:
-        cell = g[t][r][c]
-    except Exception:
-        out.append({"status": "out_of_range"}); continue
-    out.append({"status": "ok", "cell": cell})
+        for i in idxs:
+            out[i] = {"status": "no_cache"}
+        continue
+    soup = BeautifulSoup(f.read_text(encoding="utf-8", errors="replace"), "lxml")
+    g = [_rows(t) for t in soup.find_all("table")]
+    for i in idxs:
+        item = req[i]
+        t, r, c = item["t"], item["r"], item["c"]
+        try:
+            out[i] = {"status": "ok", "cell": g[t][r][c]}
+        except Exception:
+            out[i] = {"status": "out_of_range"}
+    del soup, g   # release before the next document
+
 json.dump(out, sys.stdout)
 `;
   const items = recs.filter((r) => /^t\d+:r\d+:c\d+$/.test(r.locator)).map((r) => {
