@@ -108,12 +108,43 @@ for i, item in enumerate(req):
 
 for url, idxs in by_url.items():
     key = hashlib.sha1(url.encode()).hexdigest()
-    f = cache / (key + ".html")
-    if not f.exists():
+    html_f = cache / (key + ".html")
+    pdf_f = cache / (key + ".bin")
+
+    # PDF documents. Their facts carry p{page}:t{table}:r{row}:c{col}, and the HTML branch below
+    # cannot read them -- which is why the audit used to skip every PDF fact silently and then
+    # report 0/0 as though it had verified something. Re-read from the same cached bytes the
+    # extractor parsed, one page at a time so a 200-page spec sheet never sits in memory whole.
+    if not html_f.exists() and pdf_f.exists():
+        try:
+            import pdfplumber
+            body = pdf_f.read_bytes()
+            wanted_pages = sorted({req[i].get("p") for i in idxs if req[i].get("p") is not None})
+            tables_by_page = {}
+            with pdfplumber.open(io.BytesIO(body)) as pdf:
+                for pno in wanted_pages:
+                    if pno < 0 or pno >= len(pdf.pages):
+                        continue
+                    tbls = pdf.pages[pno].extract_tables() or []
+                    tables_by_page[pno] = [[[(cell or "").strip() for cell in row] for row in t] for t in tbls]
+            for i in idxs:
+                item = req[i]
+                p, t, r, c = item.get("p"), item["t"], item["r"], item["c"]
+                try:
+                    out[i] = {"status": "ok", "cell": tables_by_page[p][t][r][c]}
+                except Exception:
+                    out[i] = {"status": "out_of_range"}
+            del tables_by_page
+        except Exception as e:  # noqa
+            for i in idxs:
+                out[i] = {"status": "pdf_error", "detail": str(e)[:80]}
+        continue
+
+    if not html_f.exists():
         for i in idxs:
             out[i] = {"status": "no_cache"}
         continue
-    soup = BeautifulSoup(f.read_text(encoding="utf-8", errors="replace"), "lxml")
+    soup = BeautifulSoup(html_f.read_text(encoding="utf-8", errors="replace"), "lxml")
     g = [_rows(t) for t in soup.find_all("table")]
     for i in idxs:
         item = req[i]
@@ -126,10 +157,15 @@ for url, idxs in by_url.items():
 
 json.dump(out, sys.stdout)
 `;
-  const items = recs.filter((r) => /^t\d+:r\d+:c\d+$/.test(r.locator)).map((r) => {
-    const m = /^t(\d+):r(\d+):c(\d+)$/.exec(r.locator)!;
-    return { url: r.source_url, t: +m[1], r: +m[2], c: +m[3], expect: r.value };
-  });
+  // Two locator forms, and accepting only the first is what made the audit silently skip every
+  // PDF fact:  HTML  t0:r1:c2        PDF  p12:t0:r3:c1
+  const items = recs
+    .filter((r) => /^(p\d+:)?t\d+:r\d+:c\d+$/.test(r.locator))
+    .map((r) => {
+      const m = /^(?:p(\d+):)?t(\d+):r(\d+):c(\d+)$/.exec(r.locator)!;
+      return { url: r.source_url, p: m[1] === undefined ? null : +m[1],
+        t: +m[2], r: +m[3], c: +m[4], expect: r.value };
+    });
   const res = JSON.parse(execFileSync("python", ["-c", script], {
     input: JSON.stringify(items), encoding: "utf8", maxBuffer: 256 * 1024 * 1024,
   }));
@@ -137,12 +173,21 @@ json.dump(out, sys.stdout)
     const got = res[i];
     audited++;
     if (!got || got.status !== "ok") { auditSkipped++; return; }
+    // Compare the way the EXTRACTOR stored it. Both adapters collapse internal whitespace
+    // before writing a value, and a PDF cell is full of hard line breaks from the page layout:
+    // "Rear Mezzanine\nconnector on\nmotherboard" is stored as "Rear Mezzanine connector on
+    // motherboard". Comparing raw text flagged 916 such facts as mismatched on the first PDF
+    // audit -- every one of them identical in substance. An audit that reports formatting as
+    // corruption is worse than no audit: it buries a real mismatch in noise.
+    const norm = (s: unknown) => String(s ?? "").replace(/\s+/g, " ").trim();
     // the stored value is truncated to 160 chars by the adapter
-    if (String(got.cell).slice(0, 160) === it.expect) auditOk++;
+    if (norm(String(got.cell).slice(0, 160)) === norm(it.expect)
+      || norm(got.cell).slice(0, 160) === norm(it.expect)) auditOk++;
     else {
       auditBad++;
       if (auditFailures.length < 8) {
-        auditFailures.push(`  t${it.t}:r${it.r}:c${it.c} recorded "${String(it.expect).slice(0, 40)}" but cell holds "${String(got.cell).slice(0, 40)}"`);
+        const loc = it.p === null ? `t${it.t}:r${it.r}:c${it.c}` : `p${it.p}:t${it.t}:r${it.r}:c${it.c}`;
+        auditFailures.push(`  ${loc} recorded ${JSON.stringify(norm(it.expect).slice(0, 46))} but cell holds ${JSON.stringify(norm(got.cell).slice(0, 46))}`);
       }
     }
   });
@@ -170,12 +215,39 @@ console.log(`\nprovenance audit: ${auditOk}/${audited - auditSkipped} facts re-r
   `(${auditPct.toFixed(2)}%), ${auditSkipped} skipped, ${auditBad} mismatched`);
 for (const f of auditFailures) console.log(f);
 
-if (precision < GATE) {
-  console.error(`\nFAIL — precision ${precision.toFixed(1)}% is below the ${GATE}% gate. No bulk run.`);
-  process.exit(1);
-}
+// A gate that cannot tell "I could not check this" from "this is wrong" sends you to fix the
+// wrong thing. Run on the PDF extraction, this printed precision 0.0% and FAIL — which reads as
+// catastrophically bad data, and was nothing of the sort: the golden sample is 26 fields across
+// ten CATALYST SWITCH part numbers, the file contained UCS servers, and the two sets do not
+// intersect. Meanwhile the provenance auditor matched no locators at all, because it only
+// understands the HTML form t0:r1:c2 while PDF facts carry p12:t0:r3:c1 — so it audited nothing
+// and reported 0/0 as though that were a measurement.
+//
+// So: three outcomes, not two. UNVERIFIED is not PASS — nothing may be applied on it — but it
+// is not FAIL either, and it names what is missing instead of implying the data is wrong.
+const goldenSkus = new Set(expectations.map((e) => e.sku));
+const fileSkus = new Set(recs.map((r) => r.sku).filter(Boolean));
+const goldenOverlap = [...goldenSkus].filter((s) => fileSkus.has(s)).length;
+const auditable = audited - auditSkipped;
+
 if (auditBad > 0) {
   console.error(`\nFAIL — ${auditBad} facts do not match the cell at their recorded locator.`);
   process.exit(1);
 }
-console.log(`\nPASS — precision ${precision.toFixed(1)}% >= ${GATE}%, provenance audit clean.`);
+if (goldenOverlap === 0) {
+  console.error(`\nUNVERIFIED — the golden sample covers ${goldenSkus.size} PIDs and NONE of them appear in this file.`);
+  console.error(`  Precision of ${precision.toFixed(1)}% here means "no overlap", not "wrong data" — do not read it as a quality score.`);
+  console.error(`  Provenance re-read ${auditable} of ${recs.length} facts${auditable === 0 ? " (no locator in this file is in a form the auditor understands)" : ""}.`);
+  console.error(`  To turn this into a real verdict, add hand-checked expectations for parts THIS file covers.`);
+  process.exit(2);
+}
+if (precision < GATE) {
+  console.error(`\nFAIL — precision ${precision.toFixed(1)}% is below the ${GATE}% gate. No bulk run.`);
+  process.exit(1);
+}
+if (auditable === 0) {
+  console.error(`\nUNVERIFIED — precision passed, but the provenance auditor re-read ZERO facts.`);
+  console.error(`  Every locator in this file is in a form it does not understand, so nothing was actually checked.`);
+  process.exit(2);
+}
+console.log(`\nPASS — precision ${precision.toFixed(1)}% >= ${GATE}%, provenance audit clean (${auditable} facts re-read).`);

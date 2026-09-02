@@ -31,6 +31,11 @@ Usage: python scraper/run.py cisco-specs-pdf --urls-file <file of .pdf urls>
 """
 from __future__ import annotations
 
+import sys as _sys
+from pathlib import Path as _P0
+_sys.path.insert(0, str(_P0(__file__).resolve().parent.parent))
+from netzscrape import is_attributable_pid
+
 import json as _json
 import re
 import sys
@@ -64,8 +69,19 @@ def _load_sku_map() -> dict[str, list[str]]:
                     merged[url] = sorted(set(merged[url]) | set(skus))
                 else:
                     merged[url] = list(skus)
+        # Drop tokens that are in the map but cannot own a specification -- bare quantities
+        # ("256GB", "512 GB") and protocol names ("H.323"). Left in, ground-truth matching binds
+        # facts to them: "H.323" collected 84 meaningless cells from a router datasheet reading
+        # "Cisco = 32", and "256GB" collected memory-guide rows like "DIMM Slot 2 (Black) = No".
+        # The parts are NOT deleted, only barred from owning specs.
+        dropped = 0
+        for url in merged:
+            keep = [s for s in merged[url] if is_attributable_pid(s)]
+            dropped += len(merged[url]) - len(keep)
+            merged[url] = keep
         _SKU_MAP = merged
-        print(f"  [sku-map] {len(_SKU_MAP)} documents with ground truth", file=sys.stderr)
+        print(f"  [sku-map] {len(_SKU_MAP)} documents with ground truth "
+              f"({dropped} non-attributable tokens dropped)", file=sys.stderr)
     return _SKU_MAP
 
 

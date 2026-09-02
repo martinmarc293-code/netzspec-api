@@ -11,7 +11,7 @@ Design rules (never violated):
 Run adapters via run.py. This module is the shared engine.
 """
 from __future__ import annotations
-import hashlib, json, time, os, sys
+import hashlib, json, re, time, os, sys
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.robotparser import RobotFileParser
@@ -36,6 +36,37 @@ def _now() -> str:
 
 def _key(url: str) -> str:
     return hashlib.sha1(url.encode()).hexdigest()
+
+
+# Tokens the enumeration captured as "part numbers" that are nothing of the kind. They are in the
+# SKU map, so ground-truth matching binds facts to them, and the facts are meaningless
+# row/column intersections: "H.323" collected 84 of them from a router datasheet, reading
+# "Cisco = 32", "Cisco = 60". "256GB" and "128GB" collected memory-guide cells like
+# "DIMM Slot 2 (Black) = No".
+#
+# TWO CLASSES ONLY, both unambiguous:
+#   a bare quantity      256GB, 512 GB, 16GB, 300K, 40W
+#   a protocol/standard  H.323, G.711, 1000BASE-T, RJ45
+#
+# Deliberately narrow. A first attempt also excluded anything without a digit and caught
+# HCI-MLOM, UCS-DIMM-BLK, CAB-ACTW and NO-POWER-CORD -- all real Cisco part numbers. Meraki
+# ships real devices called Z4, MV2 and MR4, so no length rule either. These are excluded from
+# SPEC ATTRIBUTION only; the parts themselves are never deleted, because a noindex thin page
+# costs nothing and a deleted real part is the mistake that took six Meraki devices off the site.
+_QUANTITY_TOKEN = re.compile(
+    r"^\d+(?:\.\d+)?\s*(?:GB|TB|MB|KB|B|K|M|G|W|KW|V|A|MHZ|GHZ|HZ|BPS|GBPS|MBPS|KBPS|RU|HE|U|NM|UM|MM|CM|KM|M|FT|IN|LB|KG|DBM|DB)$",
+    re.I)
+_PROTOCOL_TOKEN = re.compile(
+    r"^(?:H\.?\d{3}|G\.?\d{3}(?:\.\d+)?|T1|E1|T3|E3|IPV[46]|SIP|MGCP|SCCP|RTP|RTCP|SNMP|SSH|TLS|SSL|VPN|QOS|POE|POE\+|USB|HDMI|VGA|RJ\d+|\d+BASE-?[A-Z]{1,4}\d?)$",
+    re.I)
+
+
+def is_attributable_pid(token: str) -> bool:
+    """False when a token is in the SKU map but cannot own a specification."""
+    t = (token or "").strip()
+    if not t:
+        return False
+    return not (_QUANTITY_TOKEN.match(t) or _PROTOCOL_TOKEN.match(t))
 
 def _ledger(rec: dict) -> None:
     with LEDGER.open("a", encoding="utf-8") as f:

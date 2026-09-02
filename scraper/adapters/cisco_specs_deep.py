@@ -28,6 +28,11 @@ already lives - one definition of the schema, not two.
 Usage: python scraper/run.py cisco-specs-deep --urls <url1,url2,...>
 """
 from __future__ import annotations
+
+import sys as _sys
+from pathlib import Path as _P0
+_sys.path.insert(0, str(_P0(__file__).resolve().parent.parent))
+from netzscrape import is_attributable_pid
 import re, sys, json as _json
 from pathlib import Path as _Path
 
@@ -66,7 +71,9 @@ def _load_sku_map() -> dict[str, list[str]]:
     if not _SKU_MAP:
         p = _Path("data/universe/datasheet-skus.json")
         if p.exists():
-            _SKU_MAP = _json.loads(p.read_text(encoding="utf-8"))
+            raw = _json.loads(p.read_text(encoding="utf-8"))
+            # bare quantities and protocol names are in the map but cannot own a spec
+            _SKU_MAP = {u: [s for s in v if is_attributable_pid(s)] for u, v in raw.items()}
     return _SKU_MAP
 
 
