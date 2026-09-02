@@ -34,6 +34,10 @@ import { MongoClient } from "mongodb";
 import { FIELD_DICTIONARY, DOMAIN_OVERRIDES } from "../../lib/fieldSchema.js";
 
 const ROOT = process.cwd();
+type Tier = "exact" | "form" | "series" | "doc";
+type Cand = { src: string; idx: number | null; caption?: string; alt?: string; words?: string;
+  kind: string; forms?: string[]; pids?: string[] };
+
 const OUT = (() => { const i = process.argv.indexOf("--out"); return i > 0 ? process.argv[i + 1] : path.join(ROOT, "data/universe/part-images.json"); })();
 
 const env = Object.fromEntries(
@@ -42,7 +46,7 @@ const env = Object.fromEntries(
     .map((l) => { const i = l.indexOf("="); return [l.slice(0, i).trim(), l.slice(i + 1).trim().replace(/^"|"$/g, "")]; })
 );
 
-const norm = (s) => String(s).toUpperCase().replace(/[^A-Z0-9]/g, "");
+const norm = (s: unknown) => String(s).toUpperCase().replace(/[^A-Z0-9]/g, "");
 const FORMS = ["QSFP-DD", "QSFP28", "QSFP+", "QSFP", "SFP28", "SFP+", "SFP", "XFP",
   "X2", "CFP2", "CFP4", "CFP", "CXP", "GBIC", "OSFP", "CPAK", "XENPAK"];
 
@@ -61,9 +65,9 @@ const DIAGRAM = /\b(block diagram|diagram|topology|architecture|workflow|deploym
 // mistake that took six Meraki devices off the site.
 function buildGenericTerms() {
   const terms = new Set();
-  const add = (v) => { const n = String(v).toUpperCase().replace(/[^A-Z0-9]/g, ""); if (n.length >= 2) terms.add(n); };
+  const add = (v: unknown) => { const n = String(v).toUpperCase().replace(/[^A-Z0-9]/g, ""); if (n.length >= 2) terms.add(n); };
   for (const key of ["form_factor", "connector", "media", "standard", "fiber_type", "laser_type", "mode", "fec"]) {
-    for (const d of FIELD_DICTIONARY[key]?.domain || []) add(d);
+    for (const d of (FIELD_DICTIONARY as Record<string, { domain?: string[] }>)[key]?.domain || []) add(d);
   }
   for (const cat of Object.keys(DOMAIN_OVERRIDES)) {
     for (const vals of Object.values(DOMAIN_OVERRIDES[cat])) for (const d of vals) add(d);
@@ -83,7 +87,7 @@ async function main() {
   const client = new MongoClient(env.MONGODB_URI);
   await client.connect();
   const parts = client.db(env.MONGODB_DB || "netzspec").collection("parts");
-  const info = new Map();
+  const info = new Map<string, { family: string; category: string; type: string }>();
   for await (const p of parts.find({}, { projection: { _id: 0, sku: 1, family: 1, category: 1, type: 1 } })) {
     if (p.sku) info.set(p.sku, { family: p.family || "", category: p.category || "", type: p.type || "" });
   }
@@ -93,24 +97,24 @@ async function main() {
   const GENERIC = buildGenericTerms();
   console.log(`generic technical terms excluded from identity matching: ${GENERIC.size}`);
 
-  const picks = new Map();          // sku -> {src, tier, caption, source_url}
-  const better = { exact: 4, form: 3, series: 2, doc: 1 };
-  const consider = (sku, cand, tier, url) => {
+  const picks = new Map<string, { sku: string; src: string; tier: Tier; caption: string; source_url: string }>();          // sku -> {src, tier, caption, source_url}
+  const better: Record<Tier, number> = { exact: 4, form: 3, series: 2, doc: 1 };
+  const consider = (sku: string, cand: Cand, tier: Tier, url: string) => {
     const cur = picks.get(sku);
     if (cur && better[cur.tier] >= better[tier]) return;
     picks.set(sku, { sku, src: cand.src, tier, caption: cand.caption || cand.words || cand.alt || "", source_url: url });
   };
 
   let sheets = 0;
-  for (const [url, cands] of Object.entries(harvest.sheets || {})) {
-    const skus = skuMap[url];
+  for (const [url, cands] of Object.entries((harvest.sheets || {}) as Record<string, Cand[]>)) {
+    const skus: string[] = skuMap[url];
     if (!skus || !skus.length) continue;
-    const usable = cands.filter((c) => c.kind !== "diagram" && !DIAGRAM.test(c.caption || ""));
+    const usable = cands.filter((c: Cand) => c.kind !== "diagram" && !DIAGRAM.test(c.caption || ""));
     if (!usable.length) continue;
     sheets++;
     // document default: the lowest-indexed product-classified figure
-    const docDefault = usable.filter((c) => c.kind === "product")
-      .sort((a, b) => (a.idx ?? 99) - (b.idx ?? 99))[0];
+    const docDefault = usable.filter((c: Cand) => c.kind === "product")
+      .sort((a: Cand, b: Cand) => (a.idx ?? 99) - (b.idx ?? 99))[0];
 
     for (const sku of skus) {
       const meta = info.get(sku);
@@ -128,7 +132,7 @@ async function main() {
       // else, and calling that "exact" is how the highest-confidence tier becomes the least
       // trustworthy one.
       if (!isGeneric) {
-        const exact = usable.find((c) => (c.pids || []).some((p) => norm(p) === nsku));
+        const exact = usable.find((c: Cand) => (c.pids || []).some((p: string) => norm(p) === nsku));
         if (exact) { consider(sku, exact, "exact", url); continue; }
       }
 
@@ -136,7 +140,7 @@ async function main() {
       if (!isGeneric && (meta.category === "transceiver" || meta.type === "transceiver")) {
         const ff = FORMS.find((f) => norm(sku).includes(norm(f)) && norm(f).length >= 3);
         if (ff) {
-          const byForm = usable.find((c) => (c.forms || []).some((x) => norm(x) === norm(ff)));
+          const byForm = usable.find((c: Cand) => (c.forms || []).some((x: string) => norm(x) === norm(ff)));
           if (byForm) { consider(sku, byForm, "form", url); continue; }
         }
       }
@@ -145,7 +149,7 @@ async function main() {
       if (meta.family) {
         const fam = meta.family.replace(/^Cisco\s+/i, "").trim();
         if (fam.length >= 4) {
-          const bySeries = usable.find((c) => (c.caption || "").toLowerCase().includes(fam.toLowerCase()));
+          const bySeries = usable.find((c: Cand) => (c.caption || "").toLowerCase().includes(fam.toLowerCase()));
           if (bySeries) { consider(sku, bySeries, "series", url); continue; }
         }
       }
@@ -155,7 +159,7 @@ async function main() {
   }
 
   const all = [...picks.values()];
-  const byTier = all.reduce((m, p) => ({ ...m, [p.tier]: (m[p.tier] || 0) + 1 }), {});
+  const byTier = all.reduce((m: Record<string, number>, p) => ({ ...m, [p.tier]: (m[p.tier] || 0) + 1 }), {});
   const publishable = all.filter((p) => p.tier !== "doc");
   const needsVision = all.filter((p) => p.tier === "doc");
 
