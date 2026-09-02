@@ -191,11 +191,58 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   ap_max_clients: { key: "ap_max_clients", de: "Max. Clients je AP", en: "Max clients per AP", type: "n", band: [1, 10000], etim: [], icecat: null },
   wlc_ap_capacity: { key: "wlc_ap_capacity", de: "Max. Access Points (Controller)", en: "Max access points (controller)", type: "n", band: [1, 200000], etim: [], icecat: null },
   wlc_client_capacity: { key: "wlc_client_capacity", de: "Max. Clients (Controller)", en: "Max clients (controller)", type: "n", band: [1, 2000000], etim: [], icecat: null },
+  radio_bands: { key: "radio_bands", de: "Frequenzbänder", en: "Frequency bands", type: "s", examples: ["2.4 GHz", "5 GHz", "6 GHz"], etim: [], icecat: null },
 
   // --- routing (ISR / ASR / Catalyst 8000) ----------------------------------------------------
   router_throughput: { key: "router_throughput", de: "System-Durchsatz", en: "System throughput", type: "n", unit: "Gbit/s", band: [0.005, 10000], etim: [], icecat: null },
   ipsec_throughput: { key: "ipsec_throughput", de: "IPsec-Durchsatz", en: "IPsec throughput", type: "n", unit: "Gbit/s", band: [0.005, 5000], etim: [], icecat: null },
   ipsec_tunnels: { key: "ipsec_tunnels", de: "IPsec-Tunnel", en: "IPsec tunnels", type: "n", band: [1, 2000000], etim: [], icecat: null },
+
+  // --- deep-spec fields across optical / transceiver / wireless / security / SAN --------------
+  // Authored by the per-category alias workflow (2026-09-02), then curated: Webex/collab marketing
+  // and cable-TV-RF fields dropped (out of hexwaren's scope), duplicates consolidated, enums with
+  // no safe domain kept as strings, sensible bands on numerics. These map the ~7.3k per-SKU facts
+  // the switch-shaped dictionary could not name.
+  advanced_functions: { key: "advanced_functions", de: "Erweiterte Funktionen", en: "Advanced functions", type: "ls", etim: [], icecat: null },
+  antenna_connector: { key: "antenna_connector", de: "Antennenanschluss", en: "Antenna connector", type: "s", etim: [], icecat: null },
+  antenna_gain: { key: "antenna_gain", de: "Antennengewinn", en: "Antenna gain", type: "struct", unit: "dBi", shape: "{ band24: n, band5: n }", etim: [], icecat: null },
+  anyconnect_sessions: { key: "anyconnect_sessions", de: "AnyConnect-/Clientless-VPN-Benutzersitzungen", en: "AnyConnect/clientless VPN user sessions", type: "n", unit: "Sitzungen", band: [1, 5000000], etim: [], icecat: null },
+  attenuation_dead_zone: { key: "attenuation_dead_zone", de: "Dämpfungstotzone", en: "Attenuation dead zone", type: "n", unit: "m", band: [0, 5000], etim: [], icecat: null },
+  beamwidth_elevation: { key: "beamwidth_elevation", de: "Vertikaler Öffnungswinkel (3 dB)", en: "Elevation 3-dB beamwidth", type: "n", unit: "°", band: [1, 360], etim: [], icecat: null },
+  chassis_compatibility: { key: "chassis_compatibility", de: "Chassis-Kompatibilität", en: "Chassis compatibility", type: "ls", etim: [], icecat: null },
+  coherent_interop_standards: { key: "coherent_interop_standards", de: "Kohärente Interop-Standards", en: "Coherent interoperability standards", type: "ls", etim: [], icecat: null },
+  cross_connect: { key: "cross_connect", de: "Cross-Connect", en: "Cross-connect", type: "s", etim: [], icecat: null },
+  diagnostics: { key: "diagnostics", de: "Diagnose und Fehlerbehebung", en: "Diagnostics and troubleshooting tools", type: "ls", etim: [], icecat: null },
+  emc_emissions: { key: "emc_emissions", de: "EMV-Störaussendung", en: "EMC emissions", type: "ls", etim: [], icecat: null },
+  emc_immunity: { key: "emc_immunity", de: "EMV-Störfestigkeit", en: "EMC immunity", type: "ls", etim: [], icecat: null },
+  etsi_standards: { key: "etsi_standards", de: "ETSI-Normen", en: "ETSI standards", type: "ls", etim: [], icecat: null },
+  expansion_io: { key: "expansion_io", de: "Erweiterungs-I/O", en: "Expansion I/O", type: "struct", etim: [], icecat: null },
+  fabric_services: { key: "fabric_services", de: "Fabric-Dienste", en: "Fabric services", type: "ls", etim: [], icecat: null },
+  input_power_range: { key: "input_power_range", de: "Eingangsleistungsbereich (optisch)", en: "Optical input power range", type: "nr", unit: "dBm", band: [-60, 30], etim: [], icecat: null },
+  itu_channel: { key: "itu_channel", de: "ITU-Kanal", en: "ITU channel", type: "s", etim: [], icecat: null },
+  jacket_color: { key: "jacket_color", de: "Mantelfarbe", en: "Cable jacket color", type: "s", etim: [], icecat: null },
+  jacket_material: { key: "jacket_material", de: "Mantelmaterial", en: "Cable jacket material", type: "s", etim: [], icecat: null },
+  min_software_release: { key: "min_software_release", de: "Mindest-Systemsoftware", en: "Minimum system software release", type: "s", etim: [], icecat: null },
+  mounting: { key: "mounting", de: "Montage", en: "Mounting", type: "s", etim: [], icecat: null },
+  optical_pm: { key: "optical_pm", de: "Optische Leistungsüberwachung (Trunk)", en: "Trunk optical performance monitoring", type: "ls", etim: [], icecat: null },
+  otn_pm: { key: "otn_pm", de: "OTN-Leistungsüberwachung", en: "OTN performance monitoring", type: "ls", etim: [], icecat: null },
+  polarization: { key: "polarization", de: "Polarisation", en: "Polarization", type: "s", etim: [], icecat: null },
+  power_full_load: { key: "power_full_load", de: "Leistungsaufnahme bei 100% Durchsatz", en: "Power consumption at 100% throughput", type: "n", unit: "W", band: [1, 30000], etim: [], icecat: null },
+  product_compatibility: { key: "product_compatibility", de: "Produktkompatibilität", en: "Product compatibility", type: "ls", etim: [], icecat: null },
+  programming_interfaces: { key: "programming_interfaces", de: "Programmierschnittstellen", en: "Programming interfaces", type: "ls", etim: [], icecat: null },
+  recycled_content: { key: "recycled_content", de: "Rezyklatanteil", en: "Recycled content", type: "s", etim: [], icecat: null },
+  redundancy: { key: "redundancy", de: "Redundanz", en: "Redundancy", type: "ls", etim: [], icecat: null },
+  reflective_dead_zone: { key: "reflective_dead_zone", de: "Reflexionstotzone", en: "Reflective dead zone", type: "n", unit: "m", band: [0, 5000], etim: [], icecat: null },
+  rfc_compliance: { key: "rfc_compliance", de: "RFC-Konformität", en: "RFC compliance", type: "ls", etim: [], icecat: null },
+  rx_wavelength: { key: "rx_wavelength", de: "Empfangswellenlänge (Eingang)", en: "Receiver input wavelength", type: "nr", unit: "nm", band: [600, 2000], etim: [], icecat: null },
+  serviceability: { key: "serviceability", de: "Wartungsfunktionen", en: "Serviceability", type: "ls", etim: [], icecat: null },
+  shelf_assembly: { key: "shelf_assembly", de: "Baugruppenträger / Shelf-Assembly", en: "Shelf assembly", type: "s", etim: [], icecat: null },
+  shock: { key: "shock", de: "Schockfestigkeit", en: "Shock resistance", type: "s", etim: [], icecat: null },
+  slot_compatibility: { key: "slot_compatibility", de: "Slot-Kompatibilität", en: "Slot compatibility", type: "s", etim: [], icecat: null },
+  supported_modules: { key: "supported_modules", de: "Unterstützte Module", en: "Supported modules", type: "ls", etim: [], icecat: null },
+  supported_protocols: { key: "supported_protocols", de: "Unterstützte Protokolle", en: "Supported protocols", type: "ls", etim: [], icecat: null },
+  supported_transceivers: { key: "supported_transceivers", de: "Unterstützte Transceiver-Module", en: "Supported transceiver modules", type: "ls", etim: [], icecat: null },
+  usb_console: { key: "usb_console", de: "Integrierte USB-Konsole", en: "Integrated USB console", type: "b", etim: [], icecat: null },
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -208,6 +255,7 @@ const cond = (when: Condition): Requirement => ({ kind: "cond", when });
 
 export const PROFILES: Record<string, Record<string, Requirement>> = {
   switches: {
+    rfc_compliance: opt, emc_immunity: opt, emc_emissions: opt, power_full_load: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req, mgmt_class: req, layer: req, form_factor: req,
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
     stackable: req, deploy_role: opt,
@@ -235,6 +283,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     ip_rating: cond({ any: [{ field: "form_factor", eq: "din-rail" }, { field: "deploy_role", eq: "industrial" }] }),
   },
   transceiver: {
+    itu_channel: opt, jacket_material: opt, jacket_color: opt, rx_wavelength: opt, optical_pm: opt, input_power_range: opt, // deep-spec fields 2026-09-02
     vendor: req, form_factor: req, standard: req, data_rate: req, media: req,
     fiber_type: cond({ field: "media", inList: ["mmf", "smf"] }),
     wavelength: cond({ field: "media", inList: ["mmf", "smf", "aoc"] }),
@@ -250,6 +299,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     wire_gauge: opt, msa: opt, dimensions: opt, weight: opt, certifications: opt, mtbf: opt,
   },
   security: {
+    anyconnect_sessions: opt, expansion_io: opt, shock: opt, redundancy: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req, form_factor: req,
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
     firewall_throughput: req, threat_throughput: req, ips_throughput: opt, vpn_throughput: opt,
@@ -260,14 +310,16 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     dimensions: req, weight: req, certifications: opt, mtbf: opt,
   },
   wireless: {
+    supported_transceivers: opt, antenna_gain: opt, polarization: opt, antenna_connector: opt, beamwidth_elevation: opt, mounting: opt, recycled_content: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req,
-    wifi_generation: req, spatial_streams: opt, radio_count: opt,
+    wifi_generation: req, spatial_streams: opt, radio_count: opt, radio_bands: opt,
     max_data_rate: opt, ap_max_clients: opt,
     wlc_ap_capacity: opt, wlc_client_capacity: opt,
     poe_standard: opt, power_max: opt,
     dimensions: opt, weight: opt, temp_operating: opt, certifications: opt, mtbf: opt,
   },
   routers: {
+    supported_modules: opt, usb_console: opt, redundancy: opt, chassis_compatibility: opt, etsi_standards: opt, supported_protocols: opt, min_software_release: opt, emc_immunity: opt, emc_emissions: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req, form_factor: opt,
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
     router_throughput: req, forwarding_rate: opt, ipsec_throughput: opt, ipsec_tunnels: opt,
@@ -277,6 +329,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   },
   // MDS storage-networking switches are Fibre Channel switches — the switch dictionary fields apply.
   "storage-networking": {
+    fabric_services: opt, serviceability: opt, supported_protocols: opt, programming_interfaces: opt, advanced_functions: opt, product_compatibility: opt, diagnostics: opt, redundancy: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req, form_factor: opt,
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
     ports: opt, switching_capacity: opt, forwarding_rate: opt, latency: opt, module_slots: opt,
@@ -285,12 +338,14 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   },
   // Transponders / muxponders / DWDM systems — reuse the transceiver optical fields.
   "optical-networking": {
+    optical_pm: opt, input_power_range: opt, coherent_interop_standards: opt, shelf_assembly: opt, min_software_release: opt, cross_connect: opt, slot_compatibility: opt, otn_pm: opt, attenuation_dead_zone: opt, reflective_dead_zone: opt, rx_wavelength: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req, form_factor: opt,
     data_rate: opt, wavelength: opt, reach_max: opt, connector: opt, fec: opt,
     power_max: opt, dimensions: opt, weight: opt, temp_operating: opt, certifications: opt, mtbf: opt,
   },
   // Line cards, network modules, interface cards.
   "interfaces-modules": {
+    itu_channel: opt, jacket_material: opt, jacket_color: opt, rx_wavelength: opt, supported_transceivers: opt, supported_modules: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req, form_factor: opt,
     ports: opt, uplink_ports: opt, poe_standard: opt, module_slots: opt,
     power_max: opt, dimensions: opt, weight: opt, temp_operating: opt, certifications: opt,
@@ -407,6 +462,29 @@ export function profileCounts(category: string) {
     optional: keys.filter((k) => p[k].kind === "opt").length,
     max_req: keys.filter((k) => p[k].kind === "req" || p[k].kind === "cond").length,
   };
+}
+
+// ---------------------------------------------------------------------------------------------
+// Generated vocabulary — merged in BEFORE CATEGORIES is computed, or the 15 categories that
+// only exist in the generated profiles would be missing from it.
+//
+// Why this exists: the hand-written dictionary above covers 8 categories. apply-specs-v2 drops
+// any fact whose category has no profile, and any field absent from its category's profile,
+// with no error either way — so servers-unified-computing (11,704 parts), video,
+// collaboration-endpoints, unified-communications, meraki and ten others discarded every spec
+// they produced. The generated half closes that, derived from the labels those categories
+// actually publish rather than guessed at.
+//
+// Merge order is deliberate: hand-written definitions WIN. A generated field never overwrites a
+// curated one, and a generated profile only adds fields to an existing category's profile.
+// eslint-disable-next-line import/first
+import { GENERATED_FIELDS, GENERATED_PROFILES } from "./fieldSchema.generated";
+
+for (const [key, def] of Object.entries(GENERATED_FIELDS)) {
+  if (!FIELD_DICTIONARY[key]) FIELD_DICTIONARY[key] = def;
+}
+for (const [cat, fields] of Object.entries(GENERATED_PROFILES)) {
+  PROFILES[cat] = { ...fields, ...(PROFILES[cat] || {}) };
 }
 
 export const CATEGORIES = Object.keys(PROFILES);

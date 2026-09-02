@@ -1,440 +1,2435 @@
 {
-  "_readme": [
-    "English datasheet-header -> field_key map, for the WP3 deep extractor.",
-    "Separate from attribute-aliases.de.json because that one maps HexCat's authored GERMAN",
-    "attribute names; this one maps Cisco's own English table labels.",
-    "",
-    "Rules are ORDERED REGEXES matched CASE-INSENSITIVELY, because the same fact is worded",
-    "differently across datasheet generations and even within one sheet:",
-    "  'Product Description' / 'Product description' / '[Product description]'",
-    "  'MTBF hours' / 'MTBF Hours' / 'MTBF (hours)' / 'Mean time between failures (hours)'",
-    "  'Power consumption (worst case)' / 'Power consumption (W) (no more than)' /",
-    "  'Power Consumption (Watts) (No More Than)'",
-    "First match wins, so specific patterns come first: 'Switching capacity with stacking' must",
-    "be matched before 'Switching capacity'.",
-    "",
-    "Sentinels:",
-    "  __not_a_spec     : ordering/marketing/licensing metadata that must never enter specs_v2",
-    "  __compat         : a real fact that belongs in the COMPAT store, not a spec field",
-    "                     ('Supported SFP modules' - 1,302 rows across the 10 golden sheets)",
-    "  __duplicate_unit : the same fact in a second unit (inches beside centimetres, pounds",
-    "                     beside kilograms). Dropped so completeness is not double counted.",
-    "  __backlog        : a real spec with no field_key yet; a NAMED gap, reported not guessed.",
-    "",
-    "AXIS ORDER: dimension labels are not consistently H x W x D. The 3850/3650 sheets use",
-    "'Unit dimensions (W x D x H)'. map-deep-specs.ts reads the axis order out of the label and",
-    "reorders the parsed triple; storing it positionally would silently file width as height.",
-    "",
-    "Two corrections after reading real values [M 2026-09-01]: 'Default AC power supply' yields '715W AC' (a rating) and was mapped to the psu_config ENUM, producing ENUM_VIOLATION on every row; it now feeds psu_options. 'Network module' yields 'C3850-NM-4-1G, C3850-NM-2-10G, ...' (a module list) and was mapped to the numeric module_slots, producing RANGE_VIOLATION; it is now __compat. Both were the mapping being wrong, not the data.",
-    "",
-    "THREE FIELDS PULLED BACK TO __backlog 2026-09-01 after checking column semantics by hand.",
-    "The provenance audit passed 10,493/10,493 - every value really was in the cell we recorded - but",
-    "passing that says nothing about whether the LABEL over the cell means what we assumed. Two of",
-    "these tables are keyed by a configuration (which PSU, which input voltage, half vs full port",
-    "traffic) that the schema has nowhere to record, so 'first row wins' silently picked one.",
-    "Better to hold the field than to publish a number that is right for a configuration nobody asked about."
+ "_readme": [
+  "English datasheet-header -> field_key map, for the WP3 deep extractor.",
+  "Separate from attribute-aliases.de.json because that one maps HexCat's authored GERMAN",
+  "attribute names; this one maps Cisco's own English table labels.",
+  "",
+  "Rules are ORDERED REGEXES matched CASE-INSENSITIVELY, because the same fact is worded",
+  "differently across datasheet generations and even within one sheet:",
+  "  'Product Description' / 'Product description' / '[Product description]'",
+  "  'MTBF hours' / 'MTBF Hours' / 'MTBF (hours)' / 'Mean time between failures (hours)'",
+  "  'Power consumption (worst case)' / 'Power consumption (W) (no more than)' /",
+  "  'Power Consumption (Watts) (No More Than)'",
+  "First match wins, so specific patterns come first: 'Switching capacity with stacking' must",
+  "be matched before 'Switching capacity'.",
+  "",
+  "Sentinels:",
+  "  __not_a_spec     : ordering/marketing/licensing metadata that must never enter specs_v2",
+  "  __compat         : a real fact that belongs in the COMPAT store, not a spec field",
+  "                     ('Supported SFP modules' - 1,302 rows across the 10 golden sheets)",
+  "  __duplicate_unit : the same fact in a second unit (inches beside centimetres, pounds",
+  "                     beside kilograms). Dropped so completeness is not double counted.",
+  "  __backlog        : a real spec with no field_key yet; a NAMED gap, reported not guessed.",
+  "",
+  "AXIS ORDER: dimension labels are not consistently H x W x D. The 3850/3650 sheets use",
+  "'Unit dimensions (W x D x H)'. map-deep-specs.ts reads the axis order out of the label and",
+  "reorders the parsed triple; storing it positionally would silently file width as height.",
+  "",
+  "Two corrections after reading real values [M 2026-09-01]: 'Default AC power supply' yields '715W AC' (a rating) and was mapped to the psu_config ENUM, producing ENUM_VIOLATION on every row; it now feeds psu_options. 'Network module' yields 'C3850-NM-4-1G, C3850-NM-2-10G, ...' (a module list) and was mapped to the numeric module_slots, producing RANGE_VIOLATION; it is now __compat. Both were the mapping being wrong, not the data.",
+  "",
+  "THREE FIELDS PULLED BACK TO __backlog 2026-09-01 after checking column semantics by hand.",
+  "The provenance audit passed 10,493/10,493 - every value really was in the cell we recorded - but",
+  "passing that says nothing about whether the LABEL over the cell means what we assumed. Two of",
+  "these tables are keyed by a configuration (which PSU, which input voltage, half vs full port",
+  "traffic) that the schema has nowhere to record, so 'first row wins' silently picked one.",
+  "Better to hold the field than to publish a number that is right for a configuration nobody asked about."
+ ],
+ "case_insensitive": true,
+ "rules": [
+  [
+   "^switching capacity with stacking",
+   "__backlog",
+   "stack-aggregate figure, needs its own field"
   ],
-  "case_insensitive": true,
-  "rules": [
-    [
-      "^switching capacity with stacking",
-      "__backlog",
-      "stack-aggregate figure, needs its own field"
-    ],
-    [
-      "^switching capacity|^switching bandwidth",
-      "switching_capacity",
-      ""
-    ],
-    [
-      "^forwarding rate with stacking",
-      "__backlog",
-      "stack-aggregate figure"
-    ],
-    [
-      "^forwarding rate|^forwarding performance",
-      "forwarding_rate",
-      ""
-    ],
-    [
-      "^unit dimensions|^platform physical specifications|^dimensions|^chassis dimensions",
-      "dimensions",
-      "axis order read from the label"
-    ],
-    [
-      "^(unit )?weight.*\\[pounds\\]|^pounds$",
-      "__duplicate_unit",
-      "same fact, imperial"
-    ],
-    [
-      "^(unit )?weight|^kilograms$",
-      "weight",
-      ""
-    ],
-    [
-      "mean time between failures|^mtbf",
-      "mtbf",
-      ""
-    ],
-    [
-      "^stacking bandwidth",
-      "stacking_bandwidth",
-      ""
-    ],
-    [
-      "^stacking support|^stack support",
-      "stackable",
-      ""
-    ],
-    [
-      "^available poe|^poe power budget|^total poe",
-      "__backlog",
-      "CONFIGURATION-DEPENDENT: table 3 lists one row per PSU. C9300-24P appears twice - 445W with the DEFAULT 715W PSU and 720W with the upgrade 1100W PSU. Storing whichever row comes first presents an upgrade figure as the part's PoE budget."
-    ],
-    [
-      "^perpetual poe|^poe\\+? on all ports",
-      "__backlog",
-      "per-port PoE capability matrix"
-    ],
-    [
-      "^total 10/100/1000|^total ports|^total mgig|^downlink|^ethernet interfaces|^10/100/1000 ethernet|^gigabit ethernet|^10 gigabit ethernet|^ports$|^port configuration",
-      "ports",
-      ""
-    ],
-    [
-      "^uplink configuration|^uplink ports|^uplink interfaces|^uplink module|^modular uplink|^fixed uplink",
-      "uplink_ports",
-      ""
-    ],
-    [
-      "^network module",
-      "__compat",
-      "a list of compatible module PIDs, not a slot count - belongs in the compat store"
-    ],
-    [
-      "^(default ac power supply|primary power supply|power supply|default or upgrade)",
-      "psu_options",
-      "the datasheet column gives a PSU RATING ('715W AC'), not the config enum; psu_config comes from the reviewed seed"
-    ],
-    [
-      "^optional secondary power supply|^secondary ps|^redundant power",
-      "psu_options",
-      ""
-    ],
-    [
-      "^with \\d+w secondary ps",
-      "__backlog",
-      "PoE budget with a named second PSU - a matrix, not a scalar"
-    ],
-    [
-      "measured p\\(w\\) \\[100%\\]|power consumption.*(worst case|no more than)",
-      "__backlog",
-      "AMBIGUOUS: the 9300/9200 power table's 'Measured P(W)' columns are HALF-port traffic; the true maximum is a separate 'Full port traffic' column. Needs multi-level header capture before it can be power_max."
-    ],
-    [
-      "measured p\\(w\\) \\[50%\\]",
-      "__backlog",
-      "AMBIGUOUS: half-port traffic at 50% load, and the table repeats per PSU and per input voltage (115Vac/230Vac). Not a single 'typical' figure."
-    ],
-    [
-      "measured p\\(w\\)|^\\d+% traffic|^half port traffic",
-      "__backlog",
-      "other load points (EEE, 10%, 30%, 90%, FEP, uplink, input)"
-    ],
-    [
-      "^total number of mac addresses|^mac address",
-      "mac_table",
-      ""
-    ],
-    [
-      "^total number of ipv4 routes|^ipv4 rout",
-      "ipv4_routes",
-      ""
-    ],
-    [
-      "^ipv6 rout",
-      "ipv6_routes",
-      ""
-    ],
-    [
-      "^multicast routing scale|^multicast group",
-      "multicast_groups",
-      ""
-    ],
-    [
-      "^acl scale entries|^acl entries",
-      "acl_entries",
-      ""
-    ],
-    [
-      "^packet buffer",
-      "packet_buffer",
-      ""
-    ],
-    [
-      "^jumbo frame",
-      "jumbo_mtu",
-      ""
-    ],
-    [
-      "^flash",
-      "flash",
-      ""
-    ],
-    [
-      "^dram|^memory",
-      "dram",
-      ""
-    ],
-    [
-      "^latency",
-      "latency",
-      ""
-    ],
-    [
-      "^acoustic noise",
-      "acoustic_noise",
-      ""
-    ],
-    [
-      "^operating temperature|environmental ranges.*temperature",
-      "temp_operating",
-      ""
-    ],
-    [
-      "^storage temperature|^nonoperating temperature",
-      "temp_storage",
-      ""
-    ],
-    [
-      "^(operating |relative )?humidity",
-      "humidity_operating",
-      ""
-    ],
-    [
-      "^(operating |nonoperating )?altitude",
-      "altitude_max",
-      ""
-    ],
-    [
-      "^heat dissipation|btu",
-      "heat_dissipation",
-      ""
-    ],
-    [
-      "^input voltage|^ac input voltage|^dc input voltage",
-      "input_voltage",
-      ""
-    ],
-    [
-      "^input frequency|^ac input frequency",
-      "input_freq",
-      ""
-    ],
-    [
-      "^standards$|^standards |^ieee standards|^compliance standards",
-      "ieee_standards",
-      ""
-    ],
-    [
-      "^total vlans|^active vlans|^vlan ids|^number of vlans",
-      "vlan_max",
-      ""
-    ],
-    [
-      "^total switched virtual interfaces|^svis",
-      "__backlog",
-      "SVI count is not vlan_max"
-    ],
-    [
-      "^supported sfp modules|^supported transceivers|^compatible (sfp|optics|modules)",
-      "__compat",
-      "belongs in the compat relation store, not specs_v2"
-    ],
-    [
-      "\\[product description\\]$|^product description$|^description$|^order product id$|^product id$|^part number$",
-      "__not_a_spec",
-      "ordering table columns"
-    ],
-    [
-      "^(packages|tiers|portability|management options|included support|management)$",
-      "__not_a_spec",
-      "licensing / management-model table"
-    ],
-    [
-      "^cisco catalyst .*(series|bundles|models)$|^compact models$",
-      "__not_a_spec",
-      "section heading, not an attribute"
-    ],
-    [
-      "^cisco (ios|dna) software|software (feature set|licenses)|network (essentials|advantage)",
-      "__not_a_spec",
-      "software licensing"
-    ],
-    [
-      "^cisco stackwise.*accessories",
-      "__not_a_spec",
-      ""
-    ],
-    [
-      "^(qos scale entries|fnf entries|pvst instances|stp virtual ports|total routed ports)",
-      "__backlog",
-      "real scale figures, no field_key yet"
-    ],
-    [
-      "^stackwise|^stackpower|^flexstack",
-      "__backlog",
-      "stacking technology name used as a row label"
-    ],
-    [
-      "^wireless ",
-      "__backlog",
-      "embedded-wireless sub-table"
-    ],
-    [
-      "^firewall throughput|^firewall$|^stateful.*firewall.*throughput",
-      "firewall_throughput",
-      "NGFW"
-    ],
-    [
-      "^ngfw.*throughput|^ngfw$|^threat inspection.*throughput|^threat$|^avc.*ips.*throughput",
-      "threat_throughput",
-      "NGFW+AVC+IPS"
-    ],
-    [
-      "^ips throughput|^ips$",
-      "ips_throughput",
-      ""
-    ],
-    [
-      "^ipsec vpn throughput|^vpn throughput",
-      "vpn_throughput",
-      ""
-    ],
-    [
-      "^maximum concurrent (sessions|connections)|^concurrent (sessions|connections)",
-      "concurrent_sessions",
-      ""
-    ],
-    [
-      "^new connections per second|^connections per second",
-      "new_conn_per_sec",
-      ""
-    ],
-    [
-      "^ipsec vpn peers|^vpn peers|^site-to-site vpn peers",
-      "vpn_peers",
-      ""
-    ],
-    [
-      "^maximum number of interfaces|^maximum interfaces",
-      "max_interfaces",
-      ""
-    ],
-    [
-      "^onboard storage|^local storage|^ssd$|^storage$",
-      "storage_capacity",
-      ""
-    ],
-    [
-      "wi-fi 7|wi-fi 6e|wi-fi 6|802.11ax|802.11ac|wireless standard|wi-fi standard|radio protocols",
-      "wifi_generation",
-      "WLAN"
-    ],
-    [
-      "spatial streams|number of spatial streams|mu-mimo streams",
-      "spatial_streams",
-      ""
-    ],
-    [
-      "number of radios|^radios$|radio configuration",
-      "radio_count",
-      ""
-    ],
-    [
-      "maximum data rate|aggregate data rate|^data rate$|maximum aggregate",
-      "max_data_rate",
-      ""
-    ],
-    [
-      "clients per radio|maximum clients per|associated clients per",
-      "ap_max_clients",
-      ""
-    ],
-    [
-      "maximum access points|access points supported|maximum number of access points|maximum aps",
-      "wlc_ap_capacity",
-      ""
-    ],
-    [
-      "maximum clients supported|concurrent clients|maximum number of clients",
-      "wlc_client_capacity",
-      ""
-    ],
-    [
-      "system throughput|aggregate throughput|ip throughput|wan throughput|total throughput|maximum throughput",
-      "router_throughput",
-      "routing"
-    ],
-    [
-      "ipsec throughput|encrypted throughput|crypto throughput",
-      "ipsec_throughput",
-      ""
-    ],
-    [
-      "ipsec tunnels|vpn tunnels|maximum tunnels|number of tunnels|site-to-site tunnels",
-      "ipsec_tunnels",
-      ""
-    ],
-    [
-      "typical power consumption|^typical power",
-      "power_typical",
-      ""
-    ],
-    [
-      "worst.case power|maximum power consumption|^power consumption$|^power consumption |^power draw|^system power",
-      "power_max",
-      ""
-    ],
-    [
-      "physical dimensions|product dimensions",
-      "dimensions",
-      ""
-    ],
-    [
-      "temperature range|^operating temperature|^temperature$|ambient operating temperature",
-      "temp_operating",
-      ""
-    ],
-    [
-      "storage temperature|nonoperating temperature",
-      "temp_storage",
-      ""
-    ],
-    [
-      "data rates supported|maximum data rate per|^data rate$",
-      "data_rate",
-      ""
-    ],
-    [
-      "^power supplies|power supply options|number of power supplies",
-      "psu_options",
-      ""
-    ],
-    [
-      "^operating humidity|relative humidity",
-      "humidity_operating",
-      ""
-    ],
-    [
-      "^general$|^performance$|^hardware$|^software$|^essentials$|^advantage$|^chassis$|^environment$|^environmental$|^safety$|^material$|^power$|^security$|^wan$|^lan switch$|^physical$|^reliability|^network management$|^feature description$|^hardware tables|^product name$|^spare components$|^regulatory compliance$|^applicable standard$|^information on|^warranty",
-      "__not_a_spec",
-      "section header / boilerplate"
-    ],
-    [
-      "end-of-life announcement|end-of-sale date|^last date of support|^last ship date|end of routine failure|end of service contract|end of new service|^last day of support|milestone.*date|end of sw maintenance",
-      "__not_a_spec",
-      "lifecycle date — EoL pipeline owns these"
-    ]
+  [
+   "^switching capacity|^switching bandwidth",
+   "switching_capacity",
+   ""
+  ],
+  [
+   "^forwarding rate with stacking",
+   "__backlog",
+   "stack-aggregate figure"
+  ],
+  [
+   "^forwarding rate|^forwarding performance",
+   "forwarding_rate",
+   ""
+  ],
+  [
+   "^unit dimensions|^platform physical specifications|^dimensions|^chassis dimensions",
+   "dimensions",
+   "axis order read from the label"
+  ],
+  [
+   "^(unit )?weight.*\\[pounds\\]|^pounds$",
+   "__duplicate_unit",
+   "same fact, imperial"
+  ],
+  [
+   "^(unit )?weight|^kilograms$",
+   "weight",
+   ""
+  ],
+  [
+   "mean time between failures|^mtbf",
+   "mtbf",
+   ""
+  ],
+  [
+   "^stacking bandwidth",
+   "stacking_bandwidth",
+   ""
+  ],
+  [
+   "^stacking support|^stack support",
+   "stackable",
+   ""
+  ],
+  [
+   "^available poe|^poe power budget|^total poe",
+   "__backlog",
+   "CONFIGURATION-DEPENDENT: table 3 lists one row per PSU. C9300-24P appears twice - 445W with the DEFAULT 715W PSU and 720W with the upgrade 1100W PSU. Storing whichever row comes first presents an upgrade figure as the part's PoE budget."
+  ],
+  [
+   "^perpetual poe|^poe\\+? on all ports",
+   "__backlog",
+   "per-port PoE capability matrix"
+  ],
+  [
+   "^total 10/100/1000|^total ports|^total mgig|^downlink|^ethernet interfaces|^10/100/1000 ethernet|^gigabit ethernet|^10 gigabit ethernet|^ports$|^port configuration",
+   "ports",
+   ""
+  ],
+  [
+   "^uplink configuration|^uplink ports|^uplink interfaces|^uplink module|^modular uplink|^fixed uplink",
+   "uplink_ports",
+   ""
+  ],
+  [
+   "^network module",
+   "__compat",
+   "a list of compatible module PIDs, not a slot count - belongs in the compat store"
+  ],
+  [
+   "^(default ac power supply|primary power supply|power supply|default or upgrade)",
+   "psu_options",
+   "the datasheet column gives a PSU RATING ('715W AC'), not the config enum; psu_config comes from the reviewed seed"
+  ],
+  [
+   "^optional secondary power supply|^secondary ps|^redundant power",
+   "psu_options",
+   ""
+  ],
+  [
+   "^with \\d+w secondary ps",
+   "__backlog",
+   "PoE budget with a named second PSU - a matrix, not a scalar"
+  ],
+  [
+   "measured p\\(w\\) \\[100%\\]|power consumption.*(worst case|no more than)",
+   "__backlog",
+   "AMBIGUOUS: the 9300/9200 power table's 'Measured P(W)' columns are HALF-port traffic; the true maximum is a separate 'Full port traffic' column. Needs multi-level header capture before it can be power_max."
+  ],
+  [
+   "measured p\\(w\\) \\[50%\\]",
+   "__backlog",
+   "AMBIGUOUS: half-port traffic at 50% load, and the table repeats per PSU and per input voltage (115Vac/230Vac). Not a single 'typical' figure."
+  ],
+  [
+   "measured p\\(w\\)|^\\d+% traffic|^half port traffic",
+   "__backlog",
+   "other load points (EEE, 10%, 30%, 90%, FEP, uplink, input)"
+  ],
+  [
+   "^total number of mac addresses|^mac address",
+   "mac_table",
+   ""
+  ],
+  [
+   "^total number of ipv4 routes|^ipv4 rout",
+   "ipv4_routes",
+   ""
+  ],
+  [
+   "^ipv6 rout",
+   "ipv6_routes",
+   ""
+  ],
+  [
+   "^multicast routing scale|^multicast group",
+   "multicast_groups",
+   ""
+  ],
+  [
+   "^acl scale entries|^acl entries",
+   "acl_entries",
+   ""
+  ],
+  [
+   "^packet buffer",
+   "packet_buffer",
+   ""
+  ],
+  [
+   "^jumbo frame",
+   "jumbo_mtu",
+   ""
+  ],
+  [
+   "^flash",
+   "flash",
+   ""
+  ],
+  [
+   "^dram|^memory",
+   "dram",
+   ""
+  ],
+  [
+   "^latency",
+   "latency",
+   ""
+  ],
+  [
+   "^acoustic noise",
+   "acoustic_noise",
+   ""
+  ],
+  [
+   "^operating temperature|environmental ranges.*temperature",
+   "temp_operating",
+   ""
+  ],
+  [
+   "^storage temperature|^nonoperating temperature",
+   "temp_storage",
+   ""
+  ],
+  [
+   "^(operating |relative )?humidity",
+   "humidity_operating",
+   ""
+  ],
+  [
+   "^(operating |nonoperating )?altitude",
+   "altitude_max",
+   ""
+  ],
+  [
+   "^heat dissipation|btu",
+   "heat_dissipation",
+   ""
+  ],
+  [
+   "^input voltage|^ac input voltage|^dc input voltage",
+   "input_voltage",
+   ""
+  ],
+  [
+   "^input frequency|^ac input frequency",
+   "input_freq",
+   ""
+  ],
+  [
+   "^standards$|^standards |^ieee standards|^compliance standards",
+   "ieee_standards",
+   ""
+  ],
+  [
+   "^total vlans|^active vlans|^vlan ids|^number of vlans",
+   "vlan_max",
+   ""
+  ],
+  [
+   "^total switched virtual interfaces|^svis",
+   "__backlog",
+   "SVI count is not vlan_max"
+  ],
+  [
+   "^supported sfp modules|^supported transceivers|^compatible (sfp|optics|modules)",
+   "__compat",
+   "belongs in the compat relation store, not specs_v2"
+  ],
+  [
+   "\\[product description\\]$|^product description$|^description$|^order product id$|^product id$|^part number$",
+   "__not_a_spec",
+   "ordering table columns"
+  ],
+  [
+   "^(packages|tiers|portability|management options|included support|management)$",
+   "__not_a_spec",
+   "licensing / management-model table"
+  ],
+  [
+   "^cisco catalyst .*(series|bundles|models)$|^compact models$",
+   "__not_a_spec",
+   "section heading, not an attribute"
+  ],
+  [
+   "^cisco (ios|dna) software|software (feature set|licenses)|network (essentials|advantage)",
+   "__not_a_spec",
+   "software licensing"
+  ],
+  [
+   "^cisco stackwise.*accessories",
+   "__not_a_spec",
+   ""
+  ],
+  [
+   "^(qos scale entries|fnf entries|pvst instances|stp virtual ports|total routed ports)",
+   "__backlog",
+   "real scale figures, no field_key yet"
+  ],
+  [
+   "^stackwise|^stackpower|^flexstack",
+   "__backlog",
+   "stacking technology name used as a row label"
+  ],
+  [
+   "^wireless ",
+   "__backlog",
+   "embedded-wireless sub-table"
+  ],
+  [
+   "^firewall throughput|^firewall$|^stateful.*firewall.*throughput",
+   "firewall_throughput",
+   "NGFW"
+  ],
+  [
+   "^ngfw.*throughput|^ngfw$|^threat inspection.*throughput|^threat$|^avc.*ips.*throughput",
+   "threat_throughput",
+   "NGFW+AVC+IPS"
+  ],
+  [
+   "^ips throughput|^ips$",
+   "ips_throughput",
+   ""
+  ],
+  [
+   "^ipsec vpn throughput|^vpn throughput",
+   "vpn_throughput",
+   ""
+  ],
+  [
+   "^maximum concurrent (sessions|connections)|^concurrent (sessions|connections)",
+   "concurrent_sessions",
+   ""
+  ],
+  [
+   "^new connections per second|^connections per second",
+   "new_conn_per_sec",
+   ""
+  ],
+  [
+   "^ipsec vpn peers|^vpn peers|^site-to-site vpn peers",
+   "vpn_peers",
+   ""
+  ],
+  [
+   "^maximum number of interfaces|^maximum interfaces",
+   "max_interfaces",
+   ""
+  ],
+  [
+   "^onboard storage|^local storage|^ssd$|^storage$",
+   "storage_capacity",
+   ""
+  ],
+  [
+   "wi-fi 7|wi-fi 6e|wi-fi 6|802.11ax|802.11ac|wireless standard|wi-fi standard|radio protocols",
+   "wifi_generation",
+   "WLAN"
+  ],
+  [
+   "spatial streams|number of spatial streams|mu-mimo streams",
+   "spatial_streams",
+   ""
+  ],
+  [
+   "number of radios|^radios$|radio configuration",
+   "radio_count",
+   ""
+  ],
+  [
+   "maximum data rate|aggregate data rate|^data rate$|maximum aggregate",
+   "max_data_rate",
+   ""
+  ],
+  [
+   "clients per radio|maximum clients per|associated clients per",
+   "ap_max_clients",
+   ""
+  ],
+  [
+   "maximum access points|access points supported|maximum number of access points|maximum aps",
+   "wlc_ap_capacity",
+   ""
+  ],
+  [
+   "maximum clients supported|concurrent clients|maximum number of clients",
+   "wlc_client_capacity",
+   ""
+  ],
+  [
+   "system throughput|aggregate throughput|ip throughput|wan throughput|total throughput|maximum throughput",
+   "router_throughput",
+   "routing"
+  ],
+  [
+   "ipsec throughput|encrypted throughput|crypto throughput",
+   "ipsec_throughput",
+   ""
+  ],
+  [
+   "ipsec tunnels|vpn tunnels|maximum tunnels|number of tunnels|site-to-site tunnels",
+   "ipsec_tunnels",
+   ""
+  ],
+  [
+   "typical power consumption|^typical power",
+   "power_typical",
+   ""
+  ],
+  [
+   "worst.case power|maximum power consumption|^power consumption$|^power consumption |^power draw|^system power",
+   "power_max",
+   ""
+  ],
+  [
+   "physical dimensions|product dimensions",
+   "dimensions",
+   ""
+  ],
+  [
+   "temperature range|^operating temperature|^temperature$|ambient operating temperature",
+   "temp_operating",
+   ""
+  ],
+  [
+   "storage temperature|nonoperating temperature",
+   "temp_storage",
+   ""
+  ],
+  [
+   "data rates supported|maximum data rate per|^data rate$",
+   "data_rate",
+   ""
+  ],
+  [
+   "^power supplies|power supply options|number of power supplies",
+   "psu_options",
+   ""
+  ],
+  [
+   "^operating humidity|relative humidity",
+   "humidity_operating",
+   ""
+  ],
+  [
+   "^general$|^performance$|^hardware$|^software$|^essentials$|^advantage$|^chassis$|^environment$|^environmental$|^safety$|^material$|^power$|^security$|^wan$|^lan switch$|^physical$|^reliability|^network management$|^feature description$|^hardware tables|^product name$|^spare components$|^regulatory compliance$|^applicable standard$|^information on|^warranty",
+   "__not_a_spec",
+   "section header / boilerplate"
+  ],
+  [
+   "end-of-life announcement|end-of-sale date|^last date of support|^last ship date|end of routine failure|end of service contract|end of new service|^last day of support|milestone.*date|end of sw maintenance",
+   "__not_a_spec",
+   "lifecycle date — EoL pipeline owns these"
+  ],
+  [
+   "frequency band|operating channels|operating frequency band|supported frequency|^frequency bands",
+   "radio_bands",
+   "WLAN RF"
+  ],
+  [
+   "^form factor$|^form-factor$",
+   "form_factor",
+   ""
+  ],
+  [
+   "network equipment building standards|^nebs|^emc standards|^emi standards|^safety standards|^emissions standards|^immunity standards",
+   "certifications",
+   ""
+  ],
+  [
+   "^physical specifications$|^power specifications$|^general specifications$|^environmental specifications$|^performance specifications$",
+   "__not_a_spec",
+   "section header"
+  ],
+  [
+   "licens(e|ing)|^lan$|^wi-fi$|^interfaces$|^immunity$|^conducted|point-to-multipoint|transparent roaming|^pluggable$|with a900|with a901|-rsp[0-9]",
+   "__not_a_spec",
+   "license / config-bundle / section noise"
+  ],
+  [
+   "^cable type$",
+   "fiber_type",
+   "[agent switches] Samples MMF/SMF are multimode vs single-mode fiber, exactly the fiber_type enum. Copper cases would fall to media, but o"
+  ],
+  [
+   "^ac/dc input voltage(?: and current)?$",
+   "input_voltage",
+   "[agent switches] Names input voltage (a real spec despite model-name heading samples). Current has no dedicated field; capture the voltag"
+  ],
+  [
+   "^max(?:imum)? distance$",
+   "reach_max",
+   "[agent switches] Transceiver max optical/copper reach (e.g. 2 km, 10 km) maps to reach_max (struct,m)."
+  ],
+  [
+   "^airflow$",
+   "airflow",
+   "[agent switches] Directly the airflow-direction enum (port-side intake/exhaust, front-to-back)."
+  ],
+  [
+   "^fabric capacity$",
+   "switching_capacity",
+   "[agent routers] Chassis switch-fabric capacity is the total switching bandwidth; values in Tbps must normalize to Gbit/s. Some samples ("
+  ],
+  [
+   "^management ports?$",
+   "mgmt_ports",
+   "[agent routers] Direct synonym for the existing mgmt_ports field. Sample values are prose ('Provides easy access to system console') and"
+  ],
+  [
+   "^port density$",
+   "ports",
+   "[agent routers] Port density describes the count/speed of front-panel ports = port configuration; maps to the existing ports struct fiel"
+  ],
+  [
+   "^air[\\s-]?flow$",
+   "airflow",
+   "[agent routers] Exact synonym of the existing airflow enum ('Front to back', 'Front-to-back airflow')."
+  ],
+  [
+   "^power options?$",
+   "psu_options",
+   "[agent routers] Lists orderable power-supply SKUs/options ('NCS-1100W-ACRV', 'NCS 5500 AC 1100W Power Supply') = existing psu_options li"
+  ],
+  [
+   "^module weight",
+   "weight",
+   "[agent interfaces-modules] Module/transceiver weight. Values are in grams (e.g. '100 g') while the weight field unit is kg — normalize g->kg (100 g"
+  ],
+  [
+   "^transmitter optical output power$",
+   "tx_power",
+   "[agent interfaces-modules] Transmitter optical output power in dBm maps to the existing tx_power (nr,dBm). Sample 'P out' is a leaked sub-label; re"
+  ],
+  [
+   "^single fiber connector$",
+   "connector",
+   "[agent interfaces-modules] Connector type/end-face for single-fiber cable (e.g. 'Single Mode UPC'). Maps to connector enum. 'Insertion Loss' in sam"
+  ],
+  [
+   "^max(imum)? power consumption",
+   "power_max",
+   "[agent interfaces-modules] Maximum power draw in watts -> power_max (n,W). Note some optics express '1.5 per end' for active cables; store the max "
+  ],
+  [
+   "^max rated power",
+   "power_max",
+   "[agent interfaces-modules] Max rated power in watts (e.g. 118, 75) -> power_max (n,W). Same semantic as 'Max power consumption'."
+  ],
+  [
+   "^(rated )?mtbf",
+   "mtbf",
+   "[agent interfaces-modules] Rated MTBF in hours -> existing mtbf (n,h). Values like '524,630' — strip thousands separators."
+  ],
+  [
+   "^wavelength$",
+   "wavelength",
+   "[agent video] Optical wavelength of the node's Tx/Rx. Values here are often dual (e.g. '1310 and 1550'), i.e. two wavelengths for forw"
+  ],
+  [
+   "^width$",
+   "dimensions",
+   "[agent video] Single-axis physical measurement (the W of the dimensions H×W×D struct). Value here is in inches (e.g. '2.3 or 3.45') an"
+  ],
+  [
+   "^height$",
+   "dimensions",
+   "[agent video] Single-axis physical measurement (the H of the dimensions H×W×D struct). Value here is in inches (e.g. '4.0'); feeds the"
+  ],
+  [
+   "^Integrated I/O$",
+   "ports",
+   "[agent security] Built-in interface set on firewall appliances (e.g. '12 x 10M/100M/1GBASE-T Ethernet interfaces') — same concept as swit"
+  ],
+  [
+   "^Stateful inspection throughput",
+   "firewall_throughput",
+   "[agent security] Stateful (L3/L4) inspection throughput is the classic firewall throughput metric. One regex covers both the '(maximum)' "
+  ],
+  [
+   "^Throughput: ?NGIPS",
+   "ips_throughput",
+   "[agent security] NGIPS (next-gen IPS) throughput maps to ips_throughput. One regex covers both packet-size variants (1024B and 450B)."
+  ],
+  [
+   "^Maximum new connections per second$",
+   "new_conn_per_sec",
+   "[agent security] Directly matches new_conn_per_sec; values like '27K' are connections/second."
+  ],
+  [
+   "^Electromagnetic Compatibility",
+   "certifications",
+   "[agent security] EMC values are certification/compliance marks (CE marking, FCC Part 15 Class A, EN55022) — folds into the certifications"
+  ],
+  [
+   "^available transmit power settings$",
+   "tx_power",
+   "[agent wireless] Wireless AP transmit power settings, per band (e.g. '2.4 GHz Up to 20 dBm', '5 GHz Up to 20 dBm'); dimensionally TX powe"
+  ],
+  [
+   "^frequency range$",
+   "radio_bands",
+   "[agent wireless] Antenna/radio operating frequency range (e.g. '2.4 to 2.5 GHz 5.150 to 5.925 GHz'); same concept as existing radio_bands"
+  ],
+  [
+   "^switching capability per fabric$",
+   "switching_capacity",
+   "[agent storage-networking] Per-fabric Fibre Channel switching bandwidth (Gbit/s) on director-class MDS chassis; core meaning is switching capacity."
+  ],
+  [
+   "^approvals and compliance$",
+   "certifications",
+   "[agent storage-networking] Safety/EMC approvals and regulatory marks (CE Marking, UL 60950, FCC, etc.) - identical concept to the certifications li"
+  ],
+  [
+   "^transmitter center wavelength$",
+   "wavelength",
+   "[agent storage-networking] Optical transmitter center wavelength = wavelength (nm). Label maps cleanly; sample values shown ('Lambda_c', '(x - 4)')"
+  ],
+  [
+   "^RFC compliance$",
+   "rfc_compliance",
+   "[agent switches] List of supported RFC standards (e.g. RFC 768 UDP, RFC 791 IP, RFC 1305 NTP). Protocol com"
+  ],
+  [
+   "^EMC: Immunity$",
+   "emc_immunity",
+   "[agent switches] EMC immunity standards list (EN55024, CISPR24, EN300386, KN61000). Distinct list from EMC "
+  ],
+  [
+   "^EMC: Emissions$",
+   "emc_emissions",
+   "[agent switches] EMC emissions standards list (47CFR Part 15 Class A, AS/NZS CISPR22). Separate list from E"
+  ],
+  [
+   "^Measured 100% throughput power consumption$",
+   "power_full_load",
+   "[agent switches] Measured power draw at full (100%) throughput. Cisco lists this alongside weighted/typical"
+  ],
+  [
+   "^Supported SPAs$",
+   "supported_modules",
+   "[agent routers] Pluggable modules a modular chassis/SIP accepts: SPAs (Shared Port Adapters), line cards, "
+  ],
+  [
+   "^Line cards$",
+   "supported_modules",
+   "[agent routers] Pluggable modules a modular chassis/SIP accepts: SPAs (Shared Port Adapters), line cards, "
+  ],
+  [
+   "^Integrated USB 3\\.0 console$",
+   "usb_console",
+   "[agent routers] Boolean management-interface feature; sample values 'Yes' / 'Yes (No AUX)'. Parenthetical "
+  ],
+  [
+   "^Redundancy$",
+   "redundancy",
+   "[agent routers] General reliability redundancy across fans and power ('Redundant fan tray', '6 x Redundant"
+  ],
+  [
+   "^Software compatibility$",
+   "min_software_release",
+   "[agent routers] Minimum/supported operating-system release, typically 'Cisco IOS XR Software Release X.Y.Z"
+  ],
+  [
+   "^Chassis compatibility$",
+   "chassis_compatibility",
+   "[agent routers] For line cards/components: which chassis they fit ('Compatible with all current Cisco CRS-"
+  ],
+  [
+   "^ETSI standards$",
+   "etsi_standards",
+   "[agent routers] ETSI/telecom regulatory compliance, parallel to the existing ieee_standards field. Extract"
+  ],
+  [
+   "^Protocols$",
+   "supported_protocols",
+   "[agent routers] Supported routing/network protocols ('Layer 3 routing protocols: Border Gateway Protocol.."
+  ],
+  [
+   "^EMC immunity$",
+   "emc_immunity",
+   "[agent routers] Electromagnetic-compatibility immunity standards (EN55024/CISPR24, EN61000-4-2, CISPR35, E"
+  ],
+  [
+   "^ITU Channel$",
+   "itu_channel",
+   "[agent interfaces-modules] DWDM ITU-T grid channel identifier for tunable/fixed DWDM optics (e.g. '20', '25', often w"
+  ],
+  [
+   "^Jacket Material$",
+   "jacket_material",
+   "[agent interfaces-modules] Outer jacket material of a copper/fiber cable assembly (DAC/AOC/patch). Enum: PVC, LSZH, O"
+  ],
+  [
+   "^Jacket Color$",
+   "jacket_color",
+   "[agent interfaces-modules] Outer jacket color of a cable assembly (Black, Orange, Aqua, Yellow...). Meaningful spec b"
+  ],
+  [
+   "^Receiver optical input wavelength$",
+   "rx_wavelength",
+   "[agent interfaces-modules] Receiver optical input wavelength range the module accepts (e.g. 1530-1565 nm). Deliberate"
+  ],
+  [
+   "^Trunk optical performance monitoring$",
+   "optical_pm",
+   "[agent optical-networking] List of monitored trunk-side optical PM parameters (e.g. transmit optical power, OPT). Dis"
+  ],
+  [
+   "^Input power range$",
+   "input_power_range",
+   "[agent optical-networking] Receiver/amplifier optical input operating window (e.g. -9 to -28 dBm). Distinct from the "
+  ],
+  [
+   "^Open ZR\\+$",
+   "coherent_interop_standards",
+   "[agent optical-networking] Supported coherent line-side interop standards (Open ZR+, Open ROADM, OpenConfig...). In t"
+  ],
+  [
+   "^Open ROADM$",
+   "coherent_interop_standards",
+   "[agent optical-networking] Supported coherent line-side interop standards (Open ZR+, Open ROADM, OpenConfig...). In t"
+  ],
+  [
+   "^Shelf assembly$",
+   "shelf_assembly",
+   "[agent optical-networking] Physical shelf/chassis type the cards install into (e.g. 15454-SA-ANSI, 15454-SA-HD, 15454"
+  ],
+  [
+   "^System software$",
+   "min_software_release",
+   "[agent optical-networking] Minimum software/firmware release required (e.g. 'Release 4.6.0 or later', 'Release 9.1.0 "
+  ],
+  [
+   "^Attenuation dead zone$",
+   "attenuation_dead_zone",
+   "[agent optical-networking] OTDR attenuation dead zone in metres. Some scraped cells contain the measurement scenario "
+  ],
+  [
+   "^Reflective dead zone$",
+   "reflective_dead_zone",
+   "[agent optical-networking] OTDR reflective (event) dead zone in metres. Parallel to attenuation_dead_zone; some cells"
+  ],
+  [
+   "^Cross-connect$",
+   "cross_connect",
+   "[agent optical-networking] Cross-connect (switching-fabric) capability of the optical shelf/ROADM. Scraped values are"
+  ],
+  [
+   "^Slot compatibility$",
+   "slot_compatibility",
+   "[agent optical-networking] Which physical slot positions a card is compatible with (e.g. '1 to 6, 12 to 17'). Distinc"
+  ],
+  [
+   "^OTUk Monitoring$",
+   "otn_pm",
+   "[agent optical-networking] OTN digital performance-monitoring parameters (BBE, ES, SES, etc.) monitored near-/far-end"
+  ],
+  [
+   "^Cisco AnyConnect or clientless VPN user sessions$",
+   "anyconnect_sessions",
+   "[agent security] Remote-access SSL/clientless VPN user session capacity. Distinct from IPsec vpn_peers/ipse"
+  ],
+  [
+   "^Expansion I/O$",
+   "expansion_io",
+   "[agent security] Optional expansion-module network interfaces on firewall appliances (e.g. '4 GE copper or "
+  ],
+  [
+   "^Shock$",
+   "shock",
+   "[agent security] Mechanical shock tolerance under the environmental section; values are compound strings li"
+  ],
+  [
+   "^Enhanced SFP$",
+   "supported_transceivers",
+   "[agent wireless] List of supported SFP/SFP+ transceiver part numbers for controller/switch uplinks (values "
+  ],
+  [
+   "^Small Form-Factor Pluggable$",
+   "supported_transceivers",
+   "[agent wireless] List of supported SFP/SFP+ transceiver part numbers for controller/switch uplinks (values "
+  ],
+  [
+   "^SFP supported on the C9800-L-F-K9 Model$",
+   "supported_transceivers",
+   "[agent wireless] List of supported SFP/SFP+ transceiver part numbers for controller/switch uplinks (values "
+  ],
+  [
+   "^Gain$",
+   "antenna_gain",
+   "[agent wireless] Antenna gain in dBi. Dual values like '6/8 dBi' are per-band (2.4 GHz / 5 GHz), hence stru"
+  ],
+  [
+   "^Polarization$",
+   "polarization",
+   "[agent wireless] Antenna polarization (Linear / Vertical / Horizontal / Circular). Compound multi-antenna v"
+  ],
+  [
+   "^Antenna connector$",
+   "antenna_connector",
+   "[agent wireless] RF antenna port connector (RP-TNC, N-male/N-type, SMA). Kept separate from the existing 'c"
+  ],
+  [
+   "^Elevation 3-dB beamwidth$",
+   "beamwidth_elevation",
+   "[agent wireless] Antenna 3-dB (half-power) beamwidth in the elevation/vertical plane, in degrees (e.g. '40 "
+  ],
+  [
+   "^Mounting$",
+   "mounting",
+   "[agent wireless] Physical mounting method/interface of the AP or antenna (e.g. 'Direct mount', 'To RP-TNC c"
+  ],
+  [
+   "^Recycled Content$",
+   "recycled_content",
+   "[agent wireless] Environmental/sustainability spec: recycled material content. Values mix a category ('Pre-"
+  ],
+  [
+   "^Fabric services$",
+   "fabric_services",
+   "[agent storage-networking] List of Fibre Channel fabric services supported (Name server, Registered State Change Noti"
+  ],
+  [
+   "^Serviceability$",
+   "serviceability",
+   "[agent storage-networking] List of serviceability/manageability features (configuration file management, non-disrupti"
+  ],
+  [
+   "^Programming interfaces$",
+   "programming_interfaces",
+   "[agent storage-networking] List of programmability/automation interfaces (Scriptable CLI, NDFC/DCNM web services, NET"
+  ],
+  [
+   "^Advanced functions$",
+   "advanced_functions",
+   "[agent storage-networking] List of advanced SAN switching features (VSAN, IVR, NPV, PortChannel with multipathing, et"
+  ],
+  [
+   "^Product compatibility$",
+   "product_compatibility",
+   "[agent storage-networking] Which product platform/family the module or component is compatible with (e.g. 'Cisco MDS "
+  ],
+  [
+   "^Diagnostics and troubleshooting tools$",
+   "diagnostics",
+   "[agent storage-networking] List of diagnostic/troubleshooting capabilities (POST diagnostics, online diagnostics, SPA"
+  ],
+  [
+   "^data rates? supporte ?d$",
+   "data_rate",
+   "routers: Values are PHY rate lists (\"802.11b: 1, 2, 5.5, and 11 Mbps\"); the OCR splits \"supported\", so allow the stray space."
+  ],
+  [
+   "^supported as of cisco ios( xe)? (software )?release$",
+   "min_software_release",
+   "routers: Values are bare train/release numbers (16.7.1, 3.18.1SP, 17.2.1) = the minimum software release for support. Covers the IOS XE variant too."
+  ],
+  [
+   "^connector type$",
+   "connector",
+   "routers: Values are connector styles/genders (Male, Female, SC, Plug)."
+  ],
+  [
+   "^length$",
+   "cable_length",
+   "routers: Values are cable lengths (\"10 ft (3 m)\") in the cable/accessory tables, not a chassis dimension."
+  ],
+  [
+   "^receive sensitivity$",
+   "rx_sensitivity",
+   "routers: Values are dBm sensitivity figures per modulation (\"-96 dBm @ 6 Mbps\"). Deliberately does NOT match the combined \"Transmit power and receive "
+  ],
+  [
+   "^ethernet$",
+   "ieee_standards",
+   "routers: Values are IEEE conformance statements (\"100-Gbps IEEE 802.3ba compliant\", \"IEEE 802.3ae\"), not a port count."
+  ],
+  [
+   "^compliance$",
+   "ieee_standards",
+   "routers: Values are IEEE optical Ethernet standards (IEEE 802.3ae 10GBASE-LR/ER)."
+  ],
+  [
+   "^(voice|lan|cellular) modules$",
+   "supported_modules",
+   "routers: Values are the module product descriptions the platform accepts (\"2-port FXO NIM\", \"4-port 1/10 Gbps SFP/SFP+ switch NIM\", \"CAT7 LTE Advanced"
+  ],
+  [
+   "^(serial|async) wan interface$",
+   "supported_modules",
+   "routers: Values are supported interface cards (\"4-port serial high-speed WAN interface card\", \"24-port Asynchronous Module\"), i.e. a supported-module "
+  ],
+  [
+   "^telecom$",
+   "certifications",
+   "routers: Values are homologation/telecom approvals (TIA-968-B, CS-03, HKTA 2028, TBR21)."
+  ],
+  [
+   "^encapsulations$",
+   "supported_protocols",
+   "routers: Values are protocol/encapsulation lists (GRE, 802.1q VLAN, PPP, IPSec)."
+  ],
+  [
+   "^(network: *)?network protocols$",
+   "supported_protocols",
+   "routers: Values are protocols (DHCP server, PPPoE, PPTP, DNS proxy). Covers the section-prefixed variant."
+  ],
+  [
+   "^layer [23]$",
+   "supported_protocols",
+   "routers: Values are protocol/feature lists (EFP bridge domains, 802.1Q/Q-in-Q; IPv4/IPv6 unicast routing, VRF), not the device's layer classification "
+  ],
+  [
+   "^ipv6 features$",
+   "supported_protocols",
+   "routers: Values are IPv6 protocol capabilities (addressing architecture, unicast and multicast forwarding, name resolution)."
+  ],
+  [
+   "^number of ports$",
+   "ports",
+   "routers: Values are bare integers (1, 2, 4, 6)."
+  ],
+  [
+   "^total onboard wan or lan 10/100/1000 ports$",
+   "ports",
+   "routers: Values are bare integers and this is explicitly the TOTAL onboard port count. The RJ-45/SFP breakdown rows are rejected so they cannot overwr"
+  ],
+  [
+   "^mean time between fail",
+   "mtbf",
+   "routers: MTBF hours per SKU. Prefix match because the parenthetical condition wording varies."
+  ],
+  [
+   "^maximum input dc$",
+   "power_max",
+   "routers: Label says DC but the values are watts (242W, 360W, 500W, 590W), so this is maximum power draw, not a voltage."
+  ],
+  [
+   "^maximum power with ac power supply",
+   "power_max",
+   "routers: Values are watts (\"1000W (no PoE)\", \"450 (no PoE)\")."
+  ],
+  [
+   "^high[ -]availability( features)?$",
+   "redundancy",
+   "routers: Values are redundancy mechanisms (VRRP RFC 2338, HSRP/MHSRP, stateful active/standby)."
+  ],
+  [
+   "^rack height$",
+   "rack_units",
+   "routers: Values are rack units (\"1 Rack Unit (1RU)\", \"3 Rack Units (3RU)\")."
+  ],
+  [
+   "^default and maximum flash memory$",
+   "flash",
+   "routers: Values are flash sizes (4 GB, 8 GB, 256 MB, 512 MB)."
+  ],
+  [
+   "^default and maximum dram$",
+   "dram",
+   "routers: Values are DRAM sizes (512 MB default, up to 1 GB, 8 GB)."
+  ],
+  [
+   "^chassis support$",
+   "chassis_compatibility",
+   "routers: Values are chassis lists the card fits (ASR1004, ASR1006-X, ASR1009-X, ASR1013)."
+  ],
+  [
+   "^power[ -]supply options$",
+   "psu_options",
+   "routers: Values are PSU variants (\"Internal: AC, DC and PoE\", \"External: AC and PoE\")."
+  ],
+  [
+   "^power inputs?$",
+   "input_voltage",
+   "routers: Values are input voltage ranges (\"Worldwide ranging AC (90-265V; 50-60 Hz)\", \"-40V to ...\"). Frequency rides along in the same string, but vo"
+  ],
+  [
+   "^nim slots$",
+   "module_slots",
+   "routers: Values are bare slot counts (1, 2, 3). Only the canonical NIM slot row is mapped; the other slot-type breakdown rows are rejected so they can"
+  ],
+  [
+   "^automation$",
+   "programming_interfaces",
+   "routers: Values are programmability/automation interfaces (ZTP, iPXE, NETCONF, configuration management)."
+  ],
+  [
+   "^environmental operating range$",
+   "temp_operating",
+   "routers: Values are operating temperature ranges (\"0 to 40°C (32 to 104°F)\", \"-25 to 60 C\")."
+  ],
+  [
+   "^etsi and en$",
+   "etsi_standards",
+   "routers: Values are EN/ETSI standards (EN 300 386, EN55022)."
+  ],
+  [
+   "^(dom support|digital optical monitoring \\(dom\\) support)$",
+   "ddm",
+   "switches: Values are Yes/No/NA - this is digital diagnostics monitoring on the pluggable, exactly what ddm holds. Covers the 'Dom support' / 'DOM Supp"
+  ],
+  [
+   "^temp range *\\*?$",
+   "temp_class",
+   "switches: Values are IND / COM / EXT / INS, which are Cisco optic temperature classes (industrial, commercial, extended, industrial-standard), not a n"
+  ],
+  [
+   "^primary application$",
+   "deploy_role",
+   "switches: Values are 'Data center and server farm', 'Premier wiring closet', 'Server farm' - placement in the network, which is what deploy_role means"
+  ],
+  [
+   "^rated nominal input operating range$",
+   "input_power_range",
+   "switches: Values are composite input specs ('AC 100-240V 3.3A 50-60 Hz or DC 100-250V 3.3A'). input_power_range already exists for exactly this combin"
+  ],
+  [
+   "^maximum frame size.*jumbo frame support$",
+   "jumbo_mtu",
+   "switches: Values are 'Up to 9216 bytes per frame' / 'Up to 1518 bytes per frame' - the maximum frame size, which is what jumbo_mtu records."
+  ],
+  [
+   "^buffer size/port$",
+   "packet_buffer",
+   "switches: Values are '5.3 MB', '128 KB', '1 MB per 8 ports' - packet buffer memory. Kept separate from the system-buffer alias so the per-port qualifi"
+  ],
+  [
+   "^system buffer$",
+   "packet_buffer",
+   "switches: Values are '40 MB', '64 MB', '20 MB' - the same packet buffer concept measured system-wide."
+  ],
+  [
+   "^(x2 optics|standard sfps|1g sfp modules)$",
+   "supported_transceivers",
+   "switches: Values are transceiver names and part numbers ('10GBASE-LRM X2 (multimode fiber)', '1000BASE-T SFP', 'GLC-SX-MM') - a list of pluggables the"
+  ],
+  [
+   "^mount type$",
+   "mounting",
+   "switches: Value is '1U Rack Mount' - mounting method."
+  ],
+  [
+   "^hot swap power supply$",
+   "psu_redundant",
+   "switches: Value 'Yes, Dual' states dual hot-swappable supplies, which is the redundancy statement psu_redundant carries."
+  ],
+  [
+   "^default power supply$",
+   "psu_config",
+   "switches: Values are PSU part numbers shipped by default ('PWR-C1-350WAC-P-M'), i.e. the as-shipped power configuration. psu_options is the orderable "
+  ],
+  [
+   "^unicast mac addresses$",
+   "mac_table",
+   "switches: Values are 8000 / 16000 / 16,000 - the unicast MAC address table size."
+  ],
+  [
+   "^uplinks$",
+   "uplink_ports",
+   "switches: Values describe uplink port counts and media ('2 x 1G copper or 2 x 1G SFP', 'Eight Gigabit Ethernet ports, SFP based')."
+  ],
+  [
+   "^(system memory|synchronous dynamic ram \\(sdram\\))$",
+   "dram",
+   "switches: Values are '4 GB', '256 MB', 'Default: 16GB Expandable: 16GB' - main system RAM, which is dram. Deliberately not flash: none of the samples "
+  ],
+  [
+   "^acoustics$",
+   "acoustic_noise",
+   "switches: Values are dBA figures per fan speed."
+  ],
+  [
+   "^(cooling|fans)$",
+   "cooling",
+   "switches: Both labels carry fan and airflow-scheme descriptions ('Forward airflow: port-side exhaust', 'Cisco Nexus fan, 35CFM, port-side intake'). 'F"
+  ],
+  [
+   "^layer 2 switching$",
+   "supported_protocols",
+   "switches: Values are protocol lists ('802.1Q, 802.1w, 802.1ab, 802.1s, 802.3ad, LACP, LLDP'). Anchored to the full phrase so it does not catch the bar"
+  ],
+  [
+   "^multicast$",
+   "supported_protocols",
+   "switches: Values are protocol lists (IGMP v1/v2/v3, MLD snooping, PIM-SM, SSM, BiDir, BSR). multicast_groups would be wrong - there are no scale numbe"
+  ],
+  [
+   "^supervisor engines supported$",
+   "product_compatibility",
+   "switches: Values are supervisor SKUs the card works with ('C9400X-SUP-2XL, C9400-SUP-1XL'). chassis_compatibility is close but these are engines, not "
+  ],
+  [
+   "^frequency \\(ac\\)$",
+   "input_freq",
+   "switches: Values are '50 to 60 Hz' - AC input frequency."
+  ],
+  [
+   "^ssd drive$",
+   "storage_capacity",
+   "switches: Values are '128 GB' / '64 GB' - onboard mass storage. flash is used for boot/image flash in this dictionary, so storage_capacity is the safe"
+  ],
+  [
+   "^mean time between failure \\(mtbf\\) hours$",
+   "mtbf",
+   "switches: Values are hour counts (1,038,080 / 928,910 / 680,000). Anchored to the 'Hours' variant only: the shorter 'Mean time between failure (MTBF)'"
+  ],
+  [
+   "^throughput$",
+   "forwarding_rate",
+   "switches: Values are packet rates ('250 Mpps for IPv4', '72 mpps'), which is forwarding rate, not switching_capacity (that would be in Gbps/Tbps). Anc"
+  ],
+  [
+   "^power rating \\(maximum consumption\\)$",
+   "power_max",
+   "switches: Values are '0.04 kVA', '0.06 kVA' - maximum draw. The bare 'Power rating' label is rejected because its samples are product names and unit h"
+  ],
+  [
+   "^receive sensitivity$",
+   "rx_sensitivity",
+   "wireless: Values are per-rate dBm sensitivity figures (\"802.11b (CCK) -101 dBm @ 1 Mbps\"), exactly rx_sensitivity."
+  ],
+  [
+   "^maximum conducted transmit power",
+   "tx_power",
+   "wireless: Values are conducted Tx power in dBm per band (\"2.4-GHz radio: 27 dBm with 2 antennas\")."
+  ],
+  [
+   "^certifications$",
+   "certifications",
+   "wireless: Wi-Fi Alliance / FCC / CE certification lists; the dictionary key already exists."
+  ],
+  [
+   "^compliance$",
+   "certifications",
+   "wireless: Values are safety/EMC standard lists (UL 60950-1, IEC 62368-1) — the certifications field."
+  ],
+  [
+   "^safety approvals$",
+   "certifications",
+   "wireless: CSA/CB 60950 & 62368, UL 2043 plenum rating — safety certification list."
+  ],
+  [
+   "^radio approvals$",
+   "certifications",
+   "wireless: FCC Part 15C/15E, RSS-247, EN 300 328, EN 301 893 — radio regulatory certification list."
+  ],
+  [
+   "^exposure approvals$",
+   "certifications",
+   "wireless: EN 50385 / EN 62311 / RSS-102 RF-exposure certification list; same certification family."
+  ],
+  [
+   "^emi approvals",
+   "emc_emissions",
+   "wireless: FCC Part 15B, ICES-003, EN 55032 are emissions standards, and the label names the Class B emissions limit."
+  ],
+  [
+   "^wireless$",
+   "ieee_standards",
+   "wireless: Values are a plain IEEE list: 802.11a/b/g/d/e/h/n/k."
+  ],
+  [
+   "^frequency$",
+   "radio_bands",
+   "wireless: Values name the operating bands (\"Dual concurrent radios (2.4 and 5 GHz)\", \"4.9 GHz, 5.1 to 6.9 GHz\")."
+  ],
+  [
+   "^antenna$",
+   "antenna_gain",
+   "wireless: Values are dominated by peak gain figures (\"Peak gain 3 dBi\", \"5.4 dBi gain at 2.4 GHz, 6 dBi at 5 GHz\"). Anchored so it cannot catch \"Anten"
+  ],
+  [
+   "^integrated antennas?$",
+   "antenna_gain",
+   "wireless: Same content: \"2.4 GHz, peak gain 4 dBi, internal antenna, omnidirectional\"."
+  ],
+  [
+   "^maximum clients$",
+   "ap_max_clients",
+   "wireless: \"Maximum number of associated wireless clients: 200 per Wi-Fi radio\" is the AP client ceiling."
+  ],
+  [
+   "^recommended user support$",
+   "ap_max_clients",
+   "wireless: \"Up to 200 connective users, 50 active users per radio\" — same concept for small-business APs."
+  ],
+  [
+   "^supported wireless lan controllers$",
+   "product_compatibility",
+   "wireless: Lists the controller platforms the AP works with — a compatibility list."
+  ],
+  [
+   "^management protocols$",
+   "supported_protocols",
+   "wireless: \"Web browser, SNMP v3, Bonjour\" is a protocol list."
+  ],
+  [
+   "^network capabilities$",
+   "supported_protocols",
+   "wireless: Values enumerate IPv6 host support, IPv6 RADIUS, syslog, NTP — supported protocols."
+  ],
+  [
+   "^quality of service$",
+   "supported_protocols",
+   "wireless: Values are protocol names (WMM/802.11e access categories, U-APSD, DSCP, 802.1p)."
+  ],
+  [
+   "^network diagnostics$",
+   "diagnostics",
+   "wireless: \"Logging and packet capture\" — the existing diagnostics field."
+  ],
+  [
+   "^high availability$",
+   "redundancy",
+   "wireless: Values \"N+1\", \"SSO, N+1\" are redundancy modes."
+  ],
+  [
+   "^cable length$",
+   "cable_length",
+   "wireless: \"30 in. (76 cm)\", \"1 ft. (0.3 m)\" — the existing cable_length field."
+  ],
+  [
+   "^cabling type$",
+   "media",
+   "wireless: \"Category 5e or better\" states the required transmission medium."
+  ],
+  [
+   "^powering options$",
+   "psu_options",
+   "wireless: Lists the ways the unit can be powered (802.3af/at switch, Cisco power injectors, AC module) — power-supply options."
+  ],
+  [
+   "^802.11n version 2.0",
+   "advanced_functions",
+   "wireless: A clean bullet list of advanced radio functions (MIMO, MRC, beamforming) with no better home."
+  ],
+  [
+   "^(2[.]4|5)[- ]?ghz receiver sensitivity$",
+   "rx_sensitivity",
+   "collaboration-endpoints: Values are per-rate dBm receiver sensitivity figures for the built-in Wi-Fi radio, exactly what rx_sensitivity holds. Band is"
+  ],
+  [
+   "^transmitter output power$",
+   "tx_power",
+   "collaboration-endpoints: Values are dBm radio output per 802.11 mode - the existing tx_power field."
+  ],
+  [
+   "^data rates$",
+   "data_rate",
+   "collaboration-endpoints: Values are 802.11a/b/g Mbps PHY rate lists, i.e. the link data rate."
+  ],
+  [
+   "^storage and transport temperature$",
+   "temp_storage",
+   "collaboration-endpoints: Values are -20 to 60C non-operating ranges: the existing storage temperature field."
+  ],
+  [
+   "^nonoperational temperature shock$",
+   "temp_storage",
+   "collaboration-endpoints: Despite the word 'shock' the values are a non-operating temperature RANGE (-10 to 60C), not a mechanical g-figure, so it is s"
+  ],
+  [
+   "^operational temperature$",
+   "temp_operating",
+   "collaboration-endpoints: Values are 0 to 40C operating ranges."
+  ],
+  [
+   "^(telecom|certification and compliance)$",
+   "certifications",
+   "collaboration-endpoints: Values are regulatory approval lists (FCC Part 68, TIA 810A, CE markings, UL) - the certifications field."
+  ],
+  [
+   "^(network|network features|ip network features)$",
+   "supported_protocols",
+   "collaboration-endpoints: Values are protocol lists (SIP, SDP, CDP, LLDP-MED, DHCP, DNS, 802.1p/Q, DiffServ), which is what supported_protocols holds."
+  ],
+  [
+   "^other interfaces$",
+   "expansion_io",
+   "collaboration-endpoints: Values enumerate auxiliary I/O (USB-A/USB-B/micro-USB ports, GPIO, factory-reset pinhole) - the existing expansion_io concept"
+  ],
+  [
+   "^(network[- ]level diagnostics and observability|network monitoring and troubleshooting)$",
+   "diagnostics",
+   "collaboration-endpoints: Values state whether ThousandEyes-based diagnostics are supported; diagnostics already exists."
+  ],
+  [
+   "^wall[- ]mountable$",
+   "mounting",
+   "collaboration-endpoints: Values describe wall-mount kit support, which is mounting."
+  ],
+  [
+   "^connector$",
+   "connector",
+   "collaboration-endpoints: Exact match on an existing key; values are physical connector types (USB 2.0 OTG, RJ45, 4-pin mini jack / Euroblock)."
+  ],
+  [
+   "^ethernet ports$",
+   "ports",
+   "collaboration-endpoints: Value is a plain port count (2) for the device's Ethernet ports."
+  ],
+  [
+   "^ieee power over ethernet [(]poe[)]$",
+   "poe_standard",
+   "collaboration-endpoints: Values give the PoE class and the 802.3af/at standard the device is compatible with - poe_standard, not a boolean."
+  ],
+  [
+   "^power input rating$",
+   "input_power_range",
+   "collaboration-endpoints: Values are current plus DC voltage ('0.917A, 48V DC'), a combined input power rating rather than a bare voltage."
+  ],
+  [
+   "^supported cable connection$",
+   "connector",
+   "optical-networking: Values are connector interfaces (LC-LC, RJ 45, SC-PC MM, 75Ω DIN 1.0/2.3), not cable assemblies."
+  ],
+  [
+   "^connectors?$",
+   "connector",
+   "optical-networking: Values are connector types (LC, RJ-48, SFP+ MSA, coaxial 75 ohm)."
+  ],
+  [
+   "^connector [12]$",
+   "connector",
+   "optical-networking: Cable end connectors (DIN 1.0/2.3, NEMA 5-20P, Power D-Sub) - same concept as connector, one per cable end."
+  ],
+  [
+   "^connector type( \\(tx/rx\\))?$",
+   "connector",
+   "optical-networking: Values are optical connector types (Dual SC/PC, MPO-12 (MTP), LC duplex shuttered)."
+  ],
+  [
+   "^attenuation dead zone \\(m\\)$",
+   "attenuation_dead_zone",
+   "optical-networking: Exact OTDR attenuation dead-zone field already in the dictionary."
+  ],
+  [
+   "^reflective dead zone \\(m\\)$",
+   "reflective_dead_zone",
+   "optical-networking: Exact OTDR reflective dead-zone field already in the dictionary."
+  ],
+  [
+   "^(transmit power range|tx range) \\(dbm\\)$",
+   "tx_power",
+   "optical-networking: dBm ranges for the transmitter output (-5 to 0, -4.3 to 4.5 per lane) = transmit optical power."
+  ],
+  [
+   "^(receiver power range|rx range) \\(dbm\\)$",
+   "input_power_range",
+   "optical-networking: A min-to-max receive window (-34 to -10 dBm), i.e. an input power range, not a single sensitivity figure."
+  ],
+  [
+   "^(total|operative|per-channel) input power range$",
+   "input_power_range",
+   "optical-networking: Amplifier input power window in dBm; input_power_range is exactly this concept."
+  ],
+  [
+   "^wavelength \\(nm\\)$",
+   "wavelength",
+   "optical-networking: ITU grid wavelengths (1530.33, 1531.12 nm). Anchored so it cannot swallow the Rx/Tx range labels."
+  ],
+  [
+   "^(operating|tx and rx) wavelength range \\(nm\\)$",
+   "wavelength",
+   "optical-networking: Overall optical operating window (1263-1360 nm) covering both directions - the generic wavelength field."
+  ],
+  [
+   "^nominal wavelengths?",
+   "wavelength",
+   "optical-networking: Tunable nominal wavelength span of the trunk (1528.77-1566.72 nm C-band)."
+  ],
+  [
+   "^receiver wavelength range \\(nm\\)$",
+   "rx_wavelength",
+   "optical-networking: Explicit receive-side wavelength window (1260-1620 nm); rx_wavelength already exists."
+  ],
+  [
+   "^transmitter wavelength range \\(nm\\)$",
+   "tx_wavelength",
+   "optical-networking: Transmit-side counterpart of rx_wavelength; values are Tx-only windows (1530-1565)."
+  ],
+  [
+   "^trunk optical pm$",
+   "optical_pm",
+   "optical-networking: Optical performance-monitoring parameter list (OPT, LBC, transmit optical power)."
+  ],
+  [
+   "^otuk monitoring",
+   "otn_pm",
+   "optical-networking: OTN performance monitoring counters (BBE, BBER); case-insensitive match covers all three casing variants."
+  ],
+  [
+   "^average latency$",
+   "latency",
+   "optical-networking: Values are per-device latency figures (900ps, 450ns, 5ns)."
+  ],
+  [
+   "^length$",
+   "cable_length",
+   "optical-networking: Values are cable lengths in metres (0.6 m, 10 m, 20 m) on cable/patch parts."
+  ],
+  [
+   "^gauge$",
+   "wire_gauge",
+   "optical-networking: AWG conductor sizes (12 AWG, 6 AWG, COAX 23 AWG)."
+  ],
+  [
+   "^optical reach$",
+   "reach_max",
+   "optical-networking: Maximum supported link distance (10km SMF, 40km SMF, 80km SMF)."
+  ],
+  [
+   "^physical: weight$",
+   "weight",
+   "optical-networking: Values are masses with units (2.05 lb (0.93 kg), 2.78 kg)."
+  ],
+  [
+   "^physical: dimensions$",
+   "dimensions",
+   "optical-networking: Physical envelope of the card/unit (4.2\" wide x 9.4\" deep x 1.5\" tall)."
+  ],
+  [
+   "^operating environment: temperature$",
+   "temp_operating",
+   "optical-networking: Operating temperature range (23 to 131F / -5 to 55C)."
+  ],
+  [
+   "^operating mode$",
+   "mode",
+   "optical-networking: Values are the optical operating mode (Electrical, 1310 nm, 1550 nm, DWDM)."
+  ],
+  [
+   "^supported bit rates$",
+   "supported_protocols",
+   "optical-networking: Values are named client protocols/rates (OC-3 IR1/STM-1 S-1.1, OC-48 SR1/STM-16 I-16.1), a protocol list rather than a single nume"
+  ],
+  [
+   "^supported shelf slots$",
+   "slot_compatibility",
+   "optical-networking: Slot positions the card may occupy (1-6, 12-17) - exactly slot_compatibility."
+  ],
+  [
+   "^maximum$",
+   "power_max",
+   "optical-networking: Every sample is a wattage (70W, 32W, 160W (55C and -38VDC)) under a power table, so this is maximum power draw."
+  ],
+  [
+   "^sw release availability$",
+   "min_software_release",
+   "optical-networking: Values are software train versions (IOS-XR 6.1.22, 6.5.28) - the release from which the part is supported."
+  ],
+  [
+   "in xr sw release$",
+   "min_software_release",
+   "optical-networking: Platform-vs-release compatibility columns; the value is the IOS-XR release number (7.2.1, 6.5.25)."
+  ],
+  [
+   "^(cisco )?(ons 15[0-9]{3}|ncs 2000)( (series|mstp|mspp|mssp))? line cards$",
+   "min_software_release",
+   "optical-networking: Support-matrix columns whose values are software release numbers (4.5, 9.0, 9.6, 10.3), not part names."
+  ],
+  [
+   "^type$",
+   "modulation_format",
+   "optical-networking: In this category every sample is a modulation format (CP-DQPSK, DP-16QAM, PM-BPSK) or the modulator technology; it sits under the "
+  ],
+  [
+   "^optical transmitter: ?type$",
+   "modulation_format",
+   "optical-networking: Same values as bare Type, with the parent heading retained (CP-QPSK / CP-8QAM / CP-16QAM formats)."
+  ],
+  [
+   "(^|: )● ices-003",
+   "emc_emissions",
+   "optical-networking: EMC emissions standards list; the value continues the same list (ETSI EN 300 386)."
+  ],
+  [
+   "(^|: )● canada ● united states",
+   "regions_supported",
+   "optical-networking: Bulleted country/region availability list; value continues the list (European Union, Africa, CSI, Australia, New Zealand)."
+  ],
+  [
+   "(^|: )● gr-253-core",
+   "standard",
+   "optical-networking: Optical transmission standards; value is a further standards list (ITU-T G.709, ITU-T G.975)."
+  ],
+  [
+   "^(extended |standard )?gain range$",
+   "gain_range",
+   "optical-networking: Amplifier gain window in dB (17 - 20 dB, 12 - 35 dB)."
+  ],
+  [
+   "^noise figure at (nominal|minimum|maximum) gain$",
+   "noise_figure",
+   "optical-networking: Amplifier noise figure in dB, qualified by the gain point (5.5 dB at 17 dB gain)."
+  ],
+  [
+   "^insertion loss$",
+   "insertion_loss",
+   "optical-networking: Passive/optical insertion loss in dB (3 dB, 4 dB, 5.5 dB)."
+  ],
+  [
+   "^return loss$",
+   "return_loss",
+   "optical-networking: Optical return loss in dB (40 dB, 45 dB)."
+  ],
+  [
+   "^(maximum total output power|signal output power range)$",
+   "total_output_power",
+   "optical-networking: Amplifier composite output power in dBm (23 dBm, 18.2 dBm) across the full channel load."
+  ],
+  [
+   "^overload$",
+   "rx_overload",
+   "optical-networking: Receiver saturation/overload threshold in dBm (0 dBm, -8 dBm)."
+  ],
+  [
+   "^laser safety class$",
+   "laser_safety_class",
+   "optical-networking: IEC/FDA laser hazard class; value is the class number (1)."
+  ],
+  [
+   "^frequency \\(thz\\)$",
+   "optical_frequency",
+   "optical-networking: ITU grid optical frequency (195.9, 195.8 THz) - distinct from wavelength in nm and from itu_channel number."
+  ],
+  [
+   "^size$",
+   "slots_occupied",
+   "optical-networking: Values state how many chassis slots the card consumes (1 slot, 2 slots), not a physical dimension."
+  ],
+  [
+   "^input power range( ?\\(.*\\))?$",
+   "input_power_range",
+   "interfaces-modules: Values are dBm ranges (\"-7 to -17\", \"-7 to -21\") with the unit row \"dBm\" — this is the optical receive input power window, exactly"
+  ],
+  [
+   "^(receiver )?optical input power( ?\\(.*\\))?$",
+   "input_power_range",
+   "interfaces-modules: Samples are a min/max pair in dBm (\"P in\", \"-16.0\", \"-1.0\", \"dBm\") — the same optical input window as input_power_range. The long "
+  ],
+  [
+   "^processor$",
+   "cpu",
+   "interfaces-modules: Values are clock speeds and CPU part names (\"400 MHz RM7000C RISC\", \"2.0 GHz\", \"2.4 GHz\") — the module's processor. Exact anchor s"
+  ],
+  [
+   "^awg$",
+   "wire_gauge",
+   "interfaces-modules: Values are bare gauge numbers (30, 26) on copper/DAC cable parts — American Wire Gauge, which is wire_gauge. Anchored exactly: the"
+  ],
+  [
+   "^(operating )?wavelength[^a-z]*$",
+   "wavelength",
+   "interfaces-modules: \"Operating Wavelength\" gives \"1310 nm & 1550 nm\" / \"850 nm & 1300 nm\" and \"Wavelength λi\" gives \"1530.33\", \"1561.42\" with unit nm "
+  ],
+  [
+   "^fiber type$",
+   "fiber_type",
+   "interfaces-modules: Values are fiber grades: \"Single Mode\", \"ITU G.657.A2\", \"OM4 (50/125 μm)\", \"G.652 (SMF)\", \"G.652 (SMF), G.653 (DSF) and G.655 (NZ-"
+  ],
+  [
+   "^supported cisco optics, media, and transmission distances$",
+   "supported_transceivers",
+   "interfaces-modules: Values enumerate the optics a chassis/line card accepts (\"32-Gbps shortwave LC, SFP+ / 32-Gbps longwave, LC, SFP+ / 16-Gbps sh…\") "
+  ],
+  [
+   "^physical interface$",
+   "supported_transceivers",
+   "interfaces-modules: Values name the pluggable optic the port takes (\"OC-48c/STM-16c SFP optics module\", \"10-Gbps XFP optics\", \"OC-12c/STM-4c SFP optic"
+  ],
+  [
+   "^port density per spa$",
+   "ports",
+   "interfaces-modules: Values are port counts for the shared port adapter (\"5-port, 8-port, and 10-port GE\", \"1, 2, and 4 ports\", \"One 10 Gigabit Etherne"
+  ],
+  [
+   "^supported shelf slots$",
+   "slot_compatibility",
+   "interfaces-modules: Value is a slot range (\"1-6, 12-17\") saying which chassis slots accept the card — exactly slot_compatibility."
+  ],
+  [
+   "^certifications?$",
+   "certifications",
+   "interfaces-modules: Values are agency marks (\"FCC Class B, CE, UL/cUL, C-Tick, RoHS, PSE, GS, KC\") — the existing certifications field. One sample is "
+  ],
+  [
+   "^etsi and en$",
+   "etsi_standards",
+   "interfaces-modules: Values are EN/ETSI document numbers (\"EN 300 386\", \"EN300 386: Telecommunications Network Equipment (EMC)\", \"EN55022\") — the etsi_"
+  ],
+  [
+   "^immunity \\(basic standards\\)$",
+   "emc_immunity",
+   "interfaces-modules: Values are IEC/EN 61000-4-x immunity tests with levels (\"IEC/EN-61000-4-2: Electrostatic Discharge Immunity (8 kV Contact, 15 kV a"
+  ],
+  [
+   "^colou?r$",
+   "jacket_color",
+   "interfaces-modules: Single-word colour value (\"Red\") on cable/patch-cord parts, where the only colour a datasheet states is the jacket colour. Anchore"
+  ],
+  [
+   "^compliance$",
+   "standard",
+   "interfaces-modules: Values are the transmission standards the optic meets (\"GR-253 SR-1 / ITU-T G.957 I-16\", \"IEEE 802.3ae 10GBASE-LR\", \"IEEE 802.3ae "
+  ],
+  [
+   "^network security$",
+   "advanced_functions",
+   "interfaces-modules: Values are the security feature list a fabric module implements (\"VSANs, ACLs, Per-VSAN RBAC, Fibre Channel zoning, N-port WWN…\") "
+  ],
+  [
+   "^high availability$",
+   "redundancy",
+   "interfaces-modules: Values describe redundancy modes (\"1:N redundancy\", \"Active/Active, Active/Standby\", \"Stackwise virtual\") — the redundancy field. "
+  ],
+  [
+   "^ac power [(]w[)]$",
+   "power_typical",
+   "video: Values are plain wattage figures (25.4, 25.1, 24.9) for the unit's mains draw — that is device power consumption, and unqualified AC power in t"
+  ],
+  [
+   "^output power [(]maximum[)]$",
+   "tx_power",
+   "video: Samples are 17/20/22 dBm on EDFA optical amplifier pages — optical launch power, which is exactly tx_power. Not RF: dBm with those magnitudes o"
+  ],
+  [
+   "^passband wavelengths$",
+   "wavelength",
+   "video: Values are nm bands (1548.5 - 1561.5) for WDM filter ports; wavelength already carries nm optical band values."
+  ],
+  [
+   "^optical interfaces$",
+   "connector",
+   "video: Values are connector types with port counts: SC/APC (2), SC/APC (3)."
+  ],
+  [
+   "^(length x height x width|housing dimensions)$",
+   "dimensions",
+   "video: Values are full three-axis dimension strings in both in. and cm (21.3 in. L x 11.6 in. H x 11.1 in. D)."
+  ],
+  [
+   "^processors$",
+   "cpu",
+   "servers-unified-computing: Values are the CPU offering itself (\"One 5th Gen AMD EPYC processor\", \"Up to 2x 5th Gen Intel Xeon Scalable Processors\"). A"
+  ],
+  [
+   "^temperature:[ ]*operating$",
+   "temp_operating",
+   "servers-unified-computing: Values are operating temperature ranges (\"50 to 95F (10 to 35C)\"). Anchored so it cannot match the \"nonoperating\" variant."
+  ],
+  [
+   "^temperature:[ ]*non[ -]?operating$",
+   "temp_storage",
+   "servers-unified-computing: Values are non-operating/storage temperature ranges (\"-40 to 149F (-40 to 65C)\"), which is what temp_storage holds. Both th"
+  ],
+  [
+   "^x-series chassis$",
+   "chassis_compatibility",
+   "servers-unified-computing: Values name the chassis the node installs into (\"Cisco UCS X9508 Chassis\") - exactly chassis_compatibility."
+  ],
+  [
+   "^(rack options|rail[ -]?kit options)$",
+   "mounting",
+   "servers-unified-computing: Values are rail kits and rack adapter kits (\"Cisco ball-bearing rail kit ... 2-Post Rack Adapter Kit\") - mounting hardware."
+  ],
+  [
+   "^pcie expansion$",
+   "expansion_io",
+   "servers-unified-computing: Values count PCIe slots (\"Up to 8 PCIe 5.0 slots plus 1 dedicated 24-Gbps RAID controller slot\") - the I/O expansion capaci"
+  ],
+  [
+   "^advanced reliability, availability, and serviceability \\(ras\\) features$",
+   "serviceability",
+   "servers-unified-computing: Values are serviceability bullets (hot-swappable front-accessible drives, self-healing architecture, reporting/analytics). "
+  ],
+  [
+   "^x-fabric modules$",
+   "supported_modules",
+   "servers-unified-computing: Values list the fabric modules the chassis accepts (\"Cisco UCS X9416 X-Fabric modules for X9508 chassis\")."
+  ],
+  [
+   "^total memory$",
+   "dram",
+   "servers-unified-computing: Values are plain memory capacities (\"4 TB\", \"1.5 TB\"), which is what dram holds. Anchored so it cannot catch \"memory RAS\" o"
+  ],
+  [
+   "^optical connector$",
+   "connector",
+   "transceiver: Values are LC, MPO-12 MMF APC, MPO-16 - exactly the optical connector type the existing connector field holds."
+  ],
+  [
+   "^fiber type$",
+   "fiber_type",
+   "transceiver: Values are MMF / SMF / N/A (RJ45 copper SFP) - the fiber_type field verbatim."
+  ],
+  [
+   "^dom$",
+   "ddm",
+   "transceiver: DOM (Digital Optical Monitoring) is the same attribute as DDM; values are Yes. Anchored so it cannot swallow DOMAIN or similar."
+  ],
+  [
+   "^receiver sensitivity$",
+   "rx_sensitivity",
+   "transceiver: Values -24, -27 with unit dBm - the rx_sensitivity field. Anchored so it does not catch the 'Receiver performance at ...' section headers"
+  ],
+  [
+   "^module dimensions? with pull tab$",
+   "dimensions",
+   "transceiver: Values are (H x W x D) 13 x 22.58 x 116 mm - a full three-axis dimension string."
+  ],
+  [
+   "^physical [(]height x width x depth[)]$",
+   "dimensions",
+   "transceiver: Values are full HxWxD strings in in. and cm. Uses [(] rather than an escape."
+  ],
+  [
+   "^system: memory$",
+   "dram",
+   "transceiver: Values are 8 GB of dynamic RAM (DRAM), 1 GB DRAM - onboard DRAM, not flash."
+  ],
+  [
+   "jumbo frame support",
+   "jumbo_mtu",
+   "transceiver: Values are Up to 9216 bytes - the jumbo MTU. Substring match because the label carries a long trailing qualifier."
+  ],
+  [
+   "^ipv4 entries$",
+   "ipv4_routes",
+   "transceiver: Values 2 million, 64K, 32K are IPv4 forwarding/route table entries."
+  ],
+  [
+   "^ipv6 entries$",
+   "ipv6_routes",
+   "transceiver: Values 1 million, 32K, 16K are IPv6 forwarding/route table entries."
+  ],
+  [
+   "^maximum vlans$",
+   "vlan_max",
+   "transceiver: Value 4096 - the maximum VLAN count. Anchored so it cannot catch 'Maximum WLANs', which is a different number."
+  ],
+  [
+   "^typical operating power$",
+   "power_typical",
+   "transceiver: Values 260W, 404W, 212W - typical draw in watts, matching power_typical rather than power_max."
+  ],
+  [
+   "^noise$",
+   "acoustic_noise",
+   "transceiver: Values 48 dBA at 30C, 77 dBA at highest system performance - acoustic noise."
+  ],
+  [
+   "^fan (modules|redundancy)$",
+   "cooling",
+   "transceiver: Values 2+1, 3+1, 4+1 describe the fan tray redundancy arrangement, which is the cooling field. Anchored so it cannot take 'Fan speed' or "
+  ],
+  [
+   "^system: product compatibility$",
+   "product_compatibility",
+   "transceiver: Values list the Nexus 7000/7700 chassis the module is supported in - product_compatibility exactly."
+  ],
+  [
+   "^system: software compatibility$",
+   "min_software_release",
+   "transceiver: Values are 'Cisco NX-OS Software Release 8.0 or later' - a minimum software release, which is what min_software_release holds."
+  ],
+  [
+   "^system: programming interfaces$",
+   "programming_interfaces",
+   "transceiver: Values are NX-API, XML, scriptable CLI, DCNM - the programming_interfaces field."
+  ],
+  [
+   "^environmental: regulatory compliance$",
+   "certifications",
+   "transceiver: Values are FCC Part 15 Class A, ICES-003, CE - regulatory certifications. Mapped to the broad certifications field rather than emc_emissi"
+  ],
+  [
+   "^(environmental: )?environmental standards$",
+   "certifications",
+   "transceiver: Values are GR-63-CORE, GR-1089-CORE, ETSI 300, SR-3580 NEBS Level 3 - standards the part is certified against."
+  ],
+  [
+   "^physical interfaces: connectivity$",
+   "ports",
+   "transceiver: Under the Physical Interfaces prefix every sample is a port inventory ('48 ports of 1 and 10 Gigabit Ethernet (SFP and SFP+)'). Deliberat"
+  ],
+  [
+   "^online insertion and removal( [(]oir[)])?$",
+   "serviceability",
+   "transceiver: Values are Supported / 'Supports hot insertion and removal for continuous system operation' - a serviceability property."
+  ],
+  [
+   "^deployment modes$",
+   "deploy_role",
+   "transceiver: Values are Centralized (local), FlexConnect, Fabric/SD-Access - the role the unit is deployed in."
+  ],
+  [
+   "cables? with integrated",
+   "supported_transceivers",
+   "transceiver: Fourteen variants of this heading (SFP+/QSFP+/SFP28/SFP56, 10G-100G, some truncated or with a trailing count in parentheses). Every sampl"
+  ],
+  [
+   "^q?sfp[+]? [0-9]+-gbps (transceivers|cables)$",
+   "supported_transceivers",
+   "transceiver: Covers the six 'SFP+/QSFP/QSFP+ nn-Gbps transceivers' and two 'nn-Gbps cables' headings; values are module descriptions such as '40GBASE-"
+  ],
+  [
+   "^fibre channel transceivers$",
+   "supported_transceivers",
+   "transceiver: Values are '8 Gbps Fibre Channel-SW SFP+, LC' etc - a compatible optics list."
+  ],
+  [
+   "^enhanced sfp [(]sfp[+][)]$",
+   "supported_transceivers",
+   "transceiver: Values are bare Cisco PIDs (SFP-10G-AOC1M ...) - the list of SFP+ optics the host supports."
+  ],
+  [
+   "^small form-factor pluggable [(]sfp[)]$",
+   "supported_transceivers",
+   "transceiver: Values are PIDs GLC-BX-D, GLC-LH-SMD, GLC-SX-MMD - supported SFP list."
+  ],
+  [
+   "^quad sfp [(]qsfp[)]$",
+   "supported_transceivers",
+   "transceiver: Values are QSFP-40G-SR4, QSFP-40G-LR4 etc - supported QSFP list."
+  ],
+  [
+   "^sfp supported on the .+ model$",
+   "supported_transceivers",
+   "transceiver: Values are GLC-* PIDs. The wildcard covers the model name, and the anchored prefix/suffix keeps it from matching anything else."
+  ],
+  [
+   "^ncs [0-9]+ optics$",
+   "supported_transceivers",
+   "transceiver: Values are '100BASE-FX SFP for FE port', '100BASE-ZX SFP (80km)' - the optics list for that platform. 'NCS 520 Accessories' and 'NCS 520 "
+  ],
+  [
+   "^noise$",
+   "acoustic_noise",
+   "security: Values are dBA figures at given fan speeds/temperatures - exactly the acoustic noise field."
+  ],
+  [
+   "^rack[ -]?mountable$",
+   "mounting",
+   "security: Values describe rack-mount kit and rack type (4-post EIA-310-D, 2-post brackets) - a mounting description, not a boolean about anything else"
+  ],
+  [
+   "^steady[ -]state$",
+   "power_typical",
+   "security: Values are steady-state power draw (75W, 150W, 12V @2.5A) inside the power-consumption block - typical power."
+  ],
+  [
+   "^maximum peak$",
+   "power_max",
+   "security: Peak power draw in watts (or rail volts/amps) in the same power block - maximum power."
+  ],
+  [
+   "^maximum heat dissipation$",
+   "heat_dissipation",
+   "security: Values are BTU/hr - the heat dissipation field."
+  ],
+  [
+   "^integrated network management ports$",
+   "mgmt_ports",
+   "security: Values count/describe the out-of-band management Ethernet port(s)."
+  ],
+  [
+   "^dedicated management port$",
+   "mgmt_ports",
+   "security: Yes (1 GE) / None / Yes (Shared) - same concept: presence and speed of the dedicated management port."
+  ],
+  [
+   "^(hd size|hard disk)$",
+   "storage_capacity",
+   "security: Values state installed spinning-disk capacity (e.g. sixteen 600 GB SAS drives) - the appliance's storage capacity."
+  ],
+  [
+   "^processor$",
+   "cpu",
+   "security: Values are CPU part and clock (Intel 4310 2.1GHz, AMD 9224 2.5GHz)."
+  ],
+  [
+   "^applicable product$",
+   "product_compatibility",
+   "security: Values are lists of appliance models the item applies to (FS3300, SMC2300, DN6300) - compatibility, not a spec of the item itself."
+  ],
+  [
+   "^fans$",
+   "cooling",
+   "security: Values describe fan count and hot-swappability - the cooling system description."
+  ],
+  [
+   "^ac (normal|range) line voltage$",
+   "input_voltage",
+   "security: Values are 90/100 to 240 VAC - mains input voltage range. Anchored so it cannot catch DC line-voltage labels."
+  ],
+  [
+   "^ac frequency$",
+   "input_freq",
+   "security: Values are 50/60 Hz, 47/63 Hz single-phase - mains input frequency."
+  ],
+  [
+   "^temperature: ?nonoperating$",
+   "temp_storage",
+   "security: Non-operating (storage/transport) temperature range, e.g. -40 to 149F."
+  ],
+  [
+   "^temperature: ?operating$",
+   "temp_operating",
+   "security: Operating temperature range, e.g. 32 to 104F (0 to 40C)."
+  ],
+  [
+   "^dual[ -]power supplies$",
+   "psu_redundant",
+   "security: Yes / None - whether a redundant second PSU is supported."
+  ],
+  [
+   "^dc power option$",
+   "psu_options",
+   "security: Yes (930W) / No - availability of a DC power-supply option, i.e. a PSU option."
+  ],
+  [
+   "^speed \\(mbps\\)$",
+   "data_rate",
+   "security: Value is 10/100/1000, autonegotiate - the port data rate."
+  ],
+  [
+   "^(maximum new connections per second, with avc|new connections ?/ ?second)$",
+   "new_conn_per_sec",
+   "security: Values are connection setup rates (2700, 20K, 30,000) - the new-connections-per-second field."
+  ],
+  [
+   "^3des/aes vpn throughput( ?\\[[0-9]+\\])?$",
+   "vpn_throughput",
+   "security: Values are Mbps of encrypted VPN throughput. Optional trailing footnote marker allowed."
+  ],
+  [
+   "^premium anyconnect vpn peers$",
+   "anyconnect_sessions",
+   "security: Values are included/maximum AnyConnect peer counts (2/750) - the AnyConnect session capacity field."
+  ],
+  [
+   "^maximum vpn peers$",
+   "vpn_peers",
+   "security: Plain maximum VPN peer count (25, 250, 10K)."
+  ],
+  [
+   "^virtual interfaces \\(vlans\\)$",
+   "vlan_max",
+   "security: Values are maximum VLAN/subinterface counts (150, 400) - the VLAN maximum."
+  ],
+  [
+   "^expansion slot$",
+   "module_slots",
+   "security: Values count expansion module slots (1 SSM, 1 interface card, 0)."
+  ],
+  [
+   "^minimum system flash$",
+   "flash",
+   "security: Values are flash sizes (256 MB, 8 GB) - the flash field."
+  ],
+  [
+   "^industry certifications$",
+   "certifications",
+   "security: Values are FIPS 140-2, Common Criteria EAL4+, US DoD listings - certifications."
+  ],
+  [
+   "^ngips$",
+   "ips_throughput",
+   "security: Values are throughput figures in Mbps measured with NGIPS enabled - the IPS throughput field, not a feature flag."
+  ],
+  [
+   "^form factor \\(rack units\\)$",
+   "rack_units",
+   "security: Value is 1RU - rack height in RU."
+  ],
+  [
+   "^optional interfaces$",
+   "expansion_io",
+   "security: Values describe optional network modules (2 x NMs: 1/10/40/100G, FTW) - expansion I/O, distinct from the fixed interfaces."
+  ],
+  [
+   "^number of ports$",
+   "ports",
+   "unified-communications: Values are bare integers (2, 4, 6, 1) — a port count, exactly what ports holds."
+  ],
+  [
+   "^processors?$",
+   "cpu",
+   "unified-communications: Values name installed CPUs ('2 3.30-GHz Intel Xeon processors (E5-2643/130W...)') — physical processor spec."
+  ],
+  [
+   "^(available[ ])?disk space$",
+   "storage_capacity",
+   "unified-communications: Values are disk sizes (80 GB, 132 GB, 10 GB) — storage capacity/requirement."
+  ],
+  [
+   "^hard drives$",
+   "storage_capacity",
+   "unified-communications: Values describe installed drives ('2 1TB SAS 7.2K RPM 3.5-inch HDD') — storage capacity."
+  ],
+  [
+   "^network interface card$",
+   "data_rate",
+   "unified-communications: Values are '1 Gbps' / '10 Gbps' — an interface line rate, not a count or a media type."
+  ],
+  [
+   "^vg[0-9]+ power supply$",
+   "psu_options",
+   "unified-communications: Values are orderable PSU variants ('Cisco VG420 650W AC Power supply', DC, secondary) — the PSU option list. Anchored to the V"
+  ],
+  [
+   "^temperature:[ ]?operating$",
+   "temp_operating",
+   "unified-communications: Values are operating temperature ranges (32 to 104F / 0 to 40C)."
+  ],
+  [
+   "^temperature:[ ]?non-?operating$",
+   "temp_storage",
+   "unified-communications: Nonoperating range (-40 to 158F) is the storage/non-operating temperature field."
+  ],
+  [
+   "^redundant fans and power supplies$",
+   "redundancy",
+   "unified-communications: Value states the redundancy scheme ('Dual-redundant fans and hot-swappable, redundant power supplies')."
+  ],
+  [
+   "resilience and reliability$",
+   "redundancy",
+   "unified-communications: Values are clustering/redundancy capabilities ('deploy in a redundant (6) cluster', license sharing). Unanchored at the front "
+  ],
+  [
+   "^tool-free access$",
+   "serviceability",
+   "unified-communications: Value describes tool-free access to serviceable items and color-coded indicators — a serviceability statement."
+  ],
+  [
+   "^supported rfcs$",
+   "rfc_compliance",
+   "unified-communications: Values are RFC number lists (2543, 3261, 3264, 1889...)."
+  ],
+  [
+   "^supported endpoints$",
+   "product_compatibility",
+   "unified-communications: Values state which endpoint families the product interoperates with (any standards-compliant SIP or H.323 endpoint)."
+  ],
+  [
+   "^ip phone$",
+   "product_compatibility",
+   "unified-communications: Values are lists of compatible Cisco Unified IP Phone models (7940G, 7960G, 7970G)."
+  ],
+  [
+   "^servers for virtual environment$",
+   "product_compatibility",
+   "unified-communications: Values name the host platforms the virtual appliance runs on (Cisco UCS B-/C-Series or equivalent third-party servers)."
+  ],
+  [
+   "^vmware support$",
+   "product_compatibility",
+   "unified-communications: Values state which hypervisor environment the server software is supported on."
+  ],
+  [
+   "(^|:[ ])network(ing)?$",
+   "supported_protocols",
+   "unified-communications: Values are protocol support lists (DNS addressing, IPv4/IPv6 dual stack, SIP, TCP/IP), not a link or a port. Alternation on th"
+  ],
+  [
+   "^session control$",
+   "supported_protocols",
+   "unified-communications: Values are call-control protocols (H.225/Q.931, H.245, routed and non-routed modes)."
+  ],
+  [
+   "remote collaboration services supported$",
+   "supported_protocols",
+   "unified-communications: Values are the protocols carried (XMPP for IM, HTTPS for logon/provisioning, media protocols)."
+  ],
+  [
+   "management interfaces$",
+   "programming_interfaces",
+   "unified-communications: Values are the management/automation interfaces exposed (HTTP/HTTPS, XML, SNMP) — the same concept programming_interfaces hold"
+  ],
+  [
+   "^zone control and bandwidth management$",
+   "advanced_functions",
+   "unified-communications: Values are a discrete capability list (remote zone monitoring, remote zone redundancy) — the catch-all feature field."
+  ],
+  [
+   "traversal services$",
+   "advanced_functions",
+   "unified-communications: Values list firewall-traversal capabilities (Expressway technology, STUN discovery, STUN relay). Unanchored front catches the "
+  ],
+  [
+   "security features$",
+   "advanced_functions",
+   "unified-communications: Values are a capability list (HTTPS/SSH/SCP management, secure file transfer). No dedicated security field exists and this is "
+  ],
+  [
+   "^front-panel connector$",
+   "mgmt_ports",
+   "unified-communications: Value is the KVM console connector supplying USB, VGA and serial — a local console/management port."
+  ],
+  [
+   "^additional rear connectors$",
+   "mgmt_ports",
+   "unified-communications: Values are VGA video, USB and serial management connectors on the rear panel."
+  ],
+  [
+   "^family$",
+   "product_compatibility",
+   "cloud-systems-management: Values are managed-platform families (\"Cisco Catalyst\", \"ASR 1000, 4000 Series ISR\", \"CSR\") in a support matrix for the mana"
+  ],
+  [
+   "^processors?$",
+   "cpu",
+   "cloud-systems-management: Values are CPU part descriptions (\"AMD 9354P 3.25GHz 280W 32C/256MB cache\") or vCPU counts for the virtual appliance; both a"
+  ],
+  [
+   "^access points$",
+   "wlc_ap_capacity",
+   "cloud-systems-management: Values are plain AP counts (\"25\", \"50\", \"200\", \"Not supported\") in controller/manager sizing tables - the number of APs the "
+  ],
+  [
+   "^(non-?operating temperature|temperature:[ ]*non-?operating)$",
+   "temp_storage",
+   "cloud-systems-management: Non-operating / storage temperature range (\"-40C to 65C\"). Both label spellings appear; anchored so it cannot catch \"Tempera"
+  ],
+  [
+   "^temperature:[ ]*operating$",
+   "temp_operating",
+   "cloud-systems-management: Values are the operating dry-bulb range (\"10C to 35C\"). Anchored to the colon form so it does not swallow the non-operating "
+  ],
+  [
+   "^(environmental:[ ]*)?operating/storage humidity$",
+   "humidity_operating",
+   "cloud-systems-management: A single combined RH range (\"5% to 95% RH, noncondensing\") stated for both states; the operating humidity field is the corre"
+  ],
+  [
+   "^emc[ ]*[-–—][ ]*immunity$",
+   "emc_immunity",
+   "cloud-systems-management: Values are immunity standards (CISPR 35, EN 55035, EN 300386). Handles both the hyphen and en-dash spellings seen in the bri"
+  ],
+  [
+   "^hard drive$",
+   "storage_capacity",
+   "cloud-systems-management: Values are the installed drive size and type on the physical appliance (\"1.6TB 2.5in U.3 NVMe\", \"480GB SATA SSD\"). Deliberat"
+  ],
+  [
+   "^pci express.*slots$",
+   "expansion_io",
+   "cloud-systems-management: Values list the adapters/NICs fitted in the appliance's expansion slots (VIC 15425, Intel E810) - expansion I/O."
+  ],
+  [
+   "^1/10ge sfp/sfp[+] interfaces$",
+   "ports",
+   "cloud-systems-management: Values are bare counts (4, 2) of data interfaces on the appliance. Escaped the plus with a character class rather than a bac"
+  ],
+  [
+   "^tunn?eling protocols$",
+   "supported_protocols",
+   "hyperconverged-infrastructure: Values are a list of protocols (VLAN Tagging, L2TP, MPLS, GRE, GTP, IPinIP) - exactly what supported_protocols holds."
+  ],
+  [
+   "^processors?$",
+   "cpu",
+   "hyperconverged-infrastructure: Values name Intel Xeon Scalable generations and socket counts - the CPU spec."
+  ],
+  [
+   "^dual power supply$",
+   "psu_redundant",
+   "hyperconverged-infrastructure: Value 'Yes, hot swappable' is a redundant-PSU boolean, not a PSU part list."
+  ],
+  [
+   "^power and cooling$",
+   "psu_options",
+   "hyperconverged-infrastructure: Values enumerate the selectable PSUs ('Hot-pluggable, redundant platinum and titanium options', 'One or two hot-pluggab"
+  ],
+  [
+   "^temperature: ?operating$",
+   "temp_operating",
+   "hyperconverged-infrastructure: Values are operating temperature ranges in F/C."
+  ],
+  [
+   "^temperature: ?non-? ?operating$",
+   "temp_storage",
+   "hyperconverged-infrastructure: Non-operating temperature range is the storage temperature spec (-40 to 65C)."
+  ],
+  [
+   "^rail-? ?kit options$",
+   "mounting",
+   "hyperconverged-infrastructure: Values describe ball-bearing rail kits and cable-management arms - rack mounting hardware."
+  ],
+  [
+   "^rack mountable$",
+   "mounting",
+   "hyperconverged-infrastructure: Values state 4-post EIA-310-D rails / 2-post fixed brackets - mounting method."
+  ],
+  [
+   "^form factor [(]rack units[)]$",
+   "rack_units",
+   "hyperconverged-infrastructure: Value '1RU' is the rack-unit height."
+  ],
+  [
+   "^fans$",
+   "cooling",
+   "hyperconverged-infrastructure: Values describe fan module count and hot-swap fan trays - the cooling subsystem."
+  ],
+  [
+   "^noise$",
+   "acoustic_noise",
+   "hyperconverged-infrastructure: Values are sound pressure/power in dBA."
+  ],
+  [
+   "^certifications$",
+   "certifications",
+   "hyperconverged-infrastructure: Values are country certification marks (CCC, TUV, CE, FCC, KCC)."
+  ],
+  [
+   "^safety/ ?(electromagnetic compatibility [(]emc[)]|emc)/ ?emi( ?& ?certifications)?$",
+   "certifications",
+   "hyperconverged-infrastructure: Values mix safety and EMC standards with country marks (UL/TUV, FCC, IC, CE, UKCA, RCM); certifications is the correct "
+  ],
+  [
+   "^restriction of hazardous substances [(]rohs[)]$",
+   "certifications",
+   "hyperconverged-infrastructure: Value 'Compliant (EU directive 2011/65/EU, 2015/863/EU)' is a regulatory compliance statement."
+  ],
+  [
+   "^advanced reliability, availability, and serviceability [(]ras[)] features$",
+   "serviceability",
+   "hyperconverged-infrastructure: Values list hot-swappable front-accessible drives, dual-redundant fans, reporting - serviceability features."
+  ],
+  [
+   "^fixed ports$",
+   "ports",
+   "hyperconverged-infrastructure: Value '8x 1/10/25 Gigabit Ethernet ports (SFP28)' is the fixed data port complement."
+  ],
+  [
+   "^integrated network management ports$",
+   "mgmt_ports",
+   "hyperconverged-infrastructure: Value '2 x 1/10/25 Gigabit Ethernet ports (SFP28)' is the dedicated management port count."
+  ],
+  [
+   "^management ports: ?ethernet$",
+   "mgmt_ports",
+   "hyperconverged-infrastructure: Values '2 ports' / 'Via virtual interface (virtio)' describe the management Ethernet ports specifically; the bare label"
+  ],
+  [
+   "^max(imum)? legit(imate)? concurrent sessions$",
+   "concurrent_sessions",
+   "hyperconverged-infrastructure: 'Legit' sessions are ordinary concurrent sessions ('1,000,000 sessions per vCPU'); anchored so it cannot swallow 'Max A"
+  ],
+  [
+   "^gain *< *8$",
+   "antenna_gain",
+   "meraki: Values are dBi gain ranges per frequency band (4.18~5.71, 4.13~5.26). The label is a spec-limit header ('gain must be under 8'), the values ar"
+  ],
+  [
+   "^international standards$",
+   "certifications",
+   "meraki: Values are compliance marks and standards: EN 50581 (RoHS), China RoHS, CE Marking, RCM Marking. That is exactly the certifications list."
+  ],
+  [
+   "^(safety )?certifications$",
+   "certifications",
+   "meraki: Values are UL 60950-1 / UL 62368-1, CAN/CSA C22.2, EN/IEC 62368-1 and PTCRB/GCF/RCM approvals - certification standards. Anchored so it cannot"
+  ],
+  [
+   "^emc emissions and immunity compliance$",
+   "emc_emissions",
+   "meraki: Values are FCC 47 CFR Part 15 Class A, ICES 003 Class A, EN 55032/55035, AS/NZS CISPR 32 - emissions standards. Exact anchor so it cannot also"
+  ],
+  [
+   "^video storage$",
+   "storage_capacity",
+   "meraki: Values are '128GB high endurance solid state', '512GB ...' - onboard storage capacity."
+  ],
+  [
+   "^onboard data storage$",
+   "storage_capacity",
+   "meraki: Values are '4000 data points', 'Up to five days of data storage' - the sensor equivalent of onboard storage capacity."
+  ],
+  [
+   "^dedicated management interface$",
+   "mgmt_ports",
+   "meraki: Value is '1' - a count of dedicated out-of-band management ports."
+  ],
+  [
+   "^mount type( [(]out-of-box[)])?$",
+   "mounting",
+   "meraki: Values are '1U Rack Mount', 'Wall / Ceiling Mount', 'Table Top, Wall / Ceiling Mount' - how the unit mounts. Brackets written as character cla"
+  ],
+  [
+   "^hot swap fans$",
+   "cooling",
+   "meraki: Value 'Yes, 3x' describes the fan complement and its serviceability - the cooling arrangement."
+  ],
+  [
+   "^default power supply$",
+   "psu_config",
+   "meraki: Values are shipped PSU part numbers (MA-PWR-350WAC, MA-PWR-1100WAC) - the power supply the unit ships with."
+  ],
+  [
+   "^primary psu$",
+   "psu_config",
+   "meraki: Same concept and same value shape as 'Default Power Supply' (MA-PWR-715WAC) - the fitted primary PSU part."
+  ],
+  [
+   "^hot swap power supply$",
+   "psu_redundant",
+   "meraki: Value 'Yes, Dual' states dual hot-swappable PSUs - power supply redundancy."
+  ],
+  [
+   "^poe$",
+   "poe_budget",
+   "meraki: Values are plain wattages (445W, 720W, 830W) - the PoE power budget. Exact-anchored so it cannot catch 'PoE/ UPoE Capabilities' or 'Max Availa"
+  ],
+  [
+   "^power load [(]max[)]$",
+   "power_max",
+   "meraki: Single maximum wattage values (12.95W, 25.5W, 23.4W (802.3at)). Exact anchor keeps it away from 'Power Load (idle/max)', which carries two num"
+  ],
+  [
+   "^ventilation$",
+   "airflow",
+   "meraki: Values are linear feet per minute (200 LFM, 40 LFM, 0 LFM) - the airflow requirement."
+  ],
+  [
+   "^fiber type$",
+   "fiber_type",
+   "meraki: Values are Multi-Mode Fiber (MMF), Single-Mode Fiber (SMF), N/A (RJ45 Copper SFP) - exactly the existing fiber_type field."
+  ],
+  [
+   "^ieee standards?$",
+   "ieee_standards",
+   "meraki: Values are 802.15.1 (BLE 4.2) etc. - IEEE standard designations."
+  ],
+  [
+   "^operating frequency$",
+   "radio_bands",
+   "meraki: Value '2.400-2.4835 GHz' is the radio band the device transmits in, which is what radio_bands records."
+  ],
+  [
+   "^supported mount accessories$",
+   "product_compatibility",
+   "meraki: Values list separately-sold accessories the unit works with (Wall Mount Arm, Telescoping Pendant Mount, T-Rail Mount Clip). Deliberately NOT m"
+  ],
+  [
+   "^supported cisco optics, media, and transmission distances$",
+   "supported_transceivers",
+   "storage-networking: Values enumerate the SFP/SFP+ transceivers a switch supports (1 Gbps-SW LC SFP, 1 Gbps-LW LC SFP ...) plus their media and distanc"
+  ],
+  [
+   "^port speed$",
+   "data_rate",
+   "storage-networking: Values are line rates ('8/16/32/64-Gbps Fibre Channel', '2/4/8/10/16/32/64-Gbps Fibre Channel 1/10/40-Gbps FCIP'), which is exactl"
+  ],
+  [
+   "^port modules and cisco part numbers$",
+   "supported_modules",
+   "storage-networking: Values are line-card module descriptions and their PIDs (48-port 4/8/16/32-Gbps FC switching module / DS-X9648-1536K9), i.e. the m"
+  ],
+  [
+   "(^|[^a-z])optical input power",
+   "rx_sensitivity",
+   "storage-networking: Rows of the optical parameter table: symbol Pin, min -28.0, max -9.0, unit dBm. Receiver input power min/max is the receiver sensi"
+  ],
+  [
+   "^fibre channel ports$",
+   "ports",
+   "storage-networking: Values state the port complement of the switch ('Fixed-switch form factor with 48 SFP+ ports base', '96 SFP+ ports'), i.e. the por"
+  ],
+  [
+   "^cards, ports, and slots$",
+   "ports",
+   "storage-networking: Values are dominated by the fixed port configuration ('Fixed configuration with 40 ports of 16-Gbps Fibre Channel and 10 po...', '"
+  ],
+  [
+   "^diagnostics$",
+   "diagnostics",
+   "storage-networking: Exact match to the existing diagnostics field; values are POST / Online Health Management System feature lists."
+  ],
+  [
+   "^protocols( [(]continued[)])?$",
+   "supported_protocols",
+   "storage-networking: Values are protocol/standard lists (RFC 791 IPv4, IEEE 802.1Q, FC-GS-6). Parentheses written as character classes to avoid backsla"
+  ],
+  [
+   "^advanced functionality$",
+   "advanced_functions",
+   "storage-networking: Values are the advanced feature list (VSAN, IVR, PortChannel with multipath load balancing, QoS), which is precisely advanced_func"
+  ],
+  [
+   "^modular port adapters$",
+   "supported_modules",
+   "ios-nx-os-software: Values are concrete MPA product names supported by the platform (\"NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA\", \"NCS 5700 - 12x10/"
+  ],
+  [
+   "^nonoperating [(]storage[)] temperature$",
+   "temp_storage",
+   "ios-nx-os-software: Values are a storage temperature range in C and F (\"-40 to 70C (-40 to 158F)\"). Exactly what temp_storage holds. Anchored so it ca"
+  ],
+  [
+   "^manageability$",
+   "programming_interfaces",
+   "ios-nx-os-software: Values are management/programmatic interface lists: CLI, SNMP MIB, NETCONF/gRPC (XML, JSON, GPB), YANG models. That is exactly the"
+  ],
+  [
+   "^power inputs?$",
+   "input_voltage",
+   "ios-nx-os-software: Values are voltage ranges, not wattage: \"Worldwide ranging AC (90-265V; 50-60 Hz) Worldwide ranging DC (-40V to ...)\". Per the val"
+  ],
+  [
+   "^physical specification[s]?$",
+   "dimensions",
+   "ios-nx-os-software: Values are dominated by an H x W x L dimension string plus rack units (\"1RU ... 1.72 in. x 17.5 in. x 15 in (H x W x L) Weight: 7."
+  ],
+  [
+   "^integrated interfaces?$",
+   "data_rate",
+   "ios-nx-os-software: Values are the built-in port line rates (\"1 GE, 10 GE, 25 GE, 40 GE, 100GE\"), not a port count, so ports would be wrong. data_rate"
+  ],
+  [
+   "^expansion$",
+   "expansion_io",
+   "hyperconverged-systems: Values describe PCIe slot/riser and drive-bay expansion capacity (\"Support for up to 8 PCI Express (PCIe) 3.0 slots\", \"One to "
+  ],
+  [
+   "^expansion[ -]?slots?$",
+   "expansion_io",
+   "hyperconverged-systems: Enumerates riser/PCIe slot inventory (\"Riser 1A (3 PCIe slots)\", \"2 full-height, 3/4-length slots with x24 connector and x16 l"
+  ],
+  [
+   "^processors?$",
+   "cpu",
+   "hyperconverged-systems: Values are the actual installed-processor spec (\"One or two 3rd Gen Intel Xeon Scalable Processors (Ice Lake)\"), which is what"
+  ],
+  [
+   "^power and cooling$",
+   "psu_config",
+   "hyperconverged-systems: Despite the label, every sample value is a PSU count/redundancy/wattage statement (\"One or two hot-pluggable power supplies\", "
+  ],
+  [
+   "^rail[ -]?kit options$",
+   "mounting",
+   "hyperconverged-systems: \"Cisco ball-bearing rail kit with optional reversible cable-management arm\" is rack-mounting hardware, which mounting already "
   ]
+ ]
 }
