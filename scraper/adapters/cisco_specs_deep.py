@@ -39,6 +39,15 @@ ACCESSORY = re.compile(r"^(PWR-|FAN-|STACK-|C9300X?-NM-|C9300L?-STACK|MA-)", re.
 
 MODEL_HDR = re.compile(r"^(model|sku|part number|product number|product id)$", re.I)
 
+# Column headers that name no model. A two-column "Feature | Details" table has a subject --
+# the document's own product -- but no per-column subject, so the header word must not be
+# treated as a variant name.
+GENERIC_COLUMN = re.compile(
+    r"^(description|descriptions|details?|specification|specifications|spec|specs|value|values|"
+    r"benefit|benefits|feature|features|reference|references|date|dates|notes?|comments?|"
+    r"information|info|item|items|parameter|parameters|attribute|attributes|"
+    r"part number|product id|product number|capability|capabilities|function|functions)\s*$", re.I)
+
 # A label cell that is really a heading, not an attribute we want.
 SECTION_NOISE = re.compile(r"^(general specifications?|specifications?|features?|table \d+)", re.I)
 
@@ -240,6 +249,22 @@ def parse_shape_b(rows, ti, url):
             # SKU-scoped ones. If the header is a PID, this is a per-SKU measurement.
             if _is_pid(variant):
                 rec["sku"] = variant
+            elif GENERIC_COLUMN.match(variant):
+                # Not a variant at all. A two-column "Feature | Details" table names no model in
+                # its header, so scoping the value to the word "Details" produces a fact that can
+                # never resolve to a part: the merge step looks for SKUs matching that scope
+                # label, finds none, and files it as "scope unresolved" forever.
+                #
+                # Measured over the corpus, this was the single largest pool of wasted work --
+                # roughly 44,000 facts scoped to Description, Specification, Benefit, Value,
+                # Reference and Date. They are real specifications of the document's own
+                # product; they simply have no per-column subject.
+                #
+                # So mark them document-scoped and let the EXISTING scope check decide who may
+                # inherit them. That check already refuses class-B fields that require a per-SKU
+                # source and any SKU outside the document's PID list, so this widens what is
+                # offered without widening what is accepted.
+                rec["family_scope"] = "__document__"
             else:
                 rec["family_scope"] = variant
             recs.append(rec)
