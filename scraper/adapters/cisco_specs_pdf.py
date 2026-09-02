@@ -42,13 +42,30 @@ _KNOWN_NORM: set[str] = set()
 
 
 def _load_sku_map() -> dict[str, list[str]]:
+    """Union of every ground-truth map, not the first one that happens to exist.
+
+    The first version stopped at the first file it found. datasheet-skus-full.json is built by
+    scanning the HTML cache and so contains no PDF at all, and it sorts first -- so merging the
+    PDF ground truth into datasheet-skus.json changed nothing, every document still reported
+    "0 PIDs, grid=0", and the failure looked identical to having no mapping at all. A loader
+    that silently ignores a source is worse than one that errors.
+    """
     global _SKU_MAP
     if not _SKU_MAP:
-        for name in ("data/universe/datasheet-skus-full.json", "data/universe/datasheet-skus.json"):
+        merged: dict[str, list[str]] = {}
+        for name in ("data/universe/datasheet-skus-full.json",
+                     "data/universe/datasheet-skus.json",
+                     "data/universe/datasheet-skus-pdf.json"):
             p = _Path(name)
-            if p.exists():
-                _SKU_MAP = _json.loads(p.read_text(encoding="utf-8"))
-                break
+            if not p.exists():
+                continue
+            for url, skus in _json.loads(p.read_text(encoding="utf-8")).items():
+                if url in merged:
+                    merged[url] = sorted(set(merged[url]) | set(skus))
+                else:
+                    merged[url] = list(skus)
+        _SKU_MAP = merged
+        print(f"  [sku-map] {len(_SKU_MAP)} documents with ground truth", file=sys.stderr)
     return _SKU_MAP
 
 
