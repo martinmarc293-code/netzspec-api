@@ -9,7 +9,7 @@
 //
 // To confirm the validator is alive rather than vacuous: break a rule in
 // lib/descriptionQuality.mjs and watch this go red.
-import { describeQuality } from "../../lib/descriptionQuality.mjs";
+import { describeQuality, isValidPid, isPlaceholderName } from "../../lib/descriptionQuality.mjs";
 
 const CASES = [
   // [input, sku, expected reason]  -- rejections
@@ -42,8 +42,50 @@ const CASES = [
   ["Annnex A compliant VDSL module", "X", "ok"],
 ];
 
+// Replacement part numbers. The prose cases are the real ones: Cisco writes instructions in
+// the migration column, and the first pass stored "See Product Migration Options section for
+// details." as AIR-AP2802E-CK910C's replacement PID, which would render as a link to a part
+// that does not exist.
+const PID_CASES = [
+  ["See Product Migration Options section for details.", false],
+  ["Contact your Cisco account team", false],
+  ["", false],
+  [null, false],
+  ["-", false],
+  ["N/A", false],
+  ["Refer to the migration table.", false],
+  ["SWITCH", false],                       // a word with no digit
+  ["C9200CX-12P-2X2G-E", true],
+  ["WS-C3850-48P", true],
+  ["SFP-10G-SR=", true],
+  ["J9772A", true],
+  ["Z4", true],                            // Meraki short names must survive
+  ["MV2", true],
+];
+
+// Generated placeholder names must read as absent, or nothing ever gets fixed.
+const NAME_CASES = [
+  ["Cisco 0.125K", "0.125K", true],
+  ["Cisco WS-C3850-48P", "WS-C3850-48P", true],
+  ["WS-C3850-48P", "WS-C3850-48P", true],
+  ["", "X", true],
+  ["Catalyst 2960-X 24 GigE PoE 110W", "WS-C2960X-24PSQ-L", false],
+  ["C240 M7 2RU standard server with up to 28x SFF drive bays", "UCSC-C240-M7SX", false],
+];
+
 let pass = 0;
 const misses = [];
+
+for (const [input, want] of PID_CASES) {
+  const got = isValidPid(input);
+  if (got === want) pass++;
+  else misses.push({ input: String(input).slice(0, 52), want: `pid=${want}`, got: `pid=${got}` });
+}
+for (const [name, sku, want] of NAME_CASES) {
+  const got = isPlaceholderName(name, sku);
+  if (got === want) pass++;
+  else misses.push({ input: `${name} / ${sku}`.slice(0, 52), want: `placeholder=${want}`, got: `placeholder=${got}` });
+}
 for (const [input, sku, want] of CASES) {
   const got = describeQuality(input, sku);
   const gotReason = got.ok ? "ok" : got.reason;
@@ -54,7 +96,8 @@ for (const [input, sku, want] of CASES) {
   }
 }
 
-console.log(`${pass}/${CASES.length} passed`);
+const TOTAL = CASES.length + PID_CASES.length + NAME_CASES.length;
+console.log(`${pass}/${TOTAL} passed`);
 if (misses.length) {
   console.log("\nMISSES (wrong reason counts as a miss):");
   for (const m of misses) console.log(`  ${JSON.stringify(m.input)}\n     want ${m.want}  got ${m.got}`);

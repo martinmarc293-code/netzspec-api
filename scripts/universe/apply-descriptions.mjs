@@ -23,7 +23,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { MongoClient } from "mongodb";
-import { describeQuality, isPlaceholderName } from "../../lib/descriptionQuality.mjs";
+import { describeQuality, isPlaceholderName, isValidPid } from "../../lib/descriptionQuality.mjs";
 
 const ROOT = process.cwd();
 const COMMIT = process.argv.includes("--commit");
@@ -75,11 +75,16 @@ for (const r of rows) {
   if (!cur.cisco) set["cisco_description"] = q.text;
   set["provenance.description_source_url"] = r.source_url;
 
-  if (r.replacement_pid) {
+  // Cisco writes prose in the migration column as often as a part number ("See Product
+  // Migration Options section for details."). Storing that as replacement.pid renders it as
+  // a part number, and as a link to a part that cannot exist.
+  if (r.replacement_pid && isValidPid(r.replacement_pid)) {
     const rq = r.replacement_desc ? describeQuality(r.replacement_desc, r.replacement_pid) : { ok: false };
     set["replacement.pid"] = r.replacement_pid;
     if (rq.ok) set["replacement.description"] = rq.text;
     stat.withReplacement++;
+  } else if (r.replacement_pid) {
+    stat.replacementProse = (stat.replacementProse || 0) + 1;
   }
 
   if (!Object.keys(set).some((k) => k !== "provenance.description_source_url")) {
