@@ -205,7 +205,21 @@ def parse_shape_b(rows, ti, url):
     header = rows[0]
     if MODEL_HDR.match((header[0] or "").strip()):
         return recs                      # that is shape A
-    if not any(_looks_like_label(h) for h in header[1:]):
+    # The header must name SOMETHING usable per column — either a variant label or an actual
+    # part number.
+    #
+    # This guard used to test _looks_like_label alone, and _looks_like_label returns False for
+    # anything that IS a PID. So a table headed "Specification | 1210CE | 1210CP | 1220CX" was
+    # rejected precisely BECAUSE every column was a known part number — the most valuable
+    # layout in the whole corpus. Cisco uses it for the deep per-model specs: chassis
+    # dimensions, weight, operating temperature, humidity, altitude, acoustic noise, PoE
+    # budget, interface counts, concurrent sessions, VPN peers. On the Secure Firewall 1200
+    # datasheet that silently discarded tables 4, 9 and 10 and left 1210CP with six facts, of
+    # which three survived mapping, from a sheet carrying more than forty per-model values.
+    #
+    # The first column header is the giveaway: Cisco writes "Specification", "Feature",
+    # "Metric" or "Measure" there when the MODELS are the columns.
+    if not any(_looks_like_label(h) or _is_pid((h or "").strip()) for h in header[1:]):
         return recs
     if len(header) < 2:
         return recs
