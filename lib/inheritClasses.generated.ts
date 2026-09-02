@@ -16,6 +16,16 @@
 // costs coverage, a wrong A silently writes one model's value onto every sibling.
 
 export const GENERATED_CLASS_A: string[] = [
+  // --- 2026-09-02 classification of fields canInherit was refusing by default ---
+  "vendor", // Every part number on one datasheet comes from the same manufacturer, so the value cannot differ between SKUs.
+  "series", // Every part number on one datasheet belongs to the same product series by definition, so the value cannot differ between two SKUs on that sheet.
+  "fabric_services", // A software fabric feature set is stated for the platform/software image covering every SKU on the sheet, matching how other feature lists are already 
+  "programming_interfaces", // Programmability APIs come from the shared operating system and are identical for every part number on the datasheet.
+  "emc_emissions", // Regulatory emissions standards (EN 55032, FCC Part 15 etc.) are declared once for the product family, matching the existing class A treatment of certi
+  "diagnostics", // Diagnostic and troubleshooting tooling is a software feature list of the shared OS, matching the existing A treatment of security_features and qos_fea
+  "etsi_standards", // ETSI conformance is document-level regulatory compliance that applies to every part on the datasheet, matching the existing class A treatment of certi
+  "rfc_compliance", // Supported RFCs are a property of the shared software image and standards conformance stated once for the whole product line.
+  "emc_immunity", // EMC immunity is a list of regulatory standards the whole product family is certified against and cannot meaningfully differ between part numbers on on
   "audio_codecs",   // A standards list (G.711, G.722, Opus, AAC-LD) implemented in shared software across the series.
   "automation_features",   // Automation/provisioning capability list (software and management features) shared by all members.
   "call_control",   // List of supported call-control platforms and registration modes - a software capability shared across the series.
@@ -68,6 +78,82 @@ export const GENERATED_CLASS_A: string[] = [
 ];
 
 export const GENERATED_CLASS_B: string[] = [
+  // --- 2026-09-02 classification of fields canInherit was refusing by default ---
+  "cpu", // Processor model, core count and clock routinely differ between the base and higher-performance part numbers listed on one sheet.
+  "wavelength", // Optics variants on one datasheet are exactly the things that differ by wavelength (850/1310/1550nm, CWDM/DWDM channels).
+  "laser_type", // VCSEL, FP, DFB and EML appear across different reach variants of the same transceiver family on one sheet.
+  "cable_length", // DAC/AOC and antenna cable part numbers differ from each other almost solely by length, so the length is the SKU.
+  "vpn_throughput", // Measured performance figure that scales with the model's hardware and is quoted per appliance in the sheet's comparison table.
+  "wifi_generation", // A single AP or router datasheet can cover Wi-Fi 6 and Wi-Fi 6E/7 models, and radio generation is a headline per-model claim.
+  "wlc_client_capacity", // Controller scale limits are the primary way controller part numbers are differentiated from each other.
+  "antenna_connector", // Internal-antenna and external-antenna SKUs of the same AP sit on one sheet and differ precisely in connector presence and type.
+  "coherent_interop_standards", // Which coherent modes a module interops with (400ZR vs OpenZR+ vs OpenROADM) varies between the optics variants listed on one sheet; unsure enough to t
+  "expansion_io", // Slot and expansion I/O counts are a physical per-chassis property that differs between models on one sheet.
+  "min_software_release", // Cisco sheets routinely list a different minimum IOS-XE/NX-OS release per model, with newer SKUs requiring a later train.
+  "product_compatibility", // The list of platforms a module or optic works in differs between form-factor and speed variants on the same sheet.
+  "rx_wavelength", // Receiver input wavelength range is an optical measurement tied to the specific transceiver variant, not the family.
+  "ip_rating", // A single sheet can cover both a standard and a ruggedized/outdoor variant with different ingress-protection ratings, so the rating differs per part nu
+  "reach_max", // Reach is the defining difference between optic variants (SR/LR/ER) listed on the same transceiver datasheet.
+  "mode", // Duplex and simplex-BiDi variants routinely appear on the same optics datasheet, so transmission mode is per-SKU.
+  "wire_gauge", // Cable/DAC datasheets list several part numbers whose conductor gauge varies with length and speed, so gauge is per-SKU.
+  "concurrent_sessions", // Session capacity is a headline per-model performance number that scales across the appliance models on one sheet; inheriting it would state a false ca
+  "spatial_streams", // Access point models on one sheet differ in radio chains, so spatial stream counts differ per part number.
+  "radio_bands", // Dual-band and tri-band variants of the same AP family share a datasheet, so the supported band set is per-model.
+  "antenna_gain", // Gain is measured per antenna/AP model and varies between the part numbers on one antenna datasheet.
+  "cross_connect", // Cross-connect capacity/capability scales with the chassis or line card model rather than being one document-wide fact.
+  "serviceability", // Serviceability items are hardware facts (field-replaceable fans, hot-swap PSUs) that differ between the chassis models on one sheet; unsure, so classe
+  "supported_transceivers", // Which optics a unit accepts depends on its own port speeds and slots, so a 1G and a 25G model on the same sheet support different modules.
+  "form_factor", // Two part numbers on one datasheet routinely differ here — a desktop unit and a 1U rack unit, or a SFP vs QSFP variant, are documented together.
+  "data_rate", // A single transceiver or switch family sheet lists 1G, 10G and 25G part numbers, so the rate is the defining per-SKU difference.
+  "tx_power", // Optical launch power is measured per optic variant and differs between short-reach and long-reach SKUs on the same sheet.
+  "ddm", // DDM/DOM support varies between optics variants in one family (older or low-cost SKUs omit it), so a document-level yes would be a specific falsehood.
+  "firewall_throughput", // Throughput is the primary per-model differentiator on a firewall family datasheet listing several appliance sizes.
+  "vpn_peers", // Supported IPsec peer counts scale with the appliance model and are published per part number in the same table.
+  "max_data_rate", // Maximum rate is per-model by definition — the same sheet covers slower and faster part numbers.
+  "ipsec_throughput", // Crypto throughput is measured per hardware model and differs across every appliance size on one sheet.
+  "attenuation_dead_zone", // A measured optical/OTDR performance figure that varies with the specific module variant, so it must come from a per-SKU source.
+  "itu_channel", // The DWDM/CWDM ITU channel or wavelength is exactly what distinguishes one optic part number from the next on a channel-plan datasheet.
+  "otn_pm", // Unsure — it reads like a shared feature list, but OTN monitoring capability genuinely differs between transponder and client-side variants in one fami
+  "redundancy", // Power-supply and fan redundancy differs between a fixed entry model and a dual-PSU model documented on the same sheet, in line with psu_redundant bein
+  "threat_defense_throughput", // A measured per-appliance performance number that is the main axis of comparison between models on a Firepower-style datasheet.
+  "layer", // One switch datasheet routinely lists L2-only and L3/IP-Services models side by side (e.g. LAN Lite vs IP Base SKUs), so the switching layer differs be
+  "standard", // A transceiver or interface-module family sheet covers 1000BASE-LX, 10GBASE-SR, 25G, 100G variants at once, so the transmission standard is exactly the
+  "connector", // Optics variants on one sheet mix LC duplex, MPO-12 and RJ45, so the connector differs per SKU.
+  "bidi_wavelengths", // BiDi pairs are sold as complementary SKUs (1310/1490 upstream vs 1490/1310 downstream) on the same document, so TX/RX wavelengths are opposite between
+  "msa", // MSA compliance names the form factor (SFP vs SFP+ vs QSFP28 MSA) which differs between variants on one family sheet; not fully certain it is never a d
+  "new_conn_per_sec", // Connections-per-second is a per-model performance figure published in a comparison table across firewall models on one sheet.
+  "radio_count", // Access-point families on a single sheet mix dual-radio and tri-radio models, so the radio count differs per part number.
+  "router_throughput", // System throughput is the headline per-model performance number and is the primary axis on which SKUs in one family differ.
+  "anyconnect_sessions", // Maximum VPN user sessions is a licensed, per-platform capacity figure listed per model in the firewall comparison table.
+  "input_power_range", // Optical input power range is a measured receiver specification that differs between reach and wavelength variants of the same optics family.
+  "recycled_content", // Recycled content is a percentage measured on the actual enclosure and differs between chassis sizes and model variants on one sheet.
+  "shelf_assembly", // Shelf assembly identifies which physical shelf or chassis a given card or unit belongs to, which is precisely a per-part-number property on multi-card
+  "fiber_type", // One optics datasheet lists SR (OM3/OM4) and LR (OS1) variants side by side, so the fiber type differs directly between part numbers.
+  "link_budget", // Optical link budget in dB is measured per transceiver variant and differs between short-reach and long-reach parts on the same sheet.
+  "temp_class", // Commercial and industrial-temperature versions of the same optic or switch are separate part numbers on one datasheet, differing only in this value.
+  "ips_throughput", // Inspection throughput is benchmarked per appliance model and is the main figure that separates two part numbers in a security family.
+  "storage_capacity", // Onboard flash/SSD size is a per-model hardware quantity and routinely differs between SKUs in the same family.
+  "wlc_ap_capacity", // Supported access-point count is the primary scaling difference between controller models listed on one datasheet.
+  "advanced_functions", // Advanced feature lists track model tier or license bundle and differ between base and premium part numbers on the same sheet.
+  "chassis_compatibility", // Which chassis a module fits is specific to that module SKU, and a sheet covering several modules lists different compatibility for each.
+  "jacket_material", // PVC, LSZH and plenum jacket versions are distinct ordering codes on the same cable datasheet.
+  "power_full_load", // Watts at full throughput is measured per model and scales with the hardware, so it cannot be copied between part numbers.
+  "supported_modules", // Which line cards or interface modules a device accepts depends on its slot count and chassis, differing between models on one sheet.
+  "nonoverlapping_channels", // Non-overlapping channel counts follow the radio and band support of a specific model, and dual- versus tri-radio SKUs on one sheet differ; unsure of t
+  "stackable", // One datasheet routinely covers both stackable and non-stackable members of a family, so this boolean can flip between two part numbers on the same she
+  "media", // The transmission medium is the defining difference between optic variants on one transceiver datasheet (MMF vs SMF vs DAC vs RJ45), so it differs per 
+  "rx_sensitivity", // Receiver sensitivity is a measured per-optic figure that differs between short-reach and long-reach variants listed on the same datasheet.
+  "fec", // FEC requirement is tied to the individual optic's reach and modulation, so two SKUs on one sheet can require RS-FEC and none respectively.
+  "threat_throughput", // Inspection throughput is the primary per-model differentiator in a firewall family table and differs for every part number on the sheet.
+  "max_interfaces", // Maximum interface count scales with the chassis or model size, so it differs between part numbers on the same datasheet.
+  "ap_max_clients", // Client capacity depends on the radio and CPU of the individual model, so a datasheet covering several APs states a different number for each.
+  "ipsec_tunnels", // Tunnel capacity is a per-model scale figure that differs across every entry in a security appliance family table; chosen B over the C-class capacity c
+  "beamwidth_elevation", // Elevation beamwidth is a measured antenna property that differs between antenna variants on one sheet, matching beamwidth_3db and beamwidth_azimuth al
+  "jacket_color", // Cable jacket color distinguishes variants (e.g. by mode or length) on a single sheet, and the existing convention already classes color as B.
+  "polarization", // Polarization is a physical antenna property that differs between single- and dual-polarized variants listed on the same antenna datasheet.
+  "reflective_dead_zone", // A measured optical-test figure that varies between module or wavelength variants on one datasheet.
+  "slot_compatibility", // Which chassis slots a module fits depends on the specific module SKU, so it differs between part numbers on a shared module datasheet.
+  "tls_throughput", // TLS decryption throughput is measured per appliance model and differs for every part number in a security family table.
   "ac_current",   // Electrical draw measured per model (0.48/0.49/0.50 A).
   "ac_through_current",   // Electrical rating in amps; a per-SKU housing/passive rating.
   "amplifier_type",   // Names the output device technology (GaN vs GaAs FET), which is exactly what differs between the high-output and standard variants of one amp
@@ -240,6 +326,13 @@ export const GENERATED_CLASS_B: string[] = [
 ];
 
 export const GENERATED_CLASS_C: string[] = [
+  // --- 2026-09-02 classification of fields canInherit was refusing by default ---
+  "supported_protocols", // Usually a shared software feature list for the whole family, but licence tiers or a mixed-platform sheet can state a per-model list that must win.
+  "mounting", // Mounting is usually described once for the family but a sheet can list a per-model kit (desktop vs rack) that must win over the document value.
+  "shock", // Shock and vibration limits are usually stated once for the family like temp_operating, but ruggedized or DIN-rail variants on the same sheet can overr
+  "optical_pm", // Trunk optical performance monitoring is usually a shared platform capability but individual line cards or lower-tier variants on the same optical shee
+  "usb_console", // An integrated USB console is normally uniform across a family (existing convention puts console_port in A), but compact or fanless variants on the sam
+  "deploy_role", // A datasheet usually positions one series at a single role, but hardened or uplink-heavy variants on the same sheet can sit at a different layer, so in
   "altitude_storage",   // An environmental envelope (up to 4000/13,000), typically series-wide, but a per-model figure in the same document must override.
   "attack_concurrent_sessions",   // An architectural scale limit ('Unlimited'), normally uniform across a series, but a per-model figure in the document must win.
   "cluster_min_nodes",   // An architectural minimum for the solution, normally stated once per series, but a per-model statement must override.
