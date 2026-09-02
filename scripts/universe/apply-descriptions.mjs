@@ -23,7 +23,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { MongoClient } from "mongodb";
-import { describeQuality } from "../../lib/descriptionQuality.mjs";
+import { describeQuality, isPlaceholderName } from "../../lib/descriptionQuality.mjs";
 
 const ROOT = process.cwd();
 const COMMIT = process.argv.includes("--commit");
@@ -66,9 +66,12 @@ for (const r of rows) {
   const cur = existing.get(r.sku);
   if (!cur) { stat.notInDb++; continue; }
 
+  // A generated "Cisco <SKU>" name counts as absent, or nothing gets fixed: 85,278 of the
+  // 89,090 parts carry one, and treating it as real content means every catalog page keeps
+  // a headline that merely repeats its own part number.
   const set = {};
-  if (!cur.deName) set["i18n.de.name"] = q.text;
-  if (!cur.enName) set["i18n.en.name"] = q.text;
+  if (isPlaceholderName(cur.deName, r.sku)) set["i18n.de.name"] = q.text;
+  if (isPlaceholderName(cur.enName, r.sku)) set["i18n.en.name"] = q.text;
   if (!cur.cisco) set["cisco_description"] = q.text;
   set["provenance.description_source_url"] = r.source_url;
 

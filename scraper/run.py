@@ -26,6 +26,7 @@ ADAPTERS = {
     "cisco-datasheets": ("adapters.cisco_datasheets", "cisco-datasheets"),
     "cisco-datasheet-specs": ("adapters.cisco_datasheet_specs", "cisco-datasheet-specs"),
     "cisco-specs-deep": ("adapters.cisco_specs_deep", "cisco-specs-deep"),
+    "cisco-specs-pdf": ("adapters.cisco_specs_pdf", "cisco-specs-pdf"),
 }
 
 def main() -> int:
@@ -60,7 +61,8 @@ def main() -> int:
         elif args.adapter in ("cisco-tmg", "cisco-tmg-platform"):
             platforms = [s.strip() for s in args.platforms.split(",") if s.strip()]
             records = mod.run(br, platforms)
-        elif args.adapter in ("cisco-datasheets", "cisco-datasheet-specs", "cisco-specs-deep"):
+        elif args.adapter in ("cisco-datasheets", "cisco-datasheet-specs", "cisco-specs-deep",
+                              "cisco-specs-pdf"):
             if args.urls_file:
                 urls = [ln.strip() for ln in Path(args.urls_file).read_text(encoding="utf-8").splitlines() if ln.strip()]
             else:
