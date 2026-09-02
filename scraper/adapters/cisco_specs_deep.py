@@ -322,13 +322,35 @@ def parse_shape_c(rows, ti, url):
 
 
 def document_pids(rows_all) -> list[str]:
-    """Every PID the DOCUMENT itself enumerates. This is the scope set for any family-level fact
-    (Q5): a family value may only be inherited by a SKU this document actually lists."""
+    """Every PID the DOCUMENT itself enumerates as a SUBJECT. This is the scope set for any
+    family-level fact (Q5): a family value may only be inherited by a SKU this document lists.
+
+    Two places make a PID a subject, and only two:
+
+      column 0 of any row   — the model column of a normal spec table
+      the HEADER row        — a transposed table, "Specification | 1210CE | 1210CP | 1220CX",
+                              where the models ARE the columns
+
+    The header case was missing, so every part described only by a transposed table was absent
+    from its own document's scope set and had every document-level fact refused as
+    INHERIT_SCOPE_VIOLATION. That is the same layout the shape-B header guard used to discard
+    outright, so the two bugs hid each other.
+
+    NOT widened to every known SKU the document mentions, though the SKU map holds roughly twice
+    as many. A datasheet also names the transceivers a switch accepts, the rack kits that fit it
+    and the successor that replaces it. Those parts are mentioned, not described, and letting
+    them inherit the switch's dimensions and weight would state a specific falsehood on each of
+    their pages -- exactly the failure the scope check exists to prevent.
+    """
     pids = set()
     for rows in rows_all:
         for cells in rows:
             if cells and _is_pid(cells[0].strip()):
                 pids.add(cells[0].strip())
+        if rows:
+            for h in rows[0][1:]:
+                if h and _is_pid(h.strip()):
+                    pids.add(h.strip())
     return sorted(pids)
 
 
