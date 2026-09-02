@@ -161,6 +161,19 @@ export const INHERIT_CLASS_C = new Set([
   "acl_entries", "packet_buffer", "jumbo_mtu", "flash", "dram", "latency",
 ]);
 
+// The generated half of the vocabulary needs classes too, or canInherit refuses all of it by
+// default — and that is not a small loss: Cisco states most facts once per SERIES, so the
+// corpus holds 29,703 mapped family-scoped facts against 5,144 SKU-scoped ones.
+//
+// Hand-written membership WINS on any conflict: these sets are added to, never overridden, so
+// a curated decision can never be silently replaced by a generated one. A field classified B
+// stays out of A and C by construction, since B is tested first in canInherit.
+import { GENERATED_CLASS_A, GENERATED_CLASS_B, GENERATED_CLASS_C } from "./inheritClasses.generated";
+
+for (const k of GENERATED_CLASS_B) INHERIT_CLASS_B.add(k);
+for (const k of GENERATED_CLASS_A) if (!INHERIT_CLASS_B.has(k)) INHERIT_CLASS_A.add(k);
+for (const k of GENERATED_CLASS_C) if (!INHERIT_CLASS_B.has(k) && !INHERIT_CLASS_A.has(k)) INHERIT_CLASS_C.add(k);
+
 export type InheritCheck = {
   ok: boolean;
   cls: "A" | "B" | "C" | "unknown";
