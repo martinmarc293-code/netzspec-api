@@ -41,6 +41,42 @@ def _ledger(rec: dict) -> None:
     with LEDGER.open("a", encoding="utf-8") as f:
         f.write(json.dumps(rec) + "\n")
 
+class CacheOnlyBrowser:
+    """A PoliteBrowser stand-in that reads the cache and NEVER touches the network.
+
+    Re-extraction runs over a corpus we already hold are 100% cache hits, so launching
+    Chromium for them buys nothing and costs a great deal: six parallel extraction shards
+    started six browsers, exhausted memory, and every worker died before writing a single
+    log line -- leaving 22 orphaned chrome processes behind and empty logs that looked like
+    the shards had never started.
+
+    It raises FileNotFoundError on a miss rather than silently returning empty, so a run
+    against an incomplete cache fails loudly instead of reporting a clean zero-fact sweep.
+    Use PoliteBrowser whenever anything might need fetching.
+    """
+    def __init__(self, *_a, **_kw):
+        self.stats = {"cache_hits": 0, "fetches": 0, "robots_blocked": 0, "cache_misses": 0}
+
+    def fetch(self, url: str, **_kw) -> str:
+        cf = CACHE / f"{_key(url)}.html"
+        if not cf.exists():
+            self.stats["cache_misses"] += 1
+            raise FileNotFoundError(f"not cached: {url}")
+        self.stats["cache_hits"] += 1
+        return cf.read_text(encoding="utf-8", errors="replace")
+
+    def fetch_binary(self, url: str, **_kw) -> bytes:
+        cf = CACHE / f"{_key(url)}.bin"
+        if not cf.exists():
+            self.stats["cache_misses"] += 1
+            raise FileNotFoundError(f"not cached: {url}")
+        self.stats["cache_hits"] += 1
+        return cf.read_bytes()
+
+    def close(self) -> None:
+        return None
+
+
 class PoliteBrowser:
     """A single Chromium context; fetch() caches + throttles per host."""
     def __init__(self, headless: bool = True, locale: str = "en-US"):

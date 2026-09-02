@@ -11,7 +11,7 @@ Examples:
 Then:
   node scripts/universe/apply-lifecycle.mjs data/universe/<source>_<date>.json --commit
 """
-import argparse, sys, importlib
+import argparse, json, sys, importlib
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import netzscrape  # noqa: E402
@@ -37,12 +37,18 @@ def main() -> int:
     ap.add_argument("--urls", default="", help="comma-separated datasheet URLs (cisco-datasheets)")
     ap.add_argument("--urls-file", default="", help="file of datasheet URLs, one per line (batch)")
     ap.add_argument("--headed", action="store_true", help="visible browser (watch / pass a challenge)")
+    ap.add_argument("--out", default="", help="explicit output path (required for parallel shards)")
+    ap.add_argument("--cache-only", action="store_true",
+                    help="read the cache, never the network (re-extraction runs; no Chromium, "
+                         "so shards can run in parallel). Errors on a cache miss rather than "
+                         "quietly reporting zero facts.")
     args = ap.parse_args()
 
     modname, source = ADAPTERS[args.adapter]
     mod = importlib.import_module(modname)
 
-    br = netzscrape.PoliteBrowser(headless=not args.headed)
+    br = (netzscrape.CacheOnlyBrowser() if args.cache_only
+          else netzscrape.PoliteBrowser(headless=not args.headed))
     records = []
     try:
         if args.adapter == "cisco-eol-urls":
@@ -78,7 +84,17 @@ def main() -> int:
 
     if not records:
         print("\nno records produced."); return 1
-    out = netzscrape.write_output(source, records)
+    if args.out:
+        # Parallel shards of the same adapter would otherwise all write
+        # {source}_{today}.json and silently overwrite each other, so a 6-way split would
+        # keep only whichever worker happened to finish last.
+        out = Path(args.out)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps({"source": source, "generated_at": netzscrape._now(),
+                                   "records": records}, indent=2, ensure_ascii=False),
+                       encoding="utf-8")
+    else:
+        out = netzscrape.write_output(source, records)
     print(f"\nwrote {len(records)} record(s) -> {out}")
     print(f"next: node scripts/universe/apply-lifecycle.mjs {out.as_posix()} --commit")
     return 0
