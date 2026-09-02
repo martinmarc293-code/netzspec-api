@@ -79,8 +79,19 @@ const UNITS: Record<string, [string, number]> = {
   "tbit/s": ["throughput", 1e12], "tbps": ["throughput", 1e12],
   // packet rate — base pps
   "pps": ["packetrate", 1], "kpps": ["packetrate", 1e3], "mpps": ["packetrate", 1e6], "bpps": ["packetrate", 1e9],
-  // power — base W
-  "w": ["power", 1], "watt": ["power", 1], "kw": ["power", 1e3], "mw": ["power", 1e-3],
+  // power — base W. Cisco spells the unit out as often as it abbreviates it ("425 watts
+  // typical"), and the plural was missing, so every spelled-out figure was UNIT_UNKNOWN.
+  "w": ["power", 1], "watt": ["power", 1], "watts": ["power", 1],
+  "kw": ["power", 1e3], "kilowatt": ["power", 1e3], "kilowatts": ["power", 1e3],
+  "mw": ["power", 1e-3], "va": ["power", 1],
+  // mass and length, spelled out — same reason
+  "kilogram": ["mass", 1e3], "kilograms": ["mass", 1e3], "gram": ["mass", 1], "grams": ["mass", 1],
+  "pound": ["mass", 453.59237], "pounds": ["mass", 453.59237],
+  "metre": ["length", 1], "metres": ["length", 1], "meter": ["length", 1], "meters": ["length", 1],
+  "millimeter": ["length", 1e-3], "millimeters": ["length", 1e-3],
+  "centimeter": ["length", 1e-2], "centimeters": ["length", 1e-2],
+  "kilometer": ["length", 1e3], "kilometers": ["length", 1e3],
+  "feet": ["length", 0.3048], "foot": ["length", 0.3048],
   // memory — base byte
   "byte": ["memory", 1], "bytes": ["memory", 1], "b": ["memory", 1],
   "kb": ["memory", 1024], "mb": ["memory", 1048576], "gb": ["memory", 1073741824], "tb": ["memory", 1099511627776],
@@ -211,7 +222,14 @@ const ENUM_RULES: Record<string, [RegExp, string][]> = {
   mode: [[/bidi|simplex|einzelfaser|single.?fib/i, "simplex-bidi"], [/duplex|zweifaser/i, "duplex"]],
   fec: [[/rs.?fec|clause\s*91|kr4/i, "rs-fec"], [/fc.?fec|firecode|clause\s*74/i, "fc-fec"],
     [/host|abh(ä|ae)ngig|dependent/i, "host-dependent"], [/kein|none|nicht erforderlich|ohne/i, "none"]],
-  temp_class: [[/industrial|industrie|i-?temp/i, "industrial"], [/extended|erweitert|e-?temp/i, "extended"], [/commercial|kommerziell|standard/i, "commercial"]],
+  // Cisco writes the optic temperature class as a bare three-letter code in its own tables —
+  // IND, COM, EXT — while the domain holds the spelled-out words, so 146 values were rejected
+  // ENUM_VIOLATION for saying exactly the right thing in Cisco's notation. The codes are
+  // anchored so "IND" cannot fire on a word that merely contains those letters, and EXT is
+  // tested before COM because "extended commercial" occurs and the more specific class wins.
+  temp_class: [[/^\s*ind\s*$|industrial|industrie|i-?temp/i, "industrial"],
+    [/^\s*ext\s*$|extended|erweitert|e-?temp/i, "extended"],
+    [/^\s*com\s*$|commercial|kommerziell|standard/i, "commercial"]],
 };
 
 const FORM_FACTOR_SWITCH: [RegExp, string][] = [
@@ -243,6 +261,48 @@ const BOOL_HINTS: Record<string, RegExp> = {
 // entry point
 // ---------------------------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------------------------
+// Value preprocessing — three rejection causes measured over the full corpus, all of them real
+// data thrown away rather than bad data correctly refused.
+// ---------------------------------------------------------------------------------------------
+
+// 1. Cisco writes temperatures with the MASCULINE ORDINAL (U+00BA) rather than the DEGREE SIGN
+//    (U+00B0): "-5º to 45ºC". They are visually identical and the unit regex matches only the
+//    real degree sign, so "45ºC" parsed as a bare number and was rejected UNIT_MISSING. ~1,350
+//    facts. Also normalise the various dash and space characters Cisco mixes into ranges.
+const DEGREE_LOOKALIKES = new RegExp("[\\u00ba\\u00b0\\u02da\\u030a]", "g");
+const NBSP = new RegExp("[\\u00a0\\u202f\\u2007]", "g");
+
+// 2. Imperial first, metric in parentheses: "-40° to 158°F (-40° to 70°C)", "0 to 13,123 ft
+//    (0 to 4000m)". The parser reads the FIRST number+unit, gets Fahrenheit or feet, and either
+//    rejects it or would store the wrong magnitude. Prefer the parenthesised metric value when
+//    one is present — it is the same measurement, stated in the unit we canonicalise to.
+const METRIC_PAREN = new RegExp("\\(([^()]*?(?:[0-9][^()]*?)(?:°C|C\\b|m\\b|mm\\b|cm\\b|kg\\b|g\\b|km\\b)[^()]*?)\\)", "i");
+const IMPERIAL_LEAD = new RegExp("(°F|\\bF\\b|\\bft\\b|\\bin\\b|\\binch|\\blbs?\\b|\\bmiles?\\b)", "i");
+
+// 3. "425 watts typical, 525 watts maximum" — a *_max field must take the MAXIMUM, not the first
+//    number on the line, which is the typical draw. Reading the first would understate every
+//    such part's power budget.
+const TYPICAL_MAX = new RegExp("([0-9][0-9.,]*)\\s*([A-Za-z/()]+)?\\s*(?:typical|typ\\.?|nominal)[^0-9]*([0-9][0-9.,]*)\\s*([A-Za-z/()]+)?\\s*(?:max|maximum)", "i");
+
+export function preprocessValue(raw: string, key: string): string {
+  let s = raw.replace(NBSP, " ");
+  s = s.replace(DEGREE_LOOKALIKES, "°");
+
+  // a *_max / power field stated as "typical ... maximum" resolves to the maximum
+  if (/_max$|^power_max$|^heat_dissipation$/.test(key)) {
+    const tm = TYPICAL_MAX.exec(s);
+    if (tm) return `${tm[3]}${tm[4] ? " " + tm[4] : (tm[2] ? " " + tm[2] : "")}`.trim();
+  }
+
+  // imperial outside, metric inside the parentheses -> keep the metric
+  if (IMPERIAL_LEAD.test(s)) {
+    const mp = METRIC_PAREN.exec(s);
+    if (mp) s = mp[1].trim();
+  }
+  return s.trim();
+}
+
 export type NormOpts = {
   /** decimal/thousands convention of the SOURCE document ("en" for Cisco datasheets) */
   locale?: Locale;
@@ -257,7 +317,7 @@ export function normalizeField(category: string, key: string, raw: string, opts:
   const hint = opts.unitHint;
   const def = FIELD_DICTIONARY[key];
   if (!def) return bad("UNMAPPED_HEADER", `no dictionary entry for "${key}"`);
-  const s = String(raw ?? "").trim();
+  const s = preprocessValue(String(raw ?? "").trim(), key);
   if (!s) return bad("PARSE_FAIL", `${key}: empty value`);
   const canonical = unitFor(category, key);
 

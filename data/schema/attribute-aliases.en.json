@@ -463,8 +463,8 @@
   ],
   [
    "^cable type$",
-   "fiber_type",
-   "[agent switches] Samples MMF/SMF are multimode vs single-mode fiber, exactly the fiber_type enum. Copper cases would fall to media, but o"
+   "media",
+   "re-pointed: MMF/SMF are media modes, not om1-os2 fibre grades"
   ],
   [
    "^ac/dc input voltage(?: and current)?$",

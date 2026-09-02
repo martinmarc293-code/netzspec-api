@@ -51,6 +51,37 @@ async function main() {
   const { docs, facts } = loadExtract(file);
   const day = new Date().toISOString().slice(0, 10);
 
+  // Every fact used to be normalised as if it were a SWITCH, because mapFact's category
+  // parameter defaults to "switches" and nothing passed one. The category is not cosmetic: it
+  // selects UNIT_OVERRIDES and DOMAIN_OVERRIDES, so a transceiver's form_factor was checked
+  // against the switch domain (rack-19, desktop, din-rail, modular-chassis) and every real
+  // optic value — sfp, qsfp28, x2 — was rejected ENUM_VIOLATION. Its weight canonicalised to
+  // kg rather than g for the same reason.
+  //
+  // So load sku -> category up front, one pass, before any mapping happens.
+  const catClient = new MongoClient(env.MONGODB_URI as string);
+  await catClient.connect();
+  const catOfSku = new Map<string, string>();
+  for await (const p of catClient.db(env.MONGODB_DB || "netzspec").collection("parts")
+    .find({}, { projection: { _id: 0, sku: 1, category: 1 } })) {
+    if (p.sku && p.category) catOfSku.set(String(p.sku), String(p.category));
+  }
+  await catClient.close();
+  console.log(`sku->category loaded: ${catOfSku.size}`);
+  // A family-scoped fact has no SKU of its own, so it takes the majority category of the
+  // document's own PID list rather than silently falling back to "switches".
+  const catOfDoc = new Map<string, string>();
+  for (const d of docs) {
+    const tally = new Map<string, number>();
+    for (const pid of d.pid_list || []) {
+      const c = catOfSku.get(pid);
+      if (c) tally.set(c, (tally.get(c) || 0) + 1);
+    }
+    let best = "switches", bestN = 0;
+    for (const [c, n] of tally) if (n > bestN) { best = c; bestN = n; }
+    catOfDoc.set(d.source_url, best);
+  }
+
   // document registry: doc_id -> url + its own PID enumeration (the inheritance scope set)
   const docByUrl = new Map<string, { doc_id: string; url: string; doc_type: string;
     fetched_at: string; pid_list: string[]; tables?: number }>();
@@ -72,7 +103,7 @@ async function main() {
 
   for (const f of facts as RawFact[]) {
     stats.facts++;
-    const m = mapFact(f);
+    const m = mapFact(f, (f.sku && catOfSku.get(f.sku)) || catOfDoc.get(f.source_url) || "switches");
     if (m.kind === "unmapped") { stats.unmapped++; continue; }
     if (m.kind === "sentinel") { stats.sentinel++; continue; }
     if (m.kind === "rejected") { stats.rejected++; bump(m.reason); continue; }
