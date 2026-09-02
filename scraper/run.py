@@ -19,6 +19,7 @@ import netzscrape  # noqa: E402
 # adapter key -> (module, source-name)
 ADAPTERS = {
     "cisco-eol": ("adapters.cisco_eol", "cisco-eol"),
+    "cisco-eol-urls": ("adapters.cisco_eol", "cisco-eol"),
     "hpe-aruba-eol": ("adapters.hpe_aruba_eol", "hpe-aruba-eol"),
     "cisco-tmg": ("adapters.cisco_tmg", "cisco-tmg"),
     "cisco-tmg-platform": ("adapters.cisco_tmg_platform", "cisco-tmg-platform"),
@@ -43,7 +44,15 @@ def main() -> int:
     br = netzscrape.PoliteBrowser(headless=not args.headed)
     records = []
     try:
-        if args.adapter == "cisco-eol":
+        if args.adapter == "cisco-eol-urls":
+            if args.urls_file:
+                urls = [ln.strip() for ln in Path(args.urls_file).read_text(encoding="utf-8").splitlines() if ln.strip()]
+            else:
+                urls = [s.strip() for s in args.urls.split(",") if s.strip()]
+            if not urls:
+                print("give --urls-file <file> or --urls u1,u2", file=sys.stderr); return 2
+            records = mod.run_urls(br, urls)
+        elif args.adapter == "cisco-eol":
             series = [s.strip() for s in args.series.split(",") if s.strip()]
             if not series:
                 print("give --series slug1,slug2,...", file=sys.stderr); return 2

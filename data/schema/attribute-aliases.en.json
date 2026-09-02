@@ -385,6 +385,56 @@
       "ipsec tunnels|vpn tunnels|maximum tunnels|number of tunnels|site-to-site tunnels",
       "ipsec_tunnels",
       ""
+    ],
+    [
+      "typical power consumption|^typical power",
+      "power_typical",
+      ""
+    ],
+    [
+      "worst.case power|maximum power consumption|^power consumption$|^power consumption |^power draw|^system power",
+      "power_max",
+      ""
+    ],
+    [
+      "physical dimensions|product dimensions",
+      "dimensions",
+      ""
+    ],
+    [
+      "temperature range|^operating temperature|^temperature$|ambient operating temperature",
+      "temp_operating",
+      ""
+    ],
+    [
+      "storage temperature|nonoperating temperature",
+      "temp_storage",
+      ""
+    ],
+    [
+      "data rates supported|maximum data rate per|^data rate$",
+      "data_rate",
+      ""
+    ],
+    [
+      "^power supplies|power supply options|number of power supplies",
+      "psu_options",
+      ""
+    ],
+    [
+      "^operating humidity|relative humidity",
+      "humidity_operating",
+      ""
+    ],
+    [
+      "^general$|^performance$|^hardware$|^software$|^essentials$|^advantage$|^chassis$|^environment$|^environmental$|^safety$|^material$|^power$|^security$|^wan$|^lan switch$|^physical$|^reliability|^network management$|^feature description$|^hardware tables|^product name$|^spare components$|^regulatory compliance$|^applicable standard$|^information on|^warranty",
+      "__not_a_spec",
+      "section header / boilerplate"
+    ],
+    [
+      "end-of-life announcement|end-of-sale date|^last date of support|^last ship date|end of routine failure|end of service contract|end of new service|^last day of support|milestone.*date|end of sw maintenance",
+      "__not_a_spec",
+      "lifecycle date — EoL pipeline owns these"
     ]
   ]
 }

@@ -92,6 +92,9 @@ if (RESET && COMMIT) {
 // Walk cisco stubs; match each SKU's normalised core against the bulletin index.
 const cisco = await P.find({ vendor: "cisco" }, { projection: { sku: 1, _id: 0 } }).toArray();
 let matched = 0; const perDoc = {};
+// batched bulkWrite — a per-part updateOne over 17k+ matches means 17k sequential Atlas
+// round-trips (~15 min, and it timed out at 180s). Collecting into 500-op batches makes it ~30s.
+const ops = [];
 for (const p of cisco) {
   const core = normPid(p.sku);
   if (!core) continue;
@@ -106,9 +109,11 @@ for (const p of cisco) {
       ...(successor ? { successor_sku: successor, successor_note: `Nachfolger (Cisco): ${successor}` } : {}),
       source_url: hit.b.source_url, source_doc_id: hit.b.doc_id, last_verified: hit.b.verified_at,
     };
-    await P.updateOne({ sku: p.sku }, { $set: { lifecycle } });
+    ops.push({ updateOne: { filter: { sku: p.sku }, update: { $set: { lifecycle } } } });
+    if (ops.length >= 500) await P.bulkWrite(ops.splice(0), { ordered: false });
   }
 }
+if (COMMIT && ops.length) await P.bulkWrite(ops, { ordered: false });
 console.log("\nper-bulletin matched SKUs:");
 for (const [d, n] of Object.entries(perDoc).sort((a, b) => b[1] - a[1])) console.log(`  ${d}: ${n}`);
 console.log(`\n${COMMIT ? "APPLIED" : "DRY RUN"} — ${matched} SKU(s) matched a bulletin PID (of ${cisco.length} cisco parts).`);

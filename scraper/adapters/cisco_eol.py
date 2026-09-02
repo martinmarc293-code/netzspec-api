@@ -147,3 +147,27 @@ def run(browser, series_list: list[str]) -> list[dict]:
                             "lifecycle": b["lifecycle"]})
             print(f"    HW bulletin {b['doc_id']} -> EoS {b['lifecycle'].get('end_of_sale_date')} · {len(b['affected_pids'])} PIDs")
     return records
+
+
+def run_urls(browser, urls: list[str]) -> list[dict]:
+    """Batch mode: parse lifecycle straight from bulletin URLs. The enumeration already gave every
+    EoL part its bulletin, so we skip the per-series listing crawl and go direct. Matching is by the
+    bulletin's own affected-PID table (explicit part numbers), never by name — same record shape as
+    run(), consumed by apply-lifecycle.mjs."""
+    records = []
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+    for i, url in enumerate(urls):
+        try:
+            b = parse_bulletin(browser.fetch(url), url)
+        except Exception as e:  # noqa
+            print(f"  ! {url}: {e}", file=sys.stderr); continue
+        if not b or not b.get("is_hardware"):
+            continue
+        records.append({"vendor": "cisco", "family_match": "",
+                        "doc_id": b["doc_id"], "source_url": b["source_url"],
+                        "verified_at": today, "affected_pids": b["affected_pids"],
+                        "lifecycle": b["lifecycle"]})
+        if (i + 1) % 50 == 0:
+            print(f"  [{i+1}/{len(urls)}] {len(records)} HW bulletins so far")
+    print(f"  done: {len(records)} hardware bulletins from {len(urls)} URLs")
+    return records
