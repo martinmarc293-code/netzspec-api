@@ -52,6 +52,7 @@ def main() -> int:
     ap.add_argument("--urls-file", default="data/universe/pdf-datasheet-urls.txt")
     ap.add_argument("--out", default="data/universe/datasheet-skus-pdf.json")
     ap.add_argument("--skus", default="data/universe/sku-category.json")
+    ap.add_argument("--restart", action="store_true", help="ignore any existing output and start over")
     args = ap.parse_args()
 
     try:
@@ -67,10 +68,23 @@ def main() -> int:
     print(f"known SKUs: {len(known)}", flush=True)
 
     urls = [u.strip() for u in Path(args.urls_file).read_text(encoding="utf-8").splitlines() if u.strip()]
+
+    # Resume: anything already recorded in the output file is skipped, so a restart costs
+    # nothing. Combined with the checkpoint below this makes the run interruptible, which
+    # matters when it takes hours and shares a machine with everything else.
     out: dict[str, list[str]] = {}
+    outp = Path(args.out)
+    if outp.exists() and not args.restart:
+        try:
+            out = json.loads(outp.read_text(encoding="utf-8"))
+            print(f"resuming: {len(out)} documents already mapped", flush=True)
+        except Exception:  # noqa
+            out = {}
     scanned = miss = 0
 
     for i, url in enumerate(urls, 1):
+        if url in out:
+            continue
         f = CACHE / (hashlib.sha1(url.encode()).hexdigest() + ".bin")
         if not f.exists():
             miss += 1
@@ -100,10 +114,18 @@ def main() -> int:
         except Exception as e:  # noqa
             print(f"  ! {url[-50:]}: {type(e).__name__} {str(e)[:70]}", file=sys.stderr)
             continue
-        if hits:
-            out[url] = sorted(hits)
+        # Record the empty result too. A PDF with no known SKUs is still a PDF we have READ,
+        # and leaving it out of the map means a resume re-extracts its text — the single most
+        # expensive thing this script does — to learn the same nothing again. Downstream sees
+        # no difference: get(url, []) returns the same empty list either way.
+        out[url] = sorted(hits)
         if i % 25 == 0:
-            print(f"  {i}/{len(urls)}  docs-with-skus={len(out)}", flush=True)
+            # CHECKPOINT. The first version wrote only at the end, so pausing the run at 50 of
+            # 332 documents threw away every one of them -- an hour of PDF text extraction for
+            # nothing. Anything that takes hours must be resumable, and resumable means writing
+            # as it goes, not promising to write later.
+            Path(args.out).write_text(json.dumps(out), encoding="utf-8")
+            print(f"  {i}/{len(urls)}  docs-with-skus={len(out)}  (checkpointed)", flush=True)
 
     Path(args.out).write_text(json.dumps(out), encoding="utf-8")
     total_pairs = sum(len(v) for v in out.values())
