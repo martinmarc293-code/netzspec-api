@@ -51,7 +51,17 @@ for (const r of recs) {
 }
 
 // ---- 1. precision / recall vs the golden sample --------------------------------------------------
-const golden = JSON.parse(fs.readFileSync(path.join(root, "data/universe/golden/cisco-switches.golden.json"), "utf8"));
+// EVERY golden file, unioned — not just the switch one. A single hardcoded sample meant the
+// gate had nothing to say about server data and reported precision 0.0%, which reads as
+// catastrophic and only meant "these parts are not in my sample". New corpora get a golden
+// file beside this one and are graded automatically.
+const goldenDir = path.join(root, "data/universe/golden");
+const goldenFiles = fs.readdirSync(goldenDir).filter((f) => f.endsWith(".golden.json"));
+const golden = { expectations: goldenFiles.flatMap((f) => {
+  const doc = JSON.parse(fs.readFileSync(path.join(goldenDir, f), "utf8"));
+  return (doc.expectations || []).map((e: Record<string, unknown>) => ({ ...e, __from: f }));
+}) };
+console.log(`golden files: ${goldenFiles.join(", ")}`);
 type Exp = { sku: string; field: string; raw: string; value: unknown; unit?: string };
 const expectations: Exp[] = golden.expectations;
 
