@@ -5540,6 +5540,386 @@
    "^power features: power input rating$",
    "input_voltage",
    "collaboration-endpoints: Values are the DC input rating (0.917A, 48V DC); the voltage is the discriminating part and input_voltage is the existing hom"
+  ],
+  [
+   "(^|> )Product Family$",
+   "series",
+   "provantage: Sample value 'Catalyst 9200' is the vendor series name and series is type s (stored verbatim). 'Product Line' ('Catalyst') and 'Product Seri"
+  ],
+  [
+   "(^|> )Number of SFP Slots$",
+   "sfp_ports",
+   "provantage: Sample value '4' on C9200L-24P-4G, which has exactly four 1G SFP uplinks; sfp_ports (type s, 'SFP ports') holds SFP counts. Normaliser: OK \""
+  ],
+  [
+   "(^|> )Stack Ports?$",
+   "stackable",
+   "provantage: Yes/No value ('Yes' on a StackWise-80 switch). A switch with stack ports is stackable; stackable is boolean and normalises Yes->true, No->fa"
+  ],
+  [
+   "(^|> )Environmental Compliance$",
+   "certifications",
+   "provantage: Sample value 'Restriction of Hazardous Substances (RoHS)' is a compliance mark; certifications is the open ls that existing rules 515 and 52"
+  ],
+  [
+   "(^|> )Depth$",
+   "depth",
+   "provantage: Sample value 11.3\" (inches). depth is type s, unit 'in / cm', and already holds inch strings ('16.9 in.(42.9 cm)'); the value is stored verb"
+  ],
+  [
+   "(^|> )Form Factor$",
+   "form_factor",
+   "provantage: Sample value 'Rack-mountable' normalises to rack-19 via FORM_FACTOR_SWITCH (tested; 'Desktop' -> desktop). The unprefixed label already maps"
+  ],
+  [
+   "(^|> )Power Consumption$",
+   "power_max",
+   "provantage: Sample value '600 W' is a wattage inside power_max's band [1,30000] (normaliser OK 600 W). The identical unprefixed label already maps to po"
+  ],
+  [
+   "(^|> )Redundant Power Supply Supported$",
+   "psu_redundant",
+   "provantage: Yes/No value; psu_redundant is boolean (Yes->true, No->false tested) and already receives 'Dual power supply' / 'Hot swap power supply' labe"
+  ],
+  [
+   "(^|> )series$",
+   "series",
+   "router-switch: value 'Catalyst 9200L Series' is a product-series string (type s); no existing rule maps a bare 'Series' label"
+  ],
+  [
+   "(^|> )chassis dimensions( \\([^)]*\\))?$",
+   "dimensions",
+   "router-switch: same label the existing ^chassis dimensions rule covers, prefixed; value 'Base: 1.73 × 17.5 × 11.3 in (4.4 × 44.5 × 28.8 cm); With FEP/Fan: "
+  ],
+  [
+   "(^|> )fixed ports$",
+   "ports",
+   "router-switch: same label the existing ^fixed ports$ rule covers; value '24 × 10/100/1000BASE-T (RJ45) with PoE+; 4 × 1G SFP uplinks (included)' parses to "
+  ],
+  [
+   "(^|> )port configuration$",
+   "ports",
+   "router-switch: same label the existing ^port configuration rule covers; all four sample values (own + 3 siblings) parse: 24×rj45+4×sfp, 24×sfp, 24×rj45, 24"
+  ],
+  [
+   "(^|> )switching capacity$",
+   "switching_capacity",
+   "router-switch: values 96/92/216/254 Gbps all normalise to Gbit/s inside the band; the trailing $ keeps 'Switching Capacity with stacking' (__backlog) out"
+  ],
+  [
+   "(^|> )forwarding rate$",
+   "forwarding_rate",
+   "router-switch: values 72 / 68.4 / 95.2 (64-byte packets) / 68.45 Mpps all normalise; $ keeps 'with stacking' out"
+  ],
+  [
+   "(^|> )buffer memory$",
+   "packet_buffer",
+   "router-switch: value '16 MB shared' normalises to 16 MB, the packet buffer"
+  ],
+  [
+   "(^|> )mac address table$",
+   "mac_table",
+   "router-switch: value '32,000 entries' normalises to 32000 Einträge (English thousands comma handled)"
+  ],
+  [
+   "(^|> )power supply$",
+   "psu_options",
+   "router-switch: value '600W AC (PWR-C5-600WAC or PWR-C6-600WAC)' is a PSU rating plus part numbers, the exact shape the existing 'power supply' rule was re-"
+  ],
+  [
+   "(^|> )input voltage$",
+   "input_voltage",
+   "router-switch: value '100–240V AC, 50/60Hz' normalises to {min:100,max:240} V (en dash range)"
+  ],
+  [
+   "(^|> )mtbf$",
+   "mtbf",
+   "router-switch: value '392,210 hours (~44.8 years)' normalises to 392210 h"
+  ],
+  [
+   "(^|> )poe budget$",
+   "poe_budget",
+   "router-switch: values '370W total, supports 802.3af/at PoE+', '370W PoE budget', '640W (with PWR-C2-640WAC)' all give the W figure via the poe_budget prepr"
+  ],
+  [
+   "(^|> )minimum ios(-| )?xe( (release|version))?$",
+   "min_software_release",
+   "router-switch: value '16.12.1' is a release number; min_software_release is the existing string field for it"
+  ],
+  [
+   "(^|> )layer 3 routing$",
+   "supported_protocols",
+   "router-switch: value 'Static routing, RIP, EIGRP (limited)' is a routing-protocol list; identical mapping to the existing ^layer 3 routing$ rule"
+  ],
+  [
+   "^specification > security$",
+   "security_features",
+   "router-switch: value '802.1X, MACsec, TrustSec, Flexible NetFlow, sFlow' is a security feature list (string field). Whole-string anchor on purpose: the bar"
+  ],
+  [
+   "(^|> )operating temperature$",
+   "temp_operating",
+   "router-switch: switch value 'Standard: 32°F to 104°F (0°C to 40°C); Short-term: ...' normalises to {0,40} °C via the metric parenthesis; the GLC-TE value '"
+  ],
+  [
+   "(^|> )humidity$",
+   "humidity_operating",
+   "router-switch: value '5% to 90% non-condensing' normalises to {5,90} %; anchored so 'Storage Humidity' cannot match"
+  ],
+  [
+   "(^|> )altitude$",
+   "altitude_max",
+   "router-switch: value 'Up to 10,000 ft (3,000 m)' normalises to 3000 m via the metric parenthesis; anchored so 'Storage altitude' cannot match"
+  ],
+  [
+   "(^|> )noise level( \\([^)]*\\))?$",
+   "acoustic_noise",
+   "router-switch: value 'LpA: 42 dB typical, 45 dB max; LwA: 5.3 B typical, 5.6 B max' is an acoustic figure; currently refused UNIT_UNKNOWN because the norma"
+  ],
+  [
+   "(^|> )protocols$",
+   "supported_protocols",
+   "router-switch: value 'SNMPv3, NETCONF/YANG, RESTCONF, gRPC' is a protocol list; identical mapping to the existing ^Protocols$ rule"
+  ],
+  [
+   "^specification > compliance$",
+   "certifications",
+   "router-switch: value 'Safety: UL 60950-1, EN 62368-1; EMC: FCC Part 15 Class A, EN 55032; RoHS: Compliant' is a safety/EMC approvals list. Whole-string anc"
+  ],
+  [
+   "(^|> )weight$",
+   "weight",
+   "router-switch: values '4.71 kg' (switch) and '0.075 kg' (optic). WARNING: '0.075 kg' normalises to 75 kg because firstNumberUnit ignores locale (see summar"
+  ],
+  [
+   "(^|> )stacking capability$",
+   "stackable",
+   "router-switch: values 'n/a' -> false, 'StackWise-480 (up to 9 units)' -> true, 'StackWise-160 (160 Gbps bandwidth)' -> true — the yes/no-or-technology-name"
+  ],
+  [
+   "(^|> )cabling type$",
+   "standard",
+   "router-switch: value '1000Base-T' is a transmission standard (the field's own examples are 1000base-sx, 10gbase-lr); string field, so an off-shape value co"
+  ],
+  [
+   "(^|> )data (transfer )?rate$",
+   "data_rate",
+   "router-switch: values '1 Gbps' on the GLC-TE page and both sibling optics normalise to 1 Gbit/s; appears only on the transceiver fixture"
+  ],
+  [
+   "(^|> )compliant standards$",
+   "ieee_standards",
+   "router-switch: value 'IEEE 802.3' is an IEEE standard designation"
+  ],
+  [
+   "(^|> )max(imum)? distance$",
+   "reach_max",
+   "router-switch: values '100m', '550m', '10km' are link reaches; identical mapping to the existing ^max(?:imum)? distance$ rule. reach_max is a struct with n"
+  ],
+  [
+   "(^|> )cable type$",
+   "media",
+   "router-switch: values 'MMF' -> mmf, 'SMF' -> smf; 'Copper' is refused ENUM_VIOLATION (safe). Identical mapping to the existing ^cable type$ rule"
+  ],
+  [
+   "(^|> )1 ?gbe rj45$",
+   "copper_ethernet_ports",
+   "meraki: Existing n field defined as 10/100/1000 copper ports. Samples 8, 6, 24, 18, 48, 40, 16, 32 (8 fixtures, 8 label spellings) parse as bare cou"
+  ],
+  [
+   "(^|> )1 ?gbe sfp$",
+   "sfp_ports",
+   "meraki: Existing field for 1G SFP cages. Samples 2, 4, 16, 32 across 3 fixtures and 3 spellings ('1 Gbe SFP', '1GbE SFP', '1Gbe SFP'). The field is "
+  ],
+  [
+   "(^|> )10 ?gbe sfp[+]$",
+   "sfp_plus_ports",
+   "meraki: New count field. Samples 2, 4 in 6 fixtures (7 label variants); '-' refused. 8 of 11 sample values normalise, the 3 misses are dashes."
+  ],
+  [
+   "(^|> )mgbe rj45( [(][0-9a-z/.]+[)])?$",
+   "mgig_rj45_ports",
+   "meraki: New count field. Captures all 6 mGig labels (bare and with the '(100M/1G/2.5G/5G/10G)' / '(100M/1G/2.5G)' speed list). Samples 8, 24, 16 and"
+  ],
+  [
+   "(^|> )([0-9]+g )?hardware stack ports?$",
+   "stack_ports",
+   "meraki: Existing n field created for this exact Meraki label (rule 857 covers the unprefixed '120G Hardware Stack Port'). Captures 'Hardware Stack P"
+  ],
+  [
+   "(^|> )(max )?switching capacity$",
+   "switching_capacity",
+   "meraki: Same fact as rule 82 '^switching capacity', which cannot see past the section prefix. 34 of 34 sample values ('20 Gbps' .. '640 Gbps', '128G"
+  ],
+  [
+   "(^|> )(max )?stack ?i ?ng bandwidth$",
+   "stacking_bandwidth",
+   "meraki: Same fact as rule 89. The page breaks the word ('Stack ing', 'Stack i ng') so the regex tolerates the split; captures all 7 variants. Sample"
+  ],
+  [
+   "(^|> )poe switch budget$",
+   "poe_budget",
+   "meraki: Total PoE budget per switch. Samples 120W, 240W, 370W, 740W normalise; '-' (non-PoE model) refused, which is the correct outcome."
+  ],
+  [
+   "(^|> )poe port budget$",
+   "poe_per_port_max",
+   "meraki: Per-port maximum. Samples '30W', '30W *' -> 30 W; '-' refused."
+  ],
+  [
+   "(^|> )poe type$",
+   "poe_standard",
+   "meraki: Samples '802.3bt', '802.3bt *' normalise to 802.3bt-t3 via the existing enum rules; '-' is refused ENUM_VIOLATION (ideally 'none', a normali"
+  ],
+  [
+   "(^|> )power load [(]idle/max[)]$",
+   "power_load_idle_max",
+   "meraki: Existing string field whose provenance comment cites this exact pair shape; rule 587 covers the unprefixed label. 37 of 37 samples ('49W/803"
+  ],
+  [
+   "(^|> )power input$",
+   "input_voltage",
+   "meraki: Same as rules 265/552 '^power inputs?$'. All 8 samples normalise: '12VDC, 2.5A' -> 12 V, '100-240V~, 2.8A-1.2A, 50-60Hz' -> 100-240 V, '54VD"
+  ],
+  [
+   "^(models|[a-z0-9/-]+ models|hardware breakdown|throughput and capabilities) > power supply$",
+   "psu_config",
+   "meraki: Under these sections the values are configurations: 'External', 'Internal', 'Fixed Internal', 'External AC Adapter or DIN rail AC power supp"
+  ],
+  [
+   "^physical > power supply$",
+   "psu_options",
+   "meraki: Under Physical the values are ratings ('1025W AC', '250W AC'), the psu_options shape per the alias-file readme note on 'Default AC power sup"
+  ],
+  [
+   "(^|> )hot swap power supply$",
+   "psu_redundant",
+   "meraki: Same as rules 279/532. 'Yes, Dual' -> true (4 of 4 non-dash samples); '-' is refused by the boolean parser."
+  ],
+  [
+   "(^|> )hot swap fans$",
+   "fan_hot_swap",
+   "meraki: Existing string field whose provenance comment cites 'Yes, 3x'. Samples 'Yes', 'Yes, 2x', 'Yes, 3x', 'Yes, x2' all stored. NOT cooling (rule"
+  ],
+  [
+   "(^|> )fan operation$",
+   "cooling",
+   "meraki: Samples 'Fanless', 'Fanless Operation' -> fanless; 'Fixed Internal' is refused because ENUM_RULES.cooling has no synonym for it (flagged; no"
+  ],
+  [
+   "(^|> )dimensions( [(]h x w x d[)])?$",
+   "dimensions",
+   "meraki: Same as rule 85. 25 of 25 samples normalise, e.g. '1.1 x 8.74 x 6in (2.8 x 22.2 x 15cm)' -> {h 27.94, w 221.996, d 152.4} mm: the metric par"
+  ],
+  [
+   "(^|> )weight$",
+   "weight",
+   "meraki: Same as rule 87. 35 of 35 samples normalise: '1.94 lb (0.88 kg)' -> 0.88 kg (metric parenthetical taken). 12 fixtures."
+  ],
+  [
+   "(^|> )humidity$",
+   "humidity_operating",
+   "meraki: Same as rule 115. '5% to 95%' -> {5, 95} % (6 of 6)."
+  ],
+  [
+   "(^|> )operating temperature$",
+   "temp_operating",
+   "meraki: Same as rule 113. The concept is right but TODAY 0 of 8 samples normalise: '32°F - 113 °F 0°C - 45°C' is read as the leading °F range and re"
+  ],
+  [
+   "(^|> )storage and transportation temperature$",
+   "temp_storage",
+   "meraki: Same fact as rules 114/155. Samples '-4°F - 158 °F -20°C - 70°C', '-40°F - 185 °F -40°C - 85°C': same °F-first normaliser gap as above (0 of"
+  ],
+  [
+   "(^|> )(mounting|mount type)$",
+   "mounting",
+   "meraki: Same as rules 232/278/528. Samples '1U Rack Mount (Front/ Mid)', 'Integrated 1U Rack Mount', 'Desktop Integrated Wall mount', 'Desktop, Wall"
+  ],
+  [
+   "(^|> )switching throughput$",
+   "switching_capacity",
+   "arista: Family table value '6.4 Terabits/sec' is total switching bandwidth = switching_capacity (Gbit/s). Section prefix varies per series so the an"
+  ],
+  [
+   "^l2/l3 throughput$",
+   "switching_capacity",
+   "arista: Model-table values '6.4 Tbps', '4.0 Tbps', '2.56 Tbps', '2 Tbps', '4.8 Tbps' normalise to 6400/4000/2560/2000/4800 Gbit/s (verified). Existi"
+  ],
+  [
+   "(^|> )maximum forwarding rate$",
+   "forwarding_rate",
+   "arista: Value '2 Bpps' is a packet rate; normaliser converts Bpps -> 2000 Mpps (verified, inside band). Existing '^forwarding rate' rule cannot matc"
+  ],
+  [
+   "^l2/l3 pps$",
+   "forwarding_rate",
+   "arista: Values '2 Bpps' / '1 Bpps' on every model -> 2000 / 1000 Mpps (verified)."
+  ],
+  [
+   "(^|> )rack space$",
+   "rack_units",
+   "arista: Value '1RU' -> 1 HE (verified); same measurement as the existing 'rack height' / 'Rack Size' rules."
+  ],
+  [
+   "^switch height$",
+   "rack_units",
+   "arista: Model values '1RU' (10 models) and '2RU' (7050SX3-96YC8) -> 1 / 2 HE (verified). No existing rule matches this label."
+  ],
+  [
+   "^total system buffer$",
+   "packet_buffer",
+   "arista: Value '32MB' on every model -> 32 MB (verified); sister of the existing '^system buffer$' -> packet_buffer rule (#276)."
+  ],
+  [
+   "(^|> )mac table size$",
+   "mac_table",
+   "arista: Value '288K' is the MAC address table size. Today the normaliser returns UNIT_UNKNOWN for 'K' because mac_table has a canonical unit (safe q"
+  ],
+  [
+   "(^|> )maximum lag groups$",
+   "port_channels_max",
+   "arista: Value '128 (In breakout mode)' is the port-channel/LAG group count = port_channels_max; normaliser reads 128 (verified). Note the parentheti"
+  ],
+  [
+   "(^|> )maximum lag members$",
+   "port_channel_max_links",
+   "arista: Value '64 Ports' = member links per LAG; normaliser reads 64 (verified)."
+  ],
+  [
+   "(^|> )maximum ecmp fanout$",
+   "ecmp_paths_max",
+   "arista: Value '128-way' = equal-cost paths; normaliser reads 128 (verified). Existing rule #915 note already cites '128-way' as a sample for this fi"
+  ],
+  [
+   "^maximum 100gbe ports$",
+   "max_ports_100g",
+   "arista: Plain integers 32 / 8 / 4 / 12 per model; the number of ports that can run at 100GbE including breakout. NOT the ports struct (no connector,"
+  ],
+  [
+   "^maximum 50gbe ports$",
+   "max_ports_50g",
+   "arista: Plain integers 24 / 16 / 8 / 64 per model (breakout-derived maximum at 50GbE)."
+  ],
+  [
+   "^maximum 40gbe ports$",
+   "max_ports_40g",
+   "arista: Plain integers 32 / 8 / 4 / 12 per model (QSFP ports usable at 40GbE)."
+  ],
+  [
+   "^maximum 25gbe ports$",
+   "max_ports_25g",
+   "arista: Plain integers 128 / 64 / 16 / 40 / 96 per model (SFP25 + QSFP breakout maximum)."
+  ],
+  [
+   "^maximum 10gbe ports$",
+   "max_ports_10g",
+   "arista: Plain integers 129 / 64 / 40 / 96 per model (breakout-derived maximum at 10GbE)."
+  ],
+  [
+   "^maximum 1gbe ports$",
+   "max_ports_1g",
+   "arista: Plain integers 2 / 48 / 24 / 129 per model (ports usable at 1GbE)."
   ]
  ]
 }

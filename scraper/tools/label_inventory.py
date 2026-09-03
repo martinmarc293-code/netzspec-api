@@ -31,13 +31,17 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("source")
     ap.add_argument("--out", default="")
+    ap.add_argument("--url", action="append", default=[], help="fixture URL(s) to use instead of those found in the test file")
     a = ap.parse_args()
     module = a.source.replace("-", "_")
     src = load_source(a.source)
     test_file = ROOT / "tests" / "scraper" / f"test_{module}.py"
-    if not test_file.exists():
-        print(f"no test file {test_file}"); return 1
-    urls = sorted({u.rstrip(".,;") for u in URL_RX.findall(test_file.read_text(encoding="utf-8", errors="replace"))})
+    if a.url:
+        urls = sorted(set(a.url))
+    else:
+        if not test_file.exists():
+            print(f"no test file {test_file}"); return 1
+        urls = sorted({u.rstrip(".,;") for u in URL_RX.findall(test_file.read_text(encoding="utf-8", errors="replace"))})
     labels: dict[str, dict] = defaultdict(lambda: {"count": 0, "samples": [], "fixtures": set(), "skus": set()})
     seen_fixtures, missing = [], []
     for url in urls:

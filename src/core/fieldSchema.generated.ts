@@ -867,6 +867,28 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   chipset: { key: "chipset", de: "Chipsatz", en: "Chipset", type: "s", etim: [], icecat: null },
   // hyperconverged-systems — "3 Intel UPI channels per processor, each capable of 10.4/11.2 gigatransfers per second" is a real d
   cpu_interconnect: { key: "cpu_interconnect", de: "CPU-Interconnect", en: "CPU interconnect", type: "s", etim: [], icecat: null },
+  // meraki — Count of 10 GbE SFP+ cages. Samples are bare integers (2, 4) or '-' across 6 fixtures and 7 label variants. The existing
+  sfp_plus_ports: {key: "sfp_plus_ports", de: "10G-SFP+-Ports", en: "10G SFP+ ports", type: "n", etim: [], icecat: null},
+  // meraki — Count of 40 GbE QSFP+ cages. Samples 2, 12, '-' in 2 fixtures (2 labels). Distinct cage from SFP+ and QSFP28. Suggested 
+  qsfp_plus_ports: {key: "qsfp_plus_ports", de: "40G-QSFP+-Ports", en: "40G QSFP+ ports", type: "n", etim: [], icecat: null},
+  // meraki — Count of 100 GbE QSFP28 cages. Two labels ('100GbE QSFP28', '100GbE QSFP28 Uplink Ports') with samples 2 / '-'. Evidence
+  qsfp28_ports: {key: "qsfp28_ports", de: "100G-QSFP28-Ports", en: "100G QSFP28 ports", type: "n", etim: [], icecat: null},
+  // meraki — Count of mGig (100M/1G/2.5G/5G/10G) copper ports. Samples 8, 24, 16, '2 x 2.5G' (parses to 2), '-' across 4 fixtures and
+  mgig_rj45_ports: {key: "mgig_rj45_ports", de: "Multigigabit-RJ45-Ports", en: "Multigigabit RJ45 ports", type: "n", etim: [], icecat: null},
+  // meraki — Whether the switch offers Cisco UPoE (60 W per port). Samples 'Yes', 'No', 'No, 370W', 'Yes, 740W', 'Yes (8 mGbe ports) 
+  upoe_support: {key: "upoe_support", de: "UPoE-Unterstützung (60 W)", en: "UPoE (60 W) support", type: "b", etim: [], icecat: null},
+  // arista — Maximum number of ports the switch can present at 100GbE, counting breakout. Shown on 11 model columns ('Maximum 100GbE 
+  max_ports_100g: {key: "max_ports_100g", de: "Max. 100GbE-Ports (inkl. Breakout)", en: "Max. 100GbE ports (incl. breakout)", type: "n", etim: [], icecat: null},
+  // arista — Same concept at 50GbE; 11 model values (8-64). Suggested band [1, 4096].
+  max_ports_50g: {key: "max_ports_50g", de: "Max. 50GbE-Ports (inkl. Breakout)", en: "Max. 50GbE ports (incl. breakout)", type: "n", etim: [], icecat: null},
+  // arista — Same concept at 40GbE; 11 model values (4-32), also echoed by the family '40/100G Interfaces' row. Suggested band [1, 40
+  max_ports_40g: {key: "max_ports_40g", de: "Max. 40GbE-Ports (inkl. Breakout)", en: "Max. 40GbE ports (incl. breakout)", type: "n", etim: [], icecat: null},
+  // arista — Same concept at 25GbE; 11 model values (16-128), echoed by the family '10/25G Interfaces: Up to 128' row. Suggested band
+  max_ports_25g: {key: "max_ports_25g", de: "Max. 25GbE-Ports (inkl. Breakout)", en: "Max. 25GbE ports (incl. breakout)", type: "n", etim: [], icecat: null},
+  // arista — Same concept at 10GbE; 11 model values (40-129). Suggested band [1, 4096].
+  max_ports_10g: {key: "max_ports_10g", de: "Max. 10GbE-Ports (inkl. Breakout)", en: "Max. 10GbE ports (incl. breakout)", type: "n", etim: [], icecat: null},
+  // arista — Same concept at 1GbE; 11 model values (2-129). Suggested band [1, 4096].
+  max_ports_1g: {key: "max_ports_1g", de: "Max. 1GbE-Ports", en: "Max. 1GbE ports", type: "n", etim: [], icecat: null},
 };
 
 export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
