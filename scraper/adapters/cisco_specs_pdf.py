@@ -121,7 +121,26 @@ def _clean(s) -> str:
 
 
 # A cell holding ONLY a unit, e.g. "(C)", "(GHz)", "(W)", "(MB)", "(MT/s)".
-_UNIT_ONLY = re.compile(r"^\(?\s*[A-Za-zµ°%]{1,6}(?:\s*/\s*[A-Za-z]{1,3})?\s*\)?$")
+#
+# Matched against a CLOSED LIST, not a shape. The first version tested
+# ^\(?[A-Za-z]{1,6}\)?$ , which also matches "No", "Yes", "Min" and "Max" -- so an ordinary
+# data row like ["C9500X-28C8D", "No", "No"] qualified as a unit row and would have been folded
+# into the header, destroying the table. Found by running the same test over the HTML corpus,
+# where 4 of the first 4 hits were data rows rather than units.
+_UNITS_KNOWN = {
+    "c", "s", "w", "kw", "mw", "va", "kva", "a", "ma", "v", "vac", "vdc", "hz", "khz", "mhz",
+    "ghz", "mt/s", "gt/s", "b", "kb", "mb", "gb", "tb", "byte", "bytes", "mm", "cm", "m", "km",
+    "nm", "in", "ft", "kg", "g", "lb", "lbs", "%", "db", "dba", "db(a)", "dbm", "btu", "btu/h",
+    "ms", "us", "ns", "h", "hr", "hrs", "ru", "he", "rpm", "cfm", "mpps", "pps", "gbps", "mbps",
+    "bps", "gbit/s", "mbit/s", "awg", "°c", "°f", "c)", "w)",
+}
+
+
+def _is_unit_cell(c: str) -> bool:
+    t = (c or "").strip().strip("()").strip().lower()
+    if not t or len(t) > 7:
+        return False
+    return t in _UNITS_KNOWN
 
 
 def _merge_unit_header(rows: list[list[str]]) -> list[list[str]]:
@@ -144,12 +163,12 @@ def _merge_unit_header(rows: list[list[str]]) -> list[list[str]]:
         return rows
     second = rows[1]
     filled = [c for c in second[1:] if c]
-    if len(filled) < 2 or not all(_UNIT_ONLY.match(c) for c in filled):
+    if len(filled) < 2 or not all(_is_unit_cell(c) for c in filled):
         return rows
     merged = list(rows[0])
     for i in range(1, min(len(merged), len(second))):
         u = (second[i] or "").strip()
-        if u and _UNIT_ONLY.match(u):
+        if u and _is_unit_cell(u):
             if not u.startswith("("):
                 u = f"({u})"
             merged[i] = f"{merged[i]} {u}".strip()
