@@ -1,0 +1,17 @@
+{
+ "_about": "SABOTAGE: provantage has a green adapter suite, so recall is 1; but the cached page for this URL does NOT contain the value 999 W the fixture claims it read. The provenance audit must miss it and the gate must fail on precision alone.",
+ "source": "provantage",
+ "task": {"id": 4, "task": "search", "key": "C9200L-48P-4G", "part_id": null},
+ "url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-BAD-PROVENANCE",
+ "final_url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-BAD-PROVENANCE",
+ "fetched_at": "2026-09-03T10:18:00+00:00",
+ "fetch_id": null,
+ "cache_path": "70310e1d541812d2a4461bb6ac36cbb3706297c0.html",
+ "result": {
+  "sku": "C9200L-48P-4G",
+  "not_listed": false,
+  "name": "Cisco Catalyst 9200L 48-port PoE+",
+  "facts": [{"label": "PoE budget", "value": "999 W", "locator": "t1:r1:c2"}],
+  "aliases": [], "images": [], "relations": [], "lifecycle": null, "price": null, "others": []
+ }
+}

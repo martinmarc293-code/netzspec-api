@@ -22,21 +22,25 @@
 // Two files come out of every run besides the database: the UNMAPPED labels with sample values
 // (the input to the alias-proposal loop) and the UNKNOWN SKUs the pages named (the enumeration
 // feed: a distributor listing a part number we do not have is how the catalogue grows).
+//
+// The pieces that decide something — argument parsing, the mapping of one entry's raw pairs, the
+// lifecycle shape, the gate — are exported as functions so tests/db/apply-acquired.test.ts can
+// sabotage each one directly; main() only threads them together with the database effects.
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import {
   getPool, closePool, withTx, withRun, hashFile, findPart, getPart, ensureSourceDoc, docIdFor, linkDocParts,
   applyMerge, upsertAlias, upsertImage, upsertRelation, upsertLifecycle, recordSourceCheck,
-  type RelationKind, type AliasKind, type CheckOutcome,
+  type RelationKind, type AliasKind, type CheckOutcome, type LifecycleInput,
 } from "../store/index.js";
 import { mapFact } from "../core/deepSpecMap.js";
 import { NORM_VERSION } from "../core/specNormalize.js";
 import type { SpecEntry } from "../core/specMerge.js";
 import { REPO_ROOT } from "../config.js";
 
-type RawPair = { label: string; value: string; locator?: string };
-type Result = {
+export type RawPair = { label: string; value: string; locator?: string };
+export type Result = {
   sku?: string; not_listed?: boolean; scope?: string; name?: string;
   facts?: RawPair[];
   aliases?: { kind: string; value: string }[];
@@ -46,18 +50,20 @@ type Result = {
   price?: Record<string, unknown> | null;
   others?: Result[];
 };
-type Acquired = {
+export type Acquired = {
   source: string; task: { id: number; task: string; key: string; part_id: number | null };
   url: string; final_url?: string; fetched_at: string; fetch_id?: number | null; cache_path?: string | null;
   result: Result;
 };
 
-const RELATION_KINDS = new Set<string>(["successor", "predecessor", "compatible", "module_of", "hosts_module", "supports_transceiver", "bundle_contains", "license_for", "accessory_for", "equivalent"]);
-const ALIAS_KINDS = new Set<string>(["gtin", "upc", "ean", "legacy_sku", "variant_sku", "vendor_alias", "distributor_sku"]);
-const DATE_RX = /^\d{4}-\d{2}-\d{2}$/;
+export const RELATION_KINDS = new Set<string>(["successor", "predecessor", "compatible", "module_of", "hosts_module", "supports_transceiver", "bundle_contains", "license_for", "accessory_for", "equivalent"]);
+export const ALIAS_KINDS = new Set<string>(["gtin", "upc", "ean", "legacy_sku", "variant_sku", "vendor_alias", "distributor_sku"]);
+export const DATE_RX = /^\d{4}-\d{2}-\d{2}$/;
 
-function args(argv: string[]) {
-  const out: { paths: string[]; commit: boolean; vendor: string | null; sample: number } = { paths: [], commit: false, vendor: null, sample: 60 };
+export type ApplyArgs = { paths: string[]; commit: boolean; vendor: string | null; sample: number };
+
+export function parseArgs(argv: string[]): ApplyArgs {
+  const out: ApplyArgs = { paths: [], commit: false, vendor: null, sample: 60 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--commit") out.commit = true;
@@ -68,7 +74,7 @@ function args(argv: string[]) {
   return out;
 }
 
-function collect(paths: string[]): string[] {
+export function collect(paths: string[]): string[] {
   const files: string[] = [];
   for (const p of paths) {
     const abs = path.isAbsolute(p) ? p : path.join(REPO_ROOT, p);
@@ -84,23 +90,133 @@ function collect(paths: string[]): string[] {
   return files.sort();
 }
 
-const normSku = (s: string) => s.toUpperCase().replace(/[+=\s]/g, "");
-const ws = (s: string) => s.replace(/\s+/g, " ").trim().toLowerCase();
+export const normSku = (s: string) => s.toUpperCase().replace(/[+=\s]/g, "");
+export const ws = (s: string) => s.replace(/\s+/g, " ").trim().toLowerCase();
 
-function cachedText(cachePath: string | null | undefined): string | null {
+export const CACHE_DIR = path.join(REPO_ROOT, "scraper", "cache");
+export const SCRAPER_TESTS_DIR = path.join(REPO_ROOT, "tests", "scraper");
+
+/** The cached page as whitespace-folded lower-case text, or null when there is no such page. */
+export function cachedText(cachePath: string | null | undefined, cacheDir: string = CACHE_DIR): string | null {
   if (!cachePath) return null;
-  const f = path.join(REPO_ROOT, "scraper", "cache", cachePath);
+  const f = path.join(cacheDir, cachePath);
   if (!fs.existsSync(f)) return null;
   return ws(fs.readFileSync(f, "utf8").replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&"));
 }
 
+export type SourceRow = { id: number; slug: string; tier: number; kind: string };
+
+/** What the gate re-reads: the raw string as written, the label it sat under, the page it came from. */
+export type WrittenFact = { raw: string; label: string; cache: string | null | undefined };
+
+export type EntryMapping = {
+  /** facts that mapped AND normalised, with the label kept for the provenance audit */
+  mapped: { label: string; entry: SpecEntry }[];
+  unmapped: { label: string; value: string }[];
+  rejected: { key: string; reason: string }[];
+  sentinel: number;
+};
+
+/**
+ * Map one entry's raw pairs. Pure apart from the alias rules mapFact loads: the same pairs give the
+ * same split every time. The state a mapped fact lands in is decided HERE from the source's tier —
+ * tier <= 2 (a vendor page) is `verified`, anything else `unverified` — and nothing downstream
+ * upgrades it.
+ */
+export function mapEntryFacts(
+  facts: RawPair[],
+  ctx: { category: string; src: SourceRow; docType: string; docId: string | null; pageUrl: string; sku: string; fetchedDay: string },
+): EntryMapping {
+  const out: EntryMapping = { mapped: [], unmapped: [], rejected: [], sentinel: 0 };
+  for (const f of facts) {
+    const m = mapFact({ label: f.label, value: f.value, locator: f.locator || "", shape: "pair", source_url: ctx.pageUrl, sku: ctx.sku }, ctx.category);
+    if (m.kind === "ok") {
+      out.mapped.push({
+        label: f.label,
+        entry: {
+          k: m.key, raw: f.value, value: m.value, unit: m.unit,
+          state: ctx.src.tier <= 2 ? "verified" : "unverified",
+          prov: { tier: ctx.src.tier, method: `${ctx.docType}:${ctx.src.slug}`, doc_id: ctx.docId ?? undefined, locator: f.locator || m.locator, extracted_at: ctx.fetchedDay, norm_v: NORM_VERSION },
+        },
+      });
+    } else if (m.kind === "unmapped") out.unmapped.push({ label: m.label, value: f.value });
+    else if (m.kind === "rejected") out.rejected.push({ key: m.key, reason: m.reason });
+    else out.sentinel++;
+  }
+  return out;
+}
+
+/**
+ * The lifecycle row an entry's `lifecycle` block earns, or null when it states no real date. A
+ * block of "N/A"s is not a lifecycle: a row with status `active` and every date NULL would read
+ * as "checked, still shipping", which nobody established.
+ */
+export function lifecycleFromEntry(
+  lc: Record<string, string | null> | null | undefined,
+  ctx: { docId: string | null; pageUrl: string; fetchedDay: string; tier: number },
+): LifecycleInput | null {
+  if (!lc || !Object.values(lc).some((v) => typeof v === "string" && DATE_RX.test(v))) return null;
+  const pick = (k: string) => (typeof lc[k] === "string" && DATE_RX.test(lc[k] as string) ? (lc[k] as string) : null);
+  return {
+    status: pick("end_of_sale_date") || pick("last_day_of_support") ? "eol_announced" : "active",
+    announce_date: pick("announce_date"), end_of_sale_date: pick("end_of_sale_date"), last_ship_date: pick("last_ship_date"),
+    end_of_sw_maint: pick("end_of_sw_maint"), end_of_vuln_support: pick("end_of_vuln_support"), last_day_of_support: pick("last_day_of_support"),
+    doc_id: ctx.docId, source_url: ctx.pageUrl, verified_at: ctx.fetchedDay, tier: ctx.tier, successor_sku: (lc.successor_sku as string) || null,
+  };
+}
+
+export type Gate = { precision: number; recall: number; passed: boolean; sampled: number; suites: Record<string, boolean>; misses: string[] };
+
+/** Recall half: every touched source's adapter suite, run fresh. A source with no suite is a failed suite. */
+export function runAdapterSuites(slugs: Iterable<string>, opts: { testsDir?: string; python?: string } = {}): Record<string, boolean> {
+  const testsDir = opts.testsDir ?? SCRAPER_TESTS_DIR;
+  const suiteResults: Record<string, boolean> = {};
+  for (const slug of slugs) {
+    const t = path.join(testsDir, `test_${slug.replace(/-/g, "_")}.py`);
+    if (!fs.existsSync(t)) { suiteResults[slug] = false; continue; }
+    const r = spawnSync(opts.python ?? "python3.11", [t], { cwd: REPO_ROOT, encoding: "utf8" });
+    suiteResults[slug] = r.status === 0;
+  }
+  return suiteResults;
+}
+
+/**
+ * Precision half: a random sample of what was written, re-read from the cached page. A fact whose
+ * page cannot be read is not counted; a run that wrote facts and could re-read NONE of them scores
+ * 0, not 1 — "could not check" must never pass as "checked".
+ */
+export function auditProvenance(written: WrittenFact[], sampleN: number, cacheDir: string = CACHE_DIR): { precision: number; sampled: number; misses: string[] } {
+  const sample = [...written].sort(() => 0.5 - Math.random()).slice(0, sampleN);
+  let hits = 0, checked = 0;
+  const misses: string[] = [];
+  for (const s of sample) {
+    const text = cachedText(s.cache, cacheDir);
+    if (text === null) continue;
+    checked++;
+    const lab = ws(s.label.split(">").pop() || s.label);
+    if (text.includes(ws(s.raw)) && text.includes(lab)) hits++; else if (misses.length < 10) misses.push(`${s.label} = ${s.raw}`);
+  }
+  const precision = checked ? hits / checked : (written.length ? 0 : 1);
+  return { precision: Number(precision.toFixed(4)), sampled: checked, misses };
+}
+
+export function computeGate(
+  written: WrittenFact[], sourcesTouched: Iterable<string>, sampleN: number,
+  opts: { testsDir?: string; cacheDir?: string; python?: string } = {},
+): Gate {
+  const suites = runAdapterSuites(sourcesTouched, opts);
+  const recall = Object.values(suites).length && Object.values(suites).every(Boolean) ? 1 : 0;
+  const audit = auditProvenance(written, sampleN, opts.cacheDir);
+  return { precision: audit.precision, recall, passed: audit.precision >= 0.98 && recall === 1, sampled: audit.sampled, suites, misses: audit.misses };
+}
+
 export async function main(argv: string[]): Promise<void> {
-  const a = args(argv);
+  const a = parseArgs(argv);
   if (!a.paths.length) throw new Error("usage: ingest apply-acquired <dir|file>... [--commit] [--vendor V] [--sample N]");
   const files = collect(a.paths);
   if (!files.length) throw new Error("no acquired JSON files found");
   const pool = getPool();
-  const sources = new Map((await pool.query<{ id: number; slug: string; tier: number; kind: string }>("SELECT id, slug, tier, kind FROM sources")).rows.map((r) => [r.slug, r]));
+  const sources = new Map((await pool.query<SourceRow>("SELECT id, slug, tier, kind FROM sources")).rows.map((r) => [r.slug, r]));
   const categories = new Map((await pool.query<{ id: number; slug: string }>("SELECT id, slug FROM categories")).rows.map((r) => [r.id, r.slug]));
   const vendors = new Map((await pool.query<{ id: number; slug: string }>("SELECT id, slug FROM vendors")).rows.map((r) => [r.id, r.slug]));
 
@@ -113,7 +229,7 @@ export async function main(argv: string[]): Promise<void> {
   const unmapped = new Map<string, { count: number; samples: string[]; categories: Set<string> }>();
   const rejected = new Map<string, number>();
   const unknownSkus: Record<string, unknown>[] = [];
-  const written: { raw: string; label: string; cache: string | null | undefined }[] = [];
+  const written: WrittenFact[] = [];
   const sourcesTouched = new Set<string>();
 
   const runInputs = { files: files.length, first: files.slice(0, 5).map((f) => path.relative(REPO_ROOT, f)), hashes: files.slice(0, 200).map((f) => hashFile(f)), commit: a.commit };
@@ -157,30 +273,22 @@ export async function main(argv: string[]): Promise<void> {
         } else if (!docId) docId = docIdFor(pageUrl);
         if (a.commit && runId !== null) await linkDocParts(docId, [part.id]);
 
-        const mappedKeys: string[] = [];
-        const specEntries: SpecEntry[] = [];
-        for (const f of entry.facts || []) {
-          stats.facts_raw++;
-          const m = mapFact({ label: f.label, value: f.value, locator: f.locator || "", shape: "pair", source_url: pageUrl, sku }, category);
-          if (m.kind === "ok") {
-            stats.facts_ok++;
-            mappedKeys.push(m.key);
-            specEntries.push({
-              k: m.key, raw: f.value, value: m.value, unit: m.unit,
-              state: src.tier <= 2 ? "verified" : "unverified",
-              prov: { tier: src.tier, method: `${docType}:${src.slug}`, doc_id: docId, locator: f.locator || m.locator, extracted_at: fetchedDay, norm_v: NORM_VERSION },
-            });
-            written.push({ raw: f.value, label: f.label, cache: doc.cache_path });
-          } else if (m.kind === "unmapped") {
-            stats.facts_unmapped++;
-            const u = unmapped.get(m.label) ?? { count: 0, samples: [], categories: new Set<string>() };
-            u.count++; if (u.samples.length < 3 && !u.samples.includes(f.value)) u.samples.push(f.value.slice(0, 120)); u.categories.add(category);
-            unmapped.set(m.label, u);
-          } else if (m.kind === "rejected") {
-            stats.facts_rejected++;
-            rejected.set(`${m.key}:${m.reason}`, (rejected.get(`${m.key}:${m.reason}`) ?? 0) + 1);
-          } else stats.facts_sentinel++;
+        const rawFacts = entry.facts || [];
+        const m = mapEntryFacts(rawFacts, { category, src, docType, docId, pageUrl, sku, fetchedDay });
+        stats.facts_raw += rawFacts.length;
+        stats.facts_ok += m.mapped.length;
+        stats.facts_unmapped += m.unmapped.length;
+        stats.facts_rejected += m.rejected.length;
+        stats.facts_sentinel += m.sentinel;
+        for (const u of m.unmapped) {
+          const row = unmapped.get(u.label) ?? { count: 0, samples: [], categories: new Set<string>() };
+          row.count++; if (row.samples.length < 3 && !row.samples.includes(u.value)) row.samples.push(u.value.slice(0, 120)); row.categories.add(category);
+          unmapped.set(u.label, row);
         }
+        for (const r of m.rejected) rejected.set(`${r.key}:${r.reason}`, (rejected.get(`${r.key}:${r.reason}`) ?? 0) + 1);
+        for (const w of m.mapped) written.push({ raw: w.entry.raw, label: w.label, cache: doc.cache_path });
+        const mappedKeys = m.mapped.map((w) => w.entry.k);
+        const specEntries = m.mapped.map((w) => w.entry);
 
         if (a.commit && runId !== null) {
           await withTx(async (client) => {
@@ -201,16 +309,8 @@ export async function main(argv: string[]): Promise<void> {
             if (!RELATION_KINDS.has(rel.kind)) { stats.relations_invalid_kind++; continue; }
             await upsertRelation(part.id, { to_sku: rel.sku, kind: rel.kind as RelationKind, tier: src.tier, doc_id: docId, source_url: pageUrl, note: rel.note ?? null }, runId); stats.relations++;
           }
-          const lc = entry.lifecycle;
-          if (lc && Object.values(lc).some((v) => typeof v === "string" && DATE_RX.test(v))) {
-            const pick = (k: string) => (typeof lc[k] === "string" && DATE_RX.test(lc[k] as string) ? (lc[k] as string) : null);
-            await upsertLifecycle(part.id, {
-              status: pick("end_of_sale_date") || pick("last_day_of_support") ? "eol_announced" : "active",
-              announce_date: pick("announce_date"), end_of_sale_date: pick("end_of_sale_date"), last_ship_date: pick("last_ship_date"),
-              end_of_sw_maint: pick("end_of_sw_maint"), end_of_vuln_support: pick("end_of_vuln_support"), last_day_of_support: pick("last_day_of_support"),
-              doc_id: docId, source_url: pageUrl, verified_at: fetchedDay, tier: src.tier, successor_sku: (lc.successor_sku as string) || null,
-            }, runId); stats.lifecycle++;
-          }
+          const li = lifecycleFromEntry(entry.lifecycle, { docId, pageUrl, fetchedDay, tier: src.tier });
+          if (li) { await upsertLifecycle(part.id, li, runId); stats.lifecycle++; }
           const outcome: CheckOutcome = mappedKeys.length ? "facts_found" : entry.not_listed ? "not_listed" : "no_facts";
           await recordSourceCheck(part.id, src.id, { doc_id: docId, fetch_id: doc.fetch_id ?? null, outcome, facts_found: mappedKeys.length, fields_found: [...new Set(mappedKeys)] }, runId);
           stats.checks++;
@@ -219,30 +319,11 @@ export async function main(argv: string[]): Promise<void> {
     }
 
     // ---- the gate -------------------------------------------------------------------------
-    const suiteResults: Record<string, boolean> = {};
-    for (const slug of sourcesTouched) {
-      const t = path.join(REPO_ROOT, "tests", "scraper", `test_${slug.replace(/-/g, "_")}.py`);
-      if (!fs.existsSync(t)) { suiteResults[slug] = false; continue; }
-      const r = spawnSync("python3.11", [t], { cwd: REPO_ROOT, encoding: "utf8" });
-      suiteResults[slug] = r.status === 0;
-    }
-    const recall = Object.values(suiteResults).length && Object.values(suiteResults).every(Boolean) ? 1 : 0;
-    const sample = [...written].sort(() => 0.5 - Math.random()).slice(0, a.sample);
-    let hits = 0, checked = 0;
-    const misses: string[] = [];
-    for (const s of sample) {
-      const text = cachedText(s.cache);
-      if (text === null) continue;
-      checked++;
-      const lab = ws(s.label.split(">").pop() || s.label);
-      if (text.includes(ws(s.raw)) && text.includes(lab)) hits++; else if (misses.length < 10) misses.push(`${s.label} = ${s.raw}`);
-    }
-    const precision = checked ? hits / checked : (written.length ? 0 : 1);
-    const gate = { precision: Number(precision.toFixed(4)), recall, passed: precision >= 0.98 && recall === 1, sampled: checked, suites: suiteResults, misses };
+    const gate = computeGate(written, sourcesTouched, a.sample);
     return { stats, gate, notes: `sources=${[...sourcesTouched].join(",")}` };
   };
 
-  let out: { stats: Record<string, number>; gate: Record<string, unknown>; runId?: number };
+  let out: { stats: Record<string, number>; gate: Gate; runId?: number };
   if (a.commit) {
     out = await withRun("apply-acquired", runInputs, body);
   } else {
@@ -266,7 +347,7 @@ export async function main(argv: string[]): Promise<void> {
   console.log(`unmapped labels: ${unmapped.size} -> ${path.relative(REPO_ROOT, unmappedFile)}`);
   console.log(`unknown SKUs: ${unknownSkus.length} -> ${path.relative(REPO_ROOT, unknownFile)}`);
   await closePool();
-  if (a.commit && !(out.gate as { passed: boolean }).passed) process.exitCode = 1;
+  if (a.commit && !out.gate.passed) process.exitCode = 1;
 }
 
 if (process.argv[1] && /apply-acquired\.(ts|js)$/.test(process.argv[1])) {

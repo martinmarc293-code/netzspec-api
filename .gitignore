@@ -20,3 +20,6 @@ scraper/ledger.jsonl
 # scratch
 *.log
 tmp/
+
+# python bytecode
+__pycache__/

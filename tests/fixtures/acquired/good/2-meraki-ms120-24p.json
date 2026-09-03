@@ -1,0 +1,25 @@
+{
+ "_about": "A VENDOR page (sources.meraki, kind vendor, tier 2): its facts must land as verified, its image must be written, its dated end_of_sale_date must create a lifecycle row. task.part_id stays null: the part is found by --vendor + SKU.",
+ "source": "meraki",
+ "task": {"id": 2, "task": "part-page", "key": "MS120-24P", "part_id": null},
+ "url": "https://documentation.meraki.com/MS/nztest/MS120-24P",
+ "final_url": "https://documentation.meraki.com/MS/nztest/MS120-24P",
+ "fetched_at": "2026-09-03T10:16:00+00:00",
+ "fetch_id": null,
+ "cache_path": "9c7c1fb4978173e53559c47c598f90a044a5171d.html",
+ "result": {
+  "sku": "MS120-24P",
+  "not_listed": false,
+  "name": "Meraki MS120-24P",
+  "facts": [
+   {"label": "Switching capacity", "value": "56 Gbps", "locator": "t1:r1:c2"},
+   {"label": "Weight", "value": "4.9 kg", "locator": "t1:r2:c2"}
+  ],
+  "aliases": [],
+  "images": [{"url": "https://documentation.meraki.com/nztest/ms120-24p.png", "role": "primary", "alt": "MS120-24P front"}],
+  "relations": [{"kind": "successor", "sku": "MS130-24P", "note": "replacement model"}],
+  "lifecycle": {"announce_date": "N/A", "end_of_sale_date": "2027-01-31", "last_day_of_support": "N/A", "successor_sku": "MS130-24P"},
+  "price": null,
+  "others": []
+ }
+}

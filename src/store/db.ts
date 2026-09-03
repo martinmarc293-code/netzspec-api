@@ -31,7 +31,8 @@ export function resolveDatabaseUrl(): string {
   if (isTestMode()) {
     const url = env.DATABASE_URL_TEST;
     if (!url) throw new Error("NETZSPEC_DB=test but DATABASE_URL_TEST is not set");
-    if (!databaseName(url).endsWith("_test")) throw new Error(`refusing to run tests against database "${databaseName(url)}" (name must end in _test)`);
+    // netzspec_test, netzspec_test2 … one throwaway database per concurrent suite; anything else is refused
+    if (!/_test\d*$/.test(databaseName(url))) throw new Error(`refusing to run tests against database "${databaseName(url)}" (name must end in _test or _test<N>)`);
     return url;
   }
   return env.DATABASE_URL;

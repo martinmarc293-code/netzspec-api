@@ -24,9 +24,10 @@ export const LOOKUP_TASK: Record<string, string> = {
   cdw: "search",
 };
 
-type Args = Record<string, string | boolean>;
+export type Args = Record<string, string | boolean>;
 
-function parseArgs(argv: string[]): { cmd: string; args: Args } {
+/** `--k v` pairs; a flag with no value (or followed by another flag) is `true`. Exported for the proof. */
+export function parseArgs(argv: string[]): { cmd: string; args: Args } {
   const [cmd, ...rest] = argv;
   const args: Args = {};
   for (let i = 0; i < rest.length; i++) {
@@ -96,7 +97,7 @@ export async function queueGaps(args: Args): Promise<{ inserted: number; skipped
     if (inserted >= limit) break;
     const r = await pool.query(
       `INSERT INTO fetch_queue (source_id, task, key, part_id, priority)
-       SELECT DISTINCT $1, $2, p.sku, g.part_id, $3
+       SELECT DISTINCT $1::smallint, $2::text, p.sku, g.part_id, $3::smallint
          FROM gap_ledger g
          JOIN parts p ON p.id = g.part_id
          JOIN source_fields sf ON sf.source_id = $1 AND sf.field_key = g.field_key
@@ -111,10 +112,24 @@ export async function queueGaps(args: Args): Promise<{ inserted: number; skipped
   return { inserted, skippedNoLookup: skipped };
 }
 
-/** data/schema/source-fields.json: { "sources": { "<slug>": { "*": ["field_key", ...], "<category>": [...] } } } */
-export async function loadSourceFields(): Promise<{ inserted: number; unknownFields: string[] }> {
-  const file = path.join(REPO_ROOT, "data", "schema", "source-fields.json");
-  const cfg = JSON.parse(fs.readFileSync(file, "utf8")) as { sources: Record<string, Record<string, string[]>> };
+/** The shape of data/schema/source-fields.json: { "sources": { "<slug>": { "*": ["field_key", ...], "<category>": [...] } } } */
+export type SourceFieldsConfig = { sources: Record<string, Record<string, string[]>> };
+
+export const SOURCE_FIELDS_FILE = path.join(REPO_ROOT, "data", "schema", "source-fields.json");
+
+/** Load the capability matrix from the repo file (the CLI path) or from any file handed in (the proof's path). */
+export async function loadSourceFields(file: string = SOURCE_FIELDS_FILE): Promise<{ inserted: number; unknownFields: string[] }> {
+  const cfg = JSON.parse(fs.readFileSync(file, "utf8")) as SourceFieldsConfig;
+  return applySourceFields(cfg);
+}
+
+/**
+ * Write a parsed capability matrix into source_fields. An unknown source or category throws,
+ * naming it, before anything under it is written; an unknown FIELD KEY is reported and skipped
+ * (the FK would refuse it anyway — reporting it is what makes the typo visible), the known keys
+ * beside it still land.
+ */
+export async function applySourceFields(cfg: SourceFieldsConfig): Promise<{ inserted: number; unknownFields: string[] }> {
   const pool = getPool();
   const known = new Set((await pool.query<{ key: string }>("SELECT key FROM field_dictionary")).rows.map((r) => r.key));
   const cats = new Map((await pool.query<{ slug: string; id: number }>("SELECT slug, id FROM categories")).rows.map((r) => [r.slug, r.id]));

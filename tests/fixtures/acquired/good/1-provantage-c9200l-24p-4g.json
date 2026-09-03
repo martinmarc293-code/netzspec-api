@@ -1,0 +1,32 @@
+{
+ "_about": "Shaped exactly like scraper/worker.py write_text: {source, task{id,task,key,part_id}, url, final_url, fetched_at, fetch_id, cache_path, result=RESULT}. task.part_id is null here; tests/db/apply-acquired.test.ts fills it with the fixture part's id to drive the anchored path. cache_path = sha1(url) + '.html' (netzscrape._key); the test writes that page under scraper/cache/ and removes it afterwards.",
+ "source": "provantage",
+ "task": {"id": 1, "task": "search", "key": "C9200L-24P-4G", "part_id": null},
+ "url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-C9200L-24P-4G",
+ "final_url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-C9200L-24P-4G",
+ "fetched_at": "2026-09-03T10:15:00+00:00",
+ "fetch_id": null,
+ "cache_path": "09e01a272bd780b57a85c6656797357f88ff9a13.html",
+ "result": {
+  "sku": "C9200L-24P-4G",
+  "not_listed": false,
+  "name": "Cisco Catalyst C9200L-24P-4G Ethernet Switch",
+  "facts": [
+   {"label": "PoE budget", "value": "370 W", "locator": "t1:r3:c2"},
+   {"label": "Interfaces/Ports > Total Number of Network Ports", "value": "24", "locator": "t1:r4:c2"},
+   {"label": "Switching capacity", "value": "n/a", "locator": "t1:r5:c2"}
+  ],
+  "aliases": [{"kind": "upc", "value": "889728171533"}],
+  "images": [{"url": "https://www.provantage.com/images/nztest-c9200l.jpg", "role": "primary", "alt": "C9200L-24P-4G"}],
+  "relations": [
+   {"kind": "compatible", "sku": "C9200-STACK-KIT", "note": "stacking kit"},
+   {"kind": "replaces", "sku": "WS-C2960L-24PS-LL", "note": "not a relation_kind"}
+  ],
+  "lifecycle": {"end_of_sale_date": "N/A", "last_day_of_support": "N/A"},
+  "price": {"amount": "4146.89", "currency": "USD"},
+  "others": [
+   {"sku": "C9200L-48P-4G", "scope": "family", "facts": [{"label": "PoE budget", "value": "740 W", "locator": "t2:r1:c2"}]},
+   {"sku": "NZTEST-NOT-A-PART", "name": "Cisco something we do not hold", "facts": [{"label": "PoE budget", "value": "125 W", "locator": "t3:r1:c2"}]}
+  ]
+ }
+}
