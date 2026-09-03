@@ -13,6 +13,10 @@ const COMMANDS: Record<string, { help: string; run: (argv: string[]) => Promise<
     help: "one-time load from MongoDB Atlas (--dry-run | --reload)",
     run: async (argv) => { process.argv = [process.argv[0], "migrate-atlas", ...argv]; await import("./migrate-atlas.js"); },
   },
+  "apply-acquired": {
+    help: "acquired page results -> facts inside a gated run: <dir|file>... [--commit] [--vendor V] [--sample N]",
+    run: async (argv) => { const m = await import("./apply-acquired.js"); await m.main(argv); },
+  },
   queue: {
     help: "enqueue fetch tasks: --source S --task T [--vendor V --category C --class hardware --limit N | --key K --url U]",
     run: async (argv) => { const m = await import("./queue.js"); await m.main(["queue", ...argv]); },

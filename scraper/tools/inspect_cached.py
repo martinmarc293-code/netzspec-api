@@ -8,6 +8,13 @@ from __future__ import annotations
 import argparse, json, re, sys
 from pathlib import Path
 
+# the Windows console is cp1252; product pages are not. Never let an encoding error end an inspection.
+for _s in (sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:  # noqa
+        pass
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import netzscrape  # noqa: E402
 from sources.base import soup, table_pairs, dl_pairs, colon_pairs, clean  # noqa: E402

@@ -50,6 +50,8 @@ def sniff(body: bytes) -> str | None:
             return fmt
     if body[:64].lstrip().lower().startswith(b"<svg") or (body[:5] == b"<?xml" and b"<svg" in body[:400]):
         return "svg"
+    if body[4:12] in (b"ftypavif", b"ftypavis", b"ftypheic", b"ftypmif1"):
+        return "avif"   # recognised so the manifest names it, unsupported for variants
     return None
 
 
@@ -88,7 +90,8 @@ def make_variants(body: bytes, out_dir: Path, vendor: str, sha: str) -> dict:
     from PIL import Image
     fmt = sniff(body)
     if fmt is None or fmt in ("pdf", "svg"):
-        return {"ok": False, "issue": f"unsupported-format:{fmt or 'unknown'}"}
+        return {"ok": False, "issue": f"unsupported-format:{fmt or 'unknown'}", "head": body[:16].hex()}
+    # avif decodes with Pillow >= 11.2 (checked: features.check('avif') is True on this machine)
     orig_dir = out_dir / "originals"
     orig_dir.mkdir(parents=True, exist_ok=True)
     orig = orig_dir / f"{sha}.{fmt}"

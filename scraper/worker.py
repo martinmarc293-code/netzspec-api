@@ -211,7 +211,8 @@ class Browser:
         what they validate."""
         host = urlparse(url).netloc
         self._wait(host, politeness_ms)
-        headers = {"Accept": "image/webp,image/avif,image/png,image/*;q=0.9,application/pdf;q=0.8,*/*;q=0.5"}
+        # no avif: Pillow cannot decode it, and a CDN that is offered avif sends avif
+        headers = {"Accept": "image/webp,image/png,image/jpeg,image/*;q=0.8,application/pdf;q=0.8,*/*;q=0.5"}
         if referer:
             headers["Referer"] = referer
         r = self._ctx.request.get(url, headers=headers, timeout=timeout)
