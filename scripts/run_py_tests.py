@@ -11,7 +11,8 @@ ROOT = Path(__file__).resolve().parent.parent
 only = sys.argv[1] if len(sys.argv) > 1 else ""
 
 files = sorted(ROOT.glob("tests/scraper/test_*.py")) + [ROOT / "scraper" / "test_extract_gate.py"]
-files = [f for f in files if f.exists() and (not only or only in str(f))]
+# a source slug is hyphenated (hpe-quickspecs) while its module is underscored (hpe_quickspecs); accept either
+files = [f for f in files if f.exists() and (not only or only in str(f) or only.replace("-", "_") in str(f))]
 if not files:
     print("no python test files found"); sys.exit(1)
 
