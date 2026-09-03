@@ -17,6 +17,26 @@ const COMMANDS: Record<string, { help: string; run: (argv: string[]) => Promise<
     help: "acquired page results -> facts inside a gated run: <dir|file>... [--commit] [--vendor V] [--sample N]",
     run: async (argv) => { const m = await import("./apply-acquired.js"); await m.main(argv); },
   },
+  "apply-extract": {
+    help: "Cisco datasheet extraction (HTML/PDF) -> facts inside a gated apply-specs run: <extract.json>... [--commit] [--sample N] [--allow-regression \"reason\"] [--tag T]",
+    run: async (argv) => { const m = await import("./apply-extract.js"); await m.main(argv); },
+  },
+  "gate-extract": {
+    help: "the gate alone (precision, recall, provenance, regression) for an extract file: <extract.json>... [--sample N] [--allow-regression \"reason\"]",
+    run: async (argv) => { const m = await import("./gate-extract.js"); await m.main(argv); },
+  },
+  "apply-lifecycle": {
+    help: "Cisco EoL bulletins -> lifecycle rows + successor relations: <cisco-eol.json> [--commit] [--sample N]",
+    run: async (argv) => { const m = await import("./apply-lifecycle.js"); await m.main(argv); },
+  },
+  "apply-compat": {
+    help: "Cisco TMG optics matrix -> supports_transceiver / compatible / equivalent relations: <cisco-tmg*.json>... [--commit] [--sample N]",
+    run: async (argv) => { const m = await import("./apply-compat.js"); await m.main(argv); },
+  },
+  "recompute-completeness": {
+    help: "per-part required/missing fields from current verified facts (the gap ledger's input): [--vendor V] [--category C] [--since ISO]",
+    run: async (argv) => { const m = await import("./recompute-completeness.js"); await m.main(argv); },
+  },
   "apply-alias-proposals": {
     help: "vocabulary agents' proposals -> alias rules + generated fields, re-validated: <journal.jsonl|proposals.json> [--commit]",
     run: async (argv) => { const m = await import("./apply-alias-proposals.js"); await m.main(argv); },

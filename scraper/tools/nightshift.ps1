@@ -123,6 +123,9 @@ try {
       if (Test-Path $dir) { Run-Step "apply $src" "npx" @("tsx", "src/pipeline/cli.ts", "apply-acquired", "runs/acquired/$src/$today", "--commit") 60 | Out-Null }
     }
 
+    # 4b. the gap ledger's input: recompute completeness for parts touched since the cycle began
+    Run-Step "recompute-completeness" "npx" @("tsx", "src/pipeline/cli.ts", "recompute-completeness", "--since", $cycleStart.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")) 30 | Out-Null
+
     # 5. summary for the human (and for Claude): what needs judgment
     Run-Step "status" "npx" @("tsx", "src/pipeline/cli.ts", "queue-status") 5 | Out-Null
     $summary = @()
