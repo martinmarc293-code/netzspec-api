@@ -7,7 +7,8 @@
 //
 // Half the cases are sabotage: a missing key, a wrong key, a revoked key, an unknown filter
 // key, a numeric operator on an enum, a garbage cursor, a limit over the maximum, a filter
-// that would match if unverified facts counted. Every one asserts the rejection AND its stated
+// that would match if unverified facts counted, a conflict that would count in a facet, an
+// export page that would cost one statement per part. Every one asserts the rejection AND its stated
 // reason; a check that has never failed is not a check.
 import { query, closePool } from "../../src/store/db.js";
 import { loadEnv } from "../../src/config.js";
@@ -17,6 +18,8 @@ import { compileFilter, parseTerm } from "../../src/api/filter.js";
 import { decodeCursor, encodeCursor } from "../../src/api/cursor.js";
 import { resetDictionaryCache } from "../../src/api/queries/fields.js";
 import { resetStatsCache } from "../../src/api/queries/stats.js";
+import { resetFacetsCache } from "../../src/api/queries/facets.js";
+import pg from "pg";
 import { pgTextToIso } from "../../src/api/queries/shared.js";
 
 if (process.env.NETZSPEC_DB !== "test") {
@@ -181,7 +184,7 @@ async function main(): Promise<void> {
     etag = String(r.headers.etag ?? "");
     check("ETag is present and weak", /^W\/"[0-9a-f]+"$/.test(etag), etag);
     check("Last-Modified is present", typeof r.headers["last-modified"] === "string" && r.headers["last-modified"] !== "", r.headers["last-modified"]);
-    check("rate-limit headers are present", r.headers["x-ratelimit-limit"] !== undefined && r.headers["x-ratelimit-remaining"] !== undefined, r.headers);
+    check("rate-limit headers are present (limit, remaining, reset)", r.headers["x-ratelimit-limit"] !== undefined && r.headers["x-ratelimit-remaining"] !== undefined && r.headers["x-ratelimit-reset"] !== undefined, r.headers);
     check("rate limit is 600 per minute", String(r.headers["x-ratelimit-limit"]) === "600", r.headers["x-ratelimit-limit"]);
 
     const all = await get("/v1/parts/cisco/C9200L-24P-4G?states=all");
@@ -397,6 +400,146 @@ async function main(): Promise<void> {
     check("after the cache is dropped the new part is counted", fresh.body?.parts === 4, fresh.body?.parts);
     await query("DELETE FROM parts WHERE sku = 'CACHE-PROBE'");
     resetStatsCache();
+  }
+
+  // ---- facets -----------------------------------------------------------------------------------
+  {
+    const FACET_KEYS = ["key", "label_en", "label_de", "type", "unit", "parts", "filterable", "values", "distinct", "range"].sort();
+    const f = await get("/v1/facets?vendor=cisco&category=switches");
+    check("facets is 200 with items, next_cursor null and generated_at", f.status === 200 && Array.isArray(f.body?.items) && f.body?.next_cursor === null && typeof f.body?.generated_at === "string", f.body);
+    const keys = (f.body?.items ?? []).map((x: Json) => x.key);
+    check("facets lists exactly the fields with a rendered fact: poe_budget", JSON.stringify(keys) === JSON.stringify(["poe_budget"]), keys);
+    check("SABOTAGE a held conflict (A layer=l3) and an unverified value (B layer=l2) never produce a facet", !keys.includes("layer"), keys);
+    const poe = f.body?.items?.find((x: Json) => x.key === "poe_budget") ?? {};
+    check("facet item has exactly the documented keys", JSON.stringify(Object.keys(poe).sort()) === JSON.stringify(FACET_KEYS), Object.keys(poe).sort());
+    check("numeric facet: labels, unit, parts=2, range {50,370,2}, no values",
+      poe.type === "n" && poe.unit === "W" && poe.label_de === "PoE-Budget" && poe.parts === 2 && poe.filterable === true && poe.values === null && poe.distinct === null
+      && JSON.stringify(poe.range) === JSON.stringify({ min: 50, max: 370, count: 2 }), poe);
+
+    const acme = await get("/v1/facets?vendor=acme");
+    check("SABOTAGE unknown vendor is an empty selection (200, items []), not a 500", acme.status === 200 && Array.isArray(acme.body?.items) && acme.body.items.length === 0, acme.body);
+    const noCat = await get("/v1/facets?vendor=cisco&category=nope");
+    check("unknown category is an empty selection too", noCat.status === 200 && noCat.body?.items?.length === 0, noCat.body);
+    const whole = await get("/v1/facets");
+    check("facets without a selection covers the whole catalogue", whole.status === 200 && whole.body?.items?.some((x: Json) => x.key === "poe_budget"), whole.body);
+
+    // Temporary facts: a boolean, an enum, a list and a struct — plus a CONFLICT-state boolean on
+    // the licence part that would make `true` count 2 if held facts leaked into a distribution.
+    await query(`INSERT INTO field_dictionary (key, type, unit, label_en, label_de, domain, shape) VALUES
+                   ('t_stackable', 'b', NULL, 'Stackable', 'Stapelbar', NULL, NULL),
+                   ('t_standards', 'ls', NULL, 'Standards', 'Standards', NULL, NULL),
+                   ('t_ports', 'struct', NULL, 'Ports', 'Ports', NULL, 'ports'),
+                   ('t_model', 's', NULL, 'Model', 'Modell', NULL, NULL)
+                 ON CONFLICT (key) DO NOTHING`);
+    resetDictionaryCache();
+    await query(`INSERT INTO facts (part_id, field_key, value, raw, state, tier, method, doc_id, locator, extracted_at, run_id) VALUES
+                   ($1, 't_stackable', 'true'::jsonb, 'Yes', 'verified', 2, 'html_table', $4, 't1:r1:c2', '2026-09-02', $5),
+                   ($2, 't_stackable', 'false'::jsonb, 'No', 'verified', 2, 'html_table', $4, 't1:r1:c2', '2026-09-02', $5),
+                   ($3, 't_stackable', 'true'::jsonb, 'Yes', 'conflict', 2, 'html_table', $4, 't1:r1:c2', '2026-09-02', $5),
+                   ($3, 'layer', '"l2"'::jsonb, 'Layer 2', 'verified', 2, 'html_table', $4, 't2:r1:c2', '2026-09-02', $5),
+                   ($1, 't_standards', '["IEEE 802.1Q","IEEE 802.3ad"]'::jsonb, 'IEEE 802.1Q, IEEE 802.3ad', 'verified', 2, 'html_table', $4, 't3:r1:c2', '2026-09-02', $5),
+                   ($2, 't_standards', '["IEEE 802.1Q"]'::jsonb, 'IEEE 802.1Q', 'corroborated', 2, 'html_table', $4, 't3:r1:c2', '2026-09-02', $5),
+                   ($1, 't_ports', '[{"count":24,"connector":"RJ45","speed":1000}]'::jsonb, '24 x 10/100/1000 RJ45', 'verified', 2, 'html_table', $4, 't4:r1:c2', '2026-09-02', $5)`,
+      [ids.partA, ids.partB, ids.partL, DOC, ids.runId]);
+    // 55 throwaway parts, each with a distinct string value, to prove the top-50 cut and `distinct`.
+    const switchesId = (await query<{ id: number }>("SELECT id FROM categories WHERE slug = 'switches'")).rows[0].id;
+    await query(`INSERT INTO parts (vendor_id, sku, slug, category_id, product_class)
+                 SELECT v.id, 'T-FACET-' || g, 't-facet-' || g, $1, 'hardware' FROM vendors v, generate_series(1, 55) AS g WHERE v.slug = 'cisco'`, [switchesId]);
+    await query(`INSERT INTO facts (part_id, field_key, value, raw, state, tier, method, doc_id, locator, extracted_at, run_id)
+                 SELECT p.id, 't_model', to_jsonb('model-' || p.sku), p.sku, 'verified', 2, 'html_table', $1, 't1:r1:c1', '2026-09-02', $2
+                   FROM parts p WHERE p.sku LIKE 'T-FACET-%'`, [DOC, ids.runId]);
+
+    const stale = await get("/v1/facets?vendor=cisco&category=switches");
+    check("facets are served from the 60 s cache (new facts not yet visible)", stale.body?.generated_at === f.body?.generated_at && !(stale.body?.items ?? []).some((x: Json) => x.key === "t_stackable"), stale.body?.items?.map((x: Json) => x.key));
+    resetFacetsCache();
+    const f2 = await get("/v1/facets?vendor=cisco&category=switches");
+    const by = (k: string): Json => f2.body?.items?.find((x: Json) => x.key === k) ?? {};
+    check("after the cache is dropped the new facets appear, sorted by key",
+      JSON.stringify((f2.body?.items ?? []).map((x: Json) => x.key)) === JSON.stringify(["layer", "poe_budget", "t_model", "t_ports", "t_stackable", "t_standards"]), f2.body?.items?.map((x: Json) => x.key));
+    check("boolean facet: [{false,1},{true,1}], parts 2, distinct 2 — SABOTAGE the conflict-state true on L is not counted (it would make true 2)",
+      by("t_stackable").parts === 2 && by("t_stackable").distinct === 2 && by("t_stackable").range === null
+      && JSON.stringify(by("t_stackable").values) === JSON.stringify([{ value: false, count: 1 }, { value: true, count: 1 }]), by("t_stackable"));
+    check("enum facet: only L's verified l2 counts (A's l3 is held, B's l2 is unverified)",
+      by("layer").parts === 1 && JSON.stringify(by("layer").values) === JSON.stringify([{ value: "l2", count: 1 }]), by("layer"));
+    check("list facet distributes over the elements, most common first",
+      by("t_standards").parts === 2 && by("t_standards").distinct === 2
+      && JSON.stringify(by("t_standards").values) === JSON.stringify([{ value: "IEEE 802.1Q", count: 2 }, { value: "IEEE 802.3ad", count: 1 }]), by("t_standards"));
+    check("struct facet is listed but not filterable, with neither values nor range",
+      by("t_ports").parts === 1 && by("t_ports").filterable === false && by("t_ports").values === null && by("t_ports").range === null && by("t_ports").distinct === null, by("t_ports"));
+    check("string facet is cut at the top 50 and says there were 55 distinct values",
+      by("t_model").parts === 55 && by("t_model").values?.length === 50 && by("t_model").distinct === 55 && by("t_model").values.every((v: Json) => v.count === 1), { n: by("t_model").values?.length, distinct: by("t_model").distinct });
+
+    await query("DELETE FROM parts WHERE sku LIKE 'T-FACET-%'");
+    await query("DELETE FROM facts WHERE field_key IN ('t_stackable', 't_standards', 't_ports', 't_model') OR (part_id = $1 AND field_key = 'layer')", [ids.partL]);
+    resetFacetsCache();
+    resetStatsCache();
+    const f3 = await get("/v1/facets?vendor=cisco&category=switches");
+    check("facets return to the fixture after cleanup", JSON.stringify((f3.body?.items ?? []).map((x: Json) => x.key)) === JSON.stringify(["poe_budget"]), f3.body?.items?.map((x: Json) => x.key));
+  }
+
+  // ---- export -----------------------------------------------------------------------------------
+  {
+    const e1 = await get("/v1/export?limit=2");
+    check("export page 1: two full records, a cursor and now", e1.status === 200 && e1.body?.items?.length === 2 && typeof e1.body?.next_cursor === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(e1.body?.now ?? ""), { status: e1.status, n: e1.body?.items?.length, cursor: e1.body?.next_cursor, now: e1.body?.now });
+    check("export items carry exactly the part-record keys", (e1.body?.items ?? []).every((i: Json) => JSON.stringify(Object.keys(i).sort()) === JSON.stringify(DOCUMENTED_KEYS)), e1.body?.items?.map((i: Json) => Object.keys(i).sort()));
+    const e2 = await get(`/v1/export?limit=2&cursor=${encodeURIComponent(e1.body?.next_cursor ?? "")}`);
+    const exSkus = [...(e1.body?.items ?? []), ...(e2.body?.items ?? [])].map((x: Json) => x.sku);
+    check("export page 2 completes the set with no overlap and no further cursor", e2.status === 200 && e2.body?.items?.length === 1 && e2.body?.next_cursor === null && new Set(exSkus).size === 3, exSkus);
+    const exTimes = [...(e1.body?.items ?? []), ...(e2.body?.items ?? [])].map((x: Json) => x.updated_at);
+    check("export is ordered by updated_at ascending, like /changes", exTimes.every((t, i) => i === 0 || t >= exTimes[i - 1]), exTimes);
+    const c1 = await get("/v1/changes?since=2000-01-01T00:00:00Z&limit=2");
+    const c2 = await get(`/v1/changes?since=2000-01-01T00:00:00Z&limit=2&cursor=${encodeURIComponent(c1.body?.next_cursor ?? "")}`);
+    const viaChanges = await get(`/v1/export?cursor=${encodeURIComponent(c1.body?.next_cursor ?? "")}`);
+    check("a /v1/changes cursor pages /v1/export to the same rows (one cursor family)",
+      viaChanges.status === 200 && JSON.stringify(viaChanges.body?.items?.map((x: Json) => x.sku)) === JSON.stringify(c2.body?.items?.map((x: Json) => x.sku)), { export: viaChanges.body?.items?.map((x: Json) => x.sku), changes: c2.body?.items?.map((x: Json) => x.sku) });
+
+    const sinceNow = await get(`/v1/export?since=${encodeURIComponent(e1.body?.now ?? "")}`);
+    check("since=now exports nothing and still carries now (watermark round-trips)", sinceNow.status === 200 && sinceNow.body?.items?.length === 0 && sinceNow.body?.next_cursor === null && typeof sinceNow.body?.now === "string", sinceNow.body);
+    const sinceOld = await get("/v1/export?since=2000-01-01T00:00:00Z");
+    check("since far in the past exports all three", sinceOld.body?.items?.length === 3 && sinceOld.body?.next_cursor === null, sinceOld.body?.items?.length);
+
+    const single = await get("/v1/parts/cisco/C9200L-24P-4G");
+    const fromExport = sinceOld.body?.items?.find((x: Json) => x.sku === "C9200L-24P-4G");
+    check("an export record is byte-identical to the single-part record (same assembly path)", JSON.stringify(fromExport) === JSON.stringify(single.body), { export: fromExport, single: single.body });
+    check("export records render only verified/corroborated facts (the held layer is absent)", JSON.stringify(fromExport?.facts?.map((f: Json) => f.key)) === JSON.stringify(["poe_budget"]), fromExport?.facts);
+    check("export record carries lifecycle, relations, image variants, completeness and sources",
+      fromExport?.lifecycle?.end_of_sale_date === "2027-03-31" && fromExport?.relations?.length === 2 && fromExport?.images?.[0]?.variants?.[0]?.width === 800
+      && fromExport?.completeness?.pct === 60 && fromExport?.sources?.[0]?.doc_id === DOC, fromExport);
+    const lic = sinceOld.body?.items?.find((x: Json) => x.sku === "L-C9200-NE");
+    check("a part with nothing attached exports empty lists and null lifecycle/completeness", lic?.lifecycle === null && lic?.completeness === null && lic?.facts?.length === 0 && lic?.images?.length === 0 && lic?.relations?.length === 0, lic);
+
+    const sel = await get("/v1/export?vendor=cisco&category=switches");
+    check("export with vendor + category", sel.body?.items?.length === 3, sel.body?.items?.length);
+    const none = await get("/v1/export?vendor=hpe");
+    check("export for a vendor with no parts is an empty page with now", none.status === 200 && none.body?.items?.length === 0 && none.body?.next_cursor === null && typeof none.body?.now === "string", none.body);
+    const max = await get("/v1/export?limit=200");
+    check("limit=200 is accepted", max.status === 200 && max.body?.items?.length === 3, max.status);
+    const over = await get("/v1/export?limit=201");
+    check("SABOTAGE limit=201 is 400 with the envelope", over.status === 400 && over.body?.error?.code === "bad_request", over.body);
+    const zero = await get("/v1/export?limit=0");
+    check("SABOTAGE limit=0 is 400", zero.status === 400, zero.body);
+    const badCursor = await get("/v1/export?cursor=not-a-cursor");
+    check("SABOTAGE garbage cursor is 400, not a silent first page", badCursor.status === 400 && /cursor/.test(badCursor.body?.error?.message), badCursor.body);
+    const badSince = await get("/v1/export?since=last-week");
+    check("SABOTAGE unparseable since is 400 naming since", badSince.status === 400 && /since/.test(badSince.body?.error?.message), badSince.body);
+
+    // No N+1: the number of statements for a page must not grow with the page. Count what the
+    // pool executes for a page of one and a page of three (auth costs each request one lookup,
+    // and at most one last_used_at write per minute, hence the +1 tolerance).
+    const countQueries = async (fn: () => Promise<unknown>): Promise<number> => {
+      const proto = pg.Pool.prototype as unknown as { query: (...a: unknown[]) => unknown };
+      const orig = proto.query;
+      let n = 0;
+      proto.query = function (this: unknown, ...a: unknown[]) { n++; return orig.apply(this, a); };
+      try { await fn(); } finally { proto.query = orig; }
+      return n;
+    };
+    const q1 = await countQueries(() => get("/v1/export?limit=1"));
+    const q3 = await countQueries(() => get("/v1/export?limit=3"));
+    check("SABOTAGE export runs a constant number of statements per page (no per-part round trips)", q3 <= q1 + 1 && q1 <= 12, { page_of_1: q1, page_of_3: q3 });
+
+    const spec = await get("/openapi.json", {});
+    check("openapi lists /v1/facets and /v1/export", Boolean(spec.body?.paths?.["/v1/facets"]) && Boolean(spec.body?.paths?.["/v1/export"]), Object.keys(spec.body?.paths ?? {}));
   }
 
   // ---- rate limit: prove the 429 path with a small budget --------------------------------------

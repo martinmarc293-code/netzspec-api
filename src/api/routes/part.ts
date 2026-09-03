@@ -10,45 +10,16 @@ import { Type, type Static } from "@sinclair/typebox";
 import { notFound } from "../errors.js";
 import { parseStates, partConflicts, partFacts, partHistory, partRecord } from "../queries/part.js";
 import { resolvePart, type PartIdentity } from "../queries/shared.js";
-import { AnyJson, ERROR_RESPONSES, LifecycleRecord, Nullable } from "../schemas.js";
+import { AnyJson, ERROR_RESPONSES, FactItem, Nullable, PartRecord } from "../schemas.js";
 
 export type PartRouteOptions = { publicBaseUrl: string };
 
 const Params = Type.Object({ vendor: Type.String(), sku: Type.String() });
 const StatesQuery = Type.Object({ states: Type.Optional(Type.String({ description: "comma list of fact states, or `all`; default verified,corroborated" })) });
 
-const FactSource = Nullable(Type.Object({
-  doc_id: Type.String(), url: Nullable(Type.String()), locator: Nullable(Type.String()), extracted_at: Nullable(Type.String({ format: "date" })),
-}));
-const FactItem = Type.Object({
-  key: Type.String(), label_en: Type.String(), label_de: Type.String(), type: Type.String(), value: AnyJson, unit: Nullable(Type.String()),
-  raw: Type.String(), state: Type.String(), tier: Type.Integer(), method: Type.String(), inherited: Type.Boolean(),
-  inherited_from: Nullable(Type.String()), source: FactSource, evidence_count: Type.Integer(),
-});
 const Evidence = Type.Object({
   doc_id: Nullable(Type.String()), url: Nullable(Type.String()), locator: Nullable(Type.String()), tier: Type.Integer(),
   method: Type.String(), extracted_at: Nullable(Type.String({ format: "date" })),
-});
-const ImageVariant = Type.Object({ variant: Type.String(), url: Type.String(), width: Type.Integer(), height: Type.Integer(), bytes: Type.Integer(), format: Type.String() });
-const PartRecord = Type.Object({
-  vendor: Type.String(), sku: Type.String(), slug: Type.String(),
-  category: Type.Object({ slug: Type.String(), name_en: Type.String(), name_de: Type.String() }),
-  family: Nullable(Type.String()), product_class: Type.String(), name: Nullable(Type.String()), description: Nullable(Type.String()),
-  datasheet_url: Nullable(Type.String()),
-  lifecycle: Nullable(LifecycleRecord),
-  facts: Type.Array(FactItem),
-  relations: Type.Array(Type.Object({
-    kind: Type.String(), sku: Type.String(), in_catalog: Type.Boolean(), tier: Type.Integer(), source_url: Nullable(Type.String()), note: Nullable(Type.String()),
-  })),
-  images: Type.Array(Type.Object({
-    role: Type.String(), url: Type.String(), width: Nullable(Type.Integer()), height: Nullable(Type.Integer()),
-    alt_en: Nullable(Type.String()), alt_de: Nullable(Type.String()), variants: Type.Array(ImageVariant),
-  })),
-  completeness: Nullable(Type.Object({
-    required_total: Type.Integer(), required_present: Type.Integer(), pct: Type.Number(), missing: Type.Array(Type.String()), no_profile: Type.Boolean(),
-  })),
-  sources: Type.Array(Type.Object({ doc_id: Type.String(), url: Type.String(), doc_type: Type.String(), fetched_at: Nullable(Type.String({ format: "date" })) })),
-  updated_at: Type.String({ format: "date-time" }),
 });
 
 export function etagFor(part: PartIdentity): string {
