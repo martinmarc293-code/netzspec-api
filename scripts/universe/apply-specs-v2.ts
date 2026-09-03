@@ -39,7 +39,7 @@ const stats = {
   facts: 0, skuScoped: 0, familyScoped: 0, unmapped: 0, sentinel: 0, rejected: 0,
   insert: 0, corroborate: 0, skip: 0, conflict: 0, protectedTier0: 0, revision: 0,
   inheritOk: 0, inheritClassB: 0, inheritScopeUnresolved: 0, inheritScopeViolation: 0,
-  partsTouched: 0, notInDb: 0,
+  partsTouched: 0, notInDb: 0, offProfileField: 0, noProfileCat: 0,
   reasons: {} as Record<string, number>,
 };
 const bump = (r: string) => { stats.reasons[r] = (stats.reasons[r] || 0) + 1; };
@@ -188,13 +188,29 @@ async function main() {
     const part = partBySku.get(sku);
     if (!part) { stats.notInDb++; continue; }
     const cat = String(part.category || "");
-    if (!PROFILES[cat]) continue;
+    // A PROFILE IS A SCORING LIST, NOT A PUBLISHING GATE.
+    //
+    // Both of the checks that used to live here were bare `continue`s, and between them they
+    // were the largest silent drop in the whole pipeline: a fact that had been extracted,
+    // ground-truth matched to a SKU, mapped through an alias, normalised, unit-resolved and
+    // passed by the precision gate was thrown away without a counter, because a category had
+    // no profile yet or because the profile did not happen to list that field. Nothing errored
+    // and nothing was reported, so the only visible symptom was that extraction volume kept
+    // rising while page depth did not.
+    //
+    // What a profile is actually for is completenessV2 -- required_present / required_total.
+    // That question ("how much of what this category OUGHT to have do we hold") is answered by
+    // the profile whether or not extra fields are stored alongside. So store everything that
+    // survived normalisation, and let the profile decide only what gets counted. A field
+    // outside the profile is a real measurement on a real part; on a page whose whole purpose
+    // is depth, dropping it is the expensive mistake, not keeping it.
+    if (!PROFILES[cat]) stats.noProfileCat++;
 
     const existing: SpecEntry[] = (part.specs_v2 as SpecEntry[]) || [];
     const byKey = new Map(existing.map((s) => [s.k, s]));
 
     for (const e of add) {
-      if (!PROFILES[cat][e.k]) continue;              // not in this category's profile
+      if (!PROFILES[cat] || !PROFILES[cat][e.k]) stats.offProfileField++;   // stored, just not scored
       const r = mergeField(sku, byKey.get(e.k), e);
       if (r.conflict) {
         conflicts.push({ ...r.conflict, logged_at: day } as Conflict);
@@ -248,6 +264,9 @@ async function main() {
   console.log(`raw facts ${stats.facts} | sku-scoped ${stats.skuScoped} | family-scoped ${stats.familyScoped}` +
     ` | unmapped ${stats.unmapped} | sentinel ${stats.sentinel} | rejected ${stats.rejected}`);
   console.log(`normalise rejections: ${JSON.stringify(stats.reasons)}`);
+  console.log(`stored but NOT scored: ${stats.offProfileField} field-writes outside a profile` +
+    ` (${stats.noProfileCat} parts in a category with no profile at all)` +
+    ` — these are real specs; they render on the page but do not count toward completeness.`);
   console.log(`\ninheritance:`);
   console.log(`  applied .................. ${stats.inheritOk}`);
   console.log(`  refused, class B ......... ${stats.inheritClassB}  (per-SKU source mandatory)`);

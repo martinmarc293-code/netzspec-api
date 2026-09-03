@@ -14,6 +14,7 @@
 // module exists to prevent.
 
 import { FIELD_DICTIONARY, domainFor, unitFor } from "./fieldSchema";
+import { parsePorts } from "./portParse.js";
 
 export const NORM_VERSION = "1.0.0";
 
@@ -472,6 +473,16 @@ export function normalizeField(category: string, key: string, raw: string, opts:
         if (firstBad && !firstBad.ok) return firstBad;
         const [h, w, d] = conv.map((c) => (c as NormOk).value as number);
         return ok({ h, w, d }, "mm");
+      }
+      // Port layouts now HAVE their dedicated parser. It keeps the rule the comment above
+      // states — it refuses anything that does not name both a count and a connector, so a
+      // wrong port map still cannot be invented — but `ports` is REQUIRED for switches, and
+      // leaving it unparsable meant every switch reported a permanent gap on the one
+      // specification a switch is actually bought for. See lib/portParse.ts.
+      if (key === "ports" || key === "uplink_ports") {
+        const p = parsePorts(s);
+        if (!p.ok) return bad("STRUCT_UNPARSED", `${key}: ${p.detail}`);
+        return ok(p.value);
       }
       return bad("STRUCT_UNPARSED", `${key}: struct field needs a dedicated parser`);
     }
