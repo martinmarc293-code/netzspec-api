@@ -52,6 +52,12 @@ if (READ_ONLY) {
   const s = await syncDictionary({ quiet: true });
   console.log(`dictionary synced: inserted ${s.inserted}, updated ${s.updated}, profiles inserted ${s.profiles_inserted}`);
   pool = db.getPool();
+  if (urlEnvAt < 0 && process.env.NETZSPEC_DB === "test") {
+    // Other suites leave fixtures behind in the shared test database (CI runs them in sequence);
+    // a hardware part without a completeness row from api.test.ts is their fixture, not a
+    // violation of ours. The checker owns its own database state: start empty.
+    await pool.query("TRUNCATE facts, fact_evidence, conflicts, lifecycle, relations, images, image_variants, part_aliases, part_source_checks, completeness, doc_parts, parts, source_docs, runs, fetch_queue, fetches, api_keys CASCADE");
+  }
 }
 
 // ---- reporting ------------------------------------------------------------------------------------
