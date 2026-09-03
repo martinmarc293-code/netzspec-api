@@ -40,3 +40,13 @@ Format: `date · decision · source`.
 - 2026-08-28 · **Category index gate → ≥8** (was ≥10); switches (9) re-indexed · web C3 Q1
 - 2026-08-28 · Unreviewed editorial (2 guides + 3 bios) flips to noindex at cycle end if B10 still open · web C3 §0.6
 - 2026-08-28 · **Data-completion program:** acquire ALL vendor part numbers with complete data + a netzspec datasheet page per SKU (better than itprice, German, source-linked). Acquisition ungated (everything → DB as stubs); publication bar-gated. Facts-only, per-field provenance, our words, no PDF re-hosting, HexCat guardrails, polite/cached/resumable · web C3 §3
+
+## 2026-09-03 — the split into netzspec-api
+- 2026-09-03 · **The fact store and pipeline leave the netzspec repo** and become `netzspec-api` (private, `martinmarc293-code/netzspec-api`), a read API + PostgreSQL store; netzspec.com and hexwaren.de are consumers · operator
+- 2026-09-03 · **PostgreSQL 16 replaces MongoDB as the canonical store**; append-only facts, evidence rows, FK to the dictionary. netzspec keeps Mongo only as its read cache · Claude, operator said "use whatever you think is best"
+- 2026-09-03 · **Niche claim, not general claim:** "the network-hardware spec API"; beat Icecat on depth, provenance and lifecycle inside IT networking, not on breadth · operator
+- 2026-09-03 · **Multi-source acquisition is in scope** — vendor sites first, then aggregators and distributors (itprice, router-switch, provantage, CDW, Icecat Open) for FACTS ONLY, per-SKU, polite, cached, never prose, never their images, never a bulk mirror. Aggregator/distributor facts are tier 3/4 and stay `unverified` unless a vendor document corroborates them. This narrows the 2026-08-27 "no enumerate-all extraction" line to *no mirroring*; the operator accepts the terms/database-right exposure for per-SKU fact lookups · operator
+- 2026-09-03 · **Scrapers drive the operator's own Chrome over CDP** (real profile, passes bot checks) and run continuously off a queue in Postgres · operator
+- 2026-09-03 · **Images: vendor photos only, self-hosted as WebP at 1200/800/400 px square, with merchant-readiness recorded** (Google Merchant: ≥800 px, no watermark/text/border, white or transparent background) · operator
+- 2026-09-03 · **Sub-agents are allowed on this project** for bounded, file-scoped tasks; the main loop reviews, runs the suite and commits · operator
+- 2026-09-03 · No new server bought; the existing Hetzner box hosts Postgres + the API. A dedicated box needs operator approval · Claude

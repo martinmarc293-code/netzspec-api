@@ -1,0 +1,381 @@
+{
+  "_readme": [
+    "WP3 golden sample. HAND-VERIFIED expected values, used by scraper/harness_cisco_specs.ts to",
+    "gate the extractor at >=98% field-exact precision before any bulk write (STOP condition 2).",
+    "",
+    "How these were verified, because the distinction matters: each entry records the RAW cell",
+    "string as it appears in the datasheet and the expected NORMALISED value, and the arithmetic",
+    "between them was checked by hand. e.g. '1.73 x 17.5 x 16.1' under a label saying inches must",
+    "become 43.942 x 444.5 x 408.94 mm (x25.4); '208 Gbps' must become 208 Gbit/s; '299,000' under",
+    "an English-locale sheet must become 299000, NOT 299.0.",
+    "",
+    "Expected values were NOT copied from the extractor's own output and blessed - that would be a",
+    "tautology that passes no matter how wrong the pipeline is. The harness additionally runs a",
+    "PROVENANCE AUDIT: for every fact the pipeline emits it re-opens the cached HTML, rebuilds the",
+    "grid, walks to the recorded locator (table/row/column) and asserts the raw string is really",
+    "in that cell. That checks the extractor at full scale, not just on this sample.",
+    "",
+    "Coverage [M 2026-09-01]: 46 fields across 12 PIDs from 6 of the 10 golden datasheets. The",
+    "other 4 (Catalyst 1000, 1300, 2960-L, and most of 9500) publish their specifications at",
+    "SERIES level - columns read '48-port models (1/10G uplinks)', not part numbers - so they",
+    "yield no per-SKU values to verify. That is a property of Cisco's documents, not a gap in the",
+    "sample, and it is why family inheritance (Q5) is the only route to per-SKU depth there.",
+    "",
+    "HELD BACK 2026-09-01: poe_budget, power_typical and power_max were removed from the",
+    "expectations (46 -> 26) and preserved under `held_back`.",
+    "They were extracted correctly from the cells named, but those tables are keyed by a",
+    "CONFIGURATION the schema cannot yet record: table 3 lists C9300-24P twice (445W PoE with the",
+    "default 715W PSU, 720W with the upgrade 1100W PSU) and the power table's 'Measured P(W)'",
+    "columns are HALF-port traffic with a separate full-port column, repeated per input voltage.",
+    "The expectations are kept here so they can be restored verbatim once the parser captures the",
+    "qualifier - they are evidence of what the cells say, not of what the field should hold."
+  ],
+  "expectations": [
+    {
+      "sku": "C9300-24P",
+      "field": "switching_capacity",
+      "raw": "208 Gbps",
+      "value": 208,
+      "unit": "Gbit/s"
+    },
+    {
+      "sku": "C9300-24P",
+      "field": "forwarding_rate",
+      "raw": "154.76 Mpps",
+      "value": 154.76,
+      "unit": "Mpps"
+    },
+    {
+      "sku": "C9300-24P",
+      "field": "dimensions",
+      "raw": "1.73 x 17.5 x 16.1",
+      "value": {
+        "h": 43.942,
+        "w": 444.5,
+        "d": 408.94
+      },
+      "unit": "mm"
+    },
+    {
+      "sku": "C9300-24P",
+      "field": "weight",
+      "raw": "7.4",
+      "value": 7.4,
+      "unit": "kg"
+    },
+    {
+      "sku": "C9300-24P",
+      "field": "mtbf",
+      "raw": "299,000",
+      "value": 299000,
+      "unit": "h"
+    },
+    {
+      "sku": "C9300-24P",
+      "field": "psu_options",
+      "raw": "715W AC",
+      "value": [
+        "715W AC"
+      ]
+    },
+    {
+      "sku": "C9300-24U",
+      "field": "switching_capacity",
+      "raw": "208 Gbps",
+      "value": 208,
+      "unit": "Gbit/s"
+    },
+    {
+      "sku": "C9300-24U",
+      "field": "forwarding_rate",
+      "raw": "154.76 Mpps",
+      "value": 154.76,
+      "unit": "Mpps"
+    },
+    {
+      "sku": "C9300-24U",
+      "field": "dimensions",
+      "raw": "1.73 x 17.5 x 16.1",
+      "value": {
+        "h": 43.942,
+        "w": 444.5,
+        "d": 408.94
+      },
+      "unit": "mm"
+    },
+    {
+      "sku": "C9300-24U",
+      "field": "weight",
+      "raw": "7.54",
+      "value": 7.54,
+      "unit": "kg"
+    },
+    {
+      "sku": "C9300-24U",
+      "field": "mtbf",
+      "raw": "238,410",
+      "value": 238410,
+      "unit": "h"
+    },
+    {
+      "sku": "C9300-24U",
+      "field": "psu_options",
+      "raw": "1100W AC",
+      "value": [
+        "1100W AC"
+      ]
+    },
+    {
+      "sku": "C9200CX-12P-2X2G",
+      "field": "dimensions",
+      "raw": "1.73 x 10.6 x 9.6",
+      "value": {
+        "h": 43.942,
+        "w": 269.24,
+        "d": 243.84
+      },
+      "unit": "mm"
+    },
+    {
+      "sku": "C9200CX-12P-2X2G",
+      "field": "mtbf",
+      "raw": "704,430",
+      "value": 704430,
+      "unit": "h"
+    },
+    {
+      "sku": "C9200CX-12P-2X2G",
+      "field": "psu_options",
+      "raw": "315W AC Internal",
+      "value": [
+        "315W AC Internal"
+      ]
+    },
+    {
+      "sku": "C9200CX-8P-2X2G",
+      "field": "dimensions",
+      "raw": "1.73 x 10.6 x 9.6",
+      "value": {
+        "h": 43.942,
+        "w": 269.24,
+        "d": 243.84
+      },
+      "unit": "mm"
+    },
+    {
+      "sku": "C9200CX-8P-2X2G",
+      "field": "mtbf",
+      "raw": "736,000",
+      "value": 736000,
+      "unit": "h"
+    },
+    {
+      "sku": "C9200CX-8P-2X2G",
+      "field": "psu_options",
+      "raw": "315W AC internal",
+      "value": [
+        "315W AC internal"
+      ]
+    },
+    {
+      "sku": "WS-C3850-48P",
+      "field": "mtbf",
+      "raw": "241,050",
+      "value": 241050,
+      "unit": "h"
+    },
+    {
+      "sku": "WS-C3850-48P",
+      "field": "psu_options",
+      "raw": "715WAC",
+      "value": [
+        "715WAC"
+      ]
+    },
+    {
+      "sku": "WS-C3850-48F",
+      "field": "mtbf",
+      "raw": "241,050",
+      "value": 241050,
+      "unit": "h"
+    },
+    {
+      "sku": "WS-C3850-48F",
+      "field": "psu_options",
+      "raw": "1100WAC",
+      "value": [
+        "1100WAC"
+      ]
+    },
+    {
+      "sku": "WS-C3650-8X24PD",
+      "field": "mtbf",
+      "raw": "335,930",
+      "value": 335930,
+      "unit": "h"
+    },
+    {
+      "sku": "WS-C3650-8X24UQ",
+      "field": "mtbf",
+      "raw": "233,780",
+      "value": 233780,
+      "unit": "h"
+    },
+    {
+      "sku": "C9500X-28C8D",
+      "field": "mtbf",
+      "raw": "123,950",
+      "value": 123950,
+      "unit": "h"
+    },
+    {
+      "sku": "C9500X-60L4D",
+      "field": "mtbf",
+      "raw": "133,260",
+      "value": 133260,
+      "unit": "h"
+    }
+  ],
+  "held_back": [
+    {
+      "sku": "C9300-24P",
+      "field": "poe_budget",
+      "raw": "720W *",
+      "value": 720,
+      "unit": "W"
+    },
+    {
+      "sku": "C9300-24P",
+      "field": "power_typical",
+      "raw": "93.7",
+      "value": 93.7,
+      "unit": "W"
+    },
+    {
+      "sku": "C9300-24P",
+      "field": "power_max",
+      "raw": "93.9",
+      "value": 93.9,
+      "unit": "W"
+    },
+    {
+      "sku": "C9300-24U",
+      "field": "poe_budget",
+      "raw": "1440W *",
+      "value": 1440,
+      "unit": "W"
+    },
+    {
+      "sku": "C9300-24U",
+      "field": "power_typical",
+      "raw": "99.2",
+      "value": 99.2,
+      "unit": "W"
+    },
+    {
+      "sku": "C9300-24U",
+      "field": "power_max",
+      "raw": "99.4",
+      "value": 99.4,
+      "unit": "W"
+    },
+    {
+      "sku": "C9200CX-12P-2X2G",
+      "field": "poe_budget",
+      "raw": "240W",
+      "value": 240,
+      "unit": "W"
+    },
+    {
+      "sku": "C9200CX-12P-2X2G",
+      "field": "power_typical",
+      "raw": "37.2",
+      "value": 37.2,
+      "unit": "W"
+    },
+    {
+      "sku": "C9200CX-12P-2X2G",
+      "field": "power_max",
+      "raw": "37.4",
+      "value": 37.4,
+      "unit": "W"
+    },
+    {
+      "sku": "C9200CX-8P-2X2G",
+      "field": "poe_budget",
+      "raw": "240W",
+      "value": 240,
+      "unit": "W"
+    },
+    {
+      "sku": "C9200CX-8P-2X2G",
+      "field": "power_typical",
+      "raw": "35.8",
+      "value": 35.8,
+      "unit": "W"
+    },
+    {
+      "sku": "C9200CX-8P-2X2G",
+      "field": "power_max",
+      "raw": "35.9",
+      "value": 35.9,
+      "unit": "W"
+    },
+    {
+      "sku": "WS-C3850-48P",
+      "field": "poe_budget",
+      "raw": "435W",
+      "value": 435,
+      "unit": "W"
+    },
+    {
+      "sku": "WS-C3850-48P",
+      "field": "power_max",
+      "raw": "125.35",
+      "value": 125.35,
+      "unit": "W"
+    },
+    {
+      "sku": "WS-C3850-48F",
+      "field": "poe_budget",
+      "raw": "800W",
+      "value": 800,
+      "unit": "W"
+    },
+    {
+      "sku": "WS-C3850-48F",
+      "field": "power_max",
+      "raw": "130.10",
+      "value": 130.1,
+      "unit": "W"
+    },
+    {
+      "sku": "WS-C3650-8X24PD",
+      "field": "power_max",
+      "raw": "103",
+      "value": 103,
+      "unit": "W"
+    },
+    {
+      "sku": "WS-C3650-8X24UQ",
+      "field": "power_max",
+      "raw": "110.0",
+      "value": 110,
+      "unit": "W"
+    },
+    {
+      "sku": "WS-C2960X-48FPD-L",
+      "field": "poe_budget",
+      "raw": "740W",
+      "value": 740,
+      "unit": "W"
+    },
+    {
+      "sku": "WS-C2960X-48LPD-L",
+      "field": "poe_budget",
+      "raw": "370W",
+      "value": 370,
+      "unit": "W"
+    }
+  ]
+}

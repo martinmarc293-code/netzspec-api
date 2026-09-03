@@ -1,0 +1,22 @@
+# secrets — the only copy lives on the machine that runs the service
+.env
+.env.*
+!.env.example
+
+# build + deps
+node_modules/
+dist/
+*.tsbuildinfo
+
+# run artifacts: every extraction / apply writes under runs/<id>/ (see docs/ARCHITECTURE.md)
+runs/
+
+# the datasheet corpus (2.9 GB). Canonical copy: /var/lib/netzspec-api/cache on the VPS
+scraper/cache/
+scraper/__pycache__/
+scraper/**/__pycache__/
+scraper/ledger.jsonl
+
+# scratch
+*.log
+tmp/
