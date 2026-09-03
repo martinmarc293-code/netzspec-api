@@ -1,0 +1,126 @@
+# scraper/tools/nightshift.ps1 — the supervisor that keeps the acquisition loop running on the
+# operator's machine, day and night, without anyone watching it.
+#
+#   powershell -ExecutionPolicy Bypass -File scraper\tools\nightshift.ps1              run until stopped
+#   powershell -ExecutionPolicy Bypass -File scraper\tools\nightshift.ps1 -Once        one cycle, then exit
+#   powershell -ExecutionPolicy Bypass -File scraper\tools\nightshift.ps1 -Install     register as a scheduled task at logon
+#
+# One cycle:
+#   1. make sure the debug Chrome is up (scraper/tools/start-chrome-debug.ps1)
+#   2. top up the queue: thinnest parts first at every lookup source, then every open gap
+#   3. run the worker over every enabled source until the queue is empty (one browser, one tab)
+#   4. apply today's acquired pages: gate -> facts -> unmapped-label and unknown-SKU reports
+#   5. write runs/nightshift/latest-summary.md — what landed, what is blocked, what needs a human
+#   6. sleep, repeat
+#
+# Why a supervisor and not `worker.py --loop`: the loop needs three programs (planner, worker,
+# applier) in the right order, and a stuck browser must not stall everything forever. Each step
+# is a separate process with a timeout; a step that fails is logged and the cycle continues.
+# One instance only (lock file); the machine's RAM is finite and two browsers once took it down.
+param(
+  [switch]$Once,
+  [switch]$Install,
+  [string]$Sources = "provantage,router-switch,itprice,meraki,arista,ubiquiti,hpe-quickspecs,mikrotik",
+  [int]$TopUp = 300,
+  [int]$SleepMinutes = 10
+)
+$ErrorActionPreference = "Continue"
+$Repo = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
+Set-Location $Repo
+$LogDir = Join-Path $Repo "runs\nightshift"
+New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
+$Lock = Join-Path $LogDir "nightshift.lock"
+
+function Log([string]$msg) {
+  $line = "{0} {1}" -f (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), $msg
+  $line | Tee-Object -FilePath (Join-Path $LogDir ((Get-Date -Format "yyyy-MM-dd") + ".log")) -Append
+}
+
+function Run-Step([string]$name, [string]$file, [string[]]$args, [int]$timeoutMin) {
+  Log "-> $name"
+  $out = Join-Path $LogDir ("step-" + $name.Replace(" ", "-") + ".out")
+  $p = Start-Process -FilePath $file -ArgumentList $args -WorkingDirectory $Repo -NoNewWindow -PassThru -RedirectStandardOutput $out -RedirectStandardError ($out + ".err")
+  if (-not $p.WaitForExit($timeoutMin * 60 * 1000)) {
+    Log "   TIMEOUT after $timeoutMin min; killing $name"
+    try { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue } catch {}
+    return $false
+  }
+  $tail = (Get-Content $out -Tail 3 -ErrorAction SilentlyContinue) -join " | "
+  Log ("   exit {0}: {1}" -f $p.ExitCode, $tail)
+  return ($p.ExitCode -eq 0)
+}
+
+if ($Install) {
+  $action = "powershell -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$PSScriptRoot\nightshift.ps1`""
+  schtasks /Create /F /SC ONLOGON /TN "netzspec-nightshift" /TR $action /RL LIMITED | Out-Null
+  Log "scheduled task netzspec-nightshift registered (runs at logon). Start it now with: schtasks /Run /TN netzspec-nightshift"
+  exit 0
+}
+
+if (Test-Path $Lock) {
+  $age = (Get-Date) - (Get-Item $Lock).LastWriteTime
+  if ($age.TotalHours -lt 6) { Log "another nightshift holds the lock ($([int]$age.TotalMinutes) min old); exiting"; exit 0 }
+  Log "stale lock ($([int]$age.TotalHours) h); taking over"
+}
+Set-Content -Path $Lock -Value $PID
+
+try {
+  while ($true) {
+    $cycleStart = Get-Date
+    Log "===== cycle start (sources: $Sources)"
+    (Get-Date) | Out-File $Lock
+
+    # 1. browser
+    & powershell -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot "start-chrome-debug.ps1") 2>&1 | ForEach-Object { Log "   chrome: $_" }
+
+    # 2. plan
+    foreach ($src in @("provantage", "router-switch", "itprice")) {
+      $task = if ($src -eq "itprice") { "gpl" } else { "search" }
+      Run-Step "queue $src" "npx" @("tsx", "src/pipeline/cli.ts", "queue", "--source", $src, "--task", $task, "--vendor", "cisco", "--class", "hardware", "--limit", "$TopUp") 10 | Out-Null
+    }
+    Run-Step "queue-gaps" "npx" @("tsx", "src/pipeline/cli.ts", "queue-gaps", "--limit", "2000") 10 | Out-Null
+
+    # 3. fetch until the queue is dry (the worker exits on an empty queue)
+    Run-Step "worker" "python3.11" @("-u", "scraper/worker.py", "run", "--sources", $Sources, "--cdp", "http://127.0.0.1:9222") 240 | Out-Null
+
+    # 4. apply today's acquisitions per source (a failed gate for one source must not block the rest)
+    $today = Get-Date -Format "yyyy-MM-dd"
+    foreach ($src in $Sources.Split(",")) {
+      $dir = Join-Path $Repo ("runs\acquired\" + $src + "\" + $today)
+      if (Test-Path $dir) { Run-Step "apply $src" "npx" @("tsx", "src/pipeline/cli.ts", "apply-acquired", "runs/acquired/$src/$today", "--commit") 60 | Out-Null }
+    }
+
+    # 5. summary for the human (and for Claude): what needs judgment
+    Run-Step "status" "npx" @("tsx", "src/pipeline/cli.ts", "queue-status") 5 | Out-Null
+    $summary = @()
+    $summary += "# nightshift summary — $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
+    $summary += ""
+    $summary += "## queue"
+    $summary += (Get-Content (Join-Path $LogDir "step-status.out") -ErrorAction SilentlyContinue)
+    $summary += ""
+    $summary += "## gates and applies (last lines)"
+    foreach ($src in $Sources.Split(",")) {
+      $f = Join-Path $LogDir ("step-apply-" + $src + ".out")
+      if (Test-Path $f) { $summary += "### $src"; $summary += (Get-Content $f -Tail 8) }
+    }
+    $summary += ""
+    $summary += "## unmapped labels (top of the newest report)"
+    $rep = Get-ChildItem (Join-Path $Repo "runs\reports") -Filter "unmapped-*.json" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    if ($rep) {
+      $j = Get-Content $rep.FullName -Raw | ConvertFrom-Json
+      $summary += "from $($rep.Name): $($j.labels.Count) distinct unmapped labels"
+      foreach ($l in ($j.labels | Select-Object -First 20)) { $summary += ("- {0} x{1}: {2}" -f $l.label, $l.count, ($l.samples -join " / ")) }
+    }
+    $unknown = Get-ChildItem (Join-Path $Repo "runs\reports") -Filter "unknown-skus-*.jsonl" -ErrorAction SilentlyContinue | ForEach-Object { (Get-Content $_.FullName | Measure-Object -Line).Lines } | Measure-Object -Sum
+    $summary += ""
+    $summary += "## unknown SKUs seen on pages (enumeration feed): $($unknown.Sum)"
+    $summary -join "`n" | Set-Content (Join-Path $LogDir "latest-summary.md") -Encoding utf8
+
+    $mins = [int]((Get-Date) - $cycleStart).TotalMinutes
+    Log "===== cycle done in $mins min"
+    if ($Once) { break }
+    Start-Sleep -Seconds ($SleepMinutes * 60)
+  }
+} finally {
+  Remove-Item $Lock -ErrorAction SilentlyContinue
+}
