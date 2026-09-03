@@ -136,13 +136,15 @@ try {
       $sweepTag = Get-Date -Format "yyyy-MM-dd"
       $seriesFile = Join-Path $Repo "data\reference\cisco-series.json"
       if (Test-Path $seriesFile) {
-        $series = ((Get-Content $seriesFile -Raw | ConvertFrom-Json) | ForEach-Object { if ($_.slug) { $_.slug } elseif ($_ -is [string]) { $_ } }) -join ","
+        $entries = Get-Content $seriesFile -Raw | ConvertFrom-Json
+        $series = ($entries | ForEach-Object { $_.series_slug } | Where-Object { $_ }) -join ","
+        ($entries | ForEach-Object { $_.url } | Where-Object { $_ }) | Set-Content (Join-Path $Repo "runs\extract\series-urls.txt") -Encoding ascii
         if ($series) {
           Run-Step "sweep eol" "python3.11" @("-u", "scraper/run.py", "cisco-eol", "--series", $series, "--out", "runs/extract/cisco-eol-$sweepTag.json") 180 | Out-Null
           if (Test-Path (Join-Path $Repo "runs\extract\cisco-eol-$sweepTag.json")) { Run-Step "apply lifecycle" "npx" @("tsx", "src/pipeline/cli.ts", "apply-lifecycle", "runs/extract/cisco-eol-$sweepTag.json", "--commit") 60 | Out-Null }
         }
       }
-      Run-Step "sweep datasheet listings" "python3.11" @("-u", "scraper/crawl_datasheet_listings.py") 180 | Out-Null
+      Run-Step "sweep datasheet listings" "python3.11" @("-u", "scraper/crawl_datasheet_listings.py", "--urls-file", "runs/extract/series-urls.txt", "--out", "runs/extract/datasheet-listings-$sweepTag.json") 180 | Out-Null
       Run-Step "extract new datasheets" "python3.11" @("-u", "scraper/run.py", "cisco-specs-deep", "--urls-file", "data/reference/all-datasheet-urls-full.txt", "--out", "runs/extract/cisco-deep-$sweepTag.json") 300 | Out-Null
       if (Test-Path (Join-Path $Repo "runs\extract\cisco-deep-$sweepTag.json")) { Run-Step "apply extract" "npx" @("tsx", "src/pipeline/cli.ts", "apply-extract", "runs/extract/cisco-deep-$sweepTag.json", "--commit", "--tag", "weekly-$sweepTag") 240 | Out-Null }
       (Get-Date) | Out-File $stamp
