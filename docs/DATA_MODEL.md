@@ -96,6 +96,34 @@ Any insert/update/delete on `facts`, `lifecycle`, `relations` or `images` bumps
 `parts.updated_at` through statement-level triggers. `/v1/changes?since=` pages over
 `(updated_at, id)`. Consumers store the last `updated_at` they saw.
 
+## No silent gaps (operator rule, non-negotiable)
+
+We cannot invent a value a vendor never published. What the system guarantees instead:
+
+1. For every hardware part, the engine writes `completeness.required_fields` (conditions
+   evaluated against the part's own values) and `completeness.missing`.
+2. Every missing field appears in the `gap_ledger` view with its state and the number of
+   capable sources consulted versus available (`source_fields` says which sources publish
+   which fields; `part_source_checks` records every consultation and its outcome).
+3. `ingest queue-gaps` turns every `gap_unattempted` row into `fetch_queue` tasks, vendor
+   sources first. Workers run until the queue is empty.
+4. A gap becomes `gap_confirmed` (a `facts` row with a NULL value and a check row for every
+   enabled capable source) only when nothing is left to consult. That row is data: the API
+   returns it, `/v1/stats` counts it, and enabling a new source reopens it automatically.
+5. `gap_unattempted` older than the queue cadence with capable sources enabled and no queued
+   task is an invariant violation, not a backlog.
+
+## The gate checks recall, not only precision
+
+A run that writes facts must carry `runs.gate` with:
+
+- **precision** ≥ 98 % against the golden samples (every extracted golden fact's value matches
+  and its locator re-reads to the same cell in the cached document);
+- **recall** = 100 % of golden facts present (a golden fact the extractor did not emit is a
+  miss, listed by document and locator);
+- **no regression**: facts per document not lower than the previous run over the same
+  document unless `runs.notes` says why.
+
 ## Invariants (tested in `tests/db/invariants.test.ts`)
 
 1. No `verified`/`corroborated` fact with tier ≥ 1 lacks a `doc_id`.

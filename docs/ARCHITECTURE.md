@@ -68,6 +68,21 @@ successors, held conflicts, structured port layouts, and an honest record of wha
 8. **Refuse rather than guess.** The normaliser returns a reason and the value is quarantined.
    The port parser refuses anything without a stated count and connector. Tests assert the
    refusals as hard as the successes.
+9. **No silent gaps.** Every required field on every hardware part is a sourced value, a held
+   conflict, a queued fetch, or a `gap_confirmed` row that lists every source consulted.
+   `gap_ledger` names each open gap; `ingest queue-gaps` keeps the scrapers fed until sources
+   are exhausted. See `docs/DATA_MODEL.md`.
+10. **The gate measures recall.** A golden fact the extractor failed to emit fails the run,
+    exactly like a wrong value does. Missing data is a defect, not an absence.
+
+## Acquisition
+
+Scrapers never decide what to fetch: they lease tasks from `fetch_queue`, fetch through the
+operator's own Chrome over CDP (real profile, passes bot checks), cache the page
+content-addressed, and report. Extraction runs over the cache, so a parser fix never costs
+the host a second request. Sources are rows in `sources` with a tier, a politeness interval
+and notes on what we take from them; aggregators and distributors are tier 3 and 4 and can
+only corroborate or fill a labelled `unverified` value, never establish a `verified` one.
 
 ## What a part is
 
