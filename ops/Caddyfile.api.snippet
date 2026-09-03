@@ -1,0 +1,43 @@
+# ops/Caddyfile.api.snippet — the Caddy vhost for api.netzspec.com.
+#
+# Why this shape:
+#   * `tls internal` like the other vhosts on this box: Cloudflare terminates the public TLS
+#     (SSL mode Full) and talks to Caddy over its self-signed cert. Do NOT switch to ACME here;
+#     Cloudflare's proxy would fail the HTTP challenge and the whole Caddyfile reload would error.
+#   * /img/* is served straight from the image store by Caddy, never by Node. Filenames are
+#     content-derived and never rewritten in place (docs/API.md → Images), so a one-year
+#     immutable Cache-Control is safe and lets Cloudflare cache them at the edge.
+#   * Everything else is proxied to the API on 127.0.0.1:3021 (PM2 app "netzspec-api").
+#
+# Install (run on the box as root):
+#   cat /root/netzspec-api/ops/Caddyfile.api.snippet >> /etc/caddy/Caddyfile
+#   caddy validate --config /etc/caddy/Caddyfile
+#   systemctl reload caddy
+#   curl -sk --resolve api.netzspec.com:443:127.0.0.1 https://api.netzspec.com/health
+# Do this ONCE. Appending twice defines the site twice and `caddy validate` will refuse the file.
+# Cloudflare: an A record api → 77.42.72.81, proxied (orange cloud), SSL/TLS mode Full.
+
+api.netzspec.com {
+	tls internal
+	encode zstd gzip
+
+	# Product images: /img/cisco/c9200l-24p-4g.webp → /var/lib/netzspec-api/images/cisco/c9200l-24p-4g.webp
+	handle_path /img/* {
+		root * /var/lib/netzspec-api/images
+		header Cache-Control "public, max-age=31536000, immutable"
+		header X-Content-Type-Options nosniff
+		file_server
+	}
+
+	# The API. Node sets its own security headers; Caddy only forwards.
+	handle {
+		reverse_proxy 127.0.0.1:3021
+	}
+
+	log {
+		output file /var/log/caddy/api.netzspec.com.log {
+			roll_size 50mb
+			roll_keep 5
+		}
+	}
+}

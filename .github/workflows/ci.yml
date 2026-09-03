@@ -1,0 +1,73 @@
+# .github/workflows/ci.yml — every push and pull request: typecheck, pure suites, then the
+# database suites against a throwaway postgres:16 service.
+#
+# Why two jobs: the pure suites need no database and fail fast; the database job only runs
+# once they pass, so a broken parser never burns a postgres container. The database is named
+# netzspec_test on purpose — src/store/db.ts refuses any test database whose name does not
+# end in _test, and CI must go through the same guard as a laptop. DATABASE_URL points at the
+# same database so `npm run migrate` (which reads DATABASE_URL) applies the schema the tests
+# then exercise.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pure:
+    name: typecheck + pure suites
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm test
+
+  db:
+    name: migrate + database suites
+    runs-on: ubuntu-latest
+    needs: pure
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: netzspec_api
+          POSTGRES_PASSWORD: netzspec_ci
+          POSTGRES_DB: netzspec_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U netzspec_api -d netzspec_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      NETZSPEC_DB: test
+      DATABASE_URL: postgres://netzspec_api:netzspec_ci@localhost:5432/netzspec_test
+      DATABASE_URL_TEST: postgres://netzspec_api:netzspec_ci@localhost:5432/netzspec_test
+      # data directories the config would otherwise default under the repo; harmless in CI
+      IMAGE_DIR: /tmp/netzspec-api/images
+      CACHE_DIR: /tmp/netzspec-api/cache
+      RUNS_DIR: /tmp/netzspec-api/runs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: mkdir -p /tmp/netzspec-api/images /tmp/netzspec-api/cache /tmp/netzspec-api/runs
+      - name: migrate (schema into netzspec_test)
+        run: npm run migrate
+      - name: migrate is idempotent
+        run: npm run migrate -- --plan | tee /tmp/plan.txt && ! grep -q 'would apply' /tmp/plan.txt
+      - name: database suites
+        run: npm run test:db

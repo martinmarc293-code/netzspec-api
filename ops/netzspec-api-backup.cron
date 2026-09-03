@@ -1,0 +1,15 @@
+# ops/netzspec-api-backup.cron — nightly database backup for netzspec-api.
+#
+# Install on the box (a /etc/cron.d file, so it carries the user field and survives reboots):
+#   install -m 644 /root/netzspec-api/ops/netzspec-api-backup.cron /etc/cron.d/netzspec-api-backup
+#   systemctl reload cron
+# Verify:  tail -n 20 /var/log/netzspec-api-backup.log   (after 03:30, or run it by hand:
+#          bash /root/netzspec-api/scripts/backup.sh)
+#
+# 03:30 server time: after the day's pipeline runs, before anyone in Europe is at a desk.
+# Sundays the script also tars the image store (decided inside backup.sh, not here).
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+MAILTO=""
+
+30 3 * * *   root   /bin/bash /root/netzspec-api/scripts/backup.sh
