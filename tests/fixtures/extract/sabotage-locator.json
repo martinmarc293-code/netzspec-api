@@ -1,0 +1,12 @@
+{
+  "_about": "SABOTAGE for the gate: good-html.json with the NZT-9300-24P switching-capacity fact pointing at t0:r2:c1 — the 48P's cell, which holds 256 Gbps. The value matches the golden sample, so a value-only comparison would pass it; the locator re-read must report LOCATOR_MISMATCH and the gate must not pass.",
+  "source": "cisco-specs-deep",
+  "generated_at": "2026-09-03T10:00:00+00:00",
+  "records": [
+    {"sku": "NZT-9300-24P", "label": "Switching capacity", "value": "208 Gbps", "shape": "A", "locator": "t0:r2:c1", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"sku": "NZT-9300-24P", "label": "Forwarding rate", "value": "154.76 Mpps", "shape": "A", "locator": "t0:r1:c2", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"sku": "NZT-9300-24P", "label": "MAC address table", "value": "32,000", "shape": "A", "locator": "t0:r1:c4", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"sku": "NZT-9300-48P", "label": "Switching capacity", "value": "256 Gbps", "shape": "A", "locator": "t0:r2:c1", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"__doc__": true, "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html", "pid_list": ["NZT-9300-24P", "NZT-9300-48P"], "tables": 3, "defects": []}
+  ]
+}

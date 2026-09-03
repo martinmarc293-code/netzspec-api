@@ -1,0 +1,15 @@
+{
+  "_about": "tests/db/apply-lifecycle.test.ts (compat block): one TMG platform record as scraper/run.py cisco-tmg-platform writes it. C9300 maps to the family 'Cisco Catalyst 9300'; NZT-C9300-24T is a hardware switch of that family and NZT-C9300-NM-8X a listed module that is a part, NZT-C9300-NM-2Q is not. NZT-SFP-10G-SR is an optic we hold, NZT-SFP-10G-LR is not.",
+  "source": "cisco-tmg-platform",
+  "generated_at": "2026-09-01T07:38:22+00:00",
+  "records": [
+    {
+      "vendor": "cisco", "family_query": "C9300", "type": "platform-compat",
+      "modules": ["NZT-C9300-NM-8X", "NZT-C9300-NM-2Q"],
+      "compatible_optics": [
+        {"sku": "NZT-SFP-10G-SR", "source_url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nztest-sfp-datasheet.html", "formFactor": "SFP+", "dataRate": "10 Gbps"},
+        {"sku": "NZT-SFP-10G-LR", "source_url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nztest-sfp-datasheet.html", "formFactor": "SFP+", "dataRate": "10 Gbps"}
+      ]
+    }
+  ]
+}

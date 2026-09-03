@@ -1,0 +1,15 @@
+{
+  "_readme": [
+    "Golden sample for tests/db/apply-extract.test.ts, same shape as data/reference/golden/*.golden.json.",
+    "Expected values were worked out by hand from the raw cell strings in the fixtures: '208 Gbps' -> 208 Gbit/s,",
+    "'32,000' on an English-locale sheet -> 32000, '10 to 35 C' -> {min 10, max 35} °C. The extractor's output was",
+    "NOT copied and blessed. NZT-UCS-C240's expectation sits on the PDF fixture so the PDF re-read path is graded too."
+  ],
+  "expectations": [
+    {"sku": "NZT-9300-24P", "field": "switching_capacity", "raw": "208 Gbps", "value": 208, "unit": "Gbit/s"},
+    {"sku": "NZT-9300-24P", "field": "forwarding_rate", "raw": "154.76 Mpps", "value": 154.76, "unit": "Mpps"},
+    {"sku": "NZT-9300-24P", "field": "mac_table", "raw": "32,000", "value": 32000, "unit": "Einträge"},
+    {"sku": "NZT-9300-48P", "field": "switching_capacity", "raw": "256 Gbps", "value": 256, "unit": "Gbit/s"},
+    {"sku": "NZT-UCS-C240", "field": "temp_operating", "raw": "10 to 35 C", "value": {"min": 10, "max": 35}, "unit": "°C"}
+  ]
+}

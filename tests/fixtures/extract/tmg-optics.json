@@ -1,0 +1,14 @@
+{
+  "_about": "tests/db/apply-lifecycle.test.ts (compat block): one TMG optic record as scraper/run.py cisco-tmg writes it: a vendor-verified equivalent, an End-of-Sale date, and the optic's datasheet URL.",
+  "source": "cisco-tmg",
+  "generated_at": "2026-08-31T17:06:39+00:00",
+  "records": [
+    {
+      "vendor": "cisco", "sku": "NZT-SFP-10G-SR", "type": "transceiver", "product_family": "NZTEST",
+      "attributes": {"formFactor": "SFP+", "reach": "300m", "dataRate": "10 Gbps"},
+      "datasheet_url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nztest-sfp-datasheet.html",
+      "end_of_sale": "2026-12-31",
+      "compat": [{"sku": "NZT-SFP-10G-SR-S", "relation": "vendor_verified", "source_url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nztest-sfp-datasheet.html", "note": "same optic, -S packaging"}]
+    }
+  ]
+}

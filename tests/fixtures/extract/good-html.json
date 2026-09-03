@@ -1,0 +1,21 @@
+{
+  "_about": "tests/db/apply-extract.test.ts: one HTML datasheet as scraper/run.py cisco-specs-deep writes it. The cached page the gate re-reads is written by the suite under scraper/cache/<sha1(source_url)>.html with tables whose cells sit exactly at these locators. NZT-9300-24P and NZT-9300-48P are parts; NZT-9300-NOTLISTED is a part of the same family that this document does NOT list; NZT-UNKNOWN-1 is not a part.",
+  "source": "cisco-specs-deep",
+  "generated_at": "2026-09-03T10:00:00+00:00",
+  "records": [
+    {"sku": "NZT-9300-24P", "label": "Switching capacity", "value": "208 Gbps", "shape": "A", "locator": "t0:r1:c1", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"sku": "NZT-9300-24P", "label": "Forwarding rate", "value": "154.76 Mpps", "shape": "A", "locator": "t0:r1:c2", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"sku": "NZT-9300-24P", "label": "Blinkenlights", "value": "Yes", "shape": "A", "locator": "t0:r1:c3", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"sku": "NZT-9300-24P", "label": "MAC address table", "value": "32,000", "shape": "A", "locator": "t0:r1:c4", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"sku": "NZT-9300-48P", "label": "Switching capacity", "value": "256 Gbps", "shape": "A", "locator": "t0:r2:c1", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"sku": "NZT-9300-48P", "label": "Forwarding rate", "value": "190.47 Mpps", "shape": "A", "locator": "t0:r2:c2", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"sku": "NZT-9300-48P", "label": "MAC address table", "value": "lots", "shape": "A", "locator": "t0:r2:c4", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"sku": "NZT-UNKNOWN-1", "label": "Switching capacity", "value": "100 Gbps", "shape": "A", "locator": "t0:r3:c1", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"label": "IEEE standards", "value": "IEEE 802.1Q, IEEE 802.3ad", "shape": "B", "locator": "t1:r1:c1", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html", "family_scope": "__document__"},
+    {"label": "Dimensions (H x W x D) inches", "value": "1.73 x 17.5 x 16.1", "shape": "B", "locator": "t1:r2:c1", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html", "family_scope": "__document__"},
+    {"label": "Operating temperature", "value": "-5 to 45°C", "shape": "B", "locator": "t1:r3:c1", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html", "family_scope": "48-port models"},
+    {"label": "Operating temperature", "value": "-5 to 50°C", "shape": "B", "locator": "t1:r3:c2", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html", "family_scope": "NZT-9300-48P"},
+    {"sku": "NZT-9300-24P", "label": "Power supply", "value": "Power supply", "shape": "A", "locator": "t2:r1:c1", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html"},
+    {"__doc__": true, "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html", "pid_list": ["NZT-9300-24P", "NZT-9300-48P", "NZT-UNKNOWN-1"], "tables": 3, "defects": []}
+  ]
+}

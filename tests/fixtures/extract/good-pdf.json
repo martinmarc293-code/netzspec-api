@@ -1,0 +1,12 @@
+{
+  "_about": "tests/db/apply-extract.test.ts: one PDF spec sheet as scraper/run.py cisco-specs-pdf writes it (tier 1). The suite writes a real three-page PDF under scraper/cache/<sha1(source_url)>.bin whose page 1 holds a Parameter|Value table (document-scoped PARAM facts, locator without a column) and page 2 a Model|Height|Operating temperature grid (SKU-scoped). The document-scoped temperature is refused for NZT-UCS-C240 because the same document states it per SKU (class C exception); the weight is class B and never inherited; the height is a dimensions struct the parser refuses.",
+  "source": "cisco-specs-pdf",
+  "generated_at": "2026-09-03T11:00:00+00:00",
+  "records": [
+    {"sku": "NZT-UCS-C240", "label": "Height", "value": "3.42 in", "shape": "GRID", "locator": "p2:t0:r1:c1", "source_url": "https://www.cisco.com/c/dam/en/us/products/collateral/servers-unified-computing/nztest-c240-specsheet.pdf"},
+    {"sku": "NZT-UCS-C240", "label": "Operating temperature", "value": "10 to 35 C", "shape": "GRID", "locator": "p2:t0:r1:c2", "source_url": "https://www.cisco.com/c/dam/en/us/products/collateral/servers-unified-computing/nztest-c240-specsheet.pdf"},
+    {"family_scope": "__document__", "label": "Operating temperature", "value": "10 to 35 C", "shape": "PARAM", "locator": "p1:t0:r1", "source_url": "https://www.cisco.com/c/dam/en/us/products/collateral/servers-unified-computing/nztest-c240-specsheet.pdf"},
+    {"family_scope": "__document__", "label": "Weight", "value": "35 kg", "shape": "PARAM", "locator": "p1:t0:r2", "source_url": "https://www.cisco.com/c/dam/en/us/products/collateral/servers-unified-computing/nztest-c240-specsheet.pdf"},
+    {"__doc__": true, "source_url": "https://www.cisco.com/c/dam/en/us/products/collateral/servers-unified-computing/nztest-c240-specsheet.pdf", "pid_list": ["NZT-UCS-C240"], "tables": 3, "defects": []}
+  ]
+}

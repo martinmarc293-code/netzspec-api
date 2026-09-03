@@ -1,0 +1,11 @@
+{
+  "_about": "SABOTAGE for the compat gate: a platform record whose 'optic' is prose and whose source is not cisco.com. The structural gate must report MALFORMED and a --commit run behind it must write no relation.",
+  "source": "cisco-tmg-platform",
+  "generated_at": "2026-09-01T07:38:22+00:00",
+  "records": [
+    {
+      "vendor": "cisco", "family_query": "C9300", "type": "platform-compat", "modules": ["NZT-C9300-NM-8X"],
+      "compatible_optics": [{"sku": "See the matrix for details", "source_url": "https://example.com/not-cisco"}]
+    }
+  ]
+}

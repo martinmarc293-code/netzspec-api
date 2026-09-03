@@ -1,0 +1,14 @@
+{
+  "_about": "SABOTAGE for the lifecycle gate: the record says end_of_sale_date 2022-10-31 while the cached bulletin page says October 30, 2022. The gate must report WRONG for that date and the run must not write.",
+  "source": "cisco-eol",
+  "generated_at": "2026-09-01T23:46:44+00:00",
+  "records": [
+    {
+      "vendor": "cisco", "family_match": "", "doc_id": "EOL90003",
+      "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-2960-series-switches/nztest-eol-c51-900003.html",
+      "verified_at": "2026-09-01",
+      "affected_pids": [{"pid": "WS-C2960NZ-24PS-L", "successor": "C9200L-24P-4G-E"}],
+      "lifecycle": {"announce_date": "2022-01-15", "end_of_sale_date": "2022-10-31", "status": "eol_announced"}
+    }
+  ]
+}

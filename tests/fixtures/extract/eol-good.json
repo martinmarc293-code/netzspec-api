@@ -1,0 +1,29 @@
+{
+  "_about": "tests/db/apply-lifecycle.test.ts: two hardware bulletins as scraper/run.py cisco-eol-urls writes them. The suite writes the cached bulletin pages under scraper/cache/<sha1(source_url)>.html with the milestone table these dates were read from. EOL90001 lists grade-specific successors (-L gets the -E successor, -S the -A one), one prose 'successor', and one PID that is not a part.",
+  "source": "cisco-eol",
+  "generated_at": "2026-09-01T23:46:44+00:00",
+  "records": [
+    {
+      "vendor": "cisco", "family_match": "", "doc_id": "EOL90001",
+      "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-2960-series-switches/nztest-eol-c51-900001.html",
+      "verified_at": "2026-09-01",
+      "affected_pids": [
+        {"pid": "WS-C2960NZ-24PD-L", "successor": "C9200L-24P-4G-E"},
+        {"pid": "WS-C2960NZ-24PD-S", "successor": "C9200L-24P-4G-A"},
+        {"pid": "WS-C2960NZ-48TD-L", "successor": "See Product Migration Options section for details."},
+        {"pid": "C1-C2960NZ-48FPD-L", "successor": null}
+      ],
+      "lifecycle": {"announce_date": "2022-01-15", "end_of_sale_date": "2022-10-31", "last_ship_date": "2023-01-29", "last_day_of_support": "2027-10-31", "status": "eol_announced"}
+    },
+    {
+      "vendor": "cisco", "family_match": "", "doc_id": "EOL90002",
+      "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-2960-series-switches/nztest-eol-c51-900002.html",
+      "verified_at": "2026-09-01",
+      "affected_pids": [
+        {"pid": "WS-C2960NZ-8TC-L", "successor": null},
+        {"pid": "WS-C2960NZ-8TC-L=", "successor": null}
+      ],
+      "lifecycle": {"announce_date": "2021-03-01", "end_of_sale_date": "2021-09-30", "last_day_of_support": "2026-09-30", "status": "eol_announced"}
+    }
+  ]
+}

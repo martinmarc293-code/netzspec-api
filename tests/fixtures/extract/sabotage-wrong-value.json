@@ -1,0 +1,11 @@
+{
+  "_about": "SABOTAGE for the gate: a second revision of the NZTEST 9300 datasheet whose cached page really says 218 Gbps for NZT-9300-24P, so the locator re-reads cleanly — but the golden sample (verified by hand) says 208. The gate must report WRONG, not LOCATOR_MISMATCH, and must not pass.",
+  "source": "cisco-specs-deep",
+  "generated_at": "2026-09-03T10:00:00+00:00",
+  "records": [
+    {"sku": "NZT-9300-24P", "label": "Switching capacity", "value": "218 Gbps", "shape": "A", "locator": "t0:r1:c1", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet-rev2.html"},
+    {"sku": "NZT-9300-24P", "label": "Forwarding rate", "value": "154.76 Mpps", "shape": "A", "locator": "t0:r1:c2", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet-rev2.html"},
+    {"sku": "NZT-9300-24P", "label": "MAC address table", "value": "32,000", "shape": "A", "locator": "t0:r1:c3", "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet-rev2.html"},
+    {"__doc__": true, "source_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet-rev2.html", "pid_list": ["NZT-9300-24P"], "tables": 1, "defects": []}
+  ]
+}
