@@ -51,6 +51,14 @@ Item shape (summary):
   "has_image": true, "updated_at": "2026-09-03T14:02:11Z" }
 ```
 
+### `GET /v1/facets?vendor=cisco&category=switches`
+What a consumer can filter by, and the values that exist, so a UI can be built without
+guessing: for every dictionary field that has at least one current verified/corroborated
+fact inside the selection, its key, labels, type, unit and either the value distribution
+(enum/boolean/string: `[{ value, count }]`, top 50) or the numeric range (`{ min, max, count }`).
+Browse order a consumer follows: `/v1/vendors` → `/v1/categories?vendor=` → `/v1/facets` →
+`/v1/parts?vendor=&category=&filter=`. Cached 60 s.
+
 ### `GET /v1/parts/{vendor}/{sku}`
 The full record. `states` defaults to `verified,corroborated`; `states=all` includes held and gap states.
 ```json
