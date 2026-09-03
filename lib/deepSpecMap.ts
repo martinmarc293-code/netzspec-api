@@ -53,6 +53,24 @@ const LABEL_UNITS: [RegExp, string][] = [
   [/dB\(A\)/i, "dB(A)"],
   [/\bMpps\b/i, "Mpps"],
   [/\bGbps\b|\bGbit/i, "Gbit/s"],
+  // Cisco's PDF spec sheets put the unit in PARENTHESES after the label — "Cache Size (MB)",
+  // "Clock Freq (GHz)", "Input Voltage Range (V rms)", "Maximum Inrush Current (A peak)" — and
+  // the cell then holds a bare number. Without these, 2,000+ server facts were rejected
+  // UNIT_MISSING with their unit sitting in plain sight one column to the left.
+  // Ordered longest-first so (MT/s) is not shadowed by (s) and (GHz) not by (Hz).
+  [/\(\s*MT\s*\/\s*s\s*\)/i, "MT/s"],
+  [/\(\s*GHz\s*\)/i, "GHz"],
+  [/\(\s*MHz\s*\)/i, "MHz"],
+  [/\(\s*GB\s*\)/i, "GB"],
+  [/\(\s*TB\s*\)/i, "TB"],
+  [/\(\s*MB\s*\)/i, "MB"],
+  [/\(\s*VA\s*\)/i, "VA"],
+  [/\(\s*V(\s*(rms|dc|ac))?\s*\)/i, "V"],
+  [/\(\s*A(\s*(rms|peak|dc|ac))?\s*\)/i, "A"],
+  [/\(\s*Hz\s*\)/i, "Hz"],
+  [/\(\s*ms\s*\)/i, "ms"],
+  [/\(\s*mm\s*\)/i, "mm"],
+  [/\(\s*C\s*\)/i, "°C"],
 ];
 
 export function unitFromLabel(label: string): string | undefined {

@@ -37,6 +37,366 @@
  "case_insensitive": true,
  "rules": [
   [
+   "^maximum socket(s)?$",
+   "cpu_sockets_max",
+   "pdf-server: Direct match; strip the trailing S from \"1S\"/\"2S\"."
+  ],
+  [
+   "highest ddr[0-9] dimm clock",
+   "memory_speed_max",
+   "pdf-server: Covers both the DDR4 and DDR5 spellings and the trailing \"Support (MHz)1\" footnote."
+  ],
+  [
+   "^segment ?/ ?workload",
+   "workload_segment",
+   "pdf-server: Cisco's CPU-SKU positioning column; note the space after the slash in the source."
+  ],
+  [
+   "^workload$",
+   "workload_segment",
+   "pdf-server: Short form of the same column. Values are dirty here (a CPU generation string appears), so whitelist known segment values before writing."
+  ],
+  [
+   "^card size ?[0-9]*$",
+   "pcie_card_size",
+   "pdf-server: Trailing 1 is a footnote marker, not part of the label."
+  ],
+  [
+   "maximum rated standby output",
+   "psu_standby_output",
+   "pdf-server: Unit W is stated in the label."
+  ],
+  [
+   "maximum input at nominal input voltage",
+   "input_va_max",
+   "pdf-server: Apparent power in VA, not watts."
+  ],
+  [
+   "^ranks ?/ ?dimm",
+   "dimm_ranks",
+   "pdf-server: Two spacings occur in the corpus (\"Ranks/DIMM\" and \"Ranks /DIMM\"); the optional space covers both."
+  ],
+  [
+   "^(default |max(imum)? )?tdp$",
+   "tdp",
+   "pdf-server: CPU thermal design power. Must not fall through to power_typical: the subject is a processor option PID, not the chassis."
+  ],
+  [
+   "(ride-?through time|hold-?up time)",
+   "holdup_time",
+   "pdf-server: Same PSU property under two names; the trailing 2 is a footnote marker."
+  ],
+  [
+   "nominal input current",
+   "input_current_nominal",
+   "pdf-server: A rms; store the number in amps."
+  ],
+  [
+   "^l3 cache",
+   "cache_l3",
+   "pdf-server: Assume MB when the unit is missing from the label — the two-row header hides it."
+  ],
+  [
+   "^# ?of drives$",
+   "drive_bays",
+   "pdf-server: Both casings occur; the regex is case-insensitive."
+  ],
+  [
+   "^front clearance",
+   "front_clearance",
+   "pdf-server: Rack install requirement stated as \"3 in. (76 mm)\"."
+  ],
+  [
+   "^max(imum)? gpu(s)? per node",
+   "gpu_max",
+   "pdf-server: Direct match."
+  ],
+  [
+   "^clock (freq(uency)?|speed)",
+   "clock_speed",
+   "pdf-server: Also catches the truncated \"Clock Freq\" header whose \"(GHz)\" second row never reaches us. Guard: values above ~10 are not GHz and must not"
+  ],
+  [
+   "^capacity \\(each\\)$",
+   "storage_capacity",
+   "pdf-server: Existing field. \"14TB\"/\"18TB\" is per-drive capacity, which is exactly what storage_capacity means on a drive PID."
+  ],
+  [
+   "^temperature,? non-?operating",
+   "temp_storage",
+   "pdf-server: Existing field. Non-operating temperature is the storage temperature range."
+  ],
+  [
+   "^power entry module",
+   "psu_config",
+   "pdf-server: Existing field. \"2x PEM for AC inputs, PEM1 (PSU1,2,3)...\" describes how power is fed to the PSUs, which is what psu_config carries."
+  ],
+  [
+   "^per drive connection",
+   "drive_interface",
+   "pdf-server: Direct match; values are \"PCIe Gen5 x2/x4\"."
+  ],
+  [
+   "^cores?$",
+   "cpu_cores",
+   "pdf-server: Core count on a CPU option PID (HCI-CPU-*). Both singular 'Core' (aggregate per node, 160/144/72) and plural 'Cores' (per socket, 36/32/24"
+  ],
+  [
+   "^clock (freq|frequency)",
+   "cpu_clock_frequency",
+   "pdf-server: Base clock of the CPU option part; unit is explicit in the label here, GHz."
+  ],
+  [
+   "highest ddr[0-9] dimm clock support",
+   "memory_speed_max",
+   "pdf-server: Maximum DIMM data rate the CPU supports. Trailing footnote digits ('2') and the DDR generation vary, so the regex matches the stable middl"
+  ],
+  [
+   "^cache size",
+   "cpu_cache",
+   "pdf-server: Last-level cache of the CPU option part, unit MB from the second header row."
+  ],
+  [
+   "maximum inrush current",
+   "inrush_current_max",
+   "pdf-server: Peak inrush of a PSU option PID, amperes."
+  ],
+  [
+   "^frequency range",
+   "input_freq",
+   "pdf-server: '50 to 60' Hz AC input frequency — exactly the existing input_freq field."
+  ],
+  [
+   "maximum allowable input voltage range",
+   "input_voltage",
+   "pdf-server: AC/DC input range ('90 to 264', '-40 to -72') maps to the existing input_voltage. Regex deliberately stops before the unit so both '(V rms"
+  ],
+  [
+   "maximum rated output",
+   "psu_rated_output",
+   "pdf-server: Nameplate output of a PSU PID in watts. Not power_max: power_max is what a chassis draws, this is what a supply can deliver."
+  ],
+  [
+   "minimum rated efficiency",
+   "psu_efficiency_min",
+   "pdf-server: Guaranteed PSU conversion efficiency in percent; footnote digit varies so it is left off the pattern."
+  ],
+  [
+   "^capacity$",
+   "storage_capacity",
+   "pdf-server: Drive capacity on an SSD/HDD option PID ('15.3TB', '1.9 TB') — the existing storage_capacity field."
+  ],
+  [
+   "riser slot compatibility",
+   "slot_compatibility",
+   "pdf-server: Which risers/slots a card is qualified for — the existing slot_compatibility field. Note this is compatibility, not the ordering-metadata "
+  ],
+  [
+   "^available pcie risers$",
+   "slot_compatibility",
+   "pdf-server: Same property as Riser Slot Compatibility, different sheet wording ('Riser 1, 2 & 3')."
+  ],
+  [
+   "^card size$",
+   "form_factor",
+   "pdf-server: 'HHHL, single-wide' / 'double-wide' is the physical form factor of the PCIe card that is the subject part — the existing form_factor field"
+  ],
+  [
+   "^power redundancy$",
+   "psu_redundant",
+   "pdf-server: 'Nonredundant, N+1, N+2 and Grid (N+N)' is the PSU redundancy mode, the existing psu_redundant field."
+  ],
+  [
+   "^sound pressure level$",
+   "acoustic_noise",
+   "pdf-server: '83 dBA (at normal operating temperature)' is exactly the existing acoustic_noise field."
+  ],
+  [
+   "^upi[0-9]? links",
+   "cpu_interconnect_links",
+   "pdf-server: Inter-socket UPI link count and speed ('3 x 10.4') on a CPU option PID. The '2' in 'UPI2' is a generation/footnote marker so it is optiona"
+  ],
+  [
+   "^cpus? required$",
+   "cpus_required",
+   "pdf-server: A configuration requirement of the subject option card ('Two CPUs required'), i.e. it only works in a dual-socket build. A real constraint"
+  ],
+  [
+   "^total raw capacity$",
+   "storage_raw_capacity",
+   "pdf-server: Node/appliance aggregate raw capacity ('112 TB'), a different subject from a single drive's storage_capacity — keeping them apart stops a "
+  ],
+  [
+   "^side clearance$",
+   "installation_clearance",
+   "pdf-server: Required free space around the chassis ('1 in. (25 mm)') — a measurable installation requirement."
+  ],
+  [
+   "^width( |$)",
+   "width",
+   "pdf-server: A single measured dimension. Deliberately NOT folded into the composite dimensions string, which expects H x W x D; the parenthetical qual"
+  ],
+  [
+   "maximum number of gpus per node",
+   "gpu_max",
+   "pdf-server: Maximum GPUs a node accepts, a plain count."
+  ],
+  [
+   "^max(imum)? cards (available )?per node$",
+   "max_cards_per_node",
+   "pdf-server: Covers both 'Max cards available per node' and 'Maximum cards Per node'. Values are sometimes qualified ('1 MLOM VIC + 2 PCIe VIC'), so th"
+  ],
+  [
+   "^efficiency rating$",
+   "psu_efficiency_rating",
+   "pdf-server: '80+ Titanium Certified' is the 80 PLUS class, a named grade — distinct from the numeric psu_efficiency_min percentage."
+  ],
+  [
+   "^vendor/model$",
+   "component_vendor_model",
+   "pdf-server: The actual drive maker and model behind a Cisco-branded PID ('Micron 5400'). Must NOT be mapped to the existing 'vendor' field, which hold"
+  ],
+  [
+   "^maximum input at nominal input voltage",
+   "power_max",
+   "pdf-server: Maximum AC input draw in watts for a chassis/PSU configuration - exactly what power_max already holds. Samples (889, 1154, 1338) are bare "
+  ],
+  [
+   "^emc[ ._-]*emissions",
+   "emc_emissions",
+   "pdf-server: Verbatim match for the existing emc_emissions field; samples are CFR 47 / CISPR class statements."
+  ],
+  [
+   "^temperature,? *operating",
+   "temp_operating",
+   "pdf-server: Label inversion of the existing temp_operating field; samples are dual F/C operating ranges."
+  ],
+  [
+   "^connection type$",
+   "form_factor",
+   "pdf-server: Value 'mLOM' describes how the adapter physically seats (mLOM / OCP / PCIe) - that is the card's form factor, which form_factor already ca"
+  ],
+  [
+   "(^|[^a-z])x-fabric module slots",
+   "module_slots",
+   "pdf-server: Counts and describes rear expansion module slots on the UCS X-series chassis - the existing module_slots field."
+  ],
+  [
+   "^cache size$",
+   "cpu_cache",
+   "pdf-server: Second header row carries (MB); values 300.00 / 180.00 / 52.50 are last-level cache in MB on CPU option PIDs."
+  ],
+  [
+   "(ddr[45]|dimm) *clock *support",
+   "memory_speed_max",
+   "pdf-server: Bare 4800 / 5200 / 4400 are DDR5 transfer rates in MT/s that the CPU supports."
+  ],
+  [
+   "^input connector$",
+   "power_input_connector",
+   "pdf-server: IEC320 C14 / C20 / Molex 42820 is the PSU inlet connector type."
+  ],
+  [
+   "^upi[0-9]* *links",
+   "cpu_upi_links",
+   "pdf-server: Inter-socket UPI link count and speed on a CPU PID; values are compound ('3 at 11.2')."
+  ],
+  [
+   "boost *frequency",
+   "cpu_boost_clock",
+   "pdf-server: Values 3.70 / 4.30 / 5.00 are GHz (unit sits in the suppressed second header row) - distinct from base clock."
+  ],
+  [
+   "^maximum rated output",
+   "psu_output_power",
+   "pdf-server: PSU DC output rating in watts (1050, 1600, 770)."
+  ],
+  [
+   "^maximum output power per power supply",
+   "psu_output_power",
+   "pdf-server: Same property as Maximum Rated Output, but stated per input-voltage range ('2800 W @ 200-240 VAC nominal 1400 W @ 100-127'), which is why "
+  ],
+  [
+   "^voltage$",
+   "dimm_voltage",
+   "pdf-server: Every sample is '1.2 V', the DDR4/DDR5 DIMM operating voltage on memory option PIDs. Kept separate from input_voltage (AC mains) so a memo"
+  ],
+  [
+   "^nominal input current",
+   "input_current",
+   "pdf-server: AC RMS input current in amps (13, 8.8, 12.97) for a PSU PID."
+  ],
+  [
+   "^spee *d$",
+   "drive_interface",
+   "pdf-server: PDF column split inserts a space inside 'Speed'. Values mix SAS/SATA link rate (12G, 6G) and drive connector generation (U.2, U.3), so it "
+  ],
+  [
+   "^# *of drives supported$",
+   "drive_bays",
+   "pdf-server: Count of drives a controller or chassis supports (32, 16, 24)."
+  ],
+  [
+   "inrush current",
+   "inrush_current",
+   "pdf-server: Peak switch-on current for a PSU; value carries a duration qualifier ('35 A (sub cycle duration)')."
+  ],
+  [
+   "rated power factor",
+   "power_factor",
+   "pdf-server: Dimensionless PSU power factor (0.97); trailing '1' is a footnote marker, so the regex is not anchored at the end."
+  ],
+  [
+   "max(imum)? gpu per node",
+   "gpu_max",
+   "pdf-server: Maximum GPUs installable in a compute node."
+  ],
+  [
+   "^(drive type|protocol)$",
+   "drive_interface",
+   "pdf-server: 'Protocol' (6) appears on drive tables with exactly the same value domain (SATA, NVMe) as 'Drive Type' (304) - one field, two label spelli"
+  ],
+  [
+   "^(clock freq(uency)?|cpu base freq(uency)?|base clock)$",
+   "cpu_base_clock",
+   "pdf-server: 'Clock Freq' (214) and 'CPU Base Frequency' (56) are the same column in different sheet generations; both carry GHz in the suppressed seco"
+  ],
+  [
+   "^power( ?[(]w[)])?$",
+   "tdp",
+   "pdf-server: Matches both the unit-bearing 'Power (W)' and the bare 'Power' left behind when the second header row is lost. Parentheses written as char"
+  ],
+  [
+   "^(maximum )?(allowable )?(input )?frequency range",
+   "input_freq",
+   "pdf-server: '47 to 63' Hz is exactly the existing input_freq (mains frequency range) - no new field needed."
+  ],
+  [
+   "^nominal input voltage",
+   "input_voltage",
+   "pdf-server: Covers both spellings, 'V rms' (59) and 'Vrms' (31), by stopping before the unit parenthetical. Maps to the existing input_voltage; sample"
+  ],
+  [
+   "^width [(]including slam latches[)]$",
+   "dimensions",
+   "pdf-server: A chassis width measurement belongs in the existing dimensions field; ingest should merge it as the width component rather than mint a wid"
+  ],
+  [
+   "^supported server$",
+   "product_compatibility",
+   "pdf-server: 'All Flash', 'All Flash/All NVMe' states which server configurations this component fits - the existing product_compatibility field."
+  ],
+  [
+   "^riser ?(slot)? ?compatibility[0-9]?$",
+   "slot_compatibility",
+   "pdf-server: Covers 'Riser Slot Compatibility1' and 'Riser Compatibility'; the trailing [0-9] absorbs the footnote marker the PDF extractor glues on. V"
+  ],
+  [
+   "^intelligent fabric modules",
+   "supported_modules",
+   "pdf-server: Lists the 9108 IFMs a chassis SKU takes or ships with - the existing supported_modules field."
+  ],
+  [
    "(non[- ]?operating|nonoperating|storage|shipping).*humidit|humidit.*(non[- ]?operating|nonoperating|storage|shipping)",
    "humidity_storage",
    "1210CP: non-operating humidity was landing on humidity_operating"

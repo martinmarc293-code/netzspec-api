@@ -78,6 +78,47 @@ export const GENERATED_CLASS_A: string[] = [
 ];
 
 export const GENERATED_CLASS_B: string[] = [
+  // --- pdf-server vocabulary ---
+  "cpu_sockets_max",
+  "memory_speed_max",
+  "workload_segment",
+  "pcie_card_size",
+  "psu_standby_output",
+  "input_va_max",
+  "dimm_ranks",
+  "tdp",
+  "holdup_time",
+  "input_current_nominal",
+  "cache_l3",
+  "drive_bays",
+  "front_clearance",
+  "gpu_max",
+  "clock_speed",
+  "drive_interface",
+  "cpu_clock_frequency",
+  "cpu_cache",
+  "cpu_interconnect_links",
+  "psu_rated_output",
+  "psu_efficiency_min",
+  "psu_efficiency_rating",
+  "inrush_current_max",
+  "storage_raw_capacity",
+  "max_cards_per_node",
+  "cpus_required",
+  "installation_clearance",
+  "width",
+  "component_vendor_model",
+  "cpu_boost_clock",
+  "cpu_upi_links",
+  "dimm_voltage",
+  "power_input_connector",
+  "power_factor",
+  "cpu_base_clock",
+  "cpu_workload_segment",
+  "inrush_duration_max",
+  "ride_through_time",
+  "min_disks_required",
+  "input_current_max",
   // --- 2026-09-02 classification of fields canInherit was refusing by default ---
   "cpu", // Processor model, core count and clock routinely differ between the base and higher-performance part numbers listed on one sheet.
   "wavelength", // Optics variants on one datasheet are exactly the things that differ by wavelength (850/1310/1550nm, CWDM/DWDM channels).
@@ -326,6 +367,8 @@ export const GENERATED_CLASS_B: string[] = [
 ];
 
 export const GENERATED_CLASS_C: string[] = [
+  // --- pdf-server vocabulary ---
+  "clearance_rear",
   // --- 2026-09-02 classification of fields canInherit was refusing by default ---
   "supported_protocols", // Usually a shared software feature list for the whole family, but licence tiers or a mixed-platform sheet can state a per-model list that must win.
   "mounting", // Mounting is usually described once for the family but a sheet can list a per-model kit (desktop vs rack) that must win over the document value.

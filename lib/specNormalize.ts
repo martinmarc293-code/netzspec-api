@@ -162,7 +162,14 @@ function convert(n: number, rawUnit: string, canonical: string | undefined, key:
   if (!rawUnit) {
     // A bare number is acceptable only for count-like fields, which have no canonical unit
     // beyond a label. Anything physical must carry its unit or we cannot know what it means.
-    const labelOnly = ["Einträge", "HE", "Byte", "AWG"].includes(canonical);
+    //
+    // CANON holds the units we can actually convert between — every physical dimension. So a
+    // canonical unit ABSENT from CANON is by construction a counting word: "cores", "sockets",
+    // "bays", "GPUs", "ranks", "Einträge". A bare number is the only form those ever take, and
+    // the hardcoded list missed every one the server vocabulary introduced: 409 core counts and
+    // 270 socket counts were rejected UNIT_MISSING for having no unit, when having no unit is
+    // what a core count looks like.
+    const labelOnly = ["Einträge", "HE", "Byte", "AWG"].includes(canonical) || !CANON[canonical];
     return labelOnly ? ok(n, canonical) : bad("UNIT_MISSING", `${key}: "${n}" has no unit (expected ${canonical})`);
   }
   const found = unitLookup(rawUnit, canonical);
@@ -293,6 +300,22 @@ export function preprocessValue(raw: string, key: string): string {
   if (/_max$|^power_max$|^heat_dissipation$/.test(key)) {
     const tm = TYPICAL_MAX.exec(s);
     if (tm) return `${tm[3]}${tm[4] ? " " + tm[4] : (tm[2] ? " " + tm[2] : "")}`.trim();
+  }
+
+  // Cisco writes a socket count as "1S" / "2S". The S is the word "socket", not a unit, and
+  // leaving it made every one of these UNIT_UNKNOWN.
+  if (/^cpu_sockets/.test(key)) {
+    const m = /^\s*(\d+)\s*S\s*$/i.exec(s);
+    if (m) return m[1];
+  }
+
+  // Memory transfer rates are printed as MHz in Cisco's headers but the figures are DDR
+  // transfer rates: "Highest DDR4 DIMM Clock Support (MHz) = 2933" is 2933 MT/s, not 2933 MHz
+  // (the clock is half that). The field's canonical unit is MT/s, so restate it rather than
+  // let a unit-dimension mismatch reject the value.
+  if (key === "memory_speed_max") {
+    const m = /^\s*([0-9][0-9.,]*)\s*(MHz|MT\/s)?\s*$/i.exec(s);
+    if (m) return `${m[1]} MT/s`;
   }
 
   // A PoE budget is stated as a port count AND a wattage — "4 ports, 120W total". The field is
