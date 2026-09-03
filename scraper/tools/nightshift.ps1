@@ -86,6 +86,10 @@ try {
     #    lease is reclaimed by the next cycle (worker.py re-leases leases older than 30 min).
     $procs = @{}
     foreach ($src in $Sources.Split(",")) {
+      # RAM guard: this laptop has 8 GB shared with the operator's own Chrome; a worker started
+      # into a full machine takes the others down with it (the six-browser incident)
+      $freeMb = [math]::Round((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1024)
+      if ($freeMb -lt 400) { Log "   RAM: only $freeMb MB free; not starting a worker for $src this cycle"; continue }
       $wlog = Join-Path $LogDir ("worker-" + $src + ".out")
       $p = Start-Process -FilePath "python3.11" -ArgumentList @("-u", "scraper/worker.py", "run", "--sources", $src, "--cdp", "http://127.0.0.1:9222") -WorkingDirectory $Repo -NoNewWindow -PassThru -RedirectStandardOutput $wlog -RedirectStandardError ($wlog + ".err")
       $procs[$src] = @{ proc = $p; log = $wlog; size = 0; quietSince = Get-Date }
@@ -121,6 +125,27 @@ try {
     foreach ($src in $Sources.Split(",")) {
       $dir = Join-Path $Repo ("runs\acquired\" + $src + "\" + $today)
       if (Test-Path $dir) { Run-Step "apply $src" "npx" @("tsx", "src/pipeline/cli.ts", "apply-acquired", "runs/acquired/$src/$today", "--commit") 60 | Out-Null }
+    }
+
+    # 4a. once a week (Sunday, first cycle after 02:00): the vendor sweeps that make the catalogue GROW —
+    #     new EoL bulletins for every Cisco series, then new datasheets found on the family listings,
+    #     extracted cache-only and applied through the gate. Each step is resumable and idempotent.
+    $stamp = Join-Path $LogDir "weekly-sweep.stamp"
+    $lastSweep = if (Test-Path $stamp) { (Get-Item $stamp).LastWriteTime } else { [datetime]::MinValue }
+    if ((Get-Date).DayOfWeek -eq "Sunday" -and (Get-Date).Hour -ge 2 -and ((Get-Date) - $lastSweep).TotalDays -gt 5) {
+      $sweepTag = Get-Date -Format "yyyy-MM-dd"
+      $seriesFile = Join-Path $Repo "data\reference\cisco-series.json"
+      if (Test-Path $seriesFile) {
+        $series = ((Get-Content $seriesFile -Raw | ConvertFrom-Json) | ForEach-Object { if ($_.slug) { $_.slug } elseif ($_ -is [string]) { $_ } }) -join ","
+        if ($series) {
+          Run-Step "sweep eol" "python3.11" @("-u", "scraper/run.py", "cisco-eol", "--series", $series, "--out", "runs/extract/cisco-eol-$sweepTag.json") 180 | Out-Null
+          if (Test-Path (Join-Path $Repo "runs\extract\cisco-eol-$sweepTag.json")) { Run-Step "apply lifecycle" "npx" @("tsx", "src/pipeline/cli.ts", "apply-lifecycle", "runs/extract/cisco-eol-$sweepTag.json", "--commit") 60 | Out-Null }
+        }
+      }
+      Run-Step "sweep datasheet listings" "python3.11" @("-u", "scraper/crawl_datasheet_listings.py") 180 | Out-Null
+      Run-Step "extract new datasheets" "python3.11" @("-u", "scraper/run.py", "cisco-specs-deep", "--urls-file", "data/reference/all-datasheet-urls-full.txt", "--out", "runs/extract/cisco-deep-$sweepTag.json") 300 | Out-Null
+      if (Test-Path (Join-Path $Repo "runs\extract\cisco-deep-$sweepTag.json")) { Run-Step "apply extract" "npx" @("tsx", "src/pipeline/cli.ts", "apply-extract", "runs/extract/cisco-deep-$sweepTag.json", "--commit", "--tag", "weekly-$sweepTag") 240 | Out-Null }
+      (Get-Date) | Out-File $stamp
     }
 
     # 4b. the gap ledger's input: recompute completeness for parts touched since the cycle began
