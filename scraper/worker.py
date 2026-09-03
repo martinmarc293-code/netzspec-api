@@ -221,6 +221,33 @@ class Browser:
                             "bytes": len(body), "binary": True, "worker": WORKER})
         return {"status": r.status, "body": body, "content_type": r.headers.get("content-type", "")}
 
+    def fetch_binary_inpage(self, url: str, origin_page: str, politeness_ms: int = 2000, timeout_ms: int = 90000) -> dict:
+        """Bytes fetched by JavaScript FROM INSIDE a page of the same site. Arista answers the
+        context request API with 406 but serves the same PDF to fetch() run in a page it served:
+        the in-page request carries every header, cookie and fingerprint a real click would.
+        Visits origin_page once per host (throttled), then reuses it."""
+        host = urlparse(url).netloc
+        if getattr(self, "_origin_host", None) != host:
+            self._wait(host, politeness_ms)
+            self._page.goto(origin_page, wait_until="domcontentloaded", timeout=60000)
+            self._origin_host = host
+        self._wait(host, politeness_ms)
+        res = self._page.evaluate(
+            """async ([u, t]) => {
+                const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), t);
+                try {
+                  const r = await fetch(u, { headers: { Accept: 'application/pdf,image/webp,image/*;q=0.8,*/*;q=0.5' }, signal: ctl.signal });
+                  const buf = new Uint8Array(await r.arrayBuffer());
+                  let s = ''; for (let i = 0; i < buf.length; i += 0x8000) s += String.fromCharCode.apply(null, buf.subarray(i, i + 0x8000));
+                  return { status: r.status, ct: r.headers.get('content-type') || '', b64: btoa(s) };
+                } finally { clearTimeout(timer); }
+            }""", [url, timeout_ms])
+        import base64
+        body = base64.b64decode(res["b64"]) if res.get("b64") else b""
+        netzscrape._ledger({"url": url, "status": res.get("status"), "host": host, "fetched_at": now().isoformat(),
+                            "bytes": len(body), "binary": True, "inpage": True, "worker": WORKER})
+        return {"status": res.get("status"), "body": body, "content_type": res.get("ct", "")}
+
     def close(self) -> None:
         try:
             if self.mode == "cdp":
@@ -334,6 +361,30 @@ def run(args: argparse.Namespace) -> int:
                 url = task["url"] or src.resolve(task)
                 if not url:
                     q.complete(task["id"], "skipped", error="no url could be built for this task"); continue
+                if task["task"] == "datasheet" and (url.lower().endswith(".pdf") or getattr(src, "BINARY_DATASHEETS", False)):
+                    # the binary lane: bytes are kept as cache/<sha1(url)>.bin (the convention the PDF
+                    # extractors already read); extraction is a separate, cache-only step
+                    cf = netzscrape.CACHE / f"{netzscrape._key(url)}.bin"
+                    if cf.exists() and cf.stat().st_size > 0:
+                        q.complete(task["id"], "done", result={"outcome": "cached", "url": url, "cache_path": cf.name, "bytes": cf.stat().st_size}); done += 1; continue
+                    origin = getattr(src, "PDF_ORIGIN_PAGE", None) or f"https://{urlparse(url).netloc}/"
+                    b = browser.fetch_binary(url, politeness_ms=src_row["politeness_ms"], referer=origin)
+                    if b["status"] != 200 or not b["body"][:5] == b"%PDF-":
+                        b = browser.fetch_binary_inpage(url, origin, politeness_ms=src_row["politeness_ms"])
+                    ok = b["status"] == 200 and b["body"][:5] == b"%PDF-"
+                    fetch_id = q.record_fetch(src_row["id"], url, b["status"], hashlib.sha256(b["body"]).hexdigest() if ok else None, cf.name if ok else None, len(b["body"]))
+                    if ok:
+                        cf.write_bytes(b["body"])
+                        q.complete(task["id"], "done", result={"outcome": "fetched", "url": url, "cache_path": cf.name, "bytes": len(b["body"]), "fetch_id": fetch_id})
+                        done += 1; print(f"  pdf {slug} {task['key'][:70]}: {len(b['body'])} bytes")
+                    elif b["status"] == 404:
+                        q.complete(task["id"], "done", result={"outcome": "not_listed", "url": url, "fetch_id": fetch_id}); done += 1
+                    else:
+                        failed += 1
+                        reason = f"pdf lane: status {b['status']} / {b['content_type'][:40]}"
+                        q.complete(task["id"], "blocked" if task["attempts"] >= 5 else "failed", error=reason, next_at=None if task["attempts"] >= 5 else backoff(task["attempts"]))
+                        print(f"  pdf-fail {slug} {task['key'][:70]}: {reason}")
+                    continue
                 res = browser.fetch(url, politeness_ms=src_row["politeness_ms"], force=bool((task.get("result") or {}).get("force")),
                                     settle_ms=int(getattr(src, "SETTLE_MS", 1500)), wait_for=getattr(src, "WAIT_FOR", None))
                 if res["blocked"]:
