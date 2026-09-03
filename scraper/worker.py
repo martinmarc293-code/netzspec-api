@@ -133,37 +133,66 @@ class Browser:
         return rp.can_fetch(netzscrape.UA_TOKEN, url) and rp.can_fetch("*", url)
 
     # -- fetch ------------------------------------------------------------------------------
-    def fetch(self, url: str, politeness_ms: int = 2000, force: bool = False, settle_ms: int = 1500) -> dict:
+    def fetch(self, url: str, politeness_ms: int = 2000, force: bool = False, settle_ms: int = 1500,
+              wait_for: str | None = None) -> dict:
         """Returns {status, html, final_url, cached, blocked}. Cached pages are served from disk
         unless force. A challenge page is detected, waited out for up to 25 s (real Chrome
         usually clears it by itself), and if it persists the result is blocked=True and
         nothing is written to the cache."""
         cf = netzscrape.CACHE / f"{netzscrape._key(url)}.html"
         if cf.exists() and not force:
-            self.stats["cache_hits"] += 1
-            return {"status": 200, "html": cf.read_text(encoding="utf-8", errors="replace"), "final_url": url, "cached": True, "blocked": False}
+            cached = cf.read_text(encoding="utf-8", errors="replace")
+            if looks_blocked(cached):
+                # an older tool cached a challenge interstitial as if it were the page; a poisoned
+                # cache entry is worse than a miss, so drop it and fetch again
+                cf.unlink()
+            else:
+                self.stats["cache_hits"] += 1
+                return {"status": 200, "html": cached, "final_url": url, "cached": True, "blocked": False}
         host = urlparse(url).netloc
         if not self.robots_ok(url, politeness_ms):
             self.stats["robots_blocked"] += 1
             netzscrape._ledger({"url": url, "status": "ROBOTS_BLOCKED", "host": host, "fetched_at": now().isoformat()})
             return {"status": None, "html": "", "final_url": url, "cached": False, "blocked": True, "reason": "robots"}
         self._wait(host, politeness_ms)
-        r = self._page.goto(url, wait_until="domcontentloaded", timeout=60000)
+        # 'commit' returns as soon as the server answers; a challenge page or a slow site then
+        # cannot hold the worker for a full minute before we even look at what came back.
+        r = self._page.goto(url, wait_until="commit", timeout=45000)
         status = r.status if r else None
-        try:
-            self._page.wait_for_load_state("networkidle", timeout=8000)
-        except Exception:  # noqa
-            pass
+        for state, ms in (("domcontentloaded", 20000), ("networkidle", 8000)):
+            try:
+                self._page.wait_for_load_state(state, timeout=ms)
+            except Exception:  # noqa
+                break
+        if wait_for:
+            # client-rendered listings (MikroTik) insert their product links after the network
+            # goes quiet; a source module names the selector that proves the page is complete
+            try:
+                self._page.wait_for_selector(wait_for, timeout=15000)
+            except Exception:  # noqa — absence is reported through the extracted result, not here
+                pass
         if settle_ms:
             self._page.wait_for_timeout(settle_ms)
-        html = self._page.content()
+        html = self._page.evaluate("() => document.documentElement.outerHTML")
         deadline = time.monotonic() + 25
         while looks_blocked(html) and time.monotonic() < deadline:
             self.stats["challenged"] += 1
             self._page.wait_for_timeout(2500)
             html = self._page.content()
         self.stats["fetches"] += 1
-        blocked = looks_blocked(html) or (status in (401, 403, 429, 503))
+        # Trust the content, not the first status: itprice answers 403 to the navigation, then
+        # its JavaScript challenge clears in a real Chrome and the page that ends up in the DOM is
+        # the real one. A verdict from the status alone would have called that page blocked.
+        blocked = looks_blocked(html) or (status in (401, 403, 429, 503) and len(html) < 20_000)
+        if blocked:
+            # keep a picture of what the site showed; a blocked verdict without evidence is
+            # the kind of thing that gets argued about for an hour
+            shots = ROOT / "runs" / "screens"
+            shots.mkdir(parents=True, exist_ok=True)
+            try:
+                self._page.screenshot(path=str(shots / f"{netzscrape._key(url)}.png"), full_page=False)
+            except Exception:  # noqa
+                pass
         rec = {"url": url, "status": status, "host": host, "fetched_at": now().isoformat(),
                "sha256": hashlib.sha256(html.encode("utf-8", "replace")).hexdigest(), "bytes": len(html),
                "final_url": self._page.url, "worker": WORKER}
@@ -288,7 +317,8 @@ def run(args: argparse.Namespace) -> int:
                 url = task["url"] or src.resolve(task)
                 if not url:
                     q.complete(task["id"], "skipped", error="no url could be built for this task"); continue
-                res = browser.fetch(url, politeness_ms=src_row["politeness_ms"], force=bool((task.get("result") or {}).get("force")))
+                res = browser.fetch(url, politeness_ms=src_row["politeness_ms"], force=bool((task.get("result") or {}).get("force")),
+                                    settle_ms=int(getattr(src, "SETTLE_MS", 1500)), wait_for=getattr(src, "WAIT_FOR", None))
                 if res["blocked"]:
                     reason = res.get("reason") or f"http {res['status']} / challenge"
                     consecutive_blocked[src_row["id"]] = consecutive_blocked.get(src_row["id"], 0) + 1
@@ -353,9 +383,18 @@ def run(args: argparse.Namespace) -> int:
 def fetch_cmd(args: argparse.Namespace) -> int:
     browser = Browser(mode="cdp" if args.cdp else "profile", cdp_url=args.cdp or "http://127.0.0.1:9222", headless=args.headless)
     try:
+        from bs4 import BeautifulSoup
         for url in args.urls:
-            res = browser.fetch(url, politeness_ms=2000, force=args.force)
-            from bs4 import BeautifulSoup
+            try:
+                res = browser.fetch(url, politeness_ms=2000, force=args.force, settle_ms=args.settle_ms, wait_for=args.wait_for or None)
+            except Exception as e:  # noqa — one bad URL must not end the survey
+                print(f"{'ERROR':8} {url}\n         {type(e).__name__}: {str(e).splitlines()[0][:160]}")
+                try:
+                    shots = ROOT / "runs" / "screens"; shots.mkdir(parents=True, exist_ok=True)
+                    browser._page.screenshot(path=str(shots / f"{netzscrape._key(url)}.png"))
+                except Exception:  # noqa
+                    pass
+                continue
             title = ""
             if res["html"]:
                 s = BeautifulSoup(res["html"], "lxml")
@@ -392,6 +431,8 @@ def main() -> int:
     f.add_argument("--cdp", default="")
     f.add_argument("--headless", action="store_true")
     f.add_argument("--force", action="store_true")
+    f.add_argument("--settle-ms", type=int, default=1500, help="extra wait after load for client-rendered pages")
+    f.add_argument("--wait-for", default="", help="CSS selector that must appear before the page is captured")
     sub.add_parser("status")
     args = ap.parse_args()
     return {"run": run, "fetch": fetch_cmd, "status": status_cmd}[args.cmd](args)

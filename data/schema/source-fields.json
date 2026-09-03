@@ -1,0 +1,4 @@
+{
+  "_about": "Which fields each source is known to publish, per category ('*' = any). Loaded into source_fields by `ingest source-fields`. A source that is not listed for a field is never consulted for that gap, so keep this honest: add a field only after the adapter has been seen to emit it and the alias rules map it.",
+  "sources": {}
+}

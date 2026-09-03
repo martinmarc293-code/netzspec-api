@@ -1,0 +1,50 @@
+// src/pipeline/cli.ts — the one entrypoint: `npm run ingest -- <command> [args]`.
+//
+// The old pipeline was 52 scripts, 14 of them named apply-something, each talking to the
+// database on its own terms. Here every command is a subcommand of one CLI, every write goes
+// through src/store inside a run, and `ingest --help` is the list. Commands are loaded lazily so
+// a broken or half-built command cannot take the others down with it.
+const COMMANDS: Record<string, { help: string; run: (argv: string[]) => Promise<void> }> = {
+  "sync-dictionary": {
+    help: "push the field dictionary and category profiles from code into the database",
+    run: async (argv) => { process.argv = [process.argv[0], "sync-dictionary", ...argv]; await import("./sync-dictionary.js"); },
+  },
+  "migrate-atlas": {
+    help: "one-time load from MongoDB Atlas (--dry-run | --reload)",
+    run: async (argv) => { process.argv = [process.argv[0], "migrate-atlas", ...argv]; await import("./migrate-atlas.js"); },
+  },
+  queue: {
+    help: "enqueue fetch tasks: --source S --task T [--vendor V --category C --class hardware --limit N | --key K --url U]",
+    run: async (argv) => { const m = await import("./queue.js"); await m.main(["queue", ...argv]); },
+  },
+  "queue-gaps": {
+    help: "turn every open gap into lookups at capable sources (--limit N)",
+    run: async (argv) => { const m = await import("./queue.js"); await m.main(["queue-gaps", ...argv]); },
+  },
+  "source-fields": {
+    help: "load data/schema/source-fields.json (which sources publish which fields)",
+    run: async (argv) => { const m = await import("./queue.js"); await m.main(["source-fields", ...argv]); },
+  },
+  "queue-status": {
+    help: "fetch queue counts per source and status",
+    run: async (argv) => { const m = await import("./queue.js"); await m.main(["queue-status", ...argv]); },
+  },
+  keys: {
+    help: "API keys: create --name N [--scopes read] | list | revoke --id N",
+    run: async (argv) => { process.argv = [process.argv[0], "keys", ...argv]; await import("../api/keys-cli.js"); },
+  },
+};
+
+async function main(): Promise<void> {
+  const [cmd, ...rest] = process.argv.slice(2);
+  if (!cmd || cmd === "--help" || cmd === "help") {
+    console.log("ingest <command>\n");
+    for (const [k, v] of Object.entries(COMMANDS)) console.log(`  ${k.padEnd(18)} ${v.help}`);
+    return;
+  }
+  const c = COMMANDS[cmd];
+  if (!c) { console.error(`unknown command '${cmd}'; run ingest --help`); process.exit(2); }
+  await c.run(rest);
+}
+
+main().catch((e) => { console.error(e instanceof Error ? e.message : e); process.exit(1); });

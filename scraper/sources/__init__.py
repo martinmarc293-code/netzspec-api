@@ -22,7 +22,17 @@ RESULT = {
     "lifecycle": {...} | None,
     "name": "..." | None,                  the site's product title, kept as evidence only
     "price": {...} | None,                 recorded in the JSON for audit; never becomes a fact
+                                           (exception: a vendor's PUBLISHED list price is a fact
+                                           the pipeline may map — put it here with its currency)
+    "others": [RESULT, ...],               further SKUs the same page describes (a datasheet with
+                                           a model-comparison table, a price list, a QuickSpecs
+                                           ordering table); each entry is a full RESULT for that
+                                           SKU. The pipeline attaches them by exact SKU match.
 }
+
+Task kinds a source may accept in resolve(): "part-page" (key = SKU), "search" (key = SKU),
+"listing" (key = a listing/index URL or id, with pagination handled by discover() returning the
+next page as another listing task), "datasheet" (key = a document URL), "gpl" (key = SKU).
 
 Mapping a raw label to a field key is NOT done here. That is src/core/deepSpecMap.ts, with
 the alias rules in data/schema — one vocabulary, one place.
@@ -38,6 +48,8 @@ REGISTRY = {
     "mikrotik": "sources.mikrotik",
     "ubiquiti": "sources.ubiquiti",
     "meraki": "sources.meraki",
+    "arista": "sources.arista",
+    "hpe-quickspecs": "sources.hpe_quickspecs",
 }
 
 
