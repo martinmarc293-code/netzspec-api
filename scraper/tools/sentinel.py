@@ -161,7 +161,13 @@ def main() -> int:
     ap.add_argument("--loop", type=int, default=0, help="seconds between checks; 0 = once")
     ap.add_argument("--heal", action="store_true")
     a = ap.parse_args()
+    lock = NS / "sentinel.lock"
+    NS.mkdir(parents=True, exist_ok=True)
+    if a.loop and lock.exists() and time.time() - lock.stat().st_mtime < 4 * 60:
+        print("another sentinel loop is alive (lock touched < 4 min ago); exiting"); return 0
     while True:
+        if a.loop:
+            lock.write_text(str(time.time()), encoding="utf-8")
         lines, alarms, actions = check(a.heal)
         stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
         report = [f"# sentinel — {stamp}", "", *lines, "", "## alarms", *([f"- {x}" for x in alarms] or ["- none"]), "", "## actions", *([f"- {x}" for x in actions] or ["- none"])]

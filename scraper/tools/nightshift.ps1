@@ -61,8 +61,9 @@ if ($Install) {
 
 if (Test-Path $Lock) {
   $age = (Get-Date) - (Get-Item $Lock).LastWriteTime
-  if ($age.TotalHours -lt 6) { Log "another nightshift holds the lock ($([int]$age.TotalMinutes) min old); exiting"; exit 0 }
-  Log "stale lock ($([int]$age.TotalHours) h); taking over"
+  # the running instance touches the lock every minute; anything older than 10 min is a corpse
+  if ($age.TotalMinutes -lt 10) { Log "another nightshift holds the lock ($([int]$age.TotalMinutes) min old); exiting"; exit 0 }
+  Log "stale lock ($([int]$age.TotalMinutes) min); taking over"
 }
 Set-Content -Path $Lock -Value $PID
 
@@ -103,6 +104,7 @@ try {
     Log ("   started {0} workers" -f $procs.Count)
     $deadline = (Get-Date).AddMinutes(240)
     while ($true) {
+      (Get-Date) | Out-File $Lock   # heartbeat of the supervisor itself
       $alive = @($procs.Values | Where-Object { -not $_.proc.HasExited })
       if ($alive.Count -eq 0 -or (Get-Date) -gt $deadline) { break }
       foreach ($k in @($procs.Keys)) {
