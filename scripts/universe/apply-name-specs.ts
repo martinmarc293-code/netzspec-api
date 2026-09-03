@@ -68,8 +68,30 @@ async function main() {
   const db = client.db(env.MONGODB_DB);
   const P: Collection = db.collection("parts");
 
-  const q: Record<string, unknown> = ONLY ? { sku: ONLY } : {};
-  const rows = await P.find(q, { projection: { _id: 0, sku: 1, category: 1, specs_v2: 1, i18n: 1 } }).toArray();
+  // TWO PASSES, because one is far too slow to be usable. Pulling every part with its full
+  // specs_v2 is ~89,000 large documents to decide something that only ~2,400 of them qualify for;
+  // the single-query version ran for over eleven minutes without printing. Pass 1 fetches just
+  // sku + name (a tiny projection) to work out WHICH parts are candidates, pass 2 fetches the
+  // full documents for those alone.
+  const light = await P.find(ONLY ? { sku: ONLY } : {},
+    { projection: { _id: 0, sku: 1, "i18n.de.name": 1 } }).toArray();
+  const wanted: string[] = [];
+  for (const r of light as unknown as { sku: string; i18n?: { de?: { name?: string } } }[]) {
+    if (mined.has(r.sku) && !ONLY) { stats.alreadyMined++; continue; }
+    const name = r.i18n?.de?.name || "";
+    if (!name) continue;
+    if (name === `Cisco ${r.sku}`) { stats.placeholder++; continue; }
+    if (name.length <= 25) { stats.tooShort++; continue; }
+    wanted.push(r.sku);
+  }
+  console.log(`candidate names: ${wanted.length} (of ${light.length} parts scanned)`);
+
+  const rows: unknown[] = [];
+  for (let i = 0; i < wanted.length; i += 500) {
+    const chunk = await P.find({ sku: { $in: wanted.slice(i, i + 500) } },
+      { projection: { _id: 0, sku: 1, category: 1, specs_v2: 1, i18n: 1 } }).toArray();
+    rows.push(...chunk);
+  }
 
   const ops: { updateOne: { filter: Record<string, unknown>; update: Record<string, unknown> } }[] = [];
   const fieldCounts: Record<string, number> = {};
@@ -77,13 +99,10 @@ async function main() {
 
   for (const r of rows as unknown as { sku: string; category?: string; specs_v2?: SpecEntry[];
       i18n?: { de?: { name?: string } } }[]) {
-    if (mined.has(r.sku) && !ONLY) { stats.alreadyMined++; continue; }
+    // Eligibility was already decided in pass 1 — re-testing it here would double-count the
+    // stats and silently disagree if the two copies ever drifted.
     const name = r.i18n?.de?.name || "";
     if (!name) continue;
-    if (name === `Cisco ${r.sku}`) { stats.placeholder++; continue; }
-    // A short name is the SKU plus a word or two; there is nothing in it to mine, and a rule
-    // that fires on one is almost certainly reading the part number.
-    if (name.length <= 25) { stats.tooShort++; continue; }
     stats.candidates++;
 
     const cat = String(r.category || "");
