@@ -81,6 +81,9 @@ try {
       Run-Step "queue $src" "node" @("node_modules/tsx/dist/cli.mjs", "src/pipeline/cli.ts", "queue", "--source", $src, "--task", $task, "--vendor", "cisco", "--class", "hardware", "--limit", "$TopUp") 10 | Out-Null
     }
     Run-Step "queue-gaps" "node" @("node_modules/tsx/dist/cli.mjs", "src/pipeline/cli.ts", "queue-gaps", "--limit", "2000") 10 | Out-Null
+    # the data watchdog, ACTING: junk keys out of the queue before a worker spends a request on
+    # them (the catalogue itself still carries enumeration noise), zero-yield/drift sources paused
+    Run-Step "watchdog" "python3.11" @("-u", "scraper/tools/watchdog.py", "--act", "--expect", $Sources) 10 | Out-Null
 
     # 3. fetch until the queue is dry: ONE WORKER PER SOURCE in parallel (each is a tab in the same
     #    Chrome; per-host politeness makes cross-host parallelism the only real throughput lever),
