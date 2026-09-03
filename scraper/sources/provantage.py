@@ -28,11 +28,11 @@ by position, because the page has ~80 layout tables before it.
 """
 from __future__ import annotations
 import re
-from urllib.parse import quote, urljoin
+from urllib.parse import quote, urljoin, urlparse, parse_qs
 
 from bs4 import Tag
 
-from .base import soup, clean, table_pairs, sku_in, looks_blocked
+from .base import soup, clean, table_pairs, sku_in, looks_blocked, is_part_number
 
 SLUG = "provantage"
 BASE = "https://www.provantage.com"
@@ -49,6 +49,12 @@ PART_IN_SUMMARY = re.compile(r"(?:^|\s)#([A-Za-z0-9][A-Za-z0-9.+=/_()-]*)")
 # Labels that are site chrome even though they sit inside the specification table.
 CHROME_LABEL = re.compile(r"(?:^|>\s*)(?:price|availability|stock status|in stock|(?:limited )?warranty|shipping|ratings?|reviews?|cart)\s*$", re.I)
 ALIAS_LABEL = re.compile(r"(?:^|>\s*)(upc|ean|gtin)(?:[ -]?\d+)?(?:\s*code)?\s*$", re.I)
+# A barcode is 8 (EAN-8), 12 (UPC-A), 13 (EAN-13) or 14 (GTIN-14) digits. "N/A", "Not
+# Available" and a SKU typed into the UPC row are not aliases and not facts either.
+GTIN_VALUE = re.compile(r"^(?:[0-9]{8}|[0-9]{12,14})$")
+# Search pagination: /service/searchsvcs/Q/P2?QUERY=<sku> (a.PAGE / a.NEXT). The QUERY is the
+# key those pages are about, which is how a paginated page knows which results to keep.
+SEARCH_PAGE_HREF = re.compile(r"/searchsvcs/Q/P[0-9]+\?QUERY=", re.I)
 MONEY = re.compile(r"\$\s*([0-9][0-9,]*\.?[0-9]*)")
 # The site's "no such page" marker. No not-found page is in the cache, so this is the wording
 # such a page is expected to carry in its <title>/<h1>; it is tested only against a synthetic
@@ -62,6 +68,18 @@ def _norm(s: str) -> str:
 
 def _abs(href: str) -> str:
     return urljoin(BASE + "/", href.strip())
+
+
+def _key_or_variant(part: str, key: str) -> bool:
+    """The result's Part# is the key itself or the key with a dash-suffixed variant
+    (C9200L-24P-4G-1A, -E=, -A++ for C9200L-24P-4G). Not containment: a stack kit whose
+    description mentions the switch is not the switch."""
+    p, k = _norm(part), _norm(key)
+    return bool(p) and bool(k) and (p == k or p.startswith(k + "-"))
+
+
+def _query_of(url: str) -> str:
+    return (parse_qs(urlparse(url or "").query).get("QUERY") or [""])[0].strip()
 
 
 # ---------------------------------------------------------------------------------------------
@@ -114,7 +132,9 @@ def extract(html: str, task: dict) -> dict:
                 sku = p["value"]
             m = ALIAS_LABEL.search(label)
             if m:
-                aliases.append({"kind": m.group(1).lower(), "value": p["value"]})
+                v = re.sub(r"\s", "", p["value"])
+                if GTIN_VALUE.match(v):
+                    aliases.append({"kind": m.group(1).lower(), "value": v})
                 continue
             if CHROME_LABEL.search(label):
                 if re.search(r"(?:^|>\s*)price\s*$", label, re.I) and price is None:
@@ -151,9 +171,26 @@ def extract(html: str, task: dict) -> dict:
 
 
 def discover(html: str, task: dict) -> list[dict]:
+    """Tasks a page proposes.
+
+    search        part-page tasks for every result whose Part# is the key or a dash-suffixed
+                  variant of it (C9200L-24P-4G-1A, -E=, -A++ for C9200L-24P-4G), plus one
+                  listing task per further result page (P2..P4 carry the key as QUERY= in the
+                  URL, and the fetch_queue key of a search is the SKU, so a second page needs
+                  a key of its own: its URL).
+    listing       the same result blocks when the listing IS a search page (its URL carries
+                  QUERY=, which names the key to keep); index-shaped product blocks (div.BOX4)
+                  with the SKU from "#SKU"; sub-index pages and pagination as further listings.
+    part-page     nothing.
+    Every part-page key passes is_part_number before it is proposed."""
     s = soup(html)
     kind = task.get("task")
     key = (task.get("key") or "").strip()
+    own_url = task.get("url") or resolve(task) or ""
+    own = _norm(own_url)
+    # the SKU this page's results are about: the task key on a search, the QUERY= of a
+    # paginated search fetched as a listing, nothing on an index page
+    want = key if kind == "search" else _query_of(own_url)
     out: list[dict] = []
     seen: set[str] = set()
 
@@ -161,8 +198,13 @@ def discover(html: str, task: dict) -> list[dict]:
         ident = f"{t['task']}|{t['url']}"
         if ident in seen or not t.get("key"):
             return
+        if t["task"] == "part-page" and not is_part_number(t["key"])[0]:
+            return
         seen.add(ident)
         out.append(t)
+
+    if kind == "part-page":
+        return out
 
     # search-shaped result blocks (div.BOX5B) — present on search pages and, defensively, on
     # any listing page the site renders in the same shape
@@ -172,7 +214,6 @@ def discover(html: str, task: dict) -> list[dict]:
             continue
         # no separator: the SKU is split across highlight spans ("C9200L</span>-<span>24P")
         texts = [clean(p.get_text("")) for p in block.find_all("p")]
-        title = clean(a.get_text(""))
         m = None
         for t in texts:
             m = PART_IN_RESULT.search(t)
@@ -181,9 +222,24 @@ def discover(html: str, task: dict) -> list[dict]:
         if not m:
             continue
         part = m.group(1)
-        if kind == "search" and key and not sku_in(" ".join([title, part] + texts), key):
+        if want and not _key_or_variant(part, want):
             continue
         add({"task": "part-page", "key": part, "url": _abs(a["href"])})
+
+    main = s.find("td", id="MAIN") or s
+
+    # further pages of the SAME search: a.PAGE / a.NEXT whose QUERY= is the key we want. A
+    # pagination link for another query (a stale page, a sidebar) is not this search.
+    if want:
+        for a in main.find_all("a", href=True):
+            href = a["href"].strip()
+            classes = a.get("class") or []
+            if not (("NEXT" in classes or "PAGE" in classes) and SEARCH_PAGE_HREF.search(href)):
+                continue
+            url = _abs(href)
+            if _norm(url) == own or _norm(_query_of(url)) != _norm(want):
+                continue
+            add({"task": "listing", "key": url, "url": url})
 
     if kind != "listing":
         return out
@@ -199,14 +255,14 @@ def discover(html: str, task: dict) -> list[dict]:
             continue
         add({"task": "part-page", "key": m.group(1), "url": _abs(a["href"])})
 
-    # further listing pages: sub-indexes in the main column, and pagination
-    own = _norm(task.get("url") or "") or _norm(resolve(task) or "")
-    main = s.find("td", id="MAIN") or s
+    # further listing pages: sub-indexes in the main column, and index pagination
     for a in main.find_all("a", href=True):
         href = a["href"].strip()
         classes = a.get("class") or []
         if not (INDEX_HREF.search(href) or "NEXT" in classes or "PAGE" in classes):
             continue
+        if SEARCH_PAGE_HREF.search(href):
+            continue  # search pagination was decided above, by QUERY
         url = _abs(href)
         if _norm(url) == own:
             continue
@@ -262,8 +318,8 @@ def _price_panel(s) -> dict | None:
 def _itemprop_aliases(s) -> list[dict]:
     out = []
     for el in s.find_all(attrs={"itemprop": re.compile(r"^(?:gtin\d*|upc|ean)$", re.I)}):
-        v = clean(el.get("content") or el.get_text(" ", strip=True))
-        if v:
+        v = re.sub(r"\s", "", clean(el.get("content") or el.get_text(" ", strip=True)))
+        if GTIN_VALUE.match(v):
             kind = el["itemprop"].lower()
             out.append({"kind": "gtin" if kind.startswith("gtin") else kind, "value": v})
     return out

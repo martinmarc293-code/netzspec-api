@@ -28,9 +28,9 @@ on the page the same way, so it needs no change for that.
 """
 from __future__ import annotations
 import re
-from urllib.parse import quote, urljoin
+from urllib.parse import quote, urljoin, urlparse
 
-from .base import soup, clean, looks_blocked, all_images
+from .base import soup, clean, looks_blocked, all_images, is_part_number
 
 SLUG = "router-switch"
 BASE = "https://www.router-switch.com"
@@ -48,6 +48,52 @@ _LEADING_CISCO = re.compile(r"^cisco\s+", re.I)
 # and a digit-tolerant rule would have read C9200L-24P-4G as a variant of C9200L-24P.
 _VARIANT_SUFFIX = r"(?:-[a-z]{1,2}){1,2}"
 _MONEY = re.compile(r"\$\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)")
+# The download tab (section#tab-download > ul.download-list) links the product's PDFs: the
+# datasheet, but also "Comparison: Cisco vs HPE" and "Quick Check" brochures. A PDF is a
+# datasheet when its anchor text or file name says so, or when Cisco hosts it (a Cisco-hosted
+# PDF on a product page is the vendor's own document). The header mega-menu links the same
+# brochures on every page and is never read.
+_DATASHEET_WORD = re.compile(r"data ?-?sheet|spec ?-?sheet|quick ?specs|specification", re.I)
+_CHROME_PARENTS = ("header", "nav", "footer")
+
+
+# ---------------------------------------------------------------------------------------------
+# documents
+# ---------------------------------------------------------------------------------------------
+
+def _in_chrome(a) -> bool:
+    for p in a.parents:
+        if p.name in _CHROME_PARENTS:
+            return True
+        cls = " ".join(p.get("class") or [])
+        if p.name == "div" and ("header" in cls or "mega-menu" in cls or "footer" in cls):
+            return True
+    return False
+
+
+def _documents(s) -> list[dict]:
+    """Datasheet PDFs the page links -> [{url, kind: "pdf", title, role: "datasheet"}]. The
+    worker queues each as a datasheet task with this page as origin."""
+    out: list[dict] = []
+    seen: set[str] = set()
+    tab = s.select_one("section#tab-download") or s.select_one("ul.download-list")
+    candidates = list(tab.find_all("a", href=True)) if tab is not None else []
+    # Cisco-hosted PDFs anywhere in the body (outside header/nav/footer)
+    candidates += [a for a in s.find_all("a", href=True)
+                   if "cisco.com" in urlparse(urljoin(BASE, a["href"].strip())).netloc.lower() and not _in_chrome(a)]
+    for a in candidates:
+        href = a["href"].strip()
+        url = urljoin(BASE, href)
+        path = urlparse(url).path.lower()
+        if not path.endswith(".pdf") or url in seen:
+            continue
+        title = clean(a.get_text(" ", strip=True)) or clean(a.get("title"))
+        is_cisco = "cisco.com" in urlparse(url).netloc.lower()
+        if not (is_cisco or _DATASHEET_WORD.search(title) or _DATASHEET_WORD.search(path.rsplit("/", 1)[-1])):
+            continue
+        seen.add(url)
+        out.append({"url": url, "kind": "pdf", "title": title, "role": "datasheet"})
+    return out
 
 
 # ---------------------------------------------------------------------------------------------
@@ -114,13 +160,22 @@ def is_not_found(html: str) -> bool:
 
 def discover(html: str, task: dict) -> list[dict]:
     """Part-page tasks for every anchor whose text (minus a leading 'Cisco ') is the task's SKU
-    or a variant of it. Key = the anchor's SKU as written; url = the absolute .html page."""
+    or a variant of it. Key = the anchor's SKU as written; url = the absolute .html page.
+
+    A search for a base SKU (C9200L-24P-4G) usually answers with its licence variants only
+    (C9200L-24P-4G-E, -A): those are real Cisco PIDs and every one is queued. When an exact
+    match exists it comes first and ten priority points ahead, so the page that IS the key is
+    fetched before the pages that are merely its variants. Every key passes is_part_number
+    before it is proposed — the queue would refuse it anyway, but a refusal counted there is a
+    bug here."""
     key = clean(task.get("key") or "")
     if not key:
         return []
     s = soup(html)
-    out: list[dict] = []
+    exact: list[dict] = []
+    variants: list[dict] = []
     seen: set[str] = set()
+    base_priority = int(task.get("priority") or 100)
     for a in s.find_all("a", href=True):
         text = _strip_cisco(a.get_text(" ", strip=True))
         if not text or len(text) > 60 or not _same_or_variant(text, key):
@@ -128,14 +183,21 @@ def discover(html: str, task: dict) -> list[dict]:
         url = urljoin(BASE, a["href"].strip())
         if HOST not in url or not url.lower().endswith(".html") or url in seen:
             continue
+        if not is_part_number(text)[0]:
+            continue
         seen.add(url)
-        out.append({"task": "part-page", "key": text, "url": url})
-    return out
+        t = {"task": "part-page", "key": text, "url": url}
+        if _norm(text) == _norm(key):
+            t["priority"] = max(1, base_priority - 10)
+            exact.append(t)
+        else:
+            variants.append(t)
+    return exact + variants
 
 
 def _empty_result(sku: str) -> dict:
     return {"sku": sku, "not_listed": False, "facts": [], "aliases": [], "images": [],
-            "relations": [], "lifecycle": None, "name": None, "price": None, "others": []}
+            "relations": [], "lifecycle": None, "name": None, "price": None, "others": [], "documents": []}
 
 
 def extract(html: str, task: dict) -> dict:
@@ -282,4 +344,7 @@ def extract(html: str, task: dict) -> dict:
         "name": name,
         "price": price,
         "others": others,
+        # (6) the datasheet PDFs the download tab links; the worker queues them as datasheet
+        #     tasks with this page as origin
+        "documents": _documents(s),
     }

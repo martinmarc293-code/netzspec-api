@@ -412,3 +412,60 @@ only stores and serves.
    the environment.
 8. The corpus cache `scraper/cache` is a junction to `D:\Project\netzspec-scraper\scraper\cache`
    (10k+ documents, mirrored on the box under `/var/lib/netzspec-api/cache`).
+
+## Watchdog
+
+`scraper/tools/watchdog.py` watches the acquisition loop so nobody has to. The supervisor runs
+it every cycle; by hand:
+
+```bash
+python3.11 scraper/tools/watchdog.py                                   # report only, touches nothing
+python3.11 scraper/tools/watchdog.py --act --expect provantage,itprice  # act, and expect workers for these
+python3.11 scraper/tools/watchdog.py --window 90                        # judge yield/blocks over 90 min
+```
+
+Outputs, all under `runs/nightshift/`:
+
+| File | For | Contents |
+| --- | --- | --- |
+| `watchdog.md` | a human | one line per source (done / with facts / not listed / failed / blocked, tasks per hour, pending, ETA, heartbeat age, verdict), then alarms, duplicate fetches, junk keys, actions |
+| `watchdog.json` | scripts | the same numbers per source, plus every event of the run |
+| `ALERT.md` | the supervisor | exists **only while an alarm exists**; deleted by the next clean run |
+
+What it checks, and what `--act` does about it:
+
+| Check | Fires when | `--act` | Clears |
+| --- | --- | --- | --- |
+| junk keys | a pending `search`/`gpl`/`part-page` key fails `sources.base.is_part_number` (the worker's own rule) | deletes them, `junk_deleted` event | — |
+| zero yield | ≥ 10 done in the window, none with facts, not mostly "not listed" | `enabled=false`, `source_paused` (reason `zero_yield`) | **a human** sets `enabled=true`; the next run logs `resumed` |
+| drift | median raw facts per listed page over 24 h < 50 % of the 7-day median, ≥ 30 pages | `enabled=false`, `source_paused` (reason `drift`) | a human, as above |
+| blocks | ≥ 5 blocked/challenge/403/429 in the window | `enabled=false`, pending `next_at` + 60 min, `source_backoff` | **the watchdog itself**, 60 min later (`resumed`, reason `backoff_expired`) |
+| stall | runnable tasks, a worker expected (`--expect` or a heartbeat file), heartbeat > 15 min old / missing / unreadable, nothing touched in the database for 15 min | `stall` event (once per hour) | activity |
+| consecutive failures | the last 20 completions are all failed/blocked (or the heartbeat says `consecutive_failed` ≥ 20) | `stall` event (reason `consecutive_failed`) | a done task |
+| throttled | 0 < tasks/hour < 20 with pending work (3 s politeness allows 1200/h) | nothing — a verdict, the host is slow-walking us | — |
+| duplicates | the same URL in `fetches` twice within 24 h | nothing — reported with examples | — |
+
+Without `--act` nothing is written anywhere except the three files. With `--act` every change and
+every alarm is a row in `watchdog_events` (`kind`, `detail`, `acted`), which is where to look
+when a source is unexpectedly disabled:
+
+```sql
+SELECT at, s.slug, kind, acted, detail FROM watchdog_events e LEFT JOIN sources s ON s.id = e.source_id
+ORDER BY at DESC LIMIT 30;
+```
+
+A source the watchdog paused carries `[watchdog paused: <reason> <time>Z]` in `sources.notes`;
+one it backed off carries `[watchdog backoff: blocks …]` and, later, `[watchdog resumed …]`. A
+source a human disabled has no `source_backoff` event newer than its last `resumed`, so the
+watchdog never re-enables it.
+
+Throughput per source at any time, without the watchdog:
+
+```sql
+SELECT slug, enabled, done_1h, done_24h, done_7d, facts_24h, pages_24h,
+       median_facts_per_page_24h, median_facts_per_page_7d, queued FROM source_throughput ORDER BY slug;
+```
+
+Proof: `tests/scraper/test_watchdog.py` (needs `DATABASE_URL_TEST` naming a database ending in
+`_test4`; it truncates the queue tables there). Every check has the case that fires and the
+sabotage that must not.

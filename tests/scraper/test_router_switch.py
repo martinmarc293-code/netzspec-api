@@ -251,5 +251,55 @@ check("S12", "a short row never shifts a value into the sibling column",
       and fact(sr["others"][0], "Product Features Comparison > Forwarding Rate") is None
       and fact(sr["others"][0], "Product Features Comparison > Switching Capacity") == "128 Gbps", str((sr["facts"], sr["others"])))
 
+# =============================================================================================
+# documents: the datasheet PDFs the download tab links (the worker queues them as datasheet tasks)
+# =============================================================================================
+docs = main["documents"]
+check("DOC1", "main fixture: exactly the Cisco Catalyst 9200 datasheet PDF, kind pdf, with its title",
+      docs == [{"url": "https://www.router-switch.com/media/upload/product-pdf/cisco-catalyst-9200-switch-datasheet.pdf",
+                "kind": "pdf", "title": "Cisco Catalyst 9200 Switch Datasheet", "role": "datasheet"}], str(docs))
+check("DOC2", "the comparison / quick-check brochures in the same tab and the header's PDFs are not documents",
+      not any(re.search(r"comparison|quick-check|products-catalog|dell-r740", d["url"]) for d in docs), str(docs))
+check("DOC3", "GLC-TE fixture: no datasheet PDF in its download tab -> []", glc["documents"] == [], str(glc["documents"]))
+check("DOC4", "the empty page carries the documents key (contract), empty", e["documents"] == [])
+CISCO_PDF = """<html><body><nav><a href="https://www.cisco.com/c/dam/nav-brochure.pdf">Brochure</a></nav>
+<h1>ABC-123, Cisco Something</h1><div class="tab-body"><p>See also
+<a href="https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/nb-06-cat9200-ser-data-sheet-cte-en.pdf">Read more</a></p></div>
+<section id="tab-download"><ul class="download-list">
+<li><a href="/media/upload/product-pdf/quick-start-guide.pdf">Quick Start Guide</a></li>
+<li><a href="/media/upload/product-pdf/abc-123-spec-sheet.pdf">Spec Sheet</a></li>
+<li><a href="/media/upload/product-pdf/abc-123-spec-sheet.pdf">Spec Sheet (again)</a></li>
+<li><a href="/media/upload/product-pdf/data-sheet.html">Datasheet page, not a PDF</a></li></ul></section>
+<footer><a href="/media/upload/product-pdf/company-datasheet.pdf">Company datasheet</a></footer></body></html>"""
+cd = M.extract(CISCO_PDF, {"task": "part-page", "key": "ABC-123"})["documents"]
+check("DOC5", "a Cisco-hosted PDF in the body is a document even without the word datasheet; the spec sheet in the tab too; each once",
+      [d["url"] for d in cd] == ["https://www.router-switch.com/media/upload/product-pdf/abc-123-spec-sheet.pdf",
+                                 "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/nb-06-cat9200-ser-data-sheet-cte-en.pdf"], str(cd))
+check("DOC6", "sabotage: a Cisco PDF inside <nav>, a footer 'datasheet', a quick-start guide and an .html 'datasheet' are not documents",
+      not any(re.search(r"nav-brochure|company-datasheet|quick-start|\.html$", d["url"]) for d in cd), str(cd))
+check("DOC7", "every document is an absolute .pdf url with kind pdf and a title", all(d["url"].startswith("https://") and d["url"].lower().endswith(".pdf") and d["kind"] == "pdf" and d["title"] for d in cd + docs))
+
+# =============================================================================================
+# discover: exact match first and ahead in priority; variants queued; junk keys never proposed
+# =============================================================================================
+SEARCH2 = """<html><body><ul>
+<li><a href="/c9200l-24p-4g-e.html">C9200L-24P-4G-E</a></li>
+<li><a href="/c9200l-24p-4g.html">Cisco C9200L-24P-4G</a></li>
+<li><a href="/c9200l-24p-4g-a.html">C9200L-24P-4G-A</a></li>
+<li><a href="/c9200l-48p-4g.html">C9200L-48P-4G</a></li></ul></body></html>"""
+d2 = M.discover(SEARCH2, {"task": "search", "key": "C9200L-24P-4G", "priority": 100})
+check("DX1", "the exact match comes first with priority 90 (ten ahead of the task's 100)",
+      d2 and d2[0]["key"] == "C9200L-24P-4G" and d2[0]["priority"] == 90, str(d2))
+check("DX2", "the variants follow, without a priority of their own (they inherit the task's)",
+      [t["key"] for t in d2[1:]] == ["C9200L-24P-4G-E", "C9200L-24P-4G-A"] and not any("priority" in t for t in d2[1:]), str(d2))
+check("DX3", "a sibling model is still not discovered", not any(t["key"] == "C9200L-48P-4G" for t in d2))
+check("DX4", "priority never drops below 1", M.discover(SEARCH2, {"task": "search", "key": "C9200L-24P-4G", "priority": 5})[0]["priority"] == 1)
+check("DX5", "the real search fixture (variants only) queues the -E variant with no priority bump",
+      found and all("priority" not in t for t in found), str(found))
+JUNK = """<html><body><a href="/0-75k.html">0.75K</a> <a href="/10-100-1000.html">10/100/1000</a> <a href="/01-may-2022.html">01-MAY-2022</a></body></html>"""
+check("DX6", "sabotage: an anchor whose text is a quantity, a speed list or a date is never proposed, even as the task's own key",
+      M.discover(JUNK, {"task": "search", "key": "0.75K"}) == [] and M.discover(JUNK, {"task": "search", "key": "10/100/1000"}) == []
+      and M.discover(JUNK, {"task": "search", "key": "01-MAY-2022"}) == [])
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

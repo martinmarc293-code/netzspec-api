@@ -4,8 +4,8 @@ Base URL: `https://api.netzspec.com`. JSON only. Read-only. OpenAPI served at
 `/openapi.json`, interactive docs at `/docs`.
 
 This document is the contract consumers read. It describes what `src/api/routes` and
-`src/api/queries` actually return, field for field; `tests/db/api.test.ts` asserts the shapes
-below against a fixture. If the code and this file disagree, one of them is a bug.
+`src/api/queries` actually return, field for field; `tests/db/api.test.ts` and
+`tests/db/api-3.test.ts` assert the shapes below against fixtures. If the code and this file disagree, one of them is a bug.
 
 ## Authentication
 
@@ -24,7 +24,8 @@ answer is `429` with `Retry-After` and the envelope.
 - Lists return `{ "items": [...], "next_cursor": "..." | null }`. Pass `cursor` back to page.
   `limit` defaults to 50, max 500 — except `/v1/export` (default 100, max 200) and
   `/v1/search` (top-N, no cursor). Endpoints that are not paged (`/v1/vendors`,
-  `/v1/categories`, `/v1/fields`, `/v1/facets`) still use the envelope with `next_cursor: null`.
+  `/v1/categories`, `/v1/fields`, `/v1/facets`, `/v1/sources`, `/similar`) still use the envelope with
+  `next_cursor: null`.
 - Cursors are opaque keyset cursors, never offsets: a page cannot skip or repeat a row while
   the tables change underneath a consumer. A cursor that does not decode is `400`, never a
   silent first page.
@@ -33,7 +34,9 @@ answer is `429` with `Retry-After` and the envelope.
   for a query parameter that fails validation. A `500` never carries a stack.
 - Part GETs (`/v1/parts/{vendor}/{sku}` and its `/facts`, `/history`, `/conflicts`) send a
   weak `ETag` (from sku + `updated_at` with microseconds) and `Last-Modified`, and answer
-  `304` with an empty body to a matching `If-None-Match`.
+  `304` with an empty body to a matching `If-None-Match`. The outward-looking sub-resources
+  (`/similar`, `/successors`, `/gaps`) send neither: their answer depends on other parts'
+  rows, so one part's `updated_at` is not a valid validator for them.
 - All timestamps are ISO-8601 UTC (`2026-09-03T14:02:11.123Z`; `now` and `updated_at` read
   from Postgres keep microseconds). Dates are `YYYY-MM-DD` strings, never timestamps.
 - SKU lookups are case-insensitive; the response always carries the vendor's exact SKU.
@@ -284,6 +287,185 @@ last-day-of-support date (a bare `active` row is a status, not a dated lifecycle
 `with_images` = parts with a downloaded image; `open_conflicts` = unresolved conflict rows;
 `gaps_confirmed` = current `gap_confirmed` facts ("checked, absent" is data). Groups are
 ordered by `parts` descending.
+
+### `GET /v1/families?vendor=&category=&limit=&cursor=`
+Product families (series) with live counts, largest first. A family is `(vendor, family)`
+exactly as the parts table spells it; a part with no family belongs to no family and is
+absent here. `vendor` narrows; `category` keeps the families whose **dominant** category is
+that slug. An unknown vendor or category is an empty list, not an error. Keyset-paged by
+`(parts DESC, vendor, family)`; `limit` defaults to 50, max 500.
+
+```json
+{ "items": [ { "vendor": "cisco", "family": "Cisco Catalyst 9200", "category": "switches",
+               "parts": 412, "hardware_parts": 380, "with_facts": 311,
+               "lifecycle": { "active": 250, "eol_announced": 90, "unknown": 72 } } ],
+  "next_cursor": "…" }
+```
+- `category` is the mode of the members' categories: a family that straddles two categories
+  is listed once, under the one most of its parts sit in.
+- `parts` counts every member; `hardware_parts` those with `product_class = hardware`;
+  `with_facts` members with at least one rendered fact.
+- `lifecycle.active` counts members whose lifecycle row says `active`; `eol_announced`
+  members with **any** end-of-life milestone (`eol_announced`, `end_of_sale` or
+  `end_of_support` — "a bulletin exists"); `unknown` members with no lifecycle row or status
+  `unknown`. A part nobody has checked is `unknown`, never `active`. The three always sum to
+  `parts`.
+
+### `GET /v1/families/{vendor}/{family}?limit=&cursor=`
+One family: the counts block above, its members as part summaries (paged by `(sku, id)` with
+`limit`/`cursor`, default 50), and `shared_facts` — the family-level truth a consumer may put
+on a series page.
+
+```json
+{ "vendor": "cisco", "family": "Cisco Catalyst 9200", "category": "switches",
+  "parts": 412, "hardware_parts": 380, "with_facts": 311, "lifecycle": { "active": 250, "eol_announced": 90, "unknown": 72 },
+  "shared_facts": [
+    { "key": "layer", "label_en": "Switching layer", "label_de": "Switching-Layer", "value": "l3", "unit": null, "members": 300, "of": 311 } ],
+  "members": [ { …part summary… } ],
+  "next_cursor": "…" }
+```
+- A field is **shared** when one rendered value is carried by **at least 80 %** of the members
+  that have any rendered fact (`members * 5 >= of * 4`, integer arithmetic). `members` is how
+  many carry exactly that value; `of` is the denominator — members with at least one rendered
+  fact, so licences and never-extracted parts do not dilute it. 2 of 3 is not shared; a family
+  with no facts shares nothing. Only `verified`/`corroborated` values count; an unverified or
+  held value never contributes.
+- `value` is in the field's canonical `unit`; `shared_facts` is sorted by key.
+- Nothing is inherited: the endpoint reports agreement that already exists row by row.
+- `family` in the path must match exactly (URL-encode spaces). Unknown vendor/family is `404`.
+
+### `GET /v1/compare?skus=cisco:C9200L-24P-4G,cisco:C9200L-48P-4G`
+2..8 parts side by side over their rendered facts. `skus` is a comma list of `vendor:sku`
+refs (SKU case-insensitive). Fewer than 2 or more than 8 refs is `400` stating the rule; a
+ref without a colon or the same part listed twice is `400` naming it; an unknown ref is
+`404` naming it.
+
+```json
+{ "parts": [ { …part summary… }, { …part summary… } ],
+  "rows": [
+    { "key": "poe_budget", "label_en": "PoE budget", "label_de": "PoE-Budget", "type": "n", "unit": "W",
+      "values": [ { "ref": "cisco:C9200L-24P-4G", "value": 370, "raw": "370 W", "state": "verified" },
+                  { "ref": "cisco:C9200L-48P-4G", "value": 740, "raw": "740 W", "state": "verified" } ],
+      "differs": true } ] }
+```
+- `parts` are summaries in the order the refs were given.
+- A row exists for every field at least one of the parts **renders**; rows are in dictionary
+  order (by key). `type` and `unit` come from the dictionary.
+- `values` has one cell per ref, in ref order. A rendered fact gives `value`, `raw` and its
+  state. A part whose current row for the key is in another state (a held `conflict`, a
+  `gap_confirmed`, an `unverified` aggregator value) shows `value: null, raw: null` and that
+  `state`, so a UI can print "held" or "unverified" rather than a blank. A part with no row at
+  all shows `state: null`.
+- `differs` is `false` only when every part renders the same value; a missing or non-rendered
+  value on one side is a difference.
+
+### `GET /v1/parts/{vendor}/{sku}/similar?limit=10`
+The one-dimension-different siblings a part page compares against. Candidates are
+**hardware** parts of the same vendor and family; when the part has no family, or its family
+holds no other hardware part, the pool widens to the same category. The part itself and every
+non-hardware part (licences, service contracts, software) are excluded. `limit` defaults to
+10, max 100. Top-N, no cursor (`next_cursor` is always null).
+
+```json
+{ "basis": "family", "next_cursor": null,
+  "items": [ { …part summary…, "shared_facts": 12,
+               "differs": [ { "key": "poe_budget", "label_en": "PoE budget", "label_de": "PoE-Budget", "type": "n", "unit": "W", "value": 370, "other": 740 } ] } ] }
+```
+- `basis` says which pool answered: `family` or `category`.
+- Ranking is by `shared_facts` — the number of rendered fact values the two parts hold in
+  common (same key, same canonical value) — descending, then sku.
+- `differs` lists every key rendered on either side whose values are not identical, by key:
+  `value` is the requested part's value, `other` the sibling's, either `null` when that side
+  renders nothing. Only `verified`/`corroborated` facts take part on both sides.
+
+### `GET /v1/parts/{vendor}/{sku}/successors`
+The replacement chain in both directions, followed hop by hop up to **6** hops with a visited
+set, so a cycle (`a → b → a`) terminates and no SKU appears twice.
+
+```json
+{ "successors": [
+    { "vendor": "cisco", "sku": "C9300-24P", "in_catalog": true, "lifecycle_status": "active", "via": "relation", "tier": 1, "source_url": "https://www.cisco.com/…" },
+    { "vendor": "cisco", "sku": "C9300X-24Y", "in_catalog": false, "lifecycle_status": "unknown", "via": "lifecycle", "tier": null, "source_url": "https://www.cisco.com/…" } ],
+  "predecessors": [ … same shape … ] }
+```
+- Edges come from `relations` of kind `successor` (and `predecessor`, read in reverse) and
+  from `lifecycle.successor_sku`; `via` says which. A target reached both ways is listed once,
+  as the relation. Other relation kinds (`compatible`, …) are never read as succession.
+- `tier` is the relation's tier; `null` for a lifecycle edge, because the lifecycle table
+  stores none and the API does not guess one. `source_url` is the relation's or the bulletin's.
+- `in_catalog` says whether the target is a part of ours; the chain is followed only through
+  parts we hold, and `lifecycle_status` is `unknown` for a target not in the catalogue or
+  without a lifecycle row.
+- Order is breadth-first: every hop-1 target, then hop 2, and so on. `predecessors` walks the
+  same edges backwards with the same cap. Both lists are empty for a part with no edges.
+
+### `GET /v1/parts/{vendor}/{sku}/gaps`
+The "no silent gaps" rule (docs/DATA_MODEL.md) for one part: what its profile requires, what
+is present, what is missing and why, and every source consulted.
+
+```json
+{ "no_profile": false, "computed_at": "2026-09-03T14:02:11.123Z",
+  "required_fields": ["poe_budget", "layer", "switching_capacity", "stackable", "mtbf"],
+  "present": ["poe_budget", "layer", "switching_capacity"],
+  "missing": [ { "key": "mtbf", "label_en": "MTBF", "state": "gap_confirmed", "sources_checked": 2, "sources_capable": 3 },
+               { "key": "stackable", "label_en": "Stackable", "state": "gap_unattempted", "sources_checked": 2, "sources_capable": 2 } ],
+  "checks": [ { "source": "router-switch", "outcome": "fetch_failed", "checked_at": "2026-09-03T10:00:00.000Z", "facts_found": 0 },
+              { "source": "cisco-datasheets", "outcome": "facts_found", "checked_at": "2026-09-01T10:00:00.000Z", "facts_found": 3 } ] }
+```
+- `required_fields` and `present` come from the part's completeness row (`present` =
+  required minus missing, in profile order); `missing` is the part's rows in the `gap_ledger`
+  view, by key: `state` is the current fact state explaining the hole (`gap_unattempted`,
+  `gap_confirmed`, `conflict`, `unverified`, `not_applicable`), `sources_checked` how many
+  capable sources have a consultation with outcome `facts_found`, `no_facts` or `not_listed`
+  (a `fetch_failed` or `blocked` consultation is not a check), `sources_capable` how many
+  **enabled** sources publish the field for the part's category.
+- `checks` is every consultation on record for the part, newest first, whatever its outcome
+  (`facts_found | no_facts | not_listed | fetch_failed | blocked`).
+- A non-hardware part answers `{ "no_profile": true, "computed_at": null, "required_fields": [],
+  "present": [], "missing": [], "checks": [...] }` — a licence has no physical profile and is
+  not a wall of missing fields. A hardware part whose completeness row says `no_profile` is
+  reported the same way (with its `computed_at`). A hardware part never scored has
+  `no_profile: false`, `computed_at: null` and empty lists: the absence of a score is visible,
+  never read as "nothing missing".
+
+### `GET /v1/sources`
+The source registry with live coverage, by tier then slug (no cursor).
+
+```json
+{ "items": [ { "slug": "cisco-datasheets", "name": "Cisco datasheets (HTML)", "kind": "vendor", "tier": 2, "enabled": true,
+               "parts_checked": 18211, "parts_with_facts": 17402, "facts_current": 88120, "last_checked_at": "2026-09-03T02:11:40.000Z" } ],
+  "next_cursor": null }
+```
+- `kind` is `vendor | aggregator | distributor | operator | standards`; `tier` is the tier a
+  fact from the source is worth; `enabled` is the registry flag.
+- `parts_checked` counts distinct parts with a consultation on record (`part_source_checks`),
+  `parts_with_facts` those whose consultation found facts, `last_checked_at` the newest
+  consultation (null when none).
+- `facts_current` counts **current** facts with a value, in any state, attributed to the
+  source: a fact whose `method` names the source's slug as a segment (`vendor_page:provantage`,
+  `hexcat_seed`), or whose document came from the source (`fetches` and `part_source_checks`
+  record `(source, doc_id)`), applying both tests to the fact's evidence rows as well — so a
+  vendor fact a distributor corroborated counts for both. `unverified` facts count, because
+  an aggregator's facts are unverified by design and a number that hid them would say the
+  source delivers nothing. No source is inferred from a document type or URL: a document with
+  no recorded source counts for nobody.
+
+### `GET /v1/stats/gaps?vendor=&category=`
+Open gaps aggregated from `completeness` and the `gap_ledger` view, cached 60 s per
+selection (`generated_at` says when). An unknown vendor or category is an empty selection.
+
+```json
+{ "generated_at": "2026-09-03T14:02:11.123Z",
+  "by_field": [ { "key": "mtbf", "label_en": "MTBF", "gap_unattempted": 41200, "gap_confirmed": 310, "parts_missing": 41510 } ],
+  "by_category": [ { "category": "switches", "hardware_parts": 9950, "parts_complete": 120, "mean_pct": 61.3 } ] }
+```
+- `by_field`: the top 100 fields by `parts_missing` (then key). `parts_missing` counts
+  hardware parts whose profile requires the field and that render no value for it, whatever
+  the explaining state; `gap_unattempted` and `gap_confirmed` split out those two states (the
+  remainder are held conflicts, unverified values and not-applicable rows).
+- `by_category`: every category with parts in the selection, by `hardware_parts` descending.
+  `parts_complete` counts scored parts at exactly 100 %; `mean_pct` is the mean completeness
+  over scored parts (rows with `no_profile = false`), one decimal, `null` when none is scored.
 
 ## Images
 

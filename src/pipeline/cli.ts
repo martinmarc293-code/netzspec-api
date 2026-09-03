@@ -53,6 +53,18 @@ const COMMANDS: Record<string, { help: string; run: (argv: string[]) => Promise<
     help: "load data/schema/source-fields.json (which sources publish which fields)",
     run: async (argv) => { const m = await import("./queue.js"); await m.main(["source-fields", ...argv]); },
   },
+  "build-source-fields": {
+    help: "regenerate data/schema/source-fields.json from evidence (label inventories through the alias rules, facts/golden for the Cisco datasheet sources): [--out FILE]",
+    run: async (argv) => { const m = await import("./build-source-fields.js"); await m.main(argv); },
+  },
+  "apply-enumeration": {
+    help: "every enumerated Cisco PID that is not yet a part becomes one, inside a gated run: <cisco-pid-universe.json|cisco-enumeration-full.json> [--commit] [--sample N]",
+    run: async (argv) => { const m = await import("./apply-enumeration.js"); await m.main(argv); },
+  },
+  "promote-unknown-skus": {
+    help: "SKUs pages named but the catalogue lacks (apply-acquired's unknown-skus feed) -> parts when the evidence is enough: <unknown-skus.jsonl>... [--commit]",
+    run: async (argv) => { const m = await import("./promote-unknown-skus.js"); await m.main(argv); },
+  },
   "queue-status": {
     help: "fetch queue counts per source and status",
     run: async (argv) => { const m = await import("./queue.js"); await m.main(["queue-status", ...argv]); },

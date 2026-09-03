@@ -42,7 +42,7 @@ from urllib.parse import urljoin, urlparse, parse_qs
 
 from bs4 import Tag
 
-from .base import soup, clean, looks_blocked, table_pairs
+from .base import soup, clean, looks_blocked, table_pairs, is_part_number
 
 SLUG = "itprice"
 BASE = "https://itprice.com"
@@ -68,7 +68,9 @@ _RELEASED = re.compile(r"Cisco Released:\s*([^<\n]{4,60})")
 _DATE_SHAPES = re.compile(
     r"^(?:\d{4}-\d{2}-\d{2}"                       # 2024-10-31
     r"|\d{1,2}/\d{1,2}/\d{4}"                       # 10/31/2024
-    r"|\d{1,2}[ -][A-Za-z]{3,9}[ -,]+\d{4}"          # 31 Oct 2024, 31-Oct-2024
+    # the hyphen goes LAST in the class: "[ -,]" was a RANGE from space to comma that never
+    # contained '-', so "31-Oct-2024" was refused for as long as only "2024-10-31" was tested
+    r"|\d{1,2}[ -][A-Za-z]{3,9}[ ,-]+\d{4}"          # 31 Oct 2024, 31-Oct-2024, 01-MAY-2022
     r"|[A-Za-z]{3,9}\.? \d{1,2},? \d{4})$")          # October 31, 2024 / Oct 31 2024
 
 # Product links: the Cisco part page and any brand price-list part page.
@@ -363,7 +365,12 @@ def discover(html: str, task: dict) -> list[dict]:
             if not m:
                 continue
             key = _text(a)
-            if not key or len(key) > 60 or " " in key or url in seen:
+            if not key or len(key) > 60 or url in seen:
+                continue
+            # a GPL row is a Cisco PID, but the anchor text is what the site wrote: the one
+            # definition of "part number" decides, and a footnote or a quantity never becomes
+            # a task (the queue would refuse it too; refusing it here keeps the count at zero)
+            if not is_part_number(key)[0]:
                 continue
             seen.add(url)
             out.append({"task": "part-page", "key": key, "url": url})

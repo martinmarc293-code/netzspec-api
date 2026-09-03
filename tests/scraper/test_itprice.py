@@ -190,7 +190,9 @@ check("D7", "gpl discover: no language-switch, shop or discount links",
 hp_html = load(URL_HP)
 hd = M.discover(hp_html, {"task": "listing", "key": URL_HP, "url": URL_HP})
 hp_parts = [t for t in hd if t["task"] == "part-page"]
-check("D8", f"listing discover: at least 8 part-page tasks (got {len(hp_parts)})", len(hp_parts) >= 8)
+check("D8", f"listing discover: at least 7 part-page tasks (got {len(hp_parts)})", len(hp_parts) >= 7)
+check("D8b", "listing discover: the year page /hp-price-list/2022.html is not a task ('2022' is not a part number)",
+      not any(t["key"] == "2022" or t["url"].endswith("/2022.html") for t in hd), str([t["key"] for t in hd]))
 check("D9", "listing discover: only part-page/listing kinds", all(t["task"] in ("part-page", "listing") for t in hd))
 check("D10", "listing discover: absolute /hp-price-list/<sku>.html URLs, canonical keys",
       all(PART_URL_RX.match(t["url"]) and KEY_RX.match(t["key"]) for t in hp_parts), str(hp_parts[:2]))
@@ -247,6 +249,27 @@ check("B11", "price: a thousands separator is dropped, the button text is not pa
 for bad in ("N/A", "TBD", "Not announced", "2024"):
     rb = M.extract(EOS_HTML.replace("2024-10-31", bad), part_task)
     check("B12", f"sabotage: End Of Sale Date {bad!r} is not a date -> lifecycle None", rb["lifecycle"] is None, repr(rb["lifecycle"]))
+
+for good in ("31 Oct 2024", "31-Oct-2024", "10/31/2024", "October 31, 2024", "01-MAY-2022"):
+    rg = M.extract(EOS_HTML.replace("2024-10-31", good), part_task)
+    check("B12b", f"a real End Of Sale Date in the shape {good!r} lands in lifecycle", rg["lifecycle"] == {"end_of_sale_date": good}, repr(rg["lifecycle"]))
+for bad in ("Oct 2024", "2024-10", "31/10/24", "Q4 2024", "End of 2024"):
+    rb = M.extract(EOS_HTML.replace("2024-10-31", bad), part_task)
+    check("B12c", f"sabotage: End Of Sale Date {bad!r} is not a date -> lifecycle None", rb["lifecycle"] is None, repr(rb["lifecycle"]))
+
+GPL_JUNK = ('<html><body><h1>CISCO GPL 2026</h1><table id="choice_product"><thead><tr><th>#No</th><th>Product</th><th>Description</th>'
+            '<th>List Price (USD)</th></tr></thead><tbody>'
+            '<tr><td>1</td><td><a href="https://itprice.com/cisco/c9200l-24p-4g-a.html">C9200L-24P-4G-A</a></td><td>the switch</td><td>$4,136.16</td></tr>'
+            '<tr><td>2</td><td><a href="https://itprice.com/cisco/0.75k.html">0.75K</a></td><td>a table size that leaked into the list</td><td>$1</td></tr>'
+            '<tr><td>3</td><td><a href="https://itprice.com/cisco/1.ddr4-3200.html">1.DDR4-3200</a></td><td>a footnoted token</td><td>$1</td></tr>'
+            '<tr><td>4</td><td><a href="https://itprice.com/cisco/01-may-2022.html">01-MAY-2022</a></td><td>a date</td><td>$1</td></tr>'
+            '<tr><td>5</td><td><a href="https://itprice.com/cisco/15216-att-lc-12=.html">15216-ATT-LC-12=</a></td><td>a digit-first PID</td><td>$1</td></tr>'
+            '</tbody></table></body></html>')
+gj = M.discover(GPL_JUNK, {"task": "gpl", "key": "C9200L-24P-4G"})
+check("D21", "gpl discover: every row SKU that is a part number becomes a part-page task, including a digit-first Cisco PID",
+      [t["key"] for t in gj] == ["C9200L-24P-4G-A", "15216-ATT-LC-12="], str(gj))
+check("D22", "sabotage: a quantity, a footnoted token and a date in the Product column are never tasks",
+      not any(t["key"] in ("0.75K", "1.DDR4-3200", "01-MAY-2022") for t in gj), str(gj))
 
 GPL_EMPTY = ('<html><body><h1>CISCO GPL 2026</h1><table id="choice_product"><thead><tr><th>#No</th><th>Product</th><th>Description</th>'
              '<th>List Price (USD)</th><th>Our Price</th></tr></thead><tbody></tbody></table></body></html>')

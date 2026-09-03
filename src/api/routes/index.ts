@@ -13,15 +13,20 @@ import { registerAuth } from "../auth.js";
 import { ApiError } from "../errors.js";
 import { categoriesRoutes } from "./categories.js";
 import { changesRoutes } from "./changes.js";
+import { compareRoutes } from "./compare.js";
 import { docsRoutes } from "./docs.js";
 import { exportRoutes } from "./export.js";
 import { facetsRoutes } from "./facets.js";
+import { familiesRoutes } from "./families.js";
 import { fieldsRoutes } from "./fields.js";
+import { gapStatsRoutes } from "./gaps.js";
 import { lifecycleRoutes } from "./lifecycle.js";
 import { partRoutes } from "./part.js";
 import { partsRoutes } from "./parts.js";
+import { relatedRoutes } from "./related.js";
 import { runsRoutes } from "./runs.js";
 import { searchRoutes } from "./search.js";
+import { sourcesRoutes } from "./sources.js";
 import { statsRoutes } from "./stats.js";
 import { vendorsRoutes } from "./vendors.js";
 
@@ -56,4 +61,10 @@ export async function v1Routes(app: FastifyInstance, opts: V1Options): Promise<v
   await app.register(docsRoutes);
   await app.register(runsRoutes);
   await app.register(statsRoutes);
+  // API-3: families, compare, the outward-looking part sub-resources, the source registry, gap stats.
+  await app.register(familiesRoutes);
+  await app.register(compareRoutes);
+  await app.register(relatedRoutes);
+  await app.register(sourcesRoutes);
+  await app.register(gapStatsRoutes);
 }

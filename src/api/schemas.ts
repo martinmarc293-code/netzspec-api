@@ -107,3 +107,26 @@ export const PartRecord = Type.Object({
   sources: Type.Array(Type.Object({ doc_id: Type.String(), url: Type.String(), doc_type: Type.String(), fetched_at: Nullable(Type.String({ format: "date" })) })),
   updated_at: Type.String({ format: "date-time" }),
 });
+
+// ---- families: the counts block is served by /families AND /families/{vendor}/{family} ----
+
+export const LifecycleBuckets = Type.Object({
+  active: Type.Integer({ description: "members whose lifecycle row says active" }),
+  eol_announced: Type.Integer({ description: "members with an end-of-life milestone (eol_announced, end_of_sale or end_of_support)" }),
+  unknown: Type.Integer({ description: "members with no lifecycle row, or status unknown — never counted as active" }),
+});
+export const FamilyCounts = Type.Object({
+  vendor: Type.String(),
+  family: Type.String(),
+  category: Type.String({ description: "the dominant category of the members" }),
+  parts: Type.Integer(),
+  hardware_parts: Type.Integer(),
+  with_facts: Type.Integer({ description: "members with at least one rendered fact" }),
+  lifecycle: LifecycleBuckets,
+});
+export type FamilyCountsT = Static<typeof FamilyCounts>;
+
+/** A field label triple, reused by compare rows, shared facts and gap fields. */
+export const FieldHead = {
+  key: Type.String(), label_en: Type.String(), label_de: Type.String(),
+};

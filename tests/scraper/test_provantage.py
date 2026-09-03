@@ -201,12 +201,15 @@ shtml = fixture(SEARCH_URL)
 stask = {"task": "search", "key": "C9200L-24P-4G"}
 sd = P.discover(shtml, stask)
 PRODUCT_URL_RX = re.compile(r"^https://www\.provantage\.com/(?:[a-z0-9-]+)?~7[A-Z0-9]+\.htm$")
-check("D1", f"search discover returns at least 8 tasks (got {len(sd)})", len(sd) >= 8)
-check("D2", "search discover returns only part-page tasks", all(t["task"] == "part-page" for t in sd))
-check("D3", "every search task has an absolute product URL", all(PRODUCT_URL_RX.match(t["url"]) for t in sd),
-      str([t["url"] for t in sd if not PRODUCT_URL_RX.match(t["url"])][:3]))
-check("D4", "every key is a canonical SKU token (no spaces, no markup)",
-      all(re.fullmatch(r"[A-Z0-9][A-Z0-9.+=/_-]*", t["key"]) for t in sd), str([t["key"] for t in sd][:12]))
+sp = [t for t in sd if t["task"] == "part-page"]
+sl = [t for t in sd if t["task"] == "listing"]
+check("D1", f"search discover returns at least 8 part-page tasks (got {len(sp)})", len(sp) >= 8)
+check("D2", "search discover returns part-page tasks and listing tasks for the further result pages only",
+      all(t["task"] in ("part-page", "listing") for t in sd) and sl, str(sd))
+check("D3", "every part-page task has an absolute product URL", all(PRODUCT_URL_RX.match(t["url"]) for t in sp),
+      str([t["url"] for t in sp if not PRODUCT_URL_RX.match(t["url"])][:3]))
+check("D4", "every part-page key is a canonical SKU token (no spaces, no markup)",
+      all(re.fullmatch(r"[A-Z0-9][A-Z0-9.+=/_-]*", t["key"]) for t in sp), str([t["key"] for t in sp][:12]))
 check("D5", "every key mentions the searched SKU", all(sku_in(t["key"], "C9200L-24P-4G") for t in sd))
 check("D6", "the exact part is first: C9200L-24P-4G-1A -> /~7CSC71M1.htm",
       bool(sd) and sd[0]["key"] == "C9200L-24P-4G-1A" and sd[0]["url"] == PRODUCT_URL, repr(sd[:1]))
@@ -219,6 +222,53 @@ check("D10", "sabotage: search discover for a SKU no result mentions -> []",
 check("D11", "search fixture is neither blocked nor not-found", not P.is_blocked(shtml) and not P.is_not_found(shtml))
 check("D12", "instant-savings sidebar products are not search results",
       not any(t["url"].endswith(("~7EPW9AJ3.htm", "~7TRPA5HV.htm")) for t in sd))
+check("D13", "every part-page key is the searched SKU or a dash-suffixed variant of it (no stack kit, no power supply)",
+      all(P._key_or_variant(t["key"], "C9200L-24P-4G") for t in sp) and not any(t["key"].startswith(("C9200-", "PWR-", "CAB-", "C9K-")) for t in sp),
+      str([t["key"] for t in sp]))
+
+# ---- search pagination: P2..P4 carry the key as QUERY= and are followed as listing tasks ----------
+PAGES = [f"https://www.provantage.com/service/searchsvcs/Q/P{n}?QUERY=C9200L-24P-4G" for n in (2, 3, 4)]
+check("PG1", "the three further result pages are listing tasks, each once, key = url",
+      sorted(t["url"] for t in sl) == PAGES and all(t["key"] == t["url"] for t in sl), str(sl))
+check("PG2", "page 1 (the page itself) is not re-queued", not any("/P1?" in t["url"] or t["url"] == SEARCH_URL for t in sl))
+check("PG3", "every listing task resolves to its URL", all(P.resolve(t) == t["url"] for t in sl))
+P2_URL = PAGES[0]
+P2_HTML = ('<html><body><td id="MAIN">'
+           '<div class="BOX5B"><a class="BOX5PRODUCT" href="/~7AAAA001.htm"></a><p>Catalyst 9200L 24-Port PoE+</p><p>Part# C9200L</span>-<span>24P-4G-E=</p></div>'
+           '<div class="BOX5B"><a class="BOX5PRODUCT" href="/~7AAAA002.htm"></a><p>Power Supply for the C9200L-24P-4G</p><p>Part# PWR-C5-715WDC=</p></div>'
+           '<div class="BOX5B"><a class="BOX5PRODUCT" href="/~7AAAA003.htm"></a><p>Base</p><p>Part# C9200L-24P-4G</p></div>'
+           '<div class="BOX5B"><a class="BOX5PRODUCT" href="/~7AAAA004.htm"></a><p>Table size</p><p>Part# 0.75K</p></div>'
+           '<div class="BOX5B"><a class="BOX5PRODUCT" href="/~7AAAA005.htm"></a><p>Different uplink</p><p>Part# C9200L-24P-4X-E</p></div>'
+           '<a class="PAGE" href="/service/searchsvcs/Q/P1?QUERY=C9200L-24P-4G">1</a>'
+           '<a class="PAGE" href="/service/searchsvcs/Q/P2?QUERY=C9200L-24P-4G">2</a>'
+           '<a class="NEXT" href="/service/searchsvcs/Q/P3?QUERY=C9200L-24P-4G">NEXT</a>'
+           '<a class="NEXT" href="/service/searchsvcs/Q/P2?QUERY=C9300-24P">NEXT</a>'
+           '</td></body></html>')
+p2 = P.discover(P2_HTML, {"task": "listing", "key": P2_URL, "url": P2_URL})
+check("PG4", "a paginated search page fetched as a listing keeps the key's variants and the exact match, reassembled across spans",
+      [t["key"] for t in p2 if t["task"] == "part-page"] == ["C9200L-24P-4G-E=", "C9200L-24P-4G"], str(p2))
+check("PG5", "sabotage: the power supply whose description mentions the key, the quantity '0.75K' and the -4X uplink model are not queued",
+      not any(t["key"] in ("PWR-C5-715WDC=", "0.75K", "C9200L-24P-4X-E") for t in p2), str(p2))
+check("PG6", "pagination from page 2: page 1 and page 3 are listing tasks, page 2 itself and another query's NEXT are not",
+      sorted(t["url"] for t in p2 if t["task"] == "listing") == [PAGES[0].replace("P2", "P1"), PAGES[1]], str([t for t in p2 if t["task"] == "listing"]))
+check("PG7", "a search page's pagination for a different QUERY than the task key is not followed",
+      P.discover(shtml, {"task": "search", "key": "C9300-24P"}) == [], str(P.discover(shtml, {"task": "search", "key": "C9300-24P"})[:2]))
+check("PG8", "the key-or-variant rule: exact, dash variants (also with '=' and '++'), never a longer model or containment",
+      P._key_or_variant("C9200L-24P-4G-1A", "C9200L-24P-4G") and P._key_or_variant("c9200l-24p-4g-e=", "C9200L-24P-4G")
+      and P._key_or_variant("C9200L-24P-4G-A++", "C9200L-24P-4G") and P._key_or_variant("C9200L-24P-4G", "C9200L-24P-4G")
+      and not P._key_or_variant("C9200L-24P-4GX-E", "C9200L-24P-4G") and not P._key_or_variant("C9200-STACK-KIT", "C9200L-24P-4G")
+      and not P._key_or_variant("", "C9200L-24P-4G") and not P._key_or_variant("C9200L-24P-4G", ""))
+
+# ---- aliases: a UPC is a barcode or it is nothing --------------------------------------------------
+UPC_BAD = UPC_HTML.replace("00882658684579", "N/A")
+rb_ = P.extract(UPC_BAD, task)
+check("A3", "sabotage: a UPC row saying N/A is neither an alias nor a fact", rb_["aliases"] == [] and not any("UPC" in f["label"] for f in rb_["facts"]), repr(rb_["aliases"]))
+ru2 = P.extract(UPC_HTML.replace("00882658684579", "882 658 684 579"), task)
+check("A4", "a UPC written with spaces is one 12-digit alias", ru2["aliases"] == [{"kind": "upc", "value": "882658684579"}], repr(ru2["aliases"]))
+ITEMPROP = ('<html><body><td id="MAIN"><span itemprop="gtin13" content="0882658684579"></span><span itemprop="upc">TBD</span>'
+            '<table><tr><td class="AT1">Manufacturer Part Number</td><td class="DT1">C9200L-24P-4G-1A</td></tr></table></td></body></html>')
+ri_ = P.extract(ITEMPROP, task)
+check("A5", "itemprop gtin13 becomes a gtin alias; an itemprop upc saying TBD does not", ri_["aliases"] == [{"kind": "gtin", "value": "0882658684579"}], repr(ri_["aliases"]))
 
 # ---- discover() on listing fixtures ------------------------------------------------------------------
 def listing(url: str):
