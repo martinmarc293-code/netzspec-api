@@ -69,6 +69,7 @@ if [ ! -f "$APP/.env" ]; then
   exit 1
 fi
 cp "$APP/.env" "$NEW/.env"                       # carry over secrets; never shipped from the laptop
+[ -d "$APP/.keys" ] && cp -r "$APP/.keys" "$NEW/.keys"   # API tokens shown once and kept here; a deploy must not lose them
 echo "$GIT_SHA" > "$NEW/GIT_SHA"                 # read by ops/pm2.config.cjs when GIT_SHA is not in the env
 
 cd "$NEW"

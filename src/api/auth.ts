@@ -28,9 +28,17 @@ export function hashToken(token: string): string {
 
 export function bearerToken(req: FastifyRequest): string | null {
   const h = req.headers.authorization;
-  if (typeof h !== "string") return null;
-  const m = h.match(/^Bearer\s+(\S+)\s*$/i);
-  return m ? m[1] : null;
+  if (typeof h === "string") {
+    const m = h.match(/^Bearer\s+(\S+)\s*$/i);
+    if (m) return m[1];
+  }
+  // The same key may travel as a header a tool sets, or as ?api_key= for a browser address bar.
+  // A key in a URL can end up in logs; the docs say so and recommend the header for programs.
+  const x = req.headers["x-api-key"];
+  if (typeof x === "string" && x.trim()) return x.trim();
+  const q = (req.query as Record<string, unknown> | undefined)?.api_key;
+  if (typeof q === "string" && q.trim()) return q.trim();
+  return null;
 }
 
 type KeyRow = { id: number; name: string; scopes: string[] };
