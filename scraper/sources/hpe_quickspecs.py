@@ -45,7 +45,7 @@ discover() returns nothing: the QuickSpecs index is handled elsewhere.
 Not found: the site answers with a page titled "404 Error | HPE" (fixture a00094280enw).
 """
 from __future__ import annotations
-import re
+import json, re
 from urllib.parse import urljoin, urlsplit
 from bs4 import Tag, NavigableString, Comment
 
@@ -85,10 +85,53 @@ def _doc_url(key: str) -> str | None:
     return None
 
 
+# The enumeration: HPE's resource library is fed by a JSON model with every active QuickSpecs
+# document (2,894 on 2026-09-03, 20 per page via &page=N). A "listing" task's key is the page
+# number; discover() turns the networking documents into datasheet tasks and queues the next
+# page while pages keep coming. Servers, storage and software QuickSpecs are outside our niche
+# and are filtered by title.
+LIBRARY_JSON = ("https://www.hpe.com/us/en/resource-library/_jcr_content/polaris-body-zone/medialibrary.model.json"
+                "?restype=quickspecs&topic=all-topic&product=all-product&status=")
+NETWORKING_TITLE = re.compile(
+    r"network|switch|access point|gateway|router|wireless|wi-?fi|transceiver|comware|aruba|instant on|procurve|"
+    r"flexfabric|optic|sd-wan|controller|antenna|\bcx ?\d|\bap-?\d|mobility|clearpass|airwave|central", re.I)
+LIBRARY_DOC_ID = re.compile(r"\.([a-z][0-9]{8}[a-z]{3})\.html", re.I)
+PAGE_SIZE = 20
+
+
+def library_url(page: int) -> str:
+    return LIBRARY_JSON + (f"&page={page}" if page > 1 else "")
+
+
 def resolve(task: dict) -> str | None:
-    if task.get("task") != "datasheet":
+    kind = task.get("task")
+    if kind == "datasheet":
+        return _doc_url(task.get("key") or "")
+    if kind == "listing":
+        key = str(task.get("key") or "1").strip()
+        if key.startswith("http://") or key.startswith("https://"):
+            return key
+        return library_url(int(key)) if key.isdigit() else None
+    return None
+
+
+def _json_body(html: str):
+    """The library answers JSON. Fetched through the browser it arrives wrapped in Chrome's
+    viewer (<pre>…</pre>, entities escaped); fetched raw it is bare JSON. Accept both."""
+    t = (html or "").strip()
+    if t.startswith("{") or t.startswith("["):
+        try:
+            return json.loads(t)
+        except Exception:  # noqa
+            return None
+    m = re.search(r"<pre[^>]*>(.*?)</pre>", html or "", re.S | re.I)
+    if not m:
         return None
-    return _doc_url(task.get("key") or "")
+    txt = m.group(1).replace("&quot;", '"').replace("&#34;", '"').replace("&lt;", "<").replace("&gt;", ">").replace("&#39;", "'").replace("&amp;", "&")
+    try:
+        return json.loads(txt)
+    except Exception:  # noqa
+        return None
 
 
 def is_blocked(html: str) -> bool:
@@ -369,4 +412,22 @@ def extract(html: str, task: dict) -> dict:
 # ---------------------------------------------------------------------------------------------
 
 def discover(html: str, task: dict) -> list[dict]:
-    return []
+    if task.get("task") != "listing":
+        return []
+    data = _json_body(html)
+    if not isinstance(data, dict):
+        return []
+    items = data.get("items") or []
+    out: list[dict] = []
+    for it in items:
+        link = ((it.get("cta") or {}).get("link")) or ((it.get("shareBox") or {}).get("link")) or ""
+        m = LIBRARY_DOC_ID.search(link)
+        title = it.get("title") or ""
+        if not m or not NETWORKING_TITLE.search(title):
+            continue
+        doc_id = m.group(1).lower()
+        out.append({"task": "datasheet", "key": doc_id, "url": f"{BASE}{DOC_PATH}{doc_id}", "priority": 60})
+    key = str(task.get("key") or "1").strip()
+    if len(items) >= PAGE_SIZE and key.isdigit():
+        out.append({"task": "listing", "key": str(int(key) + 1), "priority": 90})
+    return out

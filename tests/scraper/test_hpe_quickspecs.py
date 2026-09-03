@@ -61,8 +61,8 @@ check("R1", "datasheet with the absolute doc URL returns it", H.resolve({"task":
 check("R2", "datasheet with the bare document id builds /psnow/doc/<id>", H.resolve({"task": "datasheet", "key": DOC_ID}) == DOC_URL)
 check("R3", "datasheet with a /psnow/doc/<id> path is absolutised", H.resolve({"task": "datasheet", "key": "/psnow/doc/" + DOC_ID}) == DOC_URL)
 check("R4", "part-page is not a task this source handles -> None", H.resolve({"task": "part-page", "key": "JL658A"}) is None)
-check("R5", "search / listing / gpl -> None",
-      all(H.resolve({"task": k, "key": DOC_URL}) is None for k in ("search", "listing", "gpl")))
+check("R5", "search / gpl -> None (listing is the QuickSpecs library, proven in test_hpe_listing.py)",
+      all(H.resolve({"task": k, "key": DOC_URL}) is None for k in ("search", "gpl")))
 check("R6", "empty key -> None", H.resolve({"task": "datasheet", "key": ""}) is None)
 check("R7", "a key that is neither a URL nor a doc id -> None", H.resolve({"task": "datasheet", "key": "JL658A"}) is None)
 

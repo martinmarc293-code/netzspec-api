@@ -274,7 +274,10 @@ class Queue:
             """
             WITH picked AS (
               SELECT id FROM fetch_queue
-               WHERE status IN ('queued', 'failed') AND next_at <= now() AND source_id = ANY(%s)
+               WHERE source_id = ANY(%s)
+                 AND ((status IN ('queued', 'failed') AND next_at <= now())
+                      -- a lease older than 30 minutes belongs to a worker that died mid-task
+                      OR (status = 'leased' AND leased_at < now() - interval '30 minutes'))
                ORDER BY priority, next_at, id
                LIMIT 1 FOR UPDATE SKIP LOCKED)
             UPDATE fetch_queue q
