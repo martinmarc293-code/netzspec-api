@@ -83,7 +83,15 @@ const UNITS: Record<string, [string, number]> = {
   // typical"), and the plural was missing, so every spelled-out figure was UNIT_UNKNOWN.
   "w": ["power", 1], "watt": ["power", 1], "watts": ["power", 1],
   "kw": ["power", 1e3], "kilowatt": ["power", 1e3], "kilowatts": ["power", 1e3],
-  "mw": ["power", 1e-3], "va": ["power", 1],
+  "mw": ["power", 1e-3],
+  // VA is APPARENT power, not power. Keeping it in the power dimension would let a watt
+  // figure satisfy a VA field and vice versa, which is exactly the confusion UPS sizing
+  // depends on not making.
+  "va": ["apparentpower", 1], "kva": ["apparentpower", 1e3],
+  // frequency, current and DDR transfer rate — introduced by the server vocabulary
+  "ghz": ["freq", 1e9], "mhz": ["freq", 1e6], "khz": ["freq", 1e3],
+  "a": ["current", 1], "ma": ["current", 1e-3], "amp": ["current", 1], "amps": ["current", 1],
+  "mt/s": ["transferrate", 1e6], "gt/s": ["transferrate", 1e9],
   // mass and length, spelled out — same reason
   "kilogram": ["mass", 1e3], "kilograms": ["mass", 1e3], "gram": ["mass", 1], "grams": ["mass", 1],
   "pound": ["mass", 453.59237], "pounds": ["mass", 453.59237],
@@ -123,6 +131,17 @@ const CANON: Record<string, [string, number]> = {
   "BTU/h": ["heat", 1], "dB": ["db", 1], "dB(A)": ["dba", 1], "dBm": ["dbm", 1],
   "AWG": ["awg", 1], "h": ["duration", 3600], "µs": ["duration", 1e-6],
   "HE": ["ru", 1], "Einträge": ["count", 1],
+  // Canonical units the SERVER vocabulary introduced. A field may declare any unit, but
+  // convert() looks the CANONICAL one up here — so a unit absent from this table is rejected
+  // UNIT_UNKNOWN even when the value and its unit were both read correctly. That cost 409
+  // memory speeds, 182 inrush currents, 132 clock frequencies and 101 cache sizes, every one
+  // of them extracted perfectly and thrown away at the last step.
+  "MB": ["memory", 1048576], "TB": ["memory", 1099511627776],
+  "GHz": ["freq", 1e9], "MHz": ["freq", 1e6],
+  "MT/s": ["transferrate", 1e6],
+  "A": ["current", 1], "VA": ["apparentpower", 1],
+  "ms": ["duration", 1e-3], "s": ["duration", 1],
+  "in": ["length", 0.0254], "cm": ["length", 1e-2],
 };
 
 // Three tokens are genuinely ambiguous and are resolved by what the FIELD expects, never guessed:
