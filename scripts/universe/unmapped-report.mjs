@@ -36,6 +36,37 @@ console.log(`alias rules loaded: ${rules.length}`);
 
 const isMapped = (label) => rules.some((r) => r.re.test(label));
 
+// A LABEL THE MAPPER ALREADY DISPOSES OF IS NOT A GAP.
+//
+// This report existed to say "here is what an alias round should work on", and it was
+// overstating that by a wide margin because it only ever asked "does an alias match this
+// label" — while mapFact disposes of two large classes BEFORE aliases are consulted:
+//
+//   section headings   a row whose VALUE repeats its own LABEL. Cisco spans a heading across a
+//                      spec table and the row expander copies it into every column, so the fact
+//                      arrives as label === value. "Transmit power and receive sensitivity"
+//                      (1,170 occurrences), "Power Cords", "Environmental ranges" are all this.
+//   accessory tables   rows that list OTHER products — compatible optics, power cords, spares.
+//                      "Cables and Optics", "Supported SFP/SFP+ modules", "Spare Component".
+//                      These are real data but they are COMPATIBILITY, not a specification of
+//                      the part whose page they appear on, and aliasing them to a field would
+//                      publish a chassis's spare-parts list as its own attributes.
+//
+// Reporting these as gaps sends the next alias round to write rules for work already done, or
+// worse, rules that are actively wrong. Both classes are counted and shown separately instead.
+const isSectionHeading = (label, value) => {
+  const norm = (s) => String(s ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const l = norm(label);
+  return l.length > 2 && l === norm(value);
+};
+
+// Deliberately narrow: each of these names a LIST OF OTHER PRODUCTS, not a property. Kept as an
+// explicit, commented set rather than a shape heuristic, because "Model" and "Device" are
+// perfectly good spec labels elsewhere and only mean an accessory row in these table headings.
+// Written on one line on purpose: JS has no free-spacing regex flag, so a multi-line pattern
+// would have to embed the newlines and indentation as literal characters to match.
+const ACCESSORY_LABEL = /^(cables?( and optics)?|optics|power cords?|spares?|spare components?|accessor(y|ies)|supported (sfp|sfp\/sfp\+|transceiver|optic)s?( modules?)?|ordering information|related products?|compatible (modules?|optics|transceivers?))$/i;
+
 // Category per document. Deriving it from the URL path put 2,441 labels into "unknown" --
 // Cisco serves the same collateral under /c/dam/, /c/en/us/solutions/ and several older
 // prefixes, so the path is not a reliable classifier. The SKUs a document covers ARE, because
@@ -63,11 +94,13 @@ const data = JSON.parse(fs.readFileSync(path.isAbsolute(file) ? file : path.join
 const recs = data.records || data;
 
 const byCat = new Map();   // category -> Map(label -> {n, values:Set, urls:Set})
-let total = 0, skipped = 0;
+let total = 0, skipped = 0, headings = 0, accessory = 0;
 for (const r of recs) {
   if (r.__doc__ || !r.label) continue;
   total++;
   if (isMapped(r.label)) { skipped++; continue; }
+  if (isSectionHeading(r.label, r.value)) { headings++; continue; }
+  if (ACCESSORY_LABEL.test(String(r.label).trim())) { accessory++; continue; }
   const cat = catOf.get(r.source_url) || urlCat(r.source_url);
   if (!byCat.has(cat)) byCat.set(cat, new Map());
   const m = byCat.get(cat);
@@ -89,9 +122,12 @@ for (const [cat, m] of [...byCat].sort((a, b) => b[1].size - a[1].size)) {
   reported += labels.length;
 }
 
-fs.writeFileSync(OUT, JSON.stringify({ generated_at: "2026-09-02", min_count: MIN, categories: out }, null, 1));
+fs.writeFileSync(OUT, JSON.stringify({ generated_at: new Date().toISOString().slice(0, 10), min_count: MIN, categories: out }, null, 1));
 
 console.log(`facts examined: ${total} | already matched by an alias: ${skipped}`);
+console.log(`disposed of before aliases: ${headings} section headings (value repeats the label), ` +
+  `${accessory} accessory-table rows (they list OTHER products, not this part's properties)`);
+console.log(`REAL unmapped: ${total - skipped - headings - accessory}`);
 console.log(`\nunmapped labels by category (occurring >= ${MIN} times):`);
 for (const [cat, v] of Object.entries(out)) {
   console.log(`  ${cat.padEnd(30)} ${String(v.reported).padStart(5)} labels  (${v.distinct_unmapped} distinct)`);
