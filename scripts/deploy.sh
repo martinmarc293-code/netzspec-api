@@ -36,9 +36,16 @@ if [ ! -f "$KEY" ]; then
   exit 1
 fi
 if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
-  echo "deploy: working tree has uncommitted tracked changes; git archive ships HEAD, not these." >&2
-  echo "        commit or stash first (git status)." >&2
-  exit 1
+  if [ "${NETZSPEC_DEPLOY_ALLOW_DIRTY:-}" = "1" ]; then
+    # Agents edit this tree while deploys happen. git archive ships HEAD regardless; the flag only
+    # acknowledges that what is on disk is not what is being shipped. Say so, loudly.
+    echo "deploy: WARNING working tree is dirty; shipping HEAD ($(git rev-parse --short HEAD)) as committed, not the files on disk:" >&2
+    git status --porcelain --untracked-files=no | head -20 >&2
+  else
+    echo "deploy: working tree has uncommitted tracked changes; git archive ships HEAD, not these." >&2
+    echo "        commit or stash first (git status), or set NETZSPEC_DEPLOY_ALLOW_DIRTY=1 to ship HEAD anyway." >&2
+    exit 1
+  fi
 fi
 
 GIT_SHA="$(git rev-parse HEAD)"

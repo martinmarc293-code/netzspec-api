@@ -23,15 +23,30 @@ const CORPUS = [
   "Catalyst 2960-X 24 GigE PoE 370W, 2 x 10G SFP+, LAN Base",
   "Cisco SG350X-48 48-port Gigabit Stackable Switch",
   "Mounting Kit For CISCO7609/Cat6509-NEB-A chassis",
+  // Added 3 Sep 2026 when the corpus, not the validator, turned out to be wrong: the positive
+  // controls need >= MIN_MATCHES strings that actually carry the fact. These are real Cisco
+  // descriptions too (the first three are in portParse.test.mjs). "Stackable" now occurs three
+  // times, and a labelled port count WITH its connector occurs four times.
+  "Catalyst 9300 48-port PoE+, Network Advantage",
+  "Catalyst 9300 24-port 1G copper with fixed 4x10G/1G SFP+ uplinks, data only",
+  "Catalyst 3850 24 Port PoE IP Base",
+  "Cisco SG350X-24 24-Port Gigabit Stackable Managed Switch",
+  "Cisco SG550X-48 48-port Gigabit Stackable Switch",
 ];
 
 const KNOWN = new Set(["ports", "poe_budget", "stackable", "weight"]);
 
 // A pattern that IS good, used both as a positive control and as the base for the sabotages.
+//
+// It captures the labelled count TOGETHER with the connector clause that follows it. The first
+// version of this fixture captured the bare count ("10") and the suite reported it as "ok" only
+// while `ports` had no parser; `ports` is a struct — a layout, not a count — and lib/portParse
+// refuses a bare number by design ("24 says nothing about what those 24 ports ARE"). So the old
+// pattern was never a good pattern: rule 5 catches it, and it now lives below as a sabotage.
 const GOOD = {
   id: "ports-labelled",
   field_key: "ports",
-  regex: "(^|[^a-z0-9])(\\d{1,3})[- ]?ports?(?![a-z0-9])",
+  regex: "(^|[^a-z0-9])(\\d{1,3}[- ]?ports? (?:[0-9/]+g )?(?:poe\\+?|copper|rj45|sfp\\+?)(?![a-z0-9]))",
   value_group: 2,
 };
 
@@ -83,6 +98,12 @@ const cases = [
     p: { id: "ports-wrong-token", field_key: "ports",
          regex: "(^|[^a-z0-9])(\\d{2,4}W)(?![a-z0-9])", value_group: 2 },
     expect: ["low_normalise_rate", "too_few_matches", "matches_nothing"] },
+  // The fixture's own former "good" pattern. It matches a dozen strings — every "N-port" in the
+  // corpus, the licence and the upgrade kit included — and not one capture normalises, because
+  // a count is not a port layout. This is the case rule 5 exists for.
+  { name: "a bare labelled count for the ports struct is caught by normalisation, not by matching",
+    p: { ...GOOD, id: "ports-bare-count", regex: "(^|[^a-z0-9])(\\d{1,3})[- ]?ports?(?![a-z0-9])" },
+    expect: "low_normalise_rate" },
 ];
 
 let pass = 0;
@@ -98,7 +119,7 @@ for (const c of cases) {
 // A suite that only ever sees good input proves nothing — so assert the shape of the suite
 // itself. If someone deletes the sabotage cases, this fails rather than going quietly green.
 const sabotages = cases.filter((c) => c.expect !== "ok").length;
-if (sabotages < 9) misses.push(`  suite has only ${sabotages} sabotage cases (expected >= 9)`);
+if (sabotages < 10) misses.push(`  suite has only ${sabotages} sabotage cases (expected >= 10)`);
 
 console.log(`descPattern validator: ${pass}/${cases.length} cases`);
 if (misses.length) { console.log("\nMISSES:\n" + misses.join("\n")); process.exit(1); }

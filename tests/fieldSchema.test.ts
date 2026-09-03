@@ -83,8 +83,28 @@ check("the two form_factor domains are genuinely different",
 // ---- registry integrity ---------------------------------------------------------------------------
 check("every profile field exists in the dictionary",
   CATEGORIES.every((cat) => Object.keys(PROFILES[cat]).every((k) => !!FIELD_DICTIONARY[k])));
-check("switches profile has 54 fields", profileCounts("switches").total === 54);
-check("transceiver profile has 26 fields", profileCounts("transceiver").total === 26);
+// "switches profile has 54 fields" / "transceiver profile has 26 fields" predated the generated
+// profiles, which add optional fields to every category. A count pinned to one day's total fails
+// on every legitimate addition and passes on the silent deletion of a required key — the
+// regression that matters. So: the keys a switch or an optic is bought for must stay in the
+// profile AND stay required, the merge must have happened, and its order (hand-written wins over
+// generated) must hold, or `ports` would quietly become "opt" the day a generated entry says so.
+const stillRequired = (cat: string, k: string) => {
+  const r = PROFILES[cat]?.[k];
+  return !!r && (r.kind === "req" || r.kind === "cond");
+};
+const SWITCH_CORE = ["switching_capacity", "forwarding_rate", "ports", "poe_budget", "mac_table"];
+check("switches profile still contains its historically required keys as req/cond",
+  SWITCH_CORE.every((k) => stillRequired("switches", k)));
+const OPTIC_CORE = ["form_factor", "data_rate", "reach_max", "connector", "media", "wavelength"];
+check("transceiver profile still contains its historically required keys as req/cond",
+  OPTIC_CORE.every((k) => stillRequired("transceiver", k)));
+check("hand-written requirements survive the generated merge (ports stays req, never the generated opt)",
+  PROFILES.switches.ports.kind === "req" && PROFILES.switches.switching_capacity.kind === "req" && PROFILES.transceiver.data_rate.kind === "req");
+check("the generated merge happened: the profiles are larger than their hand-written 54 / 26",
+  profileCounts("switches").total > 54 && profileCounts("transceiver").total > 26);
+check("every generated category has a profile in CATEGORIES (the 15 categories the old pipeline dropped)",
+  CATEGORIES.length >= 15 && ["servers-unified-computing", "video", "collaboration-endpoints", "meraki"].every((c) => !!PROFILES[c]));
 check("every enum field has a domain",
   Object.values(FIELD_DICTIONARY).filter((d) => d.type === "e").every((d) => (d.domain || []).length > 0));
 check("no numeric band is inverted",
