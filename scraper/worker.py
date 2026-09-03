@@ -204,6 +204,22 @@ class Browser:
         return {"status": status, "html": html, "final_url": self._page.url, "cached": False, "blocked": blocked,
                 "sha256": rec["sha256"], "cache_path": cf.name if not blocked else None}
 
+    def fetch_binary(self, url: str, politeness_ms: int = 350, referer: str | None = None, timeout: int = 60000) -> dict:
+        """Bytes of a non-HTML asset (image, PDF) through the browser CONTEXT's request API, so
+        the request carries Chrome's TLS fingerprint and cookies: Cisco's CDN refuses curl on the
+        fingerprint alone. Returns {status, body, content_type}. Not cached here; callers keep
+        what they validate."""
+        host = urlparse(url).netloc
+        self._wait(host, politeness_ms)
+        headers = {"Accept": "image/webp,image/avif,image/png,image/*;q=0.9,application/pdf;q=0.8,*/*;q=0.5"}
+        if referer:
+            headers["Referer"] = referer
+        r = self._ctx.request.get(url, headers=headers, timeout=timeout)
+        body = r.body()
+        netzscrape._ledger({"url": url, "status": r.status, "host": host, "fetched_at": now().isoformat(),
+                            "bytes": len(body), "binary": True, "worker": WORKER})
+        return {"status": r.status, "body": body, "content_type": r.headers.get("content-type", "")}
+
     def close(self) -> None:
         try:
             if self.mode == "cdp":
