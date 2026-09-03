@@ -377,3 +377,38 @@ Names and paths only. Never paste a value into a chat, a commit, or a shell hist
 `.env` is never shipped from the laptop: the deploy copies the box's own copy into the new tree.
 A missing variable fails startup with the variable named (`src/config.ts`); the fix is on the
 box, followed by `pm2 startOrRestart ops/pm2.config.cjs --update-env`.
+
+## Operator machine: the acquisition loop
+
+Everything that fetches runs on the operator's Windows machine (its Chrome, its RAM); the box
+only stores and serves.
+
+1. Chrome for the scrapers (separate profile on D:, DevTools on 9222):
+   ```
+   powershell -ExecutionPolicy Bypass -File scraper\tools\start-chrome-debug.ps1
+   ```
+2. The supervisor (queue top-up → one worker per source → apply → summary, repeat):
+   ```
+   powershell -ExecutionPolicy Bypass -File scraper\tools\nightshift.ps1            # foreground, forever
+   powershell -ExecutionPolicy Bypass -File scraper\tools\nightshift.ps1 -Once      # one cycle
+   powershell -ExecutionPolicy Bypass -File scraper\tools\nightshift.ps1 -Install   # scheduled task at logon
+   ```
+   Logs: `runs/nightshift/<date>.log`, per-worker `runs/nightshift/worker-<source>.out`,
+   the human summary `runs/nightshift/latest-summary.md` (queue, yield per source, gates,
+   top unmapped labels, unknown SKUs). A source with pages but no facts is flagged there.
+3. Ad-hoc: `python3.11 scraper/worker.py status` · `npm run ingest -- queue-status` ·
+   `python3.11 scraper/worker.py fetch <url> --cdp http://127.0.0.1:9222` (with `--force`,
+   `--settle-ms`, `--wait-for <css>` for client-rendered pages).
+4. Brand order is an operator rule: one at a time. Enable or pause a source with
+   `UPDATE sources SET enabled = ... WHERE slug = ...`; the planner and the workers obey it.
+5. Images: `python3.11 scraper/images.py run --from-picks data/reference/part-images.json --cdp http://127.0.0.1:9222 [--db]`
+   then ship `runs/images/` to `/var/lib/netzspec-api/images` (tar over ssh; see the deploy
+   notes). `--db` links the rows once the parts exist.
+6. Vocabulary loop: `python3.11 scraper/tools/label_inventory.py <source>` → agents propose →
+   `npm run ingest -- apply-alias-proposals <journal.jsonl> --commit` → `npm test` →
+   `npm run ingest -- sync-dictionary` → re-run `apply-acquired` over the day's pages.
+7. Test databases: `netzspec_test` … `netzspec_test5` on the box; every db suite TRUNCATEs, so
+   two suites must never share one at the same time. Override with `DATABASE_URL_TEST=...` in
+   the environment.
+8. The corpus cache `scraper/cache` is a junction to `D:\Project\netzspec-scraper\scraper\cache`
+   (10k+ documents, mirrored on the box under `/var/lib/netzspec-api/cache`).
