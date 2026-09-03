@@ -28,7 +28,43 @@ full; the ones that bite hardest here are restated.
   boundaries where you expect them. Use explicit lookarounds.
 - **Never write a regex through a Python heredoc.** Use the Write/Edit tool for anything
   with a backslash. `tests/` includes a control-character scan of the source tree.
+- **A branch that returns before it reads the token has discarded it silently.** `convert()`
+  opened with "no canonical unit, so nothing to check" and every unit-less count dropped its
+  magnitude suffix: ipv4_routes "360K" was stored as 360, in band, for as long as the branch
+  existed (3 Sep 2026). Fields *with* a unit failed safe on the same input. "No canonical unit"
+  is not "no token": read the tail on every path, and refuse what the field cannot use rather
+  than drop it. The glued-symbol versus spaced-word rule in `countValue` came from the 1,140
+  stored values, not from clean cases — a rule that refused every non-bare number would have
+  dropped 170 operator-reviewed facts ("6 zl2-Modul-Steckplätze", "8 PoE+").
 - After the suite, `npm run typecheck`. `cmd | head; echo $?` reports head's exit code.
+
+## Session log (update every session; newest first)
+
+- **2026-09-03/04 — build day.** Repo stood up, 89,090 parts migrated from Atlas (run #6,
+  reconciliation clean), API live at api.netzspec.com with 26 endpoints, 8 adapters, supervisor,
+  sentinel, watchdog. Costs: ~5M agent tokens across five fleets. **Operator budget rule:** no
+  sub-agents past 69% of the weekly Claude limit; stop work at 80%.
+- **Lessons that cost hours today, all now guarded:**
+  - Windows PowerShell 5.1 reads a BOM-less script as ANSI: an em dash inside a string broke
+    `nightshift.ps1` at parse time and the supervisor silently never ran. Scripts are ASCII with
+    a BOM now; `tests/source-scan` should grow a "ps1 is ASCII" check.
+  - `Start-Process npx` fails ("%1 is not a valid Win32 application"): launch
+    `node node_modules/tsx/dist/cli.mjs ...` instead.
+  - A PowerShell parameter named `$args` arrives empty (automatic variable): every step ran with
+    no arguments. Named `$argv` now.
+  - A worker process filter that matches its own command line kills the shell that runs it
+    (`Where-Object CommandLine -like '*worker.py*'` matched the PowerShell doing the matching).
+    Exclude `$PID`, match `-File ...` or `python*` by Name.
+  - `sed` with `\t \d \c` in the replacement writes TAB, `d`, form-feed into a script. Repair
+    paths through Python or the Edit tool only (D:\Project\CLAUDE.md §4 again).
+  - `migrate-atlas --reload` truncates `fetch_queue` too: re-seed from `parts` afterwards.
+  - The migration ensured source_docs from TRIMMED URLs but derived relation doc ids from the
+    untrimmed URL: one trailing space = FK violation after 1,500 parts. Trim at both sites.
+  - `deploy.sh` swapped the app directory and lost `.keys/`; it now carries `.keys` across.
+  - Blank Chrome tabs are not idle scrapers: `images.py` and ad-hoc fetches open a tab and never
+    navigate. The sentinel now distinguishes "no worker process" from "tab open".
+  - The enumeration list carries quantity/range/date tokens next to PIDs; `is_part_number` in
+    `scraper/sources/base.py` is the ONE gate at enqueue, in the watchdog and in `partNumber.ts`.
 
 ## Environment traps
 

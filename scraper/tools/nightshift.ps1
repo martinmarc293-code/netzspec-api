@@ -1,4 +1,4 @@
-# scraper/tools/nightshift.ps1 — the supervisor that keeps the acquisition loop running on the
+﻿# scraper/tools/nightshift.ps1 - the supervisor that keeps the acquisition loop running on the
 # operator's machine, day and night, without anyone watching it.
 #
 #   powershell -ExecutionPolicy Bypass -File scraper\tools\nightshift.ps1              run until stopped
@@ -10,7 +10,7 @@
 #   2. top up the queue: thinnest parts first at every lookup source, then every open gap
 #   3. run the worker over every enabled source until the queue is empty (one browser, one tab)
 #   4. apply today's acquired pages: gate -> facts -> unmapped-label and unknown-SKU reports
-#   5. write runs/nightshift/latest-summary.md — what landed, what is blocked, what needs a human
+#   5. write runs/nightshift/latest-summary.md - what landed, what is blocked, what needs a human
 #   6. sleep, repeat
 #
 # Why a supervisor and not `worker.py --loop`: the loop needs three programs (planner, worker,
@@ -36,10 +36,12 @@ function Log([string]$msg) {
   $line | Tee-Object -FilePath (Join-Path $LogDir ((Get-Date -Format "yyyy-MM-dd") + ".log")) -Append
 }
 
-function Run-Step([string]$name, [string]$file, [string[]]$args, [int]$timeoutMin) {
+# NOTE: the parameter must not be called $args - that is PowerShell's automatic variable and a
+# parameter of that name arrives empty ("argument is null"), which silently ran no step at all.
+function Run-Step([string]$name, [string]$file, [string[]]$argv, [int]$timeoutMin) {
   Log "-> $name"
   $out = Join-Path $LogDir ("step-" + $name.Replace(" ", "-") + ".out")
-  $p = Start-Process -FilePath $file -ArgumentList $args -WorkingDirectory $Repo -NoNewWindow -PassThru -RedirectStandardOutput $out -RedirectStandardError ($out + ".err")
+  $p = Start-Process -FilePath $file -ArgumentList $argv -WorkingDirectory $Repo -NoNewWindow -PassThru -RedirectStandardOutput $out -RedirectStandardError ($out + ".err")
   if (-not $p.WaitForExit($timeoutMin * 60 * 1000)) {
     Log "   TIMEOUT after $timeoutMin min; killing $name"
     try { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue } catch {}
@@ -76,9 +78,9 @@ try {
     # 2. plan
     foreach ($src in @("provantage", "router-switch", "itprice")) {
       $task = if ($src -eq "itprice") { "gpl" } else { "search" }
-      Run-Step "queue $src" "npx" @("tsx", "src/pipeline/cli.ts", "queue", "--source", $src, "--task", $task, "--vendor", "cisco", "--class", "hardware", "--limit", "$TopUp") 10 | Out-Null
+      Run-Step "queue $src" "node" @("node_modules/tsx/dist/cli.mjs", "src/pipeline/cli.ts", "queue", "--source", $src, "--task", $task, "--vendor", "cisco", "--class", "hardware", "--limit", "$TopUp") 10 | Out-Null
     }
-    Run-Step "queue-gaps" "npx" @("tsx", "src/pipeline/cli.ts", "queue-gaps", "--limit", "2000") 10 | Out-Null
+    Run-Step "queue-gaps" "node" @("node_modules/tsx/dist/cli.mjs", "src/pipeline/cli.ts", "queue-gaps", "--limit", "2000") 10 | Out-Null
 
     # 3. fetch until the queue is dry: ONE WORKER PER SOURCE in parallel (each is a tab in the same
     #    Chrome; per-host politeness makes cross-host parallelism the only real throughput lever),
@@ -124,10 +126,10 @@ try {
     $today = Get-Date -Format "yyyy-MM-dd"
     foreach ($src in $Sources.Split(",")) {
       $dir = Join-Path $Repo ("runs\acquired\" + $src + "\" + $today)
-      if (Test-Path $dir) { Run-Step "apply $src" "npx" @("tsx", "src/pipeline/cli.ts", "apply-acquired", "runs/acquired/$src/$today", "--commit") 60 | Out-Null }
+      if (Test-Path $dir) { Run-Step "apply $src" "node" @("node_modules/tsx/dist/cli.mjs", "src/pipeline/cli.ts", "apply-acquired", "runs/acquired/$src/$today", "--commit") 60 | Out-Null }
     }
 
-    # 4a. once a week (Sunday, first cycle after 02:00): the vendor sweeps that make the catalogue GROW —
+    # 4a. once a week (Sunday, first cycle after 02:00): the vendor sweeps that make the catalogue GROW -
     #     new EoL bulletins for every Cisco series, then new datasheets found on the family listings,
     #     extracted cache-only and applied through the gate. Each step is resumable and idempotent.
     $stamp = Join-Path $LogDir "weekly-sweep.stamp"
@@ -141,27 +143,27 @@ try {
         ($entries | ForEach-Object { $_.url } | Where-Object { $_ }) | Set-Content (Join-Path $Repo "runs\extract\series-urls.txt") -Encoding ascii
         if ($series) {
           Run-Step "sweep eol" "python3.11" @("-u", "scraper/run.py", "cisco-eol", "--series", $series, "--out", "runs/extract/cisco-eol-$sweepTag.json") 180 | Out-Null
-          if (Test-Path (Join-Path $Repo "runs\extract\cisco-eol-$sweepTag.json")) { Run-Step "apply lifecycle" "npx" @("tsx", "src/pipeline/cli.ts", "apply-lifecycle", "runs/extract/cisco-eol-$sweepTag.json", "--commit") 60 | Out-Null }
+          if (Test-Path (Join-Path $Repo "runs\extract\cisco-eol-$sweepTag.json")) { Run-Step "apply lifecycle" "node" @("node_modules/tsx/dist/cli.mjs", "src/pipeline/cli.ts", "apply-lifecycle", "runs/extract/cisco-eol-$sweepTag.json", "--commit") 60 | Out-Null }
         }
       }
       Run-Step "sweep datasheet listings" "python3.11" @("-u", "scraper/crawl_datasheet_listings.py", "--urls-file", "runs/extract/series-urls.txt", "--out", "runs/extract/datasheet-listings-$sweepTag.json") 180 | Out-Null
       Run-Step "extract new datasheets" "python3.11" @("-u", "scraper/run.py", "cisco-specs-deep", "--urls-file", "data/reference/all-datasheet-urls-full.txt", "--out", "runs/extract/cisco-deep-$sweepTag.json") 300 | Out-Null
-      if (Test-Path (Join-Path $Repo "runs\extract\cisco-deep-$sweepTag.json")) { Run-Step "apply extract" "npx" @("tsx", "src/pipeline/cli.ts", "apply-extract", "runs/extract/cisco-deep-$sweepTag.json", "--commit", "--tag", "weekly-$sweepTag") 240 | Out-Null }
+      if (Test-Path (Join-Path $Repo "runs\extract\cisco-deep-$sweepTag.json")) { Run-Step "apply extract" "node" @("node_modules/tsx/dist/cli.mjs", "src/pipeline/cli.ts", "apply-extract", "runs/extract/cisco-deep-$sweepTag.json", "--commit", "--tag", "weekly-$sweepTag") 240 | Out-Null }
       (Get-Date) | Out-File $stamp
     }
 
     # 4b. the gap ledger's input: recompute completeness for parts touched since the cycle began
-    Run-Step "recompute-completeness" "npx" @("tsx", "src/pipeline/cli.ts", "recompute-completeness", "--since", $cycleStart.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")) 30 | Out-Null
+    Run-Step "recompute-completeness" "node" @("node_modules/tsx/dist/cli.mjs", "src/pipeline/cli.ts", "recompute-completeness", "--since", $cycleStart.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")) 30 | Out-Null
 
     # 5. summary for the human (and for Claude): what needs judgment
-    Run-Step "status" "npx" @("tsx", "src/pipeline/cli.ts", "queue-status") 5 | Out-Null
+    Run-Step "status" "node" @("node_modules/tsx/dist/cli.mjs", "src/pipeline/cli.ts", "queue-status") 5 | Out-Null
     $summary = @()
-    $summary += "# nightshift summary — $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
+    $summary += "# nightshift summary - $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
     $summary += ""
     $summary += "## queue"
     $summary += (Get-Content (Join-Path $LogDir "step-status.out") -ErrorAction SilentlyContinue)
     $summary += ""
-    $summary += "## yield per source today (pages done vs pages with facts) — a source with pages but no facts is a BROKEN ADAPTER"
+    $summary += "## yield per source today (pages done vs pages with facts) - a source with pages but no facts is a BROKEN ADAPTER"
     foreach ($src in $Sources.Split(",")) {
       $dir = Join-Path $Repo ("runs\acquired\" + $src + "\" + $today)
       if (-not (Test-Path $dir)) { continue }

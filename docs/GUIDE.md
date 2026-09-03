@@ -3,8 +3,34 @@
 The contract is `docs/API.md`; the live, exact schema is `https://api.netzspec.com/openapi.json`
 (interactive at `/docs`). This page is the order a consumer actually follows.
 
-Every call below needs `Authorization: Bearer <key>`; `/health`, `/docs` and `/openapi.json`
-do not. Examples use `curl` with `$KEY` set.
+Every call below needs a key; `/health`, `/docs` and `/openapi.json` do not. Three ways to send
+it: the `Authorization: Bearer <key>` header (programs), the `X-API-Key: <key>` header, or
+`?api_key=<key>` on the URL (a browser address bar; keys in URLs can end up in logs, so use the
+headers from code). Examples use `curl` with `$KEY` set. In the Swagger page (`/docs`) press
+**Authorize** once and paste the key; every "Try it out" then works.
+
+### Copy-paste URLs for a browser (replace KEY)
+
+```
+https://api.netzspec.com/v1/vendors?api_key=KEY
+https://api.netzspec.com/v1/categories?vendor=cisco&api_key=KEY
+https://api.netzspec.com/v1/facets?vendor=cisco&category=switches&api_key=KEY
+https://api.netzspec.com/v1/parts?vendor=cisco&category=switches&filter=poe_budget>=370&limit=20&api_key=KEY
+https://api.netzspec.com/v1/parts/cisco/C9200L-24P-4G?api_key=KEY
+https://api.netzspec.com/v1/parts/cisco/C9200L-24P-4G/similar?api_key=KEY
+https://api.netzspec.com/v1/parts/cisco/WS-C3650-24PD/successors?api_key=KEY
+https://api.netzspec.com/v1/parts/cisco/C9200L-24P-4G/gaps?api_key=KEY
+https://api.netzspec.com/v1/compare?skus=cisco:C9200L-24P-4G,cisco:C9200L-48P-4G&api_key=KEY
+https://api.netzspec.com/v1/families?vendor=cisco&api_key=KEY
+https://api.netzspec.com/v1/families/cisco/Cisco%20Catalyst%209200?api_key=KEY
+https://api.netzspec.com/v1/lifecycle?vendor=cisco&eos_after=2026-01-01&eos_before=2026-12-31&api_key=KEY
+https://api.netzspec.com/v1/search?q=9200l&vendor=cisco&api_key=KEY
+https://api.netzspec.com/v1/stats?api_key=KEY
+https://api.netzspec.com/v1/stats/gaps?vendor=cisco&api_key=KEY
+https://api.netzspec.com/v1/sources?api_key=KEY
+https://api.netzspec.com/v1/export?vendor=cisco&limit=50&api_key=KEY
+https://api.netzspec.com/v1/changes?since=2026-09-01T00:00:00Z&api_key=KEY
+```
 
 ## 1. What is there
 
