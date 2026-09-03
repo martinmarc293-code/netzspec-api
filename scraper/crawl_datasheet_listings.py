@@ -1,7 +1,7 @@
 """Discover the FULL Cisco datasheet corpus from per-family datasheet-listing pages.
 
-    python scraper/crawl_datasheet_listings.py --urls-file data/universe/family-listing-urls.txt \
-        --out data/universe/discovered-datasheets.json
+    python scraper/crawl_datasheet_listings.py --urls-file data/reference/family-listing-urls.txt \
+        --out data/reference/discovered-datasheets.json
 
 WHY
 Our corpus is 3,272 datasheet URLs, and only ~1,271 of them are non-EoL documents. That is

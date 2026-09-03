@@ -69,7 +69,7 @@ _KNOWN_NORM: set[str] = set()   # normalised known PIDs for the datasheet being 
 def _load_sku_map() -> dict[str, list[str]]:
     global _SKU_MAP
     if not _SKU_MAP:
-        p = _Path("data/universe/datasheet-skus.json")
+        p = _Path("data/reference/datasheet-skus.json")
         if p.exists():
             raw = _json.loads(p.read_text(encoding="utf-8"))
             # bare quantities and protocol names are in the map but cannot own a spec

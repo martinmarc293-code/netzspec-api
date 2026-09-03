@@ -20,7 +20,7 @@
 param(
   [switch]$Once,
   [switch]$Install,
-  [string]$Sources = "provantage,router-switch,itprice,meraki,arista,ubiquiti,hpe-quickspecs,mikrotik",
+  [string]$Sources = "provantage,router-switch,itprice,meraki",
   [int]$TopUp = 300,
   [int]$SleepMinutes = 10
 )
@@ -80,8 +80,41 @@ try {
     }
     Run-Step "queue-gaps" "npx" @("tsx", "src/pipeline/cli.ts", "queue-gaps", "--limit", "2000") 10 | Out-Null
 
-    # 3. fetch until the queue is dry (the worker exits on an empty queue)
-    Run-Step "worker" "python3.11" @("-u", "scraper/worker.py", "run", "--sources", $Sources, "--cdp", "http://127.0.0.1:9222") 240 | Out-Null
+    # 3. fetch until the queue is dry: ONE WORKER PER SOURCE in parallel (each is a tab in the same
+    #    Chrome; per-host politeness makes cross-host parallelism the only real throughput lever),
+    #    with a stall detector: a worker whose log has not grown for 20 minutes is killed and its
+    #    lease is reclaimed by the next cycle (worker.py re-leases leases older than 30 min).
+    $procs = @{}
+    foreach ($src in $Sources.Split(",")) {
+      $wlog = Join-Path $LogDir ("worker-" + $src + ".out")
+      $p = Start-Process -FilePath "python3.11" -ArgumentList @("-u", "scraper/worker.py", "run", "--sources", $src, "--cdp", "http://127.0.0.1:9222") -WorkingDirectory $Repo -NoNewWindow -PassThru -RedirectStandardOutput $wlog -RedirectStandardError ($wlog + ".err")
+      $procs[$src] = @{ proc = $p; log = $wlog; size = 0; quietSince = Get-Date }
+      Start-Sleep -Seconds 3
+    }
+    Log ("   started {0} workers" -f $procs.Count)
+    $deadline = (Get-Date).AddMinutes(240)
+    while ($true) {
+      $alive = @($procs.Values | Where-Object { -not $_.proc.HasExited })
+      if ($alive.Count -eq 0 -or (Get-Date) -gt $deadline) { break }
+      foreach ($k in @($procs.Keys)) {
+        $w = $procs[$k]
+        if ($w.proc.HasExited) { continue }
+        $len = (Get-Item $w.log -ErrorAction SilentlyContinue).Length
+        if ($len -gt $w.size) { $w.size = $len; $w.quietSince = Get-Date }
+        elseif (((Get-Date) - $w.quietSince).TotalMinutes -gt 20) {
+          Log "   STALL: $k produced nothing for 20 min; killing it (its lease is reclaimed automatically)"
+          try { Stop-Process -Id $w.proc.Id -Force -ErrorAction SilentlyContinue } catch {}
+        }
+      }
+      Start-Sleep -Seconds 60
+    }
+    foreach ($k in $procs.Keys) {
+      $w = $procs[$k]
+      if (-not $w.proc.HasExited) { try { Stop-Process -Id $w.proc.Id -Force -ErrorAction SilentlyContinue } catch {} }
+      $done = (Select-String -Path $w.log -Pattern "^  done " -ErrorAction SilentlyContinue | Measure-Object).Count
+      $blocked = (Select-String -Path $w.log -Pattern "^  (blocked|ERROR|pdf-fail)" -ErrorAction SilentlyContinue | Measure-Object).Count
+      Log ("   worker {0}: done={1} blocked/errors={2}" -f $k, $done, $blocked)
+    }
 
     # 4. apply today's acquisitions per source (a failed gate for one source must not block the rest)
     $today = Get-Date -Format "yyyy-MM-dd"
@@ -97,6 +130,19 @@ try {
     $summary += ""
     $summary += "## queue"
     $summary += (Get-Content (Join-Path $LogDir "step-status.out") -ErrorAction SilentlyContinue)
+    $summary += ""
+    $summary += "## yield per source today (pages done vs pages with facts) — a source with pages but no facts is a BROKEN ADAPTER"
+    foreach ($src in $Sources.Split(",")) {
+      $dir = Join-Path $Repo ("runs\acquired\" + $src + "\" + $today)
+      if (-not (Test-Path $dir)) { continue }
+      $files = Get-ChildItem $dir -Filter "*.json"
+      $withFacts = 0
+      foreach ($f in $files) {
+        try { $j = Get-Content $f.FullName -Raw | ConvertFrom-Json; if (($j.result.facts.Count -gt 0) -or ($j.result.others.Count -gt 0)) { $withFacts++ } } catch {}
+      }
+      $flag = if ($files.Count -ge 5 -and $withFacts -eq 0) { "   <<< ZERO YIELD: check the adapter" } else { "" }
+      $summary += ("- {0}: {1} pages, {2} with facts{3}" -f $src, $files.Count, $withFacts, $flag)
+    }
     $summary += ""
     $summary += "## gates and applies (last lines)"
     foreach ($src in $Sources.Split(",")) {

@@ -285,7 +285,7 @@ def print_ledger_report() -> None:
 
 
 def write_output(source: str, records: list[dict]) -> Path:
-    """Write adapter output to ../data/universe/{source}_{YYYY-MM-DD}.json."""
+    """Write adapter output to ../data/reference/{source}_{YYYY-MM-DD}.json."""
     out_dir = ROOT.parent / "data" / "universe"
     out_dir.mkdir(parents=True, exist_ok=True)
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")

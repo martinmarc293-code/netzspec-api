@@ -58,9 +58,9 @@ def _load_sku_map() -> dict[str, list[str]]:
     global _SKU_MAP
     if not _SKU_MAP:
         merged: dict[str, list[str]] = {}
-        for name in ("data/universe/datasheet-skus-full.json",
-                     "data/universe/datasheet-skus.json",
-                     "data/universe/datasheet-skus-pdf.json"):
+        for name in ("data/reference/datasheet-skus-full.json",
+                     "data/reference/datasheet-skus.json",
+                     "data/reference/datasheet-skus-pdf.json"):
             p = _Path(name)
             if not p.exists():
                 continue

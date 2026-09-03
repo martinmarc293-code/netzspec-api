@@ -1,6 +1,6 @@
 """Fetch datasheet documents (HTML or PDF) through the PoliteBrowser into the cache.
 
-    python scraper/fetch_docs.py --urls-file data/universe/new-datasheet-urls.txt
+    python scraper/fetch_docs.py --urls-file data/reference/new-datasheet-urls.txt
 
 Routes by extension: .pdf goes through fetch_binary (the context request API -- page.goto on
 a PDF renders a viewer instead of handing over the file), everything else through fetch().

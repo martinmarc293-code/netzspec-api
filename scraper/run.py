@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """netzspec scraper CLI. Runs an adapter with a real browser, writes facts to
-data/universe/{source}_{date}.json. The Node upsert (scripts/universe/apply-lifecycle.mjs)
+data/reference/{source}_{date}.json. The Node upsert (scripts/universe/apply-lifecycle.mjs)
 then writes them to Mongo. Both you and Claude can run this.
 
 Examples:
@@ -9,7 +9,7 @@ Examples:
   python scraper/run.py cisco-tmg --platforms C9200,C9300     # TMG compat for named platforms
   python scraper/run.py cisco-eol --series ... --headed        # visible browser (watch / pass a challenge)
 Then:
-  node scripts/universe/apply-lifecycle.mjs data/universe/<source>_<date>.json --commit
+  node scripts/universe/apply-lifecycle.mjs data/reference/<source>_<date>.json --commit
 """
 import argparse, json, sys, importlib
 from pathlib import Path

@@ -1,6 +1,6 @@
 """Build the datasheet -> SKU ground-truth map for CACHED PDFs.
 
-    python scraper/pdf_sku_map.py --out data/universe/datasheet-skus-pdf.json
+    python scraper/pdf_sku_map.py --out data/reference/datasheet-skus-pdf.json
 
 WHY
 build-datasheet-skus.mjs scans scraper/cache/*.html and therefore knows nothing about the 332
@@ -49,9 +49,9 @@ def variants(tok: str):
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--urls-file", default="data/universe/pdf-datasheet-urls.txt")
-    ap.add_argument("--out", default="data/universe/datasheet-skus-pdf.json")
-    ap.add_argument("--skus", default="data/universe/sku-category.json")
+    ap.add_argument("--urls-file", default="data/reference/pdf-datasheet-urls.txt")
+    ap.add_argument("--out", default="data/reference/datasheet-skus-pdf.json")
+    ap.add_argument("--skus", default="data/reference/sku-category.json")
     ap.add_argument("--restart", action="store_true", help="ignore any existing output and start over")
     args = ap.parse_args()
 

@@ -8,7 +8,7 @@ attribute names (HexCat's vocabulary), and collect {name, value} per PID. Values
 are language-neutral; only the names are translated.
 
 Usage: python scraper/run.py cisco-datasheet-specs --urls <datasheet_url1,url2,...>
-Then:  node scripts/universe/apply-specs.mjs data/universe/cisco-datasheet-specs_<date>.json --commit
+Then:  node scripts/universe/apply-specs.mjs data/reference/cisco-datasheet-specs_<date>.json --commit
 """
 from __future__ import annotations
 import re, sys

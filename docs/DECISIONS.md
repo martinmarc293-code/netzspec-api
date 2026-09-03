@@ -50,3 +50,4 @@ Format: `date · decision · source`.
 - 2026-09-03 · **Images: vendor photos only, self-hosted as WebP at 1200/800/400 px square, with merchant-readiness recorded** (Google Merchant: ≥800 px, no watermark/text/border, white or transparent background) · operator
 - 2026-09-03 · **Sub-agents are allowed on this project** for bounded, file-scoped tasks; the main loop reviews, runs the suite and commits · operator
 - 2026-09-03 · No new server bought; the existing Hetzner box hosts Postgres + the API. A dedicated box needs operator approval · Claude
+- 2026-09-03 · **One brand at a time: Cisco first (incl. Meraki), then HPE/Aruba, then Juniper, and so on.** Adapters for other vendors stay built and tested but their sources are `enabled=false` until Cisco is complete · operator
