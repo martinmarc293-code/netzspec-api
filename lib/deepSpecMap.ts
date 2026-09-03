@@ -35,8 +35,21 @@ const en = JSON.parse(fs.readFileSync(path.join(root, "data/schema/attribute-ali
 const RULES: [RegExp, string][] = (en.rules as [string, string, string][])
   .map(([re, key]) => [new RegExp(re, en.case_insensitive ? "i" : ""), key]);
 
+// A trailing parenthetical that is ONLY a unit — "(C)", "(GHz)", "(W)", "(MT/s)", "(A rms)",
+// "(%)2" with a footnote digit. Not "(MTBF)" or "(H x W x D)", which are part of the name.
+const TRAILING_UNIT = /\s*\(\s*[A-Za-zµ°%]{1,4}(?:\s*\/\s*[A-Za-z]{1,3})?(?:\s+(?:rms|peak|dc|ac))?\s*\)\s*\d*\s*$/;
+
 export function mapLabel(label: string): string | null {
   for (const [re, key] of RULES) if (re.test(label)) return key;
+  // Retry without a trailing UNIT parenthetical. Folding the units-only second header row into
+  // the header turned "Cores" into "Cores (C)" and "Maximum Socket" into "Maximum Socket (S)",
+  // which no longer matched their anchored ^...$ rules — so a fix that recovered the units
+  // simultaneously broke the labels carrying them. The unit is read separately by
+  // unitFromLabel, so the mapper has no need of it and should not be sensitive to it.
+  const bare = label.replace(TRAILING_UNIT, "").trim();
+  if (bare && bare !== label) {
+    for (const [re, key] of RULES) if (re.test(bare)) return key;
+  }
   return null;
 }
 
@@ -70,7 +83,9 @@ const LABEL_UNITS: [RegExp, string][] = [
   [/\(\s*Hz\s*\)/i, "Hz"],
   [/\(\s*ms\s*\)/i, "ms"],
   [/\(\s*mm\s*\)/i, "mm"],
-  [/\(\s*C\s*\)/i, "°C"],
+  // NOT (C) -> °C. In Cisco's server tables "(C)" is the unit row under "Cores" and means a
+  // COUNT; mapping it to Celsius turned a 60-core CPU into a 60-degree one. A real temperature
+  // column is written °C or "Celsius", both of which the centimet/°C rules above already catch.
 ];
 
 export function unitFromLabel(label: string): string | undefined {

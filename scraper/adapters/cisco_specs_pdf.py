@@ -120,6 +120,42 @@ def _clean(s) -> str:
     return re.sub(r"\s+", " ", (s or "")).strip()
 
 
+# A cell holding ONLY a unit, e.g. "(C)", "(GHz)", "(W)", "(MB)", "(MT/s)".
+_UNIT_ONLY = re.compile(r"^\(?\s*[A-Za-zµ°%]{1,6}(?:\s*/\s*[A-Za-z]{1,3})?\s*\)?$")
+
+
+def _merge_unit_header(rows: list[list[str]]) -> list[list[str]]:
+    """Fold a units-only SECOND header row into the first.
+
+    Cisco's spec sheets write the header across two lines:
+
+        Product ID | Cores | Clock Freq | Power | Cache Size | Highest DDR5 DIMM Clock
+        (PID)      | (C)   | (GHz)      | (W)   | (MB)       | (MT/s)
+
+    Only the first line reached the mapper, so a cell arrived as "Cores" with the bare value
+    "60" and "Cache Size" with "300.00" -- and the unit, printed one line below, was thrown
+    away. 277 cache sizes, 276 CPU TDPs and 221 clock frequencies were rejected UNIT_MISSING
+    with their unit sitting in plain sight in the document.
+
+    A row qualifies only when its non-empty cells are ALL unit-shaped and at least two are,
+    so an ordinary data row is never mistaken for a unit line and folded into the header.
+    """
+    if len(rows) < 3:
+        return rows
+    second = rows[1]
+    filled = [c for c in second[1:] if c]
+    if len(filled) < 2 or not all(_UNIT_ONLY.match(c) for c in filled):
+        return rows
+    merged = list(rows[0])
+    for i in range(1, min(len(merged), len(second))):
+        u = (second[i] or "").strip()
+        if u and _UNIT_ONLY.match(u):
+            if not u.startswith("("):
+                u = f"({u})"
+            merged[i] = f"{merged[i]} {u}".strip()
+    return [merged] + rows[2:]
+
+
 def run(browser, urls: list[str]) -> list[dict]:
     if not urls:
         print("give --urls-file <file of pdf urls>", file=sys.stderr)
@@ -176,6 +212,8 @@ def run(browser, urls: list[str]) -> list[dict]:
                     rows = [[_clean(c) for c in r] for r in tbl if r]
                     if len(rows) < 2:
                         continue
+                    # fold a units-only second header row in before anything reads the header
+                    rows = _merge_unit_header(rows)
                     hdr = rows[0]
                     ncols = max(len(r) for r in rows)
 
