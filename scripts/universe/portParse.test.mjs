@@ -68,6 +68,16 @@ const cases = [
   // "8/16 port" is two variants; choosing one would be a coin flip recorded as a fact.
   { in: "NCS 560 Combo 8/16 port GE SFP/C-SFP and 1 port 10GE SFP+", refuse: "ambiguous port-count range" },
 
+  // A digit-G token inside the MODEL NUMBER is not a speed. "C9200L-24P-4G" reported its 24
+  // copper ports as 4G until speeds were read only from the text after the count.
+  { in: "Cisco C9200L-24P-4G Managed Switch (L3) – 24× Gigabit-RJ45 (PoE+, 30 W) + 4× 1G-SFP",
+    want: [g("rj45", ["1G"], 24), g("sfp", ["1G"], 4)] },
+  { in: "Cisco C9200-48P Managed Switch (L3) – 48× Gigabit-RJ45 (PoE+, 30 W)",
+    want: [g("rj45", ["1G"], 48)] },
+  // A transceiver part number ending "-2XDR4" is not two ports. Published 2 ports on an OPTIC
+  // until the count was required to start a token.
+  { in: "Arista QDD-800G-2XDR4 800G QSFP-DD800 100GBASE-FR-Transceiver", refuse: "port token but no count" },
+
   // ---- must REFUSE ------------------------------------------------------------------------
   // A bare count is what a naive description pattern produces. It is a count, not a layout.
   { in: "24", refuse: "count, not a port layout" },

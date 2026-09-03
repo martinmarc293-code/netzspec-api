@@ -116,7 +116,20 @@ function speedsOf(seg: string): string[] {
 const COUNT_FOLLOWER =
   "(?:x|×|-?\\s*ports?\\b|p(?![a-z])|\\s*(?:GigE|GbE|GE|Gigabit|Ethernet)\\b|" +
   "\\s*\\d+(?:\\.\\d+)?\\s*G(?![Hh]z)|\\s*\\d+\\s*GBASE-?T|\\s*10/100)";
-const COUNT = new RegExp(`(?<![0-9A-Za-z])(\\d{1,4})(?![0-9])\\s*(?=${COUNT_FOLLOWER})`, "i");
+// A COUNT MUST START A TOKEN. Not merely "not preceded by an alphanumeric" — that still allowed
+// the count to be read out of the middle of a hyphenated part number:
+//
+//   "Cisco C9200L-24P-4G Managed Switch – 24× Gigabit-RJ45"   took the 24 of "-24P-", and then
+//                                                             read "4G" as the speed
+//   "Arista QDD-800G-2XDR4 ... Transceiver"                   took the 2 of "-2XDR4" and
+//                                                             published 2 ports on an OPTIC
+//
+// On the C9200L the answer happened to be right, which is the worst kind of wrong: the rule was
+// broken and the output looked correct. So the digit run must be preceded by whitespace, an
+// opening bracket, a dash used as punctuation, or the start of the segment — never by the hyphen
+// inside an identifier.
+const COUNT = new RegExp(
+  `(?<![^\\s(\\[\\u2013\\u2014:,])(\\d{1,4})(?![0-9])\\s*(?=${COUNT_FOLLOWER})`, "i");
 
 // A number that OPENS a clause, followed by a bare connector name, is a count: "2 SFP+ uplinks".
 // The same shape mid-sentence is usually a model — "NCS 560 Combo", "ASR 9000 400GE Combo" — so
@@ -209,8 +222,8 @@ export function parsePorts(raw: string): PortParse {
     //   - "2xSFP" has NO word boundary between the x and the SFP, so every \b-anchored
     //     connector rule silently failed on it and the PoE fallback quietly relabelled a
     //     fibre uplink as copper. Stripping the multiplier restores the boundary.
-    const rest = seg.slice(0, cm.index) + " " +
-      seg.slice(cm.index + cm[0].length).replace(/^\s*[x×]\s*/i, " ");
+    const after = seg.slice(cm.index + cm[0].length).replace(/^\s*[x×]\s*/i, " ");
+    const rest = seg.slice(0, cm.index) + " " + after;
 
     let typ: string | null = null;
     for (const [re, t] of CONNECTORS) if (re.test(rest)) { typ = t; break; }
@@ -226,7 +239,17 @@ export function parsePorts(raw: string): PortParse {
     }
     if (!typ) return { ok: false, detail: `no connector stated in "${seg}"` };
 
-    out.push({ port_typ: typ, speed: speedsOf(rest), anzahl });
+    // SPEED IS READ ONLY FROM THE TEXT AFTER THE COUNT, never from what precedes it.
+    //
+    // Product names carry the model in front, and Cisco and Aruba model numbers are full of
+    // digit-G tokens: "Cisco C9200L-24P-4G Managed Switch – 24× Gigabit-RJ45" reported its 24
+    // copper ports as 4G, because the "-4G" of the SKU is a perfectly good digit-then-G match.
+    // Every real speed in this corpus follows its count ("24 GigE", "4x10G", "48 10GBASE-T"),
+    // so the text before the count has nothing to contribute and plenty to get wrong.
+    //
+    // The CONNECTOR still uses the whole segment: connector names do not occur inside model
+    // numbers, and "Gigabit-RJ45 24 ports" would otherwise lose its connector entirely.
+    out.push({ port_typ: typ, speed: speedsOf(after), anzahl });
   }
 
   if (!out.length) return { ok: false, detail: `no port group found in "${s}"` };
