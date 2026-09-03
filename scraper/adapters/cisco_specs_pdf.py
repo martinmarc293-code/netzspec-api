@@ -175,6 +175,14 @@ def _merge_unit_header(rows: list[list[str]]) -> list[list[str]]:
     return [merged] + rows[2:]
 
 
+# How many RAW rows the merge consumed. Folding row 1 into row 0 renumbers every row after it,
+# so a locator built from the merged list points one row short of the cell it came from. The
+# provenance auditor re-reads the RAW table, and it caught this immediately: 1002 facts
+# "recorded 60 but cell holds 64" -- every one of them reading its neighbour's row. Values that
+# are wrong by exactly one row are the most dangerous kind, because they are all plausible.
+MERGE_ROW_OFFSET = 1
+
+
 def run(browser, urls: list[str]) -> list[dict]:
     if not urls:
         print("give --urls-file <file of pdf urls>", file=sys.stderr)
@@ -232,7 +240,10 @@ def run(browser, urls: list[str]) -> list[dict]:
                     if len(rows) < 2:
                         continue
                     # fold a units-only second header row in before anything reads the header
-                    rows = _merge_unit_header(rows)
+                    merged_rows = _merge_unit_header(rows)
+                    # Every locator below must name the RAW row, not the merged one.
+                    roff = MERGE_ROW_OFFSET if len(merged_rows) != len(rows) else 0
+                    rows = merged_rows
                     hdr = rows[0]
                     ncols = max(len(r) for r in rows)
 
@@ -250,7 +261,7 @@ def run(browser, urls: list[str]) -> list[dict]:
                                 continue
                             out.append({"family_scope": "__document__", "label": label[:120],
                                         "value": val[:160], "shape": "PARAM",
-                                        "locator": f"p{pi}:t{ti}:r{ri}", "source_url": url})
+                                        "locator": f"p{pi}:t{ti}:r{ri + roff}", "source_url": url})
                             counts["param"] += 1
                         continue
 
@@ -265,7 +276,7 @@ def run(browser, urls: list[str]) -> list[dict]:
                             pids_seen.add(pid)
                             if len(r) != len(hdr):
                                 defects.append({"code": "GRID_MISALIGNED",
-                                                "locator": f"p{pi}:t{ti}:r{ri}",
+                                                "locator": f"p{pi}:t{ti}:r{ri + roff}",
                                                 "detail": f"{pid}: {len(r)} cells vs header {len(hdr)}"})
                                 continue
                             for ci in range(1, len(r)):
@@ -275,7 +286,7 @@ def run(browser, urls: list[str]) -> list[dict]:
                                 if (val or "").lower() in EMPTY_VAL:
                                     continue
                                 out.append({"sku": pid, "label": label[:120], "value": val[:160],
-                                            "shape": "GRID", "locator": f"p{pi}:t{ti}:r{ri}:c{ci}",
+                                            "shape": "GRID", "locator": f"p{pi}:t{ti}:r{ri + roff}:c{ci}",
                                             "source_url": url})
                                 counts["grid"] += 1
 
