@@ -13,6 +13,7 @@
 // Rules, in the order they are tried (identical to base.py; the reason slugs are its
 // PART_NUMBER_REASONS verbatim):
 //   empty, bad_char, whitespace          not a token at all
+//   KEEP: numeric Cisco PIDs             10-2834-01, 1030033 — see PN_KEEP_* below
 //   date                                 01-MAY-2022, 2024-10-31, 10/31/2024
 //   quantity                             0.75K, 0.6-1.2A, 0-30M/50M, 10/100/1000, 24x10G, 40W, 1-CPU
 //   footnote                             1.DDR4-3200 (a footnote digit glued to a token)
@@ -20,7 +21,8 @@
 //   version                              17.9.4a, 15.2(4)E7, v2.1
 //   connector                            RJ45, SFP+, QSFP28, QSFP-DD, USB-C, HDMI
 //   protocol                             IPv4, VLAN, PoE+, SNMPv3, UL60950, RoHS
-//   no_letter                            1_000 — digit-only and no rule above named it
+//   no_letter                            1_000 — digit-only and no rule above named it (the two Cisco
+//                                        digit-only PID shapes are kept before this ever runs)
 //   too_short                            Z4 — unless the caller opts into short names (Ubiquiti UX)
 //   bare_word                            Aggregation, Ethernet — no digit and no dash
 // Deliberately KEPT: digit-first Cisco PIDs (15216-ATT-LC=, 8201-32FH, 76-ES+XT-4TG3C), '/' '='
@@ -40,6 +42,19 @@ export type PartNumberVerdict = { ok: true; reason: null } | { ok: false; reason
 
 // eslint-disable-next-line no-control-regex
 const PN_BAD_CHAR = /[\x00-\x1f,;<>"'\\|{}[\]]/;
+// Explicit KEEPS, tried before every refusal (4 Sep 2026, docs/CISCO_GAPS.md finding 10). Cisco
+// writes two digit-only PID shapes and the refusals below swallowed both — 1,497 real parts that
+// this gate is the ONE gate for, so they could never be queued:
+//   * NN-NNNN…-NN  internal assembly numbers (10-2834-01, 10-1022008-01): 596 parts, 468 of them
+//     NCS 2000 assemblies. Refused as `quantity`, because digits joined by '-' read as a range.
+//   * NNNNNN[NN]   six- to eight-digit Scientific-Atlanta video PIDs (1030033, 1005444): 1,029
+//     parts across Prisma II, GS7000, RF Gateway. Refused as `quantity` or `no_letter`.
+// The cost, measured: 18 of those 1,029 tokens are scraped numbers, not PIDs (115200 and 230400
+// are baud rates, 33554432 is 2^25). They will be enqueued once and come back not_listed. Five
+// digits or fewer stays a quantity (13368, 15200); nine or more stays no_letter (162870776).
+// base.py carries the same two patterns and tests/fixtures/partnumbers.json holds both sides.
+const PN_KEEP_ASSEMBLY = /^[0-9]{2}-[0-9]{4,}-[0-9]{2}$/;
+const PN_KEEP_NUMERIC = /^[0-9]{6,8}$/;
 const PN_DATE = [
   /^[0-9]{1,2}-(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*-[0-9]{2,4}$/i,
   /^(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*-[0-9]{2,4}$/i,
@@ -81,6 +96,8 @@ export function isPartNumber(key: string | null | undefined, allowShort = false)
   if (!k) return { ok: false, reason: "empty" };
   if (PN_BAD_CHAR.test(k)) return { ok: false, reason: "bad_char" };
   if (/\s/.test(k)) return { ok: false, reason: "whitespace" };
+  // the two Cisco digit-only PID shapes, before the rules that would read them as quantities
+  if (PN_KEEP_ASSEMBLY.test(k) || PN_KEEP_NUMERIC.test(k)) return { ok: true, reason: null };
   if (PN_DATE.some((rx) => rx.test(k))) return { ok: false, reason: "date" };
   if (PN_QUANTITY.test(k) || PN_COUNT_WORD.test(k)) return { ok: false, reason: "quantity" };
   if (PN_FOOTNOTE.test(k)) return { ok: false, reason: "footnote" };

@@ -73,6 +73,36 @@ ACCEPT = [
     "USW-Flex-XG",              # Ubiquiti
     "UCS-CPU-E52630D=",
     "AIR-AP3802E-IK910",
+    # ---- the two digit-only Cisco PID shapes, kept explicitly since 4 Sep 2026 --------------
+    # Every one of these is a row in the live parts table. Until today all 1,497 were refused as
+    # `quantity`, and because this function is the ONE gate at enqueue they could never be
+    # fetched (docs/CISCO_GAPS.md finding 10).
+    "10-2834-01",       # NCS 2000 assembly, the audit's example
+    "10-2000-01",       # a real assembly whose middle group looks like a year
+    "10-2007-01",
+    "10-1453-01",
+    "10-1750-01",
+    "10-1832-03",       # a revision other than -01 in the tail
+    "10-1845-01",
+    "10-1846-01",
+    "10-1022008-01",    # GS7000: a seven-digit middle group
+    "10-1022026-01",
+    "03-100261-01",     # a leading zero in the head group
+    "37-1016-01",       # UCS B-Series assembly
+    "1030033",          # Scientific-Atlanta video PIDs: Optical Passive Components
+    "1005444",
+    "1000897",          # Prisma II
+    "1030007",
+    "187134",           # six digits
+    "207340",
+    "562580",           # GS7000 Nodes
+    "745415",           # RF Gateway
+    "3993131",
+    "4007228",
+    "4028842",          # Prisma D-PON
+    "126291",           # UCS B-Series
+    "580503",           # S-Series storage
+    "075681",           # a leading zero, six digits
 ]
 
 # ---- refusals: (token, the reason it must be refused for) ----------------------------------------
@@ -88,6 +118,27 @@ REFUSE = [
     ("1-CPU", "quantity"),                  # a count with its noun
     ("2-PSU", "quantity"),
     ("15200", "quantity"),                  # a bare number
+    ("13368", "quantity"),                  # five digits: below the numeric-PID band, real catalogue noise
+    ("1234567890", "quantity"),             # ten digits: above it
+    ("162870776", "quantity"),              # nine digits, a scraped value that IS in the catalogue
+    ("100-1453-01", "quantity"),            # three-digit head: not the assembly shape
+    ("10-1022008-011", "quantity"),         # three-digit tail: not the assembly shape
+    # the 963 genuine catalogue-noise SKUs the enumeration created as "parts" (docs/CISCO_GAPS.md
+    # finding 10): every one of these is a row in the live parts table and none is a product.
+    ("1000BASE-LX", "standard"),
+    ("100BASE-LX", "standard"),
+    ("10GBASE-CX4", "standard"),
+    ("141GB", "quantity"),
+    ("14.9W", "quantity"),
+    ("10A/250V", "quantity"),
+    ("12-54VDC", "quantity"),
+    ("1440+", "quantity"),
+    ("10/25G", "quantity"),
+    ("1038.2W", "quantity"),                # a Nexus Dashboard power measurement
+    ("1413.9W", "quantity"),
+    ("15.3.2T", "version"),                 # IOS releases enumerated as routers
+    ("15.0.1M", "version"),
+    ("15.2.1T", "version"),
     ("01-MAY-2022", "date"),
     ("2024-10-31", "date"),
     ("10/31/2024", "date"),
@@ -156,6 +207,29 @@ check("S8", "surrounding whitespace is stripped, not refused", is_part_number(" 
 check("S9", "None is empty", is_part_number(None) == (False, "empty"))
 check("S10", "a key that is a variant of an accepted key is accepted too (C9200L-24P-4G-A-RF)",
       is_part_number("C9200L-24P-4G-A-RF") == (True, None))
+
+# ---- sabotage: the two explicit KEEPS added 4 Sep 2026 ----------------------------------------------
+# A keep that runs before every refusal is the most dangerous kind of rule: it can only ever let
+# MORE through. These pin both of its bounds and prove it did not open a hole in the rules it
+# jumps over.
+check("S12", "the keeps do not swallow a date, a version or a footnote",
+      is_part_number("2024-10-31") == (False, "date") and is_part_number("10/31/2024") == (False, "date")
+      and is_part_number("01-MAY-2022") == (False, "date") and is_part_number("17.9.4a") == (False, "version")
+      and is_part_number("1.DDR4-3200") == (False, "footnote"))
+check("S13", "the numeric keep is bounded to 6-8 digits: 5 and 9+ are still quantities",
+      is_part_number("13368") == (False, "quantity") and is_part_number("99999") == (False, "quantity")
+      and is_part_number("162870776") == (False, "quantity") and is_part_number("1030033") == (True, None)
+      and is_part_number("075681") == (True, None) and is_part_number("33554432") == (True, None))
+check("S14", "the numeric keep takes digits only: a decimal, a unit or a slash is still refused",
+      is_part_number("4042868.1410") == (False, "quantity") and is_part_number("128GB") == (False, "quantity")
+      and is_part_number("10/100/1000") == (False, "quantity") and is_part_number("1030033.5") == (False, "quantity"))
+check("S15", "the assembly keep takes exactly NN-NNNN..-NN: a 3-digit head or tail is still a quantity",
+      is_part_number("100-1453-01") == (False, "quantity") and is_part_number("10-1022008-011") == (False, "quantity")
+      and is_part_number("10-145-01") == (False, "quantity") and is_part_number("0-23") == (False, "quantity")
+      and is_part_number("10-2834-01") == (True, None))
+check("S16", "a kept numeric PID is accepted with allow_short off AND on (the keep is not a short-name rule)",
+      is_part_number("1030033") == (True, None) and is_part_number("1030033", allow_short=True) == (True, None)
+      and is_part_number("10-2834-01", allow_short=True) == (True, None))
 
 total = len(ACCEPT) + len(REFUSE)
 check("S11", f"at least 60 cases, at least half refusals ({len(ACCEPT)} accept / {len(REFUSE)} refuse)",

@@ -108,6 +108,7 @@ def sku_in(text: str, sku: str) -> bool:
 # input was refused for the STATED reason — "refused" alone would let a rule die silently.
 # Rules, in the order they are tried:
 #   empty, bad_char, whitespace          not a token at all
+#   KEEP: numeric Cisco PIDs             10-2834-01, 1030033 — see the block below
 #   date                                 01-MAY-2022, 2024-10-31, 10/31/2024
 #   quantity                             0.75K, 0.6-1.2A, 0-30M/50M, 10/100/1000, 24x10G, 40W, 1-CPU
 #   footnote                             1.DDR4-3200, 1.QSFP-40/100-SRBD (a footnote glued to a token)
@@ -116,8 +117,8 @@ def sku_in(text: str, sku: str) -> bool:
 #   connector                            RJ45, SFP+, QSFP28, QSFP-DD, USB-C, HDMI
 #   protocol                             IPv4, VLAN, PoE+, SNMPv3, UL60950, RoHS
 #   no_letter                            1_000, 12345_6 — a digit-only token no rule above named (a bare
-#                                        number such as 15200 is already a quantity); no vendor we
-#                                        cover writes digit-only part numbers
+#                                        number such as 15200 is already a quantity). Cisco DOES write
+#                                        digit-only PIDs; the two shapes it uses are kept above.
 #   too_short                            Z4 — unless the source opts into short names (Ubiquiti UX, U6+)
 #   bare_word                            Aggregation, Ethernet — a word with no digit and no dash
 # What is deliberately KEPT: Cisco digit-first PIDs (15216-ATT-LC=, 8804-FC0, 8201-32FH,
@@ -127,6 +128,28 @@ def sku_in(text: str, sku: str) -> bool:
 
 PART_NUMBER_REASONS = ("empty", "bad_char", "whitespace", "date", "quantity", "footnote", "version",
                        "standard", "connector", "protocol", "no_letter", "too_short", "bare_word")
+
+# ---------------------------------------------------------------------------------------------
+# Explicit KEEPS, tried before every refusal (4 Sep 2026, docs/CISCO_GAPS.md finding 10).
+#
+# Cisco writes two digit-only PID shapes, and the refusals below swallowed BOTH — 1,497 real parts
+# that `is_part_number` is the one gate for, so they could never be queued for a fetch:
+#   * NN-NNNN…-NN   internal assembly numbers: 10-2834-01, 10-1022008-01. 596 parts, 468 of them
+#                   NCS 2000 assemblies in optical-networking. Refused as `quantity`, because
+#                   digits joined by '-' read as a range.
+#   * NNNNNN[NN]    six- to eight-digit Scientific-Atlanta video PIDs: 1030033, 1005444. 1,029
+#                   parts — Prisma II, GS7000 nodes, RF Gateway, Optical Passive Components.
+#                   Refused as `quantity` (a bare number) or `no_letter`.
+# WHAT THIS COSTS, measured rather than hoped: the second shape is a SHAPE, and 18 of the 1,029
+# tokens are not PIDs but numbers a scraper read as one — 115200 and 230400 (baud rates on the
+# 4000 ISR), 33554432 (2^25, a Catalyst 9600 buffer size), two Nexus Dashboard ids. They will now
+# be enqueued and will come back `not_listed`, which costs 18 politeness slots once. Refusing
+# 1,011 real PIDs forever costs two whole categories. The bound is deliberate on both sides: five
+# digits or fewer stays a quantity (13368, 15200), nine or more stays `no_letter` (162870776), and
+# anything with a decimal point, a unit or a slash never reaches here.
+# ---------------------------------------------------------------------------------------------
+_PN_KEEP_ASSEMBLY = re.compile(r"^[0-9]{2}-[0-9]{4,}-[0-9]{2}$")   # 10-2834-01, 10-1022008-01
+_PN_KEEP_NUMERIC = re.compile(r"^[0-9]{6,8}$")                     # 1030033, 1005444, 075681
 
 _PN_BAD_CHAR = re.compile(r"[\x00-\x1f,;<>\"'\\|{}\[\]]")
 _PN_DATE = [
@@ -173,6 +196,9 @@ def is_part_number(key: str | None, allow_short: bool = False) -> tuple[bool, st
         return False, "bad_char"
     if any(c.isspace() for c in k):
         return False, "whitespace"
+    # the two Cisco digit-only PID shapes, before the rules that would read them as quantities
+    if _PN_KEEP_ASSEMBLY.match(k) or _PN_KEEP_NUMERIC.match(k):
+        return True, None
     if any(rx.match(k) for rx in _PN_DATE):
         return False, "date"
     if _PN_QUANTITY.match(k) or _PN_COUNT_WORD.match(k):

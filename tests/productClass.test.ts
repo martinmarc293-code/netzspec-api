@@ -10,7 +10,7 @@
 // docs/DATA_MODEL.md table fired at least once — a rule no case reaches is a rule nobody has
 // seen work — and that the reason names the rule, because parts.product_class_reason is how a
 // wrong class is traced back.
-import { classify, ruleSku, RULE_NAMES, type ProductClass } from "../src/core/productClass.js";
+import { classify, ruleSku, ruleName, RULE_NAMES, SKU_RULES, type ProductClass } from "../src/core/productClass.js";
 
 type Case = { sku: string; cat?: string; hw?: boolean | null; want: ProductClass; reason: string; note?: string };
 
@@ -33,6 +33,33 @@ const cases: Case[] = [
   { sku: "C9300-DNA-A-24-3Y", cat: "switches", hw: true, want: "license", reason: "sku-contains:DNA" },
   { sku: "C9200-DNA-E-24-3Y", cat: "switches", hw: true, want: "license", reason: "sku-contains:DNA" },
   { sku: "AIR-DNA-A-3Y", cat: "wireless", hw: true, want: "license", reason: "sku-contains:DNA" },
+
+  // ---- round 2 (runs/vocab/cisco-round2/product-class-rules.json) --------------------------
+  // Every SKU here is a row in the live parts table today, every one is currently classed
+  // `hardware`, and every one is a licence, a subscription, a software image or a service.
+  { sku: "A-FLEX-01-12.5-K9", cat: "unified-communications", hw: true, want: "license", reason: "sku-prefix:A-FLEX-", note: "Webex Flex Plan: the safe subset of the REJECTED bare A- prefix" },
+  { sku: "A-SUB-210-3PC-NA", cat: "unified-communications", hw: true, want: "license", reason: "sku-prefix:A-SUB-" },
+  { sku: "3PTY-UWL-RTU", cat: "unified-communications", hw: true, want: "license", reason: "sku-contains:-UWL-", note: "matches -UWL- and -RTU; the table order decides the reason" },
+  { sku: "3PTY-CLIENT-UWL", cat: "unified-communications", hw: true, want: "license", reason: "sku-suffix:-UWL" },
+  { sku: "AC-APX-1YR-100", cat: "security", hw: true, want: "license", reason: "sku-prefix:AC-APX" },
+  { sku: "AC-PLS-1YR-100", cat: "security", hw: true, want: "license", reason: "sku-prefix:AC-PLS" },
+  { sku: "ISE-10VM-K9=", cat: "security", hw: true, want: "license", reason: "sku-prefix:ISE-", note: "a VM entitlement with a spare suffix" },
+  { sku: "ISE-PLS-1YR-100", cat: "security", hw: true, want: "license", reason: "sku-prefix:ISE-", note: "was classed by the category before round 2; the SKU rule is the right answer" },
+  { sku: "C1F13CT1P-T-ADVG", cat: "switches", hw: true, want: "license", reason: "sku-prefix:C1F", note: "Cisco ONE Foundation perpetual software, sold under a switch category" },
+  { sku: "C9200-DNX-A-24-3Y", cat: "switches", hw: true, want: "license", reason: "sku-contains:-DNX-", note: "the round-1 table catches DNA and misses DNX" },
+  { sku: "ADN-8KE-400G-RTU", cat: "routers", hw: true, want: "license", reason: "sku-suffix:-RTU" },
+  { sku: "540-ADN-L-RTU-P", cat: "routers", hw: true, want: "license", reason: "sku-contains:-RTU-" },
+  { sku: "E3S-CDO5508P", cat: "security", hw: true, want: "license", reason: "sku-prefix:E3S-" },
+  { sku: "E2SF-KEN-APPSEC", cat: "security", hw: true, want: "license", reason: "sku-prefix:E2SF-", note: "escapes the round-1 E- prefix because of the digit" },
+  { sku: "AMP4E-SEC-SUB", cat: "security", hw: true, want: "license", reason: "sku-suffix:-SUB" },
+  { sku: "UCSS-ATT-CUB1-1", cat: "unified-communications", hw: true, want: "license", reason: "sku-prefix:UCSS-" },
+  { sku: "8KSW-A-SIA-3", cat: "routers", hw: true, want: "license", reason: "sku-contains:-SIA" },
+  { sku: "EVAL-CUIC-BASE-K9", cat: "servers-unified-computing", hw: true, want: "license", reason: "sku-prefix:EVAL-" },
+  { sku: "EI-SUBSCRIPTIONS", cat: "switches", hw: true, want: "license", reason: "sku-contains:SUBSCR" },
+  { sku: "WAESUBSCRIPTIBDQ8", cat: "routers", hw: true, want: "license", reason: "sku-contains:SUBSCR", note: "no dashes at all: a contains rule, not a suffix" },
+  { sku: "SW-CCME-UL-ENH", cat: "unified-communications", hw: true, want: "software", reason: "sku-prefix:SW-" },
+  { sku: "SVS-CTIR-DUO-L", cat: "servers-unified-computing", hw: true, want: "service", reason: "sku-prefix:SVS-" },
+  { sku: "ASF-CORE-G-SSME-1I", cat: "security", hw: true, want: "service", reason: "sku-prefix:ASF-" },
 
   // ---- hardware ---------------------------------------------------------------------------
   { sku: "C9200L-24P-4G", cat: "switches", hw: true, want: "hardware", reason: "category-is_hardware=true:switches" },
@@ -57,7 +84,6 @@ const cases: Case[] = [
   // ---- software: the category decides when no SKU rule fires ------------------------------
   { sku: "C1A1ATCAT36501", cat: "software", hw: false, want: "software", reason: "category-is_hardware=false:software", note: "Cisco ONE subscription PID in the software category" },
   { sku: "8000-SW-LICENSE", cat: "ios-nx-os-software", hw: false, want: "software", reason: "category-is_hardware=false:ios-nx-os-software" },
-  { sku: "ISE-PLS-1YR-100", cat: "cloud-systems-management", hw: false, want: "software", reason: "category-is_hardware=false:cloud-systems-management" },
   { sku: "A-CMS-API", cat: "contact-center", hw: false, want: "software", reason: "category-is_hardware=false:contact-center" },
 
   // ---- unknown ----------------------------------------------------------------------------
@@ -69,10 +95,11 @@ const cases: Case[] = [
 ];
 
 let pass = 0;
+let sabotages = 0;
 const misses: string[] = [];
-function check(name: string, cond: boolean, detail?: string): void {
+function check(name: string, cond: boolean, detail?: unknown): void {
   if (cond) { pass++; console.log(`PASS  ${name}`); }
-  else { misses.push(name); console.log(`MISS  ${name}${detail ? ` — ${detail}` : ""}`); }
+  else { misses.push(name); console.log(`MISS  ${name}${detail === undefined ? "" : ` — ${typeof detail === "string" ? detail : JSON.stringify(detail)}`}`); }
 }
 
 const seenReasons = new Set<string>();
@@ -106,6 +133,50 @@ check("SABOTAGE a category slug named 'switches' with is_hardware unknown is unk
 check("SABOTAGE 'LIC-' is reported as the prefix rule, not as the '-LIC-' infix it also contains",
   classify({ sku: "LIC-MS120-8-1YR", categoryIsHardware: true }).reason === "sku-prefix:LIC-");
 
+// ---- the four round-2 rules that were REJECTED --------------------------------------------------
+// Each case is a real part the rule would have swallowed. If someone adds the rule back, exactly
+// one of these goes red and its note says what the rule would have cost. A rejection nobody can
+// see is a rejection that gets undone by the next person to read the proposals file.
+sabotages++;
+check("SABOTAGE REJECTED sku-prefix:A- — A-D800-D800-7M is an Arista QSFP-DD active optical cable (7 facts), not a Cisco subscription",
+  classify({ sku: "A-D800-D800-7M", categorySlug: "transceiver", categoryIsHardware: true }).klass === "hardware",
+  classify({ sku: "A-D800-D800-7M", categoryIsHardware: true }));
+sabotages++;
+check("SABOTAGE REJECTED sku-suffix:-LIC — 15454-AR-MXP-LIC is an ONS15454 Any-Rate Muxponder card, licence-RESTRICTED hardware",
+  classify({ sku: "15454-AR-MXP-LIC", categorySlug: "optical-networking", categoryIsHardware: true }).klass === "hardware",
+  classify({ sku: "15454-AR-MXP-LIC", categoryIsHardware: true }));
+sabotages++;
+check("SABOTAGE REJECTED sku-suffix:-LIC — 15454-M-100GC-LIC= is a 100G OTU-4 line card carrying 5 facts",
+  classify({ sku: "15454-M-100GC-LIC=", categorySlug: "optical-networking", categoryIsHardware: true }).klass === "hardware");
+sabotages++;
+check("SABOTAGE REJECTED sku-prefix:C1- — C1-N9K-C9508 is a real Nexus 9508 chassis in Cisco ONE ordering form",
+  classify({ sku: "C1-N9K-C9508", categorySlug: "switches", categoryIsHardware: true }).klass === "hardware");
+sabotages++;
+check("SABOTAGE REJECTED sku-prefix:C1- — C1-C2960X-48LPS-L is a Catalyst 2960-X, 48 GigE PoE (2 facts)",
+  classify({ sku: "C1-C2960X-48LPS-L", categorySlug: "switches", categoryIsHardware: true }).klass === "hardware");
+sabotages++;
+check("SABOTAGE REJECTED sku-fails-is_part_number — 10-2834-01 and 1030033 are real Cisco PIDs the junk gate refuses; the class table does not read that gate",
+  classify({ sku: "10-2834-01", categorySlug: "optical-networking", categoryIsHardware: true }).klass === "hardware"
+  && classify({ sku: "1030033", categorySlug: "video", categoryIsHardware: true }).klass === "hardware");
+// The one measured exception inside an adopted rule.
+sabotages++;
+check("SABOTAGE the ISE- veto — ISE-SNS-ACCYKIT is the physical SNS accessory kit and stays hardware, while ISE-SNS-3595-K9 style licences do not exist",
+  classify({ sku: "ISE-SNS-ACCYKIT", categorySlug: "security", categoryIsHardware: true }).klass === "hardware"
+  && classify({ sku: "ISE-ADV-1YR-50K", categorySlug: "security", categoryIsHardware: true }).klass === "license");
+// The rules are shapes, not family names (docs/CISCO_GAPS.md finding 9).
+sabotages++;
+check("SABOTAGE a hardware PID inside a licence-heavy family is untouched (TG5000-CHAS-AC, AIR-AP-VBLE-ADPTR=, CSM4-UCS2-50-HW)",
+  ["TG5000-CHAS-AC", "TG-M7-MEM-32GB", "AIR-AP-VBLE-ADPTR=", "CSM4-UCS2-50-HW"]
+    .every((s) => classify({ sku: s, categorySlug: "security", categoryIsHardware: true }).klass === "hardware"));
+// Every rule the table holds is reachable: no rule is shadowed into never firing by an earlier one.
+{
+  const unreachable = SKU_RULES.filter((r) => {
+    const probe = r.kind === "prefix" ? r.token + "0000TEST" : r.kind === "suffix" ? "TEST0000" + r.token : "TEST" + r.token + "0000";
+    return classify({ sku: probe, categoryIsHardware: true }).reason !== ruleName(r);
+  }).map(ruleName);
+  check(`no rule in the table is shadowed into never firing (${SKU_RULES.length} rules)`, unreachable.length === 0, unreachable);
+}
+
 // ---- every rule in the table fired at least once --------------------------------------------------
 const untested = RULE_NAMES.filter((r) => ![...seenReasons].some((s) => s === r || s.startsWith(r + ":")));
 // SUB-, SWSS, -STU and MERAKI-LIC are in the table but no PID carrying them exists in data/reference
@@ -129,5 +200,5 @@ check("at least 25 real Cisco SKUs are covered", cases.filter((c) => c.sku.trim(
 check("every reason names its rule (non-empty, one of RULE_NAMES)", [...seenReasons].every((s) => RULE_NAMES.some((r) => s === r || s.startsWith(r + ":"))));
 console.log(`(rules exercised only by table shapes, no real PID yet: ${untested.length ? untested.join(", ") : "none"})`);
 
-console.log(`\nproductClass: ${pass} passed, ${misses.length} missed`);
+console.log(`\nproductClass: ${pass} passed, ${misses.length} missed (${sabotages} sabotage cases)`);
 if (misses.length) process.exit(1);

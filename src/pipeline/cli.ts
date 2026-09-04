@@ -33,9 +33,17 @@ const COMMANDS: Record<string, { help: string; run: (argv: string[]) => Promise<
     help: "Cisco TMG optics matrix -> supports_transceiver / compatible / equivalent relations: <cisco-tmg*.json>... [--commit] [--sample N]",
     run: async (argv) => { const m = await import("./apply-compat.js"); await m.main(argv); },
   },
+  reclassify: {
+    help: "re-run the product-class rule table over every existing part; writes only rows whose class changes: [--commit] [--vendor V] [--examples N]",
+    run: async (argv) => { const m = await import("./reclassify.js"); await m.main(argv); },
+  },
   "recompute-completeness": {
     help: "per-part required/missing fields from current verified facts (the gap ledger's input): [--vendor V] [--category C] [--since ISO]",
     run: async (argv) => { const m = await import("./recompute-completeness.js"); await m.main(argv); },
+  },
+  "promote-required": {
+    help: "earn required fields from evidence: promote a generated 'opt' to 'req' where the corpus already carries it: [--commit] [--min-share 0.6] [--min-parts 30]",
+    run: async (argv) => { const m = await import("./promote-required.js"); await m.main(argv); },
   },
   "apply-alias-proposals": {
     help: "vocabulary agents' proposals -> alias rules + generated fields, re-validated: <journal.jsonl|proposals.json> [--commit]",

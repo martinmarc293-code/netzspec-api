@@ -67,7 +67,12 @@ different values: conflict, field held.
 (`poe_budget >= 370`) index without parsing JSON.
 
 `raw` is always kept. A normaliser bug is fixed by re-running the normaliser over `raw`, not
-by re-scraping.
+by re-scraping — which means `raw` must carry everything the normaliser had the first time.
+Where the UNIT came from the LABEL rather than the cell ("Cache Size (MB)" over a bare `32`,
+"Weight [Kilograms]" over `35`), `raw` is stored as **`"<label> | <cell>"`** and the label is
+the part before the first ` | `. A bare `32` cannot replay: nothing in it says megabytes. The
+gate re-reads the CELL, so the produced fact the gate grades keeps the cell alone; only the
+stored `facts.raw` and `fact_evidence.raw` carry the label.
 
 ### Units accepted
 
@@ -102,6 +107,35 @@ one). `raw` is kept in every case, so any of this is replayable.
 Each fact carries `doc_id` + `locator` (`t12:r9:c2` for a table cell, `description:<pattern>`
 for a mined description) + `method` + `extracted_at` + `norm_v`. `fact_evidence` holds one row
 per supporting document, so a corroborated fact shows both sources.
+
+The locator also carries the document's **revision label** as a `|rev=<stamp>` suffix
+(`packLocator`/`unpackLocator` in `src/store/facts.ts`; a migration adding
+`facts.revision_label` would replace them and nothing else). The stamp is the document's fetch
+record: the extractor's own `fetched_at` for that document if it wrote one, else the mtime of
+the cached file, else the extract file's `generated_at`. It is what lets "the same datasheet,
+fetched again, now says something different" resolve as a **revision change** instead of being
+blamed on two disagreeing sources — without it that branch of `mergeField` is unreachable and
+every corrected datasheet arrives as a permanent held conflict.
+
+## Facts of a run that did not succeed
+
+`apply-*` commands write in **one transaction per part**, so a throw part-way through leaves the
+parts already merged committed under a run that is then closed `failed`. Those rows exist and
+cannot be un-written; what they must not do is get served, because the run never reached its own
+close and the set they belong to passed no gate.
+
+- The **write side** records how far it got: the failure path takes the caller's partial stats
+  and a `progress=<n>/<total> parts merged, last <sku>` line into `runs.notes`
+  (`withRun(..., { partial })`). A failed run with `stats {}` used to say nothing at all.
+- The **read side** ignores them: `factRunSucceeded()` in `src/api/queries/shared.ts` is the one
+  definition — `run_id IS NULL` (seed and back-fill data that predates runs) **or** the run row
+  is `succeeded`. It is applied in `SUMMARY_COLUMNS.fact_count` (so `/parts`, `/search` and
+  `/lifecycle` agree) and in the part record's facts and sources (`src/api/queries/part.ts`), the
+  two places a fact is rendered.
+- **Recorded gap, not a silent one:** the aggregate readers — `stats`, `facets`, `gaps`,
+  `compare`, `changes`, `export`'s counters — still count those rows. They must take the same
+  predicate; until they do, a failed run can move a total without moving a page. The operator
+  lever in the meantime is to abort and remove the run's rows by hand, as was done for run #15.
 
 ## Product class
 

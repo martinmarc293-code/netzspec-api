@@ -27,7 +27,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   dictionaryKeys, keysFromInventory, keysFromGolden, sourceFieldsProblems, problemsOf, filterKeys, GOLDEN_CATEGORY,
-  type BuiltSourceFields,
+  requiredKeysByCategory, requiredProfileKeys, requiredFieldCoverageProblems, capableSources, enabledSources,
+  ANY_CATEGORY_SOURCES, type BuiltSourceFields,
 } from "../src/pipeline/build-source-fields.js";
 import { LOOKUP_TASK } from "../src/pipeline/queue.js";
 
@@ -64,13 +65,62 @@ const committed = JSON.parse(fs.readFileSync(FILE, "utf8")) as BuiltSourceFields
     check(`committed file: ${s} has ${n} key(s)${explained ? " — none, and the inventory explains why" : ""}`,
       n > 0 || (explained && ev.method === "label-inventory" && (ev.labels ?? 0) > 0 && ev.mapped === 0 && (ev.unmapped_labels?.length ?? 0) > 0), ev);
   }
-  check("committed file: the Cisco datasheet sources are present with per-category lists (never '*')",
-    !!committed.sources["cisco-datasheets"] && !("*" in committed.sources["cisco-datasheets"]) && Object.keys(committed.sources["cisco-datasheets"]).length >= 1
-      && !!committed.sources["cisco-datasheet-pdf"] && !("*" in committed.sources["cisco-datasheet-pdf"]), Object.keys(committed.sources));
+  check("committed file: the Cisco datasheet sources carry BOTH per-category lists (the evidence) and a '*' list (the capability it implies)",
+    ANY_CATEGORY_SOURCES.every((s) => !!committed.sources[s]?.["*"]?.length && Object.keys(committed.sources[s]).some((c) => c !== "*")),
+    Object.fromEntries(ANY_CATEGORY_SOURCES.map((s) => [s, Object.keys(committed.sources[s] ?? {})])));
+  for (const s of ANY_CATEGORY_SOURCES) {
+    const byCat = committed.sources[s] ?? {};
+    const perCat = new Set(Object.entries(byCat).filter(([c]) => c !== "*").flatMap(([, ks]) => ks));
+    const star = new Set(byCat["*"] ?? []);
+    check(`committed file: ${s} '*' (${star.size}) is a superset of every per-category list (${perCat.size} keys) and of every profile-required key`,
+      [...perCat].every((k) => star.has(k)) && requiredProfileKeys().every((k) => star.has(k) || !dict.has(k)),
+      { missing_from_star: [...perCat].filter((k) => !star.has(k)), required_missing: requiredProfileKeys().filter((k) => !star.has(k)) });
+    check(`committed file: ${s} evidence explains the '*' list (seen + required)`,
+      committed.evidence.sources[s]?.any_category?.keys === star.size, committed.evidence.sources[s]?.any_category);
+  }
   check("committed file: inventory-derived sources sit under '*' and say which inventory they came from",
     ["provantage", "router-switch", "meraki"].every((s) => committed.sources[s]?.["*"]?.length > 0 && committed.evidence.sources[s]?.method === "label-inventory" && /runs\/vocab\/.*labels\.json/.test(committed.evidence.sources[s].inventory ?? "")));
   check("committed file: every list is sorted and de-duplicated", Object.values(committed.sources).every((byCat) => Object.values(byCat).every((ks) => ks.join() === [...new Set(ks)].sort().join())));
   check("committed file: keys not in the dictionary were dropped AND listed (the list is what makes a stale alias visible)", Array.isArray(committed.evidence.keys_not_in_dictionary));
+}
+
+// =================================================================================================
+// THE invariant this file exists for: nothing a profile REQUIRES may be uncoverable.
+// docs/CISCO_GAPS.md finding 5 — 100,167 gap_ledger entries had sources_capable = 0, and a gap with
+// no capable source can never reach gap_confirmed and never becomes a queue task.
+// =================================================================================================
+{
+  const byCat = requiredKeysByCategory();
+  const cats = Object.keys(byCat).sort();
+  const total = Object.values(byCat).reduce((n, ks) => n + ks.length, 0);
+  // The set is DERIVED (a profile with any req/cond field), so it grows on its own as required
+  // fields are promoted into the generated profiles — 8 hand-written categories on 3 Sep, 13 on
+  // 4 Sep. The floor is a floor, not the count: what matters is that the list is non-trivial and
+  // that every field in it is covered below.
+  check(`the hardware profiles state ${total} required-or-conditional fields across ${cats.length} categories (${cats.join(", ")})`, cats.length >= 8 && total >= 50, { cats, total });
+  const enabled = enabledSources(committed.evidence);
+  const uncovered = requiredFieldCoverageProblems(committed, enabled);
+  check(`committed file: EVERY required field of every hardware category has at least one ENABLED capable source (${total} fields, ${enabled.length} enabled sources)`, uncovered.length === 0, uncovered.slice(0, 20));
+  check("committed file: the fields finding 5 named as uncoverable now have a source",
+    (["mgmt_ports", "uplink_ports", "heat_dissipation", "power_typical", "layer", "psu_config"] as const).every((f) => capableSources(committed, "switches", f, enabled).length > 0)
+    && capableSources(committed, "routers", "router_throughput", enabled).length > 0,
+    Object.fromEntries((["mgmt_ports", "uplink_ports", "heat_dissipation", "power_typical", "layer", "psu_config"] as const).map((f) => [f, capableSources(committed, "switches", f, enabled)])));
+
+  sabotages++;
+  const holed = { ...committed, sources: { ...committed.sources, "cisco-datasheets": { ...committed.sources["cisco-datasheets"], "*": (committed.sources["cisco-datasheets"]["*"] ?? []).filter((k) => k !== "mgmt_ports") }, "cisco-datasheet-pdf": { ...committed.sources["cisco-datasheet-pdf"], "*": (committed.sources["cisco-datasheet-pdf"]["*"] ?? []).filter((k) => k !== "mgmt_ports") } } };
+  const p5 = requiredFieldCoverageProblems(holed, enabled);
+  check("SABOTAGE coverage: dropping one required key from the '*' lists is named as switches/mgmt_ports, and only that",
+    p5.length === 1 && /^switches\/mgmt_ports: required by the profile and no enabled source publishes it$/.test(p5[0]), p5);
+  sabotages++;
+  const withoutVendor = enabled.filter((s) => !(ANY_CATEGORY_SOURCES as readonly string[]).includes(s));
+  const p6 = requiredFieldCoverageProblems(committed, withoutVendor);
+  check("SABOTAGE coverage: disabling both vendor-datasheet sources leaves required fields uncoverable (the check is not a tautology)", p6.length > 20, p6.length);
+  sabotages++;
+  const extraReq = { switches: { mgmt_ports: { kind: "req" }, nz_not_a_real_field: { kind: "req" } } };
+  const p7 = requiredFieldCoverageProblems(committed, enabled, extraReq);
+  check("SABOTAGE coverage: a NEW required field added to a profile without regenerating the file is named", p7.join() === "switches/nz_not_a_real_field: required by the profile and no enabled source publishes it", p7);
+  check("coverage: a conditional field counts as required (it is `req` for any part that trips it and lands in completeness.missing)",
+    (requiredKeysByCategory().switches ?? []).includes("rack_units") && (requiredKeysByCategory().transceiver ?? []).includes("fiber_type"));
 }
 
 // =================================================================================================
@@ -114,8 +164,8 @@ const committed = JSON.parse(fs.readFileSync(FILE, "utf8")) as BuiltSourceFields
 // the database half
 // =================================================================================================
 if (!DB_MODE) {
-  skipped = 4;
-  console.log("SKIP  4 database checks (build against the test database, the cdw refusal, loadSourceFields, the unknown-key sabotage): run with NETZSPEC_DB=test and DATABASE_URL_TEST to prove them");
+  skipped = 6;
+  console.log("SKIP  6 database checks (build against the test database, the cdw refusal, loadSourceFields, the '*' rows landing as category_id IS NULL, the required-field coverage through the gap_ledger JOIN, the unknown-key sabotage): run with NETZSPEC_DB=test and DATABASE_URL_TEST to prove them");
 } else {
   const { query, closePool, resolveDatabaseUrl, databaseName } = await import("../src/store/db.js");
   const dbName = databaseName(resolveDatabaseUrl());
@@ -130,7 +180,10 @@ if (!DB_MODE) {
   const cdwEnabled = (await query<{ enabled: boolean }>("SELECT enabled FROM sources WHERE slug = 'cdw'")).rows[0]?.enabled;
   const htmlFacts = (await query<{ n: number }>("SELECT count(*)::int AS n FROM facts WHERE method = 'html_table' AND superseded_by IS NULL")).rows[0].n;
 
-  const built = await build();
+  // `previous` is what the CLI passes (the file being replaced), so a source whose inventory
+  // rebuilt empty keeps its keys instead of vanishing — without it meraki drops here and the
+  // determinism check below would be comparing against a file built with different inputs.
+  const built = await build({ previous: committed });
   const vocabSlugs = Object.entries(committed.evidence.sources).filter(([, ev]) => ev.method === "label-inventory").map(([s]) => s);
   check(`build (test db): the inventory-derived lists reproduce the committed file exactly for ${vocabSlugs.join(", ")} (deterministic)`,
     vocabSlugs.length >= 3 && vocabSlugs.every((s) => JSON.stringify(built.sources[s] ?? null) === JSON.stringify(committed.sources[s] ?? null)),
@@ -146,6 +199,27 @@ if (!DB_MODE) {
   const loaded = await loadSourceFields(FILE);
   const rows = (await query<{ n: number }>("SELECT count(*)::int AS n FROM source_fields")).rows[0].n;
   check("loadSourceFields(committed file): every key inserted, none unknown", loaded.unknownFields.length === 0 && loaded.inserted > 0 && rows === loaded.inserted, loaded);
+  const anyRows = (await query<{ slug: string; n: number }>(
+    "SELECT s.slug, count(*)::int AS n FROM source_fields sf JOIN sources s ON s.id = sf.source_id WHERE sf.category_id IS NULL GROUP BY 1 ORDER BY 1")).rows;
+  check("loadSourceFields: the '*' lists landed as category_id IS NULL rows for both vendor-datasheet sources",
+    ANY_CATEGORY_SOURCES.every((s) => (anyRows.find((r) => r.slug === s)?.n ?? 0) > 0), anyRows);
+
+  // The invariant proved through the JOIN the gap_ledger view itself uses, not through the file:
+  // a required field with no capable source is a gap that can never close.
+  {
+    const wanted = Object.entries(requiredKeysByCategory()).flatMap(([cat, keys]) => keys.map((k) => ({ cat, k })));
+    const uncovered = (await query<{ category: string; field_key: string }>(
+      `WITH want(category, field_key) AS (SELECT * FROM unnest($1::text[], $2::text[]))
+       SELECT w.category, w.field_key FROM want w
+         JOIN categories c ON c.slug = w.category
+        WHERE NOT EXISTS (
+          SELECT 1 FROM source_fields sf JOIN sources s ON s.id = sf.source_id
+           WHERE s.enabled AND sf.field_key = w.field_key AND (sf.category_id IS NULL OR sf.category_id = c.id))
+        ORDER BY 1, 2`,
+      [wanted.map((w) => w.cat), wanted.map((w) => w.k)])).rows;
+    check(`loadSourceFields: through the gap_ledger JOIN, every one of the ${wanted.length} required (category, field) pairs has an enabled capable source`,
+      uncovered.length === 0, uncovered.slice(0, 20));
+  }
 
   sabotages++;
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "nz-sf-"));
