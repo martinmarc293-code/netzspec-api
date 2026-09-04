@@ -39,10 +39,12 @@
 // it is not "the data is wrong" either, and the output says which it is (the legacy lesson:
 // a PDF run once printed "precision 0.0% FAIL" that meant nothing but "no overlap").
 //
-// The cached-document re-read runs the extractor's OWN grid builder (scraper/adapters/
-// cisco_specs_deep._rows via python3.11, pdfplumber for PDFs) as a subprocess, so the audit
-// uses exactly the parser that produced the locators. A TypeScript re-implementation would be
-// a second copy of the parser grading the first.
+// The cached-document re-read runs the extractor's OWN reader as a subprocess (python3.11:
+// cisco_specs_deep._rows for HTML, cisco_specs_pdf.read_page for PDFs), so the audit uses
+// exactly the parser that produced the locators. A TypeScript re-implementation would be a
+// second copy of the parser grading the first — and so was calling pdfplumber directly here,
+// which is what made 20 of 60 sampled facts look wrong on 4 Sep 2026 when every one of them was
+// right. tests/gatePdfProvenance.test.ts fails if this helper grows a parser of its own again.
 //
 // This module does not import apply-extract (which imports it); the CLI entry loads
 // apply-extract dynamically to build the plan it grades, so the gate grades the very facts the
@@ -121,26 +123,36 @@ export type ReadResult = {
 
 // The re-reader. Grouped by document, one document's grid in memory at a time (the legacy
 // version cached every grid and swapped for fifteen silent minutes). No backslash appears in
-// this Python source on purpose: it travels through a JS template literal and a -c argument.
+// this Python source on purpose: it travels through a JS template literal and a -c argument —
+// tests/gatePdfProvenance.test.ts fails if one ever does.
+//
+// It owns no parsing of its own. The HTML grid comes from cisco_specs_deep._rows and the PDF
+// page from cisco_specs_pdf.read_page — the same functions that produced the locators, footnote
+// markers stripped and cells capped the same way — because an auditor with its own reader grades
+// the extractor against a document neither of them read. On 4 Sep 2026 that gap was the WHOLE
+// defect: all 20 provenance mismatches held the right value at the right locator and failed on
+// "not in page text", because a PDF wraps a table cell onto a second line and extract_text
+// renders the page across every column, so the halves of one cell are never adjacent.
 const READ_SCRIPT = `
 import sys, json, io, hashlib, pathlib
 sys.path.insert(0, "scraper")
 from adapters.cisco_specs_deep import _rows
+from adapters.cisco_specs_pdf import read_page, text_lines, text_contains, cap_value
 from bs4 import BeautifulSoup
 req = json.loads(sys.stdin.buffer.read().decode("utf-8"))
 cache = pathlib.Path(sys.argv[1])
 def norm(s):
     return " ".join(str(s or "").split()).lower()
-def label_in(label, text):
+def label_in(label, lines):
     # The extractors SYNTHESISE some labels from two cells: shape C writes "Material: Unit Weight"
     # (section: row) and the PDF unit-row fold writes "Measured P(W) [90%]" (header + unit row).
     # Such a label is on the page as its parts, never as one string. Every part must be present.
-    l = norm(label)
-    if l in text:
+    if text_contains(label, lines):
         return True
+    l = norm(label)
     parts = [p.strip(" ]") for p in l.replace("[", "|").replace(":", "|").split("|")]
     parts = [p for p in parts if p]
-    return bool(parts) and all(p in text for p in parts)
+    return bool(parts) and all(text_contains(p, lines) for p in parts)
 out = [None] * len(req)
 by_url = {}
 for i, it in enumerate(req):
@@ -153,12 +165,14 @@ for url, idxs in by_url.items():
         soup = BeautifulSoup(html_f.read_text(encoding="utf-8", errors="replace"), "lxml")
         for s in soup(["script", "style"]):
             s.decompose()
-        text = norm(soup.get_text(" "))
+        # one blob, so the wrap walk degenerates to a plain substring test: HTML does not wrap
+        lines = [norm(soup.get_text(" "))]
         grid = [_rows(t) for t in soup.find_all("table")]
         for i in idxs:
             it = req[i]
             loc = it.get("loc")
-            res = {"label_in_text": label_in(it["label"], text), "value_in_text": norm(it["value"]) in text}
+            res = {"label_in_text": label_in(it["label"], lines),
+                   "value_in_text": text_contains(it["value"], lines)}
             if loc is None:
                 res["status"] = "no_locator"
             else:
@@ -179,19 +193,20 @@ for url, idxs in by_url.items():
             with pdfplumber.open(io.BytesIO(pdf_f.read_bytes())) as pdf:
                 for pno in pages:
                     if 0 <= pno < len(pdf.pages):
-                        pg = pdf.pages[pno]
-                        tables[pno] = [[[" ".join((cell or "").split()) for cell in row] for row in t] for t in (pg.extract_tables() or [])]
-                        texts[pno] = norm(pg.extract_text() or "")
+                        grid, text, nmarks, bleed = read_page(pdf.pages[pno])
+                        tables[pno] = grid
+                        texts[pno] = text_lines(text)
             for i in idxs:
                 it = req[i]
                 loc = it.get("loc")
                 if loc is None or loc.get("p") is None:
                     out[i] = {"status": "no_locator"}
                     continue
-                text = texts.get(loc["p"], "")
-                res = {"label_in_text": label_in(it["label"], text), "value_in_text": norm(it["value"]) in text}
+                lines = texts.get(loc["p"], [])
+                res = {"label_in_text": label_in(it["label"], lines),
+                       "value_in_text": text_contains(it["value"], lines)}
                 try:
-                    res["cell"] = tables[loc["p"]][loc["t"]][loc["r"]][loc["c"]]
+                    res["cell"] = cap_value(tables[loc["p"]][loc["t"]][loc["r"]][loc["c"]])[0]
                     res["status"] = "ok"
                 except Exception:
                     res["status"] = "out_of_range"

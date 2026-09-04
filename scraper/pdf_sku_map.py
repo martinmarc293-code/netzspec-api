@@ -27,6 +27,9 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from adapters.cisco_specs_pdf import strip_footnote_markers  # noqa: E402
+
 CACHE = Path("scraper/cache")
 # Deliberately permissive: this only produces CANDIDATES and the known-SKU set decides. It must
 # stay permissive because Cisco Meraki ships real devices called Z4, MV2 and MR4 and a
@@ -99,7 +102,13 @@ def main() -> int:
             import io
             with pdfplumber.open(io.BytesIO(body)) as pdf:
                 for page in pdf.pages:
-                    text = page.extract_text() or ""
+                    # Through the extractor's own footnote filter, or this map learns the
+                    # fabrications and then CONFIRMS them: Cisco glues a raised footnote digit to
+                    # the end of a PID ("UCSX-GPU-RTXP45003" is UCSX-GPU-RTXP4500 with footnote
+                    # 3), the token happens to be in the 89,090-part catalogue because that was
+                    # mined the same way, so the lookup "hits" and the map records a part that
+                    # does not exist. 156 of them on the 4 Sep 2026 corpus, carrying 792 facts.
+                    text = strip_footnote_markers(page)[0].extract_text() or ""
                     if not text:
                         continue
                     for m in TOKEN.finditer(text):
