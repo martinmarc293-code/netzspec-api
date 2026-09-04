@@ -389,6 +389,12 @@ full; the ones that bite hardest here are restated.
   a row right after the operator left suggests the laptop went to sleep, not the agents.
   Its edits to `src/core/specMerge.ts` are on disk uncommitted; on resume, message it or
   diff the file. Nothing else was touched after the pause.
+  RESUMED 10:23 UTC. State found: sentinel and supervisor NOT running (the per-lane Chrome
+  agent had stopped them for its proof when the laptop slept), no workers, no lane Chromes,
+  0 pages in 30 min; tunnel up; PDF pass alive at 76/102; the review workflow progressing
+  (2 of 6 finder results in, verifiers started). Both stalled agents and the per-lane agent
+  messaged to resume/report; the lanes restart on the per-lane code once that agent
+  confirms its proof (or by hand if it stays silent).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
