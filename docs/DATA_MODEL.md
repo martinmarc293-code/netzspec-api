@@ -84,7 +84,28 @@ canonical one: imperial included (`°F` → `°C` by offset, `in`/`ft`/`feet` �
 figure can never satisfy a gigabit field. Where the vendor prints both — "35.2 oz (0.99 kg)",
 "1.75in x 10in x 19in (44mm x 254mm x 483mm)" — the **parenthesised metric restatement wins**
 over our own arithmetic, but only when the row *leads* with the imperial figure; a bracket that
-follows a metric value is a second fact, not a restatement of the first.
+follows a metric value is a second fact, not a restatement of the first. The brackets are the
+condition, not a detail: a cell that states the same box twice with **no** brackets
+("2.61 x 22.37 x 8.05 in. 66.3 x 56.8 x 20.4 cm") is read from the **first** triple, because the
+bracket-less second one is where the vendor's own unit errors live — that string says 66.3 cm for
+a 66.3 mm height, and preferring it moved 50 stored dimensions, two of them by 10×.
+
+The **spelling** of a unit is separate from its dimension, and a spelling the token regex cannot
+capture never reaches the conversion table at all. Beyond the SI and spelled-out forms, three
+notations a distributor uses and a vendor datasheet does not (added in `NORM_VERSION` 1.4.0, worth
+~1,570 previously-refused values on provantage alone):
+
+| notation | reads as | example | near-miss that is still refused |
+| --- | --- | --- | --- |
+| `"` `”` `″` — the inch marks | length, 25.4 mm | `17.5"` → 444.5 mm | the same mark on a mass or throughput field (`UNIT_UNKNOWN`), and `2.5" 12G SAS` on a capacity field |
+| bare `U`, alongside `RU` / `HE` | rack unit | `1U`, `2 U` → 1, 2 HE | `USB`, `UPOE`, the `U` of `MU-MIMO`, `EU`, a PID ending `-1U` (`VALUE_IS_PID`), and `48U`/`0U` on a device (`RANGE_VIOLATION`, band `[1, 30]`) |
+| the counting **noun** on a count-like field | the bare count | `Dodeca-core (12 Core)` → 12 | `16 cores` on `mac_table` and `300000 entries` on `cpu_cores` — a noun only ever matches **its own** field |
+
+The noun is matched as a noun and deliberately *not* by giving every counting word one shared
+"count" dimension: `Einträge` already lives in that dimension, so the one-line version of that fix
+makes `16 cores` an acceptable MAC-address-table size. The four count-like words that do carry a
+real dimension — `HE`, `Byte`, `AWG`, `Einträge` — still convert, so `9 KB` on a `Byte` field is
+9216 and `10RU` on a rack height is 10.
 
 A value with **no unit at all** is accepted only where the canonical "unit" is a counting word
 (`cores`, `bays`, `Einträge`, `HE`, `Byte`, `AWG`). That is a declared property of the unit, not
@@ -95,6 +116,12 @@ label unit of the wrong dimension is refused rather than applied, because it mea
 read out of the wrong column. Every unit named in the field dictionary must be classified as
 convertible, count-like, or explicitly unconvertible; `tests/specNormalize.units.test.mjs` fails
 if a new field introduces one that is none of the three.
+
+An **enum** field may also carry a small value-alias table (`ENUM_RULES`). `layer` reads the bare
+layer number a distributor states — `2`, `3`, `3.0`, `2+`, `2/3` — with every rule anchored end to
+end, so the `3` inside `3 Gbps`, `23` or `C9300-24T` is not a switching layer. `4` and `7` have no
+rule on purpose: a layer-4 switch is a real product the domain (`l2|l2plus|l3`) cannot express, and
+filing it as `l3` would be a fiction, so it stays an `ENUM_VIOLATION` and a recorded gap.
 
 A value that is a **part number** on a numeric field is refused `VALUE_IS_PID` rather than mined
 for the digits inside it: that is a model-major table read label-major, and the defect belongs to
@@ -117,25 +144,39 @@ fetched again, now says something different" resolve as a **revision change** in
 blamed on two disagreeing sources — without it that branch of `mergeField` is unreachable and
 every corrected datasheet arrives as a permanent held conflict.
 
-## Facts of a run that did not succeed
+## A failed run leaves nothing behind
 
 `apply-*` commands write in **one transaction per part**, so a throw part-way through leaves the
-parts already merged committed under a run that is then closed `failed`. Those rows exist and
-cannot be un-written; what they must not do is get served, because the run never reached its own
-close and the set they belong to passed no gate.
+parts already merged committed under a run that is then closed `failed`. The invariant is:
 
-- The **write side** records how far it got: the failure path takes the caller's partial stats
-  and a `progress=<n>/<total> parts merged, last <sku>` line into `runs.notes`
-  (`withRun(..., { partial })`). A failed run with `stats {}` used to say nothing at all.
-- The **read side** ignores them: `factRunSucceeded()` in `src/api/queries/shared.ts` is the one
-  definition — `run_id IS NULL` (seed and back-fill data that predates runs) **or** the run row
-  is `succeeded`. It is applied in `SUMMARY_COLUMNS.fact_count` (so `/parts`, `/search` and
-  `/lifecycle` agree) and in the part record's facts and sources (`src/api/queries/part.ts`), the
-  two places a fact is rendered.
-- **Recorded gap, not a silent one:** the aggregate readers — `stats`, `facets`, `gaps`,
-  `compare`, `changes`, `export`'s counters — still count those rows. They must take the same
-  predicate; until they do, a failed run can move a total without moving a page. The operator
-  lever in the meantime is to abort and remove the run's rows by hand, as was done for run #15.
+> **No current fact belongs to a run that is not succeeded.**
+
+It is held by REMOVING those rows, not by every reader remembering to skip them. `withRun` calls
+`rollbackRun` (`src/store/facts.ts`) before closing a run `failed`, in one transaction:
+
+1. rows the run **superseded** are parked (self-reference, so `facts_current_uq` holds), the run's
+   `conflicts`, `fact_evidence` and `facts` rows are deleted, and the parked rows are then made
+   current again with `superseded_by`/`superseded_at` cleared. Park first, restore last — clearing
+   the pointer while the run's replacement row is still current puts two current rows on one
+   (part, field) and the unique index refuses the whole transaction;
+2. the **state** of rows the run only changed in place is recomputed from what survives — an open
+   `conflicts` row → `conflict`, evidence from two documents → `corroborated`, otherwise
+   `verified`. Leaving `conflict` behind after deleting the conflicts row breaks invariant 5;
+   leaving `corroborated` behind claims corroboration from one source. Only rows currently in
+   those two states are touched;
+3. `source_docs` and `doc_parts` stay: they record what was READ, they are idempotent, and no fact
+   depends on the run that wrote them.
+
+The **run row stays**, with its partial stats, its `progress=<n>/<total> parts merged, last <sku>`
+line (`withRun(..., { partial })`) and a `rolled_back=<n> facts (…)` prefix in `runs.notes`. A
+rollback that itself fails writes `ROLLBACK_FAILED (…)` into the notes and the ORIGINAL error is
+the one rethrown — "could not roll back" must never read as "nothing to roll back".
+
+`factRunSucceeded()` in `src/api/queries/shared.ts` stays as belt-and-braces on the two rendering
+readers (`SUMMARY_COLUMNS.fact_count`, `src/api/queries/part.ts`), but the aggregate readers
+(`stats`, `facets`, `gaps`, `compare`, `changes`, `export`) no longer need it to be correct about
+failed runs: there is nothing left for them to count. Before this, run #15's rows had to be
+removed by hand.
 
 ## Product class
 
@@ -245,7 +286,59 @@ A run that writes facts must carry `runs.gate` with:
 
 A disagreement is never resolved by write order **inside one file** either. Two cells offering
 the same (part, field) are both handed to the merge in order, and every collision is written to
-`runs/reports/collisions-<tag>-<date>.jsonl` with both locators.
+`runs/reports/collisions-<tag>-<date>.jsonl` with both locators and its `resolution`.
+
+## The list rule: fragments of one list are not a disagreement
+
+Shard 0 produced 20,716 (part, field) collisions, 14,433 differing after normalisation — and
+9,420 of those differing were three **`ls`** fields (`ieee_standards`, `supported_protocols`,
+`certifications`). None of them was a disagreement. A datasheet states a list in as many cells as
+its layout needs, and two cells of one list are not two sources contradicting each other. The rule
+has two halves, in the two places that can see the two shapes:
+
+1. **The extractor joins what one table splits** (`scraper/adapters/cisco_specs_deep.py`,
+   `join_list_fragments`). Same table, same subject, same label, and the cells say they are a
+   list — every fragment carries two or more bullet marks (the document's own list markup), or the
+   table is model-major and repeats the PID, so its rows are CONFIGURATIONS of one model and a
+   column offers that model alternatives. One raw fact comes out, values joined in document order,
+   at the FIRST cell's locator, carrying `fragments: [{locator, value}, …]` — every contributing
+   cell, which is the locator span. Joining is deliberately **not** unconditional: measured over
+   shard 0, folding every repeated (subject, label) in a table would have folded 75 cells of a
+   header row read as data into one `switching_capacity`.
+   The gate is handed the CELLS, not the join (`expandFragments` in `apply-extract.ts`): a
+   synthesised value is in no single cell, so grading it would score correct data as a
+   PROVENANCE_MISS. `facts_per_doc` counts cells for the same reason — folding cells into facts
+   must not read as a regression.
+2. **The apply unions what one DOCUMENT still states twice** (`addIncoming`). If a second entry
+   for an `ls` field arrives from the **same `doc_id` at the same tier**, the values are unioned
+   into the first entry (order preserving, case-insensitive dedup), `raw` carries both cells and
+   the locator names both (`t4:r1:c1+t4:r2:c1`). "Protocols" and "Encapsulations" both map to
+   `supported_protocols`; "Industry standards" and "Environmental compliance" both to
+   `certifications`; a class-A list inherited from the same document joins the per-SKU list. The
+   collision is still reported, marked `resolution: "list_union"` and counted as
+   `collision_list_union`.
+
+**What is NOT unioned**, because the reason for the rule does not reach there:
+
+- **every scalar type** (`n`, `nr`, `s`, `e`, `b`, `struct`) — two switching capacities in one
+  document is a disagreement, held as before;
+- **an `ls` field from two different documents**, or from two different tiers — that is two
+  sources, and the merge holds it.
+
+### Model-major tables: which column belongs to the model
+
+The other half of the same finding was the extractor reading the wrong column. `shape_a_columns`
+decides once per table what each column is called and whether it may be read at all, and records a
+named defect when it refuses one:
+
+| defect | what it refuses | measured on |
+| --- | --- | --- |
+| (none — composite label) | a **continuation header row**: `<th rowspan=2>` plus a `<th colspan=3>` group means row 1 is a second header row, and a grouped column's label is `"<group> [<sub>]"` | C9350 t6, and `Weight [Pounds]` / `Weight [Kilograms]`, `Dimensions [Inches …]` / `[Centimeters …]` elsewhere |
+| `ROW_DISCRIMINATOR_COLUMN` | a column whose header enumerates its own cell values — "Default or upgrade" holding only "Default"/"Upgrade". It says which configuration the row is, and it aliases to `psu_options`, so every C9350 row published `psu_options = Default` | C9350 t6 c2 |
+| `GROUP_HEADER_IS_CONDITION` | a grouped column whose sub-header is a **magnitude** ("500W"): the group header names the condition the cell was measured under, not the cell's attribute. C9350 t6 c4–c9 hold available PoE and published `psu_options = 720*W` | C9350 t6 c4–c9 |
+
+A refused column is a **recorded** gap, not a silent one: the document does not name the
+attribute, so neither do we, and the defect says which cell was dropped and why.
 
 ## Invariants (tested in `tests/db/invariants.test.ts`)
 

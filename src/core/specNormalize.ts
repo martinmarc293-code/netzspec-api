@@ -32,7 +32,25 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        refused (mac_table "288K" is 288,000 entries); UNCONVERTIBLE is empty because both of its
 //        entries were dictionary defects, fixed there. Values normalise differently under this
 //        version than under 1.2.0 — a replay must compare norm_v, not assume it.
-export const NORM_VERSION = "1.3.0";
+// 1.4.0: three tokens the distributor corpus writes constantly and the table did not hold, worth
+//        ~1,047 refused values on provantage alone (measured 4 Sep 2026):
+//          - the INCH SYMBOL. `in`/`inch`/`inches` were already here since 1.2.0; the SYMBOL was
+//            not, so every "17.5"" width and "1.7"" height parsed as a bare number and died
+//            UNIT_MISSING (402 + 392 values). All three marks are accepted — the straight quote,
+//            the typographic right double quote and the double prime — and UNIT_TOKEN had to grow
+//            them too, because a character the token regex cannot see is a unit that never reaches
+//            the lookup at all.
+//          - bare "U" for a rack unit ("1U", "2 U"). "RU" and "HE" were here; "U" was not, and it
+//            is what a distributor writes (122 + 87 values, UNIT_UNKNOWN). Nothing else is done to
+//            it: `rack_units` already carries the band [1, 30], so "48U" on a switch is refused
+//            RANGE_VIOLATION and a rack cabinet's real 42U stays out of a switch field.
+//          - the counting noun on a COUNT_LIKE field ("Dodeca-core (12 Core)" on cpu_cores, 44
+//            values). Matched as a NOUN against the canonical word, deliberately not by putting
+//            every counting word into one "count" dimension — that would make "16 cores" an
+//            acceptable MAC-address-table size, which is a mis-mapped fact, not a count.
+//        Also: `layer` reads the bare layer NUMBER a distributor states ("2", "3", "2+", "2/3"),
+//        anchored end to end, and still refuses "4" and "7" rather than rounding them into l3.
+export const NORM_VERSION = "1.4.0";
 
 export type NormReason =
   | "PARSE_FAIL" | "UNIT_MISSING" | "UNIT_UNKNOWN" | "ENUM_VIOLATION"
@@ -137,6 +155,14 @@ const UNITS: Record<string, [string, number]> = {
   // cable length mistakenly given in nm trips the plausibility band rather than being stored)
   "nm": ["length", 1e-9], "mm": ["length", 1e-3], "cm": ["length", 1e-2], "km": ["length", 1e3],
   "in": ["length", 0.0254], "inch": ["length", 0.0254], "inches": ["length", 0.0254], "ft": ["length", 0.3048],
+  // The inch SYMBOL, which is how a distributor writes it: provantage states every Width, Height
+  // and Depth as "17.5"" and never once as "17.5 in". The word forms above have been here since
+  // 1.2.0, so this looked covered and was not — 794 values died UNIT_MISSING on the one character
+  // that separates them. Three marks, because all three occur in the corpus: the straight quote
+  // (U+0022), the typographic right double quote (U+201D, what a CMS emits) and the double prime
+  // (U+2033, what a spec sheet sets it in). The FOOT mark is deliberately absent: a lone apostrophe
+  // is a possessive and a thousands separator far more often than it is a unit.
+  '"': ["length", 0.0254], "”": ["length", 0.0254], "″": ["length", 0.0254],
   // mass — base gram. The ounce is the AVOIRDUPOIS ounce (28.349523125 g exactly, 1/16 lb), which
   // is what Cisco's US sheets mean by "35.2 oz (0.99 kg)"; the fluid ounce is a volume and never
   // appears on a hardware datasheet.
@@ -155,7 +181,13 @@ const UNITS: Record<string, [string, number]> = {
   "btuh": ["heat", 1], "btu/hour": ["heat", 1],
   "db": ["db", 1], "db(a)": ["dba", 1], "dba": ["dba", 1], "dbm": ["dbm", 1],
   "dbi": ["dbi", 1], "dbmv": ["dbmv", 1],
-  "awg": ["awg", 1], "he": ["ru", 1], "ru": ["ru", 1],
+  // A rack unit is written three ways and only two of them were here. "U" is what a distributor
+  // prints ("1U", "2 U", 209 values, UNIT_UNKNOWN) while Cisco prints "RU" and a German sheet
+  // prints "HE". A bare "u" is safe as a token because UNIT_TOKEN is GREEDY over letters: "USB",
+  // "UPOE" and the "U" of "MU-MIMO" are read as whole tokens and never reduce to "u", and the one
+  // shape that does — a digit, an optional space, then a lone U — is a rack height. Nothing here
+  // bounds the value; `rack_units` carries band [1, 30], which is what refuses "48U" on a switch.
+  "awg": ["awg", 1], "he": ["ru", 1], "ru": ["ru", 1], "u": ["ru", 1],
   "einträge": ["count", 1], "eintraege": ["count", 1], "entries": ["count", 1],
   // Fahrenheit is the one AFFINE conversion here: it needs an offset, not a factor, so its
   // dimension is deliberately NOT tempC and the arithmetic lives in AFFINE below. Cisco's US
@@ -348,7 +380,15 @@ const RANGE_SEP = "(?:bis|to|\\u2013|\\u2014|\\.\\.\\.|\\.\\.|~|-)";
 // Unit tokens must keep German umlauts ("Einträge") and a trailing parenthetical qualifier
 // ("dB(A)"). An earlier character class stripped both, turning dB(A) into dB and Einträge into
 // "Eintrge" — two UNIT_UNKNOWNs that were artefacts of the regex, not of the data.
-const UNIT_TOKEN = "[A-Za-z°%µ\\u00c4\\u00d6\\u00dc\\u00e4\\u00f6\\u00fc\\u00df/]*(?:\\([A-Za-z]\\))?";
+//
+// The three INCH MARKS (U+0022 straight, U+201D typographic, U+2033 double prime) are in the class
+// for the same reason and it is the half that is easy to miss: adding a unit to UNITS does nothing
+// while the token regex cannot capture the character, because the lookup is never reached — the
+// match simply ends with an empty unit and the value dies UNIT_MISSING instead of UNIT_UNKNOWN.
+// Both halves shipped together, and the sabotage twin — an inch mark on a MASS field, which must
+// be refused UNIT_UNKNOWN and not UNIT_MISSING — is what proves the symbol reaches the DIMENSION
+// check rather than never being read at all. Removing either half turns that twin red.
+const UNIT_TOKEN = "[A-Za-z°%µ\\u00c4\\u00d6\\u00dc\\u00e4\\u00f6\\u00fc\\u00df/\\u0022\\u201d\\u2033]*(?:\\([A-Za-z]\\))?";
 
 /** Extract the first "<number> <unit?>" occurrence.
  *  The locale is NOT optional in spirit: this helper once called parseGermanNumber outright,
@@ -446,6 +486,22 @@ function countValue(n: number, token: string, glued: boolean, rest: string, key:
   return ok(n);
 }
 
+/** Does `token` NAME the same thing the count-like canonical names? "Core" on a `cores` field,
+ *  "bay" on `bays`, "HE" on "HE". Singular and plural are the same noun; case is not a signal.
+ *
+ *  Matched as a NOUN and deliberately NOT by giving every counting word a shared "count" dimension.
+ *  That shortcut is one line and it is wrong: "Einträge" already lives in the count dimension, so
+ *  the moment "cores" joined it, "16 cores" became an acceptable MAC-address-table size and
+ *  "300000 entries" an acceptable core count. Those are mis-mapped facts, and a mis-mapped fact
+ *  that converts cleanly is exactly the failure this module exists to prevent. A noun only ever
+ *  matches its own field.
+ *
+ *  Cisco's own shape is "Dodeca-core (12 Core)" — the number is inside the parenthetical and the
+ *  noun follows it — which is 44 of the 44 provantage `Processor Core` values. */
+const countNoun = (w: string) => w.trim().toLowerCase().replace(/s$/, "");
+const namesTheSameCount = (token: string, canonical: string) =>
+  token !== "" && countNoun(token) === countNoun(canonical);
+
 /** `adjacency` is the number hit itself (glued/rest); a caller without one — the two ends of a
  *  range — gets the strict reading, where any unrecognised token counts as glued. */
 function convert(n: number, rawUnit: string, canonical: string | undefined, key: string, unitHint?: string,
@@ -488,6 +544,27 @@ function convert(n: number, rawUnit: string, canonical: string | undefined, key:
       ? ok(n, canonical)
       : bad("UNIT_MISSING", `${key}: "${n}" has no unit (expected ${canonical})`);
   }
+  // Past this point the value carries a token, and on a COUNT_LIKE field there are exactly three
+  // things that token can be: a magnitude (handled above), the NOUN the canonical already names,
+  // or a mistake. "Dodeca-core (12 Core)" is the second — twelve cores, not twelve of a unit
+  // called Core — and every one of the 44 values provantage states that way was refused, with a
+  // message ("canonical unit "cores" is not in CANON") that blamed the dictionary for the reader's
+  // input. The noun carries no factor, so nothing is converted and nothing can be scaled wrongly;
+  // see namesTheSameCount for why this is a noun match and not a shared "count" dimension.
+  //
+  // The four count-like words that DO have a dimension — HE, Byte, AWG, Einträge — fall through to
+  // the conversion below, so "10RU" still resolves through the ru dimension and "9 KB" on a Byte
+  // field is still 9216. The rest have nowhere to fall through TO (CANON has no row for "cores"),
+  // so they are refused here, naming what was wrong with the token rather than with the schema.
+  if (COUNT_LIKE.has(canonical)) {
+    if (namesTheSameCount(rawUnit, canonical)) return ok(n, canonical);
+    if (!CANON[canonical]) {
+      const other = unitLookup(rawUnit);
+      return bad("UNIT_UNKNOWN", other
+        ? `${key}: "${rawUnit}" is a ${other[0]} unit on a count of ${canonical}`
+        : `${key}: "${rawUnit}" is neither a magnitude (K, M, thousand, million) nor the word "${canonical}"`);
+    }
+  }
   const found = unitLookup(rawUnit, canonical);
   if (!found) return bad("UNIT_UNKNOWN", `${key}: unit "${rawUnit}" not recognised`);
   const target = CANON[canonical];
@@ -521,7 +598,18 @@ function inBand(key: string, v: number): NormResult | null {
  *  patterns before the general ones ("SFP+" must beat "SFP", "802.3bt" must beat "802.3at"). */
 const ENUM_RULES: Record<string, [RegExp, string][]> = {
   mgmt_class: [[/unmanaged|unverwaltet/i, "unmanaged"], [/smart/i, "smart-managed"], [/managed|verwaltet/i, "managed"]],
-  layer: [[/l2\+|layer\s*2\+/i, "l2plus"], [/l3|layer\s*3/i, "l3"], [/l2|layer\s*2/i, "l2"]],
+  // A distributor states the switching layer as the bare NUMBER — provantage's "Layer Supported"
+  // is "3" (81), "2" (33), "3.0" (2) and "4" (4) and nothing else — so 116 correct answers were
+  // ENUM_VIOLATION for being written in digits. The five rules below are ANCHORED END TO END and
+  // that is the whole safety argument: a bare "3" is a layer, the "3" inside "3 Gbps", "2-3 dBm"
+  // or "C9300-24T" is not, and an unanchored digit rule would take all of them. "4" and "7" have
+  // no rule on purpose: a layer-4 switch is a real product the domain (l2|l2plus|l3) cannot
+  // express, and quietly filing it as l3 would be a fiction, so it stays an ENUM_VIOLATION and a
+  // recorded gap. These precede the spelled-out rules because an exact whole-string match is the
+  // most specific rule there is; none of them can fire on a string containing letters.
+  layer: [[/^\s*l?2\s*(?:\+|plus)\s*$/i, "l2plus"], [/^\s*2\s*\/\s*3\s*$/, "l3"],
+    [/^\s*l?2(?:[.,]0+)?\s*$/i, "l2"], [/^\s*l?3(?:[.,]0+)?\s*$/i, "l3"],
+    [/l2\+|layer\s*2\+/i, "l2plus"], [/l3|layer\s*3/i, "l3"], [/l2|layer\s*2/i, "l2"]],
   cooling: [[/l(ü|ue)fterlos|fanless|passiv/i, "fanless"], [/austauschbar|hot.?swap|redundant/i, "redundant-replaceable"], [/l(ü|ue)fter|fan/i, "fixed-fans"]],
   psu_config: [[/extern/i, "external"], [/redundant|2\s*x\s*netzteil|dual.?psu/i, "modular-redundant"], [/modular/i, "modular-single"], [/intern|fest|integriert/i, "fixed-internal"]],
   poe_standard: [[/nein|none|kein|ohne poe/i, "none"], [/upoe\+|upoe-plus/i, "upoe-plus"], [/upoe/i, "upoe"],
@@ -840,6 +928,19 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
         // number before every separator, so the units between the axes broke the match and the
         // whole triple was reported unparsable. Reading the unit only from the TAIL was the same
         // bug from the other side: it worked for "4.4 x 44.5 x 48.3 cm" and nothing else.
+        //
+        // The FIRST triple in the cell is the measurement, even when a second one follows it.
+        // A cell often states the same box twice with no brackets — "1.73 x 17.5 x 12 in. 44 x 444
+        // x 305 mm", "7.8" x 7.8" x 1.7" 200 x 200 x 45.45 mm" — and preferring the metric half
+        // (which is what preprocessValue does for a PARENTHESISED restatement, and what looked like
+        // the obvious extension) was measured over the 103,567 stored facts on 4 Sep 2026 and is
+        // WRONG here: 50 rows move and two of them move by 10x, because a bracket-less second
+        // triple is where the vendor's own unit errors live. "2.61 x 22.37 x 8.05 in. 66.3 x 56.8 x
+        // 20.4 cm" states 66.3 CM for a 66.3 MM height, and "...7.57 in 4.02 x 39.55 x 198.23 cm"
+        // is a typo for 19.23. The imperial figures in both are correct. So: one statement, read
+        // whole, first one in the cell — and the pair is pinned in the suite so a future "prefer
+        // metric" fails instead of shipping a 10x error. The parenthesised rule keeps its
+        // preference: brackets are the vendor marking a restatement, and it is tested separately.
         const m = new RegExp(`(${NUM})\\s*(${UNIT_TOKEN})\\s*[x\\u00d7X]\\s*(${NUM})\\s*(${UNIT_TOKEN})\\s*[x\\u00d7X]\\s*(${NUM})\\s*(${UNIT_TOKEN})`).exec(s);
         if (!m) return bad("STRUCT_UNPARSED", `${key}: no HxWxD triple in "${s}"`);
         const nums = [m[1], m[3], m[5]].map((x) => parseNumber(x.replace(/[^0-9.,-]/g, ""), locale));

@@ -241,6 +241,155 @@ const CASES = [
   ["an (in) label fills a missing depth unit", "video", "depth", "5.1", hint("in"), 129.54],
   ["connections per second, unit in the label", "security", "new_conn_per_sec", "9,000", hint("1/s"), 9000],
   ["SABOTAGE a bare connections figure with no label unit is refused", "security", "new_conn_per_sec", "9,000", EN, "UNIT_MISSING"],
+
+  // ===============================================================================================
+  // 12. THE INCH SYMBOL (1.4.0)
+  // ===============================================================================================
+  // `in` / `inch` / `inches` were accepted from 1.2.0, which made this look covered. The SYMBOL was
+  // not, and a distributor never writes the word: provantage states every Width, Height and Depth
+  // as `17.5"` and 794 of them died UNIT_MISSING on one character. Two halves shipped together and
+  // only one of them is obvious — the token had to enter UNIT_TOKEN as well as UNITS, because a
+  // character the token regex cannot capture never reaches the lookup at all. That is why the
+  // refusals below matter more than the acceptances: they can only pass if the symbol was READ and
+  // then checked against the field's dimension, and they all pass trivially while it is invisible.
+  ["the straight inch mark converts to mm", "switches", "width", '17.5"', EN, 444.5],
+  ["the typographic inch mark is the same unit", "switches", "width", "17.5”", EN, 444.5],
+  ["the double prime is the same unit again", "video", "depth", "2.2″", EN, 55.88],
+  ["a faceplate height in inch marks", "switches", "height", '1.7"', EN, 43.18],
+  ["an inch triple dimensions a box", "switches", "dimensions", '1.75" x 10" x 19"', EN,
+    { h: 44.45, w: 254, d: 482.6 }],
+  ["a typographic inch triple with no spaces", "switches", "dimensions", "1.72”x17.3”x22.47”", EN,
+    { h: 43.688, w: 439.42, d: 570.738 }],
+  // SABOTAGE: read, then refused by DIMENSION. Before 1.4.0 every one of these was UNIT_MISSING —
+  // the same verdict for the opposite reason — so a fix that adds the character to UNIT_TOKEN and
+  // forgets UNITS still passes an "is it refused?" test and fails these.
+  ["SABOTAGE an inch mark on a mass field is refused as a length", "switches", "weight", '12"', EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE an inch mark in a product name is not a throughput", "switches", "switching_capacity",
+    'Catalyst 19" rack shelf', EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE a drive form factor is not a storage capacity", "servers-unified-computing",
+    "storage_capacity", '2.5" 12G SAS 10K RPM', EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE an inch mark with no number in front of it", "switches", "width", '"', EN, "PARSE_FAIL"],
+  // SABOTAGE the locale, on the branch the symbol actually goes through: "17,5" is seventeen and a
+  // half inches in German and seventeen THOUSAND five hundred in English, a 1000x difference on one
+  // comma. Both readings are asserted so a fix that hardcodes either locale fails the other half.
+  ["SABOTAGE a German comma before the inch mark is a decimal", "switches", "width", '17,5"', { locale: "de" }, 444.5],
+  ["SABOTAGE an English comma before the inch mark is thousands", "switches", "width", '17,5"', EN, 4445],
+  // The vendor's own metric restatement still wins over our arithmetic when it is in brackets.
+  ["a parenthesised metric value still beats the inch mark", "video", "height", '1.75" (44.45 mm)', EN, 44.45],
+
+  // ===============================================================================================
+  // 12b. TWO TRIPLES IN ONE CELL — THE FIRST ONE IS THE MEASUREMENT
+  // ===============================================================================================
+  // Making the inch mark visible exposed a cell shape that had been readable only by accident: the
+  // same box stated twice with NO brackets, imperial then metric. Preferring the metric half (the
+  // obvious extension of the parenthesised rule) was replayed over the 103,567 stored facts and is
+  // wrong — 50 rows move and two move by 10x, because the bracket-less second triple is where the
+  // vendor's unit errors live. The three strings below are real and are pinned as the sabotage
+  // twin: the first states 66.3 CM for a 66.3 MM height, the second is a typo for 19.23 cm, and a
+  // future "prefer metric" turns both into a confident, in-band, ten-times-wrong dimension.
+  ["a doubled cell reads the FIRST triple, not the metric restatement", "switches", "dimensions",
+    "2.61 x 22.37 x 8.05 in. 66.3 x 56.8 x 20.4 cm", EN, { h: 66.294, w: 568.198, d: 204.47 }],
+  ["SABOTAGE the second triple is a 10x source error and must not win", "switches", "dimensions",
+    "1.58 x 15.57 x 7.57 in 4.02 x 39.55 x 198.23 cm", EN, { h: 40.132, w: 395.478, d: 192.278 }],
+  ["a doubled cell in inch MARKS behaves the same way", "switches", "dimensions",
+    '7.8" x 7.8" x 1.7" 200 x 200 x 45.45 mm', EN, { h: 198.12, w: 198.12, d: 43.18 }],
+
+  // ===============================================================================================
+  // 13. A BARE "U" IS A RACK UNIT (1.4.0)
+  // ===============================================================================================
+  // "RU" and "HE" were here; "U" is what a distributor prints, and 209 values were UNIT_UNKNOWN
+  // for it. The token is safe because UNIT_TOKEN is greedy over letters — "USB", "UPOE" and the
+  // "U" of "MU-MIMO" are read whole and never reduce to "u" — and the near-misses below are what
+  // prove that rather than asserting it. Nothing in 1.4.0 bounds the VALUE: `rack_units` already
+  // carries band [1, 30], and that is what keeps a 42U cabinet out of a switch's rack height.
+  ["a bare U is a rack unit", "switches", "rack_units", "1U", EN, 1],
+  ["a spaced U is the same unit", "switches", "rack_units", "2 U", EN, 2],
+  ["RU still reads as it did", "switches", "rack_units", "10RU", EN, 10],
+  ["SABOTAGE USB is not two rack units", "switches", "rack_units", "2 USB", EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE UPOE is not eight rack units", "switches", "rack_units", "8 UPOE", EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE the U of MU-MIMO is not a rack unit", "switches", "rack_units", "4x4 MU-MIMO", EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE EU is not a rack unit", "switches", "rack_units", "230V EU", EN, "UNIT_UNKNOWN"],
+  // A PID ending in 1U is the transposed-table failure, and it must keep its OWN reason: the fix
+  // is upstream in the table reader, not here, and burying it in UNIT_UNKNOWN is what hid it.
+  ["SABOTAGE a PID ending in 1U is still a PID", "switches", "rack_units", "C9200L-24P-4G-1U", EN, "VALUE_IS_PID"],
+  ["SABOTAGE a fan PID containing 1U is still a PID", "switches", "rack_units", "C9500X-FAN-1U-R", EN, "VALUE_IS_PID"],
+  // The band is the only thing standing between a rack CABINET and a switch's rack height, and
+  // provantage states both under labels one word apart ("Rack Height" 42U, 48U, 0U).
+  ["SABOTAGE a 48U cabinet is outside a device's band", "switches", "rack_units", "48U", EN, "RANGE_VIOLATION"],
+  ["SABOTAGE a zero-U PDU is outside it too", "switches", "rack_units", "0U", EN, "RANGE_VIOLATION"],
+  ["SABOTAGE an 802.11u amendment is not 802 rack units", "switches", "rack_units", "802.11u", EN, "RANGE_VIOLATION"],
+  // SABOTAGE the dimension both ways: a rack unit is a real dimension now, so it must be REFUSED
+  // on a field of another one rather than quietly ignored.
+  ["SABOTAGE a rack unit on a mass field is refused", "switches", "weight", "2U", EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE a rack unit on a power field is refused", "switches", "power_max", "2 U", EN, "UNIT_UNKNOWN"],
+  // SABOTAGE the locale on the branch that reads it.
+  ["SABOTAGE a German comma on a rack unit is a decimal", "switches", "rack_units", "1,5 U", { locale: "de" }, 1.5],
+  ["SABOTAGE an English comma on a rack unit is thousands", "switches", "rack_units", "1,5 U", EN, 15],
+
+  // ===============================================================================================
+  // 14. A COUNTING NOUN ON A COUNT-LIKE FIELD (1.4.0)
+  // ===============================================================================================
+  // Cisco writes a core count as "Dodeca-core (12 Core)" and provantage states all 44 of its
+  // `Processor Core` values that way. The canonical unit `cores` NAMES what is counted, so "Core"
+  // is the noun repeated, not a unit — but it was refused UNIT_UNKNOWN with a message blaming the
+  // dictionary ("canonical unit "cores" is not in CANON") for the reader's input.
+  //
+  // Matched as a NOUN, deliberately not by giving every counting word one shared "count" dimension.
+  // The two cross-field twins are the whole reason: "Einträge" already lives in that dimension, so
+  // the one-line version of this fix makes "16 cores" an acceptable MAC-address-table size.
+  ["the singular noun reads as the count", "servers-unified-computing", "cpu_cores", "1 core", EN, 1],
+  ["Cisco's own parenthesised shape reads as the count", "servers-unified-computing", "cpu_cores",
+    "Dodeca-core (12 Core)", EN, 12],
+  ["a plural noun with a tail reads the count", "servers-unified-computing", "cpu_cores",
+    "24 cores and 48 threads", EN, 24],
+  ["a slot count names its own noun too", "servers-unified-computing", "slots_occupied", "1 slot", EN, 1],
+  // SABOTAGE: nouns do not cross fields, in either direction.
+  ["SABOTAGE a core count is not a MAC-address table", "switches", "mac_table", "16 cores", EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE an entry count is not a core count", "servers-unified-computing", "cpu_cores",
+    "300000 entries", EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE a socket count is not a core count", "servers-unified-computing", "cpu_cores",
+    "12 sockets", EN, "UNIT_UNKNOWN"],
+  // SABOTAGE: a physical unit on a count is still a mis-mapped fact, and a magnitude is still read.
+  ["SABOTAGE a clock frequency on a core count is refused", "servers-unified-computing", "cpu_cores",
+    "3.5 GHz", EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE a watt figure on a core count is still refused", "servers-unified-computing", "cpu_cores",
+    "60 W", EN, "UNIT_UNKNOWN"],
+  // The four count-like words that DO carry a dimension must still CONVERT rather than short-circuit
+  // on their own noun — otherwise "9 KB" on a Byte field silently becomes 9.
+  ["the Byte noun reads bare on a Byte field", "switches", "jumbo_mtu", "9216 bytes", EN, 9216],
+  ["and KB still converts on the same field", "switches", "jumbo_mtu", "9 KB", EN, 9216],
+  // SABOTAGE the locale on the noun branch, which reads its number through the same parser.
+  ["SABOTAGE a German comma on a core count is a decimal", "servers-unified-computing", "cpu_cores",
+    "1,024 Core", { locale: "de" }, 1.024],
+  ["SABOTAGE an English comma on a core count is thousands", "servers-unified-computing", "cpu_cores",
+    "1,024 Core", EN, 1024],
+
+  // ===============================================================================================
+  // 15. THE BARE LAYER NUMBER (1.4.0)
+  // ===============================================================================================
+  // provantage's "Layer Supported" is "3" (81), "2" (33), "3.0" (2) and "4" (4) and nothing else,
+  // so 116 correct answers were ENUM_VIOLATION for being written in digits. Every rule is ANCHORED
+  // END TO END and that is the entire safety argument — the sabotage twins below are all strings
+  // that CONTAIN a 2 or a 3 and must not be read as a switching layer.
+  ["a bare 2 is layer 2", "switches", "layer", "2", EN, "l2"],
+  ["a bare 3 is layer 3", "switches", "layer", "3", EN, "l3"],
+  ["a distributor's 3.0 is still layer 3", "switches", "layer", "3.0", EN, "l3"],
+  ["2+ is layer 2 plus", "switches", "layer", "2+", EN, "l2plus"],
+  ["so is the spelled-out plus", "switches", "layer", "2 plus", EN, "l2plus"],
+  ["so is L2+", "switches", "layer", "L2+", EN, "l2plus"],
+  ["2/3 means the box routes", "switches", "layer", "2/3", EN, "l3"],
+  ["the spelled-out form still works", "switches", "layer", "Layer 3", EN, "l3"],
+  // SABOTAGE: a layer the domain cannot express is a RECORDED gap, never rounded into l3. Four real
+  // provantage values say "4"; filing them as layer 3 would be a fiction about a routing product.
+  ["SABOTAGE layer 4 is refused, not filed as l3", "switches", "layer", "4", EN, "ENUM_VIOLATION"],
+  ["SABOTAGE layer 7 likewise", "switches", "layer", "7", EN, "ENUM_VIOLATION"],
+  ["SABOTAGE layer 2.5 is not layer 2", "switches", "layer", "2.5", EN, "ENUM_VIOLATION"],
+  // SABOTAGE the anchors. Every one of these contains a digit the rule would take unanchored.
+  ["SABOTAGE 23 is not layer 3", "switches", "layer", "23", EN, "ENUM_VIOLATION"],
+  ["SABOTAGE a throughput is not a layer", "switches", "layer", "3 Gbps", EN, "ENUM_VIOLATION"],
+  ["SABOTAGE a three-way list is not layer 3", "switches", "layer", "2/3/4", EN, "ENUM_VIOLATION"],
+  ["SABOTAGE prose with no layer in it is refused", "switches", "layer",
+    "Supports advanced routing features", EN, "ENUM_VIOLATION"],
 ];
 
 for (const [label, category, key, input, opts, want] of CASES) run(label, category, key, input, opts, want);
