@@ -46,10 +46,10 @@ export async function main(argv: string[]): Promise<void> {
   if (a.vendor) { params.push(a.vendor); where.push(`v.slug = $${params.length}`); }
   if (a.category) { params.push(a.category); where.push(`c.slug = $${params.length}`); }
   if (a.since) { params.push(a.since); where.push(`p.updated_at > $${params.length}::timestamptz`); }
-  const sql = `SELECT p.id, p.category_id, p.product_class::text AS product_class
+  const sql = `SELECT p.id, p.category_id, p.product_class::text AS product_class, p.family, v.slug AS vendor_slug
                  FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
                 ${where.length ? "WHERE " + where.join(" AND ") : ""} ORDER BY p.id`;
-  const parts = (await pool.query<{ id: number; category_id: number; product_class: string }>(sql, params)).rows;
+  const parts = (await pool.query<{ id: number; category_id: number; product_class: string; family: string | null; vendor_slug: string }>(sql, params)).rows;
   console.log(`recompute-completeness: ${parts.length} parts${a.vendor ? " vendor=" + a.vendor : ""}${a.category ? " category=" + a.category : ""}${a.since ? " since=" + a.since : ""}`);
 
   let written = 0, unchanged = 0, noProfile = 0, nonHardware = 0;
@@ -71,12 +71,17 @@ export async function main(argv: string[]): Promise<void> {
     await withTx(async (client) => {
       for (const p of slice) {
         const category = cats.get(p.category_id) ?? "";
+        const vendorSlug = p.vendor_slug;
         let row: { required_total: number; required_present: number; pct: number; missing: string[]; required_fields: string[]; no_profile: boolean };
         if (p.product_class !== "hardware") {
           nonHardware++;
           row = { required_total: 0, required_present: 0, pct: 0, missing: [], required_fields: [], no_profile: true };
         } else {
           const values = byPart.get(p.id) ?? {};
+          // identity lives on the part row, not in facts: a required "vendor"/"series" is present
+          // when the part knows its vendor and family (29,000 false gaps in the first ledger)
+          if (values.vendor === undefined) values.vendor = vendorSlug;
+          if (values.series === undefined && p.family) values.series = p.family;
           const c = completenessV2(category, values);
           if (c.no_profile) noProfile++;
           row = { required_total: c.required_total, required_present: c.required_present, pct: c.pct, missing: c.missing,

@@ -130,3 +130,40 @@ export type FamilyCountsT = Static<typeof FamilyCounts>;
 export const FieldHead = {
   key: Type.String(), label_en: Type.String(), label_de: Type.String(),
 };
+
+// ---- tools: the data-driven product finders (data/schema/tools.json) ----
+// Shared because /v1/tools (the list) and /v1/tools/{id} (one definition) return the same
+// definition shape, and /v1/tools/{id}/run returns the same column cell as both.
+
+export const ToolFacetSpec = Type.Object({
+  key: Type.String(),
+  ui: Type.String({ description: "range (n, nr) | select (e, b, s, ls) | multi (ls) | toggle (b)" }),
+  label_en: Nullable(Type.String({ description: "the definition's override; null means use the dictionary label" })),
+  unit: Nullable(Type.String()),
+});
+
+export const ToolExampleSpec = Type.Object({
+  title: Type.String(),
+  filter: Type.String({ description: "a runnable query string for this tool's /run endpoint" }),
+});
+
+export const ToolDefinition = Type.Object({
+  id: Type.String(),
+  kind: Type.String({ description: "facets | lifecycle | relations" }),
+  name_en: Type.String(), name_de: Type.String(), description_en: Type.String(),
+  vendor: Nullable(Type.String({ description: "null = any vendor" })),
+  category: Type.String(),
+  facets: Type.Array(ToolFacetSpec),
+  fixed_filter: Nullable(Type.String({ description: "always ANDed with the caller's terms" })),
+  sort: Nullable(Type.Object({ key: Type.String(), dir: Type.String() })),
+  columns: Type.Array(Type.String()),
+  examples: Type.Array(ToolExampleSpec),
+  relation: Nullable(Type.Object({ kind: Type.String(), direction: Type.String() })),
+});
+
+/** One cell of a run result: present for every declared column, `value: null` when the part
+ *  renders nothing for it — an absent key would read as "the tool never asked". */
+export const ToolColumnCell = Type.Object({
+  key: Type.String(), label_en: Type.String(), label_de: Type.String(), type: Type.String(),
+  value: AnyJson, unit: Nullable(Type.String()),
+});

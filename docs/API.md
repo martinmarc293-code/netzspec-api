@@ -467,6 +467,81 @@ selection (`generated_at` says when). An unknown vendor or category is an empty 
   `parts_complete` counts scored parts at exactly 100 %; `mean_pct` is the mean completeness
   over scored parts (rows with `no_profile = false`), one decimal, `null` when none is scored.
 
+## Tools
+
+Data-driven product finders. The definitions live in `data/schema/tools.json`; three endpoints
+serve all of them, so a consumer gets a hundred finders without a hundred endpoints. Full guide
+in `docs/TOOLS.md`.
+
+**The honesty rule.** A tool may only expose keys its category profile carries; a definition that
+breaks it makes the process refuse to start (`src/api/tools.ts`, `tests/tools.test.ts`). So an
+empty result is a data gap, never a hidden filter — and every run reports the `filter=` string it
+applied, so the same answer can be reproduced on `/v1/parts` by hand.
+
+A facet's `ui` is constrained by the field's dictionary type: `range` on `n`/`nr` (addressed as
+`<key>_min` / `<key>_max`), `select` on `e`/`s`/`b`/`ls`, `toggle` on `b`, `multi` on `ls`
+(repeat the parameter; the terms AND). A `struct` field can never be a facet — `filter=` refuses
+struct keys — but it may be a **column**.
+
+### `GET /v1/tools?category=&vendor=&kind=`
+`items: [{ id, kind, name_en, name_de, description_en, category, vendor, facet_count, columns, examples }]`
+plus top-level `total` (every definition, before the filters). No cursor. `kind` is
+`facets | lifecycle | relations`; `vendor` matches tools pinned to that vendor **and** tools that
+accept any (`vendor: null`). An unknown value is an empty list, not an error.
+
+### `GET /v1/tools/{id}`
+The definition plus the live value distributions and ranges **inside the tool's own selection**
+(category + vendor + `fixed_filter`), which `/v1/facets` cannot express. Cached 60 s per tool.
+Unknown id is `404` naming it.
+
+```json
+{ "tool": { "id": "switch-poe-finder", "kind": "facets", "name_en": "…", "name_de": "…", "description_en": "…",
+            "vendor": null, "category": "switches",
+            "facets": [ { "key": "poe_budget", "ui": "range", "label_en": null, "unit": "W" } ],
+            "fixed_filter": "poe_standard!=none", "sort": { "key": "poe_budget", "dir": "desc" },
+            "columns": ["poe_standard", "poe_budget", "poe_ports", "ports"],
+            "examples": [ { "title": "At least 370 W", "filter": "poe_budget_min=370" } ], "relation": null },
+  "generated_at": "2026-09-04T10:00:00.000Z", "parts_in_selection": 917,
+  "run_parameters": ["cursor", "limit", "poe_budget_max", "poe_budget_min", "poe_standard"],
+  "facets": [ { "key": "poe_budget", "ui": "range", "label_en": "PoE budget", "label_de": "PoE-Budget", "type": "n",
+                "unit": "W", "parts": 128, "filterable": true, "values": null, "distinct": null,
+                "range": { "min": 110, "max": 1630, "count": 128 } } ] }
+```
+- `facets` has one item per **declared** facet, in declaration order, even when nothing in the
+  selection renders it: `parts: 0` is a visible data gap on a field the category is expected to
+  carry, not a control that quietly matches nothing. The `values` / `distinct` / `range` shapes
+  and the rendered-states rule are exactly `/v1/facets`.
+- `parts_in_selection` counts parts matching category + vendor + `fixed_filter`, before any
+  caller facet.
+- `run_parameters` is generated from the definition, so the advertised list and the accepted list
+  cannot drift.
+
+### `GET /v1/tools/{id}/run?<facet>=&<numeric>_min=&<numeric>_max=&limit=&cursor=`
+Runs the tool: its `fixed_filter` AND the facet values given here, compiled into the same
+`filter=` grammar `/v1/parts` uses.
+
+```json
+{ "filter": "poe_standard!=none,poe_budget>=370", "unresolved": null, "next_cursor": "…",
+  "items": [ { "…part summary…": null, "lifecycle": null,
+               "columns": [ { "key": "poe_budget", "label_en": "PoE budget", "label_de": "PoE-Budget",
+                              "type": "n", "value": 1630, "unit": "W" } ] } ] }
+```
+- `columns` carries one cell per declared column, **in the declared order, always**; a part that
+  renders nothing for a column gets `value: null` rather than a missing entry.
+- `filter` is what was actually applied. `limit` defaults to 50, max 500. When the definition
+  declares a `sort` the cursor carries the sort position; a part with no value for the sort key
+  sorts last in both directions.
+- An unknown query parameter is `400` naming it and listing the ones the tool accepts. The bare
+  key of a `range` facet is one of those: a slider sends `_min` / `_max`. A value containing a
+  comma is `400` (the grammar has no quoting), and a non-`multi` facet given twice is `400`.
+- `kind: "lifecycle"` also accepts `status`, `eos_after`, `eos_before`, `ldos_after`,
+  `ldos_before` (`YYYY-MM-DD`, inclusive; a malformed date or unknown status is `400`), orders by
+  end-of-sale soonest-first as `/v1/lifecycle` does, and fills `lifecycle` on every item.
+- `kind: "relations"` requires `part=<vendor>:<sku>` (missing, malformed or unknown is `400`/`404`
+  naming it) and follows one hop of the declared relation kind and direction, keeping only
+  results in the tool's category. `unresolved` lists the related SKUs the catalogue does **not**
+  hold — reported, never dropped. It is `null` for the other two kinds.
+
 ## Images
 
 `/img/<path>` is served by Caddy straight from the image store; URLs are absolute

@@ -5920,6 +5920,46 @@
    "^maximum 1gbe ports$",
    "max_ports_1g",
    "arista: Plain integers 2 / 48 / 24 / 129 per model (ports usable at 1GbE)."
+  ],
+  [
+   "^power[ -]cord rating$",
+   "power_cord_rating",
+   "cisco-datasheets: 43 occurrences over 2 spellings. Values are a current rating with an AC/DC qualifier (AC 20A, 13A, 20A @ 100VDC), so the new field is a stri"
+  ],
+  [
+   "^power[ -]suppl(y|ies) input receptacles?$",
+   "power_input_connector",
+   "cisco-datasheets: 26 occurrences. The value names the inlet connector (IEC 60320 C20/C16, terminal strip) which is exactly power_input_connector. NOT `recepta"
+  ],
+  [
+   "^max(imum)? power per\\s+port$",
+   "poe_per_port_max",
+   "cisco-datasheets: 30 occurrences. Numeric watts per port. The space before `Port` is U+00A0 in the source, which is why the existing PoE rules miss it; \\s mat"
+  ],
+  [
+   "^specifications?$",
+   "standard",
+   "cisco-datasheets: 122 occurrences over the singular and plural. Every sampled value on both labels is a media standard (1000BASE-T, 10GBASE-BX10, 100BASE-EX) "
+  ],
+  [
+   "^typical efficiency$",
+   "psu_efficiency",
+   "cisco-datasheets: 11 occurrences. Percent values in a power-supply table; psu_efficiency carries unit %."
+  ],
+  [
+   "^minimum ios release$",
+   "min_software_release",
+   "cisco-datasheets: 12 occurrences over 2 spellings. Values are IOS release strings (15.8.3, 15.2(3)T), which is min_software_release."
+  ],
+  [
+   "^number of vrfs$",
+   "virtual_networks",
+   "cisco-datasheets: 10 occurrences. virtual_networks is defined as 'Virtual networks (VNs/VRFs)'. Values carry the K suffix (1K), which countValue already reads"
+  ],
+  [
+   "^number of ipv4 aces per system$",
+   "acl_entries",
+   "cisco-datasheets: 10 occurrences. ACEs are ACL entries, which is acl_entries. Deliberately NOT matching 'Number of ACLs per system' - that counts lists, not e"
   ]
  ]
 }

@@ -889,6 +889,8 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   max_ports_10g: {key: "max_ports_10g", de: "Max. 10GbE-Ports (inkl. Breakout)", en: "Max. 10GbE ports (incl. breakout)", type: "n", etim: [], icecat: null},
   // arista — Same concept at 1GbE; 11 model values (2-129). Suggested band [1, 4096].
   max_ports_1g: {key: "max_ports_1g", de: "Max. 1GbE-Ports", en: "Max. 1GbE ports", type: "n", etim: [], icecat: null},
+  // cisco-datasheets — Cisco states the mains cord rating on chassis sheets as an AC/DC current (AC 20A, DC 70A, 20A @ 100VDC). No dictionary f
+  power_cord_rating: {key: "power_cord_rating", de: "Netzkabel-Nennwert", en: "Power cord rating", type: "s", etim: [], icecat: null},
 };
 
 export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {

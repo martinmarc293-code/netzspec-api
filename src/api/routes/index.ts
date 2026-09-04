@@ -28,6 +28,7 @@ import { runsRoutes } from "./runs.js";
 import { searchRoutes } from "./search.js";
 import { sourcesRoutes } from "./sources.js";
 import { statsRoutes } from "./stats.js";
+import { toolsRoutes } from "./tools.js";
 import { vendorsRoutes } from "./vendors.js";
 
 export const RATE_LIMIT_PER_MINUTE = 600;
@@ -67,4 +68,7 @@ export async function v1Routes(app: FastifyInstance, opts: V1Options): Promise<v
   await app.register(relatedRoutes);
   await app.register(sourcesRoutes);
   await app.register(gapStatsRoutes);
+  // API-4: the data-driven product finders. loadTools() runs here, so a definition that names
+  // a key its category profile does not carry fails buildApp() rather than a consumer's request.
+  await app.register(toolsRoutes);
 }
