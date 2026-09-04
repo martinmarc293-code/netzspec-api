@@ -111,12 +111,20 @@ export type RunOutcome = { stats: RunStats; gate?: RunGate; notes?: string };
  * Open a run, hand its id to `fn`, close it from what `fn` returns. Any throw — including the
  * gate refusal inside closeRun — closes the run as `failed` with the message in `notes` and is
  * rethrown, so the caller sees the failure and the table never holds a phantom `running` row.
+ *
+ * `opts.partial` is what the failure path had been missing. A command that writes in more than
+ * one transaction has already committed something when it throws, and closing that run with
+ * `stats {}` and one error line said nothing about how far it got — the counters were sitting in
+ * the caller's memory and were thrown away. `partial()` is called ONLY on the failure path and
+ * returns the caller's stats so far plus a `progress` line (parts done of total, the last one
+ * touched) that is appended to `notes`. It must not throw and must not query: it runs while an
+ * error is already in flight, so a second failure there would hide the first.
  */
 export async function withRun<T extends RunOutcome>(
   kind: string,
   inputs: Record<string, unknown>,
   fn: (runId: number) => Promise<T>,
-  opts: { gitSha?: string; db?: Queryable } = {},
+  opts: { gitSha?: string; db?: Queryable; partial?: () => { stats?: RunStats; progress?: string } } = {},
 ): Promise<T & { runId: number }> {
   const db = opts.db ?? getPool();
   const runId = await openRun(kind, { inputs, gitSha: opts.gitSha }, db);
@@ -126,8 +134,15 @@ export async function withRun<T extends RunOutcome>(
     await closeRun(runId, "succeeded", out.stats, out.gate ?? null, { notes: out.notes, db });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
+    let stats: RunStats = {};
+    let notes = msg;
     try {
-      await closeRun(runId, "failed", {}, null, { notes: msg, db });
+      const p = opts.partial?.();
+      if (p?.stats) stats = p.stats;
+      if (p?.progress) notes = `progress=${p.progress}; ${msg}`;
+    } catch { /* a broken partial() must not replace the real error */ }
+    try {
+      await closeRun(runId, "failed", stats, null, { notes, db });
     } catch { /* the original error is the one to report */ }
     throw e;
   }

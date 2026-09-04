@@ -138,7 +138,8 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
                         actions.append(f"NOT starting {slug}: only {free_mb} MB free")
                     else:
                         log = NS / f"worker-{slug}.sentinel.out"
-                        subprocess.Popen(["python3.11", "-u", "scraper/worker.py", "run", "--sources", slug, "--cdp", "http://127.0.0.1:9222"],
+                        # sys.executable, not "python3.11": the Store alias resolves in a shell, not in CreateProcess
+                        subprocess.Popen([sys.executable, "-u", "scraper/worker.py", "run", "--sources", slug, "--cdp", "http://127.0.0.1:9222"],
                                          cwd=str(ROOT), stdout=open(log, "a", encoding="utf-8"), stderr=subprocess.STDOUT, creationflags=0x08000000)
                         actions.append(f"started worker for {slug} ({n} runnable)")
     if not sup or (lock_age_h is not None and lock_age_h > 6):

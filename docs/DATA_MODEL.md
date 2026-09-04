@@ -232,8 +232,20 @@ A run that writes facts must carry `runs.gate` with:
   and its locator re-reads to the same cell in the cached document);
 - **recall** = 100 % of golden facts present (a golden fact the extractor did not emit is a
   miss, listed by document and locator);
-- **no regression**: facts per document not lower than the previous run over the same
-  document unless `runs.notes` says why.
+- **no regression** on either metric, unless `runs.notes` says why: `facts_per_doc` (raw rows,
+  which moves when the extractor changes) and `produced_per_doc` ((part, field) entries that
+  reach the page, which moves when the mapper or the dictionary changes and the raw count cannot
+  see). A document the previous run read and this file does not mention **at all** is also a
+  regression — apply every shard in one command, or give a reason;
+- **coverage**: the provenance sample must reach ≥ 5 % of the file's documents and ≥ 100 facts
+  (or all of them). A sample too small to measure is `unverified`, never a pass — 60 facts spread
+  over 2,950 documents is a number, not a measurement — and the sample is drawn per document,
+  Fisher-Yates over indices, with the facts the extractor flagged (`SCHEMA_MATCH_LOW`,
+  `GRID_MISALIGNED`) looked at first.
+
+A disagreement is never resolved by write order **inside one file** either. Two cells offering
+the same (part, field) are both handed to the merge in order, and every collision is written to
+`runs/reports/collisions-<tag>-<date>.jsonl` with both locators.
 
 ## Invariants (tested in `tests/db/invariants.test.ts`)
 

@@ -12,6 +12,20 @@ import { query } from "../../store/db.js";
 import type { PartSummaryT } from "../schemas.js";
 
 export const RENDERED_STATES = ["verified", "corroborated"] as const;
+
+/**
+ * A fact is readable only if the run that wrote it SUCCEEDED.
+ *
+ * apply-* commands write in one transaction per part, so a throw part-way through leaves the
+ * parts already merged committed under a run that is then closed `failed`. Those facts passed no
+ * gate as a set — the run never reached its own close — and must not be served. The predicate is
+ * SQL rather than a status column on `facts` because `runs.status` is the one place the truth
+ * lives; a copy on every fact row would be a second copy of the same fact that could drift.
+ * `run_id IS NULL` is the seed/back-fill data that predates runs and stays readable.
+ */
+export function factRunSucceeded(alias = "f"): string {
+  return `(${alias}.run_id IS NULL OR EXISTS (SELECT 1 FROM runs r_ok WHERE r_ok.id = ${alias}.run_id AND r_ok.status = 'succeeded'))`;
+}
 export const ALL_STATES = ["verified", "corroborated", "unverified", "conflict", "gap_confirmed", "gap_unattempted", "not_applicable"] as const;
 export type FactState = (typeof ALL_STATES)[number];
 
@@ -31,7 +45,8 @@ export function pgTextToIso(t: string): string {
 export const SUMMARY_COLUMNS = `
   p.id, v.slug AS vendor, p.sku, p.slug, c.slug AS category, p.family, p.product_class::text AS product_class, p.name,
   COALESCE(l.status::text, 'unknown') AS lifecycle_status,
-  (SELECT count(*)::int FROM facts f WHERE f.part_id = p.id AND f.superseded_by IS NULL AND f.state IN ('verified', 'corroborated')) AS fact_count,
+  (SELECT count(*)::int FROM facts f WHERE f.part_id = p.id AND f.superseded_by IS NULL AND f.state IN ('verified', 'corroborated')
+     AND ${factRunSucceeded("f")}) AS fact_count,
   CASE WHEN cp.no_profile THEN NULL ELSE cp.pct END AS completeness_pct,
   EXISTS (SELECT 1 FROM images i WHERE i.part_id = p.id AND i.storage_path IS NOT NULL) AS has_image,
   p.updated_at, p.updated_at::text AS updated_at_raw`;

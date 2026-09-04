@@ -26,15 +26,32 @@
 //   * class B fields are never inherited; class C only when the same document carries no per-SKU
 //     value for that field on that part; unclassified fields are refused by canInherit.
 //   * disagreements are HELD (applyMerge -> conflicts row), tier-0 values are protected, nothing
-//     is resolved by write order. First value per (part, field) in one run wins; a second is counted.
-//   * a section heading that repeats its label as its value is a sentinel, not a fact.
+//     is resolved by write order — INSIDE one file as much as across files. Two cells that offer
+//     the same (part, field) are BOTH handed to applyMerge in order, so mergeField decides:
+//     identical -> corroboration/skip, different -> a held conflict carrying both provenances.
+//     Every collision is written to runs/reports/collisions-<tag>-<date>.jsonl with both locators.
+//     (Until 4 Sep 2026 the second entry was dropped with only a counter: 20,871 collisions in
+//     cisco-deep-2026-09-03-s0.json, 16,081 of them DIFFERING after normalisation — C9350-24P
+//     kept PWR-C2-850WAC from t6:r4:c1 and silently discarded PWR-C2-1600WAC from t6:r5:c1.)
+//   * every fact carries the document's fetch stamp as prov.revision_label, so re-applying an
+//     edited datasheet (same doc, same tier, a new value) resolves as REVISION_CHANGE instead of
+//     being blamed on two disagreeing sources. Without it mergeField's revision branch was dead.
+//   * where the UNIT came from the label ("Cache Size (MB)" over a bare "32"), `raw` is stored as
+//     "<label> | <cell>" so re-running the normaliser over `raw` is complete. The bare cell is
+//     what the gate re-reads, so ProducedFact.raw stays the cell.
+//   * a section heading that repeats its label as its value is a sentinel, not a fact. Sentinels
+//     are counted APART (__not_a_spec, __backlog, __compat, __duplicate_unit, __section_heading);
+//     __backlog is a NAMED GAP — a real spec with no field key yet — and its labels are listed in
+//     the unmapped report rather than folded into one "sentinel" number.
 //   * nothing is written unless the gate (src/pipeline/gate-extract.ts) passes; behind a failing
 //     gate the run is closed `failed` with the gate in its notes and no fact is written.
 //
-// Three report files per run under runs/reports/ (tag defaults to "cisco"):
-//   unmapped-<tag>-<date>.json      labels no alias rule matched, with sample values and categories
+// Five report files per run under runs/reports/ (tag defaults to "cisco"):
+//   unmapped-<tag>-<date>.json      labels no alias rule matched, with sample values and categories,
+//                                   plus the __backlog labels — real specs with no field key yet
 //   quarantine-<tag>-<date>.jsonl   values the normaliser refused, one line each with the reason
 //   unknown-skus-<tag>-<date>.jsonl SKUs the file names that are not parts (enumeration feed)
+//   collisions-<tag>-<date>.jsonl   (part, field) offered twice in one apply, BOTH sides with locators
 //   gate-<tag>-<date>.json          the full gate result with every miss
 //
 // The pieces that decide something are exported so tests/db/apply-extract.test.ts can drive
@@ -46,11 +63,11 @@ import {
   getPool, closePool, withTx, withRun, hashFile, ensureSourceDoc, docIdFor, linkDocParts, applyMerge,
   type Queryable,
 } from "../store/index.js";
-import { mapFact, type RawFact } from "../core/deepSpecMap.js";
+import { mapFact, unitFromLabel, type RawFact } from "../core/deepSpecMap.js";
 import { NORM_VERSION } from "../core/specNormalize.js";
-import { canInherit, inheritedEntry, INHERIT_CLASS_B, type SpecEntry } from "../core/specMerge.js";
+import { canInherit, inheritedEntry, sameValue, INHERIT_CLASS_B, type SpecEntry } from "../core/specMerge.js";
 import { REPO_ROOT } from "../config.js";
-import { gateExtract, loadGolden, previousFactsPerDoc, printGate, GOLDEN_DIR, type ExtractGate, type ProducedFact, type DocRef } from "./gate-extract.js";
+import { gateExtract, loadGolden, previousPerDoc, printGate, CACHE_DIR, GOLDEN_DIR, type ExtractGate, type ProducedFact, type DocRef } from "./gate-extract.js";
 
 export type ApplyArgs = {
   paths: string[]; commit: boolean; sample: number; allowRegression: string | null;
@@ -69,7 +86,9 @@ export function parseArgs(argv: string[]): ApplyArgs {
     else if (a === "--vendor") out.vendor = argv[++i] ?? "cisco";
     else out.paths.push(a);
   }
-  if (!Number.isFinite(out.sample) || out.sample < 0) throw new Error(`--sample must be a non-negative number`);
+  // --sample 0 checked NOTHING and the gate still printed a provenance line, which reads as a
+  // pass with an empty sample. A sample is either taken or the command is not run.
+  if (!Number.isFinite(out.sample) || out.sample < 1) throw new Error(`--sample must be a positive number (0 would check nothing and still print a provenance line)`);
   if (out.allowRegression !== null && !out.allowRegression.trim()) throw new Error("--allow-regression needs a reason");
   return out;
 }
@@ -137,27 +156,64 @@ export type PartRef = { id: number; sku: string; category: string; family: strin
 
 export type DocInfo = DocRef & {
   source: string; kind: SourceKind; tables: number | null; fetched_at: string | null;
+  /** the fetch stamp that tells one revision of this document from the next (prov.revision_label) */
+  revision_label: string | null;
   parts: PartRef[]; category: string | null;
 };
 
 export type Quarantined = { sku?: string; scope?: string; label: string; value: string; key: string; reason: string; detail: string; locator: string; doc_id: string };
 export type UnmappedLabel = { count: number; samples: string[]; categories: Set<string> };
 
+/** One side of a (part, field) collision, with enough to re-find the cell it came from. */
+export type CollisionSide = { value: unknown; unit?: string; raw: string; label: string; doc_id: string; locator: string; tier: number; inherited: boolean };
+/** Two cells offering the same (part, field) in one apply. Never resolved here — both go to the merge. */
+export type Collision = {
+  sku: string; key: string; same_value: boolean;
+  /** true only for an exact repeat of one cell (same value, same doc, same locator): one fact read twice */
+  dropped: boolean;
+  kept: CollisionSide; incoming: CollisionSide;
+};
+
 export type Plan = {
   files: ExtractFile[];
   docs: DocInfo[];
-  /** part id -> the entries this run offers it (first per field wins) */
+  /** part id -> every entry this run offers it, IN ORDER. A second entry for a field it already
+   *  holds is kept, not dropped: applyMerge replays them so mergeField decides (CLAUDE.md: never
+   *  resolve a disagreement by write order). */
   incoming: Map<number, SpecEntry[]>;
   partById: Map<number, PartRef>;
   produced: Map<string, Map<string, ProducedFact>>;
   factsPerDoc: Record<string, number>;
+  /** doc_id -> (part, field) entries this document PRODUCED (post-mapping), the regression metric
+   *  that actually tracks page depth; factsPerDoc counts raw rows before the mapper sees them. */
+  producedPerDoc: Record<string, number>;
   unmapped: Map<string, UnmappedLabel>;
+  /** __backlog labels: a real spec with no field key yet — a named gap, listed, never a bare count */
+  backlog: Map<string, UnmappedLabel>;
   quarantine: Quarantined[];
+  collisions: Collision[];
   unknownSkus: Map<string, { count: number; docs: Set<string>; where: Set<"fact" | "pid_list"> }>;
   stats: Record<string, number>;
   allFacts: RawFact[];
   resolvePart: (sku: string) => PartRef | null;
 };
+
+/** The cached document a URL was read from — netzscrape's `_key` convention. */
+export function cacheFileFor(url: string, docType: string): string {
+  return path.join(CACHE_DIR, `${sha1(url)}${docType === "vendor_datasheet_pdf" ? ".bin" : ".html"}`);
+}
+
+/**
+ * The stamp that tells one fetch of a document from the next, used as prov.revision_label.
+ * The extractor's own `fetched_at` if it wrote one, else the cached file's mtime (the fetch
+ * record on disk), else the extract file's generated_at. Null only when none of the three exists,
+ * and then a same-document disagreement stays a conflict — which is the safe answer.
+ */
+export function fetchStamp(url: string, docType: string, stated: unknown, generatedAt: string | null): string | null {
+  if (typeof stated === "string" && stated.trim()) return stated.trim();
+  try { return fs.statSync(cacheFileFor(url, docType)).mtime.toISOString(); } catch { /* not in this cache */ }
+  return generatedAt;
+}
 
 /** Every part of `vendor` whose SKU is in `skus`, exact first then case-insensitive, in chunks. */
 export async function loadParts(vendor: string, skus: Iterable<string>, db: Queryable): Promise<(sku: string) => PartRef | null> {
@@ -185,6 +241,11 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
   const stats: Record<string, number> = {
     files: files.length, docs: 0, facts_raw: 0, facts_sku_scoped: 0, facts_family_scoped: 0, facts_without_doc: 0,
     mapped_ok: 0, unmapped: 0, sentinel: 0, rejected: 0, duplicate_field: 0,
+    // the sentinels, apart: one number for five different meanings sent nobody anywhere
+    sentinel_not_a_spec: 0, sentinel_backlog: 0, sentinel_compat: 0, sentinel_duplicate_unit: 0, sentinel_section_heading: 0, sentinel_other: 0,
+    // collisions: a second cell for a (part, field) this run already offered
+    collision_same_value: 0, collision_differing: 0, collision_exact_repeat: 0,
+    doc_defects: 0, raw_with_label_unit: 0,
     sku_unknown: 0, sku_unknown_facts: 0, pid_list_unknown: 0, family_no_listed_parts: 0,
     inherit_ok: 0, inherit_class_b: 0, inherit_scope_unresolved: 0, inherit_scope_violation: 0, inherit_class_c_exception: 0, inherit_refused_other: 0,
     parts_offered: 0,
@@ -198,15 +259,24 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     for (const d of f.docs) {
       const url = d.source_url;
       const cur = docByUrl.get(url);
-      if (cur) { cur.pid_list = [...new Set([...cur.pid_list, ...(d.pid_list ?? [])])]; continue; }
+      if (cur) {
+        cur.pid_list = [...new Set([...cur.pid_list, ...(d.pid_list ?? [])])];
+        if (d.defects?.length) cur.defects = [...(cur.defects ?? []), ...d.defects];
+        continue;
+      }
+      const stated = (d as unknown as { fetched_at?: unknown }).fetched_at;
+      const day = typeof stated === "string" && stated.trim() ? stated.trim().slice(0, 10) : f.generated_at ? f.generated_at.slice(0, 10) : null;
       docByUrl.set(url, {
         doc_id: docIdFor(url), url, pid_list: [...(d.pid_list ?? [])], source: f.source, kind: f.kind,
-        tables: typeof d.tables === "number" ? d.tables : null, fetched_at: f.generated_at ? f.generated_at.slice(0, 10) : null,
+        tables: typeof d.tables === "number" ? d.tables : null, fetched_at: day,
+        revision_label: fetchStamp(url, f.kind.doc_type, stated, f.generated_at),
+        defects: d.defects ? [...d.defects] : [],
         parts: [], category: null,
       });
     }
   }
   stats.docs = docByUrl.size;
+  for (const d of docByUrl.values()) stats.doc_defects += d.defects?.length ?? 0;
 
   const skus = new Set<string>();
   for (const d of docByUrl.values()) for (const p of d.pid_list) skus.add(p);
@@ -235,24 +305,72 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
   const incoming = new Map<number, SpecEntry[]>();
   const produced: Plan["produced"] = new Map();
   const unmapped: Plan["unmapped"] = new Map();
+  const backlog: Plan["backlog"] = new Map();
   const quarantine: Quarantined[] = [];
+  const collisions: Collision[] = [];
   const factsPerDoc: Record<string, number> = {};
+  const producedPerDoc: Record<string, number> = {};
   /** part id -> doc id -> field keys the SAME document states per-SKU (the class-C exception) */
   const perSkuKeys = new Map<number, Map<string, Set<string>>>();
 
-  const addIncoming = (part: PartRef, e: SpecEntry, f: RawFact, label: string, doc: DocInfo, inherited: boolean): boolean => {
+  const sideOf = (e: SpecEntry, label: string, docId: string, inherited: boolean): CollisionSide => ({
+    value: e.value, unit: e.unit, raw: e.raw, label, doc_id: docId, locator: e.prov.locator ?? "", tier: e.prov.tier, inherited,
+  });
+
+  /**
+   * Offer `e` to `part`. A second entry for a field the part already holds is NOT dropped: it is
+   * appended, and main() replays the list through applyMerge so mergeField decides (identical ->
+   * corroboration, different -> a held conflict with both provenances). The one thing dropped is
+   * an exact repeat of a single cell — same value, same document, same locator — which is one
+   * fact read twice, not a second source. Every collision goes to the collisions report.
+   */
+  const addIncoming = (part: PartRef, e: SpecEntry, f: RawFact, label: string, doc: DocInfo, inherited: boolean): void => {
     const arr = incoming.get(part.id) ?? [];
-    if (arr.some((x) => x.k === e.k)) { stats.duplicate_field++; return false; }
+    const prior = arr.filter((x) => x.k === e.k);
+    if (prior.length) {
+      stats.duplicate_field++;
+      const agrees = (x: SpecEntry) => sameValue(x.value, e.value) && (x.unit ?? null) === (e.unit ?? null);
+      const same = prior.some(agrees);
+      const exact = prior.some((x) => agrees(x) && x.prov.doc_id === e.prov.doc_id && x.prov.locator === e.prov.locator);
+      if (same) stats.collision_same_value++; else stats.collision_differing++;
+      if (exact) stats.collision_exact_repeat++;
+      const first = produced.get(part.sku)?.get(e.k);
+      collisions.push({
+        sku: part.sku, key: e.k, same_value: same, dropped: exact,
+        kept: first
+          ? { value: first.value, unit: first.unit, raw: first.raw, label: first.label, doc_id: first.doc_id, locator: first.locator, tier: prior[0].prov.tier, inherited: first.inherited }
+          : sideOf(prior[0], label, prior[0].prov.doc_id ?? "", prior[0].inherited === true),
+        incoming: sideOf(e, label, doc.doc_id, inherited),
+      });
+      if (exact) return;
+    }
     arr.push(e); incoming.set(part.id, arr); partById.set(part.id, part);
+    producedPerDoc[doc.doc_id] = (producedPerDoc[doc.doc_id] ?? 0) + 1;
     const bag = produced.get(part.sku) ?? new Map<string, ProducedFact>();
-    if (!bag.has(e.k)) bag.set(e.k, { sku: part.sku, key: e.k, value: e.value, unit: e.unit, raw: e.raw, label, locator: f.locator, source_url: f.source_url, doc_id: doc.doc_id, inherited });
+    // ProducedFact.raw is the CELL, never the "<label> | <cell>" replay form: the gate re-reads it
+    // against the cached document's cell and the golden files hold the cell.
+    if (!bag.has(e.k)) bag.set(e.k, { sku: part.sku, key: e.k, value: e.value, unit: e.unit, raw: f.value, label, locator: f.locator, source_url: f.source_url, doc_id: doc.doc_id, inherited });
     produced.set(part.sku, bag);
-    return true;
   };
-  const noteUnmapped = (label: string, value: string, category: string) => {
-    const u = unmapped.get(label) ?? { count: 0, samples: [], categories: new Set<string>() };
+  const noteLabel = (into: Plan["unmapped"], label: string, value: string, category: string) => {
+    const u = into.get(label) ?? { count: 0, samples: [], categories: new Set<string>() };
     u.count++; if (u.samples.length < 3 && !u.samples.includes(value)) u.samples.push(value.slice(0, 120)); u.categories.add(category);
-    unmapped.set(label, u);
+    into.set(label, u);
+  };
+  const noteUnmapped = (label: string, value: string, category: string) => noteLabel(unmapped, label, value, category);
+  /** Split the sentinels. __backlog is a named gap and its labels are listed, not counted away. */
+  const noteSentinel = (sentinel: string, label: string, value: string, category: string) => {
+    stats.sentinel++;
+    const k = `sentinel_${sentinel.replace(/^__/, "")}`;
+    if (k in stats) stats[k]++; else stats.sentinel_other++;
+    if (sentinel === "__backlog") noteLabel(backlog, label, value, category);
+  };
+  /** "<label> | <cell>" where the unit lives in the LABEL, so re-running the normaliser over `raw`
+   *  has everything it had the first time. The bare cell alone cannot replay "Cache Size (MB)". */
+  const rawFor = (f: RawFact, m: { raw: string }): string => {
+    if (!unitFromLabel(f.label)) return m.raw;
+    stats.raw_with_label_unit++;
+    return `${f.label} | ${m.raw}`;
   };
 
   const docOf = (f: RawFact): DocInfo | null => {
@@ -261,7 +379,11 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     factsPerDoc[d.doc_id] = (factsPerDoc[d.doc_id] ?? 0) + 1;
     return d;
   };
-  const provFor = (d: DocInfo, locator: string) => ({ tier: d.kind.tier, method: d.kind.method, doc_id: d.doc_id, locator, extracted_at: d.fetched_at ?? day, norm_v: NORM_VERSION });
+  const provFor = (d: DocInfo, locator: string) => ({
+    tier: d.kind.tier, method: d.kind.method, doc_id: d.doc_id, locator,
+    extracted_at: d.fetched_at ?? day, norm_v: NORM_VERSION,
+    ...(d.revision_label ? { revision_label: d.revision_label } : {}),
+  });
 
   // pass 1: SKU-scoped facts, so the class-C exception (a per-SKU value in the same document) is
   // known before any family fact is offered — the legacy checked in file order and missed exceptions
@@ -275,16 +397,21 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     const part = resolvePart(f.sku);
     if (!part) { stats.sku_unknown_facts++; noteUnknown(f.sku, d.doc_id, "fact"); continue; }
     const m = mapFact(f, part.category);
-    if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, f.value, part.category); continue; }
-    if (m.kind === "sentinel") { stats.sentinel++; continue; }
-    if (m.kind === "rejected") { stats.rejected++; quarantine.push({ sku: f.sku, label: f.label, value: f.value, key: m.key, reason: m.reason, detail: m.detail, locator: f.locator, doc_id: d.doc_id }); continue; }
-    stats.mapped_ok++;
-    const e: SpecEntry = { k: m.key, raw: m.raw, value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
-    if (addIncoming(part, e, f, f.label, d, false)) {
+    // The class-C exception is "the document STATES a per-SKU value for this key", which is true
+    // the moment the label maps — whether the value survived the normaliser or not, and whether or
+    // not it was the first cell for that field. Recording it only for values that were KEPT let a
+    // family value be inherited over a per-SKU value the document really does publish.
+    if (m.kind === "ok" || m.kind === "rejected") {
       const perDoc = perSkuKeys.get(part.id) ?? new Map<string, Set<string>>();
       const keys = perDoc.get(d.doc_id) ?? new Set<string>();
       keys.add(m.key); perDoc.set(d.doc_id, keys); perSkuKeys.set(part.id, perDoc);
     }
+    if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, f.value, part.category); continue; }
+    if (m.kind === "sentinel") { noteSentinel(m.sentinel, f.label, f.value, part.category); continue; }
+    if (m.kind === "rejected") { stats.rejected++; quarantine.push({ sku: f.sku, label: f.label, value: f.value, key: m.key, reason: m.reason, detail: m.detail, locator: f.locator, doc_id: d.doc_id }); continue; }
+    stats.mapped_ok++;
+    const e: SpecEntry = { k: m.key, raw: rawFor(f, m), value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
+    addIncoming(part, e, f, f.label, d, false);
   }
 
   // pass 2: family-scoped facts, only through the scope check
@@ -292,14 +419,14 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     if (!d.category || d.parts.length === 0) { stats.family_no_listed_parts++; continue; }
     const m = mapFact(f, d.category);
     if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, f.value, d.category); continue; }
-    if (m.kind === "sentinel") { stats.sentinel++; continue; }
+    if (m.kind === "sentinel") { noteSentinel(m.sentinel, f.label, f.value, d.category); continue; }
     if (m.kind === "rejected") { stats.rejected++; quarantine.push({ scope: f.family_scope, label: f.label, value: f.value, key: m.key, reason: m.reason, detail: m.detail, locator: f.locator, doc_id: d.doc_id }); continue; }
     stats.mapped_ok++;
     if (INHERIT_CLASS_B.has(m.key)) { stats.inherit_class_b++; continue; }
     const scope = resolveScope(f.family_scope, d.pid_list);
     if (scope.kind === "unresolved") { stats.inherit_scope_unresolved++; continue; }
     const scopePids = scope.kind === "pids" ? scope.pids : undefined;
-    const base: SpecEntry = { k: m.key, raw: m.raw, value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
+    const base: SpecEntry = { k: m.key, raw: rawFor(f, m), value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
     for (const pid of d.pid_list) {
       const part = resolvePart(pid);
       if (!part) continue;                       // counted once above as pid_list_unknown
@@ -320,7 +447,12 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
   }
   stats.sku_unknown = unknownSkus.size;
   stats.parts_offered = incoming.size;
-  return { files, docs: [...docByUrl.values()], incoming, partById, produced, factsPerDoc, unmapped, quarantine, unknownSkus, stats, allFacts, resolvePart };
+  stats.backlog_labels = backlog.size;
+  stats.collisions = collisions.length;
+  return {
+    files, docs: [...docByUrl.values()], incoming, partById, produced, factsPerDoc, producedPerDoc,
+    unmapped, backlog, quarantine, collisions, unknownSkus, stats, allFacts, resolvePart,
+  };
 }
 
 // ---- reports -------------------------------------------------------------------------------------------
@@ -331,6 +463,7 @@ export function reportPaths(tag: string, day = new Date().toISOString().slice(0,
     unmapped: path.join(REPORTS_DIR, `unmapped-${tag}-${day}.json`),
     quarantine: path.join(REPORTS_DIR, `quarantine-${tag}-${day}.jsonl`),
     unknown: path.join(REPORTS_DIR, `unknown-skus-${tag}-${day}.jsonl`),
+    collisions: path.join(REPORTS_DIR, `collisions-${tag}-${day}.jsonl`),
     gate: path.join(REPORTS_DIR, `gate-${tag}-${day}.json`),
   };
 }
@@ -338,11 +471,17 @@ export function reportPaths(tag: string, day = new Date().toISOString().slice(0,
 export function writeReports(plan: Plan, tag: string): ReturnType<typeof reportPaths> {
   const p = reportPaths(tag);
   fs.mkdirSync(REPORTS_DIR, { recursive: true });
+  const labelList = (m: Plan["unmapped"]) => [...m.entries()]
+    .map(([label, u]) => ({ label, count: u.count, samples: u.samples, categories: [...u.categories] })).sort((x, y) => y.count - x.count);
   fs.writeFileSync(p.unmapped, JSON.stringify({
     generated_at: new Date().toISOString(), files: plan.files.map((f) => path.relative(REPO_ROOT, f.file)),
-    labels: [...plan.unmapped.entries()].map(([label, u]) => ({ label, count: u.count, samples: u.samples, categories: [...u.categories] })).sort((x, y) => y.count - x.count),
+    labels: labelList(plan.unmapped),
+    // __backlog is a real spec with no field key yet: a NAMED gap. It belongs on the page of
+    // things to add to the dictionary, not inside a "sentinel" count nobody can act on.
+    backlog: labelList(plan.backlog),
   }, null, 1));
   fs.writeFileSync(p.quarantine, plan.quarantine.map((q) => JSON.stringify(q)).join("\n") + (plan.quarantine.length ? "\n" : ""));
+  fs.writeFileSync(p.collisions, plan.collisions.map((c) => JSON.stringify(c)).join("\n") + (plan.collisions.length ? "\n" : ""));
   const unknown = [...plan.unknownSkus.entries()].sort((x, y) => y[1].count - x[1].count)
     .map(([sku, u]) => JSON.stringify({ sku, count: u.count, docs: [...u.docs], where: [...u.where] }));
   fs.writeFileSync(p.unknown, unknown.join("\n") + (unknown.length ? "\n" : ""));
@@ -364,9 +503,10 @@ export async function main(argv: string[]): Promise<void> {
   const pool = getPool();
   const plan = await planExtract(files, { vendor: a.vendor, db: pool });
   const golden = loadGolden(a.goldenDir ?? GOLDEN_DIR);
-  const previous = await previousFactsPerDoc(pool);
+  const previous = await previousPerDoc(pool);
   const { gate, misses } = gateExtract({
-    produced: plan.produced, facts: plan.allFacts, docs: plan.docs, factsPerDoc: plan.factsPerDoc, previous, golden,
+    produced: plan.produced, facts: plan.allFacts, docs: plan.docs, factsPerDoc: plan.factsPerDoc,
+    producedPerDoc: plan.producedPerDoc, previous: previous.raw, previousProduced: previous.produced, golden,
     sample: a.sample, allowRegression: a.allowRegression, isPart: (sku) => plan.resolvePart(sku) !== null,
   });
   const reports = writeReports(plan, a.tag);
@@ -385,6 +525,17 @@ export async function main(argv: string[]): Promise<void> {
 
   let runId: number | null = null;
   if (a.commit) {
+    // A throw part-way through leaves the parts already merged COMMITTED (one transaction per
+    // part). The run then closed `failed` with stats {} — no record of how far it got, and no way
+    // to tell which facts came from it. Both halves are fixed: the failure path is handed the
+    // partial stats and a progress line, and the read side ignores facts whose run is not
+    // `succeeded` (docs/DATA_MODEL.md § Facts of a run that did not succeed).
+    const total = plan.incoming.size;
+    let done = 0, lastPart = "";
+    const partial = () => ({
+      stats: { ...plan.stats, ...mergeStats, facts_per_doc: plan.factsPerDoc, produced_per_doc: plan.producedPerDoc, partial: true },
+      progress: `${done}/${total} parts merged${lastPart ? `, last ${lastPart}` : ""}`,
+    });
     const out = await withRun("apply-specs", inputs, async (id) => {
       // the gate first: behind a failing gate nothing is written, and the run closes failed with the gate in its notes
       if (!gate.passed) throw new Error(`gate did not pass (${gate.verdict}): ${JSON.stringify(gate)}`);
@@ -402,17 +553,19 @@ export async function main(argv: string[]): Promise<void> {
           }
         });
         mergeStats.parts_touched++;
+        done++; lastPart = plan.partById.get(partId)?.sku ?? String(partId);
       }
-      return { stats: { ...plan.stats, ...mergeStats, facts_per_doc: plan.factsPerDoc }, gate, notes };
-    });
+      return { stats: { ...plan.stats, ...mergeStats, facts_per_doc: plan.factsPerDoc, produced_per_doc: plan.producedPerDoc }, gate, notes };
+    }, { partial });
     runId = out.runId;
   }
 
   console.log(`${a.commit ? "COMMITTED run " + runId : "DRY RUN — no writes"}   ${plan.files.map((f) => path.basename(f.file)).join(", ")}`);
   console.table({ ...plan.stats, ...(a.commit ? mergeStats : {}) });
   console.log(`quarantine by reason: ${JSON.stringify(Object.fromEntries([...plan.quarantine.reduce((m, q) => m.set(`${q.key}:${q.reason}`, (m.get(`${q.key}:${q.reason}`) ?? 0) + 1), new Map<string, number>())].sort((x, y) => y[1] - x[1]).slice(0, 12)))}`);
-  console.log(`unmapped labels: ${plan.unmapped.size} -> ${path.relative(REPO_ROOT, reports.unmapped)}`);
+  console.log(`unmapped labels: ${plan.unmapped.size} (+ ${plan.backlog.size} __backlog labels, a named gap) -> ${path.relative(REPO_ROOT, reports.unmapped)}`);
   console.log(`quarantined values: ${plan.quarantine.length} -> ${path.relative(REPO_ROOT, reports.quarantine)}`);
+  console.log(`(part, field) collisions: ${plan.collisions.length} — ${plan.stats.collision_differing} differing (held for the merge), ${plan.stats.collision_same_value} agreeing, ${plan.stats.collision_exact_repeat} exact repeats -> ${path.relative(REPO_ROOT, reports.collisions)}`);
   const unk = [...plan.unknownSkus.entries()].sort((x, y) => y[1].count - x[1].count);
   console.log(`unknown SKUs: ${unk.length} -> ${path.relative(REPO_ROOT, reports.unknown)}${unk.length ? "  e.g. " + unk.slice(0, 8).map(([s, u]) => `${s}(${u.count})`).join(", ") : ""}`);
   printGate(gate, misses);

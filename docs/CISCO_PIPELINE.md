@@ -101,12 +101,19 @@ Four checks, four reasons (`src/pipeline/gate-extract.ts`):
 | --- | --- | --- |
 | precision | every golden fact (`data/reference/golden/*.golden.json`) whose SKU a document in the file lists is produced with the expected value AND unit, and its locator re-reads to a cell holding the raw string in the cached document | `WRONG`, `LOCATOR_MISMATCH`, `UNCHECKED` (no cache) |
 | recall | every golden fact for a document in the file is produced; the miss says whether the raw value IS in the file (under an unmapped label, refused, or a SKU we do not hold) | `RECALL_MISS` |
-| provenance | `--sample N` random facts from the whole file: label and raw value in the cached page text, and the cell at the locator holds the value | `PROVENANCE_MISS` |
-| regression | raw facts per document not below the last succeeded `apply-specs` run for the same `doc_id` (`runs.stats.facts_per_doc`) | `REGRESSION` |
+| provenance | `--sample N` facts drawn ACROSS the file's documents (Fisher-Yates over indices, one document at a time, the facts the extractor flagged first): label and raw value in the cached page text, and the locator parses and names a cell holding the value | `PROVENANCE_MISS` |
+| coverage | the sample reached at least 5 % of the documents and 100 facts (or all of them) — the gate reports `docs_sampled / docs_in_file` and `facts_sampled / facts_in_file` | `UNVERIFIED` |
+| regression | per document, neither raw facts (`runs.stats.facts_per_doc`) nor PRODUCED (part, field) entries (`runs.stats.produced_per_doc`) below the last succeeded `apply-specs` run, and no document the previous run read missing from this file | `REGRESSION` (metric `raw`, `produced` or `absent`) |
 
-Verdicts: `pass` (precision ≥ 98 %, recall 100 %, no provenance mismatch, no unexplained
-regression), `fail`, or `unverified` — no golden PID in the file, or no cached page could be
-re-read. `unverified` does NOT pass; it says the gate could not measure, and names why.
+Verdicts: `pass` (precision >= 98 %, recall 100 %, no provenance mismatch, no unexplained
+regression), `fail`, or `unverified` — no golden PID in the file, no cached page could be
+re-read, or the sample was too small to measure. `unverified` does NOT pass; it says the gate
+could not measure, and names why.
+
+`--sample` is a TARGET COUNT spread over the documents, not a count per document: every document
+gets one fact before any document gets two, then the rest in proportion to size. `--sample 0` is
+refused. On a 2,950-document shard, 60 facts is one fact per fifty documents — use 300 or more,
+and read the `coverage` line the gate prints.
 
 A regression that is understood — a parser fix that dropped a bogus column — is allowed with
 `--allow-regression "reason"`; the reason is written to `runs.notes` and the gate records the
@@ -140,11 +147,21 @@ regression check reads):
 | key | meaning |
 | --- | --- |
 | `facts_raw / facts_sku_scoped / facts_family_scoped` | what the extractor emitted |
-| `mapped_ok / unmapped / rejected / sentinel` | mapped through the alias rules / no rule / normaliser refused / a heading that repeats its label |
+| `mapped_ok / unmapped / rejected / sentinel` | mapped through the alias rules / no rule / normaliser refused / a sentinel of any kind |
+| `sentinel_not_a_spec / sentinel_backlog / sentinel_compat / sentinel_duplicate_unit / sentinel_section_heading` | the sentinels apart. `__backlog` is a NAMED GAP — a real spec with no field key yet — and its labels are listed in the unmapped report under `backlog` |
+| `duplicate_field / collision_differing / collision_same_value / collision_exact_repeat` | (part, field) offered more than once in this apply: total, disagreeing (both go to the merge, which holds the field), agreeing (corroboration evidence), and exact repeats of one cell (the only case dropped) |
+| `raw_with_label_unit` | facts whose unit came from the label, so `raw` was stored as `"<label> | <cell>"` to stay replayable |
+| `doc_defects` | defects the extractor itself recorded on a document (`SCHEMA_MATCH_LOW`, `GRID_MISALIGNED`); the gate samples the facts they touch first |
 | `sku_unknown / pid_list_unknown` | SKUs in facts / in PID lists that are not parts |
 | `family_no_listed_parts` | family facts in documents listing no part of ours (no category, not mapped) |
 | `inherit_ok / inherit_class_b / inherit_scope_unresolved / inherit_scope_violation / inherit_class_c_exception` | the inheritance decisions |
 | `insert / corroborate / conflict / protected / revision_change / skip_lower_tier` | merge actions |
+| `facts_per_doc / produced_per_doc` | the two regression metrics the next gate reads: raw rows per document, and (part, field) entries produced per document |
+
+A run that throws part-way through has already committed the parts it merged: it is closed
+`failed` with the partial stats and a `progress=<n>/<total> parts merged, last <sku>` line in
+`runs.notes`, and the read side does not serve facts whose run is not `succeeded`
+(`docs/DATA_MODEL.md` § Facts of a run that did not succeed).
 
 ## 4. Lifecycle
 
@@ -225,6 +242,7 @@ API's `/v1/stats` reads coverage live from the tables either way.
 | `unmapped-cisco-<date>.json` | apply-extract | labels no alias rule matched, with count, up to 3 sample values and the categories they appeared in | the input to the alias-proposal loop (`apply-alias-proposals`); a frequent label with clean samples is a missing rule |
 | `quarantine-cisco-<date>.jsonl` | apply-extract | one line per value the normaliser refused: sku/scope, label, value, key, reason, detail, locator, doc | sort by reason; a reason with hundreds of lines is a parser gap, not bad data — fix the normaliser and re-run over the file, nothing was stored |
 | `unknown-skus-cisco-<date>.jsonl` | apply-extract | SKUs the documents name (as facts or in PID lists) that are not parts, with the documents | the enumeration feed: real part numbers we do not hold, and the tokens the enumeration mistook for part numbers |
+| `collisions-cisco-<date>.jsonl` | apply-extract | one line per (part, field) offered TWICE in one apply: both sides with their value, unit, label, document and locator, and whether they agree | sort by `same_value: false`. Each is one document stating a field twice with different values - a PSU table with one row per option, a spec repeated per configuration. The merge holds them as conflicts; the report is where you see WHICH cells, and it is the input to a shape fix in the extractor |
 | `gate-cisco-<date>.json` | apply-extract / gate-extract | the full gate with EVERY miss (the run row keeps the first 40) | read every `WRONG` and `LOCATOR_MISMATCH` line; they are the extractor being wrong on a hand-verified cell |
 | `eol-pids-not-in-catalogue-cisco-<date>.jsonl` | apply-lifecycle | bulletin PID cores with no part of ours, with their bulletin | enumeration feed for retired parts |
 | `tmg-unresolved-skus-<date>.jsonl` | apply-compat | optic and module SKUs the matrix names that are not parts | enumeration feed for optics |
@@ -256,11 +274,33 @@ day's real reports.
    two sources disagreeing after normalisation. They are held, not rendered, until a person
    decides; a run that produces hundreds of them for one field is a unit or locale bug, not
    hundreds of disagreements.
+8. **The collisions report, sorted by `same_value: false`.** These are disagreements INSIDE one
+   document, and they became visible on 4 Sep 2026 — until then the second value was dropped
+   behind a `duplicate_field` counter. Shard 0 alone holds 20,871 collisions, 16,081 of them
+   differing after normalisation (C9350-24P kept `PWR-C2-850WAC` from `t6:r4:c1` and discarded
+   `PWR-C2-1600WAC` from `t6:r5:c1`). Expect the first apply after this change to produce
+   thousands of held conflicts: that is the backlog becoming visible, not a new fault. Read the
+   report before resolving any of them — most are one table listing a field per PSU or per
+   configuration, and the fix is a shape rule in the extractor, not a decision per part.
+
+   Measured on shard 0 (4 Sep 2026, real catalogue): 20,716 collisions — 14,433 differing, 6,283
+   agreeing, 923 exact repeats of one cell. The differing ones are NOT 14,433 disagreements:
+   `ieee_standards` (6,005), `supported_protocols` (1,894) and `certifications` (1,521) are LIST
+   fields whose document spreads the list over several cells, so each cell offers a fragment of
+   the same list; and the `psu_options` cases are the extractor reading the wrong column of a
+   PSU table (`C9350-24P` offers `PWR-C2-850WAC` at `t6:r4:c1`, then `Default` at `t6:r4:c2`,
+   `720*W` at `t6:r4:c4` and `PWR-C2-1600WAC` at `t6:r5:c1` — one real second value and two
+   cells that are not psu_options at all). **Fix those two shapes in the extractor before the
+   first `--commit`**, or the conflicts table becomes a list of the extractor's own column
+   errors. Holding them is still the right behaviour: they were being dropped.
+9. **The gate's `coverage` block.** `--sample` is a target count spread across the file's
+   documents; the gate refuses to call itself measured below 5 % of documents and 100 facts.
+   On a 2,950-document shard use `--sample 300` or more.
 
 ## 9. Tests
 
 ```bash
-NETZSPEC_DB=test npx tsx tests/db/apply-extract.test.ts      # extract + gate, 22 sabotage cases
+NETZSPEC_DB=test npx tsx tests/db/apply-extract.test.ts      # extract + gate, 39 sabotage cases
 NETZSPEC_DB=test npx tsx tests/db/apply-lifecycle.test.ts    # lifecycle + compat, 15 sabotage cases
 npm run typecheck && npm test
 ```

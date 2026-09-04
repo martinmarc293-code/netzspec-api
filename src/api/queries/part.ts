@@ -15,7 +15,7 @@
 //     the shape equality the export contract promises holds by construction (and is tested).
 import { query } from "../../store/db.js";
 import { badRequest } from "../errors.js";
-import { ALL_STATES, RENDERED_STATES, isoOf, type FactState, type PartIdentity } from "./shared.js";
+import { ALL_STATES, RENDERED_STATES, factRunSucceeded, isoOf, type FactState, type PartIdentity } from "./shared.js";
 
 export function parseStates(raw: string | undefined): FactState[] {
   if (raw === undefined || raw === "") return [...RENDERED_STATES];
@@ -54,6 +54,7 @@ async function factRows(partIds: number[], states: FactState[]): Promise<FactRow
       JOIN field_dictionary d ON d.key = f.field_key
       LEFT JOIN source_docs sd ON sd.doc_id = f.doc_id
      WHERE f.part_id = ANY($1::bigint[]) AND f.superseded_by IS NULL AND f.state::text = ANY($2::text[])
+       AND ${factRunSucceeded("f")}
      ORDER BY f.part_id, f.field_key`, [partIds, states]);
   return rows;
 }
@@ -111,8 +112,10 @@ const SOURCES_SQL = `
   WITH refs AS (
     SELECT f.part_id, f.doc_id FROM facts f
      WHERE f.part_id = ANY($1::bigint[]) AND f.superseded_by IS NULL AND f.state::text = ANY($2::text[])
+       AND ${factRunSucceeded("f")}
     UNION SELECT f.part_id, e.doc_id FROM fact_evidence e JOIN facts f ON f.id = e.fact_id
      WHERE f.part_id = ANY($1::bigint[]) AND f.superseded_by IS NULL AND f.state::text = ANY($2::text[])
+       AND ${factRunSucceeded("f")}
     UNION SELECT l.part_id, l.doc_id FROM lifecycle l WHERE l.part_id = ANY($1::bigint[])
     UNION SELECT r.from_part_id, r.doc_id FROM relations r WHERE r.from_part_id = ANY($1::bigint[])
     UNION SELECT i.part_id, i.doc_id FROM images i WHERE i.part_id = ANY($1::bigint[])
