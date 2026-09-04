@@ -6,6 +6,7 @@
  "final_url": "https://documentation.meraki.com/MS/nztest/MS120-24P",
  "fetched_at": "2026-09-03T10:16:00+00:00",
  "fetch_id": null,
+ "cached": false,
  "cache_path": "9c7c1fb4978173e53559c47c598f90a044a5171d.html",
  "result": {
   "sku": "MS120-24P",

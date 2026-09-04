@@ -27,7 +27,10 @@ if (process.env.NETZSPEC_DB !== "test") {
   process.exit(1);
 }
 const dbName = databaseName(resolveDatabaseUrl());
-if (!dbName.endsWith("_test")) { console.error(`refusing: database "${dbName}" is not a _test database`); process.exit(1); }
+// Same rule as src/store/db.ts: netzspec_test, netzspec_test2 … one throwaway database per
+// concurrent suite. An `endsWith("_test")` copy of this guard had drifted narrower and refused
+// every numbered database the runner is allowed to use (D:\Project\CLAUDE.md §10, drifting copies).
+if (!/_test\d*$/.test(dbName)) { console.error(`refusing: database "${dbName}" is not a _test database`); process.exit(1); }
 console.log(`queue.test: database ${dbName}`);
 
 let pass = 0;
@@ -235,6 +238,13 @@ await refuses("enqueue without --source", () => enqueue({ task: "search" }), /--
   fs.rmSync(tmp, { recursive: true, force: true });
   const repo = await loadSourceFields();
   check("loadSourceFields() with no argument reads the repo's data/schema/source-fields.json without throwing", Number.isInteger(repo.inserted));
+  // …and then put the suite's OWN matrix back. That call loads the real capability matrix — 733
+  // rows once the '*' lists landed — and everything below reasons about a hand-built matrix of
+  // five entries. Left in place it silently redefines the fixture: router-switch gains poe_budget
+  // for ANY category (so it queues the router it must not), sources_capable rises from 4/3 to 5/5,
+  // and the failures read as planner bugs rather than as a fixture built on production data.
+  await query("TRUNCATE source_fields");
+  await applySourceFields({ sources: { provantage: { "*": ["poe_budget"], switches: ["switching_capacity"] }, "router-switch": { switches: ["poe_budget"] } } });
 }
 {
   const before = (await query<{ n: number }>("SELECT count(*)::int AS n FROM source_fields")).rows[0].n;

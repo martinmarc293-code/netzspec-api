@@ -1,11 +1,24 @@
 """tests/scraper/test_arista.py — proof for scraper/sources/arista.py.
 
 Runs against the CACHED fixture only (scraper/cache/<sha1(url)>.html, keyed by the requested URL
-through netzscrape._key). Never fetches. Prints one PASS/MISS line per case and exits non-zero
-on any miss.
+through netzscrape._key). Never fetches. Prints one PASS/MISS/SKIP line per case and exits
+non-zero on any miss.
 
     python3.11 tests/scraper/test_arista.py
     python3.11 scripts/run_py_tests.py arista
+
+THREE states, not two. A case whose cached capture the suite cannot use is COULD NOT CHECK — it
+is counted and printed apart from both pass and miss, and it does not fail the run. Arista sits
+behind a bot challenge, so the cache can hold a "Client Challenge" body under the series URL
+instead of the page: on 4 Sep 2026 that capture (3,184 bytes, the same one on the VPS) turned
+into 37 confident misses naming the adapter — every value "None", every count 0 — for an adapter
+that had not changed. Existence was being used as a proxy for usability (D:\\Project\\CLAUDE.md §2),
+and a monitor that reports its own blocked fetch as a broken page sends someone to fix something
+that was never wrong (§6). `cached()` below therefore asks the adapter's OWN is_blocked /
+is_not_found — the predicates production uses — before handing a capture to any assertion, and
+the suite SHOUTS the count and the re-capture instruction rather than going quiet (§10).
+Restoring the fixture needs a fresh capture through the operator's Chrome over CDP; the suite
+never fetches one itself.
 
 Sabotage cases: a "Just a moment..." page and a padded "Client Challenge" page must be blocked,
 a page carrying the not-found marker must be not-found, a key that is on no table must be
@@ -13,6 +26,8 @@ not_listed, an empty spec table must yield nothing WITHOUT claiming not_listed, 
 that is not a model code must not become a model, and the glued "32Sand7050" header form must
 still split into two models. The one that would have shipped wrong without a test: a <br>
 inside a Ports cell — without a separator "48 x 25G SFP" and "8 x 100G QSFP" read as "SFP8".
+G1/G2 are the sabotage for the third state itself: the gate must call a challenge capture
+unusable AND call a real page usable, so it can never degrade into a blanket skip.
 """
 from __future__ import annotations
 import io, re, sys
@@ -37,11 +52,22 @@ def is_chrome(label: str) -> bool:
     return bool(CHROME_LEAF.search(parts[-1].strip()) or (len(parts) > 1 and CHROME_SECTION.search(parts[0].strip())))
 
 
-npass = nfail = 0
+npass = nfail = nskip = 0
+
+# Non-empty while the cases being run depend on a cached capture the suite could not use. Set it
+# around such a block and every check() inside records COULD NOT CHECK instead of a verdict; the
+# assertions themselves stay exactly as written, so nothing is weakened and nothing goes missing
+# from the output. The reasons collected here are what the summary shouts.
+GATE = ""
+gated: list[str] = []
 
 
 def check(cid: str, what: str, ok: bool, detail: str = "") -> None:
-    global npass, nfail
+    global npass, nfail, nskip
+    if GATE:
+        nskip += 1
+        print(f"SKIP | {cid:6} | {what[:72]:72} | COULD NOT CHECK: {GATE[:120]}")
+        return
     if ok:
         npass += 1
     else:
@@ -49,11 +75,37 @@ def check(cid: str, what: str, ok: bool, detail: str = "") -> None:
     print(f"{'PASS' if ok else 'MISS'} | {cid:6} | {what[:72]:72}" + (f" | {detail[:140]}" if detail and not ok else ""))
 
 
-def fixture(url: str) -> str:
+# A capture the assertions can safely run against when the real one is unusable. Every result it
+# produces is discarded by the GATE above — it exists only so the calls below do not raise and
+# the case list stays complete and in order. B16 proves extract() handles exactly this shape.
+STANDIN = "<html><head><title>Arista 7050X3 Series</title></head><body><h1>Arista 7050X3 Series</h1></body></html>"
+
+
+def cached(url: str) -> tuple[str, str]:
+    """(html, "") for a usable capture, else (STANDIN, why).
+
+    A capture that is PRESENT but holds a bot challenge or a not-found body is not evidence about
+    the adapter, and treating it as one is what produced 37 misses for an adapter that was fine.
+    The predicates are the adapter's own, so this cannot drift from what production decides about
+    the same bytes, and a real page can never be gated away by it (proved by G1/G2).
+    """
     cf = netzscrape.CACHE / f"{netzscrape._key(url)}.html"
     if not cf.exists():
-        print(f"MISS | fixture | not cached: {url}"); sys.exit(2)
-    return cf.read_text(encoding="utf-8", errors="replace")
+        return STANDIN, f"no capture in scraper/cache for {url} — re-capture it (scraper/run.py arista)"
+    html = cf.read_text(encoding="utf-8", errors="replace")
+    if A.is_blocked(html):
+        return STANDIN, f"the capture for {url} is a bot challenge, not the page ({cf.name}, {len(html)} bytes) — re-capture it"
+    if A.is_not_found(html):
+        return STANDIN, f"the capture for {url} is a not-found page ({cf.name}) — re-capture it"
+    return html, ""
+
+
+def gate(why: str) -> None:
+    """Open (why) or close ("") the COULD NOT CHECK gate around a block of cases."""
+    global GATE
+    GATE = why
+    if why and why not in gated:
+        gated.append(why)
 
 
 # ---- resolve(): the documented URL for every task kind --------------------------------------
@@ -72,9 +124,21 @@ check("R8", "search -> None", A.resolve({"task": "search", "key": "7050CX3-32S"}
 check("R9", "empty key -> None", A.resolve({"task": "listing", "key": ""}) is None)
 check("R10", "listing with a non-product path -> None", A.resolve({"task": "listing", "key": "/en/support/x"}) is None)
 
+# ---- the gate itself must be alive ------------------------------------------------------------
+# Without these two, a `cached()` that returned a reason for everything would turn the whole suite
+# green while proving nothing — the exact failure this file exists to avoid.
+CHALLENGE = "<html><head><title>Client Challenge</title></head><body><div>" + ("x" * 3000) + "</div></body></html>"
+REAL = ('<html><head><title>Arista 7050X3 Series</title></head><body><h1>Arista 7050X3 Series</h1>'
+        '<table class="data-table"><tr><th></th><th>7050CX3-32S</th></tr><tr><th>Switch Height</th><td>1RU</td></tr></table></body></html>')
+check("G1", "the fixture gate calls a bot-challenge body unusable, naming it a challenge",
+      A.is_blocked(CHALLENGE) and not A.is_blocked(REAL))
+check("G2", "...and calls a real series page usable, so the gate can never be a blanket skip",
+      not A.is_blocked(REAL) and not A.is_not_found(REAL))
+
 # ---- extract() on the series fixture ---------------------------------------------------------
-html = fixture(SERIES_URL)
+html, SERIES_WHY = cached(SERIES_URL)
 task = {"task": "listing", "key": SERIES_KEY, "url": SERIES_URL}
+gate(SERIES_WHY)
 r = A.extract(html, task)
 fam = r["facts"]
 others = r["others"]
@@ -179,12 +243,16 @@ check("D9", "'/products/7280r3-series/7280r3-modular' (no /en) canonicalised",
       "/en/products/7280r3-series/7280r3-modular" in {t["key"] for t in listings})
 check("D10", "the 7050X3 datasheet PDF is discovered", PDF in {t["key"] for t in sheets})
 check("D11", "no external host (onetrust) among tasks", not any("onetrust" in t["url"] for t in d))
-d2 = A.discover(fixture(DOCS_URL), {"task": "listing", "key": DOCS_URL})
+docs_html, DOCS_WHY = cached(DOCS_URL)
+gate(DOCS_WHY)
+d2 = A.discover(docs_html, {"task": "listing", "key": DOCS_URL})
 check("D12", "product-documentation page yields datasheet tasks too", sum(1 for t in d2 if t["task"] == "datasheet") >= 10)
 
 # ---- SABOTAGE -------------------------------------------------------------------------------------
+gate(SERIES_WHY)
 check("B1", "main fixture is not blocked", not A.is_blocked(html))
 check("B2", "main fixture is not not-found", not A.is_not_found(html))
+gate("")
 JAM = "<html><head><title>Just a moment...</title></head><body>Checking your browser</body></html>"
 check("B3", "'Just a moment...' short page is blocked", A.is_blocked(JAM))
 CC = "<html><head><title>Client Challenge</title></head><body><div>" + ("x" * 3000) + "</div></body></html>"
@@ -193,11 +261,13 @@ check("B5", "the challenge page is not mistaken for not-found", not A.is_not_fou
 NF = "<html><head><title>404 - Page not found - Arista</title></head><body><h1>Page not found</h1><p>The page you are looking for cannot be found.</p></body></html>"
 check("B6", "synthetic not-found page (site marker in title) is not-found", A.is_not_found(NF))
 check("B7", "not-found page is not blocked", not A.is_blocked(NF))
+gate(SERIES_WHY)
 rz = A.extract(html, {"task": "listing", "key": "ZZZ-NOT-ON-THIS-PAGE"})
 check("B8", "key ZZZ-NOT-ON-THIS-PAGE -> not_listed True", rz["not_listed"] is True)
 check("B9", "...and the facts are still extracted for audit", len(rz["facts"]) == len(fam))
 rm = A.extract(html, {"task": "listing", "key": "7050SX3-96YC8"})
 check("B10", "a model key found only in others -> not_listed False", rm["not_listed"] is False)
+gate("")
 EMPTY = ('<html><head><title>Arista 7050X3 Series</title></head><body><h1>Arista 7050X3 Series</h1>'
          '<table class="data-table"><tr><th colspan="2">7050X3 Series</th></tr></table></body></html>')
 re_ = A.extract(EMPTY, task)
@@ -217,5 +287,13 @@ rn = A.extract(NOTABLE, task)
 check("B16", "prose 'Label: value' outside a table is never a fact", rn["facts"] == [] and rn["others"] == [])
 check("B17", "discover on a page without links returns []", A.discover(NOTABLE, task) == [])
 
-print(f"\n{npass} passed, {nfail} missed")
+# A run that could not check most of itself must never read as a clean run. run_py_tests.py prints
+# only the LAST line of a passing suite, so the count and the reason go on that line.
+for why in gated:
+    print(f"\nCOULD NOT CHECK: {why}")
+if gated:
+    print("  The cache is authoritative and this suite never fetches. Re-capture the page through the"
+          "\n  operator's Chrome (scraper/run.py arista --cdp ...), then run this suite again.")
+tail = f", {nskip} COULD NOT CHECK ({len(gated)} unusable fixture{'s' if len(gated) != 1 else ''})" if nskip else ""
+print(f"\n{npass} passed, {nfail} missed{tail}")
 sys.exit(1 if nfail else 0)

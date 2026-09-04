@@ -1,11 +1,12 @@
 {
- "_about": "Shaped exactly like scraper/worker.py write_text: {source, task{id,task,key,part_id}, url, final_url, fetched_at, fetch_id, cache_path, result=RESULT}. task.part_id is null here; tests/db/apply-acquired.test.ts fills it with the fixture part's id to drive the anchored path. cache_path = sha1(url) + '.html' (netzscrape._key); the test writes that page under scraper/cache/ and removes it afterwards.",
+ "_about": "Shaped exactly like scraper/worker.py write_text: {source, task{id,task,key,part_id}, url, final_url, fetched_at, fetch_id, cached, cache_path, result=RESULT}. `cached` says the page came off disk rather than the network; the worker gained it and these fixtures did not, which is what the top-level-key check caught. task.part_id is null here; tests/db/apply-acquired.test.ts fills it with the fixture part's id to drive the anchored path. cache_path = sha1(url) + '.html' (netzscrape._key); the test writes that page under scraper/cache/ and removes it afterwards.",
  "source": "provantage",
  "task": {"id": 1, "task": "search", "key": "C9200L-24P-4G", "part_id": null},
  "url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-C9200L-24P-4G",
  "final_url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-C9200L-24P-4G",
  "fetched_at": "2026-09-03T10:15:00+00:00",
  "fetch_id": null,
+ "cached": false,
  "cache_path": "09e01a272bd780b57a85c6656797357f88ff9a13.html",
  "result": {
   "sku": "C9200L-24P-4G",

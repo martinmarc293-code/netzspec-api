@@ -6,6 +6,7 @@
  "final_url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-BAD-PROVENANCE",
  "fetched_at": "2026-09-03T10:18:00+00:00",
  "fetch_id": null,
+ "cached": false,
  "cache_path": "70310e1d541812d2a4461bb6ac36cbb3706297c0.html",
  "result": {
   "sku": "C9200L-48P-4G",

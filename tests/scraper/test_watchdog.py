@@ -768,16 +768,22 @@ acquired("provantage", 3, "Miscellaneous > Environmentally Friendly", "Yes", sta
 acquired("provantage", 5, "Product Description", "a mapped label", start=200)
 rep = run(act=True)
 u = rep["unmapped"]["provantage"]
-check("VC1", "the top unmapped label is the most frequent one, with its count and a sample",
-      u["top"][0]["label"] == "Stock Details > Manuf Part#" and u["top"][0]["count"] == 7
-      and u["top"][0]["sample"] == "VS-C6503E-SUP2T", str(u["top"][:2]))
+# Both fixture labels are named in data/schema/attribute-ignore.en.json — "Stock Details >
+# Manuf Part#" is warehouse data the `parts` table already owns, "Environmentally Friendly" a
+# one-value marketing badge — so the ten facts are IGNORED, not unmapped, and the feed is empty.
+# That is the point of the ignore list: those two labels used to BE the head of a list whose only
+# job is to say where the next alias rule should go. VC10 is the other half — the ignore list
+# must remove only what it names, or an empty feed would read as "nothing left to map".
+check("VC1", "a label named in the ignore list never reaches the feed: it is ignored, not unmapped",
+      u["top"] == [] and u["ignored"] == 10 and u["ignored_distinct"] == 2, str(u))
 check("VC2", "a label the alias rules DO map is not reported as unmapped",
       not any("Product Description" == x["label"] for x in u["top"]) and u["mapped"] >= 5, str(u))
-check("VC3", "the counts are reported: unmapped, distinct, files",
-      u["unmapped"] == 10 and u["distinct"] == 2 and u["files"] == 15, str(u))
-check("VC4", "the report prints the section with the count and the sample",
-      "## unmapped labels today" in md() and "Stock Details > Manuf Part#" in md()
-      and "10/15 labels unmapped" in md(), md().split("## unmapped")[1][:220] if "## unmapped" in md() else md())
+check("VC3", "the counts are reported apart: unmapped, distinct, ignored, ignored_distinct, files",
+      u["unmapped"] == 0 and u["distinct"] == 0 and u["ignored"] == 10 and u["ignored_distinct"] == 2
+      and u["mapped"] == 5 and u["files"] == 15, str(u))
+check("VC4", "the report's denominator is what COULD be mapped (mapped + unmapped), with the ignored count beside it",
+      "## unmapped labels today" in md() and "0/5 labels unmapped" in md()
+      and "10 ignored (2 distinct)" in md(), md().split("## unmapped")[1][:220] if "## unmapped" in md() else md())
 check("VC5", "at most UNMAPPED_TOP_N labels per source", len(u["top"]) <= W.UNMAPPED_TOP_N)
 check("VC6", "a source with no pages today is not in the section at all", "router-switch" not in rep["unmapped"])
 # SABOTAGE: "could not check" must never be reported as "nothing unmapped"
@@ -797,7 +803,18 @@ check("VC8", "...and the reader recovers once the file is readable again",
 (RUNS / "acquired" / "provantage" / TODAY / "999.json").write_text("{not json", encoding="utf-8")
 u2 = W.unmapped_labels(RUNS, "provantage", TODAY)
 check("VC9", "SABOTAGE one unreadable acquired file is skipped and the rest is still counted",
-      not u2.get("error") and u2["unmapped"] == 10 and u2["files"] == 15, str(u2))
+      not u2.get("error") and u2["unmapped"] == 0 and u2["ignored"] == 10 and u2["mapped"] == 5
+      and u2["files"] == 15, str(u2))
+# SABOTAGE the ignore list itself. It removes exactly what it names and nothing else: a label no
+# alias rule maps and no ignore entry covers must still reach the head of the feed, with its count
+# and a sample. Without this, an over-broad ignore file would empty the feed silently and the
+# report would say "0 unmapped" about a source whose facts are all being thrown away.
+acquired("provantage", 4, "Widget Sparkle Index", "9 sparkles", start=300)
+u3 = W.unmapped_labels(RUNS, "provantage", TODAY)
+check("VC10", "SABOTAGE a label the ignore list does NOT name is still unmapped, at the head of the feed with its count and sample",
+      u3["top"] and u3["top"][0]["label"] == "Widget Sparkle Index" and u3["top"][0]["count"] == 4
+      and u3["top"][0]["sample"] == "9 sparkles" and u3["unmapped"] == 4 and u3["distinct"] == 1
+      and u3["ignored"] == 10, str(u3))
 
 # ---------------------------------------------------------------------------------------------
 # 16. drift, replayed from the real numbers of 4 Sep 2026
