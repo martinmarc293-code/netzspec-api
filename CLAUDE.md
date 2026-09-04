@@ -65,6 +65,20 @@ full; the ones that bite hardest here are restated.
   content-only drift medians, unmapped labels per source), `docs/SCRAPING.md` playbook. The
   sentinel restarts idle lanes itself (`sys.executable`, not the Store alias). A locked
   heartbeat file killed a worker: `write_heartbeat` now retries and skips the beat.
+  Vocabulary round 3 (`f208a9c`, dictionary synced as run #28): 47 alias rules, 11 new fields,
+  a data-driven ignore list (`data/schema/attribute-ignore.en.json`), one shared vocab reader
+  (`scraper/tools/vocab.py`) — the watchdog and the label inventory had drifted apart; +3,332
+  facts mapped over the distributor corpus, unmapped share 68.5% → 48.2%. API hygiene
+  (`a06a8b3`, deployed with migration 0006): an undeclared query parameter is a 400 naming the
+  key and the accepted set (derived from each route's own schema); `?sku=` had been silently
+  ignored — `sku=` and `sku_prefix=` are real filters now. netzspec's hourly sync had failed
+  every hour on a cross-vendor SKU collision (Arista and Cisco both sell SFP-10G-ER; the site's
+  `parts` index is unique on sku alone): collisions are recorded, not fatal (netzspec `6ed6bcf`,
+  local only — that branch is not pushed from here). Meraki lane re-seeded (7 listings) after
+  `migrate-atlas --reload` had emptied it. FOUND, not yet fixed: 127 same-vendor case duplicates
+  in `parts` (`A9K-DDOS-10U20G=` vs `A9k-DDoS-10U20G=`) — part identity must be
+  case-insensitive per vendor; Arista `SFP-10G-ER` carries family "Dell"; 61,229 hardware parts
+  have no image while every distributor page records image URLs (2,736 Cisco parts linked).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
