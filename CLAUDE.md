@@ -318,6 +318,19 @@ full; the ones that bite hardest here are restated.
   that trusted its probe over the workers would have restarted Chrome under them every
   cycle. Now: probe only when NO worker is alive, 60 s, two failures in a row before a
   restart, and a fetching worker counts as proof (`9cc25e2`).
+  `ingest renormalize` landed (CLI entry follows with the hygiene round, both share
+  `cli.ts`). Its own dry runs caught two traps: jsonb key order made every struct look
+  "changed" (canonical JSON now — the first commit would have superseded all 3,632 `ports`
+  rows with themselves), and `raw` cannot replay a fact whose unit or axis order lived in the
+  LABEL (only 112 rows carry `"<label> | <cell>"`) — those are `unrecoverable`, untouched; a
+  `unitHint` repair is a trap because the stored unit is canonical (mm), not the label's
+  (inches). Dry on production: 2,000 → 1,978 same, 14 changed, 8 unrecoverable; `dimensions`
+  26.8% changed — read before any commit. FOUND: locale is recorded nowhere (`hexcat_seed`
+  → de, else en is reproduced by rule); `product_name_mining` raws are German prose
+  normalised as en — a schema gap (`facts.locale` or `source_docs.lang`). Also: the hygiene
+  agent's migrations 0009/0010 exist as files while production lacks them, so the working
+  tree's `upsertPart` throws until that round deploys — the supervisor's applies roll back
+  meanwhile.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
