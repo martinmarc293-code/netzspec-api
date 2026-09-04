@@ -183,6 +183,10 @@ full; the ones that bite hardest here are restated.
   quiet — found only because a worker recycle left every lane idle. Its loop now survives a
   failed check and reports it as an alarm. Same family as every silent monitor in
   D:\Project\CLAUDE.md §6: a monitor's own failure must be loud.
+  router-switch is blocked ~22× per 4-h window at 6 s politeness and the watchdog backs it off
+  for an hour each time (its ledger: resumed 05:26, backed off again 06:19): politeness raised
+  to 12,000 ms in `sources` (an operational knob, no code). Its queue is 3,151 searches, many
+  for museum PIDs (10000-SIP-600, 12000-SIP-401) that the planner's rank should push last.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
