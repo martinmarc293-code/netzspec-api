@@ -170,7 +170,19 @@ def write_heartbeat(runs_dir: Path, slug: str, rec: dict) -> Path:
     out = d / f"{slug}.json"
     tmp = d / f"{slug}.json.tmp"
     tmp.write_text(json.dumps(rec, ensure_ascii=False, default=str), encoding="utf-8")
-    os.replace(tmp, out)
+    # The sentinel and the watchdog read this file on their own schedules; on Windows a reader
+    # holding it open makes os.replace raise PermissionError, and that exception killed a whole
+    # itprice worker on 4 Sep 2026. A heartbeat is advisory: retry briefly, then skip the beat.
+    for attempt in range(5):
+        try:
+            os.replace(tmp, out)
+            return out
+        except PermissionError:
+            time.sleep(0.2 * (attempt + 1))
+    try:
+        tmp.unlink()
+    except OSError:
+        pass
     return out
 
 
