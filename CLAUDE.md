@@ -187,6 +187,14 @@ full; the ones that bite hardest here are restated.
   for an hour each time (its ledger: resumed 05:26, backed off again 06:19): politeness raised
   to 12,000 ms in `sources` (an operational knob, no code). Its queue is 3,151 searches, many
   for museum PIDs (10000-SIP-600, 12000-SIP-401) that the planner's rank should push last.
+  The first supervised image batch (run #50) promoted MR57 and a router-switch photo, then the
+  verification ssh hung inside `finally`: the file was live (HEAD 200) but the run row stayed
+  `running` — the upload now returns a failed record on a timeout and a failed upload fails
+  the run (`27f4eeb`). Also removed 110 file-less `images` rows run #37 had written through
+  the pre-candidate vendor-image path (Meraki screenshots, URL only, no variants): the API
+  already hid them and the lease already ignored them, but `images` must mean "a file".
+  Refinement due: `names-another-sku` refuses a family photo (MS210-24P ← `MS210.png`) because
+  the family slug is also a part; allow a filename that names the part's own family.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
