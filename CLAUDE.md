@@ -406,6 +406,16 @@ full; the ones that bite hardest here are restated.
   in the user's Startup folder; no scheduled task existed). To restart later: rename it back,
   set `sources.enabled=true` for the chosen lanes, then `START-SCRAPERS.cmd` — after the
   operator's itprice decision.
+  Per-lane Chrome round COMMITTED (`11bbc5e`, nothing started): each lane launches its own
+  Chrome on `D:\netzspec-chrome-profile-<slug>`; the sentinel/supervisor start lanes with
+  `--profile` and kill a stale lane with ITS Chrome only; RAM guard 1000 MB; the 9222 Chrome
+  is for images.py and ad-hoc fetches only. Proved live before the stop (two lanes, own
+  Chromes, both fetching by t+35 s, 0 orphan Chromes after every exit). Unproven: a full
+  supervisor/sentinel cycle in the new mode. RESTART PROCEDURE (after the itprice decision):
+  re-enable the chosen sources → make sure the 9222 Chrome is down →
+  `python3.11 scraper\tools\sentinel.py --seed-profiles provantage,router-switch,meraki`
+  (one-off; add itprice only when its block is over) → rename the Startup entry back →
+  `START-SCRAPERS.cmd` from Explorer → watch `runs/nightshift/SENTINEL.md` for two cycles.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
