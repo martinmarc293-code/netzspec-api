@@ -134,6 +134,16 @@ full; the ones that bite hardest here are restated.
   (C8225-G2 … the new Catalyst 8200 G2 routers are not in the catalogue). Opus review of the
   11,300 conflicts + the 16,776 lower-tier skips in flight (are tier-2 name-mined values
   blocking datasheet cells?). Shard 1 applying next, then recompute.
+  REVIEW RESULT (Opus, read-only): the merge layer, not the data, made the conflicts. 97.8% are
+  a FICTIONAL tier gap — 49,354 Atlas facts stamped tier 1 (vendor PDF) though they are
+  html_table from vendor HTML (tier 2), 5,377 from the same doc_id; 57% are chassis values
+  inherited into optics/PSUs/licences/cables because `canInherit` only asks whether the
+  document's PID list names the SKU; 12% are the same value spelled differently (`sameValue`
+  is exact JSON of an unsorted array; "10,000 ft. (3000 meters)" → 3048 vs 3000 from ONE
+  cell); `skip_lower_tier` is returned only on the AGREE path (16,776 agreements, nothing
+  blocked — misnamed). Merge-layer agent in flight: `tierFor()`, strict inheritance +
+  retraction, set/tolerance/prefix equality, same-doc re-extraction supersedes, bullet-split
+  lists, en-dash minus, five field retypes, `ingest remerge` (dry first, `--commit` on the box).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
