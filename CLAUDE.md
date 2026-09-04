@@ -236,9 +236,12 @@ full; the ones that bite hardest here are restated.
   splits, never on `/`; leading minus is a sign; `-40 to -72 VDC` had its upper bound flipped
   to +72 by the unit tokeniser — descending ranges now refuse); five retypes; `ingest remerge`
   dry on run 38: 603 agree, 6,944 retract, 2,203 same-doc reapply, 1,670 stay open.
-  Deploy + box chain (sync-dictionary → remerge --commit → re-apply s0, s1 → recompute) in
-  flight. Reported, NOT touched: 3,632 pre-existing `ports`/`uplink_ports` strings under a
-  struct type — a decision for a hygiene run, not a side effect.
+  Deployed as `57a6ba6` (migration 0008 applied); box chain (sync-dictionary → remerge
+  --commit → re-apply s0, s1 → recompute) running, logs under `/var/lib/netzspec-api/runs/`
+  (`remerge.log`, `apply-s0c.log`, `apply-s1c.log`, `recompute4.log`). Reported, NOT touched:
+  3,632 pre-existing `ports`/`uplink_ports` strings under a struct type — a decision for a
+  hygiene run, not a side effect. TRAP hit twice today: a backgrounded Bash starts in the
+  SESSION cwd (`D:\Project`), not the repo — every chain must begin with `cd`.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
