@@ -306,6 +306,14 @@ full; the ones that bite hardest here are restated.
   (members re-split before comparing — the same defect, milder); `same_doc_reextraction`
   10,291 → 5,746 identical raws, 4,545 differing (mostly one raw a prefix of the other at the
   cell cap, some different cells) — rule to be tightened to identical-or-prefix raws.
+  LANES DOWN ~07:10–08:45 UTC: a network blip (ssh resets, SSL eof on the tunnel) killed the
+  workers; the sentinel restarted them at 08:37 and every one died on
+  `connect_over_cdp: Timeout 180000ms` — the debug Chrome answered `/json` but its websocket
+  never connected (wedged, 24 tabs). Restarted the debug Chrome by hand (kill by
+  `--remote-debugging-port=9222`, then `start-chrome-debug.ps1`). SENTINEL GAP: it probes
+  `/json` only; it must also open one CDP websocket (or read the worker logs' last error) and
+  restart Chrome when the connect fails — a lane that dies on connect every 3 minutes reads
+  as "restarted" forever.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
