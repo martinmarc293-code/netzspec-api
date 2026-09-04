@@ -272,6 +272,9 @@ full; the ones that bite hardest here are restated.
   Shard 0 re-applied under the merge layer as run #60 (gate PASS, 2,548 documents compared,
   0 regressed): insert 0, corroborate 40, conflict 1,993, agree_same_doc 15,378,
   refused_inherit 17,207 (component/licence inheritance no longer written).
+  TRAP (twice): a deploy chain that compares the live version with `git rev-parse HEAD` AFTER
+  the deploy refuses to continue when a docs-only commit landed meanwhile. Capture the SHA
+  before deploying and compare against that. Shard 1 re-apply started by hand on cc0079e.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
