@@ -287,6 +287,15 @@ full; the ones that bite hardest here are restated.
   member), 2,022 same-document (a cell stating two depths for two variants), 733 tier-0
   protected. The golden part reads right on the live API again: C9300-24P `psu_options`
   `["715W AC","PWR-C1-1100WAC-P","PWR-C1-715WAC-P"]` verified, 21 facts, 46.3%.
+  FOUND BY READING THE RESOLUTIONS: remerge's `rule:exact` closed 4,164 conflicts whose values
+  are NOT equal — 2,494 had no raw on either side (pre-0008) and the rule compared
+  re-normalised raws (null = null), the rest had different raws ("5 to 96%" vs "5 to 90%").
+  altitude_max 4998.72 vs 3000 was "exact". Reopened by hand inside a run, their facts back
+  to `conflict`; the remerge agent is fixing the rule (compare the STORED values, never a
+  re-normalisation; a null raw never agrees). Lesson for the pattern: a resolution class must
+  be sampled and READ against the stored pair before its count is believed — the
+  per-class samples in the remerge report were printed under the wrong heading, which is how
+  it passed review.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
