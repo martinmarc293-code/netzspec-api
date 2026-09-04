@@ -178,6 +178,11 @@ full; the ones that bite hardest here are restated.
   `is_part_number` refuses real Cisco PIDs `886VA`, `8201=`, `9800-40`; 14 foreign-shaped
   parts sit under the cisco vendor (`01FT562`, `03-100261-01`, `QDD-2X400G-FR4` family
   "Juniper"); itprice lands 700/1,366 parts with ZERO facts (its inventory maps no field).
+  The SENTINEL had been dead since 04:39 UTC: one `Get-NetTCPConnection` probe took over 60 s,
+  `subprocess.run` raised `TimeoutExpired`, nothing caught it, and the watchdog's watchdog went
+  quiet — found only because a worker recycle left every lane idle. Its loop now survives a
+  failed check and reports it as an alarm. Same family as every silent monitor in
+  D:\Project\CLAUDE.md §6: a monitor's own failure must be loud.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
