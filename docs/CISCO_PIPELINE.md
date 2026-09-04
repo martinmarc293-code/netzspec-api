@@ -284,15 +284,28 @@ day's real reports.
    configuration, and the fix is a shape rule in the extractor, not a decision per part.
 
    Measured on shard 0 (4 Sep 2026, real catalogue): 20,716 collisions — 14,433 differing, 6,283
-   agreeing, 923 exact repeats of one cell. The differing ones are NOT 14,433 disagreements:
+   agreeing, 923 exact repeats of one cell. The differing ones were NOT 14,433 disagreements:
    `ieee_standards` (6,005), `supported_protocols` (1,894) and `certifications` (1,521) are LIST
    fields whose document spreads the list over several cells, so each cell offers a fragment of
-   the same list; and the `psu_options` cases are the extractor reading the wrong column of a
+   the same list; and the `psu_options` cases were the extractor reading the wrong column of a
    PSU table (`C9350-24P` offers `PWR-C2-850WAC` at `t6:r4:c1`, then `Default` at `t6:r4:c2`,
    `720*W` at `t6:r4:c4` and `PWR-C2-1600WAC` at `t6:r5:c1` — one real second value and two
-   cells that are not psu_options at all). **Fix those two shapes in the extractor before the
-   first `--commit`**, or the conflicts table becomes a list of the extractor's own column
-   errors. Holding them is still the right behaviour: they were being dropped.
+   cells that are not psu_options at all).
+
+   **Both shapes were fixed on 4 Sep 2026** (docs/DATA_MODEL.md § The list rule, § Model-major
+   tables). The extractor joins a list one table splits into ONE raw fact carrying `fragments`
+   (every contributing cell); `shape_a_columns` reads the continuation header row, refuses a
+   `ROW_DISCRIMINATOR_COLUMN` ("Default or upgrade") and a `GROUP_HEADER_IS_CONDITION` column
+   ("Secondary PSU / 500W"); and `apply-extract` unions an `ls` field a document still states
+   twice at one tier instead of holding it. `C9350-24P` now reads
+   `psu_options = ["PWR-C2-850WAC", "PWR-C2-1600WAC"]` from `t6:r4:c1`+`t6:r5:c1` — both options
+   of the model, one list. `scraper/test_extract_gate.py` S22-S28 hold those two documents as
+   fixtures, and every one of them goes red when its rule is switched off.
+
+   What is still HELD, and should be: every scalar disagreement, and any `ls` field two different
+   documents disagree about. A `resolution` field on each collision line says which happened
+   (`held` / `list_union` / `exact_repeat`) — **read the report sorted by `resolution: "held"`**,
+   because those are the ones that become conflicts rows.
 9. **The gate's `coverage` block.** `--sample` is a target count spread across the file's
    documents; the gate refuses to call itself measured below 5 % of documents and 100 facts.
    On a 2,950-document shard use `--sample 300` or more.
@@ -300,7 +313,9 @@ day's real reports.
 ## 9. Tests
 
 ```bash
-NETZSPEC_DB=test npx tsx tests/db/apply-extract.test.ts      # extract + gate, 39 sabotage cases
+python3.11 scraper/test_extract_gate.py                      # the table parsers, 16 cases
+NETZSPEC_DB=test npx tsx tests/db/apply-extract.test.ts      # extract + gate, 42 sabotage cases
+NETZSPEC_DB=test npx tsx tests/db/store.test.ts              # the write side, 24 sabotage cases
 NETZSPEC_DB=test npx tsx tests/db/apply-lifecycle.test.ts    # lifecycle + compat, 15 sabotage cases
 npm run typecheck && npm test
 ```
@@ -308,3 +323,21 @@ npm run typecheck && npm test
 The suites write synthetic cached documents (HTML, and a real three-page PDF built in the
 test) under `scraper/cache/` for the duration of the run and remove them afterwards; they refuse
 to start if a file of that name already exists. Fixtures live in `tests/fixtures/extract/`.
+
+`test_extract_gate.py` is the only suite that reads the REAL cache: S22-S28 prove the list rule
+and the column-selection rules on the two documents the §8.8 finding was written from (the C9350
+smart-switch and the 2960-X datasheets). A missing cached document is a FAILED case there, never a
+skipped one. Every one of those cases has been shown to go red with its rule switched off:
+
+| rule switched off | cases that go red |
+| --- | --- |
+| `join_list_fragments` never joins | S22, S22b, S25, S27 |
+| join is unconditional | S26 |
+| discriminator column allowed through | S23 |
+| condition column allowed through | S24 |
+| continuation header row ignored | S24, S24b |
+
+The db suites run against `DATABASE_URL_TEST`; the name must end `_test` or `_test<N>`, one
+throwaway database per concurrent suite. Two suites on the SAME database at the same time will
+truncate each other's parts half way through and produce a bogus `applyMerge: part <n> does not
+exist`; that is a collision between sessions, not a bug in the code under test.

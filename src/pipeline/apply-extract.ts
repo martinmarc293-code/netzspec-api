@@ -33,6 +33,15 @@
 //     (Until 4 Sep 2026 the second entry was dropped with only a counter: 20,871 collisions in
 //     cisco-deep-2026-09-03-s0.json, 16,081 of them DIFFERING after normalisation — C9350-24P
 //     kept PWR-C2-850WAC from t6:r4:c1 and silently discarded PWR-C2-1600WAC from t6:r5:c1.)
+//   * THE LIST RULE. Making those visible showed most of them were not disagreements: 9,420 of
+//     shard 0's 14,433 differing collisions were three `ls` fields whose datasheet simply states
+//     the list in more than one place. An `ls` field offered twice by the SAME document at the
+//     SAME tier is UNIONED into one entry (addIncoming -> unionListValues), not held; every
+//     scalar, and any `ls` field two DOCUMENTS disagree about, is held exactly as before. The
+//     collision line records which happened in `resolution`. The other half of the rule lives in
+//     the extractor, which joins a list one TABLE splits into one raw fact carrying `fragments`;
+//     expandFragments hands the gate the cells so provenance still grades real cells.
+//     docs/DATA_MODEL.md § The list rule.
 //   * every fact carries the document's fetch stamp as prov.revision_label, so re-applying an
 //     edited datasheet (same doc, same tier, a new value) resolves as REVISION_CHANGE instead of
 //     being blamed on two disagreeing sources. Without it mergeField's revision branch was dead.
@@ -64,6 +73,8 @@ import {
   type Queryable,
 } from "../store/index.js";
 import { mapFact, unitFromLabel, type RawFact } from "../core/deepSpecMap.js";
+import { FIELD_DICTIONARY } from "../core/fieldSchema.js";
+import { GENERATED_FIELDS } from "../core/fieldSchema.generated.js";
 import { NORM_VERSION } from "../core/specNormalize.js";
 import { canInherit, inheritedEntry, sameValue, INHERIT_CLASS_B, type SpecEntry } from "../core/specMerge.js";
 import { REPO_ROOT } from "../config.js";
@@ -109,6 +120,34 @@ export function sourceKind(source: string | undefined): SourceKind {
 }
 
 export type ExtractFile = { file: string; source: string; kind: SourceKind; generated_at: string | null; docs: RawFact[]; facts: RawFact[] };
+
+/** A raw fact the extractor JOINED from several cells of one table (cisco_specs_deep's list rule):
+ *  `fragments` is every contributing cell, in document order, as the document holds it. */
+export type FragmentCell = { locator: string; value: string };
+export function fragmentsOf(f: RawFact): FragmentCell[] | null {
+  const fr = (f as unknown as { fragments?: unknown }).fragments;
+  return Array.isArray(fr) && fr.length > 1 ? (fr as FragmentCell[]) : null;
+}
+
+/**
+ * The provenance view of the fact list: a joined fact expanded back into the CELLS it was made of.
+ *
+ * The gate re-reads a fact's locator in the cached document and compares the cell to the fact's
+ * value (`gate-extract.ts` cellMatches). A joined value is by construction in no single cell, so
+ * grading the join would score every list fact as a PROVENANCE_MISS — the check would start
+ * failing on correct data, which is the fastest way to get a gate switched off. The cells exist
+ * and each re-reads exactly, so the gate is handed those. `factsPerDoc` counts cells for the same
+ * reason: the raw-row metric must not fall just because cells were folded into facts.
+ */
+export function expandFragments(facts: RawFact[]): RawFact[] {
+  const out: RawFact[] = [];
+  for (const f of facts) {
+    const fr = fragmentsOf(f);
+    if (!fr) { out.push(f); continue; }
+    for (const c of fr) out.push({ ...f, locator: c.locator, value: c.value, fragments: undefined } as RawFact);
+  }
+  return out;
+}
 
 /** Same split as loadExtract in deepSpecMap.ts, plus the file's source (which decides the tier). */
 export function loadExtractFile(p: string): ExtractFile {
@@ -171,8 +210,45 @@ export type Collision = {
   sku: string; key: string; same_value: boolean;
   /** true only for an exact repeat of one cell (same value, same doc, same locator): one fact read twice */
   dropped: boolean;
+  /**
+   * What happened to the second cell:
+   *   held         both entries go to the merge, which decides (the default; scalars always)
+   *   list_union   an `ls` field, same document, same tier: the two cells are two parts of one
+   *                list, so they are UNIONED into a single entry (docs/DATA_MODEL.md § The list rule)
+   *   exact_repeat one cell read twice; the second is dropped
+   */
+  resolution: "held" | "list_union" | "exact_repeat";
   kept: CollisionSide; incoming: CollisionSide;
 };
+
+// ---- the list rule ---------------------------------------------------------------------------
+/**
+ * Field keys the dictionary types `ls`. A datasheet states a list in as many places as it likes —
+ * "Protocols" in one row and "Encapsulations" in the next both map to `supported_protocols`,
+ * "Industry standards" and "Environmental compliance" both to `certifications` — and neither is
+ * the other's contradiction. Within ONE document at ONE tier those are parts of one list, so they
+ * are unioned rather than held as a conflict. Across documents, and for every scalar type, the
+ * held conflict stands: two datasheets disagreeing about a switching capacity is a disagreement.
+ */
+export const LIST_FIELDS: ReadonlySet<string> = new Set(
+  [...Object.entries(GENERATED_FIELDS), ...Object.entries(FIELD_DICTIONARY)]
+    .filter(([, def]) => (def as { type?: string }).type === "ls").map(([k]) => k));
+
+const LIST_RAW_SEP = " ; ";
+const MAX_UNION_RAW = 2000;
+
+/** Order-preserving union of two `ls` values, compared the way the merge compares them. */
+export function unionListValues(a: unknown, b: unknown): unknown[] {
+  const asList = (v: unknown): unknown[] => (Array.isArray(v) ? v : v === undefined || v === null ? [] : [v]);
+  const out: unknown[] = [];
+  const seen = new Set<string>();
+  for (const v of [...asList(a), ...asList(b)]) {
+    const k = typeof v === "string" ? v.trim().toLowerCase() : JSON.stringify(v);
+    if (seen.has(k)) continue;
+    seen.add(k); out.push(v);
+  }
+  return out;
+}
 
 export type Plan = {
   files: ExtractFile[];
@@ -244,7 +320,9 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     // the sentinels, apart: one number for five different meanings sent nobody anywhere
     sentinel_not_a_spec: 0, sentinel_backlog: 0, sentinel_compat: 0, sentinel_duplicate_unit: 0, sentinel_section_heading: 0, sentinel_other: 0,
     // collisions: a second cell for a (part, field) this run already offered
-    collision_same_value: 0, collision_differing: 0, collision_exact_repeat: 0,
+    collision_same_value: 0, collision_differing: 0, collision_exact_repeat: 0, collision_list_union: 0,
+    // raw cells folded into one fact by the extractor's list rule (RawFact.fragments)
+    list_fragment_cells: 0,
     doc_defects: 0, raw_with_label_unit: 0,
     sku_unknown: 0, sku_unknown_facts: 0, pid_list_unknown: 0, family_no_listed_parts: 0,
     inherit_ok: 0, inherit_class_b: 0, inherit_scope_unresolved: 0, inherit_scope_violation: 0, inherit_class_c_exception: 0, inherit_refused_other: 0,
@@ -334,15 +412,36 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
       const exact = prior.some((x) => agrees(x) && x.prov.doc_id === e.prov.doc_id && x.prov.locator === e.prov.locator);
       if (same) stats.collision_same_value++; else stats.collision_differing++;
       if (exact) stats.collision_exact_repeat++;
+      // an `ls` field the SAME document states twice at the SAME tier: two parts of one list, not
+      // two sources disagreeing. Union them here so the merge is never handed the fragments.
+      const mergeInto = !same && !exact && LIST_FIELDS.has(e.k)
+        ? prior.find((x) => (x.prov.doc_id ?? null) === (e.prov.doc_id ?? null) && x.prov.tier === e.prov.tier)
+        : undefined;
       const first = produced.get(part.sku)?.get(e.k);
       collisions.push({
         sku: part.sku, key: e.k, same_value: same, dropped: exact,
+        resolution: exact ? "exact_repeat" : mergeInto ? "list_union" : "held",
         kept: first
           ? { value: first.value, unit: first.unit, raw: first.raw, label: first.label, doc_id: first.doc_id, locator: first.locator, tier: prior[0].prov.tier, inherited: first.inherited }
           : sideOf(prior[0], label, prior[0].prov.doc_id ?? "", prior[0].inherited === true),
         incoming: sideOf(e, label, doc.doc_id, inherited),
       });
       if (exact) return;
+      if (mergeInto) {
+        stats.collision_list_union++;
+        mergeInto.value = unionListValues(mergeInto.value, e.value);
+        // BOTH cells stay replayable through `raw` (docs/DATA_MODEL.md: a normaliser bug is fixed
+        // by re-running over `raw`), and the locator names both cells.
+        mergeInto.raw = `${mergeInto.raw}${LIST_RAW_SEP}${e.raw}`.slice(0, MAX_UNION_RAW);
+        if (e.prov.locator && mergeInto.prov.locator && !mergeInto.prov.locator.split("+").includes(e.prov.locator)) {
+          mergeInto.prov = { ...mergeInto.prov, locator: `${mergeInto.prov.locator}+${e.prov.locator}` };
+        }
+        // what the gate grades must be what will be WRITTEN, so the produced value follows the
+        // union — but its `raw` and `locator` stay the first CELL, which is what re-reads.
+        const bag0 = produced.get(part.sku)?.get(e.k);
+        if (bag0) bag0.value = mergeInto.value;
+        return;
+      }
     }
     arr.push(e); incoming.set(part.id, arr); partById.set(part.id, part);
     producedPerDoc[doc.doc_id] = (producedPerDoc[doc.doc_id] ?? 0) + 1;
@@ -376,7 +475,11 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
   const docOf = (f: RawFact): DocInfo | null => {
     const d = docByUrl.get(f.source_url);
     if (!d) { stats.facts_without_doc++; return null; }
-    factsPerDoc[d.doc_id] = (factsPerDoc[d.doc_id] ?? 0) + 1;
+    // CELLS, not records: a joined list fact stands for every cell it was made of, so the
+    // raw-row regression metric does not fall just because the extractor learned to fold them.
+    const cells = fragmentsOf(f)?.length ?? 1;
+    if (cells > 1) stats.list_fragment_cells += cells - 1;
+    factsPerDoc[d.doc_id] = (factsPerDoc[d.doc_id] ?? 0) + cells;
     return d;
   };
   const provFor = (d: DocInfo, locator: string) => ({
@@ -505,7 +608,7 @@ export async function main(argv: string[]): Promise<void> {
   const golden = loadGolden(a.goldenDir ?? GOLDEN_DIR);
   const previous = await previousPerDoc(pool);
   const { gate, misses } = gateExtract({
-    produced: plan.produced, facts: plan.allFacts, docs: plan.docs, factsPerDoc: plan.factsPerDoc,
+    produced: plan.produced, facts: expandFragments(plan.allFacts), docs: plan.docs, factsPerDoc: plan.factsPerDoc,
     producedPerDoc: plan.producedPerDoc, previous: previous.raw, previousProduced: previous.produced, golden,
     sample: a.sample, allowRegression: a.allowRegression, isPart: (sku) => plan.resolvePart(sku) !== null,
   });
@@ -528,8 +631,9 @@ export async function main(argv: string[]): Promise<void> {
     // A throw part-way through leaves the parts already merged COMMITTED (one transaction per
     // part). The run then closed `failed` with stats {} — no record of how far it got, and no way
     // to tell which facts came from it. Both halves are fixed: the failure path is handed the
-    // partial stats and a progress line, and the read side ignores facts whose run is not
-    // `succeeded` (docs/DATA_MODEL.md § Facts of a run that did not succeed).
+    // partial stats and a progress line, and withRun ROLLS THE RUN BACK before closing it failed,
+    // so a failed run leaves nothing behind at all (docs/DATA_MODEL.md § A failed run leaves
+    // nothing behind). The run row keeps its stats, its progress line and the rollback counts.
     const total = plan.incoming.size;
     let done = 0, lastPart = "";
     const partial = () => ({
@@ -565,7 +669,7 @@ export async function main(argv: string[]): Promise<void> {
   console.log(`quarantine by reason: ${JSON.stringify(Object.fromEntries([...plan.quarantine.reduce((m, q) => m.set(`${q.key}:${q.reason}`, (m.get(`${q.key}:${q.reason}`) ?? 0) + 1), new Map<string, number>())].sort((x, y) => y[1] - x[1]).slice(0, 12)))}`);
   console.log(`unmapped labels: ${plan.unmapped.size} (+ ${plan.backlog.size} __backlog labels, a named gap) -> ${path.relative(REPO_ROOT, reports.unmapped)}`);
   console.log(`quarantined values: ${plan.quarantine.length} -> ${path.relative(REPO_ROOT, reports.quarantine)}`);
-  console.log(`(part, field) collisions: ${plan.collisions.length} — ${plan.stats.collision_differing} differing (held for the merge), ${plan.stats.collision_same_value} agreeing, ${plan.stats.collision_exact_repeat} exact repeats -> ${path.relative(REPO_ROOT, reports.collisions)}`);
+  console.log(`(part, field) collisions: ${plan.collisions.length} — ${plan.stats.collision_differing} differing (${plan.stats.collision_list_union} unioned as one list, the rest held for the merge), ${plan.stats.collision_same_value} agreeing, ${plan.stats.collision_exact_repeat} exact repeats -> ${path.relative(REPO_ROOT, reports.collisions)}`);
   const unk = [...plan.unknownSkus.entries()].sort((x, y) => y[1].count - x[1].count);
   console.log(`unknown SKUs: ${unk.length} -> ${path.relative(REPO_ROOT, reports.unknown)}${unk.length ? "  e.g. " + unk.slice(0, 8).map(([s, u]) => `${s}(${u.count})`).join(", ") : ""}`);
   printGate(gate, misses);

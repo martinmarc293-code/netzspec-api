@@ -262,6 +262,91 @@ export async function applyMerge(client: Queryable, partId: number, incoming: Sp
   }
 }
 
+export type RunRollback = { facts_removed: number; facts_restored: number; evidence_removed: number; conflicts_removed: number; states_recomputed: number };
+
+/**
+ * Undo everything a run wrote to the fact graph. Called by `withRun` when a run closes `failed`
+ * (src/store/runs.ts), inside ONE transaction.
+ *
+ * An `apply-*` command writes in one transaction per part, so a throw part-way through used to
+ * leave the parts already merged COMMITTED under a run that is then closed `failed`. The read side
+ * hid them behind `factRunSucceeded()`, but the aggregate readers (stats, facets, gaps, compare,
+ * changes, export) did not take that predicate — so a failed run could move a total without moving
+ * a page, and the operator lever was to delete the rows by hand, as was done for run #15. Hiding is
+ * not the invariant we want. The invariant is: **no current fact belongs to a run that is not
+ * succeeded**, and it is held by removing the rows rather than by every reader remembering to skip
+ * them.
+ *
+ * What is undone, in order (the order matters — the unique index on (part_id, field_key) WHERE
+ * superseded_by IS NULL must hold at every step):
+ *
+ *   1. rows this run SUPERSEDED are un-parked (superseded_by/superseded_at back to NULL). Only
+ *      rows that are NOT this run's: a fact of this run superseded by a later fact of the same run
+ *      is deleted outright, so restoring it would put two current rows on one (part, field).
+ *   2. this run's `conflicts` rows and every `fact_evidence` row it wrote go.
+ *   3. this run's `facts` rows go, with any evidence a LATER run attached to them.
+ *   4. the STATE of facts this run only touched in place is recomputed. `applyMerge` sets
+ *      `state = 'conflict'` and `state = 'corroborated'` on rows belonging to OTHER runs; leaving a
+ *      `conflict` state behind after deleting the conflicts row breaks invariant 5 ("no part has a
+ *      conflict-state fact without an open conflicts row"), and leaving `corroborated` behind after
+ *      deleting the second document's evidence claims corroboration from one source. Recomputed
+ *      from what SURVIVES: an open conflicts row -> conflict, evidence from two documents ->
+ *      corroborated, otherwise verified. Only rows currently in those two states are touched; a
+ *      gap, `unverified` or `not_applicable` row is none of this function's business.
+ *
+ * `source_docs` and `doc_parts` are deliberately left: they record what was READ, they are
+ * idempotent upserts, and no fact depends on the run that wrote them.
+ */
+export async function rollbackRun(client: Queryable, runId: number): Promise<RunRollback> {
+  // the facts whose state this run changed in place — captured BEFORE the deletes remove the trail
+  const touched = await client.query<{ id: number }>(
+    `SELECT DISTINCT f.id
+       FROM facts f
+      WHERE f.superseded_by IS NULL AND f.state IN ('conflict', 'corroborated')
+        AND (f.run_id IS DISTINCT FROM $1)
+        AND (EXISTS (SELECT 1 FROM fact_evidence e WHERE e.fact_id = f.id AND e.run_id = $1)
+          OR EXISTS (SELECT 1 FROM conflicts c WHERE c.run_id = $1 AND c.part_id = f.part_id AND c.field_key = f.field_key))`,
+    [runId]);
+
+  // PARK first, restore last. Clearing superseded_by while this run's replacement row is still
+  // current puts TWO current rows on one (part, field) and facts_current_uq refuses the whole
+  // transaction — which is how the first version of this function turned a failed run into a
+  // failed rollback. The self-reference keeps the FK satisfied and keeps the row out of the
+  // partial index until its superseder is gone (the same three-step dance as supersedeFact).
+  const parked = await client.query<{ id: number }>(
+    `UPDATE facts SET superseded_by = id, superseded_at = now()
+      WHERE run_id IS DISTINCT FROM $1
+        AND superseded_by IN (SELECT id FROM facts WHERE run_id = $1)
+      RETURNING id`, [runId]);
+  const conflicts = await client.query("DELETE FROM conflicts WHERE run_id = $1", [runId]);
+  const evidence = await client.query(
+    "DELETE FROM fact_evidence WHERE run_id = $1 OR fact_id IN (SELECT id FROM facts WHERE run_id = $1)", [runId]);
+  const facts = await client.query("DELETE FROM facts WHERE run_id = $1", [runId]);
+  const restored = parked.rowCount
+    ? await client.query("UPDATE facts SET superseded_by = NULL, superseded_at = NULL WHERE id = ANY($1::bigint[])",
+        [parked.rows.map((r) => r.id)])
+    : { rowCount: 0 };
+
+  let states = 0;
+  for (const { id } of touched.rows) {
+    const r = await client.query(
+      `UPDATE facts f SET state = CASE
+            WHEN EXISTS (SELECT 1 FROM conflicts c WHERE c.part_id = f.part_id AND c.field_key = f.field_key AND c.resolved_at IS NULL) THEN 'conflict'::fact_state
+            WHEN (SELECT count(DISTINCT e.doc_id) FROM fact_evidence e WHERE e.fact_id = f.id) > 1 THEN 'corroborated'::fact_state
+            ELSE 'verified'::fact_state END
+         WHERE f.id = $1 AND f.state IS DISTINCT FROM (CASE
+            WHEN EXISTS (SELECT 1 FROM conflicts c WHERE c.part_id = f.part_id AND c.field_key = f.field_key AND c.resolved_at IS NULL) THEN 'conflict'::fact_state
+            WHEN (SELECT count(DISTINCT e.doc_id) FROM fact_evidence e WHERE e.fact_id = f.id) > 1 THEN 'corroborated'::fact_state
+            ELSE 'verified'::fact_state END)`, [id]);
+    states += r.rowCount ?? 0;
+  }
+  return {
+    facts_removed: facts.rowCount ?? 0, facts_restored: restored.rowCount ?? 0,
+    evidence_removed: evidence.rowCount ?? 0, conflicts_removed: conflicts.rowCount ?? 0,
+    states_recomputed: states,
+  };
+}
+
 /**
  * "We looked everywhere and it is not published": a NULL-value row in state gap_confirmed.
  * Supersedes a gap_unattempted row; a no-op on an existing gap_confirmed / not_applicable row;

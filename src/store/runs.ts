@@ -14,7 +14,8 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import type pg from "pg";
-import { getPool } from "./db.js";
+import { getPool, withTx } from "./db.js";
+import { rollbackRun } from "./facts.js";
 
 /** A pool or a client inside a transaction: anything with pg's `query`. */
 export type Queryable = pg.Pool | pg.PoolClient;
@@ -119,6 +120,18 @@ export type RunOutcome = { stats: RunStats; gate?: RunGate; notes?: string };
  * returns the caller's stats so far plus a `progress` line (parts done of total, the last one
  * touched) that is appended to `notes`. It must not throw and must not query: it runs while an
  * error is already in flight, so a second failure there would hide the first.
+ *
+ * **A FAILED RUN LEAVES NOTHING BEHIND.** Before the run is closed `failed`, everything it wrote
+ * to the fact graph is ROLLED BACK in one transaction (`rollbackRun`): its facts are deleted, the
+ * rows they superseded are restored, its evidence and conflicts go, and the states it changed in
+ * place are recomputed from what survives. The run ROW stays, with its partial stats and progress
+ * line and a `rolled_back=` count in its notes — the record of the attempt is the point; the
+ * half-written facts are not. The read side's `factRunSucceeded()` predicate stays as
+ * belt-and-braces, but the invariant no longer depends on every reader remembering it
+ * (docs/DATA_MODEL.md § Facts of a run that did not succeed).
+ *
+ * A rollback that itself fails must not hide the error that caused it: it is reported in `notes`
+ * and the ORIGINAL error is the one rethrown.
  */
 export async function withRun<T extends RunOutcome>(
   kind: string,
@@ -141,6 +154,14 @@ export async function withRun<T extends RunOutcome>(
       if (p?.stats) stats = p.stats;
       if (p?.progress) notes = `progress=${p.progress}; ${msg}`;
     } catch { /* a broken partial() must not replace the real error */ }
+    try {
+      const back = await withTx((client) => rollbackRun(client, runId));
+      stats = { ...stats, rolled_back: back };
+      notes = `rolled_back=${back.facts_removed} facts (${back.facts_restored} restored, ${back.evidence_removed} evidence, ${back.conflicts_removed} conflicts, ${back.states_recomputed} states); ${notes}`;
+    } catch (re) {
+      // "could not roll back" is not "nothing to roll back": say so loudly, in the run row.
+      notes = `ROLLBACK_FAILED (${re instanceof Error ? re.message : String(re)}) — facts of this run may still be present; ${notes}`;
+    }
     try {
       await closeRun(runId, "failed", stats, null, { notes, db });
     } catch { /* the original error is the one to report */ }

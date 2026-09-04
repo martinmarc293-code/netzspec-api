@@ -129,6 +129,137 @@ bad = [(t, e) for t, e in PID_CASES if _ec.is_pid(t) != e]
 check("S21", "part-number test vs 17 real accepts/rejects",
       "17/17", f"{len(PID_CASES) - len(bad)}/{len(PID_CASES)}" + (f" (wrong: {bad[:3]})" if bad else ""))
 
+# ---- the LIST RULE and COLUMN SELECTION, against real cached datasheets -----------------------
+# Shard 0 produced 20,716 (part, field) collisions, 14,433 of them differing after normalisation.
+# They are not 14,433 disagreements: the datasheet spreads ONE list over several cells, and the
+# C9350's PSU table was read a column at a time with no idea which column belonged to the model.
+# The two documents below are the ones the finding was written from, so they are the ones the rule
+# is proved on. They are read from the cache; a missing cache is a FAILED case, never a skipped
+# one — "could not check" is not "is correct" (D:\Project\CLAUDE.md §6).
+import hashlib  # noqa: E402
+from adapters.cisco_specs_deep import (  # noqa: E402
+    parse_shape_a, parse_shape_b, parse_shape_c, join_list_fragments, shape_a_columns,
+)
+import adapters.cisco_specs_deep as _deep  # noqa: E402
+
+CACHE = Path(__file__).resolve().parent / "cache"
+# https://www.cisco.com/site/us/en/products/collateral/networking/switches/c9350-series-smart-switches-ds.html
+C9350_DOC = "667a16f06f215262b19a454a16f8b5c9788566dd"
+# .../switches/catalyst-2960-x-series-switches/datasheet-c78-728232.html
+C2960X_DOC = "be25fa2199c092517cecbc1a693b53b44cf2d884"
+
+
+def parse_cached(doc: str, table: int):
+    """Every record the three shapes produce for ONE table of a cached datasheet, list rule applied."""
+    p = CACHE / (doc + ".html")
+    if not p.exists():
+        return None, None
+    soup = BeautifulSoup(p.read_text(encoding="utf-8", errors="replace"), "lxml")
+    tables = soup.find_all("table")
+    if table >= len(tables):
+        return None, None
+    rows = _deep._rows(tables[table])
+    out, defects = [], []
+    for fn in (parse_shape_a, parse_shape_b, parse_shape_c):
+        recs = fn(rows, table, "u", defects) if fn is parse_shape_a else fn(rows, table, "u")
+        out.extend(join_list_fragments(recs, defects))
+    return out, defects
+
+
+# ---- S22 — the C9350 PSU table: both power supplies are ONE list for the model -----------------
+# t6 repeats C9350-24P on rows 4 and 5 because the rows are CONFIGURATIONS, not models. The apply
+# kept PWR-C2-850WAC from t6:r4:c1 and logged PWR-C2-1600WAC from t6:r5:c1 as a conflict, then
+# discarded it. Both are options of the same switch.
+recs, defs22 = parse_cached(C9350_DOC, 6)
+if recs is None:
+    got = "NO_CACHED_DOCUMENT"
+else:
+    psu = [r for r in recs if r.get("sku") == "C9350-24P" and r["label"] == "Primary power supply"]
+    got = "NO_RECORD" if len(psu) != 1 else psu[0]["value"]
+check("S22", "C9350-24P: two PSU rows are one list, not two facts",
+      "PWR-C2-850WAC; PWR-C2-1600WAC", got)
+if recs is not None:
+    span = [f["locator"] for f in psu[0].get("fragments", [])] if len(psu) == 1 else []
+    check("S22b", "the joined fact keeps the first locator and a span",
+          "t6:r4:c1 <- t6:r4:c1,t6:r5:c1",
+          f"{psu[0]['locator']} <- {','.join(span)}" if span else "NO_SPAN")
+
+# ---- S23 — the row-discriminator column must not become a fact --------------------------------
+# "Default or upgrade" holds exactly "Default" and "Upgrade": it says which configuration the row
+# is. It aliases to psu_options, so every C9350 row published `psu_options = Default`.
+if recs is None:
+    got = "NO_CACHED_DOCUMENT"
+else:
+    leaked = [r["value"] for r in recs if r["label"].startswith("Default or upgrade")]
+    got = "REFUSED" if not leaked and any(d["code"] == "ROW_DISCRIMINATOR_COLUMN" for d in defs22) else f"LEAKED_{leaked[:2]}"
+check("S23", 'the "Default or upgrade" discriminator column', "REFUSED", got)
+
+# ---- S24 — a group header refined by a MAGNITUDE names a condition, not the attribute ---------
+# t6 columns 4-9 are "Secondary PSU / 500W|850W|1600W": the cells hold available PoE ("720*W"),
+# and filing them under the group header published `psu_options = 720*W`.
+if recs is None:
+    got = "NO_CACHED_DOCUMENT"
+else:
+    leaked = [r["label"] for r in recs if r["label"].startswith(("Secondary PSU", "Tertiary PSU"))]
+    n = sum(1 for d in defs22 if d["code"] == "GROUP_HEADER_IS_CONDITION")
+    got = f"REFUSED_{n}_COLUMNS" if not leaked else f"LEAKED_{leaked[:2]}"
+check("S24", "Secondary/Tertiary PSU condition columns", "REFUSED_6_COLUMNS", got)
+
+# ---- S24b — a two-row header must NOT be read as a data row, and must name its columns ---------
+if recs is None:
+    got = "NO_CACHED_DOCUMENT"
+else:
+    p = CACHE / (C9350_DOC + ".html")
+    rows6 = _deep._rows(BeautifulSoup(p.read_text(encoding="utf-8", errors="replace"), "lxml").find_all("table")[6])
+    labels, first_data = shape_a_columns(rows6, 6, [])
+    got = f"{first_data}:{labels[1]}"
+check("S24b", "continuation header row detected, data starts after it",
+      "2:Primary power supply", got)
+
+# ---- S25 — one bulleted list laid across two columns of one row --------------------------------
+# 2960-X t18 is "Category | Specification | Specification": r3c1 holds half the IEEE standards and
+# r3c2 the other half. Read as two facts they became 6,005 of shard 0's differing collisions.
+recs25, _ = parse_cached(C2960X_DOC, 18)
+if recs25 is None:
+    got = "NO_CACHED_DOCUMENT"
+else:
+    std = [r for r in recs25 if r["label"] == "Standards"]
+    got = "NO_RECORD" if len(std) != 1 else (
+        f"ONE_FACT_{len(std[0].get('fragments', []))}_CELLS"
+        if "802.1D" in std[0]["value"] and "802.3 10BASE-T" in std[0]["value"] else "HALF_THE_LIST")
+check("S25", "IEEE standards split across two columns of one row", "ONE_FACT_2_CELLS", got)
+
+# ---- S26 (SABOTAGE) — a repeated label that is NOT a list must NOT be joined -------------------
+# Joining every repeated (subject, label) in a table would have folded 75 cells of a header row
+# read as data into one `switching_capacity` value, measured over shard 0. Only a bulleted cell or
+# a repeated model row is a list.
+NOT_A_LIST = [
+    {"family_scope": "__document__", "label": "Unit weight", "value": "Model", "shape": "B", "locator": "t1:r39:c1", "source_url": "u"},
+    {"family_scope": "__document__", "label": "Unit weight", "value": "1.39 kg", "shape": "B", "locator": "t1:r39:c2", "source_url": "u"},
+]
+joined = join_list_fragments(list(NOT_A_LIST))
+check("S26", "two plain cells under one label are NOT joined", "2_FACTS_KEPT",
+      f"{len(joined)}_FACTS_KEPT" if len(joined) != 1 else f"WRONGLY_JOINED_{joined[0]['value']!r}")
+
+# ---- S27 — control: two BULLETED cells under one label ARE joined, in document order -----------
+A_LIST = [
+    {"family_scope": "__document__", "label": "Standards", "value": "\u25cf IEEE 802.1D \u25cf IEEE 802.1p", "shape": "B", "locator": "t2:r1:c1", "source_url": "u"},
+    {"family_scope": "__document__", "label": "Standards", "value": "\u25cf IEEE 802.3 \u25cf IEEE 802.3u", "shape": "B", "locator": "t2:r1:c2", "source_url": "u"},
+]
+j27 = join_list_fragments(list(A_LIST))
+check("S27", "two bulleted cells under one label are one list (control)",
+      "\u25cf IEEE 802.1D \u25cf IEEE 802.1p; \u25cf IEEE 802.3 \u25cf IEEE 802.3u",
+      j27[0]["value"] if len(j27) == 1 else f"{len(j27)}_FACTS")
+
+# ---- S28 (SABOTAGE) — a list belonging to a DIFFERENT subject must never be joined into it -----
+TWO_SUBJECTS = [
+    {"sku": "C9350-24P", "label": "Standards", "value": "\u25cf A \u25cf B", "shape": "A", "locator": "t2:r1:c1", "source_url": "u", "_repeated_model": True},
+    {"sku": "C9350-48P", "label": "Standards", "value": "\u25cf C \u25cf D", "shape": "A", "locator": "t2:r2:c1", "source_url": "u", "_repeated_model": True},
+]
+j28 = join_list_fragments(list(TWO_SUBJECTS))
+check("S28", "same label, DIFFERENT models: never one list", "2_FACTS",
+      f"{len(j28)}_FACTS" if len(j28) != 1 else f"MERGED_ACROSS_MODELS_{j28[0]['value']!r}")
+
 print("case | defect                                             | expected                 | got")
 print("-" * 128)
 for r in results:

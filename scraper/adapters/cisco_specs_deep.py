@@ -44,6 +44,22 @@ ACCESSORY = re.compile(r"^(PWR-|FAN-|STACK-|C9300X?-NM-|C9300L?-STACK|MA-)", re.
 
 MODEL_HDR = re.compile(r"^(model|sku|part number|product number|product id)$", re.I)
 
+# One cell's value. Unchanged at 160: the gate re-reads the cached cell and compares it the way
+# the adapter stored it (gate-extract.ts cellMatches slices to 160), so this number is a contract.
+MAX_CELL = 160
+# A JOINED list (see join_list_fragments) is several cells, so it is allowed several cells' worth.
+MAX_JOINED = 800
+FRAGMENT_SEP = "; "
+
+# The bullet marks Cisco uses inside a cell that holds a LIST. Two or more of them is the
+# document saying "this cell enumerates"; one can be a stray glyph, so one is not enough.
+BULLETS = re.compile(r"[●•▪·]")
+
+# A sub-header that is a MAGNITUDE ("500W", "1600W", "240V"). Deliberately a closed unit list:
+# "5G" and "802.11ac" are technology names, not quantities, and they are real column subjects.
+QUANTITY_SUBHEADER = re.compile(
+    r"^[0-9][0-9.,]*\s*(W|kW|VA|V|A|mA|Hz|kHz|MHz|GHz|GB|MB|TB|mm|cm|kg|lb|Gbps|Mbps)$", re.I)
+
 # Column headers that name no model. A two-column "Feature | Details" table has a subject --
 # the document's own product -- but no per-column subject, so the header word must not be
 # treated as a variant name.
@@ -106,6 +122,98 @@ def _looks_like_label(s: str) -> bool:
     if _is_pid(s) or ACCESSORY.match(s):
         return False
     return bool(re.search(r"[a-z]{3}", s))
+
+
+EMPTY_CELL = ("", "-", "--", "N/A", "n/a")
+
+
+def _blank(v: str) -> bool:
+    return not v or v in EMPTY_CELL
+
+
+def _subject(rec: dict) -> str:
+    """Who a record is about: a SKU, or the family scope for a family-level fact."""
+    return rec.get("sku") or rec.get("family_scope") or ""
+
+
+def _is_list_cell(v: str) -> bool:
+    """The DOCUMENT marks this cell as a list. Two bullets or more, not one."""
+    return len(BULLETS.findall(v)) >= 2
+
+
+def _drop_cut_tail(v: str, cut: bool) -> str:
+    """A fragment the MAX_CELL cap truncated was cut mid-item ("... ● IEEE 802.1ab (LLDP) ● IEEE").
+    Alone that reads as a list that is obviously truncated; joined to the next fragment the stub
+    becomes an ELEMENT in the middle of the list, and "IEEE" is not a standard. Drop the cut item --
+    only for a fragment that really was truncated, and only when the document bulleted it."""
+    if not cut or not _is_list_cell(v):
+        return v
+    i = max(v.rfind(b) for b in "●•▪·")
+    return v[:i].rstrip() if i > 0 else v
+
+
+def join_list_fragments(recs: list[dict], defects: list[dict] | None = None) -> list[dict]:
+    """One list spread over several cells of ONE table under ONE label is ONE fact.
+
+    Cisco lays a single bulleted list across two columns of a "Category | Specification |
+    Specification" table -- the 2960-X sheet writes half the IEEE standards in t18:r3:c1 and the
+    other half in t18:r3:c2 -- and it repeats a model over several rows when the rows are
+    CONFIGURATIONS rather than models (C9350-24P at t6:r4 with PWR-C2-850WAC and at t6:r5 with
+    PWR-C2-1600WAC). Emitting a record per cell made the merge see the halves as two sources
+    disagreeing: 6,005 of shard 0's 14,433 differing collisions were `ieee_standards`, and the
+    C9350's two real PSU options were logged as a conflict of which one was discarded.
+
+    Joining is NOT unconditional -- measured over shard 0, joining every repeated (subject, label)
+    in a table would have folded 75 cells of a header row read as data into one `switching_capacity`
+    value. A group is joined only when the cells say they are a list:
+
+      * every fragment carries two or more bullet marks (the document's own list markup), or
+      * the records are marked `_repeated_model` -- a model-major table whose model column repeats
+        the PID, where one column offers that model's alternatives by construction.
+
+    The joined record keeps the FIRST cell's locator (so it still re-reads) and carries
+    `fragments`: every contributing cell as {locator, value}, in document order. That list is the
+    locator SPAN and it is what lets the gate re-read a joined fact -- it grades the cells the
+    document actually holds, not the synthesised join (apply-extract's expandFragments).
+    """
+    order: list[tuple] = []
+    groups: dict[tuple, list[dict]] = {}
+    for r in recs:
+        k = (_subject(r), r["label"])
+        if k not in groups:
+            groups[k] = []
+            order.append(k)
+        groups[k].append(r)
+    out = []
+    for k in order:
+        g = groups[k]
+        if len(g) == 1:
+            out.append(g[0])
+            continue
+        joinable = all(_is_list_cell(r["value"]) for r in g) or all(r.get("_repeated_model") for r in g)
+        if not joinable:
+            out.extend(g)
+            continue
+        seen = set()
+        vals: list[str] = []
+        for r in g:
+            v = _drop_cut_tail(r["value"].strip(), bool(r.get("_cut")))
+            key = " ".join(v.split()).lower()
+            if not v or key in seen:
+                continue          # the same cell text twice is one fragment, not two
+            seen.add(key)
+            vals.append(v)
+        first = dict(g[0])
+        first["value"] = FRAGMENT_SEP.join(vals)[:MAX_JOINED]
+        first["locator"] = g[0]["locator"]
+        # the cells AS THE DOCUMENT HOLDS THEM (before the cut-tail trim), so the gate can re-read
+        # every one of them at its own locator instead of grading a string no cell contains
+        first["fragments"] = [{"locator": r["locator"], "value": r["value"]} for r in g]
+        out.append(first)
+    for r in out:
+        r.pop("_repeated_model", None)
+        r.pop("_cut", None)
+    return out
 
 
 def _rows(table):
@@ -174,6 +282,64 @@ def assert_english(html: str) -> None:
         raise ValueError(f"LOCALE_MISMATCH: page appears German despite en-US ({', '.join(hits[:3])})")
 
 
+def shape_a_columns(rows, ti, defects):
+    """Decide, once per table, what each COLUMN of a model-major table is called and whether it
+    may be read at all. Returns (labels, first_data_row, skipped) where `labels[ci]` is None for a
+    column that must not be read.
+
+    Three things a stateless "header = rows[0]" read gets wrong, all measured on the C9350 sheet
+    (t6), and all of which published a value under the wrong field:
+
+    1. A CONTINUATION HEADER ROW. `<th rowspan=2>` over the first columns and `<th colspan=3>`
+       over a group means row 1 is a SECOND header row; the row expander copies the rowspanned
+       cells down, so row 1 repeats the model-header word in column 0 and that is the signal.
+       Without it, "Secondary PSU" named three different columns and row 1's "500W | 850W | 1600W"
+       was read as a data row's worth of labels for nobody.
+    2. A ROW-DISCRIMINATOR column. "Default or upgrade" holding exactly "Default"/"Upgrade" does
+       not describe the switch; it says WHICH CONFIGURATION the row is. It aliases to psu_options,
+       so every C9350 row published `psu_options = Default`.
+    3. A CONDITION column. When the sub-header is a MAGNITUDE ("500W"), the group header names the
+       condition the cell was measured under, not the cell's attribute -- the C9350's "Secondary
+       PSU / 500W" cells hold available PoE ("720*W"), and filing them under the group header
+       published `psu_options = 720*W`. The document never names the attribute, so neither do we:
+       the column is refused and the refusal is recorded as a defect rather than guessed at.
+    """
+    header = rows[0]
+    ncols = len(header)
+    sub = rows[1] if len(rows) > 2 and rows[1] and MODEL_HDR.match(rows[1][0].strip()) else None
+    first_data = 2 if sub is not None else 1
+    labels: list[str | None] = [None] * ncols
+    for ci in range(1, ncols):
+        top = header[ci].strip()
+        low = sub[ci].strip() if sub is not None and ci < len(sub) else ""
+        if not top:
+            continue
+        if low and low != top:
+            if QUANTITY_SUBHEADER.match(low):
+                defects.append({"code": "GROUP_HEADER_IS_CONDITION", "locator": f"t{ti}:c{ci}",
+                                "detail": f'"{top}" is refined by the magnitude "{low}": the group names a '
+                                          f"condition, not this cell's attribute"})
+                continue
+            labels[ci] = f"{top} [{low}]"
+        else:
+            labels[ci] = top
+    # a discriminator column needs the DATA to be decided, which is why it cannot live in the mapper
+    data = [c for c in rows[first_data:] if c and _is_pid(c[0].strip()) and len(c) == ncols]
+    for ci in range(1, ncols):
+        if labels[ci] is None:
+            continue
+        alts = [a.strip().lower() for a in re.split(r"\s+or\s+|/", header[ci].strip()) if a.strip()]
+        if len(alts) < 2 or any(len(a) > 24 for a in alts):
+            continue
+        vals = {c[ci].strip().lower() for c in data if not _blank(c[ci].strip())}
+        if vals and vals <= set(alts):
+            defects.append({"code": "ROW_DISCRIMINATOR_COLUMN", "locator": f"t{ti}:c{ci}",
+                            "detail": f'"{header[ci].strip()}" holds only its own header words '
+                                      f'({", ".join(sorted(vals))}): it names the row, not a property'})
+            labels[ci] = None
+    return labels, first_data
+
+
 def parse_shape_a(rows, ti, url, defects=None):
     """PID-per-row x attribute-per-column. Header row names the attributes."""
     recs = []
@@ -189,7 +355,16 @@ def parse_shape_a(rows, ti, url, defects=None):
                             "detail": f"header row starts with a PID ({header[0].strip()}); header likely shifted"})
         return recs
     ncols = len(header)
-    for ri, cells in enumerate(rows[1:], start=1):
+    labels, first_data = shape_a_columns(rows, ti, defects)
+    # A model that appears on more than one row is not two models: the rows are CONFIGURATIONS of
+    # one, so a column offers that model alternatives (the C9350's two power supplies) rather than
+    # two disagreeing values. Marked here, joined by join_list_fragments.
+    seen_pids: dict[str, int] = {}
+    for cells in rows[first_data:]:
+        p = cells[0].strip() if cells else ""
+        if _is_pid(p):
+            seen_pids[p] = seen_pids.get(p, 0) + 1
+    for ri, cells in enumerate(rows[first_data:], start=first_data):
         pid = cells[0].strip()
         if not _is_pid(pid):
             continue
@@ -203,10 +378,15 @@ def parse_shape_a(rows, ti, url, defects=None):
                             "detail": f"{pid}: row has {len(cells)} cells, header has {ncols}"})
             continue
         for ci in range(1, min(len(cells), ncols)):
-            label, val = header[ci].strip(), cells[ci].strip()
-            if label and val and val not in ("-", "--", "N/A", "n/a", ""):
-                recs.append({"sku": pid, "label": label, "value": val[:160],
-                             "shape": "A", "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url})
+            label, val = labels[ci], cells[ci].strip()
+            if label and not _blank(val):
+                rec = {"sku": pid, "label": label, "value": val[:MAX_CELL],
+                       "shape": "A", "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url}
+                if len(val) > MAX_CELL:
+                    rec["_cut"] = True
+                if seen_pids.get(pid, 0) > 1:
+                    rec["_repeated_model"] = True
+                recs.append(rec)
     return recs
 
 
@@ -247,8 +427,10 @@ def parse_shape_b(rows, ti, url):
             variant, val = header[ci].strip(), cells[ci].strip()
             if not val or val in ("-", "--", "N/A", "n/a"):
                 continue
-            rec = {"label": label, "value": val[:160], "shape": "B",
+            rec = {"label": label, "value": val[:MAX_CELL], "shape": "B",
                    "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url}
+            if len(val) > MAX_CELL:
+                rec["_cut"] = True
             # A column header can be a FAMILY ("Catalyst 9300L/LM fixed uplink models") or an
             # actual PID ("C1000-24T-4G-L"). Treating both as family scope threw away every
             # per-SKU fact on the sheets that lay their specs out attribute-per-row: the 1000,
@@ -317,14 +499,21 @@ def parse_shape_c(rows, ti, url):
                     continue
                 qualifier = sub_headers[ci] if ci < len(sub_headers) and sub_headers[ci] else ""
                 label = f"{current_label} [{qualifier}]" if qualifier else current_label
-                recs.append({"sku": pid, "label": label, "value": val[:160],
-                             "shape": "C", "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url})
+                rec = {"sku": pid, "label": label, "value": val[:MAX_CELL],
+                       "shape": "C", "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url}
+                if len(val) > MAX_CELL:
+                    rec["_cut"] = True
+                recs.append(rec)
         elif len(cells) == 2 and _looks_like_label(pid):
             # "Acoustic noise ... | With AC power supply ..." - an attribute/value pair scoped to
             # the whole family, not to a PID
-            recs.append({"family_scope": "__document__", "label": f"{current_label}: {pid}"[:120],
-                         "value": cells[1].strip()[:160], "shape": "C",
-                         "locator": f"t{ti}:r{ri}:c1", "source_url": url})
+            pair = cells[1].strip()
+            rec = {"family_scope": "__document__", "label": f"{current_label}: {pid}"[:120],
+                   "value": pair[:MAX_CELL], "shape": "C",
+                   "locator": f"t{ti}:r{ri}:c1", "source_url": url}
+            if len(pair) > MAX_CELL:
+                rec["_cut"] = True
+            recs.append(rec)
     return recs
 
 
@@ -399,6 +588,9 @@ def run(browser, urls: list[str]) -> list[dict]:
                 continue
             for fn, shape in ((parse_shape_a, "A"), (parse_shape_b, "B"), (parse_shape_c, "C")):
                 recs = fn(rows, ti, url, defects) if fn is parse_shape_a else fn(rows, ti, url)
+                # a list spread over several cells of THIS table is one fact, before the
+                # triple-dedup sees it (the dedup would otherwise keep both halves apart)
+                recs = join_list_fragments(recs, defects)
                 fresh = []
                 for r in recs:
                     key = (r.get("sku") or r.get("family_scope") or "", r["label"], r["value"])

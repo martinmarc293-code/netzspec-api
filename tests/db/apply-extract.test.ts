@@ -38,6 +38,7 @@ import { docIdFor } from "../../src/store/docs.js";
 import { unpackLocator } from "../../src/store/facts.js";
 import {
   main, parseArgs, sourceKind, loadExtractFile, resolveScope, familyLabel, planExtract, reportPaths, writeReports, loadParts, PID_IN_TEXT,
+  expandFragments, fragmentsOf, unionListValues, LIST_FIELDS,
 } from "../../src/pipeline/apply-extract.js";
 import {
   gateExtract, loadGolden, parseLocator, previousFactsPerDoc, previousPerDoc, planSample, fisherYates,
@@ -568,6 +569,86 @@ const extraTags: string[] = [];
       && colConf.length === 1 && colConf[0].kept === 256 && colConf[0].rejected === 512
       && colConf[0].kept_evidence.locator === "t0:r2:c1" && colConf[0].rejected_evidence.locator === "t3:r1:c1", { actions, colFact, colConf });
 
+  // ---- 4b. THE LIST RULE: fragments of one list are not a disagreement -----------------------------
+  // Shard 0 held 20,716 collisions, 14,433 of them differing — and 9,420 of those were three LIST
+  // fields (ieee_standards, supported_protocols, certifications) whose datasheet states the list in
+  // more than one cell. "Protocols" and "Encapsulations" both map to supported_protocols and neither
+  // contradicts the other. Within one document at one tier they are UNIONED; across documents, and
+  // for every scalar, the held conflict stands.
+  {
+    const lists = derive("list-union.json", (rs) => [
+      ...rs,
+      { sku: "NZT-9300-24P", label: "IEEE standards", value: "IEEE 802.1Q, IEEE 802.3ad", shape: "B", locator: "t4:r1:c1", source_url: U1 },
+      { sku: "NZT-9300-24P", label: "IEEE standards", value: "IEEE 802.1w, IEEE 802.1Q", shape: "B", locator: "t4:r2:c1", source_url: U1 },
+      // a SECOND document offering a different list: not this rule's business — still a conflict
+      { sku: "NZT-9300-48P", label: "IEEE standards", value: "IEEE 802.1Q", shape: "B", locator: "t0:r1:c1", source_url: U1B },
+      { sku: "NZT-9300-48P", label: "IEEE standards", value: "IEEE 802.3af", shape: "B", locator: "t0:r2:c1", source_url: U1 },
+      { __doc__: true, source_url: U1B, pid_list: ["NZT-9300-48P"], tables: 1, defects: [] },
+    ]);
+    const lp = await planExtract([loadExtractFile(lists)], { vendor: "cisco", db: db() });
+    const l24 = (lp.incoming.get(p24) ?? []).filter((e) => e.k === "ieee_standards");
+    const l48 = (lp.incoming.get(p48) ?? []).filter((e) => e.k === "ieee_standards");
+    const union = lp.collisions.find((c) => c.sku === "NZT-9300-24P" && c.key === "ieee_standards");
+    check("list rule: `ls` is in LIST_FIELDS and unionListValues is order-preserving and case-insensitive",
+      LIST_FIELDS.has("ieee_standards") && !LIST_FIELDS.has("switching_capacity")
+        && JSON.stringify(unionListValues(["a", "b"], ["B", "c"])) === JSON.stringify(["a", "b", "c"]));
+    check("list rule: two cells of ONE document offering one `ls` field become ONE entry holding the union, deduped",
+      l24.length === 1 && JSON.stringify(l24[0].value) === JSON.stringify(["IEEE 802.1Q", "IEEE 802.3ad", "IEEE 802.1w"]), l24);
+    check("list rule: the union keeps EVERY cell replayable — raw carries them all, the locator names them all",
+      l24[0].raw === "IEEE 802.1Q, IEEE 802.3ad ; IEEE 802.1w, IEEE 802.1Q ; IEEE 802.1Q, IEEE 802.3ad"
+        && l24[0].prov.locator === "t4:r1:c1+t4:r2:c1+t1:r1:c1", l24[0]);
+    // the third cell is the fixture's own family-level "IEEE standards": a class-A list inherited
+    // from the same document now JOINS the per-SKU list instead of contradicting it.
+    check("list rule: an INHERITED class-A list from the same document joins the per-SKU list rather than conflicting with it",
+      lp.collisions.filter((c) => c.key === "ieee_standards" && c.resolution === "list_union" && c.incoming.inherited).length === 2,
+      lp.collisions.filter((c) => c.key === "ieee_standards").map((c) => [c.sku, c.resolution, c.incoming.inherited]));
+    check("list rule: the collision is still REPORTED, marked list_union, and counted apart",
+      union?.resolution === "list_union" && union.same_value === false && lp.stats.collision_list_union === 3, { union, n: lp.stats.collision_list_union });
+    check("list rule: what the gate grades follows the union (produced value), but its raw and locator stay the FIRST cell",
+      JSON.stringify(lp.produced.get("NZT-9300-24P")?.get("ieee_standards")?.value) === JSON.stringify(["IEEE 802.1Q", "IEEE 802.3ad", "IEEE 802.1w"])
+        && lp.produced.get("NZT-9300-24P")?.get("ieee_standards")?.locator === "t4:r1:c1"
+        && lp.produced.get("NZT-9300-24P")?.get("ieee_standards")?.raw === "IEEE 802.1Q, IEEE 802.3ad");
+    sabotages++;
+    check("SABOTAGE list rule: an `ls` disagreement between TWO DOCUMENTS is NOT unioned — it is still two entries for the merge to hold",
+      l48.length === 2 && (l48[0].prov.doc_id !== l48[1].prov.doc_id)
+        && lp.collisions.some((c) => c.sku === "NZT-9300-48P" && c.key === "ieee_standards" && c.resolution === "held"), l48);
+    sabotages++;
+    const sc48 = (lp.incoming.get(p48) ?? []).filter((e) => e.k === "switching_capacity");
+    check("SABOTAGE list rule: a SCALAR field is never unioned — two switching capacities in one document stay two entries, held",
+      sc48.length === 1 || lp.collisions.filter((c) => c.key === "switching_capacity").every((c) => c.resolution === "held"), sc48);
+  }
+
+  // ---- 4c. the extractor's own list rule, and how the gate still sees the CELLS ---------------------
+  // cisco_specs_deep joins a list the document spreads over several cells of one table into ONE raw
+  // fact (the C9350's two power supplies, the 2960-X's IEEE standards split across two columns) and
+  // carries `fragments`: every contributing cell. A joined value is in no single cell, so grading it
+  // against the cell it starts in would score correct data as a PROVENANCE_MISS — the gate is handed
+  // the cells instead, and the raw-row metric counts cells, not records.
+  {
+    const joined = derive("list-fragments.json", (rs) => [
+      ...rs,
+      {
+        sku: "NZT-9300-24P", label: "PSU options", value: "PWR-A; PWR-B", shape: "A", locator: "t6:r4:c1", source_url: U1,
+        fragments: [{ locator: "t6:r4:c1", value: "PWR-A" }, { locator: "t6:r5:c1", value: "PWR-B" }],
+      },
+    ]);
+    const jf = loadExtractFile(joined);
+    const rec = jf.facts.find((f) => f.label === "PSU options")!;
+    const expanded = expandFragments(jf.facts);
+    const cells = expanded.filter((f) => f.label === "PSU options");
+    check("extractor list rule: a joined fact declares every cell it was made of",
+      fragmentsOf(rec)?.length === 2 && fragmentsOf({ ...rec, fragments: undefined } as RawFact) === null);
+    check("extractor list rule: expandFragments hands the gate one fact PER CELL, each at its own locator with that cell's value",
+      cells.length === 2 && cells[0].locator === "t6:r4:c1" && cells[0].value === "PWR-A"
+        && cells[1].locator === "t6:r5:c1" && cells[1].value === "PWR-B"
+        && expanded.length === jf.facts.length + 1, cells);
+    const jp = await planExtract([jf], { vendor: "cisco", db: db() });
+    const base = await planExtract([loadExtractFile(fx("good-html.json"))], { vendor: "cisco", db: db() });
+    check("extractor list rule: facts_per_doc counts CELLS, so folding cells into facts is not a regression",
+      jp.factsPerDoc[D1] === base.factsPerDoc[D1] + 2 && jp.stats.list_fragment_cells === 1,
+      { after: jp.factsPerDoc[D1], before: base.factsPerDoc[D1], folded: jp.stats.list_fragment_cells });
+  }
+
   // ---- 5. revision change was dead code ------------------------------------------------------------
   // provFor never set revision_label, so re-applying an edited datasheet (same doc, same tier, a new
   // value) came back as "same-tier sources disagree" — one document blamed as two.
@@ -697,12 +778,23 @@ const extraTags: string[] = [];
   sabotages++;
   check("SABOTAGE partial commit: the failed run carries the PARTIAL stats and a progress line naming how far it got — it used to close with stats {} and one error line, so nothing said which facts it had already written",
     failedRun.status === "failed" && failedRun.stats.parts_touched === 1 && failedRun.stats.partial === true
-      && failedRun.notes.startsWith("progress=1/2 parts merged, last NZT-9300-24V; simulated crash"), failedRun);
+      && /progress=1\/2 parts merged, last NZT-9300-24V; simulated crash/.test(failedRun.notes), failedRun);
   const written = (await query<{ n: number }>("SELECT count(*)::int AS n FROM facts f WHERE f.part_id = $1 AND f.superseded_by IS NULL", [pPartial])).rows[0].n;
   const readable = (await query<{ n: number }>(`SELECT count(*)::int AS n FROM facts f WHERE f.part_id = $1 AND f.superseded_by IS NULL AND ${factRunSucceeded("f")}`, [pPartial])).rows[0].n;
+  const evLeft = (await query<{ n: number }>("SELECT count(*)::int AS n FROM fact_evidence WHERE run_id = $1", [failedRun.id])).rows[0].n;
   sabotages++;
-  check("SABOTAGE partial commit: the fact IS in the table (one transaction per part cannot un-write it) and the read side does NOT serve it — a fact whose run never closed succeeded passed no gate as a set",
-    written === 1 && readable === 0, { written, readable });
+  // Until 4 Sep 2026 this case asserted the opposite: the fact stayed in the table and only the two
+  // readers carrying factRunSucceeded() hid it, so a failed run could still move /stats, /facets,
+  // /gaps and /export — and run #15's rows had to be deleted by hand. withRun now rolls the run back.
+  check("SABOTAGE partial commit: a failed run leaves NOTHING behind — its committed facts and evidence are rolled back, and the rollback is on the run row",
+    written === 0 && readable === 0 && evLeft === 0
+      && (failedRun.stats.rolled_back as { facts_removed: number })?.facts_removed === 1
+      && /^rolled_back=1 facts/.test(failedRun.notes), { written, readable, evLeft, notes: failedRun.notes });
+  sabotages++;
+  const orphan = (await query<{ n: number }>(
+    `SELECT count(*)::int AS n FROM facts f JOIN runs r ON r.id = f.run_id WHERE f.superseded_by IS NULL AND r.status = 'failed'`)).rows[0].n;
+  check("SABOTAGE INVARIANT: no current fact in the whole database belongs to a FAILED run (a `running` one is still in flight)",
+    orphan === 0, orphan);
   const seedReadable = (await query<{ n: number }>(`SELECT count(*)::int AS n FROM facts f WHERE f.part_id = $1 AND f.superseded_by IS NULL AND ${factRunSucceeded("f")}`, [p24])).rows[0].n;
   check("… and the rule does not hide anything else: the committed run's facts and the run-less tier-0 seed are still readable", seedReadable === 4, seedReadable);
   await query("UPDATE runs SET status = 'aborted', finished_at = now() WHERE id = $1", [openRunId]);

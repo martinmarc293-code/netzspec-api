@@ -43,7 +43,7 @@ import {
   openRun, closeRun, withRun, hashFile, getRun,
   ensureCategory, upsertPart, findPart, slugify,
   docIdFor, ensureSourceDoc, getSourceDoc, linkDocParts,
-  applyMerge, currentFacts, currentFact, factHistory, writeGapConfirmed, supersedeFact, packLocator, unpackLocator,
+  applyMerge, currentFacts, currentFact, factHistory, writeGapConfirmed, supersedeFact, packLocator, unpackLocator, rollbackRun,
   upsertLifecycle, mergeLifecycle,
   upsertRelation,
   upsertImage, setImageVariant, setMerchantReadiness,
@@ -78,7 +78,7 @@ async function refuses(name: string, fn: () => Promise<unknown>, reason: RegExp)
 const j = (v: unknown) => JSON.stringify(v);
 
 const dbName = databaseName(resolveDatabaseUrl());
-if (!dbName.endsWith("_test")) { console.error(`refusing: database "${dbName}" is not a _test database`); process.exit(1); }
+if (!/_test\d*$/.test(dbName)) { console.error(`refusing: database "${dbName}" is not a _test database`); process.exit(1); }
 console.log(`store.test: database ${dbName}`);
 const pool = getPool();
 
@@ -477,6 +477,94 @@ await refuses("upsertRelation with an unknown kind", () => upsertRelation(p1.id,
   check("the apply-specs run closes once it carries a passing gate", r?.status === "succeeded" && (r?.gate as { passed: boolean }).passed === true);
   const touched = await query("SELECT updated_at > created_at AS bumped FROM parts WHERE id = $1", [p1.id]);
   check("writing facts/lifecycle/relations/images bumped parts.updated_at (change feed)", touched.rows[0].bumped === true);
+}
+
+// =================================================================================================
+// a failed run leaves NOTHING behind
+//
+// apply-* writes one transaction per part, so a throw part-way through leaves the parts already
+// merged COMMITTED. Until 4 Sep 2026 those rows stayed, hidden from two readers by
+// factRunSucceeded() and counted by every aggregate reader that had not been told — run #15's rows
+// had to be deleted by hand. withRun now ROLLS THEM BACK, and the invariant is checked here:
+// no CURRENT fact belongs to a run that is not succeeded.
+// =================================================================================================
+/** The invariant, as a query: every current fact either predates runs or belongs to a succeeded one. */
+async function currentFactsOfUnsucceededRuns(): Promise<{ id: number; field_key: string; status: string }[]> {
+  const r = await query<{ id: number; field_key: string; status: string }>(
+    `SELECT f.id, f.field_key, r.status::text AS status
+       FROM facts f JOIN runs r ON r.id = f.run_id
+      WHERE f.superseded_by IS NULL AND r.status <> 'succeeded'`);
+  return r.rows;
+}
+{
+  const p3 = await upsertPart({ vendor: "cisco", sku: "C9300X-24Y", category: "switches", product_class: "hardware" });
+  // a value and a confirmed gap from a run that SUCCEEDED: what the rollback has to give back
+  const good = await withRun("apply-specs", {}, async (id) => {
+    await withTx((c) => applyMerge(c, p3.id, entry("poe_budget", 400, "400 W", html(D1, "t1:r1:c1")), id));
+    await withTx((c) => writeGapConfirmed(c, p3.id, "ieee_standards", id));
+    return { stats: {}, gate: { precision: 1, recall: 1, passed: true } };
+  });
+  const keptId = (await currentFact(p3.id, "poe_budget", pool))?.id;
+  const gapId = (await currentFact(p3.id, "ieee_standards", pool))?.id;
+
+  let failedId = 0, threw = "", midFacts = 0;
+  try {
+    await withRun("apply-specs", {}, async (id) => {
+      failedId = id;
+      await withTx((c) => applyMerge(c, p3.id, entry("poe_budget", 900, "900 W", html(D2, "t2:r2:c2")), id));            // conflict: flips the kept row's state
+      await withTx((c) => applyMerge(c, p3.id, entry("ieee_standards", ["IEEE 802.1Q"], "802.1Q", html(D2, "t2:r3:c1")), id)); // supersedes the gap row
+      await withTx((c) => applyMerge(c, p3.id, entry("switching_capacity", 128, "128 Gbps", html(D2, "t2:r4:c1")), id));  // a brand-new fact
+      midFacts = (await query<{ n: number }>("SELECT count(*)::int AS n FROM facts WHERE run_id = $1", [id])).rows[0].n;
+      throw new Error("extractor exploded half way");
+    }, { partial: () => ({ stats: { parts_touched: 1 }, progress: "1/2 parts merged, last C9300X-24Y" }) });
+  } catch (e) { threw = (e as Error).message; }
+
+  check("setup: the failing run really did commit facts before it threw", midFacts === 2 && threw === "extractor exploded half way");
+  {
+    const left = await query<{ n: number }>("SELECT count(*)::int AS n FROM facts WHERE run_id = $1", [failedId]);
+    const ev = await query<{ n: number }>("SELECT count(*)::int AS n FROM fact_evidence WHERE run_id = $1", [failedId]);
+    const cf = await query<{ n: number }>("SELECT count(*)::int AS n FROM conflicts WHERE run_id = $1", [failedId]);
+    check("a failed run's facts, evidence and conflicts are all gone", left.rows[0].n === 0 && ev.rows[0].n === 0 && cf.rows[0].n === 0);
+  }
+  {
+    const poe = await currentFact(p3.id, "poe_budget", pool);
+    check("the row the failed run only flipped to `conflict` is verified again, same row, same value",
+      poe?.id === keptId && poe?.value === 400 && poe?.state === "verified", `got ${j({ id: poe?.id, v: poe?.value, s: poe?.state })}`);
+    const gap = await currentFact(p3.id, "ieee_standards", pool);
+    check("the gap row the failed run superseded is CURRENT again (superseded_by/at cleared)",
+      gap?.id === gapId && gap?.state === "gap_confirmed" && gap?.superseded_by === null && gap?.superseded_at === null);
+    const sc = await currentFact(p3.id, "switching_capacity", pool);
+    check("a fact the failed run created from nothing is gone entirely", sc === null);
+  }
+  {
+    const r = await getRun(failedId);
+    const back = (r?.stats as { rolled_back?: { facts_removed: number } })?.rolled_back;
+    check("the run row keeps its partial stats and progress AND records the rollback",
+      r?.status === "failed" && (r?.stats as { parts_touched?: number }).parts_touched === 1
+      && back?.facts_removed === 2 && /progress=1\/2 parts merged/.test(String(r?.notes)) && /rolled_back=2 facts/.test(String(r?.notes)),
+      `notes=${String(r?.notes).slice(0, 160)}`);
+    const g = await getRun(good.runId);
+    check("the succeeded run's own rows were not touched", g?.status === "succeeded");
+  }
+  check("INVARIANT no current fact belongs to a run that is not succeeded", (await currentFactsOfUnsucceededRuns()).length === 0);
+
+  // ---- SABOTAGE: the invariant check must FAIL when a fact IS left under a failed run ----------
+  // Written the way the old code left it: a raw INSERT under the failed run id. If the check
+  // cannot see this, it is not a check.
+  {
+    refusals++;
+    await query(
+      `INSERT INTO facts (part_id, field_key, value, raw, state, tier, method, doc_id, run_id)
+       VALUES ($1, 'switching_capacity', '999', '999 Gbps', 'verified', 2, 'html_table', $2, $3)`,
+      [p3.id, D2, failedId]);
+    const dirty = await currentFactsOfUnsucceededRuns();
+    check("SABOTAGE a fact left under a failed run is CAUGHT by the invariant",
+      dirty.length === 1 && dirty[0].field_key === "switching_capacity" && dirty[0].status === "failed",
+      `the invariant saw ${dirty.length} rows — it would not have caught run #15`);
+    const back = await withTx((c) => rollbackRun(c, failedId));
+    const after = await currentFactsOfUnsucceededRuns();
+    check("SABOTAGE and the rollback removes it", back.facts_removed === 1 && after.length === 0);
+  }
 }
 
 // =================================================================================================
