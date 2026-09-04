@@ -331,6 +331,14 @@ full; the ones that bite hardest here are restated.
   agent's migrations 0009/0010 exist as files while production lacks them, so the working
   tree's `upsertPart` throws until that round deploys — the supervisor's applies roll back
   meanwhile.
+  MEASURED, the real cause of the dying lanes: the shared debug Chrome accepts exactly ONE
+  `connect_over_cdp` client after a fresh start; every later client hangs at `<ws connecting>`
+  for 180 s while `/json/version` answers in 3 ms (clients A, B, C all failed with no worker
+  attached; the same binary served four workers this morning). Chrome 152.0.7977.65, not
+  updated today. Decision: workers stop sharing a DevTools port — each lane launches its own
+  Chrome through Playwright (`--profile`, per-source profile dir, channel chrome, headed for
+  the challenge sites); the 9222 Chrome stays for images.py and ad-hoc fetches only. Agent
+  in flight, with proof on this machine (two lanes fetching concurrently).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
