@@ -339,6 +339,12 @@ full; the ones that bite hardest here are restated.
   Chrome through Playwright (`--profile`, per-source profile dir, channel chrome, headed for
   the challenge sites); the 9222 Chrome stays for images.py and ad-hoc fetches only. Agent
   in flight, with proof on this machine (two lanes fetching concurrently).
+  ORCHESTRATION MODE CHANGED (operator, /workflow-authoring + ultracode on): substantive
+  work now runs as Workflow scripts (deterministic fan-out, adversarial verify), every agent
+  with an explicit `model: 'opus'` — never Fable. First workflow: `review-day-changes`
+  (`wf_d877ab3b-ceb`), a read-only adversarial review of the 66 commits since `e5ed1f5`:
+  six finder lenses, three refuters per finding, a finding survives only with two
+  non-refutations. Confirmed findings become the next fix round.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
