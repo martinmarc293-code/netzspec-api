@@ -103,6 +103,24 @@ ACCEPT = [
     "126291",           # UCS B-Series
     "580503",           # S-Series storage
     "075681",           # a leading zero, six digits
+    # ---- three more digit-led shapes, kept 4 Sep 2026 ----------------------------------------
+    # Found by the planner reading its OWN refusals: 40 queued lookups were held back by these.
+    # Every bound was read off data/reference/cisco-pid-universe.json (69,487 PIDs) and
+    # runs/acquired/** (4,526 pages), not guessed. The near-misses are in REFUSE below.
+    "886VA",            # Cisco 880-series ISR, VDSL2/ADSL2+ Annex A. Read as "886 volt-amperes"
+    "887VA",
+    "896VA",
+    "897VA",
+    "897VAB",           # the letter tail already defeated the quantity rule: still an accept
+    "8201=",            # Cisco 8000 Series router, spare order. Refused as no_letter: no [A-Z]
+    "8202=",
+    "8404=",
+    "8608=",
+    "15216-2950=",      # ONS 15216 spare: the 5th and last '=' refusal in the universe
+    "2000=",            # DECIDED accept: no shape separates it from 8201=, and a "not round"
+                        # carve-out would refuse a real 8800= or 9200= spare
+    "9800-40",          # Catalyst 9800 wireless controller: a 2-digit tail is not a range
+    "9800-80",
 ]
 
 # ---- refusals: (token, the reason it must be refused for) ----------------------------------------
@@ -123,6 +141,20 @@ REFUSE = [
     ("162870776", "quantity"),              # nine digits, a scraped value that IS in the catalogue
     ("100-1453-01", "quantity"),            # three-digit head: not the assembly shape
     ("10-1022008-011", "quantity"),         # three-digit tail: not the assembly shape
+    # ---- near-misses of the three keeps added 4 Sep 2026 -------------------------------------
+    ("100VA", "quantity"),                  # a UPS rating: outside the 8xx band AND round
+    ("850VA", "quantity"),                  # a REAL rating from runs/acquired, INSIDE the 8xx
+                                            # band: the band alone would have flipped it, so the
+                                            # non-zero-final-digit clause earns its place here
+    ("800VA", "quantity"),                  # real rating, 8xx band, round
+    ("1500VA", "quantity"),                 # commonest rating in the corpus: four digits
+    ("9800", "quantity"),                   # the model alone is a bare number
+    ("8201", "quantity"),                   # without the spare '=' it is a four-digit number
+    ("9800-4", "quantity"),                 # a 1-digit tail is no Cisco suffix (-40/-80/-L/-CL)
+    ("2024-10", "quantity"),                # a year-month, the one other reading of NNNN-NN
+    ("1999-12", "quantity"),                # the 19xx half of the same guard
+    ("1000-4999", "quantity"),              # a real price-break range: 4-4, not 4-2
+    ("1545-1548", "quantity"),              # a real wavelength range, ascending
     # the 963 genuine catalogue-noise SKUs the enumeration created as "parts" (docs/CISCO_GAPS.md
     # finding 10): every one of these is a row in the live parts table and none is a product.
     ("1000BASE-LX", "standard"),
@@ -230,6 +262,29 @@ check("S15", "the assembly keep takes exactly NN-NNNN..-NN: a 3-digit head or ta
 check("S16", "a kept numeric PID is accepted with allow_short off AND on (the keep is not a short-name rule)",
       is_part_number("1030033") == (True, None) and is_part_number("1030033", allow_short=True) == (True, None)
       and is_part_number("10-2834-01", allow_short=True) == (True, None))
+
+check("S17", "the spare keep needs BOTH four leading digits and the '='",
+      is_part_number("8201=") == (True, None) and is_part_number("15216-2950=") == (True, None)
+      and is_part_number("8201") == (False, "quantity") and is_part_number("999=") == (False, "no_letter")
+      and is_part_number("100-499=") == (False, "no_letter") and is_part_number("12=") == (False, "no_letter"))
+# NOTE (found while writing S17, PRE-EXISTING and out of scope for this change): "0.75K=" is
+# ACCEPTED, and was before the keeps existed — the quantity rule is anchored with \+?$ so a
+# trailing '=' takes the token past every refusal and it survives on "has a letter, has a digit,
+# four characters". No keep is involved. Recorded rather than fixed here.
+check("S18", "the model-suffix keep is exactly 4-2 and never a year-month or a range",
+      is_part_number("9800-40") == (True, None) and is_part_number("9800-80") == (True, None)
+      and is_part_number("9800-4") == (False, "quantity") and is_part_number("9800-400") == (False, "quantity")
+      and is_part_number("980-40") == (False, "quantity") and is_part_number("2024-10") == (False, "quantity")
+      and is_part_number("1999-12") == (False, "quantity") and is_part_number("1000-4999") == (False, "quantity"))
+check("S19", "the ISR keep needs BOTH the 8xx band and a non-zero final digit",
+      is_part_number("886VA") == (True, None) and is_part_number("897VA") == (True, None)
+      and is_part_number("850VA") == (False, "quantity") and is_part_number("800VA") == (False, "quantity")
+      and is_part_number("100VA") == (False, "quantity") and is_part_number("1500VA") == (False, "quantity")
+      and is_part_number("886V") == (False, "quantity") and is_part_number("886VAC") == (False, "quantity"))
+check("S20", "the three new keeps do not swallow a date, a version, a standard or a connector",
+      is_part_number("2024-10-31") == (False, "date") and is_part_number("01-MAY-2022") == (False, "date")
+      and is_part_number("15.3.2T") == (False, "version") and is_part_number("2.5GBASE-T") == (False, "standard")
+      and is_part_number("QSFP-DD") == (False, "connector") and is_part_number("10/100/1000") == (False, "quantity"))
 
 total = len(ACCEPT) + len(REFUSE)
 check("S11", f"at least 60 cases, at least half refusals ({len(ACCEPT)} accept / {len(REFUSE)} refuse)",

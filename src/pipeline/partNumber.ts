@@ -13,7 +13,7 @@
 // Rules, in the order they are tried (identical to base.py; the reason slugs are its
 // PART_NUMBER_REASONS verbatim):
 //   empty, bad_char, whitespace          not a token at all
-//   KEEP: numeric Cisco PIDs             10-2834-01, 1030033 — see PN_KEEP_* below
+//   KEEP: digit-led Cisco PIDs           10-2834-01, 1030033, 8201=, 9800-40, 886VA — PN_KEEP_*
 //   date                                 01-MAY-2022, 2024-10-31, 10/31/2024
 //   quantity                             0.75K, 0.6-1.2A, 0-30M/50M, 10/100/1000, 24x10G, 40W, 1-CPU
 //   footnote                             1.DDR4-3200 (a footnote digit glued to a token)
@@ -55,6 +55,30 @@ const PN_BAD_CHAR = /[\x00-\x1f,;<>"'\\|{}[\]]/;
 // base.py carries the same two patterns and tests/fixtures/partnumbers.json holds both sides.
 const PN_KEEP_ASSEMBLY = /^[0-9]{2}-[0-9]{4,}-[0-9]{2}$/;
 const PN_KEEP_NUMERIC = /^[0-9]{6,8}$/;
+// Three more digit-led Cisco shapes (4 Sep 2026), found by the planner reading its own refusals —
+// 40 queued lookups were held back by them. Bounds read off the corpus, not guessed: the 69,487-PID
+// universe (data/reference/cisco-pid-universe.json) and 4,526 acquired pages (runs/acquired/**).
+//   NNNN=     spare order of a digit-only model: 8201=, 8202=, 8404=, 8608= (Cisco 8000 Series),
+//             15216-2950= (ONS 15216). Refused as `no_letter`. Of the 16,024 '='-suffixed tokens in
+//             the universe exactly those five are refused; no quantity, date, version or unit token
+//             in either corpus carries an '='. DECIDED: "2000=" is accepted — no shape property
+//             separates it from 8201=, and a "not round" carve-out would refuse a real 8800= or
+//             9200= spare. A wrong accept costs one not_listed lookup; a wrong refusal is forever.
+//   NNNN-NN   4-digit model, 2-digit suffix: 9800-40, 9800-80 (Catalyst 9800 controllers). Refused
+//             as `quantity` because digits joined by '-' read as a range — but a 2-digit tail can
+//             never exceed a 4-digit head, so this is not a range shape. Every real range in the
+//             corpus ascends and none is 4-2 (0-23, 100-499, 1000-4999, 1545-1548). The one other
+//             reading is a year-month, so 19xx-/20xx- heads are excluded (2024-10 stays a
+//             quantity). A 1-digit tail is not admitted: "9800-4" is no PID (-40/-80/-L/-CL).
+//   NNNVA     Cisco 880/890-series ISRs written bare: 886VA, 887VA, 896VA, 897VA (VDSL2/ADSL2+
+//             Annex A), refused as "886 volt-amperes". BOTH clauses are needed: every apparent-power
+//             rating in the acquired corpus is a multiple of ten (240…3000 VA) and 850VA sits in
+//             the 8xx band, so the band alone would flip a real UPS rating; four digits never reach
+//             here, so 1500VA stays a quantity.
+// base.py carries the same three patterns; tests/fixtures/partnumbers.json holds both sides.
+const PN_KEEP_SPARE = /^[0-9]{4,}(?:-[0-9]+)*=$/;
+const PN_KEEP_MODEL_SUFFIX = /^(?!19[0-9]{2}-)(?!20[0-9]{2}-)[0-9]{4}-[0-9]{2}$/;
+const PN_KEEP_ISR_VA = /^8[0-9][1-9]VA$/i;
 const PN_DATE = [
   /^[0-9]{1,2}-(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*-[0-9]{2,4}$/i,
   /^(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*-[0-9]{2,4}$/i,
@@ -96,8 +120,10 @@ export function isPartNumber(key: string | null | undefined, allowShort = false)
   if (!k) return { ok: false, reason: "empty" };
   if (PN_BAD_CHAR.test(k)) return { ok: false, reason: "bad_char" };
   if (/\s/.test(k)) return { ok: false, reason: "whitespace" };
-  // the two Cisco digit-only PID shapes, before the rules that would read them as quantities
-  if (PN_KEEP_ASSEMBLY.test(k) || PN_KEEP_NUMERIC.test(k)) return { ok: true, reason: null };
+  // the digit-led Cisco PID shapes, before the rules that would read them as quantities, as
+  // ranges or as unit tokens
+  if (PN_KEEP_ASSEMBLY.test(k) || PN_KEEP_NUMERIC.test(k) || PN_KEEP_SPARE.test(k)
+    || PN_KEEP_MODEL_SUFFIX.test(k) || PN_KEEP_ISR_VA.test(k)) return { ok: true, reason: null };
   if (PN_DATE.some((rx) => rx.test(k))) return { ok: false, reason: "date" };
   if (PN_QUANTITY.test(k) || PN_COUNT_WORD.test(k)) return { ok: false, reason: "quantity" };
   if (PN_FOOTNOTE.test(k)) return { ok: false, reason: "footnote" };

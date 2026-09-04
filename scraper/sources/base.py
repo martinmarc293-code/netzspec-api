@@ -108,7 +108,7 @@ def sku_in(text: str, sku: str) -> bool:
 # input was refused for the STATED reason — "refused" alone would let a rule die silently.
 # Rules, in the order they are tried:
 #   empty, bad_char, whitespace          not a token at all
-#   KEEP: numeric Cisco PIDs             10-2834-01, 1030033 — see the block below
+#   KEEP: digit-led Cisco PIDs           10-2834-01, 1030033, 8201=, 9800-40, 886VA — see below
 #   date                                 01-MAY-2022, 2024-10-31, 10/31/2024
 #   quantity                             0.75K, 0.6-1.2A, 0-30M/50M, 10/100/1000, 24x10G, 40W, 1-CPU
 #   footnote                             1.DDR4-3200, 1.QSFP-40/100-SRBD (a footnote glued to a token)
@@ -118,7 +118,7 @@ def sku_in(text: str, sku: str) -> bool:
 #   protocol                             IPv4, VLAN, PoE+, SNMPv3, UL60950, RoHS
 #   no_letter                            1_000, 12345_6 — a digit-only token no rule above named (a bare
 #                                        number such as 15200 is already a quantity). Cisco DOES write
-#                                        digit-only PIDs; the two shapes it uses are kept above.
+#                                        digit-only PIDs; the five shapes it uses are kept above.
 #   too_short                            Z4 — unless the source opts into short names (Ubiquiti UX, U6+)
 #   bare_word                            Aggregation, Ethernet — a word with no digit and no dash
 # What is deliberately KEPT: Cisco digit-first PIDs (15216-ATT-LC=, 8804-FC0, 8201-32FH,
@@ -150,6 +150,45 @@ PART_NUMBER_REASONS = ("empty", "bad_char", "whitespace", "date", "quantity", "f
 # ---------------------------------------------------------------------------------------------
 _PN_KEEP_ASSEMBLY = re.compile(r"^[0-9]{2}-[0-9]{4,}-[0-9]{2}$")   # 10-2834-01, 10-1022008-01
 _PN_KEEP_NUMERIC = re.compile(r"^[0-9]{6,8}$")                     # 1030033, 1005444, 075681
+
+# ---------------------------------------------------------------------------------------------
+# Three more digit-led Cisco shapes (4 Sep 2026). Found by the planner reading its OWN refusals:
+# 40 queued lookups were being held back by them. Each bound below was read off the corpus
+# (data/reference/cisco-pid-universe.json, 69,487 distinct PIDs; runs/acquired/**, 4,526 pages),
+# not guessed — "run the thing over the real corpus and READ THE OUTPUT" (D:\\Project\\CLAUDE.md §2).
+#
+#   NNNN=          a spare order of a digit-only model: 8201=, 8202=, 8404=, 8608= (Cisco 8000
+#                  Series routers), 15216-2950= (ONS 15216). Refused as `no_letter`. '=' is
+#                  Cisco's spare-order marker and it is a HARD discriminator: of the 16,024
+#                  '='-suffixed tokens in the universe exactly these five are refused, and no
+#                  quantity, date, version or unit token in either corpus carries one. Dash
+#                  groups are allowed because 15216-2950= is one; four leading digits minimum
+#                  keeps price-break ranges (100-499, 1-99) out of reach.
+#                  DECIDED: "2000=" is ACCEPTED. Nothing in the SHAPE separates it from 8201=,
+#                  and a "not a round number" carve-out has no evidence behind it while it would
+#                  refuse a real 8800= or 9200= spare (8804-FC0 and C9200L are both catalogue
+#                  models). A wrong accept costs one politeness slot and comes back not_listed;
+#                  a wrong refusal is forever. Same trade the numeric keep above already priced.
+#   NNNN-NN        a 4-digit model with a 2-digit suffix: 9800-40, 9800-80 (Catalyst 9800
+#                  wireless controllers). Refused as `quantity`, because digits joined by '-'
+#                  read as a range — but a range from 9800 to 40 does not exist: a 2-digit tail
+#                  can never exceed a 4-digit head, so this shape is not a range at all. Every
+#                  real range in the corpus ascends and none is 4-2 (0-23, 100-499, 1000-4999,
+#                  1545-1548, 5060-5080). The ONE other reading is a calendar year-month, so
+#                  19xx- and 20xx- heads are excluded and 2024-10 stays a quantity. A 1-digit
+#                  tail is NOT admitted: "9800-4" is no Cisco PID (the family is -40/-80/-L/-CL)
+#                  and one digit is the shape of a count or an index.
+#   NNNVA          Cisco 880/890-series ISRs written bare: 886VA, 887VA, 896VA, 897VA (VA =
+#                  VDSL2/ADSL2+ Annex A). Refused as `quantity`, reading "886 volt-amperes".
+#                  TWO clauses, and BOTH are needed: the 8xx band, and a non-zero final digit.
+#                  Every apparent-power rating in the acquired corpus is a multiple of ten
+#                  (240, 480, 550, 700, 750, 850, 900, 1000, 1440, 1500, 1800, 1950, 2000, 2400,
+#                  3000 VA) and 850VA is in the 8xx band, so the band alone would have flipped a
+#                  real UPS rating. Four digits never reach here, so 1500VA stays a quantity.
+# ---------------------------------------------------------------------------------------------
+_PN_KEEP_SPARE = re.compile(r"^[0-9]{4,}(?:-[0-9]+)*=$")               # 8201=, 15216-2950=
+_PN_KEEP_MODEL_SUFFIX = re.compile(r"^(?!19[0-9]{2}-)(?!20[0-9]{2}-)[0-9]{4}-[0-9]{2}$")  # 9800-40
+_PN_KEEP_ISR_VA = re.compile(r"^8[0-9][1-9]VA$", re.I)                 # 886VA, 897VA
 
 _PN_BAD_CHAR = re.compile(r"[\x00-\x1f,;<>\"'\\|{}\[\]]")
 _PN_DATE = [
@@ -196,8 +235,10 @@ def is_part_number(key: str | None, allow_short: bool = False) -> tuple[bool, st
         return False, "bad_char"
     if any(c.isspace() for c in k):
         return False, "whitespace"
-    # the two Cisco digit-only PID shapes, before the rules that would read them as quantities
-    if _PN_KEEP_ASSEMBLY.match(k) or _PN_KEEP_NUMERIC.match(k):
+    # the digit-led Cisco PID shapes, before the rules that would read them as quantities,
+    # as ranges or as unit tokens
+    if (_PN_KEEP_ASSEMBLY.match(k) or _PN_KEEP_NUMERIC.match(k) or _PN_KEEP_SPARE.match(k)
+            or _PN_KEEP_MODEL_SUFFIX.match(k) or _PN_KEEP_ISR_VA.match(k)):
         return True, None
     if any(rx.match(k) for rx in _PN_DATE):
         return False, "date"
