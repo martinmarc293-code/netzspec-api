@@ -133,15 +133,29 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
     runnable = runnable_by_source()
 
     lines.append(f"- supervisor: {'alive' if sup else 'NOT RUNNING'}; lock age {f'{lock_age_h:.1f} h' if lock_age_h is not None else 'none'}")
-    cdp_ok, cdp_why = (cdp_connects() if chrome else (False, "port closed"))
-    lines.append(f"- tunnel 5433: {'up' if tunnel else 'DOWN'}; chrome 9222: {'up' if chrome else 'DOWN'}; devtools websocket: {cdp_why}")
+    # The websocket probe is only consulted when NO worker is alive: a worker that is fetching
+    # is the proof that Chrome connects, and the probe itself timed out at 20 s against a
+    # Chrome four workers were using (4 Sep 2026) — a sentinel that trusted the probe over the
+    # workers would have restarted Chrome under them every three minutes. Two consecutive
+    # failures with no worker alive, then restart.
+    st0 = json.loads(STATE.read_text(encoding="utf-8")) if STATE.exists() else {}
+    cdp_fail_streak = int(st0.get("cdp_fail_streak", 0))
+    cdp_ok, cdp_why = True, "not probed (workers alive)"
+    if chrome and not workers:
+        cdp_ok, cdp_why = cdp_connects(timeout_ms=60000)
+    cdp_fail_streak = 0 if cdp_ok else cdp_fail_streak + 1
+    lines.append(f"- tunnel 5433: {'up' if tunnel else 'DOWN'}; chrome 9222: {'up' if chrome else 'DOWN'}; devtools websocket: {cdp_why}" + (f" (fail streak {cdp_fail_streak})" if cdp_fail_streak else ""))
     if chrome and not cdp_ok:
-        alarms.append(f"scraper Chrome answers the port but no DevTools websocket connects ({cdp_why}): every worker would die on connect")
-        if heal:
+        alarms.append(f"scraper Chrome answers the port but no DevTools websocket connects ({cdp_why}); no worker alive")
+        if heal and cdp_fail_streak >= 2:
             actions.append(restart_debug_chrome())
+            cdp_fail_streak = 0
             chrome = listening(9222)
-            cdp_ok, cdp_why = cdp_connects()
+            cdp_ok, cdp_why = cdp_connects(timeout_ms=60000)
             lines.append(f"- after restart: chrome 9222 {'up' if chrome else 'DOWN'}; devtools websocket: {cdp_why}")
+    st0["cdp_fail_streak"] = cdp_fail_streak
+    STATE.parent.mkdir(parents=True, exist_ok=True)
+    STATE.write_text(json.dumps(st0), encoding="utf-8")
     chrome = chrome and cdp_ok
     if not tunnel:
         alarms.append("tunnel down: nothing can reach the database")
@@ -205,7 +219,8 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
         if old and workers and sum(runnable.values() if runnable else [0]) > 0:
             alarms.append(f"{len(old)} browser tab(s) blank for > 10 min while work is queued (a worker opened a tab and never navigated)")
     STATE.parent.mkdir(parents=True, exist_ok=True)
-    STATE.write_text(json.dumps({"blank_first": blank_first}), encoding="utf-8")
+    st0["blank_first"] = blank_first          # keep cdp_fail_streak: one state file, merged, never replaced
+    STATE.write_text(json.dumps(st0), encoding="utf-8")
     return lines, alarms, actions
 
 
