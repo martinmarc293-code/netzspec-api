@@ -235,6 +235,44 @@ NETZSPEC_DB=test npm run test:db                         # invariants.test.ts ov
 `recompute-completeness` is what turns new facts into `completeness` rows and open gaps; the
 API's `/v1/stats` reads coverage live from the tables either way.
 
+### Replaying the normaliser over what is already stored (`ingest renormalize`)
+
+`facts.raw` is NOT NULL so that a normaliser bug is replayable, and `ingest renormalize
+[--commit] [--field K] [--since-version V] [--limit N]` is what does the replaying: it selects
+every current fact whose `norm_v` is older than the shipping `NORM_VERSION` (compared as semver,
+not as text — "1.10.0" sorts before "1.5.0" as a string) or whose stored value disagrees with its
+dictionary type, re-runs `normalizeField` over `raw`, and then does the least it can. An identical
+result only RE-STAMPS `norm_v` in place, which is bookkeeping about which normaliser ran and not a
+value write; a different result SUPERSEDES the row, carrying the same provenance, state and
+inheritance; a result the normaliser now refuses is superseded into `gap_unattempted` with the
+reason in `method` (`retracted:renormalize:RANGE_VIOLATION`) and appended to
+`runs/reports/renormalize-<date>.jsonl`, so the value and its evidence stay in history and nothing
+is deleted. It is dry by default, plans the whole selection read-only even under `--commit`, and
+refuses to write when more than `--max-change-share` (default 25%) of the replayable rows would
+change value or when any number moves by 1000x or more — either refusal is lifted only by `--allow
+"reason"`, which is recorded in the run row. Sign restorations (the 1.5.0 leading-minus fix turning
+a stored `+40` back into `-40 to 70°C`) are counted and printed separately rather than as magnitude
+alarms, so a thousand correct ones cannot hide one real unit bug.
+
+**Two things `raw` alone cannot replay, and the command refuses to guess at either.** Where the
+UNIT lived in the label ("Dimensions (H x W x D) in inches" over a bare `1.73 x 17.5 x 16.1`) the
+replay correctly says `UNIT_MISSING`, but the stored fact already carries a unit, so the row is
+counted `unrecoverable / UNIT_CAME_FROM_LABEL_NOT_IN_RAW` and left exactly as it is — treating it as
+a refusal would retract 64 correct Cisco dimension facts, and feeding the stored unit back as a
+`unitHint` is worse, because that unit is the CANONICAL one (mm) and not the label's (inches), so
+`1.73 in` would be re-read as `1.73 mm`. Where the AXIS ORDER lived in the label, `reorderDimensions`
+runs after the normaliser in `deepSpecMap`, so a bare replay assigns h/w/d in written order and
+returns the same three numbers permuted; those are counted `AXIS_ORDER_NOT_IN_RAW` and left alone
+(38 rows). Only apply-extract's `"<label> | <cell>"` rule makes a row fully replayable, and just 112
+rows in the corpus carry it. **`dimensions` is therefore not a field to renormalize in bulk**: of
+315 selected, 156 are identical, 102 are unrecoverable and the remaining 57 are a mixture of genuine
+corrections (CW9172H was stored 180x130x26 for a raw that says 155x110x23) and a 1-2% preference
+between a datasheet's own inch and centimetre restatements. Locale is the third thing nothing
+records — there is no locale column on `facts` or `source_docs` — so `localeForMethod` reproduces
+what each writer passed (`hexcat_seed` → de, everything else → en) rather than deciding afresh.
+
+
+
 ## 7. The report files (`runs/reports/`)
 
 | file | written by | what it means | do this with it |
