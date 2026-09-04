@@ -117,6 +117,16 @@ full; the ones that bite hardest here are restated.
   drops them goes red. A band changes what a sabotage twin can assert: two locale cases moved
   to in-band literals (`7a428ab`). Real find from the bands: three stored `depth` facts are
   AddOn cable LENGTHS ("16.4 ft" under Depth) — the renormalize pass will refuse them.
+  First real landing of the day: the re-seeded meraki lane applied 258 facts (run #37) on the
+  improved adapter + vocabulary. Found on the way: `sfp_ports` is typed `s` and stored `"-"`
+  (10 dash/N-A values across 4 string fields) — dictionary type + a core refusal of dash
+  values are due. The box apply of the shards failed twice before it ran: the first staging
+  scp dropped mid-transfer (truncated JSON, refused at parse), and the gate's provenance
+  re-read helper was spawned as `python3.11` with no cache symlink and no bs4 on the box —
+  fixed: `NETZSPEC_PYTHON=python3` in the box `.env`, python3-bs4/lxml/pdfplumber installed,
+  deploy.sh carries the `scraper/cache` symlink across the swap. A deploy whose output was
+  piped through `grep | head` failed silently (the pipeline's status is head's): capture the
+  full log to a file and check the version at `/health` after every deploy.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
