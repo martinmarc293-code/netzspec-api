@@ -357,6 +357,19 @@ full; the ones that bite hardest here are restated.
   with 0 facts. Expected: the window closes when the hygiene round commits and deploys
   (0009 must merge the 127 case duplicates BEFORE its unique index can be created). The
   lanes keep acquiring meanwhile; the next successful apply re-reads the whole day's pages.
+  THE REAL REMERGE DEFECT (agent, verified): `decide()` compared the CURRENT fact with
+  `rejected`, never with `kept` — after a later apply had moved the field, the conflict's
+  loser "agreed with itself": pure write-order resolution, the one thing the hard rules
+  forbid. Fixed (`5f47b3c`): every agreement class compares the recorded pair; a null
+  never agrees; same-doc re-extraction needs identical or cap-prefix raws. The first
+  operator reopen (run "63") had silently ROLLED BACK (psycopg savepoint — proof rule
+  above); run #69 redid it with autocommit and a fresh-connection check: 5,988 reopened
+  (exact 4,164, same-doc 1,533, numeric 273 incl. structs, set 18), 2,798 facts back to
+  `conflict`, open conflicts 16,733. Deploy + corrected remerge pass + recompute chained on
+  the box. The not_applicable rule fires on nothing: the generated profiles list chassis
+  fields for transceivers (383 fields) — NONSENSICAL_PAIRS to be curated from the 619 pairs
+  (agent follow-up). Four DB suites had guards that accepted only a database named exactly
+  `_test`, so they had never run on test2–test5 — widened.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
