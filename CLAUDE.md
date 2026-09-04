@@ -46,6 +46,14 @@ full; the ones that bite hardest here are restated.
   navigation during capture, 1,270 junk tasks purged and 772 noise "parts" reclassified,
   enumeration import (9 new), hourly netzspec sync on the box, endpoint sweep: 26/26 at
   200, worst 880 ms. FOUND by the Opus gap audit + adversarial review (docs/CISCO_GAPS.md):
+  LANDED later in the block: required fields earned from evidence (+12 req, 9,591 more parts
+  scored), catalogue hygiene (3,147 parts reclassified out of hardware for real; Cisco assembly
+  and numeric PIDs accepted; capability matrix with "*" lists loaded: 117,042 gap entries gained
+  a capable source), normaliser 1.2.0/1.3.0 (imperial units, per-axis dimensions, validated
+  label hints, VALUE_IS_PID, dictionary units single and consistent). The watchdog paused
+  provantage on a false "zero yield" over SEARCH pages — content vs discovery tasks are now
+  counted apart (scraper agent). Completeness recompute for the reclassified parts is pending
+  ON THE BOX (a 3k-part `--since` recompute through the tunnel exceeded 10 min).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
