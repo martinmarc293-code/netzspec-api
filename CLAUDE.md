@@ -149,6 +149,11 @@ full; the ones that bite hardest here are restated.
   "absent" — precision and recall were 100%. Absence is a regression only against the last
   succeeded run with the SAME tag now; the run records its tag; `absentDocs` has its own
   pure proof (`tests/gateRegression.test.ts`). The rollback held: 0 facts from #39.
+  The new NO LANDING alarm (watchdog v4, from the working tree) fired at once on meraki: run
+  #40 had 179 entries, 0 matched — the pages name MR44/MR46/MX85 while the catalogue holds
+  MR44-HW etc.; `apply-acquired` matches by exact sku only. TODO (after the images agent
+  releases apply-acquired.ts): match through `part_aliases` and the `=`/`-HW` variants,
+  case-insensitively, and count `matched_via_alias`.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
