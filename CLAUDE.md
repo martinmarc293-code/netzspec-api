@@ -195,6 +195,13 @@ full; the ones that bite hardest here are restated.
   already hid them and the lease already ignored them, but `images` must mean "a file".
   Refinement due: `names-another-sku` refuses a family photo (MS210-24P ← `MS210.png`) because
   the family slug is also a part; allow a filename that names the part's own family.
+  `is_part_number` round (`0ab9055`): three keeps read off the 69,487-PID universe — `8201=`,
+  `9800-40`, `886VA` — with every bound justified by what the corpus does NOT contain (no
+  quantity carries `=`; a 2-digit tail cannot be a range; apparent-power ratings are multiples
+  of ten). 11 tokens flip, nothing else. The fixture is the ONLY lockstep between the Python
+  and TypeScript rules (`tests/db/apply-enumeration.test.ts` §1 runs both). Found on the way:
+  `0.75K=` was accepted all along (a trailing `=` carried a quantity past every refusal) —
+  follow-up in flight.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
