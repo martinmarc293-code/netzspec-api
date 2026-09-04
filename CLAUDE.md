@@ -446,6 +446,16 @@ full; the ones that bite hardest here are restated.
   tests, part-number — each fix reviewed by a diff reader who reverts and re-proves; the
   specMerge/fieldSchema and gate-extract/apply-extract findings wait for the remerge-curation
   and PDF-glyph agents to release those files (round 2).
+  Remerge curation landed: 21 chassis-side fields are not applicable to a transceiver
+  (category-keyed; SG350-10SFP / WS-C4500X-16SFP+ proven untouched; optical shelves,
+  misfiled hardware and four ambiguous fields excluded on evidence; 83 profile gaps listed).
+  Dry on production: 320 open conflicts + 308 live facts to retract; 4,193 reopened
+  conflicts now classify `open:drift:current_fact_is_the_rejected_value`. Chain on the box:
+  commit → capability matrix regenerated + loaded → deploy → `remerge --commit
+  --retract-inapplicable` → recompute. FIX ROUND 2 launched (workflow): merge-core (the dead
+  count-tolerance guard, decibel-family exemptions, the rack_units band) + the migrate-atlas
+  suite's TRUNCATE list (omits image_candidates). Gate/apply-extract findings still wait for
+  the PDF-glyph agent (round 3).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
