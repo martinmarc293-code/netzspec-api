@@ -269,11 +269,13 @@ const CASES = [
   ["SABOTAGE a drive form factor is not a storage capacity", "servers-unified-computing",
     "storage_capacity", '2.5" 12G SAS 10K RPM', EN, "UNIT_UNKNOWN"],
   ["SABOTAGE an inch mark with no number in front of it", "switches", "width", '"', EN, "PARSE_FAIL"],
-  // SABOTAGE the locale, on the branch the symbol actually goes through: "17,5" is seventeen and a
-  // half inches in German and seventeen THOUSAND five hundred in English, a 1000x difference on one
-  // comma. Both readings are asserted so a fix that hardcodes either locale fails the other half.
-  ["SABOTAGE a German comma before the inch mark is a decimal", "switches", "width", '17,5"', { locale: "de" }, 444.5],
-  ["SABOTAGE an English comma before the inch mark is thousands", "switches", "width", '17,5"', EN, 4445],
+  // SABOTAGE the locale, on the branch the symbol actually goes through: "1,5" is one and a half
+  // inches in German and fifteen inches in English, a 10x difference on one comma. Both readings
+  // are asserted so a fix that hardcodes either locale fails the other half. (The literal was
+  // 17,5" until width got its band of 5-2000 mm: the English reading, 4445 mm, is now refused as
+  // RANGE_VIOLATION before its magnitude can be asserted, so a smaller pair carries the proof.)
+  ["SABOTAGE a German comma before the inch mark is a decimal", "switches", "width", '1,5"', { locale: "de" }, 38.1],
+  ["SABOTAGE an English comma before the inch mark is thousands", "switches", "width", '1,5"', EN, 381],
   // The vendor's own metric restatement still wins over our arithmetic when it is in brackets.
   ["a parenthesised metric value still beats the inch mark", "video", "height", '1.75" (44.45 mm)', EN, 44.45],
 
@@ -361,8 +363,11 @@ const CASES = [
   // SABOTAGE the locale on the noun branch, which reads its number through the same parser.
   ["SABOTAGE a German comma on a core count is a decimal", "servers-unified-computing", "cpu_cores",
     "1,024 Core", { locale: "de" }, 1.024],
+  // The English reading is one thousand and twenty-four, which cpu_cores' band (1-512) refuses:
+  // the refusal itself is the proof that the comma was read as a thousands separator, because
+  // the German half above reads the same string as 1.024 and is accepted.
   ["SABOTAGE an English comma on a core count is thousands", "servers-unified-computing", "cpu_cores",
-    "1,024 Core", EN, 1024],
+    "1,024 Core", EN, "RANGE_VIOLATION"],
 
   // ===============================================================================================
   // 15. THE BARE LAYER NUMBER (1.4.0)
