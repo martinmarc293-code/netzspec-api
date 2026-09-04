@@ -21,7 +21,10 @@
 // cell", and in a document with revisions that includes which revision. packLocator/unpackLocator
 // are the only two places that know this; a migration adding facts.revision_label would replace
 // them and nothing else.
-import { mergeField, type MergeAction, type Prov, type SpecEntry, type FieldState } from "../core/specMerge.js";
+import {
+  mergeField, describesPart, tryTierFor,
+  type MergeAction, type Prov, type SpecEntry, type FieldState,
+} from "../core/specMerge.js";
 import type { Queryable } from "./runs.js";
 
 export type FactRow = {
@@ -194,16 +197,28 @@ export async function supersedeFact(client: Queryable, oldId: number, newEntry: 
   return newId;
 }
 
+/**
+ * `raws` is migration 0008 and it exists because of what `ingest remerge` could NOT do. A conflicts
+ * row recorded both VALUES and both provenances but neither source STRING, so re-merging it under
+ * a corrected rule could resolve an agreement (no value changes) and could retract an inheritance
+ * (no value is written) but could never supersede or union — `facts.raw` is NOT NULL and inventing
+ * it would break the one property the column exists for, that a normaliser bug is replayable from
+ * `raw`. 7,185 of run #38's conflicts are exactly that case and had to be sent back through
+ * apply-extract. Every conflict written from now on carries both strings so a later rule change can
+ * be applied to it in place.
+ */
 async function insertConflict(
-  client: Queryable, partId: number, c: { k: string; kept: unknown; rejected: unknown; reason: string; kept_prov: Prov; rejected_prov: Prov },
+  client: Queryable, partId: number,
+  c: { k: string; kept: unknown; rejected: unknown; reason: string; kept_prov: Prov; rejected_prov: Prov },
   runId: number, resolved?: { resolution: string; resolved_by: string },
+  raws?: { kept_raw?: string | null; rejected_raw?: string | null },
 ): Promise<number> {
   try {
     const r = await client.query<{ id: number }>(
-      `INSERT INTO conflicts (part_id, field_key, kept, rejected, reason, kept_evidence, rejected_evidence, run_id, resolved_at, resolution, resolved_by)
-       VALUES ($1, $2, $3::jsonb, $4::jsonb, $5, $6::jsonb, $7::jsonb, $8, ${resolved ? "now()" : "NULL"}, $9, $10) RETURNING id`,
+      `INSERT INTO conflicts (part_id, field_key, kept, rejected, reason, kept_evidence, rejected_evidence, run_id, resolved_at, resolution, resolved_by, kept_raw, rejected_raw)
+       VALUES ($1, $2, $3::jsonb, $4::jsonb, $5, $6::jsonb, $7::jsonb, $8, ${resolved ? "now()" : "NULL"}, $9, $10, $11, $12) RETURNING id`,
       [partId, c.k, jsonParam(c.kept), jsonParam(c.rejected), c.reason, JSON.stringify(c.kept_prov), JSON.stringify(c.rejected_prov), runId,
-        resolved?.resolution ?? null, resolved?.resolved_by ?? null],
+        resolved?.resolution ?? null, resolved?.resolved_by ?? null, raws?.kept_raw ?? null, raws?.rejected_raw ?? null],
     );
     return r.rows[0].id;
   } catch (err) {
@@ -220,7 +235,14 @@ export type ApplyResult = {
   /** set when the effect was REDUCED because performing it in full would break an invariant, with
    *  the reason. The evidence is still recorded; the state promotion is not. Counted, never silent. */
   withheld?: string;
+  /** set when the entry was REFUSED outright, with the named rule that refused it */
+  refused?: string;
+  /** the merge rule that decided a non-conflict action (set_equal, same_doc_reextraction, …) */
+  rule?: string;
 };
+
+/** What `describesPart` needs about the part, as the store reads it. */
+type PartSubjectRow = { sku: string; product_class: string | null; category_slug: string | null; family: string | null };
 
 /**
  * Merge `incoming` into the part's current fact for the same field and perform the effect:
@@ -233,13 +255,19 @@ export type ApplyResult = {
  *   protected        the current value is tier 0: untouched; a conflicts row records the disagreement.
  *   revision_change  same document, newer revision: the new value is a NEW row, the old is superseded.
  *                    Logged as an already-resolved conflicts row so /conflicts stays a list of open ones.
- *   skip_lower_tier  nothing to do.
+ *   supersede        one document read again by a newer extractor/normaliser: the new value is a NEW
+ *                    row, the old is superseded, and the conflicts row is written already resolved.
+ *   list_union       an `ls` field the SAME document states twice: the union is a new row, no conflict.
+ *   refused_inherit  a family-level value offered to a part the document only LISTS: refused, counted.
+ *   agree_same_doc   the two agree and add no independent source: nothing to do.
  */
 export async function applyMerge(client: Queryable, partId: number, incoming: SpecEntry, runId: number): Promise<ApplyResult> {
-  const cur = await client.query<FactRow & { sku: string }>(
-    `SELECT p.sku, f.id, f.part_id, f.field_key, f.value, f.unit, f.raw, f.state, f.tier, f.method, f.doc_id, f.locator,
+  const cur = await client.query<FactRow & PartSubjectRow>(
+    `SELECT p.sku, p.product_class::text AS product_class, p.family, c.slug AS category_slug,
+            f.id, f.part_id, f.field_key, f.value, f.unit, f.raw, f.state, f.tier, f.method, f.doc_id, f.locator,
             f.extracted_at::text AS extracted_at, f.norm_v, f.inherited, f.inherited_from, f.run_id, f.created_at, f.superseded_by, f.superseded_at
        FROM parts p
+       JOIN categories c ON c.id = p.category_id
        LEFT JOIN facts f ON f.part_id = p.id AND f.field_key = $2 AND f.superseded_by IS NULL
       WHERE p.id = $1`,
     [partId, incoming.k],
@@ -247,6 +275,20 @@ export async function applyMerge(client: Queryable, partId: number, incoming: Sp
   if (!cur.rows[0]) throw new Error(`applyMerge: part ${partId} does not exist`);
   const row = cur.rows[0];
   const existing: FactRow | null = row.id == null ? null : row;
+
+  // THE INHERITANCE GATE, and it lives here rather than in each pipeline on purpose. A family-level
+  // fact may only reach a SKU the document DESCRIBES; being in the document's PID list is being
+  // compatible with it (src/core/specMerge.ts § describesPart). apply-extract, apply-acquired and
+  // remerge all pass through applyMerge, so one refusal covers all three and a new pipeline cannot
+  // forget it. Refused BEFORE any SQL, so the caller can count and quarantine it like any other
+  // refusal rather than losing a transaction.
+  if (incoming.inherited === true) {
+    const refusal = describesPart({
+      sku: row.sku, productClass: row.product_class, categorySlug: row.category_slug,
+      partFamily: row.family, docFamily: incoming.inherited_from ?? null,
+    });
+    if (refusal) return { action: "refused_inherit", refused: refusal.reason, rule: refusal.rule, factId: existing?.id };
+  }
 
   // a gap row records that nobody found a value; a real value replaces it, it does not "conflict" with it
   if (!existing || GAP_STATES.has(existing.state)) {
@@ -270,34 +312,132 @@ export async function applyMerge(client: Queryable, partId: number, incoming: Sp
       // duplicate its evidence row. The store owns the evidence list, so it makes the re-run idempotent.
       const dup = await client.query(
         "SELECT 1 FROM fact_evidence WHERE fact_id = $1 AND doc_id IS NOT DISTINCT FROM $2 LIMIT 1", [existing.id, incoming.prov.doc_id ?? null]);
-      if (dup.rowCount) return { action: "skip_lower_tier", factId: existing.id };
+      if (dup.rowCount) return { action: "agree_same_doc", factId: existing.id, rule: result.rule };
       await insertEvidence(client, existing.id, incoming, runId);
       // The promotion is an UPDATE, and the CHECK fires on UPDATE. A stored row at tier > 0 with
       // no doc_id of its own cannot be called corroborated — the second source is real and is
       // recorded as evidence, but the row keeps the state it can justify. This is what killed
       // run #20 (see noSourceProblem).
       const withheld = noSourceProblem("corroborated", existing.tier, existing.doc_id);
-      if (withheld) return { action: "corroborate", factId: existing.id, withheld };
+      if (withheld) return { action: "corroborate", factId: existing.id, withheld, rule: result.rule };
       await client.query("UPDATE facts SET state = 'corroborated' WHERE id = $1", [existing.id]);
-      return { action: "corroborate", factId: existing.id };
+      return { action: "corroborate", factId: existing.id, rule: result.rule };
     }
     case "conflict": {
       await client.query("UPDATE facts SET state = 'conflict' WHERE id = $1", [existing.id]);
-      const conflictId = await insertConflict(client, partId, result.conflict!, runId);
+      const conflictId = await insertConflict(client, partId, result.conflict!, runId, undefined, { kept_raw: existing.raw, rejected_raw: incoming.raw });
       return { action: "conflict", factId: existing.id, conflictId };
     }
     case "protected": {
-      const conflictId = await insertConflict(client, partId, result.conflict!, runId);
+      const conflictId = await insertConflict(client, partId, result.conflict!, runId, undefined, { kept_raw: existing.raw, rejected_raw: incoming.raw });
       return { action: "protected", factId: existing.id, conflictId };
     }
     case "revision_change": {
       const newId = await supersedeFact(client, existing.id, result.entry, runId);
-      const conflictId = await insertConflict(client, partId, result.conflict!, runId, { resolution: "revision_change", resolved_by: "merge" });
+      const conflictId = await insertConflict(client, partId, result.conflict!, runId, { resolution: "revision_change", resolved_by: "merge" },
+        { kept_raw: incoming.raw, rejected_raw: existing.raw });
       return { action: "revision_change", factId: newId, supersededId: existing.id, conflictId };
     }
-    case "skip_lower_tier":
-      return { action: "skip_lower_tier", factId: existing.id };
+    case "supersede": {
+      // one document read again by a newer extractor or normaliser. The old row is history, not a
+      // rejected claim, so the conflicts row is written ALREADY RESOLVED — /conflicts stays a list
+      // of things a person has to decide, and this is not one.
+      const newId = await supersedeFact(client, existing.id, result.entry, runId);
+      const conflictId = await insertConflict(client, partId, result.conflict!, runId,
+        { resolution: `rule:${result.rule ?? "same_doc_reextraction"}`, resolved_by: "merge" },
+        { kept_raw: incoming.raw, rejected_raw: existing.raw });
+      return { action: "supersede", factId: newId, supersededId: existing.id, conflictId, rule: result.rule };
+    }
+    case "list_union": {
+      // the value CHANGES (it grows), so it is a new row: facts is append-only and a union is not a
+      // state promotion. No conflicts row — the two cells never disagreed.
+      const newId = await supersedeFact(client, existing.id, result.entry, runId);
+      return { action: "list_union", factId: newId, supersededId: existing.id, rule: result.rule };
+    }
+    case "agree_same_doc":
+      return { action: "agree_same_doc", factId: existing.id, rule: result.rule };
+    case "insert":
+    case "refused_inherit":
+      // mergeField never returns these: `insert` is handled above (no current row) and
+      // `refused_inherit` is the store's own refusal. Named rather than left to fall off the switch.
+      throw new Error(`applyMerge: mergeField returned an action the store does not expect here: ${result.action}`);
   }
+}
+
+/**
+ * Withdraw a fact we should never have written, without deleting anything. Used by `ingest remerge`
+ * for a family-level value that reached a part the document only LISTS (describesPart). The row is
+ * superseded by a `gap_unattempted` row: not `gap_confirmed`, which would claim tier 1 and tier 2
+ * were checked for this part and found nothing — nobody checked, the value came from another
+ * product's datasheet. The retracted row, its value and its evidence stay in history, and `method`
+ * names why it went, so /changes and the fact history both show the withdrawal as an event.
+ */
+export async function retractFact(client: Queryable, factId: number, rule: string, runId: number): Promise<{ newId: number; supersededId: number }> {
+  const old = await client.query<{ part_id: number; field_key: string; inherited_from: string | null }>(
+    "SELECT part_id, field_key, inherited_from FROM facts WHERE id = $1 AND superseded_by IS NULL", [factId]);
+  if (!old.rows[0]) throw new Error(`retractFact: fact ${factId} is not a current row`);
+  const { field_key, inherited_from } = old.rows[0];
+  const entry: SpecEntry = {
+    k: field_key, raw: "", state: "gap_unattempted",
+    inherited_from: inherited_from ?? undefined,
+    prov: { tier: 2, method: `retracted:${rule}` },
+  };
+  const newId = await supersedeFact(client, factId, entry, runId);
+  return { newId, supersededId: factId };
+}
+
+export type TierRestamp = { checked: number; facts_restamped: number; evidence_restamped: number; unknown_doc_type: number; by_change: Record<string, number> };
+
+/**
+ * Correct the TIER STAMP of facts whose tier disagrees with `tierFor(doc_type, method)`.
+ *
+ * This is an in-place UPDATE of `tier`, and that needs justifying against "never overwrite a fact".
+ * A tier was never an observation: it is DERIVED from the document a fact was read from, and these
+ * rows carry a mis-derivation — 45,096 facts read from `vendor_datasheet_html` by the Atlas
+ * migration were stamped tier 1 while every other writer calls that document tier 2. The value, the
+ * raw string, the document and the locator are untouched; superseding 45,096 rows to restate a
+ * derived field would double the table, break every created_at, and record nothing that the run's
+ * own before/after counts do not. It is the same class of in-place update as `state`.
+ *
+ * `fact_evidence` carries its own copy of the tier and is corrected in the same statement, or the
+ * corroboration counts would keep reading the old one.
+ *
+ * Tier 0 is never touched by doc type: an operator review is a property of the review, not of the
+ * document, and TIER_BY_METHOD says so for `hexcat_seed`.
+ */
+export async function restampTiers(client: Queryable, runId: number, opts: { commit: boolean; docType?: string }): Promise<TierRestamp> {
+  const rows = await client.query<{ tier: number; method: string; doc_type: string | null; n: number }>(
+    `SELECT f.tier, f.method, d.doc_type, count(*)::int AS n
+       FROM facts f LEFT JOIN source_docs d ON d.doc_id = f.doc_id
+      WHERE f.superseded_by IS NULL AND f.doc_id IS NOT NULL ${opts.docType ? "AND d.doc_type = $1" : ""}
+      GROUP BY 1, 2, 3`, opts.docType ? [opts.docType] : []);
+
+  const out: TierRestamp = { checked: 0, facts_restamped: 0, evidence_restamped: 0, unknown_doc_type: 0, by_change: {} };
+  for (const r of rows.rows) {
+    out.checked += r.n;
+    const want = tryTierFor(r.doc_type, r.method);
+    if (want === null) { out.unknown_doc_type += r.n; continue; }
+    if (want === r.tier) continue;
+    out.by_change[`${r.doc_type ?? "-"}/${r.method}: ${r.tier} -> ${want}`] = r.n;
+    out.facts_restamped += r.n;
+    if (!opts.commit) continue;
+    const upd = await client.query(
+      `UPDATE facts f SET tier = $3
+         FROM source_docs d
+        WHERE d.doc_id = f.doc_id AND f.superseded_by IS NULL AND f.tier = $1 AND f.method = $2 AND d.doc_type = $4`,
+      [r.tier, r.method, want, r.doc_type]);
+    const ev = await client.query(
+      `UPDATE fact_evidence e SET tier = $3
+         FROM facts f, source_docs d
+        WHERE f.id = e.fact_id AND d.doc_id = e.doc_id AND f.superseded_by IS NULL
+          AND e.tier = $1 AND e.method = $2 AND d.doc_type = $4`,
+      [r.tier, r.method, want, r.doc_type]);
+    out.evidence_restamped += ev.rowCount ?? 0;
+    if ((upd.rowCount ?? 0) !== r.n) {
+      throw new Error(`restampTiers: expected to update ${r.n} rows for ${r.doc_type}/${r.method} tier ${r.tier} -> ${want}, updated ${upd.rowCount}`);
+    }
+  }
+  return out;
 }
 
 export type RunRollback = { facts_removed: number; facts_restored: number; evidence_removed: number; conflicts_removed: number; states_recomputed: number };
@@ -402,7 +542,7 @@ export async function writeGapConfirmed(client: Queryable, partId: number, field
   const entry: SpecEntry = { k: fieldKey, raw: "", state: "gap_confirmed", prov: { tier: 2, method: "gap_check" } };
   const existing = await currentFact(partId, fieldKey, client);
   if (!existing) return { action: "insert", factId: await insertFact(client, partId, entry, runId) };
-  if (existing.state === "gap_confirmed" || existing.state === "not_applicable") return { action: "skip_lower_tier", factId: existing.id };
+  if (existing.state === "gap_confirmed" || existing.state === "not_applicable") return { action: "agree_same_doc", factId: existing.id };
   if (existing.state === "gap_unattempted") {
     const newId = await supersedeFact(client, existing.id, entry, runId);
     return { action: "insert", factId: newId, supersededId: existing.id };

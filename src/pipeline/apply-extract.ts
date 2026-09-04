@@ -618,7 +618,7 @@ export async function main(argv: string[]): Promise<void> {
   const reports = writeReports(plan, a.tag);
   writeGateReport(gate, misses, a.tag);
 
-  const mergeStats: Record<string, number> = { docs_written: 0, doc_parts_linked: 0, parts_touched: 0, insert: 0, corroborate: 0, conflict: 0, protected: 0, revision_change: 0, skip_lower_tier: 0, refused_no_document: 0, withheld_no_source: 0 };
+  const mergeStats: Record<string, number> = { docs_written: 0, doc_parts_linked: 0, parts_touched: 0, insert: 0, corroborate: 0, conflict: 0, protected: 0, revision_change: 0, agree_same_doc: 0, refused_no_document: 0, withheld_no_source: 0 };
   /** entries the STORE refused or reduced, one line each — a recorded gap, never a bare counter. */
   const refusedEntries: { sku: string; key: string; reason: string }[] = [];
   const inputs = {

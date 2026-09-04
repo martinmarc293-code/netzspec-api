@@ -242,7 +242,9 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   rx_wavelength: { key: "rx_wavelength", de: "Empfangswellenlänge (Eingang)", en: "Receiver input wavelength", type: "nr", unit: "nm", band: [600, 2000], etim: [], icecat: null },
   serviceability: { key: "serviceability", de: "Wartungsfunktionen", en: "Serviceability", type: "ls", etim: [], icecat: null },
   shelf_assembly: { key: "shelf_assembly", de: "Baugruppenträger / Shelf-Assembly", en: "Shelf assembly", type: "s", etim: [], icecat: null },
-  shock: { key: "shock", de: "Schockfestigkeit", en: "Shock resistance", type: "s", etim: [], icecat: null },
+  // `ls` since 4 Sep 2026: the datasheets state several shock figures (operating, non-operating,
+  // per axis) and a string field held only the first clause of the cell.
+  shock: { key: "shock", de: "Schockfestigkeit", en: "Shock resistance", type: "ls", etim: [], icecat: null },
   slot_compatibility: { key: "slot_compatibility", de: "Slot-Kompatibilität", en: "Slot compatibility", type: "s", etim: [], icecat: null },
   supported_modules: { key: "supported_modules", de: "Unterstützte Module", en: "Supported modules", type: "ls", etim: [], icecat: null },
   supported_protocols: { key: "supported_protocols", de: "Unterstützte Protokolle", en: "Supported protocols", type: "ls", etim: [], icecat: null },

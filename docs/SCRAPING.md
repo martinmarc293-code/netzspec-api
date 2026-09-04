@@ -77,6 +77,16 @@ in `worker.py`, in every `discover()`, and in the watchdog's junk sweep. Every r
 reason from `PART_NUMBER_REASONS`, so a test can assert an input was refused **for the stated
 reason** — "refused" alone lets a rule die silently.
 
+Cisco writes PIDs that a junk rule reads as measurements, so five digit-led shapes are kept
+explicitly before any refusal runs: `NN-NNNN…-NN` assemblies, six- to eight-digit numeric PIDs,
+`NNNN=` spare orders (`8201=`), `NNNN-NN` model-plus-suffix (`9800-40`) and bare 880/890-series
+ISRs (`886VA`). **Every bound on those keeps was read off the corpus, not guessed** — the
+69,487-PID universe and the acquired pages — and each is paired in the fixture with the
+near-miss it must still refuse (`850VA` is a real UPS rating in the same 8xx band, `2024-10` is
+a year-month, `1000-4999` is a price break). The rule lives in two languages;
+`tests/fixtures/partnumbers.json` is the only thing holding them in lockstep, and
+`tests/db/apply-enumeration.test.ts` is where both are run over it.
+
 ---
 
 ## 2. What a new brand needs, before any code

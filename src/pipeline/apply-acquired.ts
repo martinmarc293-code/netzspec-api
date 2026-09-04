@@ -344,7 +344,7 @@ export async function main(argv: string[]): Promise<void> {
     matched_exact: 0, matched_case: 0, matched_spare: 0, matched_alias: 0, matched_variant: 0,
     matched_no_vendor_scope: 0, aliases_backfilled: 0, aliases_self_skipped: 0,
     facts_raw: 0, facts_ok: 0, facts_unmapped: 0, facts_rejected: 0, facts_sentinel: 0,
-    insert: 0, corroborate: 0, conflict: 0, protected: 0, revision_change: 0, skip_lower_tier: 0,
+    insert: 0, corroborate: 0, conflict: 0, protected: 0, revision_change: 0, agree_same_doc: 0,
     aliases: 0, images: 0, images_skipped_non_vendor: 0, relations: 0, relations_invalid_kind: 0, lifecycle: 0, prices_seen: 0, checks: 0,
     image_candidates: 0, image_candidates_new: 0, image_candidates_refused: 0,
   };

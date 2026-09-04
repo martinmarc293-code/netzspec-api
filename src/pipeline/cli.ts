@@ -21,6 +21,10 @@ const COMMANDS: Record<string, { help: string; run: (argv: string[]) => Promise<
     help: "Cisco datasheet extraction (HTML/PDF) -> facts inside a gated apply-specs run: <extract.json>... [--commit] [--sample N] [--allow-regression \"reason\"] [--tag T]",
     run: async (argv) => { const m = await import("./apply-extract.js"); await m.main(argv); },
   },
+  remerge: {
+    help: "re-evaluate every OPEN conflict under the current merge rules inside a gated run (tier restamp, inheritance retraction, agreements, unions): [--commit] [--run N] [--limit N] [--sample N] [--no-retype]",
+    run: async (argv) => { const m = await import("./remerge.js"); await m.main(argv); },
+  },
   "gate-extract": {
     help: "the gate alone (precision, recall, provenance, regression) for an extract file: <extract.json>... [--sample N] [--allow-regression \"reason\"]",
     run: async (argv) => { const m = await import("./gate-extract.js"); await m.main(argv); },

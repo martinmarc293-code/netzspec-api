@@ -27,7 +27,10 @@ RESULT = {
     "others": [RESULT, ...],               further SKUs the same page describes (a datasheet with
                                            a model-comparison table, a price list, a QuickSpecs
                                            ordering table); each entry is a full RESULT for that
-                                           SKU. The pipeline attaches them by exact SKU match.
+                                           SKU. The pipeline resolves each one exact -> case ->
+                                           spare "=" -> part_aliases -> the variants THIS result
+                                           declares in "aliases"; more than one candidate is
+                                           refused as ambiguous, never picked (4 Sep 2026).
 }
 
 Task kinds a source may accept in resolve(): "part-page" (key = SKU), "search" (key = SKU),

@@ -226,6 +226,19 @@ full; the ones that bite hardest here are restated.
   (`MS210` → `MS210-24P` accept; `MX67` → `MX67C` refuse — a glued letter is another chassis);
   `parts.family` is prose and unusable for this (identical for MS210 and MS225-48FP, wrong on
   MR46). 14 refusals re-opened inside a run; 6 will land, 4 now name the sibling correctly.
+  MERGE LAYER landed (see the commit "Merge layer from the conflict review"): `tierFor()` is
+  the one tier decision (45,096 Atlas html_table facts restamp 1 → 2 inside a run, NOT 49,354:
+  the rest sit on PDF documents where tier 1 is right); `describesPart` refuses inheritance
+  into licences, 16 measured component SKU shapes, transceivers and family mismatches, enforced
+  in `applyMerge` so every pipeline is covered; `sameValue` has set equality, 2% tolerance on
+  unit fields only (the band sits in a measured gap: 902 conflicts ≤ 2%, one at 4.99%, then
+  313 at 5–20%), prefix equality at the cell cap; normaliser 1.5.0 (bullet/newline list
+  splits, never on `/`; leading minus is a sign; `-40 to -72 VDC` had its upper bound flipped
+  to +72 by the unit tokeniser — descending ranges now refuse); five retypes; `ingest remerge`
+  dry on run 38: 603 agree, 6,944 retract, 2,203 same-doc reapply, 1,670 stay open.
+  Deploy + box chain (sync-dictionary → remerge --commit → re-apply s0, s1 → recompute) in
+  flight. Reported, NOT touched: 3,632 pre-existing `ports`/`uplink_ports` strings under a
+  struct type — a decision for a hygiene run, not a side effect.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap

@@ -50,7 +50,7 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //            acceptable MAC-address-table size, which is a mis-mapped fact, not a count.
 //        Also: `layer` reads the bare layer NUMBER a distributor states ("2", "3", "2+", "2/3"),
 //        anchored end to end, and still refuses "4" and "7" rather than rounding them into l3.
-export const NORM_VERSION = "1.4.0";
+export const NORM_VERSION = "1.5.0";
 
 export type NormReason =
   | "PARSE_FAIL" | "UNIT_MISSING" | "UNIT_UNKNOWN" | "ENUM_VIOLATION"
@@ -78,6 +78,14 @@ export type Locale = "de" | "en";
  *  one, but a band is a backstop, not a substitute for knowing the source's locale. */
 export function parseNumber(s: string, locale: Locale = "de"): number | null {
   let t = s.trim().replace(/[  \s]/g, "");
+  // A LEADING typographic dash is a minus sign. Cisco prints "-40 to 70 C" with an EN DASH and NUM
+  // only accepted the ASCII hyphen, so the sign was dropped and the range came back +40 to 70 — a
+  // storage temperature on the wrong side of zero on 1,340 current facts (1,128 temp_storage, 205
+  // temp_operating), every one of them inside its plausibility band and therefore invisible to
+  // every check we have. Only the LEADING one: between two digits the same character is the range
+  // separator ("100-240 V AC" written with an en dash), which is why this is a sign-position rule
+  // and not a global replacement. U+2212 minus, U+2013 en dash, U+2010/U+2011 hyphens.
+  t = t.replace(/^[−–‐‑]/, "-");
   if (!t) return null;
   const hasComma = t.includes(","), hasDot = t.includes(".");
   if (hasComma && hasDot) {
@@ -374,8 +382,20 @@ export function unitLookup(token: string, canonical?: string): [string, number] 
   return null;
 }
 
-const NUM = "[-+]?[0-9][0-9.,\\u00a0\\u202f ]*";
+// The SIGN class carries the four typographic dashes as well as the ASCII hyphen, in the sign
+// position only. Between two digits the same characters are range separators (RANGE_SEP below) and
+// the regex engine reaches them there, because a NUM match never starts mid-number.
+const NUM = "[-+\\u2212\\u2013\\u2010\\u2011]?[0-9][0-9.,\\u00a0\\u202f ]*";
 const RANGE_SEP = "(?:bis|to|\\u2013|\\u2014|\\.\\.\\.|\\.\\.|~|-)";
+
+// A range word is not a unit. UNIT_TOKEN is `[A-Za-z…]*` and it is GREEDY, so in "-40 to -72 VDC"
+// it swallowed the "to" as the first number's unit, which left the dash of "-72" to serve as the
+// range separator and stored the pair as -40 to +72 V. Eight current facts are DC input voltages
+// with their upper bound's sign flipped that way — the same defect as the lost leading minus, at
+// the other end of the range. The lookahead stops UNIT_TOKEN at a bare range word only; a real
+// unit that merely STARTS with one ("torr") is unaffected, because the inner lookahead requires
+// the word to end there.
+const NOT_RANGE_WORD = "(?!(?:bis|to|und|and)(?![A-Za-z]))";
 
 // Unit tokens must keep German umlauts ("Einträge") and a trailing parenthetical qualifier
 // ("dB(A)"). An earlier character class stripped both, turning dB(A) into dB and Einträge into
@@ -389,6 +409,68 @@ const RANGE_SEP = "(?:bis|to|\\u2013|\\u2014|\\.\\.\\.|\\.\\.|~|-)";
 // be refused UNIT_UNKNOWN and not UNIT_MISSING — is what proves the symbol reaches the DIMENSION
 // check rather than never being read at all. Removing either half turns that twin red.
 const UNIT_TOKEN = "[A-Za-z°%µ\\u00c4\\u00d6\\u00dc\\u00e4\\u00f6\\u00fc\\u00df/\\u0022\\u201d\\u2033]*(?:\\([A-Za-z]\\))?";
+
+// ---------------------------------------------------------------------------------------------
+// list values
+// ---------------------------------------------------------------------------------------------
+
+/** The bullet characters Cisco's tables use. ● is by far the commonest; • and ▪ appear in the
+ *  PDF-derived cells. */
+const LIST_BULLETS = "\\u2022\\u25cf\\u25aa\\u2023\\u25e6";
+const HAS_BULLET = new RegExp(`[${LIST_BULLETS}]`);
+const BULLET_SPLIT = new RegExp(`[${LIST_BULLETS}\\n]+`);
+const TRIM_EDGES = new RegExp(`^[${LIST_BULLETS}\\s;,]+|[\\s;,]+$`, "g");
+
+/** Split on "," and ";" and the words "and"/"und", but never inside brackets. */
+function splitOutsideBrackets(t: string): string[] {
+  const out: string[] = [];
+  let depth = 0, start = 0;
+  for (let i = 0; i < t.length; i++) {
+    const c = t[i];
+    if (c === "(" || c === "[" || c === "{") { depth++; continue; }
+    if (c === ")" || c === "]" || c === "}") { depth = depth > 0 ? depth - 1 : 0; continue; }
+    if (depth > 0) continue;
+    if (c === "," || c === ";") { out.push(t.slice(start, i)); start = i + 1; continue; }
+    if (c === " ") {
+      const m = /^\s+(?:and|und)\s+/.exec(t.slice(i));
+      if (m) { out.push(t.slice(start, i)); start = i + m[0].length; i += m[0].length - 1; }
+    }
+  }
+  out.push(t.slice(start));
+  return out;
+}
+
+/**
+ * A list cell into its members. Two rules, in this order, and both were bought:
+ *
+ *   1. WHERE THE DOCUMENT ITSELF DELIMITS, use that. A cell with bullets or newlines is already a
+ *      list and its own separators are the right ones. The previous splitter did not know bullets
+ *      at all, so "● SNMPv2-SMI ● CISCO-SMI ● SNMPv2-TM ●…" — how every snmp_mibs and
+ *      programming_interfaces cell is written — became ONE member, and two datasheets stating the
+ *      same MIB list in a different order were then a held conflict.
+ *   2. OTHERWISE split on "," and ";" OUTSIDE brackets, and never on "/". The slash split
+ *      "IEC/EN-61000-4-2" into two standards that do not exist and cut "Galois/Counter" in half;
+ *      the bracket-blind comma split turned "IEC 60068-2-27 (Storage, Class 1.1)" into "IEC
+ *      60068-2-27 (Storage" and "Class 1.1)". A member with an unbalanced bracket is a member that
+ *      was shredded, which is the shape this refuses to produce.
+ *
+ * A member with no letter and no digit is punctuation left over from the split, not a member.
+ */
+export function splitListValue(raw: string): string[] {
+  const t = String(raw ?? "").replace(/\r\n?/g, "\n");
+  const clean = (parts: string[]) => parts.map((p) => p.replace(TRIM_EDGES, "").trim()).filter((p) => /[A-Za-z0-9]/.test(p));
+  if (HAS_BULLET.test(t) || t.includes("\n")) {
+    const bulleted = clean(t.split(BULLET_SPLIT));
+    // The document's own delimiter wins only when it actually DELIMITS. A cell that opens with a
+    // single bullet and then runs on with commas — "● Classification can be based on class of
+    // service (L2), IP differentiated service code point (L3), …" — yields one member here, and
+    // returning it would turn a nine-item QoS list into one sentence. Measured over the corpus:
+    // this fallback is the difference between 15,429 cells splitting correctly and about 1,000 of
+    // them collapsing.
+    if (bulleted.length > 1) return bulleted;
+  }
+  return clean(splitOutsideBrackets(t));
+}
 
 /** Extract the first "<number> <unit?>" occurrence.
  *  The locale is NOT optional in spirit: this helper once called parseGermanNumber outright,
@@ -424,7 +506,7 @@ function firstNumberUnit(s: string, locale: Locale = "de"): NumberHit | null {
 // leading digits of "C1300-16T-2G" parse as "1300 - 16 T" and then the trailing "-2G" leaves the
 // anchor unsatisfied, so nothing is rewritten. "Up to 10,000" has one number and is not a range.
 const MAX_RANGE = new RegExp(
-  `^\\s*(${NUM})\\s*(${UNIT_TOKEN})\\s*(?:bis|to|\\u2013|\\u2014|-|/)\\s*(${NUM})\\s*(${UNIT_TOKEN})\\s*(?:\\([^()]*\\))?\\s*$`,
+  `^\\s*(${NUM})\\s*${NOT_RANGE_WORD}(${UNIT_TOKEN})\\s*(?:bis|to|\\u2013|\\u2014|-|/)\\s*(${NUM})\\s*(${UNIT_TOKEN})\\s*(?:\\([^()]*\\))?\\s*$`,
   "i");
 
 const isMaxField = (key: string) => /_max$/.test(key) || key === "heat_dissipation";
@@ -874,7 +956,7 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       return viol ?? conv;
     }
     case "nr": {
-      const re = new RegExp(`(${NUM})\\s*(${UNIT_TOKEN})\\s*${RANGE_SEP}\\s*(${NUM})\\s*(${UNIT_TOKEN})`, "i");
+      const re = new RegExp(`(${NUM})\\s*${NOT_RANGE_WORD}(${UNIT_TOKEN})\\s*${RANGE_SEP}\\s*(${NUM})\\s*(${UNIT_TOKEN})`, "i");
       const m = re.exec(s);
       if (!m) {
         // a single value is a legitimate degenerate range ("max. 45 °C")
@@ -896,7 +978,7 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       return inBand(key, min) ?? inBand(key, max) ?? ok({ min, max }, canonical);
     }
     case "ls": {
-      const parts = s.split(/[,;/]|\s+und\s+|\s+and\s+/).map((p) => p.trim()).filter(Boolean);
+      const parts = splitListValue(s);
       if (!parts.length) return bad("PARSE_FAIL", `${key}: empty list`);
       const domain = domainFor(category, key);
       if (domain) {

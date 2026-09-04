@@ -155,7 +155,7 @@ regression check reads):
 | `sku_unknown / pid_list_unknown` | SKUs in facts / in PID lists that are not parts |
 | `family_no_listed_parts` | family facts in documents listing no part of ours (no category, not mapped) |
 | `inherit_ok / inherit_class_b / inherit_scope_unresolved / inherit_scope_violation / inherit_class_c_exception` | the inheritance decisions |
-| `insert / corroborate / conflict / protected / revision_change / skip_lower_tier` | merge actions |
+| `insert / corroborate / conflict / protected / revision_change / agree_same_doc` | merge actions (`agree_same_doc` was misnamed `skip_lower_tier` until 4 Sep 2026: it is returned only on the AGREE path — the same document re-read — never for a blocked value) |
 | `facts_per_doc / produced_per_doc` | the two regression metrics the next gate reads: raw rows per document, and (part, field) entries produced per document |
 
 A run that throws part-way through has already committed the parts it merged: it is closed

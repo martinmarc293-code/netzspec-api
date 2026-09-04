@@ -266,8 +266,8 @@ check("packLocator/unpackLocator round-trip a revision label",
   const r1 = await withTx((c) => applyMerge(c, p1.id, entry("switching_capacity", 60, "60 Gbit/s", html(D2, "t1:r2:c3")), applyRun));
   const r2 = await withTx((c) => applyMerge(c, p1.id, entry("switching_capacity", 60, "60 Gbps", { tier: 3, method: "html_table", doc_id: D3, locator: "t1:r1:c1" }), applyRun));
   const ev = await query("SELECT count(*)::int AS n FROM fact_evidence fe JOIN facts f ON f.id = fe.fact_id WHERE f.part_id = $1 AND f.field_key = 'switching_capacity' AND f.superseded_by IS NULL", [p1.id]);
-  check("skip_lower_tier: the same document again, or an aggregator agreeing, changes nothing",
-    r1.action === "skip_lower_tier" && r2.action === "skip_lower_tier" && ev.rows[0].n === 2);
+  check("agree_same_doc: the same document again, or an aggregator agreeing, changes nothing",
+    r1.action === "agree_same_doc" && r2.action === "agree_same_doc" && ev.rows[0].n === 2);
 }
 // conflict
 {
@@ -329,7 +329,7 @@ const p2 = await upsertPart({ vendor: "cisco", sku: "C9200-48P", category: "swit
   check("writeGapConfirmed supersedes a gap_unattempted row with a NULL-value gap_confirmed row",
     r.action === "insert" && r.supersededId === hist[0].id && cur.length === 1 && cur[0].state === "gap_confirmed" && cur[0].value === null && hist.length === 2);
   const r2 = await withTx((c) => writeGapConfirmed(c, p2.id, "ieee_standards", applyRun));
-  check("writeGapConfirmed on an existing gap_confirmed row is a no-op", r2.action === "skip_lower_tier" && r2.factId === cur[0].id);
+  check("writeGapConfirmed on an existing gap_confirmed row is a no-op", r2.action === "agree_same_doc" && r2.factId === cur[0].id);
   const r3 = await withTx((c) => applyMerge(c, p2.id, entry("ieee_standards", ["IEEE 802.1Q", "IEEE 802.3ad"], "802.1Q, 802.3ad", html(D2, "t4:r2:c2")), applyRun));
   const after = await currentFact(p2.id, "ieee_standards", pool);
   const all = await factHistory(p2.id, "ieee_standards", pool);

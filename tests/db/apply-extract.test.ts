@@ -307,11 +307,11 @@ const plan = await planExtract(goodFiles, { vendor: "cisco", db: db() });
 // the gate, driven directly
 // =====================================================================================================
 const golden = loadGolden(GOLDEN);
-const gateOf = async (files: string[], opts: { previous?: Map<string, number>; previousProduced?: Map<string, number>; allow?: string | null; goldenDir?: string; sample?: number } = {}) => {
+const gateOf = async (files: string[], opts: { previous?: Map<string, number>; previousProduced?: Map<string, number>; absentScope?: Set<string>; allow?: string | null; goldenDir?: string; sample?: number } = {}) => {
   const p = await planExtract(files.map((f) => loadExtractFile(f)), { vendor: "cisco", db: db() });
   return gateExtract({
     produced: p.produced, facts: p.allFacts, docs: p.docs, factsPerDoc: p.factsPerDoc, producedPerDoc: p.producedPerDoc,
-    previous: opts.previous ?? new Map(), previousProduced: opts.previousProduced,
+    previous: opts.previous ?? new Map(), previousProduced: opts.previousProduced, absentScope: opts.absentScope,
     golden: loadGolden(opts.goldenDir ?? GOLDEN), sample: opts.sample ?? 100, allowRegression: opts.allow ?? null, isPart: (s) => p.resolvePart(s) !== null, random: () => 0.5,
   });
 };
@@ -488,7 +488,7 @@ const factsOf = async (partId: number) => (await query<FactRow>(
   const r2 = (await query<RunRow>("SELECT id, kind, status, gate, stats, notes, inputs FROM runs ORDER BY id DESC LIMIT 1")).rows[0];
   check("--allow-regression: the run succeeds, the gate records the allowance and runs.notes carries the reason",
     r2?.id !== run.id && r2.status === "succeeded" && (r2.gate?.regression as { allowed: boolean }).allowed === true && /allow_regression=parser fix dropped a bogus column/.test(r2.notes ?? "") && r2.inputs.allow_regression === "parser fix dropped a bogus column", r2);
-  check("re-applying the same values writes nothing new: skips, no second current row", (r2.stats as Record<string, number>).skip_lower_tier >= 7 && (r2.stats as Record<string, number>).insert === 0
+  check("re-applying the same values writes nothing new: skips, no second current row", (r2.stats as Record<string, number>).agree_same_doc >= 7 && (r2.stats as Record<string, number>).insert === 0
     && (await query<{ n: number }>("SELECT count(*)::int AS n FROM facts WHERE superseded_by IS NULL AND part_id = ANY($1::bigint[])", [[p24, p48, pC240]])).rows[0].n === 10, r2.stats);
 }
 
@@ -790,11 +790,18 @@ const extraTags: string[] = [];
   check("SABOTAGE regression: the RAW fact count is unchanged and the document still produces one fact fewer — a mapping regression the old metric could not see",
     !gp.gate.passed && gp.gate.regression.regressed.some((x) => x.doc_id === D1 && x.metric === "produced" && x.before === 9 && x.after === 8)
       && gp.misses.some((x) => x.startsWith(`REGRESSION doc=${D1}: 9 produced facts in the previous run, 8 now`)), gp.gate.regression);
-  const ga = await gateOf([fx("good-html.json")], { previous: new Map([[D2, 5]]) });
+  // Absence is judged against the SAME logical input only (absentScope = the last succeeded run
+  // with this tag). Shard 1 was refused on 4 Sep 2026 because shard 0's documents were "absent".
+  const ga = await gateOf([fx("good-html.json")], { previous: new Map([[D2, 5]]), absentScope: new Set([D2]) });
   sabotages++;
-  check("SABOTAGE regression: a document the previous run read and this file does not mention AT ALL is a regression, not an absence nothing compares",
+  check("SABOTAGE regression: a document the previous SAME-TAG run read and this file does not mention AT ALL is a regression, not an absence nothing compares",
     !ga.gate.passed && ga.gate.regression.regressed.some((x) => x.doc_id === D2 && x.metric === "absent" && x.before === 5 && x.after === 0)
       && ga.misses.some((x) => /the document is not in this file at all/.test(x)), ga.gate.regression);
+  const gb = await gateOf([fx("good-html.json")], { previous: new Map([[D2, 5]]) });
+  sabotages++;
+  check("SABOTAGE regression: the same absence with NO same-tag scope (another shard's document) is not a regression",
+    !gb.gate.regression.regressed.some((x) => x.doc_id === D2 && x.metric === "absent")
+      && !gb.misses.some((x) => /the document is not in this file at all/.test(x)), gb.gate.regression);
 
   // ---- 9. an unparseable locator, and the extractor's own defects ----------------------------------
   const badLoc = derive("bad-locator.json", (rs) => rs.map((r) => (r.label === "Blinkenlights" ? { ...r, locator: "description:pattern-7" } : r)));

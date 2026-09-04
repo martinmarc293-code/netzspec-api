@@ -45,9 +45,61 @@ Schema source of truth: `db/migrations/*.sql`. This document explains the choice
 | 3 | aggregator |
 | 4 | distributor |
 
-Lower tier wins across tiers; a disagreement is still logged. Same tier, same document, newer
-revision: the new value wins and the change is logged. Same tier, different documents,
-different values: conflict, field held.
+**A tier is derived from the DOCUMENT, never typed by the writer.** `tierFor(doc_type, method)` in
+`src/core/specMerge.ts` is the only place the table above exists in code, and a doc type it does not
+know is an error rather than a guess. It is one function because for a day it was three: the Atlas
+migration stamped `tier 1` on 45,096 facts read from `vendor_datasheet_html` while apply-extract
+calls the same document tier 2, and run #38 then held 11,169 conflicts (97.8% of the run) whose two
+sides were the same method over the same document type — 5,282 of them the same `doc_id`. Nothing
+was wrong with the data. `hexcat_seed` and `gap_check` are the only METHODS that carry their own
+tier, because an operator review is a property of the review and a gap check is ours.
+
+### What happens when two values meet
+
+Decided by `mergeField`, performed by `src/store/facts.ts`. In order:
+
+| situation | action | effect |
+| --- | --- | --- |
+| no current row (or only a gap row) | `insert` | new fact row; a gap row is superseded |
+| the values AGREE and the documents differ, both tier ≤ 2 | `corroborate` | evidence row added, state → `corroborated` |
+| the values AGREE, same document or one side above tier 2 | `agree_same_doc` | nothing |
+| current row is tier 0 and they differ | `protected` | untouched; conflict logged |
+| same document, both carry a revision label and they differ | `revision_change` | new row supersedes; conflict logged already resolved |
+| same document, same tier, the incoming is a NEWER READ | `supersede` | new row supersedes; conflict logged already resolved |
+| same document, same tier, both `ls` | `list_union` | union in a new row; no conflict |
+| lower tier wins / higher tier rejected / same tier, two documents | `conflict` | field HELD, both provenances recorded |
+| an INHERITED entry on a part the document does not describe | `refused_inherit` | nothing written; counted with its rule |
+
+`agree_same_doc` was called `skip_lower_tier` until 4 Sep 2026. Run #38 reported 16,776 of them and
+the number was read as datasheet cells being BLOCKED by lower-tier values; it is returned only on
+the agreement path, and the name now says so.
+
+A **newer read** is the same document seen again by a newer normaliser (`norm_v`) or, where those
+match, on a later extraction date — strictly later, never equal. An equal read is one pass seeing a
+second cell, which is the list rule; an EARLIER read must never win, or replaying an old extract
+file would walk the store backwards. The supersede branch is tried BEFORE the union branch and that
+order is load-bearing: unioning a newer reading of one cell with the older reading of the same cell
+keeps both, and the older reading of a list is exactly the badly split one the new normaliser exists
+to replace. `tests/specMerge.test.ts` fails if the two are swapped.
+
+### When two values count as the same value
+
+`sameValue` compares AFTER normalisation, and three relaxations were added on 4 Sep 2026, each
+measured against run #38's held conflicts and each with a sabotage twin in `tests/specMerge.test.ts`:
+
+- **a list is a SET.** Order is the extractor's reading order and case is the cell's; neither is a
+  fact about the product. 131 conflicts were two datasheets stating one list with one word
+  capitalised differently.
+- **numbers agree within 2% WHEN THE FIELD HAS A UNIT.** One cell states one measurement twice —
+  "10,000 ft. (3000 meters)" gives 3048 m and 3000 m; "1.73 x 17.5 x 12 in." against
+  "44 x 445 x 305 mm" gives 43.942 mm and 44 mm. The band is measured, not chosen: of run #38's
+  2,806 differing numeric conflicts, 902 sit at or under 2%, exactly one at 4.99%, then 313 between
+  5% and 20%. The tolerance requires a unit because it exists for a unit round-trip, and °C, °F, dB
+  and dBm are excluded by name — an interval or logarithmic scale has no rounding story, and 40 °C
+  and 41 °C are two different specifications.
+- **a string cut at the extractor's cell cap** (`MAX_CELL = 160` in
+  `scraper/adapters/cisco_specs_deep.py`) **is its own untruncated form.** 72 conflicts, all
+  `snmp_mibs`. A value that ends at exactly the cap is a fact about our reader.
 
 ## Values
 
@@ -143,6 +195,39 @@ the cached file, else the extract file's `generated_at`. It is what lets "the sa
 fetched again, now says something different" resolve as a **revision change** instead of being
 blamed on two disagreeing sources — without it that branch of `mergeField` is unreachable and
 every corrected datasheet arrives as a permanent held conflict.
+
+## A fact with no document is a quarantine, not a crash
+
+`facts_verified_needs_source` is `CHECK (state NOT IN ('verified','corroborated') OR tier = 0 OR
+doc_id IS NOT NULL)`: a rendered fact above tier 0 names the document it was read from. Postgres
+enforces it **on UPDATE as well as on INSERT**, and reports both as `new row for relation "facts"`.
+
+Run #20 (apply-specs over shard 0, `--commit`, 4 Sep 2026) died on it after 28 minutes, and the
+three facts it had written all carried a `doc_id` — because the offending statement was not an
+insert. It was `applyMerge`'s **corroborate** branch promoting an *existing* row: 1,128 current rows
+sit at tier 2 with `doc_id IS NULL` and state `unverified`, every one of them written by run #6
+(`migrate-atlas`, method `product_name_mining` — facts mined from a product NAME, which has no
+document). `mergeField` sees an agreeing tier-2 extraction, calls the two sources independent
+(`undefined !== "de692de8…"`) and both trusted, and asks for the promotion.
+
+- `noSourceProblem(state, tier, doc_id)` in `src/store/facts.ts` is the one definition, returning a
+  named `FACT_NO_DOCUMENT: …` reason rather than leaving it to a `23514`.
+- `insertFactRow` calls it **before any SQL**, so the refusal has not touched the transaction and
+  the caller can quarantine one entry. A Postgres error at that point has aborted the transaction
+  and, in practice, the run.
+- `applyMerge`'s corroborate branch calls it before the promotion. The second source is real, so
+  its **evidence row is still written**; the state stays what the row can justify, and the reduction
+  is returned as `ApplyResult.withheld` — counted as `withheld_no_source`, never silent.
+- `rollbackRun`'s state recompute takes the same rule: a source-less row above tier 0 recomputes to
+  `unverified`, never `verified`, or an innocent run's rollback would report `ROLLBACK_FAILED`.
+- `apply-extract` catches only `FACT_NO_DOCUMENT` per entry, counts it as `refused_no_document`, and
+  appends it to the quarantine report with `stage: "store"`. Any other error is rethrown: the run
+  must still die on something it does not understand.
+
+Measured over `runs/extract/cisco-deep-s0-after.json`: **0** of 35,073 offered entries lack a
+`doc_id` (the plan's `provFor` always sets one), and **0** meet a source-less current row — the
+1,128 rows are mostly Aruba (368), HPE (256) and Cisco (195) parts outside that shard, so the trap
+is still live for the other shards.
 
 ## A failed run leaves nothing behind
 
@@ -339,6 +424,72 @@ named defect when it refuses one:
 
 A refused column is a **recorded** gap, not a silent one: the document does not name the
 attribute, so neither do we, and the defect says which cell was dropped and why.
+
+## Being LISTED in a document is not being DESCRIBED by it
+
+`canInherit` asked one question — is this SKU in the document's own PID list — and a chassis
+datasheet lists everything you can plug into the chassis. So SFP-10G-LR, PWR-IE50W-AC=,
+STACK-T2-1M= and CAB-CONSOLE-RJ45 inherited `qos_features`, `snmp_mibs`, `ipv4_routes` and
+`altitude_max` from every chassis that offers them. In run #38, 10,670 of 11,420 kept facts were
+inherited and 6,944 of the conflicts stood on an inheritance that should never have happened.
+
+`describesPart` (`src/core/specMerge.ts`) refuses in this order, and refusing is deliberately the
+cheap direction — a wrong inherited spec is worse than a recorded gap, and a refused part can still
+fill the field from its own datasheet:
+
+| rule | refuses | run-#38 conflicts |
+| --- | --- | --- |
+| `class:*` | `product_class` in license, software, service, accessory, bundle | 1,535 |
+| `component:<token>` | a SKU SHAPE that is a component a chassis datasheet enumerates — `CAB-`, `PWR-`, `-PWR-`, `-PAC-`, `-PDC-`, `STACK-`, `-FAN-`, `SFP`, `GLC-`, `CWDM-`, `DWDM-`, `CPAK-`, `FET-`, `XFP`, `X2-`, `-SSD` | 3,650 |
+| `category:transceiver` | the one category whose members are only ever accessories to the document listing them | 47 |
+| `family:mismatch` | the part's family and the document's family name two different product lines | 1,373 |
+| `family:unknown` | one of the two names no product line at all ("Cisco", "Storage Networking Modules") | 339 |
+
+The SKU-shape table exists because the catalogue's own class and category are WRONG for exactly
+these parts and cannot be relied on here: CWDM-SFP-1610= and SFP-10G-LR= are category `switches`,
+QSFP-40G-LR4-S= is `storage-networking`, and all three are `product_class hardware`. Every token was
+counted against the live parts table with its matches read.
+
+Family comparison is on MODEL tokens — the ones carrying a digit, plus each glued to a following
+one- or two-character token, because Cisco writes one model both ways ("Cisco 2960S Switches" and
+`catalyst-2960-s-series-switches`). The glue does not make `C9300L` a `C9300`: a variant suffix is a
+different product and this file keeps them apart on purpose. Where neither side states a model
+number the comparison falls back to words; where only ONE does, the answer is `unknown`, not
+`mismatch` — that is an absence of evidence about our catalogue, not a fact about two products.
+
+**The refusal lives in `applyMerge`, not in the pipelines.** apply-extract, apply-acquired and
+remerge all pass through the store, so one refusal covers all three and a new pipeline cannot forget
+it. `canInherit` takes the same subject optionally, so a caller with the part row to hand also gets
+the refusal at plan time.
+
+## Re-merging: correcting a merge rule after the fact
+
+`ingest remerge` re-evaluates every OPEN conflict under today's rules inside a gated
+`apply-remerge` run. It does not re-implement them: the same `mergeField` decides, so a rule fixed
+once is fixed for the store, for the next apply and for the backfill together.
+
+It performs only effects it can perform COMPLETELY:
+
+- **agreement** — resolve the conflict (`resolution` `rule:<name>`, `resolved_by` `remerge`), record
+  the other document as evidence, and put the field back from `conflict` to verified/corroborated.
+  No value changes.
+- **retraction** — supersede the inherited fact with a `gap_unattempted` row whose `method` is
+  `retracted:<rule>`. Not `gap_confirmed`: nobody checked tier 1 and 2 for this part, the value came
+  from another product's datasheet. The withdrawn row, its value and its evidence stay in history.
+- **rewrite** (supersede or union) — needs the incoming SOURCE STRING, and this is the reason for
+  migration 0008. `facts.raw` is NOT NULL because a normaliser bug is fixed by re-running the
+  normaliser over `raw`; a fabricated `raw` is a fact that cannot be replayed. Conflicts logged
+  before 0008 carry no strings, so they are counted as `reapply_needs_source`, left OPEN, and the
+  command prints the `apply-extract` line that writes them properly. 2,203 of run #38's are that
+  case.
+- **anything still disagreeing** stays open, counted by why.
+
+The **tier restamp** runs first, as part of the same run rather than as a migration: a data
+correction should be a row in `runs` with counts and a note, not a silent DDL step. It is an
+in-place `UPDATE` of `tier` on facts and their evidence, and that is defensible only because a tier
+is DERIVED — these rows carry a mis-derivation, not an observation. Value, raw, document and
+locator are untouched, and superseding 45,096 rows to restate a derived field would double the table
+and record nothing the run's own before/after counts do not.
 
 ## Invariants (tested in `tests/db/invariants.test.ts`)
 

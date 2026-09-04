@@ -441,11 +441,17 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // security appliances: stated beside firewall throughput on every Secure Firewall datasheet
   tls_throughput: { key: "tls_throughput", de: "TLS-Entschlüsselungsdurchsatz", en: "TLS decryption throughput", type: "n", unit: "Gbit/s", etim: [], icecat: null },
   // routers, ios-nx-os-software — QoS capability lists appear on ~80 router datasheets across three label spellings and have no home i
-  qos_features: { key: "qos_features", de: "QoS-Funktionen", en: "QoS features", type: "s", etim: [], icecat: null },
+  // RETYPED 4 Sep 2026 s -> ls: every value is a comma- or bullet-separated capability list
+  // ("802.1p priority based, 4 hardware queues, priority queuing and WRR"). As a string, two
+  // datasheets listing the same capabilities in a different order were a held conflict.
+  qos_features: { key: "qos_features", de: "QoS-Funktionen", en: "QoS features", type: "ls", etim: [], icecat: null },
   // routers, collaboration-endpoints, storage-networking — Values are concrete security capability lists (Trusted Anchor Module, hardware-accelerated crypto, S
   security_features: { key: "security_features", de: "Sicherheitsfunktionen", en: "Security features", type: "s", etim: [], icecat: null },
   // routers — Values are explicit algorithm sets (DES, 3DES, AES-128/256 CBC and GCM, IKE). Buyers filter on this 
-  crypto_algorithms: { key: "crypto_algorithms", de: "Kryptografische Algorithmen", en: "Cryptographic algorithms", type: "s", etim: [], icecat: null },
+  // RETYPED 4 Sep 2026 s -> ls: "Encryption: AES-256 (in CBC and GCM modes), IKE, Cisco PKI
+  // Authentication: AAA, RSA (2048 bit)" is a list, and the bracket-aware splitter keeps the
+  // qualifiers whole ("(in CBC and GCM modes)" is one member, not three).
+  crypto_algorithms: { key: "crypto_algorithms", de: "Kryptografische Algorithmen", en: "Cryptographic algorithms", type: "ls", etim: [], icecat: null },
   // routers — Values enumerate the WAN-side interface inventory (PIM slots, 4G LTE, combo GE RJ45/SFP). `ports` is
   wan_interfaces: { key: "wan_interfaces", de: "WAN-Schnittstellen", en: "WAN interfaces", type: "s", etim: [], icecat: null },
   // routers — Counterpart to wan_interfaces; values are the LAN-side port inventory ("4x 10/100/1000 Mbps RJ-45 Et
@@ -467,7 +473,13 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // routers — Values are peak surge figures ("60 A peak and less than 5 Arms per half cycle") — a different quanti
   inrush_current: { key: "inrush_current", de: "AC-Einschaltstrom", en: "AC inrush/surge current", type: "s", unit: "A", etim: [], icecat: null },
   // routers, wireless, interfaces-modules, cloud-systems-management, ios-nx-os-software — The dictionary has humidity_operating only. Values here are explicitly non-operating ("5% to 95% at 
-  humidity_storage: { key: "humidity_storage", de: "Lagerfeuchtigkeit", en: "Storage humidity", type: "s", unit: "%", etim: [], icecat: null },
+  // RETYPED 4 Sep 2026 s -> nr: it declared unit "%" while typed `s`, and on a string field the
+  // declared unit is decorative - convert() never runs and no band is ever checked, so
+  // "10% to 95%, non-condensing" was stored verbatim under a label claiming it was a percentage.
+  // Every one of the 53 distinct raws in the corpus is a range, which is what humidity_operating
+  // already is; the two are now comparable. The trailing "non-condensing" is not carried: it is a
+  // condition, not a value, and `raw` keeps it.
+  humidity_storage: { key: "humidity_storage", de: "Lagerfeuchtigkeit", en: "Storage humidity", type: "nr", unit: "%", band: [0, 100], etim: [], icecat: null },
   // routers, switches, security — Values are counts (1, 2) of external type-A USB host slots. usb_console is the console port, a diffe
   usb_ports: { key: "usb_ports", de: "USB-Anschlüsse (Typ A)", en: "USB ports (type A)", type: "n", etim: [], icecat: null },
   // routers — Strict Yes/No hot-swap support for I/O modules. serviceability is prose; this is a filterable boolea
@@ -493,7 +505,10 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // switches — Values are directional scale numbers ('1,000 ingress, 1,000 egress'). acl_entries is the security AC
   netflow_acl_entries: { key: "netflow_acl_entries", de: "NetFlow-ACL-Eintraege", en: "NetFlow ACL entries", type: "s", etim: [], icecat: null },
   // switches — Values are long MIB lists (BRIDGE-MIB, CISCO-STACK-MIB, NOTIFICATION-LOG-MIB). supported_protocols w
-  snmp_mibs: { key: "snmp_mibs", de: "Unterstuetzte SNMP-MIBs", en: "Supported SNMP MIBs", type: "s", etim: [], icecat: null },
+  // RETYPED 4 Sep 2026 s -> ls: the values ARE lists of MIB names, bulleted in the source
+  // ("Generic MIBs ● SNMPv2-SMI ● CISCO-SMI ● ..."). As one 160-character string they were
+  // also the field that produced every one of run #38's 72 cell-cap truncation conflicts.
+  snmp_mibs: { key: "snmp_mibs", de: "Unterstuetzte SNMP-MIBs", en: "Supported SNMP MIBs", type: "ls", etim: [], icecat: null },
   // switches — Values are counts with speed ('2 FE', '2 GE', '4 FE, 2 GE'). Not aliased to uplink_ports because on 
   sfp_ports: { key: "sfp_ports", de: "SFP-Anschluesse", en: "SFP ports", type: "s", etim: [], icecat: null },
   // switches — Direct parallel to the existing temp_storage / temp_operating split; altitude_max is the operating l
