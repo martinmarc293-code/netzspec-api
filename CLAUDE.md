@@ -213,6 +213,15 @@ full; the ones that bite hardest here are restated.
   PDF map → retract/merge (with the 127 case duplicates, 14 foreign-shaped PIDs, Arista
   family "Dell"). PDF re-extraction restarted on the laptop
   (`runs/extract/cisco-pdf-2026-09-04b.json`).
+  Alias matching landed — and the meraki zero was NOT the `-HW` suffix: nightshift calls
+  `apply-acquired` without `--vendor`, listing pages carry no part_id, so `vendorSlug` was
+  null and the part lookup never ran at all (run #37 differed only by a manual `--vendor`).
+  Resolution is now exact → case → spare → alias → adapter-declared variant, counted per
+  step; >1 candidate is `ambiguous` and refused by name (the old `findPart` was
+  `ORDER BY sku LIMIT 1`). Replay: meraki 0 → 130 matched, provantage 0 → 121; the 181 still
+  unknown are third-party compatibles (138), absent brands (38) and 5 Cisco `-RF` twins.
+  Found: 126 base/`-HW` twin pairs in the catalogue, 21 where `-HW` has no facts and the
+  base does — hygiene list.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
