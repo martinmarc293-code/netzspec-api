@@ -313,7 +313,11 @@ full; the ones that bite hardest here are restated.
   `--remote-debugging-port=9222`, then `start-chrome-debug.ps1`). SENTINEL GAP: it probes
   `/json` only; it must also open one CDP websocket (or read the worker logs' last error) and
   restart Chrome when the connect fails — a lane that dies on connect every 3 minutes reads
-  as "restarted" forever.
+  as "restarted" forever. DONE, then made conservative the same hour: the sentinel's own
+  websocket probe timed out at 20 s against a Chrome four workers were using — a sentinel
+  that trusted its probe over the workers would have restarted Chrome under them every
+  cycle. Now: probe only when NO worker is alive, 60 s, two failures in a row before a
+  restart, and a fetching worker counts as proof (`9cc25e2`).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
