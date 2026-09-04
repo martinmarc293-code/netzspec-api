@@ -77,7 +77,16 @@ export async function enqueue(args: Args): Promise<number> {
         AND ($6::text IS NULL OR p.product_class::text = $6)
         AND NOT EXISTS (SELECT 1 FROM part_source_checks psc
                          WHERE psc.part_id = p.id AND psc.source_id = $1 AND psc.checked_at > now() - interval '90 days')
-      ORDER BY (SELECT count(*) FROM facts f WHERE f.part_id = p.id AND f.superseded_by IS NULL) ASC, p.id
+      -- Order of value, not of thinness alone: a bare "10-2527-01" cable assembly has zero facts
+      -- and is listed nowhere, so a thinnest-first crawl spent an hour on not-listed answers.
+      -- Sellable hardware in the categories buyers search first, parts that HAVE a datasheet or a
+      -- family (i.e. exist as products), then the rest; within a rank, fewest facts first.
+      ORDER BY CASE c.slug WHEN 'switches' THEN 0 WHEN 'transceiver' THEN 1 WHEN 'routers' THEN 2 WHEN 'wireless' THEN 3
+                           WHEN 'security' THEN 4 WHEN 'meraki' THEN 5 WHEN 'interfaces-modules' THEN 6 WHEN 'optical-networking' THEN 7
+                           WHEN 'servers-unified-computing' THEN 8 ELSE 9 END,
+               (p.datasheet_url IS NULL AND p.family IS NULL) ASC,
+               (p.sku ~ '^[0-9]{2,3}-[0-9]{4,}') ASC,
+               (SELECT count(*) FROM facts f WHERE f.part_id = p.id AND f.superseded_by IS NULL) ASC, p.id
       LIMIT $7
      ON CONFLICT (source_id, task, key) DO NOTHING`,
     [src.id, task, priority, args.vendor ? String(args.vendor) : null, args.category ? String(args.category) : null,

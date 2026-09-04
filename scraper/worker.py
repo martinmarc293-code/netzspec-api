@@ -282,7 +282,7 @@ class Browser:
                 pass
         if settle_ms:
             self._page.wait_for_timeout(settle_ms)
-        html = self._page.evaluate("() => document.documentElement.outerHTML")
+        html = self._capture()
         deadline = time.monotonic() + 25
         while looks_blocked(html) and time.monotonic() < deadline:
             self.stats["challenged"] += 1
@@ -312,6 +312,27 @@ class Browser:
         netzscrape._ledger(rec)
         return {"status": status, "html": html, "final_url": self._page.url, "cached": False, "blocked": blocked,
                 "sha256": rec["sha256"], "cache_path": cf.name if not blocked else None}
+
+    def _capture(self) -> str:
+        """The DOM as text. A challenge or a client-side redirect can navigate the page between
+        our wait and our read; 'Execution context was destroyed' then killed 133 router-switch
+        tasks in one hour. Wait for the new document and read again, three times, before
+        giving up — a navigation is not a failure of the fetch."""
+        last: Exception | None = None
+        for _ in range(3):
+            try:
+                return self._page.evaluate("() => document.documentElement.outerHTML")
+            except Exception as e:  # noqa
+                last = e
+                try:
+                    self._page.wait_for_load_state("load", timeout=15000)
+                except Exception:  # noqa
+                    pass
+                self._page.wait_for_timeout(1500)
+        try:
+            return self._page.content()
+        except Exception:  # noqa
+            raise last or RuntimeError("could not capture the page")
 
     def fetch_binary(self, url: str, politeness_ms: int = 350, referer: str | None = None, timeout: int = 60000) -> dict:
         """Bytes of a non-HTML asset (image, PDF) through the browser CONTEXT's request API, so
