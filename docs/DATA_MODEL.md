@@ -113,6 +113,25 @@ We cannot invent a value a vendor never published. What the system guarantees in
 5. `gap_unattempted` older than the queue cadence with capable sources enabled and no queued
    task is an invariant violation, not a backlog.
 
+## Required fields are earned, not declared
+
+A category with no required field cannot be incomplete: `required_total = 0` means "there is
+nothing to be complete against", it contributes no row to `gap_ledger`, and every part in it is
+invisible to everything above. That was true of nine hardware categories and 17,753 parts
+(`docs/CISCO_GAPS.md` finding 3). The opposite failure costs more: a required field nobody can
+source is a gap printed on every part in the category that no crawler could ever close — a
+decision to fail forever rather than a recorded gap. So requirement is derived from evidence, not
+taste. `ingest promote-required` measures, within one category, the share of the parts that have
+**any** rendered fact (`verified`/`corroborated`, current) which carry each field, and promotes
+`opt` to `req` in `GENERATED_PROFILES` at `--min-share 0.6` over `--min-parts 30` such parts. The
+share IS the argument that the field is sourceable; the promotion carries it in a comment with its
+date. Never promoted: `vendor` and `series` (identity, already on the `parts` row), `ports` and
+every `struct` (no parser, so a required struct is unfillable), a numeric the dictionary gives
+neither a canonical unit nor a plausibility band (nothing can tell 360 from 360,000), anything
+already `req`/`cond`, and anything the hand-written `PROFILES` declares — that half wins the merge,
+so a promotion there would change nothing while claiming to. A field that clears the bar and is
+refused is printed under its own heading, because the alternative reads as "nothing qualified".
+
 ## The gate checks recall, not only precision
 
 A run that writes facts must carry `runs.gate` with:

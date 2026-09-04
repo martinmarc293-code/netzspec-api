@@ -4539,7 +4539,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     housing_material: { kind: "opt" },
     hum_modulation_12a: { kind: "opt" },
     hum_modulation_15a: { kind: "opt" },
-    humidity_operating: { kind: "opt" },
+    // promoted 2026-09-04: 76% of the 505 collaboration-endpoints parts with any fact carry it (386); earned at min-share 60%, min-parts 30
+    humidity_operating: { kind: "req" },
     humidity_storage: { kind: "opt" },
     hypervisor: { kind: "opt" },
     ieee_standards: { kind: "opt" },
@@ -4713,15 +4714,18 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     supported_browsers: { kind: "opt" },
     supported_fabric_interconnects: { kind: "opt" },
     supported_modules: { kind: "opt" },
-    supported_protocols: { kind: "opt" },
+    // promoted 2026-09-04: 75% of the 505 collaboration-endpoints parts with any fact carry it (378); earned at min-share 60%, min-parts 30
+    supported_protocols: { kind: "req" },
     supported_transceivers: { kind: "opt" },
     surge_rating: { kind: "opt" },
     switching_capacity: { kind: "opt" },
     system_management: { kind: "opt" },
     tdp: { kind: "opt" },
     temp_class: { kind: "opt" },
-    temp_operating: { kind: "opt" },
-    temp_storage: { kind: "opt" },
+    // promoted 2026-09-04: 67% of the 505 collaboration-endpoints parts with any fact carry it (340); earned at min-share 60%, min-parts 30
+    temp_operating: { kind: "req" },
+    // promoted 2026-09-04: 66% of the 505 collaboration-endpoints parts with any fact carry it (335); earned at min-share 60%, min-parts 30
+    temp_storage: { kind: "req" },
     test_point_level: { kind: "opt" },
     third_party_apps: { kind: "opt" },
     threat_defense_throughput: { kind: "opt" },
@@ -4735,7 +4739,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     tx_power: { kind: "opt" },
     tx_wavelength: { kind: "opt" },
     uc_proxy_sessions: { kind: "opt" },
-    ui_languages: { kind: "opt" },
+    // promoted 2026-09-04: 68% of the 505 collaboration-endpoints parts with any fact carry it (342); earned at min-share 60%, min-parts 30
+    ui_languages: { kind: "req" },
     uplink_ports: { kind: "opt" },
     usb_console: { kind: "opt" },
     usb_passthrough: { kind: "opt" },
@@ -5061,8 +5066,10 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     dram: { kind: "opt" },
     drive_bays: { kind: "opt" },
     drive_interface: { kind: "opt" },
-    emc_emissions: { kind: "opt" },
-    emc_immunity: { kind: "opt" },
+    // promoted 2026-09-04: 77% of the 92 hyperconverged-systems parts with any fact carry it (71); earned at min-share 60%, min-parts 30
+    emc_emissions: { kind: "req" },
+    // promoted 2026-09-04: 77% of the 92 hyperconverged-systems parts with any fact carry it (71); earned at min-share 60%, min-parts 30
+    emc_immunity: { kind: "req" },
     etsi_standards: { kind: "opt" },
     expansion_io: { kind: "opt" },
     fabric_services: { kind: "opt" },
@@ -5306,7 +5313,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     form_factor: { kind: "opt" },
     forwarding_rate: { kind: "opt" },
     heat_dissipation: { kind: "opt" },
-    humidity_operating: { kind: "opt" },
+    // promoted 2026-09-04: 70% of the 122 meraki parts with any fact carry it (85); earned at min-share 60%, min-parts 30
+    humidity_operating: { kind: "req" },
     ieee_standards: { kind: "opt" },
     input_freq: { kind: "opt" },
     input_power_range: { kind: "opt" },
@@ -5326,7 +5334,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     max_interfaces: { kind: "opt" },
     mgmt_ports: { kind: "opt" },
     min_software_release: { kind: "opt" },
-    mounting: { kind: "opt" },
+    // promoted 2026-09-04: 62% of the 122 meraki parts with any fact carry it (76); earned at min-share 60%, min-parts 30
+    mounting: { kind: "req" },
     mtbf: { kind: "opt" },
     multicast_groups: { kind: "opt" },
     new_conn_per_sec: { kind: "opt" },
@@ -5375,7 +5384,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     vpn_peers: { kind: "opt" },
     vpn_throughput: { kind: "opt" },
     wavelength: { kind: "opt" },
-    weight: { kind: "opt" },
+    // promoted 2026-09-04: 68% of the 122 meraki parts with any fact carry it (83); earned at min-share 60%, min-parts 30
+    weight: { kind: "req" },
     wifi_generation: { kind: "opt" },
     wlc_ap_capacity: { kind: "opt" },
     wlc_client_capacity: { kind: "opt" },
@@ -5538,7 +5548,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     ap_max_clients: { kind: "opt" },
     attenuation_dead_zone: { kind: "opt" },
     beamwidth_elevation: { kind: "opt" },
-    certifications: { kind: "opt" },
+    // promoted 2026-09-04: 73% of the 44 unified-communications parts with any fact carry it (32); earned at min-share 60%, min-parts 30
+    certifications: { kind: "req" },
     chassis_compatibility: { kind: "opt" },
     coherent_interop_standards: { kind: "opt" },
     concurrent_sessions: { kind: "opt" },
@@ -6056,7 +6067,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     cellular_bands: { kind: "opt" },
     cellular_category: { kind: "opt" },
     cellular_throughput: { kind: "opt" },
-    certifications: { kind: "opt" },
+    // promoted 2026-09-04: 100% of the 33 data-center-networking parts with any fact carry it (33); earned at min-share 60%, min-parts 30
+    certifications: { kind: "req" },
     channel_spacing: { kind: "opt" },
     chassis_compatibility: { kind: "opt" },
     chassis_config: { kind: "opt" },
