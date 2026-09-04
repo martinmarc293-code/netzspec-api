@@ -109,7 +109,8 @@ the agent's summary comes back into this context.
   agents live in `.claude/agents/`; their descriptions say when to pick them.
 - Bounded-task rules are unchanged: one deliverable, a fixed file scope, schema-forced output,
   agents never commit, the recap reports what the agents did and what they cost.
-- **Budget guard:** no agents past 69% of the weekly Claude limit; stop work at 80%.
+- **Budget guard (operator, 4 Sep 2026):** with the orchestrator in place, spawn Opus/Sonnet
+  agents freely; stop all work at 80% of the weekly Claude limit.
 - Before any task that would read more than a few files, run a suite or replay the corpus,
   delegate it with an explicit model and keep only the summary here.
 - At the end of each work block, write a handoff note in the session log below: decisions
