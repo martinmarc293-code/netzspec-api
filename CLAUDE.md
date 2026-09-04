@@ -395,6 +395,13 @@ full; the ones that bite hardest here are restated.
   (2 of 6 finder results in, verifiers started). Both stalled agents and the per-lane agent
   messaged to resume/report; the lanes restart on the per-lane code once that agent
   confirms its proof (or by hand if it stays silent).
+  **SCRAPING STOPPED BY OPERATOR ORDER (~10:40 UTC): itprice's Cloudflare has blocked us.**
+  Every worker, the sentinel, the supervisor and every scraper Chrome killed; ALL sources
+  set `enabled=false` in `sources` (9 rows) so nothing can restart a lane; the per-lane
+  Chrome agent told to finish its edits offline and not fetch. DO NOT restart any lane, the
+  sentinel `--heal` loop, the supervisor or `START-SCRAPERS.cmd` until the operator gives the
+  solution. Still running and allowed: the cache-only PDF pass, the read-only review
+  workflow, the hygiene and remerge-curation agents (no network).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
