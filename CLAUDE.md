@@ -89,7 +89,16 @@ full; the ones that bite hardest here are restated.
   sabotage test before any `--commit` on the box. Re-extraction on the new adapter: shard 0 done
   (`runs/extract/cisco-deep-s0-after.json`), shard 1 + PDF running on the laptop (cache-only).
   netzspec sync now completes: 9 cross-vendor optics PIDs are listed as collisions each hour
-  (site-side decision: compound unique index on vendor+sku).
+  (site-side decision: compound unique index on vendor+sku). Normaliser 1.4.0 (`dc7c8b1`):
+  inch marks, bare U, counting nouns, layer from bare numbers; the replay caught a tempting
+  rule ("prefer the metric restatement") moving 50 rows, two by 10× — reverted, pinned as
+  sabotage twins. Test repair (`7ac1f38`): the arista suite's 24 "passes" were vacuous over a
+  cached Cloudflare challenge page — existence of a fixture is not usability; the queue suite
+  had been reasoning about the real capability matrix after the "*" lists landed.
+  Capability matrix regenerated + loaded (`3220d56`). TODO next: an `ingest renormalize`
+  command (facts with `norm_v` < current: re-run the normaliser on `raw`; a changed value
+  supersedes inside a run, an identical one only re-stamps) — 6 dimension values change,
+  103,558 rows re-stamp; blocked until the store files are free.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
