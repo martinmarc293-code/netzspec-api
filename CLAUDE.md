@@ -111,6 +111,12 @@ full; the ones that bite hardest here are restated.
   TODO after: itprice landing (list price + GPL date as dictionary fields, EoS → lifecycle);
   a killed apply step leaves a `running` run with partial facts (no rollback on SIGKILL) —
   the store must fail stale runs on the next start.
+  Alias round 3b (`ecba42d`): the six labels the normaliser had refused are mapped (1,253
+  provantage values accepted); bands for width/height/depth/cpu_cores/slots_occupied came from
+  the stored dimensions struct plus the corpus, and a test pins them so a regeneration that
+  drops them goes red. A band changes what a sabotage twin can assert: two locale cases moved
+  to in-band literals (`7a428ab`). Real find from the bands: three stored `depth` facts are
+  AddOn cable LENGTHS ("16.4 ft" under Depth) — the renormalize pass will refuse them.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
