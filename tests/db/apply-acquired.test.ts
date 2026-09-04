@@ -367,8 +367,26 @@ const succeededBefore = (await query<{ n: number }>("SELECT count(*)::int AS n F
     failed?.kind === "apply-acquired" && failed.status === "failed" && failed.gate === null && failed.id !== run.id, failed);
   check("SABOTAGE no adapter suite: the refusal names the reason — recall 0, cdw suite false — not precision",
     /did not pass/.test(failed?.notes ?? "") && /"recall":0/.test(failed?.notes ?? "") && /"cdw":false/.test(failed?.notes ?? "") && /"precision":1/.test(failed?.notes ?? ""), failed?.notes);
-  const under = (await query<{ status: string }>("SELECT r.status::text AS status FROM facts f JOIN runs r ON r.id = f.run_id WHERE f.part_id = $1", [partB])).rows;
-  check("SABOTAGE no adapter suite: what it wrote is traceable to a FAILED run, never to a gated one", under.length === 1 && under[0].status === "failed", under);
+  // A FAILED RUN LEAVES NOTHING BEHIND (src/store/runs.ts withRun -> rollbackRun, f6fa6f0). This
+  // case used to assert the opposite contract — "what it wrote is traceable to a FAILED run" — and
+  // under the new one it would pass for a run that had simply written nothing, which is why it is
+  // replaced rather than relaxed. The sabotage is the zero: a single surviving fact carrying this
+  // run's id fails the case, and `facts_removed` proves the run really did write before it failed,
+  // so the zero can never be the vacuous kind.
+  const carried = (await query<{ facts: number; evidence: number; conflicts: number; still_superseded: number }>(
+    `SELECT (SELECT count(*)::int FROM facts          WHERE run_id = $1) AS facts,
+            (SELECT count(*)::int FROM fact_evidence  WHERE run_id = $1) AS evidence,
+            (SELECT count(*)::int FROM conflicts      WHERE run_id = $1) AS conflicts,
+            (SELECT count(*)::int FROM facts WHERE superseded_by IN (SELECT id FROM facts WHERE run_id = $1)) AS still_superseded`,
+    [failed.id])).rows[0];
+  const back = (failed?.stats as unknown as { rolled_back?: Record<string, number> })?.rolled_back ?? {};
+  check("SABOTAGE no adapter suite: the failed run is rolled back — it wrote, then no fact, evidence or conflict carries its id, nothing it superseded is still superseded, and the run ROW stays `failed` with a rolled_back= note",
+    carried.facts === 0 && carried.evidence === 0 && carried.conflicts === 0 && carried.still_superseded === 0
+      && (await factsOf(partB)).length === 0
+      && back.facts_removed === 1 && back.evidence_removed === 1
+      && failed?.status === "failed"
+      && /rolled_back=1 facts \(0 restored, 1 evidence, 0 conflicts, \d+ states\)/.test(failed?.notes ?? ""),
+    { runId: failed?.id, carried, rolled_back: back, status: failed?.status, notes: failed?.notes });
 }
 {
   sabotages++;
