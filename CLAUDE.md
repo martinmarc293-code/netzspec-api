@@ -279,6 +279,14 @@ full; the ones that bite hardest here are restated.
   the slash fix holds, provenance 200/200, 25 produced-per-doc regressions allowed by design):
   insert 251, corroborate 820, conflict 1,620, agree_same_doc 12,870, refused_inherit 20,824.
   Second remerge pass + recompute chained on the box.
+  Remerge pass 2 = run #62: open conflicts 27,558 → 13,501 → **10,745**. Left open: 5,688
+  cross-document (mostly chassis-side fields such as `supported_transceivers` sitting on the
+  SFP itself — Atlas-era rows not flagged inherited, so the retraction rule did not reach
+  them: next rule = a field outside the part's CATEGORY PROFILE is not applicable to that
+  part), 2,158 bullet-joined lists awaiting `renormalize` (`● UL 60950-1 ● CAN` as one
+  member), 2,022 same-document (a cell stating two depths for two variants), 733 tier-0
+  protected. The golden part reads right on the live API again: C9300-24P `psu_options`
+  `["715W AC","PWR-C1-1100WAC-P","PWR-C1-715WAC-P"]` verified, 21 facts, 46.3%.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
