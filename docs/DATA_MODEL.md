@@ -532,42 +532,56 @@ the refusal at plan time.
 
 ## Is the FIELD applicable to this part? (and why the category profile cannot answer it)
 
-`fieldApplies(category, field)` is the profile's own answer: true when the category profile lists
-the field (req, opt or cond), true when the category has NO profile at all (a part nobody has
-profiled must not lose everything), false otherwise. `notApplicable` is the RETRACTION predicate and
-needs a second thing — the pair must be in `NONSENSICAL_PAIRS`, an explicit operator-curated table.
+Two predicates, and they answer different questions.
 
-**That table is empty, and the emptiness is the measured result.** The rule was specified to close
-the 5,688 `cross_doc_disagreement` conflicts whose shape is a chassis-side field on a component
-(`SFP-10G-SR supported_transceivers`). Against production, 4 Sep 2026:
+`fieldApplies(category, field)` is the PROFILE's answer: true when the profile lists the field (req,
+opt or cond), true when the category has NO profile at all (a part nobody has profiled must not lose
+everything), false otherwise. It drives the census only — a field it says no to is reported as a
+**profile gap** and left alone.
 
-- **30 of the 5,688** carry a field outside the part's category profile, and **none of those 30 is a
-  component-shaped SKU**. The 619 that do have the shape (supported_transceivers 370,
-  psu_options 249) all carry a field the profile LISTS. Every field the rule was specified around —
-  `supported_transceivers`, `stack_ports`, `psu_options`, `switching_capacity`,
-  `stacking_bandwidth`, `forwarding_rate`, `module_slots`, `poe_budget` — is inside the
-  `transceiver` profile, which holds 383 fields. The generated half of the profile was derived from
-  the labels each category publishes, i.e. from the same corpus, so **it has already absorbed the
-  nonsense it would be asked to police.** A list derived from the data cannot judge the data.
-- the category is wrong for exactly these parts anyway: `SFP-10G-SR` is `transceiver`,
-  `SFP-10G-SR=` is `switches` with family "Catalyst ESS9300". One optic, two categories.
-- applied bluntly the rule would retract **908 live facts over 83 pairs**, and reading 30 of them
-  across every category says they are PROFILE GAPS — `video/laser_type` (126), the Meraki camera and
-  switch vocabulary (`power_load_idle_max` 75, `copper_ethernet_ports` 48, `stack_ports` 31),
-  `switches/psu_efficiency` (11), `unified-communications/fxs_ports` (10),
-  `interfaces-modules/layer` (26). `ingest remerge` prints all 83 as a decision table and touches
-  none of them.
+`notApplicable` is the RETRACTION predicate, and its only input is `NONSENSICAL_PAIRS`, an explicit
+operator-curated `(category, field)` table in `src/core/specMerge.ts` with a justification on every
+entry. **A curated pair overrides the profile**, which is the whole point: the generated half of the
+profile was derived from the labels each category publishes — from the corpus it would be asked to
+police — so every field in the table is already *inside* its category's profile. `fieldApplies` as a
+veto would make the rule fire on nothing. A list derived from the data cannot judge the data.
 
-`componentShape` is **not** used here either, and that is the same lesson from the other side: it is
-calibrated for refusing an INHERITED value, where a false positive costs a gap the part can still
-fill from its own datasheet. As a retraction predicate it is far too wide — `contains:SFP` matches
-the real switches `SG350-10SFP` and `WS-C4500X-16SFP+`, whose own `switching_capacity`,
-`forwarding_rate` and `psu_config` are correct per-SKU measurements. One table, two costs.
+**Scope: `transceiver` only**, measured 4 Sep 2026. The categories the rule was offered for cannot
+be keyed by category, because the catalogue files real hosts in them:
 
-A pair added to `NONSENSICAL_PAIRS` is retracted into the `not_applicable` state (a CLOSED gap, so
-the gap ledger stops asking) both for open conflicts and, under `--retract-inapplicable`, for
-current facts outside any conflict. `applyMerge` refuses a matching incoming fact outright, so no
-pipeline can write a new one.
+| category | why it is excluded |
+| --- | --- |
+| `optical-networking` | `15454-M2-AC` is an ONS 15454 M2 **shelf** and its 51 `module_slots` are real; `NCS1K4-1.2T-K9=` is a line card with real `ports` (339 candidate facts) |
+| `ios-nx-os-software`, `software`, `cloud-systems-management` | the SKUs are chassis filed under a software category — `8201-SYS`, `N540-ACC-SYS`, `2960-X`, `C1100TG-1N24P32A`. Their `psu_options`, `vlan_max` and `poe_budget` are CORRECT; retracting would punish a catalogue mistake by deleting real data |
+| `interfaces-modules` | real line cards: `WS-X4248-RJ45V` has a genuine `poe_standard`, `SM-D-ES3-48-P` a genuine `layer` (428 candidate facts) |
+
+Component SKU **shapes** are not keyed either, and that is the same lesson from the other side:
+`componentShape` is calibrated for refusing an INHERITED value, where a false positive costs a gap
+the part can still fill from its own datasheet. As a retraction predicate it is far too wide —
+`contains:SFP` matches the real switches `SG350-10SFP` and `WS-C4500X-16SFP+`, whose own
+`switching_capacity`, `forwarding_rate` and `psu_config` are correct per-SKU measurements. Both are
+category `switches`, so keying on category is exactly what keeps them safe, and both are sabotage
+cases in `tests/specMerge.test.ts` so a future shape-based rule cannot land without turning them red.
+The same protects `SFP-10G-SR=`, which the catalogue files under `switches` while `SFP-10G-SR` is a
+`transceiver`: one optic, two categories, and the rule reaches only the one it can trust.
+
+The 21 curated pairs are the fields that describe **what a part hosts** (`supported_transceivers`,
+`stack_ports`, `psu_options`, `module_slots`, `poe_budget`), its **forwarding-plane capacity**
+(`switching_capacity`, `forwarding_rate`, `jumbo_mtu`, `mac_table`, `vlan_max`, `ipv4_routes`,
+`ipv6_routes`, `queues_per_port`, `qos_features`) or its **control plane and system resources**
+(`segment_routing_features`, `fabric_services`, `programming_interfaces`, `snmp_mibs`, `dram`,
+`flash`) — none of which a PHY that converts signals can have. Deliberately excluded as ambiguous:
+`ports` (breakout and CVR adapters really do enumerate ends, 325 facts), `supported_protocols` (an
+optic legitimately states Ethernet/FC support), `crypto_algorithms` (MACsec optics exist) and
+`rfc_compliance`.
+
+A curated pair is retracted into the `not_applicable` state (a CLOSED gap, so the gap ledger stops
+asking) both for open conflicts and, under `--retract-inapplicable`, for current facts outside any
+conflict. `applyMerge` refuses a matching incoming fact outright, so no pipeline writes a new one.
+Everything the profile alone objects to — `video/laser_type` (126), the Meraki camera and switch
+vocabulary, `switches/psu_efficiency`, `unified-communications/fxs_ports`,
+`interfaces-modules/layer` — is printed in the same decision table as a profile gap and left
+untouched; closing those is an edit to `src/core/fieldSchema.ts`.
 
 ## Re-merging: correcting a merge rule after the fact
 

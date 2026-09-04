@@ -357,9 +357,13 @@ await closeRun(seedRun, "succeeded", { seed: true }, { precision: 1, recall: 1, 
   check("SABOTAGE a category with NO profile contributes nothing to the census — the rule has no opinion",
     !census0.some((c) => c.category === "software"), JSON.stringify(census0.filter((c) => c.category === "software")));
 
+  check("SABOTAGE a part whose category has NO profile and no curated pair loses nothing",
+    (await currentFact(softPart, "stack_max_members", getPool()))?.value === 8);
+
   try {
+    // `stack_max_members` is not in the shipped table, so this pair is the suite's own — it proves
+    // the branches a shipped pair already covers, on a field nothing else in the run touches.
     NONSENSICAL_PAIRS.set("transceiver/stack_max_members", "a transceiver is not a stack member");
-    NONSENSICAL_PAIRS.set("software/stack_max_members", "and neither is a licence");
 
     const d = decide(row({ part_id: realOptic, sku: "QSFP-40G-SR4", category: "transceiver", field_key: "stack_max_members", inherited: false }));
     check("a chassis-side field on a transceiver is RETRACTED, named by category",
@@ -387,7 +391,8 @@ await closeRun(seedRun, "succeeded", { seed: true }, { precision: 1, recall: 1, 
     check("SABOTAGE the same field on the chassis is written as normal", allowed.action === "insert", allowed.action);
 
     const dry = await retractInapplicableFacts(getPool(), applyRun, { commit: false, examples: 2 });
-    check("the dry sweep counts the transceiver's chassis-side field", dry.retracted === 1 && dry.by_rule["not_applicable:transceiver"] === 1, JSON.stringify(dry));
+    check("the dry sweep counts the transceiver's chassis-side field, and every retraction it plans is one",
+      dry.retracted >= 1 && dry.by_rule["not_applicable:transceiver"] === dry.retracted, JSON.stringify(dry));
     check("SABOTAGE a dry sweep writes nothing", (await currentFact(realOptic, "stack_max_members", getPool()))?.state === "verified");
     await withTx((c) => retractInapplicableFacts(c, applyRun, { commit: true, examples: 2 }));
     const gone = await currentFact(realOptic, "stack_max_members", getPool());
@@ -397,14 +402,14 @@ await closeRun(seedRun, "succeeded", { seed: true }, { precision: 1, recall: 1, 
       (await factHistory(realOptic, "stack_max_members", getPool())).some((h) => h.value === 8));
     check("SABOTAGE the legitimate profile-gap field on the same part is NOT touched",
       (await currentFact(realOptic, "ip_rating", getPool()))?.value === "IP30");
-    check("SABOTAGE a part whose category has NO profile loses nothing, pair listed or not",
+    check("SABOTAGE the sweep left the no-profile part alone",
       (await currentFact(softPart, "stack_max_members", getPool()))?.value === 8);
   } finally {
     NONSENSICAL_PAIRS.delete("transceiver/stack_max_members");
-    NONSENSICAL_PAIRS.delete("software/stack_max_members");
   }
-  check("the table is restored, so nothing below runs under a sabotage pair",
-    NONSENSICAL_PAIRS.size === 0 && decide(row({ part_id: realOptic, sku: "QSFP-40G-SR4", category: "transceiver", field_key: "stack_max_members" })).kind !== "retract");
+  check("the suite's own pair is gone, leaving only the shipped table",
+    !NONSENSICAL_PAIRS.has("transceiver/stack_max_members")
+    && decide(row({ part_id: realOptic, sku: "QSFP-40G-SR4", category: "transceiver", field_key: "stack_max_members" })).kind !== "retract");
   await closeRun(applyRun, "succeeded", { applicability: true }, { precision: 1, recall: 1, passed: true });
 }
 

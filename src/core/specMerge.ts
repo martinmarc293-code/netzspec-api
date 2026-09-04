@@ -765,33 +765,62 @@ export function fieldApplies(categorySlug: string | null | undefined, fieldKey: 
  * A pair added here is retracted, so each one needs its own `why` naming the evidence. Adding one
  * is an operator decision, taken from the profile-gap list the dry run prints.
  *
- * It is a MUTABLE Map, deliberately: while it is empty every branch that reads it is unreachable,
- * and a rule nothing can reach is a rule nobody has tested. tests/specMerge.test.ts and
- * tests/db/remerge.test.ts add a pair, prove the retraction fires and the applicable twin does not,
- * and remove it again in a `finally`. No production code writes to it.
+ * It is a MUTABLE Map so the suites can add a pair for a category that has none and prove the
+ * branches an absent entry would leave unreachable; they remove it again in a `finally`. No
+ * production code writes to it.
  */
-export const NONSENSICAL_PAIRS = new Map<string, string>();
+export const NONSENSICAL_PAIRS = new Map<string, string>([
+  // --- what the part HOSTS. A transceiver is the thing that gets plugged in, not the thing that
+  //     accepts one, and none of these describe a plug. -----------------------------------------
+  ["transceiver/supported_transceivers", "the list of optics a HOST accepts; an optic does not accept optics (135 facts: FET-10G, CWDM-SFP10G-1570, GLC-FE-100BX-D)"],
+  ["transceiver/stack_ports", "stacking ports belong to the switch that stacks; an optic is not a stack member (0 today)"],
+  ["transceiver/stacking_bandwidth", "the bandwidth of a switch's stack fabric (0 today)"],
+  ["transceiver/psu_options", "the power supplies a CHASSIS can be ordered with; an optic is bus-powered (0 today)"],
+  ["transceiver/module_slots", "slots a chassis offers for modules; an optic occupies one, it has none (0 today)"],
+  ["transceiver/poe_budget", "the watts a switch can deliver to powered devices (0 today)"],
+
+  // --- forwarding-plane capacity. An optic is a PHY: it converts signals and never forwards,
+  //     switches, queues or routes a frame. ---------------------------------------------------
+  ["transceiver/switching_capacity", "the aggregate a switch fabric can move; an optic has no fabric (0 today)"],
+  ["transceiver/forwarding_rate", "packets per second a forwarding engine sustains (0 today)"],
+  ["transceiver/jumbo_mtu", "the largest frame a forwarding device accepts; a PHY is frame-size agnostic (53 facts: CFP-100G-LR4, CFP-40G-SR4)"],
+  ["transceiver/mac_table", "the L2 forwarding table of a switch (16 facts: CPAK-100G-LR4, GLC-FE-100LX-RGD)"],
+  ["transceiver/vlan_max", "active VLANs a switch can carry (1 fact: GLC-FE-100LX-RGD)"],
+  ["transceiver/ipv4_routes", "the size of a router's IPv4 FIB (19 facts: QSFP-40G-LR4, SFP-10G-AOC10M)"],
+  ["transceiver/ipv6_routes", "the size of a router's IPv6 FIB (19 facts)"],
+  ["transceiver/queues_per_port", "per-port egress queues on a switch ASIC (21 facts: CFP-100G-SR10)"],
+  ["transceiver/qos_features", "classification, marking and scheduling done by a forwarding device (35 facts: CWDM-SFP-1470 … -1610)"],
+
+  // --- control plane and system resources. An optic runs no network OS. ------------------------
+  ["transceiver/segment_routing_features", "an IOS XR control-plane feature list (16 facts: GLC-TE, QSFP-40G-ER4)"],
+  ["transceiver/fabric_services", "MDS fabric services offered by a director-class switch (7 facts: SFP-10G-ER)"],
+  ["transceiver/programming_interfaces", "NETCONF/RESTCONF/gNMI exposed by a network OS (21 facts: CFP-100G-LR4)"],
+  ["transceiver/snmp_mibs", "the MIBs an SNMP-managed system serves; an optic is read THROUGH its host (2 facts: SFP-10G-ER, SFP-10G-ZR)"],
+  ["transceiver/dram", "system memory of a device that runs software (28 facts: CFP-100G-LR4, CFP-40G-LR4)"],
+  ["transceiver/flash", "system flash holding an image (11 facts: GLC-FE-100BX-D, GLC-FE-100EX)"],
+]);
 
 export type ApplicabilitySubject = { sku: string; categorySlug?: string | null; fieldKey: string };
 
 /**
  * Refusal reason, or null when this field may sit on this part.
  *
- * Both tests must fail before anything is withdrawn: the profile must not list the field AND the
- * pair must be one an operator has judged nonsensical. The profile alone is a completeness signal
- * (see NONSENSICAL_PAIRS), and a retraction removes a value from a page, so the cost of a false
- * positive here is not a recorded gap — it is a real specification deleted.
+ * THE CURATED PAIR IS THE ONLY TEST, and `fieldApplies` is deliberately not consulted. Every field
+ * in the table is INSIDE its category's profile, because the generated profile was derived from the
+ * same corpus; using the profile as a veto here would make the rule fire on nothing. The profile
+ * still drives the CENSUS, where a field it does not list is reported as a gap and left alone.
  *
- * Deliberately NOT keyed on `componentShape`: that table is calibrated for refusing an INHERITED
- * value, where a false positive costs a gap the part can still fill from its own datasheet. It is
- * far too wide for a retraction — `contains:SFP` matches the real switches SG350-10SFP and
- * WS-C4500X-16SFP+, whose own switching_capacity, forwarding_rate and psu_config are correct
- * per-SKU measurements (393 current facts stand on component-shaped SKUs; 39 of them on -FAN/-SSD
- * shapes that are line cards). One table, two costs: the same predicate is safe for one and not
- * for the other.
+ * The table is therefore the whole safety margin, so it is keyed on CATEGORY and nothing else. In
+ * particular it is NOT keyed on `componentShape`: that table is calibrated for refusing an
+ * INHERITED value, where a false positive costs a gap the part can still fill from its own
+ * datasheet. As a retraction predicate it is far too wide — `contains:SFP` matches the real
+ * switches SG350-10SFP and WS-C4500X-16SFP+, whose own switching_capacity, forwarding_rate and
+ * psu_config are correct per-SKU measurements (393 current facts stand on component-shaped SKUs, 39
+ * of them on -FAN/-SSD shapes that are line cards). Both of those parts are category `switches`, so
+ * keying on category is exactly what keeps them safe; tests/specMerge.test.ts holds them as
+ * sabotage cases so a future shape-based rule cannot land without turning them red.
  */
 export function notApplicable(s: ApplicabilitySubject): { rule: string; reason: string } | null {
-  if (fieldApplies(s.categorySlug, s.fieldKey)) return null;
   const why = NONSENSICAL_PAIRS.get(`${s.categorySlug}/${s.fieldKey}`);
   if (!why) return null;
   return {

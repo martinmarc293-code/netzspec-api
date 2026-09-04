@@ -26,6 +26,7 @@ import {
   MAX_CELL, NUMERIC_TOLERANCE,
   type SpecEntry, type Prov,
 } from "../src/core/specMerge.js";
+import { FIELD_DICTIONARY, PROFILES } from "../src/core/fieldSchema.js";
 import { sourceKind, unionListValues as unionInApplyExtract } from "../src/pipeline/apply-extract.js";
 import { NORM_VERSION } from "../src/core/specNormalize.js";
 
@@ -305,23 +306,64 @@ check("THE FINDING every field the not-applicable rule was specified around is I
     .every((k) => fieldApplies("transceiver", k)),
   "if this ever goes red the profile has changed and NONSENSICAL_PAIRS should be revisited");
 
-check("the profile alone does NOT retract: an unlisted field is a profile gap until an operator says otherwise",
+check("the profile alone does NOT retract: an unlisted, uncurated field is a profile gap",
   notApplicable({ sku: "QSFP-40G-SR4", categorySlug: "transceiver", fieldKey: "stack_max_members" }) === null);
-try {
-  NONSENSICAL_PAIRS.set("transceiver/stack_max_members", "a transceiver has no stack");
-  const r = notApplicable({ sku: "QSFP-40G-SR4", categorySlug: "transceiver", fieldKey: "stack_max_members" });
-  check("a pair an operator has judged nonsensical IS refused, naming the category", r?.rule === "not_applicable:transceiver");
-  check("the refusal names the field and the part", /FIELD_NOT_APPLICABLE: stack_max_members .*QSFP-40G-SR4/.test(r?.reason ?? ""));
-  check("SABOTAGE the same pair on a category whose profile LISTS the field is untouched",
-    notApplicable({ sku: "C9200L-24P-4G", categorySlug: "switches", fieldKey: "stack_max_members" }) === null,
-    "the profile wins: a listed field is never withdrawn, whatever the table says");
-  check("SABOTAGE a part whose category has no profile loses nothing even with the pair listed",
-    notApplicable({ sku: "X", categorySlug: "software", fieldKey: "stack_max_members" }) === null);
-} finally {
-  NONSENSICAL_PAIRS.delete("transceiver/stack_max_members");
+{
+  const r = notApplicable({ sku: "SFP-10G-SR", categorySlug: "transceiver", fieldKey: "supported_transceivers" });
+  check("a curated pair IS refused, naming the category", r?.rule === "not_applicable:transceiver");
+  check("the refusal names the field, the part and the reasoning",
+    /FIELD_NOT_APPLICABLE: supported_transceivers .*SFP-10G-SR.*does not accept optics/.test(r?.reason ?? ""), r?.reason);
+  check("a curated pair OVERRIDES the profile — which is the whole point, since the profile lists it",
+    fieldApplies("transceiver", "supported_transceivers") && r !== null);
 }
-check("the table is restored after the sabotage",
-  notApplicable({ sku: "QSFP-40G-SR4", categorySlug: "transceiver", fieldKey: "stack_max_members" }) === null);
+
+// THE SABOTAGE THAT MATTERS. These two are REAL SWITCHES whose names contain SFP, they are
+// category `switches`, and their switching_capacity / forwarding_rate / psu_config are correct
+// per-SKU measurements. `componentShape` matches both (contains:SFP), so a shape-keyed rule would
+// delete real specifications; keying on CATEGORY is what keeps them safe, and these cases fail the
+// moment anyone changes that.
+for (const sku of ["SG350-10SFP", "WS-C4500X-16SFP+"]) {
+  check(`SABOTAGE ${sku} is a real switch and keeps every chassis-side field`,
+    ["switching_capacity", "forwarding_rate", "psu_config", "psu_options", "stack_ports", "mac_table", "jumbo_mtu",
+      "vlan_max", "ipv4_routes", "qos_features", "dram", "flash", "module_slots", "poe_budget", "supported_transceivers"]
+      .every((k) => notApplicable({ sku, categorySlug: "switches", fieldKey: k }) === null),
+    "a shape-keyed rule would strip a real switch; the table is keyed on category for exactly this");
+  check(`TWIN and componentShape DOES match ${sku}, which is why it may not drive a retraction`,
+    componentShape(sku)?.token === "SFP");
+}
+check("SABOTAGE an optic filed under `switches` (SFP-10G-SR= really is) is likewise untouched by category",
+  notApplicable({ sku: "SFP-10G-SR=", categorySlug: "switches", fieldKey: "supported_transceivers" }) === null,
+  "the catalogue puts the same optic in two categories; the rule reaches only the one it can trust");
+check("SABOTAGE optical-networking is NOT a component category — 15454-M2-AC is a shelf with real module_slots",
+  notApplicable({ sku: "15454-M2-AC", categorySlug: "optical-networking", fieldKey: "module_slots" }) === null);
+check("SABOTAGE a chassis filed under a software category keeps its physical facts",
+  notApplicable({ sku: "2960-X", categorySlug: "cloud-systems-management", fieldKey: "poe_budget" }) === null
+  && notApplicable({ sku: "8201-SYS", categorySlug: "ios-nx-os-software", fieldKey: "psu_options" }) === null,
+  "retracting by category there would punish a catalogue mistake by deleting correct data");
+check("SABOTAGE the fields judged AMBIGUOUS on an optic are kept",
+  ["ports", "supported_protocols", "crypto_algorithms", "rfc_compliance"]
+    .every((k) => notApplicable({ sku: "CVR-QSFP-SFP10G", categorySlug: "transceiver", fieldKey: k }) === null),
+  "a breakout adapter really does enumerate ends, and an optic really does state Ethernet/FC support");
+check("every curated pair names a real dictionary field and a category that has a profile",
+  [...NONSENSICAL_PAIRS.keys()].every((k) => {
+    const [cat, key] = [k.slice(0, k.indexOf("/")), k.slice(k.indexOf("/") + 1)];
+    return !!FIELD_DICTIONARY[key] && !!PROFILES[cat];
+  }), JSON.stringify([...NONSENSICAL_PAIRS.keys()]));
+
+{
+  // a category with no curated pair of its own loses nothing, profile or no profile
+  check("SABOTAGE a part whose category has no profile and no curated pair loses nothing",
+    notApplicable({ sku: "S-DNA-E", categorySlug: "software", fieldKey: "stack_max_members" }) === null);
+  try {
+    NONSENSICAL_PAIRS.set("software/stack_max_members", "test-only pair");
+    check("a curated pair fires even where there is no profile — an explicit judgement needs no profile",
+      notApplicable({ sku: "S-DNA-E", categorySlug: "software", fieldKey: "stack_max_members" })?.rule === "not_applicable:software");
+  } finally {
+    NONSENSICAL_PAIRS.delete("software/stack_max_members");
+  }
+  check("the table is restored after the sabotage",
+    notApplicable({ sku: "S-DNA-E", categorySlug: "software", fieldKey: "stack_max_members" }) === null);
+}
 
 console.log(`${pass}/${pass + misses.length} passed`);
 if (misses.length) {

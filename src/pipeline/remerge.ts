@@ -484,18 +484,23 @@ export async function applicabilityCensus(db: Queryable): Promise<ApplicabilityR
   const gapStates = new Set(["gap_confirmed", "gap_unattempted", "not_applicable"]);
   const out = new Map<string, ApplicabilityRow>();
   for (const row of r.rows) {
-    // a category with no profile is silent by design, not a pair with zero counts
-    if (!PROFILES[row.category]) continue;
-    if (fieldApplies(row.category, row.field_key)) continue;
+    // Two populations, reported together because they are two halves of one question:
+    //   * the field is outside the profile — a PROFILE GAP, listed for the operator, never touched;
+    //   * the pair is curated as nonsensical — RETRACTED, and it is normally INSIDE the profile,
+    //     because the generated profile absorbed it (src/core/specMerge.ts § NONSENSICAL_PAIRS).
+    // A category with no profile is silent unless a pair for it has been curated by hand.
+    const nonsensical = notApplicable({ sku: "", categorySlug: row.category, fieldKey: row.field_key }) !== null;
+    if (!nonsensical) {
+      if (!PROFILES[row.category]) continue;
+      if (fieldApplies(row.category, row.field_key)) continue;
+    }
     const k = `${row.category}/${row.field_key}`;
-    const e = out.get(k) ?? {
-      category: row.category, field_key: row.field_key, live: 0, gap: 0,
-      nonsensical: notApplicable({ sku: "", categorySlug: row.category, fieldKey: row.field_key }) !== null,
-    };
+    const e = out.get(k) ?? { category: row.category, field_key: row.field_key, live: 0, gap: 0, nonsensical };
     if (gapStates.has(row.state)) e.gap += row.n; else e.live += row.n;
     out.set(k, e);
   }
-  return [...out.values()].sort((a, b) => b.live - a.live || a.category.localeCompare(b.category));
+  // retracted pairs first, so the half that CHANGES something is never buried under the gap list
+  return [...out.values()].sort((a, b) => Number(b.nonsensical) - Number(a.nonsensical) || b.live - a.live || a.category.localeCompare(b.category));
 }
 
 export type InapplicableSweep = { checked: number; retracted: number; by_rule: Record<string, number>; examples: string[] };
