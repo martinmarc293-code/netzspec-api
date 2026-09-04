@@ -493,15 +493,25 @@ def upload_to_box(out_dir: Path, rel_paths: list[str]) -> dict:
             if f.exists():
                 tf.add(f, arcname=r)
     remote_tar = "/tmp/netzspec-images-batch.tar.gz"
-    scp = subprocess.run(["scp", "-i", SSH_KEY, "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", str(tmp), f"{SSH_HOST}:{remote_tar}"],
-                         capture_output=True, text=True, timeout=600)
+    # A hung ssh must come back as a FAILED upload record, never as an exception: on 4 Sep 2026
+    # the verification call timed out after the files had landed, the exception escaped from the
+    # caller's `finally`, and the run row was left `running` for good.
+    try:
+        scp = subprocess.run(["scp", "-i", SSH_KEY, "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", str(tmp), f"{SSH_HOST}:{remote_tar}"],
+                             capture_output=True, text=True, timeout=600)
+    except subprocess.TimeoutExpired:
+        return {"attempted": True, "ok": False, "files": len(rel), "error": "scp timed out after 600 s"}
     if scp.returncode != 0:
         return {"attempted": True, "ok": False, "files": len(rel), "error": (scp.stderr or scp.stdout).strip()[:300]}
     # extract, then COUNT what is actually on the box: "uploaded" must mean the file is there
     cmd = (f"mkdir -p {BOX_IMAGE_DIR} && tar -xzf {remote_tar} -C {BOX_IMAGE_DIR} && rm -f {remote_tar} && "
            f"cd {BOX_IMAGE_DIR} && ls -1 " + " ".join("'" + r + "'" for r in rel) + " 2>/dev/null | wc -l")
-    ex = subprocess.run(["ssh", "-i", SSH_KEY, "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", SSH_HOST, cmd],
-                        capture_output=True, text=True, timeout=600)
+    try:
+        ex = subprocess.run(["ssh", "-i", SSH_KEY, "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", SSH_HOST, cmd],
+                            capture_output=True, text=True, timeout=600)
+    except subprocess.TimeoutExpired:
+        return {"attempted": True, "ok": False, "files": len(rel), "landed": None,
+                "error": "extract/verify ssh timed out after 600 s; the files may be on the box, unverified"}
     landed = 0
     for line in ex.stdout.strip().splitlines()[::-1]:
         if line.strip().isdigit():
@@ -680,7 +690,13 @@ def run_from_db(args: argparse.Namespace) -> int:
     finally:
         if browser is not None:
             browser.close()
-        upload = {"attempted": False, "reason": "--no-upload"} if args.no_upload else upload_to_box(out_dir, new_files)
+        # whatever the upload does, the run row is closed: an exception here once left it `running`
+        try:
+            upload = {"attempted": False, "reason": "--no-upload"} if args.no_upload else upload_to_box(out_dir, new_files)
+        except Exception as e:  # noqa
+            upload = {"attempted": True, "ok": False, "error": f"{type(e).__name__}: {str(e)[:200]}"}
+        if upload.get("attempted") and not upload.get("ok", True):
+            status = "failed"
         db.execute("UPDATE runs SET status = %s::run_status, finished_at = now(), stats = %s::jsonb WHERE id = %s",
                    (status, json.dumps({**counts, "reasons": reasons, "upload": upload}), run_id))
         db.close()
