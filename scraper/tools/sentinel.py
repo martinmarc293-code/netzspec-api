@@ -8,14 +8,30 @@ schedule from the Startup launcher and checks the physical layer every few minut
 
   supervisor   is nightshift.ps1 alive, and is its lock file younger than 6 h?
   tunnel       is localhost:5433 listening (Postgres on the box)?
-  browser      is the DevTools Chrome on :9222 answering, and how many of its tabs sit on
-               about:blank for longer than 10 minutes while a worker should be fetching?
-  workers      one python worker.py process per enabled source with runnable tasks; and each
-               worker's heartbeat file younger than 15 minutes
+  debug Chrome is the DevTools Chrome on :9222 answering, and does a websocket still connect?
+               NOTHING IN THE ACQUISITION LOOP DEPENDS ON IT ANY MORE — it serves scraper/images.py
+               and ad-hoc `worker.py fetch` only — so this is reported, never healed by a restart.
+  lanes        one python worker.py process per enabled source with runnable tasks, each with a
+               heartbeat younger than 15 minutes, and each with its OWN Chrome on its OWN profile
   queue        runnable tasks per enabled source (from the database) — so "no workers" is only
                an alarm when there is work to do
 
-With --heal it restarts what it can (tunnel, Chrome, supervisor) and records every action.
+    python3.11 scraper/tools/sentinel.py --seed-profiles     one-off, run with the 9222 Chrome DOWN
+
+ONE CHROME PER LANE (4 Sep 2026). Until today every worker attached to the one debug Chrome on
+:9222. That Chrome accepts exactly ONE Playwright client per start: the second and every later
+connect_over_cdp hangs at <ws connecting> for the full 180 s and the worker dies, while
+/json/version keeps answering in 3 ms. Three of four lanes died every three minutes and this file
+dutifully reported them "restarted". Lanes now LAUNCH their own Chrome against
+D:\netzspec-chrome-profile-<slug>, so:
+  * a lane is restarted with --profile, never --cdp;
+  * a lane that must be killed is killed WITH ITS OWN CHROME, matched on
+    --user-data-dir=D:\netzspec-chrome-profile-<slug> and never on anything else — the operator's
+    own Chrome and the 9222 debug Chrome must survive every kill this file makes;
+  * a Chrome left on a lane's profile with no worker is an orphan holding the profile LOCK, and
+    the next start of that lane fails until it is gone, so it is killed before the restart.
+
+With --heal it restarts what it can (tunnel, lanes, supervisor) and records every action.
 Findings land in runs/nightshift/SENTINEL.md; an ALARM also writes runs/nightshift/ALERT.md, the
 file the operator (and Claude) reads first. A human found the blank-tab failure before the old
 watchdog did; this file exists so that never happens again.
@@ -28,6 +44,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent.parent
 NS = ROOT / "runs" / "nightshift"
 STATE = NS / "sentinel-state.json"
+# One profile directory per lane; the same string scraper/worker.py builds. It is the ONLY thing
+# that tells this file which Chrome belongs to which lane, so it is also the only thing that
+# stops a kill reaching the operator's own browser.
+LANE_PROFILE = r"D:\netzspec-chrome-profile-"
+# A lane's Chrome costs about 500 MB of real system memory on this laptop and its process tree
+# peaks near 1.0-1.2 GB of working set after two fetches (measured 4 Sep 2026: free memory fell
+# 1,586 -> 760 MB as two lane Chromes came up and rose 758 -> 1,806 MB when both exited). The old
+# guard was 400 MB, which was set when four lanes shared ONE browser; starting a lane into 400 MB
+# free now means starting a Chrome the machine cannot hold. Refuse below ~one Chrome plus slack.
+MIN_FREE_MB = 1000
 for _s in (sys.stdout, sys.stderr):
     try:
         _s.reconfigure(encoding="utf-8", errors="replace")
@@ -78,14 +104,67 @@ def cdp_connects(timeout_ms: int = 20000) -> tuple[bool, str]:
         return False, f"{type(e).__name__}: {str(e)[:120]}"
 
 
-def restart_debug_chrome() -> str:
-    """Kill every chrome.exe carrying --remote-debugging-port=9222 (the scraper profile only,
-    never the operator's own Chrome) and start it again through the one launcher."""
-    ps("Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'chrome.exe' -and $_.CommandLine -like '*remote-debugging-port=9222*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }")
-    time.sleep(5)
-    left = ps("(Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'chrome.exe' -and $_.CommandLine -like '*remote-debugging-port=9222*' } | Measure-Object).Count")
-    subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-File", str(ROOT / "scraper" / "tools" / "start-chrome-debug.ps1")], capture_output=True, timeout=90)
-    return f"restarted the debug Chrome (leftover processes before start: {left or '?'})"
+def _lane_filter(slug: str) -> str:
+    """The PowerShell Where-Object clause that selects EXACTLY one lane's Chrome processes.
+
+    -like is a wildcard match and the only wildcard characters in the pattern are the two stars we
+    put there; a source slug is [a-z0-9-] and contains none. The clause names the lane's profile
+    directory in full, so it can never select the 9222 debug Chrome (whose --user-data-dir has no
+    -<slug> suffix), another lane's Chrome, or the operator's own browser."""
+    return "$_.Name -eq 'chrome.exe' -and $_.CommandLine -like '*--user-data-dir=" + LANE_PROFILE + slug + "*'"
+
+
+def lane_chrome_pids(slug: str) -> list[int]:
+    out = ps("Get-CimInstance Win32_Process | Where-Object { " + _lane_filter(slug) + " } | ForEach-Object { $_.ProcessId }")
+    return [int(x) for x in out.split() if x.strip().isdigit()]
+
+
+def kill_lane(slug: str, kill_worker: bool) -> str:
+    """Kill this lane's Chrome, and optionally the worker that owns it. Never any other Chrome.
+
+    A worker killed with -Force gets no signal at all (TerminateProcess, not a signal), so it
+    cannot close its own browser however carefully worker.py handles SIGTERM. That is precisely
+    why the Chrome is killed here, by its profile directory: an orphan Chrome holds the lane's
+    profile LOCK and the next start of that lane fails until it is gone."""
+    killed_w = 0
+    if kill_worker:
+        # The filter is on Name -eq/-like 'python*', so the PowerShell doing the matching cannot
+        # match itself -- the trap of 3 Sep 2026, where a worker filter killed its own shell.
+        wf = "$_.Name -like 'python*' -and $_.CommandLine -like '*worker.py run --sources " + slug + " *'"
+        out = ps("Get-CimInstance Win32_Process | Where-Object { " + wf + " } | ForEach-Object { $_.ProcessId }")
+        for pid in [int(x) for x in out.split() if x.strip().isdigit()]:
+            ps(f"Stop-Process -Id {pid} -Force -ErrorAction SilentlyContinue")
+            killed_w += 1
+    before = lane_chrome_pids(slug)
+    if before:
+        ps("Get-CimInstance Win32_Process | Where-Object { " + _lane_filter(slug) + " } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }")
+        time.sleep(3)
+    left = lane_chrome_pids(slug)
+    return (f"killed {slug}: {killed_w} worker process(es), {len(before) - len(left)} of {len(before)} chrome.exe "
+            f"on {LANE_PROFILE}{slug}" + (f"; {len(left)} STILL ALIVE" if left else ""))
+
+
+def seed_lane_profiles(slugs) -> list[str]:
+    """Give each lane's profile the cookie jar of the shared debug profile, once.
+
+    A COLD Chrome profile is a BLOCKED Chrome profile. Measured on this machine 4 Sep 2026 against
+    https://itprice.com/cisco-gpl/C9500-48Y4C: a brand-new profile got 403 and 28,614 bytes of
+    "Just a moment..." and never cleared it inside the worker's 25 s challenge wait - whether
+    playwright launched the browser or attached to an ordinary one, and with navigator.webdriver
+    false either way. The same profile seeded from D:\\netzspec-chrome-profile got 200 and the
+    price list, both ways. The clearance (cf_clearance for itprice, router-switch and provantage)
+    lives in the jar, so splitting one shared Chrome into four per-lane Chromes without seeding
+    them would have replaced one wedged lane with four blocked ones.
+
+    The jar is LOCKED while the 9222 debug Chrome runs (PermissionError; the two unlocked files
+    still copy), so this runs from START-SCRAPERS.cmd BEFORE that Chrome is started. It is a
+    no-op for a profile that already exists."""
+    sys.path.insert(0, str(ROOT / "scraper"))
+    try:
+        import worker  # noqa: E402 -- the ONE definition of what a lane profile is called
+    except Exception as e:  # noqa
+        return [f"COULD NOT SEED: worker.py did not import ({type(e).__name__}: {str(e)[:140]})"]
+    return [worker.seed_profile(worker.profile_dir_for([s])) for s in slugs]
 
 
 def runnable_by_source() -> dict[str, int] | None:
@@ -133,46 +212,48 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
     runnable = runnable_by_source()
 
     lines.append(f"- supervisor: {'alive' if sup else 'NOT RUNNING'}; lock age {f'{lock_age_h:.1f} h' if lock_age_h is not None else 'none'}")
-    # The websocket probe is only consulted when NO worker is alive: a worker that is fetching
-    # is the proof that Chrome connects, and the probe itself timed out at 20 s against a
-    # Chrome four workers were using (4 Sep 2026) — a sentinel that trusted the probe over the
-    # workers would have restarted Chrome under them every three minutes. Two consecutive
-    # failures with no worker alive, then restart.
+    # The 9222 debug Chrome is now a SIDE CAR: scraper/images.py and ad-hoc `worker.py fetch` use
+    # it, the lanes do not. So the websocket probe stays (a wedged Chrome is a silently broken
+    # image lane, and "could not check" is not "is broken") but there is no automatic restart any
+    # more: nothing that restarting it would rescue depends on it, and a restart under a running
+    # images.py would break the one thing it is for. Skipped while the image lane holds the single
+    # client slot, because a probe that competes with the user IS the failure it would report.
     st0 = json.loads(STATE.read_text(encoding="utf-8")) if STATE.exists() else {}
-    cdp_fail_streak = int(st0.get("cdp_fail_streak", 0))
-    cdp_ok, cdp_why = True, "not probed (workers alive)"
-    if chrome and not workers:
+    st0.pop("cdp_fail_streak", None)   # the streak only ever fed the restart that is gone
+    image_lane = any("images.py" in p for p in procs)
+    cdp_users = [p for p in procs if "worker.py" in p and "--cdp" in p]
+    cdp_ok, cdp_why = True, "not probed (the image lane or an ad-hoc fetch holds the one client slot)"
+    if chrome and not image_lane and not cdp_users:
         cdp_ok, cdp_why = cdp_connects(timeout_ms=60000)
-    cdp_fail_streak = 0 if cdp_ok else cdp_fail_streak + 1
-    lines.append(f"- tunnel 5433: {'up' if tunnel else 'DOWN'}; chrome 9222: {'up' if chrome else 'DOWN'}; devtools websocket: {cdp_why}" + (f" (fail streak {cdp_fail_streak})" if cdp_fail_streak else ""))
+    lines.append(f"- tunnel 5433: {'up' if tunnel else 'DOWN'}; debug chrome 9222 (image lane only): "
+                 f"{'up' if chrome else 'DOWN'}; devtools websocket: {cdp_why}")
     if chrome and not cdp_ok:
-        alarms.append(f"scraper Chrome answers the port but no DevTools websocket connects ({cdp_why}); no worker alive")
-        if heal and cdp_fail_streak >= 2:
-            actions.append(restart_debug_chrome())
-            cdp_fail_streak = 0
-            chrome = listening(9222)
-            cdp_ok, cdp_why = cdp_connects(timeout_ms=60000)
-            lines.append(f"- after restart: chrome 9222 {'up' if chrome else 'DOWN'}; devtools websocket: {cdp_why}")
-    st0["cdp_fail_streak"] = cdp_fail_streak
-    STATE.parent.mkdir(parents=True, exist_ok=True)
-    STATE.write_text(json.dumps(st0), encoding="utf-8")
-    chrome = chrome and cdp_ok
+        alarms.append("the 9222 DEBUG Chrome answers the port but no DevTools websocket connects "
+                      f"({cdp_why}). The acquisition lanes do NOT use it and are unaffected; the IMAGE lane does. "
+                      "Restart it by hand: kill chrome.exe matching --remote-debugging-port=9222, then "
+                      "scraper\\tools\\start-chrome-debug.ps1")
+    if cdp_users:
+        lines.append(f"- note: {len(cdp_users)} worker(s) still running with --cdp; they share one client slot and "
+                     "all but the first will hang for 180 s. Lanes must run with --profile.")
     if not tunnel:
         alarms.append("tunnel down: nothing can reach the database")
         if heal:
             subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-File", str(ROOT / "scraper" / "tools" / "start-tunnel.ps1")], capture_output=True, timeout=60)
             actions.append("started tunnel")
     if not chrome:
-        alarms.append("scraper Chrome not running")
+        # Report-only: only the image lane and ad-hoc fetches need it, so it is not an outage of
+        # acquisition. Still started, because the image lane runs every supervisor cycle.
+        alarms.append("the 9222 debug Chrome (image lane and ad-hoc fetches) is not running")
         if heal:
             subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-File", str(ROOT / "scraper" / "tools" / "start-chrome-debug.ps1")], capture_output=True, timeout=60)
-            actions.append("started Chrome (9222)")
+            actions.append("started the 9222 debug Chrome")
     if runnable is None:
         alarms.append("database unreachable from the sentinel")
     else:
         for slug, n in sorted(runnable.items()):
             w = workers.get(slug, 0)
             hb = heartbeat_age_min(slug)
+            chromes = len(lane_chrome_pids(slug))
             state = "ok"
             if w == 0:
                 state = "NO WORKER"
@@ -180,22 +261,36 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
                 state = "no heartbeat yet"
             elif hb > 15:
                 state = f"STALE heartbeat {hb:.0f} min"
-            lines.append(f"- {slug}: runnable {n}, workers {w}, heartbeat {f'{hb:.0f} min' if hb is not None else 'none'} → {state}")
-            if state.startswith(("NO WORKER", "STALE")):
+            lines.append(f"- {slug}: runnable {n}, workers {w}, own chrome procs {chromes}, "
+                         f"heartbeat {f'{hb:.0f} min' if hb is not None else 'none'} → {state}")
+            # A lane whose worker is ALIVE but whose heartbeat has gone quiet is wedged. Kill it
+            # WITH ITS OWN CHROME: -Force gives the worker no signal, so it cannot close its own
+            # browser, and the orphan would hold the profile lock against the next start.
+            if state.startswith("STALE"):
                 alarms.append(f"{slug}: {state} with {n} runnable tasks")
-                # A worker exits when its queue runs dry; the planner refills the queue minutes
-                # later and the supervisor only restarts workers at the next cycle (hours). So the
-                # sentinel restarts the lane itself, one worker per source, if the machine has room.
-                if heal and w == 0 and chrome and n >= 5:
-                    free_mb = int(ps("[math]::Round((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1024)") or "0")
-                    if free_mb < 400:
-                        actions.append(f"NOT starting {slug}: only {free_mb} MB free")
-                    else:
-                        log = NS / f"worker-{slug}.sentinel.out"
-                        # sys.executable, not "python3.11": the Store alias resolves in a shell, not in CreateProcess
-                        subprocess.Popen([sys.executable, "-u", "scraper/worker.py", "run", "--sources", slug, "--cdp", "http://127.0.0.1:9222"],
-                                         cwd=str(ROOT), stdout=open(log, "a", encoding="utf-8"), stderr=subprocess.STDOUT, creationflags=0x08000000)
-                        actions.append(f"started worker for {slug} ({n} runnable)")
+                if heal:
+                    actions.append(kill_lane(slug, kill_worker=True))
+                    w = 0
+            elif state == "NO WORKER":
+                alarms.append(f"{slug}: {state} with {n} runnable tasks")
+            # A worker exits when its queue runs dry; the planner refills the queue minutes later
+            # and the supervisor only restarts workers at the next cycle. So the sentinel restarts
+            # the lane itself, one worker per source, if the machine has room for its Chrome.
+            if heal and w == 0 and n >= 5:
+                if chromes:
+                    # nobody owns it any more, and it holds the lane's profile lock
+                    actions.append(kill_lane(slug, kill_worker=False) + " (orphan: no worker owned it)")
+                free_mb = int(ps("[math]::Round((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1024)") or "0")
+                if free_mb < MIN_FREE_MB:
+                    actions.append(f"NOT starting {slug}: only {free_mb} MB free, and a lane's Chrome needs about "
+                                   f"500 MB (guard {MIN_FREE_MB} MB)")
+                else:
+                    log = NS / f"worker-{slug}.sentinel.out"
+                    # --profile, never --cdp: one Chrome per lane on its own profile. sys.executable,
+                    # not "python3.11": the Store alias resolves in a shell, not in CreateProcess.
+                    subprocess.Popen([sys.executable, "-u", "scraper/worker.py", "run", "--sources", slug, "--profile"],
+                                     cwd=str(ROOT), stdout=open(log, "a", encoding="utf-8"), stderr=subprocess.STDOUT, creationflags=0x08000000)
+                    actions.append(f"started worker for {slug} with its own Chrome ({n} runnable, {free_mb} MB free)")
     if not sup or (lock_age_h is not None and lock_age_h > 6):
         alarms.append("supervisor not running" if not sup else f"supervisor lock stale ({lock_age_h:.1f} h)")
         if heal:
@@ -204,7 +299,10 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
                     pass
             subprocess.Popen(["powershell", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-File", str(ROOT / "scraper" / "tools" / "nightshift.ps1")], creationflags=0x08000000)
             actions.append("started supervisor (nightshift.ps1)")
-    # blank tabs: a page on about:blank for > 10 min while its worker should be fetching
+    # Blank tabs in the 9222 debug Chrome. The lanes no longer open tabs there, so a blank tab is
+    # now the image lane or an ad-hoc fetch leaking one. start-chrome-debug.ps1 opens the browser
+    # ON about:blank, so there is ALWAYS exactly one and alarming on it would put a permanent
+    # entry in ALERT.md; the alarm is therefore at two or more.
     st = json.loads(STATE.read_text(encoding="utf-8")) if STATE.exists() else {}
     blank_first = st.get("blank_first", {})
     if pages is not None:
@@ -215,9 +313,11 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
                 ids.add(pg["id"]); blank_first.setdefault(pg["id"], now)
         blank_first = {k: v for k, v in blank_first.items() if k in ids}
         old = [k for k, v in blank_first.items() if now - v > 600]
-        lines.append(f"- chrome tabs: {len(pages)} ({len(ids)} blank, {len(old)} blank > 10 min)")
-        if old and workers and sum(runnable.values() if runnable else [0]) > 0:
-            alarms.append(f"{len(old)} browser tab(s) blank for > 10 min while work is queued (a worker opened a tab and never navigated)")
+        lines.append(f"- debug chrome tabs: {len(pages)} ({len(ids)} blank, {len(old)} blank > 10 min; "
+                     "one blank tab is the launcher's own and is expected)")
+        if len(old) >= 2:
+            alarms.append(f"{len(old)} tabs in the 9222 debug Chrome blank for > 10 min: the image lane or an "
+                          "ad-hoc fetch opened tabs and never navigated or closed them")
     STATE.parent.mkdir(parents=True, exist_ok=True)
     st0["blank_first"] = blank_first          # keep cdp_fail_streak: one state file, merged, never replaced
     STATE.write_text(json.dumps(st0), encoding="utf-8")
@@ -228,7 +328,16 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--loop", type=int, default=0, help="seconds between checks; 0 = once")
     ap.add_argument("--heal", action="store_true")
+    ap.add_argument("--seed-profiles", default="",
+                    help="comma-separated lane slugs whose Chrome profile should be seeded from the shared debug "
+                         "profile, then exit. Run this with the 9222 Chrome DOWN: it holds the cookie jar open. "
+                         "A profile that already exists is left alone.")
     a = ap.parse_args()
+    if a.seed_profiles:
+        slugs = [s.strip() for s in a.seed_profiles.split(",") if s.strip()]
+        for note in seed_lane_profiles(slugs):
+            print(note)
+        return 0
     lock = NS / "sentinel.lock"
     NS.mkdir(parents=True, exist_ok=True)
     if a.loop and lock.exists() and time.time() - lock.stat().st_mtime < 4 * 60:

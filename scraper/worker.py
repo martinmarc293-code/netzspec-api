@@ -7,9 +7,10 @@ source module (scraper/sources/<slug>.py), writes the raw result under runs/acqu
 records the fetch and the per-part source check in Postgres. The TypeScript side
 (ingest apply-acquired) then maps, normalises, gates and merges.
 
-    python3.11 scraper/worker.py run --sources router-switch,itprice --cdp http://127.0.0.1:9222 --loop
-    python3.11 scraper/worker.py run --sources all-enabled --max-tasks 200   (one worker, every source; a supervisor rotates)
-    python3.11 scraper/worker.py run --sources provantage --profile          (Chrome we launch, own profile)
+    python3.11 scraper/worker.py run --sources provantage --profile          (its OWN Chrome; the normal mode)
+    python3.11 scraper/worker.py run --sources all-enabled --profile         (one worker, every source, one Chrome)
+    python3.11 scraper/worker.py run --sources itprice --profile --profile-dir D:\some-other-profile
+    python3.11 scraper/worker.py run --sources router-switch --cdp http://127.0.0.1:9222   (ad-hoc only, see below)
     python3.11 scraper/worker.py fetch <url> [--cdp ...]                     ad-hoc fetch into the cache
     python3.11 scraper/worker.py status                                      queue counts
 
@@ -17,6 +18,15 @@ Rules this file enforces, each learned the hard way:
   * A worker never decides what to fetch; it takes the next lease. Priorities are rows.
   * One page at a time per worker. Six parallel browsers once exhausted the machine and every
     worker died before its first log line.
+  * ONE CHROME PER LANE, never one Chrome shared by four workers. Measured on this machine on
+    4 Sep 2026: the shared debug Chrome (--remote-debugging-port=9222, Chrome 152.0.7977.65)
+    accepts exactly ONE Playwright connect_over_cdp client after a fresh start. Every later
+    client, and every client after the first one disconnects, hangs at <ws connecting> until the
+    180 s timeout while /json/version keeps answering in 3 ms. Four lanes sharing one Chrome
+    therefore meant three lanes dying every three minutes while the sentinel reported them
+    "restarted". So each worker LAUNCHES its own Chrome against its own persistent profile
+    (D:\netzspec-chrome-profile-<slug>) and no DevTools port is shared. The 9222 debug Chrome
+    stays, for scraper/images.py and ad-hoc `worker.py fetch` only.
   * A key that is not a part number is never inserted. sources.base.is_part_number is the ONE
     definition (the watchdog used to carry its own copy and the queue none); a refusal is
     counted by reason and printed in the exit summary, never silent.
@@ -190,23 +200,94 @@ def write_heartbeat(runs_dir: Path, slug: str, rec: dict) -> Path:
 # browser
 # ---------------------------------------------------------------------------------------------
 
+# One profile directory per LANE. A Chrome profile is a lock: two Chromes cannot share one, and
+# that is the point — the directory name is also how the sentinel finds the Chrome belonging to
+# one lane and kills only that one (it matches chrome.exe on --user-data-dir=<this>).
+PROFILE_ROOT = r"D:\netzspec-chrome-profile"
+
+
+def profile_dir_for(sources) -> str:
+    """The profile directory a worker serving these source slugs should launch Chrome against.
+
+    One source -> D:\\netzspec-chrome-profile-<slug>, so every lane the supervisor starts gets its
+    own Chrome and its own DevTools pipe. Several sources in one worker -> ...-multi, because that
+    worker is still ONE browser and there is no lane to name it after. The shared, unsuffixed
+    D:\\netzspec-chrome-profile belongs to the 9222 debug Chrome and is never returned here: a
+    worker that launched against it would fight the debug Chrome for the profile lock."""
+    slugs = sorted({(s or "").strip() for s in (sources or []) if (s or "").strip()})
+    if len(slugs) == 1:
+        return f"{PROFILE_ROOT}-{slugs[0]}"
+    return f"{PROFILE_ROOT}-multi"
+
+
+# The three files that carry a Chrome profile's earned trust. Local State holds the DPAPI-wrapped
+# key the cookie jar is encrypted with, so the jar is unreadable without it.
+SEED_FILES = ("Local State", r"Default\Preferences", r"Default\Network\Cookies")
+
+
+def seed_profile(profile_dir: str, source_dir: str = PROFILE_ROOT) -> str:
+    """First launch of a lane: copy the cookie jar out of the shared debug profile, once.
+
+    A COLD Chrome profile is a blocked Chrome profile. Measured on this machine 4 Sep 2026, the
+    same itprice price-list URL: the warm debug profile answered 200 with 94,642 bytes and the
+    right title, a brand-new profile answered 403 with 28,614 bytes of "Just a moment..." and the
+    interstitial did not clear inside the worker's 25 s challenge wait. Cloudflare's clearance
+    lives in the profile, so splitting one shared Chrome into four per-lane Chromes would have
+    started four blocked lanes. The seed is a ONE-TIME copy on first launch and never an
+    overwrite: after that the lane's own jar is newer than the seed by definition, and a lane
+    that goes cold again is a lane whose clearance expired, which is a fetch problem, not this.
+
+    Returns a one-line description for the worker's log; never raises, because a missing seed is
+    a slower start, not a failure (Chrome creates the profile itself either way)."""
+    import shutil
+    dest = Path(profile_dir)
+    src = Path(source_dir)
+    if dest.exists():
+        return f"profile {dest.name} already exists (not seeded)"
+    if not src.is_dir():
+        return f"no seed profile at {src} (this lane starts cold)"
+    copied, missed = [], []
+    for rel in SEED_FILES:
+        s, d = src / rel, dest / rel
+        try:
+            if not s.is_file():
+                missed.append(rel)
+                continue
+            d.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(s, d)
+            copied.append(rel)
+        except OSError as e:  # the debug Chrome holds the jar open, or D: is full
+            missed.append(f"{rel} ({type(e).__name__})")
+    dest.mkdir(parents=True, exist_ok=True)
+    return f"seeded {dest.name} from {src.name}: copied {copied or 'nothing'}" + (f", missed {missed}" if missed else "")
+
+
 class Browser:
     """One page, one host at a time. Two ways to get a real Chrome:
-       cdp     attach to a Chrome started with --remote-debugging-port (scraper/tools/start-chrome-debug.ps1)
-       profile launch the installed Chrome (channel 'chrome') with a persistent profile on D:
+       profile launch the installed Chrome (channel 'chrome') with a persistent profile on D:.
+               THIS IS THE MODE THE LANES RUN IN. channel='chrome' and headless=False are not
+               negotiable: router-switch, itprice and arista pass their challenges only in the
+               real installed Chrome (see docs/SCRAPING.md).
+       cdp     attach to a Chrome started with --remote-debugging-port (scraper/tools/start-chrome-debug.ps1).
+               Ad-hoc use ONLY. That Chrome takes one Playwright client per start; a second
+               worker on it hangs at <ws connecting> for 180 s and dies.
     Both carry a real TLS fingerprint and cookies, which is what passes the challenges that
     headless Chromium does not."""
 
     def __init__(self, mode: str = "profile", cdp_url: str = "http://127.0.0.1:9222", headless: bool = False,
-                 profile_dir: str = r"D:\netzspec-chrome-profile"):
+                 profile_dir: str = PROFILE_ROOT + "-adhoc"):
         from playwright.sync_api import sync_playwright
         self._pw = sync_playwright().start()
         self.mode = mode
+        self.profile_dir = profile_dir if mode != "cdp" else None
+        self.seed_note = ""
+        self._closed = False
         if mode == "cdp":
             self._browser = self._pw.chromium.connect_over_cdp(cdp_url)
             self._ctx = self._browser.contexts[0] if self._browser.contexts else self._browser.new_context()
             self._page = self._ctx.new_page()
         else:
+            self.seed_note = seed_profile(profile_dir)
             Path(profile_dir).mkdir(parents=True, exist_ok=True)
             kwargs = dict(headless=headless, locale="en-US", viewport={"width": 1400, "height": 1000},
                           extra_http_headers={"Accept-Language": "en-US,en;q=0.9"})
@@ -392,13 +473,50 @@ class Browser:
         return {"status": res.get("status"), "body": body, "content_type": res.get("ct", "")}
 
     def close(self) -> None:
+        """Idempotent, and the two shutdowns are SEPARATE try blocks on purpose: the old form
+        closed the context and stopped playwright inside one try, so a context that refused to
+        close (a page mid-navigation) skipped _pw.stop() — the node driver stayed up, and with it
+        the Chrome it owns. That is exactly the orphan Chrome this file is trying not to leave."""
+        if self._closed:
+            return
+        self._closed = True
         try:
             if self.mode == "cdp":
                 self._page.close()
             else:
                 self._ctx.close()
+        except Exception:  # noqa
+            pass
+        try:
             self._pw.stop()
         except Exception:  # noqa
+            pass
+
+
+def install_shutdown(browser: "Browser") -> None:
+    """Close the browser on a normal exit and on a signal, so a killed lane does not leave an
+    orphan Chrome holding its profile lock (the next start of that lane would then fail).
+
+    Handles SIGTERM, SIGINT and — on Windows — SIGBREAK, which is what CTRL-BREAK and
+    `Stop-Process` on a console group deliver. It cannot help against `Stop-Process -Force`:
+    that is TerminateProcess and no handler on earth runs. Killing the lane's Chrome by its
+    --user-data-dir is the sentinel's job for exactly that case."""
+    import atexit
+    import signal
+    atexit.register(browser.close)
+
+    def _bye(signum, _frame):  # noqa
+        print(f"worker: signal {signum} - closing the browser", flush=True)
+        browser.close()
+        os._exit(128 + int(signum))
+
+    for name in ("SIGTERM", "SIGINT", "SIGBREAK"):
+        sig = getattr(signal, name, None)
+        if sig is None:
+            continue
+        try:
+            signal.signal(sig, _bye)
+        except (ValueError, OSError):  # not the main thread, or not supported here
             pass
 
 
@@ -691,9 +809,18 @@ def run(args: argparse.Namespace) -> int:
     if not active:
         raise SystemExit("no enabled sources to work")
 
-    browser = Browser(mode="cdp" if args.cdp else "profile", cdp_url=args.cdp or "http://127.0.0.1:9222", headless=args.headless)
+    # --cdp is the only thing that turns the shared-Chrome mode on, and nothing in the supervisor
+    # or the sentinel passes it any more. Without it the worker launches its OWN Chrome against
+    # its OWN profile, named after the lane so the sentinel can find it.
+    profile_dir = (args.profile_dir or "").strip() or profile_dir_for(wanted)
+    browser = Browser(mode="cdp" if args.cdp else "profile", cdp_url=args.cdp or "http://127.0.0.1:9222",
+                      headless=args.headless, profile_dir=profile_dir)
+    install_shutdown(browser)
     lp = Loop(q, browser, runs_dir)
-    print(f"worker {WORKER} mode={browser.mode} sources={wanted} loop={args.loop} max_tasks={args.max_tasks}")
+    print(f"worker {WORKER} mode={browser.mode} profile={browser.profile_dir} sources={wanted} "
+          f"loop={args.loop} max_tasks={args.max_tasks}", flush=True)
+    if browser.seed_note:
+        print(f"  {browser.seed_note}", flush=True)
     try:
         lp.run(active, loop=args.loop, idle=args.idle, max_tasks=args.max_tasks)
     finally:
@@ -744,8 +871,15 @@ def main() -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("run")
     r.add_argument("--sources", required=True, help="comma-separated source slugs this worker serves, or all-enabled")
-    r.add_argument("--cdp", default="", help="attach to a running Chrome, e.g. http://127.0.0.1:9222")
-    r.add_argument("--profile", action="store_true", help="launch installed Chrome with a persistent profile (default)")
+    r.add_argument("--cdp", default="",
+                   help="AD-HOC ONLY: attach to a running Chrome, e.g. http://127.0.0.1:9222. That Chrome "
+                        "serves one Playwright client per start; a second worker on it hangs for 180 s and dies.")
+    r.add_argument("--profile", action="store_true",
+                   help="launch the installed Chrome with this lane's own persistent profile (the default, "
+                        "and what the supervisor and the sentinel use)")
+    r.add_argument("--profile-dir", default="",
+                   help=r"override the profile directory; default D:\netzspec-chrome-profile-<slug> for a "
+                        r"single source, D:\netzspec-chrome-profile-multi for several")
     r.add_argument("--headless", action="store_true")
     r.add_argument("--loop", action="store_true", help="keep polling when the queue is empty")
     r.add_argument("--idle", type=int, default=30, help="seconds to sleep when idle in --loop")

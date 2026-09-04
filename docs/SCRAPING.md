@@ -338,6 +338,84 @@ Tier 3–4. They are worth crawling for three things a vendor sheet does not giv
 writes `runs/acquired/<slug>/<date>/<task_id>.json`. It writes `runs/heartbeat/<slug>.json` after
 **every** task so the watchdog can tell "slow" from "dead".
 
+### One Chrome per lane — never one DevTools port shared
+
+**A worker launches its own Chrome against its own profile. Workers do not share a DevTools port,
+and `--cdp` is for ad-hoc work only.**
+
+```
+python3.11 scraper/worker.py run --sources provantage --profile      -> D:\netzspec-chrome-profile-provantage
+python3.11 scraper/worker.py run --sources all-enabled --profile     -> D:\netzspec-chrome-profile-multi
+python3.11 scraper/worker.py run --sources itprice --profile --profile-dir D:\somewhere-else
+```
+
+The shared model was the design until 4 September 2026, and this is what it cost. The debug Chrome
+started by `scraper/tools/start-chrome-debug.ps1` (`--remote-debugging-port=9222`, profile
+`D:\netzspec-chrome-profile`, Chrome 152.0.7977.65) **accepts exactly one Playwright
+`connect_over_cdp` client after a fresh start.** Every later client — and every client after the
+first one disconnects — hangs at `<ws connecting>` until the 180 s timeout, while `/json/version`
+keeps answering in 3 ms. Four lanes therefore meant one working lane and three dying every three
+minutes, each death logged by the sentinel as a successful "restart". The lanes were down from
+about 07:10 to 08:45 UTC that morning and the sentinel reported them healthy the whole time,
+because a monitor that probes `/json` is not testing the thing the workers use. There is nothing
+to tune here: it is one client per browser, so it is one browser per lane.
+
+What that buys and what it costs, both measured on the operator's 8 GB laptop:
+
+| | |
+| --- | --- |
+| isolation | two workers started together both fetched inside 35 s, each in its own Chrome; no `<ws connecting>` anywhere |
+| memory | **about 500 MB of real system memory per lane Chrome** (free memory fell 1,586 → 760 MB as two came up and rose 758 → 1,806 MB when both exited), and a **process-tree working set of 1.0–1.2 GB after two fetches**. The RAM guard in `nightshift.ps1` (`$MinFreeMb`) and `sentinel.py` (`MIN_FREE_MB`) is therefore **1000 MB**, not the 400 MB that was right when four lanes shared one browser. |
+| cleanup | the worker closes its browser on exit and on SIGTERM/SIGINT/SIGBREAK, and both Chromes were gone within seconds of exit in every proof run, including the run where both workers died on a dropped tunnel |
+
+`Stop-Process -Force` is `TerminateProcess`: the worker gets **no signal** and cannot close its own
+browser. So killing a lane is always two kills, and the supervisor and the sentinel both do it that
+way — the worker, then every `chrome.exe` whose command line carries
+`--user-data-dir=D:\netzspec-chrome-profile-<slug>`. That match is the only thing standing between
+a stall recovery and the operator's own browser, so it names the lane's profile **in full** and
+never a prefix. An orphan Chrome left on a lane's profile holds the profile **lock**, and the next
+start of that lane fails until it is gone; both the supervisor and the sentinel clear one before
+restarting a lane.
+
+**The 9222 debug Chrome stays**, for `scraper/images.py` and ad-hoc `worker.py fetch`. The sentinel
+still probes its websocket, because a wedged debug Chrome is a silently broken image lane — but it
+no longer restarts it automatically: nothing in acquisition depends on it any more, and a restart
+underneath a running `images.py` would break the one thing it is for. The probe is skipped while
+the image lane holds the single client slot, because a probe that competes for that slot *is* the
+failure it would report.
+
+### A cold Chrome profile is a BLOCKED Chrome profile
+
+Splitting one warm browser into four empty ones nearly replaced one wedged lane with four blocked
+ones. Measured against `https://itprice.com/cisco-gpl/C9500-48Y4C` on 4 Sep 2026:
+
+| profile | result |
+| --- | --- |
+| brand new, Playwright-launched | 403, 28,614 bytes of `Just a moment...`, still not cleared after 85 s |
+| brand new, ordinary Chrome on its own port (`navigator.webdriver` false) | the same 403 |
+| **seeded from `D:\netzspec-chrome-profile`**, either way | **200, the price list, in 5 s** |
+
+So it is not the automation fingerprint — a Playwright-launched Chrome reports
+`navigator.webdriver: true` and an attached one `false`, and both behave the same here. It is the
+`cf_clearance` cookie, which lives in the profile and which the operator earned by hand in the
+debug Chrome. `sentinel.py --seed-profiles <slugs>` copies `Local State`,
+`Default\Preferences` and `Default\Network\Cookies` into any lane profile that does not exist yet,
+`START-SCRAPERS.cmd` runs it, and `worker.py` does the same on a lane's first launch.
+
+Two things about the seed that are not obvious:
+
+- **It must run with the 9222 Chrome DOWN.** A running Chrome holds the cookie jar open and the
+  copy fails with `PermissionError` — the other two files still copy, so the failure looks partial
+  rather than fatal. That is why the seed step in `START-SCRAPERS.cmd` comes *before* the debug
+  Chrome is started, and why it is a no-op for a profile that already exists.
+- **A copied clearance is a warm start, not a permanent one.** A clone that worked at 10:20 was
+  refused by 10:45 while the original still passed: the origin browser rotates its clearance and
+  the copy is burned. If a lane starts answering `blocked` on every page, stop the debug Chrome,
+  re-copy the three files into that lane's profile, and start it again.
+- And distinguish the two Cloudflare pages before blaming any of this: `Just a moment...` is the
+  interstitial (a profile problem), `Attention Required! | Cloudflare` at ~5 kB is the WAF blocking
+  the **IP** (a politeness problem — back off, do not re-seed).
+
 Outcomes, and what each one means:
 
 | outcome | cause | queue |
@@ -371,8 +449,9 @@ a claim that this page showed this URL for this part, not an assignment, identif
 `(part_id, source_id, url_key)` so the nightshift re-applying the same directory adds nothing.
 `scraper/images.py run --from-db --limit 40`, a step in `nightshift.ps1`, then leases one candidate
 per part **for parts with no downloaded image**, vendor sources (tier 1–2) before distributors and
-larger originals before smaller, fetches through the same Chrome at the source's own
-`politeness_ms`, and either promotes it to an `images` row with its WebP variants or marks it
+larger originals before smaller, fetches through the 9222 **debug** Chrome at the source's own
+`politeness_ms` (it is the last consumer of that browser; the lanes each have their own), and
+either promotes it to an `images` row with its WebP variants or marks it
 `rejected` **with the reason** — `placeholder-url:logo`, `shared-across-parts:41`,
 `tiny-image:64x64`, `unsupported-format:svg`, `generic-content:7`. A fetch that merely failed is
 `failed`, not `rejected`, and is retried while it has attempts left: "could not check" is not "is

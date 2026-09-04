@@ -6,9 +6,20 @@
 #   powershell -ExecutionPolicy Bypass -File scraper\tools\nightshift.ps1 -Install     register as a scheduled task at logon
 #
 # One cycle:
-#   1. make sure the debug Chrome is up (scraper/tools/start-chrome-debug.ps1)
+#   1. make sure the DEBUG Chrome is up (start-chrome-debug.ps1) - for the IMAGE LANE and ad-hoc
+#      fetches only. The acquisition workers no longer touch it; see step 3.
 #   2. top up the queue: thinnest parts first at every lookup source, then every open gap
-#   3. run the worker over every enabled source until the queue is empty (one browser, one tab)
+#   3. run one worker per source, EACH WITH ITS OWN CHROME on its own profile
+#
+# ONE CHROME PER LANE (4 Sep 2026). Every worker used to attach to the one debug Chrome on
+# --remote-debugging-port=9222. Measured on this machine: that Chrome accepts exactly ONE
+# playwright connect_over_cdp client after a fresh start - the second and every later client hangs
+# at <ws connecting> until the 180 s timeout and the worker dies, while /json/version keeps
+# answering in 3 ms. With four lanes that meant three lanes dying every three minutes, and the
+# sentinel reporting them "restarted" forever. Workers now run with --profile, which launches the
+# installed Chrome against D:\netzspec-chrome-profile-<slug>. Costs, measured: about 500 MB of
+# real system memory per lane Chrome and a process-tree working set near 1.0-1.2 GB after two
+# fetches - hence the RAM guard below.
 #   4. apply today's acquired pages: gate -> facts -> unmapped-label and unknown-SKU reports
 #   4c. fetch a bounded batch of product images from the candidates step 4 recorded
 #   5. write runs/nightshift/latest-summary.md - what landed, what is blocked, what needs a human
@@ -25,7 +36,14 @@ param(
   [int]$TopUp = 300,
   [int]$SleepMinutes = 10,
   [int]$WorkMinutes = 5,
-  [int]$ImageBatch = 40
+  [int]$ImageBatch = 40,
+  # RAM guard. This laptop has 8 GB shared with the operator's own Chrome. Each LANE now runs its
+  # own Chrome: measured 4 Sep 2026, free memory fell 1,586 -> 760 MB as two lane Chromes came up
+  # and rose 758 -> 1,806 MB when both exited (about 500 MB of real memory each), and each tree's
+  # working set peaked at 1.0-1.2 GB after two fetches. The old guard was 400 MB, set when four
+  # lanes shared ONE browser; it would now start a Chrome the machine cannot hold. Refuse below
+  # one Chrome plus slack, and let the next cycle start the lane instead.
+  [int]$MinFreeMb = 1000
 )
 $ErrorActionPreference = "Continue"
 $Repo = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
@@ -76,7 +94,7 @@ try {
     Log "===== cycle start (sources: $Sources)"
     (Get-Date) | Out-File $Lock
 
-    # 1. browser
+    # 1. the DEBUG browser - for step 4c (images) and ad-hoc fetches. No worker uses it.
     & powershell -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot "start-chrome-debug.ps1") 2>&1 | ForEach-Object { Log "   chrome: $_" }
 
     # 2. plan
@@ -89,10 +107,13 @@ try {
     # them (the catalogue itself still carries enumeration noise), zero-yield/drift sources paused
     Run-Step "watchdog" "python3.11" @("-u", "scraper/tools/watchdog.py", "--act", "--expect", $Sources) 10 | Out-Null
 
-    # 3. fetch until the queue is dry: ONE WORKER PER SOURCE in parallel (each is a tab in the same
-    #    Chrome; per-host politeness makes cross-host parallelism the only real throughput lever),
-    #    with a stall detector: a worker whose log has not grown for 20 minutes is killed and its
-    #    lease is reclaimed by the next cycle (worker.py re-leases leases older than 30 min).
+    # 3. fetch until the queue is dry: ONE WORKER PER SOURCE in parallel, EACH WITH ITS OWN CHROME
+    #    on its own profile (per-host politeness makes cross-host parallelism the only real
+    #    throughput lever), with a stall detector: a worker whose heartbeat has not moved for 20
+    #    minutes is killed - TOGETHER WITH ITS CHROME, because Stop-Process -Force is
+    #    TerminateProcess and the worker gets no signal, so it cannot close its own browser, and
+    #    an orphan Chrome holds the lane's profile LOCK against the next start. Its lease is
+    #    reclaimed by the next cycle (worker.py re-leases leases older than 30 min).
     # Workers are LONG-LIVED: a worker runs until its queue is dry, and the sentinel restarts a
     # lane that went idle. The supervisor's part is only (a) start a worker for a source that has
     # none and (b) kill one whose heartbeat has gone quiet - whoever started it. The earlier form
@@ -104,20 +125,34 @@ try {
       $running = @(Get-CimInstance Win32_Process | Where-Object { $_.ProcessId -ne $PID -and $_.Name -like "python*" -and $_.CommandLine -like ("*worker.py run --sources " + $src + " *") })
       $hb = Join-Path $Repo ("runs\heartbeat\" + $src + ".json")
       $hbAge = if (Test-Path $hb) { ((Get-Date) - (Get-Item $hb).LastWriteTime).TotalMinutes } else { 9999 }
+      # This lane's OWN Chrome, matched on its own --user-data-dir and nothing else: never the
+      # 9222 debug Chrome (no -<slug> suffix), never another lane, never the operator's browser.
+      $laneProfile = "D:\netzspec-chrome-profile-" + $src
+      $laneChrome = @(Get-CimInstance Win32_Process | Where-Object { $_.Name -eq "chrome.exe" -and $_.CommandLine -like ("*--user-data-dir=" + $laneProfile + "*") })
       if ($running.Count -gt 0 -and $hbAge -gt 20) {
-        Log ("   STALL: {0} worker alive but its heartbeat is {1} min old; killing it (the lease is reclaimed automatically)" -f $src, [int]$hbAge)
+        Log ("   STALL: {0} worker alive but its heartbeat is {1} min old; killing it and its {2} chrome.exe (the lease is reclaimed automatically)" -f $src, [int]$hbAge, $laneChrome.Count)
         foreach ($r in $running) { try { Stop-Process -Id $r.ProcessId -Force -ErrorAction SilentlyContinue } catch {} }
+        foreach ($c in $laneChrome) { try { Stop-Process -Id $c.ProcessId -Force -ErrorAction SilentlyContinue } catch {} }
+        Start-Sleep -Seconds 3
         $running = @()
+        $laneChrome = @(Get-CimInstance Win32_Process | Where-Object { $_.Name -eq "chrome.exe" -and $_.CommandLine -like ("*--user-data-dir=" + $laneProfile + "*") })
       }
       if ($running.Count -gt 0) { continue }
-      # RAM guard: this laptop has 8 GB shared with the operator's own Chrome; a worker started
-      # into a full machine takes the others down with it (the six-browser incident)
+      # No worker but a Chrome still on this lane's profile: an orphan holding the profile LOCK.
+      # The next launch fails until it is gone, so clear it before starting.
+      if ($laneChrome.Count -gt 0) {
+        Log ("   ORPHAN: {0} has no worker but {1} chrome.exe on {2}; killing them (they hold the profile lock)" -f $src, $laneChrome.Count, $laneProfile)
+        foreach ($c in $laneChrome) { try { Stop-Process -Id $c.ProcessId -Force -ErrorAction SilentlyContinue } catch {} }
+        Start-Sleep -Seconds 3
+      }
+      # RAM guard: see $MinFreeMb at the top. A lane now costs its own Chrome, not a tab.
       $freeMb = [math]::Round((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1024)
-      if ($freeMb -lt 400) { Log "   RAM: only $freeMb MB free; not starting a worker for $src this cycle"; continue }
+      if ($freeMb -lt $MinFreeMb) { Log "   RAM: only $freeMb MB free (guard $MinFreeMb, a lane's Chrome needs about 500 MB); not starting a worker for $src this cycle"; continue }
       $wlog = Join-Path $LogDir ("worker-" + $src + ".out")
-      $p = Start-Process -FilePath "python3.11" -ArgumentList @("-u", "scraper/worker.py", "run", "--sources", $src, "--cdp", "http://127.0.0.1:9222") -WorkingDirectory $Repo -NoNewWindow -PassThru -RedirectStandardOutput $wlog -RedirectStandardError ($wlog + ".err")
+      # --profile, never --cdp: one Chrome per lane. See the header for what sharing one cost.
+      $p = Start-Process -FilePath "python3.11" -ArgumentList @("-u", "scraper/worker.py", "run", "--sources", $src, "--profile") -WorkingDirectory $Repo -NoNewWindow -PassThru -RedirectStandardOutput $wlog -RedirectStandardError ($wlog + ".err")
       $procs[$src] = @{ proc = $p; log = $wlog }
-      Start-Sleep -Seconds 3
+      Start-Sleep -Seconds 5
     }
     Log ("   started {0} workers (others already running)" -f $procs.Count)
     # let the lanes work for a few minutes, touching the lock the sentinel watches
