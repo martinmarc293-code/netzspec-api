@@ -258,6 +258,12 @@ full; the ones that bite hardest here are restated.
   ahead of the schema between an agent's landing and the deploy; the rollback held, and the
   window closes with the deploy — but note it when a supervisor step fails right after a
   schema-bearing commit.
+  IN FLIGHT (Opus): `ingest hygiene` (case-duplicate merge + unique index on
+  `(vendor_id, lower(sku))`, fabricated PDF PIDs retired into their real part, 14 foreign
+  PIDs retired as not-cisco, `-HW` twins linked by alias, family-brand audit) and
+  `ingest renormalize` (facts with an old `norm_v` re-read from `raw`: same → re-stamp,
+  changed → supersede, refused → quarantine state; change-share guard). Both dry on
+  production; `--commit` on the box after review.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
