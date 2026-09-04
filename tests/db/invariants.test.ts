@@ -46,7 +46,7 @@ if (READ_ONLY) {
   }
   const db = await import("../../src/store/db.js");
   const name = databaseName(db.resolveDatabaseUrl());
-  if (!name.endsWith("_test")) { console.error(`refusing: database "${name}" is not a _test database`); process.exit(1); }
+  if (!/_test\d*$/.test(name)) { console.error(`refusing: database "${name}" is not a _test database`); process.exit(1); }
   console.log(`invariants: database ${name} (test mode: dictionary synced first, sabotage enabled)`);
   const { syncDictionary } = await import("../../src/store/dictionary.js");
   const s = await syncDictionary({ quiet: true });

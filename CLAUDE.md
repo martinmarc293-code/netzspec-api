@@ -43,6 +43,13 @@ full; the ones that bite hardest here are restated.
   The report's per-class samples were printed under the wrong heading and it passed review.
   Before trusting any bulk resolution, retraction or supersede: `SELECT kept, rejected` for a
   random 20 of the class and check the rule's own predicate by hand (4 Sep 2026).
+- **psycopg3: a `with conn.transaction():` block after an earlier SELECT on a non-autocommit
+  connection is a SAVEPOINT, not a commit.** The outer implicit transaction is rolled back when
+  the script ends, and every print inside the session still shows the "committed" state. An
+  operator reopen of 4,164 conflicts (run #63) vanished this way while its own output said
+  "open conflicts now: 14,909" (4 Sep 2026). Open every ad-hoc write connection with
+  `autocommit=True` and wrap the write in ONE explicit transaction, or `conn.commit()` and
+  re-read from a NEW connection before believing it.
 
 ## Session log (update every session; newest first)
 

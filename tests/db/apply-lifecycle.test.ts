@@ -39,7 +39,7 @@ if (process.env.NETZSPEC_DB !== "test") {
   process.exit(1);
 }
 const dbName = databaseName(resolveDatabaseUrl());
-if (!dbName.endsWith("_test")) { console.error(`refusing: database "${dbName}" is not a _test database`); process.exit(1); }
+if (!/_test\d*$/.test(dbName)) { console.error(`refusing: database "${dbName}" is not a _test database`); process.exit(1); }
 console.log(`apply-lifecycle.test: database ${dbName}`);
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");

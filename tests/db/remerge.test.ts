@@ -18,8 +18,11 @@ import {
   ensureCategory, upsertPart, docIdFor, ensureSourceDoc, linkDocParts,
   applyMerge, currentFact, factHistory, restampTiers, retractFact, insertFact,
 } from "../../src/store/index.js";
-import type { SpecEntry } from "../../src/core/specMerge.js";
-import { decide, gateRemerge, retypeMismatchedFacts, main as remergeMain, type ConflictRow, type Decision } from "../../src/pipeline/remerge.js";
+import { NONSENSICAL_PAIRS, type SpecEntry } from "../../src/core/specMerge.js";
+import {
+  decide, gateRemerge, retypeMismatchedFacts, applicabilityCensus, retractInapplicableFacts,
+  main as remergeMain, type ConflictRow, type Decision,
+} from "../../src/pipeline/remerge.js";
 
 if (process.env.NETZSPEC_DB !== "test") {
   console.error("refusing: run with NETZSPEC_DB=test (this suite truncates tables)");
@@ -41,7 +44,10 @@ await query(`TRUNCATE facts, fact_evidence, conflicts, lifecycle, relations, ima
 await query(`INSERT INTO field_dictionary (key, type, unit, label_en, label_de) VALUES
   ('altitude_max', 'n', 'm', 'Maximum altitude', 'Maximale Hoehe'),
   ('ieee_standards', 'ls', NULL, 'IEEE standards', 'IEEE-Standards'),
-  ('qos_features', 'ls', NULL, 'QoS features', 'QoS-Funktionen')
+  ('qos_features', 'ls', NULL, 'QoS features', 'QoS-Funktionen'),
+  ('stack_max_members', 'n', NULL, 'Max stack members', 'Max. Switches je Stack'),
+  ('ip_rating', 's', NULL, 'IP rating', 'IP-Schutzart'),
+  ('weight', 'n', 'kg', 'Weight', 'Gewicht')
   ON CONFLICT (key) DO NOTHING`);
 // the dictionary copy in the database can lag the code copy; the retype pass reads the CODE one
 await query(`UPDATE field_dictionary SET type = 'ls' WHERE key = 'qos_features'`);
@@ -166,9 +172,25 @@ const row = (o: Partial<ConflictRow>): ConflictRow => ({
 
   const setEqual = decide(row({
     field_key: "ieee_standards", fact_unit: null,
-    fact_value: ["Optional L3", "LAN"], rejected: ["optional l3", "lan"],
+    kept: ["Optional L3", "LAN"], fact_value: ["Optional L3", "LAN"], rejected: ["optional l3", "lan"],
   }));
   check("a set-equal list resolves", setEqual.kind === "agree" && setEqual.rule === "set_equal", JSON.stringify(setEqual));
+
+  // THE 4 SEP 2026 DEFECT. `decide` compared the CURRENT fact with the rejected value, so once a
+  // later apply had superseded the field to the conflict's LOSER, the loser agreed with itself and
+  // the conflict closed as `rule:exact`. 4,164 conflicts went that way on production, every one of
+  // them with kept <> rejected and the current fact byte-identical to rejected (weight 0.127006 kg
+  // against 0.13 kg, packet_buffer 1.5 against 3). Agreement is a statement about the RECORDED pair.
+  const drifted = decide(row({ kept: 0.127006, rejected: 0.13, fact_value: 0.13, fact_unit: "kg", field_key: "weight" }));
+  check("SABOTAGE the current fact having drifted to the REJECTED value is not an agreement",
+    drifted.kind === "open" && drifted.rule === "drift:current_fact_is_the_rejected_value", JSON.stringify(drifted));
+  const driftedAway = decide(row({ kept: 287.02, rejected: 329, fact_value: 327.66, fact_unit: "mm" }));
+  check("SABOTAGE the current fact having drifted within tolerance of the rejected value is not an agreement either",
+    driftedAway.kind === "open" && driftedAway.rule === "drift:current_fact_is_the_rejected_value", JSON.stringify(driftedAway));
+  const bothNull = decide(row({ kept: null, rejected: null, fact_value: null }));
+  check("SABOTAGE two ABSENT values are not an agreement", bothNull.kind !== "agree", JSON.stringify(bothNull));
+  const noRaws = decide(row({ kept: 4998.72, rejected: 3000, fact_value: 4998.72, kept_raw: null, rejected_raw: null }));
+  check("SABOTAGE null raws with differing values stay OPEN", noRaws.kind === "open", JSON.stringify(noRaws));
 
   const real = decide(row({ fact_value: 3048, rejected: 1800 }));
   check("SABOTAGE a real two-document disagreement stays OPEN", real.kind === "open" && real.rule === "cross_doc_disagreement", JSON.stringify(real));
@@ -181,11 +203,21 @@ const row = (o: Partial<ConflictRow>): ConflictRow => ({
   const chassisOwn = decide(row({ inherited: true, inherited_from: "catalyst-9200-series-switches" }));
   check("SABOTAGE the chassis's own inherited value is NOT retracted", chassisOwn.kind !== "retract", JSON.stringify(chassisOwn));
 
-  const sameDoc = decide(row({ rejected_evidence: { tier: 2, method: "html_table", doc_id: docA, norm_v: "1.5.0" }, rejected: 1800 }));
-  check("the same document read by a newer normaliser would be superseded", /same_doc_reextraction/.test(sameDoc.rule), JSON.stringify(sameDoc));
-  check("but without the source string it is REAPPLY, never a fabricated raw", sameDoc.kind === "reapply", JSON.stringify(sameDoc));
-  const withRaw = decide(row({ rejected_evidence: { tier: 2, method: "html_table", doc_id: docA, norm_v: "1.5.0" }, rejected: 1800, rejected_raw: "1800 m" }));
-  check("with the source string (migration 0008) it is a rewrite", withRaw.kind === "rewrite", JSON.stringify(withRaw));
+  // A RE-EXTRACTION IS THE SAME CELL READ AGAIN, so the two raws must be the same string. The
+  // provenance alone (same document, newer norm_v) said nothing about which cell, and 3,164 of the
+  // store's 10,291 `same_doc_reextraction` closures were two DIFFERENT cells of one document being
+  // resolved by write order.
+  const sameCell = { rejected_evidence: { tier: 2, method: "html_table", doc_id: docA, norm_v: "1.5.0" }, rejected: 1800,
+    fact_raw: "6,000 ft.", rejected_raw: "6,000 ft." };
+  const withRaw = decide(row(sameCell));
+  check("the same CELL read by a newer normaliser is a rewrite, and says so",
+    withRaw.kind === "rewrite" && /same_doc_reextraction/.test(withRaw.rule), JSON.stringify(withRaw));
+  const noRaw = decide(row({ ...sameCell, fact_raw: "6,000 ft.", rejected_raw: null }));
+  check("SABOTAGE without the rejected source string it cannot be called a re-extraction: OPEN, never a fabricated raw",
+    noRaw.kind === "open" && noRaw.rule === "same_doc_disagreement", JSON.stringify(noRaw));
+  const otherCell = decide(row({ ...sameCell, rejected_raw: "1800 m" }));
+  check("SABOTAGE a DIFFERENT cell of the same document is a same-document disagreement, held",
+    otherCell.kind === "open" && otherCell.rule === "same_doc_disagreement", JSON.stringify(otherCell));
 
   const gone = decide(row({ fact_id: null }));
   check("a conflict whose field no longer holds a fact is SKIPPED by name, not silently", gone.kind === "skip" && gone.rule === "no_current_fact");
@@ -208,10 +240,20 @@ const row = (o: Partial<ConflictRow>): ConflictRow => ({
   check("SABOTAGE retracting a fact that is not INHERITED fails the gate",
     !g3.passed && g3.misses.some((m) => /RETRACT_NOT_INHERITED/.test(m)), JSON.stringify(g3.misses));
 
-  const notReally = [row({ id: 3, fact_value: 5, rejected: 5 })];
-  const g4 = gateRemerge(notReally, new Map([[3, { kind: "agree", rule: "set_equal" } as Decision]]), 200);
+  const notReally = [row({ id: 3, kept: 5, fact_value: 5, rejected: 5 })];
+  const g4 = gateRemerge(notReally, new Map([[3, { kind: "agree", rule: "exact" } as Decision]]), 200);
   check("SABOTAGE an 'agreement' between two IDENTICAL values means the conflict was never real",
     !g4.passed && g4.misses.some((m) => /AGREE_WAS_NEVER_A_CONFLICT/.test(m)), JSON.stringify(g4.misses));
+
+  // the gate is the second half of the rule:exact fix: it re-derives an agreement from the RECORDED
+  // pair, so a decision taken against the current fact cannot pass the sample the way 4,164 did.
+  const driftRows = [row({ id: 4, kept: 0.127006, rejected: 0.13, fact_value: 0.13, fact_unit: "kg" })];
+  const g5 = gateRemerge(driftRows, new Map([[4, { kind: "agree", rule: "exact" } as Decision]]), 200);
+  check("SABOTAGE an 'agreement' the RECORDED pair does not support fails the gate",
+    !g5.passed && g5.misses.some((m) => /AGREE_NOT_REPRODUCED/.test(m)), JSON.stringify(g5.misses));
+  const g6 = gateRemerge([row({ id: 5, kept: 3048, rejected: 3000 })], new Map([[5, { kind: "agree", rule: "set_equal" } as Decision]]), 200);
+  check("SABOTAGE an agreement filed under the WRONG rule fails the gate",
+    !g6.passed && g6.misses.some((m) => /AGREE_RULE_CHANGED/.test(m)), JSON.stringify(g6.misses));
 }
 
 // =================================================================================================
@@ -282,6 +324,88 @@ await closeRun(seedRun, "succeeded", { seed: true }, { precision: 1, recall: 1, 
     "SELECT status, gate, stats FROM runs WHERE kind = 'apply-remerge' ORDER BY id DESC LIMIT 1");
   check("the remerge ran as a gated apply run", runs.rows[0]?.status === "succeeded" && (runs.rows[0]?.gate as { passed: boolean })?.passed === true);
   check("and its stats record the retraction", Number(runs.rows[0]?.stats.facts_retracted) === 1, JSON.stringify(runs.rows[0]?.stats));
+}
+
+// =================================================================================================
+// 8. APPLICABILITY — a field the part's category profile does not list
+//
+// The rule is opt-in per (category, field) pair and the table ships EMPTY, because on the real
+// corpus the profile-outside population is 994 live facts that are almost all PROFILE GAPS
+// (src/core/specMerge.ts § NONSENSICAL_PAIRS). These cases add one pair so every branch the empty
+// table leaves unreachable is actually exercised, and take it away again in a `finally`.
+// =================================================================================================
+{
+  const applyRun = await openRun("apply-specs", { inputs: { applicability: true } });
+  await ensureCategory("software");
+  const softPart = (await upsertPart({ vendor: "cisco", sku: "S-C9200-DNA", category: "software", family: "DNA Essentials", product_class: "software" })).id;
+
+  // a chassis-side field on the transceiver, and a legitimate one the profile simply does not list
+  const stack = entry({ k: "stack_max_members", value: 8, unit: undefined });
+  stack.prov = { tier: 2, method: "html_table", doc_id: docA, locator: "t7:r1:c1", norm_v: "1.5.0" };
+  await withTx((c) => insertFact(c, realOptic, stack, applyRun));
+  const ip = entry({ k: "ip_rating", value: "IP30", unit: undefined });
+  ip.prov = { tier: 2, method: "html_table", doc_id: docA, locator: "t7:r2:c1", norm_v: "1.5.0" };
+  await withTx((c) => insertFact(c, realOptic, ip, applyRun));
+  const onSoftware = entry({ k: "stack_max_members", value: 8, unit: undefined });
+  onSoftware.prov = { tier: 2, method: "html_table", doc_id: docA, locator: "t7:r3:c1", norm_v: "1.5.0" };
+  await withTx((c) => insertFact(c, softPart, onSoftware, applyRun));
+
+  const census0 = await applicabilityCensus(getPool());
+  check("a field outside the profile is LISTED even when nothing will be done about it",
+    census0.some((c) => c.category === "transceiver" && c.field_key === "ip_rating" && c.live === 1 && !c.nonsensical),
+    JSON.stringify(census0));
+  check("SABOTAGE a category with NO profile contributes nothing to the census — the rule has no opinion",
+    !census0.some((c) => c.category === "software"), JSON.stringify(census0.filter((c) => c.category === "software")));
+
+  try {
+    NONSENSICAL_PAIRS.set("transceiver/stack_max_members", "a transceiver is not a stack member");
+    NONSENSICAL_PAIRS.set("software/stack_max_members", "and neither is a licence");
+
+    const d = decide(row({ part_id: realOptic, sku: "QSFP-40G-SR4", category: "transceiver", field_key: "stack_max_members", inherited: false }));
+    check("a chassis-side field on a transceiver is RETRACTED, named by category",
+      d.kind === "retract" && d.rule === "not_applicable:transceiver" && d.state === "not_applicable", JSON.stringify(d));
+    check("SABOTAGE the same field on a CHASSIS, whose profile lists it, is not retracted",
+      decide(row({ field_key: "stack_max_members", category: "switches" })).kind !== "retract");
+
+    const g = gateRemerge([row({ id: 7, part_id: realOptic, sku: "QSFP-40G-SR4", category: "transceiver", field_key: "stack_max_members" })],
+      new Map([[7, d as Decision]]), 200);
+    check("the gate accepts a not-applicable retraction that is NOT inherited", g.passed, JSON.stringify(g.misses));
+    const gBad = gateRemerge([row({ id: 8, category: "switches", field_key: "stack_max_members" })],
+      new Map([[8, { kind: "retract", rule: "not_applicable:switches", reason: "x", state: "not_applicable" } as Decision]]), 200);
+    check("SABOTAGE a not-applicable retraction the predicate does not reproduce fails the gate",
+      !gBad.passed && gBad.misses.some((m) => /RETRACT_STILL_APPLICABLE/.test(m)), JSON.stringify(gBad.misses));
+
+    // the apply path refuses the incoming fact BY NAME, so no pipeline writes another one
+    const incoming = entry({ k: "stack_max_members", value: 4, unit: undefined });
+    const refused = await withTx((c) => applyMerge(c, realOptic, incoming, applyRun));
+    check("the apply path refuses an inapplicable incoming fact, naming the rule",
+      refused.action === "refused_not_applicable" && refused.rule === "not_applicable:transceiver", `${refused.action} ${refused.rule}`);
+    check("and the refusal names the field and the part", /FIELD_NOT_APPLICABLE: stack_max_members/.test(refused.refused ?? ""), refused.refused);
+    check("SABOTAGE the refusal wrote nothing: the stored value is untouched",
+      (await currentFact(realOptic, "stack_max_members", getPool()))?.value === 8);
+    const allowed = await withTx((c) => applyMerge(c, chassis, entry({ k: "stack_max_members", value: 8, unit: undefined }), applyRun));
+    check("SABOTAGE the same field on the chassis is written as normal", allowed.action === "insert", allowed.action);
+
+    const dry = await retractInapplicableFacts(getPool(), applyRun, { commit: false, examples: 2 });
+    check("the dry sweep counts the transceiver's chassis-side field", dry.retracted === 1 && dry.by_rule["not_applicable:transceiver"] === 1, JSON.stringify(dry));
+    check("SABOTAGE a dry sweep writes nothing", (await currentFact(realOptic, "stack_max_members", getPool()))?.state === "verified");
+    await withTx((c) => retractInapplicableFacts(c, applyRun, { commit: true, examples: 2 }));
+    const gone = await currentFact(realOptic, "stack_max_members", getPool());
+    check("the swept fact is superseded into not_applicable, not gap_unattempted",
+      gone?.state === "not_applicable" && gone?.value === null && /^retracted:not_applicable:transceiver$/.test(gone?.method ?? ""), JSON.stringify(gone));
+    check("the withdrawn value is still in history",
+      (await factHistory(realOptic, "stack_max_members", getPool())).some((h) => h.value === 8));
+    check("SABOTAGE the legitimate profile-gap field on the same part is NOT touched",
+      (await currentFact(realOptic, "ip_rating", getPool()))?.value === "IP30");
+    check("SABOTAGE a part whose category has NO profile loses nothing, pair listed or not",
+      (await currentFact(softPart, "stack_max_members", getPool()))?.value === 8);
+  } finally {
+    NONSENSICAL_PAIRS.delete("transceiver/stack_max_members");
+    NONSENSICAL_PAIRS.delete("software/stack_max_members");
+  }
+  check("the table is restored, so nothing below runs under a sabotage pair",
+    NONSENSICAL_PAIRS.size === 0 && decide(row({ part_id: realOptic, sku: "QSFP-40G-SR4", category: "transceiver", field_key: "stack_max_members" })).kind !== "retract");
+  await closeRun(applyRun, "succeeded", { applicability: true }, { precision: 1, recall: 1, passed: true });
 }
 
 console.log(`\n${pass}/${pass + misses.length} passed`);

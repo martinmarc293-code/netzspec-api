@@ -20,8 +20,9 @@
 import {
   tierFor, tryTierFor, TIER_BY_DOC_TYPE, TIER_BY_METHOD,
   sameValue, agreementRule, listSetEqual, listSubsetOf, numericallyClose, truncatedPrefixEqual,
-  unionListValues, compareNormVersion, isNewerRead, mergeField,
+  unionListValues, compareNormVersion, isNewerRead, isSameCellReread, mergeField,
   describesPart, familyMatches, componentShape, canInherit,
+  fieldApplies, notApplicable, NONSENSICAL_PAIRS,
   MAX_CELL, NUMERIC_TOLERANCE,
   type SpecEntry, type Prov,
 } from "../src/core/specMerge.js";
@@ -149,9 +150,16 @@ const entry = (value: unknown, p: Partial<Prov> = {}, extra: Partial<SpecEntry> 
   check("TWIN two documents that really disagree are HELD", r.action === "conflict" && !!r.conflict);
 }
 {
-  const r = mergeField("C9200", entry(3048, { norm_v: "1.0.0" }), entry(2000, { norm_v: "1.5.0" }));
+  // ONE cell, read twice. The raws must be the same string, because that is what a re-extraction
+  // IS: the normaliser changed, the document did not. Giving each side its own raw (as this case
+  // did until 4 Sep 2026) describes two different cells, and the store took that shape 3,164 times.
+  const cellRaw = "10,000 ft.";
+  const r = mergeField("C9200", entry(3048, { norm_v: "1.0.0" }, { raw: cellRaw }), entry(2000, { norm_v: "1.5.0" }, { raw: cellRaw }));
   check("the same document read again by a newer normaliser SUPERSEDES", r.action === "supersede" && r.entry.value === 2000);
   check("and it is logged as an already-resolved conflict", !!r.conflict && /SAME_DOC_REEXTRACTION/.test(r.conflict.reason));
+  check("SABOTAGE the same document, a newer normaliser, but a DIFFERENT cell is held",
+    mergeField("C9200", entry(3048, { norm_v: "1.0.0" }, { raw: "10,000 ft." }), entry(2000, { norm_v: "1.5.0" }, { raw: "6,500 ft." })).action === "conflict",
+    "two cells of one document disagreeing is a disagreement, not a re-read");
 }
 {
   const r = mergeField("C9200", entry(3048, { norm_v: "1.5.0" }), entry(2000, { norm_v: "1.0.0" }));
@@ -169,7 +177,11 @@ const entry = (value: unknown, p: Partial<Prov> = {}, extra: Partial<SpecEntry> 
   const two = mergeField("C9200", list(["802.1s"]), list(["802.1w"], { doc_id: "docB" }));
   check("TWIN two DOCUMENTS with different lists are still held", two.action === "conflict");
   // the branch ORDER: a newer READING of the same cell replaces, it does not union
-  const newer = mergeField("C9200", list(["● A ● B ● C"], { norm_v: "1.0.0" }), list(["A", "B", "C"], { norm_v: "1.5.0" }));
+  // again ONE cell read twice, so both sides carry the cell's own text as `raw`
+  const blob = "● A ● B ● C";
+  const newer = mergeField("C9200",
+    { ...list(["● A ● B ● C"], { norm_v: "1.0.0" }), raw: blob },
+    { ...list(["A", "B", "C"], { norm_v: "1.5.0" }), raw: blob });
   check("TWIN a newer READING of one cell supersedes rather than unioning with the old split",
     newer.action === "supersede" && JSON.stringify(newer.entry.value) === JSON.stringify(["A", "B", "C"]),
     `unioning here keeps the blob the new normaliser exists to replace; got ${newer.action} ${JSON.stringify(newer.entry.value)}`);
@@ -234,6 +246,82 @@ check("with a subject the same call is refused, naming the shape",
     subject: subj({ sku: "SFP-10G-LR=" }) }).rule === "component:SFP");
 check("a SKU the document does not list is still a scope violation",
   /INHERIT_SCOPE_VIOLATION/.test(canInherit({ fieldKey: "altitude_max", sku: "C9200L-48P", docPidList: ["C9200L-24P"], hasPerSkuException: false }).reason));
+
+// =================================================================================================
+// N. same-document RE-EXTRACTION needs the same CELL, not just the same document
+//
+// The provenance says the document was read again; it never says WHICH CELL was re-read. Without
+// the raw test, 3,164 of the 10,291 conflicts the store closed as `same_doc_reextraction` were two
+// DIFFERENT cells of one document resolved by write order (measured on production 4 Sep 2026).
+// =================================================================================================
+const cell = (raw: string, value: unknown, p: Partial<Prov> = {}): SpecEntry =>
+  ({ k: "packet_buffer", raw, value, unit: "MB", state: "verified",
+     prov: { tier: 2, method: "html_table", doc_id: "docA", norm_v: "1.5.0", ...p } });
+
+check("identical raws are one cell read twice", isSameCellReread(cell("16 MB", 16), cell("16 MB", 16.5)));
+check("a raw cut at the cell cap is the same cell as its untruncated form",
+  isSameCellReread(cell("x".repeat(MAX_CELL - 5) + " tail", 1), cell("x".repeat(MAX_CELL - 5) + " tailing more words", 1)));
+check("SABOTAGE two different cells of one document are NOT one cell",
+  !isSameCellReread(cell("Transmit optical power ; Transmitter laser bias current", 1), cell("Transmit optical power", 1)),
+  "a shorter DIFFERENT cell must not read as a re-extraction");
+check("SABOTAGE an absent raw on either side is not evidence of sameness",
+  !isSameCellReread(cell("", 1), cell("", 2)) && !isSameCellReread(cell("16 MB", 1), cell("", 2)),
+  "two pre-0008 conflicts carry no raw at all and must not look like one cell read twice");
+
+check("a newer read of the SAME cell supersedes",
+  mergeField("C9200", cell("16 MB", 16), cell("16 MB", 16.5, { norm_v: "1.5.1" })).action === "supersede");
+check("SABOTAGE a newer read of a DIFFERENT cell of the same document is a disagreement, not a supersede",
+  mergeField("C9200", cell("16 MB", 16), cell("3 MB", 3, { norm_v: "1.5.1" })).action === "conflict",
+  "192.3;192.2;192.1;192.0 against 192.3 in one document is two cells, and the field must be HELD");
+{
+  const ls = (raw: string, value: unknown, p: Partial<Prov> = {}): SpecEntry =>
+    ({ k: "certifications", raw, value, state: "verified", prov: { tier: 2, method: "html_table", doc_id: "docA", norm_v: "1.5.0", ...p } });
+  check("SABOTAGE a newer read of a different cell of one document, on a LIST field, is a union",
+    mergeField("C9200", ls("UL 60950-1", ["UL 60950-1"]), ls("CAN/CSA 22.2", ["CAN/CSA 22.2"], { norm_v: "1.5.1" })).action === "list_union",
+    "two cells of one document state one list; the supersede branch must not swallow the first");
+}
+
+// =================================================================================================
+// N+1. listSetEqual never RE-SPLITS a member
+// =================================================================================================
+check("case and whitespace are not facts about the product",
+  listSetEqual(["Optional L3", "  UL   60950-1 "], ["ul 60950-1", "optional l3"]));
+check("SABOTAGE a list that agrees only after a re-split is NOT set-equal",
+  !listSetEqual(["8-port 100 Mbps", "1 Gbps switch NIM"], ["8-port 100 Mbps/1 Gbps switch NIM"]),
+  "endorsing one normaliser's split over another's is a renormalize decision, not an agreement");
+check("SABOTAGE a list missing a member is a different list", !listSetEqual(["a", "b"], ["a"]));
+
+// =================================================================================================
+// N+2. fieldApplies / notApplicable — the category profile, and why it alone may not retract
+// =================================================================================================
+check("a field the profile REQUIRES applies", fieldApplies("switches", "ports"));
+check("a field the profile marks OPTIONAL applies", fieldApplies("switches", "psu_options"));
+check("a field the profile does not mention does not apply", !fieldApplies("transceiver", "stack_max_members"));
+check("SABOTAGE a category with NO profile keeps everything",
+  fieldApplies("software", "stack_max_members") && fieldApplies(null, "stack_max_members"),
+  "a part nobody has profiled must not lose every fact it has");
+check("THE FINDING every field the not-applicable rule was specified around is INSIDE the transceiver profile",
+  ["supported_transceivers", "stack_ports", "psu_options", "switching_capacity", "stacking_bandwidth", "forwarding_rate", "module_slots", "poe_budget"]
+    .every((k) => fieldApplies("transceiver", k)),
+  "if this ever goes red the profile has changed and NONSENSICAL_PAIRS should be revisited");
+
+check("the profile alone does NOT retract: an unlisted field is a profile gap until an operator says otherwise",
+  notApplicable({ sku: "QSFP-40G-SR4", categorySlug: "transceiver", fieldKey: "stack_max_members" }) === null);
+try {
+  NONSENSICAL_PAIRS.set("transceiver/stack_max_members", "a transceiver has no stack");
+  const r = notApplicable({ sku: "QSFP-40G-SR4", categorySlug: "transceiver", fieldKey: "stack_max_members" });
+  check("a pair an operator has judged nonsensical IS refused, naming the category", r?.rule === "not_applicable:transceiver");
+  check("the refusal names the field and the part", /FIELD_NOT_APPLICABLE: stack_max_members .*QSFP-40G-SR4/.test(r?.reason ?? ""));
+  check("SABOTAGE the same pair on a category whose profile LISTS the field is untouched",
+    notApplicable({ sku: "C9200L-24P-4G", categorySlug: "switches", fieldKey: "stack_max_members" }) === null,
+    "the profile wins: a listed field is never withdrawn, whatever the table says");
+  check("SABOTAGE a part whose category has no profile loses nothing even with the pair listed",
+    notApplicable({ sku: "X", categorySlug: "software", fieldKey: "stack_max_members" }) === null);
+} finally {
+  NONSENSICAL_PAIRS.delete("transceiver/stack_max_members");
+}
+check("the table is restored after the sabotage",
+  notApplicable({ sku: "QSFP-40G-SR4", categorySlug: "transceiver", fieldKey: "stack_max_members" }) === null);
 
 console.log(`${pass}/${pass + misses.length} passed`);
 if (misses.length) {

@@ -36,20 +36,22 @@ import {
   type Queryable,
 } from "../store/index.js";
 import {
-  mergeField, describesPart, agreementRule, tryTierFor, familyMatches,
+  mergeField, describesPart, notApplicable, fieldApplies, agreementRule, tryTierFor, familyMatches,
   type Prov, type SpecEntry,
 } from "../core/specMerge.js";
+import { PROFILES } from "../core/fieldSchema.js";
 import { FIELD_DICTIONARY } from "../core/fieldSchema.js";
 import { normalizeField, NORM_VERSION } from "../core/specNormalize.js";
 import { REPO_ROOT } from "../config.js";
 
-export type RemergeArgs = { commit: boolean; run: number | null; limit: number | null; sample: number; examples: number; retype: boolean };
+export type RemergeArgs = { commit: boolean; run: number | null; limit: number | null; sample: number; examples: number; retype: boolean; retractInapplicable: boolean };
 
 export function parseArgs(argv: string[]): RemergeArgs {
-  const a: RemergeArgs = { commit: false, run: null, limit: null, sample: 200, examples: 3, retype: true };
+  const a: RemergeArgs = { commit: false, run: null, limit: null, sample: 200, examples: 3, retype: true, retractInapplicable: false };
   for (let i = 0; i < argv.length; i++) {
     const t = argv[i];
     if (t === "--commit") a.commit = true;
+    else if (t === "--retract-inapplicable") a.retractInapplicable = true;
     else if (t === "--run") a.run = Number(argv[++i]);
     else if (t === "--limit") a.limit = Number(argv[++i]);
     else if (t === "--sample") a.sample = Number(argv[++i]);
@@ -116,7 +118,7 @@ export async function loadOpenConflicts(db: Queryable, opts: { run: number | nul
 
 // ---- the decision ------------------------------------------------------------------------------
 export type Decision =
-  | { kind: "retract"; rule: string; reason: string }
+  | { kind: "retract"; rule: string; reason: string; state?: "gap_unattempted" | "not_applicable" }
   | { kind: "agree"; rule: string }
   | { kind: "rewrite"; rule: string }              // supersede or list_union: the value changes
   | { kind: "reapply"; rule: string }              // would rewrite, but the source string was never stored
@@ -167,6 +169,37 @@ export function incomingEntry(r: ConflictRow): SpecEntry {
  * agree with it — agreement between two documents that both describe a DIFFERENT product is not
  * evidence about this one.
  */
+/**
+ * Do the two sides THE CONFLICT RECORDED agree under today's comparison rules, and by which rule?
+ *
+ * This is the only question an agreement may be decided on, and getting it wrong closed 4,164
+ * conflicts as `rule:exact` whose recorded sides are not equal — measured on production 4 Sep 2026:
+ * every one of the 4,164 has `kept <> rejected`, and every one has the CURRENT fact byte-identical
+ * to the REJECTED side. `decide` compared `existingEntry(r)` — the row that is current NOW — with
+ * the rejected value, so once a later apply had superseded the field to the conflict's loser, the
+ * loser agreed with itself and the disagreement was closed as though it had never existed. That is
+ * resolving a disagreement by write order, the one thing this layer must never do
+ * (weight 0.127006 kg against 0.13 kg on NXA-FAN-35CFM-PI, packet_buffer 1.5 against 3). The same
+ * defect produced 18 of the 255 `rule:set_equal` closures.
+ *
+ * A missing value on either side is not agreement: `agreementRule(undefined, undefined)` is
+ * "exact", and two absences must never resolve anything.
+ */
+export function recordedAgreement(r: ConflictRow): string | null {
+  if (r.kept === null || r.kept === undefined) return null;
+  if (r.rejected === null || r.rejected === undefined) return null;
+  return agreementRule(r.kept, r.rejected, { unit: r.fact_unit });
+}
+
+/** The current row agrees with the rejected side (or with neither) while the two RECORDED sides
+ *  disagree: the field has been moved by a later write and the recorded disagreement is still
+ *  unsettled. Named per shape so the two populations can be counted apart. */
+function driftRule(r: ConflictRow): string {
+  return agreementRule(r.fact_value, r.rejected, { unit: r.fact_unit }) !== null
+    ? "drift:current_fact_is_the_rejected_value"
+    : "drift:current_fact_is_neither_side";
+}
+
 export function decide(r: ConflictRow): Decision {
   if (r.fact_id == null) return { kind: "skip", rule: "no_current_fact" };
 
@@ -175,19 +208,32 @@ export function decide(r: ConflictRow): Decision {
       sku: r.sku, productClass: r.product_class, categorySlug: r.category,
       partFamily: r.part_family, docFamily: r.inherited_from,
     });
-    if (refusal) return { kind: "retract", rule: refusal.rule, reason: refusal.reason };
+    if (refusal) return { kind: "retract", rule: refusal.rule, reason: refusal.reason, state: "gap_unattempted" };
   }
+
+  // A field the part cannot have is withdrawn whether or not the row is flagged inherited, which is
+  // the point: the Atlas-era rows carry no flag and the rule above cannot reach them. Tried AFTER
+  // the inheritance test so the counts stay comparable across runs — this class reports only what
+  // it ADDS. `not_applicable`, not `gap_unattempted`: the gap ledger must stop asking for it.
+  const inapplicable = notApplicable({ sku: r.sku, categorySlug: r.category, fieldKey: r.field_key });
+  if (inapplicable) return { kind: "retract", rule: inapplicable.rule, reason: inapplicable.reason, state: "not_applicable" };
 
   const existing = existingEntry(r);
   if (!existing) return { kind: "skip", rule: "no_current_fact" };
   const incoming = incomingEntry(r);
   if (incoming.value === undefined) return { kind: "skip", rule: "no_rejected_value" };
 
+  // AGREEMENT IS DECIDED ON THE RECORDED PAIR, BEFORE mergeField EVER RUNS. See recordedAgreement.
+  const recorded = recordedAgreement(r);
+  if (recorded) return { kind: "agree", rule: recorded };
+
   const m = mergeField(r.sku, existing, incoming);
   switch (m.action) {
     case "agree_same_doc":
     case "corroborate":
-      return { kind: "agree", rule: m.rule ?? agreementRule(existing.value, incoming.value, { unit: existing.unit }) ?? "exact" };
+      // mergeField agrees while the recorded pair does not: it is comparing the CURRENT row, which
+      // has drifted. The conflict stays open and says so.
+      return { kind: "open", rule: driftRule(r) };
     case "supersede":
     case "list_union":
     case "revision_change":
@@ -241,6 +287,14 @@ export function gateRemerge(rows: ConflictRow[], decisions: Map<number, Decision
   for (const r of rows) {
     const d = decisions.get(r.id);
     if (d?.kind !== "retract") continue;
+    if (d.state === "not_applicable") {
+      // this retraction does NOT stand on an inherited flag — it stands on the field being one the
+      // part cannot have — so it is re-derived from the row instead, and must still fire.
+      if (!notApplicable({ sku: r.sku, categorySlug: r.category, fieldKey: r.field_key })) {
+        misses.push(`RETRACT_STILL_APPLICABLE conflict ${r.id} ${r.sku}/${r.field_key}: rule says not applicable, notApplicable() says it is`);
+      }
+      continue;
+    }
     if (r.inherited !== true) misses.push(`RETRACT_NOT_INHERITED conflict ${r.id} ${r.sku}/${r.field_key}: fact ${r.fact_id} is a per-SKU value`);
     if (d.rule === "family:mismatch" && familyMatches(r.part_family, r.inherited_from) === true) {
       misses.push(`RETRACT_CONTRADICTION conflict ${r.id} ${r.sku}/${r.field_key}: rule says family mismatch, familyMatches says they match`);
@@ -254,10 +308,16 @@ export function gateRemerge(rows: ConflictRow[], decisions: Map<number, Decision
   for (const r of picked) {
     const d = decisions.get(r.id)!;
     if (d.kind === "agree") {
-      const again = agreementRule(r.fact_value, r.rejected, { unit: r.fact_unit });
-      if (again === null) { misses.push(`AGREE_NOT_REPRODUCED conflict ${r.id} ${r.sku}/${r.field_key}`); continue; }
-      if (JSON.stringify(r.fact_value) === JSON.stringify(r.rejected) && d.rule !== "exact") {
-        misses.push(`AGREE_WAS_NEVER_A_CONFLICT conflict ${r.id} ${r.sku}/${r.field_key}: identical JSON logged as a disagreement`);
+      // re-derived from the RECORDED pair, which is the whole point: deriving it from the current
+      // fact is what let 4,164 write-order resolutions through this same sample (recordedAgreement).
+      const again = recordedAgreement(r);
+      if (again === null) {
+        misses.push(`AGREE_NOT_REPRODUCED conflict ${r.id} ${r.sku}/${r.field_key}: the RECORDED kept and rejected values do not agree (${JSON.stringify(r.kept).slice(0, 40)} vs ${JSON.stringify(r.rejected).slice(0, 40)})`);
+        continue;
+      }
+      if (again !== d.rule) { misses.push(`AGREE_RULE_CHANGED conflict ${r.id} ${r.sku}/${r.field_key}: planned ${d.rule}, re-derived ${again}`); continue; }
+      if (JSON.stringify(r.kept) === JSON.stringify(r.rejected)) {
+        misses.push(`AGREE_WAS_NEVER_A_CONFLICT conflict ${r.id} ${r.sku}/${r.field_key}: identical JSON logged as a disagreement — whatever wrote the conflicts row is the bug, and resolving it here would launder that`);
         continue;
       }
       ok++;
@@ -397,6 +457,82 @@ export async function retypeMismatchedFacts(
   return out;
 }
 
+// ---- applicability: the census, and the sweep over facts outside any conflict ----------------------
+export type ApplicabilityRow = {
+  category: string; field_key: string; live: number; gap: number;
+  /** true when an operator has judged this pair nonsensical (NONSENSICAL_PAIRS): it is RETRACTED.
+   *  false means the profile is simply short for a legitimate field: a PROFILE GAP, never touched. */
+  nonsensical: boolean;
+};
+
+/**
+ * Every (category, field) pair whose facts sit OUTSIDE the part's category profile, with the count
+ * of live (non-gap) current facts on it and this command's judgement of it.
+ *
+ * The whole list is printed, not just the part that gets acted on, because the two halves are two
+ * different decisions and only one of them is code's to take. A pair marked `nonsensical` is
+ * withdrawn; a pair that is not is a hole in the PROFILE and is the operator's to close in
+ * src/core/fieldSchema.ts. Reporting only the first half would leave the second permanently
+ * invisible, which is how `ports` stayed unfillable for every switch in the catalogue.
+ */
+export async function applicabilityCensus(db: Queryable): Promise<ApplicabilityRow[]> {
+  const r = await db.query<{ category: string; field_key: string; state: string; n: number }>(
+    `SELECT c.slug AS category, f.field_key, f.state::text AS state, count(*)::int AS n
+       FROM facts f JOIN parts p ON p.id = f.part_id JOIN categories c ON c.id = p.category_id
+      WHERE f.superseded_by IS NULL
+      GROUP BY 1, 2, 3`);
+  const gapStates = new Set(["gap_confirmed", "gap_unattempted", "not_applicable"]);
+  const out = new Map<string, ApplicabilityRow>();
+  for (const row of r.rows) {
+    // a category with no profile is silent by design, not a pair with zero counts
+    if (!PROFILES[row.category]) continue;
+    if (fieldApplies(row.category, row.field_key)) continue;
+    const k = `${row.category}/${row.field_key}`;
+    const e = out.get(k) ?? {
+      category: row.category, field_key: row.field_key, live: 0, gap: 0,
+      nonsensical: notApplicable({ sku: "", categorySlug: row.category, fieldKey: row.field_key }) !== null,
+    };
+    if (gapStates.has(row.state)) e.gap += row.n; else e.live += row.n;
+    out.set(k, e);
+  }
+  return [...out.values()].sort((a, b) => b.live - a.live || a.category.localeCompare(b.category));
+}
+
+export type InapplicableSweep = { checked: number; retracted: number; by_rule: Record<string, number>; examples: string[] };
+
+/**
+ * Withdraw CURRENT facts whose field is not applicable to their part and which are NOT the subject
+ * of an open conflict — the conflicts are handled by `decide`, and doing both here would retract a
+ * fact twice inside one run.
+ *
+ * Only pairs in NONSENSICAL_PAIRS are touched, so with that table empty this sweep is a no-op that
+ * still reports its scope. `--retract-inapplicable` is opt-in for the same reason `--commit` is:
+ * this is the only path in the command that removes a value nobody has disputed.
+ */
+export async function retractInapplicableFacts(
+  client: Queryable, runId: number, opts: { commit: boolean; examples: number },
+): Promise<InapplicableSweep> {
+  const out: InapplicableSweep = { checked: 0, retracted: 0, by_rule: {}, examples: [] };
+  const r = await client.query<{ id: number; sku: string; category: string; field_key: string; value: unknown }>(
+    `SELECT f.id, p.sku, c.slug AS category, f.field_key, f.value
+       FROM facts f JOIN parts p ON p.id = f.part_id JOIN categories c ON c.id = p.category_id
+      WHERE f.superseded_by IS NULL
+        AND f.state NOT IN ('gap_confirmed', 'gap_unattempted', 'not_applicable')
+        AND NOT EXISTS (SELECT 1 FROM conflicts k
+                         WHERE k.part_id = f.part_id AND k.field_key = f.field_key AND k.resolved_at IS NULL)
+      ORDER BY f.id`);
+  for (const row of r.rows) {
+    out.checked++;
+    const refusal = notApplicable({ sku: row.sku, categorySlug: row.category, fieldKey: row.field_key });
+    if (!refusal) continue;
+    out.retracted++;
+    out.by_rule[refusal.rule] = (out.by_rule[refusal.rule] ?? 0) + 1;
+    if (out.examples.length < opts.examples * 4) out.examples.push(`${row.sku} ${row.category}/${row.field_key} = ${JSON.stringify(row.value).slice(0, 60)}`);
+    if (opts.commit) await retractFact(client, row.id, refusal.rule, runId, { state: "not_applicable" });
+  }
+  return out;
+}
+
 // ---- effects -------------------------------------------------------------------------------------
 async function resolveConflict(client: Queryable, id: number, resolution: string): Promise<void> {
   await client.query("UPDATE conflicts SET resolved_at = now(), resolution = $2, resolved_by = 'remerge' WHERE id = $1 AND resolved_at IS NULL", [id, resolution]);
@@ -468,7 +604,12 @@ export async function main(argv: string[]): Promise<void> {
 
   let runId: number | null = null;
   let retype: RetypeResult | null = null;
-  const effects: RemergeStats = { conflicts_resolved: 0, facts_retracted: 0, facts_rewritten: 0, evidence_added: 0, facts_unheld: 0 };
+  const effects: RemergeStats = { conflicts_resolved: 0, facts_retracted: 0, facts_marked_not_applicable: 0, facts_rewritten: 0, evidence_added: 0, facts_unheld: 0 };
+  const census = await applicabilityCensus(pool);
+  stats.outside_profile_pairs = census.length;
+  stats.outside_profile_live_facts = census.reduce((s, c) => s + c.live, 0);
+  stats.outside_profile_nonsensical_pairs = census.filter((c) => c.nonsensical).length;
+  let sweep: InapplicableSweep | null = null;
 
   if (a.commit) {
     const inputs = { command: "remerge", run_filter: a.run, limit: a.limit, sample: a.sample, norm_v: NORM_VERSION };
@@ -494,9 +635,12 @@ export async function main(argv: string[]): Promise<void> {
           const retraction = group.find((r) => decisions.get(r.id)?.kind === "retract");
           if (retraction && retraction.fact_id != null) {
             const d = decisions.get(retraction.id) as Extract<Decision, { kind: "retract" }>;
-            await retractFact(client, retraction.fact_id, d.rule, id);
+            const state = d.state ?? "gap_unattempted";
+            await retractFact(client, retraction.fact_id, d.rule, id, { state });
             effects.facts_retracted++;
-            for (const r of group) { await resolveConflict(client, r.id, `rule:inheritance_retracted:${d.rule}`); effects.conflicts_resolved++; }
+            if (state === "not_applicable") effects.facts_marked_not_applicable++;
+            const why = state === "not_applicable" ? "not_applicable_retracted" : "inheritance_retracted";
+            for (const r of group) { await resolveConflict(client, r.id, `rule:${why}:${d.rule}`); effects.conflicts_resolved++; }
             return;
           }
           for (const r of group) {
@@ -517,7 +661,13 @@ export async function main(argv: string[]): Promise<void> {
         });
       }
 
-      // 3. the retype pass: values whose SHAPE disagrees with their field's dictionary type
+      // 3. facts outside any conflict whose field the part cannot have (opt-in)
+      if (a.retractInapplicable) {
+        sweep = await withTx((c) => retractInapplicableFacts(c, id, { commit: true, examples: a.examples }));
+        stats.inapplicable_retracted = sweep.retracted;
+      }
+
+      // 4. the retype pass: values whose SHAPE disagrees with their field's dictionary type
       if (a.retype) {
         retype = await withTx((c) => retypeMismatchedFacts(c, id, { commit: true, examples: a.examples }));
         stats.retype_changed = retype.changed;
@@ -526,10 +676,16 @@ export async function main(argv: string[]): Promise<void> {
       return { stats: { ...stats, ...effects }, gate, notes: `remerge over ${rows.length} open conflicts${a.run === null ? "" : ` of run ${a.run}`}; norm_v ${NORM_VERSION}` };
     });
     runId = out.runId;
-  } else if (a.retype) {
-    retype = await retypeMismatchedFacts(pool, 0, { commit: false, examples: a.examples });
-    stats.retype_would_change = retype.changed;
-    stats.retype_would_refuse = retype.refused;
+  } else {
+    if (a.retractInapplicable) {
+      sweep = await retractInapplicableFacts(pool, 0, { commit: false, examples: a.examples });
+      stats.inapplicable_would_retract = sweep.retracted;
+    }
+    if (a.retype) {
+      retype = await retypeMismatchedFacts(pool, 0, { commit: false, examples: a.examples });
+      stats.retype_would_change = retype.changed;
+      stats.retype_would_refuse = retype.refused;
+    }
   }
 
   // ---- report ----------------------------------------------------------------------------------
@@ -547,9 +703,20 @@ export async function main(argv: string[]): Promise<void> {
   console.log(`   ---`);
   for (const [k, v] of Object.entries(byKind).sort((x, y) => y[1] - x[1])) console.log(`   ${String(v).padStart(7)}  ${k}`);
 
+  console.log(`\n3. APPLICABILITY — current facts whose field is OUTSIDE the part's category profile`);
+  console.log(`   ${stats.outside_profile_live_facts} live facts over ${census.length} (category, field) pairs; ${stats.outside_profile_nonsensical_pairs} pair(s) judged nonsensical and RETRACTED, the rest are PROFILE GAPS and are NOT touched`);
+  if (sweep) console.log(`   sweep over facts outside any conflict: ${sweep.checked} checked, ${sweep.retracted} ${a.commit ? "retracted" : "would be retracted"}`);
+  else console.log(`   (pass --retract-inapplicable to sweep current facts outside any conflict; the conflicts above are decided either way)`);
+  console.log(`   DECISION TABLE — every pair, with this command's judgement. A "profile gap" is a`);
+  console.log(`   decision for the operator: add the field to that category in src/core/fieldSchema.ts.`);
+  for (const c of census) {
+    console.log(`     ${String(c.live).padStart(6)} live ${String(c.gap).padStart(5)} gap   ${c.category} / ${c.field_key}   ${c.nonsensical ? "<< NONSENSICAL — retracted" : "profile gap — NOT touched"}`);
+  }
+  for (const ex of sweep?.examples.slice(0, a.examples * 2) ?? []) console.log(`     ${ex}`);
+
   if (retype) {
     const rt: RetypeResult = retype;
-    console.log(`\n3. RETYPE — current facts whose value shape disagrees with the dictionary type`);
+    console.log(`\n4. RETYPE — current facts whose value shape disagrees with the dictionary type`);
     console.log(`   in scope (${RETYPED_FIELDS.join(", ")}): ${rt.checked} mismatched, ${rt.changed} re-read from raw, ${rt.refused} refused by the normaliser`);
     for (const [k, v] of Object.entries(rt.reasons).sort((x, y) => y[1] - x[1]).slice(0, 12)) console.log(`     ${String(v).padStart(6)}  ${k}`);
     for (const ex of rt.examples.slice(0, a.examples * 2)) console.log(`     ${ex}`);
@@ -577,6 +744,7 @@ export async function main(argv: string[]): Promise<void> {
   fs.writeFileSync(report, JSON.stringify({
     generated_at: new Date().toISOString(), commit: a.commit, run_filter: a.run, run_id: runId,
     stats: { ...stats, ...effects }, by_rule: byRule, examples, restamp: restampPreview, retype, gate,
+    applicability: { census, sweep },
   }, null, 1));
   console.log(`report -> ${path.relative(REPO_ROOT, report)}`);
 

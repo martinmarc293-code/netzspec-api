@@ -22,7 +22,7 @@
 // are the only two places that know this; a migration adding facts.revision_label would replace
 // them and nothing else.
 import {
-  mergeField, describesPart, tryTierFor,
+  mergeField, describesPart, notApplicable, tryTierFor,
   type MergeAction, type Prov, type SpecEntry, type FieldState,
 } from "../core/specMerge.js";
 import type { Queryable } from "./runs.js";
@@ -290,6 +290,16 @@ export async function applyMerge(client: Queryable, partId: number, incoming: Sp
     if (refusal) return { action: "refused_inherit", refused: refusal.reason, rule: refusal.rule, factId: existing?.id };
   }
 
+  // THE APPLICABILITY GATE, in the same place and for the same reason: a field the part cannot
+  // have is refused however it arrived, inherited or read per-SKU, so no pipeline can write one
+  // and no later remerge has to withdraw it. It fires only on a (category, field) pair an operator
+  // has judged nonsensical — src/core/specMerge.ts § NONSENSICAL_PAIRS explains why the profile on
+  // its own is not enough to justify deleting a value. Refused BEFORE any SQL, like the one above.
+  const inapplicable = notApplicable({ sku: row.sku, categorySlug: row.category_slug, fieldKey: incoming.k });
+  if (inapplicable) {
+    return { action: "refused_not_applicable", refused: inapplicable.reason, rule: inapplicable.rule, factId: existing?.id };
+  }
+
   // a gap row records that nobody found a value; a real value replaces it, it does not "conflict" with it
   if (!existing || GAP_STATES.has(existing.state)) {
     if (existing) {
@@ -358,8 +368,9 @@ export async function applyMerge(client: Queryable, partId: number, incoming: Sp
       return { action: "agree_same_doc", factId: existing.id, rule: result.rule };
     case "insert":
     case "refused_inherit":
-      // mergeField never returns these: `insert` is handled above (no current row) and
-      // `refused_inherit` is the store's own refusal. Named rather than left to fall off the switch.
+    case "refused_not_applicable":
+      // mergeField never returns these: `insert` is handled above (no current row) and the two
+      // refusals are the store's own. Named rather than left to fall off the switch.
       throw new Error(`applyMerge: mergeField returned an action the store does not expect here: ${result.action}`);
   }
 }
@@ -371,14 +382,24 @@ export async function applyMerge(client: Queryable, partId: number, incoming: Sp
  * were checked for this part and found nothing — nobody checked, the value came from another
  * product's datasheet. The retracted row, its value and its evidence stay in history, and `method`
  * names why it went, so /changes and the fact history both show the withdrawal as an event.
+ *
+ * `state` chooses WHICH withdrawal this is, and the two mean different things to every reader:
+ *   gap_unattempted  (default) nobody has looked for this part's own value yet — the field is still
+ *                    a gap worth filling, which is right for a wrongly inherited value.
+ *   not_applicable   the field cannot apply to this part at all, so it is a CLOSED gap and the gap
+ *                    ledger must stop asking for it. Only `notApplicable` may ask for this one.
+ * Both supersede rather than delete: the row, its value and its evidence stay in history.
  */
-export async function retractFact(client: Queryable, factId: number, rule: string, runId: number): Promise<{ newId: number; supersededId: number }> {
+export async function retractFact(
+  client: Queryable, factId: number, rule: string, runId: number,
+  opts: { state?: "gap_unattempted" | "not_applicable" } = {},
+): Promise<{ newId: number; supersededId: number }> {
   const old = await client.query<{ part_id: number; field_key: string; inherited_from: string | null }>(
     "SELECT part_id, field_key, inherited_from FROM facts WHERE id = $1 AND superseded_by IS NULL", [factId]);
   if (!old.rows[0]) throw new Error(`retractFact: fact ${factId} is not a current row`);
   const { field_key, inherited_from } = old.rows[0];
   const entry: SpecEntry = {
-    k: field_key, raw: "", state: "gap_unattempted",
+    k: field_key, raw: "", state: opts.state ?? "gap_unattempted",
     inherited_from: inherited_from ?? undefined,
     prov: { tier: 2, method: `retracted:${rule}` },
   };

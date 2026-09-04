@@ -65,10 +65,11 @@ Decided by `mergeField`, performed by `src/store/facts.ts`. In order:
 | the values AGREE, same document or one side above tier 2 | `agree_same_doc` | nothing |
 | current row is tier 0 and they differ | `protected` | untouched; conflict logged |
 | same document, both carry a revision label and they differ | `revision_change` | new row supersedes; conflict logged already resolved |
-| same document, same tier, the incoming is a NEWER READ | `supersede` | new row supersedes; conflict logged already resolved |
+| same document, same tier, the incoming is a NEWER READ **of the same cell** | `supersede` | new row supersedes; conflict logged already resolved |
 | same document, same tier, both `ls` | `list_union` | union in a new row; no conflict |
 | lower tier wins / higher tier rejected / same tier, two documents | `conflict` | field HELD, both provenances recorded |
 | an INHERITED entry on a part the document does not describe | `refused_inherit` | nothing written; counted with its rule |
+| a field the part cannot have at all (`notApplicable`) | `refused_not_applicable` | nothing written; counted with its rule |
 
 `agree_same_doc` was called `skip_lower_tier` until 4 Sep 2026. Run #38 reported 16,776 of them and
 the number was read as datasheet cells being BLOCKED by lower-tier values; it is returned only on
@@ -81,6 +82,37 @@ file would walk the store backwards. The supersede branch is tried BEFORE the un
 order is load-bearing: unioning a newer reading of one cell with the older reading of the same cell
 keeps both, and the older reading of a list is exactly the badly split one the new normaliser exists
 to replace. `tests/specMerge.test.ts` fails if the two are swapped.
+
+**A newer read must also be the same CELL** (`isSameCellReread`), added 4 Sep 2026. The provenance
+says the document was read again; it never says which cell was re-read. Of the 10,291 conflicts the
+store had closed as `same_doc_reextraction`, 5,746 carry identical raws and 1,381 differ only by the
+cell cap — those are re-reads. The other **3,164 are two different cells of one document**
+(certifications 754, ieee_standards 393, optical_pm 242, temp_operating 210, packet_buffer 196, …):
+`"Transmit optical power ; Transmitter laser bias current ; …"` against `"Transmit optical power"`,
+`"192.3; 192.2; 192.1; 192.0"` against `"192.3"`. Superseding those resolves an intra-document
+disagreement by write order. The test is: both raws present, and either identical or one cut at the
+cap. An ABSENT raw answers no — a pre-0008 conflict carries none on either side, and two empty
+strings must not read as one cell seen twice. A same-document pair that fails the test falls through
+to `list_union` (two cells stating one list) or is HELD as `same_doc_disagreement`.
+
+### Agreement is a statement about the pair the CONFLICT RECORDED
+
+`ingest remerge` decided agreements by comparing the row that is CURRENT NOW with the rejected
+value. Once a later apply had superseded a field to the conflict's loser, the loser agreed with
+itself and the disagreement closed as `rule:exact`. Measured on production 4 Sep 2026: **all 4,164
+`rule:exact` closures have `kept <> rejected`, and all 4,164 have the current fact byte-identical to
+`rejected`** — weight 0.127006 kg against 0.13 kg, packet_buffer 1.5 against 3, dimensions
+`{d:287.02}` against `{d:329}`. The same defect closed 18 of the 255 `set_equal` and 54 of the 1,747
+`numeric_tolerance` rows. `recordedAgreement(row)` is now the only input to an agreement: the stored
+`kept` and `rejected`, under `sameValue`'s set / tolerance / prefix semantics, with a missing value
+on either side never agreeing. A conflict whose current fact has drifted stays OPEN and says which
+way it drifted (`drift:current_fact_is_the_rejected_value`). The remerge gate re-derives every
+sampled agreement from the recorded pair, so the same class cannot pass the sample again.
+
+`listSetEqual` never re-splits a member — it trims, case-folds and collapses whitespace, nothing
+more. A pair that agrees only after a re-split (`["8-port 100 Mbps","1 Gbps switch NIM"]` against
+`["8-port 100 Mbps/1 Gbps switch NIM"]`) is a **renormalize** case, not an agreement between two
+sources: endorsing one normaliser's split over another's is a decision about our reader.
 
 ### When two values count as the same value
 
@@ -498,6 +530,45 @@ remerge all pass through the store, so one refusal covers all three and a new pi
 it. `canInherit` takes the same subject optionally, so a caller with the part row to hand also gets
 the refusal at plan time.
 
+## Is the FIELD applicable to this part? (and why the category profile cannot answer it)
+
+`fieldApplies(category, field)` is the profile's own answer: true when the category profile lists
+the field (req, opt or cond), true when the category has NO profile at all (a part nobody has
+profiled must not lose everything), false otherwise. `notApplicable` is the RETRACTION predicate and
+needs a second thing — the pair must be in `NONSENSICAL_PAIRS`, an explicit operator-curated table.
+
+**That table is empty, and the emptiness is the measured result.** The rule was specified to close
+the 5,688 `cross_doc_disagreement` conflicts whose shape is a chassis-side field on a component
+(`SFP-10G-SR supported_transceivers`). Against production, 4 Sep 2026:
+
+- **30 of the 5,688** carry a field outside the part's category profile, and **none of those 30 is a
+  component-shaped SKU**. The 619 that do have the shape (supported_transceivers 370,
+  psu_options 249) all carry a field the profile LISTS. Every field the rule was specified around —
+  `supported_transceivers`, `stack_ports`, `psu_options`, `switching_capacity`,
+  `stacking_bandwidth`, `forwarding_rate`, `module_slots`, `poe_budget` — is inside the
+  `transceiver` profile, which holds 383 fields. The generated half of the profile was derived from
+  the labels each category publishes, i.e. from the same corpus, so **it has already absorbed the
+  nonsense it would be asked to police.** A list derived from the data cannot judge the data.
+- the category is wrong for exactly these parts anyway: `SFP-10G-SR` is `transceiver`,
+  `SFP-10G-SR=` is `switches` with family "Catalyst ESS9300". One optic, two categories.
+- applied bluntly the rule would retract **908 live facts over 83 pairs**, and reading 30 of them
+  across every category says they are PROFILE GAPS — `video/laser_type` (126), the Meraki camera and
+  switch vocabulary (`power_load_idle_max` 75, `copper_ethernet_ports` 48, `stack_ports` 31),
+  `switches/psu_efficiency` (11), `unified-communications/fxs_ports` (10),
+  `interfaces-modules/layer` (26). `ingest remerge` prints all 83 as a decision table and touches
+  none of them.
+
+`componentShape` is **not** used here either, and that is the same lesson from the other side: it is
+calibrated for refusing an INHERITED value, where a false positive costs a gap the part can still
+fill from its own datasheet. As a retraction predicate it is far too wide — `contains:SFP` matches
+the real switches `SG350-10SFP` and `WS-C4500X-16SFP+`, whose own `switching_capacity`,
+`forwarding_rate` and `psu_config` are correct per-SKU measurements. One table, two costs.
+
+A pair added to `NONSENSICAL_PAIRS` is retracted into the `not_applicable` state (a CLOSED gap, so
+the gap ledger stops asking) both for open conflicts and, under `--retract-inapplicable`, for
+current facts outside any conflict. `applyMerge` refuses a matching incoming fact outright, so no
+pipeline can write a new one.
+
 ## Re-merging: correcting a merge rule after the fact
 
 `ingest remerge` re-evaluates every OPEN conflict under today's rules inside a gated
@@ -512,6 +583,10 @@ It performs only effects it can perform COMPLETELY:
 - **retraction** — supersede the inherited fact with a `gap_unattempted` row whose `method` is
   `retracted:<rule>`. Not `gap_confirmed`: nobody checked tier 1 and 2 for this part, the value came
   from another product's datasheet. The withdrawn row, its value and its evidence stay in history.
+  A `not_applicable:<category>` retraction is the one exception and writes `not_applicable` instead:
+  that gap is CLOSED, because the field cannot apply to this part however hard anyone looks. The
+  remerge gate checks every retraction, not a sample — an inheritance retraction must stand on a row
+  that really is `inherited`, and a not-applicable one must still be reproduced by `notApplicable`.
 - **rewrite** (supersede or union) — needs the incoming SOURCE STRING, and this is the reason for
   migration 0008. `facts.raw` is NOT NULL because a normaliser bug is fixed by re-running the
   normaliser over `raw`; a fabricated `raw` is a fact that cannot be replayed. Conflicts logged

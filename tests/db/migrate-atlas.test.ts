@@ -259,7 +259,7 @@ console.log("— conflicts / completeness —");
 if (process.env.NETZSPEC_DB === "test") {
   const { query, closePool, resolveDatabaseUrl, databaseName } = await import("../../src/store/db.js");
   const dbName = databaseName(resolveDatabaseUrl());
-  if (!dbName.endsWith("_test")) { console.error(`refusing: database "${dbName}" is not a _test database`); process.exit(1); }
+  if (!/_test\d*$/.test(dbName)) { console.error(`refusing: database "${dbName}" is not a _test database`); process.exit(1); }
   console.log(`— database load (${dbName}) —`);
   const quiet = (): void => { /* the load's own log lines are noise here */ };
 

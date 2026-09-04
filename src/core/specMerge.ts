@@ -45,7 +45,11 @@ export type MergeAction =
   /** an `ls` field the SAME document states in more than one place: one list, unioned, not held. */
   | "list_union"
   /** the store refused an INHERITED entry: this part is not a product the document describes. */
-  | "refused_inherit";
+  | "refused_inherit"
+  /** the store refused the entry outright: the field is not applicable to this part at all
+   *  (notApplicable). Unlike `refused_inherit` this does not depend on where the value came from —
+   *  a chassis-side field is nonsense on a component whether it was inherited or read per-SKU. */
+  | "refused_not_applicable";
 
 export type MergeResult = {
   action: MergeAction;
@@ -131,11 +135,23 @@ export const MAX_CELL = 160;
 
 const listKey = (v: unknown): string => (typeof v === "string" ? v.trim().toLowerCase().replace(/\s+/g, " ") : JSON.stringify(sortKeys(v)));
 
-/** Two `ls` values are the same list when they hold the same members — a list has no order, and
- *  neither the extractor's reading order nor a cell's capitalisation is a fact about the product.
- *  `sameValue` compared the JSON of the unsorted array, so ["a","B"] and ["b","A"] were a held
- *  disagreement: 131 of run #38's conflicts are two datasheets stating one list with one word
- *  capitalised differently ("Optional L3" against "optional L3"). */
+/**
+ * Two `ls` values are the same list when they hold the same members — a list has no order, and
+ * neither the extractor's reading order nor a cell's capitalisation is a fact about the product.
+ * `sameValue` compared the JSON of the unsorted array, so ["a","B"] and ["b","A"] were a held
+ * disagreement: 131 of run #38's conflicts are two datasheets stating one list with one word
+ * capitalised differently ("Optional L3" against "optional L3").
+ *
+ * WHAT IT DOES NOT DO, checked 4 Sep 2026 against the 255 conflicts remerge closed as `set_equal`:
+ * it never RE-SPLITS a member. `listKey` trims, case-folds and collapses runs of whitespace, and
+ * that is the whole of it — ["8-port 100 Mbps","1 Gbps switch NIM"] and
+ * ["8-port 100 Mbps/1 Gbps switch NIM"] are two different lists here and must stay a disagreement,
+ * because agreeing them would silently endorse one normaliser's split over another's. A pair that
+ * agrees only after a re-split is a RENORMALIZE case (supersede to the current reading), not an
+ * agreement between two sources. 237 of those 255 are set-equal as stored; the other 18 were
+ * decided against the CURRENT fact rather than the recorded pair — see `decide` in
+ * src/pipeline/remerge.ts.
+ */
 export function listSetEqual(a: unknown, b: unknown): boolean {
   if (!Array.isArray(a) || !Array.isArray(b)) return false;
   const A = new Set(a.map(listKey)), B = new Set(b.map(listKey));
@@ -205,6 +221,30 @@ export function truncatedPrefixEqual(a: unknown, b: unknown, cap = MAX_CELL): bo
   const head = s.replace(/\S*$/, "").trimEnd();
   if (head.length < cap * 0.6) return false;                  // nothing left to compare on
   return l.startsWith(head);
+}
+
+/**
+ * Are these two entries the SAME CELL read twice, rather than two different cells of one document?
+ *
+ * Measured, not assumed. `mergeField` used to answer "same document, same tier, a newer read" from
+ * the PROVENANCE alone (`isNewerRead`: a newer norm_v, or a later extraction date) and never looked
+ * at the source string. Over the 10,291 conflicts the store closed as `same_doc_reextraction`,
+ * 5,746 carry identical raws and 1,381 differ only by the extractor's cell cap — those are re-reads
+ * and superseding is right. The remaining 3,164 are DIFFERENT CELLS of one document
+ * (certifications 754, ieee_standards 393, optical_pm 242, temp_operating 210, packet_buffer 196,
+ * …): "Transmit optical power ; Transmitter laser bias current ; …" against "Transmit optical
+ * power", "192.3; 192.2; 192.1; 192.0" against "192.3". Superseding those resolves an
+ * intra-document disagreement BY WRITE ORDER, which is the one thing this layer must never do.
+ *
+ * An absent raw is not evidence of sameness. A conflict logged before migration 0008 carries no
+ * source string on either side, and remerge reads those back as "" — two empty strings must not
+ * look like one cell read twice, so a missing raw on either side answers no and the caller falls
+ * through to the list rule or holds the field, which is the safe direction.
+ */
+export function isSameCellReread(existing: SpecEntry, incoming: SpecEntry): boolean {
+  const a = existing.raw, b = incoming.raw;
+  if (!a || !b) return false;
+  return a === b || truncatedPrefixEqual(a, b);
 }
 
 export type CompareOpts = {
@@ -342,7 +382,12 @@ export function mergeField(sku: string, existing: SpecEntry | undefined, incomin
   // exactly the badly split one the new normaliser exists to replace — ["● NX-API ● XML ● …"] as a
   // single blob, unioned with the eight members the new split produces, is nine members of which
   // one is wrong. A union is for two different CELLS read by ONE pass, not for two passes.
-  if (sameDoc && existing.prov.tier === incoming.prov.tier && isNewerRead(existing.prov, incoming.prov)) {
+  // `isSameCellReread` is the second half of this test and it is not optional: the provenance alone
+  // says only that the document was read again, never that THIS CELL is the one that was re-read.
+  // Without it, 3,164 of the 10,291 conflicts closed as `same_doc_reextraction` were two different
+  // cells of one document being resolved by write order (see isSameCellReread for the measurement).
+  if (sameDoc && existing.prov.tier === incoming.prov.tier && isNewerRead(existing.prov, incoming.prov)
+      && isSameCellReread(existing, incoming)) {
     return {
       action: "supersede",
       entry: { ...incoming, state: incoming.prov.tier <= 2 ? "verified" : "unverified" },
@@ -433,6 +478,10 @@ export const INHERIT_CLASS_C = new Set([
 // a curated decision can never be silently replaced by a generated one. A field classified B
 // stays out of A and C by construction, since B is tested first in canInherit.
 import { GENERATED_CLASS_A, GENERATED_CLASS_B, GENERATED_CLASS_C } from "./inheritClasses.generated.js";
+// The category profiles, for fieldApplies below. fieldSchema does not import this module, so the
+// two are a chain and not a cycle.
+// eslint-disable-next-line import/first
+import { PROFILES } from "./fieldSchema.js";
 
 for (const k of GENERATED_CLASS_B) INHERIT_CLASS_B.add(k);
 for (const k of GENERATED_CLASS_A) if (!INHERIT_CLASS_B.has(k)) INHERIT_CLASS_A.add(k);
@@ -604,6 +653,151 @@ export function describesPart(s: InheritSubject): { rule: string; reason: string
     return { rule: "family:mismatch", reason: `INHERIT_NOT_A_SUBJECT: ${s.sku} is family ${JSON.stringify(s.partFamily)}, the document's family is ${JSON.stringify(s.docFamily)}` };
   }
   return null;
+}
+
+// ---------------------------------------------------------------------------------------------
+// Q5c — is this FIELD applicable to this part at all?
+// ---------------------------------------------------------------------------------------------
+/**
+ * The category profile's own answer: does the profile for `categorySlug` list `fieldKey`?
+ *
+ *   * a category with NO profile answers TRUE for everything. A part whose category was never
+ *     profiled must not lose every fact it has because nobody has written its profile yet
+ *     (`data-center-analytics` and `software` are in that state today).
+ *   * a field the profile lists — req, opt or cond — applies. A `cond` whose condition is unmet is
+ *     not-applicable FOR THIS PART, but that is a completeness judgement made per part in
+ *     fieldSchema.requirementFor against the part's own values; it is not evidence that the fact is
+ *     wrong, so it is deliberately not a refusal here.
+ *   * a field the profile marks `na` does not apply.
+ *   * a field the profile does not mention does not apply.
+ *
+ * The CODE profile decides, not `category_profiles` in the database: sync-dictionary pushes code
+ * into the database, so between a deploy and that push the database holds the older profile and a
+ * rule built on it would refuse exactly the fields that were just added. The two agreed exactly
+ * (5,519 rows both sides) when this was written.
+ */
+export function fieldApplies(categorySlug: string | null | undefined, fieldKey: string): boolean {
+  const profile = categorySlug ? PROFILES[categorySlug] : undefined;
+  if (!profile) return true;
+  const r = profile[fieldKey];
+  if (!r) return false;
+  return r.kind !== "na";
+}
+
+/**
+ * (category, field) pairs whose presence is NONSENSICAL rather than merely unprofiled, and which
+ * `ingest remerge` may therefore retract.
+ *
+ * A curated pair OVERRIDES the category profile. That inversion is the operator's decision of
+ * 4 Sep 2026 and it needs stating plainly: normally the profile is the authority, but the generated
+ * half of it was derived from the labels each category publishes — from the same corpus it would be
+ * asked to police — so for these categories it has already absorbed the nonsense. Every field below
+ * is INSIDE the `transceiver` profile. The curated list is the correction to a profile that cannot
+ * correct itself, so `fieldApplies` is consulted for the census and reporting, never as a veto here.
+ *
+ * SCOPE: `transceiver` only, and that is measured, not timid. The other categories the rule was
+ * offered for cannot be keyed by category because the catalogue puts real hosts in them:
+ *
+ *   optical-networking      15454-M2-AC is an ONS 15454 M2 SHELF and its 51 `module_slots` are real;
+ *                           NCS1K4-1.2T-K9= is a line card with real `ports`. 339 candidate facts,
+ *                           and the shelf/card population is the majority. Already excluded from
+ *                           ACCESSORY_CATEGORIES above for the same reason.
+ *   ios-nx-os-software      the SKUs are chassis (8201-SYS, N540-ACC-SYS, NC55-MPA-4H-S-FC) filed
+ *   cloud-systems-management  under a software category; 2960-X, C1100TG-1N24P32A and IR807G are
+ *   software                physical devices whose `psu_options`, `vlan_max` and `poe_budget` are
+ *                           CORRECT. Retracting by category would delete real switch facts to
+ *                           punish a catalogue mistake. That is a reclassification job.
+ *   interfaces-modules      real line cards: WS-X4248-RJ45V has a genuine `poe_standard`,
+ *                           SM-D-ES3-48-P a genuine `layer`. 428 candidate facts, mostly legitimate.
+ *
+ * Component SHAPES (CAB-, PWR-, -FAN-, -SSD) are not keyed here either, and deliberately: those
+ * parts sit in the `switches` and `routers` categories, where the very same field is correct for
+ * the chassis next to them, and `componentShape` is too wide to retract on — `contains:SFP` matches
+ * the real switches SG350-10SFP and WS-C4500X-16SFP+ (see notApplicable). Their wrongly INHERITED
+ * values are already withdrawn by describesPart; what is left is per-SKU noise for a hygiene pass.
+ *
+ * Each entry below was counted against the live corpus on 4 Sep 2026 and its `why` is the
+ * dictionary's own description of the field, not taste. Fields with a count of 0 today are listed
+ * so `applyMerge` refuses the first one that is ever offered.
+ *
+ * NOT INCLUDED, on the evidence, though they are outside no profile:
+ *   ports (325)                an optic has none, but the population is breakout and adapter parts
+ *                              (100G-DACP-QSFP4SFP1M, CVR-QSFP-SFP10G) that really do enumerate
+ *                              ends, and `ports` is the field with 3,529 known type mismatches.
+ *   supported_protocols (11)   an optic legitimately states Ethernet / Fibre Channel support.
+ *   crypto_algorithms (8)      MACsec-capable optics exist.
+ *   rfc_compliance (2)         a standards list is not obviously host-side.
+ *
+ * The rule was originally specified around the 5,688 `cross_doc_disagreement` conflicts whose shape
+ * is a chassis-side field on a component (`SFP-10G-SR supported_transceivers`). Note what it does
+ * and does not reach: 30 of the 5,688
+ * `cross_doc_disagreement` conflicts whose shape is a chassis-side field sitting on a component —
+ * `SFP-10G-SR supported_transceivers`. Measured against production on 4 Sep 2026, the category
+ * profile cannot see that population and the pairs it CAN see are not nonsense:
+ *
+ *   * of the 5,688 conflicts, 30 carry a field outside the part's category profile, and NONE of
+ *     those 30 stands on a component-shaped SKU. The 619 that do have the shape the brief
+ *     describes (supported_transceivers 370, psu_options 249) all carry a field the profile LISTS
+ *     for their category. Every field the rule was specified around is INSIDE the `transceiver`
+ *     profile (383 fields): supported_transceivers, stack_ports, psu_options, switching_capacity,
+ *     stacking_bandwidth, forwarding_rate, module_slots, poe_budget. The generated half of the
+ *     profile was derived from the labels each
+ *     category actually publishes, i.e. from the same corpus, so it has already absorbed the
+ *     nonsense it would be asked to police. That is D:\Project\CLAUDE.md's drift lesson inverted:
+ *     a list derived from the data cannot be used to judge the data.
+ *   * the catalogue's category is wrong for exactly these parts anyway, which is why
+ *     COMPONENT_SKU_SHAPES exists: `SFP-10G-SR` is category `transceiver`, `SFP-10G-SR=` is
+ *     category `switches` with family "Catalyst ESS9300". One optic, two categories, one of them
+ *     a chassis's.
+ *   * applied bluntly the rule would retract 994 current facts over 83 pairs, and reading 30 of
+ *     them across every category says they are PROFILE GAPS: video/laser_type (126),
+ *     meraki/copper_ethernet_ports (48) and the rest of the Meraki camera and switch vocabulary,
+ *     switches/psu_efficiency (11), unified-communications/fxs_ports (10),
+ *     interfaces-modules/layer (26). Real, sourced, per-SKU values whose category profile is
+ *     simply short. They are listed for the operator by `ingest remerge`, never touched.
+ *
+ * The one population that IS nonsense — humidity_storage and altitude_storage on
+ * `ios-nx-os-software` (43 + 4) — is a chassis value INHERITED into a software SKU, which
+ * describesPart already refuses going forward and the inheritance retraction already withdraws.
+ * Closing it by category would also hit C1100TG-1N24P32A, a physical gateway miscategorised as
+ * software, whose physical facts are correct.
+ *
+ * A pair added here is retracted, so each one needs its own `why` naming the evidence. Adding one
+ * is an operator decision, taken from the profile-gap list the dry run prints.
+ *
+ * It is a MUTABLE Map, deliberately: while it is empty every branch that reads it is unreachable,
+ * and a rule nothing can reach is a rule nobody has tested. tests/specMerge.test.ts and
+ * tests/db/remerge.test.ts add a pair, prove the retraction fires and the applicable twin does not,
+ * and remove it again in a `finally`. No production code writes to it.
+ */
+export const NONSENSICAL_PAIRS = new Map<string, string>();
+
+export type ApplicabilitySubject = { sku: string; categorySlug?: string | null; fieldKey: string };
+
+/**
+ * Refusal reason, or null when this field may sit on this part.
+ *
+ * Both tests must fail before anything is withdrawn: the profile must not list the field AND the
+ * pair must be one an operator has judged nonsensical. The profile alone is a completeness signal
+ * (see NONSENSICAL_PAIRS), and a retraction removes a value from a page, so the cost of a false
+ * positive here is not a recorded gap — it is a real specification deleted.
+ *
+ * Deliberately NOT keyed on `componentShape`: that table is calibrated for refusing an INHERITED
+ * value, where a false positive costs a gap the part can still fill from its own datasheet. It is
+ * far too wide for a retraction — `contains:SFP` matches the real switches SG350-10SFP and
+ * WS-C4500X-16SFP+, whose own switching_capacity, forwarding_rate and psu_config are correct
+ * per-SKU measurements (393 current facts stand on component-shaped SKUs; 39 of them on -FAN/-SSD
+ * shapes that are line cards). One table, two costs: the same predicate is safe for one and not
+ * for the other.
+ */
+export function notApplicable(s: ApplicabilitySubject): { rule: string; reason: string } | null {
+  if (fieldApplies(s.categorySlug, s.fieldKey)) return null;
+  const why = NONSENSICAL_PAIRS.get(`${s.categorySlug}/${s.fieldKey}`);
+  if (!why) return null;
+  return {
+    rule: `not_applicable:${s.categorySlug}`,
+    reason: `FIELD_NOT_APPLICABLE: ${s.fieldKey} is not applicable to ${s.sku} (category ${s.categorySlug}) — ${why}`,
+  };
 }
 
 /**
