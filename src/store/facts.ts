@@ -85,6 +85,31 @@ function jsonParam(v: unknown): string | null {
   return v === undefined || v === null ? null : JSON.stringify(v);
 }
 
+/**
+ * `facts_verified_needs_source`: CHECK (state NOT IN ('verified','corroborated') OR tier = 0 OR
+ * doc_id IS NOT NULL). A rendered fact above tier 0 must name the document it was read from.
+ *
+ * Postgres enforces it on INSERT **and on UPDATE** — and the UPDATE is the one that bit. Run #20
+ * (apply-specs over shard 0, 4 Sep 2026) died after 28 minutes on it, and the three facts it had
+ * written all carried a doc_id, because the offending statement was not an insert at all: it was
+ * `applyMerge`'s corroborate branch promoting an EXISTING row to `corroborated`. 1,125 current
+ * rows sit at tier 2 with `doc_id IS NULL` and state `unverified` (migrated facts whose source
+ * document was never recorded); `mergeField` sees an incoming tier-2 extraction that AGREES with
+ * one, calls the two sources independent (undefined !== a real doc id) and both trusted, and
+ * returns `corroborate` — whereupon the promotion breaks the check and the whole run dies for one
+ * row. Nothing in the extract plan produces an entry with no doc_id (0 of 35,073 over shard 0);
+ * the trap was entirely on the stored side.
+ *
+ * Returned as a NAMED reason rather than left to Postgres, so the caller can quarantine one entry
+ * instead of losing the run to a `23514`.
+ */
+export function noSourceProblem(state: FieldState, tier: number, docId: string | null | undefined): string | null {
+  if (state !== "verified" && state !== "corroborated") return null;
+  if (tier === 0) return null;
+  if (docId != null && String(docId).trim() !== "") return null;
+  return `FACT_NO_DOCUMENT: a ${state} fact at tier ${tier} must name the document it was read from (facts_verified_needs_source); tier 0 is the only source-less tier`;
+}
+
 function rethrowNamingKey(e: unknown, key: string): never {
   const err = e as { code?: string; constraint?: string; detail?: string; message?: string };
   if (err && err.code === "23503" && /field_key/.test(`${err.constraint ?? ""} ${err.detail ?? ""}`)) {
@@ -111,6 +136,10 @@ export async function factHistory(partId: number, fieldKey: string, db: Queryabl
 }
 
 async function insertFactRow(client: Queryable, partId: number, e: SpecEntry, runId: number): Promise<{ id: number; created_at: Date }> {
+  // BEFORE any SQL: a refusal that has not touched the transaction can be caught and quarantined
+  // by the caller. A 23514 from Postgres aborts the transaction and, in practice, the run.
+  const problem = noSourceProblem(e.state, e.prov.tier, e.prov.doc_id);
+  if (problem) throw new Error(`${problem} — field "${e.k}", raw ${JSON.stringify(String(e.raw).slice(0, 60))}`);
   try {
     const r = await client.query<{ id: number; created_at: Date }>(
       `INSERT INTO facts (part_id, field_key, value, unit, raw, state, tier, method, doc_id, locator, extracted_at, norm_v,
@@ -188,6 +217,9 @@ export type ApplyResult = {
   factId?: number;
   conflictId?: number;
   supersededId?: number;
+  /** set when the effect was REDUCED because performing it in full would break an invariant, with
+   *  the reason. The evidence is still recorded; the state promotion is not. Counted, never silent. */
+  withheld?: string;
 };
 
 /**
@@ -240,6 +272,12 @@ export async function applyMerge(client: Queryable, partId: number, incoming: Sp
         "SELECT 1 FROM fact_evidence WHERE fact_id = $1 AND doc_id IS NOT DISTINCT FROM $2 LIMIT 1", [existing.id, incoming.prov.doc_id ?? null]);
       if (dup.rowCount) return { action: "skip_lower_tier", factId: existing.id };
       await insertEvidence(client, existing.id, incoming, runId);
+      // The promotion is an UPDATE, and the CHECK fires on UPDATE. A stored row at tier > 0 with
+      // no doc_id of its own cannot be called corroborated — the second source is real and is
+      // recorded as evidence, but the row keeps the state it can justify. This is what killed
+      // run #20 (see noSourceProblem).
+      const withheld = noSourceProblem("corroborated", existing.tier, existing.doc_id);
+      if (withheld) return { action: "corroborate", factId: existing.id, withheld };
       await client.query("UPDATE facts SET state = 'corroborated' WHERE id = $1", [existing.id]);
       return { action: "corroborate", factId: existing.id };
     }
@@ -332,10 +370,18 @@ export async function rollbackRun(client: Queryable, runId: number): Promise<Run
     const r = await client.query(
       `UPDATE facts f SET state = CASE
             WHEN EXISTS (SELECT 1 FROM conflicts c WHERE c.part_id = f.part_id AND c.field_key = f.field_key AND c.resolved_at IS NULL) THEN 'conflict'::fact_state
+            -- a row above tier 0 with no document of its own can be neither: facts_verified_needs_source
+            -- refuses it on UPDATE exactly as it does on INSERT, and a rollback that trips it would
+            -- report ROLLBACK_FAILED for a run whose only sin was touching a source-less row
+            WHEN f.tier <> 0 AND f.doc_id IS NULL THEN 'unverified'::fact_state
             WHEN (SELECT count(DISTINCT e.doc_id) FROM fact_evidence e WHERE e.fact_id = f.id) > 1 THEN 'corroborated'::fact_state
             ELSE 'verified'::fact_state END
          WHERE f.id = $1 AND f.state IS DISTINCT FROM (CASE
             WHEN EXISTS (SELECT 1 FROM conflicts c WHERE c.part_id = f.part_id AND c.field_key = f.field_key AND c.resolved_at IS NULL) THEN 'conflict'::fact_state
+            -- a row above tier 0 with no document of its own can be neither: facts_verified_needs_source
+            -- refuses it on UPDATE exactly as it does on INSERT, and a rollback that trips it would
+            -- report ROLLBACK_FAILED for a run whose only sin was touching a source-less row
+            WHEN f.tier <> 0 AND f.doc_id IS NULL THEN 'unverified'::fact_state
             WHEN (SELECT count(DISTINCT e.doc_id) FROM fact_evidence e WHERE e.fact_id = f.id) > 1 THEN 'corroborated'::fact_state
             ELSE 'verified'::fact_state END)`, [id]);
     states += r.rowCount ?? 0;

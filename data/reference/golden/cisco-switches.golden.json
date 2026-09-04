@@ -28,7 +28,8 @@
     "default 715W PSU, 720W with the upgrade 1100W PSU) and the power table's 'Measured P(W)'",
     "columns are HALF-port traffic with a separate full-port column, repeated per input voltage.",
     "The expectations are kept here so they can be restored verbatim once the parser captures the",
-    "qualifier - they are evidence of what the cells say, not of what the field should hold."
+    "qualifier - they are evidence of what the cells say, not of what the field should hold.",
+    "CORRECTED 2026-09-04: the psu_options entries for C9300-24P and C9300-24U each held ONE CELL of a list the datasheet spreads over several cells (a 'Default AC power supply' column in the model table plus one 'Primary power supply' row per configuration in the PSU table). The extractor now joins the cells of one table and the apply unions an `ls` field one document states twice, so the expected value is the FULL list in document order, read from the cached datasheets by hand. UNCHANGED, and each for its own reason: C9200CX-8P-2X2G's two cells are identical, so they corroborate rather than extend; C9200CX-12P-2X2G's second cell sits under 'Default primary power supply', a label no alias rule matches, so the datasheet's other spelling of the same 315W supply is an unmapped label and NOT part of what the pipeline can state (recorded in the unmapped report, not blessed into a golden); WS-C3850-48P and -48F have one power-supply cell each."
   ],
   "expectations": [
     {
@@ -73,9 +74,11 @@
     {
       "sku": "C9300-24P",
       "field": "psu_options",
-      "raw": "715W AC",
+      "raw": "715W AC ; PWR-C1-1100WAC-P; PWR-C1-715WAC-P",
       "value": [
-        "715W AC"
+        "715W AC",
+        "PWR-C1-1100WAC-P",
+        "PWR-C1-715WAC-P"
       ]
     },
     {
@@ -120,9 +123,12 @@
     {
       "sku": "C9300-24U",
       "field": "psu_options",
-      "raw": "1100W AC",
+      "raw": "1100W AC ; PWR-C1-1900WAC-P/ PWR-C1-1900WHV-T; PWR-C1-1100WAC-P",
       "value": [
-        "1100W AC"
+        "1100W AC",
+        "PWR-C1-1900WAC-P",
+        "PWR-C1-1900WHV-T",
+        "PWR-C1-1100WAC-P"
       ]
     },
     {

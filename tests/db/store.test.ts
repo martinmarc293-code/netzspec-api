@@ -304,9 +304,15 @@ await refuses("a second CURRENT row for the same part+field (raw INSERT bypassin
 await refuses("an unknown field_key is rejected and the error names the key",
   () => withTx((c) => applyMerge(c, p1.id, entry("no_such_field", 1, "1", html(D1, "t1:r1:c1")), applyRun)),
   /unknown field_key "no_such_field"/);
-// sabotage: verified without a source
-await refuses("a verified tier-2 fact with no doc_id trips facts_verified_needs_source",
-  () => withTx((c) => applyMerge(c, p1.id, entry("ieee_standards", ["IEEE 802.1Q"], "802.1Q", { tier: 2, method: "html_table" }), applyRun))
+// sabotage: verified without a source. TWO layers, and both are proved, because the store's guard
+// is belt-and-braces for the constraint and not a replacement for it. The store must refuse BEFORE
+// touching the transaction: a 23514 from Postgres aborts it, and run #20 lost a whole shard that
+// way after 28 minutes (docs/DATA_MODEL.md § A fact with no document).
+await refuses("a verified tier-2 fact with no doc_id is refused by the STORE, by name, before any SQL",
+  () => withTx((c) => applyMerge(c, p1.id, entry("ieee_standards", ["IEEE 802.1Q"], "802.1Q", { tier: 2, method: "html_table" }), applyRun)),
+  /^FACT_NO_DOCUMENT: a verified fact at tier 2 must name the document it was read from \(facts_verified_needs_source\)/);
+await refuses("… and the CHECK itself still fires on a raw INSERT that bypasses the store",
+  () => query(`INSERT INTO facts (part_id, field_key, value, raw, state, tier, method) VALUES ($1, 'ieee_standards', '["IEEE 802.1Q"]'::jsonb, '802.1Q', 'verified', 2, 'html_table')`, [p1.id])
     .catch((e) => { throw new Error(`${e.code} ${e.constraint}`); }),
   /23514 facts_verified_needs_source/);
 {

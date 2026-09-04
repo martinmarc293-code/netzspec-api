@@ -448,7 +448,10 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     const bag = produced.get(part.sku) ?? new Map<string, ProducedFact>();
     // ProducedFact.raw is the CELL, never the "<label> | <cell>" replay form: the gate re-reads it
     // against the cached document's cell and the golden files hold the cell.
-    if (!bag.has(e.k)) bag.set(e.k, { sku: part.sku, key: e.k, value: e.value, unit: e.unit, raw: f.value, label, locator: f.locator, source_url: f.source_url, doc_id: doc.doc_id, inherited });
+    // raw is the CELL the locator names, never the "<label> | <cell>" replay form and never a
+    // JOIN: the gate re-reads that locator in the cached document and compares it to this string,
+    // so for a joined fact it must be the FIRST fragment's cell, matching f.locator.
+    if (!bag.has(e.k)) bag.set(e.k, { sku: part.sku, key: e.k, value: e.value, unit: e.unit, raw: fragmentsOf(f)?.[0].value ?? f.value, label, locator: f.locator, source_url: f.source_url, doc_id: doc.doc_id, inherited });
     produced.set(part.sku, bag);
   };
   const noteLabel = (into: Plan["unmapped"], label: string, value: string, category: string) => {
@@ -615,7 +618,9 @@ export async function main(argv: string[]): Promise<void> {
   const reports = writeReports(plan, a.tag);
   writeGateReport(gate, misses, a.tag);
 
-  const mergeStats: Record<string, number> = { docs_written: 0, doc_parts_linked: 0, parts_touched: 0, insert: 0, corroborate: 0, conflict: 0, protected: 0, revision_change: 0, skip_lower_tier: 0 };
+  const mergeStats: Record<string, number> = { docs_written: 0, doc_parts_linked: 0, parts_touched: 0, insert: 0, corroborate: 0, conflict: 0, protected: 0, revision_change: 0, skip_lower_tier: 0, refused_no_document: 0, withheld_no_source: 0 };
+  /** entries the STORE refused or reduced, one line each — a recorded gap, never a bare counter. */
+  const refusedEntries: { sku: string; key: string; reason: string }[] = [];
   const inputs = {
     files: plan.files.map((f) => ({ ...hashFile(f.file), source: f.source })), commit: a.commit, sample: a.sample,
     allow_regression: a.allowRegression, golden_dir: a.goldenDir, vendor: a.vendor,
@@ -652,8 +657,25 @@ export async function main(argv: string[]): Promise<void> {
       for (const [partId, entries] of plan.incoming) {
         await withTx(async (client) => {
           for (const e of entries) {
-            const r = await applyMerge(client, partId, e, id);
+            let r: Awaited<ReturnType<typeof applyMerge>>;
+            try {
+              r = await applyMerge(client, partId, e, id);
+            } catch (err) {
+              // A fact the store REFUSES is a quarantine, not a crash: run #20 lost 28 minutes and
+              // a whole shard because one row could not be promoted. Only a refusal raised BEFORE
+              // any SQL may be swallowed — a Postgres error has aborted the transaction and every
+              // later statement in it would fail anyway, so those are rethrown.
+              const msg = err instanceof Error ? err.message : String(err);
+              if (!/^FACT_NO_DOCUMENT:/.test(msg)) throw err;
+              mergeStats.refused_no_document = (mergeStats.refused_no_document ?? 0) + 1;
+              refusedEntries.push({ sku: plan.partById.get(partId)?.sku ?? String(partId), key: e.k, reason: msg });
+              continue;
+            }
             mergeStats[r.action] = (mergeStats[r.action] ?? 0) + 1;
+            if (r.withheld) {
+              mergeStats.withheld_no_source = (mergeStats.withheld_no_source ?? 0) + 1;
+              refusedEntries.push({ sku: plan.partById.get(partId)?.sku ?? String(partId), key: e.k, reason: r.withheld });
+            }
           }
         });
         mergeStats.parts_touched++;
@@ -670,6 +692,10 @@ export async function main(argv: string[]): Promise<void> {
   console.log(`unmapped labels: ${plan.unmapped.size} (+ ${plan.backlog.size} __backlog labels, a named gap) -> ${path.relative(REPO_ROOT, reports.unmapped)}`);
   console.log(`quarantined values: ${plan.quarantine.length} -> ${path.relative(REPO_ROOT, reports.quarantine)}`);
   console.log(`(part, field) collisions: ${plan.collisions.length} — ${plan.stats.collision_differing} differing (${plan.stats.collision_list_union} unioned as one list, the rest held for the merge), ${plan.stats.collision_same_value} agreeing, ${plan.stats.collision_exact_repeat} exact repeats -> ${path.relative(REPO_ROOT, reports.collisions)}`);
+  if (refusedEntries.length) {
+    fs.appendFileSync(reports.quarantine, refusedEntries.map((q) => JSON.stringify({ ...q, stage: "store" })).join("\n") + "\n");
+    console.log(`store refusals: ${mergeStats.refused_no_document} entries refused, ${mergeStats.withheld_no_source} state promotions withheld (appended to ${path.relative(REPO_ROOT, reports.quarantine)}) — e.g. ${refusedEntries[0].sku} ${refusedEntries[0].key}`);
+  }
   const unk = [...plan.unknownSkus.entries()].sort((x, y) => y[1].count - x[1].count);
   console.log(`unknown SKUs: ${unk.length} -> ${path.relative(REPO_ROOT, reports.unknown)}${unk.length ? "  e.g. " + unk.slice(0, 8).map(([s, u]) => `${s}(${u.count})`).join(", ") : ""}`);
   printGate(gate, misses);

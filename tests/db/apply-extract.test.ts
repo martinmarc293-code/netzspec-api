@@ -46,7 +46,7 @@ import {
 } from "../../src/pipeline/gate-extract.js";
 import type { RawFact } from "../../src/core/deepSpecMap.js";
 import type { SpecEntry } from "../../src/core/specMerge.js";
-import { applyMerge, withRun, withTx } from "../../src/store/index.js";
+import { applyMerge, withRun, withTx, rollbackRun, noSourceProblem } from "../../src/store/index.js";
 import { factRunSucceeded } from "../../src/api/queries/shared.js";
 import { getPool } from "../../src/store/db.js";
 
@@ -647,6 +647,54 @@ const extraTags: string[] = [];
     check("extractor list rule: facts_per_doc counts CELLS, so folding cells into facts is not a regression",
       jp.factsPerDoc[D1] === base.factsPerDoc[D1] + 2 && jp.stats.list_fragment_cells === 1,
       { after: jp.factsPerDoc[D1], before: base.factsPerDoc[D1], folded: jp.stats.list_fragment_cells });
+  }
+
+  // ---- 4d. a fact with no document is a QUARANTINE, not a crash ------------------------------------
+  // Run #20 (apply-specs, shard 0, --commit) died after 28 minutes on facts_verified_needs_source:
+  //   CHECK (state NOT IN ('verified','corroborated') OR tier = 0 OR doc_id IS NOT NULL)
+  // The three facts it had written all carried a doc_id, because the offending statement was not an
+  // INSERT: it was applyMerge's corroborate branch promoting an EXISTING row — 1,125 current rows
+  // sit at tier 2 with doc_id NULL and state `unverified`, and an agreeing tier-2 extraction asks
+  // for exactly that promotion. Postgres reports a CHECK failure on UPDATE with the same "new row
+  // for relation" wording as an insert, which is why it read as an insert.
+  {
+    const pNoDoc = await part("NZT-9300-24W", switches, "NZTEST 9300");
+    const noDocRun = (await query<{ id: number }>("INSERT INTO runs (kind, status, inputs) VALUES ('apply-specs', 'running', '{}'::jsonb) RETURNING id")).rows[0].id;
+    const withDoc: SpecEntry = { k: "mac_table", raw: "32,000", value: 32000, unit: "Einträge", state: "verified",
+      prov: { tier: 2, method: "html_table", doc_id: D1, locator: "t0:r1:c4", extracted_at: "2026-09-03", norm_v: "1.2.0" } };
+    const noDoc: SpecEntry = { ...withDoc, prov: { ...withDoc.prov, doc_id: undefined } };
+
+    sabotages++;
+    await refuses("a verified tier-2 entry with NO doc_id is refused BY NAME before any SQL — the run must not die for one entry",
+      () => withTx((client) => applyMerge(client, pNoDoc, noDoc, noDocRun)),
+      /^FACT_NO_DOCUMENT: a verified fact at tier 2 must name the document it was read from \(facts_verified_needs_source\)/);
+    check("… and the refusal wrote nothing", (await query<{ n: number }>("SELECT count(*)::int AS n FROM facts WHERE part_id = $1", [pNoDoc])).rows[0].n === 0);
+    check("noSourceProblem lets through exactly what the CHECK lets through: tier 0, and any non-rendered state",
+      noSourceProblem("verified", 0, null) === null && noSourceProblem("unverified", 2, null) === null
+        && noSourceProblem("gap_confirmed", 2, null) === null && noSourceProblem("corroborated", 2, "abc") === null
+        && noSourceProblem("corroborated", 2, "  ") !== null && noSourceProblem("verified", 1, undefined) !== null);
+
+    // the path that actually fired: an EXISTING source-less row that an agreeing source would promote
+    await query(
+      `INSERT INTO facts (part_id, field_key, value, unit, raw, state, tier, method, doc_id, run_id)
+       VALUES ($1, 'mac_table', '32000', 'Einträge', '32,000', 'unverified', 2, 'html_table', NULL, NULL)`, [pNoDoc]);
+    const corr = await withTx((client) => applyMerge(client, pNoDoc, withDoc, noDocRun));
+    const row = await query<{ state: string }>("SELECT state::text AS state FROM facts WHERE part_id = $1 AND superseded_by IS NULL", [pNoDoc]);
+    const ev = await query<{ n: number }>("SELECT count(*)::int AS n FROM fact_evidence e JOIN facts f ON f.id = e.fact_id WHERE f.part_id = $1", [pNoDoc]);
+    sabotages++;
+    check("SABOTAGE corroborate: promoting a SOURCE-LESS tier-2 row to `corroborated` is WITHHELD with a reason, the evidence is still recorded, and the run survives — this is the statement that killed run #20",
+      corr.action === "corroborate" && /^FACT_NO_DOCUMENT: a corroborated fact at tier 2/.test(String(corr.withheld))
+        && row.rows[0].state === "unverified" && ev.rows[0].n === 1, { corr, state: row.rows[0]?.state, ev: ev.rows[0].n });
+
+    // and the rollback's state recompute must not walk into the same trap
+    await query("UPDATE facts SET state = 'conflict' WHERE part_id = $1 AND superseded_by IS NULL", [pNoDoc]);
+    const back = await withTx((client) => rollbackRun(client, noDocRun));
+    const after = await query<{ state: string }>("SELECT state::text AS state FROM facts WHERE part_id = $1 AND superseded_by IS NULL", [pNoDoc]);
+    sabotages++;
+    check("SABOTAGE rollback: recomputing the state of a SOURCE-LESS row gives `unverified`, never `verified` — the same CHECK fires on UPDATE, and a rollback that trips it reports ROLLBACK_FAILED for an innocent run",
+      after.rows[0].state === "unverified" && back.states_recomputed === 1, { after: after.rows[0]?.state, back });
+    await query("UPDATE runs SET status = 'aborted', finished_at = now() WHERE id = $1", [noDocRun]);
+    await query("DELETE FROM facts WHERE part_id = $1", [pNoDoc]);
   }
 
   // ---- 5. revision change was dead code ------------------------------------------------------------
