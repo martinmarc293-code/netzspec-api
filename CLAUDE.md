@@ -37,6 +37,12 @@ full; the ones that bite hardest here are restated.
   stored values, not from clean cases — a rule that refused every non-bare number would have
   dropped 170 operator-reviewed facts ("6 zl2-Modul-Steckplätze", "8 PoE+").
 - After the suite, `npm run typecheck`. `cmd | head; echo $?` reports head's exit code.
+- **A resolution class is believed only after its rows are read against the STORED pair.**
+  `remerge` reported 4,164 "exact" agreements; every one had kept ≠ rejected (2,494 compared
+  two null raws re-normalised to the same nothing; altitude_max 4998.72 vs 3000 was "exact").
+  The report's per-class samples were printed under the wrong heading and it passed review.
+  Before trusting any bulk resolution, retraction or supersede: `SELECT kept, rejected` for a
+  random 20 of the class and check the rule's own predicate by hand (4 Sep 2026).
 
 ## Session log (update every session; newest first)
 
@@ -295,7 +301,11 @@ full; the ones that bite hardest here are restated.
   re-normalisation; a null raw never agrees). Lesson for the pattern: a resolution class must
   be sampled and READ against the stored pair before its count is believed — the
   per-class samples in the remerge report were printed under the wrong heading, which is how
-  it passed review.
+  it passed review. Same audit over the other classes: `numeric_tolerance` 1,747 → 0 over
+  2% (sound); `prefix_truncated` 64 sound; `set_equal` 255 → 170 NOT equal as stored sets
+  (members re-split before comparing — the same defect, milder); `same_doc_reextraction`
+  10,291 → 5,746 identical raws, 4,545 differing (mostly one raw a prefix of the other at the
+  cell cap, some different cells) — rule to be tightened to identical-or-prefix raws.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
