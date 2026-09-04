@@ -275,6 +275,10 @@ full; the ones that bite hardest here are restated.
   TRAP (twice): a deploy chain that compares the live version with `git rev-parse HEAD` AFTER
   the deploy refuses to continue when a docs-only commit landed meanwhile. Capture the SHA
   before deploying and compare against that. Shard 1 re-apply started by hand on cc0079e.
+  Shard 1 re-applied under the merge layer + 1.5.1 as run #61 (gate PASS, golden 20/20 —
+  the slash fix holds, provenance 200/200, 25 produced-per-doc regressions allowed by design):
+  insert 251, corroborate 820, conflict 1,620, agree_same_doc 12,870, refused_inherit 20,824.
+  Second remerge pass + recompute chained on the box.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
