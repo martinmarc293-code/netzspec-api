@@ -144,6 +144,11 @@ full; the ones that bite hardest here are restated.
   blocked — misnamed). Merge-layer agent in flight: `tierFor()`, strict inheritance +
   retraction, set/tolerance/prefix equality, same-doc re-extraction supersedes, bullet-split
   lists, en-dash minus, five field retypes, `ingest remerge` (dry first, `--commit` on the box).
+  Shard 1's apply (run #39) was REFUSED by the gate's "absent document" rule: it compared the
+  file against every document any earlier run had read, so all of shard 0's documents were
+  "absent" — precision and recall were 100%. Absence is a regression only against the last
+  succeeded run with the SAME tag now; the run records its tag; `absentDocs` has its own
+  pure proof (`tests/gateRegression.test.ts`). The rollback held: 0 facts from #39.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap

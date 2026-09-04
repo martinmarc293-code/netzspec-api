@@ -12,7 +12,7 @@
 // Both halves are asserted: a same-tag document that vanished IS a regression (the rule stays
 // alive), and another tag's documents are never counted (the false positive stays dead).
 import { absentDocs, previousPerDoc } from "../src/pipeline/gate-extract.js";
-import type { Queryable } from "../src/store/db.js";
+import type { Queryable } from "../src/store/index.js";
 
 let pass = 0, miss = 0;
 function check(name: string, ok: boolean, detail = ""): void {
@@ -42,7 +42,9 @@ const rows = [
   { stats: null },                                              // a run written before stats carried per-doc counts
   { stats: { facts_per_doc: { E: 1 } } },                       // an untagged run
 ];
-const stub: Queryable = { query: (async () => ({ rows })) as unknown as Queryable["query"] };
+// Queryable is pg.Pool | pg.PoolClient; previousPerDoc only calls .query, so a one-method stub is
+// cast rather than implemented — the cast is the whole point of the test double.
+const stub = { query: async () => ({ rows }) } as unknown as Queryable;
 
 const s0 = await previousPerDoc(stub, "apply-specs", "deep-s0");
 check("raw counts union every succeeded run, last write wins per document",
