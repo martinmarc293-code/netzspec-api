@@ -368,6 +368,50 @@ _rn = M.extract(RELEASE_GLUED.replace("April 8, 2025", "soon"), {"task": "gpl", 
 check("GR12", "SABOTAGE a release line that is not a date records no release date",
       (_rn["price"] or {}).get("released") is None, repr((_rn["price"] or {}).get("released")))
 
+# =================================================================================================
+# VENDOR — this source sells more than one manufacturer's price list
+# =================================================================================================
+# provantage's 4 Sep 2026 failure in a different shape: discovery followed every product anchor
+# on the page regardless of whose part it was. itprice did NOT have the defect in practice (all
+# 754 tasks proposed over the 996 pages acquired that day were /cisco/), but nothing enforced it:
+# the branch that reads a WHOLE page (roots = [s], taken when the page is neither a GPL table nor
+# a spec table) reaches every brand list in the navigation, and _PART_HREF matches them all.
+MIXED = ('<html><body><div><h1>CISCO GPL 2026</h1>'
+         '<a href="https://itprice.com/cisco/c9200l-24p-4g-a.html">C9200L-24P-4G-A</a>'
+         '<a href="https://itprice.com/hp-price-list/455883-b21.html">455883-B21</a>'
+         '<a href="https://itprice.com/lenovo-price-list/00ay765.html">00AY765</a>'
+         '</div></body></html>')
+mv = M.discover(MIXED, {"task": "gpl", "key": "C9200L-24P-4G-A", "vendor": "cisco"})
+check("V1", "a cisco lookup on a page linking three brands proposes only the cisco part",
+      [t["key"] for t in mv] == ["C9200L-24P-4G-A"], str(mv))
+check("V2", "...and that task carries inherit_part, because it IS the searched part",
+      mv and mv[0].get("inherit_part") is True, str(mv))
+mv2 = M.discover(MIXED, {"task": "gpl", "key": "455883-B21", "vendor": "hpe"})
+check("V3", "SABOTAGE 'hp-price-list' does not satisfy a lookup for the vendor 'hpe' — a prefix "
+      "needs four characters, and a wrong brand files one maker's part under another",
+      mv2 == [], str(mv2))
+check("V4", "with NO vendor on the task nothing is refused (the pre-existing behaviour is kept)",
+      len(M.discover(MIXED, {"task": "gpl", "key": "C9200L-24P-4G-A"})) == 3)
+check("V5", "the brand a product URL belongs to is read off its section",
+      M._url_brand("https://itprice.com/cisco/x.html") == "cisco"
+      and M._url_brand("https://itprice.com/hp-price-list/x.html") == "hp"
+      and M._url_brand("https://itprice.com/cisco-gpl/x.html") == "cisco"
+      and M._url_brand("https://example.test/cisco/x.html") == "")
+# A SEARCH/INDEX page must never hand its own TITLE back as a SKU: that is what turned 176
+# router-switch search pages into 176 entries with a sentence for a part number on 4 Sep 2026.
+# itprice does not do it — an index page has no GPL table and no spec table, so extract()
+# returns an empty result — and this pins that.
+INDEX = '<html><body><h1>CISCO GPL 2026</h1><form><input name="q"></form><p>Search the price list</p></body></html>'
+ri = M.extract(INDEX, {"task": "gpl", "key": "10-2583-01"})
+check("V6", "SABOTAGE an index page with a heading and no table yields NO sku and no facts, so the "
+      "apply sees no entry at all", ri["sku"] is None and ri["facts"] == [] and not ri["others"], repr(ri))
+GPL_NO_MATCH = ('<html><body><table id="choice_product"><tr><th>#No</th><th>Product</th><th>Description</th></tr>'
+                '<tr><td>1</td><td><a href="https://itprice.com/cisco/c9200l-24p-4g-a.html">C9200L-24P-4G-A</a></td>'
+                '<td>Catalyst 9200L</td></tr></table></body></html>')
+rg = M.extract(GPL_NO_MATCH, {"task": "gpl", "key": "10-2583-01"})
+check("V7", "SABOTAGE a GPL table with no row for the searched key is not_listed and claims no sku "
+      "of its own", rg["sku"] is None and rg["not_listed"] is True, repr({k: rg[k] for k in ("sku", "not_listed")}))
+
 print("labels: " + " || ".join(labels[:25]))
 print(f"\n{npass} passed, {nfail} failed")
 sys.exit(1 if nfail else 0)

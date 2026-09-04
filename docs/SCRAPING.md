@@ -155,9 +155,12 @@ only the second one is the product.
 
 So the lane's real yield is read from the `runs` row the apply writes, per source, over the
 watchdog's window: **entries → parts matched → facts inserted**. `NO LANDING` fires when a source
-produced ≥ 20 entries and matched no part at all; `LOW LANDING` below 30 % matched. Both are
-report-only — a lane that is fetching correctly and failing to land is a catalogue or discovery
-problem, not a reason to switch the source off — and both print the top unknown SKUs from
+produced ≥ 20 entries and matched no part at all; `NO FACTS` when it matched ≥ 20 parts and still
+wrote nothing (itprice matched 700 of 1,366 entries the same day and inserted zero, because its
+labels map to no field the dictionary holds — matching a part is not landing a fact); `LOW
+LANDING` below 30 % matched. All three are report-only — a lane that is fetching correctly and
+failing to land is a catalogue, vocabulary or discovery problem, not a reason to switch the
+source off — and all three print the top unknown SKUs from
 `runs/reports/unknown-skus-<source>-<day>.jsonl`, because "0 landed" with no examples does not
 tell anyone what the lane spent the day chasing. When one apply run covers several sources its
 numbers cannot be split, so it is recorded against each and alarms on none.

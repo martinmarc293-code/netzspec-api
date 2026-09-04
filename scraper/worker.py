@@ -432,7 +432,15 @@ class Queue:
             UPDATE fetch_queue q
                SET status = 'leased', leased_by = %s, leased_at = now(), attempts = attempts + 1, updated_at = now()
               FROM picked WHERE q.id = picked.id
-            RETURNING q.*""", (source_ids, WORKER)).fetchone()
+            RETURNING q.*,
+                      -- the vendor whose part this task is about. An adapter's discover() needs
+                      -- it to tell the vendor's own listing from a third party selling a
+                      -- "compatible" equivalent under the same PID plus a house suffix; without
+                      -- it, provantage queued 200 such rows on 4 Sep 2026 and none could ever
+                      -- match a part. NULL for a task with no part behind it (a listing, a
+                      -- manually queued URL), and the adapters treat NULL as "do not guess".
+                      (SELECT v.slug FROM parts p JOIN vendors v ON v.id = p.vendor_id
+                        WHERE p.id = q.part_id) AS vendor""", (source_ids, WORKER)).fetchone()
 
     def complete(self, task_id: int, status: str, result: dict | None = None, error: str | None = None, next_at: datetime | None = None) -> None:
         # result is kept when none is given: a datasheet task's origin page and a --force flag
@@ -594,7 +602,7 @@ class Loop:
             out_dir.mkdir(parents=True, exist_ok=True)
             out = out_dir / f"{task['id']}.json"
             out.write_text(json.dumps({
-                "source": slug, "task": {k: v for k, v in task.items() if k in ("id", "task", "key", "part_id")},
+                "source": slug, "task": {k: v for k, v in task.items() if k in ("id", "task", "key", "part_id", "vendor")},
                 "url": url, "final_url": res.get("final_url"), "fetched_at": now().isoformat(), "fetch_id": fetch_id,
                 "cached": bool(res.get("cached")), "cache_path": res.get("cache_path"), "result": ext,
             }, ensure_ascii=False, indent=1, default=str), encoding="utf-8")

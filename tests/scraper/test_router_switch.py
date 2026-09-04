@@ -370,4 +370,56 @@ check("SK8", "SABOTAGE the stack kit named in a sibling's description is not dis
 check("SK9", "SABOTAGE a junk leading token in the title form is refused by is_part_number",
       not any(t["key"] == "0.75K" for t in M.discover(GRID, {"task": "search", "key": "0.75K"})))
 
+# =============================================================================================
+# A SEARCH PAGE IS NOT A PART
+# =============================================================================================
+# 4 Sep 2026, apply-acquired run #30: entries 193, parts_matched 0, sku_unknown 193. 176 of those
+# entries were SEARCH pages, and each one's "sku" was its own heading — "Search results for:
+# '10-2003-01'". extract() ended in `sku = spec_sku or compare_sku or h1_sku`, and on a results
+# grid the first two are empty, so the heading became the part number. A search page has no
+# specification to give: its whole product is the tasks discover() proposes, and a search that
+# matched nothing is the SITE's answer (not_listed), not an entry.
+SEARCH_REAL_URL = "https://www.router-switch.com/search/10-2003-01"
+sr_html = load(SEARCH_REAL_URL)
+sr_task = {"task": "search", "key": "10-2003-01", "url": SEARCH_REAL_URL}
+sr_soup = M.soup(sr_html)
+_h1 = sr_soup.find("h1")
+check("SP1", "the real cached search page really does head itself 'Search results for: ...' (the "
+      "string that became 193 part numbers)",
+      _h1 is not None and _h1.get_text(" ", strip=True).lower().startswith("search results for"),
+      _h1.get_text(" ", strip=True) if _h1 else "no h1")
+sr = M.extract(sr_html, sr_task)
+check("SP2", "extract() on it yields NO sku, no facts, no others and no relations — the apply sees "
+      "no entry at all", sr["sku"] is None and sr["facts"] == [] and sr["others"] == [] and sr["relations"] == [],
+      repr({k: sr[k] for k in ("sku", "facts", "others")}))
+check("SP3", "...and the page is not_listed, because no row on it matches the key",
+      sr["not_listed"] is True)
+check("SP4", "_is_search_page recognises it three ways: the task kind, the /search/ URL and the "
+      "rendered app root",
+      M._is_search_page(sr_soup, {"task": "search", "key": "x"})
+      and M._is_search_page(sr_soup, {"task": "listing", "key": SEARCH_REAL_URL, "url": SEARCH_REAL_URL})
+      and M._is_search_page(sr_soup, {"task": "listing", "key": "x", "url": "https://www.router-switch.com/other"}))
+# SABOTAGE: the guard must not swallow a real product page, or the source yields nothing at all
+check("SP5", "SABOTAGE the real PRODUCT page is not a search page and still yields its sku and facts",
+      M._is_search_page(M.soup(main_html), {"task": "part-page", "key": "C9200L-24P-4G-E"}) is False
+      and M.extract(main_html, {"task": "part-page", "key": "C9200L-24P-4G-E"})["sku"] == "C9200L-24P-4G-E"
+      and len(M.extract(main_html, {"task": "part-page", "key": "C9200L-24P-4G-E"})["facts"]) > 10)
+# SABOTAGE: a prose heading on a page that is NOT a search page must still not become a SKU
+PROSE_H1 = ('<html><body><h1>Cisco Catalyst 9200 Series Switches Data Sheet</h1>'
+            '<div class="prt_specification_wrap"><div class="item"><div class="item_name">Ports</div>'
+            '<div>24</div></div></div></body></html>')
+rp = M.extract(PROSE_H1, {"task": "part-page", "key": "10-2003-01"})
+check("SP6", "SABOTAGE a prose heading never becomes the sku even on a page the search guard does "
+      "NOT catch: it has spaces and fails the one part-number rule",
+      rp["sku"] == "" and rp["not_listed"] is True, repr({k: rp[k] for k in ("sku", "not_listed")}))
+SEARCH_H1 = PROSE_H1.replace("Cisco Catalyst 9200 Series Switches Data Sheet", "Search results for: '10-2003-01'")
+rq = M.extract(SEARCH_H1, {"task": "part-page", "key": "10-2003-01"})
+check("SP6b", "...and a results heading is caught by the search guard first, so even a page with a "
+      "spec block yields no entry", rq["sku"] is None and rq["facts"] == [], repr({k: rq[k] for k in ("sku", "facts")}))
+# a search that DID match hands its part_id down with the exact row
+_ih = M.discover(GRID, {"task": "search", "key": "C9200L-24P-4G-E"})
+check("SP7", "the discovered row that IS the searched part carries inherit_part; a variant does not",
+      any(t["key"] == "C9200L-24P-4G-E" and t.get("inherit_part") for t in _ih)
+      and not any(t["key"] != "C9200L-24P-4G-E" and t.get("inherit_part") for t in _ih), str(_ih))
+
 raise SystemExit(1 if nfail else 0)

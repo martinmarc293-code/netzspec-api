@@ -103,6 +103,12 @@ def now() -> datetime:
 
 def reset() -> None:
     C.execute("TRUNCATE part_source_checks, fetches, fetch_queue, watchdog_events RESTART IDENTITY")
+    # The LANDING check reads the `runs` table, so a run row left behind by an earlier case (or by
+    # a case that crashed) is evidence in every later one. This suite is the only thing that
+    # writes runs in a _test4 database, so clearing them here is what makes each case independent
+    # — the first version of section 17 left run 19 behind and 30 unrelated cases went red.
+    C.execute("DELETE FROM facts WHERE run_id IN (SELECT id FROM runs)")
+    C.execute("DELETE FROM runs")
     C.execute("UPDATE sources SET enabled = true, notes = NULL")
     C.execute("UPDATE sources SET politeness_ms = 3000 WHERE id = %s", (P,))
     hb = RUNS / "heartbeat"
@@ -843,6 +849,191 @@ check("DR3", "SABOTAGE the same window with 40 CONTENT pages down to 3 facts -> 
       any("drift" in a for a in rep["alarms"]) and not enabled(P), str(rep["alarms"]))
 check("DR4", "...and the alarm counts content pages, not the 273 pages the window holds",
       "40 content pages" in " ".join(rep["alarms"]), str(rep["alarms"]))
+
+# ---------------------------------------------------------------------------------------------
+# 17. LANDING — yield measured at the database, and STALE RUN
+# ---------------------------------------------------------------------------------------------
+# 4 Sep 2026 is the whole reason this section exists. provantage fetched 992 pages, the adapter
+# read facts off 208 of them, every check above said the lane was healthy — and apply-acquired
+# run #29 wrote nothing: entries 208, parts_matched 0, sku_unknown 208. "The adapter extracted a
+# fact" and "a fact reached a part" are different claims, and only the second one is the product.
+RUN_IDS: list[int] = []
+
+
+def apply_run(slug: str | None, *, entries: int, matched: int, unknown: int = 0, insert: int = 0,
+              minutes_ago: float = 5, status: str = "succeeded", notes: str | None = None,
+              first: str | None = None, kind: str = "apply-acquired") -> int:
+    stats = {"entries": entries, "parts_matched": matched, "sku_unknown": unknown, "insert": insert,
+             "corroborate": 0, "pages": entries}
+    n = notes if notes is not None else (f"sources={slug}" if slug else None)
+    inputs = {"files": entries, "first": [first or f"runs\\acquired\\{slug}\\{TODAY}\\1.json"]}
+    rid = C.execute(
+        """INSERT INTO runs (kind, status, started_at, finished_at, inputs, stats)
+           VALUES (%s, %s::run_status, now() - make_interval(mins => %s),
+                   CASE WHEN %s = 'running' THEN NULL ELSE now() - make_interval(mins => %s) END,
+                   %s::jsonb, %s::jsonb) RETURNING id""",
+        (kind, status, minutes_ago, status, minutes_ago, json.dumps(inputs), json.dumps(stats))).fetchone()["id"]
+    if n is not None:
+        C.execute("UPDATE runs SET notes = %s WHERE id = %s", (n, rid))
+    RUN_IDS.append(rid)
+    return rid
+
+
+def clear_runs() -> None:
+    if RUN_IDS:
+        C.execute("DELETE FROM facts WHERE run_id = ANY(%s)", (RUN_IDS,))
+        C.execute("DELETE FROM runs WHERE id = ANY(%s)", (RUN_IDS,))
+        RUN_IDS.clear()
+
+
+def unknown_report(slug: str, skus: list[str]) -> None:
+    d = RUNS / "reports"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / f"unknown-skus-{slug}-{TODAY}.jsonl").write_text(
+        "\n".join(json.dumps({"source": slug, "sku": s, "facts": 3}) for s in skus) + "\n", encoding="utf-8")
+
+
+reset()
+apply_run("provantage", entries=208, matched=0, unknown=208)
+unknown_report("provantage", ["10053H", "10053H-AO", "10053H-AO", "10053H-AX", "100G-DACP-QSFP1M", "SFP-1G-AO"])
+rep = run(act=True)
+check("LD1", "NO LANDING: 208 entries and 0 matched is an alarm, whatever the scraper saw",
+      any("NO LANDING" in a for a in rep["alarms"]), str(rep["alarms"]))
+check("LD2", "...it names the run, the entries and the unknown SKUs",
+      any("208 entries" in a and "0 matched" in a and "run " in a for a in rep["alarms"]), str(rep["alarms"]))
+check("LD3", "...and it names the top unknown SKUs, so a human sees what the lane is chasing",
+      any("10053H-AO" in a and "chasing" in a for a in rep["alarms"]), str(rep["alarms"]))
+check("LD4", "...report-only: the source is NOT paused and no pause action is taken",
+      enabled(P) and not any("pause" in x for x in rep["actions"]), str((enabled(P), rep["actions"])))
+check("LD5", "...and the landing numbers reach the report row and the markdown line",
+      row(rep, "provantage")["landing"]["entries"] == 208
+      and "landed 0/208 entries" in (RUNS / "nightshift" / "watchdog.md").read_text(encoding="utf-8"),
+      str(row(rep, "provantage")["landing"]))
+check("LD6", "...and an event is written with the numbers behind it",
+      [e for e in events("zero_yield", P) if (e["detail"] or {}).get("reason") == "no_landing"], str(events("zero_yield")))
+
+# SABOTAGE: the three ways this alarm must stay quiet
+reset()
+apply_run("provantage", entries=0, matched=0)
+check("LD7", "SABOTAGE a window with 0 entries alarms nothing (an idle lane is not a broken one)",
+      not any("LANDING" in a for a in run(act=False)["alarms"]))
+reset()
+apply_run("provantage", entries=19, matched=0, unknown=19)
+check("LD8", "SABOTAGE 19 entries is below the 20 the rule needs to mean anything",
+      not any("LANDING" in a for a in run(act=False)["alarms"]))
+reset()
+apply_run("provantage", entries=100, matched=95, insert=400)
+check("LD9", "SABOTAGE a healthy apply (95/100 matched) alarms nothing",
+      not any("LANDING" in a for a in run(act=False)["alarms"]))
+
+reset()
+apply_run("provantage", entries=100, matched=20, unknown=80, insert=15)
+unknown_report("provantage", ["AAA-1", "BBB-2"])
+rep = run(act=False)
+check("LD10", "LOW LANDING: 20/100 matched is under 30% and alarms, naming the ratio",
+      any("LOW LANDING" in a and "20/100" in a for a in rep["alarms"]), str(rep["alarms"]))
+reset()
+apply_run("provantage", entries=100, matched=40, insert=15)
+check("LD11", "SABOTAGE 40/100 is above the 30% floor and alarms nothing",
+      not any("LANDING" in a for a in run(act=False)["alarms"]))
+
+# NO FACTS — matching a part is not landing a fact, and the live 4 Sep numbers proved the two
+# apart: itprice matched 700 of 1,366 entries and wrote nothing, because its labels map to no
+# field the dictionary holds. Both checks beside this one called that healthy.
+reset()
+apply_run("itprice", entries=1366, matched=700, unknown=666, insert=0)
+rep = run(act=False)
+check("LD11b", "NO FACTS: 700/1366 matched and 0 written is an alarm of its own",
+      any("NO FACTS" in a and "700/1366" in a for a in rep["alarms"]), str(rep["alarms"]))
+check("LD11c", "...and it is not mistaken for LOW LANDING (51% matched is above the floor)",
+      not any("LOW LANDING" in a or "NO LANDING" in a for a in rep["alarms"]), str(rep["alarms"]))
+reset()
+apply_run("itprice", entries=1366, matched=700, unknown=666, insert=5)
+check("LD11d", "SABOTAGE five facts written is landing, however few: no alarm",
+      not any("LANDING" in a or "NO FACTS" in a for a in run(act=False)["alarms"]))
+reset()
+apply_run("itprice", entries=30, matched=19, unknown=11, insert=0)
+check("LD11e", "SABOTAGE 19 parts matched is below the 20 the rule needs; LOW LANDING owns that "
+      "window instead (19/30 is 63%, so nothing fires)",
+      not any("NO FACTS" in a for a in run(act=False)["alarms"]))
+
+# a run that touched two sources cannot have its numbers split between them
+reset()
+apply_run(None, entries=200, matched=0, unknown=200, notes="sources=provantage,itprice")
+rep = run(act=False)
+check("LD12", "a SHARED run is recorded against both sources and alarms on neither: attributing "
+      "half a run's zeroes to a lane that was fine is the mistake this file keeps making",
+      not any("LANDING" in a for a in rep["alarms"])
+      and row(rep, "provantage")["landing"]["shared"] is True and row(rep, "itprice")["landing"]["shared"] is True,
+      str(rep["alarms"]))
+check("LD13", "...and the markdown says the run is shared rather than pretending it is attributed",
+      "shared run: not attributed" in (RUNS / "nightshift" / "watchdog.md").read_text(encoding="utf-8"))
+
+# a FAILED run has an error message for notes; the source still has to be found
+reset()
+apply_run(None, entries=60, matched=0, unknown=60, notes="ECONNRESET reading the tunnel",
+          first=f"runs\\acquired\\router-switch\\{TODAY}\\9.json")
+check("LD14", "when notes are an error message the source comes from the acquired path in inputs",
+      any("NO LANDING" in a and a.startswith("router-switch") for a in run(act=False)["alarms"]), str(run(act=False)["alarms"]))
+
+reset()
+apply_run("provantage", entries=208, matched=0, unknown=208, minutes_ago=180)
+check("LD15", "SABOTAGE a run older than the window is not this window's evidence",
+      not any("LANDING" in a for a in run(act=False, window=60)["alarms"]))
+
+# ---- STALE RUN ------------------------------------------------------------------------------
+# The supervisor kills an apply at its 60 minute timeout. A killed process never reaches
+# withRun's rollback, so the row stays 'running' for ever with its partial facts attached.
+reset()
+stale = apply_run("itprice", entries=0, matched=0, status="running", minutes_ago=120)
+rep = run(act=True)
+check("SN1", "a run left 'running' for 120 min is an alarm naming the run, its kind and its age",
+      any("STALE RUN" in a and f"run {stale}" in a and "apply-acquired" in a and "120 min" in a for a in rep["alarms"]),
+      str(rep["alarms"]))
+check("SN2", "...report-only: nothing about the run is changed",
+      C.execute("SELECT status::text AS s FROM runs WHERE id = %s", (stale,)).fetchone()["s"] == "running"
+      and not any("run" in x and "closed" in x for x in rep["actions"]), str(rep["actions"]))
+check("SN3", "...and it is listed in the report with its fact count",
+      rep["stale_runs"] and rep["stale_runs"][0]["id"] == stale
+      and "run rows left open: 1" in (RUNS / "nightshift" / "watchdog.md").read_text(encoding="utf-8"),
+      str(rep.get("stale_runs")))
+check("SN4", "...and an event carries the numbers",
+      [e for e in events("stall") if (e["detail"] or {}).get("run_id") == stale], str(events("stall")))
+
+reset()
+young = apply_run("itprice", entries=0, matched=0, status="running", minutes_ago=10)
+check("SN5", "SABOTAGE a run that started 10 min ago is a run in progress, not a stale one",
+      not any("STALE RUN" in a for a in run(act=False)["alarms"]))
+# ...unless a LATER run of the same kind has already succeeded, which proves nothing is working
+# on it whatever its age
+apply_run("itprice", entries=30, matched=30, minutes_ago=2)
+rep = run(act=False)
+check("SN6", "a 10-minute-old 'running' run IS stale once a later run of the same kind succeeded",
+      any("STALE RUN" in a and f"run {young}" in a and "has since succeeded" in a for a in rep["alarms"]), str(rep["alarms"]))
+
+reset()
+apply_run("itprice", entries=30, matched=30, minutes_ago=200)
+check("SN7", "SABOTAGE a run that FINISHED is never a stale run, however old",
+      not any("STALE RUN" in a for a in run(act=False)["alarms"]))
+
+# the fact count is the number that says whether there is anything to roll back
+reset()
+_v = C.execute("SELECT id FROM vendors WHERE slug = 'cisco'").fetchone()["id"]
+_c = C.execute("SELECT id FROM categories WHERE slug = 'switches'").fetchone()["id"]
+C.execute("INSERT INTO field_dictionary (key, type, unit, label_en, label_de) VALUES "
+          "('weight','n','kg','Weight','Gewicht') ON CONFLICT (key) DO NOTHING")
+_p = C.execute("INSERT INTO parts (vendor_id, sku, slug, category_id, product_class, product_class_reason) "
+               "VALUES (%s,'QT-STALE-1','qt-stale-1',%s,'hardware','test') RETURNING id", (_v, _c)).fetchone()["id"]
+killed = apply_run("itprice", entries=0, matched=0, status="running", minutes_ago=120)
+C.execute("INSERT INTO facts (part_id, field_key, value, unit, raw, state, tier, method, run_id) "
+          "VALUES (%s,'weight','4'::jsonb,'kg','4 kg','unverified',3,'test',%s)", (_p, killed))
+rep = run(act=False)
+check("SN8", "the alarm counts the facts already carrying the killed run's id",
+      any("STALE RUN" in a and "1 facts carry its run_id" in a for a in rep["alarms"]), str(rep["alarms"]))
+C.execute("DELETE FROM facts WHERE part_id = %s", (_p,))
+C.execute("DELETE FROM parts WHERE id = %s", (_p,))
+clear_runs()
+reset()
 
 print(f"\n{npass} PASS, {nfail} MISS")
 C.close()

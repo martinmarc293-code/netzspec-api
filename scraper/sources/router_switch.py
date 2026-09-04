@@ -67,6 +67,8 @@ _TITLE_404 = re.compile(r"<title>\s*404 Page Not Found", re.I)
 # not silently turn every empty search back into "the adapter found nothing".
 _NO_RESULTS = re.compile(r'id="product-search-not-found-header"|No Results Found|\b0 Results for:', re.I)
 _LEADING_CISCO = re.compile(r"^cisco\s+", re.I)
+# The heading a results grid carries: "Search results for: '10-2003-01'".
+_SEARCH_TITLE = re.compile(r"^search results? for\b", re.I)
 # Variant suffixes the site appends to a base SKU: -E / -A (licence), -RF (refurbished), and a
 # licence+refurb pair such as -E-RF. Letters only: "-4G" is a port configuration, not a variant,
 # and a digit-tolerant rule would have read C9200L-24P-4G as a variant of C9200L-24P.
@@ -202,7 +204,31 @@ def is_not_found(html: str) -> bool:
     return _TITLE_404.search(html[:20_000]) is not None or _NO_RESULTS.search(html) is not None
 
 
+def _is_search_page(s, task: dict) -> bool:
+    """Is this a results GRID rather than a product page?
+
+    Three independent signs, because a paginated search is fetched as a `listing` and a task
+    kind alone would miss it: the task says search, the URL is /search/<key>, or the document
+    carries the search app's own root / heading. It matters because a search page has an h1
+    ("Search results for: '10-2003-01'") and extract() used to hand that string back as the
+    page's SKU: 176 of the 176 search pages acquired on 4 Sep 2026 produced exactly one entry
+    each whose sku was its own title, and all 176 reached the apply as unknown SKUs."""
+    if (task.get("task") or "") == "search":
+        return True
+    url = (task.get("url") or task.get("key") or "")
+    if re.search(r"/search/|/catalogsearch/", str(url), re.I):
+        return True
+    if s.select_one("#product-search, #product-search-not-found-header") is not None:
+        return True
+    h1 = s.find("h1")
+    return h1 is not None and _SEARCH_TITLE.match(clean(h1.get_text(" ", strip=True))) is not None
+
+
 def discover(html: str, task: dict) -> list[dict]:
+    return _discover(soup(html), task)
+
+
+def _discover(s, task: dict) -> list[dict]:
     """Part-page tasks for every anchor that NAMES the task's SKU or a variant of it, whether the
     anchor's whole text is the SKU or the site's usual "<SKU>, Cisco <description>" product title.
     Key = the SKU as written; url = the absolute .html page.
@@ -216,7 +242,6 @@ def discover(html: str, task: dict) -> list[dict]:
     key = clean(task.get("key") or "")
     if not key:
         return []
-    s = soup(html)
     exact: list[dict] = []
     variants: list[dict] = []
     seen: set[str] = set()
@@ -234,6 +259,10 @@ def discover(html: str, task: dict) -> list[dict]:
         t = {"task": "part-page", "key": text, "url": url}
         if _norm(text) == _norm(key):
             t["priority"] = max(1, base_priority - 10)
+            # the row that IS the searched part: carry the task's part_id down with it, so the
+            # apply has an anchor and a vendor and can resolve the SKU. A variant is a different
+            # row in `parts` and never inherits it.
+            t["inherit_part"] = True
             exact.append(t)
         else:
             variants.append(t)
@@ -248,9 +277,27 @@ def _empty_result(sku: str) -> dict:
 def extract(html: str, task: dict) -> dict:
     s = soup(html)
     key = clean(task.get("key") or "")
+
+    # A SEARCH PAGE IS NOT A PART. Its whole product is the tasks discover() proposes; it has no
+    # specification, no model comparison and no gallery, and the only identity on it is the
+    # heading "Search results for: '<key>'". Handing that heading back as the page's SKU is how
+    # 176 search pages became 176 entries with a sentence for a part number, every one of them
+    # sku_unknown at the apply (run #30: entries 193, parts_matched 0). A search that matched
+    # nothing IS the site's answer — not_listed — and a search that matched something says so
+    # through discover(), not through an entry of its own.
+    if _is_search_page(s, task):
+        r = _empty_result(None)
+        r["not_listed"] = bool(key) and not _discover(s, task)
+        return r
+
     h1 = s.find("h1")
     name = clean(h1.get_text(" ", strip=True)) if h1 else None
     h1_sku = _strip_cisco(name.split(",")[0]) if name else ""
+    # Defence in depth for every OTHER page whose heading is prose: a part number has no spaces
+    # and passes the one part-number rule. "Search results for: '10-2003-01'" fails it, and so
+    # does any future heading shaped like a sentence.
+    if h1_sku and not is_part_number(h1_sku)[0]:
+        h1_sku = ""
 
     facts: list[dict] = []
     seen_pairs: set[tuple[str, str]] = set()

@@ -59,6 +59,13 @@ INDEX_HREF = re.compile(r"~(?:880|50|560|67)[A-Z0-9_]+\.htm$|/company-index~xcom
 # "Part# C9200L-24P-4G-1A" on a search result; "#C1300-48FP-4X" on an index-page summary.
 PART_IN_RESULT = re.compile(r"Part#\s*([A-Za-z0-9][A-Za-z0-9.+=/_()-]*)")
 PART_IN_SUMMARY = re.compile(r"(?:^|\s)#([A-Za-z0-9][A-Za-z0-9.+=/_()-]*)")
+# The manufacturer a result row belongs to. Provantage prints it as a link to that
+# manufacturer's index page, inside the SAME paragraph as the Part#:
+#     <p class="BOX5TEXT"><b><a href="/~880CSCO.htm">Cisco Systems</a></b> Part# C9200L-24P-4G-1A</p>
+# Every one of the 3,700 result blocks in the 4 Sep 2026 corpus carries one, so this is the
+# row's own statement of whose part it is, not an inference from the title or the URL (a search
+# result's href is the bare /~7CODE.htm form and carries no brand slug at all: 3,700 of 3,700).
+MANUF_HREF = re.compile(r"~880([A-Z0-9]+)\.htm$")
 # Labels that are site chrome even though they sit inside the specification table.
 CHROME_LABEL = re.compile(r"(?:^|>\s*)(?:price|availability|stock status|in stock|(?:limited )?warranty|shipping|ratings?|reviews?|cart)\s*$", re.I)
 ALIAS_LABEL = re.compile(r"(?:^|>\s*)(upc|ean|gtin)(?:[ -]?\d+)?(?:\s*code)?\s*$", re.I)
@@ -97,16 +104,143 @@ def _abs(href: str) -> str:
     return urljoin(BASE + "/", href.strip())
 
 
+def _same_part(part: str, key: str) -> bool:
+    """The result's Part# names the SAME part as the key: the key itself, the spares spelling
+    (a trailing '=', which _norm strips already), or the remanufactured spellings '-RF' / '-WS'.
+    These three and only these three may carry the task's part_id down to the page they open."""
+    p, k = _norm(part), _norm(key)
+    if not p or not k:
+        return False
+    return p == k or p == k + "-rf" or p == k + "-ws"
+
+
 def _key_or_variant(part: str, key: str) -> bool:
-    """The result's Part# is the key itself or the key with a dash-suffixed variant
-    (C9200L-24P-4G-1A, -E=, -A++ for C9200L-24P-4G). Not containment: a stack kit whose
-    description mentions the switch is not the switch."""
+    """The result's Part# is the key or a dash-suffixed sibling of it.
+
+    This is a wide net on purpose and it is NOT sufficient on its own: it is what the whole
+    discovery rule used to be, and it is what filled the lane with other people's products.
+    Measured over the 639 cached search pages of 4 Sep 2026, of the 411 rows it proposed, 200
+    were third-party "compatible" optics whose part number is the searched PID plus a house
+    suffix — 10053H-AO (AddOn), -AX (Axiom), -ENC (ENET), -ST (StarTech), -VEL (Veloso). Every
+    one reached the apply as an unknown SKU and not a single fact landed.
+
+    What makes it safe is the manufacturer test beside it in _row_is_wanted. Narrowing the
+    NUMBER instead was measured and rejected: restricting discovery to _same_part alone keeps
+    204 rows instead of 211 across today's corpus, but on the C9200L-24P-4G search page — where
+    Provantage lists the switch only as its nine licence bundles (-1A, -E, -A, -A++, -EDU, -M,
+    -E=) and never as the bare PID — it keeps NOTHING and reports a stocked family as
+    not_listed. A sibling is queued as a part of its own and never inherits the base part's id,
+    so its specification cannot be filed under the base PID."""
     p, k = _norm(part), _norm(key)
     return bool(p) and bool(k) and (p == k or p.startswith(k + "-"))
 
 
+# Vendor slugs whose manufacturer name on this site is not a prefix of the slug or vice versa.
+# Keep it as short as the evidence requires: everything else is matched by name below.
+VENDOR_BRANDS: dict[str, tuple[str, ...]] = {
+    # Provantage files Meraki as its own manufacturer (/~880MRKI.htm). Every part in the
+    # catalogue's meraki category is vendor `cisco` (283 of 283, checked 4 Sep 2026), so a
+    # Meraki row IS the Cisco part a Cisco lookup is after.
+    "cisco": ("meraki",),
+}
+# The shorter side of a prefix match must be at least this long. Without it "hp" (HP Inc, brand
+# code HEWP) would satisfy a lookup for "hpe" and file HP Inc's product under HPE's part.
+_BRAND_PREFIX_MIN = 4
+
+
+def _brand_key(s: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", (s or "").lower())
+
+
+def _brand_is_vendor(brand: str, vendor: str) -> bool:
+    """Is this result row's manufacturer the vendor we are looking a part up for?
+
+    Compared on letters and digits only, because the site's search highlighter wraps the matched
+    characters in a span: a search for "1-100GE-DWDM/C" renders Cisco's name as "C isco Systems".
+    The name is therefore read with get_text("") AND compared with the separators removed, so a
+    highlight can never turn the manufacturer into a stranger."""
+    v, b = _brand_key(vendor), _brand_key(brand)
+    if not v or not b:
+        return False
+    if b == v:
+        return True
+    if b.startswith(v) and len(v) >= _BRAND_PREFIX_MIN:
+        return True
+    if v.startswith(b) and len(b) >= _BRAND_PREFIX_MIN:
+        return True
+    return any(b.startswith(_brand_key(a)) for a in VENDOR_BRANDS.get((vendor or "").lower(), ()))
+
+
+# Manufacturers that sell "compatible" equivalents of other vendors' optics and cables. Their
+# part number IS the original vendor's PID with a house suffix, so no rule based on the number
+# alone can tell them apart from the part itself. Used only when a task carries no vendor;
+# with a vendor, the manufacturer test above already refuses them.
+COMPATIBLE_BRANDS = re.compile(
+    r"^(?:addon|axiom|enet|startech|veloso|approvedmemory|amcoptics|cbo|fiberstore|fscom|"
+    r"proline|compxm|uncgroup|legrand)", re.I)
+
+
+def _row_manufacturer(block: Tag) -> tuple[str, str]:
+    """(name, manufacturer index code) for a result block, or ("", "").
+
+    The name is joined with no separator so a highlight span cannot split it; the code comes
+    from the manufacturer index href and is the half that a rename cannot break."""
+    for p in block.find_all("p"):
+        if not PART_IN_RESULT.search(clean(p.get_text(""))):
+            continue
+        b = p.find("b")
+        a = b.find("a", href=True) if b is not None else None
+        if a is not None:
+            m = MANUF_HREF.search(a["href"].strip())
+            return clean(a.get_text("")), (m.group(1) if m else "")
+        if b is not None:
+            return clean(b.get_text("")), ""
+    return "", ""
+
+
 def _query_of(url: str) -> str:
     return (parse_qs(urlparse(url or "").query).get("QUERY") or [""])[0].strip()
+
+
+def _result_rows(s) -> list[dict]:
+    """Every search-result block on the page as {part, brand, code, url}. One reader, because
+    discover() proposes from these rows and extract() decides not_listed from them, and two
+    readers of one block would disagree the first time the markup moved."""
+    out: list[dict] = []
+    for block in s.find_all("div", class_="BOX5B"):
+        a = block.find("a", class_="BOX5PRODUCT", href=True) or block.find("a", href=PRODUCT_HREF)
+        if a is None:
+            continue
+        # no separator: the SKU is split across highlight spans ("C9200L</span>-<span>24P")
+        m = None
+        for p in block.find_all("p"):
+            m = PART_IN_RESULT.search(clean(p.get_text("")))
+            if m:
+                break
+        if not m:
+            continue
+        brand, code = _row_manufacturer(block)
+        out.append({"part": m.group(1), "brand": brand, "code": code, "url": _abs(a["href"])})
+    return out
+
+
+def _row_is_wanted(row: dict, want: str, vendor: str) -> bool:
+    """Is this result row the part we searched for, sold by the vendor whose part it is?
+
+    Two conditions, both required, and the manufacturer one is the one that was missing:
+
+      * the Part# is the key or a dash-suffixed sibling of it (_key_or_variant), and
+      * the row's manufacturer IS that vendor.
+
+    With no vendor on the task there is nothing to compare against, so the rule falls back to
+    the only safe answer: the same part exactly, from a manufacturer that is not one of the
+    houses whose whole business is selling other vendors' PIDs with a suffix. Refusing to guess
+    is correct here; guessing wrote 208 pages of other people's optics into the queue."""
+    if not _key_or_variant(row["part"], want):
+        return False
+    if vendor:
+        return _brand_is_vendor(row["brand"], vendor)
+    return _same_part(row["part"], want) and not COMPATIBLE_BRANDS.match(_brand_key(row["brand"]))
 
 
 # ---------------------------------------------------------------------------------------------
@@ -185,12 +319,19 @@ def extract(html: str, task: dict) -> dict:
         price = panel_price
     h1 = s.find("h1")
     name = clean(h1.get_text(" ", strip=True)) if h1 else None
+    rows = _result_rows(s)
     if sku:
         not_listed = _norm(sku) != _norm(key) if key else False
     elif NO_RESULTS.search(html):
         # the empty-search page. The text test below says LISTED on it, because the site's
         # "Did you mean 075 681" suggestion re-prints the key with a space in it.
         not_listed = bool(key)
+    elif rows:
+        # A results page. "Listed" means the site sells THIS vendor's part, which is true only
+        # when a row says so; the text test below says LISTED on every page whose third-party
+        # rows repeat the key inside "AddOn ... 10053H ... 100% Compatible". 200 such rows in
+        # the 4 Sep 2026 corpus, every one recorded as a page that carried the part.
+        not_listed = bool(key) and not any(_row_is_wanted(r, key, (task.get("vendor") or "").strip()) for r in rows)
     else:
         main = s.find("td", id="MAIN") or s
         not_listed = bool(key) and not sku_in(clean(main.get_text(" ", strip=True)), key)
@@ -229,6 +370,9 @@ def discover(html: str, task: dict) -> list[dict]:
     # the SKU this page's results are about: the task key on a search, the QUERY= of a
     # paginated search fetched as a listing, nothing on an index page
     want = key if kind == "search" else _query_of(own_url)
+    # the vendor whose part we are looking up (the worker reads it from the task's part row).
+    # Absent on a task with no part behind it; see _row_is_wanted for what happens then.
+    vendor = (task.get("vendor") or "").strip()
     out: list[dict] = []
     seen: set[str] = set()
 
@@ -246,23 +390,18 @@ def discover(html: str, task: dict) -> list[dict]:
 
     # search-shaped result blocks (div.BOX5B) — present on search pages and, defensively, on
     # any listing page the site renders in the same shape
-    for block in s.find_all("div", class_="BOX5B"):
-        a = block.find("a", class_="BOX5PRODUCT", href=True) or block.find("a", href=PRODUCT_HREF)
-        if a is None:
+    for row in _result_rows(s):
+        if want and not _row_is_wanted(row, want, vendor):
             continue
-        # no separator: the SKU is split across highlight spans ("C9200L</span>-<span>24P")
-        texts = [clean(p.get_text("")) for p in block.find_all("p")]
-        m = None
-        for t in texts:
-            m = PART_IN_RESULT.search(t)
-            if m:
-                break
-        if not m:
-            continue
-        part = m.group(1)
-        if want and not _key_or_variant(part, want):
-            continue
-        add({"task": "part-page", "key": part, "url": _abs(a["href"])})
+        t = {"task": "part-page", "key": row["part"], "url": row["url"]}
+        if _same_part(row["part"], want or ""):
+            # the row that IS the part we searched for: the worker passes the task's part_id
+            # down with it, so the apply has an anchor and a vendor to resolve the SKU under.
+            # Without this every discovered page reached apply-acquired with part_id NULL,
+            # vendorSlug NULL and therefore sku_unknown — 208 of 208 pages on 4 Sep 2026.
+            # A variant (-RF/-WS) is a different row in `parts` and must NOT inherit it.
+            t["inherit_part"] = True
+        add(t)
 
     main = s.find("td", id="MAIN") or s
 
@@ -293,7 +432,13 @@ def discover(html: str, task: dict) -> list[dict]:
             continue
         add({"task": "part-page", "key": m.group(1), "url": _abs(a["href"])})
 
-    # further listing pages: sub-indexes in the main column, and index pagination
+    # further listing pages: sub-indexes in the main column, and index pagination.
+    # NOT on a page whose rows are a SEARCH (`want` is set): every result row links its
+    # manufacturer's index, so a paginated Cisco search fetched as a listing would enqueue
+    # AddOn's and Axiom's entire catalogues. The further pages of the search itself were
+    # already decided above, by QUERY.
+    if want:
+        return out
     for a in main.find_all("a", href=True):
         href = a["href"].strip()
         classes = a.get("class") or []

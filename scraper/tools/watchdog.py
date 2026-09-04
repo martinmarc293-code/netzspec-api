@@ -13,6 +13,16 @@ questions that matter, one line per source:
   * YIELD        >= 10 CONTENT pages done in the window and none with facts (and not mostly "not
                  listed") is a broken adapter or a changed site: ALARM, and with --act the source
                  is paused (enabled=false) until a human sets enabled=true again.
+  * LANDING      yield measured at the DATABASE. Every other check here counts what the SCRAPER
+                 saw; this one reads apply-acquired's own run row (entries, parts_matched,
+                 insert) and asks how much of it reached a part, and how much of THAT became a
+                 fact. NO LANDING when a source has >= 20 entries and matched no part, NO FACTS
+                 when it matched >= 20 parts and wrote nothing, LOW LANDING under 30% matched.
+                 All three are report-only and all three name the top unknown SKUs, so a human
+                 sees what the lane is chasing.
+  * STALE RUN    a `runs` row still 'running' after 90 minutes, or while a later run of the same
+                 kind has already succeeded. A killed process never reaches withRun's rollback.
+                 Report-only, with the count of facts already carrying that run_id.
   * DISCOVERY    the other half of yield. A search or listing page never carries a fact — its
                  whole job is to propose part-page tasks — so >= 20 done discovery pages that
                  proposed NOTHING, and that the site did not answer "not listed", is the same
@@ -123,6 +133,29 @@ HUNG_LEASE_MINUTES = 20       # a task leased longer than this: the worker is al
 # Both are worth a human, neither is worth switching the source off.
 NOT_LISTED_STREAK = 15
 NOT_LISTED_STREAK_DISTRIBUTOR = 100
+# LANDING — the only yield number that is measured where the value is: the database.
+#
+# Every other yield check in this file counts what the SCRAPER saw. On 4 Sep 2026 the provantage
+# lane fetched 992 pages, the adapter read facts off 208 part pages, this watchdog reported a
+# healthy source — and apply-acquired run #29 wrote nothing at all: `entries 208, parts_matched 0,
+# sku_unknown 208`, because every page discovery had queued was a third party's "compatible"
+# optic. Runs #24-#31 all landed zero. A whole day of politeness slots, and the monitor could not
+# see it, because "the adapter extracted a fact" and "a fact reached a part" are different
+# claims and only the second one is the product.
+LANDING_MIN_ENTRIES = 20      # fewer entries than this says nothing either way
+LANDING_LOW_RATIO = 0.30      # matched/entries under this is a LOW LANDING alarm
+LANDING_TOP_UNKNOWN = 5       # unknown SKUs named in the report, so a human sees what it chased
+# watchdog_events.kind is a CHECK list in db/migrations/0005_watchdog.sql; a new value needs a
+# migration, and the reason slug in `detail` is what the existing rows are already distinguished
+# by (dead_discovery and not_listed_streak both file as zero_yield). Landing files as zero_yield
+# with reason no_landing/low_landing, a stale run as stall with reason stale_run.
+LANDING_EVENT_KIND = "zero_yield"
+# STALE RUN — a run row left open. The supervisor kills an apply at its 60 minute timeout, and a
+# killed process never reaches withRun's rollback: the row stays `running` for ever with whatever
+# facts it had already written still attached. Report-only and never touched from here — closing
+# or rolling back a run belongs to the store, and a monitor that "tidies up" a half-written run
+# is a monitor that can destroy evidence.
+STALE_RUN_MINUTES = 90
 VENDOR_TIER_MAX = 2           # sources.tier <= this is a vendor; above it, a reseller or aggregator
 UNMAPPED_TOP_N = 5            # unmapped labels per source in the report
 UNMAPPED_MAX_FILES = 600      # acquired files read per source per run (the report is a sample,
@@ -270,6 +303,34 @@ def unmapped_labels(runs_dir: Path, slug: str, day: str, top_n: int = UNMAPPED_T
     out["ignored_distinct"] = len(ignored_labels)
     out["top"] = sorted(counts.values(), key=lambda x: (-x["count"], x["label"]))[:top_n]
     return out
+
+
+def unknown_skus(runs_dir: Path, slug: str, day: str, top_n: int = LANDING_TOP_UNKNOWN) -> list[str]:
+    """The SKUs today's apply could not resolve to a part, most frequent first, from
+    runs/reports/unknown-skus-<slug>-<day>.jsonl (written by apply-acquired on every run).
+
+    A "0 facts landed" line with no examples tells a human nothing: the whole question is WHAT
+    the lane spent the day chasing, and on 4 Sep 2026 the answer was AddOn and Axiom optics named
+    after Cisco assembly numbers. An unreadable or missing file returns [], and the report says
+    the file was not there rather than implying the lane chased nothing."""
+    p = Path(runs_dir) / "reports" / f"unknown-skus-{slug}-{day}.jsonl"
+    if not p.exists():
+        return []
+    counts: dict[str, int] = {}
+    try:
+        for line in p.read_text(encoding="utf-8", errors="replace").splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                sku = (json.loads(line).get("sku") or "").strip()
+            except Exception:  # noqa — one bad line is not a reason to report nothing
+                continue
+            if sku:
+                counts[sku] = counts.get(sku, 0) + 1
+    except Exception as e:  # noqa
+        return [f"COULD NOT READ {p.name}: {type(e).__name__}"]
+    return [k for k, _ in sorted(counts.items(), key=lambda x: (-x[1], x[0]))[:top_n]]
 
 
 class Watchdog:
@@ -447,6 +508,63 @@ class Watchdog:
                 broken.add(sid)
         return out
 
+    def load_landing(self) -> dict[str, dict]:
+        """Per source slug, what the last apply-acquired in the window actually WROTE.
+
+        `runs.notes` on a successful apply-acquired is "sources=<slug>[,<slug>...]" (written by
+        apply-acquired's body); the file paths in `inputs.first` name the same source and are the
+        fallback for a run whose notes are an error message. A run that touched more than one
+        source cannot have its numbers split, so it is recorded and never alarmed on — saying
+        "cannot attribute" is the honest answer and it keeps a shared run from pausing a lane
+        that was fine.
+
+        The LATEST run per source is used, not the sum: apply-acquired re-reads the whole day's
+        acquired directory every cycle, so consecutive runs re-count the same pages and a sum
+        would be three times the truth."""
+        rows = self.c.execute(
+            """SELECT id, notes, stats, started_at, finished_at, inputs->'first'->>0 AS first_file,
+                      round(extract(epoch FROM (now() - started_at)) / 60.0)::int AS age_min
+                 FROM runs
+                WHERE kind = 'apply-acquired' AND status = 'succeeded'
+                  AND COALESCE(finished_at, started_at) > now() - make_interval(mins => %s)
+                ORDER BY id""", (self.window,)).fetchall()
+        out: dict[str, dict] = {}
+        for r in rows:
+            m = re.match(r"^sources=(.+)$", (r["notes"] or "").strip())
+            slugs = [s.strip() for s in m.group(1).split(",") if s.strip()] if m else []
+            if not slugs:
+                fm = re.search(r"acquired[\\/]+([A-Za-z0-9._-]+)[\\/]", str(r["first_file"] or ""))
+                slugs = [fm.group(1)] if fm else []
+            st = r["stats"] or {}
+            for slug in slugs:
+                out[slug] = {
+                    "run_id": r["id"], "age_min": r["age_min"], "shared": len(slugs) > 1,
+                    "entries": int(st.get("entries") or 0),
+                    "parts_matched": int(st.get("parts_matched") or 0),
+                    "sku_unknown": int(st.get("sku_unknown") or 0),
+                    "insert": int(st.get("insert") or 0),
+                    "corroborate": int(st.get("corroborate") or 0),
+                    "pages_with_facts": int(st.get("pages") or 0),
+                }
+        return out
+
+    def load_stale_runs(self) -> list[dict]:
+        """Run rows left open: `running` for longer than STALE_RUN_MINUTES, or `running` while a
+        LATER run of the same kind has already succeeded (which proves nothing is still working
+        on it, whatever its age). Each carries the number of facts that already point at it, so a
+        human knows whether there is anything to roll back."""
+        return [dict(r) for r in self.c.execute(
+            """SELECT r.id, r.kind, r.started_at,
+                      round(extract(epoch FROM (now() - r.started_at)) / 60.0)::int AS age_min,
+                      (SELECT count(*) FROM facts f WHERE f.run_id = r.id) AS facts,
+                      EXISTS (SELECT 1 FROM runs n WHERE n.kind = r.kind AND n.id > r.id
+                               AND n.status = 'succeeded') AS superseded
+                 FROM runs r
+                WHERE r.status = 'running' AND r.finished_at IS NULL
+                  AND (r.started_at < now() - make_interval(mins => %s)
+                       OR EXISTS (SELECT 1 FROM runs n WHERE n.kind = r.kind AND n.id > r.id AND n.status = 'succeeded'))
+                ORDER BY r.id""", (STALE_RUN_MINUTES,)).fetchall()]
+
     def load_runnable(self) -> dict[int, int]:
         return {r["source_id"]: int(r["n"]) for r in self.c.execute(
             """SELECT source_id, count(*) AS n FROM fetch_queue
@@ -499,7 +617,46 @@ class Watchdog:
                "median_facts_per_page_7d": thr["median_facts_per_page_7d"], "facts_24h": int(thr["facts_24h"] or 0),
                "content_pages_24h": med["pages_24h"], "content_median_24h": med["median_24h"],
                "content_median_7d": med["median_7d"], "hung_lease": hung,
-               "not_listed_streak": nl["streak"], "unmapped": self.unmapped.get(s["slug"], {})}
+               "not_listed_streak": nl["streak"], "unmapped": self.unmapped.get(s["slug"], {}),
+               "landing": self.landing.get(s["slug"])}
+
+        # LANDING — yield measured at the DATABASE, not at the adapter. Every other yield check
+        # here counts what the scraper saw; this one counts what reached a part. They disagreed
+        # for a whole day on 4 Sep 2026 and only this one was right.
+        land = self.landing.get(s["slug"])
+        if land and not land["shared"] and land["entries"] >= LANDING_MIN_ENTRIES:
+            matched, entries = land["parts_matched"], land["entries"]
+            ratio = matched / entries
+            chasing = unknown_skus(self.runs_dir, s["slug"], self.day)
+            eg = (" chasing " + ", ".join(chasing)) if chasing else ""
+            if matched == 0:
+                msg = (f"ALARM NO LANDING (apply run {land['run_id']}: {entries} entries, 0 matched a part, "
+                       f"{land['sku_unknown']} unknown SKUs — the pages are not this catalogue's parts){eg}")
+                alarms.append(msg)
+                verdicts.append(msg)
+                self.event(LANDING_EVENT_KIND, s["id"], {"reason": "no_landing", "run_id": land["run_id"], "entries": entries,
+                                                   "parts_matched": 0, "sku_unknown": land["sku_unknown"],
+                                                   "unknown_skus": chasing}, False, dedupe=True)
+            elif land["insert"] + land["corroborate"] == 0 and matched >= LANDING_MIN_ENTRIES:
+                # Matching a part is not landing a fact. itprice matched 700 of 1,366 entries on
+                # 4 Sep 2026 and wrote nothing: its inventory maps no field the dictionary holds
+                # (its prices are counted, not stored, and its EoS dates never became lifecycle).
+                # Every check above this line, including the two beside it, called that healthy.
+                msg = (f"ALARM NO FACTS (apply run {land['run_id']}: {matched}/{entries} entries matched a part "
+                       f"and 0 facts were written — the labels this source prints map to no field){eg}")
+                alarms.append(msg)
+                verdicts.append(msg)
+                self.event(LANDING_EVENT_KIND, s["id"], {"reason": "no_facts_landed", "run_id": land["run_id"],
+                                                         "entries": entries, "parts_matched": matched,
+                                                         "insert": 0, "unknown_skus": chasing}, False, dedupe=True)
+            elif ratio < LANDING_LOW_RATIO:
+                msg = (f"ALARM LOW LANDING (apply run {land['run_id']}: {matched}/{entries} entries matched a part, "
+                       f"{ratio * 100:.0f}% < {LANDING_LOW_RATIO * 100:.0f}%, {land['insert']} facts inserted){eg}")
+                alarms.append(msg)
+                verdicts.append(msg)
+                self.event(LANDING_EVENT_KIND, s["id"], {"reason": "low_landing", "run_id": land["run_id"], "entries": entries,
+                                                   "parts_matched": matched, "ratio": round(ratio, 3),
+                                                   "sku_unknown": land["sku_unknown"], "unknown_skus": chasing}, False, dedupe=True)
 
         # YIELD — every CONTENT page came back and none carried a fact: the adapter, not the site.
         # A search or listing page is not in this count: it has no facts to give, and counting it
@@ -719,9 +876,13 @@ class Watchdog:
         self.medians = self.load_content_medians()
         self.hung = self.load_hung_leases()
         self.not_listed_streaks = self.load_not_listed_streaks()
+        # what the apply actually WROTE per source in the window, and any run row left open
+        self.landing = self.load_landing()
+        self.stale_runs = self.load_stale_runs()
         # the vocabulary feed, from today's acquired pages. Only sources that produced pages today
         # are read, so an idle source costs nothing.
         day = utcnow().strftime("%Y-%m-%d")
+        self.day = day
         self.unmapped = {}
         for s in sources:
             u = unmapped_labels(self.runs_dir, s["slug"], day)
@@ -734,9 +895,20 @@ class Watchdog:
         for r in self.rows:
             for a in r["alarms"]:
                 self.alarms.append(f"{r['slug']}: {a}")
+        # STALE RUNS are not a source's fault, so they are a cross-source finding rather than a
+        # line on a lane. Report-only: closing a half-written run belongs to the store.
+        for sr in self.stale_runs:
+            why = "a later run of the same kind has since succeeded" if sr["superseded"] else f"open {sr['age_min']} min"
+            msg = (f"ALARM STALE RUN — run {sr['id']} ({sr['kind']}) is still 'running' ({why}), "
+                   f"{sr['facts']} facts carry its run_id. A killed process never reaches the rollback; "
+                   f"the store must close or roll it back.")
+            self.alarms.append(msg)
+            self.event("stall", None, {"reason": "stale_run", "run_id": sr["id"], "kind": sr["kind"],
+                                           "age_min": sr["age_min"], "facts": int(sr["facts"]),
+                                           "superseded": sr["superseded"]}, False, dedupe=True)
         report = {"generated_at": utcnow().isoformat(), "window_min": self.window, "act": self.act, "expect": sorted(self.expect),
                   "sources": self.rows, "duplicates": dup, "junk": junk, "alarms": self.alarms, "actions": self.actions,
-                  "events": self.events, "unmapped": self.unmapped, "day": day}
+                  "events": self.events, "unmapped": self.unmapped, "day": day, "stale_runs": self.stale_runs}
         self.write(report)
         return report
 
@@ -750,6 +922,11 @@ class Watchdog:
             hbs = "no heartbeat" if hb is None else ("heartbeat ?" if hb.get("age_min") is None else f"heartbeat {hb['age_min']:.0f} min")
             eta = f", ETA {r['eta_hours']} h" if r["eta_hours"] is not None else ""
             verdict = "; ".join(r["verdicts"]) or "ok"
+            land = r.get("landing")
+            if land:
+                verdict = (f"landed {land['parts_matched']}/{land['entries']} entries, "
+                           f"{land['insert']} facts inserted (apply run {land['run_id']}"
+                           + (", shared run: not attributed" if land["shared"] else "") + "); ") + verdict
             lines.append(f"- **{r['slug']}**{'' if r['enabled'] else ' (disabled)'}: done {r['done']} "
                          f"(content {r['content_done']}, {r['content_with_facts']} with facts; "
                          f"discovery {r['disc_done']}, {r['disc_discovered']} discovered), "
@@ -778,6 +955,13 @@ class Watchdog:
                 lines.append(f"    - {x['count']:5}  {x['label']}  |  {x['sample']}")
         d = report["duplicates"]
         lines += ["", f"## duplicate fetches (24 h): {d['urls']} urls" + (" — e.g. " + ", ".join(f"{x['slug']} {x['url']} x{x['n']}" for x in d["examples"][:5]) if d["urls"] else "")]
+        sr = report.get("stale_runs") or []
+        lines += ["", f"## run rows left open: {len(sr)}"]
+        for x in sr:
+            lines.append(f"- run {x['id']} ({x['kind']}) running {x['age_min']} min, {x['facts']} facts carry its run_id"
+                         + (" — a later run of the same kind has already succeeded" if x["superseded"] else ""))
+        if not sr:
+            lines.append("- none")
         j = report["junk"]
         lines += ["", f"## junk keys pending: {j['pending']}" + (f" — e.g. {', '.join(j['examples'])}" if j["pending"] else "") + (f" (deleted {j['deleted']})" if j["deleted"] else "")]
         lines += ["", "## actions", *([f"- {x}" for x in report["actions"]] or ["- none"])]

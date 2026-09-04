@@ -252,7 +252,10 @@ check("B11", "sabotage: the dropped Price row still lands in the price field",
 
 # ---- discover() on the search fixture ------------------------------------------------------------
 shtml = fixture(SEARCH_URL)
-stask = {"task": "search", "key": "C9200L-24P-4G"}
+# The task carries the vendor whose part is being looked up (worker.py reads it off the task's
+# part row). Without it discover() cannot tell Cisco's own listing from AddOn's copy of the same
+# PID, and 4 Sep 2026 is what that costs: see the MANUFACTURER block further down.
+stask = {"task": "search", "key": "C9200L-24P-4G", "vendor": "cisco"}
 sd = P.discover(shtml, stask)
 PRODUCT_URL_RX = re.compile(r"^https://www\.provantage\.com/(?:[a-z0-9-]+)?~7[A-Z0-9]+\.htm$")
 sp = [t for t in sd if t["task"] == "part-page"]
@@ -305,24 +308,37 @@ check("PG1", "the three further result pages are listing tasks, each once, key =
 check("PG2", "page 1 (the page itself) is not re-queued", not any("/P1?" in t["url"] or t["url"] == SEARCH_URL for t in sl))
 check("PG3", "every listing task resolves to its URL", all(P.resolve(t) == t["url"] for t in sl))
 P2_URL = PAGES[0]
+# The manufacturer link is part of every real result block (see MANUFACTURER below); a synthetic
+# page without one is not the page this site serves, and the gate under test reads it.
+def _blk(code: str, brand: str, href: str, title: str, part: str) -> str:
+    return (f'<div class="BOX5B"><a class="BOX5PRODUCT" href="{href}"></a><p>{title}</p>'
+            f'<p class="BOX5TEXT"><b><a href="/~880{code}.htm">{brand}</a></b> Part# {part}</p></div>')
+
+
 P2_HTML = ('<html><body><td id="MAIN">'
-           '<div class="BOX5B"><a class="BOX5PRODUCT" href="/~7AAAA001.htm"></a><p>Catalyst 9200L 24-Port PoE+</p><p>Part# C9200L</span>-<span>24P-4G-E=</p></div>'
-           '<div class="BOX5B"><a class="BOX5PRODUCT" href="/~7AAAA002.htm"></a><p>Power Supply for the C9200L-24P-4G</p><p>Part# PWR-C5-715WDC=</p></div>'
-           '<div class="BOX5B"><a class="BOX5PRODUCT" href="/~7AAAA003.htm"></a><p>Base</p><p>Part# C9200L-24P-4G</p></div>'
-           '<div class="BOX5B"><a class="BOX5PRODUCT" href="/~7AAAA004.htm"></a><p>Table size</p><p>Part# 0.75K</p></div>'
-           '<div class="BOX5B"><a class="BOX5PRODUCT" href="/~7AAAA005.htm"></a><p>Different uplink</p><p>Part# C9200L-24P-4X-E</p></div>'
-           '<a class="PAGE" href="/service/searchsvcs/Q/P1?QUERY=C9200L-24P-4G">1</a>'
-           '<a class="PAGE" href="/service/searchsvcs/Q/P2?QUERY=C9200L-24P-4G">2</a>'
-           '<a class="NEXT" href="/service/searchsvcs/Q/P3?QUERY=C9200L-24P-4G">NEXT</a>'
-           '<a class="NEXT" href="/service/searchsvcs/Q/P2?QUERY=C9300-24P">NEXT</a>'
-           '</td></body></html>')
-p2 = P.discover(P2_HTML, {"task": "listing", "key": P2_URL, "url": P2_URL})
+           + _blk("CSCO", "Cisco Systems", "/~7AAAA001.htm", "Catalyst 9200L 24-Port PoE+", "C9200L</span>-<span>24P-4G-E=")
+           + _blk("CSCO", "Cisco Systems", "/~7AAAA002.htm", "Power Supply for the C9200L-24P-4G", "PWR-C5-715WDC=")
+           + _blk("CSCO", "Cisco Systems", "/~7AAAA003.htm", "Base", "C9200L-24P-4G")
+           + _blk("CSCO", "Cisco Systems", "/~7AAAA004.htm", "Table size", "0.75K")
+           + _blk("CSCO", "Cisco Systems", "/~7AAAA005.htm", "Different uplink", "C9200L-24P-4X-E")
+           + _blk("ACPM", "AddOn", "/~7AAAA006.htm", "AddOn Cisco C9200L-24P-4G Compatible", "C9200L-24P-4G-AO")
+           + '<a class="PAGE" href="/service/searchsvcs/Q/P1?QUERY=C9200L-24P-4G">1</a>'
+             '<a class="PAGE" href="/service/searchsvcs/Q/P2?QUERY=C9200L-24P-4G">2</a>'
+             '<a class="NEXT" href="/service/searchsvcs/Q/P3?QUERY=C9200L-24P-4G">NEXT</a>'
+             '<a class="NEXT" href="/service/searchsvcs/Q/P2?QUERY=C9300-24P">NEXT</a>'
+             '</td></body></html>')
+p2 = P.discover(P2_HTML, {"task": "listing", "key": P2_URL, "url": P2_URL, "vendor": "cisco"})
 check("PG4", "a paginated search page fetched as a listing keeps the key's variants and the exact match, reassembled across spans",
       [t["key"] for t in p2 if t["task"] == "part-page"] == ["C9200L-24P-4G-E=", "C9200L-24P-4G"], str(p2))
+check("PG4b", "SABOTAGE the AddOn row whose Part# is the key plus a house suffix is not queued for a cisco lookup",
+      not any(t["key"] == "C9200L-24P-4G-AO" for t in p2), str([t["key"] for t in p2]))
 check("PG5", "sabotage: the power supply whose description mentions the key, the quantity '0.75K' and the -4X uplink model are not queued",
       not any(t["key"] in ("PWR-C5-715WDC=", "0.75K", "C9200L-24P-4X-E") for t in p2), str(p2))
 check("PG6", "pagination from page 2: page 1 and page 3 are listing tasks, page 2 itself and another query's NEXT are not",
       sorted(t["url"] for t in p2 if t["task"] == "listing") == [PAGES[0].replace("P2", "P1"), PAGES[1]], str([t for t in p2 if t["task"] == "listing"]))
+check("PG6b", "SABOTAGE the manufacturer index every result row links is NOT a listing task on a search "
+      "page: following AddOn's /~880ACPM.htm would crawl its whole catalogue from a Cisco lookup",
+      not any("~880" in t["url"] for t in p2), str([t["url"] for t in p2 if t["task"] == "listing"]))
 check("PG7", "a search page's pagination for a different QUERY than the task key is not followed",
       P.discover(shtml, {"task": "search", "key": "C9300-24P"}) == [], str(P.discover(shtml, {"task": "search", "key": "C9300-24P"})[:2]))
 check("PG8", "the key-or-variant rule: exact, dash variants (also with '=' and '++'), never a longer model or containment",
@@ -330,6 +346,86 @@ check("PG8", "the key-or-variant rule: exact, dash variants (also with '=' and '
       and P._key_or_variant("C9200L-24P-4G-A++", "C9200L-24P-4G") and P._key_or_variant("C9200L-24P-4G", "C9200L-24P-4G")
       and not P._key_or_variant("C9200L-24P-4GX-E", "C9200L-24P-4G") and not P._key_or_variant("C9200-STACK-KIT", "C9200L-24P-4G")
       and not P._key_or_variant("", "C9200L-24P-4G") and not P._key_or_variant("C9200L-24P-4G", ""))
+
+# =================================================================================================
+# MANUFACTURER — the gate that was missing, proved on the REAL pages that broke without it
+# =================================================================================================
+# 4 Sep 2026: provantage fetched 992 pages, the adapter read facts off 208 part pages, and
+# apply-acquired run #29 wrote nothing at all (`entries 208, parts_matched 0, sku_unknown 208`).
+# Every one of the 208 was somebody else's product. A distributor sells the vendor's part AND
+# three or four "compatible" copies of it, and a compatible's part number IS the original PID
+# with a house suffix (-AO AddOn, -AX Axiom, -ENC ENET, -ST StarTech, -VEL Veloso), so no rule
+# about the NUMBER can tell them apart. The row states its manufacturer; the adapter now reads it.
+#
+# Replayed over all 639 search pages cached that day: 411 part-page tasks before, 211 after, and
+# every one of the 200 refused rows is a third-party brand (AddOn 58, Axiom 45, ENET 34,
+# Veloso 32, Legrand 22, UNC 6, StarTech 2, Meraki 1). No Cisco row is lost: 152 before, 152 after.
+def search_fixture(k: str) -> tuple[str, str]:
+    u = f"https://www.provantage.com/scripts/search.dll?QUERY={k}"
+    return u, fixture(u)
+
+
+M_URL, M_HTML = search_fixture("10053H")
+m_rows = P._result_rows(P.soup(M_HTML))
+check("M1", "the real 10053H search page has the Extreme part and three compatible copies of it",
+      [(r["part"], r["code"]) for r in m_rows]
+      == [("10053H", "ETNT"), ("10053H-AO", "ACPM"), ("10053H-AX", "AXIO"), ("10053H-ENC", "ENET")],
+      str([(r["part"], r["brand"], r["code"]) for r in m_rows]))
+m_cisco = {"task": "search", "key": "10053H", "url": M_URL, "vendor": "cisco"}
+check("M2", "SABOTAGE a CISCO lookup on that page proposes NOTHING (the old rule proposed all four)",
+      [t for t in P.discover(M_HTML, m_cisco) if t["task"] == "part-page"] == [],
+      str(P.discover(M_HTML, m_cisco)))
+check("M3", "...and extract() calls it not_listed, although the AddOn titles repeat '10053H' verbatim",
+      P.extract(M_HTML, m_cisco)["not_listed"] is True)
+m_ext = {"task": "search", "key": "10053H", "url": M_URL, "vendor": "extreme"}
+md = [t for t in P.discover(M_HTML, m_ext) if t["task"] == "part-page"]
+check("M4", "the EXTREME lookup — the vendor this part really belongs to — keeps the one genuine row",
+      len(md) == 1 and md[0]["key"] == "10053H" and md[0]["url"].endswith("~7ETNT0LQ.htm"), str(md))
+check("M5", "...and that row carries inherit_part, so the page it opens reaches the apply with a part_id",
+      md and md[0].get("inherit_part") is True, str(md))
+check("M6", "...and the page is not not_listed for its own vendor", P.extract(M_HTML, m_ext)["not_listed"] is False)
+
+X_URL, X_HTML = search_fixture("14X10GBE-WL-XFP")
+xd = [t for t in P.discover(X_HTML, {"task": "search", "key": "14X10GBE-WL-XFP", "url": X_URL, "vendor": "cisco"}) if t["task"] == "part-page"]
+check("M7", "a genuine Cisco hit still yields its page, with the '=' and '-RF' spellings of the same part",
+      sorted(t["key"] for t in xd) == ["14X10GBE-WL-XFP", "14X10GBE-WL-XFP-RF", "14X10GBE-WL-XFP="], str([t["key"] for t in xd]))
+check("M8", "...all three are the SAME part, so all three inherit the task's part_id",
+      len(xd) == 3 and all(t.get("inherit_part") for t in xd), str(xd))
+
+L_URL, L_HTML = search_fixture("00AY765")
+check("M9", "SABOTAGE the Lenovo PID 00AY765: provantage lists only AddOn/Axiom/ENET/Veloso copies, so a "
+      "lenovo lookup proposes nothing and the page is not_listed",
+      [t for t in P.discover(L_HTML, {"task": "search", "key": "00AY765", "url": L_URL, "vendor": "lenovo"}) if t["task"] == "part-page"] == []
+      and P.extract(L_HTML, {"task": "search", "key": "00AY765", "url": L_URL, "vendor": "lenovo"})["not_listed"] is True)
+
+# the brand name is compared on letters and digits only, because the site's search highlighter
+# splits it: searching "1-100GE-DWDM/C" renders Cisco as "C isco Systems" on the real page.
+check("M10", "brand match: 'Cisco Systems' and the highlighter's 'C isco Systems' are both cisco",
+      P._brand_is_vendor("Cisco Systems", "cisco") and P._brand_is_vendor("C isco Systems", "cisco"))
+check("M11", "SABOTAGE 'HP' does not satisfy a lookup for 'hpe' (a prefix needs four characters)",
+      P._brand_is_vendor("HP", "hpe") is False and P._brand_is_vendor("HPE", "hpe") is True)
+check("M12", "Meraki is Cisco's brand on this site and every meraki-category part is vendor cisco",
+      P._brand_is_vendor("Meraki", "cisco") is True)
+for b in ("AddOn", "Axiom", "ENET", "StarTech.com", "Veloso", "Extreme Networks Inc."):
+    check("M13", f"SABOTAGE '{b}' is not cisco", P._brand_is_vendor(b, "cisco") is False)
+check("M14", "a vendor whose slug is longer than the printed name still matches (Dell / dell-emc)",
+      P._brand_is_vendor("Dell", "dell-emc") is True)
+check("M15", "no vendor and no brand is never a match", P._brand_is_vendor("", "cisco") is False and P._brand_is_vendor("Cisco", "") is False)
+
+# with NO vendor on the task the adapter refuses to guess: the exact part only, and never from a
+# house whose whole business is other vendors' PIDs with a suffix
+nv = {"task": "search", "key": "10053H", "url": M_URL}
+nvd = [t for t in P.discover(M_HTML, nv) if t["task"] == "part-page"]
+check("M16", "no vendor on the task: only the exact Part#, and no compatible brand",
+      [t["key"] for t in nvd] == ["10053H"], str(nvd))
+check("M17", "SABOTAGE no vendor, and the only rows are compatibles -> nothing",
+      [t for t in P.discover(L_HTML, {"task": "search", "key": "00AY765", "url": L_URL}) if t["task"] == "part-page"] == [])
+
+check("M18", "same-part rule: the key, '=' and -RF/-WS are the same part; a licence variant is not",
+      P._same_part("SFP-10G-SR", "SFP-10G-SR") and P._same_part("SFP-10G-SR=", "SFP-10G-SR")
+      and P._same_part("SFP-10G-SR-RF", "SFP-10G-SR") and P._same_part("SFP-10G-SR-WS", "SFP-10G-SR")
+      and not P._same_part("SFP-10G-SR-AO", "SFP-10G-SR") and not P._same_part("SFP-10G-SR2", "SFP-10G-SR")
+      and not P._same_part("", "SFP-10G-SR") and not P._same_part("SFP-10G-SR", ""))
 
 # ---- aliases: a UPC is a barcode or it is nothing --------------------------------------------------
 UPC_BAD = UPC_ROW.replace("00882658684579", "N/A")

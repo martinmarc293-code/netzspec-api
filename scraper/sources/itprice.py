@@ -93,6 +93,33 @@ _DATE_SHAPES = re.compile(
 
 # Product links: the Cisco part page and any brand price-list part page.
 _PART_HREF = re.compile(r"^https?://(?:www\.)?itprice\.com/(?:cisco|[a-z0-9]+-price-list)/([^/?#]+)\.html$", re.I)
+# The same URL read for the BRAND it belongs to: /cisco/<sku>.html, /hp-price-list/<sku>.html.
+# itprice sells more than one manufacturer's list and a page can link both, so a Cisco lookup
+# must not walk away with HP's parts. This is provantage's defect in a different shape: over
+# the 996 itprice pages acquired 4 Sep 2026 all 754 proposed tasks were /cisco/, so the rule
+# refuses nothing today — but nothing enforced it, and the branch that reads a whole page
+# (roots = [s], taken when a page is neither a GPL table nor a spec table) reaches every brand
+# list in the navigation. A guarantee that emerges from which pages happened to be fetched is
+# not a rule (D:\\Project\\CLAUDE.md).
+_PART_SECTION = re.compile(r"^https?://(?:www\.)?itprice\.com/([a-z0-9-]+)/[^/?#]+\.html$", re.I)
+_SECTION_SUFFIX = re.compile(r"-(?:price-list|gpl)$", re.I)
+# A prefix match needs four characters, so "hp" can never satisfy a lookup for "hpe".
+_BRAND_PREFIX_MIN = 4
+
+
+def _url_brand(url: str) -> str:
+    m = _PART_SECTION.match(url or "")
+    return _SECTION_SUFFIX.sub("", m.group(1)).lower() if m else ""
+
+
+def _brand_is_vendor(brand: str, vendor: str) -> bool:
+    b = re.sub(r"[^a-z0-9]", "", (brand or "").lower())
+    v = re.sub(r"[^a-z0-9]", "", (vendor or "").lower())
+    if not b or not v:
+        return False
+    if b == v:
+        return True
+    return (b.startswith(v) and len(v) >= _BRAND_PREFIX_MIN) or (v.startswith(b) and len(b) >= _BRAND_PREFIX_MIN)
 
 # The site's own "no such page" title. No not-found page is cached for itprice yet, so this is
 # the conventional Laravel/Bootstrap 404 title; verify against a live 404 when one is fetched.
@@ -382,6 +409,8 @@ def discover(html: str, task: dict) -> list[dict]:
     paginated. Category links, language switches, shop links and the alert forms yield nothing."""
     s = soup(html)
     own_url = task.get("url") or resolve(task)
+    vendor = (task.get("vendor") or "").strip()
+    own_key = clean(task.get("key") or "")
     out: list[dict] = []
     seen: set[str] = set()
 
@@ -410,8 +439,17 @@ def discover(html: str, task: dict) -> list[dict]:
             # a task (the queue would refuse it too; refusing it here keeps the count at zero)
             if not is_part_number(key)[0]:
                 continue
+            # the brand this URL belongs to must be the vendor we are looking a part up for
+            if vendor and not _brand_is_vendor(_url_brand(url), vendor):
+                continue
             seen.add(url)
-            out.append({"task": "part-page", "key": key, "url": url})
+            t = {"task": "part-page", "key": key, "url": url}
+            # the row that IS the searched part carries the task's part_id down with it, so the
+            # apply has an anchor and a vendor and can resolve the SKU. A GPL row for a sibling
+            # PID is a different part and never inherits it.
+            if own_key and _same_sku(key, own_key):
+                t["inherit_part"] = True
+            out.append(t)
 
     nxt = _next_page(s, own_url)
     if nxt and nxt not in seen:

@@ -20,7 +20,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { query, closePool, resolveDatabaseUrl, databaseName } from "../../src/store/db.js";
-import { enqueue, queueGaps, loadSourceFields, applySourceFields, queueStatus, parseArgs, LOOKUP_TASK } from "../../src/pipeline/queue.js";
+import { enqueue, queueGaps, loadSourceFields, applySourceFields, queueStatus, parseArgs, LOOKUP_TASK, lookupRefusal } from "../../src/pipeline/queue.js";
 
 if (process.env.NETZSPEC_DB !== "test") {
   console.error("MISS  refusing to run: NETZSPEC_DB=test is required (this suite truncates tables)");
@@ -62,6 +62,9 @@ async function queued(slug: string): Promise<QueueRow[]> {
 async function sourceId(slug: string): Promise<number> {
   return (await query<{ id: number }>("SELECT id FROM sources WHERE slug = $1", [slug])).rows[0].id;
 }
+/** enqueue() returns {inserted, refused, examples}; the cases that predate the lookup gate only
+ *  care about the count, and the gate has cases of its own below. */
+const inserted = async (a: Parameters<typeof enqueue>[0]): Promise<number> => (await enqueue(a)).inserted;
 
 // ---- fixture -------------------------------------------------------------------------------------
 await query(`TRUNCATE fetch_queue, fetches, part_source_checks, source_fields, completeness, facts, fact_evidence, conflicts,
@@ -116,7 +119,7 @@ await fact(mid, "poe_budget", 125);
 // enqueue by vendor / category
 // =================================================================================================
 {
-  const n = await enqueue({ source: "provantage", task: "search", vendor: "cisco", category: "switches" });
+  const n = await inserted({ source: "provantage", task: "search", vendor: "cisco", category: "switches" });
   const rows = await queued("provantage");
   const keys = rows.map((r) => r.key).sort();
   check("enqueue vendor+category inserts exactly the cisco switches (licence included, router and HPE excluded)",
@@ -126,36 +129,36 @@ await fact(mid, "poe_budget", 125);
   check("thinnest records first: the 0-fact part is queued before the 1-fact part before the 3-fact part",
     rows.findIndex((r) => r.key === "QT-THIN-24") < rows.findIndex((r) => r.key === "QT-MID-24")
       && rows.findIndex((r) => r.key === "QT-MID-24") < rows.findIndex((r) => r.key === "QT-FAT-24"), rows.map((r) => r.key));
-  const again = await enqueue({ source: "provantage", task: "search", vendor: "cisco", category: "switches" });
+  const again = await inserted({ source: "provantage", task: "search", vendor: "cisco", category: "switches" });
   check("ON CONFLICT (source, task, key): the same enqueue again inserts 0 and leaves 4 rows",
     again === 0 && (await queued("provantage")).length === 4, again);
-  const other = await enqueue({ source: "provantage", task: "part-page", vendor: "cisco", category: "switches", limit: "1" });
+  const other = await inserted({ source: "provantage", task: "part-page", vendor: "cisco", category: "switches", limit: "1" });
   check("a different TASK for the same key is a different row (the unique key is source+task+key)",
     other === 1 && (await queued("provantage")).filter((r) => r.task === "part-page").length === 1, other);
 }
 {
   await query("TRUNCATE fetch_queue");
-  const n = await enqueue({ source: "provantage", task: "search", vendor: "cisco", category: "switches", class: "hardware" });
+  const n = await inserted({ source: "provantage", task: "search", vendor: "cisco", category: "switches", class: "hardware" });
   const keys = (await queued("provantage")).map((r) => r.key);
   check("--class hardware drops the licence", n === 3 && !keys.includes("L-QT-LIC"), keys);
 }
 {
   await query("TRUNCATE fetch_queue");
-  const n = await enqueue({ source: "provantage", task: "search", vendor: "cisco", category: "switches", class: "hardware", limit: "2" });
+  const n = await inserted({ source: "provantage", task: "search", vendor: "cisco", category: "switches", class: "hardware", limit: "2" });
   const keys = (await queued("provantage")).map((r) => r.key);
   check("--limit 2 keeps the two THINNEST hardware parts (ordering is applied before the limit, not after)",
     n === 2 && keys.length === 2 && keys.includes("QT-THIN-24") && keys.includes("QT-MID-24"), keys);
 }
 {
   await query("TRUNCATE fetch_queue");
-  const n = await enqueue({ source: "provantage", task: "search", vendor: "hpe", priority: "7" });
+  const n = await inserted({ source: "provantage", task: "search", vendor: "hpe", priority: "7" });
   const rows = await queued("provantage");
   check("vendor-only filter reaches the other vendor's part; --priority overrides the tier default",
     n === 1 && rows[0]?.key === "QT-HPE-24" && rows[0]?.priority === 7, rows);
 }
 {
   await query("TRUNCATE fetch_queue");
-  const n = await enqueue({ source: "provantage", task: "search", category: "routers" });
+  const n = await inserted({ source: "provantage", task: "search", category: "routers" });
   check("category-only filter reaches the router", n === 1 && (await queued("provantage"))[0]?.key === "QT-ROUTER-1", n);
 }
 
@@ -166,12 +169,12 @@ await fact(mid, "poe_budget", 125);
   await query(`INSERT INTO part_source_checks (part_id, source_id, outcome, facts_found, checked_at) VALUES
     ($1, $3, 'no_facts', 0, now() - interval '1 day'),
     ($2, $3, 'no_facts', 0, now() - interval '100 days')`, [thin, mid, prov]);
-  const n = await enqueue({ source: "provantage", task: "search", vendor: "cisco", category: "switches", class: "hardware" });
+  const n = await inserted({ source: "provantage", task: "search", vendor: "cisco", category: "switches", class: "hardware" });
   const keys = (await queued("provantage")).map((r) => r.key);
   check("a part provantage checked 1 day ago is NOT re-queued; one checked 100 days ago IS",
     n === 2 && !keys.includes("QT-THIN-24") && keys.includes("QT-MID-24") && keys.includes("QT-FAT-24"), keys);
   await query("TRUNCATE fetch_queue");
-  const m = await enqueue({ source: "router-switch", task: "search", vendor: "cisco", category: "switches", class: "hardware" });
+  const m = await inserted({ source: "router-switch", task: "search", vendor: "cisco", category: "switches", class: "hardware" });
   check("the suppression is PER SOURCE: router-switch never checked the part, so it queues all three",
     m === 3 && (await queued("router-switch")).length === 3, m);
   check("router-switch is tier 3 -> priority 80", (await queued("router-switch")).every((r) => r.priority === 80));
@@ -182,13 +185,13 @@ await fact(mid, "poe_budget", 125);
 {
   await query("TRUNCATE fetch_queue");
   const url = "https://documentation.meraki.com/Switching/MS_-_Switches/Product_Information/Overviews_and_Datasheets";
-  const n = await enqueue({ source: "meraki", task: "listing", url });
+  const n = await inserted({ source: "meraki", task: "listing", url });
   const rows = await queued("meraki");
   check("--url alone: one listing row keyed by the URL, url set, no part",
     n === 1 && rows.length === 1 && rows[0].key === url && rows[0].url === url && rows[0].part_id === null && rows[0].task === "listing", rows);
-  const again = await enqueue({ source: "meraki", task: "listing", url });
+  const again = await inserted({ source: "meraki", task: "listing", url });
   check("the same --url again is a no-op", again === 0 && (await queued("meraki")).length === 1, again);
-  const k = await enqueue({ source: "itprice", task: "gpl", key: "C9200L-24P-4G" });
+  const k = await inserted({ source: "itprice", task: "gpl", key: "C9200L-24P-4G" });
   const krows = await queued("itprice");
   check("--key alone: key set, url NULL, meraki tier 2 -> 70 / itprice tier 3 -> 80",
     k === 1 && krows[0]?.key === "C9200L-24P-4G" && krows[0]?.url === null && krows[0]?.priority === 80 && rows[0].priority === 70, krows);
@@ -327,6 +330,76 @@ await query("INSERT INTO part_source_checks (part_id, source_id, outcome, facts_
   const r = await queueGaps({});
   check("SABOTAGE a DISABLED source with a matching source_fields row gets no gap lookups",
     (await queued(DISABLED_SLUG)).length === 0 && !r.skippedNoLookup.includes(DISABLED_SLUG), r);
+}
+
+// =================================================================================================
+// the lookup gate: a real part number is not the same thing as an orderable line item
+// =================================================================================================
+// 4 Sep 2026: provantage and router-switch spent 527 politeness slots searching Cisco assembly
+// numbers (10-2583-01, 10-1022008-01) and 9 more on digit-only PIDs. Router-switch listed 0 of
+// its 156. The 14 provantage searches that "found" something found AddOn's compatible optic
+// named after the assembly number, never the assembly. Facts landed: zero, all day.
+{
+  check("lookupRefusal: a Cisco assembly number is refused, and the reason says which shape",
+    lookupRefusal("10-2583-01", "cisco") === "assembly_number"
+    && lookupRefusal("10-1022008-01", "cisco") === "assembly_number"
+    && lookupRefusal("800-103176-01", "cisco") === "not_a_part_number",  // caught by the one part-number rule first
+    [lookupRefusal("10-2583-01", "cisco"), lookupRefusal("10-1022008-01", "cisco")]);
+  check("lookupRefusal: a digit-only PID is refused as numeric_pid",
+    lookupRefusal("1030033", "cisco") === "numeric_pid" && lookupRefusal("075681", "cisco") === "numeric_pid",
+    [lookupRefusal("1030033", "cisco"), lookupRefusal("075681", "cisco")]);
+  check("lookupRefusal: junk the one part-number rule already refuses is refused here too, and named",
+    lookupRefusal("0.75K", "cisco") === "not_a_part_number" && lookupRefusal("01-MAY-2022", "cisco") === "not_a_part_number"
+    && lookupRefusal("", "cisco") === "not_a_part_number");
+  // SABOTAGE: the gate must let ORDERABLE PIDs through, including the digit-first Cisco shapes
+  // that look like the refused ones. A rule that refuses everything is not a rule.
+  for (const ok of ["C9200L-24P-4G", "SFP-10G-SR=", "15216-ATT-LC=", "8201-32FH", "76-ES+XT-4TG3C",
+    "ISR4331/K9", "C9200L-24P-4G-A++", "USW-Aggregation", "10053H", "00AY765"]) {
+    check(`SABOTAGE lookupRefusal lets the orderable PID ${ok} through`, lookupRefusal(ok, "cisco") === null, lookupRefusal(ok, "cisco"));
+  }
+  sabotages += 10;
+}
+{
+  // ...and the planner honours it, over real rows, with the refusal counted and never silent
+  await query("TRUNCATE fetch_queue");
+  const asm = await part(cisco, "10-2583-01", routers);
+  const num = await part(cisco, "1030033", routers);
+  const r = await enqueue({ source: "provantage", task: "search", vendor: "cisco", category: "routers" });
+  const keys = (await queued("provantage")).map((x) => x.key);
+  check("enqueue: the assembly number and the digit-only PID are refused, the real PID is queued",
+    r.inserted === 1 && keys.length === 1 && keys[0] === "QT-ROUTER-1", { r, keys });
+  check("...and the refusal is counted by reason and carries an example (never a silent skip)",
+    r.refused.assembly_number === 1 && r.refused.numeric_pid === 1 && r.examples.some((e) => e.includes("10-2583-01")), r);
+  // SABOTAGE: --force is the operator's override and it must actually override
+  sabotages++;
+  await query("TRUNCATE fetch_queue");
+  const f = await enqueue({ source: "provantage", task: "search", vendor: "cisco", category: "routers", force: true });
+  check("SABOTAGE --force queues all three, refusing nothing",
+    f.inserted === 3 && Object.keys(f.refused).length === 0, f);
+  // a listing task's key is a URL and the SKU rule has nothing to say about it
+  await query("TRUNCATE fetch_queue");
+  const l = await enqueue({ source: "provantage", task: "listing", key: "https://www.provantage.com/~880CSCO.htm" });
+  check("a listing task is not a lookup, so the gate does not touch it", l.inserted === 1 && !Object.keys(l.refused).length, l);
+  // a bare --key lookup IS gated
+  await query("TRUNCATE fetch_queue");
+  const k = await enqueue({ source: "provantage", task: "search", key: "10-2583-01" });
+  check("a single --key lookup for an assembly number is refused, and nothing is inserted",
+    k.inserted === 0 && k.refused.assembly_number === 1 && (await queued("provantage")).length === 0, k);
+  await query("DELETE FROM parts WHERE id = ANY($1)", [[asm, num]]);
+}
+{
+  // queue-gaps runs the same gate: a gap stays a gap, only the LOOKUP is refused
+  await query("TRUNCATE fetch_queue");
+  const asm = await part(cisco, "10-9999-01", switches);
+  await query(`INSERT INTO facts (part_id, field_key, value, unit, raw, state, tier, method) VALUES ($1,'weight','1'::jsonb,'kg','1 kg','unverified',3,'test')`, [asm]);
+  await query("SELECT 1");
+  const before = (await query<{ n: number }>("SELECT count(*)::int AS n FROM gap_ledger WHERE part_id = $1", [asm])).rows[0].n;
+  const r = await queueGaps({});
+  check("queue-gaps refuses the assembly number's lookup while its gap row is untouched",
+    !(await queued("provantage")).some((x) => x.key === "10-9999-01")
+    && (await query<{ n: number }>("SELECT count(*)::int AS n FROM gap_ledger WHERE part_id = $1", [asm])).rows[0].n === before,
+    { r, before });
+  await query("DELETE FROM parts WHERE id = $1", [asm]);
 }
 
 // ---- cleanup ------------------------------------------------------------------------------------
