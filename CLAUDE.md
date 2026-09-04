@@ -416,6 +416,13 @@ full; the ones that bite hardest here are restated.
   `python3.11 scraper\tools\sentinel.py --seed-profiles provantage,router-switch,meraki`
   (one-off; add itprice only when its block is over) → rename the Startup entry back →
   `START-SCRAPERS.cmd` from Explorer → watch `runs/nightshift/SENTINEL.md` for two cycles.
+  PDF re-extraction (footnote-aware adapter, 1.5.1) finished: 7,934 records, 102 docs. Gate
+  at `--sample 200`: precision/recall 100%, golden 5/5, provenance 199/200 — FAIL on one:
+  `CAB-48VDC-40A-8AWG "Images" = "PPlluugg:: CCoorrddsseett…"` — the PDF overprints bold
+  glyphs and pdfplumber returns both copies (`dedupe_chars` needed in the shared reader),
+  and a value under an `Images` label is not a spec (COLUMN_BLEED missed the image column).
+  Offline agent in flight (cache-only): dedupe in the reader, refuse image-column values,
+  re-extract the affected documents, re-gate. Then the box apply (`--tag pdf`).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
