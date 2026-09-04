@@ -82,6 +82,56 @@ export async function findPart(vendorSlug: string, sku: string, db: Queryable = 
   return ci.rows[0] ?? null;
 }
 
+// The same column list under the `p` alias for the joined lookups below. DERIVED, not retyped:
+// a second hand-maintained copy would drift the first time a column is added (CLAUDE.md §10).
+const PART_COLUMNS_P = PART_COLUMNS.split(",").map((c) => `p.${c.trim()}`).join(", ");
+
+/** A candidate part with the vendor slug the caller needs to NAME it in a refusal. */
+export type PartCandidate = PartRow & { vendor_slug: string };
+export type AliasCandidate = PartCandidate & { alias_kind: string; alias_value: string };
+
+/**
+ * EVERY part whose SKU folds to `sku`, not the first one. `findPart` above has to return a part,
+ * so its case-insensitive arm ends in `ORDER BY sku LIMIT 1` — with 127 same-vendor pairs in
+ * production differing only by case (`A9K-DDOS-10U20G=` / `A9k-DDoS-10U20G=`), that arm silently
+ * picks one of two real rows. A caller that must REFUSE an ambiguous SKU rather than pick needs
+ * the whole candidate set, which is what this returns; findPart is untouched.
+ *
+ * `vendorSlug` null searches the whole catalogue. That is not a loosening: a SKU carried by
+ * exactly one part is unambiguous, and a SKU carried by two vendors (Arista and Cisco both sell
+ * SFP-10G-ER) comes back as two rows for the caller to refuse — never as a tie to break.
+ */
+export async function partsBySkuNorm(sku: string, vendorSlug: string | null, db: Queryable = getPool()): Promise<PartCandidate[]> {
+  const r = await db.query<PartCandidate>(
+    `SELECT ${PART_COLUMNS_P}, v.slug AS vendor_slug
+       FROM parts p JOIN vendors v ON v.id = p.vendor_id
+      WHERE p.sku_norm = upper($1) AND ($2::text IS NULL OR v.slug = $2)
+      ORDER BY p.sku, v.slug`,
+    [sku, vendorSlug],
+  );
+  return r.rows;
+}
+
+/**
+ * Every part that carries `value` as a part_aliases row (case-insensitively), one row per part
+ * with the alias kind that reached it. The lowest tier wins when a part holds the same value
+ * under several kinds — an alias from a vendor page outranks one a distributor printed.
+ */
+export async function partsByAliasValue(value: string, vendorSlug: string | null, db: Queryable = getPool()): Promise<AliasCandidate[]> {
+  const r = await db.query<AliasCandidate>(
+    `SELECT * FROM (
+       SELECT DISTINCT ON (p.id) ${PART_COLUMNS_P}, v.slug AS vendor_slug, a.kind AS alias_kind, a.value AS alias_value
+         FROM part_aliases a
+         JOIN parts p   ON p.id = a.part_id
+         JOIN vendors v ON v.id = p.vendor_id
+        WHERE upper(a.value) = upper($1) AND ($2::text IS NULL OR v.slug = $2)
+        ORDER BY p.id, a.tier, a.id
+     ) t ORDER BY t.sku, t.vendor_slug`,
+    [value, vendorSlug],
+  );
+  return r.rows;
+}
+
 export async function getPart(id: number, db: Queryable = getPool()): Promise<PartRow | null> {
   const r = await db.query<PartRow>(`SELECT ${PART_COLUMNS} FROM parts WHERE id = $1`, [id]);
   return r.rows[0] ?? null;

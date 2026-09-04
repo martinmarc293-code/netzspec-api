@@ -1,0 +1,30 @@
+{
+ "_about": "A VENDOR LISTING page whose entries name parts the way a real Meraki datasheet page does, and the reason src/pipeline/apply-acquired.ts resolves a SKU in five counted steps instead of one string comparison. Run #40 read 179 entries off pages like this and matched 0 parts. Every entry here is one resolution step, and one of them must be REFUSED: the entries carry no facts except the first, so the run's precision audit stays about the fact that actually landed.",
+ "_about_entries": "NZTEST-MR44 -> variant, through the -HW alias the ADAPTER declared on this page (the catalogue holds only NZTEST-MR44-HW), and the page's own name is then written back as a part_aliases row so the next run reaches it through step 4. NZTEST-MR46 -> nothing: the catalogue holds NZTEST-MR46-HW and this page declared no alias, so the suffix is ours to invent and we do not. nztest-ms130-24p -> case. NZTEST-SPARE-KIT and NZTEST-SPAREBASE= -> the Cisco spare '=' stripped and added. nztest-ddos-10u20g= -> AMBIGUOUS: two catalogue rows differ only by case (127 such pairs in production on 4 Sep 2026) and neither is picked.",
+ "source": "meraki",
+ "task": {"id": 3, "task": "listing", "key": "https://documentation.meraki.com/MR/nztest/listing", "part_id": null, "vendor": "cisco"},
+ "url": "https://documentation.meraki.com/MR/nztest/listing",
+ "final_url": "https://documentation.meraki.com/MR/nztest/listing",
+ "fetched_at": "2026-09-03T10:17:00+00:00",
+ "fetch_id": null,
+ "cached": false,
+ "cache_path": "671345fae9cd2f33b26569eb87eefa434d850897.html",
+ "result": {
+  "sku": "NZTEST-MR44",
+  "not_listed": false,
+  "name": "Meraki NZTEST-MR44 access point",
+  "facts": [{"label": "Weight", "value": "0.9 kg", "locator": "t1:r1:c2"}],
+  "aliases": [{"kind": "variant_sku", "value": "NZTEST-MR44-HW"}],
+  "images": [],
+  "relations": [],
+  "lifecycle": null,
+  "price": null,
+  "others": [
+   {"sku": "NZTEST-MR46", "name": "Meraki NZTEST-MR46 access point", "facts": [], "aliases": [], "images": [], "relations": [], "lifecycle": null, "price": null},
+   {"sku": "nztest-ms130-24p", "name": "Meraki NZTEST-MS130-24P switch", "facts": [], "aliases": [], "images": [], "relations": [], "lifecycle": null, "price": null},
+   {"sku": "NZTEST-SPARE-KIT", "name": "Meraki NZTEST spare mount kit", "facts": [], "aliases": [], "images": [], "relations": [], "lifecycle": null, "price": null},
+   {"sku": "NZTEST-SPAREBASE=", "name": "Meraki NZTEST spare base", "facts": [], "aliases": [], "images": [], "relations": [], "lifecycle": null, "price": null},
+   {"sku": "nztest-ddos-10u20g=", "name": "Meraki NZTEST DDoS licence", "facts": [], "aliases": [], "images": [], "relations": [], "lifecycle": null, "price": null}
+  ]
+ }
+}

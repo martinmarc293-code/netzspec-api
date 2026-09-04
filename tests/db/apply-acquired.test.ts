@@ -39,6 +39,7 @@ import { query, closePool, resolveDatabaseUrl, databaseName } from "../../src/st
 import { docIdFor } from "../../src/store/docs.js";
 import {
   main, parseArgs, mapEntryFacts, lifecycleFromEntry, computeGate, auditProvenance, runAdapterSuites, cachedText, normSku,
+  resolvePart, spareFlip, anchorStep, SKU_ALIAS_KINDS,
   CACHE_DIR, type Acquired, type WrittenFact,
 } from "../../src/pipeline/apply-acquired.js";
 
@@ -75,6 +76,9 @@ const PAGES: Record<string, string> = {
     + "<tr><td>Switching capacity</td><td>n/a</td></tr></table></body></html>",
   "https://documentation.meraki.com/MS/nztest/MS120-24P":
     "<html><body><h1>MS120-24P</h1><table><tr><th>Switching capacity</th><td>56 Gbps</td></tr><tr><th>Weight</th><td>4.9 kg</td></tr></table></body></html>",
+  "https://documentation.meraki.com/MR/nztest/listing":
+    "<html><body><h1>NZTEST-MR44</h1><table><tr><th>Weight</th><td>0.9 kg</td></tr></table>"
+    + "<ul><li>NZTEST-MR46</li><li>nztest-ms130-24p</li><li>NZTEST-SPARE-KIT</li><li>NZTEST-SPAREBASE=</li><li>nztest-ddos-10u20g=</li></ul></body></html>",
   "https://www.cdw.com/search/?key=NZTEST-C9200L-48P-4G":
     "<html><body><table><tr><td>PoE budget</td><td>740 W</td></tr></table></body></html>",
   "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-BAD-PROVENANCE":
@@ -149,6 +153,23 @@ const part = async (sku: string): Promise<number> => (await query<{ id: number }
 const partA = await part("C9200L-24P-4G");   // the provantage page (anchored by task.part_id)
 const partB = await part("C9200L-48P-4G");   // named only by a scope:family entry (and by the sabotage fixtures)
 const partM = await part("MS120-24P");       // the meraki page (found by --vendor + SKU)
+
+// ---- the catalogue the resolution steps are proved against ----------------------------------
+// Every one of these is shaped like something production really holds: a Meraki access point
+// stocked ONLY under its -HW ordering SKU, a Cisco spare with the '=' suffix and one without, and
+// a pair of rows that differ from each other by nothing but case (127 such pairs on 4 Sep 2026).
+// `sku.toLowerCase()` cannot be the slug here — the case pair would collide on (vendor_id, slug) —
+// so the slug is given explicitly and the SKU stays exactly as written.
+const partSlug = async (sku: string, slug: string): Promise<number> => (await query<{ id: number }>(
+  `INSERT INTO parts (vendor_id, sku, slug, category_id, product_class, product_class_reason) VALUES ($1, $2, $3, $4, 'hardware', 'test') RETURNING id`,
+  [cisco, sku, slug, switches])).rows[0].id;
+const partMR44HW = await partSlug("NZTEST-MR44-HW", "nztest-mr44-hw");   // the base SKU is NOT in the catalogue
+const partMR46HW = await partSlug("NZTEST-MR46-HW", "nztest-mr46-hw");   // same, and this page declares no alias
+const partMS130 = await partSlug("NZTEST-MS130-24P", "nztest-ms130-24p");
+const partSpareKit = await partSlug("NZTEST-SPARE-KIT=", "nztest-spare-kit-eq");
+const partSpareBase = await partSlug("NZTEST-SPAREBASE", "nztest-sparebase");
+const partCaseUpper = await partSlug("NZTEST-DDOS-10U20G=", "nztest-ddos-10u20g-upper");
+const partCaseMixed = await partSlug("NZTEST-DDoS-10U20G=", "nztest-ddos-10u20g-mixed");
 check("fixture sources: provantage is a tier-4 distributor, meraki a tier-2 vendor, cdw exists and has no suite",
   sources.get("provantage")?.tier === 4 && sources.get("provantage")?.kind === "distributor"
     && sources.get("meraki")?.tier === 2 && sources.get("meraki")?.kind === "vendor"
@@ -197,6 +218,103 @@ check("fixture sources: provantage is a tier-4 distributor, meraki a tier-2 vend
   const active = lifecycleFromEntry({ announce_date: "2026-01-01" }, ctx);
   check("lifecycleFromEntry: an announce date alone is `active`", active?.status === "active" && active.announce_date === "2026-01-01", active);
   check("lifecycleFromEntry: a date in the wrong shape is not a date", lifecycleFromEntry({ end_of_sale_date: "31/01/2027" }, ctx) === null);
+}
+
+// =================================================================================================
+// PART RESOLUTION, against the real catalogue
+// =================================================================================================
+// The resolver decides which part a page's facts land on, so every rule it has gets a case here and
+// every REFUSAL gets one too. Driven against the database rather than a stub, because the SQL is
+// half the rule: `partsBySkuNorm` returns the whole candidate set precisely so a tie can be refused,
+// and a version of it that quietly kept `LIMIT 1` would pass any test written against a fake.
+{
+  check("spareFlip strips and adds the Cisco spare '=' — both directions, nothing else touched",
+    spareFlip("C9200L-24P-4G") === "C9200L-24P-4G=" && spareFlip("C9200L-24P-4G=") === "C9200L-24P-4G" && spareFlip("MR44") === "MR44=");
+  check("anchorStep labels the queue's own part honestly: same string exact, same letters case, '='/'+' apart spare, otherwise no anchor",
+    anchorStep("MS120-24P", "MS120-24P") === "exact" && anchorStep("MS120-24P", "ms120-24p") === "case"
+      && anchorStep("MS120-24P=", "MS120-24P") === "spare" && anchorStep("MS120-24P", "MS125-24P") === null);
+  check("a barcode kind is not a part-number kind: gtin/upc/ean can never resolve a SKU",
+    !SKU_ALIAS_KINDS.has("gtin") && !SKU_ALIAS_KINDS.has("upc") && !SKU_ALIAS_KINDS.has("ean") && SKU_ALIAS_KINDS.has("variant_sku"), [...SKU_ALIAS_KINDS]);
+
+  const step = async (sku: string, declared: { kind: string; value: string }[] = [], vendor: string | null = "cisco") => resolvePart(sku, declared, vendor);
+  const landed = async (sku: string, declared: { kind: string; value: string }[] = [], vendor: string | null = "cisco") => {
+    const r = await step(sku, declared, vendor);
+    return r.kind === "matched" ? { step: r.step, on: r.part.sku, via: r.via, kind: r.aliasKind, scoped: r.vendorScoped } : { step: r.kind, on: null, via: null, kind: null, scoped: null };
+  };
+
+  const ex = await landed("MS120-24P");
+  check("step 1 exact: the SKU as the vendor writes it", ex.step === "exact" && ex.on === "MS120-24P", ex);
+  const ci = await landed("ms120-24p");
+  check("step 2 case: the same letters in another case land on the vendor's spelling", ci.step === "case" && ci.on === "MS120-24P", ci);
+  const sp1 = await landed("NZTEST-SPARE-KIT");
+  check("step 3 spare: a page naming the base lands on the catalogue's '=' spare", sp1.step === "spare" && sp1.on === "NZTEST-SPARE-KIT=" && sp1.via === "NZTEST-SPARE-KIT=", sp1);
+  const sp2 = await landed("NZTEST-SPAREBASE=");
+  check("step 3 spare, the other direction: a page naming the '=' spare lands on the base", sp2.step === "spare" && sp2.on === "NZTEST-SPAREBASE", sp2);
+  const va = await landed("NZTEST-MR44", [{ kind: "variant_sku", value: "NZTEST-MR44-HW" }]);
+  check("step 5 variant: the -HW variant THIS PAGE declared resolves, and the step records the alias kind that reached it",
+    va.step === "variant" && va.on === "NZTEST-MR44-HW" && va.via === "NZTEST-MR44-HW" && va.kind === "variant_sku", va);
+
+  // ---- SABOTAGE: every way the resolver must refuse ----------------------------------------
+  sabotages++;
+  const undeclared = await landed("NZTEST-MR46");
+  check("SABOTAGE undeclared suffix: the catalogue holds NZTEST-MR46-HW and the page declared nothing -> NO match, because '-HW' is our invention and not the page's evidence",
+    undeclared.step === "unknown", undeclared);
+  sabotages++;
+  const wrongKind = await landed("NZTEST-MR46", [{ kind: "gtin", value: "NZTEST-MR46-HW" }]);
+  check("SABOTAGE a declared alias of the wrong KIND: a gtin whose value happens to look like a SKU resolves nothing",
+    wrongKind.step === "unknown", wrongKind);
+  sabotages++;
+  const selfDeclared = await landed("NZTEST-MR46", [{ kind: "variant_sku", value: "nztest-mr46" }]);
+  check("SABOTAGE a page declaring itself as its own variant cannot bootstrap a match", selfDeclared.step === "unknown", selfDeclared);
+  sabotages++;
+  const dup = await step("nztest-ddos-10u20g=");
+  check("SABOTAGE case-duplicate pair: two catalogue rows differing only by case are AMBIGUOUS at the case step, both named, neither picked",
+    dup.kind === "ambiguous" && dup.step === "case" && dup.candidates.length === 2
+      && dup.candidates.includes("cisco/NZTEST-DDOS-10U20G=") && dup.candidates.includes("cisco/NZTEST-DDoS-10U20G="), dup);
+  const dupExact = await landed("NZTEST-DDoS-10U20G=");
+  check("but the vendor's OWN spelling of one of that pair is not ambiguous — the exact step decides before the case step is reached",
+    dupExact.step === "exact" && dupExact.on === "NZTEST-DDoS-10U20G=", dupExact);
+
+  // one SKU, two vendors: the collision that breaks netzspec's hourly sync every hour
+  const arista = (await query<{ id: number }>("SELECT id FROM vendors WHERE slug = 'arista'")).rows[0].id;
+  for (const v of [cisco, arista]) {
+    await query(`INSERT INTO parts (vendor_id, sku, slug, category_id, product_class, product_class_reason) VALUES ($1, 'NZTEST-SFP-10G-ER', 'nztest-sfp-10g-er', $2, 'hardware', 'test')`, [v, switches]);
+  }
+  sabotages++;
+  const cross = await step("NZTEST-SFP-10G-ER", [], null);
+  check("SABOTAGE cross-vendor SKU with no vendor to scope by: two vendors sell it, so it is AMBIGUOUS and never resolved to one of them",
+    cross.kind === "ambiguous" && cross.step === "exact" && cross.candidates.sort().join(",") === "arista/NZTEST-SFP-10G-ER,cisco/NZTEST-SFP-10G-ER", cross);
+  const scopedToOne = await landed("NZTEST-SFP-10G-ER", [], "cisco");
+  check("the same SKU WITH a vendor is not ambiguous at all — scoping is what resolves it", scopedToOne.step === "exact" && scopedToOne.scoped === true, scopedToOne);
+  const vendorless = await landed("NZTEST-SPAREBASE", [], null);
+  check("no vendor, one catalogue part: resolved, and the resolution SAYS it rested on catalogue-wide uniqueness (vendorScoped false)",
+    vendorless.step === "exact" && vendorless.on === "NZTEST-SPAREBASE" && vendorless.scoped === false, vendorless);
+  await query("DELETE FROM parts WHERE sku = 'NZTEST-SFP-10G-ER'");
+
+  // ---- precedence: a weaker step never overrules a stronger one ------------------------------
+  const bothRows = await partSlug("NZTEST-MR56", "nztest-mr56");
+  await partSlug("NZTEST-MR56-HW", "nztest-mr56-hw");
+  sabotages++;
+  const beaten = await landed("NZTEST-MR56", [{ kind: "variant_sku", value: "NZTEST-MR56-HW" }]);
+  check("SABOTAGE the declared variant does NOT steal a page from the part the catalogue already holds under that exact SKU — exact decides, variant is never reached",
+    beaten.step === "exact" && beaten.on === "NZTEST-MR56", beaten);
+  await query("DELETE FROM parts WHERE sku IN ('NZTEST-MR56', 'NZTEST-MR56-HW')");
+  void bothRows;
+
+  // ---- step 4: a part_aliases row, which is what step 5 leaves behind ------------------------
+  await query(`INSERT INTO part_aliases (part_id, kind, value, tier, source_url) VALUES ($1, 'variant_sku', 'NZTEST-LEGACY-46', 2, 'https://example.invalid/nztest')`, [partMR46HW]);
+  const viaAlias = await landed("nztest-legacy-46");
+  check("step 4 alias: a name already recorded in part_aliases resolves the page, case-insensitively, and reports the kind that reached it",
+    viaAlias.step === "alias" && viaAlias.on === "NZTEST-MR46-HW" && viaAlias.kind === "variant_sku", viaAlias);
+  sabotages++;
+  await query(`INSERT INTO part_aliases (part_id, kind, value, tier, source_url) VALUES ($1, 'variant_sku', 'NZTEST-LEGACY-46', 2, 'https://example.invalid/nztest')`, [partMR44HW]);
+  const aliasTie = await step("NZTEST-LEGACY-46");
+  check("SABOTAGE the same alias value on two parts is AMBIGUOUS at the alias step, both named",
+    aliasTie.kind === "ambiguous" && aliasTie.step === "alias" && aliasTie.candidates.length === 2, aliasTie);
+  await query("DELETE FROM part_aliases WHERE value = 'NZTEST-LEGACY-46'");
+  check("the resolution sabotage cases cleaned up after themselves",
+    (await query<{ n: number }>("SELECT count(*)::int AS n FROM part_aliases")).rows[0].n === 0
+      && (await query<{ n: number }>("SELECT count(*)::int AS n FROM parts WHERE sku LIKE 'NZTEST-MR56%' OR sku = 'NZTEST-SFP-10G-ER'")).rows[0].n === 0);
 }
 
 // =================================================================================================
@@ -268,19 +386,27 @@ check("the committed run set no failure exit code", process.exitCode === undefin
 type RunRow = { id: number; kind: string; status: string; gate: Record<string, unknown> | null; stats: Record<string, number>; notes: string | null; inputs: Record<string, unknown> };
 const run = (await query<RunRow>("SELECT id, kind, status, gate, stats, notes, inputs FROM runs ORDER BY id DESC LIMIT 1")).rows[0];
 check("the run row: kind apply-acquired, succeeded, notes name the sources", run?.kind === "apply-acquired" && run.status === "succeeded" && run.notes === "sources=provantage,meraki", run);
-check("the run row carries a PASSING gate with both suites green and 3 facts audited",
-  run?.gate?.passed === true && run.gate.recall === 1 && run.gate.precision === 1 && run.gate.sampled === 3
+check("the run row carries a PASSING gate with both suites green and 4 facts audited",
+  run?.gate?.passed === true && run.gate.recall === 1 && run.gate.precision === 1 && run.gate.sampled === 4
     && (run.gate.suites as Record<string, boolean>).provantage === true && (run.gate.suites as Record<string, boolean>).meraki === true, run?.gate);
 check("the run row records its inputs with hashes and the commit flag",
-  (run?.inputs.hashes as unknown[]).length === 2 && run.inputs.commit === true && run.inputs.files === 2, run?.inputs);
+  (run?.inputs.hashes as unknown[]).length === 3 && run.inputs.commit === true && run.inputs.files === 3, run?.inputs);
 const st = run?.stats ?? {};
-check("stats: 2 pages, 4 entries, 2 parts matched, 1 unknown SKU, 1 family-scoped skipped",
-  st.pages === 2 && st.entries === 4 && st.parts_matched === 2 && st.sku_unknown === 1 && st.family_scoped_skipped === 1, st);
-check("stats: 5 raw facts -> 3 ok, 1 unmapped, 1 rejected, 3 inserted",
-  st.facts_raw === 5 && st.facts_ok === 3 && st.facts_unmapped === 1 && st.facts_rejected === 1 && st.insert === 3, st);
-check("stats: 2 relations + 1 invalid kind, 1 image + 4 skipped non-vendor, 1 lifecycle, 1 alias, 1 price seen, 2 checks",
+check("stats: 3 pages, 10 entries, 6 parts matched, 2 unknown SKUs, 1 ambiguous, 1 family-scoped skipped",
+  st.pages === 3 && st.entries === 10 && st.parts_matched === 6 && st.sku_unknown === 2 && st.ambiguous === 1 && st.family_scoped_skipped === 1, st);
+// The point of the whole change: not "6 matched" but WHICH RULE matched each one. A resolver that
+// started guessing would show the same parts_matched and a different shape here.
+check("stats: the resolution steps are counted separately — exact 2, case 1, spare 2, variant 1, alias 0, and every match had a vendor to scope by",
+  st.matched_exact === 2 && st.matched_case === 1 && st.matched_spare === 2 && st.matched_variant === 1 && st.matched_alias === 0
+    && st.matched_no_vendor_scope === 0
+    && st.matched_exact + st.matched_case + st.matched_spare + st.matched_variant + st.matched_alias === st.parts_matched, st);
+check("stats: 6 raw facts -> 4 ok, 1 unmapped, 1 rejected, 4 inserted",
+  st.facts_raw === 6 && st.facts_ok === 4 && st.facts_unmapped === 1 && st.facts_rejected === 1 && st.insert === 4, st);
+check("stats: 2 relations + 1 invalid kind, 1 image + 4 skipped non-vendor, 1 lifecycle, 1 alias, 1 price seen, 6 checks",
   st.relations === 2 && st.relations_invalid_kind === 1 && st.images === 1 && st.images_skipped_non_vendor === 4 && st.lifecycle === 1
-    && st.aliases === 1 && st.prices_seen === 1 && st.checks === 2, st);
+    && st.aliases === 1 && st.prices_seen === 1 && st.checks === 6, st);
+check("stats: the variant match wrote the page's own name back as an alias, and the declared alias that IS the matched part's SKU was skipped rather than stored against itself",
+  st.aliases_backfilled === 1 && st.aliases_self_skipped === 1, st);
 check("stats: image candidates are counted for EVERY source — 5 raw URLs across the two pages become 3 candidates and 1 refusal",
   st.image_candidates === 3 && st.image_candidates_new === 3 && st.image_candidates_refused === 1, st);
 
@@ -301,22 +427,50 @@ const merakiDoc = docIdFor("https://documentation.meraki.com/MS/nztest/MS120-24P
     fm.length === 2 && fm.every((f) => f.state === "verified" && f.tier === 2 && f.method === "vendor_page:meraki" && f.doc_id === merakiDoc)
       && fm[0].field_key === "switching_capacity" && fm[0].value === 56 && fm[0].unit === "Gbit/s" && fm[1].field_key === "weight" && fm[1].value === 4.9, fm);
   check("every written fact has an evidence row",
-    (await query<{ n: number }>("SELECT count(*)::int AS n FROM fact_evidence")).rows[0].n === 3);
+    (await query<{ n: number }>("SELECT count(*)::int AS n FROM fact_evidence")).rows[0].n === 4);
   check("the family-scoped entry wrote nothing for C9200L-48P-4G", (await factsOf(partB)).length === 0);
   check("nothing was written for the unknown SKU (no part, no fact, no check)",
     !(await query("SELECT 1 FROM parts WHERE sku = 'NZTEST-NOT-A-PART'")).rowCount
-      && (await query<{ n: number }>("SELECT count(*)::int AS n FROM facts")).rows[0].n === 3);
+      && (await query<{ n: number }>("SELECT count(*)::int AS n FROM facts")).rows[0].n === 4);
+
+  // ---- where the resolved entries actually landed ------------------------------------------
+  const fhw = await factsOf(partMR44HW);
+  check("VARIANT: the page called itself NZTEST-MR44 and its one fact is on NZTEST-MR44-HW, verified from the vendor page",
+    fhw.length === 1 && fhw[0].field_key === "weight" && fhw[0].value === 0.9 && fhw[0].state === "verified" && fhw[0].tier === 2, fhw);
+  check("VARIANT: nothing was invented for the name the page used — no NZTEST-MR44 part exists",
+    !(await query("SELECT 1 FROM parts WHERE sku = 'NZTEST-MR44'")).rowCount);
+  const backfilled = (await query<{ part_id: number; kind: string; value: string; tier: number; source_url: string; run_id: number }>(
+    "SELECT part_id, kind, value, tier, source_url, run_id FROM part_aliases WHERE value = 'NZTEST-MR44'")).rows;
+  check("VARIANT: the page's own name is now a part_aliases row on the part it landed on — the adapter's kind, the page as the source, inside this run",
+    backfilled.length === 1 && backfilled[0].part_id === partMR44HW && backfilled[0].kind === "variant_sku" && backfilled[0].tier === 2
+      && backfilled[0].source_url === "https://documentation.meraki.com/MR/nztest/listing" && backfilled[0].run_id === run.id, backfilled);
+  check("VARIANT: the declared alias equal to the matched part's own SKU was NOT stored as an alias of itself",
+    !(await query("SELECT 1 FROM part_aliases WHERE value = 'NZTEST-MR44-HW'")).rowCount);
+  const checkedParts = (await query<{ part_id: number }>("SELECT part_id FROM part_source_checks ORDER BY part_id")).rows.map((r) => r.part_id);
+  check("CASE and SPARE: nztest-ms130-24p, NZTEST-SPARE-KIT and NZTEST-SPAREBASE= were each recorded against the catalogue row they resolved to",
+    [partMS130, partSpareKit, partSpareBase].every((p) => checkedParts.includes(p)), checkedParts);
+  sabotages++;
+  check("SABOTAGE undeclared suffix: NZTEST-MR46-HW was never touched — no fact, no check, no alias — because the page only said NZTEST-MR46",
+    (await factsOf(partMR46HW)).length === 0 && !checkedParts.includes(partMR46HW)
+      && !(await query("SELECT 1 FROM part_aliases WHERE part_id = $1", [partMR46HW])).rowCount);
+  sabotages++;
+  check("SABOTAGE case-duplicate pair: NEITHER row of the ambiguous pair was written to — not the first, not either",
+    (await factsOf(partCaseUpper)).length === 0 && (await factsOf(partCaseMixed)).length === 0
+      && !checkedParts.includes(partCaseUpper) && !checkedParts.includes(partCaseMixed));
 }
 {
   const docs = (await query<{ doc_id: string; doc_type: string; cache_path: string; vendor_id: number; fetched_at: string }>(
     "SELECT doc_id, doc_type, cache_path, vendor_id, fetched_at::text AS fetched_at FROM source_docs ORDER BY doc_id")).rows;
   const p = docs.find((d) => d.doc_id === provDoc), m = docs.find((d) => d.doc_id === merakiDoc);
-  check("source_docs: one distributor_page and one vendor_page, each with its cache path and fetch day",
-    docs.length === 2 && p?.doc_type === "distributor_page" && p.cache_path === `${sha1("https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-C9200L-24P-4G")}.html`
+  check("source_docs: one distributor_page and two vendor_pages, each with its cache path and fetch day",
+    docs.length === 3 && p?.doc_type === "distributor_page" && p.cache_path === `${sha1("https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-C9200L-24P-4G")}.html`
       && m?.doc_type === "vendor_page" && m.vendor_id === cisco && m.fetched_at === "2026-09-03", docs);
   const links = (await query<{ doc_id: string; part_id: number }>("SELECT doc_id, part_id FROM doc_parts ORDER BY 1, 2")).rows;
-  check("doc_parts links each page to the part it describes and no other",
-    links.length === 2 && links.some((l) => l.doc_id === provDoc && l.part_id === partA) && links.some((l) => l.doc_id === merakiDoc && l.part_id === partM), links);
+  const listDoc = docIdFor("https://documentation.meraki.com/MR/nztest/listing");
+  check("doc_parts links each page to the parts it describes and no others — the listing page to the four it RESOLVED, never to the ambiguous or the unmatched one",
+    links.length === 6 && links.some((l) => l.doc_id === provDoc && l.part_id === partA) && links.some((l) => l.doc_id === merakiDoc && l.part_id === partM)
+      && [partMR44HW, partMS130, partSpareKit, partSpareBase].every((id) => links.some((l) => l.doc_id === listDoc && l.part_id === id))
+      && ![partMR46HW, partCaseUpper, partCaseMixed].some((id) => links.some((l) => l.part_id === id)), links);
 }
 {
   const rels = (await query<{ from_part_id: number; to_sku: string; kind: string; tier: number; doc_id: string; note: string }>(
@@ -358,15 +512,19 @@ const merakiDoc = docIdFor("https://documentation.meraki.com/MS/nztest/MS120-24P
   check("lifecycle: the dated end_of_sale_date makes ONE row (eol_announced, N/A siblings NULL); the all-N/A block makes none",
     lcs.length === 1 && lcs[0].part_id === partM && lcs[0].status === "eol_announced" && lcs[0].end_of_sale_date === "2027-01-31" && lcs[0].last_day_of_support === null
       && lcs[0].successor_sku === "MS130-24P" && lcs[0].doc_id === merakiDoc && lcs[0].verified_at === "2026-09-03" && lcs[0].run_id === run.id, lcs);
-  const al = (await query<{ part_id: number; kind: string; value: string; tier: number }>("SELECT part_id, kind, value, tier FROM part_aliases")).rows;
-  check("aliases: the UPC lands on the provantage part at tier 4", al.length === 1 && al[0].part_id === partA && al[0].kind === "upc" && al[0].value === "889728171533" && al[0].tier === 4, al);
+  const al = (await query<{ part_id: number; kind: string; value: string; tier: number }>("SELECT part_id, kind, value, tier FROM part_aliases ORDER BY value")).rows;
+  check("aliases: the UPC lands on the provantage part at tier 4, and the backfilled variant name is the only other row",
+    al.length === 2 && al.some((x) => x.part_id === partA && x.kind === "upc" && x.value === "889728171533" && x.tier === 4)
+      && al.some((x) => x.part_id === partMR44HW && x.value === "NZTEST-MR44"), al);
   const checks = (await query<{ part_id: number; source_id: number; outcome: string; facts_found: number; fields_found: string[]; doc_id: string; run_id: number }>(
     "SELECT part_id, source_id, outcome, facts_found, fields_found, doc_id, run_id FROM part_source_checks ORDER BY part_id")).rows;
   const cA = checks.find((c) => c.part_id === partA), cM = checks.find((c) => c.part_id === partM);
   check("part_source_checks: facts_found with the MAPPED field keys (unmapped and rejected excluded), per source and doc",
-    checks.length === 2
+    checks.length === 6
       && cA?.source_id === sources.get("provantage")!.id && cA.outcome === "facts_found" && cA.facts_found === 1 && cA.fields_found.join(",") === "poe_budget" && cA.doc_id === provDoc && cA.run_id === run.id
       && cM?.source_id === sources.get("meraki")!.id && cM.outcome === "facts_found" && cM.facts_found === 2 && [...cM.fields_found].sort().join(",") === "switching_capacity,weight", checks);
+  check("part_source_checks: a page that resolved a part but read no fact off it is `no_facts`, not silence",
+    checks.filter((c) => c.outcome === "no_facts").length === 3 && checks.find((c) => c.part_id === partMS130)?.outcome === "no_facts", checks.map((c) => [c.part_id, c.outcome]));
 }
 {
   const day = new Date().toISOString().slice(0, 10);
@@ -378,8 +536,20 @@ const merakiDoc = docIdFor("https://documentation.meraki.com/MS/nztest/MS120-24P
   const unknownFile = path.join(ROOT, "runs", "reports", `unknown-skus-provantage+meraki-${day}.jsonl`);
   const lines = fs.existsSync(unknownFile) ? fs.readFileSync(unknownFile, "utf8").trim().split("\n").filter(Boolean).map((l) => JSON.parse(l) as Record<string, unknown>) : [];
   check("the unknown-SKU feed carries the SKU the page named, with source, vendor, name, url and its fact count",
-    lines.length === 1 && lines[0].sku === "NZTEST-NOT-A-PART" && lines[0].source === "provantage" && lines[0].vendor === "cisco"
+    lines.length === 2 && lines[0].sku === "NZTEST-NOT-A-PART" && lines[0].source === "provantage" && lines[0].vendor === "cisco"
       && lines[0].name === "Cisco something we do not hold" && lines[0].facts === 1 && typeof lines[0].url === "string", lines);
+  check("the undeclared-suffix SKU is in the ENUMERATION feed, which is the honest answer: we hold NZTEST-MR46-HW and the page named something else",
+    lines.some((l) => l.sku === "NZTEST-MR46"), lines.map((l) => l.sku));
+  // The ambiguous SKU must NOT be here: this feed is the input to `ingest promote-unknown-skus`,
+  // which CREATES parts, and an ambiguous SKU is one the catalogue already holds twice.
+  sabotages++;
+  check("SABOTAGE the ambiguous SKU is kept OUT of the enumeration feed — proposing a third row for a SKU the catalogue holds twice is the opposite of the fix",
+    !lines.some((l) => String(l.sku).toUpperCase() === "NZTEST-DDOS-10U20G="), lines.map((l) => l.sku));
+  const ambFile = path.join(ROOT, "runs", "reports", `ambiguous-skus-provantage+meraki-${day}.jsonl`);
+  const amb = fs.existsSync(ambFile) ? fs.readFileSync(ambFile, "utf8").trim().split("\n").filter(Boolean).map((l) => JSON.parse(l) as Record<string, unknown>) : [];
+  check("the refusal is reported in its own feed, naming the step and BOTH candidates so a human can merge the duplicate rows",
+    amb.length === 1 && amb[0].sku === "nztest-ddos-10u20g=" && amb[0].step === "case"
+      && (amb[0].candidates as string[]).length === 2 && (amb[0].candidates as string[]).includes("cisco/NZTEST-DDoS-10U20G="), amb);
 }
 
 // =================================================================================================
@@ -399,6 +569,16 @@ const merakiDoc = docIdFor("https://documentation.meraki.com/MS/nztest/MS120-24P
   sabotages++;
   check("re-apply: the run says so — image_candidates counted again, image_candidates_new is 0",
     reRun.stats.image_candidates === 3 && reRun.stats.image_candidates_new === 0, reRun.stats);
+  // THE POINT OF WRITING THE ALIAS BACK. The first run had to derive NZTEST-MR44 -> NZTEST-MR44-HW
+  // from what the page declared (step 5). The second run finds it in part_aliases (step 4) and
+  // derives nothing — the catalogue learned the name, so the same page resolves the same way for
+  // any later source that never declares the variant, and nothing is written twice.
+  check("re-apply: the same page now resolves through the part_aliases row the FIRST run wrote — variant 0, alias 1, nothing backfilled again",
+    reRun.stats.matched_alias === 1 && reRun.stats.matched_variant === 0 && reRun.stats.aliases_backfilled === 0
+      && reRun.stats.parts_matched === 6 && reRun.stats.ambiguous === 1, reRun.stats);
+  check("re-apply: it landed on the same part and added no second alias row",
+    (await query<{ n: number }>("SELECT count(*)::int AS n FROM part_aliases WHERE value = 'NZTEST-MR44' AND part_id = $1", [partMR44HW])).rows[0].n === 1
+      && (await query<{ n: number }>("SELECT count(*)::int AS n FROM part_aliases")).rows[0].n === 2);
   const seenAfter = (await query<{ t: string }>("SELECT max(seen_at)::text AS t FROM image_candidates")).rows[0].t;
   check("re-apply: seen_at moves, so a live candidate is distinguishable from one nothing has served since June",
     seenAfter > seenBefore, { seenBefore, seenAfter });
@@ -517,7 +697,7 @@ check("no sabotage run was ever recorded as succeeded",
 // would read as a real enumeration feed, so they go too.
 {
   const day = new Date().toISOString().slice(0, 10);
-  for (const f of [`unmapped-provantage+meraki-${day}.json`, `unknown-skus-provantage+meraki-${day}.jsonl`]) {
+  for (const f of [`unmapped-provantage+meraki-${day}.json`, `unknown-skus-provantage+meraki-${day}.jsonl`, `ambiguous-skus-provantage+meraki-${day}.jsonl`]) {
     fs.rmSync(path.join(ROOT, "runs", "reports", f), { force: true });
   }
 }

@@ -94,6 +94,25 @@ a relation, or an image, each with its own provenance.
 contracts and software images. Those get a record and an honest `not_applicable` profile, not a
 spec gap.
 
+### Which part a page is about
+
+A page names a part in a string, and the string is often not the SKU the catalogue stores.
+`apply-acquired` resolves it in five ordered steps and **counts which one matched**
+(`matched_exact`, `matched_case`, `matched_spare`, `matched_alias`, `matched_variant`): the SKU as
+the vendor writes it; the same letters in another case; the Cisco spare `=` stripped or added; a
+name already in `part_aliases`; and finally the variants the page's own adapter DECLARED in
+`result.aliases`. There is no suffix list — `-HW` is only ever tried because a page said so — and
+the first step to produce a candidate decides, so a weaker step never overrules a stronger one.
+Two candidates at any step is `ambiguous`: the entry is refused, both candidates are named in
+`runs/reports/ambiguous-skus-<tag>-<day>.jsonl`, and nothing lands. That refusal is the rule, not
+an edge case — 127 same-vendor pairs in `parts` differ only by case, and cross-vendor SKU
+collisions are real (Arista and Cisco both sell `SFP-10G-ER`). When no vendor is known the search
+runs catalogue-wide and only a globally unique SKU resolves; how many matches rested on that is
+reported as `matched_no_vendor_scope`. A variant match writes the page's own name back as a
+`part_aliases` row on the part it landed on, so the next run reaches it through the alias step and
+derives nothing. Measured 4 Sep 2026 over one day of pages: meraki 0 → 130 matched, provantage
+0 → 121 (115 exact, 6 spare), 0 ambiguous.
+
 ## Coverage is measured, not claimed
 
 `/v1/stats` computes coverage live from the tables: parts, hardware parts, parts with facts,
