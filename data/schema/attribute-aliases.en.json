@@ -5960,6 +5960,241 @@
    "^number of ipv4 aces per system$",
    "acl_entries",
    "cisco-datasheets: 10 occurrences. ACEs are ACL entries, which is acl_entries. Deliberately NOT matching 'Number of ACLs per system' - that counts lists, not e"
+  ],
+  [
+   "(^|> )product series$",
+   "series",
+   "provantage: 269 values, 100% normalise. Anchored on '> ' because every provantage label carries its section; the existing '(^|> )series$' cannot see 'Pr"
+  ],
+  [
+   "(^|> )product line$",
+   "product_line",
+   "provantage: 205/205 normalise."
+  ],
+  [
+   "(^|> )country of origin$",
+   "country_of_origin",
+   "provantage: 243/243 normalise over two sections."
+  ],
+  [
+   "(^|> )ethernet technology$",
+   "ethernet_technology",
+   "provantage: 281/281 normalise over three sections."
+  ],
+  [
+   "(^|> )network technology$",
+   "network_technology",
+   "provantage: 204/204 normalise. Deliberately not matching 'Network Standard', which states one wire standard and belongs elsewhere."
+  ],
+  [
+   "(^|> )media type supported$",
+   "media_type_supported",
+   "provantage: 182/182 normalise."
+  ],
+  [
+   "(^|> )expansion slot type$",
+   "expansion_slot_type",
+   "provantage: 160/160 normalise."
+  ],
+  [
+   "(^|> )manageable$",
+   "manageable",
+   "provantage: 148/148 normalise to a boolean."
+  ],
+  [
+   "(^|> )total number of expansion slots$",
+   "module_slots",
+   "provantage: 142/170 normalise; the 28 refusals are RANGE_VIOLATION on chassis with 36-48 slots, which is the plausibility band doing its job on a field "
+  ],
+  [
+   "(^|> )(product )?colou?r$",
+   "color",
+   "provantage: 106/106 normalise. Both spellings, and 'Color Family' is a separate rule so 'Color Depth' cannot be caught by either."
+  ],
+  [
+   "(^|> )colou?r family$",
+   "color",
+   "provantage: 76/76 normalise; the same fact under the distributor's second heading."
+  ],
+  [
+   "(^|> )(cable|cord|power cord ?/ ?cable) length$",
+   "cable_length",
+   "provantage: 110/113 normalise, feet converting to metres. The 3 refusals are inch values, which the normaliser cannot read (see below)."
+  ],
+  [
+   "(^|> )total number of usb ports$",
+   "usb_ports",
+   "provantage: 42/42 normalise. Not matching 'Number of USB 3.0 Ports' or 'Number of USB 2.0 Ports', which are subsets and would double count."
+  ],
+  [
+   "(^|> )networking standards$",
+   "ieee_standards",
+   "provantage: 47/47 normalise into the IEEE list."
+  ],
+  [
+   "(^|> )certifications & standards$",
+   "certifications",
+   "provantage: 10/10 normalise."
+  ],
+  [
+   "(^|> )package contents$",
+   "box_contents",
+   "provantage: 32/32 normalise."
+  ],
+  [
+   "(^|> )jacket material$",
+   "jacket_material",
+   "provantage: 16/16 normalise. 'Jacket Type' (CM / LSZH / Riser) is a fire rating, not a material, and is deliberately left unmapped."
+  ],
+  [
+   "(^|> )thermal design power$",
+   "tdp",
+   "provantage: 25/25 normalise in W."
+  ],
+  [
+   "(^|> )l3 cache$",
+   "cache_l3",
+   "provantage: 25/25 normalise in MB. L2 Cache has no field and stays unmapped rather than being filed under L3."
+  ],
+  [
+   "(^|> )clock speed$",
+   "clock_speed",
+   "provantage: 26/26 normalise in GHz. Not matching 'Overclocking Speed', which is the turbo figure."
+  ],
+  [
+   "(^|> )processor speed$",
+   "cpu_clock_frequency",
+   "provantage: 19/19 normalise in GHz."
+  ],
+  [
+   "(^|> )processor threads$",
+   "cpu_threads",
+   "provantage: 19/19 normalise."
+  ],
+  [
+   "(^|> )number of processors supported$",
+   "cpu_sockets_max",
+   "provantage: 50/50 normalise. Deliberately NOT matching 'Number of Processors INSTALLED', which counts populated sockets, not the maximum."
+  ],
+  [
+   "(^|> )processor supported$",
+   "cpu_options",
+   "provantage: 32/32 normalise."
+  ],
+  [
+   "(^|> )raid levels$",
+   "raid_level",
+   "provantage: 14/14 normalise."
+  ],
+  [
+   "(^|> )(hard drive |solid state drive |)drive interface$",
+   "drive_interface",
+   "provantage: 5/5 normalise over three spellings of the same fact."
+  ],
+  [
+   "(^|> )flash memory$",
+   "flash",
+   "provantage: 14/14 normalise into GB, MB converting."
+  ],
+  [
+   "(^|> )storage capacity$",
+   "storage_capacity",
+   "provantage: 17/17 normalise into GB."
+  ],
+  [
+   "(^|> )maximum operating elevation$",
+   "altitude_max",
+   "provantage: 14/14 normalise, feet converting to metres."
+  ],
+  [
+   "(^|> )sound emission [(]a-weighted[)]$",
+   "acoustic_noise",
+   "provantage: 7/7 normalise in dB(A). Not matching 'Sound PRESSURE Level (A-Weighted)', which is a different measurement at a stated distance."
+  ],
+  [
+   "(^|> )firewall throughput$",
+   "firewall_throughput",
+   "provantage: 9/9 normalise; this label is stated in bits, unlike the VPN and IPS rows on the same pages."
+  ],
+  [
+   "(^|> )number of sfp[+] slots$",
+   "sfp_plus_ports",
+   "provantage: 44/44 normalise. A slot that takes an SFP+ is an SFP+ port."
+  ],
+  [
+   "(^|> )number of poe [(]rj-45[)] ports$",
+   "poe_ports",
+   "provantage: 7/7 normalise. Not matching 'PoE (RJ-45) Port', which is a yes/no row."
+  ],
+  [
+   "(^|> )bluetooth standard$",
+   "bluetooth_version",
+   "provantage: 7/7 normalise."
+  ],
+  [
+   "(^|> )input current$",
+   "input_current",
+   "provantage: 14/14 normalise in A."
+  ],
+  [
+   "(^|> )maximum power supply wattage$",
+   "psu_output_power",
+   "provantage: 17/17 normalise in W."
+  ],
+  [
+   "(^|> )dedicated (mgmt|management) interface$",
+   "dedicated_mgmt_interface",
+   "meraki: 140/160 normalise; the 20 refusals are the '-' placeholder Meraki writes for a model that has none, which is correctly refused rather than s"
+  ],
+  [
+   "(^|> )ieee standards$",
+   "ieee_standards",
+   "meraki: 38/38 normalise into the IEEE list."
+  ],
+  [
+   "(^|> )safety approvals$",
+   "safety_standards",
+   "meraki: 38/38 normalise."
+  ],
+  [
+   "(^|> )emi approvals( [(]class [ab][)])?$",
+   "emc_emissions",
+   "meraki: 38/38 normalise. EMI approvals are emissions; the immunity list is a separate field and Meraki does not state one."
+  ],
+  [
+   "(^|> )certifications$",
+   "certifications",
+   "meraki: 20/20 normalise over four sections."
+  ],
+  [
+   "(^|> )40gbe qsfp[+]$",
+   "qsfp_plus_ports",
+   "meraki: 21/26 normalise; the 5 refusals are the '-' placeholder."
+  ],
+  [
+   "(^|> )upoe capable$",
+   "upoe_support",
+   "meraki: 28/47 normalise to a boolean ('Yes, 740W' true, 'No, 370W' false); the 19 refusals are '-'."
+  ],
+  [
+   "(^|> )poe(/poe[+]|[+])? capable$",
+   "poe_budget",
+   "meraki: 70/96 normalise: 'Yes, 370W' yields 370 W, which is the PoE budget. The 26 refusals are '-'. Deliberately NOT mapped to poe_standard: the ro"
+  ],
+  [
+   "(^|> )(compatible|supported) platforms?$",
+   "compatible_platform",
+   "router-switch: 18/18 normalise over three spellings (Compatible Platform, Supported Platform, Supported Platforms)."
+  ],
+  [
+   "(^|> )module type$",
+   "module_type",
+   "router-switch: 17/17 normalise over both sections."
+  ],
+  [
+   "(^|> )installation( type)?$",
+   "installation_type",
+   "router-switch: 22/22 normalise, including provantage's 'Product Information > Installation Type'. Not matching 'Installation Clearance', which is a distanc"
   ]
  ]
 }

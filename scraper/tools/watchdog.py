@@ -39,9 +39,13 @@ questions that matter, one line per source:
   * DUPLICATES   the same URL fetched twice within 24 h across tasks (the queue's UNIQUE is per
                  (source, task, key), so two keys resolving to one URL fetch it twice). Reported.
   * VOCABULARY   the top raw labels today's pages emitted that no rule in
-                 data/schema/attribute-aliases.en.json maps. This is the feed for the alias work:
+                 data/schema/attribute-aliases.en.json maps and no rule in
+                 attribute-ignore.en.json accounts for. This is the feed for the alias work:
                  a label nobody has mapped is a fact that was extracted and then thrown away, and
-                 nothing else in the pipeline says which ones are worth the effort.
+                 nothing else in the pipeline says which ones are worth the effort. Ignored
+                 labels — the distributor's identity and stock rows, which the parts table
+                 already owns — are counted and reported separately, because a gap number that
+                 includes rows nobody intends to close cannot tell progress from a stall.
   * RESUME       a source the watchdog paused for blocks is re-enabled after 60 min (--act). A
                  source paused for zero yield or drift stays paused until a human sets
                  enabled=true; the first run that sees that logs `resumed`.
@@ -74,8 +78,10 @@ from psycopg.rows import dict_row
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT / "scraper"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from sources import load_source          # noqa: E402  (ALLOW_SHORT_KEYS per source)
 from sources.base import is_part_number  # noqa: E402  the ONE part-number rule
+import vocab                             # noqa: E402  the ONE reader of the alias + ignore files
 
 for _s in (sys.stdout, sys.stderr):
     try:
@@ -165,70 +171,66 @@ def allow_short_keys(slug: str) -> bool:
 # ---------------------------------------------------------------------------------------------
 # the vocabulary feed: which raw labels today's pages emitted that nothing maps
 # ---------------------------------------------------------------------------------------------
-# The alias rules are ORDERED regexes matched case-insensitively, first match wins, and
-# src/core/deepSpecMap.ts retries a label with a trailing unit parenthetical removed. That retry
-# is copied here because a label counted as unmapped when the pipeline does map it sends the
-# vocabulary work at a rule that already exists.
-ALIASES_FILE = ROOT / "data" / "schema" / "attribute-aliases.en.json"
-_TRAILING_UNIT = re.compile(r"\s*\(\s*[A-Za-z\u00b5\u00b0%]{1,4}(?:\s*/\s*[A-Za-z]{1,3})?"
-                            r"(?:\s+(?:rms|peak|dc|ac))?\s*\)\s*\d*\s*$")
-_RULES_CACHE: list[tuple[re.Pattern, str]] | None = None
+# The matcher itself lives in scraper/tools/vocab.py, which is the ONE reader of both vocabulary
+# files. It used to live here as well as in label_inventory.py, and the copies had drifted: only
+# one of them performed the trailing-unit retry that src/core/deepSpecMap.ts performs, so the same
+# label was "unmapped" in one report and "mapped" in the other.
+#
+# IGNORED is not UNMAPPED (4 Sep 2026). This section's headline was
+# "provantage: 13,241 of 15,489 labels unmapped (85%)" and the top of its feed was
+# "Stock Details > Manuf Part#" 759, "Stock Details > Manufacturer" 759,
+# "General Information > Product Name" 745 — the distributor's identity and stock rows, which the
+# `parts` table already owns and no field will ever hold. Roughly a third of the count, and the
+# whole head of a list whose entire job is to say where the next alias rule should go. They are
+# named in data/schema/attribute-ignore.en.json with a reason each, counted here, reported here,
+# and excluded from both the gap count and the feed.
+ALIASES_FILE = vocab.ALIASES_FILE
+IGNORE_FILE = vocab.IGNORE_FILE
+_alias_path_seen: Path | None = None
 
 
 def alias_rules() -> list[tuple[re.Pattern, str]]:
-    """The compiled alias rules, or [] when the file cannot be read. The caller reports which of
-    the two happened: "0 unmapped" and "the vocabulary could not be read" are opposite findings
+    """The compiled alias rules. Raises when the file cannot be read, and the caller reports which
+    of the two happened: "0 unmapped" and "the vocabulary could not be read" are opposite findings
     and a monitor that shows the first for the second is the failure mode this project keeps
-    hitting (D:\\Project\\CLAUDE.md 10)."""
-    global _RULES_CACHE
-    if _RULES_CACHE is None:
-        doc = json.loads(ALIASES_FILE.read_text(encoding="utf-8"))
-        flags = re.I if doc.get("case_insensitive", True) else 0
-        _RULES_CACHE = [(re.compile(r[0], flags), r[1]) for r in doc["rules"]]
-        _MAPPED_MEMO.clear()   # the memo is keyed on the label alone; new rules invalidate it
-    return _RULES_CACHE
+    hitting (D:\\Project\\CLAUDE.md 10).
 
-
-_MAPPED_MEMO: dict[str, bool] = {}
+    ALIASES_FILE stays a module global here because the suite proves that "could not check" path
+    by pointing it at a file that does not exist. vocab.py caches on its own global, so a swap has
+    to be pushed through and its cache dropped whenever the path changes."""
+    global _alias_path_seen
+    if ALIASES_FILE != _alias_path_seen:
+        vocab.ALIASES_FILE = ALIASES_FILE
+        vocab._ALIAS_CACHE = None
+        _alias_path_seen = ALIASES_FILE
+    return vocab.alias_rules()
 
 
 def maps_to_field(label: str, rules: list[tuple[re.Pattern, str]]) -> bool:
-    """Does any alias rule match this label? Memoised per label, because a corpus of 13,000 facts
-    holds about 700 distinct labels and 1,177 rules: without the memo a single run is seven
+    """Does any alias rule map this label? Memoised in vocab.py, because a corpus of 13,000 facts
+    holds about 700 distinct labels against 1,200 rules: without the memo a single run is seven
     million regex tests and the monitor takes longer than the thing it monitors."""
-    hit = _MAPPED_MEMO.get(label)
-    if hit is not None:
-        return hit
-    hit = False
-    for rx, _ in rules:
-        if rx.search(label):
-            hit = True
-            break
-    if not hit:
-        bare = _TRAILING_UNIT.sub("", label).strip()
-        if bare and bare != label:
-            for rx, _ in rules:
-                if rx.search(bare):
-                    hit = True
-                    break
-    _MAPPED_MEMO[label] = hit
-    return hit
+    return vocab.maps_to_field(label, rules) is not None
 
 
 def unmapped_labels(runs_dir: Path, slug: str, day: str, top_n: int = UNMAPPED_TOP_N,
                     max_files: int = UNMAPPED_MAX_FILES) -> dict:
-    """The labels today's acquired pages emitted that no alias rule maps, most frequent first.
+    """The labels today's acquired pages emitted that no alias rule maps and no ignore rule
+    accounts for, most frequent first.
 
     Reads runs/acquired/<slug>/<day>/*.json — the worker's own output, so this works whether or
     not the TypeScript apply step has run. Returns {"top": [...], "distinct": n, "unmapped": n,
-    "mapped": n, "files": n, "truncated": bool} or {"error": "..."} — never a silent zero."""
-    out: dict = {"top": [], "distinct": 0, "unmapped": 0, "mapped": 0, "files": 0, "truncated": False}
+    "mapped": n, "ignored": n, "ignored_distinct": n, "files": n, "truncated": bool} or
+    {"error": "..."} — never a silent zero."""
+    out: dict = {"top": [], "distinct": 0, "unmapped": 0, "mapped": 0, "ignored": 0,
+                 "ignored_distinct": 0, "files": 0, "truncated": False}
     d = Path(runs_dir) / "acquired" / slug / day
     if not d.is_dir():
         return out
     try:
         rules = alias_rules()
-    except Exception as e:  # noqa — the vocabulary file is missing or malformed: say so
+        ign = vocab.ignore_rules()
+    except Exception as e:  # noqa — either vocabulary file is missing or malformed: say so
         return {**out, "error": f"{type(e).__name__}: {str(e)[:120]}"}
     if not rules:
         return {**out, "error": f"no rules in {ALIASES_FILE.name}"}
@@ -237,6 +239,7 @@ def unmapped_labels(runs_dir: Path, slug: str, day: str, top_n: int = UNMAPPED_T
     files = sorted(d.glob("*.json"), key=lambda p: p.stat().st_mtime)
     out["truncated"] = len(files) > max_files
     counts: dict[str, dict] = {}
+    ignored_labels: set[str] = set()
     for f in files[-max_files:]:
         try:
             j = json.loads(f.read_text(encoding="utf-8"))
@@ -252,12 +255,19 @@ def unmapped_labels(runs_dir: Path, slug: str, day: str, top_n: int = UNMAPPED_T
                 if maps_to_field(label, rules):
                     out["mapped"] += 1
                     continue
+                # checked AFTER the alias rules: a label some rule maps is mapped, whatever the
+                # ignore file says, so an over-broad ignore entry can never hide a real mapping
+                if vocab.ignored_reason(label, ign):
+                    out["ignored"] += 1
+                    ignored_labels.add(label)
+                    continue
                 out["unmapped"] += 1
                 c = counts.setdefault(label, {"label": label, "count": 0, "sample": ""})
                 c["count"] += 1
                 if not c["sample"]:
                     c["sample"] = str(fact.get("value") or "")[:60]
     out["distinct"] = len(counts)
+    out["ignored_distinct"] = len(ignored_labels)
     out["top"] = sorted(counts.values(), key=lambda x: (-x["count"], x["label"]))[:top_n]
     return out
 
@@ -755,10 +765,14 @@ class Watchdog:
             if u.get("error"):
                 lines.append(f"- **{slug}**: COULD NOT CHECK — {u['error']}")
                 continue
+            # the denominator is what COULD be mapped: identity and stock rows named in
+            # attribute-ignore.en.json are reported beside it, never inside it
             total = u["mapped"] + u["unmapped"]
             pct = f"{100.0 * u['unmapped'] / total:.0f}%" if total else "n/a"
             lines.append(f"- **{slug}**: {u['unmapped']}/{total} labels unmapped ({pct}), "
                          f"{u['distinct']} distinct, from {u['files']} pages"
+                         + (f", {u.get('ignored', 0)} ignored ({u.get('ignored_distinct', 0)} distinct)"
+                            if u.get("ignored") else "")
                          + (f" (sampled, {UNMAPPED_MAX_FILES} newest)" if u["truncated"] else ""))
             for x in u["top"]:
                 lines.append(f"    - {x['count']:5}  {x['label']}  |  {x['sample']}")

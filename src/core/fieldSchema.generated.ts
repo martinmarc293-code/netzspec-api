@@ -932,6 +932,28 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   max_ports_1g: {key: "max_ports_1g", de: "Max. 1GbE-Ports", en: "Max. 1GbE ports", type: "n", etim: [], icecat: null},
   // cisco-datasheets — Cisco states the mains cord rating on chassis sheets as an AC/DC current (AC 20A, DC 70A, 20A @ 100VDC). No dictionary f
   power_cord_rating: {key: "power_cord_rating", de: "Netzkabel-Nennwert", en: "Power cord rating", type: "s", etim: [], icecat: null},
+  // provantage — 243 rows on provantage ('China', 'Mexico', 'United States'). A procurement fact buyers filter on and nothing else in the
+  country_of_origin: {key: "country_of_origin", de: "Herkunftsland", en: "Country of origin", type: "s", etim: [], icecat: null},
+  // provantage — 205 rows ('Catalyst', 'Nexus', 'Board Pro'). Deliberately NOT `series`: provantage states both, and Product Series carri
+  product_line: {key: "product_line", de: "Produktlinie", en: "Product line", type: "s", etim: [], icecat: null},
+  // provantage — 281 rows over three sections ('Gigabit Ethernet', '10 Gigabit Ethernet', and multi-valued combinations). Type s, not ls:
+  ethernet_technology: {key: "ethernet_technology", de: "Ethernet-Technologie", en: "Ethernet technology", type: "s", etim: [], icecat: null},
+  // provantage — 204 rows ('10GBase-X', '10/100/1000Base-T 1000Base-X'). Kept apart from `standard` (Transmission standard, examples 1000
+  network_technology: {key: "network_technology", de: "Netzwerktechnologie", en: "Network technology", type: "s", etim: [], icecat: null},
+  // provantage — 182 rows ('Optical Fiber', 'Twisted Pair', 'Twisted Pair Optical Fiber'). The existing `media` is a closed enum (mmf|smf
+  media_type_supported: {key: "media_type_supported", de: "Unterstuetzter Medientyp", en: "Media type supported", type: "s", etim: [], icecat: null},
+  // provantage — 160 rows ('SFP+', 'Supervisor Engine', 'Shared Port Adapter'). `module_slots` counts the slots; nothing says what goes i
+  expansion_slot_type: {key: "expansion_slot_type", de: "Erweiterungssteckplatz-Typ", en: "Expansion slot type", type: "s", etim: [], icecat: null},
+  // provantage — 148 rows, values Yes/No only. Does NOT replace `mgmt_class` (managed|smart-managed|unmanaged): that needs a distinction 
+  manageable: {key: "manageable", de: "Verwaltbar", en: "Manageable", type: "b", etim: [], icecat: null},
+  // meraki — 160 rows over eight of Meraki's comparison tables, values '1' or '-'. No unit: the value is a bare count, exactly like u
+  dedicated_mgmt_interface: {key: "dedicated_mgmt_interface", de: "Dedizierte Management-Schnittstellen", en: "Dedicated management interfaces", type: "n", etim: [], icecat: null},
+  // router-switch — 18 rows ('Cisco 10008, Cisco 10012', 'Catalyst 6503-E: Slot 1 and 2; ...'). The chassis a module goes into, stated as pr
+  compatible_platform: {key: "compatible_platform", de: "Kompatible Plattform", en: "Compatible platform", type: "s", etim: [], icecat: null},
+  // router-switch — 17 rows ('Shared Port Adapter Interface Processor (SIP)', 'Ethernet Module'). What kind of module this is, which for the
+  module_type: {key: "module_type", de: "Modultyp", en: "Module type", type: "s", etim: [], icecat: null},
+  // router-switch — 22 rows across router-switch and provantage ('Hot-swappable, front-insertion line card', 'Form Factor Plug-in module'). 
+  installation_type: {key: "installation_type", de: "Installationsart", en: "Installation type", type: "s", etim: [], icecat: null},
 };
 
 export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
