@@ -9,21 +9,34 @@ import type { FastifyError, FastifyInstance, FastifyReply, FastifyRequest } from
 
 export type ErrorCode = "not_found" | "bad_request" | "unauthorized" | "rate_limited" | "internal";
 
+/**
+ * `details` are machine-readable additions to the envelope: the same facts the message states
+ * in prose, so a consumer does not have to parse English. Anything put here MUST also be
+ * declared on the ErrorEnvelope response schema in schemas.ts — fast-json-stringify drops
+ * undeclared properties silently, which is exactly the failure mode this API exists to avoid.
+ */
+export type ErrorDetails = Record<string, unknown>;
+
 export class ApiError extends Error {
-  constructor(public readonly status: number, public readonly code: ErrorCode, message: string) {
+  constructor(
+    public readonly status: number,
+    public readonly code: ErrorCode,
+    message: string,
+    public readonly details?: ErrorDetails,
+  ) {
     super(message);
     this.name = "ApiError";
   }
 }
 
 export const notFound = (message: string) => new ApiError(404, "not_found", message);
-export const badRequest = (message: string) => new ApiError(400, "bad_request", message);
+export const badRequest = (message: string, details?: ErrorDetails) => new ApiError(400, "bad_request", message, details);
 export const unauthorized = (message: string) => new ApiError(401, "unauthorized", message);
 
-export type ErrorEnvelope = { error: { code: ErrorCode; message: string } };
+export type ErrorEnvelope = { error: { code: ErrorCode; message: string } & ErrorDetails };
 
-export function envelope(code: ErrorCode, message: string): ErrorEnvelope {
-  return { error: { code, message } };
+export function envelope(code: ErrorCode, message: string, details?: ErrorDetails): ErrorEnvelope {
+  return { error: { code, message, ...(details ?? {}) } };
 }
 
 function codeForStatus(status: number): ErrorCode {
@@ -41,7 +54,7 @@ export function registerErrorHandling(app: FastifyInstance): void {
 
   app.setErrorHandler((err: unknown, req: FastifyRequest, reply: FastifyReply) => {
     if (err instanceof ApiError) {
-      reply.code(err.status).send(envelope(err.code, err.message));
+      reply.code(err.status).send(envelope(err.code, err.message, err.details));
       return;
     }
     const fe = err as FastifyError;

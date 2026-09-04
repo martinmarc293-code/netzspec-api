@@ -251,6 +251,13 @@ async function main(): Promise<void> {
     const all = await get("/v1/tools/switch-poe-finder/run");
     check("with no facet values the fixed_filter still applies (the no-PoE switch never appears)",
       all.body.items.length === 3 && !all.body.items.some((i: Json) => i.sku === SW_D), all.body.items.map((i: Json) => i.sku));
+
+    // api_key travels in the query string for a browser address bar (auth.ts), so it must be an
+    // accepted name on this route as well as on the schema-declared ones. Sent with NO Authorization
+    // header, so the 200 proves it both authenticated and survived the unknown-parameter check.
+    const viaQuery = await get(`/v1/tools/switch-poe-finder/run?api_key=${TOKEN}&limit=1`, {});
+    check("api_key in the query authenticates the tools run route and is not refused as unknown",
+      viaQuery.status === 200 && viaQuery.body?.items?.length === 1, viaQuery.body);
     check("the declared sort applies: highest poe_budget first, a part with no value last",
       all.body.items.map((i: Json) => i.sku).join(",") === `${SW_A},${SW_B},${SW_C}`, all.body.items.map((i: Json) => i.sku));
 

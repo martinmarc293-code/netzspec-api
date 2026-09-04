@@ -542,6 +542,128 @@ async function main(): Promise<void> {
     check("openapi lists /v1/facets and /v1/export", Boolean(spec.body?.paths?.["/v1/facets"]) && Boolean(spec.body?.paths?.["/v1/export"]), Object.keys(spec.body?.paths ?? {}));
   }
 
+  // ---- strict query parameters: an undeclared key is a 400 that NAMES it ------------------------
+  //
+  // The bug this replaces: `GET /v1/parts?sku=SFP-10G-ER&limit=10` answered 200 with ten unrelated
+  // parts. `sku` was not a filter, Fastify's Ajv defaults (removeAdditional: true, which only bites
+  // when a schema says additionalProperties: false — TypeBox writes no such keyword) left the key
+  // sitting unread in req.query, and the handler never looked at it. Nothing told the caller they
+  // had not been understood, which for a data API is worse than an error.
+  //
+  // Recorded 4 Sep 2026 against the UNCHANGED code, before strictQuery.ts existed — every one of
+  // these was a 200 with a full result set:
+  //   200 /v1/parts?sku=SFP-10G-ER&limit=10   -> 7 items
+  //   200 /v1/parts?nosuchparam=1             -> 7 items
+  //   200 /v1/search?q=c9200&nosuchparam=1    -> 3 items
+  //   200 /v1/facets?nosuchparam=1            -> 3 items
+  {
+    const rejects = async (url: string, key: string, mustList: string[]) => {
+      const r = await get(url);
+      const e = r.body?.error ?? {};
+      check(`SABOTAGE unknown query parameter on ${url.split("?")[0]} is 400 naming "${key}"`,
+        r.status === 400 && e.code === "bad_request" && String(e.message ?? "").includes(`"${key}"`), r.body);
+      check(`  ... and its accepted list comes from that route's own schema (${mustList.join(", ")})`,
+        Array.isArray(e.accepted_parameters) && mustList.every((p) => e.accepted_parameters.includes(p))
+        && JSON.stringify(e.unknown_parameters) === JSON.stringify([key]), e);
+      return r;
+    };
+    await rejects("/v1/parts?sku_prefixx=SFP&limit=10", "sku_prefixx", ["vendor", "category", "sku", "sku_prefix", "filter", "limit", "cursor", "api_key"]);
+    await rejects("/v1/search?q=9200&fuzzy=1", "fuzzy", ["q", "vendor", "limit", "api_key"]);
+    await rejects("/v1/facets?categories=switches", "categories", ["vendor", "category", "api_key"]);
+    // The tools run route declares additionalProperties: true and checks names against the tool
+    // definition instead; strictQuery.ts steps aside so there is ONE rejection, not two that could
+    // disagree — but it must produce the same envelope.
+    const toolRun = await get("/v1/tools/switch-poe-finder/run?poe_budgets_min=370");
+    check("SABOTAGE unknown parameter on /v1/tools/{id}/run is 400 naming the key",
+      toolRun.status === 400 && toolRun.body?.error?.code === "bad_request" && String(toolRun.body?.error?.message ?? "").includes('"poe_budgets_min"'), toolRun.body);
+    check("  ... in the same shape as every other route's refusal",
+      JSON.stringify(toolRun.body?.error?.unknown_parameters) === JSON.stringify(["poe_budgets_min"])
+      && Array.isArray(toolRun.body?.error?.accepted_parameters)
+      && ["poe_budget_min", "poe_budget_max", "limit", "cursor", "api_key"].every((p) => toolRun.body.error.accepted_parameters.includes(p)), toolRun.body?.error);
+
+    // Two unknown keys at once are both named, so a caller fixes one round trip, not two.
+    const two = await get("/v1/parts?sku_prefixx=SFP&colour=blue");
+    check("both unknown parameters are named in one 400",
+      two.status === 400 && JSON.stringify(two.body?.error?.unknown_parameters) === JSON.stringify(["sku_prefixx", "colour"]), two.body);
+
+    // api_key stays accepted everywhere: auth.ts reads it out of the query string, and it is not
+    // in any route's schema, so a check driven by the schema alone would have broken every
+    // browser-address-bar request.
+    const viaQuery = await app.inject({ method: "GET", url: `/v1/parts?api_key=${TOKEN}&limit=1`, headers: {} });
+    check("api_key in the query authenticates and is not refused as unknown", viaQuery.statusCode === 200 && JSON.parse(viaQuery.body).items.length === 1, { status: viaQuery.statusCode, body: viaQuery.body.slice(0, 200) });
+    const alongside = await get(`/v1/facets?api_key=${TOKEN}&vendor=cisco`);
+    check("api_key alongside a real parameter is accepted on every route", alongside.status === 200, alongside.body);
+    // The tools run route reaches its data through the fixture in tests/db/tools.test.ts, which is
+    // where the 200 is asserted; here the point is only that `api_key` is not one of the names it
+    // refuses. Written as "no unknown_parameters", so it cannot pass by the route erroring earlier.
+    const toolKey = await get(`/v1/tools/switch-poe-finder/run?api_key=${TOKEN}&limit=1`);
+    check("api_key is never refused as an unknown parameter on the tools run route",
+      !String(toolKey.body?.error?.message ?? "").includes("api_key") && toolKey.body?.error?.unknown_parameters === undefined, toolKey.body);
+
+    // A declared parameter still reaches its own validator: the strict check must not shadow it.
+    const stillValidated = await get("/v1/parts?limit=501");
+    check("a DECLARED parameter is still schema-validated after the strict check", stillValidated.status === 400 && !("unknown_parameters" in (stillValidated.body?.error ?? {})), stillValidated.body);
+  }
+
+  // ---- sku and sku_prefix: the filters that key used to be ignored ------------------------------
+  {
+    const switchesId = (await query<{ id: number }>("SELECT id FROM categories WHERE slug = 'switches'")).rows[0].id;
+    await query(`INSERT INTO parts (vendor_id, sku, slug, category_id, product_class)
+                 SELECT v.id, s.sku, lower(s.sku), $1, 'hardware'
+                   FROM vendors v, (VALUES ('SFP-10G-ER'), ('SFP-10G-LR'), ('SFP-10G-SR'), ('SFP-1G-SX'), ('GLC-SX-MMD')) AS s(sku)
+                  WHERE v.slug = 'cisco'`, [switchesId]);
+
+    const exact = await get("/v1/parts?sku=sfp-10g-er");
+    check("sku= is an exact, case-insensitive match, not a substring",
+      exact.status === 200 && exact.body?.items?.length === 1 && exact.body.items[0].sku === "SFP-10G-ER", exact.body?.items?.map((x: Json) => x.sku));
+    const exactUpper = await get("/v1/parts?sku=SFP-10G-ER");
+    check("sku= in the vendor's own casing finds the same one part",
+      exactUpper.body?.items?.length === 1 && exactUpper.body.items[0].sku === "SFP-10G-ER", exactUpper.body?.items?.map((x: Json) => x.sku));
+    const partial = await get("/v1/parts?sku=SFP-10G");
+    check("SABOTAGE sku= is EXACT: a prefix passed to it matches nothing (that is what sku_prefix is for)",
+      partial.status === 200 && partial.body?.items?.length === 0, partial.body?.items?.map((x: Json) => x.sku));
+    const nothing = await get("/v1/parts?sku=NOT-A-REAL-SKU");
+    check("sku= for a part that does not exist is an empty 200, not the catalogue",
+      nothing.status === 200 && nothing.body?.items?.length === 0 && nothing.body?.next_cursor === null, nothing.body);
+
+    const prefix = await get("/v1/parts?sku_prefix=SFP-10G-");
+    check("sku_prefix= returns exactly the SKUs with that prefix",
+      JSON.stringify((prefix.body?.items ?? []).map((x: Json) => x.sku)) === JSON.stringify(["SFP-10G-ER", "SFP-10G-LR", "SFP-10G-SR"]), prefix.body?.items?.map((x: Json) => x.sku));
+    const prefixLower = await get("/v1/parts?sku_prefix=sfp-10g-");
+    check("sku_prefix= is case-insensitive",
+      JSON.stringify((prefixLower.body?.items ?? []).map((x: Json) => x.sku)) === JSON.stringify(["SFP-10G-ER", "SFP-10G-LR", "SFP-10G-SR"]), prefixLower.body?.items?.map((x: Json) => x.sku));
+    check("SABOTAGE sku_prefix= excludes the near miss SFP-1G-SX and everything else",
+      !(prefix.body?.items ?? []).some((x: Json) => x.sku === "SFP-1G-SX" || x.sku === "GLC-SX-MMD"), prefix.body?.items?.map((x: Json) => x.sku));
+    const wildcard = await get("/v1/parts?sku_prefix=SFP-1%25G");
+    check("SABOTAGE a % in sku_prefix is a literal, not a wildcard (it would otherwise match SFP-10G-*)",
+      wildcard.status === 200 && wildcard.body?.items?.length === 0, wildcard.body?.items?.map((x: Json) => x.sku));
+    const underscore = await get("/v1/parts?sku_prefix=SFP-1_G");
+    check("SABOTAGE an _ in sku_prefix is a literal too", underscore.status === 200 && underscore.body?.items?.length === 0, underscore.body?.items?.map((x: Json) => x.sku));
+
+    const both = await get("/v1/parts?sku_prefix=SFP-10G-&vendor=cisco&limit=2");
+    check("sku_prefix ANDs with the other filters and pages", both.body?.items?.length === 2 && typeof both.body?.next_cursor === "string", both.body);
+    const wrongVendor = await get("/v1/parts?sku=SFP-10G-ER&vendor=hpe");
+    check("sku ANDs with vendor rather than overriding it", wrongVendor.body?.items?.length === 0, wrongVendor.body);
+
+    // The index exists and both predicates can use it. With five rows the planner would seq-scan
+    // on cost whatever we did, so seq scans are forced off: what is being proved is that the
+    // predicate SHAPE is index-able, which is the thing a migration can get wrong.
+    const plan = async (sql: string, params: unknown[]): Promise<string> =>
+      (await query<{ "QUERY PLAN": string }>(`EXPLAIN ${sql}`, params)).rows.map((r) => r["QUERY PLAN"]).join(" ");
+    await query("SET enable_seqscan = off");
+    const pExact = await plan("SELECT id FROM parts WHERE sku_norm = upper($1)", ["sfp-10g-er"]);
+    const pPrefix = await plan("SELECT id FROM parts WHERE sku_norm LIKE upper($1)", ["sfp-10g-%"]);
+    await query("RESET enable_seqscan");
+    check("sku= uses parts_sku_norm_prefix_idx (0006), not a scan with upper() on every row", pExact.includes("parts_sku_norm_prefix_idx"), pExact);
+    check("sku_prefix= becomes a range scan on the same index (~>=~ … ~<~ …)", pPrefix.includes("parts_sku_norm_prefix_idx") && pPrefix.includes("~>=~"), pPrefix);
+
+    await query("DELETE FROM parts WHERE sku IN ('SFP-10G-ER', 'SFP-10G-LR', 'SFP-10G-SR', 'SFP-1G-SX', 'GLC-SX-MMD')");
+    resetStatsCache();
+    resetFacetsCache();
+    const back = await get("/v1/parts");
+    check("the fixture is back to its three parts after cleanup", back.body?.items?.length === 3, back.body?.items?.map((x: Json) => x.sku));
+  }
+
   // ---- rate limit: prove the 429 path with a small budget --------------------------------------
   {
     const small = await buildApp({ config, gitSha: "test-sha", logger: false, rateLimitMax: 2 });

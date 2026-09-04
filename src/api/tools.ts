@@ -312,7 +312,14 @@ export function runFilterTerms(tool: Tool, query: Record<string, unknown>): stri
     const p = params.get(name);
     if (!p) {
       const offered = [...params.values()].filter((x) => x.key !== null).map((x) => x.name);
-      throw badRequest(`unknown parameter "${name}" for tool "${tool.id}"; its facet parameters are ${offered.length ? offered.join(", ") : "(none)"}`);
+      // Same envelope as strictQuery.ts raises for a schema-declared route, so a consumer reads
+      // `error.unknown_parameters` the same way whatever route refused it. The accepted list is
+      // every name the tool actually takes (facets plus limit/cursor/api_key and any kind-specific
+      // ones), never a list written by hand.
+      throw badRequest(
+        `unknown parameter "${name}" for tool "${tool.id}"; its facet parameters are ${offered.length ? offered.join(", ") : "(none)"}`,
+        { unknown_parameters: [name], accepted_parameters: [...params.keys()].sort() },
+      );
     }
     if (p.key === null) continue;   // limit / cursor / lifecycle dates / part — handled by the query
     const values = Array.isArray(rawValue) ? rawValue : [rawValue];

@@ -1,0 +1,32 @@
+-- 0006_parts_sku_lookup.sql — the index behind the case-insensitive SKU lookups on GET /v1/parts.
+--
+-- Why. `?sku=` and `?sku_prefix=` were added after a caller asked for `?sku=SFP-10G-ER` and was
+-- answered with ten unrelated parts: the key was not a filter and nothing said so. Both new
+-- filters resolve through the STORED generated column parts.sku_norm (upper(sku)), which already
+-- exists; what did not exist was an index either predicate could use ON ITS OWN.
+--
+-- 0001 created `parts_sku_norm_idx ON parts (vendor_id, sku_norm)`. That index answers
+-- "this vendor's SKU" and nothing else: with the leading column absent, a bare
+-- `sku_norm = upper($1)` cannot probe it, and `?sku=` carries no vendor.
+--
+-- Why text_pattern_ops rather than the default operator class. A btree under a non-C collation
+-- cannot answer a prefix LIKE: `sku_norm LIKE 'SFP-10G-%'` needs an opclass that orders by raw
+-- byte value before the planner will rewrite the pattern into a range scan. Without it the prefix
+-- filter would degrade to a sequential scan over 89k rows and nothing would report that it had.
+--
+-- ONE index, not two. text_pattern_ops also answers plain equality (collation affects ordering,
+-- not equality, under any deterministic collation), so a second index in the default opclass
+-- would be write amplification on a table the pipeline touches constantly for no read it serves.
+-- Verified on netzspec_test5 with enable_seqscan off, both through parameters as pg sends them:
+--   sku_norm = upper($1)     -> Index Scan using parts_sku_norm_prefix_idx, Index Cond: (sku_norm = '…')
+--   sku_norm LIKE upper($1)  -> Bitmap Index Scan, Index Cond: (sku_norm ~>=~ '…' AND sku_norm ~<~ '…')
+-- (the second line is the proof that wrapping the parameter in upper() does not cost the index:
+-- upper() is immutable, so it folds to a constant before the prefix is derived.)
+--
+-- Additive and idempotent: no column, constraint or row is touched, and re-running changes
+-- nothing. The previous release runs unchanged on it.
+--
+-- NOT CONCURRENTLY on purpose: db/migrate.ts wraps each migration in a transaction, which
+-- CREATE INDEX CONCURRENTLY cannot run inside. parts is ~89k rows, so the write lock is short.
+
+CREATE INDEX IF NOT EXISTS parts_sku_norm_prefix_idx ON parts (sku_norm text_pattern_ops);

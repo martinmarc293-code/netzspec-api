@@ -13,6 +13,10 @@ export const Nullable = <T extends TSchema>(t: T) => Type.Unsafe<Static<T> | nul
 /** Any JSON value, including null: fact values, run manifests. */
 export const AnyJson = Type.Unsafe<unknown>({});
 
+// `unknown_parameters` / `accepted_parameters` are the machine-readable half of the 400 that
+// strictQuery.ts raises. They are DECLARED here because fast-json-stringify serialises an error
+// body against this schema and drops anything it does not know about — an undeclared field would
+// vanish between the throw and the wire, silently, which is the bug class this API refuses.
 export const ErrorEnvelope = Type.Object({
   error: Type.Object({
     code: Type.Union([
@@ -20,6 +24,8 @@ export const ErrorEnvelope = Type.Object({
       Type.Literal("rate_limited"), Type.Literal("internal"),
     ]),
     message: Type.String(),
+    unknown_parameters: Type.Optional(Type.Array(Type.String(), { description: "query parameters this route does not declare" })),
+    accepted_parameters: Type.Optional(Type.Array(Type.String(), { description: "every query parameter this route does declare, from its own schema" })),
   }),
 });
 

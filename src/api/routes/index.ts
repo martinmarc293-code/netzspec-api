@@ -1,7 +1,7 @@
-// src/api/routes/index.ts — the /v1 plugin: authentication, the per-key rate limit, and every
-// versioned route, in one encapsulated scope.
+// src/api/routes/index.ts — the /v1 plugin: authentication, the strict query-parameter check,
+// the per-key rate limit, and every versioned route, in one encapsulated scope.
 //
-// Both cross-cutting concerns are registered HERE rather than on the root instance so that
+// The cross-cutting concerns are registered HERE rather than on the root instance so that
 // /health, /docs and /openapi.json stay keyless and unlimited, and so that no /v1 route can
 // be added without inheriting both. The limiter runs at preHandler — after the onRequest
 // auth hook — so its key is the api_keys id: 600/min is per key, and an unauthenticated
@@ -11,6 +11,7 @@ import rateLimit from "@fastify/rate-limit";
 import type { Config } from "../../config.js";
 import { registerAuth } from "../auth.js";
 import { ApiError } from "../errors.js";
+import { registerStrictQuery } from "../strictQuery.js";
 import { categoriesRoutes } from "./categories.js";
 import { changesRoutes } from "./changes.js";
 import { compareRoutes } from "./compare.js";
@@ -37,6 +38,9 @@ export type V1Options = { config: Config; rateLimitMax?: number };
 
 export async function v1Routes(app: FastifyInstance, opts: V1Options): Promise<void> {
   registerAuth(app);
+  // BEFORE every route below: an onRoute hook, so a route added later cannot be written without
+  // the check. An undeclared query parameter is a 400 naming it, never a full, wrong result set.
+  registerStrictQuery(app);
   await app.register(rateLimit, {
     global: true,
     max: opts.rateLimitMax ?? RATE_LIMIT_PER_MINUTE,

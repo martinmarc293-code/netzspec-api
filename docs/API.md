@@ -32,6 +32,23 @@ answer is `429` with `Retry-After` and the envelope.
 - Errors return `{ "error": { "code": "not_found" | "bad_request" | "unauthorized" | "rate_limited" | "internal", "message": "..." } }`
   with the matching HTTP status — including `404` for a route that does not exist and `400`
   for a query parameter that fails validation. A `500` never carries a stack.
+- **A query parameter the route does not declare is `400`, never ignored.** Every endpoint
+  accepts exactly the parameters listed for it below, plus `api_key`; anything else — a typo, a
+  renamed parameter, one you remembered from another route — is refused, and the body names both
+  halves of the problem so a client can fix it without reading the docs:
+
+  ```
+  GET /v1/parts?sku_prefixx=SFP-10G-&api_key=KEY   ->  400
+  { "error": { "code": "bad_request",
+               "message": "unknown query parameter \"sku_prefixx\" for GET /v1/parts; this route accepts api_key, category, class, cursor, family, filter, has, limit, q, sku, sku_prefix, updated_since, vendor",
+               "unknown_parameters": ["sku_prefixx"],
+               "accepted_parameters": ["api_key", "category", "class", "cursor", "family", "filter", "has", "limit", "q", "sku", "sku_prefix", "updated_since", "vendor"] } }
+  ```
+
+  `accepted_parameters` is read from the route's own schema, so it cannot drift from what the
+  route really takes. Every unknown key in one request is named at once. This exists because
+  `?sku=SFP-10G-ER` used to answer `200` with the unfiltered catalogue: the parameter was not a
+  filter, and nothing told the caller they had not been understood.
 - Part GETs (`/v1/parts/{vendor}/{sku}` and its `/facts`, `/history`, `/conflicts`) send a
   weak `ETag` (from sku + `updated_at` with microseconds) and `Last-Modified`, and answer
   `304` with an empty body to a matching `If-None-Match`. The outward-looking sub-resources
@@ -77,10 +94,24 @@ The dictionary as the database holds it (the table `facts.field_key` references)
 
 ### `GET /v1/parts`
 Query: `vendor`, `category`, `family`, `class` (`hardware | license | service | software |
-accessory | bundle | unknown`), `q` (case-insensitive substring on sku and name — use
-`/v1/search` for fuzzy matching), `has` (comma list of `facts`, `lifecycle`, `images`),
+accessory | bundle | unknown`), `sku`, `sku_prefix`, `q` (case-insensitive substring on sku and
+name — use `/v1/search` for fuzzy matching), `has` (comma list of `facts`, `lifecycle`, `images`),
 `updated_since` (ISO timestamp, strictly after), `filter`, `limit`, `cursor`.
 Ordered by `(sku, id)`. Unknown `class` / `has` values and a non-ISO `updated_since` are `400`.
+
+`sku` is an **exact** match on the part number, case-insensitive, so a caller who already knows
+the part number does not have to guess at `q`'s substring behaviour. `sku_prefix` matches the
+start of the SKU, also case-insensitive; `%` and `_` in it are literal characters, not wildcards.
+Both AND with the other filters (add `vendor=` to disambiguate a number two vendors both use),
+and both resolve through the indexed `upper(sku)` column, so either is a probe rather than a scan.
+
+```
+GET /v1/parts?sku=sfp-10g-er&api_key=KEY          -> the one part SFP-10G-ER
+GET /v1/parts?sku_prefix=SFP-10G-&api_key=KEY     -> SFP-10G-ER, SFP-10G-LR, SFP-10G-SR, …
+```
+
+`sku` matching nothing is an empty `200`, not a `404`: it is a filter, not a lookup. For the full
+record of one part use `/v1/parts/{vendor}/{sku}`, which does `404`.
 
 `filter` is a comma-separated list of `key op value` over **current rendered** facts:
 `filter=poe_budget>=370,poe_standard=802.3bt,stackable=true`. Terms AND together.

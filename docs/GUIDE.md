@@ -16,6 +16,8 @@ https://api.netzspec.com/v1/vendors?api_key=KEY
 https://api.netzspec.com/v1/categories?vendor=cisco&api_key=KEY
 https://api.netzspec.com/v1/facets?vendor=cisco&category=switches&api_key=KEY
 https://api.netzspec.com/v1/parts?vendor=cisco&category=switches&filter=poe_budget>=370&limit=20&api_key=KEY
+https://api.netzspec.com/v1/parts?sku=sfp-10g-er&api_key=KEY
+https://api.netzspec.com/v1/parts?sku_prefix=SFP-10G-&limit=50&api_key=KEY
 https://api.netzspec.com/v1/parts/cisco/C9200L-24P-4G?api_key=KEY
 https://api.netzspec.com/v1/parts/cisco/C9200L-24P-4G/similar?api_key=KEY
 https://api.netzspec.com/v1/parts/cisco/WS-C3650-24PD/successors?api_key=KEY
@@ -67,6 +69,16 @@ a part page would show. Page with `next_cursor`.
 
 Other selectors: `family=Cisco Catalyst 9200`, `class=hardware`, `has=facts,lifecycle,images`,
 `q=9200L` (substring on SKU and name), `updated_since=<ISO>`.
+
+When you already know the part number, do not reach for `q`:
+```bash
+# exact, case-insensitive — one part
+curl -s -H "Authorization: Bearer $KEY" "https://api.netzspec.com/v1/parts?sku=sfp-10g-er"
+# everything in a range of part numbers, case-insensitive prefix
+curl -s -H "Authorization: Bearer $KEY" "https://api.netzspec.com/v1/parts?sku_prefix=SFP-10G-&limit=50"
+```
+`%` and `_` inside `sku_prefix` are literal characters. A `sku=` that matches nothing is an
+empty `200` — it is a filter, not a lookup; `/v1/parts/{vendor}/{sku}` is the one that `404`s.
 
 Fuzzy lookup when you only have a fragment:
 ```bash
@@ -129,3 +141,18 @@ re-read a part to discover what changed; the export tells you.
 `{ "error": { "code", "message" } }` with the matching status: `400` for a bad parameter (the
 message names it), `401` for a missing or revoked key, `404` for an unknown part or route,
 `429` with `Retry-After` beyond 600 requests per minute per key. A `500` never carries a stack.
+
+A parameter the endpoint does not know is `400` too — never silently dropped, which would hand
+you a full result set for a question the API did not understand. The body says which key it did
+not recognise and which ones that route takes:
+
+```bash
+curl -s "https://api.netzspec.com/v1/parts?sku_prefixx=SFP-10G-&api_key=KEY"
+# 400 { "error": { "code": "bad_request",
+#                  "message": "unknown query parameter \"sku_prefixx\" for GET /v1/parts; this route accepts api_key, category, class, cursor, family, filter, has, limit, q, sku, sku_prefix, updated_since, vendor",
+#                  "unknown_parameters": ["sku_prefixx"],
+#                  "accepted_parameters": ["api_key", "category", …] } }
+```
+
+`api_key` is accepted on every endpoint. If you are unsure what a route takes, send a deliberate
+nonsense parameter and read `accepted_parameters` — it comes from the route's own schema.

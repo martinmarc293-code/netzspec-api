@@ -12,9 +12,14 @@ import { filterDictionary } from "./fields.js";
 import { SUMMARY_COLUMNS, SUMMARY_FROM, page, toSummary, type SummaryRow } from "./shared.js";
 
 export type PartsListParams = {
-  vendor?: string; category?: string; family?: string; class?: string; q?: string;
+  vendor?: string; category?: string; family?: string; class?: string; sku?: string; sku_prefix?: string; q?: string;
   has?: string; updated_since?: string; filter?: string; limit: number; cursor?: string;
 };
+
+/** Escape the LIKE metacharacters so a caller's `%` or `_` is a literal, not a wildcard. */
+function likeLiteral(v: string): string {
+  return v.replace(/[\\%_]/g, (ch) => "\\" + ch);
+}
 
 const HAS_CLAUSES: Record<string, string> = {
   facts: "EXISTS (SELECT 1 FROM facts f WHERE f.part_id = p.id AND f.superseded_by IS NULL AND f.state IN ('verified', 'corroborated'))",
@@ -46,8 +51,21 @@ export async function listParts(params: PartsListParams): Promise<{ items: PartS
     if (!PRODUCT_CLASSES.has(params.class)) throw badRequest(`unknown class "${params.class}"`);
     where.push(`p.product_class = ${bind(params.class)}::product_class`);
   }
+  // sku / sku_prefix both go through the STORED generated column sku_norm (upper(sku)), so a
+  // case-insensitive lookup is an index probe rather than a scan with a function on every row:
+  // migration 0006 adds parts (sku_norm text_pattern_ops), which answers the equality AND the
+  // prefix range. upper() is applied in Postgres on both sides, never in JavaScript, so the API
+  // and the generated column cannot disagree about what "upper case" means — and because upper()
+  // is immutable the planner folds it before deriving the prefix, so the index is still used.
+  // `q` is the substring search and stays trigram/ILIKE; these two are the exact-and-prefix
+  // answers a caller who KNOWS the part number wants, and until they existed `?sku=` was a
+  // silently ignored key that returned the unfiltered catalogue.
+  if (params.sku !== undefined && params.sku !== "") where.push(`p.sku_norm = upper(${bind(params.sku)})`);
+  if (params.sku_prefix !== undefined && params.sku_prefix !== "") {
+    where.push(`p.sku_norm LIKE upper(${bind(likeLiteral(params.sku_prefix) + "%")})`);
+  }
   if (params.q !== undefined && params.q !== "") {
-    const like = bind("%" + params.q.replace(/[\\%_]/g, (ch) => "\\" + ch) + "%");
+    const like = bind("%" + likeLiteral(params.q) + "%");
     where.push(`(p.sku ILIKE ${like} OR p.name ILIKE ${like})`);
   }
   if (params.has !== undefined) where.push(...parseHas(params.has));
