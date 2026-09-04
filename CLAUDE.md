@@ -168,6 +168,16 @@ full; the ones that bite hardest here are restated.
   part we hold is refused). First batch: 6 promoted, 4 rejected by name, 21 variants landed.
   Agent in flight: apply-acquired resolves parts through aliases/`=`/declared variants and
   counts how it matched (the meraki NO LANDING alarm).
+  Landing round landed: provantage discovery is vendor-restricted (the searched vendor's rows
+  only: 312 → 168 tasks over today's 639 searches; 199 refused were AddOn/Axiom/ENET/…), the
+  lease carries the task's vendor so a discovered page reaches apply WITH a part_id (the true
+  cause of `sku_unknown 208`: part_id NULL → vendor NULL → the part lookup never ran);
+  router-switch never emits a search heading as a SKU; the planner refuses un-findable keys
+  (592 of today's 2,325 lookups would not have been queued); watchdog reads landing from the
+  `runs` rows (NO LANDING / LOW LANDING / NO FACTS / STALE RUN). FOUND for later: the shared
+  `is_part_number` refuses real Cisco PIDs `886VA`, `8201=`, `9800-40`; 14 foreign-shaped
+  parts sit under the cisco vendor (`01FT562`, `03-100261-01`, `QDD-2X400G-FR4` family
+  "Juniper"); itprice lands 700/1,366 parts with ZERO facts (its inventory maps no field).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
