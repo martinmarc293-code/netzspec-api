@@ -57,8 +57,11 @@ export function mapLabel(label: string): string | null {
 // (hours)", "Weight ... [Kilograms]", "Dimensions ... in centimeters", "Measured P(W)".
 const LABEL_UNITS: [RegExp, string][] = [
   [/\bhours?\b|\(h\)/i, "h"],
-  [/\[kilograms?\]|\bkg\b/i, "kg"],
-  [/\[pounds?\]|\blbs?\b/i, "lb"],
+  // "Kilograms" and "Pounds" also occur as the whole label, in a units-only column header that
+  // the row expander folds in — 31 weights arrived as a bare number under the single word
+  // "Kilograms" and were rejected UNIT_MISSING with the unit standing where the name should be.
+  [/\[kilograms?\]|\bkilograms?\b|\bkg\b/i, "kg"],
+  [/\[pounds?\]|\bpounds?\b|\blbs?\b/i, "lb"],
   [/centimet|\bcm\b/i, "cm"],
   [/\binch(es)?\b/i, "in"],
   [/P\(W\)|\bwatts?\b|\(W\)/i, "W"],
@@ -83,6 +86,11 @@ const LABEL_UNITS: [RegExp, string][] = [
   [/\(\s*Hz\s*\)/i, "Hz"],
   [/\(\s*ms\s*\)/i, "ms"],
   [/\(\s*mm\s*\)/i, "mm"],
+  // "New connections per second" / "Connections Per Second" / "(CPS)". The label SAYS the unit in
+  // words; the cell is a bare "9,000". Only the connections wording is read, deliberately —
+  // "packets per second" and "megabits per second" are different dimensions, and mapping those to
+  // a plain per-second rate would offer the wrong unit to a field that cannot use it.
+  [/\bconnections?\s+per\s+second\b|\bconnections?\s*\/\s*se?c\b|\(\s*CPS\s*\)/i, "1/s"],
   // NOT (C) -> °C. In Cisco's server tables "(C)" is the unit row under "Cores" and means a
   // COUNT; mapping it to Celsius turned a 60-core CPU into a 60-degree one. A real temperature
   // column is written °C or "Celsius", both of which the centimet/°C rules above already catch.

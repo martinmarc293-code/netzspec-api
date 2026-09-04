@@ -148,6 +148,52 @@ const entry = (k: string, value: unknown, tier: number, doc: string, rev?: strin
     "normalises_equal", same ? "normalises_equal" : "DIVERGED");
 }
 
+// ---- S19 — a unit conversion that needs an OFFSET, and its twin ----------------------------------
+// The unit table maps a token to a FACTOR, which cannot express Fahrenheit. Expressing it as one
+// reads 75 °F as 75 °C — inside the plausibility band, so nothing downstream would ever catch it.
+// Both halves are asserted: the conversion must happen for "75 F" and must NOT happen without it.
+{
+  const f = normalizeField("switches", "temp_operating", "75 F", { locale: "en" });
+  const c = normalizeField("switches", "temp_operating", "75 °C", { locale: "en" });
+  const fv = f.ok ? JSON.stringify(f.value) : f.reason;
+  const cv = c.ok ? JSON.stringify(c.value) : c.reason;
+  check("S19", "75 F must be 23.9 C while 75 C stays 75",
+    '{"min":23.9,"max":23.9}/{"min":75,"max":75}', `${fv}/${cv}`);
+}
+
+// ---- S20 — a bare number on a field whose unit has a magnitude prefix ------------------------------
+// convert() used to read "this canonical unit has no CANON row" as "this is a counting word" and
+// store a bare number as already canonical. supply_current (mA) therefore REFUSED "0.5 A" as an
+// unknown unit and ACCEPTED "0.5" as 0.5 mA — a thousandfold error from the same measurement the
+// strict path had just rejected. "Count-like" is now a declared property, never an inference.
+{
+  const bare = normalizeField("security", "supply_current", "0.5", { locale: "en" });
+  const amps = normalizeField("security", "supply_current", "0.5 A", { locale: "en" });
+  const milli = normalizeField("security", "supply_current", "500 mA", { locale: "en" });
+  const got = `${bare.ok ? "STORED" : bare.reason}/${amps.ok ? amps.value : amps.reason}/${milli.ok ? milli.value : milli.reason}`;
+  check("S20", "bare 0.5 refused on a mA field; 0.5 A and 500 mA agree", "UNIT_MISSING/500/500", got);
+}
+
+// ---- S21 — a label's unit is used only when it belongs to the same dimension -----------------------
+// Shape-C tables put the unit in the row label. A label unit from ANOTHER dimension is evidence the
+// row was read out of the wrong column, so it must be refused rather than applied to the number.
+{
+  const good = normalizeField("switches", "weight", "12.5", { locale: "en", unitHint: "kg" });
+  const cross = normalizeField("switches", "weight", "350", { locale: "en", unitHint: "W" });
+  check("S21", "a (W) label on a weight field is refused, a (kg) one applied",
+    "12.5/UNIT_UNKNOWN", `${good.ok ? good.value : good.reason}/${cross.ok ? "STORED" : cross.reason}`);
+}
+
+// ---- S22 — a transposed table offers the model name as the measurement -----------------------------
+// Read label-major, a model-major spec table gives every row the PID as its value. The digits inside
+// are the trap: "C1300-8FP-2G" yields 1300, and one label hint away that is "1300 Gbit/s".
+{
+  const pid = normalizeField("switches", "switching_capacity", "C1300-8FP-2G", { locale: "en", unitHint: "Gbit/s" });
+  const real = normalizeField("switches", "mtbf", "480770", { locale: "en", unitHint: "h" });
+  check("S22", "a PID in a numeric cell is VALUE_IS_PID, an MTBF figure is not",
+    "VALUE_IS_PID/480770", `${pid.ok ? "STORED " + String(pid.value) : pid.reason}/${real.ok ? real.value : real.reason}`);
+}
+
 console.log("case | defect                                           | expected                   | got");
 console.log("-".repeat(132));
 for (const r of results) console.log(r);

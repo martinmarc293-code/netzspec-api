@@ -13,15 +13,25 @@
 // caller quarantines it. Storing an unparsed string as if it were a spec is the exact thing this
 // module exists to prevent.
 
-import { FIELD_DICTIONARY, domainFor, unitFor } from "./fieldSchema.js";
+import { FIELD_DICTIONARY, domainFor, unitFor, type FieldType } from "./fieldSchema.js";
 import { parsePorts } from "./portParse.js";
+// The transposed-table detector needs "is this string a Cisco PID?". That question already has
+// ONE answer in this repo (src/pipeline/partNumber.ts, the twin of scraper/sources/base.py, held
+// in step with it by tests/db/apply-enumeration.test.ts over a shared fixture list). A local
+// re-implementation here would be a third copy of the same rule and therefore a third copy of
+// the same bug — CLAUDE.md, "Three copies of a helper". The module imports nothing, so the
+// direction of the reference costs nothing at runtime.
+import { isPartNumber } from "../pipeline/partNumber.js";
 
 // 1.1.0: unit-less counts read their magnitude suffix ("360K", "2 million") instead of dropping it.
-export const NORM_VERSION = "1.1.0";
+// 1.2.0: imperial and alternate units convert instead of being refused; "count-like" is an
+//        explicit property rather than the absence of a CANON row; a value that is a part number
+//        is refused as VALUE_IS_PID rather than mined for the digits inside it.
+export const NORM_VERSION = "1.2.0";
 
 export type NormReason =
   | "PARSE_FAIL" | "UNIT_MISSING" | "UNIT_UNKNOWN" | "ENUM_VIOLATION"
-  | "RANGE_VIOLATION" | "UNMAPPED_HEADER" | "STRUCT_UNPARSED";
+  | "RANGE_VIOLATION" | "UNMAPPED_HEADER" | "STRUCT_UNPARSED" | "VALUE_IS_PID";
 
 export type NormOk = { ok: true; value: unknown; unit?: string; norm_v: string };
 export type NormFail = { ok: false; reason: NormReason; detail: string; norm_v: string };
@@ -103,8 +113,9 @@ const UNITS: Record<string, [string, number]> = {
   // depends on not making.
   "va": ["apparentpower", 1], "kva": ["apparentpower", 1e3],
   // frequency, current and DDR transfer rate — introduced by the server vocabulary
-  "ghz": ["freq", 1e9], "mhz": ["freq", 1e6], "khz": ["freq", 1e3],
+  "ghz": ["freq", 1e9], "mhz": ["freq", 1e6], "khz": ["freq", 1e3], "thz": ["freq", 1e12],
   "a": ["current", 1], "ma": ["current", 1e-3], "amp": ["current", 1], "amps": ["current", 1],
+  "ka": ["current", 1e3],
   "mt/s": ["transferrate", 1e6], "gt/s": ["transferrate", 1e9],
   // mass and length, spelled out — same reason
   "kilogram": ["mass", 1e3], "kilograms": ["mass", 1e3], "gram": ["mass", 1], "grams": ["mass", 1],
@@ -121,23 +132,52 @@ const UNITS: Record<string, [string, number]> = {
   // cable length mistakenly given in nm trips the plausibility band rather than being stored)
   "nm": ["length", 1e-9], "mm": ["length", 1e-3], "cm": ["length", 1e-2], "km": ["length", 1e3],
   "in": ["length", 0.0254], "inch": ["length", 0.0254], "inches": ["length", 0.0254], "ft": ["length", 0.3048],
-  // mass — base gram
+  // mass — base gram. The ounce is the AVOIRDUPOIS ounce (28.349523125 g exactly, 1/16 lb), which
+  // is what Cisco's US sheets mean by "35.2 oz (0.99 kg)"; the fluid ounce is a volume and never
+  // appears on a hardware datasheet.
   "kg": ["mass", 1e3], "lb": ["mass", 453.59237], "lbs": ["mass", 453.59237],
+  "oz": ["mass", 28.349523125], "ounce": ["mass", 28.349523125], "ounces": ["mass", 28.349523125],
   // duration — base second
   "ns": ["duration", 1e-9], "µs": ["duration", 1e-6], "us": ["duration", 1e-6],
   "ms": ["duration", 1e-3], "s": ["duration", 1], "sek": ["duration", 1],
   "h": ["duration", 3600], "std": ["duration", 3600], "stunden": ["duration", 3600],
   "stunde": ["duration", 3600], "hours": ["duration", 3600], "hrs": ["duration", 3600], "hr": ["duration", 3600],
   // identity dimensions
-  "°c": ["tempC", 1], "%": ["percent", 1], "v": ["voltage", 1], "vac": ["voltage", 1], "vdc": ["voltage", 1],
+  "°c": ["tempC", 1], "celsius": ["tempC", 1],
+  "%": ["percent", 1], "v": ["voltage", 1], "vac": ["voltage", 1], "vdc": ["voltage", 1],
+  "kv": ["voltage", 1e3], "mv": ["voltage", 1e-3],
   "hz": ["freq", 1], "btu/h": ["heat", 1], "btu/hr": ["heat", 1], "btu": ["heat", 1],
+  "btuh": ["heat", 1], "btu/hour": ["heat", 1],
   "db": ["db", 1], "db(a)": ["dba", 1], "dba": ["dba", 1], "dbm": ["dbm", 1],
+  "dbi": ["dbi", 1], "dbmv": ["dbmv", 1],
   "awg": ["awg", 1], "he": ["ru", 1], "ru": ["ru", 1],
   "einträge": ["count", 1], "eintraege": ["count", 1], "entries": ["count", 1],
+  // Fahrenheit is the one AFFINE conversion here: it needs an offset, not a factor, so its
+  // dimension is deliberately NOT tempC and the arithmetic lives in AFFINE below. Cisco's US
+  // sheets state the operating range in °F with no metric restatement on ~150 rows.
+  "°f": ["tempF", 1], "fahrenheit": ["tempF", 1],
+  // remaining canonical units the SERVER / WIRELESS / OPTICAL vocabularies declared. Each is
+  // listed here AND in CANON; tests/specNormalize.units.test.mjs fails if a dictionary field
+  // ever declares a unit that is in neither table.
+  "iops": ["iops", 1], "kiops": ["iops", 1e3],
+  "ohm": ["resistance", 1], "ohms": ["resistance", 1], "kohm": ["resistance", 1e3],
+  "lux": ["illuminance", 1], "lx": ["illuminance", 1],
+  "ps": ["duration", 1e-12], "ps/nm": ["dispersion", 1],
+  "deg": ["angle", 1], "degree": ["angle", 1], "degrees": ["angle", 1], "°": ["angle", 1],
+  "grms": ["grms", 1], "v/mw": ["responsivity", 1], "pa/√hz": ["noisedensity", 1],
+  "km/h": ["speed", 1], "kmh": ["speed", 1], "kph": ["speed", 1], "mph": ["speed", 1.609344],
+  "cps": ["persecond", 1], "1/s": ["persecond", 1], "/s": ["persecond", 1],
+  "year": ["years", 1], "years": ["years", 1], "jahre": ["years", 1],
+};
+
+/** Conversions that need an OFFSET, not a factor, keyed "<from>><to>". A factor table cannot
+ *  express Fahrenheit, and expressing it as one silently reads 75 °F as 75 °C. */
+const AFFINE: Record<string, (n: number) => number> = {
+  "tempF>tempC": (n) => ((n - 32) * 5) / 9,
 };
 
 /** canonical unit string (as written in the dictionary) -> its [dimension, factor]. */
-const CANON: Record<string, [string, number]> = {
+export const CANON: Record<string, [string, number]> = {
   "Gbit/s": ["throughput", 1e9], "Mpps": ["packetrate", 1e6], "W": ["power", 1],
   "GB": ["memory", 1073741824], "Byte": ["memory", 1], "mm": ["length", 1e-3],
   "m": ["length", 1], "nm": ["length", 1e-9], "kg": ["mass", 1e3], "g": ["mass", 1],
@@ -156,20 +196,91 @@ const CANON: Record<string, [string, number]> = {
   "A": ["current", 1], "VA": ["apparentpower", 1],
   "ms": ["duration", 1e-3], "s": ["duration", 1],
   "in": ["length", 0.0254], "cm": ["length", 1e-2],
+  // The rest of the dictionary's PHYSICAL units. Their absence was not neutral: convert() read
+  // "no CANON row" as "this is a counting word" and accepted a bare number as already canonical,
+  // so supply_current (mA) refused "0.5 A" as UNIT_UNKNOWN and stored "0.5" as 0.5 mA — a
+  // 1000x error, in band, from the same input the strict path had just rejected. Count-like is
+  // now the explicit COUNT_LIKE set below and never an inference from this table.
+  "Gbps": ["throughput", 1e9], "Mbps": ["throughput", 1e6],
+  "pps": ["packetrate", 1],
+  "mA": ["current", 1e-3], "kV": ["voltage", 1e3], "VDC": ["voltage", 1],
+  "THz": ["freq", 1e12], "IOPS": ["iops", 1],
+  "dBi": ["dbi", 1], "dBA": ["dba", 1], "dBmV": ["dbmv", 1],
+  "km/h": ["speed", 1], "ohm": ["resistance", 1], "lux": ["illuminance", 1],
+  "ps": ["duration", 1e-12], "ps/nm": ["dispersion", 1],
+  "deg": ["angle", 1], "degrees": ["angle", 1], "°": ["angle", 1],
+  "Grms": ["grms", 1], "V/mW": ["responsivity", 1],
+  "1/s": ["persecond", 1], "CPS": ["persecond", 1],
+  "years": ["years", 1], "x": ["zoom", 1],
+  "pA/√Hz": ["noisedensity", 1],
 };
 
-// Three tokens are genuinely ambiguous and are resolved by what the FIELD expects, never guessed:
+/** Canonical "units" that are COUNTING WORDS: the field's value IS a bare number and the unit
+ *  string only names what is being counted ("cores", "bays", "Einträge"). This is a PROPERTY,
+ *  declared here, and never inferred from a missing CANON row — that inference is what let a
+ *  milliamp field accept a bare amp figure. Membership means exactly one thing: a value with no
+ *  unit is acceptable. It does not make the field unitless — "8 cores" still reads 8 through
+ *  countValue, and "8 W" is still refused as a power unit on a count.
+ *
+ *  "HE", "Byte" and "AWG" are here for the same reason even though they DO have a CANON row:
+ *  a rack height, an MTU and a wire gauge are written bare far more often than not. */
+export const COUNT_LIKE = new Set([
+  "Einträge", "entries", "count", "Sessions", "Sitzungen", "Peers",
+  "CPUs", "GPUs", "cores", "threads", "sockets", "ranks", "bays", "slots",
+  "ports", "lines", "devices", "endpoints", "f-stop",
+  "HE", "Byte", "AWG",
+]);
+
+/** Canonical units the dictionary declares that this module deliberately CANNOT convert, with
+ *  the reason. A field listed here refuses every value: with a unit, because there is nothing
+ *  to convert to; without one, because a bare number would have to be guessed. That is a
+ *  RECORDED gap rather than a silent one, and tests/specNormalize.units.test.mjs pins both
+ *  halves so the list cannot quietly grow.
+ *
+ *  "in / cm" is a defect in fieldSchema.ts (`depth`, `height`): it names TWO units, so no value
+ *  on those fields can be read without choosing one. Fixing it means editing the dictionary. */
+export const UNCONVERTIBLE: Record<string, string> = {
+  "in / cm": "the dictionary declares two units for this field; one of them must be chosen in fieldSchema.ts",
+  // "MB/s" is megaBYTES per second, but the unit table folds case ("MT/s", "bit/s", "dB(A)" all
+  // need it) and it already reads "mb/s" as megaBITS. Guessing either way is an 8x error, so the
+  // field refuses everything until fieldSchema.ts names the unit unambiguously ("MByte/s") or the
+  // table learns a case-sensitive byte-rate rule. Before this entry a bare "500" on the field was
+  // stored as 500 MB/s with no unit stated anywhere — the silent half of the same defect.
+  "MB/s": "megabytes and megabits per second are indistinguishable after case folding",
+};
+
+/** Decimal places for the canonical unit, where the default (6) would advertise precision the
+ *  source never had. A Fahrenheit sheet states whole degrees, so (75-32)*5/9 is 23.9 °C, not
+ *  23.888889 °C. Everything else keeps the existing float-noise rounding. */
+const PRECISION: Record<string, number> = { "°C": 1 };
+
+function roundTo(v: number, canonical: string | undefined): number {
+  const dp = canonical ? PRECISION[canonical] : undefined;
+  const q = dp === undefined ? 1e6 : Math.pow(10, dp);
+  return Math.round(v * q) / q;
+}
+
+// Five tokens are genuinely ambiguous and are resolved by what the FIELD expects, never guessed:
 //   "g"  -> grams (mass) or Gbit/s (throughput)
 //   "m"  -> metre (length) or a bare "M" abbreviating mega-
 //   "c"  -> °C, only where a temperature is expected
+//   "f"  -> °F, only where a temperature is expected (Cisco writes "32 to 104 F" as often as °F)
+//   "x"  -> a zoom factor, only where the field IS one; everywhere else it is the times idiom
 function unitLookup(token: string, canonical?: string): [string, number] | null {
-  const t = token.toLowerCase().replace(/\s+/g, "");
+  let t = token.toLowerCase().replace(/\s+/g, "");
   if (!t) return null;
   const canonDim = canonical ? CANON[canonical]?.[0] : undefined;
   if (t === "g") return canonDim === "mass" ? ["mass", 1] : canonDim === "throughput" ? ["throughput", 1e9] : null;
   if (t === "m") return canonDim === "length" ? ["length", 1] : null;
   if (t === "c") return canonDim === "tempC" ? ["tempC", 1] : null;
-  return UNITS[t] ?? null;
+  if (t === "f") return canonDim === "tempC" ? ["tempF", 1] : null;
+  if (t === "x") return canonDim === "zoom" ? ["zoom", 1] : null;
+  if (UNITS[t]) return UNITS[t];
+  // A dual-value cell — "4 GB/4 GB", "28.8W/30.6W", "AC 100-240V/1.25A" — leaves the slash glued
+  // to the first unit, because UNIT_TOKEN accepts "/" for "bit/s" and "MT/s". A TRAILING slash is
+  // never part of a unit, so trim exactly one and retry; an internal slash is left alone.
+  if (t.endsWith("/")) { t = t.slice(0, -1); if (UNITS[t]) return UNITS[t]; }
+  return null;
 }
 
 const NUM = "[-+]?[0-9][0-9.,\\u00a0\\u202f ]*";
@@ -202,6 +313,35 @@ function firstNumberUnit(s: string, locale: Locale = "de"): NumberHit | null {
   const between = m[0].slice(m[1].length, m[0].length - token.length);
   const glued = token !== "" && between === "" && /[0-9]$/.test(m[1]);
   return { n, unit: token.trim(), glued, rest: s.slice(m.index + m[0].length) };
+}
+
+// A field named *_max stated as a RANGE must take the HIGH end. Reading the first number instead
+// stored altitude_max "-500 to 10,000 feet" as -500 (and it was refused only because "to" is not
+// a unit), and power_max "15 - 882W" as 15 W — an eight-hundred-watt understatement of the same
+// kind the typical/maximum rule already exists to prevent.
+//
+// The pattern is ANCHORED end to end, with at most one trailing parenthetical, and both ends must
+// agree on their unit (or only one may state it). That is what keeps a part number out: the
+// leading digits of "C1300-16T-2G" parse as "1300 - 16 T" and then the trailing "-2G" leaves the
+// anchor unsatisfied, so nothing is rewritten. "Up to 10,000" has one number and is not a range.
+const MAX_RANGE = new RegExp(
+  `^\\s*(${NUM})\\s*(${UNIT_TOKEN})\\s*(?:bis|to|\\u2013|\\u2014|-|/)\\s*(${NUM})\\s*(${UNIT_TOKEN})\\s*(?:\\([^()]*\\))?\\s*$`,
+  "i");
+
+const isMaxField = (key: string) => /_max$/.test(key) || key === "heat_dissipation";
+
+/** The high end of `s` read as a range, or null when `s` is not one. Both ends are parsed with
+ *  the caller's locale, because "10,000" is ten thousand in English and ten in German. */
+function highEndOfRange(s: string, locale: Locale): NumberHit | null {
+  const m = MAX_RANGE.exec(s);
+  if (!m) return null;
+  const lo = parseNumber(m[1], locale), hi = parseNumber(m[3], locale);
+  if (lo === null || hi === null) return null;
+  const uLo = (m[2] || "").trim(), uHi = (m[4] || "").trim();
+  if (uLo && uHi && uLo.toLowerCase() !== uHi.toLowerCase()) return null;   // two units: not one range
+  const unit = uHi || uLo;
+  const n = Math.max(lo, hi);
+  return { n, unit, glued: false, rest: "" };
 }
 
 // Unit-less counts — route-table sizes, ACL entries, multicast groups, slots, ports — have no
@@ -252,19 +392,29 @@ function countValue(n: number, token: string, glued: boolean, rest: string, key:
 function convert(n: number, rawUnit: string, canonical: string | undefined, key: string, unitHint?: string,
   adjacency?: { glued: boolean; rest: string }): NormResult {
   if (!canonical) return countValue(n, rawUnit, adjacency?.glued ?? true, adjacency?.rest ?? "", key);
-  if (!rawUnit && unitHint) rawUnit = unitHint;   // shape-C puts the unit in the LABEL, not the cell
+  if (UNCONVERTIBLE[canonical]) {
+    return bad("UNIT_UNKNOWN", `${key}: canonical unit "${canonical}" cannot be converted — ${UNCONVERTIBLE[canonical]}`);
+  }
+  // shape-C puts the unit in the LABEL, not the cell ("Weight ... [Kilograms]", "Cache Size (MB)").
+  // The hint is only usable when it belongs to the SAME dimension as the field: a label unit that
+  // disagrees with the field is evidence the row was read from the wrong column, so it is refused
+  // rather than applied. Applying it would convert a number that means something else entirely.
+  if (!rawUnit && unitHint) {
+    const h = unitLookup(unitHint, canonical);
+    const t = CANON[canonical];
+    if (!h) return bad("UNIT_UNKNOWN", `${key}: label unit "${unitHint}" is not a unit we recognise`);
+    if (t && h[0] !== t[0] && !AFFINE[`${h[0]}>${t[0]}`]) {
+      return bad("UNIT_UNKNOWN", `${key}: label unit "${unitHint}" is ${h[0]}, field expects ${t[0]} (${canonical}) — hint not applied`);
+    }
+    rawUnit = unitHint;
+  }
   if (!rawUnit) {
-    // A bare number is acceptable only for count-like fields, which have no canonical unit
-    // beyond a label. Anything physical must carry its unit or we cannot know what it means.
-    //
-    // CANON holds the units we can actually convert between — every physical dimension. So a
-    // canonical unit ABSENT from CANON is by construction a counting word: "cores", "sockets",
-    // "bays", "GPUs", "ranks", "Einträge". A bare number is the only form those ever take, and
-    // the hardcoded list missed every one the server vocabulary introduced: 409 core counts and
-    // 270 socket counts were rejected UNIT_MISSING for having no unit, when having no unit is
-    // what a core count looks like.
-    const labelOnly = ["Einträge", "HE", "Byte", "AWG"].includes(canonical) || !CANON[canonical];
-    return labelOnly ? ok(n, canonical) : bad("UNIT_MISSING", `${key}: "${n}" has no unit (expected ${canonical})`);
+    // A bare number is acceptable only for COUNT_LIKE fields, where the "unit" is a counting word
+    // and bare is the only form the value ever takes. Everything physical must carry its unit or
+    // we cannot know what it means — a bare "0.5" on a milliamp field is 0.5 A as often as 0.5 mA.
+    return COUNT_LIKE.has(canonical)
+      ? ok(n, canonical)
+      : bad("UNIT_MISSING", `${key}: "${n}" has no unit (expected ${canonical})`);
   }
   const found = unitLookup(rawUnit, canonical);
   if (!found) return bad("UNIT_UNKNOWN", `${key}: unit "${rawUnit}" not recognised`);
@@ -272,11 +422,14 @@ function convert(n: number, rawUnit: string, canonical: string | undefined, key:
   if (!target) return bad("UNIT_UNKNOWN", `${key}: canonical unit "${canonical}" is not in CANON`);
   const [dim, factor] = found;
   if (dim !== target[0]) {
-    return bad("UNIT_UNKNOWN", `${key}: unit "${rawUnit}" is ${dim}, expected ${target[0]} (${canonical})`);
+    // an offset conversion (°F -> °C) is a legitimate cross-dimension move; anything else is a
+    // mis-mapped fact, and reading it would store a watt figure as a gigabit one
+    const affine = AFFINE[`${dim}>${target[0]}`];
+    if (!affine) return bad("UNIT_UNKNOWN", `${key}: unit "${rawUnit}" is ${dim}, expected ${target[0]} (${canonical})`);
+    return ok(roundTo(affine(n * factor) / target[1], canonical), canonical);
   }
   // convert through the dimension base, then round away float noise (0.02 kg -> 20 g, not 19.999)
-  const converted = (n * factor) / target[1];
-  return ok(Math.round(converted * 1e6) / 1e6, canonical);
+  return ok(roundTo((n * factor) / target[1], canonical), canonical);
 }
 
 function inBand(key: string, v: number): NormResult | null {
@@ -375,11 +528,37 @@ const DEGREE_LOOKALIKES = new RegExp("[\\u00ba\\u00b0\\u02da\\u030a]", "g");
 const NBSP = new RegExp("[\\u00a0\\u202f\\u2007]", "g");
 
 // 2. Imperial first, metric in parentheses: "-40° to 158°F (-40° to 70°C)", "0 to 13,123 ft
-//    (0 to 4000m)". The parser reads the FIRST number+unit, gets Fahrenheit or feet, and either
-//    rejects it or would store the wrong magnitude. Prefer the parenthesised metric value when
-//    one is present — it is the same measurement, stated in the unit we canonicalise to.
-const METRIC_PAREN = new RegExp("\\(([^()]*?(?:[0-9][^()]*?)(?:°C|C\\b|m\\b|mm\\b|cm\\b|kg\\b|g\\b|km\\b)[^()]*?)\\)", "i");
-const IMPERIAL_LEAD = new RegExp("(°F|\\bF\\b|\\bft\\b|\\bin\\b|\\binch|\\blbs?\\b|\\bmiles?\\b)", "i");
+//    (0 to 4000m)", "35.2 oz (0.99 kg)", "1.75in x 10in x 19in (44mm x 254mm x 483mm)". The
+//    parser reads the FIRST number+unit, gets Fahrenheit or feet, and either rejects it or would
+//    store the wrong magnitude. Prefer the parenthesised metric value when one is present — it is
+//    the same measurement, stated by the vendor, in the unit we canonicalise to. (When there is
+//    no metric restatement the imperial value is converted instead; see UNITS/AFFINE.)
+//
+//    `\b` is the wrong tool here and was quietly failing: "1.75in" has NO word boundary between
+//    "5" and "i" (both are \w), so `\bin\b` never matched the glued form that Cisco's dimension
+//    strings always use, and `m\b` never matched "3048 meters". Every pattern below is anchored
+//    on explicit letter lookarounds instead (CLAUDE.md, "\b is the wrong tool for product
+//    strings"). The straight and typographic inch marks are included: "12.05" x 5.06"".
+//    CASE MATTERS in the metric unit, and only measurement told us so: with an /i flag the bare
+//    "g" arm matched the "12G" of "(2.5" 12G SAS 10K RPM)", so a disk row was rewritten to its own
+//    parenthetical and a 1.2 TB drive became an unreadable "2.5". Metric prefixes are written
+//    lower-case (mm, cm, kg, m) except Celsius, so the pattern is case-SENSITIVE.
+//    A DIGIT after the token disqualifies it for the same reason: the bare "C" arm matched the
+//    "C" of "C9350-24T = 13.8 lb (6.26 kg)" at index 0, decided the row led with metric, and threw
+//    away the parenthesised kilogram figure it was there to find. A unit is never followed by a
+//    digit; a part number's leading letter always is. Cisco does write "Kg" and "Meters", so the
+//    multi-letter tokens carry their capitalised spellings explicitly rather than an /i flag.
+const METRIC_UNIT = "(?:°C|°c|[Mm][Mm]|[Cc][Mm]|[Kk][Mm]|[Kk][Gg]|[Mm]et(?:er|re)s?|m|C|g)";
+const METRIC_PAREN = new RegExp("\\(([^()]*?[0-9][^()]*?(?<![A-Za-z])" + METRIC_UNIT + "(?![A-Za-z0-9])[^()]*?)\\)");
+// The position test uses a STRICTER set: the bare single letters "C" and "g" are dropped, because
+// outside parentheses they are far more often a letter of a part number than a unit — the trailing
+// "C" of "C9800-L-C: 3.95 lb (1.79 kg)" read as Celsius and cost the row its kilogram figure.
+// Inside a parenthetical the surrounding digit and brackets make them safe enough to keep.
+const METRIC_OUTSIDE = new RegExp("(?<![A-Za-z])(?:°C|°c|[Mm][Mm]|[Cc][Mm]|[Kk][Mm]|[Kk][Gg]|[Mm]et(?:er|re)s?|m)(?![A-Za-z0-9])");
+const IMPERIAL_LEAD = new RegExp(
+  "(?:°F|[\\u0022\\u201d\\u2033]|(?<![A-Za-z])(?:F|ft|feet|foot|in|inch|inches|lbs?|pounds?|oz|ounces?|miles?|mph)(?![A-Za-z]))",
+  "i");
+const PARENTHETICAL = new RegExp("\\([^()]*\\)", "g");
 
 // 3. "425 watts typical, 525 watts maximum" — a *_max field must take the MAXIMUM, not the first
 //    number on the line, which is the typical draw. Reading the first would understate every
@@ -428,10 +607,21 @@ export function preprocessValue(raw: string, key: string): string {
     if (all.length) return `${Math.max(...all)} dB(A)`;
   }
 
-  // imperial outside, metric inside the parentheses -> keep the metric
-  if (IMPERIAL_LEAD.test(s)) {
-    const mp = METRIC_PAREN.exec(s);
-    if (mp) s = mp[1].trim();
+  // Imperial outside, metric inside the parentheses -> keep the metric. The preference only holds
+  // when the measurement the row LEADS with is the imperial one; a parenthetical that follows a
+  // metric value is a different fact, not a restatement of it. Cisco routinely runs two facts
+  // together — "-40°C to +85°C (-40F to 185F) ... Altitude: Up to 13,800 feet (4,200 m)" — and
+  // taking the last metric parenthetical there filed an ALTITUDE as the storage temperature.
+  // Parentheticals are stripped before the comparison so that the °C inside one cannot count as
+  // the leading metric token.
+  {
+    const outside = s.replace(PARENTHETICAL, " ");
+    const imperial = IMPERIAL_LEAD.exec(outside);
+    const metric = METRIC_OUTSIDE.exec(outside);
+    if (imperial && (!metric || imperial.index < metric.index)) {
+      const mp = METRIC_PAREN.exec(s);
+      if (mp) s = mp[1].trim();
+    }
   }
   return s.trim();
 }
@@ -445,16 +635,52 @@ export type NormOpts = {
   unitHint?: string;
 };
 
+// A measurement field whose VALUE is a part number is a TRANSPOSED table: the model column was
+// read as the value column, so every row of the table offers the model name as its "spec". There
+// are ~850 of them in shard 0 alone (ports, switching_capacity, packet_buffer, power_max, tdp).
+//
+// They must be refused, and refused DISTINGUISHABLY, for two reasons. First, the refusal is not a
+// normaliser failure and does not belong in the same bucket as one — the defect is upstream, in
+// the table reader, and burying it in UNIT_MISSING is what kept it invisible. Second, the digits
+// inside a PID are a trap: "C1300-8FP-2G" yields the number 1300, and the moment a label hint
+// supplies the missing unit that becomes "1300 Gbit/s" — a confident, in-band fiction. So the
+// hint is withheld from a PID-shaped value as well as the reason being relabelled.
+//
+// Only n / nr / struct fields are tested. A part number is a perfectly legitimate value for a
+// string or list field (`series`, `psu_options` "PWR-C1-350WAC"), and flagging those would refuse
+// real data. The check runs AFTER normalisation and only relabels a value that was already
+// refused, so a reading that succeeds on its own merits — "SFP-10G-SR" giving 10 Gbit/s for
+// data_rate — is never taken away.
+const PID_CHECKED_TYPES = new Set<FieldType>(["n", "nr", "struct"]);
+
 export function normalizeField(category: string, key: string, raw: string, opts: NormOpts = {}): NormResult {
-  const locale: Locale = opts.locale ?? "de";
-  const hint = opts.unitHint;
   const def = FIELD_DICTIONARY[key];
   if (!def) return bad("UNMAPPED_HEADER", `no dictionary entry for "${key}"`);
   const s = preprocessValue(String(raw ?? "").trim(), key);
   if (!s) return bad("PARSE_FAIL", `${key}: empty value`);
+  // A value with no letter in it is a NUMBER, whatever an enqueue-time gate makes of it. That gate
+  // answers a different question — "could this token, taken from a part-number column, name a
+  // part?" — and it deliberately KEEPS the six-to-eight-digit Scientific-Atlanta PIDs (1030033)
+  // and the NN-NNNN-NN assembly numbers, because in that column they are parts. In a VALUE column
+  // they are measurements: every MTBF figure Cisco publishes is six or seven digits, and without
+  // this guard "480770" hours became a part number. The letter test is the only difference
+  // between the two readings and it belongs here, not in the shared gate.
+  const pidValue = PID_CHECKED_TYPES.has(def.type) && /[A-Za-z]/.test(s) && isPartNumber(s).ok;
+  const r = normalizeTyped(category, key, s, def.type, {
+    locale: opts.locale ?? "de",
+    unitHint: pidValue ? undefined : opts.unitHint,
+  });
+  if (r.ok || !pidValue) return r;
+  return bad("VALUE_IS_PID", `${key}: "${s}" is a part number, not a measurement — the table is transposed`);
+}
+
+function normalizeTyped(category: string, key: string, s: string, type: FieldType,
+  opts: { locale: Locale; unitHint?: string }): NormResult {
+  const locale = opts.locale;
+  const hint = opts.unitHint;
   const canonical = unitFor(category, key);
 
-  switch (def.type) {
+  switch (type) {
     case "b": {
       if (FALSE_RE.test(s)) return ok(false);   // negatives first: "Nicht stapelbar" is not stackable
       if (TRUE_RE.test(s)) return ok(true);
@@ -480,7 +706,7 @@ export function normalizeField(category: string, key: string, raw: string, opts:
       return bad("ENUM_VIOLATION", `${key}: "${s}" not in domain [${domain.slice(0, 6).join("|")}...]`);
     }
     case "n": {
-      const hit = firstNumberUnit(s, locale);
+      const hit = (isMaxField(key) ? highEndOfRange(s, locale) : null) ?? firstNumberUnit(s, locale);
       if (!hit) return bad("PARSE_FAIL", `${key}: no number in "${s}"`);
       const conv = convert(hit.n, hit.unit, canonical, key, hint, hit);
       if (!conv.ok) return conv;
@@ -536,12 +762,26 @@ export function normalizeField(category: string, key: string, raw: string, opts:
         // NOTE: inside a TEMPLATE LITERAL, "\s" is not a valid string escape and collapses to a
         // literal "s", and "\u00d7" becomes the \u00d7 character itself. Both must be double-escaped
         // to survive into the regex. The first version of this line silently matched nothing.
-        const m = new RegExp(`(${NUM})\\s*[x\\u00d7X]\\s*(${NUM})\\s*[x\\u00d7X]\\s*(${NUM})`).exec(s);
+        //
+        // Each axis may carry its OWN unit \u2014 "1.73 in x 17.50 in x 12 in", "30 mm x 75 mm x
+        // 89.5 mm" \u2014 which is how Cisco writes 366 of these. The earlier pattern demanded a bare
+        // number before every separator, so the units between the axes broke the match and the
+        // whole triple was reported unparsable. Reading the unit only from the TAIL was the same
+        // bug from the other side: it worked for "4.4 x 44.5 x 48.3 cm" and nothing else.
+        const m = new RegExp(`(${NUM})\\s*(${UNIT_TOKEN})\\s*[x\\u00d7X]\\s*(${NUM})\\s*(${UNIT_TOKEN})\\s*[x\\u00d7X]\\s*(${NUM})\\s*(${UNIT_TOKEN})`).exec(s);
         if (!m) return bad("STRUCT_UNPARSED", `${key}: no HxWxD triple in "${s}"`);
-        const nums = [m[1], m[2], m[3]].map((x) => parseNumber(x.replace(/[^0-9.,-]/g, ""), locale));
+        const nums = [m[1], m[3], m[5]].map((x) => parseNumber(x.replace(/[^0-9.,-]/g, ""), locale));
         if (nums.some((n) => n === null)) return bad("PARSE_FAIL", `${key}: unparsable triple "${s}"`);
+        // Axes stated in DIFFERENT units are not a measurement we can read: "14.5 W x 1.72 H x
+        // 24.25 L" labels the axes rather than dimensioning them, and mixing mm with in inside one
+        // triple means the row was assembled from two tables. Refused, never part-converted.
+        const axisUnits = [...new Set([m[2], m[4], m[6]].map((u) => (u || "").trim()).filter(Boolean)
+          .map((u) => u.toLowerCase()))];
+        if (axisUnits.length > 1) {
+          return bad("STRUCT_UNPARSED", `${key}: axes disagree on their unit (${axisUnits.join(", ")}) in "${s}"`);
+        }
         const tail = s.slice(m.index + m[0].length).trim();
-        const rawUnit = (new RegExp(`^${UNIT_TOKEN}`).exec(tail)?.[0] || "") || hint || "";
+        const rawUnit = axisUnits[0] || (new RegExp(`^${UNIT_TOKEN}`).exec(tail)?.[0] || "") || hint || "";
         const conv = nums.map((n) => convert(n as number, rawUnit, "mm", key, hint));
         const firstBad = conv.find((c) => !c.ok);
         if (firstBad && !firstBad.ok) return firstBad;
@@ -561,6 +801,6 @@ export function normalizeField(category: string, key: string, raw: string, opts:
       return bad("STRUCT_UNPARSED", `${key}: struct field needs a dedicated parser`);
     }
     default:
-      return bad("PARSE_FAIL", `${key}: unhandled type ${def.type}`);
+      return bad("PARSE_FAIL", `${key}: unhandled type ${type}`);
   }
 }

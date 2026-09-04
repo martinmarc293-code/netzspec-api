@@ -69,6 +69,34 @@ different values: conflict, field held.
 `raw` is always kept. A normaliser bug is fixed by re-running the normaliser over `raw`, not
 by re-scraping.
 
+### Units accepted
+
+A value may state its unit in any unit of the field's **dimension**, and it is converted to the
+canonical one: imperial included (`°F` → `°C` by offset, `in`/`ft`/`feet` → `mm`/`m`,
+`oz`/`lb` → `kg`/`g`, `BTU/hr` → `BTU/h`, `mph` → `km/h`), spelled-out forms (`watts`,
+`kilograms`, `meters`, `Fahrenheit`), and every SI prefix in the table (`mA` on an `A` field,
+`Mbps` on a `Gbps` one). A unit from a *different* dimension is refused `UNIT_UNKNOWN` — a watt
+figure can never satisfy a gigabit field. Where the vendor prints both — "35.2 oz (0.99 kg)",
+"1.75in x 10in x 19in (44mm x 254mm x 483mm)" — the **parenthesised metric restatement wins**
+over our own arithmetic, but only when the row *leads* with the imperial figure; a bracket that
+follows a metric value is a second fact, not a restatement of the first.
+
+A value with **no unit at all** is accepted only where the canonical "unit" is a counting word
+(`cores`, `bays`, `Einträge`, `HE`, `Byte`, `AWG`). That is a declared property of the unit, not
+an inference from the conversion table: inferring it meant a bare `0.5` on a milliamp field was
+stored as 0.5 mA while `0.5 A` — the same measurement — was refused. Otherwise the unit must come
+from the cell or from the **row label** ("Weight (kg)", "Cache Size (MB)", "Kilograms"), and a
+label unit of the wrong dimension is refused rather than applied, because it means the row was
+read out of the wrong column. Every unit named in the field dictionary must be classified as
+convertible, count-like, or explicitly unconvertible; `tests/specNormalize.units.test.mjs` fails
+if a new field introduces one that is none of the three.
+
+A value that is a **part number** on a numeric field is refused `VALUE_IS_PID` rather than mined
+for the digits inside it: that is a model-major table read label-major, and the defect belongs to
+the table reader, not the normaliser. Conversions round to six decimals, or to the precision the
+source actually had where that is coarser (a Fahrenheit sheet states whole degrees, so `°C` keeps
+one). `raw` is kept in every case, so any of this is replayable.
+
 ## Provenance
 
 Each fact carries `doc_id` + `locator` (`t12:r9:c2` for a table cell, `description:<pattern>`
@@ -83,12 +111,34 @@ Derived per part, reason recorded in `product_class_reason`:
 | --- | --- |
 | SKU starts `CON-` | service |
 | SKU starts `L-`, `LIC-`, `SL-`, `SUB-`, `E-`, `SWSS`; ends `AAE`, `-STU`; contains `-LIC-`, `DNA`, `MERAKI-LIC` | license |
+| SKU starts `A-FLEX-`, `A-SUB-`, `AC-APX`, `AC-PLS`, `ISE-` (except `ISE-SNS-`), `C1F`, `E3S-`, `E2SF-`, `UCSS-`, `EVAL-` | license |
+| SKU ends `-UWL`, `-RTU`, `-SUB`; contains `-UWL-`, `-DNX-`, `-RTU-`, `-SIA`, `SUBSCR` | license |
+| SKU starts `SW-` | software |
+| SKU starts `SVS-`, `ASF-` | service |
 | category `is_hardware = false` | software |
 | otherwise, hardware category | hardware |
 | otherwise | unknown |
 
+Rules are tried in that order and the first match wins, so `product_class_reason` names the
+rule and only that rule (`3PTY-UWL-RTU` is `sku-contains:-UWL-`, not `sku-suffix:-RTU`).
+The second block came from `runs/vocab/cisco-round2/product-class-rules.json` on 4 Sep 2026,
+counted against the live database; **four of that file's rules were rejected** and the reasons
+are in `src/core/productClass.ts`: `A-` (63 Arista optical cables sit under it), `-LIC` (Cisco
+optical writes it on licence-*restricted cards*: `15454-AR-MXP-LIC` is a muxponder), `C1-`
+(`C1-N9K-C9508` is a chassis) and `sku-fails-is_part_number` (a dependency on the junk gate,
+not a SKU shape).
+
 A part whose class is not `hardware` gets `not_applicable` for every physical field and is
 excluded from spec-coverage denominators.
+
+`classify()` runs when a part is CREATED. `ingest reclassify [--commit]` is the catch-up pass
+that re-runs the table over parts that already exist; it is the only thing that changes an
+existing part's class. It writes only rows whose **class** changes (a row whose reason alone
+would change is counted as `reason_only` and left alone), and it never touches a row whose
+current `product_class_reason` is not one this table can emit — a class decided by an operator
+or a hygiene pass is not this table's to revert. Dry run by default; a commit runs inside one
+`reclassify` run whose stats and notes carry the per-rule counts, and `recompute-completeness`
+must follow it.
 
 ## Change feed
 
@@ -105,6 +155,14 @@ We cannot invent a value a vendor never published. What the system guarantees in
 2. Every missing field appears in the `gap_ledger` view with its state and the number of
    capable sources consulted versus available (`source_fields` says which sources publish
    which fields; `part_source_checks` records every consultation and its outcome).
+   `source_fields` rows are per category OR any-category (`category_id IS NULL`). A vendor's
+   own datasheet source carries an any-category row for every field it has been seen to publish
+   anywhere plus every field a hardware profile can require: per-category evidence answers
+   "where have we read this", not "can this source publish it", and registering per category
+   only left 100,167 gap entries with no capable source at all — a state from which a gap can
+   never reach `gap_confirmed` and never becomes a queue task. `data/schema/source-fields.json`
+   is generated by `ingest build-source-fields`, and its own test fails if any required field of
+   any hardware category has no enabled capable source.
 3. `ingest queue-gaps` turns every `gap_unattempted` row into `fetch_queue` tasks, vendor
    sources first. Workers run until the queue is empty.
 4. A gap becomes `gap_confirmed` (a `facts` row with a NULL value and a check row for every
