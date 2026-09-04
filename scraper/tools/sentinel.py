@@ -57,6 +57,37 @@ def cdp_pages() -> list[dict] | None:
         return None
 
 
+def cdp_connects(timeout_ms: int = 20000) -> tuple[bool, str]:
+    """Does a REAL DevTools websocket connect, the way a worker connects? On 4 Sep 2026 the
+    debug Chrome answered /json for an hour while every worker died on
+    `connect_over_cdp: Timeout 180000ms`; the sentinel restarted the lanes every three minutes
+    and called it healed. /json is served by the browser process; the websocket needs the
+    browser to be responsive. Uses the workers' own client so the probe cannot pass where they
+    fail."""
+    try:
+        from playwright.sync_api import sync_playwright
+    except Exception as e:  # noqa
+        return True, f"playwright unavailable to the sentinel ({type(e).__name__}); websocket not probed"
+    try:
+        with sync_playwright() as p:
+            b = p.chromium.connect_over_cdp("http://127.0.0.1:9222", timeout=timeout_ms)
+            n = sum(len(c.pages) for c in b.contexts)
+            b.close()
+            return True, f"websocket ok ({n} pages)"
+    except Exception as e:  # noqa
+        return False, f"{type(e).__name__}: {str(e)[:120]}"
+
+
+def restart_debug_chrome() -> str:
+    """Kill every chrome.exe carrying --remote-debugging-port=9222 (the scraper profile only,
+    never the operator's own Chrome) and start it again through the one launcher."""
+    ps("Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'chrome.exe' -and $_.CommandLine -like '*remote-debugging-port=9222*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }")
+    time.sleep(5)
+    left = ps("(Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'chrome.exe' -and $_.CommandLine -like '*remote-debugging-port=9222*' } | Measure-Object).Count")
+    subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-File", str(ROOT / "scraper" / "tools" / "start-chrome-debug.ps1")], capture_output=True, timeout=90)
+    return f"restarted the debug Chrome (leftover processes before start: {left or '?'})"
+
+
 def runnable_by_source() -> dict[str, int] | None:
     try:
         import psycopg
@@ -102,7 +133,16 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
     runnable = runnable_by_source()
 
     lines.append(f"- supervisor: {'alive' if sup else 'NOT RUNNING'}; lock age {f'{lock_age_h:.1f} h' if lock_age_h is not None else 'none'}")
-    lines.append(f"- tunnel 5433: {'up' if tunnel else 'DOWN'}; chrome 9222: {'up' if chrome else 'DOWN'}")
+    cdp_ok, cdp_why = (cdp_connects() if chrome else (False, "port closed"))
+    lines.append(f"- tunnel 5433: {'up' if tunnel else 'DOWN'}; chrome 9222: {'up' if chrome else 'DOWN'}; devtools websocket: {cdp_why}")
+    if chrome and not cdp_ok:
+        alarms.append(f"scraper Chrome answers the port but no DevTools websocket connects ({cdp_why}): every worker would die on connect")
+        if heal:
+            actions.append(restart_debug_chrome())
+            chrome = listening(9222)
+            cdp_ok, cdp_why = cdp_connects()
+            lines.append(f"- after restart: chrome 9222 {'up' if chrome else 'DOWN'}; devtools websocket: {cdp_why}")
+    chrome = chrome and cdp_ok
     if not tunnel:
         alarms.append("tunnel down: nothing can reach the database")
         if heal:
