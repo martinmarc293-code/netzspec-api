@@ -40,6 +40,24 @@ full; the ones that bite hardest here are restated.
 
 ## Session log (update every session; newest first)
 
+- **2026-09-04 — orchestrator setup (handoff).** CLOSED: subagents default to Opus
+  (`.claude/settings.json`, mirrored in netzspec), three project agents in `.claude/agents/`,
+  agent + code-graph rules above. VERIFIED: an explicit-model spawn reports "Sonnet 5
+  (claude-sonnet-5)" for mechanical work and "Opus 5 (claude-opus-5[1m])" for engineering,
+  ~72k tokens each for a trivial task. NOT YET VERIFIED: the named agents (`worker-*`) and the
+  settings fallback are read at session start, so this session could not spawn them; the next
+  session must spawn `worker-mechanical` and `worker-code` once and record the observed models
+  here. NEXT (in the order that finishes fastest): (1) `ingest apply-extract` `--commit` for
+  `runs/extract/cisco-deep-2026-09-03-s0.json` and `-s1.json` (s0 dry run passed: precision
+  100%, recall 100%); (2) confirm `images --db` linked the 2,752 assignments (images table was
+  0 before); (3) re-run the PDF extraction (it died with the session) and apply; (4) merge the
+  two normaliser fix sessions (`src/core/specNormalize.ts`, locale + K-suffix) and run
+  `npm test`; (5) the finder "tools" layer (data-driven definitions over facets/filter);
+  (6) netzspec sync cron on the box. TRAPS: agent definitions and settings need a fresh session;
+  `START-SCRAPERS.cmd` run from a tool shell hangs on `start` (run it from Explorer or
+  Start-Process); the netzspec repo commit for the settings mirror is local (branch carries 54
+  unpushed commits from other sessions — do not push them from here).
+
 - **2026-09-03/04 — build day.** Repo stood up, 89,090 parts migrated from Atlas (run #6,
   reconciliation clean), API live at api.netzspec.com with 26 endpoints, 8 adapters, supervisor,
   sentinel, watchdog. Costs: ~5M agent tokens across five fleets. **Operator budget rule:** no
