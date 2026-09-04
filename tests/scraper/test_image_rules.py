@@ -28,6 +28,20 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scraper"))
 import images as IM  # noqa: E402
 
+FIXTURE = ROOT / "tests" / "fixtures" / "image-urls.json"
+
+# The TypeScript half calls this module with --emit-sku-verdicts and compares verdict for verdict,
+# the same drift check `images.py keys` gives the URL rules. It must print JSON and nothing else.
+if "--emit-sku-verdicts" in sys.argv:
+    _cases = json.load(open(FIXTURE, encoding="utf-8"))["sku_cases"]
+    print(json.dumps([
+        {"sku": c["sku"], "url": c["url"],
+         "verdict": IM.other_sku_reason({"image_url": c["url"], "sku": c["sku"], "vendor_slug": "cisco"},
+                                        {"cisco": {k.upper() for k in c["known"]}}),
+         "relations": {k.upper(): IM.sku_relation(c["sku"], k) for k in c["known"]}}
+        for c in _cases], ensure_ascii=False))
+    raise SystemExit(0)
+
 PASS = 0
 SABOTAGE = 0
 MISSES: list[str] = []
@@ -192,6 +206,75 @@ check("a filename that names nothing in the catalogue is not refused: only a POS
       IM.other_sku_reason({"image_url": "https://x.test/i/ap-front-photo.png", "sku": "MR46", "vendor_slug": "cisco"}, _known) is None)
 check("the SKU comparison ignores the punctuation a PID carries (C9200L-24P-4G= is the same part)",
       IM.other_sku_reason({"image_url": "https://x.test/i/MS120-24P.jpg", "sku": "MS120-24P=", "vendor_slug": "cisco"}, _known) is None)
+
+# ---------------------------------------------------------------------------------------------
+# names-another-sku: the OWN FAMILY refinement (4 Sep 2026)
+# ---------------------------------------------------------------------------------------------
+# Run #50 refused MS210-24P <- MS210.png, MS225-48FP <- MS225.png and MS350-24P <- MS350.png. Each
+# is the family photo meraki prints on every model's page and each was refused only because the
+# family slug is also a row in `parts`. The corpus below is the ENTIRE set of names-another-sku
+# rejections that batch produced, URL and SKU as stored, plus the tie cases and two sabotages.
+# src/core/imageCandidate.ts is held to the same list and compared verdict for verdict.
+SKU_CASES = json.load(open(FIXTURE, encoding="utf-8"))["sku_cases"]
+check("the sku corpus carries the whole real refusal set and its tie cases",
+      len(SKU_CASES) >= 25 and sum(1 for c in SKU_CASES if c["note"].startswith("REAL")) == 14,
+      (len(SKU_CASES), sum(1 for c in SKU_CASES if c["note"].startswith("REAL"))))
+check("the sku corpus is not one-sided: it holds both refusals and acceptances",
+      any(c["verdict"] for c in SKU_CASES) and any(c["verdict"] is None for c in SKU_CASES))
+for c in SKU_CASES:
+    got = IM.other_sku_reason({"image_url": c["url"], "sku": c["sku"], "vendor_slug": "cisco"},
+                              {"cisco": {k.upper() for k in c["known"]}})
+    check(f"sku: {c['sku']} <- {c['url'].rsplit('/', 1)[-1][:44]}", got == c["verdict"],
+          {"got": got, "want": c["verdict"], "note": c["note"][:90]})
+
+check("sku_relation names the three relations the refusal turns on",
+      (IM.sku_relation("MS210-24P", "MS210"), IM.sku_relation("MR46", "MR45"), IM.sku_relation("MS120-24P=", "MS120-24P"))
+      == ("family", "other", "same"))
+check("the family relation runs one way only: MS210 is MS210-24P's family, never the reverse",
+      IM.sku_relation("MS210-24P", "MS210") == "family" and IM.sku_relation("MS210", "MS210-24P") == "other")
+check("neither direction of MG41 / MG41E is a family: the E is glued on with no dash",
+      IM.sku_relation("MG41", "MG41E") == "other" and IM.sku_relation("MG41E", "MG41") == "other")
+check("sku_norm strips the suffixes that name the same product and keeps every dash",
+      (IM.sku_norm("MS120-24P="), IM.sku_norm("MR46-HW"), IM.sku_norm("C9200L-24P-4G"))
+      == ("MS120-24P", "MR46", "C9200L-24P-4G"))
+
+SABOTAGE += 1
+_saved_sep = IM.rules()["sku_family_separator"]
+IM.rules()["sku_family_separator"] = ""
+_leaked = [c for c in SKU_CASES if c["verdict"] is not None
+           and IM.other_sku_reason({"image_url": c["url"], "sku": c["sku"], "vendor_slug": "cisco"},
+                                   {"cisco": {k.upper() for k in c["known"]}}) is None]
+IM.rules()["sku_family_separator"] = _saved_sep
+check("SABOTAGE drop the dash requirement and the corpus shows siblings being accepted (MX64 on the MX64W page, C9200 on a C9200L)",
+      len(_leaked) >= 3 and any(c["sku"] == "MX64W" for c in _leaked), [c["sku"] for c in _leaked])
+check("the separator is back in place after the sabotage case", IM.rules()["sku_family_separator"] == "-")
+
+SABOTAGE += 1
+_saved_suf = list(IM.rules()["sku_equivalent_suffixes"])
+IM.rules()["sku_equivalent_suffixes"] = ["="]
+# Sabotaged at sku_relation(), NOT at other_sku_reason(), and the distinction is the finding:
+# other_sku_reason survives the sabotage either way, because sku_tokens splits MR46-HW.png into
+# both MR46-HW and MR46 and one of the two is always this part. So -HW is REDUNDANT with the
+# tokeniser at the caller and load-bearing only in the relation itself - which is where the next
+# caller (apply-acquired matching parts through -HW variants) will read it. Asserting it at the
+# caller would have been a check that passes for a reason unrelated to the rule it names.
+_hw = IM.sku_relation("MR46", "MR46-HW")
+IM.rules()["sku_equivalent_suffixes"] = _saved_suf
+check("SABOTAGE drop -HW and meraki's hardware-only SKU stops being the same product as its own PID",
+      _hw == "other" and IM.sku_relation("MR46", "MR46-HW") == "same", _hw)
+check("the suffix list is back in place", IM.rules()["sku_equivalent_suffixes"] == _saved_suf)
+
+SABOTAGE += 1
+_saved2 = IM.rules().pop("sku_family_separator")
+try:
+    IM.sku_relation("MS210-24P", "MS210")
+    check("SABOTAGE a rules file with no sku_family_separator is refused", False, "no exception")
+except SystemExit as e:
+    check("SABOTAGE a rules file with no sku_family_separator is refused, NAMING the key",
+          "sku_family_separator" in str(e), str(e))
+finally:
+    IM.rules()["sku_family_separator"] = _saved2
+check("the rule still answers after the missing-key sabotage", IM.sku_relation("MS210-24P", "MS210") == "family")
 
 check("the lease refuses parts that already have a downloaded image",
       "NOT EXISTS" in sql and "images i" in sql and "i.storage_path IS NOT NULL" in sql)

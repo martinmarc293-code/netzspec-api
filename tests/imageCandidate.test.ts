@@ -23,7 +23,8 @@ import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { imageRules, imageUrlKey, imageSizeHint, placeholderReason, candidatesFromPage, IMAGE_RULES_FILE } from "../src/core/imageCandidate.js";
+import { imageRules, imageUrlKey, imageSizeHint, placeholderReason, candidatesFromPage,
+  skuTokens, skuRelation, otherSkuReason, IMAGE_RULES_FILE } from "../src/core/imageCandidate.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 let pass = 0;
@@ -35,7 +36,10 @@ function check(name: string, cond: boolean, detail?: unknown): void {
 }
 
 type Case = { url: string; key: string | null; placeholder: string | null; note: string };
-const corpus = JSON.parse(fs.readFileSync(path.join(ROOT, "tests", "fixtures", "image-urls.json"), "utf8")).cases as Case[];
+type SkuCase = { sku: string; url: string; known: string[]; verdict: string | null; note: string };
+const fixture = JSON.parse(fs.readFileSync(path.join(ROOT, "tests", "fixtures", "image-urls.json"), "utf8"));
+const corpus = fixture.cases as Case[];
+const skuCorpus = fixture.sku_cases as SkuCase[];
 check("the corpus is not empty and names its sources", corpus.length >= 15 && corpus.every((c) => typeof c.note === "string" && c.note.length > 10));
 
 // ---- the rules file ------------------------------------------------------------------------
@@ -103,6 +107,61 @@ for (const c of corpus) {
     && candidatesFromPage([{ url: "   " }]).refused.length === 0);
 }
 
+// ---- names-another-sku: the part's OWN FAMILY is accepted, a SIBLING is not ---------------------
+// Run #50 (4 Sep 2026) refused MS210-24P <- MS210.png, MS225-48FP <- MS225.png and
+// MS350-24P <- MS350.png: the family photo, which is the product shot for every model in the
+// family, refused only because the family slug is also a row in `parts`. What separates a family
+// from a sibling is the dash — our SKU must extend the named token ACROSS one. tests/fixtures/
+// image-urls.json.sku_cases is the whole real refusal set plus the tie cases, and the Python half
+// is held to the same list below.
+{
+  check("the sku corpus carries the whole real refusal set and its tie cases",
+    skuCorpus.length >= 25 && skuCorpus.filter((c) => c.note.startsWith("REAL")).length === 14,
+    { n: skuCorpus.length, real: skuCorpus.filter((c) => c.note.startsWith("REAL")).length });
+  check("the sku corpus is not one-sided: it holds both refusals and acceptances",
+    skuCorpus.some((c) => c.verdict !== null) && skuCorpus.some((c) => c.verdict === null));
+  for (const c of skuCorpus) {
+    const got = otherSkuReason(c.sku, c.url, c.known);
+    check(`sku: ${c.sku} <- ${(c.url.split("/").pop() as string).slice(0, 44)}`, got === c.verdict,
+      { got, want: c.verdict, note: c.note.slice(0, 90) });
+  }
+  check("skuRelation names the three relations the refusal turns on",
+    skuRelation("MS210-24P", "MS210") === "family" && skuRelation("MR46", "MR45") === "other"
+    && skuRelation("MS120-24P=", "MS120-24P") === "same");
+  check("the family relation runs one way only: MS210 is MS210-24P's family, never the reverse",
+    skuRelation("MS210", "MS210-24P") === "other");
+  check("neither direction of MG41 / MG41E is a family: the E is glued on with no dash",
+    skuRelation("MG41", "MG41E") === "other" && skuRelation("MG41E", "MG41") === "other");
+  check("skuTokens rejoins adjacent pieces, because a PID is as often MS120-24P as MR45",
+    skuTokens("https://x.test/i/MS120-24P-front.jpg").has("MS120-24P"));
+  check("skuTokens ignores two-character noise",
+    [...skuTokens("https://x.test/i/a-b-MR45.png")].every((t) => t.length >= 3));
+
+  sabotages++;
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "nz-imgrules3-"));
+  const f = path.join(dir, "image-rules.json");
+  const full = JSON.parse(fs.readFileSync(IMAGE_RULES_FILE, "utf8")) as Record<string, unknown>;
+  full.sku_family_separator = "";
+  fs.writeFileSync(f, JSON.stringify(full), "utf8");
+  const noDash = imageRules(f);
+  const leaked = skuCorpus.filter((c) => c.verdict !== null && otherSkuReason(c.sku, c.url, c.known, noDash) === null);
+  check("SABOTAGE drop the dash requirement and the corpus shows siblings being accepted (MX64 on the MX64W page, C9200 on a C9200L)",
+    leaked.length >= 3 && leaked.some((c) => c.sku === "MX64W"), leaked.map((c) => c.sku));
+  fs.rmSync(dir, { recursive: true, force: true });
+
+  sabotages++;
+  const dir2 = fs.mkdtempSync(path.join(os.tmpdir(), "nz-imgrules4-"));
+  const f2 = path.join(dir2, "image-rules.json");
+  const full2 = JSON.parse(fs.readFileSync(IMAGE_RULES_FILE, "utf8")) as Record<string, unknown>;
+  delete full2.sku_family_separator;
+  fs.writeFileSync(f2, JSON.stringify(full2), "utf8");
+  let msg2 = "";
+  try { imageRules(f2); } catch (e) { msg2 = (e as Error).message; }
+  check("SABOTAGE a rules file with no sku_family_separator is refused, NAMING the key",
+    msg2.includes("sku_family_separator"), msg2);
+  fs.rmSync(dir2, { recursive: true, force: true });
+}
+
 // ---- DRIFT: the Python half must agree, URL for URL --------------------------------------------
 {
   // NOT shell:true — a URL's own `&` would be read by cmd.exe as a command separator and the
@@ -123,6 +182,35 @@ for (const c of corpus) {
       }
     }
     check("DRIFT src/core/imageCandidate.ts and scraper/images.py agree on every URL", disagree.length === 0, disagree.slice(0, 4));
+  }
+}
+
+// ---- DRIFT: and on every names-another-sku verdict ----------------------------------------------
+// Both halves are asserted against the fixture above, which catches a half that is wrong. This
+// catches the case the fixture cannot: a shape neither expectation covers, where the two answer
+// differently. The Python side prints its verdicts through the test module's --emit-sku-verdicts.
+{
+  const r = spawnSync("python3.11", ["tests/scraper/test_image_rules.py", "--emit-sku-verdicts"],
+    { cwd: ROOT, encoding: "utf8" });
+  if (r.status !== 0) {
+    check("DRIFT the Python sku verdicts run", false, (r.stderr || r.stdout || "").slice(-400));
+  } else {
+    type PyRow = { sku: string; url: string; verdict: string | null; relations: Record<string, string> };
+    const py = JSON.parse(r.stdout.trim().split("\n").pop() as string) as PyRow[];
+    check("DRIFT the Python half answers for every sku case", py.length === skuCorpus.length,
+      { py: py.length, corpus: skuCorpus.length });
+    const disagree: unknown[] = [];
+    for (let i = 0; i < py.length; i++) {
+      const row = py[i];
+      const c = skuCorpus[i];
+      const ts = otherSkuReason(c.sku, c.url, c.known);
+      if (ts !== row.verdict) { disagree.push({ sku: c.sku, url: c.url, ts, py: row.verdict }); continue; }
+      for (const [named, rel] of Object.entries(row.relations)) {
+        const tsRel = skuRelation(c.sku, named);
+        if (tsRel !== rel) disagree.push({ sku: c.sku, named, ts: tsRel, py: rel });
+      }
+    }
+    check("DRIFT the two halves agree on every sku verdict AND every relation", disagree.length === 0, disagree.slice(0, 4));
   }
 }
 

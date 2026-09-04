@@ -118,5 +118,226 @@
    "placeholder": "not-an-http-url",
    "note": "http(s) only"
   }
+ ],
+ "_sku_readme": [
+  "sku_cases: the names-another-sku rule, which refuses a filename naming a SIBLING model and",
+  "accepts one naming the part's OWN FAMILY. Both halves are held to this list -",
+  "scraper/images.py other_sku_reason() and src/core/imageCandidate.ts otherSkuReason() - and",
+  "tests/imageCandidate.test.ts compares the two verdict for verdict.",
+  "",
+  "The first fourteen are the entire real corpus: every image_candidate the supervised batch",
+  "(run #50, 4 Sep 2026) refused with names-another-sku, URL and SKU as stored. Six of them were",
+  "the family photo and were wrong to refuse; eight name another model and stay refused.",
+  "",
+  "sku      the part whose page the image was on.",
+  "known    the filename tokens that are real parts.sku rows for this vendor - what",
+  "         known_sku_map() would return. Every SKU here except C9200/C9200L/MR55 is a real row",
+  "         in the catalogue as of 4 Sep 2026; those three are named in their case notes.",
+  "verdict  the reason both halves must return, or null when the candidate is accepted."
+ ],
+ "sku_cases": [
+  {
+   "sku": "MG41",
+   "url": "https://documentation.meraki.com/@api/deki/files/25791/MG41E.png?revision=1&size=bestfit&width=319&height=567",
+   "known": ["MG41", "MG41E"],
+   "verdict": "names-another-sku:MG41E",
+   "note": "REAL, still refused. The named token is LONGER than ours: MG41E is the external-antenna gateway, a descendant and never a family. Direction matters."
+  },
+  {
+   "sku": "MR36H",
+   "url": "https://documentation.meraki.com/@api/deki/files/25901/MR30H_Cloud_Managed_Access_Point.jpg?revision=1&size=bestfit&width=273&height=321",
+   "known": ["MR30H", "MR36H"],
+   "verdict": "names-another-sku:MR30H",
+   "note": "REAL, still refused. Same length, different model digits: a sibling wall AP."
+  },
+  {
+   "sku": "MR46",
+   "url": "https://documentation.meraki.com/@api/deki/files/12500/MR45.png?revision=2&size=bestfit&width=775&height=397",
+   "known": ["MR45", "MR46"],
+   "verdict": "names-another-sku:MR45",
+   "note": "REAL, still refused. The refusal the rule was written for: meraki serves MR45.png as the MR46 page's primary image."
+  },
+  {
+   "sku": "MS120-8FP",
+   "url": "https://documentation.meraki.com/@api/deki/files/456/ms120-24.jpg?revision=1&size=bestfit&width=350&height=153",
+   "known": ["MS120", "MS120-24", "MS120-8FP"],
+   "verdict": "names-another-sku:MS120-24",
+   "note": "REAL, still refused, and the reason CHANGES from MS120 to MS120-24. The file names our family AND a 24-port sibling; a sibling refuses even when the family is also named, and the reason must name the sibling or it sends the operator to look at the wrong thing."
+  },
+  {
+   "sku": "MS125-24P",
+   "url": "https://documentation.meraki.com/@api/deki/files/466/MS125-24-PoE.png?revision=1&size=bestfit&width=316&height=135",
+   "known": ["MS125", "MS125-24", "MS125-24P"],
+   "verdict": "names-another-sku:MS125-24",
+   "note": "REAL, still refused, deliberately and at a cost: 'MS125-24-PoE' is very likely this exact switch spelled out, but MS125-24 is a real non-PoE sibling and MS125-24P is not MS125-24 plus a dash. A wrong picture is worse than a recorded gap."
+  },
+  {
+   "sku": "MS130-8",
+   "url": "https://documentation.meraki.com/@api/deki/files/22088/MS130_family_DSC09651_NoRugged_shadow.png?revision=1&size=bestfit&width=1007&height=431",
+   "known": ["MS130", "MS130-8"],
+   "verdict": null,
+   "note": "REAL, now ACCEPTED. The file calls itself the MS130 family photo and MS130-8 extends MS130 across a dash."
+  },
+  {
+   "sku": "MS210-24P",
+   "url": "https://documentation.meraki.com/@api/deki/files/457/ms210.jpg?revision=1",
+   "known": ["MS210", "MS210-24P"],
+   "verdict": null,
+   "note": "REAL, now ACCEPTED. The family photo, refused by run #50 only because MS210 is also a row in parts."
+  },
+  {
+   "sku": "MS225-48FP",
+   "url": "https://documentation.meraki.com/@api/deki/files/458/ms225.jpg?revision=1",
+   "known": ["MS225", "MS225-48", "MS225-48FP"],
+   "verdict": null,
+   "note": "REAL, now ACCEPTED. MS225-48 is a real sibling but this filename does not name it - only MS225 does."
+  },
+  {
+   "sku": "MS250-48LP",
+   "url": "https://documentation.meraki.com/@api/deki/files/1404/ms250-48.jpg?revision=1&size=bestfit&width=500&height=219",
+   "known": ["MS250", "MS250-48", "MS250-48LP"],
+   "verdict": "names-another-sku:MS250-48",
+   "note": "REAL, still refused. MS250-48 is the non-PoE 48-port switch; MS250-48LP glues LP on with no dash, so it is a variant and not a configuration. The two look alike and it is refused anyway."
+  },
+  {
+   "sku": "MS350-24P",
+   "url": "https://documentation.meraki.com/@api/deki/files/461/ms350.jpg?revision=1",
+   "known": ["MS350", "MS350-24P"],
+   "verdict": null,
+   "note": "REAL, now ACCEPTED. The third of the three family photos named in the brief."
+  },
+  {
+   "sku": "MS355-24X",
+   "url": "https://documentation.meraki.com/@api/deki/files/1403/MS355-48X2-MS355-24X2-stacked.png?revision=2&size=bestfit&width=600&height=144",
+   "known": ["MS355", "MS355-24X", "MS355-24X2", "MS355-48X2"],
+   "verdict": "names-another-sku:MS355-24X2",
+   "note": "REAL, still refused, and the case that shows why 'accept the family' cannot be the whole rule: this file names the MS355 family AND two specific models, neither of which is the MS355-24X whose page it was on. MS355.png on the same page would be accepted - same part, different file, different verdict."
+  },
+  {
+   "sku": "MS410-16",
+   "url": "https://documentation.meraki.com/@api/deki/files/462/ms410.jpg?revision=1&size=bestfit&width=490&height=163",
+   "known": ["MS410", "MS410-16"],
+   "verdict": null,
+   "note": "REAL, now ACCEPTED."
+  },
+  {
+   "sku": "MS425-32",
+   "url": "https://documentation.meraki.com/@api/deki/files/465/ms425.jpg?revision=1&size=bestfit&width=500&height=256",
+   "known": ["MS425", "MS425-32"],
+   "verdict": null,
+   "note": "REAL, now ACCEPTED."
+  },
+  {
+   "sku": "MX64W",
+   "url": "https://documentation.meraki.com/@api/deki/files/933/Image_MX64.jpg?revision=2&size=bestfit&width=550&height=241",
+   "known": ["MX64", "MX64W"],
+   "verdict": "names-another-sku:MX64",
+   "note": "REAL, still refused. MX64W is the MX64 with radios and visible antennas - a different chassis, and the W is glued on with no dash."
+  },
+  {
+   "sku": "MS350-24P",
+   "url": "https://documentation.meraki.com/@api/deki/files/461/MS350.png",
+   "known": ["MS350", "MS350-24P"],
+   "verdict": null,
+   "note": "TIE CASE from the brief: MS350 vs MS350-24P, accept as family."
+  },
+  {
+   "sku": "MS355-24X",
+   "url": "https://documentation.meraki.com/@api/deki/files/1403/MS355.png",
+   "known": ["MS355", "MS355-24X", "MS355-24X2"],
+   "verdict": null,
+   "note": "TIE CASE from the brief: MS355-24X vs MS355.png, accept as family. The sibling MS355-24X2 exists but this filename does not name it."
+  },
+  {
+   "sku": "MR46",
+   "url": "https://documentation.meraki.com/@api/deki/files/12/MR44.png",
+   "known": ["MR44", "MR46"],
+   "verdict": "names-another-sku:MR44",
+   "note": "TIE CASE from the brief: MR44 vs MR46, refuse. Same length, differs only in the model digits."
+  },
+  {
+   "sku": "MX67C",
+   "url": "https://documentation.meraki.com/@api/deki/files/12/MX67.png",
+   "known": ["MX67", "MX67C"],
+   "verdict": "names-another-sku:MX67",
+   "note": "TIE CASE from the brief: MX67 vs MX67C, REFUSE. Meraki reserves the dash for the port/PoE configuration of one chassis and an appended letter for a different chassis - the C carries an integrated LTE modem and its antennas. MX67 and MX67C also have ZERO dash-children each in the catalogue, i.e. both are leaves, while MS210 has 10 and C9200L 119."
+  },
+  {
+   "sku": "C9200L-24P-4G",
+   "url": "https://www.cisco.com/c/dam/en/us/products/switches/C9200L.png",
+   "known": ["C9200L", "C9200L-24P-4G"],
+   "verdict": null,
+   "note": "TIE CASE from the brief: C9200L-24P-4G vs C9200L.png, accept as family. C9200L is not itself a row in parts today, so in production this filename names nothing and is accepted anyway - the case pins the RULE, not today's catalogue."
+  },
+  {
+   "sku": "C9200L-24P-4G",
+   "url": "https://www.cisco.com/c/dam/en/us/products/switches/C9200.png",
+   "known": ["C9200", "C9200L-24P-4G"],
+   "verdict": "names-another-sku:C9200",
+   "note": "SABOTAGE, another family sharing a prefix letter pattern: C9200 is the Catalyst 9200 and C9200L the 9200L, different switches. A naive startswith() accepts this; requiring the dash boundary refuses it. C9200 is not a parts row today either - the case exists so the guard cannot be removed unnoticed."
+  },
+  {
+   "sku": "MS225-48FP",
+   "url": "https://documentation.meraki.com/@api/deki/files/1404/ms250.jpg",
+   "known": ["MS225", "MS225-48FP", "MS250"],
+   "verdict": "names-another-sku:MS250",
+   "note": "SABOTAGE, and the reason parts.family is NOT an accept criterion: MS250 and MS225-48FP carry the SAME parts.family ('Cisco Meraki'), so a rule that accepted a token matching the part's family would put a photo of an MS250 on the MS225-48FP page."
+  },
+  {
+   "sku": "MS210",
+   "url": "https://documentation.meraki.com/@api/deki/files/457/ms210-24p.jpg",
+   "known": ["MS210", "MS210-24P"],
+   "verdict": null,
+   "note": "The one place the descendant direction is NOT refused, recorded because it is an artefact and not a decision: sku_tokens splits ms210-24p into MS210-24P and MS210, so the file names our own SKU and 'names this part' wins. It is harmless here - MS210 is a family row and the photo is of a model inside it - and it cannot leak to a sibling, because a sibling's filename never contains our SKU as a dash-separated piece (MS410-16 <- ms410-32.jpg is still refused). The genuine descendant case, MG41 <- MG41E.png, has no dash and IS refused."
+  },
+  {
+   "sku": "MS410-16",
+   "url": "https://documentation.meraki.com/@api/deki/files/462/ms410-32.jpg",
+   "known": ["MS410", "MS410-16", "MS410-32"],
+   "verdict": "names-another-sku:MS410-32",
+   "note": "the sibling case that proves the artefact above cannot leak: the file names our family (MS410) and a sibling (MS410-32) but never our own SKU, so the sibling refuses."
+  },
+  {
+   "sku": "MR45",
+   "url": "https://documentation.meraki.com/@api/deki/files/12500/MR45.png?revision=2",
+   "known": ["MR45", "MR46"],
+   "verdict": null,
+   "note": "a filename that names THIS part is not refused"
+  },
+  {
+   "sku": "MR46",
+   "url": "https://documentation.meraki.com/@api/deki/files/12/MR46-HW.png",
+   "known": ["MR46", "MR46-HW"],
+   "verdict": null,
+   "note": "meraki's hardware-only SKU is the same product as its PID. Accepted twice over: sku_equivalent_suffixes makes the relation 'same', and sku_tokens emits MR46 alongside MR46-HW so 'names this part' would carry it anyway. The redundancy is recorded, not relied on - see the sabotage in tests/scraper/test_image_rules.py."
+  },
+  {
+   "sku": "MR46-HW",
+   "url": "https://documentation.meraki.com/@api/deki/files/12/MR46.png",
+   "known": ["MR46", "MR46-HW"],
+   "verdict": null,
+   "note": "-HW is meraki's hardware-only SKU for the same product, so MR46.png on the MR46-HW page is this part's own photo. Without sku_equivalent_suffixes this reads as 'another part we hold' - MR46 IS a separate row."
+  },
+  {
+   "sku": "MS120-24P=",
+   "url": "https://x.test/i/MS120-24P.jpg",
+   "known": ["MS120", "MS120-24P"],
+   "verdict": null,
+   "note": "the SKU comparison ignores the punctuation a PID carries: C9200L-24P-4G= is the same part"
+  },
+  {
+   "sku": "MR45",
+   "url": "https://x.test/i/MR45-and-MR55.png",
+   "known": ["MR45", "MR55"],
+   "verdict": null,
+   "note": "a photo of two products, one of them ours, is not refused. MR55 is a real meraki AP but not a row in the catalogue today."
+  },
+  {
+   "sku": "MR46",
+   "url": "https://x.test/i/ap-front-photo.png",
+   "known": ["MR45", "MR46"],
+   "verdict": null,
+   "note": "a filename that names nothing in the catalogue is not refused: only a POSITIVE identification refuses"
+  }
  ]
 }

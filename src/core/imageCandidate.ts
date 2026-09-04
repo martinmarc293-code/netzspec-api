@@ -19,6 +19,8 @@ export type ImageRules = {
   version: string;
   placeholder_url_substrings: string[];
   url_key_strip_segments: string[];
+  sku_family_separator: string;
+  sku_equivalent_suffixes: string[];
   max_parts_per_url_key: number;
   max_parts_per_sha256: number;
   min_long_side_px: number;
@@ -38,7 +40,8 @@ export function imageRules(file: string = IMAGE_RULES_FILE): ImageRules {
   if (cachedRules && file === IMAGE_RULES_FILE) return cachedRules;
   if (!fs.existsSync(file)) throw new Error(`imageRules: ${file} does not exist`);
   const raw = JSON.parse(fs.readFileSync(file, "utf8")) as Partial<ImageRules>;
-  for (const k of ["placeholder_url_substrings", "url_key_strip_segments", "max_parts_per_url_key",
+  for (const k of ["placeholder_url_substrings", "url_key_strip_segments", "sku_family_separator",
+    "sku_equivalent_suffixes", "max_parts_per_url_key",
     "max_parts_per_sha256", "min_long_side_px", "merchant_min_long_side_px", "max_attempts", "lease_minutes"] as const) {
     if (raw[k] === undefined) throw new Error(`imageRules: ${file} has no "${k}"`);
   }
@@ -92,6 +95,89 @@ export function placeholderReason(url: string, rules: ImageRules = imageRules())
     if (key.includes(s.toLowerCase())) return `placeholder-url:${s}`;
   }
   return null;
+}
+
+// ---------------------------------------------------------------------------------------------
+// Does this filename name somebody else's product? The mirror of scraper/images.py's
+// sku_tokens() / sku_relation() / other_sku_reason(); tests/imageCandidate.test.ts runs both over
+// tests/fixtures/image-urls.json and fails if they ever disagree.
+// ---------------------------------------------------------------------------------------------
+
+const ALNUM = /[\p{L}\p{N}]/u;
+
+/** Upper-cased, non-alphanumerics removed. Mirrors Python's alnum(). */
+export function skuAlnum(s: string): string {
+  let out = "";
+  for (const ch of s.toUpperCase()) if (ALNUM.test(ch)) out += ch;
+  return out;
+}
+
+/**
+ * Part-number-shaped strings the FILENAME contains, upper-cased. Tokens are the whole stem, each
+ * dash-separated piece of it, and each adjacent pair rejoined with a dash, because a Cisco PID is
+ * as often 'MS120-24P' as 'MR45'. Two characters is noise, never a PID.
+ */
+export function skuTokens(url: string, rules: ImageRules = imageRules()): Set<string> {
+  const key = imageUrlKey(url, rules);
+  if (key === null) return new Set();
+  let stem = key.split("/").pop() as string;
+  if (stem.includes(".")) stem = stem.slice(0, stem.lastIndexOf("."));
+  let flat = "";
+  for (const ch of stem) flat += ALNUM.test(ch) || ch === "-" ? ch : " ";
+  const parts = flat.split(/\s+/u).filter((p) => p.length > 0);
+  const pieces: string[] = [];
+  for (const p of parts) { pieces.push(p); for (const x of p.split("-")) if (x) pieces.push(x); }
+  const out = new Set<string>([stem.toUpperCase()]);
+  for (const p of pieces) out.add(p.toUpperCase());
+  for (let i = 0; i + 1 < pieces.length; i++) out.add(`${pieces[i]}-${pieces[i + 1]}`.toUpperCase());
+  return new Set([...out].filter((t) => t.length >= 3));
+}
+
+/** Upper-cased with the suffixes that name the SAME product removed ('=' spare, '-HW' hardware
+ *  only). Dashes are kept: the dash IS the rule in skuRelation(). */
+export function skuNorm(s: string, rules: ImageRules = imageRules()): string {
+  let out = s.trim().toUpperCase();
+  for (let changed = true; changed;) {
+    changed = false;
+    for (const suf of rules.sku_equivalent_suffixes) {
+      const u = suf.toUpperCase();
+      if (out.length > u.length && out.endsWith(u)) { out = out.slice(0, out.length - u.length); changed = true; }
+    }
+  }
+  return out;
+}
+
+/**
+ * How the part number a FILENAME carries relates to the part whose page it was on.
+ * "same" / "family" are accepted, "other" is refused. See scraper/images.py sku_relation() for
+ * the reasoning in full: the dash separates a family from the port and PoE configurations of ONE
+ * chassis (MS210 -> MS210-24P, C9200L -> C9200L-24P-4G), while a letter glued on with no dash is
+ * a DIFFERENT chassis (MX64 -> MX64W, MX67 -> MX67C, MG41 -> MG41E) and a shared run of letters
+ * with no dash boundary is another family (C9200 vs C9200L-24P-4G).
+ */
+export function skuRelation(mine: string, named: string, rules: ImageRules = imageRules()): "same" | "family" | "other" {
+  const a = skuNorm(mine, rules);
+  const b = skuNorm(named, rules);
+  if (skuAlnum(a) === skuAlnum(b)) return "same";
+  if (b.length > 0 && a.startsWith(b + rules.sku_family_separator)) return "family";
+  return "other";
+}
+
+/**
+ * The refusal for meraki's MR45.png on the MR46 page, given the filename tokens already known to
+ * be real part numbers for this vendor. Null when the filename names nothing we hold, names this
+ * part, or names only this part's own family. A file that names a sibling is refused even when it
+ * also names the family, and the reason names the SIBLING.
+ */
+export function otherSkuReason(sku: string, url: string, knownSkus: Iterable<string>,
+  rules: ImageRules = imageRules()): string | null {
+  const known = new Set([...knownSkus].map((s) => s.toUpperCase()));
+  const named = [...skuTokens(url, rules)].filter((t) => known.has(t));
+  if (named.length === 0) return null;
+  const rel = named.map((n) => [n, skuRelation(sku, n, rules)] as const);
+  if (rel.some(([, r]) => r === "same")) return null;
+  const others = rel.filter(([, r]) => r === "other").map(([n]) => n).sort();
+  return others.length ? `names-another-sku:${others[0]}` : null;
 }
 
 export type CandidateInput = { url: string; role?: string; alt?: string; kind?: string };

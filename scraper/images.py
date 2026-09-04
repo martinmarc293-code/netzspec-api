@@ -458,17 +458,89 @@ def known_sku_map(db, batch: list[dict]) -> dict[str, set[str]]:
     return out
 
 
+def _family_rules() -> tuple[str, tuple[str, ...]]:
+    """The two SKU-shape values, from the shared rules file. Raises naming the key rather than
+    defaulting: a lane that quietly assumed '-' would keep working here and stop agreeing with
+    src/core/imageCandidate.ts, which is the drift this file exists to prevent."""
+    r = rules()
+    for k in ("sku_family_separator", "sku_equivalent_suffixes"):
+        if k not in r:
+            raise SystemExit(f"images: {RULES_FILE} has no \"{k}\"")
+    return r["sku_family_separator"], tuple(r["sku_equivalent_suffixes"])
+
+
+def sku_norm(s: str) -> str:
+    """Upper-cased, with the suffixes that name the SAME product removed: Cisco's spare '=' and
+    Meraki's hardware-only '-HW'. Keeps the dashes, because the dash is the whole rule below."""
+    sep, suffixes = _family_rules()
+    out = s.strip().upper()
+    changed = True
+    while changed:
+        changed = False
+        for suf in suffixes:
+            if len(out) > len(suf) and out.endswith(suf.upper()):
+                out = out[: -len(suf)]
+                changed = True
+    return out
+
+
+def sku_relation(mine: str, named: str) -> str:
+    """How the part number a FILENAME carries relates to the part whose page it was on.
+
+    "same"     the same product, punctuation and equivalent suffixes aside (MS120-24P= / MS120-24P).
+    "family"   the named token is this part's own family: our SKU extends it across a dash.
+               MS210 -> MS210-24P, MS355 -> MS355-24X, C9200L -> C9200L-24P-4G. The family photo
+               IS the product shot for every model in the family, so it is accepted.
+    "other"    everything else, and it is refused. Three shapes reach here and all three are a
+               different product:
+                 MR45 vs MR46, MR44 vs MR46   siblings; neither is a prefix of the other.
+                 MG41E vs MG41                the named token is LONGER: a descendant, never a
+                                              family - MG41E is the external-antenna gateway.
+                 MX64 vs MX64W, MX67 vs MX67C, MS250-48 vs MS250-48LP
+                                              a letter glued on with no dash. Meraki reserves the
+                                              dash for the port/PoE configuration of one chassis
+                                              and an appended letter for a different chassis (W
+                                              adds radios, C an LTE modem). MS250-48 -> -48LP is
+                                              the one case where the two units look alike, and it
+                                              is refused anyway: a wrong picture on a part page is
+                                              worse than none, and the refusal is on record.
+                 C9200 vs C9200L-24P-4G       a shared run of letters with no dash boundary is
+                                              another family entirely. This is why the separator
+                                              is required and startswith() alone is not enough.
+    """
+    sep, _ = _family_rules()
+    a, b = sku_norm(mine), sku_norm(named)
+    if alnum(a) == alnum(b):
+        return "same"
+    if b and a.startswith(b + sep):
+        return "family"
+    return "other"
+
+
 def other_sku_reason(c: dict, known: dict[str, set[str]]) -> str | None:
     """'This filename names a DIFFERENT part we hold' — the refusal for meraki's MR45.png on the
-    MR46 page. Silent about a filename that names nothing, or names this part: only a positive
-    identification of somebody else's product refuses."""
+    MR46 page. Silent about a filename that names nothing, names this part, or names only this
+    part's own FAMILY: only a positive identification of somebody else's product refuses.
+
+    The family half was bought by run #50 (4 Sep 2026), which refused MS210-24P <- MS210.png,
+    MS225-48FP <- MS225.png and MS350-24P <- MS350.png. Each of those files is the family photo
+    that Meraki prints on every model's page, and each was refused only because the family slug
+    is also a row in `parts`. See sku_relation() for what separates a family from a sibling.
+
+    A file that names a sibling is refused even when it ALSO names the family, and the reason
+    names the sibling, not the family: MS355-48X2-MS355-24X2-stacked.png is the MS355 family
+    photo and a photo of two specific models that are not the MS355-24X whose page it was on.
+    """
     named = sku_tokens(c["image_url"]) & known.get(c["vendor_slug"], set())
     if not named:
         return None
-    mine = alnum(c["sku"])
-    if any(alnum(n) == mine for n in named):
+    rel = {n: sku_relation(c["sku"], n) for n in named}
+    if any(r == "same" for r in rel.values()):
         return None
-    return "names-another-sku:" + sorted(named)[0]
+    others = sorted(n for n, r in rel.items() if r == "other")
+    if others:
+        return "names-another-sku:" + others[0]
+    return None
 
 
 def decide(db, cid: int, status: str, reason: str | None, image_id: int | None = None) -> None:
