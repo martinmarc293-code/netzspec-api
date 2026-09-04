@@ -50,7 +50,15 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //            acceptable MAC-address-table size, which is a mis-mapped fact, not a count.
 //        Also: `layer` reads the bare layer NUMBER a distributor states ("2", "3", "2+", "2/3"),
 //        anchored end to end, and still refuses "4" and "7" rather than rounding them into l3.
-export const NORM_VERSION = "1.5.0";
+// 1.5.0: a list cell is split on the document's OWN delimiter (bullets, newlines) where it has
+//        one, otherwise on "," and ";" outside brackets — and never on "/".
+// 1.5.1: "never on /" was right four times out of five and wrong on the fifth. A SPACED slash
+//        between two orderable part numbers is the datasheet listing alternatives, and it was
+//        being kept as one member: C9300-24U's "PWR-C1-1900WAC-P/ PWR-C1-1900WHV-T" is two PSUs
+//        you can buy, not one PID, and it broke the golden expectation an hour after 1.5.0
+//        shipped. See splitPidAlternatives for the rule and for why the GLUED form must not
+//        split.
+export const NORM_VERSION = "1.5.1";
 
 export type NormReason =
   | "PARSE_FAIL" | "UNIT_MISSING" | "UNIT_UNKNOWN" | "ENUM_VIOLATION"
@@ -440,6 +448,81 @@ function splitOutsideBrackets(t: string): string[] {
   return out;
 }
 
+/** A token shaped "SEGMENT-SEGMENT[-SEGMENT…]" — the dash-separated multi-segment shape a full
+ *  Cisco PID has ("PWR-C1-1900WAC-P", "SFP-10G-SR", "9800-40"). Anchored end to end, so a token
+ *  that still carries a slash inside it ("SFP-10/25G-LR-S") does not satisfy it — that token is
+ *  still a legal MEMBER, it just cannot be the one that licenses the split. */
+const PID_MULTI_SEGMENT = /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)+$/;
+
+/** Which slashes may separate list members. Production is always "pid-alternatives"; the other
+ *  three are the SABOTAGE breaks, one per condition of the rule below, so that
+ *  tests/specNormalize.lists.test.mjs can run the REAL code with each condition removed instead
+ *  of grading a re-implementation of it (CLAUDE.md, "a check that has never failed is not a
+ *  check" + "three copies of a helper"):
+ *    "off"          the 1.5.0 rule — never split on "/" (kills the whole rule)
+ *    "every-slash"  the pre-1.5.0 defect — split on every slash, no test at all (kills 2 and 3)
+ *    "ignore-space" split wherever the pieces are PIDs, spaced or glued (kills condition 1)
+ *  That test also greps src/ to prove no production caller passes this argument. */
+export type SlashRule = "pid-alternatives" | "off" | "every-slash" | "ignore-space" | "ignore-shape";
+
+/**
+ * One member split on the slashes that are LIST SEPARATORS, or `[member]` when none are.
+ *
+ * 1.5.0 said "never on /" and that was right for `IEC/EN-61000-4-2`, `10/100/1000`, `TCP/IP`,
+ * `AC/DC` and `RJ-45/SFP combo`. It was wrong for the one shape where a slash separates two
+ * things you can ORDER: `PWR-C1-1900WAC-P/ PWR-C1-1900WHV-T`, the two primary supplies of a
+ * C9300-24U, kept as a single member that is no part number at all.
+ *
+ * Three conditions, and every one of them is load-bearing:
+ *
+ *   1. THE SLASH CARRIES A SPACE. This is the discriminator, and it is the corpus that chose it,
+ *      not taste. Of the 69,487 PIDs Cisco's own documents name, 1,297 contain a slash and
+ *      **170 of those are a glued slash between two halves that are each a well-formed,
+ *      multi-segment PID**: SM-X-8FXS/12FXO, SL-8100-NE/DEF-K9, SPA-8XCHT1/E1-V2,
+ *      SFP-10/25G-LR-S, NCS-57B1-6D24/5DSE — and 8201-32FH/8201-32FH-O, where the right half
+ *      even repeats the left. No shape rule separates those from two alternatives, so a glued
+ *      slash must stay glued or the splitter fabricates 170 PIDs that do not exist, which is the
+ *      `IEC/EN-61000-4-2` failure with a different mask. A PID never contains WHITESPACE (the
+ *      shared `isPartNumber` refuses it outright), so a slash with a space beside it cannot be
+ *      inside one PID — that is the whole safety argument, and it is a property of the corpus
+ *      rather than a preference about how datasheets ought to be typed.
+ *   2. EVERY PIECE IS A PART NUMBER, by the one shared rule in src/pipeline/partNumber.ts.
+ *      Imported, never re-implemented. This is what keeps "Layer 2/3", "RJ-45/SFP combo" and
+ *      "IEC/EN-61000-4-2" whole: a piece with a space in it, a two-letter piece and `IEC` are
+ *      all refused, and one refused piece refuses the whole split.
+ *   3. AT LEAST ONE PIECE IS MULTI-SEGMENT. isPartNumber alone is not enough, because it
+ *      deliberately KEEPS six- to eight-digit Cisco video PIDs (1030033) and knowingly accepts
+ *      18 scraped numbers among them — 115200 and 230400 are baud rates, and "115200 / 230400"
+ *      in a console-port cell is a speed list, not two orderable parts. A dash-separated PID on
+ *      one side is the evidence that this cell is naming products.
+ *
+ * Bracket depth is respected for the same reason the comma split respects it: the slash in
+ * "IP ACL (L3/L4)" belongs to the member.
+ */
+function splitPidAlternatives(member: string, rule: SlashRule): string[] {
+  if (rule === "off" || !member.includes("/")) return [member];
+  const cuts: number[] = [];
+  let depth = 0;
+  for (let i = 0; i < member.length; i++) {
+    const c = member[i];
+    if (c === "(" || c === "[" || c === "{") { depth++; continue; }
+    if (c === ")" || c === "]" || c === "}") { depth = depth > 0 ? depth - 1 : 0; continue; }
+    if (depth > 0 || c !== "/") continue;
+    const spaced = /\s/.test(member[i - 1] ?? "") || /\s/.test(member[i + 1] ?? "");
+    if (rule !== "ignore-space" && rule !== "every-slash" && !spaced) continue;   // condition 1
+    cuts.push(i);
+  }
+  if (!cuts.length) return [member];
+  const pieces: string[] = [];
+  let start = 0;
+  for (const i of cuts) { pieces.push(member.slice(start, i).trim()); start = i + 1; }
+  pieces.push(member.slice(start).trim());
+  if (rule === "every-slash") return pieces;
+  if (!pieces.every((p) => isPartNumber(p).ok)) return [member];        // condition 2
+  if (rule !== "ignore-shape" && !pieces.some((p) => PID_MULTI_SEGMENT.test(p))) return [member];  // condition 3
+  return pieces;
+}
+
 /**
  * A list cell into its members. Two rules, in this order, and both were bought:
  *
@@ -448,17 +531,23 @@ function splitOutsideBrackets(t: string): string[] {
  *      at all, so "● SNMPv2-SMI ● CISCO-SMI ● SNMPv2-TM ●…" — how every snmp_mibs and
  *      programming_interfaces cell is written — became ONE member, and two datasheets stating the
  *      same MIB list in a different order were then a held conflict.
- *   2. OTHERWISE split on "," and ";" OUTSIDE brackets, and never on "/". The slash split
- *      "IEC/EN-61000-4-2" into two standards that do not exist and cut "Galois/Counter" in half;
- *      the bracket-blind comma split turned "IEC 60068-2-27 (Storage, Class 1.1)" into "IEC
- *      60068-2-27 (Storage" and "Class 1.1)". A member with an unbalanced bracket is a member that
- *      was shredded, which is the shape this refuses to produce.
+ *   2. OTHERWISE split on "," and ";" OUTSIDE brackets, and on "/" ONLY in the one shape
+ *      splitPidAlternatives defines. The unconditional slash split cut "IEC/EN-61000-4-2" into
+ *      two standards that do not exist and cut "Galois/Counter" in half; the bracket-blind comma
+ *      split turned "IEC 60068-2-27 (Storage, Class 1.1)" into "IEC 60068-2-27 (Storage" and
+ *      "Class 1.1)". A member with an unbalanced bracket is a member that was shredded, which is
+ *      the shape this refuses to produce.
+ *
+ * The slash pass runs LAST, over whatever the first two rules produced, and it never changes
+ * which of those two branches was taken — that decision is measured (see the bullet fallback
+ * below) and 1.5.1 deliberately leaves it alone.
  *
  * A member with no letter and no digit is punctuation left over from the split, not a member.
  */
-export function splitListValue(raw: string): string[] {
+export function splitListValue(raw: string, slashRule: SlashRule = "pid-alternatives"): string[] {
   const t = String(raw ?? "").replace(/\r\n?/g, "\n");
   const clean = (parts: string[]) => parts.map((p) => p.replace(TRIM_EDGES, "").trim()).filter((p) => /[A-Za-z0-9]/.test(p));
+  const alternatives = (parts: string[]) => clean(parts.flatMap((p) => splitPidAlternatives(p, slashRule)));
   if (HAS_BULLET.test(t) || t.includes("\n")) {
     const bulleted = clean(t.split(BULLET_SPLIT));
     // The document's own delimiter wins only when it actually DELIMITS. A cell that opens with a
@@ -467,9 +556,9 @@ export function splitListValue(raw: string): string[] {
     // returning it would turn a nine-item QoS list into one sentence. Measured over the corpus:
     // this fallback is the difference between 15,429 cells splitting correctly and about 1,000 of
     // them collapsing.
-    if (bulleted.length > 1) return bulleted;
+    if (bulleted.length > 1) return alternatives(bulleted);
   }
-  return clean(splitOutsideBrackets(t));
+  return alternatives(splitOutsideBrackets(t));
 }
 
 /** Extract the first "<number> <unit?>" occurrence.

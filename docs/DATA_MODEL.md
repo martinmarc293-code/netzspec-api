@@ -410,6 +410,42 @@ has two halves, in the two places that can see the two shapes:
 - **an `ls` field from two different documents**, or from two different tiers — that is two
   sources, and the merge holds it.
 
+### What separates one member from the next
+
+`splitListValue` (`src/core/specNormalize.ts`, `NORM_VERSION` 1.5.1) decides where a cell's members
+end, in this order:
+
+1. **the document's own delimiter, where it has one.** A cell carrying bullets (`●`, `•`, `▪`) or
+   newlines is already a list and those are the right separators — that is how every `snmp_mibs`
+   and `programming_interfaces` cell is written, and before 1.5.0 the whole cell was one member. A
+   cell with a single *leading* bullet delimits nothing, so it falls through to the commas;
+   measured over the corpus, that fallback is the difference between 15,429 cells splitting and
+   about 1,000 collapsing into one sentence;
+2. **otherwise `,` and `;` and the words "and"/"und", outside brackets.** The bracket-blind version
+   cut `IEC 60068-2-27 (Storage, Class 1.1)` in half. A member with an unbalanced bracket is a
+   member that was shredded;
+3. **and `/`, but only between orderable part numbers, and only when it carries a space.**
+
+The slash is the one that has been wrong in both directions. Splitting on every slash invented two
+standards out of `IEC/EN-61000-4-2` and cut `Galois/Counter`, `10/100/1000`, `TCP/IP`, `AC/DC` and
+`RJ-45/SFP combo` in half; refusing every slash (1.5.0) kept `PWR-C1-1900WAC-P/ PWR-C1-1900WHV-T` —
+two power supplies you can order for a C9300-24U — as a single member that is no PID at all, which
+the gate caught on the golden expectation an hour after 1.5.0 shipped. Three conditions, each with
+its own sabotage break in `tests/specNormalize.lists.test.mjs`:
+
+| condition | why | what it protects |
+| --- | --- | --- |
+| the slash **carries a space** | of the 69,487 PIDs Cisco's own documents name, 1,297 contain a slash and **170 are a glued slash between two well-formed multi-segment PIDs** — `SM-X-8FXS/12FXO`, `SL-8100-NE/DEF-K9`, `SPA-8XCHT1/E1-V2`, `SFP-10/25G-LR-S`, and `8201-32FH/8201-32FH-O` where the right half repeats the left. No *shape* rule separates those from two alternatives; a PID never contains whitespace, so a spaced slash cannot be inside one | those 170 real PIDs. `SFP-10G-SR/ SFP-10G-LR` splits, `SFP-10G-SR/SFP-10G-LR` does not |
+| **every piece is a part number**, by the one shared rule in `src/pipeline/partNumber.ts` (imported, never re-implemented) | a piece with a space, a two-letter piece, and `IEC` are all refused, and one refused piece refuses the whole split | `Layer 2/3`, `RJ-45/SFP combo`, `IEC/EN-61000-4-2`, `TCP/IP`, `AC/DC`, `802.3af/at` |
+| **at least one piece is dash-segmented** | `isPartNumber` deliberately keeps six- to eight-digit Cisco video PIDs and knowingly accepts 18 scraped numbers among them; `115200 / 230400` is a console speed list, not two orderable parts | any spaced slash between two bare numbers |
+
+Replayed read-only over the store before it shipped: of **7,530** current `ls` facts whose `raw`
+contains a slash, **1** changes, and the only new members anywhere in the corpus are the two
+`PWR-C1-1900W*` PIDs. 180 members carry a *spaced* slash and still stay whole — `gRPC / MDT`,
+`EN 55032/ CISPR 32`, `QSFPDD/ QSFP28` inside prose — every one refused by a named condition rather
+than by luck. On `runs/extract/cisco-deep-s1-after.json` 11 of 906 `psu_options` records change
+(10 C9300 SKUs plus a CVR converter cell); shard 0 changes none.
+
 ### Model-major tables: which column belongs to the model
 
 The other half of the same finding was the extractor reading the wrong column. `shape_a_columns`
