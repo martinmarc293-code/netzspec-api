@@ -154,6 +154,11 @@ full; the ones that bite hardest here are restated.
   MR44-HW etc.; `apply-acquired` matches by exact sku only. TODO (after the images agent
   releases apply-acquired.ts): match through `part_aliases` and the `=`/`-HW` variants,
   case-insensitively, and count `matched_via_alias`.
+  Shard 1 APPLIED as run #45 under the scoped rule (gate PASS, golden 20/20, provenance
+  200/200): 5,755 parts touched, insert 870, corroborate 5,806, conflicts HELD 13,640,
+  6 source-less promotions withheld (C9300X-12Y ports), quarantine 6,046, unknown SKUs 217
+  (Catalyst 8100/8130/8151 G2 families — not in the catalogue). Both HTML shards are in;
+  the PDF file waits for the provenance fix; the held conflicts wait for `ingest remerge`.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
