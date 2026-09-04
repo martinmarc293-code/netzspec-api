@@ -40,6 +40,26 @@ full; the ones that bite hardest here are restated.
 
 ## Session log (update every session; newest first)
 
+- **2026-09-04 — improvement block (handoff, in progress).** DONE + deployed (`38105b3`):
+  tools layer (126 finders, `/v1/tools`), vocabulary round 2, completeness counts vendor/series,
+  normaliser locale + K-suffix fixes, planner ordered by product value, worker survives
+  navigation during capture, 1,270 junk tasks purged and 772 noise "parts" reclassified,
+  enumeration import (9 new), hourly netzspec sync on the box, endpoint sweep: 26/26 at
+  200, worst 880 ms. FOUND by the Opus gap audit + adversarial review (docs/CISCO_GAPS.md):
+  the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
+  shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
+  nine hardware categories have no required field (17,753 parts invisible to the gap
+  ledger); `is_part_number` refuses 1,497 real Cisco PIDs; the capability matrix leaves
+  100,167 gap entries with no capable source. Run #15 (the first apply) was aborted at 96
+  facts and those rows removed. IN FLIGHT (Opus): apply-path hardening, required-field
+  promotion from evidence, catalogue hygiene (reclassify, real-PID shapes, "*" capability),
+  normaliser unit recovery, scraper training round, full-suite run. NEXT once hardening
+  lands: deploy, then run the two extraction shards + the PDF file + recompute on the BOX
+  (`/root/netzspec-api`, symlink `scraper/cache` → `/var/lib/netzspec-api/cache`, files under
+  `/var/lib/netzspec-api/runs/extract/`), never through the tunnel again (an apply of 100k
+  facts wrote nothing in an hour from the laptop). TRAPS: `npx tsc` from the wrong cwd runs
+  a foreign "tsc" package — always `cd` first; PowerShell's Tee-Object writes UTF-16 logs.
+
 - **2026-09-04 — orchestrator setup (handoff).** CLOSED: subagents default to Opus
   (`.claude/settings.json`, mirrored in netzspec), three project agents in `.claude/agents/`,
   agent + code-graph rules above. VERIFIED: an explicit-model spawn reports "Sonnet 5
