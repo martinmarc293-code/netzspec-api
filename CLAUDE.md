@@ -79,6 +79,17 @@ full; the ones that bite hardest here are restated.
   in `parts` (`A9K-DDOS-10U20G=` vs `A9k-DDoS-10U20G=`) — part identity must be
   case-insensitive per vendor; Arista `SFP-10G-ER` carries family "Dell"; 61,229 hardware parts
   have no image while every distributor page records image URLs (2,736 Cisco parts linked).
+  Extractor list cells + failed-run rollback landed (`f6fa6f0`, deployed): held conflicts in
+  shard 0 15,197 → 4,789; `rollbackRun` inside `withRun`. The supervisor cycle was wrong by
+  design: it waited up to 240 min for workers to exit before applying, recomputing or running
+  the watchdog, so a 60-min back-off resumed hours late — workers are long-lived now and every
+  step runs every ~15 min (`c3787ee`). An OLD apply chain (started 01:44 UTC through the tunnel,
+  pre-hardening) had failed as run #20 on `facts_verified_needs_source` (a verified tier-2 fact
+  with no doc_id); its 3 stray facts were removed by hand and the path is being closed with a
+  sabotage test before any `--commit` on the box. Re-extraction on the new adapter: shard 0 done
+  (`runs/extract/cisco-deep-s0-after.json`), shard 1 + PDF running on the laptop (cache-only).
+  netzspec sync now completes: 9 cross-vendor optics PIDs are listed as collisions each hour
+  (site-side decision: compound unique index on vendor+sku).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
