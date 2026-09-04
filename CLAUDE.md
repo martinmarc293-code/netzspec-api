@@ -401,7 +401,11 @@ full; the ones that bite hardest here are restated.
   Chrome agent told to finish its edits offline and not fetch. DO NOT restart any lane, the
   sentinel `--heal` loop, the supervisor or `START-SCRAPERS.cmd` until the operator gives the
   solution. Still running and allowed: the cache-only PDF pass, the read-only review
-  workflow, the hygiene and remerge-curation agents (no network).
+  workflow, the hygiene and remerge-curation agents (no network). Also disabled the logon
+  Startup entry (renamed `netzspec-nightshift.cmd` → `…cmd.disabled-by-operator-order-2026-09-04`
+  in the user's Startup folder; no scheduled task existed). To restart later: rename it back,
+  set `sources.enabled=true` for the chosen lanes, then `START-SCRAPERS.cmd` — after the
+  operator's itprice decision.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
