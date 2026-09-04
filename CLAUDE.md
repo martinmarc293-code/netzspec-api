@@ -345,6 +345,11 @@ full; the ones that bite hardest here are restated.
   (`wf_d877ab3b-ceb`), a read-only adversarial review of the 66 commits since `e5ed1f5`:
   six finder lenses, three refuters per finding, a finding survives only with two
   non-refutations. Confirmed findings become the next fix round.
+  Supervisor applies #64–#67 failed on `column "retired_at" does not exist` (the hygiene
+  round's `parts.ts` reads 0009's column before production has it); every one rolled back
+  with 0 facts. Expected: the window closes when the hygiene round commits and deploys
+  (0009 must merge the 127 case duplicates BEFORE its unique index can be created). The
+  lanes keep acquiring meanwhile; the next successful apply re-reads the whole day's pages.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
