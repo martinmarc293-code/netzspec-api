@@ -222,6 +222,10 @@ full; the ones that bite hardest here are restated.
   unknown are third-party compatibles (138), absent brands (38) and 5 Cisco `-RF` twins.
   Found: 126 base/`-HW` twin pairs in the catalogue, 21 where `-HW` has no facts and the
   base does — hygiene list.
+  Image family rule landed: the DASH is the boundary between a family and its configurations
+  (`MS210` → `MS210-24P` accept; `MX67` → `MX67C` refuse — a glued letter is another chassis);
+  `parts.family` is prose and unusable for this (identical for MS210 and MS225-48FP, wrong on
+  MR46). 14 refusals re-opened inside a run; 6 will land, 4 now name the sibling correctly.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
