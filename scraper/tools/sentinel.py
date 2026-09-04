@@ -129,6 +129,18 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
             lines.append(f"- {slug}: runnable {n}, workers {w}, heartbeat {f'{hb:.0f} min' if hb is not None else 'none'} → {state}")
             if state.startswith(("NO WORKER", "STALE")):
                 alarms.append(f"{slug}: {state} with {n} runnable tasks")
+                # A worker exits when its queue runs dry; the planner refills the queue minutes
+                # later and the supervisor only restarts workers at the next cycle (hours). So the
+                # sentinel restarts the lane itself, one worker per source, if the machine has room.
+                if heal and w == 0 and chrome and n >= 5:
+                    free_mb = int(ps("[math]::Round((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1024)") or "0")
+                    if free_mb < 400:
+                        actions.append(f"NOT starting {slug}: only {free_mb} MB free")
+                    else:
+                        log = NS / f"worker-{slug}.sentinel.out"
+                        subprocess.Popen(["python3.11", "-u", "scraper/worker.py", "run", "--sources", slug, "--cdp", "http://127.0.0.1:9222"],
+                                         cwd=str(ROOT), stdout=open(log, "a", encoding="utf-8"), stderr=subprocess.STDOUT, creationflags=0x08000000)
+                        actions.append(f"started worker for {slug} ({n} runnable)")
     if not sup or (lock_age_h is not None and lock_age_h > 6):
         alarms.append("supervisor not running" if not sup else f"supervisor lock stale ({lock_age_h:.1f} h)")
         if heal:
