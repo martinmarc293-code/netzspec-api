@@ -21,10 +21,24 @@ What a product page holds, and where (read from the cached fixtures, 3 Sep 2026)
 Everything else on the page — Q&A prose, reviews, warranty, "Shop Bundles", related products,
 the mega-menu — is chrome and never becomes a fact.
 
-The cached search page (catalogsearch/result/?q=...) is client-rendered: its body holds only the
-header, so the only SKU anchors discover() can find there are the header's "hot products" lists.
-A search fetched with a settle delay may carry the real result grid; discover() reads any anchor
-on the page the same way, so it needs no change for that.
+The search lane, corrected 4 Sep 2026 after 226 real search pages. Every one of them was recorded
+`not_listed`, and that single word was covering two entirely different situations:
+
+  * 109 of the 226 carry the search app RENDERED into its empty state:
+    <div id="product-search-not-found-header"> saying "Uh-Oh! No Results Found. 0 Results for:
+    "<key>"". That is the site stating it has no such part, and is_not_found() now recognises it,
+    so the outcome is the site's own answer rather than "the adapter read nothing".
+  * The other 117 have no #product-search container AT ALL: they were captured before the app had
+    rendered, and hold nothing but the header and the mega-menu — the same thing the older
+    catalogsearch/result/?q= fixture shows. Between them those 117 pages proposed three tasks.
+    That is a WAIT, not a URL problem and not an adapter problem, and WAIT_FOR below is the fix:
+    the worker holds until the search app is in the DOM, in either of its two states.
+  * A product link on ANY grid is written "<SKU>, Cisco <description>" — exactly the product page's
+    own h1. discover() used to require the anchor's whole text to BE the SKU, so it would have
+    found nothing on a results page even when the search worked. It now reads the SKU from the
+    leading comma-delimited token as well. Verified on the c9200l-24p-4g-e fixture, whose related
+    products are all written that way (and whose slugs are not derivable: GLC-LH-SMD lives at
+    /glc-lh-smd-p-4960.html).
 """
 from __future__ import annotations
 import re
@@ -41,7 +55,17 @@ HOST = "router-switch.com"
 SPEC_SECTION = "Specification"
 COMPARE_SECTION_FALLBACK = "Product Features Comparison"
 
+# The worker waits for ONE of these before it captures the DOM (playwright accepts a CSS list).
+# Search pages and product pages need different proof that rendering finished, and a selector
+# that is absent costs one 15 s wait and never loses the page — the worker treats a timeout here
+# as "capture anyway". #product-search is the search app's own root: it wraps the results and the
+# not-found block alike, so an empty search does not sit out the full timeout.
+WAIT_FOR = "#product-search, div.prt_specification_wrap, div.product_compare, div.product_gallery"
+
 _TITLE_404 = re.compile(r"<title>\s*404 Page Not Found", re.I)
+# The rendered "this search matched nothing" page. Two independent markers so a class rename does
+# not silently turn every empty search back into "the adapter found nothing".
+_NO_RESULTS = re.compile(r'id="product-search-not-found-header"|No Results Found|\b0 Results for:', re.I)
 _LEADING_CISCO = re.compile(r"^cisco\s+", re.I)
 # Variant suffixes the site appends to a base SKU: -E / -A (licence), -RF (refurbished), and a
 # licence+refurb pair such as -E-RF. Letters only: "-4G" is a port configuration, not a variant,
@@ -124,6 +148,23 @@ def _strip_cisco(s: str) -> str:
     return _LEADING_CISCO.sub("", clean(s))
 
 
+def _anchor_sku(text: str) -> str:
+    """The SKU a product link's text names, or "". The site writes every product link as its own
+    h1 — "C9200L-24P-4G-E, Cisco Catalyst 9200L Switch, 24xPoE+ Ports/..." — so the SKU is the
+    token before the first comma. A bare SKU (some in-body links) is returned unchanged.
+
+    This is the whole reason a working search still discovered nothing: the old rule asked whether
+    the anchor's ENTIRE text was the SKU, and no grid on this site writes it that way."""
+    t = _strip_cisco(text)
+    if not t:
+        return ""
+    head = t.split(",", 1)[0].strip()
+    # a title with no comma is only a SKU if the whole string is short enough to be one; a
+    # sentence ("Cisco Catalyst 9200 Series Switches Data Sheet") is not a part number and the
+    # is_part_number gate below would refuse it anyway, but refusing it here keeps that count at 0
+    return head if head and len(head) <= 40 and " " not in head else ""
+
+
 def _slug(sku: str) -> str:
     """The site's product URL is the SKU lowercased with '/' as '-': C1-WS3850-24S/K9 lives at
     /c1-ws3850-24s-k9.html. Some parts carry a brand prefix (ISR4221/K9 -> /cisco-isr4221-k9.html);
@@ -155,12 +196,16 @@ def is_blocked(html: str) -> bool:
 
 
 def is_not_found(html: str) -> bool:
-    return _TITLE_404.search(html[:20_000]) is not None
+    """The site's own 404, or its rendered "0 Results for" search page. The no-results block sits
+    far down a 1.3 MB document, so the whole HTML is searched rather than the first 20 kB the 404
+    title needs."""
+    return _TITLE_404.search(html[:20_000]) is not None or _NO_RESULTS.search(html) is not None
 
 
 def discover(html: str, task: dict) -> list[dict]:
-    """Part-page tasks for every anchor whose text (minus a leading 'Cisco ') is the task's SKU
-    or a variant of it. Key = the anchor's SKU as written; url = the absolute .html page.
+    """Part-page tasks for every anchor that NAMES the task's SKU or a variant of it, whether the
+    anchor's whole text is the SKU or the site's usual "<SKU>, Cisco <description>" product title.
+    Key = the SKU as written; url = the absolute .html page.
 
     A search for a base SKU (C9200L-24P-4G) usually answers with its licence variants only
     (C9200L-24P-4G-E, -A): those are real Cisco PIDs and every one is queued. When an exact
@@ -177,8 +222,8 @@ def discover(html: str, task: dict) -> list[dict]:
     seen: set[str] = set()
     base_priority = int(task.get("priority") or 100)
     for a in s.find_all("a", href=True):
-        text = _strip_cisco(a.get_text(" ", strip=True))
-        if not text or len(text) > 60 or not _same_or_variant(text, key):
+        text = _anchor_sku(a.get_text(" ", strip=True))
+        if not text or not _same_or_variant(text, key):
             continue
         url = urljoin(BASE, a["href"].strip())
         if HOST not in url or not url.lower().endswith(".html") or url in seen:

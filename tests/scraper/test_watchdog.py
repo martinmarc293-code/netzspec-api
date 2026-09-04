@@ -22,9 +22,28 @@ Held to contract:
   * duplicate fetches         same url twice in 24 h is reported; 30 h apart is not
   * junk keys                 quantities/dates/standards are deleted, ECS-Aggregation and a real
                               SKU survive; report-only deletes nothing
-  * zero yield                >= 10 done, 0 with facts pauses; all not_listed is a WARN; one page
-                              with facts, or 9 done, is nothing; a human's enabled=true is logged
-                              as `resumed` exactly once
+  * zero yield                >= 10 CONTENT pages done, 0 with facts pauses; all not_listed is a
+                              WARN; one page with facts, or 9 done, is nothing; a human's
+                              enabled=true is logged as `resumed` exactly once
+  * content vs discovery      a search/listing page carries no facts by design and is judged on
+                              the tasks it proposes instead: 200 fact-less searches beside 20 good
+                              content pages fires nothing, and 200 searches that DID yield cannot
+                              hide 20 fact-less content pages
+  * dead discovery            >= 20 done search/listing pages that proposed nothing pauses; 24
+                              does not, one that proposed something does not, and searches the
+                              SITE answered "not listed" do not
+  * hung lease                a task leased > 20 min with a FRESH heartbeat is an alarm (and the
+                              heartbeat stall stays quiet); 19 min is not; three hung leases are
+                              one alarm naming the oldest
+  * not-listed streak         judged by what the source IS. A VENDOR (tier <= 2) is paused at 15
+                              consecutive not-listed answers to keys that pass is_part_number; 14
+                              does not. A DISTRIBUTOR (tier >= 3) is only reported, and only past
+                              100, because it is allowed not to stock a vendor's catalogue. A good
+                              page at the head breaks the streak; listing URLs and quantities never
+                              build one
+  * unmapped labels           the top labels today's acquired pages emitted that no alias rule
+                              maps, with counts and a sample; a mapped label is not listed; an
+                              unreadable vocabulary file reports COULD NOT CHECK, never zero
   * blocks / auto-resume      >= 5 blocks backs off (enabled=false, next_at deferred); after 60 min
                               --act resumes; at 30 min it does not
   * report-only               writes no watchdog_events row and changes no row anywhere
@@ -94,6 +113,12 @@ def reset() -> None:
         p = RUNS / "nightshift" / f
         if p.exists():
             p.unlink()
+    acq = RUNS / "acquired"
+    if acq.exists():
+        for slug_dir in acq.iterdir():
+            for day_dir in slug_dir.iterdir():
+                for f in day_dir.iterdir():
+                    f.unlink()
 
 
 def key() -> str:
@@ -102,8 +127,13 @@ def key() -> str:
     return f"C9200L-{_seq}-4G"
 
 
+# The default task is a CONTENT task. It used to be "search", which made every yield and drift
+# case in this suite a case about a page kind that cannot carry a fact -- exactly the confusion
+# that paused a healthy provantage on the live crawl (4 Sep 2026). Discovery cases now say
+# task="search" and pass `discovered` explicitly.
 def seed(sid: int, n: int, status: str, *, minutes_ago: float = 5, facts=None, outcome: str | None = None,
-         error: str | None = None, next_in_min: float | None = None, task: str = "search", keys=None, part_id=None) -> None:
+         error: str | None = None, next_in_min: float | None = None, task: str = "part-page", keys=None,
+         part_id=None, discovered: int | None = None) -> None:
     # one statement for all n rows: the database is behind an SSH tunnel and a round trip per row
     # made the suite take longer than the watchdog it tests
     ks, results = [], []
@@ -114,6 +144,8 @@ def seed(sid: int, n: int, status: str, *, minutes_ago: float = 5, facts=None, o
             result = {"outcome": outcome or ("facts_found" if (facts or 0) > 0 else "no_facts"), "url": f"https://x.test/{k}"}
             if facts is not None:
                 result["facts"] = facts
+            if discovered is not None:
+                result["discovered"] = discovered
         ks.append(k)
         results.append(json.dumps(result) if result else None)
     C.execute(
@@ -136,8 +168,12 @@ def heartbeat(slug: str, minutes_ago: float, outcome: str = "facts_found", **ext
     (d / f"{slug}.json").write_text(json.dumps(rec), encoding="utf-8")
 
 
+# The suite runs the watchdog ~90 times. run_watchdog() opens its own connection each call, and
+# this database is behind an SSH tunnel: 90 connection handshakes were most of the suite's wall
+# clock. The shared connection is the same object the Watchdog would have made for itself, and
+# W1 below still exercises run_watchdog() end to end so the wrapper is not left untested.
 def run(act: bool, expect=(), window: int = 60) -> dict:
-    return W.run_watchdog(DB_URL, RUNS, act=act, window=window, expect=set(expect))
+    return W.Watchdog(C, RUNS, act=act, window=window, expect=set(expect)).run()
 
 
 def events(kind: str | None = None, sid: int | None = None) -> list[dict]:
@@ -177,8 +213,15 @@ reset()
 v = C.execute("SELECT * FROM source_throughput WHERE source_id = %s", (P,)).fetchone()
 check("V1", "source_throughput view exists with the columns the watchdog reads",
       v is not None and all(k in v for k in ("done_1h", "done_24h", "done_7d", "facts_24h", "median_facts_per_page_24h", "median_facts_per_page_7d", "queued")), str(v))
+nsrc0 = C.execute("SELECT count(*) AS n FROM sources").fetchone()["n"]
+# run_watchdog() itself, once: it must open its own connection, produce the same report shape and
+# write the same files. Every other case below drives Watchdog directly on the shared connection.
+w1 = W.run_watchdog(DB_URL, RUNS, act=False, window=60, expect=set())
+check("W1", "run_watchdog() opens its own connection and returns a full report",
+      w1["window_min"] == 60 and w1["act"] is False and len(w1["sources"]) == nsrc0 and "unmapped" in w1,
+      str(sorted(w1)[:8]))
 rep = run(act=True)
-nsrc = C.execute("SELECT count(*) AS n FROM sources").fetchone()["n"]
+nsrc = nsrc0
 check("V2", "report: one line per source", md().count("\n- **") == nsrc, f"{md().count(chr(10) + '- **')} vs {nsrc}")
 check("V3", "empty database: no events, no alarms, no ALERT.md", not events() and not rep["alarms"] and not alert(), str(rep["alarms"]))
 check("V4", "watchdog.json is written and parses", json.loads((RUNS / "nightshift" / "watchdog.json").read_text(encoding="utf-8"))["window_min"] == 60)
@@ -339,7 +382,10 @@ reset()
 drift_seed(30, 10)
 seed(P, 40, "done", minutes_ago=6 * 60, facts=0, outcome="not_listed")
 rep = run(act=True)
-check("D7", "sabotage: 40 not_listed pages at 0 facts do not count as pages -> no drift", not rep["alarms"] and enabled(P) and not events(), str(rep["alarms"]))
+# the 40 not-listed pages carry real part numbers, so the not-listed-streak alarm fires on them
+# and that is correct; this case is about DRIFT, and asserts only that drift stayed quiet.
+check("D7", "sabotage: 40 not_listed pages at 0 facts do not count as pages -> no drift",
+      not any("drift" in a for a in rep["alarms"]) and not events("drift"), str(rep["alarms"]))
 reset()
 seed(P, 30, "done", minutes_ago=6 * 60, facts=4)
 rep = run(act=True)
@@ -502,6 +548,284 @@ check("R3", "--act on the same state: events for the pause, the back-off, the ju
 reset()
 run(act=True)
 check("R4", "a clean run deletes ALERT.md", not alert())
+
+# ---------------------------------------------------------------------------------------------
+# 11. content vs discovery: a page that cannot carry a fact is not judged on facts
+# ---------------------------------------------------------------------------------------------
+# The live crawl paused a healthy provantage for "zero yield" after a window of 170 SEARCH tasks.
+# Search and listing pages carry no facts on any day of any crawl; their product is the tasks they
+# propose. The two lanes are judged by different questions now, and both questions have teeth.
+reset()
+seed(P, 50, "done", minutes_ago=10, facts=0, discovered=3, task="search")
+rep = run(act=True)
+check("C1", "50 done SEARCH pages with 0 facts but tasks discovered -> nothing fires, still enabled",
+      not rep["alarms"] and enabled(P) and not events(), str(rep["alarms"]) + str(events()))
+check("C2", "...and the report line separates the two lanes",
+      "content 0, 0 with facts; discovery 50, 50 discovered" in md(), md().split("provantage")[1][:160])
+reset()
+seed(P, 50, "done", minutes_ago=10, facts=0)                       # part-page: content
+rep = run(act=True)
+check("C3", "50 done CONTENT pages with 0 facts -> zero yield, paused",
+      any("zero yield" in a for a in rep["alarms"]) and not enabled(P), str(rep["alarms"]))
+check("C4", "...and the pause names the content count, not the whole window",
+      events("source_paused", P)[0]["detail"]["done"] == 50, str(events("source_paused", P)))
+reset()
+# a window with BOTH: the searches must not dilute the content verdict in either direction
+seed(P, 200, "done", minutes_ago=10, facts=0, discovered=2, task="search")
+seed(P, 20, "done", minutes_ago=10, facts=12)
+rep = run(act=True)
+check("C5", "200 fact-less searches beside 20 good content pages -> nothing fires",
+      not rep["alarms"] and enabled(P), str(rep["alarms"]))
+reset()
+seed(P, 200, "done", minutes_ago=10, facts=3, discovered=1, task="search")
+seed(P, 20, "done", minutes_ago=10, facts=0)
+rep = run(act=True)
+check("C6", "SABOTAGE 200 searches that DID yield cannot hide 20 fact-less content pages",
+      any("zero yield" in a for a in rep["alarms"]) and not enabled(P), str(rep["alarms"]))
+
+# ---------------------------------------------------------------------------------------------
+# 12. dead discovery: a search lane that proposes nothing
+# ---------------------------------------------------------------------------------------------
+reset()
+seed(P, 25, "done", minutes_ago=10, facts=0, discovered=0, task="search")
+rep = run(act=False)
+check("DD1", "25 searches proposing nothing -> ALARM, ALERT.md, still enabled, no event (report-only)",
+      any("dead discovery" in a for a in rep["alarms"]) and alert() and enabled(P) and not events(), str(rep["alarms"]))
+rep = run(act=True)
+ev = events("source_paused", P)
+check("DD2", "dead discovery (--act): paused with reason dead_discovery and the counts",
+      not enabled(P) and len(ev) == 1 and ev[0]["detail"]["reason"] == "dead_discovery"
+      and ev[0]["detail"]["disc_done"] == 25, str(ev))
+reset()
+seed(P, 25, "done", minutes_ago=10, facts=0, discovered=0, outcome="not_listed", task="search")
+rep = run(act=True)
+check("DD3", "SABOTAGE 25 searches the SITE answered not-listed -> not the adapter, no dead-discovery alarm",
+      not any("dead discovery" in a for a in rep["alarms"]) and enabled(P), str(rep["alarms"]))
+reset()
+seed(P, W.DEAD_DISCOVERY_MIN_DONE - 1, "done", minutes_ago=10, facts=0, discovered=0, task="search")
+rep = run(act=True)
+check("DD4", f"SABOTAGE {W.DEAD_DISCOVERY_MIN_DONE - 1} searches is below the minimum -> nothing",
+      not rep["alarms"] and enabled(P), str(rep["alarms"]))
+reset()
+seed(P, 24, "done", minutes_ago=10, facts=0, discovered=0, task="search")
+seed(P, 1, "done", minutes_ago=10, facts=0, discovered=1, task="search")
+rep = run(act=True)
+check("DD5", "SABOTAGE one search among 25 that proposed a task -> no alarm",
+      not rep["alarms"] and enabled(P), str(rep["alarms"]))
+reset()
+seed(P, 25, "done", minutes_ago=10, facts=0, discovered=0, task="listing")
+rep = run(act=True)
+check("DD6", "a listing lane is judged the same way as a search lane",
+      any("dead discovery" in a for a in rep["alarms"]), str(rep["alarms"]))
+
+# ---------------------------------------------------------------------------------------------
+# 13. hung lease: the worker is alive and stuck on ONE page
+# ---------------------------------------------------------------------------------------------
+# The heartbeat is written when a task FINISHES, so a wedged worker keeps its last heartbeat and
+# reads as healthy right up to the 30 min lease-steal. The lease age is the only thing that shows
+# it, and the alarm has to come in below 30 min to be worth anything.
+def lease(sid: int, minutes: float, k: str = "C9200L-24P-4G", worker: str = "host:123", task: str = "part-page") -> None:
+    C.execute("""INSERT INTO fetch_queue (source_id, task, key, url, status, leased_by, leased_at, updated_at)
+                 VALUES (%s, %s, %s, 'https://x.test/' || %s, 'leased', %s,
+                         now() - make_interval(mins => %s), now() - make_interval(mins => %s))""",
+              (sid, task, k, k, worker, minutes, minutes))
+
+
+reset()
+lease(P, 45)
+heartbeat("provantage", 2)                       # fresh: the worker IS alive
+seed(P, 20, "queued")
+rep = run(act=True, expect=["provantage"])
+r = row(rep, "provantage")
+check("HL1", "a task leased 45 min with a FRESH heartbeat -> ALARM hung lease",
+      any("hung lease" in a for a in rep["alarms"]), str(rep["alarms"]))
+check("HL2", "...the alarm names the task, the key and the age",
+      r["hung_lease"] and r["hung_lease"]["minutes"] >= 45 and r["hung_lease"]["key"] == "C9200L-24P-4G"
+      and "C9200L-24P-4G" in "".join(rep["alarms"]), str(r["hung_lease"]))
+check("HL3", "...and it is logged as a stall with reason hung_lease, acted=false (nothing is killed)",
+      [e for e in events("stall", P) if e["detail"].get("reason") == "hung_lease"]
+      and not any(e["acted"] for e in events("stall", P)), str(events("stall", P)))
+check("HL4", "...and the heartbeat stall does NOT fire: the worker is alive, just stuck",
+      not any("heartbeat" in a for a in rep["alarms"]), str(rep["alarms"]))
+reset()
+lease(P, 19)
+heartbeat("provantage", 2)
+seed(P, 20, "queued")
+rep = run(act=True, expect=["provantage"])
+check("HL5", "SABOTAGE a task leased 19 min is under the threshold -> no alarm",
+      not rep["alarms"] and not events(), str(rep["alarms"]))
+check("HL6", "the threshold stays below the worker's own 30 min lease-steal",
+      W.HUNG_LEASE_MINUTES < 30, str(W.HUNG_LEASE_MINUTES))
+reset()
+lease(P, 40, k="A-1")
+lease(P, 35, k="A-2")
+lease(P, 25, k="A-3")
+heartbeat("provantage", 2)
+rep = run(act=True)
+check("HL7", "three hung leases -> one alarm naming the oldest and the count",
+      sum(1 for a in rep["alarms"] if "hung lease" in a) == 1 and "A-1" in "".join(rep["alarms"])
+      and "3 leases" in "".join(rep["alarms"]), str(rep["alarms"]))
+reset()
+rep = run(act=True)
+check("HL8", "SABOTAGE no leases at all -> no alarm", not rep["alarms"], str(rep["alarms"]))
+
+# ---------------------------------------------------------------------------------------------
+# 14. not-listed streak on REAL part numbers, by what the source IS
+# ---------------------------------------------------------------------------------------------
+# A VENDOR lists its own parts: fifteen consecutive "we do not have it" answers to real PIDs is a
+# wrong URL pattern, a variant suffix it spells differently, or a search that needs a click-through.
+# A DISTRIBUTOR is allowed not to stock them, and 4 Sep 2026 made that concrete: is_part_number was
+# widened the same morning to keep Cisco's digit-only assembly PIDs (10-1022038-01), and every one
+# of the 194 router-switch searches that night was one of those, correctly answered "no results" by
+# a reseller that does not sell internal assemblies. Pausing on that would be the provantage
+# zero-yield mistake again. So: tier <= 2 pauses at 15, tier >= 3 only reports, at 100.
+check("NL0", "the thresholds and the tier boundary are named once, and the vendor bar is the lower one",
+      W.NOT_LISTED_STREAK == 15 and W.NOT_LISTED_STREAK_DISTRIBUTOR > W.NOT_LISTED_STREAK
+      and W.VENDOR_TIER_MAX == 2)
+reset()
+seed(M, 15, "done", minutes_ago=10, facts=0, outcome="not_listed",
+     keys=[f"MS130-{i}-HW" for i in range(15)])
+rep = run(act=False)
+check("NL1", "vendor: 15 not-listed answers to real PIDs -> ALARM, still enabled, no event (report-only)",
+      any("consecutive not-listed" in a for a in rep["alarms"]) and enabled(M) and not events(), str(rep["alarms"]))
+check("NL2", "...the alarm names some of the keys and the reason", "MS130-" in "".join(rep["alarms"])
+      and "wrong URL pattern" in "".join(rep["alarms"]), str(rep["alarms"]))
+rep = run(act=True)
+ev = events("source_paused", M)
+check("NL3", "vendor (--act): paused with reason not_listed_streak, the keys and the tier",
+      not enabled(M) and ev and ev[0]["detail"]["reason"] == "not_listed_streak"
+      and ev[0]["detail"]["streak"] >= 15 and ev[0]["detail"]["keys"], str(ev))
+reset()
+seed(M, 14, "done", minutes_ago=10, facts=0, outcome="not_listed",
+     keys=[f"MS130-{i}-HW" for i in range(14)])
+rep = run(act=True)
+check("NL4", "SABOTAGE vendor: 14 is below the threshold -> no alarm",
+      not any("consecutive not-listed" in a for a in rep["alarms"]) and enabled(M), str(rep["alarms"]))
+reset()
+# the real router-switch night: Cisco internal assembly PIDs, which ARE part numbers since the
+# 4 Sep widening, answered not-listed by a reseller that does not sell them.
+seed(R, 40, "done", minutes_ago=10, facts=0, outcome="not_listed",
+     keys=[f"10-10220{i:02d}-01" for i in range(40)])
+rep = run(act=True)
+check("NL5", "SABOTAGE distributor: 40 real PIDs it does not stock is not an alarm and never a pause",
+      not any("consecutive not-listed" in a for a in rep["alarms"]) and enabled(R), str(rep["alarms"]))
+check("NL5b", "...and those keys ARE part numbers, so the case is about the tier, not the rule",
+      W.is_part_number("10-1022038-01")[0] is True, str(W.is_part_number("10-1022038-01")))
+reset()
+seed(R, 120, "done", minutes_ago=10, facts=0, outcome="not_listed",
+     keys=[f"10-10220{i:03d}-01" for i in range(120)])
+rep = run(act=True)
+check("NL6", "distributor: 120 in a row is beyond 'we do not stock it' -> ALARM, reported",
+      any("consecutive not-listed" in a for a in rep["alarms"]), str(rep["alarms"]))
+check("NL7", "...and the distributor is NEVER paused for it",
+      enabled(R) and not events("source_paused", R)
+      and "not paused" in "".join(row(rep, "router-switch")["verdicts"]), str(row(rep, "router-switch")["verdicts"]))
+reset()
+seed(M, 20, "done", minutes_ago=20, facts=0, outcome="not_listed",
+     keys=[f"MS130-{i}-HW" for i in range(20)])
+seed(M, 1, "done", minutes_ago=1, facts=9, keys=["MS130-24P"])
+rep = run(act=True)
+check("NL8", "SABOTAGE one good page at the head breaks the streak -> no alarm",
+      not any("consecutive not-listed" in a for a in rep["alarms"]) and enabled(M), str(rep["alarms"]))
+reset()
+seed(M, 20, "done", minutes_ago=10, facts=0, outcome="not_listed", task="listing",
+     keys=[f"https://x.test/index/{i}" for i in range(20)])
+rep = run(act=True)
+check("NL9", "SABOTAGE a listing's key is a URL and is never judged as a part number",
+      not any("consecutive not-listed" in a for a in rep["alarms"]) and enabled(M), str(rep["alarms"]))
+reset()
+seed(M, 20, "done", minutes_ago=10, facts=0, outcome="not_listed",
+     keys=[f"0.{i}5K" for i in range(20)])
+rep = run(act=True)
+check("NL10", "SABOTAGE quantities are still not part numbers, so they never build a streak",
+      not any("consecutive not-listed" in a for a in rep["alarms"]) and enabled(M), str(rep["alarms"]))
+
+# ---------------------------------------------------------------------------------------------
+# 15. the vocabulary feed: the top unmapped labels today, per source
+# ---------------------------------------------------------------------------------------------
+# A label nobody maps is a fact that was extracted and then thrown away. Nothing else in the
+# pipeline says WHICH ones are worth writing an alias rule for; this list, in frequency order, is
+# the whole feed for that work.
+TODAY = W.utcnow().strftime("%Y-%m-%d")
+
+
+def acquired(slug: str, n: int, label: str, value: str = "some value", start: int = 0, mapped: bool = False) -> None:
+    d = RUNS / "acquired" / slug / TODAY
+    d.mkdir(parents=True, exist_ok=True)
+    for i in range(n):
+        (d / f"{start + i}.json").write_text(json.dumps({
+            "source": slug, "task": {"id": start + i, "task": "part-page", "key": "X"},
+            "result": {"sku": "X", "facts": [{"label": label, "value": value, "locator": "t1:r1"}]},
+        }), encoding="utf-8")
+
+
+check("VC0", "the mapper agrees with the pipeline's own rules on a label that IS mapped",
+      W.maps_to_field("Product Description", W.alias_rules()) is True)
+check("VC0b", "...and on one that is not", W.maps_to_field("Zzz Not A Real Header Ever", W.alias_rules()) is False)
+reset()
+acquired("provantage", 7, "Stock Details > Manuf Part#", "VS-C6503E-SUP2T", start=0)
+acquired("provantage", 3, "Miscellaneous > Environmentally Friendly", "Yes", start=100)
+acquired("provantage", 5, "Product Description", "a mapped label", start=200)
+rep = run(act=True)
+u = rep["unmapped"]["provantage"]
+check("VC1", "the top unmapped label is the most frequent one, with its count and a sample",
+      u["top"][0]["label"] == "Stock Details > Manuf Part#" and u["top"][0]["count"] == 7
+      and u["top"][0]["sample"] == "VS-C6503E-SUP2T", str(u["top"][:2]))
+check("VC2", "a label the alias rules DO map is not reported as unmapped",
+      not any("Product Description" == x["label"] for x in u["top"]) and u["mapped"] >= 5, str(u))
+check("VC3", "the counts are reported: unmapped, distinct, files",
+      u["unmapped"] == 10 and u["distinct"] == 2 and u["files"] == 15, str(u))
+check("VC4", "the report prints the section with the count and the sample",
+      "## unmapped labels today" in md() and "Stock Details > Manuf Part#" in md()
+      and "10/15 labels unmapped" in md(), md().split("## unmapped")[1][:220] if "## unmapped" in md() else md())
+check("VC5", "at most UNMAPPED_TOP_N labels per source", len(u["top"]) <= W.UNMAPPED_TOP_N)
+check("VC6", "a source with no pages today is not in the section at all", "router-switch" not in rep["unmapped"])
+# SABOTAGE: "could not check" must never be reported as "nothing unmapped"
+_real = W.ALIASES_FILE
+try:
+    W.ALIASES_FILE = ROOT / "data" / "schema" / "does-not-exist.json"
+    W._RULES_CACHE = None
+    rep = run(act=True)
+    check("VC7", "SABOTAGE an unreadable vocabulary file reports COULD NOT CHECK, never zero",
+          rep["unmapped"]["provantage"].get("error") and "COULD NOT CHECK" in md(), str(rep["unmapped"].get("provantage")))
+finally:
+    W.ALIASES_FILE = _real
+    W._RULES_CACHE = None
+check("VC8", "...and the reader recovers once the file is readable again",
+      not W.unmapped_labels(RUNS, "provantage", TODAY).get("error"))
+# SABOTAGE: an acquired file that does not parse is skipped, not fatal, and the rest is reported
+(RUNS / "acquired" / "provantage" / TODAY / "999.json").write_text("{not json", encoding="utf-8")
+u2 = W.unmapped_labels(RUNS, "provantage", TODAY)
+check("VC9", "SABOTAGE one unreadable acquired file is skipped and the rest is still counted",
+      not u2.get("error") and u2["unmapped"] == 10 and u2["files"] == 15, str(u2))
+
+# ---------------------------------------------------------------------------------------------
+# 16. drift, replayed from the real numbers of 4 Sep 2026
+# ---------------------------------------------------------------------------------------------
+# Measured over runs/acquired that morning: provantage had 233 done pages in the 24 h window with
+# a median of 0 facts (233 of them searches) against a 7 d median of 13 -- so under the view's
+# definition, which counts every done page, DRIFT was above its 30-page minimum and 0 < 13 x 0.5.
+# It would have paused a source whose 758 CONTENT pages the day before read a median of 17.5 and
+# whose adapter had not changed. This case is that morning, to the number.
+reset()
+seed(P, 758, "done", minutes_ago=30 * 60, facts=17)        # yesterday's content pages
+seed(P, 233, "done", minutes_ago=30, facts=0, discovered=2, task="search")   # today: searches only
+rep = run(act=True)
+check("DR1", "the real 4 Sep shape (233 searches at 0 facts, 758 content pages at 17) -> NO drift",
+      not any("drift" in a for a in rep["alarms"]) and enabled(P) and not events("drift"), str(rep["alarms"]))
+r = row(rep, "provantage")
+check("DR2", "...and the report still shows the view's own numbers, which say 0, beside the content ones",
+      r["median_facts_per_page_24h"] == 0 and r["content_pages_24h"] == 0, str((r["median_facts_per_page_24h"], r["content_pages_24h"])))
+# the check is ALIVE: the same window with real content pages that HAVE fallen off does pause
+reset()
+seed(P, 758, "done", minutes_ago=30 * 60, facts=17)
+seed(P, 233, "done", minutes_ago=30, facts=0, discovered=2, task="search")
+seed(P, 40, "done", minutes_ago=30, facts=3)               # content pages that really did drop
+rep = run(act=True)
+check("DR3", "SABOTAGE the same window with 40 CONTENT pages down to 3 facts -> drift, paused",
+      any("drift" in a for a in rep["alarms"]) and not enabled(P), str(rep["alarms"]))
+check("DR4", "...and the alarm counts content pages, not the 273 pages the window holds",
+      "40 content pages" in " ".join(rep["alarms"]), str(rep["alarms"]))
 
 print(f"\n{npass} PASS, {nfail} MISS")
 C.close()

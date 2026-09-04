@@ -223,9 +223,13 @@ check("D9", "no task points back at the listing itself, none twice",
 check("D10", "no chrome link (Save as PDF, Sign in, breadcrumbs) became a task",
       not any("@api" in t["key"] or "@app" in t["key"] or t["key"].count("/") < 6 for t in disc), str([t["key"] for t in disc if "@" in t["key"]][:2]))
 from_ds = M.discover(main_html, {"task": "datasheet", "key": URL_MAIN})
-check("D11", "a datasheet page yields only sibling datasheet tasks under its own index, never itself",
-      from_ds and all(t["task"] == "datasheet" and t["key"].startswith(URL_INDEX + "/") and t["key"] != URL_MAIN for t in from_ds),
+check("D11", "a datasheet page yields datasheet tasks under an Overviews_and_Datasheets index, never itself",
+      from_ds and all(t["task"] == "datasheet" and "/Product_Information/Overviews_and_Datasheets/" in t["key"]
+                      and t["key"] != URL_MAIN for t in from_ds),
       str([t["key"][-40:] for t in from_ds]))
+check("D11b", "...including a datasheet under ANOTHER line's index (the shared SFP/stacking sheet)",
+      any("Platform_Management/Product_Information/Overviews_and_Datasheets/" in t["key"] for t in from_ds),
+      str([t["key"][-60:] for t in from_ds]))
 check("D12", "discover with an empty key returns nothing", M.discover(index_html, {"task": "listing", "key": ""}) == [])
 
 # =============================================================================================
@@ -279,6 +283,115 @@ check("S10", "images: deki files only, first primary then gallery, relative made
       str(hw["images"]))
 check("S11", "a table outside the article (cookie chrome) is never read",
       not any("Reviews" in f["label"] for r in all_results(hw) for f in r["facts"]))
+
+# =============================================================================================
+# the three comparison-header shapes (from 29 real datasheet pages, 4 Sep 2026)
+# =============================================================================================
+# MS425_Datasheet reported ZERO facts while printing four complete model tables, because its
+# corner cell says "Description" and the rule named the two spellings it had seen. Seven MR
+# sheets lost four tables each to a third shape with no label column at all.
+check("H1", 'corner "" + models is the labelled shape', M._comparison_shape(["", "MS130-8", "MS130-8P"]) == "labelled")
+check("H2", 'corner "Model" + models is the labelled shape', M._comparison_shape(["Model", "MS130-8", "MS130-8P"]) == "labelled")
+check("H3", 'corner "Description" + models is the labelled shape (MS425)',
+      M._comparison_shape(["Description", "MS425-16", "MS425-32"]) == "labelled")
+check("H4", "a header that is nothing but models is the unlabelled shape (MR)",
+      M._comparison_shape(["MR36", "MR44", "MR46", "MR56"]) == "unlabelled")
+# SABOTAGE: the shape test decides what becomes a product. A wrong yes files a transmit-power
+# column as a model, and there is no later step that would notice.
+check("H5", "SABOTAGE the RF table header is neither shape",
+      M._comparison_shape(["Operating Band", "Operating Mode", "Data Rate", "TX Power (conducted)", "RX Sensitivity"]) == "")
+check("H6", "SABOTAGE a two-column label/value header is neither shape",
+      M._comparison_shape(["Category", "Specifications"]) == "" and M._comparison_shape(["Model", "MTBF at 25C"]) == "")
+check("H7", "SABOTAGE one non-model column among models is neither shape",
+      M._comparison_shape(["", "MS130-8", "Notes"]) == "")
+check("H8", "SABOTAGE a single column is neither shape", M._comparison_shape(["MS130-8"]) == "")
+
+MS425_URL = URL_INDEX + "/MS425_Datasheet"
+ms425 = M.extract(load(MS425_URL), {"task": "datasheet", "key": MS425_URL})
+ms425_all = all_results(ms425)
+ms425_facts = sum(len(x["facts"]) for x in ms425_all)
+check("H9", f"MS425 (corner 'Description') now yields facts (got {ms425_facts}, was 0)", ms425_facts >= 40, str(ms425_facts))
+check("H10", "MS425: both of its own models are results",
+      {"MS425-16", "MS425-32"} <= {x["sku"] for x in ms425_all}, str(sorted(x["sku"] for x in ms425_all)))
+check("H11", "MS425: the page's own family heads the result, not the MS410-32 it is compared against",
+      ms425["sku"].startswith("MS425"), repr(ms425["sku"]))
+check("H12", "MS425: the compared previous generation is still kept, as an other",
+      "MS410-32" in {o["sku"] for o in ms425["others"]}, str([o["sku"] for o in ms425["others"]]))
+check("H13", "MS425: every fact is on a model, none on an empty sku",
+      all(x["sku"] for x in ms425_all if x["facts"]), str([x["sku"] for x in ms425_all if not x["sku"]]))
+
+MR36_URL = "https://documentation.meraki.com/Wireless/Product_Information/Overviews_and_Datasheets/MR36_Datasheet"
+mr36 = M.extract(load(MR36_URL), {"task": "datasheet", "key": MR36_URL})
+mr36_all = all_results(mr36)
+mr36_facts = sum(len(x["facts"]) for x in mr36_all)
+check("H14", f"MR36 (no label column) now yields facts (got {mr36_facts}, was 25)", mr36_facts >= 70, str(mr36_facts))
+check("H15", "MR36: the page's own model heads the result", mr36["sku"] == "MR36", repr(mr36["sku"]))
+check("H16", "MR36: the three siblings the tables compare are results of their own",
+      {"MR44", "MR46", "MR56"} <= {x["sku"] for x in mr36_all}, str(sorted(x["sku"] for x in mr36_all)))
+check("H17", "MR36: an unlabelled row is labelled by its section heading",
+      any(f["label"] == "Interfaces" for f in mr36["facts"]), str(sorted({f["label"] for f in mr36["facts"]})[:8]))
+check("H18", "MR36: the MR44 column's value is on MR44, not on MR36",
+      any(f["label"] == "Interfaces" and "2.5G" in f["value"] for x in mr36_all if x["sku"] == "MR44" for f in x["facts"])
+      and not any(f["label"] == "Interfaces" and "2.5G" in f["value"] for f in mr36["facts"]),
+      str([f["value"][:40] for f in mr36["facts"] if f["label"] == "Interfaces"]))
+check("H19", "MR36: the -HW orderable SKU is an alias on the model, recorded once",
+      [a["value"] for a in mr36["aliases"]] == ["MR36-HW"]
+      and all(not x["aliases"] for x in mr36_all if x is not mr36), str([(x["sku"], x["aliases"]) for x in mr36_all]))
+# SABOTAGE: the unlabelled shape has nothing to call its rows if the section heading is missing
+NOHEAD = ('<html><body><article id="elm-main-content"><table>'
+          '<tr><td>MR36</td><td>MR44</td></tr><tr><td>a value</td><td>another</td></tr></table></article></body></html>')
+check("H20", "SABOTAGE an unlabelled table under no heading emits nothing (no nameless facts)",
+      sum(len(x["facts"]) for x in all_results(M.extract(NOHEAD, {"task": "datasheet", "key": ""}))) == 0,
+      str([(x["sku"], x["facts"]) for x in all_results(M.extract(NOHEAD, {"task": "datasheet", "key": ""}))]))
+
+# =============================================================================================
+# discover: only pages under a datasheet index
+# =============================================================================================
+# 91 of 136 datasheet fetches were off the datasheet index, 84 of them empty, and the 7 that were
+# not produced documentation prose with an empty sku ("Layer 2 Interfaces > Traffic sent").
+DOCTREE = ('<html><body><article id="elm-main-content">'
+           '<a href="/SASE_and_SD-WAN/MX/Integrations">Integrations</a>'
+           '<a href="/SASE_and_SD-WAN/MX/Troubleshooting_and_Support">Troubleshooting</a>'
+           '<a href="/Wireless/Translated_Documents/AI_-_RRM_jp">AI RRM (jp)</a>'
+           '<a href="/Wireless/Product_Information/Overviews_and_Datasheets">Overviews and Datasheets</a>'
+           '<a href="/Wireless/Product_Information/Overviews_and_Datasheets/MR46_Datasheet">MR46 Datasheet</a>'
+           '</article></body></html>')
+dt = M.discover(DOCTREE, {"task": "listing", "key": "https://documentation.meraki.com/SASE_and_SD-WAN/MX"})
+dt_ds = [t for t in dt if t["task"] == "datasheet"]
+dt_ls = [t for t in dt if t["task"] == "listing"]
+check("DS1", "SABOTAGE a documentation branch is not queued as a datasheet",
+      not any("Integrations" in t["key"] or "Troubleshooting" in t["key"] for t in dt_ds), str([t["key"] for t in dt_ds]))
+check("DS2", "SABOTAGE the Translated_Documents tree is not queued as a datasheet",
+      not any("Translated_Documents" in t["key"] for t in dt), str([t["key"] for t in dt]))
+check("DS3", "a page under an Overviews_and_Datasheets index IS a datasheet task",
+      [t["key"] for t in dt_ds] == ["https://documentation.meraki.com/Wireless/Product_Information/Overviews_and_Datasheets/MR46_Datasheet"],
+      str([t["key"] for t in dt_ds]))
+check("DS4", "a link that IS an Overviews_and_Datasheets index is a listing task, not a datasheet",
+      any(t["key"].endswith("/Product_Information/Overviews_and_Datasheets") for t in dt_ls), str([t["key"] for t in dt_ls]))
+
+# One (label, value) per model. A family sheet repeats a row across two tables in the same
+# section -- "MS350-48 Models > Layer 3 Routing" = "Yes" three times on the real MS350 page --
+# and reading more table shapes makes that more common, not less.
+MS350_URL = URL_INDEX + "/MS350_Datasheet"
+ms350 = M.extract(load(MS350_URL), {"task": "datasheet", "key": MS350_URL})
+for x in all_results(ms350):
+    pairs = [(f["label"], f["value"]) for f in x["facts"]]
+    check("DP1", f"{x['sku'] or 'family'}: no repeated (label, value)", len(pairs) == len(set(pairs)),
+          str([p for p in pairs if pairs.count(p) > 1][:3]))
+check("DP2", "no bookkeeping key leaks into a RESULT",
+      all("_seen" not in x for x in all_results(ms350)), str([sorted(x) for x in all_results(ms350)][:1]))
+# SABOTAGE: a SECOND, DIFFERENT value under the same label must survive -- that is exactly how
+# the label-less MR tables state two things about one section ("Power" twice, different text).
+TWO_VALUES = ('<html><body><article id="elm-main-content"><h2>Power</h2><table>'
+              '<tr><td>MR36</td><td>MR44</td></tr>'
+              '<tr><td>Power over Ethernet: 37 - 57 V</td><td>Power over Ethernet: 42.5 - 57 V</td></tr>'
+              '<tr><td>Alternative: 12 V DC input</td><td>Alternative: 12 V DC input</td></tr>'
+              '<tr><td>Power over Ethernet: 37 - 57 V</td><td>Power over Ethernet: 42.5 - 57 V</td></tr>'
+              '</table></article></body></html>')
+tv = M.extract(TWO_VALUES, {"task": "datasheet", "key": ""})
+own = [f["value"] for f in tv["facts"] if f["label"] == "Power"]
+check("DP3", "SABOTAGE two different values under one label are both kept, the repeat is dropped",
+      own == ["Power over Ethernet: 37 - 57 V", "Alternative: 12 V DC input"], str(own))
 
 print(f"\n{npass} passed, {nfail} missed")
 sys.exit(1 if nfail else 0)

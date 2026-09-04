@@ -25,6 +25,19 @@ Details" price/availability rows, the warranty row, "Instant Savings" carousels 
 "See Also" / "Supplies/Accessories" boxes, cookie and newsletter tables, the navigation footer.
 The spec table is picked by its cell classes (td.HT section rows, td.AT1/AT2 label cells), never
 by position, because the page has ~80 layout tables before it.
+
+Identity block above the specification table (`<p id="Gupc">UPC Code: 882658454257</p>`,
+`<p id="Gsku">Provantage Code: CSC9P77</p>`, `<p id="Gcond">Condition: Factory New</p>`). Measured
+over the 728 product pages acquired on 3/4 Sep 2026: 532 carry a UPC and 728 carry a Provantage
+code, and NOT ONE was captured — the adapter only looked for a "UPC" row inside the spec table,
+which this site does not have. The UPC is the one identifier that lets a distributor page be
+joined to a vendor part with no name matching at all, so a 73% capture rate lost to a missing
+selector is the most expensive gap this adapter had.
+
+The row a SKU is read FROM is identity, not a specification, and is not emitted twice. Both
+"General Information > Manufacturer Part Number" (594 pages) and "Stock Details > Manuf Part#"
+(759 pages) held the value already recorded in result["sku"], neither is mapped by any alias
+rule, and together they were 1,353 of the 15,489 raw facts in the corpus.
 """
 from __future__ import annotations
 import re
@@ -60,6 +73,20 @@ MONEY = re.compile(r"\$\s*([0-9][0-9,]*\.?[0-9]*)")
 # such a page is expected to carry in its <title>/<h1>; it is tested only against a synthetic
 # page and MUST be re-checked against a real 404 fixture (open issue in tests/scraper).
 NOT_FOUND = re.compile(r"(?:page|product|item) not found|no longer (?:available|carried)|could not be found|does not exist", re.I)
+# The site's OWN empty-search page: no result blocks, a "Did you mean ..." suggestion and the
+# "Some Tips on Searching" panel. Measured over the 427 search pages acquired 3/4 Sep 2026: 275
+# carry this panel and have zero result blocks, 152 have result blocks and never carry it — a
+# clean discriminator. It matters because the fallback test (is the key's text anywhere in the
+# page?) says LISTED on this page: the "Did you mean 075 681" suggestion contains the digits of
+# the key with a space in them, and _norm strips spaces. 71 empty searches were recorded as
+# "page loaded, nothing extracted" instead of "the site does not list this part" for that reason.
+NO_RESULTS = re.compile(r"Some Tips on Searching", re.I)
+# The identity block above the spec table. Values are read from the paragraph text because the
+# site writes them as "Label:&nbsp; value" with no element around the value.
+UPC_LINE = re.compile(r"UPC\s*Code:?\s*([0-9][0-9 -]{6,17})", re.I)
+DIST_CODE_LINE = re.compile(r"Provantage\s*Code:?\s*([A-Z0-9][A-Z0-9-]{2,23})", re.I)
+# The labels whose value IS result["sku"] — recorded once, as the SKU, never also as a fact.
+IDENTITY_LABEL = re.compile(r"(?:^|>\s*)(?:manufacturer part number|manuf(?:acturer)? part#)\s*$", re.I)
 
 
 def _norm(s: str) -> str:
@@ -110,6 +137,12 @@ def is_blocked(html: str) -> bool:
 
 
 def is_not_found(html: str) -> bool:
+    """The site says it has no such thing. Two shapes: a real not-found page (title/heading), and
+    the empty-search page, which answers 200 with a "Some Tips on Searching" panel and no result
+    blocks. Both mean not_listed; the second is the common one, because most enumerated Cisco
+    spare PIDs are not carried by a distributor."""
+    if NO_RESULTS.search(html):
+        return True
     s = soup(html[:60_000])
     heads = [s.title.get_text(" ", strip=True) if s.title else ""]
     heads += [h.get_text(" ", strip=True) for h in s.find_all(["h1", "h2"], limit=6)]
@@ -128,8 +161,12 @@ def extract(html: str, task: dict) -> dict:
     if spec is not None:
         for p in table_pairs(spec, f"t{spec_idx}"):
             label = p["label"]
-            if sku is None and re.search(r"(?:^|>\s*)Manufacturer Part Number\s*$", label, re.I):
-                sku = p["value"]
+            if IDENTITY_LABEL.search(label):
+                # the row the SKU comes from. Recorded once, as the SKU: emitting it as a fact
+                # too filed the same string under two unmapped labels on every product page.
+                if sku is None and p["value"]:
+                    sku = p["value"]
+                continue
             m = ALIAS_LABEL.search(label)
             if m:
                 v = re.sub(r"\s", "", p["value"])
@@ -141,10 +178,7 @@ def extract(html: str, task: dict) -> dict:
                     price = _price_from_text(p["value"])
                 continue
             facts.append(p)
-    if sku is None and spec is not None:
-        for p in table_pairs(spec, "x"):
-            if re.search(r"(?:^|>\s*)Manuf(?:acturer)? Part#\s*$", p["label"], re.I):
-                sku = p["value"]; break
+    aliases += _identity_aliases(s)
     aliases += _itemprop_aliases(s)
     panel_price = _price_panel(s)
     if panel_price:
@@ -153,6 +187,10 @@ def extract(html: str, task: dict) -> dict:
     name = clean(h1.get_text(" ", strip=True)) if h1 else None
     if sku:
         not_listed = _norm(sku) != _norm(key) if key else False
+    elif NO_RESULTS.search(html):
+        # the empty-search page. The text test below says LISTED on it, because the site's
+        # "Did you mean 075 681" suggestion re-prints the key with a space in it.
+        not_listed = bool(key)
     else:
         main = s.find("td", id="MAIN") or s
         not_listed = bool(key) and not sku_in(clean(main.get_text(" ", strip=True)), key)
@@ -160,7 +198,7 @@ def extract(html: str, task: dict) -> dict:
         "sku": sku,
         "not_listed": not_listed,
         "facts": facts,
-        "aliases": aliases,
+        "aliases": _dedupe_aliases(aliases),
         "images": _images(s, sku or name or ""),
         "relations": [],
         "lifecycle": None,
@@ -312,6 +350,46 @@ def _price_panel(s) -> dict | None:
     if "price" not in out and "list" not in out:
         return None
     out["raw"] = " | ".join(raw)
+    return out
+
+
+def _identity_aliases(s) -> list[dict]:
+    """The identity block above the specification table:
+
+        <p id="Gupc">UPC&nbsp;Code: 882658454257</p>
+        <p id="Gsku">Provantage&nbsp;Code:&nbsp; CSC9P77</p>
+
+    532 of the 728 product pages in the corpus print a UPC and all 728 print a Provantage code.
+    A UPC is only recorded when it is a real barcode length (8, 12, 13 or 14 digits after the
+    separators are stripped): the row also carries "N/A" and, on a few pages, the SKU again, and
+    a bad barcode joins two different parts to each other for good."""
+    out: list[dict] = []
+    up = s.find(id="Gupc")
+    if up is not None:
+        m = UPC_LINE.search(clean(up.get_text(" ", strip=True)))
+        if m:
+            v = re.sub(r"[ -]", "", m.group(1))
+            if GTIN_VALUE.match(v):
+                out.append({"kind": "upc" if len(v) == 12 else "gtin", "value": v})
+    dc = s.find(id="Gsku")
+    if dc is not None:
+        m = DIST_CODE_LINE.search(clean(dc.get_text(" ", strip=True)))
+        if m:
+            out.append({"kind": "distributor_sku", "value": m.group(1).strip()})
+    return out
+
+
+def _dedupe_aliases(aliases: list[dict]) -> list[dict]:
+    """The same barcode reaches us from the identity block and from the itemprop microdata on
+    the pages that carry both. One alias per (kind, value); order is preserved."""
+    out: list[dict] = []
+    seen: set[tuple[str, str]] = set()
+    for a in aliases:
+        k = (a.get("kind", ""), a.get("value", ""))
+        if k in seen or not k[1]:
+            continue
+        seen.add(k)
+        out.append(a)
     return out
 
 

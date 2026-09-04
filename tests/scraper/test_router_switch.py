@@ -302,4 +302,72 @@ check("DX6", "sabotage: an anchor whose text is a quantity, a speed list or a da
       and M.discover(JUNK, {"task": "search", "key": "01-MAY-2022"}) == [])
 
 print(f"\n{npass} passed, {nfail} missed")
+# =============================================================================================
+# the search lane, corrected from 194 real search pages captured 4 Sep 2026
+# =============================================================================================
+# All 194 were the site's rendered "no results" page and every one was recorded as a page that
+# loaded and yielded nothing. The site says outright that it has no such part; saying so is a
+# different fact from "the adapter read nothing", and only one of them is an adapter problem.
+NORESULT_URL = "https://www.router-switch.com/search/10-1022038-01"
+nr_html = load(NORESULT_URL)
+check("SR1", "the real no-results search page is not-found", M.is_not_found(nr_html) is True)
+check("SR2", "...and it is not blocked (a 1.3 MB rendered page, not a challenge)",
+      M.is_blocked(nr_html) is False)
+check("SR3", "...and it proposes no tasks", M.discover(nr_html, {"task": "search", "key": "10-1022038-01"}) == [])
+check("SR4", "the marker is found beyond the first 20 kB (the block sits ~1.16 MB in)",
+      M.is_not_found("x" * 900_000 + '<div id="product-search-not-found-header">Uh-Oh! No Results Found.</div>') is True)
+# SABOTAGE: the marker must not fire on pages that DO have something, or every search and every
+# product page is thrown away for the rest of the crawl.
+check("SR5", "SABOTAGE the real product page is still not not-found", M.is_not_found(main_html) is False)
+check("SR6", "SABOTAGE the header-only search fixture is still not not-found", M.is_not_found(search_html) is False)
+check("SR7", "SABOTAGE prose containing 'results' does not trigger",
+      M.is_not_found("<html><body><p>Showing 12 results for switches, no results were excluded</p></body></html>") is False)
+
+# WAIT_FOR: the worker waits for one of these before it captures. It must be a CSS list that
+# covers BOTH page shapes, or an empty search sits out the full timeout on every key.
+check("SR8", "WAIT_FOR is a CSS list naming the search app and the product blocks",
+      "#product-search" in M.WAIT_FOR and "prt_specification_wrap" in M.WAIT_FOR and "," in M.WAIT_FOR, M.WAIT_FOR)
+for _sel, _doc, _name in ((["#product-search"], nr_html, "no-results page"),
+                          (["div.prt_specification_wrap", "div.product_compare"], main_html, "product page")):
+    _s = M.soup(_doc)
+    check("SR9", f"WAIT_FOR matches the {_name}", any(_s.select(x) for x in _sel), str(_sel))
+
+# The product-grid anchor form: "<SKU>, Cisco <description>" -- the site's own h1, used by every
+# grid. The old rule asked whether the anchor's WHOLE text was the SKU, so a working results page
+# would still have discovered nothing. Proved against the related-products carousel on the real
+# product fixture, whose slugs are not derivable from the SKU.
+check("SK1", "_anchor_sku reads the SKU from the site's product-title form",
+      M._anchor_sku("C9200L-24P-4G-E, Cisco Catalyst 9200L Switch, 24xPoE+ Ports/4x1G Uplink") == "C9200L-24P-4G-E")
+check("SK2", "_anchor_sku still accepts a bare SKU and strips a leading 'Cisco'",
+      M._anchor_sku("Cisco C9200L-24P-4G") == "C9200L-24P-4G" and M._anchor_sku("GLC-TE") == "GLC-TE")
+check("SK3", "_anchor_sku refuses a sentence with no comma (a title is not a part number)",
+      M._anchor_sku("Cisco Catalyst 9200 Series Switches Data Sheet") == "",
+      repr(M._anchor_sku("Cisco Catalyst 9200 Series Switches Data Sheet")))
+check("SK3b", "a nav link's leading word ('Routers, Switches and Firewalls') is refused as bare_word",
+      M._anchor_sku("Routers, Switches and Firewalls") == "Routers"
+      and M.is_part_number("Routers")[1] == "bare_word")
+check("SK4", "_anchor_sku refuses an empty or whitespace anchor", M._anchor_sku("") == "" and M._anchor_sku("   ") == "")
+for _key, _slug_seen in (("GLC-LH-SMD", "glc-lh-smd-p-4960.html"), ("PWR-C5-600WAC/2", "pwr-c5-600wac-2.html"),
+                         ("C9200L-48PXG-2Y-A", "c9200l-48pxg-2y-a.html"), ("C9200L-DNA-E-24-3Y", "c9200l-dna-e-24-3y.html")):
+    _d = M.discover(main_html, {"task": "search", "key": _key})
+    check("SK5", f"title-form anchor discovered for {_key} at its real slug",
+          any(t["url"].endswith(_slug_seen) for t in _d), str([t["url"] for t in _d]))
+# SABOTAGE: reading the leading token must not loosen the identity rule
+_dbase = M.discover(main_html, {"task": "search", "key": "C9200L-24P-4G"})
+check("SK6", "SABOTAGE a title-form anchor for a DIFFERENT part is not discovered",
+      not any(t["key"].startswith("PWR-") or t["key"].startswith("GLC-") for t in _dbase),
+      str([t["key"] for t in _dbase]))
+GRID = ('<html><body><ol class="products">'
+        '<li><a href="/c9200l-24p-4g-e.html">C9200L-24P-4G-E, Cisco Catalyst 9200L Switch, 24xPoE+</a></li>'
+        '<li><a href="/c9200l-24p-4g-a.html">C9200L-24P-4G-A, Cisco Catalyst 9200L Switch, Network Advantage</a></li>'
+        '<li><a href="/c9200-stack-kit.html">C9200-STACK-KIT, Cisco Stacking Kit for the C9200L-24P-4G</a></li>'
+        '<li><a href="/0-75k.html">0.75K, Cisco Table Size</a></li></ol></body></html>')
+_g = M.discover(GRID, {"task": "search", "key": "C9200L-24P-4G"})
+check("SK7", "a results grid written in the title form yields both licence variants",
+      sorted(t["key"] for t in _g) == ["C9200L-24P-4G-A", "C9200L-24P-4G-E"], str([t["key"] for t in _g]))
+check("SK8", "SABOTAGE the stack kit named in a sibling's description is not discovered",
+      not any(t["key"] == "C9200-STACK-KIT" for t in _g))
+check("SK9", "SABOTAGE a junk leading token in the title form is refused by is_part_number",
+      not any(t["key"] == "0.75K" for t in M.discover(GRID, {"task": "search", "key": "0.75K"})))
+
 raise SystemExit(1 if nfail else 0)

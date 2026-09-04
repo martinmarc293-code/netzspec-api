@@ -93,17 +93,26 @@ by_label = {f["label"]: f["value"] for f in facts}
 check("E1", "sku is the Product cell", r["sku"] == "C9200L-24P-4G-A", repr(r["sku"]))
 check("E2", "not_listed False for the page's own SKU", r["not_listed"] is False)
 check("E3", "name is the h1", r["name"] == "Cisco C9200L-24P-4G-A", repr(r["name"]))
-check("E4", f"at least 10 facts (got {len(facts)})", len(facts) >= 10)
+# Five, not ten. The part-page table has thirteen rows and five of them carry a value: the SKU
+# row is the identity (result["sku"]), the price row is the price, the two Smartnet rows are
+# relations, and Quantity Min, Quantity Max, Duration, Service Program and End Of Sale Date all
+# read "N/A" on this page. A placeholder is the absence of a value; four of the ten facts this
+# adapter used to emit were "N/A", which inflates every completeness count that asks whether a
+# field is present.
+check("E4", f"exactly the five rows that carry a value (got {len(facts)})", len(facts) == 5,
+      str([f["label"] for f in facts]))
+check("E5", "no placeholder value among the facts",
+      not any(f["value"].strip().lower() in ("n/a", "na", "-", "none", "tbd") for f in facts),
+      str([(f["label"], f["value"]) for f in facts if f["value"].strip().lower() in ("n/a", "na", "-", "none", "tbd")]))
+check("E6", "the Product row is the sku and is not also a fact",
+      r["sku"] == "C9200L-24P-4G-A" and not any(f["label"].lower() == "product" for f in facts), repr(r["sku"]))
 
 EXACT = [
-    ("Product", "C9200L-24P-4G-A"),
     ("Product Description", "Catalyst 9200L 24-port PoE+, 4 x 1G, Network Advantage"),
     ("Service Category", "C"),
     ("Orderability", "ICW-ONLY"),
     ("Item Identifier", "Product"),
     ("Category Base Discount Name", "CORE"),
-    ("Quantity Min", "N/A"),
-    ("End Of Sale Date", "N/A"),
 ]
 for i, (label, value) in enumerate(EXACT, 1):
     check(f"X{i}", f"exact: {label} = {value}", by_label.get(label) == value, repr(by_label.get(label)))
@@ -286,6 +295,79 @@ check("B14", "sabotage: a GPL-looking table without Product/Description headers 
 labels = sorted({f["label"] for f in facts} | {f["label"] for f in g["facts"]})
 print(f"\nmain fixture (part page): {len(facts)} facts, {len(rels)} relations; gpl fixture: {len(g['facts'])} fact + {len(g['others'])} others; "
       f"discover: gpl {len(gd)}, hp {len(hd)}")
+# =============================================================================================
+# placeholders, identity and the GPL row contract (4 Sep 2026, from 41 real acquired pages)
+# =============================================================================================
+# Measured: 40 gpl pages yielded a median of ONE fact each and 19 "others" in total, no lifecycle
+# anywhere, and the one part page emitted four "N/A" facts out of ten.
+PLACEHOLDERS = ("N/A", "n/a", "NA", "Not Applicable", "Not Available", "None", "null", "TBD",
+                "To Be Determined", "-", "--", "?")
+PH_HTML = ('<html><body><h1>Cisco X-1</h1><table class="table-striped-product"><tbody>'
+           '<tr><td>Product</td><td>X-1</td></tr>'
+           '<tr><td>Service Category</td><td>C</td></tr>'
+           '<tr><td>Quantity Min</td><td>PLACEHOLDER</td></tr></tbody></table></body></html>')
+for _ph in PLACEHOLDERS:
+    _rp = M.extract(PH_HTML.replace("PLACEHOLDER", _ph), {"task": "part-page", "key": "X-1"})
+    check("PH1", f"SABOTAGE {_ph!r} is not a fact",
+          not any(f["label"] == "Quantity Min" for f in _rp["facts"]), str(_rp["facts"]))
+# ...and the rule must not eat real values that merely look small
+for _real in ("0", "1", "No", "Yes", "N/A-2", "None-2"):
+    _rr = M.extract(PH_HTML.replace("PLACEHOLDER", _real), {"task": "part-page", "key": "X-1"})
+    check("PH2", f"SABOTAGE the real value {_real!r} is kept",
+          any(f["label"] == "Quantity Min" and f["value"] == _real for f in _rr["facts"]), str(_rr["facts"]))
+
+# GPL rows: description, list price and the release date on EVERY row, own and others alike.
+GPL_EOS = ('<html><body><i>Cisco Released: April 8, 2025</i><table id="choice_product"><tbody>'
+           '<tr><th>#No</th><th>Product</th><th>Description</th><th>List Price (USD)</th>'
+           '<th>End Of Sale Date</th><th>Our Price</th></tr>'
+           '<tr><td>1</td><td><a href="https://itprice.com/cisco/x-1.html">X-1</a></td>'
+           '<td>Widget one</td><td>$1,500.00</td><td>2024-10-31</td><td>$900.00</td></tr>'
+           '<tr><td>2</td><td><a href="https://itprice.com/cisco/x-2.html">X-2</a></td>'
+           '<td>Widget two</td><td>$2,000.00</td><td>N/A</td><td></td></tr></tbody></table></body></html>')
+rg = M.extract(GPL_EOS, {"task": "gpl", "key": "X-1"})
+check("GR1", "the own row carries its description as a fact", any(f["label"] == "Description" and f["value"] == "Widget one" for f in rg["facts"]), str(rg["facts"]))
+check("GR2", "the own row carries its description as the name too", rg["name"] == "Widget one", repr(rg["name"]))
+check("GR3", "the own row carries the list price and the GPL release date",
+      (rg["price"] or {}).get("list_usd") == "1500.00" and (rg["price"] or {}).get("released") == "April 8, 2025", repr(rg["price"]))
+check("GR4", "an End Of Sale column, when the price list has one, becomes lifecycle on that row",
+      rg["lifecycle"] == {"end_of_sale_date": "2024-10-31"}, repr(rg["lifecycle"]))
+o = rg["others"][0] if rg["others"] else {}
+check("GR5", "EVERY other row gets its own description, name and list price",
+      len(rg["others"]) == 1 and o.get("sku") == "X-2" and o.get("name") == "Widget two"
+      and (o.get("price") or {}).get("list_usd") == "2000.00"
+      and any(f["label"] == "Description" for f in o.get("facts", [])), str(rg["others"]))
+check("GR6", "SABOTAGE an End Of Sale cell saying N/A yields no lifecycle on that row",
+      o.get("lifecycle") is None, repr(o.get("lifecycle")))
+# SABOTAGE: a price list with no EoS column (every one in the corpus) must not invent one, and
+# must not shift another column into the date.
+rg2 = M.extract(GPL_EOS.replace("<th>End Of Sale Date</th>", "").replace("<td>2024-10-31</td>", "").replace("<td>N/A</td>", ""),
+                {"task": "gpl", "key": "X-1"})
+check("GR7", "SABOTAGE no End Of Sale column -> no lifecycle, and the price still reads right",
+      rg2["lifecycle"] is None and (rg2["price"] or {}).get("list_usd") == "1500.00", repr((rg2["lifecycle"], rg2["price"])))
+# SABOTAGE: when the searched SKU is not on the price list, every row still reaches others[]
+rg3 = M.extract(GPL_EOS, {"task": "gpl", "key": "ZZZ-9"})
+check("GR8", "SABOTAGE a key that is not on the list -> not_listed, and both rows still in others",
+      rg3["not_listed"] is True and sorted(e["sku"] for e in rg3["others"]) == ["X-1", "X-2"], str(rg3["others"]))
+check("GR9", "SABOTAGE a blank description does not become an empty name",
+      M.extract(GPL_EOS.replace("<td>Widget one</td>", "<td>N/A</td>"), {"task": "gpl", "key": "X-1"})["name"] is None)
+
+# The GPL release date is read from the page TEXT, where "<" is no longer a boundary. The old
+# rule captured up to 60 characters of whatever followed; on the real fixture the next node
+# happened to begin a new line, so it was right by luck.
+RELEASE_GLUED = ('<html><body><i>Cisco Released: April 8, 2025</i><table id="choice_product"><tbody>'
+                 '<tr><th>#No</th><th>Product</th><th>Description</th><th>List Price (USD)</th></tr>'
+                 '<tr><td>1</td><td>X-1</td><td>Widget one</td><td>$10.00</td></tr></tbody></table></body></html>')
+_rr = M.extract(RELEASE_GLUED, {"task": "gpl", "key": "X-1"})
+check("GR10", "SABOTAGE the release date stops at the date, it does not swallow the header row",
+      (_rr["price"] or {}).get("released") == "April 8, 2025", repr((_rr["price"] or {}).get("released")))
+for _fmt in ("2025-04-08", "8 April 2025", "08-APR-2025"):
+    _rf = M.extract(RELEASE_GLUED.replace("April 8, 2025", _fmt), {"task": "gpl", "key": "X-1"})
+    check("GR11", f"release date format {_fmt} is read", (_rf["price"] or {}).get("released") == _fmt,
+          repr((_rf["price"] or {}).get("released")))
+_rn = M.extract(RELEASE_GLUED.replace("April 8, 2025", "soon"), {"task": "gpl", "key": "X-1"})
+check("GR12", "SABOTAGE a release line that is not a date records no release date",
+      (_rn["price"] or {}).get("released") is None, repr((_rn["price"] or {}).get("released")))
+
 print("labels: " + " || ".join(labels[:25]))
 print(f"\n{npass} passed, {nfail} failed")
 sys.exit(1 if nfail else 0)

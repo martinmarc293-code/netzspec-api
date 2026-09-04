@@ -94,7 +94,6 @@ check("E3", "name is the product title",
 check("E4", f"at least 30 facts (got {len(facts)})", len(facts) >= 30)
 
 EXACT = [
-    ("General Information > Manufacturer Part Number", "C9200L-24P-4G-1A"),
     ("General Information > Product Type", "Ethernet Switch"),
     ("General Information > Product Model", "C9200L-24P-4G"),
     ("Interfaces/Ports > Total Number of Network Ports", "24"),
@@ -131,15 +130,70 @@ check("P1", "price recorded: sale price 2606.73", (r["price"] or {}).get("price"
 check("P2", "price recorded: list price 4146.89", (r["price"] or {}).get("list") == "4146.89", repr(r["price"]))
 check("P3", "price currency USD", (r["price"] or {}).get("currency") == "USD")
 
-check("A1", "aliases: no UPC/EAN/GTIN on this fixture -> []", r["aliases"] == [], repr(r["aliases"]))
-UPC_HTML = ('<html><body><td id="MAIN"><table><tr><td class="HT" colspan="2">General Information</td></tr>'
-            '<tr><td class="AT1">Manufacturer Part Number</td><td class="DT1">C9200L-24P-4G-1A</td></tr>'
-            '<tr><td class="AT2">UPC Code</td><td class="DT2">00882658684579</td></tr>'
-            '<tr><td class="AT1">Height</td><td class="DT1">1.7"</td></tr></table></td></body></html>')
-ru = P.extract(UPC_HTML, task)
-check("A2", "aliases: a UPC row becomes {kind: upc} and not a fact",
+# ---- identity: the SKU row is recorded ONCE, as the SKU ---------------------------------------
+# Both label spellings held the value already in result["sku"], on 594 and 759 of the 759 product
+# pages acquired 3/4 Sep 2026, and neither is mapped by any alias rule: 1,353 duplicate facts.
+check("D1", "manufacturer part number is the sku", r["sku"] == "C9200L-24P-4G-1A", repr(r["sku"]))
+check("D2", "...and is NOT also a fact under 'Manufacturer Part Number'",
+      "General Information > Manufacturer Part Number" not in by_label)
+check("D3", "...nor under the Stock Details spelling 'Manuf Part#'",
+      "Stock Details > Manuf Part#" not in by_label, str([l for l in by_label if "Part#" in l]))
+STOCK_ONLY = ('<html><body><td id="MAIN"><table><tr><td class="HT" colspan="2">Stock Details</td></tr>'
+              '<tr><td id="Gmanuf" class="AT1">Manufacturer</td><td class="DT1">Cisco Systems</td></tr>'
+              '<tr><td id="Gmpn" class="AT2">Manuf Part#</td><td class="DT2">N7K-C7004-S2</td></tr>'
+              '<tr><td id="Gprice" class="AT1">Price</td><td class="DT1">$33578.08</td></tr></table></td></body></html>')
+rs = P.extract(STOCK_ONLY, {"task": "part-page", "key": "N7K-C7004-S2"})
+check("D4", "a page with only the Stock Details block still yields the sku from Manuf Part#",
+      rs["sku"] == "N7K-C7004-S2", repr(rs["sku"]))
+check("D5", "...and the Manufacturer row survives as a fact (it is the only brand statement)",
+      any(f["label"].endswith("Manufacturer") for f in rs["facts"]), str([f["label"] for f in rs["facts"]]))
+# SABOTAGE: the identity rule must not swallow a real spec whose label merely contains the words
+check("D6", "SABOTAGE 'Number of Manufacturer Part Numbers Supported' is a fact, not identity",
+      any(f["label"].endswith("Number of Manufacturer Part Numbers Supported")
+          for f in P.extract('<html><body><td id="MAIN"><table><tr><td class="HT" colspan="2">General Information</td></tr>'
+                             '<tr><td class="AT1">Number of Manufacturer Part Numbers Supported</td><td class="DT1">4</td></tr>'
+                             '</table></td></body></html>', {"task": "part-page", "key": "X"})["facts"]))
+
+# ---- aliases: UPC and the distributor code from the identity block ----------------------------
+# 532 of 728 product pages print <p id="Gupc">, all 728 print <p id="Gsku">, and the adapter
+# captured neither: it only looked for a "UPC" ROW inside the spec table, which this site has not.
+check("A1", "aliases: this fixture has no UPC, so only the Provantage code",
+      r["aliases"] == [{"kind": "distributor_sku", "value": "CSC71M1"}], repr(r["aliases"]))
+ID_HTML = ('<html><body><td id="MAIN"><p id="Gupc">UPC&nbsp;Code: 882658454257</p>'
+           '<p id="Gsku">Provantage&nbsp;Code:&nbsp; CSC9P77</p><p id="Gcond">Condition: Factory New</p>'
+           '<table><tr><td class="HT" colspan="2">General Information</td></tr>'
+           '<tr><td class="AT1">Manufacturer Part Number</td><td class="DT1">VS-C6503E-SUP2T</td></tr>'
+           '<tr><td class="AT2">Height</td><td class="DT2">7"</td></tr></table></td></body></html>')
+ri = P.extract(ID_HTML, {"task": "part-page", "key": "VS-C6503E-SUP2T"})
+check("A2", "identity block: a 12-digit UPC becomes {kind: upc}",
+      {"kind": "upc", "value": "882658454257"} in ri["aliases"], repr(ri["aliases"]))
+check("A3", "identity block: the Provantage code becomes {kind: distributor_sku}",
+      {"kind": "distributor_sku", "value": "CSC9P77"} in ri["aliases"], repr(ri["aliases"]))
+check("A4", "identity block: neither becomes a fact",
+      not any("UPC" in f["label"] or "Provantage" in f["label"] for f in ri["facts"]))
+# SABOTAGE: the UPC row also carries "N/A" and, on a few pages, the SKU typed into it. A barcode
+# that is not a barcode length joins two unrelated parts to each other and cannot be undone.
+for bad in ("N/A", "Not Available", "VS-C6503E-SUP2T", "12345"):
+    rb = P.extract(ID_HTML.replace("882658454257", bad), {"task": "part-page", "key": "VS-C6503E-SUP2T"})
+    check("A5", f"SABOTAGE UPC {bad!r} is refused, not stored as a barcode",
+          not any(a["kind"] in ("upc", "gtin") for a in rb["aliases"]), repr(rb["aliases"]))
+check("A6", "a 14-digit GTIN is recorded as gtin, not upc",
+      P.extract(ID_HTML.replace("882658454257", "00882658684579"), {"task": "part-page", "key": "VS-C6503E-SUP2T"})["aliases"][0]
+      == {"kind": "gtin", "value": "00882658684579"})
+UPC_ROW = ('<html><body><td id="MAIN"><table><tr><td class="HT" colspan="2">General Information</td></tr>'
+           '<tr><td class="AT1">Manufacturer Part Number</td><td class="DT1">C9200L-24P-4G-1A</td></tr>'
+           '<tr><td class="AT2">UPC Code</td><td class="DT2">00882658684579</td></tr>'
+           '<tr><td class="AT1">Height</td><td class="DT1">1.7"</td></tr></table></td></body></html>')
+ru = P.extract(UPC_ROW, task)
+check("A7", "a UPC ROW inside the spec table still becomes {kind: upc} and not a fact",
       ru["aliases"] == [{"kind": "upc", "value": "00882658684579"}] and not any("UPC" in f["label"] for f in ru["facts"]),
       repr(ru["aliases"]))
+rdup = P.extract(ID_HTML.replace('<p id="Gcond">',
+                                 '<span itemprop="upc" content="882658454257"></span><p id="Gcond">'),
+                 {"task": "part-page", "key": "VS-C6503E-SUP2T"})
+check("A8", "the same barcode from the identity block and the microdata is recorded once",
+      rdup["aliases"] == [{"kind": "upc", "value": "882658454257"},
+                          {"kind": "distributor_sku", "value": "CSC9P77"}], repr(rdup["aliases"]))
 
 imgs = r["images"]
 check("I1", "at least one product image", len(imgs) >= 1)
@@ -220,6 +274,24 @@ check("D9", "every discovered task resolves to its URL", all(P.resolve(t) == t["
 check("D10", "sabotage: search discover for a SKU no result mentions -> []",
       P.discover(shtml, {"task": "search", "key": "ZZZ-NOT-ON-THIS-PAGE"}) == [])
 check("D11", "search fixture is neither blocked nor not-found", not P.is_blocked(shtml) and not P.is_not_found(shtml))
+# ---- the site's OWN empty-search page ----------------------------------------------------------
+# 275 of the 427 search pages acquired 3/4 Sep 2026 are this page, and none of the 152 pages that
+# DO have results carries the panel. Before this rule they were extracted, discovered from and
+# recorded as "page loaded, nothing found" - and 71 of them were not even not_listed, because the
+# "Did you mean 075 681" suggestion re-prints the key with a space in it and the fallback test
+# strips spaces before it looks.
+EMPTY_SEARCH = ('<html><head><title>Search Results for 075681</title></head><body><td id="MAIN">'
+                '<p>Did you mean <b>075 681</b> ?</p><h2>Some Tips on Searching</h2>'
+                '<ul><li>Check your spelling</li></ul></td></body></html>')
+check("N1", "the empty-search page is_not_found", P.is_not_found(EMPTY_SEARCH) is True)
+rns = P.extract(EMPTY_SEARCH, {"task": "search", "key": "075681"})
+check("N2", "...and extract says not_listed even though 'Did you mean 075 681' contains the key",
+      rns["not_listed"] is True and rns["facts"] == [], repr(rns))
+check("N3", "...and it proposes no tasks", P.discover(EMPTY_SEARCH, {"task": "search", "key": "075681"}) == [])
+# SABOTAGE: the marker must not fire on a page that HAS results, or every search is thrown away
+check("N4", "SABOTAGE a search page WITH results is not not-found", P.is_not_found(shtml) is False)
+check("N5", "SABOTAGE a product page is not not-found", P.is_not_found(html) is False)
+
 check("D12", "instant-savings sidebar products are not search results",
       not any(t["url"].endswith(("~7EPW9AJ3.htm", "~7TRPA5HV.htm")) for t in sd))
 check("D13", "every part-page key is the searched SKU or a dash-suffixed variant of it (no stack kit, no power supply)",
@@ -260,15 +332,15 @@ check("PG8", "the key-or-variant rule: exact, dash variants (also with '=' and '
       and not P._key_or_variant("", "C9200L-24P-4G") and not P._key_or_variant("C9200L-24P-4G", ""))
 
 # ---- aliases: a UPC is a barcode or it is nothing --------------------------------------------------
-UPC_BAD = UPC_HTML.replace("00882658684579", "N/A")
+UPC_BAD = UPC_ROW.replace("00882658684579", "N/A")
 rb_ = P.extract(UPC_BAD, task)
-check("A3", "sabotage: a UPC row saying N/A is neither an alias nor a fact", rb_["aliases"] == [] and not any("UPC" in f["label"] for f in rb_["facts"]), repr(rb_["aliases"]))
-ru2 = P.extract(UPC_HTML.replace("00882658684579", "882 658 684 579"), task)
-check("A4", "a UPC written with spaces is one 12-digit alias", ru2["aliases"] == [{"kind": "upc", "value": "882658684579"}], repr(ru2["aliases"]))
+check("A9", "sabotage: a UPC row saying N/A is neither an alias nor a fact", rb_["aliases"] == [] and not any("UPC" in f["label"] for f in rb_["facts"]), repr(rb_["aliases"]))
+ru2 = P.extract(UPC_ROW.replace("00882658684579", "882 658 684 579"), task)
+check("A10", "a UPC written with spaces is one 12-digit alias", ru2["aliases"] == [{"kind": "upc", "value": "882658684579"}], repr(ru2["aliases"]))
 ITEMPROP = ('<html><body><td id="MAIN"><span itemprop="gtin13" content="0882658684579"></span><span itemprop="upc">TBD</span>'
             '<table><tr><td class="AT1">Manufacturer Part Number</td><td class="DT1">C9200L-24P-4G-1A</td></tr></table></td></body></html>')
 ri_ = P.extract(ITEMPROP, task)
-check("A5", "itemprop gtin13 becomes a gtin alias; an itemprop upc saying TBD does not", ri_["aliases"] == [{"kind": "gtin", "value": "0882658684579"}], repr(ri_["aliases"]))
+check("A11", "itemprop gtin13 becomes a gtin alias; an itemprop upc saying TBD does not", ri_["aliases"] == [{"kind": "gtin", "value": "0882658684579"}], repr(ri_["aliases"]))
 
 # ---- discover() on listing fixtures ------------------------------------------------------------------
 def listing(url: str):

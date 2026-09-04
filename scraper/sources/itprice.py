@@ -55,13 +55,31 @@ PUBLISHED_BY = "Cisco GPL"
 _PRICE_LABEL = re.compile(r"^global price in usd$", re.I)
 _RELATION_LABEL = re.compile(r"^(?:hotsale smartnet|smartnet service finder tool)$", re.I)
 _EOS_LABEL = re.compile(r"^end of sale date$", re.I)
+# The row the SKU is read from. Recorded once, as the SKU; emitting it as a fact too files the
+# same string under a label no alias rule maps.
+_IDENTITY_LABEL = re.compile(r"^product$", re.I)
+
+# itprice prints an empty cell as a placeholder rather than leaving it blank. Four of the ten
+# facts on the one real part page in the corpus (AIR-AP1542I-G-K9) were "N/A": Quantity Min,
+# Quantity Max, Duration, Service Program. A placeholder is the ABSENCE of a value; storing it
+# turns "we do not know" into "the vendor says N/A", which is a different and false claim, and it
+# inflates every completeness number that counts fields present.
+_PLACEHOLDER = re.compile(r"^(?:n/?a|not applicable|not available|none|null|tbd|to be determined|--?|–|—|\?+)$", re.I)
 
 # A service-contract code as itprice writes it: CON-<service>-<product>. Anchored to the start of
 # the anchor text so "CON-SNT-C920L2GA (1 Year 8X5XNBD)" yields the code and the term separately.
 _CON_CODE = re.compile(r"^(CON-[A-Z0-9]+-[A-Z0-9]+)\s*(?:\((.*?)\))?\s*$", re.I)
 
 _MONEY = re.compile(r"\$\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)")
-_RELEASED = re.compile(r"Cisco Released:\s*([^<\n]{4,60})")
+# The GPL publication date above the table. It is read from the page TEXT, where the "<" that
+# used to bound "[^<\n]{4,60}" no longer exists: on the real fixture the next node happened to
+# start a new line, so the tail was clipped by luck, and on a page whose heading follows on the
+# same line the captured "released" became "April 8, 2025 #No Product Description List Price".
+# A publication date is a DATE or it is not recorded.
+_RELEASED = re.compile(r"Cisco Released:\s*("
+                       r"[A-Za-z]{3,9}\.?\s+\d{1,2},?\s+\d{4}"     # April 8, 2025
+                       r"|\d{4}-\d{2}-\d{2}"                        # 2025-04-08
+                       r"|\d{1,2}[ -][A-Za-z]{3,9}[ ,-]+\d{4})")    # 8 April 2025 / 08-APR-2025
 
 # "End Of Sale Date" is a real date only in one of the shapes below; "N/A", "-", "" and prose
 # are not, and a lifecycle date that is not a date is the kind of value that ends up on a page.
@@ -221,6 +239,11 @@ def _extract_gpl(s, table: Tag, key: str) -> dict:
         return None
 
     c_prod, c_desc, c_list = col("product"), col("description"), col("list price")
+    # The GPL tables in the corpus print "#No | Product | Description | List Price (USD) | Our
+    # Price | <Buy Now> | Quote Sheet" and carry NO end-of-sale column: on itprice the EoS date
+    # lives on the part page, not on the price list. The column is looked up by header anyway, so
+    # a list that grows one is read the day it appears rather than the day someone notices.
+    c_eos = col("end of sale") if col("end of sale") is not None else col("eos date")
     if c_prod is None or c_desc is None:
         # a table we do not understand is not read; a misread column files a description under
         # the wrong SKU
@@ -245,11 +268,18 @@ def _extract_gpl(s, table: Tag, key: str) -> dict:
         if not sku:
             continue
         e = _empty_result(sku)
-        if desc:
+        if desc and not _PLACEHOLDER.match(desc):
             e["facts"].append({"label": "Description", "value": desc, "locator": f"gpl:r{ri}"})
+            # the description IS the product name on a price list; every row carries one, and
+            # without it an "others" entry reached the pipeline with no human-readable identity
+            e["name"] = desc
         list_usd = _money(_text(cells[c_list])) if c_list is not None and len(cells) > c_list else None
         if list_usd:
             e["price"] = {"list_usd": list_usd, "currency": "USD", "published_by": PUBLISHED_BY, "released": released}
+        if c_eos is not None and len(cells) > c_eos:
+            eos = _text(cells[c_eos])
+            if _DATE_SHAPES.match(eos):
+                e["lifecycle"] = {"end_of_sale_date": eos}
         entries.append(e)
 
     own = next((e for e in entries if _same_sku(e["sku"], key)), None)
@@ -283,10 +313,18 @@ def _extract_part(s, table: Tag, key: str) -> dict:
             continue
         if _RELATION_LABEL.match(label):
             continue
-        if label.lower() == "product" and sku is None:
-            sku = value
+        if _IDENTITY_LABEL.match(label):
+            # the row the SKU comes from: recorded as the SKU, not as a fact as well
+            if sku is None and value:
+                sku = value
+            continue
         if _EOS_LABEL.match(label) and _DATE_SHAPES.match(value):
+            # a real date becomes lifecycle AND stays a raw fact, so the mapped value can be
+            # audited against what the page said. "N/A" (every EoS cell in the corpus so far)
+            # is neither: it falls through to the placeholder rule below.
             lifecycle = {"end_of_sale_date": value}
+        if _PLACEHOLDER.match(value):
+            continue
         facts.append(p)
 
     relations: list[dict] = []

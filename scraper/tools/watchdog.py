@@ -10,28 +10,51 @@ questions that matter, one line per source:
   * JUNK KEYS    pending tasks whose key is not a part number. The ONE definition is
                  sources.base.is_part_number (the worker refuses the same keys at enqueue time);
                  this file carries no copy of it. With --act they are deleted.
-  * YIELD        >= 10 done in the window and none with facts (and not mostly "not listed") is a
-                 broken adapter or a changed site: ALARM, and with --act the source is paused
-                 (enabled=false) until a human sets enabled=true again.
-  * NOT LISTED   most of a window answering "not listed" means the keys are wrong for that site.
+  * YIELD        >= 10 CONTENT pages done in the window and none with facts (and not mostly "not
+                 listed") is a broken adapter or a changed site: ALARM, and with --act the source
+                 is paused (enabled=false) until a human sets enabled=true again.
+  * DISCOVERY    the other half of yield. A search or listing page never carries a fact — its
+                 whole job is to propose part-page tasks — so >= 20 done discovery pages that
+                 proposed NOTHING, and that the site did not answer "not listed", is the same
+                 kind of break: ALARM, paused with --act.
+  * NOT LISTED   most of a content window answering "not listed" means the keys are wrong for
+                 that site (a WARN); >= 15 consecutive not-listed answers to keys that ARE real
+                 part numbers is an ALARM, because a wrong URL pattern looks exactly like a site
+                 that does not carry the part.
   * BLOCKS       >= 5 blocked/challenged in the window: with --act the source is paused and its
                  pending tasks deferred 60 min; the watchdog re-enables it itself after 60 min.
   * STALL        the heartbeat is older than 15 min (or missing, or "idle") while runnable tasks
                  are queued, nothing in the database was touched either, and a worker is expected
                  (the source is in --expect, or it has a heartbeat file at all): ALARM. Twenty
-                 consecutive failed/blocked completions is the other stall: the worker is alive
-                 and every page it touches dies.
+                 consecutive failed/blocked completions is the second stall: the worker is alive
+                 and every page it touches dies. A task LEASED for more than 20 minutes is the
+                 third: the worker is alive and stuck on one page, which the heartbeat cannot
+                 show because a heartbeat is only written when a task FINISHES.
   * THROUGHPUT   tasks/hour over the last hour, pending tasks, ETA. Under 20 tasks/hour with
                  pending work is far below what the politeness interval allows (3 s = 1200/h),
                  which means the host is slow-walking us: reported as THROTTLED.
-  * DRIFT        median raw facts per listed page over 24 h below half the 7-day median, with at
+  * DRIFT        median raw facts per CONTENT page over 24 h below half the 7-day median, with at
                  least 30 pages in the 24 h: the parser reads less than it used to. ALARM; with
                  --act the source is paused until a human looks.
   * DUPLICATES   the same URL fetched twice within 24 h across tasks (the queue's UNIQUE is per
                  (source, task, key), so two keys resolving to one URL fetch it twice). Reported.
+  * VOCABULARY   the top raw labels today's pages emitted that no rule in
+                 data/schema/attribute-aliases.en.json maps. This is the feed for the alias work:
+                 a label nobody has mapped is a fact that was extracted and then thrown away, and
+                 nothing else in the pipeline says which ones are worth the effort.
   * RESUME       a source the watchdog paused for blocks is re-enabled after 60 min (--act). A
                  source paused for zero yield or drift stays paused until a human sets
                  enabled=true; the first run that sees that logs `resumed`.
+
+Why "content" and "discovery" are counted apart (4 Sep 2026, paid for on the live crawl): the
+watchdog paused provantage for "zero yield" after a window of 170 SEARCH tasks. Search pages had
+carried facts on no day of the crawl and were never going to; the lane was working (61 of the
+searches in that same period discovered part-pages) and the adapter was healthy. Counting a
+discovery page in a yield denominator is comparing a thing to a number it cannot produce. The
+same mistake was one cycle away from firing DRIFT, whose medians come from a view that counts
+every done page: a burst of searches drags the 24 h median to zero on a source whose part pages
+still read eighteen facts each. The medians the drift rule uses are computed here, over content
+tasks only; the view's own numbers stay in the report so the two can be compared.
 
 Outputs: runs/nightshift/watchdog.md (human), runs/nightshift/watchdog.json (machine), and
 runs/nightshift/ALERT.md only while an ALARM exists (deleted when clear; the supervisor shows it).
@@ -42,7 +65,7 @@ and in the report's actions list. tests/scraper/test_watchdog.py holds every che
 exactly on its condition and not otherwise".
 """
 from __future__ import annotations
-import argparse, json, sys
+import argparse, json, re, sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -72,6 +95,32 @@ ZERO_YIELD_MIN_DONE = 10
 NOT_LISTED_RATIO = 0.6
 ALARM_REPEAT_MINUTES = 60     # the same alarm on the same source is logged once per this
 PART_NUMBER_TASKS = ("search", "gpl", "part-page")
+# Tasks that are SUPPOSED to carry facts, and tasks whose whole job is to propose other tasks.
+# A page of the second kind in a yield denominator is what paused a healthy provantage.
+CONTENT_TASKS = ("part-page", "datasheet", "gpl", "eol")
+DISCOVERY_TASKS = ("search", "listing")
+DEAD_DISCOVERY_MIN_DONE = 20  # done search/listing pages before "discovered nothing" means anything
+HUNG_LEASE_MINUTES = 20       # a task leased longer than this: the worker is alive and stuck on
+                              # one page. The worker steals a lease back at 30 min, so this is an
+                              # early warning and must stay below that.
+# Consecutive not-listed answers to keys that ARE part numbers, by what the source IS.
+# A VENDOR lists its own parts: fifteen in a row is a wrong URL pattern, a variant suffix it
+# spells differently, or a search that needs a click-through, and the source is paused.
+# A DISTRIBUTOR does not stock most of a vendor's catalogue, and 4 Sep 2026 made that concrete:
+# is_part_number was widened the same morning to keep Cisco's digit-only assembly PIDs
+# (10-1022038-01, 1,497 real parts that could never be queued before), and every one of the 194
+# router-switch searches that night was one of them, correctly answered "no results" by a reseller
+# that does not sell internal assemblies. A streak alarm that paused on those would be the
+# provantage zero-yield mistake again, in a new place. For tier >= 3 the bar is much higher and
+# the source is never paused: a hundred real part numbers in a row with not one hit means the
+# planner is feeding this source a catalogue it does not carry, or the URL pattern is wrong.
+# Both are worth a human, neither is worth switching the source off.
+NOT_LISTED_STREAK = 15
+NOT_LISTED_STREAK_DISTRIBUTOR = 100
+VENDOR_TIER_MAX = 2           # sources.tier <= this is a vendor; above it, a reseller or aggregator
+UNMAPPED_TOP_N = 5            # unmapped labels per source in the report
+UNMAPPED_MAX_FILES = 600      # acquired files read per source per run (the report is a sample,
+                              # and it says so rather than pretending to be a census)
 
 
 def load_env() -> dict:
@@ -111,6 +160,106 @@ def allow_short_keys(slug: str) -> bool:
         return bool(getattr(load_source(slug), "ALLOW_SHORT_KEYS", False))
     except Exception:  # noqa — no module registered: the default rule applies
         return False
+
+
+# ---------------------------------------------------------------------------------------------
+# the vocabulary feed: which raw labels today's pages emitted that nothing maps
+# ---------------------------------------------------------------------------------------------
+# The alias rules are ORDERED regexes matched case-insensitively, first match wins, and
+# src/core/deepSpecMap.ts retries a label with a trailing unit parenthetical removed. That retry
+# is copied here because a label counted as unmapped when the pipeline does map it sends the
+# vocabulary work at a rule that already exists.
+ALIASES_FILE = ROOT / "data" / "schema" / "attribute-aliases.en.json"
+_TRAILING_UNIT = re.compile(r"\s*\(\s*[A-Za-z\u00b5\u00b0%]{1,4}(?:\s*/\s*[A-Za-z]{1,3})?"
+                            r"(?:\s+(?:rms|peak|dc|ac))?\s*\)\s*\d*\s*$")
+_RULES_CACHE: list[tuple[re.Pattern, str]] | None = None
+
+
+def alias_rules() -> list[tuple[re.Pattern, str]]:
+    """The compiled alias rules, or [] when the file cannot be read. The caller reports which of
+    the two happened: "0 unmapped" and "the vocabulary could not be read" are opposite findings
+    and a monitor that shows the first for the second is the failure mode this project keeps
+    hitting (D:\\Project\\CLAUDE.md 10)."""
+    global _RULES_CACHE
+    if _RULES_CACHE is None:
+        doc = json.loads(ALIASES_FILE.read_text(encoding="utf-8"))
+        flags = re.I if doc.get("case_insensitive", True) else 0
+        _RULES_CACHE = [(re.compile(r[0], flags), r[1]) for r in doc["rules"]]
+        _MAPPED_MEMO.clear()   # the memo is keyed on the label alone; new rules invalidate it
+    return _RULES_CACHE
+
+
+_MAPPED_MEMO: dict[str, bool] = {}
+
+
+def maps_to_field(label: str, rules: list[tuple[re.Pattern, str]]) -> bool:
+    """Does any alias rule match this label? Memoised per label, because a corpus of 13,000 facts
+    holds about 700 distinct labels and 1,177 rules: without the memo a single run is seven
+    million regex tests and the monitor takes longer than the thing it monitors."""
+    hit = _MAPPED_MEMO.get(label)
+    if hit is not None:
+        return hit
+    hit = False
+    for rx, _ in rules:
+        if rx.search(label):
+            hit = True
+            break
+    if not hit:
+        bare = _TRAILING_UNIT.sub("", label).strip()
+        if bare and bare != label:
+            for rx, _ in rules:
+                if rx.search(bare):
+                    hit = True
+                    break
+    _MAPPED_MEMO[label] = hit
+    return hit
+
+
+def unmapped_labels(runs_dir: Path, slug: str, day: str, top_n: int = UNMAPPED_TOP_N,
+                    max_files: int = UNMAPPED_MAX_FILES) -> dict:
+    """The labels today's acquired pages emitted that no alias rule maps, most frequent first.
+
+    Reads runs/acquired/<slug>/<day>/*.json — the worker's own output, so this works whether or
+    not the TypeScript apply step has run. Returns {"top": [...], "distinct": n, "unmapped": n,
+    "mapped": n, "files": n, "truncated": bool} or {"error": "..."} — never a silent zero."""
+    out: dict = {"top": [], "distinct": 0, "unmapped": 0, "mapped": 0, "files": 0, "truncated": False}
+    d = Path(runs_dir) / "acquired" / slug / day
+    if not d.is_dir():
+        return out
+    try:
+        rules = alias_rules()
+    except Exception as e:  # noqa — the vocabulary file is missing or malformed: say so
+        return {**out, "error": f"{type(e).__name__}: {str(e)[:120]}"}
+    if not rules:
+        return {**out, "error": f"no rules in {ALIASES_FILE.name}"}
+    # newest by mtime, not by name: the files are named after the task id, and "999" sorts after
+    # "1000" as a string, so a lexicographic tail would sample the oldest pages on a busy day
+    files = sorted(d.glob("*.json"), key=lambda p: p.stat().st_mtime)
+    out["truncated"] = len(files) > max_files
+    counts: dict[str, dict] = {}
+    for f in files[-max_files:]:
+        try:
+            j = json.loads(f.read_text(encoding="utf-8"))
+        except Exception:  # noqa — one unreadable acquired file is not a reason to report nothing
+            continue
+        out["files"] += 1
+        res = j.get("result") or {}
+        for entry in [res, *(res.get("others") or [])]:
+            for fact in entry.get("facts") or []:
+                label = (fact.get("label") or "").strip()
+                if not label:
+                    continue
+                if maps_to_field(label, rules):
+                    out["mapped"] += 1
+                    continue
+                out["unmapped"] += 1
+                c = counts.setdefault(label, {"label": label, "count": 0, "sample": ""})
+                c["count"] += 1
+                if not c["sample"]:
+                    c["sample"] = str(fact.get("value") or "")[:60]
+    out["distinct"] = len(counts)
+    out["top"] = sorted(counts.values(), key=lambda x: (-x["count"], x["label"]))[:top_n]
+    return out
 
 
 class Watchdog:
@@ -162,25 +311,130 @@ class Watchdog:
 
     # -- the per-source numbers, one grouped query each (the database is behind an SSH tunnel;
     #    twenty sources times four round trips per cycle was the slow version) ----------------
+    WINDOW_ZERO = {"touched": 0, "done": 0, "with_facts": 0, "not_listed": 0, "failed": 0, "blocked": 0,
+                   "content_done": 0, "content_with_facts": 0, "content_not_listed": 0,
+                   "disc_done": 0, "disc_discovered": 0, "disc_not_listed": 0}
+
     def load_window_stats(self) -> dict[int, dict]:
+        """Per source, the window's counters — split by TASK CLASS as well as status.
+
+        content_*  part-page / datasheet / gpl / eol: pages that are supposed to carry facts.
+        disc_*     search / listing: pages whose product is a list of further tasks. `discovered`
+                   is the count the worker writes into result->>'discovered'.
+        The unsplit done/with_facts/not_listed stay for the report line, so a human still sees
+        what the whole window did."""
         st = self.c.execute(
-            """SELECT source_id, status::text AS status, count(*) AS n,
+            """SELECT source_id, status::text AS status, task, count(*) AS n,
                       sum(CASE WHEN (result->>'facts')::int > 0 THEN 1 ELSE 0 END) AS with_facts,
+                      sum(CASE WHEN (result->>'discovered')::int > 0 THEN 1 ELSE 0 END) AS discovered,
                       sum(CASE WHEN result->>'outcome' = 'not_listed' THEN 1 ELSE 0 END) AS not_listed,
                       sum(CASE WHEN last_error ILIKE '%%challenge%%' OR last_error ILIKE '%%http 403%%' OR last_error ILIKE '%%http 429%%'
                                  OR last_error ILIKE '%%robots%%' THEN 1 ELSE 0 END) AS blocked
                  FROM fetch_queue WHERE updated_at > now() - make_interval(mins => %s)
-                GROUP BY source_id, status""", (self.window,)).fetchall()
+                GROUP BY source_id, status, task""", (self.window,)).fetchall()
         out: dict[int, dict] = {}
         for r in st:
-            w = out.setdefault(r["source_id"], {"touched": 0, "done": 0, "with_facts": 0, "not_listed": 0, "failed": 0, "blocked": 0})
-            w["touched"] += int(r["n"])
+            w = out.setdefault(r["source_id"], dict(self.WINDOW_ZERO))
+            n, task = int(r["n"]), r["task"]
+            w["touched"] += n
             if r["status"] == "done":
-                w["done"] += int(r["n"]); w["with_facts"] += int(r["with_facts"] or 0); w["not_listed"] += int(r["not_listed"] or 0)
+                w["done"] += n
+                w["with_facts"] += int(r["with_facts"] or 0)
+                w["not_listed"] += int(r["not_listed"] or 0)
+                if task in CONTENT_TASKS:
+                    w["content_done"] += n
+                    w["content_with_facts"] += int(r["with_facts"] or 0)
+                    w["content_not_listed"] += int(r["not_listed"] or 0)
+                elif task in DISCOVERY_TASKS:
+                    w["disc_done"] += n
+                    w["disc_discovered"] += int(r["discovered"] or 0)
+                    w["disc_not_listed"] += int(r["not_listed"] or 0)
             elif r["status"] == "failed":
-                w["failed"] += int(r["n"])
+                w["failed"] += n
             # a task in status 'blocked' is a block; any other status counts its challenge/403/429 errors
-            w["blocked"] += int(r["n"]) if r["status"] == "blocked" else int(r["blocked"] or 0)
+            w["blocked"] += n if r["status"] == "blocked" else int(r["blocked"] or 0)
+        return out
+
+    def load_content_medians(self) -> dict[int, dict]:
+        """Median raw facts per CONTENT page over 24 h and 7 d, and the 24 h page count.
+
+        source_throughput computes the same medians over every done page, so a night of search
+        tasks (facts = 0 by nature) drags the 24 h median to zero and DRIFT pauses a source whose
+        part pages are unchanged. The view is a published contract used elsewhere; the drift rule
+        needs its own numbers, so it computes them here and the report prints both."""
+        rows = self.c.execute(
+            """WITH pages AS (
+                 SELECT source_id, updated_at, (result->>'facts')::int AS f
+                   FROM fetch_queue
+                  WHERE status = 'done' AND updated_at > now() - interval '7 days'
+                    AND task = ANY(%s) AND result ? 'facts'
+                    AND COALESCE(result->>'outcome', '') <> 'not_listed')
+               SELECT source_id,
+                      count(*) FILTER (WHERE updated_at > now() - interval '24 hours') AS pages_24h,
+                      percentile_cont(0.5) WITHIN GROUP (ORDER BY f)
+                        FILTER (WHERE updated_at > now() - interval '24 hours') AS median_24h,
+                      percentile_cont(0.5) WITHIN GROUP (ORDER BY f) AS median_7d
+                 FROM pages GROUP BY source_id""", (list(CONTENT_TASKS),)).fetchall()
+        return {r["source_id"]: {"pages_24h": int(r["pages_24h"] or 0),
+                                 "median_24h": r["median_24h"], "median_7d": r["median_7d"]} for r in rows}
+
+    def load_hung_leases(self) -> dict[int, dict]:
+        """Per source, the oldest task that has been LEASED for more than HUNG_LEASE_MINUTES.
+
+        A heartbeat is written when a task FINISHES, so a worker wedged on one page keeps its
+        last heartbeat and reads as healthy right up to the moment the lease expires. Two of the
+        four Cisco-lane workers spent the night on pages that never returned; the report said
+        "heartbeat 20 min" and nothing else."""
+        rows = self.c.execute(
+            """SELECT DISTINCT ON (source_id) source_id, id, key, task, leased_by,
+                      round(extract(epoch FROM (now() - leased_at)) / 60.0)::int AS minutes,
+                      (SELECT count(*) FROM fetch_queue q2
+                        WHERE q2.source_id = q.source_id AND q2.status = 'leased'
+                          AND q2.leased_at < now() - make_interval(mins => %s)) AS n
+                 FROM fetch_queue q
+                WHERE status = 'leased' AND leased_at < now() - make_interval(mins => %s)
+                ORDER BY source_id, leased_at""", (HUNG_LEASE_MINUTES, HUNG_LEASE_MINUTES)).fetchall()
+        return {r["source_id"]: dict(r) for r in rows}
+
+    def load_not_listed_streaks(self) -> dict[int, dict]:
+        """Per source, how many of the most recent completions in a row answered "not listed" to a
+        key that IS a part number, and the keys involved.
+
+        A distributor genuinely does not carry most Cisco internal part numbers, and those keys
+        are not part numbers by our own rule (no letter), so they never reach this count. A run of
+        REAL PIDs all answering not-listed is something else: a wrong URL pattern, a variant
+        suffix the site spells differently, or a search page whose results need a click-through.
+        Both look identical in the queue, which is why the part-number rule is the discriminator."""
+        rows = self.c.execute(
+            """SELECT source_id, key, task, status::text AS status, COALESCE(result->>'outcome','') AS outcome
+                 FROM (SELECT source_id, key, task, status, result,
+                              row_number() OVER (PARTITION BY source_id ORDER BY updated_at DESC, id DESC) AS rn
+                         FROM fetch_queue WHERE status IN ('done','failed','blocked')) t
+                WHERE rn <= %s ORDER BY source_id, rn""",
+            # far enough back to reach the distributor limit even when most rows are listing tasks
+            # or keys the part-number rule skips
+            (max(NOT_LISTED_STREAK, NOT_LISTED_STREAK_DISTRIBUTOR) * 3,)).fetchall()
+        out: dict[int, dict] = {}
+        broken: set[int] = set()
+        short: dict[str, bool] = {}
+        for r in rows:
+            sid = r["source_id"]
+            if sid in broken:
+                continue
+            if r["task"] not in PART_NUMBER_TASKS:
+                continue            # a listing's key is a URL and says nothing either way
+            slug = self.slug_of.get(sid, "")
+            if slug not in short:
+                short[slug] = allow_short_keys(slug)
+            if not is_part_number(r["key"], allow_short=short[slug])[0]:
+                continue            # not a real PID: a not-listed answer here is expected
+            if r["outcome"] == "not_listed":
+                e = out.setdefault(sid, {"streak": 0, "keys": []})
+                e["streak"] += 1
+                if len(e["keys"]) < 8:
+                    e["keys"].append(r["key"])
+            else:
+                broken.add(sid)
         return out
 
     def load_runnable(self) -> dict[int, int]:
@@ -218,30 +472,84 @@ class Watchdog:
     # -- the per-source checks --------------------------------------------------------------
 
     def check_source(self, s: dict, thr: dict, latest: dict) -> dict:
-        w = self.stats.get(s["id"], {"touched": 0, "done": 0, "with_facts": 0, "not_listed": 0, "failed": 0, "blocked": 0})
+        w = self.stats.get(s["id"], dict(self.WINDOW_ZERO))
         hb = read_heartbeat(self.runs_dir, s["slug"])
         runnable = self.runnable.get(s["id"], 0)
         queued = int(thr["queued"] or 0)
+        med = self.medians.get(s["id"], {"pages_24h": 0, "median_24h": None, "median_7d": None})
+        hung = self.hung.get(s["id"])
+        nl = self.not_listed_streaks.get(s["id"], {"streak": 0, "keys": []})
         verdicts: list[str] = []
         alarms: list[str] = []
         row = {"slug": s["slug"], "enabled": s["enabled"], **w, "queued": queued, "runnable": runnable,
                "heartbeat": hb, "rate_per_hour": int(thr["done_1h"] or 0), "eta_hours": None, "throttled": False,
+               # the view's own numbers (every done page) stay for comparison; the drift rule uses
+               # content_median_* below, which count only pages that are supposed to carry facts
                "pages_24h": int(thr["pages_24h"] or 0), "median_facts_per_page_24h": thr["median_facts_per_page_24h"],
-               "median_facts_per_page_7d": thr["median_facts_per_page_7d"], "facts_24h": int(thr["facts_24h"] or 0)}
+               "median_facts_per_page_7d": thr["median_facts_per_page_7d"], "facts_24h": int(thr["facts_24h"] or 0),
+               "content_pages_24h": med["pages_24h"], "content_median_24h": med["median_24h"],
+               "content_median_7d": med["median_7d"], "hung_lease": hung,
+               "not_listed_streak": nl["streak"], "unmapped": self.unmapped.get(s["slug"], {})}
 
-        # YIELD — every page came back and none carried a fact: the adapter, not the site
-        if w["done"] >= ZERO_YIELD_MIN_DONE and w["with_facts"] == 0 and w["not_listed"] < w["done"]:
-            msg = f"ALARM zero yield ({w['done']} done, 0 with facts: adapter broken or site changed)"
+        # YIELD — every CONTENT page came back and none carried a fact: the adapter, not the site.
+        # A search or listing page is not in this count: it has no facts to give, and counting it
+        # here paused a healthy provantage on 4 Sep 2026 after a window of 170 searches.
+        if w["content_done"] >= ZERO_YIELD_MIN_DONE and w["content_with_facts"] == 0 and w["content_not_listed"] < w["content_done"]:
+            msg = (f"ALARM zero yield ({w['content_done']} content pages done, 0 with facts: "
+                   f"adapter broken or site changed)")
             alarms.append(msg)
             if s["enabled"] and self.act:
-                self.pause(s, "zero_yield", {"done": w["done"], "with_facts": 0, "not_listed": w["not_listed"], "window_min": self.window})
+                self.pause(s, "zero_yield", {"done": w["content_done"], "with_facts": 0,
+                                             "not_listed": w["content_not_listed"], "window_min": self.window})
             else:
-                self.event("zero_yield", s["id"], {"reason": "zero_yield", "done": w["done"], "not_listed": w["not_listed"]}, False, dedupe=True)
+                self.event("zero_yield", s["id"], {"reason": "zero_yield", "done": w["content_done"],
+                                                   "not_listed": w["content_not_listed"]}, False, dedupe=True)
                 if not s["enabled"]:
                     msg += " [already paused]"
             verdicts.append(msg)
-        elif w["done"] >= ZERO_YIELD_MIN_DONE and w["not_listed"] >= w["done"] * NOT_LISTED_RATIO:
-            verdicts.append(f"WARN {w['not_listed']}/{w['done']} not listed (keys wrong for this site?)")
+        elif w["content_done"] >= ZERO_YIELD_MIN_DONE and w["content_not_listed"] >= w["content_done"] * NOT_LISTED_RATIO:
+            verdicts.append(f"WARN {w['content_not_listed']}/{w['content_done']} not listed (keys wrong for this site?)")
+
+        # DISCOVERY — the same question asked of the lane that has no facts to give: a search
+        # page's product is the tasks it proposes. Pages the site answered "not listed" are
+        # excluded, because a distributor really does not carry most Cisco internal PIDs.
+        if (w["disc_done"] >= DEAD_DISCOVERY_MIN_DONE and w["disc_discovered"] == 0
+                and w["disc_not_listed"] < w["disc_done"]):
+            msg = (f"ALARM dead discovery ({w['disc_done']} search/listing pages done, "
+                   f"0 proposed a task, {w['disc_not_listed']} answered not-listed)")
+            alarms.append(msg)
+            if s["enabled"] and self.act:
+                self.pause(s, "dead_discovery", {"disc_done": w["disc_done"], "discovered": 0,
+                                                 "not_listed": w["disc_not_listed"], "window_min": self.window})
+            else:
+                self.event("zero_yield", s["id"], {"reason": "dead_discovery", "disc_done": w["disc_done"],
+                                                   "not_listed": w["disc_not_listed"]}, False, dedupe=True)
+                if not s["enabled"]:
+                    msg += " [already paused]"
+            verdicts.append(msg)
+
+        # NOT LISTED STREAK — every recent answer to a REAL part number was "we do not have it".
+        # A vendor that says that about its own parts is broken; a distributor is allowed not to
+        # stock them, so the bar is far higher there and it is never paused for it.
+        vendor = int(s["tier"] or 9) <= VENDOR_TIER_MAX
+        limit = NOT_LISTED_STREAK if vendor else NOT_LISTED_STREAK_DISTRIBUTOR
+        row["not_listed_streak_limit"] = limit
+        if nl["streak"] >= limit:
+            why = ("wrong URL pattern, a variant suffix, or a search that needs a click-through"
+                   if vendor else "the queue is feeding this source parts it does not carry, or the URL pattern is wrong")
+            msg = (f"ALARM {nl['streak']} consecutive not-listed answers to real part numbers "
+                   f"({why}) e.g. {', '.join(nl['keys'][:4])}")
+            alarms.append(msg)
+            if vendor and s["enabled"] and self.act:
+                self.pause(s, "not_listed_streak", {"streak": nl["streak"], "keys": nl["keys"][:8], "tier": s["tier"]})
+            else:
+                self.event("zero_yield", s["id"], {"reason": "not_listed_streak", "streak": nl["streak"],
+                                                   "tier": s["tier"], "keys": nl["keys"][:8]}, False, dedupe=True)
+                if not vendor:
+                    msg += " [reported, not paused: a distributor's stock is not an adapter fault]"
+                elif not s["enabled"]:
+                    msg += " [already paused]"
+            verdicts.append(msg)
 
         # BLOCKS — back off instead of hammering; the watchdog lifts this itself after BACKOFF_MINUTES
         if w["blocked"] >= BLOCKS_THRESHOLD:
@@ -257,10 +565,12 @@ class Watchdog:
             else:
                 verdicts.append(f"BLOCKED {w['blocked']}x" + ("" if s["enabled"] else " [paused]"))
 
-        # DRIFT — the parser reads less per page than it did over the week
-        m24, m7, pages = thr["median_facts_per_page_24h"], thr["median_facts_per_page_7d"], int(thr["pages_24h"] or 0)
+        # DRIFT — the parser reads less per CONTENT page than it did over the week. The medians
+        # come from load_content_medians, not from the view: the view counts every done page, so a
+        # night of searches would report a 24 h median of zero and pause a healthy adapter.
+        m24, m7, pages = med["median_24h"], med["median_7d"], med["pages_24h"]
         if pages >= DRIFT_MIN_PAGES and m7 and m7 > 0 and m24 is not None and m24 < m7 * DRIFT_RATIO:
-            msg = f"ALARM drift (median {m24:g} facts/page over 24 h vs {m7:g} over 7 d, {pages} pages)"
+            msg = f"ALARM drift (median {m24:g} facts/page over 24 h vs {m7:g} over 7 d, {pages} content pages)"
             alarms.append(msg)
             if s["enabled"] and self.act:
                 self.pause(s, "drift", {"median_24h": m24, "median_7d": m7, "pages_24h": pages})
@@ -285,6 +595,20 @@ class Watchdog:
                 alarms.append(msg)
                 verdicts.append(msg)
                 self.event("stall", s["id"], {"reason": "heartbeat", "runnable": runnable, "why": why, "heartbeat": hb}, False, dedupe=True)
+
+        # STALL by a hung lease — the worker is alive and stuck on ONE page. The heartbeat is
+        # written when a task finishes, so a wedged worker keeps its last heartbeat and reads as
+        # healthy; the lease is the only thing that shows it. Below the worker's own 30 min
+        # lease-steal, so a human hears about it before the queue quietly re-issues the task.
+        if hung:
+            msg = (f"ALARM hung lease — task {hung['id']} ({hung['task']} {str(hung['key'])[:40]}) leased "
+                   f"{hung['minutes']} min by {hung['leased_by']}"
+                   + (f", {hung['n']} leases over {HUNG_LEASE_MINUTES} min" if int(hung.get("n") or 1) > 1 else ""))
+            alarms.append(msg)
+            verdicts.append(msg)
+            self.event("stall", s["id"], {"reason": "hung_lease", "task_id": hung["id"], "key": hung["key"],
+                                          "minutes": hung["minutes"], "leased_by": hung["leased_by"],
+                                          "leases": hung.get("n")}, False, dedupe=True)
 
         # STALL by failures — alive, and every page dies
         streak = max(self.streaks.get(s["id"], 0), int((hb or {}).get("consecutive_failed") or 0))
@@ -378,9 +702,21 @@ class Watchdog:
             raise SystemExit(f"watchdog: {', '.join(missing)} missing on database '{db}': migration 0005_watchdog is not applied "
                              f"(npm run migrate). Nothing checked, nothing written.")
         sources = self.c.execute("SELECT id, slug, enabled, tier, politeness_ms, notes FROM sources ORDER BY slug").fetchall()
+        self.slug_of = {s["id"]: s["slug"] for s in sources}
         thr = {r["source_id"]: r for r in self.c.execute("SELECT * FROM source_throughput").fetchall()}
         latest = self.latest_events()
         self.stats, self.runnable, self.touched, self.streaks = self.load_window_stats(), self.load_runnable(), self.load_touched(), self.load_streaks()
+        self.medians = self.load_content_medians()
+        self.hung = self.load_hung_leases()
+        self.not_listed_streaks = self.load_not_listed_streaks()
+        # the vocabulary feed, from today's acquired pages. Only sources that produced pages today
+        # are read, so an idle source costs nothing.
+        day = utcnow().strftime("%Y-%m-%d")
+        self.unmapped = {}
+        for s in sources:
+            u = unmapped_labels(self.runs_dir, s["slug"], day)
+            if u.get("error") or u["files"]:
+                self.unmapped[s["slug"]] = u
         for s in sources:
             self.rows.append(self.check_source(s, thr[s["id"]], latest))
         dup = self.duplicates()
@@ -390,7 +726,7 @@ class Watchdog:
                 self.alarms.append(f"{r['slug']}: {a}")
         report = {"generated_at": utcnow().isoformat(), "window_min": self.window, "act": self.act, "expect": sorted(self.expect),
                   "sources": self.rows, "duplicates": dup, "junk": junk, "alarms": self.alarms, "actions": self.actions,
-                  "events": self.events}
+                  "events": self.events, "unmapped": self.unmapped, "day": day}
         self.write(report)
         return report
 
@@ -404,10 +740,28 @@ class Watchdog:
             hbs = "no heartbeat" if hb is None else ("heartbeat ?" if hb.get("age_min") is None else f"heartbeat {hb['age_min']:.0f} min")
             eta = f", ETA {r['eta_hours']} h" if r["eta_hours"] is not None else ""
             verdict = "; ".join(r["verdicts"]) or "ok"
-            lines.append(f"- **{r['slug']}**{'' if r['enabled'] else ' (disabled)'}: done {r['done']}, with facts {r['with_facts']}, "
+            lines.append(f"- **{r['slug']}**{'' if r['enabled'] else ' (disabled)'}: done {r['done']} "
+                         f"(content {r['content_done']}, {r['content_with_facts']} with facts; "
+                         f"discovery {r['disc_done']}, {r['disc_discovered']} discovered), "
                          f"not listed {r['not_listed']}, failed {r['failed']}, blocked {r['blocked']} | {r['rate_per_hour']}/h, "
                          f"{r['queued']} pending{eta} | {hbs} → {verdict}")
         lines += ["", f"## alarms: {len(report['alarms'])}", *([f"- {a}" for a in report["alarms"]] or ["- none"])]
+        # the vocabulary feed. A label nobody maps is a fact that was extracted and thrown away;
+        # this is the only place that says which ones are worth writing a rule for.
+        lines += ["", f"## unmapped labels today ({report['day']}), top {UNMAPPED_TOP_N} per source"]
+        if not report["unmapped"]:
+            lines.append("- no pages acquired today")
+        for slug, u in sorted(report["unmapped"].items()):
+            if u.get("error"):
+                lines.append(f"- **{slug}**: COULD NOT CHECK — {u['error']}")
+                continue
+            total = u["mapped"] + u["unmapped"]
+            pct = f"{100.0 * u['unmapped'] / total:.0f}%" if total else "n/a"
+            lines.append(f"- **{slug}**: {u['unmapped']}/{total} labels unmapped ({pct}), "
+                         f"{u['distinct']} distinct, from {u['files']} pages"
+                         + (f" (sampled, {UNMAPPED_MAX_FILES} newest)" if u["truncated"] else ""))
+            for x in u["top"]:
+                lines.append(f"    - {x['count']:5}  {x['label']}  |  {x['sample']}")
         d = report["duplicates"]
         lines += ["", f"## duplicate fetches (24 h): {d['urls']} urls" + (" — e.g. " + ", ".join(f"{x['slug']} {x['url']} x{x['n']}" for x in d["examples"][:5]) if d["urls"] else "")]
         j = report["junk"]

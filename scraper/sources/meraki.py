@@ -45,6 +45,26 @@ lines (MR, MX, MG, MV, MT). Their index URLs are taken from the page when it lin
 category (the MS130 page links SASE_and_SD-WAN/MX), otherwise from the pattern the fixture
 documents — <Area>/<PREFIX>_-_<Name>/Product_Information/Overviews_and_Datasheets — at priority
 200, because a derived URL is a guess the worker must be allowed to 404 on cheaply.
+
+Two things the 143 pages acquired 3/4 Sep 2026 showed, both corrected 4 Sep 2026:
+
+  * discover() used the LISTING'S OWN URL as the prefix, so a listing whose key was a bare
+    category (documentation.meraki.com/SASE_and_SD-WAN/MX) queued every article beneath it as a
+    "datasheet": Integrations, Design_and_Configure, Troubleshooting_and_Support, and the whole
+    Japanese and Chinese Translated_Documents tree. 91 of the 136 datasheet fetches were off the
+    datasheet index; 84 of those yielded nothing, and every "fact" the other 7 produced was
+    documentation prose emitted with an EMPTY sku ("Layer 2 Interfaces > Traffic sent" = "Dashboard
+    calculates the interface output bytes rate..."). A page is queued as a datasheet only when it
+    lives under an Overviews_and_Datasheets index; a page that IS such an index is a listing.
+  * The model-comparison header has three shapes on this site, and only one was recognised:
+        ""          | MS130-8 | MS130-8P | ...      the MS130 shape (recognised)
+        "Description"| MS425-16 | MS425-32 | ...    the MS425 shape (LOST: 4 tables, 0 facts)
+        "MR36"      | MR44 | MR46 | MR56            the MR shape, no label column at all
+                                                    (LOST: 4 tables x 4 models on 7 MR pages)
+    MS425_Datasheet reported zero facts while printing four complete model tables. The corner cell
+    is now anything that is NOT a model, and the label-less MR shape is read with the section
+    heading ("Power", "Interfaces", "Physical Dimensions") as the label, which is what the family
+    two-column table on the same page calls those rows.
 """
 from __future__ import annotations
 import re
@@ -86,6 +106,26 @@ _TOKEN = re.compile(r"[A-Za-z0-9][A-Za-z0-9-]*")
 # small helpers (candidates for base.py once a second adapter needs them)
 # ---------------------------------------------------------------------------------------------
 
+def _add_fact(res: dict, label: str, value: str, locator: str) -> None:
+    """One (label, value) per model. A family sheet repeats a row across two tables in the same
+    section — "MS350-48 Models > Layer 3 Routing" = "Yes" three times on the MS350 page — and
+    reading more table shapes makes that more common, not less. A repeated VALUE under one label
+    is dropped; a second, DIFFERENT value under the same label is kept, because that is how the
+    label-less MR tables state two things about one section."""
+    if not label or not value:
+        return
+    seen = res.setdefault("_seen", set())
+    if (label, value) in seen:
+        return
+    seen.add((label, value))
+    res["facts"].append({"label": label, "value": value, "locator": locator})
+
+
+def _strip_internal(res: dict) -> dict:
+    res.pop("_seen", None)
+    return res
+
+
 def _empty_result(sku: str) -> dict:
     return {"sku": sku, "not_listed": False, "facts": [], "aliases": [], "images": [],
             "relations": [], "lifecycle": None, "name": None, "price": None, "others": []}
@@ -101,6 +141,25 @@ def _texts(cells) -> list[str]:
 
 def _is_model(text: str) -> bool:
     return bool(text) and _MODEL.match(text) is not None
+
+
+def _comparison_shape(header: list[str]) -> str:
+    """Which model-comparison table this header row is, or "" for anything else.
+
+      "labelled"   corner cell + one column per model. The corner is "" on the MS130 sheets and
+                   "Description" on the MS425 sheet; the rule is "not itself a model", because
+                   naming the accepted spellings is how MS425 lost four complete tables.
+      "unlabelled" every cell is a model (the MR sheets). The row values are then labelled by the
+                   section heading, which is what the family table on the same page calls them.
+
+    A table is only one of these when EVERY model cell parses as a model: the RF tables
+    ("Operating Band | Operating Mode | Data Rate | ...") must never be read as models, or a
+    transmit-power column is filed as a product."""
+    if len(header) >= 3 and not _is_model(header[0]) and all(_is_model(h) for h in header[1:]):
+        return "labelled"
+    if len(header) >= 2 and all(_is_model(h) for h in header):
+        return "unlabelled"
+    return ""
 
 
 def _section_for(table, family: str) -> str:
@@ -188,30 +247,36 @@ def _line_index_urls(html: str, own_key: str) -> list[dict]:
 
 
 def discover(html: str, task: dict) -> list[dict]:
-    """listing page: a datasheet task for every article link under the index, plus listing tasks
-    for the other product lines. datasheet page: its sibling datasheets under the same index (the
-    queue de-duplicates on (task, key))."""
+    """A datasheet task for every link to a page UNDER an Overviews_and_Datasheets index, a
+    listing task for every link that IS such an index, and (from a listing) the other product
+    lines. The queue de-duplicates on (task, key).
+
+    The index membership is read from the LINK, not from the page that carries it. Using the
+    page's own URL as the prefix is what queued the whole MX and Wireless documentation tree as
+    "datasheets": 91 of 136 datasheet fetches, 84 of them empty and the remaining 7 producing
+    prose facts with no SKU. A documentation site links its own guides from every page, so
+    "beneath the page I am on" is not a filter."""
     key = clean(task.get("key") or task.get("url") or "")
     if not key:
-        return []
-    index = _index_of(key) if task.get("task") == "datasheet" else key.rstrip("/")
-    if not index:
         return []
     s = soup(html)
     out: list[dict] = []
     seen: set[str] = set()
-    prefix = index.rstrip("/") + "/"
+    own = _norm_url(key)
     for a in _article(s).find_all("a", href=True):
         href = a["href"].strip()
         if not href or href.startswith("#"):
             continue
         url = urljoin(BASE, href).split("#", 1)[0].split("?", 1)[0].rstrip("/")
-        if urlsplit(url).netloc != HOST or not url.startswith(prefix):
+        if urlsplit(url).netloc != HOST or url in seen or _norm_url(url) == own:
             continue
-        if url in seen or _norm_url(url) == _norm_url(key):
+        index = _index_of(url)
+        if index is None:
             continue
         seen.add(url)
-        out.append({"task": "datasheet", "key": url, "url": url})
+        # the index itself is a listing; anything below it is a document to read
+        out.append({"task": "listing" if _norm_url(url) == _norm_url(index) else "datasheet",
+                    "key": url, "url": url})
     if task.get("task") == "listing":
         out.extend(_line_index_urls(html, key))
     return out
@@ -221,26 +286,35 @@ def discover(html: str, task: dict) -> list[dict]:
 # extraction
 # ---------------------------------------------------------------------------------------------
 
-def _read_comparison(table, ti: int, section: str, header: list[str], by_model: dict, order: list[str]) -> None:
-    models = header[1:]
+def _read_comparison(table, ti: int, section: str, header: list[str], by_model: dict, order: list[str],
+                     shape: str = "labelled") -> None:
+    """One column per model. In the "labelled" shape column 0 is the row's label; in the
+    "unlabelled" shape (the MR sheets) there is no label column and the section heading names
+    every row in the table, exactly as the family two-column table on the same page does."""
+    offset = 1 if shape == "labelled" else 0
+    models = header[offset:]
     for m in models:
         if m not in by_model:
             by_model[m] = _empty_result(m)
             order.append(m)
     for ri, tr in enumerate(table.find_all("tr")):
         texts = _texts(_cells(tr))
-        if ri == 0 or not texts or not texts[0]:
+        if ri == 0 or not texts:
+            continue
+        if offset and not texts[0]:
             continue
         if _is_model(texts[0]) and all(_is_model(t) for t in texts[1:] if t):
             continue  # a repeated header row
-        label = _labelled(section, texts[0])
+        label = _labelled(section, texts[0]) if offset else section
+        if not label:
+            continue  # an unlabelled table under no heading has nothing to call its rows
         for ci, m in enumerate(models):
-            if ci + 1 >= len(texts):
+            if ci + offset >= len(texts):
                 break  # a short row: never shift a value into the next column
-            value = texts[ci + 1]
+            value = texts[ci + offset]
             if not value:
                 continue
-            by_model[m]["facts"].append({"label": label, "value": value, "locator": f"t{ti}:r{ri}:c{ci + 1}"})
+            _add_fact(by_model[m], label, value, f"t{ti}:r{ri}:c{ci + offset}")
 
 
 def _read_two_col(table, ti: int, section: str, family_res: dict, by_model: dict, models: list[str]) -> None:
@@ -347,16 +421,29 @@ def _read_licenses(table, ti: int, header: list[str], family_res: dict, by_model
                     by_model[m]["relations"].append(dict(rel))
 
 
-def _hw_aliases(article, by_model: dict) -> None:
+def _hw_aliases(article, by_model: dict, family_res: dict | None = None) -> None:
+    """The orderable part number a datasheet prints for a model is the model plus -HW
+    (MS130-8X-HW). Nine of the 29 datasheet pages in the corpus print one and NOT ONE was
+    captured, because every -HW was matched only against by_model — and on the MR and MS390
+    sheets by_model was empty (their comparison tables were not being recognised at all). A
+    single-model page has its identity in family_res, so that is checked too."""
+    targets: list[dict] = list(by_model.values())
+    fam_sku = (family_res or {}).get("sku") or ""
+    if fam_sku and not any((r.get("sku") or "").upper() == fam_sku.upper() for r in targets):
+        # only when the family is not already one of the models — the MR sheets name the page's
+        # own model in the comparison table too, and the alias would then be recorded twice
+        targets.append(family_res)
+    if not targets:
+        return
     text = clean(article.get_text(" ", strip=True))
     for tok in set(_TOKEN.findall(text)):
         if not _HW_SUFFIX.search(tok):
             continue
         base = _HW_SUFFIX.sub("", tok)
-        for m in by_model:
-            if m.upper() == base.upper():
-                if not any(a["value"] == tok for a in by_model[m]["aliases"]):
-                    by_model[m]["aliases"].append({"kind": "variant_sku", "value": tok})
+        for res in targets:
+            if (res.get("sku") or "").upper() == base.upper():
+                if not any(a["value"] == tok for a in res["aliases"]):
+                    res["aliases"].append({"kind": "variant_sku", "value": tok})
 
 
 def _images(article) -> list[dict]:
@@ -414,8 +501,9 @@ def extract(html: str, task: dict) -> dict:
         if not rows:
             continue
         header = _texts(_cells(rows[0]))
-        if len(header) >= 3 and header[0].lower() in ("", "model") and all(_is_model(h) for h in header[1:]):
-            _read_comparison(table, ti, section, header, by_model, order)
+        shape = _comparison_shape(header)
+        if shape:
+            _read_comparison(table, ti, section, header, by_model, order, shape)
     models = list(order)
     if not family and models:
         family = models[0].split("-", 1)[0]
@@ -427,7 +515,7 @@ def extract(html: str, task: dict) -> dict:
         if not rows:
             continue
         header = _texts(_cells(rows[0]))
-        if len(header) >= 3 and header[0].lower() in ("", "model") and all(_is_model(h) for h in header[1:]):
+        if _comparison_shape(header):
             continue  # done in the first pass
         if _LICENSE_SECTION.search(section) and any("licen" in h.lower() for h in header):
             _read_licenses(table, ti, header, family_res, by_model, models)
@@ -442,11 +530,17 @@ def extract(html: str, task: dict) -> dict:
         # a single-cell row table (the Features bullet lists) or an unknown wide table is not a
         # label/value structure and is left alone rather than read into fictions
 
-    _hw_aliases(article, by_model)
+    _hw_aliases(article, by_model, family_res)
     images = _images(article)
 
     listed = _listed(key, family, models, canonical)
     if models:
+        # The page's OWN family goes first. Several sheets open with a "Context and Comparisons"
+        # table against the previous generation (MS425 against MS410-32, MS125 against MS120-24P,
+        # the MR sheets against three siblings), so the first column is routinely a different
+        # product line and the top-level RESULT was reporting it as the page's subject. Every
+        # model still reaches the pipeline; only which one is the head of the list changes.
+        models.sort(key=lambda m: 0 if family and m.upper().startswith(family.upper()) else 1)
         top = by_model[models[0]]
         others = [by_model[m] for m in models[1:]]
         if family_res["facts"] or family_res["relations"]:
@@ -457,5 +551,5 @@ def extract(html: str, task: dict) -> dict:
     top["images"] = images
     top["name"] = name
     top["not_listed"] = not listed
-    top["others"] = others
-    return top
+    top["others"] = [_strip_internal(o) for o in others]
+    return _strip_internal(top)
