@@ -18,6 +18,26 @@
 // `sequential_write_throughput` keeps "MB/s" and it now means megaBYTES per second — see the
 // per-key comment and the case-sensitive BYTE_RATE table in specNormalize.ts.
 //
+// Hand-edited 4 Sep 2026 — PLAUSIBILITY BANDS on width, height, depth, cpu_cores, slots_occupied.
+// A third rule now holds and tests/aliasRules.test.ts §5 fails if any of the five loses its band,
+// so a regeneration must carry these forward as well. The writer in
+// src/pipeline/apply-alias-proposals.ts only APPENDS entries before the closing brace and never
+// rewrites an existing one, so an alias round cannot drop them; a full regeneration from an
+// out-of-tree generator could, which is what §5 is for.
+//   3. every numeric field a distributor writes needs a band, because the alternative is not
+//      "no opinion" — it is silent acceptance. Measured over runs/acquired/provantage (4 Sep
+//      2026, 17,560 label/value pairs) with the rules added the same day:
+//        - `0"` really occurs (TL-SG1005P states a height of zero) and stored as 0 mm.
+//        - a 5 m DAC cable states its LENGTH under "Depth" (49Y7888-AO, "16.4 ft" -> 4998.72 mm),
+//          and two 3 m cables do the same. `depth` has been mapped since round 3 with no band, so
+//          those are stored today.
+//        - rack ENCLOSURES sit in the same catalogue as the devices: an 89-inch Eaton cabinet
+//          (SR48UB) would land 2260.6 mm on a field whose English label is "Faceplate height".
+//      Per-key reasoning is on each key below. The one thing the bands deliberately do NOT try to
+//      do is separate a 42U enclosure (1993.9 mm) from a 44U ASR-9922 chassis (1955.8 mm): they
+//      are the same height, so no band can tell them apart and pretending otherwise would refuse
+//      a real Cisco chassis. That is a classification problem, not a band problem.
+//
 // Fields discovered by reading the unmapped labels of every Cisco category. Each was
 // proposed only where nothing in the hand-written dictionary fitted, and each passed the
 // same validation as an alias (snake_case key, not already defined, both labels present).
@@ -381,7 +401,14 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // pdf-server — Free space required around the chassis ('1 in. (25 mm)'). Measurable and needed to plan a rack. String because
   installation_clearance: { key: "installation_clearance", de: "Installationsabstand", en: "Installation clearance", type: "s", etim: [], icecat: null },
   // pdf-server — A single measured dimension, canonical mm ('16.9 in.(42.9 cm)' -> 429). Given its own field rather than being 
-  width: { key: "width", de: "Breite", en: "Width", type: "n", unit: "mm", etim: [], icecat: null },
+  // band [5, 2000] (4 Sep 2026): 449 provantage widths run 7.62 mm (an SFP's 0.3") to 1719.58 mm
+  // (a Cisco Board Pro 75), and the `dimensions` struct in the database holds 306 widths from
+  // 26.4 to 568.2 mm. 5 mm is below the thinnest part anything in this catalogue can be — an SFP
+  // cage is 8.5 mm — so the floor only ever refuses a zero or a magnitude that was dropped.
+  // 2000 mm is the usable height of a full 45U rack: nothing that mounts in one exceeds it on any
+  // axis. Refuses nothing in the corpus today, which is what a backstop looks like when the data
+  // is clean; tests/aliasRules.test.ts feeds it `0"` so it cannot rot into a rule that never runs.
+  width: { key: "width", de: "Breite", en: "Width", type: "n", unit: "mm", band: [5, 2000], etim: [], icecat: null },
   // pdf-server — The underlying OEM drive behind a Cisco PID ('Micron 5400'). A real, checkable property of the part. Needs its
   component_vendor_model: { key: "component_vendor_model", de: "Komponentenhersteller und Modell", en: "Component manufacturer and model", type: "s", etim: [], icecat: null },
   // pdf-server — Per-SKU turbo clock; no existing field covers CPU clock at all. Unit comes from the suppressed second header r
@@ -621,7 +648,14 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // optical-networking — DWDM parts are specified on the ITU frequency grid (195.9 THz). wavelength is nm and itu_channel is 
   optical_frequency: { key: "optical_frequency", de: "Optische Frequenz", en: "Optical frequency", type: "s", unit: "THz", etim: [], icecat: null },
   // optical-networking — How many shelf slots a line card consumes. module_slots counts slots a chassis provides and slot_com
-  slots_occupied: { key: "slots_occupied", de: "Belegte Steckplätze", en: "Slots occupied", type: "n", unit: "slots", etim: [], icecat: null },
+  // band [1, 32] (4 Sep 2026): NO evidence — the database holds zero slots_occupied facts and no
+  // source in runs/acquired states the label — so the band is derived from the field's definition
+  // rather than from values, and says so. A line card that occupies zero slots is not in the
+  // chassis, which is what the floor refuses. The ceiling is module_slots' own [1, 32]: a card
+  // cannot occupy more slots than the largest chassis provides, and nothing here justifies
+  // anything tighter. Revisit once the field has values; a band this loose only catches a gross
+  // mis-file, which on a field with no data is exactly the failure worth catching.
+  slots_occupied: { key: "slots_occupied", de: "Belegte Steckplätze", en: "Slots occupied", type: "n", unit: "slots", band: [1, 32], etim: [], icecat: null },
   // interfaces-modules — Sixteen parts state SMSR in dB ("SMSR", "30", "dB", "35"). It is a standard single-mode laser spec w
   smsr: { key: "smsr", de: "Seitenmodenunterdrückung (SMSR)", en: "Side-mode suppression ratio", type: "n", unit: "dB", etim: [], icecat: null },
   // interfaces-modules — Twelve parts give a laser linewidth in nm ("0.2", "nm", "Full width, -20 dB from maximum, RBW = 0.01
@@ -678,10 +712,24 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // read without choosing one, and the type made the choice irrelevant — a string field never
   // reaches convert(), so "5.1 in. / 13.0 cm" was stored verbatim under a unit label. mm is what
   // width and dimensions use and what the golden sample records; in / cm / mm all convert into it.
-  depth: { key: "depth", de: "Tiefe", en: "Depth", type: "n", unit: "mm", etim: [], icecat: null },
+  // band [5, 2000] (4 Sep 2026): the axis with a real, already-shipping defect. 447 provantage
+  // depths run 10.922 mm to 4998.72 mm, and the top of that range is not a device: AddOn's DAC
+  // cables state their LENGTH under "Depth" (49Y7888-AO "16.4 ft" = 4998.72 mm; two 3 m cables at
+  // 3004.82). This rule has been mapped since vocabulary round 3 with no band, so those three were
+  // being stored. [5, 2000] refuses them and keeps the deepest real thing in the corpus, a 42U
+  // enclosure at 1430.02 mm. It does NOT catch the 1 m DAC at 998.22 mm — a 1 m cable and a 39"
+  // open-frame rack are the same number, and no band separates them. A named limit, not a gap.
+  depth: { key: "depth", de: "Tiefe", en: "Depth", type: "n", unit: "mm", band: [5, 2000], etim: [], icecat: null },
   // video — Single-axis front panel height (5.1 in. / 13.0 cm) for shelf-mounted modules, quoted without the oth
   // "in / cm" -> mm, s -> n (4 Sep 2026): same defect and same fix as `depth` above.
-  height: { key: "height", de: "Frontplattenhoehe", en: "Faceplate height", type: "n", unit: "mm", etim: [], icecat: null },
+  // band [5, 2000] (4 Sep 2026): 439 provantage heights, and both ends of the range are wrong in
+  // a way only a band catches. The floor: TL-SG1005P states `0"`, which stored as 0 mm on a field
+  // whose English label is "Faceplate height" — a fact with no content, filed as a measurement.
+  // The ceiling: an 89-inch Eaton SR48UB rack enclosure (2260.6 mm). 2000 mm is the usable height
+  // of a full 45U rack, so it keeps the tallest real chassis in the corpus (ASR-9922, 1955.8 mm)
+  // and refuses anything that cannot itself be racked. The four 42U cabinets at 1993.9 mm stay in
+  // band on purpose: see the header — a 42U enclosure and a 44U chassis are the same height.
+  height: { key: "height", de: "Frontplattenhoehe", en: "Faceplate height", type: "n", unit: "mm", band: [5, 2000], etim: [], icecat: null },
   // servers-unified-computing — Whether the server runs in Intersight Managed Mode, Intersight Standalone Mode or UCS Manager mode i
   // enum -> s (3 Sep 2026): type "e" with no domain. data/schema/attribute-aliases.en.json maps this LABEL to the key but states no value set, so no domain can be sourced; an enum with an empty domain fails ENUM_VIOLATION on every value, and a domain guessed here would mis-file real ones. Open string until the corpus supplies the values.
   management_mode: { key: "management_mode", de: "Verwaltungsmodus", en: "Management mode", type: "s", etim: [], icecat: null },
@@ -700,7 +748,13 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // servers-unified-computing, unified-communications — OS support matrix (RHEL releases, Windows Server 2019) is distinct from hypervisor support and from 
   supported_os: { key: "supported_os", de: "Unterstuetzte Betriebssysteme", en: "Supported operating systems", type: "s", etim: [], icecat: null },
   // servers-unified-computing, security — Clean integer core count with no dictionary equivalent; cpu holds the processor description string. 
-  cpu_cores: { key: "cpu_cores", de: "CPU-Kerne", en: "CPU cores", type: "n", unit: "cores", etim: [], icecat: null },
+  // band [1, 512] (4 Sep 2026): 44 provantage "Processor Core" values run 4 to 56 per socket, and
+  // the pdf-server rule on `^cores?$` records per-NODE aggregates of 160/144/72, so the ceiling
+  // must hold an aggregate, not a socket. 512 is four 128-core sockets — above anything shipping
+  // and above two 192-core Turin parts — while refusing the neighbour that sits one row away on
+  // the same page: "CUDA Cores" states 18176, a GPU shader count that is a plausible-looking
+  // integer and would be a fiction here. The floor refuses 0: a part with no cores has no CPU.
+  cpu_cores: { key: "cpu_cores", de: "CPU-Kerne", en: "CPU cores", type: "n", unit: "cores", band: [1, 512], etim: [], icecat: null },
   // servers-unified-computing — Clean integer thread count, paired with cpu_cores and equally absent. 8 parts.
   cpu_threads: { key: "cpu_threads", de: "CPU-Threads", en: "CPU threads", type: "n", unit: "threads", etim: [], icecat: null },
   // servers-unified-computing — The installed VIC/NIC ("1x Cisco VIC 15420 MLOM", "8x NVIDIA BlueField-3 SuperNIC 400GbE") is a serv

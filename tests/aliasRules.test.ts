@@ -27,7 +27,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
 import { mapLabel, unitFromLabel } from "../src/core/deepSpecMap.js";
-import { normalizeField } from "../src/core/specNormalize.js";
+import { normalizeField, type NormReason } from "../src/core/specNormalize.js";
 import { FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
 
 let pass = 0;
@@ -40,8 +40,16 @@ const check = (name: string, got: unknown, want: unknown) => {
 // ---------------------------------------------------------------------------------------------
 // 1. every new rule: the label it is for, a near-miss it must not take, a value it must refuse
 // ---------------------------------------------------------------------------------------------
-// [ label that MUST map to key, key, label that must NOT reach key, value the field must refuse ]
-const RULES: [string, string, string, string][] = [
+// [ label that MUST map to key, key, label that must NOT reach key, value the field must refuse,
+//   and — where the brief names one — the REASON that refusal must carry ]
+//
+// The fifth element exists because "rejected" and "rejected for the right reason" are different
+// results and only one of them is a working rule. A `42U` refused as PARSE_FAIL instead of
+// RANGE_VIOLATION would mean the normaliser never read the rack unit at all, and the message would
+// send the next person to fix the parser rather than the band. Rows added before 2026-09-04 leave
+// it off; every row added since names it.
+type Reason = NormReason;
+const RULES: [string, string, string, string, Reason?][] = [
   ["General Information > Product Series", "series", "General Information > Product Line", ""],
   ["General Information > Product Line", "product_line", "General Information > Product Series", ""],
   ["Miscellaneous > Country of Origin", "country_of_origin", "Other Information > Countries and Regions Supported", ""],
@@ -91,9 +99,27 @@ const RULES: [string, string, string, string][] = [
   ["Product Features Comparison > Compatible Platform", "compatible_platform", "Miscellaneous > Platform Supported", ""],
   ["Product Features Comparison > Module Type", "module_type", "Specification > Interface Module Support", ""],
   ["Product Features Comparison > Installation Type", "installation_type", "Installation Clearance", ""],
+
+  // --- 2026-09-04, the six labels normaliser 1.4.0 unblocked ------------------------------------
+  // Every near-miss below is a real provantage label from runs/vocab/provantage/labels.json and
+  // every refused value is a real value from runs/acquired/provantage.
+  //
+  // "Rack Height" as the near-miss for `height` is the one that matters most: it is 52 real rows
+  // stating RACK UNITS ("42U", "12U"), so a pattern one character looser than "(^|> )Height$"
+  // files 42 rack units as 42 millimetres on a field labelled "Faceplate height" — a plausible
+  // number, in band, in the wrong dimension, with nothing to complain.
+  ["Physical Characteristics > Width", "width", "Physical Characteristics > Rack Width", "0\"", "RANGE_VIOLATION"],
+  ["Physical Characteristics > Height", "height", "Physical Characteristics > Rack Height", "89\"", "RANGE_VIOLATION"],
+  ["Other Information > Height", "height", "Other Information > Shipping Height", "0\"", "RANGE_VIOLATION"],
+  ["Physical Characteristics > Compatible Rack Unit", "rack_units", "Physical Characteristics > Compatible Rack Width", "42U", "RANGE_VIOLATION"],
+  // an inch measurement on the rack-unit field is a rack's WIDTH, not its height: the refusal has
+  // to come from the dimension check, not from the band, or the band is doing the parser's job
+  ["Physical Characteristics > Rack Height", "rack_units", "Physical Characteristics > Rack Depth", "19\"", "UNIT_UNKNOWN"],
+  ["Technical Information > Processor Core", "cpu_cores", "Technical Information > CUDA Cores", "18176", "RANGE_VIOLATION"],
+  ["Network & Communication > Layer Supported", "layer", "MS350-24 Models > Layer 3 Switching", "4", "ENUM_VIOLATION"],
 ];
 
-for (const [label, key, nearMiss, badValue] of RULES) {
+for (const [label, key, nearMiss, badValue, wantReason] of RULES) {
   check(`maps: "${label}"`, mapLabel(label), key);
   const got = mapLabel(nearMiss);
   if (got !== key) pass++;
@@ -102,8 +128,31 @@ for (const [label, key, nearMiss, badValue] of RULES) {
   // string and nothing else can be refused — a string field that accepts "" would be storing a
   // fact with no content, which is the one refusal every type owes.
   const r = normalizeField("switches", key, badValue, { locale: "en", unitHint: unitFromLabel(label) });
-  if (!r.ok) pass++;
-  else misses.push(`value NOT refused: ${key} accepted ${JSON.stringify(badValue)} as ${JSON.stringify(r.value)}`);
+  if (!r.ok && (!wantReason || r.reason === wantReason)) pass++;
+  else if (r.ok) misses.push(`value NOT refused: ${key} accepted ${JSON.stringify(badValue)} as ${JSON.stringify(r.value)}`);
+  else misses.push(`value refused for the WRONG REASON: ${key} ${JSON.stringify(badValue)}\n     want ${wantReason}\n     got  ${r.reason}: ${r.detail}`);
+}
+
+// The other half of a refusal case: the label's REAL values must still go through. A rule whose
+// values are all refused is not a mapping, and a band tightened one step too far turns a working
+// rule into a silent gap — the exact failure the corpus replay of 4 Sep 2026 was run to rule out.
+const ACCEPTS: [string, string, unknown][] = [
+  ["Physical Characteristics > Width", "17.5\"", 444.5],          // the commonest width, 88 rows
+  ["Physical Characteristics > Height", "1.7\"", 43.18],          // the commonest height, 149 rows
+  ["Physical Characteristics > Height", "77\"", 1955.8],          // ASR-9922: the tallest REAL chassis stays in band
+  ["Physical Characteristics > Depth", "2.2\"", 55.88],           // the commonest depth, 51 rows
+  ["Physical Characteristics > Compatible Rack Unit", "1U", 1],
+  ["Physical Characteristics > Rack Height", "2U", 2],
+  ["Technical Information > Processor Core", "Dodeca-core (12 Core)", 12],
+  ["Technical Information > Processor Core", "Tetracosa-core (24 Core)", 24],
+  ["Network & Communication > Layer Supported", "3", "l3"],
+  ["Network & Communication > Layer Supported", "2", "l2"],
+];
+for (const [label, value, want] of ACCEPTS) {
+  const key = mapLabel(label);
+  const r = key ? normalizeField("switches", key, value, { locale: "en", unitHint: unitFromLabel(label) }) : null;
+  if (r && r.ok && r.value === want) pass++;
+  else misses.push(`real value NOT accepted: ${label} = ${JSON.stringify(value)}\n     want ${JSON.stringify(want)}\n     got  ${r ? (r.ok ? JSON.stringify(r.value) : r.reason + ": " + r.detail) : "no rule for this label"}`);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -178,7 +227,26 @@ const controlIn = (rules: [string, string][], what: string) =>
 check("no control character in either vocabulary file",
   [...controlIn(aliasDoc.rules, "alias"), ...controlIn(ignoreDoc.rules, "ignore")].join(" | "), "");
 
-const TOTAL = RULES.length * 3 + MUST_IGNORE.length + MUST_NOT_IGNORE.length + 3;
+// ---------------------------------------------------------------------------------------------
+// 5. the plausibility bands hand-added to fieldSchema.generated.ts must survive a regeneration
+// ---------------------------------------------------------------------------------------------
+// src/core/fieldSchema.generated.ts says "GENERATED ... do not edit by hand", and it carries three
+// rounds of hand edits anyway because the generator has no way to express them. Two earlier rounds
+// (enum types, unit strings) are guarded in tests/fieldSchema.test.ts. This is the third: five
+// numeric fields a distributor writes had NO band, so `0"` stored as 0 mm and an 89-inch cabinet
+// would land on a field labelled "Faceplate height". The bands are the whole reason those values
+// are refused — drop one and the refusals in section 1 stop being refusals, silently, on a field
+// that still looks defined. The numbers are asserted, not just their presence: a band widened to
+// [0, 1e9] would satisfy an existence check and refuse nothing.
+const BANDS: [string, number, number][] = [
+  ["width", 5, 2000], ["height", 5, 2000], ["depth", 5, 2000],
+  ["cpu_cores", 1, 512], ["slots_occupied", 1, 32],
+];
+for (const [key, lo, hi] of BANDS) {
+  check(`band survives on ${key}`, JSON.stringify(FIELD_DICTIONARY[key]?.band ?? null), JSON.stringify([lo, hi]));
+}
+
+const TOTAL = RULES.length * 3 + ACCEPTS.length + BANDS.length + MUST_IGNORE.length + MUST_NOT_IGNORE.length + 3;
 console.log(`${pass}/${TOTAL} passed`);
 if (misses.length) {
   console.log("\nMISSES:");

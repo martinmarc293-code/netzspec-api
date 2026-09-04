@@ -6195,6 +6195,36 @@
    "(^|> )installation( type)?$",
    "installation_type",
    "router-switch: 22/22 normalise, including provantage's 'Product Information > Installation Type'. Not matching 'Installation Clearance', which is a distanc"
+  ],
+  [
+   "(^|> )Width$",
+   "width",
+   "provantage: 449 values across two sections, 100% normalise once the inch mark is read (normaliser 1.4.0). Same rule shape as '(^|> )Depth$' above; the '> ' anchor is what keeps 'Rack Width' (the 19\" aperture), 'Shipping Width' (the carton) and 'Slot Width' out."
+  ],
+  [
+   "(^|> )Height$",
+   "height",
+   "provantage: 439 values across two sections. The '> ' anchor is load-bearing here more than anywhere: 'Rack Height' states RACK UNITS ('42U') and reaches rack_units by its own rule, so a looser pattern would file 42 rack units as 42 mm. 'Shipping Height', 'Card Height' (Low-profile/Full-height), 'Bracket Height' and arista's 'Switch Height' ('1RU') are all excluded for the same reason."
+  ],
+  [
+   "(^|> )Compatible Rack Unit$",
+   "rack_units",
+   "provantage: 122 values ('1U', '7U', '21U'), 121 accepted since normaliser 1.4.0 reads bare 'U'. The one refusal is '44U' on a cabinet, RANGE_VIOLATION against rack_units' band [1,30] — the band doing its job. Not matching 'Compatible Rack Width' (19\")."
+  ],
+  [
+   "(^|> )Rack Height$",
+   "rack_units",
+   "provantage: 92 values over two sections; 86 accepted, 6 RANGE_VIOLATION ('42U' x4, '48U', '0U') because those rows are rack ENCLOSURES, not rack-mounted parts. The unprefixed '^rack height$' rule (routers) cannot see a sectioned label. Not matching 'Rack Depth' (32.50\") or 'Rack Width'."
+  ],
+  [
+   "(^|> )Processor Core$",
+   "cpu_cores",
+   "provantage: 44 values over three sections, 44/44 accepted since normaliser 1.4.0 reads the counting noun ('Dodeca-core (12 Core)' -> 12). Singular 'Core' throughout; 'CUDA Cores' (18176 GPU shaders) is a different device and is deliberately left unmapped."
+  ],
+  [
+   "(^|> )Layer Supported$",
+   "layer",
+   "provantage: 120 values, 116 accepted ('3'->l3 x81, '2'->l2 x33, '3.0'->l3 x2) since normaliser 1.4.0 reads the bare layer number. The 4 refusals are the literal '4', ENUM_VIOLATION: the domain is l2/l2plus/l3 and a layer-4 claim has nowhere true to go. Not matching meraki's 'Layer 3 Switching' or 'Layer 3 Routing', which are feature lists."
   ]
  ]
 }
