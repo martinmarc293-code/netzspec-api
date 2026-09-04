@@ -53,7 +53,18 @@ full; the ones that bite hardest here are restated.
   label hints, VALUE_IS_PID, dictionary units single and consistent). The watchdog paused
   provantage on a false "zero yield" over SEARCH pages — content vs discovery tasks are now
   counted apart (scraper agent). Completeness recompute for the reclassified parts is pending
-  ON THE BOX (a 3k-part `--since` recompute through the tunnel exceeded 10 min).
+  ON THE BOX (a 3k-part `--since` recompute through the tunnel exceeded 10 min) — DONE 4 Sep:
+  full recompute on the box wrote 42,157 rows in ~15 min (hardware without a profile: 0).
+  Apply-path hardening landed (`80f5c86`, deployed): collisions logged per run, random gate
+  sample, produced-per-doc regression, partial-run progress, revision label from the fetch
+  stamp, class-C per-SKU exception. Scraper training round 1 landed (`e5ed1f5`): provantage
+  UPC/GTIN aliases (0→215 over 120 pages), router-switch waits for its rendered grid (117/226
+  pages had been captured blank) and reads SKUs from title anchors, itprice refuses N/A cells
+  and completes GPL rows, meraki comparison corner (MS425 0→50 facts), watchdog v3 (content vs
+  discovery yield, dead discovery, hung lease > 20 min, tier-aware not-listed streak,
+  content-only drift medians, unmapped labels per source), `docs/SCRAPING.md` playbook. The
+  sentinel restarts idle lanes itself (`sys.executable`, not the Store alias). A locked
+  heartbeat file killed a worker: `write_heartbeat` now retries and skips the beat.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
