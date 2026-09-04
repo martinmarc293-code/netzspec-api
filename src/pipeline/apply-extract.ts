@@ -609,10 +609,10 @@ export async function main(argv: string[]): Promise<void> {
   const pool = getPool();
   const plan = await planExtract(files, { vendor: a.vendor, db: pool });
   const golden = loadGolden(a.goldenDir ?? GOLDEN_DIR);
-  const previous = await previousPerDoc(pool);
+  const previous = await previousPerDoc(pool, "apply-specs", a.tag);
   const { gate, misses } = gateExtract({
     produced: plan.produced, facts: expandFragments(plan.allFacts), docs: plan.docs, factsPerDoc: plan.factsPerDoc,
-    producedPerDoc: plan.producedPerDoc, previous: previous.raw, previousProduced: previous.produced, golden,
+    producedPerDoc: plan.producedPerDoc, previous: previous.raw, previousProduced: previous.produced, absentScope: previous.sameTagDocs, golden,
     sample: a.sample, allowRegression: a.allowRegression, isPart: (sku) => plan.resolvePart(sku) !== null,
   });
   const reports = writeReports(plan, a.tag);
@@ -642,7 +642,7 @@ export async function main(argv: string[]): Promise<void> {
     const total = plan.incoming.size;
     let done = 0, lastPart = "";
     const partial = () => ({
-      stats: { ...plan.stats, ...mergeStats, facts_per_doc: plan.factsPerDoc, produced_per_doc: plan.producedPerDoc, partial: true },
+      stats: { ...plan.stats, ...mergeStats, tag: a.tag, facts_per_doc: plan.factsPerDoc, produced_per_doc: plan.producedPerDoc, partial: true },
       progress: `${done}/${total} parts merged${lastPart ? `, last ${lastPart}` : ""}`,
     });
     const out = await withRun("apply-specs", inputs, async (id) => {
@@ -681,7 +681,7 @@ export async function main(argv: string[]): Promise<void> {
         mergeStats.parts_touched++;
         done++; lastPart = plan.partById.get(partId)?.sku ?? String(partId);
       }
-      return { stats: { ...plan.stats, ...mergeStats, facts_per_doc: plan.factsPerDoc, produced_per_doc: plan.producedPerDoc }, gate, notes };
+      return { stats: { ...plan.stats, ...mergeStats, tag: a.tag, facts_per_doc: plan.factsPerDoc, produced_per_doc: plan.producedPerDoc }, gate, notes };
     }, { partial });
     runId = out.runId;
   }

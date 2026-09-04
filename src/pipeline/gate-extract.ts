@@ -341,6 +341,9 @@ export type GateInput = {
   previous: Map<string, number>;
   /** doc_id -> produced facts per doc in the last succeeded apply-specs run (previousPerDoc().produced) */
   previousProduced?: Map<string, number>;
+  /** documents of the last succeeded run with the SAME tag (previousPerDoc().sameTagDocs): the only
+   *  ones whose absence from this file is a regression. No scope, no absence check. */
+  absentScope?: Set<string>;
   golden: GoldenExpectation[];
   sample: number;
   allowRegression?: string | null;
@@ -377,17 +380,40 @@ export type ExtractGate = {
  * absent metric is simply not compared — never read as zero, which would call every old document
  * a regression on the first run after the upgrade.
  */
-export async function previousPerDoc(db: Queryable = getPool(), kind = "apply-specs"): Promise<{ raw: Map<string, number>; produced: Map<string, number> }> {
-  const r = await db.query<{ stats: { facts_per_doc?: Record<string, number>; produced_per_doc?: Record<string, number> } | null }>(
+export async function previousPerDoc(db: Queryable = getPool(), kind = "apply-specs", tag?: string): Promise<{ raw: Map<string, number>; produced: Map<string, number>; sameTagDocs: Set<string> }> {
+  const r = await db.query<{ stats: { tag?: string; facts_per_doc?: Record<string, number>; produced_per_doc?: Record<string, number> } | null }>(
     "SELECT stats FROM runs WHERE kind = $1 AND status = 'succeeded' ORDER BY id", [kind]);
   const raw = new Map<string, number>(), produced = new Map<string, number>();
+  // The documents of the LAST succeeded run that carried the same tag: the only run whose
+  // documents this file can be expected to contain. Shard 1's apply was refused on 4 Sep 2026
+  // because every document of shard 0 (a different file under a different tag) was called
+  // "absent" — absence is a regression only against the same logical input.
+  let sameTagDocs = new Set<string>();
   for (const row of r.rows) {
+    if (tag && row.stats?.tag === tag) {
+      sameTagDocs = new Set([...Object.keys(row.stats?.facts_per_doc ?? {}), ...Object.keys(row.stats?.produced_per_doc ?? {})]);
+    }
     for (const [per, into] of [[row.stats?.facts_per_doc, raw], [row.stats?.produced_per_doc, produced]] as const) {
       if (!per || typeof per !== "object") continue;
       for (const [docId, n] of Object.entries(per)) if (typeof n === "number") into.set(docId, n);
     }
   }
-  return { raw, produced };
+  return { raw, produced, sameTagDocs };
+}
+
+/**
+ * Documents the previous same-tag run read that this file does not mention at all. Exported so
+ * the rule has its own proof: a shard's file never contains the other shard's documents, and a
+ * caller that passes no scope gets no absence check rather than a false regression.
+ */
+export function absentDocs(previous: Map<string, number>, factsPerDoc: Record<string, number>, scope: Set<string> | undefined): Array<{ doc_id: string; before: number }> {
+  if (!scope) return [];
+  const out: Array<{ doc_id: string; before: number }> = [];
+  for (const [docId, before] of previous) {
+    if (!scope.has(docId) || docId in factsPerDoc) continue;
+    out.push({ doc_id: docId, before });
+  }
+  return out;
 }
 
 /** The raw-fact half of previousPerDoc, kept because that is what the older callers ask for. */
@@ -508,12 +534,12 @@ export function gateExtract(input: GateInput): GateOutcome {
     comparedDocs.add(docId);
     if (after < before) regressed.push({ doc_id: docId, before, after, metric: "produced" });
   }
-  // a document the previous run read and this run does not mention at all: silent until now,
-  // because a document that is absent has no row in factsPerDoc to compare
-  for (const [docId, before] of input.previous) {
-    if (docId in input.factsPerDoc) continue;
-    comparedDocs.add(docId);
-    regressed.push({ doc_id: docId, before, after: 0, metric: "absent" });
+  // a document the previous SAME-TAG run read and this run does not mention at all: silent until
+  // now, because a document that is absent has no row in factsPerDoc to compare. Scoped to the
+  // same tag: a shard file never holds the other shard's documents (absentDocs).
+  for (const x of absentDocs(input.previous, input.factsPerDoc, input.absentScope)) {
+    comparedDocs.add(x.doc_id);
+    regressed.push({ doc_id: x.doc_id, before: x.before, after: 0, metric: "absent" });
   }
   const allowed = regressed.length > 0 && !!input.allowRegression;
   for (const x of regressed) {
@@ -573,10 +599,10 @@ export async function main(argv: string[]): Promise<void> {
   const pool = getPool();
   const files = a.paths.map((p) => loadExtractFile(p));
   const plan = await planExtract(files, { vendor: a.vendor, db: pool });
-  const previous = await previousPerDoc(pool);
+  const previous = await previousPerDoc(pool, "apply-specs", a.tag);
   const { gate, misses } = gateExtract({
     produced: plan.produced, facts: plan.allFacts, docs: plan.docs, factsPerDoc: plan.factsPerDoc,
-    producedPerDoc: plan.producedPerDoc, previous: previous.raw, previousProduced: previous.produced,
+    producedPerDoc: plan.producedPerDoc, previous: previous.raw, previousProduced: previous.produced, absentScope: previous.sameTagDocs,
     golden: loadGolden(a.goldenDir ?? GOLDEN_DIR), sample: a.sample,
     allowRegression: a.allowRegression, isPart: (sku) => plan.resolvePart(sku) !== null,
   });
