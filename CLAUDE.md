@@ -269,6 +269,9 @@ full; the ones that bite hardest here are restated.
   (`SM-X-8FXS/12FXO`, `SFP-10/25G-LR-S`), and a PID never contains whitespace. Replay: 1 of
   7,530 stored slash lists changes; golden psu_options 5/6 → 6/6. Deploy + s1 re-apply (with
   `--allow-regression` for the inheritance rule) + recompute chained on the box.
+  Shard 0 re-applied under the merge layer as run #60 (gate PASS, 2,548 documents compared,
+  0 regressed): insert 0, corroborate 40, conflict 1,993, agree_same_doc 15,378,
+  refused_inherit 17,207 (component/licence inheritance no longer written).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
