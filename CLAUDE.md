@@ -423,6 +423,29 @@ full; the ones that bite hardest here are restated.
   and a value under an `Images` label is not a spec (COLUMN_BLEED missed the image column).
   Offline agent in flight (cache-only): dedupe in the reader, refuse image-column values,
   re-extract the affected documents, re-gate. Then the box apply (`--tag pdf`).
+  REVIEW WORKFLOW RESULT (`wf_d877ab3b-ceb`, 141 agents, ~14M subagent tokens, 4.9 h wall):
+  45 findings raised, 26 confirmed by ≥2 of 3 refuters, 19 not confirmed — of which FOUR
+  are UNVERIFIED (their refuters died on a network outage: renormalize tier-0 protection,
+  images row left after a failed upload, apply-acquired pre-gate writes, rollback state
+  recompute) and the api-contract lens never ran; resumed from cache to close those gaps.
+  Confirmed HIGH: (1) `specMerge` count-tolerance guard dead — every count-like field carries
+  a unit noun so 2% applies to counts (jumbo_mtu 9216 vs 9198 corroborates); (2) the gate's
+  coverage floor counts PLANNED samples, not re-read ones — 1 verified fact of 199 passes;
+  (3) apply-acquired writes aliases/images/checks/relations BEFORE its gate and the rollback
+  leaves them; (4) supervisor applies the LOCAL-date directory while workers write UTC
+  directories — the 23:00–00:00 UTC hour is never applied; (5) watchdog LANDING is silent
+  when the apply failed or never ran; (6) a paused source is only `enabled=false`, a running
+  worker never sees it; (7) an image run with no upload attempted is `succeeded` and rows
+  point at laptop-only files; (8) ALERT.md is deleted by whichever of sentinel/watchdog is
+  clean; (9) renormalize's recall gate is dead (same number passed twice); (10) 26 of 54
+  alias sabotage cases use an empty string, refused identically for every field. Plus 11
+  medium, 5 low (rack_units band [1,30] refuses a real 44-RU chassis; standalone
+  gate-extract grades joined lists against one cell; auditProvenance's non-shuffle; "+"
+  folded into the spare suffix; …). FIX ROUND 1 launched as a workflow (`wf_e0071800-c4b`)
+  over the FREE file groups — apply-acquired, ops scripts, images, renormalize, the vacuous
+  tests, part-number — each fix reviewed by a diff reader who reverts and re-proves; the
+  specMerge/fieldSchema and gate-extract/apply-extract findings wait for the remerge-curation
+  and PDF-glyph agents to release those files (round 2).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
