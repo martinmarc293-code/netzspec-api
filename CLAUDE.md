@@ -127,6 +127,13 @@ full; the ones that bite hardest here are restated.
   deploy.sh carries the `scraper/cache` symlink across the swap. A deploy whose output was
   piped through `grep | head` failed silently (the pipeline's status is head's): capture the
   full log to a file and check the version at `/health` after every deploy.
+  Shard 0 APPLIED on the box as run #38 (gate PASS, precision/recall 100%, golden 10/10,
+  provenance 200/200): 2,950 docs, 4,632 parts touched, insert 1,189, corroborate 5,688,
+  conflicts HELD 11,300, skip_lower_tier 16,776, quarantine 4,582 (ports STRUCT_UNPARSED 455,
+  dimensions 236, data_rate UNIT_MISSING 205 …), unmapped labels 8,348, unknown SKUs 212
+  (C8225-G2 … the new Catalyst 8200 G2 routers are not in the catalogue). Opus review of the
+  11,300 conflicts + the 16,776 lower-tier skips in flight (are tier-2 name-mined values
+  blocking datasheet cells?). Shard 1 applying next, then recompute.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
