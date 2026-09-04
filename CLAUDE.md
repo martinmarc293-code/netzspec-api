@@ -264,6 +264,11 @@ full; the ones that bite hardest here are restated.
   `ingest renormalize` (facts with an old `norm_v` re-read from `raw`: same → re-stamp,
   changed → supersede, refused → quarantine state; change-share guard). Both dry on
   production; `--commit` on the box after review.
+  Normaliser 1.5.1 landed: the corpus overruled the brief — a `/` splits a list only when it
+  is SPACED and every piece is a dash-segmented PID; 170 real PIDs contain a glued slash
+  (`SM-X-8FXS/12FXO`, `SFP-10/25G-LR-S`), and a PID never contains whitespace. Replay: 1 of
+  7,530 stored slash lists changes; golden psu_options 5/6 → 6/6. Deploy + s1 re-apply (with
+  `--allow-regression` for the inheritance rule) + recompute chained on the box.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
