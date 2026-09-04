@@ -121,6 +121,16 @@ ACCEPT = [
                         # carve-out would refuse a real 8800= or 9200= spare
     "9800-40",          # Catalyst 9800 wireless controller: a 2-digit tail is not a range
     "9800-80",
+    "886VA=",           # the keeps tolerate one spare marker, so these answer as their bare twins
+    "9800-40=",
+    # ---- the three REAL PIDs the first draft of the '=' strip refused ------------------------
+    # All three are listed under "End-of-Sale Product Part Number" in the universe. They are the
+    # reason the strip has bounds: it exempts a quantity core carrying a multiplier 'x', and it
+    # does not reach standard / connector / protocol at all.
+    "1X100GBE=",        # CRS line card; family 40X10GE-WLO=, 4X100GE-LO=, 20X10GBE-WL-XFP=
+    "CE-10GSFP-SR=",    # Cisco VCS transceiver; the '=' is all that shields it from `protocol`
+    "CE-1GSFP-T=",
+    "24x10G=",          # the deliberate consequence: a port count never carries a spare marker
 ]
 
 # ---- refusals: (token, the reason it must be refused for) ----------------------------------------
@@ -155,6 +165,20 @@ REFUSE = [
     ("1999-12", "quantity"),                # the 19xx half of the same guard
     ("1000-4999", "quantity"),              # a real price-break range: 4-4, not 4-2
     ("1545-1548", "quantity"),              # a real wavelength range, ascending
+    # ---- the trailing-'=' hole, closed 4 Sep 2026 --------------------------------------------
+    # Every one of these was ACCEPTED while its bare twin was refused: the quantity pattern is
+    # anchored \+?$, so an '=' carried the token past every refusal and it survived on "has a
+    # letter, has a digit, four characters". Each must now be refused for the SAME reason.
+    ("0.75K=", "quantity"),
+    ("0-30M/50M=", "quantity"),
+    ("40W=", "quantity"),
+    ("1-CPU=", "quantity"),
+    ("17.9.4a=", "version"),
+    ("v2.1=", "version"),
+    ("2024-10-31=", "date"),                # ALSO caught the spare keep swallowing a date
+    ("1.DDR4-3200=", "footnote"),
+    ("2x=", "too_short"),                   # the strip changes whether a rule answers, not which
+    ("1.6.1_002=", "no_letter"),
     # the 963 genuine catalogue-noise SKUs the enumeration created as "parts" (docs/CISCO_GAPS.md
     # finding 10): every one of these is a row in the live parts table and none is a product.
     ("1000BASE-LX", "standard"),
@@ -265,12 +289,19 @@ check("S16", "a kept numeric PID is accepted with allow_short off AND on (the ke
 
 check("S17", "the spare keep needs BOTH four leading digits and the '='",
       is_part_number("8201=") == (True, None) and is_part_number("15216-2950=") == (True, None)
-      and is_part_number("8201") == (False, "quantity") and is_part_number("999=") == (False, "no_letter")
-      and is_part_number("100-499=") == (False, "no_letter") and is_part_number("12=") == (False, "no_letter"))
-# NOTE (found while writing S17, PRE-EXISTING and out of scope for this change): "0.75K=" is
-# ACCEPTED, and was before the keeps existed — the quantity rule is anchored with \+?$ so a
-# trailing '=' takes the token past every refusal and it survives on "has a letter, has a digit,
-# four characters". No keep is involved. Recorded rather than fixed here.
+      and is_part_number("8201") == (False, "quantity") and is_part_number("999=") == (False, "quantity")
+      and is_part_number("100-499=") == (False, "quantity") and is_part_number("12=") == (False, "quantity"))
+check("S21", "the '=' strip refuses a junk token for the SAME reason its bare twin is refused",
+      all(is_part_number(t + "=")[1] == is_part_number(t)[1]
+          for t in ("0.75K", "0-30M/50M", "40W", "1-CPU", "17.9.4a", "v2.1", "2024-10-31",
+                    "1.DDR4-3200", "2x", "1.6.1_002", "10/100/1000", "0.6-1.2A")))
+check("S22", "the strip has BOTH its bounds: a multiplier quantity and the loose prefix rules keep their accept",
+      is_part_number("1X100GBE=") == (True, None) and is_part_number("24x10G=") == (True, None)
+      and is_part_number("CE-10GSFP-SR=") == (True, None) and is_part_number("CE-1GSFP-T=") == (True, None)
+      and is_part_number("1X100GBE") == (False, "quantity") and is_part_number("24x10G") == (False, "quantity"))
+check("S23", "a keep runs before every refusal, so the year lookahead is on the spare keep too",
+      is_part_number("2024-10-31=") == (False, "date") and is_part_number("1999-12-01=") == (False, "date")
+      and is_part_number("15216-2950=") == (True, None) and is_part_number("8201=") == (True, None))
 check("S18", "the model-suffix keep is exactly 4-2 and never a year-month or a range",
       is_part_number("9800-40") == (True, None) and is_part_number("9800-80") == (True, None)
       and is_part_number("9800-4") == (False, "quantity") and is_part_number("9800-400") == (False, "quantity")

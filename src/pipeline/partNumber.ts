@@ -76,9 +76,11 @@ const PN_KEEP_NUMERIC = /^[0-9]{6,8}$/;
 //             the 8xx band, so the band alone would flip a real UPS rating; four digits never reach
 //             here, so 1500VA stays a quantity.
 // base.py carries the same three patterns; tests/fixtures/partnumbers.json holds both sides.
-const PN_KEEP_SPARE = /^[0-9]{4,}(?:-[0-9]+)*=$/;
+// The year lookahead is on BOTH digit-led keeps: without it the spare keep swallowed
+// "2024-10-31=" — a keep runs before every refusal, so it is the one place a date can escape.
+const PN_KEEP_SPARE = /^(?!19[0-9]{2}-)(?!20[0-9]{2}-)[0-9]{4,}(?:-[0-9]+)*=$/;
 const PN_KEEP_MODEL_SUFFIX = /^(?!19[0-9]{2}-)(?!20[0-9]{2}-)[0-9]{4}-[0-9]{2}$/;
-const PN_KEEP_ISR_VA = /^8[0-9][1-9]VA$/i;
+const PN_KEEP_ISR_VA = /^8[0-9][1-9]VA=?$/i;
 const PN_DATE = [
   /^[0-9]{1,2}-(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*-[0-9]{2,4}$/i,
   /^(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*-[0-9]{2,4}$/i,
@@ -124,12 +126,29 @@ export function isPartNumber(key: string | null | undefined, allowShort = false)
   // ranges or as unit tokens
   if (PN_KEEP_ASSEMBLY.test(k) || PN_KEEP_NUMERIC.test(k) || PN_KEEP_SPARE.test(k)
     || PN_KEEP_MODEL_SUFFIX.test(k) || PN_KEEP_ISR_VA.test(k)) return { ok: true, reason: null };
-  if (PN_DATE.some((rx) => rx.test(k))) return { ok: false, reason: "date" };
-  if (PN_QUANTITY.test(k) || PN_COUNT_WORD.test(k)) return { ok: false, reason: "quantity" };
-  if (PN_FOOTNOTE.test(k)) return { ok: false, reason: "footnote" };
+  // ONE trailing '=' is stripped before the four label refusals below (4 Sep 2026). Without it
+  // "0.75K=" was ACCEPTED while "0.75K" was refused: the quantity pattern is anchored \+?$, so
+  // the '=' carried the token past every refusal and it survived on "has a letter, has a digit,
+  // four characters". A junk token does not stop being junk because a scraper glued a suffix to
+  // it, and it must be refused for the SAME reason the bare token is.
+  //
+  // TWO bounds, both read off the corpus, because the first draft refused three REAL PIDs (all
+  // three listed under "End-of-Sale Product Part Number"):
+  //   * the strip does NOT reach standard / connector / protocol. Those match by prefix-plus-tail
+  //     ('CE', 'EN', 'UL', 'G.'), which is loose, and the '=' is currently all that shields
+  //     CE-10GSFP-SR= and CE-1GSFP-T= (real Cisco VCS transceivers). The bare CE-10GSFP-SR is
+  //     still refused as `protocol` — the underlying defect, recorded, not fixed here.
+  //   * a quantity core carrying a multiplier 'x' KEEPS its accept. Cisco's CRS line cards are
+  //     named that way and every one has a spare SKU: 1X100GBE=, 40X10GE-WLO=, 4X100GE-LO=.
+  //     "24x10G" is a port count and never carries a spare marker, so the '=' is the whole
+  //     discriminator and it points the other way.
+  const core = k.endsWith("=") ? k.slice(0, -1) : k;
+  if (PN_DATE.some((rx) => rx.test(core))) return { ok: false, reason: "date" };
+  if ((PN_QUANTITY.test(core) || PN_COUNT_WORD.test(core)) && !(core !== k && core.toLowerCase().includes("x"))) return { ok: false, reason: "quantity" };
+  if (PN_FOOTNOTE.test(core)) return { ok: false, reason: "footnote" };
   // standards before versions: 802.3af is a standard, 17.9.4a a version, both digits and dots
   if (PN_STANDARD.some((rx) => rx.test(k))) return { ok: false, reason: "standard" };
-  if (PN_VERSION.test(k)) return { ok: false, reason: "version" };
+  if (PN_VERSION.test(core)) return { ok: false, reason: "version" };
   if (PN_CONNECTOR.test(k)) return { ok: false, reason: "connector" };
   if (PN_PROTOCOL.test(k)) return { ok: false, reason: "protocol" };
   if (!PN_LETTER.test(k)) return { ok: false, reason: "no_letter" };

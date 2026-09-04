@@ -186,9 +186,12 @@ _PN_KEEP_NUMERIC = re.compile(r"^[0-9]{6,8}$")                     # 1030033, 10
 #                  3000 VA) and 850VA is in the 8xx band, so the band alone would have flipped a
 #                  real UPS rating. Four digits never reach here, so 1500VA stays a quantity.
 # ---------------------------------------------------------------------------------------------
-_PN_KEEP_SPARE = re.compile(r"^[0-9]{4,}(?:-[0-9]+)*=$")               # 8201=, 15216-2950=
+# The year lookahead is on BOTH digit-led keeps for the same reason: without it the spare keep
+# swallowed "2024-10-31=" (found by the '='-strip sabotage below — a keep runs before every
+# refusal, so it is the one place a date can escape the date rule).
+_PN_KEEP_SPARE = re.compile(r"^(?!19[0-9]{2}-)(?!20[0-9]{2}-)[0-9]{4,}(?:-[0-9]+)*=$")    # 8201=
 _PN_KEEP_MODEL_SUFFIX = re.compile(r"^(?!19[0-9]{2}-)(?!20[0-9]{2}-)[0-9]{4}-[0-9]{2}$")  # 9800-40
-_PN_KEEP_ISR_VA = re.compile(r"^8[0-9][1-9]VA$", re.I)                 # 886VA, 897VA
+_PN_KEEP_ISR_VA = re.compile(r"^8[0-9][1-9]VA=?$", re.I)               # 886VA, 897VA, 886VA=
 
 _PN_BAD_CHAR = re.compile(r"[\x00-\x1f,;<>\"'\\|{}\[\]]")
 _PN_DATE = [
@@ -240,17 +243,36 @@ def is_part_number(key: str | None, allow_short: bool = False) -> tuple[bool, st
     if (_PN_KEEP_ASSEMBLY.match(k) or _PN_KEEP_NUMERIC.match(k) or _PN_KEEP_SPARE.match(k)
             or _PN_KEEP_MODEL_SUFFIX.match(k) or _PN_KEEP_ISR_VA.match(k)):
         return True, None
-    if any(rx.match(k) for rx in _PN_DATE):
+    # ONE trailing '=' is stripped before the four label refusals below (4 Sep 2026). Without it
+    # "0.75K=" was ACCEPTED while "0.75K" was refused: the quantity pattern is anchored \+?$, so
+    # the '=' carried the token past every refusal and it survived on "has a letter, has a digit,
+    # four characters". A junk token does not stop being junk because a scraper glued a suffix to
+    # it, and it must be refused for the SAME reason the bare token is.
+    #
+    # TWO bounds, both read off the corpus rather than assumed, because the first draft of this
+    # refused three REAL PIDs (all three are listed under "End-of-Sale Product Part Number"):
+    #   * the strip does NOT reach standard / connector / protocol. Those three match by
+    #     prefix-plus-tail ('CE', 'EN', 'UL', 'G.'), which is loose, and the '=' is currently all
+    #     that shields CE-10GSFP-SR= and CE-1GSFP-T= (real Cisco VCS transceivers, siblings of a
+    #     whole CE-* family). Extending the strip there turns a shielded pre-existing looseness
+    #     into an active refusal of real parts. The bare CE-10GSFP-SR is still refused as
+    #     `protocol` today — that is the underlying defect, recorded, not fixed here.
+    #   * a quantity core carrying a multiplier 'x' KEEPS its accept. Cisco's CRS line cards are
+    #     named exactly that way and every one has a spare SKU: 1X100GBE=, 40X10GE-WLO=,
+    #     4X100GE-LO=, 20X10GBE-WL-XFP=. "24x10G" is a port count and never carries a spare
+    #     marker, so here the '=' is the whole discriminator and it points the other way.
+    core = k[:-1] if k.endswith("=") else k
+    if any(rx.match(core) for rx in _PN_DATE):
         return False, "date"
-    if _PN_QUANTITY.match(k) or _PN_COUNT_WORD.match(k):
+    if (_PN_QUANTITY.match(core) or _PN_COUNT_WORD.match(core)) and not (core is not k and "x" in core.lower()):
         return False, "quantity"
-    if _PN_FOOTNOTE.match(k):
+    if _PN_FOOTNOTE.match(core):
         return False, "footnote"
     # standards before versions: 802.3af is a standard, 17.9.4a a version, and both are digits
     # and dots with a letter tail
     if any(rx.match(k) for rx in _PN_STANDARD):
         return False, "standard"
-    if _PN_VERSION.match(k):
+    if _PN_VERSION.match(core):
         return False, "version"
     if _PN_CONNECTOR.match(k):
         return False, "connector"
