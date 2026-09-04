@@ -22,7 +22,8 @@ param(
   [switch]$Install,
   [string]$Sources = "provantage,router-switch,itprice,meraki",
   [int]$TopUp = 300,
-  [int]$SleepMinutes = 10
+  [int]$SleepMinutes = 10,
+  [int]$WorkMinutes = 5
 )
 $ErrorActionPreference = "Continue"
 $Repo = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
@@ -90,41 +91,45 @@ try {
     #    Chrome; per-host politeness makes cross-host parallelism the only real throughput lever),
     #    with a stall detector: a worker whose log has not grown for 20 minutes is killed and its
     #    lease is reclaimed by the next cycle (worker.py re-leases leases older than 30 min).
+    # Workers are LONG-LIVED: a worker runs until its queue is dry, and the sentinel restarts a
+    # lane that went idle. The supervisor's part is only (a) start a worker for a source that has
+    # none and (b) kill one whose heartbeat has gone quiet - whoever started it. The earlier form
+    # waited up to 240 min for the workers to exit before it applied, recomputed or ran the
+    # watchdog, so a 60-min back-off was resumed hours late and a day's pages were applied once
+    # per shift (4 Sep 2026). Now every step below runs every cycle, about every 15 minutes.
     $procs = @{}
     foreach ($src in $Sources.Split(",")) {
+      $running = @(Get-CimInstance Win32_Process | Where-Object { $_.ProcessId -ne $PID -and $_.Name -like "python*" -and $_.CommandLine -like ("*worker.py run --sources " + $src + " *") })
+      $hb = Join-Path $Repo ("runs\heartbeat\" + $src + ".json")
+      $hbAge = if (Test-Path $hb) { ((Get-Date) - (Get-Item $hb).LastWriteTime).TotalMinutes } else { 9999 }
+      if ($running.Count -gt 0 -and $hbAge -gt 20) {
+        Log ("   STALL: {0} worker alive but its heartbeat is {1} min old; killing it (the lease is reclaimed automatically)" -f $src, [int]$hbAge)
+        foreach ($r in $running) { try { Stop-Process -Id $r.ProcessId -Force -ErrorAction SilentlyContinue } catch {} }
+        $running = @()
+      }
+      if ($running.Count -gt 0) { continue }
       # RAM guard: this laptop has 8 GB shared with the operator's own Chrome; a worker started
       # into a full machine takes the others down with it (the six-browser incident)
       $freeMb = [math]::Round((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1024)
       if ($freeMb -lt 400) { Log "   RAM: only $freeMb MB free; not starting a worker for $src this cycle"; continue }
       $wlog = Join-Path $LogDir ("worker-" + $src + ".out")
       $p = Start-Process -FilePath "python3.11" -ArgumentList @("-u", "scraper/worker.py", "run", "--sources", $src, "--cdp", "http://127.0.0.1:9222") -WorkingDirectory $Repo -NoNewWindow -PassThru -RedirectStandardOutput $wlog -RedirectStandardError ($wlog + ".err")
-      $procs[$src] = @{ proc = $p; log = $wlog; size = 0; quietSince = Get-Date }
+      $procs[$src] = @{ proc = $p; log = $wlog }
       Start-Sleep -Seconds 3
     }
-    Log ("   started {0} workers" -f $procs.Count)
-    $deadline = (Get-Date).AddMinutes(240)
-    while ($true) {
+    Log ("   started {0} workers (others already running)" -f $procs.Count)
+    # let the lanes work for a few minutes, touching the lock the sentinel watches
+    $deadline = (Get-Date).AddMinutes($WorkMinutes)
+    while ((Get-Date) -lt $deadline) {
       (Get-Date) | Out-File $Lock   # heartbeat of the supervisor itself
-      $alive = @($procs.Values | Where-Object { -not $_.proc.HasExited })
-      if ($alive.Count -eq 0 -or (Get-Date) -gt $deadline) { break }
-      foreach ($k in @($procs.Keys)) {
-        $w = $procs[$k]
-        if ($w.proc.HasExited) { continue }
-        $len = (Get-Item $w.log -ErrorAction SilentlyContinue).Length
-        if ($len -gt $w.size) { $w.size = $len; $w.quietSince = Get-Date }
-        elseif (((Get-Date) - $w.quietSince).TotalMinutes -gt 20) {
-          Log "   STALL: $k produced nothing for 20 min; killing it (its lease is reclaimed automatically)"
-          try { Stop-Process -Id $w.proc.Id -Force -ErrorAction SilentlyContinue } catch {}
-        }
-      }
       Start-Sleep -Seconds 60
     }
-    foreach ($k in $procs.Keys) {
-      $w = $procs[$k]
-      if (-not $w.proc.HasExited) { try { Stop-Process -Id $w.proc.Id -Force -ErrorAction SilentlyContinue } catch {} }
-      $done = (Select-String -Path $w.log -Pattern "^  done " -ErrorAction SilentlyContinue | Measure-Object).Count
-      $blocked = (Select-String -Path $w.log -Pattern "^  (blocked|ERROR|pdf-fail)" -ErrorAction SilentlyContinue | Measure-Object).Count
-      Log ("   worker {0}: done={1} blocked/errors={2}" -f $k, $done, $blocked)
+    foreach ($src in $Sources.Split(",")) {
+      $wlog = Join-Path $LogDir ("worker-" + $src + ".out")
+      if (-not (Test-Path $wlog)) { continue }
+      $done = (Select-String -Path $wlog -Pattern "^  done " -ErrorAction SilentlyContinue | Measure-Object).Count
+      $blocked = (Select-String -Path $wlog -Pattern "^  (blocked|ERROR|pdf-fail)" -ErrorAction SilentlyContinue | Measure-Object).Count
+      Log ("   worker {0}: done={1} blocked/errors={2} (since its log began)" -f $src, $done, $blocked)
     }
 
     # 4. apply today's acquisitions per source (a failed gate for one source must not block the rest)
