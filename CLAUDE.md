@@ -370,6 +370,25 @@ full; the ones that bite hardest here are restated.
   fields for transceivers (383 fields) — NONSENSICAL_PAIRS to be curated from the 619 pairs
   (agent follow-up). Four DB suites had guards that accepted only a database named exactly
   `_test`, so they had never run on test2–test5 — widened.
+  Corrected remerge pass ran on the box after the deploy of `5f47b3c` (log `remerge3.log`):
+  the samples now read right per class (agree:numeric_tolerance 219 = 287.02 vs 288;
+  rewrite:list_overlap 504 = a bullet blob replaced by its clean list; same_doc_disagreement
+  2,984 = a cell stating two depths; reapply:no_raw 2,158 + 85 wait for `renormalize`;
+  tier-0 733 stay). Open conflicts 15,943 after the reopen. Recompute wrote 751.
+  PAUSED by the operator at ~09:45 UTC (leaving for the office); nothing new started.
+  Still running unattended: hygiene, per-lane Chrome and remerge-curation agents, the
+  review-day-changes workflow, the PDF pass + gate waiter. Uncommitted: this note.
+  The hygiene agent STALLED (harness stream watchdog, no progress for 600 s) while
+  re-running its sabotage case B; its work is on disk uncommitted (`src/pipeline/hygiene.ts`,
+  `src/store/parts.ts` retired_at reads, `db/migrations/0009_*`, `0010_*`, `tests/db/hygiene.test.ts`,
+  the `cli.ts` entries for hygiene + renormalize). On resume: message that agent to finish
+  its report, or review the files directly; production still lacks 0009/0010, so the
+  supervisor's applies keep rolling back until this lands and deploys.
+  The remerge-curation agent stalled the same way minutes later ("no progress for 600 s")
+  while starting its production dry run with the populated NONSENSICAL_PAIRS — two stalls in
+  a row right after the operator left suggests the laptop went to sleep, not the agents.
+  Its edits to `src/core/specMerge.ts` are on disk uncommitted; on resume, message it or
+  diff the file. Nothing else was touched after the pause.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
