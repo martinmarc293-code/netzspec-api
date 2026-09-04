@@ -76,8 +76,40 @@ full; the ones that bite hardest here are restated.
 - The scraper's cache lives on the VPS at `/var/lib/netzspec-api/cache`; the laptop copy is a
   working copy.
 
-## Agents
+## Agents (orchestrator setup, operator decision 4 Sep 2026)
 
-Allowed on this project (operator decision, 3 Sep 2026) for bounded tasks with a fixed file
-scope and schema-forced output. Not for extraction at scale. Every agent's output goes
-through the same tests as hand-written work.
+The main session is the brain only: it plans, reviews, decides and commits. It does **no bulk
+reading, corpus replays, long suites or bulk edits itself** - those go to an agent, and only
+the agent's summary comes back into this context.
+
+- **Every Agent call carries an explicit model.** `.claude/settings.json` sets
+  `CLAUDE_CODE_SUBAGENT_MODEL=opus` so an agent without one falls back to Opus, never to the
+  session model. Never spawn a Fable subagent: 60% of a weekly limit went in a few hours on
+  3 Sep 2026 because fleet agents inherited Fable.
+- **Opus at effort max for judgement** (`worker-code`, `worker-review`), **Sonnet at low for
+  mechanical work** (`worker-mechanical`), **Haiku for trivial lookups**. The three project
+  agents live in `.claude/agents/`; their descriptions say when to pick them.
+- Bounded-task rules are unchanged: one deliverable, a fixed file scope, schema-forced output,
+  agents never commit, the recap reports what the agents did and what they cost.
+- **Budget guard:** no agents past 69% of the weekly Claude limit; stop work at 80%.
+- Before any task that would read more than a few files, run a suite or replay the corpus,
+  delegate it with an explicit model and keep only the summary here.
+- At the end of each work block, write a handoff note in the session log below: decisions
+  marked closed, what is done and verified, what is next, traps hit.
+
+## Code graph first (graphify)
+
+`graphify-out/` (gitignored, rebuilt by a post-commit hook at zero model cost) holds a graph of
+this repo. Before reading files to orient, ask the graph:
+
+```
+graphify query "<question>" --budget 800
+graphify explain "<Node>"
+graphify path "A" "B"
+graphify god-nodes
+```
+
+Open a source file only after the graph has pointed at it. Trust the graph only while
+`built_at_commit` in `graphify-out/graph.json` matches `git rev-parse HEAD`. **Never run a
+`/graphify` build or `--update` from a session**: its docs and images would go through the
+session's model. `.graphifyignore` says what the graph leaves out.

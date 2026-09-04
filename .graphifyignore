@@ -1,0 +1,7 @@
+# graphify exclusions (merged on top of .gitignore; can only exclude more).
+# The reference data under data/ is 80 MB of JSON: rows, not architecture. Indexing it
+# inflated the graph by ~300 nodes of no navigational value and slowed every rebuild.
+data/
+*.json
+# Test fixtures are data too; the tests themselves stay in.
+tests/fixtures/

@@ -23,3 +23,6 @@ tmp/
 
 # python bytecode
 __pycache__/
+
+# graphify knowledge graph (rebuilt locally; never committed)
+graphify-out/
