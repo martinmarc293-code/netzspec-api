@@ -181,7 +181,14 @@ def main() -> int:
     while True:
         if a.loop:
             lock.write_text(str(time.time()), encoding="utf-8")
-        lines, alarms, actions = check(a.heal)
+        try:
+            lines, alarms, actions = check(a.heal)
+        except Exception as e:  # noqa
+            # The watchdog's watchdog must not die of one bad reading (a PowerShell call that
+            # timed out, a half-written heartbeat file): it went quiet for two hours on
+            # 4 Sep 2026 and every lane sat idle after a worker recycle. Report the failure
+            # as an alarm and keep the loop.
+            lines, alarms, actions = [f"- sentinel check raised: {type(e).__name__}: {str(e)[:200]}"], ["sentinel check failed (see above); nothing verified this cycle"], []
         stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
         report = [f"# sentinel — {stamp}", "", *lines, "", "## alarms", *([f"- {x}" for x in alarms] or ["- none"]), "", "## actions", *([f"- {x}" for x in actions] or ["- none"])]
         NS.mkdir(parents=True, exist_ok=True)
