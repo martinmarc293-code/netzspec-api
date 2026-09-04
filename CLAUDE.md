@@ -201,7 +201,18 @@ full; the ones that bite hardest here are restated.
   of ten). 11 tokens flip, nothing else. The fixture is the ONLY lockstep between the Python
   and TypeScript rules (`tests/db/apply-enumeration.test.ts` §1 runs both). Found on the way:
   `0.75K=` was accepted all along (a trailing `=` carried a quantity past every refusal) —
-  follow-up in flight.
+  closed (`7d673c7`). PDF provenance round (`d96f656`): all 20 mismatches were the
+  AUDITOR reading a page across columns while the cell wrapped, but five also carried a real
+  extractor fault — superscript footnote digits glued to text and to PIDs:
+  `UCSX-GPU-RTXP45003` is `RTXP4500` with a footnote 3. **156 fabricated PIDs / 792 facts in
+  the PDF file, and the fakes are in `datasheet-skus*.json` AND in the 89,090-part catalogue**
+  (the SKU map had learned them). Stripping is by glyph geometry (smaller, raised, touching),
+  so `QSFP56` and `15427` survive. A transitional allowance accepts a known PID minus a
+  trailing footnote digit until the map and the catalogue are rebuilt — CATALOGUE HYGIENE
+  TASK: parts whose SKU is another PID plus one trailing digit and whose only source is the
+  PDF map → retract/merge (with the 127 case duplicates, 14 foreign-shaped PIDs, Arista
+  family "Dell"). PDF re-extraction restarted on the laptop
+  (`runs/extract/cisco-pdf-2026-09-04b.json`).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
