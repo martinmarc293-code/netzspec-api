@@ -1,7 +1,7 @@
 {
  "_about": "SABOTAGE: provantage has a green adapter suite, so recall is 1; but the cached page for this URL does NOT contain the value 999 W the fixture claims it read. The provenance audit must miss it and the gate must fail on precision alone.",
  "source": "provantage",
- "task": {"id": 4, "task": "search", "key": "C9200L-48P-4G", "part_id": null},
+ "task": {"id": 4, "task": "search", "key": "C9200L-48P-4G", "part_id": null, "vendor": "cisco"},
  "url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-BAD-PROVENANCE",
  "final_url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-BAD-PROVENANCE",
  "fetched_at": "2026-09-03T10:18:00+00:00",

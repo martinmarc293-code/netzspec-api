@@ -31,9 +31,10 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import {
   getPool, closePool, withTx, withRun, hashFile, findPart, getPart, ensureSourceDoc, docIdFor, linkDocParts,
-  applyMerge, upsertAlias, upsertImage, upsertRelation, upsertLifecycle, recordSourceCheck,
+  applyMerge, upsertAlias, upsertImage, upsertRelation, upsertLifecycle, recordSourceCheck, recordImageCandidate,
   type RelationKind, type AliasKind, type CheckOutcome, type LifecycleInput,
 } from "../store/index.js";
+import { candidatesFromPage } from "../core/imageCandidate.js";
 import { mapFact } from "../core/deepSpecMap.js";
 import { NORM_VERSION } from "../core/specNormalize.js";
 import type { SpecEntry } from "../core/specMerge.js";
@@ -225,9 +226,11 @@ export async function main(argv: string[]): Promise<void> {
     facts_raw: 0, facts_ok: 0, facts_unmapped: 0, facts_rejected: 0, facts_sentinel: 0,
     insert: 0, corroborate: 0, conflict: 0, protected: 0, revision_change: 0, skip_lower_tier: 0,
     aliases: 0, images: 0, images_skipped_non_vendor: 0, relations: 0, relations_invalid_kind: 0, lifecycle: 0, prices_seen: 0, checks: 0,
+    image_candidates: 0, image_candidates_new: 0, image_candidates_refused: 0,
   };
   const unmapped = new Map<string, { count: number; samples: string[]; categories: Set<string> }>();
   const rejected = new Map<string, number>();
+  const imageRefusals = new Map<string, number>();
   const unknownSkus: Record<string, unknown>[] = [];
   const written: WrittenFact[] = [];
   const sourcesTouched = new Set<string>();
@@ -290,7 +293,24 @@ export async function main(argv: string[]): Promise<void> {
         const mappedKeys = m.mapped.map((w) => w.entry.k);
         const specEntries = m.mapped.map((w) => w.entry);
 
+        // ---- image candidates: EVERY source, distributor included -------------------------
+        // The images block below writes an assignment only for a vendor page, which is right —
+        // a distributor's word is not evidence that a photo shows this part. But dropping the
+        // URL entirely was not: 61,229 hardware parts have no picture while provantage,
+        // router-switch and meraki printed one on almost every page the workers fetched, night
+        // after night. A candidate row claims nothing; the fetch lane (scraper/images.py
+        // --from-db) validates the bytes and rejects with a named reason. Counted outside the
+        // commit branch so a DRY RUN reports how many a day's pages would add.
+        const cand = candidatesFromPage(entry.images || []);
+        stats.image_candidates += cand.rows.length;
+        stats.image_candidates_refused += cand.refused.length;
+        for (const rf of cand.refused) imageRefusals.set(rf.reason, (imageRefusals.get(rf.reason) ?? 0) + 1);
+
         if (a.commit && runId !== null) {
+          for (const c of cand.rows) {
+            const rec = await recordImageCandidate(part.id, { source_id: src.id, page_url: pageUrl, ...c }, runId);
+            if (rec.inserted) stats.image_candidates_new++;
+          }
           await withTx(async (client) => {
             for (const e of specEntries) {
               const r = await applyMerge(client, part!.id, e, runId);
@@ -343,6 +363,7 @@ export async function main(argv: string[]): Promise<void> {
   console.log(`${a.commit ? "COMMITTED run " + out.runId : "DRY RUN"} — ${[...sourcesTouched].join(", ")}`);
   console.table(out.stats);
   console.log("rejected by reason:", Object.fromEntries([...rejected.entries()].sort((x, y) => y[1] - x[1]).slice(0, 15)));
+  console.log("image URLs refused on sight:", Object.fromEntries([...imageRefusals.entries()].sort((x, y) => y[1] - x[1]).slice(0, 10)));
   console.log(`gate: ${JSON.stringify(out.gate)}`);
   console.log(`unmapped labels: ${unmapped.size} -> ${path.relative(REPO_ROOT, unmappedFile)}`);
   console.log(`unknown SKUs: ${unknownSkus.length} -> ${path.relative(REPO_ROOT, unknownFile)}`);

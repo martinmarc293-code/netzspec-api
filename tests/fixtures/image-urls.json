@@ -1,0 +1,122 @@
+{
+ "_readme": [
+  "The corpus both halves of the image lane are held to: src/core/imageCandidate.ts and",
+  "scraper/images.py must return the SAME key and the SAME refusal for every URL here.",
+  "Every entry is a real string taken from runs/acquired/ (the source is named), not an invented",
+  "one - a suite made only of clean inputs certifies the easy half of the problem.",
+  "",
+  "key: what url_key() must return (null = not fetchable).",
+  "placeholder: the refusal placeholderReason() must give, or null when the URL is fetchable.",
+  "note: why this case is in the corpus."
+ ],
+ "cases": [
+  {
+   "url": "https://www.provantage.com/fullsize/1022175390.JPG",
+   "key": "www.provantage.com/fullsize/1022175390.jpg",
+   "placeholder": null,
+   "note": "provantage, the ordinary case: a real product photo, upper-case extension"
+  },
+  {
+   "url": "https://media.router-switch.com/media/catalog/product/cache/b90fceee6a5fa7acd36a04c7b968181c/r/o/routers-cisco.jpg",
+   "key": "media.router-switch.com/media/catalog/product/cache/b90fceee6a5fa7acd36a04c7b968181c/r/o/routers-cisco.jpg",
+   "placeholder": null,
+   "note": "router-switch: a CATEGORY banner no substring can recognise. It is refused by the count rule (max_parts_per_url_key), not here - which is exactly why placeholder is null."
+  },
+  {
+   "url": "https://media.router-switch.com/media/mf_webp/jpg/media/catalog/product/cache/b90fceee6a5fa7acd36a04c7b968181c/r/o/routers-cisco.jpg",
+   "key": "media.router-switch.com/media/catalog/product/cache/b90fceee6a5fa7acd36a04c7b968181c/r/o/routers-cisco.jpg",
+   "placeholder": null,
+   "note": "router-switch prints every photo twice; the transcode must give the SAME key as the line above or the lane spends two requests on one picture"
+  },
+  {
+   "url": "https://documentation.meraki.com/@api/deki/files/466/MS125-24-PoE.png?revision=1&size=bestfit&width=316&height=135",
+   "key": "documentation.meraki.com/@api/deki/files/466/ms125-24-poe.png",
+   "placeholder": null,
+   "note": "meraki: the size lives in the query, so the query is dropped from the key and read as a hint instead"
+  },
+  {
+   "url": "https://documentation.meraki.com/@api/deki/files/466/MS125-24-PoE.png?revision=1&size=bestfit&width=1200&height=513",
+   "key": "documentation.meraki.com/@api/deki/files/466/ms125-24-poe.png",
+   "placeholder": null,
+   "note": "the same meraki file at a larger rendition: one candidate, and the lane must fetch THIS one"
+  },
+  {
+   "url": "https://assets.ext.hpe.com/is/image/hpedam/a50007032enw_complogoimg?$crlogo$",
+   "key": "assets.ext.hpe.com/is/image/hpedam/a50007032enw_complogoimg",
+   "placeholder": "placeholder-url:logo",
+   "note": "hpe-quickspecs prints the COMPANY LOGO in the same image block as the product shot"
+  },
+  {
+   "url": "https://assets.ext.hpe.com/is/image/hpedam/a50009212enw_block1img?$crimg$",
+   "key": "assets.ext.hpe.com/is/image/hpedam/a50009212enw_block1img",
+   "placeholder": null,
+   "note": "the product shot from the same page must NOT be refused: 'img' is not 'logo'"
+  },
+  {
+   "url": "https://cdn.mikrotik.com/web-assets/rb_images/2369_tm.webp",
+   "key": "cdn.mikrotik.com/web-assets/rb_images/2369_tm.webp",
+   "placeholder": null,
+   "note": "a file whose EXTENSION is a stripped segment name; the filename is never stripped"
+  },
+  {
+   "url": "https://cdn.example.com/webp/thumb/webp.jpg",
+   "key": "cdn.example.com/webp.jpg",
+   "placeholder": null,
+   "note": "adversarial: rendition segments named like the file. Directories go, the filename stays."
+  },
+  {
+   "url": "https://www.arista.com/assets/images/banner/product/7050X3-product.png",
+   "key": "www.arista.com/assets/images/banner/product/7050x3-product.png",
+   "placeholder": null,
+   "note": "a SERIES banner that is also the only photo Arista gives. No '/banner/' substring exists on purpose; the count rule decides."
+  },
+  {
+   "url": "https://www.example.com/img/no_image_available.png",
+   "key": "www.example.com/img/no_image_available.png",
+   "placeholder": "placeholder-url:no_image",
+   "note": "the classic empty-catalogue placeholder"
+  },
+  {
+   "url": "https://www.example.com/media/catalog/product/placeholder/default/small_image.jpg",
+   "key": "www.example.com/media/catalog/product/placeholder/default/small_image.jpg",
+   "placeholder": "placeholder-url:placeholder",
+   "note": "Magento's own placeholder path, served with a 200 and a real JPEG body"
+  },
+  {
+   "url": "https://www.example.com/i/spacer.gif",
+   "key": "www.example.com/i/spacer.gif",
+   "placeholder": "placeholder-url:spacer",
+   "note": "layout spacer; a valid GIF that sniff() would happily accept"
+  },
+  {
+   "url": "https://www.example.com/assets/icons/cart.svg",
+   "key": "www.example.com/assets/icons/cart.svg",
+   "placeholder": "placeholder-url:/icons/",
+   "note": "site chrome scraped as a product image"
+  },
+  {
+   "url": "https://www.example.com/media/catalog/product/switch.jpg",
+   "key": "www.example.com/media/catalog/product/switch.jpg",
+   "placeholder": null,
+   "note": "'catalog' contains 'log' but not 'logo': the substring list must not swallow every catalogue URL there is"
+  },
+  {
+   "url": "data:image/gif;base64,R0lGODlhAQABAAAAACw=",
+   "key": null,
+   "placeholder": "not-an-http-url",
+   "note": "an inline image is not something this lane can fetch and must never become a row"
+  },
+  {
+   "url": "/media/catalog/product/switch.jpg",
+   "key": null,
+   "placeholder": "not-an-http-url",
+   "note": "a relative src an adapter forgot to resolve"
+  },
+  {
+   "url": "ftp://files.example.com/switch.jpg",
+   "key": null,
+   "placeholder": "not-an-http-url",
+   "note": "http(s) only"
+  }
+ ]
+}

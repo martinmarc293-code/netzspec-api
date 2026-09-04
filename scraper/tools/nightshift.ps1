@@ -10,6 +10,7 @@
 #   2. top up the queue: thinnest parts first at every lookup source, then every open gap
 #   3. run the worker over every enabled source until the queue is empty (one browser, one tab)
 #   4. apply today's acquired pages: gate -> facts -> unmapped-label and unknown-SKU reports
+#   4c. fetch a bounded batch of product images from the candidates step 4 recorded
 #   5. write runs/nightshift/latest-summary.md - what landed, what is blocked, what needs a human
 #   6. sleep, repeat
 #
@@ -23,7 +24,8 @@ param(
   [string]$Sources = "provantage,router-switch,itprice,meraki",
   [int]$TopUp = 300,
   [int]$SleepMinutes = 10,
-  [int]$WorkMinutes = 5
+  [int]$WorkMinutes = 5,
+  [int]$ImageBatch = 40
 )
 $ErrorActionPreference = "Continue"
 $Repo = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
@@ -162,6 +164,14 @@ try {
       (Get-Date) | Out-File $stamp
     }
 
+    # 4c. the image lane: a BOUNDED batch of the candidates step 4 just recorded. Every part page
+    #     the workers fetch prints an image URL and until 4 Sep 2026 all of it was thrown away for
+    #     a non-vendor source, leaving 61,229 hardware parts with no picture. The batch is small on
+    #     purpose: these are binary fetches through the same Chrome the workers share, and the lane
+    #     paces itself at each source's own politeness. A failed step is logged and the cycle goes
+    #     on, exactly like the applies above.
+    Run-Step "images" "python3.11" @("-u", "scraper/images.py", "run", "--from-db", "--limit", "$ImageBatch", "--cdp", "http://127.0.0.1:9222") 30 | Out-Null
+
     # 4b. the gap ledger's input: recompute completeness for parts touched since the cycle began
     Run-Step "recompute-completeness" "node" @("node_modules/tsx/dist/cli.mjs", "src/pipeline/cli.ts", "recompute-completeness", "--since", $cycleStart.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")) 30 | Out-Null
 
@@ -191,6 +201,10 @@ try {
       $f = Join-Path $LogDir ("step-apply-" + $src + ".out")
       if (Test-Path $f) { $summary += "### $src"; $summary += (Get-Content $f -Tail 8) }
     }
+    $summary += ""
+    $summary += "## images (this cycle's bounded batch: fetched, rejected with the reason, uploaded)"
+    $imgOut = Join-Path $LogDir "step-images.out"
+    if (Test-Path $imgOut) { $summary += (Get-Content $imgOut -Tail 14) } else { $summary += "- the image step wrote no log this cycle" }
     $summary += ""
     $summary += "## unmapped labels (top of the newest report)"
     $rep = Get-ChildItem (Join-Path $Repo "runs\reports") -Filter "unmapped-*.json" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1

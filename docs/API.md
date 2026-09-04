@@ -576,6 +576,27 @@ Runs the tool: its `fixed_filter` AND the facet values given here, compiled into
 ## Images
 
 `/img/<path>` is served by Caddy straight from the image store; URLs are absolute
-(`PUBLIC_BASE_URL` + `/img/` + storage path) in every response. Images are the vendor's own
-product photos, re-encoded to WebP, with descriptive filenames; `variants` carry the
-square 1200/800/400 px renditions.
+(`PUBLIC_BASE_URL` + `/img/` + storage path) in every response. Images are the vendor's or
+distributor's own product photo, re-encoded to WebP; `variants` carry the square 1200/800/400 px
+renditions Google Merchant asks for, padded on white and never upscaled past the original's
+longest side. The `original` is kept untouched and is what the `images` row's own `width`,
+`height`, `format`, `bytes` and `sha256` describe.
+
+**What the API shows, and what it does not.** `images` on a part, and `has_image` on a list item,
+mean **downloaded**: an `images` row whose `storage_path` is still NULL is an assignment nobody has
+fetched bytes for, and it is invisible here rather than served as a URL that would 404. Files are
+named by content hash, so one photo shared by forty SKUs is stored once and every SKU points at it.
+
+**An image can be present and not merchant-ready, and that is on record, not hidden.** An image
+below 800 px, or on a background that is neither white nor transparent, is stored carrying
+`["below-800px"]` or `["not-white-background"]` — a recorded gap is fixable and a hidden one is
+not. What is *refused* is narrower and stricter, because a wrong picture on a part page is worse
+than no picture: a URL the page called a product photo but which is the site logo, a category
+banner shared across unrelated parts, a layout spacer, an SVG icon, a PDF, a 403 page, or anything
+under 300 px on its longest side never becomes an image row at all. Every refusal is stored with
+its named reason in `image_candidates` (see `docs/SCRAPING.md`), so the count of pictures we
+declined and *why* is a query, not a guess.
+
+Pictures arrive continuously: `apply-acquired` records every page's image URLs as candidates and
+`scraper/images.py run --from-db`, run once per nightshift cycle, leases a bounded batch for parts
+that have no picture yet — vendor sources before distributors, larger originals before smaller.

@@ -18,6 +18,12 @@
 // part_source_checks records facts_found with the mapped field keys; the run row has kind
 // apply-acquired and a passing gate.
 //
+// And, since db/migrations/0007, the image lane's inbox: EVERY source's image URLs become
+// `image_candidates` (a claim, not an assignment), a CDN's transcode of a photo is one candidate
+// rather than two, a layout spacer never becomes a row, and re-applying the same directory —
+// which the nightshift does every cycle — adds nothing. The lease query itself is read out of
+// scraper/images.py and run here, so what this suite proves is what the lane will actually do.
+//
 // SABOTAGE, each through the real CLI as a child process so the exit code is the thing asserted:
 //   * a source with no adapter suite (cdw: there is no tests/scraper/test_cdw.py) -> recall 0, the
 //     run is closed `failed` with gate NULL and the process exits 1;
@@ -100,7 +106,11 @@ function fixtureFiles(sub: string): string[] {
   const taskSrc = block ? (/k in \(([^)]*)\)/.exec(block[1])?.[1] ?? "") : "";
   const taskKeys = [...taskSrc.matchAll(/"([a-z_]+)"/g)].map((m) => m[1]);
   check("worker.py write_text block located and its keys read",
-    workerKeys.length >= 8 && workerKeys.includes("cache_path") && taskKeys.join(",") === "id,task,key,part_id", { workerKeys, taskKeys });
+    // `vendor` joined the task block on 4 Sep 2026 (the adapter must know whose part it is before
+    // it proposes a "compatible" copy as ours — docs/SCRAPING.md rule 0). This check caught the
+    // drift the same day, which is what it is for; the fixtures gained the key rather than the
+    // check being loosened.
+    workerKeys.length >= 8 && workerKeys.includes("cache_path") && taskKeys.join(",") === "id,task,key,part_id,vendor", { workerKeys, taskKeys });
   const init = fs.readFileSync(path.join(ROOT, "scraper", "sources", "__init__.py"), "utf8").replace(/\r\n/g, "\n");
   const resultBlock = /RESULT = \{([\s\S]*?)\n\}/.exec(init);
   const resultKeys = new Set(resultBlock ? [...resultBlock[1].matchAll(/^\s*"([a-z_]+)":/gm)].map((m) => m[1]) : []);
@@ -109,7 +119,7 @@ function fixtureFiles(sub: string): string[] {
   for (const sub of ["good", "sabotage-no-suite", "sabotage-provenance"]) {
     for (const f of fixtureFiles(sub)) {
       const doc = JSON.parse(fs.readFileSync(f, "utf8")) as Acquired & { _about?: string };
-      const top = Object.keys(doc).filter((k) => k !== "_about").sort();
+      const top = Object.keys(doc).filter((k) => !k.startsWith("_")).sort();
       const rel = path.relative(ROOT, f);
       check(`${rel}: top-level keys are exactly the worker's`, top.join(",") === [...workerKeys].sort().join(","), { top, workerKeys });
       check(`${rel}: task keys are exactly the worker's`, Object.keys(doc.task).sort().join(",") === [...taskKeys].sort().join(","), Object.keys(doc.task));
@@ -123,7 +133,7 @@ function fixtureFiles(sub: string): string[] {
 }
 
 // ---- database fixture -----------------------------------------------------------------------------
-await query(`TRUNCATE facts, fact_evidence, conflicts, lifecycle, relations, images, image_variants, part_aliases,
+await query(`TRUNCATE facts, fact_evidence, conflicts, lifecycle, relations, images, image_variants, image_candidates, part_aliases,
   part_source_checks, completeness, doc_parts, parts, source_docs, runs, fetch_queue, fetches CASCADE`);
 await query(`INSERT INTO field_dictionary (key, type, unit, label_en, label_de) VALUES
   ('poe_budget', 'n', 'W', 'PoE budget', 'PoE-Budget'),
@@ -268,9 +278,11 @@ check("stats: 2 pages, 4 entries, 2 parts matched, 1 unknown SKU, 1 family-scope
   st.pages === 2 && st.entries === 4 && st.parts_matched === 2 && st.sku_unknown === 1 && st.family_scoped_skipped === 1, st);
 check("stats: 5 raw facts -> 3 ok, 1 unmapped, 1 rejected, 3 inserted",
   st.facts_raw === 5 && st.facts_ok === 3 && st.facts_unmapped === 1 && st.facts_rejected === 1 && st.insert === 3, st);
-check("stats: 2 relations + 1 invalid kind, 1 image + 1 skipped non-vendor, 1 lifecycle, 1 alias, 1 price seen, 2 checks",
-  st.relations === 2 && st.relations_invalid_kind === 1 && st.images === 1 && st.images_skipped_non_vendor === 1 && st.lifecycle === 1
+check("stats: 2 relations + 1 invalid kind, 1 image + 4 skipped non-vendor, 1 lifecycle, 1 alias, 1 price seen, 2 checks",
+  st.relations === 2 && st.relations_invalid_kind === 1 && st.images === 1 && st.images_skipped_non_vendor === 4 && st.lifecycle === 1
     && st.aliases === 1 && st.prices_seen === 1 && st.checks === 2, st);
+check("stats: image candidates are counted for EVERY source — 5 raw URLs across the two pages become 3 candidates and 1 refusal",
+  st.image_candidates === 3 && st.image_candidates_new === 3 && st.image_candidates_refused === 1, st);
 
 type FactRow = { field_key: string; value: unknown; unit: string; raw: string; state: string; tier: number; method: string; doc_id: string; locator: string; run_id: number; extracted_at: string; norm_v: string };
 const factsOf = async (partId: number) => (await query<FactRow>(
@@ -319,6 +331,28 @@ const merakiDoc = docIdFor("https://documentation.meraki.com/MS/nztest/MS120-24P
   check("images: the vendor page's image is written with its source; the distributor's is skipped",
     imgs.length === 1 && imgs[0].part_id === partM && imgs[0].role === "primary" && imgs[0].source_id === sources.get("meraki")!.id
       && imgs[0].source_url === "https://documentation.meraki.com/nztest/ms120-24p.png" && /meraki/.test(imgs[0].license_note) && imgs[0].assignment_method === "source-page", imgs);
+  // ---- image candidates (db/migrations/0007) --------------------------------------------------
+  // The distributor's images are no longer thrown away — they are recorded as CANDIDATES, which
+  // claim nothing. What must hold: one row per picture (the CDN's WebP transcode of a photo is
+  // not a second picture), the spacer never becomes a row at all, and the vendor page's image is
+  // BOTH an assignment and a candidate, because an assignment with no bytes is not a picture.
+  type CandRow = { part_id: number; source_id: number; image_url: string; url_key: string; role: string | null; alt: string | null; status: string; reason: string | null; page_url: string; run_id: number; attempts: number };
+  const cands = (await query<CandRow>(
+    "SELECT part_id, source_id, image_url, url_key, role, alt, status, reason, page_url, run_id, attempts FROM image_candidates ORDER BY part_id, url_key")).rows;
+  check("image_candidates: 3 rows — 2 for the distributor page, 1 for the vendor page — all pending, none decided",
+    cands.length === 3 && cands.filter((c) => c.part_id === partA).length === 2 && cands.filter((c) => c.part_id === partM).length === 1
+      && cands.every((c) => c.status === "pending" && c.reason === null && c.attempts === 0 && c.run_id === run.id), cands);
+  check("image_candidates: the CDN's WebP transcode collapsed into the photo's row — one picture, one candidate, one future request",
+    !cands.some((c) => c.image_url.includes("mf_webp")) && cands.some((c) => c.url_key === "www.provantage.com/media/images/nztest-c9200l.jpg"), cands.map((c) => c.url_key));
+  check("image_candidates: the layout spacer was refused on sight and never became a row",
+    !cands.some((c) => c.image_url.includes("spacer")), cands.map((c) => c.image_url));
+  check("image_candidates: each row keeps the page it was seen on and the source that served it",
+    cands.every((c) => c.page_url.startsWith("http")) && cands.filter((c) => c.source_id === sources.get("provantage")!.id).length === 2
+      && cands.filter((c) => c.source_id === sources.get("meraki")!.id).length === 1, cands);
+  check("image_candidates: the page's own alt is kept as EVIDENCE on the candidate, never as the part's caption",
+    cands.find((c) => c.url_key.endsWith("nztest-c9200l.jpg"))?.alt === "C9200L-24P-4G"
+      && (await query<{ n: number }>("SELECT count(*)::int AS n FROM images WHERE alt_en IS NOT NULL")).rows[0].n === 0, cands);
+
   const lcs = (await query<{ part_id: number; status: string; end_of_sale_date: string | null; last_day_of_support: string | null; successor_sku: string; doc_id: string; verified_at: string; run_id: number }>(
     "SELECT part_id, status::text AS status, end_of_sale_date::text AS end_of_sale_date, last_day_of_support::text AS last_day_of_support, successor_sku, doc_id, verified_at::text AS verified_at, run_id FROM lifecycle")).rows;
   check("lifecycle: the dated end_of_sale_date makes ONE row (eol_announced, N/A siblings NULL); the all-N/A block makes none",
@@ -346,6 +380,77 @@ const merakiDoc = docIdFor("https://documentation.meraki.com/MS/nztest/MS120-24P
   check("the unknown-SKU feed carries the SKU the page named, with source, vendor, name, url and its fact count",
     lines.length === 1 && lines[0].sku === "NZTEST-NOT-A-PART" && lines[0].source === "provantage" && lines[0].vendor === "cisco"
       && lines[0].name === "Cisco something we do not hold" && lines[0].facts === 1 && typeof lines[0].url === "string", lines);
+}
+
+// =================================================================================================
+// The image lane's inbox: re-apply, and the lease scraper/images.py --from-db actually runs
+// =================================================================================================
+// The nightshift applies the same day's directory every cycle. If a re-apply grew the candidate
+// table, the lane's queue would be mostly duplicates of pictures it had already decided on within
+// a week, and the counters would say the opposite of the truth.
+{
+  const before = (await query<{ n: number; ids: string }>("SELECT count(*)::int AS n, string_agg(id::text, ',' ORDER BY id) AS ids FROM image_candidates")).rows[0];
+  const seenBefore = (await query<{ t: string }>("SELECT max(seen_at)::text AS t FROM image_candidates")).rows[0].t;
+  await main([goodDir, "--commit", "--vendor", "cisco"]);
+  const reRun = (await query<{ id: number; stats: Record<string, number> }>("SELECT id, stats FROM runs ORDER BY id DESC LIMIT 1")).rows[0];
+  const after = (await query<{ n: number; ids: string }>("SELECT count(*)::int AS n, string_agg(id::text, ',' ORDER BY id) AS ids FROM image_candidates")).rows[0];
+  check("SABOTAGE-shaped: re-applying the SAME pages adds no candidate — same count, same row ids",
+    after.n === before.n && after.ids === before.ids && after.n === 3, { before, after });
+  sabotages++;
+  check("re-apply: the run says so — image_candidates counted again, image_candidates_new is 0",
+    reRun.stats.image_candidates === 3 && reRun.stats.image_candidates_new === 0, reRun.stats);
+  const seenAfter = (await query<{ t: string }>("SELECT max(seen_at)::text AS t FROM image_candidates")).rows[0].t;
+  check("re-apply: seen_at moves, so a live candidate is distinguishable from one nothing has served since June",
+    seenAfter > seenBefore, { seenBefore, seenAfter });
+}
+{
+  // The lease is SQL inside scraper/images.py. Reading it out of the module and running it here
+  // is the only way the database suite can prove what the lane will actually do — a copy of the
+  // query written into this file would be a second copy, free to drift (CLAUDE.md §10). Same
+  // technique the fixture-shape check above uses on worker.py.
+  const imagesPy = fs.readFileSync(path.join(ROOT, "scraper", "images.py"), "utf8").replace(/\r\n/g, "\n");
+  const m = /LEASE_SQL = """([\s\S]*?)"""/.exec(imagesPy);
+  check("the lease SQL was found in scraper/images.py", !!m && m[1].includes("image_candidates"), m?.[1]?.slice(0, 80));
+  const leaseSql = (m?.[1] ?? "").replace(/%\(max_attempts\)s/g, "$1").replace(/%\(lease_minutes\)s/g, "$2").replace(/%\(limit\)s/g, "$3");
+  type LeaseRow = { id: number; part_id: number; sku: string; tier: number; source_slug: string; image_url: string; vendor_slug: string };
+  const lease = async (limit = 10) => (await query<LeaseRow>(leaseSql, [3, 30, limit])).rows;
+
+  const l1 = await lease();
+  check("lease: ONE candidate per part, not one per URL — partA has two and offers one",
+    l1.length === 2 && new Set(l1.map((r) => r.part_id)).size === 2, l1.map((r) => `${r.sku}:${r.image_url}`));
+  check("lease: the VENDOR source (tier 2) is offered before the distributor (tier 4)",
+    l1[0].tier === 2 && l1[0].source_slug === "meraki" && l1[1].source_slug === "provantage", l1.map((r) => [r.source_slug, r.tier]));
+  check("lease: an images row with NO bytes does not count as having a picture — the meraki assignment is still leasable",
+    (await query<{ n: number }>("SELECT count(*)::int AS n FROM images WHERE part_id = $1 AND storage_path IS NULL", [partM])).rows[0].n === 1
+      && l1.some((r) => r.part_id === partM), l1);
+
+  // SABOTAGE: give partM a DOWNLOADED image. The lane must never spend a request on it again.
+  sabotages++;
+  await query("UPDATE images SET storage_path = 'cisco/deadbeef-1200.webp', width = 1200, height = 1200, format = 'webp', bytes = 1, sha256 = 'x' WHERE part_id = $1", [partM]);
+  const l2 = await lease();
+  check("SABOTAGE lease: a part that already has a downloaded image is never leased again",
+    l2.length === 1 && l2[0].part_id === partA, l2.map((r) => r.sku));
+
+  // SABOTAGE: a decided candidate must never come back. rejected is terminal; failed retries
+  // while it has attempts left and then stops.
+  sabotages++;
+  await query("UPDATE image_candidates SET status = 'rejected', reason = 'placeholder-url:logo' WHERE part_id = $1", [partA]);
+  check("SABOTAGE lease: a REJECTED candidate is terminal — the lease is empty", (await lease()).length === 0);
+  await query("UPDATE image_candidates SET status = 'failed', reason = 'http-503', attempts = 3 WHERE part_id = $1", [partA]);
+  check("SABOTAGE lease: a failed candidate out of attempts is not leased either", (await lease()).length === 0);
+  await query("UPDATE image_candidates SET attempts = 1 WHERE part_id = $1", [partA]);
+  check("lease: a failed candidate WITH attempts left is retried — 'could not check' is not 'is broken'", (await lease()).length === 1);
+  await query("UPDATE image_candidates SET leased_at = now() WHERE part_id = $1", [partA]);
+  check("lease: a candidate leased a moment ago is not leased twice", (await lease()).length === 0);
+  await query("UPDATE image_candidates SET leased_at = now() - interval '31 minutes' WHERE part_id = $1", [partA]);
+  check("lease: a lease older than the rules' 30 minutes is reclaimed rather than stranded", (await lease()).length === 1);
+
+  // put it back the way the sabotage cases below expect to find it
+  await query("UPDATE image_candidates SET status = 'pending', reason = NULL, attempts = 0, leased_at = NULL");
+  await query("UPDATE images SET storage_path = NULL, width = NULL, height = NULL, format = NULL, bytes = NULL, sha256 = NULL WHERE part_id = $1", [partM]);
+  check("the lease sabotage cases restored the rows they changed",
+    (await query<{ n: number }>("SELECT count(*)::int AS n FROM image_candidates WHERE status = 'pending' AND leased_at IS NULL")).rows[0].n === 3
+      && (await lease()).length === 2);
 }
 
 // =================================================================================================
@@ -420,7 +525,7 @@ cleanup();
 check("the cached pages written for this suite are gone again", cacheFiles.every((f) => !fs.existsSync(f)));
 // The fixture parts have no completeness rows; left behind they would trip invariants.test.ts
 // ("a hardware part with no completeness row") in a later suite of the same run.
-await query(`TRUNCATE facts, fact_evidence, conflicts, lifecycle, relations, images, image_variants, part_aliases,
+await query(`TRUNCATE facts, fact_evidence, conflicts, lifecycle, relations, images, image_variants, image_candidates, part_aliases,
   part_source_checks, completeness, doc_parts, parts, source_docs, runs, fetch_queue, fetches CASCADE`);
 await closePool();
 

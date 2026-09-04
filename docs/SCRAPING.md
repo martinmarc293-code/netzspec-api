@@ -37,7 +37,22 @@ Optional module attributes the worker reads:
 | `BINARY_DATASHEETS` | datasheet tasks go down the PDF lane even without a `.pdf` suffix |
 | `PDF_ORIGIN_PAGE` | the referer for the PDF lane when the task carries no origin |
 
-Five rules that are not negotiable, each of which has cost a day:
+Six rules that are not negotiable, each of which has cost a day:
+
+0. **`discover()` may only propose the vendor's own parts, and a search page is not a part.** The
+   task carries `vendor` (the worker reads it off the task's part row), and a result row states
+   its manufacturer. A distributor sells the vendor's part *and* three or four "compatible"
+   copies of it, and a copy's part number IS the original PID with a house suffix — `10053H-AO`
+   (AddOn), `-AX` (Axiom), `-ENC` (ENET), `-ST` (StarTech), `-VEL` (Veloso) — so no rule about the
+   NUMBER can tell them apart. Over the 639 provantage search pages of 4 Sep 2026 the old
+   number-only rule proposed 312 part pages of which 199 were somebody else's product; the
+   manufacturer test drops those 199 and loses no Cisco row. With no vendor on the task the
+   adapter refuses to guess: the exact part only, never a compatible brand. A row that is the
+   SAME part (the key, `=`, `-RF`, `-WS`) carries `inherit_part` so the page it opens reaches the
+   apply with a `part_id`; a sibling PID never does. And a results grid has no specification to
+   give: `extract()` returns no `sku` and no facts for it, and a search that matched nothing is
+   `not_listed` — the site's answer, not an entry. 176 router-switch search pages became 176
+   entries whose part number was the string "Search results for: '10-2003-01'".
 
 1. **Facts are RAW.** `{"label": "<as printed>", "value": "<as printed>", "locator": "..."}`. No
    unit conversion, no cleanup, no field keys. Mapping is `src/core/deepSpecMap.ts` with the rules
@@ -125,6 +140,33 @@ questions — zero yield, dead discovery, a not-listed streak on real PIDs, and 
 source's own seven-day median — and pauses a source that falls off them.
 `scraper/tools/watchdog.py` names each of its thresholds once, at the top of the file; the numbers
 in the table above are the pre-enable bar and live here.
+
+### Yield is measured at the database
+
+Every threshold above counts what the **adapter saw**. None of them counts what reached a part,
+and on 4 September 2026 those two numbers were opposite for a whole day. The provantage lane
+fetched 992 pages, the adapter read facts off 208 of them, the watchdog called the source
+healthy — and `apply-acquired` run #29 wrote nothing at all: `entries 208, parts_matched 0,
+sku_unknown 208`. Runs #24–#31 all landed zero. Every one of the 208 pages was a third party's
+"compatible" copy of the searched PID, discovered because the search-result rows were followed
+without checking whose part they were. A day of politeness slots, and no monitor could see it,
+because *"the adapter extracted a fact"* and *"a fact reached a part"* are different claims and
+only the second one is the product.
+
+So the lane's real yield is read from the `runs` row the apply writes, per source, over the
+watchdog's window: **entries → parts matched → facts inserted**. `NO LANDING` fires when a source
+produced ≥ 20 entries and matched no part at all; `LOW LANDING` below 30 % matched. Both are
+report-only — a lane that is fetching correctly and failing to land is a catalogue or discovery
+problem, not a reason to switch the source off — and both print the top unknown SKUs from
+`runs/reports/unknown-skus-<source>-<day>.jsonl`, because "0 landed" with no examples does not
+tell anyone what the lane spent the day chasing. When one apply run covers several sources its
+numbers cannot be split, so it is recorded against each and alarms on none.
+
+The same section reports `STALE RUN`: a `runs` row still `running` after 90 minutes, or still
+`running` while a later run of the same kind has already succeeded. A killed process never
+reaches the rollback in `withRun`, so the row stays open with its partial facts attached; the
+alarm names the run, its age and how many facts already carry its `run_id`. It is report-only and
+the watchdog never touches such a run — closing or rolling one back belongs to the store.
 
 ---
 
@@ -305,6 +347,28 @@ The watchdog's report ends with the **top unmapped labels per source** — the l
 emitted that no rule in `data/schema/attribute-aliases.en.json` maps. That list is the vocabulary
 backlog, in frequency order, and it is the only place that says which alias rule is worth writing
 next.
+
+### The image lane: candidates, then bytes
+
+Almost every part page an adapter reads prints a product photo, and `result.images` has carried
+those URLs since the first adapter. Until 4 Sep 2026 `apply-acquired` kept them only for a *vendor*
+source and dropped the rest, so 61,229 hardware parts had no picture while their pictures went past
+every night. They are now recorded for **every** source as `image_candidates` (migration 0007) —
+a claim that this page showed this URL for this part, not an assignment, identified by
+`(part_id, source_id, url_key)` so the nightshift re-applying the same directory adds nothing.
+`scraper/images.py run --from-db --limit 40`, a step in `nightshift.ps1`, then leases one candidate
+per part **for parts with no downloaded image**, vendor sources (tier 1–2) before distributors and
+larger originals before smaller, fetches through the same Chrome at the source's own
+`politeness_ms`, and either promotes it to an `images` row with its WebP variants or marks it
+`rejected` **with the reason** — `placeholder-url:logo`, `shared-across-parts:41`,
+`tiny-image:64x64`, `unsupported-format:svg`, `generic-content:7`. A fetch that merely failed is
+`failed`, not `rejected`, and is retried while it has attempts left: "could not check" is not "is
+broken". Be strict here — a wrong picture on a part page is worse than none, and a distributor's
+`role: "primary"` is very often the category banner. The refusal rules live in **one** file,
+`data/schema/image-rules.json`, because both `scraper/images.py` and `src/core/imageCandidate.ts`
+enforce them; `tests/imageCandidate.test.ts` runs the two over the same corpus and fails if they
+ever disagree. Adapter authors need do nothing new: emit the URL, the `role` and the raw `alt` as
+evidence, resolved to an absolute URL, and let the lane decide.
 
 ### Failure states that must never be silent
 

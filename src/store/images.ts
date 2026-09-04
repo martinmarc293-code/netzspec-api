@@ -74,3 +74,58 @@ export async function setMerchantReadiness(imageId: number, ready: boolean, issu
     [imageId, ready, JSON.stringify(issues)]);
   if (r.rowCount === 0) throw new Error(`setMerchantReadiness: image ${imageId} does not exist`);
 }
+
+// ---------------------------------------------------------------------------------------------
+// candidates: the inbox the fetch lane reads (db/migrations/0007_image_candidates.sql)
+// ---------------------------------------------------------------------------------------------
+// A candidate is a page's CLAIM that a URL shows this part. Recording one costs nothing and
+// decides nothing; the lane fetches the bytes and either promotes it or rejects it with a reason.
+// Identity is (part_id, source_id, url_key), so the nightshift re-applying the same day's pages
+// touches one row instead of growing the table.
+
+export type ImageCandidateInput = {
+  source_id: number;
+  page_url: string;
+  image_url: string;
+  url_key: string;
+  role?: string | null;
+  alt?: string | null;
+  kind?: string | null;
+  width_hint?: number | null;
+  height_hint?: number | null;
+};
+
+/**
+ * Record (or refresh) one candidate. Returns whether the row was new — the counter the operator
+ * asked for ("how many candidates did today's pages add").
+ *
+ * A repeat NEVER resets a decision: a candidate already `done` or `rejected` keeps its status,
+ * reason and image_id, because the page saying the same thing again is not new evidence. What a
+ * repeat may do is upgrade the URL to a larger rendition and fill an alt the first sighting
+ * lacked, and it always moves `seen_at` so a stale candidate is distinguishable from a live one.
+ */
+export async function recordImageCandidate(
+  partId: number, input: ImageCandidateInput, runId: number | null, db: Queryable = getPool(),
+): Promise<{ id: number; inserted: boolean }> {
+  const r = await db.query<{ id: number; inserted: boolean }>(
+    `INSERT INTO image_candidates (part_id, source_id, page_url, image_url, url_key, role, alt, kind, width_hint, height_hint, run_id)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+     ON CONFLICT (part_id, source_id, url_key) DO UPDATE SET
+       seen_at     = now(),
+       page_url    = EXCLUDED.page_url,
+       image_url   = CASE WHEN image_candidates.status = 'pending'
+                           AND COALESCE(EXCLUDED.width_hint, 2147483647) > COALESCE(image_candidates.width_hint, 2147483647)
+                          THEN EXCLUDED.image_url ELSE image_candidates.image_url END,
+       width_hint  = CASE WHEN image_candidates.status = 'pending'
+                           AND COALESCE(EXCLUDED.width_hint, 2147483647) > COALESCE(image_candidates.width_hint, 2147483647)
+                          THEN EXCLUDED.width_hint ELSE image_candidates.width_hint END,
+       height_hint = COALESCE(image_candidates.height_hint, EXCLUDED.height_hint),
+       role        = COALESCE(image_candidates.role, EXCLUDED.role),
+       alt         = COALESCE(image_candidates.alt, EXCLUDED.alt),
+       kind        = COALESCE(image_candidates.kind, EXCLUDED.kind)
+     RETURNING id, (xmax = 0) AS inserted`,
+    [partId, input.source_id, input.page_url, input.image_url, input.url_key, input.role ?? null, input.alt ?? null,
+      input.kind ?? null, input.width_hint ?? null, input.height_hint ?? null, runId],
+  );
+  return { id: r.rows[0].id, inserted: r.rows[0].inserted };
+}

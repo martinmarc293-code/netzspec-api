@@ -1,7 +1,8 @@
 {
+ "_about_images": "The four image URLs are shaped like the ones runs/acquired/provantage and router-switch really carry: a product photo, the SAME photo as the CDN's WebP transcode (one candidate, one request), a layout spacer the adapter could not tell from a photo, and a second real view. Expect 3 image_candidates and 1 refusal, and no images row at all because provantage is a distributor.",
  "_about": "Shaped exactly like scraper/worker.py write_text: {source, task{id,task,key,part_id}, url, final_url, fetched_at, fetch_id, cached, cache_path, result=RESULT}. `cached` says the page came off disk rather than the network; the worker gained it and these fixtures did not, which is what the top-level-key check caught. task.part_id is null here; tests/db/apply-acquired.test.ts fills it with the fixture part's id to drive the anchored path. cache_path = sha1(url) + '.html' (netzscrape._key); the test writes that page under scraper/cache/ and removes it afterwards.",
  "source": "provantage",
- "task": {"id": 1, "task": "search", "key": "C9200L-24P-4G", "part_id": null},
+ "task": {"id": 1, "task": "search", "key": "C9200L-24P-4G", "part_id": null, "vendor": "cisco"},
  "url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-C9200L-24P-4G",
  "final_url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-C9200L-24P-4G",
  "fetched_at": "2026-09-03T10:15:00+00:00",
@@ -18,7 +19,12 @@
    {"label": "Switching capacity", "value": "n/a", "locator": "t1:r5:c2"}
   ],
   "aliases": [{"kind": "upc", "value": "889728171533"}],
-  "images": [{"url": "https://www.provantage.com/images/nztest-c9200l.jpg", "role": "primary", "alt": "C9200L-24P-4G"}],
+  "images": [
+   {"url": "https://www.provantage.com/media/images/nztest-c9200l.jpg", "role": "primary", "alt": "C9200L-24P-4G"},
+   {"url": "https://www.provantage.com/media/mf_webp/jpg/media/images/nztest-c9200l.jpg", "role": "gallery"},
+   {"url": "https://www.provantage.com/i/spacer.gif", "role": "gallery", "alt": ""},
+   {"url": "https://www.provantage.com/media/images/nztest-c9200l-rear.jpg", "role": "gallery", "alt": "rear view"}
+  ],
   "relations": [
    {"kind": "compatible", "sku": "C9200-STACK-KIT", "note": "stacking kit"},
    {"kind": "replaces", "sku": "WS-C2960L-24PS-LL", "note": "not a relation_kind"}

@@ -1,7 +1,7 @@
 {
  "_about": "A VENDOR page (sources.meraki, kind vendor, tier 2): its facts must land as verified, its image must be written, its dated end_of_sale_date must create a lifecycle row. task.part_id stays null: the part is found by --vendor + SKU.",
  "source": "meraki",
- "task": {"id": 2, "task": "part-page", "key": "MS120-24P", "part_id": null},
+ "task": {"id": 2, "task": "part-page", "key": "MS120-24P", "part_id": null, "vendor": "cisco"},
  "url": "https://documentation.meraki.com/MS/nztest/MS120-24P",
  "final_url": "https://documentation.meraki.com/MS/nztest/MS120-24P",
  "fetched_at": "2026-09-03T10:16:00+00:00",

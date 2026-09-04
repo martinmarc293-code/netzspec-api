@@ -1,7 +1,7 @@
 {
  "_about": "SABOTAGE: cdw is a real, enabled distributor source with NO adapter suite (there is no tests/scraper/test_cdw.py). The cached page contains the value, so precision is 1.0 and the gate can fail for exactly one reason: recall = 0 because the suite is missing.",
  "source": "cdw",
- "task": {"id": 3, "task": "search", "key": "C9200L-48P-4G", "part_id": null},
+ "task": {"id": 3, "task": "search", "key": "C9200L-48P-4G", "part_id": null, "vendor": "cisco"},
  "url": "https://www.cdw.com/search/?key=NZTEST-C9200L-48P-4G",
  "final_url": "https://www.cdw.com/search/?key=NZTEST-C9200L-48P-4G",
  "fetched_at": "2026-09-03T10:17:00+00:00",

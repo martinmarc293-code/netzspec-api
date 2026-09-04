@@ -1,7 +1,15 @@
 """scraper/images.py — product photos, self-hosted, in the shapes Google Merchant wants.
 
+    python3.11 scraper/images.py run --from-db --limit 40 [--cdp http://127.0.0.1:9222] [--dry-run] [--no-upload]
     python3.11 scraper/images.py run --from-picks data/reference/part-images.json --tiers exact,form,series [--limit N] [--cdp http://127.0.0.1:9222] [--db]
     python3.11 scraper/images.py process <image-file> [--out-dir runs/images]      one file, prints what it would record
+    python3.11 scraper/images.py keys <url>...                                     the url_key / placeholder decision, as JSON
+
+Two modes, and the difference matters. `--from-picks` is the ONE-OFF: an operator-curated file of
+URLs, run once on 3 Sep 2026, which linked 2,736 Cisco parts and left 61,229 hardware parts with
+no picture at all. `--from-db` is the CONTINUOUS lane: it leases what the nightly workers already
+saw (image_candidates, db/migrations/0007), fetches, validates, promotes or refuses with a named
+reason, ships the files to the box and closes a `runs` row. Nightshift runs it every cycle.
 
 What it guarantees:
   * Every downloaded body is validated by its magic bytes before anything is kept. A 403 page
@@ -66,6 +74,102 @@ def load_env() -> dict:
                 env[k.strip()] = v.strip().strip('"').strip("'")
     env.update({k: v for k, v in os.environ.items() if k in ("DATABASE_URL", "IMAGE_DIR")})
     return env
+
+
+# ---------------------------------------------------------------------------------------------
+# the refusal rules — ONE file, shared with src/core/imageCandidate.ts
+# ---------------------------------------------------------------------------------------------
+# Two languages enforce these. Two copies would drift the day one of them changed and nothing
+# would notice (D:\Project\CLAUDE.md section 10). tests/scraper/test_image_rules.py runs this
+# module's url_key/placeholder_reason and the TypeScript pair over the SAME awkward corpus and
+# fails if they ever disagree.
+
+RULES_FILE = ROOT / "data" / "schema" / "image-rules.json"
+_RULES: dict | None = None
+
+
+def rules() -> dict:
+    """The rules file, read once. Never falls back to a default: a lane running on silent
+    defaults would refuse nothing and nobody would see it."""
+    global _RULES
+    if _RULES is None:
+        if not RULES_FILE.exists():
+            raise SystemExit(f"images: {RULES_FILE} does not exist")
+        r = json.load(open(RULES_FILE, encoding="utf-8"))
+        for k in ("placeholder_url_substrings", "url_key_strip_segments", "max_parts_per_url_key",
+                  "max_parts_per_sha256", "min_long_side_px", "merchant_min_long_side_px", "max_attempts", "lease_minutes"):
+            if k not in r:
+                raise SystemExit(f"images: {RULES_FILE} has no \"{k}\"")
+        _RULES = r
+    return _RULES
+
+
+def url_key(url: str) -> str | None:
+    """The identity of a picture: lower-cased host + path, query dropped, rendition segments
+    removed, adjacent duplicates collapsed. None when it is not an http(s) URL. Mirrors
+    imageUrlKey() in src/core/imageCandidate.ts exactly — see tests/scraper/test_image_rules.py."""
+    from urllib.parse import unquote
+    try:
+        u = urlparse(url)
+    except ValueError:
+        return None
+    if u.scheme not in ("http", "https") or not u.hostname:
+        return None
+    strip = {s.lower() for s in rules()["url_key_strip_segments"]}
+    segs = [unquote(s).lower() for s in u.path.split("/") if s]
+    if not segs:
+        return None
+    last = segs[-1]                                     # the filename is never a rendition segment
+    kept = [s for s in segs[:-1] if s not in strip]
+    collapsed: list[str] = []
+    for s in kept:
+        if not collapsed or collapsed[-1] != s:
+            collapsed.append(s)
+    return u.hostname.lower() + "/" + "/".join(collapsed + [last])
+
+
+def size_hint(url: str) -> tuple[int | None, int | None]:
+    """The URL's own opinion of its size (?width=316&height=135), used ONLY to prefer the larger
+    of two renditions. Never recorded as the image's dimensions — those are measured."""
+    from urllib.parse import parse_qs
+    try:
+        q = parse_qs(urlparse(url).query)
+    except ValueError:
+        return (None, None)
+
+    def num(keys: tuple[str, ...]) -> int | None:
+        for k in keys:
+            v = (q.get(k) or [""])[0]
+            if v.isdigit() and 2 <= len(v) <= 5:
+                return int(v)
+        return None
+    return (num(("width", "w", "maxwidth", "sw")), num(("height", "h", "maxheight", "sh")))
+
+
+def placeholder_reason(url: str) -> str | None:
+    """A URL this lane refuses to spend a request on, with the reason, or None."""
+    k = url_key(url)
+    if k is None:
+        return "not-an-http-url"
+    for s in rules()["placeholder_url_substrings"]:
+        if s.lower() in k:
+            return f"placeholder-url:{s}"
+    return None
+
+
+def content_reason(rec: dict) -> str | None:
+    """Why the DOWNLOADED bytes are refused, or None. Everything measurable from the file alone
+    lives here so tests/scraper/test_image_rules.py can drive it without a browser or a database;
+    the counting rule (generic-content) needs the corpus and is decided in the lane.
+
+    Note what is NOT a refusal: 'below-800px' and 'not-white-background' are merchant ISSUES.
+    An image that is 600 px stays on record carrying its reason so the gap is visible and fixable
+    (src/store/images.ts). Only 'too small to be a photograph at all' refuses."""
+    if not rec.get("ok"):
+        return rec.get("issue") or "unprocessable"
+    if max(rec["width"], rec["height"]) < rules()["min_long_side_px"]:
+        return f"tiny-image:{rec['width']}x{rec['height']}"
+    return None
 
 
 # ---------------------------------------------------------------------------------------------
@@ -236,6 +340,369 @@ def run(args: argparse.Namespace) -> int:
     return 0
 
 
+# ---------------------------------------------------------------------------------------------
+# the continuous lane: candidates from the database
+# ---------------------------------------------------------------------------------------------
+# `run --from-picks` was a one-off: an operator-curated file of URLs, run once on 3 Sep 2026, and
+# it left 61,229 hardware parts with no picture. `run --from-db` is the same machinery driven by
+# what the workers already see every night (db/migrations/0007_image_candidates.sql).
+#
+# Order of business, and why:
+#   lease      one candidate per part, ONLY for parts with no downloaded image, vendor sources
+#              (tier 1-2) before distributors, larger renditions before smaller. A part that
+#              already has a picture is never fetched for again — the cheapest refusal there is.
+#   refuse     before spending a request: the substring rules, and the count rule a substring
+#              cannot express (one URL claimed by more than max_parts_per_url_key parts is a
+#              category banner, not this part's photo).
+#   fetch      through the scraper's own Chrome, at the SOURCE's politeness_ms, with the page it
+#              came from as the Referer — same manners as the workers.
+#   refuse     again, on the bytes: not an image, a format we cannot render, too small to be a
+#              photograph, or content already assigned to more parts than a series photo ever is.
+#   promote    variants, files, images + image_variants rows, candidate -> done.
+# Everything happens inside one `runs` row, and every refusal is stored with its named reason.
+
+SSH_HOST = os.environ.get("NETZSPEC_SSH_HOST", "root@77.42.72.81")
+SSH_KEY = os.environ.get("NETZSPEC_SSH_KEY", str(Path.home() / ".ssh" / "dubaifix_hetzner"))
+BOX_IMAGE_DIR = os.environ.get("NETZSPEC_BOX_IMAGE_DIR", "/var/lib/netzspec-api/images")
+
+
+def alnum(s: str) -> str:
+    return "".join(ch for ch in s.upper() if ch.isalnum())
+
+
+def sku_tokens(url: str) -> set[str]:
+    """Part-number-shaped strings the FILENAME contains, upper-cased.
+
+    Why this exists: meraki serves MR45.png as the primary image of the MR46 page. The file is a
+    real product photo of a real product - just not this one - and nothing about its size, format
+    or background says so. The filename does. Tokens are the whole stem, each piece of it, and
+    each adjacent pair rejoined with a dash, because a Cisco PID is as often 'MS120-24P' as 'MR45'.
+    """
+    key = url_key(url)
+    if key is None:
+        return set()
+    stem = key.rsplit("/", 1)[-1]
+    if "." in stem:
+        stem = stem.rsplit(".", 1)[0]
+    parts = [p for p in "".join(ch if (ch.isalnum() or ch == "-") else " " for ch in stem).split() if p]
+    pieces: list[str] = []
+    for p in parts:
+        pieces.append(p)
+        pieces.extend(x for x in p.split("-") if x)
+    out = {stem.upper()} | {p.upper() for p in pieces}
+    for a, b in zip(pieces, pieces[1:]):
+        out.add(f"{a}-{b}".upper())
+    return {t for t in out if len(t) >= 3}
+
+
+def git_sha() -> str | None:
+    import subprocess
+    try:
+        r = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True, timeout=20)
+        return r.stdout.strip() or None
+    except Exception:  # noqa
+        return None
+
+
+# PRIMARY ONLY, and why. The first dry run over the real corpus (4 Sep 2026) leased, for five of
+# ten parts, an ANTENNA RADIATION DIAGRAM: meraki's documentation pages carry 5ghz_wireless.png,
+# 24ghz_scanning.png and Coverage-Patterns-6Ghz.png next to the product shot, and `all_images`
+# records them all. Every one is a real PNG, well over 300 px, on a white background, and would
+# have rendered on a part page as if it were the product. No substring list would have caught
+# them. What DOES separate them is what the page itself said: the product shot is `primary`, the
+# diagrams are `gallery`. So a part's FIRST picture may only come from a primary candidate. A
+# gallery image stays on record and is never promoted; a source that marks nothing primary gives
+# its parts no picture, which is a visible gap rather than a confident wrong answer.
+#
+# The ordering was wrong in the same run and for a related reason: "no width hint means the
+# original" is true when comparing two renditions of ONE file and false across different files.
+# MR36H's real photo (?width=273) lost to a diagram with no query at all. Across files a real
+# hint beats no hint.
+LEASE_SQL = """
+WITH open AS (
+  SELECT c.id, c.part_id, c.source_id, c.page_url, c.image_url, c.url_key, c.role, c.alt, c.width_hint,
+         s.tier, s.slug AS source_slug, s.politeness_ms,
+         row_number() OVER (PARTITION BY c.part_id
+                            ORDER BY s.tier, COALESCE(c.width_hint, 0) DESC, c.id) AS rn
+    FROM image_candidates c
+    JOIN sources s ON s.id = c.source_id
+   WHERE (c.status = 'pending' OR (c.status = 'failed' AND c.attempts < %(max_attempts)s))
+     AND c.role = 'primary'
+     AND (c.leased_at IS NULL OR c.leased_at < now() - make_interval(mins => %(lease_minutes)s))
+     AND NOT EXISTS (SELECT 1 FROM images i WHERE i.part_id = c.part_id AND i.storage_path IS NOT NULL)
+)
+SELECT o.*, p.sku, v.slug AS vendor_slug
+  FROM open o
+  JOIN parts p ON p.id = o.part_id
+  JOIN vendors v ON v.id = p.vendor_id
+ WHERE o.rn = 1
+ ORDER BY o.tier, COALESCE(o.width_hint, 0) DESC, o.id
+ LIMIT %(limit)s
+"""
+
+
+def known_sku_map(db, batch: list[dict]) -> dict[str, set[str]]:
+    """Per vendor, which of the batch's filename tokens are REAL part numbers in the catalogue.
+    One query for the whole batch, not one per candidate."""
+    by_vendor: dict[str, set[str]] = {}
+    for c in batch:
+        by_vendor.setdefault(c["vendor_slug"], set()).update(sku_tokens(c["image_url"]))
+    out: dict[str, set[str]] = {}
+    for vendor, toks in by_vendor.items():
+        if not toks:
+            out[vendor] = set(); continue
+        rows = db.execute(
+            "SELECT upper(p.sku) AS sku FROM parts p JOIN vendors v ON v.id = p.vendor_id WHERE v.slug = %s AND upper(p.sku) = ANY(%s)",
+            (vendor, sorted(toks))).fetchall()
+        out[vendor] = {r["sku"] for r in rows}
+    return out
+
+
+def other_sku_reason(c: dict, known: dict[str, set[str]]) -> str | None:
+    """'This filename names a DIFFERENT part we hold' — the refusal for meraki's MR45.png on the
+    MR46 page. Silent about a filename that names nothing, or names this part: only a positive
+    identification of somebody else's product refuses."""
+    named = sku_tokens(c["image_url"]) & known.get(c["vendor_slug"], set())
+    if not named:
+        return None
+    mine = alnum(c["sku"])
+    if any(alnum(n) == mine for n in named):
+        return None
+    return "names-another-sku:" + sorted(named)[0]
+
+
+def decide(db, cid: int, status: str, reason: str | None, image_id: int | None = None) -> None:
+    db.execute("UPDATE image_candidates SET status = %s, reason = %s, image_id = COALESCE(%s, image_id), decided_at = now() WHERE id = %s",
+               (status, reason, image_id, cid))
+
+
+def upload_to_box(out_dir: Path, rel_paths: list[str]) -> dict:
+    """Ship the files this run wrote to the API box and CHECK they arrived. Returns a record; a
+    failure is reported, never swallowed — an image row whose file is only on the laptop is a 404
+    on the live site and every automated check scores it as present."""
+    import subprocess, tarfile, tempfile
+    rel = sorted(set(rel_paths))
+    if not rel:
+        return {"attempted": False, "reason": "nothing new to upload"}
+    if not Path(SSH_KEY).exists():
+        return {"attempted": False, "reason": f"ssh key not found at {SSH_KEY}"}
+    tmp = Path(tempfile.mkdtemp(prefix="nz-img-")) / "batch.tar.gz"
+    with tarfile.open(tmp, "w:gz") as tf:
+        for r in rel:
+            f = out_dir / r
+            if f.exists():
+                tf.add(f, arcname=r)
+    remote_tar = "/tmp/netzspec-images-batch.tar.gz"
+    scp = subprocess.run(["scp", "-i", SSH_KEY, "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", str(tmp), f"{SSH_HOST}:{remote_tar}"],
+                         capture_output=True, text=True, timeout=600)
+    if scp.returncode != 0:
+        return {"attempted": True, "ok": False, "files": len(rel), "error": (scp.stderr or scp.stdout).strip()[:300]}
+    # extract, then COUNT what is actually on the box: "uploaded" must mean the file is there
+    cmd = (f"mkdir -p {BOX_IMAGE_DIR} && tar -xzf {remote_tar} -C {BOX_IMAGE_DIR} && rm -f {remote_tar} && "
+           f"cd {BOX_IMAGE_DIR} && ls -1 " + " ".join("'" + r + "'" for r in rel) + " 2>/dev/null | wc -l")
+    ex = subprocess.run(["ssh", "-i", SSH_KEY, "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", SSH_HOST, cmd],
+                        capture_output=True, text=True, timeout=600)
+    landed = 0
+    for line in ex.stdout.strip().splitlines()[::-1]:
+        if line.strip().isdigit():
+            landed = int(line.strip()); break
+    return {"attempted": True, "ok": ex.returncode == 0 and landed == len(rel), "files": len(rel), "landed": landed,
+            "error": (ex.stderr or "").strip()[:300] or None}
+
+
+def run_from_db(args: argparse.Namespace) -> int:
+    import psycopg
+    from psycopg.rows import dict_row
+    R = rules()
+    env = load_env()
+    out_dir = Path(env.get("IMAGE_DIR") or (ROOT / "runs" / "images"))
+    out_dir.mkdir(parents=True, exist_ok=True)
+    manifest = out_dir / "manifest.jsonl"
+    db = psycopg.connect(env["DATABASE_URL"], autocommit=True, row_factory=dict_row)
+
+    batch = db.execute(LEASE_SQL, {"max_attempts": R["max_attempts"], "lease_minutes": R["lease_minutes"],
+                                   "limit": args.limit or 40}).fetchall()
+    print(f"leased {len(batch)} candidates (rules {R['version']}, limit {args.limit or 40})")
+    if args.dry_run:
+        shared = {r["url_key"]: r["n"] for r in db.execute(
+            "SELECT url_key, count(DISTINCT part_id) AS n FROM image_candidates WHERE url_key = ANY(%s) GROUP BY 1",
+            ([c["url_key"] for c in batch],)).fetchall()}
+        known_skus = known_sku_map(db, batch)
+        for c in batch:
+            pre = placeholder_reason(c["image_url"])
+            if not pre and shared.get(c["url_key"], 0) > R["max_parts_per_url_key"]:
+                pre = f"shared-across-parts:{shared[c['url_key']]}"
+            if not pre:
+                pre = other_sku_reason(c, known_skus)
+            print(f"  DRY {c['vendor_slug']}:{c['sku']:<28} tier{c['tier']} {c['source_slug']:<14} "
+                  f"{'REFUSE ' + pre if pre else 'fetch'} {c['image_url'][:110]}")
+        db.close()
+        return 0
+    if not batch:
+        db.close()
+        return 0
+
+    ids = [c["id"] for c in batch]
+    db.execute("UPDATE image_candidates SET leased_at = now(), attempts = attempts + 1 WHERE id = ANY(%s)", (ids,))
+    run_id = db.execute(
+        "INSERT INTO runs (kind, inputs, git_sha, notes) VALUES ('images', %s::jsonb, %s, %s) RETURNING id",
+        (json.dumps({"mode": "from-db", "limit": args.limit or 40, "leased": len(batch),
+                     "rules_version": R["version"], "upload": not args.no_upload}), git_sha(),
+         "image lane: candidates -> fetched, validated, WebP variants")).fetchone()["id"]
+    print(f"run #{run_id}")
+
+    shared = {r["url_key"]: r["n"] for r in db.execute(
+        "SELECT url_key, count(DISTINCT part_id) AS n FROM image_candidates WHERE url_key = ANY(%s) GROUP BY 1",
+        ([c["url_key"] for c in batch],)).fetchall()}
+    known_skus = known_sku_map(db, batch)
+
+    counts = {"leased": len(batch), "fetched": 0, "promoted": 0, "rejected": 0, "failed": 0, "variants": 0}
+    reasons: dict[str, int] = {}
+    per_part: list[dict] = []
+    new_files: list[str] = []
+    browser = None
+    status = "failed"
+    try:
+        for c in batch:
+            tag = f"{c['vendor_slug']}:{c['sku']}"
+            # ---- refusals that cost no request -------------------------------------------
+            reason = placeholder_reason(c["image_url"])
+            if not reason and shared.get(c["url_key"], 0) > R["max_parts_per_url_key"]:
+                reason = f"shared-across-parts:{shared[c['url_key']]}"
+            if not reason:
+                reason = other_sku_reason(c, known_skus)
+            if reason:
+                decide(db, c["id"], "rejected", reason)
+                counts["rejected"] += 1; reasons[reason.split(":")[0]] = reasons.get(reason.split(":")[0], 0) + 1
+                per_part.append({"sku": tag, "outcome": "rejected", "reason": reason, "url": c["image_url"]})
+                print(f"  reject {tag}: {reason}")
+                continue
+            if browser is None:
+                from worker import Browser
+                browser = Browser(mode="cdp" if args.cdp else "profile", cdp_url=args.cdp or "http://127.0.0.1:9222", headless=not args.cdp)
+            # ---- fetch ---------------------------------------------------------------------
+            st, body = None, b""
+            for attempt in (1, 2):
+                try:
+                    r = browser.fetch_binary(c["image_url"], politeness_ms=max(350, c["politeness_ms"] or 350), referer=c["page_url"])
+                    st, body = r["status"], r["body"]
+                except Exception as e:  # noqa
+                    st, body = None, b""
+                    print(f"  fetch-error {tag}: {str(e)[:120]}")
+                if st == 200 and body:
+                    break
+                time.sleep(2)
+            if st != 200 or not body:
+                reason = f"http-{st}" if st else "fetch-error"
+                decide(db, c["id"], "failed", reason)
+                counts["failed"] += 1; reasons[reason] = reasons.get(reason, 0) + 1
+                per_part.append({"sku": tag, "outcome": "failed", "reason": reason, "url": c["image_url"]})
+                print(f"  fail   {tag}: {reason}")
+                continue
+            counts["fetched"] += 1
+            sha = hashlib.sha256(body).hexdigest()
+            fmt = sniff(body)
+            if fmt is None:
+                reason = f"not-an-image:{body[:8].hex()}"
+                decide(db, c["id"], "rejected", reason)
+                counts["rejected"] += 1; reasons["not-an-image"] = reasons.get("not-an-image", 0) + 1
+                per_part.append({"sku": tag, "outcome": "rejected", "reason": reason, "url": c["image_url"]})
+                print(f"  reject {tag}: {reason}")
+                continue
+            # the same test as shared-across-parts, on the BYTES: two URLs can serve one placeholder
+            nsha = db.execute("SELECT count(DISTINCT part_id) AS n FROM images WHERE sha256 = %s", (sha,)).fetchone()["n"]
+            if nsha >= R["max_parts_per_sha256"]:
+                reason = f"generic-content:{nsha}"
+                decide(db, c["id"], "rejected", reason)
+                counts["rejected"] += 1; reasons["generic-content"] = reasons.get("generic-content", 0) + 1
+                per_part.append({"sku": tag, "outcome": "rejected", "reason": reason, "url": c["image_url"], "sha256": sha})
+                print(f"  reject {tag}: {reason}")
+                continue
+            rec = make_variants(body, out_dir, c["vendor_slug"] or "unknown", sha)
+            reason = content_reason(rec)
+            if reason:
+                decide(db, c["id"], "rejected", reason)
+                counts["rejected"] += 1; reasons[reason.split(":")[0]] = reasons.get(reason.split(":")[0], 0) + 1
+                per_part.append({"sku": tag, "outcome": "rejected", "reason": reason, "url": c["image_url"]})
+                print(f"  reject {tag}: {reason}")
+                continue
+            # ---- promote --------------------------------------------------------------------
+            # The page's alt is EVIDENCE, not a caption: docs/SCRAPING.md records that some models
+            # carry a neighbour's alt text. It becomes alt_en only when it names this SKU; the raw
+            # string stays on the candidate row either way.
+            # ...and an alt that is only the file's own name is not a caption either: meraki's
+            # MR36 page carries alt="mr36-mantle.jpg", which names the SKU and says nothing.
+            alt = (c["alt"] or "").strip()
+            looks_like_filename = " " not in alt and alt.lower().endswith((".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"))
+            alt_en = alt if alt and not looks_like_filename and alnum(c["sku"]) in alnum(alt) else None
+            conf = 0.7 if c["tier"] <= 2 else 0.5
+            orig = next(v for v in rec["variants"] if v["variant"] == "original")
+            img_id = db.execute(
+                """INSERT INTO images (part_id, role, source_url, storage_path, width, height, format, bytes, sha256, alt_en,
+                                       assignment_method, confidence, merchant_ready, merchant_issues, license_note, source_id, run_id)
+                   VALUES (%s,'primary',%s,%s,%s,%s,%s,%s,%s,%s,'source-page',%s,%s,%s::jsonb,%s,%s,%s)
+                   ON CONFLICT (part_id, role, source_url) DO UPDATE SET storage_path = EXCLUDED.storage_path, width = EXCLUDED.width,
+                     height = EXCLUDED.height, format = EXCLUDED.format, bytes = EXCLUDED.bytes, sha256 = EXCLUDED.sha256,
+                     merchant_ready = EXCLUDED.merchant_ready, merchant_issues = EXCLUDED.merchant_issues,
+                     alt_en = COALESCE(images.alt_en, EXCLUDED.alt_en)
+                   RETURNING id""",
+                (c["part_id"], c["image_url"], orig["storage_path"], rec["width"], rec["height"], rec["format"], orig["bytes"], sha,
+                 alt_en, conf, rec["merchant_ready"], json.dumps(rec["issues"]), f"product photo ({c['source_slug']})",
+                 c["source_id"], run_id)).fetchone()["id"]
+            for v in rec["variants"]:
+                db.execute(
+                    """INSERT INTO image_variants (image_id, variant, storage_path, width, height, bytes, format, sha256, background)
+                       VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                       ON CONFLICT (image_id, variant) DO UPDATE SET storage_path = EXCLUDED.storage_path, bytes = EXCLUDED.bytes, sha256 = EXCLUDED.sha256""",
+                    (img_id, v["variant"], v["storage_path"], v["width"], v["height"], v["bytes"], v["format"], v["sha256"], v.get("background")))
+                counts["variants"] += 1
+                new_files.append(v["storage_path"])
+            decide(db, c["id"], "done", None, img_id)
+            # every other candidate for this part is now a request we will not spend
+            skipped = db.execute(
+                "UPDATE image_candidates SET status = 'rejected', reason = 'part-already-has-image', decided_at = now() "
+                "WHERE part_id = %s AND id <> %s AND status IN ('pending','failed')", (c["part_id"], c["id"])).rowcount
+            counts["promoted"] += 1
+            per_part.append({"sku": tag, "outcome": "promoted", "image_id": img_id, "url": c["image_url"], "sha256": sha,
+                             "width": rec["width"], "height": rec["height"], "bytes": orig["bytes"], "format": rec["format"],
+                             "background": rec["background"], "merchant_ready": rec["merchant_ready"], "issues": rec["issues"],
+                             "variants": [v["variant"] for v in rec["variants"]], "siblings_closed": skipped,
+                             "source": c["source_slug"], "alt_en": alt_en})
+            with manifest.open("a", encoding="utf-8") as f:
+                f.write(json.dumps({"src": c["image_url"], "outcome": "ok", "status": st, "at": now(), "sha256": sha,
+                                    "sku": c["sku"], "vendor": c["vendor_slug"], "source": c["source_slug"],
+                                    "candidate_id": c["id"], "run_id": run_id, "image_id": img_id,
+                                    "width": rec["width"], "height": rec["height"], "issues": rec["issues"],
+                                    "variants": rec["variants"]}, ensure_ascii=False) + "\n")
+            print(f"  ok     {tag}: {rec['width']}x{rec['height']} {rec['format']} {orig['bytes']}B "
+                  f"{'merchant-ready' if rec['merchant_ready'] else ','.join(rec['issues'])} <- {c['source_slug']}")
+        status = "succeeded"
+    finally:
+        if browser is not None:
+            browser.close()
+        upload = {"attempted": False, "reason": "--no-upload"} if args.no_upload else upload_to_box(out_dir, new_files)
+        db.execute("UPDATE runs SET status = %s::run_status, finished_at = now(), stats = %s::jsonb WHERE id = %s",
+                   (status, json.dumps({**counts, "reasons": reasons, "upload": upload}), run_id))
+        db.close()
+    print(f"done: {counts}")
+    print(f"reasons: {reasons}")
+    print(f"upload: {upload}")
+    for p in per_part:
+        print("  " + json.dumps(p, ensure_ascii=False))
+    return 0
+
+
+def keys_cmd(args: argparse.Namespace) -> int:
+    """The url_key / placeholder decision for each URL, as JSON. Exists so the TypeScript half
+    can be compared against this one over the same corpus (tests/scraper/test_image_rules.py)."""
+    out = []
+    for u in args.urls:
+        w, h = size_hint(u)
+        out.append({"url": u, "key": url_key(u), "placeholder": placeholder_reason(u), "width_hint": w, "height_hint": h})
+    print(json.dumps(out, ensure_ascii=False))
+    return 0
+
+
 def process_cmd(args: argparse.Namespace) -> int:
     body = Path(args.file).read_bytes()
     sha = hashlib.sha256(body).hexdigest()
@@ -248,17 +715,28 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="netzspec image pipeline")
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("run")
-    r.add_argument("--from-picks", required=True)
+    r.add_argument("--from-picks", default="", help="one-off mode: an operator-curated picks file")
+    r.add_argument("--from-db", action="store_true", help="continuous mode: lease pending image_candidates for parts with no image")
     r.add_argument("--tiers", default="exact,form,series")
     r.add_argument("--limit", type=int, default=0)
     r.add_argument("--cdp", default="")
     r.add_argument("--db", action="store_true", help="also write images/image_variants rows for parts that exist")
+    r.add_argument("--dry-run", action="store_true", help="--from-db: show the batch and its refusals, lease nothing, write nothing")
+    r.add_argument("--no-upload", action="store_true", help="--from-db: keep the files local (they will not be on the live site)")
     p = sub.add_parser("process")
     p.add_argument("file")
     p.add_argument("--vendor", default="cisco")
     p.add_argument("--out-dir", default=str(ROOT / "runs" / "images"))
+    k = sub.add_parser("keys", help="print the url_key / placeholder decision for each URL as JSON")
+    k.add_argument("urls", nargs="+")
     args = ap.parse_args()
-    return {"run": run, "process": process_cmd}[args.cmd](args)
+    if args.cmd == "run":
+        # exactly one source of work: a run with neither reads nothing and reports success
+        if bool(args.from_picks) == bool(args.from_db):
+            ap.error("run: give exactly one of --from-picks <file> or --from-db")
+        if args.from_db:
+            return run_from_db(args)
+    return {"run": run, "process": process_cmd, "keys": keys_cmd}[args.cmd](args)
 
 
 if __name__ == "__main__":
