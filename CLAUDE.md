@@ -159,6 +159,15 @@ full; the ones that bite hardest here are restated.
   6 source-less promotions withheld (C9300X-12Y ports), quarantine 6,046, unknown SKUs 217
   (Catalyst 8100/8130/8151 G2 families — not in the catalogue). Both HTML shards are in;
   the PDF file waits for the provenance fix; the held conflicts wait for `ingest remerge`.
+  Images are a pipeline now (`3559929`): every acquired page's image URLs become candidates
+  (`0007_image_candidates`), `images.py --from-db` leases primaries for parts without an
+  image under shared rules (`data/schema/image-rules.json`, one test runs the TS and Python
+  readers over the same corpus), nightshift runs a bounded batch each cycle. The real corpus
+  bought two refusals: antenna radiation DIAGRAMS were leased as product shots (gallery vs
+  primary role), and Meraki serves `MR45.png` as MR46's primary (a filename naming another
+  part we hold is refused). First batch: 6 promoted, 4 rejected by name, 21 variants landed.
+  Agent in flight: apply-acquired resolves parts through aliases/`=`/declared variants and
+  counts how it matched (the meraki NO LANDING alarm).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
