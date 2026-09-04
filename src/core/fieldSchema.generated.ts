@@ -3,6 +3,21 @@
 // Hand-edited 3 Sep 2026: 18 enum fields that carried no domain are retyped to "s" (per-key comments say why).
 // A regeneration must carry that forward or supply the domains; tests/fieldSchema.test.ts fails otherwise.
 //
+// Hand-edited 4 Sep 2026 — UNIT STRINGS. Fifteen fields declared a unit the normaliser could not
+// use, or spelled a unit a second way. Two rules now hold and tests/fieldSchema.test.ts fails on
+// either being broken, so a regeneration must carry these forward too:
+//   1. a unit string names exactly ONE unit. `depth` and `height` said "in / cm" — two units, so
+//      no value on them could be read without choosing one. Both are mm now (what `width` and
+//      `dimensions` use, and what data/reference/golden records), and both are retyped "s" -> "n":
+//      on a string field the declared unit is decorative, convert() never runs, and the raw
+//      "5.1 in. / 13.0 cm" was stored verbatim under a label claiming it was a length.
+//   2. one dimension, one spelling. Gbps -> Gbit/s, Mbps -> Mbit/s, dBA -> dB(A), CPS -> 1/s,
+//      VDC -> V, degrees -> deg: each pair was the SAME dimension and the SAME factor written two
+//      ways, which makes two fields incomparable for no reason. The old spellings stay valid as
+//      INPUT tokens (UNITS in specNormalize.ts), so nothing a datasheet prints is refused.
+// `sequential_write_throughput` keeps "MB/s" and it now means megaBYTES per second — see the
+// per-key comment and the case-sensitive BYTE_RATE table in specNormalize.ts.
+//
 // Fields discovered by reading the unmapped labels of every Cisco category. Each was
 // proposed only where nothing in the hand-written dictionary fitted, and each passed the
 // same validation as an alias (snake_case key, not already defined, both labels present).
@@ -16,7 +31,8 @@ import type { FieldDef, Requirement } from "./fieldSchema.js";
 
 export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // switches — Distinct from switching capacity on Cisco datasheets (typically half, non-duplex); mapping it onto s
-  forwarding_bandwidth: { key: "forwarding_bandwidth", de: "Weiterleitungsbandbreite", en: "Forwarding bandwidth", type: "s", unit: "Gbps", etim: [], icecat: null },
+  // Gbps -> Gbit/s (4 Sep 2026): one spelling per dimension, matching switching_capacity.
+  forwarding_bandwidth: { key: "forwarding_bandwidth", de: "Weiterleitungsbandbreite", en: "Forwarding bandwidth", type: "s", unit: "Gbit/s", etim: [], icecat: null },
   // switches — LAG group ceiling; no existing key covers link aggregation.
   port_channels_max: { key: "port_channels_max", de: "Maximale Anzahl Port-Channels", en: "Maximum port channels", type: "n", etim: [], icecat: null },
   // switches — Member-link ceiling within one LAG, a separate limit from the number of LAGs.
@@ -72,7 +88,8 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // switches — Frequently 0 where ingress is 32,000 — must not inherit the ingress figure.
   netflow_egress_entries: { key: "netflow_egress_entries", de: "Egress-NetFlow-Einträge", en: "Egress NetFlow entries", type: "s", etim: [], icecat: null },
   // switches, transceiver — Per-slot fabric attachment of a line card, chassis-dependent; not the system switching capacity.
-  fabric_bandwidth: { key: "fabric_bandwidth", de: "Bandbreite der Switch-Fabric-Anbindung", en: "Switch fabric connection bandwidth", type: "s", unit: "Gbps", etim: [], icecat: null },
+  // Gbps -> Gbit/s (4 Sep 2026): one spelling per dimension.
+  fabric_bandwidth: { key: "fabric_bandwidth", de: "Bandbreite der Switch-Fabric-Anbindung", en: "Switch fabric connection bandwidth", type: "s", unit: "Gbit/s", etim: [], icecat: null },
   // switches — Whether PoE is built into the model at all (Yes / No (data only) / Yes (up to 3855W)) — differs per 
   poe_integrated: { key: "poe_integrated", de: "Integriertes PoE", en: "Integrated PoE", type: "s", etim: [], icecat: null },
   // switches — Conditional budget that only exists with a redundant PSU fitted; publishing it as poe_budget would o
@@ -86,7 +103,8 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // routers — NEBS GR-63-CORE short-term excursion range; a different limit from temp_operating and only some SKUs
   temp_short_term: { key: "temp_short_term", de: "Kurzzeit-Betriebstemperatur", en: "Short-term operating temperature", type: "s", unit: "°C", etim: [], icecat: null },
   // routers — Sound power is a physically different quantity from the sound pressure held in acoustic_noise; both 
-  acoustic_sound_power: { key: "acoustic_sound_power", de: "Schallleistungspegel", en: "Acoustic sound power", type: "s", unit: "dBA", etim: [], icecat: null },
+  // dBA -> dB(A) (4 Sep 2026): the same unit acoustic_noise declares, written the same way.
+  acoustic_sound_power: { key: "acoustic_sound_power", de: "Schallleistungspegel", en: "Acoustic sound power", type: "s", unit: "dB(A)", etim: [], icecat: null },
   // routers — Band list is the key differentiator between regional cellular SKUs on one datasheet.
   lte_bands: { key: "lte_bands", de: "LTE-Bänder", en: "LTE bands", type: "s", etim: [], icecat: null },
   // routers — Separate band list from LTE, printed as its own row per modem variant.
@@ -160,7 +178,8 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // wireless — Per-band, per-width count of non-overlapping channels. String because one value covers several bands
   non_overlapping_channels: { key: "non_overlapping_channels", de: "Nicht überlappende Kanäle", en: "Non-overlapping channels", type: "s", etim: [], icecat: null },
   // wireless — Per-radio theoretical throughput. Separate from max_data_rate (device aggregate) - conflating them w
-  data_rate_per_radio: { key: "data_rate_per_radio", de: "Datenrate pro Funkmodul", en: "Data rate per radio", type: "s", unit: "Gbps", etim: [], icecat: null },
+  // Gbps -> Gbit/s (4 Sep 2026): one spelling per dimension, matching max_data_rate.
+  data_rate_per_radio: { key: "data_rate_per_radio", de: "Datenrate pro Funkmodul", en: "Data rate per radio", type: "s", unit: "Gbit/s", etim: [], icecat: null },
   // wireless — Housing material of outdoor/industrial units; can differ between models sharing a datasheet.
   enclosure_material: { key: "enclosure_material", de: "Gehäusematerial", en: "Enclosure material", type: "s", etim: [], icecat: null },
   // optical-networking — Real coherent-receiver specification appearing under three label spellings (count 5+4+4). Values are
@@ -186,6 +205,11 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // servers-unified-computing — Counterpart to random_read_iops_4k, same reasoning on the block-size suffix.
   random_write_iops_4k: { key: "random_write_iops_4k", de: "Random-Write-IOPS (4 KB)", en: "Random write IOPS (4 KB)", type: "n", unit: "IOPS", etim: [], icecat: null },
   // servers-unified-computing — '1170' … '2230' MBps sequential 64 KB write throughput — a real drive measurement with no existing h
+  // MB/s DECIDED (4 Sep 2026) = megaBYTES per second, the convention every drive vendor prints
+  // ("1170 ... 2230 MBps sequential 64 KB write"). It is NOT megabits, and the two differ by 8x.
+  // The spelling stays "MB/s" because that is what the datasheets say; the distinction is enforced
+  // by the case-sensitive BYTE_RATE table in specNormalize.ts (dimension "byterate"), so a bit
+  // rate written "500 Mb/s" or "500 Mbit/s" is REFUSED on this field rather than read as bytes.
   sequential_write_throughput: { key: "sequential_write_throughput", de: "Sequenzieller Schreibdurchsatz", en: "Sequential write throughput", type: "n", unit: "MB/s", etim: [], icecat: null },
   // servers-unified-computing — '2' onboard processors — the socket count, a core server spec absent from the dictionary.
   cpu_sockets: { key: "cpu_sockets", de: "CPU-Sockel", en: "CPU sockets", type: "n", etim: [], icecat: null },
@@ -405,7 +429,8 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // routers, meraki — Values are LTE/5G band lists ("LTE bands 1, 3, 7, 8, 20, and 28 FDD"). radio_bands in the dictionary
   cellular_bands: { key: "cellular_bands", de: "Unterstützte Mobilfunkbänder", en: "Supported cellular bands", type: "s", etim: [], icecat: null },
   // routers — Values are asymmetric pairs ("150 Mbps/50 Mbps"). max_data_rate is the Wi-Fi PHY rate and cannot exp
-  cellular_throughput: { key: "cellular_throughput", de: "Mobilfunk-Downlink/Uplink-Durchsatz", en: "Cellular downlink/uplink throughput", type: "s", unit: "Mbps", etim: [], icecat: null },
+  // Mbps -> Mbit/s (4 Sep 2026): one spelling per dimension. Still megaBITS, unlike MB/s above.
+  cellular_throughput: { key: "cellular_throughput", de: "Mobilfunk-Downlink/Uplink-Durchsatz", en: "Cellular downlink/uplink throughput", type: "s", unit: "Mbit/s", etim: [], icecat: null },
   // routers — Values are strictly Yes/No on 33 parts and it is a top-level buying filter for routers. Nothing bool
   sdwan_capable: { key: "sdwan_capable", de: "SD-WAN-fähig", en: "SD-WAN capable", type: "b", etim: [], icecat: null },
   // routers, wireless, interfaces-modules, storage-networking — Values describe front-panel LED behaviour (status active/standby, WWAN connection status). Distinct 
@@ -449,7 +474,10 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // wireless — Radiation pattern / construction (omnidirectional, directional, sector, panel, PIFA) is a primary wi
   antenna_type: { key: "antenna_type", de: "Antennentyp", en: "Antenna type", type: "s", etim: [], icecat: null },
   // wireless — The dictionary has beamwidth_elevation but no azimuth counterpart; directional antennas are specifie
-  beamwidth_azimuth: { key: "beamwidth_azimuth", de: "Azimut-3-dB-Öffnungswinkel", en: "Azimuth 3-dB beamwidth", type: "n", unit: "degrees", etim: [], icecat: null },
+  // degrees -> deg (4 Sep 2026): the azimuth and elevation halves of one antenna measurement must
+  // be comparable, and four other angle fields already said "deg". "40 degrees", "40 deg" and
+  // "40°" all still parse; only the CANONICAL spelling is pinned.
+  beamwidth_azimuth: { key: "beamwidth_azimuth", de: "Azimut-3-dB-Öffnungswinkel", en: "Azimuth 3-dB beamwidth", type: "n", unit: "deg", etim: [], icecat: null },
   // wireless, collaboration-endpoints — Kensington lock slot, Torx/security screws, concealed mount plate — a real purchasing criterion for 
   physical_security: { key: "physical_security", de: "Physische Sicherung", en: "Physical security", type: "s", etim: [], icecat: null },
   // wireless — Channel-count per band and regulatory domain is a core wireless capacity spec with no existing field
@@ -481,7 +509,8 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // collaboration-endpoints — 23 parts list H.264/H.265/H.263/AV1.
   video_codecs: { key: "video_codecs", de: "Video-Codecs", en: "Video codecs", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 24 parts give point-to-point and MultiSite call bandwidth in Mbps. Not the same as data_rate (link s
-  call_bandwidth: { key: "call_bandwidth", de: "Maximale Anrufbandbreite", en: "Maximum call bandwidth", type: "s", unit: "Mbps", etim: [], icecat: null },
+  // Mbps -> Mbit/s (4 Sep 2026): one spelling per dimension.
+  call_bandwidth: { key: "call_bandwidth", de: "Maximale Anrufbandbreite", en: "Maximum call bandwidth", type: "s", unit: "Mbit/s", etim: [], icecat: null },
   // collaboration-endpoints — 22 parts state H.235v3 / AES / end-to-end encryption for SIP and H.323 media.
   encryption: { key: "encryption", de: "Medienverschluesselung", en: "Media encryption", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 27 parts, values Yes/No. Core comparison axis for endpoints; must stay separate from the Zoom and SI
@@ -645,9 +674,14 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // video — Coax plant powering pass-through capacity (15 A) — a property of the housing, unrelated to the unit'
   ac_through_current: { key: "ac_through_current", de: "Maximaler AC-Durchgangsstrom (Dauer)", en: "Maximum AC through current (continuous)", type: "n", unit: "A", etim: [], icecat: null },
   // video — Quoted alone on 28 parts where no full L x H x W string exists; writing a single axis into dimension
-  depth: { key: "depth", de: "Tiefe", en: "Depth", type: "s", unit: "in / cm", etim: [], icecat: null },
+  // "in / cm" -> mm, s -> n (4 Sep 2026): the unit string named TWO units, so no value could be
+  // read without choosing one, and the type made the choice irrelevant — a string field never
+  // reaches convert(), so "5.1 in. / 13.0 cm" was stored verbatim under a unit label. mm is what
+  // width and dimensions use and what the golden sample records; in / cm / mm all convert into it.
+  depth: { key: "depth", de: "Tiefe", en: "Depth", type: "n", unit: "mm", etim: [], icecat: null },
   // video — Single-axis front panel height (5.1 in. / 13.0 cm) for shelf-mounted modules, quoted without the oth
-  height: { key: "height", de: "Frontplattenhoehe", en: "Faceplate height", type: "s", unit: "in / cm", etim: [], icecat: null },
+  // "in / cm" -> mm, s -> n (4 Sep 2026): same defect and same fix as `depth` above.
+  height: { key: "height", de: "Frontplattenhoehe", en: "Faceplate height", type: "n", unit: "mm", etim: [], icecat: null },
   // servers-unified-computing — Whether the server runs in Intersight Managed Mode, Intersight Standalone Mode or UCS Manager mode i
   // enum -> s (3 Sep 2026): type "e" with no domain. data/schema/attribute-aliases.en.json maps this LABEL to the key but states no value set, so no domain can be sourced; an enum with an empty domain fails ENUM_VIOLATION on every value, and a domain guessed here would mis-file real ones. Open string until the corpus supplies the values.
   management_mode: { key: "management_mode", de: "Verwaltungsmodus", en: "Management mode", type: "s", etim: [], icecat: null },
@@ -700,7 +734,9 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // security — Given its own row alongside "Hard disk" on the same datasheets (50/80/100 GB mSATA). Folding it into
   ssd_capacity: { key: "ssd_capacity", de: "SSD-Kapazität", en: "Solid-state drive", type: "s", etim: [], icecat: null },
   // security — DC-powered variants list -40.5 to 56 VDC / -55 to -72 VDC in rows that appear in the SAME table as t
-  dc_input_voltage: { key: "dc_input_voltage", de: "DC-Eingangsspannung", en: "DC input voltage", type: "s", unit: "VDC", etim: [], icecat: null },
+  // VDC -> V (4 Sep 2026): volts are volts. "DC" is already in the field's name and labels, and
+  // as a UNIT string it only made this field incomparable with input_voltage. "-48 VDC" still parses.
+  dc_input_voltage: { key: "dc_input_voltage", de: "DC-Eingangsspannung", en: "DC input voltage", type: "s", unit: "V", etim: [], icecat: null },
   // security — Same table-collision argument as dc_input_voltage: "AC Current" and "DC Current" are separate rows o
   dc_input_current: { key: "dc_input_current", de: "DC-Eingangsstrom", en: "DC input current", type: "s", unit: "A", etim: [], icecat: null },
   // security — Values are the supported hardware RAID level and controller ("Level 10, Cisco 12G SAS Modular RAID C
@@ -758,15 +794,20 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // hyperconverged-infrastructure — Values enumerate what the device does to malicious traffic (drop packet, reset source/destination/bo
   mitigation_actions: { key: "mitigation_actions", de: "Abwehrmassnahmen", en: "Mitigation / block actions", type: "s", etim: [], icecat: null },
   // hyperconverged-infrastructure — Programmable mitigation capacity in Gbps. threat_throughput and ips_throughput are inspection number
-  ddos_mitigation_throughput: { key: "ddos_mitigation_throughput", de: "DDoS-Mitigationsdurchsatz", en: "DDoS mitigation throughput", type: "n", unit: "Gbps", etim: [], icecat: null },
+  // Gbps -> Gbit/s (4 Sep 2026): one spelling per dimension. Same factor, so no stored value moves.
+  ddos_mitigation_throughput: { key: "ddos_mitigation_throughput", de: "DDoS-Mitigationsdurchsatz", en: "DDoS mitigation throughput", type: "n", unit: "Gbit/s", etim: [], icecat: null },
   // hyperconverged-infrastructure — Hardware-accelerated blocking capacity (240/760/800 Gbps, 3.4 Tbps) - a separate, much larger number
-  ddos_blocking_throughput: { key: "ddos_blocking_throughput", de: "DDoS-Blockierdurchsatz", en: "DDoS blocking throughput", type: "n", unit: "Gbps", etim: [], icecat: null },
+  // Gbps -> Gbit/s (4 Sep 2026): one spelling per dimension.
+  ddos_blocking_throughput: { key: "ddos_blocking_throughput", de: "DDoS-Blockierdurchsatz", en: "DDoS blocking throughput", type: "n", unit: "Gbit/s", etim: [], icecat: null },
   // hyperconverged-infrastructure — Packet-rate capability against flood attacks (14 Mpps ... 292,000,000 pps). forwarding_rate is a swi
   ddos_prevention_rate: { key: "ddos_prevention_rate", de: "DDoS-Flood-Abwehrrate", en: "DDoS flood attack prevention rate", type: "n", unit: "pps", etim: [], icecat: null },
   // hyperconverged-infrastructure — Accelerated blocking packet rate (0.357-2.7 billion pps). Kept separate from ddos_prevention_rate be
   ddos_blocking_rate: { key: "ddos_blocking_rate", de: "DDoS-Blockierrate", en: "DDoS blocking rate", type: "n", unit: "pps", etim: [], icecat: null },
   // hyperconverged-infrastructure — Values are '43 KCPS (RSA 2K)' style crypto handshake rates. new_conn_per_sec is the cleartext sessio
-  ssl_connections_per_sec: { key: "ssl_connections_per_sec", de: "SSL/TLS-Verbindungen pro Sekunde", en: "SSL/TLS connections per second", type: "n", unit: "CPS", etim: [], icecat: null },
+  // CPS -> 1/s (4 Sep 2026): the unit new_conn_per_sec already declares for the same dimension.
+  // "9,000 CPS" still parses — CPS stays a valid INPUT token; only the canonical spelling is pinned.
+  // ("43 KCPS" does not parse and did not before: kilo-CPS is in no unit table.)
+  ssl_connections_per_sec: { key: "ssl_connections_per_sec", de: "SSL/TLS-Verbindungen pro Sekunde", en: "SSL/TLS connections per second", type: "n", unit: "1/s", etim: [], icecat: null },
   // hyperconverged-infrastructure — Bypass behavior on power/software loss, differentiated per port media ('Internal fail-open/fail-clos
   fail_open_close: { key: "fail_open_close", de: "Fail-Open-/Fail-Close-Verhalten", en: "Fail-open / fail-close behavior", type: "s", etim: [], icecat: null },
   // hyperconverged-infrastructure — Value '5A002.a.2' is a US export-control code. It is not a certification mark and belongs in its own

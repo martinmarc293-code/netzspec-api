@@ -17,7 +17,7 @@
 //
 // A pair where the fix could be a hardcoded constant is written so that the constant fails the
 // other half (CLAUDE.md: a sabotage case for a parameter must hit every branch that consumes it).
-import { normalizeField, preprocessValue, CANON, COUNT_LIKE, UNCONVERTIBLE } from "../src/core/specNormalize.ts";
+import { normalizeField, preprocessValue, unitLookup, CANON, COUNT_LIKE, UNCONVERTIBLE } from "../src/core/specNormalize.ts";
 import { unitFromLabel } from "../src/core/deepSpecMap.ts";
 import { FIELD_DICTIONARY } from "../src/core/fieldSchema.ts";
 
@@ -131,11 +131,36 @@ const CASES = [
   ["a socket count is bare by nature", "servers-unified-computing", "cpu_sockets_max", "2", EN, 2],
   ["SABOTAGE a watt figure on a core count is refused", "servers-unified-computing", "cpu_cores", "60 W", EN, "UNIT_UNKNOWN"],
   ["a drive-bay count is bare by nature", "servers-unified-computing", "drive_bays", "24", EN, 24],
-  // A canonical unit this module cannot convert refuses BOTH ways rather than storing a guess.
-  // "MB/s" is megaBYTES; the unit table folds case and already reads "mb/s" as megaBITS, and
-  // guessing either way is an 8x error. Before this the bare number was stored as canonical.
-  ["SABOTAGE an unconvertible unit refuses a bare number", "servers-unified-computing", "sequential_write_throughput", "500", EN, "UNIT_UNKNOWN"],
-  ["SABOTAGE and refuses the value even when it states the unit", "servers-unified-computing", "sequential_write_throughput", "500 MB/s", EN, "UNIT_UNKNOWN"],
+  // ===============================================================================================
+  // 5b. MB/s IS MEGABYTES, Mb/s IS MEGABITS, AND THEY DIFFER BY 8x
+  // ===============================================================================================
+  // The unit table has to fold case ("MT/s", "bit/s", "dB(A)"), and folding erases the one letter
+  // that separates a byte rate from a bit rate — so the field used to be in UNCONVERTIBLE and
+  // refused everything, and before that a bare "500" was stored as 500 MB/s with no unit stated
+  // anywhere. It is DECIDED now: megaBYTES, the convention every drive vendor prints, enforced by
+  // a case-sensitive table with its own dimension. Both halves are asserted, so a "fix" that
+  // simply made the fold accept MB/s (i.e. treated it as megabits) fails the sabotage twins.
+  ["MB/s is megabytes per second and reads as itself", "servers-unified-computing", "sequential_write_throughput", "2230 MB/s", EN, 2230],
+  ["MBps is the same unit Cisco's drive tables print", "servers-unified-computing", "sequential_write_throughput", "1170 MBps", EN, 1170],
+  ["GB/s converts into the field's MB/s", "servers-unified-computing", "sequential_write_throughput", "3.5 GB/s", EN, 3500],
+  // SABOTAGE: a BIT rate on this field is not eight times the number, it is a mis-mapped fact.
+  ["SABOTAGE Mb/s on a byte-rate field is refused, not read as bytes", "servers-unified-computing", "sequential_write_throughput", "500 Mb/s", EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE Mbit/s likewise", "servers-unified-computing", "sequential_write_throughput", "500 Mbit/s", EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE Mbps likewise", "servers-unified-computing", "sequential_write_throughput", "500 Mbps", EN, "UNIT_UNKNOWN"],
+  // SABOTAGE the other direction: a BYTE rate must not satisfy a bit-rate field either.
+  ["SABOTAGE MB/s on a Gbit/s field is refused", "switches", "switching_capacity", "500 MB/s", EN, "UNIT_UNKNOWN"],
+  // SABOTAGE: a bare number is still a bare number — the unit is what carries the factor of 8.
+  ["SABOTAGE a bare number on the byte-rate field is refused", "servers-unified-computing", "sequential_write_throughput", "500", EN, "UNIT_MISSING"],
+
+  // ===============================================================================================
+  // 5c. A MAGNITUDE SUFFIX ON A COUNT-LIKE FIELD
+  // ===============================================================================================
+  // mac_table's canonical unit "Einträge" NAMES what is counted, so "288K" is a magnitude, not a
+  // unit. It was refused UNIT_UNKNOWN while the identical suffix on the unit-less route counts
+  // read correctly. The refusals are pinned in tests/specNormalize.preprocess.test.mjs alongside
+  // the route-count cases; these two hold the same rule on a second count-like field.
+  ["a magnitude suffix on an entry count is read", "switches", "mac_table", "16K", EN, 16000],
+  ["SABOTAGE a memory size on an entry count is still refused", "switches", "mac_table", "16 MB", EN, "UNIT_UNKNOWN"],
 
   // ===============================================================================================
   // 6. THE UNIT IS IN THE LABEL, NOT IN THE CELL
@@ -179,13 +204,41 @@ const CASES = [
   // ===============================================================================================
   // 8. OTHER UNITS THE DICTIONARY DECLARES
   // ===============================================================================================
-  // the two beamwidth fields declare the SAME dimension under two spellings ("°" and "degrees"),
-  // so a value written either way must satisfy either field
-  ["degrees on a field whose canonical unit is °", "wireless", "beamwidth_elevation", "40 degrees", EN, 40],
-  ["° on the same field", "wireless", "beamwidth_elevation", "40°", EN, 40],
-  ["degrees on a field whose canonical unit is spelled out", "wireless", "beamwidth_azimuth", "10 degrees", EN, 10],
+  // The two beamwidth fields are the azimuth and elevation halves of ONE antenna measurement and
+  // used to declare two spellings of one unit ("°" and "degrees"), which makes them incomparable
+  // for no reason. Both are "deg" now (4 Sep 2026) and every spelling a datasheet prints still
+  // parses — the canonical unit is pinned, the input vocabulary is not. Asserting all three
+  // spellings on BOTH fields is what stops a future "fix" from pinning one and dropping the rest.
+  ["degrees on the elevation field", "wireless", "beamwidth_elevation", "40 degrees", EN, 40],
+  ["° on the elevation field", "wireless", "beamwidth_elevation", "40°", EN, 40],
+  ["deg on the elevation field", "wireless", "beamwidth_elevation", "40 deg", EN, 40],
+  ["degrees on the azimuth field", "wireless", "beamwidth_azimuth", "10 degrees", EN, 10],
+  ["° on the azimuth field", "wireless", "beamwidth_azimuth", "10°", EN, 10],
+  ["deg on the azimuth field", "wireless", "beamwidth_azimuth", "10 deg", EN, 10],
   ["SABOTAGE a bare number on an angle field is refused", "wireless", "beamwidth_elevation", "40", EN, "UNIT_MISSING"],
   ["SABOTAGE dBm is not an angle", "wireless", "beamwidth_elevation", "40 dBm", EN, "UNIT_UNKNOWN"],
+
+  // ===============================================================================================
+  // 8b. A SINGLE-AXIS DIMENSION IS A LENGTH, NOT A SENTENCE
+  // ===============================================================================================
+  // `depth` and `height` declared the unit "in / cm" — two units in one string, so no value on
+  // them could be read without choosing one — on fields typed "s", where convert() never runs at
+  // all. The consequence was not a refusal but a silent one: "5.1 in. / 13.0 cm" was STORED, as a
+  // string, under a label claiming it was a length. Both are mm now (what `width` and
+  // `dimensions` already use, and what data/reference/golden records), typed "n", and every unit
+  // Cisco prints a single axis in converts into it.
+  ["a depth in inches converts to mm", "video", "depth", "5.1 in.", EN, 129.54],
+  ["a depth in cm converts to mm", "video", "depth", "13.0 cm", EN, 130],
+  ["a depth already in mm is left where it is", "video", "depth", "130 mm", EN, 130],
+  ["a faceplate height in inches converts to mm", "video", "height", "1.75 in", EN, 44.45],
+  ["the imperial/metric pair prefers the vendor's own metric restatement", "video", "height", "16.9 in. (42.9 cm)", EN, 429],
+  // SABOTAGE: mm is a real unit now, so a bare number can no longer be waved through as canonical.
+  ["SABOTAGE a bare number on a depth field is refused", "video", "depth", "5.1", EN, "UNIT_MISSING"],
+  // SABOTAGE: and a unit from another dimension is a mis-mapped row, not a depth.
+  ["SABOTAGE kilograms on a depth field are refused", "video", "depth", "5.1 kg", EN, "UNIT_UNKNOWN"],
+  ["SABOTAGE watts on a height field are refused", "video", "height", "5.1 W", EN, "UNIT_UNKNOWN"],
+  // The label may still carry the unit, as it does for every other length field.
+  ["an (in) label fills a missing depth unit", "video", "depth", "5.1", hint("in"), 129.54],
   ["connections per second, unit in the label", "security", "new_conn_per_sec", "9,000", hint("1/s"), 9000],
   ["SABOTAGE a bare connections figure with no label unit is refused", "security", "new_conn_per_sec", "9,000", EN, "UNIT_MISSING"],
 ];
@@ -290,9 +343,45 @@ for (const [label, want] of LABELS) {
     if (!r.ok && r.reason === "UNIT_MISSING") pass++;
     else misses.push(`${key} accepted a bare "7" (${r.ok ? JSON.stringify(r.value) + " " + r.unit : r.reason})`);
   }
+
+  // ROUND TRIP: a canonical unit, fed back through the token reader, must come out as its own
+  // dimension AND its own factor. This is what keeps the case-sensitive byte-rate rule alive.
+  // unitLookup lower-cases everything below its first two lines, so the moment the exact-case
+  // pass is removed or moved, "MB/s" resolves to throughput while CANON says byterate and this
+  // fails — instead of every SSD figure in the store being eight times too small. It also catches
+  // the plainer version of the same mistake: a dictionary unit that CANON and UNITS disagree on.
+  const roundTrip = [];
+  for (const u of units) {
+    const t = CANON[u];
+    if (!t) continue;                                 // count-like words have no dimension to check
+    const got = unitLookup(u, u);
+    if (!got) roundTrip.push(`${u}: CANON says ${t[0]} but the token reader does not know it at all`);
+    else if (got[0] !== t[0] || got[1] !== t[1]) {
+      roundTrip.push(`${u}: CANON says [${t[0]}, ${t[1]}] but the token reader reads it as [${got[0]}, ${got[1]}]`);
+    }
+  }
+  if (!roundTrip.length) pass++;
+  else misses.push("canonical units that do not read back as themselves:\n      " + roundTrip.join("\n      "));
+
+  // The sabotage twin for the round trip, since every real unit passing proves only that nothing
+  // is broken today: case folding IS the defect, so assert it directly.
+  const mbs = unitLookup("MB/s"), mbits = unitLookup("Mb/s"), mbitLong = unitLookup("Mbit/s");
+  if (mbs && mbits && mbitLong && mbs[0] === "byterate" && mbits[0] === "throughput"
+    && mbitLong[0] === "throughput" && mbs[0] !== mbits[0]) pass++;
+  else misses.push(`MB/s, Mb/s and Mbit/s must not collapse into one unit: MB/s=${JSON.stringify(mbs)}`
+    + ` Mb/s=${JSON.stringify(mbits)} Mbit/s=${JSON.stringify(mbitLong)}`);
+
+  // UNCONVERTIBLE is deliberately EMPTY (4 Sep 2026): both of its entries were dictionary defects
+  // — "in / cm" named two units on fields that never reached convert() anyway, and "MB/s" is
+  // decided now — and both were fixed at the dictionary rather than recorded as permanent
+  // refusals. Pinned so a unit cannot be parked here again without someone deciding to.
+  if (Object.keys(UNCONVERTIBLE).length === 0) pass++;
+  else misses.push("UNCONVERTIBLE has gained entries — a unit parked there refuses every value on"
+    + " its fields forever, so it needs a deliberate decision and a note here, not a default:"
+    + ` ${Object.keys(UNCONVERTIBLE).join(", ")}`);
 }
 
-const TOTAL = CASES.length + 1 + PRE.length + LABELS.length + 2 + 3;
+const TOTAL = CASES.length + 1 + PRE.length + LABELS.length + 2 + 3 + 3;
 console.log(`${pass}/${TOTAL} passed`);
 if (misses.length) {
   for (const m of misses) console.log("\n  " + m);

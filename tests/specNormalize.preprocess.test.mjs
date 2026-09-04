@@ -163,7 +163,24 @@ const MULTIPLIER_CASES = [
   ["switches", "ipv4_routes", "10G", "en", "UNIT_UNKNOWN"],
   ["switches", "ipv4_routes", "2m", "en", "UNIT_UNKNOWN"],                     // lower-case m is not a magnitude
   ["switches", "ipv4_routes", "300 Mpps", "en", "UNIT_UNKNOWN"],               // a packet rate is not a route count
-  ["switches", "mac_table", "288K", "en", "UNIT_UNKNOWN"],                     // canonical unit: still fails safe
+  // A MAC table is COUNT-LIKE — its canonical unit "Einträge" names what is counted, it does not
+  // measure anything — so the "K" glued to the number is a MAGNITUDE, exactly as it is on the
+  // unit-less route counts above. DECIDED 4 Sep 2026: Cisco's "288K" MAC table is 288,000
+  // entries, not 294,912. These are published forwarding-table sizes quoted in decimal thousands
+  // (the same sheets write "16K" beside "16,000" and "32K" beside "32,000"); 1,024 would be an
+  // allocation figure, which is not what a datasheet column headed "MAC addresses" reports.
+  // Until this the field refused "288K" as UNIT_UNKNOWN and the value stayed a permanent gap on
+  // a spec every switch is compared on — the count-like half of the same defect that stored
+  // ipv4_routes "360K" as 360.
+  ["switches", "mac_table", "288K", "en", 288000],
+  ["switches", "mac_table", "288 K", "en", 288000],                            // spaced reads the same
+  // SABOTAGE: the magnitude reading is scoped to COUNT-LIKE fields. On a field whose unit
+  // MEASURES something, "K" is not a unit we know and the value must still fail safe rather than
+  // be silently multiplied — packet_buffer is megabytes, so "288 K" there means nothing.
+  ["switches", "packet_buffer", "288 K", "en", "UNIT_UNKNOWN"],
+  ["switches", "packet_buffer", "288K", "en", "UNIT_UNKNOWN"],
+  // SABOTAGE: and a real unit on a count-like field is still a mis-mapped fact, not a magnitude.
+  ["switches", "mac_table", "288 MB", "en", "UNIT_UNKNOWN"],
   // real seed values whose trailing word names what is counted — unchanged
   ["switches", "module_slots", "6 zl2-Modul-Steckplätze (Management-Modul mit integrierter Fabric)", "de", 6],
   ["switches", "module_slots", "8 I/O + 4 Switch-Fabric + 2 MPU-Steckplätze", "de", 8],

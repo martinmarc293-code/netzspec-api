@@ -27,7 +27,12 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 // 1.2.0: imperial and alternate units convert instead of being refused; "count-like" is an
 //        explicit property rather than the absence of a CANON row; a value that is a part number
 //        is refused as VALUE_IS_PID rather than mined for the digits inside it.
-export const NORM_VERSION = "1.2.0";
+// 1.3.0: byte rates are their own dimension, read CASE-SENSITIVELY, so MB/s is no longer
+//        indistinguishable from Mb/s; a magnitude suffix on a COUNT-LIKE field is read instead of
+//        refused (mac_table "288K" is 288,000 entries); UNCONVERTIBLE is empty because both of its
+//        entries were dictionary defects, fixed there. Values normalise differently under this
+//        version than under 1.2.0 — a replay must compare norm_v, not assume it.
+export const NORM_VERSION = "1.3.0";
 
 export type NormReason =
   | "PARSE_FAIL" | "UNIT_MISSING" | "UNIT_UNKNOWN" | "ENUM_VIOLATION"
@@ -170,6 +175,40 @@ const UNITS: Record<string, [string, number]> = {
   "year": ["years", 1], "years": ["years", 1], "jahre": ["years", 1],
 };
 
+/** Byte rates, matched CASE-SENSITIVELY and BEFORE the case-folded UNITS table.
+ *
+ *  "MB/s" is megaBYTES per second — the convention every drive vendor prints, and what
+ *  `sequential_write_throughput` means — while "Mb/s" and "Mbit/s" are megaBITS. They differ by
+ *  8x and by one letter's case. UNITS has to fold case (it reads "MT/s", "bit/s", "dB(A)" and
+ *  every capitalisation Cisco mixes into them), and folding erases exactly that letter, so the
+ *  distinction can only survive in a table consulted BEFORE the fold. That is this table.
+ *
+ *  Its dimension is "byterate", deliberately not "throughput": a bit rate on a byte-rate field
+ *  (or the reverse) is a mis-mapped fact or an 8x error, and it must be refused rather than
+ *  converted. There is no byterate<->throughput factor anywhere in this module for that reason.
+ *
+ *  Before this table the field was in UNCONVERTIBLE and refused everything — its bare numbers had
+ *  been stored as canonical before that, which was the silent half of the same defect. */
+const BYTE_RATE: Record<string, [string, number]> = {
+  "B/s": ["byterate", 1], "Bps": ["byterate", 1], "Byte/s": ["byterate", 1],
+  "kB/s": ["byterate", 1e3], "KB/s": ["byterate", 1e3], "kBps": ["byterate", 1e3], "KBps": ["byterate", 1e3],
+  "MB/s": ["byterate", 1e6], "MBps": ["byterate", 1e6], "MByte/s": ["byterate", 1e6],
+  "GB/s": ["byterate", 1e9], "GBps": ["byterate", 1e9], "GByte/s": ["byterate", 1e9],
+  "TB/s": ["byterate", 1e12], "TBps": ["byterate", 1e12],
+};
+
+/** The BIT-rate spellings that differ from a byte rate only by case. They are listed here rather
+ *  than left to UNITS so the case-sensitive pass answers BOTH halves of each pair in one place —
+ *  otherwise "MB/s" would be decided here and "Mb/s" three lines later, and the two rules could
+ *  drift apart without either one looking wrong. */
+const BIT_RATE_EXACT: Record<string, [string, number]> = {
+  "b/s": ["throughput", 1], "bps": ["throughput", 1],
+  "kb/s": ["throughput", 1e3], "kbps": ["throughput", 1e3],
+  "Mb/s": ["throughput", 1e6], "Mbps": ["throughput", 1e6],
+  "Gb/s": ["throughput", 1e9], "Gbps": ["throughput", 1e9],
+  "Tb/s": ["throughput", 1e12], "Tbps": ["throughput", 1e12],
+};
+
 /** Conversions that need an OFFSET, not a factor, keyed "<from>><to>". A factor table cannot
  *  express Fahrenheit, and expressing it as one silently reads 75 °F as 75 °C. */
 const AFFINE: Record<string, (n: number) => number> = {
@@ -201,8 +240,11 @@ export const CANON: Record<string, [string, number]> = {
   // so supply_current (mA) refused "0.5 A" as UNIT_UNKNOWN and stored "0.5" as 0.5 mA — a
   // 1000x error, in band, from the same input the strict path had just rejected. Count-like is
   // now the explicit COUNT_LIKE set below and never an inference from this table.
-  "Gbps": ["throughput", 1e9], "Mbps": ["throughput", 1e6],
+  "Gbps": ["throughput", 1e9], "Mbps": ["throughput", 1e6], "Mbit/s": ["throughput", 1e6],
   "pps": ["packetrate", 1],
+  // megaBYTES per second. Its own dimension, so a bit rate cannot satisfy a byte-rate field —
+  // see BYTE_RATE above for why the distinction cannot live in the case-folded table.
+  "MB/s": ["byterate", 1e6],
   "mA": ["current", 1e-3], "kV": ["voltage", 1e3], "VDC": ["voltage", 1],
   "THz": ["freq", 1e12], "IOPS": ["iops", 1],
   "dBi": ["dbi", 1], "dBA": ["dba", 1], "dBmV": ["dbmv", 1],
@@ -234,20 +276,26 @@ export const COUNT_LIKE = new Set([
 /** Canonical units the dictionary declares that this module deliberately CANNOT convert, with
  *  the reason. A field listed here refuses every value: with a unit, because there is nothing
  *  to convert to; without one, because a bare number would have to be guessed. That is a
- *  RECORDED gap rather than a silent one, and tests/specNormalize.units.test.mjs pins both
- *  halves so the list cannot quietly grow.
+ *  RECORDED gap rather than a silent one, and tests/specNormalize.units.test.mjs pins its
+ *  contents so the list cannot quietly grow.
  *
- *  "in / cm" is a defect in fieldSchema.ts (`depth`, `height`): it names TWO units, so no value
- *  on those fields can be read without choosing one. Fixing it means editing the dictionary. */
-export const UNCONVERTIBLE: Record<string, string> = {
-  "in / cm": "the dictionary declares two units for this field; one of them must be chosen in fieldSchema.ts",
-  // "MB/s" is megaBYTES per second, but the unit table folds case ("MT/s", "bit/s", "dB(A)" all
-  // need it) and it already reads "mb/s" as megaBITS. Guessing either way is an 8x error, so the
-  // field refuses everything until fieldSchema.ts names the unit unambiguously ("MByte/s") or the
-  // table learns a case-sensitive byte-rate rule. Before this entry a bare "500" on the field was
-  // stored as 500 MB/s with no unit stated anywhere — the silent half of the same defect.
-  "MB/s": "megabytes and megabits per second are indistinguishable after case folding",
-};
+ *  DELIBERATELY EMPTY as of 4 Sep 2026. Both entries were dictionary defects rather than genuine
+ *  limits of this module, and both were fixed at the dictionary instead of recorded here:
+ *
+ *    "in / cm" (`depth`, `height`) named TWO units, so no value could be read without choosing
+ *      one. Worse, the entry never fired: both fields were type "s", and a string field never
+ *      reaches convert(), so "5.1 in. / 13.0 cm" was stored verbatim under a unit label claiming
+ *      it was a length. A recorded gap that records nothing is a silent gap. Both are mm and
+ *      type "n" now, and in / cm / mm all convert into it.
+ *
+ *    "MB/s" refused everything because the case-folded table could not tell megabytes from
+ *      megabits. It is now decided — megaBYTES, the drive-vendor convention — and enforced by
+ *      the case-sensitive BYTE_RATE table above rather than by refusal.
+ *
+ *  The branch in convert() stays: a future unit may genuinely need it, and a refusal here is
+ *  still better than a guess. What must not happen is a unit being parked here when the real fix
+ *  is one line in the dictionary. */
+export const UNCONVERTIBLE: Record<string, string> = {};
 
 /** Decimal places for the canonical unit, where the default (6) would advertise precision the
  *  source never had. A Fahrenheit sheet states whole degrees, so (75-32)*5/9 is 23.9 °C, not
@@ -266,7 +314,18 @@ function roundTo(v: number, canonical: string | undefined): number {
 //   "c"  -> °C, only where a temperature is expected
 //   "f"  -> °F, only where a temperature is expected (Cisco writes "32 to 104 F" as often as °F)
 //   "x"  -> a zoom factor, only where the field IS one; everywhere else it is the times idiom
-function unitLookup(token: string, canonical?: string): [string, number] | null {
+// Exported for tests/specNormalize.units.test.mjs, which asserts that every canonical unit the
+// dictionary declares resolves through THIS function to its own CANON dimension and factor. That
+// round trip is what keeps the case-sensitive byte-rate rule alive: the moment someone folds case
+// one layer earlier, "MB/s" resolves to throughput while CANON says byterate, and the test fails
+// instead of eight-times-wrong drive figures reaching the store.
+export function unitLookup(token: string, canonical?: string): [string, number] | null {
+  // CASE-SENSITIVE FIRST. "MB/s" and "Mb/s" differ by one letter's case and by 8x, and everything
+  // below this point lower-cases. Neither table contains a single-letter token, so the ambiguous
+  // "g" / "m" / "c" / "f" / "x" rules underneath are unaffected.
+  const exact = token.replace(/\s+/g, "");
+  if (BYTE_RATE[exact]) return BYTE_RATE[exact];
+  if (BIT_RATE_EXACT[exact]) return BIT_RATE_EXACT[exact];
   let t = token.toLowerCase().replace(/\s+/g, "");
   if (!t) return null;
   const canonDim = canonical ? CANON[canonical]?.[0] : undefined;
@@ -394,6 +453,19 @@ function convert(n: number, rawUnit: string, canonical: string | undefined, key:
   if (!canonical) return countValue(n, rawUnit, adjacency?.glued ?? true, adjacency?.rest ?? "", key);
   if (UNCONVERTIBLE[canonical]) {
     return bad("UNIT_UNKNOWN", `${key}: canonical unit "${canonical}" cannot be converted — ${UNCONVERTIBLE[canonical]}`);
+  }
+  // A COUNT-LIKE field's "unit" NAMES WHAT IS COUNTED ("Einträge", "cores", "bays"), so a token
+  // stuck to the number is a MAGNITUDE, not a unit. Fields with no canonical unit already read
+  // that suffix through countValue; a count-like field WITH one did not, and mac_table "288K" was
+  // refused UNIT_UNKNOWN for as long as the split existed — a permanent gap on a spec Cisco
+  // publishes for every switch. Cisco's "288K" is 288,000 entries, not 294,912: these are
+  // published table sizes in decimal thousands, not memory allocations (countMultiplier).
+  // Scoped to tokens that ARE a magnitude, so nothing else moves: "10RU" on rack_units still
+  // converts through the ru dimension, "9216 bytes" on jumbo_mtu still converts through memory,
+  // and "60 W" on a core count is still refused as a power unit on a count.
+  if (COUNT_LIKE.has(canonical) && rawUnit && countMultiplier(rawUnit) !== undefined) {
+    const c = countValue(n, rawUnit, adjacency?.glued ?? true, adjacency?.rest ?? "", key);
+    return c.ok ? ok(c.value, canonical) : c;
   }
   // shape-C puts the unit in the LABEL, not the cell ("Weight ... [Kilograms]", "Cache Size (MB)").
   // The hint is only usable when it belongs to the SAME dimension as the field: a label unit that

@@ -4,9 +4,13 @@
 // completeness metric that quietly always says 100% — so several cases below assert that a part
 // CAN fail, not just that a good part passes.
 import {
-  FIELD_DICTIONARY, PROFILES, CATEGORIES, completenessV2, requirementFor, evalCondition,
-  profileCounts, domainFor, unitFor, type PartValues,
+  FIELD_DICTIONARY, PROFILES, CATEGORIES, UNIT_OVERRIDES, completenessV2, requirementFor,
+  evalCondition, profileCounts, domainFor, unitFor, type PartValues,
 } from "../src/core/fieldSchema.js";
+// The dimension map is taken from the normaliser's own CANON rather than restated here. A second
+// list of "which unit is which dimension" would drift from the one convert() actually uses, and
+// the drift would be invisible — the whole family of bugs this file exists to catch.
+import { CANON } from "../src/core/specNormalize.js";
 
 let pass = 0, fail = 0;
 function check(name: string, cond: boolean) {
@@ -111,6 +115,120 @@ check("no numeric band is inverted",
   Object.values(FIELD_DICTIONARY).every((d) => !d.band || d.band[0] < d.band[1]));
 check("Icecat feature-IDs are all null (populated in WP8 from reference files, never guessed)",
   Object.values(FIELD_DICTIONARY).every((d) => d.icecat === null || d.icecat === undefined));
+
+// ---- unit strings: one unit per string, one spelling per dimension ---------------------------------
+// Three real defects sat in this dictionary until 4 Sep 2026 and nothing could fail on any of them:
+//   * `depth` and `height` declared "in / cm" — TWO units offered as one, so no value on either
+//     field could be read without choosing between them. Both were typed "s" as well, so they
+//     never reached the normaliser at all and the raw "5.1 in. / 13.0 cm" was STORED under a unit
+//     label that was not true of it. A gap that records nothing is a silent gap.
+//   * `sequential_write_throughput` declared "MB/s" against a unit table that folds case and
+//     already read "mb/s" as megaBITS — an 8x ambiguity with no way to tell which was meant.
+//   * `beamwidth_elevation` said "°" while `beamwidth_azimuth` said "degrees": the two halves of
+//     ONE antenna measurement, made incomparable by a spelling.
+// The two rules below are what those three have in common, and they are written as a PREDICATE so
+// the sabotage cases underneath can feed it a deliberately broken dictionary. A rule that has only
+// ever seen the fixed dictionary would prove nothing.
+
+/** Units that legitimately contain a "/". EXPLICIT, because a "/" in a unit string is more often
+ *  the "in / cm" mistake — two alternative units written as one — than a real quotient. Every
+ *  entry must be IN USE: an allowlist nobody compares against is how "in / cm" survived review. */
+const COMPOUND_UNITS = new Set([
+  "Gbit/s", "Mbit/s",   // bits per second
+  "MB/s",               // BYTES per second — the drive-vendor convention, a different dimension
+  "MT/s",               // DDR transfers per second (not the clock, which is half)
+  "BTU/h",              // heat dissipation
+  "km/h",               // wind rating, roaming speed
+  "1/s",                // events per second (new connections, SSL handshakes)
+  "V/mW",               // responsivity
+  "ps/nm",              // chromatic dispersion
+  "pA/√Hz",             // noise density
+]);
+
+type UnitBearing = { unit?: string };
+
+/** Every defect in a dictionary's unit strings, named. Empty means clean. */
+function unitDefects(dict: Record<string, UnitBearing>, overrides: Record<string, Record<string, string>>,
+  canon: Record<string, [string, number]>, allow: Set<string>): string[] {
+  const out: string[] = [];
+  const declared = new Map<string, string[]>();
+  const note = (u: string | undefined, where: string) => {
+    if (!u) return;
+    if (!declared.has(u)) declared.set(u, []);
+    declared.get(u)!.push(where);
+  };
+  for (const [k, d] of Object.entries(dict)) note(d.unit, k);
+  // a per-category override is a declared unit too, and the same rules bind it
+  for (const [cat, m] of Object.entries(overrides)) for (const [k, u] of Object.entries(m)) note(u, `${cat}.${k}`);
+
+  for (const [u, keys] of declared) {
+    if (/\s/.test(u)) {
+      out.push(`SPACE: unit ${JSON.stringify(u)} (${keys.join(", ")}) — a unit string names exactly ONE unit`);
+    }
+    if (u.includes("/") && !allow.has(u)) {
+      out.push(`SLASH: unit ${JSON.stringify(u)} (${keys.join(", ")}) is not an allowlisted compound unit`);
+    }
+  }
+  // One physical quantity, one spelling. Same dimension AND same factor = the same unit, so two
+  // spellings of it make two fields incomparable for no reason. Different factors (GB vs MB, A vs
+  // mA) are genuinely different units and are left alone.
+  const byQuantity = new Map<string, string[]>();
+  for (const u of declared.keys()) {
+    const c = canon[u];
+    if (!c) continue;                       // counting words ("cores", "bays") have no dimension
+    const id = `${c[0]} x${c[1]}`;
+    if (!byQuantity.has(id)) byQuantity.set(id, []);
+    byQuantity.get(id)!.push(u);
+  }
+  for (const [id, spellings] of byQuantity) {
+    if (spellings.length > 1) {
+      out.push(`SPELLING: ${id} is written ${spellings.length} ways (${[...spellings].sort().join(", ")})`);
+    }
+  }
+  for (const u of allow) {
+    if (!declared.has(u)) out.push(`UNUSED: COMPOUND_UNITS allows ${JSON.stringify(u)} but no field declares it`);
+  }
+  return out;
+}
+
+const unitProblems = unitDefects(FIELD_DICTIONARY, UNIT_OVERRIDES, CANON, COMPOUND_UNITS);
+if (unitProblems.length) for (const p of unitProblems) console.error("    " + p);
+check("every dictionary unit names one unit, and one physical quantity has one spelling",
+  unitProblems.length === 0);
+
+// SABOTAGE. Each of the three historical defects is fed back in and must be caught, and caught for
+// the RIGHT reason — a defect list that merely goes non-empty would pass while naming the wrong
+// thing and send the next person to fix the wrong field.
+const sab = (patch: Record<string, UnitBearing>) =>
+  unitDefects({ ...FIELD_DICTIONARY, ...patch }, UNIT_OVERRIDES, CANON, COMPOUND_UNITS);
+
+const sabTwoUnits = sab({ depth: { unit: "in / cm" } });
+check("SABOTAGE: 'in / cm' is caught as a unit string naming two units",
+  sabTwoUnits.some((d) => d.startsWith("SPACE:") && d.includes("in / cm") && d.includes("depth")));
+
+const sabSpelling = sab({ ddos_mitigation_throughput: { unit: "Gbps" } });
+check("SABOTAGE: a second spelling of the same quantity is caught",
+  sabSpelling.some((d) => d.startsWith("SPELLING:") && d.includes("Gbit/s") && d.includes("Gbps")));
+
+const sabAngle = sab({ beamwidth_azimuth: { unit: "degrees" } });
+check("SABOTAGE: the beamwidth pair disagreeing again is caught",
+  sabAngle.some((d) => d.startsWith("SPELLING:") && d.includes("deg") && d.includes("degrees")));
+
+const sabSlash = sab({ heat_dissipation: { unit: "W/h" } });
+check("SABOTAGE: a compound unit that is not on the allowlist is caught",
+  sabSlash.some((d) => d.startsWith("SLASH:") && d.includes("W/h")));
+
+const sabUnused = unitDefects(FIELD_DICTIONARY, UNIT_OVERRIDES, CANON, new Set([...COMPOUND_UNITS, "furlong/fortnight"]));
+check("SABOTAGE: an allowlist entry no field uses is caught, so the list cannot drift",
+  sabUnused.some((d) => d.startsWith("UNUSED:") && d.includes("furlong/fortnight")));
+
+// And the rules must not be vacuous: if nothing declared a "/" or had a CANON dimension, every
+// case above would pass on an empty dictionary.
+const declaredUnits = new Set(Object.values(FIELD_DICTIONARY).map((d) => d.unit).filter(Boolean) as string[]);
+check("the slash rule has real compound units to check",
+  [...declaredUnits].filter((u) => u.includes("/")).length >= 5);
+check("the spelling rule has real dimensions to check",
+  [...declaredUnits].filter((u) => !!CANON[u]).length >= 30);
 
 console.log(`\nfieldSchema tests: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
