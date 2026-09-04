@@ -242,6 +242,16 @@ full; the ones that bite hardest here are restated.
   3,632 pre-existing `ports`/`uplink_ports` strings under a struct type — a decision for a
   hygiene run, not a side effect. TRAP hit twice today: a backgrounded Bash starts in the
   SESSION cwd (`D:\Project`), not the repo — every chain must begin with `cd`.
+  REMERGE COMMITTED as run #56 over 27,558 open conflicts (runs 38 + 45): retract ~14k
+  (licence 3,414, family mismatch 3,330, SFP 3,151, GLC- 1,361, CAB- 1,212, PWR- 789, …),
+  agree 1,994 (tolerance 1,693, set 237, prefix 64), same-doc re-extraction with no stored raw
+  5,218 (left open for the re-apply), cross-doc 3,828 + tier-0 465 + same-doc 74 stay open.
+  The re-applies then hit the gate twice, both correctly: s0 "REGRESSION 485 → 437 produced"
+  — `describesPart` now refuses component inheritance, so produced-per-doc drops BY DESIGN on
+  the same file → re-run with `--allow-regression` and the reason; s1 precision 0.95 — the
+  1.5.0 list rule "never split on `/`" keeps `PWR-C1-1900WAC-P/ PWR-C1-1900WHV-T` as one
+  element and the golden reads WRONG → normaliser 1.5.1 agent (a slash between two PIDs is a
+  separator; `10/100/1000`, `IEC/EN-61000-4-2` stay whole).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
