@@ -252,6 +252,12 @@ full; the ones that bite hardest here are restated.
   1.5.0 list rule "never split on `/`" keeps `PWR-C1-1900WAC-P/ PWR-C1-1900WHV-T` as one
   element and the golden reads WRONG → normaliser 1.5.1 agent (a slash between two PIDs is a
   separator; `10/100/1000`, `IEC/EN-61000-4-2` stay whole).
+  Also: the supervisor's provantage apply at 07:26 UTC died on `column "kept_raw" … does not
+  exist` — the laptop's working tree already wrote 0008's columns while production had not
+  been migrated yet (the deploy migrated it at ~09:25 UTC). A working-tree pipeline runs
+  ahead of the schema between an agent's landing and the deploy; the rollback held, and the
+  window closes with the deploy — but note it when a supervisor step fails right after a
+  schema-bearing commit.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
