@@ -330,9 +330,10 @@ class Browser:
                     pass
                 self._page.wait_for_timeout(1500)
         try:
+            self._page.wait_for_load_state("domcontentloaded", timeout=20000)
             return self._page.content()
-        except Exception:  # noqa
-            raise last or RuntimeError("could not capture the page")
+        except Exception as e:  # noqa — the page is still navigating (a challenge loop): report a timeout, not a crash
+            raise TimeoutError(f"page still navigating after retries: {str(last or e)[:120]}")
 
     def fetch_binary(self, url: str, politeness_ms: int = 350, referer: str | None = None, timeout: int = 60000) -> dict:
         """Bytes of a non-HTML asset (image, PDF) through the browser CONTEXT's request API, so
