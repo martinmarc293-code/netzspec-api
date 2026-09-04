@@ -16,7 +16,8 @@
 import { FIELD_DICTIONARY, domainFor, unitFor } from "./fieldSchema.js";
 import { parsePorts } from "./portParse.js";
 
-export const NORM_VERSION = "1.0.0";
+// 1.1.0: unit-less counts read their magnitude suffix ("360K", "2 million") instead of dropping it.
+export const NORM_VERSION = "1.1.0";
 
 export type NormReason =
   | "PARSE_FAIL" | "UNIT_MISSING" | "UNIT_UNKNOWN" | "ENUM_VIOLATION"
@@ -50,8 +51,20 @@ export function parseNumber(s: string, locale: Locale = "de"): number | null {
     // whichever separator is LAST is the decimal one - true in both locales
     t = t.lastIndexOf(",") > t.lastIndexOf(".") ? t.replace(/\./g, "").replace(",", ".") : t.replace(/,/g, "");
   } else if (hasComma) {
-    // "1,335,012" is unambiguous in either locale: repeated 3-digit groups are thousands.
-    if (locale === "en" || /^\d{1,3}(,\d{3})+$/.test(t)) t = t.replace(/,/g, "");
+    // "1,335,012" is unambiguous in either locale: TWO or more 3-digit groups can only be
+    // thousands. One group is not. "1,335" is 1335 in English and 1.335 in German, and while
+    // the shortcut accepted a single group, the German "0,075 kg" — a 75 g optic — normalised
+    // to 75 kg, in band, under locale "de" (3 Sep 2026). One comma under "de" is the decimal
+    // point; an English source that writes "32,000" must say locale "en", as every caller now
+    // does, rather than have the parser guess.
+    // Replayed over the Atlas catalogue before this shipped: 3,015 English-locale entries are
+    // untouched; of the 14 tier-0 German seed entries with one comma group, 8 ("8,928 Mpps" on
+    // the IE-3100 / CMICR industrial switches, "2,475 W" on SFP-10G-OLT20-X) had been stored
+    // 1000x too high and now read correctly, and 6 (C9300X-48HX/-48TX -E/-A/-M, "1,760 Gbps")
+    // are English formatting pasted into German text and now read 1.76 Gbit/s — in band, so no
+    // gate sees it. That is a seed-data fix (their base SKUs already say "1760 Gbit/s"), not a
+    // reason to make the parser guess: no shape rule separates "8,928" from "1,760".
+    if (locale === "en" || /^\d{1,3}(,\d{3}){2,}$/.test(t)) t = t.replace(/,/g, "");
     else t = t.replace(",", ".");
   } else if (hasDot) {
     if (locale === "de") {
@@ -167,17 +180,78 @@ const RANGE_SEP = "(?:bis|to|\\u2013|\\u2014|\\.\\.\\.|\\.\\.|~|-)";
 // "Eintrge" — two UNIT_UNKNOWNs that were artefacts of the regex, not of the data.
 const UNIT_TOKEN = "[A-Za-z°%µ\\u00c4\\u00d6\\u00dc\\u00e4\\u00f6\\u00fc\\u00df/]*(?:\\([A-Za-z]\\))?";
 
-/** Extract the first "<number> <unit?>" occurrence. */
-function firstNumberUnit(s: string): { n: number; unit: string } | null {
+/** Extract the first "<number> <unit?>" occurrence.
+ *  The locale is NOT optional in spirit: this helper once called parseGermanNumber outright,
+ *  so the `n` branch of normalizeField ignored opts.locale entirely while the `nr` and
+ *  `dimensions` branches honoured it. An English "0.075 kg" (router-switch GLC-TE page) came
+ *  out as 75 kg — in band, so nothing refused it — and "1.125 kg" as 1125, caught only by the
+ *  band. The default stays "de" for the German call sites; English callers must say so.
+ *
+ *  `glued` records whether the token touches the last digit ("64K", "10G") or follows a space
+ *  ("6 zl2-Modul-Steckplätze", "8 PoE+"). On a unit-less count field that is the difference
+ *  between a magnitude symbol and a word naming what is counted — see countValue. `rest` is
+ *  whatever follows the token. */
+type NumberHit = { n: number; unit: string; glued: boolean; rest: string };
+
+function firstNumberUnit(s: string, locale: Locale = "de"): NumberHit | null {
   const m = new RegExp(`(${NUM})\\s*(${UNIT_TOKEN})`).exec(s);
   if (!m) return null;
-  const n = parseGermanNumber(m[1]);
+  const n = parseNumber(m[1], locale);
   if (n === null) return null;
-  return { n, unit: (m[2] || "").trim() };
+  const token = m[2] || "";
+  const between = m[0].slice(m[1].length, m[0].length - token.length);
+  const glued = token !== "" && between === "" && /[0-9]$/.test(m[1]);
+  return { n, unit: token.trim(), glued, rest: s.slice(m.index + m[0].length) };
 }
 
-function convert(n: number, rawUnit: string, canonical: string | undefined, key: string, unitHint?: string): NormResult {
-  if (!canonical) return ok(n);
+// Unit-less counts — route-table sizes, ACL entries, multicast groups, slots, ports — have no
+// canonical unit, and convert() used to return the bare number for them whatever followed it.
+// Cisco states these with a magnitude suffix, so ipv4_routes "360K" was stored as 360, "2 million"
+// as 2 and acl_entries "64K" as 64: in band, confident, wrong. Only multicast_groups "1K" fell
+// below its band and was refused (3 Sep 2026). Fields WITH a canonical unit never had the
+// problem: "K" is not in UNITS, so mac_table "288K" was refused UNIT_UNKNOWN and stayed a gap.
+//
+// What may follow the number on a count field, decided from the 1,140 stored values of the real
+// corpus rather than from the clean shapes:
+//   nothing                               "64,000"                            -> n
+//   a magnitude symbol or word            "360K", "64k entries", "2 million"  -> n × factor
+//   "Nx <thing>", the times idiom         "2x 2.4 GHz and 2x 5 GHz"           -> n
+//   a word after a space: WHAT is counted "6 zl2-Modul-Steckplätze", "8 PoE+" -> n
+//   a physical unit                       "300 Mpps", "4 GB"                  -> UNIT_UNKNOWN
+//   any other symbol glued to the number  "64X", "10G", a bare "64x"          -> UNIT_UNKNOWN
+// The refusals are the sabotage half: a count whose suffix we cannot read is not a count we can
+// store, and a count carrying a packet rate or a memory size is a mis-mapped fact, not a count.
+// Words the multiplier list does not know ("Mio.", "Millionen") fall into the last two rows and
+// are refused when glued, accepted as a description when spaced — never silently scaled.
+function countMultiplier(token: string): number | undefined {
+  if (token === "k" || token === "K") return 1e3;
+  if (token === "M") return 1e6;                       // lower-case m is not a magnitude anywhere in the corpus
+  const word = token.toLowerCase();
+  if (word === "thousand") return 1e3;
+  if (word === "million" || word === "millions") return 1e6;
+  return undefined;
+}
+
+function countValue(n: number, token: string, glued: boolean, rest: string, key: string): NormResult {
+  if (!token) return ok(n);
+  const factor = countMultiplier(token);
+  if (factor !== undefined) return ok(Math.round(n * factor * 1e6) / 1e6);
+  if ((token === "x" || token === "X") && glued && rest.trim() !== "") return ok(n);
+  const known = unitLookup(token);
+  if (known && known[0] !== "count") {
+    return bad("UNIT_UNKNOWN", `${key}: "${token}" is a ${known[0]} unit on a count field`);
+  }
+  if (glued) {
+    return bad("UNIT_UNKNOWN", `${key}: suffix "${token}" on ${n} is not a magnitude we read (K, M, thousand, million)`);
+  }
+  return ok(n);
+}
+
+/** `adjacency` is the number hit itself (glued/rest); a caller without one — the two ends of a
+ *  range — gets the strict reading, where any unrecognised token counts as glued. */
+function convert(n: number, rawUnit: string, canonical: string | undefined, key: string, unitHint?: string,
+  adjacency?: { glued: boolean; rest: string }): NormResult {
+  if (!canonical) return countValue(n, rawUnit, adjacency?.glued ?? true, adjacency?.rest ?? "", key);
   if (!rawUnit && unitHint) rawUnit = unitHint;   // shape-C puts the unit in the LABEL, not the cell
   if (!rawUnit) {
     // A bare number is acceptable only for count-like fields, which have no canonical unit
@@ -406,9 +480,9 @@ export function normalizeField(category: string, key: string, raw: string, opts:
       return bad("ENUM_VIOLATION", `${key}: "${s}" not in domain [${domain.slice(0, 6).join("|")}...]`);
     }
     case "n": {
-      const hit = firstNumberUnit(s);
+      const hit = firstNumberUnit(s, locale);
       if (!hit) return bad("PARSE_FAIL", `${key}: no number in "${s}"`);
-      const conv = convert(hit.n, hit.unit, canonical, key, hint);
+      const conv = convert(hit.n, hit.unit, canonical, key, hint, hit);
       if (!conv.ok) return conv;
       const viol = inBand(key, conv.value as number);
       return viol ?? conv;
@@ -418,9 +492,9 @@ export function normalizeField(category: string, key: string, raw: string, opts:
       const m = re.exec(s);
       if (!m) {
         // a single value is a legitimate degenerate range ("max. 45 °C")
-        const hit = firstNumberUnit(s);
+        const hit = firstNumberUnit(s, locale);
         if (!hit) return bad("PARSE_FAIL", `${key}: no range or number in "${s}"`);
-        const c1 = convert(hit.n, hit.unit, canonical, key, hint);
+        const c1 = convert(hit.n, hit.unit, canonical, key, hint, hit);
         if (!c1.ok) return c1;
         const v1 = c1.value as number;
         return inBand(key, v1) ?? ok({ min: v1, max: v1 }, canonical);
