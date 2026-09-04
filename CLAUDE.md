@@ -99,6 +99,18 @@ full; the ones that bite hardest here are restated.
   command (facts with `norm_v` < current: re-run the normaliser on `raw`; a changed value
   supersedes inside a run, an identical one only re-stamps) — 6 dimension values change,
   103,558 rows re-stamp; blocked until the store files are free.
+  FOUND 05:00 UTC, the worst one of the day: every `apply-acquired` run of the day (#24–#31)
+  landed ZERO facts. provantage: 992 pages, 208 entries, `parts_matched 0` — the searches were
+  for assembly numbers and foreign PNs (`10-2583-01`, `00NU537`) and discovery enqueued every
+  fuzzy hit regardless of manufacturer (Extreme 10053H, AddOn/Axiom compatibles).
+  router-switch: 193 entries, all SEARCH pages whose entry sku is the page title. itprice: 290
+  parts matched, 0 facts — its inventory maps no spec field (prices are counted, not stored;
+  EoS dates not landed as lifecycle). The watchdog's yield metric counted facts SEEN by the
+  adapter, so it called all three lanes healthy. Agent in flight: vendor-restricted discovery,
+  planner refuses un-findable keys, watchdog measures facts LANDED from the `runs` stats.
+  TODO after: itprice landing (list price + GPL date as dictionary fields, EoS → lifecycle);
+  a killed apply step leaves a `running` run with partial facts (no rollback on SIGKILL) —
+  the store must fail stale runs on the next start.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
