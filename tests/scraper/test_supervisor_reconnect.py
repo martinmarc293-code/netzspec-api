@@ -172,5 +172,70 @@ check("C8", "cycle() actually CALLS apply_chunks - an unbounded input with a bou
             "it is the shape this repository keeps finding",
       "apply_chunks(day_files)" in (ROOT / "scraper" / "brands" / "run_brand.py").read_text(encoding="utf-8"))
 
+# ---------------------------------------------------------------------------------------------
+# 4. pending_files — the apply input must SHRINK, or a successful drain changes nothing
+# ---------------------------------------------------------------------------------------------
+# Chunking made each invocation finishable. It did NOT make the input smaller: the set being
+# chunked was still "everything in today's directory", so applying all of it removed nothing from
+# the glob and the next cycle passed the same files again. A successful drain left the loop exactly
+# as stuck as before it, the cost grew all day, and it cleared only when the UTC date rolled —
+# every brand cheap at 00:30 and unusable by 21:00.
+import tempfile  # noqa: E402
+import shutil as _sh  # noqa: E402
+
+_tmp = Path(tempfile.mkdtemp(prefix="netzspec-pending-"))
+try:
+    lane_a, lane_b = _tmp / "cisco-datasheets" / "d", _tmp / "cisco-eol" / "d"
+    for d in (lane_a, lane_b):
+        d.mkdir(parents=True)
+    for i in range(5):
+        (lane_a / f"a{i}.json").write_text("{}", encoding="utf-8")
+    for i in range(3):
+        (lane_b / f"b{i}.json").write_text("{}", encoding="utf-8")
+
+    check("P1", "with no marker every file is pending - a fresh day applies everything",
+          len(RB.pending_files([lane_a, lane_b])) == 8, len(RB.pending_files([lane_a, lane_b])))
+    RB.record_applied(lane_a, ["a0.json", "a1.json"])
+    rest = RB.pending_files([lane_a, lane_b])
+    check("P2", "files a SUCCEEDED chunk took are gone from the next cycle's input - this is the "
+                "whole fix: the set shrinks, so a drain actually drains",
+          len(rest) == 6 and not any(x.endswith("a0.json") for x in rest), len(rest))
+    check("P3", "the marker is PER LANE-DAY - marking one lane does not hide another's work",
+          sum(1 for x in rest if "cisco-eol" in x) == 3, [x for x in rest if "cisco-eol" in x])
+    RB.record_applied(lane_a, ["a2.json"])
+    check("P4", "recording is cumulative across cycles, not last-write-wins",
+          len(RB.pending_files([lane_a])) == 2, RB.pending_files([lane_a]))
+    check("P5", "the marker itself is never offered as work - it is not acquired JSON",
+          not any(x.endswith(RB.APPLIED_MARKER) for x in RB.pending_files([lane_a])))
+    (lane_a / RB.APPLIED_MARKER).write_text("{ truncated", encoding="utf-8")
+    check("P6", "SABOTAGE a CORRUPT marker re-applies everything rather than hiding it. Wrongly "
+                "remembering costs a document that never reaches the store; forgetting costs time, "
+                "and apply-acquired is idempotent - so it fails towards doing the work again",
+          len(RB.pending_files([lane_a])) == 5, len(RB.pending_files([lane_a])))
+    (lane_a / RB.APPLIED_MARKER).unlink()
+    check("P7", "SABOTAGE a MISSING marker is the same as a corrupt one - both mean 'assume nothing "
+                "was applied'", len(RB.pending_files([lane_a])) == 5)
+    # a new file arriving after the marker was written is pending, which is the incremental case
+    RB.record_applied(lane_a, [f"a{i}.json" for i in range(5)])
+    (lane_a / "a9.json").write_text("{}", encoding="utf-8")
+    check("P8", "a file that arrives AFTER a successful apply is pending - the marker names files, "
+                "so a later arrival cannot be swallowed by a timestamp comparison",
+          RB.pending_files([lane_a]) == [str(lane_a / "a9.json")], RB.pending_files([lane_a]))
+    check("P9", "a fully-drained lane offers NOTHING - the deadlock is gone rather than deferred",
+          RB.pending_files([lane_b]) != [] and RB.pending_files([lane_a]) != [],
+          "sanity: both still have work before the last record")
+    RB.record_applied(lane_a, ["a9.json"])
+    check("P10", "...and once the last file is recorded the lane is empty, so the cycle costs "
+                 "nothing instead of re-applying the day",
+          RB.pending_files([lane_a]) == [], RB.pending_files([lane_a]))
+    check("P11", "cycle() actually CALLS pending_files - the shrinking set must be the one the "
+                 "chunker chunks, not a helper sitting beside it",
+          "pending_files(day_dirs)" in (ROOT / "scraper" / "brands" / "run_brand.py").read_text(encoding="utf-8"))
+finally:
+    _sh.rmtree(_tmp, ignore_errors=True)
+check("P12", "SABOTAGE the temp tree is gone - a test that leaves acquired-looking directories "
+             "behind would be read as real work by the next thing that globs",
+      not _tmp.exists())
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

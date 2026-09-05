@@ -43,6 +43,7 @@ here is reported, carried into the next cycle's log, and the loop continues.
 from __future__ import annotations
 
 import argparse
+import json
 import shutil
 import subprocess
 import sys
@@ -105,6 +106,67 @@ def apply_chunks(files: list[str], size: int = APPLY_CHUNK_FILES) -> list[list[s
     if size <= 0:
         return [list(files)]
     return [list(files[i:i + size]) for i in range(0, len(files), size)]
+
+
+#: Written beside the day's acquired JSON, naming the files a SUCCEEDED apply has already taken.
+APPLIED_MARKER = ".applied.json"
+
+
+def load_applied(day_dir: Path) -> set[str]:
+    """Basenames in this lane-day that a successful apply has already consumed.
+
+    A missing or unreadable marker returns EMPTY, which re-applies. That direction is deliberate:
+    apply-acquired is idempotent - a fact re-applied at the same value supersedes nothing - so the
+    cost of forgetting is time, and the cost of wrongly remembering is a document that never
+    reaches the store. Fail towards doing the work again.
+    """
+    try:
+        data = json.loads((day_dir / APPLIED_MARKER).read_text(encoding="utf-8"))
+        return set(data.get("applied") or [])
+    except Exception:  # noqa - missing, truncated, or not JSON: all mean "assume nothing applied"
+        return set()
+
+
+def record_applied(day_dir: Path, names) -> None:
+    """Add these basenames to the lane-day's marker, after the chunk that wrote them SUCCEEDED."""
+    have = load_applied(day_dir)
+    have.update(names)
+    tmp = day_dir / (APPLIED_MARKER + ".tmp")
+    try:
+        # Write to a temp path and replace: `open(path,"w")` truncates BEFORE the write can fail,
+        # and a marker truncated mid-write would silently re-apply the whole day (D:\Project\CLAUDE.md).
+        tmp.write_text(json.dumps({"applied": sorted(have)}), encoding="utf-8")
+        tmp.replace(day_dir / APPLIED_MARKER)
+    except OSError:
+        pass          # a marker we cannot write costs a re-apply, never a lost document
+
+
+def pending_files(day_dirs: list[Path]) -> list[str]:
+    """Today's acquired files that no successful apply has taken yet.
+
+    THE INPUT HAS TO SHRINK, and chunking alone does not make it. Chunking made each invocation
+    finishable - its own run, a durable partial drain, a failure costing one chunk instead of the
+    day - and that was the right fix for runs 113 and 117. But the SET being chunked was still
+    "everything in today's directory", and applying all of it removes nothing from the glob. The
+    next cycle passes the same files again, so a successful drain leaves the loop exactly as stuck
+    as before it, the cost grows all day, and it clears only when the UTC date rolls. Every brand
+    would be cheap at 00:30 and unusable by 21:00. Juniper met it first only because their lane
+    built a whole backlog in one hour with no apply step at all.
+    """
+    out: list[str] = []
+    for d in day_dirs:
+        done = load_applied(d)
+        for p in sorted(d.glob("*.json")):
+            # THE MARKER IS NOT AN ACQUIRED DOCUMENT. `.applied.json` lives in the same directory
+            # and ends in .json, so the glob offered it as work - it would have been handed to
+            # apply-acquired as a page to extract from, every cycle, for ever. Caught by this
+            # function's own test (P5) rather than in production, which is the whole reason the
+            # test names the marker explicitly instead of only counting files.
+            if p.name == APPLIED_MARKER or p.name.startswith(APPLIED_MARKER):
+                continue
+            if p.name not in done:
+                out.append(str(p))
+    return sorted(out)
 
 
 def brand_key(brand: str) -> int:
@@ -368,7 +430,7 @@ def cycle(conn, brand, runs: Path, max_tasks: int, plan_limit: int) -> None:
     acq_root = ROOT / "runs" / "acquired"
     day_dirs = [acq_root / lane["slug"] / today
                 for lane in lanes if (acq_root / lane["slug"] / today).is_dir()]
-    day_files = sorted(str(p) for d in day_dirs for p in d.glob("*.json"))
+    day_files = pending_files(day_dirs)
     chunks = apply_chunks(day_files)
     acquired = [str(d) for d in day_dirs]     # kept for the "nothing acquired" message below
     if not acquired:
@@ -395,6 +457,13 @@ def cycle(conn, brand, runs: Path, max_tasks: int, plan_limit: int) -> None:
                     [NODE, "--import", "tsx", "src/pipeline/cli.ts", "apply-acquired", *chunk,
                      "--vendor", brand.vendor_slug, "--commit"], 1800):
                 done_ok += 1
+                # ONLY on success. A chunk that failed stays eligible, so the next cycle retries it
+                # rather than the marker quietly recording work that never landed.
+                by_dir: dict[Path, list[str]] = {}
+                for f in chunk:
+                    by_dir.setdefault(Path(f).parent, []).append(Path(f).name)
+                for d, names in by_dir.items():
+                    record_applied(d, names)
             else:
                 # Reported per chunk and the loop CONTINUES: one bad chunk must not cost the
                 # others, which is the whole reason for chunking. The next cycle re-attempts only
