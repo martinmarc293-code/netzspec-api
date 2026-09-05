@@ -4,6 +4,82 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-05 ~11:00 — Opus session, work block 1: the proxy lanes are BUILT, DEPLOYED and
+  DISPROVEN.** Stopped early at the operator's request (laptop shutting down).
+
+  **Committed and deployed: `7278eb7`** (live `/health` version equals the SHA captured before
+  deploying; migration 0011 applied to production by the deploy). One commit, the whole
+  scraper-side group: the residential-proxy lanes (worker.py, 0011, docs/SCRAPING.md) and the
+  round-3 ops group (sentinel, watchdog, nightshift.ps1, START-SCRAPERS, RUNBOOK). They share
+  `watchdog.py`, `sentinel.py` and `test_watchdog.py`, so they cannot be split at file
+  granularity and one commit is the honest unit. Verified by hand before committing:
+  `test_watchdog.py` **248/248** on `_test4`, `test_worker_units.py` 128/128,
+  `test_worker_browser.py` 22/22, `npm run typecheck` exit 0, and a scan of every tracked and
+  untracked file for the proxy login and password — neither appears anywhere.
+
+  **Two defects found and fixed in the inherited uncommitted work.**
+  1. `watchdog.py` had `if False and plan_total_bytes > PROXY_PLAN_ALARM_BYTES:` — the
+     plan-level 4 GB alarm was dead code that could never fire. PX19 was red for exactly that
+     and is green now.
+  2. **The sentinel never read `proxy_budget_exhausted`.** The outcome existed, worker.py wrote
+     it, docs described it, and nothing asked: `check()` starts a worker for any enabled lane
+     with >= 5 runnable tasks and no process, so an out-of-budget lane would have been started
+     every three minutes all night to exit again at once. `budget_spent()` + PB1–PB17 now close
+     it, PB9–PB15 through `check()` itself. PB16/PB17 are the lockstep — sentinel.py is
+     stdlib-only by design and cannot import worker's constant, so the beat under test is built
+     by `worker.heartbeat_record()` and the KEYS are proven with the string.
+
+  **The proof failed, and this is the finding that matters.** The machinery is right: the lane
+  launches through the gateway with the URL redacted everywhere, the route filter aborted **148**
+  image/media/font/analytics requests on one router-switch page, the meter wrote real numbers
+  into `fetches.proxy_bytes` and the heartbeat, and the gateway routes — exit `82.40.105.48`,
+  United States, ISP "Rocks Computer Services", `proxy:false hosting:false`, username suffix
+  `__cr.us;sessid.<lane><pid>` accepted. But of 3 tasks per lane: **itprice 3/3 blocked** (twice,
+  the second time with a re-seeded profile), **router-switch 1 `not_listed` + 2 blocked**. The
+  screenshots `worker.py` saves under `runs/screens/` show why — both sites serve an
+  **interactive Cloudflare Turnstile** ("Performing security verification" / "Verify you are
+  human" with an unticked checkbox), not the automatic JS challenge the 25 s wait was built for.
+  Waiting cannot clear it and **no CAPTCHA-defeating code was written or will be**. The lanes
+  were therefore NOT restarted. Spend: **1.69 MB of the 5,120 MB plan**.
+  DECISION FOR THE OPERATOR: itprice and router-switch need a different answer — a data feed or
+  permission from the sites, or dropping them for the official vendor lanes (backlog 9). The
+  residential proxy is not it. The rows are left `proxy='residential', proxy_country='us'`
+  (harmless: both sources are disabled and nothing spends while they are).
+
+  **State:** every source disabled, nothing scrapes, no suite running, working tree holds the
+  four groups still uncommitted (images, partnumber, merge-core, gate — gate still INCOMPLETE,
+  3 coverage-floor cases). `_test4` is migrated to 0011 and free.
+
+  **NEXT, in order:** (1) block detection, resumed — the fingerprint work is *specified by
+  evidence now*: the block was caught by the 403 STATUS, not by a fingerprint, and
+  `sources/base.py CHALLENGE` does **not** match today's Turnstile wording, so a challenge served
+  with HTTP 200 is still read as `not_listed` by every adapter whose `is_not_found()` returns
+  `looks_blocked()`. Give `base.py` a `challenge_fingerprint(html) -> name | None` over the
+  STRUCTURAL markers (`/cdn-cgi/challenge-platform`, `__cf_chl`, `cf_chl_`, `cf-chl-`,
+  `cf-turnstile`, `challenges.cloudflare.com`, "just a moment", "client challenge", "verify you
+  are human", "performing security verification", "checking your browser", "enable javascript and
+  cookies") with NO length guard, keep the wordy ones behind the length guard, and name the
+  fingerprint in the outcome. Then the per-source block-rate alarm saying BLOCKED in plain words.
+  (2) The auto-response should NOT be "switch to the residential proxy" unconditionally — today
+  proves a proxy does not clear an interactive challenge; switch only on an IP-shaped block
+  (403/429 with no interactive fingerprint) and otherwise pause with the named reason.
+  (3) A calibration script `challenge_corpus.py` is in this session's scratchpad; it measures how
+  many cached interstitials `looks_blocked()` misses. It takes ~35 min over the 14,836-file cache
+  (1.3 GB read through the D: junction) — re-run it reading only the first 64 KB per file and
+  printing progress, and use `f.stat().st_size` for the length.
+
+  **TRAPS HIT.** (a) TWO stray copies of `test_watchdog.py` from the other session were
+  truncating `_test4` under my first run and produced **24 phantom misses**; an isolated repro of
+  one case passed, which is what exposed it. Killed by exact PID — a name-matched filter matches
+  its own command line. One session runs DB suites at a time, and a suite should take
+  `pg_try_advisory_lock`. (b) A **bash heredoc ate the `\\` escapes** in a scratch Python script,
+  so `"D:\\Project\\..."` became a string with real newlines and tabs and a stub silently matched
+  nothing — the CLAUDE.md rule is about Python heredocs writing JS, but it is the same trap in
+  the other direction: write anything containing a backslash with the Write/Edit tool. The real
+  test file was written with Edit and was correct, which is why the suite passed and only the
+  scratch harness lied. (c) A background suite whose reader dies **blocks on a full stdout pipe**
+  — 15 minutes at 6 s of CPU, DB connection idle in `ClientRead`, no children. Redirect long runs
+  to a FILE via `Start-Process`.
 - **2026-09-05 09:50 — Fable session CLOSED (post-handoff addendum).** After the handoff was
   pushed (`1d346c0`) the two in-flight suite runs finished. `netzspec_test3` (0011 applied there):
   apply-extract 146 passed / 3 missed (the known coverage-floor cases), store PASS, remerge 73/73,
