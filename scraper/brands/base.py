@@ -33,6 +33,12 @@ class DocClass:
     authority_tier: int
     refresh_days: int
     required: bool = True          # does a hardware part need one of these to count as covered?
+    #: Can a document of this class carry a SPECIFICATION at all? This is the field the coverage
+    #: split turns on, and getting it wrong is not hypothetical: an end-of-life notice lists the
+    #: PIDs it affects and no specifications whatsoever, so a part whose only "datasheet" is one of
+    #: those has never had a datasheet fetched. Counting it as one made 18,977 Cisco hardware parts
+    #: look like an extraction failure when they were a crawl gap (5 Sep 2026).
+    bears_specs: bool = True
     notes: str = ""
 
 
@@ -85,26 +91,44 @@ def coverage(conn, brand: BrandPack) -> dict:
     crawling problem. Measured on Cisco on 5 Sep 2026, the two were 33,863 and 6,843 - so a plan
     built on the average would have sent the effort to the smaller half.
     """
+    spec_classes = [d.key for d in brand.doc_classes if d.bears_specs]
+    if not spec_classes:
+        raise ValueError(f"{brand.slug}: no document class is marked bears_specs — coverage cannot "
+                         "be measured, and a brand whose every class is spec-less would report a "
+                         "crawl gap of 100% for ever")
     row = conn.execute("""
         WITH hw AS (
           SELECT p.id FROM parts p JOIN vendors v ON v.id = p.vendor_id
            WHERE v.slug = %s AND p.retired_at IS NULL AND p.product_class = 'hardware'),
-        d AS (SELECT DISTINCT part_id FROM doc_parts),
+        spec AS (SELECT DISTINCT dp.part_id
+                   FROM doc_parts dp JOIN source_docs sd ON sd.doc_id = dp.doc_id
+                  WHERE sd.doc_type = ANY(%s)),
+        anydoc AS (SELECT DISTINCT part_id FROM doc_parts),
         f AS (SELECT part_id FROM facts WHERE superseded_at IS NULL GROUP BY 1)
-        SELECT count(*)                                                            AS hardware,
-               count(*) FILTER (WHERE d.part_id IS NOT NULL AND f.part_id IS NOT NULL) AS doc_and_facts,
-               count(*) FILTER (WHERE d.part_id IS NOT NULL AND f.part_id IS NULL)     AS doc_no_facts,
-               count(*) FILTER (WHERE d.part_id IS NULL     AND f.part_id IS NOT NULL) AS facts_no_doc,
-               count(*) FILTER (WHERE d.part_id IS NULL     AND f.part_id IS NULL)     AS neither
-          FROM hw LEFT JOIN d ON d.part_id = hw.id LEFT JOIN f ON f.part_id = hw.id
-    """, (brand.vendor_slug,)).fetchone()
+        SELECT count(*)                                                                   AS hardware,
+               count(*) FILTER (WHERE spec.part_id IS NOT NULL AND f.part_id IS NOT NULL) AS doc_and_facts,
+               count(*) FILTER (WHERE spec.part_id IS NOT NULL AND f.part_id IS NULL)     AS doc_no_facts,
+               count(*) FILTER (WHERE spec.part_id IS NULL     AND f.part_id IS NOT NULL) AS facts_no_doc,
+               count(*) FILTER (WHERE spec.part_id IS NULL     AND f.part_id IS NULL)     AS neither,
+               count(*) FILTER (WHERE spec.part_id IS NULL     AND anydoc.part_id IS NOT NULL
+                                  AND f.part_id IS NULL)                                  AS only_nonspec_doc
+          FROM hw LEFT JOIN spec ON spec.part_id = hw.id
+                  LEFT JOIN anydoc ON anydoc.part_id = hw.id
+                  LEFT JOIN f ON f.part_id = hw.id
+    """, (brand.vendor_slug, spec_classes)).fetchone()
     hw = row["hardware"] or 0
     covered = row["doc_and_facts"] + row["facts_no_doc"]
     return {**row,
+            "spec_classes": spec_classes,
             "covered": covered,
             "covered_pct": round(100.0 * covered / hw, 1) if hw else 0.0,
+            # The recall gap counts ONLY parts holding a SPEC-BEARING document. Before the document
+            # classes were corrected this counted any document at all, so 18,977 parts whose only
+            # "datasheet" was an end-of-life notice were filed as an extraction failure. They are a
+            # crawl gap: nobody has ever fetched a datasheet for them.
             "recall_gap": row["doc_no_facts"],
-            "crawl_gap": row["neither"]}
+            "crawl_gap": row["neither"],
+            "only_nonspec_doc": row["only_nonspec_doc"]}
 
 
 def completeness(conn, brand: BrandPack) -> dict:
@@ -130,6 +154,11 @@ def recall_gap_by_family(conn, brand: BrandPack, limit: int = 15) -> list:
     document too, because "UCS C-Series has 4,414 parts with no facts" is an observation and
     "...and they all point at this one datasheet" is an instruction.
     """
+    # SPEC-BEARING documents only, for the same reason coverage() counts them: a family whose parts
+    # all hold an end-of-life notice is not an extraction backlog, it is a family nobody has fetched
+    # a datasheet for, and putting it at the top of the extractor's work queue sends the next hour
+    # to the wrong place.
+    spec_classes = [d.key for d in brand.doc_classes if d.bears_specs]
     return conn.execute("""
         WITH hw AS (
           SELECT p.id, p.family FROM parts p JOIN vendors v ON v.id = p.vendor_id
@@ -140,10 +169,11 @@ def recall_gap_by_family(conn, brand: BrandPack, limit: int = 15) -> list:
                count(DISTINCT dp.doc_id)          AS documents
           FROM hw
           JOIN doc_parts dp ON dp.part_id = hw.id
+          JOIN source_docs sd ON sd.doc_id = dp.doc_id AND sd.doc_type = ANY(%s)
           LEFT JOIN f ON f.part_id = hw.id
          WHERE f.part_id IS NULL
          GROUP BY 1 ORDER BY 2 DESC LIMIT %s
-    """, (brand.vendor_slug, limit)).fetchall()
+    """, (brand.vendor_slug, spec_classes, limit)).fetchall()
 
 
 def document_freshness(conn, brand: BrandPack) -> list:

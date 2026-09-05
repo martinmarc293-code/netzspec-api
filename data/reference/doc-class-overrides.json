@@ -1,0 +1,29 @@
+{
+  "_readme": [
+    "Documents a human classified by hand, because no rule can honestly reach them.",
+    "",
+    "WHY THIS FILE EXISTS. The classifier in src/core/docClass.ts reaches 99.97% of Cisco's 6,117",
+    "vendor documents from evidence: Cisco's own type codes, filename markers, HTML titles and PDF",
+    "page-1 text. The residue is documents whose type nothing states - a marketing article whose",
+    "title is a phrase. Widening a rule until it swallows one document is how a classifier starts",
+    "guessing, and this project has paid for confident wrong classification twice in one day (43% of",
+    "Cisco's 'datasheets' were EoL notices; a title rule nearly promoted 4,000 distributor pages to",
+    "vendor authority). So the last few are DECIDED, by a person, with the reason written down.",
+    "",
+    "An entry must carry a reason. An override with no reason is a guess with better paperwork.",
+    "Keyed by URL because doc_id is a content hash and changes when the document is revised, while",
+    "the classification of that URL does not.",
+    "",
+    "If this file grows past a couple of dozen entries, that is the signal that a real rule is",
+    "missing - go and find it rather than adding another line here."
+  ],
+  "overrides": [
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9164-series-access-points/cleanairs-legacy.html",
+      "class": "vendor_whitepaper",
+      "reason": "Title 'Cisco CleanAir's Legacy'. A technology retrospective about the CleanAir feature, not about any orderable part: no specification tables, no PIDs. It is vendor-published long-form argument, which is what vendor_whitepaper means here. Read by hand 5 Sep 2026.",
+      "decided_by": "operator",
+      "decided_at": "2026-09-05"
+    }
+  ]
+}

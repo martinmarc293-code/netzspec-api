@@ -116,12 +116,28 @@ def render(rep: dict) -> str:
           f"  {cov['covered']:>7,}  covered ({cov['covered_pct']}%)  {bar(cov['covered_pct'])}",
           "",
           f"  {cov['doc_no_facts']:>7,}  RECALL GAP  - a document is held and produced no facts",
-          f"  {cov['neither']:>7,}  CRAWL GAP   - no document at all",
+          f"  {cov['neither']:>7,}  CRAWL GAP   - no spec-bearing document at all",
+          f"  {cov.get('only_nonspec_doc', 0):>7,}     ...of which hold ONLY a non-spec document "
+          f"(an EoL notice lists PIDs, never specifications)",
           f"  {cov['facts_no_doc']:>7,}  facts without a document (tier-0 seed)",
-          "",
-          "  The two gaps call for opposite work and look identical in an average. Recall is "
-          f"{cov['doc_no_facts'] / max(1, cov['neither']):.1f}x the crawl gap here, so the next hour",
-          "  belongs to the extractor, not the fetcher.",
+          ""]
+    # Which side of the split is bigger decides where the next hour goes, so the sentence is
+    # COMPUTED. It was hardcoded as "the next hour belongs to the extractor" while the recall gap
+    # was believed to be 33,863; correcting the document classes moved it to 1,587 and the crawl
+    # gap to 39,119, and the hardcoded sentence went on saying the opposite of the numbers above
+    # it. A conclusion printed next to the evidence must be derived from that evidence.
+    recall, crawl = cov["doc_no_facts"], cov["neither"]
+    if recall > crawl:
+        L += [f"  RECALL is the larger gap ({recall:,} against {crawl:,}): the documents are already",
+              "  held, so the next hour belongs to the EXTRACTOR."]
+    elif crawl > recall:
+        L += [f"  CRAWL is the larger gap ({crawl:,} against {recall:,}): most of these parts have",
+              "  never had a spec-bearing document fetched, so the next hour belongs to the LANE.",
+              f"  {cov.get('only_nonspec_doc', 0):,} of them hold only an end-of-life notice, which",
+              "  reads as 'we have a datasheet' in any report that does not check the document class."]
+    else:
+        L += [f"  The two gaps are equal ({recall:,} each)."]
+    L += [
           "", "## required-field completeness", "",
           f"  average {comp['avg_pct']}%   zero {comp['zero']:,}  under 40% {comp['low']:,}  "
           f"40-80% {comp['mid']:,}  over 80% {comp['high']:,}", ""]

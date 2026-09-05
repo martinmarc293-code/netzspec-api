@@ -13,6 +13,7 @@
 //     one query per table — never one per part — and `partRecord(part)` is that function called
 //     with a single id. GET /v1/parts/{vendor}/{sku} and GET /v1/export therefore cannot drift:
 //     the shape equality the export contract promises holds by construction (and is tested).
+import { SPEC_BEARING, type DocClass } from "../../core/docClass.js";
 import { query } from "../../store/db.js";
 import { badRequest } from "../errors.js";
 import { ALL_STATES, RENDERED_STATES, factRunSucceeded, isoOf, type FactState, type PartIdentity } from "./shared.js";
@@ -74,7 +75,12 @@ export type ImageItem = {
   role: string; url: string; width: number | null; height: number | null; alt_en: string | null; alt_de: string | null;
   variants: ImageVariant[];
 };
-export type SourceItem = { doc_id: string; url: string; doc_type: string; fetched_at: string | null };
+/** `spec_bearing` says whether this document's CLASS can carry a specification at all. Without it
+ *  a consumer looking at a part's sources cannot tell a datasheet from an end-of-life notice, and
+ *  that is the exact confusion that made 18,977 hardware parts look like they had a datasheet when
+ *  they had only an EoL notice (5 Sep 2026). `title` is the evidence the class was decided from. */
+export type SourceItem = { doc_id: string; url: string; doc_type: string; title: string | null;
+                           spec_bearing: boolean; fetched_at: string | null };
 export type Completeness = { required_total: number; required_present: number; pct: number; missing: string[]; no_profile: boolean };
 export type LifecycleFull = {
   status: string; announce_date: string | null; end_of_sale_date: string | null; last_ship_date: string | null;
@@ -120,7 +126,7 @@ const SOURCES_SQL = `
     UNION SELECT r.from_part_id, r.doc_id FROM relations r WHERE r.from_part_id = ANY($1::bigint[])
     UNION SELECT i.part_id, i.doc_id FROM images i WHERE i.part_id = ANY($1::bigint[])
     UNION SELECT p.id, p.name_doc_id FROM parts p WHERE p.id = ANY($1::bigint[]))
-  SELECT refs.part_id, sd.doc_id, sd.url, sd.doc_type, sd.fetched_at::text AS fetched_at
+  SELECT refs.part_id, sd.doc_id, sd.url, sd.doc_type, sd.title, sd.fetched_at::text AS fetched_at
     FROM refs JOIN source_docs sd ON sd.doc_id = refs.doc_id
    ORDER BY refs.part_id, sd.doc_id`;
 
@@ -209,7 +215,10 @@ export async function partRecords(ids: number[], states: FactState[], publicBase
         })),
       })),
       completeness: cp ? { required_total: cp.required_total, required_present: cp.required_present, pct: cp.pct, missing: cp.missing, no_profile: cp.no_profile } : null,
-      sources: (sourcesBy.get(id) ?? []).map((s) => ({ doc_id: s.doc_id, url: s.url, doc_type: s.doc_type, fetched_at: s.fetched_at })),
+      sources: (sourcesBy.get(id) ?? []).map((s) => ({
+        doc_id: s.doc_id, url: s.url, doc_type: s.doc_type, title: s.title,
+        spec_bearing: SPEC_BEARING.has(s.doc_type as DocClass), fetched_at: s.fetched_at,
+      })),
       updated_at: isoOf(h.updated_at) as string,
     });
   }

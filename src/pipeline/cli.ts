@@ -45,6 +45,10 @@ const COMMANDS: Record<string, { help: string; run: (argv: string[]) => Promise<
     help: "re-run the product-class rule table over every existing part; writes only rows whose class changes: [--commit] [--vendor V] [--examples N]",
     run: async (argv) => { const m = await import("./reclassify.js"); await m.main(argv); },
   },
+  "reclassify-docs": {
+    help: "set each document's class FROM THE DOCUMENT (Cisco type code, filename, title, PDF page 1) instead of from the extractor that read it; refuses any change that would move a fact tier: [--vendor V] [--commit] [--examples N]",
+    run: async (argv) => { const m = await import("./reclassify-docs.js"); await m.main(argv); },
+  },
   hygiene: {
     help: "catalogue hygiene, one check at a time, dry by default: <case-duplicates|fabricated-pids|foreign-pids|cross-brand-family|hw-variants|all> [--commit] [--examples N] [--vendor V]",
     run: async (argv) => { const m = await import("./hygiene.js"); await m.main(argv); },

@@ -56,12 +56,12 @@ BRAND = BrandPack(
                        "source for some older platforms. pdfplumber costs 300-900 MB per worker, "
                        "so this class is deliberately never run more than two at a time."),
         DocClass("vendor_eol_bulletin", "End-of-life bulletin", authority_tier=2,
-                 refresh_days=7, required=False,
+                 refresh_days=7, required=False, bears_specs=False,
                  notes="Not required for coverage - a current product has no bulletin, and marking "
                        "this required would report every healthy part as incomplete. Refreshed "
                        "weekly because a bulletin appearing is itself the news."),
         DocClass("vendor_page", "Product / series page", authority_tier=2,
-                 refresh_days=30, required=False,
+                 refresh_days=30, required=False, bears_specs=False,
                  notes="Discovery surface more than a fact source: it is where new series and new "
                        "datasheet URLs appear first."),
     ),

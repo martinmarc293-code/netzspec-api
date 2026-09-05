@@ -74,27 +74,39 @@ def html_title(path: Path) -> str:
     return re.sub(r"\s+", " ", m.group(1).decode("utf-8", "replace")).strip()
 
 
-def pdf_title(path: Path) -> str:
-    """PDF metadata Title, falling back to the first line of page 1.
+def pdf_evidence(path: Path) -> tuple[str, str]:
+    """(title, classification evidence) for a PDF.
 
-    Cisco's spec sheets carry `Title: "Cisco UCS C220 M8 SFF Rack Server Spec Sheet"` and open with
-    "Spec Sheet" - verified against the cached files on 5 Sep 2026. pdfplumber is imported lazily
-    because it costs 300-900 MB per process and most documents never need it."""
+    BOTH, because they are different things and conflating them lost 300 documents. The metadata
+    Title is what belongs in source_docs.title - it is the document's name. But Cisco's UCS and
+    HyperFlex spec sheets title themselves with the bare product name ("Cisco Compute
+    Hyperconverged and Compute-Only with Nutanix-210c") and print the document TYPE as the first
+    line of page 1 ("Spec Sheet"). A classifier given only the metadata title cannot tell those
+    from a brochure; a store given the page-1 text would have a title nobody wrote.
+
+    So the evidence string is the metadata title plus the opening lines of page 1, and the title
+    is the metadata title alone. Verified against the cached files on 5 Sep 2026: c220-m8's
+    metadata reads "... Rack Server Spec Sheet" and its page 1 opens "Spec Sheet | Cisco UCS C220
+    M8 SFF | Rack Server".
+
+    pdfplumber is imported lazily because it costs 300-900 MB per process and most documents never
+    need it."""
     try:
         import pdfplumber  # noqa: PLC0415 - deliberately lazy, see docstring
     except ImportError:
-        return ""
+        return "", ""
     try:
         with pdfplumber.open(path) as pdf:
-            t = (pdf.metadata or {}).get("Title") or ""
-            if t.strip():
-                return re.sub(r"\s+", " ", str(t)).strip()
+            title = re.sub(r"\s+", " ", str((pdf.metadata or {}).get("Title") or "")).strip()
+            head = ""
             if pdf.pages:
-                first = (pdf.pages[0].extract_text() or "").strip().splitlines()
-                return re.sub(r"\s+", " ", first[0]).strip() if first else ""
+                # the first few lines only: a whole page of specifications would match a keyword
+                # somewhere and classify every datasheet as whatever it happened to mention
+                lines = [ln for ln in (pdf.pages[0].extract_text() or "").splitlines() if ln.strip()]
+                head = re.sub(r"\s+", " ", " | ".join(lines[:4])).strip()
+            return title, (f"{title} | {head}" if title else head)
     except Exception:  # noqa - a corrupt or encrypted PDF is an unclassified document, not a crash
-        return ""
-    return ""
+        return "", ""
 
 
 def cache_paths(url: str) -> list[Path]:
@@ -109,7 +121,8 @@ def classify_batch(rows: list[dict]) -> list[dict]:
     point: two copies of a classifier is two answers for one document, and this project has the
     scar (three sync scripts each grew their own config parser and every one of them was wrong).
     """
-    payload = json.dumps([{"url": r["url"], "title": r.get("title") or ""} for r in rows])
+    payload = json.dumps([{"url": r["url"], "title": r.get("evidence") or r.get("title") or ""}
+                          for r in rows])
     script = (
         'import{classifyDocument}from"file:///' + str(ROOT).replace("\\", "/") + '/src/core/docClass.ts";'
         'let d="";process.stdin.on("data",c=>d+=c).on("end",()=>{'
@@ -163,12 +176,17 @@ def main() -> int:
             rows[i]["_note"] = "not in cache"
             continue
         p = paths[0]
-        t = pdf_title(p) if p.suffix in (".bin", ".pdf") else html_title(p)
-        if t:
-            rows[i]["title"] = t
+        if p.suffix in (".bin", ".pdf"):
+            title, evidence = pdf_evidence(p)
+        else:
+            title = html_title(p)
+            evidence = title
+        if evidence:
+            rows[i]["title"] = title or rows[i].get("title") or ""
+            rows[i]["evidence"] = evidence
             read_ok += 1
         else:
-            rows[i]["_note"] = f"no title in {p.suffix}"
+            rows[i]["_note"] = f"no readable title in {p.suffix}"
     print(f"  titles recovered from the cache: {read_ok}", flush=True)
 
     if need_doc:
@@ -205,11 +223,19 @@ def main() -> int:
 
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
+    # Titles recovered from the cache ride along with the plan. `ingest reclassify-docs --plan`
+    # writes them into source_docs.title, so the next run classifies from the database and does not
+    # have to open 6,000 files again - and so the evidence that decided a class is IN the store,
+    # not only in a report somebody has to still have.
+    recovered = [{"doc_id": r["doc_id"], "title": r["title"]}
+                 for r in rows if r.get("evidence") and (r.get("title") or "").strip()]
     out.write_text(json.dumps({"vendor": a.vendor, "documents": len(rows),
                                "classified": len(rows) - len(unresolved), "pct": round(pct, 2),
                                "by_class": dict(by_cls), "by_evidence": dict(by_via),
-                               "changes": changed, "unclassified": unresolved}, indent=1),
+                               "changes": changed, "unclassified": unresolved,
+                               "recovered_titles": recovered}, indent=1),
                    encoding="utf-8")
+    print(f"titles recovered for the plan: {len(recovered)}")
     print(f"\nplan -> {out}")
     print("This script writes NOTHING. Applying the plan is a run with a gate: `ingest reclassify-docs`.")
     return 1 if unresolved else 0

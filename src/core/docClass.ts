@@ -208,10 +208,36 @@ export function classifyDoc(url: string | null | undefined): DocVerdict {
     }
   }
 
-  // 3. A product or series index page — not collateral at all, and never spec-bearing here: the
-  //    specifications on a Cisco product page are a rendering of the datasheet it links to.
-  if (/\/products\/[^/]+\/[^/]+\/(index\.html)?$/.test(u) || u.endsWith("/index.html")) {
+  // 3. A product, series or listing index page — not collateral at all, and never spec-bearing
+  //    here: the specifications on a Cisco product page are a rendering of the datasheet it links
+  //    to, and counting both would be the same evidence under two documents.
+  //
+  //    `/series.html` is Cisco's own name for a product-series landing page and is by far the
+  //    largest of these: 311 of the 317 documents left unclassified after the URL, HTML-title and
+  //    PDF-page-1 stages were exactly this one shape. It is a discovery surface — it is where the
+  //    datasheet links live — which is why the lane fetches it as a `listing` task.
+  if (/\/series\.html?(?:[?#]|$)/.test(u)
+      || /\/products\/[^/]+\/[^/]+\/(index\.html)?$/.test(u)
+      || /\/(index|product-listing|all-products|products-index)\.html?(?:[?#]|$)/.test(u)) {
     return { cls: "vendor_page", via: "path:product-index" };
+  }
+  // Cisco's older collateral used a `prod_<code>` filename carrying the same type codes as the
+  // modern `c##` form — `prod_qas0900aecd805009fc.html` is a Q&A.
+  // NOTE the hyphen: `u` has already had `_` folded to `-`, so a pattern written with the
+  // underscore Cisco actually publishes (`prod_qas0900…`) matches nothing. This is the third time
+  // in this file that a rule was written against the raw string and applied to the normalised one.
+  const legacyCode = u.match(/\/prod-([a-z]{2,3})\d/);
+  if (legacyCode) {
+    const map: Record<string, DocClass> = {
+      qas: "vendor_qa", white_paper: "vendor_whitepaper", wp: "vendor_whitepaper",
+      bulletin: "vendor_bulletin", brochure: "vendor_brochure", ds: "vendor_datasheet_html",
+      eol: "vendor_eol_bulletin",
+    };
+    const hit = map[legacyCode[1]];
+    if (hit) return { cls: hit, via: `legacy-code:${legacyCode[1]}` };
+  }
+  if (/migration-options|migration-guide/.test(u)) {
+    return { cls: "vendor_guide", via: "path:migration" };
   }
 
   // 4. Nothing decided it. Say so: an unclassified document is a number somebody must look at,
@@ -277,7 +303,42 @@ export function classifyDocByTitle(title: string | null | undefined): DocVerdict
  * A document that neither names is `unclassified` and stays that way — it is a number the brand
  * watchdog reports and a human resolves, not a default.
  */
+/**
+ * Documents a person classified by hand, from data/reference/doc-class-overrides.json.
+ *
+ * Loaded lazily and tolerantly: this file is a convenience for a handful of documents whose type
+ * nothing states, and a missing or malformed override file must never stop the classifier working
+ * on the other 6,116. An override needs a reason — the file's own README says why, and an entry
+ * without one is ignored rather than trusted.
+ */
+let OVERRIDES: Map<string, { cls: DocClass; reason: string }> | null = null;
+
+function overrides(): Map<string, { cls: DocClass; reason: string }> {
+  if (OVERRIDES) return OVERRIDES;
+  OVERRIDES = new Map();
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { readFileSync } = require("node:fs") as typeof import("node:fs");
+    const { fileURLToPath } = require("node:url") as typeof import("node:url");
+    const path = require("node:path") as typeof import("node:path");
+    const here = path.dirname(fileURLToPath(import.meta.url));
+    const file = path.resolve(here, "../../data/reference/doc-class-overrides.json");
+    const raw = JSON.parse(readFileSync(file, "utf8")) as {
+      overrides?: Array<{ url?: string; class?: string; reason?: string }>;
+    };
+    for (const o of raw.overrides ?? []) {
+      if (!o.url || !o.class || !o.reason?.trim()) continue;
+      OVERRIDES.set(o.url.trim().toLowerCase(), { cls: o.class as DocClass, reason: o.reason });
+    }
+  } catch {
+    // no file, or unreadable: the classifier works exactly as it did before overrides existed
+  }
+  return OVERRIDES;
+}
+
 export function classifyDocument(url: string | null | undefined, title?: string | null): DocVerdict {
+  const hand = url ? overrides().get(url.trim().toLowerCase()) : undefined;
+  if (hand) return { cls: hand.cls, via: "operator-override" };
   const byUrl = classifyDoc(url);
   if (byUrl.cls !== "unclassified") return byUrl;
   const byTitle = classifyDocByTitle(title);

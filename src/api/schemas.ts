@@ -110,7 +110,13 @@ export const PartRecord = Type.Object({
   completeness: Nullable(Type.Object({
     required_total: Type.Integer(), required_present: Type.Integer(), pct: Type.Number(), missing: Type.Array(Type.String()), no_profile: Type.Boolean(),
   })),
-  sources: Type.Array(Type.Object({ doc_id: Type.String(), url: Type.String(), doc_type: Type.String(), fetched_at: Nullable(Type.String({ format: "date" })) })),
+  sources: Type.Array(Type.Object({
+    doc_id: Type.String(), url: Type.String(),
+    doc_type: Type.String({ description: "what the document IS, decided from the document itself" }),
+    title: Nullable(Type.String({ description: "the document's own title — the evidence for its class" })),
+    spec_bearing: Type.Boolean({ description: "true when this class of document can carry specifications; an end-of-life notice cannot" }),
+    fetched_at: Nullable(Type.String({ format: "date" })),
+  })),
   updated_at: Type.String({ format: "date-time" }),
 });
 
