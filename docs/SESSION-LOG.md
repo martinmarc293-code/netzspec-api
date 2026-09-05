@@ -4,6 +4,60 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-05 ~18:15 — Opus/CISCO session, work block 2: the guard that was announced by four
+  worktrees and present in two.** Commits `781a86d`, `166e2fd`, `cd7c871` on branch `cisco`.
+  Prompted by findings from the HPE and Juniper sessions; every one of them was real.
+
+  **THE SEVERE ONE.** `core.hooksPath` is REPOSITORY config, so all four checkouts advertised
+  `scripts/git-hooks` — and the hook file was UNTRACKED, so it existed only where somebody had
+  written it. Mine was not one of those: **every commit this session made before `781a86d` went
+  through unchecked.** The HPE session proved it from the other side by committing a Cisco-owned
+  file from their worktree with no refusal. This repository's signature failure, in its own
+  machinery. The hook is now tracked (taken blob-identical from Juniper's `a5efa34`, so branches
+  merge clean), and `setup-brand-worktrees.sh` sets `extensions.worktreeConfig` +
+  `--worktree netzspec.brand <slug>` per tree AND checks the hook is physically present, because
+  the symptom of its absence is silence. Sabotage-proved: a cross-brand file is refused by name,
+  HEAD unchanged.
+
+  **`netzspec.brand` WAS IN SHARED CONFIG**, so every worktree answered "cisco" — a guard that
+  refuses the HPE session's own files as foreign and waves Cisco's through. Mine was right by luck.
+
+  **THE SENTINEL RAN EVERY LANE FROM ITS OWN TREE** (`cwd=ROOT`), so a sentinel started from the
+  Cisco worktree would run the HPE lane against Cisco's `hpe_quickspecs.py` — the failure the
+  worktree split exists to prevent, arriving from the other direction. HPE's fix taken. Their
+  `ownership.py` could NOT be taken wholesale: branch `hpe` predates the glob widening and a
+  straight checkout would have silently reverted `781a86d`.
+
+  **W6/W7 — every OWNERSHIP key must have a READER.** Twice now this one file has shipped data
+  nothing consulted (`sources`, then `worktree`). Same family as `minAuthorityLinks` declared in a
+  gate's rule block and never evaluated. The checker EXCLUDES ITSELF, which is not tidiness: it
+  names every key in order to test them, so scanning itself would let a key count as read because
+  the checker mentions it. W7 caught that on its first run by finding its own invented key.
+
+  **PER-BRAND DOC-CLASS RULES ARE NOW DATA (`cd7c871`)** — asked for independently by both other
+  sessions. `data/schema/doc-class-rules/<brand>.json`, [pattern, class, reason], reason REQUIRED.
+  A NEW FILE per brand, so two brands adding rules the same afternoon cannot conflict. They run
+  LAST, after every shared rule declines, so they extend the baseline and can never overrule it —
+  which is what let non-regression be PROVED rather than claimed: across 7,190 documents, zero
+  decided by a brand rule, `{loaded: 0, error: null}`.
+
+  **MEASURED WHILE PROVING IT** — classification per vendor: cisco 5,964/5,966 (99.97%), juniper
+  1/1, **hpe 0/64, extreme 0/48, mikrotik 0/40, ubiquiti 1/20**. The 891 "unclassified Cisco" docs
+  are itprice/provantage/router-switch pages filed under the Cisco vendor — third party, never in
+  scope for vendor document classes.
+
+  **NEXT, in order:** Juniper's `cachedText` fix (`fda804b`, my file — App Router RSC flight
+  payloads; their precision 0.43 -> 0.88) reviewed and taken; then HPE's ZERO-BYTE REFUSAL shape —
+  TCP connects, TLS completes, no HTML at all, so no fingerprint can ever see it and
+  `classify_exception` files it `failed`. The per-source block-rate alarm is blind to that whole
+  class: a lane being actively refused shows `blocked 0` and a rising `failed` and reads as a flaky
+  host. Same family as the monitor that reported its own rate limiting as 23 broken pages.
+
+  **TRAP HIT AGAIN:** wrote a regex/escape-bearing test through a bash heredoc twice and it ate the
+  escapes both times, exactly as CLAUDE.md §4 says it will. Use the Edit tool. Also: the Bash tool's
+  cwd silently reverted to `D:\Project`, and three "file does not exist" readings came from that,
+  not from the files. Check `pwd` before believing an absence.
+
 - **2026-09-05 ~17:45 — Opus/CISCO session, work block: the 24/7 loop found three bugs by
   running, and each one was invisible to a green suite.** Commits `c1740db`, `489e774`, `fd770d3`
   on branch `cisco`, tree `D:\Project\netzspec-api-cisco`. Loop PID 14136, 20-min cycle.
