@@ -532,6 +532,13 @@ full; the ones that bite hardest here are restated.
   `altitude_max` 1,031 re-stamped, 451 superseded; current values now 3000 × 1,067 and
   3048 × 74 (raws that state only the imperial figure keep our conversion). A remerge pass
   follows so the 3048-vs-3000 pairs and the re-read same-document pairs close.
+  Remerge pass = run #80: nothing new resolved, open 15,932 = 5,551 cross-document, 4,282
+  `open:drift:current_fact_is_the_rejected_value` (the write-order pollution the corrected
+  rule refuses to re-close: the CURRENT fact is the conflict's loser), 3,053 same-document,
+  2,254 lists awaiting the citation-split fix + a list renormalize, 733 tier-0. NEXT RULE
+  (after round 3 releases `tests/db/remerge.test.ts`): a DRIFT REPAIR class — restore the
+  recorded kept value as the current fact (supersede the drifted row, provenance and
+  evidence kept, run-stamped), then re-evaluate the pair under the agreement rules.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
