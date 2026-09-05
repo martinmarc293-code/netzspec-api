@@ -48,6 +48,7 @@ in the morning because a number moved.
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import sys
 from pathlib import Path
@@ -95,6 +96,46 @@ def _serves(mod, doc_class: str | None) -> bool:
     """Does this lane DECLARE the document's class? An adapter that declares none is unchanged by
     this: it neither gains nor loses candidates, it simply never wins the preference pass."""
     return bool(doc_class) and doc_class in (getattr(mod, "DOC_CLASSES", ()) or ())
+
+
+def documents_missing_bytes(conn, brand, cache_dir: Path, limit: int) -> list[dict]:
+    """Documents whose row claims a cached file that IS NOT ON DISK.
+
+    THE PLANNER COULD NOT SEE THIS AT ALL, and that is the difference between a system that heals
+    and one that quietly never recovers. Every other section is time-based or fact-based: `refresh`
+    asks whether a document is past its class's window, `gaps` asks whether a part has a fact read
+    from a document. A document fetched TODAY whose bytes were deleted an hour ago is not stale and
+    its part may well have facts, so nothing here would ever queue it again. It simply stops
+    existing, silently, for ever.
+
+    Measured 6 Sep 2026 after something removed the shared cache directory: 7,142 documents claimed
+    bytes and 42 files were on disk. 6,851 of the missing were Cisco's. `cache_path IS NOT NULL` is
+    the store's BELIEF about the bytes, not the bytes — a wipe leaves every path intact and deletes
+    every file, so the column reads 100% while 0.5% exist. The one situation the column exists to
+    describe is the one situation it cannot see.
+
+    A NULL cache_path and a non-NULL one with no file are DIFFERENT FACTS and this function is only
+    about the second. NULL means "never fetched, go and fetch it" — ordinary work. Non-NULL with no
+    file means "this was fetched and something destroyed the evidence", which is a recovery. Blurring
+    them sends someone to re-fetch what was never fetched and hides what was lost.
+
+    The file check is done HERE, in Python, rather than in SQL: Postgres runs on another machine and
+    has no view of this laptop's cache directory. That is also why this is a laptop-side recovery
+    rather than something the box could notice.
+    """
+    rows = conn.execute("""
+        SELECT sd.doc_id, sd.url, sd.doc_type, sd.cache_path, sd.fetched_at
+          FROM source_docs sd JOIN vendors v ON v.id = sd.vendor_id
+         WHERE v.slug = %s AND sd.cache_path IS NOT NULL
+         ORDER BY sd.fetched_at DESC
+    """, (brand.vendor_slug,)).fetchall()
+    out = []
+    for r in rows:
+        if not (cache_dir / r["cache_path"]).exists():
+            out.append(dict(r))
+            if len(out) >= limit:
+                break
+    return out
 
 
 def stale_documents(conn, brand, limit: int) -> list[dict]:
@@ -161,7 +202,7 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
         raise SystemExit(f"{brand.slug}: none of this pack's sources {brand.sources} exist in "
                          "`sources` - the pack and the database disagree")
 
-    out = {"brand": brand.slug, "entry": [], "refresh": [], "rediscover": [], "gaps": [], "skipped": []}
+    out = {"brand": brand.slug, "entry": [], "recover": [], "refresh": [], "rediscover": [], "gaps": [], "skipped": []}
 
     # A source with no adapter module cannot be planned for - `load_source` raises, the worker
     # cannot run it, and queueing work against it fills a queue nothing drains. It is SKIPPED with
@@ -210,6 +251,27 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
         for url in eps:
             if _accepts(mod, "listing", url, url) == url:
                 out["entry"].append({"source": s["slug"], "task": "listing", "key": url, "url": url})
+
+    # 0b. RECOVER: documents whose bytes are gone from disk although the row still names a file.
+    #
+    # Placed before `refresh` because it is a different KIND of work. Refresh is maintenance — a
+    # vendor revised a page and our copy is old. This is repair: the copy is missing entirely, and
+    # nothing else in this planner can see that. A document fetched today whose file was deleted an
+    # hour ago is not stale, so `refresh` will never queue it; its part may already have facts, so
+    # `gaps` will not either. Without this section 6,851 Cisco documents would simply have stopped
+    # existing, silently and permanently.
+    #
+    # It is queued at LOWER priority than new work: recovering a page we once had matters, and it
+    # matters less than acquiring one we never had. The queue drains the second first.
+    cache_dir = Path(os.path.realpath(ROOT / "scraper" / "cache"))
+    lost = documents_missing_bytes(conn, brand, cache_dir, limit)
+    for d in lost:
+        for s in srcs:
+            mod = mods[s["slug"]]
+            if _accepts(mod, "datasheet", d["url"], d["url"], d["doc_type"]) == d["url"]:
+                out["recover"].append({"source": s["slug"], "task": "datasheet", "key": d["url"],
+                                       "url": d["url"], "doc_type": d["doc_type"], "priority": 500})
+                break
 
     # 1. refresh: re-queue the exact task that produced each stale document, by URL.
     for d in stale_documents(conn, brand, limit):
@@ -273,7 +335,7 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
         by_slug = {s["slug"]: s["id"] for s in srcs}
         ins = req = 0
         with conn.transaction():
-            for item in out["entry"] + out["refresh"] + out["gaps"]:
+            for item in out["entry"] + out["recover"] + out["refresh"] + out["gaps"]:
                 row = conn.execute(
                     """INSERT INTO fetch_queue (source_id, task, key, url, part_id, priority)
                        VALUES (%s, %s, %s, %s, %s, %s)
@@ -295,6 +357,7 @@ def render(p: dict, apply: bool) -> str:
     L = [f"# {p['brand']} queue plan" + ("  (APPLIED)" if apply else "  (dry run - pass --apply to write)"),
          "",
          f"  {len(p.get('entry') or []):>6}  entry       category listings this brand should always hold (the top of the ladder)",
+         f"  {len(p.get('recover') or []):>6}  RECOVER     documents whose cached bytes are GONE from disk (the row still names a file)",
          f"  {len(p['refresh']):>6}  refresh     documents past their class's re-read window",
          f"  {len(p['rediscover']):>6}  rediscover  listing tasks older than the discovery cadence",
          f"  {len(p['gaps']):>6}  gaps        hardware parts with no fact read from a document",
@@ -315,12 +378,12 @@ def render(p: dict, apply: bool) -> str:
         L.append(f"           {s['url'][:100]}")
     if p["skipped"]:
         L.append("")
-    for k in ("entry", "refresh", "rediscover", "gaps"):
+    for k in ("entry", "recover", "refresh", "rediscover", "gaps"):
         if p[k]:
             L.append(f"  first {k}: {p[k][0]['source']} {p[k][0]['task']} {str(p[k][0]['key'])[:70]}")
     # A planner that produced nothing is either a finished brand or a broken planner, and those
     # look identical in a log. Say which is possible.
-    if not (p.get("entry") or p["refresh"] or p["rediscover"] or p["gaps"]):
+    if not (p.get("entry") or p.get("recover") or p["refresh"] or p["rediscover"] or p["gaps"]):
         L += ["", "  NOTHING TO PLAN. Either this brand is fully read and fully fresh, or its lane",
               "  refuses every task kind the planner can build. Check the brand watchdog before",
               "  believing the first."]
