@@ -1,0 +1,18 @@
+{
+ "_about": "The gate failure this directory needs, and only that: cdw is a real, enabled distributor source with NO adapter suite, so recall is 0 while precision stays 1 (the cached page really does say 740 W under PoE budget). Same page as sabotage-no-suite/, deliberately — the point here is not the failure, it is what the OTHER file in this directory wrote before the failure.",
+ "source": "cdw",
+ "task": {"id": 14, "task": "search", "key": "C9200L-48P-4G", "part_id": null, "vendor": "cisco"},
+ "url": "https://www.cdw.com/search/?key=NZTEST-C9200L-48P-4G",
+ "final_url": "https://www.cdw.com/search/?key=NZTEST-C9200L-48P-4G",
+ "fetched_at": "2026-09-03T11:11:00+00:00",
+ "fetch_id": null,
+ "cached": false,
+ "cache_path": "e3dd857a4dbd607067481a72f39fcd15ea766281.html",
+ "result": {
+  "sku": "C9200L-48P-4G",
+  "not_listed": false,
+  "name": "Cisco Catalyst 9200L 48-port PoE+",
+  "facts": [{"label": "PoE budget", "value": "740 W", "locator": "t1:r1:c2"}],
+  "aliases": [], "images": [], "relations": [], "lifecycle": null, "price": null, "others": []
+ }
+}

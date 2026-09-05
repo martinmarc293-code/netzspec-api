@@ -1,0 +1,18 @@
+{
+ "_about": "SABOTAGE (anchorStep folds '+'): the QUEUE anchored this task to NZTEST-4500X-16SFP and the page it fetched is about NZTEST-4500X-16SFP+ — a different catalogue row, a different line card. Until 4 Sep 2026 anchorStep normalised '+' away, called it the Cisco spare form, and short-circuited the resolver: the '+' card's PoE budget was written onto the plain card without one lookup ever running. The anchor must decline, and the resolver must land this on the '+' part by its own exact step.",
+ "source": "provantage",
+ "task": {"id": 11, "task": "search", "key": "NZTEST-4500X-16SFP", "part_id": null, "vendor": "cisco"},
+ "url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-4500X-16SFP-PLUS",
+ "final_url": "https://www.provantage.com/scripts/search.dll?QUERY=NZTEST-4500X-16SFP-PLUS",
+ "fetched_at": "2026-09-03T11:00:00+00:00",
+ "fetch_id": null,
+ "cached": false,
+ "cache_path": "c040566461d99dc896f3b03938a03558e32676c3.html",
+ "result": {
+  "sku": "NZTEST-4500X-16SFP+",
+  "not_listed": false,
+  "name": "Cisco NZTEST 4500X 16-port SFP+ line card",
+  "facts": [{"label": "PoE budget", "value": "370 W", "locator": "t1:r1:c2"}],
+  "aliases": [], "images": [], "relations": [], "lifecycle": null, "price": null, "others": []
+ }
+}

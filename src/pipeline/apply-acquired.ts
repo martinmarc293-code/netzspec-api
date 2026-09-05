@@ -19,6 +19,25 @@
 //              the raw value string and the label must both be present in the page text.
 // Both are reported; passed = precision >= 0.98 and the suite is green.
 //
+// WHEN THE GATE IS COMPUTED, AND WHY IT MATTERS. Until 4 Sep 2026 the gate was computed at the END
+// of the body, after every row had been written, and only facts/evidence/conflicts were rolled back
+// when the run failed (src/store/runs.ts withRun -> rollbackRun). A gate-failed run therefore left
+// its part_source_checks, part_aliases, images, image_candidates, relations and lifecycle rows
+// behind: a check saying "we looked and found nothing" and an alias the catalogue now believes,
+// both from a run nobody was allowed to trust. The fix is structural rather than a longer rollback
+// list — EVERY read and write of a committed run goes through ONE transaction, and the gate is
+// computed inside it, before the COMMIT. A failing gate throws, the transaction is rolled back by
+// the database itself, and there is nothing left to clean up of ANY kind. `rollbackRun` on the
+// failure path then finds nothing and says `rolled_back=0` — which is the point, not a regression;
+// the proof that the run really did write is its `stats` (withRun's `partial`), recorded on the
+// failed run row.
+//
+// EXIT CODES. 0 nothing wrong. 1 the command threw — a bad path, a database error, or a COMMITTED
+// run whose gate failed (the throw closes the run `failed` and the CLI wrapper exits 1).
+// EXIT_GATE_FAILED (2) a DRY RUN whose gate failed: nothing was written and no run was opened, but
+// a dry run that reports "precision 0.31" and exits 0 is a green light in a supervisor chain that
+// only reads exit codes, which is how an ungated apply gets scheduled.
+//
 // Two files come out of every run besides the database: the UNMAPPED labels with sample values
 // (the input to the alias-proposal loop) and the UNKNOWN SKUs the pages named (the enumeration
 // feed: a distributor listing a part number we do not have is how the catalogue grows).
@@ -33,6 +52,7 @@ import {
   getPool, closePool, withTx, withRun, hashFile, getPart, partsBySkuNorm, partsByAliasValue, ensureSourceDoc, docIdFor, linkDocParts,
   applyMerge, upsertAlias, upsertImage, upsertRelation, upsertLifecycle, recordSourceCheck, recordImageCandidate,
   type RelationKind, type AliasKind, type CheckOutcome, type LifecycleInput, type PartRow, type PartCandidate, type AliasCandidate,
+  type Queryable,
 } from "../store/index.js";
 import { candidatesFromPage } from "../core/imageCandidate.js";
 import { mapFact } from "../core/deepSpecMap.js";
@@ -93,7 +113,19 @@ export function collect(paths: string[]): string[] {
   return files.sort();
 }
 
-export const normSku = (s: string) => s.toUpperCase().replace(/[+=\s]/g, "");
+/**
+ * The key two spellings of the SAME catalogue row share: case, internal whitespace and Cisco's
+ * trailing spare marker `=` folded away, and NOTHING else.
+ *
+ * `+` is deliberately not folded. It was, until 4 Sep 2026, through a `replace(/[+=\s]/g, "")`
+ * copied from promote-unknown-skus (where the fold is only ever used to group a feed, never to
+ * decide where a fact lands). A `+` is not a suffix marker: `WS-C4500X-16SFP+` and
+ * `WS-C4500X-16SFP` are two catalogue rows for two different line cards, as are `C9200L-24P-4G`
+ * and any `…-4G++` an adapter might read off a comparison table. Folding it made `anchorStep`
+ * answer "spare" for a page about the OTHER part, which short-circuits the resolver entirely —
+ * the page's facts were written onto the queue's anchor without one lookup ever running.
+ */
+export const spareKey = (s: string) => s.toUpperCase().replace(/\s+/g, "").replace(/=+$/, "");
 export const ws = (s: string) => s.replace(/\s+/g, " ").trim().toLowerCase();
 
 export const CACHE_DIR = path.join(REPO_ROOT, "scraper", "cache");
@@ -148,13 +180,19 @@ const nameOf = (c: PartCandidate) => `${c.vendor_slug}/${c.sku}`;
 /**
  * How the page's SKU relates to the part the QUEUE said this task is about. The anchor is the
  * strongest evidence there is — a row in fetch_queue carrying a part_id — so it short-circuits the
- * lookups; this only labels which step it would have been, so the stats stay honest. `normSku`
- * folds `=`, `+` and whitespace as well as case, which is why its bucket is the spare one.
+ * lookups; this only labels which step it would have been, so the stats stay honest.
+ *
+ * Because it short-circuits, a WRONG answer here is not "resolved by a weaker rule", it is
+ * "resolved by no rule at all": the page's facts land on the anchor with no lookup. So the three
+ * buckets are exactly the three the resolver itself would accept, and `spareKey` folds only what
+ * `spareFlip` would flip. Anything else — a `+`, a `-HW`, a digit — is a DIFFERENT part number and
+ * returns null, which sends the entry through the real resolver where it can also come back
+ * `unknown` or `ambiguous`.
  */
 export function anchorStep(anchorSku: string, sku: string): ResolveStep | null {
   if (anchorSku === sku) return "exact";
   if (anchorSku.toUpperCase() === sku.toUpperCase()) return "case";
-  if (normSku(anchorSku) === normSku(sku)) return "spare";
+  if (spareKey(anchorSku) === spareKey(sku)) return "spare";
   return null;
 }
 
@@ -286,6 +324,12 @@ export function lifecycleFromEntry(
 
 export type Gate = { precision: number; recall: number; passed: boolean; sampled: number; suites: Record<string, boolean>; misses: string[] };
 
+/** Exit code of a DRY RUN whose gate failed (see EXIT CODES at the top). A committed run's gate
+ *  failure throws instead, and the CLI wrapper exits 1. */
+export const EXIT_GATE_FAILED = 2;
+/** The one wording both paths use, so a log or a run row can be grepped for either. */
+export const GATE_REFUSED = "the gate did not pass";
+
 /** Recall half: every touched source's adapter suite, run fresh. A source with no suite is a failed suite. */
 export function runAdapterSuites(slugs: Iterable<string>, opts: { testsDir?: string; python?: string } = {}): Record<string, boolean> {
   const testsDir = opts.testsDir ?? SCRAPER_TESTS_DIR;
@@ -300,12 +344,40 @@ export function runAdapterSuites(slugs: Iterable<string>, opts: { testsDir?: str
 }
 
 /**
+ * `k` of `items`, uniformly at random, by a partial Fisher-Yates over the INDICES.
+ *
+ * The obvious one-liner — `[...items].sort(() => 0.5 - Math.random())` — is not a shuffle. A
+ * comparator that answers differently every time it is asked breaks the sort's own invariants, and
+ * what comes out is a mild permutation of what went in: with V8's TimSort the head of the array
+ * stays overwhelmingly in the head. The gate's sample is taken off the FRONT of the result, so the
+ * audit was re-reading roughly the first pages of the run and calling it random — a fabricated
+ * value on the last page of a 100k-fact apply had almost no chance of being looked at. The same
+ * non-shuffle was removed from the extract gate on 4 Sep 2026 and survived here.
+ *
+ * `rand` is injectable so the sabotage twin can be deterministic: with rand()->~1 a real shuffle
+ * takes the LAST item first, while the sort-comparator version (a constant -0.5) is a no-op and
+ * takes the first.
+ */
+export function pickSample<T>(items: T[], k: number, rand: () => number = Math.random): T[] {
+  const n = items.length;
+  const take = Math.max(0, Math.min(k, n));
+  const idx = Array.from({ length: n }, (_, i) => i);
+  for (let i = 0; i < take; i++) {
+    const j = Math.min(n - 1, i + Math.floor(rand() * (n - i)));
+    const t = idx[i]; idx[i] = idx[j]; idx[j] = t;
+  }
+  return idx.slice(0, take).map((i) => items[i]);
+}
+
+/**
  * Precision half: a random sample of what was written, re-read from the cached page. A fact whose
  * page cannot be read is not counted; a run that wrote facts and could re-read NONE of them scores
  * 0, not 1 — "could not check" must never pass as "checked".
  */
-export function auditProvenance(written: WrittenFact[], sampleN: number, cacheDir: string = CACHE_DIR): { precision: number; sampled: number; misses: string[] } {
-  const sample = [...written].sort(() => 0.5 - Math.random()).slice(0, sampleN);
+export function auditProvenance(
+  written: WrittenFact[], sampleN: number, cacheDir: string = CACHE_DIR, rand: () => number = Math.random,
+): { precision: number; sampled: number; misses: string[] } {
+  const sample = pickSample(written, sampleN, rand);
   let hits = 0, checked = 0;
   const misses: string[] = [];
   for (const s of sample) {
@@ -361,7 +433,16 @@ export async function main(argv: string[]): Promise<void> {
 
   const runInputs = { files: files.length, first: files.slice(0, 5).map((f) => path.relative(REPO_ROOT, f)), hashes: files.slice(0, 200).map((f) => hashFile(f)), commit: a.commit };
 
-  const body = async (runId: number | null) => {
+  // Every read AND every write of a committed run goes through this one handle: the transaction's
+  // client when committing, the pool when not. Passing it everywhere is what makes the rollback
+  // total (see the header) and it is also what keeps a run able to read its own writes — the alias
+  // step 4 reaches a name step 5 recorded for an earlier page of the SAME run only because both
+  // statements are on the same connection.
+  const body = async (runId: number | null, db: Queryable) => {
+    const look: ResolveLookups = {
+      bySku: (s, v) => partsBySkuNorm(s, v, db),
+      byAlias: (v, ven) => partsByAliasValue(v, ven, db),
+    };
     for (const file of files) {
       let doc: Acquired;
       try { doc = JSON.parse(fs.readFileSync(file, "utf8")); } catch (e) { console.error(`skip ${file}: ${(e as Error).message}`); continue; }
@@ -370,7 +451,7 @@ export async function main(argv: string[]): Promise<void> {
       sourcesTouched.add(doc.source);
       stats.pages++;
       const res = doc.result || {};
-      const anchor = doc.task?.part_id ? await getPart(doc.task.part_id) : null;
+      const anchor = doc.task?.part_id ? await getPart(doc.task.part_id, db) : null;
       // Whose part is this page about, in descending order of how specific the answer is: the part
       // the queue anchored the task to, the vendor the queue recorded for it, the operator's blanket
       // --vendor. All three can be absent — a discovery page is anchored to nothing — and null here
@@ -396,7 +477,7 @@ export async function main(argv: string[]): Promise<void> {
         const anchored = anchor ? anchorStep(anchor.sku, sku) : null;
         const pick: Resolution = anchored
           ? { kind: "matched", step: anchored, part: anchor!, vendor: vendors.get(anchor!.vendor_id) ?? vendorSlug ?? "", via: anchor!.sku, aliasKind: null, vendorScoped: true }
-          : await resolvePart(sku, entry.aliases, vendorSlug, dbLookups);
+          : await resolvePart(sku, entry.aliases, vendorSlug, look);
         if (pick.kind === "ambiguous") {
           stats.ambiguous++;
           ambiguousSkus.push({ source: doc.source, vendor: vendorSlug, sku, step: pick.step, via: pick.via, candidates: pick.candidates,
@@ -415,9 +496,9 @@ export async function main(argv: string[]): Promise<void> {
         if (!pick.vendorScoped) stats.matched_no_vendor_scope++;
         const category = categories.get(part.category_id) ?? "switches";
         if (a.commit && runId !== null && !docId) {
-          docId = await ensureSourceDoc({ url: pageUrl, doc_type: docType, vendor: partVendor ?? undefined, fetched_at: fetchedDay, cache_path: doc.cache_path ?? undefined });
+          docId = await ensureSourceDoc({ url: pageUrl, doc_type: docType, vendor: partVendor ?? undefined, fetched_at: fetchedDay, cache_path: doc.cache_path ?? undefined }, db);
         } else if (!docId) docId = docIdFor(pageUrl);
-        if (a.commit && runId !== null) await linkDocParts(docId, [part.id]);
+        if (a.commit && runId !== null) await linkDocParts(docId, [part.id], db);
 
         const rawFacts = entry.facts || [];
         const m = mapEntryFacts(rawFacts, { category, src, docType, docId, pageUrl, sku, fetchedDay });
@@ -451,22 +532,23 @@ export async function main(argv: string[]): Promise<void> {
 
         if (a.commit && runId !== null) {
           for (const c of cand.rows) {
-            const rec = await recordImageCandidate(part.id, { source_id: src.id, page_url: pageUrl, ...c }, runId);
+            const rec = await recordImageCandidate(part.id, { source_id: src.id, page_url: pageUrl, ...c }, runId, db);
             if (rec.inserted) stats.image_candidates_new++;
           }
-          await withTx(async (client) => {
-            for (const e of specEntries) {
-              const r = await applyMerge(client, part!.id, e, runId);
-              stats[r.action] = (stats[r.action] ?? 0) + 1;
-            }
-          });
+          // NOT its own transaction any more. A nested withTx would take a SECOND pool connection
+          // and block on the row locks the run's own transaction already holds — and its commit
+          // would survive a later gate failure, which is the whole defect being closed here.
+          for (const e of specEntries) {
+            const r = await applyMerge(db, part!.id, e, runId);
+            stats[r.action] = (stats[r.action] ?? 0) + 1;
+          }
           for (const al of entry.aliases || []) {
             if (!ALIAS_KINDS.has(al.kind)) continue;
             // A declared variant that IS the part we landed on is not an alias of it. Once the
             // variant step resolves `MR44` to the part `MR44-HW`, the page's own "MR44-HW" would
             // otherwise be stored as an alias of MR44-HW for itself.
             if (al.value.trim().toUpperCase() === part.sku.toUpperCase()) { stats.aliases_self_skipped++; continue; }
-            await upsertAlias(part.id, { kind: al.kind as AliasKind, value: al.value, tier: src.tier, doc_id: docId, source_url: pageUrl }, runId); stats.aliases++;
+            await upsertAlias(part.id, { kind: al.kind as AliasKind, value: al.value, tier: src.tier, doc_id: docId, source_url: pageUrl }, runId, db); stats.aliases++;
           }
           // ---- teach the catalogue what this page taught us -----------------------------------
           // The variant step read `MR44-HW` off the page and landed on that part; the name the page
@@ -476,21 +558,21 @@ export async function main(argv: string[]): Promise<void> {
           // seeing a SKU the catalogue already holds under another spelling. Nothing is recorded on
           // the `alias` step: that step matched BECAUSE the row already exists.
           if (pick.step === "variant" && pick.aliasKind && ALIAS_KINDS.has(pick.aliasKind)) {
-            await upsertAlias(part.id, { kind: pick.aliasKind, value: sku, tier: src.tier, doc_id: docId, source_url: pageUrl }, runId);
+            await upsertAlias(part.id, { kind: pick.aliasKind, value: sku, tier: src.tier, doc_id: docId, source_url: pageUrl }, runId, db);
             stats.aliases_backfilled++;
           }
           for (const im of entry.images || []) {
             if (src.kind !== "vendor") { stats.images_skipped_non_vendor++; continue; }
-            await upsertImage(part.id, { role: im.role || "gallery", source_url: im.url, doc_id: docId, assignment_method: "source-page", confidence: 0.7, license_note: `vendor product photo (${src.slug})`, source_id: src.id }, runId); stats.images++;
+            await upsertImage(part.id, { role: im.role || "gallery", source_url: im.url, doc_id: docId, assignment_method: "source-page", confidence: 0.7, license_note: `vendor product photo (${src.slug})`, source_id: src.id }, runId, db); stats.images++;
           }
           for (const rel of entry.relations || []) {
             if (!RELATION_KINDS.has(rel.kind)) { stats.relations_invalid_kind++; continue; }
-            await upsertRelation(part.id, { to_sku: rel.sku, kind: rel.kind as RelationKind, tier: src.tier, doc_id: docId, source_url: pageUrl, note: rel.note ?? null }, runId); stats.relations++;
+            await upsertRelation(part.id, { to_sku: rel.sku, kind: rel.kind as RelationKind, tier: src.tier, doc_id: docId, source_url: pageUrl, note: rel.note ?? null }, runId, db); stats.relations++;
           }
           const li = lifecycleFromEntry(entry.lifecycle, { docId, pageUrl, fetchedDay, tier: src.tier });
-          if (li) { await upsertLifecycle(part.id, li, runId); stats.lifecycle++; }
+          if (li) { await upsertLifecycle(part.id, li, runId, db); stats.lifecycle++; }
           const outcome: CheckOutcome = mappedKeys.length ? "facts_found" : entry.not_listed ? "not_listed" : "no_facts";
-          await recordSourceCheck(part.id, src.id, { doc_id: docId, fetch_id: doc.fetch_id ?? null, outcome, facts_found: mappedKeys.length, fields_found: [...new Set(mappedKeys)] }, runId);
+          await recordSourceCheck(part.id, src.id, { doc_id: docId, fetch_id: doc.fetch_id ?? null, outcome, facts_found: mappedKeys.length, fields_found: [...new Set(mappedKeys)] }, runId, db);
           stats.checks++;
         }
       }
@@ -503,9 +585,21 @@ export async function main(argv: string[]): Promise<void> {
 
   let out: { stats: Record<string, number>; gate: Gate; runId?: number };
   if (a.commit) {
-    out = await withRun("apply-acquired", runInputs, body);
+    out = await withRun("apply-acquired", runInputs, (runId) => withTx(async (client) => {
+      const r = await body(runId, client);
+      // INSIDE the transaction, before the COMMIT. Throwing here is the rollback: the database
+      // discards every row this run wrote, of every kind, and withRun closes the run `failed`
+      // with this message. closeRun's own gate refusal stays as belt-and-braces behind it.
+      if (!r.gate.passed) throw new Error(`${GATE_REFUSED}, so nothing was written: ${JSON.stringify(r.gate)}`);
+      return r;
+    }), {
+      // Called ONLY on the failure path, and the only remaining evidence that the run wrote
+      // anything at all once the transaction is gone: without it a rolled-back run and a run over
+      // an empty directory leave identical rows.
+      partial: () => ({ stats, progress: `${stats.pages} of ${files.length} files, ${stats.parts_matched} parts touched` }),
+    });
   } else {
-    out = await body(null);
+    out = await body(null, pool);
   }
 
   const day = new Date().toISOString().slice(0, 10);
@@ -533,7 +627,14 @@ export async function main(argv: string[]): Promise<void> {
   console.log("resolution: " + RESOLVE_STEPS.map((s) => `${s}=${out.stats[`matched_${s}`] ?? 0}`).join(" ")
     + ` unknown=${out.stats.sku_unknown} ambiguous=${out.stats.ambiguous} (of the matches, ${out.stats.matched_no_vendor_scope} rested on a catalogue-wide unique SKU with no vendor to scope by)`);
   await closePool();
-  if (a.commit && !out.gate.passed) process.exitCode = 1;
+  // Only a dry run can reach this line with a failing gate — a committed one threw above. It used
+  // to read `if (a.commit && !passed)`, which was therefore dead code in both directions: the
+  // commit case never got here, and the dry case (the one a supervisor runs first to decide
+  // whether to commit) reported a broken adapter and exited 0.
+  if (!out.gate.passed) {
+    console.error(`${GATE_REFUSED} (precision ${out.gate.precision}, recall ${out.gate.recall}); exiting ${EXIT_GATE_FAILED}${a.commit ? "" : " — dry run, nothing was written"}`);
+    process.exitCode = EXIT_GATE_FAILED;
+  }
 }
 
 if (process.argv[1] && /apply-acquired\.(ts|js)$/.test(process.argv[1])) {

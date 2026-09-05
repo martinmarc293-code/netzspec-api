@@ -1,0 +1,23 @@
+{
+ "_about": "SABOTAGE (a gate-failed run leaves rows behind): a vendor page that writes one of EVERY kind — a fact with its evidence, a source_doc and a doc_parts link, a upc alias, an image assignment, an image candidate, a relation, a lifecycle row and a part_source_check. Paired with the cdw file in this directory, whose missing adapter suite fails the gate. Until 4 Sep 2026 all of those except the fact were committed before the gate was even computed, and rollbackRun removed only facts/evidence/conflicts — so the catalogue kept an alias, a picture and a 'we looked' check from a run nobody was allowed to trust. Every table is asserted at zero for this run's id.",
+ "source": "meraki",
+ "task": {"id": 13, "task": "part-page", "key": "NZTEST-LEFTOVER", "part_id": null, "vendor": "cisco"},
+ "url": "https://documentation.meraki.com/MS/nztest/LEFTOVER",
+ "final_url": "https://documentation.meraki.com/MS/nztest/LEFTOVER",
+ "fetched_at": "2026-09-03T11:10:00+00:00",
+ "fetch_id": null,
+ "cached": false,
+ "cache_path": "e83542320c8949bcf407b5c1d17a03355c9e19bf.html",
+ "result": {
+  "sku": "NZTEST-LEFTOVER",
+  "not_listed": false,
+  "name": "Meraki NZTEST-LEFTOVER switch",
+  "facts": [{"label": "Weight", "value": "4.9 kg", "locator": "t1:r1:c2"}],
+  "aliases": [{"kind": "upc", "value": "889728999001"}],
+  "images": [{"url": "https://documentation.meraki.com/nztest/leftover.png", "role": "primary", "alt": "NZTEST-LEFTOVER front"}],
+  "relations": [{"kind": "successor", "sku": "MS130-24P", "note": "replacement model"}],
+  "lifecycle": {"announce_date": "N/A", "end_of_sale_date": "2028-01-31", "last_day_of_support": "N/A", "successor_sku": "MS130-24P"},
+  "price": null,
+  "others": []
+ }
+}

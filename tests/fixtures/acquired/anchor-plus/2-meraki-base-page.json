@@ -1,0 +1,18 @@
+{
+ "_about": "The same sabotage the other way round: the queue anchored this task to NZTEST-4500X-16SFP+ and the page is about the plain NZTEST-4500X-16SFP. A resolver that folds '+' writes the plain card's switching capacity onto the '+' card. Both directions are here because a fold is symmetric and a one-way test would pass a one-way fix. It is a meraki page rather than a second provantage one so this directory's report tag stays the fixture-only 'provantage+meraki' and can never overwrite a real runs/reports file.",
+ "source": "meraki",
+ "task": {"id": 12, "task": "part-page", "key": "NZTEST-4500X-16SFP+", "part_id": null, "vendor": "cisco"},
+ "url": "https://documentation.meraki.com/MS/nztest/4500X-BASE",
+ "final_url": "https://documentation.meraki.com/MS/nztest/4500X-BASE",
+ "fetched_at": "2026-09-03T11:01:00+00:00",
+ "fetch_id": null,
+ "cached": false,
+ "cache_path": "58fee1e9841e799cca766f0d3df19cd2b9827f79.html",
+ "result": {
+  "sku": "NZTEST-4500X-16SFP",
+  "not_listed": false,
+  "name": "Cisco NZTEST 4500X 16-port SFP line card",
+  "facts": [{"label": "Switching capacity", "value": "56 Gbps", "locator": "t1:r1:c2"}],
+  "aliases": [], "images": [], "relations": [], "lifecycle": null, "price": null, "others": []
+ }
+}
