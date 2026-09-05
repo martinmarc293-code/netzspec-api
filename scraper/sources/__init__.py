@@ -58,6 +58,12 @@ REGISTRY = {
     # its enabled flag said — which is why Cisco had no daily loop and every Cisco fact arrived
     # through the offline batch path instead (5 Sep 2026).
     "cisco-datasheets": "sources.cisco_datasheets",
+    # Juniper, same story one brand later: the `juniper` row has existed since the schema was
+    # created and had no module, so the lane could never run and nothing has ever been read from a
+    # Juniper document. The module points at apps.juniper.net (Pathfinder HCT), NOT at
+    # www.juniper.net, which answers its product URLs with a 404 page under a 403 status
+    # (5 Sep 2026) — see the header of sources/juniper.py.
+    "juniper": "sources.juniper",
 }
 
 

@@ -33,7 +33,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 
 #: Packs in the order they were built. Adding a name here is the only registration step.
-BRANDS = ("cisco",)
+BRANDS = ("cisco", "hpe", "juniper")
 
 
 def load_brand(slug: str):
