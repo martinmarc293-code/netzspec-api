@@ -548,6 +548,17 @@ full; the ones that bite hardest here are restated.
   of production. Landing trick: the deploy stops at 0010's guard and leaves
   `/root/netzspec-api.new` built — the merge is run FROM that directory, then the deploy is
   repeated so 0010 applies (chain in flight).
+  THE ITPRICE SOLUTION (operator, 5 Sep): a DataImpulse RESIDENTIAL PROXY plan
+  (HTTP gateway `gw.dataimpulse.com:823`, rotating/sticky, country targeting, 5 GB of
+  traffic — charged per byte). Credentials live ONLY in `D:\Project\.secrets\dataimpulse.env`
+  and the laptop's gitignored `.env` as `NETZSPEC_PROXY_URL` (+ `NETZSPEC_PROXY_DAILY_MB=300`);
+  never printed, never committed, never on the box. Workflow in flight: migration 0011
+  `sources.proxy` (direct|residential) + `proxy_country`; only itprice and router-switch go
+  through the gateway; proxied lanes block images/media/fonts; bytes accounted per source
+  per UTC day in the heartbeat and `fetches`; a lane stops at its daily budget
+  (`proxy_budget_exhausted`, the sentinel must not loop-restart it); watchdog spend line +
+  alarms at 80% of the day and 4 GB of the plan. Live proof (3 tasks per lane) and the lane
+  restart follow the reviewer's verdict.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
