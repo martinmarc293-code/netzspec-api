@@ -177,7 +177,14 @@ check("L1", "extract() with key ZZZ-NOT-ON-THIS-PAGE reports not_listed True",
 check("L2", "extract() with a SKU the ordering tables list is not not_listed",
       H.extract(html, {"task": "datasheet", "key": "JL658A"})["not_listed"] is False)
 
-HEAD = f'<html><head><title>X QuickSpecs | HPE</title><link rel="canonical" href="https://www.hpe.com/us/en/collaterals/collateral.{DOC_ID}.html"></head><body>'
+# The synthetic pages below carry `div.collateral-content` because psnow does: it is the
+# container the document body is rendered into, and `extract()` now REFUSES a capture without it
+# (a blank psnow shell parses into a tidy nothing, which the queue records as `no_facts`/`done`
+# and nobody ever sees again — see the module docstring). A fixture that omits the container is
+# not a minimal page, it is a page the site never serves, so the wrapper belongs here.
+HEAD = (f'<html><head><title>X QuickSpecs | HPE</title>'
+        f'<link rel="canonical" href="https://www.hpe.com/us/en/collaterals/collateral.{DOC_ID}.html">'
+        f'</head><body><div class="collateral-content">')
 EMPTY = HEAD + '<div class="uct-table"><table><tr><th colspan="3">Some Switch (JL000A)</th></tr></table></div></body></html>'
 e = H.extract(EMPTY, task)
 check("Z1", "an empty spec table yields zero facts", not e["facts"] and not any(o["facts"] for o in e["others"]),
@@ -221,6 +228,62 @@ fm = H.extract(FAMILY, task)
 check("Z7", "a spec header without a SKU lands on the family result with its heading as prefix",
       fm.get("scope") == "family" and not fm["others"]
       and fm["facts"] == [{"label": "Series-wide > Stacking", "value": "VSF", "locator": "t0:r1"}], str(fm["facts"]))
+
+# ---- the unrendered psnow shell: the silent failure this module exists to refuse --------------
+# Two of the ten psnow documents in the cache are captures like this: HTTP 200, ~264 KB, correct
+# og:title, not blocked, not a 404 — and no document body. Before 5 Sep 2026 they extracted to
+# zero facts and the queue marked them `done`.
+SHELL = ('<html><head><title>HPE Aruba Networking CX 6300 Switch Series</title>'
+         '<meta property="og:title" content="HPE Aruba Networking CX 6300 Switch Series">'
+         '</head><body><header>HPE Home GreenLake Products and Solutions Services Company Support</header>'
+         '<main><h1>HPE Aruba Networking CX 6300 Switch Series</h1>'
+         '<p>You haven\'t found what you are looking for? Chat with one of our agents.</p></main>'
+         '<footer>Privacy Terms of Use Sitemap United States (en)</footer></body></html>')
+check("U1", "the shell has no render marker", H.is_rendered(SHELL) is False)
+check("U2", "the real cached document does have one", H.is_rendered(html) is True)
+try:
+    H.extract(SHELL, {"task": "datasheet", "key": DOC_URL})
+    check("U3", "SABOTAGE an unrendered psnow capture is REFUSED, not returned as zero facts", False,
+          "extract() returned instead of raising")
+except H.UnrenderedDocument as exc:
+    msg = str(exc)
+    check("U3", "SABOTAGE an unrendered psnow capture is REFUSED, not returned as zero facts", True)
+    check("U4", "...and the refusal names the document, so the re-fetch is one command",
+          DOC_URL in msg and "--force" in msg, msg[:120])
+    # worker.classify_exception sends anything whose message says "timeout" down the timeout
+    # branch, which reports a slow host instead of a missing document. The wording is load-bearing.
+    check("U5", "...and the message never says 'timeout', which would misclassify it as a slow host",
+          "timeout" not in msg.lower() and "timed out" not in msg.lower(), msg[:120])
+except Exception as exc:  # noqa
+    check("U3", "SABOTAGE an unrendered psnow capture is REFUSED, not returned as zero facts", False,
+          f"{type(exc).__name__}: {exc}")
+check("U6", "SABOTAGE an empty body is unrendered too, never a document with no tables",
+      H.is_rendered("") is False)
+# The two markers are independent on purpose: a QuickSpecs with no specification table at all
+# still has the container, and a rule keyed on tables alone would refuse it for ever.
+check("U7", "the container alone is enough to call a page rendered",
+      H.is_rendered('<div class="collateral-content"><p>prose only</p></div>') is True)
+
+# ---- block detection: challenge_fingerprint, not looks_blocked --------------------------------
+# looks_blocked() believes a wordy marker on ANY page under 40 KB. The real 56 KB "404 Error"
+# fixture is inside that window and so is every short HPE error page.
+check("B3", "the named fingerprint is reported, not just a boolean",
+      H.blocked_reason(JAM) is not None and isinstance(H.blocked_reason(JAM), str), H.blocked_reason(JAM))
+check("B4", "SABOTAGE a 400 KB QuickSpecs is not blocked whatever words it contains",
+      H.blocked_reason(html) is None, H.blocked_reason(html))
+check("B5", "SABOTAGE the real 404 fixture is NOT read as a block — it is an answer",
+      H.blocked_reason(nf_html) is None, H.blocked_reason(nf_html))
+check("B6", "an empty body is a block (HPE's refusal carries no HTML at all)",
+      H.blocked_reason("") == "empty_body", H.blocked_reason(""))
+
+# ---- the lane's declared waits ---------------------------------------------------------------
+# worker.Browser reads these off the module. A wait that proves something other than what
+# is_rendered() checks is how a lane ends up waiting for the wrong thing.
+check("W1", "the module declares WAIT_FOR and SETTLE_MS for the worker to use",
+      isinstance(getattr(H, "WAIT_FOR", None), str) and isinstance(getattr(H, "SETTLE_MS", None), int),
+      f"{getattr(H, 'WAIT_FOR', None)!r} {getattr(H, 'SETTLE_MS', None)!r}")
+check("W2", "WAIT_FOR names the SAME marker is_rendered() checks, so they cannot drift",
+      any(m in H.WAIT_FOR for m in H.RENDER_MARKERS), f"{H.WAIT_FOR} vs {H.RENDER_MARKERS}")
 
 print(f"\n{npass} passed, {nfail} failed")
 sys.exit(1 if nfail else 0)

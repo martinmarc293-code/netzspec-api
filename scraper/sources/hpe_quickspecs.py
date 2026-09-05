@@ -43,17 +43,84 @@ Task kinds:
 discover() returns nothing: the QuickSpecs index is handled elsewhere.
 
 Not found: the site answers with a page titled "404 Error | HPE" (fixture a00094280enw).
+
+WHAT HPE'S REFUSAL ACTUALLY LOOKS LIKE, measured 5 Sep 2026 — and it is NOT Cloudflare, and it
+is not Cisco's Akamai either. Cisco refuses with HTTP 403 and a 546-byte "Access Denied" page you
+can fingerprint. HPE refuses with SILENCE: the TCP connect completes (0.28 s), the TLS handshake
+completes (0.52 s), and then the server sends no HTTP response at all and drops the connection.
+curl reports exit 56 ("failure receiving network data") with a zero-byte body; Chrome reports
+`net::ERR_HTTP2_PROTOCOL_ERROR` and Playwright raises out of `page.goto`. The same URL had
+answered 200 with 264 KB four minutes earlier, so it is a rate limit, not a ban.
+
+The consequence for this module is structural: **no HTML fingerprint can ever detect an HPE
+block, because a blocked HPE fetch produces no HTML.** `is_blocked()` below is still correct and
+still worth having — it catches the interstitials HPE serves through its CDN edge on the rare
+occasions it serves one — but the lane's real refusal arrives as an exception from the browser
+and is classified by `worker.classify_exception` as `failed` (its message contains no "timeout").
+That is the right DISPOSITION (retry with back-off, then blocked so a human looks) under the
+wrong LABEL, and nothing in the system currently says "HPE is refusing us". The brand watchdog
+reports it by counting protocol errors in `fetch_queue.last_error`, which is the only place the
+evidence survives.
+
+THE SILENT FAILURE THIS MODULE EXISTS TO REFUSE (5 Sep 2026). psnow renders the document body
+client-side. When it does not finish, the capture is a ~264 KB page that is complete, valid,
+HTTP 200, carries the right `og:title`, is not blocked and is not a 404 — and contains no
+document at all: no `div.collateral-content`, no `<uc-table>`, no `<table>`, and 2.4 KB of body
+text where a rendered QuickSpecs has 42 KB. Two of the ten psnow documents in the cache are
+exactly this (a00085162enw, a50009236enw) and both were recorded as successful fetches. Left
+alone, `extract()` returns a tidy result with zero facts, `worker.process` records `no_facts`,
+the queue marks the task `done`, and the document is "held, produced nothing" for ever with no
+counter anywhere — the same shape as the empty `recentResults()` that was blank for its whole
+life (D:\\Project\\CLAUDE.md section 12). So `extract()` REFUSES an unrendered capture by
+raising: an unrendered page is a failure of the FETCH, not a result of the extraction, and the
+queue's back-off is exactly the right response to it.
+
+That refusal has one consequence worth stating out loud rather than discovering later: the
+browser caches the blank capture before `extract()` ever sees it (`Browser.fetch` only declines
+to cache a page `looks_blocked()` recognises, and a blank shell is not one), so the retries read
+the same poisoned file from disk and the task ends `blocked` after MAX_ATTEMPTS with the reason
+named in `last_error`. Evicting the cache entry from here was considered and REJECTED: this
+module's own test suite runs `extract()` over cached fixtures, so an adapter that deletes what it
+dislikes would delete the fixture that proves it works. A named block after five attempts is a
+recorded gap an operator can clear with one command; a silent `done` is not.
 """
 from __future__ import annotations
 import json, re
 from urllib.parse import urljoin, urlsplit
 from bs4 import Tag, NavigableString, Comment
 
-from .base import soup, clean, looks_blocked, sku_in
+from .base import soup, clean, challenge_fingerprint, sku_in
 
 SLUG = "hpe-quickspecs"
 BASE = "https://www.hpe.com"
 DOC_PATH = "/psnow/doc/"
+
+#: The selector that proves the DOCUMENT arrived, not just the page around it. `worker.Browser`
+#: reads WAIT_FOR off this module and waits up to 15 s for it after the network goes quiet.
+#: It is the same marker `is_rendered()` uses below, deliberately: a wait that proves one thing
+#: and a check that proves another is how a lane ends up waiting for something irrelevant.
+WAIT_FOR = "div.collateral-content"
+#: 2,500 ms rather than the 1,500 ms default. The eight documents fetched on 3 Sep 2026 at 14 s
+#: intervals rendered on 1,500 ms six times out of eight; the two that did not are the blank
+#: shells still in the cache. The wait above is the real fix and this is the margin behind it.
+SETTLE_MS = 2500
+
+#: Markers of a rendered QuickSpecs body, measured over the ten psnow documents in the cache
+#: (5 Sep 2026). Every rendered document carries `collateral-content` (12 occurrences in
+#: a50004266enw) and `uc-table` (220); both blank shells carry ZERO of each, and a shell's body
+#: text is ~2.4 KB against ~42 KB rendered. `collateral-content` is the primary marker because it
+#: is the document CONTAINER: a QuickSpecs with no specification table would still have it, so a
+#: rule keyed on tables alone would call such a document unrendered and refuse it for ever.
+RENDER_MARKERS = ("collateral-content", "uc-table")
+
+
+class UnrenderedDocument(RuntimeError):
+    """The capture is the psnow page without its document body. See the module docstring.
+
+    Raised rather than returned so the queue treats it as the fetch failure it is. `worker`
+    classifies it `failed` (the message must therefore never contain the word "timeout", which
+    would send it down the timeout branch and report a slow host instead of a missing document).
+    """
 
 # an HPE ordering SKU as the tables write it: "JL658A", "S0V64A", "Q9Y78AAS", "R8D20AAE",
 # "845970-B21", with an optional localisation suffix "#B2B" / "#AC3". Needs a letter AND a digit
@@ -134,12 +201,58 @@ def _json_body(html: str):
         return None
 
 
+def blocked_reason(html: str) -> str | None:
+    """The NAMED fingerprint that says this page is a refusal, or None.
+
+    `challenge_fingerprint`, not `looks_blocked`. The shared helper believes a wordy marker such
+    as "Access Denied" on ANY page under 40 KB, and a QuickSpecs is routinely 400 KB of security
+    prose — but the 56 KB "404 Error | HPE" page is inside that window, and so is any short HPE
+    error page that happens to use the phrase. `challenge_fingerprint` splits the evidence:
+    structural challenge markup is believed at any size, ordinary English only under 4 KB.
+    Naming the fingerprint is the other half: `blocked:cf_turnstile` is something an operator can
+    act on, `no_facts` is not (5 Sep 2026).
+    """
+    return challenge_fingerprint(html)
+
+
 def is_blocked(html: str) -> bool:
-    return looks_blocked(html)
+    return blocked_reason(html) is not None
 
 
 def is_not_found(html: str) -> bool:
     return bool(NOT_FOUND_TITLE.search(html[:20000]))
+
+
+#: A QuickSpecs DOCUMENT url, in either of the two forms HPE serves it under: the id form
+#: `/psnow/doc/a00073540enw` and the collateral form `/us/en/collaterals/collateral.a00073540enw.html`
+#: that the id form redirects to. `.pdf` is the same document.
+DOCUMENT_URL = re.compile(
+    r"/psnow/doc/[a-z][0-9]{8}[a-z]{3}(?:\.pdf)?(?:[?#]|$)"
+    r"|/collaterals/collateral\.[a-z][0-9]{8}[a-z]{3}\.html", re.I)
+
+
+def is_document_url(url: str) -> bool:
+    """Is this URL a QuickSpecs document, as opposed to an index, a search or the library JSON?
+
+    It exists so the brand watchdog can scan the cache for unrendered captures without inventing
+    its own idea of what a document is. `is_rendered()` is only meaningful for a DOCUMENT: an HPE
+    product-listing page or the media-library JSON legitimately carries no `collateral-content`,
+    and a scan without this filter reported six unrendered captures where there were two
+    (5 Sep 2026) — a monitor that cries wolf about four healthy pages is one nobody reads.
+    """
+    return bool(DOCUMENT_URL.search(url or ""))
+
+
+def is_rendered(html: str) -> bool:
+    """Did the psnow page actually deliver its document body? See the module docstring.
+
+    Cheap and structural on purpose: a 400 KB page is scanned as a substring search over the
+    markup, not parsed twice. Both markers are class names psnow emits around the collateral, so
+    neither can appear on the navigation-only shell.
+    """
+    if not html:
+        return False
+    return any(m in html for m in RENDER_MARKERS)
 
 
 # ---------------------------------------------------------------------------------------------
@@ -378,6 +491,16 @@ def _key_probe(key: str) -> list[str]:
 
 
 def extract(html: str, task: dict) -> dict:
+    # BEFORE anything is parsed. A blank psnow shell parses perfectly into nothing, and "nothing"
+    # is indistinguishable from "this document has no tables" once it reaches the queue as
+    # `no_facts`/`done`. The refusal names the document so the operator's re-fetch is one command.
+    if not is_rendered(html):
+        key = (task.get("key") or task.get("url") or "?").strip()
+        raise UnrenderedDocument(
+            f"unrendered psnow capture for {key}: none of {RENDER_MARKERS} is present in "
+            f"{len(html or '')} bytes — the document body did not load, so this fetch produced "
+            f"no document. Re-fetch with `worker.py fetch <url> --force` (the blank capture is "
+            f"already in the cache and will be served again until it is replaced).")
     s = soup(html)
     title = _title(s)
     family = _empty(TITLE_SUFFIX.sub("", title).strip() or None)
