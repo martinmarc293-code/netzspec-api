@@ -474,9 +474,21 @@ check("P13", "a country is lower-cased and a blank one is omitted, never sent as
       str((W.proxy_username("fixtureuser", "DE"), W.proxy_username("fixtureuser", "  "))))
 sid = W.proxy_session_id("router-switch", 4242)
 check("P14", "a session id is alphanumeric only — '.' and ';' are the gateway's own separators",
-      sid == "routerswitch4242" and sid.isalnum(), sid)
+      sid.isalnum() and sid.startswith("routerswitch4242"), sid)
 check("P15", "two lanes get two different session ids in one process (one exit IP each)",
       W.proxy_session_id("itprice", 7) != W.proxy_session_id("router-switch", 7))
+# EXIT-IP ROTATION (operator, 5 Sep 2026: a new IP every 75 URLs). DataImpulse gives a stable exit
+# IP per session id, so a different id IS a different IP — the block number in the id is the whole
+# mechanism, and these two cases are what make it real rather than intended.
+check("P14b", "a new BLOCK is a new session id, and therefore a new exit IP",
+      W.proxy_session_id("router-switch", 4242, block=1) != sid
+      and W.proxy_session_id("router-switch", 4242, block=1).isalnum(),
+      f"{sid} vs {W.proxy_session_id('router-switch', 4242, block=1)}")
+check("P14c", "SABOTAGE the same block is the SAME id — rotation must be deliberate, not a "
+              "side effect of asking twice; a clearance costs a challenge to earn",
+      W.proxy_session_id("router-switch", 4242, block=3) == W.proxy_session_id("router-switch", 4242, block=3))
+check("P14d", "the rotation interval is a named constant, not a literal buried in the loop",
+      W.PROXY_ROTATE_EVERY == 75, str(W.PROXY_ROTATE_EVERY))
 opt = W.proxy_option({W.PROXY_ENV: GOOD}, "de", "lane1")
 check("P16", "proxy_option builds the Playwright dict: server, suffixed username, password",
       opt == {"server": "http://gw.example.test:823", "username": "fixtureuser__cr.de;sessid.lane1", "password": "fixturepass"}, str(opt))
@@ -620,6 +632,85 @@ check("TF5", "SABOTAGE degenerate inputs are zero, never an exception in the mid
       and W.total_facts("not a dict") == 0)
 check("TF6", "SABOTAGE a listing result (no subject, no facts) is zero and stays `no_facts`",
       W.total_facts({"sku": None, "facts": [], "others": [], "scope": "listing"}) == 0)
+
+# ---------------------------------------------------------------------------------------------
+# the Loop rotates the exit IP every PROXY_ROTATE_EVERY URLs, and only on a proxied lane
+# ---------------------------------------------------------------------------------------------
+class _RotBrowser:
+    """Records rotations instead of relaunching Chrome."""
+
+    def __init__(self):
+        self.rotations = []
+
+    def rotate_proxy(self, env, country, slug):
+        self.rotations.append((slug, country))
+        return f"{slug}b{len(self.rotations)}"
+
+
+def _loop_with(rotate_every=5):
+    b = _RotBrowser()
+    lp = W.Loop.__new__(W.Loop)
+    lp.browser, lp.env, lp.rotate_every, lp.fetched_on_ip = b, {}, rotate_every, {}
+    return lp, b
+
+
+PROX = {"slug": "itprice", "proxy": "residential", "proxy_country": "us"}
+DIRECT = {"slug": "provantage", "proxy": "direct", "proxy_country": None}
+
+lp, br = _loop_with(5)
+for _ in range(4):
+    lp.count_fetch(PROX)
+check("R1", "no rotation before the block is full", br.rotations == [], str(br.rotations))
+lp.count_fetch(PROX)
+check("R2", "the exit IP rotates exactly on the Nth URL, with the lane's country",
+      br.rotations == [("itprice", "us")], str(br.rotations))
+for _ in range(5):
+    lp.count_fetch(PROX)
+check("R3", "...and again on the next full block, not on every URL after the first",
+      len(br.rotations) == 2, str(br.rotations))
+
+lp, br = _loop_with(5)
+for _ in range(20):
+    lp.count_fetch(DIRECT)
+check("R4", "SABOTAGE a DIRECT lane never rotates — it has one IP and nothing to change",
+      br.rotations == [], str(br.rotations))
+
+# Two proxied lanes in one worker must not rotate each other's IP: the count is per SOURCE.
+lp, br = _loop_with(3)
+other = {"slug": "router-switch", "proxy": "residential", "proxy_country": "us"}
+for _ in range(2):
+    lp.count_fetch(PROX)
+for _ in range(3):
+    lp.count_fetch(other)
+check("R5", "SABOTAGE the count is PER LANE: router-switch filling its block does not rotate "
+            "itprice's IP part way through its own",
+      br.rotations == [("router-switch", "us")], str(br.rotations))
+
+# A blocked page consumed the IP exactly as a good one did.
+lp, br = _loop_with(2)
+lp.count_fetch(PROX); lp.count_fetch(PROX)
+check("R6", "every fetch counts, whatever its outcome — rotating only on success would keep a "
+            "burnt IP for ever", len(br.rotations) == 1, str(br.rotations))
+
+# A lane that cannot rotate must keep working rather than stop.
+class _AngryBrowser:
+    def rotate_proxy(self, env, country, slug):
+        raise RuntimeError("chrome would not relaunch")
+
+
+lp, _ = _loop_with(1)
+lp.browser = _AngryBrowser()
+try:
+    lp.count_fetch(PROX)
+    check("R7", "SABOTAGE a failed rotation is reported and the lane continues — stopping a "
+                "working lane to change its IP is the worse outcome", True)
+except Exception as e:  # noqa
+    check("R7", "a failed rotation does not kill the lane", False, f"{type(e).__name__}: {e}")
+
+lp, br = _loop_with(0)
+for _ in range(50):
+    lp.count_fetch(PROX)
+check("R8", "SABOTAGE rotate_every=0 disables rotation entirely", br.rotations == [], str(br.rotations))
 
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

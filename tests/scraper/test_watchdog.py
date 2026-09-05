@@ -89,6 +89,8 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="repla
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scraper" / "tools"))
 import watchdog as W  # noqa: E402
+sys.path.insert(0, str(ROOT / "scraper"))
+from brands import ownership as OWN  # noqa: E402  who owns which test database
 
 npass = nfail = 0
 
@@ -106,19 +108,30 @@ def check(cid: str, what: str, ok: bool, got: str = "") -> None:
 # the database guard: refuse anything that is not netzspec_test4
 # ---------------------------------------------------------------------------------------------
 
+BRAND = "cisco"
+
+
 def test_db_url() -> str:
+    """The database this brand OWNS, refused by name if it is anybody else's.
+
+    The name check was here from the start and was not enough. On 5 Sep 2026 two sessions each
+    pointed a suite at netzspec_test4 — both passed this check, because both were "a name ending
+    in _test4" — and truncated each other's rows between sections. The run produced 24 failures
+    that had nothing to do with the code, and each session then killed the other's process
+    believing it an orphan. The ownership table and the advisory lock below are what make that a
+    refusal instead of a lesson.
+    """
     url = os.environ.get("DATABASE_URL_TEST") or W.load_env().get("DATABASE_URL_TEST") or ""
-    m = re.search(r"/([^/?]+)(\?|$)", url)
-    name = m.group(1) if m else ""
-    if not name.endswith("_test4"):
-        print(f"REFUSED: DATABASE_URL_TEST database name is '{name or '?'}'; this suite runs only against a name ending in _test4")
-        sys.exit(2)
+    OWN.assert_owns_database(BRAND, url)     # raises SystemExit, naming the other brand
     return url
 
 
 DB_URL = test_db_url()
 C = psycopg.connect(DB_URL, autocommit=True, row_factory=dict_row)
-assert C.execute("SELECT current_database() AS d").fetchone()["d"].endswith("_test4")
+assert C.execute("SELECT current_database() AS d").fetchone()["d"] == OWN.test_db_for(BRAND)
+# ...and no OTHER process may hold it, which is the half the name check can never see: the same
+# brand's suite started twice overlaps just as destructively as two different brands.
+OWN.lock_database(C, BRAND)
 TMP = Path(tempfile.mkdtemp(prefix="netzspec-watchdog-"))
 RUNS = TMP / "runs"
 SRC = {r["slug"]: r["id"] for r in C.execute("SELECT id, slug FROM sources").fetchall()}

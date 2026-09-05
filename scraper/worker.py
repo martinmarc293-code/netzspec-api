@@ -335,12 +335,35 @@ def proxy_username(login: str, country: str | None = None, session_id: str | Non
     return login + ("__" + ";".join(parts) if parts else "")
 
 
-def proxy_session_id(slug: str, pid: int | None = None) -> str:
-    """One sticky-session id per lane per worker process. Alphanumeric only: the id travels inside
-    the username, where `.` and `;` are the gateway's own separators, so `router-switch` cannot go
-    in as it stands."""
+# How many URLs a proxied lane fetches on one exit IP before it takes a new one (operator,
+# 5 Sep 2026). It is a compromise between the two things a residential gateway trades off:
+#
+#   NEVER ROTATE   one IP for the worker's life. A Cloudflare clearance is bound to the IP that
+#                  earned it, so this is the cheapest option per page — and it concentrates every
+#                  request the lane makes onto one address, which is the pattern a site rate-limits.
+#   ALWAYS ROTATE  the gateway's default. A new IP per REQUEST means paying for a fresh challenge
+#                  on every asset of every page, which is the expensive failure the sessid exists
+#                  to avoid.
+#
+# 75 keeps a clearance alive across a working block and then moves. Rotation is not free: Playwright
+# fixes the proxy when the CONTEXT is created, so a new exit IP means relaunching the browser
+# context — about a second, once per 75 pages, which is noise next to 75 politeness delays.
+PROXY_ROTATE_EVERY = 75
+
+
+def proxy_session_id(slug: str, pid: int | None = None, block: int = 0) -> str:
+    """The sticky-session id for a lane's CURRENT block of URLs.
+
+    Alphanumeric only: the id travels inside the username, where `.` and `;` are the gateway's own
+    separators, so `router-switch` cannot go in as it stands.
+
+    `block` is what makes rotation happen. DataImpulse gives a stable exit IP per session id, so a
+    different id is a different IP — incrementing the block every PROXY_ROTATE_EVERY URLs is the
+    whole mechanism. It is in the id rather than in a timer because pages, not seconds, are what a
+    site counts.
+    """
     base = "".join(ch for ch in (slug or "lane") if ch.isalnum()) or "lane"
-    return f"{base[:20]}{os.getpid() if pid is None else pid}"
+    return f"{base[:20]}{os.getpid() if pid is None else pid}b{int(block)}"
 
 
 def proxy_option(env: dict, country: str | None, session_id: str | None) -> dict:
@@ -607,6 +630,11 @@ class Browser:
         # comment at the install site. Metering stays proxied-only: a direct lane costs nothing to
         # measure and the NULL in fetches.proxy_bytes is what distinguishes the two.
         self.filter_assets = bool(filter_assets)
+        # kept so rotate_proxy() can rebuild the context exactly as it was launched
+        self._headless = bool(headless)
+        self._rotation = 0
+        self._session_id = ""
+        self._origin_host = None
         self.proxy_bytes = 0
         self.proxy_unmeasured = 0
         self.aborted = 0
@@ -701,6 +729,49 @@ class Browser:
             self.proxy_bytes += n
         else:
             self.proxy_unmeasured += 1
+
+    # -- exit-IP rotation ----------------------------------------------------------------
+    def rotate_proxy(self, env: dict, country: str | None, slug: str) -> str:
+        """Take a NEW exit IP by rebuilding the context with the next session id.
+
+        Playwright fixes the proxy when the context is created, so there is no way to change the
+        exit IP of a live context: the context has to go. Everything else about the lane survives
+        because the PROFILE DIRECTORY is where the state lives - cookies, storage and the Chrome
+        profile itself are on disk and are reopened by the new context. What is deliberately lost
+        is the Cloudflare clearance, which was bound to the old IP and is worthless on the new one.
+
+        Returns the new session id. Raises nothing on a failed relaunch - a lane that cannot
+        rotate keeps the context it has and says so, because stopping a working lane to change its
+        IP is a worse outcome than an un-rotated lane.
+        """
+        self._rotation += 1
+        sid = proxy_session_id(slug, block=self._rotation)
+        try:
+            new_proxy = proxy_option(env, country, sid)
+        except ValueError as e:
+            print(f"  ! {slug}: cannot rotate the exit IP ({e}); keeping the current one", flush=True)
+            return self._session_id
+        try:
+            self._ctx.close()
+        except Exception:  # noqa - a context that will not close is still being replaced
+            pass
+        kwargs = dict(headless=self._headless, locale="en-US",
+                      viewport={"width": 1400, "height": 1000},
+                      extra_http_headers={"Accept-Language": "en-US,en;q=0.9"},
+                      proxy=new_proxy)
+        try:
+            self._ctx = self._pw.chromium.launch_persistent_context(self.profile_dir, channel="chrome", **kwargs)
+        except Exception:  # noqa - Chrome not installed: the bundled Chromium, as at first launch
+            self._ctx = self._pw.chromium.launch_persistent_context(self.profile_dir, **kwargs)
+        self._page = self._ctx.pages[0] if self._ctx.pages else self._ctx.new_page()
+        self.proxy = new_proxy
+        self._session_id = sid
+        self._last_hit = {}          # a new IP has served nobody; the politeness clock restarts
+        self._origin_host = None
+        if self.proxied or self.filter_assets:
+            self._meter_on()
+        print(f"  {slug}: new exit IP (session {sid}) after {PROXY_ROTATE_EVERY} URLs", flush=True)
+        return sid
 
     def charge(self, nbytes: int) -> None:
         """Bytes this browser paid for outside the page's own response stream (the binary lane's
@@ -1100,13 +1171,19 @@ class Loop:
     its outcome; run() leases until the queue is empty (or forever with loop=True, or until
     max_tasks). Both take their collaborators as objects so the unit suite can hand in fakes."""
 
-    def __init__(self, q, browser, runs_dir: Path, load=load_source, sleep=time.sleep, spend: "ProxySpend | None" = None):
+    def __init__(self, q, browser, runs_dir: Path, load=load_source, sleep=time.sleep, spend: "ProxySpend | None" = None,
+                 env: dict | None = None, rotate_every: int = PROXY_ROTATE_EVERY):
         self.q = q
         self.browser = browser
         self.runs_dir = Path(runs_dir)
         self.load = load
         self.sleep = sleep
         self.spend = spend
+        # Exit-IP rotation, proxied lanes only. Counted in URLS FETCHED rather than seconds,
+        # because pages are what a site counts. 0 disables it.
+        self.env = env or {}
+        self.rotate_every = int(rotate_every or 0)
+        self.fetched_on_ip: dict[str, int] = {}
         self.paused_until: dict[int, datetime] = {}
         self.consecutive_blocked: dict[int, int] = {}
         self.done = self.failed = 0
@@ -1150,6 +1227,29 @@ class Loop:
             self.q.record_fetch(src_row["id"], url, status, None, None, 0, proxy_bytes)
         except Exception as e:  # noqa — a ledger row is not worth failing the task over
             print(f"  ! {src_row['slug']}: could not record {proxy_bytes} proxy bytes ({type(e).__name__})")
+
+    def count_fetch(self, src_row: dict) -> None:
+        """One more URL on this lane's current exit IP; rotate when the block is full.
+
+        Only proxied lanes rotate - a direct lane has one IP and nothing to change. The count is
+        per SOURCE, because two lanes sharing a worker would otherwise rotate each other's IP.
+        """
+        if not is_proxied(src_row) or self.rotate_every <= 0:
+            return
+        slug = src_row["slug"]
+        n = self.fetched_on_ip.get(slug, 0) + 1
+        if n < self.rotate_every:
+            self.fetched_on_ip[slug] = n
+            return
+        self.fetched_on_ip[slug] = 0
+        rotate = getattr(self.browser, "rotate_proxy", None)
+        if not callable(rotate):
+            return
+        try:
+            rotate(self.env, src_row.get("proxy_country"), slug)
+        except Exception as e:  # noqa - a lane that cannot rotate keeps working on the IP it has
+            print(f"  ! {slug}: exit-IP rotation failed ({type(e).__name__}: {str(e)[:90]}); "
+                  "continuing on the current IP", flush=True)
 
     def affordable(self, source_ids: list[int]) -> list[int]:
         """The sources this loop may still lease for. A proxied source whose day's budget is gone
@@ -1238,6 +1338,9 @@ class Loop:
             # charged BEFORE the outcome branches: a challenge page is the most expensive thing a
             # proxied lane can fetch and the one an "only count successes" meter would miss
             proxy_bytes = self.charge_proxy(src_row)
+            # ...and counted, whatever the outcome. A blocked page consumed the IP exactly as a
+            # good one did, so rotating only on success would keep a burnt IP for ever.
+            self.count_fetch(src_row)
             # A capture the adapter vetoed is a RENDER failure, not an answer: retry it with the
             # queue's back-off rather than extracting from a shell and recording `no_facts`, which
             # would look like a page that genuinely has nothing on it.
@@ -1432,7 +1535,7 @@ def run(args: argparse.Namespace) -> int:
                       headless=args.headless, profile_dir=profile_dir, proxy=proxy,
                       filter_assets=not getattr(args, "load_images", False))
     install_shutdown(browser)
-    lp = Loop(q, browser, runs_dir, spend=spend)
+    lp = Loop(q, browser, runs_dir, spend=spend, env=env)
     print(f"worker {WORKER} mode={browser.mode} profile={browser.profile_dir} sources={wanted} "
           f"loop={args.loop} max_tasks={args.max_tasks}", flush=True)
     if proxy:
