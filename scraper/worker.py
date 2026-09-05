@@ -174,17 +174,22 @@ def classify_binary(status, is_pdf: bool) -> str:
     return "failed"
 
 
-def is_cert_evidence(text: str) -> bool:
-    """Does this error say the EXIT is intercepting TLS, rather than the site being down?
+def exit_evidence(text: str) -> str | None:
+    """Does this error say THIS EXIT is the problem, and if so which kind?
 
-    Matched on substrings of the error text rather than an exception type, because the same fact
-    arrives as a Playwright Error, a urllib SSLError or a bare message depending on which layer
-    noticed. Deliberately narrow: `certificate` and the ERR_CERT_/ERR_SSL families, nothing about
-    timeouts or resets, so an ordinary flaky host is not mistaken for a bad exit and does not spend
-    one of the lane's three evidence rotations.
+    Returns "cert" for an intercepting exit, "refusal" for a connection established and then
+    broken, or None. Two kinds rather than one boolean because the operator reading a log needs to
+    know which: a cert failure means the exit is intercepting TLS and the fetch must never be
+    trusted, while an abrupt close means the exit is being refused and the document is simply
+    unread. Both want a new exit; only the first is a data-integrity question.
     """
     low = (text or "").lower()
-    return any(m in low for m in CERT_EVIDENCE)
+    if any(m in low for m in CERT_EVIDENCE):
+        return "cert"
+    if any(m in low for m in REFUSAL_EVIDENCE):
+        return "refusal"
+    return None
+
 
 
 def classify_exception(exc: BaseException) -> str:
@@ -399,6 +404,31 @@ EVIDENCE_ROTATE_MAX = 3
 # a new exit and never `ignore_https_errors`.
 CERT_EVIDENCE = ("err_cert_", "err_ssl", "self-signed", "self signed", "certificate",
                  "unable_to_verify", "cert_authority_invalid")
+
+# A REFUSAL AFTER THE HANDSHAKE COMPLETED. Added 6 Sep 2026 after the monitoring session measured
+# www.hpe.com/psnow six ways on one endpoint:
+#
+#   direct HTTP/2          timeout, 0 bytes          direct forced IPv4   CONNECTION RESET at 19.7s
+#   direct HTTP/1.1        timeout, 0 bytes          direct forced IPv6   timeout
+#   residential HTTP/2     timeout                   residential HTTP/1.1 TLS handshake OK, then
+#                                                    "server closed abruptly (missing close_notify)"
+#
+# The HTTP/1.1 probe is the one that reads the situation: the handshake COMPLETES and the server
+# then drops the connection without a close_notify. That is a refusal, not a negotiation failure,
+# and ERR_HTTP2_PROTOCOL_ERROR is the same event seen over h2 — which is why the first version of
+# this feature could never fire for HPE, the lane it was built for. I had excluded
+# ERR_HTTP2_PROTOCOL_ERROR by name as "an ordinary flaky host", and EV2 asserted that exclusion; the
+# measurement says otherwise, and the same host returned 200 twice in the same window from a
+# different exit, so the host serves — this exit is being refused.
+#
+# A BARE TIMEOUT IS STILL NOT EVIDENCE and stays out. A timeout says nothing about who refused: the
+# host may be slow, the tunnel may be congested, the page may be enormous. Rotating on it would
+# spend the lane's whole budget on ordinary slowness, which is the failure this narrowness exists to
+# prevent. The line is drawn at "the connection was established and then broken", not at "nothing
+# arrived in time".
+REFUSAL_EVIDENCE = ("err_http2_protocol_error", "closed abruptly", "close_notify",
+                    "err_connection_reset", "connection reset", "econnreset",
+                    "err_empty_response", "err_quic_protocol_error")
 
 
 def proxy_session_id(slug: str, pid: int | None = None, block: int = 0) -> str:
@@ -1576,8 +1606,15 @@ class Loop:
             # A TLS/cert failure says the EXIT is intercepting, not that the site is down. This is
             # the case the counter could never reach: HPE's lane died at 6 fetches with
             # ERR_CERT_AUTHORITY_INVALID and never rotated, because rotation waited for 75.
-            if is_cert_evidence(err):
-                self.rotate_on_evidence(src_row, f"TLS/cert failure on this exit: {type(e).__name__}")
+            kind = exit_evidence(err)
+            if kind == "cert":
+                self.rotate_on_evidence(src_row, f"TLS/cert failure on this exit - the exit is "
+                                                 f"INTERCEPTING, so nothing it returns can be trusted "
+                                                 f"({type(e).__name__})")
+            elif kind == "refusal":
+                self.rotate_on_evidence(src_row, f"connection established then broken on this exit - "
+                                                 f"a refusal, not a negotiation failure "
+                                                 f"({type(e).__name__})")
             traceback.print_exc(limit=3)
             try:
                 if task["part_id"] and task["attempts"] >= MAX_ATTEMPTS:

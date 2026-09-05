@@ -804,19 +804,36 @@ check("PX11", "SABOTAGE a challenge served with HTTP 200 is STILL blocked — th
 # remedy. It matters most on hpe-quickspecs because that lane writes TIER 1: a document read
 # through an interceptor would outrank every honestly-fetched fact about the part, which is why the
 # answer is a new exit and never `ignore_https_errors`.
-check("EV1", "a cert failure is recognised as evidence about the EXIT, in every spelling the "
-             "layers produce",
-      all(W.is_cert_evidence(t) for t in [
+check("EV1", "a cert failure is evidence the exit is INTERCEPTING, in every spelling the layers "
+             "produce - and that kind is named, because only it is a data-integrity question",
+      all(W.exit_evidence(t) == "cert" for t in [
           "Error: net::ERR_CERT_AUTHORITY_INVALID at https://www.hpe.com/psnow/doc/x",
           "SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] self-signed certificate in chain",
           "net::ERR_SSL_PROTOCOL_ERROR", "unable_to_verify_leaf_signature"]))
-check("EV2", "SABOTAGE an ordinary flaky host is NOT evidence about the exit - a timeout, a reset "
-             "or a 500 must not spend one of the lane's three rotations",
-      not any(W.is_cert_evidence(t) for t in [
-          "TimeoutError: Timeout 30000ms exceeded", "net::ERR_CONNECTION_RESET",
-          "Error: net::ERR_HTTP2_PROTOCOL_ERROR", "http 500 from the origin",
-          "AssertionError: certifiable nonsense"[:24]]),
-      str([t for t in ["TimeoutError: Timeout 30000ms exceeded", "net::ERR_CONNECTION_RESET"] if W.is_cert_evidence(t)]))
+
+# EV2 ASSERTED THE OPPOSITE OF THIS UNTIL 6 SEP 2026, and the reversal is recorded rather than
+# quietly edited. I excluded ERR_HTTP2_PROTOCOL_ERROR by name as "an ordinary flaky host" - and it
+# is precisely HPE's failure, the lane the whole feature was built for, so rotation could never have
+# fired for it. The monitoring session measured one psnow endpoint six ways: over HTTP/1.1 the TLS
+# handshake COMPLETES and the server then drops the connection with no close_notify, while the same
+# host returned 200 twice in the same window from a different exit. An abrupt close after a
+# completed handshake is a refusal, and ERR_HTTP2_PROTOCOL_ERROR is that same event seen over h2.
+# The instinct to keep the trigger narrow was right; the boundary was in the wrong place.
+check("EV2", "a connection ESTABLISHED AND THEN BROKEN is a refusal by this exit - the HTTP/2 "
+             "protocol error, the abrupt close and the reset are one event seen at three layers",
+      all(W.exit_evidence(t) == "refusal" for t in [
+          "Error: net::ERR_HTTP2_PROTOCOL_ERROR",
+          "server closed abruptly (missing close_notify)",
+          "net::ERR_CONNECTION_RESET", "ECONNRESET"]),
+      str({t: W.exit_evidence(t) for t in ["Error: net::ERR_HTTP2_PROTOCOL_ERROR", "ECONNRESET"]}))
+check("EV2b", "SABOTAGE a BARE TIMEOUT is still not evidence and must never rotate - it says "
+              "nothing about WHO refused, and rotating on ordinary slowness would spend the whole "
+              "budget on a slow host. The line is 'established then broken', not 'nothing arrived'",
+      all(W.exit_evidence(t) is None for t in [
+          "TimeoutError: Timeout 30000ms exceeded",
+          "Error: Navigation timeout of 45000 ms exceeded",
+          "http 500 from the origin", "ValueError: unrelated"]),
+      str({t: W.exit_evidence(t) for t in ["TimeoutError: Timeout 30000ms exceeded", "http 500 from the origin"]}))
 
 class _RotSpy:
     def __init__(self): self.calls = []
