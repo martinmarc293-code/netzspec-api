@@ -439,8 +439,39 @@ export async function main(argv: string[]): Promise<void> {
   // step 4 reaches a name step 5 recorded for an earlier page of the SAME run only because both
   // statements are on the same connection.
   const body = async (runId: number | null, db: Queryable) => {
+    // THE APPLY IS ROUND-TRIP BOUND, NOT VOLUME BOUND, and that changes what "slow" means here.
+    //
+    // Measured 6 Sep 2026 on the shared SSH tunnel every brand goes through: a bare `SELECT 1`
+    // round trip is a MEDIAN OF 333 ms (min 319, max 666), and connecting costs 2.4 s. Twenty
+    // sequential single-row lookups took 6,942 ms against 412 ms for one batched `= ANY($1)` —
+    // seventeen times, and the ratio IS the round-trip count. So an apply issuing N small
+    // statements pays N x 333 ms in pure waiting before any work happens, which is why a 478-file
+    // run sat for 1,957 s and then died when the tunnel dropped it. All three brands hit the same
+    // symptom in the same hour and each read it as their own volume problem.
+    //
+    // resolvePart calls bySku up to three times per SKU — the name as written, the spare flip, and
+    // each declared alias — and the same names recur across entries and across files in a run.
+    // Memoising it turns every repeat into zero round trips.
+    //
+    // SAFE BECAUSE THE PARTS TABLE DOES NOT MOVE UNDER THIS RUN: apply-acquired never inserts a
+    // part (the only INSERT INTO parts is the enumeration path in store/parts.ts), so a miss stays
+    // a miss and a hit stays a hit for the life of the run. The key is upper-cased because the
+    // query matches on `sku_norm = upper($1)`, so two spellings of one SKU share an entry.
+    //
+    // byAlias IS DELIBERATELY NOT CACHED, and that is the whole reason this is two lines and not
+    // one. The header above explains that a run reads its own writes: step 4 reaches an alias that
+    // step 5 recorded for an EARLIER PAGE OF THE SAME RUN. Caching it would freeze the catalogue at
+    // the moment of the first miss and silently undo the learning that makes step 5 pay for itself.
+    const skuCache = new Map<string, PartCandidate[]>();
     const look: ResolveLookups = {
-      bySku: (s, v) => partsBySkuNorm(s, v, db),
+      bySku: async (s, v) => {
+        const key = `${(s ?? "").toUpperCase()} ${v ?? ""}`;
+        const hit = skuCache.get(key);
+        if (hit) return hit;
+        const rows = await partsBySkuNorm(s, v, db);
+        skuCache.set(key, rows);
+        return rows;
+      },
       byAlias: (v, ven) => partsByAliasValue(v, ven, db),
     };
     for (const file of files) {
