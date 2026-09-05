@@ -81,5 +81,35 @@ check("D16", "and it is the SAME tier the document had as a datasheet, so this r
   TIER_BY_DOC_TYPE["vendor_eol_bulletin"] === TIER_BY_DOC_TYPE["vendor_datasheet_html"],
   `${TIER_BY_DOC_TYPE["vendor_eol_bulletin"]} vs ${TIER_BY_DOC_TYPE["vendor_datasheet_html"]}`);
 
+// ---- vendor_tool: the class that was reachable in name only -----------------------------------
+// Reported by the Juniper session, 5 Sep 2026. `vendor_tool` sat in VENDOR_CLASSES and in
+// TIER_BY_DOC_TYPE but not in the DocClass union; VENDOR_CLASSES is a ReadonlySet<string>, so
+// nothing type-errored while classifyDocument() could never return it. A class that reads as
+// supported and is not is the same shape as a check that reads a column nobody selected.
+const HCT = "https://apps.juniper.net/hct/model/?model=QFX-QSFP-40G-SR4";
+check("D17", "a Juniper HCT model page classifies as vendor_tool — the specifications ARE the page",
+  classifyDocType(HCT, HTML) === "vendor_tool", classifyDocType(HCT, HTML));
+check("D18", "an HCT category page is a listing surface, NOT the model page's class",
+  classifyDocType("https://apps.juniper.net/hct/category/index.html?cat=optics", HTML) === "vendor_page",
+  classifyDocType("https://apps.juniper.net/hct/category/index.html?cat=optics", HTML));
+
+const { SPEC_BEARING, VENDOR_CLASSES } = await import("../src/core/docClass.js");
+check("D19", "vendor_tool is spec-bearing: without it Juniper's crawl gap reads as total for ever, "
+           + "because the HCT is the only place those per-SKU numbers are published",
+  SPEC_BEARING.has("vendor_tool"));
+// The regression that actually bit: every member of VENDOR_CLASSES must be a class the classifier
+// can produce, or it is supported in name only.
+const reachable = new Set<string>(["vendor_datasheet_html", "vendor_datasheet_pdf", "vendor_eol_bulletin",
+  "vendor_bulletin", "vendor_whitepaper", "vendor_qa", "vendor_guide", "vendor_at_a_glance",
+  "vendor_solution_overview", "vendor_brochure", "vendor_page", "vendor_tool"]);
+const orphans = [...VENDOR_CLASSES].filter((c) => !reachable.has(c));
+check("D20", "SABOTAGE every member of VENDOR_CLASSES is a class the DocClass union can express - "
+           + "a set of strings cannot type-check itself, which is how vendor_tool hid",
+  orphans.length === 0, orphans.join(", "));
+// and every class the classifier can emit must have a tier, or the merge throws at write time
+const untiered = [...reachable].filter((c) => TIER_BY_DOC_TYPE[c] === undefined);
+check("D21", "SABOTAGE every producible class has a tier in the ONE tier table",
+  untiered.length === 0, untiered.join(", "));
+
 console.log(`\n${pass} passed, ${miss} missed`);
 process.exit(miss ? 1 : 0);

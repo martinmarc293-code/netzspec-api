@@ -33,6 +33,18 @@ export type DocClass =
   | "vendor_solution_overview"
   | "vendor_brochure"
   | "vendor_page"
+  // A vendor's interactive hardware tool, where the SPECIFICATIONS ARE THE PAGE. Juniper's
+  // Hardware Compatibility Tool (apps.juniper.net/hct/model/<SKU>) publishes, per model: cable
+  // type, distance, max distance, maximum power consumption, operating and storage temperature,
+  // receiver input power per lane, transmitter output power per lane, transmitter wavelengths,
+  // signalling rate and standards compliance — more per SKU than most Cisco datasheets carry per
+  // PID (measured by the Juniper session, 5 Sep 2026).
+  //
+  // It was in VENDOR_CLASSES and in TIER_BY_DOC_TYPE but NOT in this union, and VENDOR_CLASSES is
+  // a ReadonlySet<string>, so nothing type-errored: the class read as supported everywhere while
+  // classifyDocument() could never return it and refineVendorDocClass() bailed on it. Same family
+  // as a check that reads a column nobody selected.
+  | "vendor_tool"
   | "unclassified";
 
 /** Classes whose documents can carry specifications. Coverage arithmetic depends on this set and
@@ -41,6 +53,18 @@ export type DocClass =
 export const SPEC_BEARING: ReadonlySet<DocClass> = new Set<DocClass>([
   "vendor_datasheet_html",
   "vendor_datasheet_pdf",
+  // See the union above: a hardware-compatibility tool page carries a full per-SKU specification
+  // table. Without it Juniper's crawl gap reads as total for ever, because the HCT is the only
+  // place Juniper publishes those numbers.
+  //
+  // ONE TENSION, RECORDED RATHER THAN HIDDEN: `vendor_tool` is also the class apply-compat.ts
+  // stamps on Cisco's TMG transceiver matrix, which is a COMPATIBILITY matrix — it yields
+  // relations, not specifications, and is not spec-bearing. There are zero vendor_tool documents
+  // in the store today, so nothing is currently mis-counted; when apply-compat next writes one,
+  // the TMG matrix needs its own class rather than sharing this one. Cisco's own coverage is
+  // unaffected either way: brands/base.py takes its spec-bearing list from the BRAND MANIFEST's
+  // DocClass entries, and Cisco's manifest does not declare vendor_tool at all.
+  "vendor_tool",
 ]);
 
 /** Cisco's own document-type codes, as they appear in collateral filenames (`..._c51-744492.html`).
@@ -108,6 +132,12 @@ const KEYWORDS: ReadonlyArray<readonly [string, DocClass]> = [
   ["-guide", "vendor_guide"],
   ["bulletin", "vendor_bulletin"],
   ["brochure", "vendor_brochure"],
+  // Juniper's Hardware Compatibility Tool. These URLs carry no document-type code and no
+  // "datasheet" word — the PATH is the whole signal. /hct/model/<SKU> is one model's specification
+  // table; /hct/category/<x> is the listing above it and is a discovery surface, not a fact source,
+  // which is why the two differ. No Cisco collateral path can collide with either.
+  ["/hct/model/", "vendor_tool"],
+  ["/hct/category/", "vendor_page"],
 ];
 
 /**
