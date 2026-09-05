@@ -578,7 +578,9 @@ async function resolveRelationTargets(db: Queryable): Promise<{ exact: number; c
   return { exact: exact.rowCount ?? 0, ci: ci.rowCount ?? 0 };
 }
 
-export const RELOAD_TABLES = ["facts", "fact_evidence", "conflicts", "lifecycle", "relations", "images", "image_variants", "part_aliases",
+// image_candidates (migration 0007, FK to parts) was missing here until 5 Sep 2026: a --reload then
+// failed on the FK before truncating anything, and the suite's own guard is what found it.
+export const RELOAD_TABLES = ["facts", "fact_evidence", "conflicts", "lifecycle", "relations", "images", "image_variants", "image_candidates", "part_aliases",
   "part_source_checks", "completeness", "doc_parts", "parts", "source_docs", "fetch_queue", "fetches"] as const;
 
 // =================================================================================================

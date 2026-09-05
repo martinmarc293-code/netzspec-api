@@ -17,6 +17,8 @@
 //   * with a database: a held (conflict-state) fact without a logged conflict gets a synthesised
 //     open row; an unknown field key fails the run naming the key; a non-empty parts table is
 //     refused without --reload; --dry-run writes nothing.
+// The set of tables this suite empties is DERIVED from the live foreign keys, never typed out —
+// see truncateClosure below — and the run says so by name when RELOAD_TABLES has fallen behind it.
 import { fileURLToPath } from "node:url";
 import {
   CollisionLedger, PART_PROJECTION, RELOAD_TABLES, SITE_FIELDS, SPOT_CHECK_SKUS, SYNTHESISED_CONFLICT_REASON, SlugAllocator,
@@ -28,6 +30,8 @@ import { docIdFor } from "../../src/store/docs.js";
 let pass = 0;
 let sabotages = 0;
 const misses: string[] = [];
+/** Rules this run could NOT exercise, and why. A skipped case says so; it never passes quietly. */
+const unproven: string[] = [];
 function check(name: string, cond: boolean, detail?: string): void {
   if (cond) { pass++; console.log(`PASS  ${name}`); }
   else { misses.push(`${name}${detail ? ` — ${detail}` : ""}`); console.log(`MISS  ${name}${detail ? ` — ${detail}` : ""}`); }
@@ -35,6 +39,55 @@ function check(name: string, cond: boolean, detail?: string): void {
 /** A sabotage case: the broken input must be rejected, and for the stated reason. */
 function sabotage(name: string, cond: boolean, detail?: string): void { sabotages++; check(`SABOTAGE ${name}`, cond, detail); }
 const j = (v: unknown): string => JSON.stringify(v);
+
+// =================================================================================================
+// what this suite is allowed to empty, derived from the schema rather than typed out
+// =================================================================================================
+// Postgres refuses to TRUNCATE a table that ANYTHING references, whether or not the referencing
+// table holds a row. So a hand-written truncate list breaks the day a migration adds a table
+// with a foreign key into it — and it breaks before the first assertion, which reads as "the
+// suite is broken" rather than "the list is stale". That is exactly what migration 0007 did:
+// `image_candidates` references `parts` and `images`, and this suite could not run at all on a
+// database migrated past 0006 (the error names image_candidates, nothing names the LIST).
+// The list is therefore read from `pg_constraint` every run: the roots, plus the transitive
+// closure of everything holding a foreign key into the set. A future table cannot be forgotten.
+type FkRow = { child: string; parent: string };
+
+/** Reference data: rows the migration reads and must never empty. Truncating any of these is a bug. */
+const KEEP_TABLES = ["runs", "vendors", "categories", "sources", "field_dictionary", "category_profiles",
+  "source_fields", "watchdog_events", "api_keys", "schema_migrations"] as const;
+
+/**
+ * The tables that must be emptied together: `roots` plus every table that references one of them,
+ * transitively. Refuses rather than trims — a root that is reference data, or a reference table
+ * that turns out to reference a root, is a schema change someone has to look at, not something to
+ * drop quietly from the list (dropping it quietly is how the FK error comes back).
+ */
+export function truncateClosure(fks: FkRow[], roots: readonly string[], keep: readonly string[] = KEEP_TABLES): string[] {
+  const keepSet = new Set(keep);
+  const out = new Set<string>();
+  for (const r of roots) {
+    if (keepSet.has(r)) throw new Error(`truncateClosure: "${r}" is reference data and must not be truncated`);
+    out.add(r);
+  }
+  for (let changed = true; changed;) {
+    changed = false;
+    for (const { child, parent } of fks) {
+      if (!out.has(parent) || out.has(child)) continue;
+      if (keepSet.has(child)) throw new Error(`truncateClosure: "${child}" references "${parent}" but is listed as reference data; the schema and the keep list disagree`);
+      out.add(child);
+      changed = true;
+    }
+  }
+  return [...out].sort();
+}
+
+/** Every foreign key in the public schema, as child -> parent table names. */
+async function liveForeignKeys(query: (sql: string) => Promise<{ rows: FkRow[] }>): Promise<FkRow[]> {
+  const { rows } = await query(`SELECT c.conrelid::regclass::text AS child, c.confrelid::regclass::text AS parent
+    FROM pg_constraint c WHERE c.contype = 'f' AND c.connamespace = 'public'::regnamespace`);
+  return rows;
+}
 
 // =================================================================================================
 // fixtures — one part that exercises everything, plus the shapes around it
@@ -253,6 +306,34 @@ console.log("— conflicts / completeness —");
   check("spot-check list is the five reviewer SKUs", SPOT_CHECK_SKUS.length === 5 && SPOT_CHECK_SKUS.includes("15216-ATT-LC-12=") && SPOT_CHECK_SKUS.includes("MS130-8X"));
 }
 
+console.log("— truncate closure (the list is derived, not typed) —");
+{
+  const base: FkRow[] = [{ child: "facts", parent: "parts" }, { child: "fact_evidence", parent: "facts" }, { child: "parts", parent: "vendors" }, { child: "watchdog_events", parent: "sources" }];
+  check("roots plus their children, sorted; a parent that is reference data is not pulled in",
+    j(truncateClosure(base, ["parts"])) === j(["fact_evidence", "facts", "parts"]), j(truncateClosure(base, ["parts"])));
+  // THE 0007 CASE: a table nobody typed into RELOAD_TABLES, added by a later migration.
+  sabotage("a future table with an FK to parts is in the list without anyone editing it",
+    truncateClosure([...base, { child: "image_candidates", parent: "parts" }], ["parts"]).includes("image_candidates"));
+  sabotage("… and so is a table two hops away (grandchild of a root)",
+    truncateClosure([...base, { child: "image_candidates", parent: "parts" }, { child: "candidate_notes", parent: "image_candidates" }], ["parts"]).includes("candidate_notes"));
+  sabotage("a table referencing only reference data is NOT truncated (watchdog_events -> sources stays)",
+    !truncateClosure(base, ["parts"]).includes("watchdog_events"));
+  sabotage("a self-referencing table (facts.superseded_by -> facts) terminates instead of looping",
+    j(truncateClosure([...base, { child: "facts", parent: "facts" }], ["parts"])) === j(["fact_evidence", "facts", "parts"]));
+  {
+    let msg = "";
+    try { truncateClosure(base, ["parts", "runs"]); } catch (e) { msg = (e as Error).message; }
+    sabotage("a reference-data table passed as a ROOT is refused by name, never emptied", /"runs" is reference data/.test(msg), msg);
+  }
+  {
+    // the failure mode that would resurrect the bug: quietly skipping a referencing table because
+    // it is on the keep list leaves the TRUNCATE unrunnable, with nothing saying why.
+    let msg = "";
+    try { truncateClosure([...base, { child: "runs", parent: "parts" }], ["parts"]); } catch (e) { msg = (e as Error).message; }
+    sabotage("a keep-listed table that references a root is refused (never silently skipped)", /"runs" references "parts"/.test(msg) && /keep list disagree/.test(msg), msg);
+  }
+}
+
 // =================================================================================================
 // with a database: the load itself, on fixtures
 // =================================================================================================
@@ -263,8 +344,18 @@ if (process.env.NETZSPEC_DB === "test") {
   console.log(`— database load (${dbName}) —`);
   const quiet = (): void => { /* the load's own log lines are noise here */ };
 
-  // start from an empty parts table, whatever an earlier suite left
-  await query(`TRUNCATE ${RELOAD_TABLES.join(", ")}`);
+  // start from an empty parts table, whatever an earlier suite left. The list comes from the
+  // live schema (see truncateClosure): RELOAD_TABLES is a hand-written copy of the same fact and
+  // has already fallen behind it once, and a stale list fails HERE, before any assertion runs.
+  const fks = await liveForeignKeys(query as (sql: string) => Promise<{ rows: FkRow[] }>);
+  const truncateTargets = truncateClosure(fks, RELOAD_TABLES);
+  const missingFromReload = truncateTargets.filter((t) => !(RELOAD_TABLES as readonly string[]).includes(t));
+  check("RELOAD_TABLES names every table the live schema ties to the parts-derived roots (the migration's own --reload truncates exactly that list)",
+    missingFromReload.length === 0, `not named: ${missingFromReload.join(", ")} — add to RELOAD_TABLES in src/pipeline/migrate-atlas.ts, or --reload fails with an FK error`);
+  check("the derived list is what the schema says, and it includes the table 0007 added",
+    truncateTargets.includes("image_candidates") && truncateTargets.includes("parts") && !truncateTargets.some((t) => (KEEP_TABLES as readonly string[]).includes(t)), j(truncateTargets));
+  const clear = async (): Promise<void> => { await query(`TRUNCATE ${truncateTargets.join(", ")}`); };
+  await clear();
   const parts = [hexcatPart, catalogEolPart, licencePart, twinA];
   const out = await runMigration(fixtureSource(parts), { dryRun: false, reload: false, batchSize: 2, log: quiet, spotCheck: ["HX-TEST-1"] });
   const s = out.stats as Record<string, number>;
@@ -333,10 +424,14 @@ if (process.env.NETZSPEC_DB === "test") {
     sabotage("--dry-run with --reload writes nothing (facts unchanged, parts still 4) yet counts what it would write and records its run",
       before === after && await n("SELECT count(*)::int AS n FROM parts") === 4 && (dry.stats as Record<string, number>).facts_inserted === 7 && runsAfter === 1);
   }
+  // These two prove the vocabulary refusals, not the reload path: they clear the tables with the
+  // DERIVED list and load without --reload, so a stale RELOAD_TABLES cannot swallow their run and
+  // return an FK error where the suite is asserting on the refusal's own message.
   {
     const badPart: MongoPart = { ...catalogEolPart, sku: "HX-TEST-BAD", slug: "hx-test-bad", specs_v2: [{ k: "no_such_key_probe", raw: "1", value: 1, state: "unverified", prov: { tier: 3, method: "x" } }] };
     let msg = "";
-    try { await runMigration(fixtureSource([hexcatPart, badPart]), { dryRun: false, reload: true, log: quiet }); } catch (e) { msg = (e as Error).message; }
+    await clear();
+    try { await runMigration(fixtureSource([hexcatPart, badPart]), { dryRun: false, reload: false, log: quiet }); } catch (e) { msg = (e as Error).message; }
     sabotage("an unknown field key fails the run naming the key", /no_such_key_probe/.test(msg) && /field_dictionary/.test(msg), msg);
     const failed = await n("SELECT count(*)::int AS n FROM runs WHERE kind = 'migrate-atlas' AND status = 'failed' AND notes LIKE '%no_such_key_probe%'");
     sabotage("… and the run row is closed failed with the key in its notes", failed >= 1);
@@ -344,14 +439,32 @@ if (process.env.NETZSPEC_DB === "test") {
   {
     const badCat: MongoPart = { ...catalogEolPart, sku: "HX-TEST-CAT", category: "no-such-category" };
     let msg = "";
-    try { await runMigration(fixtureSource([badCat]), { dryRun: false, reload: true, log: quiet }); } catch (e) { msg = (e as Error).message; }
+    await clear();
+    try { await runMigration(fixtureSource([badCat]), { dryRun: false, reload: false, log: quiet }); } catch (e) { msg = (e as Error).message; }
     sabotage("an unknown category fails the run naming it (never auto-created)", /no-such-category/.test(msg) && /categories table/.test(msg), msg);
   }
-  await query(`TRUNCATE ${RELOAD_TABLES.join(", ")}`);
+  // ---- the migration's OWN --reload, run for real ----------------------------------------------
+  // Runnable only while RELOAD_TABLES is complete — `runMigration` truncates that hand-written
+  // list, not the derived one. When it is stale the check above is already a hard failure naming
+  // the missing table, and this case reports that it did not run instead of passing on a TRUNCATE
+  // that never happened.
+  if (missingFromReload.length === 0) {
+    await clear();
+    await runMigration(fixtureSource(parts), { dryRun: false, reload: false, log: quiet });
+    const rl = await runMigration(fixtureSource([hexcatPart, catalogEolPart]), { dryRun: false, reload: true, log: quiet });
+    sabotage("--reload empties the parts-derived tables first: 4 loaded parts become the 2 of the second load, and its facts do not accumulate",
+      typeof rl.runId === "number" && await n("SELECT count(*)::int AS n FROM parts") === 2 && await n("SELECT count(*)::int AS n FROM facts") === 7, j(rl.stats));
+  } else {
+    const why = `--reload's own TRUNCATE was not exercised: RELOAD_TABLES is missing ${missingFromReload.join(", ")} (see the MISS above)`;
+    unproven.push(why);
+    console.log(`UNPROVEN  ${why}`);
+  }
+  await query(`TRUNCATE ${truncateTargets.join(", ")}`);
   await closePool();
 } else {
   console.log("(database load skipped: set NETZSPEC_DB=test to run it against the _test database)");
 }
 
-console.log(`\nmigrate-atlas.test: ${pass} passed, ${misses.length} missed (${sabotages} sabotage cases)`);
+console.log(`\nmigrate-atlas.test: ${pass} passed, ${misses.length} missed (${sabotages} sabotage cases)${unproven.length ? `, ${unproven.length} UNPROVEN` : ""}`);
+if (unproven.length) console.log("UNPROVEN:\n  " + unproven.join("\n  "));
 if (misses.length) { console.log("MISSES:\n  " + misses.join("\n  ")); process.exit(1); }
