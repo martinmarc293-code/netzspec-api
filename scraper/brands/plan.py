@@ -98,6 +98,33 @@ def _serves(mod, doc_class: str | None) -> bool:
     return bool(doc_class) and doc_class in (getattr(mod, "DOC_CLASSES", ()) or ())
 
 
+def queue_priority(item: dict) -> int:
+    """Where this task sits in the drain order. LOWER GOES FIRST — worker.py leases with
+    `ORDER BY priority, next_at, id`.
+
+    THIS FUNCTION EXISTS BECAUSE THE PRIORITY A CALLER SET WAS NEVER READ. The recover section
+    attached `"priority": 500` to every item, and the INSERT below hardcoded
+    `60 if part_id else 80`, so 6,851 recovery rows went in at 80 — rank-equal with new acquisition
+    instead of yielding to it, and AHEAD of the 60-priority gap work. The commit that introduced it
+    explained the intended ordering at length, which is worse than not explaining it: a reader
+    believes the ordering exists because the reasoning is there.
+
+    That is this project's "a config value that is read but never compared" rule, and the fourth
+    instance in one day of a declared value nothing consults. The defence is that the DEFAULT lives
+    here too, so there is exactly one place that decides, and a caller's value can no longer be
+    silently discarded.
+
+      60  a part-anchored task — the gap work the catalogue exists to fill
+      80  document and listing work with no part behind it
+     500  RECOVERY of a page we once held: it matters, and it matters less than acquiring one we
+          never had, so it drains after everything else rather than competing with it
+    """
+    p = item.get("priority")
+    if p is not None:
+        return int(p)
+    return 60 if item.get("part_id") else 80
+
+
 def documents_missing_bytes(conn, brand, cache_dir: Path, limit: int) -> list[dict]:
     """Documents whose row claims a cached file that IS NOT ON DISK.
 
@@ -341,7 +368,7 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
                        VALUES (%s, %s, %s, %s, %s, %s)
                        ON CONFLICT (source_id, task, key) DO NOTHING RETURNING id""",
                     (by_slug[item["source"]], item["task"], item["key"], item["url"],
-                     item.get("part_id"), 60 if item.get("part_id") else 80)).fetchone()
+                     item.get("part_id"), queue_priority(item))).fetchone()
                 ins += 1 if row else 0
                 req += 0 if row else 1
             for item in out["rediscover"]:
