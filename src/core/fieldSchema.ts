@@ -81,7 +81,39 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   mgmt_class: { key: "mgmt_class", de: "Verwaltung", en: "Management class", type: "e", domain: ["managed", "smart-managed", "unmanaged"], etim: ["EF004912"], icecat: null },
   layer: { key: "layer", de: "Switching-Ebene", en: "Switching layer", type: "e", domain: ["l2", "l2plus", "l3"], etim: ["EF004883", "EF004884"], icecat: null },
   form_factor: { key: "form_factor", de: "Bauform", en: "Form factor", type: "e", domain: ["rack-19", "desktop", "din-rail", "modular-chassis"], etim: ["EF000003"], icecat: null },
-  rack_units: { key: "rack_units", de: "Höheneinheiten", en: "Rack units", type: "n", unit: "HE", band: [1, 30], etim: [], icecat: null },
+  // BAND [1, 44] — read off the catalogue, not chosen. Cisco writes a chassis height into the part
+  // NAME, so the corpus states its own answer: 445 live parts carry "<n> RU" (re-read 5 Sep 2026),
+  // and the whole distribution is
+  //   1×221 · 2×150 · 3×12 · 4×15 · 5×5 · 6×4 · 7×6 · 8×4 · 10×4 · 11×1 · 14×7 · 19×1 · 21×2 ·
+  //   30×1 (ASR-9912) · 39×7 · 42×2 · 44×1
+  // and then nothing until 81 and 162, which are not heights at all — CIT-MR-1X081RU-A and
+  // CIT-MR-1X162RU-A carry "081RU" inside the PID. 44 is ASR-9922, "20 Line Card Slot Chassis,
+  // 44 RU": the tallest real device the catalogue describes.
+  //
+  // WHAT [1, 30] ACTUALLY REFUSED, corrected 5 Sep 2026 — this comment used to say "30 was one rack
+  // unit short of the ASR 9912", and that was FALSE in a way worth naming: the band test is
+  // INCLUSIVE, the ASR-9912 is 30 RU exactly ("10 Line Card Slot Chassis, 30 RU"), and it passed
+  // the old band every time. The old ceiling refused ten parts and no others: the 44-RU ASR-9922,
+  // the seven 39-RU parts (three Secure Workload / Tetration rack clusters and four cable kits
+  // named after the cluster they ship with), and two 42-RU RACKS — a bare "42RU" part and the
+  // Panduit FlexFusion cabinet. A wrong reason attached to a right number is how the next person
+  // widens a band by one for a part that never needed it.
+  //
+  // NO MARGIN above 44, deliberately, and this is the half worth reading before widening it again.
+  // The next value up is 48, and 48U is a RACK, not a device: the two populations are separated by
+  // a gap with nothing real in it (no part in the corpus states a height between 45 and 80). The
+  // ceiling sits in that gap for the same reason NUMERIC_TOLERANCE sits in its own measured gap.
+  // A cabinet IS a product this catalogue holds, but the ones it holds are 42RU, inside the band
+  // already, so admitting 48 would buy no real part and would start accepting the rack a device
+  // MOUNTS IN as the device's own height.
+  // CONSEQUENCE, recorded rather than hidden: 42U now passes the band, so a rack's height can no
+  // longer be refused by the band at all — it has to be refused by its LABEL. That is why
+  // "Compatible Rack Unit" (the rack a part FITS, not the part's own height) no longer maps to this
+  // field: it is __compat in data/schema/attribute-aliases.en.json, with its own case in
+  // tests/aliasRules.test.ts. "Rack Height" stays mapped, because that IS the part's own height,
+  // and its "48U" rows are still refused RANGE_VIOLATION.
+  // 0 stays refused: a 0U PDU is mounted beside the rails and has no rack height.
+  rack_units: { key: "rack_units", de: "Höheneinheiten", en: "Rack units", type: "n", unit: "HE", band: [1, 44], etim: [], icecat: null },
   stackable: { key: "stackable", de: "Stapelbar", en: "Stackable", type: "b", etim: [], icecat: null },
   deploy_role: { key: "deploy_role", de: "Einsatzbereich", en: "Deployment role", type: "e", domain: ["access", "aggregation", "core", "datacenter-tor", "industrial"], etim: [], icecat: null },
 

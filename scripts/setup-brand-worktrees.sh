@@ -121,10 +121,21 @@ for b in $BRANDS; do
   #   runs/           NOT shared. Heartbeats, locks, watchdog reports and acquired pages are
   #                   per-brand state, and sharing them would put three brands' heartbeats in one
   #                   file - exactly the collision this whole exercise is removing.
+  #   runs/vocab/     the ONE exception inside runs/, junctioned. A label inventory is not run
+  #                   state: it is corpus-wide vocabulary derived from the whole database, keyed by
+  #                   SOURCE, and two suites read it as evidence (aliasRules proves no ignore rule
+  #                   shadows a mapped label; source-fields proves keysFromInventory maps a real
+  #                   inventory to dictionary keys). Without it those checks cannot run, and a
+  #                   check that cannot run in a fresh tree is a check that quietly stops being one.
   link_shared "$dir" "scraper/cache" "$(python3.11 -c "import os;print(os.path.realpath('scraper/cache'))")"
   link_shared "$dir" "node_modules"  "$ROOT/node_modules"
   mkdir -p "$dir/runs"
   echo "      runs/ created per-tree (heartbeats and reports must NOT be shared)"
+  if [ -d "$ROOT/runs/vocab" ]; then
+    link_shared "$dir" "runs/vocab" "$(python3.11 -c "import os;print(os.path.realpath('runs/vocab'))")"
+  else
+    echo "      runs/vocab: none in the main tree; the label-inventory checks will report a MISS" >&2
+  fi
 done
 
 echo

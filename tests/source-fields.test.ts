@@ -48,6 +48,20 @@ function check(name: string, cond: boolean, detail?: unknown): void {
 const dict = dictionaryKeys();
 const committed = JSON.parse(fs.readFileSync(FILE, "utf8")) as BuiltSourceFields;
 
+// A label inventory is a GENERATED artifact under runs/ (gitignored), so a fresh clone or a brand
+// worktree has none. Prefer provantage, the widest one, but take any slug: what this proves is that
+// keysFromInventory maps a REAL inventory to dictionary keys, and any real inventory does that.
+function inventoryPath(): string | null {
+  const base = path.join(ROOT, "runs", "vocab");
+  let slugs: string[];
+  try { slugs = fs.readdirSync(base); } catch { return null; }
+  for (const slug of ["provantage", ...slugs.filter((s) => s !== "provantage")]) {
+    const p = path.join(base, slug, "labels.json");
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
 // =================================================================================================
 // the committed file
 // =================================================================================================
@@ -127,10 +141,24 @@ const committed = JSON.parse(fs.readFileSync(FILE, "utf8")) as BuiltSourceFields
 // the derivation, pure
 // =================================================================================================
 {
-  const inv = JSON.parse(fs.readFileSync(path.join(ROOT, "runs", "vocab", "provantage", "labels.json"), "utf8"));
+  // This block used to open the inventory with a bare readFileSync on a hardcoded `provantage`.
+  // In a tree without the artifact that THREW, which did not cost one check — it aborted the
+  // module, so the twelve checks below (the synthetic inventories, keysFromGolden, filterKeys and
+  // every sourceFieldsProblems sabotage) never ran and the whole file reported as one ENOENT.
+  // A missing generated artifact must cost exactly the proof it carries: say so and carry on.
+  const invPath = inventoryPath();
+  if (invPath === null) {
+    misses.push("no label inventory under runs/vocab/*/labels.json — keysFromInventory was NOT "
+      + "proved against a real inventory (the synthetic cases below still ran). Rebuild with: "
+      + "python3.11 scraper/tools/label_inventory.py <slug> --acquired");
+    console.log("MISS  keysFromInventory(real inventory): no runs/vocab/*/labels.json in this tree");
+  } else {
+  const slug = path.basename(path.dirname(invPath));
+  const inv = JSON.parse(fs.readFileSync(invPath, "utf8"));
   const r = keysFromInventory(inv);
-  check(`keysFromInventory(provantage): ${r.keys.length} keys from ${inv.labels.length} labels (${r.mapped} mapped, ${r.unmapped} unmapped, ${r.sentinels} sentinels), all in the dictionary`,
+  check(`keysFromInventory(${slug}): ${r.keys.length} keys from ${inv.labels.length} labels (${r.mapped} mapped, ${r.unmapped} unmapped, ${r.sentinels} sentinels), all in the dictionary`,
     r.keys.length > 0 && r.keys.every((k) => dict.has(k)) && r.mapped + r.unmapped + r.sentinels === inv.labels.length && r.unmapped_labels.length === r.unmapped, r);
+  }
   check("keysFromInventory: 'PoE budget' style labels map through the SAME alias rules apply-acquired uses",
     keysFromInventory({ source: "x", labels: [{ label: "PoE budget" }, { label: "Switching capacity" }, { label: "Some Label Nobody Maps" }, { label: "Description" }] }).keys.join(",") === "poe_budget,switching_capacity");
   const empty = keysFromInventory({ source: "x", labels: [{ label: "Description" }, { label: "Orderability" }] });
