@@ -109,6 +109,11 @@ estimated cost of each spawn:
 7. **After a stall, a sleep or an outage, resume one agent at a time.** Do not relaunch a fleet.
 8. The "ultracode" workflow mode ("token cost is not a constraint") is OFF for this project by
    operator decision, whatever the session flag says.
+9. **The ledger is the wall.** `docs/ORCHESTRATION-LEDGER.md` gets a line BEFORE any spawn
+   (estimate + cap) and the actual afterwards; daily cap 1.5M subagent tokens; per-task caps
+   60k mechanical / 100k hard / 30k diff review; over a cap = ask first. Scripts, not agents,
+   for measurement, replays, suites and counts. One build at a time on this laptop. Reviews
+   only before a production write, diff-only.
 - At the end of each work block, write a handoff note in `docs/SESSION-LOG.md`: decisions
   marked closed, what is done and verified, what is next, traps hit.
 
