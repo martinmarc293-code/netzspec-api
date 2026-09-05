@@ -21,7 +21,7 @@
 // An unclassified document is a visible number the brand watchdog alarms on — the alternative,
 // silently falling back to "datasheet", is exactly the bug above.
 
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -274,7 +274,18 @@ export function classifyDoc(url: string | null | undefined): DocVerdict {
     return { cls: "vendor_guide", via: "path:migration" };
   }
 
-  // 4. Nothing decided it. Say so: an unclassified document is a number somebody must look at,
+  // 4. PER-BRAND RULES, last. A brand's own evidence about its own URL space, shipped as data in
+  //    data/schema/doc-class-rules/<brand>.json so adding a brand is a new FILE and never an edit
+  //    to this one. Deliberately after everything above: brand rules extend the shared baseline and
+  //    can never overrule it, so nothing measured here can regress when a brand ships a rule.
+  for (const r of brandRules()) {
+    if (u.includes(r.pattern)) {
+      const final = r.cls === "vendor_datasheet_html" && isPdf ? "vendor_datasheet_pdf" : r.cls;
+      return { cls: final, via: `brand:${r.brand}:${r.pattern}` };
+    }
+  }
+
+  // 5. Nothing decided it. Say so: an unclassified document is a number somebody must look at,
   //    not a document quietly filed as whatever the caller happened to be extracting.
   return { cls: "unclassified", via: "no rule matched" };
 }
@@ -390,6 +401,100 @@ function overrides(): Map<string, { cls: DocClass; reason: string }> {
 export function overrideStatus(): { loaded: number; error: string | null } {
   const m = overrides();
   return { loaded: m.size, error: OVERRIDE_ERROR };
+}
+
+/**
+ * PER-BRAND URL RULES, AS DATA — so a brand's evidence stops being an edit to this file.
+ *
+ * WHY THIS EXISTS. Juniper classifies 348 of 348 documents, and HPE 1 of 67, and the difference is
+ * not the shape of their URLs: it is that on 5 Sep 2026 a third session hand-wrote
+ * `["/hct/model/", "vendor_tool"]` into KEYWORDS above because the Juniper session asked it to.
+ * With one brand that is a favour. With the operator's stated direction — more brands, every lane
+ * concurrent, no session waiting on another — it makes every new brand a change to a shared
+ * TypeScript file two other sessions are editing, and a merge conflict each time. Both the HPE and
+ * the Juniper sessions asked for this independently, which is why it is a design change and not a
+ * preference.
+ *
+ * WHAT A BRAND SHIPS: `data/schema/doc-class-rules/<brand>.json`, a NEW file in a shared directory
+ * rather than an edit to a shared file, so two brands adding rules on the same afternoon cannot
+ * conflict at all.
+ *
+ *     { "brand": "juniper",
+ *       "rules": [ { "pattern": "/hct/model/", "class": "vendor_tool",
+ *                    "reason": "HCT model pages are the compatibility TOOL, not collateral" } ] }
+ *
+ * THE REASON IS REQUIRED and a rule without one is dropped, exactly as doc-class-overrides.json
+ * already requires. A URL rule nobody can justify is a guess with better paperwork, and the reason
+ * is what a later session needs in order to decide whether the rule still holds.
+ *
+ * WHERE IT RUNS, and this is the part that makes it safe: LAST, only once every shared rule has
+ * declined. Brand rules EXTEND the baseline and can never overrule it, so the Cisco type codes,
+ * the keywords and the terminal abbreviations behave byte-for-byte as before and the measured
+ * 6,116 of 6,117 cannot regress. A brand that needs to overrule the baseline for a specific
+ * document has doc-class-overrides.json, which is per-URL and demands a reason per document —
+ * the right instrument for "this one document is not what its URL says".
+ *
+ * `unclassified` remains the honest default for anything no rule reaches. The point of this file
+ * has never been to reach 100%; it is to never file a document as something nobody established.
+ */
+export type BrandRule = { brand: string; pattern: string; cls: DocClass; reason: string };
+let BRAND_RULES: BrandRule[] | null = null;
+let BRAND_RULES_ERROR: string | null = null;
+
+function brandRules(): BrandRule[] {
+  if (BRAND_RULES) return BRAND_RULES;
+  BRAND_RULES = [];
+  const problems: string[] = [];
+  try {
+    const here = path.dirname(fileURLToPath(import.meta.url));
+    const dir = path.resolve(here, "../../data/schema/doc-class-rules");
+    let files: string[] = [];
+    try {
+      files = readdirSync(dir).filter((f) => f.endsWith(".json")).sort();
+    } catch {
+      // No directory is the normal state until a brand ships rules. Not an error, and not silence
+      // either: brandRuleStatus() reports zero loaded, which is a fact somebody can read.
+      files = [];
+    }
+    for (const f of files) {
+      const brand = f.replace(/\.json$/, "");
+      let raw: { brand?: string; rules?: Array<{ pattern?: string; class?: string; reason?: string }> };
+      try {
+        raw = JSON.parse(readFileSync(path.join(dir, f), "utf8"));
+      } catch (e) {
+        // ONE brand's malformed file must not blank every other brand's rules. It is named and
+        // skipped: a shared loader that dies on the first bad file makes one session's typo look
+        // like every other session's rules being ignored.
+        problems.push(`${f}: ${(e as Error).name}`);
+        continue;
+      }
+      // The filename is the brand, and a file that disagrees with its own name is refused rather
+      // than guessed at — juniper.json declaring "brand": "hpe" is a mistake in one of two places
+      // and picking either one silently would hide it.
+      if (raw.brand && raw.brand.trim().toLowerCase() !== brand) {
+        problems.push(`${f}: declares brand "${raw.brand}" but is filed as "${brand}"`);
+        continue;
+      }
+      for (const r of raw.rules ?? []) {
+        const pat = (r.pattern || "").trim().toLowerCase();
+        if (!pat || !r.class || !r.reason?.trim()) {
+          problems.push(`${f}: a rule without pattern, class or reason was dropped`);
+          continue;
+        }
+        BRAND_RULES.push({ brand, pattern: pat, cls: r.class as DocClass, reason: r.reason.trim() });
+      }
+    }
+    BRAND_RULES_ERROR = problems.length ? problems.join("; ").slice(0, 400) : null;
+  } catch (e) {
+    BRAND_RULES_ERROR = `${(e as Error).name}: ${String((e as Error).message).slice(0, 160)}`;
+  }
+  return BRAND_RULES;
+}
+
+/** {loaded, brands, error} — how many per-brand rules are in force, whose, and what was refused. */
+export function brandRuleStatus(): { loaded: number; brands: string[]; error: string | null } {
+  const r = brandRules();
+  return { loaded: r.length, brands: [...new Set(r.map((x) => x.brand))].sort(), error: BRAND_RULES_ERROR };
 }
 
 export function classifyDocument(url: string | null | undefined, title?: string | null): DocVerdict {

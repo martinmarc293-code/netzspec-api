@@ -17,6 +17,35 @@
 // word — because a wrong reclassification silently moves a real datasheet out of the coverage
 // numerator, which is the same bug pointing the other way.
 import { classifyDocType } from "../src/pipeline/apply-extract.js";
+import fsMod from "node:fs";
+import pathMod from "node:path";
+import { fileURLToPath as toPath } from "node:url";
+
+// PER-BRAND RULE PROBES — written HERE, before anything calls classifyDoc, because the loader
+// caches on first use: files created further down would never be read. Cleanup is registered on
+// process exit as well as in the finally below, so a throw anywhere in this suite cannot leave a
+// stray rules file behind for PRODUCTION code to load. B8 then verifies the removal actually
+// happened rather than trusting that it was written — this repo has committed a deliberately
+// disabled check by trusting a restore line that never ran.
+const RULES_DIR = pathMod.resolve(pathMod.dirname(toPath(import.meta.url)), "../data/schema/doc-class-rules");
+const PROBE = pathMod.join(RULES_DIR, "nzprobe.json");
+const BADFILE = pathMod.join(RULES_DIR, "nzbroken.json");
+const preexisting = fsMod.existsSync(RULES_DIR) ? fsMod.readdirSync(RULES_DIR).sort() : [];
+const cleanupProbes = () => {
+  for (const f of [PROBE, BADFILE]) { try { if (fsMod.existsSync(f)) fsMod.unlinkSync(f); } catch { /* exit path */ } }
+};
+process.on("exit", cleanupProbes);
+fsMod.mkdirSync(RULES_DIR, { recursive: true });
+fsMod.writeFileSync(PROBE, JSON.stringify({
+  brand: "nzprobe",
+  rules: [
+    { pattern: "/nzprobe/model/", class: "vendor_tool", reason: "a probe rule with a stated reason" },
+    { pattern: "/nzprobe/noreason/", class: "vendor_guide" },
+    { pattern: "/nzprobe/pdfcase/", class: "vendor_datasheet_html", reason: "proves the PDF promotion applies to a brand rule too" },
+    { pattern: "-data-sheet", class: "vendor_brochure", reason: "must LOSE to the shared keyword, which runs first" },
+  ],
+}), "utf8");
+fsMod.writeFileSync(BADFILE, "{ this is not json", "utf8");
 
 let pass = 0, miss = 0;
 function check(id: string, what: string, ok: boolean, got: unknown = "") {
@@ -137,6 +166,58 @@ check("D25", "SABOTAGE no URL or title rule can reach it - the override is the O
            + "classifying it, which is the case the file exists for",
   classifyDoc(OVERRIDDEN).cls === "unclassified" && ov.cls !== "unclassified",
   `${classifyDoc(OVERRIDDEN).cls} vs ${ov.cls}`);
+
+// ---------------------------------------------------------------------------------------------
+// PER-BRAND RULES AS DATA - a brand's evidence must not require an edit to docClass.ts
+// ---------------------------------------------------------------------------------------------
+// Written because two sessions asked for it independently on 5 Sep 2026. Juniper classified 348 of
+// 348 documents and HPE 1 of 67, and the difference was not the shape of their URLs: a third
+// session had hand-written a Juniper keyword into KEYWORDS above. With more brands arriving and
+// every lane concurrent, that makes each new brand a change to a file two other sessions are
+// editing, and a merge conflict each time.
+//
+// The probe files are written BEFORE the first classify call because the loader caches on first
+// use; they are removed in a finally, AND the removal is VERIFIED by B8 - a stray rules file would
+// be loaded by production code, and "the restore is the last line" is how this repo once committed
+// a deliberately disabled check.
+try {
+  const m2 = await import("../src/core/docClass.js");
+  const bs = m2.brandRuleStatus();
+  const v = (u: string) => m2.classifyDoc(u);
+  check("B1", "the per-brand rules directory is actually READ and the probe brand is listed",
+    bs.loaded >= 2 && bs.brands.includes("nzprobe"), JSON.stringify(bs));
+  check("B2", "a brand rule classifies a URL no shared rule reaches, and the evidence NAMES the "
+             + "brand and the pattern, so a brand rule is never mistaken for a baseline one",
+    v("https://apps.example.com/nzprobe/model/ABC-1").cls === "vendor_tool"
+    && v("https://apps.example.com/nzprobe/model/ABC-1").via === "brand:nzprobe:/nzprobe/model/",
+    JSON.stringify(v("https://apps.example.com/nzprobe/model/ABC-1")));
+  check("B3", "SABOTAGE a rule with no REASON is dropped AND the drop is reported - a URL rule "
+             + "nobody can justify is a guess with better paperwork",
+    v("https://apps.example.com/nzprobe/noreason/x").cls === "unclassified"
+    && (bs.error || "").includes("nzprobe"),
+    `${v("https://apps.example.com/nzprobe/noreason/x").cls} / ${bs.error}`);
+  check("B4", "SABOTAGE a brand rule can NEVER overrule the shared baseline: the probe claims "
+             + "-data-sheet is a brochure and the shared keyword still wins",
+    v("https://www.cisco.com/x/y-data-sheet-1.html").cls === "vendor_datasheet_html",
+    v("https://www.cisco.com/x/y-data-sheet-1.html").via);
+  check("B5", "SABOTAGE one brand's MALFORMED file is named and skipped, not fatal - a loader that "
+             + "dies on the first bad file makes one session's typo look like every other "
+             + "session's rules being ignored",
+    bs.loaded >= 2 && (bs.error || "").includes("nzbroken"), JSON.stringify(bs.error));
+  check("B6", "the PDF promotion applies to a brand rule as it does to every other rule",
+    v("https://x.example.com/nzprobe/pdfcase/a.pdf").cls === "vendor_datasheet_pdf",
+    v("https://x.example.com/nzprobe/pdfcase/a.pdf").cls);
+  check("B7", "SABOTAGE a URL matching no brand rule is STILL unclassified - the loader did not "
+             + "become a catch-all",
+    v("https://apps.example.com/nzprobe/unknown/x").cls === "unclassified",
+    v("https://apps.example.com/nzprobe/unknown/x").via);
+} finally {
+  cleanupProbes();
+}
+check("B8", "SABOTAGE the probe files are GONE - a stray rules file would be loaded by production "
+           + "code, and a restore that is merely written is not a restore that happened",
+  JSON.stringify(fsMod.readdirSync(RULES_DIR).sort()) === JSON.stringify(preexisting),
+  `${JSON.stringify(fsMod.readdirSync(RULES_DIR).sort())} vs ${JSON.stringify(preexisting)}`);
 
 console.log(`\n${pass} passed, ${miss} missed`);
 process.exit(miss ? 1 : 0);
