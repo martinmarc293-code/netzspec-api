@@ -4,6 +4,119 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-05 ~17:10 — Opus/JUNIPER session, work block 1: the Juniper lane exists, and the brand's
+  coverage number turned out to be measuring the seed.** Committed `d0a92d4` (nine files, mine by
+  name; `git diff --cached` read before committing). Nothing scraped: no lane was started, no
+  worker ran, and the `juniper` source row is still `enabled = false`.
+
+  **DECISION, CLOSED — the lane is `apps.juniper.net/hct`, not `www.juniper.net`.** Established by
+  one live fetch each before any code was written, which is the only reason the pack is not a copy
+  of Cisco's shape:
+  - `www.juniper.net/us/en/products/optics-transceivers.html` -> HTTP **404**, 701 KB, title
+    "404 | HPE Juniper Networking US", banner "Juniper.net is transitioning to HPE.com".
+  - `www.juniper.net/documentation/us/en/hardware/` -> HTTP **403**, 1,015 KB, title
+    "404 | Juniper Networks US". **This is the ONE document the store holds for Juniper**, fetched
+    14 Jun 2026 and linked to all 168 parts. It is a dead URL.
+  - `apps.juniper.net/hct/` -> HTTP **200**, nginx, no Akamai, no Cloudflare, no challenge.
+
+  juniper.net therefore serves a 404 PAGE under a 403 STATUS with a megabyte of body — the worst
+  combination for this worker, which reads 403 as BLOCKED and whose 20 KB length guard never fires
+  on a megabyte. A lane pointed there reports a nightly wall of blocks for a host refusing nothing.
+  The source row's host was corrected `www.juniper.net` -> `apps.juniper.net` (autocommit, one
+  explicit transaction, re-read from a NEW connection; lane left disabled).
+
+  **DECISION, CLOSED — an HCT document is `vendor_tool`, tier 2, vendor `juniper`.** HCT is
+  HPE-branded (`hpe-theme.css`, "HPE Juniper Networking") because HPE owns Juniper. It is still the
+  vendor documenting its own product on its own host, which is what tier 2 measures. The brief's
+  trap — "an HPE document about a Juniper part" — is real but applies to **buy.hpe.com**, a STORE
+  page at tier 4; the two must not be conflated because they merge in opposite directions.
+  `vendor_tool` was already in `TIER_BY_DOC_TYPE`, so **no shared-file change was needed**.
+
+  **THE CATALOGUE DECIDED THE DESIGN, and it is not what the brief assumed.** All 168 Juniper
+  hardware parts are **optical transceivers** (`category_slug = 'transceiver'`, no switches, no
+  routers). A series datasheet with an ordering table is the wrong unit entirely. So `part-page` is
+  **RESOLVED** for Juniper — the opposite of the Cisco lane — because HCT publishes one
+  server-rendered page per optic at `/hct/model/<SKU>`; `datasheet` (PDF behind `/hct/auth/login`),
+  `search` and `gpl` are refused. Measured: **103 of our 168 SKUs** are on `/hct/category/100001`
+  (488 model numbers there), and `XENPAK-1XGE-ZR` is absent from that listing yet has a full model
+  page — so per-SKU resolution reaches parts the listing does not and 103 is a FLOOR, not a ceiling.
+
+  **DONE + VERIFIED.** `adapters/juniper_hct.py` (the one extractor, over the React flight payload —
+  no browser needed), `sources/juniper.py` (the source contract), `brands/juniper/` (manifest +
+  watchdog), `tests/scraper/test_juniper_lane.py` **61/61** against five real cached HCT documents,
+  `npm run typecheck` exit 0, control-character scan clean over all six Juniper files.
+
+  **THE SABOTAGE RUN IS THE PART THAT MATTERED.** Every guard was disabled in turn and the suite
+  watched go red — 9 of 9 now proven, restore hash-verified after each run. It found **three dead
+  checks I had just written**, all of which read as protective:
+  1. an explicit no-break-space fold the Unicode-aware `\s+` collapse had already made redundant;
+  2. a `"categoryKey"` early return in `is_not_found()` that could never fire (a category page
+     carries no `component` record to reach it);
+  3. a HOST MISMATCH check in the watchdog reading `host` off `blocked_sources`, which lives in the
+     shared `brands/base.py` and **does not select that column** — so it read None for every lane.
+     Fixed, then proven by observation: it fired on the wrong row and went silent after the fix.
+  Also found: the S-2 case contained a **literal U+00A0**, invisible in review. Characters that
+  render as blank are now written as escapes; `adapters/juniper_hct.py` contains no non-ASCII byte.
+
+  **TWO SILENT VALUE BUGS IN HCT'S OWN DATA, measured and guarded.** HCT writes "not published" as a
+  bare **U+2014 em dash** (`Operating Temperature (range)` on XENPAK-1XGE-ZR), and writes **minus as
+  a U+2013 EN DASH** followed by U+00A0: `Receiver input power (minimum)` is `"\u201325.0\u00a0dBm"`.
+  Read naively that optic reports a receiver sensitivity of **POSITIVE 25 dBm** — absurd in physics,
+  in band for every range check, indistinguishable from a real figure once written. Cases P1-P4 and
+  S-1 to S-5.
+
+  **A PRODUCTION DEFECT, FOR SOMEONE ELSE TO FIX — NOT FIXED HERE.** The Juniper watchdog's first
+  run reported "100% read from a document". False. **1,144 of the 1,312 tier-0 `hexcat_seed` facts
+  carry `doc_id = 0fc2ed7fe2e8d6c2`** — the dead documentation landing page — with locator
+  `hexcat:attributes`. The seed import stamped a provenance that does not exist. That is why
+  `recall_gap` and `facts without a document` both read **0** for this brand, and why `covered_pct`
+  reads 100%. The metric now keys on METHOD (a doc_id is a pointer and a pointer can be wrong), and
+  the condition is its own alarm. **It needs a retraction or a re-stamp in the pipeline** — whoever
+  owns the seed import. Worth checking whether other vendors' seed facts carry the same stamp.
+
+  **TRUE STATE OF JUNIPER TODAY** (`python3.11 scraper/brands/juniper/watchdog.py`, 6 alarms):
+  168 hardware parts · **0 hold a fact read from a document** · 3 hold a non-seed fact with no
+  document (product_name_mining) · 165 seed only · avg completeness 51.1%, all seed · 1 document
+  held, 83 days old, dead URL. Targets: `vendor_facts_parts` 0 against a floor of 103, `avg_pct`
+  51.1 against 70. The manifest deliberately declares **no `covered_pct` and no `recall_gap`
+  target** — both read PASS for ever on this brand, and a target that cannot fail is not a target.
+
+  **NEXT, in order.**
+  1. **The alias rules — this is the whole remaining blocker to facts landing.** Measured against
+     the 1,238 rules in `data/schema/attribute-aliases.en.json`: **8 of 21 HCT labels map, 13 do
+     not**, and of the seven required fields Juniper transceivers are missing only **`power_max`**
+     would land today. Needed: `Max Distance(km)`/`Distance` -> `reach_max`, `Transmitter output
+     power, each lane (min|max)` -> `tx_power`, `Receiver input power, each lane (min|max)` ->
+     `rx_sensitivity`, `Transmitter wavelengths (range)` -> `wavelength`, `Cable type` ->
+     `fiber_type` and `mode` (it currently maps to `media` only), `Operating Temperature (range)` ->
+     `temp_class` (it maps to `temp_operating`), plus `Digital Optical Monitoring`/`Monitoring
+     Available` -> `ddm`, `Signaling rate, each lane` -> `data_rate`, `Core size/cladding`.
+     🚨 **AND A HAZARD:** HCT's `Speed` ("10 Gigabit Ethernet") currently matches a rule mapping it
+     to **`drive_interface`** — a storage field. A transceiver's Ethernet speed filed as a disk
+     interface is precisely the confident-and-precise fiction this project keeps paying for. Narrow
+     that rule or scope a transceiver rule ahead of it BEFORE any Juniper apply runs.
+     I did **not** touch `attribute-aliases.en.json`: it is modified in the working tree by another
+     session and a collision there would be silent.
+  2. Enable the lane and run the listing task once (`/hct/category/100001`), which discovers 488
+     `part-page` tasks; then the model pages at 3,000 ms. One lane Chrome at a time — and note this
+     lane needs **no** browser wait (`SETTLE_MS = 400`), because HCT is server-rendered.
+  3. Re-measure the ceiling: how many of the 65 SKUs absent from the listing have a model page
+     anyway (XENPAK-1XGE-ZR does). Then raise `vendor_facts_parts` from its 103 floor.
+  4. Ask the Cisco session for two shared-file changes I deliberately did not make:
+     (a) `tests/source-scan.test.ts` scans `src, db, scripts, tests, data/schema` and **not
+     `scraper/`** — which is where the Python lives and where the heredoc-escaping trap actually
+     bites; (b) `brands/base.py:blocked_sources()` does not select `host`, which is what made my
+     HOST MISMATCH check dead.
+
+  **TRAPS HIT.** (a) A bash heredoc ate `\` escapes in a scratch probe again — same trap as the
+  4 Sep note, opposite direction. Anything with a backslash goes through the Write tool. (b) The
+  Edit tool cannot match a line containing a literal U+00A0 typed as a space; the failure to match
+  is the SIGNAL that the file is not what you think. (c) A scratch script that mis-read the alias
+  file's `[regex, field, note]` shape printed "**0 of 21 labels map**" — a precise, confident,
+  entirely invented number, caught only by reading one rule. Corrected to 8 of 21 above. (d) The
+  Bash tool's working directory persists across calls: a `cd scraper` from a previous command sent
+  a later `git add` to the wrong root.
+
 - **2026-09-05 ~16:30 — Opus/Cisco session, work block 2: the lane exists, the documents are
   100% classified, and the plan is INVERTED.** Three sessions now run in parallel, one per brand
   (Cisco here, HPE, Juniper); `scraper/brands/README.md` § 3 is the protocol and it is binding.
