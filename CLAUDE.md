@@ -510,7 +510,15 @@ full; the ones that bite hardest here are restated.
   Method 514.4" must not be cut), five `temp_storage` sign restorations (correct) and six
   `altitude_max`. The "TOP 10 SAME" section prints `old -> null` for German seed rows
   (`41,67 Mpps`, `19-Zoll-Rackmontage`) — a printer artefact or a locale re-read; asked the
-  command's author to say which from the code before ANY `--commit`. Nothing committed.
+  command's author to say which from the code before ANY `--commit`. ANSWER (from the code):
+  a display artefact — `same` rows carry no newValue and the printer renders `X -> null`;
+  nothing is written for them beyond the norm_v re-stamp; and `41,67 → 41.67` landing in
+  `same` is the PROOF the hexcat_seed → de locale rule fired (under en it would be 4,167 and
+  "changed"). Printer fix requested. Verdicts: `--field temp_storage` safe (3,488 selected,
+  452 sign restorations, GATE PASS) → COMMITTED on the box; `--field altitude_max` NOT today
+  (451 changed = 30.4% > the 25% ceiling; read them first, then `--allow`); list fields wait
+  for round 3's citation-split fix (committing now would write a history row the fix
+  supersedes again).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
