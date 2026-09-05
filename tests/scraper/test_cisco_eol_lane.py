@@ -157,5 +157,24 @@ if cached is not None and not res.get("not_listed"):
                 "lane's yield is lifecycle, and a wrong non-zero would read as extracted specs",
           W.total_facts(res) == 0, str(W.total_facts(res)))
 
+# ---------------------------------------------------------------------------------------------
+# 7. a 404 is TERMINAL, however large the page it arrives on
+# ---------------------------------------------------------------------------------------------
+# Measured on this lane's first live run: six EoL notices that no longer exist came back at HTTP
+# 404 with 353,012 bytes of Cisco navigation chrome and no table. is_not_found had a 60 KB size
+# guard, which a third of a megabyte sails past, so they were recorded as retryable failures
+# instead of gone.
+BIG_404 = ("<html><head><title>Page Not Found</title></head><body>"
+           + ("<nav><a href='/x'>Products</a></nav>" * 4000)
+           + "<h1>We can't find the page you are looking for</h1></body></html>")
+check("N1", "SABOTAGE Cisco's real 404 shape - a third of a megabyte, no table - is still "
+            "recognised as not-found; ANY size guard hands it to the retry loop for ever",
+      MOD.is_not_found(BIG_404) is True, f"len={len(BIG_404)}")
+check("N2", "...and the usability veto refuses it too, so a 404 page never reaches the cache to be "
+            "served back as if it were the document",
+      MOD.is_usable(BIG_404) is False)
+check("N3", "SABOTAGE a real bulletin is not called not-found merely for being large",
+      MOD.is_not_found(BIG) is False)
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

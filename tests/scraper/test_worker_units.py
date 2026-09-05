@@ -333,6 +333,25 @@ lp = W.Loop(q, FakeBrowser({URL: page(URL, status=404)}), RUNS, load=lambda s: s
 s = lp.run([1])
 check("L21", "404 -> not_listed, done, check row not_listed, extract never called",
       s["outcomes"] == {"not_listed": 1} and q.completed[-1]["status"] == "done" and q.checks == [(7, 1, 1, "not_listed", 0)], str((s, q.checks, q.completed)))
+# A 404 IS TERMINAL, EVEN WHEN THE ADAPTER REFUSED THE CAPTURE. Measured on the Cisco EoL lane's
+# first live run: six notices that no longer exist came back at HTTP 404 with 353,012 bytes of
+# navigation chrome and no table, so the usability veto fired — and because the veto was checked
+# BEFORE the status, each was recorded `failed` and queued for five retries, for ever, inside a
+# loop that never stops. The status wins; the not_listed path still records the fetch and the
+# part_source_check, which the veto's early return would have skipped.
+q = FakeQueue([task(43)])
+lp = W.Loop(q, FakeBrowser({URL: page(URL, status=404)}), RUNS,
+            load=lambda s: source(extract=lambda h, t: (_ for _ in ()).throw(
+                AssertionError("extract must not run on a 404"))))
+lp.browser.pages[URL]["unusable"] = True
+s = lp.run([1])
+check("L21b", "SABOTAGE a 404 whose capture the adapter ALSO vetoed is not_listed and DONE, not a "
+              "retryable failure — a dead URL must not be fetched five more times",
+      s["outcomes"] == {"not_listed": 1} and q.completed[-1]["status"] == "done",
+      str((s["outcomes"], q.completed[-1]["status"], q.completed[-1].get("error"))))
+check("L21c", "...and the fetch is still recorded, so the check row keeps its evidence",
+      q.checks and q.checks[-1][3] == "not_listed", str(q.checks[-1:]))
+
 q = FakeQueue([task(41)])
 s = W.Loop(q, FakeBrowser(), RUNS, load=lambda s: source(not_found=lambda h: True)).run([1])
 check("L22", "the site's own not-found page -> not_listed", s["outcomes"] == {"not_listed": 1} and q.completed[-1]["result"]["outcome"] == "not_listed")

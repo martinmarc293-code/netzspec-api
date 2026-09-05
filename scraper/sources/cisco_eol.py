@@ -81,10 +81,13 @@ def is_usable(html: str) -> bool:
 
 
 def is_not_found(html: str) -> bool:
-    if not html or len(html) > 60_000:
+    if not html:
         return False
-    head = html[:8000].lower()
-    return "page not found" in head or "we can't find the page" in head
+    # No size guard: Cisco's 404 page is 353 KB. See sources/cisco_datasheets.is_not_found.
+    head = html[:20_000].lower()
+    return ("page not found" in head or "we can't find the page" in head
+            or "the page you requested was not found" in head
+            or "we could not find the page" in head)
 
 
 def extract(html: str, task: dict) -> dict:

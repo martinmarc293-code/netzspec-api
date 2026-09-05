@@ -1383,7 +1383,18 @@ class Loop:
             # A capture the adapter vetoed is a RENDER failure, not an answer: retry it with the
             # queue's back-off rather than extracting from a shell and recording `no_facts`, which
             # would look like a page that genuinely has nothing on it.
-            if res.get("unusable"):
+            #
+            # ...but NOT when the STATUS is already a definitive answer, and this ordering was wrong
+            # for its first hours in production. A 404 is the site saying the document is gone, which
+            # is terminal however the page rendered; the not_listed path below records the fetch and
+            # the part_source_check, and this branch skips both. Six Cisco EoL notices that no longer
+            # exist were therefore recorded `failed` and re-queued five times each, for ever, in a
+            # loop designed never to stop. Cisco serves a dead URL as 353,012 bytes of navigation
+            # chrome with no table: it fails the usability veto AND sails past any size-guarded
+            # is_not_found — the shape the Juniper session had already reported from juniper.net,
+            # which answers a dead product URL with a 404 body under a 403 status at about a
+            # megabyte. Read the status before judging the render.
+            if res.get("unusable") and res.get("status") != 404:
                 print(f"  unusable {slug} {task['task']} {task['key']}: the adapter refused the "
                       f"capture (http {res.get('status')}, {len(res.get('html') or '')} bytes); not cached")
                 return self._finish(task, slug, "failed",

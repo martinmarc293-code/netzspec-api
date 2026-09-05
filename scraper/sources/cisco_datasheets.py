@@ -137,11 +137,16 @@ def is_usable(html: str) -> bool:
 def is_not_found(html: str) -> bool:
     """Cisco serves a real 404 page for a withdrawn document. It is short and titles itself; the
     length guard keeps a product page about "page not found" behaviour from matching."""
-    if not html or len(html) > 60_000:
+    if not html:
         return False
-    head = html[:8000].lower()
+    # NO SIZE GUARD. Cisco's 404 page is 353,012 bytes - measured on 5 Sep 2026 when six dead EoL
+    # notices came back at HTTP 404 with a third of a megabyte of navigation chrome. A guard of
+    # 60 KB, or any guard, hands those to the retry loop for ever. The specificity has to come from
+    # the WORDING instead, which is why these phrases are the page's own and not the word "404".
+    head = html[:20_000].lower()
     return ("we can't find the page" in head or "page not found" in head
-            or "the page you requested was not found" in head)
+            or "the page you requested was not found" in head
+            or "we could not find the page" in head)
 
 
 def extract(html: str, task: dict) -> dict:
