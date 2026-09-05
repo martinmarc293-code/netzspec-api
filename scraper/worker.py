@@ -81,7 +81,12 @@ WORKER = f"{socket.gethostname()}:{os.getpid()}"
 PART_KEY_TASKS = frozenset({"part-page", "search", "gpl", "eol"})
 # Statuses that mean "the host said no" — retried after back-off, and counted against the
 # source's consecutive-block pause. 404 is not here: 404 is an answer, not a refusal.
-BLOCKED_STATUSES = frozenset({401, 403, 429, 503})
+# 405 is here because this crawler only ever issues GET. A server answering "method not allowed"
+# to a GET for a document is refusing the request, not describing an API: measured 5 Sep 2026,
+# apps.juniper.net serves its PerimeterX challenge at 405. Classifying it as a refusal is what puts
+# it in front of the per-source block alarm; the fall-through above would only call it `failed`,
+# which reads as a flaky host rather than a wall.
+BLOCKED_STATUSES = frozenset({401, 403, 405, 429, 503})
 MAX_ATTEMPTS = 5
 OUTCOMES = ("facts_found", "no_facts", "not_listed", "blocked", "timeout", "failed", "skipped",
             "pdf_fetched", "pdf_cached", "idle", "proxy_budget_exhausted")
@@ -140,6 +145,21 @@ def classify_fetch(status, blocked: bool, reason: str | None, not_found: bool) -
     if isinstance(status, int) and status >= 500:
         # 500/502/504: the host fell over, not a refusal and not an answer — retry later, and
         # never extract from an error page as if it were the product
+        return "failed"
+    # ANYTHING THAT IS NOT 2xx IS NOT A DOCUMENT, and this used to fall through to "ok".
+    #
+    # `return "ok"` was the default for every status nobody had enumerated, so 405, 407, 418, 451
+    # and an unfollowed redirect were all recorded as SUCCESSFUL fetches, and the worker went on to
+    # extract from whatever the body happened to be — reporting `no_facts`, which reads as "this
+    # page genuinely has nothing on it". The Juniper session found it the expensive way on 5 Sep
+    # 2026: apps.juniper.net serves its PerimeterX wall at HTTP 405 with a 9.5 KB body. A lane
+    # being actively refused would have shown `blocked 0`, a rising `no_facts`, and looked like a
+    # site with empty pages.
+    #
+    # This is the project's own rule about monitors, one layer down: a status nobody classified is
+    # an unknown, and an unknown must never be spelled the same way as a success. `failed` is
+    # retried with back-off and is visible in the outcome counts; `ok` is invisible by design.
+    if isinstance(status, int) and not (200 <= status < 300):
         return "failed"
     return "ok"
 

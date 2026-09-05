@@ -731,5 +731,68 @@ for _ in range(50):
     lp.count_fetch(PROX)
 check("R8", "SABOTAGE rotate_every=0 disables rotation entirely", br.rotations == [], str(br.rotations))
 
+# ---------------------------------------------------------------------------------------------
+# PERIMETERX, AND THE STATUS NOBODY CLASSIFIED — the third refusal family (5 Sep 2026)
+# ---------------------------------------------------------------------------------------------
+# Reported by the Juniper session from a live wall: apps.juniper.net serves an interactive HUMAN
+# Security challenge at HTTP 405, 9,507 bytes. challenge_fingerprint returned None — the markers
+# knew Cloudflare ("VERIFY you are human") and PerimeterX says "CONFIRM you are human" — and 405
+# fell through classify_fetch's default to "ok". A lane being actively refused would have shown
+# `blocked 0`, a rising `no_facts`, and read as a site with empty pages.
+from sources.base import challenge_fingerprint as _cf  # noqa: E402
+
+PX_405 = ('<html><head><title>Human Verification</title>'
+          '<script>window._pxAppId = "PXAbCd";</script></head>'
+          '<body><div id="px-captcha"></div>'
+          "<h2>Let's confirm you are human</h2>"
+          '<p>Complete the security check before continuing.</p>'
+          '<button>Begin</button>' + ("<span>x</span>" * 400) + '</body></html>')
+check("PX1", "the PerimeterX wall is FINGERPRINTED — 9.5 KB is far past the 4 KB wordy guard, so "
+             "before this it returned None and the lane's block was luck",
+      _cf(PX_405) is not None, str(_cf(PX_405)))
+check("PX2", "...and PerimeterX's own wording is a marker: every rule said VERIFY, the wall says "
+             "CONFIRM",
+      _cf('<html><body>' + ("<i>y</i>" * 900) + "<p>Let's confirm you are human</p></body></html>")
+      == "px_confirm_human", str(_cf("<html><body><p>confirm you are human</p></body></html>")))
+BIG_SHELL = "<html><body>" + ("<div class='nav'>Products</div>" * 4000) + \
+            "<script src='https://captcha.px-cdn.net/x/captcha.js'></script></body></html>"
+check("PX3", "SABOTAGE a MARKUP marker past the 64 KB head is still caught — the comment claimed "
+             "'any size' while the code searched one window, so a challenge behind a large shell "
+             "was invisible",
+      _cf(BIG_SHELL) == "px_cdn", f"len={len(BIG_SHELL)} -> {_cf(BIG_SHELL)}")
+check("PX4", "SABOTAGE the vendor is matched as its DOMAIN, never its NAME: a security datasheet "
+             "DISCUSSING PerimeterX bot protection is not a challenge",
+      _cf("<html><body><h1>Bot protection</h1>" + ("<p>PerimeterX and HUMAN Security are vendors "
+          "of bot mitigation. Compare CAPTCHA approaches.</p>" * 60) + "</body></html>") is None,
+      str(_cf("<html><body><p>PerimeterX is a vendor of bot mitigation.</p></body></html>")))
+check("PX5", "SABOTAGE a real 48 KB product page is NOT blocked - a fingerprint widened until it "
+             "catches the wall is worthless if it also catches the pages the lane exists to read",
+      _cf("<html><head><title>Catalyst 9300 Data Sheet</title></head><body><table>"
+          + ("<tr><td>Switching capacity</td><td>208 Gbps</td></tr>" * 900)
+          + "</table></body></html>") is None)
+check("PX6", "SABOTAGE a page that merely says 'access denied' is still only believed when it is "
+             "too small to be a document — the Akamai guard is unchanged",
+      _cf("<html><body>" + ("<p>Access Denied is returned by the ACL.</p>" * 400) + "</body></html>") is None)
+check("PX7", "the Cloudflare markers still fire — this split must not cost what already worked",
+      _cf("<html><body><div class='cf-turnstile'></div></body></html>") == "cf_turnstile",
+      str(_cf("<html><body><div class='cf-turnstile'></div></body></html>")))
+
+check("PX8", "SABOTAGE a status nobody enumerated is NEVER 'ok' — 405, 407, 418 and 451 all fell "
+             "through to success, and the worker then extracted from the refusal and called it "
+             "no_facts, which reads as a page that genuinely has nothing on it",
+      all(W.classify_fetch(s, False, None, False) != "ok" for s in (405, 407, 418, 451, 402)),
+      str({s: W.classify_fetch(s, False, None, False) for s in (405, 407, 418, 451, 402)}))
+check("PX9", "405 specifically is a REFUSAL, not a fault: this crawler only ever issues GET, so "
+             "'method not allowed' is the site refusing the request, and the block alarm must see "
+             "it rather than a rising `failed` that reads as a flaky host",
+      W.classify_fetch(405, False, None, False) == "blocked", W.classify_fetch(405, False, None, False))
+check("PX10", "SABOTAGE 200 is still ok, and 404 is still an ANSWER rather than a refusal",
+      W.classify_fetch(200, False, None, False) == "ok"
+      and W.classify_fetch(404, False, None, False) == "not_listed",
+      f"{W.classify_fetch(200, False, None, False)} / {W.classify_fetch(404, False, None, False)}")
+check("PX11", "SABOTAGE a challenge served with HTTP 200 is STILL blocked — the body outranks the "
+              "status, which is the case the fingerprint was written for",
+      W.classify_fetch(200, True, "px_confirm_human", False) == "blocked")
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

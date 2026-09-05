@@ -28,7 +28,21 @@ WS = re.compile(r"\s+")
 # guard here is 4 KB, not the 40 KB `looks_blocked` uses: measured on 5 Sep 2026, Akamai's refusal
 # is 546 bytes and a genuine Cisco datasheet containing the words "Access Denied" was 24 KB, so
 # the old threshold called the datasheet blocked.
-STRUCTURAL_CHALLENGE = (
+# THREE TIERS, and the tier is decided by ONE question: how much of a real document could contain
+# this marker by accident? That governs how much of the page we search and how large a page we will
+# believe it on. The old two-tier split got PerimeterX wrong in both directions at once, and the
+# Juniper session hit the wall it left (5 Sep 2026): apps.juniper.net served an interactive HUMAN
+# Security challenge at HTTP 405, 9,507 bytes, and `challenge_fingerprint` returned None. It said
+# "CONFIRM you are human"; every marker here said "VERIFY". The lane recorded a block at all only
+# because the word "captcha" happened to appear elsewhere in the markup — luck, not a check.
+#
+# MARKUP: a vendor's own paths, hostnames and script globals. These are not English and cannot be
+# written by accident in prose, so they are believed ANYWHERE in the document at ANY size. That
+# claim is now true: the old code scanned 65,536 bytes while its comment said otherwise, so a
+# challenge behind a large shell was invisible. The vendor is matched as its DOMAIN
+# (`perimeterx.net`), never as its NAME — a security datasheet discussing PerimeterX is not a
+# challenge, and Cisco's catalogue is full of documents that name bot-protection vendors.
+MARKUP_CHALLENGE = (
     ("cf_challenge_platform", "/cdn-cgi/challenge-platform"),
     ("cf_chl_token", "__cf_chl"),
     ("cf_chl_opt", "cf_chl_"),
@@ -36,22 +50,48 @@ STRUCTURAL_CHALLENGE = (
     ("cf_turnstile", "cf-turnstile"),
     ("cf_challenges_host", "challenges.cloudflare.com"),
     ("cf_browser_verification", "cf-browser-verification"),
+    # PerimeterX / HUMAN Security. Strings supplied by the Juniper session from the live wall.
+    ("px_captcha_div", "px-captcha"),
+    ("px_captcha_path", "/px/captcha"),
+    ("px_domain", "perimeterx.net"),
+    ("px_cdn", "captcha.px-cdn"),
+    ("px_cookie", "_pxhd"),
+    ("px_app_id", "window._pxappid"),
+)
+
+# PHRASE: challenge prose that a product document would have no reason to contain. Searched in the
+# HEAD only, because a real page that quotes one of these late is likelier than one that opens with
+# it, and the head is where a challenge puts its own text.
+PHRASE_CHALLENGE = (
     ("cf_just_a_moment", "just a moment"),
     ("cf_client_challenge", "client challenge"),
     ("turnstile_verify_human", "verify you are human"),
+    # PerimeterX's wording, which is why none of the above matched it.
+    ("px_confirm_human", "confirm you are human"),
+    ("px_security_check", "complete the security check before continuing"),
+    ("px_not_a_bot", "verifies that you are not a bot"),
     ("turnstile_performing", "performing security verification"),
     ("cf_checking_browser", "checking your browser"),
     ("cf_enable_js_cookies", "enable javascript and cookies"),
 )
+HEAD_BYTES = 65536
+
+# WORDY markers are ordinary English that a real document genuinely contains. Believed only on a
+# page too small to BE a real document.
 WORDY_CHALLENGE = (
     ("akamai_access_denied", "access denied"),
     ("akamai_no_permission", "you don't have permission to access"),
+    ("px_page_denied", "access to this page has been denied"),
     ("attention_required", "attention required"),
     ("captcha", "captcha"),
     ("request_unsuccessful", "request unsuccessful"),
     ("are_you_a_human", "are you a human"),
 )
 WORDY_MAX_BYTES = 4000
+
+#: Kept as an alias: three brand suites and two adapters import this name. The split above is what
+#: is actually searched.
+STRUCTURAL_CHALLENGE = MARKUP_CHALLENGE + PHRASE_CHALLENGE
 
 
 def challenge_fingerprint(html: str) -> str | None:
@@ -64,8 +104,15 @@ def challenge_fingerprint(html: str) -> str | None:
     """
     if not html:
         return "empty_body"
-    head = html[:65536].lower()
-    for name, pat in STRUCTURAL_CHALLENGE:
+    # MARKUP is searched over the WHOLE document, which is what "believed at any size" has always
+    # claimed and never did: the single 65,536-byte window applied to every tier, so a challenge
+    # behind a large shell was invisible to markers that cannot appear by accident.
+    whole = html.lower()
+    for name, pat in MARKUP_CHALLENGE:
+        if pat in whole:
+            return name
+    head = whole[:HEAD_BYTES]
+    for name, pat in PHRASE_CHALLENGE:
         if pat in head:
             return name
     if len(html) <= WORDY_MAX_BYTES:
