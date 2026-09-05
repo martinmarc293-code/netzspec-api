@@ -4,6 +4,73 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-05 ~17:45 — Opus/CISCO session, work block: the 24/7 loop found three bugs by
+  running, and each one was invisible to a green suite.** Commits `c1740db`, `489e774`, `fd770d3`
+  on branch `cisco`, tree `D:\Project\netzspec-api-cisco`. Loop PID 14136, 20-min cycle.
+
+  **DECISIONS, CLOSED.**
+  1. **A document's CLASS decides its lane, not whichever `resolve()` answers first.** Lanes now
+     declare `DOC_CLASSES`; `brands/plan.py` prefers the declaring lane and breaks ties in the
+     PACK's order. It is a preference, not a filter — a class no lane declares is still offered to
+     every lane, and an adapter without `DOC_CLASSES` is unaffected. This is the shared planner, so
+     HPE and Juniper get the behaviour for free the moment their adapters declare classes.
+  2. **A lane refuses what it cannot parse, at `resolve()` — before the fetch.** A refusal costs
+     nothing; an acceptance costs a fetch. `cisco_eol.resolve()` returned any http URL on any host.
+  3. **The store's content classification OVERRIDES a URL rule, in both directions.** 17 real
+     bulletins carry no end-of-life marker in the URL at all, so a URL-only gate would refuse them
+     for ever (the unfillable-required-field shape). A `doc_class` naming another lane's class is
+     equally a refusal even when the shape matches.
+  4. **`runs/vocab/` is the ONE shared thing inside `runs/`**, junctioned into brand worktrees. A
+     label inventory is corpus-wide vocabulary keyed by SOURCE, not per-brand run state.
+
+  **DONE AND VERIFIED.**
+  * **The 404 ordering (`c1740db`).** Six EoL notices that no longer exist were recorded `failed`
+    and re-queued five times each, for ever. Cisco serves a dead URL as **353,012 bytes** of
+    navigation chrome with no table: it fails the usability veto AND sails past any size-guarded
+    `is_not_found`. Two correct guards, wrong order — a definitive STATUS now outranks a bad render.
+    Same shape Juniper reported (juniper.net: 404 body under a 403 status, ~1 MB).
+  * **The routing bug (`fd770d3`).** `done=17 failed=23` every cycle, every failure "unusable
+    capture". **43 of 54** documents planned onto `cisco-eol` were not bulletins — 31 datasheets,
+    12 `documentation.meraki.com` pages. `doc_type` was selected in the planner's own query and
+    used only for printing. `srcs` had **no ORDER BY**, so which lane won a contested document was
+    Postgres row order: a coin toss between two runs of the same planner. Re-planned after the fix:
+    10 bulletins to `cisco-eol`, 44 datasheets to `cisco-datasheets`, **nothing misrouted**.
+  * **`EOL_URL` missed the locale tail.** `-eol\.` required the URL to END there, so every French
+    rendering (`…-eol-fr.html`) failed it: **38 real bulletins**, silently, invisible to `discover()`
+    too. Widened: recall **3,357 → 3,395 of 3,412 (98.4% → 99.5%)**, false positives unchanged at
+    ONE in 3,594. Measured against the corpus, not against cases written for the rule.
+  * **A missing artifact cost twelve proofs (`489e774`).** `tests/source-fields.test.ts` opened a
+    label inventory with a bare `readFileSync` on a hardcoded slug. In a fresh worktree that THREW,
+    aborting the module — **6 checks ran where 30 should have**, reported as one ENOENT. Now it
+    takes any slug's inventory and records an honest miss when there is none. The clean worktree is
+    what exposed it; in the main tree the file has always been there.
+  * **`rack_units` band `[1,30] → [1,44]`** — the missing half of an already-committed pair (the
+    alias half landed in `d6d96e0` from the Juniper session).
+  * **Queue repaired:** 29 retryable rows `cisco-eol` can never serve were deleted, verified from a
+    NEW connection (savepoint trap). `done` rows were left — they are an inert record of a fetch
+    that happened, and deleting history to tidy a number is how history stops being trustworthy.
+  * **Sabotage-proved:** disabling the two new gates turns T2/T3/T8/T9/T11 red; restored via git and
+    the restore was VERIFIED (`git diff` empty, no `if False` left in the file).
+  * Suites: `npm test` 20/20, typecheck 0, `cisco_eol_lane` 44 (was 33), `cisco_lane` 45,
+    `worker_units` 147, `worker_browser` 23, `brand_isolation` 34, `juniper` 64, `hpe` 85,
+    `meraki` 112.
+
+  **NEXT.**
+  1. Two Cisco lanes still have NO adapter — `cisco-datasheet-pdf`, `cisco-tmg`. The planner says
+     so loudly every cycle (SKIPPED with the reason); it is not silent, but it is not done either.
+  2. Merge branch `cisco` back to `main`.
+  3. The retraction run for the 289 mis-filed `drive_interface` facts is still filed, not done.
+  4. `covered_pct` 33.6 against a floor of 90, `avg_pct` 30.0 against 60 — the watchdog alarms
+     every cycle, correctly. That is the actual work, and it is a CRAWL gap, not extraction.
+
+  **TRAPS HIT.**
+  * A suite that is green in the tree you developed it in can be non-hermetic; the fresh worktree
+    is what proves it. Two suites depended on a gitignored generated artifact.
+  * Routing that depends on an unordered SQL result is a coin toss that looks deterministic
+    because it usually lands the same way.
+  * `EOL_URL` is a reminder that a rule measured only against hand-written cases is measured
+    against the easy half. Recall was 98.4% and the missing 1.6% was one locale suffix.
+
 - **2026-09-05 ~17:40 — Opus/HPE session, work block 1: the HPE brand pack exists, and it found a
   capture that is HTTP 200, correctly titled, unblocked and empty.** Committed `36fd40d` and
   `af184dc` (parts of the first round were swept into the Cisco session's `65ecac5` — see TRAPS).
