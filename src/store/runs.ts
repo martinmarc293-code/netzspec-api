@@ -212,11 +212,29 @@ export async function withRun<T extends RunOutcome>(
     const msg = e instanceof Error ? e.message : String(e);
     let stats: RunStats = {};
     let notes = msg;
+    let progress: string | undefined;
     try {
       const p = opts.partial?.();
       if (p?.stats) stats = p.stats;
-      if (p?.progress) notes = `progress=${p.progress}; ${msg}`;
+      if (p?.progress) { progress = p.progress; notes = `progress=${p.progress}; ${msg}`; }
     } catch { /* a broken partial() must not replace the real error */ }
+    // THE CAUSE, AS A STRUCTURED FIELD AND NOT ONLY AS PROSE.
+    //
+    // It was already in `notes` — run #111 reads "rolled_back=0 facts (...); progress=2 of 478
+    // files, 1 parts touched; canceling statement due to statement timeout" — so nothing was lost.
+    // But it sat a hundred characters into a sentence, and `stats ? 'error'` answered false, so two
+    // sessions independently looked at the same failed row, saw no cause in the structured fields,
+    // and each invented a different one: one concluded the apply step was colliding with itself,
+    // the other that the file backlog had outgrown statement_timeout. Both were wrong — the real
+    // cause was a manual apply holding row locks — and neither could have been right from the row
+    // as it read.
+    //
+    // Recorded, not deduced. This is the mirror of the reaper's rule: there, the cause is UNKNOWN
+    // and naming one would be invention, so a reaped run says only that it was never closed. Here
+    // the cause is known exactly, and burying it in prose is the same disservice from the other
+    // direction — a reader who checks a field and finds nothing concludes nothing is there.
+    stats = { ...stats, error: msg, error_type: e instanceof Error ? e.name : typeof e,
+              ...(progress ? { progress } : {}) };
     try {
       const back = await withTx((client) => rollbackRun(client, runId));
       stats = { ...stats, rolled_back: back };
