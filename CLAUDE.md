@@ -562,6 +562,15 @@ full; the ones that bite hardest here are restated.
   api.ipify.org: exit IP differs from ours (a South-American residential address — the pool
   is worldwide unless a country is selected; use `proxy_country = us` for the two US sites),
   4.5 s round trip.
+  OPERATOR DIRECTION (5 Sep): keep expanding the API, keep improving the scrapers and the
+  watchdog — "the best scraper in the world" — and specifically: THE WATCHDOG DID NOT CATCH
+  THAT ITPRICE WAS BLOCKED; the operator saw it with their own eyes. That is the headline
+  failure of the day. Forensics + design workflow in flight (`wf_2448c142-27f`, read-only,
+  each analysis checked by a skeptic): why the block was missed (fetch outcomes vs
+  heartbeats vs every watchdog report), a block-detection + canary + auto-proxy policy, the
+  Cisco coverage holes and a measurable definition of "Cisco complete", and the six API
+  endpoints consumers lack. The build round follows when round 3 and the proxy build release
+  watchdog.py / worker.py / src/api.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
