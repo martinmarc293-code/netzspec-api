@@ -407,6 +407,8 @@ into `CLAUDE.md`'s rules or memory, never only here.
   count-tolerance guard, decibel-family exemptions, the rack_units band) + the migrate-atlas
   suite's TRUNCATE list (omits image_candidates). Gate/apply-extract findings still wait for
   the PDF-glyph agent (round 3).
+- **2026-09-05 ~13:45 UTC — THE FULL HANDOFF IS `docs/HANDOFF-2026-09-05.md`. Read that file first;
+  the entry below is its short form.**
 - **2026-09-05 ~13:30 UTC — HANDOFF FOR THE MODEL SWITCH (Fable → Opus). Read this first.**
   RULES NOW IN FORCE: no subagents/workflows unless the operator names the task (CLAUDE.md
   "Agents" section + memory `no-agents-token-rule`); the priced ledger

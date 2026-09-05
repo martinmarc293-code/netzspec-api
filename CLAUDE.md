@@ -53,8 +53,10 @@ full; the ones that bite hardest here are restated.
 
 ## Session log
 
-The per-session handoff log lives in `docs/SESSION-LOG.md` (newest first; update it every
-session). It moved out of this file on 5 Sep 2026 because every agent reads this file and the
+**Start every session by reading the newest `docs/HANDOFF-*.md`** (currently
+`docs/HANDOFF-2026-09-05.md`: rules in force, where things live, production numbers, what is
+committed, what is on disk, the backlog in order, the traps). The per-session handoff log lives in
+`docs/SESSION-LOG.md` (newest first; update it every session). It moved out of this file on 5 Sep 2026 because every agent reads this file and the
 log had grown past 400 lines — see the delegation gate above.
 
 ## Environment traps
