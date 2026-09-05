@@ -388,17 +388,47 @@ await query("INSERT INTO part_source_checks (part_id, source_id, outcome, facts_
   await query("DELETE FROM parts WHERE id = ANY($1)", [[asm, num]]);
 }
 {
-  // queue-gaps runs the same gate: a gap stays a gap, only the LOOKUP is refused
+  // queue-gaps runs the same gate: a gap stays a gap, only the LOOKUP is refused.
+  //
+  // THE FIXTURE IS THE WHOLE PROOF HERE, and it used to be missing. `gap_ledger` is a view over
+  // completeness.missing (db/migrations/0004_gaps.sql), so a part with NO completeness row is not
+  // in the view at all: queueGaps never selects it, lookupRefusal is never called for it, and
+  // "the assembly number was not queued" is a true statement about a part the planner could not
+  // have queued whatever the gate said. That is how this case passed for its entire life while
+  // proving nothing — the same family as `before === 0 === after` on a row that never existed
+  // (adversarial review, 4 Sep 2026). So the part gets a REAL gap, the ledger row is asserted
+  // before the planner runs, and the refusal is asserted as COUNTED rather than merely absent.
   await query("TRUNCATE fetch_queue");
   const asm = await part(cisco, "10-9999-01", switches);
   await query(`INSERT INTO facts (part_id, field_key, value, unit, raw, state, tier, method) VALUES ($1,'weight','1'::jsonb,'kg','1 kg','unverified',3,'test')`, [asm]);
-  await query("SELECT 1");
-  const before = (await query<{ n: number }>("SELECT count(*)::int AS n FROM gap_ledger WHERE part_id = $1", [asm])).rows[0].n;
+  await compl(asm, ["poe_budget"]);
+  const gapCount = async (): Promise<number> =>
+    (await query<{ n: number }>("SELECT count(*)::int AS n FROM gap_ledger WHERE part_id = $1", [asm])).rows[0].n;
+  const led = (await query<{ state: string; sources_capable: number }>(
+    "SELECT state, sources_capable FROM gap_ledger WHERE part_id = $1 AND field_key = 'poe_budget'", [asm])).rows;
+  check("fixture: the assembly number IS an unattempted poe_budget gap at 4 capable sources — without this row nothing below is exercised",
+    led.length === 1 && led[0].state === "gap_unattempted" && led[0].sources_capable === 4, led);
+  const before = await gapCount();
   const r = await queueGaps({});
-  check("queue-gaps refuses the assembly number's lookup while its gap row is untouched",
-    !(await queued("provantage")).some((x) => x.key === "10-9999-01")
-    && (await query<{ n: number }>("SELECT count(*)::int AS n FROM gap_ledger WHERE part_id = $1", [asm])).rows[0].n === before,
-    { r, before });
+  const queuedAsm = async (): Promise<string[]> => {
+    const out: string[] = [];
+    for (const slug of ["provantage", "router-switch", "cdw"]) {
+      if ((await queued(slug)).some((x) => x.key === "10-9999-01")) out.push(slug);
+    }
+    return out;
+  };
+  check("queue-gaps refuses the assembly number's lookup at all three capable lookup sources, counts it by reason, and leaves its gap row untouched",
+    (await queuedAsm()).length === 0 && r.refused.assembly_number === 3
+      && r.examples.some((e) => e.includes("10-9999-01")) && (await gapCount()) === before,
+    { r, before, queuedAsm: await queuedAsm() });
+  // SABOTAGE: --force is the only switch that turns lookupRefusal off, and with it off the SAME
+  // row is queued at the same three sources. Without this half, the check above still cannot tell
+  // a working refusal from a part the planner never reached — which is the bug it shipped with.
+  sabotages++;
+  await query("TRUNCATE fetch_queue");
+  const f = await queueGaps({ force: true });
+  check("SABOTAGE with the refusal disabled (--force) the same gap lookup IS queued at all three",
+    (await queuedAsm()).length === 3 && Object.keys(f.refused).length === 0 && (await gapCount()) === before, f);
   await query("DELETE FROM parts WHERE id = $1", [asm]);
 }
 
