@@ -71,7 +71,7 @@ from urllib.robotparser import RobotFileParser
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import netzscrape  # noqa: E402  (CACHE, LEDGER, _key, _ledger, UA_TOKEN)
 from sources import load_source  # noqa: E402
-from sources.base import looks_blocked, is_part_number  # noqa: E402
+from sources.base import looks_blocked, challenge_fingerprint, is_part_number  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 WORKER = f"{socket.gethostname()}:{os.getpid()}"
@@ -920,10 +920,30 @@ class Browser:
         cf = netzscrape.CACHE / f"{netzscrape._key(url)}.html"
         if cf.exists() and not force:
             cached = cf.read_text(encoding="utf-8", errors="replace")
-            if looks_blocked(cached):
-                # an older tool cached a challenge interstitial as if it were the page; a poisoned
-                # cache entry is worse than a miss, so drop it and fetch again
-                cf.unlink()
+            # A POISONED ENTRY IS SKIPPED, NOT DELETED — and it is judged by the NARROW detector.
+            #
+            # This block used to call looks_blocked() and then `cf.unlink()`. Both halves were
+            # wrong, and the docstring four lines above already argued against the second: "an
+            # adapter that deleted what it disliked would eventually delete its own fixtures".
+            #
+            # looks_blocked is the OLD detector: CHALLENGE.search(html[:8000]) and len < 40_000,
+            # where CHALLENGE includes bare "captcha" and "Access Denied". base.py records what
+            # that costs — "'Access Denied' is the whole body of Akamai's refusal AND a row in the
+            # feature table of every Cisco security datasheet", with a genuine 24 KB datasheet
+            # measured. 24 KB is under 40 KB, so READING a real Cisco datasheet DELETED it. The
+            # detection path moved to the three-tier challenge_fingerprint weeks ago; this eviction
+            # path was left on the broad one, so the narrower rules protected what we report and not
+            # what we keep.
+            #
+            # And deleting is the worse half. A wrong marker that only misreports can be corrected
+            # from the evidence; a wrong marker that DELETES destroys the evidence that would have
+            # corrected it. Skipping is strictly safer: the re-fetch overwrites the entry on success,
+            # and if the re-fetch fails the old bytes are still on disk to look at. There is no case
+            # where unlinking first leaves us better off.
+            poisoned = challenge_fingerprint(cached)
+            if poisoned:
+                print(f"  cache: ignoring a poisoned entry for {url[:70]} ({poisoned}); re-fetching, "
+                      f"the file is left on disk", flush=True)
             else:
                 self.stats["cache_hits"] += 1
                 return {"status": 200, "html": cached, "final_url": url, "cached": True, "blocked": False,

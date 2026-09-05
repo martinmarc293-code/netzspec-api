@@ -874,5 +874,43 @@ check("EV7", "SABOTAGE rotation is per LANE, so one lane's bad exits never spend
       _lp.rotate_on_evidence({"slug": "juniper", "proxy": "residential"}, "challenge") is True,
       str(_lp.evidence_rotations))
 
+# ---------------------------------------------------------------------------------------------
+# READING THE CACHE MUST NOT DESTROY IT
+# ---------------------------------------------------------------------------------------------
+# Browser.fetch used to call looks_blocked() on a cached page and `cf.unlink()` if it matched. Both
+# halves were wrong, and the docstring immediately above that code already argued against the
+# second: "an adapter that deleted what it disliked would eventually delete its own fixtures".
+#
+# looks_blocked is CHALLENGE.search(html[:8000]) and len < 40_000, where CHALLENGE includes bare
+# "captcha" and "Access Denied" — and base.py records that "Access Denied" is a row in the feature
+# table of every Cisco security datasheet, with a genuine 24 KB one measured. 24 KB is under 40 KB.
+# So READING a real Cisco datasheet DELETED it, and the only copy went with it.
+from sources.base import looks_blocked as _lb, challenge_fingerprint as _cfp  # noqa: E402
+
+REAL_DATASHEET = ("<html><head><title>Cisco Secure Firewall Data Sheet</title></head><body>"
+                  "<table><tr><td>Access Denied logging</td><td>Supported</td></tr>"
+                  "<tr><td>CAPTCHA challenge support</td><td>Yes</td></tr></table>"
+                  + ("<p>Specification text for the appliance.</p>" * 300) + "</body></html>")
+check("CD1", f"SABOTAGE the OLD detector calls a genuine {len(REAL_DATASHEET) // 1024} KB Cisco "
+             "datasheet blocked, purely for containing 'Access Denied' and 'captcha' in a feature "
+             "table - this is the input that was being DELETED on read",
+      _lb(REAL_DATASHEET) is True, f"len={len(REAL_DATASHEET)}")
+check("CD2", "...and the NARROW three-tier detector does not, because those words are WORDY markers "
+             "believed only on a page too small to be a document",
+      _cfp(REAL_DATASHEET) is None, str(_cfp(REAL_DATASHEET)))
+check("CD3", "a REAL challenge is still recognised, so narrowing did not blind the cache check",
+      _cfp("<html><body><div id='px-captcha'></div></body></html>") is not None)
+check("CD4", "SABOTAGE the cache read no longer unlinks ANYTHING - a wrong marker that only "
+             "misreports can be corrected from the evidence, one that DELETES destroys the evidence "
+             "that would have corrected it",
+      "cf.unlink()" not in (ROOT / "scraper" / "worker.py").read_text(encoding="utf-8").split("# This block used to")[0]
+      and "cf.unlink()" not in (ROOT / "scraper" / "worker.py").read_text(encoding="utf-8").replace(
+          "# This block used to call looks_blocked() and then `cf.unlink()`. Both halves were", ""),
+      "an unlink of a cached file is still present")
+check("CD5", "the cache path uses challenge_fingerprint, not looks_blocked - the detection path was "
+             "narrowed weeks ago and the EVICTION path was left on the broad one, so the narrower "
+             "rules protected what we report and not what we keep",
+      "poisoned = challenge_fingerprint(cached)" in (ROOT / "scraper" / "worker.py").read_text(encoding="utf-8"))
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)
