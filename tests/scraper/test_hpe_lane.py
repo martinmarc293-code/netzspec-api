@@ -201,6 +201,31 @@ check("D5", "SABOTAGE a short page does not queue a next page — a lane that al
 check("D6", "every discovered task is a kind resolve() can actually serve",
       all(MOD.resolve({"task": t["task"], "key": t["key"], "url": t.get("url")}) for t in found), keys)
 
+# A LISTING is a discovery surface, not a subject, and worker.process calls extract() on every
+# task kind. Two separate ways to get this wrong, both real:
+#   the 3 Sep 2026 run recorded not_listed=true for the library index of 2,894 documents — which
+#   is not "nothing here" but "the site says it does not have this part", the claim that writes a
+#   part_source_check and pauses a vendor lane at fifteen of them;
+#   and the unrendered refusal, added the same day, would have failed EVERY listing task, because
+#   the library JSON has no collateral body and never will.
+# Caught, not allowed to propagate: without the listing branch this raises, and a suite that dies
+# on a traceback reports "1 missed" nowhere. A refusal must be visible as a named MISS.
+try:
+    lst = MOD.extract(LIB, {"task": "listing", "key": "1"})
+except Exception as exc:  # noqa
+    lst = None
+    check("L2", "REGRESSION extract() on a listing does not raise the unrendered refusal — the "
+                "library JSON has no collateral body and never will",
+          False, f"{type(exc).__name__}: {str(exc)[:120]}")
+if lst is not None:
+    check("L1", "REGRESSION extract() on a listing does not claim not_listed — a discovery surface "
+                "never says the site is missing a part",
+          lst.get("not_listed") is False, lst.get("not_listed"))
+    check("L2", "REGRESSION extract() on a listing does not raise the unrendered refusal — the "
+                "library JSON has no collateral body and never will",
+          lst.get("scope") == "listing" and lst.get("facts") == [], lst)
+    check("L3", "...and it claims no subject", lst.get("sku") is None and not lst.get("others"), lst)
+
 # ---------------------------------------------------------------------------------------------
 # E. extract() — over a REAL cached QuickSpecs, not an invented fixture
 # ---------------------------------------------------------------------------------------------

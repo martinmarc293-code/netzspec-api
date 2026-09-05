@@ -502,6 +502,19 @@ def _key_probe(key: str) -> list[str]:
 
 
 def extract(html: str, task: dict) -> dict:
+    # A LISTING is a discovery surface, not a document. The worker calls extract() for every task
+    # kind, and the media-library JSON a listing fetches is neither a QuickSpecs nor a page:
+    #   * it has no `collateral-content`, so the unrendered refusal below would fail EVERY listing
+    #     task and shut discovery down completely;
+    #   * and the not_listed test at the bottom would answer TRUE for it, which is not "we found
+    #     nothing on this index" but the far louder claim THE SITE SAYS IT DOES NOT HAVE THIS
+    #     PART — it writes a part_source_check and the watchdog pauses a vendor lane at fifteen
+    #     of them. The 3 Sep 2026 run recorded exactly that: one listing task, `not_listed: true`,
+    #     for the library index of 2,894 documents.
+    # Both are answered by refusing to treat a listing as a subject at all. discover() reads the
+    # JSON; extract() has nothing to say about it and says nothing.
+    if (task.get("task") or "") == "listing":
+        return {**_empty(None), "scope": "listing"}
     # BEFORE anything is parsed. A blank psnow shell parses perfectly into nothing, and "nothing"
     # is indistinguishable from "this document has no tables" once it reaches the queue as
     # `no_facts`/`done`. The refusal names the document so the operator's re-fetch is one command.
