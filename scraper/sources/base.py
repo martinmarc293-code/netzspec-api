@@ -51,7 +51,10 @@ MARKUP_CHALLENGE = (
     ("cf_challenges_host", "challenges.cloudflare.com"),
     ("cf_browser_verification", "cf-browser-verification"),
     # PerimeterX / HUMAN Security. Strings supplied by the Juniper session from the live wall.
-    ("px_captcha_div", "px-captcha"),
+    # Named to match sources/juniper.py, which labelled this marker first. Two names for
+    # one fingerprint means an operator grepping a log for one of them finds half the
+    # occurrences, and a brand suite asserting either is right and fails anyway.
+    ("px_captcha", "px-captcha"),
     ("px_captcha_path", "/px/captcha"),
     ("px_domain", "perimeterx.net"),
     ("px_cdn", "captcha.px-cdn"),
@@ -69,7 +72,6 @@ PHRASE_CHALLENGE = (
     # PerimeterX's wording, which is why none of the above matched it.
     ("px_confirm_human", "confirm you are human"),
     ("px_security_check", "complete the security check before continuing"),
-    ("px_not_a_bot", "verifies that you are not a bot"),
     ("turnstile_performing", "performing security verification"),
     ("cf_checking_browser", "checking your browser"),
     ("cf_enable_js_cookies", "enable javascript and cookies"),
@@ -82,6 +84,13 @@ WORDY_CHALLENGE = (
     ("akamai_access_denied", "access denied"),
     ("akamai_no_permission", "you don't have permission to access"),
     ("px_page_denied", "access to this page has been denied"),
+    # MOVED HERE FROM THE PHRASE TIER, 6 Sep 2026. "verifies that you are not a bot" is
+    # ordinary English ABOUT bot protection, not a challenge saying so about itself - a
+    # security page explaining how a product works contains it legitimately. In PHRASE it
+    # was searched with no page-size guard, so a long document DISCUSSING bot protection
+    # read as a challenge. Caught by the Juniper lane's own sabotage case (B9) on a merge
+    # probe, before it shipped: their suite asserts that exact page is NOT blocked.
+    ("px_not_a_bot", "verifies that you are not a bot"),
     ("attention_required", "attention required"),
     ("captcha", "captcha"),
     ("request_unsuccessful", "request unsuccessful"),
