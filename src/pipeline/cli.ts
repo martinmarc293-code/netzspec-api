@@ -25,6 +25,10 @@ const COMMANDS: Record<string, { help: string; run: (argv: string[]) => Promise<
     help: "re-evaluate every OPEN conflict under the current merge rules inside a gated run (tier restamp, inheritance retraction, agreements, unions): [--commit] [--run N] [--limit N] [--sample N] [--no-retype]",
     run: async (argv) => { const m = await import("./remerge.js"); await m.main(argv); },
   },
+  renormalize: {
+    help: "replay the CURRENT normaliser over the stored `raw` of facts an older one produced; same re-stamps, changed supersedes, refused quarantines: [--commit] [--field K] [--since-version V] [--limit N] [--max-change-share 0.25] [--allow \"reason\"]",
+    run: async (argv) => { const m = await import("./renormalize.js"); await m.main(argv); },
+  },
   "gate-extract": {
     help: "the gate alone (precision, recall, provenance, regression) for an extract file: <extract.json>... [--sample N] [--allow-regression \"reason\"]",
     run: async (argv) => { const m = await import("./gate-extract.js"); await m.main(argv); },
@@ -40,6 +44,10 @@ const COMMANDS: Record<string, { help: string; run: (argv: string[]) => Promise<
   reclassify: {
     help: "re-run the product-class rule table over every existing part; writes only rows whose class changes: [--commit] [--vendor V] [--examples N]",
     run: async (argv) => { const m = await import("./reclassify.js"); await m.main(argv); },
+  },
+  hygiene: {
+    help: "catalogue hygiene, one check at a time, dry by default: <case-duplicates|fabricated-pids|foreign-pids|cross-brand-family|hw-variants|all> [--commit] [--examples N] [--vendor V]",
+    run: async (argv) => { const m = await import("./hygiene.js"); await m.main(argv); },
   },
   "recompute-completeness": {
     help: "per-part required/missing fields from current verified facts (the gap ledger's input): [--vendor V] [--category C] [--since ISO]",

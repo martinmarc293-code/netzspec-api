@@ -113,6 +113,64 @@ reported as `matched_no_vendor_scope`. A variant match writes the page's own nam
 derives nothing. Measured 4 Sep 2026 over one day of pages: meraki 0 → 130 matched, provantage
 0 → 121 (115 exact, 6 spare), 0 ambiguous.
 
+## Catalogue hygiene
+
+The 89,099 parts came from an Atlas migration, an enumeration of 69,487 Cisco PIDs, EoL bulletins
+and 332 PDF datasheets, and five kinds of row in it are not what they claim to be. `ingest hygiene
+<check>` is the one command that acts on them: **dry by default**, one check at a time, each
+`--commit` inside a single `hygiene-<check>` run with its counts in `runs.stats`. Every candidate
+it declines is reported under a named reason — the point of the command is as much the refusals as
+the merges. Counts below are the dry run against production, 4 September 2026.
+
+| check | scanned | acts on | refuses |
+| --- | --- | --- | --- |
+| `case-duplicates` | 127 groups | 127 merges (108 keep the upper-case row, 19 an operator-reviewed one — all 19 are also upper case, so the two rules never disagreed); 21 pairs carry facts on **both** sides | — |
+| `fabricated-pids` | 3,541 shape candidates | 13 retire | 3,234 have independent evidence · 156 have no PDF evidence at all · 127 `base_not_named_by_that_pdf` · 5 operator-reviewed · 3 numeric series · 2 footnote chains · 1 two PDFs |
+| `foreign-pids` | 3,905 digit-led cisco rows | 12 retire, no successor | 3,131 are Cisco-shaped · 762 are catalogue noise (quantity 635, standard 60, version 35, footnote 26, no_letter 6), owned by `ingest reclassify` |
+| `cross-brand-family` | 89,099 | report only: 22 parts | — |
+| `hw-variants` | 126 pairs | 238 alias rows (14 already linked); 21 `-HW` rows carry no facts while their base does | — |
+
+**Identity is case-insensitive per vendor.** 127 pairs like `A9K-DDOS-10U20G=` / `A9k-DDoS-10U20G=`
+got in because `upsertPart` looked its SKU up with `WHERE sku = $2`, so an enumeration that spelled
+a PID differently inserted a twin — and `findPart`'s case-insensitive arm then picked one of two
+real rows with `ORDER BY sku LIMIT 1`. `upsertPart` now resolves the fold first and fills the row
+that exists; migration 0010 adds `UNIQUE (vendor_id, lower(sku)) WHERE retired_at IS NULL` so it
+cannot recur. Storage still keeps the vendor's exact string: a differently-cased mention is
+evidence about a part, not a correction of it, and the loser's spelling survives as a
+`case_variant` alias.
+
+**A part is RETIRED, never deleted** (migration 0009: `retired_at`, `retired_into`,
+`retired_reason`, `retired_run_id`). Deleting would take the facts, the evidence and the run trail
+with it, which is the one thing this store exists to keep. A retired row keeps every column, stops
+being a candidate in `findPart` / `partsBySkuNorm` / `partsByAliasValue`, and a lookup that lands
+on it follows `retired_into` to the survivor. `upsertPart` aimed at a retired PID with no survivor
+writes nothing and says so — a scraper naming a foreign part number again must not resurrect it,
+and must not do so silently either. **Retired rows are still visible to the read API** (`src/api`
+selects from `parts` without the filter); adding it is the outstanding follow-up.
+
+**A merge moves everything and holds what it cannot decide.** `mergePartInto` runs in ONE
+transaction and moves facts, evidence, conflicts, relations (both directions), images, image
+candidates, doc links, queue tasks, source checks and aliases; a dependent row the survivor already
+holds byte-for-byte is dropped rather than doubled, and the derived `completeness` row is deleted
+(run `ingest recompute-completeness` afterwards). Facts go through `applyMerge` — the same engine
+apply-extract and remerge use — so an agreement corroborates and a disagreement becomes a
+`conflict` state with an open conflicts row, never a value picked by write order. Two lifecycle
+rows that disagree refuse the whole pair by name. The table list is checked against
+`pg_constraint`: a new table with a `part_id` that the merge does not name fails the suite.
+
+**The shape of a SKU decides nothing on its own.** 3,541 pairs of parts differ by exactly one
+trailing digit and `C9200L-24P-4G` / `C9200L-24P-4G1` cannot be told apart by looking at them, so
+every fabricated-PID gate is DOCUMENT evidence: the fake's only provenance must be one
+`vendor_datasheet_pdf`, that same PDF must also name the real PID, the trailing digit must not sit
+in an enumerated numeric series (`DISK-MODE-RAID-10` is a real RAID mode next to RAID-0/1/5), and a
+footnote chain (`UCSX-NVB1T9M2V`, `…V9`, `…V97`) is refused rather than unwound. The 127
+`base_not_named_by_that_pdf` refusals are closed by re-applying the corrected PDF extraction, not
+by loosening the rule. Symmetrically, `foreign-pids` is a Cisco shape rule with one measured
+premise — **no Cisco PID begins with the digit `0`**: of the 69,487 PIDs in the enumerated
+universe, 28 tokens do, and every one is either junk `is_part_number` already refuses or one of the
+foreign numbers this check retires. The reader hands it every digit-led PID (`10-2834-01`,
+`1030033`, `8201=`, `9800-40`, `886VA`) so the rule has to refuse them out loud.
+
 ## Coverage is measured, not claimed
 
 `/v1/stats` computes coverage live from the tables: parts, hardware parts, parts with facts,
