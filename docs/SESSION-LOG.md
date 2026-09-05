@@ -4,6 +4,22 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-05 09:50 — Fable session CLOSED (post-handoff addendum).** After the handoff was
+  pushed (`1d346c0`) the two in-flight suite runs finished. `netzspec_test3` (0011 applied there):
+  apply-extract 146 passed / 3 missed (the known coverage-floor cases), store PASS, remerge 73/73,
+  apply-enumeration 48/48, hygiene 100/100 — recorded in the handoff section 7. `test_watchdog.py`
+  on `_test4`: 177/239 passed then the process died at PZ4 (exit 127, no summary). Diagnosis: the
+  operator had already started the NEW Opus session from the prompt, and it ran the same suite on
+  the same `_test4` (09:27, 09:28, 09:40, 09:45) while this session re-ran it (09:30, 09:41); the
+  instances truncated each other's rows (`reset()` per section, no lock) and killed each other's
+  processes — every miss in the reruns (S2/S3/S6/S8/S9/F1/D2–D4/S10/D6, a duplicate key at
+  `seed()` line 452) is that collision, not the code. This session stopped PID 6940 at 09:38
+  believing it an orphan; it was the Opus session's run. LESSON (new, in
+  `two-sessions-one-repo-worktree` memory): two sessions collide through the shared TEST DATABASE
+  exactly as through the shared tree — one session runs DB suites at a time, check for a running
+  instance first, and a suite should hold `pg_try_advisory_lock`. STATE: nothing scrapes; test4
+  holds only per-section leftovers that `reset()` clears; this session touches nothing further —
+  the Opus session owns the repo, the databases and the backlog from here.
 - **2026-09-04 — improvement block (handoff, in progress).** DONE + deployed (`38105b3`):
   tools layer (126 finders, `/v1/tools`), vocabulary round 2, completeness counts vendor/series,
   normaliser locale + K-suffix fixes, planner ordered by product value, worker survives
