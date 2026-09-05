@@ -130,6 +130,16 @@ def extract(html: str, task: dict) -> dict:
     prints about the series is not a value it prints about the SKU.
     """
     url = resolve(task) or task.get("url") or task.get("key") or ""
+    # A LISTING is a discovery surface and has no subject. Returning not_listed=True for one - which
+    # is what "no models found on this page" would otherwise produce - tells the pipeline the SITE
+    # SAID IT DOES NOT HAVE THIS PART, which is a different and much louder claim: it writes a
+    # part_source_check, and the watchdog's not-listed-streak rule pauses a vendor lane at 15 of
+    # them. A lane doing discovery perfectly would have paused itself. Observed on the first live
+    # run, 5 Sep 2026: three index pages, three `not_listed` outcomes.
+    if (task.get("task") or "") == "listing":
+        return {"sku": None, "not_listed": False, "facts": [], "others": [], "aliases": [],
+                "images": [], "relations": [], "lifecycle": None, "price": None,
+                "name": _title(html), "scope": "listing"}
     try:
         res = extract_document(html, url)
     except ValueError as e:            # not English — a refusal, not a failure

@@ -126,15 +126,17 @@ BRAND = BrandPack(
             "so 60% is what one document per family can actually support rather than a wish."),
         CoverageTarget(
             "doc_fact_pct", 60.0,
-            "Share of hardware parts holding at least one fact READ FROM A VENDOR DOCUMENT "
-            "(method html_table or pdf_table). 0.0% on 5 Sep 2026 — zero of 836 — and this is the "
-            "metric that replaces Cisco's recall gap, which is meaningless here. Every HPE and "
-            "Aruba fact in the store today is either operator seed (tier 0) or mined from the "
-            "part's own name (product_name_mining); nothing has ever been read from an HPE "
-            "document. 60% rather than 100% because the 147 transceivers and the module SKUs "
-            "appear in ordering tables as a description rather than in a spec table, so they "
-            "reach this number only once the vocabulary maps an ordering-table description — "
-            "the 689 switches are reachable through the spec tables alone."),
+            "Share of hardware parts holding at least one fact READ FROM A VENDOR DOCUMENT — a "
+            "lane-acquired `vendor_page:hpe-quickspecs` fact or an offline html_table/pdf_table "
+            "one, never seed and never mining. This is the metric that replaces Cisco's recall "
+            "gap, which is meaningless here. It was 0.0% on the morning of 5 Sep 2026 — zero of "
+            "836 — because every HPE and Aruba fact in the store was operator seed (tier 0) or "
+            "mined from the part's own name; the first ten cached QuickSpecs took it to 2.5% "
+            "(21 parts, 116 tier-1 facts) the same afternoon. 60% rather than 100% because the "
+            "147 transceivers and the module SKUs appear in ordering tables as a description "
+            "rather than in a spec table, so they reach this number only once the vocabulary maps "
+            "an ordering-table description — the 689 switches are reachable through the spec "
+            "tables alone."),
         CoverageTarget(
             "seed_only_parts", 100.0,
             "Hardware parts whose every live fact is tier-0 operator seed: 308 on 5 Sep 2026 "

@@ -144,6 +144,22 @@ check("B3", "SABOTAGE a REAL QuickSpecs containing the words 'Access Denied' is 
       MOD.blocked_reason(BIG_PAGE_SAYING_ACCESS_DENIED) is None, f"len={len(BIG_PAGE_SAYING_ACCESS_DENIED)}")
 check("B4", "is_blocked() agrees with blocked_reason() rather than keeping its own opinion",
       MOD.is_blocked("") is True and MOD.is_blocked(BIG_PAGE_SAYING_ACCESS_DENIED) is False)
+# HPE's OTHER refusal, captured live on 5 Sep 2026 rather than invented. www.hpe.com refuses with
+# silence, but arubanetworking.hpe.com is Akamai and refuses with exactly Cisco's shape: 413 bytes
+# citing errors.edgesuite.net. Two hosts, two behaviours, and this is the one a fingerprint can
+# see — so it must be named, and B3 above proves the naming does not spread to real documents.
+ARUBA_403 = ("<HTML><HEAD>\n<TITLE>Access Denied</TITLE>\n</HEAD><BODY>\n<H1>Access Denied</H1>\n \n"
+             "You don't have permission to access "
+             "&quot;http&#58;&#47;&#47;arubanetworking&#46;hpe&#46;com&#47;support&#47;end&#45;of&#45;life&#47;&quot;"
+             " on this server.<P>\nReference&#32;&#35;18&#46;c4753617&#46;1788626057&#46;97b9a2e7\n"
+             "<P>https&#58;&#47;&#47;errors&#46;edgesuite&#46;net&#47;18&#46;c4753617&#46;1788626057&#46;97b9a2e7</P>\n"
+             "</BODY>\n</HTML>\n")
+check("B5", "the real arubanetworking.hpe.com Akamai refusal is blocked and NAMED — a second host "
+            "with a second refusal shape, captured live rather than invented",
+      MOD.blocked_reason(ARUBA_403) == "akamai_access_denied", MOD.blocked_reason(ARUBA_403))
+check("B6", "SABOTAGE the Akamai refusal is not read as a 404 — it is a refusal to answer, and "
+            "the queue must retry it rather than mark the part not-listed",
+      MOD.is_not_found(ARUBA_403) is False)
 
 NOT_FOUND_URL = "https://www.hpe.com/psnow/doc/a00094280enw"
 nf = CACHE / (hashlib.sha1(NOT_FOUND_URL.encode()).hexdigest() + ".html")

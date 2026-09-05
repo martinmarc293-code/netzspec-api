@@ -184,5 +184,27 @@ else:
           out.get("refused", "").startswith("non_english") or out.get("facts") == [],
           f"refused={out.get('refused')} facts={len(out.get('facts') or [])}")
 
+# ---------------------------------------------------------------------------------------------
+# 5. a LISTING has no subject, and must not claim the site said "we do not have this part"
+# ---------------------------------------------------------------------------------------------
+# Observed on the lane's first live run (5 Sep 2026): three Cisco index pages produced three
+# `not_listed` outcomes, because a listing has no models and "no models found" fell through to the
+# same answer as "the site says it does not stock this SKU". Those are different claims.
+# not_listed writes a part_source_check and feeds the watchdog's not-listed-streak rule, which
+# pauses a VENDOR lane at 15 in a row - so a lane doing discovery perfectly would pause itself.
+_listing = MOD.extract(LISTING, {"task": "listing",
+                                 "key": "https://www.cisco.com/c/en/us/products/switches/index.html"})
+check("L1", "a listing result is NOT not_listed: a discovery page has no subject to be missing",
+      _listing.get("not_listed") is False, str(_listing.get("not_listed")))
+check("L2", "...and carries no subject and no facts, so nothing can be attributed to it",
+      _listing.get("sku") is None and _listing.get("facts") == [] and _listing.get("others") == [],
+      str({k: _listing.get(k) for k in ("sku", "facts", "others")})[:140])
+check("L3", "...and is marked as a listing, so a reader can tell it from an empty datasheet",
+      _listing.get("scope") == "listing", str(_listing.get("scope")))
+_empty = MOD.extract("<html><body><p>nothing here</p></body></html>", {"task": "datasheet", "key": DS})
+check("L4", "SABOTAGE a DATASHEET with no tables still reports not_listed - the discovery "
+            "exemption must not swallow a genuinely empty product page",
+      _empty.get("not_listed") is True, str(_empty)[:140])
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

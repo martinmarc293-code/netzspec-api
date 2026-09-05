@@ -43,11 +43,44 @@ from brands import base as B                      # noqa: E402
 from brands.hpe.brand import BRAND, VENDOR_SLUGS  # noqa: E402
 from sources import hpe_quickspecs as LANE        # noqa: E402
 
-#: The fact methods that mean "this was read out of a document". `description_mining` and
-#: `product_name_mining` are deliberately NOT in the set: they derive a fact from the part's own
-#: name, which is evidence about our catalogue and not about HPE's publishing, and counting them
-#: here would let the brand reach its target without a single document being read.
-DOC_METHODS = ("html_table", "pdf_table")
+# ---------------------------------------------------------------------------------------------
+# What counts as "read out of a document", and the check that keeps the answer honest
+# ---------------------------------------------------------------------------------------------
+# THIS SET WAS WRONG FOR THREE HOURS ON 5 SEP 2026 AND THE MISTAKE IS THE REASON THE ALARM BELOW
+# EXISTS. It was written as ("html_table", "pdf_table") — read off the whole store's method
+# distribution, where those two are the biggest — and `vendor_page:meraki` in the same list was
+# taken for something Meraki-specific. It is not: `apply-acquired` writes `vendor_page:<source
+# slug>` for every fact a LANE acquires, so the first 116 facts this brand ever read out of an HPE
+# document landed as `vendor_page:hpe-quickspecs` and `doc_fact_pct` would have gone on reporting
+# 0.0% with the evidence sitting in the table. Caught by reading the rows after the write instead
+# of believing the metric — which is the rule this project already has (CLAUDE.md, "a resolution
+# class is believed only after its rows are read against the STORED pair").
+#
+# So the classification is now EXHAUSTIVE and says so out loud: every method on this brand's live
+# facts must fall into one of the two sets below, and a method in neither raises an alarm naming
+# it. A metric whose predicate silently stops matching is worse than no metric.
+DOC_METHODS = ("html_table", "pdf_table")           # exact: the offline extractor paths
+DOC_METHOD_PREFIXES = ("vendor_page:",)             # prefix: anything a lane acquired and applied
+#: Evidence that is NOT a document: what the operator told us (tier 0) and what we inferred from
+#: the part's own name or description. Counting these would let the brand reach its target
+#: without a single document being read. `retracted:` is a superseded fact's tombstone method.
+NON_DOC_METHODS = ("hexcat_seed", "product_name_mining", "description_mining")
+NON_DOC_METHOD_PREFIXES = ("retracted:",)
+
+
+def is_doc_method(method: str | None) -> bool:
+    m = method or ""
+    return m in DOC_METHODS or m.startswith(DOC_METHOD_PREFIXES)
+
+
+def classify_method(method: str | None) -> str:
+    """'document', 'other-evidence' or 'UNCLASSIFIED'. The third value is the point of the function."""
+    m = method or ""
+    if is_doc_method(m):
+        return "document"
+    if m in NON_DOC_METHODS or m.startswith(NON_DOC_METHOD_PREFIXES):
+        return "other-evidence"
+    return "UNCLASSIFIED"
 
 
 def load_env(path: Path | None = None) -> dict:
@@ -93,12 +126,25 @@ def evidence(conn, slugs: tuple) -> list:
           FROM hw LEFT JOIN LATERAL (
             SELECT max(f.tier)                                              AS max_tier,
                    count(*)                                                 AS all_facts,
-                   count(*) FILTER (WHERE f.method = ANY(%s))               AS doc_facts,
+                   count(*) FILTER (WHERE f.method = ANY(%s)
+                                       OR f.method LIKE ANY(%s))            AS doc_facts,
                    count(*) FILTER (WHERE f.tier = 1)                       AS tier1_facts,
                    count(*) FILTER (WHERE f.tier = 2)                       AS tier2_facts
               FROM facts f WHERE f.part_id = hw.id AND f.superseded_at IS NULL) t ON true
          GROUP BY 1 ORDER BY 1
-    """, (list(slugs), list(DOC_METHODS))).fetchall()
+    """, (list(slugs), list(DOC_METHODS), [p + "%" for p in DOC_METHOD_PREFIXES])).fetchall()
+
+
+def methods(conn, slugs: tuple) -> list:
+    """Every method on this brand's live facts, so `is_doc_method` can be checked against the rows
+    it actually sees rather than against the store-wide distribution it was written from."""
+    return conn.execute("""
+        SELECT f.method, f.tier, count(*) AS n, count(DISTINCT f.part_id) AS parts
+          FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id
+         WHERE v.slug = ANY(%s) AND f.superseded_at IS NULL
+           AND p.retired_at IS NULL AND p.product_class = 'hardware'
+         GROUP BY 1, 2 ORDER BY 3 DESC
+    """, (list(slugs),)).fetchall()
 
 
 def documents(conn, slugs: tuple) -> list:
@@ -233,6 +279,7 @@ def report(conn, brand, window_min: int, cache: Path, ledger: Path | None = None
     parts_scored = sum(v["completeness"]["parts"] or 0 for v in per_vendor.values())
 
     ev = [dict(r) for r in evidence(conn, VENDOR_SLUGS)]
+    meth = [{**dict(r), "class": classify_method(r["method"])} for r in methods(conn, VENDOR_SLUGS)]
     docs = [dict(r) for r in documents(conn, VENDOR_SLUGS)]
     led = fetched_urls(ledger or (ROOT / "scraper" / "ledger.jsonl"), brand.hosts)
     cache_rep = cache_state(docs, cache, led)
@@ -289,8 +336,16 @@ def report(conn, brand, window_min: int, cache: Path, ledger: Path | None = None
     if doc_derived == 0 and hw:
         alarms.append(
             f"NOTHING HAS BEEN READ FROM AN HPE DOCUMENT: 0 of {hw:,} hardware parts hold a fact "
-            f"with method {DOC_METHODS} — every fact in this brand is operator seed or mined from "
-            f"the part's own name, and covered_pct reads {round(100.0 * covered / hw, 1)}% anyway")
+            f"from a document — every fact in this brand is operator seed or mined from the part's "
+            f"own name, and covered_pct reads {round(100.0 * covered / hw, 1)}% anyway")
+    # The check that would have caught this watchdog's own three-hour mistake: a method the
+    # classification has never seen is neither counted nor ignored on purpose, it is unnoticed.
+    for m in meth:
+        if m["class"] == "UNCLASSIFIED":
+            alarms.append(
+                f"UNCLASSIFIED FACT METHOD '{m['method']}' on {m['parts']:,} parts ({m['n']:,} "
+                f"facts): doc_fact_pct neither counts nor excludes it, so the number is wrong in a "
+                f"direction nobody can see. Add it to DOC_METHODS or NON_DOC_METHODS in this file")
     for b in blocks:
         if (b["blocked"] or 0) > 0:
             share = 100.0 * b["blocked"] / max(1, (b["blocked"] or 0) + (b["done"] or 0))
@@ -317,7 +372,7 @@ def report(conn, brand, window_min: int, cache: Path, ledger: Path | None = None
             "covered_pct": round(100.0 * covered / hw, 1) if hw else 0.0,
             "per_vendor": {k: {"coverage": dict(v["coverage"]),
                                "completeness": dict(v["completeness"])} for k, v in per_vendor.items()},
-            "evidence": ev, "cache": cache_rep, "measured": measured,
+            "evidence": ev, "methods": meth, "cache": cache_rep, "measured": measured,
             "freshness": [{"key": f["class"].key, "label": f["class"].label,
                            "refresh_days": f["class"].refresh_days, "required": f["class"].required,
                            "held": f["held"], "stale": f["stale"],
@@ -342,7 +397,14 @@ def render(rep: dict) -> str:
           f"{bar(rep['covered_pct'])}",
           "  covered_pct is reported WITHOUT a target: the operator seed touched every part, so it",
           "  reads 100% while nothing has been read from an HPE document. It measures the seed.",
-          "", "## documents: held, and actually read", ""]
+          "", "## where every fact came from", "",
+          "  'document' is what an HPE QuickSpecs said. Everything else is what we were told or",
+          "  what we inferred from the part's own name — evidence about the catalogue, not HPE.",
+          "  UNCLASSIFIED is an alarm: a method doc_fact_pct neither counts nor excludes.", ""]
+    for m in rep["methods"]:
+        L.append(f"  {str(m['method'])[:34]:36} tier {m['tier']}  {m['n']:>6,} facts  "
+                 f"{m['parts']:>5,} parts   {m['class']}")
+    L += ["", "## documents: held, and actually read", ""]
     c = rep["cache"]
     L += [f"  {c['held_rows']:>5}  document rows reach a part of this brand",
           f"  {c['with_bytes']:>5}  have cached bytes behind them",

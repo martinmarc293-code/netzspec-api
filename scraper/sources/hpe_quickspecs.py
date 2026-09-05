@@ -52,15 +52,26 @@ curl reports exit 56 ("failure receiving network data") with a zero-byte body; C
 `net::ERR_HTTP2_PROTOCOL_ERROR` and Playwright raises out of `page.goto`. The same URL had
 answered 200 with 264 KB four minutes earlier, so it is a rate limit, not a ban.
 
-The consequence for this module is structural: **no HTML fingerprint can ever detect an HPE
-block, because a blocked HPE fetch produces no HTML.** `is_blocked()` below is still correct and
-still worth having — it catches the interstitials HPE serves through its CDN edge on the rare
-occasions it serves one — but the lane's real refusal arrives as an exception from the browser
-and is classified by `worker.classify_exception` as `failed` (its message contains no "timeout").
-That is the right DISPOSITION (retry with back-off, then blocked so a human looks) under the
-wrong LABEL, and nothing in the system currently says "HPE is refusing us". The brand watchdog
-reports it by counting protocol errors in `fetch_queue.last_error`, which is the only place the
-evidence survives.
+HPE runs TWO refusals on two hosts, and only one of them has a body (both measured 5 Sep 2026):
+
+    www.hpe.com               silence. curl: code 000, 0 bytes, exit 56 after a completed TLS
+                              handshake. Chrome: net::ERR_HTTP2_PROTOCOL_ERROR out of page.goto.
+                              Nothing to fingerprint, because nothing arrives.
+    arubanetworking.hpe.com   Akamai, exactly Cisco's shape: HTTP 403 with a 413-byte
+                              "Access Denied" page citing errors.edgesuite.net. That one IS
+                              fingerprintable and `challenge_fingerprint` names it
+                              `akamai_access_denied` — pinned in tests/scraper/test_hpe_lane.py
+                              with the real captured body, not an invented one.
+
+The consequence for this module is structural: **the refusal that matters most cannot be detected
+from HTML, because a blocked www.hpe.com fetch produces no HTML.** `is_blocked()` below is still
+correct and still worth having — it catches the Akamai wall on the Aruba host and any interstitial
+the CDN edge serves — but www.hpe.com's refusal arrives as an exception from the browser and is
+classified by `worker.classify_exception` as `failed` (its message contains no "timeout"). That is
+the right DISPOSITION (retry with back-off, then blocked so a human looks) under the wrong LABEL,
+and nothing in the system currently says "HPE is refusing us". The brand watchdog reports it by
+counting protocol errors in `fetch_queue.last_error`, which is the only place the evidence
+survives.
 
 THE SILENT FAILURE THIS MODULE EXISTS TO REFUSE (5 Sep 2026). psnow renders the document body
 client-side. When it does not finish, the capture is a ~264 KB page that is complete, valid,
