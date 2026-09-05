@@ -456,6 +456,28 @@ full; the ones that bite hardest here are restated.
   count-tolerance guard, decibel-family exemptions, the rack_units band) + the migrate-atlas
   suite's TRUNCATE list (omits image_candidates). Gate/apply-extract findings still wait for
   the PDF-glyph agent (round 3).
+- **2026-09-05 — the review's fix rounds (handoff, in progress).** The completed review
+  (`wf_d877ab3b-ceb`, 162 agents, ~15.5M subagent tokens): 52 raised, 33 confirmed. Box:
+  remerge pass with `--retract-inapplicable` retracted 320 conflicts + 308 live chassis facts
+  from transceivers; open conflicts 15,623. LANDED + committed: PDF overprint dedupe (gate
+  PASS, file `cisco-pdf-2026-09-04b.json`), renormalize recall gate + tier-0 protection,
+  vacuous tests repaired, apply-acquired as ONE transaction with the gate inside (a
+  gate-failed run leaves no row of any kind; "+" is not a spare suffix; dry gate failure
+  exits 2), migrate-atlas reload list, the hygiene round (0009 only — 0010's unique index
+  follows the merge). Deploy + box chain: hygiene case-duplicates/foreign-pids/hw-variants
+  `--commit`, fabricated-pids DRY (read the 13 before committing), PDF apply `--tag pdf`,
+  recompute. Reviewers' blocking problems from rounds 1–2 (ops yesterday-dir rule, sentinel
+  call-site proof, tautological image test, unbounded withheld retries, `--from-picks --db`
+  outside a run, the TS half of the U+FEFF fix unproven, apply-enumeration spawns python
+  without PYTHONIOENCODING, aliasRules red on 42U after the band widened, the ASR-9912 comment,
+  toleranceApplies unproven at the DB layer, shock comma-split on citations) + the remaining
+  confirmed findings (gate coverage floor counts PLANNED samples, standalone gate vs
+  expandFragments, absentDocs on zero-fact docs, produced_per_doc semantics, rollback state
+  recompute blind spot, API: tools-run empty-value param, has=/filter= without
+  factRunSucceeded, /health outside the hook, duplicate range params, retired rows served)
+  are ROUND 3 (`wf_36508d2b-fa3`, six groups). Uncommitted in the tree until round 3 verifies:
+  ops scripts, images.py, partnumber, merge-core (band [1,44]). OPERATIONAL NOTE: a committed
+  apply-acquired now holds one transaction for the whole run (~15 min for a 100k-fact shard).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
