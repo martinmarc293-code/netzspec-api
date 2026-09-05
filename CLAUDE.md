@@ -489,6 +489,13 @@ full; the ones that bite hardest here are restated.
   131 retired. The fabricated-pids DRY scan died on the box with `canceling statement due to
   statement timeout` (3,541 candidates; it ran through the tunnel earlier) — needs batching or
   a longer statement timeout before its 13 retirements are read and committed.
+  0010's first deploy was REFUSED by its own guard — 8 live case pairs remained after run #72
+  (`QSFP-4X10G-AOC1M` / `QSFP-4x10G-AOC1M`, both sides with facts, the upper one
+  operator-reviewed) that the first scan had not listed; `deploy.sh` did exactly what it
+  promises ("MIGRATION FAILED. Live app untouched."). The eight merged in a second
+  `case-duplicates --commit`, then redeployed. Remerge pass after the PDF apply = run #76
+  (open 15,932: 3,053 same-doc, 2,254 awaiting `renormalize`, 733 tier-0). Renormalize dry
+  run on the box queued (`--limit 5000`) — read its samples before any `--commit`.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
