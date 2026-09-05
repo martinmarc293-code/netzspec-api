@@ -1,0 +1,8 @@
+{
+  "brand": "ubiquiti",
+  "_about": "Ubiquiti's specifications live on techspecs.ui.com, one page per SKU. No document-type code and no 'datasheet' word appears in the URL, so the host plus path is the whole signal.",
+  "rules": [
+    { "pattern": "techspecs.ui.com/", "class": "vendor_datasheet_html",
+      "reason": "techspecs.ui.com is Ubiquiti's specification site: one page per SKU carrying the full table. The hostname is the evidence - there is no marker anywhere in the path." }
+  ]
+}

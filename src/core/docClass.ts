@@ -49,6 +49,14 @@ export type DocClass =
   // classifyDocument() could never return it and refineVendorDocClass() bailed on it. Same family
   // as a check that reads a column nobody selected.
   | "vendor_tool"
+  // THIRD-PARTY PUBLISHERS. Not the manufacturer: an aggregator republishing Cisco specifications
+  // (itprice, router-switch) and a distributor's own catalogue page (provantage). Both classes have
+  // existed in specMerge's tier table since it was written — aggregator_page 3, distributor_page 4
+  // — and 939 documents in the store carry them, but NEITHER WAS IN THIS UNION, so classifyDocument
+  // could not return them and every one of those documents read as `unclassified`. That was 88% of
+  // the whole classification gap: not a hard problem, a missing declaration.
+  | "aggregator_page"
+  | "distributor_page"
   | "unclassified";
 
 /** Classes whose documents can carry specifications. Coverage arithmetic depends on this set and
@@ -69,6 +77,14 @@ export const SPEC_BEARING: ReadonlySet<DocClass> = new Set<DocClass>([
   // unaffected either way: brands/base.py takes its spec-bearing list from the BRAND MANIFEST's
   // DocClass entries, and Cisco's manifest does not declare vendor_tool at all.
   "vendor_tool",
+  // aggregator_page and distributor_page are DELIBERATELY ABSENT, recorded here because their
+  // absence is a decision and not an oversight. An itprice page does display specifications, so
+  // "can carry specs" is arguably true of it. But this set answers the COVERAGE question — "has a
+  // datasheet ever been fetched for this part?" — and a part whose only document is a reseller's
+  // catalogue page has not had one fetched. Including them would close the crawl gap on paper for
+  // parts nobody has read a vendor document for, which is the same class of error as the doc_type
+  // stamp this file was written to fix. Their facts still merge, at tier 3 and 4; they just do not
+  // count as the vendor evidence a part is missing.
 ]);
 
 /** Cisco's own document-type codes, as they appear in collateral filenames (`..._c51-744492.html`).
@@ -201,11 +217,38 @@ export type DocVerdict = { cls: DocClass; via: string };
  * about. A `.pdf` datasheet is reported as `vendor_datasheet_pdf`: the format changes the tier
  * (a PDF datasheet is tier 1), which no other class distinction does.
  */
+/**
+ * WHO PUBLISHED IT, decided by host, and this is the ONE thing that is not readable from content.
+ *
+ * itprice.com republishes Cisco's specifications and titles the page "… Data Sheet". That is why
+ * `refineVendorDocClass` exists: a title rule applied without regard to origin reclassified about
+ * 4,000 aggregator_page rows as vendor_datasheet_html, moving them from tier 3 to tier 2 where they
+ * would tie with Cisco's own datasheets in every merge. Caught in a dry run on 5 Sep 2026.
+ *
+ * The host is therefore tested BEFORE every content rule below, not after. An itprice URL whose
+ * path happens to contain a `c##` sequence would otherwise be read as Cisco's own collateral — the
+ * same promotion, arriving through the URL instead of the title, and nothing was stopping it.
+ */
+const THIRD_PARTY_HOSTS: ReadonlyArray<readonly [string, DocClass]> = [
+  ["itprice.com", "aggregator_page"],
+  ["router-switch.com", "aggregator_page"],
+  ["provantage.com", "distributor_page"],
+];
+
 export function classifyDoc(url: string | null | undefined): DocVerdict {
   const raw = (url || "").trim();
   if (!raw) return { cls: "unclassified", via: "no url" };
   const u = raw.toLowerCase().replace(/_/g, "-");
   const isPdf = /\.pdf(?:[?#]|$)/.test(u);
+
+  // 0. Origin first. See THIRD_PARTY_HOSTS: this is an authority decision, and no content rule may
+  //    overturn it. Matched on the HOST, taken from the URL's authority section rather than by
+  //    substring, so a vendor page whose query string mentions a distributor is unaffected.
+  const host = (raw.toLowerCase().match(/^[a-z][a-z0-9+.-]*:\/\/([^/?#]+)/) || [])[1] || "";
+  const bare = host.replace(/^www\./, "").split(":")[0];
+  for (const [h, cls] of THIRD_PARTY_HOSTS) {
+    if (bare === h || bare.endsWith(`.${h}`)) return { cls, via: `host:${h}` };
+  }
 
   // 1. Cisco's own code is the strongest signal and is tested first. Anchored on a non-alphanumeric
   //    boundary so "c51" inside a product name cannot match (`\b` is the wrong tool for product
@@ -224,6 +267,29 @@ export function classifyDoc(url: string | null | undefined): DocVerdict {
     if (u.includes(pat)) {
       const final = cls === "vendor_datasheet_html" && isPdf ? "vendor_datasheet_pdf" : cls;
       return { cls: final, via: `keyword:${pat}` };
+    }
+  }
+
+  // 3b. PER-BRAND RULES, before the two-letter abbreviations below and after every explicit rule
+  //     above. A brand's own evidence about its own URL space is shipped as data in
+  //     data/schema/doc-class-rules/<brand>.json, so adding a brand is a new FILE and never an edit
+  //     to this one.
+  //
+  //     WHY HERE AND NOT LAST, which is where they started. A TERMINAL entry is a TWO-LETTER tail,
+  //     the weakest evidence in this file and the one most likely to collide with something that is
+  //     not a document-type marker at all. Measured 5 Sep 2026: Ubiquiti's SKU
+  //     `uacc-cm-rj45-mg` ends in `mg`, which Cisco uses for a migration guide, so a Ubiquiti
+  //     specification page was classified `vendor_guide` by `terminal:mg` while the Ubiquiti rule
+  //     that names the whole host sat behind it and never ran. A brand that has told us what its
+  //     own URLs mean must outrank a two-letter guess about somebody else's naming.
+  //
+  //     They still run AFTER the vendor type codes and the explicit whole-word keywords, so the
+  //     shared baseline's strong evidence is untouched: a brand rule cannot turn a `c51` EoL notice
+  //     or a `-data-sheet-` datasheet into anything else. That is pinned by B4.
+  for (const r of brandRules()) {
+    if (u.includes(r.pattern)) {
+      const final = r.cls === "vendor_datasheet_html" && isPdf ? "vendor_datasheet_pdf" : r.cls;
+      return { cls: final, via: `brand:${r.brand}:${r.pattern}` };
     }
   }
 
@@ -272,17 +338,6 @@ export function classifyDoc(url: string | null | undefined): DocVerdict {
   }
   if (/migration-options|migration-guide/.test(u)) {
     return { cls: "vendor_guide", via: "path:migration" };
-  }
-
-  // 4. PER-BRAND RULES, last. A brand's own evidence about its own URL space, shipped as data in
-  //    data/schema/doc-class-rules/<brand>.json so adding a brand is a new FILE and never an edit
-  //    to this one. Deliberately after everything above: brand rules extend the shared baseline and
-  //    can never overrule it, so nothing measured here can regress when a brand ships a rule.
-  for (const r of brandRules()) {
-    if (u.includes(r.pattern)) {
-      const final = r.cls === "vendor_datasheet_html" && isPdf ? "vendor_datasheet_pdf" : r.cls;
-      return { cls: final, via: `brand:${r.brand}:${r.pattern}` };
-    }
   }
 
   // 5. Nothing decided it. Say so: an unclassified document is a number somebody must look at,

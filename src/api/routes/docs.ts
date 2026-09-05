@@ -22,7 +22,22 @@ const DocFields = {
   doc_id: Type.String(),
   url: Type.String(),
   doc_type: Type.String({ description: "what the document IS, decided from the document itself" }),
-  doc_class: Nullable(Type.String()),
+  // `doc_class` IS NOT SERVED, and its absence is deliberate. It is a column from 0001_init.sql
+  // belonging to a SUPERSEDED classifier, whose vocabulary is not this one — the migration's own
+  // comment gives it as `hardware_datasheet | eol_bulletin | licence | ordering | thin | other`.
+  //
+  // It has exactly ONE writer left: apply-lifecycle.ts stamps `doc_class: "eol_bulletin"` on the
+  // source_doc it creates for a bulletin, and ensureSourceDoc's COALESCE only fills a null. That
+  // path has not produced a single populated row in production — 0 of 7,190 on 5 Sep 2026 — so
+  // this endpoint declared the field in its response schema and returned `null` for every document
+  // ever requested. (Checked rather than assumed: the first version of this comment said nothing
+  // writes it, which the apply-lifecycle suite disproves in one assertion.)
+  //
+  // A field that is always null is worse than a field that is absent: a caller writes code against
+  // it, gets null, and cannot tell "not classified yet" from "this API never fills this in". And a
+  // field carrying a DIFFERENT taxonomy under a name that looks like this one's is worse again.
+  // `doc_type` is the answer — it carries the classifier's verdict for all 7,190 documents. The
+  // column stays in the table; retiring it is a migration and a change to apply-lifecycle.
   title: Nullable(Type.String({ description: "the document's own title — the evidence for its class" })),
   spec_bearing: Type.Boolean({ description: "true when this class of document can carry specifications" }),
   fetched_at: Nullable(Type.String({ format: "date" })),

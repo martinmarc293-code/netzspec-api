@@ -1,0 +1,7 @@
+{
+  "brand": "supermicro",
+  "rules": [
+    { "pattern": "supermicro.com/en/support/resources/", "class": "vendor_page",
+      "reason": "a support RESOURCES index (eg /aoc/cables-transceivers) listing the compatible parts, not a per-SKU specification document." }
+  ]
+}

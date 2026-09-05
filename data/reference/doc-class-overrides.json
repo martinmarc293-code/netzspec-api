@@ -31,6 +31,16 @@
       "reason": "Juniper's TechLibrary hardware INDEX, not a document about any part. It is the only Juniper document in the store and all 168 Juniper hardware parts are linked to it, which is why classifying it matters out of proportion to its size: left unclassified it is an undeclared class in the brand pack, and counted as spec-bearing it would make 168 parts look like an extraction failure on a page that has never contained a specification. vendor_page is deliberately NOT spec-bearing. No rule can reach it: the URL carries no document-type marker and the page now answers HTTP 403 with Juniper's 404 body (title '404 | Juniper Networks US', 1,015 KB), so there is no title to classify by either - the URL is dead as of 5 Sep 2026 while juniper.net migrates to hpe.com. Read by hand by the Juniper session, 5 Sep 2026.",
       "decided_by": "operator",
       "decided_at": "2026-09-05"
+    },
+    {
+      "url": "https://www.cisco.com/c/dam/en/us/products/collateral/hyperconverged-infrastructure/compute-hyperconverged-nutanix/hcix210c-m7-all-nvme-node.pdf",
+      "class": "vendor_datasheet_pdf",
+      "reason": "A per-node spec sheet whose URL and title both carry no document-type word: the title is 'Cisco Compute Hyperconverged and Compute-Only with Nutanix-210c M7 All-NVMe Node'. Cisco's HyperFlex/Nutanix node collateral is named after the node and nothing else. Decided by hand rather than by widening the datasheet keyword to '-node', which would also swallow deployment guides in the same tree."
+    },
+    {
+      "url": "https://www.cisco.com/c/dam/en/us/products/collateral/hyperconverged-infrastructure/hyperflex-hx-series/hyperflex-express-hx225c-m6-all-flash-and-hybrid-server-nodes.pdf",
+      "class": "vendor_datasheet_pdf",
+      "reason": "Same shape: title 'Cisco HyperFlex Express HX225C M6 All Flash and Hybrid Server Nodes', no type marker in URL or title. It is the spec sheet for those nodes. Decided by hand for the same reason as the 210c above."
     }
   ]
 }

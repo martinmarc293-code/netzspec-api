@@ -1,0 +1,8 @@
+{
+  "brand": "extreme",
+  "_about": "Extreme Networks documentation pages.",
+  "rules": [
+    { "pattern": "extremenetworks.com/support/documentation/", "class": "vendor_page",
+      "reason": "a documentation INDEX, not a document: it lists the optics collateral rather than carrying a specification table itself" }
+  ]
+}

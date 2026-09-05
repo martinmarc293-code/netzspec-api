@@ -1,0 +1,7 @@
+{
+  "brand": "nvidia",
+  "rules": [
+    { "pattern": "docs.nvidia.com/networking/category/", "class": "vendor_page",
+      "reason": "a CATEGORY index in NVIDIA's networking docs (eg /category/linkx) - it lists the documents rather than carrying a specification table, so it is a discovery surface and not a fact source." }
+  ]
+}

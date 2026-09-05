@@ -1,0 +1,7 @@
+{
+  "brand": "lenovo",
+  "rules": [
+    { "pattern": "lenovopress.lenovo.com/lp", "class": "vendor_datasheet_html",
+      "reason": "Lenovo Press 'lp####' product guides are Lenovo's per-product specification documents - the equivalent of a datasheet for ThinkSystem options and adapters." }
+  ]
+}

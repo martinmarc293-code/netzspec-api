@@ -1,0 +1,36 @@
+{
+  "brand": "hpe",
+  "_about": "PLACEHOLDER, owned by the HPE session. HPE publishes QuickSpecs on www.hpe.com/psnow, support documents on support.hpe.com/hpsc, and Aruba technical docs on arubanetworking.hpe.com/techdocs. Not one HPE document classified before this file existed (0 of 64 on 5 Sep 2026). The HPE session should replace these reasons with its own evidence - it has read these pages and this session has not.",
+  "rules": [
+    {
+      "pattern": "hpe.com/psnow/doc/",
+      "class": "vendor_datasheet_html",
+      "reason": "psnow is HPE's QuickSpecs delivery path: /psnow/doc/<id> is one product's QuickSpecs, which is HPE's datasheet equivalent and carries the configuration and specification tables. The id is opaque, so the PATH is the whole signal."
+    },
+    {
+      "pattern": "support.hpe.com/hpsc/doc/",
+      "class": "vendor_guide",
+      "reason": "hpsc is the support-document library rather than product collateral; these are technical and support notes, not the specification sheet. Classified as a guide so they are not counted as datasheet coverage for a part."
+    },
+    {
+      "pattern": "arubanetworking.hpe.com/techdocs/",
+      "class": "vendor_datasheet_pdf",
+      "reason": "Aruba's technical-documentation tree; the transceiver PDFs under /techdocs/Switches/xcvrs/PDF/ are the compatibility and specification sheets for those optics."
+    },
+    {
+      "pattern": "support.hpe.com/hpesc/public/docdisplay",
+      "class": "vendor_guide",
+      "reason": "The SECOND spelling of HPE's support library - hpesc/public/docDisplay alongside hpsc/doc/public/display. Both serve the same emr_na-c######## documents; a rule that knew only one missed 8 of the 10 documents left unclassified on 5 Sep 2026. Same class as the other spelling: a support note, not the specification sheet."
+    },
+    {
+      "pattern": "hpe.com/h20195/v2/getdocument.aspx",
+      "class": "vendor_datasheet_html",
+      "reason": "HPE's document-library delivery endpoint. The docname (eg 4AA3-0666ENW) is HPE's own collateral identifier and these are the QuickSpecs/datasheet PDFs served through the library rather than through psnow."
+    },
+    {
+      "pattern": "quickspecs",
+      "class": "vendor_datasheet_html",
+      "reason": "QuickSpecs is HPE's own name for its product specification document - the datasheet equivalent. It appears in the FILENAME of the older ProCurve collateral (HP_Procurve_5400zl_Series_Switch_QuickSpecs.pdf) where no path marker exists. The term is HPE's trademark and does not occur in another vendor's collateral."
+    }
+  ]
+}

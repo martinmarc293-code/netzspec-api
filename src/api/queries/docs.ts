@@ -14,7 +14,7 @@ import { SPEC_BEARING, type DocClass } from "../../core/docClass.js";
 import { query } from "../../store/db.js";
 
 export type DocRecord = {
-  doc_id: string; url: string; doc_type: string; doc_class: string | null; title: string | null;
+  doc_id: string; url: string; doc_type: string; title: string | null;
   spec_bearing: boolean; fetched_at: string | null; parts_count: number; parts: string[];
 };
 
@@ -24,7 +24,7 @@ const specBearing = (docType: string): boolean => SPEC_BEARING.has(docType as Do
 
 export async function getDoc(docId: string): Promise<DocRecord | null> {
   const { rows } = await query<Omit<DocRecord, "parts" | "spec_bearing">>(`
-    SELECT sd.doc_id, sd.url, sd.doc_type, sd.doc_class, sd.title, sd.fetched_at::text AS fetched_at,
+    SELECT sd.doc_id, sd.url, sd.doc_type, sd.title, sd.fetched_at::text AS fetched_at,
            (SELECT count(*)::int FROM doc_parts dp WHERE dp.doc_id = sd.doc_id) AS parts_count
       FROM source_docs sd WHERE sd.doc_id = $1`, [docId]);
   if (rows.length === 0) return null;
@@ -48,7 +48,7 @@ export type DocListArgs = {
  */
 export async function listDocs(a: DocListArgs): Promise<{ items: DocListItem[]; next_cursor: string | null }> {
   const rows = await query<DocListItem>(`
-    SELECT sd.doc_id, sd.url, sd.doc_type, sd.doc_class, sd.title, sd.fetched_at::text AS fetched_at,
+    SELECT sd.doc_id, sd.url, sd.doc_type, sd.title, sd.fetched_at::text AS fetched_at,
            (SELECT count(*)::int FROM doc_parts dp WHERE dp.doc_id = sd.doc_id) AS parts_count
       FROM source_docs sd
       LEFT JOIN vendors v ON v.id = sd.vendor_id

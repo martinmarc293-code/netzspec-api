@@ -1,0 +1,10 @@
+{
+  "brand": "mikrotik",
+  "_about": "MikroTik publishes no separate collateral: the product page IS the datasheet. mikrotik.com/product/<model> carries the full specification table, and /products/group/<family> is the family index above it.",
+  "rules": [
+    { "pattern": "mikrotik.com/product/", "class": "vendor_datasheet_html",
+      "reason": "MikroTik has no PDF datasheet and no document-type code; the product page itself carries the specification table, so the page IS the datasheet for this vendor." },
+    { "pattern": "mikrotik.com/products/group/", "class": "vendor_page",
+      "reason": "the family index above the product pages - a discovery surface, not a fact source" }
+  ]
+}
