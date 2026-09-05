@@ -114,7 +114,12 @@ def render(rep: dict) -> str:
     hw = cov["hardware"] or 1
     L += [f"  {cov['hardware']:>7,}  hardware parts",
           f"  {cov['covered']:>7,}  covered ({cov['covered_pct']}%)  {bar(cov['covered_pct'])}",
-          "",
+          f"  {cov.get('read_from_document', 0):>7,}  READ FROM A DOCUMENT ({cov.get('read_pct', 0)}%)  "
+          f"{bar(cov.get('read_pct', 0))}",
+          f"  {cov.get('seed_only', 0):>7,}     covered only by operator seed data - a value somebody "
+          f"typed, not one we read",
+          "",]
+    L += [
           f"  {cov['doc_no_facts']:>7,}  RECALL GAP  - a document is held and produced no facts",
           f"  {cov['neither']:>7,}  CRAWL GAP   - no spec-bearing document at all",
           f"  {cov.get('only_nonspec_doc', 0):>7,}     ...of which hold ONLY a non-spec document "

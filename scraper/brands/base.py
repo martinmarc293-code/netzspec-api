@@ -104,8 +104,26 @@ def coverage(conn, brand: BrandPack) -> dict:
                    FROM doc_parts dp JOIN source_docs sd ON sd.doc_id = dp.doc_id
                   WHERE sd.doc_type = ANY(%s)),
         anydoc AS (SELECT DISTINCT part_id FROM doc_parts),
-        f AS (SELECT part_id FROM facts WHERE superseded_at IS NULL GROUP BY 1)
+        f AS (SELECT part_id FROM facts WHERE superseded_at IS NULL GROUP BY 1),
+        -- Facts actually READ FROM A DOCUMENT, keyed on METHOD rather than on doc_id.
+        --
+        -- A doc_id is a pointer and a pointer can be wrong: operator seed rows carry one (14,406
+        -- of Cisco's, locator `hexcat:attributes`) attributing a hand-entered value to the
+        -- datasheet it came from. That is honest attribution, not extraction, and on Juniper the
+        -- same pattern pointed 1,144 seed facts at a documentation LANDING PAGE nobody had
+        -- extracted anything from - making a brand from which nothing has ever been read report
+        -- FULL coverage. Found by the Juniper session, 5 Sep 2026. The method is what says how a
+        -- value got here, so the method is what this keys on. `retracted:` methods are values the
+        -- system withdrew from itself and must not count as coverage either.
+        -- (No bare per-cent sign anywhere in this string: psycopg scans the WHOLE query for
+        -- placeholders, SQL comments included, and a stray one is a runtime error.)
+        readf AS (SELECT part_id FROM facts
+                   WHERE superseded_at IS NULL AND method IS NOT NULL
+                     AND method <> 'hexcat_seed' AND method NOT LIKE 'retracted:%%'
+                   GROUP BY 1)
         SELECT count(*)                                                                   AS hardware,
+               count(*) FILTER (WHERE readf.part_id IS NOT NULL)                          AS read_from_document,
+               count(*) FILTER (WHERE f.part_id IS NOT NULL AND readf.part_id IS NULL)     AS seed_only,
                count(*) FILTER (WHERE spec.part_id IS NOT NULL AND f.part_id IS NOT NULL) AS doc_and_facts,
                count(*) FILTER (WHERE spec.part_id IS NOT NULL AND f.part_id IS NULL)     AS doc_no_facts,
                count(*) FILTER (WHERE spec.part_id IS NULL     AND f.part_id IS NOT NULL) AS facts_no_doc,
@@ -115,6 +133,7 @@ def coverage(conn, brand: BrandPack) -> dict:
           FROM hw LEFT JOIN spec ON spec.part_id = hw.id
                   LEFT JOIN anydoc ON anydoc.part_id = hw.id
                   LEFT JOIN f ON f.part_id = hw.id
+                  LEFT JOIN readf ON readf.part_id = hw.id
     """, (brand.vendor_slug, spec_classes)).fetchone()
     hw = row["hardware"] or 0
     covered = row["doc_and_facts"] + row["facts_no_doc"]
@@ -128,7 +147,15 @@ def coverage(conn, brand: BrandPack) -> dict:
             # crawl gap: nobody has ever fetched a datasheet for them.
             "recall_gap": row["doc_no_facts"],
             "crawl_gap": row["neither"],
-            "only_nonspec_doc": row["only_nonspec_doc"]}
+            "only_nonspec_doc": row["only_nonspec_doc"],
+            # The honest coverage number: parts carrying at least one fact READ from a document.
+            # `covered_pct` counts any fact and therefore counts operator seed data as coverage,
+            # which is the right answer to "does the API have anything to serve" and the wrong one
+            # to "have we read this brand's documentation". Both are reported; a pack whose two
+            # numbers diverge is a pack living on its seed.
+            "read_from_document": row["read_from_document"],
+            "seed_only": row["seed_only"],
+            "read_pct": round(100.0 * row["read_from_document"] / hw, 1) if hw else 0.0}
 
 
 def completeness(conn, brand: BrandPack) -> dict:
@@ -207,8 +234,14 @@ def blocked_sources(conn, brand: BrandPack, window_min: int = 1440) -> list:
     Cisco vendor lane answered normally. A brand report that mixed them would have shown "the
     scrapers are blocked" and hidden the fact that the authoritative half of the system was fine.
     """
+    # `s.host` is selected so a pack can check the row against the host its adapter actually
+    # fetches. Added 5 Sep 2026 at the Juniper session's request: it had written a HOST MISMATCH
+    # check that read `host` off this result, got None for every lane, and so could never fire —
+    # on a row that was genuinely wrong (the juniper source pointed at www.juniper.net while its
+    # adapter targets apps.juniper.net). A check that reads a column nobody selected is a check
+    # that has never failed, which is this project's definition of not having one.
     return conn.execute("""
-        SELECT s.slug, s.enabled, COALESCE(s.proxy, 'direct') AS proxy,
+        SELECT s.slug, s.enabled, s.host, COALESCE(s.proxy, 'direct') AS proxy,
                count(*) FILTER (WHERE q.status = 'failed')  AS failed,
                count(*) FILTER (WHERE q.last_error ILIKE '%%blocked%%') AS blocked,
                count(*) FILTER (WHERE q.status = 'done')    AS done,
@@ -216,7 +249,7 @@ def blocked_sources(conn, brand: BrandPack, window_min: int = 1440) -> list:
           FROM sources s LEFT JOIN fetch_queue q ON q.source_id = s.id
                      AND q.updated_at > now() - make_interval(mins => %s)
          WHERE s.slug = ANY(%s)
-         GROUP BY 1, 2, 3 ORDER BY 1
+         GROUP BY 1, 2, 3, 4 ORDER BY 1
     """, (window_min, list(brand.sources))).fetchall()
 
 

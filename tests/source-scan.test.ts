@@ -22,7 +22,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const SCAN_DIRS = ["src", "db", "scripts", "tests", path.join("data", "schema")];
+// `scraper` was missing until 5 Sep 2026 — pointed out by the Juniper session, which had just
+// been bitten by the heredoc trap again in a Python probe. That directory is where ALL the Python
+// lives (the lane adapters and the extractors of every brand), and the trap this suite exists for
+// bites Python hardest: a shell heredoc eats the backslashes on the way in, so the pattern that
+// reaches the file is not the one that was written. Scanning src/ and not scraper/ meant the check
+// covered the language least affected and skipped the one most affected.
+const SCAN_DIRS = ["src", "db", "scripts", "tests", "scraper", path.join("data", "schema")];
 const SKIP_DIRS = new Set(["node_modules", ".git", "dist", "__pycache__", ".venv"]);
 const TEXT_EXT = new Set([
   ".ts", ".mts", ".cts", ".js", ".mjs", ".cjs", ".json", ".sql", ".md", ".sh", ".py", ".txt",
