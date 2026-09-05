@@ -27,6 +27,15 @@
 //                  retractFact. The old row, its value and every fact_evidence row attached to it
 //                  stay in history. Nothing is deleted, and each refusal is appended to
 //                  runs/reports/renormalize-<date>.jsonl so the list survives the terminal.
+//   protected      the row is TIER 0 — an operator reviewed it (hexcat_seed and the operator's own
+//                  corrections) — and the replay wanted to change or refuse it. A normaliser is
+//                  evidence about a string; an operator is evidence about the part, and the whole
+//                  tier ladder says which of those wins. So the row is left EXACTLY as it is,
+//                  counted apart, and every one is listed with the value the replay would have
+//                  written, because that list is the operator's own review queue. Nothing here is
+//                  a silent skip: the count, the reasons and the samples are all in the report and
+//                  in the run's stats. (A tier-0 row the replay agrees with is still re-stamped —
+//                  norm_v is bookkeeping, not a value; see restampNormV.)
 //   unrecoverable  `raw` is empty, so there is nothing to replay. COUNTED, never touched. 7,570
 //                  current rows are in this state today and every one is a gap row a retraction
 //                  wrote (`retracted:*` methods, value NULL, raw ''): they were never normalised,
@@ -95,6 +104,13 @@ export function parseArgs(argv: string[]): RenormArgs {
   if (!Number.isFinite(a.batch) || a.batch < 1) throw new Error("--batch must be a positive number");
   // An empty --allow is the dangerous one: it satisfies a truthiness test and records no reason.
   if (a.allow !== null && a.allow.trim() === "") throw new Error('--allow needs a reason in quotes, e.g. --allow "1.5.1 list split, replay read and approved"');
+  // RAISING the ceiling is the same act as lifting it. `--max-change-share 1` disables the guard
+  // completely and, unlike `--allow`, left no reason anywhere — the run row recorded a number, not
+  // a person's argument. Above half the selection the two are indistinguishable in effect, so they
+  // are indistinguishable in what they demand.
+  if (a.maxChangeShare > 0.5 && !a.allow) {
+    throw new Error(`--max-change-share ${a.maxChangeShare} is above 0.5, which disables the guard rather than tuning it; it needs --allow "reason" as well so the run row records why`);
+  }
   return a;
 }
 
@@ -365,7 +381,10 @@ export type FactToCheck = {
   inherited: boolean; inherited_from: string | null;
 };
 
-export type Outcome = "same" | "changed" | "refused" | "unrecoverable";
+export type Outcome = "same" | "changed" | "refused" | "unrecoverable" | "protected";
+
+/** An operator reviewed this fact. Tier 0 is the top of the ladder in `0001_init.sql`. */
+export const OPERATOR_TIER = 0;
 
 export type Verdict = {
   outcome: Outcome;
@@ -375,6 +394,39 @@ export type Verdict = {
   magnitude: number;
   selectedBy: "version" | "type" | "both";
 };
+
+/**
+ * A TIER-0 FACT IS NOT A NORMALISER'S TO REWRITE.
+ *
+ * Tier 0 means an operator read the part and said what the value is (`0001_init.sql`: "0
+ * operator-reviewed"); `hexcat_seed` is 21,724 such rows and the merge layer already leaves 733 of
+ * them holding conflicts open rather than resolving against them. Renormalize replays a STRING
+ * through a parser, which is the weakest kind of evidence there is, and without this it would
+ * outrank the strongest: a rule change that reads "6 zl2-Modul-Steckplätze" differently would
+ * supersede the operator's value, and a band tightened by one unit would RETRACT it into
+ * `gap_unattempted` — silently, in the same command that legitimately rewrites 100k machine-read
+ * facts, where 465 operator rows are a rounding error in the change share.
+ *
+ * So the verdict is downgraded to `protected` and the row is left alone. The would-be outcome and
+ * reason are kept in `reason`, and `newValue` survives, because the point is not to hide the
+ * disagreement — it is to put it in front of the person who owns the value instead of acting on it.
+ * A `same` or an `unrecoverable` passes through untouched: neither writes a value.
+ *
+ * READ OVER THE REAL CORPUS (dry, first 20,000 rows, 4 Sep 2026): 14 protected, and every one is a
+ * German seed row the current normaliser reads differently — `−8,5 dBm` stored as +8.5 and the
+ * replay restoring the minus, `2,475 W (typisch)` stored as 2475 W, `8,928 Mpps` stored as 8928,
+ * `12,9 W typisch / 16 W max` stored as the typical figure where the replay takes the maximum.
+ * Several of those look like the replay being RIGHT, and that is the honest shape of this rule: the
+ * command no longer fixes them, it hands them to the person who typed them
+ * (`runs/reports/renormalize-tier0-<date>.jsonl`). The alternative is a parser overruling an
+ * operator on 21,724 rows inside a run whose change share never notices — which is exactly what
+ * would have happened on the first `--commit`.
+ */
+export function protectTier0(row: { tier: number }, v: Verdict): Verdict {
+  if (row.tier !== OPERATOR_TIER) return v;
+  if (v.outcome !== "changed" && v.outcome !== "refused") return v;
+  return { ...v, outcome: "protected", reason: `TIER0_WOULD_${v.outcome.toUpperCase()}${v.reason ? `:${v.reason}` : ""}` };
+}
 
 /**
  * The decision for one stored fact. PURE — it takes the row and returns what should happen to it,
@@ -406,17 +458,17 @@ export function decide(row: FactToCheck, opts: { versionThreshold: string }): Ve
   const lost = replayContextLost(row, n);
   if (lost) return { outcome: "unrecoverable", reason: lost, magnitude: 1, selectedBy };
 
-  if (!n.ok) return { outcome: "refused", reason: n.reason, magnitude: Number.POSITIVE_INFINITY, selectedBy };
+  if (!n.ok) return protectTier0(row, { outcome: "refused", reason: n.reason, magnitude: Number.POSITIVE_INFINITY, selectedBy });
   if (def && !valueMatchesDictType(n.value, def.type, def.shape)) {
-    return { outcome: "refused", reason: "SHAPE_STILL_WRONG", magnitude: Number.POSITIVE_INFINITY, selectedBy };
+    return protectTier0(row, { outcome: "refused", reason: "SHAPE_STILL_WRONG", magnitude: Number.POSITIVE_INFINITY, selectedBy });
   }
   const unitSame = (n.unit ?? null) === (row.unit ?? null);
   if (sameValue(row.value, n.value) && unitSame) return { outcome: "same", magnitude: 1, selectedBy };
-  return {
+  return protectTier0(row, {
     outcome: "changed", newValue: n.value, newUnit: n.unit,
     magnitude: unitSame ? changeMagnitude(row.value, n.value) : Math.max(changeMagnitude(row.value, n.value), 1e6),
     selectedBy,
-  };
+  });
 }
 
 // ---- the effects -------------------------------------------------------------------------------
@@ -517,7 +569,7 @@ export async function selectPage(
 }
 
 // ---- counting ------------------------------------------------------------------------------------
-export type FieldCounts = { same: number; changed: number; refused: number; unrecoverable: number };
+export type FieldCounts = { same: number; changed: number; refused: number; unrecoverable: number; protected: number };
 export type Sample = { id: number; sku: string; field: string; magnitude: number; raw: string; from: unknown; to: unknown; reason?: string };
 
 export type RenormReport = {
@@ -532,9 +584,28 @@ export type RenormReport = {
   /** numbers whose SIGN was restored — reported loudly, but not a refusal (see isSignFlip) */
   signFlips: Sample[];
   signFlipCount: number;
+  /** every tier-0 row the replay wanted to change or refuse, listed for the operator (protectTier0) */
+  protectedFacts: Sample[];
+  protectedReasons: Record<string, number>;
+  /**
+   * Rows that reached the effect stage still carrying a tier-0 write. Empty unless protectTier0
+   * stopped protecting: the write is refused a second time here and the gate fails on it, so the
+   * loss of the protection can never be silent. This is the sabotage twin's landing site.
+   */
+  tier0Violations: Sample[];
 };
 
-export function emptyCounts(): FieldCounts { return { same: 0, changed: 0, refused: 0, unrecoverable: 0 }; }
+export function emptyCounts(): FieldCounts { return { same: 0, changed: 0, refused: 0, unrecoverable: 0, protected: 0 }; }
+
+/**
+ * How many rows actually reached a named outcome, counted from the OUTCOME COUNTERS rather than
+ * from the loop that walked them. That distinction is the whole recall gate: the caller used to
+ * hand the gate `selected` twice, so `classified / selected` was 1 by construction and a row that
+ * fell through every branch would have passed a check written to catch exactly that.
+ */
+export function classifiedCount(c: FieldCounts): number {
+  return c.same + c.changed + c.refused + c.unrecoverable + c.protected;
+}
 
 /** Keeps the worst `n` samples per outcome by magnitude, without holding the whole corpus. */
 export class TopSamples {
@@ -549,7 +620,10 @@ export class TopSamples {
   }
   get(o: Outcome): Sample[] { return this.by.get(o) ?? []; }
   all(): Record<Outcome, Sample[]> {
-    return { same: this.get("same"), changed: this.get("changed"), refused: this.get("refused"), unrecoverable: this.get("unrecoverable") };
+    return {
+      same: this.get("same"), changed: this.get("changed"), refused: this.get("refused"),
+      unrecoverable: this.get("unrecoverable"), protected: this.get("protected"),
+    };
   }
 }
 
@@ -559,6 +633,7 @@ export type RenormGate = {
   selected: number; classified: number; sampled: number;
   change_share: number; max_change_share: number;
   magnitude_alarms: number; allow: string | null;
+  tier0_protected: number; tier0_violations: number;
   misses: string[]; verdict: string;
 };
 
@@ -567,7 +642,11 @@ export type RenormGate = {
  * in tests/db/renormalize.test.ts.
  *
  *   recall     every selected row reached a named outcome. A row that fell through would be a
- *              silent skip, and a silent skip is how a fact gets lost (CLAUDE.md).
+ *              silent skip, and a silent skip is how a fact gets lost (CLAUDE.md). `classified` is
+ *              COUNTED FROM THE OUTCOME TALLY, never taken from the caller: the one caller used to
+ *              pass `selected` as both numbers, so the ratio was 1 whatever the pass had done and
+ *              this check had never been able to fail. Two counters that are incremented in
+ *              different places is the only version of it that is worth anything.
  *   precision  a sample of the decisions is re-derived from the ROW and must reach the same
  *              outcome and the same value. A `same` whose values actually differ, or a `changed`
  *              whose new value equals the old, is a bookkeeping error being laundered into a write.
@@ -577,11 +656,14 @@ export type RenormGate = {
  *   MAGNITUDE_1000X         some value moves by a factor of 1000 or more
  */
 export function gateRenormalize(
-  opts: { selected: number; classified: number; report: RenormReport; recheck: { row: FactToCheck; planned: Verdict; again: Verdict }[]; maxShare: number; allow: string | null; versionThreshold: string },
+  opts: { selected: number; report: RenormReport; recheck: { row: FactToCheck; planned: Verdict; again: Verdict }[]; maxShare: number; allow: string | null; versionThreshold: string },
 ): RenormGate {
   const misses: string[] = [];
-  const recall = opts.selected === 0 ? 1 : opts.classified / opts.selected;
-  if (recall !== 1) misses.push(`RECALL ${opts.classified} of ${opts.selected} selected rows reached an outcome`);
+  const classified = classifiedCount(opts.report.byOutcome);
+  const recall = opts.selected === 0 ? (classified === 0 ? 1 : 0) : classified / opts.selected;
+  if (classified !== opts.selected) {
+    misses.push(`RECALL ${classified} of ${opts.selected} selected rows reached an outcome (same ${opts.report.byOutcome.same}, changed ${opts.report.byOutcome.changed}, refused ${opts.report.byOutcome.refused}, unrecoverable ${opts.report.byOutcome.unrecoverable}, protected ${opts.report.byOutcome.protected})`);
+  }
 
   let ok = 0;
   for (const { row, planned, again } of opts.recheck) {
@@ -605,6 +687,9 @@ export function gateRenormalize(
   }
   const precision = opts.recheck.length === 0 ? 1 : ok / opts.recheck.length;
 
+  // `protected` is deliberately outside the denominator: those rows are not rewritten by this
+  // command at all, so counting them would dilute the share that measures how much of the corpus a
+  // commit would move. They have their own count, their own list and their own gate line.
   const considered = opts.report.byOutcome.same + opts.report.byOutcome.changed + opts.report.byOutcome.refused;
   const share = considered === 0 ? 0 : opts.report.byOutcome.changed / considered;
   if (share > opts.maxShare && !opts.allow) {
@@ -614,12 +699,19 @@ export function gateRenormalize(
   if (alarms > 0 && !opts.allow) {
     misses.push(`MAGNITUDE_1000X ${alarms} value(s) move by a factor of ${MAGNITUDE_ALARM} or more — the shape of a unit or locale bug. Read them, then re-run with --allow "reason"`);
   }
+  // NOT liftable by --allow: an operator's own value is not a share to be tuned. Non-empty means
+  // protectTier0 has stopped protecting, which is a code fault, not a judgement call.
+  const violations = opts.report.tier0Violations.length;
+  if (violations > 0) {
+    misses.push(`TIER0_WRITE_ATTEMPTED ${violations} operator-reviewed fact(s) reached the write path (first: ${opts.report.tier0Violations[0].sku} ${opts.report.tier0Violations[0].field} #${opts.report.tier0Violations[0].id}) — tier 0 is never superseded or retracted by a normaliser replay`);
+  }
 
   const passed = recall === 1 && precision === 1 && misses.length === 0;
   return {
     precision, recall, passed,
-    selected: opts.selected, classified: opts.classified, sampled: opts.recheck.length,
+    selected: opts.selected, classified, sampled: opts.recheck.length,
     change_share: share, max_change_share: opts.maxShare, magnitude_alarms: alarms, allow: opts.allow,
+    tier0_protected: opts.report.byOutcome.protected, tier0_violations: violations,
     misses: misses.slice(0, 40),
     verdict: passed ? "PASS" : `FAIL: ${misses.length} miss(es), recall ${recall.toFixed(4)}, precision ${precision.toFixed(4)}`,
   };
@@ -647,14 +739,16 @@ export async function runPass(
 
   const report: RenormReport = {
     selected: 0, byOutcome: emptyCounts(), byField: {}, refusalReasons: {}, unrecoverableReasons: {},
-    selectedBy: {}, samples: { same: [], changed: [], refused: [], unrecoverable: [] }, magnitudeAlarms: [],
-    signFlips: [], signFlipCount: 0,
+    selectedBy: {}, samples: { same: [], changed: [], refused: [], unrecoverable: [], protected: [] },
+    magnitudeAlarms: [], signFlips: [], signFlipCount: 0,
+    protectedFacts: [], protectedReasons: {}, tier0Violations: [],
   };
   const tops = new TopSamples(opts.examples);
   const perFieldTops = new Map<string, TopSamples>();
   const effects: Record<string, number> = { restamped: 0, superseded: 0, retracted: 0 };
   const recheck: { row: FactToCheck; planned: Verdict; again: Verdict }[] = [];
   const refusalLines: string[] = [];
+  const protectedLines: string[] = [];
 
   let afterId = 0;
   let classified = 0;
@@ -687,6 +781,24 @@ export async function runPass(
       // and it is a named lesson in CLAUDE.md)
       if (classified % opts.recheckEvery === 0) recheck.push({ row, planned: v, again: decide(row, { versionThreshold: opts.versionThreshold }) });
 
+      if (v.outcome === "protected") {
+        report.protectedReasons[`${row.field_key}:${v.reason}`] = (report.protectedReasons[`${row.field_key}:${v.reason}`] ?? 0) + 1;
+        if (report.protectedFacts.length < 500) report.protectedFacts.push(sample);
+        protectedLines.push(JSON.stringify({
+          fact_id: row.id, part_id: row.part_id, sku: row.sku, field: row.field_key, reason: v.reason,
+          raw: row.raw, kept_value: row.value, would_be_value: v.newValue ?? null, unit: row.unit,
+          tier: row.tier, method: row.method, doc_id: row.doc_id, norm_v: row.norm_v, run_id: runId || null,
+        }));
+        continue;
+      }
+      // The second lock on the same door. Only reachable when protectTier0 has been broken, and it
+      // is here rather than only in decide() because that is the difference between a protection
+      // and a protection that has been proved: the sabotage twin reverts decide's downgrade, this
+      // refuses the write anyway, and the gate goes red naming the fact (CLAUDE.md §3).
+      if (row.tier === OPERATOR_TIER && (v.outcome === "changed" || v.outcome === "refused")) {
+        report.tier0Violations.push(sample);
+        continue;
+      }
       if (v.outcome === "same") { toRestamp.push(row.id); continue; }
       if (v.outcome === "unrecoverable") {
         report.unrecoverableReasons[v.reason ?? "?"] = (report.unrecoverableReasons[v.reason ?? "?"] ?? 0) + 1;
@@ -721,8 +833,9 @@ export async function runPass(
   report.samples = tops.all();
   // the per-field top-10 the operator is asked to READ
   (report as RenormReport & { perField?: Record<string, Record<string, Sample[]>> }).perField = Object.fromEntries(
-    [...perFieldTops.entries()].map(([k, t]) => [k, { changed: t.get("changed"), refused: t.get("refused") }]));
+    [...perFieldTops.entries()].map(([k, t]) => [k, { changed: t.get("changed"), refused: t.get("refused"), protected: t.get("protected") }]));
   (report as RenormReport & { refusalLines?: string[] }).refusalLines = refusalLines;
+  (report as RenormReport & { protectedLines?: string[] }).protectedLines = protectedLines;
   return { report, effects, recheck };
 }
 
@@ -749,8 +862,10 @@ export async function main(argv: string[]): Promise<void> {
     versionThreshold: threshold, recheckEvery: 37,
   }, (n) => { if (n % 20000 === 0) console.log(`  … ${n} rows planned`); });
 
+  // `classified` is not passed: the gate counts it from the outcome tally, so the two numbers come
+  // from different counters and RECALL can actually fail.
   const gate = gateRenormalize({
-    selected: plan.report.selected, classified: plan.report.selected, report: plan.report,
+    selected: plan.report.selected, report: plan.report,
     recheck: plan.recheck, maxShare: a.maxChangeShare, allow: a.allow, versionThreshold: threshold,
   });
 
@@ -780,14 +895,14 @@ export async function main(argv: string[]): Promise<void> {
   // ---- report --------------------------------------------------------------------------------
   const r = plan.report;
   console.log(`\n${a.commit ? `COMMITTED run ${runId}` : "DRY RUN — no writes"}   selected: ${r.selected}`);
-  console.log(`  same ${r.byOutcome.same}   changed ${r.byOutcome.changed}   refused ${r.byOutcome.refused}   unrecoverable ${r.byOutcome.unrecoverable}`);
+  console.log(`  same ${r.byOutcome.same}   changed ${r.byOutcome.changed}   refused ${r.byOutcome.refused}   unrecoverable ${r.byOutcome.unrecoverable}   protected(tier 0) ${r.byOutcome.protected}`);
   console.log(`  selected by: ${JSON.stringify(r.selectedBy)}`);
   if (a.commit) console.log(`  EFFECTS: ${JSON.stringify(effects)}`);
 
   console.log(`\nPER FIELD (changed first)`);
   const fields = Object.entries(r.byField).sort((x, y) => y[1].changed - x[1].changed || y[1].refused - x[1].refused).slice(0, 30);
   for (const [k, c] of fields) {
-    console.log(`  ${k.padEnd(26)} same ${String(c.same).padStart(6)}  changed ${String(c.changed).padStart(6)}  refused ${String(c.refused).padStart(5)}  unrecoverable ${String(c.unrecoverable).padStart(5)}`);
+    console.log(`  ${k.padEnd(26)} same ${String(c.same).padStart(6)}  changed ${String(c.changed).padStart(6)}  refused ${String(c.refused).padStart(5)}  unrecoverable ${String(c.unrecoverable).padStart(5)}  protected ${String(c.protected).padStart(5)}`);
   }
 
   if (Object.keys(r.refusalReasons).length) {
@@ -797,6 +912,14 @@ export async function main(argv: string[]): Promise<void> {
   if (Object.keys(r.unrecoverableReasons).length) {
     console.log(`\nUNRECOVERABLE (counted, untouched)`);
     for (const [k, v] of Object.entries(r.unrecoverableReasons).sort((x, y) => y[1] - x[1])) console.log(`  ${String(v).padStart(6)}  ${k}`);
+  }
+  if (r.byOutcome.protected) {
+    console.log(`\nTIER 0 PROTECTED (operator-reviewed, left exactly as they are) — ${r.byOutcome.protected} fact(s).`);
+    console.log(`  The replay disagrees with a value a person put there. That is a review item, not a write.`);
+    for (const [k, v] of Object.entries(r.protectedReasons).sort((x, y) => y[1] - x[1]).slice(0, 20)) console.log(`  ${String(v).padStart(6)}  ${k}`);
+    for (const x of r.protectedFacts.slice(0, 20)) {
+      console.log(`   ${x.sku} ${x.field} #${x.id}  KEPT ${shorten(x.from, 40)}  (replay wanted ${shorten(x.to, 40)})   raw ${x.raw}`);
+    }
   }
 
   for (const o of ["changed", "refused", "same", "unrecoverable"] as Outcome[]) {
@@ -821,7 +944,8 @@ export async function main(argv: string[]): Promise<void> {
   }
 
   console.log(`\nGATE ${gate.verdict}`);
-  console.log(`  precision ${gate.precision.toFixed(4)}  recall ${gate.recall.toFixed(4)}  (re-derived ${gate.sampled})`);
+  console.log(`  precision ${gate.precision.toFixed(4)}  recall ${gate.recall.toFixed(4)} (${gate.classified} of ${gate.selected} classified)  (re-derived ${gate.sampled})`);
+  console.log(`  tier 0: ${gate.tier0_protected} protected, ${gate.tier0_violations} write(s) attempted`);
   console.log(`  change share ${(gate.change_share * 100).toFixed(2)}% of ${r.byOutcome.same + r.byOutcome.changed + r.byOutcome.refused} replayable (ceiling ${(a.maxChangeShare * 100).toFixed(0)}%)${a.allow ? `  ALLOWED: ${a.allow}` : ""}`);
   for (const m of gate.misses) console.log(`  MISS ${m}`);
 
@@ -834,6 +958,14 @@ export async function main(argv: string[]): Promise<void> {
     fs.appendFileSync(jsonl, lines.join("\n") + "\n");
     console.log(`\n${lines.length} refusal(s) appended -> ${path.relative(REPO_ROOT, jsonl)}`);
   }
+  // The protected list is the operator's review queue, so it survives the terminal exactly as the
+  // refusals do — a count on screen is not a list anyone can work from.
+  const protLines = (plan.report as RenormReport & { protectedLines?: string[] }).protectedLines ?? [];
+  if (protLines.length) {
+    const jsonl = path.join(dir, `renormalize-tier0-${date}.jsonl`);
+    fs.appendFileSync(jsonl, protLines.join("\n") + "\n");
+    console.log(`${protLines.length} tier-0 protected fact(s) appended -> ${path.relative(REPO_ROOT, jsonl)}`);
+  }
   const summary = path.join(dir, `renormalize-${date}${a.commit ? "" : "-dry"}${a.field ? `-${a.field}` : ""}.json`);
   fs.writeFileSync(summary, JSON.stringify({
     generated_at: new Date().toISOString(), commit: a.commit, run_id: runId, norm_v: NORM_VERSION,
@@ -842,6 +974,8 @@ export async function main(argv: string[]): Promise<void> {
     by_field: r.byField, refusal_reasons: r.refusalReasons, unrecoverable_reasons: r.unrecoverableReasons,
     samples: r.samples, per_field: (r as RenormReport & { perField?: unknown }).perField,
     magnitude_alarms: r.magnitudeAlarms, sign_flips: r.signFlips, sign_flip_count: r.signFlipCount,
+    tier0_protected: r.protectedFacts, tier0_protected_reasons: r.protectedReasons,
+    tier0_violations: r.tier0Violations,
     locale_rule: "method=hexcat_seed -> de, everything else -> en (no locale is recorded on facts or source_docs; this reproduces what each writer passed)",
   }, null, 1));
   console.log(`report -> ${path.relative(REPO_ROOT, summary)}`);
@@ -854,6 +988,7 @@ function countsToStats(r: RenormReport): Record<string, number> {
   return {
     selected: r.selected, same: r.byOutcome.same, changed: r.byOutcome.changed,
     refused: r.byOutcome.refused, unrecoverable: r.byOutcome.unrecoverable,
+    tier0_protected: r.byOutcome.protected, tier0_violations: r.tier0Violations.length,
     magnitude_alarms: r.magnitudeAlarms.length, sign_flips: r.signFlipCount,
   };
 }

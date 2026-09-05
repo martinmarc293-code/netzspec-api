@@ -15,6 +15,10 @@
 //   a struct field whose shape is list{} accepts    a bare string under the same field does not
 //     a stored ARRAY (the 3,632-row guard)
 //   a unit that lived in the LABEL is untouched     a real band violation IS retracted
+//   a TIER-0 row is protected, listed, never        the same row at tier 2 IS rewritten, and a
+//     written                                         tier-0 row that reaches the write path
+//                                                     fails the gate by name
+//   RECALL counts the outcomes actually produced    dropping one outcome fails it
 //
 // This suite pins itself to netzspec_test3 rather than whatever DATABASE_URL_TEST happens to say,
 // because a second agent's suite owns test5 and both TRUNCATE (memory: two sessions, one repo).
@@ -23,7 +27,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import type { FactToCheck, Verdict } from "../../src/pipeline/renormalize.js";
+import type { FactToCheck, RenormReport, Verdict } from "../../src/pipeline/renormalize.js";
 import type { SpecEntry } from "../../src/core/specMerge.js";
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -144,6 +148,37 @@ function check(name: string, cond: boolean, detail?: string): void {
   check("args SABOTAGE: a non-semver --since-version is refused", threw(() => R.parseArgs(["--since-version", "1.5"])));
   check("args SABOTAGE: --max-change-share above 1 is refused", threw(() => R.parseArgs(["--max-change-share", "2"])));
   check("args: a real field and a real reason are accepted", R.parseArgs(["--field", "depth", "--allow", "checked"]).allow === "checked");
+
+  // RAISING the ceiling is lifting the guard. `--max-change-share 1` switches it off entirely and
+  // recorded no reason anywhere, which is the one thing `--allow` exists to prevent.
+  check("args SABOTAGE: --max-change-share 1 alone is refused (it disables the guard silently)",
+    threw(() => R.parseArgs(["--max-change-share", "1"])));
+  check("args SABOTAGE: --max-change-share 0.6 alone is refused",
+    threw(() => R.parseArgs(["--max-change-share", "0.6"])));
+  check("args: --max-change-share 1 WITH a reason is accepted",
+    R.parseArgs(["--max-change-share", "1", "--allow", "replay read row by row"]).maxChangeShare === 1);
+  // and the twin, so the rule is a threshold and not "always no": tuning below half stays free.
+  check("args: --max-change-share 0.5 needs no reason", R.parseArgs(["--max-change-share", "0.5"]).maxChangeShare === 0.5);
+  check("args: --max-change-share 0.4 needs no reason", R.parseArgs(["--max-change-share", "0.4"]).maxChangeShare === 0.4);
+
+  // TIER 0 — an operator's own value. `protectTier0` is pure, so both directions are provable here.
+  const changed: Verdict = { outcome: "changed", newValue: 450, magnitude: 2.2, selectedBy: "version" };
+  const refused: Verdict = { outcome: "refused", reason: "RANGE_VIOLATION", magnitude: Infinity, selectedBy: "version" };
+  const p1 = R.protectTier0({ tier: 0 }, changed);
+  check("tier 0: a value change on an operator-reviewed fact becomes `protected`", p1.outcome === "protected", JSON.stringify(p1));
+  check("tier 0: the protected verdict still names what it withheld and what it wanted to write",
+    p1.reason === "TIER0_WOULD_CHANGED" && p1.newValue === 450, JSON.stringify(p1));
+  const p2 = R.protectTier0({ tier: 0 }, refused);
+  check("tier 0: a refusal on an operator-reviewed fact becomes `protected`, never a retraction",
+    p2.outcome === "protected" && p2.reason === "TIER0_WOULD_REFUSED:RANGE_VIOLATION", JSON.stringify(p2));
+  // SABOTAGE TWINS: the protection must not swallow the command. Every other tier is rewritten,
+  // and a tier-0 row the replay AGREES with is still re-stamped (norm_v is bookkeeping).
+  check("tier 0 SABOTAGE: the identical verdict at tier 1 is left `changed`", R.protectTier0({ tier: 1 }, changed).outcome === "changed");
+  check("tier 0 SABOTAGE: the identical verdict at tier 2 is left `refused`", R.protectTier0({ tier: 2 }, refused).outcome === "refused");
+  check("tier 0 SABOTAGE: a `same` at tier 0 is NOT diverted — it is still re-stamped",
+    R.protectTier0({ tier: 0 }, { outcome: "same", magnitude: 1, selectedBy: "version" }).outcome === "same");
+  check("tier 0 SABOTAGE: an `unrecoverable` at tier 0 is untouched either way",
+    R.protectTier0({ tier: 0 }, { outcome: "unrecoverable", reason: "GAP_ROW_NEVER_NORMALISED", magnitude: 1, selectedBy: "version" }).outcome === "unrecoverable");
 }
 
 // =================================================================================================
@@ -188,10 +223,10 @@ await ensureSourceDoc({ url, doc_type: "vendor_datasheet_html", vendor: "cisco",
 const seedRun = await openRun("apply-specs", { inputs: { seed: true } });
 
 /** Seed one CURRENT fact exactly as an older normaliser would have left it. */
-async function seed(o: { partId: number; k: string; value: unknown; unit?: string; raw: string; normV: string | null; method?: string }): Promise<number> {
+async function seed(o: { partId: number; k: string; value: unknown; unit?: string; raw: string; normV: string | null; method?: string; tier?: number }): Promise<number> {
   const e: SpecEntry = {
     k: o.k, raw: o.raw, value: o.value, unit: o.unit, state: "verified",
-    prov: { tier: 2, method: o.method ?? "html_table", doc_id: doc, locator: "t1:r1:c1", ...(o.normV ? { norm_v: o.normV } : {}) },
+    prov: { tier: o.tier ?? 2, method: o.method ?? "html_table", doc_id: doc, locator: "t1:r1:c1", ...(o.normV ? { norm_v: o.normV } : {}) },
   };
   return withTx((c) => insertFact(c, o.partId, e, seedRun));
 }
@@ -208,6 +243,14 @@ const idCurrent = await seed({ partId: other, k: "altitude_max", value: 3000, un
 const idPorts = await seed({ partId: part, k: "ports", value: [{ port_typ: "rj45", speed: ["10/100/1000M"], anzahl: 24 }], raw: "24x 10/100/1000 Ethernet ports", normV: "1.0.0" });
 // F: the unit lived in the LABEL — raw alone cannot replay it
 const idLabelUnit = await seed({ partId: part, k: "dimensions", value: { h: 43.942, w: 444.5, d: 408.94 }, unit: "mm", raw: "1.73 x 17.5 x 16.1", normV: "1.0.0" });
+// G and H: TIER 0. An operator read the part and typed these. G is the shape of every ordinary
+// disagreement (the replay reads 450 where the operator recorded 999); H is the dangerous one — a
+// band the normaliser now enforces would RETRACT the operator's value into a gap. Both are on a
+// part of their own so the currentFact lookups below cannot be confused with the tier-2 rows.
+const seeded = await makePart("HEX-SEED-1", "Cisco Catalyst 9200");
+const seeded2 = await makePart("HEX-SEED-2", "Cisco Catalyst 9200");
+const idT0Changed = await seed({ partId: seeded, k: "depth", value: 999, unit: "mm", raw: "450 mm", normV: "1.0.0", method: "hexcat_seed", tier: 0 });
+const idT0Refused = await seed({ partId: seeded2, k: "depth", value: 4876.8, unit: "mm", raw: "16 ft", normV: "1.0.0", method: "hexcat_seed", tier: 0 });
 
 const pool = getPool();
 const opts = { commit: false, field: null as string | null, limit: null as number | null, batch: 1000, examples: 10, versionThreshold: NORM_VERSION, recheckEvery: 1 };
@@ -230,7 +273,8 @@ const opts = { commit: false, field: null as string | null, limit: null as numbe
   // SABOTAGE TWIN for the whole command: a row already at the current version must be left alone.
   check("selection SABOTAGE: a row at the CURRENT version is not selected", !ids.has(idCurrent),
     `fact ${idCurrent} was selected`);
-  check("selection: the plan classified every selected row", plan.report.selected === plan.report.byOutcome.same + plan.report.byOutcome.changed + plan.report.byOutcome.refused + plan.report.byOutcome.unrecoverable);
+  check("selection: the plan classified every selected row", plan.report.selected === R.classifiedCount(plan.report.byOutcome),
+    `${plan.report.selected} selected, ${R.classifiedCount(plan.report.byOutcome)} classified: ${JSON.stringify(plan.report.byOutcome)}`);
 }
 
 // =================================================================================================
@@ -270,6 +314,21 @@ const verdict = async (id: number): Promise<Verdict> => R.decide(await rowOf(id)
   await query("DELETE FROM fact_evidence WHERE fact_id = $1", [noUnit]);
   await query("DELETE FROM facts WHERE id = $1", [noUnit]);
 
+  // TIER 0 THROUGH THE REAL PATH — the pure rule is proved above; this is decide() reading an
+  // actual operator row out of the table, which is what the pass will see.
+  const t0c = await verdict(idT0Changed);
+  check("outcome: an operator-reviewed row the replay disagrees with is `protected`",
+    t0c.outcome === "protected" && t0c.reason === "TIER0_WOULD_CHANGED" && t0c.newValue === 450, JSON.stringify(t0c));
+  const t0r = await verdict(idT0Refused);
+  check("outcome: an operator-reviewed row a new band would retract is `protected`, not refused",
+    t0r.outcome === "protected" && t0r.reason === "TIER0_WOULD_REFUSED:RANGE_VIOLATION", JSON.stringify(t0r));
+  // SABOTAGE TWIN: the identical raw and value at tier 2 must still be rewritten and retracted, so
+  // the protection is a tier rule and not the command quietly giving up on `depth`.
+  const t2c = await verdict(idChanged);
+  const t2r = await verdict(idRefused);
+  check("outcome SABOTAGE: the same disagreement at tier 2 is still `changed`", t2c.outcome === "changed", JSON.stringify(t2c));
+  check("outcome SABOTAGE: the same band violation at tier 2 is still `refused`", t2r.outcome === "refused", JSON.stringify(t2r));
+
   // an empty raw is unrecoverable and is never confused with a lost value
   const gap = await seed({ partId: other, k: "ports", value: null, raw: "", normV: null });
   await query("UPDATE facts SET state='gap_unattempted', value=NULL WHERE id=$1", [gap]);
@@ -284,33 +343,66 @@ const verdict = async (id: number): Promise<Verdict> => R.decide(await rowOf(id)
 // 3. THE GUARDS — both refuse, and both are lifted only by --allow
 // =================================================================================================
 {
-  const report = {
-    selected: 100, byOutcome: { same: 50, changed: 50, refused: 0, unrecoverable: 0 },
+  /**
+   * A whole report, so a gate case states only what it is about.
+   *
+   * `classified` is NOT a parameter of the gate any more and that is the point of finding 9: the
+   * one caller passed `plan.report.selected` as both `selected` and `classified`, so recall was
+   * 1 / 1 by construction and the check could not fail for any input whatsoever. The gate now
+   * counts the outcomes itself, so the two numbers come from counters incremented in different
+   * places and a dropped outcome is visible.
+   */
+  const mk = (over: Partial<RenormReport> = {}): RenormReport => ({
+    selected: 100, byOutcome: { same: 50, changed: 50, refused: 0, unrecoverable: 0, protected: 0 },
     byField: {}, refusalReasons: {}, unrecoverableReasons: {}, selectedBy: {},
-    samples: { same: [], changed: [], refused: [], unrecoverable: [] }, magnitudeAlarms: [],
-    signFlips: [], signFlipCount: 0,
-  };
-  const g = R.gateRenormalize({ selected: 100, classified: 100, report, recheck: [], maxShare: 0.25, allow: null, versionThreshold: NORM_VERSION });
+    samples: { same: [], changed: [], refused: [], unrecoverable: [], protected: [] }, magnitudeAlarms: [],
+    signFlips: [], signFlipCount: 0, protectedFacts: [], protectedReasons: {}, tier0Violations: [],
+    ...over,
+  });
+  const report = mk();
+  const g = R.gateRenormalize({ selected: 100, report, recheck: [], maxShare: 0.25, allow: null, versionThreshold: NORM_VERSION });
   check("guard: 50% changed over a 25% ceiling REFUSES", !g.passed && g.misses.some((m) => m.startsWith("CHANGE_SHARE_EXCEEDED")), g.verdict);
-  const g2 = R.gateRenormalize({ selected: 100, classified: 100, report, recheck: [], maxShare: 0.25, allow: "replay read and approved", versionThreshold: NORM_VERSION });
+  const g2 = R.gateRenormalize({ selected: 100, report, recheck: [], maxShare: 0.25, allow: "replay read and approved", versionThreshold: NORM_VERSION });
   check("guard: --allow \"reason\" lifts the change-share refusal", g2.passed && g2.allow === "replay read and approved", g2.verdict);
   // SABOTAGE TWIN: under the ceiling it must NOT refuse, or the guard is just "always no".
-  const under = { ...report, byOutcome: { same: 90, changed: 10, refused: 0, unrecoverable: 0 } };
+  const under = mk({ byOutcome: { same: 90, changed: 10, refused: 0, unrecoverable: 0, protected: 0 } });
   check("guard SABOTAGE: 10% changed passes the same ceiling",
-    R.gateRenormalize({ selected: 100, classified: 100, report: under, recheck: [], maxShare: 0.25, allow: null, versionThreshold: NORM_VERSION }).passed);
+    R.gateRenormalize({ selected: 100, report: under, recheck: [], maxShare: 0.25, allow: null, versionThreshold: NORM_VERSION }).passed);
 
-  const alarm = { ...under, magnitudeAlarms: [{ id: 1, sku: "X", field: "weight", magnitude: 1000, raw: "0.075 kg", from: 0.075, to: 75 }] };
-  const g3 = R.gateRenormalize({ selected: 100, classified: 100, report: alarm, recheck: [], maxShare: 0.25, allow: null, versionThreshold: NORM_VERSION });
+  const alarm = mk({ ...under, magnitudeAlarms: [{ id: 1, sku: "X", field: "weight", magnitude: 1000, raw: "0.075 kg", from: 0.075, to: 75 }] });
+  const g3 = R.gateRenormalize({ selected: 100, report: alarm, recheck: [], maxShare: 0.25, allow: null, versionThreshold: NORM_VERSION });
   check("guard: a single 1000x move REFUSES even well under the ceiling", !g3.passed && g3.misses.some((m) => m.startsWith("MAGNITUDE_1000X")), g3.verdict);
 
-  // recall: a row that reached no outcome fails, rather than being skipped in silence
-  const g4 = R.gateRenormalize({ selected: 100, classified: 99, report: under, recheck: [], maxShare: 0.25, allow: null, versionThreshold: NORM_VERSION });
-  check("guard: a single unclassified row fails RECALL", !g4.passed && g4.recall < 1);
+  // RECALL, and this is the case the dead gate could never have produced: one row reached no
+  // outcome at all, so the outcome tally comes up one short of the selection.
+  const dropped = mk({ byOutcome: { same: 89, changed: 10, refused: 0, unrecoverable: 0, protected: 0 } });
+  const g4 = R.gateRenormalize({ selected: 100, report: dropped, recheck: [], maxShare: 0.25, allow: null, versionThreshold: NORM_VERSION });
+  check("guard: a row that reached NO outcome fails RECALL",
+    !g4.passed && g4.recall < 1 && g4.misses.some((m) => m.startsWith("RECALL")), g4.verdict);
+  check("guard: the gate counts `classified` itself rather than believing the caller", g4.classified === 99, String(g4.classified));
+  // SABOTAGE TWIN for the twin: a complete tally must still pass, or RECALL is just "always no".
+  check("guard SABOTAGE: a complete tally passes RECALL",
+    R.gateRenormalize({ selected: 100, report: under, recheck: [], maxShare: 0.25, allow: null, versionThreshold: NORM_VERSION }).recall === 1);
+  // and a `protected` row is a real outcome — it must COUNT towards recall, not read as a skip.
+  const withProtected = mk({ byOutcome: { same: 80, changed: 10, refused: 0, unrecoverable: 0, protected: 10 } });
+  check("guard: a `protected` row counts as classified, so protecting a fact is not a silent skip",
+    R.gateRenormalize({ selected: 100, report: withProtected, recheck: [], maxShare: 0.25, allow: null, versionThreshold: NORM_VERSION }).passed);
+
+  // TIER 0 reaching the write path is a code fault, so unlike the other two guards `--allow`
+  // cannot lift it.
+  const violated = mk({ ...under, tier0Violations: [{ id: 7, sku: "HEX-SEED-1", field: "depth", magnitude: 2, raw: "450 mm", from: 999, to: 450 }] });
+  const g6 = R.gateRenormalize({ selected: 100, report: violated, recheck: [], maxShare: 0.25, allow: null, versionThreshold: NORM_VERSION });
+  check("guard: an operator-reviewed fact reaching the write path FAILS the gate by name",
+    !g6.passed && g6.misses.some((m) => m.startsWith("TIER0_WRITE_ATTEMPTED")), g6.verdict);
+  const g7 = R.gateRenormalize({ selected: 100, report: violated, recheck: [], maxShare: 0.25, allow: "I know", versionThreshold: NORM_VERSION });
+  check("guard SABOTAGE: --allow does NOT lift the tier-0 refusal",
+    !g7.passed && g7.misses.some((m) => m.startsWith("TIER0_WRITE_ATTEMPTED")), g7.verdict);
 
   // precision: a `same` whose value actually moved is a bookkeeping error being turned into a write
   const row = await rowOf(idSame);
+  const one = mk({ byOutcome: { same: 1, changed: 0, refused: 0, unrecoverable: 0, protected: 0 } });
   const g5 = R.gateRenormalize({
-    selected: 1, classified: 1, report: under, maxShare: 1, allow: null, versionThreshold: NORM_VERSION,
+    selected: 1, report: one, maxShare: 1, allow: null, versionThreshold: NORM_VERSION,
     recheck: [{ row, planned: { outcome: "same", magnitude: 1, selectedBy: "version" }, again: { outcome: "changed", newValue: 1, magnitude: 2, selectedBy: "version" } }],
   });
   check("guard: a decision that does not re-derive fails PRECISION", !g5.passed && g5.misses.some((m) => m.startsWith("NOT_REPRODUCED")), g5.verdict);
@@ -376,6 +468,44 @@ const verdict = async (id: number): Promise<Verdict> => R.decide(await rowOf(id)
 
   check("effect: the counters match what was written",
     done.effects.restamped === 2 && done.effects.superseded === 1 && done.effects.retracted === 1, JSON.stringify(done.effects));
+
+  // G and H — TIER 0. Nothing at all happened to either row: one history entry, the operator's
+  // value, and even the OLD stamp, because re-stamping a row the replay disagrees with would claim
+  // the current normaliser produced it.
+  const gHist = await factHistory(seeded, "depth", pool);
+  const gCur = await currentFact(seeded, "depth", pool);
+  check("effect: an operator-reviewed fact the replay disagrees with is NOT superseded",
+    gHist.length === 1 && gCur?.id === idT0Changed && gCur?.value === 999 && gCur?.norm_v === "1.0.0",
+    `history ${gHist.length}, value ${JSON.stringify(gCur?.value)}, norm_v ${gCur?.norm_v}`);
+  const hHist = await factHistory(seeded2, "depth", pool);
+  const hCur = await currentFact(seeded2, "depth", pool);
+  check("effect: an operator-reviewed fact a new band would refuse is NOT retracted",
+    hHist.length === 1 && hCur?.id === idT0Refused && hCur?.state === "verified" && hCur?.value === 4876.8,
+    `history ${hHist.length}, state ${hCur?.state}, value ${JSON.stringify(hCur?.value)}`);
+
+  // ... and it is COUNTED and LISTED, not quietly stepped over. A skip nobody can see is how a
+  // fact gets lost (CLAUDE.md §11).
+  check("effect: both protected facts are counted", done.report.byOutcome.protected === 2, JSON.stringify(done.report.byOutcome));
+  const listed = new Set(done.report.protectedFacts.map((s) => s.id));
+  check("effect: every protected fact is LISTED with the value the replay wanted",
+    listed.has(idT0Changed) && listed.has(idT0Refused)
+      && done.report.protectedFacts.find((s) => s.id === idT0Changed)?.to === 450,
+    JSON.stringify(done.report.protectedFacts));
+  check("effect: the protected reasons name both the field and what was withheld",
+    done.report.protectedReasons["depth:TIER0_WOULD_CHANGED"] === 1
+      && done.report.protectedReasons["depth:TIER0_WOULD_REFUSED:RANGE_VIOLATION"] === 1,
+    JSON.stringify(done.report.protectedReasons));
+  check("effect: no tier-0 row reached the write path", done.report.tier0Violations.length === 0,
+    JSON.stringify(done.report.tier0Violations));
+
+  // the pass's own gate, over the pass's own report: a protected fact must not cost recall
+  const passGate = R.gateRenormalize({
+    selected: done.report.selected, report: done.report, recheck: done.recheck,
+    maxShare: 1, allow: "suite", versionThreshold: NORM_VERSION,
+  });
+  check("effect: the gate over the real pass passes, with the protected rows counted",
+    passGate.passed && passGate.classified === done.report.selected && passGate.tier0_protected === 2,
+    `${passGate.verdict}; classified ${passGate.classified} of ${passGate.selected}, protected ${passGate.tier0_protected}`);
 }
 
 // =================================================================================================
@@ -386,8 +516,13 @@ const verdict = async (id: number): Promise<Verdict> => R.decide(await rowOf(id)
   check("second pass: nothing changes and nothing is refused a second time",
     again.report.byOutcome.changed === 0 && again.report.byOutcome.refused === 0,
     JSON.stringify(again.report.byOutcome));
-  check("second pass: only the unrecoverable row is still selected",
-    again.report.byOutcome.unrecoverable === again.report.selected, JSON.stringify(again.report.byOutcome));
+  // The unrecoverable row and the two protected rows keep their old stamps, deliberately: a stamp
+  // is a claim about which normaliser produced the value, and for these three it did not produce
+  // it at all. So they stay in the selection for ever, which is honest — they are the two lists a
+  // person is meant to work through — and nothing else is left.
+  check("second pass: only the unrecoverable and the protected rows are still selected",
+    again.report.byOutcome.unrecoverable + again.report.byOutcome.protected === again.report.selected
+      && again.report.byOutcome.protected === 2, JSON.stringify(again.report.byOutcome));
 }
 
 // =================================================================================================
