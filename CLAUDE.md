@@ -539,6 +539,15 @@ full; the ones that bite hardest here are restated.
   (after round 3 releases `tests/db/remerge.test.ts`): a DRIFT REPAIR class — restore the
   recorded kept value as the current fact (supersede the drifted row, provenance and
   evidence kept, run-stamped), then re-evaluate the pair under the agreement rules.
+  The eight refused merges, explained: not a value collision — a loser fact in a GAP state
+  was counted and skipped, then the closing `UPDATE facts SET part_id = survivor` moved that
+  still-current row onto a survivor that already held the field. Fixed with a decision
+  table over every (survivor, loser) state pair (gap parked under value; gap under gap parked
+  or promoted by rank unattempted < confirmed < not_applicable; tier-0 held, never
+  write-order); a stray state throws `merge_decision_missing` by name. 8/8 merge on a copy
+  of production. Landing trick: the deploy stops at 0010's guard and leaves
+  `/root/netzspec-api.new` built — the merge is run FROM that directory, then the deploy is
+  repeated so 0010 applies (chain in flight).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
