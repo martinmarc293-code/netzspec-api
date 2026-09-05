@@ -558,7 +558,10 @@ full; the ones that bite hardest here are restated.
   per UTC day in the heartbeat and `fetches`; a lane stops at its daily budget
   (`proxy_budget_exhausted`, the sentinel must not loop-restart it); watchdog spend line +
   alarms at 80% of the day and 4 GB of the plan. Live proof (3 tasks per lane) and the lane
-  restart follow the reviewer's verdict.
+  restart follow the reviewer's verdict. Gateway checked from this laptop with one request to
+  api.ipify.org: exit IP differs from ours (a South-American residential address — the pool
+  is worldwide unless a country is selected; use `proxy_country = us` for the two US sites),
+  4.5 s round trip.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
