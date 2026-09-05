@@ -95,16 +95,38 @@ One repo, one checkout, three writers. Either use `git worktree` per session, or
 - `git status` before and `git diff --cached` after staging. Read what you are about to commit.
 - Commit small and often, so a collision is one file rather than a day.
 
-### Acquisition: one lane at a time on this laptop
+### Acquisition: every lane runs at once, 24/7
 
-A lane's Chrome costs ~500 MB resident and peaks near 1.2 GB; the machine has 8 GB and the
-supervisor refuses to start a lane below 1,000 MB free. **Three brands cannot scrape at once.**
-Cache-only extraction, applies, remerge and the watchdogs are safe to run in parallel — they touch
-no browser. Before starting a lane, check that no other session has one running:
+**Operator decision, 5 Sep 2026: all brands' lanes run concurrently. No brand waits for another,
+and more brands are coming.** This replaces an earlier rule in this file that serialised them.
 
-```
-Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match 'worker\.py' }
-```
+That is a memory problem before it is anything else, so it was made one:
+
+| | before | now |
+| --- | --- | --- |
+| images, media, fonts | loaded on every lane | **dropped on every lane** |
+| analytics and ad hosts | loaded | dropped |
+| byte metering | proxied lanes | proxied lanes (unchanged) |
+
+The route filter used to be a cost control for the metered residential lanes. It is on every lane
+now, and the reason it is safe has nothing to do with money: **no adapter ever reads an image.**
+Product photography is collected by `scraper/images.py` from the `img` URLs an adapter reports out
+of the DOM, in its own browser — the lane needs the URL, never the bytes. Fonts and analytics
+beacons are read by nobody. Decoded images are the largest single part of a lane Chrome's ~1.2 GB
+peak, and one router-switch product page alone referenced 269 of them.
+
+`--load-images` turns it off for the one case that needs the pixels: diagnosing a page that renders
+differently without them.
+
+**What still has to be watched.** The machine has 8 GB. The supervisor refuses to start a lane
+below 1,000 MB free (`MIN_FREE_MB` in `sentinel.py`), and that guard stays — it is what stops the
+Nth brand from taking the machine down rather than a rule about whose turn it is. If lanes start
+being refused for memory, the answer is more RAM or fewer resident lanes, **not** a lower guard: a
+lane that starts into 400 MB is a Chrome the machine cannot hold, and it takes the others with it.
+Watch `free MB` in the sentinel report as brands are added.
+
+Cache-only extraction, applies, remerge and the watchdogs touch no browser and were always safe in
+parallel.
 
 ### What each session owns end to end
 

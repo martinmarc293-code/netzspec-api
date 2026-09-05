@@ -209,14 +209,15 @@ class FakePw:
         self.rec["stopped"] = True
 
 
-def launched(proxy=None, slug="lane"):
+def launched(proxy=None, slug="lane", filter_assets=True):
     """Build a Browser against a recorder instead of Chrome and return what it launched."""
     rec = {"calls": [], "closed": False, "stopped": False}
     real_pw, real_seed = W._sync_playwright, W.seed_profile
     W._sync_playwright = lambda: type("Starter", (), {"start": lambda _s: FakePw(rec)})()
     W.seed_profile = lambda d, source_dir=None: ""   # never touch the operator's real cookie jar
     try:
-        b = W.Browser(mode="profile", profile_dir=str(TMPP / slug), proxy=proxy)
+        b = W.Browser(mode="profile", profile_dir=str(TMPP / slug), proxy=proxy,
+                      filter_assets=filter_assets)
     finally:
         W._sync_playwright, W.seed_profile = real_pw, real_seed
     return b, rec
@@ -229,8 +230,23 @@ b_direct, rec_direct = launched(None, "direct")
 kw_direct = rec_direct["calls"][0]["kwargs"]
 check("B13", "a DIRECT source launches with NO proxy argument at all",
       "proxy" not in kw_direct and b_direct.proxied is False, str(sorted(kw_direct)))
-check("B14", "a direct lane installs neither the route filter nor the byte meter",
-      b_direct._ctx.routes == [] and b_direct._ctx.events == [], str((b_direct._ctx.routes, b_direct._ctx.events)))
+# The route filter moved onto EVERY lane on 5 Sep 2026 (operator: every brand's lane runs at once,
+# 24/7, and more brands are coming). No adapter reads an image - scraper/images.py collects
+# photography from the `img` URLs an adapter reports out of the DOM, in its own browser - so
+# dropping images, media and fonts costs nothing and is the largest single saving in a lane
+# Chrome's ~1.2 GB peak, which is what decides how many lanes fit in 8 GB.
+#
+# The METER stays proxied-only, and that split is the case below: a direct lane has bytes nobody
+# is charged for, and fetches.proxy_bytes must stay NULL to distinguish "cost the plan nothing"
+# from "cost the plan zero".
+check("B14", "a direct lane installs the route filter (memory) but NOT the byte meter (nothing to charge)",
+      b_direct._ctx.routes == ["**/*"] and b_direct._ctx.events == [],
+      str((b_direct._ctx.routes, b_direct._ctx.events)))
+b_noimg, _ = launched(None, "noimg", filter_assets=False)
+check("B14b", "SABOTAGE --load-images turns the filter off completely, so a page can be diagnosed "
+              "with its pixels",
+      b_noimg._ctx.routes == [] and b_noimg._ctx.events == [],
+      str((b_noimg._ctx.routes, b_noimg._ctx.events)))
 
 b_prox, rec_prox = launched(PROXY, "prox")
 kw_prox = rec_prox["calls"][0]["kwargs"]

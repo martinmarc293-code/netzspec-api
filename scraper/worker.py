@@ -574,7 +574,8 @@ class Browser:
     headless Chromium does not."""
 
     def __init__(self, mode: str = "profile", cdp_url: str = "http://127.0.0.1:9222", headless: bool = False,
-                 profile_dir: str = PROFILE_ROOT + "-adhoc", proxy: dict | None = None):
+                 profile_dir: str = PROFILE_ROOT + "-adhoc", proxy: dict | None = None,
+                 filter_assets: bool = True):
         self._pw = _sync_playwright().start()
         self.mode = mode
         self.profile_dir = profile_dir if mode != "cdp" else None
@@ -585,6 +586,10 @@ class Browser:
         # way to end up paying for a lane's images because somebody set one flag and not the other.
         self.proxy = proxy or None
         self.proxied = bool(proxy)
+        # Images, media, fonts and analytics are dropped on EVERY lane by default; see the block
+        # comment at the install site. Metering stays proxied-only: a direct lane costs nothing to
+        # measure and the NULL in fetches.proxy_bytes is what distinguishes the two.
+        self.filter_assets = bool(filter_assets)
         self.proxy_bytes = 0
         self.proxy_unmeasured = 0
         self.aborted = 0
@@ -594,6 +599,9 @@ class Browser:
                 # settings; a proxy option here would be silently ignored and every byte would go
                 # out on this laptop's blocked IP while the counter said "residential".
                 raise ValueError("--cdp cannot serve a residential lane: an attached Chrome's proxy is not ours to set")
+            # An attached Chrome is shared with the image lane and ad-hoc fetches; installing a
+            # route filter on it would silently break THEM. Filtering is for browsers we launch.
+            self.filter_assets = False
             self._browser = self._pw.chromium.connect_over_cdp(cdp_url)
             self._ctx = self._browser.contexts[0] if self._browser.contexts else self._browser.new_context()
             self._page = self._ctx.new_page()
@@ -609,7 +617,24 @@ class Browser:
             except Exception:  # noqa — Chrome not installed: fall back to bundled Chromium
                 self._ctx = self._pw.chromium.launch_persistent_context(profile_dir, **kwargs)
             self._page = self._ctx.pages[0] if self._ctx.pages else self._ctx.new_page()
-        if self.proxied:
+        # THE ROUTE FILTER IS NOW ON EVERY LANE, not only the metered ones.
+        #
+        # It began as a way to stop a residential lane spending the plan on images. But the reason
+        # it is safe is not about money: NO ADAPTER EVER READS AN IMAGE. Product photography is
+        # collected by scraper/images.py from the `img` URLs an adapter reports out of the DOM, in
+        # its own browser; the lane needs the URL, never the bytes. Fonts and analytics beacons are
+        # read by nobody at all.
+        #
+        # What it buys, and why it is here now (operator, 5 Sep 2026: every brand's lane runs at
+        # once, no brand waits, and more brands are coming): a lane's Chrome is ~500 MB resident
+        # and peaks near 1.2 GB, on a machine with 8 GB. Decoded images are the largest single part
+        # of that — one router-switch product page alone referenced 269 of them, and the filter
+        # aborted 148 requests on it. Cutting them is what makes N concurrent lanes fit, and N is
+        # now the requirement rather than a nice-to-have.
+        #
+        # `--load-images` turns it off for the one case that needs the pixels (diagnosing a page
+        # that renders differently without them).
+        if self.proxied or self.filter_assets:
             self._meter_on()
         self._last_hit: dict[str, float] = {}
         self._robots: dict[str, RobotFileParser | None] = {}
@@ -622,8 +647,14 @@ class Browser:
         Neither hook is installed on a direct lane: aborting images on a free connection buys
         nothing and would change what the adapters see for no reason."""
         try:
-            self._ctx.route("**/*", self._route)
-            self._ctx.on("response", self._on_response)
+            if self.filter_assets or self.proxied:
+                self._ctx.route("**/*", self._route)
+            # The METER is proxied-only. On a direct lane every response would be inspected to
+            # produce a number nothing reads — fetches.proxy_bytes is NULL for a direct fetch by
+            # design, and that NULL is what distinguishes "cost the plan nothing" from "cost the
+            # plan zero". Installing it anyway would be per-response work for no answer.
+            if self.proxied:
+                self._ctx.on("response", self._on_response)
         except Exception as e:  # noqa — a context that will not take a route is a broken lane, and
             # a lane that silently fetched unfiltered through a metered gateway is worse than one
             # that refuses to start
@@ -1337,7 +1368,8 @@ def run(args: argparse.Namespace) -> int:
     # its OWN profile, named after the lane so the sentinel can find it.
     profile_dir = (args.profile_dir or "").strip() or profile_dir_for(wanted)
     browser = Browser(mode="cdp" if args.cdp else "profile", cdp_url=args.cdp or "http://127.0.0.1:9222",
-                      headless=args.headless, profile_dir=profile_dir, proxy=proxy)
+                      headless=args.headless, profile_dir=profile_dir, proxy=proxy,
+                      filter_assets=not getattr(args, "load_images", False))
     install_shutdown(browser)
     lp = Loop(q, browser, runs_dir, spend=spend)
     print(f"worker {WORKER} mode={browser.mode} profile={browser.profile_dir} sources={wanted} "
@@ -1411,6 +1443,9 @@ def main() -> int:
     r.add_argument("--profile", action="store_true",
                    help="launch the installed Chrome with this lane's own persistent profile (the default, "
                         "and what the supervisor and the sentinel use)")
+    r.add_argument("--load-images", action="store_true",
+                   help="do NOT drop images/media/fonts; for diagnosing a page that renders "
+                        "differently without them. Costs memory and bandwidth on every lane.")
     r.add_argument("--profile-dir", default="",
                    help=r"override the profile directory; default D:\netzspec-chrome-profile-<slug> for a "
                         r"single source, D:\netzspec-chrome-profile-multi for several")
