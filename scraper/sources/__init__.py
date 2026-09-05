@@ -58,6 +58,11 @@ REGISTRY = {
     # its enabled flag said — which is why Cisco had no daily loop and every Cisco fact arrived
     # through the offline batch path instead (5 Sep 2026).
     "cisco-datasheets": "sources.cisco_datasheets",
+    # End-of-life bulletins. No specifications at all - a milestone table and an affected-PID
+    # table - which is why the class is not spec-bearing. What it produces is the thing nothing
+    # else does: 16,782 successor relations and lifecycle dates for 17,749 parts. It is the pack's
+    # DAILY class because a bulletin appearing is news the same day.
+    "cisco-eol": "sources.cisco_eol",
     # Juniper, same story one brand later: the `juniper` row has existed since the schema was
     # created and had no module, so the lane could never run and nothing has ever been read from a
     # Juniper document. The module points at apps.juniper.net (Pathfinder HCT), NOT at
