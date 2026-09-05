@@ -19,6 +19,12 @@
 //   5 the foreign list NEVER touches a row with a Cisco-shaped SKU. `QDD-2X400G-FR4` carries
 //     family "Juniper" and is a real Cisco PID; so are `10-2834-01`, `8201=`, `886VA`, `1030033`
 //     and `9800-40`, all of which are digit-led and none of which may be retired.
+//   6 EVERY (survivor state, loser state) pair has a defined outcome — section 6b, one case per row
+//     of the decision table in src/pipeline/hygiene.ts § mergeFactsInto, built as the exact shape of
+//     the 8 production pairs `--commit` refused twice on `facts_current_uq` (runs #72 and #77).
+//     Proved by reverting each branch: the pre-fix `continue` reproduces the production error
+//     verbatim, the same skip WITH the stray guard turns it into a named `merge_decision_missing`,
+//     and removing the gap-rank rule reds the two promotion cases and nothing else.
 //
 // The suite also walks the DEPLOY ORDER, because that order is itself a decision that can be got
 // wrong: 0009 (columns) -> build duplicates -> 0010 refuses -> merge -> 0010 applies -> the twin
@@ -38,6 +44,7 @@ import type { SpecEntry } from "../../src/core/specMerge.js";
 import {
   parseArgs, decideCaseGroup, foreignShape, crossBrandFamily, fabricatedVerdict,
   mergePartInto, readCaseGroups, checkCaseDuplicates, checkForeignPids, checkHwVariants,
+  gapRank, isGapState,
   PART_FK_TABLES, PART_FK_HANDLED_ELSEWHERE, CHECKS,
   type CaseGroup, type FabricatedCandidate, type Args,
 } from "../../src/pipeline/hygiene.js";
@@ -417,6 +424,204 @@ await query("INSERT INTO lifecycle (part_id, status, end_of_sale_date) VALUES ($
     && (await num("SELECT count(*)::int AS n FROM parts WHERE id = $1 AND retired_at IS NULL", [loseB])) === 1
     && (await num("SELECT count(*)::int AS n FROM lifecycle WHERE part_id = $1", [loseB])) === 1,
     String(run.notes).slice(0, 300));
+}
+
+// =================================================================================================
+// 6b. THE DECISION TABLE — every (survivor state, loser state) pair, including the exact shape of
+//     the 8 production pairs `hygiene case-duplicates --commit` refused twice
+// =================================================================================================
+// Runs #72 and #77 merged 119 of the 127 pairs and were refused on the SAME 8, both times, with
+// `duplicate key value violates unique constraint "facts_current_uq"` — and the deploy of migration
+// 0010 was refused by its own guard for as long as those 8 stayed live. Read off production
+// read-only, the collision is never about a value: it is always a loser fact in a GAP state, which
+// the merge counted and `continue`d, and which the closing sweep then moved onto the survivor as a
+// CURRENT row while the survivor already held one for that field. 11 (part, field) rows over the 8:
+//
+//   QSFP-4x10G-AC10M -> QSFP-4X10G-AC10M   emc_immunity (L gap_unattempted / S verified)
+//                                          qos_features (L gap_unattempted / S not_applicable)
+//   QSFP-4x10G-AC7M  -> QSFP-4X10G-AC7M    the same two
+//   the five AOC pairs (1M/3M/5M/7M/10M)   emc_immunity, gap_unattempted on BOTH sides
+//   QSFP-H40G-AOCxM  -> QSFP-H40G-AOCXM    certifications and supported_protocols, gap on both
+//
+// Pair P below is the AC10M pair field for field (survivor operator-reviewed, in the `transceiver`
+// category so the applicability gate is the real one); pair Q is the H40G pair plus the two gap
+// PROMOTIONS, which production does not contain today and which would silently downgrade
+// "we looked and it is not published" to "nobody looked" if the rank rule were ever dropped.
+{
+  const mkPartIn = async (sku: string, category: string, extra: Record<string, unknown> = {}): Promise<number> =>
+    Number((await one<{ id: number }>(
+      `INSERT INTO parts (vendor_id, sku, slug, category_id, product_class, review_tier)
+       SELECT v.id, $1, $2, c.id, 'hardware', $3 FROM vendors v, categories c WHERE v.slug = 'cisco' AND c.slug = $4 RETURNING id`,
+      [sku, `${sku.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${++slugN}`, extra.review_tier ?? null, category])).id);
+
+  // ---- pure: the gap ladder is a ranking, and anything that is not a gap is refused by name
+  check("gapRank ranks the three gap states: unattempted < confirmed < not_applicable",
+    gapRank("gap_unattempted") < gapRank("gap_confirmed") && gapRank("gap_confirmed") < gapRank("not_applicable")
+    && isGapState("gap_confirmed") && !isGapState("verified") && !isGapState("conflict"));
+  sabotages++;
+  let gr = ""; try { gapRank("verified"); } catch (e) { gr = (e as Error).message; }
+  check("SABOTAGE gapRank: a VALUE state handed to the gap ladder is refused NAMING it, never ranked 0",
+    /"verified" is not a gap state/.test(gr), gr || "(it returned a rank)");
+
+  // -------------------------------------------------------------------------------------------
+  // pair P — the QSFP-4X10G-AC10M shape
+  // -------------------------------------------------------------------------------------------
+  const P_WIN = "ZZ-HYG-4X10G-AC10M=";
+  const P_LOSE = "ZZ-Hyg-4x10G-AC10M=";
+  const pWin = await mkPartIn(P_WIN, "transceiver", { review_tier: 0 });
+  const pLose = await mkPartIn(P_LOSE, "switches");
+
+  const sEnt = (o: Partial<SpecEntry> & { k: string; raw: string }): SpecEntry =>
+    ({ state: "verified", prov: { tier: 2, method: "html_table", doc_id: docHtml, locator: "t9:r1:c1", norm_v: "1.5.1" }, ...o } as SpecEntry);
+  const lEnt = (o: Partial<SpecEntry> & { k: string; raw: string }): SpecEntry =>
+    ({ state: "verified", prov: { tier: 2, method: "pdf_table", doc_id: docPdf, locator: "p7", norm_v: "1.5.1" }, ...o } as SpecEntry);
+  // a gap carries NO value (facts_gap_has_no_value) and NO document: it is a statement about a
+  // search, not a reading. `retracted:component:SFP` is the method every one of the 11 production
+  // collision rows carries.
+  const gapEnt = (k: string, state: "gap_unattempted" | "gap_confirmed" | "not_applicable"): SpecEntry =>
+    ({ k, raw: "", state, prov: { tier: 2, method: state === "not_applicable" ? "retracted:not_applicable:transceiver" : "retracted:component:SFP" } } as SpecEntry);
+
+  const ids: Record<string, number> = {};
+  await withTx(async (c) => {
+    // survivor
+    ids.s_emis = await insertFact(c, pWin, sEnt({ k: "emc_emissions", value: ["47CFR Part 15 Class A", "CISPR22 Class A"], raw: "● 47CFR Part 15 ● CISPR22" }), seedRun);
+    ids.s_imm = await insertFact(c, pWin, sEnt({ k: "emc_immunity", value: ["EN55024", "CISPR24"], raw: "● EN55024 ● CISPR24" }), seedRun);
+    ids.s_qos = await insertFact(c, pWin, gapEnt("qos_features", "not_applicable"), seedRun);
+    ids.s_ieee = await insertFact(c, pWin, gapEnt("ieee_standards", "gap_unattempted"), seedRun);
+    ids.s_ru = await insertFact(c, pWin, { k: "rack_units", value: 2, unit: "U", raw: "2 RU", state: "verified", prov: { tier: 0, method: "hexcat_seed" } } as SpecEntry, seedRun);
+    ids.s_xcvr = await insertFact(c, pWin, gapEnt("supported_transceivers", "not_applicable"), seedRun);
+    ids.s_temp = await insertFact(c, pWin, sEnt({ k: "temp_operating", value: { min: 0, max: 45 }, unit: "C", raw: "0 to 45 C" }), seedRun);
+    // loser
+    ids.l_emis = await insertFact(c, pLose, lEnt({ k: "emc_emissions", value: ["47CFR Part 15 Class A", "CISPR22 Class A"], raw: "● 47CFR Part 15 ● CISPR22" }), seedRun);
+    ids.l_imm = await insertFact(c, pLose, gapEnt("emc_immunity", "gap_unattempted"), seedRun);
+    ids.l_qos = await insertFact(c, pLose, gapEnt("qos_features", "gap_unattempted"), seedRun);
+    ids.l_ieee = await insertFact(c, pLose, lEnt({ k: "ieee_standards", value: ["10-Gigabit Ethernet", "40-Gigabit Ethernet"], raw: "● 10-Gigabit Ethernet ● 40-Gigabit Ethernet" }), seedRun);
+    ids.l_ru = await insertFact(c, pLose, lEnt({ k: "rack_units", value: 1, unit: "U", raw: "1 RU" }), seedRun);
+    ids.l_xcvr = await insertFact(c, pLose, lEnt({ k: "supported_transceivers", value: ["40GBASE-CR4 QSFP+ to 4x10GBASE-CU SFP+"], raw: "40GBASE-CR4 QSFP+ to 4x10GBASE-CU SFP+", state: "conflict" }), seedRun);
+    ids.l_temp = await insertFact(c, pLose, lEnt({ k: "temp_operating", value: { min: 0, max: 40 }, unit: "C", raw: "0 to 40 C" }), seedRun);
+    ids.l_weight = await insertFact(c, pLose, lEnt({ k: "weight", value: 0.4, unit: "kg", raw: "0.4 kg" }), seedRun);
+    ids.l_snmp = await insertFact(c, pLose, gapEnt("snmp_mibs", "gap_unattempted"), seedRun);
+    // a real history pair on the loser, so the restricted sweep has something to carry
+    ids.l_cert_old = await insertFact(c, pLose, lEnt({ k: "certifications", value: ["UL 60950-1"], raw: "UL 60950-1" }), seedRun);
+    ids.l_cert = await supersedeFact(c, ids.l_cert_old, lEnt({ k: "certifications", value: ["UL 60950-1", "CAN/CSA-C22.2"], raw: "UL 60950-1 ; CAN/CSA-C22.2" }), seedRun);
+  });
+  // the loser's held conflict has its open conflicts row, exactly as production does
+  await query("INSERT INTO conflicts (part_id, field_key, kept, rejected, reason) VALUES ($1,'supported_transceivers','[]'::jsonb,'[]'::jsonb,'seeded held conflict')", [pLose]);
+
+  // -------------------------------------------------------------------------------------------
+  // pair Q — the QSFP-H40G-AOCxM shape, plus the two gap promotions
+  // -------------------------------------------------------------------------------------------
+  const Q_WIN = "ZZ-HYG-H40G-AOCXM";
+  const Q_LOSE = "ZZ-HYG-H40G-AOCxM";
+  const qWin = await mkPartIn(Q_WIN, "switches");
+  const qLose = await mkPartIn(Q_LOSE, "switches");
+  const q: Record<string, number> = {};
+  await withTx(async (c) => {
+    q.s_cert = await insertFact(c, qWin, gapEnt("certifications", "gap_unattempted"), seedRun);
+    q.s_prot = await insertFact(c, qWin, gapEnt("supported_protocols", "gap_unattempted"), seedRun);
+    q.s_snmp = await insertFact(c, qWin, gapEnt("snmp_mibs", "gap_confirmed"), seedRun);
+    q.s_qos = await insertFact(c, qWin, gapEnt("qos_features", "not_applicable"), seedRun);
+    q.l_cert = await insertFact(c, qLose, gapEnt("certifications", "gap_unattempted"), seedRun);
+    q.l_prot = await insertFact(c, qLose, gapEnt("supported_protocols", "gap_confirmed"), seedRun);
+    q.l_snmp = await insertFact(c, qLose, gapEnt("snmp_mibs", "not_applicable"), seedRun);
+    q.l_qos = await insertFact(c, qLose, gapEnt("qos_features", "gap_confirmed"), seedRun);
+  });
+
+  // -------------------------------------------------------------------------------------------
+  // merge both through the COMMAND, not through mergePartInto: the defect was only ever visible
+  // end to end, as `failed: 8` in a run row
+  // -------------------------------------------------------------------------------------------
+  const seeded = [...Object.values(ids), ...Object.values(q)];
+  const r = cli("case-duplicates", "--commit");
+  const run = await one<{ stats: Record<string, number>; notes: string }>(
+    "SELECT stats, notes FROM runs WHERE kind = 'hygiene-case-duplicates' ORDER BY id DESC LIMIT 1");
+  sabotages++;
+  check("SABOTAGE 6b: the exact shape of the 8 refused production pairs MERGES — 0 refusals for a gap row, and the only failure left is the lifecycle pair section 6 seeded",
+    r.status === 0 && Number(run.stats.merged) === 2 && Number(run.stats.failed) === 1
+    && !/facts_current_uq/.test(String(run.notes)) && !/duplicate key/.test(String(run.notes)),
+    { merged: run.stats.merged, failed: run.stats.failed, notes: String(run.notes).slice(0, 300) });
+  check("both losers are retired into their survivors",
+    (await num("SELECT count(*)::int AS n FROM parts WHERE id = ANY($1::bigint[]) AND retired_at IS NOT NULL", [[pLose, qLose]])) === 2);
+  sabotages++;
+  const alive = (await query<{ id: number }>("SELECT id FROM facts WHERE id = ANY($1::bigint[])", [seeded])).rows.map((x) => Number(x.id));
+  check("SABOTAGE not one seeded fact was deleted — 25 rows in, 25 rows still readable",
+    alive.length === seeded.length, { seeded: seeded.length, alive: alive.length, lost: seeded.filter((i) => !alive.includes(i)) });
+  check("nothing CURRENT is left on either loser",
+    (await num("SELECT count(*)::int AS n FROM facts WHERE part_id = ANY($1::bigint[]) AND superseded_by IS NULL", [[pLose, qLose]])) === 0);
+
+  const parked = async (id: number, under: number, on: number): Promise<boolean> => {
+    const row = await one<{ part_id: number; superseded_by: number | null; ok: boolean }>(
+      `SELECT f.part_id, f.superseded_by, (f.superseded_at >= n.created_at) AS ok
+         FROM facts f JOIN facts n ON n.id = f.superseded_by WHERE f.id = $1`, [id]);
+    return Number(row.part_id) === on && Number(row.superseded_by) === under && row.ok === true;
+  };
+  const curId = async (part: number, k: string): Promise<number | null> => {
+    const f = await currentFact(part, k, getPool());
+    return f ? Number(f.id) : null;
+  };
+
+  // ---- row by row of the decision table
+  check("TABLE none/value: the loser's weight row is RE-PARENTED — same id, so its created_at and its evidence travel with it",
+    (await curId(pWin, "weight")) === ids.l_weight && Number(run.stats["facts.moved_uncontested"]) >= 2,
+    { current: await curId(pWin, "weight"), expected: ids.l_weight, counter: run.stats["facts.moved_uncontested"] });
+  check("TABLE none/gap: the loser's snmp_mibs gap is re-parented and stays the current row — nobody else said anything about that field",
+    (await curId(pWin, "snmp_mibs")) === ids.l_snmp && Number(run.stats["facts.gap_moved"]) === 1, run.stats["facts.gap_moved"]);
+  check("TABLE value/value AGREE: emc_emissions corroborates and carries two evidence documents",
+    (await currentFact(pWin, "emc_emissions", getPool()))?.state === "corroborated"
+    && (await num("SELECT count(DISTINCT doc_id)::int AS n FROM fact_evidence WHERE fact_id = $1", [ids.s_emis])) === 2
+    && await parked(ids.l_emis, ids.s_emis, pWin));
+  sabotages++;
+  check("TABLE value/value DISAGREE: temp_operating is HELD as a conflict with an open conflicts row, and the loser's reading is parked under the survivor's — not dropped, not applied",
+    (await currentFact(pWin, "temp_operating", getPool()))?.state === "conflict"
+    && (await num("SELECT count(*)::int AS n FROM conflicts WHERE part_id = $1 AND field_key = 'temp_operating' AND resolved_at IS NULL", [pWin])) === 1
+    && await parked(ids.l_temp, ids.s_temp, pWin));
+  sabotages++;
+  check("TABLE value/value TIER 0: the operator-reviewed rack_units survives untouched, the loser's tier-2 reading is parked and the disagreement is an OPEN conflicts row",
+    (await curId(pWin, "rack_units")) === ids.s_ru
+    && (await currentFact(pWin, "rack_units", getPool()))?.value === 2
+    && await parked(ids.l_ru, ids.s_ru, pWin)
+    && (await num("SELECT count(*)::int AS n FROM conflicts WHERE part_id = $1 AND field_key = 'rack_units' AND resolved_at IS NULL", [pWin])) === 1
+    && Number(run.stats["facts.protected"]) === 1, run.stats);
+  check("TABLE gap/value: ieee_standards — the loser's VALUE supersedes the survivor's gap through applyMerge, and the loser's own row is parked under the new current one",
+    (await currentFact(pWin, "ieee_standards", getPool()))?.state === "verified"
+    && (await curId(pWin, "ieee_standards")) !== ids.s_ieee
+    && await parked(ids.s_ieee, (await curId(pWin, "ieee_standards"))!, pWin)
+    && await parked(ids.l_ieee, (await curId(pWin, "ieee_standards"))!, pWin));
+  check("TABLE gap/value NOT APPLICABLE: supported_transceivers on a transceiver is refused by the applicability gate, and the loser's held value is parked rather than written",
+    (await curId(pWin, "supported_transceivers")) === ids.s_xcvr
+    && await parked(ids.l_xcvr, ids.s_xcvr, pWin)
+    && Number(run.stats["facts.refused_not_applicable"]) === 1, run.stats["facts.refused_not_applicable"]);
+
+  sabotages++;
+  check("SABOTAGE TABLE value/gap — THE PRODUCTION COLLISION: the loser's emc_immunity gap is PARKED under the survivor's value. An absence never displaces a value and never stays current",
+    (await curId(pWin, "emc_immunity")) === ids.s_imm
+    && await parked(ids.l_imm, ids.s_imm, pWin)
+    && Number(run.stats["facts.gap_parked_under_value"]) === 1,
+    { current: await curId(pWin, "emc_immunity"), expected: ids.s_imm, counter: run.stats["facts.gap_parked_under_value"] });
+  sabotages++;
+  check("SABOTAGE TABLE gap/gap, loser NOT stronger — THE PRODUCTION COLLISION: qos_features (P: gap under not_applicable) and certifications (Q: gap under gap) park, and the survivor's row stays current",
+    (await curId(pWin, "qos_features")) === ids.s_qos && await parked(ids.l_qos, ids.s_qos, pWin)
+    && (await curId(qWin, "certifications")) === q.s_cert && await parked(q.l_cert, q.s_cert, qWin)
+    && (await curId(qWin, "qos_features")) === q.s_qos && await parked(q.l_qos, q.s_qos, qWin)
+    && Number(run.stats["facts.gap_parked_under_gap"]) === 3, run.stats["facts.gap_parked_under_gap"]);
+  sabotages++;
+  check("SABOTAGE TABLE gap/gap, loser STRONGER: a confirmed gap is promoted over an unattempted one and not_applicable over a confirmed one — a merge must never downgrade \"we looked\" back to \"nobody looked\"",
+    (await curId(qWin, "supported_protocols")) === q.l_prot && await parked(q.s_prot, q.l_prot, qWin)
+    && (await curId(qWin, "snmp_mibs")) === q.l_snmp && await parked(q.s_snmp, q.l_snmp, qWin)
+    && Number(run.stats["facts.gap_promoted:gap_unattempted->gap_confirmed"]) === 1
+    && Number(run.stats["facts.gap_promoted:gap_confirmed->not_applicable"]) === 1, run.stats);
+
+  check("the loser's superseded history row travelled with the restricted sweep and is still history",
+    Number((await one<{ part_id: number }>("SELECT part_id FROM facts WHERE id = $1", [ids.l_cert_old])).part_id) === pWin
+    && (await curId(pWin, "certifications")) === ids.l_cert
+    && Number(run.stats["facts.history_moved"]) >= 1);
+
+  const dup = await num("SELECT count(*)::int AS n FROM (SELECT part_id, field_key FROM facts WHERE superseded_by IS NULL GROUP BY 1,2 HAVING count(*) > 1) v");
+  const orphan = await num("SELECT count(*)::int AS n FROM facts WHERE superseded_by = id");
+  const backwards = await num(`SELECT count(*)::int AS n FROM facts o JOIN facts n ON n.id = o.superseded_by
+     WHERE o.superseded_by <> o.id AND (o.superseded_at IS NULL OR o.superseded_at < n.created_at)`);
+  check("invariants 3, 6 and 6b hold after the promotion swap too (one current row per field, no self-superseded orphan, no backwards supersede)",
+    dup === 0 && orphan === 0 && backwards === 0, { dup, orphan, backwards });
 }
 
 // =================================================================================================

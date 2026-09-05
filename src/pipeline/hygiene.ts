@@ -348,34 +348,136 @@ export async function moveDependents(client: Queryable, loser: number, survivor:
 }
 
 /**
- * Move the loser's facts onto the survivor THROUGH `applyMerge`, so the merge rules are the merge
- * layer's and not a second copy of them: an agreement corroborates and records the second
- * document, a difference is HELD as a conflict with an open conflicts row, an inheritance the
- * survivor's SKU does not accept is refused. Whatever applyMerge decides, the loser's own row is
- * then re-parented onto the survivor and parked as superseded by whatever is current for that
- * field — so its value, its raw string and its evidence stay readable in the survivor's history
- * and nothing current is left behind on a retired part.
+ * The three states that say a field has NO value, ranked by how much they close the question.
  *
- * GAP-state rows (gap_confirmed / gap_unattempted / not_applicable) are NOT pushed through
- * applyMerge. "Nobody found a value for this row" is a statement about a row that has just stopped
- * being an identity; letting it reach the merge would let it supersede a real value the survivor
- * holds. They are moved as history and counted.
+ * The ladder is the store's own, read off `writeGapConfirmed` (src/store/facts.ts) rather than
+ * invented here: a confirmed gap supersedes an unattempted one, and neither may be written over a
+ * `not_applicable` row. It is a ladder and not a set because two twins can each carry a different
+ * rung for one field, and "which of these two statements about absence is the current one" has to
+ * have an answer that is not write order.
+ *
+ *   gap_unattempted  0  nobody has looked for this part's own value yet
+ *   gap_confirmed    1  tier 1 AND tier 2 were checked for this SKU and the field is absent
+ *   not_applicable   2  the field CANNOT apply to this part — a closed gap, and the gap ledger
+ *                       must stop asking for it. Derived from a rule about the part
+ *                       (`notApplicable`), not from a search, so it outranks a search's answer.
+ */
+export const GAP_RANK: Readonly<Record<string, number>> = { gap_unattempted: 0, gap_confirmed: 1, not_applicable: 2 };
+export function isGapState(state: string): boolean { return Object.hasOwn(GAP_RANK, state); }
+export function gapRank(state: string): number {
+  const r = GAP_RANK[state];
+  if (r === undefined) throw new Error(`gapRank: "${state}" is not a gap state (${Object.keys(GAP_RANK).join(", ")})`);
+  return r;
+}
+
+/**
+ * Park `rowId` on the survivor as history under `winId`, in ONE statement.
+ *
+ * One statement matters: `part_id` and `superseded_by` move together, so at no instant is there a
+ * second CURRENT row on (survivor, field) for `facts_current_uq` to refuse.
+ *
+ * `superseded_at` is GREATEST(now(), the superseder's created_at) and not a bare `now()`. Invariant
+ * 6 ("superseded_by never points forward in time") compares those two values directly, and `winId`
+ * is often a row `applyMerge` inserted inside THIS transaction. Today they come out equal, because
+ * `facts.created_at` defaults to `now()` and `now()` is the TRANSACTION's timestamp rather than the
+ * statement's — so the bare `now()` the pre-fix code used held by coincidence rather than by rule.
+ * GREATEST costs one expression and holds whichever default the column ends up with.
+ */
+async function parkUnder(client: Queryable, rowId: number, winId: number, survivor: number): Promise<void> {
+  await client.query(
+    `UPDATE facts SET part_id = $2, superseded_by = $3,
+            superseded_at = GREATEST(now(), (SELECT created_at FROM facts WHERE id = $3))
+      WHERE id = $1`,
+    [rowId, survivor, winId]);
+}
+
+/**
+ * The loser's gap outranks the survivor's: the loser's row becomes the survivor's current row and
+ * the survivor's weaker gap is parked under it. THREE statements, the same park-move-repoint dance
+ * `supersedeFact` uses, so `facts_current_uq` holds after every one of them.
+ */
+async function promoteGapOver(client: Queryable, heldId: number, rowId: number, survivor: number): Promise<void> {
+  await client.query("UPDATE facts SET superseded_by = id, superseded_at = now() WHERE id = $1", [heldId]);
+  await client.query("UPDATE facts SET part_id = $2 WHERE id = $1", [rowId, survivor]);
+  await client.query(
+    `UPDATE facts SET superseded_by = $2,
+            superseded_at = GREATEST(now(), (SELECT created_at FROM facts WHERE id = $2))
+      WHERE id = $1`,
+    [heldId, rowId]);
+}
+
+/**
+ * Move the loser's facts onto the survivor. Nothing is deleted and nothing is decided by write
+ * order: a value meets the survivor's value through `applyMerge` — the same engine apply-extract
+ * and remerge use, so the merge rules are the merge layer's and not a second copy of them — and
+ * everything the loser holds ends up either CURRENT on the survivor or parked as history under
+ * whatever is.
+ *
+ * THE DECISION TABLE. Every combination of (what the survivor currently holds for the field, what
+ * the loser currently holds) has a row here, and tests/db/hygiene.test.ts § 6b has a case for each:
+ *
+ *  | survivor's current row | loser's current row      | outcome                                                     | counter |
+ *  | ---------------------- | ------------------------ | ----------------------------------------------------------- | ------- |
+ *  | none                   | value                    | re-parent the row: same id, same created_at, same evidence   | `facts.moved_uncontested` |
+ *  | none                   | gap                      | re-parent it: the only statement anyone has made about the field | `facts.gap_moved` |
+ *  | value                  | value                    | `applyMerge` decides (corroborate / conflict / protected / supersede / list_union / revision_change / agree_same_doc / refused_*), then the loser's row is parked under whatever is current | `facts.<action>` + `facts.parked_as_history` |
+ *  | gap                    | value                    | `applyMerge`'s own gap branch: the value supersedes the gap, and the loser's row is parked under it | `facts.insert` + `facts.parked_as_history` |
+ *  | value                  | gap                      | the gap is PARKED under the value. An absence never displaces a value — `writeGapConfirmed` refuses the same move — and it must not stay current either | `facts.gap_parked_under_value` |
+ *  | gap                    | gap, rank <= survivor's  | the loser's gap is parked under the survivor's                | `facts.gap_parked_under_gap` |
+ *  | gap                    | gap, rank >  survivor's  | the loser's gap becomes current and the survivor's weaker one is parked under it — otherwise a merge would DOWNGRADE "we looked and it is not published" back to "nobody looked" and the gap ledger would re-queue a search that was already done | `facts.gap_promoted:<from>-><to>` |
+ *
+ * TIER 0 IS NOT A ROW OF ITS OWN, deliberately. Operator-reviewed protection is `mergeField`'s
+ * (`existing.prov.tier === 0 && !agree` -> `protected`), so a loser value that disagrees with the
+ * survivor's tier-0 value leaves the tier-0 row untouched, writes an open conflicts row and parks
+ * the loser's value — which is the value-vs-value row above, reached without hygiene re-deciding
+ * anything. The mirror case (the LOSER's row is tier 0 and the survivor's is not) comes back from
+ * `mergeField` as `conflict`: the field is HELD and a person resolves it. Neither side is resolved
+ * by write order, which is the hard rule; hygiene does not get a vote on which one wins.
+ *
+ * WHY THE GAP ROWS NEEDED THEIR OWN ROWS IN THE TABLE. They used to be counted and `continue`d,
+ * and the closing sweep then moved every remaining row of the loser — including those skipped
+ * CURRENT gap rows — onto the survivor. Where the survivor already held a current row for the same
+ * field that is a second current row on one (part, field) and `facts_current_uq` refuses the whole
+ * transaction. It refused exactly 8 of the 127 production pairs, twice (runs #72 and #77), over 11
+ * (part, field) rows: `QSFP-4x10G-AC10M` -> `QSFP-4X10G-AC10M` collided on `emc_immunity`
+ * (loser gap_unattempted, survivor verified) and `qos_features` (loser gap_unattempted, survivor
+ * not_applicable); the five AOC pairs on `emc_immunity` with gap_unattempted on BOTH sides;
+ * `QSFP-H40G-AOCxM` on `certifications` and `supported_protocols`, gap on both sides. The failure
+ * mode is the reason the sweep below now moves history ONLY and the stray check is an error rather
+ * than an index violation: a state class nobody thought of must stop the merge by name.
  */
 export async function mergeFactsInto(client: Queryable, loser: number, survivor: number, runId: number): Promise<MergeCounts> {
   const c: MergeCounts = {};
-  const GAP = new Set(["gap_confirmed", "gap_unattempted", "not_applicable"]);
   const current = await currentFacts(loser, client);
   for (const [key, row] of current) {
-    if (GAP.has(row.state)) { bump(c, "facts.gap_moved"); continue; }
-    // nothing to merge WITH: the row simply changes parent, keeping its id, its created_at and
-    // its evidence. Going through applyMerge here would copy the value into a second row and
-    // supersede the original with itself for no gain.
     const held = await currentFact(survivor, key, client);
+    const loserIsGap = isGapState(row.state);
+
+    // ---- the survivor says nothing about this field: the row simply changes parent, keeping its
+    // id, its created_at and its evidence. Going through applyMerge here would copy the value into
+    // a second row and supersede the original with itself for no gain.
     if (!held) {
       await client.query("UPDATE facts SET part_id = $2 WHERE id = $1", [row.id, survivor]);
-      bump(c, "facts.moved_uncontested");
+      bump(c, loserIsGap ? "facts.gap_moved" : "facts.moved_uncontested");
       continue;
     }
+
+    // ---- the loser's row is a GAP and the survivor already holds one for this field. A gap is a
+    // statement about ABSENCE: it never reaches applyMerge, because letting it in would let
+    // "nobody looked" supersede a real value the survivor holds.
+    if (loserIsGap) {
+      if (isGapState(held.state) && gapRank(row.state) > gapRank(held.state)) {
+        await promoteGapOver(client, held.id, row.id, survivor);
+        bump(c, `facts.gap_promoted:${held.state}->${row.state}`);
+      } else {
+        await parkUnder(client, row.id, held.id, survivor);
+        bump(c, isGapState(held.state) ? "facts.gap_parked_under_gap" : "facts.gap_parked_under_value");
+      }
+      continue;
+    }
+
+    // ---- a VALUE meets whatever the survivor holds. applyMerge is the authority, including for
+    // the survivor-holds-a-gap case (its own gap branch supersedes the gap with the value).
     const res = await applyMerge(client, survivor, rowToEntry(row as FactRow), runId);
     bump(c, `facts.${res.action}`);
     if (res.withheld) bump(c, "facts.withheld");
@@ -383,13 +485,24 @@ export async function mergeFactsInto(client: Queryable, loser: number, survivor:
     // applyMerge always leaves SOMETHING current for a field that already had one — it cannot
     // remove a row — so a miss here is a bug, not a case to paper over
     if (!win) throw new Error(`mergeFactsInto: applyMerge left part ${survivor} with no current ${key} (action ${res.action})`);
-    await client.query(
-      "UPDATE facts SET part_id = $2, superseded_by = $3, superseded_at = now() WHERE id = $1",
-      [row.id, survivor, win.id]);
+    await parkUnder(client, row.id, win.id, survivor);
     bump(c, "facts.parked_as_history");
   }
+
+  // EVERY current row of the loser took a branch above, so nothing current is left on it. Asserted
+  // rather than assumed: a fact_state added later that matches neither "gap" nor "value" would
+  // otherwise fall through to the sweep, land on the survivor as a second current row, and come
+  // back as a bare 23505 with no field name in it — which is precisely how the 8 pairs above were
+  // refused twice before anyone knew which rows were doing it.
+  const stray = await client.query<{ id: number; field_key: string; state: string }>(
+    "SELECT id, field_key, state::text AS state FROM facts WHERE part_id = $1 AND superseded_by IS NULL", [loser]);
+  if (stray.rowCount) {
+    throw new Error(`merge_decision_missing: ${stray.rowCount} current fact(s) of part ${loser} reached the end of the merge undecided (`
+      + stray.rows.map((s) => `${s.field_key} ${s.state}`).join(", ")
+      + "); every (survivor state, loser state) pair needs a branch in mergeFactsInto's decision table");
+  }
   // superseded rows carry no unique index: they move as they are
-  const hist = await client.query("UPDATE facts SET part_id = $2 WHERE part_id = $1", [loser, survivor]);
+  const hist = await client.query("UPDATE facts SET part_id = $2 WHERE part_id = $1 AND superseded_by IS NOT NULL", [loser, survivor]);
   bump(c, "facts.history_moved", hist.rowCount ?? 0);
   return c;
 }
