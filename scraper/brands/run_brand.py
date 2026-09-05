@@ -19,8 +19,14 @@ WHAT ONE CYCLE DOES, and each step is skippable without stopping the loop:
   fetch      one bounded worker per enabled lane that HAS an adapter. Bounded on purpose: a worker
              with --max-tasks returns to this loop, so planning and the watchdog run again rather
              than a lane running for a day against a queue planned yesterday.
+  apply      turn today's acquired JSON into facts, inside apply-acquired's gate. WITHOUT THIS THE
+             LOOP IS A DOWNLOADER. It did not exist until 5 Sep 2026, and its absence was invisible
+             in the worst way: the cycle logged healthy plan/fetch steps while the watchdog it runs
+             next alarmed every single cycle that covered_pct was 33.6 against a floor of 90 —
+             a number nothing in the loop could move.
   watch      the brand watchdog, report-only, so coverage is measured every cycle rather than
-             whenever somebody remembers.
+             whenever somebody remembers. It runs LAST so it measures the state this cycle
+             produced, not the previous one's.
 
 WHAT PROTECTS IT FROM THE OTHER BRANDS, none of which is a convention:
 
@@ -37,6 +43,7 @@ here is reported, carried into the next cycle's log, and the loop continues.
 from __future__ import annotations
 
 import argparse
+import shutil
 import subprocess
 import sys
 import time
@@ -54,6 +61,9 @@ from brands import ownership as OWN              # noqa: E402
 from sources import load_source                  # noqa: E402
 
 PY = sys.executable or "python3.11"
+# The node executable, resolved once. npm/npx are .CMD shims on Windows and cannot be spawned
+# from a list without a shell; node is a real .exe. None means the apply step says so and skips.
+NODE = shutil.which("node")
 #: Namespace for the per-brand supervisor lock. Distinct from the lane locks (0x4C414E45) and from
 #: the test-database locks, so the three can never be mistaken for one another.
 SUPERVISOR_NS = 0x53555056                       # "SUPV"
@@ -156,6 +166,45 @@ def cycle(conn, brand, runs: Path, max_tasks: int, plan_limit: int) -> None:
         step(runs, slug, f"fetch {lane['slug']}",
              [PY, "-u", "scraper/worker.py", "run", "--sources", lane["slug"],
               "--profile", "--max-tasks", str(max_tasks)], 3600)
+
+    # APPLY WHAT WAS FETCHED, or the loop is a downloader.
+    #
+    # This step did not exist until 5 Sep 2026, and its absence was invisible in the worst way: the
+    # cycle planned, fetched, drained its queue and logged healthy cycles, while the watchdog it
+    # runs next alarmed EVERY CYCLE that covered_pct was 33.6 against a floor of 90. Nothing in the
+    # loop could ever move that number, because the acquired JSON was never turned into facts. A
+    # loop that measures a number it cannot affect looks like a working loop with a hard problem.
+    #
+    # It runs AFTER every lane and BEFORE the watchdog, so the watchdog measures the state this
+    # cycle actually produced rather than the previous one's.
+    #
+    # ONLY TODAY'S DIRECTORIES. apply-acquired is idempotent - a fact re-applied at the same value
+    # supersedes nothing - but re-walking the whole history every 20 minutes would grow without
+    # bound and eventually not finish inside a cycle. Measured on this machine: 22 documents took
+    # 52 seconds, so the 1800 s bound is roughly a 600-document cycle. The Juniper session measured
+    # an apply of 224 relation-heavy documents at 35+ minutes, which is why the bound is stated in
+    # documents rather than assumed to be small.
+    #
+    # A failure here must NOT stop the watchdog: step() already isolates each stage, and the
+    # watchdog's report is how a bad apply becomes visible.
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    acquired = [str(runs / "acquired" / lane["slug"] / today)
+                for lane in lanes if (runs / "acquired" / lane["slug"] / today).is_dir()]
+    if not acquired:
+        log(runs, slug, "   apply: nothing acquired today - skipped (not an error)")
+    elif NODE is None:
+        log(runs, slug, "   apply: NODE NOT FOUND on PATH - cannot apply; nothing fetched today "
+                        "will reach the facts table until this is fixed")
+    else:
+        # `node --import tsx`, NOT `npm run ingest`. On Windows npm and npx are .CMD shims, and
+        # subprocess.run(["npm", ...]) raises FileNotFoundError [WinError 2] because CreateProcess
+        # will not execute a .CMD without a shell. Verified on this machine before shipping it:
+        # the list form of "npm" fails, the resolved node executable works. Had this shipped as
+        # `npm`, the step would have failed on every cycle of every brand — logged, but the facts
+        # would still never land, which is the failure this whole step exists to end.
+        step(runs, slug, f"apply {len(acquired)} lane dir(s)",
+             [NODE, "--import", "tsx", "src/pipeline/cli.ts", "apply-acquired", *acquired,
+              "--vendor", brand.vendor_slug, "--commit"], 1800)
 
     step(runs, slug, "watchdog",
          [PY, "-u", f"scraper/brands/{slug}/watchdog.py"], 900)
