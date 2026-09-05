@@ -44,10 +44,16 @@ from pathlib import Path
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scraper"))
+import re  # noqa: E402
+import adapters.cisco_specs_pdf as ADAPTER  # noqa: E402
 from adapters.cisco_specs_pdf import (  # noqa: E402
-    BLEED_MIN_ROWS, LABEL_CAP, VALUE_CAP, cap_value, column_bleed, footnote_marker_chars,
-    read_page, text_contains, text_lines,
+    BLEED_MIN_ROWS, DEDUPE_TOLERANCE, LABEL_CAP, NOT_A_SPEC_LABEL, VALUE_CAP, cap_value,
+    column_bleed, footnote_marker_chars, image_columns, read_page, text_contains, text_lines,
 )
+
+# ">=4 letters in a row, each one printed twice": the shape an overprinted bold run takes once
+# pdfplumber has handed back both copies. "PPlluugg", "MMoolleexx", "CCoorrddsseett".
+DOUBLED_RUN = re.compile(r"(?:([A-Za-z])\1){4,}")
 
 npass = nfail = 0
 
@@ -167,13 +173,17 @@ def cached(url: str):
 X580P = "https://www.cisco.com/c/dam/en/us/products/collateral/servers-unified-computing/ucs-x-series-modular-system/x580p-specsheet.pdf"
 C240M7 = "https://www.cisco.com/c/dam/en/us/products/collateral/servers-unified-computing/ucs-c-series-rack-servers/c240m7-sff-specsheet.pdf"
 HX220 = "https://www.cisco.com/c/dam/en/us/products/collateral/hyperconverged-infrastructure/hyperflex-hx-series/hyperflex-hx220-m6-edge-spec-sheet.pdf"
+S3260 = "https://www.cisco.com/c/dam/en/us/products/collateral/servers-unified-computing/ucs-s-series-storage-servers/s3260-specsheet.pdf"
+C240M8LFF = "https://www.cisco.com/c/dam/en/us/products/collateral/servers-unified-computing/ucs-c-series-rack-servers/ucs-c240-m8-lff-rack-server.pdf"
 
-missing = [u for u in (X580P, C240M7, HX220) if not cached(u).exists()]
+NEEDED = (X580P, C240M7, HX220, S3260, C240M8LFF)
+missing = [u for u in NEEDED if not cached(u).exists()]
 if missing:
     # NOT a skip. A geometry rule proven only on a hand-built fixture is a rule proven on the
     # fixture, and "could not check" must never come back as a pass (CLAUDE.md § 6).
     nfail += 1
-    print(f"  MISS the cached PDFs this suite reads are not in scraper/cache: {len(missing)} of 3 missing")
+    print(f"  MISS the cached PDFs this suite reads are not in scraper/cache: "
+          f"{len(missing)} of {len(NEEDED)} missing")
 else:
     import pdfplumber
 
@@ -261,6 +271,139 @@ wrapped_ok = [["UCSC-240M8E3-32X2", "C240M8 E3.S 32 drives (x2\nlanes) with rise
               ["UCSC-240M8E3-16X4", "C240M8 E3.S 16 drives (x4\nlanes, slots 9-24) with", "16"]]
 check("SABOTAGE a table whose cells merely WRAP is not a bleed (ucs-c240-m8-edsff p22)",
       column_bleed(wrapped_ok) == [], repr(column_bleed(wrapped_ok)))
+
+
+
+# ==================================================================================================
+# 5. overprinted glyphs, and a column that cannot hold a specification
+#
+# ONE row of s3260-specsheet p43 carried both faults, and it is the row that failed the gate:
+#   CAB-48VDC-40A-8AWG "Images" = "PPlluugg:: CCoorrddsseett rraattiinngg:: MMoolleexx 33CCKKTT ..."
+# The page fakes bold by drawing every glyph twice, and the column is a column of PHOTOGRAPHS.
+# Fixing either one alone leaves a defect: dedupe alone gives a clean sentence that is still a
+# picture caption filed as a specification; the label refusal alone leaves every OTHER overprinted
+# cell in the corpus doubled.
+# ==================================================================================================
+print("overprint dedupe + picture columns")
+if missing:
+    nfail += 1
+    print("  MISS the cached PDFs this section reads are not in scraper/cache")
+else:
+    with pdfplumber.open(io.BytesIO(cached(S3260).read_bytes())) as _pdf:
+        _page43 = _pdf.pages[43]
+        st = {}
+        grid43, text43, _n43, bleed43 = read_page(_page43, st)
+        # The smallest gap between two ADJACENT identical characters that are genuinely two
+        # glyphs, measured on this very page: the margin the tolerance has to live inside. The
+        # doubled cell is set in 4 pt type, which is where that margin is tightest.
+        _lines43: dict = {}
+        for _c in _page43.chars:
+            _lines43.setdefault(round(float(_c["doctop"]), 1), []).append(_c)
+        legit_gap = min(
+            float(b["x0"]) - float(a["x0"])
+            for _cs in _lines43.values()
+            for a, b in zip(sorted(_cs, key=lambda c: float(c["x0"])),
+                            sorted(_cs, key=lambda c: float(c["x0"]))[1:])
+            if a["text"] == b["text"] and float(b["x0"]) - float(a["x0"]) > 0.2)
+        grid43_nostats = read_page(_page43)[0]
+
+    cell = grid43[0][3][2]
+    check("the overprinted cell reads as the page renders it (s3260 p43:t0:r3:c2)",
+          cell.startswith("Plug: Cordset rating: Molex 3CKT"), repr(cell[:60]))
+    check("SABOTAGE ... and not one doubled run survives anywhere in it",
+          DOUBLED_RUN.search(cell) is None, repr(cell[:60]))
+    check("SABOTAGE the old doubled text is gone, not merely shortened",
+          "PPlluugg" not in cell and "MMoolleexx" not in cell)
+    check("SABOTAGE a LEGITIMATE double letter inside the SAME overprinted run survives: "
+          "'GGrreeeenn' is 'Green' with BOTH its e's, because the second e is a glyph-width away",
+          " Green " in cell and "Gren" not in cell, repr(cell))
+    check("... the whole cell is the caption, in order",
+          cell == "Plug: Cordset rating: Molex 3CKT 428160312 -48 VDC, 40 A Green 2.0 m "
+                  "580503 Black & red 3.5 m", repr(cell))
+    check("the reader reports how many overprinted glyphs it removed", st.get("overprint_removed") == 81,
+          repr(st))
+    check("SABOTAGE the tolerance is far below the smallest REAL gap between two identical "
+          "adjacent glyphs on this page, so a real double letter can never be inside it",
+          DEDUPE_TOLERANCE < legit_gap / 10, f"tolerance={DEDUPE_TOLERANCE} real gap={legit_gap:.4f}")
+    check("SABOTAGE ... and pdfplumber's OWN default of 1 pt is NOT: it is within 2x of that gap, "
+          "which is why this reader does not use it", legit_gap < 2.0, f"{legit_gap:.4f}")
+    check("the gate calls read_page(page) with no stats dict and gets the same tables",
+          grid43_nostats == grid43)
+    check("SABOTAGE the neighbouring real cells are untouched by the dedupe",
+          grid43[0][3][1] == "C-Series -48VDC PSU Power Cord, 3.5M, 3 Wire, 8AWG, 40A",
+          repr(grid43[0][3][1]))
+
+    with pdfplumber.open(io.BytesIO(cached(C240M8LFF).read_bytes())) as _pdf:
+        grid22 = read_page(_pdf.pages[22])[0]
+    pids22 = [r[0] for r in grid22[0]]
+    check("SABOTAGE a real PID whose doubled letter is real keeps it (UCS-HDL16TT1S74K, "
+          "ucs-c240-m8-lff p22)", "UCS-HDL16TT1S74K" in pids22, repr(pids22[:6]))
+    check("SABOTAGE ... and its neighbours in the same column are unchanged too",
+          "UCS-HDL24TW1S74K" in pids22 and "UCS-HDL22TW1S74K" in pids22)
+
+    # ---- the column that cannot hold a specification ---------------------------------------
+    hdr43 = grid43[0][0]
+    check("the picture column is found by its header (s3260 p43)",
+          image_columns(grid43[0]) == [(2, "Images")], repr(image_columns(grid43[0])))
+    check("... and it is NOT a COLUMN_BLEED: the boundary is right and the header is whole",
+          bleed43[0] == [] and hdr43 == ["Product ID (PID)", "PID Description", "Images"],
+          repr((bleed43[0], hdr43)))
+    check("SABOTAGE a real attribute that merely CONTAINS the word is not refused "
+          "(CLAUDE.md: anchor, never a substring)",
+          image_columns([["PID", "Image Sensor Resolution", "Imaging Rate"]]) == [],
+          repr(image_columns([["PID", "Image Sensor Resolution", "Imaging Rate"]])))
+    check("SABOTAGE an ordinary table is not flagged — a detector that fires on everything is none",
+          image_columns([["Product ID (PID)", "PID Description", "Location"]]) == [])
+    check("column 0 is never reported: it is the PID column",
+          image_columns([["Image", "Cores", "Watts"]]) == [])
+    check("NOT_A_SPEC_LABEL matches the whole label only",
+          bool(NOT_A_SPEC_LABEL.match("Images")) and bool(NOT_A_SPEC_LABEL.match("photo"))
+          and not NOT_A_SPEC_LABEL.match("Image Type")
+          and not NOT_A_SPEC_LABEL.match("Imaging"))
+
+    # ---- END TO END: the real adapter over the real page, one page sliced out so it is fast ----
+    import pypdf
+
+    _w = pypdf.PdfWriter()
+    _r = pypdf.PdfReader(io.BytesIO(cached(S3260).read_bytes()))
+    _w.add_page(_r.pages[43])
+    _buf = io.BytesIO()
+    _w.write(_buf)
+    _one = _buf.getvalue()
+
+    # The ground truth must be loaded BEFORE the slice borrows the parent document's PID list:
+    # written as one statement, Python evaluates the right-hand side first, _SKU_MAP is still
+    # empty, and the slice gets [] -- no PIDs, no grid rows, and every assertion below passes
+    # vacuously. That is how this section first ran green with nothing in it.
+    FAKE = "memory://s3260-p43.pdf"
+    _real_map = ADAPTER._load_sku_map()
+    _real_map[FAKE] = _real_map.get(S3260, [])
+    check("the sliced page carries the parent document's ground truth, or every END TO END "
+          "assertion below is vacuous", len(_real_map[FAKE]) > 0, str(len(_real_map[FAKE])))
+
+    class _Cached:
+        def fetch_binary(self, _url):
+            return _one
+
+    recs = ADAPTER.run(_Cached(), [FAKE])
+    facts = [x for x in recs if not x.get("__doc__")]
+    docdef = [x for x in recs if x.get("__doc__")][0]["defects"]
+    check("END TO END the picture cell that failed the gate is NOT emitted as a fact",
+          not [f for f in facts if NOT_A_SPEC_LABEL.match(f.get("label") or "")], repr(facts))
+    check("SABOTAGE ... and it is refused BY NAME, not lost in silence",
+          [d for d in docdef if d["code"] == "IMAGE_COLUMN" and d["locator"] == "p0:t0:r0:c2"],
+          repr(docdef))
+    check("SABOTAGE ... for the RIGHT reason: the cell IS there and IS non-empty — it is the "
+          "column that is refused, not the cell that is missing",
+          grid43[0][3][2].startswith("Plug:"))
+    check("SABOTAGE the real specification in the same row still lands",
+          [f for f in facts if f.get("sku") == "CAB-48VDC-40A-8AWG"
+           and f.get("label") == "PID Description"
+           and f.get("value") == "C-Series -48VDC PSU Power Cord, 3.5M, 3 Wire, 8AWG, 40A"],
+          repr(facts))
+    check("SABOTAGE no fact on the page carries a doubled run any more",
+          not [f for f in facts if DOUBLED_RUN.search(f.get("value") or "")
+               or DOUBLED_RUN.search(f.get("label") or "")], repr(facts))
 
 
 print(f"\n{npass} passed, {nfail} missed")

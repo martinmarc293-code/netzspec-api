@@ -292,6 +292,69 @@ def _touching(a, b) -> bool:
     return abs(float(b["x0"]) - float(a["x1"])) <= 0.3 * max(float(a["size"]), float(b["size"]))
 
 
+# ---- overprinted glyphs (a PDF's way of faking bold) ---------------------------------------------
+# Some of Cisco's spec sheets embolden a run of text by drawing every glyph TWICE at the same
+# point. There is one visible "P"; the content stream holds two, and pdfplumber returns both:
+#
+#     s3260-specsheet p43, the "Images" cell of CAB-48VDC-40A-8AWG
+#     "PPlluugg:: CCoorrddsseett rraattiinngg:: MMoolleexx 33CCKKTT 442288116600331122 ..."
+#
+# It reached the gate as a provenance MISS ("value not in page text") rather than as anything the
+# extractor noticed, because the doubled cell and the singly-rendered page text disagree -- the
+# text pass wraps at a different point, so the two copies do not line up the same way.
+#
+# The test is PHYSICAL, exactly like the footnote rule above and for the same reason: no text rule
+# can separate "PPlluugg" from a real doubled letter. Two chars are one glyph only when they carry
+# the same character, font and size AND occupy the SAME POINT on the page. Measured on that page,
+# every overprinted pair sits at dx0 = 0.0000, dtop = 0.0000 -- so the tolerance is 0.05 pt, not
+# pdfplumber's default 1 pt. A whole point is wide enough to swallow one narrow glyph at a small
+# size, and cluster_objects is transitive, so a dot leader or a run of "l"s in 4 pt type could
+# collapse into one character. The legitimate double letters in the SAME overprinted cell prove
+# the rule from the other side: "GGrreeeenn" is "Green" with BOTH its e's, because the second e
+# is a glyph-width to the right of the first and no tolerance this small reaches it.
+DEDUPE_TOLERANCE = 0.05
+
+
+def dedupe_overprint(page):
+    """(page with each overprinted duplicate glyph removed, how many were removed)."""
+    before = len(page.chars)
+    kept = page.dedupe_chars(tolerance=DEDUPE_TOLERANCE)
+    return kept, before - len(kept.chars)
+
+
+# ---- a column that cannot hold a specification ---------------------------------------------------
+# Cisco's cable and power-cord tables carry a third column of PHOTOGRAPHS, headed "Images". The
+# photographs are vector art with text inside them, so the picture's own caption arrives as a table
+# cell and the header above it becomes the attribute name: CAB-48VDC-40A-8AWG "Images" = "Plug:
+# Cordset rating: Molex 3CKT ...". 29 such facts were in the 4 Sep 2026 PDF file, several of them
+# not even prose -- "OVE E P L l u 2 g 0 : 8 Cordset ( 2 ra 5 t 0 in 0 g m 1 m 6 ) A, 250V" is one
+# cell, the two halves of a caption interleaved by the text layer.
+#
+# This is not the COLUMN_BLEED defect. That one is a column BOUNDARY in the wrong place, and it
+# needs the boundary to cut a word ('PID Description Im' | 'ages'); here the boundary is right and
+# the header is clean. The column itself is the defect: no value under it can be a specification,
+# whatever it says, so the extractor refuses the cell BY NAME rather than emitting a fact that
+# every downstream layer would then have to recognise as a picture.
+NOT_A_SPEC_LABEL = re.compile(r"^(images?|photos?|pictures?|diagrams?|figures?|thumbnails?|icons?)$", re.I)
+
+
+def image_columns(rows: list) -> list:
+    """Column indices of `rows` whose HEADER names a picture rather than an attribute.
+
+    Returns [(column_index, header)]. Column 0 is never reported: it is the PID column, and a
+    table whose first column were called "Image" would have no PIDs to bind anything to anyway.
+    """
+    if not rows or not rows[0]:
+        return []
+    out: list = []
+    for ci, h in enumerate(rows[0]):
+        if ci == 0:
+            continue
+        if h and NOT_A_SPEC_LABEL.match(_clean(h)):
+            out.append((ci, _clean(h)))
+    return out
+
+
 def strip_footnote_markers(page):
     """(page without its footnote markers, how many were removed)."""
     drop = footnote_marker_chars(page)
@@ -301,15 +364,28 @@ def strip_footnote_markers(page):
     return kept, len(drop)
 
 
-def read_page(page) -> tuple:
+def read_page(page, stats: dict | None = None) -> tuple:
     """(tables, text, markers_removed, bleed_per_table) for one page -- as this extractor sees it.
 
     Every part comes from the SAME filtered view: a table cell and the page text must agree about
     what is on the page, or the provenance re-read grades the extractor against a document
     neither of them read. `bleed_per_table[i]` is column_bleed() over table i's RAW rows, which
     only exist here -- _clean() destroys the line breaks it needs.
+
+    The overprint dedupe runs FIRST, before the footnote geometry and before any table is
+    extracted, for both reasons: the tables and the text must be read off one view of the page,
+    and the footnote rule measures the gap to the character on the LEFT -- with a duplicate glyph
+    sitting exactly on top of that character, the gap it measures is the wrong one.
+
+    `stats`, when given, receives counters the 4-tuple has no room for (`overprint_removed`).
+    It is optional so the gate's provenance re-read can keep calling read_page(page): the
+    auditor must read a page through exactly this function, and an interface it cannot call
+    unchanged is a second implementation grading the first.
     """
-    p, nmarks = strip_footnote_markers(page)
+    p, ndup = dedupe_overprint(page)
+    if stats is not None:
+        stats["overprint_removed"] = stats.get("overprint_removed", 0) + ndup
+    p, nmarks = strip_footnote_markers(p)
     raw = [t for t in (p.extract_tables() or [])]
     grid = [[[_clean(cell) for cell in row] for row in tbl] for tbl in raw]
     bleed = [column_bleed([r for r in tbl if r]) for tbl in raw]
@@ -524,7 +600,8 @@ def run(browser, urls: list[str]) -> list[dict]:
         _KNOWN_NORM |= trimmed
         pids_seen: set[str] = set()
         before = len(out)
-        counts = {"param": 0, "grid": 0, "markers": 0, "truncated": 0}
+        counts = {"param": 0, "grid": 0, "markers": 0, "truncated": 0,
+                  "overprint": 0, "not_a_spec": 0}
         defects: list[dict] = []
 
         # pdfplumber needs a file-like; the cache already holds the bytes on disk, but going
@@ -542,8 +619,10 @@ def run(browser, urls: list[str]) -> list[dict]:
             for pi, page in enumerate(pdf.pages):
                 # ONE filtered view of the page: the tables and the text must agree about what the
                 # document says, and the auditor re-reads through this same function.
-                grid, text, nmarks, bleed = read_page(page)
+                pstats: dict = {}
+                grid, text, nmarks, bleed = read_page(page, pstats)
                 counts["markers"] += nmarks
+                counts["overprint"] += pstats.get("overprint_removed", 0)
                 head = text.split("\n")[0] if text else ""
                 if SPEC_SECTION.search(head) or SPEC_SECTION.search(text[:200]):
                     in_spec_section = True
@@ -558,6 +637,14 @@ def run(browser, urls: list[str]) -> list[dict]:
                         defects.append({"code": "COLUMN_BLEED", "locator": f"p{pi}:t{ti}:r0:c{ci_b}",
                                         "detail": f"column {ci_b} ends '{frag}' where column {ci_b + 1} "
                                                   f"begins '{cont}' in {nrows} rows: the boundary cuts a word"})
+                    # A picture column. Reported per TABLE, once, with its header: the per-cell
+                    # refusals below are counted but not each given a defect of their own, or an
+                    # 18-row cable table would bury every other defect the document has.
+                    img_cols = dict(image_columns(rows))
+                    for ci_i, hdr_i in sorted(img_cols.items()):
+                        defects.append({"code": "IMAGE_COLUMN", "locator": f"p{pi}:t{ti}:r0:c{ci_i}",
+                                        "detail": f"column {ci_i} is headed '{hdr_i}': it holds photographs, "
+                                                  f"and the text inside them is not a specification"})
                     # fold a units-only second header row in before anything reads the header
                     merged_rows = _merge_unit_header(rows)
                     # Every locator below must name the RAW row, not the merged one.
@@ -575,6 +662,15 @@ def run(browser, urls: list[str]) -> list[dict]:
                                 continue
                             label, val = r[0], r[1]
                             if not label or BAD_LABEL.match(label) or len(label) > LABEL_CAP:
+                                continue
+                            if NOT_A_SPEC_LABEL.match(label):
+                                # No column header to report here -- the label IS the row -- so the
+                                # refusal names itself at the row it refused.
+                                counts["not_a_spec"] += 1
+                                defects.append({"code": "NOT_A_SPEC_LABEL",
+                                                "locator": f"p{pi}:t{ti}:r{ri + roff}",
+                                                "detail": f"label '{label[:40]}' names a picture, not an "
+                                                          f"attribute: the value is refused, not stored"})
                                 continue
                             if (val or "").lower() in EMPTY_VAL:
                                 continue
@@ -609,6 +705,11 @@ def run(browser, urls: list[str]) -> list[dict]:
                                 label, val = (hdr[ci] or ""), r[ci]
                                 if not label or BAD_LABEL.match(label) or len(label) > LABEL_CAP:
                                     continue
+                                if ci in img_cols or NOT_A_SPEC_LABEL.match(label):
+                                    # Refused, not stored, and counted. The column is named once
+                                    # per table by the IMAGE_COLUMN defect above.
+                                    counts["not_a_spec"] += 1
+                                    continue
                                 if (val or "").lower() in EMPTY_VAL:
                                     continue
                                 loc = f"p{pi}:t{ti}:r{ri + roff}:c{ci}"
@@ -630,6 +731,8 @@ def run(browser, urls: list[str]) -> list[dict]:
         print(f"  [cisco-specs-pdf] {url[-46:]}: {len(out)-before-1} facts "
               f"(param={counts['param']} grid={counts['grid']}), {npages}p, "
               f"{len(pids_seen)} PIDs, defects={len(defects)}, "
-              f"footnote markers stripped={counts['markers']}, truncated={counts['truncated']}", flush=True)
+              f"footnote markers stripped={counts['markers']}, truncated={counts['truncated']}, "
+              f"overprinted glyphs removed={counts['overprint']}, "
+              f"picture cells refused={counts['not_a_spec']}", flush=True)
 
     return out

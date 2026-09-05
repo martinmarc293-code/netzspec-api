@@ -28,7 +28,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from adapters.cisco_specs_pdf import strip_footnote_markers  # noqa: E402
+from adapters.cisco_specs_pdf import dedupe_overprint, strip_footnote_markers  # noqa: E402
 
 CACHE = Path("scraper/cache")
 # Deliberately permissive: this only produces CANDIDATES and the known-SKU set decides. It must
@@ -108,7 +108,11 @@ def main() -> int:
                     # 3), the token happens to be in the 89,090-part catalogue because that was
                     # mined the same way, so the lookup "hits" and the map records a part that
                     # does not exist. 156 of them on the 4 Sep 2026 corpus, carrying 792 facts.
-                    text = strip_footnote_markers(page)[0].extract_text() or ""
+                    # ... and through the overprint dedupe first, for the same reason and in the
+                    # same order the extractor uses: a page that fakes bold by drawing every glyph
+                    # twice hands back "PPlluugg", and a PID drawn that way would be mined as a
+                    # token that exists nowhere. Both readers must see one page.
+                    text = strip_footnote_markers(dedupe_overprint(page)[0])[0].extract_text() or ""
                     if not text:
                         continue
                     for m in TOKEN.finditer(text):
