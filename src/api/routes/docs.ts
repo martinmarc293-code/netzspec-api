@@ -40,6 +40,7 @@ const DocFields = {
   // column stays in the table; retiring it is a migration and a change to apply-lifecycle.
   title: Nullable(Type.String({ description: "the document's own title — the evidence for its class" })),
   spec_bearing: Type.Boolean({ description: "true when this class of document can carry specifications" }),
+  classified_by: Type.String({ description: "the EVIDENCE that decided the class, recomputed live (eg cisco-code:c51, host:itprice.com, brand:ubiquiti:techspecs.ui.com/, operator-override). If it disagrees with doc_type, the stored class is stale and reclassify-docs is the fix." }),
   fetched_at: Nullable(Type.String({ format: "date" })),
   parts_count: Type.Integer(),
 };

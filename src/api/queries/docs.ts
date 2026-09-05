@@ -10,17 +10,34 @@
 // `vendor_datasheet_html`, 43% of Cisco's "datasheets" were end-of-life notices, and 18,977
 // hardware parts appeared to have a datasheet when they had never had one fetched. The API now
 // answers the question directly instead of leaving every consumer to re-derive it.
-import { SPEC_BEARING, type DocClass } from "../../core/docClass.js";
+import { SPEC_BEARING, classifyDocument, type DocClass } from "../../core/docClass.js";
 import { query } from "../../store/db.js";
 
 export type DocRecord = {
   doc_id: string; url: string; doc_type: string; title: string | null;
-  spec_bearing: boolean; fetched_at: string | null; parts_count: number; parts: string[];
+  spec_bearing: boolean; classified_by: string; fetched_at: string | null;
+  parts_count: number; parts: string[];
 };
 
 export type DocListItem = Omit<DocRecord, "parts">;
 
 const specBearing = (docType: string): boolean => SPEC_BEARING.has(docType as DocClass);
+
+/**
+ * WHY this document has the class it has, recomputed per request from the URL and title.
+ *
+ * This file's own header says a wrong class made 18,977 parts look like they had a datasheet when
+ * none had ever been fetched. A caller who cannot see the EVIDENCE has to take the class on trust,
+ * and "trust the label" is precisely what produced that number. `cisco-code:c51` and
+ * `operator-override` and `brand:ubiquiti:techspecs.ui.com/` are answers somebody can check;
+ * `vendor_eol_bulletin` alone is not.
+ *
+ * Recomputed rather than stored on purpose: the stored doc_type is written by a gated reclassify
+ * run, so the two can legitimately differ between that run and the next one. Serving live evidence
+ * next to the stored class makes that difference VISIBLE instead of hiding it - if they disagree,
+ * the store is stale and the reclassify command is the fix.
+ */
+const classifiedBy = (url: string, title: string | null): string => classifyDocument(url, title).via;
 
 export async function getDoc(docId: string): Promise<DocRecord | null> {
   const { rows } = await query<Omit<DocRecord, "parts" | "spec_bearing">>(`
@@ -31,7 +48,8 @@ export async function getDoc(docId: string): Promise<DocRecord | null> {
   const parts = await query<{ sku: string }>(`
     SELECT p.sku FROM doc_parts dp JOIN parts p ON p.id = dp.part_id
      WHERE dp.doc_id = $1 AND p.retired_at IS NULL ORDER BY p.sku LIMIT 100`, [docId]);
-  return { ...rows[0], spec_bearing: specBearing(rows[0].doc_type), parts: parts.rows.map((r) => r.sku) };
+  return { ...rows[0], spec_bearing: specBearing(rows[0].doc_type),
+           classified_by: classifiedBy(rows[0].url, rows[0].title), parts: parts.rows.map((r) => r.sku) };
 }
 
 export type DocListArgs = {
@@ -63,7 +81,8 @@ export async function listDocs(a: DocListArgs): Promise<{ items: DocListItem[]; 
      a.cursor ?? null, a.limit + 1]);
   // spec_bearing=false cannot be expressed as "= ANY(spec list)"; it is the complement, and doing
   // it in SQL would put the class list in two places. Filter it here, where the set already lives.
-  let items = rows.rows.map((r) => ({ ...r, spec_bearing: specBearing(r.doc_type) }));
+  let items = rows.rows.map((r) => ({ ...r, spec_bearing: specBearing(r.doc_type),
+                                      classified_by: classifiedBy(r.url, r.title) }));
   if (a.spec_bearing === false) items = items.filter((r) => !r.spec_bearing);
   const more = items.length > a.limit;
   if (more) items = items.slice(0, a.limit);
