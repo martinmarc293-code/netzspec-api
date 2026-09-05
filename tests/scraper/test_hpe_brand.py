@@ -139,5 +139,44 @@ check("M9", "is_doc_method agrees with classify_method rather than keeping its o
           for m in ("html_table", "pdf_table", "vendor_page:hpe-quickspecs", "hexcat_seed",
                     "product_name_mining", "retracted:x", "unknown_thing", None)))
 
+# ---------------------------------------------------------------------------------------------
+# K. classification() — 100% of what HPE publishes, and NOT what it does not
+# ---------------------------------------------------------------------------------------------
+# The operator's instruction is that 100% of HPE's datasheets and websites be classified. The
+# denominator is the load-bearing part: a provantage listing and a third-party mirror of an HP
+# QuickSpecs PDF are filed against HPE parts in the store and are NOT HPE's documents. Claiming
+# them would be the authority crossing refineVendorDocClass exists to refuse — who published a
+# document is a property of the SOURCE and is never inferred from a URL shape.
+DOCS = [
+    {"url": "https://www.hpe.com/psnow/doc/a00073540enw", "doc_class": None},
+    {"url": "https://www.hpe.com/psnow/doc/c04111378", "doc_class": None},
+    {"url": "https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-c02051709", "doc_class": None},
+    {"url": "https://arubanetworking.hpe.com/techdocs/Switches/xcvrs/PDF/Guide.pdf", "doc_class": None},
+    {"url": "https://www.provantage.com/hpe-537963-b21~7CMPT2WT.htm", "doc_class": None},
+    {"url": "https://andovercg.com/datasheets/hpe-5400zl-Switch-modules.pdf", "doc_class": None},
+]
+k = W.classification(DOCS)
+check("K1", "every HPE-published document is classified — 100% of the denominator that is ours",
+      k["lane_classified"] == 4 and k["hpe_published"] == 4 and k["lane_pct"] == 100.0, k)
+check("K2", "SABOTAGE a distributor page and a third-party PDF mirror are NOT claimed — they are "
+            "another source's authority, and counting them would make correct behaviour read as a gap",
+      len(k["foreign_urls"]) == 2 and not k["unclaimed_urls"], k)
+check("K3", "the support document is a GUIDE, not a datasheet — classing nine of them as "
+            "datasheets would put guide prose into a specification tier",
+      k["by_class"].get("vendor_guide") == 1 and k["by_class"].get("vendor_datasheet_html") == 2, k["by_class"])
+check("K4", "the Aruba techdocs PDF is the higher-tier PDF class",
+      k["by_class"].get("vendor_datasheet_pdf") == 1, k["by_class"])
+# The API serves source_docs.doc_class. It is NULL for every document in the store, so /v1/docs
+# cannot say what any HPE document is however well the lane classifies it.
+check("K5", "a NULL stored doc_class is counted apart from the lane's own answer — the lane "
+            "classifying a document is not the same as the API being able to say what it is",
+      k["stored_doc_class_set"] == 0, k)
+check("K6", "...and a written one is counted",
+      W.classification([{"url": "https://www.hpe.com/psnow/doc/a00073540enw",
+                         "doc_class": "vendor_datasheet_html"}])["stored_doc_class_set"] == 1)
+check("K7", "SABOTAGE an HPE-host URL no rule claims is an UNCLAIMED gap, not a foreign document",
+      W.classification([{"url": "https://www.hpe.com/psnow/documents", "doc_class": None}])["unclaimed_urls"]
+      == ["https://www.hpe.com/psnow/documents"])
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

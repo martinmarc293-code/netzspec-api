@@ -155,7 +155,7 @@ def documents(conn, slugs: tuple) -> list:
     as holding nothing and send the next hour to a crawl problem this brand does not have.
     """
     return conn.execute("""
-        SELECT sd.doc_id, sd.url, sd.doc_type, sd.fetched_at, sd.cache_path,
+        SELECT sd.doc_id, sd.url, sd.doc_type, sd.doc_class, sd.fetched_at, sd.cache_path,
                count(DISTINCT dp.part_id) AS parts,
                count(DISTINCT p.vendor_id) AS vendors
           FROM doc_parts dp
@@ -163,7 +163,7 @@ def documents(conn, slugs: tuple) -> list:
           JOIN vendors v ON v.id = p.vendor_id
           JOIN source_docs sd ON sd.doc_id = dp.doc_id
          WHERE v.slug = ANY(%s)
-         GROUP BY 1, 2, 3, 4, 5 ORDER BY 6 DESC
+         GROUP BY 1, 2, 3, 4, 5, 6 ORDER BY 7 DESC
     """, (list(slugs),)).fetchall()
 
 
@@ -233,6 +233,46 @@ def cache_state(docs: list, cache: Path, ledger_urls: list) -> dict:
             "no_bytes_urls": missing}
 
 
+def classification(docs: list) -> dict:
+    """Is every document this brand holds actually CLASSIFIED, and by whom?
+
+    Three answers, and the difference between them is the finding:
+      stored      what `source_docs.doc_class` holds — NULL for all 7,188 documents in the store.
+      shared      what `src/core/docClass.ts` would decide. Its rules are Cisco's: the cNN type
+                  code and Cisco's filename keywords. HPE collateral has no filename at all
+                  (`/psnow/doc/a00073540enw`), so it decides nothing here. Not callable from
+                  Python, so this reports the class the LANE would give and the count of documents
+                  the shared classifier is known to miss (66 of 67, measured 5 Sep 2026).
+      lane        what `sources/hpe_quickspecs.DOC_SURFACES` decides — the brand pack's own
+                  enumeration of what HPE publishes, which is where that knowledge belongs.
+    A document no rule claims is reported by URL, because an unclaimed surface is one nobody has
+    looked at and the whole point of this table is that it never guesses a default.
+    """
+    by_class: dict[str, int] = {}
+    unclaimed: list[str] = []       # on an HPE host and no rule claims it — a REAL gap
+    foreign: list[str] = []         # not HPE's document at all — correctly not claimed
+    stored_set = 0
+    for d in docs:
+        if d.get("doc_class"):
+            stored_set += 1
+        cls = LANE.doc_class_for(d["url"])
+        if cls is None:
+            # The split matters and conflating it would report correct behaviour as a gap. A
+            # provantage listing or a third-party mirror of an HP QuickSpecs PDF is somebody
+            # else's publication; this brand's table must NOT claim it, because who published a
+            # document is a property of the source and is never inferred from a URL shape. Those
+            # documents belong to the distributor/aggregator lanes and to tier 3-4.
+            (unclaimed if LANE._on_hpe(d["url"]) else foreign).append(d["url"])
+        by_class[cls or "(unclaimed)"] = by_class.get(cls or "(unclaimed)", 0) + 1
+    total = len(docs)
+    hpe_docs = total - len(foreign)
+    claimed = total - len(unclaimed) - len(foreign)
+    return {"documents": total, "stored_doc_class_set": stored_set,
+            "hpe_published": hpe_docs, "lane_classified": claimed,
+            "lane_pct": round(100.0 * claimed / hpe_docs, 1) if hpe_docs else 0.0,
+            "by_class": by_class, "unclaimed_urls": unclaimed, "foreign_urls": foreign}
+
+
 def transport_refusals(conn, brand, window_min: int) -> list:
     """HPE's refusal leaves no HTML, so it can never reach a block counter.
 
@@ -283,6 +323,7 @@ def report(conn, brand, window_min: int, cache: Path, ledger: Path | None = None
     docs = [dict(r) for r in documents(conn, VENDOR_SLUGS)]
     led = fetched_urls(ledger or (ROOT / "scraper" / "ledger.jsonl"), brand.hosts)
     cache_rep = cache_state(docs, cache, led)
+    cls_rep = classification(docs)
     fresh = B.document_freshness(conn, brand)      # documents are filed under vendor 'hpe' only
     blocks = [dict(r) for r in B.blocked_sources(conn, brand, window_min)]
     refusals = [dict(r) for r in transport_refusals(conn, brand, window_min)]
@@ -323,6 +364,18 @@ def report(conn, brand, window_min: int, cache: Path, ledger: Path | None = None
         alarms.append(f"MEASURED BUT UNTARGETED {m}={measured[m]:,.1f}: the watchdog computes it "
                       f"and the manifest names no target for it")
 
+    if cls_rep["stored_doc_class_set"] < cls_rep["documents"]:
+        alarms.append(
+            f"DOC_CLASS NOT WRITTEN: {cls_rep['documents'] - cls_rep['stored_doc_class_set']} of "
+            f"{cls_rep['documents']} documents have a NULL source_docs.doc_class — that is the "
+            f"column /v1/docs serves, so the API cannot say what any HPE document IS. The lane's "
+            f"own table classifies {cls_rep['lane_pct']}% of them; src/core/docClass.ts, which "
+            f"`reclassify-docs` writes from, decides nothing here because its rules are Cisco's")
+    if cls_rep["unclaimed_urls"]:
+        alarms.append(
+            f"UNCLAIMED SURFACE: {len(cls_rep['unclaimed_urls'])} document URL(s) no rule in "
+            f"DOC_SURFACES claims — a surface nobody has looked at yet: "
+            f"{', '.join(cls_rep['unclaimed_urls'][:3])}")
     if cache_rep["no_bytes"]:
         alarms.append(
             f"HELD IS NOT READ: {cache_rep['no_bytes']} of {cache_rep['held_rows']} documents "
@@ -372,7 +425,8 @@ def report(conn, brand, window_min: int, cache: Path, ledger: Path | None = None
             "covered_pct": round(100.0 * covered / hw, 1) if hw else 0.0,
             "per_vendor": {k: {"coverage": dict(v["coverage"]),
                                "completeness": dict(v["completeness"])} for k, v in per_vendor.items()},
-            "evidence": ev, "methods": meth, "cache": cache_rep, "measured": measured,
+            "evidence": ev, "methods": meth, "cache": cache_rep, "classification": cls_rep,
+            "measured": measured,
             "freshness": [{"key": f["class"].key, "label": f["class"].label,
                            "refresh_days": f["class"].refresh_days, "required": f["class"].required,
                            "held": f["held"], "stale": f["stale"],
@@ -404,6 +458,25 @@ def render(rep: dict) -> str:
     for m in rep["methods"]:
         L.append(f"  {str(m['method'])[:34]:36} tier {m['tier']}  {m['n']:>6,} facts  "
                  f"{m['parts']:>5,} parts   {m['class']}")
+    L += ["", "## document classification", "",
+          "  A class decided by the BRAND, because what HPE publishes is the brand pack's",
+          "  business. src/core/docClass.ts decides from Cisco's evidence — its cNN type code and",
+          "  its filename keywords — and HPE collateral has no filename at all, so it returns",
+          "  `unclassified` for 66 of these 67 documents. That is invisible in the store because",
+          "  callers use classifyDocType(url, fallback) and the fallback is the stored doc_type.", ""]
+    cl = rep["classification"]
+    L += [f"  {cl['lane_classified']}/{cl['hpe_published']} = {cl['lane_pct']}% of HPE-PUBLISHED "
+          f"documents classified by the lane's own surface table",
+          f"  {cl['stored_doc_class_set']}/{cl['documents']} have source_docs.doc_class written "
+          f"(the column /v1/docs serves)",
+          f"  {len(cl['foreign_urls'])} of the {cl['documents']} are not HPE's documents at all and are "
+          f"correctly NOT claimed", ""]
+    for k, v in sorted(cl["by_class"].items(), key=lambda kv: -kv[1]):
+        L.append(f"    {k:<28} {v:>4}")
+    for u in cl["unclaimed_urls"][:6]:
+        L.append(f"    UNCLAIMED (HPE host, no rule): {u}")
+    for u in cl["foreign_urls"][:6]:
+        L.append(f"    foreign (another source's authority, not ours to class): {u[:86]}")
     L += ["", "## documents: held, and actually read", ""]
     c = rep["cache"]
     L += [f"  {c['held_rows']:>5}  document rows reach a part of this brand",
