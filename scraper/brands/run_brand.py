@@ -64,6 +64,12 @@ PY = sys.executable or "python3.11"
 # The node executable, resolved once. npm/npx are .CMD shims on Windows and cannot be spawned
 # from a list without a shell; node is a real .exe. None means the apply step says so and skips.
 NODE = shutil.which("node")
+# Files per apply invocation. From measurement, not a round number: Cisco run 110 did 82 files in
+# 374 s (4.6 s/file) and Juniper measured 224 relation-heavy documents at 35+ minutes (9.4
+# s/file), so 60 files is ~275 s at the first rate and ~565 s at the second - both comfortably
+# inside the 1800 s step bound even when a chunk is unluckily slow. The number that matters is
+# not the speed but that the input is BOUNDED: a directory grows all day, a chunk does not.
+APPLY_CHUNK_FILES = 60
 #: Namespace for the per-brand supervisor lock. Distinct from the lane locks (0x4C414E45) and from
 #: the test-database locks, so the three can never be mistaken for one another.
 SUPERVISOR_NS = 0x53555056                       # "SUPV"
@@ -80,6 +86,25 @@ def log(runs: Path, brand: str, msg: str) -> None:
         (runs / f"{brand}.log").open("a", encoding="utf-8").write(line + "\n")
     except OSError:
         pass          # a log we cannot write is not a reason to stop acquiring
+
+
+def apply_chunks(files: list[str], size: int = APPLY_CHUNK_FILES) -> list[list[str]]:
+    """Split the day's acquired files into bounded apply invocations.
+
+    Extracted from cycle() so it can be tested. It is three lines of arithmetic and it is the
+    difference between an apply that finishes and one that cannot: the previous version passed the
+    DIRECTORY, whose size grows with everything the lane acquires all day, against a constant
+    1800 s timeout — fine, then slow, then permanently unable to finish, failing in the shape that
+    reads as slowness so every cycle re-attempted the same too-large input.
+
+    A `size` of zero or less means one chunk, deliberately: a misconfigured constant should behave
+    like the old code rather than divide by zero or silently apply nothing.
+    """
+    if not files:
+        return []
+    if size <= 0:
+        return [list(files)]
+    return [list(files[i:i + size]) for i in range(0, len(files), size)]
 
 
 def brand_key(brand: str) -> int:
@@ -315,10 +340,37 @@ def cycle(conn, brand, runs: Path, max_tasks: int, plan_limit: int) -> None:
     # today - skipped (not an error)" while 31 files sat waiting. A wrong path that describes
     # itself as normal is the exact shape of every silent failure in this repository, so the skip
     # now NAMES the directory it looked in and there is nowhere for it to hide.
+    # AND CHUNKED BY FILE COUNT, because "today's directory" is not a bounded input.
+    #
+    # The first version passed the DIRECTORIES and relied on a constant 1800 s timeout. A directory
+    # grows with everything the lane acquires all day, so the input size rises while the bound does
+    # not: the step is fine, then slow, then PERMANENTLY unable to finish — and it fails in the
+    # shape that reads as slowness, so every cycle re-attempts the same too-large input and loses
+    # everything each time. My own comment above estimated "roughly a 600-document cycle", which is
+    # exactly the kind of estimate that gets quietly exceeded.
+    #
+    # It was not hypothetical for long. The Juniper lane reached 494 files and NO apply of theirs
+    # succeeded after run 84: a full day of correct extractor work — rx_max_input_power,
+    # tx_wavelength, reach_max, fiber_type — sat at zero facts in the store, because the step that
+    # would have written them could no longer complete. Cisco was at 125 files within hours of the
+    # step being added and heading the same way.
+    #
+    # CHUNK SIZE FROM MEASUREMENT, not a round number. Cisco run 110 did 82 files in 374 s (4.6
+    # s/file); Juniper measured 224 relation-heavy documents at 35+ minutes (9.4 s/file). Sixty
+    # files is ~275 s at the first rate and ~565 s at the second, both comfortably inside 1800 s
+    # even if a chunk is unluckily slow.
+    #
+    # EACH CHUNK IS ITS OWN INVOCATION AND THEREFORE ITS OWN RUN, which is the property that
+    # matters more than the speed: a partial drain is DURABLE. A failure loses one chunk rather
+    # than the day's work, and the next cycle starts from what actually landed instead of retrying
+    # a backlog that has only grown.
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     acq_root = ROOT / "runs" / "acquired"
-    acquired = [str(acq_root / lane["slug"] / today)
+    day_dirs = [acq_root / lane["slug"] / today
                 for lane in lanes if (acq_root / lane["slug"] / today).is_dir()]
+    day_files = sorted(str(p) for d in day_dirs for p in d.glob("*.json"))
+    chunks = apply_chunks(day_files)
+    acquired = [str(d) for d in day_dirs]     # kept for the "nothing acquired" message below
     if not acquired:
         log(runs, slug, f"   apply: no lane wrote to {acq_root}\\<lane>\\{today} this cycle - "
                         f"nothing to apply (lanes: {', '.join(l['slug'] for l in lanes) or 'none'})")
@@ -332,9 +384,24 @@ def cycle(conn, brand, runs: Path, max_tasks: int, plan_limit: int) -> None:
         # the list form of "npm" fails, the resolved node executable works. Had this shipped as
         # `npm`, the step would have failed on every cycle of every brand — logged, but the facts
         # would still never land, which is the failure this whole step exists to end.
-        step(runs, slug, f"apply {len(acquired)} lane dir(s)",
-             [NODE, "--import", "tsx", "src/pipeline/cli.ts", "apply-acquired", *acquired,
-              "--vendor", brand.vendor_slug, "--commit"], 1800)
+        log(runs, slug, f"   apply: {len(day_files)} file(s) from {len(day_dirs)} lane dir(s) in "
+                        f"{len(chunks)} chunk(s) of up to {APPLY_CHUNK_FILES}")
+        done_ok = 0
+        for i, chunk in enumerate(chunks, 1):
+            # FILES, not the directory. Passing the directory is what made the input unbounded;
+            # naming the files is what makes each invocation a fixed size. Sixty paths is about
+            # 7 KB of command line, far inside the Windows limit.
+            if step(runs, slug, f"apply chunk {i}/{len(chunks)} ({len(chunk)} files)",
+                    [NODE, "--import", "tsx", "src/pipeline/cli.ts", "apply-acquired", *chunk,
+                     "--vendor", brand.vendor_slug, "--commit"], 1800):
+                done_ok += 1
+            else:
+                # Reported per chunk and the loop CONTINUES: one bad chunk must not cost the
+                # others, which is the whole reason for chunking. The next cycle re-attempts only
+                # what did not land, because an apply of the same content is idempotent.
+                log(runs, slug, f"   apply chunk {i}/{len(chunks)} did not finish - continuing with "
+                                f"the rest; the next cycle will re-attempt it")
+        log(runs, slug, f"   apply: {done_ok}/{len(chunks)} chunk(s) completed")
 
     step(runs, slug, "watchdog",
          [PY, "-u", f"scraper/brands/{slug}/watchdog.py"], 900)

@@ -431,7 +431,21 @@ export async function main(argv: string[]): Promise<void> {
   const written: WrittenFact[] = [];
   const sourcesTouched = new Set<string>();
 
-  const runInputs = { files: files.length, first: files.slice(0, 5).map((f) => path.relative(REPO_ROOT, f)), hashes: files.slice(0, 200).map((f) => hashFile(f)), commit: a.commit };
+  // WHOSE RUN IS THIS? `vendor` and `lanes` are recorded because without them the only way to
+  // answer that was a substring match on `inputs->>'first'`, and two sessions got it wrong in one
+  // evening: the Juniper session read run 114 as theirs and credited it for moving their coverage
+  // when it was cisco-datasheets, and the mirror-image mistake was nearly made about run 113.
+  // Attribution by guessing at a file path is not attribution. `lanes` is derived from the
+  // directory each file sits in, which is where the worker puts it, so it needs nothing passed in.
+  const laneOf = (f: string) => path.basename(path.dirname(path.dirname(f)));
+  const runInputs = {
+    vendor: a.vendor,
+    lanes: [...new Set(files.map(laneOf))].sort(),
+    files: files.length,
+    first: files.slice(0, 5).map((f) => path.relative(REPO_ROOT, f)),
+    hashes: files.slice(0, 200).map((f) => hashFile(f)),
+    commit: a.commit,
+  };
 
   // Every read AND every write of a committed run goes through this one handle: the transaction's
   // client when committing, the pool when not. Passing it everywhere is what makes the rollback
