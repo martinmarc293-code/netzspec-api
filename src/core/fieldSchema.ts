@@ -191,6 +191,28 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   connector: { key: "connector", de: "Anschlusstyp", en: "Connector", type: "e", domain: ["lc-duplex", "lc-simplex", "sc", "mpo-12", "mpo-16", "rj45", "integrated"], etim: [], icecat: null },
   tx_power: { key: "tx_power", de: "Sendeleistung (TX)", en: "TX power", type: "nr", unit: "dBm", band: [-40, 20], etim: [], icecat: null },
   rx_sensitivity: { key: "rx_sensitivity", de: "Empfangsempfindlichkeit (RX)", en: "RX sensitivity", type: "nr", unit: "dBm", band: [-40, 20], etim: [], icecat: null },
+  // THE TRANSMIT TWIN OF rx_max_input_power, added 6 Sep 2026 because the receive side already had
+  // both ends and the transmit side had only one.
+  //
+  // Raised by the Juniper session rather than worked around by it, which was the right call: their
+  // HCT pages publish launch power as two separate ROWS, "(minimum)" and "(maximum)". Mapping both
+  // to tx_power put 85 facts into state `conflict` — two values for one field is a disagreement,
+  // and this pipeline HOLDS a disagreement rather than resolving it by write order, so the API
+  // correctly served none of them. Their interim fix maps only the minimum and records the loss;
+  // this closes it.
+  //
+  // WHY A SEPARATE FIELD RATHER THAN A RANGE, given tx_power is already type "nr". Because the two
+  // numbers are not the two ends of one measurement. The minimum is the GUARANTEED launch power —
+  // the figure a link budget is computed from — and the maximum is a COMPLIANCE CEILING, the most
+  // the transmitter may emit. A reader asking "will this optic drive 40 km" wants the first and
+  // would be misled by the second. rx_sensitivity and rx_max_input_power are split for exactly the
+  // same reason (sensitivity versus the saturation point), and this makes the four symmetric.
+  //
+  // Banded like tx_power. Note what the band does NOT catch, recorded so nobody trusts it further
+  // than it goes: the EN DASH minus in HCT's "-4.3 dBm" is folded by the extractor, and if that fold
+  // ever breaks the value stores as POSITIVE 4.3 — which is inside [-40, 20] and passes. The band
+  // catches a wrong magnitude, never a wrong sign.
+  tx_max_output_power: { key: "tx_max_output_power", de: "Maximale Sendeleistung (TX)", en: "Maximum transmitter output power", type: "n", unit: "dBm", band: [-40, 20], etim: [], icecat: null },
   link_budget: { key: "link_budget", de: "Link-Budget", en: "Link budget", type: "n", unit: "dB", band: [0, 60], etim: [], icecat: null },
   laser_type: { key: "laser_type", de: "Lasertyp", en: "Laser type", type: "e", domain: ["vcsel", "fp", "dfb", "eml"], etim: [], icecat: null },
   mode: { key: "mode", de: "Übertragungsmodus", en: "Transmission mode", type: "e", domain: ["duplex", "simplex-bidi"], etim: [], icecat: null },
@@ -329,6 +351,13 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     reach_max: req, connector: req,
     tx_power: cond({ field: "media", inList: ["mmf", "smf"] }),
     rx_sensitivity: cond({ field: "media", inList: ["mmf", "smf"] }),
+    // OPTIONAL, not conditional-required, and the distinction is deliberate. The guaranteed minimum
+    // launch power (tx_power) is what a link budget needs and every optical datasheet states it;
+    // the compliance CEILING is published by some vendors and not others — Juniper's HCT gives it,
+    // most Cisco datasheets do not. Marking it required would report a gap on thousands of Cisco
+    // transceivers for a number their vendor never published, which is the "required field nothing
+    // can ever fill" shape this project has paid for before.
+    tx_max_output_power: opt,
     link_budget: opt, laser_type: opt, mode: req,
     bidi_wavelengths: cond({ field: "mode", eq: "simplex-bidi" }),
     ddm: req,
