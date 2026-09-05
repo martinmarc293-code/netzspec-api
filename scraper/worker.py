@@ -174,6 +174,19 @@ def classify_binary(status, is_pdf: bool) -> str:
     return "failed"
 
 
+def is_cert_evidence(text: str) -> bool:
+    """Does this error say the EXIT is intercepting TLS, rather than the site being down?
+
+    Matched on substrings of the error text rather than an exception type, because the same fact
+    arrives as a Playwright Error, a urllib SSLError or a bare message depending on which layer
+    noticed. Deliberately narrow: `certificate` and the ERR_CERT_/ERR_SSL families, nothing about
+    timeouts or resets, so an ordinary flaky host is not mistaken for a bad exit and does not spend
+    one of the lane's three evidence rotations.
+    """
+    low = (text or "").lower()
+    return any(m in low for m in CERT_EVIDENCE)
+
+
 def classify_exception(exc: BaseException) -> str:
     """'timeout' for Playwright's TimeoutError, socket timeouts and anything whose message says
     so; 'failed' for everything else. A timeout is the host being slow, not the adapter being
@@ -369,6 +382,23 @@ def proxy_username(login: str, country: str | None = None, session_id: str | Non
 # fixes the proxy when the CONTEXT is created, so a new exit IP means relaunching the browser
 # context — about a second, once per 75 pages, which is noise next to 75 politeness delays.
 PROXY_ROTATE_EVERY = 75
+
+# How many times ONE lane may take a new exit on EVIDENCE (a cert failure or a challenge) in a
+# single run, before it stops trying. Rotation is not free - each one rebuilds the browser context -
+# and the failure mode of rotating on evidence is rotating on every task: a lane whose every fetch
+# fails would spend its run tearing Chrome down and building it back up, making no progress and
+# burning a fresh session id each time. Three is enough to walk past a bad exit or a scored session
+# and few enough that a genuinely broken lane stops and lets the consecutive-block pause speak.
+EVIDENCE_ROTATE_MAX = 3
+
+# Evidence that THIS exit is the problem, matched against the error text of a failed fetch. These
+# are the shapes measured on 5 Sep 2026: hpe-quickspecs answered ERR_CERT_AUTHORITY_INVALID on five
+# psnow ids and a self-signed-certificate error on an Aruba PDF, both meaning the exit is
+# INTERCEPTING TLS. That matters most on a tier 1 lane, where a document read through an
+# interceptor would outrank every honestly fetched fact about the part - which is why the answer is
+# a new exit and never `ignore_https_errors`.
+CERT_EVIDENCE = ("err_cert_", "err_ssl", "self-signed", "self signed", "certificate",
+                 "unable_to_verify", "cert_authority_invalid")
 
 
 def proxy_session_id(slug: str, pid: int | None = None, block: int = 0) -> str:
@@ -1243,6 +1273,8 @@ class Loop:
         self.env = env or {}
         self.rotate_every = int(rotate_every or 0)
         self.fetched_on_ip: dict[str, int] = {}
+        #: evidence-driven rotations taken per lane THIS RUN, capped by EVIDENCE_ROTATE_MAX
+        self.evidence_rotations: dict[str, int] = {}
         self.paused_until: dict[int, datetime] = {}
         self.consecutive_blocked: dict[int, int] = {}
         self.done = self.failed = 0
@@ -1300,15 +1332,59 @@ class Loop:
         if n < self.rotate_every:
             self.fetched_on_ip[slug] = n
             return
+        self._rotate_exit(src_row, f"{self.rotate_every} URLs on this exit")
+
+    def _rotate_exit(self, src_row: dict, why: str) -> None:
+        """Take a new exit IP, and SAY WHY. One place, so the counter and the evidence path cannot
+        drift apart in what they reset or how they fail."""
+        slug = src_row["slug"]
         self.fetched_on_ip[slug] = 0
         rotate = getattr(self.browser, "rotate_proxy", None)
         if not callable(rotate):
             return
         try:
             rotate(self.env, src_row.get("proxy_country"), slug)
+            print(f"  rotated exit IP for {slug}: {why}", flush=True)
         except Exception as e:  # noqa - a lane that cannot rotate keeps working on the IP it has
             print(f"  ! {slug}: exit-IP rotation failed ({type(e).__name__}: {str(e)[:90]}); "
                   "continuing on the current IP", flush=True)
+
+    def rotate_on_evidence(self, src_row: dict, why: str) -> bool:
+        """Take a new exit IP because THIS exit just proved itself bad, not because a count filled.
+
+        WHY A COUNTER ALONE IS THE WRONG TRIGGER. Rotation fired only after PROXY_ROTATE_EVERY (75)
+        fetches. A lane that FAILS FAST never reaches 75: HPE's died at 6 with
+        ERR_CERT_AUTHORITY_INVALID — an exit presenting a certificate it has no authority for — and
+        sat on that same bad exit for the whole run without rotating once. The counter measures
+        wear; it cannot see a broken exit, and a broken exit is the case where changing IP is the
+        entire remedy.
+
+        Two shapes want this and only one of them was reachable before:
+          * a TLS/cert failure — the exit is intercepting, and on a TIER 1 lane a document read
+            through an interceptor is not evidence of what the vendor published. That is the lane
+            where getting this right matters most, which is why the answer is a new exit and never
+            `ignore_https_errors`.
+          * a challenge (PerimeterX, Turnstile) — session-scored against the exit, so a new exit is
+            a clean slate; Juniper hit exactly this on the same proxy setting where HPE hit certs.
+
+        BOUNDED, because the failure mode of rotating on evidence is rotating on EVERY task. Each
+        rotation rebuilds the browser context, so a lane whose every fetch fails would spend its run
+        tearing Chrome down and building it back up while making no progress and burning a fresh
+        session id each time. After EVIDENCE_ROTATE_MAX attempts this stops and says so: at that
+        point the problem is not the exit, and the consecutive-block pause is the right instrument.
+        """
+        if not is_proxied(src_row) or self.rotate_every <= 0:
+            return False
+        slug = src_row["slug"]
+        used = self.evidence_rotations.get(slug, 0)
+        if used >= EVIDENCE_ROTATE_MAX:
+            print(f"  {slug}: NOT rotating again ({why}) - already took {used} exits on evidence "
+                  f"this run and the failures continue, so the exit is not the problem. Letting the "
+                  f"consecutive-block pause handle it.", flush=True)
+            return False
+        self.evidence_rotations[slug] = used + 1
+        self._rotate_exit(src_row, f"{why} (evidence rotation {used + 1} of {EVIDENCE_ROTATE_MAX})")
+        return True
 
     def affordable(self, source_ids: list[int]) -> list[int]:
         """The sources this loop may still lease for. A proxied source whose day's budget is gone
@@ -1428,6 +1504,9 @@ class Loop:
                     self.q.record_check(task["part_id"], src_row["id"], None, "blocked", 0, [])
                 self.record_proxy_spend(src_row, url, res.get("status"), proxy_bytes)
                 print(f"  blocked {slug} {task['task']} {task['key']}: {reason}")
+                # A challenge is scored against THIS EXIT, so a new exit is a clean slate. Waiting
+                # for the 75-fetch counter is waiting for a number a blocked lane never reaches.
+                self.rotate_on_evidence(src_row, f"blocked: {reason[:60]}")
                 return self._finish(task, slug, "blocked", error=f"blocked: {reason}", reason=res.get("reason"))
             self.consecutive_blocked[src_row["id"]] = 0
             if outcome == "failed":
@@ -1494,6 +1573,11 @@ class Loop:
             outcome = classify_exception(e)
             err = f"{type(e).__name__}: {str(e)[:300]}"
             print(f"  {outcome.upper()} {slug} {task['task']} {task['key']}: {err}")
+            # A TLS/cert failure says the EXIT is intercepting, not that the site is down. This is
+            # the case the counter could never reach: HPE's lane died at 6 fetches with
+            # ERR_CERT_AUTHORITY_INVALID and never rotated, because rotation waited for 75.
+            if is_cert_evidence(err):
+                self.rotate_on_evidence(src_row, f"TLS/cert failure on this exit: {type(e).__name__}")
             traceback.print_exc(limit=3)
             try:
                 if task["part_id"] and task["attempts"] >= MAX_ATTEMPTS:

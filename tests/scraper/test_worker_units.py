@@ -794,5 +794,68 @@ check("PX11", "SABOTAGE a challenge served with HTTP 200 is STILL blocked — th
               "status, which is the case the fingerprint was written for",
       W.classify_fetch(200, True, "px_confirm_human", False) == "blocked")
 
+# ---------------------------------------------------------------------------------------------
+# ROTATE ON EVIDENCE — a lane that fails fast never reaches a counter
+# ---------------------------------------------------------------------------------------------
+# Rotation fired only after PROXY_ROTATE_EVERY (75) fetches. HPE's lane died at 6 with
+# ERR_CERT_AUTHORITY_INVALID — an exit presenting a certificate it has no authority for — and sat
+# on that same bad exit for the whole run without rotating once. The counter measures WEAR; it
+# cannot see a broken exit, and a broken exit is the one case where changing IP is the whole
+# remedy. It matters most on hpe-quickspecs because that lane writes TIER 1: a document read
+# through an interceptor would outrank every honestly-fetched fact about the part, which is why the
+# answer is a new exit and never `ignore_https_errors`.
+check("EV1", "a cert failure is recognised as evidence about the EXIT, in every spelling the "
+             "layers produce",
+      all(W.is_cert_evidence(t) for t in [
+          "Error: net::ERR_CERT_AUTHORITY_INVALID at https://www.hpe.com/psnow/doc/x",
+          "SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] self-signed certificate in chain",
+          "net::ERR_SSL_PROTOCOL_ERROR", "unable_to_verify_leaf_signature"]))
+check("EV2", "SABOTAGE an ordinary flaky host is NOT evidence about the exit - a timeout, a reset "
+             "or a 500 must not spend one of the lane's three rotations",
+      not any(W.is_cert_evidence(t) for t in [
+          "TimeoutError: Timeout 30000ms exceeded", "net::ERR_CONNECTION_RESET",
+          "Error: net::ERR_HTTP2_PROTOCOL_ERROR", "http 500 from the origin",
+          "AssertionError: certifiable nonsense"[:24]]),
+      str([t for t in ["TimeoutError: Timeout 30000ms exceeded", "net::ERR_CONNECTION_RESET"] if W.is_cert_evidence(t)]))
+
+class _RotSpy:
+    def __init__(self): self.calls = []
+    def rotate_proxy(self, env, country, slug): self.calls.append(slug)
+
+_spy = _RotSpy()
+_lp = W.Loop.__new__(W.Loop)
+_lp.browser = _spy
+_lp.env = {}
+_lp.rotate_every = W.PROXY_ROTATE_EVERY
+_lp.fetched_on_ip = {}
+_lp.evidence_rotations = {}
+_PROXIED = {"slug": "hpe-quickspecs", "proxy": "residential", "proxy_country": "us"}
+_DIRECT = {"slug": "cisco-datasheets", "proxy": None, "proxy_country": None}
+
+check("EV3", "a proxied lane rotates IMMEDIATELY on evidence - it does not wait for 75 fetches it "
+             "will never make",
+      _lp.rotate_on_evidence(_PROXIED, "cert") is True and _spy.calls == ["hpe-quickspecs"],
+      str(_spy.calls))
+check("EV4", "SABOTAGE a DIRECT lane never rotates - it has one IP and nothing to change",
+      _lp.rotate_on_evidence(_DIRECT, "cert") is False and _spy.calls == ["hpe-quickspecs"],
+      str(_spy.calls))
+_lp.rotate_on_evidence(_PROXIED, "cert")
+_lp.rotate_on_evidence(_PROXIED, "cert")
+_before = list(_spy.calls)
+_capped = _lp.rotate_on_evidence(_PROXIED, "cert")
+check("EV5", f"SABOTAGE it is BOUNDED at {W.EVIDENCE_ROTATE_MAX}: a lane whose every fetch fails "
+             "would otherwise rebuild the browser context on every task, making no progress and "
+             "burning a fresh session id each time",
+      _capped is False and _spy.calls == _before and len(_before) == W.EVIDENCE_ROTATE_MAX,
+      f"{len(_before)} rotations, capped={_capped}")
+check("EV6", "the counter path still works and is independent of the evidence budget - a lane that "
+             "exhausted its evidence rotations still rotates on wear",
+      (lambda: (_lp.fetched_on_ip.update({"hpe-quickspecs": W.PROXY_ROTATE_EVERY - 1}),
+                _lp.count_fetch(_PROXIED),
+                len(_spy.calls) == W.EVIDENCE_ROTATE_MAX + 1)[-1])(), str(_spy.calls))
+check("EV7", "SABOTAGE rotation is per LANE, so one lane's bad exits never spend another's budget",
+      _lp.rotate_on_evidence({"slug": "juniper", "proxy": "residential"}, "challenge") is True,
+      str(_lp.evidence_rotations))
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)
