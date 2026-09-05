@@ -111,5 +111,32 @@ const untiered = [...reachable].filter((c) => TIER_BY_DOC_TYPE[c] === undefined)
 check("D21", "SABOTAGE every producible class has a tier in the ONE tier table",
   untiered.length === 0, untiered.join(", "));
 
+// ---- the override file must actually be READ ---------------------------------------------------
+// Found by the Juniper session, 5 Sep 2026, and it is the third bug of this exact shape in one
+// afternoon: vendor_tool in VENDOR_CLASSES but not the union, a HOST MISMATCH check reading a
+// column nobody selected, and this — `overrides()` called `require()` inside a "type": "module"
+// package, where require is not defined. The ReferenceError was caught by a bare `catch {}` whose
+// comment reassured the reader that a missing file is harmless, so OVERRIDES was permanently empty
+// and every hand decision was silently ignored.
+//
+// It measured as WORKING: the classification script shells out through `tsx --eval`, which runs in
+// a CJS context where require DOES exist. So the overrides applied in the harness that reported
+// "100.00% classified" and were dead in the API that serves the result. Nothing asserted the file
+// was ever read, so nothing could tell the difference.
+const { classifyDocument, classifyDoc, overrideStatus } = await import("../src/core/docClass.js");
+const OVERRIDDEN = "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9164-series-access-points/cleanairs-legacy.html";
+const st = overrideStatus();
+check("D22", "the override file is actually READ - a non-zero count, and no swallowed error",
+  st.loaded > 0 && st.error === null, JSON.stringify(st));
+const ov = classifyDocument(OVERRIDDEN);
+check("D23", "a URL listed in doc-class-overrides.json classifies to its override class",
+  ov.cls === "vendor_whitepaper", JSON.stringify(ov));
+check("D24", "...and says operator-override, so a hand decision is never mistaken for a rule",
+  ov.via === "operator-override", ov.via);
+check("D25", "SABOTAGE no URL or title rule can reach it - the override is the ONLY thing "
+           + "classifying it, which is the case the file exists for",
+  classifyDoc(OVERRIDDEN).cls === "unclassified" && ov.cls !== "unclassified",
+  `${classifyDoc(OVERRIDDEN).cls} vs ${ov.cls}`);
+
 console.log(`\n${pass} passed, ${miss} missed`);
 process.exit(miss ? 1 : 0);

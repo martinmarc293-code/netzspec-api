@@ -21,6 +21,10 @@
 // An unclassified document is a visible number the brand watchdog alarms on — the alternative,
 // silently falling back to "datasheet", is exactly the bug above.
 
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 export type DocClass =
   | "vendor_datasheet_html"
   | "vendor_datasheet_pdf"
@@ -343,27 +347,49 @@ export function classifyDocByTitle(title: string | null | undefined): DocVerdict
  */
 let OVERRIDES: Map<string, { cls: DocClass; reason: string }> | null = null;
 
+/** Why the override file could not be read, when it could not. NEVER silently empty: a swallowed
+ *  failure here is indistinguishable from "there are no overrides", which is exactly the bug this
+ *  block used to have. `overrideStatus()` exposes it so a test and the operator can both see it. */
+let OVERRIDE_ERROR: string | null = null;
+
 function overrides(): Map<string, { cls: DocClass; reason: string }> {
   if (OVERRIDES) return OVERRIDES;
   OVERRIDES = new Map();
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { readFileSync } = require("node:fs") as typeof import("node:fs");
-    const { fileURLToPath } = require("node:url") as typeof import("node:url");
-    const path = require("node:path") as typeof import("node:path");
+    // STATIC ESM IMPORTS, not require(). package.json says "type": "module", so in a real ESM
+    // module `require` is not defined at all — it threw ReferenceError on every call, the catch
+    // below swallowed it, and OVERRIDES was permanently empty. Every hand-decided override was
+    // silently ignored, including the one that was supposed to take Cisco from 99.98% to 100%.
+    //
+    // It was worse than plainly broken: `tsx --eval`, which the measuring script used, runs in a
+    // CJS context where `require` DOES exist, so the overrides applied in the harness that
+    // measured "100.00% classified" and were dead in the API that serves it. Found by the Juniper
+    // session, 5 Sep 2026.
     const here = path.dirname(fileURLToPath(import.meta.url));
     const file = path.resolve(here, "../../data/reference/doc-class-overrides.json");
     const raw = JSON.parse(readFileSync(file, "utf8")) as {
       overrides?: Array<{ url?: string; class?: string; reason?: string }>;
     };
     for (const o of raw.overrides ?? []) {
+      // an override without a reason is a guess with better paperwork — the file's README says so
       if (!o.url || !o.class || !o.reason?.trim()) continue;
       OVERRIDES.set(o.url.trim().toLowerCase(), { cls: o.class as DocClass, reason: o.reason });
     }
-  } catch {
-    // no file, or unreadable: the classifier works exactly as it did before overrides existed
+    OVERRIDE_ERROR = null;
+  } catch (e) {
+    // A missing file is legitimate (a checkout without it still classifies). An unreadable one is
+    // not, and neither is a module-system fault. Either way it is RECORDED rather than swallowed:
+    // a catch around the only thing that makes a feature work turns "broken" into "quietly
+    // absent", and this system cannot tell those apart from the outside.
+    OVERRIDE_ERROR = `${(e as Error).name}: ${String((e as Error).message).slice(0, 160)}`;
   }
   return OVERRIDES;
+}
+
+/** {loaded, error} — how many hand overrides are in force, and why none are if none are. */
+export function overrideStatus(): { loaded: number; error: string | null } {
+  const m = overrides();
+  return { loaded: m.size, error: OVERRIDE_ERROR };
 }
 
 export function classifyDocument(url: string | null | undefined, title?: string | null): DocVerdict {

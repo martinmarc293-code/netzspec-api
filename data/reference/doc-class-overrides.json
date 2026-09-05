@@ -24,6 +24,13 @@
       "reason": "Title 'Cisco CleanAir's Legacy'. A technology retrospective about the CleanAir feature, not about any orderable part: no specification tables, no PIDs. It is vendor-published long-form argument, which is what vendor_whitepaper means here. Read by hand 5 Sep 2026.",
       "decided_by": "operator",
       "decided_at": "2026-09-05"
+    },
+    {
+      "url": "https://www.juniper.net/documentation/us/en/hardware/",
+      "class": "vendor_page",
+      "reason": "Juniper's TechLibrary hardware INDEX, not a document about any part. It is the only Juniper document in the store and all 168 Juniper hardware parts are linked to it, which is why classifying it matters out of proportion to its size: left unclassified it is an undeclared class in the brand pack, and counted as spec-bearing it would make 168 parts look like an extraction failure on a page that has never contained a specification. vendor_page is deliberately NOT spec-bearing. No rule can reach it: the URL carries no document-type marker and the page now answers HTTP 403 with Juniper's 404 body (title '404 | Juniper Networks US', 1,015 KB), so there is no title to classify by either - the URL is dead as of 5 Sep 2026 while juniper.net migrates to hpe.com. Read by hand by the Juniper session, 5 Sep 2026.",
+      "decided_by": "operator",
+      "decided_at": "2026-09-05"
     }
   ]
 }
