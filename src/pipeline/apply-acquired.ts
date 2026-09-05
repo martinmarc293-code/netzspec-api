@@ -331,14 +331,61 @@ export const EXIT_GATE_FAILED = 2;
 export const GATE_REFUSED = "the gate did not pass";
 
 /** Recall half: every touched source's adapter suite, run fresh. A source with no suite is a failed suite. */
+/**
+ * The Python that runs the adapter suites, resolved rather than assumed.
+ *
+ * `python3.11` was hardcoded here, and on the operator's laptop that is the only name that works —
+ * `python` and `python3` resolve to a Microsoft Store stub. On the Hetzner box the opposite is
+ * true: `python3` is 3.12.3 and there is no `python3.11` binary at all. So the colocated apply
+ * spawned a program that does not exist, spawnSync returned a non-zero status, and the gate
+ * recorded `suites: {juniper: false}` — while `test_juniper.py` passed 85/85 when run by hand on
+ * that same box.
+ *
+ * THAT IS A FALSE NEGATIVE IN THE ONE PLACE IT MUST NEVER HAPPEN. This is the RECALL half of the
+ * gate: it decides whether facts may land. "I could not run your suite" and "your suite did not
+ * pass" are different facts, only one of them was true, and the gate reported the wrong one — the
+ * project's own rule about a monitor that cannot tell its own failure from a fault, one layer down.
+ *
+ * Candidates are tried by ASKING them, not by guessing from the platform: the first that answers
+ * `--version` wins. NETZSPEC_PYTHON overrides everything for the case neither list covers.
+ */
+export function resolvePython(explicit?: string): string | null {
+  const candidates = [explicit, process.env.NETZSPEC_PYTHON, "python3.11", "python3", "python"]
+    .filter((c): c is string => !!c && c.trim().length > 0);
+  for (const c of candidates) {
+    const probe = spawnSync(c, ["--version"], { encoding: "utf8" });
+    if (!probe.error && probe.status === 0) return c;
+  }
+  return null;
+}
+
 export function runAdapterSuites(slugs: Iterable<string>, opts: { testsDir?: string; python?: string } = {}): Record<string, boolean> {
   const testsDir = opts.testsDir ?? SCRAPER_TESTS_DIR;
   const suiteResults: Record<string, boolean> = {};
+  const py = resolvePython(opts.python);
+  if (py === null) {
+    // REFUSED, not reported as a failing suite. Returning `false` here would say the adapters are
+    // broken; throwing says the machine cannot check them. The gate still refuses to write either
+    // way — that is not the difference. The difference is what the operator is sent to fix.
+    throw new Error(
+      "cannot run the adapter suites: no working Python found. Tried " +
+      [opts.python, process.env.NETZSPEC_PYTHON, "python3.11", "python3", "python"].filter(Boolean).join(", ") +
+      ". Set NETZSPEC_PYTHON to the interpreter that runs tests/scraper/*.py. This is 'could not " +
+      "check', NOT 'the suite failed' — reporting it as the latter is how a passing suite was " +
+      "recorded as `suites: {juniper: false}` on a box that simply spells Python differently.");
+  }
   for (const slug of slugs) {
     const t = path.join(testsDir, `test_${slug.replace(/-/g, "_")}.py`);
     if (!fs.existsSync(t)) { suiteResults[slug] = false; continue; }
-    const r = spawnSync(opts.python ?? "python3.11", [t], { cwd: REPO_ROOT, encoding: "utf8" });
-    suiteResults[slug] = r.status === 0;
+    const r = spawnSync(py, [t], { cwd: REPO_ROOT, encoding: "utf8" });
+    // `r.error` is the spawn itself failing — the interpreter vanished between the probe and here,
+    // or the file is not executable. Distinct from the suite running and reporting misses, and it
+    // says so on the way past rather than folding into a bare false.
+    if (r.error) {
+      console.error(`could not run ${path.basename(t)} with ${py}: ${r.error.message} — recorded as `
+        + "NOT PASSING, but this is a machine problem rather than an adapter problem");
+    }
+    suiteResults[slug] = !r.error && r.status === 0;
   }
   return suiteResults;
 }
