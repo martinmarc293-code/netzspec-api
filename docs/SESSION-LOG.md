@@ -4,6 +4,67 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-05 ~20:00 — Opus/CISCO session, work block 3: the pipeline was dead-ended at both
+  ends, and neither end could be seen from inside the loop.** Commits `8387860` … `6521b8e`.
+
+  **THE TWO THAT HID EACH OTHER.** apply-acquired's gate builds each source's suite path from the
+  SOURCE SLUG and treats a missing suite as a FAILED suite; mine were `test_cisco_lane.py` /
+  `test_cisco_eol_lane.py`, so both lanes returned `passed:false` on every apply and **nothing
+  either lane ever fetched could reach the facts table**. And `run_brand.py` had **no apply step at
+  all** — plan, fetch, watchdog — so the loop was a downloader that logged healthy cycles while the
+  watchdog it runs next alarmed every cycle about a number nothing in the loop could move. Fixing
+  either alone would have changed nothing visible.
+
+  **THE THIRD, found from OUTSIDE by the monitoring session: the queue was empty against a
+  39,119-part crawl gap.** Every planner section was backward-looking — `refresh` re-fetches what is
+  held, `gaps` asks for a part-page Cisco refuses on purpose. Cisco's entire enumeration was THREE
+  hand-seeded listing rows; when they finished the planner was correct to say there was nothing to
+  do, permanently. An enumeration that runs once is a snapshot. Now: `plan.py` section 0 asks each
+  adapter for ENTRY POINTS, and `discover()` yields the listings BELOW a listing, bounded by path
+  shape (one or two segments after `/products/`). Entry points are DERIVED FROM THE CORPUS — the
+  manifest's `focus_categories` says `hyperconverged-systems` where Cisco's URLs say
+  `hyperconverged-infrastructure`, so a manifest-derived seed would have 404'd and enumerated
+  nothing. Queue went 80 rows (all done) → **220 and climbing**; one cycle fetched 60 tasks, 22 with
+  facts, 0 failed, 0 blocked.
+
+  **CLASSIFICATION 100%, AND SERVED.** 7,190/7,190 (0 unclassified in the store). 88% of the gap was
+  a missing declaration: `aggregator_page` and `distributor_page` sat in the tier table and on 939
+  rows but were absent from the `DocClass` union, so the classifier could never return them. Origin
+  is now decided BEFORE any content rule (an itprice path containing a `c##` would have read as
+  Cisco's own collateral — the tier 3→2 promotion arriving through the URL); guard measured at 939
+  third-party docs, 0 vendor-classed. Brand rules moved ahead of the two-letter abbreviations after
+  `terminal:mg` (Cisco: migration guide) shadowed Ubiquiti's SKU `uacc-cm-rj45-mg`.
+
+  **API:** `classified_by` (the evidence) on every document, per-vendor document coverage on
+  `/v1/vendors`, and `doc_class` withdrawn — a superseded taxonomy, 0 of 7,190 populated, returned
+  `null` for every document ever requested.
+
+  **ISOLATION, all three defects were real.** `core.hooksPath` is REPOSITORY config, so all four
+  trees advertised the commit guard and two had no hook file — **every commit before `781a86d` went
+  through unchecked**. `resolveDatabaseUrl` checked only a name pattern, so the Python ownership
+  guard protected the half of the codebase that could not TRUNCATE. `run_brand.py` imported
+  `ownership as OWN` and never called it. Plus rotate-on-evidence (a lane that fails fast never
+  reaches a 75-fetch counter), and a runs reaper (`aborted`, not `failed` — silence is the only
+  evidence there is).
+
+  **verify_api found a bug in ITSELF.** First run reported Cisco facts at 72.0%; all 323 "missing"
+  were the API behaving correctly, because `gap_unattempted` is a recorded ABSENCE and `conflict` is
+  a held disagreement. A correct API reading as 72% would have sent three brands chasing a phantom.
+  Now compares against the CONTRACTED states and reports the withheld ones BY STATE — because a
+  climbing `conflict` is what found Juniper's real 166.
+
+  **TRAPS HIT.** Backtick inside a JS template literal, THREE times (`vendors.ts`, `runs.ts`, and a
+  git hook that executed the `git commit` in its own error message). Heredoc ate regex escapes twice
+  more. `subprocess.run(["npm", ...])` fails on Windows (.CMD shim) — caught before shipping. My
+  apply step first looked in `runs/brands/<slug>/acquired` and logged *"nothing acquired today —
+  skipped (not an error)"* with 31 files waiting. And I **reported a peer's intent as my own
+  measurement** (claimed Juniper had the apply step; they did not) — the guard is "do not relay
+  someone else's action as an observation".
+
+  **NEXT:** the `tx_power` upper-bound dictionary field (Juniper raised it, it is a shared change);
+  a leased-per-cycle verdict (the new "planned 0" alarm cannot catch a fetch step that ignores what
+  plan enqueued); 4,158 Cisco facts in `conflict`; merge `cisco` to main when the operator says.
+
 - **2026-09-05 ~18:15 — Opus/CISCO session, work block 2: the guard that was announced by four
   worktrees and present in two.** Commits `781a86d`, `166e2fd`, `cd7c871` on branch `cisco`.
   Prompted by findings from the HPE and Juniper sessions; every one of them was real.
