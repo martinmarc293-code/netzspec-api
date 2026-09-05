@@ -528,7 +528,10 @@ full; the ones that bite hardest here are restated.
   unrecoverable, 582 are retracted gap rows with no value (nothing to recover), 16 are
   label-context rows; ≥5 `C9550-*` rows have a temperature/fan SENTENCE mapped to
   altitude_max — a label-mapping fault for the alias backlog, not a normaliser rule.
-  Printer fix committed (same/unrecoverable samples print one value).
+  Printer fix committed (same/unrecoverable samples print one value). DONE on the box:
+  `altitude_max` 1,031 re-stamped, 451 superseded; current values now 3000 × 1,067 and
+  3048 × 74 (raws that state only the imperial figure keep our conversion). A remerge pass
+  follows so the 3048-vs-3000 pairs and the re-read same-document pairs close.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
