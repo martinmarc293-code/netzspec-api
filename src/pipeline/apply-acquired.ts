@@ -465,7 +465,12 @@ export async function main(argv: string[]): Promise<void> {
     const skuCache = new Map<string, PartCandidate[]>();
     const look: ResolveLookups = {
       bySku: async (s, v) => {
-        const key = `${(s ?? "").toUpperCase()} ${v ?? ""}`;
+        // Separator is a literal " :: ", not a NUL. The first version used a unicode NUL escape and a real
+        // 0x00 byte reached the file - caught by tests/source-scan.test.ts, which exists for
+        // exactly this and named the line and column. A SKU is upper-case alphanumerics with
+        // dashes and plus signs and a vendor slug is lower-case, so " :: " cannot occur inside
+        // either and cannot collide two different keys into one.
+        const key = `${(s ?? "").toUpperCase()} :: ${v ?? ""}`;
         const hit = skuCache.get(key);
         if (hit) return hit;
         const rows = await partsBySkuNorm(s, v, db);
