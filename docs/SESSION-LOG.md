@@ -4,6 +4,69 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-05 ~21:35 — Opus/CISCO session, work block 4: the apply step I wrote at 19:00 had
+  THREE defects, and each was invisible until the one before it was fixed.** Commits `7d9bd1f` …
+  `395ecc7`. Working under a parent/monitoring session that relays between the three brands.
+
+  **THE THREE, in the order they became visible.** (1) The supervisor opened ONE connection for the
+  process's whole lifetime through a tunnel that drops long-lived sockets — and it read as
+  HALF-ALIVE, because `plan` shells out with its own connection and kept returning exit 0 while
+  every in-process step raised. The per-brand supervisor lock lives on that connection, so "one
+  runner per brand" silently stopped being true the moment it died. (2) The apply passed today's
+  DIRECTORY against a constant 1800 s bound, so the input grew all day while the bound did not:
+  fine, then slow, then PERMANENTLY unable to finish, failing in the shape that reads as slowness.
+  Juniper hit it first — 494 files, no successful apply after run 84, a full day of correct
+  extractor work at zero facts in the store. (3) Chunking made each invocation finishable but the
+  SET never shrank, so a successful drain left the loop exactly as stuck; it cleared only at UTC
+  midnight. Every brand cheap at 00:30 and unusable by 21:00.
+
+  **WHAT THE FIXES ARE.** Reconnect + re-take the lock, bounded and loud. Chunk at 60 files, each
+  chunk its own run so a partial drain is DURABLE. And a per-lane-day `.applied.json` marker naming
+  what a SUCCEEDED chunk consumed — failing towards re-doing the work, because the apply is
+  idempotent so forgetting costs time while wrongly remembering costs a document that never lands.
+
+  **MY OWN TEST CAUGHT THE BUG I WOULD HAVE SHIPPED:** `.applied.json` sits in the directory it
+  describes and matches `glob("*.json")`, so the marker was offered to the apply AS A DOCUMENT — a
+  perfect ouroboros, every cycle, for ever. The case that caught it names the marker explicitly
+  rather than counting files; a count-only assertion would have gone green as soon as the other
+  numbers lined up.
+
+  **A COMMENT STOOD IN FOR A CHECK, again.** Inside `reconnect()` sat "The test asserts the
+  BEHAVIOUR (exits, exactly one attempt)" — describing a test file that did not exist. Written now:
+  33 cases, and the ones that matter are the rare branches (an ordinary cycle failure on a LIVE
+  connection must NOT cost the supervisor its lock; a lock held by another runner must EXIT after
+  exactly one attempt).
+
+  **THE COST MODEL, and two of my constants were defended by a statistic that was not one.** The
+  parent fitted every succeeded apply: `seconds = 118 + files x marginal` (~3.15 s/file cisco,
+  ~10.4 juniper). Per-file cost FALLS as a run grows, which is a fixed startup cost, not
+  contention — confirmed independently by my 3.9 s/file measured WHILE another lane contended. So
+  the apply lock was correctly NOT built. `APPLY_CHUNK_FILES` stays 60 because it is SHARED and 150
+  puts the slowest lane at 93% of its own timeout; `WORST_SECONDS_PER_FILE` stays 15.6 as a margin,
+  but 15.6 was never a rate — it was an incomplete run divided by its file count.
+
+  **THE REAPER NOW JUDGES A RUN AGAINST THE WORK IT DECLARED.** Flat six hours could not separate a
+  dead one-file run (found at 2 hours, process gone) from a legitimate 494-file one. Budget =
+  `files x 15.6 x 3` clamped to [30 min, 6 h]; an unknown size falls back to the CEILING, never the
+  floor. Verified live: reaped exactly the dead one, left both live runs alone.
+
+  **LATENCY IS THE ROUTE, NOT THE TUNNEL.** ICMP floor 168 ms, tunnel best case 162 ms. Nothing on
+  this laptop fixes it: batching is the local lever, running applies ON the box is the real one.
+
+  **STATE:** classification 100% of 7,190 documents and served; queue 220+ rows and the discovery
+  ladder compounding; facts landing again (run 119, 153 files, 600 s, newest fact 21:11:01 after a
+  two-hour freeze). Supervisor restarted 21:29:35 with all three apply fixes live.
+
+  **NEXT:** multi-row INSERT in the apply write path — sized against JUNIPER's row profile (5
+  relations + 21 facts per file) not Cisco's near-zero relations, because the 8.2x is theirs. Then
+  the leased-per-cycle verdict. 4,158 Cisco facts still held in `conflict`.
+
+  **TRAPS.** Committed on a RED suite by putting `npm test` and the commit in ONE command — the
+  lesson is narrower than "use the Edit tool": do not put the check and the action in the same
+  breath. A NUL byte reached source through a heredoc escape TWICE, the second time in the comment
+  describing the first. A process check matched my OWN diagnostic shell commands and reported three
+  applies in flight. And I reported a peer's INTENT as my own measurement — "sent" is not "applied".
+
 - **2026-09-05 ~20:00 — Opus/CISCO session, work block 3: the pipeline was dead-ended at both
   ends, and neither end could be seen from inside the loop.** Commits `8387860` … `6521b8e`.
 
