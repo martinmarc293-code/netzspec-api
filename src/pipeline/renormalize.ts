@@ -720,6 +720,22 @@ export function gateRenormalize(
 // ---- the pass -----------------------------------------------------------------------------------
 export type PassResult = { report: RenormReport; effects: Record<string, number>; recheck: { row: FactToCheck; planned: Verdict; again: Verdict }[] };
 
+/**
+ * The value line of a sample. A `same` row prints its ONE stored value and never an arrow.
+ *
+ * `decide` returns no `newValue` for `same` — the value did not move, so there is nothing to put
+ * on the right of an arrow — and the sample carries `to: v.newValue ?? null`. Rendering every
+ * outcome as `from -> to` therefore printed `56 -> null` for a row that was only being re-stamped,
+ * which reads as "this fact is about to be emptied". It cost a reviewer a cycle on a box dry run
+ * (5 Sep 2026) before anyone could say the rows were untouched. The outcome decides the shape of
+ * the line, so a value-preserving outcome cannot render as a value-destroying one.
+ */
+export function sampleValueLine(outcome: Outcome, x: { from: unknown; to: unknown }, n = 90): string {
+  if (outcome === "same") return `${shorten(x.from, n)}  (unchanged — norm_v re-stamped only)`;
+  if (outcome === "unrecoverable") return `${shorten(x.from, n)}  (left untouched)`;
+  return `${shorten(x.from, n)}  ->  ${shorten(x.to, n)}`;
+}
+
 const shorten = (s: unknown, n = 70): string => { const t = typeof s === "string" ? s : JSON.stringify(s); return t == null ? "null" : (t.length > n ? t.slice(0, n) + "…" : t); };
 
 /**
@@ -929,7 +945,7 @@ export async function main(argv: string[]): Promise<void> {
     for (const x of s) {
       console.log(`  x${x.magnitude === Number.POSITIVE_INFINITY ? "inf" : x.magnitude.toFixed(2)}  ${x.sku} ${x.field} #${x.id}${x.reason ? ` [${x.reason}]` : ""}`);
       console.log(`        raw  ${x.raw}`);
-      console.log(`        ${shorten(x.from, 90)}  ->  ${shorten(x.to, 90)}`);
+      console.log(`        ${sampleValueLine(o, x)}`);
     }
   }
 

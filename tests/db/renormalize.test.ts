@@ -149,6 +149,19 @@ function check(name: string, cond: boolean, detail?: string): void {
   check("args SABOTAGE: --max-change-share above 1 is refused", threw(() => R.parseArgs(["--max-change-share", "2"])));
   check("args: a real field and a real reason are accepted", R.parseArgs(["--field", "depth", "--allow", "checked"]).allow === "checked");
 
+  // THE REPORT MUST NOT READ AS DATA LOSS. A `same` row has no newValue (nothing moved), so the
+  // old `from -> to` rendering printed "56 -> null" for a row being re-stamped, and a reviewer on
+  // a box dry run reasonably read that as the fact being emptied (5 Sep 2026).
+  const sameLine = R.sampleValueLine("same", { from: 56, to: null });
+  check("report: a `same` sample prints its single stored value and no arrow",
+    !sameLine.includes("->") && !sameLine.includes("null") && sameLine.includes("56"), sameLine);
+  check("report: a `same` sample says the value is unchanged", sameLine.includes("unchanged"), sameLine);
+  check("report: an `unrecoverable` sample also prints one value, never an arrow",
+    !R.sampleValueLine("unrecoverable", { from: 3000, to: null }).includes("->"));
+  // SABOTAGE TWIN: a real change MUST still render both sides, or the fix has blinded the report.
+  const changedLine = R.sampleValueLine("changed", { from: 999, to: 450 });
+  check("report SABOTAGE: a `changed` sample still shows from -> to", changedLine.includes("999") && changedLine.includes("->") && changedLine.includes("450"), changedLine);
+
   // RAISING the ceiling is lifting the guard. `--max-change-share 1` switches it off entirely and
   // recorded no reason anywhere, which is the one thing `--allow` exists to prevent.
   check("args SABOTAGE: --max-change-share 1 alone is refused (it disables the guard silently)",
