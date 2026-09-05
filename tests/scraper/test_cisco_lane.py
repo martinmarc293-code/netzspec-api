@@ -206,5 +206,29 @@ check("L4", "SABOTAGE a DATASHEET with no tables still reports not_listed - the 
             "exemption must not swallow a genuinely empty product page",
       _empty.get("not_listed") is True, str(_empty)[:140])
 
+# ---------------------------------------------------------------------------------------------
+# 6. is_usable: the veto that stops a blank render poisoning the cache for ever
+# ---------------------------------------------------------------------------------------------
+# Browser.fetch asks the adapter before it WRITES. A client-rendered page whose script did not
+# finish is HTTP 200 with the right title and no document body: it matches no challenge
+# fingerprint, so it used to be cached and then served to every retry for ever. Two of ten cached
+# HPE psnow documents are exactly that shape (HPE session, 5 Sep 2026). The veto prevents the
+# write rather than evicting afterwards - an adapter that deleted what it disliked would
+# eventually delete its own fixtures.
+if cached.exists():
+    check("U1", "a real cached datasheet is usable", MOD.is_usable(html) is True)
+SHELL = ('<html><head><title>Cisco Catalyst 9300 Series Switches Data Sheet - Cisco</title>'
+         '<meta property="og:title" content="Cisco Catalyst 9300 Data Sheet"></head>'
+         '<body><div id="root"></div>' + ("<span>nav</span>" * 200) + "</body></html>")
+check("U2", "SABOTAGE a 200-status shell with the CORRECT title and no table is NOT usable - the "
+            "title is what made this look fine for as long as it did",
+      MOD.is_usable(SHELL) is False, f"len={len(SHELL)} tables=0")
+check("U3", "SABOTAGE an empty body is not usable", MOD.is_usable("") is False)
+check("U4", "SABOTAGE a truncated capture is not usable", MOD.is_usable("<html><body>x</body></html>") is False)
+check("U5", "a LISTING with no tables but plenty of links IS usable - its job is links, and "
+            "vetoing it would refuse every discovery page",
+      MOD.is_usable("<html><body>" + ('<a href="/c/en/us/products/collateral/x/y-ds.html">d</a>' * 30)
+                    + ("padding " * 400) + "</body></html>") is True)
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

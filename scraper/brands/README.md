@@ -90,9 +90,15 @@ exception is adding your own registry line, which is a single line at a known pl
 
 One repo, one checkout, three writers. Either use `git worktree` per session, or:
 
-- `git add` **only your own files, by name**. Never `git add -A` and never `git add .` — you will
-  commit another session's half-finished work and its tests will fail in your commit.
-- `git status` before and `git diff --cached` after staging. Read what you are about to commit.
+- **Commit with a pathspec: `git commit -- <your files>`.** Staging your own files by name is NOT
+  enough. `git commit` writes the WHOLE INDEX, so anything another session had already staged goes
+  into your commit — this happened on 5 Sep 2026: commit `65ecac5`, staged as two Cisco files, also
+  carried five of the HPE session's (`brands/hpe/brand.py`, its watchdog, and three test files).
+  Nothing was lost, but the commit message described work it did not contain, and the other session
+  lost its staging. A pathspec commit ignores the rest of the index entirely.
+- Never `git add -A` and never `git add .`.
+- `git status` before, and `git show --stat HEAD` after. Read what you actually committed, not what
+  you meant to.
 - Commit small and often, so a collision is one file rather than a day.
 
 ### Acquisition: every lane runs at once, 24/7

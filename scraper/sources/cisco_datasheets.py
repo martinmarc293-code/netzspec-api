@@ -110,6 +110,30 @@ def is_blocked(html: str) -> bool:
     return blocked_reason(html) is not None
 
 
+def is_usable(html: str) -> bool:
+    """Is this capture worth caching?
+
+    Browser.fetch asks before it writes. A Cisco collateral page that rendered its document ALWAYS
+    contains at least one table - the specifications, the ordering table, or the affected-PID list
+    of an EoL notice. A capture with a correct title and no table at all is a page whose script did
+    not finish, and caching it poisons every later read of that URL: the cache is served in
+    preference to the network, so one bad capture becomes permanent. Two of ten cached HPE psnow
+    documents were exactly this shape (HPE session, 5 Sep 2026).
+
+    Deliberately generous. This is a veto on CACHING, not on extraction: refusing a page that was
+    merely unusual costs one re-fetch, while accepting a shell costs the document for ever. A
+    listing page is exempt because its job is links, not tables.
+    """
+    if not html or len(html) < 2000:
+        return False
+    low = html[:400_000].lower()
+    if "<table" in low:
+        return True
+    # a discovery surface is allowed to have no tables, but must still have links to be worth
+    # keeping - a listing with neither is the same empty shell
+    return low.count("<a ") >= 20
+
+
 def is_not_found(html: str) -> bool:
     """Cisco serves a real 404 page for a withdrawn document. It is short and titles itself; the
     length guard keeps a product page about "page not found" behaviour from matching."""

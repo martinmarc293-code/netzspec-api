@@ -176,6 +176,23 @@ def disposition(outcome: str, attempts: int, reason: str | None = None) -> tuple
     return "failed", backoff(attempts)
 
 
+def total_facts(result: dict | None) -> int:
+    """Facts across EVERY subject of a page result, not just the top-level one.
+
+    The RESULT contract puts one subject at the top and the rest in `others` (a datasheet describes
+    a family and its models). Which subject lands at the top is an accident of how the adapter
+    grouped them, so a count of the top level alone is a count of an accident. One level of nesting
+    is all the contract defines, but this recurses defensively: a nested `others` costing a linear
+    walk is cheaper than a silent undercount.
+    """
+    if not isinstance(result, dict):
+        return 0
+    n = len(result.get("facts") or [])
+    for o in result.get("others") or []:
+        n += total_facts(o)
+    return n
+
+
 def heartbeat_record(task: dict | None, outcome: str, done: int, failed: int, *,
                      proxy_bytes_today: int | None = None, proxy_day: str | None = None) -> dict:
     """The beat the watchdog and the sentinel read. `proxy_bytes_today` / `proxy_day` are the
@@ -733,11 +750,22 @@ class Browser:
 
     # -- fetch ------------------------------------------------------------------------------
     def fetch(self, url: str, politeness_ms: int = 2000, force: bool = False, settle_ms: int = 1500,
-              wait_for: str | None = None) -> dict:
-        """Returns {status, html, final_url, cached, blocked}. Cached pages are served from disk
-        unless force. A challenge page is detected, waited out for up to 25 s (real Chrome
-        usually clears it by itself), and if it persists the result is blocked=True and
-        nothing is written to the cache."""
+              wait_for: str | None = None, usable=None) -> dict:
+        """Returns {status, html, final_url, cached, blocked, unusable}. Cached pages are served
+        from disk unless force. A challenge page is detected, waited out for up to 25 s (real
+        Chrome usually clears it by itself), and if it persists the result is blocked=True and
+        nothing is written to the cache.
+
+        `usable(html) -> bool` is the SOURCE's veto on caching, and it exists because
+        looks_blocked() is not the only way a capture can be worthless. A client-rendered page
+        whose script did not finish is HTTP 200 with the right og:title and NO DOCUMENT BODY - it
+        matches no challenge fingerprint, so it was written to the cache and then served to every
+        retry for ever. Two of ten cached HPE psnow documents are exactly that (measured by the
+        HPE session, 5 Sep 2026: 200, 264 KB, correct title, no body).
+
+        The veto lives in the ADAPTER because only the adapter knows what its site's pages must
+        contain, and it prevents the WRITE rather than evicting afterwards: an adapter that
+        deleted what it disliked would eventually delete its own fixtures."""
         cf = netzscrape.CACHE / f"{netzscrape._key(url)}.html"
         if cf.exists() and not force:
             cached = cf.read_text(encoding="utf-8", errors="replace")
@@ -805,13 +833,25 @@ class Browser:
         rec = {"url": url, "status": status, "host": host, "fetched_at": now().isoformat(),
                "sha256": hashlib.sha256(html.encode("utf-8", "replace")).hexdigest(), "bytes": len(html),
                "final_url": self._page.url, "worker": WORKER}
+        unusable = False
+        if not blocked and usable is not None:
+            try:
+                unusable = not bool(usable(html))
+            except Exception as e:  # noqa - a veto that throws must not decide the page is fine
+                unusable = True
+                rec["usable_error"] = f"{type(e).__name__}: {str(e)[:120]}"
         if blocked:
             rec["status"] = f"BLOCKED_{status}"
+        elif unusable:
+            # Not cached, and said out loud: a silent skip here reads as a successful fetch that
+            # simply found nothing, which is the state this whole veto exists to end.
+            rec["status"] = f"UNUSABLE_{status}"
         else:
             cf.write_text(html, encoding="utf-8")
         netzscrape._ledger(rec)
-        return {"status": status, "html": html, "final_url": self._page.url, "cached": False, "blocked": blocked,
-                "sha256": rec["sha256"], "cache_path": cf.name if not blocked else None}
+        return {"status": status, "html": html, "final_url": self._page.url, "cached": False,
+                "blocked": blocked, "unusable": unusable, "sha256": rec["sha256"],
+                "cache_path": cf.name if not (blocked or unusable) else None}
 
     def _capture(self) -> str:
         """The DOM as text. A challenge or a client-side redirect can navigate the page between
@@ -1193,10 +1233,19 @@ class Loop:
             if task["task"] == "datasheet" and (url.lower().endswith(".pdf") or getattr(src, "BINARY_DATASHEETS", False)):
                 return self._binary(task, src_row, src, slug, url)
             res = self.browser.fetch(url, politeness_ms=src_row["politeness_ms"], force=bool((task.get("result") or {}).get("force")),
-                                     settle_ms=int(getattr(src, "SETTLE_MS", 1500)), wait_for=getattr(src, "WAIT_FOR", None))
+                                     settle_ms=int(getattr(src, "SETTLE_MS", 1500)), wait_for=getattr(src, "WAIT_FOR", None),
+                                     usable=getattr(src, "is_usable", None))
             # charged BEFORE the outcome branches: a challenge page is the most expensive thing a
             # proxied lane can fetch and the one an "only count successes" meter would miss
             proxy_bytes = self.charge_proxy(src_row)
+            # A capture the adapter vetoed is a RENDER failure, not an answer: retry it with the
+            # queue's back-off rather than extracting from a shell and recording `no_facts`, which
+            # would look like a page that genuinely has nothing on it.
+            if res.get("unusable"):
+                print(f"  unusable {slug} {task['task']} {task['key']}: the adapter refused the "
+                      f"capture (http {res.get('status')}, {len(res.get('html') or '')} bytes); not cached")
+                return self._finish(task, slug, "failed",
+                                    error="unusable capture: the page did not render its document")
             outcome = classify_fetch(res.get("status"), bool(res.get("blocked")), res.get("reason"),
                                      bool(res.get("html")) and src.is_not_found(res["html"]))
             if outcome == "blocked":
@@ -1224,6 +1273,17 @@ class Loop:
             # the acquired JSON, discover, record the check. Re-apply from cache needs all four.
             ext = src.extract(res["html"], task) or {}
             facts = ext.get("facts") or []
+            # EVERY subject's facts, not just the top-level one's. The RESULT shape puts one
+            # subject at the top and the rest in `others` - a datasheet describes a family and its
+            # models, and which of them lands at the top is an accident of the adapter's grouping.
+            # Counting only the top level made a document that produced 1,430 facts report
+            # `no_facts` (measured on HPE psnow a00073540enw and a00047323enw, 5 Sep 2026), and on
+            # Cisco it understates a series datasheet by however many models are in `others`.
+            #
+            # It is not cosmetic: this number is the outcome (`facts_found` vs `no_facts`), it is
+            # written to part_source_checks.facts_found, and the watchdog's yield and drift rules
+            # read it - so a healthy lane can be paused for low yield while it is doing well.
+            produced = total_facts(ext)
             out_dir = self.runs_dir / "acquired" / slug / now().strftime("%Y-%m-%d")
             out_dir.mkdir(parents=True, exist_ok=True)
             out = out_dir / f"{task['id']}.json"
@@ -1247,12 +1307,13 @@ class Loop:
                 if self.q.enqueue(src_row["id"], "datasheet", durl, durl, task["part_id"], task["priority"],
                                   result={"origin": url, "title": d.get("title"), "from_task": task["id"]}):
                     new_docs += 1
-            outcome = "not_listed" if ext.get("not_listed") else ("facts_found" if facts else "no_facts")
+            outcome = "not_listed" if ext.get("not_listed") else ("facts_found" if produced else "no_facts")
             if task["part_id"]:
-                self.q.record_check(task["part_id"], src_row["id"], fetch_id, outcome, len(facts), [])
-            print(f"  done {slug} {task['task']} {task['key']}: facts={len(facts)} images={len(ext.get('images') or [])} new_tasks={new_tasks} docs={new_docs}{' (cache)' if res.get('cached') else ''}")
+                self.q.record_check(task["part_id"], src_row["id"], fetch_id, outcome, produced, [])
+            print(f"  done {slug} {task['task']} {task['key']}: facts={produced} images={len(ext.get('images') or [])} new_tasks={new_tasks} docs={new_docs}{' (cache)' if res.get('cached') else ''}")
             return self._finish(task, slug, outcome, result={
-                "outcome": outcome, "url": url, "facts": len(facts), "images": len(ext.get("images") or []),
+                "outcome": outcome, "url": url, "facts": produced, "facts_top_level": len(facts),
+                "images": len(ext.get("images") or []),
                 "aliases": len(ext.get("aliases") or []), "relations": len(ext.get("relations") or []),
                 "discovered": new_tasks, "documents": new_docs, "cached": bool(res.get("cached")),
                 "out": str(out.relative_to(ROOT)) if out.is_relative_to(ROOT) else str(out), "fetch_id": fetch_id})

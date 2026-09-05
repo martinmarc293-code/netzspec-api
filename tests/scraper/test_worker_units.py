@@ -592,5 +592,34 @@ check("P45", "is_proxied reads the row, not a flag in the code",
       W.is_proxied({"proxy": "residential"}) is True and W.is_proxied({"proxy": "direct"}) is False
       and W.is_proxied({}) is False and W.is_proxied(None) is False)
 
+# ---------------------------------------------------------------------------------------------
+# total_facts: a page's yield is every subject's facts, not the top-level subject's
+# ---------------------------------------------------------------------------------------------
+# Measured by the HPE session, 5 Sep 2026: psnow a00073540enw and a00047323enw each produced 1,430
+# facts and were both recorded `no_facts`/done, because the adapter put the family at the top and
+# every model in `others` - which is exactly what the RESULT contract asks for. Which subject lands
+# at the top is an accident of the adapter's grouping, so counting only that one counts an accident.
+#
+# Not cosmetic: this number decides the OUTCOME (facts_found vs no_facts), is written to
+# part_source_checks.facts_found, and is read by the watchdog's yield and drift rules - so a lane
+# doing well can be paused for low yield.
+F = lambda n: [{"label": f"l{i}", "value": "v", "locator": "t1"} for i in range(n)]  # noqa: E731
+check("TF1", "the top-level subject's facts are counted", W.total_facts({"facts": F(3)}) == 3)
+check("TF2", "EVERY subject counts: family at the top, models in `others`",
+      W.total_facts({"facts": F(2), "others": [{"facts": F(5)}, {"facts": F(4)}]}) == 11,
+      str(W.total_facts({"facts": F(2), "others": [{"facts": F(5)}, {"facts": F(4)}]})))
+check("TF3", "SABOTAGE the regression itself: NO top-level facts and 1,430 in `others` is 1,430, "
+             "not zero - the shape that reported no_facts for a document full of facts",
+      W.total_facts({"facts": [], "others": [{"facts": F(1430)}]}) == 1430,
+      str(W.total_facts({"facts": [], "others": [{"facts": F(1430)}]})))
+check("TF4", "SABOTAGE a nested `others` is still counted (the contract defines one level; a "
+             "silent undercount is worse than a linear walk)",
+      W.total_facts({"facts": F(1), "others": [{"facts": F(1), "others": [{"facts": F(2)}]}]}) == 4)
+check("TF5", "SABOTAGE degenerate inputs are zero, never an exception in the middle of a run",
+      W.total_facts(None) == 0 and W.total_facts({}) == 0 and W.total_facts({"others": []}) == 0
+      and W.total_facts("not a dict") == 0)
+check("TF6", "SABOTAGE a listing result (no subject, no facts) is zero and stays `no_facts`",
+      W.total_facts({"sku": None, "facts": [], "others": [], "scope": "listing"}) == 0)
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)
