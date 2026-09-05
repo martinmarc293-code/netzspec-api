@@ -504,6 +504,13 @@ full; the ones that bite hardest here are restated.
   refused until this is fixed (agent in flight: decision table for every survivor/loser state
   pair, sabotage per row). LESSON: a hygiene run that refuses part of its work must not
   print "COMMITTED … merge N" — print merged/refused on the line the operator reads.
+  Renormalize DRY on the box (`--limit 5000`): same 4,956, changed 36, refused 0,
+  unrecoverable 8 (mtbf/weight with the unit only in the label), GATE PASS. The changed rows
+  are `shock` strings becoming lists (waits for round 3's citation-split fix — "MIL-STD-810,
+  Method 514.4" must not be cut), five `temp_storage` sign restorations (correct) and six
+  `altitude_max`. The "TOP 10 SAME" section prints `old -> null` for German seed rows
+  (`41,67 Mpps`, `19-Zoll-Rackmontage`) — a printer artefact or a locale re-read; asked the
+  command's author to say which from the code before ANY `--commit`. Nothing committed.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
