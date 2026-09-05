@@ -4,6 +4,65 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-05 ~16:30 — Opus/Cisco session, work block 2: the lane exists, the documents are
+  100% classified, and the plan is INVERTED.** Three sessions now run in parallel, one per brand
+  (Cisco here, HPE, Juniper); `scraper/brands/README.md` § 3 is the protocol and it is binding.
+
+  **THE CORRECTION THAT MATTERS.** This block opened by reporting that Cisco's bottleneck was
+  extraction recall (33,863 parts holding a datasheet that yielded nothing) and not crawling
+  (6,843). That was wrong, and it was wrong because `source_docs.doc_type` was stamped by whichever
+  extractor read the file: 2,495 of 5,811 Cisco "datasheets" were end-of-life notices, which list
+  affected PIDs and carry no specifications at all. With the classes corrected (run #82):
+
+      recall gap   33,863 -> 1,587     a real datasheet is held and yielded nothing
+      crawl  gap    6,843 -> 39,119    no spec-bearing document has ever been fetched
+                              of which 32,276 hold ONLY an end-of-life notice
+
+  The extractor was never the bottleneck. Believe a `doc_type` nobody derived from the document and
+  the coverage report points at the wrong half of the problem — for months, silently, with every
+  number in it arithmetically correct.
+
+  **DONE + VERIFIED**
+  * `a34cb20` **the Cisco lane can run at all.** All four Cisco source rows had existed since the
+    schema was created with NO adapter behind them, so `load_source("cisco-datasheets")` raised and
+    the worker could not run the lane whatever `enabled` said; every Cisco fact had arrived through
+    the offline batch path, which has no queue, lease, heartbeat, watchdog or schedule. That is why
+    there was no daily loop. `cisco_specs_deep.extract_document()` is the per-document core lifted
+    out of `run()` so one extractor serves both callers. test_cisco_lane.py 36/36 against the real
+    cached Catalyst 9200 datasheet.
+  * **Named block fingerprints** (`sources/base.challenge_fingerprint`). `looks_blocked()` believed
+    a wordy marker on anything under 40 KB and called a genuine 24 KB Cisco Secure Firewall
+    datasheet blocked — caught by the lane's own sabotage case B3. Structural markup is believed at
+    any size (a large challenge page was invisible to the length guard); ordinary English only
+    under 4 KB (Akamai's refusal is 546 bytes). It returns the fingerprint's NAME.
+  * `071a1a9` **100% of 6,117 Cisco documents classified**, applied as run #82 (4,236 re-typed, 94
+    titles recovered from the cache and stored as the evidence), and **served by the API**:
+    `spec_bearing` on every document response, `GET /v1/docs`, `GET /v1/docs/classes`, and
+    `title` + `spec_bearing` on `part.sources[]`. Deployed `071a1a9`, live version verified.
+  * **Brand packs** (`74757d5`): `scraper/brands/<brand>/` is a directory you copy. The engine,
+    queue, gate and normaliser stay shared and imported.
+
+  **TWO DANGEROUS THINGS CAUGHT IN DRY RUN, both by scoping rather than by luck**
+  1. The classifier proposed promoting ~4,000 itprice.com pages from `aggregator_page` (tier 3) to
+     `vendor_datasheet_html` (tier 2) because they republish Cisco specs under a title reading
+     "… Data Sheet". What a document IS can be read from the document; WHO PUBLISHED IT cannot.
+     `refineVendorDocClass` refuses every crossing and the script scopes by vendor, not by a URL
+     substring.
+  2. `reclassify-docs` refuses any change that would move a fact's TIER — 18 of them, tier-1 PDF
+     "datasheets" that are really guides. Renaming a document is not re-ranking the evidence read
+     from it.
+
+  **NEXT, in order.** (1) Queue and run the Cisco lane: the adapter exists, the source is still
+  disabled and the queue is empty, and the crawl gap is now known to be 39,119 parts. (2) The
+  daily cycle from `brand.schedule`. (3) The 1,587 real recall cases, ranked by family in the
+  watchdog. (4) `vendor_eol_bulletin` reaches 67,639 parts and its successor data is under-used.
+
+  **TRAPS HIT.** A conclusion hardcoded next to computed evidence ("the next hour belongs to the
+  extractor") went on contradicting the numbers above it after the numbers moved — it is derived
+  now. A rule written against the raw URL and applied to the normalised one matched nothing
+  (`prod_qas` vs `prod-qas`), the third time in one file. 4,236 single-row UPDATEs over the SSH
+  tunnel took ten minutes of pure latency; one statement per batch now.
+
 - **2026-09-05 ~11:00 — Opus session, work block 1: the proxy lanes are BUILT, DEPLOYED and
   DISPROVEN.** Stopped early at the operator's request (laptop shutting down).
 
