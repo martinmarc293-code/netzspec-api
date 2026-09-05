@@ -225,5 +225,79 @@ check("S11", "...and a pack naming a lane with no row, which is a manifest descr
              "cannot run", "cisco-datasheets" in aud["missing"], aud["missing"])
 check("S12", "no lane is claimed by two packs today", aud["claimed_twice"] == {}, aud["claimed_twice"])
 
+# ---------------------------------------------------------------------------------------------
+# 6. worktrees - the hazard the split CREATED, and the one a supervisor walks into
+# ---------------------------------------------------------------------------------------------
+# sentinel.py starts a lane with Popen(..., cwd=...). It used cwd=ROOT, the tree the SENTINEL's own
+# file lives in, so one sentinel started from the Cisco worktree ran EVERY brand's lane against
+# Cisco's checkout. Before the split there was one copy of everything and it did not matter; after
+# it, a lane silently executes another session's branch.
+def _raises(fn) -> bool:
+    try:
+        fn()
+    except Exception:
+        return True
+    return False
+
+
+check("W1", "every brand declares the worktree its worker must run in",
+      all(OWN.worktree_for(b) for b in OWN.brands()), {b: OWN.worktree_for(b) for b in OWN.brands()})
+check("W2", "no two brands share a worktree - that would reintroduce the shared index",
+      len({OWN.worktree_for(b) for b in OWN.brands()}) == len(OWN.brands()),
+      [OWN.worktree_for(b) for b in OWN.brands()])
+check("W3", "a lane resolves to its OWNING brand's tree, never the caller's",
+      OWN.worktree_for_source("hpe-quickspecs", default="/wrong") == OWN.worktree_for("hpe")
+      and OWN.worktree_for_source("cisco-eol", default="/wrong") == OWN.worktree_for("cisco"),
+      OWN.worktree_for_source("hpe-quickspecs", default="/wrong"))
+check("W4", "an UNOWNED cross-vendor lane falls back to the caller's tree - it belongs to no "
+            "brand, so there is no brand tree to prefer",
+      OWN.worktree_for_source("provantage", default="/caller") == "/caller",
+      OWN.worktree_for_source("provantage", default="/caller"))
+check("W5", "SABOTAGE an unknown brand raises rather than returning a plausible path",
+      _raises(lambda: OWN.worktree_for("nosuchbrand")))
+
+# ---------------------------------------------------------------------------------------------
+# 7. EVERY OWNERSHIP KEY HAS A READER — the "declared constant nobody reads" rule, as a check
+# ---------------------------------------------------------------------------------------------
+# Twice in this one file now. `sources` was declared, documented and tested, and NOTHING consulted
+# it, so a lane could belong to a pack on paper while every guard ignored the fact. Then `worktree`
+# went in for the supervisor and the supervisor still passed `cwd=ROOT`, so the entry said which
+# checkout a lane must run in while lanes ran from whichever tree the sentinel lived in. Both read
+# as finished work: data present, docstring explaining it, suite green.
+#
+# A declared key with no reader is indistinguishable from a key that is honoured, and the project
+# has paid for this shape repeatedly (minAuthorityLinks declared in a gate's rule block and never
+# evaluated; partnerAnchorsPerArticle pulled from config and compared to nothing). So the rule that
+# was a habit becomes a refusal: a key nobody reads must be wired up or removed.
+#
+# A READ is `[..."key"]` or `.get("key"`; the OWNERSHIP literal writes `"key":` with a colon, so
+# the two forms cannot be confused and the declaration can never satisfy itself.
+KEYS = sorted({k for v in OWN.OWNERSHIP.values() for k in v})
+_src: list[str] = []
+_self = Path(__file__).resolve()
+for _d in ("scraper", "scripts", "tests", "src"):
+    _p = ROOT / _d
+    if _p.is_dir():
+        for _f in _p.rglob("*"):
+            # THIS FILE IS EXCLUDED, and that is not tidiness. It names every key in order to check
+            # them, so scanning itself would let a key count as "read" purely because the checker
+            # mentions it — the check would then pass for a key with no real reader anywhere, which
+            # is the exact condition it exists to detect. It also made W7 below fail on its first
+            # run: the invented key found its own literal.
+            if _f.suffix in (".py", ".ts", ".sh") and _f.is_file() and _f.resolve() != _self:
+                try:
+                    _src.append(_f.read_text(encoding="utf-8", errors="ignore"))
+                except OSError:
+                    pass
+BLOB = "\n".join(_src)
+unread = [k for k in KEYS if f'"{k}"]' not in BLOB and f'.get("{k}"' not in BLOB and f"['{k}']" not in BLOB]
+check("W6", f"every key an OWNERSHIP entry declares is READ somewhere ({', '.join(KEYS)}) — a key "
+            "nobody consults states a rule nothing enforces, and this file has shipped that twice",
+      not unread, unread)
+check("W7", "SABOTAGE the reader-check can FAIL: an invented key is reported as unread, so W6 "
+            "cannot pass by finding nothing to look for",
+      [k for k in ["nz_never_read_key"] if f'"{k}"]' not in BLOB and f'.get("{k}"' not in BLOB
+       and f"['{k}']" not in BLOB] == ["nz_never_read_key"] and len(KEYS) >= 4, KEYS)
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

@@ -49,6 +49,7 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 OWNERSHIP: dict[str, dict] = {
     "cisco": {
         "test_db": "netzspec_test4",
+        "worktree": "D:/Project/netzspec-api-cisco",
         "sources": ("cisco-datasheets", "cisco-datasheet-pdf", "cisco-eol", "cisco-tmg"),
         "paths": (
             "scraper/brands/cisco/*",
@@ -59,6 +60,7 @@ OWNERSHIP: dict[str, dict] = {
     },
     "hpe": {
         "test_db": "netzspec_test2",
+        "worktree": "D:/Project/netzspec-api-hpe",
         "sources": ("hpe-quickspecs",),
         "paths": (
             "scraper/brands/hpe/*",
@@ -69,6 +71,7 @@ OWNERSHIP: dict[str, dict] = {
     },
     "juniper": {
         "test_db": "netzspec_test3",
+        "worktree": "D:/Project/netzspec-api-juniper",
         "sources": ("juniper",),
         "paths": (
             "scraper/brands/juniper/*",
@@ -146,6 +149,25 @@ def lock_database(conn, brand: str) -> None:
             f"produce failures that have nothing to do with the code. Find it with:\n"
             f"  SELECT pid, application_name, state, query FROM pg_stat_activity "
             f"WHERE datname = '{test_db_for(brand)}';")
+
+
+def worktree_for(brand: str) -> str:
+    """The checkout a brand's worker must run in. See the note above OWNERSHIP."""
+    b = OWNERSHIP.get((brand or "").strip().lower())
+    if not b:
+        raise ValueError(f"no ownership entry for brand {brand!r} (known: {', '.join(brands())})")
+    return b["worktree"]
+
+
+def worktree_for_source(slug: str, default: str | None = None) -> str | None:
+    """The checkout a LANE's worker must run in, or `default` when no brand owns the lane.
+
+    `default` rather than a raise: the cross-vendor lanes belong to no brand, and a supervisor
+    starting one has no brand tree to prefer - its own is the right answer there. A brand's lane is
+    different, and running it from the wrong tree is running another session's code.
+    """
+    owner = owner_of_source(slug)
+    return worktree_for(owner) if owner else default
 
 
 def _advisory_key(brand: str) -> int:

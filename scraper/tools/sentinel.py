@@ -49,6 +49,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(ROOT / "scraper"))
+from brands import ownership as OWN  # noqa: E402
 NS = ROOT / "runs" / "nightshift"
 STATE = NS / "sentinel-state.json"
 # One profile directory per lane; the same string scraper/worker.py builds. It is the ONLY thing
@@ -437,9 +439,20 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
                     log = NS / f"worker-{slug}.sentinel.out"
                     # --profile, never --cdp: one Chrome per lane on its own profile. sys.executable,
                     # not "python3.11": the Store alias resolves in a shell, not in CreateProcess.
+                    # IN THE OWNING BRAND'S WORKTREE, not the sentinel's. Each brand now has its own
+                    # checkout on its own branch, so `cwd=ROOT` would run every lane against whichever
+                    # tree this sentinel happens to live in - the HPE lane executing Cisco's copy of
+                    # sources/hpe_quickspecs.py. Harmless while there was one checkout; after the split
+                    # it is a lane silently running another session's code, which is the failure the
+                    # split exists to prevent, arriving from the other direction.
+                    tree = OWN.worktree_for_source(slug, default=str(ROOT))
+                    if not Path(tree).is_dir():
+                        actions.append(f"NOT starting {slug}: its worktree {tree} does not exist - "
+                                       "run scripts/setup-brand-worktrees.sh --apply")
+                        continue
                     subprocess.Popen([sys.executable, "-u", "scraper/worker.py", "run", "--sources", slug, "--profile"],
-                                     cwd=str(ROOT), stdout=open(log, "a", encoding="utf-8"), stderr=subprocess.STDOUT, creationflags=0x08000000)
-                    actions.append(f"started worker for {slug} with its own Chrome ({n} runnable, {free_mb} MB free)")
+                                     cwd=tree, stdout=open(log, "a", encoding="utf-8"), stderr=subprocess.STDOUT, creationflags=0x08000000)
+                    actions.append(f"started worker for {slug} with its own Chrome in {tree} ({n} runnable, {free_mb} MB free)")
     if not sup or (lock_age_h is not None and lock_age_h > 6):
         alarms.append("supervisor not running" if not sup else f"supervisor lock stale ({lock_age_h:.1f} h)")
         if heal:
