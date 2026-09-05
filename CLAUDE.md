@@ -496,6 +496,14 @@ full; the ones that bite hardest here are restated.
   `case-duplicates --commit`, then redeployed. Remerge pass after the PDF apply = run #76
   (open 15,932: 3,053 same-doc, 2,254 awaiting `renormalize`, 733 tier-0). Renormalize dry
   run on the box queued (`--limit 5000`) — read its samples before any `--commit`.
+  CORRECTION: the eight did NOT merge. Runs #72 and #77 both refused the same 8 pairs with
+  `duplicate key value violates unique constraint "facts_current_uq"` (72: 119 of 127
+  merged; 77: 0 of 8) — the loser's current fact collides with the survivor's on a (part,
+  field) the parking logic does not cover; the run row said "succeeded" with `failed: 8` in
+  its stats and the log's "COMMITTED … would do: merge 8" reads like success. 0010 stays
+  refused until this is fixed (agent in flight: decision table for every survivor/loser state
+  pair, sabotage per row). LESSON: a hygiene run that refuses part of its work must not
+  print "COMMITTED … merge N" — print merged/refused on the line the operator reads.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
