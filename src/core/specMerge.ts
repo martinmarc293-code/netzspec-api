@@ -7,6 +7,12 @@
 // looks like it works right up until it has quietly corrupted a few thousand records — the
 // family-level EoL date that wrongly aged an active 9300 is the precedent.
 
+// The normaliser's unit tables. `COUNT_LIKE` and `CANON` between them ARE the dictionary's own
+// answer to "is this field a measurement or a count", and the numeric tolerance below reads that
+// answer instead of keeping a hand list of its own — see `toleranceApplies`. specNormalize imports
+// fieldSchema and nothing from here, so this is a chain and not a cycle.
+import { CANON, COUNT_LIKE } from "./specNormalize.js";
+
 export type FieldState =
   | "verified"         // tier <= 2 source, normaliser-parsed, no unresolved conflict
   | "corroborated"     // >= 2 independent tier <= 2 sources agree after normalisation
@@ -79,6 +85,21 @@ export const TIER_BY_DOC_TYPE: Readonly<Record<string, number>> = {
   vendor_datasheet_html: 2,
   vendor_page: 2,
   vendor_eol_bulletin: 2,
+  // The rest of a vendor's collateral (src/core/docClass.ts). All tier 2: they are published by
+  // the vendor about its own product, which is what the tier measures — a white paper is not less
+  // AUTHORITATIVE than a datasheet, it is less SPECIFIC, and specificity is handled by the fields
+  // an extractor can find in it. They are listed separately rather than folded into one
+  // "collateral" type so that coverage can ask "is this document spec-bearing?" and get a real
+  // answer (docClass.SPEC_BEARING); 43% of Cisco's "datasheets" turned out to be EoL notices
+  // precisely because that question had no way to be asked.
+  vendor_bulletin: 2,
+  vendor_whitepaper: 2,
+  vendor_qa: 2,
+  vendor_guide: 2,
+  vendor_at_a_glance: 2,
+  vendor_solution_overview: 2,
+  vendor_brochure: 2,
+  vendor_tool: 2,
   aggregator_page: 3,
   distributor_page: 4,
 };
@@ -110,12 +131,42 @@ export function tierFor(docType: string | null | undefined, method: string | nul
 // ---------------------------------------------------------------------------------------------
 
 /**
- * Units on an INTERVAL or LOGARITHMIC scale, where a small relative difference is a real
- * difference: 40 °C and 41 °C are 2.4% apart and are two different specifications, and at 0 °C the
- * relative comparison is undefined. The tolerance below exists for ROUNDED UNIT RESTATEMENTS, which
- * only happen on ratio scales (a length, a mass, a rate), so these are excluded by name.
+ * DIMENSIONS on which a small relative difference is a real difference, so the 2% band below must
+ * never reach them. Keyed on the dimension the normaliser's unit tables give a unit, never on the
+ * unit's SPELLING.
+ *
+ * That change is finding 2 of the 4 Sep 2026 review. The old set was
+ * `new Set(["°C", "°F", "dBm", "dB"])` and it named exactly the two decibel spellings the corpus
+ * does NOT lean on: production carries 428 `dBm` facts, but also 6 `dB(A)` (acoustic_noise) and 1
+ * `dB`, and the dictionary further declares `dBi` (antenna gain) and `dBmV` — every one of them a
+ * decibel, none of them matching the set, all of them getting the band applied. One dimension entry
+ * covers every spelling that maps to it, today and after the next unit is added.
+ *
+ *   tempC / tempF   an INTERVAL scale. 0 °C is not "no temperature", so the ratio of two
+ *                   temperatures means nothing: 40 °C and 40.5 °C are 1.2% apart and are two
+ *                   different operating envelopes. Production holds 3,966 struct-valued
+ *                   temp_operating / temp_storage conflict pairs, none of them inside the band.
+ *   db / dba / dbm  the DECIBEL family, a LOGARITHMIC scale: 2% of a decibel figure is nowhere near
+ *   / dbi / dbmv    2% of the quantity. -20 dBm and -20.4 dBm are inside the band and a tenth of
+ *                   the received power apart, which is most of a link budget. Zero is a reference
+ *                   level (1 mW), not an absence, so the zero and sign guards below cannot stand in
+ *                   for this either.
+ *   percent         a proportion is already dimensionless — there is no second unit to restate it
+ *                   in, so no ROUNDED RESTATEMENT can exist and every gap is a difference in the
+ *                   specification. "5 to 90%" against "5 to 91%" is a different humidity envelope,
+ *                   the same shape as the "5 to 96%" / "5 to 90%" pair remerge's broken `exact`
+ *                   rule closed by hand on 4 Sep 2026. 856 stored pairs, none inside the band.
+ *
+ * KEPT INSIDE the band on the same evidence rather than by taste: `voltage`. It is a ratio scale
+ * (0 V is no volts) and the tables do carry mV / V / kV of one quantity, so a rounded restatement
+ * is physically possible; 15 stored pairs, none within 2%, so exempting it would withdraw nothing
+ * and would be a guess. Everything else the dictionary declares (length, mass, power, throughput,
+ * packetrate, memory, duration, frequency, current, heat …) is a ratio scale with real
+ * sub-multiples, which is the population NUMERIC_TOLERANCE was measured on.
  */
-export const TOLERANCE_EXEMPT_UNITS: ReadonlySet<string> = new Set(["°C", "°F", "dBm", "dB"]);
+export const TOLERANCE_EXEMPT_DIMENSIONS: ReadonlySet<string> = new Set([
+  "tempC", "tempF", "db", "dba", "dbm", "dbi", "dbmv", "percent",
+]);
 
 /**
  * 2%. Measured, not chosen: a datasheet states one measurement twice in one cell — "10,000 ft.
@@ -184,11 +235,54 @@ export function unionListValues(a: unknown, b: unknown): unknown[] {
   return out;
 }
 
+/**
+ * May the 2% band be applied to a field whose canonical unit is `unit`? Three tests, and the answer
+ * is derived from the DICTIONARY every time — there is no list of field keys here, because a list
+ * of field keys is a copy of the dictionary that drifts from it.
+ *
+ * THE GUARD THIS REPLACES WAS DEAD, and that is finding 1 of the 4 Sep 2026 review. `closeEnough`
+ * refused the band when `!unit`, and its comment said "a bare count has no rounded restatement to
+ * forgive: 24 ports and 25 ports are two different products". True, and it protected nothing: a
+ * COUNT_LIKE field stores its COUNTING NOUN in `facts.unit`, so the field always has a unit and the
+ * branch never fired for the population it was written for. Production on 4 Sep 2026 carries 1,404
+ * live facts whose unit is a counting noun — jumbo_mtu 365 (`Byte`), rack_units 357 (`HE`),
+ * cpu_sockets_max 204 (`sockets`), mac_table 151 (`Einträge`), vpn_peers 73 (`Peers`), dimm_ranks
+ * 69, copper_ethernet_ports 48 (`ports`), anyconnect_sessions 39, drive_bays 33, wire_gauge 21
+ * (`AWG`), gpu_max 18, virtual_networks 9, concurrent_sessions 9 (`Sessions`), voice_lines 6,
+ * sgt_policies 2 — and every one of them was being compared with a 2% tolerance. So two documents
+ * disagreeing about a COUNT were merged as agreement: jumbo_mtu 9216 against 9198 Byte (0.20%),
+ * mac_table 288,000 against 292,000 (1.37%) and copper_ethernet_ports 96 against 97 (1.03%) all
+ * corroborated. A count is exact by construction; there is no unit round-trip that could have
+ * rounded it, and 96 ports and 97 ports are two different switches.
+ *
+ *   1. NO UNIT — a bare number. Kept from the old rule: with nothing to convert from there is
+ *      nothing to forgive. (vlan_max, ipv4_routes, acl_entries … declare no unit at all.)
+ *   2. A COUNTING NOUN — `COUNT_LIKE` in specNormalize is the normaliser's own declaration that a
+ *      unit only NAMES what is being counted and the value is a bare number. It is the property the
+ *      old comment was reaching for, and reading it here means "count-like" is decided in exactly
+ *      one place. Note that `HE`, `Byte` and `AWG` are in both tables on purpose (a rack height, an
+ *      MTU and a wire gauge are written bare more often than not), so COUNT_LIKE is tested FIRST
+ *      and wins: jumbo_mtu's `Byte` is a count, not a memory measurement.
+ *   3. A DIMENSION — a unit that is neither of the above must resolve through `CANON` to a physical
+ *      dimension, and that dimension must be one where a rounded unit restatement is what a small
+ *      gap means (`TOLERANCE_EXEMPT_DIMENSIONS` above says which are not). A unit in NEITHER table
+ *      is refused rather than guessed: on 4 Sep 2026 every unit the dictionary declares and every
+ *      unit stored in `facts` was in exactly one of the two (tests/specNormalize.units.test.mjs
+ *      pins that), so an unknown unit means a unit was invented somewhere, and holding the field is
+ *      the safe direction. `°F` reaches this branch — it is a real unit token but not a canonical
+ *      dictionary unit — and is refused here instead of by the old spelling list.
+ */
+export function toleranceApplies(unit: string | null | undefined): boolean {
+  if (!unit) return false;
+  if (COUNT_LIKE.has(unit)) return false;
+  const canon = CANON[unit];
+  if (!canon) return false;
+  return !TOLERANCE_EXEMPT_DIMENSIONS.has(canon[0]);
+}
+
 function closeEnough(a: number, b: number, unit: string | null | undefined): boolean {
   if (a === b) return true;
-  // The tolerance is for a UNIT round-trip, so it needs a unit. A bare count has no rounded
-  // restatement to forgive: 24 ports and 25 ports are two different products.
-  if (!unit || TOLERANCE_EXEMPT_UNITS.has(unit)) return false;
+  if (!toleranceApplies(unit)) return false;
   if (a === 0 || b === 0) return false;
   if (a < 0 !== b < 0) return false;
   return Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)) <= NUMERIC_TOLERANCE;
@@ -248,7 +342,9 @@ export function isSameCellReread(existing: SpecEntry, incoming: SpecEntry): bool
 }
 
 export type CompareOpts = {
-  /** the field's canonical unit, from either entry. Required for the numeric tolerance. */
+  /** the field's canonical unit, from either entry — the string the dictionary declares and
+   *  `facts.unit` stores, so `toleranceApplies` can look it up. Required for the numeric
+   *  tolerance, and NOT sufficient for it: a counting noun is a unit too. */
   unit?: string | null;
 };
 
@@ -259,8 +355,9 @@ export type CompareOpts = {
  * Three relaxations, each measured against run #38's held conflicts and each with its own exported
  * predicate so a sabotage case can drive it alone:
  *   * a list is a SET (listSetEqual) — order is the extractor's, not the product's;
- *   * numbers agree within NUMERIC_TOLERANCE when the field HAS a unit (numericallyClose) — the
- *     imperial and metric halves of one cell are one measurement;
+ *   * numbers agree within NUMERIC_TOLERANCE when the field's unit is a MEASUREMENT on a ratio
+ *     scale (numericallyClose / toleranceApplies) — the imperial and metric halves of one cell are
+ *     one measurement. Never on a count, a temperature, a decibel or a percentage;
  *   * a string cut at MAX_CELL is its own untruncated form (truncatedPrefixEqual).
  */
 export function sameValue(a: unknown, b: unknown, opts: CompareOpts = {}): boolean {

@@ -76,9 +76,12 @@ import { mapFact, unitFromLabel, type RawFact } from "../core/deepSpecMap.js";
 import { FIELD_DICTIONARY } from "../core/fieldSchema.js";
 import { GENERATED_FIELDS } from "../core/fieldSchema.generated.js";
 import { NORM_VERSION } from "../core/specNormalize.js";
-import { canInherit, inheritedEntry, sameValue, INHERIT_CLASS_B, type SpecEntry } from "../core/specMerge.js";
+import { canInherit, describesPart, inheritedEntry, notApplicable, sameValue, INHERIT_CLASS_B, type SpecEntry } from "../core/specMerge.js";
 import { REPO_ROOT } from "../config.js";
-import { gateExtract, loadGolden, previousPerDoc, printGate, CACHE_DIR, GOLDEN_DIR, type ExtractGate, type ProducedFact, type DocRef } from "./gate-extract.js";
+import {
+  gateExtract, loadGolden, previousPerDoc, printGate, CACHE_DIR, GOLDEN_DIR,
+  type ExtractGate, type GateInput, type GoldenExpectation, type ProducedFact, type DocRef,
+} from "./gate-extract.js";
 
 export type ApplyArgs = {
   paths: string[]; commit: boolean; sample: number; allowRegression: string | null;
@@ -118,6 +121,12 @@ export function sourceKind(source: string | undefined): SourceKind {
   if (!k) throw new Error(`unknown extractor source "${source}" — expected one of ${Object.keys(SOURCE_KINDS).join(", ")} (the file's top-level "source")`);
   return { source: source as string, ...k };
 }
+
+// What a document IS is decided by src/core/docClass.ts and nowhere else — one definition, so the
+// extractor, the watchdog and any future writer cannot drift into three answers for one document.
+// Re-exported here because this module's callers already import from it.
+import { classifyDoc, classifyDocType } from "../core/docClass.js";
+export { classifyDoc, classifyDocType };
 
 export type ExtractFile = { file: string; source: string; kind: SourceKind; generated_at: string | null; docs: RawFact[]; facts: RawFact[] };
 
@@ -191,7 +200,9 @@ export function familyLabel(scope: string | undefined, url: string): string {
 }
 
 // ---- the plan: everything decided, nothing written --------------------------------------------------
-export type PartRef = { id: number; sku: string; category: string; family: string | null };
+/** `product_class` is here for `storeRefusal`: describesPart refuses a licence or a service
+ *  outright, and the plan cannot predict the store's refusal without it. */
+export type PartRef = { id: number; sku: string; category: string; family: string | null; product_class: string | null };
 
 export type DocInfo = DocRef & {
   source: string; kind: SourceKind; tables: number | null; fetched_at: string | null;
@@ -260,8 +271,8 @@ export type Plan = {
   partById: Map<number, PartRef>;
   produced: Map<string, Map<string, ProducedFact>>;
   factsPerDoc: Record<string, number>;
-  /** doc_id -> (part, field) entries this document PRODUCED (post-mapping), the regression metric
-   *  that actually tracks page depth; factsPerDoc counts raw rows before the mapper sees them. */
+  /** doc_id -> PRODUCED entries for this document, as `producedFor` defines the word. The
+   *  regression metric that tracks page depth; factsPerDoc counts raw rows before the mapper. */
   producedPerDoc: Record<string, number>;
   unmapped: Map<string, UnmappedLabel>;
   /** __backlog labels: a real spec with no field key yet — a named gap, listed, never a bare count */
@@ -273,6 +284,45 @@ export type Plan = {
   allFacts: RawFact[];
   resolvePart: (sku: string) => PartRef | null;
 };
+
+// ---- what "produced" means, in one place ------------------------------------------------------
+/**
+ * THE DEFINITION OF `produced_per_doc`, and it is here rather than in a comment beside a `++`
+ * because it had none and drifted into being "the number of applyMerge CALLS".
+ *
+ * A document's PRODUCED count is **the (part, field) entries this run offers the merge for that
+ * document after every refusal that can be decided without reading the stored value.** That is:
+ *
+ *   * the plan's own refusals, already applied before the entry exists at all — an unmapped label,
+ *     a value the normaliser refused (quarantined), a sentinel, a class-B field, an unresolved or
+ *     violated inheritance scope, a class-C exception, an exact repeat of one cell, and the second
+ *     cell of a list the plan unions into an entry it already holds (one entry, not two);
+ *   * the store's two UNCONDITIONAL refusals, `describesPart` and `notApplicable`, which
+ *     `applyMerge` makes before any SQL and which therefore never reach the page. A family value
+ *     inherited into a transceiver the datasheet merely LISTS is refused every single time; counting
+ *     it made shard 0's produced count 17,207 entries larger than anything that could ever be
+ *     written, on the metric whose whole job is to notice the page getting thinner (`storeRefusal`).
+ *
+ * It is NOT "facts written". What the merge does with an entry depends on the STORED value and
+ * cannot be known here: an entry may corroborate, be held as a conflict, be protected by a tier-0
+ * value, or have its state promotion withheld. Those are merge outcomes, counted in `runs.stats`
+ * under their own names, and a regression in them is not a regression in what the document offers.
+ *
+ * KNOWN BOUNDARY, deliberately not changed here: `Plan.produced` — the map the gate grades golden
+ * expectations against — still holds a store-refused entry, so a golden fact that only ever arrives
+ * by a refused inheritance is graded as produced. That is a gate-scoping decision with its own
+ * blast radius (it moves precision and recall on real files) and belongs to its own round.
+ */
+export function storeRefusal(part: PartRef, e: SpecEntry): { rule: string; reason: string } | null {
+  if (e.inherited === true) {
+    const refusal = describesPart({
+      sku: part.sku, productClass: part.product_class, categorySlug: part.category,
+      partFamily: part.family, docFamily: e.inherited_from ?? null,
+    });
+    if (refusal) return refusal;
+  }
+  return notApplicable({ sku: part.sku, categorySlug: part.category, fieldKey: e.k });
+}
 
 /** The cached document a URL was read from — netzscrape's `_key` convention. */
 export function cacheFileFor(url: string, docType: string): string {
@@ -298,13 +348,13 @@ export async function loadParts(vendor: string, skus: Iterable<string>, db: Quer
   const byNorm = new Map<string, PartRef>();
   for (let i = 0; i < wanted.length; i += 1000) {
     const r = await db.query<PartRef & { sku_norm: string }>(
-      `SELECT p.id, p.sku, p.sku_norm, c.slug AS category, p.family
+      `SELECT p.id, p.sku, p.sku_norm, c.slug AS category, p.family, p.product_class::text AS product_class
          FROM parts p JOIN categories c ON c.id = p.category_id
         WHERE p.vendor_id = (SELECT id FROM vendors WHERE slug = $1) AND p.sku_norm = ANY($2::text[])
         ORDER BY p.sku`,
       [vendor, wanted.slice(i, i + 1000)]);
     for (const row of r.rows) {
-      const ref: PartRef = { id: row.id, sku: row.sku, category: row.category, family: row.family };
+      const ref: PartRef = { id: row.id, sku: row.sku, category: row.category, family: row.family, product_class: row.product_class };
       exact.set(row.sku, ref);
       if (!byNorm.has(row.sku_norm)) byNorm.set(row.sku_norm, ref);
     }
@@ -326,6 +376,9 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     doc_defects: 0, raw_with_label_unit: 0,
     sku_unknown: 0, sku_unknown_facts: 0, pid_list_unknown: 0, family_no_listed_parts: 0,
     inherit_ok: 0, inherit_class_b: 0, inherit_scope_unresolved: 0, inherit_scope_violation: 0, inherit_class_c_exception: 0, inherit_refused_other: 0,
+    // entries the STORE will refuse before any SQL (describesPart / notApplicable): offered to the
+    // merge, never produced. Counted here so produced_per_doc's definition is visible in the stats.
+    entries_refused_before_merge: 0,
     parts_offered: 0,
   };
   const allFacts = files.flatMap((f) => f.facts);
@@ -444,7 +497,17 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
       }
     }
     arr.push(e); incoming.set(part.id, arr); partById.set(part.id, part);
-    producedPerDoc[doc.doc_id] = (producedPerDoc[doc.doc_id] ?? 0) + 1;
+    // The entry is still OFFERED to the merge even when the store will refuse it — the refusal is
+    // the store's to make and to count, so one rule covers every pipeline (applyMerge). What it is
+    // not is PRODUCED: see `storeRefusal` for the definition this line implements.
+    const refusal = storeRefusal(part, e);
+    if (refusal) {
+      stats.entries_refused_before_merge++;
+      const k = `refused_before_merge_${refusal.rule.split(":")[0]}`;
+      stats[k] = (stats[k] ?? 0) + 1;
+    } else {
+      producedPerDoc[doc.doc_id] = (producedPerDoc[doc.doc_id] ?? 0) + 1;
+    }
     const bag = produced.get(part.sku) ?? new Map<string, ProducedFact>();
     // ProducedFact.raw is the CELL, never the "<label> | <cell>" replay form: the gate re-reads it
     // against the cached document's cell and the golden files hold the cell.
@@ -594,6 +657,38 @@ export function writeReports(plan: Plan, tag: string): ReturnType<typeof reportP
   return p;
 }
 
+// ---- the ONE gate input --------------------------------------------------------------------------------
+/**
+ * Build the gate's input from a plan. Both entry points call this and neither builds its own:
+ * `ingest apply-extract` and `ingest gate-extract` had drifted into grading DIFFERENT facts from
+ * the same file. The standalone gate passed `plan.allFacts`, so a list fact the extractor joined
+ * out of several cells was graded against one cell — the exact PROVENANCE_MISS `expandFragments`
+ * exists to prevent — while the apply passed the cells and passed. The command an operator runs
+ * first, to avoid burning a run row, was the one that lied, and the two could drift again the next
+ * time either grew a parameter. One function, two callers, no room (5 Sep 2026).
+ */
+export function gateInputFor(
+  plan: Plan,
+  previous: { raw: Map<string, number>; produced: Map<string, number>; sameTagDocs: Set<string> },
+  opts: { golden: GoldenExpectation[]; sample: number; allowRegression: string | null },
+): GateInput {
+  return {
+    produced: plan.produced,
+    // the CELLS, never the joins: docs/DATA_MODEL.md § The list rule, and expandFragments' own comment
+    facts: expandFragments(plan.allFacts),
+    docs: plan.docs,
+    factsPerDoc: plan.factsPerDoc,
+    producedPerDoc: plan.producedPerDoc,
+    previous: previous.raw,
+    previousProduced: previous.produced,
+    absentScope: previous.sameTagDocs,
+    golden: opts.golden,
+    sample: opts.sample,
+    allowRegression: opts.allowRegression,
+    isPart: (sku) => plan.resolvePart(sku) !== null,
+  };
+}
+
 export function writeGateReport(gate: ExtractGate, misses: string[], tag: string): string {
   const p = reportPaths(tag).gate;
   fs.mkdirSync(REPORTS_DIR, { recursive: true });
@@ -610,11 +705,7 @@ export async function main(argv: string[]): Promise<void> {
   const plan = await planExtract(files, { vendor: a.vendor, db: pool });
   const golden = loadGolden(a.goldenDir ?? GOLDEN_DIR);
   const previous = await previousPerDoc(pool, "apply-specs", a.tag);
-  const { gate, misses } = gateExtract({
-    produced: plan.produced, facts: expandFragments(plan.allFacts), docs: plan.docs, factsPerDoc: plan.factsPerDoc,
-    producedPerDoc: plan.producedPerDoc, previous: previous.raw, previousProduced: previous.produced, absentScope: previous.sameTagDocs, golden,
-    sample: a.sample, allowRegression: a.allowRegression, isPart: (sku) => plan.resolvePart(sku) !== null,
-  });
+  const { gate, misses } = gateExtract(gateInputFor(plan, previous, { golden, sample: a.sample, allowRegression: a.allowRegression }));
   const reports = writeReports(plan, a.tag);
   writeGateReport(gate, misses, a.tag);
 
@@ -650,7 +741,10 @@ export async function main(argv: string[]): Promise<void> {
       if (!gate.passed) throw new Error(`gate did not pass (${gate.verdict}): ${JSON.stringify(gate)}`);
       // documents and their part lists first, so inheritance scope is on record before any fact
       for (const d of plan.docs) {
-        await ensureSourceDoc({ url: d.url, doc_type: d.kind.doc_type, vendor: a.vendor, fetched_at: d.fetched_at, tables: d.tables, cache_path: `${sha1(d.url)}${d.kind.doc_type === "vendor_datasheet_pdf" ? ".bin" : ".html"}` }, pool);
+        // the document's class comes from the document, not from the extractor that read it
+        // (classifyDocType above: 43% of these were EoL notices wearing a datasheet's label).
+        // cache_path still follows the EXTRACTOR, because that is what decides the file on disk.
+        await ensureSourceDoc({ url: d.url, doc_type: classifyDocType(d.url, d.kind.doc_type), vendor: a.vendor, fetched_at: d.fetched_at, tables: d.tables, cache_path: `${sha1(d.url)}${d.kind.doc_type === "vendor_datasheet_pdf" ? ".bin" : ".html"}` }, pool);
         mergeStats.docs_written++;
         mergeStats.doc_parts_linked += await linkDocParts(d.doc_id, d.parts.map((p) => p.id), pool);
       }

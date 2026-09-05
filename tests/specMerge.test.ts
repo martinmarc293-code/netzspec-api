@@ -23,12 +23,15 @@ import {
   unionListValues, compareNormVersion, isNewerRead, isSameCellReread, mergeField,
   describesPart, familyMatches, componentShape, canInherit,
   fieldApplies, notApplicable, NONSENSICAL_PAIRS,
-  MAX_CELL, NUMERIC_TOLERANCE,
+  MAX_CELL, NUMERIC_TOLERANCE, toleranceApplies, TOLERANCE_EXEMPT_DIMENSIONS,
   type SpecEntry, type Prov,
 } from "../src/core/specMerge.js";
 import { FIELD_DICTIONARY, PROFILES } from "../src/core/fieldSchema.js";
 import { sourceKind, unionListValues as unionInApplyExtract } from "../src/pipeline/apply-extract.js";
-import { NORM_VERSION } from "../src/core/specNormalize.js";
+import {
+  NORM_VERSION, CANON, COUNT_LIKE, unitLookup,
+  splitListValue, isCitationContinuation, endsInCitation,
+} from "../src/core/specNormalize.js";
 
 let pass = 0;
 const misses: string[] = [];
@@ -50,9 +53,14 @@ check("a distributor page is tier 4", tierFor("distributor_page", "html_table") 
 check("the operator's seed is tier 0 whatever document it names",
   tierFor("vendor_datasheet_html", "hexcat_seed") === 0 && tierFor("vendor_datasheet_pdf", "hexcat_seed") === 0);
 check("a gap check is tier 2 (tier 1 and 2 were the ones looked at)", tierFor(null, "gap_check") === 2);
-check("tryTierFor answers null rather than guessing", tryTierFor("vendor_brochure", "html_table") === null);
-refuses("a doc type with no tier rule", () => tierFor("vendor_brochure", "html_table"),
-  /no tier for doc_type "vendor_brochure" \/ method "html_table"/);
+// The unknown-type example must be a type that is genuinely not in the table. It was
+// `vendor_brochure` until 5 Sep 2026, when the document classifier (src/core/docClass.ts) started
+// producing brochures for real and the type was given a tier — at which point this case passed
+// for the wrong reason and then failed. A sabotage case whose "broken" input quietly becomes
+// valid is worse than no case: pick a name nothing can ever legitimately emit.
+check("tryTierFor answers null rather than guessing", tryTierFor("vendor_seance_transcript", "html_table") === null);
+refuses("a doc type with no tier rule", () => tierFor("vendor_seance_transcript", "html_table"),
+  /no tier for doc_type "vendor_seance_transcript" \/ method "html_table"/);
 refuses("no doc type and no method rule", () => tierFor(null, "screenshot"), /no tier for doc_type null/);
 
 // THE DRIFT CHECK. apply-extract carries its own source table (an extractor NAME decides the tier
@@ -104,6 +112,104 @@ check("TWIN 0 and a small value never agree", !sameValue(0, 0.001, { unit: M }))
 check("the band is 2%", NUMERIC_TOLERANCE === 0.02
   && sameValue(100, 98.01, { unit: M }) && !sameValue(100, 97.9, { unit: M }));
 
+// =================================================================================================
+// 2b. WHICH FIELDS THE 2% BAND MAY REACH — findings 1 and 2 of the 4 Sep 2026 review
+//
+// Finding 1 (HIGH): the "a bare count has no rounded restatement to forgive" guard was DEAD.
+//   closeEnough refused the band only when `!unit`, and every COUNT_LIKE field stores its COUNTING
+//   NOUN in facts.unit (Byte, HE, Einträge, ports, sockets, Sessions, Peers, cores …), so the guard
+//   never once fired for the population it was written for and two documents disagreeing about a
+//   COUNT were merged as agreement.
+// Finding 2 (MEDIUM): TOLERANCE_EXEMPT_UNITS named "dB" and "dBm" by SPELLING and therefore missed
+//   "dB(A)", "dBi" and "dBmV" — the decibel units that actually carry data.
+//
+// Each case below is a PAIR: the count / decibel / temperature / percentage that must still
+// disagree, against a real measurement of the same size that must still agree. Reverting either
+// half of the fix turns this section red.
+// =================================================================================================
+{
+  // --- the three cases the finding names, driven through the whole merge, not just the predicate
+  const at = (k: string, unit: string | undefined, v: unknown, doc: string): SpecEntry =>
+    ({ k, raw: String(v), value: v, unit, state: "verified",
+       prov: { tier: 2, method: "html_table", doc_id: doc, norm_v: "1.5.1" } });
+  const merged = (k: string, unit: string | undefined, a: unknown, b: unknown) =>
+    mergeField("C9300-48P", at(k, unit, a, "docA"), at(k, unit, b, "docB"));
+
+  check("THE FINDING jumbo_mtu 9216 against 9198 Byte is a CONFLICT, not a corroboration",
+    merged("jumbo_mtu", "Byte", 9216, 9198).action === "conflict",
+    "0.20% apart, and an MTU is exact — `Byte` is a counting noun on this field, not a memory measurement");
+  check("THE FINDING mac_table 288000 against 292000 Einträge is a CONFLICT",
+    merged("mac_table", "Einträge", 288000, 292000).action === "conflict", "1.37% apart and 4,000 MAC addresses");
+  check("THE FINDING copper_ethernet_ports 96 against 97 ports is a CONFLICT",
+    merged("copper_ethernet_ports", "ports", 96, 97).action === "conflict", "96 ports and 97 ports are two different switches");
+
+  check("TWIN forwarding_rate 100 against 101 Mpps still corroborates (a rate is a ratio measurement)",
+    merged("forwarding_rate", "Mpps", 100, 101).action === "corroborate");
+  check("TWIN altitude_max 3000 against 3048 m still corroborates (one cell, feet and metres)",
+    merged("altitude_max", "m", 3000, 3048).action === "corroborate");
+
+  // --- finding 1, derived from the dictionary rather than from a list of field keys -------------
+  const countFields = Object.values(FIELD_DICTIONARY).filter((d) => d.unit && COUNT_LIKE.has(d.unit));
+  check("the dictionary really does declare count-like units (or the next check proves nothing)",
+    countFields.length >= 20, `${countFields.length} fields`);
+  check("SABOTAGE no counting noun the dictionary declares unlocks the band",
+    countFields.every((d) => !toleranceApplies(d.unit)),
+    `these got the band: ${countFields.filter((d) => toleranceApplies(d.unit)).map((d) => `${d.key}:${d.unit}`).join(", ")}`);
+  check("SABOTAGE and none of them agrees on a 1% gap either",
+    countFields.every((d) => !sameValue(1000, 1005, { unit: d.unit })),
+    "a count is exact by construction; there is no unit round-trip that could have rounded it");
+  check("HE, Byte and AWG are in BOTH tables and COUNT_LIKE must win",
+    ["HE", "Byte", "AWG"].every((u) => !!CANON[u] && COUNT_LIKE.has(u) && !toleranceApplies(u)),
+    "a rack height, an MTU and a wire gauge are counts even though their unit has a CANON row");
+  check("TWIN a bare number with no unit at all is still refused", !toleranceApplies(undefined) && !toleranceApplies(null) && !toleranceApplies(""));
+  check("TWIN a unit in NEITHER table is refused rather than guessed",
+    !toleranceApplies("°F") && !toleranceApplies("furlongs") && !sameValue(100, 101, { unit: "°F" }),
+    "°F is a real token but not a canonical dictionary unit; holding the field is the safe direction");
+
+  // --- finding 2, likewise derived: every decibel unit the DICTIONARY declares ------------------
+  const decibelUnits = [...new Set(Object.values(FIELD_DICTIONARY).map((d) => d.unit).filter((u): u is string => !!u && /^db/i.test(u)))];
+  check("the dictionary declares more decibel spellings than the old set named",
+    decibelUnits.length >= 4 && decibelUnits.includes("dB(A)") && decibelUnits.includes("dBi"),
+    `dictionary decibel units: ${decibelUnits.join(", ")}`);
+  check("THE FINDING every decibel unit is exempt, whatever its spelling",
+    decibelUnits.every((u) => !toleranceApplies(u)),
+    `these still got the band: ${decibelUnits.filter((u) => toleranceApplies(u)).join(", ")}`);
+  check("SABOTAGE acoustic noise 40 against 40.5 dB(A) is a real difference",
+    !sameValue(40, 40.5, { unit: "dB(A)" }) && merged("acoustic_noise", "dB(A)", 40, 40.5).action === "conflict");
+  check("SABOTAGE antenna gain 12 against 12.2 dBi is a real difference", !sameValue(12, 12.2, { unit: "dBi" }));
+  check("SABOTAGE 50 against 50.5 dBmV is a real difference", !sameValue(50, 50.5, { unit: "dBmV" }));
+  check("SABOTAGE -20 against -20.4 dBm is a real difference (a tenth of the received power)",
+    !sameValue(-20, -20.4, { unit: "dBm" }));
+  check("SABOTAGE 30 against 30.5 dB of link budget is a real difference", !sameValue(30, 30.5, { unit: "dB" }));
+  check("SABOTAGE a humidity envelope of 5-90% is not 5-91%",
+    !sameValue({ min: 5, max: 90 }, { min: 5, max: 91 }, { unit: "%" }) && !toleranceApplies("%"),
+    "a proportion has no second unit to be restated in, so a gap is a different specification");
+  check("SABOTAGE 40.0 against 40.5 °C is still two temperatures (an interval scale)", !toleranceApplies("°C"));
+
+  // --- the other direction: the exemptions must not have swallowed the measurements -------------
+  const measured = Object.values(FIELD_DICTIONARY).filter((d) =>
+    d.unit && !COUNT_LIKE.has(d.unit) && CANON[d.unit] && !TOLERANCE_EXEMPT_DIMENSIONS.has(CANON[d.unit][0]));
+  check("TWIN every ratio-scale measurement the dictionary declares still gets the band",
+    measured.length >= 30 && measured.every((d) => toleranceApplies(d.unit)),
+    `${measured.length} fields; refused: ${measured.filter((d) => !toleranceApplies(d.unit)).map((d) => `${d.key}:${d.unit}`).join(", ")}`);
+  check("TWIN voltage was DECIDED to stay in the band, on the evidence of 15 stored pairs and no exemption",
+    toleranceApplies("V") && sameValue(200, 200.5, { unit: "V" }),
+    "if voltage is ever exempted this case must be moved, not deleted — the reasoning lives beside TOLERANCE_EXEMPT_DIMENSIONS");
+  for (const [u, a, b] of [["W", 40, 40.5], ["m", 3048, 3000], ["kg", 4.4, 4.399846], ["mm", 288, 287.02],
+    ["Gbit/s", 100, 101], ["Mpps", 190.47, 190.48], ["GB", 16, 16.2], ["h", 100000, 101000]] as [string, number, number][]) {
+    check(`TWIN ${a} and ${b} ${u} are one measurement stated twice`, sameValue(a, b, { unit: u }));
+  }
+
+  // --- the exemption table itself: a dimension name nothing produces is a dead entry ------------
+  const producible = new Set<string>([...Object.values(CANON).map(([d]) => d), unitLookup("°F")?.[0] ?? "-"]);
+  check("SABOTAGE every exempt DIMENSION is one the unit tables actually produce",
+    [...TOLERANCE_EXEMPT_DIMENSIONS].every((d) => producible.has(d)),
+    `no unit resolves to: ${[...TOLERANCE_EXEMPT_DIMENSIONS].filter((d) => !producible.has(d)).join(", ")} — a misspelled dimension exempts nothing`);
+  check("SABOTAGE every unit the dictionary declares is in COUNT_LIKE or CANON, so toleranceApplies never guesses",
+    Object.values(FIELD_DICTIONARY).every((d) => !d.unit || COUNT_LIKE.has(d.unit) || !!CANON[d.unit]),
+    `in neither table: ${Object.values(FIELD_DICTIONARY).filter((d) => d.unit && !COUNT_LIKE.has(d.unit) && !CANON[d.unit]).map((d) => `${d.key}:${d.unit}`).join(", ")}`);
+}
+
 const inches = { h: 43.942, w: 444.5, d: 287.02 };
 const metric = { h: 44, w: 445, d: 288 };
 check("the imperial and metric halves of one dimensions cell agree", sameValue(inches, metric, { unit: MM }));
@@ -129,6 +235,104 @@ check("agreementRule names which relaxation fired",
 for (const [a, b] of [[["a"], ["b"]], [["a", "b"], ["b", "c"]], [[], ["x"]], [["A"], ["a"]], [null, ["z"]]] as [unknown, unknown][]) {
   check(`unionListValues agrees with the copy in apply-extract for ${JSON.stringify([a, b])}`,
     JSON.stringify(unionListValues(a, b)) === JSON.stringify(unionInApplyExtract(a, b)));
+}
+
+// =================================================================================================
+// 2c. A CITATION IS NOT TWO MEMBERS — the shock retype's comma split (5 Sep 2026)
+//
+// `shock` was retyped from `s` to `ls` on 4 Sep 2026 so a cell stating several shock figures could
+// hold them all. That pointed the comma splitter at 396 cells of standards citations for the first
+// time, and the first one it read came apart:
+//
+//   "… MIL-STD-810, Method 514.4 IEC 60068-2-6"
+//     -> ["… MIL-STD-810", "Method 514.4 IEC 60068-2-6"]
+//
+// Two fictions out of one fact. No standard is named "Method 514.4", and MIL-STD-810 Method 514.4 —
+// the one that WAS stated — is gone. It belongs in this file and not only in the list suite because
+// the damage lands in the MERGE: a list is compared as a SET (listSetEqual above), so a datasheet
+// whose citation was cut in half can never agree with one whose citation survived, and the pair is
+// held as a conflict for a difference the splitter invented.
+//
+// Every case below is a PAIR. The left half is a citation that must stay whole; the right half is
+// the sabotage twin — the same comma, in a shape that really does separate two members — because a
+// rule that only ever glues would swallow the certifications lists whole.
+// =================================================================================================
+{
+  const s = (raw: string) => JSON.stringify(splitListValue(raw));
+  const one = (name: string, raw: string, detail?: string) =>
+    check(name, splitListValue(raw).length === 1, `${detail ? detail + "; " : ""}split into ${s(raw)}`);
+  const many = (name: string, raw: string, want: string[]) =>
+    check(name, s(raw) === JSON.stringify(want), `got ${s(raw)}`);
+
+  // --- THE FINDING, as the corpus stores it (53 facts, shock) ----------------------------------
+  const theShockCell = "IEC 60068-2-27 (operational shock, 50G, 3ms, half sine) IEC 60068-2-27 "
+    + "(non-operational shock, 65-80G, 9ms, trapezoidal) MIL-STD-810, Method 514.4 IEC 60068-2-6";
+  one("THE FINDING the shock cell's MIL-STD-810 citation survives the comma", theShockCell);
+  check("THE FINDING and 'Method 514.4' is never a member of its own",
+    !splitListValue(theShockCell).includes("Method 514.4 IEC 60068-2-6"));
+  one("MIL-STD-810, Method 514.4 alone", "MIL-STD-810, Method 514.4");
+
+  // --- SABOTAGE TWINS: the same comma, separating two real members -----------------------------
+  many("TWIN two safety standards still split", "UL 60950-1, EN 60950-1", ["UL 60950-1", "EN 60950-1"]);
+  many("TWIN the eight-member certifications list still splits",
+    "UL 60950-1, CSA 60950-1, EN 60950-1, IEC 60950-1, UL 62368-1, CSA 62368-1, EN 62368-1, IEC 62368-1",
+    ["UL 60950-1", "CSA 60950-1", "EN 60950-1", "IEC 60950-1", "UL 62368-1", "CSA 62368-1", "EN 62368-1", "IEC 62368-1"]);
+  many("TWIN 'CE mark' and 'FCC Part 15 (CFR 47) Class A' are members, not continuations",
+    "UL (UL 62368), CSA (CSA 22.2), CE mark, FCC Part 15 (CFR 47) Class A",
+    ["UL (UL 62368)", "CSA (CSA 22.2)", "CE mark", "FCC Part 15 (CFR 47) Class A"]);
+  many("TWIN sibling IEEE designations that carry a LETTER still split",
+    "IEEE 802.11n, 802.11g, 802.3af", ["IEEE 802.11n", "802.11g", "802.3af"]);
+  many("TWIN a capitalised feature name is a member: the 'Class' noun may not swallow 'Class-Based'",
+    "Quality of Service (QoS), Class-Based Weighted Fair Queuing (CBWFQ), Class-Based Traffic Shaping (CBTS)",
+    ["Quality of Service (QoS)", "Class-Based Weighted Fair Queuing (CBWFQ)", "Class-Based Traffic Shaping (CBTS)"]);
+
+  // --- the three continuation shapes, each with the twin that killed the loose version of it ----
+  // 1. a SUB-PART reference needs no citation in front of it — a member is never just "Part 15"
+  one("a sub-part reference continues the citation: 47 CFR, Part 15", "47 CFR, Part 15");
+  one("…Issue and Part together: CS-03, Part II, Issue 9", "CS-03, Part II, Issue 9");
+  one("…and a class after a colon-qualified citation",
+    "ETS 300-019-2-2 V2.1.2 (1999-09): Transportation, Class 2.3");
+  check("SABOTAGE the sub-part noun must be the WHOLE word and carry its number",
+    splitListValue("RMON, Classification, Queue management").length === 3
+    && splitListValue("Layer 2, Class of service").length === 2,
+    `${s("RMON, Classification, Queue management")} / ${s("Layer 2, Class of service")}`);
+
+  // 2. an EDITION or a YEAR, and this arm is GATED on the left ending in a citation
+  one("an edition continues a citation: UL 60950-1, 2nd edition", "UL 60950-1, 2nd edition");
+  one("…in words too: UL 60950-1, Second Edition", "UL 60950-1, Second Edition");
+  one("a year continues a citation: IEC 61850-3, 2013", "IEC 61850-3, 2013");
+  many("SABOTAGE a PROTOCOL VERSION is not a designation, so its lower-case siblings still split",
+    "SNMPv1, v2c, v3", ["SNMPv1", "v2c", "v3"]);
+  many("SABOTAGE …and neither is a one-digit generation number",
+    "Wi-Fi 7, Wi-Fi 6E", ["Wi-Fi 7", "Wi-Fi 6E"]);
+  check("SABOTAGE the two-digit rule is what separates them",
+    !endsInCitation("SNMPv1") && !endsInCitation("Wi-Fi 7") && endsInCitation("IEC 61850-3")
+    && endsInCitation("MIL-STD-810") && endsInCitation("EN 61000-4-2"));
+
+  // 3. a SUB-PART ENUMERATION of one standard
+  one("the sub-parts of one immunity standard are one citation", "IEC 61000-4-2,3,4,5,6,8,9,16,17,18,29");
+  one("…spaced, and after the chain has already absorbed one", "EN 301 908-1, 2, 13");
+  one("a numeric RANGE continues it: RFC 1901, 1902-1907", "RFC 1901, 1902-1907");
+  many("SABOTAGE four-digit MODEL numbers after a citation-shaped head still split",
+    "Cisco 1841, 2801, 2811, 3825",
+    ["Cisco 1841", "2801", "2811", "3825"]);
+  many("SABOTAGE a dotted sibling designation is left exactly as it split before, never guessed",
+    "IEEE 802.1, 802.3", ["IEEE 802.1", "802.3"]);
+  check("SABOTAGE the predicate says so directly",
+    !isCitationContinuation("Cisco 1841", " 2801") && !isCitationContinuation("IEEE 802.1", " 802.3")
+    && isCitationContinuation("IEC 61850-3", " 2013") && isCitationContinuation("EN 61000-4-2", " 3"));
+
+  // --- the merge consequence, which is why this section is in THIS file ------------------------
+  const whole = ["MIL-STD-810, Method 514.4"];
+  const cut = ["MIL-STD-810", "Method 514.4"];
+  check("THE MERGE two documents stating the same citation agree only when it stayed whole",
+    sameValue(splitListValue("MIL-STD-810, Method 514.4"), whole)
+    && !sameValue(whole, cut) && agreementRule(whole, cut) === null,
+    "a citation cut in half can never set-equal one that survived, so the pair is held as a conflict "
+    + "for a difference the splitter invented");
+
+  check("NORM_VERSION says the split changed", NORM_VERSION === "1.5.2",
+    `a value stored under 1.5.1 splits differently under this build; got ${NORM_VERSION}`);
 }
 
 // =================================================================================================
