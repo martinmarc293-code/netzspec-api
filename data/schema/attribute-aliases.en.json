@@ -329,7 +329,15 @@
   [
    "^spee *d$",
    "drive_interface",
-   "pdf-server: PDF column split inserts a space inside 'Speed'. Values mix SAS/SATA link rate (12G, 6G) and drive connector generation (U.2, U.3), so it "
+   "pdf-server: PDF column split inserts a space inside 'Speed'. Values mix SAS/SATA link rate (12G, 6G) and drive connector generation (U.2, U.3), so it SCOPED 5 Sep 2026: this rule is about Cisco's SERVER spec sheets, where the column is a SAS/SATA link rate. Unscoped it also matched plain 'Speed' on network gear and filed Ethernet port speeds as a storage field - 15 switches held drive_interface '10/100' or '10/100/1000' (Catalyst 6500 line cards). Outside these categories 'Speed' is now left UNMAPPED on purpose, so it appears in the unmapped-label report and gets a field of its own rather than a wrong one.",
+   {
+    "only": [
+     "servers-unified-computing",
+     "hyperconverged-infrastructure",
+     "hyperconverged-systems",
+     "storage-networking"
+    ]
+   }
   ],
   [
    "^# *of drives supported$",

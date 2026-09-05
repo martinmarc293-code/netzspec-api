@@ -32,15 +32,52 @@ export type MappedFact =
 
 const root = process.cwd();
 const en = JSON.parse(fs.readFileSync(path.join(root, "data/schema/attribute-aliases.en.json"), "utf8"));
-const RULES: [RegExp, string][] = (en.rules as [string, string, string][])
-  .map(([re, key]) => [new RegExp(re, en.case_insensitive ? "i" : ""), key]);
+/**
+ * A rule may carry a CATEGORY SCOPE as an optional fourth element: `{"only": ["…", "…"]}`.
+ *
+ * WHY. `mapLabel` was label-only and global, and a label does not mean one thing everywhere. Rule
+ * "^spee *d$" -> drive_interface exists because a PDF column split inserts a space inside "Speed"
+ * in Cisco's SERVER spec sheets, where the column is a SAS/SATA link rate. It also matched plain
+ * "Speed" on everything else: production holds `drive_interface` = "10/100" and "10/100/1000" on
+ * 15 switches — Catalyst 6500 line cards (WS-X6148A-45AF and friends) whose Ethernet port speeds
+ * were filed as a storage field. Measured by the Juniper session, 5 Sep 2026, whose HCT lane hits
+ * the same rule with "Speed" = "10 Gigabit Ethernet" on a transceiver.
+ *
+ * Reordering could not fix it and neither could narrowing the regex: the label really is just
+ * "Speed" in both places, and the only thing that separates them is what KIND OF PRODUCT the page
+ * is about. `mapFact` already receives the category and was throwing it away one line before the
+ * call. So the scope goes on the rule, next to the reason it exists.
+ *
+ * A rule with no scope applies everywhere, exactly as before — this changes one rule's reach, not
+ * the mapper's behaviour.
+ */
+type Scope = { only?: string[] };
+const RULES: [RegExp, string, Scope | null][] = (en.rules as [string, string, string, Scope?][])
+  .map(([re, key, , scope]) => [
+    new RegExp(re, en.case_insensitive ? "i" : ""),
+    key,
+    scope && Array.isArray(scope.only) && scope.only.length ? { only: scope.only.map(String) } : null,
+  ]);
+
+/**
+ * Does this rule apply to this category?
+ *
+ * An UNKNOWN category (the inventory caller passes none) applies every rule, which keeps
+ * build-source-fields reporting what a source publishes rather than silently under-counting. The
+ * real extraction path always knows its category, because mapFact requires one.
+ */
+function inScope(scope: Scope | null, category: string | undefined): boolean {
+  if (!scope?.only) return true;
+  if (category === undefined) return true;
+  return scope.only.includes(category);
+}
 
 // A trailing parenthetical that is ONLY a unit — "(C)", "(GHz)", "(W)", "(MT/s)", "(A rms)",
 // "(%)2" with a footnote digit. Not "(MTBF)" or "(H x W x D)", which are part of the name.
 const TRAILING_UNIT = /\s*\(\s*[A-Za-zµ°%]{1,4}(?:\s*\/\s*[A-Za-z]{1,3})?(?:\s+(?:rms|peak|dc|ac))?\s*\)\s*\d*\s*$/;
 
-export function mapLabel(label: string): string | null {
-  for (const [re, key] of RULES) if (re.test(label)) return key;
+export function mapLabel(label: string, category?: string): string | null {
+  for (const [re, key, scope] of RULES) if (inScope(scope, category) && re.test(label)) return key;
   // Retry without a trailing UNIT parenthetical. Folding the units-only second header row into
   // the header turned "Cores" into "Cores (C)" and "Maximum Socket" into "Maximum Socket (S)",
   // which no longer matched their anchored ^...$ rules — so a fix that recovered the units
@@ -48,7 +85,7 @@ export function mapLabel(label: string): string | null {
   // unitFromLabel, so the mapper has no need of it and should not be sensitive to it.
   const bare = label.replace(TRAILING_UNIT, "").trim();
   if (bare && bare !== label) {
-    for (const [re, key] of RULES) if (re.test(bare)) return key;
+    for (const [re, key, scope] of RULES) if (inScope(scope, category) && re.test(bare)) return key;
   }
   return null;
 }
@@ -142,7 +179,9 @@ export function mapFact(fact: RawFact, category = "switches"): MappedFact {
   if (isSectionHeading(fact.label, fact.value)) {
     return { kind: "sentinel", sentinel: "__section_heading" };
   }
-  const key = mapLabel(fact.label);
+  // the CATEGORY goes to the mapper, not only to the normaliser: a label means different
+  // things on different products, and this line is where that was being discarded
+  const key = mapLabel(fact.label, category);
   if (!key) return { kind: "unmapped", label: fact.label };
   if (key.startsWith("__")) return { kind: "sentinel", sentinel: key };
   const n = normalizeField(category, key, fact.value, {

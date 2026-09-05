@@ -31,7 +31,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { mapLabel, unitFromLabel } from "../src/core/deepSpecMap.js";
+import { mapLabel, unitFromLabel, mapFact, type RawFact } from "../src/core/deepSpecMap.js";
 import { normalizeField, type NormReason } from "../src/core/specNormalize.js";
 import { FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
 
@@ -141,13 +141,10 @@ const RULES: [string, string, string, string, Reason?][] = [
   ["Physical Characteristics > Width", "width", "Physical Characteristics > Rack Width", "0\"", "RANGE_VIOLATION"],
   ["Physical Characteristics > Height", "height", "Physical Characteristics > Rack Height", "89\"", "RANGE_VIOLATION"],
   ["Other Information > Height", "height", "Other Information > Shipping Height", "0\"", "RANGE_VIOLATION"],
-  // "42U" until 4 Sep 2026, when the band moved from [1, 30] to [1, 44] because the catalogue holds
-  // a real 44-RU chassis (ASR-9922) and real 42RU cabinets — so 42U stopped being refused and this
-  // row went red, exactly as fieldSchema.ts predicted in the comment on the band. The near-miss
-  // moves up with the ceiling rather than being deleted: 48U is a RACK, not a device, it is the
-  // next value the corpus states above the band, and it sits in the measured gap (nothing real
-  // between 45 and 80) that the ceiling was placed in.
-  ["Physical Characteristics > Compatible Rack Unit", "rack_units", "Physical Characteristics > Compatible Rack Width", "48U", "RANGE_VIOLATION"],
+  // "Compatible Rack Unit" USED TO BE HERE, mapped to rack_units with "42U" as the value its field
+  // must refuse. See section 1b: it is not a rack_units rule at all any more, and the row that
+  // replaced it lives there because the assertion is about a LABEL that must reach no field.
+  //
   // an inch measurement on the rack-unit field is a rack's WIDTH, not its height: the refusal has
   // to come from the dimension check, not from the band, or the band is doing the parser's job
   ["Physical Characteristics > Rack Height", "rack_units", "Physical Characteristics > Rack Depth", "19\"", "UNIT_UNKNOWN"],
@@ -218,11 +215,11 @@ check("SABOTAGE NO_SHAPE on a field that HAS a shape (rack_units, band [1, 44]) 
 check("SABOTAGE a stated bad value with no expected reason is rejected",
   refusalCase("Technical Information > Cable Length", "cable_length", "500 m").includes("names no expected reason"), true);
 check("SABOTAGE a bad value refused for the WRONG reason is rejected",
-  refusalCase("Physical Characteristics > Compatible Rack Unit", "rack_units", "48U", "PARSE_FAIL").startsWith("value refused for the WRONG REASON"), true);
+  refusalCase("Physical Characteristics > Rack Height", "rack_units", "48U", "PARSE_FAIL").startsWith("value refused for the WRONG REASON"), true);
 // ...and the grader must still PASS the two shapes it is supposed to accept, or it is just a
 // rejector: a real out-of-band value with the right reason, and a genuine plain-string field.
 check("the grader passes a real near-miss with its stated reason",
-  refusalCase("Physical Characteristics > Compatible Rack Unit", "rack_units", "48U", "RANGE_VIOLATION"), "");
+  refusalCase("Physical Characteristics > Rack Height", "rack_units", "48U", "RANGE_VIOLATION"), "");
 check("the grader passes NO_SHAPE on a field that really is a bare string",
   refusalCase("General Information > Product Series", "series", NO_SHAPE), "");
 
@@ -234,8 +231,15 @@ const ACCEPTS: [string, string, unknown][] = [
   ["Physical Characteristics > Height", "1.7\"", 43.18],          // the commonest height, 149 rows
   ["Physical Characteristics > Height", "77\"", 1955.8],          // ASR-9922: the tallest REAL chassis stays in band
   ["Physical Characteristics > Depth", "2.2\"", 55.88],           // the commonest depth, 51 rows
-  ["Physical Characteristics > Compatible Rack Unit", "1U", 1],
   ["Physical Characteristics > Rack Height", "2U", 2],
+  // the whole reason the band moved to [1, 44]: the catalogue holds ONE part this tall, and if it
+  // is not accepted the widening bought nothing. ASR-9922, "20 Line Card Slot Chassis, 44 RU".
+  ["Physical Characteristics > Rack Height", "44 RU", 44],
+  ["Physical Characteristics > Rack Height", "44U", 44],
+  // and the consequence the band change forced: 42U is a real cabinet height and is IN band now, so
+  // nothing numeric refuses a rack any more. Everything that keeps a rack out of a device's height
+  // field is now the LABEL rule proved in section 1b.
+  ["Physical Characteristics > Rack Height", "42U", 42],
   ["Technical Information > Processor Core", "Dodeca-core (12 Core)", 12],
   ["Technical Information > Processor Core", "Tetracosa-core (24 Core)", 24],
   ["Network & Communication > Layer Supported", "3", "l3"],
@@ -247,6 +251,62 @@ for (const [label, value, want] of ACCEPTS) {
   if (r && r.ok && r.value === want) pass++;
   else misses.push(`real value NOT accepted: ${label} = ${JSON.stringify(value)}\n     want ${JSON.stringify(want)}\n     got  ${r ? (r.ok ? JSON.stringify(r.value) : r.reason + ": " + r.detail) : "no rule for this label"}`);
 }
+
+// ---------------------------------------------------------------------------------------------
+// 1b. "Compatible Rack Unit" is the RACK, not the part — a label that must reach no spec field
+// ---------------------------------------------------------------------------------------------
+// This row used to sit in RULES as a rack_units mapping whose refusable value was "42U", and it
+// went red on 4 Sep 2026 when the band widened to [1, 44] for the 44-RU ASR-9922. The tempting
+// repair was to move the near-miss up to "48U" and carry on. That would have been wrong for the
+// reason the round-2 reviewer named: the band was never the right refusal here.
+//
+//   "Rack Height"          the part's OWN height. A fact about the part. Maps to rack_units.
+//   "Compatible Rack Unit" the rack the part FITS. A fact about a DIFFERENT OBJECT. Maps to
+//                          nothing — a 1U rail kit compatible with a 42U cabinet would otherwise
+//                          publish 42 HE as the kit's height, a plausible number, in band, wrong.
+//
+// A number cannot tell those two apart, because 42 is a truthful answer to one of them, so no band
+// can ever be the discriminator: only the label can. That is the whole point of this section, and
+// it is why the mapping is asserted BOTH ways — re-adding the alias turns the first case red, and
+// deleting "Rack Height" with it turns the last two red.
+//
+// __compat rather than an ignore rule, deliberately: the value is a real fact (which rack this part
+// fits) with nowhere to live yet, so it stays a NAMED, counted sentinel instead of disappearing
+// into the unmapped-label report as a gap someone will "fix" by re-adding the alias.
+const COMPAT_RACK = "Physical Characteristics > Compatible Rack Unit";
+const rawFact = (label: string, value: string): RawFact =>
+  ({ label, value, shape: "row", locator: "t1:r1:c1", source_url: "https://www.provantage.com/x" });
+const LABEL_CASES: [string, unknown, unknown][] = [
+  ["Compatible Rack Unit maps to the __compat sentinel", mapLabel(COMPAT_RACK), "__compat"],
+  ["SABOTAGE and specifically NOT to rack_units — a rack's height is not the part's height",
+    mapLabel(COMPAT_RACK) === "rack_units", false],
+  ["a 42U rack on that label produces no spec value at all, only a counted sentinel",
+    JSON.stringify(mapFact(rawFact(COMPAT_RACK, "42U"))), JSON.stringify({ kind: "sentinel", sentinel: "__compat" })],
+  ["SABOTAGE it is a SENTINEL, not an unmapped gap — the decision is recorded, not lost",
+    mapFact(rawFact(COMPAT_RACK, "1U")).kind, "sentinel"],
+  ["SABOTAGE its near-miss still reaches no field either",
+    mapLabel("Physical Characteristics > Compatible Rack Width"), null],
+  // the other half: removing the wrong rule must not remove the right one
+  ["Rack Height still maps to rack_units — that IS the part's own height",
+    mapLabel("Physical Characteristics > Rack Height"), "rack_units"],
+  ["and the same 42U under Rack Height is a real 42 HE, in band since the ASR-9922 widening",
+    JSON.stringify(mapFact(rawFact("Physical Characteristics > Rack Height", "42U"))),
+    JSON.stringify({ kind: "ok", key: "rack_units", value: 42, unit: "HE", raw: "42U", locator: "t1:r1:c1" })],
+  ["SABOTAGE 48U under Rack Height is still RANGE_VIOLATION — a 48U enclosure is a rack",
+    (() => { const m = mapFact(rawFact("Physical Characteristics > Rack Height", "48U"));
+             return m.kind === "rejected" ? m.reason : m.kind; })(), "RANGE_VIOLATION"],
+  // The band is INCLUSIVE at both ends, which is the fact fieldSchema.ts got wrong until 5 Sep 2026:
+  // its comment said "30 was one rack unit short of the ASR 9912" and the ASR-9912 is 30 RU exactly,
+  // so [1, 30] accepted it every time. Pinned here so the corrected claim is checked rather than
+  // believed — and 45 with it, because the ceiling was placed at 44 with NO margin on purpose.
+  ["the ASR-9912's 30 RU passes, and always did — the band test is inclusive",
+    (() => { const m = mapFact(rawFact("Physical Characteristics > Rack Height", "30U"));
+             return m.kind === "ok" ? m.value : m.kind; })(), 30],
+  ["SABOTAGE 45U is refused — no margin above the 44-RU ASR-9922",
+    (() => { const m = mapFact(rawFact("Physical Characteristics > Rack Height", "45U"));
+             return m.kind === "rejected" ? m.reason : m.kind; })(), "RANGE_VIOLATION"],
+];
+for (const [name, got, want] of LABEL_CASES) check(name, got, want);
 
 // ---------------------------------------------------------------------------------------------
 // 2. the ignore list: it must catch the identity rows and nothing that neighbours them
@@ -341,13 +401,52 @@ for (const [key, lo, hi] of BANDS) {
 
 // 3 per rule (label, near-miss, refusal) + the 6 sabotage/acceptance cases on the grader itself
 // + the 3 structural checks in sections 3 and 4.
-const TOTAL = RULES.length * 3 + 6 + ACCEPTS.length + BANDS.length + MUST_IGNORE.length + MUST_NOT_IGNORE.length + 3;
+const TOTAL = RULES.length * 3 + 6 + LABEL_CASES.length + ACCEPTS.length + BANDS.length
+  + MUST_IGNORE.length + MUST_NOT_IGNORE.length + 3;
 console.log(`${pass}/${TOTAL} passed`);
 if (misses.length) {
   console.log("\nMISSES:");
   for (const m of misses) console.log(`  ${m}`);
   process.exit(1);
 }
+// ---- CATEGORY-SCOPED RULES -------------------------------------------------------------------
+// Rule "^spee *d$" -> drive_interface exists for Cisco's SERVER spec sheets, where a PDF column
+// split inserts a space inside "Speed" and the column is a SAS/SATA link rate. Unscoped it also
+// matched plain "Speed" on network gear: production held drive_interface "10/100" and
+// "10/100/1000" on 15 switches - Catalyst 6500 line cards whose ETHERNET PORT SPEEDS were filed as
+// a storage field (measured by the Juniper session, 5 Sep 2026, whose HCT lane hit it too).
+//
+// Both directions are pinned, because a scope that silenced the rule everywhere would "fix" the
+// switches by breaking the servers it was written for.
+for (const cat of ["servers-unified-computing", "hyperconverged-infrastructure",
+                   "hyperconverged-systems", "storage-networking"]) {
+  check(`Speed still maps to drive_interface in ${cat} - the case the rule was written for`,
+    mapLabel("Speed", cat), "drive_interface");
+  check(`...and the space-split "Spee d" too, which is why the rule exists`,
+    mapLabel("Spee d", cat), "drive_interface");
+}
+for (const cat of ["switches", "routers", "wireless", "interfaces-modules", "optical-networking"]) {
+  check(`SABOTAGE Speed is NOT a drive interface on ${cat} - it is left unmapped on purpose, so it `
+      + `reaches the unmapped-label report and earns a field of its own rather than a wrong one`,
+    mapLabel("Speed", cat), null);
+}
+// An unknown category must not silently narrow the mapper: the inventory caller passes none, and
+// under-reporting what a source publishes is its own kind of wrong.
+check("an UNKNOWN category applies every rule, as before scoping existed",
+  mapLabel("Speed"), "drive_interface");
+// and the end-to-end path: mapFact must actually pass the category it already had
+{
+  const f: RawFact = { label: "Speed", value: "10/100/1000", shape: "A", locator: "t1:r1:c1",
+                       source_url: "https://www.cisco.com/x.html" };
+  const onSwitch = mapFact(f, "switches");
+  check("mapFact on a SWITCH does not file an Ethernet speed as drive_interface",
+    onSwitch.kind === "unmapped" ? "unmapped" : `${onSwitch.kind}:${(onSwitch as {key?: string}).key}`,
+    "unmapped");
+  const onServer = mapFact({ ...f, value: "12G" }, "servers-unified-computing");
+  check("mapFact on a SERVER still maps it",
+    onServer.kind === "ok" ? onServer.key : onServer.kind, "drive_interface");
+}
+
 const stated = RULES.filter(([, , , v]) => v !== NO_SHAPE).length;
 console.log(`every rule maps its own label and refuses its near-miss (${RULES.length} rules); `
   + `${stated} state a value their field refuses, with the reason; `
