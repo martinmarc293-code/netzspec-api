@@ -4,6 +4,122 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-05 ~17:40 — Opus/HPE session, work block 1: the HPE brand pack exists, and it found a
+  capture that is HTTP 200, correctly titled, unblocked and empty.** Committed `36fd40d` and
+  `af184dc` (parts of the first round were swept into the Cisco session's `65ecac5` — see TRAPS).
+
+  **DECISIONS, CLOSED.**
+  1. **ONE pack for `hpe` AND `aruba`, decided on evidence, not habit.** All 26 documents that
+     reach an `aruba` part are `www.hpe.com/psnow` QuickSpecs filed under `vendor_id = hpe`; there
+     is not one arubanetworks.com document in the store; the lane's own fixture is an Aruba switch
+     documented in an HPE QuickSpecs; and there is one `sources` row, one host, one politeness
+     budget and one refusal behaviour. Two packs would have been two copies of one manifest kept in
+     step by hand. `brands/hpe/brand.py` names the primary vendor and a `VENDOR_SLUGS` tuple; the
+     watchdog calls the SHARED `brands/base.py` measurements once per slug and sums, so the SQL
+     still lives in one place. **ASK FOR:** `vendor_slugs` belongs on `BrandPack` — a change to
+     `brands/base.py`, which is the Cisco session's file.
+  2. **Cisco's `vendor_eol_bulletin` and `vendor_page` classes are DELETED, not inherited.** HPE
+     publishes no scrapable EoL bulletin (403 on arubanetworks.com, an Angular portal on
+     networkingsupport.hpe.com — assessed 27 Aug, `adapters/hpe_aruba_eol.py`), and its discovery
+     surface is a JSON endpoint queried as a listing task, not a document we hold. Both would have
+     been permanent false gaps in every freshness report. C3/C4 in `test_hpe_brand.py` pin it.
+  3. **`covered_pct` is reported with NO target.** It reads 100% for this brand — the operator seed
+     touched all 836 hardware parts — while nothing had ever been read from an HPE document. So do
+     `recall_gap` (0) and `crawl_gap` (0). The targets are `avg_pct`, `doc_fact_pct`,
+     `seed_only_parts`, `unrendered_docs`, `stale_docs`, and T2/T3 refuse the Cisco ones.
+  4. **The lane is DISABLED again**, with the reason written into `sources.notes`.
+
+  **DONE AND VERIFIED.**
+  * `scraper/brands/hpe/` — manifest + watchdog. Refresh window is MEASURED: the CX 6300
+    QuickSpecs carries 46 versions between Nov 2019 and Aug 2026, median 49 days apart, and the
+    revisions are "New SKUs added in Configuration Information section", so 30 days catches a
+    revision within one cycle. Run it: `python3.11 scraper/brands/hpe/watchdog.py` (exit 1 on
+    alarm; report in `runs/brands/hpe/`).
+  * **THE FINDING.** psnow renders the document body client-side. When it does not finish, the
+    capture is ~264 KB, HTTP 200, right `og:title`, not blocked, not a 404 — and holds no document
+    at all: no `div.collateral-content`, no `<uc-table>`, no `<table>`, 2.4 KB of body text against
+    42 KB rendered. **Two of the ten psnow documents in the cache are exactly this and both were
+    recorded as successful fetches** (`a00085162enw`, `a50009236enw`). `extract()` returned a tidy
+    zero-fact result, `process()` recorded `no_facts`, the queue marked it `done`. It now RAISES —
+    an unrendered page is a failure of the FETCH, not a result of the extraction — and the lane
+    declares `WAIT_FOR = "div.collateral-content"` / `SETTLE_MS = 2500`, which `worker.Browser`
+    reads off the module. The same marker does both jobs so the wait and the check cannot drift.
+  * **HPE's refusal, measured both ways.** `www.hpe.com`: TCP connect 0.28 s, TLS handshake 0.52 s,
+    then NOTHING — curl exit 56 / code 000 / 0 bytes, Chrome `net::ERR_HTTP2_PROTOCOL_ERROR`. No
+    HTML fingerprint can ever see it. `arubanetworking.hpe.com`: Akamai, exactly Cisco's shape, a
+    413-byte "Access Denied" citing errors.edgesuite.net — `challenge_fingerprint` names it
+    `akamai_access_denied`, pinned with the real captured body (B5).
+  * `is_blocked` moved off `looks_blocked()` (which believes "Access Denied" on anything under
+    40 KB, and the real 56 KB "404 Error | HPE" fixture is inside that window) onto
+    `challenge_fingerprint()`, plus `blocked_reason()` so the fingerprint is NAMED.
+  * `is_document_url()` — added because the watchdog's first unrendered scan reported SIX problems
+    where there were two: HPE's index pages and its library JSON legitimately carry no collateral
+    body. The four false positives are sabotage cases X4-X7.
+  * **The lane ran, from cache, end to end**: 6 documents produced facts, 2 were refused as
+    unrendered and named in `fetch_queue.last_error` (the watchdog's own queue alarm fired on
+    them), 2 produced family-level facts only. `apply-acquired --commit` passed its gate
+    (precision 0.9875, recall 1, suite green) and wrote **116 tier-1 facts on 21 parts** plus 30
+    corroborations of the seed. Verified from a NEW connection. `doc_fact_pct` 0.0 → **2.5%**;
+    `avg_pct` 26.6 → **26.8** after `recompute-completeness --vendor hpe|aruba`.
+  * Suites: `test_hpe_lane` **60/60** (new), `test_hpe_brand` **26/26** (new), `test_hpe_quickspecs`
+    **77/77** (was 64), `test_hpe_listing` **16/16**. Every new check was disabled and the suite
+    watched go red for the stated reason, then restored and checked with `git diff`.
+
+  **NEXT, in order.**
+  1. **THE VOCABULARY, not the crawl.** Of 1,335 raw facts offered, 165 mapped and **1,047 were
+     unmapped labels** (`runs/reports/unmapped-hpe-quickspecs-2026-09-05.json`). The QuickSpecs
+     spec tables carry precisely the fields every HPE part is missing and the alias rules do not
+     know the labels: `Performance > MAC table capacity` (→ mac_table), `IPv4/IPv6 unicast routes`,
+     `Switched virtual interfaces`, `IPv4/IPv6/MAC ACL entries`, `Stack size`,
+     `Environment > Max operating altitude` (→ altitude_max), `Non-operating temperature` (→
+     temp_storage), `Primary airflow`, `Acoustic`, `Electrical Characteristics > AC voltage` (→
+     input_voltage), `Frequency`, the whole `Immunity >` and `Emissions` block (→ certifications),
+     `Mounting and Enclosure`, `CPU`. This is where `avg_pct` moves from 26.8 toward 60.
+     ⚠ `data/schema/attribute-aliases.en.json` is SHARED and had uncommitted changes from another
+     session all day — coordinate before editing, and go through `apply-alias-proposals`.
+  2. **648 unknown SKUs** the QuickSpecs list and the catalogue has no part for
+     (`runs/reports/unknown-skus-hpe-quickspecs-2026-09-05.jsonl`). `promote-unknown-skus` turns
+     them into parts. That is a catalogue-size decision — it would grow HPE/Aruba hardware from
+     836 to as many as ~1,484 and would LOWER `avg_pct` — so it needs the operator's yes.
+  3. Re-fetch the two unrendered captures once www.hpe.com answers again, then enumerate the
+     library (`--task listing --key 1`) for the ~60 families with a switch and no QuickSpecs.
+  4. `stale_docs` (61 of 67) is honest but oddly shaped: **63 of the 67 document rows have no
+     cached bytes at all** — they are citation URLs the operator's seed carried and were never
+     fetched. A URL is not a document. Consider a `held_without_bytes` metric or retiring the rows.
+
+  **FOR THE CISCO SESSION (shared files, not mine to change).**
+  * `worker.Loop.process` counts `len(ext["facts"])` — the TOP-LEVEL facts only. A document adapter
+    that puts the family at the top and every model in `others` (which is the correct shape, and
+    what the RESULT contract asks for) therefore reports `no_facts` for a document that produced
+    **1,430**. Observed twice in one run: `a00073540enw` and `a00047323enw`. Count `others` too.
+  * `Browser.fetch` caches a client-rendered capture before any adapter sees it, and only declines
+    to cache what `looks_blocked()` recognises. A blank SPA shell is not one, so the poisoned entry
+    is served to every retry. My adapter refuses it loudly rather than evicting from the cache (an
+    adapter that deletes what it dislikes would delete its own test fixtures) — but the general fix
+    belongs in `Browser.fetch`.
+  * `classify_exception` files `ERR_HTTP2_PROTOCOL_ERROR` as `failed`. Right disposition, wrong
+    label: nothing in the system says "the host is refusing us". My brand watchdog counts protocol
+    errors out of `fetch_queue.last_error` because that is the only place the evidence survives.
+  * `BrandPack` needs a `vendor_slugs` tuple (see decision 1).
+
+  **TRAPS HIT.**
+  * **Do not leave files staged.** `git add` for five files, then a sabotage round, and in between
+    the Cisco session's `65ecac5` swept my staged index into its commit. Nothing was lost and the
+    content is in the tree, but the message on it is theirs. Stage and commit in ONE step.
+  * **A metric's predicate must be read against the rows it will actually see.** `DOC_METHODS` was
+    `("html_table","pdf_table")`, taken off the store-wide distribution; `apply-acquired` writes
+    `vendor_page:<slug>`, so the metric would have reported 0.0% with 116 document facts in the
+    table. The fix that matters is not the corrected tuple but the **UNCLASSIFIED alarm** now
+    raised for any method in neither set.
+  * **The first version of a monitor over-reported and that is as bad as under-reporting.** Six
+    unrendered captures where there were two. Run it over the real corpus and read the output.
+  * A test that dies on an uncaught exception reports "1 missed" nowhere. L1-L3 catch and report.
+  * `worker.py fetch --force` on a URL whose fetch then fails leaves the old cache file intact —
+    checked explicitly, because the two blank shells are test fixtures now.
+
+  **STATE.** `hpe-quickspecs` DISABLED, reason in `sources.notes`; queue holds 8 done + 2 failed
+  (the unrendered pair). Nothing scraping, no suite running, working tree clean of my files.
+  `netzspec_test2` untouched this block — every suite above is DB-free.
 - **2026-09-05 ~17:10 — Opus/JUNIPER session, work block 1: the Juniper lane exists, and the brand's
   coverage number turned out to be measuring the seed.** Committed `d0a92d4` (nine files, mine by
   name; `git diff --cached` read before committing). Nothing scraped: no lane was started, no
