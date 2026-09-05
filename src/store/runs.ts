@@ -83,10 +83,19 @@ export const RUN_STALE_HOURS = 6;
  *
  *   budget = files x WORST_SECONDS_PER_FILE x SLACK, clamped to [FLOOR, RUN_STALE_HOURS]
  *
- * WORST_SECONDS_PER_FILE is 15.6 — the slowest rate anyone measured tonight, under two concurrent
- * applies contending for one tunnel, NOT the 4.6 s/file of an uncontended dry run. Using the worst
- * observed rate rather than the typical one is the whole point: the cost of being wrong here is
- * putting a false ending on a row whose process is still writing.
+ * WORST_SECONDS_PER_FILE is 15.6, and the justification has been CORRECTED: that figure was never
+ * a rate. It came from dividing an INCOMPLETE run by its file count, which measures how far a run
+ * got before it was killed, not how fast it works. Fitting the succeeded runs instead gives a fixed
+ * cost per invocation plus a marginal per file — 118 s + ~3.15 s/file on the Cisco lane, ~10.4 on
+ * Juniper's relation-heavy one — and per-file cost therefore FALLS as a run grows, which is the
+ * opposite of what a flat rate predicts.
+ *
+ * The NUMBER is kept anyway, deliberately. 15.6 is about 1.5x the worst true marginal rate (10.4),
+ * which is exactly the margin a budget wants, and the clamps do the real work at both ends. What is
+ * fixed here is the REASONING: a constant defended by a statistic that turns out not to be one gets
+ * "corrected" later by someone who recomputes the statistic and lowers the constant to match. The
+ * cost of being wrong in the fast direction is putting a false ending on a row whose process is
+ * still writing; in the slow direction it is a delayed cleanup. Keep the margin.
  *
  * The FLOOR exists because a small run during a tunnel stall is not a dead run — at 15.6 s/file a
  * single file would otherwise get a 47-second budget, and this tunnel drops sockets for longer than

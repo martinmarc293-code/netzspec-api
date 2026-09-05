@@ -65,11 +65,32 @@ PY = sys.executable or "python3.11"
 # The node executable, resolved once. npm/npx are .CMD shims on Windows and cannot be spawned
 # from a list without a shell; node is a real .exe. None means the apply step says so and skips.
 NODE = shutil.which("node")
-# Files per apply invocation. From measurement, not a round number: Cisco run 110 did 82 files in
-# 374 s (4.6 s/file) and Juniper measured 224 relation-heavy documents at 35+ minutes (9.4
-# s/file), so 60 files is ~275 s at the first rate and ~565 s at the second - both comfortably
-# inside the 1800 s step bound even when a chunk is unluckily slow. The number that matters is
-# not the speed but that the input is BOUNDED: a directory grows all day, a chunk does not.
+# Files per apply invocation.
+#
+# THE COST MODEL, fitted 6 Sep 2026 across every succeeded apply of >=8 files, and it is NOT a flat
+# per-file rate. Per-file cost FALLS as a run grows - 7.5 s/file at 31 files, 3.9 at 153 - which is
+# the signature of a fixed cost per invocation rather than of contention:
+#
+#     seconds = 118 + files x marginal      marginal ~3.15 s on the Cisco lane, ~10.4 on Juniper's
+#
+# Predicted 82 files -> 376 s (actual 374), 98 -> 427 s (actual 408). The 118 s is node plus tsx
+# boot, config load and connection setup at ~180 ms a round trip, paid again by every chunk.
+#
+# SO CHUNK SIZE TRADES DURABILITY AGAINST STARTUP, and it is not a free win. On a 494-file backlog,
+# chunks of 60 pay 9 x 118 s = ~18 minutes of pure process boot where 150 would pay 8. That is a
+# real cost and it is worth stating rather than discovering.
+#
+# SIXTY ANYWAY, and the reason is that this constant is SHARED. Against the 1800 s step bound:
+#
+#     cisco   chunk of  60 ->  307 s (17%)     chunk of 150 ->  590 s (33%)
+#     juniper chunk of  60 ->  742 s (41%)     chunk of 150 -> 1678 s (93%)
+#
+# 150 puts the slowest lane one unlucky chunk from being killed by its own timeout, and a killed
+# chunk writes nothing. A shared number has to fit the slowest brand, not the fastest.
+#
+# AND THE STARTUP COST IS MOSTLY HISTORICAL NOW: with the applied-marker below, a cycle's input is
+# what the FETCH produced, not the day's accumulation - at --max-tasks 60 over two lanes that is
+# ~120 files, so two chunks. The 9-invocation case only arises when draining a backlog once.
 APPLY_CHUNK_FILES = 60
 #: Namespace for the per-brand supervisor lock. Distinct from the lane locks (0x4C414E45) and from
 #: the test-database locks, so the three can never be mistaken for one another.
