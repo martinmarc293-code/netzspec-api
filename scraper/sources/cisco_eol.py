@@ -43,26 +43,79 @@ WAIT_FOR = None
 # `…-eol.html`. Written against the NORMALISED url (lower-cased, `_` folded to `-`), because the
 # same document is published under both spellings and a rule that knew one missed 1,611 documents
 # when this was last measured.
-EOL_URL = re.compile(r"eos-eol|end-of-life|end-of-sale|eol-notice|-eol\.|/eol-|(?:^|[^a-z0-9])c51[-.]")
+#
+# THE LOCALE TAIL, added 5 Sep 2026 after measuring this rule against the whole corpus rather than
+# against cases written for it. `-eol\.` required the URL to END at `-eol.html`, so every French
+# rendering — `webex-room-70d-g2-eol-fr.html` — failed it: 38 real bulletins, silently, and they
+# were invisible to `discover` too. Recall went 3,357 -> 3,395 of 3,412 (98.4% -> 99.5%) with the
+# false positives unchanged at ONE in 3,594 non-bulletins. This is the same locale-tail shape
+# src/core/docClass.ts already strips; the two now agree.
+#
+# The 17 that STILL do not match carry no end-of-life marker anywhere in the URL — they are
+# ordinary-looking product pages that turned out to be bulletins when read. No URL rule can
+# recover those, which is why resolve() lets the store's own classification override this one.
+EOL_URL = re.compile(r"eos-eol|end-of-life|end-of-sale|eol-notice|-eol(?:-[a-z]{2})?\.|/eol-|(?:^|[^a-z0-9])c51[-.]")
 
 
 def _norm(u: str) -> str:
     return (u or "").lower().replace("_", "-")
 
 
+# The document classes this lane serves. The planner routes a stale document to the lane that
+# DECLARES its class, instead of to whichever lane's resolve() happens to answer first. See
+# brands/plan.py section 1 for why that mattered: resolve() below used to accept any http URL, so
+# this lane claimed 43 of the 54 documents planned for it on 5 Sep 2026 — datasheets and
+# documentation.meraki.com pages — and failed every one at is_usable AFTER paying for the fetch.
+DOC_CLASSES = ("vendor_eol_bulletin",)
+
+# Every one of the 3,412 bulletins in the store is on www.cisco.com (measured 5 Sep 2026), so a
+# candidate on another host is not a bulletin this lane can serve, whatever its path looks like.
+HOSTS = ("www.cisco.com", "cisco.com")
+
+
 def resolve(task: dict) -> str | None:
     """A bulletin URL, or a listing of them. Anything keyed by SKU is refused: a PID does not
     resolve to a bulletin URL, it is FOUND in one, and guessing would be a 404 the queue retries
-    five times before giving up."""
+    five times before giving up.
+
+    A LANE THAT ACCEPTS WHAT IT CANNOT PARSE IS WORSE THAN ONE THAT REFUSES TOO MUCH, because the
+    refusal costs nothing and the acceptance costs a fetch. This function used to return any http
+    URL, and the planner takes resolve() as the authority on what a lane can serve, so it handed
+    this lane 31 Cisco datasheets and 12 Meraki documentation pages. Each was fetched, refused by
+    is_usable (correctly - a datasheet has no milestone table), recorded `failed` and re-queued:
+    23 doomed fetches per 20-minute cycle, for ever.
+
+    Two gates, and the second one is not the obvious one. EOL_URL recognises 99.5% of the real
+    bulletins (3,395 of 3,412) and just 1 non-bulletin in 3,594, so URL SHAPE alone is a good
+    filter and a quiet 17-document recall hole - the "required field nothing can ever fill" shape
+    this project has paid for before. So the store's own classification overrides the shape: when
+    the planner says this document IS a bulletin (doc_class, read from source_docs where it was
+    classified by CONTENT), that is better evidence than the URL and this lane takes it.
+
+    The override cuts BOTH ways, which is the half that stops it being a hole of its own: a
+    doc_class naming some other lane's class is a refusal even when the URL shape matches, so the
+    one datasheet in 3,594 whose URL contains `c51-` does not land here.
+    """
     kind = (task.get("task") or "").strip()
     if kind not in ("datasheet", "eol", "listing"):
         return None
     cand = (task.get("url") or task.get("key") or "").strip()
-    if cand.startswith("http"):
-        return cand
     if cand.startswith("/"):
-        return f"https://{HOST}{cand}"
-    return None
+        cand = f"https://{HOST}{cand}"
+    if not cand.startswith("http"):
+        return None
+    if urlparse(cand).hostname not in HOSTS:
+        return None
+    # A listing is a page that LISTS bulletins; it is not itself one, so the shape gate cannot
+    # apply to it. Host is the only check it can carry.
+    if kind == "listing":
+        return cand
+    known = (task.get("doc_class") or task.get("doc_type") or "").strip()
+    if known and known in DOC_CLASSES:
+        return cand
+    if known:
+        return None      # the store says this is some OTHER class: not this lane's work
+    return cand if EOL_URL.search(_norm(cand)) else None
 
 
 def is_blocked(html: str) -> bool:

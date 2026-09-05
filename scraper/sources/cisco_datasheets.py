@@ -47,6 +47,13 @@ from sources.base import challenge_fingerprint, soup            # noqa: E402
 SLUG = "cisco-datasheets"
 HOST = "www.cisco.com"
 
+# The document classes this lane serves, so brands/plan.py can route a stale document to the lane
+# that DECLARES its class rather than to whichever lane's resolve() answers first. `vendor_page` is
+# here because a series page is this lane's discovery surface: it is where new datasheet URLs
+# appear. `vendor_eol_bulletin` is deliberately NOT — cisco-eol owns that class, and this lane
+# would extract a milestone table as if it were a specification table.
+DOC_CLASSES = ("vendor_datasheet_html", "vendor_page")
+
 #: Cisco renders its collateral client-side in places; the tables are in the DOM by the time the
 #: main article is present. Named here rather than in the worker so the wait is a property of the
 #: site, not of the run.

@@ -176,5 +176,61 @@ check("N2", "...and the usability veto refuses it too, so a 404 page never reach
 check("N3", "SABOTAGE a real bulletin is not called not-found merely for being large",
       MOD.is_not_found(BIG) is False)
 
+# ---------------------------------------------------------------------------------------------
+# 8. resolve() REFUSES what this lane cannot parse — measured against the live queue, 5 Sep 2026
+# ---------------------------------------------------------------------------------------------
+# The 24/7 loop's own numbers found this: `done=17 failed=23` every cycle, every failure reading
+# "unusable capture: the page did not render its document". 43 of the 54 documents planned for this
+# lane were not bulletins at all — 31 Cisco datasheets and 12 documentation.meraki.com pages —
+# because resolve() returned any http URL and brands/plan.py takes resolve() as the authority on
+# what a lane can serve. Each was fetched, refused by is_usable AFTER the fetch, recorded `failed`
+# and re-queued: 23 doomed fetches per 20-minute cycle against a politeness budget, for ever.
+#
+# A refusal costs nothing and an acceptance costs a fetch, so this is the cheap side to be wrong on.
+DS = "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/data_sheet_c78-729404.html"
+MERAKI = "https://documentation.meraki.com/Switching/MS_-_Switches/Product_Information/Overviews_and_Datasheets/MS225"
+check("T1", "the lane DECLARES the document class it serves, so the planner can route by class "
+            "instead of by whichever resolve() answers first",
+      getattr(MOD, "DOC_CLASSES", ()) == ("vendor_eol_bulletin",), getattr(MOD, "DOC_CLASSES", None))
+check("T2", "SABOTAGE a DATASHEET url is refused — 31 of these were planned onto this lane and "
+            "failed at is_usable after the fetch, five retries each",
+      MOD.resolve({"task": "datasheet", "key": DS}) is None, MOD.resolve({"task": "datasheet", "key": DS}))
+check("T3", "SABOTAGE another host is refused: all 3,412 bulletins in the store are on "
+            "www.cisco.com, and 12 Meraki documentation pages were planned onto this lane",
+      MOD.resolve({"task": "datasheet", "key": MERAKI}) is None)
+check("T4", "a real bulletin still resolves", MOD.resolve({"task": "datasheet", "key": B}) == B)
+FR = ("https://www.cisco.com/c/en/us/products/collateral/collaboration-endpoints/telepresence-mx-series/"
+      "webex-room-70d-g2-eol-fr.html")
+check("T5", "the FRENCH rendering resolves — `-eol\\.` required the URL to end there, so 38 real "
+            "bulletins named `-eol-fr.html` were refused by shape and invisible to discover too",
+      MOD.resolve({"task": "datasheet", "key": FR}) == FR, MOD.resolve({"task": "datasheet", "key": FR}))
+NOSHAPE = ("https://www.cisco.com/c/en/us/products/collateral/optical-networking/"
+           "network-convergence-system-2000-series/transport-nodeshelf-controller-modules.html")
+check("T6", "a bulletin whose URL carries NO end-of-life marker resolves when the STORE says it is "
+            "one — 17 are like this, and a URL-only gate would refuse them for ever, which is the "
+            "unfillable-required-field shape this project has paid for before",
+      MOD.resolve({"task": "datasheet", "key": NOSHAPE, "doc_class": "vendor_eol_bulletin"}) == NOSHAPE)
+check("T7", "SABOTAGE the override cuts both ways: a doc_class belonging to ANOTHER lane is refused "
+            "even when the URL shape matches, so the 1 datasheet in 3,594 carrying `c51-` stays out",
+      MOD.resolve({"task": "datasheet", "key": B, "doc_class": "vendor_datasheet_html"}) is None)
+check("T8", "SABOTAGE a shapeless URL with no doc_class at all is still refused — the override is "
+            "evidence from the store, never an empty string waved through",
+      MOD.resolve({"task": "datasheet", "key": NOSHAPE}) is None)
+check("T9", "a listing is host-gated but NOT shape-gated: a page that lists bulletins is not itself "
+            "one, so the bulletin regex cannot be applied to it",
+      MOD.resolve({"task": "listing", "key": "https://www.cisco.com/c/en/us/products/eos-eol-listing.html"})
+      is not None and MOD.resolve({"task": "listing", "key": MERAKI}) is None)
+
+# and the two lanes must not both claim the same document
+import importlib  # noqa: E402
+DSMOD = importlib.import_module("sources.cisco_datasheets")
+check("T10", "SABOTAGE the two Cisco lanes declare DISJOINT document classes — an overlap is how a "
+             "milestone table gets read as a specification table",
+      not (set(getattr(DSMOD, "DOC_CLASSES", ())) & set(getattr(MOD, "DOC_CLASSES", ()))),
+      (getattr(DSMOD, "DOC_CLASSES", ()), getattr(MOD, "DOC_CLASSES", ())))
+check("T11", "...and each lane accepts the document the OTHER one refuses, so no class is orphaned",
+      DSMOD.resolve({"task": "datasheet", "key": DS}) == DS and MOD.resolve({"task": "datasheet", "key": DS}) is None
+      and MOD.resolve({"task": "datasheet", "key": B}) == B)
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

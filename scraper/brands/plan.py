@@ -73,17 +73,28 @@ REDISCOVER_DAYS = 7
 DEFAULT_LIMIT = 2000
 
 
-def _accepts(mod, task: str, key: str, url: str | None = None) -> str | None:
+def _accepts(mod, task: str, key: str, url: str | None = None, doc_class: str | None = None) -> str | None:
     """The URL this source would fetch for that task, or None if it refuses it.
 
     The adapter's own `resolve()` is the authority on what a lane can serve. Asking it - rather
     than keeping a table of "which source does part-page" here - is what stops this file from
     becoming the hand-maintained list it was written to replace.
+
+    `doc_class` is the class the STORE already assigned this document, passed through so an adapter
+    can accept a document its URL shape does not recognise. Cisco's bulletins are the case: 55 of
+    3,412 are on URLs that carry no end-of-life marker at all, and without this the lane's URL gate
+    would refuse them for ever - a recall hole of exactly the kind this project keeps paying for.
     """
     try:
-        return mod.resolve({"task": task, "key": key, "url": url or ""})
+        return mod.resolve({"task": task, "key": key, "url": url or "", "doc_class": doc_class or ""})
     except Exception:  # noqa - a broken adapter refuses work; it must not stop the planner
         return None
+
+
+def _serves(mod, doc_class: str | None) -> bool:
+    """Does this lane DECLARE the document's class? An adapter that declares none is unchanged by
+    this: it neither gains nor loses candidates, it simply never wins the preference pass."""
+    return bool(doc_class) and doc_class in (getattr(mod, "DOC_CLASSES", ()) or ())
 
 
 def stale_documents(conn, brand, limit: int) -> list[dict]:
@@ -139,6 +150,11 @@ def stale_listings(conn, brand, limit: int) -> list[dict]:
 def plan(conn, brand, limit: int, apply: bool) -> dict:
     srcs = conn.execute("SELECT id, slug, enabled FROM sources WHERE slug = ANY(%s)",
                         (list(brand.sources),)).fetchall()
+    # DETERMINISTIC ORDER, in the pack's own sequence. Section 1 places each document on the FIRST
+    # lane that accepts it, and this query has no ORDER BY - so which lane won a document a second
+    # lane would also accept was decided by whatever order Postgres returned rows in. That is not a
+    # tie-break, it is a coin toss that can land differently between two runs of the same planner.
+    srcs.sort(key=lambda s: list(brand.sources).index(s["slug"]))
     if not srcs:
         # Loud, not empty. A pack whose sources do not exist in the database would otherwise plan
         # nothing and report a clean run for ever.
@@ -168,13 +184,25 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
     # 1. refresh: re-queue the exact task that produced each stale document, by URL.
     for d in stale_documents(conn, brand, limit):
         placed = False
-        for s in srcs:
+        # THE DOCUMENT'S OWN CLASS DECIDES ITS LANE. This loop used to take the first lane whose
+        # resolve() returned the URL, and `doc_type` - selected two lines above, in the query, and
+        # the one piece of evidence that says which lane owns the document - was read only to print
+        # it in the skipped list. On 5 Sep 2026 that put 31 datasheets and 12 Meraki pages on
+        # cisco-eol, which accepted any URL: 23 failed fetches per cycle, retried for ever, against
+        # a lane whose parser cannot read a datasheet.
+        #
+        # A lane that DECLARES the class goes first; the rest keep their pack order behind it. This
+        # is a preference and not a filter, so a document whose class no lane declares is still
+        # offered to every lane exactly as before, and an adapter with no DOC_CLASSES is unaffected.
+        ordered = sorted(srcs, key=lambda s: 0 if _serves(mods[s["slug"]], d["doc_type"]) else 1)
+        for s in ordered:
             mod = mods[s["slug"]]
             for task in ("part-page", "datasheet", "listing"):
                 # the URL is the identity here, so ask each task kind which one rebuilds it
-                if _accepts(mod, task, d["url"], d["url"]) == d["url"]:
+                if _accepts(mod, task, d["url"], d["url"], d["doc_type"]) == d["url"]:
                     out["refresh"].append({"source": s["slug"], "task": task, "key": d["url"],
-                                           "url": d["url"], "age_days": d["age_days"]})
+                                           "url": d["url"], "age_days": d["age_days"],
+                                           "doc_type": d["doc_type"]})
                     placed = True
                     break
             if placed:
