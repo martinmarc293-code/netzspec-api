@@ -26,6 +26,7 @@ The four ways THIS lane goes wrong, each with a case that has to fail if the gua
 from __future__ import annotations
 
 import hashlib
+import re
 import io
 import os
 import sys
@@ -76,10 +77,22 @@ from brands import load_brand  # noqa: E402
 
 BRAND = load_brand("juniper")
 check("R3", "the brand pack loads and owns this lane", BRAND.sources == ("juniper",), BRAND.sources)
-check("R4", "every doc class the pack declares can actually be fetched - no PDF class, because "
-            "HCT's PDF export is behind /hct/auth/login and a class that can never be filled is a "
-            "permanent false gap in every report",
-      [d.key for d in BRAND.doc_classes] == ["vendor_tool"], [d.key for d in BRAND.doc_classes])
+# R4 asserts the RULE, not a literal list: "no class this pack declares can be unfetchable".
+# It was written as an equality against ["vendor_tool"] and had to be rewritten the moment a
+# second, legitimate class was added — an equality assertion tests the current answer, and what
+# is worth testing is the reason.
+_declared = {d.key for d in BRAND.doc_classes}
+check("R4", "no doc class the pack declares is one Juniper cannot serve: NO PDF class (HCT's "
+            "export is behind /hct/auth/login) and NO EoL bulletin class (Juniper publishes "
+            "end-of-life as `isModelEol` ON the model record, not as a document) - a class that "
+            "can never be filled is a permanent false gap in every report",
+      not (_declared & {"vendor_datasheet_pdf", "vendor_eol_bulletin", "vendor_datasheet_html"}),
+      sorted(_declared))
+check("R4b", "exactly one declared class is spec-bearing and it is the HCT model page - the "
+             "listing and the TechLibrary index publish no specification, and counting them as "
+             "spec-bearing would file a crawl gap as an extraction failure",
+      {d.key for d in BRAND.doc_classes if d.bears_specs} == {"vendor_tool"},
+      {d.key: d.bears_specs for d in BRAND.doc_classes})
 check("R5", "SABOTAGE the pack declares NO covered_pct or recall_gap target: all 168 parts carry "
             "tier-0 seed facts, so both read PASS for ever on a brand nothing has been read from",
       not {t.metric for t in BRAND.targets} & {"covered_pct", "recall_gap"},
@@ -199,10 +212,35 @@ else:
     check("E4", "HCT's `Part Number` is an ALIAS, never a fact: 740-... is Juniper's orderable "
                 "number for the model, and an identifier recorded as a specification is noise the "
                 "gate would have to learn to reject",
-          any(a["kind"] == "vendor_part_number" and a["value"].startswith("740-")
-              for a in res["aliases"])
+          # The KIND is not asserted here on purpose — A1 below checks it against the pipeline's
+          # own accepted set, which is the only authority on it. This case owns the semantic:
+          # the 740- number left the facts and arrived in the aliases.
+          any(a["value"].startswith("740-") for a in res["aliases"])
           and not any("part number" in f["label"].lower() for f in res["facts"]),
           f"aliases={res['aliases']}")
+    # -----------------------------------------------------------------------------------------
+    # 5b. the alias kind must be one the PIPELINE can store — read out of the TypeScript
+    # -----------------------------------------------------------------------------------------
+    # This case exists because the extractor emitted `vendor_part_number` first: accurate English,
+    # and in neither ALIAS_KINDS nor the CHECK constraint on part_aliases.kind. apply-acquired.ts
+    # would have hit `if (!ALIAS_KINDS.has(al.kind)) continue` and dropped every Juniper alias with
+    # no counter anywhere. The accepted set is READ from the source rather than restated here: a
+    # second copy of the list is a second thing to drift, and this file would then agree with
+    # itself while disagreeing with the pipeline.
+    _apply = (ROOT / "src" / "pipeline" / "apply-acquired.ts").read_text(encoding="utf-8")
+    _m = re.search(r"ALIAS_KINDS\s*=\s*new Set<string>\(\[(.*?)\]\)", _apply, re.S)
+    if not _m:
+        check("A1", "the accepted alias kinds could be read out of apply-acquired.ts", False,
+              "ALIAS_KINDS not found — the declaration moved; this check is blind, not passing")
+    else:
+        ACCEPTED = set(re.findall(r'"([a-z_]+)"', _m.group(1)))
+        check("A1", f"every alias this lane emits is a kind the pipeline accepts {sorted(ACCEPTED)}",
+              bool(res["aliases"]) and all(a["kind"] in ACCEPTED for a in res["aliases"]),
+              [a["kind"] for a in res["aliases"]])
+        check("A2", "SABOTAGE the set was actually parsed, not defaulted to empty — an empty set "
+                    "would make A1 fail loudly rather than pass vacuously",
+              len(ACCEPTED) >= 5 and "vendor_alias" in ACCEPTED, sorted(ACCEPTED))
+
     check("E5", "supported platforms and line cards come back as `compatible` RELATIONS - a "
                 "router's name in a transceiver's specification field is not a specification",
           len(res["relations"]) > 0 and all(r["kind"] == "compatible" for r in res["relations"]),

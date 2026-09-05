@@ -94,6 +94,19 @@ BRAND = BrandPack(
                        "temperature, transmit power, receiver input power, wavelengths). 30 days "
                        "because HCT is revised in place as optics are qualified against new "
                        "platforms and the URL never changes."),
+        DocClass("vendor_page", "HCT category listing / TechLibrary index", authority_tier=2,
+                 refresh_days=7, required=False, bears_specs=False,
+                 notes="Declared because it is what the store will ACTUALLY hold, not because the "
+                       "brand needs it for coverage. Two kinds of page land here: "
+                       "/hct/category/<id>, the listing above the model pages, and the one legacy "
+                       "www.juniper.net/documentation/ index that all 168 parts are still linked "
+                       "to. Neither carries a specification - the listing publishes fewer fields "
+                       "than the model page and the TechLibrary index publishes none - so "
+                       "bears_specs is False and a part whose only document is one of these has a "
+                       "CRAWL gap, not an extraction failure. Refreshed weekly because the listing "
+                       "is where a newly qualified optic appears first. Undeclared, these would be "
+                       "invisible to the freshness rule and would trip this pack's own UNDECLARED "
+                       "DOC CLASS alarm - which is how they were noticed."),
     ),
     # Deliberately NOT declared, and each deletion is a decision rather than an omission:
     #   vendor_datasheet_pdf  - HCT's PDF export requires /hct/auth/login. A class that can never

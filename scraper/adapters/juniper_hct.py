@@ -195,7 +195,16 @@ def extract_model(html: str, url: str = "") -> dict:
             continue
         if label.lower() in IDENTIFIER_ATTRS:
             # Juniper's orderable number, e.g. 740-011268. An identifier, never a specification.
-            aliases.append({"kind": "vendor_part_number", "value": _clean(value)})
+            #
+            # The kind is `vendor_alias`, and it has to be a kind the PIPELINE accepts rather than
+            # the one that reads best. This was written as "vendor_part_number" first — accurate
+            # English, and in neither `ALIAS_KINDS` in src/pipeline/apply-acquired.ts nor the CHECK
+            # constraint on part_aliases.kind. apply-acquired would have hit
+            # `if (!ALIAS_KINDS.has(al.kind)) continue` and dropped every one of them with no
+            # counter anywhere, which is the same shape of nothing as a skip with no reason.
+            # Case A1 in the lane suite reads the accepted set out of the TypeScript, so a kind
+            # this pipeline cannot store can never be emitted from here again.
+            aliases.append({"kind": "vendor_alias", "value": _clean(value)})
             continue
         facts.append({"label": label, "value": _clean(value), "locator": f"attributes[{i}]"})
 

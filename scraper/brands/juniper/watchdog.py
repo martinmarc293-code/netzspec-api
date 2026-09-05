@@ -68,7 +68,20 @@ def bar(pct: float, width: int = 28) -> str:
 #: that 100% of Juniper had been read from a document when the true figure was 0%.
 #:
 #: The provenance of a fact is its METHOD. A doc_id is a pointer, and a pointer can be wrong.
+#:
+#: Cisco's session adopted this on 5 Sep 2026 and `brands/base.coverage()` now reports
+#: `read_from_document` on the same principle — measured there, Cisco has 14,406 seed facts with
+#: the same stamp, though pointed at the real datasheets a human took the values from rather than
+#: at a landing page. Two places now compute "was this read", so the two MUST agree or one of them
+#: is lying; `reconcile()` below is the check that fails when they drift (D:\\Project\\CLAUDE.md
+#: section 10: where a single source is genuinely unavailable, keep the copies and add something
+#: that fails when they disagree).
 SEED_METHODS = ("hexcat_seed",)
+
+#: Methods that are the system withdrawing a value from itself. Taken from base.coverage(), which
+#: excludes `retracted:%` — a retracted fact must not count as coverage, and this file missed it
+#: until the shared rule was read side by side with this one.
+RETRACTED_PREFIX = "retracted:"
 
 
 def bucket(has_doc_nonseed: bool, has_nonseed: bool, has_any: bool) -> str:
@@ -100,22 +113,30 @@ def provenance(conn, brand) -> dict:
     row per hardware part, which for a 168-part brand is nothing and buys a rule that `bucket()`
     can be tested against; a larger brand would want the FILTER form back, with the same predicate.
     """
+    # `read` is the shared predicate, spelled exactly as brands/base.coverage() spells it: a method
+    # that is neither the seed nor a retraction. `has_doc_nonseed` narrows it further with the
+    # doc_id, which is what separates "a Juniper page said this" from "we mined our own product
+    # name". No bare per-cent sign in this string except the placeholders: psycopg scans the WHOLE
+    # query, comments included.
     rows = conn.execute("""
         WITH hw AS (
           SELECT p.id FROM parts p JOIN vendors v ON v.id = p.vendor_id
            WHERE v.slug = %s AND p.retired_at IS NULL AND p.product_class = 'hardware'),
         f AS (
           SELECT part_id,
-                 bool_or(doc_id IS NOT NULL AND method <> ALL(%s)) AS has_doc_nonseed,
-                 bool_or(method <> ALL(%s))                        AS has_nonseed,
-                 count(*)                                          AS facts
+                 bool_or(doc_id IS NOT NULL AND method IS NOT NULL
+                         AND method <> ALL(%s) AND method NOT LIKE %s) AS has_doc_nonseed,
+                 bool_or(method IS NOT NULL
+                         AND method <> ALL(%s) AND method NOT LIKE %s) AS has_nonseed,
+                 count(*)                                              AS facts
             FROM facts WHERE superseded_at IS NULL GROUP BY 1)
         SELECT hw.id,
                COALESCE(f.has_doc_nonseed, false) AS has_doc_nonseed,
                COALESCE(f.has_nonseed, false)     AS has_nonseed,
                COALESCE(f.facts, 0)               AS facts
           FROM hw LEFT JOIN f ON f.part_id = hw.id
-    """, (brand.vendor_slug, list(SEED_METHODS), list(SEED_METHODS))).fetchall()
+    """, (brand.vendor_slug, list(SEED_METHODS), RETRACTED_PREFIX + "%",
+          list(SEED_METHODS), RETRACTED_PREFIX + "%")).fetchall()
 
     out = {"hardware": len(rows), "from_document": 0, "other_non_seed": 0, "seed_only": 0,
            "no_facts": 0, "facts_total": 0}
@@ -133,6 +154,33 @@ def provenance(conn, brand) -> dict:
            AND f.doc_id IS NOT NULL AND f.method = ANY(%s)
     """, (brand.vendor_slug, list(SEED_METHODS))).fetchone()["n"]
     return out
+
+
+def reconcile(prov: dict, cov: dict) -> str | None:
+    """Do this pack's provenance split and the shared coverage rule agree? The message, or None.
+
+    Two places now compute "was this fact read from a document": `brands/base.coverage()`, which
+    keys on method alone, and `provenance()` here, which splits the same population by whether a
+    doc_id is attached. That makes an EXACT identity available:
+
+        provenance.from_document + provenance.other_non_seed == coverage.read_from_document
+
+    ...because both sides are "parts holding a fact whose method is neither seed nor retraction".
+    A duplicated rule needs something that fails when the copies disagree (D:\\Project\\CLAUDE.md
+    section 10, `check-config-drift.mjs` is the reference); this is that something. If the shared
+    predicate is changed and this one is not, the sum stops matching and the report says so on the
+    next run, instead of two different numbers being quoted from two different blocks for weeks.
+    """
+    if "read_from_document" not in cov:          # an older base.py: nothing to reconcile against
+        return None
+    mine = (prov["from_document"] or 0) + (prov["other_non_seed"] or 0)
+    theirs = cov["read_from_document"] or 0
+    if mine == theirs:
+        return None
+    return (f"DRIFT: this pack counts {mine:,} parts with a non-seed fact "
+            f"(from_document {prov['from_document']:,} + other_non_seed {prov['other_non_seed']:,}) "
+            f"and brands/base.coverage() counts {theirs:,}. The two rules for 'was this READ' have "
+            "diverged - one of them is wrong and both are being quoted")
 
 
 def fact_methods(conn, brand) -> list:
@@ -170,9 +218,10 @@ def report(conn, brand, window_min: int) -> dict:
     prov = provenance(conn, brand)
     methods = [dict(r) for r in fact_methods(conn, brand)]
     docs = [dict(r) for r in dead_documents(conn, brand)]
-    hosts = conn.execute(
-        "SELECT slug, host, enabled FROM sources WHERE slug = ANY(%s) ORDER BY slug",
-        (list(brand.sources),)).fetchall()
+    # `host` comes off the shared helper now: brands/base.blocked_sources() gained `s.host` on
+    # 5 Sep 2026 at this pack's request, so the separate query this file used as a workaround is
+    # gone rather than left as a second way to ask the same question.
+    hosts = blocks
 
     # Staleness is counted over EVERY document the vendor holds, not only over the classes this
     # pack declares. `B.document_freshness` iterates `brand.doc_classes`, so with `vendor_tool`
@@ -214,6 +263,10 @@ def report(conn, brand, window_min: int) -> dict:
             f"{prov['facts_total']:,} facts on {prov['hardware']:,} hardware parts and not one "
             f"came from an extraction. Coverage reads {cov['covered_pct']}% and completeness "
             f"{comp['avg_pct']}% entirely on tier-0 seed.")
+
+    drift = reconcile(prov, cov)
+    if drift:
+        alarms.append(drift)
 
     # A fact asserting a provenance it does not have. Loud, because every coverage figure for the
     # brand is computed on top of it and none of them look wrong.
