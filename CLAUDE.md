@@ -518,7 +518,9 @@ full; the ones that bite hardest here are restated.
   452 sign restorations, GATE PASS) → COMMITTED on the box; `--field altitude_max` NOT today
   (451 changed = 30.4% > the 25% ceiling; read them first, then `--allow`); list fields wait
   for round 3's citation-split fix (committing now would write a history row the fix
-  supersedes again).
+  supersedes again). DONE on the box: `renormalize --commit --field temp_storage` — 3,488
+  selected, 2,804 re-stamped, 452 superseded (all sign restorations of "–40 to 70°C" stored
+  as +40), 232 unrecoverable untouched; `temp_storage` rows with min > max afterwards: 0.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
