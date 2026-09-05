@@ -20,10 +20,20 @@
 //                                                     fails the gate by name
 //   RECALL counts the outcomes actually produced    dropping one outcome fails it
 //
-// This suite pins itself to netzspec_test3 rather than whatever DATABASE_URL_TEST happens to say,
-// because a second agent's suite owns test5 and both TRUNCATE (memory: two sessions, one repo).
-// The env is set before the store is loaded, so the modules are imported dynamically — a static
-// import is hoisted above these assignments and would read the wrong database.
+// THIS SUITE USED TO PIN ITSELF TO netzspec_test3, and that became the hazard it was avoiding.
+// The pin was added when every tree shared netzspec_test5 and two agents' suites truncated each
+// other: hard-coding a different database was a real fix for a real collision. Then ownership was
+// assigned — cisco test4, hpe test2, JUNIPER TEST3 — and this file, which TRUNCATEs, was pointed
+// at Juniper's database from whichever tree happened to run it. It even overwrote
+// DATABASE_URL_TEST to get there, so the tree's own correct setting was discarded on the way.
+//
+// It now uses the database this worktree's .env names, like every other suite, and
+// src/store/db.ts refuses it if that database belongs to another brand. The general lesson is the
+// one worth keeping: a workaround for a collision, left in place after the collision is fixed
+// properly, becomes the next collision — and it carries a comment explaining why it is correct.
+//
+// NETZSPEC_DB is still set before the store is loaded, so the modules are imported dynamically —
+// a static import is hoisted above the assignment and would read the wrong database.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -31,20 +41,10 @@ import type { FactToCheck, RenormReport, Verdict } from "../../src/pipeline/reno
 import type { SpecEntry } from "../../src/core/specMerge.js";
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
-const TEST_DB = "netzspec_test3";
-
-// Build DATABASE_URL_TEST from .env by swapping only the database NAME, so the credentials and the
-// tunnel port stay whatever the operator's .env says and no secret is written down here.
-{
-  const envFile = path.join(REPO, ".env");
-  const raw = fs.existsSync(envFile) ? fs.readFileSync(envFile, "utf8") : "";
-  const line = raw.split(/\r?\n/).find((l) => l.startsWith("DATABASE_URL_TEST=")) ?? raw.split(/\r?\n/).find((l) => l.startsWith("DATABASE_URL="));
-  if (!line) { console.error("refusing: neither DATABASE_URL_TEST nor DATABASE_URL is in .env"); process.exit(1); }
-  let url = line.slice(line.indexOf("=") + 1).trim();
-  if ((url.startsWith('"') && url.endsWith('"')) || (url.startsWith("'") && url.endsWith("'"))) url = url.slice(1, -1);
-  process.env.DATABASE_URL_TEST = url.replace(/\/[^/?]+(\?|$)/, `/${TEST_DB}$1`);
-  process.env.NETZSPEC_DB = "test";
-}
+// Test mode only. DATABASE_URL_TEST stays whatever THIS worktree's .env says and is deliberately
+// NOT rewritten here — see the note above. src/store/db.ts refuses it if that database belongs to
+// another brand, so the protection is a refusal rather than a constant in this file.
+process.env.NETZSPEC_DB = "test";
 
 const store = await import("../../src/store/index.js");
 const R = await import("../../src/pipeline/renormalize.js");
@@ -54,9 +54,13 @@ const {
   openRun, ensureCategory, docIdFor, ensureSourceDoc, insertFact, currentFact, factHistory,
 } = store;
 
+// Reaching this line means resolveDatabaseUrl() applied the brand ownership guard and did not
+// refuse, so the database belongs to this worktree's brand. The name is still checked and REPORTED:
+// a suite that TRUNCATEs should say out loud which database it is about to truncate.
 const dbName = databaseName(resolveDatabaseUrl());
-if (dbName !== TEST_DB) { console.error(`refusing: resolved database "${dbName}", expected ${TEST_DB}`); process.exit(1); }
-console.log(`renormalize.test: database ${dbName}, normaliser ${NORM_VERSION}`);
+const { NETZSPEC_BRAND } = (await import("../../src/config.js")).loadEnv();
+if (!/_test\d*$/.test(dbName)) { console.error(`refusing: resolved database "${dbName}" is not a test database`); process.exit(1); }
+console.log(`renormalize.test: database ${dbName} (brand ${NETZSPEC_BRAND ?? "undeclared"}), normaliser ${NORM_VERSION}`);
 
 let pass = 0;
 const misses: string[] = [];

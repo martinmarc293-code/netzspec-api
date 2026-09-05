@@ -291,6 +291,47 @@ for _d in ("scraper", "scripts", "tests", "src"):
                     pass
 BLOB = "\n".join(_src)
 unread = [k for k in KEYS if f'"{k}"]' not in BLOB and f'.get("{k}"' not in BLOB and f"['{k}']" not in BLOB]
+# ---------------------------------------------------------------------------------------------
+# 6b. the supervisor refuses to run a brand from another brand's checkout
+# ---------------------------------------------------------------------------------------------
+# run_brand.py's docstring has claimed "this brand's OWN test database and OWN worktree" since it
+# was written, and nothing checked the worktree half: `ownership as OWN` was imported and never
+# called. It matters because START-CISCO-24-7.cmd is TRACKED, so every checkout holds it verbatim
+# with `--brand cisco` hardcoded; double-clicked in the HPE tree it would start a Cisco supervisor
+# executing HPE's branch code. The supervisor lock does not catch that - it only refuses a SECOND
+# cisco runner, so the wrong-tree start succeeds whenever the right one is not already up.
+import importlib.util as _ilu  # noqa: E402
+
+_spec = _ilu.spec_from_file_location("_rb", str(ROOT / "scraper" / "brands" / "run_brand.py"))
+_rb = _ilu.module_from_spec(_spec)
+_spec.loader.exec_module(_rb)
+_this_brand = next((b for b in OWN.brands()
+                    if Path(OWN.worktree_for(b)).resolve() == ROOT.resolve()), None)
+check("W8", "the runner KNOWS which tree it is in, and this suite is running in a brand worktree "
+            "(if this fails, every check below is measuring the wrong thing)",
+      _this_brand is not None, f"{ROOT} matches no brand's declared worktree")
+if _this_brand:
+    check("W9", "a brand's loop is ALLOWED from its own checkout",
+          not _raises(lambda: _rb.assert_running_in_own_worktree(_this_brand)))
+    # SystemExit inherits from BaseException, NOT Exception, so the _raises helper above walks
+    # straight past it - the first version of these cases let the refusal escape and terminated the
+    # suite mid-run, which reads like a crash rather than a passing check. Every refusal in this
+    # repository is a SystemExit, so the helper that tests one has to say so.
+    def _refuses(fn) -> bool:
+        try:
+            fn()
+        except SystemExit:
+            return True
+        except BaseException:      # noqa: BLE001 - a wrong exception type is still not a refusal
+            return False
+        return False
+
+    for _other in [b for b in OWN.brands() if b != _this_brand]:
+        check(f"W10:{_other}",
+              f"SABOTAGE the {_other} loop is REFUSED from this tree - a lane started here would "
+              f"execute THIS branch's code, not {_other}'s",
+              _refuses(lambda o=_other: _rb.assert_running_in_own_worktree(o)))
+
 check("W6", f"every key an OWNERSHIP entry declares is READ somewhere ({', '.join(KEYS)}) — a key "
             "nobody consults states a rule nothing enforces, and this file has shipped that twice",
       not unread, unread)

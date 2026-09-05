@@ -100,6 +100,40 @@ def take_supervisor_lock(conn, brand: str) -> None:
             f"Find it: Get-CimInstance Win32_Process | Where-Object {{ $_.CommandLine -match 'run_brand' }}")
 
 
+def assert_running_in_own_worktree(slug: str) -> None:
+    """Refuse to run a brand's loop from another brand's checkout.
+
+    THE DOCSTRING AT THE TOP OF THIS FILE HAS CLAIMED THIS SINCE IT WAS WRITTEN - "this brand's OWN
+    test database and OWN worktree" - and nothing checked it. `ownership as OWN` was imported and
+    never called once; ROOT is simply wherever this file happens to sit. The tree was LOGGED on
+    every start, which reads like verification and is not.
+
+    It matters because START-CISCO-24-7.cmd is TRACKED, so a checkout of any branch contains it
+    verbatim, hardcoded `--brand cisco`, with a comment naming the Cisco directory. Double-clicked
+    in the HPE worktree it would start a Cisco supervisor executing HPE's branch code - a lane
+    running another session's uncommitted work, which is the exact failure the worktree split
+    exists to prevent. The supervisor lock does not help: it only refuses a SECOND cisco runner, so
+    the wrong-tree start succeeds whenever the right one is not already up.
+
+    Third time this ownership table has declared something nothing read (`sources`, then
+    `worktree`, now this). W6 in test_brand_isolation checks that every KEY has a reader; it cannot
+    see that a reader exists but is never called.
+    """
+    want = Path(OWN.worktree_for(slug)).resolve()
+    here = ROOT.resolve()
+    if here == want:
+        return
+    raise SystemExit(
+        f"REFUSED: this is the {slug} loop, but it was started from {here}, and {slug} owns "
+        f"{want}.\n"
+        f"Running a brand's loop from another brand's checkout executes THAT branch's code - the "
+        f"lane would silently run another session's work, which is what the worktree split exists "
+        f"to prevent. The supervisor lock does not catch it: it only refuses a second {slug} "
+        f"runner.\n"
+        f"Start it from its own tree:  cd {want} && python3.11 scraper/brands/run_brand.py "
+        f"--brand {slug}")
+
+
 def runnable_lanes(conn, brand) -> list[dict]:
     """This brand's enabled sources that have an adapter AND have work.
 
@@ -232,6 +266,7 @@ def main() -> int:
     a = ap.parse_args()
 
     brand = load_brand(a.brand)
+    assert_running_in_own_worktree(brand.slug)
     runs = ROOT / "runs" / "brands" / brand.slug
     runs.mkdir(parents=True, exist_ok=True)
 

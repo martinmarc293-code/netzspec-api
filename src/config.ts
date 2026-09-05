@@ -11,6 +11,17 @@ export type Config = {
   DATABASE_URL: string;
   /** the throwaway database for tests/db; its name must end in `_test` (see src/store/db.ts) */
   DATABASE_URL_TEST?: string;
+  /**
+   * Which brand this checkout belongs to, set per worktree in its own .env.
+   *
+   * It exists so src/store/db.ts can refuse another brand's test database. It has to be HERE
+   * rather than read from process.env directly: .env is loaded by readDotEnv and never exported
+   * into the environment, so `process.env.NETZSPEC_BRAND` is undefined in every process this repo
+   * starts. A guard reading it there would have been a check that could never fire — which is the
+   * one failure this repository keeps paying for, and would have been especially poor in the code
+   * whose whole job is to make a guard real.
+   */
+  NETZSPEC_BRAND?: string;
   PORT: number;
   HOST: string;
   PUBLIC_BASE_URL: string;
@@ -53,6 +64,7 @@ export function loadEnv(): Config {
   cached = {
     DATABASE_URL: need("DATABASE_URL"),
     DATABASE_URL_TEST: file["DATABASE_URL_TEST"] || undefined,
+    NETZSPEC_BRAND: (file["NETZSPEC_BRAND"] || "").trim().toLowerCase() || undefined,
     PORT: Number(opt("PORT", "3021")),
     HOST: opt("HOST", "127.0.0.1"),
     PUBLIC_BASE_URL: opt("PUBLIC_BASE_URL", "http://127.0.0.1:3021"),

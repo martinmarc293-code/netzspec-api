@@ -7,6 +7,7 @@
 // to open at all.
 import pg from "pg";
 import { loadEnv } from "../config.js";
+import { assertOwnsDatabase, currentBrand } from "../core/brandOwnership.js";
 
 const { Pool, types } = pg;
 
@@ -33,6 +34,12 @@ export function resolveDatabaseUrl(): string {
     if (!url) throw new Error("NETZSPEC_DB=test but DATABASE_URL_TEST is not set");
     // netzspec_test, netzspec_test2 … one throwaway database per concurrent suite; anything else is refused
     if (!/_test\d*$/.test(databaseName(url))) throw new Error(`refusing to run tests against database "${databaseName(url)}" (name must end in _test or _test<N>)`);
+    // ...and the name pattern is not enough. It accepts _test2, _test3, _test4 and _test5 equally
+    // for every brand, so it protected nothing while three sessions ran concurrently: the 17 suites
+    // under tests/db/ that issue TRUNCATE are TypeScript, and the ownership guard was Python only.
+    // A brand that declares itself (NETZSPEC_BRAND, set in every worktree's .env) is now refused
+    // another brand's database BY NAME, before a single row is touched.
+    assertOwnsDatabase(env.NETZSPEC_BRAND ?? currentBrand(), url);
     return url;
   }
   return env.DATABASE_URL;
