@@ -138,7 +138,24 @@ class UnrenderedDocument(RuntimeError):
 # so the header cell "SKU" never qualifies.
 SKU = re.compile(r"^(?=.*[0-9])(?=.*[A-Z])[A-Z0-9]{3,10}(?:-[A-Z0-9]{2,5})?(?:#[A-Z0-9]{2,4})?$")
 HEADER_SKU = re.compile(r"\(([A-Z0-9]{4,10}(?:-[A-Z0-9]{2,5})?)\)")
-DOC_ID = re.compile(r"^[a-z][0-9]{8}[a-z]{3}$", re.I)
+# ---------------------------------------------------------------------------------------------
+# A psnow document id. THREE forms, not one — counted over every /psnow/doc/ URL this system has
+# ever touched (58 distinct ids across source_docs and the ledger, 5 Sep 2026):
+#
+#   a00073540enw   36   letter + 8 digits + a 3-letter locale suffix. The modern form.
+#   c01813146      19   letter + 8 digits, no suffix. The LEGACY HP/Compaq collateral id, still
+#                       serving live QuickSpecs: c04111378 is the 59-part FlexFabric document and
+#                       c04111585 the 57-part one — between them the two largest in this brand.
+#   4aa5-9518enw    2   HP's "4AA" marketing collateral code: digit + 2 letters + digit, a dash,
+#                       4 digits, locale suffix.
+#
+# The first draft of this pattern was the modern form ALONE, and it cost exactly what a narrow
+# pattern always costs here: `_doc_url` returned None for 22 of the 58 real ids, so a datasheet
+# task keyed on a legacy id was refused as unresolvable, and `is_document_url` skipped 21
+# documents in the watchdog's unrendered scan — 38% of the corpus, silently. Found by listing the
+# ids and grouping them by shape rather than by trusting the one fixture the module was written
+# against (D:\\Project\\CLAUDE.md section 2: run it over the real corpus and READ THE OUTPUT).
+DOC_ID = re.compile(r"^(?:[a-z][0-9]{8}(?:[a-z]{3})?|[0-9][a-z]{2}[0-9]-[0-9]{4}[a-z]{3})$", re.I)
 NOT_FOUND_TITLE = re.compile(r"<title>[^<]*(?:404 Error|Page Not Found)[^<]*</title>", re.I)
 TITLE_SUFFIX = re.compile(r"\s*QuickSpecs\s*(?:\|.*)?$", re.I)
 PRODUCT_IMAGE = "assets.ext.hpe.com/is/image/hpedam/"
@@ -148,17 +165,34 @@ PRODUCT_IMAGE = "assets.ext.hpe.com/is/image/hpedam/"
 # url helpers
 # ---------------------------------------------------------------------------------------------
 
+def _on_hpe(url: str) -> bool:
+    """Is this URL on a host this lane is allowed to fetch? See HOSTS.
+
+    The guard is on the LANE and not only on the planner because authority follows the source:
+    anything this lane fetches is stored as `vendor_page:hpe-quickspecs` at tier 1, which is the
+    tier reserved for HPE speaking about its own product. A task carrying a distributor URL would
+    be fetched at HPE's politeness budget and land with HPE's authority, and three provantage.com
+    pages are already filed against HPE parts in the store — tier-4 evidence that must never
+    arrive through this door.
+    """
+    host = (urlsplit(url).hostname or "").lower()
+    return host in HOSTS
+
+
 def _doc_url(key: str) -> str | None:
     key = (key or "").strip()
     if not key:
         return None
     if key.startswith("http://") or key.startswith("https://"):
-        return key
+        return key if _on_hpe(key) else None
     if key.startswith("//"):
-        return "https:" + key
+        u = "https:" + key
+        return u if _on_hpe(u) else None
     if key.startswith("/"):
         return urljoin(BASE + "/", key)
-    if DOC_ID.match(key):
+    # a bare id, with or without the `.pdf` that selects the PDF rendering of the same document
+    stem = key[:-4] if key.lower().endswith(".pdf") else key
+    if DOC_ID.match(stem):
         return f"{BASE}{DOC_PATH}{key}"
     return None
 
@@ -188,7 +222,7 @@ def resolve(task: dict) -> str | None:
     if kind == "listing":
         key = str(task.get("key") or "1").strip()
         if key.startswith("http://") or key.startswith("https://"):
-            return key
+            return key if _on_hpe(key) else None      # same guard as the datasheet branch
         return library_url(int(key)) if key.isdigit() else None
     return None
 
@@ -234,12 +268,88 @@ def is_not_found(html: str) -> bool:
     return bool(NOT_FOUND_TITLE.search(html[:20000]))
 
 
+#: The id part of a psnow URL, all three forms, built from DOC_ID above so the two cannot drift.
+_ID = DOC_ID.pattern.strip("^$")
+
 #: A QuickSpecs DOCUMENT url, in either of the two forms HPE serves it under: the id form
 #: `/psnow/doc/a00073540enw` and the collateral form `/us/en/collaterals/collateral.a00073540enw.html`
-#: that the id form redirects to. `.pdf` is the same document.
+#: that the id form redirects to. `.pdf` is the same document at a higher tier.
 DOCUMENT_URL = re.compile(
-    r"/psnow/doc/[a-z][0-9]{8}[a-z]{3}(?:\.pdf)?(?:[?#]|$)"
-    r"|/collaterals/collateral\.[a-z][0-9]{8}[a-z]{3}\.html", re.I)
+    r"/psnow/doc/(?:" + _ID + r")(?:\.pdf)?(?:[?#]|$)"
+    r"|/collaterals/collateral\.(?:" + _ID + r")\.html", re.I)
+
+# ---------------------------------------------------------------------------------------------
+# EVERY SURFACE HPE PUBLISHES A DOCUMENT ON, and what each one IS
+# ---------------------------------------------------------------------------------------------
+# Enumerated, not guessed: this table is the distinct URL SHAPES of all 83 HPE-host URLs this
+# system has ever touched (source_docs union the fetch ledger, 5 Sep 2026), with the count of
+# each. It is the brand pack's answer to "what does HPE publish", which is what a brand pack is
+# for — `src/core/docClass.ts` decides a document's class from CISCO's evidence (its cNN type code
+# and its filename keywords) and HPE collateral has no filename at all, so 66 of the 67 documents
+# reaching an HPE part classified as `unclassified`. That is invisible in the store because
+# callers use `classifyDocType(url, fallback)` and the fallback is the stored doc_type.
+#
+# Ordered, first match wins. Each entry is (name, pattern, class) and every one carries a count
+# from the corpus so a rule with no evidence behind it is visible as such.
+DOC_SURFACES = (
+    # 36 + 19 + 2 = 57 psnow documents. The PDF form is the SAME document at tier 1, so it is a
+    # separate class and must be tested before the HTML rule.
+    ("psnow_pdf", re.compile(r"//www\.hpe\.com/psnow/doc/(?:" + _ID + r")\.pdf", re.I),
+     "vendor_datasheet_pdf"),
+    ("psnow_html", re.compile(r"//www\.hpe\.com/psnow/doc/(?:" + _ID + r")(?:[?#]|$)", re.I),
+     "vendor_datasheet_html"),
+    ("psnow_collateral", re.compile(r"/collaterals/collateral\.(?:" + _ID + r")\.html", re.I),
+     "vendor_datasheet_html"),
+    # 2. HP's older collateral system. The docname carries HP's own 4AA type code.
+    ("h20195_getdocument", re.compile(r"//www\.hpe\.com/h20195/v2/getdocument\.aspx\?docname=", re.I),
+     "vendor_datasheet_html"),
+    # 9, over two path forms of the same service. These are SUPPORT documents — installation and
+    # configuration guides — not datasheets, and classing them as datasheets would put guide prose
+    # into a specification tier. `vendor_guide` is the honest answer and it is NOT spec-bearing.
+    ("support_docdisplay",
+     re.compile(r"//support\.hpe\.com/(?:hpesc/public/docDisplay|hpsc/doc/public/display)\?docId=", re.I),
+     "vendor_guide"),
+    # 1. Aruba's technical documentation tree. The transceiver guide reaches 147 parts — the
+    # single widest document in this brand — and it is a genuine specification table.
+    ("aruba_techdocs_pdf", re.compile(r"//arubanetworking\.hpe\.com/techdocs/.*\.pdf", re.I),
+     "vendor_datasheet_pdf"),
+    # Discovery surfaces. They are real HPE pages and they carry no specifications; classing them
+    # as datasheets is exactly the mistake that made 18,977 Cisco parts look like an extraction
+    # failure when they were a crawl gap.
+    ("library_json",
+     re.compile(r"//www\.hpe\.com/us/en/resource-library.*medialibrary\.model\.json", re.I), "vendor_page"),
+    ("resource_library", re.compile(r"//www\.hpe\.com/us/en/resource-library", re.I), "vendor_page"),
+    ("legacy_quickspecs_index", re.compile(r"//h41370\.www4\.hpe\.com/quickspecs/", re.I), "vendor_page"),
+    ("hpe_product_page", re.compile(r"//www\.hpe\.com/us/en/.*\.html", re.I), "vendor_page"),
+)
+
+#: Hosts this lane may fetch. `resolve()` passes a full URL through unchanged, so without this a
+#: `datasheet` task pointing anywhere at all would be fetched by the HPE lane, at HPE's politeness,
+#: and stored with HPE's tier-1 authority. Three provantage.com pages are already filed against
+#: HPE parts in the store; they are tier 4 evidence and must never arrive through this door.
+HOSTS = ("www.hpe.com", "hpe.com", "support.hpe.com", "arubanetworking.hpe.com",
+         "h41370.www4.hpe.com", "buy.hpe.com")
+
+
+def doc_surface(url: str) -> tuple[str, str] | None:
+    """(surface name, document class) for an HPE URL, or None when no rule claims it.
+
+    None is the honest answer and never a default. A URL this table does not recognise is a
+    surface nobody has looked at yet, and saying so is the whole point: a plausible fallback is
+    how 43% of Cisco's "datasheets" turned out to be end-of-life notices.
+    """
+    u = (url or "").strip()
+    if not u:
+        return None
+    for name, pat, cls in DOC_SURFACES:
+        if pat.search(u):
+            return name, cls
+    return None
+
+
+def doc_class_for(url: str) -> str | None:
+    s = doc_surface(url)
+    return s[1] if s else None
 
 
 def is_document_url(url: str) -> bool:

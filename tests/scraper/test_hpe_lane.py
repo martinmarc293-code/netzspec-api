@@ -117,6 +117,12 @@ for cid, url, want in [
     ("X1", "https://www.hpe.com/psnow/doc/a00073540enw", True),
     ("X2", "https://www.hpe.com/psnow/doc/a00073540enw.pdf?ver=46", True),
     ("X3", "https://www.hpe.com/us/en/collaterals/collateral.a00073540enw.html", True),
+    # THE 38% MISS. psnow serves three id forms and the first version of this pattern knew one.
+    # c04111378 is the 59-part FlexFabric QuickSpecs and c04111585 the 57-part one — between them
+    # the two widest documents in this brand, and both were invisible to the watchdog's scan and
+    # unresolvable as a task key.
+    ("X9", "https://www.hpe.com/psnow/doc/c04111378", True),
+    ("X10", "https://www.hpe.com/psnow/doc/4aa5-9518enw", True),
     # the four pages the first version of the watchdog's scan called broken. Every one of them is
     # a healthy HPE page that legitimately carries no collateral body.
     ("X4", "https://www.hpe.com/us/en/networking/switches.html", False),
@@ -126,6 +132,70 @@ for cid, url, want in [
     ("X8", "", False),
 ]:
     check(cid, f"is_document_url({url[:52] or '<empty>'}...) is {want}", MOD.is_document_url(url) is want)
+
+# ---------------------------------------------------------------------------------------------
+# G. the host guard — authority follows the SOURCE, so this lane may only fetch HPE's own hosts
+# ---------------------------------------------------------------------------------------------
+# Everything this lane fetches lands as `vendor_page:hpe-quickspecs` at TIER 1, the tier reserved
+# for HPE speaking about its own product. resolve() passes a full URL through unchanged, so
+# without a guard a task carrying a distributor URL would be fetched at HPE's politeness budget
+# and stored with HPE's authority. Three provantage.com pages are already filed against HPE parts.
+for cid, u in [("G1", "https://www.provantage.com/hpe-537963-b21~7CMPT2WT.htm"),
+               ("G2", "https://andovercg.com/datasheets/hpe-5400zl-Switch-modules.pdf"),
+               ("G3", "https://www.juniper.net/us/en/products/switches/ex-series/ex4400.html"),
+               ("G4", "https://www.hpe.com.evil.example/psnow/doc/a00073540enw")]:
+    check(cid, f"SABOTAGE a datasheet task off HPE's hosts is REFUSED ({u.split('/')[2][:34]})",
+          MOD.resolve({"task": "datasheet", "key": u}) is None, MOD.resolve({"task": "datasheet", "key": u}))
+check("G5", "SABOTAGE a listing task off HPE's hosts is refused by the same guard",
+      MOD.resolve({"task": "listing", "key": "https://www.provantage.com/index.htm"}) is None)
+for cid, u in [("G6", "https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-c02051709"),
+               ("G7", "https://arubanetworking.hpe.com/techdocs/Switches/xcvrs/PDF/Guide.pdf"),
+               ("G8", "https://www.hpe.com/h20195/v2/getdocument.aspx?docname=4AA3-0666ENW")]:
+    check(cid, f"...and HPE's OWN other document hosts still resolve ({u.split('/')[2]})",
+          MOD.resolve({"task": "datasheet", "key": u}) == u, MOD.resolve({"task": "datasheet", "key": u}))
+
+# ---------------------------------------------------------------------------------------------
+# F. doc_surface() — the brand pack's own answer to "what does HPE publish", 100% of the corpus
+# ---------------------------------------------------------------------------------------------
+# src/core/docClass.ts decides a class from CISCO's evidence (its cNN type code, its filename
+# keywords) and HPE collateral has no filename at all, so classifyDocument() returns
+# `unclassified` for 66 of the 67 documents reaching an HPE part — invisible, because callers use
+# classifyDocType(url, fallback) and the fallback is the stored doc_type. This table is the brand
+# pack's own answer, enumerated from all 83 HPE-host URLs the system has ever touched.
+for cid, u, want in [
+    ("F1", "https://www.hpe.com/psnow/doc/a00073540enw", "vendor_datasheet_html"),
+    ("F2", "https://www.hpe.com/psnow/doc/c04111378", "vendor_datasheet_html"),
+    ("F3", "https://www.hpe.com/psnow/doc/4aa6-7884enw", "vendor_datasheet_html"),
+    # the SAME document at a higher tier — the PDF rule must be tried before the HTML one
+    ("F4", "https://www.hpe.com/psnow/doc/a00073540enw.pdf?ver=46", "vendor_datasheet_pdf"),
+    ("F5", "https://www.hpe.com/us/en/collaterals/collateral.a00073540enw.html", "vendor_datasheet_html"),
+    ("F6", "https://www.hpe.com/h20195/v2/getdocument.aspx?docname=4AA3-0666ENW", "vendor_datasheet_html"),
+    ("F7", "https://arubanetworking.hpe.com/techdocs/Switches/xcvrs/PDF/AOS-S%20Guide.pdf", "vendor_datasheet_pdf"),
+    # a SUPPORT document is a guide, not a datasheet. Classing it as a datasheet would put guide
+    # prose into a specification tier and count these nine documents as spec coverage.
+    ("F8", "https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-c02051709", "vendor_guide"),
+    ("F9", "https://support.hpe.com/hpsc/doc/public/display?docId=emr_na-c03801956", "vendor_guide"),
+    # discovery surfaces carry no specifications; calling them datasheets is exactly what made
+    # 18,977 Cisco parts read as an extraction failure when they were a crawl gap
+    ("F10", "https://www.hpe.com/us/en/resource-library/_jcr_content/polaris-body-zone/medialibrary.model.json?restype=quickspecs", "vendor_page"),
+    ("F11", "https://h41370.www4.hpe.com/quickspecs/overview.html", "vendor_page"),
+    ("F12", "https://www.hpe.com/us/en/networking/switches.html", "vendor_page"),
+]:
+    got = MOD.doc_class_for(u)
+    check(cid, f"doc_class_for -> {want} ({u.split('hpe.com')[-1][:44] or u[:44]})", got == want, got)
+check("F13", "SABOTAGE a URL no rule claims returns None, never a plausible default — an "
+             "unclaimed surface is one nobody has looked at, and saying so is the point",
+      MOD.doc_class_for("https://www.hpe.com/psnow/documents") is None
+      and MOD.doc_class_for("") is None,
+      MOD.doc_class_for("https://www.hpe.com/psnow/documents"))
+check("F14", "SABOTAGE a distributor page is not claimed by HPE's table either — who published a "
+             "document is a property of the source, never inferred from its URL shape",
+      MOD.doc_class_for("https://www.provantage.com/hpe-537963-b21~7CMPT2WT.htm") is None,
+      MOD.doc_class_for("https://www.provantage.com/hpe-537963-b21~7CMPT2WT.htm"))
+check("F15", "every surface rule names itself, so a wrong class is traceable to the rule that "
+             "produced it rather than argued about",
+      MOD.doc_surface("https://www.hpe.com/psnow/doc/c04111378")[0] == "psnow_html",
+      MOD.doc_surface("https://www.hpe.com/psnow/doc/c04111378"))
 
 # ---------------------------------------------------------------------------------------------
 # B. blocking — HPE refuses with silence, so the HTML rules must be exactly right about the rest
