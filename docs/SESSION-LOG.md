@@ -407,6 +407,50 @@ into `CLAUDE.md`'s rules or memory, never only here.
   count-tolerance guard, decibel-family exemptions, the rack_units band) + the migrate-atlas
   suite's TRUNCATE list (omits image_candidates). Gate/apply-extract findings still wait for
   the PDF-glyph agent (round 3).
+- **2026-09-05 ~13:30 UTC — HANDOFF FOR THE MODEL SWITCH (Fable → Opus). Read this first.**
+  RULES NOW IN FORCE: no subagents/workflows unless the operator names the task (CLAUDE.md
+  "Agents" section + memory `no-agents-token-rule`); the priced ledger
+  `docs/ORCHESTRATION-LEDGER.md`; Opus for coding. SCRAPING IS STOPPED (all `sources.enabled
+  = false`, no worker/sentinel/supervisor/lane Chrome running, Startup entry renamed) — the
+  itprice Cloudflare block is to be solved by the DataImpulse residential proxy: credentials
+  ONLY in `D:\Project\.secrets\dataimpulse.env` and the laptop `.env` (`NETZSPEC_PROXY_URL`,
+  `NETZSPEC_PROXY_DAILY_MB=300`); gateway proven with one request (exit IP differs). PRODUCTION
+  (box, live d3a39bf + later): migrations 0001–0010 applied (0011 `sources.proxy` exists as a
+  FILE only, from the stopped proxy build, applied to netzspec_test3 only); hygiene merges
+  done (0 case pairs, index `parts_vendor_sku_ci_uq`), PDF file applied (run #75), renormalize
+  committed for temp_storage + altitude_max, remerge #80 leaves 15,932 open conflicts (4,282
+  drift rows need a DRIFT REPAIR class), fabricated-pids DRY timed out on the box (13 to read).
+  COMMITTED TODAY: PDF overprint dedupe, renormalize recall gate + tier-0 + printer, vacuous
+  tests, apply-acquired one-transaction, migrate-atlas list, hygiene round + 0009/0010 + the
+  gap-state merge fix, normaliser 1.5.2 (citations). UNCOMMITTED ON DISK (from four workflows
+  the operator STOPPED mid-run; typecheck 0; pure suites 19/19 after the 1.5.2 commit; DB
+  suites and test_watchdog were running when this was written — see the task outputs, or
+  re-run by hand one suite at a time): scraper/worker.py (+576: per-source proxy launch, byte
+  accounting, budget guard), scraper/tools/watchdog.py (+314: proxy spend, LANDING on failed
+  runs, pause-kills-worker, ALERT per owner), sentinel.py (+174), nightshift.ps1 (+139: UTC
+  day dirs, lock touch), images.py (+464: rows only after verified upload, attempts on
+  decision, --from-picks inside a run), base.py/partNumber.ts/partnumbers.json (U+FEFF
+  lockstep), src/core/specMerge.ts (+104: count-tolerance guard, dB family exemptions),
+  fieldSchema.ts (rack_units band [1,44] + comment), attribute-aliases.en.json (Compatible
+  Rack Unit unmapped), gate-extract.ts (+115: coverage floor counts CHECKED facts, shared
+  grading), apply-extract.ts (+111: produced_per_doc definition), src/store/facts.ts (+42:
+  rollback state ledger), tests for all of these, docs/RUNBOOK.md, START-SCRAPERS.cmd,
+  docs/SCRAPING.md (proxy section), db/migrations/0011_sources_proxy.sql. NOT started: the
+  api-contract group (retired rows are still SERVED by the API; has=/filter= lack the
+  factRunSucceeded rule), the block-detection/canary/auto-proxy watchdog rules, adapter
+  recall work, official vendor lanes. The two stopped analysis workflows' partial journals:
+  `subagents/workflows/wf_2448c142-27f` (block forensics, scraper resilience, Cisco coverage,
+  API gaps) and `wf_29580478-c0c` (page recall audit, official lanes) — read their result
+  lines before redoing that analysis. NEXT, BY HAND, IN ORDER: (1) finish and commit the
+  proxy lanes (worker.py + 0011 + watchdog spend) and prove with 3 tasks per proxied lane
+  (`hygiene`-style dry first; sources itprice/router-switch → proxy=residential,
+  proxy_country=us); (2) restart the lanes per the restart procedure (rename the Startup entry
+  back, seed profiles, START-SCRAPERS.cmd) with provantage/meraki direct; (3) the watchdog
+  block detection (fingerprints as BLOCKED, block-rate alarm, canary, auto-proxy); (4) API:
+  retired_at filter + the read rule, then the six consumer endpoints; (5) remerge drift
+  repair; (6) list-field renormalize (shock etc.) now that 1.5.2 is in; (7) adapter recall +
+  official Cisco lanes. TRAPS: a backgrounded Bash starts in `D:\Project`, `cd` first; capture
+  typecheck to a file and test `$?`; psycopg savepoint trap; the box's psql quoting.
 - **2026-09-05 — the review's fix rounds (handoff, in progress).** The completed review
   (`wf_d877ab3b-ceb`, 162 agents, ~15.5M subagent tokens): 52 raised, 33 confirmed. Box:
   remerge pass with `--retract-inapplicable` retracted 320 conflicts + 308 live chassis facts
