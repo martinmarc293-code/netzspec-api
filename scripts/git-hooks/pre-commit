@@ -1,0 +1,148 @@
+#!/bin/sh
+# scripts/git-hooks/pre-commit — the refusal that `scraper/brands/ownership.py` was built for.
+#
+# THE GAP THIS CLOSES. `ownership.py` states who owns what as data, and its own docstring says
+# `owner_of_path()` exists "for the commit check". `cross_brand()` says a result with more than one
+# brand in it "is a commit that should have been two". Both are tested. Nothing called either of
+# them, so the ownership table described a rule that nothing enforced — the same shape as
+# `vendor_tool` being in VENDOR_CLASSES but not the DocClass union, and as a HOST MISMATCH check
+# reading a column its helper did not select. Three of those in one afternoon.
+#
+# THE INCIDENTS IT IS AIMED AT, both real, both on 5 Sep 2026:
+#   * `git commit` writes the WHOLE INDEX, so five HPE files went into a Cisco commit whose message
+#     described work it did not contain (65ecac5) — even though `git add` had been limited
+#     correctly.
+#   * The Juniper session staged data/schema/attribute-aliases.en.json by name, read
+#     `git diff --cached --stat` instead of the diff, and carried the Cisco session's uncommitted
+#     hunk into d6d96e0. Nothing was lost; nothing said so either.
+#
+# WHAT IT DOES. Groups every staged path through `ownership.cross_brand()`. A commit touching one
+# brand plus nothing else passes silently. A commit touching ANOTHER brand's files is refused
+# outright. A commit touching SHARED files is refused unless you say you meant it — and then the
+# full diff of those files is printed, because both incidents above were failures to look.
+#
+# WHAT IT DOES NOT DO, said here rather than implied, because "foolproof" has to be earned:
+#   * `git commit --no-verify` bypasses it. Nothing in git can stop that.
+#   * It guards the INDEX. Only a separate worktree (scripts/setup-brand-worktrees.sh) stops one
+#     session editing the bytes another session's next worker will import.
+#   * The production database and fetch_queue stay shared on purpose: the queue is built for
+#     concurrent leasing, and that is the product working as designed.
+#
+# SET UP: `git config core.hooksPath scripts/git-hooks` and, per worktree,
+# `git config --worktree netzspec.brand <slug>`. Without a brand it prints one line and allows the
+# commit — a hook that blocks every checkout it lands in gets deleted.
+#
+# TO COMMIT A SHARED FILE ON PURPOSE:  NETZSPEC_SHARED=1 git commit ...
+#
+# There is ONE override and there used to be two. A `[shared]` marker in the commit subject was
+# written first and removed when its own test refused to pass: `pre-commit` runs BEFORE git
+# prepares the message, so COMMIT_EDITMSG here still holds the PREVIOUS commit's subject. The
+# marker did nothing on the commit carrying it and would silently have allowed the NEXT one — a
+# check reading the wrong input and reporting success, which is the exact failure this hook is for.
+
+set -e
+
+BRAND="$(git config --get netzspec.brand || true)"
+if [ -z "$BRAND" ]; then
+  echo "pre-commit: no netzspec.brand set for this worktree; ownership check skipped."
+  echo "            set it with:  git config --worktree netzspec.brand <slug>"
+  exit 0
+fi
+
+STAGED="$(git diff --cached --name-only --diff-filter=ACMRD)"
+[ -z "$STAGED" ] && exit 0
+
+TOP="$(git rev-parse --show-toplevel)"
+PY="${NETZSPEC_PYTHON:-python3.11}"
+
+# Ownership is asked of ownership.py, never restated here. A second copy of the rules in shell
+# would drift from the table exactly as nightshift.ps1's hardcoded source list drifted from the
+# sources, and it would need editing for every new brand — which is the thing the table exists to
+# avoid. If the module cannot be read, this hook REFUSES rather than allowing: a guard that fails
+# open is the failure it was written to prevent.
+REPORT="$(printf '%s\n' "$STAGED" | "$PY" -c '
+import sys, pathlib
+root = pathlib.Path(sys.argv[1])
+sys.path.insert(0, str(root / "scraper"))
+from brands.ownership import cross_brand           # noqa: E402
+brand = sys.argv[2]
+paths = [l.strip() for l in sys.stdin.read().splitlines() if l.strip()]
+groups = cross_brand(paths)
+for owner in sorted(groups):
+    if owner == brand:
+        continue
+    kind = "SHARED" if owner == "(shared)" else "FOREIGN:" + owner
+    for p in sorted(groups[owner]):
+        print(kind, p)
+' "$TOP" "$BRAND")" || {
+  echo "pre-commit: could not read scraper/brands/ownership.py — REFUSING rather than guessing."
+  echo "            (set NETZSPEC_PYTHON if python3.11 is not on PATH)"
+  exit 1
+}
+
+[ -z "$REPORT" ] && exit 0
+
+FOREIGN="$(printf '%s\n' "$REPORT" | grep '^FOREIGN:' | sed 's/^[^ ]* //' || true)"
+SHARED="$(printf '%s\n' "$REPORT" | grep '^SHARED ' | sed 's/^SHARED //' || true)"
+
+if [ -n "$FOREIGN" ]; then
+  echo ""
+  echo "  REFUSED — the '$BRAND' session has staged files another brand owns:"
+  printf '%s\n' "$REPORT" | grep '^FOREIGN:' | while read -r kind p; do
+    echo "     $p        (owned by ${kind#FOREIGN:})"
+  done
+  cat <<EOF
+
+  This is never right, and NETZSPEC_SHARED does not cover it. 'git commit' writes the whole index,
+  so a file you did not 'git add' can still be here. Unstage them:
+
+      git restore --staged $(printf '%s' "$FOREIGN" | tr '\n' ' ')
+
+EOF
+  exit 1
+fi
+
+# A brand with no OWNERSHIP entry owns nothing, so ALL of its own files land in "(shared)" and its
+# first commit is refused for a reason that looks like a bug in this hook. Say what it actually is.
+if ! "$PY" -c 'import sys,pathlib; sys.path.insert(0, str(pathlib.Path(sys.argv[1])/"scraper")); from brands.ownership import OWNERSHIP; sys.exit(0 if sys.argv[2] in OWNERSHIP else 1)' "$TOP" "$BRAND"; then
+  echo ""
+  echo "  REFUSED — the brand '$BRAND' has no entry in scraper/brands/ownership.py, so it owns"
+  echo "  no files and every path it stages reads as shared. Add its entry (paths + test_db)"
+  echo "  there and to BRANDS in scraper/brands/__init__.py; both lists are checked against each"
+  echo "  other by tests/scraper/test_ownership_hook.py."
+  echo ""
+  exit 1
+fi
+
+echo ""
+echo "  ── shared files staged by the '$BRAND' session ──────────────────────────────"
+printf '%s\n' "$SHARED" | sed 's/^/     /'
+echo ""
+
+if [ "${NETZSPEC_SHARED:-0}" = "1" ]; then
+  echo "  Allowed by NETZSPEC_SHARED=1. READ THIS DIFF — another session may have uncommitted"
+  echo "  work in these files, and staging by name does not separate your hunks from theirs:"
+  echo ""
+  # shellcheck disable=SC2086
+  git --no-pager diff --cached -- $SHARED
+  echo ""
+  echo "  ─────────────────────────────────────────────────────────────────────────────"
+  exit 0
+fi
+
+cat <<EOF
+  REFUSED. These paths belong to no brand, and another session may have uncommitted work in them
+  right now. That is not hypothetical: it is how d6d96e0 came to carry another session's
+  alias-file hunk under a message that did not mention it.
+
+  If the change is genuinely yours and genuinely shared, say so and the full diff is printed
+  before the commit is allowed:
+
+      NETZSPEC_SHARED=1 git commit ...
+
+  If it is not yours:
+
+      git restore --staged $(printf '%s' "$SHARED" | tr '\n' ' ')
+
+EOF
+exit 1

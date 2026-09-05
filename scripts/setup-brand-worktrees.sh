@@ -100,6 +100,21 @@ for b in $BRANDS; do
   echo "  $b: creating $dir on $branch"
   # -B so a re-run after a deleted directory reuses the branch instead of failing
   git worktree add -B "$branch" "$dir" HEAD
+  # WHICH BRAND IS THIS TREE? The pre-commit hook asks `git config netzspec.brand` to decide whose
+  # files it is looking at. That key was set in SHARED config once, and a worktree does not get its
+  # own config unless the repository says worktrees may HAVE one - so every checkout answered
+  # "cisco", including HPE's. A guard reading the wrong session's name refuses that session's own
+  # files as foreign and waves the named session's through: installed, and protecting the wrong
+  # thing. `extensions.worktreeConfig` is what makes `--worktree` mean anything at all; without it
+  # git ignores the flag silently, which is why it is set here and not assumed.
+  git config extensions.worktreeConfig true
+  git -C "$dir" config --worktree netzspec.brand "$b"
+  got=$(git -C "$dir" config --get netzspec.brand)
+  if [ "$got" = "$b" ]; then
+    echo "      netzspec.brand=$b set on THIS worktree (the hook reads it to identify the session)"
+  else
+    echo "      netzspec.brand: set failed, reads '$got' — the commit guard would mis-identify this tree" >&2
+  fi
   # .env is gitignored and every tool needs it: the tunnel URL, the API keys, the proxy secret.
   # Copied rather than symlinked so a brand can point at a different database without editing
   # everyone else's file.
@@ -135,6 +150,21 @@ for b in $BRANDS; do
     link_shared "$dir" "runs/vocab" "$(python3.11 -c "import os;print(os.path.realpath('runs/vocab'))")"
   else
     echo "      runs/vocab: none in the main tree; the label-inventory checks will report a MISS" >&2
+  fi
+  # THE COMMIT GUARD, CHECKED RATHER THAN ASSUMED. `core.hooksPath` is REPOSITORY config, so every
+  # worktree announces the same path whether or not a hook is actually there. On 5 Sep 2026 all
+  # four checkouts said `scripts/git-hooks` and two of them held no hook file: git ran nothing and
+  # said nothing, and a commit of another brand's files went through unrefused from the wrong tree.
+  # That is this repository's signature failure - a check that reads as installed and does not
+  # exist - and the fix is that the hook is TRACKED, so a checkout brings it. This block exists to
+  # catch the day that stops being true, because the symptom is silence.
+  git config core.hooksPath scripts/git-hooks
+  if [ -x "$dir/scripts/git-hooks/pre-commit" ] || [ -f "$dir/scripts/git-hooks/pre-commit" ]; then
+    echo "      commit guard present in this tree (core.hooksPath=scripts/git-hooks)"
+  else
+    echo "      COMMIT GUARD MISSING in $dir while core.hooksPath claims it is installed." >&2
+    echo "      This tree can commit another brand's files with no refusal. The hook is tracked;" >&2
+    echo "      if it is absent the branch predates it — merge it in before working here." >&2
   fi
 done
 

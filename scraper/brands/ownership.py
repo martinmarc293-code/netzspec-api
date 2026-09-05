@@ -36,6 +36,16 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 #: advisory lock below makes that a refusal rather than a convention. `paths` are the file
 #: patterns that brand owns; anything matching none of them is SHARED and needs the care described
 #: in brands/README.md section 3.
+#:
+#: THE TEST GLOB HAS NO UNDERSCORE AFTER THE BRAND, and the reason is narrower than it looks, so
+#: it is written down before someone "tidies" it back. The acquisition gate builds a suite name
+#: from the SOURCE slug, not the brand (apply-acquired.ts: `test_${slug.replace(/-/g,"_")}.py`).
+#: Most slugs carry a suffix, so `hpe-quickspecs` -> test_hpe_quickspecs.py and `cisco-datasheets`
+#: -> test_cisco_datasheets.py, both of which the old `test_<brand>_*.py` matched. The exception is
+#: a brand whose source slug IS its brand name: `juniper` -> test_juniper.py, which matched no
+#: pattern and so read as SHARED - a brand's own canonical gate suite, owned by nobody, editable by
+#: any session without the shared-file ceremony. Today that is Juniper alone. It is every brand the
+#: day its lane is named after it, which is why the glob is widened rather than one name added.
 OWNERSHIP: dict[str, dict] = {
     "cisco": {
         "test_db": "netzspec_test4",
@@ -44,7 +54,7 @@ OWNERSHIP: dict[str, dict] = {
             "scraper/brands/cisco/*",
             "scraper/sources/cisco_*.py",
             "scraper/adapters/cisco_*.py",
-            "tests/scraper/test_cisco_*.py",
+            "tests/scraper/test_cisco*.py",
         ),
     },
     "hpe": {
@@ -54,7 +64,7 @@ OWNERSHIP: dict[str, dict] = {
             "scraper/brands/hpe/*",
             "scraper/sources/hpe_*.py",
             "scraper/adapters/hpe_*.py",
-            "tests/scraper/test_hpe_*.py",
+            "tests/scraper/test_hpe*.py",
         ),
     },
     "juniper": {
@@ -64,7 +74,7 @@ OWNERSHIP: dict[str, dict] = {
             "scraper/brands/juniper/*",
             "scraper/sources/juniper*.py",
             "scraper/adapters/juniper*.py",
-            "tests/scraper/test_juniper_*.py",
+            "tests/scraper/test_juniper*.py",
         ),
     },
 }
