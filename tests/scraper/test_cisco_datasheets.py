@@ -34,7 +34,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="repla
 
 CACHE = Path(os.path.realpath(ROOT / "scraper" / "cache"))
 
-npass = nfail = 0
+npass = nfail = nskip = 0
 
 
 def check(cid: str, what: str, ok: bool, got: object = "") -> None:
@@ -155,8 +155,24 @@ check("D7", "SABOTAGE unparseable HTML discovers nothing rather than killing the
 # ---------------------------------------------------------------------------------------------
 sha = hashlib.sha1(DS.encode("utf-8")).hexdigest()
 cached = CACHE / f"{sha}.html"
+#: Cases below that only run with the cached fixture present. Counted so the summary line cannot
+#: read as healthy while the suite runs at part strength.
+FIXTURE_DEPENDENT = 8
+
 if not cached.exists():
-    check("E0", f"the Catalyst 9200 datasheet is in the cache ({cached.name})", False, "missing")
+    # NAMES THE URL, NOT JUST THE HASH. `cached.name` is a sha1 an operator cannot act on; the URL
+    # is the thing they can re-fetch. And it says how many cases went with it: the `else:` below
+    # carries eight, so a missing fixture does not cost one case, it silently drops a seventh of the
+    # suite while the summary reads "46 passed, 1 missed" — which looks like a minor failure rather
+    # than a suite that did not fully check the adapter.
+    #
+    # The gate only stayed safe because exit 1 is exit 1. Had this been a warning — which "it is
+    # only a fixture" reasoning invites — apply-acquired would have PASSED on a partly-run suite and
+    # computed recall from it.
+    nskip += FIXTURE_DEPENDENT
+    check("E0", f"the Catalyst 9200 datasheet is in the cache; {FIXTURE_DEPENDENT} cases below "
+                f"CANNOT RUN without it. Re-fetch {DS}", False,
+          f"missing {cached.name} from {CACHE}")
 else:
     html = cached.read_text(encoding="utf-8", errors="replace")
     res = MOD.extract(html, {"task": "datasheet", "key": DS})
@@ -293,5 +309,11 @@ check("LD10", "SABOTAGE a DATASHEET page still discovers nothing at all - the as
               "lane cost us is unchanged by the ladder",
       MOD.discover(LADDER_HTML, {"task": "datasheet", "key": LADDER_BASE, "url": LADDER_BASE}) == [])
 
-print(f"\n{npass} passed, {nfail} missed")
+summary = f"\n{npass} passed, {nfail} missed"
+if nskip:
+    # A suite that ran at PART STRENGTH says so in the line a human reads, or "46 passed, 1 missed"
+    # reads as a minor failure rather than as a seventh of the cases never running.
+    summary += (f", {nskip} NOT RUN because a fixture is missing from the cache — this suite did "
+                f"not fully check the adapter")
+print(summary)
 raise SystemExit(1 if nfail else 0)

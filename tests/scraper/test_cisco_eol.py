@@ -36,7 +36,7 @@ sys.path.insert(0, str(ROOT / "scraper"))
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
 CACHE = Path(os.path.realpath(ROOT / "scraper" / "cache"))
-npass = nfail = 0
+npass = nfail = nskip = 0
 
 
 def check(cid: str, what: str, ok: bool, got: object = "") -> None:
@@ -121,8 +121,32 @@ for name in os.listdir(CACHE) if CACHE.is_dir() else []:
         cached = (p, head)
         break
 
+#: Cases that only run when the cached fixture is present. Counted so the summary CANNOT read as
+#: healthy when the suite ran at part strength — see the note on E0.
+FIXTURE_DEPENDENT = 8
+
 if cached is None:
-    check("E0", "a real EoL bulletin is in the cache to test against", False, "none found")
+    # NAME WHAT IS MISSING AND WHAT WAS SUPPRESSED, because neither was in the old message.
+    #
+    # It read "a real EoL bulletin is in the cache to test against | got none found". An operator
+    # learns a bulletin is absent but not WHICH, so they cannot re-fetch it without opening this
+    # file. And the `else:` below carries EIGHT more cases, so one missing fixture does not cost one
+    # case — it silently skips a fifth of the suite while the summary says "36 passed, 1 missed",
+    # which reads like a minor failure rather than a suite running at part strength.
+    #
+    # THE GATE ONLY STAYED SAFE BY LUCK: exit 1 is exit 1, so apply-acquired refused. Had E0 been a
+    # warning rather than a miss — which is exactly what "it's only a fixture" reasoning would
+    # suggest — the gate would have PASSED on a partly-run suite and computed recall from it.
+    #
+    # The general shape, and it is not only this file's problem: a suite whose fixtures live in a
+    # MUTABLE SHARED CACHE has an external dependency it does not control, and when that dependency
+    # vanishes it fails as "your suite did not pass" rather than "your fixtures are gone".
+    nskip += FIXTURE_DEPENDENT
+    check("E0", f"a real EoL bulletin is in the cache to test against — looked in {CACHE} for an "
+                f".html containing all of 'End-of-Sale', '<table' and 'EOL'; {FIXTURE_DEPENDENT} "
+                f"cases below CANNOT RUN without one. Re-fetch any eos-eol-notice-c51-*.html to "
+                f"restore them", False,
+          f"0 of {len([n for n in (os.listdir(CACHE) if CACHE.is_dir() else [])])} cached files matched")
 else:
     path, html = cached
     res = MOD.extract(html, {"task": "datasheet", "key": B})
@@ -239,5 +263,12 @@ check("T11", "...and each lane accepts the document the OTHER one refuses, so no
       DSMOD.resolve({"task": "datasheet", "key": DS}) == DS and MOD.resolve({"task": "datasheet", "key": DS}) is None
       and MOD.resolve({"task": "datasheet", "key": B}) == B)
 
-print(f"\n{npass} passed, {nfail} missed")
+summary = f"\n{npass} passed, {nfail} missed"
+if nskip:
+    # A suite that ran at PART STRENGTH must say so in the line a human reads. Without this,
+    # "36 passed, 1 missed" reads as a minor failure rather than as a fifth of the cases never
+    # running — and the number that looks reassuring is the one that dropped.
+    summary += (f", {nskip} NOT RUN because a fixture is missing from the cache — this suite did "
+                f"not fully check the adapter")
+print(summary)
 raise SystemExit(1 if nfail else 0)
