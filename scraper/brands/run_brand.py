@@ -187,11 +187,20 @@ def cycle(conn, brand, runs: Path, max_tasks: int, plan_limit: int) -> None:
     #
     # A failure here must NOT stop the watchdog: step() already isolates each stage, and the
     # watchdog's report is how a bad apply becomes visible.
+    # ROOT/runs/acquired, NOT this brand's runs dir. `runs` here is runs/brands/<slug> — the
+    # brand's own log and report directory — while the worker writes acquired JSON to the SHARED
+    # runs/acquired/<lane>/<date>. The first version of this step joined onto `runs` and therefore
+    # looked in runs/brands/cisco/acquired, which does not exist, and reported "nothing acquired
+    # today - skipped (not an error)" while 31 files sat waiting. A wrong path that describes
+    # itself as normal is the exact shape of every silent failure in this repository, so the skip
+    # now NAMES the directory it looked in and there is nowhere for it to hide.
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    acquired = [str(runs / "acquired" / lane["slug"] / today)
-                for lane in lanes if (runs / "acquired" / lane["slug"] / today).is_dir()]
+    acq_root = ROOT / "runs" / "acquired"
+    acquired = [str(acq_root / lane["slug"] / today)
+                for lane in lanes if (acq_root / lane["slug"] / today).is_dir()]
     if not acquired:
-        log(runs, slug, "   apply: nothing acquired today - skipped (not an error)")
+        log(runs, slug, f"   apply: no lane wrote to {acq_root}\\<lane>\\{today} this cycle - "
+                        f"nothing to apply (lanes: {', '.join(l['slug'] for l in lanes) or 'none'})")
     elif NODE is None:
         log(runs, slug, "   apply: NODE NOT FOUND on PATH - cannot apply; nothing fetched today "
                         "will reach the facts table until this is fixed")
