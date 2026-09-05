@@ -571,6 +571,16 @@ full; the ones that bite hardest here are restated.
   Cisco coverage holes and a measurable definition of "Cisco complete", and the six API
   endpoints consumers lack. The build round follows when round 3 and the proxy build release
   watchdog.py / worker.py / src/api.
+  OPERATOR (5 Sep, second message): the block miss implies MANY more gaps — "there is a high
+  possibility you are missing whole information that the scrapers are not picking up", and
+  "there should always be scrapers to scrape the official websites as well". Standing rules
+  from now on: (1) every adapter is measured against an INDEPENDENT inventory of what the
+  page holds (pairs, PIDs, documents, images, lifecycle, related SKUs), not against its own
+  output; a page-level recall gate lives in the watchdog; (2) official vendor lanes
+  (cisco.com datasheets, product pages, EoL bulletins, TMG; then Meraki, HPE/Aruba, Arista)
+  run PERMANENTLY with discovery + change detection, never only from an old cache. Second
+  read-only workflow in flight (`wf_29580478-c0c`): the recall audit per adapter over 25
+  cached pages each, and the official-lanes design for Cisco first.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
