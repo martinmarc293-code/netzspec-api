@@ -100,6 +100,93 @@ def take_supervisor_lock(conn, brand: str) -> None:
             f"Find it: Get-CimInstance Win32_Process | Where-Object {{ $_.CommandLine -match 'run_brand' }}")
 
 
+#: How many times to try reconnecting before giving up, and how long to wait between tries.
+RECONNECT_TRIES = 5
+RECONNECT_BACKOFF_S = (5, 15, 30, 60, 120)
+
+
+def needs_reconnect(conn, exc: BaseException | None) -> bool:
+    """Is this connection unusable, so the loop must rebuild it rather than carry on?
+
+    WHY THIS EXISTS. `conn` is opened ONCE, before the loop, and every cycle uses it. The per-cycle
+    try/except was written to keep one bad cycle from killing the loop, and it does - but a DEAD
+    CONNECTION is not a bad cycle, it is a permanent condition, and carrying on means failing
+    identically forever while still logging "=== cycle done ===" as though the loop were alive.
+
+    Seen on 5 Sep 2026, on this brand: the parent session ran pg_terminate_backend to clear a stuck
+    apply, which killed the supervisor's connection as collateral. The next cycles read:
+
+        plan: exit 0                                            <- a SUBPROCESS, its own connection
+        ! cycle raised OperationalError: ... connection abort
+        ! cycle raised OperationalError: the connection is closed
+
+    The `plan` step kept succeeding because it shells out, which is exactly what makes this hard to
+    see: the loop looks half-alive. Every step that used `conn` was dead and would have stayed dead
+    until somebody noticed and restarted the process by hand.
+
+    It also silently drops the SUPERVISOR LOCK, which lives on that connection - so after the
+    connection dies the "one runner per brand" guarantee is gone too, and a second runner would
+    start cleanly on top of the zombie.
+
+    Deliberately checks BOTH the flag and the exception type: `conn.closed` catches the case where
+    psycopg has already given up on the socket, and OperationalError catches the first failure,
+    which is raised before the flag is set.
+    """
+    if conn is None:
+        return True
+    if getattr(conn, "closed", False):
+        return True
+    return isinstance(exc, psycopg.OperationalError)
+
+
+def reconnect(connect_fn, take_lock_fn, brand: str, say, sleep_fn=time.sleep):
+    """Rebuild the connection and RE-TAKE the supervisor lock. Returns the new connection.
+
+    Takes its collaborators as arguments so the retry and the give-up path can be tested without a
+    database - the branch that must never be got wrong here is the one that runs least often.
+
+    Re-taking the lock is not optional and it is not a formality. The lock lived on the connection
+    that just died, so by here this brand has NO supervisor lock at all. If another runner has
+    taken it in the meantime, `take_lock_fn` raises SystemExit and we let it: exiting is correct.
+    Two supervisors on one brand start two workers per lane, and the second of each is refused by
+    the lane lock, so the visible symptom is half the lanes 'failing to start' rather than anything
+    that says 'duplicate supervisor'. A loop that cannot hold its own lock must stop, loudly.
+    """
+    last: BaseException | None = None
+    for attempt in range(1, RECONNECT_TRIES + 1):
+        try:
+            conn = connect_fn()
+            take_lock_fn(conn, brand)
+            say(f"reconnected to the database on attempt {attempt} and re-took the {brand} "
+                "supervisor lock; the lock was lost with the old connection, so until now this "
+                "brand had none")
+            return conn
+        except SystemExit:
+            # Another runner holds the lock: not retryable, and not ours to take.
+            #
+            # REDUNDANT TODAY, kept deliberately, and the comment says so because the alternative
+            # is a line that LOOKS load-bearing and is not. SystemExit derives from BaseException,
+            # so the `except Exception` below never catches it and this re-raise changes nothing —
+            # proved by deleting it and watching the suite stay green. It earns its place only if
+            # someone later widens that catch to BaseException, at which point a lock refusal would
+            # silently become five retries against a lock we must not take.
+            #
+            # The test asserts the BEHAVIOUR (exits, exactly one attempt), not this mechanism, so it
+            # holds whichever way the catch is written.
+            raise
+        except Exception as e:  # noqa - any failure to connect is retryable
+            last = e
+            say(f"reconnect attempt {attempt}/{RECONNECT_TRIES} failed: {type(e).__name__}: {str(e)[:120]}")
+            if attempt < RECONNECT_TRIES:
+                sleep_fn(RECONNECT_BACKOFF_S[min(attempt - 1, len(RECONNECT_BACKOFF_S) - 1)])
+    raise SystemExit(
+        f"REFUSED to keep looping: the database connection died and {RECONNECT_TRIES} reconnect "
+        f"attempts failed, last error {type(last).__name__}: {str(last)[:160]}. Continuing would "
+        "log healthy cycles while every step that touches the database fails, which is worse than "
+        "stopping - the plan step shells out and would go on succeeding, so the loop would look "
+        "half-alive rather than down.")
+
+
 def assert_running_in_own_worktree(slug: str) -> None:
     """Refuse to run a brand's loop from another brand's checkout.
 
@@ -277,7 +364,12 @@ def main() -> int:
             k, v = t.split("=", 1)
             env[k.strip()] = v.strip().strip('"').strip("'")
 
-    conn = psycopg.connect(env["DATABASE_URL"], autocommit=True, row_factory=dict_row)
+    # Named, so the reconnect path builds the connection exactly the same way this one did rather
+    # than growing a second spelling of it that can drift.
+    def psycopg_connect():
+        return psycopg.connect(env["DATABASE_URL"], autocommit=True, row_factory=dict_row)
+
+    conn = psycopg_connect()
     take_supervisor_lock(conn, brand.slug)
     log(runs, brand.slug, f"=== {brand.display} runner up (tree {ROOT}, cycle {a.cycle_minutes} min, "
                           f"{a.max_tasks} tasks/lane) ===")
@@ -294,6 +386,19 @@ def main() -> int:
             except Exception as e:  # noqa - the guard covers the WHOLE cycle, see the header
                 carried = f"cycle raised {type(e).__name__}: {str(e)[:200]}"
                 log(runs, brand.slug, f"! {carried}")
+                # A dead connection is not a bad cycle. Without this the loop fails identically
+                # forever while `plan` keeps succeeding on its own subprocess connection, so it
+                # reads as half-alive. See needs_reconnect() for the run that made this necessary.
+                if needs_reconnect(conn, e):
+                    log(runs, brand.slug, "! the database connection is gone - rebuilding it and "
+                                          "re-taking the supervisor lock")
+                    try:
+                        conn.close()
+                    except Exception:  # noqa - already broken; closing is best-effort
+                        pass
+                    conn = reconnect(psycopg_connect, take_supervisor_lock, brand.slug,
+                                     lambda m: log(runs, brand.slug, f"  {m}"))
+                    carried = (carried + " | connection rebuilt and supervisor lock re-taken")
             log(runs, brand.slug, f"=== cycle done in {time.time() - started:.0f}s ===")
             if a.once:
                 return 0
