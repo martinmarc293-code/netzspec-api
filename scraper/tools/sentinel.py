@@ -15,6 +15,9 @@ schedule from the Startup launcher and checks the physical layer every few minut
                heartbeat younger than 15 minutes, and each with its OWN Chrome on its OWN profile
   queue        runnable tasks per enabled source (from the database) — so "no workers" is only
                an alarm when there is work to do
+  budget       a residential lane that has spent its day's bytes says so in its heartbeat
+               (proxy_budget_exhausted); it is reported as BUDGET SPENT and NOT restarted, or the
+               lane would be started every three minutes until midnight to exit again at once
 
     python3.11 scraper/tools/sentinel.py --seed-profiles     one-off, run with the 9222 Chrome DOWN
 
@@ -32,9 +35,13 @@ D:\netzspec-chrome-profile-<slug>, so:
     the next start of that lane fails until it is gone, so it is killed before the restart.
 
 With --heal it restarts what it can (tunnel, lanes, supervisor) and records every action.
-Findings land in runs/nightshift/SENTINEL.md; an ALARM also writes runs/nightshift/ALERT.md, the
-file the operator (and Claude) reads first. A human found the blank-tab failure before the old
-watchdog did; this file exists so that never happens again.
+Findings land in runs/nightshift/SENTINEL.md; an ALARM also writes runs/nightshift/ALERT-sentinel.md
+and rebuilds runs/nightshift/ALERT.md, the merged file the operator (and Claude) reads first.
+ONE FILE PER WRITER (4 Sep 2026): this file and watchdog.py both used to write AND DELETE ALERT.md
+from their own alarms, so a clean cycle of either erased the other's live ones and whichever ran
+last decided what the night looked like. write_alerts() below is the one definition of that
+sharing, and watchdog.py calls it too. A human found the blank-tab failure before the old watchdog
+did; this file exists so that never happens again.
 """
 from __future__ import annotations
 import argparse, json, subprocess, sys, time, urllib.request
@@ -54,11 +61,61 @@ LANE_PROFILE = r"D:\netzspec-chrome-profile-"
 # guard was 400 MB, which was set when four lanes shared ONE browser; starting a lane into 400 MB
 # free now means starting a Chrome the machine cannot hold. Refuse below ~one Chrome plus slack.
 MIN_FREE_MB = 1000
+# The two monitors that write alarms for the operator. Each owns exactly one file.
+ALERT_OWNERS = ("watchdog", "sentinel")
 for _s in (sys.stdout, sys.stderr):
     try:
         _s.reconfigure(encoding="utf-8", errors="replace")
     except Exception:  # noqa
         pass
+
+
+def write_alerts(out_dir, owner: str, alarms, actions=(), stamp: str | None = None, footer: str = "") -> None:
+    """Write THIS owner's alarm file, then rebuild the merged ALERT.md from every owner's file.
+
+    runs/nightshift/ALERT.md used to be written AND DELETED by both this file and watchdog.py.
+    Each rewrote the whole file from its own alarms and unlinked it when it had none, so a clean
+    sentinel cycle erased a live watchdog alarm and a clean watchdog run erased a live sentinel
+    alarm - the one file the operator reads first went blank while a lane was down, and whichever
+    monitor happened to run last decided what the night looked like.
+
+    Now each writer touches exactly one path, ALERT-<owner>.md, and never another's. ALERT.md is
+    a SUMMARY regenerated from whatever owner files exist at that moment; it is removed only when
+    none of them do. Rebuilding it from disk rather than from the caller's alarms is the whole
+    point: a writer with nothing to say cannot delete what the other one is still saying.
+
+    This lives here, and watchdog.py imports it, because this module is stdlib-only - the
+    watchdog's watchdog must not be able to lose its alarm file to a missing scraper dependency.
+    """
+    if owner not in ALERT_OWNERS:
+        raise ValueError(f"unknown alert owner {owner!r}; known: {ALERT_OWNERS}")
+    out = Path(out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    stamp = stamp or datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    mine = out / f"ALERT-{owner}.md"
+    if alarms:
+        body = [f"# ALERT ({owner}) - {stamp}", "", *[f"- {a}" for a in alarms]]
+        if actions:
+            body += ["", "actions taken:", *[f"- {x}" for x in actions]]
+        if footer:
+            body += ["", footer]
+        mine.write_text("\n".join(body) + "\n", encoding="utf-8")
+    elif mine.exists():
+        mine.unlink()
+    sections = []
+    for o in ALERT_OWNERS:
+        f = out / f"ALERT-{o}.md"
+        try:
+            if f.exists():
+                sections.append(f.read_text(encoding="utf-8").strip())
+        except OSError as e:  # a file being rewritten by the other monitor is not an emergency
+            sections.append(f"# ALERT ({o}) - COULD NOT READ: {type(e).__name__}: {str(e)[:120]}")
+    alert = out / "ALERT.md"
+    if sections:
+        alert.write_text(f"# ALERT - {stamp} (every monitor with something to say)\n\n"
+                         + "\n\n".join(sections) + "\n", encoding="utf-8")
+    elif alert.exists():
+        alert.unlink()
 
 
 def ps(cmd: str) -> str:
@@ -167,17 +224,43 @@ def seed_lane_profiles(slugs) -> list[str]:
     return [worker.seed_profile(worker.profile_dir_for([s])) for s in slugs]
 
 
-def runnable_by_source() -> dict[str, int] | None:
+def db_state() -> dict | None:
+    """What the database says about the lanes, in ONE connection (it is behind an SSH tunnel and
+    this runs every few minutes):
+
+      runnable   slug -> runnable tasks, for ENABLED sources only. "No worker" is an alarm only
+                 where there is work to do.
+      enabled    slug -> the enabled flag for EVERY source, disabled ones included. A paused
+                 source is invisible in `runnable` by construction, which is exactly why a
+                 worker still fetching for one went unnoticed until its queue ran dry.
+    """
     try:
         import psycopg
         env = dict(l.strip().split("=", 1) for l in (ROOT / ".env").read_text(encoding="utf-8").splitlines() if "=" in l and not l.startswith("#"))
         c = psycopg.connect(env["DATABASE_URL"], autocommit=True, connect_timeout=8)
         rows = c.execute("""SELECT s.slug, count(*) FROM fetch_queue q JOIN sources s ON s.id = q.source_id
                             WHERE s.enabled AND q.status IN ('queued','failed') AND q.next_at <= now() GROUP BY 1""").fetchall()
+        flags = c.execute("SELECT slug, enabled FROM sources").fetchall()
         c.close()
-        return {r[0]: r[1] for r in rows}
+        return {"runnable": {r[0]: r[1] for r in rows}, "enabled": {r[0]: bool(r[1]) for r in flags}}
     except Exception as e:  # noqa
         return None
+
+
+def disabled_lanes(workers: dict[str, int], enabled_flag: dict[str, bool]) -> list[str]:
+    """Lanes with a LIVE worker whose source is disabled - a paused lane that is still fetching.
+
+    The watchdog pauses a lane by setting sources.enabled = false and nothing else; until
+    4 Sep 2026 that was the whole of "pause", and a worker that had already read its source rows
+    at connect time never looked again, so the lane went on fetching until its queue ran dry - the
+    one thing pausing is for. worker.py re-reads the flag before every lease and exits now, but a
+    worker WEDGED inside a fetch never reaches that lease, and a monitor may not rely on the thing
+    it is monitoring to stop itself.
+
+    An UNKNOWN source counts as enabled. `enabled_flag` is empty when the database could not be
+    read, and a sentinel that killed every lane because the tunnel blipped would be a worse
+    failure than the one this catches: "could not check" is not "is broken"."""
+    return sorted(slug for slug, n in workers.items() if n > 0 and not enabled_flag.get(slug, True))
 
 
 def heartbeat_age_min(slug: str) -> float | None:
@@ -191,6 +274,49 @@ def heartbeat_age_min(slug: str) -> float | None:
         return (datetime.now(timezone.utc) - ts).total_seconds() / 60
     except Exception:  # noqa
         return None
+
+
+# The heartbeat outcome worker.py writes when a residential lane has spent its day's bytes
+# (scraper/worker.py, PROXY_BUDGET_OUTCOME). It is deliberately NOT "idle", and this is the file
+# that outcome exists for: check() starts a worker for any enabled lane with five or more runnable
+# tasks and no process, so a lane that exits in two seconds because it has no budget left would be
+# started again three minutes later, and again, all night — a Chrome launch and a profile lock per
+# cycle, buying nothing. The budget is per UTC DAY and its counter lives in the heartbeat (that is
+# how a recycled worker resumes the day's spend), so the beat is believed only for the day it
+# names: a beat from yesterday is a lane with a full budget, waiting to be started.
+PROXY_BUDGET_OUTCOME = "proxy_budget_exhausted"
+
+
+def heartbeat_rec(slug: str) -> dict | None:
+    """The lane's latest beat, or None when there is no readable one. Kept apart from
+    heartbeat_age_min() because a half-written file must answer "I do not know" to BOTH."""
+    p = ROOT / "runs" / "heartbeat" / f"{slug}.json"
+    try:
+        rec = json.loads(p.read_text(encoding="utf-8"))
+    except Exception:  # noqa — missing, or caught mid-write: no claim either way
+        return None
+    return rec if isinstance(rec, dict) else None
+
+
+def budget_spent(slug: str, today: str | None = None) -> str | None:
+    """Why this lane must NOT be restarted, in words, or None.
+
+    Only the lane's own latest beat can say this, and only for the CURRENT UTC day. "Could not
+    read the heartbeat" is not "out of budget": an unreadable or absent beat returns None and the
+    lane is treated exactly as it was before this rule existed, because a sentinel that stopped
+    restarting lanes on a file it failed to parse would be the silent version of the outage it is
+    here to catch (D:\\Project\\CLAUDE.md § 6)."""
+    rec = heartbeat_rec(slug)
+    if not rec or rec.get("outcome") != PROXY_BUDGET_OUTCOME:
+        return None
+    day = str(rec.get("proxy_day") or "")
+    if not day or day != (today or datetime.now(timezone.utc).strftime("%Y-%m-%d")):
+        return None
+    try:
+        spent = f"{int(rec.get('proxy_bytes_today') or 0) / (1024 * 1024):.1f} MB"
+    except (TypeError, ValueError):
+        spent = "an unreadable amount"
+    return f"residential budget spent for {day} ({spent}); waiting for 00:00 UTC"
 
 
 def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
@@ -209,7 +335,9 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
                 pass
             src = p.split("--sources")[1].split()[0] if "--sources" in p else "?"
             workers[src] = workers.get(src, 0) + 1
-    runnable = runnable_by_source()
+    state = db_state()
+    runnable = state["runnable"] if state else None
+    enabled_flag = state["enabled"] if state else {}
 
     lines.append(f"- supervisor: {'alive' if sup else 'NOT RUNNING'}; lock age {f'{lock_age_h:.1f} h' if lock_age_h is not None else 'none'}")
     # The 9222 debug Chrome is now a SIDE CAR: scraper/images.py and ad-hoc `worker.py fetch` use
@@ -247,6 +375,13 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
         if heal:
             subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-File", str(ROOT / "scraper" / "tools" / "start-chrome-debug.ps1")], capture_output=True, timeout=60)
             actions.append("started the 9222 debug Chrome")
+    # A PAUSED source with a live worker is treated exactly like a stall: killed WITH ITS OWN
+    # CHROME, by profile directory, and never any other Chrome. See disabled_lanes() for why.
+    for slug in disabled_lanes(workers, enabled_flag):
+        alarms.append(f"{slug}: the source is DISABLED (paused) and {workers[slug]} worker process(es) are still "
+                      "running - a paused lane must stop fetching")
+        if heal:
+            actions.append(kill_lane(slug, kill_worker=True) + " (source disabled: a paused lane must stop fetching)")
     if runnable is None:
         alarms.append("database unreachable from the sentinel")
     else:
@@ -254,15 +389,25 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
             w = workers.get(slug, 0)
             hb = heartbeat_age_min(slug)
             chromes = len(lane_chrome_pids(slug))
+            # A proxied lane out of budget is neither idle nor broken; it is waiting for midnight.
+            # Read BEFORE the states below so it can own the no-worker case, which is the one that
+            # would otherwise restart it every cycle.
+            spent = budget_spent(slug)
             state = "ok"
             if w == 0:
-                state = "NO WORKER"
+                state = "BUDGET SPENT" if spent else "NO WORKER"
             elif hb is None:
                 state = "no heartbeat yet"
             elif hb > 15:
+                # a worker that is alive but silent is wedged whatever its budget says, and a
+                # wedged worker is still killed: the budget rule suppresses the RESTART, never the
+                # stall detection
                 state = f"STALE heartbeat {hb:.0f} min"
+            elif spent:
+                state = "BUDGET SPENT"
             lines.append(f"- {slug}: runnable {n}, workers {w}, own chrome procs {chromes}, "
-                         f"heartbeat {f'{hb:.0f} min' if hb is not None else 'none'} → {state}")
+                         f"heartbeat {f'{hb:.0f} min' if hb is not None else 'none'} → {state}"
+                         + (f" ({spent})" if spent else ""))
             # A lane whose worker is ALIVE but whose heartbeat has gone quiet is wedged. Kill it
             # WITH ITS OWN CHROME: -Force gives the worker no signal, so it cannot close its own
             # browser, and the orphan would hold the profile lock against the next start.
@@ -275,8 +420,12 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
                 alarms.append(f"{slug}: {state} with {n} runnable tasks")
             # A worker exits when its queue runs dry; the planner refills the queue minutes later
             # and the supervisor only restarts workers at the next cycle. So the sentinel restarts
-            # the lane itself, one worker per source, if the machine has room for its Chrome.
-            if heal and w == 0 and n >= 5:
+            # the lane itself, one worker per source, if the machine has room for its Chrome —
+            # unless the lane has spent its residential budget for the day, in which case starting
+            # it buys a Chrome launch and an immediate exit, every cycle until midnight.
+            if heal and w == 0 and n >= 5 and spent:
+                lines.append(f"  not starting {slug}: {spent}")
+            if heal and w == 0 and n >= 5 and not spent:
                 if chromes:
                     # nobody owns it any more, and it holds the lane's profile lock
                     actions.append(kill_lane(slug, kill_worker=False) + " (orphan: no worker owned it)")
@@ -324,6 +473,52 @@ def check(heal: bool) -> tuple[list[str], list[str], list[str]]:
     return lines, alarms, actions
 
 
+def cycle_once(heal: bool, carried: list[str]) -> tuple[list[str], list[str]]:
+    """One WHOLE cycle - check, report, alert files - and it never raises.
+
+    Returns (alarms reported this cycle, failures to carry into the next one).
+
+    The crash guard used to cover check() only. Everything after it - building the report,
+    writing SENTINEL.md, writing and unlinking ALERT.md - sat outside, so a PermissionError on a
+    file the operator had open in an editor, or a full disk, killed the loop of the process whose
+    entire job is to notice that things have stopped. That is the same failure this file already
+    has a lesson about (D:\\Project\\CLAUDE.md section 6: a monitor's own failure must be loud),
+    reached through the one path nobody had guarded. The whole body is guarded now, and a cycle
+    that could not write says so at the top of the NEXT cycle's alarms rather than disappearing.
+    """
+    alarms: list[str] = []
+    try:
+        try:
+            lines, alarms, actions = check(heal)
+        except Exception as e:  # noqa
+            # A bad READING (a PowerShell call that timed out, a half-written heartbeat file) is
+            # reported and the loop continues; the sentinel went quiet for two hours on
+            # 4 Sep 2026 and every lane sat idle after a worker recycle.
+            lines = [f"- sentinel check raised: {type(e).__name__}: {str(e)[:200]}"]
+            alarms = ["sentinel check failed (see above); nothing verified this cycle"]
+            actions = []
+        if carried:
+            lines = [f"- previous cycle: {c}" for c in carried] + lines
+            alarms = list(carried) + alarms
+        stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        report = [f"# sentinel - {stamp}", "", *lines, "", "## alarms",
+                  *([f"- {x}" for x in alarms] or ["- none"]), "", "## actions",
+                  *([f"- {x}" for x in actions] or ["- none"])]
+        NS.mkdir(parents=True, exist_ok=True)
+        (NS / "SENTINEL.md").write_text("\n".join(report) + "\n", encoding="utf-8")
+        write_alerts(NS, "sentinel", alarms, actions, stamp)
+        print("\n".join(report))
+        return alarms, []
+    except Exception as e:  # noqa
+        msg = (f"the previous sentinel cycle could not finish ({type(e).__name__}: {str(e)[:180]}); "
+               "its report and alarm file were not written")
+        try:
+            print(msg)
+        except Exception:  # noqa
+            pass
+        return alarms, [msg]
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--loop", type=int, default=0, help="seconds between checks; 0 = once")
@@ -342,29 +537,16 @@ def main() -> int:
     NS.mkdir(parents=True, exist_ok=True)
     if a.loop and lock.exists() and time.time() - lock.stat().st_mtime < 4 * 60:
         print("another sentinel loop is alive (lock touched < 4 min ago); exiting"); return 0
+    carried: list[str] = []
     while True:
         if a.loop:
-            lock.write_text(str(time.time()), encoding="utf-8")
-        try:
-            lines, alarms, actions = check(a.heal)
-        except Exception as e:  # noqa
-            # The watchdog's watchdog must not die of one bad reading (a PowerShell call that
-            # timed out, a half-written heartbeat file): it went quiet for two hours on
-            # 4 Sep 2026 and every lane sat idle after a worker recycle. Report the failure
-            # as an alarm and keep the loop.
-            lines, alarms, actions = [f"- sentinel check raised: {type(e).__name__}: {str(e)[:200]}"], ["sentinel check failed (see above); nothing verified this cycle"], []
-        stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-        report = [f"# sentinel — {stamp}", "", *lines, "", "## alarms", *([f"- {x}" for x in alarms] or ["- none"]), "", "## actions", *([f"- {x}" for x in actions] or ["- none"])]
-        NS.mkdir(parents=True, exist_ok=True)
-        (NS / "SENTINEL.md").write_text("\n".join(report) + "\n", encoding="utf-8")
-        alert = NS / "ALERT.md"
-        if alarms:
-            alert.write_text("\n".join([f"# ALERT — {stamp}", "", *[f"- {x}" for x in alarms], "", "actions taken:", *[f"- {x}" for x in actions]]) + "\n", encoding="utf-8")
-        elif alert.exists() and alert.read_text(encoding="utf-8").startswith("# ALERT"):
-            alert.unlink()
-        print("\n".join(report))
+            try:
+                lock.write_text(str(time.time()), encoding="utf-8")
+            except OSError:
+                pass    # a lock this cycle could not touch is not a reason to stop checking
+        alarms, carried = cycle_once(a.heal, carried)
         if not a.loop:
-            return 1 if alarms else 0
+            return 1 if (alarms or carried) else 0
         time.sleep(a.loop)
 
 

@@ -50,6 +50,15 @@ Rules this file enforces, each learned the hard way:
     that PDF as a datasheet task for the same source, with the page as origin (referer) — the
     binary lane needs a same-site referer for CDNs that refuse a bare request.
   * The same URL is never fetched twice in one day unless the task says --force.
+  * A source whose row says proxy='residential' is fetched through the DataImpulse gateway and is
+    METERED. Residential traffic is charged per byte over a 5 GB plan, so a proxied lane blocks
+    images, media, fonts and analytics hosts (never HTML, scripts or stylesheets - the Cloudflare
+    challenge needs them), counts every response, and STOPS LEASING for the rest of the UTC day
+    once the source has spent NETZSPEC_PROXY_DAILY_MB. Its heartbeat then says
+    proxy_budget_exhausted, which is not "idle": a lane restarted every three minutes to
+    rediscover that it has no budget is the restart loop that outcome exists to prevent. One
+    worker cannot mix a residential lane and a direct one - a browser has one network path.
+    docs/SCRAPING.md § Residential proxy is the operator's page.
 """
 from __future__ import annotations
 import argparse, hashlib, json, os, socket, sys, time, traceback
@@ -75,7 +84,7 @@ PART_KEY_TASKS = frozenset({"part-page", "search", "gpl", "eol"})
 BLOCKED_STATUSES = frozenset({401, 403, 429, 503})
 MAX_ATTEMPTS = 5
 OUTCOMES = ("facts_found", "no_facts", "not_listed", "blocked", "timeout", "failed", "skipped",
-            "pdf_fetched", "pdf_cached", "idle")
+            "pdf_fetched", "pdf_cached", "idle", "proxy_budget_exhausted")
 
 
 # ---------------------------------------------------------------------------------------------
@@ -92,7 +101,8 @@ def load_env() -> dict:
                 continue
             k, v = t.split("=", 1)
             env[k.strip()] = v.strip().strip('"').strip("'")
-    env.update({k: v for k, v in os.environ.items() if k in ("DATABASE_URL", "RUNS_DIR", "CACHE_DIR")})
+    env.update({k: v for k, v in os.environ.items()
+                if k in ("DATABASE_URL", "RUNS_DIR", "CACHE_DIR", "NETZSPEC_PROXY_URL", "NETZSPEC_PROXY_DAILY_MB")})
     if "DATABASE_URL" not in env:
         raise SystemExit("DATABASE_URL is not set (.env at the repo root)")
     return env
@@ -166,10 +176,17 @@ def disposition(outcome: str, attempts: int, reason: str | None = None) -> tuple
     return "failed", backoff(attempts)
 
 
-def heartbeat_record(task: dict | None, outcome: str, done: int, failed: int) -> dict:
+def heartbeat_record(task: dict | None, outcome: str, done: int, failed: int, *,
+                     proxy_bytes_today: int | None = None, proxy_day: str | None = None) -> dict:
+    """The beat the watchdog and the sentinel read. `proxy_bytes_today` / `proxy_day` are the
+    residential-gateway spend of THIS source on THIS UTC day; they are None on a direct lane, so
+    "the lane spends nothing" and "the lane spent zero today" stay different answers. They are
+    written on every beat because the heartbeat file is the only per-lane state that survives a
+    worker recycle: a lane restarted at 23:55 must pick its day's spend back up, not start again
+    from zero with three hours of budget left to burn."""
     return {"ts": now().isoformat(), "task_id": task["id"] if task else None,
             "key": task["key"] if task else None, "outcome": outcome, "done": done, "failed": failed,
-            "worker": WORKER}
+            "worker": WORKER, "proxy_bytes_today": proxy_bytes_today, "proxy_day": proxy_day}
 
 
 def write_heartbeat(runs_dir: Path, slug: str, rec: dict) -> Path:
@@ -194,6 +211,280 @@ def write_heartbeat(runs_dir: Path, slug: str, rec: dict) -> Path:
     except OSError:
         pass
     return out
+
+
+# ---------------------------------------------------------------------------------------------
+# the residential proxy: parsed in ONE place, redacted everywhere else, metered every byte
+# ---------------------------------------------------------------------------------------------
+# itprice.com and router-switch.com answer this laptop's IP with a Cloudflare challenge their warm
+# profiles no longer clear. Those two lanes go out through a DataImpulse residential gateway; every
+# other lane stays direct, because residential traffic is charged PER BYTE and the plan is 5 GB.
+# Which lane is which is a row (sources.proxy), never a flag in this file.
+#
+# THE CREDENTIALS ARE READ HERE AND NOWHERE ELSE. parse_proxy_url() is the only function that ever
+# holds the login and the password, and it hands them straight to Playwright. Everything a human or
+# a log file can ever see comes from redact_proxy(), which cannot return a password for ANY input:
+# it rebuilds the string from the scheme, host and port and refuses to echo an input it could not
+# parse (echoing it is how a password ends up in an exception message).
+PROXY_ENV = "NETZSPEC_PROXY_URL"
+PROXY_DAILY_MB_ENV = "NETZSPEC_PROXY_DAILY_MB"
+PROXY_DAILY_MB_DEFAULT = 300
+# The heartbeat outcome a lane writes when its day's budget is gone. It is NOT "idle" and NOT
+# "disabled": the sentinel restarts an idle lane, and a lane restarted every three minutes to
+# discover it still has no budget is the restart loop this outcome exists to stop.
+PROXY_BUDGET_OUTCOME = "proxy_budget_exhausted"
+MB = 1024 * 1024
+
+
+def redact_proxy(url: str | None) -> str:
+    """A proxy URL safe to print: "http://***:***@host:port". Never returns the login or the
+    password for any input, including one it cannot parse — an unparsable value is described, not
+    echoed, because the thing that failed to parse is exactly the thing that holds the secret."""
+    from urllib.parse import urlsplit
+    if not url or not str(url).strip():
+        return "<no proxy url set>"
+    try:
+        u = urlsplit(str(url).strip())
+        host = u.hostname
+        if not host:
+            return "<unparsable proxy url>"
+        port = f":{u.port}" if u.port else ""
+        scheme = u.scheme or "http"
+        return f"{scheme}://***:***@{host}{port}"
+    except Exception:  # noqa — a ValueError from urlsplit must not carry the URL into the traceback
+        return "<unparsable proxy url>"
+
+
+def parse_proxy_url(url: str | None) -> dict:
+    """{'server', 'username', 'password'} for Playwright's `proxy` option.
+
+    Refuses, by name and without ever quoting the value:
+      * nothing set                    — the caller must not silently fetch direct through a lane
+                                         the operator marked residential; that is the whole budget
+                                         gone in a form nobody can see.
+      * a scheme that is not http(s)   — Playwright's HTTP proxy option takes http/https only.
+      * no host                        — nothing to connect to.
+      * no login:password              — DataImpulse authenticates on the username, and an
+                                         anonymous connection to the gateway is refused at the far
+                                         end with a 407 that reads like a site block.
+    Playwright wants the server WITHOUT credentials (it sends them as Proxy-Authorization), so the
+    returned `server` is scheme://host:port and nothing else."""
+    from urllib.parse import unquote, urlsplit
+    raw = (url or "").strip()
+    if not raw:
+        raise ValueError(f"{PROXY_ENV} is not set: a source marked proxy='residential' cannot be fetched")
+    try:
+        u = urlsplit(raw)
+    except Exception as e:  # noqa
+        raise ValueError(f"{PROXY_ENV} could not be parsed ({type(e).__name__})") from None
+    if u.scheme not in ("http", "https"):
+        raise ValueError(f"{PROXY_ENV} must be an http:// or https:// URL (got scheme {u.scheme!r})")
+    if not u.hostname:
+        raise ValueError(f"{PROXY_ENV} has no host")
+    if not u.username or not u.password:
+        raise ValueError(f"{PROXY_ENV} has no login:password — the gateway refuses an anonymous connection")
+    port = f":{u.port}" if u.port else ""
+    return {"server": f"{u.scheme}://{u.hostname}{port}",
+            "username": unquote(u.username), "password": unquote(u.password)}
+
+
+def proxy_username(login: str, country: str | None = None, session_id: str | None = None) -> str:
+    """DataImpulse selects the exit country and pins a session through SUFFIXES ON THE USERNAME.
+
+    From the DataImpulse documentation (docs.dataimpulse.com, read 5 Sep 2026), verbatim:
+        Country targeting suffix:  "login__cr.de:password@gw.dataimpulse.com:823"
+        Alternative fixed IP:      "http://login__cr.au;sessid.123:password@gw.dataimpulse.com:823"
+        "The `sessid` method provides a 30-minute fixed IP"
+    So `__` opens the parameter list and `;` separates the parameters. The two forms quoted above
+    are the ones the docs show; the sessid-WITHOUT-country form (`login__sessid.123`) follows from
+    the same grammar but is not itself quoted anywhere, which is one more reason to set
+    sources.proxy_country on a proxied lane.
+
+    WHY A SESSION AT ALL. A rotating gateway gives a new IP per request, and a Cloudflare
+    clearance cookie is bound to the IP that earned it: rotating mid-page means paying for the
+    challenge again on every asset. One session id per WORKER LIFETIME keeps one exit IP for the
+    lane, which is also what makes the challenge worth passing once. The 30-minute lifetime is the
+    gateway's, not ours — when it rolls, the next page pays for a new challenge and that is the
+    cost of the plan, not a fault.
+
+    The country is lower-cased (`__cr.de`, never `__cr.DE`) and a blank one is simply omitted."""
+    parts: list[str] = []
+    cc = (country or "").strip().lower()
+    if cc:
+        parts.append(f"cr.{cc}")
+    sid = (session_id or "").strip()
+    if sid:
+        parts.append(f"sessid.{sid}")
+    return login + ("__" + ";".join(parts) if parts else "")
+
+
+def proxy_session_id(slug: str, pid: int | None = None) -> str:
+    """One sticky-session id per lane per worker process. Alphanumeric only: the id travels inside
+    the username, where `.` and `;` are the gateway's own separators, so `router-switch` cannot go
+    in as it stands."""
+    base = "".join(ch for ch in (slug or "lane") if ch.isalnum()) or "lane"
+    return f"{base[:20]}{os.getpid() if pid is None else pid}"
+
+
+def proxy_option(env: dict, country: str | None, session_id: str | None) -> dict:
+    """The dict handed to launch_persistent_context(proxy=...). Raises with a redacted message."""
+    p = parse_proxy_url(env.get(PROXY_ENV))
+    return {"server": p["server"], "username": proxy_username(p["username"], country, session_id),
+            "password": p["password"]}
+
+
+def proxy_daily_budget_bytes(env: dict) -> int:
+    """NETZSPEC_PROXY_DAILY_MB in bytes, PER SOURCE. A missing or unreadable value falls back to
+    the default rather than to "no limit": an unmetered residential lane can spend the whole plan
+    in an afternoon, so the failure mode has to be a small budget, never none."""
+    raw = str(env.get(PROXY_DAILY_MB_ENV, "") or "").strip()
+    try:
+        mb = int(float(raw))
+    except ValueError:
+        mb = PROXY_DAILY_MB_DEFAULT
+    if mb <= 0:
+        mb = PROXY_DAILY_MB_DEFAULT
+    return mb * MB
+
+
+def utc_day() -> str:
+    return now().strftime("%Y-%m-%d")
+
+
+# ---------------------------------------------------------------------------------------------
+# traffic minimisation, for PROXIED lanes only
+# ---------------------------------------------------------------------------------------------
+# What is dropped and what is NOT. HTML, scripts and stylesheets stay, because the Cloudflare
+# challenge is a script that needs its own resources to run and a lane that blocks them buys a
+# permanent interstitial with residential bytes. Images, media and fonts carry no fact we extract
+# — measured from the cached copies on 5 Sep 2026, one router-switch product page references 269
+# distinct image URLs against four stylesheets and ten scripts — and analytics and ad beacons are
+# bytes spent telling somebody else we were there.
+BLOCKED_RESOURCE_TYPES = frozenset({"image", "media", "font"})
+# Suffix-matched against the request host, plus a substring pass for the beacon paths that live on
+# an otherwise wanted host. Kept deliberately short: a host wrongly on this list is a page that
+# never finishes rendering, and the lane pays for the retry.
+BLOCKED_HOSTS = (
+    "google-analytics.com", "googletagmanager.com", "analytics.google.com", "doubleclick.net",
+    "googlesyndication.com", "googleadservices.com", "adservice.google.com", "connect.facebook.net",
+    "hotjar.com", "hotjar.io", "clarity.ms", "scorecardresearch.com", "criteo.com", "criteo.net",
+    "taboola.com", "outbrain.com", "adsrvr.org", "adnxs.com", "quantserve.com", "bat.bing.com",
+    "mc.yandex.ru", "segment.io", "segment.com", "mixpanel.com", "amplitude.com", "nr-data.net",
+    "newrelic.com", "smartlook.com", "zopim.com", "livechatinc.com", "tawk.to", "crisp.chat",
+    "intercom.io", "addthis.com", "sharethis.com", "analytics.tiktok.com", "snap.licdn.com",
+    "px.ads.linkedin.com", "static.ads-twitter.com", "onesignal.com", "pushengage.com",
+    "chatra.io", "yotpo.com", "cloudflareinsights.com",
+)
+# NEVER blocked, whatever else matches. challenges.cloudflare.com serves the interstitial's own
+# widget and /cdn-cgi/ is Cloudflare's path on the site's own host: dropping either is dropping the
+# only thing these two lanes are being proxied FOR.
+PROXY_NEVER_BLOCK_HOSTS = ("challenges.cloudflare.com", "cloudflare.com")
+PROXY_NEVER_BLOCK_PATHS = ("/cdn-cgi/",)
+
+
+def should_abort(resource_type: str | None, url: str | None) -> bool:
+    """True when a PROXIED lane should refuse to pay for this request."""
+    u = (url or "").strip()
+    if not u:
+        return False
+    host = (urlparse(u).netloc or "").lower().split("@")[-1].split(":")[0]
+    path = (urlparse(u).path or "").lower()
+    if any(host == h or host.endswith("." + h) for h in PROXY_NEVER_BLOCK_HOSTS):
+        return False
+    if any(seg in path for seg in PROXY_NEVER_BLOCK_PATHS):
+        return False
+    if (resource_type or "").lower() in BLOCKED_RESOURCE_TYPES:
+        return True
+    return any(host == h or host.endswith("." + h) for h in BLOCKED_HOSTS)
+
+
+def response_bytes(headers: dict | None, body_len: int | None = None) -> int:
+    """What one response cost. `content-length` is the transferred body length the server states;
+    when it is absent (a chunked or compressed-without-length response) the caller's own measured
+    length is used, and when there is neither this returns 0 and the caller counts it as
+    UNMEASURED. Zero is never allowed to mean "free": an unmeasured response is reported next to
+    the total so a budget that looks untouched cannot be a broken meter."""
+    h = {str(k).lower(): v for k, v in (headers or {}).items()}
+    raw = h.get("content-length")
+    if raw is not None:
+        try:
+            n = int(str(raw).strip())
+            if n >= 0:
+                return n
+        except (TypeError, ValueError):
+            pass
+    return max(0, int(body_len)) if body_len else 0
+
+
+class ProxySpend:
+    """Per-source, per-UTC-day bytes through the gateway, and the lease guard that reads them.
+
+    The counter lives with the heartbeat (runs/heartbeat/<slug>.json) because that is the only
+    per-lane file that outlives a worker: a lane the sentinel recycles at 23:55 must resume the
+    day's spend, not start over. The budget is PER SOURCE — two proxied lanes each get
+    NETZSPEC_PROXY_DAILY_MB — and the plan-level backstop is the watchdog's alarm over
+    fetches.proxy_bytes. docs/SCRAPING.md § Residential proxy says why, in one paragraph.
+
+    `day_fn` is injected so the suite can walk the clock over midnight without waiting for it."""
+
+    def __init__(self, runs_dir, budget_bytes: int, day_fn=utc_day):
+        self.runs_dir = Path(runs_dir)
+        self.budget_bytes = int(budget_bytes)
+        self.day_fn = day_fn
+        self._day: dict[str, str] = {}
+        self._bytes: dict[str, int] = {}
+        self.unmeasured: dict[str, int] = {}
+
+    def _sync(self, slug: str) -> None:
+        """Roll the day, and on first touch recover today's total from the heartbeat file."""
+        today = self.day_fn()
+        if slug not in self._day:
+            self._day[slug], self._bytes[slug] = today, self._recover(slug, today)
+        elif self._day[slug] != today:
+            self._day[slug], self._bytes[slug] = today, 0
+            self.unmeasured[slug] = 0
+
+    def _recover(self, slug: str, today: str) -> int:
+        p = self.runs_dir / "heartbeat" / f"{slug}.json"
+        try:
+            rec = json.loads(p.read_text(encoding="utf-8"))
+        except Exception:  # noqa — no heartbeat, or one that does not parse: start the day at zero
+            return 0
+        if rec.get("proxy_day") != today:
+            return 0
+        try:
+            return max(0, int(rec.get("proxy_bytes_today") or 0))
+        except (TypeError, ValueError):
+            return 0
+
+    def tracks(self, slug: str) -> bool:
+        """True once this source has been metered in this process — i.e. it is a proxied lane. A
+        direct lane is never registered here, so its heartbeat carries no spend keys at all."""
+        return slug in self._day
+
+    def day(self, slug: str) -> str:
+        self._sync(slug)
+        return self._day[slug]
+
+    def today(self, slug: str) -> int:
+        self._sync(slug)
+        return self._bytes[slug]
+
+    def add(self, slug: str, nbytes: int, unmeasured: int = 0) -> int:
+        self._sync(slug)
+        self._bytes[slug] += max(0, int(nbytes or 0))
+        if unmeasured:
+            self.unmeasured[slug] = self.unmeasured.get(slug, 0) + int(unmeasured)
+        return self._bytes[slug]
+
+    def exhausted(self, slug: str) -> bool:
+        """At or over the cap. The comparison is >=, not >: a budget spent to the last byte is
+        spent, and the next page is what would take it over."""
+        return self.today(slug) >= self.budget_bytes
+
+
+def is_proxied(src_row: dict | None) -> bool:
+    return (src_row or {}).get("proxy") == "residential"
 
 
 # ---------------------------------------------------------------------------------------------
@@ -262,6 +553,14 @@ def seed_profile(profile_dir: str, source_dir: str = PROFILE_ROOT) -> str:
     return f"seeded {dest.name} from {src.name}: copied {copied or 'nothing'}" + (f", missed {missed}" if missed else "")
 
 
+def _sync_playwright():
+    """The one import of playwright, behind a function so the browser suite can hand Browser a
+    recorder and assert the launch arguments a residential lane is actually started with — the
+    thing that decides whether the plan is being spent, and previously untestable without Chrome."""
+    from playwright.sync_api import sync_playwright
+    return sync_playwright()
+
+
 class Browser:
     """One page, one host at a time. Two ways to get a real Chrome:
        profile launch the installed Chrome (channel 'chrome') with a persistent profile on D:.
@@ -275,14 +574,26 @@ class Browser:
     headless Chromium does not."""
 
     def __init__(self, mode: str = "profile", cdp_url: str = "http://127.0.0.1:9222", headless: bool = False,
-                 profile_dir: str = PROFILE_ROOT + "-adhoc"):
-        from playwright.sync_api import sync_playwright
-        self._pw = sync_playwright().start()
+                 profile_dir: str = PROFILE_ROOT + "-adhoc", proxy: dict | None = None):
+        self._pw = _sync_playwright().start()
         self.mode = mode
         self.profile_dir = profile_dir if mode != "cdp" else None
         self.seed_note = ""
         self._closed = False
+        # A proxied browser is a METERED browser: the route filter and the response meter are the
+        # same decision as the proxy option and are switched by it, never separately. There is no
+        # way to end up paying for a lane's images because somebody set one flag and not the other.
+        self.proxy = proxy or None
+        self.proxied = bool(proxy)
+        self.proxy_bytes = 0
+        self.proxy_unmeasured = 0
+        self.aborted = 0
         if mode == "cdp":
+            if self.proxied:
+                # An attached Chrome was started by somebody else with somebody else's network
+                # settings; a proxy option here would be silently ignored and every byte would go
+                # out on this laptop's blocked IP while the counter said "residential".
+                raise ValueError("--cdp cannot serve a residential lane: an attached Chrome's proxy is not ours to set")
             self._browser = self._pw.chromium.connect_over_cdp(cdp_url)
             self._ctx = self._browser.contexts[0] if self._browser.contexts else self._browser.new_context()
             self._page = self._ctx.new_page()
@@ -291,14 +602,70 @@ class Browser:
             Path(profile_dir).mkdir(parents=True, exist_ok=True)
             kwargs = dict(headless=headless, locale="en-US", viewport={"width": 1400, "height": 1000},
                           extra_http_headers={"Accept-Language": "en-US,en;q=0.9"})
+            if self.proxied:
+                kwargs["proxy"] = self.proxy
             try:
                 self._ctx = self._pw.chromium.launch_persistent_context(profile_dir, channel="chrome", **kwargs)
             except Exception:  # noqa — Chrome not installed: fall back to bundled Chromium
                 self._ctx = self._pw.chromium.launch_persistent_context(profile_dir, **kwargs)
             self._page = self._ctx.pages[0] if self._ctx.pages else self._ctx.new_page()
+        if self.proxied:
+            self._meter_on()
         self._last_hit: dict[str, float] = {}
         self._robots: dict[str, RobotFileParser | None] = {}
         self.stats = {"fetches": 0, "cache_hits": 0, "robots_blocked": 0, "challenged": 0}
+
+    # -- the meter and the filter, both PROXIED-ONLY ------------------------------------------
+    def _meter_on(self) -> None:
+        """Drop what a residential byte must not be spent on, and count what is left.
+
+        Neither hook is installed on a direct lane: aborting images on a free connection buys
+        nothing and would change what the adapters see for no reason."""
+        try:
+            self._ctx.route("**/*", self._route)
+            self._ctx.on("response", self._on_response)
+        except Exception as e:  # noqa — a context that will not take a route is a broken lane, and
+            # a lane that silently fetched unfiltered through a metered gateway is worse than one
+            # that refuses to start
+            raise RuntimeError(f"could not install the proxy route filter / meter: {type(e).__name__}") from None
+
+    def _route(self, route, request=None) -> None:
+        req = request if request is not None else getattr(route, "request", None)
+        try:
+            if should_abort(getattr(req, "resource_type", None), getattr(req, "url", None)):
+                self.aborted += 1
+                route.abort()
+                return
+            route.continue_()
+        except Exception:  # noqa — a route handler that raises stalls the page; a request we could
+            # not decide about is one we let through and pay for
+            try:
+                route.continue_()
+            except Exception:  # noqa
+                pass
+
+    def _on_response(self, response) -> None:
+        try:
+            n = response_bytes(dict(response.headers or {}))
+        except Exception:  # noqa
+            n = 0
+        if n:
+            self.proxy_bytes += n
+        else:
+            self.proxy_unmeasured += 1
+
+    def charge(self, nbytes: int) -> None:
+        """Bytes this browser paid for outside the page's own response stream (the binary lane's
+        APIRequestContext does not raise the context's `response` event)."""
+        if self.proxied and nbytes:
+            self.proxy_bytes += max(0, int(nbytes))
+
+    def take_proxy_bytes(self) -> tuple[int, int]:
+        """(bytes, unmeasured responses) since the last call, and reset. The Loop calls this once
+        per task so the spend is attributed to the page that caused it."""
+        n, u = self.proxy_bytes, self.proxy_unmeasured
+        self.proxy_bytes = self.proxy_unmeasured = 0
+        return n, u
 
     # -- politeness -------------------------------------------------------------------------
     def _wait(self, host: str, politeness_ms: int) -> None:
@@ -376,6 +743,15 @@ class Browser:
         if settle_ms:
             self._page.wait_for_timeout(settle_ms)
         html = self._capture()
+        if self.proxied:
+            # The document itself is the one response we can measure when the server states no
+            # content-length: the meter counted it as unmeasured, so charge the captured length
+            # here rather than let the biggest response of the page read as free.
+            try:
+                if r is not None and "content-length" not in {k.lower() for k in (r.headers or {})}:
+                    self.charge(len(html.encode("utf-8", "replace")))
+            except Exception:  # noqa — a response object that has gone away is not a fetch failure
+                pass
         deadline = time.monotonic() + 25
         while looks_blocked(html) and time.monotonic() < deadline:
             self.stats["challenged"] += 1
@@ -441,6 +817,10 @@ class Browser:
             headers["Referer"] = referer
         r = self._ctx.request.get(url, headers=headers, timeout=timeout)
         body = r.body()
+        # APIRequestContext does not raise the browser context's `response` event, so the meter
+        # never sees these bytes; a PDF on a proxied lane is the single most expensive thing the
+        # plan can buy and it would otherwise be invisible.
+        self.charge(len(body))
         netzscrape._ledger({"url": url, "status": r.status, "host": host, "fetched_at": now().isoformat(),
                             "bytes": len(body), "binary": True, "worker": WORKER})
         return {"status": r.status, "body": body, "content_type": r.headers.get("content-type", "")}
@@ -456,6 +836,8 @@ class Browser:
             self._page.goto(origin_page, wait_until="domcontentloaded", timeout=60000)
             self._origin_host = host
         self._wait(host, politeness_ms)
+        # an in-page fetch() IS a page request, so the context's response event sees it and the
+        # meter has already charged it; charging again here would double-count the PDF
         res = self._page.evaluate(
             """async ([u, t]) => {
                 const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), t);
@@ -532,9 +914,30 @@ class Queue:
         import psycopg
         from psycopg.rows import dict_row
         self.conn = psycopg.connect(url, autocommit=True, row_factory=dict_row)
-        self.sources = {r["slug"]: r for r in self.conn.execute("SELECT id, slug, host, tier, politeness_ms, enabled FROM sources").fetchall()}
+        self.sources = {r["slug"]: r for r in self.conn.execute(
+            "SELECT id, slug, host, tier, politeness_ms, enabled, proxy, proxy_country FROM sources").fetchall()}
         self.by_id = {r["id"]: r for r in self.sources.values()}
         self.refused: Counter = Counter()
+
+    def enabled_ids(self, source_ids: list[int]) -> set[int]:
+        """Which of these sources are STILL enabled, read fresh from the database.
+
+        `self.sources` is a snapshot taken when this Queue connected, and a long-lived worker
+        never looked at it again. The watchdog pauses a lane by setting sources.enabled = false
+        (scraper/tools/watchdog.py, pause()), so a lane paused for zero yield, drift, a
+        not-listed streak or blocks went on fetching until its queue ran dry - which on a lane
+        with three thousand queued searches is hours, and is the whole of what pausing was
+        supposed to prevent. Called before every lease; one indexed read per page fetched, next
+        to a fetch that costs seconds.
+
+        A fake queue in the unit suite has no connection and its by_id IS its truth, so the
+        snapshot answers there. That branch must never be reachable with a real Queue: the real
+        one always has self.conn."""
+        conn = getattr(self, "conn", None)
+        if conn is None:
+            return {sid for sid in source_ids if (self.by_id.get(sid) or {}).get("enabled", True)}
+        rows = conn.execute("SELECT id FROM sources WHERE id = ANY(%s) AND enabled", (list(source_ids),)).fetchall()
+        return {r["id"] for r in rows}
 
     def lease(self, source_ids: list[int]) -> dict | None:
         return self.conn.execute(
@@ -567,10 +970,16 @@ class Queue:
             "UPDATE fetch_queue SET status = %s, result = COALESCE(%s::jsonb, result), last_error = %s, next_at = COALESCE(%s, next_at), leased_by = NULL, updated_at = now() WHERE id = %s",
             (status, json.dumps(result) if result is not None else None, error, next_at, task_id))
 
-    def record_fetch(self, source_id: int, url: str, status, sha256: str | None, cache_path: str | None, nbytes: int) -> int:
+    def record_fetch(self, source_id: int, url: str, status, sha256: str | None, cache_path: str | None, nbytes: int,
+                     proxy_bytes: int | None = None) -> int:
+        """`proxy_bytes` is NULL for a direct lane and a number (0 included) for a proxied one:
+        the watchdog's plan total sums this column, so "cost the plan nothing" and "cost the plan
+        zero" must not be the same row."""
         row = self.conn.execute(
-            "INSERT INTO fetches (source_id, url, http_status, content_sha256, cache_path, bytes, worker) VALUES (%s,%s,%s,%s,%s,%s,%s) RETURNING id",
-            (source_id, url, status if isinstance(status, int) else None, sha256, cache_path, nbytes, WORKER)).fetchone()
+            "INSERT INTO fetches (source_id, url, http_status, content_sha256, cache_path, bytes, worker, proxy_bytes)"
+            " VALUES (%s,%s,%s,%s,%s,%s,%s,%s) RETURNING id",
+            (source_id, url, status if isinstance(status, int) else None, sha256, cache_path, nbytes, WORKER,
+             proxy_bytes)).fetchone()
         return row["id"]
 
     def record_check(self, part_id: int, source_id: int, fetch_id: int | None, outcome: str, facts_found: int, fields_found: list[str]) -> None:
@@ -620,16 +1029,75 @@ class Loop:
     its outcome; run() leases until the queue is empty (or forever with loop=True, or until
     max_tasks). Both take their collaborators as objects so the unit suite can hand in fakes."""
 
-    def __init__(self, q, browser, runs_dir: Path, load=load_source, sleep=time.sleep):
+    def __init__(self, q, browser, runs_dir: Path, load=load_source, sleep=time.sleep, spend: "ProxySpend | None" = None):
         self.q = q
         self.browser = browser
         self.runs_dir = Path(runs_dir)
         self.load = load
         self.sleep = sleep
+        self.spend = spend
         self.paused_until: dict[int, datetime] = {}
         self.consecutive_blocked: dict[int, int] = {}
         self.done = self.failed = 0
         self.outcomes: Counter = Counter()
+
+    # -- the residential meter -------------------------------------------------------------
+    def beat(self, slug: str, task: dict | None, outcome: str) -> None:
+        """Every heartbeat this loop writes goes through here, so a proxied lane's day counter is
+        on every beat and not only on the beats somebody remembered."""
+        kw = {}
+        if self.spend is not None and self.spend.tracks(slug):
+            kw = {"proxy_bytes_today": self.spend.today(slug), "proxy_day": self.spend.day(slug)}
+        write_heartbeat(self.runs_dir, slug, heartbeat_record(task, outcome, self.done, self.failed, **kw))
+
+    def charge_proxy(self, src_row: dict) -> int | None:
+        """Bytes the task that just ran pulled through the gateway, charged to its source's day.
+        None on a direct lane — that None is what reaches fetches.proxy_bytes.
+
+        If the fetch RAISED, this is never reached and the browser keeps the bytes: the next task
+        drains them, so the day's total stays right and only the per-fetch attribution shifts by
+        one page. Losing them would be the worse trade — an under-reading meter on the pages that
+        cost the most."""
+        if not is_proxied(src_row) or self.spend is None:
+            return None
+        n, unmeasured = self.browser.take_proxy_bytes()
+        self.spend.add(src_row["slug"], n, unmeasured)
+        return n
+
+    def record_proxy_spend(self, src_row: dict, url: str, status, proxy_bytes: int | None) -> None:
+        """A fetches row for a page that produced no content but DID cost money.
+
+        A challenge page and a 5xx are exactly what a proxied lane pays for most, and neither
+        writes a fetches row on the normal path — so without this the DATABASE ledger (which the
+        watchdog's plan total sums) reads low precisely on the pages the proxy exists to get past,
+        while the heartbeat counter reads right. Two numbers for one fact, and the durable one
+        wrong. Proxied lanes only: on a direct lane there is nothing to record and the queue's
+        last_error has always carried the failure."""
+        if proxy_bytes is None:
+            return
+        try:
+            self.q.record_fetch(src_row["id"], url, status, None, None, 0, proxy_bytes)
+        except Exception as e:  # noqa — a ledger row is not worth failing the task over
+            print(f"  ! {src_row['slug']}: could not record {proxy_bytes} proxy bytes ({type(e).__name__})")
+
+    def affordable(self, source_ids: list[int]) -> list[int]:
+        """The sources this loop may still lease for. A proxied source whose day's budget is gone
+        is dropped from the lease list and says so in its heartbeat, so the sentinel does not
+        restart the lane every three minutes to rediscover it (D:\\Project\\CLAUDE.md § 6: a
+        monitor that cannot tell its own limit from a fault sends someone to fix nothing)."""
+        if self.spend is None:
+            return list(source_ids)
+        out = []
+        for sid in source_ids:
+            row = self.q.by_id.get(sid) or {}
+            if is_proxied(row) and self.spend.exhausted(row["slug"]):
+                mb = self.spend.today(row["slug"]) / MB
+                print(f"  ! {row['slug']}: residential budget spent for {self.spend.day(row['slug'])} "
+                      f"({mb:.1f} MB of {self.spend.budget_bytes / MB:.0f} MB) - not leasing", flush=True)
+                self.beat(row["slug"], None, PROXY_BUDGET_OUTCOME)
+                continue
+            out.append(sid)
+        return out
 
     # -- bookkeeping ----------------------------------------------------------------------
     def _finish(self, task: dict, slug: str, outcome: str, result: dict | None = None, error: str | None = None,
@@ -663,9 +1131,11 @@ class Loop:
         b = self.browser.fetch_binary(url, politeness_ms=src_row["politeness_ms"], referer=origin)
         if b["status"] != 200 or not b["body"][:5] == b"%PDF-":
             b = self.browser.fetch_binary_inpage(url, origin, politeness_ms=src_row["politeness_ms"])
+        proxy_bytes = self.charge_proxy(src_row)
         outcome = classify_binary(b["status"], b["body"][:5] == b"%PDF-")
         ok = outcome == "pdf_fetched"
-        fetch_id = self.q.record_fetch(src_row["id"], url, b["status"], hashlib.sha256(b["body"]).hexdigest() if ok else None, cf.name if ok else None, len(b["body"]))
+        fetch_id = self.q.record_fetch(src_row["id"], url, b["status"], hashlib.sha256(b["body"]).hexdigest() if ok else None,
+                                       cf.name if ok else None, len(b["body"]), proxy_bytes)
         if ok:
             cf.write_bytes(b["body"])
             print(f"  pdf {slug} {task['key'][:70]}: {len(b['body'])} bytes")
@@ -693,6 +1163,9 @@ class Loop:
                 return self._binary(task, src_row, src, slug, url)
             res = self.browser.fetch(url, politeness_ms=src_row["politeness_ms"], force=bool((task.get("result") or {}).get("force")),
                                      settle_ms=int(getattr(src, "SETTLE_MS", 1500)), wait_for=getattr(src, "WAIT_FOR", None))
+            # charged BEFORE the outcome branches: a challenge page is the most expensive thing a
+            # proxied lane can fetch and the one an "only count successes" meter would miss
+            proxy_bytes = self.charge_proxy(src_row)
             outcome = classify_fetch(res.get("status"), bool(res.get("blocked")), res.get("reason"),
                                      bool(res.get("html")) and src.is_not_found(res["html"]))
             if outcome == "blocked":
@@ -700,13 +1173,17 @@ class Loop:
                 self._note_block(src_row, slug)
                 if task["part_id"] and (reason == "robots" or task["attempts"] >= MAX_ATTEMPTS):
                     self.q.record_check(task["part_id"], src_row["id"], None, "blocked", 0, [])
+                self.record_proxy_spend(src_row, url, res.get("status"), proxy_bytes)
                 print(f"  blocked {slug} {task['task']} {task['key']}: {reason}")
                 return self._finish(task, slug, "blocked", error=f"blocked: {reason}", reason=res.get("reason"))
             self.consecutive_blocked[src_row["id"]] = 0
             if outcome == "failed":
+                self.record_proxy_spend(src_row, url, res.get("status"), proxy_bytes)
                 print(f"  failed {slug} {task['task']} {task['key']}: http {res.get('status')}")
                 return self._finish(task, slug, "failed", error=f"http {res.get('status')}")
-            fetch_id = None if res.get("cached") else self.q.record_fetch(src_row["id"], url, res.get("status"), res.get("sha256"), res.get("cache_path"), len(res["html"]))
+            fetch_id = None if res.get("cached") else self.q.record_fetch(
+                src_row["id"], url, res.get("status"), res.get("sha256"), res.get("cache_path"), len(res["html"]),
+                proxy_bytes)
             if outcome == "not_listed":
                 if task["part_id"]:
                     self.q.record_check(task["part_id"], src_row["id"], fetch_id, "not_listed", 0, [])
@@ -771,11 +1248,32 @@ class Loop:
             if max_tasks is not None and processed >= max_tasks:
                 print(f"  max-tasks {max_tasks} reached")
                 break
-            live = [sid for sid in active if self.paused_until.get(sid, now()) <= now()]
+            # A source the watchdog has DISABLED since this worker started is not ours to fetch
+            # any more. Re-read before every lease and drop it; when nothing is left, exit rather
+            # than idle, so the lane is really stopped and the sentinel sees no worker. The old
+            # code read `enabled` once at connect time, so "pause" only took effect at the next
+            # worker start - a paused lane kept fetching until its queue was dry.
+            still = self.q.enabled_ids(active)
+            gone = [sid for sid in active if sid not in still]
+            if gone:
+                for sid in gone:
+                    print(f"  ! {self.q.by_id[sid]['slug']}: source disabled while this worker ran - dropping the lane", flush=True)
+                    self.beat(self.q.by_id[sid]["slug"], None, "disabled")
+                active = [sid for sid in active if sid in still]
+                if not active:
+                    print("  every source this worker served is disabled; exiting", flush=True)
+                    break
+            # A proxied lane out of budget is not paused and not disabled: it is waiting for the
+            # UTC day to roll. It stays in `active` so it comes back by itself at midnight, and it
+            # is kept out of `live` so nothing is leased for it meanwhile.
+            afford = self.affordable(active)
+            live = [sid for sid in afford if self.paused_until.get(sid, now()) <= now()]
             task = self.q.lease(live) if live else None
             if not task:
-                for sid in active:
-                    write_heartbeat(self.runs_dir, self.q.by_id[sid]["slug"], heartbeat_record(None, "idle", self.done, self.failed))
+                # an out-of-budget lane already wrote its own beat in affordable(); writing "idle"
+                # over it here is how the sentinel would end up restarting it in a loop
+                for sid in afford:
+                    self.beat(self.q.by_id[sid]["slug"], None, "idle")
                 if not loop:
                     break
                 self.sleep(idle)
@@ -783,7 +1281,7 @@ class Loop:
             src_row = self.q.by_id[task["source_id"]]
             outcome = self.process(task, src_row)
             processed += 1
-            write_heartbeat(self.runs_dir, src_row["slug"], heartbeat_record(task, outcome, self.done, self.failed))
+            self.beat(src_row["slug"], task, outcome)
         return self.summary()
 
     def summary(self) -> dict:
@@ -809,16 +1307,47 @@ def run(args: argparse.Namespace) -> int:
     if not active:
         raise SystemExit("no enabled sources to work")
 
+    # A browser has ONE network path, so a worker cannot serve a residential lane and a direct one
+    # at the same time: whichever way it were resolved, one of the two would be silently wrong —
+    # the blocked lane fetching from the blocked IP, or the free lane spending the plan. Refuse.
+    rows = [q.sources[s] for s in wanted if q.sources[s]["enabled"]]
+    residential = [r for r in rows if is_proxied(r)]
+    if residential and len(residential) != len(rows):
+        raise SystemExit("a worker cannot mix proxy modes: "
+                         f"residential {[r['slug'] for r in residential]} vs "
+                         f"direct {[r['slug'] for r in rows if not is_proxied(r)]} — start one worker per mode")
+    countries = {(r.get("proxy_country") or "").lower() for r in residential}
+    if len(countries) > 1:
+        raise SystemExit(f"residential lanes in one worker must share one proxy_country, got {sorted(countries)}")
+    proxy = spend = None
+    if residential:
+        slug_for_session = residential[0]["slug"] if len(residential) == 1 else "multi"
+        try:
+            proxy = proxy_option(env, (countries.pop() if countries else None) or None,
+                                 proxy_session_id(slug_for_session))
+        except ValueError as e:
+            # A residential lane that quietly fell back to a direct fetch would go out on the IP
+            # the site already blocks, and the meter would report zero while the lane reported
+            # "blocked". Stop, and say which key is wrong - never what is in it.
+            raise SystemExit(f"cannot start a residential lane: {e}") from None
+        spend = ProxySpend(runs_dir, proxy_daily_budget_bytes(env))
+
     # --cdp is the only thing that turns the shared-Chrome mode on, and nothing in the supervisor
     # or the sentinel passes it any more. Without it the worker launches its OWN Chrome against
     # its OWN profile, named after the lane so the sentinel can find it.
     profile_dir = (args.profile_dir or "").strip() or profile_dir_for(wanted)
     browser = Browser(mode="cdp" if args.cdp else "profile", cdp_url=args.cdp or "http://127.0.0.1:9222",
-                      headless=args.headless, profile_dir=profile_dir)
+                      headless=args.headless, profile_dir=profile_dir, proxy=proxy)
     install_shutdown(browser)
-    lp = Loop(q, browser, runs_dir)
+    lp = Loop(q, browser, runs_dir, spend=spend)
     print(f"worker {WORKER} mode={browser.mode} profile={browser.profile_dir} sources={wanted} "
           f"loop={args.loop} max_tasks={args.max_tasks}", flush=True)
+    if proxy:
+        # the URL is never printed; redact_proxy() is the only thing that ever renders it
+        print(f"  residential proxy {redact_proxy(env.get(PROXY_ENV))} "
+              f"country={[r.get('proxy_country') for r in residential]} "
+              f"budget {spend.budget_bytes / MB:.0f} MB per source per UTC day (today: "
+              + ", ".join(f"{r['slug']} {spend.today(r['slug']) / MB:.1f} MB" for r in residential) + ")", flush=True)
     if browser.seed_note:
         print(f"  {browser.seed_note}", flush=True)
     try:
@@ -826,7 +1355,12 @@ def run(args: argparse.Namespace) -> int:
     finally:
         browser.close()
         s = lp.summary()
-        print(f"worker exit: done={s['done']} failed={s['failed']} outcomes={s['outcomes']} refused={s['refused']} browser={browser.stats}")
+        tail = ""
+        if spend is not None:
+            tail = (" proxy=" + ", ".join(f"{r['slug']} {spend.today(r['slug']) / MB:.1f}/{spend.budget_bytes / MB:.0f} MB"
+                                          for r in residential)
+                    + f" aborted={browser.aborted} unmeasured={sum(spend.unmeasured.values())}")
+        print(f"worker exit: done={s['done']} failed={s['failed']} outcomes={s['outcomes']} refused={s['refused']} browser={browser.stats}{tail}")
     return 0
 
 

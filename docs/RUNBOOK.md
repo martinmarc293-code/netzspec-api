@@ -401,6 +401,12 @@ only stores and serves.
    `--settle-ms`, `--wait-for <css>` for client-rendered pages).
 4. Brand order is an operator rule: one at a time. Enable or pause a source with
    `UPDATE sources SET enabled = ... WHERE slug = ...`; the planner and the workers obey it.
+4a. A lane through the residential proxy (`sources.proxy = 'residential'`) stops leasing once it
+   has spent `NETZSPEC_PROXY_DAILY_MB` for the UTC day and writes `proxy_budget_exhausted` into
+   `runs/heartbeat/<slug>.json`. The sentinel reports it as **BUDGET SPENT** and deliberately does
+   **not** restart it; it resumes on its own at 00:00 UTC. That is a limit, not a fault: nothing
+   alarms, and nothing needs doing. `docs/SCRAPING.md` § Residential proxy has the SQL for the
+   spend and what to check before restarting a proxied lane.
 5. Images: `python3.11 scraper/images.py run --from-picks data/reference/part-images.json --cdp http://127.0.0.1:9222 [--db]`
    then ship `runs/images/` to `/var/lib/netzspec-api/images` (tar over ssh; see the deploy
    notes). `--db` links the rows once the parts exist.
@@ -430,7 +436,19 @@ Outputs, all under `runs/nightshift/`:
 | --- | --- | --- |
 | `watchdog.md` | a human | one line per source (done / with facts / not listed / failed / blocked, tasks per hour, pending, ETA, heartbeat age, verdict), then alarms, duplicate fetches, junk keys, actions |
 | `watchdog.json` | scripts | the same numbers per source, plus every event of the run |
-| `ALERT.md` | the supervisor | exists **only while an alarm exists**; deleted by the next clean run |
+| `ALERT-watchdog.md` | the operator | this watchdog's own alarms, and **only** its own; written while it has any, removed by its next clean run |
+| `ALERT-sentinel.md` | the operator | the same, owned by `scraper/tools/sentinel.py` — no other writer ever touches it |
+| `ALERT.md` | the operator, first | a **merged summary**, one section per owner, rebuilt from whichever `ALERT-<owner>.md` files exist at that moment; removed only when no owner has anything to say |
+
+**One file per writer.** `ALERT.md` used to be written *and deleted* by both `watchdog.py` and
+`sentinel.py` from their own alarms, so a clean cycle of either erased the other's live ones and
+whichever ran last decided what the night looked like. Each writer now owns exactly one
+`ALERT-<owner>.md` and never another's; `ALERT.md` is regenerated **from disk**, which is the whole
+point — a monitor with nothing to say cannot delete what the other one is still saying. The sharing
+has one definition, `write_alerts()` in `sentinel.py` (stdlib-only, so the watchdog's watchdog
+cannot lose its alarm file to a missing scraper dependency), and `watchdog.py` imports it. Proof:
+`tests/scraper/test_watchdog.py` §19 (AL1–AL9), where a clean cycle of each writer must leave the
+other's alarm standing.
 
 What it checks, and what `--act` does about it:
 

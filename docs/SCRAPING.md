@@ -424,6 +424,137 @@ Outcomes, and what each one means:
 | `not_listed` | HTTP 404 or `is_not_found` said so | done, and a `part_source_checks` row is written |
 | `blocked` | challenge, 401/403/429/503, robots | retry with back-off; the source pauses 30 min after 3 in a row |
 | `timeout` / `failed` | the host was slow, or the adapter threw | retry with back-off; the fifth attempt marks it blocked so a human looks |
+| `proxy_budget_exhausted` | a residential lane has spent its day's bytes | nothing is leased for that source until 00:00 UTC; the lane is **not** paused and **not** disabled |
+
+### Residential proxy — which lanes, what it costs, and how to read the meter
+
+**Which sources.** Only the lanes Cloudflare blocks from this laptop's IP: `itprice` and
+`router-switch`. Everything else stays `direct`. It is a row, not a flag —
+`sources.proxy` is `'direct'` or `'residential'` and `sources.proxy_country` is an optional ISO-2
+exit country (migration `0011_sources_proxy.sql`).
+
+```sql
+UPDATE sources SET proxy = 'residential', proxy_country = 'de' WHERE slug IN ('itprice', 'router-switch');
+UPDATE sources SET proxy = 'direct',      proxy_country = NULL WHERE slug = 'itprice';   -- and back
+```
+
+**Why only those two.** Residential traffic is charged **per byte** against a 5 GB plan. A lane
+that is not blocked has no business spending it, and the difference is not small: one cached
+`router-switch` product page references 269 distinct image URLs against 4 stylesheets and 10
+scripts.
+
+**Credentials.** `NETZSPEC_PROXY_URL` in `.env`, in the form
+`http://<login>:<password>@gw.dataimpulse.com:823`, plus `NETZSPEC_PROXY_DAILY_MB`. The URL is
+parsed in exactly one function (`parse_proxy_url` in `scraper/worker.py`) and everything a log
+line, a heartbeat, a report or an exception can ever see comes from `redact_proxy`, which returns
+`http://***:***@host:port` and, for a value it cannot parse, `<unparsable proxy url>` rather than
+the value. **Never paste the URL into a command, a log or a report** — a proxy password in a
+transcript is a plan somebody else can spend.
+
+**Country and sticky session.** DataImpulse selects both through suffixes on the *username*
+(docs.dataimpulse.com, read 5 Sep 2026): `login__cr.de` for a country, and
+`http://login__cr.au;sessid.123:password@gw.dataimpulse.com:823` for a fixed IP, where "the
+`sessid` method provides a 30-minute fixed IP". The worker builds one session id per lane per
+worker process (`routerswitch<pid>`), so the two lanes never share an exit IP and a lane keeps one
+IP for its lifetime — a Cloudflare clearance is bound to the IP that earned it, so a rotating
+gateway would pay for the challenge again on every asset. To add or change a country, set
+`sources.proxy_country` and restart that lane; nothing in the code needs touching.
+
+**Traffic minimisation, proxied lanes only.** The lane's Chrome gets a route filter that aborts
+**images, media, fonts** and a list of analytics/ad hosts, and keeps **HTML, scripts and
+stylesheets** — the Cloudflare challenge is a script and needs its own resources, so a lane that
+blocked them would buy a permanent interstitial with residential bytes. `challenges.cloudflare.com`
+and any `/cdn-cgi/` path are never aborted, whatever else matches. A challenge page is still never
+written to the cache.
+
+*What that saves, and how it was measured.* No page was fetched for this (scraping is stopped);
+the numbers come from the **cached copies** in `scraper/cache`, parsed for every sub-resource the
+HTML references (`img`/`srcset`/`source`, `script`, `link`, `iframe`, `url()` in inline CSS):
+
+| page | cached HTML | image | font/media | analytics/ads | script | stylesheet | other |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `itprice.com/cisco-gpl/C9200L-24P-4G` | 105 kB | 14 | 0 | 3 | 10 | 6 | 1 |
+| `router-switch.com/c9200l-24p-4g.html` | 1,254 kB | 269 | 0 | 8 | 10 | 4 | 0 |
+
+The itprice "other" is a `chat.chatra.io` widget iframe, and `chatra.io` is on the host list, so
+the filter removes **18 of 34** sub-resource requests on that page and **277 of 291** on the
+router-switch one. The **request** counts are measured; the **bytes** are not, and cannot be
+without fetching — the cached file is the rendered DOM, not the transfer. Read this as "the
+overwhelming majority of requests, and almost certainly of bytes, are images we never extract",
+and replace it with a real figure from `fetches.proxy_bytes` after the first proxied run: that
+column is the only honest byte number this system will ever have.
+
+**The budget is PER SOURCE, per UTC day.** `NETZSPEC_PROXY_DAILY_MB` (300 today) applies to each
+proxied lane, so two lanes can spend 600 MB in a day. That is deliberate: the budget's job is to
+stop *one* runaway lane from taking the plan overnight, and a shared budget would let a busy lane
+starve a blocked one of its first page. The plan-level guard is the watchdog's alarm at 4 GB of the
+5 GB plan, summed over `fetches.proxy_bytes` across every source and every day. If the two lanes
+ever need to share one pot, that is a change to `ProxySpend` (one counter keyed by the plan rather
+than by the slug) and to this paragraph — not a new option.
+
+When a source passes its cap the worker **stops leasing for it** and writes
+`proxy_budget_exhausted` into `runs/heartbeat/<slug>.json`. That outcome exists so the sentinel
+does not restart the lane every three minutes to rediscover that it has no budget; the counter
+resets at 00:00 UTC and the lane resumes by itself. The day's spend lives in the heartbeat
+(`proxy_bytes_today`, `proxy_day`) so a recycled worker picks it back up instead of starting again
+from zero.
+
+**And the sentinel has to READ it.** `sentinel.py` starts a worker for any enabled lane with five
+or more runnable tasks and no process, so writing the outcome and stopping there would have bought
+a Chrome launch and an immediate exit every three minutes until midnight — the restart loop the
+outcome is named after, with the lane's own heartbeat explaining why, and nobody asking.
+`budget_spent()` reads the lane's latest beat and refuses the restart while it says
+`proxy_budget_exhausted` **for the current UTC day**; the report says `BUDGET SPENT` with the day
+and the amount, and `not starting <slug>: …` on its own line, because a silent skip and a sentinel
+that has stopped looking read identically. It is **not** an alarm: a budget is a limit the operator
+set, not a fault to send somebody to fix. Three things it deliberately does not do — a beat from
+*yesterday* holds nothing down (or the lane would never start again), a missing or half-written
+beat holds nothing down ("could not check" is not "out of budget"), and a wedged worker is still
+killed on a stale heartbeat whatever its budget says. `tests/scraper/test_watchdog.py` § 21b
+(PB1–PB15) proves each of those, and PB9–PB15 prove it through `check()` itself rather than through
+the pure function, because a rule nothing asks is not a rule.
+
+**How to read the spend.**
+
+```sql
+-- today, per source
+SELECT s.slug, sum(f.proxy_bytes) / 1048576.0 AS mb_today
+  FROM fetches f JOIN sources s ON s.id = f.source_id
+ WHERE f.proxy_bytes IS NOT NULL
+   AND f.fetched_at >= date_trunc('day', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'
+ GROUP BY 1 ORDER BY 2 DESC;
+-- the plan, all sources, all days
+SELECT sum(proxy_bytes) / 1048576.0 AS mb_of_5120 FROM fetches WHERE proxy_bytes IS NOT NULL;
+```
+
+`proxy_bytes` is NULL for a direct fetch and a number (0 included) for a proxied one: "cost the
+plan nothing" and "cost the plan zero" are different answers, and a lane whose page count moves
+while its spend does not is a broken meter, not a cheap lane. `watchdog.py` prints one line per
+proxied source — bytes today, the budget, the plan share and the days the plan has left at today's
+rate — and alarms at 80% of a lane's daily budget and past 4 GB of the plan. Both are report-only:
+the watchdog never pauses a lane for spending money.
+
+**Restarting the proxied lanes.**
+
+1. `SELECT slug, enabled, proxy, proxy_country FROM sources WHERE proxy = 'residential';` — confirm
+   the rows before anything else.
+2. Check the plan first (the query above). A lane restarted at 4.9 GB has nothing to spend.
+3. `NETZSPEC_PROXY_URL` and `NETZSPEC_PROXY_DAILY_MB` must be in `.env` on **this** machine; the
+   worker refuses to start a residential lane without them, by design.
+4. Make sure the 9222 debug Chrome is down, then seed the lane profiles if they do not exist
+   (`sentinel.py --seed-profiles itprice,router-switch`). A proxied lane exits from a new IP, so
+   its inherited `cf_clearance` will not match and the first pages pay for a fresh challenge.
+   That is expected; it is not a reason to re-seed again.
+5. `UPDATE sources SET enabled = true WHERE slug IN ('itprice', 'router-switch');`
+6. **One worker per proxy mode.** A worker cannot serve a residential lane and a direct one: a
+   browser has one network path, and either the blocked lane would go out unproxied or the free
+   lane would spend the plan. The worker refuses the mix rather than picking. So:
+   `python3.11 scraper/worker.py run --sources itprice --profile --loop` and a second one for
+   `router-switch`, never `--sources itprice,provantage`.
+7. Watch the first three tasks: the worker's start line prints the redacted gateway and the budget,
+   and its exit line prints `proxy=<slug> X/300 MB aborted=N unmeasured=M`. `unmeasured` far above
+   zero means the meter is reading nothing and the budget is a guess — stop and fix that before
+   leaving it running.
 
 Read-only tools, none of which touch the network:
 

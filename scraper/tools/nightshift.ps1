@@ -20,7 +20,8 @@
 # installed Chrome against D:\netzspec-chrome-profile-<slug>. Costs, measured: about 500 MB of
 # real system memory per lane Chrome and a process-tree working set near 1.0-1.2 GB after two
 # fetches - hence the RAM guard below.
-#   4. apply today's acquired pages: gate -> facts -> unmapped-label and unknown-SKU reports
+#   4. apply the acquired pages of BOTH UTC days: gate -> facts -> unmapped-label and unknown-SKU
+#      reports
 #   4c. fetch a bounded batch of product images from the candidates step 4 recorded
 #   5. write runs/nightshift/latest-summary.md - what landed, what is blocked, what needs a human
 #   6. sleep, repeat
@@ -57,17 +58,79 @@ function Log([string]$msg) {
   $line | Tee-Object -FilePath (Join-Path $LogDir ((Get-Date -Format "yyyy-MM-dd") + ".log")) -Append
 }
 
+# The supervisor's own heartbeat. Two different rules read this file's LastWriteTime and they are
+# not equally tolerant: the sentinel calls the lock stale after 6 h, but the takeover rule at the
+# top of THIS script calls it a corpse after 10 MINUTES and starts a second supervisor over the
+# first. Until 4 Sep 2026 the lock was written only inside the WorkMinutes loop, so every long
+# step (an apply may run to its full 60 min timeout) and the whole $SleepMinutes sleep left it
+# older than ten minutes - the script's own rule was armed against itself. It is touched at every
+# step boundary, every 15 s inside a running step, and every 60 s of the sleep.
+# Verb-Noun on purpose: PowerShell ALIASES OUTRANK FUNCTIONS, so a helper named "touch" would be
+# shadowed on any machine that has one (D:\Project\CLAUDE.md, environment traps).
+function Update-Lock([string]$path = $Lock) {
+  try { Set-Content -Path $path -Value (Get-Date -Format "yyyy-MM-dd HH:mm:ss") -Encoding ascii -ErrorAction Stop } catch {}
+}
+
+# The days whose acquired directory a cycle must apply, newest LAST so today's apply is the one
+# whose log the summary reads.
+#
+# UTC, and TWO days. scraper/worker.py writes runs/acquired/<slug>/<date>/ from
+# `datetime.now(timezone.utc)`; this script used `Get-Date -Format "yyyy-MM-dd"`, the LOCAL date.
+# On this machine (UK, BST = UTC+1) the two disagree for the whole 23:00-00:00 UTC hour of every
+# single day, and for an operator east of UTC they disagree by a full day: every page acquired in
+# that hour went into a directory the supervisor never named, never applied and never mentioned -
+# a silent hole exactly one hour wide, every night. Naming both days closes it, and apply-acquired
+# is idempotent by design (it re-reads the whole day's directory on every cycle), so the only cost
+# of the extra name is one more apply while yesterday's directory is still fresh.
+function Get-ApplyDays([datetime]$nowUtc) {
+  return @($nowUtc.AddDays(-1).ToString("yyyy-MM-dd"), $nowUtc.ToString("yyyy-MM-dd"))
+}
+
+# Which of those days this source actually has a directory for. EXISTENCE IS THE ONLY TEST.
+#
+# The first fix for the UTC hole named both days but applied yesterday's directory only while it
+# still held a *.json younger than a few hours. That is the same silent hole made narrower: a page
+# acquired at 23:59 UTC and applied at 00:30 was fine, but a lane that stalls, is backed off or is
+# killed an hour before midnight leaves its last pages behind a freshness test they can no longer
+# pass, and nothing ever opens that directory again. A time-window guard on a correctness step is
+# an expiry date on data nobody has read.
+# The cost of dropping it is TIME, not correctness: apply-acquired is idempotent over pages it has
+# already applied (it re-reads the whole directory every time and the merge layer corroborates
+# rather than duplicates), so re-applying a finished day is a wasted step, while skipping an
+# unfinished one is a fact that never lands. Yesterday's directory disappears from this list on its
+# own when the date rolls past it.
+function Get-ApplyTargets([string]$repoRoot, [string]$src, [string[]]$days) {
+  $found = @()
+  foreach ($day in $days) {
+    if (Test-Path (Join-Path $repoRoot ("runs\acquired\" + $src + "\" + $day))) { $found += $day }
+  }
+  return ,$found
+}
+
 # NOTE: the parameter must not be called $args - that is PowerShell's automatic variable and a
 # parameter of that name arrives empty ("argument is null"), which silently ran no step at all.
 function Run-Step([string]$name, [string]$file, [string[]]$argv, [int]$timeoutMin) {
   Log "-> $name"
   $out = Join-Path $LogDir ("step-" + $name.Replace(" ", "-") + ".out")
+  Update-Lock
   $p = Start-Process -FilePath $file -ArgumentList $argv -WorkingDirectory $Repo -NoNewWindow -PassThru -RedirectStandardOutput $out -RedirectStandardError ($out + ".err")
-  if (-not $p.WaitForExit($timeoutMin * 60 * 1000)) {
+  # Wait in 15 s slices instead of one blocking WaitForExit: the lock must keep moving while a
+  # step runs, or a 60-minute apply makes this supervisor look like a corpse to its own takeover
+  # rule. WaitForExit(ms) returns the moment the process exits, so slicing costs no latency.
+  $waited = 0
+  while (-not $p.WaitForExit(15000)) {
+    $waited += 15
+    Update-Lock
+    if ($waited -ge $timeoutMin * 60) { break }
+  }
+  if (-not $p.HasExited) {
     Log "   TIMEOUT after $timeoutMin min; killing $name"
     try { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue } catch {}
+    Update-Lock
     return $false
   }
+  $p.WaitForExit()   # returns at once; makes sure ExitCode is populated
+  Update-Lock
   $tail = (Get-Content $out -Tail 3 -ErrorAction SilentlyContinue) -join " | "
   Log ("   exit {0}: {1}" -f $p.ExitCode, $tail)
   return ($p.ExitCode -eq 0)
@@ -86,13 +149,13 @@ if (Test-Path $Lock) {
   if ($age.TotalMinutes -lt 10) { Log "another nightshift holds the lock ($([int]$age.TotalMinutes) min old); exiting"; exit 0 }
   Log "stale lock ($([int]$age.TotalMinutes) min); taking over"
 }
-Set-Content -Path $Lock -Value $PID
+Set-Content -Path $Lock -Value $PID -Encoding ascii
 
 try {
   while ($true) {
     $cycleStart = Get-Date
     Log "===== cycle start (sources: $Sources)"
-    (Get-Date) | Out-File $Lock
+    Update-Lock
 
     # 1. the DEBUG browser - for step 4c (images) and ad-hoc fetches. No worker uses it.
     & powershell -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot "start-chrome-debug.ps1") 2>&1 | ForEach-Object { Log "   chrome: $_" }
@@ -137,6 +200,11 @@ try {
         $running = @()
         $laneChrome = @(Get-CimInstance Win32_Process | Where-Object { $_.Name -eq "chrome.exe" -and $_.CommandLine -like ("*--user-data-dir=" + $laneProfile + "*") })
       }
+      # A PAUSED source's live worker is not this script's to find: it has no database connection
+      # and `enabled` lives there. worker.py re-reads the flag before every lease and exits, and
+      # the sentinel kills a worker that is wedged inside a fetch and cannot reach that lease
+      # (sentinel.py, "source is DISABLED"). This script's part is only that it cannot START one:
+      # worker.py refuses a disabled source at startup ("no enabled sources to work").
       if ($running.Count -gt 0) { continue }
       # No worker but a Chrome still on this lane's profile: an orphan holding the profile LOCK.
       # The next launch fails until it is gone, so clear it before starting.
@@ -158,9 +226,10 @@ try {
     # let the lanes work for a few minutes, touching the lock the sentinel watches
     $deadline = (Get-Date).AddMinutes($WorkMinutes)
     while ((Get-Date) -lt $deadline) {
-      (Get-Date) | Out-File $Lock   # heartbeat of the supervisor itself
+      Update-Lock                   # heartbeat of the supervisor itself
       Start-Sleep -Seconds 60
     }
+    Update-Lock
     foreach ($src in $Sources.Split(",")) {
       $wlog = Join-Path $LogDir ("worker-" + $src + ".out")
       if (-not (Test-Path $wlog)) { continue }
@@ -169,11 +238,20 @@ try {
       Log ("   worker {0}: done={1} blocked/errors={2} (since its log began)" -f $src, $done, $blocked)
     }
 
-    # 4. apply today's acquisitions per source (a failed gate for one source must not block the rest)
-    $today = Get-Date -Format "yyyy-MM-dd"
+    # 4. apply the acquisitions per source (a failed gate for one source must not block the rest).
+    #    BOTH UTC days, EVERY cycle, with no freshness test on either - see Get-ApplyDays for why
+    #    the local date stranded an hour of pages every night and Get-ApplyTargets for why the
+    #    "only while yesterday is still fresh" version of the fix stranded a stalled lane's last
+    #    pages for ever. The whole cost is one extra idempotent apply per source per cycle.
+    $nowUtc = [DateTime]::UtcNow
+    $applyDays = Get-ApplyDays $nowUtc
+    $today = $applyDays[-1]
+    $yesterday = $applyDays[0]
     foreach ($src in $Sources.Split(",")) {
-      $dir = Join-Path $Repo ("runs\acquired\" + $src + "\" + $today)
-      if (Test-Path $dir) { Run-Step "apply $src" "node" @("node_modules/tsx/dist/cli.mjs", "src/pipeline/cli.ts", "apply-acquired", "runs/acquired/$src/$today", "--commit") 60 | Out-Null }
+      foreach ($day in (Get-ApplyTargets $Repo $src $applyDays)) {
+        $stepName = if ($day -eq $today) { "apply $src" } else { "apply-prev $src" }
+        Run-Step $stepName "node" @("node_modules/tsx/dist/cli.mjs", "src/pipeline/cli.ts", "apply-acquired", "runs/acquired/$src/$day", "--commit") 60 | Out-Null
+      }
     }
 
     # 4a. once a week (Sunday, first cycle after 02:00): the vendor sweeps that make the catalogue GROW -
@@ -218,23 +296,35 @@ try {
     $summary += "## queue"
     $summary += (Get-Content (Join-Path $LogDir "step-status.out") -ErrorAction SilentlyContinue)
     $summary += ""
-    $summary += "## yield per source today (pages done vs pages with facts) - a source with pages but no facts is a BROKEN ADAPTER"
+    $summary += "## yield per source (UTC days $yesterday and $today - both are applied every cycle) - a source with pages but no facts is a BROKEN ADAPTER"
     foreach ($src in $Sources.Split(",")) {
-      $dir = Join-Path $Repo ("runs\acquired\" + $src + "\" + $today)
-      if (-not (Test-Path $dir)) { continue }
-      $files = Get-ChildItem $dir -Filter "*.json"
-      $withFacts = 0
-      foreach ($f in $files) {
-        try { $j = Get-Content $f.FullName -Raw | ConvertFrom-Json; if (($j.result.facts.Count -gt 0) -or ($j.result.others.Count -gt 0)) { $withFacts++ } } catch {}
+      foreach ($day in $applyDays) {
+        $dir = Join-Path $Repo ("runs\acquired\" + $src + "\" + $day)
+        if (-not (Test-Path $dir)) { continue }
+        $files = Get-ChildItem $dir -Filter "*.json"
+        if ($day -ne $today -and $files.Count -eq 0) { continue }
+        $withFacts = 0
+        foreach ($f in $files) {
+          try { $j = Get-Content $f.FullName -Raw | ConvertFrom-Json; if (($j.result.facts.Count -gt 0) -or ($j.result.others.Count -gt 0)) { $withFacts++ } } catch {}
+        }
+        $flag = if ($files.Count -ge 5 -and $withFacts -eq 0) { "   <<< ZERO YIELD: check the adapter" } else { "" }
+        $summary += ("- {0} ({1}): {2} pages, {3} with facts{4}" -f $src, $day, $files.Count, $withFacts, $flag)
       }
-      $flag = if ($files.Count -ge 5 -and $withFacts -eq 0) { "   <<< ZERO YIELD: check the adapter" } else { "" }
-      $summary += ("- {0}: {1} pages, {2} with facts{3}" -f $src, $files.Count, $withFacts, $flag)
     }
     $summary += ""
     $summary += "## gates and applies (last lines)"
     foreach ($src in $Sources.Split(",")) {
-      $f = Join-Path $LogDir ("step-apply-" + $src + ".out")
-      if (Test-Path $f) { $summary += "### $src"; $summary += (Get-Content $f -Tail 8) }
+      # both applies of step 4: today's UTC directory and yesterday's
+      foreach ($prefix in @("apply-", "apply-prev-")) {
+        $f = Join-Path $LogDir ("step-" + $prefix + $src + ".out")
+        if (-not (Test-Path $f)) { continue }
+        # the previous-day apply stops running once that directory ages out of Get-ApplyDays, and
+        # its log file outlives it; a summary that keeps reprinting a stale apply is a summary that
+        # lies, so only a log this cycle wrote is printed
+        if ($prefix -eq "apply-prev-" -and (Get-Item $f).LastWriteTime -lt $cycleStart) { continue }
+        $summary += ("### " + $prefix + $src)
+        $summary += (Get-Content $f -Tail 8)
+      }
     }
     $summary += ""
     $summary += "## images (this cycle's bounded batch: fetched, rejected with the reason, uploaded)"
@@ -256,7 +346,14 @@ try {
     $mins = [int]((Get-Date) - $cycleStart).TotalMinutes
     Log "===== cycle done in $mins min"
     if ($Once) { break }
-    Start-Sleep -Seconds ($SleepMinutes * 60)
+    # Sleep in 60 s slices, touching the lock: a blocking Start-Sleep for the whole $SleepMinutes
+    # left the lock older than the 10-minute takeover rule above and invited a second supervisor.
+    $sleepUntil = (Get-Date).AddMinutes($SleepMinutes)
+    while ((Get-Date) -lt $sleepUntil) {
+      Update-Lock
+      Start-Sleep -Seconds 60
+    }
+    Update-Lock
   }
 } finally {
   Remove-Item $Lock -ErrorAction SilentlyContinue

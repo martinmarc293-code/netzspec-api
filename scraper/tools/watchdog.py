@@ -20,6 +20,11 @@ questions that matter, one line per source:
                  when it matched >= 20 parts and wrote nothing, LOW LANDING under 30% matched.
                  All three are report-only and all three name the top unknown SKUs, so a human
                  sees what the lane is chasing.
+  * APPLY        the hole underneath LANDING: those three read a SUCCEEDED apply run, so an apply
+                 that FAILED (rolled back to zero facts) or never ran left no row and every one of
+                 them went quiet. APPLY FAILED names the run, its age and its rollback note; NO
+                 APPLY fires when >= 20 pages were written under runs/acquired/<source>/ in the
+                 window and no apply-acquired run touched that source. Both report-only.
   * STALE RUN    a `runs` row still 'running' after 90 minutes, or while a later run of the same
                  kind has already succeeded. A killed process never reaches withRun's rollback.
                  Report-only, with the count of facts already carrying that run_id.
@@ -71,7 +76,11 @@ still read eighteen facts each. The medians the drift rule uses are computed her
 tasks only; the view's own numbers stay in the report so the two can be compared.
 
 Outputs: runs/nightshift/watchdog.md (human), runs/nightshift/watchdog.json (machine), and
-runs/nightshift/ALERT.md only while an ALARM exists (deleted when clear; the supervisor shows it).
+runs/nightshift/ALERT-watchdog.md only while an ALARM exists (deleted when clear). ALERT.md is the
+merged operator-facing summary of EVERY monitor's alarm file and is rebuilt from disk by whichever
+one runs (sentinel.write_alerts) — this file owns ALERT-watchdog.md and nothing else. Until
+4 Sep 2026 the sentinel and this file both wrote and deleted ALERT.md itself, so a clean cycle of
+either erased the other's live alarms.
 
 Writes: NONE without --act. With --act every change (delete, pause, back-off, resume) and every
 alarm lands in watchdog_events (db/migrations/0005_watchdog.sql) with the numbers behind it,
@@ -79,7 +88,7 @@ and in the report's actions list. tests/scraper/test_watchdog.py holds every che
 exactly on its condition and not otherwise".
 """
 from __future__ import annotations
-import argparse, json, re, sys
+import argparse, json, re, sys, time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -92,6 +101,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from sources import load_source          # noqa: E402  (ALLOW_SHORT_KEYS per source)
 from sources.base import is_part_number  # noqa: E402  the ONE part-number rule
 import vocab                             # noqa: E402  the ONE reader of the alias + ignore files
+# The ONE definition of how the two monitors share runs/nightshift/ALERT.md. It lives in
+# sentinel.py (stdlib only, so the watchdog's watchdog can never lose its alarm file to a missing
+# scraper dependency) and both writers call it. They used to own the same path and each deleted
+# the other's alarms on a clean cycle.
+from sentinel import write_alerts        # noqa: E402
 
 for _s in (sys.stdout, sys.stderr):
     try:
@@ -150,6 +164,15 @@ LANDING_TOP_UNKNOWN = 5       # unknown SKUs named in the report, so a human see
 # by (dead_discovery and not_listed_streak both file as zero_yield). Landing files as zero_yield
 # with reason no_landing/low_landing, a stale run as stall with reason stale_run.
 LANDING_EVENT_KIND = "zero_yield"
+# APPLY — the hole underneath LANDING. Every landing number above is read off a SUCCEEDED
+# apply-acquired run, so the one state in which absolutely nothing reached the database - the
+# apply FAILED, or never ran at all - produced no row for the checks to read and they went
+# quiet. Runs #64-#67 on 4 Sep 2026 each died on a column production did not have yet and rolled
+# back to zero facts while the lanes kept acquiring; no check in this file mentioned it, because
+# every check was asking a successful run how well it had done. Report-only, like the rest of
+# LANDING: a failed apply is not the lane's fault and pausing the lane would lose the pages.
+APPLY_MIN_PAGES = 20          # acquired pages in the window before "no apply ran" means anything
+APPLY_NOTES_CHARS = 240       # of the rollback note, which is where the real reason is
 # STALE RUN — a run row left open. The supervisor kills an apply at its 60 minute timeout, and a
 # killed process never reaches withRun's rollback: the row stays `running` for ever with whatever
 # facts it had already written still attached. Report-only and never touched from here — closing
@@ -160,6 +183,62 @@ VENDOR_TIER_MAX = 2           # sources.tier <= this is a vendor; above it, a re
 UNMAPPED_TOP_N = 5            # unmapped labels per source in the report
 UNMAPPED_MAX_FILES = 600      # acquired files read per source per run (the report is a sample,
                               # and it says so rather than pretending to be a census)
+
+# RESIDENTIAL PROXY SPEND. Two lanes (itprice, router-switch) go out through a DataImpulse
+# residential gateway because Cloudflare blocks this laptop's IP; that traffic is charged PER BYTE
+# against a 5 GB plan, so it is the only resource in this pipeline that can be exhausted outright.
+# Report-only, like every other money-shaped number here: the worker enforces its own daily budget
+# and the watchdog's job is to say what is being spent while there is still time to change it.
+PROXY_MB = 1024 * 1024
+PROXY_DAILY_MB_DEFAULT = 300  # matches worker.py's fallback; the real value is NETZSPEC_PROXY_DAILY_MB
+PROXY_DAILY_ALARM_FRACTION = 0.8   # 80% of a lane's daily budget: an alarm while a decision is
+                                   # still possible, not a post-mortem at 100%
+PROXY_PLAN_BYTES = 5 * 1024 * PROXY_MB       # the plan the operator bought
+PROXY_PLAN_ALARM_BYTES = 4 * 1024 * PROXY_MB # 4 GB of it: the last fifth is the reserve
+
+
+def proxy_daily_budget_bytes(env: dict) -> int:
+    """The per-source daily budget the worker enforces, read the same way the worker reads it so
+    the two cannot drift into advising one number and enforcing another (D:\\Project\\CLAUDE.md
+    § 10: a duplicated constant needs a check that catches drift — here there is no duplicate,
+    both read NETZSPEC_PROXY_DAILY_MB, and a bad value falls back to a SMALL budget, never none)."""
+    raw = str(env.get("NETZSPEC_PROXY_DAILY_MB", "") or "").strip()
+    try:
+        mb = int(float(raw))
+    except ValueError:
+        mb = PROXY_DAILY_MB_DEFAULT
+    if mb <= 0:
+        mb = PROXY_DAILY_MB_DEFAULT
+    return mb * PROXY_MB
+
+
+def proxy_verdict(slug: str, bytes_today: int, budget_bytes: int, plan_total_bytes: int,
+                  country: str | None = None) -> dict:
+    """One line per proxied source, and the two alarms. Pure: no database, no clock.
+
+    "Projected days" answers the only question that matters about a metered plan — how long it
+    lasts at TODAY's rate — from what is left of the plan, not from what the plan was. A lane that
+    has spent nothing today has no rate and therefore no projection, and says so rather than
+    reporting an infinity as good news."""
+    left = max(0, PROXY_PLAN_BYTES - max(0, plan_total_bytes))
+    days = round(left / bytes_today, 1) if bytes_today > 0 else None
+    pct = (100.0 * bytes_today / budget_bytes) if budget_bytes > 0 else 0.0
+    line = (f"residential proxy{f' [{country}]' if country else ''}: "
+            f"{bytes_today / PROXY_MB:.1f} MB today of {budget_bytes / PROXY_MB:.0f} MB budget ({pct:.0f}%), "
+            f"plan {plan_total_bytes / PROXY_MB:.0f} MB of {PROXY_PLAN_BYTES / PROXY_MB:.0f} MB used, "
+            + (f"{days} days left at today's rate" if days is not None else "no spend today, no rate to project"))
+    alarms: list[str] = []
+    if budget_bytes > 0 and bytes_today >= PROXY_DAILY_ALARM_FRACTION * budget_bytes:
+        alarms.append(f"ALARM residential budget {pct:.0f}% spent "
+                      f"({bytes_today / PROXY_MB:.1f} of {budget_bytes / PROXY_MB:.0f} MB today) — "
+                      f"the lane stops leasing at 100% and resumes at 00:00 UTC")
+    if plan_total_bytes > PROXY_PLAN_ALARM_BYTES:
+        alarms.append(f"ALARM residential PLAN {plan_total_bytes / PROXY_MB:.0f} MB of "
+                      f"{PROXY_PLAN_BYTES / PROXY_MB:.0f} MB used across all sources and all days — "
+                      "top the plan up or stop the proxied lanes")
+    return {"slug": slug, "bytes_today": int(bytes_today), "budget_bytes": int(budget_bytes),
+            "plan_total_bytes": int(plan_total_bytes), "projected_days": days, "country": country,
+            "line": line, "alarms": alarms}
 
 
 def load_env() -> dict:
@@ -305,6 +384,31 @@ def unmapped_labels(runs_dir: Path, slug: str, day: str, top_n: int = UNMAPPED_T
     return out
 
 
+def acquired_recent(runs_dir: Path, slug: str, minutes: int) -> int:
+    """How many acquired pages this lane WROTE inside the window.
+
+    The counterpart to load_applies(): pages on disk with no apply run to read them are pages
+    that never reached the database. Both UTC days are counted, because a window that starts
+    before midnight spans two of the worker's directories - and because naming only one of them
+    is exactly the bug that stranded an hour of pages every night (nightshift.ps1,
+    Get-ApplyDays). Freshness is by file mtime, so a finished day sitting on disk is not
+    mistaken for work nobody applied."""
+    cutoff = time.time() - minutes * 60
+    n = 0
+    for delta in (0, 1):
+        day = (utcnow() - timedelta(days=delta)).strftime("%Y-%m-%d")
+        d = Path(runs_dir) / "acquired" / slug / day
+        if not d.is_dir():
+            continue
+        for f in d.glob("*.json"):
+            try:
+                if f.stat().st_mtime >= cutoff:
+                    n += 1
+            except OSError:  # noqa — a file that vanished between the glob and the stat
+                continue
+    return n
+
+
 def unknown_skus(runs_dir: Path, slug: str, day: str, top_n: int = LANDING_TOP_UNKNOWN) -> list[str]:
     """The SKUs today's apply could not resolve to a part, most frequent first, from
     runs/reports/unknown-skus-<slug>-<day>.jsonl (written by apply-acquired on every run).
@@ -375,10 +479,20 @@ class Watchdog:
         return out
 
     def pause(self, s: dict, reason: str, detail: dict) -> None:
+        """Pause a source: enabled = false, a marker in notes, an event, an action line.
+
+        `enabled = false` is a request, not an enforcement, and until 4 Sep 2026 it was the whole
+        of "pause": nothing re-read the flag, so a worker that had already leased its way into the
+        queue kept fetching the paused lane until the queue ran dry. The flag now has two readers
+        that make it stick — worker.py re-reads it before every lease and exits, and sentinel.py
+        kills a live worker on a disabled source (with its own Chrome) for the case where the
+        worker is wedged inside a fetch and never reaches that lease. The event carries
+        `stop_worker: True` so the intent is in the record and not only in the flag."""
         marker = f" [watchdog paused: {reason} {utcnow().strftime('%Y-%m-%d %H:%M')}Z]"
         self.c.execute("UPDATE sources SET enabled = false, notes = COALESCE(notes,'') || %s WHERE id = %s", (marker, s["id"]))
-        self.event("source_paused", s["id"], {"reason": reason, **detail}, True)
-        self.actions.append(f"paused {s['slug']}: {reason} — {', '.join(f'{k} {v}' for k, v in detail.items())}")
+        self.event("source_paused", s["id"], {"reason": reason, "stop_worker": True, **detail}, True)
+        self.actions.append(f"paused {s['slug']}: {reason} — {', '.join(f'{k} {v}' for k, v in detail.items())}"
+                            + " — its worker must stop: worker.py exits at its next lease, the sentinel kills a wedged one")
 
     # -- the per-source numbers, one grouped query each (the database is behind an SSH tunnel;
     #    twenty sources times four round trips per cycle was the slow version) ----------------
@@ -508,37 +622,55 @@ class Watchdog:
                 broken.add(sid)
         return out
 
-    def load_landing(self) -> dict[str, dict]:
-        """Per source slug, what the last apply-acquired in the window actually WROTE.
+    @staticmethod
+    def apply_slugs(row: dict) -> list[str]:
+        """Which sources an apply-acquired run row is about.
 
-        `runs.notes` on a successful apply-acquired is "sources=<slug>[,<slug>...]" (written by
-        apply-acquired's body); the file paths in `inputs.first` name the same source and are the
-        fallback for a run whose notes are an error message. A run that touched more than one
-        source cannot have its numbers split, so it is recorded and never alarmed on — saying
-        "cannot attribute" is the honest answer and it keeps a shared run from pausing a lane
-        that was fine.
+        A SUCCEEDED run's notes are "sources=<slug>[,<slug>...]" (apply-acquired writes them). A
+        FAILED run's notes are the rollback line and the error message, so the slug has to come
+        from the acquired path in `inputs.first` - which is also the fallback for a succeeded run
+        whose notes were replaced."""
+        m = re.match(r"^sources=(.+)$", (row["notes"] or "").strip())
+        slugs = [s.strip() for s in m.group(1).split(",") if s.strip()] if m else []
+        if not slugs:
+            fm = re.search(r"acquired[\\/]+([A-Za-z0-9._-]+)[\\/]", str(row["first_file"] or ""))
+            slugs = [fm.group(1)] if fm else []
+        return slugs
 
-        The LATEST run per source is used, not the sum: apply-acquired re-reads the whole day's
-        acquired directory every cycle, so consecutive runs re-count the same pages and a sum
-        would be three times the truth."""
+    def load_applies(self) -> tuple[dict[str, dict], dict[str, dict]]:
+        """(landing, latest_apply) per source slug, from ONE pass over the window's apply runs.
+
+        landing       the latest SUCCEEDED apply-acquired - the numbers the LANDING checks read.
+                      The LATEST run per source, not the sum: apply-acquired re-reads the whole
+                      day's acquired directory every cycle, so consecutive runs re-count the same
+                      pages and a sum would be three times the truth. A run that touched more
+                      than one source cannot have its numbers split, so it is recorded with
+                      shared=True and alarmed on by nothing - "cannot attribute" is the honest
+                      answer and it keeps a shared run from condemning a lane that was fine.
+        latest_apply  the latest apply-acquired of ANY status. This is the half that was missing:
+                      load_landing() filtered on status = 'succeeded', so a run that FAILED left
+                      no row at all and every landing check went silently quiet - the one shape
+                      where nothing whatever reached the database. Runs #64-#67 on 4 Sep 2026
+                      each failed on a column production did not have yet, rolled back to zero
+                      facts, and not one check in this file said a word about it.
+        """
         rows = self.c.execute(
-            """SELECT id, notes, stats, started_at, finished_at, inputs->'first'->>0 AS first_file,
-                      round(extract(epoch FROM (now() - started_at)) / 60.0)::int AS age_min
+            """SELECT id, status::text AS status, notes, stats, started_at, finished_at,
+                      inputs->'first'->>0 AS first_file,
+                      round(extract(epoch FROM (now() - COALESCE(finished_at, started_at))) / 60.0)::int AS age_min
                  FROM runs
-                WHERE kind = 'apply-acquired' AND status = 'succeeded'
+                WHERE kind = 'apply-acquired' AND status IN ('succeeded', 'failed')
                   AND COALESCE(finished_at, started_at) > now() - make_interval(mins => %s)
                 ORDER BY id""", (self.window,)).fetchall()
-        out: dict[str, dict] = {}
+        landing: dict[str, dict] = {}
+        latest: dict[str, dict] = {}
         for r in rows:
-            m = re.match(r"^sources=(.+)$", (r["notes"] or "").strip())
-            slugs = [s.strip() for s in m.group(1).split(",") if s.strip()] if m else []
-            if not slugs:
-                fm = re.search(r"acquired[\\/]+([A-Za-z0-9._-]+)[\\/]", str(r["first_file"] or ""))
-                slugs = [fm.group(1)] if fm else []
+            slugs = self.apply_slugs(r)
             st = r["stats"] or {}
             for slug in slugs:
-                out[slug] = {
-                    "run_id": r["id"], "age_min": r["age_min"], "shared": len(slugs) > 1,
+                rec = {
+                    "run_id": r["id"], "status": r["status"], "age_min": r["age_min"],
+                    "shared": len(slugs) > 1, "notes": (r["notes"] or "").strip(),
                     "entries": int(st.get("entries") or 0),
                     "parts_matched": int(st.get("parts_matched") or 0),
                     "sku_unknown": int(st.get("sku_unknown") or 0),
@@ -546,7 +678,10 @@ class Watchdog:
                     "corroborate": int(st.get("corroborate") or 0),
                     "pages_with_facts": int(st.get("pages") or 0),
                 }
-        return out
+                latest[slug] = rec
+                if r["status"] == "succeeded":
+                    landing[slug] = rec
+        return landing, latest
 
     def load_stale_runs(self) -> list[dict]:
         """Run rows left open: `running` for longer than STALE_RUN_MINUTES, or `running` while a
@@ -618,7 +753,36 @@ class Watchdog:
                "content_pages_24h": med["pages_24h"], "content_median_24h": med["median_24h"],
                "content_median_7d": med["median_7d"], "hung_lease": hung,
                "not_listed_streak": nl["streak"], "unmapped": self.unmapped.get(s["slug"], {}),
-               "landing": self.landing.get(s["slug"])}
+               "landing": self.landing.get(s["slug"]),
+               "latest_apply": self.latest_apply.get(s["slug"]),
+               "acquired_in_window": self.acquired.get(s["slug"], 0)}
+
+        # APPLY — did an apply run at all, and did it survive? Every landing number below is read
+        # off a SUCCEEDED run, so a FAILED one (or none at all) is invisible there: the numbers
+        # simply stop, and a lane whose every page rolled back reads exactly like a lane that has
+        # not been applied yet. Report-only: a failed apply is not the lane's fault, and pausing
+        # the lane would only add lost pages to lost facts.
+        ap = self.latest_apply.get(s["slug"])
+        acquired = self.acquired.get(s["slug"], 0)
+        if ap and ap["status"] == "failed":
+            note = ap["notes"][:APPLY_NOTES_CHARS] or "(the run row carries no notes)"
+            msg = (f"ALARM APPLY FAILED (apply run {ap['run_id']} for this source failed {ap['age_min']} min ago "
+                   "and was rolled back, so nothing this lane acquired reached the database"
+                   + (" - SHARED run, other sources are affected too" if ap["shared"] else "")
+                   + f": {note})")
+            alarms.append(msg)
+            verdicts.append(msg)
+            self.event(LANDING_EVENT_KIND, s["id"], {"reason": "apply_failed", "run_id": ap["run_id"],
+                                                     "shared": ap["shared"], "acquired_in_window": acquired,
+                                                     "notes": note}, False, dedupe=True)
+        elif ap is None and acquired >= APPLY_MIN_PAGES:
+            msg = (f"ALARM NO APPLY ({acquired} pages written under runs/acquired/{s['slug']}/ in the last "
+                   f"{self.window} min and NO apply-acquired run touched this source in that window - the "
+                   "pages are on disk and nothing is reading them)")
+            alarms.append(msg)
+            verdicts.append(msg)
+            self.event(LANDING_EVENT_KIND, s["id"], {"reason": "no_apply", "acquired_in_window": acquired,
+                                                     "window_min": self.window}, False, dedupe=True)
 
         # LANDING — yield measured at the DATABASE, not at the adapter. Every other yield check
         # here counts what the scraper saw; this one counts what reached a part. They disagreed
@@ -794,6 +958,23 @@ class Watchdog:
             row["throttled"] = True
             verdicts.append(f"THROTTLED {rate}/h" + (f" (politeness {s['politeness_ms'] / 1000:g} s allows {cap}/h)" if cap else ""))
 
+        # RESIDENTIAL PROXY SPEND — one line per proxied source, report-only. The worker enforces
+        # the daily budget itself (it stops leasing and writes proxy_budget_exhausted); this is
+        # the number a human needs BEFORE that happens, plus the plan-level guard nothing else has.
+        row["proxy"] = (s.get("proxy") or "direct")
+        row["proxy_spend"] = None
+        if row["proxy"] == "residential" and getattr(self, "proxy_spend", {}).get("available"):
+            spent = self.proxy_spend["by_source"].get(s["id"], {"today": 0, "total": 0})
+            pv = proxy_verdict(s["slug"], spent["today"], getattr(self, "proxy_budget", PROXY_DAILY_MB_DEFAULT * PROXY_MB),
+                               self.proxy_spend["plan_total"], s.get("proxy_country"))
+            row["proxy_spend"] = pv
+            verdicts.append(pv["line"])
+            # No watchdog_events row: `kind` is a CHECK'd set and none of its members means "money".
+            # The alarm reaches the operator through ALERT.md and watchdog.md, and the DURABLE
+            # ledger of proxy spend is fetches.proxy_bytes itself — an event row would be a second,
+            # weaker copy of a number the fetches table already keeps per request.
+            alarms.extend(pv["alarms"])
+
         # RESUME — the pause/resume ledger
         paused = latest.get((s["id"], "source_paused"))
         backoff = latest.get((s["id"], "source_backoff"))
@@ -823,6 +1004,29 @@ class Watchdog:
 
         row["verdicts"], row["alarms"] = verdicts, alarms
         return row
+
+    # -- residential proxy spend -----------------------------------------------------------
+    def load_proxy_spend(self) -> dict:
+        """{source_id: {today, total}} plus the plan-wide total, from fetches.proxy_bytes.
+
+        The DATABASE is the ledger, not the heartbeat: a heartbeat is one worker's memory of one
+        day and is rewritten by the next process to touch it, while every fetch that cost a byte
+        left a row here. If migration 0011 is not applied the answer is COULD NOT CHECK — never
+        zero, which would read as "the lanes are spending nothing" (D:\\Project\\CLAUDE.md § 6)."""
+        have = self.c.execute(
+            """SELECT count(*) AS n FROM information_schema.columns
+                WHERE table_name = 'fetches' AND column_name = 'proxy_bytes'""").fetchone()["n"]
+        if not have:
+            return {"available": False, "by_source": {}, "plan_total": 0,
+                    "error": "fetches.proxy_bytes is missing: migration 0011_sources_proxy is not applied"}
+        rows = self.c.execute(
+            """SELECT source_id,
+                      COALESCE(sum(proxy_bytes) FILTER (
+                        WHERE fetched_at >= date_trunc('day', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'), 0) AS today,
+                      COALESCE(sum(proxy_bytes), 0) AS total
+                 FROM fetches WHERE proxy_bytes IS NOT NULL GROUP BY source_id""").fetchall()
+        by = {r["source_id"]: {"today": int(r["today"]), "total": int(r["total"])} for r in rows}
+        return {"available": True, "by_source": by, "plan_total": sum(v["total"] for v in by.values()), "error": None}
 
     # -- cross-source checks --------------------------------------------------------------
     def duplicates(self) -> dict:
@@ -868,7 +1072,18 @@ class Watchdog:
             db = self.c.execute("SELECT current_database() AS d").fetchone()["d"]
             raise SystemExit(f"watchdog: {', '.join(missing)} missing on database '{db}': migration 0005_watchdog is not applied "
                              f"(npm run migrate). Nothing checked, nothing written.")
-        sources = self.c.execute("SELECT id, slug, enabled, tier, politeness_ms, notes FROM sources ORDER BY slug").fetchall()
+        has_proxy_col = self.c.execute(
+            """SELECT count(*) AS n FROM information_schema.columns
+                WHERE table_name = 'sources' AND column_name = 'proxy'""").fetchone()["n"]
+        cols = "id, slug, enabled, tier, politeness_ms, notes" + (", proxy, proxy_country" if has_proxy_col else "")
+        sources = self.c.execute(f"SELECT {cols} FROM sources ORDER BY slug").fetchall()
+        try:
+            self.proxy_budget = proxy_daily_budget_bytes(load_env())
+        except Exception:  # noqa — no .env on this machine is not a reason to skip every other check
+            self.proxy_budget = PROXY_DAILY_MB_DEFAULT * PROXY_MB
+        self.proxy_spend = self.load_proxy_spend()
+        if not self.proxy_spend["available"] and any((s.get("proxy") or "direct") == "residential" for s in sources):
+            self.alarms.append(f"ALARM residential spend COULD NOT BE CHECKED — {self.proxy_spend['error']}")
         self.slug_of = {s["id"]: s["slug"] for s in sources}
         thr = {r["source_id"]: r for r in self.c.execute("SELECT * FROM source_throughput").fetchall()}
         latest = self.latest_events()
@@ -876,9 +1091,12 @@ class Watchdog:
         self.medians = self.load_content_medians()
         self.hung = self.load_hung_leases()
         self.not_listed_streaks = self.load_not_listed_streaks()
-        # what the apply actually WROTE per source in the window, and any run row left open
-        self.landing = self.load_landing()
+        # what the apply actually WROTE per source in the window, whether the LATEST apply for
+        # that source survived at all, and any run row left open
+        self.landing, self.latest_apply = self.load_applies()
         self.stale_runs = self.load_stale_runs()
+        # pages on disk in the window: the denominator for "nothing applied them"
+        self.acquired = {s["slug"]: acquired_recent(self.runs_dir, s["slug"], self.window) for s in sources}
         # the vocabulary feed, from today's acquired pages. Only sources that produced pages today
         # are read, so an idle source costs nothing.
         day = utcnow().strftime("%Y-%m-%d")
@@ -908,7 +1126,8 @@ class Watchdog:
                                            "superseded": sr["superseded"]}, False, dedupe=True)
         report = {"generated_at": utcnow().isoformat(), "window_min": self.window, "act": self.act, "expect": sorted(self.expect),
                   "sources": self.rows, "duplicates": dup, "junk": junk, "alarms": self.alarms, "actions": self.actions,
-                  "events": self.events, "unmapped": self.unmapped, "day": day, "stale_runs": self.stale_runs}
+                  "events": self.events, "unmapped": self.unmapped, "day": day, "stale_runs": self.stale_runs,
+                  "proxy": self.proxy_spend}
         self.write(report)
         return report
 
@@ -922,6 +1141,11 @@ class Watchdog:
             hbs = "no heartbeat" if hb is None else ("heartbeat ?" if hb.get("age_min") is None else f"heartbeat {hb['age_min']:.0f} min")
             eta = f", ETA {r['eta_hours']} h" if r["eta_hours"] is not None else ""
             verdict = "; ".join(r["verdicts"]) or "ok"
+            ap = r.get("latest_apply")
+            if ap and ap["status"] == "failed":
+                # the landing line below reads the last SUCCEEDED run, which may be hours older
+                # than this failure; printing it alone would report yesterday's good news
+                verdict = f"apply run {ap['run_id']} FAILED {ap['age_min']} min ago and rolled back; " + verdict
             land = r.get("landing")
             if land:
                 verdict = (f"landed {land['parts_matched']}/{land['entries']} entries, "
@@ -953,6 +1177,16 @@ class Watchdog:
                          + (f" (sampled, {UNMAPPED_MAX_FILES} newest)" if u["truncated"] else ""))
             for x in u["top"]:
                 lines.append(f"    - {x['count']:5}  {x['label']}  |  {x['sample']}")
+        prox = report.get("proxy") or {}
+        lines += ["", "## residential proxy spend (report only; the worker enforces the daily budget)"]
+        if not prox.get("available"):
+            lines.append(f"- COULD NOT CHECK — {prox.get('error') or 'no proxy columns'}")
+        else:
+            proxied = [r for r in report["sources"] if r.get("proxy_spend")]
+            if not proxied:
+                lines.append("- no source is set to proxy='residential'")
+            for r in proxied:
+                lines.append(f"- **{r['slug']}**: {r['proxy_spend']['line']}")
         d = report["duplicates"]
         lines += ["", f"## duplicate fetches (24 h): {d['urls']} urls" + (" — e.g. " + ", ".join(f"{x['slug']} {x['url']} x{x['n']}" for x in d["examples"][:5]) if d["urls"] else "")]
         sr = report.get("stale_runs") or []
@@ -968,13 +1202,11 @@ class Watchdog:
         text = "\n".join(lines) + "\n"
         (out / "watchdog.md").write_text(text, encoding="utf-8")
         (out / "watchdog.json").write_text(json.dumps(report, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
-        alert = out / "ALERT.md"
-        if report["alarms"]:
-            alert.write_text("# ALERT — scraper watchdog\n\n" + "\n".join(f"- {a}" for a in report["alarms"]) + "\n\n"
-                             + "\n".join(f"- {x}" for x in report["actions"]) + ("\n" if report["actions"] else "")
-                             + f"\n{utcnow().strftime('%Y-%m-%d %H:%M UTC')} — details in watchdog.md\n", encoding="utf-8")
-        elif alert.exists():
-            alert.unlink()
+        # ALERT-watchdog.md is this file's own; ALERT.md is the merged summary write_alerts
+        # rebuilds from every owner's file. Writing the merged file from THIS run's alarms is what
+        # used to erase a live sentinel alarm on a clean watchdog run, and the other way round.
+        write_alerts(out, "watchdog", report["alarms"], report["actions"],
+                     utcnow().strftime("%Y-%m-%d %H:%M UTC"), footer="details in watchdog.md")
         print(text)
 
 

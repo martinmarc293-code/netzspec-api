@@ -14,8 +14,11 @@ rem   4. the supervisor (nightshift.ps1): plans the queue, runs the watchdog, on
 rem      source EACH WITH ITS OWN CHROME (D:\netzspec-chrome-profile-<slug>), applies, recomputes
 rem      completeness, writes runs\nightshift\latest-summary.md
 rem   5. the sentinel (sentinel.py --loop --heal): every 3 minutes checks that all of the above is
-rem      physically alive and restarts what died, killing a wedged lane together with ITS OWN
-rem      Chrome; writes runs\nightshift\SENTINEL.md and ALERT.md
+rem      physically alive and restarts what died, killing a wedged lane (or one whose source has
+rem      been paused) together with ITS OWN Chrome; writes runs\nightshift\SENTINEL.md and, while
+rem      it has alarms, runs\nightshift\ALERT-sentinel.md. ONE FILE PER WRITER: the watchdog owns
+rem      ALERT-watchdog.md, and ALERT.md is a merged SUMMARY rebuilt from whichever owner files
+rem      exist, so a clean cycle of one monitor can no longer erase the other's live alarm.
 rem Safe to run twice: the tunnel and Chrome check their ports, the seed skips profiles that
 rem exist, and the supervisor and the sentinel each hold a lock file the live instance touches
 rem every minute.
@@ -25,4 +28,5 @@ python3.11 scraper\tools\sentinel.py --seed-profiles provantage,router-switch,it
 powershell -ExecutionPolicy Bypass -WindowStyle Hidden -File "scraper\tools\start-chrome-debug.ps1"
 start "netzspec supervisor" /min powershell -ExecutionPolicy Bypass -WindowStyle Hidden -File "D:\Project\netzspec-api\scraper\tools\nightshift.ps1"
 start "netzspec sentinel" /min python3.11 -u scraper\tools\sentinel.py --loop 180 --heal
-echo Scrapers started. Status: runs\nightshift\SENTINEL.md (alive?)  runs\nightshift\watchdog.md (yield)  runs\nightshift\latest-summary.md
+echo Scrapers started. Read first: runs\nightshift\ALERT.md (merged alarms, both monitors; absent = none)
+echo Then: runs\nightshift\SENTINEL.md (alive?)  runs\nightshift\watchdog.md (yield)  runs\nightshift\latest-summary.md

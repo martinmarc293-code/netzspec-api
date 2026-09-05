@@ -154,5 +154,153 @@ check("B12", "install_shutdown registers a handler on every signal this platform
 for n, h in before.items():           # leave the interpreter as we found it
     signal.signal(getattr(signal, n), h)
 
+
+# ---------------------------------------------------------------------------------------------
+# the residential proxy reaches the LAUNCH, or it reaches nothing
+# ---------------------------------------------------------------------------------------------
+# Two lanes (itprice, router-switch) are fetched through a metered residential gateway and every
+# other lane must not be. The only place that decision becomes real is the argument list handed to
+# launch_persistent_context, and until `_sync_playwright()` was pulled out of __init__ there was no
+# way to read it without a Chrome. Both halves are asserted here, because each failure is silent
+# and expensive in the opposite direction: a direct lane launched WITH the proxy spends the plan on
+# pages that were never blocked; a residential lane launched WITHOUT it goes out on the laptop's
+# blocked IP, gets a challenge, and the meter reports 0 bytes while the lane reports "blocked".
+
+import tempfile  # noqa: E402
+
+TMPP = Path(tempfile.mkdtemp(prefix="netzspec-browser-launch-"))
+
+
+class FakeCtx:
+    def __init__(self, rec):
+        self.rec = rec
+        self.pages = []
+        self.routes = []
+        self.events = []
+
+    def new_page(self):
+        return type("Pg", (), {"close": lambda _s: None})()
+
+    def route(self, pattern, handler):
+        self.routes.append(pattern)
+
+    def on(self, event, handler):
+        self.events.append(event)
+
+    def close(self):
+        self.rec["closed"] = True
+
+
+class FakeChromium:
+    def __init__(self, rec):
+        self.rec = rec
+
+    def launch_persistent_context(self, profile_dir, **kwargs):
+        self.rec["calls"].append({"profile_dir": profile_dir, "kwargs": kwargs})
+        return FakeCtx(self.rec)
+
+
+class FakePw:
+    def __init__(self, rec):
+        self.chromium = FakeChromium(rec)
+        self.rec = rec
+
+    def stop(self):
+        self.rec["stopped"] = True
+
+
+def launched(proxy=None, slug="lane"):
+    """Build a Browser against a recorder instead of Chrome and return what it launched."""
+    rec = {"calls": [], "closed": False, "stopped": False}
+    real_pw, real_seed = W._sync_playwright, W.seed_profile
+    W._sync_playwright = lambda: type("Starter", (), {"start": lambda _s: FakePw(rec)})()
+    W.seed_profile = lambda d, source_dir=None: ""   # never touch the operator's real cookie jar
+    try:
+        b = W.Browser(mode="profile", profile_dir=str(TMPP / slug), proxy=proxy)
+    finally:
+        W._sync_playwright, W.seed_profile = real_pw, real_seed
+    return b, rec
+
+
+PROXY = {"server": "http://gw.example.test:823", "username": "fixtureuser__cr.de;sessid.lane1",
+         "password": "fixturepass"}
+
+b_direct, rec_direct = launched(None, "direct")
+kw_direct = rec_direct["calls"][0]["kwargs"]
+check("B13", "a DIRECT source launches with NO proxy argument at all",
+      "proxy" not in kw_direct and b_direct.proxied is False, str(sorted(kw_direct)))
+check("B14", "a direct lane installs neither the route filter nor the byte meter",
+      b_direct._ctx.routes == [] and b_direct._ctx.events == [], str((b_direct._ctx.routes, b_direct._ctx.events)))
+
+b_prox, rec_prox = launched(PROXY, "prox")
+kw_prox = rec_prox["calls"][0]["kwargs"]
+check("B15", "a RESIDENTIAL source launches WITH the proxy option, verbatim",
+      kw_prox.get("proxy") == PROXY and b_prox.proxied is True, str(kw_prox.get("proxy")))
+check("B16", "the proxy is the only thing that changes: channel/profile/locale/viewport are unchanged",
+      {k: v for k, v in kw_prox.items() if k != "proxy"} == kw_direct, str((kw_prox, kw_direct)))
+check("B17", "a residential lane installs the route filter AND the byte meter, both, from the one flag",
+      b_prox._ctx.routes == ["**/*"] and b_prox._ctx.events == ["response"], str((b_prox._ctx.routes, b_prox._ctx.events)))
+
+# SABOTAGE: --cdp attaches to a Chrome somebody else started, whose network path is not ours to
+# set. A proxy option there is silently ignored, so it must be refused loudly instead.
+cdp_err = None
+real_pw = W._sync_playwright
+W._sync_playwright = lambda: type("Starter", (), {"start": lambda _s: FakePw({"calls": []})})()
+try:
+    W.Browser(mode="cdp", proxy=PROXY)
+except ValueError as e:
+    cdp_err = str(e)
+finally:
+    W._sync_playwright = real_pw
+check("B18", "sabotage: --cdp + a residential lane is REFUSED (an attached Chrome's proxy is not ours)",
+      cdp_err is not None and "cdp" in cdp_err.lower(), str(cdp_err))
+check("B19", "no launch argument, and no refusal message, ever carries the password",
+      all("fixturepass" not in str(x) for x in (kw_direct, cdp_err)) and kw_prox["proxy"]["password"] == "fixturepass",
+      "the password reaches Playwright and nothing else")
+
+# the route handler itself: an image is aborted, an HTML document continues
+class FakeRoute:
+    def __init__(self, resource_type, url):
+        self.request = type("Req", (), {"resource_type": resource_type, "url": url})()
+        self.acted = None
+
+    def abort(self):
+        self.acted = "abort"
+
+    def continue_(self):
+        self.acted = "continue"
+
+
+r_img = FakeRoute("image", "https://www.router-switch.com/media/logo.png")
+r_doc = FakeRoute("document", "https://www.router-switch.com/c9200l-24p-4g.html")
+b_prox._route(r_img)
+b_prox._route(r_doc)
+check("B20", "the route handler ABORTS an image request and lets the HTML document through",
+      (r_img.acted, r_doc.acted) == ("abort", "continue") and b_prox.aborted == 1, str((r_img.acted, r_doc.acted, b_prox.aborted)))
+
+
+class ExplodingRoute(FakeRoute):
+    def __init__(self):
+        super().__init__("image", "https://x.test/a.png")
+        self.tries = 0
+
+    def abort(self):
+        self.tries += 1
+        raise RuntimeError("target closed")
+
+
+er = ExplodingRoute()
+b_prox._route(er)
+check("B21", "sabotage: a route that throws is not allowed to stall the page (the handler swallows it)",
+      er.acted == "continue" and er.tries == 1, str((er.acted, er.tries)))
+
+# the meter
+b_prox.proxy_bytes = b_prox.proxy_unmeasured = 0
+b_prox._on_response(type("R", (), {"headers": {"content-length": "500"}})())
+b_prox._on_response(type("R", (), {"headers": {}})())
+n, u = b_prox.take_proxy_bytes()
+check("B22", "the meter sums content-length and counts an unmeasurable response instead of calling it free",
+      (n, u) == (500, 1) and b_prox.take_proxy_bytes() == (0, 0), str((n, u)))
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

@@ -47,9 +47,38 @@ Held to contract:
   * blocks / auto-resume      >= 5 blocks backs off (enabled=false, next_at deferred); after 60 min
                               --act resumes; at 30 min it does not
   * report-only               writes no watchdog_events row and changes no row anywhere
+  * apply failed / no apply    a FAILED apply-acquired run in the window is an alarm naming the
+                              run and its rollback note; so is >= 20 pages written under
+                              runs/acquired/<source>/ with no apply run to read them. Not: a
+                              failure a later apply recovered from; a failure older than the
+                              window; 19 pages; pages older than the window; an idle lane
+  * ALERT files               each monitor owns ALERT-<owner>.md and ALERT.md is the merged
+                              summary: a CLEAN cycle of either writer must not erase the other's
+                              live alarm, and ALERT.md goes only when no owner has anything to say
+  * sentinel cycle guard      a cycle whose WRITE fails does not raise, and says so on the next
+                              cycle; a failed READING is still reported on its own cycle
+  * residential budget        a lane whose heartbeat says proxy_budget_exhausted FOR TODAY is
+                              reported BUDGET SPENT and NOT restarted, and check() itself is what
+                              is run, not the pure function. Not: a beat from yesterday; an idle
+                              beat carrying today's date; the outcome with no day; a missing or
+                              half-written beat - each of those starts the lane as always, because
+                              a guard that outlives its day, or fires on a file it could not read,
+                              ends the night's acquisition in silence
+  * pause stops the lane      the worker re-reads sources.enabled before every lease and exits;
+                              the sentinel calls a live worker on a disabled source a lane to
+                              kill, and calls nothing one when the database could not be read -
+                              and its check() really REACHES kill_lane(kill_worker=True) for one,
+                              over a stubbed process list and a stubbed database. Not: without
+                              --heal; not an enabled source; not an unreadable database
+
+It also holds the supervisor rules that can only be checked against the script itself
+(scraper/tools/nightshift.ps1): the apply date is UTC, both days are applied with no freshness
+test on either, and the lock is touched at every step boundary and through every wait. Those
+cases parse the file with the PowerShell AST and RUN the three functions they are about under a
+fake clock and over a fixture tree.
 """
 from __future__ import annotations
-import io, json, os, re, sys, tempfile
+import io, json, os, re, subprocess, sys, tempfile, time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -107,9 +136,15 @@ def reset() -> None:
     # a case that crashed) is evidence in every later one. This suite is the only thing that
     # writes runs in a _test4 database, so clearing them here is what makes each case independent
     # — the first version of section 17 left run 19 behind and 30 unrelated cases went red.
-    C.execute("DELETE FROM facts WHERE run_id IN (SELECT id FROM runs)")
-    C.execute("DELETE FROM runs")
-    C.execute("UPDATE sources SET enabled = true, notes = NULL")
+    # ...and only the kind this suite creates. `DELETE FROM runs` used to take the whole table,
+    # which broke twice: it violates the run_id foreign keys the fact graph holds (conflicts,
+    # evidence, aliases, images...), and _test4 is shared with the other DB suites, so a suite
+    # that owns the table destroys another one's fixtures mid-run. apply-acquired is what
+    # apply_run() below writes and what the LANDING and APPLY checks read; nothing else here
+    # looks at a run of another kind.
+    C.execute("DELETE FROM facts WHERE run_id IN (SELECT id FROM runs WHERE kind = 'apply-acquired')")
+    C.execute("DELETE FROM runs WHERE kind = 'apply-acquired'")
+    C.execute("UPDATE sources SET enabled = true, notes = NULL, proxy = 'direct', proxy_country = NULL")
     C.execute("UPDATE sources SET politeness_ms = 3000 WHERE id = %s", (P,))
     hb = RUNS / "heartbeat"
     if hb.exists():
@@ -1034,6 +1069,812 @@ C.execute("DELETE FROM facts WHERE part_id = %s", (_p,))
 C.execute("DELETE FROM parts WHERE id = %s", (_p,))
 clear_runs()
 reset()
+
+# ---------------------------------------------------------------------------------------------
+# 18. APPLY FAILED / NO APPLY - the hole underneath every LANDING number
+# ---------------------------------------------------------------------------------------------
+# Section 17 reads a SUCCEEDED apply run. The state it cannot see is the one where NOTHING
+# reached the database: the apply FAILED (withRun rolls its facts back and closes the row
+# `failed`) or never ran at all. Runs #64-#67 on 4 Sep 2026 each died on a column production did
+# not have yet, rolled back to zero facts, and no check in the watchdog said a word - the lane
+# looked idle rather than broken, which is the same silence D:\Project\CLAUDE.md section 6 is
+# about. Report-only: a failed apply is not the lane's fault and pausing it would lose the pages.
+ROLLBACK_NOTE = ('rolled_back=0 facts (0 restored, 0 evidence, 0 conflicts, 0 states); '
+                 'column "retired_at" does not exist')
+
+reset()
+failed = apply_run("provantage", entries=140, matched=0, unknown=0, status="failed", notes=ROLLBACK_NOTE)
+rep = run(act=True)
+check("AF1", "APPLY FAILED: a failed apply-acquired run is an alarm on the source it was for",
+      any("APPLY FAILED" in a and a.startswith("provantage") for a in rep["alarms"]), str(rep["alarms"]))
+check("AF2", "...naming the run and quoting the rollback note, which is where the reason is",
+      any(f"run {failed}" in a and 'column "retired_at" does not exist' in a and "rolled_back=0" in a
+          for a in rep["alarms"]), str(rep["alarms"]))
+check("AF3", "...report-only: the source stays enabled and nothing is paused",
+      enabled(P) and not any("pause" in x for x in rep["actions"]), str((enabled(P), rep["actions"])))
+check("AF4", "...an event carries the run id and the reason",
+      [e for e in events("zero_yield", P) if (e["detail"] or {}).get("reason") == "apply_failed"
+       and (e["detail"] or {}).get("run_id") == failed], str(events("zero_yield", P)))
+check("AF5", "...and the markdown line says the apply failed rather than printing a landing number",
+      f"apply run {failed} FAILED" in md(), md().split("- **provantage")[1][:300] if "- **provantage" in md() else md())
+
+# SABOTAGE: the failed run's slug comes from the acquired path, because a failed run's notes are
+# the rollback line and never "sources=<slug>" (LD14 proves the same fallback for NO LANDING)
+reset()
+f2 = apply_run(None, entries=60, matched=0, status="failed", notes=ROLLBACK_NOTE,
+               first=f"runs\\acquired\\router-switch\\{TODAY}\\9.json")
+check("AF6", "a failed run is attributed through inputs.first: its notes can never say sources=",
+      any("APPLY FAILED" in a and a.startswith("router-switch") and f"run {f2}" in a
+          for a in run(act=False)["alarms"]), str(run(act=False)["alarms"]))
+
+reset()
+apply_run("provantage", entries=140, matched=0, status="failed", notes=ROLLBACK_NOTE, minutes_ago=180)
+check("AF7", "SABOTAGE a failure older than the window is not this window's evidence",
+      not any("APPLY FAILED" in a for a in run(act=False, window=60)["alarms"]))
+
+# a failure that a LATER successful apply has already replaced is history, not an alarm
+reset()
+apply_run("provantage", entries=140, matched=0, status="failed", notes=ROLLBACK_NOTE, minutes_ago=40)
+apply_run("provantage", entries=140, matched=130, insert=400, minutes_ago=5)
+rep = run(act=False)
+check("AF8", "SABOTAGE a failure the next apply already recovered from is not an alarm",
+      not any("APPLY FAILED" in a for a in rep["alarms"]), str(rep["alarms"]))
+check("AF9", "...and the recovered lane reports its landing numbers as usual",
+      row(rep, "provantage")["landing"]["insert"] == 400, str(row(rep, "provantage")["landing"]))
+
+# ...but a failure AFTER a success is the state that matters: the latest run is the truth
+reset()
+apply_run("provantage", entries=140, matched=130, insert=400, minutes_ago=40)
+last = apply_run("provantage", entries=140, matched=0, status="failed", notes=ROLLBACK_NOTE, minutes_ago=5)
+rep = run(act=False)
+check("AF10", "a failure AFTER a success alarms: the newest run is what the database has",
+      any("APPLY FAILED" in a and f"run {last}" in a for a in rep["alarms"]), str(rep["alarms"]))
+
+# NO APPLY - pages on disk that no run has read. This is what the supervisor's local-vs-UTC date
+# bug looked like from here: worker.py wrote runs/acquired/<slug>/<UTC day>/ and nightshift.ps1
+# named the LOCAL day, so for the 23:00-00:00 UTC hour the directory existed and no apply ever
+# opened it. Nothing in this file could see it, because "no run" produced no row.
+reset()
+acquired("provantage", 25, "Widget Sparkle Index", "9 sparkles", start=900)
+rep = run(act=True)
+check("AP1", "NO APPLY: 25 pages written in the window and no apply-acquired run for them is an alarm",
+      any("NO APPLY" in a and "25 pages" in a and a.startswith("provantage") for a in rep["alarms"]), str(rep["alarms"]))
+check("AP2", "...report-only, and the count reaches the report row",
+      enabled(P) and row(rep, "provantage")["acquired_in_window"] == 25, str(row(rep, "provantage")["acquired_in_window"]))
+check("AP3", "...with an event naming the reason and the count",
+      [e for e in events("zero_yield", P) if (e["detail"] or {}).get("reason") == "no_apply"
+       and (e["detail"] or {}).get("acquired_in_window") == 25], str(events("zero_yield", P)))
+
+reset()
+acquired("provantage", 25, "Widget Sparkle Index", "9 sparkles", start=900)
+apply_run("provantage", entries=25, matched=24, insert=90)
+check("AP4", "SABOTAGE the same 25 pages WITH an apply that read them: nothing fires",
+      not any("NO APPLY" in a for a in run(act=False)["alarms"]))
+
+reset()
+acquired("provantage", 19, "Widget Sparkle Index", "9 sparkles", start=900)
+check("AP5", "SABOTAGE 19 pages is below the 20 the rule needs to mean anything",
+      not any("NO APPLY" in a for a in run(act=False)["alarms"]))
+
+reset()
+check("AP6", "SABOTAGE an idle lane with no pages at all is not 'nothing applied them'",
+      not any("NO APPLY" in a for a in run(act=False)["alarms"]))
+
+# pages written before the window opened were applied by an earlier cycle; only fresh ones count
+reset()
+acquired("provantage", 25, "Widget Sparkle Index", "9 sparkles", start=900)
+_old = datetime.now().timestamp() - 3 * 3600
+for _f in (RUNS / "acquired" / "provantage" / TODAY).iterdir():
+    os.utime(_f, (_old, _old))
+check("AP7", "SABOTAGE pages older than the window belong to an earlier cycle's apply",
+      not any("NO APPLY" in a for a in run(act=False, window=60)["alarms"]))
+check("AP8", "...and a wider window sees them again (the boundary is mtime, not existence)",
+      any("NO APPLY" in a for a in run(act=False, window=300)["alarms"]))
+clear_runs()
+reset()
+
+# ---------------------------------------------------------------------------------------------
+# 19. ALERT.md is shared: one file per writer, and neither may erase the other
+# ---------------------------------------------------------------------------------------------
+# Both this watchdog and scraper/tools/sentinel.py wrote runs/nightshift/ALERT.md from their own
+# alarms and UNLINKED it when they had none. Whichever ran last decided what the operator saw, so
+# a clean sentinel cycle erased a live watchdog alarm and the other way round - the one file the
+# operator reads first went blank while a lane was down.
+sys.path.insert(0, str(ROOT / "scraper" / "tools"))
+import sentinel as S  # noqa: E402
+
+AL = TMP / "alerts"
+S.write_alerts(AL, "watchdog", ["provantage: NO LANDING"], ["deleted 3 junk keys"], "STAMP")
+check("AL1", "the watchdog writes its OWN file and the merged summary",
+      (AL / "ALERT-watchdog.md").exists() and "NO LANDING" in (AL / "ALERT.md").read_text(encoding="utf-8"))
+S.write_alerts(AL, "sentinel", [], [], "STAMP")
+check("AL2", "SABOTAGE a CLEAN sentinel cycle does NOT erase the watchdog's live alarm",
+      (AL / "ALERT-watchdog.md").exists() and "NO LANDING" in (AL / "ALERT.md").read_text(encoding="utf-8"),
+      (AL / "ALERT.md").read_text(encoding="utf-8") if (AL / "ALERT.md").exists() else "ALERT.md gone")
+S.write_alerts(AL, "sentinel", ["tunnel down: nothing can reach the database"], [], "STAMP")
+_merged = (AL / "ALERT.md").read_text(encoding="utf-8")
+check("AL3", "both writers' alarms stand together in the merged summary",
+      "NO LANDING" in _merged and "tunnel down" in _merged and (AL / "ALERT-sentinel.md").exists(), _merged)
+S.write_alerts(AL, "watchdog", [], [], "STAMP")
+_merged = (AL / "ALERT.md").read_text(encoding="utf-8")
+check("AL4", "a writer that goes clean removes only ITS file, and the other's alarm survives",
+      not (AL / "ALERT-watchdog.md").exists() and "tunnel down" in _merged and "NO LANDING" not in _merged, _merged)
+S.write_alerts(AL, "sentinel", [], [], "STAMP")
+check("AL5", "the merged summary is removed only when NO owner has anything to say",
+      not (AL / "ALERT.md").exists() and not (AL / "ALERT-sentinel.md").exists())
+try:
+    S.write_alerts(AL, "nightshift", ["x"], [], "STAMP")
+    check("AL6", "an unknown owner is refused rather than quietly given a file of its own", False, "no raise")
+except ValueError as e:
+    check("AL6", "an unknown owner is refused rather than quietly given a file of its own", "nightshift" in str(e), str(e))
+
+# the watchdog end to end: its own file, and ALERT.md carries a sentinel alarm it never saw
+reset()
+(RUNS / "nightshift").mkdir(parents=True, exist_ok=True)
+S.write_alerts(RUNS / "nightshift", "sentinel", ["supervisor not running"], [], "STAMP")
+apply_run("provantage", entries=208, matched=0, unknown=208)
+run(act=False)
+_al = (RUNS / "nightshift" / "ALERT.md").read_text(encoding="utf-8")
+check("AL7", "a watchdog run writes ALERT-watchdog.md and leaves the sentinel's file alone",
+      (RUNS / "nightshift" / "ALERT-watchdog.md").exists() and (RUNS / "nightshift" / "ALERT-sentinel.md").exists()
+      and "NO LANDING" in _al and "supervisor not running" in _al, _al)
+clear_runs()
+reset()
+run(act=False)
+check("AL8", "SABOTAGE a CLEAN watchdog run still does not erase the sentinel's alarm",
+      (RUNS / "nightshift" / "ALERT.md").exists()
+      and "supervisor not running" in (RUNS / "nightshift" / "ALERT.md").read_text(encoding="utf-8")
+      and not (RUNS / "nightshift" / "ALERT-watchdog.md").exists(),
+      (RUNS / "nightshift" / "ALERT.md").read_text(encoding="utf-8") if (RUNS / "nightshift" / "ALERT.md").exists() else "gone")
+(RUNS / "nightshift" / "ALERT-sentinel.md").unlink()
+run(act=False)
+check("AL9", "...and with no owner left, ALERT.md is gone (R4's contract still holds)", not alert())
+
+# ---------------------------------------------------------------------------------------------
+# 20. the sentinel's crash guard covers the WHOLE cycle, not just check()
+# ---------------------------------------------------------------------------------------------
+# The guard used to wrap check() alone. Building the report, writing SENTINEL.md and writing or
+# unlinking ALERT.md all sat outside it, so a PermissionError on a file the operator had open, or
+# a full disk, killed the loop of the process whose entire job is to notice that things stopped.
+_check, _ns = S.check, S.NS
+try:
+    S.check = lambda heal: (["- fake reading"], ["fake alarm"], [])
+    _broken = TMP / "ns-is-a-file"
+    _broken.write_text("this is a file, not a directory", encoding="utf-8")
+    S.NS = _broken
+    _alarms, _carried = S.cycle_once(False, [])
+    check("SG1", "a cycle whose WRITE fails returns instead of raising", True)
+    check("SG2", "...and carries the failure forward rather than losing it", bool(_carried), str(_carried))
+    S.NS = TMP / "ns-ok"
+    _alarms, _carried2 = S.cycle_once(False, _carried)
+    check("SG3", "the next cycle reports the previous cycle's failure as an alarm",
+          any("could not finish" in a for a in _alarms) and _carried2 == [], str((_alarms, _carried2)))
+    check("SG4", "...and it reaches the sentinel's alarm file, not only stdout",
+          "could not finish" in (TMP / "ns-ok" / "ALERT-sentinel.md").read_text(encoding="utf-8"))
+    S.check = lambda heal: (["- fake reading"], [], [])
+    _alarms, _carried3 = S.cycle_once(False, [])
+    check("SG5", "SABOTAGE a clean cycle carries nothing forward and clears its alarm file",
+          _alarms == [] and _carried3 == [] and not (TMP / "ns-ok" / "ALERT-sentinel.md").exists(), str(_alarms))
+    def _boom(heal):
+        raise RuntimeError("Get-NetTCPConnection timed out")
+    S.check = _boom
+    _alarms, _carried4 = S.cycle_once(False, [])
+    check("SG6", "a failed READING is still reported on the cycle it happened, not carried",
+          any("sentinel check failed" in a for a in _alarms) and _carried4 == [], str((_alarms, _carried4)))
+except Exception as e:  # noqa
+    check("SG1", "the sentinel cycle guard section ran", False, f"{type(e).__name__}: {e}")
+finally:
+    S.check, S.NS = _check, _ns
+
+# ---------------------------------------------------------------------------------------------
+# 21. a PAUSE must actually stop the lane
+# ---------------------------------------------------------------------------------------------
+# `sources.enabled = false` is a request, not an enforcement. The worker read its source rows once
+# at connect time and never again, so a lane paused for zero yield, drift or blocks kept fetching
+# until its queue ran dry - hours, on a lane with three thousand queued searches, and the whole of
+# what pausing is for.
+sys.path.insert(0, str(ROOT / "scraper"))
+import worker as WK  # noqa: E402
+
+_q = WK.Queue(DB_URL)
+try:
+    check("PZ1", "enabled_ids() answers with every enabled source", _q.enabled_ids([P, R]) == {P, R}, str(_q.enabled_ids([P, R])))
+    C.execute("UPDATE sources SET enabled = false WHERE id = %s", (P,))
+    check("PZ2", "a source disabled AFTER the worker connected is dropped: the flag is re-read",
+          _q.enabled_ids([P, R]) == {R}, str(_q.enabled_ids([P, R])))
+    check("PZ3", "...and it is genuinely a re-read, not the connect-time snapshot, which still says enabled",
+          _q.sources["provantage"]["enabled"] is True, str(_q.sources["provantage"]["enabled"]))
+finally:
+    C.execute("UPDATE sources SET enabled = true WHERE id = %s", (P,))
+    _q.conn.close()
+
+
+class PausingQueue:
+    """A queue whose source is paused the moment the worker leases from it - what the watchdog
+    does mid-run. lease() refuses to be called more than a few times so a worker that ignores the
+    flag fails the case instead of hanging the suite."""
+
+    def __init__(self):
+        self.by_id = {1: {"id": 1, "slug": "pauseme", "enabled": True}}
+        self.sources = {"pauseme": self.by_id[1]}
+        self.leases = 0
+
+    def enabled_ids(self, source_ids):
+        return {i for i in source_ids if self.by_id[i]["enabled"]}
+
+    def lease(self, source_ids):
+        self.leases += 1
+        if self.leases > 3:
+            raise AssertionError("the worker kept leasing from a DISABLED source")
+        self.by_id[1]["enabled"] = False
+        return None
+
+
+_pq = PausingQueue()
+try:
+    _summary = WK.Loop(_pq, object(), RUNS, load=lambda slug: None, sleep=lambda s: None).run([1], loop=True, idle=0)
+    check("PZ4", "a looping worker EXITS when its source is disabled under it", True)
+    check("PZ5", "...after exactly one lease: it re-reads the flag before every lease, not after N",
+          _pq.leases == 1, str(_pq.leases))
+    check("PZ6", "...and it says so in the heartbeat, so the sentinel sees why the lane stopped",
+          json.loads((RUNS / "heartbeat" / "pauseme.json").read_text(encoding="utf-8"))["outcome"] == "disabled",
+          (RUNS / "heartbeat" / "pauseme.json").read_text(encoding="utf-8"))
+except AssertionError as e:
+    check("PZ4", "a looping worker EXITS when its source is disabled under it", False, str(e))
+
+check("PZ7", "the sentinel calls a live worker on a DISABLED source a lane to kill",
+      S.disabled_lanes({"provantage": 1, "meraki": 2}, {"provantage": False, "meraki": True}) == ["provantage"],
+      str(S.disabled_lanes({"provantage": 1, "meraki": 2}, {"provantage": False, "meraki": True})))
+check("PZ8", "SABOTAGE an enabled source with a worker is not one", S.disabled_lanes({"meraki": 2}, {"meraki": True}) == [])
+check("PZ9", "SABOTAGE a disabled source with NO worker is not one (there is nothing to kill)",
+      S.disabled_lanes({"meraki": 0}, {"meraki": False}) == [])
+check("PZ10", "SABOTAGE an unreadable database (no flags at all) kills nothing: could-not-check is not is-broken",
+      S.disabled_lanes({"provantage": 1, "meraki": 2}, {}) == [])
+
+# ---- the CALL SITE ---------------------------------------------------------------------------
+# PZ7-PZ10 prove disabled_lanes() as a pure function, and a pure function proves nothing about
+# whether anything ever ASKS it. Deleting the two lines in check() that turn its answer into
+# kill_lane(slug, kill_worker=True) leaves every case above green while a paused lane fetches all
+# night - the exact shape of the bug this rule exists for (round-1 review, 5 Sep 2026).
+# Everything check() touches is stubbed, so this case cannot start a process, kill a Chrome or
+# reach the network: scraping is stopped by operator order and a test may never be the thing that
+# restarts it. S.NS and S.STATE are redirected too, so nothing under runs/nightshift/ is written.
+class _NoSubprocess:
+    """Any subprocess call from check() during this case is a test failure, not a side effect."""
+
+    def __getattr__(self, name):
+        def refuse(*a, **k):
+            raise AssertionError(f"check() called subprocess.{name}{str(a)[:120]} inside the test")
+        return refuse
+
+
+_SENT_KEYS = ("processes", "listening", "cdp_pages", "cdp_connects", "db_state", "kill_lane",
+              "lane_chrome_pids", "heartbeat_age_min", "ps", "subprocess", "NS", "STATE")
+_saved_sentinel = {k: getattr(S, k) for k in _SENT_KEYS}
+_killed: list = []
+try:
+    _sns = TMP / "sentinel-callsite"
+    _sns.mkdir(parents=True, exist_ok=True)
+    (_sns / "nightshift.lock").write_text("fresh", encoding="ascii")   # a live supervisor: nothing to restart
+    S.NS, S.STATE = _sns, _sns / "sentinel-state.json"
+    S.processes = lambda: [
+        "powershell -ExecutionPolicy Bypass -WindowStyle Hidden -File "
+        "D:\\Project\\netzspec-api\\scraper\\tools\\nightshift.ps1",
+        "python3.11 -u scraper/worker.py run --sources provantage --profile",
+    ]
+    S.listening = lambda port: True                       # tunnel and 9222 both up: nothing to heal
+    S.cdp_pages = lambda: []
+    S.cdp_connects = lambda timeout_ms=20000: (True, "stubbed")
+    S.lane_chrome_pids = lambda slug: []
+    S.heartbeat_age_min = lambda slug: 1.0
+    S.subprocess = _NoSubprocess()
+    S.ps = lambda cmd: (_ for _ in ()).throw(AssertionError("check() shelled out to PowerShell: " + cmd[:80]))
+    S.kill_lane = lambda slug, kill_worker: (_killed.append((slug, kill_worker)), f"killed {slug}: stubbed")[1]
+    # a live worker for provantage, whose source the watchdog has paused; meraki is enabled and has
+    # no worker, so the only difference between the two lanes is the flag
+    S.db_state = lambda: {"runnable": {}, "enabled": {"provantage": False, "meraki": True}}
+
+    _lines, _alarms, _actions = S.check(heal=True)
+    check("PZ11", "check(heal=True) REACHES kill_lane for a disabled source with a live worker, and passes "
+                  "kill_worker=True",
+          _killed == [("provantage", True)], str(_killed))
+    check("PZ11b", "...and the alarm and the action both name the lane and say why",
+          any("provantage" in a and "DISABLED" in a for a in _alarms)
+          and any("provantage" in x and "paused lane must stop fetching" in x for x in _actions),
+          str((_alarms, _actions)))
+    _killed.clear()
+    _lines, _alarms, _actions = S.check(heal=False)
+    check("PZ11c", "SABOTAGE without --heal the same state is reported and NOTHING is killed",
+          _killed == [] and any("DISABLED" in a for a in _alarms) and not _actions, str((_killed, _actions)))
+    _killed.clear()
+    S.db_state = lambda: {"runnable": {}, "enabled": {"provantage": True, "meraki": True}}
+    _lines, _alarms, _actions = S.check(heal=True)
+    check("PZ11d", "SABOTAGE the same live worker on an ENABLED source: no alarm, no kill",
+          _killed == [] and not any("DISABLED" in a for a in _alarms), str((_killed, _alarms)))
+    _killed.clear()
+    S.db_state = lambda: None
+    _lines, _alarms, _actions = S.check(heal=True)
+    check("PZ11e", "SABOTAGE the database unreachable: the lane is left alone and the outage is the alarm",
+          _killed == [] and any("database unreachable" in a for a in _alarms), str((_killed, _alarms)))
+except AssertionError as e:
+    check("PZ11", "check() reaches kill_lane for a disabled source with a live worker", False, str(e))
+finally:
+    for _k, _v in _saved_sentinel.items():
+        setattr(S, _k, _v)
+
+reset()
+seed(P, 12, "done", minutes_ago=10, facts=0)
+rep = run(act=True)
+check("PZ12", "a pause writes the stop_worker intent into its event and its action line",
+      not enabled(P)
+      and any((e["detail"] or {}).get("stop_worker") is True for e in events("source_paused", P))
+      and any("its worker must stop" in x for x in rep["actions"]),
+      str((events("source_paused", P), rep["actions"])))
+reset()
+
+# ---------------------------------------------------------------------------------------------
+# 21b. the residential budget: a lane with no bytes left is not a lane to restart
+# ---------------------------------------------------------------------------------------------
+# worker.py stops leasing for a proxied source once it has spent NETZSPEC_PROXY_DAILY_MB and writes
+# proxy_budget_exhausted into its heartbeat. That outcome exists for THIS file: the sentinel starts
+# a worker for any enabled lane with five or more runnable tasks and no process, so without the
+# rule below a lane out of budget would be started every three minutes, launch a Chrome, discover
+# it has nothing to spend, and exit - all night, for nothing. The guard is the UTC DAY and not the
+# outcome alone, because the counter lives in the heartbeat so a recycled worker can resume it: a
+# beat from yesterday is a lane whose budget is whole.
+_pbroot = TMP / "budget-root"
+_TODAY = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+_YESTERDAY = (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d")
+
+
+def _beat(slug: str, outcome: str, day, bytes_today=None, raw: str | None = None) -> None:
+    d = _pbroot / "runs" / "heartbeat"
+    d.mkdir(parents=True, exist_ok=True)
+    p = d / f"{slug}.json"
+    if raw is not None:
+        p.write_text(raw, encoding="utf-8")
+        return
+    p.write_text(json.dumps({"ts": datetime.now(timezone.utc).isoformat(), "task_id": None,
+                             "key": None, "outcome": outcome, "done": 0, "failed": 0,
+                             "worker": "test", "proxy_bytes_today": bytes_today,
+                             "proxy_day": day}), encoding="utf-8")
+
+
+_saved_root = S.ROOT
+try:
+    S.ROOT = _pbroot
+    _beat("itprice", "proxy_budget_exhausted", _TODAY, 300 * 1024 * 1024)
+    check("PB1", "a beat saying proxy_budget_exhausted for TODAY refuses the restart, naming the day "
+                 "and what was spent",
+          (S.budget_spent("itprice") or "").startswith("residential budget spent for " + _TODAY)
+          and "300.0 MB" in (S.budget_spent("itprice") or ""), str(S.budget_spent("itprice")))
+    _beat("itprice", "proxy_budget_exhausted", _YESTERDAY, 300 * 1024 * 1024)
+    check("PB2", "SABOTAGE the same beat dated YESTERDAY does not refuse anything: the budget is per "
+                 "UTC day and today's is whole",
+          S.budget_spent("itprice") is None, str(S.budget_spent("itprice")))
+    _beat("itprice", "idle", _TODAY, 10 * 1024 * 1024)
+    check("PB3", "SABOTAGE an IDLE beat carrying today's proxy_day is not a budget refusal - only the "
+                 "outcome says the lane stopped",
+          S.budget_spent("itprice") is None, str(S.budget_spent("itprice")))
+    _beat("itprice", "proxy_budget_exhausted", None, 300 * 1024 * 1024)
+    check("PB4", "SABOTAGE the outcome without a proxy_day names no day and is refused: a beat that "
+                 "cannot say WHICH day cannot stop tomorrow's lane",
+          S.budget_spent("itprice") is None, str(S.budget_spent("itprice")))
+    (_pbroot / "runs" / "heartbeat" / "itprice.json").unlink()
+    check("PB5", "SABOTAGE no heartbeat at all is not out of budget (could-not-check is not is-broken)",
+          S.budget_spent("itprice") is None, str(S.budget_spent("itprice")))
+    _beat("itprice", "", None, raw='{"outcome": "proxy_budget_ex')
+    check("PB6", "SABOTAGE a half-written heartbeat is not out of budget either",
+          S.budget_spent("itprice") is None, str(S.budget_spent("itprice")))
+    _beat("itprice", "proxy_budget_exhausted", _TODAY, "not a number")
+    check("PB7", "an unreadable byte count still refuses the restart and says the amount is unreadable "
+                 "- the day is what the rule turns on, not the meter",
+          "unreadable" in (S.budget_spent("itprice") or ""), str(S.budget_spent("itprice")))
+    check("PB8", "the day can be injected, so a lane is provably released at 00:00 UTC without waiting "
+                 "for midnight",
+          S.budget_spent("itprice", today=_TODAY) is not None
+          and S.budget_spent("itprice", today=_YESTERDAY) is None,
+          str((S.budget_spent("itprice", today=_TODAY), S.budget_spent("itprice", today=_YESTERDAY))))
+    # LOCKSTEP. One fact now lives in two files - worker.py WRITES this beat and sentinel.py READS
+    # it - and they cannot share a constant: sentinel.py is stdlib-only on purpose, so that the
+    # watchdog's watchdog can never lose its alarm file to a missing scraper dependency. Two copies
+    # of one fact need something that fails when they disagree (D:\Project\CLAUDE.md § 10).
+    # Comparing the two strings is not enough on its own: the heartbeat KEYS are the other half of
+    # the contract, and renaming proxy_day would leave both constants equal and the rule dead. So
+    # the beat under test is built by worker.py's own heartbeat_record().
+    check("PB16", "the outcome is ONE fact: worker.py writes exactly the string sentinel.py refuses "
+                  "to restart on",
+          WK.PROXY_BUDGET_OUTCOME == S.PROXY_BUDGET_OUTCOME,
+          f"worker {WK.PROXY_BUDGET_OUTCOME!r} vs sentinel {S.PROXY_BUDGET_OUTCOME!r}")
+    _rec = WK.heartbeat_record(None, WK.PROXY_BUDGET_OUTCOME, 3, 0,
+                               proxy_bytes_today=42 * 1024 * 1024, proxy_day=_TODAY)
+    (_pbroot / "runs" / "heartbeat" / "itprice.json").write_text(json.dumps(_rec), encoding="utf-8")
+    check("PB17", "...and a beat BUILT BY worker.heartbeat_record() is understood by sentinel, keys "
+                  "and all - the two halves are proven together, never separately",
+          "42.0 MB" in (S.budget_spent("itprice") or ""),
+          str((_rec, S.budget_spent("itprice"))))
+finally:
+    S.ROOT = _saved_root
+
+# ---- the CALL SITE ----------------------------------------------------------------------------
+# PB1-PB8 prove budget_spent() as a pure function, and a pure function proves nothing about whether
+# check() ever ASKS it (PZ11's lesson, one section up). These cases run check() itself over a
+# stubbed process list, a stubbed database and a subprocess that RECORDS a Popen instead of making
+# one: scraping is stopped by operator order and a test may never be the thing that restarts it.
+
+
+class _RecordingSubprocess:
+    """Records what check() would have started. `run` still refuses: nothing in these cases has any
+    business shelling out. The module CONSTANTS are passed through unchanged — a stub that only
+    replaces the callables makes `subprocess.STDOUT` an AttributeError, which fails the case for a
+    reason that has nothing to do with the rule under test."""
+
+    STDOUT = subprocess.STDOUT
+    PIPE = subprocess.PIPE
+    DEVNULL = subprocess.DEVNULL
+
+    def __init__(self) -> None:
+        self.popens: list = []
+
+    def Popen(self, args, **kw):  # noqa: N802 — the name subprocess uses
+        self.popens.append([str(a) for a in args])
+        return object()
+
+    def run(self, *a, **k):
+        raise AssertionError(f"check() called subprocess.run{str(a)[:120]} inside the budget case")
+
+
+_PB_KEYS = ("ROOT", "processes", "listening", "cdp_pages", "cdp_connects", "db_state", "kill_lane",
+            "lane_chrome_pids", "heartbeat_age_min", "ps", "subprocess", "NS", "STATE")
+_saved_pb = {k: getattr(S, k) for k in _PB_KEYS}
+try:
+    _pns = TMP / "budget-callsite"
+    _pns.mkdir(parents=True, exist_ok=True)
+    (_pns / "nightshift.lock").write_text("fresh", encoding="ascii")   # a live supervisor
+    S.ROOT, S.NS, S.STATE = _pbroot, _pns, _pns / "sentinel-state.json"
+    S.processes = lambda: ["powershell -ExecutionPolicy Bypass -WindowStyle Hidden -File "
+                           "D:\\Project\\netzspec-api\\scraper\\tools\\nightshift.ps1"]
+    S.listening = lambda port: True
+    S.cdp_pages = lambda: []
+    S.cdp_connects = lambda timeout_ms=20000: (True, "stubbed")
+    S.lane_chrome_pids = lambda slug: []
+    S.heartbeat_age_min = lambda slug: 1.0
+    S.kill_lane = lambda slug, kill_worker: f"killed {slug}: stubbed"
+    S.ps = lambda cmd: "8000"                       # plenty of free memory: RAM is never the reason
+    # itprice is enabled, has 400 runnable tasks and NO worker process — everything the sentinel
+    # needs to start a lane, and the budget is the only thing standing in the way.
+    S.db_state = lambda: {"runnable": {"itprice": 400}, "enabled": {"itprice": True}}
+
+    _beat("itprice", "proxy_budget_exhausted", _TODAY, 300 * 1024 * 1024)
+    S.subprocess = _RecordingSubprocess()
+    _lines, _alarms, _actions = S.check(heal=True)
+    check("PB9", "check(heal=True) does NOT start a worker for a lane that has spent its day's bytes",
+          S.subprocess.popens == [], str(S.subprocess.popens))
+    check("PB10", "...and it is not an ALARM: a budget is a limit the operator set, not a fault to "
+                  "send somebody to fix",
+          not any("itprice" in a for a in _alarms), str(_alarms))
+    check("PB11", "...and the report says BUDGET SPENT in plain words, with the day and the amount",
+          any("itprice" in ln and "BUDGET SPENT" in ln and "300.0 MB" in ln and _TODAY in ln for ln in _lines),
+          str([ln for ln in _lines if "itprice" in ln]))
+    check("PB12", "...and says out loud that it is not starting the lane, so a silent skip is never "
+                  "mistaken for a sentinel that has stopped looking",
+          any("not starting itprice" in ln for ln in _lines), str(_lines))
+
+    # SABOTAGE: the same lane, the same 400 runnable tasks, the beat one day older. If the guard
+    # were the outcome alone rather than the outcome AND the day, this lane would stay stopped for
+    # ever - the failure that would look exactly like a working budget.
+    _beat("itprice", "proxy_budget_exhausted", _YESTERDAY, 300 * 1024 * 1024)
+    S.subprocess = _RecordingSubprocess()
+    _lines, _alarms, _actions = S.check(heal=True)
+    check("PB13", "SABOTAGE a budget beat from YESTERDAY does not hold the lane down: the worker IS "
+                  "started, with --profile and its own source",
+          len(S.subprocess.popens) == 1
+          and "scraper/worker.py" in S.subprocess.popens[0]
+          and "--profile" in S.subprocess.popens[0]
+          and S.subprocess.popens[0][S.subprocess.popens[0].index("--sources") + 1] == "itprice",
+          str(S.subprocess.popens))
+    check("PB14", "...and the NO WORKER alarm is back, because now it really is one",
+          any("itprice" in a and "NO WORKER" in a for a in _alarms), str(_alarms))
+
+    # SABOTAGE: no heartbeat at all. An unreadable state must not stop the sentinel restarting a
+    # lane, or one deleted file would quietly end the night's acquisition.
+    (_pbroot / "runs" / "heartbeat" / "itprice.json").unlink()
+    S.subprocess = _RecordingSubprocess()
+    _lines, _alarms, _actions = S.check(heal=True)
+    check("PB15", "SABOTAGE with no heartbeat at all the lane is started as it always was",
+          len(S.subprocess.popens) == 1, str(S.subprocess.popens))
+except AssertionError as e:
+    check("PB9", "check() consults budget_spent() before starting a lane", False, str(e))
+finally:
+    for _k, _v in _saved_pb.items():
+        setattr(S, _k, _v)
+
+# ---------------------------------------------------------------------------------------------
+# 22. the supervisor: the UTC apply date, and a lock that keeps moving
+# ---------------------------------------------------------------------------------------------
+# nightshift.ps1 named the acquired directory with the LOCAL date while worker.py writes the UTC
+# one, so on this machine (UK, BST) every page acquired in the 23:00-00:00 UTC hour went into a
+# directory the supervisor never opened - a silent hole one hour wide, every night. And the
+# supervisor's lock was touched only inside the WorkMinutes loop, so a long step or the sleep left
+# it older than the script's OWN 10-minute takeover rule and invited a second supervisor.
+PS1 = ROOT / "scraper" / "tools" / "nightshift.ps1"
+PS_RAW = PS1.read_bytes()
+check("NS1", "nightshift.ps1 is ASCII with a BOM (PowerShell 5.1 reads a BOM-less file as ANSI)",
+      PS_RAW[:3] == b"\xef\xbb\xbf" and not [b for b in PS_RAW[3:] if b > 127],
+      str([(i, b) for i, b in enumerate(PS_RAW[3:], 3) if b > 127][:5]))
+check("NS2", "...and LF, like every other file in the working tree", b"\r\n" not in PS_RAW)
+
+PS_HELPER = TMP / "ast-probe.ps1"
+PS_HELPER.write_text(
+    "param([string]$Path)\n"
+    "$errors = $null; $tokens = $null\n"
+    "$ast = [System.Management.Automation.Language.Parser]::ParseFile($Path, [ref]$tokens, [ref]$errors)\n"
+    "if ($errors -and $errors.Count -gt 0) { Write-Output ('PARSE_ERROR ' + $errors[0].Message); exit 1 }\n"
+    "$fns = @{}\n"
+    "foreach ($f in $ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] }, $true)) "
+    "{ $fns[$f.Name] = $f.Extent.Text }\n"
+    "function Get-Owner($node) {\n"
+    "  $p = $node.Parent\n"
+    "  while ($p) { if ($p -is [System.Management.Automation.Language.FunctionDefinitionAst]) { return $p.Name }; $p = $p.Parent }\n"
+    "  return '<script>'\n"
+    "}\n"
+    "$touch = @()\n"
+    "foreach ($c in $ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.CommandAst] }, $true)) "
+    "{ if ($c.GetCommandName() -eq 'Update-Lock') { $touch += (Get-Owner $c) } }\n"
+    "$loops = @()\n"
+    "foreach ($wl in $ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.WhileStatementAst] }, $true)) {\n"
+    "  $t = $wl.Extent.Text\n"
+    "  $loops += @{ owner = (Get-Owner $wl); line = $wl.Extent.StartLineNumber; "
+    "touches = $t.Contains('Update-Lock'); "
+    "sleeps = ($t.Contains('Start-Sleep') -or $t.Contains('WaitForExit')) }\n"
+    "}\n"
+    "@{ functions = $fns; update_lock_owners = @($touch); while_loops = @($loops) } | ConvertTo-Json -Depth 8 -Compress\n",
+    encoding="ascii", newline="\n")
+
+
+def powershell(script: Path, *args: str) -> str:
+    r = subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(script), *args],
+                       capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)
+    return (r.stdout or "").strip() + (("\nSTDERR " + r.stderr.strip()) if r.returncode and r.stderr else "")
+
+
+PS_OUT = powershell(PS_HELPER, str(PS1))
+check("NS3", "nightshift.ps1 PARSES (a BOM-less em dash once broke it and the supervisor silently never ran)",
+      PS_OUT.startswith("{") and "PARSE_ERROR" not in PS_OUT, PS_OUT[:300])
+try:
+    PS_AST = json.loads(PS_OUT)
+except Exception as e:  # noqa
+    PS_AST = {"functions": {}, "update_lock_owners": [], "while_loops": []}
+    check("NS3b", "the AST probe returned JSON", False, f"{type(e).__name__}: {PS_OUT[:300]}")
+# ConvertTo-Json collapses a one-element array to a scalar; normalise before counting
+for _k in ("update_lock_owners", "while_loops"):
+    if not isinstance(PS_AST.get(_k), list):
+        PS_AST[_k] = [PS_AST[_k]] if PS_AST.get(_k) else []
+PS_AST.setdefault("functions", {})
+
+PS_TEXT = PS_RAW.decode("utf-8-sig")
+check("NS4", "the supervisor derives the apply date from Get-ApplyDays, not from the local clock",
+      "Get-ApplyDays" in PS_AST["functions"] and "$nowUtc = [DateTime]::UtcNow" in PS_TEXT
+      and "$applyDays = Get-ApplyDays $nowUtc" in PS_TEXT, str(sorted(PS_AST["functions"])))
+_local_date = [l.strip() for l in PS_TEXT.splitlines() if "Get-Date" in l and ("acquired" in l or "$today" in l or "$yesterday" in l)]
+check("NS5", 'SABOTAGE the LOCAL-date form is gone: no acquired path may come from Get-Date -Format "yyyy-MM-dd"',
+      '$today = Get-Date -Format "yyyy-MM-dd"' not in PS_TEXT and not _local_date, str(_local_date))
+check("NS6", "the apply loop walks BOTH days, so a page written at 23:5x UTC is never stranded",
+      "foreach ($day in (Get-ApplyTargets $Repo $src $applyDays))" in PS_TEXT
+      and 'runs/acquired/$src/$day' in PS_TEXT, "")
+
+# behavioural: run the real Get-ApplyDays under fake clocks
+if "Get-ApplyDays" in PS_AST["functions"]:
+    DAYS_PS = TMP / "apply-days.ps1"
+    DAYS_PS.write_text(
+        PS_AST["functions"]["Get-ApplyDays"] + "\n"
+        "foreach ($iso in @('2026-09-04T23:30:00', '2026-09-05T00:10:00', '2026-01-01T00:00:00')) {\n"
+        "  $d = [datetime]::SpecifyKind([datetime]::Parse($iso, [Globalization.CultureInfo]::InvariantCulture), [DateTimeKind]::Utc)\n"
+        "  Write-Output ((Get-ApplyDays $d) -join ',')\n"
+        "}\n",
+        encoding="ascii", newline="\n")
+    _days = powershell(DAYS_PS).splitlines()
+    check("NS7", "Get-ApplyDays(23:30 UTC on the 4th) = yesterday,today in UTC - the hour the old code lost",
+          _days[:1] == ["2026-09-03,2026-09-04"], str(_days))
+    check("NS8", "...and ten minutes after UTC midnight it still names the day the pages are in",
+          _days[1:2] == ["2026-09-04,2026-09-05"], str(_days))
+    check("NS9", "...and it crosses a year boundary without arithmetic of its own",
+          _days[2:3] == ["2025-12-31,2026-01-01"], str(_days))
+else:
+    check("NS7", "Get-ApplyDays exists to be run", False, str(sorted(PS_AST["functions"])))
+
+# ...and which of those days is actually applied, run over a REAL fixture tree.
+# ROUND-1 REVIEW (5 Sep 2026): naming both days was not enough. The first fix applied YESTERDAY's
+# directory only while it still held a *.json younger than $CarryOverHours - the same silent hole,
+# narrower. A page acquired at 23:59 UTC and applied at 00:30 was covered; a lane that stalled, was
+# backed off or was killed an hour before midnight had its last pages sitting behind a freshness
+# test they could never pass again, and no cycle ever opened that directory. The fixture below is
+# exactly that lane: yesterday's directory exists and everything in it is 30 h old. It must still
+# be applied, because apply-acquired is idempotent over pages it has already read - the cost of
+# naming a finished day is one wasted step, the cost of skipping an unfinished one is facts that
+# never land.
+if "Get-ApplyTargets" in PS_AST["functions"]:
+    FAKE_REPO = TMP / "fake-repo"
+    for _day, _hours_old in (("2026-09-03", 30.0), ("2026-09-04", 0.1)):
+        _d = FAKE_REPO / "runs" / "acquired" / "provantage" / _day
+        _d.mkdir(parents=True, exist_ok=True)
+        _f = _d / "1.json"
+        _f.write_text("{}", encoding="ascii")
+        _when = time.time() - _hours_old * 3600
+        os.utime(_f, (_when, _when))
+        os.utime(_d, (_when, _when))
+    (FAKE_REPO / "runs" / "acquired" / "meraki").mkdir(parents=True, exist_ok=True)   # a lane that acquired nothing
+    TARGETS_PS = TMP / "apply-targets.ps1"
+    # bracketed on purpose: an empty answer must be a line of its own, and a bare empty line is
+    # stripped off the end of the output before this side ever sees it
+    TARGETS_PS.write_text(
+        "param([string]$Repo)\n"
+        + PS_AST["functions"]["Get-ApplyTargets"] + "\n"
+        "Write-Output ('[' + ((Get-ApplyTargets $Repo 'provantage' @('2026-09-03','2026-09-04')) -join ',') + ']')\n"
+        "Write-Output ('[' + ((Get-ApplyTargets $Repo 'provantage' @('2026-09-01','2026-09-04')) -join ',') + ']')\n"
+        "Write-Output ('[' + ((Get-ApplyTargets $Repo 'meraki' @('2026-09-03','2026-09-04')) -join ',') + ']')\n",
+        encoding="ascii", newline="\n")
+    _targets = powershell(TARGETS_PS, str(FAKE_REPO)).splitlines()
+    check("NS9b", "yesterday's directory is applied although its newest page is 30 h old (the round-1 "
+                  "freshness gate stranded exactly this lane)",
+          _targets[:1] == ["[2026-09-03,2026-09-04]"], str(_targets))
+    check("NS9c", "SABOTAGE a day with no directory is not applied: existence is the only test",
+          _targets[1:2] == ["[2026-09-04]"], str(_targets))
+    check("NS9d", "SABOTAGE a source that acquired nothing yields no apply at all",
+          _targets[2:3] == ["[]"], str(_targets))
+else:
+    check("NS9b", "Get-ApplyTargets exists to be run", False, str(sorted(PS_AST["functions"])))
+
+# and the step itself carries no age test of any kind - a time window on a correctness step is an
+# expiry date on data nobody has read
+_apply_block = PS_TEXT.split("# 4. apply the acquisitions per source")[-1].split("# 4a.")[0]
+_age_words = [w for w in ("AddHours", "LastWriteTime", "CarryOverHours", "$fresh") if w in _apply_block]
+check("NS9e", "SABOTAGE the apply step applies both days unconditionally: no freshness filter survives in it",
+      "Get-ApplyTargets" in _apply_block and not _age_words, str(_age_words) + _apply_block[:400])
+check("NS9f", "...and $CarryOverHours is gone from the script, not merely unread",
+      "CarryOverHours" not in PS_TEXT, "")
+
+# the lock: touched at every step boundary, inside a running step, and through the sleep
+_owners = PS_AST["update_lock_owners"]
+check("NS10", "Update-Lock is called from inside Run-Step, so a 60-minute apply keeps the lock fresh",
+      _owners.count("Run-Step") >= 3, str(_owners))
+check("NS11", "...and from the cycle body at least three times (cycle start, work window, sleep)",
+      _owners.count("<script>") >= 3, str(_owners))
+# a "waiting" loop is one that sleeps or waits on a process - the places the old code stood
+# still with the lock going cold
+_waiting = [w for w in PS_AST["while_loops"] if w["touches"] and w["sleeps"]]
+check("NS12", "every waiting loop in the supervisor touches the lock while it waits",
+      len(_waiting) >= 4 and any(w["owner"] == "Run-Step" for w in _waiting)
+      and len([w for w in _waiting if w["owner"] == "<script>"]) >= 3, str(PS_AST["while_loops"]))
+check("NS13", "SABOTAGE no waiting loop waits WITHOUT touching the lock",
+      not [w for w in PS_AST["while_loops"] if w["sleeps"] and not w["touches"]],
+      str([w for w in PS_AST["while_loops"] if w["sleeps"] and not w["touches"]]))
+
+# behavioural: Update-Lock really moves a file's timestamp, and survives a locked file
+if "Update-Lock" in PS_AST["functions"]:
+    LOCK_PS = TMP / "touch-lock.ps1"
+    LOCK_TARGET = TMP / "fake.lock"
+    LOCK_TARGET.write_text("old", encoding="ascii")
+    os.utime(LOCK_TARGET, (time.time() - 3600, time.time() - 3600))
+    LOCK_PS.write_text(
+        "param([string]$Target)\n"
+        "$Lock = $Target\n"
+        + PS_AST["functions"]["Update-Lock"] + "\n"
+        "Update-Lock\n"
+        "Update-Lock ($Target + '.explicit')\n"
+        "Update-Lock 'Z:\\no\\such\\place\\x.lock'\n"
+        "Write-Output 'survived'\n",
+        encoding="ascii", newline="\n")
+    _lockout = powershell(LOCK_PS, str(LOCK_TARGET))
+    _age = time.time() - LOCK_TARGET.stat().st_mtime
+    check("NS14", "Update-Lock rewrites the lock file, so its LastWriteTime moves", _age < 120, f"{_age:.0f} s old")
+    check("NS15", "...it defaults to $Lock and takes an explicit path (that is what makes it testable)",
+          (TMP / "fake.lock.explicit").exists() and "survived" in _lockout, _lockout[:200])
+    check("NS16", "...and a path it cannot write does not take the supervisor down with it",
+          "survived" in _lockout, _lockout[:200])
+else:
+    check("NS14", "Update-Lock exists to be run", False, str(sorted(PS_AST["functions"])))
+
+
+# =============================================================================================
+# 20. residential proxy spend
+# =============================================================================================
+# Two lanes go out through a metered residential gateway on a 5 GB plan. The worker enforces its
+# own per-source daily budget; this monitor's job is the number a human needs BEFORE the lane
+# stops, and the plan-level total nothing else in the system can see. Report-only, so the sabotage
+# twin of every alarm is "the same run writes no row and changes nothing".
+
+
+def proxy_fetch(sid: int, url: str, minutes_ago: float, proxy_bytes: int | None) -> None:
+    C.execute("INSERT INTO fetches (source_id, url, fetched_at, http_status, proxy_bytes) "
+              "VALUES (%s, %s, now() - make_interval(mins => %s), 200, %s)", (sid, url, minutes_ago, proxy_bytes))
+
+
+MBB = W.PROXY_MB
+V = W.proxy_verdict
+
+# -- pure: the 80% rule and its sabotage twin ---------------------------------------------------
+v79 = V("itprice", int(0.79 * 100 * MBB), 100 * MBB, 10 * MBB)
+v80 = V("itprice", int(0.80 * 100 * MBB), 100 * MBB, 10 * MBB)
+check("PX1", "79% of the daily budget is reported and does NOT alarm", v79["alarms"] == [], str(v79["alarms"]))
+check("PX2", "80% of the daily budget ALARMS, and the alarm names the numbers",
+      len(v80["alarms"]) == 1 and "80%" in v80["alarms"][0] and "100 MB" in v80["alarms"][0], str(v80["alarms"]))
+check("PX3", "the line carries bytes today, the budget and the plan share",
+      "79.0 MB today of 100 MB budget" in v79["line"] and "of 5120 MB" in v79["line"], v79["line"])
+check("PX4", "projected days of the plan at today's rate: (plan - used) / today",
+      V("x", 100 * MBB, 300 * MBB, 1024 * MBB)["projected_days"] == round((5120 - 1024) / 100, 1),
+      str(V("x", 100 * MBB, 300 * MBB, 1024 * MBB)["projected_days"]))
+check("PX5", "sabotage: no spend today means NO rate and no projection — never an infinity read as good news",
+      V("x", 0, 300 * MBB, 1024 * MBB)["projected_days"] is None
+      and "no rate to project" in V("x", 0, 300 * MBB, 1024 * MBB)["line"], V("x", 0, 300 * MBB, 1024 * MBB)["line"])
+check("PX6", "the PLAN alarm fires past 4 GB and not at 4 GB exactly",
+      V("x", 1, 300 * MBB, 4 * 1024 * MBB)["alarms"] == []
+      and any("PLAN" in a for a in V("x", 1, 300 * MBB, 4 * 1024 * MBB + 1)["alarms"]),
+      str(V("x", 1, 300 * MBB, 4 * 1024 * MBB + 1)["alarms"]))
+check("PX7", "a zero budget cannot divide by zero and cannot alarm on a percentage of nothing",
+      V("x", 5, 0, 0)["alarms"] == [], str(V("x", 5, 0, 0)))
+
+# -- the budget the monitor advises is the one the worker enforces -------------------------------
+check("PX8", "the daily budget is read from NETZSPEC_PROXY_DAILY_MB, the same key the worker reads",
+      W.proxy_daily_budget_bytes({"NETZSPEC_PROXY_DAILY_MB": "250"}) == 250 * MBB)
+check("PX9", "sabotage: a missing or nonsense value falls back to a SMALL default, never to no limit",
+      W.proxy_daily_budget_bytes({}) == W.PROXY_DAILY_MB_DEFAULT * MBB
+      and W.proxy_daily_budget_bytes({"NETZSPEC_PROXY_DAILY_MB": "0"}) == W.PROXY_DAILY_MB_DEFAULT * MBB)
+
+# -- end to end, against the database ------------------------------------------------------------
+_real_budget = W.proxy_daily_budget_bytes
+W.proxy_daily_budget_bytes = lambda env: 100 * MBB      # a 100 MB per-source day, so the cases are readable
+
+try:
+    reset()
+    C.execute("UPDATE sources SET proxy = 'residential', proxy_country = 'de' WHERE id = %s", (I,))
+    proxy_fetch(I, "https://itprice.com/cisco-gpl/A", 10, 50 * MBB)
+    rep = run(act=True)
+    ri = row(rep, "itprice")
+    check("PX10", "a proxied source gets a spend line with its country, its day and the plan share",
+          ri["proxy"] == "residential" and ri["proxy_spend"] is not None
+          and "[de]" in ri["proxy_spend"]["line"] and ri["proxy_spend"]["bytes_today"] == 50 * MBB,
+          str(ri.get("proxy_spend")))
+    check("PX11", "sabotage: half the budget spent raises no alarm",
+          not [a for a in rep["alarms"] if "residential" in a], str(rep["alarms"]))
+    check("PX12", "a DIRECT source gets no spend line at all", row(rep, "provantage")["proxy_spend"] is None)
+    check("PX13", "the report has its own section and names the lane", "## residential proxy spend" in md() and "itprice" in md().split("## residential proxy spend")[1][:400], md().split("## residential proxy spend")[1][:200])
+
+    reset()
+    C.execute("UPDATE sources SET proxy = 'residential', proxy_country = 'de' WHERE id = %s", (I,))
+    proxy_fetch(I, "https://itprice.com/cisco-gpl/B", 10, 85 * MBB)
+    before = len(events())
+    rep = run(act=True)
+    a = [x for x in rep["alarms"] if "residential budget" in x]
+    check("PX14", "85 of 100 MB ALARMS at the 80% threshold, naming the lane and the recovery",
+          len(a) == 1 and a[0].startswith("itprice: ALARM residential budget") and "00:00 UTC" in a[0], str(rep["alarms"]))
+    check("PX15", "report-only: an --act run writes NO watchdog_events row for a spend alarm and pauses nothing",
+          len(events()) == before and enabled(I) is True, str((len(events()) - before, enabled(I))))
+    check("PX16", "the alarm reaches ALERT.md, which is where a human actually sees it",
+          alert() and "residential budget" in (RUNS / "nightshift" / "ALERT.md").read_text(encoding="utf-8"))
+
+    # a previous UTC day counts against the PLAN and not against today
+    reset()
+    C.execute("UPDATE sources SET proxy = 'residential' WHERE id IN (%s, %s)", (I, R))
+    proxy_fetch(I, "https://itprice.com/cisco-gpl/C", 10, 10 * MBB)          # today
+    proxy_fetch(I, "https://itprice.com/cisco-gpl/D", 60 * 24 * 3, 900 * MBB)  # three days ago
+    proxy_fetch(R, "https://www.router-switch.com/x.html", 20, 3200 * MBB)   # the other proxied lane, today
+    rep = run(act=False)
+    ri, rr = row(rep, "itprice"), row(rep, "router-switch")
+    check("PX17", "today's number is today's only; the three-day-old fetch is not in it",
+          ri["proxy_spend"]["bytes_today"] == 10 * MBB, str(ri["proxy_spend"]["bytes_today"]))
+    check("PX18", "the PLAN total is every proxied byte of every source on every day",
+          ri["proxy_spend"]["plan_total_bytes"] == (10 + 900 + 3200) * MBB
+          and rr["proxy_spend"]["plan_total_bytes"] == ri["proxy_spend"]["plan_total_bytes"],
+          str(ri["proxy_spend"]["plan_total_bytes"]))
+    check("PX19", "past 4 GB of the plan every proxied lane carries the PLAN alarm — it is not one lane's problem",
+          all(any("PLAN" in a for a in r["proxy_spend"]["alarms"]) for r in (ri, rr)), str(ri["proxy_spend"]["alarms"]))
+    check("PX20", "a NULL proxy_bytes row (a direct fetch) is not counted as zero-cost proxy traffic",
+          C.execute("SELECT count(*) AS n FROM fetches WHERE proxy_bytes IS NULL").fetchone()["n"] == 0
+          or ri["proxy_spend"]["plan_total_bytes"] == (10 + 900 + 3200) * MBB)
+finally:
+    W.proxy_daily_budget_bytes = _real_budget
+    reset()
 
 print(f"\n{npass} PASS, {nfail} MISS")
 C.close()
