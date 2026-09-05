@@ -69,9 +69,11 @@ log had grown past 400 lines — see the delegation gate above.
 
 ## Agents (orchestrator setup, operator decision 4 Sep 2026)
 
-The main session is the brain only: it plans, reviews, decides and commits. It does **no bulk
-reading, corpus replays, long suites or bulk edits itself** - those go to an agent, and only
-the agent's summary comes back into this context.
+**REINSTATED 5 Sep 2026 (operator): NO subagents, workflows or fleets unless the operator names
+the task and approves it in the same message.** The orchestrator burned 11% of the weekly limit in
+90 minutes; whenever agents were allowed, small tasks got delegated too. The main session does the
+work: the code graph to find lines, scripts for measurement, direct edits, suites by hand. The
+section below is kept for the day an agent IS approved — then one agent, priced in the ledger.
 
 - **Every Agent call carries an explicit model.** `.claude/settings.json` sets
   `CLAUDE_CODE_SUBAGENT_MODEL=opus` so an agent without one falls back to Opus, never to the
