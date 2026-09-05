@@ -173,5 +173,57 @@ grouped = OWN.cross_brand(["scraper/sources/cisco_datasheets.py", "scraper/brand
 check("P7", "cross_brand groups a mixed commit so it can be refused: two brands plus shared",
       set(grouped) == {"cisco", "hpe", "(shared)"}, str(sorted(grouped)))
 
+# ---------------------------------------------------------------------------------------------
+# 5. source rows — the LANE's configuration, and the hazard the operator named in words
+# ---------------------------------------------------------------------------------------------
+# OWNERSHIP[brand]["sources"] was declared in this module and read by NOTHING: the "declared
+# constant nobody reads" trap, inside the isolation module itself. A sources row carries enabled,
+# proxy, proxy_country, politeness_ms and notes — everything about how a lane behaves — so an
+# UPDATE with the wrong slug in its WHERE clause stops or redirects somebody else's scrape, and
+# the statement succeeds. One row updated. The wrong row.
+check("S1", "a brand's own lane is owned by it", OWN.owner_of_source("hpe-quickspecs") == "hpe")
+check("S2", "...and each brand's, across all three packs",
+      OWN.owner_of_source("cisco-eol") == "cisco" and OWN.owner_of_source("juniper") == "juniper")
+check("S3", "the cross-vendor lanes are owned by NOBODY — that is the honest answer, and it is "
+            "what makes reconfiguring one a coordinated act rather than a race",
+      all(OWN.owner_of_source(s) is None for s in ("provantage", "itprice", "router-switch", "cdw")),
+      {s: OWN.owner_of_source(s) for s in ("provantage", "itprice", "router-switch", "cdw")})
+check("S4", "a brand may write its own source row", OWN.assert_owns_source("hpe", "hpe-quickspecs") == "hpe-quickspecs")
+for cid, brand, slug, why in [
+    ("S5", "hpe", "cisco-datasheets", "another brand's lane"),
+    ("S6", "cisco", "juniper", "another brand's lane, the other direction"),
+    ("S7", "juniper", "hpe-quickspecs", "the lane whose refusal shape this repo spent an afternoon on"),
+]:
+    try:
+        OWN.assert_owns_source(brand, slug)
+        check(cid, f"SABOTAGE {brand} is REFUSED the '{slug}' row ({why})", False, "it was allowed")
+    except SystemExit as e:
+        # refused for the STATED reason: the message must name the owner, because the fix is a
+        # message to that session and not a retry
+        check(cid, f"SABOTAGE {brand} is REFUSED the '{slug}' row ({why})",
+              OWN.owner_of_source(slug) in str(e), str(e)[:120])
+try:
+    OWN.assert_owns_source("hpe", "provantage")
+    check("S8", "SABOTAGE an UNOWNED cross-vendor lane is refused too, and for its own reason", False)
+except SystemExit as e:
+    check("S8", "SABOTAGE an UNOWNED cross-vendor lane is refused too, and for its own reason",
+          "owned by no brand pack" in str(e), str(e)[:120])
+try:
+    OWN.assert_owns_source("nosuchbrand", "hpe-quickspecs")
+    check("S9", "SABOTAGE an unknown brand raises rather than being quietly allowed", False)
+except ValueError:
+    check("S9", "SABOTAGE an unknown brand raises rather than being quietly allowed", True)
+except SystemExit as e:
+    check("S9", "SABOTAGE an unknown brand raises rather than being quietly allowed", False, str(e)[:90])
+
+# The audit is what keeps this honest as brands are added: a lane claimed twice, a manifest naming
+# a lane that does not exist, and a row no pack claims are all silent today.
+aud = OWN.source_ownership_audit(["hpe-quickspecs", "cisco-eol", "juniper", "provantage", "brand-new-lane"])
+check("S10", "the audit reports a row no pack claims, so a new brand's lane cannot be forgotten",
+      "brand-new-lane" in aud["unowned"] and "provantage" in aud["unowned"], aud["unowned"])
+check("S11", "...and a pack naming a lane with no row, which is a manifest describing a lane that "
+             "cannot run", "cisco-datasheets" in aud["missing"], aud["missing"])
+check("S12", "no lane is claimed by two packs today", aud["claimed_twice"] == {}, aud["claimed_twice"])
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

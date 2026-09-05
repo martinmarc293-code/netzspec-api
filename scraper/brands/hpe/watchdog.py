@@ -40,6 +40,7 @@ import psycopg                                    # noqa: E402
 from psycopg.rows import dict_row                 # noqa: E402
 
 from brands import base as B                      # noqa: E402
+from brands import ownership as OWN               # noqa: E402
 from brands.hpe.brand import BRAND, VENDOR_SLUGS  # noqa: E402
 from sources import hpe_quickspecs as LANE        # noqa: E402
 
@@ -364,6 +365,18 @@ def report(conn, brand, window_min: int, cache: Path, ledger: Path | None = None
         alarms.append(f"MEASURED BUT UNTARGETED {m}={measured[m]:,.1f}: the watchdog computes it "
                       f"and the manifest names no target for it")
 
+    # Ownership drift. Runs here rather than nowhere, because a manifest and a database that
+    # disagree about which lanes exist is silent in both directions: a pack naming a lane with no
+    # row describes something that can never run, and a row no pack claims is either a shared
+    # cross-vendor lane (fine, and worth seeing) or a new brand's lane nobody registered.
+    all_slugs = [r["slug"] for r in conn.execute("SELECT slug FROM sources").fetchall()]
+    audit = OWN.source_ownership_audit(all_slugs)
+    if audit["claimed_twice"]:
+        alarms.append(f"OWNERSHIP CONFLICT: {audit['claimed_twice']} — two packs believe they may "
+                      f"reconfigure one lane, and a sources row carries enabled/proxy/politeness")
+    if audit["missing"]:
+        alarms.append(f"MANIFEST NAMES A LANE THAT DOES NOT EXIST: {', '.join(audit['missing'])} — "
+                      f"declared in scraper/brands/ownership.py with no row in `sources`")
     if cls_rep["stored_doc_class_set"] < cls_rep["documents"]:
         alarms.append(
             f"DOC_CLASS NOT WRITTEN: {cls_rep['documents'] - cls_rep['stored_doc_class_set']} of "

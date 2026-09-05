@@ -147,6 +147,86 @@ def _advisory_key(brand: str) -> int:
     return h
 
 
+# ---------------------------------------------------------------------------------------------
+# Source rows: the LANE's configuration, and the collision nothing was stopping
+# ---------------------------------------------------------------------------------------------
+# `OWNERSHIP[brand]["sources"]` was declared above and READ BY NOTHING until 5 Sep 2026 — the
+# "a declared constant nobody reads is not a rule" trap (D:\\Project\\CLAUDE.md section 10), inside
+# the isolation module itself, and it left open the one hazard the operator named in words: one
+# session changing another session's configuration while that session is scraping.
+#
+# A `sources` row is not metadata. It carries `enabled`, `proxy`, `proxy_country`, `politeness_ms`
+# and `notes` — everything about how a lane behaves. An UPDATE with the wrong slug in the WHERE
+# clause disables a running lane, or points it at a residential gateway, or halves its politeness,
+# and the session that owns it sees a lane that stopped for no reason it can find. Nothing about
+# it looks like an error: the statement succeeds, one row is updated, and it is the wrong row.
+#
+# These two functions make that a refusal. They are cheap to call and there is no reason not to:
+# every ad-hoc config write in this repo is a `psycopg` UPDATE typed by hand.
+
+
+def owner_of_source(slug: str) -> str | None:
+    """Which brand owns a `sources` row, or None when no pack claims it.
+
+    None is a real and common answer, not a failure: the distributor and aggregator lanes
+    (provantage, itprice, router-switch, cdw, icecat-open) are CROSS-VENDOR by design and belong
+    to no brand pack — brands/README.md is explicit that a brand's coverage must never depend on
+    them. An unowned lane is shared ground and changing it is a coordinated act, exactly like a
+    shared file.
+    """
+    s = (slug or "").strip().lower()
+    for brand, spec in OWNERSHIP.items():
+        if s in tuple(spec.get("sources") or ()):
+            return brand
+    return None
+
+
+def assert_owns_source(brand: str, slug: str) -> str:
+    """Refuse a `sources` write against a lane this brand does not own, before the row is touched.
+
+    The refusal names the owner, because the fix is a message to that session and not a retry.
+    """
+    b = (brand or "").strip().lower()
+    if b not in OWNERSHIP:
+        raise ValueError(f"no ownership entry for brand {brand!r} (known: {', '.join(brands())})")
+    owner = owner_of_source(slug)
+    if owner == b:
+        return slug
+    if owner:
+        raise SystemExit(
+            f"REFUSED: {brand} may not write the '{slug}' source row — it belongs to the {owner} "
+            f"brand, whose lane may be running right now. A sources row carries enabled, proxy, "
+            f"politeness and notes: changing it stops or redirects somebody else's scrape and "
+            f"looks like nothing at all from their side. {brand} owns: "
+            f"{', '.join(OWNERSHIP[b]['sources'])}.")
+    raise SystemExit(
+        f"REFUSED: '{slug}' is owned by no brand pack — the cross-vendor distributor and "
+        f"aggregator lanes are shared ground, and changing one is a coordinated act like changing "
+        f"a shared file. {brand} owns: {', '.join(OWNERSHIP[b]['sources'])}.")
+
+
+def source_ownership_audit(db_slugs) -> dict:
+    """Compare the packs' claims against the `sources` rows that actually exist.
+
+    Three ways ownership drifts as brands are added, and all three are silent:
+      claimed_twice  two packs naming one lane. Both would believe they may reconfigure it.
+      missing        a pack naming a lane with no row — a manifest describing a lane that cannot
+                     run, which is the brand-pack version of a permanent false gap.
+      unowned        a row no pack claims. Legitimate for the cross-vendor lanes and worth seeing,
+                     because a NEW brand's lane that nobody added here is also in this list.
+    """
+    rows = {str(s).strip().lower() for s in db_slugs}
+    claims: dict[str, list[str]] = {}
+    for brand, spec in OWNERSHIP.items():
+        for s in tuple(spec.get("sources") or ()):
+            claims.setdefault(s, []).append(brand)
+    return {
+        "claimed_twice": {s: bs for s, bs in claims.items() if len(bs) > 1},
+        "missing": sorted(s for s in claims if s not in rows),
+        "unowned": sorted(s for s in rows if s not in claims),
+    }
+
+
 def owner_of_path(path: str) -> str | None:
     """Which brand owns a repository path, or None when it is SHARED.
 
