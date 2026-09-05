@@ -1061,6 +1061,45 @@ class Queue:
         self.by_id = {r["id"]: r for r in self.sources.values()}
         self.refused: Counter = Counter()
 
+    # -- one worker per lane, enforced ----------------------------------------------------
+    #: Namespace for the lane locks, so a source id can never collide with another advisory lock
+    #: taken elsewhere in this database (the brand test-suite locks use their own key space).
+    LANE_LOCK_NS = 0x4C414E45          # "LANE"
+
+    def lock_lanes(self, source_ids: list[int]) -> None:
+        """Take an exclusive advisory lock on every lane this worker will serve, or refuse to start.
+
+        WHY A LOCK AND NOT A CONVENTION. A lane's Chrome profile directory IS a lock - a second
+        Chrome on it simply fails - so two workers on one source do not quietly share, they break,
+        and the breakage looks like a lane that will not start rather than like a duplicate. On
+        4 Sep 2026 three of four lanes died every three minutes from the related shared-browser
+        version of this and the sentinel reported them restarted. With every brand's lane now
+        running at once and 24/7 (operator, 5 Sep), the chance of a second worker being started for
+        a lane that already has one - by a scheduler, by the sentinel, or by a person - is no longer
+        hypothetical.
+
+        Two-key form: the namespace keeps this away from every other advisory lock in the database,
+        and the source id is the lane. Session-scoped on the Queue's own connection, so it is
+        released when the worker exits OR is killed, with no stale-lock file to clean up. It never
+        waits: a worker that hangs waiting for a lane is worse than one that says the lane is taken.
+        """
+        held = []
+        for sid in source_ids:
+            row = self.conn.execute("SELECT pg_try_advisory_lock(%s, %s) AS ok",
+                                    (self.LANE_LOCK_NS, sid)).fetchone()
+            if row["ok"]:
+                held.append(sid)
+                continue
+            slug = (self.by_id.get(sid) or {}).get("slug", sid)
+            # release what we already took: a partial hold would block the lane that IS running
+            for got in held:
+                self.conn.execute("SELECT pg_advisory_unlock(%s, %s)", (self.LANE_LOCK_NS, got))
+            raise SystemExit(
+                f"REFUSED: another worker is already running the {slug} lane. Two workers on one "
+                f"lane fight over the same Chrome profile directory, which is itself a lock, so "
+                f"the second one simply fails to start its browser. Find the running one with: "
+                f"Get-CimInstance Win32_Process | Where-Object {{ $_.CommandLine -match 'worker.py' }}")
+
     def enabled_ids(self, source_ids: list[int]) -> set[int]:
         """Which of these sources are STILL enabled, read fresh from the database.
 
@@ -1501,6 +1540,8 @@ def run(args: argparse.Namespace) -> int:
     active = [q.sources[s]["id"] for s in wanted if q.sources[s]["enabled"]]
     if not active:
         raise SystemExit("no enabled sources to work")
+    # Before a browser is launched: this lane is ours, or somebody else's and we do not start.
+    q.lock_lanes(active)
 
     # A browser has ONE network path, so a worker cannot serve a residential lane and a direct one
     # at the same time: whichever way it were resolved, one of the two would be silently wrong —
