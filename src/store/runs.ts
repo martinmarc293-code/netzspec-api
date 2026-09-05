@@ -69,6 +69,46 @@ export function hashFile(filePath: string): RunInputFile {
 export const RUN_STALE_HOURS = 6;
 
 /**
+ * A stale run is judged against THE WORK IT DECLARED, not a flat clock.
+ *
+ * The flat six hours was right for what it was set against, and it is too blunt. Measured 5 Sep
+ * 2026 at 21:20: run #104 had been `running` for TWO HOURS with `files: 1`, its process long gone —
+ * and a one-file apply is a minute of work. Meanwhile run #117 legitimately spent 546 s on 494
+ * files and Juniper's hand-drain took 391 s over 25. A single threshold cannot separate those: set
+ * it low and it reaps a real 494-file run mid-write, set it high and an obviously-dead one-file run
+ * sits for six hours claiming to be in flight.
+ *
+ * The run row already carries the answer. `inputs.files` is the size of the work, written when the
+ * run opened, so the expectation can be proportional to it:
+ *
+ *   budget = files x WORST_SECONDS_PER_FILE x SLACK, clamped to [FLOOR, RUN_STALE_HOURS]
+ *
+ * WORST_SECONDS_PER_FILE is 15.6 — the slowest rate anyone measured tonight, under two concurrent
+ * applies contending for one tunnel, NOT the 4.6 s/file of an uncontended dry run. Using the worst
+ * observed rate rather than the typical one is the whole point: the cost of being wrong here is
+ * putting a false ending on a row whose process is still writing.
+ *
+ * The FLOOR exists because a small run during a tunnel stall is not a dead run — at 15.6 s/file a
+ * single file would otherwise get a 47-second budget, and this tunnel drops sockets for longer than
+ * that. The CEILING keeps the old behaviour as the outer bound: nothing waits longer than six hours
+ * however much it declared.
+ *
+ * A run with no `files` in its inputs falls back to RUN_STALE_HOURS, unchanged — an unknown size is
+ * not an excuse to guess a small one.
+ */
+export const WORST_SECONDS_PER_FILE = 15.6;
+export const RUN_STALE_SLACK = 3;
+export const RUN_STALE_FLOOR_MIN = 30;
+
+/** Seconds a run of this declared size may stay `running` before it is treated as abandoned. */
+export function staleBudgetSeconds(files: number | null | undefined): number {
+  const ceiling = RUN_STALE_HOURS * 3600;
+  if (!files || !Number.isFinite(files) || files <= 0) return ceiling;
+  const budget = files * WORST_SECONDS_PER_FILE * RUN_STALE_SLACK;
+  return Math.min(ceiling, Math.max(RUN_STALE_FLOOR_MIN * 60, budget));
+}
+
+/**
  * Close out runs that never finished, so "is one in flight?" stops being a lie.
  *
  * WHY. A run row is opened before the work and closed after it. Nothing closes it when the process
@@ -96,17 +136,33 @@ export async function reapStaleRuns(
   db: Queryable = getPool(),
   hours: number = RUN_STALE_HOURS,
 ): Promise<{ reaped: number; ids: number[] }> {
-  const r = await db.query<{ id: number }>(
-    `UPDATE runs
+  // The budget is computed per row from the size the run DECLARED, so a one-file run that has been
+  // silent for two hours is reaped while a 494-file run still writing is not. The arithmetic is
+  // staleBudgetSeconds() above, expressed here in SQL so it is one statement rather than a read,
+  // a loop and N writes over a 333 ms round trip.
+  const r = await db.query<{ id: number; age: number; budget: number }>(
+    `WITH judged AS (
+       SELECT id,
+              extract(epoch FROM (now() - started_at)) AS age,
+              LEAST($1::float * 3600,
+                    GREATEST($2::float * 60,
+                             COALESCE(NULLIF((inputs->>'files'), '')::float, 1e9)
+                             * $3::float * $4::float)) AS budget
+         FROM runs WHERE status = 'running'
+     )
+     UPDATE runs r
         SET status = 'aborted',
             finished_at = now(),
-            notes = COALESCE(notes || ' | ', '') ||
-                    'reaped: still running after ' || $1::text || 'h with no finish. The process ' ||
-                    'was never observed - only its silence - so this says the row was not closed, ' ||
-                    'NOT that the work failed.'
-      WHERE status = 'running' AND started_at < now() - make_interval(hours => $1::int)
-      RETURNING id`,
-    [hours],
+            notes = COALESCE(r.notes || ' | ', '') ||
+                    'reaped: still running after ' || round(j.age)::text || 's, past the ' ||
+                    round(j.budget)::text || 's budget for the ' ||
+                    COALESCE(r.inputs->>'files', 'unknown number of') || ' file(s) it declared. ' ||
+                    'The process was never observed - only its silence - so this says the row was ' ||
+                    'not closed, NOT that the work failed.'
+       FROM judged j
+      WHERE r.id = j.id AND j.age > j.budget
+      RETURNING r.id, j.age, j.budget`,
+    [hours, RUN_STALE_FLOOR_MIN, WORST_SECONDS_PER_FILE, RUN_STALE_SLACK],
   );
   return { reaped: r.rowCount ?? 0, ids: r.rows.map((x) => x.id) };
 }
