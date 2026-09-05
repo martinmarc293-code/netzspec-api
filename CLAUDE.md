@@ -478,6 +478,17 @@ full; the ones that bite hardest here are restated.
   are ROUND 3 (`wf_36508d2b-fa3`, six groups). Uncommitted in the tree until round 3 verifies:
   ops scripts, images.py, partnumber, merge-core (band [1,44]). OPERATIONAL NOTE: a committed
   apply-acquired now holds one transaction for the whole run (~15 min for a 100k-fact shard).
+  BOX RESULTS: deploy `ebcd8d8` applied 0009; hygiene run #72 merged the 127 case pairs
+  (108 canonical-upper survivors, 19 operator-reviewed, 21 pairs carried facts both sides),
+  #73 retired the 12 foreign PIDs (no successor, facts kept), #74 linked 126 base/-HW pairs
+  both ways (238 alias rows); fabricated-pids left DRY (13 candidates to read). PDF file
+  applied as run #75: gate PASS (provenance 200/200, golden 5/5), insert 1,524, corroborate
+  392, conflict 309, refused_inherit 574. Recompute wrote 132. Then 0010 (the case-unique
+  index) committed and deployed. Retired rows are still SERVED by the API until round 3's
+  api group lands (`retired_at IS NULL` on every parts read path). Parts: 88,968 live,
+  131 retired. The fabricated-pids DRY scan died on the box with `canceling statement due to
+  statement timeout` (3,541 candidates; it ran through the tunnel earlier) — needs batching or
+  a longer statement timeout before its 13 retirements are read and committed.
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
