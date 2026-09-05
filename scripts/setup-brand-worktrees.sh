@@ -57,11 +57,40 @@ if [ -z "${BRANDS// }" ]; then
   exit 1
 fi
 
+
+# A Windows junction, made idempotently and verified. `mklink /J` needs cmd; PowerShell's
+# New-Item -ItemType Junction is the same thing without the quoting hazards.
+link_shared() {
+  local tree="$1" rel="$2" target="$3"
+  local full="$tree/$rel"
+  if [ -e "$full" ]; then
+    echo "      $rel: already present"
+    return 0
+  fi
+  if [ ! -e "$target" ]; then
+    echo "      $rel: TARGET MISSING ($target) - skipped, and the tree will not run until it exists" >&2
+    return 0
+  fi
+  mkdir -p "$(dirname "$full")"
+  powershell -NoProfile -Command     "New-Item -ItemType Junction -Path '$(cygpath -w "$full" 2>/dev/null || echo "$full")' -Target '$(cygpath -w "$target" 2>/dev/null || echo "$target")' | Out-Null"     && echo "      $rel -> $target (junction, shared)"     || echo "      $rel: junction FAILED; create it by hand or the tree will not run" >&2
+}
+
 for b in $BRANDS; do
-  dir="$PARENT/netzspec-$b"
-  branch="brand/$b"
+  # Convention already in use on this machine: the HPE session created
+  # D:/Project/netzspec-api-hpe on branch `hpe`. Matching it rather than inventing a second
+  # scheme - two naming conventions for the same thing is how a directory gets created twice.
+  dir="$PARENT/netzspec-api-$b"
+  branch="$b"
   if [ -d "$dir" ]; then
     echo "  $b: $dir already exists — leaving it alone"
+    continue
+  fi
+  # A brand may already have a worktree under another path or branch name. Creating a second one
+  # would give that session two checkouts and defeat the whole point, so ask git rather than the
+  # filesystem.
+  if git worktree list --porcelain | grep -qi "^branch refs/heads/$branch$"; then
+    existing=$(git worktree list | grep -i "\[$branch\]" | awk '{print $1}')
+    echo "  $b: already has a worktree at $existing on branch '$branch' — leaving it alone"
     continue
   fi
   if [ "$APPLY" != "--apply" ]; then
@@ -78,9 +107,24 @@ for b in $BRANDS; do
     cp "$ROOT/.env" "$dir/.env"
     echo "      .env copied (it is gitignored; each tree keeps its own)"
   fi
-  # The cache is a junction on this machine and is deliberately SHARED - content-addressed by URL,
-  # so three brands never pay to fetch the same document twice.
-  echo "      NOTE: scraper/cache is shared on purpose; do not un-share it"
+  # A fresh worktree contains only what git tracks, so everything GITIGNORED is missing - and
+  # without it nothing in the tree runs at all. Found the hard way: the first worktree created had
+  # no node_modules, so `npx tsx` and every suite failed, and no scraper/cache, so every lane would
+  # have re-fetched the whole corpus.
+  #
+  #   scraper/cache   JUNCTION to the shared cache. Deliberately shared: it is content-addressed by
+  #                   URL, so three brands never pay to fetch the same document twice, and nothing
+  #                   writes it destructively (a challenge page is never cached; an unusable
+  #                   capture is refused before the write).
+  #   node_modules    JUNCTION to the main tree's. Same package.json, same lockfile; three copies
+  #                   would be gigabytes and three `npm install` runs for no difference.
+  #   runs/           NOT shared. Heartbeats, locks, watchdog reports and acquired pages are
+  #                   per-brand state, and sharing them would put three brands' heartbeats in one
+  #                   file - exactly the collision this whole exercise is removing.
+  link_shared "$dir" "scraper/cache" "$(python3.11 -c "import os;print(os.path.realpath('scraper/cache'))")"
+  link_shared "$dir" "node_modules"  "$ROOT/node_modules"
+  mkdir -p "$dir/runs"
+  echo "      runs/ created per-tree (heartbeats and reports must NOT be shared)"
 done
 
 echo
@@ -92,9 +136,9 @@ cat <<'NOTES'
 AFTER CREATING THEM
 
   1. Each session opens ITS OWN directory and works only there:
-       cisco   -> ../netzspec-cisco
-       hpe     -> ../netzspec-hpe
-       juniper -> ../netzspec-juniper
+       cisco   -> ../netzspec-api-cisco
+       hpe     -> ../netzspec-api-hpe
+       juniper -> ../netzspec-api-juniper
   2. A brand commits on its own branch and merges to main when a piece is finished. A shared-engine
      change (worker.py, src/core/*, migrations) is still a coordinated act - it is now also a
      visible one, because it arrives as a merge somebody reviewed rather than as a file that
