@@ -6208,13 +6208,13 @@
   ],
   [
    "(^|> )Compatible Rack Unit$",
-   "rack_units",
-   "provantage: 122 values ('1U', '7U', '21U'), 121 accepted since normaliser 1.4.0 reads bare 'U'. The one refusal is '44U' on a cabinet, RANGE_VIOLATION against rack_units' band [1,30] — the band doing its job. Not matching 'Compatible Rack Width' (19\")."
+   "__compat",
+   "provantage: 122 values ('1U', '7U', '21U', '42U', '44U'). NOT rack_units, decided 5 Sep 2026: this label states the RACK A PART FITS, not the part's own height, and the two are different facts about different objects — a 1U rail kit 'compatible' with a 42U cabinet would publish 42 HE as the kit's height. It was mapped to rack_units and only the band ever refused the racks; when the band widened to [1,44] for the 44-RU ASR-9922 the mis-read stopped being refused at all, which is what forced the decision. __compat rather than an ignore rule so it stays a NAMED, counted fact rather than a gap nobody can act on. 'Rack Height' below is the part's OWN height and stays mapped."
   ],
   [
    "(^|> )Rack Height$",
    "rack_units",
-   "provantage: 92 values over two sections; 86 accepted, 6 RANGE_VIOLATION ('42U' x4, '48U', '0U') because those rows are rack ENCLOSURES, not rack-mounted parts. The unprefixed '^rack height$' rule (routers) cannot see a sectioned label. Not matching 'Rack Depth' (32.50\") or 'Rack Width'."
+   "provantage: 92 values over two sections; under band [1,44] (5 Sep 2026) the refusals are '48U' and '0U' — a 48U enclosure is a rack, and a 0U PDU is mounted beside the rails and has no rack height. '42U' is now ACCEPTED here: the catalogue holds real 42RU cabinets, so 42 is a truthful rack height for the row that states it. The unprefixed '^rack height$' rule (routers) cannot see a sectioned label. Not matching 'Rack Depth' (32.50\") or 'Rack Width'."
   ],
   [
    "(^|> )Processor Core$",
@@ -6225,6 +6225,36 @@
    "(^|> )Layer Supported$",
    "layer",
    "provantage: 120 values, 116 accepted ('3'->l3 x81, '2'->l2 x33, '3.0'->l3 x2) since normaliser 1.4.0 reads the bare layer number. The 4 refusals are the literal '4', ENUM_VIOLATION: the domain is l2/l2plus/l3 and a layer-4 claim has nowhere true to go. Not matching meraki's 'Layer 3 Switching' or 'Layer 3 Routing', which are feature lists."
+  ],
+  [
+   "^signaling rate(, each lane)?$",
+   "data_rate",
+   "juniper-hct: HCT's per-lane line rate, e.g. '100 Gbps'. The sibling 'Speed' column gives the standard name ('100 Gigabit Ethernet') rather than a rate, so this is the one with a number."
+  ],
+  [
+   "^digital optical monitoring$",
+   "ddm",
+   "juniper-hct: bare spelling. The existing rule wants the '(DOM) support' suffix, which HCT does not write."
+  ],
+  [
+   "^monitoring available$",
+   "ddm",
+   "juniper-hct: HCT's own column for the same yes/no. Present on models where 'Digital Optical Monitoring' is an em dash, so it is not redundant - it is the fallback that carries a value."
+  ],
+  [
+   "^transmitter wavelengths? \\(range\\)$",
+   "wavelength",
+   "juniper-hct: e.g. '1530 nm through 1565 nm', and on WDM parts four ranges separated by newlines. Plural in HCT's own spelling."
+  ],
+  [
+   "^transmitter output power, each lane \\((maximum|minimum)\\)$",
+   "tx_power",
+   "juniper-hct: HCT publishes the two ends of the launch-power range as separate rows; both map to tx_power, which is a range field (type nr). Note the minus sign arrives as U+2013 EN DASH and is folded by the extractor - unfolded, '-4.3 dBm' would store as POSITIVE 4.3."
+  ],
+  [
+   "^receiver input power, each lane \\((maximum|minimum)\\)$",
+   "rx_sensitivity",
+   "juniper-hct: the minimum is the sensitivity and the maximum is the overload point; both ends belong to the same range field. Same EN DASH minus as tx_power."
   ]
  ]
 }
