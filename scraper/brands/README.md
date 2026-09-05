@@ -46,7 +46,7 @@ type declaration instead of the value, and one shipped.
    `sources.base.challenge_fingerprint()`, which separates structural markup (believed at any
    size) from ordinary English (believed only under 4 KB) — `looks_blocked()` believed a wordy
    marker on anything under 40 KB and called a genuine 24 KB datasheet blocked.
-5. Copy `tests/scraper/test_cisco_lane.py` and point it at a document of yours **that is already
+5. Copy `tests/scraper/test_cisco_datasheets.py` and point it at a document of yours **that is already
    in the cache**. Keep the sabotage cases; they are the file's purpose.
 6. Run the brand watchdog. It should report a large recall gap or crawl gap on day one — that is
    the pack working, not failing.
