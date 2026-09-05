@@ -521,6 +521,14 @@ full; the ones that bite hardest here are restated.
   supersedes again). DONE on the box: `renormalize --commit --field temp_storage` — 3,488
   selected, 2,804 re-stamped, 452 superseded (all sign restorations of "–40 to 70°C" stored
   as +40), 232 unrecoverable untouched; `temp_storage` rows with min > max afterwards: 0.
+  `altitude_max` read: the 451 changes are ONE transition — 3048 → 3000 (450) and
+  3049.83 → 3050 (1), the vendor's own metric restatement in "10,000 ft. (3000 meters)"
+  preferred over our conversion, max 1.6% (the safe form of the metric rule reverted at
+  1.4.0, which had moved rows 10×). Run with `--allow` on the box. Of the 598
+  unrecoverable, 582 are retracted gap rows with no value (nothing to recover), 16 are
+  label-context rows; ≥5 `C9550-*` rows have a temperature/fan SENTENCE mapped to
+  altitude_max — a label-mapping fault for the alias backlog, not a normaliser rule.
+  Printer fix committed (same/unrecoverable samples print one value).
   the deep-extraction apply resolves intra-document disagreements by write order (16,081 in
   shard 0), its gate samples the head of the file only, a failed run leaves facts committed;
   nine hardware categories have no required field (17,753 parts invisible to the gap
