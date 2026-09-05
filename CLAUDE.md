@@ -547,7 +547,9 @@ full; the ones that bite hardest here are restated.
   write-order); a stray state throws `merge_decision_missing` by name. 8/8 merge on a copy
   of production. Landing trick: the deploy stops at 0010's guard and leaves
   `/root/netzspec-api.new` built — the merge is run FROM that directory, then the deploy is
-  repeated so 0010 applies (chain in flight).
+  repeated so 0010 applies (chain in flight). DONE: run #81 merged the eight (0 live case
+  pairs), the redeploy applied 0010 — index `parts_vendor_sku_ci_uq` is live — and a
+  recompute followed. Live version d3a39bf.
   THE ITPRICE SOLUTION (operator, 5 Sep): a DataImpulse RESIDENTIAL PROXY plan
   (HTTP gateway `gw.dataimpulse.com:823`, rotating/sticky, country targeting, 5 GB of
   traffic — charged per byte). Credentials live ONLY in `D:\Project\.secrets\dataimpulse.env`
