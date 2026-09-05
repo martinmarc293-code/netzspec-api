@@ -66,8 +66,14 @@ function norm(name, category, key, input, want, opts = {}) {
 split("TWIN a comma still separates", "UL 60950-1, CSA 60950-1", ["UL 60950-1", "CSA 60950-1"]);
 split("a comma INSIDE brackets belongs to the member",
   "ETS 300-019-2-1 V2.1.2 (Storage, Class 1.1)", ["ETS 300-019-2-1 V2.1.2 (Storage, Class 1.1)"]);
+// The twin's old example ("ETS 300-019-2-1 V2.1.2, Class 1.1") became a CONTINUATION under 1.5.2:
+// ", Class 1.1" is the storage class of that same ETSI standard, the sub-part shape the citation
+// rule exists for. The twin now uses two standards, so it still proves a comma outside brackets
+// separates, and the continuation case is pinned as one member.
 split("TWIN the same comma outside brackets separates",
-  "ETS 300-019-2-1 V2.1.2, Class 1.1", ["ETS 300-019-2-1 V2.1.2", "Class 1.1"]);
+  "ETS 300-019-2-1 V2.1.2, IEC 60068-2-27", ["ETS 300-019-2-1 V2.1.2", "IEC 60068-2-27"]);
+split("a citation's own sub-part after a comma stays with it (1.5.2)",
+  "ETS 300-019-2-1 V2.1.2, Class 1.1", ["ETS 300-019-2-1 V2.1.2, Class 1.1"]);
 split("bullets are the separator when the document uses them",
   "● SNMPv2-SMI ● CISCO-SMI ● SNMPv2-TM", ["SNMPv2-SMI", "CISCO-SMI", "SNMPv2-TM"]);
 split("a bulleted cell is split on its BULLETS, not on its commas",
@@ -248,7 +254,7 @@ norm("the metric restatement in brackets also keeps its sign", "switches", "temp
 // =================================================================================================
 // 3. the version
 // =================================================================================================
-check("NORM_VERSION was bumped for these changes", NORM_VERSION === "1.5.1",
+check("NORM_VERSION was bumped for these changes", NORM_VERSION === "1.5.2",
   `a value stored under 1.5.0 splits differently under this build, so the version must say so; got ${NORM_VERSION}`);
 
 console.log(`${pass}/${pass + misses.length} passed`);

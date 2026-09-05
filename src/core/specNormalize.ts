@@ -42,8 +42,12 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //            the lookup at all.
 //          - bare "U" for a rack unit ("1U", "2 U"). "RU" and "HE" were here; "U" was not, and it
 //            is what a distributor writes (122 + 87 values, UNIT_UNKNOWN). Nothing else is done to
-//            it: `rack_units` already carries the band [1, 30], so "48U" on a switch is refused
-//            RANGE_VIOLATION and a rack cabinet's real 42U stays out of a switch field.
+//            it: `rack_units` carries the band [1, 44] (widened from [1, 30] on 4 Sep 2026 for the
+//            44-RU ASR-9922; see the band's own comment in fieldSchema.ts), so "48U" on a switch is
+//            refused RANGE_VIOLATION. The band alone no longer keeps a RACK out of a device field —
+//            42U is a real cabinet height and is now in band — so that refusal has moved to the
+//            LABEL: "Compatible Rack Unit" is the rack a part fits and maps to __compat, not to
+//            rack_units.
 //          - the counting noun on a COUNT_LIKE field ("Dodeca-core (12 Core)" on cpu_cores, 44
 //            values). Matched as a NOUN against the canonical word, deliberately not by putting
 //            every counting word into one "count" dimension — that would make "16 cores" an
@@ -58,7 +62,11 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        you can buy, not one PID, and it broke the golden expectation an hour after 1.5.0
 //        shipped. See splitPidAlternatives for the rule and for why the GLUED form must not
 //        split.
-export const NORM_VERSION = "1.5.1";
+// 1.5.2: a comma INSIDE a standards citation is not a member boundary. `shock` was retyped from a
+//        string to a list on 4 Sep 2026 and the comma splitter then read 396 citation cells for the
+//        first time, cutting "MIL-STD-810, Method 514.4" into two standards that do not exist. The
+//        rule and every bound in it are read off the stored raws — see isCitationContinuation.
+export const NORM_VERSION = "1.5.2";
 
 export type NormReason =
   | "PARSE_FAIL" | "UNIT_MISSING" | "UNIT_UNKNOWN" | "ENUM_VIOLATION"
@@ -202,7 +210,7 @@ const UNITS: Record<string, [string, number]> = {
   // prints "HE". A bare "u" is safe as a token because UNIT_TOKEN is GREEDY over letters: "USB",
   // "UPOE" and the "U" of "MU-MIMO" are read as whole tokens and never reduce to "u", and the one
   // shape that does — a digit, an optional space, then a lone U — is a rack height. Nothing here
-  // bounds the value; `rack_units` carries band [1, 30], which is what refuses "48U" on a switch.
+  // bounds the value; `rack_units` carries band [1, 44], which is what refuses "48U" on a switch.
   "awg": ["awg", 1], "he": ["ru", 1], "ru": ["ru", 1], "u": ["ru", 1],
   "einträge": ["count", 1], "eintraege": ["count", 1], "entries": ["count", 1],
   // Fahrenheit is the one AFFINE conversion here: it needs an offset, not a factor, so its
@@ -429,7 +437,108 @@ const HAS_BULLET = new RegExp(`[${LIST_BULLETS}]`);
 const BULLET_SPLIT = new RegExp(`[${LIST_BULLETS}\\n]+`);
 const TRIM_EDGES = new RegExp(`^[${LIST_BULLETS}\\s;,]+|[\\s;,]+$`, "g");
 
-/** Split on "," and ";" and the words "and"/"und", but never inside brackets. */
+// ---- a comma INSIDE a citation is not a member boundary (1.5.2) ---------------------------------
+//
+// `shock` was retyped from `s` to `ls` on 4 Sep 2026, which pointed the comma splitter at 396 cells
+// of standards citations for the first time — and the very first one it read,
+// "IEC 60068-2-27 (…) MIL-STD-810, Method 514.4 IEC 60068-2-6", came apart into "…MIL-STD-810" and
+// "Method 514.4 IEC 60068-2-6". Both halves are fictions: no standard is called "Method 514.4", and
+// the citation that WAS there is gone. The same comma occurs all over the fields that were already
+// `ls`, so this is a splitter rule, not a shock rule.
+//
+// The rule is READ OFF THE STORED RAWS (1,375 outside-bracket commas over the 378 distinct
+// comma-bearing raws of the 14 list fields, production, 5 Sep 2026), not chosen. What follows an
+// outside-bracket comma falls into two populations and they are separable:
+//
+//   A NEW MEMBER, and it is the big one: an issuing body or a product token, written in capitals —
+//   "UL 60950-1, CSA 60950-1, EN 60950-1" (EN 707, IEC 421, CSA 362, FCC 330, IEEE 1,493 …), or a
+//   sibling designation that carries a letter ("802.11n, 802.11g, 802.3af"), or a capitalised
+//   feature name ("Class-Based Traffic Shaping (CBTS), Class-Based Traffic Policing (CBTP)").
+//
+//   THE SAME CITATION, CONTINUED, in exactly three shapes:
+//     1. a SUB-PART reference — "MIL-STD-810, Method 514.4", "47 CFR, Part 15", "CS-03, Part II,
+//        Issue 9", "ETS 300-019-2-2 (…): Transportation, Class 2.3", "FC-PH, Amendment 1",
+//        "GR-1089-CORE, Issue#3", "MIC Article 2 Paragraph 1, Item 11-3". A list member is never
+//        just "Method 514.4", so this shape needs no other evidence — but the noun must be the
+//        WHOLE word and be followed by its number, or "Class-Based Weighted Fair Queuing" (200
+//        stored facts) would be swallowed by "Class".
+//     2. an EDITION or a YEAR after a designation — "UL 60950-1, 2nd edition", "● UL 60950-1,
+//        Second Edition", "IEC 61850-3, 2013", "IEEE 1613, 2009".
+//     3. a SUB-PART ENUMERATION of one standard — "EN 61000-4-2, 3, 4, 5, 6, 8, 9, 16, 17, 18",
+//        "EN 301 908-1,2,13", "RFC 1901, 1902-1907", "AS/NZS3260 Supplement 1, 2, 3, 4, 1997".
+//
+// Shapes 2 and 3 are ambiguous on their own — ", 2013" and ", 3" are only a continuation when
+// there is a citation in front of them — so they are gated on the left side ENDING in a standard
+// designation. Two bounds on that gate are load-bearing and both come from the corpus:
+//
+//   * the designation's number needs TWO DIGITS. This is what separates a standard from a protocol
+//     VERSION: "SNMPv1, v2c, and v3" and "IGMPv1, v2, v3 snooping" have exactly the same shape as a
+//     citation followed by a lower-case word, and gluing them would turn three members into one on
+//     337 stored facts. No designation in the corpus is a single digit; no version suffix is more
+//     than one ("Wi-Fi 7, Wi-Fi 6E" splits for the same reason, and must).
+//   * the number must be a SUB-PART INDEX, a YEAR or a RANGE, and each bound is there because the
+//     replay produced a wrong answer without it. A bare number is only three things after a
+//     citation: a one- or two-digit sub-part ("EN 61000-4-2, 3, 4, 5"), a year ("IEC 61850-3,
+//     2013"), or a hyphen/slash-joined range or date ("RFC 1901, 1902-1907", "Third Ed., 12/1/2000").
+//     Anything else is a sibling PRODUCT: the corpus replay glued
+//     "Cisco 1841, 2801, 2811, 2821, 2851, 3825, and 3845" into one member on 3 stored facts until
+//     the year window excluded four-digit model numbers, which is the same shape and a real list.
+//     Dots are excluded outright for the same reason: "IEEE 802.1, 802.3" and
+//     "FCC Part 15.247, 15.407" are two designations of one family, not a designation and its part
+//     number, nothing in the string says which reading is right, and they are therefore left
+//     exactly as they split today rather than guessed at.
+/** A DESIGNATION number is never one digit: that single rule is what separates "IEC 61850-3" from
+ *  "SNMPv1" and "Wi-Fi 7", and it is read off the corpus (below). */
+const DESIGNATION = /\d{2,}/;
+/** A citation token carries no brackets and no prose punctuation — "(Shock)", "(1999-09):" and
+ *  "Transportation," are not designations however many digits they hold. */
+const CITATION_TOKEN = /^[A-Za-z0-9][A-Za-z0-9.:/+-]*$/;
+const ISSUING_BODY = /^[A-Z]/;
+/** …and a citation that has already absorbed a numeric continuation ("EN 61000-4-2, 3") is still a
+ *  citation, or the second comma of an enumeration would break the chain the first one held. */
+const ABSORBED_NUMBERS = /(?:,\s*\d+(?:[-/]\d+)*(?:st|nd|rd|th)?)+\s*$/;
+const SUBPART_REFERENCE =
+  /^(?:Method|Procedure|Category|Class|Part|Section|Issue|Item|Edition|Amendment|Revision|Rev|Supplement|Annex|No)[\s#:.]+(?=\d|[IVX]+(?:$|[\s,;.)]))/;
+const ORDINAL_EDITION = /^(?:First|Second|Third|Fourth|Fifth|Sixth|Seventh|Eighth|Ninth|Tenth)\s+(?:Ed\b|Edition\b)/;
+const SUBPART_INDEX = /^\d{1,2}(?:st|nd|rd|th)?(?=$|[\s,;)])/;   // "3", "18", "2nd"
+const YEAR = /^(?:19[5-9]\d|20[0-4]\d)(?=$|[\s,;)])/;            // "1997", "2009", "2013"
+const NUMBER_RANGE = /^\d+(?:[-/]\d+)+(?=$|[\s,;)])/;            // "1902-1907", "11-3", "12/1/2000"
+
+/**
+ * Does the member so far END in a standard designation? Read over WHITESPACE TOKENS rather than as
+ * one regex, because a regex over the whole tail backtracks into a wrong reading: the obvious
+ * `[A-Z][A-Za-z]*(?:-[A-Za-z0-9]+)*-?(\d…)$` matches "MIL-STD-810" by letting the middle swallow
+ * "-STD-81" and capturing a one-digit "0", which then fails the two-digit test that is the whole
+ * point of the rule. Tokens cannot do that.
+ *
+ * The designation is the LAST token; the issuing body is that token itself ("MIL-STD-810"), the
+ * token before it ("IEC 61850-3", "Cisco 1841"), or the one before a purely numeric middle
+ * ("EN 301 908-1"). Exported so a sabotage case can drive this half alone.
+ */
+export function endsInCitation(before: string): boolean {
+  const t = before.replace(ABSORBED_NUMBERS, "").trim().split(/\s+/).filter(Boolean);
+  const last = t[t.length - 1];
+  if (!last || !CITATION_TOKEN.test(last) || !DESIGNATION.test(last)) return false;
+  if (ISSUING_BODY.test(last)) return true;
+  const prev = t[t.length - 2];
+  if (!prev) return false;
+  if (CITATION_TOKEN.test(prev) && ISSUING_BODY.test(prev)) return true;
+  const before2 = t[t.length - 3];
+  return /^\d+$/.test(prev) && !!before2 && CITATION_TOKEN.test(before2) && ISSUING_BODY.test(before2);
+}
+
+/** Is the comma between `before` and `after` a citation continuing, rather than a member boundary? */
+export function isCitationContinuation(before: string, after: string): boolean {
+  const rest = after.replace(/^\s+/, "");
+  if (!rest) return false;
+  if (SUBPART_REFERENCE.test(rest)) return true;
+  if (!endsInCitation(before)) return false;
+  return /^[a-z]/.test(rest) || ORDINAL_EDITION.test(rest)
+    || SUBPART_INDEX.test(rest) || YEAR.test(rest) || NUMBER_RANGE.test(rest);
+}
+
+/** Split on "," and ";" and the words "and"/"und", but never inside brackets — and never inside a
+ *  citation (see isCitationContinuation above). */
 function splitOutsideBrackets(t: string): string[] {
   const out: string[] = [];
   let depth = 0, start = 0;
@@ -438,7 +547,11 @@ function splitOutsideBrackets(t: string): string[] {
     if (c === "(" || c === "[" || c === "{") { depth++; continue; }
     if (c === ")" || c === "]" || c === "}") { depth = depth > 0 ? depth - 1 : 0; continue; }
     if (depth > 0) continue;
-    if (c === "," || c === ";") { out.push(t.slice(start, i)); start = i + 1; continue; }
+    if (c === ",") {
+      if (isCitationContinuation(t.slice(start, i), t.slice(i + 1))) continue;
+      out.push(t.slice(start, i)); start = i + 1; continue;
+    }
+    if (c === ";") { out.push(t.slice(start, i)); start = i + 1; continue; }
     if (c === " ") {
       const m = /^\s+(?:and|und)\s+/.exec(t.slice(i));
       if (m) { out.push(t.slice(start, i)); start = i + m[0].length; i += m[0].length - 1; }

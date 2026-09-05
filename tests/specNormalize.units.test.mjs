@@ -302,9 +302,23 @@ const CASES = [
   // "RU" and "HE" were here; "U" is what a distributor prints, and 209 values were UNIT_UNKNOWN
   // for it. The token is safe because UNIT_TOKEN is greedy over letters — "USB", "UPOE" and the
   // "U" of "MU-MIMO" are read whole and never reduce to "u" — and the near-misses below are what
-  // prove that rather than asserting it. Nothing in 1.4.0 bounds the VALUE: `rack_units` already
-  // carries band [1, 30], and that is what keeps a 42U cabinet out of a switch's rack height.
+  // prove that rather than asserting it. Nothing in 1.4.0 bounds the VALUE: `rack_units` carries a
+  // band, and that band is what keeps a 48U cabinet out of a switch's rack height.
+  //
+  // THE BAND MOVED on 4 Sep 2026, [1, 30] -> [1, 44], and these cases are what pin it. 30 refused
+  // the ASR 9922 ("20 Line Card Slot Chassis, 44 RU"), the tallest real device in the catalogue,
+  // and the seven 39 RU Secure Workload clusters with it. The whole reasoning, with the measured
+  // height distribution it was read off, sits beside the band in src/core/fieldSchema.ts.
   ["a bare U is a rack unit", "switches", "rack_units", "1U", EN, 1],
+  // The two that moved: a real chassis height must LAND, and reverting the band turns these red.
+  ["THE FINDING the ASR 9922's 44 RU is a real device height", "switches", "rack_units", "44 RU", EN, 44],
+  // Spaced, so that a too-tight band fails this with RANGE_VIOLATION and not with VALUE_IS_PID:
+  // the glued form "39RU" IS a part-number shape, and VALUE_IS_PID is the fallback normalizeField
+  // reports whenever the typed parse fails on such a string — which would hide the band behind the
+  // wrong reason. Proved by reverting the band: "44 RU" says RANGE_VIOLATION [1, 30], "39RU" says
+  // VALUE_IS_PID for the same underlying refusal.
+  ["THE FINDING a 39 RU Secure Workload cluster is a real device height", "switches", "rack_units", "39 RU", EN, 39],
+  ["TWIN and the ASR 9912's 30 RU still reads as it always did", "switches", "rack_units", "30 RU", EN, 30],
   ["a spaced U is the same unit", "switches", "rack_units", "2 U", EN, 2],
   ["RU still reads as it did", "switches", "rack_units", "10RU", EN, 10],
   ["SABOTAGE USB is not two rack units", "switches", "rack_units", "2 USB", EN, "UNIT_UNKNOWN"],
@@ -315,9 +329,13 @@ const CASES = [
   // is upstream in the table reader, not here, and burying it in UNIT_UNKNOWN is what hid it.
   ["SABOTAGE a PID ending in 1U is still a PID", "switches", "rack_units", "C9200L-24P-4G-1U", EN, "VALUE_IS_PID"],
   ["SABOTAGE a fan PID containing 1U is still a PID", "switches", "rack_units", "C9500X-FAN-1U-R", EN, "VALUE_IS_PID"],
-  // The band is the only thing standing between a rack CABINET and a switch's rack height, and
-  // provantage states both under labels one word apart ("Rack Height" 42U, 48U, 0U).
+  // The band is the only thing standing between a full-height RACK and a switch's rack height, and
+  // provantage states both under labels one word apart ("Rack Height" 42U, 48U, 0U). 48 stays
+  // outside: no part in the catalogue states a height between 45 and 80, so the ceiling sits in a
+  // measured gap and 48U on a device is the rack it mounts in. 42U no longer is — the catalogue
+  // holds a 42RU Panduit cabinet — so a 42U mount-kit value has to be refused by its LABEL now.
   ["SABOTAGE a 48U cabinet is outside a device's band", "switches", "rack_units", "48U", EN, "RANGE_VIOLATION"],
+  ["SABOTAGE 45U, one unit past the tallest real device, is outside it", "switches", "rack_units", "45U", EN, "RANGE_VIOLATION"],
   ["SABOTAGE a zero-U PDU is outside it too", "switches", "rack_units", "0U", EN, "RANGE_VIOLATION"],
   ["SABOTAGE an 802.11u amendment is not 802 rack units", "switches", "rack_units", "802.11u", EN, "RANGE_VIOLATION"],
   // SABOTAGE the dimension both ways: a rack unit is a real dimension now, so it must be REFUSED

@@ -122,13 +122,55 @@ measured against run #38's held conflicts and each with a sabotage twin in `test
 - **a list is a SET.** Order is the extractor's reading order and case is the cell's; neither is a
   fact about the product. 131 conflicts were two datasheets stating one list with one word
   capitalised differently.
-- **numbers agree within 2% WHEN THE FIELD HAS A UNIT.** One cell states one measurement twice —
-  "10,000 ft. (3000 meters)" gives 3048 m and 3000 m; "1.73 x 17.5 x 12 in." against
-  "44 x 445 x 305 mm" gives 43.942 mm and 44 mm. The band is measured, not chosen: of run #38's
-  2,806 differing numeric conflicts, 902 sit at or under 2%, exactly one at 4.99%, then 313 between
-  5% and 20%. The tolerance requires a unit because it exists for a unit round-trip, and °C, °F, dB
-  and dBm are excluded by name — an interval or logarithmic scale has no rounding story, and 40 °C
-  and 41 °C are two different specifications.
+- **numbers agree within 2% WHEN THE FIELD'S UNIT IS A RATIO-SCALE MEASUREMENT.** One cell states
+  one measurement twice — "10,000 ft. (3000 meters)" gives 3048 m and 3000 m; "1.73 x 17.5 x 12 in."
+  against "44 x 445 x 305 mm" gives 43.942 mm and 44 mm. The band is measured, not chosen: of run
+  #38's 2,806 differing numeric conflicts, 902 sit at or under 2%, exactly one at 4.99%, then 313
+  between 5% and 20%.
+
+  **Which fields it may reach is decided by `toleranceApplies`, from the DICTIONARY, in three
+  tests** — and it was wrong in both directions until 4 Sep 2026:
+
+  1. **no unit → no tolerance.** Unchanged: with nothing to convert from there is nothing to
+     forgive (`vlan_max`, `ipv4_routes` and `acl_entries` declare no unit).
+  2. **a COUNTING NOUN → no tolerance.** This is the rule that was DEAD. The guard read "a bare
+     count has no rounded restatement to forgive", but every `COUNT_LIKE` field stores its counting
+     noun in `facts.unit`, so the field always had a unit and the branch never fired for the
+     population it was written for: 1,404 live facts carry `Byte`, `HE`, `Einträge`, `ports`,
+     `sockets`, `Sessions`, `Peers`, `ranks`, `bays`, `AWG`, `cores` … and every one of them was
+     being compared with a 2% tolerance, so `jumbo_mtu` 9216 against 9198 Byte, `mac_table` 288,000
+     against 292,000 and `copper_ethernet_ports` 96 against 97 all *corroborated*. `COUNT_LIKE` in
+     `specNormalize` is the one place count-likeness is declared and the merge now reads it — no
+     second list of field keys. `HE`, `Byte` and `AWG` are in both tables and COUNT_LIKE wins.
+  3. **a DIMENSION that is not exempt.** The unit must resolve through `CANON` to a physical
+     dimension (a unit in neither table is refused rather than guessed), and that dimension must be
+     one where a small gap means a rounded restatement. `TOLERANCE_EXEMPT_DIMENSIONS` says which
+     are not, keyed on the DIMENSION and never on the spelling: the old list named `"dB"` and
+     `"dBm"` and therefore missed `dB(A)` (acoustic noise), `dBi` (antenna gain) and `dBmV`, which
+     are the decibel units carrying data. Exempt today: `tempC`/`tempF` (an interval scale — 0 °C
+     is not "no temperature", and 40 °C against 40.5 °C is two operating envelopes), the decibel
+     family `db`/`dba`/`dbm`/`dbi`/`dbmv` (logarithmic — 2% of a decibel figure is not 2% of the
+     quantity), and `percent` (a proportion has no second unit to be restated in, so "5 to 90%"
+     against "5 to 91%" is a different envelope). `voltage` was decided to stay INSIDE the band on
+     the same evidence: it is a ratio scale with real mV/V/kV restatements, and none of its 15
+     stored pairs is within 2%, so exempting it would withdraw nothing.
+
+  **What the dead guard left behind, measured read-only on 5 Sep 2026 and NOT changed:** 815 live
+  `corroborated` facts sit on units the new rule exempts and the old one did not (`%` 687, `Byte`
+  46, `Einträge` 38, `ranks` 13, `ports` 8, `HE` 8, `lines` 6, `cores` 4, `sockets` 4, `GPUs` 1), so
+  every one of them was corroborated with a 2% band applied to a count or a proportion. 230 of them
+  carry two or more DISTINCT evidence raws — the only ones the question can be asked of; 533 were
+  corroborated on the same raw string twice and 52 have fewer than two evidence rows. Of the 230,
+  exactly **one** normalises to two different values today, and it is not a disagreement: one raw of
+  a `humidity_operating` pair is refused outright (`VALUE_IS_PID` on `82.4°F (28°C)`) while the
+  other reads 10–90%. So the dead guard did not leave a body of wrongly-merged counts behind it —
+  it left a rule that would have merged them, which is a different and cheaper problem.
+
+  The proof that this is CONSUMED and not merely a correct function lives at the store layer
+  (`tests/db/remerge.test.ts` §9): `jumbo_mtu` 9216 against 9198 `Byte` must survive
+  `ingest remerge --commit` as an open conflict, and `altitude_max` 3000 against 3048 m must resolve
+  in the same run. Reverting the guard turns the first red; refusing every tolerance turns the
+  second red. Before that section existed the revert left the whole DB suite green.
 - **a string cut at the extractor's cell cap** (`MAX_CELL = 160` in
   `scraper/adapters/cisco_specs_deep.py`) **is its own untruncated form.** 72 conflicts, all
   `snmp_mibs`. A value that ends at exactly the cap is a fact about our reader.
@@ -182,8 +224,25 @@ notations a distributor uses and a vendor datasheet does not (added in `NORM_VER
 | notation | reads as | example | near-miss that is still refused |
 | --- | --- | --- | --- |
 | `"` `”` `″` — the inch marks | length, 25.4 mm | `17.5"` → 444.5 mm | the same mark on a mass or throughput field (`UNIT_UNKNOWN`), and `2.5" 12G SAS` on a capacity field |
-| bare `U`, alongside `RU` / `HE` | rack unit | `1U`, `2 U` → 1, 2 HE | `USB`, `UPOE`, the `U` of `MU-MIMO`, `EU`, a PID ending `-1U` (`VALUE_IS_PID`), and `48U`/`0U` on a device (`RANGE_VIOLATION`, band `[1, 30]`) |
+| bare `U`, alongside `RU` / `HE` | rack unit | `1U`, `2 U` → 1, 2 HE; `44 RU` → 44 (ASR-9922) | `USB`, `UPOE`, the `U` of `MU-MIMO`, `EU`, a PID ending `-1U` (`VALUE_IS_PID`), and `48U`/`45U`/`0U` on a device (`RANGE_VIOLATION`, band `[1, 44]`) |
 | the counting **noun** on a count-like field | the bare count | `Dodeca-core (12 Core)` → 12 | `16 cores` on `mac_table` and `300000 entries` on `cpu_cores` — a noun only ever matches **its own** field |
+
+**A rack unit is where a band stops being able to do a label's job.** `rack_units` widened from
+`[1, 30]` to `[1, 44]` on 4 Sep 2026 for the ASR-9922 (`20 Line Card Slot Chassis, 44 RU`), the
+tallest real device in the catalogue. What that ceiling *actually* refused before is worth stating
+correctly, because the code comment had it wrong until 5 Sep 2026: the band test is INCLUSIVE and
+the ASR-9912 is 30 RU exactly, so it always passed — the old ceiling refused ten parts and no
+others, the 44-RU ASR-9922, seven 39-RU Secure Workload parts, and two 42-RU **racks**.
+
+The consequence is the part that matters. 42U is a truthful cabinet height and is now in band, so
+**no number can any longer tell a rack's height from a device's**, and the discrimination has moved
+to the LABEL: `Rack Height` is the part's own height and stays mapped to `rack_units`;
+`Compatible Rack Unit` is the rack a part FITS — a fact about a different object — and maps to
+`__compat`, not to a spec field. A 1U rail kit "compatible" with a 42U cabinet would otherwise
+publish 42 HE as the kit's own height: a plausible number, in band, wrong, with nothing to
+complain. `__compat` rather than an ignore rule so the value stays a named, counted sentinel
+instead of arriving in the unmapped-label report as a gap someone will close by re-adding the
+alias. Proved in `tests/aliasRules.test.ts` §1b, both ways.
 
 The noun is matched as a noun and deliberately *not* by giving every counting word one shared
 "count" dimension: `Einträge` already lives in that dimension, so the one-line version of that fix
@@ -444,7 +503,7 @@ has two halves, in the two places that can see the two shapes:
 
 ### What separates one member from the next
 
-`splitListValue` (`src/core/specNormalize.ts`, `NORM_VERSION` 1.5.1) decides where a cell's members
+`splitListValue` (`src/core/specNormalize.ts`, `NORM_VERSION` 1.5.2) decides where a cell's members
 end, in this order:
 
 1. **the document's own delimiter, where it has one.** A cell carrying bullets (`●`, `•`, `▪`) or
@@ -453,10 +512,55 @@ end, in this order:
    cell with a single *leading* bullet delimits nothing, so it falls through to the commas;
    measured over the corpus, that fallback is the difference between 15,429 cells splitting and
    about 1,000 collapsing into one sentence;
-2. **otherwise `,` and `;` and the words "and"/"und", outside brackets.** The bracket-blind version
-   cut `IEC 60068-2-27 (Storage, Class 1.1)` in half. A member with an unbalanced bracket is a
+2. **otherwise `,` and `;` and the words "and"/"und", outside brackets** — and, since 1.5.2, not
+   inside a CITATION either (below). The bracket-blind version cut
+   `IEC 60068-2-27 (Storage, Class 1.1)` in half. A member with an unbalanced bracket is a
    member that was shredded;
 3. **and `/`, but only between orderable part numbers, and only when it carries a space.**
+
+#### A comma inside a citation is not a member boundary (1.5.2)
+
+`shock` was retyped `s` → `ls` on 4 Sep 2026 so a cell stating several shock figures could hold
+them all. That pointed the comma splitter at 396 citation cells for the first time and the first
+one it read came apart: `… MIL-STD-810, Method 514.4 IEC 60068-2-6` became `… MIL-STD-810` and
+`Method 514.4 IEC 60068-2-6`. Two fictions out of one fact — no standard is called "Method 514.4",
+and the one that *was* stated is gone. It is a splitter rule, not a shock rule: the same comma
+occurs across `certifications`, `emc_immunity`, `rfc_compliance` and `supported_protocols`.
+
+The rule is read off the stored raws (1,375 outside-bracket commas over the 378 distinct
+comma-bearing raws of the list fields, 5 Sep 2026). A comma continues the citation in three shapes,
+and everything else is still a member boundary:
+
+| shape | example | gated on a citation? |
+| --- | --- | --- |
+| a **sub-part reference** — Method, Procedure, Category, Class, Part, Section, Issue, Item, Edition, Amendment, Revision, Rev, Supplement, Annex, No — as the whole word, carrying its number or roman numeral | `MIL-STD-810, Method 514.4` · `47 CFR, Part 15` · `CS-03, Part II, Issue 9` · `…: Transportation, Class 2.3` | no: a list member is never *just* `Method 514.4` |
+| an **edition or year** | `UL 60950-1, 2nd edition` · `UL 60950-1, Second Edition` · `IEC 61850-3, 2013` | yes |
+| a **sub-part enumeration** of one standard: a one- or two-digit index, a year, or a hyphen/slash range | `IEC 61000-4-2,3,4,5,6,8,9,16,17,18,29` · `EN 301 908-1, 2, 13` · `RFC 1901, 1902-1907` | yes |
+
+"Ends in a citation" is read over whitespace TOKENS, not as one regex: the obvious tail regex
+backtracks into `MIL-STD-8` + `10` and captures a one-digit designation, which then fails the very
+test the rule turns on. Two bounds are load-bearing and both come from the corpus:
+
+- **a designation number has at least two digits.** This is what separates a standard from a
+  protocol VERSION. `SNMPv1, v2c, and v3` and `IGMPv1, v2, v3 snooping` have exactly the shape of a
+  citation followed by a lower-case word; gluing them would turn three members into one on 337
+  stored facts. `Wi-Fi 7, Wi-Fi 6E` splits for the same reason.
+- **the continuation number is an index, a year (1950–2049) or a range — never a bare four-digit
+  model number and never a dotted one.** The replay glued
+  `Cisco 1841, 2801, 2811, 2821, 2851, 3825, and 3845` into one member on 3 stored facts until the
+  year window excluded model numbers. `IEEE 802.1, 802.3` and `FCC Part 15.247, 15.407` are two
+  designations of one family, nothing in the string says which reading is right, and they are
+  therefore left exactly as they split before rather than guessed at.
+
+Replayed read-only over the store before it shipped: of 1,296 distinct `ls` raws, **15 change
+(223 stored facts)** and every one was read — `shock` 53 (the finding), `rfc_compliance` 85,
+`certifications` 36, `emc_immunity` 27, `supported_protocols` 21, `supported_modules` 1. Recorded
+rather than hidden: `● SR-3580 NEBS level 3 GR-63-CORE, issue 3; GR-1089 CORE, issue 4` improves
+from four members to three but its second `issue 4` still separates, because `GR-1089 CORE` ends in
+a word rather than a designation. The sabotage twins are in `tests/specMerge.test.ts` §2c — that
+file and not the list suite, because the damage lands in the MERGE: a list is compared as a set, so
+a citation cut in half can never agree with one that survived and the pair is held as a conflict for
+a difference the splitter invented.
 
 The slash is the one that has been wrong in both directions. Splitting on every slash invented two
 standards out of `IEC/EN-61000-4-2` and cut `Galois/Counter`, `10/100/1000`, `TCP/IP`, `AC/DC` and
