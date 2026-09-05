@@ -12,6 +12,68 @@ from bs4 import BeautifulSoup, Tag
 CHALLENGE = re.compile(r"Client Challenge|Just a moment|cf-browser-verification|Attention Required|are you a human|captcha|Access Denied|Request unsuccessful", re.I)
 WS = re.compile(r"\s+")
 
+# ---------------------------------------------------------------------------------------------
+# Block detection, by NAMED fingerprint
+# ---------------------------------------------------------------------------------------------
+# Two kinds of evidence, and they need opposite guards.
+#
+# STRUCTURAL markers are markup only an interstitial has - a Cloudflare challenge script, a
+# Turnstile widget. No page that is not a challenge contains them, so they need no length guard,
+# and a length guard would actively hurt: `looks_blocked` refuses to call anything over 40 KB
+# blocked, so a challenge page that happens to be large is invisible to it.
+#
+# WORDY markers are ordinary English. "Access Denied" is the whole body of Akamai's refusal AND a
+# row in the feature table of every Cisco security datasheet; "captcha" appears in any document
+# about bot protection. They are believed only on a page too small to be a real document. The
+# guard here is 4 KB, not the 40 KB `looks_blocked` uses: measured on 5 Sep 2026, Akamai's refusal
+# is 546 bytes and a genuine Cisco datasheet containing the words "Access Denied" was 24 KB, so
+# the old threshold called the datasheet blocked.
+STRUCTURAL_CHALLENGE = (
+    ("cf_challenge_platform", "/cdn-cgi/challenge-platform"),
+    ("cf_chl_token", "__cf_chl"),
+    ("cf_chl_opt", "cf_chl_"),
+    ("cf_chl_id", "cf-chl-"),
+    ("cf_turnstile", "cf-turnstile"),
+    ("cf_challenges_host", "challenges.cloudflare.com"),
+    ("cf_browser_verification", "cf-browser-verification"),
+    ("cf_just_a_moment", "just a moment"),
+    ("cf_client_challenge", "client challenge"),
+    ("turnstile_verify_human", "verify you are human"),
+    ("turnstile_performing", "performing security verification"),
+    ("cf_checking_browser", "checking your browser"),
+    ("cf_enable_js_cookies", "enable javascript and cookies"),
+)
+WORDY_CHALLENGE = (
+    ("akamai_access_denied", "access denied"),
+    ("akamai_no_permission", "you don't have permission to access"),
+    ("attention_required", "attention required"),
+    ("captcha", "captcha"),
+    ("request_unsuccessful", "request unsuccessful"),
+    ("are_you_a_human", "are you a human"),
+)
+WORDY_MAX_BYTES = 4000
+
+
+def challenge_fingerprint(html: str) -> str | None:
+    """The NAME of the block fingerprint on this page, or None.
+
+    Naming it is the point. On 5 Sep 2026 three lanes were being challenged and the watchdog said
+    nothing, because a block was inferred from an HTTP status and a challenge served with HTTP 200
+    was classified by the adapter as "this part is not listed". An outcome that says
+    `blocked:turnstile_verify_human` is a fact somebody can act on; `no_facts` is not.
+    """
+    if not html:
+        return "empty_body"
+    head = html[:65536].lower()
+    for name, pat in STRUCTURAL_CHALLENGE:
+        if pat in head:
+            return name
+    if len(html) <= WORDY_MAX_BYTES:
+        for name, pat in WORDY_CHALLENGE:
+            if pat in head:
+                return name
+    return None
+
 
 def soup(html: str) -> BeautifulSoup:
     return BeautifulSoup(html, "lxml")
@@ -193,6 +255,39 @@ _PN_KEEP_SPARE = re.compile(r"^(?!19[0-9]{2}-)(?!20[0-9]{2}-)[0-9]{4,}(?:-[0-9]+
 _PN_KEEP_MODEL_SUFFIX = re.compile(r"^(?!19[0-9]{2}-)(?!20[0-9]{2}-)[0-9]{4}-[0-9]{2}$")  # 9800-40
 _PN_KEEP_ISR_VA = re.compile(r"^8[0-9][1-9]VA=?$", re.I)               # 886VA, 897VA, 886VA=
 
+# ---------------------------------------------------------------------------------------------
+# The space set is written out, NOT inherited from the language (4 Sep 2026). "Trim, then refuse
+# an interior space" reads as one rule in two languages and is not: Python's str.strip()/isspace()
+# and JavaScript's trim()/\s disagree on three characters, and every disagreement is a token that
+# is a part number in one language and junk in the other — the one thing the twin implementations
+# exist to prevent.
+#   U+FEFF (BOM)   JS strips it, Python does not. Measured at HEAD: "\ufeff40W" was ACCEPTED by
+#                  Python (the anchored quantity rule cannot see past the BOM, so the token
+#                  survived on "has a letter, has a digit, four characters") and refused as
+#                  `quantity` by TypeScript. A BOM leads real scraped cells whenever a page is
+#                  served UTF-8-with-signature, so this is not a hypothetical token.
+#   U+0085 (NEL)   Python's isspace() says yes, JS's \s says no.
+#   U+1C-U+1F      Python's isspace() says yes, JS's \s says no. Deliberately NOT in the set:
+#                  they are control characters and `bad_char` is the right answer for them on
+#                  both sides, which is what leaving them out produces.
+# The same set does both jobs, so "stripped at the edge" and "refused inside" can never drift
+# apart either. The pattern text is character-for-character the one in src/pipeline/partNumber.ts.
+# A DECLARED CONSTANT NOBODY READS IS NOT A RULE (4 Sep 2026): _PN_TRIM and _PN_WHITESPACE were
+# added here, documented here and in the fixture, and pinned by S24-S28 — while is_part_number
+# below went on calling str.strip() and str.isspace(). The comment said one thing, the code did
+# another, and the only reason it was visible at all is that this suite was already red. Grep for
+# every constant you declare and confirm something reads it (D:\Project\CLAUDE.md section 10).
+# WHICH CHARACTER PROVES WHICH HALF (5 Sep 2026, measured over U+0000-U+3000 plus
+# U+FEFF/U+180E/U+200B in both languages, not assumed): str.strip()/isspace() cover this set
+# MINUS U+FEFF PLUS U+001C-U+001F, and JS trim()/\s cover it MINUS U+0085. So the BOM and the
+# U+001C cases in tests/fixtures/partnumbers.json are what turns THIS file red when it is
+# reverted to str.strip(), and U+0085 (NEL) is the only character that can turn the TypeScript
+# twin red - it strips a BOM natively, so the BOM cases prove nothing over there. Five \u0085
+# cases were added to the fixture for that. The two halves fail independently now.
+_PN_SPACE = r"\t\n\v\f\r\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff"
+_PN_TRIM = re.compile(r"^[" + _PN_SPACE + r"]+|[" + _PN_SPACE + r"]+$")
+_PN_WHITESPACE = re.compile(r"[" + _PN_SPACE + r"]")
+
 _PN_BAD_CHAR = re.compile(r"[\x00-\x1f,;<>\"'\\|{}\[\]]")
 _PN_DATE = [
     re.compile(r"^[0-9]{1,2}-(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*-[0-9]{2,4}$", re.I),
@@ -231,12 +326,14 @@ def is_part_number(key: str | None, allow_short: bool = False) -> tuple[bool, st
     """(True, None) when `key` may be queued as a part number; (False, reason) otherwise, with
     reason from PART_NUMBER_REASONS. `allow_short` is the per-source opt-in for two- and
     three-character names (Ubiquiti sells a "UX"); everything else is refused below four."""
-    k = (key or "").strip()
+    # _PN_TRIM, not str.strip(): the space set is explicit so the TypeScript twin cannot answer
+    # differently on a BOM or a NEL (see _PN_SPACE above).
+    k = _PN_TRIM.sub("", key or "")
     if not k:
         return False, "empty"
     if _PN_BAD_CHAR.search(k):
         return False, "bad_char"
-    if any(c.isspace() for c in k):
+    if _PN_WHITESPACE.search(k):
         return False, "whitespace"
     # the digit-led Cisco PID shapes, before the rules that would read them as quantities,
     # as ranges or as unit tokens

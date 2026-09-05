@@ -53,6 +53,11 @@ REGISTRY = {
     "meraki": "sources.meraki",
     "arista": "sources.arista",
     "hpe-quickspecs": "sources.hpe_quickspecs",
+    # Cisco's own collateral. These four rows existed in `sources` from the beginning with no
+    # module behind them, so load_source() raised and the worker could not run the lane whatever
+    # its enabled flag said — which is why Cisco had no daily loop and every Cisco fact arrived
+    # through the offline batch path instead (5 Sep 2026).
+    "cisco-datasheets": "sources.cisco_datasheets",
 }
 
 

@@ -550,12 +550,67 @@ def document_pids(rows_all) -> list[str]:
     return sorted(pids)
 
 
+def extract_document(html: str, url: str) -> dict:
+    """Everything this extractor knows about ONE datasheet, from HTML that somebody else fetched.
+
+    Split out of run() on 5 Sep 2026 so the queue-driven lane (scraper/sources/cisco_datasheets.py)
+    and the offline batch path can share one extractor. They must: the batch path had been the only
+    caller for the whole life of this file, so the daily loop either duplicated 600 lines of table
+    parsing or did not exist. It did not exist.
+
+    Returns {facts, doc, counts, defects}. `doc` is the same `__doc__` record run() has always
+    appended, carrying the document's own PID list so the merge step can enforce inheritance scope
+    ("never inherit a family value into a SKU the document does not list").
+
+    Raises ValueError when the page is not English — assert_english is a refusal, not a warning:
+    a German datasheet parsed by English label rules produces confident nonsense.
+    """
+    from bs4 import BeautifulSoup
+    global _KNOWN_NORM
+
+    assert_english(html)
+    # this datasheet's known SKUs become the model-row ground truth for _is_pid
+    _KNOWN_NORM = {_norm_pid(k) for k in _load_sku_map().get(url, [])}
+    soup = BeautifulSoup(html, "lxml")
+    tables = soup.find_all("table")
+    rows_all = [_rows(t) for t in tables]
+    pids = document_pids(rows_all)
+    counts = {"A": 0, "B": 0, "C": 0}
+    defects: list[dict] = []
+    facts: list[dict] = []
+    # Expanding rowspans necessarily repeats a spanned cell into every row it covers, so the
+    # same (subject, label, value) triple can be emitted many times from one table - the 1300
+    # sheet produced 1,302 identical "Supported SFP modules" rows. Duplicates are not extra
+    # evidence, they are the same cell seen repeatedly, so collapse them here and keep the
+    # first locator. Counting them would make the yield look far better than it is.
+    seen_triples: set[tuple] = set()
+    for ti, rows in enumerate(rows_all):
+        if len(rows) < 2:
+            continue
+        for fn, shape in ((parse_shape_a, "A"), (parse_shape_b, "B"), (parse_shape_c, "C")):
+            recs = fn(rows, ti, url, defects) if fn is parse_shape_a else fn(rows, ti, url)
+            # a list spread over several cells of THIS table is one fact, before the
+            # triple-dedup sees it (the dedup would otherwise keep both halves apart)
+            recs = join_list_fragments(recs, defects)
+            fresh = []
+            for r in recs:
+                key = (r.get("sku") or r.get("family_scope") or "", r["label"], r["value"])
+                if key in seen_triples:
+                    continue
+                seen_triples.add(key)
+                fresh.append(r)
+            counts[shape] += len(fresh)
+            facts.extend(fresh)
+    doc = {"__doc__": True, "source_url": url, "pid_list": pids, "tables": len(tables),
+           "defects": defects}
+    return {"facts": facts, "doc": doc, "counts": counts, "defects": defects, "pids": pids,
+            "tables": len(tables)}
+
+
 def run(browser, urls: list[str]) -> list[dict]:
     if not urls:
         print("give --urls datasheet_url1,url2,...", file=sys.stderr)
         return []
-    from bs4 import BeautifulSoup
-    global _KNOWN_NORM
     out: list[dict] = []
     for url in urls:
         try:
@@ -564,49 +619,17 @@ def run(browser, urls: list[str]) -> list[dict]:
             print(f"  ! {url}: {e}", file=sys.stderr)
             continue
         try:
-            assert_english(html)
-        except ValueError as e:
+            res = extract_document(html, url)
+        except ValueError as e:      # not English: reported and skipped, exactly as before
             print(f"  ! {url}: {e}", file=sys.stderr)
             continue
-        # this datasheet's known SKUs become the model-row ground truth for _is_pid
-        _KNOWN_NORM = {_norm_pid(k) for k in _load_sku_map().get(url, [])}
-        soup = BeautifulSoup(html, "lxml")
-        tables = soup.find_all("table")
-        rows_all = [_rows(t) for t in tables]
-        pids = document_pids(rows_all)
-        before = len(out)
-        counts = {"A": 0, "B": 0, "C": 0}
-        defects: list[dict] = []
-        # Expanding rowspans necessarily repeats a spanned cell into every row it covers, so the
-        # same (subject, label, value) triple can be emitted many times from one table - the 1300
-        # sheet produced 1,302 identical "Supported SFP modules" rows. Duplicates are not extra
-        # evidence, they are the same cell seen repeatedly, so collapse them here and keep the
-        # first locator. Counting them would make the yield look far better than it is.
-        seen_triples: set[tuple] = set()
-        for ti, rows in enumerate(rows_all):
-            if len(rows) < 2:
-                continue
-            for fn, shape in ((parse_shape_a, "A"), (parse_shape_b, "B"), (parse_shape_c, "C")):
-                recs = fn(rows, ti, url, defects) if fn is parse_shape_a else fn(rows, ti, url)
-                # a list spread over several cells of THIS table is one fact, before the
-                # triple-dedup sees it (the dedup would otherwise keep both halves apart)
-                recs = join_list_fragments(recs, defects)
-                fresh = []
-                for r in recs:
-                    key = (r.get("sku") or r.get("family_scope") or "", r["label"], r["value"])
-                    if key in seen_triples:
-                        continue
-                    seen_triples.add(key)
-                    fresh.append(r)
-                counts[shape] += len(fresh)
-                out.extend(fresh)
-        # the document's own PID list rides along so the merge step can enforce inheritance scope
-        out.append({"__doc__": True, "source_url": url, "pid_list": pids, "tables": len(tables),
-                    "defects": defects})
+        out.extend(res["facts"])
+        out.append(res["doc"])
+        counts, defects = res["counts"], res["defects"]
         dc = {}
         for d in defects:
             dc[d["code"]] = dc.get(d["code"], 0) + 1
-        print(f"  [cisco-specs-deep] {url[-46:]}: {len(out)-before-1} facts "
-              f"(A={counts['A']} B={counts['B']} C={counts['C']}), {len(pids)} PIDs, "
-              f"{len(tables)} tables, defects={dc or '{}'}")
+        print(f"  [cisco-specs-deep] {url[-46:]}: {len(res['facts'])} facts "
+              f"(A={counts['A']} B={counts['B']} C={counts['C']}), {len(res['pids'])} PIDs, "
+              f"{res['tables']} tables, defects={dc or '{}'}")
     return out
