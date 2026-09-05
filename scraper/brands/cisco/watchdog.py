@@ -95,6 +95,33 @@ def report(conn, brand, window_min: int) -> dict:
         alarms.append(f"NO LANE RUNNING: all {len(blocks)} {brand.display} sources are disabled - "
                       "coverage cannot move and no daily update is being collected")
 
+    # AN EMPTY QUEUE AGAINST A CRAWL GAP IS AN ALARM, NOT A NEUTRAL LINE.
+    #
+    # Measured 5 Sep 2026: the supervisor cycled every 20 minutes for an hour, planned ZERO tasks
+    # each time, and logged "queue empty this cycle" — while this same watchdog, in the same cycle,
+    # reported a crawl gap of 39,119 parts with no spec-bearing document. Both statements were true
+    # and the pair was never made. A drained queue and a finished catalogue produce the identical
+    # log line, which is this project's oldest lesson wearing new clothes: the failure state was
+    # SILENCE. The monitoring session found it from outside in minutes; nothing inside the loop
+    # could.
+    runnable = conn.execute("""
+        SELECT count(*)::int AS n FROM fetch_queue q JOIN sources s ON s.id = q.source_id
+         WHERE s.slug = ANY(%s) AND s.enabled
+           AND q.status IN ('queued', 'failed') AND q.next_at <= now()
+    """, (list(brand.sources),)).fetchone()["n"]
+    gap = int((cov or {}).get("crawl_gap") or 0)
+    if gap > 0 and runnable == 0:
+        alarms.append(
+            f"QUEUE EMPTY AGAINST A {gap:,}-PART CRAWL GAP: no lane has a runnable task, so this "
+            f"cycle can acquire nothing, while {gap:,} parts hold no spec-bearing document. A "
+            f"drained queue and a finished catalogue log the same line - this is the one that "
+            f"cannot fix itself. Check that the planner's ENTRY POINTS are producing listings "
+            f"(scraper/brands/plan.py section 0); `refresh` alone can only re-fetch what is already "
+            f"held and can never enumerate a document the store does not have.")
+    verdicts.append({"metric": "runnable_tasks", "target": 1, "actual": runnable,
+                     "ok": not (gap > 0 and runnable == 0), "direction": "min",
+                     "why": "a lane with no runnable task acquires nothing this cycle"})
+
     return {"brand": brand.slug, "display": brand.display, "window_min": window_min,
             "generated_at": B.utcnow().isoformat(), "coverage": cov, "completeness": comp,
             "freshness": [{"key": f["class"].key, "label": f["class"].label,

@@ -161,7 +161,7 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
         raise SystemExit(f"{brand.slug}: none of this pack's sources {brand.sources} exist in "
                          "`sources` - the pack and the database disagree")
 
-    out = {"brand": brand.slug, "refresh": [], "rediscover": [], "gaps": [], "skipped": []}
+    out = {"brand": brand.slug, "entry": [], "refresh": [], "rediscover": [], "gaps": [], "skipped": []}
 
     # A source with no adapter module cannot be planned for - `load_source` raises, the worker
     # cannot run it, and queueing work against it fills a queue nothing drains. It is SKIPPED with
@@ -180,6 +180,36 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
     if not srcs:
         raise SystemExit(f"{brand.slug}: not one of this pack's sources {brand.sources} has an "
                          "adapter module - nothing can be planned and nothing could drain it")
+
+    # 0. ENTRY POINTS: the listings this brand should always hold, so a drained queue refills.
+    #
+    # WITHOUT THIS THE CRAWL CANNOT GROW. Sections 1-3 below are all backward-looking: `refresh`
+    # re-fetches documents already held, `rediscover` re-walks listings already queued, and `gaps`
+    # asks each lane for a part-page — which Cisco refuses on purpose, because a URL built from a
+    # PID would be a guess. So on 5 Sep 2026 Cisco's planner produced ZERO work, three times an
+    # hour, against a 39,119-part crawl gap: the three hand-seeded listings were done, and nothing
+    # could ever enumerate a document the store did not already have. "queue empty this cycle"
+    # reads identically whether the catalogue is finished or was never enumerated.
+    #
+    # The ADAPTER decides what its entry points are — the same rule as resolve(). A lane with no
+    # `entry_points` is unaffected, so this is additive for every other brand.
+    for s in srcs:
+        mod = mods[s["slug"]]
+        fn = getattr(mod, "entry_points", None)
+        if not callable(fn):
+            continue
+        known = [r["url"] for r in conn.execute("""
+            SELECT sd.url FROM source_docs sd JOIN vendors v ON v.id = sd.vendor_id
+             WHERE v.slug = %s LIMIT 20000""", (brand.vendor_slug,)).fetchall()]
+        try:
+            eps = fn(known)
+        except Exception as e:  # noqa - a broken adapter must not stop the planner
+            out["skipped"].append({"why": f"entry_points failed: {type(e).__name__}", "url": "-",
+                                   "doc_type": f"source:{s['slug']}"})
+            continue
+        for url in eps:
+            if _accepts(mod, "listing", url, url) == url:
+                out["entry"].append({"source": s["slug"], "task": "listing", "key": url, "url": url})
 
     # 1. refresh: re-queue the exact task that produced each stale document, by URL.
     for d in stale_documents(conn, brand, limit):
@@ -243,7 +273,7 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
         by_slug = {s["slug"]: s["id"] for s in srcs}
         ins = req = 0
         with conn.transaction():
-            for item in out["refresh"] + out["gaps"]:
+            for item in out["entry"] + out["refresh"] + out["gaps"]:
                 row = conn.execute(
                     """INSERT INTO fetch_queue (source_id, task, key, url, part_id, priority)
                        VALUES (%s, %s, %s, %s, %s, %s)
@@ -264,6 +294,7 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
 def render(p: dict, apply: bool) -> str:
     L = [f"# {p['brand']} queue plan" + ("  (APPLIED)" if apply else "  (dry run - pass --apply to write)"),
          "",
+         f"  {len(p.get('entry') or []):>6}  entry       category listings this brand should always hold (the top of the ladder)",
          f"  {len(p['refresh']):>6}  refresh     documents past their class's re-read window",
          f"  {len(p['rediscover']):>6}  rediscover  listing tasks older than the discovery cadence",
          f"  {len(p['gaps']):>6}  gaps        hardware parts with no fact read from a document",
@@ -284,12 +315,12 @@ def render(p: dict, apply: bool) -> str:
         L.append(f"           {s['url'][:100]}")
     if p["skipped"]:
         L.append("")
-    for k in ("refresh", "rediscover", "gaps"):
+    for k in ("entry", "refresh", "rediscover", "gaps"):
         if p[k]:
             L.append(f"  first {k}: {p[k][0]['source']} {p[k][0]['task']} {str(p[k][0]['key'])[:70]}")
     # A planner that produced nothing is either a finished brand or a broken planner, and those
     # look identical in a log. Say which is possible.
-    if not (p["refresh"] or p["rediscover"] or p["gaps"]):
+    if not (p.get("entry") or p["refresh"] or p["rediscover"] or p["gaps"]):
         L += ["", "  NOTHING TO PLAN. Either this brand is fully read and fully fresh, or its lane",
               "  refuses every task kind the planner can build. Check the brand watchdog before",
               "  believing the first."]

@@ -70,6 +70,23 @@ AKAMAI = re.compile(r"access denied|you don'?t have permission to access|referen
 COLLATERAL = re.compile(r"/products/collateral/", re.I)
 DOC_EXT = re.compile(r"\.(html?|pdf)(?:[?#]|$)", re.I)
 
+# A Cisco product CATEGORY index or SERIES landing page, on cisco.com, in the en/us tree.
+#
+#   /c/en/us/products/switches/index.html                              category  (1 segment)
+#   /c/en/us/products/switches/catalyst-9300-series-switches/          series    (2 segments)
+#   /c/en/us/products/switches/catalyst-9300-series-switches/index.html
+#
+# ONE or TWO segments after /products/ and nothing deeper. That single rule is what bounds the
+# discovery ladder in discover(): a third segment is a leaf page with nothing further to enumerate,
+# and it is also where the support, software and locale trees begin. Written without `\b` — Cisco's
+# path tokens are not word-shaped (D:\Project\CLAUDE.md) — and anchored on the whole URL so a
+# collateral path cannot satisfy it from the middle.
+PRODUCT_INDEX = re.compile(
+    r"^https?://(?:www\.)?cisco\.com/c/en/us/products/"
+    r"(?!collateral/)[a-z0-9][a-z0-9-]*"          # category
+    r"(?:/[a-z0-9][a-z0-9-]*)?"                    # optional series
+    r"(?:/(?:index\.html?)?)?$", re.I)
+
 
 def _abs(base: str, href: str) -> str | None:
     if not href or href.startswith(("#", "mailto:", "javascript:")):
@@ -222,6 +239,33 @@ def _title(html: str) -> str | None:
     return re.sub(r"\s+", " ", m.group(1)).strip() if m else None
 
 
+def entry_points(known_urls: list[str]) -> list[str]:
+    """The category index pages this lane should always hold a listing task for.
+
+    THE TOP RUNG OF THE LADDER. discover() grows the crawl downward from a listing, but something
+    has to put the first listings in. Cisco had three, hand-seeded once, and when they were done the
+    planner correctly concluded there was nothing to do — for ever, against a 39,119-part crawl gap.
+    An enumeration that runs once is not an enumeration; it is a snapshot.
+
+    DERIVED FROM THE CORPUS, NOT GUESSED. The category segment is read out of the collateral URLs
+    already held: /products/collateral/<category>/... uses the same taxonomy as /products/<category>/.
+    Measured 5 Sep 2026 over 5,125 Cisco collateral URLs — 27 distinct categories, led by switches
+    (797), routers (762) and servers-unified-computing (581). The brand manifest's focus_categories
+    would have been the obvious source and it is WRONG for this purpose: it says
+    `hyperconverged-systems` where Cisco's URLs say `hyperconverged-infrastructure`, so a seed built
+    from it would 404 on that category and quietly enumerate nothing there.
+
+    Self-healing by construction: as the corpus grows into a new category, its index becomes an
+    entry point on the next cycle without anyone editing a list.
+    """
+    cats: set[str] = set()
+    for u in known_urls:
+        m = re.search(r"/products/collateral/([a-z0-9][a-z0-9-]*)/", u or "", re.I)
+        if m:
+            cats.add(m.group(1).lower())
+    return [f"https://{HOST}/c/en/us/products/{c}/index.html" for c in sorted(cats)]
+
+
 def discover(html: str, task: dict) -> list[dict]:
     """New work found on this page.
 
@@ -258,4 +302,32 @@ def discover(html: str, task: dict) -> list[dict]:
         is_eol = ("eos-eol" in low or "end-of-life" in low or "eol-notice" in low
                   or "-eol." in low or "c51-" in low)
         out.append({"task": "datasheet", "key": u, "url": u, "priority": 400 if is_eol else 100})
+
+    # THE LADDER. A listing also yields the listings BELOW it, and without this the crawl has no way
+    # to grow: on 5 Sep 2026 Cisco held exactly THREE listing tasks, hand-seeded once, against a
+    # catalogue of 61,270 hardware parts and a crawl gap of 39,119. Every cycle re-planned the same
+    # 80 rows, found them all done, and logged "queue empty this cycle" — which reads identically
+    # whether the catalogue is finished or was never enumerated. `refresh` can only ever re-fetch
+    # documents already held, so nothing in the loop could discover a document it did not have.
+    #
+    # BOUNDED BY PATH SHAPE, not by a visited-set or a depth counter, because the Meraki lane taught
+    # this the expensive way: discovery from content pages queued a whole translated-documents tree
+    # and 84 of 91 fetches yielded nothing. A Cisco product URL is
+    # /c/en/us/products/<category>[/<series>][/index.html], so ONE or TWO segments after /products/
+    # is a category index or a series landing page and anything deeper is a leaf that has nothing
+    # further to enumerate. That shape is the bound: the ladder is two rungs tall by construction
+    # and cannot walk into the support tree, the software tree or a locale mirror.
+    for a in doc.find_all("a", href=True):
+        u = _abs(base, a["href"])
+        if not u or u in seen or u.rstrip("/") == base.rstrip("/"):
+            continue
+        if COLLATERAL.search(u):
+            continue                       # already queued above as a document
+        m = PRODUCT_INDEX.match(u)
+        if not m:
+            continue
+        seen.add(u)
+        # Lower priority than every document: a listing yields work, a datasheet yields facts, and
+        # the queue should exhaust the facts before widening the search.
+        out.append({"task": "listing", "key": u, "url": u, "priority": 800})
     return out

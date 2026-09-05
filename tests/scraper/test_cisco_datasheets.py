@@ -237,5 +237,61 @@ check("U5", "a LISTING with no tables but plenty of links IS usable - its job is
       MOD.is_usable("<html><body>" + ('<a href="/c/en/us/products/collateral/x/y-ds.html">d</a>' * 30)
                     + ("padding " * 400) + "</body></html>") is True)
 
+# ---------------------------------------------------------------------------------------------
+# THE DISCOVERY LADDER — a listing yields the listings below it, bounded by path shape
+# ---------------------------------------------------------------------------------------------
+# On 5 Sep 2026 Cisco held exactly THREE listing tasks, hand-seeded once, against 61,270 hardware
+# parts and a crawl gap of 39,119. Every cycle re-planned the same 80 rows, found them all done and
+# logged "queue empty this cycle" — which reads identically whether the catalogue is finished or was
+# never enumerated. `refresh` can only re-fetch documents already held, so nothing in the loop could
+# ever discover a document it did not have. These cases pin the ladder AND its bound: the Meraki
+# lane already proved that unbounded discovery queues a translated-documents tree and wastes 84 of
+# 91 fetches, so "it finds more" is only half of what has to be true.
+LADDER_BASE = "https://www.cisco.com/c/en/us/products/switches/index.html"
+LADDER_HTML = ('<html><body>'
+               '<a href="/c/en/us/products/switches/catalyst-9300-series-switches/index.html">series</a>'
+               '<a href="/c/en/us/products/switches/catalyst-9200-series-switches/">series trailing slash</a>'
+               '<a href="/c/en/us/products/routers/index.html">another category</a>'
+               '<a href="/c/en/us/products/collateral/switches/x/data-sheet-c78-1.html">a datasheet</a>'
+               '<a href="/c/en/us/products/switches/catalyst-9300-series-switches/models-comparison/deep/leaf.html">TOO DEEP</a>'
+               '<a href="/c/en/us/support/switches/catalyst-9300-series-switches/tsd-products-support-series-home.html">support tree</a>'
+               '<a href="/c/de_de/products/switches/index.html">a LOCALE mirror</a>'
+               '<a href="https://blogs.cisco.com/tag/switches">off the product tree</a>'
+               '<a href="/c/en/us/products/switches/index.html">itself</a>'
+               '</body></html>')
+_found = MOD.discover(LADDER_HTML, {"task": "listing", "key": LADDER_BASE, "url": LADDER_BASE})
+_listings = [f["key"] for f in _found if f["task"] == "listing"]
+_docs = [f["key"] for f in _found if f["task"] == "datasheet"]
+check("LD1", "a listing yields the SERIES listings below it - without this the crawl cannot grow "
+             "and three hand-seeded rows were the whole of Cisco's enumeration",
+      any("catalyst-9300" in k for k in _listings) and any("catalyst-9200" in k for k in _listings),
+      str(_listings))
+check("LD2", "a sibling CATEGORY index is discovered too, so seeding one entry point reaches the rest",
+      any(k.endswith("/products/routers/index.html") for k in _listings), str(_listings))
+check("LD3", "SABOTAGE a link THREE segments deep is refused - that is a leaf with nothing to "
+             "enumerate, and it is where the support and software trees begin",
+      not any("models-comparison" in k for k in _listings), str(_listings))
+check("LD4", "SABOTAGE the /support/ tree is never queued as a listing - the Meraki lane wasted 84 "
+             "of 91 fetches on exactly this shape",
+      not any("/support/" in k for k in _listings), str(_listings))
+check("LD5", "SABOTAGE a LOCALE mirror (/c/de-de/) is refused - the same catalogue again in another "
+             "language multiplies the crawl and adds no document",
+      not any("de-de" in k or "de_de" in k for k in _listings), str(_listings))
+check("LD6", "SABOTAGE an off-product-tree link (blogs.cisco.com) is refused",
+      not any("blogs." in k for k in _listings), str(_listings))
+check("LD7", "SABOTAGE the listing does not queue ITSELF - a self-link would re-fetch for ever",
+      not any(k.rstrip("/") == LADDER_BASE.rstrip("/") for k in _listings), str(_listings))
+check("LD8", "the datasheet on the same page is still queued as a DOCUMENT, not as a listing",
+      any("data-sheet-c78-1" in k for k in _docs) and not any("collateral" in k for k in _listings),
+      f"docs={_docs} listings={_listings}")
+check("LD9", "a discovered listing is LOWER priority than a document: a datasheet yields facts and "
+             "a listing only yields more work, so the queue drains the facts first",
+      all(f["priority"] > 400 for f in _found if f["task"] == "listing")
+      and all(f["priority"] <= 400 for f in _found if f["task"] == "datasheet"),
+      str([(f["task"], f["priority"]) for f in _found]))
+check("LD10", "SABOTAGE a DATASHEET page still discovers nothing at all - the asymmetry the Meraki "
+              "lane cost us is unchanged by the ladder",
+      MOD.discover(LADDER_HTML, {"task": "datasheet", "key": LADDER_BASE, "url": LADDER_BASE}) == [])
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)
