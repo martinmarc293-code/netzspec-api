@@ -639,6 +639,9 @@ export async function main(argv: string[]): Promise<void> {
 
   const stats: Record<string, number> = {
     files: files.length, pages: 0, entries: 0, parts_matched: 0, sku_unknown: 0, ambiguous: 0, family_scoped_skipped: 0,
+    // the two numbers that were invisible: how many FACTS the family refusal discarded, and
+    // how many entries carried no SKU at all. Both used to vanish into a bare `continue`.
+    facts_family_scoped: 0, entries_no_sku: 0,
     matched_exact: 0, matched_case: 0, matched_spare: 0, matched_alias: 0, matched_variant: 0,
     matched_no_vendor_scope: 0, aliases_backfilled: 0, aliases_self_skipped: 0,
     facts_raw: 0, facts_ok: 0, facts_unmapped: 0, facts_rejected: 0, facts_sentinel: 0,
@@ -745,9 +748,25 @@ export async function main(argv: string[]): Promise<void> {
       let docId: string | null = null;
       for (const entry of entries) {
         stats.entries++;
-        if (entry.scope === "family") { stats.family_scoped_skipped++; continue; }
+        // COUNT WHAT WE REFUSE, NOT JUST THAT WE REFUSED IT. `stats.facts_raw` is incremented far
+        // below, AFTER part resolution, so an entry that leaves here contributes nothing to it --
+        // and a file holding 39 real facts on a family-scoped entry reported `facts_raw: 0`, which
+        // is indistinguishable in the log from a file that held no facts at all. The monitoring
+        // session spent most of a day on that distinction before finding the `continue`.
+        //
+        // Same defect as the gate reporting `sampled` while carrying `checked`, and as the planner
+        // folding a dropped repair into "already queued": a number that cannot say which of two
+        // opposite things happened. The refusal is correct and stays -- a family value is never
+        // inherited into a SKU the document does not list -- but its SIZE is now visible, because
+        // 77.6% of entries taking this branch is either the largest waste in the pipeline or its
+        // largest untapped source, and the counter is what tells those apart.
+        if (entry.scope === "family") {
+          stats.family_scoped_skipped++;
+          stats.facts_family_scoped += (entry.facts || []).length;
+          continue;
+        }
         const sku = entry.sku || (entry === res ? doc.task?.key : undefined);
-        if (!sku) continue;
+        if (!sku) { stats.entries_no_sku++; continue; }
 
         // ---- which part is this? (see PART RESOLUTION above) ------------------------------------
         const anchored = anchor ? anchorStep(anchor.sku, sku) : null;
