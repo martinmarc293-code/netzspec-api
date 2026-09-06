@@ -4,6 +4,45 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-06 ~01:50 - Opus/CISCO session, work block 6: the gate went red on the CLOCK, not on
+  the code.** `test_watchdog.py` was 248 PASS / 0 MISS at 23:5x UTC and 244 PASS / 4 MISS twenty
+  minutes later, same commit, same machine. The proxy fixtures insert a row `now() - 10 minutes`
+  and call it "today", while the watchdog buckets spend by UTC DAY (its own alarm says
+  "00:00 UTC"). Run it at 00:05 UTC and "10 minutes ago" is 23:55 YESTERDAY, so `bytes_today`
+  correctly returned 0. A ~20 minute window after every UTC midnight in which four cases fail for
+  a reason that is not the code - worse than always failing, because the list is real and the next
+  person hunts a defect that is not there.
+
+  `fetch_ts(minutes_ago, utc_day, ref=None)` now decides the timestamp. `utc_day` is REQUIRED and
+  has no default, because a default is wrong in both directions: "today" would drag an old fixture
+  into the current day and "earlier" would drop a recent one out of it. "today" clamps to just
+  after UTC midnight; "earlier" is left alone and REFUSED if it is not actually before it. `ref`
+  overrides now, which is the only way to test a midnight boundary at two in the morning.
+
+  Measured directly: at a reference of 00:05 UTC the old expression yields 2026-09-05 (wrong day),
+  the clamped one 2026-09-06; at midday the two are identical, so the clamp never rewrites a
+  fixture it does not need to. PXT1-PXT4 assert exactly that. **252 PASS / 0 MISS in 718 s.**
+
+  **STILL OPEN - the 10 fixtures no RECOVER will ever queue.** Eight adapter suites are red purely
+  on missing cached bytes, and none of these are on the box either, so they need a FETCH and not a
+  copy. Five have no `source_docs` row at all, which is why the planner will never propose them:
+  `hpe.com/psnow/doc/a00073540enw` (has a row), `mikrotik.com/product/CRS326-24G-2SplusRM` (has a
+  row), and with NO ROW: `itprice.com/cisco/c9200l-24p-4g-a.html`,
+  `documentation.meraki.com/MS/MS_Overview_and_Specifications/MS130_Overview_and_Specifications`,
+  `provantage.com/~7CSC71M1.htm`, `router-switch.com/c9200l-24p-4g-e.html`,
+  `techspecs.ui.com/unifi/switching/usw-pro-24-poe`, plus three hpe_lane captures named by file
+  (`7dcb6dcd…html`, `f15d01f9…htm`, `cc3a6a17…`). Six of the eight sources are already DISABLED, so
+  they gate no live lane; only `hpe-quickspecs` is enabled and red, and that is HPE's lane.
+
+  **FLAGGED FOR THE OPERATOR, not acted on.** Production shows `cisco-datasheets` (`proxy=direct`,
+  enabled) took **263 direct fetches** in the six hours to 22:44 UTC, from this session's own
+  supervisor - while the standing order is that scraping is stopped until the residential proxy is
+  wired and proven. Juniper (277) and hpe-quickspecs (34) went entirely through the residential
+  proxy, so the proxy is wired; the direct Cisco lane is not covered by that. Production proxy
+  spend is **172.9 MB all-time over 332 fetches** - the "4110 MB of 5120 MB" PLAN alarm seen
+  earlier was the TEST database's fixture data, not production, and must not be reported as a real
+  plan warning.
+
 - **2026-09-06 ~00:20 - Opus/CISCO session, work block 5: I REPORTED A MEASUREMENT THAT WAS
   WRONG, and it was steering a multi-day recovery.** Commit below. The parent session caught it.
 

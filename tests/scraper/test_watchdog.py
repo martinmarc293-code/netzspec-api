@@ -1802,9 +1802,54 @@ else:
 # twin of every alarm is "the same run writes no row and changes nothing".
 
 
-def proxy_fetch(sid: int, url: str, minutes_ago: float, proxy_bytes: int | None) -> None:
+def fetch_ts(minutes_ago: float, utc_day: str, ref=None):
+    """The timestamp a proxy fixture should carry, in the UTC day the CALLER MEANT.
+
+    WHY THIS IS NOT `now() - interval`. It was, and it made these cases fail for twenty minutes
+    after every UTC midnight. The watchdog buckets spend by UTC DAY - its own alarm says
+    "00:00 UTC" - while the fixture said "10 minutes ago" and the case then asserted the row was
+    in TODAY. Run the suite at 00:05 UTC and "10 minutes ago" is 23:55 YESTERDAY, so `bytes_today`
+    correctly returned 0 and four cases failed for a reason that had nothing to do with the code.
+    Measured on 6 Sep 2026: 248 PASS / 0 MISS at 23:5x UTC, 244 PASS / 4 MISS twenty minutes later.
+
+    A gate that goes red on the clock is worse than one that is merely wrong, because the next
+    person reads a real failure list and finds nothing wrong with the code.
+
+    `utc_day` is REQUIRED and has no default. A default would be wrong in one direction or the
+    other: default "today" silently drags a genuinely old fixture into the current day, and
+    default "earlier" silently drops a recent one out of it. Both produce a fixture that does not
+    say what its caller meant, which is how this started.
+
+      "today"   - clamped to just after UTC midnight, so it is in today whatever the hour
+      "earlier" - left alone, and REFUSED if it is not actually before today's UTC midnight, so
+                  "three days ago" cannot quietly become "today" either
+
+    `ref` overrides "now" so the boundary itself can be tested without waiting for midnight.
+    """
+    row = C.execute(
+        """SELECT COALESCE(%s::timestamptz, now()) - make_interval(mins => %s) AS raw,
+                  date_trunc('day', COALESCE(%s::timestamptz, now()) AT TIME ZONE 'UTC')
+                      AT TIME ZONE 'UTC' AS utc_midnight""",
+        (ref, minutes_ago, ref)).fetchone()
+    raw, midnight = row["raw"], row["utc_midnight"]
+    if utc_day == "today":
+        # +1s rather than exactly midnight: a row ON the boundary is the one case where "which day
+        # is this in" depends on whether the aggregate's comparison is >= or >, and a fixture must
+        # never be the thing that decides that.
+        return max(raw, midnight + timedelta(seconds=1))
+    if utc_day != "earlier":
+        raise AssertionError(f"utc_day must be 'today' or 'earlier', not {utc_day!r}")
+    if raw >= midnight:
+        raise AssertionError(
+            f"fixture asked for 'earlier' but {minutes_ago} minutes ago is {raw}, which is inside "
+            f"today's UTC day (began {midnight}). A row meant for a previous day that lands in "
+            f"today makes the case it feeds assert the opposite of what it says.")
+    return raw
+
+
+def proxy_fetch(sid: int, url: str, minutes_ago: float, proxy_bytes: int | None, *, utc_day: str) -> None:
     C.execute("INSERT INTO fetches (source_id, url, fetched_at, http_status, proxy_bytes) "
-              "VALUES (%s, %s, now() - make_interval(mins => %s), 200, %s)", (sid, url, minutes_ago, proxy_bytes))
+              "VALUES (%s, %s, %s, 200, %s)", (sid, url, fetch_ts(minutes_ago, utc_day), proxy_bytes))
 
 
 MBB = W.PROXY_MB
@@ -1845,7 +1890,7 @@ W.proxy_daily_budget_bytes = lambda env: 100 * MBB      # a 100 MB per-source da
 try:
     reset()
     C.execute("UPDATE sources SET proxy = 'residential', proxy_country = 'de' WHERE id = %s", (I,))
-    proxy_fetch(I, "https://itprice.com/cisco-gpl/A", 10, 50 * MBB)
+    proxy_fetch(I, "https://itprice.com/cisco-gpl/A", 10, 50 * MBB, utc_day="today")
     rep = run(act=True)
     ri = row(rep, "itprice")
     check("PX10", "a proxied source gets a spend line with its country, its day and the plan share",
@@ -1859,7 +1904,7 @@ try:
 
     reset()
     C.execute("UPDATE sources SET proxy = 'residential', proxy_country = 'de' WHERE id = %s", (I,))
-    proxy_fetch(I, "https://itprice.com/cisco-gpl/B", 10, 85 * MBB)
+    proxy_fetch(I, "https://itprice.com/cisco-gpl/B", 10, 85 * MBB, utc_day="today")
     before = len(events())
     rep = run(act=True)
     a = [x for x in rep["alarms"] if "residential budget" in x]
@@ -1873,9 +1918,9 @@ try:
     # a previous UTC day counts against the PLAN and not against today
     reset()
     C.execute("UPDATE sources SET proxy = 'residential' WHERE id IN (%s, %s)", (I, R))
-    proxy_fetch(I, "https://itprice.com/cisco-gpl/C", 10, 10 * MBB)          # today
-    proxy_fetch(I, "https://itprice.com/cisco-gpl/D", 60 * 24 * 3, 900 * MBB)  # three days ago
-    proxy_fetch(R, "https://www.router-switch.com/x.html", 20, 3200 * MBB)   # the other proxied lane, today
+    proxy_fetch(I, "https://itprice.com/cisco-gpl/C", 10, 10 * MBB, utc_day="today")
+    proxy_fetch(I, "https://itprice.com/cisco-gpl/D", 60 * 24 * 3, 900 * MBB, utc_day="earlier")
+    proxy_fetch(R, "https://www.router-switch.com/x.html", 20, 3200 * MBB, utc_day="today")  # the other proxied lane
     rep = run(act=False)
     ri, rr = row(rep, "itprice"), row(rep, "router-switch")
     check("PX17", "today's number is today's only; the three-day-old fetch is not in it",
@@ -1889,6 +1934,41 @@ try:
     check("PX20", "a NULL proxy_bytes row (a direct fetch) is not counted as zero-cost proxy traffic",
           C.execute("SELECT count(*) AS n FROM fetches WHERE proxy_bytes IS NULL").fetchone()["n"] == 0
           or ri["proxy_spend"]["plan_total_bytes"] == (10 + 900 + 3200) * MBB)
+
+    # -- the fixtures' own UTC day, proved at the boundary instead of waiting for it -------------
+    # These four cases exist because PX14-PX20 above went red at 00:05 UTC on 6 Sep 2026 and green
+    # again an hour later. A suite that only fails inside a twenty-minute window each night is
+    # worse than one that fails always: the failure list is real, so the next person spends the
+    # night looking for a defect in code that is correct. `ref` lets the boundary be tested at any
+    # hour, which is the only way this case can ever fail on purpose.
+    midnight = C.execute("SELECT date_trunc('day', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC' AS m"
+                         ).fetchone()["m"]
+    just_after = midnight + timedelta(minutes=5)          # the hour that broke it
+    midday = midnight + timedelta(hours=12)
+
+    def utc_date(ts):
+        return C.execute("SELECT (%s AT TIME ZONE 'UTC')::date AS d", (ts,)).fetchone()["d"]
+
+    check("PXT1", "SABOTAGE THE ORIGINAL BUG: at 00:05 UTC a fixture meant for TODAY still lands "
+                  "in today - unclamped, '10 minutes ago' is 23:55 yesterday and the case asserts "
+                  "the opposite of what it says",
+          utc_date(fetch_ts(10, "today", just_after)) == utc_date(just_after),
+          f"{fetch_ts(10, 'today', just_after)} vs a reference of {just_after}")
+    check("PXT2", "...and the clamp does NOT fire when it is not needed: at midday the row is "
+                  "exactly where the caller put it, so the fixture is not quietly rewritten",
+          fetch_ts(10, "today", midday) == midday - timedelta(minutes=10),
+          str(fetch_ts(10, "today", midday)))
+    check("PXT3", "a row meant for an EARLIER day really is in an earlier UTC day",
+          utc_date(fetch_ts(60 * 24 * 3, "earlier", midday)) < utc_date(midday),
+          str(fetch_ts(60 * 24 * 3, "earlier", midday)))
+    try:
+        fetch_ts(10, "earlier", midday)
+        check("PXT4", "SABOTAGE 'earlier' with a time that is actually today is REFUSED", False,
+              "accepted a today timestamp as 'earlier'")
+    except AssertionError as e:
+        check("PXT4", "SABOTAGE 'earlier' with a time that is actually today is REFUSED, and the "
+                      "refusal names the boundary - the inverse mistake is just as silent",
+              "inside today's UTC day" in str(e), str(e)[:150])
 finally:
     W.proxy_daily_budget_bytes = _real_budget
     reset()
