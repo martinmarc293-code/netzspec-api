@@ -129,7 +129,8 @@ def queue_priority(item: dict) -> int:
 
       60  a part-anchored task — the gap work the catalogue exists to fill
       70  a LISTING: the discovery ladder, and the only route to a URL we do not already hold
-      80  document work with no part behind it
+     100  a newly DISCOVERED document (set by the adapter) — bytes we do not yet have
+     200  REFRESH of a document we already hold — this default
      500  RECOVERY of a page we once held: it matters, and it matters less than acquiring one we
           never had, so it drains after everything else rather than competing with it
 
@@ -152,7 +153,16 @@ def queue_priority(item: dict) -> int:
         return int(p)
     if item.get("part_id"):
         return 60
-    return 70 if item.get("task") == "listing" else 80
+    if item.get("task") == "listing":
+        return 70
+    # 200, NOT 80. The only items reaching here with no explicit priority are REFRESH items - a
+    # document we already hold, past its re-read window. The adapter sets 100 on a NEWLY DISCOVERED
+    # document, so a default of 80 put re-reading ahead of acquiring. Measured 6 Sep 2026: of 893
+    # queued datasheets at 80, 893 were documents we already held, ranked above the 4 newly
+    # discovered ones at 100. 343 fetch tasks across three brands in an hour produced zero
+    # documents. A queue that prefers what it has to what it lacks cannot grow, and it reports full
+    # throughput while doing it.
+    return 200
 
 
 def documents_missing_bytes(conn, brand, cache_dir: Path, limit: int) -> list[dict]:

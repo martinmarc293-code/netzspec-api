@@ -300,11 +300,30 @@ check("LD7", "SABOTAGE the listing does not queue ITSELF - a self-link would re-
 check("LD8", "the datasheet on the same page is still queued as a DOCUMENT, not as a listing",
       any("data-sheet-c78-1" in k for k in _docs) and not any("collateral" in k for k in _listings),
       f"docs={_docs} listings={_listings}")
-check("LD9", "a discovered listing is LOWER priority than a document: a datasheet yields facts and "
-             "a listing only yields more work, so the queue drains the facts first",
-      all(f["priority"] > 400 for f in _found if f["task"] == "listing")
-      and all(f["priority"] <= 400 for f in _found if f["task"] == "datasheet"),
+# THIS CASE USED TO ASSERT THE OPPOSITE, and it was asserting the defect. Its reasoning - "a
+# datasheet yields facts and a listing only yields more work, so drain the facts first" - is sound
+# in the abstract and produced a CLOSED LOOP, because the facts are never exhausted: `refresh`
+# re-queues held documents for ever, so there is always document work outranking 800 and the next
+# rung never runs. Measured 6 Sep 2026, the queue in lease order:
+#
+#     p70   listing     62     <- discovery
+#     p80   datasheet  893     <- refresh; 893 of 893 were documents WE ALREADY HELD
+#     p100  datasheet    4     <- newly discovered collateral
+#     p800  listing      2     <- this rung, behind all of it
+#
+# 343 fetch tasks across three brands in one hour produced ZERO documents, and no new document
+# entered the store between 4 and 6 Sep. A ladder whose next rung ranks below unlimited re-reading
+# is a ladder with one rung. The test now asserts the ordering that can actually grow a corpus.
+check("LD9", "a discovered listing OUTRANKS the documents it was found beside - it is an entry "
+             "point the site named, and it is the only kind of task that can produce a URL we do "
+             "not already hold",
+      all(f["priority"] == 70 for f in _found if f["task"] == "listing")
+      and all(f["priority"] >= 100 for f in _found if f["task"] == "datasheet"),
       str([(f["task"], f["priority"]) for f in _found]))
+check("LD9b", "SABOTAGE ...and an EoL notice still drains after a real datasheet, so promoting "
+              "discovery did not flatten the distinction that mattered",
+      all(f["priority"] > 100 for f in _found if f["task"] == "datasheet" and "eol" in f["key"].lower()),
+      str([(f["key"][-30:], f["priority"]) for f in _found if f["task"] == "datasheet"]))
 check("LD10", "SABOTAGE a DATASHEET page still discovers nothing at all - the asymmetry the Meraki "
               "lane cost us is unchanged by the ladder",
       MOD.discover(LADDER_HTML, {"task": "datasheet", "key": LADDER_BASE, "url": LADDER_BASE}) == [])

@@ -327,7 +327,23 @@ def discover(html: str, task: dict) -> list[dict]:
         if not m:
             continue
         seen.add(u)
-        # Lower priority than every document: a listing yields work, a datasheet yields facts, and
-        # the queue should exhaust the facts before widening the search.
-        out.append({"task": "listing", "key": u, "url": u, "priority": 800})
+        # THIS RUNG USED TO BE QUEUED AT 800, on the reasoning that "a listing yields work, a
+        # datasheet yields facts, and the queue should exhaust the facts before widening the
+        # search". That is sound in the abstract and it produced a closed loop, because the facts
+        # are never exhausted: `refresh` re-queues held documents for ever, so there is ALWAYS
+        # document work outranking 800 and the next rung never runs. Measured 6 Sep 2026, the queue
+        # in lease order:
+        #
+        #     p70   listing     62    <- discovery
+        #     p80   datasheet  893    <- refresh; 893 of 893 are documents WE ALREADY HOLD
+        #     p100  datasheet    4    <- newly discovered collateral
+        #     p800  listing      2    <- this rung, behind all of it
+        #
+        # 343 fetch tasks across three brands in one hour produced ZERO documents, and no new
+        # document entered the store between 4 and 6 Sep. A ladder whose next rung is ranked below
+        # unlimited re-reading is a ladder with one rung.
+        #
+        # 70 matches the entry points, because this IS an entry point - one the site named rather
+        # than one we hand-seeded. It still sits behind part-anchored gap work at 60.
+        out.append({"task": "listing", "key": u, "url": u, "priority": 70})
     return out

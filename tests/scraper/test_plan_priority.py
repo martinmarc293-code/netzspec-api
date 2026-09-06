@@ -52,8 +52,13 @@ RECOVER = {"source": "s", "task": "datasheet", "key": "k", "url": "u", "priority
 
 check("Q1", "a part-anchored gap task drains FIRST - it is the work the catalogue exists to do",
       PLAN.queue_priority(GAP) == 60, PLAN.queue_priority(GAP))
-check("Q2", "document work with no part behind it drains after that",
-      PLAN.queue_priority(DOC) == 80, PLAN.queue_priority(DOC))
+check("Q2", "a REFRESH of a document we already hold drains after discovery, not before it",
+      PLAN.queue_priority(DOC) == 200, PLAN.queue_priority(DOC))
+check("Q2a", "SABOTAGE a NEWLY DISCOVERED document (adapter sets 100) outranks a refresh - the "
+             "default was 80, which put re-reading what we HAVE ahead of fetching what we LACK. "
+             "Measured: 893 of 893 queued datasheets at 80 were documents already held, ranked "
+             "above the 4 newly discovered at 100, while 343 tasks in an hour produced 0 documents",
+      PLAN.queue_priority({"task": "datasheet", "key": "k", "priority": 100}) < PLAN.queue_priority(DOC))
 check("Q2b", "a LISTING outranks document work - it is the discovery ladder and the only route to a "
              "URL we do not already hold. The `entry` section calls itself 'the top of the ladder' "
              "and then gave every listing 80, the same rank as the re-reads it is meant to lead: a "

@@ -148,5 +148,54 @@ check("P5", "SABOTAGE the planner and the worker share ONE predicate rather than
             "own - three copies of a helper is three copies of the same bug",
       PLAN.wrong_host is WK.wrong_host)
 
+# ---- WHICH LANES ARE ACTUALLY GUARDED, written down instead of assumed --------------------------
+# `wrong_host` deliberately does not check an adapter that declares no HOSTS/HOST - a lane that has
+# not said what it serves must not have an answer invented for it (H5). The cost of that decision is
+# that COVERAGE IS INVISIBLE: nothing tells you which lanes are protected, and a new adapter joins
+# the unguarded set in silence.
+#
+# The Juniper session found the same hole from the other side: they exercised the guard with a
+# stand-in object carrying a LOWERCASE `host` attribute. It found no `HOSTS`/`HOST`, took the
+# not-declared branch and returned None - a falsely reassuring ALLOWED from a guard that was never
+# consulted. **A guard tested with the wrong object shape reports the answer you were hoping for.**
+# The uppercase contract is kept on purpose: accepting a lowercase `host` would make a module-level
+# string that happens to be called `host` into a declaration, and the guard would then refuse ALL of
+# that lane's legitimate work - a lane-killing failure, where the current one is merely unguarded.
+#
+# So the defence is this list. It is a deliberate exclusion set with a reason, not a discovery.
+UNGUARDED_BY_DESIGN = {
+    "arista",       # disabled; declares no HOST, and its resolve() is URL-shaped rather than host-scoped
+    "provantage",   # disabled; same
+}
+
+declared, undeclared = set(), set()
+for _f in sorted((ROOT / "scraper" / "sources").glob("*.py")):
+    _slug = _f.stem.replace("_", "-")
+    if _slug in ("base", "__init__", "--init--"):
+        continue
+    try:
+        _m = load_source(_slug)
+    except Exception:                                             # noqa: BLE001 - a broken adapter is not this suite's business
+        continue
+    _up = tuple(getattr(_m, "HOSTS", ()) or ()) or tuple(h for h in (getattr(_m, "HOST", None),) if h)
+    (declared if _up else undeclared).add(_slug)
+
+check("C1", "every adapter that declares a host IS guarded, and the set is not empty - if this ever "
+            "empties, the guard is checking nothing and every case above is measuring a stub",
+      len(declared) >= 8, sorted(declared))
+check("C2", "SABOTAGE the UNGUARDED set is exactly the one we decided on. A new adapter with no "
+            "HOST joins it SILENTLY otherwise, and that is how the 953 misfiled rows happened - "
+            "nobody could see which lanes were covered",
+      undeclared == UNGUARDED_BY_DESIGN,
+      f"unguarded now {sorted(undeclared)}, expected {sorted(UNGUARDED_BY_DESIGN)}")
+check("C3", "SABOTAGE a lowercase `host` is NOT a declaration - Juniper's stand-in object had one "
+            "and the guard returned a falsely reassuring ALLOWED. Documented here so the next "
+            "reader meets the trap in a test rather than in production",
+      WK.wrong_host(type("Lower", (), {"host": "www.cisco.com"})(), "https://itprice.com/x") is None,
+      "a lowercase host is being read as a declaration")
+check("C4", "...and the guard a lane actually gets is driven by the REAL module, not a stand-in - "
+            "the same URL through the real cisco adapter is refused",
+      WK.wrong_host(CISCO, "https://itprice.com/x") is not None)
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

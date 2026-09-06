@@ -4,6 +4,74 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-06 ~11:15 - Opus/CISCO session, work block 12: I WAS WRONG ABOUT EXHAUSTION, and
+  the real cause is a priority inversion that made the queue prefer what it HAS to what it LACKS.**
+
+  **THE CORRECTION FIRST.** Work block 11 concluded "the discovery ladder is EXHAUSTED" from running
+  `discover()` over six CACHED listings and finding 39 URLs, 0 of them new. That measurement was
+  right and the conclusion did not follow: re-parsing cached bytes can only re-find what was already
+  found. Forced to fetch the LIVE pages, the same ladder produced **6 new queue rows from 5 fetches**
+  (4 datasheets, 2 sub-listings). The ladder was never exhausted - it was reading stale cache.
+
+  Same error I corrected a peer for twice the same night: right measurement, wrong axis. I measured
+  the CACHE and drew a conclusion about the SITE.
+
+  **THE REAL CAUSE, and it is one table.** The queue in lease order, measured:
+
+      p70   listing     62     discovery                     -> yields NEW WORK
+      p80   datasheet  893     refresh; 893 of 893 are docs WE ALREADY HOLD -> yields nothing new
+      p100  datasheet    4     newly DISCOVERED collateral   -> yields new facts
+      p800  listing      2     the ladder's NEXT RUNG        -> yields NEW WORK, drains last
+
+  **Refresh (80) outranked newly-discovered documents (100), and the ladder's own next rung sat at
+  800 behind 893 re-reads.** The system systematically preferred re-reading what it had over
+  acquiring what it did not. That is why 343 fetch tasks across three brands in one hour produced
+  ZERO documents while every lane reported full throughput.
+
+  Both ends were DELIBERATE and both reasonings were sound in the abstract. The adapter's comment
+  said "a datasheet yields facts and a listing only yields more work, so drain the facts first". The
+  facts are never exhausted, because `refresh` re-queues held documents for ever - so "drain the
+  facts first" means "never widen", and a ladder whose next rung ranks below unlimited re-reading is
+  a ladder with ONE RUNG.
+
+  **THE ORDER NOW**, and it is a value ordering rather than a task-kind ordering:
+
+      60  part-anchored gap work        the catalogue's purpose
+      70  a LISTING                     the only task kind that can produce a URL we lack
+     100  a newly DISCOVERED document   bytes we do not have
+     200  REFRESH of a held document    yields nothing new; was the default at 80
+     400  a discovered EoL notice
+     500  recovery of lost bytes
+
+  Existing rows re-ranked as well as the constants changed - 895 refresh 80 -> 200 and 6 ladder
+  listings 800 -> 70, verified from a new connection - so it fixes today rather than next replan.
+  A single p800 row appeared minutes later: the RUNNING worker still has the old adapter, so the
+  code half takes effect on its next restart.
+
+  **`test_cisco_datasheets` LD9 asserted the old ordering** and had to be inverted. It was encoding
+  the defect, exactly like the two gate cases that asserted `sampled === 0` for an unreadable page.
+
+  **HOST GUARD COVERAGE MADE VISIBLE**, after the Juniper session pointed out that they had tested
+  `wrong_host()` with a stand-in carrying a LOWERCASE `host`: it found no `HOSTS`/`HOST`, took the
+  not-declared branch and returned a falsely reassuring ALLOWED. Checked against the real modules:
+  **`arista` and `provantage` declare no host at all** and are silently unguarded (both disabled, so
+  no harm). I did NOT make the guard accept lowercase - a module-level string that happens to be
+  called `host` would become a declaration and the guard would then refuse ALL of that lane's
+  legitimate work, and unguarded is a hole while wrongly-guarded kills a lane. Instead
+  `UNGUARDED_BY_DESIGN = {arista, provantage}` is asserted, so a new adapter without a host BREAKS
+  THE SUITE rather than joining the set in silence.
+
+  **VERIFIED:** test_plan_priority 27/27, test_cisco_datasheets 56/56, test_cisco_eol 44/44,
+  test_host_guard 24/24.
+
+  **NEXT:** serialising the `source_docs` writers. The parent diagnosed the 120 s statement_timeout
+  as LOCK CONTENTION between `reclassify-docs` and `apply-acquired` (`while updating tuple ... in
+  relation "source_docs"` is Postgres saying BLOCKED, not slow; run 159 did in 2 s what runs 155/156
+  timed out at 124 s on, with an apply running as the only variable). Both my `applyMerge` guess and
+  their bulk-write guess were wrong. The lock must cover every writer in BOTH languages on BOTH
+  machines, so a Postgres advisory lock is the only candidate - a flock plus a Python lock repeats
+  the CLAUDE.md trap where `ownership.py` guarded a database used almost entirely from TypeScript.
+
 - **2026-09-06 ~10:40 - Opus/CISCO session, work block 11: THE DISCOVERY LADDER IS EXHAUSTED,
   which is the ceiling on this whole brand.** Two real defects fixed on the way to finding it.
 
