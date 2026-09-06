@@ -4,6 +4,65 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~01:00 - Opus/CISCO, work block 21: the reverse misclassification, fixed (run #485).**
+  Operator: "don't reverse it, and fix the 225 misclassified parts". Run #467 stands.
+
+  **66 PARTS RESTORED TO HARDWARE**, verified from a NEW connection (`restored 66, not_hardware 0`).
+  Cisco hardware 60,819 -> 60,885; recall_gap and the crawl gap both UNCHANGED, which is correct -
+  every one was selected FOR having facts, so none lands in a gap. The gain is forward-looking:
+  `describesPart` will now permit family inheritance on real line cards it was silently refusing.
+
+  **THE NUMBER WENT 225 -> 56 -> 101 -> 66, AND EVERY MOVE WAS A CORRECTION.**
+  * 225 was my own NAME-shape estimate and it was not a clean set. Reading it: `PI-UCS-APL-IMG-3.3`
+    is "Appliance **Software**", `DN2-HW-APL-XL-LIC` is an "Appliance **License**" - both correctly
+    classed already, both matched only because my predicate contained the word "appliance".
+  * A SKU-shape rule, which worked for the licence half, **does not work here and the reason is
+    structural**: a licence family is named distinctly (NC55P- is 311/312 pure) but a HARDWARE
+    family sells hardware, images, licences and spares under one prefix. Measured corpus-wide:
+    `APIC-` 179 parts including `APIC-SIM-DK9-1.0`, a SIMULATOR; `PI-APL-` 6 parts, ALL software
+    images; `DN4-` 6 parts, THREE of them licences; `A9K-` 435 with 186 licence-named.
+  * `DN4-` also broke the 40-character licence-name window used all night: "Cisco Catalyst Center
+    Appliance (Gen 4)" is 39 chars, so "License" falls OUTSIDE it. **A heuristic window is a
+    property of the strings you tested it on.**
+  * So the predicate became EVIDENCE, never a name: a hardware TWIN (same SKU modulo Cisco's `=`),
+    or the part's OWN non-inherited fact in a field a licence cannot have (ports, psu_options,
+    supported_modules, dimensions). Inherited facts are excluded deliberately - they are the other
+    half of this defect, and using them would let one bug certify the other.
+
+  **THE TWIN SIGNAL WAS WRONG UNTIL IT WAS VALIDATED, AND ONLY READING ALL 101 FOUND IT.** Trusting
+  "a twin classed hardware" propagates the twin's error: `DCNM-L-NXACCK9=` is Data Center Network
+  Manager (software) whose twin is wrongly hardware, and the same for three DCNM SAN feature SKUs,
+  Prime Cable Provisioning, and two `S8x0DNPK9-15803M` IOS images (15803M is a VERSION, not a
+  model). Seven of 101. Requiring **the twin itself to carry a physical fact** validates the class
+  rather than inheriting it and drops all seven: 101 -> 66. Note honestly that this collapses
+  Signal A into Signal B - `evidence:hardware-twin` alone is now 0, so all 66 rest on their own
+  facts and the twin currently adds nothing.
+
+  **AND MY VETO REPEATED THE `%lic%` DEFECT IN THE OPPOSITE DIRECTION.** It matched `licen`
+  anywhere and refused NINE REAL LINE CARDS - `NC-57-24DD` "... base line card ... (Requires Smart
+  **Licen**sing)", `NC-55-6X2H-DWDM-S` "... Line Card HW ... (minimum of 4 DWDM **licen**ses)".
+  Same shape as `%lic%` matching app-LIC-ation, refusing correct work instead of admitting wrong
+  work. The discriminator is stateable: **a licensing CAVEAT is parenthetical, a licence PRODUCT
+  names itself in the main clause**, so the veto drops `(...)` before matching. The veto now
+  refuses 0 of 66 and is still proved live by the four trap SKUs.
+
+  **THE ROOT CAUSE, WHICH IS NOT A CODE BUG.** Nearly every affected part says "Flexible
+  Consumption" - Cisco's pay-as-you-go HARDWARE - so a human filed line cards under
+  `ios-nx-os-software` and `cloud-systems-management`. `classify()` follows the category by design.
+  The category is not wrong as a category (cloud-systems-management is 5,685 parts, 2.6% hardware);
+  the PART is filed in the wrong one. Durable because `apply-enumeration` upserts parts with
+  `ON CONFLICT DO NOTHING`, so a re-run cannot revert these.
+
+  **STILL OPEN:** the ~160 parts with no independent evidence. Reading a sample of 18: roughly 10
+  hardware, 5 genuine software images, 3 licences. They need per-part review or a category
+  correction, NOT a rule - and the licences among them are a third class again (neither hardware
+  nor software).
+
+  **TRAP:** the first query used correlated `EXISTS` with `regexp_replace` on both sides, re-scanning
+  87,083 parts per row; it died on `statement_timeout` (57014). It had "worked" in ad-hoc psycopg
+  probes because those set NO timeout while `getPool()` sets 120 s. **Slow only where the limit is
+  enforced means the statement is wrong, not the link.** Rewritten as one pass with CTEs.
+
 - **2026-09-07 ~00:15 - Opus/CISCO, work block 20: the 2,748 answered, and the OPPOSITE error found.**
   Measurement only, no writes.
 
