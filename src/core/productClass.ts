@@ -119,6 +119,37 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "prefix", token: "SW-", klass: "software", why: "Cisco software image / feature-set SKU (SW-CCME-UL-ENH=); 275 parts" },
   { kind: "prefix", token: "SVS-", klass: "service", why: "Cisco Solution Support service line; 28 parts" },
   { kind: "prefix", token: "ASF-", klass: "service", why: "Advanced Services fixed-scope engagement; 20 parts" },
+
+  // ---- round 3 (6 Sep 2026) -------------------------------------------------------------------
+  // Found from the OTHER end: 2,878 served INHERITED facts were sitting on licence SKUs wearing
+  // product_class 'hardware' - certifications, temp_operating, altitude_max, qos_features, the
+  // exact list specMerge's describesPart docstring names as the symptom it was written to stop.
+  // describesPart refuses NON_PRODUCT_CLASSES a family-level fact and it never fired, because it
+  // tests product_class and product_class was wrong. A correct, tested guard bypassed by its input.
+  //
+  // These parts have no licence token in their SKU, so nothing above catches them; the evidence is
+  // in the NAME ("NCS 5500 L2VPN Lic for NCS-5501-U"). A NAME rule was built, measured and
+  // ABANDONED - it is recorded here because the next person will have the same idea:
+  //   * "lic" as a substring matches app-LIC-ation, rep-LIC-ation, dup-LIC-ate. 864 extra parts.
+  //   * Even tightened to licen / "lic " / "lic-", the name cannot separate "licence FOR a switch"
+  //     from "switch sold WITH a licence". C9500-24Q-A= is "Catalyst 9500 24-port 40G, Adv.
+  //     License, no PS" - a real Catalyst 9500 - and it is structurally identical to
+  //     N55-96P-SSK9 "Nexus 5500 Storage License, 96 Ports", which is a real licence.
+  //   * A second signal (no facts of its own) does not save it: C9500-24Q-A= has none either.
+  //   * FP8250-BASE-K9 is "FirePOWER 8250 Chassis, No IPS Lic" - a chassis whose name says it has
+  //     NO licence. A name rule classes it as one.
+  // So the name is evidence for finding these, never the rule that acts on them. The rules below
+  // are SKU shapes, each counted across the WHOLE corpus (not Cisco alone - that is how round 2's
+  // bare `A-` was caught): all nine are Cisco-only and >= 98 per cent licence-named.
+  { kind: "prefix", token: "NC55P-", klass: "license", why: "NCS 5500 per-bandwidth feature licence (NC55P-ADVL3-5501S=, 'NCS 5500 L3VPN Lic for NCS-5501-SE'); 312 parts, 311 licence-named, Cisco only. These alone were 297 of one datasheet's PID list and the largest single block of wrongly inherited facts" },
+  { kind: "prefix", token: "IAP-VNF-", klass: "license", why: "Intelligent Automation VNF entitlement; 72 parts, 72 licence-named, Cisco only" },
+  { kind: "prefix", token: "NSO-VNFM-", klass: "license", why: "Network Services Orchestrator VNF-manager licence; 57 parts, all licence-named, Cisco only" },
+  { kind: "prefix", token: "CUIC-PHY-", klass: "license", why: "Unified Intelligence Centre physical-server licence; 47 parts, all licence-named, Cisco only" },
+  { kind: "prefix", token: "IAP-NE-LG-", klass: "license", why: "Intelligent Automation network-element licence, large tier; 36 parts, all licence-named. Deliberately not the shorter IAP-NE-, which did not reach the purity floor" },
+  { kind: "prefix", token: "FL-SRST-", klass: "license", why: "Survivable Remote Site Telephony feature licence; 32 parts, all licence-named. Not the bare FL- prefix: FL- as a whole is NOT pure, so only the two measured subsets are adopted" },
+  { kind: "prefix", token: "FL-CCME-", klass: "license", why: "Unified Communications Manager Express feature licence; 32 parts, all licence-named" },
+  { kind: "prefix", token: "ASA-AC-E-", klass: "license", why: "ASA AnyConnect Essentials term licence; 28 parts, all licence-named. Not ASA-AC-, which also starts real ASA accessories" },
+  { kind: "suffix", token: "-SIG", klass: "license", why: "signature-subscription suffix; 28 parts, all licence-named, Cisco only" },
 ];
 
 /** The reason string a rule emits — the same slug runs/vocab/cisco-round2 uses. */

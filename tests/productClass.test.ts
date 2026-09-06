@@ -27,6 +27,20 @@ const cases: Case[] = [
   { sku: "LIC-CT5508-25A", cat: "wireless", hw: true, want: "license", reason: "sku-prefix:LIC-" },
   { sku: "SL-1100TG-APP-K9", cat: "routers", hw: true, want: "license", reason: "sku-prefix:SL-" },
   { sku: "E-15454-R1061SWK9=", cat: "optical-networking", hw: true, want: "license", reason: "sku-prefix:E-", note: "e-delivery licence with a spare suffix" },
+  // ---- license: round 3, the SKUs whose only licence evidence is their NAME -----------------
+  // Every one of these was classed 'hardware' by the category fallback and inherited a chassis's
+  // certifications, operating temperature and altitude ceiling.
+  { sku: "NC55P-ADVL3-5501S=", cat: "routers", hw: true, want: "license", reason: "sku-prefix:NC55P-", note: "'NCS 5500 L3VPN Lic for NCS-5501-SE'. 312 such parts, all classed hardware, 297 of them in one datasheet's PID list" },
+  { sku: "NC55P-MSEC-50T=", cat: "routers", hw: true, want: "license", reason: "sku-prefix:NC55P-" },
+  { sku: "IAP-VNF-LG-3Y", cat: "routers", hw: true, want: "license", reason: "sku-prefix:IAP-VNF-" },
+  { sku: "NSO-VNFM-100", cat: "routers", hw: true, want: "license", reason: "sku-prefix:NSO-VNFM-" },
+  { sku: "CUIC-PHY-PRE-K9", cat: "video", hw: true, want: "license", reason: "sku-prefix:CUIC-PHY-" },
+  { sku: "IAP-NE-LG-1Y", cat: "routers", hw: true, want: "license", reason: "sku-prefix:IAP-NE-LG-" },
+  { sku: "FL-SRST-168", cat: "routers", hw: true, want: "license", reason: "sku-prefix:FL-SRST-" },
+  { sku: "FL-CCME-100", cat: "routers", hw: true, want: "license", reason: "sku-prefix:FL-CCME-" },
+  { sku: "ASA-AC-E-5510=", cat: "security", hw: true, want: "license", reason: "sku-prefix:ASA-AC-E-" },
+  { sku: "FP7010-URL-SIG", cat: "security", hw: true, want: "license", reason: "sku-suffix:-SIG" },
+
   // ---- license: suffixes and infixes ------------------------------------------------------
   { sku: "P2-CH-F-F-28-F-AAE", cat: "video", hw: true, want: "license", reason: "sku-suffix:AAE" },
   { sku: "15454-M-LIC-100G=", cat: "optical-networking", hw: true, want: "license", reason: "sku-contains:-LIC-" },
@@ -168,6 +182,27 @@ sabotages++;
 check("SABOTAGE a hardware PID inside a licence-heavy family is untouched (TG5000-CHAS-AC, AIR-AP-VBLE-ADPTR=, CSM4-UCS2-50-HW)",
   ["TG5000-CHAS-AC", "TG-M7-MEM-32GB", "AIR-AP-VBLE-ADPTR=", "CSM4-UCS2-50-HW"]
     .every((s) => classify({ sku: s, categorySlug: "security", categoryIsHardware: true }).klass === "hardware"));
+
+// ---- SABOTAGE: the four products a NAME-based licence rule destroys ---------------------------
+// Round 3 was found from part NAMES, and a name rule was written, measured and abandoned. These
+// are the parts that killed it. Each is real hardware whose DESCRIPTION mentions a licence, and
+// each would lose its hardware class - and with it its coverage and its own facts - under any of
+// the name predicates tried. They are pinned here so the next person who has that idea (it is a
+// good idea, and it is wrong) finds the counter-examples already written down instead of shipping
+// it and discovering them in production.
+sabotages++;
+{
+  const nameTrapped: [string, string, string][] = [
+    ["C9500-24Q-A=", "switches", "Catalyst 9500 24-port 40G, Adv. License, no PS - a real switch. Structurally identical to N55-96P-SSK9 'Nexus 5500 Storage License, 96 Ports', which IS a licence, so no name rule separates them"],
+    ["FP8250-BASE-K9", "security", "FirePOWER 8250 Chassis, No IPS Lic, 2U, 7 Slots - a chassis whose name says it has NO licence"],
+    ["AIR-CT5508-25PROM", "wireless", "5508 Wireless Controller w/ 25 AP Lic. - hardware sold bundled with licences"],
+    ["NCS1K4-QXP-L-K9=", "optical-networking", "NCS1004 3.2T QSFP-DD DCO Licensed Transponder - 'Licensed' is an adjective on a real card, the same trap that made round 2 reject sku-suffix:-LIC"],
+    ["WS-C3850-24PW-S", "switches", "Catalyst 3850 24-port PoE with a wireless licence - a real switch carrying its own facts"],
+  ];
+  const wrong = nameTrapped.filter(([sku, cat]) => classify({ sku, categorySlug: cat, categoryIsHardware: true }).klass !== "hardware");
+  check(`SABOTAGE the ${nameTrapped.length} real products whose NAMES mention a licence stay hardware`,
+    wrong.length === 0, wrong.map(([s]) => s).join(", "));
+}
 // Every rule the table holds is reachable: no rule is shadowed into never firing by an earlier one.
 {
   const unreachable = SKU_RULES.filter((r) => {
