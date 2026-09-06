@@ -308,9 +308,57 @@ export function cachedText(cachePath: string | null | undefined, cacheDir: strin
   if (!cachePath) return null;
   const f = path.join(cacheDir, cachePath);
   if (!fs.existsSync(f)) return null;
-  return ws(decodeEntities(
-    fs.readFileSync(f, "utf8").replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<[^>]+>/g, " ")));
+  // THE SCRIPT BODIES ARE NOT NOISE ON EVERY SITE, and dropping them made this tree unable to
+  // verify a whole shape of page. A fact whose evidence lives in a Next.js flight payload or an
+  // `application/ld+json` island was unverifiable here, because the gate deleted it before looking
+  // — HPE's 2,894 media-library documents are exactly that shape, and it is why the juniper session
+  // wrote `scriptData` in the first place.
+  //
+  // IT IS ALSO A MERGE LANDMINE, which is what forced it today. Measured by the monitoring session
+  // against 2,000 of juniper's real facts, each re-read from its own cached page:
+  //
+  //     juniper's cachedText (visible + scriptData)   2,000 / 2,000   100.0%
+  //     this tree's, without scriptData                 415 / 2,000    20.8%
+  //
+  // Merging this branch into theirs would have taken their gate to 0.207 against a 0.98 threshold:
+  // every apply failing, every batch rolled back, and looking exactly like a lane that had started
+  // fabricating facts overnight while nothing about the facts had changed.
+  //
+  // `decodeEntities` wraps the VISIBLE half ONLY. An embedded JSON payload's `&` and `<` are
+  // already literal, and decoding them a second time corrupts values rather than revealing them.
+  const html = fs.readFileSync(f, "utf8");
+  const visible = html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<[^>]+>/g, " ");
+  return ws(decodeEntities(visible) + " " + scriptData(html));
 }
+
+/**
+ * The DATA inside a page's script tags, unescaped, or "" when there is none.
+ *
+ * Only string literals are taken, never the code around them, so this reads a framework's embedded
+ * JSON without dragging in minified JavaScript. Two shapes cover what has actually been met:
+ * `self.__next_f.push([1,"…"])` (App Router) and `<script type="application/json">…</script>`
+ * (`__NEXT_DATA__`, JSON-LD, and every other data island).
+ */
+export function scriptData(html: string): string {
+  const out: string[] = [];
+  for (const m of html.matchAll(/self\.__next_f\.push\(\[\d+\s*,\s*("(?:[^"\\]|\\.)*")/g)) {
+    try { out.push(JSON.parse(m[1]) as string); } catch { /* one malformed push is not the page */ }
+  }
+  for (const m of html.matchAll(/<script[^>]+type=["']application\/(?:ld\+)?json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
+    out.push(m[1]);
+  }
+  // The flight payload is itself JSON-escaped INSIDE those literals — one unescape gets us the
+  // stream, and the values a fact was read from are still escaped within it. It is not one JSON
+  // document, so it cannot be parsed; the escapes that remain are folded instead.
+  //
+  // ALL the whitespace escapes, not just \n. The first version folded \n only, and HCT separates
+  // the four wavelength ranges of a WDM optic with \r — so `1294.53 nm through 1296.59 nm\r 1299…`
+  // kept a literal backslash-r where the extracted value had a space, and every multi-range
+  // wavelength stayed a gate MISS. Found by printing what the gate actually reads instead of
+  // assuming the fold covered it.
+  return out.join(" ").replace(/\\([nrtfv])/g, " ").replace(/\\(["'/\\])/g, "$1");
+}
+
 
 export type SourceRow = { id: number; slug: string; tier: number; kind: string };
 

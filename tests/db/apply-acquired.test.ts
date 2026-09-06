@@ -48,7 +48,7 @@ import { fileURLToPath } from "node:url";
 import { query, closePool, resolveDatabaseUrl, databaseName } from "../../src/store/db.js";
 import { docIdFor } from "../../src/store/docs.js";
 import {
-  main, parseArgs, mapEntryFacts, lifecycleFromEntry, computeGate, auditProvenance, labelOnPage, pickSample, runAdapterSuites, cachedText, spareKey, MIN_READABLE_SHARE,
+  main, parseArgs, mapEntryFacts, lifecycleFromEntry, computeGate, auditProvenance, labelOnPage, scriptData, pickSample, runAdapterSuites, cachedText, spareKey, MIN_READABLE_SHARE,
   resolvePart, spareFlip, anchorStep, SKU_ALIAS_KINDS, EXIT_GATE_FAILED, GATE_REFUSED,
   CACHE_DIR, type Acquired, type WrittenFact,
 } from "../../src/pipeline/apply-acquired.js";
@@ -400,6 +400,35 @@ check("fixture sources: provantage is a tier-4 distributor, meraki a tier-2 vend
   // the default sample of 60 the line {"precision":1,"passed":true,"sampled":2} meant "58 of my 60
   // evidence pages are gone" and was read by three sessions as "small sample". 294 facts were
   // written on the strength of two readable ones, and which two was down to the shuffle.
+  // ---- script payloads are EVIDENCE on some sites, and dropping them is a merge landmine ------
+  // This tree deleted <script> bodies before looking, so a fact whose evidence lives in a Next.js
+  // flight payload or an application/ld+json island was unverifiable here. Measured by the
+  // monitoring session against 2,000 of juniper's real facts, each re-read from its own page:
+  // their cachedText (visible + scriptData) 2,000/2,000; this tree's, without it, 415/2,000.
+  // Merging this branch into theirs would have taken their gate to 0.207 against a 0.98 threshold.
+  {
+    const flight = String.raw`<html><body><p>x</p><script>self.__next_f.push([1,"{\"reach_max\":\"10 km\"}"])</script></body></html>`;
+    const ldjson = `<html><body><script type="application/ld+json">{"sku":"X","weight":"3.2 kg"}</script></body></html>`;
+    const code = `<html><body><script>var portCount = 48; function frobnicate(){}</script></body></html>`;
+    const wdm = String.raw`<script>self.__next_f.push([1,"1294.53 nm\r 1299.02 nm"])</script>`;
+    const wsq = (x: string) => x.replace(/\s+/g, " ").trim();
+    check("a value existing ONLY in a flight payload is found", scriptData(flight).includes("10 km"));
+    check("a value in an application/ld+json island is found", scriptData(ldjson).includes("3.2 kg"));
+    sabotages++;
+    check("SABOTAGE an ordinary <script> BODY is still discarded - this is not a plain text search "
+        + "over the file, and only string literals are taken", !scriptData(code).includes("frobnicate"));
+    sabotages++;
+    check("SABOTAGE ...and its identifiers do not leak either", !scriptData(code).includes("portCount"));
+    check("ALL whitespace escapes are folded, not just the newline - HCT separates WDM ranges with a "
+        + "carriage return, and folding only the newline left every multi-range wavelength a MISS",
+      wsq(scriptData(wdm)) === "1294.53 nm 1299.02 nm");
+    sabotages++;
+    check("SABOTAGE the literal escape is GONE, not merely hidden by the whitespace collapse",
+      !scriptData(wdm).includes(String.raw`
+`));
+    check("a page with no scripts yields nothing rather than throwing", scriptData("<p>hi</p>") === "");
+  }
+
   // ---- a COMPOSED label can never be found verbatim, and that failed CORRECT facts -----------
   // The extractor composes a label to split a combined cell: the page says "Dimensions (H x W x D)"
   // with the unit in another cell, and the fact carries "Dimensions [Centimeters (H x D x W)]". The
