@@ -4,6 +4,101 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-06 ~22:30 - Opus/CISCO session, work block 18: a correct guard, bypassed by its input.**
+  `446a1c9` (productClass round 3 + sabotage cases), run #467 (`apply-reclassify-nonhardware`).
+
+  **THE FINDING.** `describesPart` refuses a family-level fact to any `NON_PRODUCT_CLASSES` part
+  and it is correct, tested, and was never firing for 5,883 Cisco parts - because it tests
+  `product_class` and `product_class` said hardware. **2,878 SERVED inherited facts on licence
+  SKUs**: certifications, temp_operating, altitude_max, qos_features, which is the *exact list*
+  specMerge's own docstring names as the symptom it exists to stop. `NC55P-MSEC-50T=` is "NCS 5500
+  MACSec Lic" and it carried an operating temperature range and an altitude ceiling. Same shape as
+  `ownership.py` sitting on the wrong side of the language boundary: **ask what the guard reads,
+  not whether the guard is right.**
+
+  **HOW IT WAS FOUND, WHICH MATTERS MORE THAN THE FIX.** Chasing the parent's `document_pids`
+  question. I thought I had an escalation - that `doc_parts` is the inheritance scope, so linking
+  PIDs would unlock facts. **Wrong, and I killed it before it became a plan**: `canInherit` is
+  called from exactly one place (`apply-extract.ts:603`) and it passes `d.pid_list`, not
+  `doc_parts`. Then splitting the recall_gap by "smallest spec document that names this part"
+  showed 313 of 1,587 named only by a 100+ part compatibility list, dominated by one sheet naming
+  297 - all `NC55P-*`, all classed hardware.
+
+  **THE NAME RULE WAS BUILT, MEASURED AND ABANDONED, AND THAT IS THE REAL LESSON.** The evidence
+  is in the NAME (nothing in these SKUs says licence), so a name predicate is the obvious move and
+  it is wrong:
+    * `%lic%` matches app-**LIC**-ation, rep-**LIC**-ation, dup-**LIC**-ate - 864 extra parts.
+    * Tightened, it still cannot separate "licence FOR a switch" from "switch sold WITH a licence".
+      `C9500-24Q-A=` is "Catalyst 9500 24-port 40G, Adv. License, no PS" - a real switch -
+      structurally identical to `N55-96P-SSK9` "Nexus 5500 Storage License, 96 Ports", a real licence.
+    * A second signal (has no facts of its own) does NOT save it: `C9500-24Q-A=` has none either.
+    * `FP8250-BASE-K9` is "FirePOWER 8250 Chassis, **No** IPS Lic" - a chassis whose name says it
+      has no licence, which the rule reads as being one.
+  I had already told the operator "1,976 facts on 378 parts" from the loose predicate. **That number
+  was contaminated and I had to shrink it twice** - first to 1,940 on the strict token set, then to
+  **399 served facts on 54 parts** once the predicate became SKU shapes. The safe rule reaches a
+  fifth of what the unsafe one would have. That is the correct trade and it should not be re-argued:
+  a wrong retraction destroys a real product's specifications. The five counter-examples are pinned
+  as sabotage cases in `tests/productClass.test.ts` so the next person to have the idea finds them.
+
+  **WHAT WENT IN.** Nine SKU-shape rules, each counted across the WHOLE corpus rather than Cisco
+  alone (that is how round 2's bare `A-` was caught) - all nine Cisco-only at >=98% licence-named.
+  `scripts/reclassify-nonhardware.mts`, whose predicate is `classify()` itself, so adding a rule
+  extends it and removing one silently un-proposes its parts - no list to drift. Facts are retracted
+  BEFORE the class is changed, so a crash leaves the safe half-state. The sabotage proof was run:
+  injecting `C9500-` as a licence prefix took the suite red naming `C9500-24Q-A=`, and the restore
+  was verified with `git diff`, not trusted.
+
+  **FOR THE PARENT / OTHER LANES.** `doc_parts` means NAMED BY, not described by - both hygiene
+  consumers say so in their own comments, Atlas populates it from `pid_list`, and apply-acquired
+  writes only the narrower described-by subset one part at a time (`apply-acquired.ts:796`). So the
+  parent's "760 known-but-undescribed parts" linking lever is semantically right. **But it would
+  breach a CoverageTarget**: `base.py:coverage()` counts a spec-bearing doc link as having a
+  document, cisco `recall_gap` is 1,587 against a target of 2,000, and +760 mentions puts it at
+  2,347 - a linking improvement that reads as an extraction regression. That target needs a
+  named-only vs described companion number before the links land.
+
+  **VERIFIED (run #467, from a NEW connection after the writing pool closed).** 451 parts carrying
+  one of the nine rules, 451 now `license`, **0 served inherited facts left on them**, 468 retraction
+  rows on 54 parts - matching the dry run exactly. NC55P-: 312 license, 0 still hardware.
+
+  **MY OWN VERIFICATION LINE WAS MISLABELLED, AND IT FOUND SOMETHING.** It printed "served inherited
+  facts still on non-hardware parts (must be 0): **2748**" - which is not a failed write, it is a
+  wrong check: the query counts EVERY non-hardware part, including the ~27k already classed licence
+  that this run never touched. I named an output field for the thing I wished it measured, in a
+  script about a guard bypassed by its input. The correct per-run check is scoped to
+  `product_class_reason = ANY(<the nine rules>)` and reads 0.
+  The 2,748 it actually reported is a REAL and separate finding: **2,167 served inherited facts on
+  612 parts whose class is already `license`**, plus 542 on `software`. Here both the guard and the
+  class are correct and the facts are there anyway. Traced: **2,197 of them come from
+  `migrate-atlas` run 6 (3 Sep)** - the bulk import - with 365 from `apply-remerge` run 56 and 40
+  from `apply-renormalize` run 78, which most likely CARRY the `inherited` flag forward when
+  superseding an Atlas row rather than creating new violations. Worth confirming before assuming
+  the guard leaks; if it is only the import, this is one more retraction pass, not a code fix.
+
+  **NEXT, in order.** (1) That 2,748 - cheapest and largest, and it needs no new rule, only a
+  scoped retraction once the remerge/renormalize question above is answered. (2) The ~3,480
+  licence-shaped parts the safe predicate does NOT reach (evidence only in their name), still
+  hardware, still carrying roughly 2,480 served inherited facts: needs more measured SKU shapes
+  (purity >=0.98, >=25 parts, checked corpus-wide, the scan is reproducible from this log) or an
+  operator-reviewed list - **NOT a name rule**, see the five pinned counter-examples.
+
+  **TRAPS.** The tunnel RTT is ~307 ms and `retractFact` is several round trips per fact, so a
+  451-part run took ~15 minutes and blew a 600 s tool timeout - it was `idle in transaction` on
+  wait_event_type **Client**, i.e. waiting on ME, with `pg_blocking_pids` empty. That reads exactly
+  like lock contention and is not. Check `pg_blocking_pids` before blaming locks.
+
+  **AND `CHUNK = 40` IS A BOUND ON THE WRONG UNIT** - my own comment on it says "short
+  transactions", copied from the port retraction where 40 rows meant 40 facts. Here 40 PARTS
+  carrying 12 inherited facts each is ~480 facts in one transaction: **495 seconds open**, which is
+  the "estimate in a comment that nobody enforces" lesson in my own new code. Two sampled reads of
+  the committed counts came back identical and I called it "chunks are rolling back" - wrong, and
+  stated as a conclusion rather than a hypothesis. A third read with `pg_sleep(25)` between the two
+  counts inside ONE connection showed 105 -> 409. **Point samples of a bursty writer cannot tell
+  stalled from batching; measure across a known interval before naming a cause.** Chunk on facts,
+  not on parts, next time. Node also block-buffers stdout when piped, so the job's own progress log
+  was 0 bytes throughout - the same buffering that hid the four supervisor deaths.
+
 - **2026-09-06 ~20:30 - Opus/CISCO session, work blocks 13-17: the shared-code queue, cleared.**
   `47cd2c7` `39d5111` `80c23d7` `9954cc5` `a0815ec` `ace7af2`, plus `225c1b3` (357 retractions) and
   `c73226d` (portParse) earlier.
