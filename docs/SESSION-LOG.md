@@ -4,6 +4,58 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-06 ~02:40 - Opus/CISCO session, work block 7: the Cisco coverage hole is a CRAWL
+  problem, and I had to disprove my own theory to establish it.** New: `scripts/reextract-from-cache.py`
+  + `tests/scraper/test_reextract.py` (10 cases).
+
+  **THE SPLIT THAT MAKES IT ANSWERABLE, and it is what the document classification was FOR.** Of
+  87,083 Cisco parts, **65,724 have no document-derived fact**. Divided by the class of the
+  documents they are linked to:
+
+  | parts | diagnosis |
+  |---:|---|
+  | 54,502 | linked ONLY to non-spec documents (EoL bulletins) - a **crawl** gap |
+  | 9,190 | no linked document at all - a **crawl** gap |
+  | 2,032 | linked to a **spec-bearing** document, no fact - an **extraction** gap |
+
+  **97% is crawling, not extraction.** Before the classification existed this was one undifferentiated
+  number and every hour spent on the extractor was spent on 3% of the problem.
+
+  **MY THEORY, AND WHY IT WAS WRONG.** 938 of Cisco's 1,781 spec-bearing documents hold their bytes
+  and have ZERO facts. Running the adapter over them by hand yields 104, 139, 245, 367 facts apiece,
+  so the obvious reading was that the facts had been extracted and lost with `runs/acquired/` in the
+  22:05 wipe (only 2026-09-05 survives; the cache came back from the box and the acquired JSON did
+  not). I built the re-extract to recover them.
+
+  **IT RECOVERS NOTHING, AND THE ZERO IS CORRECT.** Rebuilt over 200 documents: 9,507 facts
+  extracted, 767 entries, **facts_ok = 0**. 529 entries are `family_scoped` and refused on purpose -
+  a family value is never inherited into a SKU the document does not list. Of the 376 facts that DO
+  reach a matched SKU (238 matched, all exact, 0 unknown, 0 ambiguous, gate precision 1 recall 1),
+  190 are section headings the mapper calls sentinels, 89 are rejected by a field rule, and the 97
+  "unmapped" labels are bundle catalogue tables - `Platform: 2800 Series Router` whose value is
+  "2851 Voice Security Bundle w/ CME, CUE, and Phone licenses". None of it is a specification.
+  These are series and bundle datasheets; no re-extraction will make facts out of them.
+
+  Second wrong-theory-in-two-days, and the same shape both times: a real measurement (938 documents,
+  zero facts) attached to a confident cause that was never checked. The check cost one script.
+
+  **THE ONE REAL DEFECT FOUND, still open.** The single biggest "extraction gap" document is
+  `datasheet-c78-740765.html`, whose own title is *"Cisco Network Convergence System 5500 Series:
+  Perpetual Software Licenses Data Sheet"*. All **297** parts linked to it are recorded as
+  `product_class='hardware'`; they are software licences (`NC55P-*`, 312 such SKUs, all "hardware").
+  So the DOCUMENT classification is right, the extractor is right, and the PART classification is
+  wrong - and those SKUs will sit for ever as hardware with an empty spec table. Licensing
+  datasheets account for 262 of the 1,940 hardware gap parts. Not fixed: changing `product_class` is
+  a production write and wants the operator's yes.
+
+  **CHECKED BEFORE PROPOSING ANY RE-APPLY:** `ensureSourceDoc`'s ON CONFLICT clause does not list
+  `doc_type`, so a re-apply leaves the class untouched. It was worth checking - apply-acquired
+  computes `docType = vendor_page` for every vendor source, and had that been written back it would
+  have flattened all 7,449 classifications in a single run.
+
+  **NEXT.** The lever is acquiring spec-bearing documents for 63,692 parts that have none, which is
+  a crawl decision and therefore a proxy decision. Re-extraction is closed as a route.
+
 - **2026-09-06 ~01:50 - Opus/CISCO session, work block 6: the gate went red on the CLOCK, not on
   the code.** `test_watchdog.py` was 248 PASS / 0 MISS at 23:5x UTC and 244 PASS / 4 MISS twenty
   minutes later, same commit, same machine. The proxy fixtures insert a row `now() - 10 minutes`
