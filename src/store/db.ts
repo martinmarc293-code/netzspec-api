@@ -45,9 +45,46 @@ export function resolveDatabaseUrl(): string {
   return env.DATABASE_URL;
 }
 
+/**
+ * What this process calls itself in `pg_stat_activity`.
+ *
+ * AN UNNAMED SESSION IS AN UNATTRIBUTABLE OUTAGE. On 6 Sep 2026 HPE's applies died on
+ * `statement timeout` against an anonymous `idle in transaction` session running a long
+ * `SELECT ... FROM parts`; they could not tell whose it was and rightly would not kill it. It
+ * turned out to be the monitoring session's own audit query, ordering by a correlated subquery over
+ * 87,083 parts and 134,599 facts. Naming it turns that from an outage nobody can attribute into one
+ * query.
+ *
+ * It is also the missing half of serialising the writers of `source_docs` — the 120 s timeouts are
+ * lock contention between `reclassify-docs` and `apply-acquired` (`while updating tuple ... in
+ * relation "source_docs"` is Postgres saying BLOCKED, not slow), and **you cannot serialise writers
+ * you cannot name.** `NETZSPEC_APP_NAME` overrides it for a one-off script.
+ *
+ * Postgres truncates `application_name` at 63 bytes.
+ */
+function appName(): string {
+  // The override comes from the process environment rather than `.env`: it exists for a one-off
+  // script that wants to name itself, and such a script sets it on the command line.
+  const explicit = process.env.NETZSPEC_APP_NAME;
+  if (explicit) return explicit.slice(0, 60);
+  const file = (process.argv[1] ?? "").split(/[\\/]/).pop()?.replace(/\.[mc]?[tj]s$/, "") || "node";
+  // THE SUBCOMMAND, not just the file. Every pipeline command runs through `cli.ts`, so a name
+  // built from argv[1] alone would call BOTH contending writers `netzspec/cli/cisco` and leave them
+  // indistinguishable — and telling `apply-acquired` from `reclassify-docs` is the entire reason
+  // this exists. They are the two writers of `source_docs` whose lock contention produced the 120 s
+  // timeouts. A name that cannot separate them names nothing that matters.
+  const sub = (process.argv[2] ?? "").replace(/[^A-Za-z0-9._-]/g, "");
+  const cmd = file === "cli" && sub ? sub : file;
+  const brand = loadEnv().NETZSPEC_BRAND ?? currentBrand() ?? "";
+  return `netzspec/${cmd}${brand ? "/" + brand : ""}`.slice(0, 60);
+}
+
 export function getPool(): pg.Pool {
   if (!pool) {
-    pool = new Pool({ connectionString: resolveDatabaseUrl(), max: 8, idleTimeoutMillis: 30_000, statement_timeout: 120_000 });
+    pool = new Pool({
+      connectionString: resolveDatabaseUrl(), max: 8, idleTimeoutMillis: 30_000,
+      statement_timeout: 120_000, application_name: appName(),
+    });
     pool.on("error", (e) => { console.error("pg pool error:", e.message); });
   }
   return pool;

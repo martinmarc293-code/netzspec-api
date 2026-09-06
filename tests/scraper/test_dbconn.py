@@ -79,6 +79,30 @@ check("D8", "SABOTAGE an '&' in the name cannot inject another parameter",
 check("D9", "no name asked for still yields a name, so a session is never anonymous",
       "application_name=" in DB.augment(BASE), DB.augment(BASE))
 
+# The DEFAULT name has to be worth reading. A PID was the first one and it is nearly useless:
+# unique, meaningless a minute later, and gone across a restart. On 6 Sep 2026 HPE's applies died on
+# a statement timeout against an anonymous `idle in transaction` SELECT that nobody could attribute
+# and nobody would kill; it turned out to be the monitoring session's own audit query. What an
+# operator staring at a blocked query needs is WHAT this is and WHOSE.
+check("D9a", "the default names the SCRIPT, not a pid - a pid does not survive the restart you are "
+             "trying to explain", DB._default_name().startswith("netzspec/"), DB._default_name())
+check("D9b", "SABOTAGE it carries no '.py' - the name is read by a human in pg_stat_activity",
+      ".py" not in DB._default_name(), DB._default_name())
+import os as _os  # noqa: E402
+_was = _os.environ.get("NETZSPEC_BRAND")
+try:
+    _os.environ["NETZSPEC_BRAND"] = "cisco"
+    check("D9c", "...and the BRAND, because three lanes share this server and 'whose is it' is the "
+                 "first question a blocked query raises",
+          DB._default_name().endswith("/cisco"), DB._default_name())
+finally:
+    if _was is None: _os.environ.pop("NETZSPEC_BRAND", None)
+    else: _os.environ["NETZSPEC_BRAND"] = _was
+check("D9d", "SABOTAGE the Python and TypeScript defaults share ONE shape - pg_stat_activity has to "
+             "read the same way whichever language opened the session, because the writers being "
+             "told apart span both",
+      "netzspec/" in (ROOT / "src" / "store" / "db.ts").read_text(encoding="utf-8"))
+
 # ---- the only claim a string cannot make: that libpq accepts these -----------------------------
 def load_env() -> dict:
     env = {}

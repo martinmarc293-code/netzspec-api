@@ -37,6 +37,8 @@ key, and these are appended, so an explicit `connect_timeout` in the URL wins.
 from __future__ import annotations
 
 import os
+import sys
+from pathlib import Path
 
 import psycopg
 from psycopg.rows import dict_row
@@ -54,6 +56,23 @@ KEEPALIVE = {
 }
 
 
+def _default_name() -> str:
+    """`netzspec/<script>/<brand>` — the script that opened it and whose lane it belongs to.
+
+    A PID was the first default and it is nearly useless: it is unique, meaningless a minute later,
+    and does not survive a restart. What an operator staring at a blocked query needs is WHAT this
+    is and WHOSE, which is exactly the pair. The TypeScript side builds the same shape in
+    `src/store/db.ts`, so `pg_stat_activity` reads the same way whichever language opened the
+    session — and the two must match, because the writers being told apart span both.
+    """
+    script = Path(sys.argv[0] or "python").name
+    for ext in (".py", ".pyw"):
+        if script.endswith(ext):
+            script = script[: -len(ext)]
+    brand = os.environ.get("NETZSPEC_BRAND") or ""
+    return f"netzspec/{script or 'python'}" + (f"/{brand}" if brand else "")
+
+
 def augment(url: str, who: str | None = None) -> str:
     """Append the keepalive parameters (and an application_name) to a libpq URL.
 
@@ -66,7 +85,7 @@ def augment(url: str, who: str | None = None) -> str:
     # The fallback lives HERE rather than in connect(), because a caller that augments a URL and
     # hands it to psycopg itself would otherwise get an anonymous session - and an anonymous
     # session is exactly what made the blocking one hard to attribute. Its own test caught this.
-    who = who or os.environ.get("NETZSPEC_APPLICATION_NAME") or f"netzspec/{os.getpid()}"
+    who = who or os.environ.get("NETZSPEC_APPLICATION_NAME") or _default_name()
     # Postgres truncates application_name at 63 bytes and the value must not carry a '&'.
     parts.append("application_name=" + who.replace("&", "-")[:60])
     sep = "&" if "?" in url else "?"

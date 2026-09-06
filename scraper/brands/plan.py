@@ -62,6 +62,7 @@ from psycopg.rows import dict_row                 # noqa: E402
 from brands import load_brand                     # noqa: E402
 from sources import load_source                   # noqa: E402
 from sources.base import wrong_host              # noqa: E402  one copy, shared with worker.py
+from brands import dbconn                        # noqa: E402  keepalives + a named session
 
 #: How often a discovery (listing) task is re-run. Not read from the pack's `schedule` dict because
 #: that dict names STEPS ("category-listing") rather than cadences, and inventing a mapping from
@@ -586,14 +587,14 @@ def main() -> int:
     url = load_env().get("DATABASE_URL")
     if not url:
         raise SystemExit("DATABASE_URL is not set (.env at the repo root)")
-    with psycopg.connect(url, autocommit=True, row_factory=dict_row) as conn:
+    with dbconn.connect(url) as conn:
         p = plan(conn, brand, a.limit, a.apply)
     print(render(p, a.apply))
     if a.json:
         print(json.dumps(p, indent=1, default=str))
     if a.apply:
         # re-read from a NEW connection: the only reading that counts
-        with psycopg.connect(url, autocommit=True, row_factory=dict_row) as r:
+        with dbconn.connect(url) as r:
             rows = r.execute("""
                 SELECT s.slug, q.task, q.status, count(*) n FROM fetch_queue q
                   JOIN sources s ON s.id = q.source_id WHERE s.slug = ANY(%s)

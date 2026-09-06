@@ -1162,9 +1162,14 @@ class Queue:
     test can subclass with a fake _insert and prove the guard without a database."""
 
     def __init__(self, url: str):
-        import psycopg
-        from psycopg.rows import dict_row
-        self.conn = psycopg.connect(url, autocommit=True, row_factory=dict_row)
+        # dbconn, not psycopg directly: this connection is held for the worker's whole life, so it
+        # needs the keepalives, and it must NAME ITSELF. An anonymous session is an unattributable
+        # outage - HPE's applies died on a statement timeout against an unnamed `idle in
+        # transaction` SELECT that nobody could attribute and nobody would kill (6 Sep 2026). It is
+        # also the prerequisite for serialising the writers of `source_docs`: you cannot serialise
+        # writers you cannot name.
+        from brands import dbconn as _dbconn
+        self.conn = _dbconn.connect(url)
         self.sources = {r["slug"]: r for r in self.conn.execute(
             "SELECT id, slug, host, tier, politeness_ms, enabled, proxy, proxy_country FROM sources").fetchall()}
         self.by_id = {r["id"]: r for r in self.sources.values()}
