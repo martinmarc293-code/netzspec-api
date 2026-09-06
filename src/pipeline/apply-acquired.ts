@@ -253,12 +253,63 @@ export async function resolvePart(
   return { kind: "unknown" };
 }
 
-/** The cached page as whitespace-folded lower-case text, or null when there is no such page. */
+/**
+ * HTML entities the page writes and the extracted fact does not.
+ *
+ * WHY THIS EXISTS. `cachedText` decoded exactly two entities, `&nbsp;` and `&amp;`. The provenance
+ * gate scores a fact by asking whether its raw value appears in this text, and Cisco's pages write
+ * `<` as `&lt;` — so a fact holding `<95% RH` was compared against a page holding `&lt;95% RH` and
+ * could NEVER match. Not "sometimes failed": impossible to pass, for every value containing
+ * `<`, `>`, `°`, `"` or `'`.
+ *
+ * Measured 6 Sep 2026: 57 applies failed the gate in one day and 1,273 acquired files were rolled
+ * back; by evening 71 and 1,573. Nine labels accounted for all 260 recorded misses and 140 of them
+ * were values beginning `<` — `Operating humidity = <95% RH`, `Inrush current at 25C ambient =
+ * < 45A @ 115VAC and 230VAC`. Both strings ARE on the page. Entity counts across the live cache:
+ * &quot; 769,357 · &nbsp; 646,006 · &amp; 54,916 · &gt; 10,186 · &lt; 8,401 · &rsquo; 199 · &deg; 4.
+ */
+const NAMED_ENTITIES: Record<string, string> = {
+  nbsp: " ", amp: "&", lt: "<", gt: ">", quot: '"', apos: "'",
+  rsquo: "’", lsquo: "‘", ldquo: "“", rdquo: "”",
+  deg: "°", plusmn: "±", times: "×", middot: "·",
+  mdash: "—", ndash: "–", hellip: "…", trade: "™",
+  reg: "®", copy: "©", le: "≤", ge: "≥", micro: "µ",
+};
+
+export function decodeEntities(s: string): string {
+  return s
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
+    .replace(/&([a-z]+);/gi, (m, n) => {
+      const k = String(n).toLowerCase();
+      return k in NAMED_ENTITIES ? NAMED_ENTITIES[k] : m;
+    });
+}
+
+/**
+ * The cached page as whitespace-folded lower-case text, or null when there is no such page.
+ *
+ * ORDER IS THE WHOLE SUBTLETY: tags are stripped FIRST and entities decoded AFTER. Reversed, a
+ * literal `&lt;b&gt;` in page TEXT becomes a real tag and the stripper deletes content that was
+ * never markup. There is a test case for exactly that.
+ *
+ * NOT WIDENED BEYOND THAT. The fix makes the gate see MORE, not accept more: a value that is
+ * simply absent, a fabricated number, and a TRANSPOSED value all still miss. Those three
+ * assertions matter more than the ones that pass.
+ *
+ * KNOWN GAP, deliberately not addressed here: this still discards `<script>` bodies, so a fact
+ * whose evidence lives in a Next.js flight payload or an `application/ld+json` block remains
+ * unverifiable. netzspec-api-juniper's copy of this file solves that with a `scriptData()` helper
+ * (apply-acquired.ts:300) and 100% of that lane's provenance rides on it. Adding it here changes
+ * gate behaviour more than an entity decode does, so it is a separate, deliberate change and it
+ * belongs to whoever owns this file.
+ */
 export function cachedText(cachePath: string | null | undefined, cacheDir: string = CACHE_DIR): string | null {
   if (!cachePath) return null;
   const f = path.join(cacheDir, cachePath);
   if (!fs.existsSync(f)) return null;
-  return ws(fs.readFileSync(f, "utf8").replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&"));
+  return ws(decodeEntities(
+    fs.readFileSync(f, "utf8").replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<[^>]+>/g, " ")));
 }
 
 export type SourceRow = { id: number; slug: string; tier: number; kind: string };
@@ -749,12 +800,36 @@ export async function main(argv: string[]): Promise<void> {
   const unmappedFile = path.join(outDir, `unmapped-${tag}-${day}.json`);
   fs.writeFileSync(unmappedFile, JSON.stringify({ generated_at: new Date().toISOString(), sources: [...sourcesTouched],
     labels: [...unmapped.entries()].map(([label, u]) => ({ label, count: u.count, samples: u.samples, categories: [...u.categories] })).sort((x, y) => y.count - x.count) }, null, 1));
+  // APPEND, NEVER WRITE. This was `fs.writeFileSync` to a per-lane-DAY filename, called at the END
+  // of every run — and applies are CHUNKED, so each chunk OVERWROTE the day's feed with only its
+  // own findings. The last chunk usually finds nothing, so the file ended up empty, and
+  // `promote-unknown-skus` then read nothing and the catalogue could not grow.
+  //
+  // It was invisible from every direction: the runs reported healthy `sku_unknown` counters, the
+  // applies exited 0, and AN EMPTY FEED IS INDISTINGUISHABLE FROM "every SKU matched". Measured
+  // across three lanes on 6 Sep 2026, the day juniper found it:
+  //
+  //     hpe-quickspecs     2,112 discovered    740 on disk   1,372 lost  (65%)
+  //     cisco-datasheets     180 discovered      0 on disk     180 lost
+  //     juniper              288 discovered      0 on disk     288 lost
+  //
+  // 1,840 SKUs found and discarded in one day, from documents already fetched, parsed and
+  // extracted. Which lane kept anything was pure luck of chunk ordering.
+  //
+  // NO EXPLICIT TRUNCATION IS NEEDED and adding one would be a second bug: the DAY is already in
+  // the filename, so a new day is a new file and appending within a day is exactly right. A
+  // truncate-once-per-run marker would re-introduce the same "which run was first" question that
+  // chunking makes unanswerable.
+  //
+  // Re-running an apply over the same files can now duplicate lines. That is deliberate and it is
+  // the cheap side of the trade: `promote-unknown-skus` folds on the SKU, so a duplicate costs
+  // nothing, while a lost line costs a part that never enters the catalogue.
   const unknownFile = path.join(outDir, `unknown-skus-${tag}-${day}.jsonl`);
-  fs.writeFileSync(unknownFile, unknownSkus.map((u) => JSON.stringify(u)).join("\n") + (unknownSkus.length ? "\n" : ""));
-  // Written even when empty, so "no ambiguity today" is a file saying so rather than a file nobody
-  // can tell from a run that never checked.
+  fs.appendFileSync(unknownFile, unknownSkus.map((u) => JSON.stringify(u)).join("\n") + (unknownSkus.length ? "\n" : ""));
+  // Created even when empty — `appendFileSync` opens with 'a', which creates — so "no ambiguity
+  // today" is a file saying so rather than a file nobody can tell from a run that never checked.
   const ambiguousFile = path.join(outDir, `ambiguous-skus-${tag}-${day}.jsonl`);
-  fs.writeFileSync(ambiguousFile, ambiguousSkus.map((u) => JSON.stringify(u)).join("\n") + (ambiguousSkus.length ? "\n" : ""));
+  fs.appendFileSync(ambiguousFile, ambiguousSkus.map((u) => JSON.stringify(u)).join("\n") + (ambiguousSkus.length ? "\n" : ""));
 
   console.log(`${a.commit ? "COMMITTED run " + out.runId : "DRY RUN"} — ${[...sourcesTouched].join(", ")}`);
   console.table(out.stats);
