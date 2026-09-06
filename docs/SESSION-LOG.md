@@ -83,6 +83,17 @@ into `CLAUDE.md`'s rules or memory, never only here.
   (neither hardware nor software). The parent's broader predicate reached 432 and they measured a
   25% false-positive rate on it themselves, so 432 is not the number to work from.
 
+  **CLEANUP, AND THE GUARD ON IT REFUSED FOR THE WRONG REASON.** Two of those abandoned probes were
+  still ACTIVE on the shared box at 18 and 12.5 minutes - an ad-hoc diagnostic is a production
+  write's peer, and this is the defect I read about in this very file before committing it. Before
+  cancelling I checked identity by QUERY TEXT rather than by a pid from an earlier listing, which is
+  the documented rule - and the check **refused both**, because I matched `regexp_replace` against a
+  query string I had already truncated to 70 characters for display. The token sits past character
+  70. Safe direction, wrong reason, and indistinguishable from a real mismatch: **a guard must test
+  the full value, not the one you shortened for the log line.** Fixed by matching the whole text and
+  truncating only what is printed; both cancelled, 0 stray sessions verified from a new connection.
+  `application_name` on every throwaway connection is what made them attributable at all.
+
   **AND I REPEATED MY OWN O(n^2) MISTAKE.** Chasing the identity of ONE cascaded row, I wrote three
   successive ad-hoc queries with `regexp_replace` on both sides of a join - the exact shape whose
   `statement_timeout` I had just fixed in the script - and left three background jobs churning.
