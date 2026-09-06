@@ -98,6 +98,7 @@ from psycopg.rows import dict_row
 ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT / "scraper"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from brands import dbconn as _dbconn  # noqa: E402  keepalives + a named session
 from sources import load_source          # noqa: E402  (ALLOW_SHORT_KEYS per source)
 from sources.base import is_part_number  # noqa: E402  the ONE part-number rule
 import vocab                             # noqa: E402  the ONE reader of the alias + ignore files
@@ -1211,7 +1212,10 @@ class Watchdog:
 
 
 def run_watchdog(db_url: str, runs_dir: Path, *, act: bool, window: int = 60, expect: set[str] | None = None) -> dict:
-    with psycopg.connect(db_url, autocommit=True, row_factory=dict_row) as c:
+    # Keepalived: the watchdog runs unattended, so a socket that stops answering must raise
+    # rather than park the process for ever - a monitor that hangs reports nothing at all,
+    # which is worse than a monitor that reports a fault.
+    with _dbconn.connect(db_url, who="netzspec-watchdog") as c:
         return Watchdog(c, runs_dir, act=act, window=window, expect=expect or set()).run()
 
 

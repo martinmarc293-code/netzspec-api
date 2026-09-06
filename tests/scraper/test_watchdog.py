@@ -91,6 +91,7 @@ sys.path.insert(0, str(ROOT / "scraper" / "tools"))
 import watchdog as W  # noqa: E402
 sys.path.insert(0, str(ROOT / "scraper"))
 from brands import ownership as OWN  # noqa: E402  who owns which test database
+from brands import dbconn as DBC  # noqa: E402  keepalives + a named session
 
 npass = nfail = 0
 
@@ -127,7 +128,10 @@ def test_db_url() -> str:
 
 
 DB_URL = test_db_url()
-C = psycopg.connect(DB_URL, autocommit=True, row_factory=dict_row)
+# dbconn, not psycopg directly: this connection is held for the whole suite and it is the one
+# that hung in wait_select for 22 minutes on a query that runs in 0.3 s. Keepalives turn a
+# half-alive tunnel socket into an error inside a minute instead of a wait nobody diagnoses.
+C = DBC.connect(DB_URL, who=f"netzspec-suite/{BRAND}/watchdog")
 assert C.execute("SELECT current_database() AS d").fetchone()["d"] == OWN.test_db_for(BRAND)
 # ...and no OTHER process may hold it, which is the half the name check can never see: the same
 # brand's suite started twice overlaps just as destructively as two different brands.

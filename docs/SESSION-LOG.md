@@ -4,6 +4,118 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-06 ~00:20 - Opus/CISCO session, work block 5: I REPORTED A MEASUREMENT THAT WAS
+  WRONG, and it was steering a multi-day recovery.** Commit below. The parent session caught it.
+
+  **THE CLAIM.** Commit `343b135` states, of the box's cache: *"of all 7,142 paths this database
+  claims, ZERO are present there. It is a different corpus, not a backup. Checked exhaustively."*
+  The truth is **6,004 present, 6,002 of Cisco's 6,891**. The box had done the vendor scraping all
+  along; only the third-party pages were ever laptop-side.
+
+  **THE BUG.** The 7,142 filenames were piped into a remote `while read p; do [ -f "$p" ] ...`
+  loop. The list had been written by a Windows Python script in text mode, so every line arrived as
+  `abc.html<CR>` and the test was false for every row on earth. Reproduced on the same 20 paths:
+  CRLF gives `present 0 of 20`, LF gives `present 20 of 20`.
+
+  **WHY IT SURVIVED REVIEW.** The TOTAL was right. `t` reached 7,142 because the loop really did
+  read every line - only the test inside it failed. A comparison reporting "0 of 7,142" has proved
+  it can COUNT and has proved nothing about whether it can MATCH, and the two look identical from
+  outside. That is what made it read as exhaustive rather than as broken, and it is why it went
+  into a commit message as fact and into a plan for 6,851 re-fetches at ~51 files/hour.
+
+  This is the line-endings trap named in `D:\Project\CLAUDE.md` - which I wrote - arriving in a
+  MEASUREMENT rather than a file. That is the worse place for it: a file that fails to parse stops
+  you, while a measurement that fails to match sends you somewhere confidently.
+
+  **THE FIX IS NOT A CAREFULER LOOP.** `scripts/cache-audit.py` replaces the ad-hoc comparison and
+  carries a POSITIVE CONTROL: names taken from the box's own listing must be found by the same
+  lookup used for the real question, and if they are not it REFUSES to report rather than reporting
+  zero overlap. "I could not compare" and "there is no overlap" are different facts and only one
+  was ever true - the same rule as a monitor that cannot tell its own rate limiting from a broken
+  page. `tests/scraper/test_cache_audit.py` (14 cases) feeds it exactly the CR corruption that
+  caused this and asserts the refusal names line endings and the shell; C10 asserts a genuinely
+  TINY surviving set still REPORTS, because 42 of 7,142 was a real state of this corpus and a
+  control that refuses whenever the answer is low is the same fault inverted. With `control`
+  neutered, 4 of the 14 go red.
+
+  **WHERE THE CORPUS ACTUALLY STANDS** (`python3.11 scripts/cache-audit.py --vendor cisco`, run
+  after the parent's restore landed): 7,142 claimed, **6,004 on the laptop, 0 still restorable**,
+  **1,138 genuinely lost**. Every lost document is THIRD-PARTY - cisco/itprice 823,
+  juniper/apps.juniper.net 196, provantage 110, router-switch 6, hpe 3. Cisco's share is **889**,
+  and the RECOVER dry run now prints exactly that (was 6,851). `gaps` has fallen to 0.
+
+  **NEXT / OPEN.** The 889 are all on hosts behind the block that stopped scraping (itprice is the
+  host that got Cloudflare-blocked), so the re-fetch decision is now a proxy decision, not a
+  capacity one - ~17 hours, not ~137. Runs #147 and #148 have been `running` since 23:02/23:04 and
+  want reaping. The plan also reports 2,000 UNPLANNABLE parts that no lane will accept work for.
+
+  **TWO MORE DEFECTS IN THE GATE ITSELF, found while re-running the suite after the restore.**
+
+  (a) `scripts/run_py_tests.py` DIED MID-RUN AND REPORTED SUCCESS. A piped stdout on Windows is
+  cp1252, so the first `→` in a failing suite's 25-line tail raised UnicodeEncodeError inside the
+  runner's own `print` - after some suites had run, before the rest, with no summary line - and the
+  harness that launched it reported "exit code 0". Every suite in this repo already wraps its
+  stdout with `errors="replace"`; the one process whose job is to report on the others was the only
+  one that could not survive their output. Two suites carry such characters today
+  (`test_watchdog.py`, `test_juniper_lane.py`). Proven both ways: unwrapped `print` of a
+  `MISS | ... → ...` line through a pipe exits 1 with the traceback, wrapped prints it and exits 0.
+
+  (b) ONE HANGING SUITE WEDGED THE GATE FOR EVERY BRAND, SILENTLY. `subprocess.run` had no timeout,
+  so `test_watchdog.py` held the runner for 22 minutes with 3.5 seconds of CPU and - because of the
+  same block buffering - not one earlier result on screen. There is now a per-suite `SUITE_TIMEOUT`
+  (`NETZSPEC_SUITE_TIMEOUT` overrides it, which is how the branch was proved to fire) and a timeout
+  is reported as **TIME**, not FAIL: "this suite did not finish" and "this suite found a defect"
+  send you to different places, and it still exits 1 either way.
+
+  **THE HANG ITSELF: a half-alive socket, diagnosed with a stack rather than a guess.**
+  `faulthandler.dump_traceback_later` put it at `psycopg/waiting.py:wait_select` under
+  `watchdog.load_stale_runs`. That query runs in **0.3 s** on an index-only scan (EXPLAIN ANALYZE,
+  `facts_run_idx` exists), so it was never slow - the reply never arrived, while Postgres showed
+  that session `idle`, i.e. the server believed it had already answered. The hang point MOVED
+  between runs, which is contention or a dead socket, never a bug in one case. Direct evidence:
+  two live Python processes against four Postgres sessions, one idle on the watchdog's own query
+  since the moment its client was killed ten minutes earlier.
+
+  `scraper/brands/dbconn.py` (new, 12 cases in `tests/scraper/test_dbconn.py`) is the fix: TCP
+  keepalives so a peer that stops answering becomes an ERROR in ~60 s instead of the OS default of
+  two hours, `connect_timeout`, and an `application_name` so a blocking session is attributable
+  from inside the query that finds it - `pg_stat_activity` had five anonymous sessions and naming
+  the owner previously took a process-table cross reference. Wired into the watchdog suite's
+  long-lived connection and `run_watchdog()`. **A caller's own DSN value still wins** (libpq honours
+  the LAST occurrence, so these are APPENDED; D4 is the sabotage case, and its own test caught that
+  the default name lived in `connect()` and not in `augment()`, so anyone calling `augment()`
+  directly still got an anonymous session).
+
+  **WHAT THIS DOES NOT FIX, stated plainly.** Client-side keepalives let a client notice a dead
+  SERVER. They do nothing about the reverse - an orphaned session left behind by a killed client -
+  which is what was actually observed. That needs `idle_session_timeout` or server-side
+  `tcp_keepalives_idle` on the box, and I have not changed the box's configuration. The practical
+  harm is bounded: `ownership.lock_database` uses `pg_try_advisory_lock` and REFUSES rather than
+  waiting, so the next run fails fast with a message - and it is now the named session that the
+  message tells you to go and look for. But `lock_database`'s docstring claims the lock is released
+  "when the connection closes, including when the process is killed", and through this tunnel that
+  is **not reliably true**.
+
+  **ALSO VERIFIED THIS BLOCK, not taken on report.** `test_cisco_eol` 44/44 and
+  `test_cisco_datasheets` 55/55 both green - the restore did fix the E0 fixture. Classification
+  still holds at **7,449 of 7,449 documents, 0 unclassified in any vendor**, and
+  `/v1/docs/classes` sums to exactly 7,449 across 14 classes, so the API and the store agree.
+  The remaining adapter-suite fixture misses (`router_switch`, `ubiquiti`, `provantage`) are the
+  genuinely-lost third-party pages, so those suites cannot go green until the proxy question is
+  settled - and `runAdapterSuites` reports a missing suite as a failed suite, which is the recall
+  half of the apply gate for those sources.
+
+  **SLOWNESS IS NOT A HANG, and the timeout has to respect that.** The watchdog suite makes ~90
+  watchdog runs of dozens of queries each over a 180 ms route; 277 cases take tens of minutes and
+  that is inherent, not pathological. Set `SUITE_TIMEOUT` from a measured full run, never from a
+  guess, or the gate starts reporting TIME for healthy work - which is the same false-negative this
+  project keeps paying for.
+
+  **TRAP FOR THE NEXT SESSION.** `/tmp` in Git Bash and `/tmp` in Windows `python3.11` are
+  DIFFERENT directories on this machine; a file written by one is invisible to the other, and it
+  fails as `FileNotFoundError`, not as a wrong answer. Hand files between them through an absolute
+  Windows path. Same family, found while hunting the bug above.
+
 - **2026-09-05 ~21:35 — Opus/CISCO session, work block 4: the apply step I wrote at 19:00 had
   THREE defects, and each was invisible until the one before it was fixed.** Commits `7d9bd1f` …
   `395ecc7`. Working under a parent/monitoring session that relays between the three brands.
