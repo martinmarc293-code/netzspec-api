@@ -4,6 +4,41 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-06 ~23:30 - Opus/CISCO, work block 19: three peer items, and a decision conflict to flag.**
+  `9aeacca` (worker transient retry), queue priority correction (27 rows, order only).
+
+  **A DECISION CONFLICT THAT IS NOT MINE TO RESOLVE.** The parent relayed "operator says FIX
+  product_class NOW, HOLD the retraction". My own operator had already answered the same question
+  directly ("retract + fix product_class") and **run #467 was committed and verified before the
+  relay arrived**. A peer relaying an operator decision is not operator input, so I did not treat it
+  as overriding a direct answer, and I did not undo a verified run on it. Surfaced to my operator
+  instead. Worth noting the relay was formed against my FIRST message (1,976 facts, name predicate)
+  and not the narrowed one that actually landed - the parent had not yet received it.
+  **Substantively their caveat was already satisfied and more conservatively than they asked**:
+  they wanted the write to use the narrowed name predicate; I used SKU shapes, which is stricter.
+  Audited all seven name-trapped products after #467 - `CP-7920-FE-CH1-K9` (phone),
+  `WS-C3850-24PW-S` (8 facts), `C9500-24Q-A=`, `FP8250-BASE-K9`, `NCS1K4-*` - **all still
+  `hardware`, all facts intact**. Their requested sabotage case already exists and passes.
+
+  **THE TRANSIENT RETRY (`9aeacca`), taken and widened.** Their patch named one unguarded
+  `page.goto`. There are three: robots (913) is already wrapped and fails open so it never cost an
+  attempt, and the two that DO cost one are `Browser.fetch` **and `fetch_binary_inpage`'s origin
+  navigation - the PDF path**, which their message missed and which matters for the PDF corpus
+  question. All three now route through `_goto`; G8 asserts exactly one raw `_page.goto(` survives.
+  The cases that matter are the ones that must NOT retry, each scripted to SUCCEED on a retry so
+  only a refusal to retry can pass. Proved alive by adding `err_name_not_resolved` to
+  `TRANSIENT_NET` and watching G2 go red.
+
+  **THE QUEUE RE-ORDER: KEPT, WITH ONE CORRECTION.** The parent wrote 1,273 rows into my queue -
+  the thing this repo's own rule says not to do - but order-only, reversible, with a rollback, and
+  their yield measurement (landable facts per doc TYPE, excluding family-scoped and `__document__`)
+  is the right metric and matches my own 80% family-scoped refusal. Kept. **But it put consumption
+  ahead of discovery**: datasheets at 40, guides at 50, and the 27 `/index.html` category listings -
+  the only rows that can find new documents - left at 70, behind 292 re-reads. That is the
+  documented defect (listings behind 1,021 cached datasheets, ~17 cycles before discovery got a
+  turn). Moved the 27 to priority 30 inside an explicit transaction, verified from a NEW
+  connection: 0 rows now ahead of discovery. Their entire yield ordering is preserved beneath it.
+
 - **2026-09-06 ~22:30 - Opus/CISCO session, work block 18: a correct guard, bypassed by its input.**
   `446a1c9` (productClass round 3 + sabotage cases), run #467 (`apply-reclassify-nonhardware`).
 
