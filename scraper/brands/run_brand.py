@@ -45,8 +45,10 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
+import threading
 import sys
 import time
 from datetime import datetime, timezone
@@ -390,50 +392,106 @@ def runnable_lanes(conn, brand) -> list[dict]:
     return out
 
 
+#: Lines worth keeping wherever they appear in a step's output, not just at its tail. Every entry
+#: is something whose ABSENCE has been, or would have been, misread as evidence: a proxy rotation
+#: nobody could see, a budget warning that never reached the log, a refusal counted as a block.
+STREAM_KEEP = re.compile(
+    r"(rotat|new exit IP|proxy|budget|MB/|challenge|blocked|refus|Traceback|Error|"
+    r"WARN|not_listed|404|timeout|advisory lock)", re.I)
+STREAM_TAIL_LINES = 6
+STREAM_MAX_KEPT = 40
+
+
+def stream_step(runs: Path, brand_slug: str, name: str, argv: list[str], timeout_s: int) -> int:
+    """Run one step, STREAMING its output, and return the exit code (124 on timeout).
+
+    WHY THIS REPLACED `subprocess.run(capture_output=True)`. Four supervisors died with the process
+    gone, stderr completely empty and not one log line, and the cause is that `subprocess.run`
+    buffers the child's output and hands it back only when the call COMPLETES. Kill the supervisor
+    mid-step and `run` never returns, the tail is never computed, and NOTHING is written - not the
+    last lines, not an error, not a traceback. The output was never missing; it was buffered inside
+    a process that died before it could flush. That accounts for all four deaths exactly, and it is
+    why every one of them had to be guessed at.
+
+    IT ALSO MADE THE LOG UNABLE TO SHOW A THING, WHICH IS WORSE THAN NOT SHOWING IT. The old tail
+    was three lines. A proxy rotation printed 90 tasks into a 240-task fetch cannot be among the
+    last three, so its absence from the log was not evidence it had not happened - and it was very
+    nearly reported as "rotation is not firing" on exactly that basis. An instrument that cannot
+    show a thing must never be read as showing its absence, so a diagnostic line is now written the
+    moment it appears, wherever it appears, capped so a chatty step cannot flood the file.
+
+    And it returns the CODE rather than a bool, because 4 ("the gate refused this data") and 1
+    ("the box is unreachable") are opposite responses; collapsing them turned a legitimate refusal
+    into a five-minute local retry, once per chunk, and those minutes are the next fetch window.
+
+    Design is the monitoring session's, reviewed and adjusted here: the two pump threads share
+    `tail`, `kept` and the log file, so their mutations take a lock. Without it `del tail[:-N]`
+    races the other thread's append, the `len(kept)` check races its own increment, and two
+    concurrent `log()` calls can interleave halfway through a line - which would make the
+    instrument built to explain a silent failure produce a garbled one.
+    """
+    log(runs, brand_slug, f"-> {name}")
+    kept: list[str] = []
+    tail: list[str] = []
+    lock = threading.Lock()
+
+    def pump(stream, prefix: str) -> None:
+        for raw in iter(stream.readline, ""):
+            ln = raw.rstrip()
+            if not ln.strip():
+                continue
+            with lock:
+                tail.append(prefix + ln)
+                del tail[:-STREAM_TAIL_LINES]
+                if STREAM_KEEP.search(ln) and len(kept) < STREAM_MAX_KEPT:
+                    kept.append(prefix + ln)
+                    # written IMMEDIATELY: the whole point is that a step which dies mid-flight has
+                    # already said what it was doing.
+                    log(runs, brand_slug, f"   {(prefix + ln)[:200]}")
+
+    p = subprocess.Popen(argv, cwd=str(ROOT), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                         text=True, encoding="utf-8", errors="replace", bufsize=1)
+    threads = [threading.Thread(target=pump, args=(p.stdout, ""), daemon=True),
+               threading.Thread(target=pump, args=(p.stderr, "! "), daemon=True)]
+    for t in threads:
+        t.start()
+    try:
+        rc = p.wait(timeout=timeout_s)
+    except subprocess.TimeoutExpired:
+        p.kill()
+        p.wait(timeout=30)
+        log(runs, brand_slug, f"   {name}: TIMEOUT after {timeout_s}s - killed, continuing")
+        rc = 124
+    for t in threads:
+        t.join(timeout=5)
+    with lock:
+        for ln in tail:
+            log(runs, brand_slug, f"   {ln[:200]}")
+    log(runs, brand_slug, f"   {name}: exit {rc}")
+    return rc
+
+
 def step(runs: Path, brand_slug: str, name: str, argv: list[str], timeout_s: int) -> bool:
     """Run one step as its own process. A step that fails is reported and the cycle continues:
-    a failed plan must not stop the fetch, and a failed fetch must not stop the watchdog."""
-    log(runs, brand_slug, f"-> {name}")
-    try:
-        p = subprocess.run(argv, cwd=str(ROOT), capture_output=True, text=True,
-                           encoding="utf-8", errors="replace", timeout=timeout_s)
-    except subprocess.TimeoutExpired:
-        log(runs, brand_slug, f"   {name}: TIMEOUT after {timeout_s}s - killed, continuing")
-        return False
-    tail = [ln for ln in (p.stdout or "").splitlines() if ln.strip()][-3:]
-    for ln in tail:
-        log(runs, brand_slug, f"   {ln[:200]}")
-    if p.returncode != 0:
-        err = [ln for ln in (p.stderr or "").splitlines() if ln.strip()][-2:]
-        for ln in err:
-            log(runs, brand_slug, f"   ! {ln[:200]}")
-    log(runs, brand_slug, f"   {name}: exit {p.returncode}")
-    return p.returncode == 0
+    a failed plan must not stop the fetch, and a failed fetch must not stop the watchdog.
+
+    Both this and step_rc() are now thin over stream_step(), so EVERY call site gets the streaming
+    log rather than only the one that was rewritten. Keeping two buffered implementations beside a
+    streaming one is how the next silent death would land in whichever function was not converted.
+    """
+    return stream_step(runs, brand_slug, name, argv, timeout_s) == 0
 
 
 def step_rc(runs: Path, brand_slug: str, name: str, cmd: list[str], timeout: int) -> int:
-    """Like step(), but returns the EXIT CODE rather than a bool.
+    """The exit CODE of a step, where step() gives only a bool.
 
-    step() collapses every non-zero into False, which is right when the only question is "did it
-    work". It is wrong for the box apply, where 4 means "the gate refused this data" and 1 means
-    "the box is unreachable" -- opposite responses. Collapsing them made a legitimate refusal
-    trigger a 5-minute local retry that reached the same refusal, once per chunk, and those
-    minutes are the next fetch.
+    4 means "the gate refused this data" and 1 means "the box is unreachable" - opposite responses,
+    and collapsing them made a legitimate refusal trigger a five-minute local retry that reached the
+    same refusal, once per chunk. Now a thin call onto stream_step() so it cannot drift away from
+    step() again: the buffered version of THIS function had the same silent-death defect, because it
+    was written by copying the pattern it was replacing.
     """
-    log(runs, brand_slug, f"-> {name}")
-    try:
-        p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=timeout)
-    except subprocess.TimeoutExpired:
-        log(runs, brand_slug, f"   {name}: TIMED OUT after {timeout}s")
-        return 124
-    for ln in [l for l in (p.stdout or "").splitlines() if l.strip()][-14:]:
-        log(runs, brand_slug, f"     {ln[:200]}")
-    if p.returncode != 0:
-        for ln in [l for l in (p.stderr or "").splitlines() if l.strip()][-3:]:
-            log(runs, brand_slug, f"   ! {ln[:200]}")
-    log(runs, brand_slug, f"   {name}: exit {p.returncode}")
-    return p.returncode
-
+    return stream_step(runs, brand_slug, name, cmd, timeout)
 
 def cycle(conn, brand, runs: Path, max_tasks: int, plan_limit: int) -> None:
     slug = brand.slug
