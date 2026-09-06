@@ -4,6 +4,42 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~00:15 - Opus/CISCO, work block 20: the 2,748 answered, and the OPPOSITE error found.**
+  Measurement only, no writes.
+
+  **THE 2,748 IS A RETRACTION JOB, NOT A GUARD LEAK - settled, three ways.** A fact created by
+  superseding has a predecessor (`x.superseded_by = f.id`); a fresh one does not:
+
+        migrate-atlas       run 6    2,197 facts    0 carried    2,197 fresh   (import, predates the guard)
+        apply-remerge       run 56     365            365                0
+        apply-renormalize   run 78      40             40                0
+        apply-specs         run 61       4              4                0
+        apply-specs      runs 38,45    142              0              142     <- looked like a leak
+
+  The carry-forward theory is confirmed in the CODE, not just the data: `renormalize.ts:502` builds
+  the replacement entry with `inherited: row.inherited, inherited_from: row.inherited_from` - it
+  copies the flag off the existing row by design, which is why it has zero `describesPart`
+  references (it re-normalises a VALUE, it does not re-decide inheritance). And the 142 that looked
+  fresh are not a leak either: every one was written **4 Sep**, and their parts are classified today
+  by `sku-contains:DNA` / `-SIA` / `-DNX-` / `-RTU` - **round-2 rules added 4 Sep**. The guard
+  correctly saw `hardware` at write time and the class changed afterwards. So: one scoped retraction
+  pass, no code change, and it wants the SKU-shape discipline rather than a class-based sweep.
+
+  **THE OPPOSITE ERROR, WHICH IS THE DANGEROUS DIRECTION.** Reading the samples turned up
+  `N540-24Q8L2DD-SYS` "NCS540-2x400G QSFP-DD+8x50G+24x25G" classed **software**, and `DN3-HW-APL-XL`
+  "Catalyst Center Appliance (Gen 3) - 80 Core" - with `HW` in the SKU - likewise. **225 Cisco parts
+  (74 already carrying facts) are classed non-hardware ONLY by the category fallback while reading
+  as real hardware**: ASR 9900 line cards, NCS 5700 line cards, NCS-55A1 chassis. No SKU rule fires,
+  the category is a software one, and `classify()` follows the category by design ("Nothing is
+  inferred from a category NAME. Only the categories row (`is_hardware`)...") - so the CATEGORY
+  assignment is the defect and the class inherits it.
+  `describesPart` therefore refuses correct family facts on real line cards and chassis,
+  **permanently and silently, with nothing in a diff** - which is exactly the asymmetry the parent
+  named when arguing against a broad reclassification, already present in the data from a different
+  cause. Cisco-only (0 for every other vendor). NOT touched: fixing it means changing category
+  assignments or adding hardware-shape SKU rules, and that is a decision with the same
+  false-positive risk in reverse. Sized and left for the operator.
+
 - **2026-09-06 ~23:30 - Opus/CISCO, work block 19: three peer items, and a decision conflict to flag.**
   `9aeacca` (worker transient retry), queue priority correction (27 rows, order only).
 
