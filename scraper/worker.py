@@ -68,6 +68,35 @@ from pathlib import Path
 from urllib.parse import urlparse
 from urllib.robotparser import RobotFileParser
 
+# AN ERROR HANDLER MUST NEVER BE ABLE TO RAISE, and this one could.
+#
+# A task fails, the worker prints the failure, and the message carries a character cp1252 cannot
+# encode — playwright's "APIRequestContext.get: Max redirect count exceeded →" chain is one source.
+# On Windows a console or piped stdout is cp1252, so the PRINT raised, the exception escaped
+# `process()`, and the whole fetch step died, taking every remaining task in the batch with it:
+#
+#     19:49:28  fetch cisco-datasheets: exit 1     UnicodeEncodeError while printing an error
+#     19:58:26  fetch cisco-datasheets: exit 1     same, different task
+#
+# And the lane looked HEALTHY throughout — driver alive, log moving, `plan: exit 0`, cycles
+# completing, Chrome opening. The only signal was `fetch <lane>: exit N`, which nothing was reading.
+#
+# This is the SAME defect as `scripts/run_py_tests.py` dying on a `→` this morning, in a different
+# file. I fixed it there and did not scan for the shape, which is precisely what this project's own
+# rule says to do by the third instance. The scan afterwards found 11 of 16 chatty scraper files
+# unprotected — but the defect only BITES here, because only here does a raise inside an error
+# handler sit in a long-running loop where it costs the rest of the batch. A one-off script that
+# dies printing is visible and cheap.
+#
+# `errors="replace"` rather than a wider encoding gamble: a future exotic character degrades to `?`
+# instead of killing a fetch step. Reconfiguring at the ENTRY POINT covers every print in this
+# process, including the adapters it imports, because they share this stdout.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")  # type: ignore[union-attr]
+    except (AttributeError, ValueError):                          # already wrapped, or not a TextIO
+        pass
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import netzscrape  # noqa: E402  (CACHE, LEDGER, _key, _ledger, UA_TOKEN)
 from sources import load_source  # noqa: E402
