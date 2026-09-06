@@ -287,6 +287,50 @@ def parts_without_read_facts(conn, brand, limit: int) -> list[dict]:
     """, (brand.vendor_slug, limit)).fetchall()
 
 
+#: How long a source's "I do not list that part" answer is believed before we ask again. A model can
+#: appear on a site later, so this is a SUPPRESSION WITH AN EXPIRY rather than a deletion.
+NOT_LISTED_RECHECK_DAYS = 30
+
+
+def not_listed_recently(conn, brand, days: int) -> set[tuple[int, int]]:
+    """(part_id, source_id) pairs a source has already answered NOT_LISTED for, recently.
+
+    THE GAP LOOP HAD NO MEMORY, and that made it unbounded. Its predicate is "a part with no fact
+    read from a document" - the thing that is MISSING - so when a source has no page for that part
+    the cycle is:
+
+        part has no read fact  ->  queued as a gap  ->  source has no page  ->  not_listed  ->
+        no fact is written     ->  part still has no read fact  ->  queued again. For ever.
+
+    **Any queue whose input predicate is the absence of a thing repeats for ever when the thing
+    cannot be obtained.** It is the same shape as `stale_documents` re-fetching a deleted URL that
+    never updates its own timestamp, reached by a different route, and it is not cheap: Juniper
+    measured a 404 on that lane at 115,433 bytes.
+
+    AND THE ANSWER WAS ALREADY BEING RECORDED, FAITHFULLY, IN A TABLE NOBODY READ. `part_source_checks`
+    exists precisely to say "we asked this source about this part and it had nothing" - 629
+    not_listed for provantage, 487 for itprice, 378 for router-switch - and `part_source_checks`
+    appeared NOWHERE in this file. Fifth instance in two days of a value that is written, correct,
+    and never consulted, after `item["priority"]`, `minAuthorityLinks`, `result.force` and
+    `docs_without_bytes`.
+
+    ONLY `not_listed`, DELIBERATELY. `no_facts` means the page EXISTED and yielded nothing, which a
+    better extractor or a widened alias can change tomorrow - suppressing on it would freeze in
+    today's extraction quality and quietly stop asking questions we might newly be able to answer.
+    Only `not_listed` means the page is not there, and only the publisher can change that.
+
+    Per (part, SOURCE), not per part: a part provantage does not stock may still be on cisco.com,
+    and suppressing the part everywhere because one lane said no would throw away the others.
+    """
+    rows = conn.execute("""
+        SELECT DISTINCT psc.part_id, psc.source_id
+          FROM part_source_checks psc JOIN sources s ON s.id = psc.source_id
+         WHERE s.slug = ANY(%s) AND psc.outcome = 'not_listed'
+           AND psc.checked_at > now() - make_interval(days => %s)
+    """, (list(brand.sources), days)).fetchall()
+    return {(r["part_id"], r["source_id"]) for r in rows}
+
+
 def stale_listings(conn, brand, limit: int) -> list[dict]:
     """Discovery tasks that already ran and are older than the rediscovery cadence."""
     return conn.execute("""
@@ -429,17 +473,32 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
     # means "no lane will take this shape of work" are opposite facts, and the first version of
     # this file printed the same digit for both.
     unread = parts_without_read_facts(conn, brand, limit)
+    answered = not_listed_recently(conn, brand, NOT_LISTED_RECHECK_DAYS)
+    suppressed = 0
     for p in unread:
-        placed = False
+        placed = refused = False
         for s in srcs:
+            # A source that has already told us it does not list this part is not asked again until
+            # the re-check window expires. Without this the gap loop re-queues an unobtainable part
+            # every cycle for ever, because its predicate is the absence it can never fill.
+            if (p["id"], s["id"]) in answered:
+                suppressed += 1
+                refused = True
+                continue
             url = _accepts(mods[s["slug"]], "part-page", p["sku"])
             if url:
                 out["gaps"].append({"source": s["slug"], "task": "part-page", "key": p["sku"],
                                     "url": url, "part_id": p["id"]})
                 placed = True
         if not placed:
-            out.setdefault("unplannable", []).append(p["sku"])
+            # THREE OUTCOMES, NOT TWO. "No lane will build a task for this shape of work" and "every
+            # lane has already looked and it is not there" are opposite facts about a part, and
+            # folding the second into `unplannable` would report a source's honest answer as a
+            # missing capability — sending someone to write an adapter for work that is done.
+            (out.setdefault("asked_and_absent", []) if refused
+             else out.setdefault("unplannable", [])).append(p["sku"])
     out["unread_parts"] = len(unread)
+    out["gaps_suppressed"] = suppressed
 
     if apply:
         by_slug = {s["slug"]: s["id"] for s in srcs}
@@ -531,6 +590,9 @@ def render(p: dict, apply: bool) -> str:
          f"  {len(p['rediscover']):>6}  rediscover  listing tasks older than the discovery cadence",
          f"  {len(p['gaps']):>6}  gaps        hardware parts with no fact read from a document",
          f"  {len(p.get('unplannable') or []):>6}  UNPLANNABLE parts with no read fact that NO lane will accept work for",
+         f"  {len(p.get('asked_and_absent') or []):>6}  ASKED       parts every lane has already answered `not_listed` for "
+         f"(re-asked after {NOT_LISTED_RECHECK_DAYS}d)",
+         f"  {p.get('gaps_suppressed', 0):>6}  suppressed  (part, source) pairs not re-asked - a source already said no",
          f"  {len(p['skipped']):>6}  SKIPPED     work no lane can build a task for", ""]
     if p.get("unplannable"):
         L += [f"  {p['unread_parts']:,} parts have no fact read from a document and "

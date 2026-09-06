@@ -176,5 +176,47 @@ check("R4", "SABOTAGE only 404 excludes. A 403 or a 5xx is a refusal or an outag
             "and must stay recoverable",
       "http_status = 404" in REC and "403" not in REC.split("f.http_status")[1][:120])
 
+# ---- the gap loop must not ask a question it has already had answered -------------------------
+# Its predicate is "a part with no fact READ from a document" - the thing that is MISSING - so when
+# a source has no page for that part the loop is unbounded: queued -> not_listed -> no fact written
+# -> still missing -> queued again, for ever. Any queue whose input predicate is the ABSENCE of a
+# thing repeats for ever when the thing cannot be obtained. Same shape as `stale_documents`
+# re-fetching a deleted URL whose timestamp never advances, by a different route, and not cheap:
+# Juniper measured a 404 on that lane at 115,433 bytes.
+#
+# The answer was already recorded, faithfully, in a table this file never read: `part_source_checks`
+# holds 629 not_listed for provantage, 487 for itprice, 378 for router-switch. Fifth instance in two
+# days of a value written, correct, and never consulted.
+NL = SRC.split("def not_listed_recently")[1].split("\ndef ")[0]
+GAPLOOP = SRC.split("unread = parts_without_read_facts")[1][:1800]
+
+check("N1", "the planner READS part_source_checks at all - the whole defect was a correct answer "
+            "recorded in a table nothing consulted",
+      "part_source_checks" in SRC, "part_source_checks appears nowhere in plan.py")
+# the SQL only, not the docstring above it: splitting on the first "WHERE" matched the word
+# NOWHERE in the prose and asserted against a sentence rather than a query.
+NL_SQL = NL.split("conn.execute(")[1]
+check("N2", "SABOTAGE only `not_listed` suppresses. `no_facts` means the page EXISTED and yielded "
+            "nothing, which a better extractor or a widened alias can change tomorrow - suppressing "
+            "on it would freeze in today's extraction quality",
+      "'not_listed'" in NL_SQL and "no_facts" not in NL_SQL, NL_SQL[:200])
+check("N3", "the suppression EXPIRES - a model can appear on a site later, so this is a suppression "
+            "with a re-check window and not a deletion",
+      "NOT_LISTED_RECHECK_DAYS" in SRC and "make_interval(days =>" in NL)
+check("N4", "SABOTAGE it is scoped per (part, SOURCE), not per part - a part provantage does not "
+            "stock may still be on cisco.com, and suppressing it everywhere throws the others away",
+      "psc.part_id, psc.source_id" in NL and '(p["id"], s["id"]) in answered' in GAPLOOP,
+      "the suppression is not keyed on the pair")
+check("N5", "SABOTAGE the suppressed count is REPORTED, not silently skipped - a failure-guarded "
+            "skip in code that produces a plan must write the failure down before it skips",
+      'out["gaps_suppressed"] = suppressed' in SRC and "suppressed  (part, source) pairs" in SRC)
+check("N6", "SABOTAGE 'every lane already said no' is a DIFFERENT bucket from 'no lane will take "
+            "this shape of work' - folding the first into UNPLANNABLE reports a source's honest "
+            "answer as a missing capability, sending someone to write an adapter for finished work",
+      'out.setdefault("asked_and_absent", [])' in GAPLOOP and "ASKED" in SRC,
+      "asked_and_absent is folded into unplannable")
+check("N7", "the query asks only THIS BRAND'S sources, so one pack cannot suppress another's work",
+      "s.slug = ANY(%s)" in NL and "list(brand.sources)" in NL)
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)
