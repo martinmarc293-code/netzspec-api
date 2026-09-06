@@ -4,6 +4,71 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-06 ~20:30 - Opus/CISCO session, work blocks 13-17: the shared-code queue, cleared.**
+  `47cd2c7` `39d5111` `80c23d7` `9954cc5` `a0815ec` `ace7af2`, plus `225c1b3` (357 retractions) and
+  `c73226d` (portParse) earlier.
+
+  **THE ONE SHAPE BEHIND FOUR OF THEM: a number that cannot say which of two opposite things
+  happened.** The gate reported `sampled` while carrying `checked`, so "58 of my 60 evidence pages
+  are gone" read as "small sample". The planner folded a dropped repair into "already queued", so a
+  silent no-op read as "nothing needed doing". `facts_raw` was incremented AFTER the family-scope
+  `continue`, so a file with 39 real facts reported 0 and read as an empty file - that one cost the
+  monitoring session most of a day. And `enabled=false` on a source read as "those URLs are
+  dormant" while 823 of them sat in another lane's queue. **The fix is the same every time: count
+  the refusal as its own number and put it in the output.**
+
+  **WHAT WENT IN.** `run_brand.py` committed (`APPLY_ON_BOX` 0 -> 11 on the branch; it had been
+  running in production while existing in no commit, and it was blocking juniper's
+  `APPLY_CHUNK_FILES`). The composed-label gate half - I took the STRONGER of the two options
+  offered rather than stripping `[...]`, which would have reduced the label to "Dimensions" and
+  matched nearly any hardware page; the qualifier is REQUIRED separately. `scriptData` copied
+  verbatim from juniper's tree, which defused a merge landmine measured at 415/2,000 against their
+  2,000/2,000 - merging my branch would have taken their gate to 0.207. The streaming `step()`, which
+  is why four supervisors could die with empty logs. And the worker's UnicodeEncodeError.
+
+  **THE WORKER BUG IS MY OWN RULE, IGNORED.** `print` of an error containing a `→` raised on cp1252,
+  the exception escaped `process()`, and three whole fetch batches died - while the lane looked green
+  on every signal except `fetch <lane>: exit N`, which nothing read. **It is the same defect I fixed
+  in `scripts/run_py_tests.py` twelve hours earlier and did not scan for.** The scan afterwards: 11
+  of 16 chatty scraper files never reconfigure stdout. Only the worker is fixed, because the defect
+  BITES only where a raise inside an error handler sits in a long-running loop; a one-off script that
+  dies printing is visible and cheap. The other 10 are reported untouched on purpose.
+
+  **AN ERROR HANDLER MUST NEVER BE ABLE TO RAISE.** When it does, the thing that would have reported
+  the problem is the thing that threw.
+
+  **THE 357 RETRACTIONS, and three failures getting there.** (1) The script would have retracted its
+  OWN output for ever - `retractFact` writes `raw=''`, an empty raw is refused by the parser, and the
+  selector said `raw IS NOT NULL`, which `''` satisfies. Same loop as the planner gap section I had
+  fixed an hour before. (2) Lock contention on `facts`, the parent's `source_docs` signature exactly;
+  solved by USING the pause-lease protocol and killing an orphaned apply child. (3) My killed script
+  left a session `idle in transaction` for six minutes holding the blocking locks - terminable BY
+  NAME only because of the `application_name` work committed an hour earlier.
+
+  **TWO NUMBERS I HAD TO SHRINK AFTER MEASURING**, both mine to correct:
+  - "The discovery ladder is EXHAUSTED" - wrong. That test re-parsed CACHED listings, which can only
+    re-find what was already found. Forced live, the same ladder produced 6 new rows from 5 fetches.
+    I measured the cache and drew a conclusion about the site.
+  - The ordering-table prize: my first count said 57 tables until I read the samples and found my
+    "part number" test was matching DATES (`25-JAN-2008`). Honest figure: **37 of 1,142 family-scoped
+    entries, 573 PIDs** - 3.2%, not the 78% the framing implied.
+
+  **AND ONE I ALMOST SHIPPED.** The first `portParse` alternatives rule refused any `or` near a
+  connector, which would have destroyed **100 correct HPE/Aruba facts** - `"4x Dual-Personality
+  (RJ45 oder SFP)"` is a COMBO PORT, not two product configurations. **The suite was 44/44 with the
+  broken rule; only the corpus replay caught it.**
+
+  **NEXT.** The ordering-table routing (shape A vs shape B on a two-column table; `_is_pid` is the
+  discriminator and already exists) - modest at 573 PIDs, so weigh it against the `__document__` PID
+  list, which is 412 of the 573 and may already be extracted but unused. The `retired` kind in
+  remerge.ts for 6,437 open distinct disagreements. And the 100 queued PDFs will answer facts-landed
+  per PDF, which decides the other 2,114 and the 2.2 GB they would cost.
+
+  **TRAP.** Two other sessions commit to branch `cisco` and write to my queue. Both announce it with
+  a rollback, and `brands/README.md` §3 says shared files are this session's. Check `git log` and
+  `git status` for foreign work before every commit; `run_brand.py` sat modified in this tree for
+  most of a day, invisible to the two lanes that needed it.
+
 - **2026-09-06 ~11:15 - Opus/CISCO session, work block 12: I WAS WRONG ABOUT EXHAUSTION, and
   the real cause is a priority inversion that made the queue prefer what it HAS to what it LACKS.**
 
