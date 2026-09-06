@@ -76,7 +76,32 @@ const cases = [
     want: [g("rj45", ["1G"], 48)] },
   // A transceiver part number ending "-2XDR4" is not two ports. Published 2 ports on an OPTIC
   // until the count was required to start a token.
-  { in: "Arista QDD-800G-2XDR4 800G QSFP-DD800 100GBASE-FR-Transceiver", refuse: "port token but no count" },
+  //
+  // It is now refused one step EARLIER and for a better reason: it is a transceiver, and a
+  // transceiver has no port layout at all. The count-anchoring rule that used to catch it still
+  // exists and still matters for device strings; this string simply never reaches it. The expected
+  // reason is updated rather than relaxed — a refusal for the wrong reason is a miss in this
+  // suite, and the whole point is that the reason is the finding.
+  { in: "Arista QDD-800G-2XDR4 800G QSFP-DD800 100GBASE-FR-Transceiver", refuse: "no port layout of its own" },
+
+  // ---- the two shapes that were live in the store, wrong in BOTH fields --------------------
+  // "100 Gigabit Ethernet" is a SPEED. COUNT_FOLLOWER accepts a speed word after a number because
+  // on a DEVICE string "24 GigE" really is 24 ports — but on an optic there is no count at all and
+  // the only number present is the speed, so it was read as one. Stored: 100 ports at 1G, on a
+  // single-port 100G part. Wrong in both fields at once.
+  { in: "Cisco SR4 QSFP transceiver module for 100 Gigabit Ethernet optical links, Multi-Mode Fiber (OM4 MMF), MPO connectors, up to 100 m.",
+    refuse: "no port layout of its own" },
+  { in: "Fortinet FN-TRAN-QSFPDD-SR8 400 GE QSFP-DD-Transceiver – Multimode-Glasfaser, MPO-16 APC, 100 m",
+    refuse: "no port layout of its own" },
+  // A breakout cable DOES have four ends, so anzahl 4 reads as defensible - and `ports` is a
+  // DEVICE'S layout. A cable has connectors, not ports. Recording it as a 4-port device is a
+  // category error that looks right.
+  { in: "Extreme 100G-DACP-QSFP4SFP1M 100G Breakout-DAC QSFP28 auf 4x SFP28 passives Direct-Attach-Kupferkabel",
+    refuse: "no port layout of its own" },
+  // MUTUALLY EXCLUSIVE CONFIGURATIONS. The first count won, the last connector won, and the speeds
+  // were merged ACROSS both alternatives - describing a device that exists in neither.
+  { in: "Nexus 9K Fixed with up to 32p 40/50G QSFP+ or up to 18p 100G QSFP28",
+    refuse: "mutually exclusive port configurations" },
 
   // ---- must REFUSE ------------------------------------------------------------------------
   // A bare count is what a naive description pattern produces. It is a count, not a layout.

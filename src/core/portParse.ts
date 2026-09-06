@@ -189,6 +189,69 @@ export function parsePorts(raw: string): PortParse {
     return { ok: false, detail: `ports belong to the parent product, not this one: "${s}"` };
   }
 
+  // A TRANSCEIVER, OPTIC OR CABLE HAS NO PORT LAYOUT, and reading one produced the worst data in
+  // the store. Same disqualification as the licence and the spare above — what rules it out is
+  // what KIND of thing the description is, not a parse failure — and it is the fix for a defect
+  // this project has already recorded as fixed once:
+  //
+  //     QSFP-100G-SR4-S    "...for 100 Gigabit Ethernet optical links, MMF, MPO connectors..."
+  //                        -> {anzahl: 100, speed: ["1G"], port_typ: "qsfp-plus"}
+  //     FN-TRAN-QSFPDD-SR8 "400 GE QSFP-DD-Transceiver, Multimode..."
+  //                        -> {anzahl: 400, speed: ["1G"], port_typ: "qsfp-dd"}
+  //
+  // COUNT_FOLLOWER accepts a speed word after the number, so on a device string "24 GigE" is 24
+  // ports and that is right — but on an OPTIC there is no count at all and the only number present
+  // is the speed. The result is wrong in both fields at once: 100 ports AND 1G, on a single-port
+  // 100G part. CLAUDE.md records `"6 100 GE"` read as one hundred 6G ports as fixed; it was fixed
+  // for the shape that has a leading count and never for the shape that has none.
+  //
+  // Measured 6 Sep 2026 across the live store: of transceiver-shaped parts carrying a `ports`
+  // fact, 94 had an `anzahl` that is a standard Ethernet SPEED (10/25/40/50/100/200/400).
+  //
+  // Breakout cables are refused too, and deliberately: "QSFP28 to 4x SFP28" does describe four
+  // ends, so `anzahl: 4` reads as defensible — but `ports` is a DEVICE'S port layout, and a cable
+  // has connectors, not ports. Recording a cable as a 4-port device is a category error that looks
+  // right, which is the kind this field can least afford.
+  if (/\btransceiver\b|\btransceivermodul|\bSFP-Modul|\boptic(?:al)? module\b|\bDAC\b|\bAOC\b|\bdirect[- ]attach|\bbreakout[- ]?(?:kabel|cable|DAC)|\bpatch ?(?:cord|kabel|cable)\b|\bpluggable\b/i.test(s)) {
+    return { ok: false, detail: `a transceiver, optic or cable has no port layout of its own: "${s}"` };
+  }
+
+  // MUTUALLY EXCLUSIVE CONFIGURATIONS ARE A CAPABILITY STATEMENT, NOT A PORT LIST.
+  //
+  //     N9K-C93180LC-EX   "Nexus 9K Fixed with up to 32p 40/50G QSFP+ or up to 18p 100G QSFP28"
+  //                       -> {anzahl: 32, speed: ["50G","100G"], port_typ: "qsfp28"}
+  //
+  // `segments()` splits on comma, "and", "with" and "plus" but not on "or", so both alternatives
+  // land in one segment: the FIRST count wins, the connector scan takes the LAST connector, and the
+  // speeds are merged ACROSS the two configurations. The stored fact then describes a device that
+  // does not exist in either configuration - 32 ports of QSFP28 at 40/50/100G.
+  //
+  // Which configuration a given SKU ships as cannot be read from the string, so this is the same
+  // coin flip the `8/16 port` range check above already refuses, written a different way. Refusing
+  // it is a recorded gap; picking one is a fabrication that is indistinguishable downstream from a
+  // measurement.
+  //
+  // A COUNT ON BOTH SIDES IS WHAT MAKES IT AN ALTERNATIVE, and the first version of this rule got
+  // that wrong in the expensive direction. "any `or` near a connector" refused 100 live facts that
+  // were CORRECT, almost all HPE and Aruba:
+  //
+  //     "20x 10/100/1000BASE-T + 4x Dual-Personality (RJ45 oder SFP, 1G)"
+  //
+  // That is a COMBO PORT - one physical port group offering two media - not two configurations of
+  // the device. The 20 copper ports are real and the 4 combo ports are real, and refusing the whole
+  // string would have destroyed exactly the facts the vendor with the largest `ports` gap does have.
+  // Only the corpus replay showed it; the suite was 44/44 with the broad rule.
+  //
+  // A product-level alternative names a DIFFERENT COUNT on each side ("32p ... or ... 18p"). A combo
+  // port names one count and two media. So the test is a count on both sides, not the word "or".
+  const alts = s.split(/\s+(?:or|oder)\s+/i);
+  if (alts.length > 1) {
+    const withCount = alts.filter((a) => COUNT.test(a) || COUNT_AT_START.test(a));
+    if (withCount.length > 1) {
+      return { ok: false, detail: `mutually exclusive port configurations, and the string does not say which this SKU is: "${s}"` };
+    }
+  }
+
   const segs = segments(s);
   if (!segs.length) return { ok: false, detail: "no segments" };
 
