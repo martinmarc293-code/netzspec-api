@@ -322,7 +322,7 @@ export function lifecycleFromEntry(
   };
 }
 
-export type Gate = { precision: number; recall: number; passed: boolean; sampled: number; suites: Record<string, boolean>; misses: string[] };
+export type Gate = { precision: number; recall: number; passed: boolean; sampled: number; checked: number; unreadable: number; suites: Record<string, boolean>; misses: string[] };
 
 /** Exit code of a DRY RUN whose gate failed (see EXIT CODES at the top). A committed run's gate
  *  failure throws instead, and the CLI wrapper exits 1. */
@@ -417,26 +417,60 @@ export function pickSample<T>(items: T[], k: number, rand: () => number = Math.r
 }
 
 /**
- * Precision half: a random sample of what was written, re-read from the cached page. A fact whose
- * page cannot be read is not counted; a run that wrote facts and could re-read NONE of them scores
- * 0, not 1 — "could not check" must never pass as "checked".
+ * Precision half: a random sample of what was written, re-read from the cached page.
+ *
+ * THIS FUNCTION SAID THE RIGHT THING AND DID IT FOR ONE CASE ONLY. Its own comment used to read
+ * "a run that wrote facts and could re-read NONE of them scores 0, not 1 — could not check must
+ * never pass as checked", and the loop did `if (text === null) continue;` BEFORE `checked++`. So
+ * an unreadable page did not fail the audit: it shrank the DENOMINATOR. The all-missing case was
+ * handled (checked === 0 scores 0); mostly-missing passed on whatever happened to survive.
+ *
+ * AND THE OUTPUT ERASED THE EVIDENCE. The returned field was named `sampled` and carried
+ * `checked`. The default sample is 60, so run 142's gate line —
+ *
+ *     {"precision":1,"recall":1,"passed":true,"sampled":2}   ->  294 facts written
+ *
+ * — did not mean "we sampled 2". It meant 60 were sampled and 58 of the evidence pages were gone.
+ * Three sessions read that line as a small sample. Two readable facts decided that 294 could be
+ * written, and which two was down to the shuffle. Found 6 Sep 2026 after a wipe took 93% of one
+ * lane's cached pages.
+ *
+ * So: count what could NOT be checked as its own number and report it, never folded into either
+ * side. `apply-enumeration.ts` already had this shape (`cache_unchecked`); this one did not.
+ * `sampled` now means the sample size, which is what the word says.
  */
 export function auditProvenance(
   written: WrittenFact[], sampleN: number, cacheDir: string = CACHE_DIR, rand: () => number = Math.random,
-): { precision: number; sampled: number; misses: string[] } {
+): { precision: number; sampled: number; checked: number; unreadable: number; misses: string[] } {
   const sample = pickSample(written, sampleN, rand);
-  let hits = 0, checked = 0;
+  let hits = 0, checked = 0, unreadable = 0;
   const misses: string[] = [];
   for (const s of sample) {
     const text = cachedText(s.cache, cacheDir);
-    if (text === null) continue;
+    if (text === null) { unreadable++; continue; }
     checked++;
     const lab = ws(s.label.split(">").pop() || s.label);
     if (text.includes(ws(s.raw)) && text.includes(lab)) hits++; else if (misses.length < 10) misses.push(`${s.label} = ${s.raw}`);
   }
   const precision = checked ? hits / checked : (written.length ? 0 : 1);
-  return { precision: Number(precision.toFixed(4)), sampled: checked, misses };
+  return { precision: Number(precision.toFixed(4)), sampled: sample.length, checked, unreadable, misses };
 }
+
+/**
+ * How much of the sample must be re-readable before `passed` may be true.
+ *
+ * A SHARE AND NOT AN ABSOLUTE FLOOR, deliberately. An absolute minimum (say "at least 20 checked")
+ * refuses an honest small run: a run that writes 3 facts can only ever sample 3, and verifying all
+ * three is complete verification, not weak evidence. A share asks the question that actually
+ * matters — "of the facts I chose to verify, how many could I verify?" — and it is what separates
+ * the 58-of-60 case from the 3-of-3 one.
+ *
+ * 0.8 rather than 1.0 because a page legitimately goes missing now and then (a re-fetch replacing
+ * a cache entry mid-run), and a gate that refuses on a single absent file would refuse honest work
+ * constantly — and this gate refusing is the only reason the store is coherent tonight. Getting it
+ * wrong in that direction is not free either.
+ */
+export const MIN_READABLE_SHARE = 0.8;
 
 export function computeGate(
   written: WrittenFact[], sourcesTouched: Iterable<string>, sampleN: number,
@@ -445,7 +479,16 @@ export function computeGate(
   const suites = runAdapterSuites(sourcesTouched, opts);
   const recall = Object.values(suites).length && Object.values(suites).every(Boolean) ? 1 : 0;
   const audit = auditProvenance(written, sampleN, opts.cacheDir);
-  return { precision: audit.precision, recall, passed: audit.precision >= 0.98 && recall === 1, sampled: audit.sampled, suites, misses: audit.misses };
+  // A run may only pass if enough of its own evidence still exists to have checked it. Precision
+  // alone cannot say that: it is computed over the survivors, so 2 readable facts out of 60 score
+  // a perfect 1. The share is the missing question and it is reported either way.
+  const readableShare = audit.sampled ? audit.checked / audit.sampled : 1;
+  return {
+    precision: audit.precision, recall,
+    passed: audit.precision >= 0.98 && recall === 1 && readableShare >= MIN_READABLE_SHARE,
+    sampled: audit.sampled, checked: audit.checked, unreadable: audit.unreadable,
+    suites, misses: audit.misses,
+  };
 }
 
 export async function main(argv: string[]): Promise<void> {

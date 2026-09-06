@@ -4,6 +4,235 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-06 ~10:40 - Opus/CISCO session, work block 11: THE DISCOVERY LADDER IS EXHAUSTED,
+  which is the ceiling on this whole brand.** Two real defects fixed on the way to finding it.
+
+  **THE FINDING, measured rather than argued.** Ran `cisco_datasheets.discover()` over six cached
+  category listings:
+
+      3 found, 0 NEW   products/switches/index.html
+      5 found, 0 NEW   products/storage-networking/index.html
+     24 found, 0 NEW   products/software/index.html
+      0 found, 0 NEW   products/service-provider/index.html
+      6 found, 0 NEW   products/servers-unified-computing/index.html
+      1 found, 0 NEW   products/security/index.html
+     --
+     39 URLs discovered, 0 not already queued
+
+  Discovery WORKS and has nothing left to find: 2,466 keys is the complete reachable set from the
+  current 27 entry points. `new_tasks=0` on every listing completion is not a fault, it is
+  exhaustion. **Re-running the ladder can never grow the corpus** - and the ladder is the only route
+  to a URL we do not hold, because 97% of the coverage hole is a crawl gap and `gaps` cannot express
+  document-shaped work.
+
+  **AND THE LADDER IS TOO SHALLOW, which is where the work now is.** `switches/index.html` yielding
+  **3** URLs is not credible for Cisco's switch range. It reaches category index pages and does not
+  descend into product-family pages, which is exactly why 54,502 parts are linked only to EoL
+  bulletins and 9,190 to nothing at all: their datasheets are not reachable from these entry points.
+  NEXT MAJOR PIECE: deepen the ladder (category -> family -> datasheet), not re-run it.
+
+  **TWO DEFECTS FIXED GETTING HERE.**
+
+  (a) **Rediscovery could not discover.** The re-queue set status/next_at/attempts and never
+  `result.force` - a flag `worker.py` has read all along and nothing ever set. A re-queued listing
+  was served FROM CACHE, re-parsed identical bytes, found identical URLs. A whole cycle of
+  `browser={'fetches': 0, 'cache_hits': 60}` with `new_tasks=0`. Now forced, merged into the
+  existing result. **Caveat: 0 listings are past the 7-day window, so it will not fire for six
+  days.** It is correct and it is not what unsticks today.
+
+  (b) **Discovery was outranked by re-reads.** `queue_priority` gave listings 80 - the same rank as
+  the document work they lead - while the `entry` section's own header calls them "the top of the
+  ladder". A stated ordering the code did not implement, exactly like the `priority: 500`. Listings
+  are 70 now (behind part-anchored gap work, ahead of document re-reads) and the 27 already-queued
+  rows were re-ranked, verified from a new connection. It worked: 24 listings drained at p70 within
+  the hour, ahead of 941 cached datasheets.
+
+  **THE PLAN STEP: it was the batching, and the log carries its own control.**
+
+      07:31->07:38  395s      07:45->07:52  400s
+      08:04->08:10  361s   <- AFTER 888 URLs were parked. Queue already short. Still 361s.
+      08:16->08:16   12s   <- first cycle on the batched upsert
+      08:27->08:28   17s
+
+  It will not grow back: one round trip regardless of item count. NOT the watermark -
+  `documents_missing_bytes` still re-scans every cycle, but that scan is 4.8 s and never was the
+  problem. The 395 s was 2,000 items x a measured 307 ms round trip.
+
+  **HONEST STATE OF THE LANE**, against a peer report that "the number that matters finally moved":
+  +13 facts in three hours, newest 08:11:31, and **0 new documents in three hours**. The lane is
+  fetching again (22 in the last hour, up from zero) but has acquired nothing, for the exhaustion
+  reason above. cisco-eol is 0 of 8 http200 - every fetch a 404 on www.cisco.com through the metered
+  proxy. Not chased yet.
+
+  **TRAPS.** `pg_stat_statements` is NOT installed on the box, so the 120 s `statement_timeout`
+  killing 60-file box applies (#166, #116) cannot be diagnosed retroactively; the peer's "one bulk
+  write over too many rows" is unconfirmed and `facts.ts` writes ONE ROW PER STATEMENT, so it is a
+  specific slow query, most likely `applyMerge` re-joining parts+categories per fact. AND: the box
+  runs this WORKING TREE, not a commit - a sync landing mid-edit would ship a half-written file to
+  production.
+
+- **2026-09-06 ~10:00 - Opus/CISCO session, work block 10: the provenance gate could pass on
+  evidence that no longer existed; the plan step was 98% latency; and the routing bug's ROOT cause
+  is fixed.** Juniper's lane was stopped waiting on the first of these.
+
+  **1) `auditProvenance` SCORED OVER THE SURVIVORS.** `if (text === null) continue;` sat BEFORE
+  `checked++`, so an unreadable page did not fail the audit - it shrank the DENOMINATOR. The
+  function's own comment promised "a run that wrote facts and could re-read NONE of them scores 0",
+  and that was implemented for the all-missing case ONLY. **And the output erased the evidence:**
+  the field was named `sampled` and carried `checked`, with a default sample of 60, so run 142's
+  `{"precision":1,"passed":true,"sampled":2}` actually said *58 of my 60 evidence pages are gone*
+  and wrote 294 facts. Three sessions read that line as "small sample".
+
+  Now: `checked` and `unreadable` are their own numbers and both are reported; `sampled` means the
+  sample size; `passed` additionally requires `checked/sampled >= MIN_READABLE_SHARE` (0.8).
+  **A SHARE, NOT AN ABSOLUTE FLOOR** - a run writing 3 facts can only sample 3, and verifying all
+  three is complete verification, not weak evidence; an absolute minimum refuses honest work. 0.8
+  rather than 1.0 because a page legitimately vanishes mid-run and this gate refusing is the only
+  reason the store is coherent. Six cases in `tests/db/apply-acquired.test.ts`, each with a CONTROL
+  on the same lane and all-readable pages that must PASS, so none can go green because recall failed
+  instead. Two existing cases asserted `sampled === 0` for an unreadable page - they were encoding
+  the bug and now assert `checked === 0 && unreadable === 1 && sampled === 1`.
+  The 294 Juniper facts stay: what was void is the guarantee, not the values.
+
+  **2) `ON CONFLICT DO NOTHING` -> `DO UPDATE ... WHERE fetch_queue.status = 'done'`.** A repair by
+  definition aims at rows that already exist, and DO NOTHING left a `done` row exactly as it was -
+  never leased again, counted as "already_queued", which reads like "nothing needed doing". 414 of
+  Cisco's rows, 494 of 494 of Juniper's. **Only `done` is reactivated**, and the exclusions are the
+  point: reviving `blocked`/`skipped` would have undone the parent's parking of 888 unreachable URLs
+  and the host guard's refusals ON THE NEXT CYCLE. `(xmax = 0) AS inserted` distinguishes inserted
+  from reactivated, and three counters replace the conflated one. C1-C7.
+
+  **3) THE PLAN STEP WAS 98% LATENCY, and not where it was thought to be.** It was attributed to
+  `documents_missing_bytes` re-scanning 6,891 rows. Measured: that is **4.8 s**, and a full dry plan
+  is **7.2 s including process start**. The cost was the apply loop's ONE INSERT PER ITEM - round
+  trip to the box measured **307 ms**, so 2,000 items is 614 s of pure waiting, against the
+  supervisor's own log line `plan 395s / fetch 120s / sleep 300s`. Now one `unnest` upsert, and the
+  listing re-queue likewise takes an id array. **De-duplicated first**, because Postgres refuses a
+  multi-row upsert naming the same conflict key twice and the sections legitimately overlap (a
+  document can be both stale and missing its bytes); the per-item loop never met this because each
+  statement saw only its own row.
+
+  **4) ROOT CAUSE OF THE FOREIGN URLs, fixed where they were created.** `wrong_host` moved to
+  `sources/base.py` - ONE copy, shared by `worker.py` and `plan.py` (P5 asserts they are the same
+  function object, so it cannot drift into two). `_accepts()` now refuses a URL whose host the lane
+  does not serve. **RECOVER went 889 -> 0**, and that is the honest number: all 889 are published by
+  itprice, provantage and router-switch, each of which has its OWN source, and all four are
+  disabled. Cisco's pack is only the four `cisco-*` lanes, so that work was never its to do. The
+  planner had been claiming 889 items it could not legitimately fetch. 20 cases in
+  `test_host_guard.py`.
+
+  **MEASUREMENT THAT REVERSED PEER ADVICE.** I was told cisco.com is 200 direct / 403 proxied and
+  the lane must stay `direct`. With Playwright Chrome - the client the lane uses - cache forced off:
+  **direct 200 / 2,982,634 chars / 17.0 s; residential (us) 200 / 2,833,673 chars / 22.8 s.** That
+  advice rested on curl, and `D:\Project\CLAUDE.md` records this exact host for this exact mistake.
+  My own first probe was also wrong - 0.2 s and identical byte counts, a CACHE HIT - which is why
+  the second run passed `force=True`. Operator's routing decision stands.
+
+  **TRAP: another session has uncommitted work in this worktree.** `scraper/brands/run_brand.py`
+  carries the parent's `APPLY_ON_BOX` feature (off by default). It is NOT in my commits. Check
+  `git status` for foreign modifications before every `git commit -- <pathspec>` here.
+
+- **2026-09-06 ~09:00 - Opus/CISCO session, work block 9: routing Cisco through the proxy
+  exposed a lane fetching 953 URLs that were never its own.** New: `wrong_host()` in `worker.py`
+  + `tests/scraper/test_host_guard.py` (15 cases); `LIVE_SOURCE_COLUMNS` makes proxy settings live.
+
+  **HOW IT SURFACED.** The first proxied Cisco fetch succeeded; the next five returned 403 - and
+  they were **provantage.com URLs, fetched by cisco-datasheets**. 953 queue rows under that lane
+  have a host that is not cisco.com: itprice 823 (already `blocked`), documentation.meraki.com 64,
+  www.provantage.com 60, router-switch 5.
+
+  **A DOCUMENT'S VENDOR IS NOT ITS PUBLISHER.** A provantage page about a Cisco part carries
+  `source_docs.vendor_id = cisco`, and the planner selects a brand's work BY VENDOR. `_accepts()`
+  then asks each lane whether it would fetch the URL, and `cisco-datasheets.resolve()` returns any
+  URL verbatim for a `datasheet` task - so the first lane in pack order takes it. The 5 Sep class
+  preference does not save it: `distributor_page` is a class no Cisco lane declares, so the sort
+  ties and pack order wins.
+
+  **THREE CONSEQUENCES, worst last.** (1) itprice, meraki, provantage and router-switch are all
+  DISABLED, and their pages were crawled anyway under another lane's name - `enabled = false`, the
+  one control that stops a source, bought nothing. (2) Once cisco-datasheets was residential, those
+  foreign fetches went through the METERED proxy: 181 KB spent on block pages. (3) A 403 is a BLOCK
+  charged to the lane that fetched it - **six on cisco-datasheets within the hour against
+  BLOCKS_THRESHOLD = 5**, so the vendor lane was one watchdog pass from being paused for a disabled
+  source's blocking, and the alarm would have named Cisco.
+
+  `wrong_host(src, url)` refuses before the fetch, before the proxy charge and before any block is
+  attributed. An adapter that declares no `HOSTS`/`HOST` is NOT checked - the same reason
+  `resolve()` returns None rather than guessing. H14/H15 assert the guard sits ahead of BOTH the
+  fetch and the binary branch; H8-H11 cover substring, lookalike, undeclared-subdomain and case.
+  `skipped` is terminal (`disposition`), so the 953 rows park instead of retrying.
+
+  **AND THE KNOB THAT WAS NOT LIVE.** `Queue.enabled_ids()` re-read only `enabled`; `proxy` came
+  from the connect-time snapshot that `is_proxied()` reads at fetch time. So the operator's routing
+  change applied to a RUNNING worker not at all, silently - it took effect only because a supervisor
+  restarted two minutes later. `LIVE_SOURCE_COLUMNS = (proxy, proxy_country, politeness_ms)` is now
+  refreshed by the same query that was already there, so it costs nothing. `enabled` is deliberately
+  EXCLUDED: PZ3 proves the gating is a re-read by asserting the snapshot stays stale, and refreshing
+  it would delete that proof. PZL1-PZL5 cover the new behaviour.
+
+  **TRAP FOR THE NEXT SESSION.** `test_watchdog.py` has DUPLICATE case ids in peer-authored
+  sections - AL6, NS7, NS9b, NS14, PB9, PZ4, PZ11, SG1 - so a MISS on one of those does not say
+  which case failed. Mine collided too (PZ4-PZ8) until renamed to PZL1-PZL5; check for a collision
+  before adding a case. (`PXT4` appearing twice is deliberate: two mutually exclusive branches.)
+
+  **STILL OPEN: the ROOT CAUSE.** The worker guard is the safety net; the planner still PROPOSES
+  those rows. The fix is the same predicate inside `_accepts()` in `brands/plan.py`, with
+  `wrong_host` moved to `sources/base.py` so there is one copy (base.py imports only `re` and
+  `bs4`, so both callers can take it). Not done in this block.
+
+- **2026-09-06 ~08:30 - Opus/CISCO session, work block 8: Cisco routed through the residential
+  proxy (operator decision), and the licence-misclassification scope answered.**
+
+  **THE OPERATOR'S CALL.** Cisco's lane had taken 263 DIRECT fetches in the six hours to 22:44 UTC
+  while the stop order stood; Juniper (277) and hpe-quickspecs (34) were entirely proxied. Operator
+  chose "route Cisco through the proxy too". Done in one explicit transaction on an autocommit
+  connection and verified from a NEW connection: `cisco-datasheets` and `cisco-eol` are now
+  `proxy='residential'`, and 0 enabled cisco sources still fetch direct.
+
+  **AND `proxy_country='us'`, which was not asked for but makes the routing actually work.** Every
+  other residential lane pins a country; Cisco's was NULL, which `proxy_username` treats as "no
+  pinning" - any exit anywhere. `cisco_specs_deep.assert_english` exists precisely because "Cisco's
+  CDN served French under de-DE and silently broke the parser", so an unpinned European exit buys a
+  translated page, a refused parse and wasted proxy bytes. `us` matches Juniper.
+
+  **VERIFIED BY MEASUREMENT, AND IT ONLY WORKED BY LUCK OF TIMING.**
+  `cisco-datasheets 07:24:58 http=200 PROXIED 557 KB`. The worker snapshots `sources` in
+  `Queue.__init__` and reads `proxy` from that snapshot for ever; only `enabled` is re-read
+  (`enabled_ids()`, one indexed read before every lease). A supervisor happened to restart at 08:21,
+  after the UPDATE, so it picked the change up. **Had the 22:29 supervisor still been running it
+  would have gone on fetching direct and the change would have looked applied.** Same family as
+  `opts.locale` reaching some branches and not others. NOT YET FIXED: `enabled_ids` could refresh
+  the mutable columns in place, but PZ3 in `test_watchdog.py` asserts the snapshot stays stale as
+  its proof that the gating is a re-read, so that case needs reworking in the same change.
+
+  **BUDGET, measured rather than assumed.** `NETZSPEC_PROXY_DAILY_MB=300` per source. Cisco pages
+  are 271 KB median on disk but the first real proxied fetch metered **557 KB** (proxy_bytes counts
+  subresources), so ~540 pages/day, not the ~1,070 a page-size estimate suggested. Plan: 235 MB of
+  5,120 MB used, 4,885 MB left, so roughly 8,700 more Cisco pages on the current plan. hpe-quickspecs
+  averages 1,916 KB/fetch (PDFs) and is the fastest consumer of the shared plan by far.
+
+  **THE LICENCE SCOPE, answered.** Operator asked for the full scope before any write.
+
+  - `product_class` for licences is decided by SKU PATTERN (`L-` 11,727, `DNA` 897, `LIC-` 627,
+    `A-FLEX-` 595 ...). Anything matching none falls through to `category-is_hardware=true:<category>`
+    - and **every one of Cisco's 61,398 "hardware" parts rests on that default**. It is a category
+    guess, not evidence about the part. `NC55P-*` (312 parts) matches no licence pattern, so it
+    became hardware.
+  - **THE OBVIOUS TEXT RULE IS WRONG AND WOULD DO REAL DAMAGE.** 4,689 Cisco "hardware" parts
+    mention licence/subscription in their own name, but the sample is dominated by licence-GATED
+    HARDWARE: "ONS15454 Any-Rate Muxponder - SW License Upgradeable", "Mux demux patch panel 100GHZ
+    ODD License restricted". Matching on the word would strip thousands of genuine chassis and line
+    cards out of the catalogue - the worse error, and silent.
+  - **THE DEFENSIBLE SIGNAL IS THE DOCUMENT.** Of 1,781 Cisco spec-bearing documents, exactly **3**
+    are licensing datasheets by their own title. 365 "hardware" parts link to one; **288 link to no
+    other spec-bearing document at all** - that is the safe set. Samples: `8KSW-ADN-PRM-A-P` "ADN to
+    PRM Perpetual SW for 8000 Type A Device", `M9132T-PL8` "8 Port Activation License for Base".
+  - Other vendors: only 4 non-cisco spec-bearing documents have cached bytes at all, and none is a
+    licensing datasheet. That is **inconclusive, not proof of cisco-only** - the sample is 4.
+
+  **STILL NOT WRITTEN.** 288 parts, and the operator has seen the scope but not approved a
+  `product_class` change.
+
 - **2026-09-06 ~02:40 - Opus/CISCO session, work block 7: the Cisco coverage hole is a CRAWL
   problem, and I had to disprove my own theory to establish it.** New: `scripts/reextract-from-cache.py`
   + `tests/scraper/test_reextract.py` (10 cases).

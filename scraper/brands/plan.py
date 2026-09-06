@@ -61,6 +61,7 @@ from psycopg.rows import dict_row                 # noqa: E402
 
 from brands import load_brand                     # noqa: E402
 from sources import load_source                   # noqa: E402
+from sources.base import wrong_host              # noqa: E402  one copy, shared with worker.py
 
 #: How often a discovery (listing) task is re-run. Not read from the pack's `schedule` dict because
 #: that dict names STEPS ("category-listing") rather than cadences, and inventing a mapping from
@@ -87,9 +88,21 @@ def _accepts(mod, task: str, key: str, url: str | None = None, doc_class: str | 
     would refuse them for ever - a recall hole of exactly the kind this project keeps paying for.
     """
     try:
-        return mod.resolve({"task": task, "key": key, "url": url or "", "doc_class": doc_class or ""})
+        got = mod.resolve({"task": task, "key": key, "url": url or "", "doc_class": doc_class or ""})
     except Exception:  # noqa - a broken adapter refuses work; it must not stop the planner
         return None
+    # A LANE MAY NOT CLAIM A HOST IT DOES NOT SERVE, and this is where 953 foreign URLs entered the
+    # cisco-datasheets queue: itprice 823, documentation.meraki.com 64, provantage 60,
+    # router-switch 5. A document's VENDOR is not its PUBLISHER — a provantage page about a Cisco
+    # part carries vendor_id = cisco, this planner picks a brand's work BY VENDOR, and
+    # cisco-datasheets.resolve() returns any URL verbatim for a `datasheet` task, so the first lane
+    # in pack order took it. The 5 Sep class preference cannot catch it: `distributor_page` is a
+    # class no Cisco lane declares, so the sort ties and pack order decides.
+    #
+    # The worker refuses these too, which is the safety net; this is the root cause, and refusing
+    # here means the rows are never created rather than created and skipped. An adapter declaring no
+    # host is unchecked — the same reason resolve() returns None instead of guessing a URL.
+    return None if got and wrong_host(mod, got) else got
 
 
 def _serves(mod, doc_class: str | None) -> bool:
@@ -115,14 +128,31 @@ def queue_priority(item: dict) -> int:
     silently discarded.
 
       60  a part-anchored task — the gap work the catalogue exists to fill
-      80  document and listing work with no part behind it
+      70  a LISTING: the discovery ladder, and the only route to a URL we do not already hold
+      80  document work with no part behind it
      500  RECOVERY of a page we once held: it matters, and it matters less than acquiring one we
           never had, so it drains after everything else rather than competing with it
+
+    WHY LISTINGS OUTRANK DOCUMENTS, and this is a bug fix rather than a policy change: the `entry`
+    section calls itself "category listings this brand should always hold (THE TOP OF THE LADDER)"
+    and then handed every one of them 80 — the same rank as the document re-reads they are supposed
+    to lead. A stated ordering the code does not implement is the same defect as the `priority: 500`
+    that was set and never read, three sections above.
+
+    It is not cosmetic. Measured 6 Sep 2026: no new document had entered the store since 4 Sep, and
+    55 UNCACHED listings — real discovery, the only thing that can grow the corpus — sat behind
+    1,021 cached datasheet rows at an equal rank. The worker leases `ORDER BY priority, next_at, id`
+    and takes 60 tasks a cycle, so the ladder was roughly seventeen cycles back in the queue while
+    every cycle in between re-read pages that cannot produce a new URL. Those re-reads are not
+    worthless — they yield facts — but they cannot find anything, and a starved catalogue should
+    look before it re-reads.
     """
     p = item.get("priority")
     if p is not None:
         return int(p)
-    return 60 if item.get("part_id") else 80
+    if item.get("part_id"):
+        return 60
+    return 70 if item.get("task") == "listing" else 80
 
 
 def documents_missing_bytes(conn, brand, cache_dir: Path, limit: int) -> list[dict]:
@@ -154,6 +184,26 @@ def documents_missing_bytes(conn, brand, cache_dir: Path, limit: int) -> list[di
         SELECT sd.doc_id, sd.url, sd.doc_type, sd.cache_path, sd.fetched_at
           FROM source_docs sd JOIN vendors v ON v.id = sd.vendor_id
          WHERE v.slug = %s AND sd.cache_path IS NOT NULL
+           -- A DOCUMENT THE VENDOR HAS DELETED IS NOT RECOVERABLE, AND ASKING AGAIN IS NOT FREE.
+           -- Recovery re-queues a document because its bytes are missing from disk; a 404 means
+           -- they are missing from the INTERNET too, so the fetch cannot ever restore them and the
+           -- row is still byte-less next cycle. That is a loop, and it was made a loop by the
+           -- DO UPDATE below: `DO NOTHING` used to leave the completed row alone, which dropped the
+           -- repair (the bug this file now fixes) but also happened to stop this one.
+           --
+           -- It is expensive in the one currency that is metered. Measured 6 Sep 2026 on
+           -- cisco-eol: 8 fetches, 0 of them 200, every one a 404 on a transceiver-module bulletin
+           -- we once held - and Cisco's 404 is a full branded page, so each cost 659-1,269 KB of
+           -- RESIDENTIAL bandwidth. Roughly 8 MB a cycle to re-learn the same thing, against a
+           -- 300 MB daily budget.
+           --
+           -- 30 days rather than for ever: a URL can come back (a page moved and moved again), and
+           -- a permanent exclusion would need a retirement decision this planner has no business
+           -- taking. Asking monthly is cheap; asking every five minutes is what this stops.
+           AND NOT EXISTS (
+                 SELECT 1 FROM fetches f
+                  WHERE f.url = sd.url AND f.http_status = 404
+                    AND f.fetched_at > now() - interval '30 days')
          ORDER BY sd.fetched_at DESC
     """, (brand.vendor_slug,)).fetchall()
     out = []
@@ -182,6 +232,28 @@ def stale_documents(conn, brand, limit: int) -> list[dict]:
           FROM source_docs sd JOIN vendors v ON v.id = sd.vendor_id
          WHERE v.slug = %s AND sd.doc_type = ANY(%s)
            AND (now()::date - sd.fetched_at) > (%s::jsonb ->> sd.doc_type)::int
+           -- A DELETED DOCUMENT IS PERMANENTLY THE STALEST ONE, which made this the most expensive
+           -- loop in the pack. A 404 writes no new document, so `sd.fetched_at` never advances; the
+           -- row stays past its window, and `ORDER BY sd.fetched_at ASC` then puts it at the HEAD of
+           -- the refresh queue every cycle. Dead documents are not merely re-fetched, they are
+           -- re-fetched FIRST, ahead of every live one.
+           --
+           -- Measured 6 Sep 2026 over one day: 87 fetches returning 404 across 29 documents,
+           -- 36.9 MB of RESIDENTIAL bandwidth, an eighth of the 300 MB daily budget, spent
+           -- re-learning that Cisco deleted some transceiver bulletins. (This comment carries no
+           -- per-cent sign on purpose: psycopg parses one as the start of a placeholder even inside
+           -- an SQL comment, so a COMMENT can break the query it documents. It did, twice, while
+           -- this one was being written.)
+           -- Cisco answers a dead
+           -- collateral URL with a full branded page, so each costs 659-1,269 KB rather than the
+           -- few bytes "404" suggests.
+           --
+           -- 30 days rather than for ever, and 404 only: a URL can come back, and a 403 or a 5xx is
+           -- a refusal or an outage rather than a deletion, so those stay refreshable.
+           AND NOT EXISTS (
+                 SELECT 1 FROM fetches f
+                  WHERE f.url = sd.url AND f.http_status = 404
+                    AND f.fetched_at > now() - interval '30 days')
          ORDER BY sd.fetched_at ASC LIMIT %s
     """, (brand.vendor_slug, list(windows), json.dumps(windows), limit)).fetchall()
 
@@ -360,22 +432,81 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
 
     if apply:
         by_slug = {s["slug"]: s["id"] for s in srcs}
-        ins = req = 0
+        ins = req = reactivated = 0
         with conn.transaction():
+            # ONE STATEMENT, NOT ONE PER ITEM. This loop used to execute an INSERT per item and
+            # fetchone() its result, which is a round trip each. Postgres is on the Hetzner box
+            # behind the tunnel and a round trip measured 307 ms on 6 Sep 2026, so a 2,000-item plan
+            # spent 614 s in latency alone — and the supervisor's own log showed the shape:
+            #
+            #     plan 395s   fetch 120s   sleep 300s      -> FETCHING IS 14% OF THE CYCLE
+            #
+            # The lane was mostly waiting for acknowledgements. Batched, the same work is one round
+            # trip. Nothing about WHAT is queued changes; only how many times we ask.
+            #
+            # DE-DUPLICATED FIRST, because it has to be: Postgres refuses a multi-row upsert whose
+            # input names the same conflict key twice ("ON CONFLICT DO UPDATE command cannot affect
+            # row a second time"), and the sections legitimately overlap — a document can be both
+            # past its refresh window and missing its bytes. The per-item loop never met this
+            # because each statement saw only its own row. First writer wins, which matches the old
+            # behaviour: the earlier section's item was the one that inserted.
+            items, seen = [], set()
             for item in out["entry"] + out["recover"] + out["refresh"] + out["gaps"]:
-                row = conn.execute(
+                k = (by_slug[item["source"]], item["task"], item["key"])
+                if k in seen:
+                    continue
+                seen.add(k)
+                items.append(item)
+            if items:
+                rows = conn.execute(
                     """INSERT INTO fetch_queue (source_id, task, key, url, part_id, priority)
-                       VALUES (%s, %s, %s, %s, %s, %s)
-                       ON CONFLICT (source_id, task, key) DO NOTHING RETURNING id""",
-                    (by_slug[item["source"]], item["task"], item["key"], item["url"],
-                     item.get("part_id"), queue_priority(item))).fetchone()
-                ins += 1 if row else 0
-                req += 0 if row else 1
-            for item in out["rediscover"]:
-                conn.execute("UPDATE fetch_queue SET status = 'queued', next_at = now(), "
-                             "attempts = 0 WHERE id = %s", (item["queue_id"],))
+                       SELECT * FROM unnest(%s::int[], %s::text[], %s::text[], %s::text[],
+                                            %s::bigint[], %s::int[])
+                       ON CONFLICT (source_id, task, key) DO UPDATE
+                          SET status = 'queued', next_at = now(), attempts = 0,
+                              last_error = NULL, priority = EXCLUDED.priority
+                        WHERE fetch_queue.status = 'done'
+                       RETURNING id, (xmax = 0) AS inserted""",
+                    ([by_slug[item["source"]] for item in items], [item["task"] for item in items],
+                     [item["key"] for item in items], [item["url"] for item in items],
+                     [item.get("part_id") for item in items],
+                     [queue_priority(item) for item in items])).fetchall()
+                ins = sum(1 for r in rows if r["inserted"])
+                reactivated = len(rows) - ins
+                # Everything the statement did NOT return: a row exists and the WHERE refused to
+                # touch it (queued, leased, failed, blocked, skipped). Derived rather than counted
+                # per item, because the batch cannot report a row it deliberately left alone.
+                req = len(items) - len(rows)
+            # The listing re-queue is the same shape and the same cost: one UPDATE per listing over
+            # a 307 ms link. One statement, ids passed as an array.
+            #
+            # AND IT MUST FORCE A REAL FETCH, which it did not. Re-queuing a listing only reset
+            # status/next_at/attempts, so the worker served it FROM CACHE, re-parsed the identical
+            # bytes and found the identical URLs. Measured 6 Sep 2026, a whole cycle of it:
+            #
+            #     worker exit: done=60 ... browser={'fetches': 0, 'cache_hits': 60}
+            #     done ... new_tasks=0     (every listing, every cycle)
+            #
+            # So REDISCOVERY COULD NOT DISCOVER. That matters more here than anywhere else in this
+            # file: 97% of Cisco's coverage hole is a CRAWL gap (54,502 parts linked only to
+            # non-spec documents, 9,190 to nothing at all), `gaps` cannot express document-shaped
+            # work, and the listing ladder is therefore the ONLY route to a URL we do not already
+            # hold. It ran every cycle, reported success, and could not produce one new task. No
+            # new document has entered the store since 4 Sep.
+            #
+            # `result.force` is the flag worker.py already reads
+            # (`force=bool((task.get("result") or {}).get("force"))`); it was simply never set by
+            # anything. Merged into the existing result rather than replacing it, and the worker
+            # overwrites the whole field on completion, so it cannot become sticky.
+            if out["rediscover"]:
+                conn.execute("""UPDATE fetch_queue
+                                   SET status = 'queued', next_at = now(), attempts = 0,
+                                       result = coalesce(result, '{}'::jsonb) || '{"force": true}'::jsonb
+                                 WHERE id = ANY(%s)""",
+                             ([i["queue_id"] for i in out["rediscover"]],))
         out["inserted"] = ins
-        out["already_queued"] = req
+        out["reactivated"] = reactivated      # a `done` row put back to work: a REPAIR, not a no-op
+        out["left_alone"] = req               # queued/leased/failed/blocked/skipped - not ours to touch
         out["requeued_listings"] = len(out["rediscover"])
     return out
 
@@ -398,8 +529,14 @@ def render(p: dict, apply: bool) -> str:
               f"  datasheet listing the SKU), and it belongs in `refresh`/`rediscover`, not here.",
               f"  Examples: {', '.join(p['unplannable'][:6])}", ""]
     if apply:
-        L += [f"  inserted {p.get('inserted', 0):,}   already queued {p.get('already_queued', 0):,}   "
-              f"listings re-queued {p.get('requeued_listings', 0):,}", ""]
+        # REACTIVATED IS ITS OWN NUMBER. Folding it into "already queued" is what made a dropped
+        # repair read as "nothing needed doing" - the same defect as a gate reporting `sampled`
+        # while carrying `checked`.
+        L += [f"  inserted {p.get('inserted', 0):,}   reactivated {p.get('reactivated', 0):,}   "
+              f"left alone {p.get('left_alone', 0):,}   "
+              f"listings re-queued {p.get('requeued_listings', 0):,}",
+              "  (reactivated = a `done` row put back to work. left alone = queued, leased, failed, "
+              "blocked or skipped: a worker owns it or a human parked it.)", ""]
     for s in p["skipped"][:10]:
         L.append(f"  SKIPPED  {s['doc_type']:<24} {s['why']}")
         L.append(f"           {s['url'][:100]}")

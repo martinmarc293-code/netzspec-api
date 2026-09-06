@@ -71,7 +71,7 @@ from urllib.robotparser import RobotFileParser
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import netzscrape  # noqa: E402  (CACHE, LEDGER, _key, _ledger, UA_TOKEN)
 from sources import load_source  # noqa: E402
-from sources.base import looks_blocked, challenge_fingerprint, is_part_number  # noqa: E402
+from sources.base import looks_blocked, challenge_fingerprint, is_part_number, wrong_host  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 WORKER = f"{socket.gethostname()}:{os.getpid()}"
@@ -1148,6 +1148,15 @@ def install_shutdown(browser: "Browser") -> None:
 # queue access
 # ---------------------------------------------------------------------------------------------
 
+#: Source columns a RUNNING worker must see change, refreshed by `Queue.enabled_ids()` before every
+#: lease. Exactly the operational knobs an operator turns mid-run and then reads off the snapshot at
+#: fetch time: `proxy` and `proxy_country` in is_proxied()/rotate_on_evidence(), `politeness_ms` in
+#: the pacing. `id` and `slug` are identity and never change; `enabled` is deliberately ABSENT,
+#: because the gating answer is the RETURN VALUE and its suite proves that by asserting the snapshot
+#: stays stale (test_watchdog PZ3) - refreshing it here would delete that proof.
+LIVE_SOURCE_COLUMNS = ("proxy", "proxy_country", "politeness_ms")
+
+
 class Queue:
     """Postgres-backed. The part-number guard lives in enqueue() and the SQL in _insert(), so a
     test can subclass with a fake _insert and prove the guard without a database."""
@@ -1217,8 +1226,23 @@ class Queue:
         conn = getattr(self, "conn", None)
         if conn is None:
             return {sid for sid in source_ids if (self.by_id.get(sid) or {}).get("enabled", True)}
-        rows = conn.execute("SELECT id FROM sources WHERE id = ANY(%s) AND enabled", (list(source_ids),)).fetchall()
-        return {r["id"] for r in rows}
+        rows = conn.execute(
+            f"SELECT id, enabled, {', '.join(LIVE_SOURCE_COLUMNS)} FROM sources WHERE id = ANY(%s)",
+            (list(source_ids),)).fetchall()
+        # ...and refresh the columns that are READ FROM THE SNAPSHOT at fetch time. `enabled` was
+        # made live because a paused lane went on fetching; `proxy` was not, and it is read straight
+        # off this snapshot by is_proxied()/charge_proxy(). So an operator who routed a lane through
+        # the residential gateway got NO EFFECT on a running worker and no warning either - measured
+        # on 6 Sep 2026, when cisco-datasheets was switched to residential and only took effect
+        # because a supervisor happened to restart two minutes later. A change that appears to have
+        # applied and has not is the worst of the three outcomes.
+        #
+        # Same read, same row: this costs nothing on top of the query that was already here.
+        for r in rows:
+            row = self.by_id.get(r["id"])
+            if row is not None:
+                row.update({k: r[k] for k in LIVE_SOURCE_COLUMNS})
+        return {r["id"] for r in rows if r["enabled"]}
 
     def lease(self, source_ids: list[int]) -> dict | None:
         return self.conn.execute(
@@ -1515,6 +1539,11 @@ class Loop:
             url = task["url"] or src.resolve(task)
             if not url:
                 return self._finish(task, slug, "skipped", error="no url could be built for this task")
+            # BEFORE the fetch, and before the binary branch: a foreign host must cost nothing at
+            # all - no request, no proxy bytes, and above all no block charged to this lane.
+            foreign = wrong_host(src, url)
+            if foreign:
+                return self._finish(task, slug, "skipped", error=foreign)
             if task["task"] == "datasheet" and (url.lower().endswith(".pdf") or getattr(src, "BINARY_DATASHEETS", False)):
                 return self._binary(task, src_row, src, slug, url)
             res = self.browser.fetch(url, politeness_ms=src_row["politeness_ms"], force=bool((task.get("result") or {}).get("force")),

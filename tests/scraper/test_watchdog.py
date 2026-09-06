@@ -1301,6 +1301,39 @@ try:
           _q.enabled_ids([P, R]) == {R}, str(_q.enabled_ids([P, R])))
     check("PZ3", "...and it is genuinely a re-read, not the connect-time snapshot, which still says enabled",
           _q.sources["provantage"]["enabled"] is True, str(_q.sources["provantage"]["enabled"]))
+
+    # -- the knobs a running worker reads OFF the snapshot, which therefore have to be refreshed --
+    # `enabled` was made live because a paused lane went on fetching. `proxy` was not, and
+    # is_proxied() reads it straight off this snapshot - so routing a lane through the residential
+    # gateway had NO EFFECT on a running worker and gave no warning. Measured on 6 Sep 2026:
+    # cisco-datasheets was switched to residential and only started fetching through the proxy
+    # because a supervisor happened to restart two minutes later. A change that looks applied and
+    # is not is worse than one that fails.
+    was = C.execute("SELECT proxy, proxy_country, politeness_ms FROM sources WHERE id = %s",
+                    (R,)).fetchone()
+    try:
+        C.execute("UPDATE sources SET proxy = 'residential', proxy_country = 'us' WHERE id = %s", (R,))
+        check("PZL1", "SABOTAGE a lane routed through the proxy AFTER the worker connected is seen: "
+                     "without this the operator's change applies only on the next restart, silently",
+              _q.enabled_ids([R]) and _q.by_id[R]["proxy"] == "residential", str(_q.by_id[R].get("proxy")))
+        check("PZL2", "...and the exit country comes with it - an unpinned exit buys a translated "
+                     "page that assert_english then refuses, after the proxy bytes are spent",
+              _q.by_id[R]["proxy_country"] == "us", str(_q.by_id[R].get("proxy_country")))
+        check("PZL3", "the refresh reaches the SAME dict the fetch path reads, so `sources` and "
+                     "`by_id` cannot disagree about a live lane",
+              _q.sources["router-switch"]["proxy"] == "residential",
+              str(_q.sources["router-switch"].get("proxy")))
+        check("PZL4", "SABOTAGE turning it back off is seen too - a knob that only ever latches ON "
+                     "would strand a lane on the metered gateway",
+              (C.execute("UPDATE sources SET proxy = 'direct' WHERE id = %s", (R,)),
+               _q.enabled_ids([R]), _q.by_id[R]["proxy"])[2] == "direct",
+              str(_q.by_id[R].get("proxy")))
+        check("PZL5", "SABOTAGE `enabled` is still NOT copied into the snapshot, so PZ3's proof that "
+                     "the gating is a re-read survives this change",
+              "enabled" not in WK.LIVE_SOURCE_COLUMNS, str(WK.LIVE_SOURCE_COLUMNS))
+    finally:
+        C.execute("UPDATE sources SET proxy = %s, proxy_country = %s, politeness_ms = %s WHERE id = %s",
+                  (was["proxy"], was["proxy_country"], was["politeness_ms"], R))
 finally:
     C.execute("UPDATE sources SET enabled = true WHERE id = %s", (P,))
     _q.conn.close()

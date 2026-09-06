@@ -7,6 +7,7 @@ TypeScript; a Python adapter that "cleans up" a value is a second normaliser tha
 """
 from __future__ import annotations
 import re
+from urllib.parse import urlparse as _urlparse
 from bs4 import BeautifulSoup, Tag
 
 CHALLENGE = re.compile(r"Client Challenge|Just a moment|cf-browser-verification|Attention Required|are you a human|captcha|Access Denied|Request unsuccessful", re.I)
@@ -440,3 +441,40 @@ def is_part_number(key: str | None, allow_short: bool = False) -> tuple[bool, st
     if not _PN_DIGIT.search(k) and "-" not in k and not (allow_short and len(k) <= 3):
         return False, "bare_word"
     return True, None
+
+
+def wrong_host(src, url: str) -> str | None:
+    """The reason this lane must not fetch `url`, or None if the host is one it declares.
+
+    A DOCUMENT'S VENDOR IS NOT ITS PUBLISHER, and conflating the two put 953 foreign URLs into the
+    cisco-datasheets queue: itprice 823, documentation.meraki.com 64, provantage 60,
+    router-switch 5. Every one is a page ABOUT a Cisco part, so `source_docs.vendor_id` says cisco;
+    every one is published by somebody else. The planner selects a brand's work by vendor, so they
+    were filed against a lane whose declared host is www.cisco.com and fetched by it.
+
+    THREE THINGS THAT BREAKS, in increasing order of how badly (measured 6 Sep 2026):
+
+      1. provantage, meraki, itprice and router-switch are all DISABLED. Their pages went on being
+         crawled anyway, under another lane's name, so the operator's `enabled = false` bought
+         nothing - the one control that is supposed to stop a source.
+      2. The moment cisco-datasheets was routed through the metered residential proxy, those
+         foreign fetches went through it too and returned 403. Paid bytes for a distributor's
+         block page.
+      3. Worst: a 403 is a BLOCK, counted against the lane that fetched it. Six landed on
+         cisco-datasheets within the hour against a BLOCKS_THRESHOLD of 5, so the vendor lane was
+         one watchdog pass away from being paused for somebody else's blocking - and the alarm
+         would have named the wrong source, sending an operator to look at Cisco.
+
+    An adapter that declares no host is not checked: `HOSTS`/`HOST` is how a lane says what it
+    serves, and inventing an answer for one that has not said would refuse work no one asked us to
+    refuse. That is the same reason `resolve()` returns None rather than guessing a URL.
+    """
+    hosts = tuple(getattr(src, "HOSTS", ()) or ()) or tuple(h for h in (getattr(src, "HOST", None),) if h)
+    if not hosts:
+        return None
+    host = (_urlparse(url).hostname or "").lower()
+    if host in {h.lower() for h in hosts}:
+        return None
+    return (f"host {host} is not served by this lane ({', '.join(hosts)}): a page ABOUT this "
+            f"vendor's part published by somebody else belongs to that publisher's source, and "
+            f"fetching it here bypasses their enabled flag and charges their blocks to this lane")

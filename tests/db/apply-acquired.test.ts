@@ -48,7 +48,7 @@ import { fileURLToPath } from "node:url";
 import { query, closePool, resolveDatabaseUrl, databaseName } from "../../src/store/db.js";
 import { docIdFor } from "../../src/store/docs.js";
 import {
-  main, parseArgs, mapEntryFacts, lifecycleFromEntry, computeGate, auditProvenance, pickSample, runAdapterSuites, cachedText, spareKey,
+  main, parseArgs, mapEntryFacts, lifecycleFromEntry, computeGate, auditProvenance, pickSample, runAdapterSuites, cachedText, spareKey, MIN_READABLE_SHARE,
   resolvePart, spareFlip, anchorStep, SKU_ALIAS_KINDS, EXIT_GATE_FAILED, GATE_REFUSED,
   CACHE_DIR, type Acquired, type WrittenFact,
 } from "../../src/pipeline/apply-acquired.js";
@@ -381,14 +381,54 @@ check("fixture sources: provantage is a tier-4 distributor, meraki a tier-2 vend
   check("SABOTAGE provenance audit: the value is on the page but under a different LABEL -> miss", c.precision === 0 && c.misses[0] === "Total power = 740 W", c);
   sabotages++;
   const d = auditProvenance([{ raw: "370 W", label: "PoE budget", cache: "0000000000000000000000000000000000000000.html" }], 60);
-  check("SABOTAGE provenance audit: a page that cannot be read is 'could not check', and a run that wrote facts it could not check scores 0", d.precision === 0 && d.sampled === 0, d);
+  check("SABOTAGE provenance audit: a page that cannot be read is 'could not check', and a run that wrote facts it could not check scores 0",
+    d.precision === 0 && d.checked === 0 && d.unreadable === 1 && d.sampled === 1, d);
   sabotages++;
   const e = auditProvenance([{ raw: "370 W", label: "PoE budget", cache: null }], 60);
-  check("SABOTAGE provenance audit: no cache_path at all -> 0 as well", e.precision === 0 && e.sampled === 0, e);
+  check("SABOTAGE provenance audit: no cache_path at all -> 0 as well",
+    e.precision === 0 && e.checked === 0 && e.unreadable === 1 && e.sampled === 1, e);
   const f = auditProvenance([], 60);
   check("provenance audit: a run that wrote nothing has nothing to fail on (precision 1, sampled 0)", f.precision === 1 && f.sampled === 0, f);
   const g = auditProvenance([good[0], good[0], good[0]], 2);
-  check("provenance audit samples at most --sample facts", g.sampled === 2, g);
+  check("provenance audit samples at most --sample facts", g.sampled === 2 && g.checked === 2, g);
+
+  // ---- WHAT COULD NOT BE CHECKED IS ITS OWN NUMBER, AND IT DECIDES ---------------------------
+  // The audit skipped an unreadable page BEFORE `checked++`, so it did not fail the gate: it shrank
+  // the DENOMINATOR. The doc comment promised "a run that wrote facts and could re-read NONE of
+  // them scores 0" and that was implemented for the all-missing case ONLY; mostly-missing passed on
+  // whatever survived. Worse, the returned field was named `sampled` and carried `checked`, so with
+  // the default sample of 60 the line {"precision":1,"passed":true,"sampled":2} meant "58 of my 60
+  // evidence pages are gone" and was read by three sessions as "small sample". 294 facts were
+  // written on the strength of two readable ones, and which two was down to the shuffle.
+  sabotages++;
+  const gone = "0000000000000000000000000000000000000000.html";
+  const missing58 = [good[0], good[0], ...Array(58).fill({ raw: "370 W", label: "PoE budget", cache: gone })];
+  const mostly = auditProvenance(missing58, 60);
+  check("SABOTAGE THE RUN-142 SHAPE: 2 readable of 60 sampled still scores precision 1 - precision is computed over the SURVIVORS, so it cannot see its own blind spot and can never be the only question",
+    mostly.precision === 1 && mostly.checked === 2 && mostly.unreadable === 58 && mostly.sampled === 60, mostly);
+  check("the audit REPORTS what it could not check as its own number - `sampled` now means the sample size, with `checked` and `unreadable` beside it, so {\"sampled\":2} can never again mean '58 of my evidence pages are gone'",
+    mostly.sampled === 60 && mostly.checked + mostly.unreadable === mostly.sampled, mostly);
+
+  // The gate half, with a CONTROL on the same sources so recall cannot be what decides it: if the
+  // adapter suite were red, the control would fail too and this case goes red rather than passing
+  // for the wrong reason.
+  sabotages++;
+  const lane = ["cisco-datasheets"];
+  const gateGone = computeGate(missing58, lane, 60);
+  const gateOk = computeGate(Array(60).fill(good[0]), lane, 60);
+  check("SABOTAGE the GATE refuses a run whose evidence is gone: 2 of 60 readable is below MIN_READABLE_SHARE. The CONTROL - same lane, same recall, all 60 readable - passes, so this cannot be recall failing in disguise",
+    gateGone.passed === false && gateOk.passed === true, { gateGone, gateOk });
+  check("...and the refusal is visible in the Gate object itself, not inferred: unreadable is carried out to every log line the run writes",
+    gateGone.sampled === 60 && gateGone.checked === 2 && gateGone.unreadable === 58, gateGone);
+
+  sabotages++;
+  const small = auditProvenance([good[0], good[0], good[0]], 60);
+  check("SABOTAGE a SMALL run is not punished by the share rule: 3 written, 3 readable is COMPLETE verification, not weak evidence - an absolute floor would refuse honest work, which is why the rule is a SHARE",
+    small.sampled === 3 && small.checked === 3 && small.unreadable === 0 && small.checked / small.sampled >= MIN_READABLE_SHARE, small);
+  sabotages++;
+  const one = auditProvenance([...Array(59).fill(good[0]), { raw: "370 W", label: "PoE budget", cache: gone }], 60);
+  check("SABOTAGE one absent page among 59 readable does NOT refuse the run - a re-fetch replacing a cache entry mid-run is ordinary, and a gate that fails on a single missing file refuses honest work constantly",
+    one.checked === 59 && one.unreadable === 1 && one.checked / one.sampled >= MIN_READABLE_SHARE, one);
 
   // ---- the sample must be a SAMPLE ---------------------------------------------------------
   // `[...x].sort(() => 0.5 - Math.random())` is not a shuffle: with V8's sort the head of the
