@@ -792,7 +792,7 @@ class Browser:
             self._meter_on()
         self._last_hit: dict[str, float] = {}
         self._robots: dict[str, RobotFileParser | None] = {}
-        self.stats = {"fetches": 0, "cache_hits": 0, "robots_blocked": 0, "challenged": 0}
+        self.stats = {"fetches": 0, "cache_hits": 0, "robots_blocked": 0, "challenged": 0, "transient_retries": 0}
 
     # -- the meter and the filter, both PROXIED-ONLY ------------------------------------------
     def _meter_on(self) -> None:
@@ -904,13 +904,58 @@ class Browser:
             time.sleep(gap - dt)
         self._last_hit[host] = time.monotonic()
 
+    #: Chrome network errors that are TRANSIENT - the connection died, the host did not refuse us.
+    #: Deliberately NOT here: ERR_NAME_NOT_RESOLVED, ERR_CERT_*, ERR_BLOCKED_BY_*, and anything
+    #: carrying an HTTP status. Retrying those asks the same question twice and hides a real
+    #: verdict; retrying these asks a question that was never answered.
+    TRANSIENT_NET = ("err_http2_protocol_error", "err_spdy_protocol_error", "err_quic_protocol_error",
+                     "err_connection_reset", "err_connection_closed", "err_connection_aborted",
+                     "err_connection_failed", "err_empty_response", "err_network_changed",
+                     "err_socket_not_connected")
+
+    def _goto(self, url: str, *, wait_until: str, timeout: int, tries: int = 3):
+        """`page.goto` that retries ONLY a transient network failure.
+
+        WHY. The operator photographed a scraper Chrome parked on ERR_HTTP2_PROTOCOL_ERROR for a
+        robots.txt, reloaded it by hand, and it worked. Nobody could reproduce it afterwards -
+        12/12 document fetches returned 200 across four configurations (direct, residential proxy,
+        h2 on, h2 off) while a lane was failing about 40 per cent of the time, and 20/20 requests
+        to the exact failing URL returned 200 in one sitting. That is not a fixed bug, it is an
+        UNREPRODUCIBLE one, and this project's rule for those is a retry and a third state rather
+        than another theory - four rounds went into hunting a root cause that does not hold still.
+
+        WHAT IT COST. A raise here reached `disposition()` as a failed attempt, so the backoff
+        doubled and at MAX_ATTEMPTS the row was BLOCKED. Five unlucky navigations permanently
+        retired a document that was perfectly fetchable: one URL another lane had given up on
+        returned 200 with 32 tables when asked by hand.
+
+        `transient_retries` is its own counter on purpose. A lane whose retries climb is a host
+        degrading, and that is worth seeing BEFORE it becomes a failure - the same reason
+        connection-aborts are bucketed by hour rather than summed.
+        """
+        last: Exception | None = None
+        for i in range(tries):
+            try:
+                return self._page.goto(url, wait_until=wait_until, timeout=timeout)
+            except Exception as e:  # noqa: BLE001
+                msg = str(e).lower()
+                # A refusal must reach the caller as a refusal on the FIRST attempt: asking a
+                # blocked host three times is how a block starts looking like a flaky host.
+                if not any(t in msg for t in self.TRANSIENT_NET):
+                    raise
+                last = e
+                self.stats["transient_retries"] = self.stats.get("transient_retries", 0) + 1
+                if i < tries - 1:
+                    self._page.wait_for_timeout(1200 * (i + 1))
+        raise last
+
     def _robots_for(self, host: str, politeness_ms: int) -> RobotFileParser | None:
         if host in self._robots:
             return self._robots[host]
         rp: RobotFileParser | None = RobotFileParser()
         try:
             self._wait(host, politeness_ms)
-            r = self._page.goto(f"https://{host}/robots.txt", wait_until="domcontentloaded", timeout=20000)
+            r = self._goto(f"https://{host}/robots.txt", wait_until="domcontentloaded", timeout=20000)
             if r and r.status == 200:
                 txt = self._page.evaluate("() => document.body ? document.body.innerText : ''") or ""
                 rp.parse(txt.splitlines())
@@ -985,7 +1030,7 @@ class Browser:
         self._wait(host, politeness_ms)
         # 'commit' returns as soon as the server answers; a challenge page or a slow site then
         # cannot hold the worker for a full minute before we even look at what came back.
-        r = self._page.goto(url, wait_until="commit", timeout=45000)
+        r = self._goto(url, wait_until="commit", timeout=45000)
         status = r.status if r else None
         for state, ms in (("domcontentloaded", 20000), ("networkidle", 8000)):
             try:
@@ -1104,7 +1149,7 @@ class Browser:
         host = urlparse(url).netloc
         if getattr(self, "_origin_host", None) != host:
             self._wait(host, politeness_ms)
-            self._page.goto(origin_page, wait_until="domcontentloaded", timeout=60000)
+            self._goto(origin_page, wait_until="domcontentloaded", timeout=60000)
             self._origin_host = host
         self._wait(host, politeness_ms)
         # an in-page fetch() IS a page request, so the context's response event sees it and the
