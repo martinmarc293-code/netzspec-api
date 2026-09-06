@@ -490,6 +490,43 @@ export function pickSample<T>(items: T[], k: number, rand: () => number = Math.r
  * side. `apply-enumeration.ts` already had this shape (`cache_unchecked`); this one did not.
  * `sampled` now means the sample size, which is what the word says.
  */
+/**
+ * Is the LABEL this fact sat under present on the page?
+ *
+ * A COMPOSED LABEL CAN NEVER BE FOUND VERBATIM, and it was failing facts that are correct. The
+ * extractor composes a label to split a combined cell — the page says `Dimensions (H x W x D)` with
+ * the unit in a different cell, and the fact carries `Dimensions [Centimeters (H x D x W)]`. The
+ * gate demanded that composed string as a substring, so the fact failed whether or not the VALUE
+ * was right. Measured on this lane's own acquired JSON: 316 composed labels, 308 with a readable
+ * page, and the value is present on the page for **308 of 308**. Every one of those facts is
+ * verifiable; only the label we invented is not.
+ *
+ * THIS IS A STRENGTHENING, NOT A LOOSENING, and the distinction is the whole design. The obvious
+ * fix — strip the trailing `[...]` and match what is left — reduces the example to `Dimensions`,
+ * which appears on nearly every hardware page. That would trade a false negative for a weakened
+ * guard, and the label check exists precisely to stop a value that appears coincidentally elsewhere
+ * from counting as evidence.
+ *
+ * So the qualifier is not discarded, it is REQUIRED SEPARATELY: the base label must be on the page
+ * AND every word of 3+ letters inside the brackets must be on the page too. `Dimensions
+ * [Centimeters (H x D x W)]` therefore needs "dimensions" AND "centimeters"; the axis letters are
+ * skipped because H/W/D are one character and carry no evidence. A page that mentions dimensions
+ * but not centimetres still fails, as it should.
+ *
+ * The `>` split is unchanged: a hierarchical label keeps only its last segment, which is what the
+ * page actually renders in the cell.
+ */
+export function labelOnPage(label: string, text: string): boolean {
+  const last = label.split(">").pop() || label;
+  const m = /^(.*?)\s*\[([^\]]*)\]\s*$/.exec(last);
+  if (!m) return text.includes(ws(last));
+  const base = ws(m[1]);
+  if (!base) return false;                       // a label that is ONLY a qualifier proves nothing
+  if (!text.includes(base)) return false;
+  const qualifiers = (m[2].match(/[A-Za-z]{3,}/g) ?? []).map((q) => ws(q));
+  return qualifiers.every((q) => text.includes(q));
+}
+
 export function auditProvenance(
   written: WrittenFact[], sampleN: number, cacheDir: string = CACHE_DIR, rand: () => number = Math.random,
 ): { precision: number; sampled: number; checked: number; unreadable: number; misses: string[] } {
@@ -500,8 +537,8 @@ export function auditProvenance(
     const text = cachedText(s.cache, cacheDir);
     if (text === null) { unreadable++; continue; }
     checked++;
-    const lab = ws(s.label.split(">").pop() || s.label);
-    if (text.includes(ws(s.raw)) && text.includes(lab)) hits++; else if (misses.length < 10) misses.push(`${s.label} = ${s.raw}`);
+    if (labelOnPage(s.label, text) && text.includes(ws(s.raw))) hits++;
+    else if (misses.length < 10) misses.push(`${s.label} = ${s.raw}`);
   }
   const precision = checked ? hits / checked : (written.length ? 0 : 1);
   return { precision: Number(precision.toFixed(4)), sampled: sample.length, checked, unreadable, misses };

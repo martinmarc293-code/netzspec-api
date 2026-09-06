@@ -48,7 +48,7 @@ import { fileURLToPath } from "node:url";
 import { query, closePool, resolveDatabaseUrl, databaseName } from "../../src/store/db.js";
 import { docIdFor } from "../../src/store/docs.js";
 import {
-  main, parseArgs, mapEntryFacts, lifecycleFromEntry, computeGate, auditProvenance, pickSample, runAdapterSuites, cachedText, spareKey, MIN_READABLE_SHARE,
+  main, parseArgs, mapEntryFacts, lifecycleFromEntry, computeGate, auditProvenance, labelOnPage, pickSample, runAdapterSuites, cachedText, spareKey, MIN_READABLE_SHARE,
   resolvePart, spareFlip, anchorStep, SKU_ALIAS_KINDS, EXIT_GATE_FAILED, GATE_REFUSED,
   CACHE_DIR, type Acquired, type WrittenFact,
 } from "../../src/pipeline/apply-acquired.js";
@@ -400,6 +400,42 @@ check("fixture sources: provantage is a tier-4 distributor, meraki a tier-2 vend
   // the default sample of 60 the line {"precision":1,"passed":true,"sampled":2} meant "58 of my 60
   // evidence pages are gone" and was read by three sessions as "small sample". 294 facts were
   // written on the strength of two readable ones, and which two was down to the shuffle.
+  // ---- a COMPOSED label can never be found verbatim, and that failed CORRECT facts -----------
+  // The extractor composes a label to split a combined cell: the page says "Dimensions (H x W x D)"
+  // with the unit in another cell, and the fact carries "Dimensions [Centimeters (H x D x W)]". The
+  // gate demanded that string as a substring, so the fact failed whether or not the VALUE was right.
+  // Measured on this lane's acquired JSON: 316 composed labels, 308 with a readable page, and the
+  // value present on the page for 308 of 308.
+  //
+  // The fix REQUIRES the qualifier separately rather than discarding it. Stripping "[...]" and
+  // matching what is left reduces the example to "Dimensions", which is on nearly every hardware
+  // page - that trades a false negative for a weakened guard, and the label check exists precisely
+  // to stop a value appearing coincidentally elsewhere from counting as evidence.
+  {
+    const page = "dimensions (h x w x d) 4.5 x 27.9 x 44.5 centimeters weight 3.2 kilograms operating humidity <95% rh";
+    check("a composed label passes when the base AND its qualifier are both on the page",
+      labelOnPage("Dimensions [Centimeters (H x D x W)]", page) === true);
+    check("a plain label still matches verbatim, unchanged", labelOnPage("Operating humidity", page) === true);
+    check("a hierarchical label keeps only its last segment", labelOnPage("Environmental > Operating humidity", page) === true);
+    sabotages++;
+    check("SABOTAGE the qualifier is REQUIRED, not discarded - 'Inches' is not on this page, so the "
+        + "fact is still refused even though 'Dimensions' is", labelOnPage("Dimensions [Inches (H x D x W)]", page) === false);
+    sabotages++;
+    check("SABOTAGE a base label the page does not carry still fails", labelOnPage("Acoustic noise [Decibels]", page) === false);
+    sabotages++;
+    check("SABOTAGE a label that is ONLY a qualifier proves nothing and is refused", labelOnPage("[Kilograms]", page) === false);
+    check("single-letter axis tokens are skipped - H/W/D carry no evidence, and demanding them "
+        + "would refuse every dimension label there is", labelOnPage("Dimensions [Centimeters (H x D x W)]", page) === true);
+    sabotages++;
+    check("SABOTAGE not a substring free-for-all: a page mentioning dimensions but not the unit fails",
+      labelOnPage("Dimensions [Centimeters]", "dimensions (h x w x d) 4.5 x 27.9 x 44.5 inches") === false);
+    check("a multi-word qualifier needs ALL of its words",
+      labelOnPage("Cisco smart serial cabling [Cable type]", "cisco smart serial cabling cable type v.35") === true);
+    sabotages++;
+    check("SABOTAGE ...and fails when one of them is absent",
+      labelOnPage("Cisco smart serial cabling [Cable type]", "cisco smart serial cabling v.35") === false);
+  }
+
   sabotages++;
   const gone = "0000000000000000000000000000000000000000.html";
   const missing58 = [good[0], good[0], ...Array(58).fill({ raw: "370 W", label: "PoE budget", cache: gone })];
