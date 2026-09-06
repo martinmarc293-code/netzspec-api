@@ -53,10 +53,43 @@ into `CLAUDE.md`'s rules or memory, never only here.
   the PART is filed in the wrong one. Durable because `apply-enumeration` upserts parts with
   `ON CONFLICT DO NOTHING`, so a re-run cannot revert these.
 
-  **STILL OPEN:** the ~160 parts with no independent evidence. Reading a sample of 18: roughly 10
-  hardware, 5 genuine software images, 3 licences. They need per-part review or a category
-  correction, NOT a rule - and the licences among them are a third class again (neither hardware
-  nor software).
+  **RUN #489 - 37 MORE, ON THE PARENT'S HYPOTHESIS. 103 total, fixpoint reached (a third dry run
+  proposes 0).** They suggested "Flexible Consumption" - Cisco's licensing model FOR HARDWARE -
+  might be the systematic driver. It is, and it passes the test that killed every other name idea:
+  **the population was read in FULL, not sampled.** Corpus-wide the phrase is on 109 Cisco parts -
+  72 already hardware, 36 software, 1 licence - and all 37 non-hardware ones were read by hand. The
+  36 are ASR 9900/9000 line cards and NCS 560/5500/5700 chassis. The single contaminant,
+  `S-A9K-LI-LIC-FC` "Smart License Lawful Intercept - Flexible Consumption", is already classed
+  `license`, so the signal is scoped to `stored = 'software'` and **that scoping is load-bearing,
+  not decorative** - it is the only thing excluding that licence, and it is now a trap.
+  Their two counter-examples (`DCNM-LAN-N77-K9`, a management application matching on "Chassis"
+  because a chassis is what it MANAGES; `C9400-DNX-A-XY`, a subscription) were checked against
+  run #485: **both untouched, both `phys=0`**, so the evidence predicate could never reach them.
+  Their traps validate it rather than threaten it. All seven traps are asserted present in the
+  catalogue AND absent from the write set, so the check cannot pass vacuously.
+
+  **THE GATE CAUGHT MY OWN INCOMPLETE CHANGE.** Adding signal C without updating the precision
+  check - which still read `(d.twin || d.phys > 0)` - scored 36 of 37 valid rows as unproven:
+  `precision 0.027, passed false`, nothing written. Every signal the query accepts must appear in
+  the gate, or it goes RED on correct work. Safe direction, still a bug, now commented.
+
+  **A CASCADE, AND IT IS SOUND.** #485's newly-hardware parts become validated twins, so #489 found
+  `DN3-HW-APL-XL=` "**Spare** Cisco Catalyst Center Appliance (Gen 3)" - the spare of an appliance
+  #485 fixed on its `psu_options`. A spare of hardware is hardware. It converges: run three finds 0.
+
+  **STILL OPEN:** the parts with no independent evidence and no consumption phrase. Reading a
+  sample of 18: roughly 10 hardware, 5 genuine software images, 3 licences. They need per-part
+  review or a category correction, NOT a rule - and the licences among them are a third class again
+  (neither hardware nor software). The parent's broader predicate reached 432 and they measured a
+  25% false-positive rate on it themselves, so 432 is not the number to work from.
+
+  **AND I REPEATED MY OWN O(n^2) MISTAKE.** Chasing the identity of ONE cascaded row, I wrote three
+  successive ad-hoc queries with `regexp_replace` on both sides of a join - the exact shape whose
+  `statement_timeout` I had just fixed in the script - and left three background jobs churning.
+  The script already computed the answer and runs in seconds; the fix was a one-line change to
+  print every row instead of a 10-row preview. **When an ad-hoc query is slow twice, stop writing
+  the third: the tool that already answers it is usually the one you just built.** The preview now
+  prints the FULL set, because a slice would hide exactly the rows worth catching.
 
   **TRAP:** the first query used correlated `EXISTS` with `regexp_replace` on both sides, re-scanning
   87,083 parts per row; it died on `statement_timeout` (57014). It had "worked" in ad-hoc psycopg

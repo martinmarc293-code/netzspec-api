@@ -40,7 +40,10 @@
  *      psu_options, supported_modules, rack_units, weight. Inherited facts are excluded on
  *      purpose: they are exactly the contamination the other half of this defect was about, so
  *      using them here would let one bug certify the other.
- * Neither signal reads the part's name. The name vetoes below exist only to REFUSE.
+ *   C  the vendor's own consumption-model phrase, scoped to parts stored as `software`. This one
+ *      DOES read the name, and it is admissible only because its entire population was read by
+ *      hand - see the SIGNAL C note below. It does not generalise.
+ * A and B never read the name. The name vetoes below exist only to REFUSE.
  */
 import { getPool, closePool, withTx } from "../src/store/index.js";
 import { withRun } from "../src/store/runs.js";
@@ -78,8 +81,32 @@ const vetoed = (name: string | null): string | null => {
   return SOFTWARE_MARKERS.find((m) => n.includes(m)) ?? null;
 };
 
+/**
+ * SIGNAL C - the vendor's own licensing-model phrase, and the one place a NAME is trusted here.
+ *
+ * "Flexible Consumption" is Cisco's pay-as-you-go model FOR HARDWARE, which is very likely why a
+ * human filed the parts carrying it under `ios-nx-os-software`. Suggested by the parent session,
+ * and it survives the test that killed every other name idea tonight: the population was read in
+ * FULL, not sampled. Corpus-wide the phrase appears on 109 Cisco parts - 72 already hardware, 36
+ * software, 1 licence - and all 37 non-hardware ones were read by hand. Thirty-six are line cards,
+ * chassis and systems (ASR 9900/9000, NCS 560/5500/5700). The single contaminant is
+ * `S-A9K-LI-LIC-FC` "ASR 9K Smart License Lawful Intercept - Flexible Consumption", and it is
+ * already classed `license`.
+ *
+ * So the signal is scoped to `stored = 'software'`, and THAT SCOPING IS LOAD-BEARING rather than
+ * decorative: the licence carries the phrase and only the class check excludes it. It is asserted
+ * as a trap below, alongside the parent's two counter-examples - DCNM-LAN-N77-K9 (a management
+ * application matching on "Chassis" because a chassis is what it MANAGES) and C9400-DNX-A-XY (a
+ * subscription matching the same way). Both are excluded here for stated reasons: one has no
+ * phrase, one is not classed software.
+ *
+ * This is a name rule and it is admissible only because its whole population fits on one screen.
+ * It does not generalise - see the abandoned licence-name rule in productClass.ts.
+ */
+const CONSUMPTION_PHRASE = "flexible consumption";
+
 type Row = { id: number; sku: string; name: string | null; stored: string; cat: string | null;
-             twin: boolean; phys: number };
+             twin: boolean; phys: number; phrase: boolean };
 
 const argv = process.argv.slice(2);
 const commit = argv.includes("--commit");
@@ -117,20 +144,23 @@ const { rows } = await pool.query<Row>(
        FROM parts t JOIN phys ON phys.part_id = t.id
       WHERE t.retired_at IS NULL AND t.product_class = 'hardware')
    SELECT n.id, n.sku, n.name, n.stored, c.slug AS cat,
-          (hwk.k IS NOT NULL) AS twin, COALESCE(phys.n, 0) AS phys
+          (hwk.k IS NOT NULL) AS twin, COALESCE(phys.n, 0) AS phys,
+          (n.stored = 'software' AND n.name ILIKE $3) AS phrase
      FROM n
      LEFT JOIN categories c ON c.id = n.category_id
      LEFT JOIN hwk ON hwk.vendor_id = n.vendor_id AND hwk.k = n.k
      LEFT JOIN phys ON phys.part_id = n.id
     WHERE n.stored <> 'hardware'
       AND n.product_class_reason LIKE 'category-is_hardware=false%'
-      AND (hwk.k IS NOT NULL OR COALESCE(phys.n, 0) > 0)
-    ORDER BY n.sku`, [vendor, PHYSICAL_FIELDS]);
+      AND (hwk.k IS NOT NULL OR COALESCE(phys.n, 0) > 0
+           OR (n.stored = 'software' AND n.name ILIKE $3))
+    ORDER BY n.sku`, [vendor, PHYSICAL_FIELDS, `%${CONSUMPTION_PHRASE}%`]);
 
 const refused = rows.filter((r) => vetoed(r.name));
 const doomed = rows.filter((r) => !vetoed(r.name));
 const reasonOf = (r: Row) => r.twin && r.phys ? "evidence:hardware-twin+own-physical-fact"
-  : r.twin ? "evidence:hardware-twin" : "evidence:own-physical-fact";
+  : r.phys ? "evidence:own-physical-fact"
+  : r.twin ? "evidence:hardware-twin" : "evidence:vendor-consumption-model-phrase";
 
 const byReason: Record<string, number> = {};
 for (const d of doomed) byReason[reasonOf(d)] = (byReason[reasonOf(d)] ?? 0) + 1;
@@ -148,13 +178,21 @@ for (let i = 0; i < Math.min(sampleN, shuffled.length); i++) {
   [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
 }
 const sample = shuffled.slice(0, Math.min(sampleN, shuffled.length));
-const good = sample.filter((d) => (d.twin || d.phys > 0) && !vetoed(d.name)).length;
+// Every signal the query accepts must appear here, or the gate scores a valid row as unproven.
+// It caught exactly that when signal C was added and this line still read `(d.twin || d.phys > 0)`:
+// precision 0.027, passed false, nothing written. Keeping the note because the failure mode is a
+// gate that goes RED on correct work, which is the safe direction and still a bug.
+const good = sample.filter((d) => (d.twin || d.phys > 0 || d.phrase) && !vetoed(d.name)).length;
 const precision = sample.length ? good / sample.length : 1;
 
 // recall, as a LIVE sabotage assertion against the real catalogue rather than a fixture: three
 // parts that are genuinely software or a licence and DO look like hardware by name must be absent
 // from the doomed set. If a future widening lets one in, this goes red before anything is written.
-const TRAPS = ["PI-UCS-APL-IMG-3.3", "ACI-MSITE-VAPPL6=", "DN3-HW-APL-XL-LIC", "APIC-SIM-DK9-1.0"];
+// The last three come from the parent session's independent check. S-A9K-LI-LIC-FC is the
+// sharpest: it CARRIES the consumption phrase and is excluded only by the class scoping, so if
+// that scoping is ever dropped this goes red before anything is written.
+const TRAPS = ["PI-UCS-APL-IMG-3.3", "ACI-MSITE-VAPPL6=", "DN3-HW-APL-XL-LIC", "APIC-SIM-DK9-1.0",
+               "S-A9K-LI-LIC-FC", "DCNM-LAN-N77-K9", "C9400-DNX-A-XY"];
 const leaked = TRAPS.filter((t) => doomed.some((d) => d.sku.toUpperCase() === t.toUpperCase()));
 const trapsPresent = (await pool.query<{ n: number }>(
   `SELECT count(*)::int AS n FROM parts WHERE upper(sku) = ANY($1::text[])`,
@@ -170,7 +208,9 @@ if (trapsPresent === 0) console.error("the trap SKUs are absent from the catalog
 
 if (!commit) {
   console.log("\nDRY RUN - nothing written. Re-run with --commit.");
-  for (const d of doomed.slice(0, 10)) console.log(`   ${d.sku.padEnd(24)} ${d.stored} -> hardware  ${(d.cat ?? "?").padEnd(26)} ${String(d.name).slice(0, 44)}`);
+  // EVERY row, not a preview. The whole discipline of this change was reading the full candidate
+  // set rather than a sample - a 10-row slice would hide exactly the rows worth catching.
+  for (const d of doomed) console.log(`   ${d.sku.padEnd(24)} ${reasonOf(d).replace("evidence:", "").padEnd(34)} ${String(d.name).slice(0, 46)}`);
   await closePool();
   process.exit(gate.passed ? 0 : 2);
 }
