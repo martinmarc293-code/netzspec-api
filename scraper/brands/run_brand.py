@@ -44,6 +44,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -91,7 +92,43 @@ NODE = shutil.which("node")
 # AND THE STARTUP COST IS MOSTLY HISTORICAL NOW: with the applied-marker below, a cycle's input is
 # what the FETCH produced, not the day's accumulation - at --max-tasks 60 over two lanes that is
 # ~120 files, so two chunks. The 9-invocation case only arises when draining a backlog once.
-APPLY_CHUNK_FILES = 60
+# 60 was sized for the LOCAL apply (Cisco run 110: 82 files in 374 s). The box has a different
+# binding constraint: `getPool()` sets statement_timeout = 120 s, and a 60-file commit there hits
+# it — 3 files commit fine, 58 files read fine without --commit, 60 with --commit is cancelled.
+# On the box a query costs 0.13 ms, so 120 s is not latency; it is one bulk statement over too many
+# rows. Until that statement is found and fixed, the chunk is the knob: a smaller chunk is strictly
+# safer because each chunk is its own run and a partial drain is durable.
+#
+# THE COST OF GETTING THIS WRONG IS NOT A SLOW APPLY, IT IS NO SCRAPING AT ALL. fetch runs before
+# apply in the cycle, so an apply that overruns delays the NEXT fetch: on 6 Sep the operator looked
+# at the screen and correctly said "no scraper is running" while the supervisor sat in a 326 s
+# local apply with no browser open.
+APPLY_CHUNK_FILES = int(os.environ.get("NETZSPEC_APPLY_CHUNK") or 20)
+
+# APPLY NEXT TO THE DATABASE, NOT ACROSS THE TUNNEL.
+#
+# Postgres runs on the Hetzner box; this laptop reaches it through an SSH tunnel. Measured 6 Sep
+# 2026, the same trivial `select 1` from both sides:
+#
+#     laptop -> Postgres (tunnel)     316.4 ms
+#     box    -> Postgres (localhost)    0.13 ms          ~2,400x
+#
+# An apply is tens of thousands of small queries, so that multiplies through everything. Run 164
+# did 58 files in 326 s here. The identical 58 files on the box took 40 s INCLUDING shipping the
+# JSON and 58 cached pages over the wire, and produced byte-identical results (facts_ok 67,
+# exact=305 case=2, gate passed with checked=60 unreadable=0). Once the box already holds the
+# cache the shipping cost disappears and it is faster still: 495 files in 9 s, measured earlier.
+#
+# OFF BY DEFAULT and switched by an environment variable, because it is a change of where
+# production writes happen. `NETZSPEC_APPLY_ON_BOX=1` turns it on.
+#
+# THE BOX FALLS BACK TO LOCAL rather than failing the chunk. A network blip must not mean facts
+# never land - the whole reason this step exists is that acquired JSON sat unapplied for days.
+APPLY_ON_BOX = os.environ.get("NETZSPEC_APPLY_ON_BOX") == "1"
+APPLY_ON_BOX_SCRIPT = Path("D:/Project/netzspec-parent/apply-on-box.py")
+# A real interpreter, never `python3.11`: that name is a zero-byte App Execution Alias on this
+# machine and resolves only inside an interactive shell.
+APPLY_ON_BOX_PY = Path("D:/Tools/netzspec-monitor-venv/Scripts/python.exe")
 #: Namespace for the per-brand supervisor lock. Distinct from the lane locks (0x4C414E45) and from
 #: the test-database locks, so the three can never be mistaken for one another.
 SUPERVISOR_NS = 0x53555056                       # "SUPV"
@@ -374,6 +411,30 @@ def step(runs: Path, brand_slug: str, name: str, argv: list[str], timeout_s: int
     return p.returncode == 0
 
 
+def step_rc(runs: Path, brand_slug: str, name: str, cmd: list[str], timeout: int) -> int:
+    """Like step(), but returns the EXIT CODE rather than a bool.
+
+    step() collapses every non-zero into False, which is right when the only question is "did it
+    work". It is wrong for the box apply, where 4 means "the gate refused this data" and 1 means
+    "the box is unreachable" -- opposite responses. Collapsing them made a legitimate refusal
+    trigger a 5-minute local retry that reached the same refusal, once per chunk, and those
+    minutes are the next fetch.
+    """
+    log(runs, brand_slug, f"-> {name}")
+    try:
+        p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        log(runs, brand_slug, f"   {name}: TIMED OUT after {timeout}s")
+        return 124
+    for ln in [l for l in (p.stdout or "").splitlines() if l.strip()][-14:]:
+        log(runs, brand_slug, f"     {ln[:200]}")
+    if p.returncode != 0:
+        for ln in [l for l in (p.stderr or "").splitlines() if l.strip()][-3:]:
+            log(runs, brand_slug, f"   ! {ln[:200]}")
+    log(runs, brand_slug, f"   {name}: exit {p.returncode}")
+    return p.returncode
+
+
 def cycle(conn, brand, runs: Path, max_tasks: int, plan_limit: int) -> None:
     slug = brand.slug
     step(runs, slug, "plan", [PY, "-u", "scraper/brands/plan.py", "--brand", slug,
@@ -474,9 +535,33 @@ def cycle(conn, brand, runs: Path, max_tasks: int, plan_limit: int) -> None:
             # FILES, not the directory. Passing the directory is what made the input unbounded;
             # naming the files is what makes each invocation a fixed size. Sixty paths is about
             # 7 KB of command line, far inside the Windows limit.
-            if step(runs, slug, f"apply chunk {i}/{len(chunks)} ({len(chunk)} files)",
-                    [NODE, "--import", "tsx", "src/pipeline/cli.ts", "apply-acquired", *chunk,
-                     "--vendor", brand.vendor_slug, "--commit"], 1800):
+            local_cmd = [NODE, "--import", "tsx", "src/pipeline/cli.ts", "apply-acquired", *chunk,
+                         "--vendor", brand.vendor_slug, "--commit"]
+            label = f"apply chunk {i}/{len(chunks)} ({len(chunk)} files)"
+            ok = False
+            verdict = False        # the box RAN it and the pipeline refused: a result, not an outage
+            if APPLY_ON_BOX and APPLY_ON_BOX_SCRIPT.is_file() and APPLY_ON_BOX_PY.is_file():
+                rc = step_rc(runs, slug, f"{label} [on box]",
+                             [str(APPLY_ON_BOX_PY), str(APPLY_ON_BOX_SCRIPT),
+                              "--vendor", brand.vendor_slug, "--root", str(ROOT),
+                              "--commit", *chunk], 1800)
+                ok = rc == 0
+                # 4 = the apply reached the pipeline and the GATE refused it. Re-running that
+                # locally spends five minutes to be refused identically, and those five minutes
+                # are the next fetch. 3 = the tree is held by its owner mid-edit; also not ours.
+                verdict = rc in (3, 4)
+                if not ok and not verdict:
+                    # Falling back is not the same as succeeding, and the log must not blur them:
+                    # a chunk that only ever lands locally means the box path is broken and
+                    # everyone would go on believing the applies had been moved.
+                    log(runs, slug, f"   apply chunk {i}: THE BOX PATH FAILED - falling back to the "
+                                    f"local (slow) apply. Facts will still land; the speed-up did not.")
+            if not ok and not verdict:
+                ok = step(runs, slug, label, local_cmd, 1800)
+            elif verdict:
+                log(runs, slug, f"   apply chunk {i}: the box RAN it and the pipeline refused (or the tree is held). Not retried locally - that would spend the next fetch "
+                                f"reaching the same answer.")
+            if ok:
                 done_ok += 1
                 # ONLY on success. A chunk that failed stays eligible, so the next cycle retries it
                 # rather than the marker quietly recording work that never landed.
@@ -530,6 +615,19 @@ def main() -> int:
     take_supervisor_lock(conn, brand.slug)
     log(runs, brand.slug, f"=== {brand.display} runner up (tree {ROOT}, cycle {a.cycle_minutes} min, "
                           f"{a.max_tasks} tasks/lane) ===")
+    # SAY WHERE THE APPLIES WILL RUN, at startup, every time. An environment variable that a
+    # supervisor reads and never reports is a setting nobody can confirm from the outside: the
+    # first attempt to enable this looked enabled, logged nothing about it, and applied locally.
+    # Print the reason it is off, not just the fact, so "why is it still slow" is answerable.
+    if APPLY_ON_BOX and APPLY_ON_BOX_SCRIPT.is_file() and APPLY_ON_BOX_PY.is_file():
+        log(runs, brand.slug, "    applies run ON THE BOX (NETZSPEC_APPLY_ON_BOX=1), "
+                              "falling back to local if the box path fails")
+    else:
+        why = ("NETZSPEC_APPLY_ON_BOX is not 1" if not APPLY_ON_BOX
+               else f"missing {APPLY_ON_BOX_SCRIPT}" if not APPLY_ON_BOX_SCRIPT.is_file()
+               else f"missing {APPLY_ON_BOX_PY}")
+        log(runs, brand.slug, f"    applies run LOCALLY (slow: ~5.6 s/file across the tunnel "
+                              f"vs ~0.7 s/file on the box) - {why}")
 
     carried: str | None = None
     try:
