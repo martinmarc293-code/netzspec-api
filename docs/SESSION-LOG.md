@@ -4,6 +4,49 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~02:30 - Opus/CISCO, work block 22: 67 dead rows retired, and a SCOPE LEAK found.**
+
+  **THE ROWS (parent's finding, verified and extended).** 67 rows failing `ERR_TOO_MANY_REDIRECTS`,
+  escalating by hour: 1 -> 9 -> 14 -> 43. The parent probed two with headed Chrome and got a plain
+  **HTTP 404 with no redirect chain at all**, so the `net::` prefix is misleading - it reads as
+  transport, which tells a reader to retry, when the correct verdict is RETIRE. Two things I could
+  check from this side that they could not: **0 of the 67 have ever appeared in `source_docs`**, and
+  **0 are referenced as any part's `datasheet_url`**. They are orphans that have never once
+  succeeded, 12 had already burned all five attempts, and in an oldest-first queue the records that
+  cannot succeed are exactly the ones that keep returning to the head. Retired explicitly with the
+  reason written into `last_error`, inside one transaction, verified from a NEW connection - and
+  **the selector was re-run over its own output and returns 0**, so a second run is a no-op rather
+  than a pass that retires its own retirements.
+
+  **THE PROFILE HYPOTHESIS IS PLAUSIBLE AND NOT ACTED ON.** `worker.py` does reuse a persistent
+  profile per lane (`PROFILE_ROOT = D:\netzspec-chrome-profile`, `launch_persistent_context`), which
+  is the mechanism hpe documented for its own h2 errors. But these URLs 404 on a clean browser, so
+  they are dead regardless of the profile, and a fresh-profile-per-document change trades away
+  session state for a benefit nothing here demonstrates. Noted, not implemented.
+
+  **THE REAL FINDING IS UPSTREAM: 742 of 2,237 QUEUED COLLATERAL ROWS (33%) ARE OUTSIDE THE PACK'S
+  OWN `focus_categories`.** Every one of the 67 sat under `/collateral/ios-nx-os-software/` or
+  `/cloud-systems-management/` - the same two software categories as work block 21's
+  misclassification. Bucketed by the category segment in the URL:
+
+        in focus     switches 701, routers 623, security 559, servers-ucs 416,
+                     interfaces-modules 363, wireless 299, optical-networking 130
+        OUT of scope cloud-systems-management 426, unified-communications 253,
+                     ios-nx-os-software 184, collaboration-endpoints 179, video 160,
+                     hyperconverged-infrastructure 131, storage-networking 106
+
+  **I checked the vocabularies before believing that number**, because URL path segments and
+  `categories.slug` need not be the same namespace - all six probed segments exist as category
+  slugs, so they are. And `hyperconverged-infrastructure` is NOT a spelling of the pack's
+  `hyperconverged-systems`: **both exist as separate categories** and the pack declares only one, so
+  it is a real exclusion rather than a naming artefact.
+
+  **NOT ACTED ON, DELIBERATELY.** Which categories this brand covers is a SCOPE decision, and the
+  rule this project already paid for is that a scope decision reaches the lane owner from the
+  operator, never inferred from a symptom. Retiring 67 dead rows is maintenance; retiring 742 rows
+  because their URL segment is absent from a tuple is a change to what Cisco means. Surfaced with
+  the numbers; the answer decides whether discovery is over-reaching or `focus_categories` is stale.
+
 - **2026-09-07 ~01:00 - Opus/CISCO, work block 21: the reverse misclassification, fixed (run #485).**
   Operator: "don't reverse it, and fix the 225 misclassified parts". Run #467 stands.
 
