@@ -4,6 +4,46 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~09:30 - Opus/CISCO, work block 32: the rule they asked me to add ALREADY EXISTS.**
+  Measurement only. Nothing written.
+
+  **THE REQUESTED FIX WOULD HAVE BEEN A NO-OP THAT LOOKED LIKE A FIX.** hpe found measurements
+  stored as part numbers (`370W`, `12V`), built a unit-anchored refusal with 18 sabotage cases, and
+  asked the other lanes to check their feeds. The parent scanned mine and found `600M` (10 facts)
+  and `32 Gbps` (3). Both real. But running the REAL `is_part_number` from `sources/base.py` rather
+  than assuming it lacked the rule:
+
+        '600M'     -> refused: quantity        '2.4GHz'  -> refused: quantity
+        '32 Gbps'  -> refused: whitespace      '2.3M'    -> refused: quantity
+        '370W'     -> refused: quantity        '12V'     -> refused: quantity
+
+  **The gate already refuses all six**, and its TypeScript twin is kept deliberately in step. Adding
+  a second unit rule would have changed nothing and been committed as a fix - which is the exact
+  shape of `dbconn.py` written and wired into nothing, one day later.
+
+  **SO THE DEFECT IS A BYPASS, NOT A MISSING RULE - and it is bigger than the 2 SKUs reported.**
+
+        parts whose SKU is a bare MEASUREMENT : 77 of 90,306
+        vendor                                : cisco, all 77
+        first_seen_source                     : cisco-catalog-2026, all 77
+        product_class                         : software 40, unknown 26, HARDWARE 11
+        carrying facts                        : 2
+
+  `promote-unknown-skus.ts:189` and `apply-enumeration.ts:182` both call `isPartNumber`.
+  **`migrate-atlas.ts` calls it zero times** - the bulk import is the one part-creating path with no
+  gate, and every one of the 77 came through it. The live paths are protected; the history is not.
+
+  **THE COST IS THE DENOMINATOR, WHICH IS HPE'S POINT AND MY OWN `L-` LESSON ARRIVING SIDEWAYS.**
+  Eleven are classed hardware, so each is a permanent unfillable spec gap inside every coverage
+  ratio this brand reports. And two carry VERIFIED facts: `110V` and `220V` each hold
+  `certifications` and `rohs_compliance` - a voltage string with a compliance record.
+
+  **NOT ACTED ON.** Retiring 77 catalogue rows is a production data change, reversible via
+  `retired_at` but real, and it is the operator's call - as is whether `migrate-atlas` should gate at
+  all, given it is a one-off import that has already run and would only matter on a re-import (which
+  "we will scrap everything and structurally arrange them" makes plausible). Flagged with the
+  numbers rather than fixed at 09:30 on the back of a night with two retracted figures.
+
 - **2026-09-07 ~09:00 - Opus/CISCO, work block 31: the externality retracted, and my lane is the control.**
 
   **I AMPLIFIED A CLAIM NEITHER OF US HAD MEASURED.** The parent said this lane was "a source of lock
