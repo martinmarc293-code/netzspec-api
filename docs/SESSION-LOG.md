@@ -4,6 +4,43 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~14:45 - Opus/CISCO, work block 41: THE DATASHEET CORPUS IS EXHAUSTED. Reordering cannot help.**
+  Measurement only; the reprioritisation I set out to make turned out to be a no-op, and the reason
+  is the finding.
+
+  **THE LIVE WINDOW IS WORSE THAN THE CORPUS AVERAGE, and the parent's 0% is real:**
+
+        last 6 hours   unclassified (page text) 73.8%   family-scoped 26.2%   LANDABLE 0%
+        2-day average  page text 42.5%                  family 42.1%          landable 15.4%
+
+  Cause visible in the same pass: **1,324 entries from non-datasheet URLs against 39
+  datasheet-named.** So I went to promote datasheet-named rows to p250 on the filename split both
+  corpora now agree on (3.65x landed / 3.8x extracted)...
+
+  **...AND THERE WAS NOTHING TO PROMOTE. FIVE ROWS.**
+
+        datasheet-named   done 1,244   skipped 59   blocked 13   QUEUED 5
+        other             done 2,754   blocked 1,335   QUEUED 1,779
+        datasheet documents already held in source_docs : 1,670
+
+  **The lane has fetched essentially every datasheet URL it knows about.** The remaining queue is
+  1,779 non-datasheet pages - white papers, migration guides, licensing - which extract at 20.2
+  facts/doc and land ~0%. **That is the whole explanation for 0% landable, and it means the parent's
+  marketing reorder and my own p250 proposal both address a queue with no datasheets left in it.**
+  Ordering is not the lever; DISCOVERY is. 27 `/index.html` listings are queued against 326 done,
+  and that is the only path to more datasheet URLs.
+
+  **THE REPRIORITISATION WAS A NO-OP AND THAT IS THE USEFUL OUTCOME.** I recorded a rollback cohort,
+  ran the UPDATE inside a transaction, and it touched 0 rows - so the cohort file was deleted rather
+  than left as a record of nothing. **A change that turns out to be a no-op is evidence about the
+  world**, and had I checked only the "queued at p300/p400" counts I would have reported a
+  prioritisation win over 1,188 rows that contain not one datasheet.
+
+  **THIS IS THE THIRD TIME TODAY A FIX WAS PROPOSED FOR A QUEUE-SHAPED PROBLEM THAT IS NOT ONE.**
+  The parent's `/solutions/` reorder was right and insufficient; my p250 was right and empty; and
+  underneath both, the extractor keys 73.8% of what it reads on page text. Reordering a queue cannot
+  raise a landing rate when every remaining row is a document with nothing to land.
+
 - **2026-09-07 ~14:00 - Opus/CISCO, work block 40: two corpora reconciled; the margin test that guarded everything but itself.**
   `da94069`.
 
