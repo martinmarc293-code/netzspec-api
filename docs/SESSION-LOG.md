@@ -4,6 +4,60 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~04:00 - Opus/CISCO, work block 24: what `2,087 -> 0 landable` actually is.**
+  Measurement only. No writes, no code change - the fix is a proposal, not a decision I took.
+
+  **THE SCOPE REVERSAL VINDICATED THE HOLD.** The parent relayed "retire the out-of-focus rows",
+  then twenty minutes later relayed the operator REVERSING it: off-category rows are coverage to
+  ADD, and a missing category should be created rather than filtered. Had I acted on the first
+  relay I would have retired **1,202 rows the operator explicitly wants fetched**. The 79 QA
+  fixtures stay retired - `qa-test-page.html` is not a scope question under any reading. The 677
+  product-collateral and 525 solutions rows are HELD pending my own operator, and the second
+  instruction is relayed too, so it is held on the same grounds.
+
+  **THE REAL SHAPE OF THE FAMILY-SCOPE DEFECT, over 2,616 acquired files (6-7 Sep):**
+
+        family-scoped   6,957 entries   96,469 facts
+        other-scoped    8,108 entries   18,765 facts
+
+  So it is not an hourly 2,087 - it is ~96k facts the apply discards with a single `continue`.
+  **But almost none of that is a suppressed catalogue**, and two of my own guesses about it were
+  wrong before the corpus corrected them:
+
+        specifications (ports, power, weight, memory, data rates)  22,413   23.2%
+        lifecycle / EoL dates (belong in `lifecycle`, not facts)    9,512    9.9%
+        other (glossary tables, prose, headers)                    64,544   66.9%
+
+  **WRONG GUESS 1:** I read three files, saw WEEE / Materials / Takeback tables, and called the
+  bucket environmental boilerplate. Measured: **1.9%**. Three files is not a corpus.
+  **WRONG GUESS 2:** the top labels under `__document__` looked like glossary headers ("Definition",
+  "Units", "Application"), which suggested the whole family bucket was non-specification. It is not:
+  `Ports` 385, `Weight` 365, `Memory` 333, `Power` 514, `Input power requirements` 415, `Data Rates
+  Supported` 731 are all in there. Real specifications, refused wholesale.
+
+  **THE NUMBER THAT MATTERS: 11,454 of the 22,413 spec facts (51%) sit in a document that CARRIES A
+  PID LIST** - the document names the parts they could attach to. The other 10,959 have no pid list
+  and are unattachable whatever the apply does.
+
+  **THE FIX IS NOT "ATTACH THEM", AND THE REPO ALREADY PAID TO LEARN THAT.** Naive PID-list
+  inheritance was tried: run #38 produced 6,954 held conflicts of 11,420 because a chassis datasheet
+  lists everything you can PLUG INTO it - "being listed is being COMPATIBLE; it is not being
+  described". `canInherit` now adds class-B refusal, `describesPart`, and scope-pid checks on top.
+  So the proposal is **route family-scoped entries through the same `canInherit` apply-extract
+  already uses** (`apply-extract.ts:603`), which would refuse most of the 11,454 again - but for a
+  RECORDED reason per fact instead of one blanket `continue`. That converts an invisible discard
+  into a measurable gap, which is the whole argument of this file.
+
+  Two smaller findings worth their own work: the 9,512 lifecycle facts are EoL dates being emitted
+  as `facts` when a `lifecycle` table exists, and the corpus carries French duplicate labels
+  (`Date d'annonce de fin de vie` 498) - the extractor is reading localized pages as if they were
+  new documents.
+
+  **AND I HIT MY OWN cp1252 CRASH AGAIN**, printing a `●` from an acquired file in an ad-hoc script
+  - the identical defect I fixed in `worker.py` hours earlier and wrote a test for. The fix in the
+  worker does not protect a throwaway script. `sys.stdout.reconfigure(errors="replace")` belongs at
+  the top of anything that prints scraped text, including the five-line probe you will throw away.
+
 - **2026-09-07 ~03:15 - Opus/CISCO, work block 23: MY 742 WAS AN UNDERCOUNT, by my own defect.**
 
   **I COMPUTED A RATIO OVER SURVIVORS.** I reported "742 of 2,237 queued collateral rows (33%) are
