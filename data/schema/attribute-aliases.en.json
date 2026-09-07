@@ -6266,8 +6266,8 @@
   ],
   [
    "^input connector",
-   "input_connector",
-   "pdf-server: 12 of 20 UCS spec sheets print 'Input Connector IEC 320 C14' or 'Input Connector Molex 42820'. The line reader glues the standard onto the label, so the rule anchors on the two words that are always the label."
+   "power_input_connector",
+   "pdf-server: catches the forms the anchored `^input connector$` rule above cannot - 'Input Connector Molex 42820' on 11 of 20 UCS spec sheets. Same field deliberately: two keys for one column would split it on whether the trailing standard was moved into the value."
   ],
   [
    "^cordset rating",

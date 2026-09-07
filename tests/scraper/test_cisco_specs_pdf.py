@@ -406,5 +406,70 @@ else:
                or DOUBLED_RUN.search(f.get("label") or "")], repr(facts))
 
 
+print("")
+print("shape TEXTLINE — the specification line itself")
+# WHY THIS SHAPE EXISTS. Cisco rules its spec tables around the HEADER ONLY, so pdfplumber returns
+# [['Description', 'Specification']] with no data rows and every table shape yields nothing. The
+# whole servers-unified-computing category sat at zero deep specs for that layout.
+from adapters.cisco_specs_pdf import spec_pairs, text_lines, text_lines_cased   # noqa: E402
+
+# --- the locator invariant, which is the one that silently corrupts provenance if it breaks ------
+# `text_lines` MUST be `text_lines_cased` lower-cased, because the producer indexes an L locator
+# against one and the gate's auditor re-reads the page through the other. Any divergence in
+# filtering shifts every locator on the page by however many lines disagree, which points each
+# fact at a neighbouring row and reads downstream exactly like fabrication.
+_T = "Header line\n\n  Weight  35 lb (15.9 kg)  \n\nDepth 29.8 in.\n"
+check("text_lines is exactly text_lines_cased lower-cased — producer and auditor cannot drift",
+      text_lines(_T) == [x.lower() for x in text_lines_cased(_T)],
+      repr((text_lines(_T), text_lines_cased(_T))))
+check("blank lines are dropped by BOTH, so an L index means the same thing on each side",
+      len(text_lines_cased(_T)) == 3 and text_lines_cased(_T)[1] == "Weight 35 lb (15.9 kg)",
+      repr(text_lines_cased(_T)))
+check("the line index a pair reports indexes text_lines_cased, not the raw split",
+      [(lb, li) for lb, _v, li in spec_pairs(_T)] == [("Weight", 1), ("Depth", 2)],
+      repr(spec_pairs(_T)))
+
+# --- the split itself ----------------------------------------------------------------------------
+_pairs = dict((lb, v) for lb, v, _li in spec_pairs(
+    "Dimensions (H x W x D) 1.72 in. x 17.3 in. x 29.8 in.\n"
+    "Cordset rating 10 A, 250 V\n"
+    "Max. Cluster Size 32\n"))
+check("a real spec line splits where the VALUE begins, not at a column that is not there",
+      _pairs.get("Dimensions (H x W x D)") == "1.72 in. x 17.3 in. x 29.8 in.", repr(_pairs))
+check("a measurement value splits clean", _pairs.get("Cordset rating") == "10 A, 250 V", repr(_pairs))
+check("SABOTAGE a mixed-case trailing word is NOT moved into the value — 'Max. Cluster Size' + '32' "
+      "must not become 'Max. Cluster' + 'Size 32'",
+      _pairs.get("Max. Cluster Size") == "32", repr(_pairs))
+
+# --- the trailing-standard move, and the trap in it ----------------------------------------------
+# MEASURED, not reasoned about: the line reader leaves the standards body on the LABEL, because the
+# value it introduces starts with a digit. "Input Connector IEC" + "320 C14" is a wrong pair.
+_ic = dict((lb, v) for lb, v, _li in spec_pairs("Input Connector IEC 320 C14\n"))
+check("a trailing ALL-CAPS standard moves into the value when a multi-word label survives",
+      _ic == {"Input Connector": "IEC 320 C14"}, repr(_ic))
+_sf = dict((lb, v) for lb, v, _li in spec_pairs("Safety UL 60950-1\n"))
+check("SABOTAGE it does NOT move when a ONE-word label would be left: bare 'Safety' is in the "
+      "mapper's section-heading refusal list, so moving it turns a good pair into a dropped one",
+      _sf == {"Safety UL": "60950-1"}, repr(_sf))
+_vac = dict((lb, v) for lb, v, _li in spec_pairs("Input Voltage Range VAC 100 to 240\n"))
+check("SABOTAGE a trailing UNIT is not a standards body and stays on the label",
+      "Input Voltage Range VAC" in _vac, repr(_vac))
+
+# --- what it must refuse -------------------------------------------------------------------------
+check("SABOTAGE a table-of-contents line is not a specification (dot leaders are the tell — this "
+      "exact line once made a measurement report a page-3 'Weight')",
+      spec_pairs("Dimensions and Weight . . . . . . . . . . 97\n") == [],
+      repr(spec_pairs("Dimensions and Weight . . . . . . . . . . 97\n")))
+check("SABOTAGE a model heading is not a field", spec_pairs("Cisco UCS C240 M7\n") == [],
+      repr(spec_pairs("Cisco UCS C240 M7\n")))
+check("SABOTAGE a table caption is not a field", spec_pairs("Table 12 Power specifications 1050\n") == [],
+      repr(spec_pairs("Table 12 Power specifications 1050\n")))
+check("SABOTAGE a bare value line has no room for a label and yields nothing",
+      spec_pairs("32 nodes maximum\n") == [], repr(spec_pairs("32 nodes maximum\n")))
+check("SABOTAGE a copyright footer is not a field",
+      spec_pairs("2026 Cisco and/or its affiliates. All rights reserved. Page 12\n") == [],
+      repr(spec_pairs("2026 Cisco and/or its affiliates. All rights reserved. Page 12\n")))
+
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

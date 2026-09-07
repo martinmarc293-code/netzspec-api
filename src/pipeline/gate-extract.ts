@@ -96,15 +96,25 @@ export function eq(a: unknown, b: unknown): boolean {
   return a === b;
 }
 
-export type Locator = { p: number | null; t: number; r: number; c: number };
+/** A cell in a table, or a LINE of the page text. A union rather than one shape with sentinel
+ *  values, so the compiler names every site that assumed a table and has to decide what a line
+ *  means there — the alternative is `t: -1` flowing into a grid index and reading as row minus one. */
+export type Locator =
+  | { p: number | null; t: number; r: number; c: number; line?: undefined }
+  | { p: number | null; line: number; t?: undefined; r?: undefined; c?: undefined };
 
 /**
  * HTML  t0:r1:c2   PDF grid  p12:t0:r3:c1   PDF param  p12:t0:r3  (two-column table, value = column 1).
+ * PDF textline  p12:L37  — the 37th line of `text_lines_cased(page)`, for the ruled-header-only
+ * layout where pdfplumber returns a header row and no data, so there is no cell to name.
  * The legacy auditor accepted only the first form and silently skipped every PDF fact, then
  * reported 0/0 as if it had checked something.
  */
 export function parseLocator(loc: string | undefined | null): Locator | null {
-  const m = /^(?:p(\d+):)?t(\d+):r(\d+)(?::c(\d+))?$/.exec(String(loc ?? ""));
+  const s = String(loc ?? "");
+  const line = /^(?:p(\d+):)?L(\d+)$/.exec(s);
+  if (line) return { p: line[1] === undefined ? null : Number(line[1]), line: Number(line[2]) };
+  const m = /^(?:p(\d+):)?t(\d+):r(\d+)(?::c(\d+))?$/.exec(s);
   if (!m) return null;
   return { p: m[1] === undefined ? null : Number(m[1]), t: Number(m[2]), r: Number(m[3]), c: m[4] === undefined ? 1 : Number(m[4]) };
 }
@@ -137,7 +147,7 @@ const READ_SCRIPT = `
 import sys, json, io, hashlib, pathlib
 sys.path.insert(0, "scraper")
 from adapters.cisco_specs_deep import _rows
-from adapters.cisco_specs_pdf import read_page, text_lines, text_contains, cap_value
+from adapters.cisco_specs_pdf import read_page, text_lines, spec_pairs, text_contains, cap_value
 from bs4 import BeautifulSoup
 req = json.loads(sys.stdin.buffer.read().decode("utf-8"))
 cache = pathlib.Path(sys.argv[1])
@@ -190,12 +200,18 @@ for url, idxs in by_url.items():
             pages = sorted({req[i]["loc"]["p"] for i in idxs if req[i].get("loc") and req[i]["loc"].get("p") is not None})
             tables = {}
             texts = {}
+            pairs = {}
             with pdfplumber.open(io.BytesIO(pdf_f.read_bytes())) as pdf:
                 for pno in pages:
                     if 0 <= pno < len(pdf.pages):
                         grid, text, nmarks, bleed = read_page(pdf.pages[pno])
                         tables[pno] = grid
                         texts[pno] = text_lines(text)
+                        # {line index: value} from the SAME splitter that produced the locator.
+                        # Case is preserved throughout: the caller compares with a case-SENSITIVE
+                        # norm, so a lower-cased value would fail every TEXTLINE fact on case
+                        # alone and read as mass fabrication.
+                        pairs[pno] = {li: v for _lb, v, li in spec_pairs(text)}
             for i in idxs:
                 it = req[i]
                 loc = it.get("loc")
@@ -206,12 +222,22 @@ for url, idxs in by_url.items():
                 res = {"label_in_text": label_in(it["label"], lines),
                        "value_in_text": text_contains(it["value"], lines)}
                 try:
-                    res["cell"] = cap_value(tables[loc["p"]][loc["t"]][loc["r"]][loc["c"]])[0]
-                    res["status"] = "ok"
+                    if loc.get("line") is not None:
+                        # RE-DERIVE with the same splitter that produced the locator, exactly as
+                        # the table branch re-runs read_page. The fact stores the VALUE, which is
+                        # the tail of the line after the label, so handing back the whole line
+                        # would fail cellMatches (an equality, not a containment) for every
+                        # TEXTLINE fact. A line the splitter no longer pairs is out_of_range —
+                        # correct, because the fact is then no longer reproducible from the page.
+                        res["cell"] = cap_value(pairs[loc["p"]][loc["line"]])[0]
+                        res["status"] = "ok"
+                    else:
+                        res["cell"] = cap_value(tables[loc["p"]][loc["t"]][loc["r"]][loc["c"]])[0]
+                        res["status"] = "ok"
                 except Exception:
                     res["status"] = "out_of_range"
                 out[i] = res
-            del tables, texts
+            del tables, texts, pairs
         except Exception as e:
             for i in idxs:
                 out[i] = {"status": "pdf_error", "detail": str(e)[:80]}
@@ -324,7 +350,10 @@ export function suspectFacts(facts: readonly RawFact[], docs: readonly DocRef[])
   let total = 0;
   const table = (loc: string | undefined | null): string | null => {
     const l = parseLocator(loc);
-    return l ? `${l.p ?? ""}:${l.t}` : null;
+    // A LINE locator names no table, so it joins no table's defect set. Returning
+    // `${l.p}:${l.t}` here would render the string "12:undefined" and quietly invent a table —
+    // the compiler does not object, because a template literal accepts undefined.
+    return l && l.line === undefined ? `${l.p ?? ""}:${l.t}` : null;
   };
   for (const d of docs) for (const x of d.defects ?? []) {
     total++; byCode[x.code] = (byCode[x.code] ?? 0) + 1;

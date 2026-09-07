@@ -196,7 +196,12 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   //                            field. The measured values (`40`, `2RU: 43dB`, `83 dBA`) carry no
   //                            distinction from it. A second key would have split one quantity
   //                            across two columns depending on which rule matched first.
-  input_connector: { key: "input_connector", de: "Eingangsanschluss", en: "Input connector", type: "s", examples: ["IEC 60320 C14", "IEC 60320 C20", "Molex"], etim: [], icecat: null },                                                        // 60%
+  //   `input_connector`        the registry already had `power_input_connector` ("Netzeingangsstecker"),
+  //                            owned by the anchored rule `^input connector$`. The measurement missed
+  //                            it because the label it saw was "Input Connector IEC", which matched
+  //                            nothing - only once the splitter moved the trailing standard into the
+  //                            value did the repo's own rule start winning. Two keys here would have
+  //                            split one column in two on whether the acronym happened to be moved.
   cordset_rating: { key: "cordset_rating", de: "Netzkabel-Nennwert", en: "Cordset rating", type: "s", examples: ["10 A, 250 V", "13 A, 250 V", "16 A, 250 V"], etim: [], icecat: null },                                                        // 60%
   temp_operating_extended: { key: "temp_operating_extended", de: "Erweiterte Betriebstemperatur", en: "Extended operating temperature", type: "nr", unit: "°C", band: [-40, 80], etim: [], icecat: null },                                       // 40%
   rear_clearance: { key: "rear_clearance", de: "Freiraum hinten", en: "Rear clearance", type: "n", unit: "mm", band: [0, 2000], etim: [], icecat: null },                                                                                       // 35%

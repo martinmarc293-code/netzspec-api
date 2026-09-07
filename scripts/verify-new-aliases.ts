@@ -26,8 +26,12 @@ const KNOWN = { ...GENERATED_FIELDS, ...FIELD_DICTIONARY } as Record<string, unk
 
 /** label as measured in Cisco's spec sheets -> the key it must reach */
 const MUST_MAP: Array<[string, string]> = [
-  ["Input Connector IEC", "input_connector"],
-  ["Input connector Molex", "input_connector"],
+  // All three reach the field the registry ALREADY had. The anchored `^input connector$` rule owns
+  // the clean label; the appended rule catches the forms it cannot, and points at the same key so
+  // the column cannot be split on whether the PDF splitter moved a trailing standard into the value.
+  ["Input Connector", "power_input_connector"],
+  ["Input Connector IEC", "power_input_connector"],
+  ["Input connector Molex", "power_input_connector"],
   ["Cordset rating", "cordset_rating"],
   ["Extended Operating Temperature", "temp_operating_extended"],
   ["Rear Clearance", "rear_clearance"],
@@ -48,7 +52,7 @@ const MUST_NOT_MAP = [
   "Cordset",                      // the lead, not its rating
 ];
 
-const WITHDRAWN = ["safety_certifications", "sound_pressure"];
+const WITHDRAWN = ["safety_certifications", "sound_pressure", "input_connector"];
 
 let bad = 0;
 console.log("  label -> key, through the real mapLabel()\n");

@@ -392,9 +392,22 @@ def read_page(page, stats: dict | None = None) -> tuple:
     return grid, (p.extract_text() or ""), nmarks, bleed
 
 
+def text_lines_cased(text) -> list:
+    """The page text as normalised, non-empty lines, CASE PRESERVED.
+
+    This is the indexing unit for an `L` locator, and the reason it exists as its own function is
+    that the producer and the provenance auditor must agree about which line is line 7. They agree
+    BY CONSTRUCTION here rather than by convention: `text_lines` is defined as this list
+    lower-cased, so the two can never drift into different filtering. Index against
+    `raw.split("\\n")` instead and every blank line shifts the locator by one, which points a fact
+    at a neighbouring row and reads exactly like a fabrication.
+    """
+    return [" ".join(l.split()) for l in str(text or "").split("\n") if l.strip()]
+
+
 def text_lines(text) -> list:
     """The page text as normalised, non-empty lines -- the unit a PDF actually wraps to."""
-    return [" ".join(l.split()).lower() for l in str(text or "").split("\n") if l.strip()]
+    return [l.lower() for l in text_lines_cased(text)]
 
 
 # ---- is this string on the page ------------------------------------------------------------------
@@ -500,6 +513,101 @@ def cap_value(s, cap: int = VALUE_CAP) -> tuple:
     return s[:cut].rstrip(), True
 
 
+# ---- shape "TEXTLINE": the specification line itself ----------------------------------------------
+#
+# WHY A THIRD SHAPE EXISTS. Cisco rules its spec tables around the HEADER ONLY. On the page of a
+# UCS 6332 sheet carrying dimensions, weight, temperature, humidity and altitude:
+#
+#     pdfplumber, default strategy -> [['Description', 'Specification']]   header row, no data
+#     pdfplumber, text strategy    -> ['Dimensions (H x W', 'x D)', ...]   split mid-label
+#     this adapter's table shapes  -> 0 facts (param=0 grid=0)
+#     the text LINE                -> "Dimensions (H x W x D) 1.72 in. x 17.3 in. x 29.8 in."
+#
+# So on that layout every table-based reader returns nothing, including this one, and the whole
+# servers-unified-computing category sat at zero deep specs for it. The reliable structure is the
+# line, where the split point is where the VALUE begins -- not a column boundary that is not there.
+#
+# NO \b ANYWHERE. Cisco's tokens are not word-shaped ("4x10G", "10GBASE-T"), and every \b-anchored
+# rule in this project has failed on them silently. Unit tokens end with an explicit
+# "(?![A-Za-z])" instead.
+#
+# THE LEADING LOOKBEHIND IS LOAD-BEARING. A value may not begin in the MIDDLE of a token, and
+# Cisco's tokens are not word-shaped -- C240, X210, C9500X-28C8D. Without it "Cisco UCS C240 M7"
+# split at "240" and produced a fact labelled "Cisco UCS C"; excluding only a preceding LETTER was
+# not enough, because the scan then simply matched one character later at "40" and gave
+# "Cisco UCS C2". A digit before the match is as much a mid-token position as a letter is.
+_VALUE_START = re.compile(
+    r"(?<![A-Za-z0-9])"
+    r"(?=(?:-?\d[\d,.]*\s*(?:in\.|cm|mm|lb|kg|g|W|A|V|Hz|GHz|MHz|Gbps|Mbps|"
+    r"°|%|ft|m|BTU|RU|MT/s|GB|TB|MB|dBm|dBA|nm|VA|RPM|CFM)(?![A-Za-z])"
+    r"|-?\d[\d,.]*\s*(?:to|x|X|–|-)\s"
+    r"|\d{2,}"
+    r"|(?:Yes|No|N/A|Supported|Not supported)(?![A-Za-z])))")
+
+#: Lines that are structure, not specification. Every shape here was seen in the output of an
+#: earlier version: a table caption read as a field called "Table", a model heading read as a field
+#: called "Cisco UCS", and a page footer read as the same.
+_NOT_A_FIELD = re.compile(
+    r"^(table|figure|chapter|section|appendix|note|step|page)(?![a-z])"
+    r"|^(cisco|ucs|hpe|hyperflex|nexus|catalyst)\s*$"
+    r"|^\s*(cisco|ucs)\s+[a-z0-9-]+\s*$"
+    r"|^(for more information|see |refer to|www\.|http)"
+    r"|copyright|all rights reserved|trademark",
+    re.I)
+
+#: A label reads like prose, not like a part number or a bare value.
+_LABELISH = re.compile(r"^[A-Za-z(][A-Za-z0-9 ()/,.\-+'’\"%&°]{2,68}$")
+
+#: A TABLE OF CONTENTS entry, whose dot leaders are the tell. Missing this is what made an earlier
+#: measurement report a page-3 "Weight" that was the contents line `Dimensions and Weight . . . 97`
+#: -- a check that matched a different object entirely.
+_DOT_LEADER = re.compile(r"\.\s*\.\s*\.")
+
+#: A standards body or connector family left on the end of the LABEL by the split, because the
+#: value it introduces begins with a number. Measured: "Input Connector IEC" + "320 C14" (the real
+#: pair is "Input Connector" + "IEC 320 C14") and "Safety UL" + "60950-1" (really "Safety" +
+#: "UL 60950-1"). Restricted to ALL-CAPS tokens that are NOT units, because the obvious wider rule
+#: -- any capitalised trailing word -- turns "Max. Cluster Size" + "32" into "Max. Cluster" +
+#: "Size 32", and a unit like VAC belongs on the value's right-hand side, not its left.
+_TRAILING_ACRONYM = re.compile(r"\s([A-Z]{2,5})$")
+
+
+def spec_pairs(text: str) -> list:
+    """[(label, value, line_index)] for every specification line on a page.
+
+    The line index is into `text_lines_cased(text)`, which is what an `L` locator names and what
+    the provenance auditor re-reads. Anything that cannot be split into a label that reads like a
+    label and a value that reads like a value is skipped -- this shape guesses nothing.
+    """
+    out: list = []
+    for li, line in enumerate(text_lines_cased(text)):
+        if len(line) < 8 or _DOT_LEADER.search(line) or _NOT_A_FIELD.search(line):
+            continue
+        m = _VALUE_START.search(line)
+        # `m.start() < 3` rejects a line that IS a value (a bare number, a continuation row):
+        # there is no room for a label in the first two characters.
+        if not m or m.start() < 3:
+            continue
+        label = line[:m.start()].strip(" .:•–-")
+        value = line[m.start():].strip()
+        if not value or not _LABELISH.match(label):
+            continue
+        a = _TRAILING_ACRONYM.search(label)
+        # ... but only where a MULTI-WORD label survives the move. "Safety UL" + "60950-1" would
+        # otherwise become "Safety" + "UL 60950-1", and bare "Safety" is in the mapper's
+        # section-heading refusal list (`^safety$` -> __not_a_spec, beside ^chassis$ and
+        # ^environment$), so a correct pair would be turned into a refused heading. Measured on
+        # the live corpus, not reasoned about: the split label mapped to certifications and the
+        # moved one mapped to nothing at all.
+        if (a and a.group(1).lower() not in _UNITS_KNOWN and value[:1].isdigit()
+                and len(label[:a.start()].split()) >= 2):
+            label, value = label[:a.start()].rstrip(), a.group(1) + " " + value
+            if not _LABELISH.match(label):
+                continue
+        out.append((re.sub(r"\s+", " ", label), value, li))
+    return out
+
+
 # ---- a word split across a column boundary --------------------------------------------------------
 # hci-c225m8-sff p66 renders an "Images" column whose placeholder text is wider than its own
 # column, so the ruling line cuts through the WORD: the header arrives as
@@ -600,7 +708,7 @@ def run(browser, urls: list[str]) -> list[dict]:
         _KNOWN_NORM |= trimmed
         pids_seen: set[str] = set()
         before = len(out)
-        counts = {"param": 0, "grid": 0, "markers": 0, "truncated": 0,
+        counts = {"param": 0, "grid": 0, "textline": 0, "markers": 0, "truncated": 0,
                   "overprint": 0, "not_a_spec": 0}
         defects: list[dict] = []
 
@@ -628,6 +736,11 @@ def run(browser, urls: list[str]) -> list[dict]:
                     in_spec_section = True
                 elif re.match(r"^(SPARE PARTS|CONFIGURING|STEP \d|ORDERING|CONTENTS|OVERVIEW)", head, re.I):
                     in_spec_section = False
+
+                # How many facts this PAGE's tables yield. The TEXTLINE shape below runs only when
+                # this is still zero, which is what makes duplication structurally impossible
+                # rather than a thing to be careful about.
+                page_before = len(out)
 
                 for ti, tbl in enumerate(grid):
                     rows = [r for r in tbl if r]
@@ -724,12 +837,47 @@ def run(browser, urls: list[str]) -> list[dict]:
                                 out.append(rec)
                                 counts["grid"] += 1
 
+                # Shape "TEXTLINE": the specification line itself, for the ruled-header-only
+                # layout where every table shape above returns nothing.
+                #
+                # TWO GATES, and the first is the one that matters. It runs ONLY on a page whose
+                # tables produced no fact, so it cannot restate a PARAM or GRID fact under a
+                # second locator -- the alternative, de-duplicating afterwards, would have to
+                # decide which of two locators is the true one, and the answer is not knowable
+                # once both exist. The second gate is `in_spec_section`, the same one PARAM uses:
+                # without it the ordering and licensing pages read as specifications.
+                #
+                # DOCUMENT-SCOPED, like PARAM and for the same reason (see the scope note at the
+                # top of this file): one spec sheet lists hundreds of PIDs and most are licences
+                # and spares, so a line on the page belongs to the DOCUMENT and the merge step's
+                # scope check decides which parts may inherit it. Never bound to a SKU here.
+                if in_spec_section and len(out) == page_before:
+                    for label, val, li in spec_pairs(text):
+                        if BAD_LABEL.match(label) or len(label) > LABEL_CAP:
+                            continue
+                        if NOT_A_SPEC_LABEL.match(label):
+                            counts["not_a_spec"] += 1
+                            continue
+                        if val.lower() in EMPTY_VAL:
+                            continue
+                        loc = f"p{pi}:L{li}"
+                        v, cut = cap_value(val)
+                        rec = {"family_scope": "__document__", "label": label[:LABEL_CAP],
+                               "value": v, "shape": "TEXTLINE", "locator": loc, "source_url": url}
+                        if cut:
+                            counts["truncated"] += 1
+                            rec["defects"] = [{"code": "VALUE_TRUNCATED", "locator": loc,
+                                               "detail": f"line is {len(val)} characters, stored the "
+                                                         f"first {len(v)} to the last word boundary"}]
+                        out.append(rec)
+                        counts["textline"] += 1
+
             npages = len(pdf.pages)
 
         out.append({"__doc__": True, "source_url": url, "pid_list": sorted(pids_seen),
                     "tables": npages, "defects": defects})
         print(f"  [cisco-specs-pdf] {url[-46:]}: {len(out)-before-1} facts "
-              f"(param={counts['param']} grid={counts['grid']}), {npages}p, "
+              f"(param={counts['param']} grid={counts['grid']} textline={counts['textline']}), {npages}p, "
               f"{len(pids_seen)} PIDs, defects={len(defects)}, "
               f"footnote markers stripped={counts['markers']}, truncated={counts['truncated']}, "
               f"overprinted glyphs removed={counts['overprint']}, "

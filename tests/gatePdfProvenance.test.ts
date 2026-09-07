@@ -106,6 +106,24 @@ check("SABOTAGE a locator with a trailing field is refused", parseLocator("p1:t0
 check("SABOTAGE an empty locator is refused", parseLocator("") === null);
 check("SABOTAGE a negative row is refused", parseLocator("p1:t0:r-3") === null);
 
+// ---- the LINE locator, for the ruled-header-only layout ------------------------------------------
+// Cisco rules its spec tables around the header only, so pdfplumber returns ['Description',
+// 'Specification'] and no data rows, and the TEXTLINE shape reads the page line instead. There is
+// no cell to name, so the locator names a LINE. Before this form parsed, every such fact scored
+// `no_locator`, which the gate counts as a MISS — so the shape could not have landed one fact.
+check("PDF line locator p12:L37",
+  JSON.stringify(parseLocator("p12:L37")) === JSON.stringify({ p: 12, line: 37 }));
+check("line 0 is a line, not a missing one", parseLocator("p3:L0")?.line === 0);
+check("a line locator carries NO table, so nothing can index a grid with it",
+  parseLocator("p12:L37")?.t === undefined && parseLocator("p12:L37")?.c === undefined);
+check("a cell locator still carries no line, so nothing reads it as one",
+  parseLocator("p12:t0:r3:c1")?.line === undefined);
+// The two grammars must not bleed into each other: `L` is not a table and `t` is not a line.
+check("SABOTAGE a line locator with a table part is refused", parseLocator("p1:t0:L3") === null);
+check("SABOTAGE lower-case l is not the line form (the shape writes L)", parseLocator("p1:l3") === null);
+check("SABOTAGE a negative line is refused", parseLocator("p1:L-3") === null);
+check("SABOTAGE a line locator with a trailing field is refused", parseLocator("p1:L3:c1") === null);
+
 // ---- cellMatches: how a re-read cell is compared with a stored value --------------------------------
 // The PDF branch now caps the cell with the extractor's own cap_value before returning it, so an
 // over-cap value compares equal here rather than needing a second copy of the truncation rule in
