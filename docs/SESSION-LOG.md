@@ -4,6 +4,46 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~17:15 - Opus/CISCO, work block 46: THREE TREES, THREE VERSIONS OF ONE "SHARED" FILE.**
+
+  Juniper routed a defect in `src/pipeline/promote-unknown-skus.ts` - `category_from_page` is
+  structurally 0 whenever `--category` is passed, because the assertion branch is tested first - and
+  addressed it here on the grounds that README section 3 assigns shared pipeline files to Cisco.
+  Verified before recording it, and **it cannot be fixed in this tree because the feature does not
+  exist here**:
+
+        tree      category_asserted   --category flag   lines
+        juniper           2                 1            363
+        hpe               0                 0            369
+        cisco             0                 0            305
+
+  `git log -S "category_asserted"` on this tree returns NOTHING - the assertion has never been here.
+  My branch order is `page -> sibling -> default` with no assertion branch at all, so the reported
+  stat defect has no site to occur at.
+
+  **THE REAL FINDING IS THE DRIFT, AND IT IS BIDIRECTIONAL.** README section 3 says shared files are
+  Cisco's, and nothing enforces it. Today alone:
+
+        apply-acquired.ts   MINE had `vendor`/`lanes` since 38b0e9a; hpe's did not, and the
+                            board reported hpe's on-box runs as unattributable
+        worker.py           hpe had a stronger `except (AttributeError, OSError, ValueError)`
+                            uncommitted; I folded it in
+        promote-unknown-skus.ts   juniper has a whole `--category` assertion path; I have 58 fewer
+                            lines and hpe has 64 more than me
+
+  **Three files, three directions, one day.** A peer reports a defect in "your shared file", the
+  owner cannot reproduce it, and both are right - which is the fourth time today a cross-tree claim
+  about a shared file was correct about its author's copy and wrong about mine. **An ownership
+  convention with no mechanism is a convention that produces confident, unreproducible bug reports.**
+  The `DEPLOYED-FROM.json` idea already in CLAUDE.md answers "what is running on the box"; nothing
+  answers "which tree's version of a shared file is the one the owner owns".
+
+  **What juniper's finding is worth regardless:** the branch-order stat defect is genuine in their
+  copy and it is this project's own `sampled`-carrying-`checked` shape - a counter whose name
+  promises page evidence and whose value is decided by a flag. Their fix (count page inference BEFORE
+  the branch decides, or record `page_agreed` / `page_silent` separately) is right, and it belongs in
+  whichever copy is canonical - a question nobody can currently answer.
+
 - **2026-09-07 ~16:45 - Opus/CISCO, work block 45: signed off. One verified item left for the next session.**
 
   **VERIFIED, NOT TAKEN — juniper's `enqueue` finding is real, and it is a one-line fix in a shared
