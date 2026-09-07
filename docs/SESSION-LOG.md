@@ -4,6 +4,48 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~15:15 - Opus/CISCO, work block 42: I attributed one lane's counters to another. Again.**
+
+  **MY OWN ERROR FIRST.** I aggregated `browser={...}` counters across `runs/run_brand-cisco.log`,
+  got **445 of 602 cycles with `fetches == 0`**, and read it as the datasheet lane eating its own
+  tail. **The zero-fetch cycles are `cisco-eol`, not `cisco-datasheets`** - the log carries every
+  lane the supervisor runs. Scoped properly:
+
+        cisco-datasheets  11:16  done=47 failed=13  fetches 14  cache_hits 31
+        cisco-datasheets  11:41  done=39 failed=0   fetches  6  cache_hits 31
+        cisco-eol         every cycle  done=2  fetches 0  cache_hits 2
+
+  **Same shape as reading `runs` without a brand predicate this morning** - one shared artefact,
+  several lanes, and a metric that belongs to whichever one you forgot to filter. Second time in a
+  day, second artefact, same mistake.
+
+  **AND I NEARLY REPORTED THE SUPERVISOR AS DOWN.** `Get-CimInstance ... Name -eq 'python.exe'`
+  matched nothing; the process is `python3.11.exe`. That is the trap CLAUDE.md names in as many
+  words - *process checks lie: python3.11 not python* - and the artifact check (log mtime 60 seconds
+  old, mid-cycle) is what caught it.
+
+  **WHAT IS REAL, AND IT IS LIVE.** `fetch cisco-datasheets: exit 1` on **9 of 195 cycles (4.6%)**:
+
+        worker exit: done=39 failed=0 ... browser={'fetches': 6, 'cache_hits': 31}
+        ! psycopg.OperationalError: consuming input failed: SSL error: unexpected eof while reading
+        !   File "scraper/worker.py", line 1311, in enabled_ids
+        fetch cisco-datasheets: exit 1
+
+  **The worker finishes every task, then dies on a dropped database connection.** All 39 documents
+  were fetched and written; the step still reports failure, so the supervisor sees a failed fetch
+  and backs off from a cycle that actually worked. This is the same connection degradation measured
+  all day (setup amplifying a heavy-tailed link) biting at the END of successful work rather than at
+  connect. `run_brand.py` already has `needs_reconnect()` for exactly this; `worker.py`'s
+  `enabled_ids` does not.
+
+  **AND `cisco-eol` IS A GENUINE LOOP.** The same two EoL notice URLs, served from cache, every
+  cycle, 0 facts each, indefinitely. That is a real "eating its own tail" - just not the lane I
+  attributed it to.
+
+  **The parent's corpus-flatness number stands and is not explained by any of this:** new documents
+  per day 4,763 / 1,205 / 0 / 2 / 1. The datasheet queue being exhausted (work block 41) explains
+  why fetching cannot help; it does not explain why discovery finds nothing new.
+
 - **2026-09-07 ~14:45 - Opus/CISCO, work block 41: THE DATASHEET CORPUS IS EXHAUSTED. Reordering cannot help.**
   Measurement only; the reprioritisation I set out to make turned out to be a no-op, and the reason
   is the finding.
