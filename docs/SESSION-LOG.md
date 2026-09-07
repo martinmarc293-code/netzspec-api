@@ -4,6 +4,54 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~06:15 - Opus/CISCO, work block 27: MY 6,639 WAS OTHER LANES' WORK. Retracted.**
+
+  **THE `runs` TABLE IS SHARED ACROSS ALL THREE BRANDS AND I DID NOT FILTER BY BRAND.** I selected
+  `kind LIKE 'apply-acquired%' AND started_at > now() - 48h`, summed `stats->>'insert'`, got 6,639,
+  and published it as "my lane is not at zero". Those same run ids wrote 7,543 fact rows, and by
+  vendor:
+
+        juniper 5,026    hpe 1,804    aruba 528    cisco 185
+
+  **I reported juniper's and hpe's output as mine, inflated 36x, while correcting someone else for
+  quoting an hourly number as a steady state.** The parent refused to relay either figure until it
+  reconciled - "you just corrected yourself for `insert` naming one thing and being read as another,
+  this is the same column" - and that refusal is the only reason it did not reach the operator.
+
+  **RECONCILED EXACTLY. Their 4,124 is right and their classification is better than mine:**
+
+        apply-specs (Atlas / extract path)          2,483
+        apply-renormalize                             899
+        my retractions (licence 468 + port 88 + 1)    557
+        apply-acquired - THE SCRAPING LANE            185   = 35 verified, 2 corroborated, 148 CONFLICT
+                                                    -----
+                                                    4,124   (matches to the row)
+
+  **SO THE LANE'S OWN 48-HOUR OUTPUT IS 37 CONTENT FACTS AND 148 CONFLICTS.** Conflicts outnumber
+  content four to one. The original "0 facts" reading was far closer to the truth than my correction
+  of it, and the 4,124 that looked like health is overwhelmingly the Atlas path, renormalisation of
+  facts already held, and my own cleanup - none of which is new scraped coverage.
+
+  **THE LESSON IS NOT "CHECK YOUR FILTERS".** It is that a SHARED table needs the brand predicate to
+  be part of how you write the query at all, the way `application_name` is now part of how a
+  connection is opened. `runs`, `facts`, `fetch_queue` and `source_docs` are all shared; a lane
+  metric without a vendor join is another lane's metric wearing your name. Every number I quote from
+  `runs` from here carries a vendor join or it does not get quoted.
+
+  **THE PORTS FINDING IS CONFIRMED AND IT IS A NEW BUG CLASS.** `C9300LM-48UX-4Y-E` stores
+  `[{1G,48,rj45}, {10G,8}, {1G,40}, {10G,4}]` from "48-port 1G copper, UPOE, 8-port 10G
+  Multigigabit, 40-port 1G, 4x 10G SFP+ fixed uplinks". The parser emitted a TOTAL AND ITS OWN
+  BREAKDOWN as sibling groups: the 8 multigig and the 40 1G ARE the 48, so the device has 52 and the
+  groups sum to 100. Distinct from the speed-read-as-count bug (`SFP-1G-T-X`, still serving), under
+  every implausibility threshold, and `verified`. NOT fixed here: it needs a corpus replay, because
+  the last port rule I wrote would have destroyed 100 correct hpe combo-port facts and only the
+  replay caught it. Queued deliberately rather than patched at 06:15.
+
+  **THE EXTERNALITY IS FAIR AND I HAVE NO ARGUMENT WITH IT.** cisco's apply is 0.1 s/file against
+  hpe's 9.4 alone and 69.5 overlapping, unaffected by contention - because 156 of 309 runs write
+  nothing, and refusing everything is cheap. The lane takes row locks 319 times in 48h while
+  carrying none of the cost the other two pay for the overlap.
+
 - **2026-09-07 ~05:30 - Opus/CISCO, work block 26: MY LANE IS NOT AT ZERO. It inserted 6,639.**
 
   **hpe's decomposition method, applied, and it corrected my own headline in one query.** They said
