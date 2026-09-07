@@ -175,6 +175,33 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   mtbf: { key: "mtbf", de: "MTBF", en: "MTBF", type: "n", unit: "h", band: [1000, 10000000], etim: [], icecat: null },
   ip_rating: { key: "ip_rating", de: "Schutzart (IP)", en: "IP rating", type: "s", examples: ["IP30", "IP54", "IP67"], etim: ["EF005474"], icecat: null },
 
+  // --- MEASURED FROM CISCO'S OWN SPEC SHEETS, 7 Sep 2026 ---------------------------------------
+  // Every field below was counted in the vendor's documents before being added: the share is the
+  // proportion of 20 UCS/HyperFlex spec sheets, read line by line, that print it. None was
+  // invented. They are here because they had NO key at all, which meant the label mapped to
+  // nothing, the fact was never written, and the specification was invisible to every query in
+  // the pipeline - including `promote-required`, which can only see what already landed.
+  //
+  // TWO CANDIDATES WERE WITHDRAWN ON 7 SEP AFTER READING THEIR VALUES, and they are recorded here
+  // so nobody adds them back. Both were my own reading of a LABEL; the values disagreed.
+  //
+  //   `safety_certifications`  measured label "Safety UL", which looked like a list field at 60%.
+  //                            Its values are `60950-1`, `62368-1`, `60950-1 Second Edition` - so
+  //                            the label is "Safety" and the value is "UL 60950-1". A standards
+  //                            body plus its number is a VALUE of `certifications`, which 33
+  //                            existing alias rules already say. A field per standards body is
+  //                            exactly what judge-by-values.py calls value_of_another_field.
+  //   `sound_pressure`         `attribute-aliases.en.json` already routes "^sound pressure level$"
+  //                            to `acoustic_noise` with a note saying the dBA figure IS that
+  //                            field. The measured values (`40`, `2RU: 43dB`, `83 dBA`) carry no
+  //                            distinction from it. A second key would have split one quantity
+  //                            across two columns depending on which rule matched first.
+  input_connector: { key: "input_connector", de: "Eingangsanschluss", en: "Input connector", type: "s", examples: ["IEC 60320 C14", "IEC 60320 C20", "Molex"], etim: [], icecat: null },                                                        // 60%
+  cordset_rating: { key: "cordset_rating", de: "Netzkabel-Nennwert", en: "Cordset rating", type: "s", examples: ["10 A, 250 V", "13 A, 250 V", "16 A, 250 V"], etim: [], icecat: null },                                                        // 60%
+  temp_operating_extended: { key: "temp_operating_extended", de: "Erweiterte Betriebstemperatur", en: "Extended operating temperature", type: "nr", unit: "°C", band: [-40, 80], etim: [], icecat: null },                                       // 40%
+  rear_clearance: { key: "rear_clearance", de: "Freiraum hinten", en: "Rear clearance", type: "n", unit: "mm", band: [0, 2000], etim: [], icecat: null },                                                                                       // 35%
+  cluster_size_max: { key: "cluster_size_max", de: "Maximale Clustergröße", en: "Maximum cluster size", type: "n", unit: "nodes", band: [1, 1000], etim: [], icecat: null },                                                                    // 30%
+
   // --- physical / compliance ------------------------------------------------------------------
   dimensions: { key: "dimensions", de: "Abmessungen (H×B×T)", en: "Dimensions (H×W×D)", type: "struct", unit: "mm", shape: "{ h: n, w: n, d: n }", etim: ["EF000040", "EF000008", "EF000049"], icecat: null },
   weight: { key: "weight", de: "Gewicht", en: "Weight", type: "n", unit: "kg", band: [0.01, 500], etim: [], icecat: null },

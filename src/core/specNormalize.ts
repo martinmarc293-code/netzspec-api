@@ -326,6 +326,10 @@ export const COUNT_LIKE = new Set([
   "Einträge", "entries", "count", "Sessions", "Sitzungen", "Peers",
   "CPUs", "GPUs", "cores", "threads", "sockets", "ranks", "bays", "slots",
   "ports", "lines", "devices", "endpoints", "f-stop",
+  // `nodes` arrived with cluster_size_max on 7 Sep 2026. HyperFlex spec sheets print the value as
+  // a bare "32", so without this row convert() could not classify the unit at all and the field
+  // would have refused every value it will ever see.
+  "nodes",
   "HE", "Byte", "AWG",
 ]);
 
