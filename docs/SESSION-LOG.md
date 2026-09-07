@@ -4,6 +4,44 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~06:45 - Opus/CISCO, work block 28: the gate alarm was a misreading; the OUTPUT was not.**
+  `a49ced2`.
+
+  **"97 of 100 gated runs PASSED having checked nothing" - scoped to cisco (`inputs->>'vendor'`,
+  which is how runs are scoped and what I should have used last night):**
+
+        192 succeeded    192 passed    134 with checked == 0
+        runs that checked NOTHING **and wrote facts** : 0
+
+  Every vacuous pass is a run with `insert=0`. The gate LOGIC is right and it is the fix I made
+  earlier tonight: `auditProvenance` ends `checked ? hits/checked : (written.length ? 0 : 1)`, so a
+  run that writes facts it cannot re-read scores 0 and FAILS; a run that wrote nothing passes
+  because there is nothing to be wrong about. Same shape as 2,226 "blocked" rows being 2,130 correct
+  scope refusals: **the count was right and the reading was not.**
+
+  **BUT THE OUTPUT IS WHAT MADE THE MISREADING POSSIBLE, and that is mine.** `precision: 1, passed:
+  true` was emitted both by a run that re-read 60 of its 60 facts and by a run with nothing to
+  check. This file already carries two comments about that exact defect - a number that cannot say
+  which of two opposite things happened - and here it was one field along, in the gate, after I had
+  spent the night writing about it. Added `written` and `vacuous`; nothing weakened, the pass rule
+  untouched. The sabotage case that matters: **`vacuous` tracks having WRITTEN nothing, never having
+  CHECKED nothing**, so the gone-evidence run (60 written, 2 readable) is not excused and still
+  fails. 125 passed, 2 missed - the 2 are the pre-existing provantage suite failures.
+
+  **THE WEIGHT FINDING IS CONFIRMED AND IT IS A SOURCE ERROR, NOT A PARSER ONE.**
+  `N9K-C9504-FM-R` raw `62 lb (2.8 kg)`, stored 2.8, state `verified`. 62 lb is 28.1 kg. A Nexus
+  9504 FABRIC MODULE at 2.8 kg is plausible and at 28 kg is not, so the kg is right and the vendor's
+  "62 lb" is a typo for 6.2. The parser read the parenthetical faithfully; what is missing is that
+  nothing notices the two units contradict each other. That is why the parent's cross-check works
+  where a band cannot: every one of the 407 kg weights is legitimate, 0.1 kg fan module to 404 kg
+  chassis, so no band spares them all and still catches `0.075` read as `75`. 296 of cisco's 466
+  live weight facts state both units and are checkable this way.
+  **And I mis-stated my own query while confirming theirs**: I listed rows carrying both units and
+  called them disagreements. `CW9166 3.54lbs (1.60kg)` is consistent. A count of disagreements needs
+  the tolerance actually applied, which theirs does (15% relative AND 0.5 kg absolute) and mine did
+  not. Not fixed here - a new validation rule at 06:45 on the back of a night with one published
+  wrong number is how the next one happens.
+
 - **2026-09-07 ~06:15 - Opus/CISCO, work block 27: MY 6,639 WAS OTHER LANES' WORK. Retracted.**
 
   **THE `runs` TABLE IS SHARED ACROSS ALL THREE BRANDS AND I DID NOT FILTER BY BRAND.** I selected
