@@ -4,6 +4,48 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~14:00 - Opus/CISCO, work block 40: two corpora reconciled; the margin test that guarded everything but itself.**
+  `da94069`.
+
+  **MY MARGIN TEST WAS REPRODUCING THE DEFECT IT EXISTS TO PREVENT.** D4b asserted a HARDCODED FLOOR
+  (`>= 30 s`) with the worst observed setup only in a COMMENT. Juniper measured a live **16,840 ms**
+  setup; the margin fell from 3.0x to **2.67x** and the test stayed green. *A margin measured
+  against a stale maximum* is the mitigation-with-a-hidden-expiry shape that case was written to
+  catch. `WORST_OBSERVED_SETUP_MS` is now a named, dated, sourced constant and `MIN_SETUP_MARGIN`
+  is 2.5, with D4b DERIVING the margin - so raising the recorded worst re-opens the question.
+  Proved alive by raising it to 20,000 and watching D4b go red at 2.25x.
+  **2.5 rather than 3.0 on purpose:** 45 s already sits near the ~60 s dead-peer ceiling the
+  keepalives impose, so more headroom cannot be bought by raising the timeout - only by fixing the
+  link. If D4b fails, that is what it is saying.
+  And the 16,840 ms connection **would have failed 15 s and did not fail 45 s** - the raise caught
+  something real within the hour rather than buying theoretical headroom.
+
+  **THE FILENAME SPLIT: THE PARENT COULD NOT REPRODUCE IT AND CORRECTLY REFUSED TO ACT. RECONCILED.**
+  They got 44,548 / 36,550 documents at 1.0 / 0.9 facts per doc against my 1,067 / 2,093 at 77.1 /
+  20.2 - 25x the documents, a fortieth of the yield. The cause:
+
+        source_docs matching their filter      5,140
+        rows after joining facts             102,614   <- their 81,098 lives here
+
+  **They counted fact-join rows as documents** - JOIN cardinality read as a yield, which is a lesson
+  already in CLAUDE.md and one I quoted at them this morning about EoL bulletins. Recomputed over
+  DISTINCT documents, both corpora agree:
+
+        their store, LANDED facts     datasheet 32.5/doc   other  8.9/doc   3.65x
+        my 2 days, EXTRACTED facts    datasheet 77.1/doc   other 20.2/doc   3.8x
+
+  Two different questions - landed versus extracted, all-time versus two days - and the same ratio.
+  The absolute gap is exactly the ~85% that never lands. **A discriminator confirmed from two
+  independent corpora measuring different things is worth more than either measurement**, and it is
+  now safe for them to order on. Still an ORDERING signal: 8.9 and 20.2 are both far from 0.
+
+  **AND THEIR `/yield` "305 fetches, all 200, ZERO facts" WAS A BROKEN JOIN**, retracted to all three
+  lanes: `fetches.doc_id` is null on all 906 rows in five hours, so facts, relations AND tables read
+  zero for every lane. **My `tables = 0` finding survives because I opened the cached files and
+  counted `<table` occurrences directly** - the page agreed with me for the wrong reason. Worth
+  keeping as a pair: the same conclusion reached from the cache and from a broken join, and only one
+  of them was evidence.
+
 - **2026-09-07 ~13:15 - Opus/CISCO, work block 39: the replay, the tables=0 answer, and a claim of mine juniper refuted.**
   `scripts/replay-pid-ground-truth.py`. Read-only. Nothing written.
 
