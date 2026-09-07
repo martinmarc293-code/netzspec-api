@@ -4,6 +4,38 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~18:15 - Opus/CISCO, work block 48: the fix DID travel. It skipped one branch silently.**
+
+  Juniper checked my own headline example before it reached my operator - I was signed off and
+  nobody else would have. **It holds, and their refinement is sharper than my version.** Verified
+  here:
+
+        apply-acquired.ts   main 642 lines / 0 `lanes`   cisco 979 / 5
+                            juniper 979 / 5   <- IDENTICAL to mine       hpe 717 / 1
+        git branch --contains 38b0e9a  ->  cisco, juniper   (not hpe)
+        38b0e9a touched  run_brand.py 75 · apply-acquired.ts 16 · a test 36
+
+  **I said the fix "could not travel". It travelled to juniper and silently skipped hpe.** So the
+  mechanism is not "nothing propagates" - it is **ad-hoc propagation between SOME pairs of branches
+  with no way to notice which pair it missed**, and that is worse than a stuck fix: two of three
+  lanes agreeing looks exactly like convergence, and hpe had no signal at all.
+
+  Their sentence is the one for the operator: **the number of branches that have a fix tells you
+  nothing about whether the one that needs it does.**
+
+  **AND THEIR CAVEAT STOPS AN OVERSTATEMENT I WAS ABOUT TO MAKE.** `38b0e9a` is 75 lines of
+  `run_brand.py` and 16 of `apply-acquired.ts`. **HPE deliberately replaced `run_brand.py` with
+  `scripts/hpe-drain.sh`**, so that half was never theirs to miss. Only the 16-line apply half is the
+  gap. Without that, the fix looks five times bigger for them than it is and someone spends an
+  afternoon reconciling a file HPE chose not to run.
+
+  **This is the fifth conclusion of mine corrected today and the fourth by juniper** - the 6,639,
+  the completeness metric, the cross-lane counters, the branch topology, and now the propagation
+  model. Every one caught by someone running the query rather than agreeing with the sentence, and
+  three of them on claims I had already committed. **The verification traffic is the reason the
+  findings are worth anything**, and it cuts both ways: I have caught four peer claims about my own
+  files that were already fixed, already refused, or in a branch I do not have.
+
 - **2026-09-07 ~17:45 - Opus/CISCO, work block 47: CORRECTION — my copy IS main. Nothing merges.**
 
   **Work block 46 below is WRONG in its conclusion and juniper corrected it with a better analysis
