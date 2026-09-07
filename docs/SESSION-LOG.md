@@ -4,6 +4,47 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~17:45 - Opus/CISCO, work block 47: CORRECTION — my copy IS main. Nothing merges.**
+
+  **Work block 46 below is WRONG in its conclusion and juniper corrected it with a better analysis
+  than mine.** I compared three worktrees, found three line counts, and concluded "an ownership
+  convention with no mechanism". The actual topology, verified here:
+
+        worktrees: main / cisco / hpe / juniper - ONE repo, four branches
+
+        blob main    76a3601964e2093f949a6b2007e6a1da55b6ef9c
+        blob cisco   76a3601964e2093f949a6b2007e6a1da55b6ef9c   <- BYTE-IDENTICAL to main
+        blob hpe     1f7400c3...        blob juniper  0d15e3b0...
+
+        ahead of main:  cisco 95 (2 behind) · hpe 93 (0 behind) · juniper 182 (2 behind)
+        git branch --contains 98c3dda  ->  juniper, and only juniper
+
+  **I am not 58 lines behind: my copy of that file IS the canonical one.** The `--category` path is
+  one unmerged commit on juniper's branch. I read three checkouts as three peers drifting when they
+  are three long-lived BRANCHES off a trunk that has barely moved - and I never ran
+  `git worktree list`, which answers it in one command.
+
+  **THE SHARPER FRAMING IS JUNIPER'S AND IT IS NOT MINE MADE POLITE:** it is not that ownership has
+  no mechanism, it is that **NOTHING MERGES**. 182 / 95 / 93 commits ahead of a trunk two commits
+  ahead of nobody. An ownership convention presupposes one copy; four branches that never converge
+  make "shared file" meaningless whatever the README says.
+
+  **AND THE ASYMMETRY IS THE PART THAT COSTS.** Juniper's case is a DEFECT that could not travel -
+  benign, it stayed on the branch that has it. **Mine is a FIX that could not travel:**
+  `apply-acquired.ts` has carried `vendor`/`lanes` in my tree since `38b0e9a` on 5 Sep, hpe's branch
+  does not have it, and the board reported hpe's on-box runs as unattributable for two days. Same
+  mechanism, opposite sign, and only one of the two directions does damage.
+
+  **MY HANDOFF QUESTION IS ANSWERED, not open:** the canonical copy is `main`, and for
+  `promote-unknown-skus.ts` this tree matches it exactly. The open question is not "which copy" but
+  **"are these branches meant to converge"** - and that is an operator question, because if the
+  answer is no then every cross-lane report will keep costing someone a verification pass, and two
+  of my four queued code items touch files that differ between branches.
+
+  **FOURTH TIME TODAY A CONCLUSION OF MINE NEEDED A PEER'S CHECK.** The 6,639, the "no failing
+  state", the cross-lane browser counters, and now this. Every one was caught because someone ran
+  the query instead of agreeing with the sentence, and three of the four were caught by juniper.
+
 - **2026-09-07 ~17:15 - Opus/CISCO, work block 46: THREE TREES, THREE VERSIONS OF ONE "SHARED" FILE.**
 
   Juniper routed a defect in `src/pipeline/promote-unknown-skus.ts` - `category_from_page` is
