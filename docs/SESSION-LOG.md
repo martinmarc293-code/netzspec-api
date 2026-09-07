@@ -4,6 +4,57 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~13:15 - Opus/CISCO, work block 39: the replay, the tables=0 answer, and a claim of mine juniper refuted.**
+  `scripts/replay-pid-ground-truth.py`. Read-only. Nothing written.
+
+  **THE `_KNOWN_NORM` DECISION NOW HAS ITS EVIDENCE.** The widening could not be committed without a
+  corpus replay, so the replay exists. Over 400 unmapped documents:
+
+        PRIZE   pids with the per-URL map (today)     70
+                pids with CATALOGUE ground truth     781        11x, on 35 of 400 documents
+        PRICE   newly found pids describesPart refuses 249 of 711 new (35.0%)
+                  129 component shape · 120 non-hardware class
+        RISK    documents where EVERY new pid is an accessory: 6 of 35
+
+  The 6 are exactly the feared shape - a transceiver-modules datasheet gaining 40 DWDM SFP pids, a
+  7301 router sheet gaining GLC optics. **So the widening is 65% real subjects and 35% compatibility
+  list, and the 35% is absorbed by `describesPart`** - the same guard already producing 1,378
+  `class:license` refusals measured earlier today. The component shapes are copied from
+  `specMerge.ts` verbatim rather than re-implemented; a clean-room stand-in has cost this project
+  twice.
+
+  **`tables = 0` ON A 400 KB PAGE IS NOT AN EXTRACTOR DEFECT. The pages have no tables.**
+  `<table` occurs **zero times in the raw HTML** of all three sampled - 593 KB, 667 KB, 585 KB, with
+  25-32k characters of visible text. Nothing is failing to parse; there is nothing to parse.
+
+  **AND THE FILENAME CONVENTION IS THE DISCRIMINATOR THE URL TREE COULD NOT BE.** All three are
+  `/products/collateral/` pages whose filenames are `migration-options`, `unified-edge`,
+  `partner-holding-smart-accounts`. Across the corpus:
+
+        filename says DATASHEET   1,067 docs   77.1 facts/doc   20% zero-table
+        other /collateral/ page   2,093 docs   20.2 facts/doc   44% zero-table
+
+  **3.8x, and it halves the zero-table rate.** The parent's assumption that `/products/collateral/`
+  means "datasheet" is disproved by its own page - white papers, migration guides and licensing
+  pages live in the same tree. **But 20.2 is not 0**, so this is an ORDERING signal and never a
+  filter, exactly like the marketing pages at 11.2.
+
+  **A CLAIM OF MINE, REFUTED BY JUNIPER, AND THEY WERE RIGHT TO TEST IT.** I said the completeness
+  profile had NO FAILING STATE because `vendor` and `series` are read off the part row and can never
+  be absent. That mechanism is false:
+
+        optical-networking      2,354   pct 100.0 .. 100.0   never below
+        interfaces-modules      1,886   pct 100.0 .. 100.0   never below
+        storage-networking      1,574   pct 100.0 .. 100.0   never below
+        hyperconverged-systems  1,742   pct   0.0 .. 100.0   1,664 BELOW  <- a 2-field profile CAN fail
+
+  **The measurement was right for the three categories and the explanation was wrong**, which is the
+  second time today a conclusion of mine survived its rationale being disproved (the other was the
+  45 s connect bound). Juniper's wording is the defensible one and I have adopted it: **across 5,814
+  parts in three categories the metric has never once produced any value but 100.0** - this
+  project's oldest rule, *a check that has never failed is not a check you have*, pointed at a
+  measurement instead of a test.
+
 - **2026-09-07 ~12:30 - Opus/CISCO, work block 38: a completeness metric with NO FAILING STATE.**
   `0877761`. Juniper's query, run on this lane, plus a correction to my own comment.
 
