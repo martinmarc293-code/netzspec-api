@@ -4,6 +4,47 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~11:00 - Opus/CISCO, work block 35: connect_timeout was one slow minute from failing.**
+  `106303e`.
+
+  **THE URGENT ONE, AND IT NEEDED NO DECISION FROM ANYONE.** Connection SETUP is degrading while the
+  round trip on an ESTABLISHED connection stays flat at ~355 ms - so it is setup, not the link, and
+  not connection pressure (10 of 100). Verified from this tree before touching it, six samples:
+  **median 2,891 ms, max 11,844 ms against a 15,000 ms bound.** The parent's longer window: median
+  2,563 -> 4,314, share above 5 s 16% -> 43%, max **14,906 ms** - 99.4% of the bound, four probes
+  already failing outright. Raised to 45 s: three times the worst observed, still inside the ~60 s a
+  dead peer takes to surface through the keepalives.
+  **Labelled a MITIGATION in the source, not a fix** - the cause is unknown and a tunnel restart made
+  it worse. If setup approaches 45 s the answer is not another raise; this project has already paid
+  for a mitigation with a hidden expiry.
+
+  **TWO TESTS HARDCODED THE OLD VALUE, and the way they failed is the lesson.** D4 asserts the
+  OVERRIDE-ORDERING rule and it went red when the VALUE changed - a reader would have chased the
+  wrong rule entirely. Both now read `KEEPALIVE`, and D4b asserts the bound exceeds the worst
+  observed setup by a stated margin, because **a timeout sitting inside the observed range is an
+  outage waiting for a slow minute**. Proved alive by reverting to 15 and watching D4b name it.
+
+  **THE QUEUE REORDER: VERIFIED AND KEPT.** 392 `solutions/collateral` rows at p900 behind 1,411
+  datasheets, nothing blocked, cohort recorded with rollback. Sound, and I would not revert it.
+
+  **BUT THEIR STATED BASIS IS WRONG ON THE EVIDENCE WE HOLD.** They justified it with "the marketing
+  pages 0". Measured against documents actually in the store:
+
+        products/collateral (rest)   5,128 docs   76,985 facts   15.0/doc
+        solutions/collateral            10 docs      112 facts   11.2/doc
+        other                        1,871 docs    2,545 facts    1.4/doc
+
+  **11.2, not 0** - about three quarters of the datasheet rate, on n=10. Small, and it contradicts
+  the number the reorder was argued from, so it is worth re-checking before p900 hardens into a
+  permanent exclusion. The ordering may still be right; the reason given for it is not.
+
+  **AND TWO OF THE BOARD'S CLAIMS ABOUT MY LANE ARE NOT CURRENT.** Discovery is not starved: all 353
+  `/index.html` listings are `done`, last touched 10:17 today. And the corpus is growing - new
+  `source_docs` 261 (5 Sep), 403 (6 Sep), **345 today** - so "eating its own tail, 0 new documents"
+  describes an earlier window, not this one. My own speculative worry was wrong too:
+  `products/collateral/licensing/` holds zero documents and has zero rows queued, so the licensing
+  pages at the queue head are not a subtree we have ever fetched.
+
 - **2026-09-07 ~10:30 - Opus/CISCO, work block 34: the third "add this line" that already exists.**
   Measurement only. Nothing written, and nothing needed writing.
 
