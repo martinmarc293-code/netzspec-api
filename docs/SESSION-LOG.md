@@ -4,6 +4,58 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~08:30 - Opus/CISCO, work block 30: the parent's four buckets, checked and corrected.**
+  Measurement only.
+
+  **THEIR NUMBERS REPRODUCE EXACTLY - AND THEY MEASURE THE PRIMARY `result` ENTRY ONLY.**
+
+        facts on the PRIMARY result only   22,677   <- every one of their four buckets sums to this
+        facts on `others`                  95,596
+        total the apply iterates          118,273
+
+  `apply-acquired` builds its list as `[res, ...res.others]` - hpe's own note says so - so their
+  audit misses **81% of what the apply sees**. It is the mirror of my shared-table error six hours
+  earlier: I filtered without a brand predicate, they traversed without `others`. Their method was
+  sound and their four bucket definitions are right; the traversal was one level short.
+
+  **RE-DERIVED OVER EVERY ENTRY THE APPLY ACTUALLY ITERATES:**
+
+        1  sku IS a real part          7,899 entries   18,234 facts   15.4%
+        2  __document__ WITH pids        701 entries   20,113 facts   17.0%
+        3  __document__ NO pids        1,152 entries   29,636 facts   25.1%
+        4  sku is page text / header   5,744 entries   50,290 facts   42.5%
+
+        (their primary-only reading: 1,445 / 1,243 / 11,837 / 8,146)
+
+  **THE PILOT TARGET IS 20,113 FACTS ACROSS 701 ENTRIES, NOT 1,243 ACROSS 43 DOCUMENTS - 16x.**
+  Their recommendation to cap the pilot at 43 documents "small enough to read by hand" rests on the
+  undercount. The cap is still the right instinct; the number under it is not.
+
+  **AND BUCKET 4 IS THE LARGEST PROBLEM ON THIS LANE, at 42.5% rather than their 35.9% of a number
+  six times too small.** I read it before believing it, because it could have held legitimate FAMILY
+  labels rather than furniture. It does not:
+
+        5,793 Definition   2,412 Définition (mojibake duplicate)   778 Application   572 Units
+          972 Part Number for Ordering   337 Part Number on Module   222 SKU
+          550 Sustainability topic / 477 Sustainability Topic (case duplicate)
+          263 Described In / 195 Described in (case duplicate)      581 under an EMPTY sku string
+        2,655 distinct non-part sku strings in total
+
+  **The extractor is using TABLE HEADERS AND PAGE CHROME AS THE ENTITY KEY.** No scope decision makes
+  `Units` a part, so the parent is right that this is a refusal bug and not scope - they are simply
+  understating it by 6x. Three duplicate-pair shapes are visible in one listing: mojibake, case, and
+  an empty key.
+
+  **AND IT CONTAINS THE ORDERING-TABLE BUG I SIZED AT 3.2% EARLIER.** `Part Number for Ordering`,
+  `Part Number on Module` and `SKU` are the ordering table's own COLUMN HEADINGS appearing as entity
+  keys - the extractor is keying on the header instead of the PIDs in the rows beneath it. That is
+  the same defect from the other end, and 1,531 facts of it are visible in this listing alone.
+
+  **ONE THING THEIR AUDIT SHOWS THAT MINE DID NOT:** bucket 1 is 18,234 facts attributed to REAL
+  PARTS, against 37 content facts actually inserted in 48 hours. That is not the family-scope defect
+  at all - it is the re-application half, and it means the lane re-derives eighteen thousand facts it
+  already holds. Consistent with 121 of 309 runs being re-application, and it wants a watermark.
+
 - **2026-09-07 ~07:50 - Opus/CISCO, work block 29: named connections, and a retraction to refuse.**
   `cf8ebbf`.
 
