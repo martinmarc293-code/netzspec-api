@@ -4,6 +4,52 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~12:00 - Opus/CISCO, work block 37: ROOT CAUSE of `document_pids = 0`. It is circular.**
+  Diagnosis only, nothing changed. This is the largest finding of the session for this lane.
+
+  **`_is_pid` IS GATED ON A PER-URL SKU MAP, SO THE EXTRACTOR CAN ONLY FIND PIDs ON DOCUMENTS WHOSE
+  PIDs IT ALREADY KNOWS.** `extract_document` sets
+  `_KNOWN_NORM = {_norm_pid(k) for k in _load_sku_map().get(url, [])}` and `_is_pid` consults it.
+  Demonstrated on the Nexus 3000 datasheet the parent sampled - 14 tables, `document_pids = 0`:
+
+        N3K-C3548P-10GX present in the page HTML : True
+        _is_pid with NO ground truth             : False
+        _is_pid WITH the PIDs as ground truth    : True
+        this URL in the sku map (6,003 entries)  : False
+
+  **Sized across the acquired corpus, and the split is total:**
+
+        URL IN the map      938 docs   80,973 facts   18,130 pids   19.3 pids/doc
+        URL NOT in the map  2,184 docs 42,889 facts      248 pids    0.1 pids/doc
+
+  **70% of fetched collateral has no ground truth, and yields 193x fewer PIDs.** That is the whole
+  of the parent's audit explained: their 29,699 facts "with no attachment target in the record" are
+  documents outside a 6,003-entry map. The target is on the page; the extractor is gated from
+  seeing it.
+
+  **THE OBVIOUS FIX IS REAL AND PARTIAL, AND I MEASURED IT RATHER THAN ASSUMING IT.** Seeding
+  `_KNOWN_NORM` from the CATALOGUE (75,126 cisco SKUs) instead of the per-URL map, over 40 unmapped
+  documents with cached pages:
+
+        pids with the per-URL map (today)  :   0
+        pids with catalogue ground truth   : 112   on 4 of 40 documents
+
+  So it converts zero into something on **10% of unmapped documents** and nothing on the other 90%,
+  because their column 0 holds PRODUCT NAMES - `Cisco Nexus 3548` - not PIDs. The parent saw the same
+  from the output side and their read is right: a name is resolvable where a table heading is not,
+  so this is two problems, not one, and only the first is a ground-truth problem.
+
+  **WHY THIS IS NOT COMMITTED.** Widening `_is_pid`'s ground truth changes what every table row is
+  taken to be, on every document, and `document_pids` feeds inheritance scope - the check that
+  exists because 6,954 of 11,420 facts became conflicts when scope was loose. It needs the corpus
+  replay, and the last parser rule I wrote passed 44 cases and would have destroyed 100 correct hpe
+  facts. Also worth noting the function's own docstring warns against widening to "every known SKU
+  the document mentions" - that warning is about SCOPE (`document_pids`) and not about DETECTION
+  (`_is_pid`), and conflating the two would be the easy mistake here.
+
+  **AND A THIRD FAILURE IS HIDING IN THE SAME SAMPLE:** the Catalyst 2960-SF datasheet extracted
+  `tables = 0` from an HTTP 200 page. Not a PID problem at all - nothing was parsed.
+
 - **2026-09-07 ~11:30 - Opus/CISCO, work block 36: "queue or extractor" answered - it is BOTH, 7x and 42.9%.**
 
   The parent parked 392 marketing rows and said the discriminator between *"the queue was the
