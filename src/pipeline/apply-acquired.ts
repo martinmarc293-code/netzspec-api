@@ -421,7 +421,9 @@ export function lifecycleFromEntry(
   };
 }
 
-export type Gate = { precision: number; recall: number; passed: boolean; sampled: number; checked: number; unreadable: number; suites: Record<string, boolean>; misses: string[] };
+export type Gate = { precision: number; recall: number; passed: boolean; sampled: number;
+  checked: number; unreadable: number; written: number; vacuous: boolean;
+  suites: Record<string, boolean>; misses: string[] };
 
 /** Exit code of a DRY RUN whose gate failed (see EXIT CODES at the top). A committed run's gate
  *  failure throws instead, and the CLI wrapper exits 1. */
@@ -623,6 +625,22 @@ export function computeGate(
     precision: audit.precision, recall,
     passed: audit.precision >= 0.98 && recall === 1 && readableShare >= MIN_READABLE_SHARE,
     sampled: audit.sampled, checked: audit.checked, unreadable: audit.unreadable,
+    // HOW MANY FACTS THERE WERE TO VERIFY AT ALL, and whether this pass verified anything.
+    //
+    // `precision: 1, passed: true` is emitted in two OPPOSITE situations: a run that re-read 60 of
+    // its 60 facts on their cached pages, and a run that wrote nothing and therefore had nothing to
+    // check. Line ~591 is right to pass the second - there is nothing to be wrong about - but the
+    // OUTPUT could not tell them apart, so a monitoring board reading gate objects across lanes
+    // reported "97 of 100 gated runs PASSED having checked nothing" as a fault. Scoped to this lane
+    // the dangerous case - checked 0 AND facts written - was ZERO, because a run that writes facts
+    // it cannot re-read scores precision 0 and fails. The count was right and the reading was not.
+    //
+    // This is the defect this file already carries two comments about, one field along: a number
+    // that cannot say which of two opposite things happened. `written` and `vacuous` are the
+    // refusal counted as its own number, so "nothing to check" can never again be read as "checked
+    // nothing".
+    written: written.length,
+    vacuous: written.length === 0,
     suites, misses: audit.misses,
   };
 }

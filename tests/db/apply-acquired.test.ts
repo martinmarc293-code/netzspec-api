@@ -486,6 +486,23 @@ check("fixture sources: provantage is a tier-4 distributor, meraki a tier-2 vend
   check("...and the refusal is visible in the Gate object itself, not inferred: unreadable is carried out to every log line the run writes",
     gateGone.sampled === 60 && gateGone.checked === 2 && gateGone.unreadable === 58, gateGone);
 
+  // ---- A VACUOUS PASS AND A REAL ONE MUST NOT LOOK THE SAME ------------------------------------
+  // `precision: 1, passed: true` was emitted both by a run that re-read 60 of its 60 facts and by a
+  // run that wrote nothing and had nothing to check. A monitoring board reading gate objects across
+  // lanes reported "97 of 100 gated runs PASSED having checked nothing" as a fault; scoped to this
+  // lane, the DANGEROUS case - checked 0 with facts written - was zero, because that scores
+  // precision 0 and fails. The count was right and the reading was not, and the output is what made
+  // the reading possible.
+  sabotages++;
+  const gateNothing = computeGate([], lane, 60);
+  check("a run with NOTHING to verify passes - there is nothing to be wrong about - but says so: vacuous true, written 0",
+    gateNothing.passed === true && gateNothing.vacuous === true && gateNothing.written === 0, gateNothing);
+  check("SABOTAGE a real pass and a vacuous one are DISTINGUISHABLE from the gate object alone - both carry precision 1 and passed true, and only `written`/`vacuous` separate them",
+    gateOk.passed === gateNothing.passed && gateOk.precision === gateNothing.precision
+      && gateOk.vacuous === false && gateOk.written === 60, { gateOk, gateNothing });
+  check("SABOTAGE `vacuous` tracks having WRITTEN nothing, never having CHECKED nothing - the gone-evidence run wrote 60 facts and must NOT be excused as vacuous",
+    gateGone.vacuous === false && gateGone.written === 60 && gateGone.passed === false, gateGone);
+
   sabotages++;
   const small = auditProvenance([good[0], good[0], good[0]], 60);
   check("SABOTAGE a SMALL run is not punished by the share rule: 3 written, 3 readable is COMPLETE verification, not weak evidence - an absolute floor would refuse honest work, which is why the rule is a SHARE",
