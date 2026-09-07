@@ -55,9 +55,16 @@ KEEPALIVE = {
     # CONNECT_TIMEOUT IS A MITIGATION HERE, NOT A FIX, AND IT IS DATED.
     #
     # 15 s was chosen when connection SETUP was a fraction of a second. On 7 Sep 2026 setup began
-    # degrading while the round trip on an ESTABLISHED connection stayed flat at ~355 ms - so it is
-    # setup, not the link, and not connection pressure (10 of 100). Measured from this tree, six
-    # samples: median 2,891 ms, max 11,844 ms. The parent's board over a longer window: median
+    # degrading: measured from this tree, six samples, median 2,891 ms and max 11,844 ms.
+    #
+    # THIS COMMENT ORIGINALLY SAID "it is setup, not the link", BECAUSE THE ROUND-TRIP MEDIAN WAS
+    # FLAT AT ~355 ms. That is false and the juniper session disproved it from 180 samples: the
+    # round-trip P90 QUADRUPLED (1,060 -> 1,705 ms) while the median moved 34 ms. Setup is not an
+    # independent quantity - it costs a whole handful of round trips, so it AMPLIFIES the link.
+    # Measured three ways: 6.2x in juniper's tree, 6.9x in the parent's samples, 8.7x here (noisy,
+    # 2.2-33.8). A 100 ms move in round trip is most of a second in setup, which is exactly why the
+    # median looks calm while setup crosses a bound - and why hunting for a setup-specific cause
+    # finds nothing. A flat MEDIAN is not a flat distribution. The parent's board over a longer window: median
     # 2,563 -> 4,314 ms, share above 5 s 16% -> 43%, **max 14,906 ms** - 99.4% of the old bound,
     # with four probe samples already failing outright.
     #
