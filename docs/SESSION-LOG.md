@@ -4,6 +4,50 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~10:00 - Opus/CISCO, work block 33: stop writing regexes, run the gate over the store.**
+  Measurement only.
+
+  **THREE PATTERNS, THREE ANSWERS, AND ALL THREE WERE THE WRONG INSTRUMENT.** The parent found 117
+  measurement-SKUs where I found 77; the gap was exactly the units my list omitted (GB 19, TB 7,
+  C 7, VA 4, F 3 = 40). My "any short unit" version then over-caught at 185. Their 117 reproduces
+  exactly under their unit set. **Two people hand-writing unit alternations and bracketing the
+  answer from either side is the tell that the predicate should not be a hand-written list at all** -
+  the same lesson as the licence work, where the fix was `classify()` itself rather than a SKU list.
+
+  **THE AUTHORITATIVE PREDICATE ALREADY EXISTS. Running `is_part_number` over the stored catalogue:**
+
+        835 of 90,306 stored parts are refused by the project's own gate
+        by reason : quantity 645 · standard 60 · whitespace 36 · version 35 · footnote 26
+                    protocol 11 · connector 9 · no_letter 6
+        by class  : HARDWARE 572 · unknown 215 · software 48
+        by source : cisco-catalog-2026 788 · datasheet-enum 37 · hexcat 10
+        carrying at least one fact : 174
+
+  **572 in the coverage denominator**, against the 11 I reported an hour ago from the narrow pattern.
+
+  **AND A LIST-FREE PREDICATE I NEARLY PROPOSED WAS FAR WORSE.** The parent observed every junk part
+  is named "Cisco " + its own sku. That signature matches **11,629 parts**, including `1030033` and
+  `10-2887-01` - which CLAUDE.md names explicitly as REAL Cisco assembly numbers the junk gate
+  wrongly refuses. It means "the import had no descriptive name", not "this is junk", and building
+  on it would have condemned 9,219 hardware parts. Checked before proposing, which is the only
+  reason it is a paragraph here instead of a retraction tomorrow.
+
+  **TWO CORRECTIONS TO WHAT I TOLD THE PARENT AN HOUR AGO:**
+  * "The live paths are protected; the history is not" is TOO STRONG. 37 refused parts came from
+    `datasheet-enum` and 10 from `hexcat` - paths that are not the Atlas import. 788 of 835 are the
+    import, so the shape of the claim holds and its absoluteness does not.
+  * **"Refused by the gate" is NOT the same as "junk".** `sources/base.py` documents its own
+    false-refusal classes in writing - `standard`, `protocol`, `connector` are prefix-plus-tail
+    matches that refuse real parts like `10GBASE-T` and `CE-10GSFP-SR`. That is 80 of the 835, and
+    the file says it is a recorded defect rather than a rule. Anyone acting on this number must
+    split the 645 `quantity` refusals from those 80.
+
+  Also live and its own problem: `IPv6` is stored as a cisco part, classed HARDWARE, carrying
+  **27 facts**.
+
+  **NOT ACTED ON.** 835 rows, 174 carrying facts, and a predicate whose own author documents where it
+  over-refuses. That is an operator decision with a mandatory split in it, not a 10:00 cleanup.
+
 - **2026-09-07 ~09:30 - Opus/CISCO, work block 32: the rule they asked me to add ALREADY EXISTS.**
   Measurement only. Nothing written.
 
