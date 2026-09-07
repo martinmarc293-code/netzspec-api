@@ -3686,13 +3686,13 @@
   ],
   [
    "^Optical\\s+input\\s+range$",
-   "optical_input_range",
-   "video: label cited as evidence for the field"
+   "input_power_range",
+   "audit 7 Sep 2026: identical English label to input_power_range, which is reachable by 9 rules and holds the facts while this key held 0. Same split, found by the same scan."
   ],
   [
    "^Input\\s+Power$",
-   "optical_input_range",
-   "video: label cited as evidence for the field"
+   "input_power_range",
+   "audit 7 Sep 2026: identical English label to input_power_range, which is reachable by 9 rules and holds the facts while this key held 0. Same split, found by the same scan."
   ],
   [
    "^RF\\s+output\\s+level$",
@@ -4676,8 +4676,8 @@
   ],
   [
    "^indicator leds$",
-   "indicator_leds",
-   "switches: Describes the front-panel LED set — a real physical attribute, not a diagnostic capability list."
+   "status_leds",
+   "audit 7 Sep 2026: identical German label to status_leds ('Status-LEDs'), which holds 59 facts while this key held 0 and both were reachable - so this label was the one route into an empty twin, splitting one shop column in two."
   ],
   [
    "^standard mibs$",
@@ -6271,8 +6271,8 @@
   ],
   [
    "^cordset rating",
-   "cordset_rating",
-   "pdf-server: '10 A, 250 V' / '13 A, 250 V' on 12 spec sheets. 100% measurement shape - this is the mains lead the unit ships with, not psu_rated_output."
+   "power_cord_rating",
+   "pdf-server: catches 'Cordset rating: 10 A, 250 V' where the anchored ^power[ -]cord rating$ rule cannot. SAME key deliberately - two keys for one column splits it on which wording the page used. Note the values are an ordering table's, so this belongs to the CORD's own SKU and never document-scoped onto a chassis."
   ],
   [
    "^extended operating temperature",
