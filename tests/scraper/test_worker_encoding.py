@@ -82,9 +82,10 @@ check("E5", "SABOTAGE stderr is reconfigured too - the adapters print their exce
             "(`print(f'  ! {url}: {e}', file=sys.stderr)`), so protecting only stdout would leave "
             "the same crash on the other stream",
       "sys.stdout, sys.stderr" in SRC, "stderr is not covered")
-check("E6", "SABOTAGE the reconfigure cannot itself throw - a stream already wrapped, or one that "
-            "is not a TextIO at all, must not take the worker down at import",
-      "except (AttributeError, ValueError)" in SRC, "the reconfigure is unguarded")
+check("E6", "SABOTAGE the reconfigure cannot itself throw - a stream already wrapped, one that is "
+            "not a TextIO, or one whose fd is gone (OSError, per hpe) must not take the worker down "
+            "at import, where a throw happens before anything can log why",
+      "except (AttributeError, OSError, ValueError)" in SRC, "the reconfigure is unguarded")
 
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

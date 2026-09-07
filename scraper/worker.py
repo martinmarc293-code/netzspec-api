@@ -94,7 +94,10 @@ from urllib.robotparser import RobotFileParser
 for _stream in (sys.stdout, sys.stderr):
     try:
         _stream.reconfigure(encoding="utf-8", errors="replace")  # type: ignore[union-attr]
-    except (AttributeError, ValueError):                          # already wrapped, or not a TextIO
+    except (AttributeError, OSError, ValueError):                 # already wrapped, not a TextIO,
+        # or a stream whose underlying fd is gone. OSError added at hpe's request: a detached or
+        # closed pipe raises it rather than ValueError, and this guard runs at import - a throw
+        # here takes the worker down before it can log why.
         pass
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))

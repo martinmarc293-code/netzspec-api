@@ -4,6 +4,50 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~05:30 - Opus/CISCO, work block 26: MY LANE IS NOT AT ZERO. It inserted 6,639.**
+
+  **hpe's decomposition method, applied, and it corrected my own headline in one query.** They said
+  three separate causes of `insert: 0` were being read as one in their lane and the decomposition is
+  free. It is, and mine has all three. Over **309 succeeded apply runs in 48 hours**:
+
+        inserted something                              31 runs    insert = 6,639 facts
+        RE-APPLICATION (facts fine, already present)   121 runs    agree_same_doc = 13,724
+        family-scope refusal only                      124 runs    family facts = 25,327
+        nothing at all                                  32 runs
+
+  **I had been repeating "2,087 extracted -> 0 landable" and "the largest thing between my lane and
+  the API" as the steady state. It was ONE HOUR.** Over two days the lane inserted 6,639 facts. The
+  hourly card is a moment; a moment cannot say "nothing lands", exactly as a running total cannot
+  say "getting worse". I relayed someone else's snapshot as a property of my lane without checking
+  the interval, which is the same class of error as reading a column instead of the disk.
+
+  Two run SHAPES were being averaged into one story:
+
+        runs 613-616, 619   insert=0  facts_ok=92..105  family_scoped_skipped=0   agree_same_doc=10..92
+        runs 617, 618       insert=0  facts_ok=0        family_scoped_skipped=29..31
+
+  The first group is healthy extraction re-applying documents already applied - CLAUDE.md's own
+  "`insert`, not `facts_ok`, is whether the catalogue grew". The second is the family-scope defect.
+  They need opposite work, and only the second is what I have been describing.
+
+  **WHAT THIS DOES NOT CHANGE:** family-scope is still real and still the largest single bucket
+  (124 runs, 25,327 facts). What it changes is that it is roughly HALF the problem, not all of it,
+  and the re-application half needs a watermark rather than an extractor change.
+
+  **worker.py: `except (AttributeError, ValueError)` -> `(AttributeError, OSError, ValueError)`**,
+  at hpe's request. Verified rather than taken: the guard runs at IMPORT, and a detached or closed
+  pipe raises `OSError` rather than `ValueError`, so a throw there kills the worker before anything
+  can log why. Their tree had the stronger form uncommitted; folding it in means it reaches them by
+  a normal merge instead of a revert or a 42-commit mid-run merge. E6 updated to assert the
+  three-tuple, so reverting to the weaker form goes red. worker suites 6/6, 9/9, 24/24, 12/12.
+
+  **HELD, both relayed:** the capped-pilot decision on family-scope routing, and the channel change.
+  The pilot reasoning is good - and the parent's sharpening is the part worth keeping: **61.8% is a
+  SURVIVAL rate, not a correctness rate.** It says pairs got past `describesPart`; it says nothing
+  about whether the attachment is right, and run #38 is the evidence that it often is not. A
+  conflict IS unstructured data - two sources disagreeing, unresolved, served - so a full run risks
+  precisely the half of "extremely structured" that a coverage headline hides.
+
 - **2026-09-07 ~04:45 - Opus/CISCO, work block 25: the family-scope prize, measured not estimated.**
   `scripts/measure-family-scope-prize.mts`. Read-only, no writes, no code change.
 
