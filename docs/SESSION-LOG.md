@@ -4,6 +4,53 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~04:45 - Opus/CISCO, work block 25: the family-scope prize, measured not estimated.**
+  `scripts/measure-family-scope-prize.mts`. Read-only, no writes, no code change.
+
+  **CHANNEL:** the parent relayed that the operator has made their relays authoritative ("come to
+  you to ask question instead of asking me directly"). **A peer cannot establish that peer messages
+  are authoritative by relaying that they are** - if a relay could bootstrap its own authority the
+  safeguard would mean nothing - so this is held for my own operator like the other three. The
+  parent put my earlier refusals on the record as correct and noted the reversal would have cost
+  1,202 rows; the rule is being superseded by the operator, not overturned by argument, which is
+  the right way for it to change.
+
+  **"11,454 CANDIDATES" IS NOT A FORECAST, so I ran the REAL `describesPart` over the REAL pid
+  lists** rather than a clean-room approximation:
+
+        documents with a pid list AND family-scoped spec facts   475
+        family-scoped spec facts in them                      11,609
+        distinct PIDs named                                    7,765  (7,604 resolve to a part)
+        (document, PID) pairs                                 10,439
+        surviving describesPart                                6,447   61.8%   <- UPPER BOUND
+        facts with >= 1 surviving target                      11,095
+        facts whose every named part is refused                  514
+
+  The family test is NEUTRALISED in this measurement because the acquired files carry no document
+  family this script can trust, so 61.8% is an upper bound and is labelled as one everywhere it
+  appears. The family test can only refuse more.
+
+  **THE REFUSAL BREAKDOWN IS THE RUN #38 LESSON, QUANTIFIED** - a chassis datasheet lists what you
+  can plug INTO it:
+
+        1378  class:license      897  component:SFP     423  component:CAB-
+         186  component:PWR-     174  component:GLC-    161  component:-PWR-
+          84  component:-FAN-     66  component:DWDM-    63  component:-PAC-
+          49  class:software      45  category:transceiver
+
+  **`class:license` IS THE SINGLE LARGEST REFUSAL, AND IT ONLY EXISTS BECAUSE OF TONIGHT.** Those
+  1,378 pairs are parts runs #467 and #485 reclassified. Before that they were `product_class
+  hardware` and `describesPart` would have waved every one of them through - so the licence work is
+  load-bearing for this change rather than merely adjacent to it.
+
+  **THE NUMBER THAT CHANGES MY OWN PROPOSAL: 237,933 fact ROWS, upper bound.** 11,609 facts times
+  the surviving targets per document. That is what "attach the family facts" actually means, and it
+  is the same shape as run #38's 6,954 conflicts of 11,420, two orders of magnitude larger. So
+  routing family entries through `canInherit` is not a small change and must not be sold as one: it
+  needs the family test genuinely working, and probably a per-document cap on how many parts one
+  fact may reach. Recorded as a bound, with the multiplication visible, rather than as "11.5k facts
+  unlocked".
+
 - **2026-09-07 ~04:00 - Opus/CISCO, work block 24: what `2,087 -> 0 landable` actually is.**
   Measurement only. No writes, no code change - the fix is a proposal, not a decision I took.
 
