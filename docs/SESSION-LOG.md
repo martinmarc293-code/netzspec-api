@@ -4,6 +4,37 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~09:00 - Opus/CISCO, work block 31: the externality retracted, and my lane is the control.**
+
+  **I AMPLIFIED A CLAIM NEITHER OF US HAD MEASURED.** The parent said this lane was "a source of lock
+  pressure... 319 row-lock acquisitions in 48h while carrying none of the cost", and I replied that
+  their finding was "stronger than you put it" and that I had "no argument with any of it". It is
+  now disproven: **0 ungranted locks in every one of 40 samples**, 78 of 79 non-idle backends sitting
+  in `Client:ClientRead`, and a round trip of 333 ms against 0.013 ms of server-side execution -
+  **25,000 to 1**. Postgres was doing nothing during the window an apply could not finish 8 files in
+  15 minutes. Agreeing with a mechanism is not checking it, and "no argument with any of it" was me
+  adding weight to a story rather than testing it.
+
+  **MY LANE IS THE NATURAL EXPERIMENT FOR THEIR CONCLUSION, and I had not said so.** 675 `[on box]`
+  markers in `runs/run_brand-cisco.log`: cisco applies already run ON THE BOX
+  (`NETZSPEC_APPLY_ON_BOX=1`), so they never pay the per-statement tunnel tax. Splitting my own
+  per-file cost to separate the two candidate causes:
+
+        cisco, wrote facts     n=  1   median 0.072 s/file
+        cisco, wrote nothing   n=197   median 0.045 s/file
+        hpe, through tunnel            9.4 s/file alone, 69.5 overlapping
+
+  A cisco run that WRITES is 1.6x one that writes nothing, and **130x cheaper than hpe's**. So
+  "cisco is fast because it does nothing" is not the explanation - or not the main one; running where
+  the database is, is. **n=1 on the writing side, so this is suggestive and not proof**, and it is
+  the one number in this block I would not let anyone quote without the n beside it.
+
+  **AND I ASSUMED A FIELD'S TYPE GETTING THERE.** `inputs->'files'` is a NUMBER; I wrote
+  `jsonb_array_length(inputs->'files')` and got zero rows in both buckets - a query that returns
+  nothing for both arms of a comparison looks like "no data" and is actually "wrong question". The
+  parent had reported the adjacent slip an hour earlier (reading `files` from `stats` where it lives
+  in `inputs`). Two people, one field, two different wrong assumptions about it in one night.
+
 - **2026-09-07 ~08:30 - Opus/CISCO, work block 30: the parent's four buckets, checked and corrected.**
   Measurement only.
 
