@@ -217,7 +217,8 @@ def main() -> int:
     url = load_env().get("DATABASE_URL")
     if not url:
         raise SystemExit("DATABASE_URL is not set (.env at the repo root)")
-    with psycopg.connect(url, autocommit=True, row_factory=dict_row) as conn:
+    with psycopg.connect(url, autocommit=True, row_factory=dict_row,
+                         application_name="netzspec/watchdog/cisco") as conn:
         rep = report(conn, brand, a.window)
 
     out = ROOT / "runs" / "brands" / brand.slug

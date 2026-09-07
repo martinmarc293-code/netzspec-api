@@ -255,7 +255,8 @@ def main() -> int:
     url = load_env().get("DATABASE_URL")
     if not url:
         raise SystemExit("DATABASE_URL is not set")
-    with psycopg.connect(url, autocommit=True, row_factory=dict_row) as conn:
+    with psycopg.connect(url, autocommit=True, row_factory=dict_row,
+                         application_name="netzspec/verify_api/cisco") as conn:
         o = verify(conn, brand, a.base_url, token, a.sample)
 
     print(render(o))

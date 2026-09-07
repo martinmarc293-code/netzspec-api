@@ -269,7 +269,8 @@ def run(args: argparse.Namespace) -> int:
     db = None
     if args.db:
         import psycopg
-        db = psycopg.connect(env["DATABASE_URL"], autocommit=True)
+        db = psycopg.connect(env["DATABASE_URL"], autocommit=True,
+                             application_name="netzspec/images/cisco")
         src_id = db.execute("SELECT id FROM sources WHERE slug = 'cisco-datasheets'").fetchone()[0]
 
     browser = Browser(mode="cdp" if args.cdp else "profile", cdp_url=args.cdp or "http://127.0.0.1:9222", headless=not args.cdp)
@@ -600,7 +601,8 @@ def run_from_db(args: argparse.Namespace) -> int:
     out_dir = Path(env.get("IMAGE_DIR") or (ROOT / "runs" / "images"))
     out_dir.mkdir(parents=True, exist_ok=True)
     manifest = out_dir / "manifest.jsonl"
-    db = psycopg.connect(env["DATABASE_URL"], autocommit=True, row_factory=dict_row)
+    db = psycopg.connect(env["DATABASE_URL"], autocommit=True, row_factory=dict_row,
+                         application_name="netzspec/images/cisco")
 
     batch = db.execute(LEASE_SQL, {"max_attempts": R["max_attempts"], "lease_minutes": R["lease_minutes"],
                                    "limit": args.limit or 40}).fetchall()

@@ -59,6 +59,7 @@ sys.path.insert(0, str(ROOT / "scraper"))
 
 import psycopg                                   # noqa: E402
 from psycopg.rows import dict_row                # noqa: E402
+from brands import dbconn                       # noqa: E402
 
 from brands import load_brand                    # noqa: E402
 from brands import ownership as OWN              # noqa: E402
@@ -667,7 +668,10 @@ def main() -> int:
     # Named, so the reconnect path builds the connection exactly the same way this one did rather
     # than growing a second spelling of it that can drift.
     def psycopg_connect():
-        return psycopg.connect(env["DATABASE_URL"], autocommit=True, row_factory=dict_row)
+        # NAMED, and through dbconn so the keepalives come with it. An anonymous backend is one
+        # nobody can attribute, and the correct response to an unattributable blocker is to LEAVE
+        # IT - which is how a dead supervisor's session lock refused every restart for 20 minutes.
+        return dbconn.connect(env["DATABASE_URL"], f"netzspec/run_brand/{brand.slug}")
 
     conn = psycopg_connect()
     take_supervisor_lock(conn, brand.slug)

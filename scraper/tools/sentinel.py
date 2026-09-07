@@ -239,7 +239,8 @@ def db_state() -> dict | None:
     try:
         import psycopg
         env = dict(l.strip().split("=", 1) for l in (ROOT / ".env").read_text(encoding="utf-8").splitlines() if "=" in l and not l.startswith("#"))
-        c = psycopg.connect(env["DATABASE_URL"], autocommit=True, connect_timeout=8)
+        c = psycopg.connect(env["DATABASE_URL"], autocommit=True, connect_timeout=8,
+                            application_name="netzspec/sentinel/cisco")
         rows = c.execute("""SELECT s.slug, count(*) FROM fetch_queue q JOIN sources s ON s.id = q.source_id
                             WHERE s.enabled AND q.status IN ('queued','failed') AND q.next_at <= now() GROUP BY 1""").fetchall()
         flags = c.execute("SELECT slug, enabled FROM sources").fetchall()
