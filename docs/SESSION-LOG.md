@@ -4,6 +4,45 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~16:15 - Opus/CISCO, work block 44: the apply failures are YESTERDAY'S, and a total cannot say "already fixed".**
+
+  The parent's new exit-code check reported `apply chunk: 8/40 cycles nonzero (20%, codes [1,3])`
+  and called it upstream of "nothing lands". **Over the whole log it is bigger than that and over
+  today it is smaller**, which is the same number saying two opposite things depending on the window:
+
+        whole log   exit0 222   exit1 9   exit3 45   exit4 112     43% non-zero
+        2026-09-06  exit0 117   exit1 5   exit3 41   exit4 112     57% non-zero
+        2026-09-07  exit0 105   exit1 4   exit3  4   exit4   0      7% non-zero
+
+  **All 112 gate refusals ran between 08:43 and 15:25 on 6 Sep and there has not been one since.**
+  Their 40-cycle window straddles that boundary. I was one step from reporting a resolved defect as
+  a live second cause of "nothing lands" - **a running total cannot say "getting worse", and it
+  cannot say "already fixed" either.** Bucketing by day is the same ten seconds in both directions.
+
+  **WHAT EXIT 4 WAS, because it is worth keeping:** `apply-on-box` returns it when the pipeline
+  REFUSES the data - *"the box RAN this apply and the pipeline refused it. That is a verdict, not an
+  outage: retrying locally would spend a cycle to be refused identically."* The gate output names
+  the cause exactly:
+
+        {"precision":0.5167,"recall":1,"passed":false,"sampled":60,"checked":60,
+         "misses":["Dimensions [Cent...
+
+  That is the **composed-label** half of the bimodal precision split - the extractor builds
+  `Dimensions [Centimeters (H x D x W)]`, a string the page never carries verbatim, and the gate
+  requires it verbatim. I diagnosed that half and deliberately did NOT fix it, because weakening a
+  verification gate is its owner's decision rather than something to slip in beside a bug fix. It
+  stopped on its own at 15:25 yesterday and I have not established what changed - **"it stopped" is
+  not "it was fixed"**, and that distinction is why this is recorded rather than closed.
+
+  **TODAY'S 7% IS CONNECTION-SHAPED, NOT GATE-SHAPED.** The most recent apply exit 1 is
+  `psycopg.errors.ConnectionTimeout: connection timeout expired` - the same degradation as the
+  `enabled_ids` SSL drop, now visible in the apply path too. So the live failures on this lane are
+  one cause wearing two exit codes, and that cause is the link.
+
+  **AND THE 6 SEP LOG CARRIES THE DEPLOYED-FROM WARNING FIRING:** *"THE BOX IS RUNNING SOURCE THAT IS
+  CHANGED since the last deploy... This behaviour exists in NO commit."* The mechanism CLAUDE.md
+  asks for is working and was shouting on every refused chunk.
+
 - **2026-09-07 ~15:45 - Opus/CISCO, work block 43: a 26,919-CHARACTER PART NUMBER.**
 
   The parent reported a SKU that is "the entire body text of the VC240 datasheet, roughly four
