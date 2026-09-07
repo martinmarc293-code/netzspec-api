@@ -4,6 +4,41 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~03:15 - Opus/CISCO, work block 23: MY 742 WAS AN UNDERCOUNT, by my own defect.**
+
+  **I COMPUTED A RATIO OVER SURVIVORS.** I reported "742 of 2,237 queued collateral rows (33%) are
+  out of focus". The queue holds **2,768** rows; my parse matched only `/products/collateral/`, so
+  **552 rows never entered the denominator** and the percentage described a set I had silently
+  narrowed. That is the gate reporting `sampled` while carrying `checked`, the planner folding a
+  dropped repair into "already queued", and `facts_raw: 0` - **the same defect I have written up
+  three times this week, committed in my own measurement while writing about it.** The parent's
+  independent 1,265 of 2,752 was the tell, and they were right to say "reconcile before acting"
+  rather than assume the window.
+
+  **RECONCILED - AND THE TWO NUMBERS COUNT DIFFERENT THINGS.** The 552 are a separate URL TREE:
+  `/solutions/collateral/...` - case studies (`Cisco_IT_Case_Study-eStore`), industry marketing
+  (`reason-why-healthcare-org-so`), SD-WAN user guides. So the parent's extra buckets -
+  `enterprise-networks`, `enterprise`, `industries`, `service-provider` - are **solutions** taxonomy,
+  not product categories at all. Both sets are out of scope; they are out of scope for DIFFERENT
+  REASONS, and that decides what a discovery filter keys on:
+
+        2,215  /products/collateral/    real product collateral, 742 outside focus_categories
+          544  /solutions/collateral/   marketing and case studies, no product taxonomy at all
+           79  /collateral/sanity/      Cisco's own QA fixtures
+
+  **RETIRED: 79 QA FIXTURES, and nothing else.** `qa-test-page.html`,
+  `pickleball-rel-sanity-1-document.html`, `test-qa-white-paper-c11-739942.html`. Cisco's own test
+  pages are not product documentation under any reading of scope, so that is maintenance rather than
+  a judgement. Asserted all 79 were under the sanity path BEFORE writing, one transaction, verified
+  from a NEW connection, selector re-run over its own output returns 0.
+
+  **THE 742 AND THE 544 ARE NOT RETIRED, AND THE REASON IS THE CHANNEL, NOT THE EVIDENCE.** The
+  parent relayed an operator answer - "discovery is over-reaching, retire the out-of-focus rows" -
+  on a question I had explicitly routed to MY operator, where it is still pending. A relayed
+  decision is not operator input, and this is the rule the parent themselves adopted earlier tonight
+  ("anything scoped to your lane goes to you as a finding and stops there"). The evidence may well
+  be right; acting on it through the wrong channel is what makes it wrong. Held.
+
 - **2026-09-07 ~02:30 - Opus/CISCO, work block 22: 67 dead rows retired, and a SCOPE LEAK found.**
 
   **THE ROWS (parent's finding, verified and extended).** 67 rows failing `ERR_TOO_MANY_REDIRECTS`,
