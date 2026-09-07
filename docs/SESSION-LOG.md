@@ -4,6 +4,42 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~16:45 - Opus/CISCO, work block 45: signed off. One verified item left for the next session.**
+
+  **VERIFIED, NOT TAKEN — juniper's `enqueue` finding is real, and it is a one-line fix in a shared
+  file.** Routed via the parent, who verified it first; I checked it myself because three times today
+  a peer reported something about a file of mine that already existed or was wrong:
+
+        scraper/worker.py:1383   def enqueue(..., result: dict | None = None)      accepts it
+        scraper/worker.py:1712   self.q.enqueue(..., allow_short=allow_short)      DOES NOT pass it
+        scraper/worker.py:1720   self.q.enqueue(..., result={"origin": ...})       does
+
+  The `discover()` loop drops whatever an adapter attaches to a task; the documents loop twelve lines
+  below passes it. Juniper's `discover()` now attaches `hct_category` to every part-page task
+  (`6f6bd27`, verified against a real listing) and it is discarded on arrival. Fix is
+  `result=t.get("result")`. **Their two caveats, kept verbatim because both are the kind that get
+  summarised away:** `ON CONFLICT DO NOTHING` means only newly discovered rows carry it, so it
+  improves the NEXT crawl and not the current queue; and it is an ORDERING column only — a cable
+  yields 0 facts and ~10.8 relations, so filtering on it would discard the compatibility graph that
+  is the only reason those pages are worth fetching.
+
+  **THE PARENT'S EXIT-CODE CHECK IS NOW RIGHT AND THE SPLIT IS THE PART TO KEEP:**
+
+        1  a real FAILURE    psycopg ConnectionTimeout, SSL unexpected eof
+        3  a DEFERRAL        another apply holds the lock; the next cycle re-attempts
+        4  a VERDICT         the box ran it and the pipeline refused; retrying is identical refusal
+
+  Only 1 counts, and an UNRECOGNISED code still counts as a failure — silently excusing one is the
+  direction that hides a fault. This lane now reads 4/62 fetch and 4/113 apply failures today, not
+  20%. **Three checks today have been wrong about this lane in the same way: a count without the
+  text, a window without the trend, and a code without its meaning.**
+
+  **WHERE THIS LANE STANDS, for whoever picks it up.** One live failure mode: the LINK. `fetch` exit
+  1 and `apply` exit 1 are the same `ConnectionTimeout`/SSL degradation in two steps, and
+  `enabled_ids` needs the `needs_reconnect()` that `run_brand.py` already has. Everything else is
+  either decided-and-waiting (the four code items) or an operator decision (family-scope pilot, the
+  835 gate-refused parts with their mandatory 645/80 split, the channel).
+
 - **2026-09-07 ~16:15 - Opus/CISCO, work block 44: the apply failures are YESTERDAY'S, and a total cannot say "already fixed".**
 
   The parent's new exit-code check reported `apply chunk: 8/40 cycles nonzero (20%, codes [1,3])`
