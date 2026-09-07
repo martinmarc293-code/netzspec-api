@@ -4,6 +4,44 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~07:50 - Opus/CISCO, work block 29: named connections, and a retraction to refuse.**
+  `cf8ebbf`.
+
+  **THE FINDING WAS RIGHT AND SO WAS MY FIX; THE RETRACTION OF IT IS WRONG.** The parent reported
+  anonymous connections, I fixed them, and they then retracted the report saying I "had already
+  fixed it, there is nothing to do". `git show cf8ebbf~1` settles it:
+
+        before cf8ebbf : run_brand.py:670  psycopg.connect(env["DATABASE_URL"], autocommit=True, ...)
+        after  cf8ebbf : run_brand.py:674  dbconn.connect(env["DATABASE_URL"], f"netzspec/run_brand/{brand.slug}")
+        cf8ebbf committed 07:37, in the same turn their message arrived
+
+  They measured my tree AFTER the fix and read it as never having been broken. **A measurement is a
+  timestamp, not a property** - which is this file's own rule, and the reason to answer a retraction
+  with `git show` rather than gratitude. Accepting it would have left the record saying cisco never
+  had the defect, and the enforcement check looking like it guards nothing.
+
+  **THE SHARPER HALF WAS MINE ANYWAY: `dbconn.py` was written EARLIER THE SAME NIGHT for exactly
+  this and wired into NOTHING.** Seven files still called `psycopg.connect` directly. A helper
+  nobody imports is not a fix - the same shape as `document_pids` written by three files and read by
+  none. `tests/scraper/test_named_connections.py` is the actual deliverable; the six edits are not.
+
+  **AND JUNIPER'S POINT IS BIGGER THAN THE NAMING. Confirmed live from my side rather than agreed
+  with:**
+
+        605736  (ANONYMOUS)       idle 420s  objid=579251764   invisible to `state <> idle`
+        613035  (ANONYMOUS)       idle 265s  objid=10697690    invisible
+        613170  netzspec/worker   idle   8s  objid=2           invisible
+
+  **Three advisory locks held by IDLE backends at this moment, none of them visible to a board that
+  filters `state <> 'idle'`.** Naming makes a blocker attributable; it does not make it visible, and
+  the shape that refused every restart for twenty minutes was a plain-idle lock holder, not an
+  `idle in transaction` one.
+
+  **A CODE FIX DOES NOT RENAME A LIVE CONNECTION.** Those two anonymous backends are supervisors
+  started BEFORE `cf8ebbf`; they stay anonymous until restarted. Worth stating because "the fix is
+  committed" and "the running system is fixed" are not the same claim, and I have spent tonight
+  learning the cost of conflating exactly that kind of pair.
+
 - **2026-09-07 ~06:45 - Opus/CISCO, work block 28: the gate alarm was a misreading; the OUTPUT was not.**
   `a49ced2`.
 
