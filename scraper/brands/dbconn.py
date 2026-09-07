@@ -68,7 +68,8 @@ KEEPALIVE = {
     # 2,563 -> 4,314 ms, share above 5 s 16% -> 43%, **max 14,906 ms** - 99.4% of the old bound,
     # with four probe samples already failing outright.
     #
-    # 45 s is three times the worst observed setup and still inside the ~60 s a dead peer takes to
+    # 45 s is MIN_SETUP_MARGIN times the worst observed setup (below) and still inside the ~60 s a
+    # dead peer takes to
     # surface through the keepalives above, so a hang is still an error a caller can act on rather
     # than a two-hour OS wait. THE CAUSE IS UNKNOWN and a tunnel restart made it worse; this buys
     # the lane time to keep running while somebody finds it. If setup ever approaches 45 s the
@@ -76,6 +77,21 @@ KEEPALIVE = {
     # expiry, where a smaller batch "fixed" a lock collision by shrinking the window it happened in.
     "connect_timeout": "45",
 }
+
+#: The worst connection SETUP anyone has measured, with its date and source. THIS IS A FACT THAT
+#: GOES STALE, which is the whole point of naming it: the margin below is DERIVED from it, so
+#: raising this number re-evaluates whether `connect_timeout` is still adequate and fails the suite
+#: if it is not. The first version of that test asserted a hardcoded floor (">= 30 s") and put the
+#: observed maximum in a comment - so when juniper measured 16,840 ms the assertion could not
+#: notice, and the margin quietly fell from 3.0x to 2.67x while the test stayed green. **A margin
+#: measured against a stale maximum is the mitigation-with-a-hidden-expiry shape**, which is exactly
+#: what that test exists to prevent, so it was reproducing the defect it guards.
+WORST_OBSERVED_SETUP_MS = 16_840        # juniper's tree, 7 Sep 2026, live. Earlier: 14,906 (parent's
+                                        # board), 11,844 (this tree). Raise it when a worse one is seen.
+#: How much headroom the bound must keep over that. 2.5 rather than 3.0 because 45 s already sits
+#: close to the ~60 s dead-peer ceiling, so a larger margin cannot be bought by raising the timeout -
+#: it would have to be bought by fixing the link, which is the honest reading if this ever fails.
+MIN_SETUP_MARGIN = 2.5
 
 
 def _default_name() -> str:

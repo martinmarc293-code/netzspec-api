@@ -68,10 +68,15 @@ ours = f"connect_timeout={DB.KEEPALIVE['connect_timeout']}"
 check("D4", "SABOTAGE a caller's own value SURVIVES: libpq honours the LAST occurrence, so the "
             "explicit connect_timeout=90 must come before ours and win",
       over.index("connect_timeout=90") < over.index(ours), (over, ours))
-check("D4b", "the default connect_timeout leaves real headroom over the worst SETUP time measured "
-             "on 7 Sep (14,906 ms on the parent's board, 11,844 ms from this tree) - a bound that "
-             "sits inside the observed range is an outage waiting for a slow minute",
-      int(DB.KEEPALIVE["connect_timeout"]) >= 30, DB.KEEPALIVE["connect_timeout"])
+# DERIVED from the recorded worst setup, not a hardcoded floor. The first version asserted
+# ">= 30 s" with the maximum in a comment, so when the worst observed rose from 14,906 to 16,840 ms
+# the margin fell from 3.0x to 2.67x and the test could not notice - a margin measured against a
+# stale maximum, which is the shape this very case exists to catch.
+_margin = int(DB.KEEPALIVE["connect_timeout"]) * 1000 / DB.WORST_OBSERVED_SETUP_MS
+check("D4b", f"connect_timeout keeps >= {DB.MIN_SETUP_MARGIN}x headroom over the WORST OBSERVED "
+             f"setup ({DB.WORST_OBSERVED_SETUP_MS} ms) - raising that recorded maximum must "
+             f"re-open this question rather than leave a stale margin green",
+      _margin >= DB.MIN_SETUP_MARGIN, f"margin is {_margin:.2f}x")
 
 check("D5", "a URL that already has a query string gets '&', not a second '?'",
       DB.augment(BASE + "?sslmode=require", "x").count("?") == 1,
