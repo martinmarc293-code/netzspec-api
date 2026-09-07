@@ -4,6 +4,46 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~10:30 - Opus/CISCO, work block 34: the third "add this line" that already exists.**
+  Measurement only. Nothing written, and nothing needed writing.
+
+  **THE REQUEST:** add `vendor: a.vendor` to `runInputs` in `apply-acquired.ts:485`, because on-box
+  runs stage into `runs/inbox/` and so carry no brand anywhere - 4 of 255 gated runs invisible to
+  the board, including hpe's first successful automatic on-box apply (run 750).
+
+  **`runInputs` HAS CARRIED `vendor` SINCE `38b0e9a`, 5 Sep 22:15 - AND `lanes` BESIDE IT.** The
+  commit's own comment says why: *"Attribution by guessing at a file path is not attribution"*,
+  written after a session read run 114 as theirs when it was cisco-datasheets. Their line 485 is
+  `runAdapterSuites` in this tree, so the report is against a different copy of the file.
+
+  **AND THE INBOX PATH IS NOT THE CAUSE. The database says so directly:**
+
+        run 753  vendor=cisco  keys=[commit,files,first,hashes,lanes,vendor]  first=runs/inbox/281934.json
+        run 750  (none)        keys=[commit,files,first,hashes]               first=runs/inbox/273492.json
+        run 741  (none)        keys=[commit,files,first,hashes]               first=runscquired\hpe-quickspecs\...
+
+  **Cisco's on-box runs use `runs/inbox/` AND carry vendor and lanes.** Run 741 is a LOCAL hpe path
+  and is missing them too. So staging location is irrelevant: the discriminator is which tree's
+  `src/` was synced. `apply-on-box.py:186 sync_src` ships `src/` from the INVOKING brand's working
+  tree, so the box runs whichever lane last synced - and hpe's tree predates `38b0e9a`.
+
+  **THE FIX IS HPE MERGING `38b0e9a`, NOT A LINE IN MY FILE.** Adding it here would have been a
+  no-op committed as a fix.
+
+  **THAT IS THE THIRD TONIGHT.** hpe's unit rule (`is_part_number` already refused all six strings),
+  the `application_name` report (already fixed, measured post-fix), and now this. **Three peers,
+  three correct symptoms, three fixes that already existed** - and each would have produced a commit
+  that changed nothing while closing the report. The common cause is not carelessness: it is that a
+  symptom is observed in the STORE or on the BOARD, and the fix is asserted about the SOURCE, with
+  nothing in between checking whether the source already does it. `git log -S` and running the real
+  function are the two ten-second checks that caught all three.
+
+  **AND IT REFINES THE DEPLOYED-FROM LESSON.** CLAUDE.md records that syncing a working tree puts
+  UNCOMMITTED code into production. The mirror is live here: a sync from a tree that is BEHIND puts
+  STALE code into production, and the shared box means one lane's staleness produces defects
+  attributed to everyone. The `DEPLOYED-FROM.json` that lesson asks for would have answered this in
+  one read instead of six queries.
+
 - **2026-09-07 ~10:00 - Opus/CISCO, work block 33: stop writing regexes, run the gate over the store.**
   Measurement only.
 
