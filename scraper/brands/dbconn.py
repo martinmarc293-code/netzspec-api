@@ -52,7 +52,22 @@ KEEPALIVE = {
     "keepalives_idle": "30",
     "keepalives_interval": "10",
     "keepalives_count": "3",
-    "connect_timeout": "15",
+    # CONNECT_TIMEOUT IS A MITIGATION HERE, NOT A FIX, AND IT IS DATED.
+    #
+    # 15 s was chosen when connection SETUP was a fraction of a second. On 7 Sep 2026 setup began
+    # degrading while the round trip on an ESTABLISHED connection stayed flat at ~355 ms - so it is
+    # setup, not the link, and not connection pressure (10 of 100). Measured from this tree, six
+    # samples: median 2,891 ms, max 11,844 ms. The parent's board over a longer window: median
+    # 2,563 -> 4,314 ms, share above 5 s 16% -> 43%, **max 14,906 ms** - 99.4% of the old bound,
+    # with four probe samples already failing outright.
+    #
+    # 45 s is three times the worst observed setup and still inside the ~60 s a dead peer takes to
+    # surface through the keepalives above, so a hang is still an error a caller can act on rather
+    # than a two-hour OS wait. THE CAUSE IS UNKNOWN and a tunnel restart made it worse; this buys
+    # the lane time to keep running while somebody finds it. If setup ever approaches 45 s the
+    # answer is not another raise - this project has already paid for a mitigation with a hidden
+    # expiry, where a smaller batch "fixed" a lock collision by shrinking the window it happened in.
+    "connect_timeout": "45",
 }
 
 

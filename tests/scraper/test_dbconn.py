@@ -53,17 +53,25 @@ check("D1", "every keepalive parameter reaches the URL - without them a dead pee
       all(f"{k}={v}" in u for k, v in DB.KEEPALIVE.items()), u)
 
 check("D2", "a connect_timeout is set, so an unreachable tunnel fails instead of hanging at "
-            "connect", "connect_timeout=15" in u, u)
+            "connect", f"connect_timeout={DB.KEEPALIVE['connect_timeout']}" in u, u)
 
 check("D3", "the session is NAMED, so pg_stat_activity says which brand a blocking session belongs "
             "to without a cross reference to the process table",
       "application_name=cisco-suite" in u, u)
 
 # The whole reason for appending rather than prepending.
+# Read from KEEPALIVE rather than hardcoded: this assertion pinned the literal "15" and went red
+# when connect_timeout was raised to 45 on 7 Sep, which is the check working - but it failed for the
+# ORDERING rule while the real change was the VALUE, and a reader would have chased the wrong one.
 over = DB.augment(BASE + "?connect_timeout=90", "x")
+ours = f"connect_timeout={DB.KEEPALIVE['connect_timeout']}"
 check("D4", "SABOTAGE a caller's own value SURVIVES: libpq honours the LAST occurrence, so the "
             "explicit connect_timeout=90 must come before ours and win",
-      over.index("connect_timeout=90") < over.index("connect_timeout=15"), over)
+      over.index("connect_timeout=90") < over.index(ours), (over, ours))
+check("D4b", "the default connect_timeout leaves real headroom over the worst SETUP time measured "
+             "on 7 Sep (14,906 ms on the parent's board, 11,844 ms from this tree) - a bound that "
+             "sits inside the observed range is an outage waiting for a slow minute",
+      int(DB.KEEPALIVE["connect_timeout"]) >= 30, DB.KEEPALIVE["connect_timeout"])
 
 check("D5", "a URL that already has a query string gets '&', not a second '?'",
       DB.augment(BASE + "?sslmode=require", "x").count("?") == 1,
