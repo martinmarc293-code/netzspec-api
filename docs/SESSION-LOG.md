@@ -4,6 +4,38 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~15:45 - Opus/CISCO, work block 43: a 26,919-CHARACTER PART NUMBER.**
+
+  The parent reported a SKU that is "the entire body text of the VC240 datasheet, roughly four
+  thousand words". Verified, and it is worse than reported:
+
+        22 entries whose `sku` exceeds 200 characters, carrying 758 facts
+
+        26,919 chars / ~4,043 words   26 facts   deployment_guide_c07-706128.html
+        12,777 chars / ~2,004 words   72 facts   vc240-bullet-network-camera/data_sheet_c78-611451.html
+
+  **Both begin `"Viewing Options PDF (189.0 KB) Feedback"`** - the page's own UI chrome. So the
+  extractor is not merely keying on a table heading; on these documents it takes the WHOLE PAGE
+  BODY, navigation furniture included, as the entity. Their ~4,000-word example is the deployment
+  guide; the VC240 is 2,004 words and appears in two acquired files, which is the 144 facts they saw.
+
+  **THIS IS THE `_KNOWN_NORM` FAILURE IN ITS MOST EXTREME FORM.** `_is_pid` has no ground truth for
+  these URLs, so nothing in the document reads as a part number, and whatever the shape parser hands
+  back as a subject is accepted however long it is. A 26,919-character string passed every check
+  between the parser and the acquired record.
+
+  **AND IT ARGUES FOR A CHEAP GUARD SEPARATE FROM THE REAL FIX.** No Cisco PID is 200 characters,
+  let alone 26,919. `is_part_number` would refuse every one of these on `whitespace` alone - the same
+  gate that already refuses `5GHz` - and it is not consulted here either. That is the third
+  place today the gate exists, is correct, and is not called: `migrate-atlas.ts`, the unknown-SKU
+  feed, and now the extractor's own subject field.
+
+  **ORDERING, AND I AGREE WITH THE PARENT'S:** SKU keying first because it caps everything else at
+  zero; page-shape ordering second because it is only worth doing once facts can land; discovery
+  third. My earlier ranking put discovery first on the strength of the corpus being flat - that was
+  wrong in the same way fixing the queue is wrong: **a better document changes nothing while 100% of
+  what is extracted from it is unattachable.**
+
 - **2026-09-07 ~15:15 - Opus/CISCO, work block 42: I attributed one lane's counters to another. Again.**
 
   **MY OWN ERROR FIRST.** I aggregated `browser={...}` counters across `runs/run_brand-cisco.log`,
