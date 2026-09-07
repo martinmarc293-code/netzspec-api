@@ -4,6 +4,33 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~11:30 - Opus/CISCO, work block 36: "queue or extractor" answered - it is BOTH, 7x and 42.9%.**
+
+  The parent parked 392 marketing rows and said the discriminator between *"the queue was the
+  problem"* and *"the extractor is"* would be **what the first datasheet's facts key on** - and that
+  they would watch for it. That question is answerable now from 2,952 acquired files already on
+  disk, split by URL tree:
+
+        datasheet   118,632 facts   real part 15.0%   __document__ 42.1%   PAGE TEXT 42.9%
+        solutions     5,210 facts   real part  2.1%   __document__ 28.9%   PAGE TEXT 68.9%
+        other         1,554 facts   real part 17.5%   __document__ 13.4%   PAGE TEXT 69.1%
+
+  **BOTH, AND THE TWO NUMBERS ARE INDEPENDENT.** A datasheet keys on a REAL PART seven times as
+  often as a case study (15.0% against 2.1%), so the queue was a genuine problem and the reorder is
+  justified on its own evidence rather than on the "0 facts/doc" figure it was argued from. **And a
+  datasheet still keys on PAGE TEXT 42.9% of the time**, so the extractor is a problem too and the
+  reorder buys better failures rather than fixed ones. Neither hypothesis alone survives.
+
+  **This also settles the shape of my own bucket-4 finding.** 42.9% page-text keying is not a
+  property of marketing pages leaking into the queue - it is what the extractor does on the
+  documents this lane exists to read. Fixing the queue cannot touch it.
+
+  **A METHOD NOTE WORTH MORE THAN THE ANSWER:** the parent intended to wait for a future fetch to
+  learn this. The corpus already contained 5,128 datasheet documents. **Waiting for new evidence
+  when the existing corpus can answer the same question is the mirror of measuring after a fix and
+  reading it as a pre-existing state** - both are questions about WHICH sample answers the question,
+  and both cost hours tonight.
+
 - **2026-09-07 ~11:00 - Opus/CISCO, work block 35: connect_timeout was one slow minute from failing.**
   `106303e`.
 
