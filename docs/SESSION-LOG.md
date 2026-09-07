@@ -4,6 +4,39 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~12:30 - Opus/CISCO, work block 38: a completeness metric with NO FAILING STATE.**
+  `0877761`. Juniper's query, run on this lane, plus a correction to my own comment.
+
+  **IT IS NOT "1,923 HOLLOW". THE PROFILE CANNOT COME OUT LOW AT ALL.**
+
+        category               scored   at 100%   min pct   hollow
+        optical-networking      2,354     2,354     100.0      722
+        interfaces-modules      1,886     1,886     100.0    1,064
+        storage-networking      1,574     1,574     100.0      137
+
+  **Every one of 5,814 parts scores exactly 100%, minimum 100.0, none below.** `required_total` is
+  2 in all three categories - juniper's discriminator, and it says one thin profile repeated rather
+  than three separate causes. The two fields are read off the PART ROW (`vendor` from the vendor
+  slug, `series` from `p.family`), so neither can ever be absent. **A measurement with no failing
+  state is not a measurement**, and 1,923 of these parts hold zero facts while scoring full marks.
+  Same family as a gate passing having checked nothing, and as `precision: 1` on a run that verified
+  nothing - which this file now carries three instances of.
+
+  **AND I CORRECTED A COMMENT OF MY OWN THAT WAS KNOWN FALSE.** `dbconn.py` said *"setup began
+  degrading while the round trip stayed flat at ~355 ms - so it is setup, not the link"*. Juniper
+  disproved it from 180 samples: the round-trip **P90 QUADRUPLED** (1,060 -> 1,705 ms) while the
+  median moved 34 ms. Verified independently here by timing setup against steady-state round trip on
+  the same connection: **median 8.7 round trips per connect** (2.2-33.8), against juniper's 6.2 and
+  the parent's 6.9. Setup is not independent - it AMPLIFIES the link, so a 100 ms move in round trip
+  is most of a second in setup. **A flat MEDIAN is not a flat distribution.**
+  The 45 s bound stands because it was derived from OBSERVED setup times rather than from the
+  explanation - a bound can survive its own rationale being wrong, which is why this was a comment
+  fix and not a re-derivation.
+
+  **THE FAST REWRITE AGREED WITH THE SLOW ORIGINAL TO THE ROW.** Juniper's query uses a per-part
+  LATERAL and did not finish inside 120 s here; a `GROUP BY` pre-aggregate returned in seconds. Both
+  completed eventually and matched exactly, which is the only reason to trust either.
+
 - **2026-09-07 ~12:00 - Opus/CISCO, work block 37: ROOT CAUSE of `document_pids = 0`. It is circular.**
   Diagnosis only, nothing changed. This is the largest finding of the session for this lane.
 
