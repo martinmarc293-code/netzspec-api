@@ -471,5 +471,55 @@ check("SABOTAGE a copyright footer is not a field",
       repr(spec_pairs("2026 Cisco and/or its affiliates. All rights reserved. Page 12\n")))
 
 
+print("")
+print("shape TEXTLINE — the junk the FIRST LIVE RUN produced")
+# EVERY LINE BELOW IS VERBATIM FROM THE ADAPTER'S OWN OUTPUT over 14 cached spec sheets. The suite
+# was green at 95 cases and roughly three quarters of the shape's real output was not a
+# specification: the tests had only ever seen lines someone chose to write. This block is the
+# corpus answering back, and it is the reason the guards exist in the shape they do.
+_JUNK = [
+    # a PART NUMBER split at a hyphen — this one alone produced TEN facts labelled "UCSC"
+    "UCSC-885A-M8-H20 UCS C885A M8 Rack - H200 GPU, ht",
+    "AMD9575F 96GB 6400DDR5",
+    # a CONTENTS page with no dot leaders, which is what Cisco publishes now
+    "Cisco UCS X580P PCIe Node 25",
+    "Cisco UCS C880A M8 Rack Server 31",
+    "Cisco UCS 6600 Series Fabric Interconnects 39",
+    # a two-model comparison table bleeding its HEADER in as a label
+    "Specification Cisco UCS 6664 FI Cisco UCS 6652 FI",
+    "AC Power Supply Properties Cisco UCS 6664 FI Cisco UCS 6652 FI",
+    # a table ROW: three or more bare numbers and not one unit between them
+    "Sys FAN 59 5 295",
+    "eCMC 20 2 40",
+    # ... and this one survived the FIRST version of that rule, which required almost every token
+    # to be bare. Three of six are bare here, so the threshold is half, not len-1.
+    "Supply PSU 12V_Main 2400W 1300W 1 2400 1300",
+    # a split SENTENCE, and a split parenthetical
+    "temperature must be less than 35 oC (95 oF).",
+    "(with two power supplies and six fans 44 lb (20 kg) 25lbs (11.34 KG)",
+]
+for _line in _JUNK:
+    _got = spec_pairs(_line + "\n")
+    check(f"SABOTAGE (live output) refused: {_line[:44]}", _got == [], repr(_got))
+
+# ... and the specifications from the SAME run must survive the guards. A filter that refuses the
+# junk by refusing everything is not a filter, and this half is what would catch that.
+_REAL = {
+    "Temperature, operating 32 to 104°F (0 to 40°C)": ("Temperature, operating", "32 to 104°F (0 to 40°C)"),
+    "Temperature, non-operating -40 to 158°F (-40 to 70°C)": ("Temperature, non-operating", "-40 to 158°F (-40 to 70°C)"),
+    "Humidity (RH), non-condensing 5 to 95%": ("Humidity (RH), non-condensing", "5 to 95%"),
+    "Altitude 0 to 10000 ft (0 to 3048 m)": ("Altitude", "0 to 10000 ft (0 to 3048 m)"),
+    "Maximum voltage (AC) 100 to 240 VAC": ("Maximum voltage (AC)", "100 to 240 VAC"),
+    "Frequency 50 to 60 Hz": ("Frequency", "50 to 60 Hz"),
+    "Maximum AC input current 1100W": ("Maximum AC input current", "1100W"),
+    "Cordset rating 10 A, 250 V": ("Cordset rating", "10 A, 250 V"),
+    "Max. Cluster Size 32": ("Max. Cluster Size", "32"),
+    "Rear Clearance 6 in. (152 mm)": ("Rear Clearance", "6 in. (152 mm)"),
+}
+for _line, _want in _REAL.items():
+    _got = spec_pairs(_line + "\n")
+    check(f"KEPT: {_line[:46]}", len(_got) == 1 and (_got[0][0], _got[0][1]) == _want, repr(_got))
+
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

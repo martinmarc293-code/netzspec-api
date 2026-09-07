@@ -537,7 +537,9 @@ def cap_value(s, cap: int = VALUE_CAP) -> tuple:
 # not enough, because the scan then simply matched one character later at "40" and gave
 # "Cisco UCS C2". A digit before the match is as much a mid-token position as a letter is.
 _VALUE_START = re.compile(
-    r"(?<![A-Za-z0-9])"
+    # `-` `/` `.` join a PART NUMBER as surely as a letter does. Without them "UCSC-885A-M8-H20"
+    # split at "885" and produced TEN facts labelled "UCSC" in a 14-document run.
+    r"(?<![A-Za-z0-9./-])"
     r"(?=(?:-?\d[\d,.]*\s*(?:in\.|cm|mm|lb|kg|g|W|A|V|Hz|GHz|MHz|Gbps|Mbps|"
     r"°|%|ft|m|BTU|RU|MT/s|GB|TB|MB|dBm|dBA|nm|VA|RPM|CFM)(?![A-Za-z])"
     r"|-?\d[\d,.]*\s*(?:to|x|X|–|-)\s"
@@ -562,6 +564,45 @@ _LABELISH = re.compile(r"^[A-Za-z(][A-Za-z0-9 ()/,.\-+'’\"%&°]{2,68}$")
 #: measurement report a page-3 "Weight" that was the contents line `Dimensions and Weight . . . 97`
 #: -- a check that matched a different object entirely.
 _DOT_LEADER = re.compile(r"\.\s*\.\s*\.")
+
+#: EVERY ONE OF THESE CAME OUT OF THE FIRST LIVE RUN, not out of imagination. Reading the shape's
+#: real output over 14 cached spec sheets, 28 distinct labels, roughly three quarters were not
+#: specifications at all -- while the 95-case suite was green. They are guards against four things
+#: the page genuinely contains and a line reader cannot distinguish by shape alone.
+#:
+#: A PRODUCT NAME at either end of the label. Cisco's modern contents pages carry NO dot leaders,
+#: just "Cisco UCS X580P PCIe Node    25", so _DOT_LEADER cannot see them; and a two-model
+#: comparison table bleeds its header in as "Specification Cisco" / "AC Power Supply Properties
+#: Cisco". A real specification label does not begin or end with the vendor's name.
+_PRODUCT_WORD = re.compile(
+    r"^(cisco|ucs|ucsc|ucsx|ucse|hcix|hyperflex|nexus|catalyst|amd|intel)(?![a-z])"
+    r"|(?<![a-z])(cisco|ucs|hyperflex|nexus|catalyst)$", re.I)
+
+#: A PART NUMBER used as a label -- one token carrying a digit ("AMD9575F", "UCSC"). A field name
+#: is words.
+_PID_AS_LABEL = re.compile(r"^\S*\d\S*$")
+
+#: A SPLIT SENTENCE. "temperature must be less than" + "35 oC (95 oF)." is prose, and a label that
+#: ends on a preposition or a copula is the tell.
+_DANGLING = re.compile(r"(?<![a-z])(than|and|or|with|of|for|to|is|are|be|less|greater|must|the|a|"
+                       r"an|at|in|on|up|per|from|by)$", re.I)
+
+#: A TABLE ROW read as a line: "Sys FAN 59 5 295", "eCMC 20 2 40" -- three or more bare numbers and
+#: not one unit between them. A specification states its unit; a column series does not.
+_BARE_TOKEN = re.compile(r"^[-+]?\d[\d,.]*$")
+
+
+def _is_column_series(value: str) -> bool:
+    toks = value.split()
+    if len(toks) < 3:
+        return False
+    bare = sum(1 for t in toks if _BARE_TOKEN.match(t))
+    # HALF, not almost-all. "Supply PSU 12V_Main 2400W 1300W 1 2400 1300" is six tokens of which
+    # three are bare, and requiring len-1 let it through -- a power TABLE read as one fact. The
+    # real specifications in the same run survive this because their numbers carry units or a
+    # joining word: "0 to 10000 ft (0 to 3048 m)" is 3 bare of 8, "100 to 240 VAC" is 2 of 4.
+    return bare >= 3 and bare >= len(toks) // 2
+
 
 #: A standards body or connector family left on the end of the LABEL by the split, because the
 #: value it introduces begins with a number. Measured: "Input Connector IEC" + "320 C14" (the real
@@ -591,6 +632,14 @@ def spec_pairs(text: str) -> list:
         label = line[:m.start()].strip(" .:•–-")
         value = line[m.start():].strip()
         if not value or not _LABELISH.match(label):
+            continue
+        # THE FOUR SHAPES THE FIRST LIVE RUN PRODUCED THAT WERE NOT SPECIFICATIONS. Refused here
+        # rather than downstream: a fact this adapter emits is one the gate must then re-find on
+        # the page, and every one of these IS on the page -- being genuinely present is exactly
+        # what makes them impossible to catch later.
+        if (_PRODUCT_WORD.search(label) or _PID_AS_LABEL.match(label)
+                or _DANGLING.search(label) or label.startswith("(")
+                or _is_column_series(value)):
             continue
         a = _TRAILING_ACRONYM.search(label)
         # ... but only where a MULTI-WORD label survives the move. "Safety UL" + "60950-1" would
