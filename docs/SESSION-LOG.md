@@ -4,6 +4,94 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-07 ~22:50 - Opus/PARENT, work block 49: a PDF shape that works, and a measurement of mine that did not.**
+
+  **Committed.** `ebf6ac0` (5 registry fields + 6 alias rules), `1c2eaea` (shape TEXTLINE + the
+  `L` locator grammar), `3105c3b` (precision guards built from the shape's own live output).
+  Typecheck clean throughout; suite 21/23, the two failures pre-existing and unrelated (both are
+  the absent `runs/vocab/*/labels.json`, which those suites correctly report as proving nothing).
+
+  **THE HEADLINE, and it is a correction.** I told the operator that nine of ten newly-mapped
+  labels were inert "because `cisco_specs_pdf.py` returns 0 facts on this layout". Measured PER
+  SHAPE on the sheet that carries them:
+
+        input connector    TEXTLINE 0   tables 4
+        safety             TEXTLINE 0   tables 1
+
+  The adapter emitted those labels all along. The only thing missing was the alias rule, added in
+  `ebf6ac0`. I generalised *"the tables produce nothing on this PAGE"* into *"on these
+  DOCUMENTS"*, and the 2-document run I cited as proof the new shape worked was table output I
+  never checked the shape of. **A per-shape column would have shown it immediately; a total hid
+  it.** The probe now prints TEXTLINE and tables separately for exactly this reason.
+
+  **`cordset_rating` IS AN ACCESSORY ATTRIBUTE, NOT A SERVER FIELD.** It appears 16 times in one
+  spec sheet and passes the section gate zero times. Reading the page shows why: every hit is
+  under **"STEP 13 SELECT INPUT POWER CORD(s) (REQUIRED)"** - an ordering table of sixteen
+  different power cords, each with its own rating. The adapter's gate switches off on that exact
+  heading by design and is refusing them CORRECTLY. My `fields-from-pdfs.py` has no section gate
+  at all, so it read ordering and accessory tables as specifications - which is where "60% of
+  spec sheets print Cordset rating" came from. Same shape as the upgrade kit reporting the 96
+  ports of the chassis it upgrades. **Confirmation across five documents was still running at
+  handoff; withdraw the field if it holds.**
+
+  **FOUR OF THE SEVEN FIELDS I PROPOSED ARE GONE OR GOING**, each for a different reason worth
+  keeping apart: `safety_certifications` and `sound_pressure` because the repo had already
+  decided them (33 alias rules fold safety into `certifications`; an explicit rule maps sound
+  pressure to `acoustic_noise`); `input_connector` because `power_input_connector` already
+  existed and only won once the splitter stopped leaving "IEC" on the label; `cordset_rating`
+  for the accessory-table reason above. **Every one was me reading a LABEL. The VALUES disagreed
+  in all four cases** - which is what `judge-by-values.py` exists to say and I did not run it on
+  my own proposals.
+
+  **THE SHAPE ITSELF IS SOUND AND EARNS ITS PLACE.** Cisco rules spec tables around the header
+  only, so pdfplumber returns `[['Description','Specification']]` and both table shapes yield
+  nothing. TEXTLINE reads the line instead, gated on "this page's tables produced no fact" -
+  which makes duplication structurally impossible rather than something to be careful about
+  (measured: pages with table facts 59, line facts 3, BOTH 0). Document-scoped like PARAM
+  (measured: 0 bound to a SKU). It reaches real fields the tables miss: Operating / Non-Operating
+  Relative Humidity, Sound Power level, Sound Pressure level, the environmental block.
+
+  **AND ITS FIRST LIVE OUTPUT WAS 75% JUNK WHILE THE SUITE WAS GREEN AT 95 CASES.** 28 distinct
+  labels, ~7 real. A hyphenated PID split into ten facts labelled `UCSC`; contents pages carry NO
+  dot leaders now, so `Cisco UCS X580P PCIe Node  25` read as a field; power tables read as one
+  line (`Sys FAN 59 5 295`); split sentences (`temperature must be less than`). All four are
+  guards now and all thirteen junk lines are test cases **verbatim from the run**, alongside ten
+  real ones asserted KEPT - a filter that refuses junk by refusing everything is not a filter.
+  After: 11 labels, 10 real. 117 tests.
+
+  **THE LOCATOR WAS THE HALF THAT WOULD HAVE CAUSED AN OUTAGE.** `parseLocator` required a
+  `t<table>` component, so `p12:L37` returned null -> `no_locator`, which the gate scores a MISS.
+  Every TEXTLINE fact would have failed provenance and rolled its batch back - 6 Sep, again.
+  Fixed as a discriminated union (cell | line) so a line locator cannot flow into a grid index,
+  with the auditor re-deriving line pairs through `spec_pairs` - the same splitter that produced
+  the locator. **Proven end to end, not reasoned about:** `scripts/textline-provenance.ts` runs
+  the gate's own `reReadSource`, TEXTLINE **10/10 = 100%**, table shapes as control **4/4**, zero
+  unparseable locators.
+
+  **INFRASTRUCTURE: the tunnel wedges and nothing noticed for 12 minutes.** Process alive, 5433
+  LISTENING, keepalives answered, box perfectly healthy - so ssh never exited and its `while true`
+  had nothing to react to. All three lanes blind. `D:\tmp\pg-tunnel.sh` now runs a watchdog, and
+  **the first version of that watchdog was itself a proxy check**: a TCP connect to the forwarded
+  port, which the LOCAL ssh accepts whether or not the far end lives. Measured side by side on a
+  live wedged tunnel - connect probe exit 0, exchange probe exit 1. It now sends a Postgres
+  SSLRequest (8 bytes, no credentials) and requires the byte back, refuses to start if its probe
+  is missing, and bounded the next two wedges to ~80s each with no healthy tunnel killed.
+
+  **NEXT, in order.** (1) Finish the five-document `cordset_rating` confirmation and withdraw it
+  if it holds - `section-gate-cost.py` separates "not in the document" from "refused by the
+  section gate" from "refused by the tables-empty gate", which are three answers and only one is
+  a bug. (2) `temp_operating_extended`, `rear_clearance`, `cluster_size_max` have never been seen
+  through the real adapter - they were absent from every document probed, so they are unproven,
+  not wrong. (3) Nothing has been APPLIED: the facts exist in adapter output only, and the lanes
+  are paused under lease to 2026-09-08T16:25Z.
+
+  **TRAPS PAID FOR TONIGHT.** Overwriting a running bash script (bash reads by byte offset - it
+  took the database down inside a minute). `nohup ... &` and harness background tasks do not
+  reliably survive; `Start-Process` does. Piping a long run through `tail` buffers everything, so
+  a timeout shows nothing and reads as a crash. `python3.11` from the wrong cwd loads
+  `[sku-map] 0 documents` and silently zeroes every GRID fact - the probe now chdirs itself. And
+  a Python heredoc ate `\n` for the third time in one session, in the tool for writing the check.
+
 - **2026-09-07 ~18:15 - Opus/CISCO, work block 48: the fix DID travel. It skipped one branch silently.**
 
   Juniper checked my own headline example before it reached my operator - I was signed off and

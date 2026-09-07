@@ -202,7 +202,18 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   //                            nothing - only once the splitter moved the trailing standard into the
   //                            value did the repo's own rule start winning. Two keys here would have
   //                            split one column in two on whether the acronym happened to be moved.
-  cordset_rating: { key: "cordset_rating", de: "Netzkabel-Nennwert", en: "Cordset rating", type: "s", examples: ["10 A, 250 V", "13 A, 250 V", "16 A, 250 V"], etim: [], icecat: null },                                                        // 60%
+  // EVIDENCE CORRECTED 7 Sep 2026, and the correction matters more than the field. This was added
+  // on "60% of spec sheets print Cordset rating" — a number produced by a measuring script with no
+  // section gate, which therefore read ORDERING tables as specifications. Measured through the
+  // real adapter across five spec sheets: 48 occurrences on the page, 0 in a specification
+  // section. Every one sits under "STEP 13 SELECT INPUT POWER CORD(s)", a table of sixteen
+  // different power cords each with its own rating — so it was never a property of the server,
+  // and the adapter's section gate refuses it correctly.
+  // The KEY is kept because it is a real attribute of a POWER CORD, and cords are parts we hold
+  // (CAB-250V-10A-AR, CAB-9K10A-AU). It belongs to the cord's own SKU, never document-scoped onto
+  // the chassis the cord ships with — sixteen values for one document is sixteen conflicts, which
+  // is the upgrade-kit-reports-the-chassis's-96-ports defect wearing different clothes.
+  cordset_rating: { key: "cordset_rating", de: "Netzkabel-Nennwert", en: "Cordset rating", type: "s", examples: ["10 A, 250 V", "13 A, 250 V", "16 A, 250 V"], etim: [], icecat: null },
   temp_operating_extended: { key: "temp_operating_extended", de: "Erweiterte Betriebstemperatur", en: "Extended operating temperature", type: "nr", unit: "°C", band: [-40, 80], etim: [], icecat: null },                                       // 40%
   rear_clearance: { key: "rear_clearance", de: "Freiraum hinten", en: "Rear clearance", type: "n", unit: "mm", band: [0, 2000], etim: [], icecat: null },                                                                                       // 35%
   cluster_size_max: { key: "cluster_size_max", de: "Maximale Clustergröße", en: "Maximum cluster size", type: "n", unit: "nodes", band: [1, 1000], etim: [], icecat: null },                                                                    // 30%

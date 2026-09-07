@@ -900,6 +900,17 @@ def run(browser, urls: list[str]) -> list[dict]:
                 # top of this file): one spec sheet lists hundreds of PIDs and most are licences
                 # and spares, so a line on the page belongs to the DOCUMENT and the merge step's
                 # scope check decides which parts may inherit it. Never bound to a SKU here.
+                #
+                # THE COST OF THE FIRST GATE, recorded because it is real and unmeasured. It is
+                # PAGE-level: one fact from one table stands the whole page's lines down. So a page
+                # whose table is partly readable keeps the rows the table shapes found and loses
+                # every line they missed. `Rear Clearance` ("6 in. (152 mm)") was measured sitting
+                # in a specification section on a page like that, reaching NEITHER shape.
+                # The finer gate — emit a line only when its (label, value) is not already among
+                # this page's table facts — would recover those, and it trades a property that is
+                # currently structural ("duplication is impossible") for one that has to be got
+                # right. That is a strictness decision for the adapter's owner with the recovery
+                # measured first, not a change to slip in beside a bug fix.
                 if in_spec_section and len(out) == page_before:
                     for label, val, li in spec_pairs(text):
                         if BAD_LABEL.match(label) or len(label) > LABEL_CAP:
