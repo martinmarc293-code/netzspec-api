@@ -296,6 +296,12 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // nothing in the dictionary covered it. Added 8 Sep 2026 with the security shapes; `1/s` is the
   // unit new_conn_per_sec already uses, so no new unit had to be admitted to UNITS and CANON.
   events_per_second: { key: "events_per_second", de: "Ereignisse pro Sekunde", en: "Event rate (events per second)", type: "n", unit: "1/s", band: [1, 10000000], etim: [], icecat: null },
+  // CURATED OVERRIDE of the generated entry, which has no band. It is now REQUIRED of the email
+  // and web gateways, and a required numeric with no plausibility range cannot refuse an
+  // implausible value — the shape that once stored 100 ports on a single-port transceiver. The
+  // range is the same one license_seats uses: an ESA sheet sizes from tens of users to a quarter
+  // of a million, and a figure outside 1..1,000,000 is a mis-parse rather than a large customer.
+  recommended_users: { key: "recommended_users", de: "Empfohlene Nutzerzahl", en: "Recommended number of users", type: "n", band: [1, 1000000], etim: [], icecat: null },
   vpn_peers: { key: "vpn_peers", de: "IPsec-VPN-Peers", en: "IPsec VPN peers", type: "n", unit: "Peers", band: [1, 200000], etim: [], icecat: null },
   max_interfaces: { key: "max_interfaces", de: "Max. Schnittstellen", en: "Maximum interfaces", type: "n", band: [1, 400], etim: [], icecat: null },
   storage_capacity: { key: "storage_capacity", de: "Onboard-Speicher", en: "Onboard storage", type: "n", unit: "GB", band: [1, 200000], etim: [], icecat: null },
