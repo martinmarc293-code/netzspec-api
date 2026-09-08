@@ -6293,6 +6293,16 @@
    "^safety (ul|iec|en|csa|cul|cb|tuv|ce|as/nzs|gb)([^a-z]|$)",
    "certifications",
    "pdf-server: measured as the label 'Safety UL' at 60% of sheets, but its values are bare standard numbers ('60950-1', '62368-1', '60950-1 Second Edition'), so the real label is 'Safety' and the value is 'UL 60950-1'. Folded into certifications like the 33 rules above rather than given a field, because a field per standards body is what judge-by-values.py calls value_of_another_field."
+  ],
+  [
+   "^(performance: *)?(number of )?recommended user(s| support)?$",
+   "recommended_users",
+   "security 8 Sep 2026: the sizing figure for an email or web gateway. Four inventory labels, 22 occurrences: 'Number of recommended users' (10), 'Recommended user support' (9), 'Performance: Recommended user support' (2), 'Number of Recommended Users' (1). The optional 'Performance:' prefix is how the ESA sheets head the block. Anchored at both ends so it cannot swallow 'Included ISE endpoint licenses' or the 77 other labels containing the word."
+  ],
+  [
+   "events per second",
+   "events_per_second",
+   "security 8 Sep 2026: 'Sustained Firewall Events per Second (eps)', 9 occurrences. Unanchored because the label carries a product word in front of it and the '(eps)' suffix behind; 'events per second' is unambiguous on its own — no other inventory label contains the phrase."
   ]
  ]
 }

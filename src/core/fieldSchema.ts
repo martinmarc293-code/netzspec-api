@@ -291,6 +291,11 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   vpn_throughput: { key: "vpn_throughput", de: "IPsec-VPN-Durchsatz", en: "IPsec VPN throughput", type: "n", unit: "Gbit/s", band: [0.01, 5000], etim: [], icecat: null },
   concurrent_sessions: { key: "concurrent_sessions", de: "Gleichzeitige Sessions", en: "Concurrent sessions", type: "n", unit: "Sessions", band: [1000, 3000000000], etim: [], icecat: null },
   new_conn_per_sec: { key: "new_conn_per_sec", de: "Neue Verbindungen/s", en: "New connections per second", type: "n", unit: "1/s", band: [100, 30000000], etim: [], icecat: null },
+  // The primary sizing figure for a management or logging appliance — a Firepower Management
+  // Center and a Security Analytics deployment are chosen on the event rate they can take, and
+  // nothing in the dictionary covered it. Added 8 Sep 2026 with the security shapes; `1/s` is the
+  // unit new_conn_per_sec already uses, so no new unit had to be admitted to UNITS and CANON.
+  events_per_second: { key: "events_per_second", de: "Ereignisse pro Sekunde", en: "Event rate (events per second)", type: "n", unit: "1/s", band: [1, 10000000], etim: [], icecat: null },
   vpn_peers: { key: "vpn_peers", de: "IPsec-VPN-Peers", en: "IPsec VPN peers", type: "n", unit: "Peers", band: [1, 200000], etim: [], icecat: null },
   max_interfaces: { key: "max_interfaces", de: "Max. Schnittstellen", en: "Maximum interfaces", type: "n", band: [1, 400], etim: [], icecat: null },
   storage_capacity: { key: "storage_capacity", de: "Onboard-Speicher", en: "Onboard storage", type: "n", unit: "GB", band: [1, 200000], etim: [], icecat: null },
@@ -386,6 +391,42 @@ const opt: Requirement = { kind: "opt" };
 const na: Requirement = { kind: "na" };
 void na; // kept for the case above; referenced so an unused-symbol check cannot silently drop it
 const cond = (when: Condition): Requirement => ({ kind: "cond", when });
+
+// --- SECURITY PRODUCT SHAPES, 8 Sep 2026 -------------------------------------------------------
+// `security` is not one kind of product. Its 6,689 hardware parts span 47 series — firewalls,
+// intrusion-prevention appliances, email and web gateways, management consoles, flow-analytics
+// boxes and identity servers — and the profile asked every one of them for `firewall_throughput`,
+// `threat_throughput` and `concurrent_sessions`. An email gateway has no firewall throughput and
+// never will, so for roughly 3,100 hardware parts three of the twelve required fields were
+// unfillable by construction. Same defect as the licence profiles, one category over.
+//
+// The requirement is scoped by SERIES, which every part carries, so a cond can ask each shape only
+// what it is bought on. The lists are verified against the live data by
+// netzspec-parent/security-shapes.py, in BOTH directions: a series in no shape is reported, and a
+// shape naming a series no part has is reported too — a cond whose list matches nothing fires for
+// nobody and reads exactly like a rule nothing satisfies.
+//
+// A SERIES IN NO SHAPE IS THE DELIBERATE DEFAULT, not an oversight. The 13 unshaped series (531
+// hardware parts — Secure Client, Fireamp Endpoints, Umbrella, XDR) are endpoint and cloud
+// products with no appliance specification at all; they keep the universal fields every physical
+// box has and are asked for nothing they cannot have. A new series appears the same way.
+const SEC_FIREWALL = [
+  "Firepower NGFW", "5500-X ASA with Firepower", "ASA 5500 Series Next Generation",
+  "4100 Firepower", "Firepower 9300 Series", "Secure Firewall 1200 Series",
+  "Firepower 1000 Series", "Secure Firewall 6100 Series", "2100 Firepower", "ASA",
+  "200 Secure", "3000 Series Industrial Security Appliances (ISA)", "IOS SSL VPN",
+];
+const SEC_IPS = ["FirePOWER 8000 Appliances", "FirePOWER 7000 Appliances", "NGIPS Virtual Appliance"];
+const SEC_EMAIL = ["Email Security Appliance"];
+const SEC_WEB = ["Secure Web Appliance", "Web Appliance Virtual"];
+const SEC_MGMT = ["Security Manager", "Defense Center", "Firesight Management Center",
+  "Security Cloud Control", "Secure Email and Web Manager"];
+const SEC_ANALYTICS = ["Secure Network Analytics", "UDP Director", "Flow Sensor", "Cyber Vision",
+  "Security Analytics and Logging", "Secure Cloud Analytics"];
+const SEC_IDENTITY = ["Identity Services Engine", "ISE Passive Identity Connector", "Secure Access"];
+const SEC_DDOS = ["Secure DDoS Protection"];
+/** Anything that terminates or inspects traffic in line. */
+const SEC_INLINE = [...SEC_FIREWALL, ...SEC_IPS, ...SEC_DDOS];
 
 export const PROFILES: Record<string, Record<string, Requirement>> = {
   // --- SOFTWARE AND LICENCE CATEGORIES, added 8 Sep 2026 ---------------------------------------
@@ -688,14 +729,53 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   },
   security: {
     anyconnect_sessions: opt, expansion_io: opt, shock: opt, redundancy: opt, // deep-spec fields 2026-09-02
+
+    // UNIVERSAL — true of any physical security appliance, whatever it does.
     vendor: req, series: req, form_factor: req,
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
-    firewall_throughput: req, threat_throughput: req, ips_throughput: opt, vpn_throughput: opt,
-    concurrent_sessions: req, new_conn_per_sec: opt, vpn_peers: opt,
-    max_interfaces: opt, storage_capacity: opt,
-    psu_config: opt, psu_redundant: opt, power_max: req, power_typical: opt,
-    temp_operating: req, humidity_operating: req, altitude_max: opt,
-    dimensions: req, weight: req, certifications: req, mtbf: opt,
+    power_max: req, temp_operating: req, humidity_operating: req,
+    dimensions: req, weight: req, certifications: req,
+    psu_config: opt, psu_redundant: opt, power_typical: opt, altitude_max: opt, mtbf: opt,
+
+    // BY SHAPE — see the SEC_* lists above. Each of these was `req` for all 6,689 hardware parts
+    // until 8 Sep 2026; they are now asked only of the products that have them.
+    firewall_throughput: cond({ field: "series", inList: SEC_FIREWALL }),
+    threat_throughput: cond({ field: "series", inList: SEC_INLINE }),
+    concurrent_sessions: cond({ field: "series", inList: [...SEC_FIREWALL, ...SEC_IDENTITY] }),
+    ips_throughput: cond({ field: "series", inList: SEC_IPS }),
+    events_per_second: cond({ field: "series", inList: [...SEC_MGMT, ...SEC_ANALYTICS] }),
+    recommended_users: cond({ field: "series", inList: [...SEC_EMAIL, ...SEC_WEB] }),
+    storage_capacity: cond({ field: "series", inList: [...SEC_EMAIL, ...SEC_WEB, ...SEC_MGMT, ...SEC_ANALYTICS] }),
+
+    // DECLARED FOR THEIR SHAPE, NOT REQUIRED OF IT — and the reason is a check, not a judgement.
+    // These four were written as conds too, and tests/source-fields refused the commit: no
+    // ENABLED source publishes a label that maps to them, so requiring them would have created
+    // four permanent gaps nothing could ever close. Reading the 23,651-label inventory says
+    // exactly why, per field:
+    //   max_endpoints              'Endpoints' (25) and 'Included ISE endpoint licenses' (11) —
+    //                              present but ambiguous; a rule on 'Endpoints' would swallow
+    //                              wireless and video labels too
+    //   managed_devices_max        two labels, neither a spec ('Includes first 10 TMS managed
+    //                              devices/servers plus Exchange/O365')
+    //   flows_per_second           zero labels
+    //   ddos_mitigation_throughput 'Max Programmable Mitigation Throughput' (6) is plausible, but
+    //                              'Concurrent Threat Mitigation Throughput (Firewall + IPS
+    //                              Services)' (3) is a firewall figure wearing the same words
+    // Each becomes a cond the day a source publishes it unambiguously — promote-required earns
+    // requirements from evidence here as everywhere else.
+    max_endpoints: opt, managed_devices_max: opt, flows_per_second: opt,
+    ddos_mitigation_throughput: opt,
+
+    // The rest of the inline-security vocabulary stays optional: a firewall datasheet states some
+    // of these and not others, and promote-required earns a requirement from evidence rather than
+    // taste — there is none yet, because every document the corpus holds for `security` is an
+    // end-of-life bulletin or an ordering guide. Not one datasheet, which is why the category
+    // yields almost no facts. That is an ACQUISITION gap and it is not fixed by the schema.
+    vpn_throughput: opt, ipsec_throughput: opt, tls_throughput: opt, threat_defense_throughput: opt,
+    new_conn_per_sec: opt, vpn_peers: opt, nat_sessions: opt, ipsec_tunnels: opt,
+    ssl_connections_per_sec: opt, attack_concurrent_sessions: opt, uc_proxy_sessions: opt,
+    ddos_blocking_throughput: opt, ddos_prevention_rate: opt,
+    max_interfaces: opt, storage_raw_capacity: opt, managed_by_fdm: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, gre_tunnels: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, rear_clearance: opt, rear_panel_ports: opt, security_features: opt, series_release_date: opt, simultaneous_connections: opt, temp_operating_extended: opt, thermal_shock: opt,
   },
