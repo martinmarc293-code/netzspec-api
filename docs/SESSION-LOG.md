@@ -4,6 +4,100 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-08 ~13:35 - Opus/PARENT, work block 51: the extract is APPLIED and gated. The dashboard barely moves, and the reason is the corpus.**
+
+  `apply-extract runs/extract/cisco-pdf-2026-09-08.json --commit` ran ON THE BOX (local Postgres,
+  no tunnel) as run 846, **succeeded**:
+
+        gate: PASS   precision 100.0%   recall 100.0%
+        provenance   120/120 re-read clean, 0 mismatched, 0 no cache
+        coverage     59/59 documents, 120/8113 facts
+        regression   8 of 58 allowed, with evidence (below)
+        facts        142,987 -> 143,428
+
+  **THE REGRESSION WAS THE FABRICATION BEING REFUSED, and this is the finding worth keeping.**
+  For doc 8fda693f96c38c3a the 3-5 Sep run bound the CHASSIS `temp_operating` / `temp_storage` /
+  `humidity_operating` to 22 parts. All 22 are GPUs (UCSXE-GPU-L40S), memory DIMMs
+  (UCSXE-MRX16G1RE5), NVMe drives (UCSXE-NVE112T8K1P) and network adapters (UCSXE-P-IQ10GC) from
+  the option list. Not one is the server. 178 -> 24 produced is **154 fewer invented bindings**.
+
+  **WHAT MOVED, and it is small:** promote-required earned exactly 2 fields at the standing 60%
+  bar - `hyperconverged-systems.humidity_operating` (85% of 183 parts with facts) and
+  `meraki.temp_operating` (71% of 122). After recompute:
+
+        hyperconverged-systems   req 2 -> 3   avg 4.4% -> 7.5%
+        meraki                   req 3 -> 4   avg   -  -> 29.7%
+
+  **WHAT CANNOT MOVE, measured.** `servers-unified-computing` has 3,768 of 12,854 parts carrying
+  ANY document fact (29%), and the best-covered fields over that population are `cpu` **42.0%**,
+  `power_max` **41.6%**, `storage_capacity` **30.4%**. The bar is 60%. The top field is eighteen
+  points short, so the category stays `NONE - unjudgeable` and **re-extracting the 61 PDFs we hold
+  cannot change it**. This is a corpus limit, not a code defect. Two honest levers, both the
+  operator's: resume acquisition, or lower min-share to ~40% and accept a printed gap on the 58%
+  of parts that lack the field.
+
+  **MY OWN ERRORS THIS BLOCK, because they cost most of the elapsed time.** Four proposed fields
+  duplicated fields the registry already had. 63 profile rows were written into `category_profiles`
+  - a MIRROR pushed from code that nothing reads (specMerge.ts:771 says so). Splitting the extract
+  into chunks to survive tunnel drops **broke a passing gate**: golden PIDs do not survive the
+  split, so every chunk reported `in_scope 0` and refused. A capped foreground apply was killed at
+  580s with 1,732 facts written and its run left open.
+
+  **TRAPS.** A 249 MB upload over the SSH link STARVES the tunnel - the store went down for the
+  duration and recovered the moment it stopped; push bulk in small batches and verify by size on
+  the far side, since a reset leaves a truncated file that scp still exits 0 on. `git archive HEAD`
+  deploys committed content and is the right way to sync the box, but remember `data/reference`
+  as well as `data/schema` or the gate dies with "golden directory does not exist". The box needs
+  the PDF cache under `scraper/cache` (symlinks into /var/lib/netzspec-api/cache work).
+
+- **2026-09-08 ~02:40 - Opus/PARENT, work block 50: the PDF extract PASSES on quality and FAILS on regression. Not applied.**
+
+  `runs/extract/cisco-pdf-2026-09-08.json` - 61 cached PDFs, cache-only, 8,113 facts
+  (GRID 5,891 · PARAM 1,786 · TEXTLINE 436). Gate at `--sample 120 --tag pdf-textline`:
+
+        precision   100.0%   (threshold 98%)
+        recall      100.0%
+        provenance  120/120 re-read clean, 0 mismatched, 0 no cache
+        coverage    59/59 documents, 120/8113 facts - enough to measure
+        regression  FAIL - 8 of 58 documents produce fewer entries than their 3-5 Sep baseline
+
+  **The provenance line validates the whole TEXTLINE locator design at scale** - 120 sampled
+  facts including line locators, every one re-read to its own value through the gate's own
+  reader. The `p<page>:L<line>` grammar, the discriminated-union Locator and the `spec_pairs`
+  re-derivation all hold outside the 10-fact sample they were built against.
+
+  **WHY THE REGRESSION IS NOT TONIGHT'S WORK, and why that still is not licence to apply.**
+  My two extracts (09-07 pre-guards, 09-08 post-guards) differ by **-30 facts, max -5 on any
+  document** - exactly the multi-model comparison rows the guards were added to refuse. TEXTLINE
+  is purely ADDITIVE (+436). Neither can produce a 178 -> 24 drop. The baseline was written
+  3-5 Sep by materially different extractor code: footnote-marker stripping (which removed 156
+  fabricated PIDs carrying 792 facts) and `is_attributable_pid` (3,378 tokens dropped in this
+  run's own sku-map line) both landed since.
+
+  Measured on three of the eight, and it does NOT reduce to one cause:
+
+        ucs-xe150c-m8    22 PIDs now, 22 then    produced 178 -> 24   NOT a binding change
+        9508-x210m6       5 PIDs now, 10 then    produced  90 -> 20   fewer PIDs bind
+        9508-chassis     11 PIDs now, 11 then    produced  88 -> 24   NOT a binding change
+
+  For two of three the same parts bind and each gains far fewer FIELDS. The stored 3-5 Sep facts
+  for ucs-xe150c-m8 are 90 over 7 fields - `temp_operating(22)`, `temp_storage(22)`,
+  `humidity_operating(22)` - three document-level environmental values bound to every PID in the
+  sheet. This adapter now emits those `family_scope: "__document__"` by design, and what they
+  expand to is `canInherit`'s decision, not the extractor's.
+
+  **NOT APPLIED.** `--allow-regression` on an unexplained sevenfold drop is how a day's data
+  disappears quietly. The remaining question is apply-extract semantics - whether `produced`
+  compares a post-inheritance stored count against a pre-inheritance plan - and that belongs to
+  whoever owns `apply-extract.ts`, with the evidence above assembled rather than guessed.
+
+  **What IS confirmed working through the real pipeline**, from the extract's own mapped output:
+  `Max. Cluster Size -> cluster_size_max`, `Rear Clearance -> rear_clearance`,
+  `Safety UL -> certifications`, `Input Connector Molex -> power_input_connector`.
+  Of 436 TEXTLINE facts, 264 map to nothing and are dropped - the mapping layer filtering junk,
+  which is why the four multi-model rows mattered: `Processors -> cpu` is a STRING field and
+  nothing downstream would have refused it.
+
 - **2026-09-07 ~22:50 - Opus/PARENT, work block 49: a PDF shape that works, and a measurement of mine that did not.**
 
   **Committed.** `ebf6ac0` (5 registry fields + 6 alias rules), `1c2eaea` (shape TEXTLINE + the

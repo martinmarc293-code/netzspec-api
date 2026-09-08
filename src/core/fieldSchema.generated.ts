@@ -5214,7 +5214,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     gpu_max: { kind: "opt" },
     heat_dissipation: { kind: "opt" },
     holdup_time: { kind: "opt" },
-    humidity_operating: { kind: "opt" },
+    // promoted 2026-09-08: 85% of the 183 hyperconverged-systems parts with any fact carry it (156); earned at min-share 60%, min-parts 30
+    humidity_operating: { kind: "req" },
     ieee_standards: { kind: "opt" },
     input_current_max: { kind: "opt" },
     input_current_nominal: { kind: "opt" },
@@ -5506,7 +5507,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     supported_protocols: { kind: "opt" },
     supported_transceivers: { kind: "opt" },
     switching_capacity: { kind: "opt" },
-    temp_operating: { kind: "opt" },
+    // promoted 2026-09-08: 71% of the 122 meraki parts with any fact carry it (87); earned at min-share 60%, min-parts 30
+    temp_operating: { kind: "req" },
     temp_storage: { kind: "opt" },
     threat_throughput: { kind: "opt" },
     tx_power: { kind: "opt" },
