@@ -92,7 +92,7 @@ export type LifecycleFull = {
 export type PartRecord = {
   vendor: string; sku: string; slug: string;
   category: { slug: string; name_en: string; name_de: string };
-  family: string | null; product_class: string; name: string | null; description: string | null; datasheet_url: string | null;
+  series: string | null; family: string | null; product_class: string; name: string | null; description: string | null; datasheet_url: string | null;
   lifecycle: LifecycleFull | null;
   facts: FactItem[]; relations: RelationItem[]; images: ImageItem[];
   completeness: Completeness | null; sources: SourceItem[];
@@ -141,7 +141,7 @@ function groupBy<T>(rows: T[], key: (r: T) => number): Map<number, T[]> {
 }
 
 type HeadRow = {
-  id: number; vendor: string; sku: string; slug: string; cat_slug: string; name_en: string; name_de: string; family: string | null;
+  id: number; vendor: string; sku: string; slug: string; cat_slug: string; name_en: string; name_de: string; series: string | null; family: string | null;
   product_class: string; name: string | null; description: string | null; datasheet_url: string | null; updated_at: Date;
 } & { [K in keyof LifecycleFull]: LifecycleFull[K] | null };
 type RelationRow = RelationItem & { part_id: number };
@@ -158,7 +158,7 @@ export async function partRecords(ids: number[], states: FactState[], publicBase
   if (ids.length === 0) return [];
   const [heads, facts, relations, images, variants, completeness, sources] = await Promise.all([
     query<HeadRow>(`
-      SELECT p.id, v.slug AS vendor, p.sku, p.slug, c.slug AS cat_slug, c.name_en, c.name_de, p.family, p.product_class::text AS product_class,
+      SELECT p.id, v.slug AS vendor, p.sku, p.slug, c.slug AS cat_slug, c.name_en, c.name_de, p.series, p.family, p.product_class::text AS product_class,
              p.name, p.description, p.datasheet_url, p.updated_at, ${LIFECYCLE_COLUMNS}
         FROM parts p
         JOIN vendors v ON v.id = p.vendor_id
@@ -204,7 +204,7 @@ export async function partRecords(ids: number[], states: FactState[], publicBase
     out.push({
       vendor: h.vendor, sku: h.sku, slug: h.slug,
       category: { slug: h.cat_slug, name_en: h.name_en, name_de: h.name_de },
-      family: h.family, product_class: h.product_class, name: h.name, description: h.description, datasheet_url: h.datasheet_url,
+      series: h.series, family: h.family, product_class: h.product_class, name: h.name, description: h.description, datasheet_url: h.datasheet_url,
       lifecycle,
       facts: (factsBy.get(id) ?? []).map(toFact),
       relations: (relationsBy.get(id) ?? []).map((r) => ({ kind: r.kind, sku: r.sku, in_catalog: r.in_catalog, tier: r.tier, source_url: r.source_url, note: r.note })),

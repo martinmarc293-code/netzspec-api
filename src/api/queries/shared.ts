@@ -43,7 +43,7 @@ export function pgTextToIso(t: string): string {
 }
 
 export const SUMMARY_COLUMNS = `
-  p.id, v.slug AS vendor, p.sku, p.slug, c.slug AS category, p.family, p.product_class::text AS product_class, p.name,
+  p.id, v.slug AS vendor, p.sku, p.slug, c.slug AS category, p.series, p.family, p.product_class::text AS product_class, p.name,
   COALESCE(l.status::text, 'unknown') AS lifecycle_status,
   (SELECT count(*)::int FROM facts f WHERE f.part_id = p.id AND f.superseded_by IS NULL AND f.state IN ('verified', 'corroborated')
      AND ${factRunSucceeded("f")}) AS fact_count,
@@ -59,14 +59,14 @@ export const SUMMARY_FROM = `
   LEFT JOIN completeness cp ON cp.part_id = p.id`;
 
 export type SummaryRow = {
-  id: number; vendor: string; sku: string; slug: string; category: string; family: string | null;
+  id: number; vendor: string; sku: string; slug: string; category: string; series: string | null; family: string | null;
   product_class: string; name: string | null; lifecycle_status: string; fact_count: number;
   completeness_pct: number | null; has_image: boolean; updated_at: Date; updated_at_raw: string;
 };
 
 export function toSummary(r: SummaryRow): PartSummaryT {
   return {
-    vendor: r.vendor, sku: r.sku, slug: r.slug, category: r.category, family: r.family,
+    vendor: r.vendor, sku: r.sku, slug: r.slug, category: r.category, series: r.series, family: r.family,
     product_class: r.product_class, name: r.name, lifecycle_status: r.lifecycle_status,
     fact_count: r.fact_count, completeness_pct: r.completeness_pct, has_image: r.has_image,
     updated_at: isoOf(r.updated_at) as string,

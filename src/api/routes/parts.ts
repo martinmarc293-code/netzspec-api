@@ -7,6 +7,7 @@ import { ERROR_RESPONSES, ListOf, ListQuery, PartSummary } from "../schemas.js";
 const Query = Type.Object({
   vendor: Type.Optional(Type.String()),
   category: Type.Optional(Type.String()),
+  series: Type.Optional(Type.String()),
   family: Type.Optional(Type.String()),
   class: Type.Optional(Type.String({ description: "product_class: hardware | license | service | software | accessory | bundle | unknown" })),
   sku: Type.Optional(Type.String({ description: "exact SKU, case-insensitive (sku_norm); returns 0 or 1 part per vendor" })),
@@ -28,7 +29,7 @@ export async function partsRoutes(app: FastifyInstance): Promise<void> {
   }, async (req) => {
     const q = req.query;
     return listParts({
-      vendor: q.vendor, category: q.category, family: q.family, class: q.class,
+      vendor: q.vendor, category: q.category, series: q.series, family: q.family, class: q.class,
       sku: q.sku, sku_prefix: q.sku_prefix, q: q.q, has: q.has,
       updated_since: q.updated_since, filter: q.filter, limit: q.limit ?? 50, cursor: q.cursor,
     });

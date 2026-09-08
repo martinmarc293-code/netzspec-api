@@ -12,7 +12,7 @@ import { filterDictionary } from "./fields.js";
 import { SUMMARY_COLUMNS, SUMMARY_FROM, page, toSummary, type SummaryRow } from "./shared.js";
 
 export type PartsListParams = {
-  vendor?: string; category?: string; family?: string; class?: string; sku?: string; sku_prefix?: string; q?: string;
+  vendor?: string; category?: string; series?: string; family?: string; class?: string; sku?: string; sku_prefix?: string; q?: string;
   has?: string; updated_since?: string; filter?: string; limit: number; cursor?: string;
 };
 
@@ -46,6 +46,9 @@ export async function listParts(params: PartsListParams): Promise<{ items: PartS
 
   if (params.vendor !== undefined) where.push(`v.slug = ${bind(params.vendor)}`);
   if (params.category !== undefined) where.push(`c.slug = ${bind(params.category)}`);
+  // series and family are the two browse levels between category and part; exposing one
+  // without the other made the middle of the hierarchy unreachable from the API.
+  if (params.series !== undefined) where.push(`p.series = ${bind(params.series)}`);
   if (params.family !== undefined) where.push(`p.family = ${bind(params.family)}`);
   if (params.class !== undefined) {
     if (!PRODUCT_CLASSES.has(params.class)) throw badRequest(`unknown class "${params.class}"`);

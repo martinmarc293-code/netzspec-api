@@ -39,6 +39,10 @@ export const PartSummary = Type.Object({
   sku: Type.String(),
   slug: Type.String(),
   category: Type.String(),
+  /** The product line: category > series > family(model) > part. Populated for every cisco part
+   *  and the level a browse hangs on — it was on `parts` from 8 Sep 2026 and missing from this
+   *  projection until an outside reviewer read the OpenAPI document and could not find it. */
+  series: Nullable(Type.String()),
   family: Nullable(Type.String()),
   product_class: Type.String(),
   name: Nullable(Type.String()),
@@ -96,7 +100,7 @@ export const ImageVariant = Type.Object({
 export const PartRecord = Type.Object({
   vendor: Type.String(), sku: Type.String(), slug: Type.String(),
   category: Type.Object({ slug: Type.String(), name_en: Type.String(), name_de: Type.String() }),
-  family: Nullable(Type.String()), product_class: Type.String(), name: Nullable(Type.String()), description: Nullable(Type.String()),
+  series: Nullable(Type.String()), family: Nullable(Type.String()), product_class: Type.String(), name: Nullable(Type.String()), description: Nullable(Type.String()),
   datasheet_url: Nullable(Type.String()),
   lifecycle: Nullable(LifecycleRecord),
   facts: Type.Array(FactItem),
