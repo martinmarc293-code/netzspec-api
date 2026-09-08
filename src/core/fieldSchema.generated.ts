@@ -1358,7 +1358,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     stack_ports: { kind: "opt" },
     stackable: { kind: "opt" },
     stacking_bandwidth: { kind: "opt" },
-    standard: { kind: "opt" },
+    // promoted 2026-09-08: 57% of the 1353 wireless parts with any fact carry it (775); earned at min-share 40%, min-parts 30
+    standard: { kind: "req" },
     status_leds: { kind: "opt" },
     storage_capacity: { kind: "opt" },
     storage_raw_capacity: { kind: "opt" },
@@ -1740,7 +1741,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     stack_ports: { kind: "opt" },
     stackable: { kind: "opt" },
     stacking_bandwidth: { kind: "opt" },
-    standard: { kind: "opt" },
+    // promoted 2026-09-08: 49% of the 1431 video parts with any fact carry it (707); earned at min-share 40%, min-parts 30
+    standard: { kind: "req" },
     status_leds: { kind: "opt" },
     storage_capacity: { kind: "opt" },
     storage_raw_capacity: { kind: "opt" },
@@ -2658,7 +2660,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     content_share_resolution: { kind: "opt" },
     cooling: { kind: "opt" },
     copper_ethernet_ports: { kind: "opt" },
-    cpu: { kind: "opt" },
+    // promoted 2026-09-08: 42% of the 3762 servers-unified-computing parts with any fact carry it (1583); earned at min-share 40%, min-parts 30
+    cpu: { kind: "req" },
     cpu_base_clock: { kind: "opt" },
     cpu_boost_clock: { kind: "opt" },
     cpu_cache: { kind: "opt" },
@@ -2850,7 +2853,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     power_full_load: { kind: "opt" },
     power_input_connector: { kind: "opt" },
     power_load_idle_max: { kind: "opt" },
-    power_max: { kind: "opt" },
+    // promoted 2026-09-08: 42% of the 3762 servers-unified-computing parts with any fact carry it (1571); earned at min-share 40%, min-parts 30
+    power_max: { kind: "req" },
     power_typical: { kind: "opt" },
     presenter_tracking: { kind: "opt" },
     product_compatibility: { kind: "opt" },
@@ -5025,7 +5029,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     certifications: { kind: "opt" },
     chassis_compatibility: { kind: "opt" },
     clearance_rear: { kind: "opt" },
-    clock_speed: { kind: "opt" },
+    // promoted 2026-09-08: 40% of the 330 hyperconverged-infrastructure parts with any fact carry it (133); earned at min-share 40%, min-parts 30
+    clock_speed: { kind: "req" },
     coherent_interop_standards: { kind: "opt" },
     component_vendor_model: { kind: "opt" },
     concurrent_sessions: { kind: "opt" },
@@ -5034,7 +5039,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     cpu: { kind: "opt" },
     cpu_base_clock: { kind: "opt" },
     cpu_boost_clock: { kind: "opt" },
-    cpu_cache: { kind: "opt" },
+    // promoted 2026-09-08: 48% of the 330 hyperconverged-infrastructure parts with any fact carry it (159); earned at min-share 40%, min-parts 30
+    cpu_cache: { kind: "req" },
     cpu_clock_frequency: { kind: "opt" },
     cpu_interconnect_links: { kind: "opt" },
     cpu_sockets_max: { kind: "opt" },
@@ -5050,8 +5056,10 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     dram: { kind: "opt" },
     drive_bays: { kind: "opt" },
     drive_interface: { kind: "opt" },
-    emc_emissions: { kind: "opt" },
-    emc_immunity: { kind: "opt" },
+    // promoted 2026-09-08: 55% of the 330 hyperconverged-infrastructure parts with any fact carry it (183); earned at min-share 40%, min-parts 30
+    emc_emissions: { kind: "req" },
+    // promoted 2026-09-08: 56% of the 330 hyperconverged-infrastructure parts with any fact carry it (184); earned at min-share 40%, min-parts 30
+    emc_immunity: { kind: "req" },
     etsi_standards: { kind: "opt" },
     expansion_io: { kind: "opt" },
     fabric_services: { kind: "opt" },
@@ -5064,7 +5072,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     gpu_max: { kind: "opt" },
     heat_dissipation: { kind: "opt" },
     holdup_time: { kind: "opt" },
-    humidity_operating: { kind: "opt" },
+    // promoted 2026-09-08: 55% of the 330 hyperconverged-infrastructure parts with any fact carry it (182); earned at min-share 40%, min-parts 30
+    humidity_operating: { kind: "req" },
     ieee_standards: { kind: "opt" },
     input_current_max: { kind: "opt" },
     input_current_nominal: { kind: "opt" },
@@ -5089,7 +5098,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     max_cards_per_node: { kind: "opt" },
     max_data_rate: { kind: "opt" },
     max_interfaces: { kind: "opt" },
-    memory_speed_max: { kind: "opt" },
+    // promoted 2026-09-08: 48% of the 330 hyperconverged-infrastructure parts with any fact carry it (159); earned at min-share 40%, min-parts 30
+    memory_speed_max: { kind: "req" },
     mgmt_ports: { kind: "opt" },
     min_disks_required: { kind: "opt" },
     min_software_release: { kind: "opt" },
@@ -5141,7 +5151,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     supported_transceivers: { kind: "opt" },
     switching_capacity: { kind: "opt" },
     tdp: { kind: "opt" },
-    temp_operating: { kind: "opt" },
+    // promoted 2026-09-08: 41% of the 330 hyperconverged-infrastructure parts with any fact carry it (136); earned at min-share 40%, min-parts 30
+    temp_operating: { kind: "req" },
     temp_storage: { kind: "opt" },
     threat_throughput: { kind: "opt" },
     tx_power: { kind: "opt" },
@@ -5171,7 +5182,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     attenuation_dead_zone: { kind: "opt" },
     beamwidth_elevation: { kind: "opt" },
     cache_l3: { kind: "opt" },
-    certifications: { kind: "opt" },
+    // promoted 2026-09-08: 49% of the 183 hyperconverged-systems parts with any fact carry it (89); earned at min-share 40%, min-parts 30
+    certifications: { kind: "req" },
     chassis_compatibility: { kind: "opt" },
     clearance_rear: { kind: "opt" },
     clock_speed: { kind: "opt" },
@@ -5484,7 +5496,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     product_compatibility: { kind: "opt" },
     programming_interfaces: { kind: "opt" },
     psu_config: { kind: "opt" },
-    psu_options: { kind: "opt" },
+    // promoted 2026-09-08: 50% of the 122 meraki parts with any fact carry it (61); earned at min-share 40%, min-parts 30
+    psu_options: { kind: "req" },
     psu_redundant: { kind: "opt" },
     radio_bands: { kind: "opt" },
     radio_count: { kind: "opt" },
@@ -5506,7 +5519,8 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     supported_modules: { kind: "opt" },
     supported_protocols: { kind: "opt" },
     supported_transceivers: { kind: "opt" },
-    switching_capacity: { kind: "opt" },
+    // promoted 2026-09-08: 47% of the 122 meraki parts with any fact carry it (57); earned at min-share 40%, min-parts 30
+    switching_capacity: { kind: "req" },
     // promoted 2026-09-08: 71% of the 122 meraki parts with any fact carry it (87); earned at min-share 60%, min-parts 30
     temp_operating: { kind: "req" },
     temp_storage: { kind: "opt" },
