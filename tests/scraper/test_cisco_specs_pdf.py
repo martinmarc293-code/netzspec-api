@@ -494,6 +494,14 @@ _JUNK = [
     # ... and this one survived the FIRST version of that rule, which required almost every token
     # to be bare. Three of six are bare here, so the threshold is half, not len-1.
     "Supply PSU 12V_Main 2400W 1300W 1 2400 1300",
+    # MULTI-MODEL COMPARISON ROWS, from the 61-document extraction. A sheet comparing two or three
+    # models prints every model's figure on one line; read as one document-scoped fact that is a
+    # number belonging to no device. `Processors` is the dangerous one — `cpu` is a STRING field,
+    # so nothing downstream would have refused it, and it was 14 facts.
+    "Processors 155W+ 155W+ and 105W+ (4 or 6 Cores)",
+    "Maximum Input at Nominal Input Voltage NA 1778 1758",
+    "Minimum Rated Efficiency (%) NA NA 90 91",
+    "Maximum Rated Output 1300/2500 2500 2500",
     # a split SENTENCE, and a split parenthetical
     "temperature must be less than 35 oC (95 oF).",
     "(with two power supplies and six fans 44 lb (20 kg) 25lbs (11.34 KG)",
@@ -515,6 +523,13 @@ _REAL = {
     "Cordset rating 10 A, 250 V": ("Cordset rating", "10 A, 250 V"),
     "Max. Cluster Size 32": ("Max. Cluster Size", "32"),
     "Rear Clearance 6 in. (152 mm)": ("Rear Clearance", "6 in. (152 mm)"),
+    # ... and the real values from the same extraction that the multi-model rules must NOT eat.
+    # Each has two or more numbers; each is ONE value, because the document joins them.
+    "Maximum Allowable Input Voltage Range 90 to 264": ("Maximum Allowable Input Voltage Range", "90 to 264"),
+    "Operating Altitude 0 m to 3050 m (10,000 ft)": ("Operating Altitude", "0 m to 3050 m (10,000 ft)"),
+    "Maximum Allowable Frequency Range (Hz) 47 to 63": ("Maximum Allowable Frequency Range (Hz)", "47 to 63"),
+    "Minimum Ride-Through Time (ms) 12": ("Minimum Ride-Through Time (ms)", "12"),
+    "Maximum Rated Standby Output (W) 36": ("Maximum Rated Standby Output (W)", "36"),
 }
 for _line, _want in _REAL.items():
     _got = spec_pairs(_line + "\n")

@@ -592,16 +592,54 @@ _DANGLING = re.compile(r"(?<![a-z])(than|and|or|with|of|for|to|is|are|be|less|gr
 _BARE_TOKEN = re.compile(r"^[-+]?\d[\d,.]*$")
 
 
+#: A RANGE or a pair the document itself joins — "90 to 264", "0 m to 3050 m", "17.5 in. x 29.8 in."
+#: Its numbers belong together and must never be read as columns.
+_JOINED = re.compile(r"(?<![a-z])(to|through|and|or|x|X|–|-|/)(?![a-z])")
+
+
 def _is_column_series(value: str) -> bool:
+    """Is this one value, or one ROW of a multi-model comparison table?
+
+    Both rules below come from the 61-document extraction, not from imagination. A spec sheet that
+    compares two or three models prints one line carrying every model's figure, and read as a
+    single document-scoped fact that is a number belonging to no device:
+
+        Maximum Input at Nominal Input Voltage   NA 1778 1758
+        Minimum Rated Efficiency (%) NA          NA 90 91
+        Maximum Rated Output                     1300/2500 2500 2500
+        Processors                               155W+ 155W+ and 105W+ (4 or 6 Cores)
+
+    The last one is the dangerous member: `cpu` is a STRING field, so nothing downstream would
+    refuse it — the numeric ones are at least quarantined by the normaliser. 14 facts.
+    """
     toks = value.split()
-    if len(toks) < 3:
+    if len(toks) < 2:
         return False
-    bare = sum(1 for t in toks if _BARE_TOKEN.match(t))
-    # HALF, not almost-all. "Supply PSU 12V_Main 2400W 1300W 1 2400 1300" is six tokens of which
-    # three are bare, and requiring len-1 let it through -- a power TABLE read as one fact. The
-    # real specifications in the same run survive this because their numbers carry units or a
-    # joining word: "0 to 10000 ft (0 to 3048 m)" is 3 bare of 8, "100 to 240 VAC" is 2 of 4.
-    return bare >= 3 and bare >= len(toks) // 2
+
+    # RULE 1 — a repeated substantive token. One value does not say "2500 2500" or "155W+ 155W+";
+    # a row of three columns does.
+    seen: dict[str, int] = {}
+    for t in toks:
+        if len(t) >= 2 and any(ch.isdigit() for ch in t):
+            seen[t] = seen.get(t, 0) + 1
+            if seen[t] >= 2:
+                return True
+
+    # RULE 2 — two or more numbers standing BARE: not joined by the document, and not each
+    # followed by a unit. Both halves of that are load-bearing. The join test keeps "90 to 264"
+    # out; the unit test keeps "10 A, 250 V" out, which the first version of this rule ATE — a
+    # cordset rating is one value stating a current and a voltage, and the tell is that every
+    # number has a unit after it. In "NA 1778 1758" the figures are followed by more figures.
+    bare = [i for i, t in enumerate(toks) if _BARE_TOKEN.match(t)]
+    unit_after = sum(1 for i in bare
+                     if i + 1 < len(toks)
+                     and toks[i + 1].strip("(),;:").lower() in _UNITS_KNOWN)
+    if len(bare) - unit_after >= 2 and not _JOINED.search(value):
+        return True
+
+    # RULE 3 — the original: three or more bare numbers and no unit between them, a column series
+    # even when something in the line looks like a joining word. "Sys FAN 59 5 295".
+    return len(bare) >= 3 and len(bare) >= len(toks) // 2
 
 
 #: A standards body or connector family left on the end of the LABEL by the split, because the
