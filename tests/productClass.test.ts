@@ -29,6 +29,12 @@ const cases: Case[] = [
   // monthly cloud subscription can never satisfy.
   { sku: "MSLA-XDR-ADV-AP-F", cat: "security", hw: true, want: "license", reason: "sku-prefix:MSLA-", note: "Managed Service Licence Agreement inside a hardware category" },
   { sku: "SPLA-UMB-DNS-A-K9", cat: "security", hw: true, want: "license", reason: "sku-prefix:SPLA-", note: "Service Provider Licence Agreement; the -K9 crypto suffix does not make it hardware" },
+  { sku: "S-ISE-APX-1YR-100", cat: "security", hw: true, want: "license", reason: "sku-prefix:S-ISE-", note: "the existing ISE- rule cannot reach it: the S- puts the token off the front" },
+  { sku: "ASA-CSC10-100U-1Y", cat: "security", hw: true, want: "license", reason: "sku-prefix:ASA-CSC", note: "a CSC-SSM user licence" },
+  { sku: "ASA-CSC20-PLUS=", cat: "security", hw: true, want: "license", reason: "sku-prefix:ASA-CSC", note: "and a Plus licence with a spare suffix" },
+  // THE VETO THAT MATTERS: the module the licences above are FOR must stay hardware. `ASA-CSC` was
+  // chosen over the bare `CSC` token precisely so this case cannot be swallowed.
+  { sku: "CSC-SSM-10", cat: "security", hw: true, want: "hardware", reason: "category-is_hardware=true:security", note: "the real Content Security and Control module — no ASA- prefix, so no rule fires" },
   { sku: "LIC-CT5508-25A", cat: "wireless", hw: true, want: "license", reason: "sku-prefix:LIC-" },
   { sku: "SL-1100TG-APP-K9", cat: "routers", hw: true, want: "license", reason: "sku-prefix:SL-" },
   { sku: "E-15454-R1061SWK9=", cat: "optical-networking", hw: true, want: "license", reason: "sku-prefix:E-", note: "e-delivery licence with a spare suffix" },

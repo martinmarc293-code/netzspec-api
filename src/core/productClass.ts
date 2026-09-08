@@ -123,6 +123,8 @@ export const SKU_RULES: SkuRule[] = [
   // parts that carry a fact, and are industry acronyms rather than family names.
   { kind: "prefix", token: "MSLA-", klass: "license", why: "Managed Service Licence Agreement; 13 parts, 12 of them currently hardware, 0 facts. Every one is an XDR or Vulnerability Management subscription" },
   { kind: "prefix", token: "SPLA-", klass: "license", why: "Service Provider Licence Agreement; 7 parts, all currently hardware, 0 facts. Stealthwatch Cloud monthly monitoring and an Umbrella DNS entitlement" },
+  { kind: "prefix", token: "S-ISE-", klass: "license", why: "ISE endpoint term licence sold through a service provider ('SVP Cisco ISE 1-Yr 100 Endpoint Apex License'); 78 parts, all currently hardware, 0 facts. The existing ISE- rule cannot reach these — the S- puts the token off the front" },
+  { kind: "prefix", token: "ASA-CSC", klass: "license", why: "Content Security and Control user licences and renewals for the CSC-SSM ('ASA 5500 Series CSC-SSM-10 100-User License'); 55 parts, all currently hardware, 0 facts. Deliberately NOT the bare CSC token: the module itself is CSC-SSM-10 / CSC-SSM-20 with no ASA- prefix, and it is real hardware" },
   // REJECTED in the same pass, and worth the line: `-SUB-` as an infix looked ideal — 198 matches,
   // 79 of them hardware, 0 facts at risk. Reading the parts killed it. CS-BOARD55S-SUB-K9 is "MLB
   // for Subscription - Board 55": a MAIN LOGIC BOARD sold under a subscription plan, and so are
