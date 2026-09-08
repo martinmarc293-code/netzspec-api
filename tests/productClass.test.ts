@@ -24,6 +24,11 @@ const cases: Case[] = [
   { sku: "L-C9200-24-E-A", cat: "switches", hw: true, want: "license", reason: "sku-prefix:L-" },
   { sku: "L-C9200-24-E-A=", cat: "switches", hw: true, want: "license", reason: "sku-prefix:L-", note: "spare suffix on a licence is still the licence" },
   { sku: "L-12KSR-EPN2SFDN", cat: "cloud-systems-management", hw: false, want: "license", reason: "sku-prefix:L-" },
+  // Round 3, 8 Sep 2026. Both sat in `security` classed hardware by the category fallback alone,
+  // so each was carrying an appliance profile — a weight and an operating temperature — that a
+  // monthly cloud subscription can never satisfy.
+  { sku: "MSLA-XDR-ADV-AP-F", cat: "security", hw: true, want: "license", reason: "sku-prefix:MSLA-", note: "Managed Service Licence Agreement inside a hardware category" },
+  { sku: "SPLA-UMB-DNS-A-K9", cat: "security", hw: true, want: "license", reason: "sku-prefix:SPLA-", note: "Service Provider Licence Agreement; the -K9 crypto suffix does not make it hardware" },
   { sku: "LIC-CT5508-25A", cat: "wireless", hw: true, want: "license", reason: "sku-prefix:LIC-" },
   { sku: "SL-1100TG-APP-K9", cat: "routers", hw: true, want: "license", reason: "sku-prefix:SL-" },
   { sku: "E-15454-R1061SWK9=", cat: "optical-networking", hw: true, want: "license", reason: "sku-prefix:E-", note: "e-delivery licence with a spare suffix" },

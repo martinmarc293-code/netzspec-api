@@ -116,6 +116,19 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "contains", token: "-SIA", klass: "license", why: "Software Innovation Access term licence (ADV-ED-100G-SIA3); 21 Cisco parts by the file's count, 212 across the corpus" },
   { kind: "prefix", token: "EVAL-", klass: "license", why: "evaluation / NFR entitlement, not a shippable product; 15 parts" },
   { kind: "contains", token: "SUBSCR", klass: "license", why: "spelled-out subscription (EI-SUBSCRIPTIONS, WAESUBSCRIPTIBDQ8); 3 parts" },
+  // ---- round 3 (measured over all 91,543 parts and 13 vendors, 8 Sep 2026, working `security`) --
+  // Every hardware part in `security` is hardware by the category fallback alone — no SKU rule
+  // fires for any of the 6,689 — so anything the table can catch there is a part that was carrying
+  // an appliance profile it can never satisfy. Both rules below match Cisco only today, hit ZERO
+  // parts that carry a fact, and are industry acronyms rather than family names.
+  { kind: "prefix", token: "MSLA-", klass: "license", why: "Managed Service Licence Agreement; 13 parts, 12 of them currently hardware, 0 facts. Every one is an XDR or Vulnerability Management subscription" },
+  { kind: "prefix", token: "SPLA-", klass: "license", why: "Service Provider Licence Agreement; 7 parts, all currently hardware, 0 facts. Stealthwatch Cloud monthly monitoring and an Umbrella DNS entitlement" },
+  // REJECTED in the same pass, and worth the line: `-SUB-` as an infix looked ideal — 198 matches,
+  // 79 of them hardware, 0 facts at risk. Reading the parts killed it. CS-BOARD55S-SUB-K9 is "MLB
+  // for Subscription - Board 55": a MAIN LOGIC BOARD sold under a subscription plan, and so are
+  // the other nine Room Kit and Board entries. `-SUB-` marks the ordering programme, not the
+  // product class — the same reason the file rejected `C1-` (Cisco ONE) above. The `-SUB` SUFFIX
+  // rule already in this table is the unambiguous form and stays.
   { kind: "prefix", token: "SW-", klass: "software", why: "Cisco software image / feature-set SKU (SW-CCME-UL-ENH=); 275 parts" },
   { kind: "prefix", token: "SVS-", klass: "service", why: "Cisco Solution Support service line; 28 parts" },
   { kind: "prefix", token: "ASF-", klass: "service", why: "Advanced Services fixed-scope engagement; 20 parts" },
