@@ -15,6 +15,7 @@
 //
 // Idempotent and cheap: rows are written only when the computed tuple differs.
 import { getPool, closePool, withTx } from "../store/index.js";
+import { withRun } from "../store/runs.js";
 import { completenessV2, requirementFor, PROFILES } from "../core/fieldSchema.js";
 
 type Args = { vendor: string | null; category: string | null; since: string | null; batch: number };
@@ -39,6 +40,20 @@ export function requiredFieldsFor(category: string, values: Record<string, unkno
 
 export async function main(argv: string[]): Promise<void> {
   const a = parseArgs(argv);
+  // A RUN ROW, LIKE EVERY OTHER COMMAND THAT WRITES. This one did not have one, and the cost
+  // showed up on 8 Sep 2026: a recompute of three categories was killed after printing its first
+  // line, two of the three never ran, and NOTHING anywhere recorded it — `completeness` still had
+  // a row for every part (the invariant everyone checks) and the rows were simply scored against
+  // a profile that had since changed. `computed_at` cannot fill the gap either, because it moves
+  // only when a row's tuple CHANGES, so an old timestamp cannot distinguish "recomputed and
+  // identical" from "never recomputed". openRun writes the row FIRST, so a kill leaves a
+  // `running` run naming exactly which scope was in flight.
+  await withRun("recompute-completeness",
+    { vendor: a.vendor, category: a.category, since: a.since, batch: a.batch },
+    async () => ({ stats: await run(a) }));
+}
+
+async function run(a: Args): Promise<Record<string, number>> {
   const pool = getPool();
   const cats = new Map((await pool.query<{ id: number; slug: string }>("SELECT id, slug FROM categories")).rows.map((r) => [r.id, r.slug]));
   const where: string[] = [];
@@ -105,9 +120,11 @@ export async function main(argv: string[]): Promise<void> {
     if ((i / a.batch) % 20 === 19) console.log(`  ${Math.min(i + a.batch, parts.length)}/${parts.length} written=${written} unchanged=${unchanged}`);
   }
   console.log(`done: written ${written}, unchanged ${unchanged}, hardware without a profile ${noProfile}, non-hardware ${nonHardware}`);
-  await closePool();
+  return { parts: parts.length, written, unchanged, no_profile: noProfile, non_hardware: nonHardware };
 }
 
 if (process.argv[1] && /recompute-completeness\.(ts|js)$/.test(process.argv[1])) {
-  main(process.argv.slice(2)).catch((e) => { console.error(e instanceof Error ? e.message : e); process.exit(1); });
+  main(process.argv.slice(2))
+    .then(() => closePool())
+    .catch(async (e) => { console.error(e instanceof Error ? e.message : e); await closePool().catch(() => {}); process.exit(1); });
 }
