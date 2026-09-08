@@ -51,6 +51,7 @@ const DocListItem = Type.Object(DocFields);
 const ListQuery = Type.Object({
   vendor: Type.Optional(Type.String()),
   doc_type: Type.Optional(Type.String()),
+  category: Type.Optional(Type.String({ description: "documents naming at least one part in this category" })),
   spec_bearing: Type.Optional(Type.Boolean({ description: "only documents that can carry specifications" })),
   limit: Type.Optional(Type.Integer({ minimum: 1, maximum: 200, default: 50 })),
   cursor: Type.Optional(Type.String()),
@@ -94,6 +95,7 @@ export async function docsRoutes(app: FastifyInstance): Promise<void> {
     },
   }, async (req) => listDocs({
     vendor: req.query.vendor,
+    category: req.query.category,
     doc_type: req.query.doc_type,
     spec_bearing: req.query.spec_bearing,
     limit: req.query.limit ?? 50,

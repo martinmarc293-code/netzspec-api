@@ -53,7 +53,7 @@ export async function getDoc(docId: string): Promise<DocRecord | null> {
 }
 
 export type DocListArgs = {
-  vendor?: string; doc_type?: string; spec_bearing?: boolean; limit: number; cursor?: string;
+  vendor?: string; category?: string; doc_type?: string; spec_bearing?: boolean; limit: number; cursor?: string;
 };
 
 /**
@@ -74,11 +74,20 @@ export async function listDocs(a: DocListArgs): Promise<{ items: DocListItem[]; 
        AND ($2::text IS NULL OR sd.doc_type = $2)
        AND ($3::text[] IS NULL OR sd.doc_type = ANY($3))
        AND ($4::text IS NULL OR sd.doc_id > $4)
+       -- A document belongs to a category only through the parts it names, so this asks whether
+       -- ANY part it names sits there. Without it, "which documents cover the security category?"
+       -- costs a 67-page export walk aggregating doc_type per part -- which is how an outside
+       -- reviewer found the gap. (No backticks in here: this SQL lives in a template literal.)
+       AND ($6::text IS NULL OR EXISTS (
+             SELECT 1 FROM doc_parts dp
+               JOIN parts p ON p.id = dp.part_id AND p.retired_at IS NULL
+               JOIN categories c ON c.id = p.category_id
+              WHERE dp.doc_id = sd.doc_id AND c.slug = $6))
      ORDER BY sd.doc_id
      LIMIT $5`,
     [a.vendor ?? null, a.doc_type ?? null,
      a.spec_bearing === undefined ? null : (a.spec_bearing ? [...SPEC_BEARING] : null),
-     a.cursor ?? null, a.limit + 1]);
+     a.cursor ?? null, a.limit + 1, a.category ?? null]);
   // spec_bearing=false cannot be expressed as "= ANY(spec list)"; it is the complement, and doing
   // it in SQL would put the class list in two places. Filter it here, where the set already lives.
   let items = rows.rows.map((r) => ({ ...r, spec_bearing: specBearing(r.doc_type),
