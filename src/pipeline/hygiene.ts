@@ -49,7 +49,7 @@ import { isPartNumber } from "./partNumber.js";
 // arguments
 // =================================================================================================
 
-export const CHECKS = ["case-duplicates", "fabricated-pids", "foreign-pids", "cross-brand-family", "hw-variants"] as const;
+export const CHECKS = ["case-duplicates", "fabricated-pids", "foreign-pids", "value-pids", "cross-brand-family", "hw-variants"] as const;
 export type CheckName = (typeof CHECKS)[number];
 /** report only: these checks have no --commit effect, and asking for one is refused rather than ignored */
 export const REPORT_ONLY: ReadonlySet<string> = new Set<CheckName>(["cross-brand-family"]);
@@ -151,6 +151,39 @@ export function foreignShape(sku: string): { rule: string; noise: boolean } | nu
   if (!pn.ok) return { rule: `catalogue_noise:${pn.reason}`, noise: true };
   if (sku.startsWith("0")) return { rule: "leading_zero", noise: false };
   return null;
+}
+
+/**
+ * A SKU that is a datasheet CELL, not a part number: a bare number with a unit glued to it.
+ * `200K` is a concurrent-session count, `10.4G` a firewall throughput, `1010.5W` a power draw,
+ * `42RU` a rack height. Every one arrived when a table column was enumerated as a product.
+ *
+ * THREE WIDER RULES WERE MEASURED FIRST AND ALL THREE SWALLOWED REAL PRODUCTS. The counts got
+ * better as the net widened, which is exactly what made them tempting:
+ *
+ *   everything isPartNumber rejects   770 rows — `00VX183` is "Lenovo 00VX183 10G SFP+
+ *                                     SR-Transceiver" with 8 facts, `10060` an Extreme 1G SFP.
+ *                                     That predicate is tuned for Cisco PIDs and over-rejects
+ *                                     other vendors' numeric ones (foreignShape already treats it
+ *                                     as a REASON TO SKIP, not a reason to retire, for this reason)
+ *   …plus any dotted decimal          523 rows, 280 in `video`. `4022938.26` is "GS7000 DWDM Tx,
+ *                                     1556.55nm, ITU26" — a real transmitter whose digits after
+ *                                     the dot are its ITU channel; its unnamed neighbours carry
+ *                                     the WAVELENGTH there (`4013900.1530`)
+ *   …plus any numeric range           132 rows. `9800-40` and `9800-80` are Catalyst 9800 Wireless
+ *                                     Controllers, and `5-15` is the NEMA 5-15 plug
+ *
+ * So the rule is the narrow one that survived reading every row it matches: 114 across the whole
+ * catalogue, and each carries the name "Cisco <the value>" because there was never a product to
+ * name. The unit list is closed on purpose — a new unit is a new measurement, not a guess.
+ */
+const VALUE_PID = /^\d+(?:\.\d+)?\s*(?:W|G|K|M|GB|MB|TB|Gbps|Mbps|GHz|MHz|V|A|RU|HE)$/i;
+
+export function valuePidShape(sku: string): { rule: string } | null {
+  const s = sku.trim();
+  if (!VALUE_PID.test(s)) return null;
+  const unit = s.replace(/^[\d.\s]+/, "").toLowerCase();
+  return { rule: `value_as_pid:${unit}` };
 }
 
 /** Brands whose name in a `family` string means a vendor other than the row's own. */
@@ -688,6 +721,27 @@ export async function readForeignCandidates(vendor: string, db: Queryable): Prom
   return r.rows;
 }
 
+export type ValuePidRow = { id: number; sku: string; vendor: string; name: string | null; family: string | null;
+  product_class: string; review_tier: number | null; facts: number; independent: number; docs: string | null };
+
+export async function readValuePidCandidates(vendor: string | null, db: Queryable): Promise<ValuePidRow[]> {
+  // Prefiltered to SKUs that START with a digit, which every value shape does and which keeps the
+  // scan off the other 91,000 rows. The shape itself is decided in valuePidShape, in code, so the
+  // rule is not re-implemented in SQL where it could drift from the one the tests exercise.
+  const r = await db.query<ValuePidRow>(
+    `SELECT p.id, p.sku, ve.slug AS vendor, p.name, p.family, p.product_class::text AS product_class, p.review_tier,
+            (SELECT count(*)::int FROM facts f WHERE f.part_id = p.id) AS facts,
+            ((SELECT count(*)::int FROM part_aliases a WHERE a.part_id = p.id)
+             + (SELECT count(*)::int FROM images i WHERE i.part_id = p.id)
+             + (SELECT count(*)::int FROM relations r WHERE r.from_part_id = p.id OR r.to_part_id = p.id)
+             + (SELECT count(*)::int FROM lifecycle x WHERE x.part_id = p.id)) AS independent,
+            (SELECT string_agg(DISTINCT sd.url, ' | ') FROM doc_parts d JOIN source_docs sd ON sd.doc_id = d.doc_id WHERE d.part_id = p.id) AS docs
+       FROM parts p JOIN vendors ve ON ve.id = p.vendor_id
+      WHERE p.retired_at IS NULL AND p.sku ~ '^[0-9]' AND ($1::text IS NULL OR ve.slug = $1)
+      ORDER BY ve.slug, p.sku`, [vendor]);
+  return r.rows;
+}
+
 export type CrossBrandRow = { id: number; sku: string; vendor: string; family: string };
 
 export async function readFamilies(vendor: string | null, db: Queryable): Promise<CrossBrandRow[]> {
@@ -838,6 +892,47 @@ export async function checkForeignPids(a: Args, db: Queryable): Promise<{ result
   return { result, work };
 }
 
+export async function checkValuePids(a: Args, db: Queryable): Promise<{ result: CheckResult; work: { part: number; sku: string; rule: string; evidence: string | null }[] }> {
+  const rows = await readValuePidCandidates(a.vendor, db);
+  const result: CheckResult = { check: "value-pids", scanned: rows.length, counts: {}, refusals: {}, examples: [], listing: [], notes: [] };
+  const work: { part: number; sku: string; rule: string; evidence: string | null }[] = [];
+  for (const r of rows) {
+    const shape = valuePidShape(r.sku);
+    if (!shape) { inc(result.counts, "not_a_value_shape"); continue; }
+    if (r.review_tier === 0) { inc(result.refusals, "operator_reviewed"); result.listing.push({ sku: r.sku, decision: "REFUSED operator_reviewed" }); continue; }
+    // ANYTHING ATTACHED IS EVIDENCE SOMETHING BELIEVES IT IS A PRODUCT, and that outranks a shape.
+    // `110V` and `220V` carry two facts and a document each; they stay.
+    if (r.facts > 0 || r.independent > 0 || r.docs) {
+      inc(result.refusals, "has_evidence");
+      result.listing.push({ sku: r.sku, decision: "REFUSED has_evidence", facts: r.facts, independent: r.independent, source: r.docs });
+      continue;
+    }
+    // A row someone has NAMED is a row someone looked at. Every true positive carries
+    // "<Vendor> <the value>" and nothing else, because there was never a product to name.
+    //
+    // THE FIRST VERSION ALSO REFUSED ON `r.family` AND THAT REFUSED EVERY ROW — 110 of 110, which
+    // read as the check working and was the check doing nothing. `family` used to be a datasheet
+    // grouping, present only where a document described the part, so its presence really did mean
+    // someone had looked. Since 8 Sep 2026 it is DERIVED from the SKU, so every part has one and
+    // it carries no information at all. A predicate that was evidence became a constant, silently,
+    // the day the column changed meaning.
+    if (r.name && !new RegExp(`^\\s*\\S+\\s+${r.sku.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*$`, "i").test(r.name)) {
+      inc(result.refusals, "has_a_real_name");
+      result.listing.push({ sku: r.sku, decision: "REFUSED has_a_real_name", name: r.name });
+      continue;
+    }
+    inc(result.counts, "retire");
+    work.push({ part: r.id, sku: r.sku, rule: shape.rule, evidence: null });
+    result.listing.push({ sku: r.sku, decision: `retire ${shape.rule}`, product_class: r.product_class });
+    if (result.examples.length < a.examples) {
+      result.examples.push({ subject: `${r.vendor} ${r.sku}`, decision: `retire ${shape.rule}`, detail: { name: r.name, product_class: r.product_class } });
+    }
+  }
+  result.notes.push("no successor: a table cell is not another part of ours, so retired_into stays NULL");
+  result.notes.push("the unit list is closed. A dotted decimal (4022938.26 is a GS7000 DWDM Tx) and a numeric range (9800-40 is a Catalyst 9800) were both measured and REFUSED — see valuePidShape");
+  return { result, work };
+}
+
 export async function checkCrossBrandFamily(a: Args, db: Queryable): Promise<{ result: CheckResult }> {
   const rows = await readFamilies(a.vendor, db);
   const result: CheckResult = { check: "cross-brand-family", scanned: rows.length, counts: {}, refusals: {}, examples: [], listing: [], notes: [] };
@@ -973,6 +1068,27 @@ export async function main(argv: string[]): Promise<void> {
             stats: { retired: done, refusals: r.refusals },
             notes: [`hygiene foreign-pids: retired ${done} part(s) with no successor`,
               ...work.map((w) => `${w.sku}  ${w.rule}  ${w.evidence ?? "(no document names it)"}`)].join("\n"),
+          };
+        }, { partial: () => ({ stats: { retired: done }, progress: `${done} of ${work.length}` }) });
+        runId = out.runId; stats = out.stats as Record<string, unknown>;
+      }
+    } else if (check === "value-pids") {
+      const { result: r, work } = await checkValuePids(a, pool);
+      result = r;
+      if (a.commit && work.length) {
+        let done = 0;
+        const out = await withRun("hygiene-value-pids", { vendor: a.vendor, parts: work.length }, async (runId2) => {
+          for (const w of work) {
+            await withTx(async (client) => {
+              // no successor: a table cell is not another part of ours
+              await retirePart(w.part, { into: null, reason: w.rule, runId: runId2 }, client);
+            });
+            done++;
+          }
+          return {
+            stats: { retired: done, refusals: r.refusals },
+            notes: [`hygiene value-pids: retired ${done} row(s) whose SKU is a value, not a part number`,
+              ...work.map((w) => `${w.sku}  ${w.rule}`)].join("\n"),
           };
         }, { partial: () => ({ stats: { retired: done }, progress: `${done} of ${work.length}` }) });
         runId = out.runId; stats = out.stats as Record<string, unknown>;

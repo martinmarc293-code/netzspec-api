@@ -749,7 +749,6 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     threat_throughput: cond({ field: "series", inList: SEC_INLINE }),
     concurrent_sessions: cond({ field: "series", inList: [...SEC_FIREWALL, ...SEC_IDENTITY] }),
     ips_throughput: cond({ field: "series", inList: SEC_IPS }),
-    events_per_second: cond({ field: "series", inList: [...SEC_MGMT, ...SEC_ANALYTICS] }),
     recommended_users: cond({ field: "series", inList: [...SEC_EMAIL, ...SEC_WEB] }),
     storage_capacity: cond({ field: "series", inList: [...SEC_EMAIL, ...SEC_WEB, ...SEC_MGMT, ...SEC_ANALYTICS] }),
 
@@ -771,6 +770,15 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // requirements from evidence here as everywhere else.
     max_endpoints: opt, managed_devices_max: opt, flows_per_second: opt,
     ddos_mitigation_throughput: opt,
+    // events_per_second JOINS THEM, 8 Sep 2026, and the correction is worth recording because it
+    // was the same mistake in a different direction. I gated it on management + analytics because
+    // an event rate is what sizes a log collector — true of the world, and NOT what the evidence
+    // said. The single supporting label in the 23,651-label inventory is "Sustained Firewall
+    // Events per Second (eps)", 9 occurrences, and it is a FIREWALL row. So the field was required
+    // of eleven series on the strength of a label belonging to a twelfth kind of product.
+    // Declared for the shapes it plausibly describes, required of none until a management or
+    // analytics datasheet publishes it under its own name.
+    events_per_second: opt,
 
     // The rest of the inline-security vocabulary stays optional: a firewall datasheet states some
     // of these and not others, and promote-required earns a requirement from evidence rather than

@@ -31,7 +31,7 @@ const CASES: Case[] = [
   { series: "Email Security Appliance", field: "recommended_users", want: "req", why: "ESA is sized by users" },
   { series: "Secure Web Appliance", field: "recommended_users", want: "req", why: "so is a WSA" },
   { series: "Security Manager", field: "managed_devices_max", want: "opt", why: "no enabled source publishes a label for it — declared, not required" },
-  { series: "Firesight Management Center", field: "events_per_second", want: "req", why: "and by event rate" },
+  { series: "Firesight Management Center", field: "events_per_second", want: "opt", why: "the only eps label in the inventory is a FIREWALL row — declared, not required" },
   { series: "Secure Network Analytics", field: "flows_per_second", want: "opt", why: "zero labels in the inventory — declared, not required" },
   { series: "Identity Services Engine", field: "max_endpoints", want: "opt", why: "labels exist but are ambiguous — declared, not required" },
   { series: "FirePOWER 8000 Appliances", field: "ips_throughput", want: "req", why: "an IPS by inspected throughput" },
@@ -39,10 +39,10 @@ const CASES: Case[] = [
 
   // --- and NOT for another shape's figure ---
   { series: "Firepower NGFW", field: "recommended_users", want: "na", why: "a firewall is not sized by users" },
-  { series: "Firepower NGFW", field: "events_per_second", want: "na", why: "a firewall is not sized by event rate" },
-  { series: "Email Security Appliance", field: "events_per_second", want: "na", why: "a mail gateway is not a log collector" },
+  { series: "Firepower NGFW", field: "storage_capacity", want: "na", why: "a firewall is not sized by an event store" },
+  { series: "Email Security Appliance", field: "storage_capacity", want: "req", why: "a mail gateway IS sized by its spool" },
   { series: "Email Security Appliance", field: "ips_throughput", want: "na", why: "no inline inspection" },
-  { series: "Security Manager", field: "events_per_second", want: "req", why: "a console IS sized by event rate" },
+  { series: "Security Manager", field: "storage_capacity", want: "req", why: "a console IS sized by its event store" },
 
   // --- the universal fields hold for every shape, including the unshaped ones ---
   { series: "Email Security Appliance", field: "weight", want: "req", why: "every box has a weight" },
@@ -52,7 +52,7 @@ const CASES: Case[] = [
 
   // --- a series in no shape gets no shape-specific requirement, which is the safe default ---
   { series: "XDR", field: "concurrent_sessions", want: "na", why: "unshaped: asked nothing it may not have" },
-  { series: "Fireamp Endpoints", field: "events_per_second", want: "na", why: "unshaped" },
+  { series: "Fireamp Endpoints", field: "storage_capacity", want: "na", why: "unshaped" },
   { series: "A Series That Does Not Exist Yet", field: "firewall_throughput", want: "na", why: "a new series is not assumed to be a firewall" },
   { series: "A Series That Does Not Exist Yet", field: "weight", want: "req", why: "but it is still a box" },
 ];
