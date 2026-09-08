@@ -37,7 +37,11 @@ import { REPO_ROOT } from "../src/config.js";
 
 type Def = { key: string; de?: string; en?: string; type?: string; unit?: string; band?: [number, number] };
 const REG: Record<string, Def> = { ...(GENERATED_FIELDS as Record<string, Def>), ...(FIELD_DICTIONARY as Record<string, Def>) };
-const aliases = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data/schema/attribute-aliases.en.json"), "utf8")) as
+// The alias file is a PARAMETER so this audit can be run against a deliberately broken copy.
+// A check that has never fired is not a check: see the --alias-file sabotage in the tick log.
+const aliasArg = process.argv.indexOf("--alias-file");
+const ALIAS_PATH = aliasArg >= 0 ? process.argv[aliasArg + 1] : path.join(REPO_ROOT, "data/schema/attribute-aliases.en.json");
+const aliases = JSON.parse(fs.readFileSync(ALIAS_PATH, "utf8")) as
   { case_insensitive: boolean; rules: [string, string, string?, unknown?][] };
 
 const norm = (s: string | undefined) =>
@@ -69,8 +73,34 @@ for (const k of dead) say("DEAD_RULE", `${aliases.rules.filter((r) => r[1] === k
 // is a gap nobody promised, and reporting 400 of them would bury the five that are promised.
 const requiredKeys = new Set<string>();
 for (const p of Object.values(PROFILES)) for (const [k, r] of Object.entries(p)) if (r.kind === "req" || r.kind === "cond") requiredKeys.add(k);
-for (const k of requiredKeys) if (!mapped.has(k)) say("UNREACHABLE_REQ", `"${k}" is required somewhere and NO alias rule maps any label to it`);
-console.log(`  (${requiredKeys.size} keys are required or conditional across all profiles)`);
+// AN ALIAS RULE IS NOT THE ONLY ROUTE, and the first version of this check cried wolf on three
+// of five. `vendor` and `mgmt_class` carry thousands of facts with no rule at all, because
+// recompute-completeness fills them from the PART ROW — promote-required says so in its own
+// refusal list ("identity … already on the parts row for every part"). A check that measures one
+// route and concludes about all routes is the defect this file exists to catch, so the verdict
+// needs the store, and without it this section reports CANDIDATES, not findings.
+const unreachable = [...requiredKeys].filter((k) => !mapped.has(k)).sort();
+for (const k of unreachable) say("UNREACHABLE_REQ?", `"${k}" is required somewhere and no alias rule maps a label to it — CANDIDATE ONLY, it may be filled from the part row; run with --cost to settle it`);
+console.log(`  (${requiredKeys.size} keys required or conditional; ${unreachable.length} have no alias rule)`);
+
+if (process.argv.includes("--cost")) {
+  // THE NUMBER THAT MAKES IT ACTIONABLE. "five unreachable keys" is a shrug; "1,186 parts carry a
+  // gap nothing can close" is a decision. A candidate with facts is filled by another route and is
+  // not a finding at all.
+  const { getPool, closePool } = await import("../src/store/index.js");
+  const db = getPool();
+  console.log("\n=== cost, measured against the store ===");
+  for (const k of unreachable) {
+    const f = await db.query<{ n: string }>("SELECT count(*) AS n FROM facts WHERE field_key = $1 AND superseded_at IS NULL", [k]);
+    const m = await db.query<{ n: string }>("SELECT count(*) AS n FROM completeness WHERE missing @> to_jsonb($1::text)", [k]);
+    const facts = Number(f.rows[0]?.n ?? 0), gaps = Number(m.rows[0]?.n ?? 0);
+    const verdict = facts > 0
+      ? "filled from the part row — NOT a finding"
+      : gaps > 0 ? `UNFILLABLE: ${gaps.toLocaleString()} parts carry a gap nothing can close` : "unreachable but nothing asks for it";
+    console.log(`  ${k.padEnd(22)} facts=${String(facts).padStart(6)}  gaps=${String(gaps).padStart(7)}   ${verdict}`);
+  }
+  await closePool();
+}
 
 // ---- 3. required fields nothing can fill ---------------------------------------------------------
 console.log("\n=== required but unfillable ===");
@@ -89,15 +119,33 @@ for (const [cat, prof] of Object.entries(PROFILES)) {
 // The `Input Connector IEC` case: an anchored ^x$ rule owns the clean label, a longer real-world
 // label falls past it, and if a second rule catches that one for a DIFFERENT key the column splits.
 console.log("\n=== one label family, two destinations ===");
-const anchored = aliases.rules.filter((r) => r[0].startsWith("^") && r[0].endsWith("$"));
-for (const [rx, key] of anchored) {
-  const stem = rx.slice(1, -1);
-  if (!/^[a-z0-9 ]+$/.test(stem)) continue;                       // only plain-word stems are comparable
-  for (const [rx2, key2] of aliases.rules) {
-    if (key2 === key || rx2 === rx) continue;
-    const stem2 = rx2.replace(/^\^/, "").replace(/\$$/, "");
-    if (!/^[a-z0-9 ]+$/.test(stem2)) continue;
-    if (stem.startsWith(stem2) || stem2.startsWith(stem)) say("PREFIX_SPLIT", `"${stem}" -> ${key}  vs  "${stem2}" -> ${key2}`);
+// THE FIRST VERSION OF THIS CHECK REPORTED 79 FINDINGS AND NEARLY ALL WERE FICTION. It compared
+// every anchored stem against every other stem by prefix, so `^maximum$` was flagged against
+// "maximum rated output", "maximum vlans" and thirty more — none of which it can ever match,
+// because the trailing `$` is exactly what stops it. A noisy check is worse than no check: it
+// buries the two real ones and trains the reader to skim.
+//
+// The genuine hazard has three parts, and all three are required:
+//   * the SHORTER rule is not anchored at the end, so it CAN match a longer label;
+//   * the longer rule's literal starts with it, so they compete for the same label family;
+//   * the shorter one comes FIRST in the file, so mapLabel returns it and the longer never runs.
+// That is the shape that let `Input Connector IEC` reach nothing while `Input Connector` reached
+// power_input_connector.
+const literal = (rx: string): string | null => {
+  const s = rx.replace(/^\^/, "");
+  const anchoredEnd = s.endsWith("$");
+  const body = anchoredEnd ? s.slice(0, -1) : s;
+  return /^[a-z0-9 ]+$/.test(body) ? (anchoredEnd ? null : body.trim()) : null;   // null = cannot shadow
+};
+for (let i = 0; i < aliases.rules.length; i++) {
+  const short = literal(aliases.rules[i][0]);
+  if (!short || short.length < 3) continue;
+  for (let j = i + 1; j < aliases.rules.length; j++) {            // only rules AFTER it can be shadowed
+    const [rx2, key2] = aliases.rules[j];
+    if (key2 === aliases.rules[i][1]) continue;                    // same destination is not a split
+    const longBody = rx2.replace(/^\^/, "").replace(/\$$/, "");
+    if (!/^[a-z0-9 ]+$/.test(longBody) || longBody.length <= short.length) continue;
+    if (longBody.startsWith(short)) say("SHADOWED_RULE", `"${short}" -> ${aliases.rules[i][1]} (rule ${i}) shadows "${longBody}" -> ${key2} (rule ${j}) — the longer label never reaches its own key`);
   }
 }
 
