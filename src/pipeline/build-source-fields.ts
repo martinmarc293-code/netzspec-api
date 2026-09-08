@@ -294,10 +294,27 @@ export async function build(opts: { vocabDir?: string; goldenDir?: string; previ
     // pages live on the VPS, and writing that would have deleted 25 capabilities in one commit.
     const prev = opts.previous?.sources?.[s.slug];
     const prevKeys = prev ? Object.values(prev).reduce((n, ks) => n + ks.length, 0) : 0;
-    if (!ev.keys && prevKeys && ev.method === "label-inventory" && (ev.labels ?? 0) === 0) {
+    // AN ABSENT INVENTORY IS THE SAME SITUATION AS AN EMPTY ONE, and only the empty case was
+    // covered. `ev.method` is set to "label-inventory" solely when the file EXISTS, so a source
+    // whose inventory is missing altogether fell past this guard and was deleted two lines below.
+    // Measured 8 Sep 2026: a build on a machine without the lookup fixtures dropped provantage,
+    // router-switch, itprice and cdw — four enabled sources and their capability lists — while
+    // reporting nothing worse than "wrote 3 sources". The comment above already had the right
+    // rule ("the fixtures left the local cache, not that the source stopped publishing"); it was
+    // the CONDITION that was narrower than the reasoning.
+    //
+    // A build may only DELETE a source's keys when it actually looked and found none. No
+    // evidence at all is not evidence of absence.
+    const noEvidence = !ev.keys && (ev.method === "none" || (ev.method === "label-inventory" && (ev.labels ?? 0) === 0));
+    if (noEvidence && prevKeys) {
       out.sources[s.slug] = JSON.parse(JSON.stringify(prev)) as Record<string, string[]>;
       ev.keys = prevKeys;
-      ev.carried_forward = { keys: prevKeys, why: `the inventory ${ev.inventory ?? ""} rebuilt with 0 labels (its fixtures are not in the local cache); the previous file's keys were kept rather than deleted` };
+      ev.carried_forward = {
+        keys: prevKeys,
+        why: ev.method === "none"
+          ? `no inventory and no facts were available in this tree, so nothing was measured; the previous file's keys were kept rather than deleted`
+          : `the inventory ${ev.inventory ?? ""} rebuilt with 0 labels (its fixtures are not in the local cache); the previous file's keys were kept rather than deleted`,
+      };
       (out.evidence.carried_forward ??= []).push(s.slug);
     }
     if (!ev.keys) delete out.sources[s.slug];
