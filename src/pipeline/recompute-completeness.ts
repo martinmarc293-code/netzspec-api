@@ -83,6 +83,12 @@ async function run(a: Args): Promise<Record<string, number>> {
     const existing = new Map((await pool.query<{ part_id: number; required_total: number; required_present: number; missing: string[]; required_fields: string[]; no_profile: boolean }>(
       "SELECT part_id, required_total, required_present, missing, required_fields, no_profile FROM completeness WHERE part_id = ANY($1::bigint[])", [ids])).rows.map((r) => [r.part_id, r]));
 
+    // ONE STATEMENT PER BATCH, NOT ONE PER ROW. The loop below used to await an INSERT for every
+    // part it changed. Over the SSH tunnel that is a round trip each — ~300 ms — so a full cisco
+    // pass (87,083 parts) was a SEVEN-HOUR job, and a step that takes seven hours is a step people
+    // skip. That is the mechanical cause of the ordering trap this file's run row now records:
+    // edit the profile, sync, and quietly never recompute. Collected here and sent as one unnest.
+    const pending: { id: number; rt: number; rp: number; pct: number; missing: string; req: string; np: boolean }[] = [];
     await withTx(async (client) => {
       for (const p of slice) {
         const category = cats.get(p.category_id) ?? "";
@@ -108,13 +114,24 @@ async function run(a: Args): Promise<Record<string, number>> {
           unchanged++;
           continue;
         }
-        await client.query(
-          `INSERT INTO completeness (part_id, required_total, required_present, pct, missing, required_fields, no_profile, computed_at)
-           VALUES ($1, $2, $3, $4, $5::jsonb, $6::jsonb, $7, now())
-           ON CONFLICT (part_id) DO UPDATE SET required_total = EXCLUDED.required_total, required_present = EXCLUDED.required_present,
-             pct = EXCLUDED.pct, missing = EXCLUDED.missing, required_fields = EXCLUDED.required_fields, no_profile = EXCLUDED.no_profile, computed_at = now()`,
-          [p.id, row.required_total, row.required_present, row.pct, JSON.stringify(row.missing), JSON.stringify(row.required_fields), row.no_profile]);
+        pending.push({ id: p.id, rt: row.required_total, rp: row.required_present, pct: row.pct,
+          missing: JSON.stringify(row.missing), req: JSON.stringify(row.required_fields), np: row.no_profile });
         written++;
+      }
+      if (pending.length === 0) return;
+      const res = await client.query(
+        `INSERT INTO completeness (part_id, required_total, required_present, pct, missing, required_fields, no_profile, computed_at)
+         SELECT u.id, u.rt, u.rp, u.pct, u.missing::jsonb, u.req::jsonb, u.np, now()
+           FROM unnest($1::bigint[], $2::int[], $3::int[], $4::numeric[], $5::text[], $6::text[], $7::boolean[])
+                AS u(id, rt, rp, pct, missing, req, np)
+         ON CONFLICT (part_id) DO UPDATE SET required_total = EXCLUDED.required_total, required_present = EXCLUDED.required_present,
+           pct = EXCLUDED.pct, missing = EXCLUDED.missing, required_fields = EXCLUDED.required_fields, no_profile = EXCLUDED.no_profile, computed_at = now()`,
+        [pending.map((x) => x.id), pending.map((x) => x.rt), pending.map((x) => x.rp), pending.map((x) => x.pct),
+         pending.map((x) => x.missing), pending.map((x) => x.req), pending.map((x) => x.np)]);
+      // The batch write must land every row it was given. A partial write and a complete one both
+      // return a plausible number, so assert the count rather than reading it.
+      if (res.rowCount !== pending.length) {
+        throw new Error(`recompute-completeness: batch wrote ${res.rowCount} of ${pending.length} rows`);
       }
     });
     if ((i / a.batch) % 20 === 19) console.log(`  ${Math.min(i + a.batch, parts.length)}/${parts.length} written=${written} unchanged=${unchanged}`);
