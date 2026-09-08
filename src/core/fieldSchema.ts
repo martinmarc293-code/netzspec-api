@@ -402,7 +402,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // can close — the exact "required field nothing can fill" defect, and the suite refused
     // it. They become  through promote-required when the corpus earns it, like every
     // other required field in this file.
-    license_type: opt, license_for: opt, license_term: opt,
+    license_type: req, license_for: req, license_term: opt,
     license_seats: opt, delivery_method: opt, support_level: opt,
     supported_os: opt, languages_supported: opt, regions_supported: opt,
     // a licence has no body: these are closed gaps, not open ones
@@ -417,7 +417,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // can close — the exact "required field nothing can fill" defect, and the suite refused
     // it. They become  through promote-required when the corpus earns it, like every
     // other required field in this file.
-    license_type: opt, license_for: opt, license_term: opt,
+    license_type: req, license_for: req, license_term: opt,
     license_seats: opt, delivery_method: opt, support_level: opt,
     supported_os: opt, hypervisor_support: opt, languages_supported: opt,
     ports: na, uplink_ports: na, dimensions: na, weight: na, rack_units: na,
@@ -431,7 +431,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // can close — the exact "required field nothing can fill" defect, and the suite refused
     // it. They become  through promote-required when the corpus earns it, like every
     // other required field in this file.
-    license_type: opt, license_for: opt, license_term: opt,
+    license_type: req, license_for: req, license_term: opt,
     license_seats: opt, delivery_method: opt, support_level: opt,
     supported_os: opt, languages_supported: opt, regions_supported: opt,
     ports: na, uplink_ports: na, dimensions: na, weight: na, rack_units: na,
@@ -445,12 +445,89 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // can close — the exact "required field nothing can fill" defect, and the suite refused
     // it. They become  through promote-required when the corpus earns it, like every
     // other required field in this file.
-    license_type: opt, license_for: opt, license_term: opt,
+    license_type: req, license_for: req, license_term: opt,
     license_seats: opt, delivery_method: opt, support_level: opt,
     supported_os: opt, hypervisor_support: opt,
     ports: na, uplink_ports: na, dimensions: na, weight: na, rack_units: na,
     temp_operating: na, temp_storage: na, humidity_operating: na, power_max: na,
     poe_standard: na, form_factor: na, certifications: na,
+  },
+
+  // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
+  // which declares its fields but marks none required. A curated entry states what a
+  // product of this kind is BOUGHT ON, and merges over the generated one.
+  "servers-unified-computing": {
+    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, cpu_sockets: req, memory_speed_max: req, storage_raw_capacity: req, psu_rated_output: req, rack_units: req,
+  },
+
+  // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
+  // which declares its fields but marks none required. A curated entry states what a
+  // product of this kind is BOUGHT ON, and merges over the generated one.
+  video: {
+    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, video_codecs: req, max_resolution: req,
+  },
+
+  // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
+  // which declares its fields but marks none required. A curated entry states what a
+  // product of this kind is BOUGHT ON, and merges over the generated one.
+  "unified-communications": {
+    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, display: req, ports: req, poe_standard: req,
+  },
+
+  // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
+  // which declares its fields but marks none required. A curated entry states what a
+  // product of this kind is BOUGHT ON, and merges over the generated one.
+  "hyperconverged-systems": {
+    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, cpu_sockets: req, memory_speed_max: req, storage_raw_capacity: req,
+  },
+
+  // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
+  // which declares its fields but marks none required. A curated entry states what a
+  // product of this kind is BOUGHT ON, and merges over the generated one.
+  "hyperconverged-infrastructure": {
+    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, cpu_sockets: req, memory_speed_max: req, storage_raw_capacity: req,
+  },
+
+  // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
+  // which declares its fields but marks none required. A curated entry states what a
+  // product of this kind is BOUGHT ON, and merges over the generated one.
+  "collaboration-endpoints": {
+    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, display: req, video_codecs: req, audio_codecs: req, ports: req,
+  },
+
+  // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
+  // which declares its fields but marks none required. A curated entry states what a
+  // product of this kind is BOUGHT ON, and merges over the generated one.
+  "data-center-networking": {
+    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, ports: req, switching_capacity: req,
+  },
+
+  // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
+  // which declares its fields but marks none required. A curated entry states what a
+  // product of this kind is BOUGHT ON, and merges over the generated one.
+  meraki: {
+    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, ports: req, poe_standard: req,
+  },
+
+  // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
+  // which declares its fields but marks none required. A curated entry states what a
+  // product of this kind is BOUGHT ON, and merges over the generated one.
+  "cloud-systems-management": {
+    license_type: req, license_for: req,
+  },
+
+  // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
+  // which declares its fields but marks none required. A curated entry states what a
+  // product of this kind is BOUGHT ON, and merges over the generated one.
+  conferencing: {
+    license_type: req, license_for: req,
+  },
+
+  // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
+  // which declares its fields but marks none required. A curated entry states what a
+  // product of this kind is BOUGHT ON, and merges over the generated one.
+  "ios-nx-os-software": {
+    license_type: req, license_for: req,
   },
 
   switches: {
@@ -511,9 +588,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     firewall_throughput: req, threat_throughput: req, ips_throughput: opt, vpn_throughput: opt,
     concurrent_sessions: req, new_conn_per_sec: opt, vpn_peers: opt,
     max_interfaces: opt, storage_capacity: opt,
-    psu_config: opt, psu_redundant: opt, power_max: opt, power_typical: opt,
-    temp_operating: opt, humidity_operating: opt, altitude_max: opt,
-    dimensions: req, weight: req, certifications: opt, mtbf: opt,
+    psu_config: opt, psu_redundant: opt, power_max: req, power_typical: opt,
+    temp_operating: req, humidity_operating: req, altitude_max: opt,
+    dimensions: req, weight: req, certifications: req, mtbf: opt,
   },
   wireless: {
     supported_transceivers: opt, antenna_gain: opt, polarization: opt, antenna_connector: opt, beamwidth_elevation: opt, mounting: opt, recycled_content: opt, // deep-spec fields 2026-09-02
@@ -521,40 +598,40 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     wifi_generation: req, spatial_streams: opt, radio_count: opt, radio_bands: opt,
     max_data_rate: opt, ap_max_clients: opt,
     wlc_ap_capacity: opt, wlc_client_capacity: opt,
-    poe_standard: opt, power_max: opt,
-    dimensions: opt, weight: opt, temp_operating: opt, certifications: opt, mtbf: opt,
+    poe_standard: req, power_max: req,
+    dimensions: req, weight: req, temp_operating: req, certifications: req, mtbf: opt,
   },
   routers: {
     supported_modules: opt, usb_console: opt, redundancy: opt, chassis_compatibility: opt, etsi_standards: opt, supported_protocols: opt, min_software_release: opt, emc_immunity: opt, emc_emissions: opt, // deep-spec fields 2026-09-02
-    vendor: req, series: req, form_factor: opt,
+    vendor: req, series: req, form_factor: req,
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
-    router_throughput: req, forwarding_rate: opt, ipsec_throughput: opt, ipsec_tunnels: opt,
-    dram: opt, flash: opt, mgmt_ports: opt, module_slots: opt,
-    psu_config: opt, psu_redundant: opt, power_max: opt, power_typical: opt,
-    temp_operating: opt, humidity_operating: opt, dimensions: opt, weight: opt, certifications: opt, mtbf: opt,
+    router_throughput: req, forwarding_rate: req, ipsec_throughput: opt, ipsec_tunnels: opt,
+    dram: req, flash: req, mgmt_ports: req, module_slots: opt,
+    psu_config: opt, psu_redundant: opt, power_max: req, power_typical: opt,
+    temp_operating: req, humidity_operating: req, dimensions: req, weight: req, certifications: req, mtbf: opt,
   },
   // MDS storage-networking switches are Fibre Channel switches — the switch dictionary fields apply.
   "storage-networking": {
     fabric_services: opt, serviceability: opt, supported_protocols: opt, programming_interfaces: opt, advanced_functions: opt, product_compatibility: opt, diagnostics: opt, redundancy: opt, // deep-spec fields 2026-09-02
-    vendor: req, series: req, form_factor: opt,
+    vendor: req, series: req, form_factor: req,
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
-    ports: opt, switching_capacity: opt, forwarding_rate: opt, latency: opt, module_slots: opt,
-    psu_config: opt, psu_redundant: opt, power_max: opt, cooling: opt, airflow: opt,
-    temp_operating: opt, dimensions: opt, weight: opt, certifications: opt, mtbf: opt,
+    ports: req, switching_capacity: opt, forwarding_rate: opt, latency: opt, module_slots: opt,
+    psu_config: opt, psu_redundant: opt, power_max: req, cooling: opt, airflow: opt,
+    temp_operating: req, dimensions: req, weight: req, certifications: req, mtbf: opt,
   },
   // Transponders / muxponders / DWDM systems — reuse the transceiver optical fields.
   "optical-networking": {
     optical_pm: opt, input_power_range: opt, coherent_interop_standards: opt, shelf_assembly: opt, min_software_release: opt, cross_connect: opt, slot_compatibility: opt, otn_pm: opt, attenuation_dead_zone: opt, reflective_dead_zone: opt, rx_wavelength: opt, // deep-spec fields 2026-09-02
-    vendor: req, series: req, form_factor: opt,
-    data_rate: opt, wavelength: opt, reach_max: opt, connector: opt, fec: opt,
-    power_max: opt, dimensions: opt, weight: opt, temp_operating: opt, certifications: opt, mtbf: opt,
+    vendor: req, series: req, form_factor: req,
+    data_rate: req, wavelength: req, reach_max: req, connector: req, fec: opt,
+    power_max: req, dimensions: req, weight: req, temp_operating: req, certifications: req, mtbf: opt,
   },
   // Line cards, network modules, interface cards.
   "interfaces-modules": {
     itu_channel: opt, jacket_material: opt, jacket_color: opt, rx_wavelength: opt, supported_transceivers: opt, supported_modules: opt, // deep-spec fields 2026-09-02
-    vendor: req, series: req, form_factor: opt,
-    ports: opt, uplink_ports: opt, poe_standard: opt, module_slots: opt,
-    power_max: opt, dimensions: opt, weight: opt, temp_operating: opt, certifications: opt,
+    vendor: req, series: req, form_factor: req,
+    ports: req, uplink_ports: opt, poe_standard: opt, module_slots: opt,
+    power_max: req, dimensions: req, weight: req, temp_operating: req, certifications: req,
   },
 };
 

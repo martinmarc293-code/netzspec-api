@@ -156,8 +156,18 @@ function inventoryPath(): string | null {
   sabotages++;
   const holed = { ...committed, sources: { ...committed.sources, "cisco-datasheets": { ...committed.sources["cisco-datasheets"], "*": (committed.sources["cisco-datasheets"]["*"] ?? []).filter((k) => k !== "mgmt_ports") }, "cisco-datasheet-pdf": { ...committed.sources["cisco-datasheet-pdf"], "*": (committed.sources["cisco-datasheet-pdf"]["*"] ?? []).filter((k) => k !== "mgmt_ports") } } };
   const p5 = requiredFieldCoverageProblems(holed, enabled);
-  check("SABOTAGE coverage: dropping one required key from the '*' lists is named as switches/mgmt_ports, and only that",
-    p5.length === 1 && /^switches\/mgmt_ports: required by the profile and no enabled source publishes it$/.test(p5[0]), p5);
+  // ONE KEY, EVERY CATEGORY THAT REQUIRES IT. The assertion used to demand exactly one problem
+  // naming switches/mgmt_ports, which held only while switches was the sole category requiring it.
+  // On 8 Sep 2026 routers gained mgmt_ports as part of completing the structural profiles, so
+  // removing the key correctly names both — the sabotage worked and the expectation was stale.
+  // Pinning it to "exactly one" would mean any future profile that requires a shared field turns
+  // this red, which trains the reader to edit the test instead of reading the finding.
+  const mustNameFor = Object.entries(requiredKeysByCategory())
+    .filter(([, keys]) => (keys as string[]).includes("mgmt_ports"))
+    .map(([cat]) => `${cat}/mgmt_ports: required by the profile and no enabled source publishes it`);
+  check(`SABOTAGE coverage: dropping one required key from the '*' lists names every category that requires it (${mustNameFor.length})`,
+    mustNameFor.length > 0 && p5.length === mustNameFor.length
+      && mustNameFor.every((m) => p5.includes(m)), { expected: mustNameFor, got: p5 });
   sabotages++;
   const withoutVendor = enabled.filter((s) => !(ANY_CATEGORY_SOURCES as readonly string[]).includes(s));
   const p6 = requiredFieldCoverageProblems(committed, withoutVendor);
