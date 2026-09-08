@@ -175,6 +175,24 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   mtbf: { key: "mtbf", de: "MTBF", en: "MTBF", type: "n", unit: "h", band: [1000, 10000000], etim: [], icecat: null },
   ip_rating: { key: "ip_rating", de: "Schutzart (IP)", en: "IP rating", type: "s", examples: ["IP30", "IP54", "IP67"], etim: ["EF005474"], icecat: null },
 
+  // --- LICENSING AND SOFTWARE, added 8 Sep 2026 -------------------------------------------------
+  // WHY THESE EXIST. Four categories held 3,704 parts and NO field definitions at all
+  // (contact-center, software, customer-collaboration, data-center-analytics), and a further seven
+  // declared under a quarter of the dictionary. The reason was not neglect: the dictionary is
+  // hardware-shaped, and there was nothing to declare. Its 29 "software" keys are hardware SUPPORT
+  // flags — poe_at_support, bluetooth_version, hypervisor_support — not the things a licence is
+  // actually bought on. So a licence SKU could be given no honest profile, and the shop had no
+  // column to put its term or its seat count in.
+  //
+  // A licence is a product this catalogue sells: 26,022 cisco rows are licences or software. Their
+  // buyer needs term, seats and what the thing licences, exactly as a switch buyer needs ports.
+  license_type: { key: "license_type", de: "Lizenztyp", en: "Licence type", type: "e", domain: ["perpetual", "subscription", "term", "trial", "embedded"], etim: [], icecat: null },
+  license_term: { key: "license_term", de: "Laufzeit", en: "Licence term", type: "n", unit: "months", band: [1, 120], etim: [], icecat: null },
+  license_seats: { key: "license_seats", de: "Lizenzumfang (Nutzer/Endpunkte)", en: "Licensed seats or endpoints", type: "n", unit: "seats", band: [1, 1000000], etim: [], icecat: null },
+  license_for: { key: "license_for", de: "Lizenziert für", en: "Licensed product", type: "s", examples: ["Catalyst 9300", "Firepower 2110", "Unified CM"], etim: [], icecat: null },
+  delivery_method: { key: "delivery_method", de: "Lieferform", en: "Delivery method", type: "e", domain: ["electronic", "physical"], etim: [], icecat: null },
+  support_level: { key: "support_level", de: "Supportstufe", en: "Support level", type: "s", examples: ["SNTC 8x5xNBD", "SNTC 24x7x4", "Software Support Service"], etim: [], icecat: null },
+
   // --- MEASURED FROM CISCO'S OWN SPEC SHEETS, 7 Sep 2026 ---------------------------------------
   // Every field below was counted in the vendor's documents before being added: the share is the
   // proportion of 20 UCS/HyperFlex spec sheets, read line by line, that print it. None was
@@ -352,9 +370,89 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
 
 const req: Requirement = { kind: "req" };
 const opt: Requirement = { kind: "opt" };
+// `na` was declared in the Requirement type from the beginning and used ZERO times in 5,520
+// (category, field) rows. That is why a licence category could not be modelled: the schema had no
+// way to say "an operating temperature is not a property of this thing", so the only options were
+// to declare a hardware field optional — inviting a crawler to hunt for it for ever — or to leave
+// the category with no profile at all, which is what happened to 3,704 parts. `na` is the third
+// answer, and it is the one that makes a gap CLOSED rather than open.
+const na: Requirement = { kind: "na" };
 const cond = (when: Condition): Requirement => ({ kind: "cond", when });
 
 export const PROFILES: Record<string, Record<string, Requirement>> = {
+  // --- SOFTWARE AND LICENCE CATEGORIES, added 8 Sep 2026 ---------------------------------------
+  // These four held 3,704 parts and were ABSENT from PROFILES entirely, so every one of their
+  // parts was `no_profile` and counted in the dashboard's "cannot be judged" headline — 30,898
+  // parts, of which the great majority were licences nobody could ever specify.
+  //
+  // Measured product_class for each, which is what settles that these are not hardware:
+  //   contact-center           2,204 parts   0 hardware   (1,792 software + 412 licence)
+  //   software                   819 parts   4 hardware   (451 licence + 364 software)
+  //   customer-collaboration     469 parts   0 hardware   (453 software)
+  //   data-center-analytics      212 parts   7 hardware   (205 software)
+  //
+  // So the profile says what a licence IS bought on, and marks the hardware questions `na` rather
+  // than optional. `na` is the difference between "we have not found the operating temperature of
+  // this subscription yet" and "a subscription does not have one" — the first sends a crawler
+  // after it for ever, the second closes the gap.
+  "contact-center": {
+    vendor: req, series: req,
+    // DECLARED, NOT REQUIRED. The schema says these fields APPLY to a licence; it does not
+    // assert we can source them. Marking them  created twelve gaps no enabled source
+    // can close — the exact "required field nothing can fill" defect, and the suite refused
+    // it. They become  through promote-required when the corpus earns it, like every
+    // other required field in this file.
+    license_type: opt, license_for: opt, license_term: opt,
+    license_seats: opt, delivery_method: opt, support_level: opt,
+    supported_os: opt, languages_supported: opt, regions_supported: opt,
+    // a licence has no body: these are closed gaps, not open ones
+    ports: na, uplink_ports: na, dimensions: na, weight: na, rack_units: na,
+    temp_operating: na, temp_storage: na, humidity_operating: na, power_max: na,
+    poe_standard: na, form_factor: na, certifications: na,
+  },
+  software: {
+    vendor: req, series: req,
+    // DECLARED, NOT REQUIRED. The schema says these fields APPLY to a licence; it does not
+    // assert we can source them. Marking them  created twelve gaps no enabled source
+    // can close — the exact "required field nothing can fill" defect, and the suite refused
+    // it. They become  through promote-required when the corpus earns it, like every
+    // other required field in this file.
+    license_type: opt, license_for: opt, license_term: opt,
+    license_seats: opt, delivery_method: opt, support_level: opt,
+    supported_os: opt, hypervisor_support: opt, languages_supported: opt,
+    ports: na, uplink_ports: na, dimensions: na, weight: na, rack_units: na,
+    temp_operating: na, temp_storage: na, humidity_operating: na, power_max: na,
+    poe_standard: na, form_factor: na, certifications: na,
+  },
+  "customer-collaboration": {
+    vendor: req, series: req,
+    // DECLARED, NOT REQUIRED. The schema says these fields APPLY to a licence; it does not
+    // assert we can source them. Marking them  created twelve gaps no enabled source
+    // can close — the exact "required field nothing can fill" defect, and the suite refused
+    // it. They become  through promote-required when the corpus earns it, like every
+    // other required field in this file.
+    license_type: opt, license_for: opt, license_term: opt,
+    license_seats: opt, delivery_method: opt, support_level: opt,
+    supported_os: opt, languages_supported: opt, regions_supported: opt,
+    ports: na, uplink_ports: na, dimensions: na, weight: na, rack_units: na,
+    temp_operating: na, temp_storage: na, humidity_operating: na, power_max: na,
+    poe_standard: na, form_factor: na, certifications: na,
+  },
+  "data-center-analytics": {
+    vendor: req, series: req,
+    // DECLARED, NOT REQUIRED. The schema says these fields APPLY to a licence; it does not
+    // assert we can source them. Marking them  created twelve gaps no enabled source
+    // can close — the exact "required field nothing can fill" defect, and the suite refused
+    // it. They become  through promote-required when the corpus earns it, like every
+    // other required field in this file.
+    license_type: opt, license_for: opt, license_term: opt,
+    license_seats: opt, delivery_method: opt, support_level: opt,
+    supported_os: opt, hypervisor_support: opt,
+    ports: na, uplink_ports: na, dimensions: na, weight: na, rack_units: na,
+    temp_operating: na, temp_storage: na, humidity_operating: na, power_max: na,
+    poe_standard: na, form_factor: na, certifications: na,
+  },
+
   switches: {
     rfc_compliance: opt, emc_immunity: opt, emc_emissions: opt, power_full_load: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req, mgmt_class: req, layer: req, form_factor: req,

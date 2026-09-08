@@ -502,8 +502,12 @@ check("SABOTAGE a list missing a member is a different list", !listSetEqual(["a"
 check("a field the profile REQUIRES applies", fieldApplies("switches", "ports"));
 check("a field the profile marks OPTIONAL applies", fieldApplies("switches", "psu_options"));
 check("a field the profile does not mention does not apply", !fieldApplies("transceiver", "stack_max_members"));
+// The example used to be "software", which gained a profile on 8 Sep 2026 — so this case went red
+// for the right reason and the wrong cause: the RULE holds, the example had simply become
+// profiled. A slug that is deliberately not a category cannot drift that way, and the assertion
+// is unchanged: a part nobody has profiled must not lose every fact it has.
 check("SABOTAGE a category with NO profile keeps everything",
-  fieldApplies("software", "stack_max_members") && fieldApplies(null, "stack_max_members"),
+  fieldApplies("no-such-category", "stack_max_members") && fieldApplies(null, "stack_max_members"),
   "a part nobody has profiled must not lose every fact it has");
 check("THE FINDING every field the not-applicable rule was specified around is INSIDE the transceiver profile",
   ["supported_transceivers", "stack_ports", "psu_options", "switching_capacity", "stacking_bandwidth", "forwarding_rate", "module_slots", "poe_budget"]

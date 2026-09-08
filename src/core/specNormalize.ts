@@ -197,6 +197,13 @@ const UNITS: Record<string, [string, number]> = {
   "ms": ["duration", 1e-3], "s": ["duration", 1], "sek": ["duration", 1],
   "h": ["duration", 3600], "std": ["duration", 3600], "stunden": ["duration", 3600],
   "stunde": ["duration", 3600], "hours": ["duration", 3600], "hrs": ["duration", 3600], "hr": ["duration", 3600],
+  // MONTHS, added 8 Sep 2026 with license_term. The table ALREADY had year/years/jahre under a
+  // dimension called `years`, and my first attempt added them again under `duration` — four
+  // duplicate keys and two competing dimensions for one quantity, which TS1117 refused and which
+  // would otherwise have made '1 year' and '12 months' incomparable. Months join the EXISTING
+  // dimension at one twelfth of its base, so '3Y' and '36 months' resolve equal.
+  "months": ["years", 1 / 12], "month": ["years", 1 / 12],
+  "monate": ["years", 1 / 12], "monat": ["years", 1 / 12], "jahr": ["years", 1],
   // identity dimensions
   "°c": ["tempC", 1], "celsius": ["tempC", 1],
   "%": ["percent", 1], "v": ["voltage", 1], "vac": ["voltage", 1], "vdc": ["voltage", 1],
@@ -279,6 +286,13 @@ export const CANON: Record<string, [string, number]> = {
   "°C": ["tempC", 1], "%": ["percent", 1], "V": ["voltage", 1], "Hz": ["freq", 1],
   "BTU/h": ["heat", 1], "dB": ["db", 1], "dB(A)": ["dba", 1], "dBm": ["dbm", 1],
   "AWG": ["awg", 1], "h": ["duration", 3600], "µs": ["duration", 1e-6],
+  // `months` is the canonical unit of license_term, added 8 Sep 2026 with the licence fields.
+  // It belongs HERE as well as in UNITS above, and the distinction is worth stating because I
+  // added it to UNITS alone first and the suite refused it: UNITS is what a VALUE is parsed
+  // against ('3 years' -> seconds), CANON is what a FIELD may DECLARE. A unit missing from CANON
+  // is rejected UNIT_UNKNOWN even when value and unit were both read perfectly — the defect that
+  // once cost 409 memory speeds and 182 inrush currents, recorded in the note below.
+  "months": ["years", 1 / 12],
   "HE": ["ru", 1], "Einträge": ["count", 1],
   // Canonical units the SERVER vocabulary introduced. A field may declare any unit, but
   // convert() looks the CANONICAL one up here — so a unit absent from this table is rejected
@@ -330,6 +344,9 @@ export const COUNT_LIKE = new Set([
   // a bare "32", so without this row convert() could not classify the unit at all and the field
   // would have refused every value it will ever see.
   "nodes",
+  // `seats` arrived with license_seats on 8 Sep 2026. A licence states '100 users' or plain '100';
+  // the unit only names what is counted, exactly like `cores` and `bays`.
+  "seats",
   "HE", "Byte", "AWG",
 ]);
 
