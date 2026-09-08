@@ -145,8 +145,13 @@ sabotage("a non-numeric sort key", withGood({ sort: { key: "layer", dir: "desc" 
 sabotage("a sort direction that is not asc or desc", withGood({ sort: { key: "poe_budget", dir: "down" } }),
   'sort dir "down"');
 
+// The example was `qos_queues`, which switches DECLARED on 8 Sep 2026 — it is one of the fields
+// the corpus was already producing for switches while no profile mentioned it. So the sabotage
+// went green for the right reason and the wrong cause: the RULE holds, its example moved inside
+// the profile. `camera_zoom` is a videoconferencing lens property; a switch profile will not
+// acquire it, so the case stays about the rule rather than about which fields switches declares.
 sabotage("a fixed_filter naming a key outside the profile",
-  withGood({ fixed_filter: "qos_queues=4" }), '"qos_queues"', 'not in the "switches" profile');
+  withGood({ fixed_filter: "camera_zoom=4" }), '"camera_zoom"', 'not in the "switches" profile');
 
 sabotage("a fixed_filter with a numeric operator on an enum field",
   withGood({ fixed_filter: "layer>=3" }), '"probe-tool"', "layer>=3", "needs a numeric field");

@@ -465,6 +465,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // product of this kind is BOUGHT ON, and merges over the generated one.
   video: {
     dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, video_codecs: req, max_resolution: req,
+    // STRUCTURE 8 Sep 2026: 1 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    laser_type: opt,
   },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
@@ -472,6 +474,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // product of this kind is BOUGHT ON, and merges over the generated one.
   "unified-communications": {
     dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, display: req, ports: req, poe_standard: req,
+    // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    fxs_ports: opt, fxo_ports: opt, qos_features: opt, module_slots: opt,
   },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
@@ -479,6 +483,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // product of this kind is BOUGHT ON, and merges over the generated one.
   "hyperconverged-systems": {
     dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, cpu_sockets: req, memory_speed_max: req, storage_raw_capacity: req,
+    // STRUCTURE 8 Sep 2026: 3 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    humidity_storage: opt, cpu_cores: opt, hypervisor: opt,
   },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
@@ -486,6 +492,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // product of this kind is BOUGHT ON, and merges over the generated one.
   "hyperconverged-infrastructure": {
     dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, cpu_sockets: req, memory_speed_max: req, storage_raw_capacity: req,
+    // STRUCTURE 8 Sep 2026: 7 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    humidity_storage: opt, cpu_cores: opt, altitude_storage: opt, management_mode: opt, deploy_role: opt, max_wlans: opt, operating_system: opt,
   },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
@@ -500,6 +508,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // product of this kind is BOUGHT ON, and merges over the generated one.
   "data-center-networking": {
     dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, ports: req, switching_capacity: req,
+    // STRUCTURE 8 Sep 2026: 1 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    power_cord_rating: opt,
   },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
@@ -507,6 +517,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // product of this kind is BOUGHT ON, and merges over the generated one.
   meraki: {
     dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, ports: req, poe_standard: req,
+    // STRUCTURE 8 Sep 2026: 30 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    power_load_idle_max: opt, copper_ethernet_ports: opt, dedicated_mgmt_interface: opt, sfp_plus_ports: opt, stack_ports: opt, sfp_ports: opt, fan_hot_swap: opt, field_of_view: opt, video_quality_max: opt, image_sensor: opt, mgig_rj45_ports: opt, poe_per_port_max: opt, qsfp_plus_ports: opt, ir_illumination: opt, lens_aperture: opt, upoe_support: opt, focal_length: opt, shutter_speed: opt, battery_count: opt, external_power: opt, battery_life: opt, lens_adjustment_range: opt, min_illumination: opt, optical_zoom: opt, box_contents: opt, poe_budget_redundant: opt, antenna_type: opt, lan_interfaces: opt, wan_interfaces: opt, tdp: opt,
   },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
@@ -514,6 +526,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // product of this kind is BOUGHT ON, and merges over the generated one.
   "cloud-systems-management": {
     license_type: req, license_for: req,
+    // STRUCTURE 8 Sep 2026: 14 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    humidity_storage: opt, host_os_support: opt, altitude_storage: opt, cellular_bands: opt, qos_features: opt, acoustic_sound_power: opt, inrush_current: opt, module_slots: opt, oir_support: opt, shipping_dimensions: opt, shipping_weight: opt, wall_mount: opt, poe_budget: opt, cellular_max_speed: opt,
   },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
@@ -528,7 +542,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // product of this kind is BOUGHT ON, and merges over the generated one.
   "ios-nx-os-software": {
     license_type: req, license_for: req,
+    // STRUCTURE 8 Sep 2026: 6 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    humidity_storage: opt, segment_routing_features: opt, qos_features: opt, compute_subsystem: opt, surge_rating: opt, timing_sync: opt,
   },
+
 
   switches: {
     rfc_compliance: opt, emc_immunity: opt, emc_emissions: opt, power_full_load: opt, // deep-spec fields 2026-09-02
@@ -557,6 +574,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     acoustic_noise: opt, mtbf: req,
     dimensions: req, weight: req, certifications: req, ieee_standards: req,
     ip_rating: cond({ any: [{ field: "form_factor", eq: "din-rail" }, { field: "deploy_role", eq: "industrial" }] }),
+    // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    psu_efficiency: opt, power_cord_rating: opt, box_contents: opt, qos_queues: opt,
   },
   transceiver: {
     itu_channel: opt, jacket_material: opt, jacket_color: opt, rx_wavelength: opt, optical_pm: opt, input_power_range: opt, // deep-spec fields 2026-09-02
@@ -580,6 +599,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     power_max: req, temp_class: req,
     cable_length: cond({ field: "media", inList: ["dac-copper", "aoc"] }),
     wire_gauge: opt, msa: opt, dimensions: opt, weight: opt, certifications: opt, mtbf: opt,
+    // STRUCTURE 8 Sep 2026: 1 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    series: opt,
   },
   security: {
     anyconnect_sessions: opt, expansion_io: opt, shock: opt, redundancy: opt, // deep-spec fields 2026-09-02
@@ -600,6 +621,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     wlc_ap_capacity: opt, wlc_client_capacity: opt,
     poe_standard: req, power_max: req,
     dimensions: req, weight: req, temp_operating: req, certifications: req, mtbf: opt,
+    // STRUCTURE 8 Sep 2026: 1 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    power_cord_rating: opt,
   },
   routers: {
     supported_modules: opt, usb_console: opt, redundancy: opt, chassis_compatibility: opt, etsi_standards: opt, supported_protocols: opt, min_software_release: opt, emc_immunity: opt, emc_emissions: opt, // deep-spec fields 2026-09-02
@@ -609,6 +632,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     dram: req, flash: req, mgmt_ports: req, module_slots: opt,
     psu_config: opt, psu_redundant: opt, power_max: req, power_typical: opt,
     temp_operating: req, humidity_operating: req, dimensions: req, weight: req, certifications: req, mtbf: opt,
+    // STRUCTURE 8 Sep 2026: 3 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    power_cord_rating: opt, compatible_platform: opt, chromatic_dispersion_tolerance: opt,
   },
   // MDS storage-networking switches are Fibre Channel switches — the switch dictionary fields apply.
   "storage-networking": {
@@ -618,6 +643,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     ports: req, switching_capacity: opt, forwarding_rate: opt, latency: opt, module_slots: opt,
     psu_config: opt, psu_redundant: opt, power_max: req, cooling: opt, airflow: opt,
     temp_operating: req, dimensions: req, weight: req, certifications: req, mtbf: opt,
+    // STRUCTURE 8 Sep 2026: 7 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    temp_class: opt, segment_routing_features: opt, qos_features: opt, modulation_format: opt, safety_standards: opt, queues_per_port: opt, status_leds: opt,
   },
   // Transponders / muxponders / DWDM systems — reuse the transceiver optical fields.
   "optical-networking": {
@@ -632,6 +659,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     vendor: req, series: req, form_factor: req,
     ports: req, uplink_ports: opt, poe_standard: opt, module_slots: opt,
     power_max: req, dimensions: req, weight: req, temp_operating: req, certifications: req,
+    // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
+    layer: opt, module_type: opt, compatible_platform: opt, installation_type: opt,
   },
 };
 
