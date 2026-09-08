@@ -302,6 +302,13 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // range is the same one license_seats uses: an ESA sheet sizes from tens of users to a quarter
   // of a million, and a figure outside 1..1,000,000 is a mis-parse rather than a large customer.
   recommended_users: { key: "recommended_users", de: "Empfohlene Nutzerzahl", en: "Recommended number of users", type: "n", band: [1, 1000000], etim: [], icecat: null },
+  // CURATED OVERRIDE, 8 Sep 2026. The generated entry is type "s" with no unit, so a flow rate was
+  // stored as prose and could not be compared, filtered or ranged — and Cisco licenses Secure
+  // Network Analytics BY flows per second, which makes it the sizing figure for that whole shape.
+  // `1/s` is the unit new_conn_per_sec already declares, so nothing new had to enter UNITS/CANON.
+  // Band from the published Flow Collector range, widened at both ends: a virtual collector starts
+  // in the thousands and the largest Data Store deployments are quoted in the low millions.
+  flows_per_second: { key: "flows_per_second", de: "Flows pro Sekunde", en: "Flows per second", type: "n", unit: "1/s", band: [100, 10000000], etim: [], icecat: null },
   vpn_peers: { key: "vpn_peers", de: "IPsec-VPN-Peers", en: "IPsec VPN peers", type: "n", unit: "Peers", band: [1, 200000], etim: [], icecat: null },
   max_interfaces: { key: "max_interfaces", de: "Max. Schnittstellen", en: "Maximum interfaces", type: "n", band: [1, 400], etim: [], icecat: null },
   storage_capacity: { key: "storage_capacity", de: "Onboard-Speicher", en: "Onboard storage", type: "n", unit: "GB", band: [1, 200000], etim: [], icecat: null },

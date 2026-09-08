@@ -485,11 +485,11 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // routers — Strict Yes/No hot-swap support for I/O modules. serviceability is prose; this is a filterable boolea
   oir_support: { key: "oir_support", de: "Online-Wechsel im Betrieb (OIR)", en: "Online insertion and removal (OIR)", type: "b", etim: [], icecat: null },
   // switches — Values are Yes/No, a support flag. poe_standard holds a standards string, so writing 'Yes' into it w
-  poe_at_support: { key: "poe_at_support", de: "IEEE 802.3at (PoE+) Unterstuetzung", en: "IEEE 802.3at (PoE+) support", type: "s", etim: [], icecat: null },
+  poe_at_support: { key: "poe_at_support", de: "IEEE 802.3at (PoE+) Unterstützung", en: "IEEE 802.3at (PoE+) support", type: "s", etim: [], icecat: null },
   // switches — Separate from 802.3at because a chassis can support af and not at, and Cisco lists them as distinct 
-  poe_af_support: { key: "poe_af_support", de: "IEEE 802.3af (PoE) Unterstuetzung", en: "IEEE 802.3af (PoE) support", type: "s", etim: [], icecat: null },
+  poe_af_support: { key: "poe_af_support", de: "IEEE 802.3af (PoE) Unterstützung", en: "IEEE 802.3af (PoE) support", type: "s", etim: [], icecat: null },
   // switches — Values are 'Yes', 'RoHS-5 compliant', 'RoHS-6 compliant'. certifications holds named approval marks;
-  rohs_compliance: { key: "rohs_compliance", de: "RoHS-Konformitaet", en: "RoHS compliance", type: "s", etim: [], icecat: null },
+  rohs_compliance: { key: "rohs_compliance", de: "RoHS-Konformität", en: "RoHS compliance", type: "s", etim: [], icecat: null },
   // switches — Values are PSU ratings (250W, 400W, 50W, 65W) appearing in the power-supply block alongside Default 
   psu_output_power: { key: "psu_output_power", de: "Netzteil-Ausgangsleistung", en: "Power supply output power", type: "n", unit: "W", etim: [], icecat: null },
   // switches — Values are voltage-and-current pairs on the DC output side ('-56V at 19.64A'). Not watts, so it cann
@@ -501,18 +501,18 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // switches — How long the supply holds output after input loss ('10 ms minimum at 115VAC'). A real, comparable PS
   output_holdup_time: { key: "output_holdup_time", de: "Ausgangs-Haltezeit", en: "Output holdup time", type: "s", unit: "ms", etim: [], icecat: null },
   // switches — Value is a count ('1'). Deliberately not aliased to mgmt_ports: that field is used for out-of-band E
-  console_ports_serial: { key: "console_ports_serial", de: "RS-232 serielle Konsolenanschluesse", en: "RS-232 serial console ports", type: "n", etim: [], icecat: null },
+  console_ports_serial: { key: "console_ports_serial", de: "RS-232 serielle Konsolenanschlüsse", en: "RS-232 serial console ports", type: "n", etim: [], icecat: null },
   // switches — Values are directional scale numbers ('1,000 ingress, 1,000 egress'). acl_entries is the security AC
-  netflow_acl_entries: { key: "netflow_acl_entries", de: "NetFlow-ACL-Eintraege", en: "NetFlow ACL entries", type: "s", etim: [], icecat: null },
+  netflow_acl_entries: { key: "netflow_acl_entries", de: "NetFlow-ACL-Einträge", en: "NetFlow ACL entries", type: "s", etim: [], icecat: null },
   // switches — Values are long MIB lists (BRIDGE-MIB, CISCO-STACK-MIB, NOTIFICATION-LOG-MIB). supported_protocols w
   // RETYPED 4 Sep 2026 s -> ls: the values ARE lists of MIB names, bulleted in the source
   // ("Generic MIBs ● SNMPv2-SMI ● CISCO-SMI ● ..."). As one 160-character string they were
   // also the field that produced every one of run #38's 72 cell-cap truncation conflicts.
-  snmp_mibs: { key: "snmp_mibs", de: "Unterstuetzte SNMP-MIBs", en: "Supported SNMP MIBs", type: "ls", etim: [], icecat: null },
+  snmp_mibs: { key: "snmp_mibs", de: "Unterstützte SNMP-MIBs", en: "Supported SNMP MIBs", type: "ls", etim: [], icecat: null },
   // switches — Values are counts with speed ('2 FE', '2 GE', '4 FE, 2 GE'). Not aliased to uplink_ports because on 
-  sfp_ports: { key: "sfp_ports", de: "SFP-Anschluesse", en: "SFP ports", type: "s", etim: [], icecat: null },
+  sfp_ports: { key: "sfp_ports", de: "SFP-Anschlüsse", en: "SFP ports", type: "s", etim: [], icecat: null },
   // switches — Direct parallel to the existing temp_storage / temp_operating split; altitude_max is the operating l
-  altitude_storage: { key: "altitude_storage", de: "Lagerhoehe", en: "Storage altitude", type: "s", etim: [], icecat: null },
+  altitude_storage: { key: "altitude_storage", de: "Lagerhöhe", en: "Storage altitude", type: "s", etim: [], icecat: null },
   // wireless — Radiation pattern / construction (omnidirectional, directional, sector, panel, PIFA) is a primary wi
   antenna_type: { key: "antenna_type", de: "Antennentyp", en: "Antenna type", type: "s", etim: [], icecat: null },
   // wireless — The dictionary has beamwidth_elevation but no azimuth counterpart; directional antennas are specifie
@@ -533,12 +533,12 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // wireless — WPA2/WPA3, WPA3-Enterprise, AES, 802.1X support is the most-asked wireless attribute and there is no
   wireless_security: { key: "wireless_security", de: "WLAN-Authentifizierung und -Sicherheit", en: "Wireless authentication and security", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — Localisation coverage appears on 43 endpoint datasheets and nothing in the dictionary carries a lang
-  ui_languages: { key: "ui_languages", de: "Sprachen der Benutzeroberflaeche", en: "User interface languages", type: "s", etim: [], icecat: null },
+  ui_languages: { key: "ui_languages", de: "Sprachen der Benutzeroberfläche", en: "User interface languages", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — Screen size, panel type and pixel resolution of the endpoint's own display; 33 + 21 parts. Absent fr
   display: { key: "display", de: "Display", en: "Display", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 33 parts state whether the endpoint can run signage when idle; a real purchasing criterion.
   // enum -> s (3 Sep 2026): type "e" with no domain. data/schema/attribute-aliases.en.json maps this LABEL to the key but states no value set, so no domain can be sourced; an enum with an empty domain fails ENUM_VIOLATION on every value, and a domain guessed here would mis-file real ones. Open string until the corpus supplies the values.
-  digital_signage: { key: "digital_signage", de: "Digital-Signage-Unterstuetzung", en: "Digital signage support", type: "s", etim: [], icecat: null },
+  digital_signage: { key: "digital_signage", de: "Digital-Signage-Unterstützung", en: "Digital signage support", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 31 parts name Control Hub and/or Teams Admin Center. Distinct from mgmt_class (managed/unmanaged swi
   // enum -> s (3 Sep 2026): type "e" with no domain. data/schema/attribute-aliases.en.json maps this LABEL to the key but states no value set, so no domain can be sourced; an enum with an empty domain fails ENUM_VIOLATION on every value, and a domain guessed here would mis-file real ones. Open string until the corpus supplies the values.
   cloud_management: { key: "cloud_management", de: "Cloud-Verwaltungsplattform", en: "Cloud management platform", type: "s", etim: [], icecat: null },
@@ -554,16 +554,16 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // Mbps -> Mbit/s (4 Sep 2026): one spelling per dimension.
   call_bandwidth: { key: "call_bandwidth", de: "Maximale Anrufbandbreite", en: "Maximum call bandwidth", type: "s", unit: "Mbit/s", etim: [], icecat: null },
   // collaboration-endpoints — 22 parts state H.235v3 / AES / end-to-end encryption for SIP and H.323 media.
-  encryption: { key: "encryption", de: "Medienverschluesselung", en: "Media encryption", type: "s", etim: [], icecat: null },
+  encryption: { key: "encryption", de: "Medienverschlüsselung", en: "Media encryption", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 27 parts, values Yes/No. Core comparison axis for endpoints; must stay separate from the Zoom and SI
   // enum -> s (3 Sep 2026): type "e" with no domain. data/schema/attribute-aliases.en.json maps this LABEL to the key but states no value set, so no domain can be sourced; an enum with an empty domain fails ENUM_VIOLATION on every value, and a domain guessed here would mis-file real ones. Open string until the corpus supplies the values.
-  google_meet_interop: { key: "google_meet_interop", de: "Google-Meet-Interoperabilitaet", en: "Google Meet interoperability", type: "s", etim: [], icecat: null },
+  google_meet_interop: { key: "google_meet_interop", de: "Google-Meet-Interoperabilität", en: "Google Meet interoperability", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 24 parts, values distinguish SIP vs WebRTC based Zoom joining.
   // enum -> s (3 Sep 2026): type "e" with no domain. data/schema/attribute-aliases.en.json maps this LABEL to the key but states no value set, so no domain can be sourced; an enum with an empty domain fails ENUM_VIOLATION on every value, and a domain guessed here would mis-file real ones. Open string until the corpus supplies the values.
-  zoom_interop: { key: "zoom_interop", de: "Zoom-Meetings-Interoperabilitaet", en: "Zoom Meetings interoperability", type: "s", etim: [], icecat: null },
+  zoom_interop: { key: "zoom_interop", de: "Zoom-Meetings-Interoperabilität", en: "Zoom Meetings interoperability", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 27 parts state whether standards-based dialling is supported at all.
   // enum -> s (3 Sep 2026): type "e" with no domain. data/schema/attribute-aliases.en.json maps this LABEL to the key but states no value set, so no domain can be sourced; an enum with an empty domain fails ENUM_VIOLATION on every value, and a domain guessed here would mis-file real ones. Open string until the corpus supplies the values.
-  sip_h323_interop: { key: "sip_h323_interop", de: "Standardbasierte SIP/H.323-Interoperabilitaet", en: "Standards-based SIP/H.323 interoperability", type: "s", etim: [], icecat: null },
+  sip_h323_interop: { key: "sip_h323_interop", de: "Standardbasierte SIP/H.323-Interoperabilität", en: "Standards-based SIP/H.323 interoperability", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 21 parts, Yes/No. Determines which platform the device can run natively.
   // enum -> s (3 Sep 2026): type "e" with no domain. data/schema/attribute-aliases.en.json maps this LABEL to the key but states no value set, so no domain can be sourced; an enum with an empty domain fails ENUM_VIOLATION on every value, and a domain guessed here would mis-file real ones. Open string until the corpus supplies the values.
   mtr_native: { key: "mtr_native", de: "Native Microsoft-Teams-Rooms-Erfahrung", en: "Native Microsoft Teams Rooms experience", type: "s", etim: [], icecat: null },
@@ -582,20 +582,20 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // collaboration-endpoints — 20 parts name Expressway and H.460.18/19 support - a deployment-blocking detail with no existing hom
   firewall_traversal: { key: "firewall_traversal", de: "Firewall-Traversal", en: "Firewall traversal", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 20 parts enumerate HDMI/USB-C inputs and the formats each accepts.
-  video_inputs: { key: "video_inputs", de: "Videoeingaenge", en: "Video inputs", type: "s", etim: [], icecat: null },
+  video_inputs: { key: "video_inputs", de: "Videoeingänge", en: "Video inputs", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 16 parts enumerate HDMI outputs and maximum output formats.
-  video_outputs: { key: "video_outputs", de: "Videoausgaenge", en: "Video outputs", type: "s", etim: [], icecat: null },
+  video_outputs: { key: "video_outputs", de: "Videoausgänge", en: "Video outputs", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 20 parts list mic inputs, phantom-powered Euroblock, HDMI/USB audio in.
-  audio_inputs: { key: "audio_inputs", de: "Audioeingaenge", en: "Audio inputs", type: "s", etim: [], icecat: null },
+  audio_inputs: { key: "audio_inputs", de: "Audioeingänge", en: "Audio inputs", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 12 parts list line out, HDMI and USB audio out.
-  audio_outputs: { key: "audio_outputs", de: "Audioausgaenge", en: "Audio outputs", type: "s", etim: [], icecat: null },
+  audio_outputs: { key: "audio_outputs", de: "Audioausgänge", en: "Audio outputs", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 27 parts across two spellings give in-meeting vs out-of-meeting share resolution and frame rate.
-  content_share_resolution: { key: "content_share_resolution", de: "Aufloesung der Inhaltsfreigabe", en: "Content sharing resolution", type: "s", etim: [], icecat: null },
+  content_share_resolution: { key: "content_share_resolution", de: "Auflösung der Inhaltsfreigabe", en: "Content sharing resolution", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 27 parts across two spellings, plain integer (1-3). Cleanly numeric and comparable.
   simultaneous_content_sources: { key: "simultaneous_content_sources", de: "Gleichzeitige lokale Inhaltsquellen", en: "Simultaneous local content sources", type: "n", etim: [], icecat: null },
   // collaboration-endpoints — 27 parts across two labels state whether native web apps / embedded apps run on the device.
   // enum -> s (3 Sep 2026): type "e" with no domain. data/schema/attribute-aliases.en.json maps this LABEL to the key but states no value set, so no domain can be sourced; an enum with an empty domain fails ENUM_VIOLATION on every value, and a domain guessed here would mis-file real ones. Open string until the corpus supplies the values.
-  third_party_apps: { key: "third_party_apps", de: "Unterstuetzung von Drittanbieter-Apps", en: "Third-party app support", type: "s", etim: [], icecat: null },
+  third_party_apps: { key: "third_party_apps", de: "Unterstützung von Drittanbieter-Apps", en: "Third-party app support", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 9 parts name which whiteboard stacks are supported (Webex, Microsoft, Miro, Mural).
   whiteboarding: { key: "whiteboarding", de: "Whiteboarding", en: "Whiteboarding", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 17 parts state support and any camera prerequisite.
@@ -607,9 +607,9 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // collaboration-endpoints — 14 parts give main-video and content-channel resolution plus frame rate, the endpoint's headline per
   video_encode_decode: { key: "video_encode_decode", de: "Encode-/Decode-Leistung", en: "Encode/decode capability", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 10 parts give a maximum pixel resolution and frame rate for the panel or output.
-  max_resolution: { key: "max_resolution", de: "Maximale unterstuetzte Aufloesung", en: "Maximum supported resolution", type: "s", etim: [], icecat: null },
+  max_resolution: { key: "max_resolution", de: "Maximale unterstützte Auflösung", en: "Maximum supported resolution", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 19 parts describe dual-stack IPv4/IPv6 support and which services are dual-stack. Deliberately not f
-  ipv6_support: { key: "ipv6_support", de: "IPv6-Unterstuetzung", en: "IPv6 support", type: "s", etim: [], icecat: null },
+  ipv6_support: { key: "ipv6_support", de: "IPv6-Unterstützung", en: "IPv6 support", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 18 phone datasheets state the internal 2-port switch and its speed (10/100 vs 10/100/1000) - a real 
   ethernet_switch: { key: "ethernet_switch", de: "Integrierter Ethernet-Switch", en: "Integrated Ethernet switch", type: "s", etim: [], icecat: null },
   // collaboration-endpoints, security — 11 parts describe RJ-45 LAN/PC ports with speeds. Descriptive, so it must not be forced into the num
@@ -619,23 +619,23 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // collaboration-endpoints — 28 parts across three spellings carry the regulatory model identifier (HS-WL-980, HS-W-320), needed 
   compliance_model: { key: "compliance_model", de: "Compliance-Modellnummer", en: "Compliance model number", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 21 parts across two labels give the minimum/supported CUCM release list. min_software_release refers
-  cucm_versions: { key: "cucm_versions", de: "Unterstuetzte Cisco-Unified-CM-Versionen", en: "Supported Cisco Unified CM releases", type: "s", etim: [], icecat: null },
+  cucm_versions: { key: "cucm_versions", de: "Unterstützte Cisco-Unified-CM-Versionen", en: "Supported Cisco Unified CM releases", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 17 parts name the call-control platforms the endpoint registers to (CUCM, Webex cloud, third-party S
   call_control: { key: "call_control", de: "Anrufsteuerung", en: "Call control support", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 18 phones give a plain line count (1, 4, 8, 12) - the primary differentiator across a desk-phone ran
   voice_lines: { key: "voice_lines", de: "Sprachleitungen", en: "Voice lines", type: "n", unit: "lines", etim: [], icecat: null },
   // collaboration-endpoints — 35 parts across three labels enumerate line keys, soft keys, navigation and hard buttons.
-  keys_buttons: { key: "keys_buttons", de: "Tasten und Schaltflaechen", en: "Keys and buttons", type: "s", etim: [], icecat: null },
+  keys_buttons: { key: "keys_buttons", de: "Tasten und Schaltflächen", en: "Keys and buttons", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 12 phones state whether the handset is wideband or narrowband capable and how it connects.
-  handset: { key: "handset", de: "Hoerer", en: "Handset", type: "s", etim: [], icecat: null },
+  handset: { key: "handset", de: "Hörer", en: "Handset", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 18 parts across two labels give RJ-9 / 3.5 mm / Bluetooth headset connectivity.
-  headset_support: { key: "headset_support", de: "Headset-Unterstuetzung", en: "Headset support", type: "s", etim: [], icecat: null },
+  headset_support: { key: "headset_support", de: "Headset-Unterstützung", en: "Headset support", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 11 parts specify projected-capacitive, multi-touch, optically bonded glass - distinct from the displ
   touchscreen: { key: "touchscreen", de: "Touchscreen", en: "Touchscreen", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 12 parts list presence (ultrasound), temperature, humidity and air-quality sensors feeding workspace
   sensors: { key: "sensors", de: "Integrierte Sensoren", en: "Built-in sensors", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 13 phones give the casing plastic (polycarbonate ABS). jacket_material in the dictionary is a cable 
-  housing_material: { key: "housing_material", de: "Gehaeusematerial", en: "Housing material", type: "s", etim: [], icecat: null },
+  housing_material: { key: "housing_material", de: "Gehäusematerial", en: "Housing material", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 24 parts across two spellings state whether the device can act as a USB camera/mic/speaker for a con
   usb_passthrough: { key: "usb_passthrough", de: "USB-Passthrough", en: "USB passthrough", type: "s", etim: [], icecat: null },
   // collaboration-endpoints — 16 parts list compatible cameras, microphones and mount kits. Related to but distinct from product_c
@@ -684,10 +684,10 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // video — Flatness across the pass band, values like ± 0.5 dB. Appears on 44 parts. No existing field expresse
   frequency_response: { key: "frequency_response", de: "Frequenzgang", en: "Frequency response (flatness)", type: "s", unit: "dB", etim: [], icecat: null },
   // video — RF amplifier gain (42 dB). antenna_gain is a different physical quantity (dBi antenna gain) and must
-  rf_gain: { key: "rf_gain", de: "Betriebsverstaerkung (minimal)", en: "Operational gain (minimum)", type: "n", unit: "dB", etim: [], icecat: null },
+  rf_gain: { key: "rf_gain", de: "Betriebsverstärkung (minimal)", en: "Operational gain (minimum)", type: "n", unit: "dB", etim: [], icecat: null },
   // video — Values are semiconductor technologies (GaN, GaAs FET) that buyers filter on for CATV amplifiers. No 
   // enum -> s (3 Sep 2026): type "e" with no domain. data/schema/attribute-aliases.en.json maps this LABEL to the key but states no value set, so no domain can be sourced; an enum with an empty domain fails ENUM_VIOLATION on every value, and a domain guessed here would mis-file real ones. Open string until the corpus supplies the values.
-  amplifier_type: { key: "amplifier_type", de: "Verstaerkertechnologie", en: "Amplifier device technology", type: "s", etim: [], icecat: null },
+  amplifier_type: { key: "amplifier_type", de: "Verstärkertechnologie", en: "Amplifier device technology", type: "s", etim: [], icecat: null },
   // video — Standard CATV powering spec. Kept separate from the 15 A figure because they are measured at differe
   hum_modulation_12a: { key: "hum_modulation_12a", de: "Brummmodulation bei 12 A", en: "Hum modulation at 12 A", type: "s", unit: "dB", etim: [], icecat: null },
   // video — Distinct measurement condition from the 12 A figure; separate key prevents collision.
@@ -695,13 +695,13 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // video — Built-in cable-equalisation tilt of the amplifier (0, 4, 5, 14.5, 21 dB). Genuinely absent and appea
   internal_tilt: { key: "internal_tilt", de: "Interne Neigung", en: "Internal tilt", type: "n", unit: "dB", etim: [], icecat: null },
   // video — Tap/splitter directivity (>= 50 dB). Distinct from isolation and return loss; standard passive-compo
-  directivity: { key: "directivity", de: "Richtschaerfe", en: "Directivity", type: "s", unit: "dB", etim: [], icecat: null },
+  directivity: { key: "directivity", de: "Richtschärfe", en: "Directivity", type: "s", unit: "dB", etim: [], icecat: null },
   // video — Channel/port isolation of WDM filters and passives (>= 12, >30 add or drop). Values carry conditions
   isolation: { key: "isolation", de: "Isolation", en: "Isolation", type: "s", unit: "dB", etim: [], icecat: null },
   // video — Isolation between RF output legs of a node, a different measurement from filter channel isolation; m
   path_isolation: { key: "path_isolation", de: "Pfad-zu-Pfad-Isolation", en: "Path-to-path / port-to-port isolation", type: "s", unit: "dB", etim: [], icecat: null },
   // video — Fibre-side reflectance spec (>= 45, > 40, >= 50 dB) on optical transmitters and filters; must not be
-  optical_return_loss: { key: "optical_return_loss", de: "Optische Rueckflussdaempfung", en: "Optical return loss", type: "s", unit: "dB", etim: [], icecat: null },
+  optical_return_loss: { key: "optical_return_loss", de: "Optische Rückflussdämpfung", en: "Optical return loss", type: "s", unit: "dB", etim: [], icecat: null },
   // video — Operating window of a receiver or EDFA input (-3 to +2 dBm, 0 to +10 dBm). rx_sensitivity is a singl
   optical_input_range: { key: "optical_input_range", de: "Optischer Eingangsleistungsbereich", en: "Optical input power range", type: "s", unit: "dBm", etim: [], icecat: null },
   // video — Output level of the RF path in dBmV, the CATV unit. No dictionary field holds an RF signal level; tx
@@ -744,14 +744,14 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // of a full 45U rack, so it keeps the tallest real chassis in the corpus (ASR-9922, 1955.8 mm)
   // and refuses anything that cannot itself be racked. The four 42U cabinets at 1993.9 mm stay in
   // band on purpose: see the header — a 42U enclosure and a 44U chassis are the same height.
-  height: { key: "height", de: "Frontplattenhoehe", en: "Faceplate height", type: "n", unit: "mm", band: [5, 2000], etim: [], icecat: null },
+  height: { key: "height", de: "Frontplattenhöhe", en: "Faceplate height", type: "n", unit: "mm", band: [5, 2000], etim: [], icecat: null },
   // servers-unified-computing — Whether the server runs in Intersight Managed Mode, Intersight Standalone Mode or UCS Manager mode i
   // enum -> s (3 Sep 2026): type "e" with no domain. data/schema/attribute-aliases.en.json maps this LABEL to the key but states no value set, so no domain can be sourced; an enum with an empty domain fails ENUM_VIOLATION on every value, and a domain guessed here would mis-file real ones. Open string until the corpus supplies the values.
   management_mode: { key: "management_mode", de: "Verwaltungsmodus", en: "Management mode", type: "s", etim: [], icecat: null },
   // servers-unified-computing — Which 6454/64108/6536 fabric interconnects a node attaches to is a buying-decision compatibility fac
-  supported_fabric_interconnects: { key: "supported_fabric_interconnects", de: "Unterstuetzte Fabric Interconnects", en: "Supported fabric interconnects", type: "s", etim: [], icecat: null },
+  supported_fabric_interconnects: { key: "supported_fabric_interconnects", de: "Unterstützte Fabric Interconnects", en: "Supported fabric interconnects", type: "s", etim: [], icecat: null },
   // servers-unified-computing — Drive-bay count and backplane type ("Up to 10 SFF SAS/SATA/U.3 NVMe drives") is the single most impo
-  internal_storage: { key: "internal_storage", de: "Interne Laufwerksschaechte", en: "Internal drive bays", type: "s", etim: [], icecat: null },
+  internal_storage: { key: "internal_storage", de: "Interne Laufwerksschächte", en: "Internal drive bays", type: "s", etim: [], icecat: null },
   // servers-unified-computing — M.2 SATA/NVMe boot drives, FlexFlash SD cards and BMC FlexMMC are a separate device class from the d
   boot_storage: { key: "boot_storage", de: "Boot- und Hilfsspeicher", en: "Boot and utility storage", type: "s", etim: [], icecat: null },
   // servers-unified-computing — Front and rear mezzanine slots (VIC 15422, bridge connectors, FlexStorage NVMe passthrough) are a UC
@@ -759,7 +759,7 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // servers-unified-computing — Storage controller model and generation ("Cisco 24-Gbps modular tri-mode RAID controller supports SA
   raid_controller: { key: "raid_controller", de: "RAID-Controller", en: "RAID controller", type: "s", etim: [], icecat: null },
   // servers-unified-computing, security, hyperconverged-infrastructure — HCI and compute nodes are sold per hypervisor ("Nutanix AHV only", "VMware vSphere 7.0"); this is a 
-  hypervisor: { key: "hypervisor", de: "Unterstuetzter Hypervisor", en: "Supported hypervisor", type: "s", etim: [], icecat: null },
+  hypervisor: { key: "hypervisor", de: "Unterstützter Hypervisor", en: "Supported hypervisor", type: "s", etim: [], icecat: null },
   // servers-unified-computing, unified-communications — OS support matrix (RHEL releases, Windows Server 2019) is distinct from hypervisor support and from 
   supported_os: { key: "supported_os", de: "Unterstuetzte Betriebssysteme", en: "Supported operating systems", type: "s", etim: [], icecat: null },
   // servers-unified-computing, security — Clean integer core count with no dictionary equivalent; cpu holds the processor description string. 
@@ -775,13 +775,13 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // servers-unified-computing — The installed VIC/NIC ("1x Cisco VIC 15420 MLOM", "8x NVIDIA BlueField-3 SuperNIC 400GbE") is a serv
   network_adapter: { key: "network_adapter", de: "Netzwerkadapter", en: "Network adapter", type: "s", etim: [], icecat: null },
   // servers-unified-computing — KVM console connector, front VGA/USB/serial. Physically distinct from rear connectors and from mgmt_
-  front_panel_ports: { key: "front_panel_ports", de: "Anschluesse Vorderseite", en: "Front-panel connectors", type: "s", etim: [], icecat: null },
+  front_panel_ports: { key: "front_panel_ports", de: "Anschlüsse Vorderseite", en: "Front-panel connectors", type: "s", etim: [], icecat: null },
   // servers-unified-computing — Rear VGA, USB, RJ45 serial and the 1GbE management port. Counterpart to front_panel_ports; mgmt_port
-  rear_panel_ports: { key: "rear_panel_ports", de: "Anschluesse Rueckseite", en: "Rear-panel connectors", type: "s", etim: [], icecat: null },
+  rear_panel_ports: { key: "rear_panel_ports", de: "Anschlüsse Rückseite", en: "Rear-panel connectors", type: "s", etim: [], icecat: null },
   // servers-unified-computing — Numeric drive performance figure for the UCS NVMe SKUs sold in this category; no dictionary field ca
-  iops_random_read_4k: { key: "iops_random_read_4k", de: "Zufaellige Lese-IOPS (4 KB)", en: "Random read IOPS (4 KB)", type: "n", unit: "IOPS", etim: [], icecat: null },
+  iops_random_read_4k: { key: "iops_random_read_4k", de: "Zufällige Lese-IOPS (4 KB)", en: "Random read IOPS (4 KB)", type: "n", unit: "IOPS", etim: [], icecat: null },
   // servers-unified-computing — Write counterpart of the read figure; read and write differ by an order of magnitude and cannot shar
-  iops_random_write_4k: { key: "iops_random_write_4k", de: "Zufaellige Schreib-IOPS (4 KB)", en: "Random write IOPS (4 KB)", type: "n", unit: "IOPS", etim: [], icecat: null },
+  iops_random_write_4k: { key: "iops_random_write_4k", de: "Zufällige Schreib-IOPS (4 KB)", en: "Random write IOPS (4 KB)", type: "n", unit: "IOPS", etim: [], icecat: null },
   // servers-unified-computing — Third column of the same NVMe performance table, a distinct measured workload. Storing it in either 
   iops_random_mixed_4k: { key: "iops_random_mixed_4k", de: "Gemischte IOPS (70/30, 4 KB)", en: "Random mixed IOPS (70/30, 4 KB)", type: "n", unit: "IOPS", etim: [], icecat: null },
   // transceiver — Appears as 'Queues per port' and 'Physical Interfaces: Queues per port' on 25 parts with clean value
@@ -841,17 +841,17 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // cloud-systems-management — TrustSec IP-to-SGT binding scale, a distinct hardware table with clean numeric values on 23 parts. N
   sgt_bindings: { key: "sgt_bindings", de: "IPv4-SGT-Bindungen", en: "IPv4 SGT bindings", type: "n", unit: "entries", etim: [], icecat: null },
   // cloud-systems-management — Security-group ACE / contract-action capacity, 31 parts. Kept separate from acl_entries on purpose: 
-  sgacl_entries: { key: "sgacl_entries", de: "SGACL-Eintraege (Contract-Aktionen)", en: "SGACL entries (contract actions)", type: "n", unit: "entries", etim: [], icecat: null },
+  sgacl_entries: { key: "sgacl_entries", de: "SGACL-Einträge (Contract-Aktionen)", en: "SGACL entries (contract actions)", type: "n", unit: "entries", etim: [], icecat: null },
   // cloud-systems-management — The policy-matrix cell count, quoted alongside and numerically different from the SGACL entry count 
   sgt_policies: { key: "sgt_policies", de: "SGT/DGT-Richtlinien", en: "SGT/DGT policies", type: "n", unit: "entries", etim: [], icecat: null },
   // cloud-systems-management — SD-Access fabric host-route (/32, /128) capacity on 14 parts. Distinct from ipv4_routes (prefix rout
-  fabric_host_entries: { key: "fabric_host_entries", de: "Fabric-Host-Eintraege", en: "Fabric host entries", type: "n", unit: "entries", etim: [], icecat: null },
+  fabric_host_entries: { key: "fabric_host_entries", de: "Fabric-Host-Einträge", en: "Fabric host entries", type: "n", unit: "entries", etim: [], icecat: null },
   // cloud-systems-management — Number of virtual networks/VRFs supported, on 19 parts across two label spellings. No existing field
   virtual_networks: { key: "virtual_networks", de: "Virtuelle Netzwerke (VNs/VRFs)", en: "Virtual networks (VNs/VRFs)", type: "n", unit: "count", etim: [], icecat: null },
   // cloud-systems-management — Software products in this category are installed on a host, and the supported OS list ("Ubuntu Linux
-  host_os_support: { key: "host_os_support", de: "Unterstuetzte Host-Betriebssysteme", en: "Supported host operating systems", type: "s", etim: [], icecat: null },
+  host_os_support: { key: "host_os_support", de: "Unterstützte Host-Betriebssysteme", en: "Supported host operating systems", type: "s", etim: [], icecat: null },
   // cloud-systems-management — Platform-wide device capacity, the other headline sizing figure next to max_endpoints. Deliberately 
-  managed_devices_max: { key: "managed_devices_max", de: "Maximale Anzahl verwalteter Geraete", en: "Maximum managed devices", type: "n", unit: "devices", etim: [], icecat: null },
+  managed_devices_max: { key: "managed_devices_max", de: "Maximale Anzahl verwalteter Geräte", en: "Maximum managed devices", type: "n", unit: "devices", etim: [], icecat: null },
   // hyperconverged-infrastructure — Values are the traffic-handling mode of an inline appliance (Transparent L2 Forwarding, IP Forwardin
   forwarding_mode: { key: "forwarding_mode", de: "Weiterleitungsmodus", en: "Network forwarding mode", type: "s", etim: [], icecat: null },
   // hyperconverged-infrastructure — How the unit is inserted into the network (Inline, SPAN port monitoring, Copy port monitoring, Out-o
@@ -890,7 +890,7 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // hyperconverged-infrastructure — Values specify the dedicated hypervisor boot media ('Dual M.2 SATA SSDs with HW RAID support, 240/48
   boot_drive: { key: "boot_drive", de: "Boot-Laufwerke", en: "Boot drives", type: "s", etim: [], icecat: null },
   // hyperconverged-infrastructure — Values list optional accelerator cards (NVIDIA L4, A16, A30, A40, H100-80) and slot limits. supporte
-  gpu_options: { key: "gpu_options", de: "Unterstuetzte GPUs", en: "Supported GPUs", type: "s", etim: [], icecat: null },
+  gpu_options: { key: "gpu_options", de: "Unterstützte GPUs", en: "Supported GPUs", type: "s", etim: [], icecat: null },
   // hyperconverged-infrastructure — Value 'Minimum of 3 HCI nodes and minimum of 2 CO nodes' is the defining sizing constraint of a hype
   cluster_min_nodes: { key: "cluster_min_nodes", de: "Mindestanzahl Cluster-Knoten", en: "Minimum cluster nodes", type: "s", etim: [], icecat: null },
   // meraki — The dictionary has only beamwidth_elevation. These values give horizontal AND vertical together ('H:
@@ -968,7 +968,7 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // hyperconverged-systems — The write-log/cache tier is the single most performance-defining drive choice on a hyperconverged no
   cache_drive_options: { key: "cache_drive_options", de: "Cache-Laufwerk Optionen", en: "Cache drive options", type: "s", etim: [], icecat: null },
   // hyperconverged-systems — The data/capacity tier (HX-HD24TB10K4KN, HX-NVMEI4-I3840) is what determines usable cluster capacity
-  capacity_drive_options: { key: "capacity_drive_options", de: "Kapazitaets-Laufwerk Optionen", en: "Capacity drive options", type: "s", etim: [], icecat: null },
+  capacity_drive_options: { key: "capacity_drive_options", de: "Kapazitäts-Laufwerk Optionen", en: "Capacity drive options", type: "s", etim: [], icecat: null },
   // hyperconverged-systems — HyperFlex nodes carry a dedicated housekeeping/system SSD (HX-SD240GM1X-EV) distinct from boot, cach
   housekeeping_drive_options: { key: "housekeeping_drive_options", de: "Housekeeping-Laufwerk Optionen", en: "Housekeeping drive options", type: "s", etim: [], icecat: null },
   // hyperconverged-systems — Values are orderable processor PIDs (HX-CPU-I6348, HX-CPU-I5320, HX-CPU-I4314), not the installed-pr
@@ -1010,7 +1010,7 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   // provantage — 204 rows ('10GBase-X', '10/100/1000Base-T 1000Base-X'). Kept apart from `standard` (Transmission standard, examples 1000
   network_technology: {key: "network_technology", de: "Netzwerktechnologie", en: "Network technology", type: "s", etim: [], icecat: null},
   // provantage — 182 rows ('Optical Fiber', 'Twisted Pair', 'Twisted Pair Optical Fiber'). The existing `media` is a closed enum (mmf|smf
-  media_type_supported: {key: "media_type_supported", de: "Unterstuetzter Medientyp", en: "Media type supported", type: "s", etim: [], icecat: null},
+  media_type_supported: {key: "media_type_supported", de: "Unterstützter Medientyp", en: "Media type supported", type: "s", etim: [], icecat: null},
   // provantage — 160 rows ('SFP+', 'Supervisor Engine', 'Shared Port Adapter'). `module_slots` counts the slots; nothing says what goes i
   expansion_slot_type: {key: "expansion_slot_type", de: "Erweiterungssteckplatz-Typ", en: "Expansion slot type", type: "s", etim: [], icecat: null},
   // provantage — 148 rows, values Yes/No only. Does NOT replace `mgmt_class` (managed|smart-managed|unmanaged): that needs a distinction 
