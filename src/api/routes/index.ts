@@ -55,19 +55,19 @@ export async function v1Routes(app: FastifyInstance, opts: V1Options): Promise<v
 
   await app.register(vendorsRoutes);
   await app.register(categoriesRoutes);
-  await app.register(fieldsRoutes);
+  await app.register(fieldsRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(facetsRoutes);
-  await app.register(partsRoutes);
+  await app.register(partsRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(partRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(lifecycleRoutes);
-  await app.register(changesRoutes);
+  await app.register(changesRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(exportRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(searchRoutes);
-  await app.register(docsRoutes);
+  await app.register(docsRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(runsRoutes);
   await app.register(statsRoutes);
   // API-3: families, compare, the outward-looking part sub-resources, the source registry, gap stats.
-  await app.register(familiesRoutes);
+  await app.register(familiesRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(compareRoutes);
   await app.register(relatedRoutes);
   await app.register(sourcesRoutes);

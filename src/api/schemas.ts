@@ -54,6 +54,17 @@ export const PartSummary = Type.Object({
   completeness_pct: Nullable(Type.Number()),
   has_image: Type.Boolean(),
   updated_at: Type.String({ format: "date-time" }),
+  /**
+   * Where to go next for this part, fully expanded and in the request's own auth form.
+   *
+   * Optional because the query layer builds a PartSummary without knowing the request — the
+   * route decorates each item on the way out. A SKU carrying `=`, `++` or `#` is percent-encoded
+   * in the path; without that a spare (`GLC-TE=`) truncates or invents a segment and 404s in a
+   * way that reads like a missing part rather than a malformed link.
+   */
+  url: Type.Optional(Type.String()),
+  facts_url: Type.Optional(Type.String()),
+  gaps_url: Type.Optional(Type.String()),
 });
 export type PartSummaryT = Static<typeof PartSummary>;
 
@@ -79,8 +90,26 @@ export const ListQuery = {
   cursor: Type.Optional(Type.String()),
 };
 
+/**
+ * The shape of every list response.
+ *
+ * `next_url` is the fully-expanded next page, in the SAME authentication form the request used —
+ * a path-key request gets a path-key URL, a Bearer request gets a key-less one. It exists because
+ * `next_cursor` alone requires the reader to know how to rebuild the query, and a client that can
+ * only fetch URLs it has already seen cannot page at all: it reads 200 of a 1,522-part series and
+ * has no way to ask for the rest. null on the last page, exactly like `next_cursor`.
+ *
+ * DECLARED HERE OR IT DOES NOT EXIST. Fastify serialises responses through the schema and drops
+ * anything not in it, silently — a handler returning `next_url` without this line ships a
+ * response that never carries one, and every test that checks the handler's return value passes.
+ */
 export const ListOf = <T extends TSchema>(item: T, extra: Record<string, TSchema> = {}) =>
-  Type.Object({ items: Type.Array(item), next_cursor: Nullable(Type.String()), ...extra });
+  Type.Object({
+    items: Type.Array(item),
+    next_cursor: Nullable(Type.String()),
+    next_url: Type.Optional(Nullable(Type.String())),
+    ...extra,
+  });
 
 export const SECURITY = [{ bearerAuth: [] as string[] }];
 
@@ -139,6 +168,8 @@ export const FamilyCounts = Type.Object({
   hardware_parts: Type.Integer(),
   with_facts: Type.Integer({ description: "members with at least one rendered fact" }),
   lifecycle: LifecycleBuckets,
+  /** …/families/{vendor}/{family}, fully expanded, in the request's own auth form. */
+  url: Type.Optional(Type.String()),
 });
 export type FamilyCountsT = Static<typeof FamilyCounts>;
 

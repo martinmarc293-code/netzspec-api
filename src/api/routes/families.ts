@@ -4,6 +4,7 @@ import type { FastifyInstance } from "fastify";
 import { Type, type Static } from "@sinclair/typebox";
 import { notFound } from "../errors.js";
 import { getFamily, listFamilies } from "../queries/families.js";
+import { encodeSegment, linkBase, pagedUrl } from "../links.js";
 import { AnyJson, ERROR_RESPONSES, FamilyCounts, FieldHead, ListOf, ListQuery, Nullable, PartSummary } from "../schemas.js";
 
 const ListQ = Type.Object({
@@ -27,14 +28,27 @@ const FamilyRecord = Type.Intersect([FamilyCounts, Type.Object({
   next_cursor: Nullable(Type.String()),
 })]);
 
-export async function familiesRoutes(app: FastifyInstance): Promise<void> {
+export type FamiliesRouteOptions = { publicBaseUrl: string };
+
+export async function familiesRoutes(app: FastifyInstance, opts: FamiliesRouteOptions): Promise<void> {
   app.get<{ Querystring: Static<typeof ListQ> }>("/families", {
     schema: {
       tags: ["catalogue"], summary: "Product families with live counts, largest first. Keyset-paged.",
       querystring: ListQ,
       response: { 200: ListOf(FamilyCounts), ...ERROR_RESPONSES },
     },
-  }, async (req) => listFamilies({ vendor: req.query.vendor, category: req.query.category, limit: req.query.limit ?? 50, cursor: req.query.cursor }));
+  }, async (req) => {
+    const page = await listFamilies({ vendor: req.query.vendor, category: req.query.category, limit: req.query.limit ?? 50, cursor: req.query.cursor });
+    const base = linkBase(req, opts.publicBaseUrl);
+    return {
+      items: page.items.map((f) => ({
+        ...f,
+        url: `${base}/families/${encodeSegment(f.vendor)}/${encodeSegment(f.family)}`,
+      })),
+      next_cursor: page.next_cursor,
+      next_url: pagedUrl(req, base, "/families", page.next_cursor),
+    };
+  });
 
   app.get<{ Params: Static<typeof Params>; Querystring: Static<typeof MembersQ> }>("/families/:vendor/:family", {
     schema: {

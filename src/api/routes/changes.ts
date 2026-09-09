@@ -3,6 +3,7 @@
 import type { FastifyInstance } from "fastify";
 import { Type, type Static } from "@sinclair/typebox";
 import { listChanges } from "../queries/changes.js";
+import { linkBase, pagedUrl } from "../links.js";
 import { ERROR_RESPONSES, ListOf, ListQuery } from "../schemas.js";
 
 const Query = Type.Object({
@@ -11,12 +12,18 @@ const Query = Type.Object({
 });
 const ChangeItem = Type.Object({ vendor: Type.String(), sku: Type.String(), updated_at: Type.String({ format: "date-time" }) });
 
-export async function changesRoutes(app: FastifyInstance): Promise<void> {
+export type ChangesRouteOptions = { publicBaseUrl: string };
+
+export async function changesRoutes(app: FastifyInstance, opts: ChangesRouteOptions): Promise<void> {
   app.get<{ Querystring: Static<typeof Query> }>("/changes", {
     schema: {
       tags: ["sync"], summary: "Parts changed since a timestamp, oldest first, plus `now` for the next watermark.",
       querystring: Query,
       response: { 200: ListOf(ChangeItem, { now: Type.String({ format: "date-time" }) }), ...ERROR_RESPONSES },
     },
-  }, async (req) => listChanges(req.query.since, req.query.limit ?? 50, req.query.cursor));
+  }, async (req) => {
+    const page = await listChanges(req.query.since, req.query.limit ?? 50, req.query.cursor);
+    const base = linkBase(req, opts.publicBaseUrl);
+    return { ...page, next_url: pagedUrl(req, base, "/changes", page.next_cursor) };
+  });
 }

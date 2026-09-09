@@ -14,6 +14,7 @@ import type { FastifyInstance } from "fastify";
 import { Type, type Static } from "@sinclair/typebox";
 import { notFound } from "../errors.js";
 import { docClassCounts, getDoc, listDocs } from "../queries/docs.js";
+import { encodeSegment, linkBase, pagedUrl } from "../links.js";
 import { ERROR_RESPONSES, Nullable } from "../schemas.js";
 
 const Params = Type.Object({ doc_id: Type.String() });
@@ -46,7 +47,10 @@ const DocFields = {
 };
 
 const DocRecord = Type.Object({ ...DocFields, parts: Type.Array(Type.String()) });
-const DocListItem = Type.Object(DocFields);
+// `self_url`, NOT `url`. DocFields.url is the VENDOR's document URL - the page the facts were
+// read from - and it is the more useful of the two to a consumer. Taking that name for the API
+// link would silently repoint every existing caller at this service, so the API link gets its own.
+const DocListItem = Type.Object({ ...DocFields, self_url: Type.Optional(Type.String()) });
 
 const ListQuery = Type.Object({
   vendor: Type.Optional(Type.String()),
@@ -59,7 +63,9 @@ const ListQuery = Type.Object({
 
 const ClassesQuery = Type.Object({ vendor: Type.Optional(Type.String()) });
 
-export async function docsRoutes(app: FastifyInstance): Promise<void> {
+export type DocsRouteOptions = { publicBaseUrl: string };
+
+export async function docsRoutes(app: FastifyInstance, opts: DocsRouteOptions): Promise<void> {
   // Registered BEFORE /docs/:doc_id so "classes" is not read as a document id — Fastify prefers a
   // static segment over a parameter, but the ordering is written down because a future rename that
   // made this dynamic would turn /docs/classes into a 404 for a document nobody named "classes".
@@ -89,18 +95,27 @@ export async function docsRoutes(app: FastifyInstance): Promise<void> {
         200: Type.Object({
           items: Type.Array(DocListItem),
           next_cursor: Nullable(Type.String()),
+          next_url: Type.Optional(Nullable(Type.String())),
         }),
         ...ERROR_RESPONSES,
       },
     },
-  }, async (req) => listDocs({
-    vendor: req.query.vendor,
-    category: req.query.category,
-    doc_type: req.query.doc_type,
-    spec_bearing: req.query.spec_bearing,
-    limit: req.query.limit ?? 50,
-    cursor: req.query.cursor,
-  }));
+  }, async (req) => {
+    const page = await listDocs({
+      vendor: req.query.vendor,
+      category: req.query.category,
+      doc_type: req.query.doc_type,
+      spec_bearing: req.query.spec_bearing,
+      limit: req.query.limit ?? 50,
+      cursor: req.query.cursor,
+    });
+    const base = linkBase(req, opts.publicBaseUrl);
+    return {
+      items: page.items.map((d) => ({ ...d, self_url: `${base}/docs/${encodeSegment(d.doc_id)}` })),
+      next_cursor: page.next_cursor,
+      next_url: pagedUrl(req, base, "/docs", page.next_cursor),
+    };
+  });
 
   app.get<{ Params: Static<typeof Params> }>("/docs/:doc_id", {
     schema: {

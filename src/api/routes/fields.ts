@@ -1,23 +1,70 @@
 // src/api/routes/fields.ts — GET /v1/fields?category=: the dictionary, with the category's
-// requirement per key when a category is named.
+// requirement per key when a category is named, and a link index when a category is named.
+//
+// THE LINK INDEX IS THE ENTRY POINT. A client whose fetcher only opens URLs it has already seen
+// can reach exactly one URL of this API to begin with. Returning the whole audit surface as
+// fully-expanded URLs from that one response makes everything else reachable in one hop, and the
+// item-level `url` fields on /parts carry it the rest of the way. See src/api/links.ts for why a
+// key appears in those URLs only when the caller already put it in one.
 import type { FastifyInstance } from "fastify";
 import { Type, type Static } from "@sinclair/typebox";
 import { listFields } from "../queries/fields.js";
+import { seriesIndex } from "../queries/seriesIndex.js";
+import { buildLinkIndex, linkBase, qs } from "../links.js";
 import { AnyJson, ERROR_RESPONSES, ListOf, Nullable } from "../schemas.js";
 
-const Query = Type.Object({ category: Type.Optional(Type.String()) });
+const Query = Type.Object({
+  category: Type.Optional(Type.String()),
+  /** Which vendor the link index is built for; the dictionary itself is vendor-neutral. */
+  vendor: Type.Optional(Type.String({ description: "vendor slug for the `links` index (default cisco)" })),
+});
 const FieldItem = Type.Object({
   key: Type.String(), type: Type.String(), unit: Nullable(Type.String()), label_en: Type.String(), label_de: Type.String(),
   domain: AnyJson, band: AnyJson, shape: Nullable(Type.String()),
   requirement: Type.Optional(Type.Object({ kind: Type.String(), when: Type.Optional(AnyJson) })),
 });
 
-export async function fieldsRoutes(app: FastifyInstance): Promise<void> {
+const LinkEntry = Type.Object({
+  name: Type.String(),
+  url: Type.String(),
+  /** Rows the URL returns where that is known without running it — the hardware count for a
+   *  series. null means NOT COUNTED, never zero: a reader must not read an uncounted link as an
+   *  empty one, which is the same distinction `unreadable` keeps separate from `checked`. */
+  rows: Nullable(Type.Integer()),
+});
+const Links = Type.Object({
+  self: Type.String(),
+  index: Type.Array(LinkEntry),
+});
+
+export type FieldsRouteOptions = { publicBaseUrl: string };
+
+export async function fieldsRoutes(app: FastifyInstance, opts: FieldsRouteOptions): Promise<void> {
   app.get<{ Querystring: Static<typeof Query> }>("/fields", {
     schema: {
-      tags: ["catalogue"], summary: "The field dictionary; `requirement` per key when `category` is given.",
+      tags: ["catalogue"],
+      summary: "The field dictionary; `requirement` per key when `category` is given, plus a "
+             + "`links` index of every URL an audit of that category needs.",
       querystring: Query,
-      response: { 200: ListOf(FieldItem), ...ERROR_RESPONSES },
+      response: { 200: ListOf(FieldItem, { links: Type.Optional(Links) }), ...ERROR_RESPONSES },
     },
-  }, async (req) => ({ items: await listFields(req.query.category), next_cursor: null }));
+  }, async (req) => {
+    const items = await listFields(req.query.category);
+    const category = req.query.category;
+    // No category, no index: the index is a tour of ONE category, and building it for the whole
+    // dictionary would mean a series query per category on a request that asked for none.
+    if (!category) return { items, next_cursor: null };
+
+    const vendor = req.query.vendor ?? "cisco";
+    const base = linkBase(req, opts.publicBaseUrl);
+    const series = await seriesIndex(vendor, category);
+    return {
+      items,
+      next_cursor: null,
+      links: {
+        self: `${base}/fields${qs({ category, vendor: req.query.vendor })}`,
+        index: buildLinkIndex(base, vendor, category, series),
+      },
+    };
+  });
 }

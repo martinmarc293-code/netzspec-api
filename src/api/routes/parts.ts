@@ -2,6 +2,7 @@
 import type { FastifyInstance } from "fastify";
 import { Type, type Static } from "@sinclair/typebox";
 import { listParts } from "../queries/parts.js";
+import { linkBase, pagedUrl, partUrl } from "../links.js";
 import { ERROR_RESPONSES, ListOf, ListQuery, PartSummary } from "../schemas.js";
 
 const Query = Type.Object({
@@ -19,7 +20,9 @@ const Query = Type.Object({
   ...ListQuery,
 });
 
-export async function partsRoutes(app: FastifyInstance): Promise<void> {
+export type PartsRouteOptions = { publicBaseUrl: string };
+
+export async function partsRoutes(app: FastifyInstance, opts: PartsRouteOptions): Promise<void> {
   app.get<{ Querystring: Static<typeof Query> }>("/parts", {
     schema: {
       tags: ["parts"], summary: "List parts (summaries), filtered and keyset-paged by SKU.",
@@ -28,10 +31,21 @@ export async function partsRoutes(app: FastifyInstance): Promise<void> {
     },
   }, async (req) => {
     const q = req.query;
-    return listParts({
+    const page = await listParts({
       vendor: q.vendor, category: q.category, series: q.series, family: q.family, class: q.class,
       sku: q.sku, sku_prefix: q.sku_prefix, q: q.q, has: q.has,
       updated_since: q.updated_since, filter: q.filter, limit: q.limit ?? 50, cursor: q.cursor,
     });
+    // Decorated HERE and not in the query layer: the URLs depend on how THIS request
+    // authenticated, which the query layer neither knows nor should.
+    const base = linkBase(req, opts.publicBaseUrl);
+    return {
+      items: page.items.map((p) => {
+        const u = partUrl(base, p.vendor, p.sku);
+        return { ...p, url: u, facts_url: `${u}/facts`, gaps_url: `${u}/gaps` };
+      }),
+      next_cursor: page.next_cursor,
+      next_url: pagedUrl(req, base, "/parts", page.next_cursor),
+    };
   });
 }
