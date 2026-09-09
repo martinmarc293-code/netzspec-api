@@ -251,7 +251,12 @@ export function classify(input: ClassifyInput): Classification {
   // signal and keeps precedence; the name only gets a say where the SKU said nothing, which is
   // exactly the case that was defaulting to `hardware` on the strength of the category alone.
   const name = typeof input.name === "string" ? input.name : "";
-  if (name) {
+  // A NAME THAT SAYS HARDWARE OVERRIDES ALL FOUR. Found by reading the dry run rather than by
+  // reasoning: `ASR5K-0F-B00-2069=` is a "Motorola PSC2 LTE Hardware and Software bundle", so
+  // `name-sw-bundle` fired on a name that calls itself hardware in the same clause. A licence is
+  // never described as hardware, so this costs nothing and stops the one class of false positive
+  // the physical-fact test could not see — the part has no facts at all, so nothing protected it.
+  if (name && !/\bhardware\b/i.test(name)) {
     for (const r of NAME_LICENSE_RULES) if (r.re.test(name)) return { klass: "license", reason: r.name };
   }
 

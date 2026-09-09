@@ -44,6 +44,10 @@ const MUST_STAY_HARDWARE: [string, string, string][] = [
   ["A9K-24P10G-IVRF", "Infra. VRF lic. for up to 8 VRF instances", "lic-abbrev"],
   ["C1E1TN9300XF-5Y", "Cisco ACI and NX-OS subscription Essentials 5Y term", "subscription + term-bare"],
   ["C9200CX-DNXA-8-5Y", "C9200CX Cisco Catalyst Advantage software 5 Y lic", "n-year-lic, 12 real parts"],
+  // Found by READING the dry run, not by reasoning: this matched name-sw-bundle on a name that
+  // calls itself hardware. It carries no facts at all, so the physical-fact test could not see it.
+  ["ASR5K-0F-B00-2069=", "Motorola PSC2 LTE Hardware and Software bundle", "says HARDWARE"],
+  ["DN3-HW-APL-XL=", "DNA Center Hardware Appliance SW Bundle XL", "says HARDWARE"],
 ];
 for (const [sku, name, why] of MUST_STAY_HARDWARE) {
   check(`REFUSED (${why}): ${sku} stays hardware`, hw(sku, name).klass, "hardware");
