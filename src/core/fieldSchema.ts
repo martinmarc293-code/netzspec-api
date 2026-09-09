@@ -451,23 +451,46 @@ const cond = (when: Condition): Requirement => ({ kind: "cond", when });
 // hardware parts — Secure Client, Fireamp Endpoints, Umbrella, XDR) are endpoint and cloud
 // products with no appliance specification at all; they keep the universal fields every physical
 // box has and are asked for nothing they cannot have. A new series appears the same way.
+// SIX SERIES REMOVED 9 Sep 2026, each because it holds NO HARDWARE OF THAT SHAPE. Checked by
+// listing the parts rather than by reasoning about the series name, after the licence
+// reclassification had taken 762 rows out of `hardware`:
+//
+//   IOS SSL VPN                  10 "hardware", every one a FL-SSLVPN* FEATURE LICENCE
+//                                ("Cisco SSLVPN Feature license - 100 users"). No firewall.
+//   Secure DDoS Protection        2, both RD-CCX-*-LIC licences.
+//   Security Cloud Control      164, every one a CDO-*-LIC ("SCC Firewall Device license").
+//   Security Analytics + Logging 40, EA allocations and SAL-CL-* volume licences.
+//   Secure Cloud Analytics       19, AWS/SELA cloud allocations.
+//   ISE Passive Identity Conn.    1, "ISE PIC 3000 sessions and VM Common LICENSE".
+//   Secure Access                15, SaaS.
+//
+// They are still classed `hardware` — the four safe name rules in productClass.ts do not reach
+// them, because the patterns that would (\blicense\b, \blic\b) were measured against a
+// fact-rich population and each caught real products. So removing them from the SHAPE lists is
+// the change that is safe today; reclassifying them needs a signal nobody has yet.
+//
+// `ASA` IS KEPT, against the reviewer's recommendation. Its four hardware members are SSP-10,
+// SSP-20, SSP-40 and SSP-60 — ASA 5585-X Security Services Processors, which are precisely the
+// module a firewall throughput figure is quoted for. The value-shaped rows that made this series
+// look wrong (200K/300K/500K/700K) are product_class=unknown and are not scored at all.
 const SEC_FIREWALL = [
   "Firepower NGFW", "5500-X ASA with Firepower", "ASA 5500 Series Next Generation",
   "4100 Firepower", "Firepower 9300 Series", "Secure Firewall 1200 Series",
   "Firepower 1000 Series", "Secure Firewall 6100 Series", "2100 Firepower", "ASA",
-  "200 Secure", "3000 Series Industrial Security Appliances (ISA)", "IOS SSL VPN",
+  "200 Secure", "3000 Series Industrial Security Appliances (ISA)",
 ];
 const SEC_IPS = ["FirePOWER 8000 Appliances", "FirePOWER 7000 Appliances", "NGIPS Virtual Appliance"];
 const SEC_EMAIL = ["Email Security Appliance"];
 const SEC_WEB = ["Secure Web Appliance", "Web Appliance Virtual"];
 const SEC_MGMT = ["Security Manager", "Defense Center", "Firesight Management Center",
-  "Security Cloud Control", "Secure Email and Web Manager"];
-const SEC_ANALYTICS = ["Secure Network Analytics", "UDP Director", "Flow Sensor", "Cyber Vision",
-  "Security Analytics and Logging", "Secure Cloud Analytics"];
-const SEC_IDENTITY = ["Identity Services Engine", "ISE Passive Identity Connector", "Secure Access"];
-const SEC_DDOS = ["Secure DDoS Protection"];
+  "Secure Email and Web Manager"];
+const SEC_ANALYTICS = ["Secure Network Analytics", "UDP Director", "Flow Sensor", "Cyber Vision"];
+// ISE only. Its 112 hardware parts are real: SNS-3815/3855/3895/3715/3755/3795-K9, "Secure
+// Network Server for ISE applications", carrying 7-8 facts each — the best-documented appliances
+// in the category.
+const SEC_IDENTITY = ["Identity Services Engine"];
 /** Anything that terminates or inspects traffic in line. */
-const SEC_INLINE = [...SEC_FIREWALL, ...SEC_IPS, ...SEC_DDOS];
+const SEC_INLINE = [...SEC_FIREWALL, ...SEC_IPS];
 
 export const PROFILES: Record<string, Record<string, Requirement>> = {
   // --- SOFTWARE AND LICENCE CATEGORIES, added 8 Sep 2026 ---------------------------------------
@@ -782,7 +805,12 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // until 8 Sep 2026; they are now asked only of the products that have them.
     firewall_throughput: cond({ field: "series", inList: SEC_FIREWALL }),
     threat_throughput: cond({ field: "series", inList: SEC_INLINE }),
-    concurrent_sessions: cond({ field: "series", inList: [...SEC_FIREWALL, ...SEC_IDENTITY] }),
+    // FIREWALLS ONLY. ISE was in this list and the two measurements are not the same thing:
+    // a firewall's concurrent sessions are TCP/UDP connections and run to millions, while ISE's
+    // are authenticated ENDPOINTS and run to tens of thousands. One key holding both makes the
+    // band useless and any comparison between an ISE node and a firewall meaningless. ISE keeps
+    // its own question below.
+    concurrent_sessions: cond({ field: "series", inList: SEC_FIREWALL }),
     ips_throughput: cond({ field: "series", inList: SEC_IPS }),
     recommended_users: cond({ field: "series", inList: [...SEC_EMAIL, ...SEC_WEB] }),
     storage_capacity: cond({ field: "series", inList: [...SEC_EMAIL, ...SEC_WEB, ...SEC_MGMT, ...SEC_ANALYTICS] }),
@@ -803,6 +831,13 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     //                              Services)' (3) is a firewall figure wearing the same words
     // Each becomes a cond the day a source publishes it unambiguously — promote-required earns
     // requirements from evidence here as everywhere else.
+    // max_endpoints IS ISE's real question and it stays OPTIONAL, which is the half of the
+    // reviewer's proposal that could not land. Promoting it to cond({series: SEC_IDENTITY}) was
+    // tried and refused by two independent guards: securityShapes ("labels exist but are
+    // ambiguous") and source-fields ("required by the profile and no enabled source publishes
+    // it"). Requiring it would open a gap on 112 real appliances that nothing can close — this
+    // file's own rule about a required field nothing can ever fill. Declared, so a value is
+    // accepted the moment one is extracted; not required, until a source publishes it.
     max_endpoints: opt, managed_devices_max: opt, flows_per_second: opt,
     ddos_mitigation_throughput: opt,
     // events_per_second JOINS THEM, 8 Sep 2026, and the correction is worth recording because it
