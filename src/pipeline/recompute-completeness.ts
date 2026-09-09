@@ -16,7 +16,7 @@
 // Idempotent and cheap: rows are written only when the computed tuple differs.
 import { getPool, closePool, withTx } from "../store/index.js";
 import { withRun } from "../store/runs.js";
-import { completenessV2, requirementFor, PROFILES } from "../core/fieldSchema.js";
+import { completenessV2, requirementFor, PROFILES, COLUMN_BACKED } from "../core/fieldSchema.js";
 
 type Args = { vendor: string | null; category: string | null; since: string | null; batch: number };
 
@@ -44,6 +44,10 @@ export function requiredFieldsFor(category: string, values: Record<string, unkno
   const profile = PROFILES[category];
   if (!profile) return [];
   return Object.keys(profile).filter((k) => {
+    // Same exclusion as completenessV2, and it has to be the same or the stored `required_fields`
+    // list disagrees with the `required_total` beside it. COLUMN_BACKED keys are required for
+    // validation and not a coverage question; see fieldSchema.COLUMN_BACKED.
+    if (COLUMN_BACKED.has(k)) return false;
     const r = requirementFor(category, k, values);
     return r === "req" || r === "pending";
   });

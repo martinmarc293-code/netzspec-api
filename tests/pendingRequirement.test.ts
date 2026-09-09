@@ -15,7 +15,7 @@
 // The last clause matters as much as the new one: if nobody is obliged to answer the gate, its
 // absence is not evidence of anything, and treating it as pending would open gaps at scale for no
 // reason. Both directions are asserted.
-import { requirementFor, gateFields, PROFILES } from "../src/core/fieldSchema.js";
+import { requirementFor, gateFields, completenessV2, PROFILES, COLUMN_BACKED } from "../src/core/fieldSchema.js";
 import { requiredFieldsFor } from "../src/pipeline/recompute-completeness.js";
 
 let passed = 0, failed = 0;
@@ -91,6 +91,35 @@ ok("rack_units is NOT required for a desktop part",
 // --- an unprofiled category and an unmentioned key are unchanged --------------------------------
 eq("a key the profile never mentions -> na", requirementFor("security", "no_such_key", rack), "na");
 eq("a category with no profile -> na", requirementFor("no_such_category", "rack_units", rack), "na");
+
+// --- completenessV2 must agree with requiredFieldsFor, and it did not -----------------------------
+// The third outcome was added to requirementFor and to requiredFieldsFor, and completenessV2 —
+// which is what actually WRITES the stored row — let `pending` fall into its `else` and counted it
+// as not-applicable. So the row's `required_fields` said one thing and its `required_total` said
+// another, on every part whose gate field was unanswered. Nothing failed; the two numbers simply
+// disagreed in the database.
+const cv = completenessV2("security", { series: "Firepower NGFW" });   // no form_factor -> pending
+ok("completenessV2 counts a pending field as required",
+   cv.missing.includes("rack_units"));
+eq("…and requiredFieldsFor agrees with it, exactly",
+   requiredFieldsFor("security", { series: "Firepower NGFW" }).sort().join(","),
+   [...cv.missing, ...Object.keys(PROFILES.security ?? {}).filter(
+     (k) => !cv.missing.includes(k) &&
+            (requirementFor("security", k, { series: "Firepower NGFW" }) === "req" ||
+             requirementFor("security", k, { series: "Firepower NGFW" }) === "pending") &&
+            !COLUMN_BACKED.has(k))].sort().join(","));
+
+// --- COLUMN_BACKED keys are required but never scored --------------------------------------------
+// `vendor` and `series` sit on the parts row, so they are present for every part that exists. In
+// the denominator they put a floor under every score: a part with NO facts read 2/13 = 15.4%.
+const bare = completenessV2("security", { vendor: "cisco", series: "Firepower NGFW" });
+ok("vendor is not counted", !bare.missing.includes("vendor"));
+ok("series is not counted", !bare.missing.includes("series"));
+eq("a part with only its columns scores ZERO, not 15%", bare.pct, 0);
+ok("…and its required_total excludes both", bare.required_total > 0 &&
+   !requiredFieldsFor("security", { vendor: "cisco", series: "Firepower NGFW" }).includes("vendor"));
+ok("both are still DECLARED required in the profile — this is a scoring rule, not a schema one",
+   PROFILES.security?.vendor?.kind === "req" && PROFILES.security?.series?.kind === "req");
 
 lines.unshift(`    pending requirement: ${passed} passed, ${failed} missed ` +
               `(3-way na/pending/req, ${optGated.length} conds in security)`);

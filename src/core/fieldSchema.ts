@@ -1042,6 +1042,19 @@ export type CompletenessV2 = {
   no_profile: boolean;
 };
 
+/**
+ * Profile keys that are answered by a COLUMN on `parts`, not by an extracted fact.
+ *
+ * They are required — a part with no series is a validation failure — and they are excluded from
+ * the completeness score, because a field that is present for every row measures nothing. Keeping
+ * them in the denominator put a floor under every part in the catalogue and made a part with no
+ * specifications at all look 15% documented.
+ *
+ * Anything added here must actually be filled from a column in recompute-completeness, or it turns
+ * into a required field nobody scores and nobody notices is missing.
+ */
+export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series"]);
+
 export function completenessV2(category: string, values: PartValues): CompletenessV2 {
   const profile = PROFILES[category];
   if (!profile) {
@@ -1051,9 +1064,21 @@ export function completenessV2(category: string, values: PartValues): Completene
   const missing: string[] = [];
   let requiredTotal = 0, requiredPresent = 0, optionalPresent = 0, na = 0;
   for (const key of Object.keys(profile)) {
+    // A KEY BACKED BY A COLUMN IS NOT A SPECIFICATION AND IS NOT SCORED. `vendor` and `series` sit
+    // on the parts row, so they are present for every part that exists and contribute a constant
+    // to both halves of every score. Measured 9 Sep 2026: a security hardware part with ZERO facts
+    // scored 2/13 = 15.4% rather than 0/11 = 0%, and the category's mean of 18.4% was mostly that
+    // floor — `present: ["rack_units","vendor","series"]` on CSF1210CE-TD-K9 is two thirds
+    // bookkeeping. They stay REQUIRED in the profile, because requiring them is what makes a part
+    // without a series a validation failure; they are simply not a coverage question.
+    if (COLUMN_BACKED.has(key)) continue;
     const kind = requirementFor(category, key, values);
     const present = values[key] !== undefined && values[key] !== null && values[key] !== "";
-    if (kind === "req") {
+    // `pending` COUNTS AS REQUIRED, exactly as it does in requiredFieldsFor. It fell into the
+    // `else` here when the third outcome was added, so the stored row treated it as not-applicable
+    // while the required_fields list treated it as required — the two disagreed on any part whose
+    // gate field was unanswered, which is 6,540 of security's 5,782 hardware parts for rack_units.
+    if (kind === "req" || kind === "pending") {
       requiredTotal++;
       if (present) requiredPresent++;
       else missing.push(key);
