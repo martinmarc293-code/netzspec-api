@@ -12,7 +12,7 @@ import { loadEnv, type Config } from "../config.js";
 import { closePool } from "../store/db.js";
 import { registerErrorHandling } from "./errors.js";
 import { healthRoutes } from "./routes/health.js";
-import { PATH_KEY_HEADER, TOKEN_RE } from "./auth.js";
+import { PATH_KEY_HEADER, QUERY_KEY_HEADER, TOKEN_RE } from "./auth.js";
 import { v1Routes } from "./routes/index.js";
 
 export type AppOptions = {
@@ -55,7 +55,28 @@ export function redactUrl(url: string): string {
  */
 export function liftPathKey(req: { url?: string; headers: Record<string, unknown> }): string {
   delete req.headers[PATH_KEY_HEADER];
-  const url = req.url ?? "/";
+  delete req.headers[QUERY_KEY_HEADER];
+  let url = req.url ?? "/";
+
+  // THE QUERY KEY COMES OUT TOO, and this is not tidiness. The first version relied on a pino
+  // `serializers.req` to redact it, deployed, and the key appeared in the app log anyway —
+  // Fastify installs its own req serializer and mine never ran. Verified on the live box: three
+  // post-deploy lines carried a working credential, from `?api_key=` and from `/health?api_key=`.
+  // Removing it HERE, before routing and before any logger sees the request, does not depend on
+  // the logging library's internals at all; the only URL anything downstream can write down is
+  // the one this function returns.
+  const qi = url.indexOf("?");
+  if (qi >= 0) {
+    const params = new URLSearchParams(url.slice(qi + 1));
+    const qk = params.get("api_key");
+    if (qk) {
+      params.delete("api_key");
+      req.headers[QUERY_KEY_HEADER] = qk;
+      const rest = params.toString();
+      url = url.slice(0, qi) + (rest ? `?${rest}` : "");
+    }
+  }
+
   const m = PATH_KEY_URL.exec(url);
   if (!m) return url;
   const [, key, rest, qs] = m;

@@ -40,6 +40,14 @@ export const TOKEN_RE = /^nz_[A-Za-z0-9_-]{30,}$/;
  */
 export const PATH_KEY_HEADER = "x-netzspec-path-key";
 
+/**
+ * The same, for a key that arrived as `?api_key=`. rewriteUrl removes it from the query string
+ * so no logger, proxy or error reporter downstream ever sees the URL that carried it — the form
+ * is preserved here only so `credentials()` can still report WHICH channel authorised the read.
+ * Deleted on every inbound request before rewriteUrl decides to set it, so it cannot be forged.
+ */
+export const QUERY_KEY_HEADER = "x-netzspec-query-key";
+
 export type CredentialForm = "header" | "x-api-key" | "query" | "path";
 
 /**
@@ -60,7 +68,10 @@ export function credentials(req: FastifyRequest): { token: string; form: Credent
   }
   const x = req.headers["x-api-key"];
   if (typeof x === "string" && x.trim()) out.push({ token: x.trim(), form: "x-api-key" });
-  const q = (req.query as Record<string, unknown> | undefined)?.api_key;
+  // Read from the header rewriteUrl moved it to, not from req.query: by the time any handler
+  // runs, `api_key` is no longer in the query string. The req.query read is kept as a fallback
+  // for app.inject() tests that bypass rewriteUrl.
+  const q = req.headers[QUERY_KEY_HEADER] ?? (req.query as Record<string, unknown> | undefined)?.api_key;
   if (typeof q === "string" && q.trim()) out.push({ token: q.trim(), form: "query" });
   const p = req.headers[PATH_KEY_HEADER];
   if (typeof p === "string" && p.trim()) out.push({ token: p.trim(), form: "path" });

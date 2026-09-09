@@ -13,7 +13,7 @@
 // These are pure-function tests over the rewrite and the redactor; the live server is exercised
 // separately by the acceptance table in the deploy report.
 import { liftPathKey, redactUrl } from "../src/api/app.js";
-import { PATH_KEY_HEADER, TOKEN_RE } from "../src/api/auth.js";
+import { PATH_KEY_HEADER, QUERY_KEY_HEADER, TOKEN_RE } from "../src/api/auth.js";
 
 const KEY = "nz_" + "A".repeat(43);
 const KEY2 = "nz_" + "B".repeat(43);
@@ -46,8 +46,9 @@ const CASES: Case[] = [
     wantUrl: `/v1/nz_${"A".repeat(10)}/fields`, wantKey: undefined },
   { name: "nz_ with a character outside base64url", url: `/v1/nz_${"A".repeat(40)}!/fields`,
     wantUrl: `/v1/nz_${"A".repeat(40)}!/fields`, wantKey: undefined },
-  { name: "keyless root routes are untouched", url: "/health?api_key=" + KEY,
-    wantUrl: "/health?api_key=" + KEY, wantKey: undefined },
+  // /health ignores the key, but it must still not be LOGGED with one attached.
+  { name: "the query key is stripped even on /health", url: "/health?api_key=" + KEY,
+    wantUrl: "/health", wantKey: undefined },
   { name: "openapi is untouched", url: "/openapi.json", wantUrl: "/openapi.json", wantKey: undefined },
   { name: "a key-shaped segment NOT under /v1", url: `/docs/${KEY}/x`,
     wantUrl: `/docs/${KEY}/x`, wantKey: undefined },
@@ -57,6 +58,18 @@ const CASES: Case[] = [
     headers: { [PATH_KEY_HEADER]: KEY2 }, wantUrl: "/v1/fields", wantKey: undefined },
   { name: "…and a real path key overwrites a forged one", url: `/v1/${KEY}/fields`,
     headers: { [PATH_KEY_HEADER]: KEY2 }, wantUrl: "/v1/fields", wantKey: KEY },
+  { name: "a forged query-key header is deleted too", url: "/v1/fields",
+    headers: { [QUERY_KEY_HEADER]: KEY2 }, wantUrl: "/v1/fields", wantKey: undefined },
+
+  // --- the QUERY key leaves the URL as well ------------------------------------------------------
+  { name: "?api_key= is removed, other params survive",
+    url: `/v1/parts?vendor=cisco&api_key=${KEY}&limit=200`,
+    wantUrl: "/v1/parts?vendor=cisco&limit=200", wantKey: undefined },
+  { name: "?api_key= as the only param leaves no dangling ?",
+    url: `/v1/vendors?api_key=${KEY}`, wantUrl: "/v1/vendors", wantKey: undefined },
+  { name: "?api_key= first, others after",
+    url: `/v1/fields?api_key=${KEY}&category=security`,
+    wantUrl: "/v1/fields?category=security", wantKey: undefined },
 ];
 
 function run(): { passed: number; failed: number; lines: string[] } {
@@ -110,6 +123,24 @@ function run(): { passed: number; failed: number; lines: string[] } {
   for (const [s, want] of shapes) {
     if (TOKEN_RE.test(s) === want) passed++;
     else { failed++; lines.push(`    MISS TOKEN_RE.test("${s.slice(0, 20)}…") !== ${want}`); }
+  }
+
+  // THE ASSERTION THAT WOULD HAVE CAUGHT THE LEAK. Not "is the URL what I expected" but "can a
+  // key survive into the URL anything downstream writes down". The first deployed version passed
+  // every shape test above and still put three working credentials into the app log, because the
+  // redaction it relied on lived in a pino serializer Fastify replaced.
+  const LEAKY = [
+    `/v1/${KEY}/fields?category=security`,
+    `/v1/fields?category=security&api_key=${KEY}`,
+    `/v1/fields?api_key=${KEY}`,
+    `/health?api_key=${KEY}`,
+    `/v1/${KEY}/parts?vendor=cisco&api_key=${KEY2}`,
+  ];
+  for (const u of LEAKY) {
+    const h: Record<string, unknown> = {};
+    const out = liftPathKey({ url: u, headers: h });
+    if (!out.includes(KEY) && !out.includes(KEY2)) passed++;
+    else { failed++; lines.push(`    MISS liftPathKey left a key in the URL: "${out}"`); }
   }
 
   lines.unshift(`    url auth: ${passed} passed, ${failed} missed ` +
