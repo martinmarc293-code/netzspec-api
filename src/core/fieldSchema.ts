@@ -34,6 +34,8 @@ export type Condition =
 
 /** req = always required · opt = nice to have · cond = required only when the condition holds
  *  (not-applicable otherwise) · na = never applicable to this category. */
+import { UCS_MACHINE } from "./ucsKind.js";
+
 export type Requirement =
   | { kind: "req" }
   | { kind: "opt" }
@@ -599,8 +601,46 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
+  // SHAPES 9 Sep 2026 — gated on KIND, derived from the SKU, not on series.
+  //
+  // This category asked 13 required fields of all 12,541 hardware parts, and SIX of them were
+  // present on ZERO parts: dimensions, weight, form_factor, rack_units, psu_rated_output,
+  // cpu_sockets. At most 613 of the 12,541 are machines; the rest are CPUs, DIMMs, drives, risers,
+  // rails, cables and OS licences, every one asked for a rack height.
+  //
+  // SERIES IS THE WRONG GATE HERE, unlike `security`. 19 series over 12,541 parts and "UCS
+  // C-Series" alone holds 6,516, so a series names a product LINE: gating on it asks a C-Series
+  // DIMM exactly what it asks a C-Series rack server. The kind comes from the SKU token instead
+  // (src/core/ucsKind.ts) — measured clean, zero tokens carrying both physical and component facts
+  // once inherited facts are excluded.
+  //
+  // THE PHYSICAL FIELDS ARE REQUIRED OF MACHINES AND `na` FOR COMPONENTS. Cisco publishes no weight
+  // or operating temperature for a DIMM, so requiring one is a gap nothing can close. It publishes
+  // them for every server: 80 spec-bearing documents (44 HTML, 36 PDF) are in the corpus for this
+  // category, so the six all-zero fields are an EXTRACTION gap, not an acquisition one, and an open
+  // gap on a machine points at real work rather than at nobody.
+  //
+  // `unknown` kind — 21.6% of the category, the residue the SKU rules do not name — is asked
+  // NOTHING it might not have, the same default `security` uses for an unshaped series. A rule that
+  // guesses is how a component ends up behind a machine's profile, which is the defect being fixed.
   "servers-unified-computing": {
-    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, cpu_sockets: req, memory_speed_max: req, storage_raw_capacity: req, psu_rated_output: req, rack_units: req,
+    // machines only
+    dimensions: cond({ field: "kind", inList: [...UCS_MACHINE] }),
+    weight: cond({ field: "kind", inList: [...UCS_MACHINE] }),
+    form_factor: cond({ field: "kind", inList: [...UCS_MACHINE] }),
+    power_max: cond({ field: "kind", inList: [...UCS_MACHINE] }),
+    temp_operating: cond({ field: "kind", inList: [...UCS_MACHINE] }),
+    humidity_operating: cond({ field: "kind", inList: [...UCS_MACHINE] }),
+    certifications: cond({ field: "kind", inList: [...UCS_MACHINE] }),
+    // rack units only where the form factor says it is racked — and `pending` while form_factor
+    // is unanswered, so it stays an open gap rather than being closed on a value nobody has read.
+    rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
+    // a server is bought on its socket count; a CPU is not
+    cpu_sockets: cond({ field: "kind", inList: ["server"] }),
+    // component properties, required of the component that HAS them and nothing else
+    psu_rated_output: cond({ field: "kind", inList: ["psu"] }),
+    memory_speed_max: cond({ field: "kind", inList: ["memory", "server"] }),
+    storage_raw_capacity: cond({ field: "kind", inList: ["drive"] }),
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, bmc_management: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, drive_options: opt, expansion_slot_type: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, onboard_nics: opt, oversubscription_ratio: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, psu_count: opt, random_read_iops_4k: opt, random_write_iops_4k: opt, read_latency: opt, rear_clearance: opt, rear_panel_ports: opt, riser_options: opt, security_features: opt, sequential_write_throughput: opt, series_release_date: opt, system_memory: opt, temp_operating_extended: opt, thermal_shock: opt, write_latency: opt,
   },
