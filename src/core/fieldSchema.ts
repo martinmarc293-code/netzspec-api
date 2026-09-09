@@ -838,6 +838,22 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // it"). Requiring it would open a gap on 112 real appliances that nothing can close — this
     // file's own rule about a required field nothing can ever fill. Declared, so a value is
     // accepted the moment one is extracted; not required, until a source publishes it.
+    // THE FIVE LICENCE FIELDS, declared for security 9 Sep 2026. 7,268 of this category's 13,273
+    // parts are licences — more than half — and every one of them was reading `na` on the only
+    // questions a licence is actually bought on, because a key the profile does not mention
+    // resolves to not-applicable. That is the API telling a consumer "a Cisco security licence has
+    // no term and no seat count", which is false.
+    //
+    // `opt`, NOT required, and the distance between the two is not a hedge — it is the whole of
+    // the open half of this defect. `recompute-completeness` gives every non-hardware part
+    // `no_profile = true` and ZERO required fields BEFORE it looks up a profile, so nothing
+    // declared here is scored for a licence today whatever kind it carries. Declaring them makes
+    // /fields honest about what the category asks; SCORING them needs that pre-profile drop to
+    // change, which puts 7,491 non-hardware parts into a coverage average that has never included
+    // them and is the operator's call, not a schema edit. The reviewer that raised this said the
+    // same: report, do not apply.
+    license_type: opt, license_term: opt, license_seats: opt,
+    license_for: opt, delivery_method: opt,
     max_endpoints: opt, managed_devices_max: opt, flows_per_second: opt,
     ddos_mitigation_throughput: opt,
     // events_per_second JOINS THEM, 8 Sep 2026, and the correction is worth recording because it
