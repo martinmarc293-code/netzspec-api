@@ -96,18 +96,29 @@ export type LinkEntry = { name: string; url: string; rows: number | null };
  * SKU-shaped probes the reviewer asked to reach directly.
  *
  * These are AUDIT FIXTURES, not API structure, and they are quarantined here with that said out
- * loud rather than woven into the generic builder below. `200K`/`300K`/`500K`/`700K` are the four
+ * loud rather than woven into the generic builder below.
+ *
+ * KEYED BY CATEGORY since 9 Sep 2026, and the bug is worth recording: they were a bare array, so
+ * EVERY category's index carried security's probes. The servers-unified-computing index shipped
+ * 21 links to /parts/cisco/200K and sku_prefix=FPR31 and not one server part — which is why a
+ * reviewer auditing that category read zero part records and said so. A constant that is right for
+ * one caller and applied to all of them is the same defect as a profile written for licences that
+ * only hardware ever reaches. `200K`/`300K`/`500K`/`700K` are the four
  * datasheet cells enumerated as products in the `ASA` series; `1210CE` and `CSF1210CE-TD-K9` are
  * the same hardware whose facts no relation joins. They are reachable WITHOUT this list — one hop
  * from `?class=unknown` via each item's own `url` — so if this constant is ever deleted the index
  * loses convenience and not reach.
  */
-const AUDIT_SKUS = ["200K", "300K", "500K", "700K", "1210CE", "CSF1210CE-TD-K9"];
+const AUDIT_SKUS: Record<string, string[]> = {
+  security: ["200K", "300K", "500K", "700K", "1210CE", "CSF1210CE-TD-K9"],
+};
 
 /** SKU prefixes the reviewer probes for value-shaped part numbers. Four of them return zero, and
  *  that is the measured answer for this category rather than a broken filter. */
-const AUDIT_PREFIXES = ["FPR31", "FPR42", "SNS-3", "FMC", "A9K-",
-                        "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+const AUDIT_PREFIXES: Record<string, string[]> = {
+  security: ["FPR31", "FPR42", "SNS-3", "FMC", "A9K-",
+             "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+};
 
 export type SeriesRow = { series: string; hardware: number; parts: number };
 
@@ -149,12 +160,12 @@ export function buildLinkIndex(
       `/parts${qs({ ...vc, filter: "firewall_throughput>=10" })}`);
 
   // --- SKU-prefix probes ----------------------------------------------------------------------
-  for (const p of AUDIT_PREFIXES) {
+  for (const p of AUDIT_PREFIXES[category] ?? []) {
     add(`parts, sku_prefix=${p}`, `/parts${qs({ ...vc, sku_prefix: p, limit: 100 })}`);
   }
 
   // --- individual part records ----------------------------------------------------------------
-  for (const sku of AUDIT_SKUS) {
+  for (const sku of AUDIT_SKUS[category] ?? []) {
     const u = partUrl("", vendor, sku);
     add(`part ${sku}`, u);
     add(`part ${sku} facts`, `${u}/facts`);
