@@ -46,10 +46,14 @@ export const UCS_COMPONENT: readonly UcsKind[] =
  * which is the wrong way round for a machine.
  */
 export function ucsToken(sku: string): string {
-  let s = sku.toUpperCase()
-    .replace(/^UCS[CBXSE]?-/, "")
-    .replace(/^(?:HXAF|HCIX|HCI|HX)-/, "")
-    .replace(/^[BC]-(?=[A-Z])/, "");
+  let s = sku.toUpperCase();
+  // THE HYPHEN IS OPTIONAL. Cisco writes X-Series and HyperFlex SKUs both ways —
+  // `UCSX-MRX16G1RE3` and `UCSXSD960GM1XEV-D`. Requiring the dash left the second form in the
+  // residue with the whole SKU as its token, which is why 1,449 parts were unnamed and the
+  // largest single unnamed token was a 960 GB SSD.
+  s = s.replace(/^UCS[CBXSE]?-/, "").replace(/^UCS[CBXSE](?=[A-Z])/, "");
+  s = s.replace(/^(?:HXAF|HCIX|HCI|HX)-/, "").replace(/^(?:HXAF|HX)(?=[A-Z]{2})/, "");
+  s = s.replace(/^[BC]-(?=[A-Z])/, "");
   s = s.replace(/^UCS[CBXSE]?-/, "");
   return s.split("-")[0] ?? s;
 }
@@ -75,7 +79,10 @@ const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
   // Server model numbers: a letter class plus digits (C220, B200, X210C, C480, S3260, C880).
   { kind: "server", exact: new Set(["885A", "EX", "S"]),
     prefix: ["C2", "C4", "C8", "B2", "B4", "S3", "210C", "410C", "215C", "440P",
-             "RC4", "R2XX", "E1", "E100", "UCSAI", "UCSXE", "885A", "HX2", "HX3", "HXAF2"] },
+             "RC4", "R2XX", "E1", "E100", "UCSAI", "UCSXE", "885A", "HX2", "HX3", "HXAF2",
+             // E-Series Network Compute Engines glue the variant onto the token
+             // (UCS-EN120E208B -> EN120E); they are router service modules, i.e. servers.
+             "EN1", "EN2", "EN12"] },
 
   { kind: "cpu", exact: new Set(["CPU"]), prefix: ["CPU"] },
   { kind: "memory", exact: new Set(["MR", "ML", "MRX", "MLX", "MEM"]), prefix: ["MR", "ML", "MEM"] },

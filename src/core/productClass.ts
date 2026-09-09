@@ -49,6 +49,8 @@
 // the ones that look like the wrong class, and asserts that every rule in the table fires at
 // least once — a rule the suite never exercised is a rule nobody has seen work.
 
+import { ucsKind } from "./ucsKind.js";
+
 export type ProductClass = "hardware" | "license" | "service" | "software" | "unknown";
 
 export type ClassifyInput = {
@@ -250,6 +252,23 @@ export function classify(input: ClassifyInput): Classification {
   // AFTER the SKU rules and BEFORE the category fallback. The SKU is the more authoritative
   // signal and keeps precedence; the name only gets a say where the SKU said nothing, which is
   // exactly the case that was defaulting to `hardware` on the strength of the category alone.
+  // UCS OS AND SUBSCRIPTION SKUS, category-scoped. `servers-unified-computing` carries 3,131
+  // parts (25%) that are VMware, SUSE, Red Hat, Windows Server, Citrix, UCS Director, Intersight
+  // and Cisco ONE subscriptions sold under a UCS part number and classed `hardware` — so each was
+  // scored as a server. No name rule reaches them: "VMware vSphere 5 Enterprise" never says
+  // "license". The SKU token does, and ucsKind already names it.
+  //
+  // Scoped to this category because the prefixes collide elsewhere: `C1-` here is a Cisco ONE
+  // software suite and in switches it is `C1-N9K-C9508`, a real Nexus chassis.
+  //
+  // Acceptance measured before shipping: 0 of the 3,131 carries an OWN (non-inherited) physical
+  // fact. The `own` matters — every one of this category's 3,110 inherited facts comes from a
+  // GROUP rather than a part, and 878 are physical, so counting inherited facts would have failed
+  // this check against values the parts never had.
+  if (input.categorySlug === "servers-unified-computing" && ucsKind(input.sku) === "os-license") {
+    return { klass: "license", reason: "ucs-kind-os-license" };
+  }
+
   const name = typeof input.name === "string" ? input.name : "";
   // A NAME THAT SAYS HARDWARE OVERRIDES ALL FOUR. Found by reading the dry run rather than by
   // reasoning: `ASR5K-0F-B00-2069=` is a "Motorola PSC2 LTE Hardware and Software bundle", so
