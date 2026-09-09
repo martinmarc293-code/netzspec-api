@@ -21,6 +21,7 @@ import { facetsRoutes } from "./facets.js";
 import { familiesRoutes } from "./families.js";
 import { fieldsRoutes } from "./fields.js";
 import { gapStatsRoutes } from "./gaps.js";
+import { linkIndexRoutes } from "./linkIndex.js";
 import { lifecycleRoutes } from "./lifecycle.js";
 import { partRoutes } from "./part.js";
 import { partsRoutes } from "./parts.js";
@@ -56,6 +57,7 @@ export async function v1Routes(app: FastifyInstance, opts: V1Options): Promise<v
   await app.register(vendorsRoutes);
   await app.register(categoriesRoutes);
   await app.register(fieldsRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
+  await app.register(linkIndexRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(facetsRoutes);
   await app.register(partsRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(partRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
