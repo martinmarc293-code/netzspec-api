@@ -637,6 +637,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
     // a server is bought on its socket count; a CPU is not
     cpu_sockets: cond({ field: "kind", inList: ["server"] }),
+    // `cpu` came from the GENERATED profile as a bare `req` and the curated block did not name it,
+    // so it survived the merge and was required of 8,794 parts — cables, GPUs and rails among
+    // them. A generated requirement is only invisible until something counts it.
+    cpu: cond({ field: "kind", inList: ["server"] }),
     // component properties, required of the component that HAS them and nothing else
     psu_rated_output: cond({ field: "kind", inList: ["psu"] }),
     memory_speed_max: cond({ field: "kind", inList: ["memory", "server"] }),
