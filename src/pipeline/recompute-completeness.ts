@@ -31,11 +31,22 @@ export function parseArgs(argv: string[]): Args {
   return a;
 }
 
-/** The profile's required keys for THIS part, conditions evaluated against its values. */
+/**
+ * The profile's required keys for THIS part, conditions evaluated against its values.
+ *
+ * `pending` COUNTS AS REQUIRED. It means a conditional whose gate field is itself required and has
+ * not been answered — so we cannot yet say the field does not apply, and closing the gap would be
+ * asserting something nobody has measured. Counting it keeps the gap open and pointed at the field
+ * that would settle it. See requirementFor: on `security` this is `rack_units` behind
+ * `form_factor`, 6,540 parts that were being told they have no rack units for ever.
+ */
 export function requiredFieldsFor(category: string, values: Record<string, unknown>): string[] {
   const profile = PROFILES[category];
   if (!profile) return [];
-  return Object.keys(profile).filter((k) => requirementFor(category, k, values) === "req");
+  return Object.keys(profile).filter((k) => {
+    const r = requirementFor(category, k, values);
+    return r === "req" || r === "pending";
+  });
 }
 
 export async function main(argv: string[]): Promise<void> {

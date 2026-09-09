@@ -69,13 +69,19 @@ export function run(): { passed: number; failed: number; lines: string[] } {
   // A condition on a value the part does not carry must not fire. If `series` were ever dropped
   // from the values passed to requirementFor, every shape rule would silently go not-applicable
   // and the profile would quietly ask for nine universal fields and nothing else.
+  //
+  // The series-less answer became `pending` on 9 Sep 2026 and this assertion was updated with it.
+  // It is the same concern answered better: `series` is REQUIRED by this profile, so a part
+  // without one has an open gap, and a conditional hanging off it must not resolve to the closed
+  // `na` — it resolves to `pending`, which still counts as required. What the case is really
+  // guarding is that the two branches are DIFFERENT; `na` on both sides is the failure.
   const noSeries = requirementFor("security", "firewall_throughput", {});
   const withSeries = requirementFor("security", "firewall_throughput", { series: "Firepower NGFW" });
-  if (noSeries === "na" && withSeries === "req") passed++;
+  if (noSeries === "pending" && withSeries === "req") passed++;
   else {
     failed++;
     lines.push(`    MISS series-less part gave "${noSeries}" and Firepower gave "${withSeries}" — ` +
-               "one of the two branches is dead");
+               "wanted pending/req; one of the two branches is dead");
   }
 
   const refusals = CASES.filter((c) => c.want === "na").length;

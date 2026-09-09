@@ -289,6 +289,22 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   threat_throughput: { key: "threat_throughput", de: "Threat-Inspection-Durchsatz", en: "Threat inspection throughput", type: "n", unit: "Gbit/s", band: [0.02, 5000], etim: [], icecat: null },
   ips_throughput: { key: "ips_throughput", de: "IPS-Durchsatz", en: "IPS throughput", type: "n", unit: "Gbit/s", band: [0.02, 5000], etim: [], icecat: null },
   vpn_throughput: { key: "vpn_throughput", de: "IPsec-VPN-Durchsatz", en: "IPsec VPN throughput", type: "n", unit: "Gbit/s", band: [0.01, 5000], etim: [], icecat: null },
+  // TWO SYNONYM PAIRS, RECORDED RATHER THAN MERGED (9 Sep 2026). Each curated key above has a
+  // GENERATED twin that different datasheets spell differently, so one measurement lands under
+  // two keys depending on which page it came from:
+  //
+  //     threat_throughput  "Threat inspection throughput"   17 live facts / 17 parts
+  //     threat_defense_throughput  "Threat Defense throughput"  3 / 3
+  //     vpn_throughput     "IPsec VPN throughput"            3 / 3
+  //     ipsec_throughput   "IPsec throughput"                6 / 6
+  //
+  // NOT MERGED, and the reason is the measurement: ZERO parts carry both members of either pair.
+  // They are splitting a small population, not disagreeing about one — so there is no conflict to
+  // resolve and nothing is currently wrong on any part page. Merging means superseding live facts
+  // and rewriting their key, which is a data migration with a run row and a gate, not a schema
+  // edit. Whoever does it should check the pairs are genuinely the same measurement first: Cisco
+  // quotes "Threat Defense throughput" and "threat inspection throughput" from different product
+  // lines and they are not obviously the same test.
   concurrent_sessions: { key: "concurrent_sessions", de: "Gleichzeitige Sessions", en: "Concurrent sessions", type: "n", unit: "Sessions", band: [1000, 3000000000], etim: [], icecat: null },
   new_conn_per_sec: { key: "new_conn_per_sec", de: "Neue Verbindungen/s", en: "New connections per second", type: "n", unit: "1/s", band: [100, 30000000], etim: [], icecat: null },
   // The primary sizing figure for a management or logging appliance — a Firepower Management
@@ -380,6 +396,18 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   supported_protocols: { key: "supported_protocols", de: "Unterstützte Protokolle", en: "Supported protocols", type: "ls", etim: [], icecat: null },
   supported_transceivers: { key: "supported_transceivers", de: "Unterstützte Transceiver-Module", en: "Supported transceiver modules", type: "ls", etim: [], icecat: null },
   usb_console: { key: "usb_console", de: "Integrierte USB-Konsole", en: "Integrated USB console", type: "b", etim: [], icecat: null },
+
+  // --- four German labels that survived the 8 Sep umlaut pass, corrected HERE and not in the
+  // generated file. `fieldSchema.generated.ts` is rewritten by sync-dictionary, so a fix applied
+  // there lasts until the next regeneration and then silently reverts; the merge at the foot of
+  // this file only fills keys the curated dictionary does NOT hold
+  // (`if (!FIELD_DICTIONARY[key]) ...`), so a curated entry wins permanently. type, unit and the
+  // English label are copied verbatim from the generated definitions — this changes the German
+  // spelling and nothing else, which is what makes it safe to land without re-running extraction.
+  fan_hot_swap: { key: "fan_hot_swap", de: "Hot-Swap-Lüfter", en: "Hot-swappable fans", type: "s", etim: [], icecat: null },
+  ride_through_time: { key: "ride_through_time", de: "Minimale Überbrückungszeit", en: "Minimum ride-through time", type: "n", unit: "ms", etim: [], icecat: null },
+  supported_os: { key: "supported_os", de: "Unterstützte Betriebssysteme", en: "Supported operating systems", type: "s", etim: [], icecat: null },
+  insertion_loss_max: { key: "insertion_loss_max", de: "Maximale Einfügedämpfung", en: "Maximum insertion loss", type: "n", unit: "dB", etim: [], icecat: null },
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -906,13 +934,48 @@ export function evalCondition(c: Condition, v: PartValues): boolean {
   return false;
 }
 
-/** Resolve a field's requirement FOR THIS PART. An unmet conditional is not-applicable —
- *  a closed gap, not an open one. That distinction is the whole point of the profile. */
-export function requirementFor(category: string, key: string, values: PartValues): "req" | "opt" | "na" {
-  const r = PROFILES[category]?.[key];
+/** Every field name a condition reads, including through `any` / `all`. */
+export function gateFields(c: Condition): string[] {
+  if ("any" in c) return c.any.flatMap(gateFields);
+  if ("all" in c) return c.all.flatMap(gateFields);
+  return [c.field];
+}
+
+/**
+ * Resolve a field's requirement FOR THIS PART.
+ *
+ * An unmet conditional is not-applicable — a closed gap, not an open one. That distinction is the
+ * whole point of the profile.
+ *
+ * EXCEPT WHEN THE GATE ITSELF IS UNANSWERED, which is a third state and used to be silently folded
+ * into the second. `evalCondition` returns false both when the gate field is present and does not
+ * match, and when the gate field is ABSENT — and this function mapped both to `na`. Where the gate
+ * field is itself REQUIRED by the same profile, its absence is an open gap, so the honest answer
+ * about anything conditioned on it is "cannot say yet", not "does not apply".
+ *
+ * Measured on `security`: `form_factor` is req and carried by 4 of 6,544 hardware parts, and
+ * `rack_units` is `cond({field:"form_factor", …})`. So 6,540 parts were being told they have no
+ * rack units, permanently, on the strength of a value nobody has extracted yet. `na` closes a gap;
+ * `pending` leaves it open and points at the field that would settle it.
+ *
+ * The change is general to all seven of security's conditionals and the EFFECT is one field: the
+ * other six gate on `series`, which is populated on 6,544 of 6,544, so they never reach this
+ * branch. A gate field that is `opt` still yields `na` — if nobody is obliged to answer it, its
+ * absence is not evidence of anything.
+ */
+export function requirementFor(
+  category: string, key: string, values: PartValues,
+): "req" | "opt" | "na" | "pending" {
+  const profile = PROFILES[category];
+  const r = profile?.[key];
   if (!r) return "na";
-  if (r.kind === "cond") return evalCondition(r.when, values) ? "req" : "na";
-  return r.kind;
+  if (r.kind !== "cond") return r.kind;
+  if (evalCondition(r.when, values)) return "req";
+  // False — but is it false because the gate says no, or because nobody has answered the gate?
+  const unanswered = gateFields(r.when).some(
+    (f) => values[f] === undefined && profile?.[f]?.kind === "req",
+  );
+  return unanswered ? "pending" : "na";
 }
 
 export type CompletenessV2 = {
