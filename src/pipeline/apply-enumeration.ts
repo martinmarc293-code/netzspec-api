@@ -187,6 +187,9 @@ export function decide(
     const cat = mapCategory(r.category, known);
     if (!cat) { plan.stats.category_unmapped_total++; listed(plan.category_unmapped, r.category ? String(r.category) : "(none)", sku); continue; }
     const c = ctx.categories.get(cat)!;
+    // No `name` here on purpose: an enumeration row carries a SKU and a category and no
+    // product name, so there is nothing to hand the name rules. They simply do not fire at
+    // create time; reclassify.ts applies them once the name has been filled in.
     const k = classify({ sku, categorySlug: cat, categoryIsHardware: c.is_hardware });
     plan.toCreate.push({ sku, category: cat, category_id: c.id, family: r.family, product_class: k.klass,
       product_class_reason: k.reason, datasheet_url: r.url });

@@ -58,13 +58,13 @@ const count = async (sql: string, params: unknown[] = []) => (await query<{ n: n
 // =================================================================================================
 {
   const rows: PartRow[] = [
-    { id: 1, sku: "C9200-DNX-A-24-3Y", vendor: "cisco", category: "switches", is_hardware: true, product_class: "hardware", product_class_reason: "category-is_hardware=true:switches" },
-    { id: 2, sku: "C9200-DNX-A-48-3Y", vendor: "cisco", category: "switches", is_hardware: true, product_class: "hardware", product_class_reason: "category-is_hardware=true:switches" },
-    { id: 3, sku: "C9200L-24P-4G", vendor: "cisco", category: "switches", is_hardware: true, product_class: "hardware", product_class_reason: "category-is_hardware=true:switches" },
-    { id: 4, sku: "L-C9200-24-E-A", vendor: "cisco", category: "switches", is_hardware: true, product_class: "license", product_class_reason: "category:legacy-import" },
-    { id: 5, sku: "SW-CCME-UL-ENH", vendor: "cisco", category: "unified-communications", is_hardware: true, product_class: "hardware", product_class_reason: "category-is_hardware=true:unified-communications" },
-    { id: 6, sku: "0.75K", vendor: "cisco", category: "switches", is_hardware: true, product_class: "unknown", product_class_reason: "catalogue-noise: fails is_part_number" },
-    { id: 7, sku: "15.0.1M", vendor: "cisco", category: "routers", is_hardware: true, product_class: "unknown", product_class_reason: null },
+    { id: 1, sku: "C9200-DNX-A-24-3Y", name: null, vendor: "cisco", category: "switches", is_hardware: true, product_class: "hardware", product_class_reason: "category-is_hardware=true:switches" },
+    { id: 2, sku: "C9200-DNX-A-48-3Y", name: null, vendor: "cisco", category: "switches", is_hardware: true, product_class: "hardware", product_class_reason: "category-is_hardware=true:switches" },
+    { id: 3, sku: "C9200L-24P-4G", name: null, vendor: "cisco", category: "switches", is_hardware: true, product_class: "hardware", product_class_reason: "category-is_hardware=true:switches" },
+    { id: 4, sku: "L-C9200-24-E-A", name: null, vendor: "cisco", category: "switches", is_hardware: true, product_class: "license", product_class_reason: "category:legacy-import" },
+    { id: 5, sku: "SW-CCME-UL-ENH", name: null, vendor: "cisco", category: "unified-communications", is_hardware: true, product_class: "hardware", product_class_reason: "category-is_hardware=true:unified-communications" },
+    { id: 6, sku: "0.75K", name: null, vendor: "cisco", category: "switches", is_hardware: true, product_class: "unknown", product_class_reason: "catalogue-noise: fails is_part_number" },
+    { id: 7, sku: "15.0.1M", name: null, vendor: "cisco", category: "routers", is_hardware: true, product_class: "unknown", product_class_reason: null },
   ];
   const p = plan(rows, 1);
   check("plan: 3 changes, 1 unchanged, 1 reason-only", p.changes.length === 3 && p.unchanged === 1 && p.reason_only === 1, statsOf(p, 0));

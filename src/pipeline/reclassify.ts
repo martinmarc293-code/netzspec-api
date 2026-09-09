@@ -60,6 +60,8 @@ export function parseArgs(argv: string[]): Args {
 
 export type PartRow = {
   id: number; sku: string; vendor: string; category: string | null;
+  /** consulted only by classify()'s NAME_LICENSE_RULES, after every SKU rule has declined */
+  name: string | null;
   is_hardware: boolean | null; product_class: string; product_class_reason: string | null;
   /** 0 = an operator reviewed this part (HexCat); null otherwise */
   review_tier?: number | null;
@@ -106,7 +108,7 @@ export type Plan = {
 export function plan(rows: PartRow[], examples = 20): Plan {
   const p: Plan = { scanned: rows.length, unchanged: 0, reason_only: 0, foreign_reason: 0, foreign_by_reason: {}, reviewed_changes: 0, changes: [], by_rule: {}, by_transition: {}, reason_only_by_rule: {} };
   for (const r of rows) {
-    const got = classify({ sku: r.sku, categorySlug: r.category, categoryIsHardware: r.is_hardware });
+    const got = classify({ sku: r.sku, name: r.name, categorySlug: r.category, categoryIsHardware: r.is_hardware });
     if (got.klass !== r.product_class && !ownedReason(r.product_class_reason)) {
       // something other than this rule table decided this row's class; it is not ours to revert
       p.foreign_reason++;
@@ -156,7 +158,7 @@ export function updateGroups(changes: Change[]): { klass: ProductClass; reason: 
 export async function readParts(vendor: string | null): Promise<PartRow[]> {
   const pool = getPool();
   return (await pool.query<PartRow>(
-    `SELECT p.id, p.sku, v.slug AS vendor, c.slug AS category, c.is_hardware, p.review_tier,
+    `SELECT p.id, p.sku, p.name, v.slug AS vendor, c.slug AS category, c.is_hardware, p.review_tier,
             p.product_class::text AS product_class, p.product_class_reason
        FROM parts p
        JOIN vendors v ON v.id = p.vendor_id

@@ -57,6 +57,12 @@ export type ClassifyInput = {
   categorySlug?: string | null;
   /** categories.is_hardware for that slug; undefined or null = the category is not known */
   categoryIsHardware?: boolean | null;
+  /**
+   * The part's name, consulted only by NAME_LICENSE_RULES and only after every SKU rule has
+   * declined. Optional: a caller that does not have it loses the name rules and nothing else,
+   * which is why adding it did not have to touch the three existing call sites at once.
+   */
+  name?: string | null;
 };
 
 export type Classification = { klass: ProductClass; reason: string };
@@ -194,11 +200,60 @@ export function ruleMatches(rule: SkuRule, sku: string): boolean {
   return sku.includes(rule.token);
 }
 
+/**
+ * Names that say "licence" and are safe to act on, measured 9 Sep 2026.
+ *
+ * WHY A NAME RULE AT ALL. `classify()` ends with `categoryIsHardware === true -> hardware`, so a
+ * part in a hardware category whose SKU matches no rule is called hardware whatever its name says.
+ * In `security` that put 1,998 of 6,544 "hardware" parts on names like
+ * `ESA-MFE-3Y-S2  "Email McAfee Anti-Virus 3Y Lic Key, 100-499 Users"`, and because only hardware
+ * is scored, every one of them was being asked for a weight and an operating temperature.
+ *
+ * WHY ONLY FOUR PATTERNS. Eleven were measured. The test is whether a pattern catches a part that
+ * carries a PHYSICAL fact — a weight, dimensions, a power draw, an operating temperature — because
+ * that is evidence somebody measured a physical object and a licence has none.
+ *
+ * Run against `security` alone, ALL ELEVEN passed, and that verdict was worthless: only 17 of its
+ * 6,544 hardware parts carry a physical fact at all, so there was almost nothing to refuse them
+ * with. Re-run against switches/routers/wireless/transceiver — 23,714 parts, 3,723 with physical
+ * facts — six of the eleven were refused:
+ *
+ *     word-license   \blicense\b        1,555 hits, 220 catch real hardware
+ *                                       (IE3300-NW-A= "Network Advantage License", 2 physical)
+ *     bundle-bare    \bbundle\b           980 hits,   6  (NC55-32T16Q4H-BA is a line card)
+ *     lic-abbrev     \blic\b              406 hits,  19  (NCS-57B1-5DSE-SYS "Fixed Scale HW")
+ *     subscription   \bsubscription\b     138 hits,  25  (C1E1TN9300XF-5Y)
+ *     term-bare      \bterm\b             176 hits,  13
+ *     n-year-lic     \b\d+\s*Y\s+lic      13 hits,   12
+ *
+ * That is this project's recurring lesson in one measurement: the wider net always scores better
+ * in the population you are looking at, because its false positives are the rows that look like
+ * the true ones. The four below catch 762 of security's 6,544 (11.6%) and zero physical-fact parts
+ * in either population. They do NOT catch every licence — roughly half of the misfiled ones stay
+ * hardware — and that is the correct trade: a licence left as hardware is a bad score, a real
+ * appliance called a licence is a deleted product.
+ */
+export const NAME_LICENSE_RULES: { name: string; re: RegExp }[] = [
+  { name: "name-lic-key", re: /\blic(?:ence|ense)?\s*key\b/i },
+  { name: "name-entitlement", re: /\bentitlement\b/i },
+  { name: "name-sw-bundle", re: /\b(?:sw|software)\s+bundle\b/i },
+  // "100-499 Users", "5K-9999 Users" — a user TIER band, which only a licence is sold in.
+  { name: "name-user-tier", re: /\b\d[\d,kK]*\s*-\s*[\d,kK]+\s+users?\b/i },
+];
+
 export function classify(input: ClassifyInput): Classification {
   const sku = ruleSku(input.sku);
   if (!sku) return { klass: "unknown", reason: "empty-sku" };
 
   for (const rule of SKU_RULES) if (ruleMatches(rule, sku)) return { klass: rule.klass, reason: ruleName(rule) };
+
+  // AFTER the SKU rules and BEFORE the category fallback. The SKU is the more authoritative
+  // signal and keeps precedence; the name only gets a say where the SKU said nothing, which is
+  // exactly the case that was defaulting to `hardware` on the strength of the category alone.
+  const name = typeof input.name === "string" ? input.name : "";
+  if (name) {
+    for (const r of NAME_LICENSE_RULES) if (r.re.test(name)) return { klass: "license", reason: r.name };
+  }
 
   const slug = input.categorySlug ? String(input.categorySlug) : "?";
   if (input.categoryIsHardware === false) return { klass: "software", reason: `category-is_hardware=false:${slug}` };

@@ -169,7 +169,7 @@ export function mapPart(p: MongoPart, cat: CategoryInfo | undefined, slug: strin
   const cisco = str(p.cisco_description)?.trim() || null;
   const name = enName ?? cisco;
   const description = cisco && cisco !== name ? cisco : null;
-  const { klass, reason } = classify({ sku: p.sku, categorySlug: p.category, categoryIsHardware: cat ? cat.is_hardware : null });
+  const { klass, reason } = classify({ sku: p.sku, name: typeof p.name === "string" ? p.name : null, categorySlug: p.category, categoryIsHardware: cat ? cat.is_hardware : null });
   return {
     vendor: p.vendor, sku: p.sku, slug, category: p.category, family: str(p.family) || null,
     product_class: klass, product_class_reason: reason, name, description,
