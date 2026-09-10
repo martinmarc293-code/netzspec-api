@@ -92,6 +92,43 @@ check("and the collapse is severe enough to be worth a guard",
   withKind.required_total - without.required_total >= 10,
   `only ${withKind.required_total - without.required_total} slots differ`);
 
+// --- THE MERGE LEAK: a `req` that lives only in GENERATED_PROFILES must be gated too ------------
+// `deviceOnly()` wraps a hand-written block, and the merge puts GENERATED_PROFILES UNDER it — so a
+// key declared only in the generated half never passes through the wrapper. Measured 10 Sep 2026,
+// immediately after gating the eleven flat categories: `wireless` still asked a POWER CORD for
+// `standard`, and every one of the eleven kept exactly one such field. The category looked done
+// and one field per category was still required of every cable, which is the dangerous shape.
+// Same leak as `cpu` arriving from the generated half and being required of 8,794 cables.
+//
+// This is asserted BEHAVIOURALLY — a component is asked nothing — so it cannot be defeated by
+// moving a declaration between the two halves.
+{
+  const COMPONENT_PROBE: Record<string, string> = {
+    "routers": "CAB-9K16A-AUS", "wireless": "AIR-PWR-CORD-SW", "video": "P2HD-FAN-ASSY=",
+    "unified-communications": "CAB-9K16A-AUS", "collaboration-endpoints": "CP-3905-PWR-NA=",
+    "optical-networking": "CAB-9K16A-AUS", "hyperconverged-systems": "CAB-9K16A-AUS",
+    "interfaces-modules": "SB-PWR-48V-EU", "storage-networking": "CAB-9K16A-AUS",
+    "hyperconverged-infrastructure": "CAB-9K16A-AUS", "meraki": "CAB-9K16A-AUS",
+    "switches": "CAB-9K16A-AUS", "servers-unified-computing": "CAB-C13-C14-AC=",
+  };
+  for (const cat of declared) {
+    const sku = COMPONENT_PROBE[cat];
+    if (!sku) { check(`a component probe exists for ${cat}`, false, "add one to COMPONENT_PROBE"); continue; }
+    const kind = partKind(cat, sku);
+    const c = completenessV2(cat, { kind, vendor: "cisco" } as never);
+    check(`${cat}: a component (${sku}, kind=${kind}) is asked NOTHING`,
+      c.required_total === 0, `required_total=${c.required_total}, missing=[${c.missing.join(",")}]`);
+  }
+  // And the control: a DEVICE in the same category must still be asked something, or the gate has
+  // simply switched the whole category off.
+  for (const [cat, sku] of [["routers", "ISR4331/K9"], ["wireless", "AIR-AP2802I-B-K9"],
+                            ["switches", "WS-C3750G-24T-E"]] as [string, string][]) {
+    const c = completenessV2(cat, { kind: partKind(cat, sku), vendor: "cisco" } as never);
+    check(`${cat}: a DEVICE (${sku}) is still asked something`, c.required_total > 0,
+      `required_total=${c.required_total}`);
+  }
+}
+
 lines.unshift(`    part kind: ${passed} passed, ${failed} missed ` +
               `(${gating.length} gating categories derived from PROFILES: ${gating.join(", ")})`);
 console.log(lines.join("\n"));

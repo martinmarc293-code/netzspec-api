@@ -18,9 +18,25 @@
 // A hand-maintained list of things that exist will drift and fails silently in both.
 import { ucsKind } from "./ucsKind.js";
 import { switchKind } from "./switchKind.js";
+import { componentKind } from "./componentKind.js";
 
-/** Categories whose profile gates requirements on a derived `kind`. Checked against PROFILES. */
-export const KIND_CATEGORIES: readonly string[] = ["servers-unified-computing", "switches"];
+/**
+ * Categories whose profile gates requirements on a derived `kind`. Checked against PROFILES by
+ * tests/partKind.test.ts, in both directions.
+ *
+ * The eleven after the first two were added on 10 Sep 2026 with the shared component axis. Each
+ * had a FLAT profile — `count(DISTINCT required_total) = 1`, every part asked an identical set —
+ * so a power cord in `routers` was asked for a forwarding rate. They use `componentKind`, which
+ * names only what plugs into a device and claims nothing about modules; `switches` and
+ * `servers-unified-computing` keep their own axes because those also name module and machine
+ * kinds that do not generalise.
+ */
+export const KIND_CATEGORIES: readonly string[] = [
+  "servers-unified-computing", "switches",
+  "routers", "wireless", "video", "unified-communications", "collaboration-endpoints",
+  "optical-networking", "hyperconverged-systems", "interfaces-modules", "storage-networking",
+  "hyperconverged-infrastructure", "meraki",
+];
 
 /**
  * The derived `kind` for a part, or undefined where the category does not use one.
@@ -31,5 +47,8 @@ export const KIND_CATEGORIES: readonly string[] = ["servers-unified-computing", 
 export function partKind(categorySlug: string, sku: string): string | undefined {
   if (categorySlug === "servers-unified-computing") return ucsKind(sku);
   if (categorySlug === "switches") return switchKind(sku);
+  // The shared axis. Deliberately driven off KIND_CATEGORIES rather than a second list, so the
+  // membership test and the dispatch cannot drift apart.
+  if (KIND_CATEGORIES.includes(categorySlug)) return componentKind(sku);
   return undefined;
 }

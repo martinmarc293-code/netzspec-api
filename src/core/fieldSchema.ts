@@ -36,6 +36,7 @@ export type Condition =
  *  (not-applicable otherwise) · na = never applicable to this category. */
 import { UCS_MACHINE } from "./ucsKind.js";
 import { SW_DEVICE } from "./switchKind.js";
+import { GENERIC_DEVICE } from "./componentKind.js";
 
 export type Requirement =
   | { kind: "req" }
@@ -436,6 +437,59 @@ const na: Requirement = { kind: "na" };
 void na; // kept for the case above; referenced so an unused-symbol check cannot silently drop it
 const cond = (when: Condition): Requirement => ({ kind: "cond", when });
 
+// Declared here rather than beside completenessV2 because `deviceOnly` below runs at module
+// initialisation and must see it. Its documentation stays with the scorer that reads it.
+export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series"]);
+
+/**
+ * Ask a flat block of requirements only of a DEVICE — never of a power supply, fan, cable, rack
+ * kit or software image. Applied to a whole profile object: every UNCONDITIONAL `req` becomes
+ * `cond({ field: "kind", inList: GENERIC_DEVICE })`, and `opt`, `na` and existing conditionals
+ * pass through untouched.
+ *
+ * WHY A WRAPPER RATHER THAN EDITING EACH LINE. Eleven categories share this problem and between
+ * them declare ~120 required fields. Rewriting each by hand is 120 chances to miss one silently,
+ * and a missed one is invisible: the field simply stays required of cables. Wrapping the object
+ * cannot miss a field, and the diff per category is one line.
+ *
+ * COLUMN_BACKED KEYS ARE LEFT ALONE. `vendor` and `series` come from the part row rather than from
+ * facts and are excluded from scoring anyway; gating them would only make a validation rule
+ * conditional on a value the validator does not have.
+ *
+ * A CONDITIONAL THAT GATES ON A NOW-GATED FIELD STILL RESOLVES CORRECTLY. `rack_units` gates on
+ * `form_factor`, which this makes device-only; for a cable `form_factor` is `na`, so
+ * `requirementFor` finds no required gate and `rack_units` is `na` too — not `pending`. That
+ * cascade is what tests/pendingRequirement.test.ts pins.
+ *
+ * THE CALLER MUST FILL `kind`. A profile that gates on it while `values.kind` is absent marks every
+ * requirement `na` in silence — see src/core/partKind.ts. tests/partKind.test.ts derives the
+ * gating categories out of PROFILES and fails if one of them is not filled.
+ */
+/**
+ * The categories whose profiles are gated on the GENERIC device/component axis. Kept here beside
+ * `deviceOnly` because the two must name the same set: the wrapper handles the hand-written half
+ * at declaration time and the loop after the merge handles the generated half. Neither alone is
+ * enough — see the note at the merge.
+ *
+ * `switches` and `servers-unified-computing` are deliberately absent: they gate on their own axes,
+ * which name module and machine kinds this one makes no claim about.
+ */
+export const DEVICE_GATED_CATEGORIES = [
+  "routers", "wireless", "video", "unified-communications", "collaboration-endpoints",
+  "optical-networking", "hyperconverged-systems", "interfaces-modules", "storage-networking",
+  "hyperconverged-infrastructure", "meraki",
+] as const;
+
+const deviceOnly = <T extends Record<string, Requirement>>(block: T): T => {
+  const out: Record<string, Requirement> = {};
+  for (const [key, r] of Object.entries(block)) {
+    out[key] = r.kind === "req" && !COLUMN_BACKED.has(key)
+      ? cond({ field: "kind", inList: [...GENERIC_DEVICE] })
+      : r;
+  }
+  return out as T;
+};
+
 // --- SECURITY PRODUCT SHAPES, 8 Sep 2026 -------------------------------------------------------
 // `security` is not one kind of product. Its 6,689 hardware parts span 47 series — firewalls,
 // intrusion-prevention appliances, email and web gateways, management consoles, flow-analytics
@@ -653,55 +707,55 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
-  video: {
+  video: deviceOnly({
     dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, video_codecs: req, max_resolution: req,
     // STRUCTURE 8 Sep 2026: 1 field(s) its documents already produce and no profile declared — invisible to completeness until now
     laser_type: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     aes_audio_encryption: opt, bluetooth_profiles: opt, bluetooth_version: opt, camera_aperture: opt, camera_focus_distance: opt, camera_pan_tilt_range: opt, camera_zoom: opt, color: opt, color_options: opt, country_of_origin: opt, mic_frequency_response: opt, mic_pickup_range: opt, mic_type: opt, packaging_dimensions: opt, phantom_power: opt, product_line: opt, rear_panel_ports: opt, series_release_date: opt, speaker_frequency_response: opt, speaker_impedance: opt, speaker_size: opt, supported_pc_resolutions: opt, video_interfaces: opt,
-  },
+  }),
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
-  "unified-communications": {
+  "unified-communications": deviceOnly({
     dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, display: req, ports: req, poe_standard: req,
     // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
     fxs_ports: opt, fxo_ports: opt, qos_features: opt, module_slots: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     aes_audio_encryption: opt, bluetooth_profiles: opt, bluetooth_version: opt, camera_aperture: opt, camera_focus_distance: opt, camera_pan_tilt_range: opt, camera_zoom: opt, color: opt, color_options: opt, country_of_origin: opt, mic_frequency_response: opt, mic_pickup_range: opt, mic_type: opt, packaging_dimensions: opt, phantom_power: opt, product_line: opt, rear_panel_ports: opt, series_release_date: opt, speaker_frequency_response: opt, speaker_impedance: opt, speaker_size: opt, supported_pc_resolutions: opt, video_interfaces: opt,
-  },
+  }),
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
-  "hyperconverged-systems": {
+  "hyperconverged-systems": deviceOnly({
     dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, cpu_sockets: req, memory_speed_max: req, storage_raw_capacity: req,
     // STRUCTURE 8 Sep 2026: 3 field(s) its documents already produce and no profile declared — invisible to completeness until now
     humidity_storage: opt, cpu_cores: opt, hypervisor: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, bmc_management: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, drive_options: opt, expansion_slot_type: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, onboard_nics: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, psu_count: opt, random_read_iops_4k: opt, random_write_iops_4k: opt, read_latency: opt, rear_clearance: opt, rear_panel_ports: opt, riser_options: opt, security_features: opt, sequential_write_throughput: opt, series_release_date: opt, system_memory: opt, temp_operating_extended: opt, thermal_shock: opt, write_latency: opt,
-  },
+  }),
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
-  "hyperconverged-infrastructure": {
+  "hyperconverged-infrastructure": deviceOnly({
     dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, cpu_sockets: req, memory_speed_max: req, storage_raw_capacity: req,
     // STRUCTURE 8 Sep 2026: 7 field(s) its documents already produce and no profile declared — invisible to completeness until now
     humidity_storage: opt, cpu_cores: opt, altitude_storage: opt, management_mode: opt, deploy_role: opt, max_wlans: opt, operating_system: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, bmc_management: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, drive_options: opt, expansion_slot_type: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, onboard_nics: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, psu_count: opt, random_read_iops_4k: opt, random_write_iops_4k: opt, read_latency: opt, rear_clearance: opt, rear_panel_ports: opt, riser_options: opt, security_features: opt, sequential_write_throughput: opt, series_release_date: opt, system_memory: opt, temp_operating_extended: opt, thermal_shock: opt, write_latency: opt,
-  },
+  }),
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
-  "collaboration-endpoints": {
+  "collaboration-endpoints": deviceOnly({
     dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, display: req, video_codecs: req, audio_codecs: req, ports: req,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     aes_audio_encryption: opt, bluetooth_profiles: opt, bluetooth_version: opt, camera_aperture: opt, camera_focus_distance: opt, camera_pan_tilt_range: opt, camera_zoom: opt, color: opt, color_options: opt, country_of_origin: opt, mic_frequency_response: opt, mic_pickup_range: opt, mic_type: opt, packaging_dimensions: opt, phantom_power: opt, product_line: opt, rear_panel_ports: opt, series_release_date: opt, speaker_frequency_response: opt, speaker_impedance: opt, speaker_size: opt, supported_pc_resolutions: opt, video_interfaces: opt,
-  },
+  }),
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
@@ -717,13 +771,13 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
-  meraki: {
+  meraki: deviceOnly({
     dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, ports: req, poe_standard: req,
     // STRUCTURE 8 Sep 2026: 30 field(s) its documents already produce and no profile declared — invisible to completeness until now
     power_load_idle_max: opt, copper_ethernet_ports: opt, dedicated_mgmt_interface: opt, sfp_plus_ports: opt, stack_ports: opt, sfp_ports: opt, fan_hot_swap: opt, field_of_view: opt, video_quality_max: opt, image_sensor: opt, mgig_rj45_ports: opt, poe_per_port_max: opt, qsfp_plus_ports: opt, ir_illumination: opt, lens_aperture: opt, upoe_support: opt, focal_length: opt, shutter_speed: opt, battery_count: opt, external_power: opt, battery_life: opt, lens_adjustment_range: opt, min_illumination: opt, optical_zoom: opt, box_contents: opt, poe_budget_redundant: opt, antenna_type: opt, lan_interfaces: opt, wan_interfaces: opt, tdp: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     color: opt, color_options: opt, country_of_origin: opt, packaging_dimensions: opt, product_line: opt, series_release_date: opt,
-  },
+  }),
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
@@ -990,7 +1044,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, gre_tunnels: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, rear_clearance: opt, rear_panel_ports: opt, security_features: opt, series_release_date: opt, simultaneous_connections: opt, temp_operating_extended: opt, thermal_shock: opt,
   },
-  wireless: {
+  wireless: deviceOnly({
     supported_transceivers: opt, antenna_gain: opt, polarization: opt, antenna_connector: opt, beamwidth_elevation: opt, mounting: opt, recycled_content: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req,
     wifi_generation: req, spatial_streams: opt, radio_count: opt, radio_bands: opt,
@@ -1002,8 +1056,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     power_cord_rating: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, rear_clearance: opt, rear_panel_ports: opt, security_features: opt, series_release_date: opt, temp_operating_extended: opt, thermal_shock: opt,
-  },
-  routers: {
+  }),
+  routers: deviceOnly({
     supported_modules: opt, usb_console: opt, redundancy: opt, chassis_compatibility: opt, etsi_standards: opt, supported_protocols: opt, min_software_release: opt, emc_immunity: opt, emc_emissions: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req, form_factor: req,
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
@@ -1015,9 +1069,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     power_cord_rating: opt, compatible_platform: opt, chromatic_dispersion_tolerance: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, ethernet_technology: opt, gre_tunnels: opt, layer2_features: opt, layer3_features: opt, manageable: opt, management_interfaces: opt, max_ports_100g: opt, max_ports_10g: opt, max_ports_1g: opt, max_ports_25g: opt, max_ports_40g: opt, max_ports_50g: opt, media_type_supported: opt, module_width_slots: opt, multicast_features: opt, network_technology: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, qsfp28_ports: opt, rear_clearance: opt, rear_panel_ports: opt, security_features: opt, series_release_date: opt, simultaneous_connections: opt, temp_operating_extended: opt, thermal_shock: opt, voq_buffer: opt,
-  },
+  }),
   // MDS storage-networking switches are Fibre Channel switches — the switch dictionary fields apply.
-  "storage-networking": {
+  "storage-networking": deviceOnly({
     fabric_services: opt, serviceability: opt, supported_protocols: opt, programming_interfaces: opt, advanced_functions: opt, product_compatibility: opt, diagnostics: opt, redundancy: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req, form_factor: req,
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
@@ -1028,18 +1082,18 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     temp_class: opt, segment_routing_features: opt, qos_features: opt, modulation_format: opt, safety_standards: opt, queues_per_port: opt, status_leds: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, drive_options: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, packaging_dimensions: opt, product_line: opt, random_read_iops_4k: opt, random_write_iops_4k: opt, read_latency: opt, rear_clearance: opt, security_features: opt, sequential_write_throughput: opt, series_release_date: opt, temp_operating_extended: opt, thermal_shock: opt, write_latency: opt,
-  },
+  }),
   // Transponders / muxponders / DWDM systems — reuse the transceiver optical fields.
-  "optical-networking": {
+  "optical-networking": deviceOnly({
     optical_pm: opt, input_power_range: opt, coherent_interop_standards: opt, shelf_assembly: opt, min_software_release: opt, cross_connect: opt, slot_compatibility: opt, otn_pm: opt, attenuation_dead_zone: opt, reflective_dead_zone: opt, rx_wavelength: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req, form_factor: req,
     data_rate: req, wavelength: req, reach_max: req, connector: req, fec: opt,
     power_max: req, dimensions: req, weight: req, temp_operating: req, certifications: req, mtbf: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     breakout_point_length: opt, cd_tolerance: opt, channel_bandwidth: opt, cin: opt, color: opt, color_options: opt, country_of_origin: opt, gain: opt, gain_flatness: opt, input_wavelength: opt, modulation_type: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, pdl: opt, pmd: opt, product_line: opt, rear_clearance: opt, restore_threshold: opt, rf_attenuation_range: opt, rf_bandwidth: opt, rf_input_return_loss: opt, rf_output_return_loss: opt, rf_response_flatness: opt, rf_test_point: opt, rf_tilt: opt, series_release_date: opt, switching_threshold: opt, temp_operating_extended: opt, thermal_shock: opt,
-  },
+  }),
   // Line cards, network modules, interface cards.
-  "interfaces-modules": {
+  "interfaces-modules": deviceOnly({
     itu_channel: opt, jacket_material: opt, jacket_color: opt, rx_wavelength: opt, supported_transceivers: opt, supported_modules: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req, form_factor: req,
     ports: req, uplink_ports: opt, poe_standard: opt, module_slots: opt,
@@ -1048,7 +1102,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     layer: opt, module_type: opt, compatible_platform: opt, installation_type: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     breakout_point_length: opt, cd_tolerance: opt, channel_bandwidth: opt, color: opt, color_options: opt, country_of_origin: opt, input_wavelength: opt, modulation_type: opt, module_width_slots: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, product_line: opt, series_release_date: opt,
-  },
+  }),
 };
 
 // The transceiver profile overrides two dictionary entries whose canonical unit differs from the
@@ -1181,7 +1235,6 @@ export type CompletenessV2 = {
  * Anything added here must actually be filled from a column in recompute-completeness, or it turns
  * into a required field nobody scores and nobody notices is missing.
  */
-export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series"]);
 
 export function completenessV2(category: string, values: PartValues): CompletenessV2 {
   const profile = PROFILES[category];
@@ -1261,6 +1314,29 @@ for (const [key, def] of Object.entries(GENERATED_FIELDS)) {
 }
 for (const [cat, fields] of Object.entries(GENERATED_PROFILES)) {
   PROFILES[cat] = { ...fields, ...(PROFILES[cat] || {}) };
+}
+
+// THE DEVICE GATE HAS TO BE APPLIED AFTER THE MERGE, NOT TO THE LITERAL.
+//
+// `deviceOnly()` wraps a hand-written block, and the merge above puts GENERATED_PROFILES UNDER it —
+// so a `req` that lives only in the generated half never passes through the wrapper and stays
+// unconditional. Measured 10 Sep 2026, straight after wrapping the eleven flat categories:
+// `wireless` still asked a POWER CORD for `standard`, and video and the rest each kept one such
+// field, because `standard` is a generated entry and nothing hand-written names it. Every other
+// requirement in those categories had been gated correctly, which is what makes this the dangerous
+// shape — the category looks done and one field per category is still asked of every cable.
+//
+// This is the same leak `tests/profileMerge.test.ts` was written for when `cpu` arrived from the
+// generated half and was required of 8,794 cables and rails. Re-gating the MERGED profile closes
+// both halves at once and cannot be defeated by where a key happens to be declared.
+for (const cat of DEVICE_GATED_CATEGORIES) {
+  const p = PROFILES[cat];
+  if (!p) continue;
+  for (const [key, r] of Object.entries(p)) {
+    if (r.kind === "req" && !COLUMN_BACKED.has(key)) {
+      p[key] = cond({ field: "kind", inList: [...GENERIC_DEVICE] });
+    }
+  }
 }
 
 export const CATEGORIES = Object.keys(PROFILES);

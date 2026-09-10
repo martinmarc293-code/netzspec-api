@@ -63,7 +63,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { getPool, closePool } from "../store/db.js";
 import {
-  FIELD_DICTIONARY, PROFILES, completenessV2, type FieldType, type Requirement, type PartValues,
+  FIELD_DICTIONARY, PROFILES, completenessV2, DEVICE_GATED_CATEGORIES,
+  type FieldType, type Requirement, type PartValues,
 } from "../core/fieldSchema.js";
 import { REPO_ROOT } from "../config.js";
 
@@ -200,6 +201,9 @@ export function parseHandWritten(source: string): Map<string, Map<string, string
       return;
     }
   };
+  /** category -> the helper it is wrapped in, e.g. "routers" -> "deviceOnly". Empty when a
+   *  category is a bare object literal, which most still are. */
+  const wrappers = new Map<string, string>();
   /** consume one value, balanced across (), [], {} and strings; stop at a `,` or `}` at depth 0 */
   const skipValue = () => {
     let d = 0;
@@ -218,7 +222,21 @@ export function parseHandWritten(source: string): Map<string, Map<string, string
     if (ch === ",") { i++; continue; }
     if (ch === "}") {
       i++;
-      if (depth === 1) { depth = 0; cat = null; catKeys = null; continue; }
+      if (depth === 1) {
+        if (cat !== null && wrappers.has(cat)) {
+          // A wrapped category closes `})`, so consume the helper's closing paren too...
+          skipTrivia(); if (body[i] === ")") i++;
+          // ...and MODEL WHAT THE WRAPPER DOES, or this parser reports `req` for a key the runtime
+          // resolves as `cond` and handWritten() refuses to run. `deviceOnly` turns every
+          // unconditional `req` into a conditional on the part kind, leaving identity keys alone.
+          // Skipping the wrapper without modelling it is the same defect as reading a column
+          // instead of the value it stands for.
+          if (wrappers.get(cat) === "deviceOnly" && catKeys) {
+            for (const [k, v] of catKeys) if (v === "req" && !IDENTITY_KEYS.has(k)) catKeys.set(k, "cond");
+          }
+        }
+        depth = 0; cat = null; catKeys = null; continue;
+      }
       break;   // closes PROFILES itself
     }
     // a key: bare identifier or quoted string, then ':'
@@ -230,6 +248,14 @@ export function parseHandWritten(source: string): Map<string, Map<string, string
     i++;
     skipTrivia();
     if (depth === 0) {
+      // A category may be wrapped in a helper — `routers: deviceOnly({ … })` — which asks a flat
+      // block only of a DEVICE (src/core/fieldSchema.ts). Added 10 Sep 2026 for the eleven
+      // categories whose profile had no live conditional. The wrapper changes what each `req`
+      // MEANS, not which keys are declared, so this parser steps over it and reads the object
+      // inside; `handWritten()` still reconciles the result against the merged PROFILES, which is
+      // what would catch a wrapper this parser did not understand.
+      const wrap = /^([A-Za-z_$][\w$]*)\s*\(\s*\{/.exec(body.slice(i));
+      if (wrap) { wrappers.set(name, wrap[1]); i += wrap[0].length; depth = 1; cat = name; catKeys = new Map(); out.set(cat, catKeys); continue; }
       if (body[i] !== "{") throw new Error(`promote-required: category "${name}" in PROFILES is not an object`);
       i++; depth = 1; cat = name; catKeys = new Map(); out.set(cat, catKeys);
       continue;
@@ -266,6 +292,13 @@ export function handWritten(source: string, generated: Record<string, Record<str
       if (r.kind === "opt") continue;
       if (out.get(cat)?.has(k)) continue;
       if (generated[cat]?.[k] && generated[cat][k].kind === r.kind) continue;
+      // A DEVICE-GATED category re-gates the MERGED profile after the merge, so a `req` that
+      // came from the generated half legitimately resolves to `cond` (src/core/fieldSchema.ts,
+      // the loop under the merge). Without this the reconciler reports every such key as
+      // parser drift — which it did, immediately, for one key in each of the eleven. The list
+      // is IMPORTED rather than restated, so it cannot drift from the transform it describes.
+      if (r.kind === "cond" && (DEVICE_GATED_CATEGORIES as readonly string[]).includes(cat)
+          && generated[cat]?.[k]?.kind === "req") continue;
       problems.push(`merged ${cat}.${k} is "${r.kind}" but appears in neither half — the PROFILES parser has drifted`);
     }
   }
