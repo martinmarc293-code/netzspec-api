@@ -231,7 +231,7 @@ throws("blockOf refuses a head it cannot find", () => blockOf("nothing here", BL
   //   HAND-WRITTEN — the key must be absent from GENERATED_PROFILES.switches, or the generated
   //                  half still supplies it and "neither half" is never reached.
   //   UNIQUE       — asserted below, so the replace cannot drift onto another category.
-  const SABOTAGE_ANCHOR = "stack_max_members: cond(";
+  const SABOTAGE_ANCHOR = "ip_rating: cond(";
   const schemaText = readSource(SCHEMA_FILE);
   check("the sabotage anchor exists EXACTLY once, so the replace cannot silently miss",
     schemaText.split(SABOTAGE_ANCHOR).length - 1 === 1);

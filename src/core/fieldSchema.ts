@@ -827,7 +827,14 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     switching_capacity: cond({ field: "kind", inList: [...SW_DEVICE, "module"] }),
     forwarding_rate: cond({ field: "kind", inList: [...SW_DEVICE, "module"] }),
     stacking_bandwidth: cond({ field: "stackable", eq: true }),
-    stack_max_members: cond({ field: "stackable", eq: true }),
+    // stack_max_members is OPTIONAL, not conditional, and the measurement is the reason:
+    // ZERO facts hold it — across every category and every vendor in the catalogue — and ZERO
+    // labels in any source inventory carry a stack MEMBER COUNT. The one candidate,
+    // "Max stack bandwidth", is a bandwidth and already maps to stacking_bandwidth (6 parts here,
+    // 33 in meraki, so that one is thin but real). Required, this was a gap no extraction could
+    // ever close, on the 1,334 switches that do answer `stackable`. It stays DECLARED so a value
+    // is accepted the day a source publishes one. Measured 10 Sep 2026.
+    stack_max_members: opt,
     packet_buffer: cond({ field: "kind", inList: [...SW_DEVICE] }),
     mac_table: cond({ field: "kind", inList: [...SW_DEVICE] }),
     vlan_max: cond({ field: "kind", inList: [...SW_DEVICE] }),
