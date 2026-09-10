@@ -81,7 +81,36 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   // PAC 66/83 psu, PHV 17/17, PDC 26/27, CAC 8/10, and a bare wattage token 111/135.
   { kind: "power", re: /(?:^|-)(?:PWR|PAC|PHV|PDC|PSU|CAC|DCPWR|ACPWR)(?:-|=|\d|$)|-\d+W(?:AC|DC)/ },
   // Line cards, supervisors, network/expansion/fabric modules. Every one measured above.
-  { kind: "module", re: /-X\d|(?:^|-)N\d+K-[MF]\d|^IEM-|-LC(?:-|=|$)|-NM(?:-|=|$)|-(?:FM|FAB)(?:-|=|\d|$)|(?:^|-)SUP(?:-|=|\d|$)/ },
+  //
+  // THE SECOND HALF WAS ADDED 10 SEP 2026 after a review asked for the REVERSE name control:
+  // parts filed `switch` whose NAME says line card / supervisor / fabric module / system
+  // controller. That returned 137 — not the "at least 300" the review estimated, and some of the
+  // 137 are false positives of the control itself (C9500-24X-E is a SWITCH whose name ends
+  // "8 x 10GE Network Module"). Each pattern below was then measured on its own, part-evidence
+  // against device-evidence, exactly as the six above were:
+  //
+  //   WS-F6K- / WS-F6700-   34 parts   9 part / 0 device   6500 PFC and DFC daughter cards
+  //   N5[56]-M###           28 parts   8 / 0               Nexus 5500/5600 expansion modules
+  //   N77-[MF]###           32 parts   8 / 1               7700 I/O line cards; the one "device"
+  //                                                        is N77-F324-P2, a 2-pack BUNDLE of
+  //                                                        them, whose name says "Chassis Config"
+  //   C6800-*P10G           18 parts   6 / 0               6800 port cards
+  //   VS-S720- / VS-S2T-    10 parts   8 / 0               Cat 6500 Sup720 / Sup2T — no "SUP"
+  //                                                        token in the PID, which is why the
+  //                                                        SUP rule above misses them
+  //   7600-ES               4 parts    4 / 0               7600 Ethernet Services line cards
+  //   C9400-SSD             4 parts    3 / 0               supervisor M.2 storage
+  //   WS-S32                2 parts    2 / 0               Sup32
+  //   C6880-X-LE-           3 parts    1 / 0               6880-X port cards
+  //
+  // TWO FAMILIES THE REVIEW NAMED HAVE ZERO PARTS IN THIS CATEGORY and are deliberately absent:
+  // `N9K-X####` (Nexus 9500 line cards) and `N9K-SC-` (system controllers) both return 0 — they
+  // live under `data-center-networking`. A rule for a population that does not exist is a rule
+  // nobody has seen work, and productClass.test.ts's reachability check exists for that reason.
+  {
+    kind: "module",
+    re: /-X\d|(?:^|-)N\d+K-[MF]\d|^IEM-|-LC(?:-|=|$)|-NM(?:-|=|$)|-(?:FM|FAB)(?:-|=|\d|$)|(?:^|-)SUP(?:-|=|\d|$)|^WS-F6(?:K|700)|^N5[56]-M\d|^N77-[MF]\d|^C6800-.*P10G|^VS-S(?:720|2T)|^7600-ES|^C9400-SSD|^WS-S\d|^C6880-X-LE-/,
+  },
 ];
 
 export function switchKind(sku: string): SwitchKind {

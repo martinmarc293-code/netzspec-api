@@ -814,7 +814,14 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // published one. Required, it was 8,985 gaps nothing could ever close. It stays DECLARED so a
     // value is accepted the day one is extracted, and is required of nobody.
     mgmt_ports: opt,
-    poe_standard: cond({ field: "kind", inList: ["switch"] }),
+    // MODULES TOO, added 10 Sep 2026 on a reviewer's point that held up: Cisco prints the PoE
+    // standard per LINE CARD, and 28 of this category's modules carry a PoE token in their PID
+    // (WS-X4748-RJ45V+E "Catalyst 4500E 48-Port PoE 802.3at", C9400-LC-48U-B, WS-X6148-RJ45V).
+    // Exactly one of the 28 holds a poe_standard fact today, so this opens 27 real questions.
+    // `poe_budget` and `poe_ports` stay device-only — the budget is a function of the chassis PSU,
+    // not of the card — which is what their gate on poe_standard already achieves for a module
+    // whose poe_standard is unanswered.
+    poe_standard: cond({ field: "kind", inList: ["switch", "module"] }),
     poe_ports: cond({ field: "poe_standard", ne: "none" }),
     poe_budget: cond({ field: "poe_standard", ne: "none" }),
     poe_per_port_max: opt,
@@ -1119,7 +1126,7 @@ export function gateFields(c: Condition): string[] {
  * absence is not evidence of anything.
  */
 export function requirementFor(
-  category: string, key: string, values: PartValues,
+  category: string, key: string, values: PartValues, seen: ReadonlySet<string> = new Set(),
 ): "req" | "opt" | "na" | "pending" {
   const profile = PROFILES[category];
   const r = profile?.[key];
@@ -1127,9 +1134,26 @@ export function requirementFor(
   if (r.kind !== "cond") return r.kind;
   if (evalCondition(r.when, values)) return "req";
   // False — but is it false because the gate says no, or because nobody has answered the gate?
-  const unanswered = gateFields(r.when).some(
-    (f) => values[f] === undefined && profile?.[f]?.kind === "req",
-  );
+  //
+  // THE GATE'S REQUIREMENT MUST BE RESOLVED, NOT READ OFF THE PROFILE. This line used to test
+  // `profile[f].kind === "req"`, the RAW entry, and that quietly broke `pending` for a whole
+  // category on 10 Sep 2026: gating `switches` on the part kind turned `stackable`,
+  // `poe_standard`, `layer` and `form_factor` from `req` into `cond`, so the test found no
+  // required gate and every dependent — stacking_bandwidth, poe_ports, poe_budget, ipv4_routes,
+  // ipv6_routes, rack_units, module_slots — resolved to `na` instead of staying open. The gaps did
+  // not narrow, they CLOSED, and the denominator got smaller in a way that looks like progress.
+  // Measured after the change: a Catalyst 9300 answering nothing had req=33 pending=0, where the
+  // whole point of `pending` is that an unanswered gate keeps its dependents' gaps open.
+  //
+  // `seen` is a cycle guard: two conditionals gating on each other would otherwise recurse for
+  // ever, and "na" is the safe answer for a cycle — it asks less rather than more.
+  if (seen.has(key)) return "na";
+  const next = new Set(seen).add(key);
+  const unanswered = gateFields(r.when).some((f) => {
+    if (values[f] !== undefined) return false;
+    const gate = requirementFor(category, f, values, next);
+    return gate === "req" || gate === "pending";
+  });
   return unanswered ? "pending" : "na";
 }
 

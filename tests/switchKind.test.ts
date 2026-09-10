@@ -44,6 +44,21 @@ const CASES: [string, string][] = [
   ["IEM-3000-8FM=", "module"],
   ["WS-X45-SUP7-E", "module"],
   ["N77-C7718-FAB-3", "module"],
+  // Added 10 Sep 2026 from the reverse name control (parts filed `switch` whose NAME says
+  // component). Each pattern measured on its own for part- against device-evidence.
+  ["WS-F6K-PFC3B", "module"],          // 6500 policy feature card
+  ["WS-F6700-DFC3C", "module"],        // 6700 distributed forwarding card
+  ["N55-M16P", "module"],              // Nexus 5500 expansion module
+  ["N56-M24UP2Q", "module"],           // Nexus 5600 expansion module
+  ["N77-F324FQ-25", "module"],         // 7700 I/O line card
+  ["N77-M348XP-23L", "module"],        // 7700 M-series line card
+  ["VS-S720-10G-3C", "module"],        // Sup720 — carries no SUP token
+  ["VS-S2T-10G", "module"],            // Sup2T — likewise
+  ["7600-ES+2TG3C", "module"],         // 7600 Ethernet Services line card
+  ["C9400-SSD-240GB", "module"],       // supervisor M.2 storage
+  ["WS-S32-GE-3B", "module"],          // Sup32
+  ["C6880-X-LE-16P10G", "module"],     // 6880-X port card
+
   // power
   ["NXA-PAC-500W", "power"],
   ["C9K-PWR-1500WAC/2", "power"],
@@ -69,6 +84,15 @@ const CASES: [string, string][] = [
   ["N3KUK9-602A8.8", "software"],
 ];
 for (const [sku, kind] of CASES) eq(sku, switchKind(sku), kind);
+
+// --- TWO FAMILIES A REVIEWER NAMED THAT HAVE NO PARTS HERE -----------------------------------------
+// Both were proposed as missing markers. Measured: `N9K-X####` and `N9K-SC-` return ZERO parts in
+// `switches` — they live under data-center-networking — so no rule was added for either. The first
+// is nonetheless already handled by the pre-existing `-X\d` marker, correctly (it IS a line card);
+// the second falls to the safe default. Pinned so the difference stays visible: one needs no rule
+// because a rule already covers it, the other needs no rule because there is nothing to cover.
+eq("N9K-X#### is already a module via the existing -X marker", switchKind("N9K-X9736C-FX"), "module");
+eq("N9K-SC- has no rule and takes the safe default", switchKind("N9K-SC-A"), "switch");
 
 // --- REFUSALS: the three deleted single-letter markers ---------------------------------------------
 // Zero part-evidence, 44 device-evidence. These are model suffixes, airflow codes and reach codes.

@@ -121,6 +121,38 @@ ok("…and its required_total excludes both", bare.required_total > 0 &&
 ok("both are still DECLARED required in the profile — this is a scoring rule, not a schema one",
    PROFILES.security?.vendor?.kind === "req" && PROFILES.security?.series?.kind === "req");
 
+// --- A GATE THAT IS ITSELF CONDITIONAL STILL COUNTS AS A GATE ------------------------------------
+// The defect this pins, found 10 Sep 2026 by a reviewer asking about `pending` in switches. The
+// `unanswered` test used to read `profile[f].kind === "req"` — the RAW entry — so the day
+// `switches` gated `stackable`, `poe_standard`, `layer` and `form_factor` on the part KIND, those
+// four became `cond` and the test stopped finding any required gate. Every dependent resolved to
+// `na` instead of `pending`: the gaps did not narrow, they CLOSED, and the denominator shrank in a
+// way that reads as progress. Nothing errored and no other test noticed.
+//
+// A Catalyst 9300 that answers nothing at all must still be ASKED about stacking bandwidth, PoE
+// ports and IPv4 routes, because nobody has said whether it stacks, has PoE, or routes.
+{
+  const bareSwitch = { kind: "switch", vendor: "cisco", series: "Catalyst 9300" };
+  for (const key of ["stacking_bandwidth", "poe_ports", "poe_budget", "ipv4_routes", "ipv6_routes"]) {
+    eq(`a switch answering nothing keeps "${key}" OPEN, not na`,
+       requirementFor("switches", key, bareSwitch), "pending");
+  }
+  // The gate itself resolves to req for a switch, which is WHY its dependents are pending.
+  eq("the gate `stackable` resolves to req for kind=switch",
+     requirementFor("switches", "stackable", bareSwitch), "req");
+  // Answered NEGATIVELY the dependents close properly — pending must not be a permanent state.
+  const notStacking = { ...bareSwitch, stackable: false, poe_standard: "none", layer: "l2" };
+  for (const key of ["stacking_bandwidth", "poe_ports", "poe_budget", "ipv4_routes"]) {
+    eq(`answered NO closes "${key}"`, requirementFor("switches", key, notStacking), "na");
+  }
+  // And a gate that resolves to `na` for this part must NOT make its dependents pending: a CABLE
+  // is asked nothing, so nothing about it is pending either.
+  const cable = { kind: "cable", vendor: "cisco" };
+  eq("a cable's stacking_bandwidth is na, not pending",
+     requirementFor("switches", "stacking_bandwidth", cable), "na");
+  eq("a cable is asked for no ports at all", requirementFor("switches", "ports", cable), "na");
+}
+
 lines.unshift(`    pending requirement: ${passed} passed, ${failed} missed ` +
               `(3-way na/pending/req, ${optGated.length} conds in security)`);
 console.log(lines.join("\n"));
