@@ -117,7 +117,11 @@ const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
              // UCSC-240M8E3-32X2 -> 240M8E3. Digits then M then a generation digit.
              "220M", "240M", "225M", "245M", "480M", "880A"] },
 
-  { kind: "cpu", exact: new Set(["CPU"]), prefix: ["CPU"] },
+  // A01 IS A CPU, not a NIC. I put it in the nic set from two SKUs in a residue listing without
+  // reading their names: all 24 A01-* parts are Xeons — "A01-X0109= 2.66GHz Xeon E5640 80W CPU/12M".
+  // Found by the reviewer's power_max/TDP check, which is the only reason it surfaced: the wrong
+  // kind was invisible until something asked what kind of part carries a processor wattage.
+  { kind: "cpu", exact: new Set(["CPU"]), prefix: ["CPU", "A01"] },
   { kind: "memory", exact: new Set(["MR", "ML", "MRX", "MLX", "MEM"]), prefix: ["MR", "ML", "MEM"] },
   // Drives are the most fragmented token family in the catalogue — NVMEG4, NVME4, NVMEHW,
   // NVB3T8O1V, SDB3T8OA1P, UCSXSD960GBKNK9. Prefixes, not a list, or every new capacity is an edit.
@@ -129,7 +133,7 @@ const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
   { kind: "storage-controller", prefix: ["RAID", "SAS", "HBA", "9300", "MRAID"] },
   // `P` is the X-Series PCIe node adapter (UCSC-P-NC3220); N2XX/N20 are the first-generation
   // mezzanine adapters.
-  { kind: "nic", exact: new Set(["P", "N2XX", "A01"]), prefix: ["MLOM", "PCIE", "VIC", "P-", "PCI"] },
+  { kind: "nic", exact: new Set(["P", "N2XX"]), prefix: ["MLOM", "PCIE", "VIC", "P-", "PCI"] },
   { kind: "accessory", exact: new Set(["CB", "CBL", "N10"]),
     prefix: ["RIS", "FAN", "HS", "TPM", "CAB", "RAIL", "CMA", "BZL", "KIT",
              "RACK", "BLKE", "BLK", "SCRW", "LBL", "CBL", "CB-"] },
