@@ -31,7 +31,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { FIELD_DICTIONARY, PROFILES } from "../src/core/fieldSchema.js";
+import { FIELD_DICTIONARY, PROFILES, parseShape, structShapeProblem } from "../src/core/fieldSchema.js";
 import { GENERATED_FIELDS } from "../src/core/fieldSchema.generated.js";
 import { REPO_ROOT } from "../src/config.js";
 
@@ -99,6 +99,41 @@ if (process.argv.includes("--cost")) {
       : gaps > 0 ? `UNFILLABLE: ${gaps.toLocaleString()} parts carry a gap nothing can close` : "unreachable but nothing asks for it";
     console.log(`  ${k.padEnd(22)} facts=${String(facts).padStart(6)}  gaps=${String(gaps).padStart(7)}   ${verdict}`);
   }
+
+  // ---- struct shapes, checked against what is actually stored ----------------------------------
+  // Seven dictionary entries carry a `shape` string and until 10 Sep 2026 nothing read one. A
+  // declared constant nothing reads drifts, and this one had: every live `reach_max` fact is
+  // stored against a different shape from the one declared. The check is pure
+  // (structShapeProblem) and unit-tested in tests/structShape.test.ts; here it meets the corpus.
+  console.log("");
+  console.log("=== struct shapes: the declaration versus the store ===");
+  const structKeys = Object.entries(REG).filter(([, d]) => (d as { type?: string }).type === "struct").map(([k]) => k);
+  const noShape = structKeys.filter((k) => !parseShape((REG[k] as { shape?: string }).shape));
+  for (const k of noShape) say("STRUCT_NO_SHAPE", `"${k}" is a struct and declares no readable shape — nothing can check what is stored in it`);
+  const vals = await db.query<{ fk: string; value: unknown; n: string; ex: string }>(
+    `SELECT f.field_key AS fk, f.value, count(*)::text AS n, min(p.sku) AS ex
+       FROM facts f JOIN parts p ON p.id = f.part_id
+      WHERE f.field_key = ANY($1::text[]) AND f.superseded_by IS NULL AND f.value IS NOT NULL
+        AND f.method NOT LIKE 'retracted:%' AND f.state IN ('verified','corroborated')
+      GROUP BY 1, 2`, [structKeys]);
+  const shapeAgg = new Map<string, { n: number; ex: string }>();
+  let checked = 0;
+  for (const r of vals.rows) {
+    if (!parseShape((REG[r.fk] as { shape?: string })?.shape)) continue;   // counted above, not here
+    checked += Number(r.n);
+    const problem = structShapeProblem(r.fk, r.value);
+    if (!problem) continue;
+    const key = `${r.fk}: ${problem}`;
+    const e = shapeAgg.get(key) ?? { n: 0, ex: r.ex };
+    e.n += Number(r.n);
+    shapeAgg.set(key, e);
+  }
+  // COUNT WHAT WAS CHECKED, not only what failed: "0 problems" over 0 facts is not a pass.
+  console.log(`  ${checked.toLocaleString()} live facts checked across ${structKeys.length - noShape.length} shaped struct field(s)`);
+  for (const [k, e] of [...shapeAgg].sort((a, b) => b[1].n - a[1].n)) {
+    say("STRUCT_SHAPE_DRIFT", `${k}  — ${e.n.toLocaleString()} facts, e.g. ${e.ex}`);
+  }
+  if (checked === 0) say("STRUCT_UNCHECKED", "no struct fact was checked at all — the query or the shapes changed, and this section is proving nothing");
   await closePool();
 }
 

@@ -1163,6 +1163,73 @@ export function domainFor(category: string, key: string): string[] | undefined {
 }
 
 // ---------------------------------------------------------------------------------------------
+// Struct shapes: the declaration, enforced
+// ---------------------------------------------------------------------------------------------
+//
+// Seven dictionary entries carry a `shape` string — `dimensions` is "{ h: n, w: n, d: n }",
+// `reach_max` is "list{ medium: s, distanz: n(m) }". Until 10 Sep 2026 NOTHING read those strings.
+// They were documentation, and this repo's recurring lesson is that a declared constant nothing
+// reads will drift: measured, ALL 471 live `reach_max` facts are stored as
+// `{ m: 550, values_m: [220, 275, 500, 500, 550, 550] }` — a different shape that carries no
+// `medium` at all. Six reach figures for six different fibre types, collapsed to one number with
+// no record of which medium any of them belongs to.
+//
+// So a shape is now checkable, and scripts/audit-field-registry.ts --cost runs it over the store.
+
+/** The keys a declared shape promises, and whether it promises a LIST of them. */
+export function parseShape(shape?: string): { list: boolean; keys: string[] } | null {
+  if (!shape || !shape.trim()) return null;
+  const list = /^list\s*\{/.test(shape.trim());
+  const body = shape.trim().replace(/^list\s*/, "");
+  if (!body.startsWith("{") || !body.endsWith("}")) return null;
+  // Keys are the identifiers that appear before a colon at the TOP level of the braces. The value
+  // side can itself contain colons and parentheses — "port_typ: e(rj45|sfp|...)" — so the scan
+  // tracks depth and only takes an identifier when nothing is open.
+  const inner = body.slice(1, -1);
+  const keys: string[] = [];
+  let depth = 0, token = "";
+  for (const ch of inner) {
+    if (ch === "(" || ch === "{" || ch === "[") { depth++; token = ""; continue; }
+    if (ch === ")" || ch === "}" || ch === "]") { depth--; token = ""; continue; }
+    if (depth > 0) continue;
+    if (ch === ":") { const m = /([A-Za-z_][\w]*)\s*$/.exec(token); if (m) keys.push(m[1]); token = ""; continue; }
+    if (ch === ",") { token = ""; continue; }
+    token += ch;
+  }
+  return { list, keys };
+}
+
+/**
+ * Why a stored value does not match its field's declared shape, or null when it does (or when the
+ * field declares no shape, which is a different finding and not this function's business).
+ *
+ * DELIBERATELY NOT A FULL TYPE CHECK. It asserts the STRUCTURE — list versus object, and the key
+ * set — because that is what a consumer indexes on and what silently broke here. Checking the
+ * value types too would refuse a legitimate integer where a float was declared and turn a useful
+ * check into noise.
+ */
+export function structShapeProblem(key: string, value: unknown): string | null {
+  const parsed = parseShape(FIELD_DICTIONARY[key]?.shape);
+  if (!parsed || parsed.keys.length === 0) return null;
+  const { list, keys } = parsed;
+  if (list && !Array.isArray(value)) return `declared a list of { ${keys.join(", ")} } and stored a ${Array.isArray(value) ? "list" : typeof value}`;
+  if (!list && (Array.isArray(value) || value === null || typeof value !== "object")) {
+    return `declared { ${keys.join(", ")} } and stored a ${Array.isArray(value) ? "list" : value === null ? "null" : typeof value}`;
+  }
+  const items = list ? (value as unknown[]) : [value];
+  for (const item of items) {
+    if (item === null || typeof item !== "object" || Array.isArray(item)) {
+      return `an item is ${Array.isArray(item) ? "a list" : item === null ? "null" : typeof item}, not an object`;
+    }
+    const have = Object.keys(item as Record<string, unknown>);
+    const extra = have.filter((k) => !keys.includes(k));
+    if (extra.length) return `undeclared key(s) ${extra.join(", ")} — the shape promises ${keys.join(", ")}`;
+    if (!have.some((k) => keys.includes(k))) return `none of the declared keys (${keys.join(", ")}) is present; it has ${have.join(", ") || "nothing"}`;
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------------------------
 // Evaluation
 // ---------------------------------------------------------------------------------------------
 
