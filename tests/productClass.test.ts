@@ -217,7 +217,9 @@ sabotages++;
 // Every rule the table holds is reachable: no rule is shadowed into never firing by an earlier one.
 {
   const unreachable = SKU_RULES.filter((r) => {
-    const probe = r.kind === "prefix" ? r.token + "0000TEST" : r.kind === "suffix" ? "TEST0000" + r.token : "TEST" + r.token + "0000";
+    // A regex rule carries its own probe: a generated one would never match, so the rule would
+    // be reported unreachable for ever — a check that always fails teaches people to ignore it.
+    const probe = r.probe ?? (r.kind === "prefix" ? r.token + "0000TEST" : r.kind === "suffix" ? "TEST0000" + r.token : "TEST" + r.token + "0000");
     return classify({ sku: probe, categoryIsHardware: true }).reason !== ruleName(r);
   }).map(ruleName);
   check(`no rule in the table is shadowed into never firing (${SKU_RULES.length} rules)`, unreachable.length === 0, unreachable);
@@ -253,6 +255,19 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["ESA-ESI-1Y-S2", "Inbound Essentials Bun 1Y, 100-499 Users", "security", "license", "name-user-tier"],
     ["VMW-VS5-ENTP-5A", "VMware vSphere 5 Enterprise", "servers-unified-computing", "license", "ucs-kind-os-license"],
     ["UCS-SID-WKL-SAP", "Cisco UCS-SID-WKL-SAP", "servers-unified-computing", "non_product", "ucs-kind-non-product"],
+    // Round 4, 10 Sep 2026, working `switches`. Every SKU and name is from the catalogue.
+    ["LL-C2960XR-48TS-I=", "Catalyst 2960 family 48 GE ports IOS IP Lite sw relicense", "switches", "license", "sku-prefix:LL-"],
+    ["IE3300-NW-A=", "Network Advantage License for IE3300, Perpetual", "switches", "license", "sku-contains:-NW-A"],
+    ["C9400-NW-E", "Cisco Catalyst 9400 Network Essential License", "switches", "license", "sku-contains:-NW-E"],
+    ["N55-96P-SSK9", "Nexus 5500 Storage License, 96 Ports", "switches", "license", "sku-suffix:SSK9"],
+    ["N7K-EL21K9", "Nexus 7000 Enhanced layer 2 (includes FabricPath, RISE)", "switches", "license", "sku-contains:-EL2"],
+    ["N55-LAN1K9=", "Layer 3 License for Nexus 5500 Platform", "switches", "license", "sku-suffix:LAN1K9"],
+    ["N3K-C3048-BAS1K9", "Nexus 3048 Layer 3 Base License", "switches", "license", "sku-suffix:BAS1K9"],
+    ["N5020-FNPV-SSK9=", "FCoE NPV Lic for Nexus 5020", "switches", "license", "sku-suffix:SSK9"],
+    ["N5020-FNPV-K9", "FCoE NPV Lic for Nexus 5020", "switches", "license", "sku-contains:-FNPV"],
+    ["C9500-LIC=", "Cisco DNA software license upgrade from Essentials to Advantage", "switches", "license", "sku-suffix:-LIC"],
+    ["C9300-24-E-A-3", "24-port NW and Cisco DNA Essentials to NW and Cisco DNA Advantage Upgrade License", "switches", "license", "sku-regex:tier-upgrade"],
+    ["C2960L-16TS-LL-SW", "Software license for C2960L", "switches", "license", "name-software-image"],
   ];
   for (const [sku, name, cat, klass, reason] of added) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
@@ -261,6 +276,36 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     seenReasons.add(got.reason);
   }
 }
+// --- ROUND 4 REFUSALS: the products each new rule must never touch ---------------------------------
+// Every one is a real part that a slightly wider version of the rule above it would have deleted.
+// If one goes red, a rule was widened and this names the product it just declassified.
+{
+  const mustStayHardware: [string, string, string, string][] = [
+    // sku, name, category, which rule would have eaten it
+    ["C9300-48U-A", "C9300-48U-A - Catalyst 9300 48-port 1G copper with modular uplinks, Network Advantage",
+      "switches", "tier-upgrade / a name rule on 'Network Advantage' (206 hits, ~200 real switches; this one has 7 physical facts)"],
+    ["C9500-24Q-A=", "Catalyst 9500 24-port 40G, Adv. License, no PS",
+      "switches", "the trap named in the round-3 comment: structurally identical to N55-96P-SSK9 and it is a real Catalyst"],
+    ["N3K-C3172-FA-L3", "Nexus 3172PQ, Forward Airflow (port side exhaust), AC P/S, Base and LAN Enterprise License Bundle",
+      "switches", "any name rule on 'License' — 37 of these exist and each is a box you rack"],
+    ["C9500X-28C8D-E", "Catalyst 9500 28x100G + 8x400G switch, NW Essentials License",
+      "switches", "a name rule on 'Network/NW Essentials'"],
+    ["WS-CF-UPG=", "Catalyst 6500/Cisco 7600 Compact Flash Adapter with 512MB CF",
+      "switches", "a `-UPG` suffix rule — this is a physical flash adapter, which is why -UPG was rejected"],
+    ["CAB-TA-SW", "Switzerland AC Type A Power Cable",
+      "switches", "a `-SW` suffix rule: SW is the COUNTRY here"],
+    ["DS-SFP-FC16G-SW", "Cisco MDS 9000 Family 4/8/16-Gbps Fibre Channel SW SFP+, LC",
+      "transceiver", "a `-SW` suffix rule: SW is SHORT WAVELENGTH here, the same reach-code trap as -S/-L/-Z"],
+    ["FP8250-BASE-K9", "FirePOWER 8250 Chassis, No IPS Lic",
+      "security", "a name rule on 'Lic' — this chassis's name says it has NO licence"],
+  ];
+  for (const [sku, name, cat, wouldEat] of mustStayHardware) {
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
+    check(`stays hardware: ${sku} (would have been eaten by ${wouldEat.slice(0, 46)})`,
+      got.klass === "hardware", `got ${got.klass} / ${got.reason}`);
+  }
+}
+
 const stillUntested = RULE_NAMES.filter((r) => ![...seenReasons].some((s) => s === r || s.startsWith(r + ":")));
 check(`every rule in the docs/DATA_MODEL.md table fired at least once (${RULE_NAMES.length} rules)`, stillUntested.length === 0, `never fired: ${stillUntested.join(", ")}`);
 check("at least 25 real Cisco SKUs are covered", cases.filter((c) => c.sku.trim()).length >= 25);

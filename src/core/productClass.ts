@@ -37,6 +37,11 @@
 //     License restricted" (1 fact), 15454-SMR1-LIC "SM ROADM 1-PRE-AMP". About 20 real cards
 //     holding ~30 facts would lose their hardware class. The infix rule `-LIC-` already covers the
 //     unambiguous form. A future `-LIC` rule needs a category exclusion, not a bare suffix.
+//     >> ADOPTED IN ROUND 4 (10 Sep 2026) with exactly that exclusion: the veto is the four
+//     >> optical-transport family tokens (15216-/15454-/NCS2K-/ONS-), which is the CONDITION this
+//     >> note describes rather than a list of the parts that caught it. 770 of 797 -LIC parts are
+//     >> licences; the 27 in those families are licence-GATED cards and keep their hardware class.
+//     >> Both sabotage cases above still stand and still pass.
 //   * `sku-prefix:C1-` (562) is flagged in the file itself as needing an operator decision, and its
 //     own example C1-N9K-C9508 is a real Nexus 9508 chassis; the corpus adds C1-C2960X-48LPS-L
 //     ("Catalyst 2960-X 48 GigE PoE 370W", 2 facts). Cisco ONE is an ordering form, not a class.
@@ -77,12 +82,24 @@ export type ClassifyInput = {
 
 export type Classification = { klass: ProductClass; reason: string };
 
-export type SkuRuleKind = "prefix" | "suffix" | "contains";
+export type SkuRuleKind = "prefix" | "suffix" | "contains" | "regex";
 
 export type SkuRule = {
   kind: SkuRuleKind;
-  /** the token, upper case, matched against the spare-suffix-stripped SKU */
+  /**
+   * For prefix/suffix/contains: the token, upper case, matched against the spare-suffix-stripped
+   * SKU. For `regex`: a short stable IDENTIFIER, not the pattern — `ruleName()` builds the reason
+   * string out of it, so it must stay readable and must never change once rows carry it.
+   */
   token: string;
+  /** Required for kind "regex" and meaningless otherwise; tested against the same stripped SKU. */
+  re?: RegExp;
+  /**
+   * A SKU this rule must match, for the reachability check. The check builds its own probe for
+   * prefix/suffix/contains (token + filler) and CANNOT for a regex — its generated probe would
+   * simply never match, and the rule would be reported unreachable for ever. Give a real PID.
+   */
+  probe?: string;
   klass: ProductClass;
   /**
    * Substrings that VETO this rule. One entry exists (`ISE-SNS-`) and it is measured, not
@@ -181,6 +198,69 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "prefix", token: "FL-CCME-", klass: "license", why: "Unified Communications Manager Express feature licence; 32 parts, all licence-named" },
   { kind: "prefix", token: "ASA-AC-E-", klass: "license", why: "ASA AnyConnect Essentials term licence; 28 parts, all licence-named. Not ASA-AC-, which also starts real ASA accessories" },
   { kind: "suffix", token: "-SIG", klass: "license", why: "signature-subscription suffix; 28 parts, all licence-named, Cisco only" },
+
+  // ---- round 4 (10 Sep 2026, working `switches`; measured over all 91,543 parts) ---------------
+  // Round 3 above concluded that the NAME cannot separate "licence FOR a switch" from "switch sold
+  // WITH a licence", and it is right — this round is the SKU-shape answer it recommended. The two
+  // parts that comment names as the trap are the test: `C9500-24Q-A=` ("Catalyst 9500 24-port 40G,
+  // Adv. License, no PS") is matched by NOTHING here, and `N55-96P-SSK9` ("Nexus 5500 Storage
+  // License, 96 Ports") is caught by the SSK9 suffix. Both are pinned in productClass.test.ts.
+  //
+  // HOW THESE WERE FOUND, because the method is the reusable part. `switches` held 507 parts with
+  // product_class 'hardware' whose NAME says licence. Acting on that name would have been a
+  // disaster: the 37-strong `N3K-C####-XX-L3` family reads "Nexus 3172PQ, Reversed Airflow (port
+  // side intake), AC P/S, Base and LAN Enterprise License Bundle" — a box you rack, with a licence
+  // in the carton. So the name was used only to FIND candidate SKU families, and each family was
+  // then read in full, including every member whose name does NOT say licence (those turned out to
+  // be licences too, abbreviating: "Enhanced layer 2 (includes FabricPath, RISE)").
+  //
+  // EVERY RULE WAS THEN RE-MEASURED OVER ALL 13 VENDORS, and that is what caught the one that
+  // would have done real damage: a `-SW` SUFFIX rule looked perfect on switches (73 hits, every
+  // name saying "Software license for C2960L" or "IOS build PID") and in `transceiver` **-SW means
+  // SHORT WAVELENGTH** — DS-SFP-FC16G-SW and ONS-QC-16GFC-SW are Fibre Channel optics, the same
+  // reach-code trap that -S/-L/-Z sprang on the model derivation on 8 Sep. It was replaced by the
+  // name rule `name-software-image`, which cannot be confused by a reach code and catches 75 with
+  // ZERO physical-fact parts. Also rejected: `-UPG` (WS-CF-UPG= is a Compact Flash ADAPTER) and
+  // `\bnetwork (essentials|advantage)\b` as a name rule (206 hits, ~200 of them real Catalyst 9300
+  // switches whose licence TIER is in their name — C9300-48U-A carries 7 physical facts).
+  //
+  // The refusal test is the same one round 3 used: does the rule catch a part carrying an OWN
+  // physical fact? Seven do, and all seven are the SAME known defect rather than a bad rule —
+  // description_mining reading the licensed device's spec out of the licence's own name
+  // ("Advanced Optical license to activate G.709 and FEC per 400G modular line card" ->
+  // switching_capacity 400). Those facts are retracted by scripts/retract-licence-mined.mts.
+  { kind: "prefix", token: "LL-", klass: "license", why: "IOS re-licence / right-to-use for used kit ('Catalyst 2960 family 48 GE ports IOS IP Lite sw relicense'); 55 parts, Cisco only, every one licence-named" },
+  { kind: "contains", token: "-NW-A", klass: "license", why: "Network Advantage tier licence sold as its own PID (IE3300-NW-A=, C9200-NW-A-24-EDU); 21 parts. The TIER letter alone is not enough — C9300-48U-A is a switch — so the rule needs the NW segment" },
+  { kind: "contains", token: "-NW-E", klass: "license", why: "Network Essentials tier licence, same shape; 7 parts" },
+  { kind: "suffix", token: "SSK9", klass: "license", why: "Nexus Storage Services licence ('Nexus 5600 Promo Storage Lic, 12-ports 40G'); 134 parts. This is the family round 3 named as the one a name rule could not separate" },
+  { kind: "contains", token: "-EL2", klass: "license", why: "Nexus Enhanced Layer 2 licence (FabricPath/RISE); 12 parts not already caught by SSK9" },
+  { kind: "suffix", token: "LAN1K9", klass: "license", why: "Nexus LAN Enterprise / Layer 3 licence ('Layer 3 License for Nexus 5500 Platform'); 21 parts" },
+  { kind: "suffix", token: "BAS1K9", klass: "license", why: "Nexus LAN Base licence; 16 parts, every one licence-named" },
+  { kind: "contains", token: "-FNPV", klass: "license", why: "FCoE NPV feature licence; 5 parts not already caught by SSK9" },
+  // ROUND 2 REJECTED THIS RULE and productClass.test.ts holds two sabotage cases for it. Those
+  // cases are RIGHT and they are also SCOPED: in Cisco's OPTICAL TRANSPORT families the -LIC
+  // suffix does not mean "this is a licence", it means "this card's capacity is licence-GATED".
+  // The names say so outright — 15454-SMR2-LIC "SM ROADM 2-PRE-AMP-BST 100GHZ-CBAND-10ch License
+  // Restricted", 15454-AR-MXP-LIC "Any-Rate Muxponder - SW License Upgradeable", NCS2K-MR-MXP-LIC
+  // "10/40/100G MR Muxponder - Licensable for Encryption", 15216-MD-ODD-LIC "Mux demux patch panel
+  // ... License restricted". Every one is a physical card, ROADM or patch panel.
+  //
+  // The except list is the CONDITION, not a list of the parts that caught me: these four tokens
+  // are Cisco's optical-transport platform families (ONS 15216 / ONS 15454 / NCS 2000 / ONS
+  // pluggables), and the licence-gated-hardware convention is a property of that product line.
+  // Outside them, all 770 remaining -LIC parts are licences — a random 24 read across security,
+  // routers, unified-communications and optical were all licences, and the three whose name
+  // carries a hardware word are licences SCOPED to hardware ("NV Cluster license applicable per
+  // chassis"). The two optical-family parts that ARE licences (S-CFP2-WDM-LIC=, S-NCS4K-100G-LIC=)
+  // keep their class because they carry neither token; L-NCS2K-*-LIC= is caught earlier by `L-`.
+  { kind: "suffix", token: "-LIC", klass: "license", except: ["15216-", "15454-", "NCS2K-", "ONS-"],
+    why: "explicit licence suffix; 797 parts, 770 after the optical-transport veto — security (248), routers (100), contact-center, unified-communications (30) and switches (19). The existing table had the -LIC- INFIX and not the suffix" },
+  // The only regex rule, because this shape cannot be written as a prefix, suffix or substring.
+  // `C9300-24-E-A-3` is a tier UPGRADE licence: model, PORT COUNT AS BARE DIGITS, from-tier,
+  // to-tier, optional term. A real switch never has a bare-digit port token — it is 24T, 48U,
+  // 24UX, 48P — which is precisely what keeps C9300-48U-A out.
+  { kind: "regex", token: "tier-upgrade", re: /^C\d+\w*-\d+-[ELS]-[AES](?:-\d+)?$/, probe: "C9300-24-E-A-3",
+    klass: "license", why: "Catalyst tier-upgrade / paper licence ('24-port NW and Cisco DNA Essentials to NW and Cisco DNA Advantage Upgrade License', 'C3650 24-port LAN Base to IP Services Paper License'); 59 parts, 0 with a physical fact" },
 ];
 
 /** The reason string a rule emits — the same slug runs/vocab/cisco-round2 uses. */
@@ -200,6 +280,7 @@ export const RULE_NAMES = [
   // stayed `license`, reported as "left alone because this table did not decide their class" —
   // about a class this table had decided an hour earlier.
   "name-lic-key", "name-entitlement", "name-sw-bundle", "name-user-tier",
+  "name-software-image",
   "ucs-kind-os-license",
   "ucs-kind-non-product",
   "category-is_hardware=false",
@@ -217,6 +298,12 @@ export function ruleMatches(rule: SkuRule, sku: string): boolean {
   if (rule.except?.some((x) => sku.includes(x))) return false;
   if (rule.kind === "prefix") return sku.startsWith(rule.token);
   if (rule.kind === "suffix") return sku.endsWith(rule.token);
+  // A regex rule with no pattern would silently match NOTHING and report success — the failure
+  // shape this repo pays for most often — so it throws instead.
+  if (rule.kind === "regex") {
+    if (!rule.re) throw new Error(`SkuRule ${ruleName(rule)} is kind "regex" and carries no pattern`);
+    return rule.re.test(sku);
+  }
   return sku.includes(rule.token);
 }
 
@@ -259,6 +346,18 @@ export const NAME_LICENSE_RULES: { name: string; re: RegExp }[] = [
   { name: "name-sw-bundle", re: /\b(?:sw|software)\s+bundle\b/i },
   // "100-499 Users", "5K-9999 Users" — a user TIER band, which only a licence is sold in.
   { name: "name-user-tier", re: /\b\d[\d,kK]*\s*-\s*[\d,kK]+\s+users?\b/i },
+  // 10 Sep 2026. The name says the part IS software, not that it SHIPS WITH some — which is the
+  // whole distinction round 3 could not draw with `\blic\b`. Anchored at the START for the two
+  // "Software licence/for" forms so it cannot fire on a trailing clause ("...Base and LAN
+  // Enterprise License Bundle"), and matched anywhere only for two unambiguous Cisco phrases.
+  // 75 hits across the corpus, ZERO carrying a physical fact, and only one outside the obvious
+  // categories: NCS2K-R-S1200K9 "Software for SVO Node", which is software.
+  //
+  // THIS REPLACED A `-SW` SUFFIX RULE. That rule was clean on switches (73 hits, every name
+  // saying "Software license for C2960L" or "IOS build PID") and in `transceiver` -SW means
+  // SHORT WAVELENGTH: DS-SFP-FC16G-SW and ONS-QC-16GFC-SW are Fibre Channel optics carrying real
+  // physical facts. A name cannot be confused by a reach code; a SKU suffix can.
+  { name: "name-software-image", re: /^(?:cisco\s+)?software\s+(?:licen[cs]e|for)\b|\bIOS build PID\b|\bBTS IOS\b/i },
 ];
 
 export function classify(input: ClassifyInput): Classification {

@@ -36,7 +36,20 @@ for (const [sku, name] of CAUGHT) check(`caught: ${sku}`, hw(sku, name).klass, "
 // --- THE SIX REFUSED PATTERNS, each with the real product it would have broken -------------------
 // If one of these goes red, the rule was widened and this is the SKU it just declassified.
 const MUST_STAY_HARDWARE: [string, string, string][] = [
-  ["IE3300-NW-A=", "Network Advantage License for IE3300, Perpetual", "word-license, 220 real parts"],
+  // WAS `IE3300-NW-A=`, on the note "220 real parts, 2 physical". Re-measured 10 Sep 2026: that
+  // part has ZERO own facts. Every one of its facts — temp_operating, certifications,
+  // rfc_compliance — is `inherited: true` from the GROUP `catalyst-ie3300-rugged-series`, so the
+  // "2 physical" were values the part never had. It is a licence ("Network Advantage License for
+  // IE3300, Perpetual") and is now classed as one by sku-contains:-NW-A. Counting INHERITED facts
+  // as evidence a part is physical is the exact error the UCS round wrote a warning about, one
+  // file over, and it still cost a wrong exemplar here.
+  //
+  // The replacement is a real one, found by asking the corpus rather than by reasoning: hardware
+  // parts whose NAME contains "license" AND which carry an OWN physical fact. Twenty exist across
+  // 91,543 parts and 13 vendors. So `word-license` really does catch real hardware — the rejection
+  // below stands, on better evidence than it was originally given.
+  ["DS-C9396V-96ITK9P", "MDS 9396V 64G 2RU FC switch, w/ 96 active ports, 96x64G SW SFP+, license", "word-license, 20 real parts corpus-wide"],
+  ["CRS-FP140-MC=", "Cisco CRS Series Forwarding Processor 140G inc MC license", "word-license"],
   ["S-A9K-MACSEC-100", "ASR 9000 MACSEC 100G Right to use license", "word-license"],
   ["NC55-32T16Q4H-BA", "NCS 5500 Series 48 ports of 1/10/25 GE base bundle", "bundle-bare, 6 real parts"],
   ["ESS-2020-24TC-NCP", "Embedded Service 2020 Switch, Main/Expansion bundle", "bundle-bare"],
@@ -84,7 +97,33 @@ for (const [sku, name] of [
   check(`appliance untouched: ${sku}`, hw(sku, name).klass, "hardware");
 }
 
-check("four rules, no more", NAME_LICENSE_RULES.length, 4);
+// --- name-software-image: the rule that replaced a `-SW` SUFFIX rule ------------------------------
+// The suffix rule was clean on `switches` (73 hits, every name "Software license for C2960L" or
+// "IOS build PID") and in OPTICS -SW means SHORT WAVELENGTH. These three must never be touched:
+// they are Fibre Channel transceivers, and two of them carry their own physical facts.
+for (const [sku, name] of [
+  ["DS-SFP-FC16G-SW", "Cisco MDS 9000 Family 4/8/16-Gbps Fibre Channel SW SFP+, LC"],
+  ["ONS-QC-16GFC-SW", "Cisco ONS-QC-16GFC-SW 4x16G Fibre Channel QSFP+"],
+  ["DS-X2-FC10G-SW", "10 Gbps Fibre Channel-SW X2"],
+] as [string, string][]) {
+  check(`short-wavelength optic is not software: ${sku}`, hw(sku, name).klass, "hardware");
+}
+// And the hardware bundle whose name ENDS in a licence clause — anchoring the rule at the start of
+// the name is what keeps this a switch.
+check("a box with a licence in the carton stays hardware",
+  hw("N3K-C3172-FA-L3", "Nexus 3172PQ, Forward Airflow (port side exhaust), AC P/S, Base and LAN Enterprise License Bundle").klass,
+  "hardware");
+for (const [sku, name] of [
+  ["C2960L-16TS-LL-SW", "Software license for C2960L"],
+  ["C3750G-24TS-E-SW", "Software For Catalyst 3750G-24TS-E"],
+  ["C4948-E-SW", "C4948-E IOS build PID"],
+] as [string, string][]) {
+  check(`name-software-image catches: ${sku}`, hw(sku, name).klass, "license");
+}
+
+// Five, not four: name-software-image was added 10 Sep 2026. The count is asserted so a rule
+// cannot be added without a deliberate decision to widen this table.
+check("five rules, no more", NAME_LICENSE_RULES.length, 5);
 
 // EVERY REASON MUST BE IN RULE_NAMES, or reclassify.ts calls this table's own output "foreign" and
 // can never correct it. That happened: 400 tracer SKUs classed `license` by ucs-kind-os-license
