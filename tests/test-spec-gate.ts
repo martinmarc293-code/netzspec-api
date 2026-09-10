@@ -81,7 +81,9 @@ const entry = (k: string, value: unknown, tier: number, doc: string, rev?: strin
 
 // ---- S8 — a required field absent from every source ----------------------------------------------
 {
-  const c = completenessV2("switches", { form_factor: "rack-19", poe_standard: "none", layer: "l2", stackable: false });
+  // `kind` is derived by the caller and every device requirement gates on it; without one this
+  // sabotage case passes vacuously because mtbf is `na` rather than missing.
+  const c = completenessV2("switches", { kind: "switch", form_factor: "rack-19", poe_standard: "none", layer: "l2", stackable: false });
   const named = c.missing.includes("mtbf") && c.required_total > c.required_present;
   check("S8", "required field absent from all sampled sources",
     "named_in_missing", named ? "named_in_missing" : `missing=${c.missing.length}`);

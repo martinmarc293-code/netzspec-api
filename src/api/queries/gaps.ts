@@ -69,7 +69,10 @@ export async function partGaps(part: PartIdentity): Promise<PartGaps> {
 // ---- /stats/gaps --------------------------------------------------------------------------------
 
 export type GapsByField = { key: string; label_en: string; gap_unattempted: number; gap_confirmed: number; parts_missing: number };
-export type GapsByCategory = { category: string; hardware_parts: number; parts_complete: number; mean_pct: number | null };
+// `parts_nothing_required` is the count EXCLUDED from mean_pct, reported beside it rather than
+// folded into it — a number that silently shrinks a denominator is how a run scores 1.0 on two
+// readable pages. A reader can see at a glance how much of a category the mean speaks for.
+export type GapsByCategory = { category: string; hardware_parts: number; parts_complete: number; mean_pct: number | null; parts_nothing_required: number };
 export type GapStats = { generated_at: string; by_field: GapsByField[]; by_category: GapsByCategory[] };
 
 export const GAP_STATS_TTL_MS = 60_000;
@@ -92,7 +95,16 @@ const BY_CATEGORY_SQL = `
   SELECT c.slug AS category,
          count(*) FILTER (WHERE p.product_class = 'hardware')::int AS hardware_parts,
          count(*) FILTER (WHERE cp.pct = 100 AND NOT cp.no_profile)::int AS parts_complete,
-         round(avg(cp.pct) FILTER (WHERE NOT cp.no_profile), 1)::float8 AS mean_pct
+         -- NOTHING TO SCORE is not ZERO PER CENT. no_profile has always been excluded here;
+         -- required_total = 0 is the same state reached a different way and must be excluded too.
+         -- It became reachable on 10 Sep 2026 when the switches profile gated its requirements on
+         -- the part kind: 1,325 fans, cords, brackets and OS images are now asked nothing, and
+         -- each one stored pct = 0 (completenessV2 returns 0 for an empty denominator, because a
+         -- numeric(5,1) NOT NULL column cannot say not-applicable). Averaged in, they read as
+         -- 1,325 parts at zero coverage that no extraction could ever move.
+         -- (No backticks in here: this block sits inside a JS template literal.)
+         round(avg(cp.pct) FILTER (WHERE NOT cp.no_profile AND cp.required_total > 0), 1)::float8 AS mean_pct,
+         count(*) FILTER (WHERE NOT cp.no_profile AND cp.required_total = 0)::int AS parts_nothing_required
     FROM parts p
     JOIN categories c ON c.id = p.category_id
     JOIN vendors v ON v.id = p.vendor_id

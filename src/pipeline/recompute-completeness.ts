@@ -17,7 +17,7 @@
 import { getPool, closePool, withTx } from "../store/index.js";
 import { withRun } from "../store/runs.js";
 import { completenessV2, requirementFor, PROFILES, COLUMN_BACKED } from "../core/fieldSchema.js";
-import { ucsKind } from "../core/ucsKind.js";
+import { partKind } from "../core/partKind.js";
 
 type Args = { vendor: string | null; category: string | null; since: string | null; batch: number };
 
@@ -124,12 +124,12 @@ async function run(a: Args): Promise<Record<string, number>> {
           // looked wrong — while any cond({field:"series"}) would have matched nothing, silently.
           if (values.series === undefined && p.series) values.series = p.series;
           if (values.series === undefined && p.family) values.series = p.family;
-          // `kind` is DERIVED, not stored: what a UCS part IS lives in its SKU token, and this
-          // category's profile gates every physical requirement on it. Filled here for the same
-          // reason vendor and series are — the gate reads `values`, so a gate on a value nothing
-          // fills matches nothing and silently marks every conditional na, which is the failure
-          // this whole category is being fixed for.
-          if (category === "servers-unified-computing") values.kind = ucsKind(p.sku);
+          // `kind` is DERIVED, not stored, and which categories use one lives in ONE place
+          // (src/core/partKind.ts) with a test that reconciles it against PROFILES in both
+          // directions — because a profile that gates on `kind` while the caller fills none marks
+          // every device requirement `na` in complete silence.
+          const derivedKind = partKind(category, p.sku);
+          if (derivedKind !== undefined) values.kind = derivedKind;
           const c = completenessV2(category, values);
           if (c.no_profile) noProfile++;
           row = { required_total: c.required_total, required_present: c.required_present, pct: c.pct, missing: c.missing,

@@ -33,8 +33,11 @@ check("any/all compose",
     { b: 2, c: 3 }));
 
 // ---- requirement resolution ---------------------------------------------------------------------
-const rackPoe: PartValues = { form_factor: "rack-19", poe_standard: "802.3at", stackable: true, layer: "l3" };
-const dinNoPoe: PartValues = { form_factor: "din-rail", poe_standard: "none", stackable: false, layer: "l2" };
+// `kind` is derived by the caller (src/core/partKind.ts) and every device requirement in this
+// profile gates on it. A fixture without one silently marks them all `na` — see
+// tests/partKind.test.ts, which pins that failure.
+const rackPoe: PartValues = { kind: "switch", form_factor: "rack-19", poe_standard: "802.3at", stackable: true, layer: "l3" };
+const dinNoPoe: PartValues = { kind: "switch", form_factor: "din-rail", poe_standard: "none", stackable: false, layer: "l2" };
 check("poe_budget required when PoE present", requirementFor("switches", "poe_budget", rackPoe) === "req");
 check("poe_budget N/A when PoE none", requirementFor("switches", "poe_budget", dinNoPoe) === "na");
 check("rack_units required for rack", requirementFor("switches", "rack_units", rackPoe) === "req");
@@ -53,6 +56,7 @@ check("two differently-shaped switches get different denominators", nReq(rackPoe
 // ---- completeness -------------------------------------------------------------------------------
 // The C9200L-24P-4G shape: 14 legacy attributes, mapped. It should NOT score anywhere near complete.
 const partial: PartValues = {
+  kind: "switch",
   vendor: "cisco", series: "Catalyst 9200L", mgmt_class: "managed", layer: "l3",
   form_factor: "rack-19", rack_units: 1, stackable: true, ports: [{}], uplink_ports: [{}],
   poe_standard: "802.3at", poe_budget: 370, switching_capacity: 56, forwarding_rate: 41.67,
@@ -103,8 +107,16 @@ check("switches profile still contains its historically required keys as req/con
 const OPTIC_CORE = ["form_factor", "data_rate", "reach_max", "connector", "media", "wavelength"];
 check("transceiver profile still contains its historically required keys as req/cond",
   OPTIC_CORE.every((k) => stillRequired("transceiver", k)));
-check("hand-written requirements survive the generated merge (ports stays req, never the generated opt)",
-  PROFILES.switches.ports.kind === "req" && PROFILES.switches.switching_capacity.kind === "req" && PROFILES.transceiver.data_rate.kind === "req");
+// The claim is "never the generated OPT", not "literally req": on 10 Sep 2026 `ports` and
+// `switching_capacity` became conditionals gated on the part kind, which asks MORE precisely
+// rather than less. Asserting the spelling would have forced that change to weaken the guard;
+// asserting the CLAIM keeps it catching the regression it was written for.
+const notOptional = (cat: string, k: string) => {
+  const r = PROFILES[cat]?.[k];
+  return !!r && r.kind !== "opt" && r.kind !== "na";
+};
+check("hand-written requirements survive the generated merge (ports never becomes the generated opt)",
+  notOptional("switches", "ports") && notOptional("switches", "switching_capacity") && notOptional("transceiver", "data_rate"));
 check("the generated merge happened: the profiles are larger than their hand-written 54 / 26",
   profileCounts("switches").total > 54 && profileCounts("transceiver").total > 26);
 check("every generated category has a profile in CATEGORIES (the 15 categories the old pipeline dropped)",

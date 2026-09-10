@@ -35,6 +35,7 @@ export type Condition =
 /** req = always required · opt = nice to have · cond = required only when the condition holds
  *  (not-applicable otherwise) · na = never applicable to this category. */
 import { UCS_MACHINE } from "./ucsKind.js";
+import { SW_DEVICE } from "./switchKind.js";
 
 export type Requirement =
   | { kind: "req" }
@@ -776,32 +777,84 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // real evidence — and there is none yet, because no cisco part sits in this category.
     vendor: req, series: req,
     color: opt, color_options: opt, country_of_origin: opt, dynamic_load_capacity: opt, module_width_slots: opt, packaging_dimensions: opt, product_line: opt, seismic_rating: opt, series_release_date: opt, side_panels_included: opt, static_load_capacity: opt },
+  // SHAPES 10 Sep 2026 — every device question gated on KIND (src/core/switchKind.ts).
+  //
+  // This profile was already the most carefully conditioned in the catalogue: rack_units on
+  // form_factor, poe_ports on poe_standard, stacking on stackable, routes on layer. It was still
+  // asking 40.5 required fields of all 8,985 hardware parts — 363,773 slots, six times `security`
+  // and twenty-one times `servers-unified-computing` — because every one of those gates sits UNDER
+  // an unconditional `req`, so a power cord was asked for switching capacity before any gate ran.
+  //
+  // WHY THE GATE IS A MARKER-ANYWHERE RULE AND NOT A TOKEN POSITION. Measured: the FIRST segment
+  // gives 625 codes covering 57% and is impure (`WS` = WS-C3750G a switch, WS-X4448 a line card,
+  // WS-CAC-3000W a power supply); the SECOND gives 1,178 covering 49%, and `C9300-48P` splits as
+  // model | PORT COUNT so `24P` appears as a "kind". Cisco has no consistent kind slot in a switch
+  // PID, so switchKind names the COMPONENTS — the nameable minority — and everything else defaults
+  // to `switch`. That default fails safe: a component left as a switch carries gaps, where a switch
+  // called a component would have its real questions closed.
+  //
+  // Line cards KEEP `ports`, `switching_capacity` and `forwarding_rate`: C9600-LC-48TX is a
+  // 48-port module and Cisco publishes a per-slot bandwidth for it. They do NOT get a MAC table,
+  // a VLAN maximum, PoE, stacking or a physical envelope — those belong to the chassis it sits in.
   switches: {
     rfc_compliance: opt, emc_immunity: opt, emc_emissions: opt, power_full_load: opt, // deep-spec fields 2026-09-02
-    vendor: req, series: req, mgmt_class: req, layer: req, form_factor: req,
+    vendor: req, series: req,
+    // --- the device itself -----------------------------------------------------------------
+    mgmt_class: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    layer: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    form_factor: cond({ field: "kind", inList: [...SW_DEVICE] }),
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
-    stackable: req, deploy_role: opt,
-    ports: req, uplink_ports: req, uplink_modular: opt,
+    stackable: cond({ field: "kind", inList: ["switch"] }), deploy_role: opt,
+    ports: cond({ field: "kind", inList: [...SW_DEVICE, "module"] }),
+    uplink_ports: cond({ field: "kind", inList: [...SW_DEVICE] }), uplink_modular: opt,
     module_slots: cond({ any: [{ field: "form_factor", eq: "modular-chassis" }, { field: "uplink_modular", eq: true }] }),
-    mgmt_ports: req,
-    poe_standard: req,
+    // mgmt_ports holds ZERO facts across every Cisco category, not merely across this one —
+    // measured 10 Sep 2026, and the four mentions in data/schema/source-fields.json are
+    // added_by_profile entries (a field a profile CAN require), never evidence that anything
+    // published one. Required, it was 8,985 gaps nothing could ever close. It stays DECLARED so a
+    // value is accepted the day one is extracted, and is required of nobody.
+    mgmt_ports: opt,
+    poe_standard: cond({ field: "kind", inList: ["switch"] }),
     poe_ports: cond({ field: "poe_standard", ne: "none" }),
     poe_budget: cond({ field: "poe_standard", ne: "none" }),
     poe_per_port_max: opt,
-    switching_capacity: req, forwarding_rate: req,
+    // Modules keep these two: Cisco publishes a per-SLOT bandwidth and forwarding rate for a line
+    // card as well as a system figure for the switch. Measured — 73 of the 81 device-spec facts
+    // held by non-switch parts are these two on modules, and they are correct
+    // (WS-X45-SUP7-E "48 Gbit/s je Steckplatz", WS-X4748-RJ45-E likewise). They do NOT keep
+    // mac_table or vlan_max: those 8 facts are all supervisors, too thin a population to gate on,
+    // and a fact that is not REQUIRED is still stored and still served.
+    switching_capacity: cond({ field: "kind", inList: [...SW_DEVICE, "module"] }),
+    forwarding_rate: cond({ field: "kind", inList: [...SW_DEVICE, "module"] }),
     stacking_bandwidth: cond({ field: "stackable", eq: true }),
     stack_max_members: cond({ field: "stackable", eq: true }),
-    packet_buffer: req, mac_table: req, vlan_max: req,
+    packet_buffer: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    mac_table: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    vlan_max: cond({ field: "kind", inList: [...SW_DEVICE] }),
     ipv4_routes: cond({ field: "layer", ne: "l2" }),
     ipv6_routes: cond({ field: "layer", ne: "l2" }),
     multicast_groups: opt, acl_entries: opt,
-    jumbo_mtu: req, latency: opt, cpu: opt, dram: req, flash: req,
-    psu_config: req, psu_redundant: req, psu_options: opt, cooling: req,
+    jumbo_mtu: cond({ field: "kind", inList: [...SW_DEVICE] }), latency: opt, cpu: opt,
+    dram: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    flash: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    psu_config: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    psu_redundant: cond({ field: "kind", inList: [...SW_DEVICE] }), psu_options: opt,
+    cooling: cond({ field: "kind", inList: [...SW_DEVICE] }),
     airflow: cond({ field: "deploy_role", inList: ["datacenter-tor", "aggregation", "core"] }),
-    power_typical: req, power_max: req, input_voltage: req, input_freq: opt, heat_dissipation: req,
-    temp_operating: req, temp_storage: req, humidity_operating: req, altitude_max: req,
-    acoustic_noise: opt, mtbf: req,
-    dimensions: req, weight: req, certifications: req, ieee_standards: req,
+    // --- physical: the device, and the parts that have their own -----------------------------
+    power_typical: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    power_max: cond({ field: "kind", inList: [...SW_DEVICE, "power"] }),
+    input_voltage: cond({ field: "kind", inList: [...SW_DEVICE, "power"] }), input_freq: opt,
+    heat_dissipation: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    temp_operating: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    temp_storage: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    humidity_operating: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    altitude_max: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    acoustic_noise: opt, mtbf: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    dimensions: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    weight: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    certifications: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    ieee_standards: cond({ field: "kind", inList: [...SW_DEVICE] }),
     ip_rating: cond({ any: [{ field: "form_factor", eq: "din-rail" }, { field: "deploy_role", eq: "industrial" }] }),
     // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
     psu_efficiency: opt, power_cord_rating: opt, box_contents: opt, qos_queues: opt,

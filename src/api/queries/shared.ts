@@ -47,7 +47,10 @@ export const SUMMARY_COLUMNS = `
   COALESCE(l.status::text, 'unknown') AS lifecycle_status,
   (SELECT count(*)::int FROM facts f WHERE f.part_id = p.id AND f.superseded_by IS NULL AND f.state IN ('verified', 'corroborated')
      AND ${factRunSucceeded("f")}) AS fact_count,
-  CASE WHEN cp.no_profile THEN NULL ELSE cp.pct END AS completeness_pct,
+  -- NULL means "nothing to score", both ways of arriving there: a category with no profile,
+  -- and a part whose profile asks it nothing (a fan, a power cord, an OS image). The stored
+  -- pct is 0 in the second case only because the column is NOT NULL — see gaps.ts.
+  CASE WHEN cp.no_profile OR cp.required_total = 0 THEN NULL ELSE cp.pct END AS completeness_pct,
   EXISTS (SELECT 1 FROM images i WHERE i.part_id = p.id AND i.storage_path IS NOT NULL) AS has_image,
   p.updated_at, p.updated_at::text AS updated_at_raw`;
 

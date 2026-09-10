@@ -209,15 +209,34 @@ throws("blockOf refuses a head it cannot find", () => blockOf("nothing here", BL
     parsed.size >= 8 && !!parsed.get("switches") && !!parsed.get("transceiver"));
   check("it reads the conditionals as cond, not as keys of their own",
     parsed.get("switches")?.get("rack_units") === "cond" && !parsed.get("switches")?.has("inList"));
+  // `vendor`, not `ports`: ports became a conditional on 10 Sep 2026. The exemplar has to be a
+  // key that is unconditionally required, or this assertion tracks the profile instead of the
+  // parser it is testing.
   check("it reads req and opt apart",
-    parsed.get("switches")?.get("ports") === "req" && parsed.get("switches")?.get("deploy_role") === "opt");
+    parsed.get("switches")?.get("vendor") === "req" && parsed.get("switches")?.get("deploy_role") === "opt");
   // the reconciliation is the check that would fail if this parser ever drifted
   check("the hand-written parse reconciles against the merged PROFILES",
     (() => { try { handWritten(readSource(SCHEMA_FILE), genAsProfiles as never); return true; } catch (e) { console.error("    " + (e as Error).message.split("\n").slice(0, 3).join(" | ")); return false; } })());
 
-  // and the guard that makes that reconciliation worth having
+  // and the guard that makes that reconciliation worth having.
+  //
+  // THE ANCHOR IS ASSERTED BEFORE IT IS USED. This sabotage read `.replace("ports: req,", ...)`
+  // until 10 Sep 2026, when `ports` became a conditional in `switches`. It kept passing — because
+  // `ports: req,` still appears in seven OTHER categories, so the replace silently hit one of
+  // them instead. A sabotage whose anchor can drift onto a different target is a sabotage that
+  // will one day match nothing and report success, which is this repo's most-repeated defect.
+  // Three properties, all asserted or measured, none assumed:
+  //   REQUIRED     — `promote-required` reconciles req/cond keys only, so an `opt` anchor is a
+  //                  sabotage that cannot fail (uplink_modular was tried and passed vacuously).
+  //   HAND-WRITTEN — the key must be absent from GENERATED_PROFILES.switches, or the generated
+  //                  half still supplies it and "neither half" is never reached.
+  //   UNIQUE       — asserted below, so the replace cannot drift onto another category.
+  const SABOTAGE_ANCHOR = "stack_max_members: cond(";
+  const schemaText = readSource(SCHEMA_FILE);
+  check("the sabotage anchor exists EXACTLY once, so the replace cannot silently miss",
+    schemaText.split(SABOTAGE_ANCHOR).length - 1 === 1);
   throws("S13: a hand-written key the parser misses stops the command",
-    () => handWritten(readSource(SCHEMA_FILE).replace("ports: req,", "// ports: req,"), genAsProfiles as never),
+    () => handWritten(schemaText.replace(SABOTAGE_ANCHOR, "// " + SABOTAGE_ANCHOR), genAsProfiles as never),
     "appears in neither half");
 
   check("every struct field in the real dictionary is refused by name",
