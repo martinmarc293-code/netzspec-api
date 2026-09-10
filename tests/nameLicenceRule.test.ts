@@ -10,7 +10,7 @@
 // physical facts and were dropped. Each of those six has a case here holding a REAL SKU that the
 // wider pattern would have misclassified — so anybody widening the rule later fails the suite with
 // the product they broke named in the failure, rather than discovering it in production.
-import { classify, NAME_LICENSE_RULES } from "../src/core/productClass.js";
+import { classify, NAME_LICENSE_RULES, RULE_NAMES } from "../src/core/productClass.js";
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -85,6 +85,18 @@ for (const [sku, name] of [
 }
 
 check("four rules, no more", NAME_LICENSE_RULES.length, 4);
+
+// EVERY REASON MUST BE IN RULE_NAMES, or reclassify.ts calls this table's own output "foreign" and
+// can never correct it. That happened: 400 tracer SKUs classed `license` by ucs-kind-os-license
+// stayed license when the rule changed to non_product, reported as "left alone because this table
+// did not decide their class". RULE_NAMES lists these literally (NAME_LICENSE_RULES is declared
+// later in the file), so this assertion is what keeps the two in step.
+for (const r of NAME_LICENSE_RULES) {
+  check(`RULE_NAMES lists ${r.name}`, (RULE_NAMES as readonly string[]).includes(r.name), true);
+}
+for (const n of ["ucs-kind-os-license", "ucs-kind-non-product"]) {
+  check(`RULE_NAMES lists ${n}`, (RULE_NAMES as readonly string[]).includes(n), true);
+}
 
 lines.unshift(`    name-licence rule: ${passed} passed, ${failed} missed ` +
               `(${MUST_STAY_HARDWARE.length} measured refusals, ${CAUGHT.length} catches)`);

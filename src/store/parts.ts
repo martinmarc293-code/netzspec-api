@@ -27,7 +27,13 @@
 import { getPool } from "./db.js";
 import type { Queryable } from "./runs.js";
 
-export type ProductClass = "hardware" | "license" | "service" | "software" | "accessory" | "bundle" | "unknown";
+// Mirrors the `product_class` enum in the database. TWO DECLARATIONS OF ONE ENUM, and they had
+// already drifted: this one carried `accessory` and `bundle` (declared in 0001_init, never
+// assigned) while core/productClass.ts did not, so adding `non_product` to one broke the other.
+// The typecheck caught it, which is the only reason it is not a runtime surprise.
+export type ProductClass =
+  | "hardware" | "license" | "service" | "software"
+  | "accessory" | "bundle" | "non_product" | "unknown";
 
 export type PartRow = {
   id: number;

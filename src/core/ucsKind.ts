@@ -25,7 +25,7 @@
 export type UcsKind =
   | "server" | "chassis" | "fabric-interconnect"
   | "cpu" | "memory" | "drive" | "psu" | "nic" | "gpu" | "storage-controller"
-  | "accessory" | "os-license" | "bundle" | "unknown";
+  | "accessory" | "os-license" | "bundle" | "non-product" | "unknown";
 
 /** Kinds that are a whole machine — the only ones a physical specification belongs to. */
 export const UCS_MACHINE: readonly UcsKind[] = ["server", "chassis", "fabric-interconnect"];
@@ -62,11 +62,21 @@ export function ucsToken(sku: string): string {
 // encodes precedence: an OS licence beats everything (VMW-* is a licence whatever else it says),
 // then machines, then components, then accessories.
 const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
+  // NOT PRODUCTS AT ALL — ordering-system artefacts, first because they outrank every other
+  // reading of the same token. Read from the names, not guessed:
+  //   TR-*   400 parts, every one a "Tracer" SKU — Cisco's ordering artefact for tracking a
+  //          bundle component. "TR-EZ8-M32G-8  UCS SP8 32GB DDR4 LRDIMM 8Pk Tracer". I had these
+  //          classed os-license, which was wrong: a tracer is not a licence, it is not a thing.
+  //   SID-*   23 parts, solution IDs — "UCS-SID-ENV-HV  Virtualized with Hyper-v" is a tag on an
+  //          order line describing the workload, not something anyone ships.
+  // They keep their rows (a part-number lookup should answer "that is an ordering artefact"
+  // rather than 404) and leave every population count.
+  { kind: "non-product", exact: new Set(["SID", "TR"]), prefix: ["SID", "TR-"] },
   // 1,243 parts, 9.9% of the category — operating systems and hypervisors sold as UCS SKUs and
   // classed `hardware`. They are not a kind of hardware; they are a product_class defect, and
   // naming them here is what makes them findable rather than sitting in `unknown`.
   { kind: "os-license", exact: new Set(["VMW", "SLES", "RHEL", "MSWS", "CTX", "NV", "RH", "SL",
-                                        "CVLT", "STORM", "VEM", "EZ", "TR", "BD",
+                                        "CVLT", "STORM", "VEM", "EZ", "BD",
                                         // read out of the residue 9 Sep 2026, not guessed:
                                         // UCSW-WT-SMMR54, C1-CWOM-750SVR-5Y, CUIC-NFV-1Y-PHYSVR,
                                         // C16S16-L64G-YR-SVA, DC-MGT-IS-SAAS-ES1, UCS-BDMREP-DH

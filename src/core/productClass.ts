@@ -51,7 +51,15 @@
 
 import { ucsKind } from "./ucsKind.js";
 
-export type ProductClass = "hardware" | "license" | "service" | "software" | "unknown";
+/**
+ * `non_product` (added 10 Sep 2026, migration 0014) is NOT a kind of product — it is the answer
+ * "this part number does not describe a thing anyone ships": Cisco tracer SKUs and solution-ID
+ * tags. It differs from `unknown` in exactly one way that matters: both leave the SCORE, only
+ * non_product leaves the POPULATION. `unknown` is unfinished work and must keep being counted so
+ * it keeps being done; non_product is finished work with a negative answer.
+ */
+export type ProductClass =
+  | "hardware" | "license" | "service" | "software" | "non_product" | "unknown";
 
 export type ClassifyInput = {
   sku: string;
@@ -184,6 +192,16 @@ export function ruleName(r: SkuRule): string {
 export const RULE_NAMES = [
   "empty-sku",
   ...SKU_RULES.map(ruleName),
+  // EVERY REASON classify() CAN EMIT MUST BE LISTED HERE. reclassify.ts asks ownedReason() whether
+  // a row's existing reason came from this table, and refuses to touch it if not — "an unexplained
+  // class is not this table's to overwrite". Correct, and it means a rule added WITHOUT its name
+  // here produces rows this table can never correct again: on 10 Sep 2026 the four name rules and
+  // ucs-kind-os-license were missing, so 400 tracer SKUs that classify() now calls non_product
+  // stayed `license`, reported as "left alone because this table did not decide their class" —
+  // about a class this table had decided an hour earlier.
+  "name-lic-key", "name-entitlement", "name-sw-bundle", "name-user-tier",
+  "ucs-kind-os-license",
+  "ucs-kind-non-product",
   "category-is_hardware=false",
   "category-is_hardware=true",
   "category-unknown",
@@ -265,8 +283,14 @@ export function classify(input: ClassifyInput): Classification {
   // fact. The `own` matters — every one of this category's 3,110 inherited facts comes from a
   // GROUP rather than a part, and 878 are physical, so counting inherited facts would have failed
   // this check against values the parts never had.
-  if (input.categorySlug === "servers-unified-computing" && ucsKind(input.sku) === "os-license") {
-    return { klass: "license", reason: "ucs-kind-os-license" };
+  if (input.categorySlug === "servers-unified-computing") {
+    const k = ucsKind(input.sku);
+    if (k === "os-license") return { klass: "license", reason: "ucs-kind-os-license" };
+    // NOT A PRODUCT. Distinct from `unknown` on purpose: both leave the SCORE, only this one
+    // leaves the POPULATION. `unknown` is unfinished work and must keep being counted as
+    // something to determine; a solution-ID tag has been determined, and the determination is
+    // that it is not a thing anyone ships.
+    if (k === "non-product") return { klass: "non_product", reason: "ucs-kind-non-product" };
   }
 
   const name = typeof input.name === "string" ? input.name : "";

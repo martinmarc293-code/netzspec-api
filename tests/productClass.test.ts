@@ -240,6 +240,27 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
   check(`table shape ${rule} fires (no real PID in data/reference yet: ${sku})`, got.klass === "license" && got.reason === rule, `${got.klass} / ${got.reason}`);
   seenReasons.add(got.reason);
 }
+// The six rules added 9-10 Sep 2026: four NAME rules and two derived from the UCS SKU kind. Each
+// needs a real SKU here or the "every rule fired" assertion below reports it as never exercised —
+// which is exactly what it did when they were added without these cases. Every SKU is from the
+// catalogue, with the name the catalogue holds, because the name rules read the NAME.
+{
+  const added: [string, string, string, string, string][] = [
+    // sku, name, category, expected class, expected reason
+    ["ESA-MFE-3Y-S2", "Email McAfee Anti-Virus 3Y Lic Key, 100-499 Users", "security", "license", "name-lic-key"],
+    ["A-CC-NCMN-ENT", "Campaign Management Named Agent Entitlement", "unified-communications", "license", "name-entitlement"],
+    ["ESA-ESO-1Y-S5", "ESA Outbound SW Bundle(ENC+DLP) 1Y", "security", "license", "name-sw-bundle"],
+    ["ESA-ESI-1Y-S2", "Inbound Essentials Bun 1Y, 100-499 Users", "security", "license", "name-user-tier"],
+    ["VMW-VS5-ENTP-5A", "VMware vSphere 5 Enterprise", "servers-unified-computing", "license", "ucs-kind-os-license"],
+    ["UCS-SID-WKL-SAP", "Cisco UCS-SID-WKL-SAP", "servers-unified-computing", "non_product", "ucs-kind-non-product"],
+  ];
+  for (const [sku, name, cat, klass, reason] of added) {
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
+    check(`${reason} fires on ${sku}`, got.klass === klass && got.reason === reason,
+      `${got.klass} / ${got.reason}`);
+    seenReasons.add(got.reason);
+  }
+}
 const stillUntested = RULE_NAMES.filter((r) => ![...seenReasons].some((s) => s === r || s.startsWith(r + ":")));
 check(`every rule in the docs/DATA_MODEL.md table fired at least once (${RULE_NAMES.length} rules)`, stillUntested.length === 0, `never fired: ${stillUntested.join(", ")}`);
 check("at least 25 real Cisco SKUs are covered", cases.filter((c) => c.sku.trim()).length >= 25);
