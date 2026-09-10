@@ -272,6 +272,26 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["C9200CX-DNXA-12-5Y", "C9200CX Cisco Catalyst Advantage software subscription, 12-port, 5 Year", "switches", "license", "sku-contains:-DNXA-"],
     ["C9200CX-DNXE-8-3Y", "C9200CX Cisco Catalyst Essentials software subscription, 8-port, 3 Year", "switches", "license", "sku-contains:-DNXE-"],
     ["N55-VMFEXK9", "Nexus 5500 series VM-FEX license", "switches", "license", "sku-contains:VMFEX"],
+    // Round 5, 10 Sep 2026 — the eleven flat-profile categories. Every SKU and name is real.
+    ["S-A9K-8HG-AIP-TR", "ASR 9000 Full-Scale VRF License for 800G Packet Transport", "routers", "license", "sku-prefix:S-A9K"],
+    ["S-XRV-P-SUB-1G", "IOS XRv 9K 1G throughput License for IP MPLS Premium pkg-SBP", "routers", "license", "sku-prefix:S-XRV"],
+    ["A9K-DDOS-AIF-10-C", "ASR 9K AIF 1-yr Subscription One vDDoS instance 10Gbps China", "routers", "license", "sku-prefix:A9K-DDOS"],
+    ["LIF5K-00-CSXGTDT", "GTP and Diameter Interface Throttling 1K sessions (Failover)", "wireless", "license", "sku-prefix:LIF5K-"],
+    ["ASR5K-00-CSXADCR", "Application Detection & Control (ADC) Per System Per Release", "wireless", "license", "sku-prefix:ASR5K-00"],
+    ["ASR5K-99-HA01DPYU", "Home Agent DNS Intercept Proxy Ent. Upg License, 1K Sessions", "wireless", "license", "sku-prefix:ASR5K-99"],
+    ["QMOG-00-FAPIS0K9", "API GW per site", "routers", "license", "sku-prefix:QMOG-"],
+    ["ANDSF-ENT-ADV-5YR", "CPS ANDSF Enterprise Advanced, 50 Subscribers, 5 Yr Subscrip", "wireless", "license", "sku-prefix:ANDSF-"],
+    ["MIG-12X-ENH2MTG", "BE6000 License Feature Upgrade 12.x UCL Enhanced to CUWL Mtg", "unified-communications", "license", "sku-prefix:MIG-1"],
+    ["WAE-SUB-PLN-STDM", "WAE Standard Planning Pkg, 500 or more medium devices, Subsc", "routers", "license", "sku-prefix:WAE-SUB"],
+    ["WAE-ENC-FEAT-DNF-S", "WAE Distributed Netflow feature option RTU SIA", "routers", "license", "sku-prefix:WAE-ENC"],
+    ["XR-NCS1K-621K9", "NCS 1000 Cisco IOS XR Software Release 6.2.1 RTU - USB key", "optical-networking", "license", "sku-prefix:XR-NCS1K"],
+    ["FL-CUBEE-25=", "Unified Border Element Enterprise RTU license - 25 sessions", "routers", "license", "sku-prefix:FL-CUBEE"],
+    ["HX-VSP-FND-D", "Factory Installed - vSphere6.0 SW (End user provides License)", "hyperconverged-systems", "license", "sku-prefix:HX-VSP"],
+    ["AIR-WIPS-AP-5=", "Wireless Intrusion Prevention Services License", "wireless", "license", "sku-prefix:AIR-WIPS"],
+    ["C1-SL-29-UC-K9", "Cisco ONE Unified Communication License for Cisco 2901-2951", "routers", "license", "sku-prefix:C1-SL-"],
+    ["MC-S-DMNF-SM", "MATE Collector Dmd Netflow; Small Device; Subscription", "routers", "license", "sku-prefix:MC-S-"],
+    ["NCS2K-L-R1080FSK9", "NCS 2K/MSTP - R10.8.0 SW, Upgrade License RTU - FlexSpectrum", "optical-networking", "license", "sku-prefix:NCS2K-L-R"],
+    ["UCXN7-48P-UWLADD", "Additional Unity Connection 7.0 48P Server License - CUWL on", "unified-communications", "license", "sku-contains:UWLADD"],
   ];
   for (const [sku, name, cat, klass, reason] of added) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
@@ -304,6 +324,24 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
       "security", "a name rule on 'Lic' — this chassis's name says it has NO licence"],
     ["WS-C4500X-24X-IPB", "Cisco WS-C4500X-24X-IPB Catalyst 4500-X 24-port 10G IP Base",
       "switches", "an `-IPB` rule — IP Base is a FEATURE TIER in real switch PIDs; this one carries 13 own facts"],
+    // --- round 5 refusals -------------------------------------------------------------------
+    ["PROMO-AP2800-S-K9", "AP2800(Internal Ant only) Promotion with DNA-Advantage",
+      "wireless", "a `PROMO-` prefix — 99 parts, and these are real access points bundled with a licence"],
+    // THIS ONE PASSED THE AUTOMATED GATE and was killed by reading the family: 0 physical facts and
+    // 53 of 53 "licence-named", because every name contains "AP Lic." — and all 53 ship a
+    // controller with five or ten physical access points.
+    ["AIRCT2504-1602IH10", "Bundle WLC2504 w/ 10 AP Lic. and 10 AP-1602i H Reg Domain",
+      "wireless", "an `AIRCT2504-` prefix — every member is a controller-plus-APs hardware bundle"],
+    ["HX-SP-NVME-6X8TB", "HX NVMe Pak w/1x375GB Optane, 1x1TB NVMe, 6x8TB",
+      "hyperconverged-systems", "an `HX-SP` prefix — this is a drive pak; only HX-VSP (vSphere) is a licence"],
+    ["ASR5K-SMC-K9", "System Management Card 4GB",
+      "wireless", "the bare `ASR5K-` prefix — 32 of the 175 outside the 00/99 blocks carry physical facts"],
+    ["ASR5K-MEM-PSC2=", "DIMM Replacement Kit for PSC2 - 32GB",
+      "wireless", "the bare `ASR5K-` prefix, again"],
+    ["NCS2K-MF-COVER=", "1RU cover for mechanical frame",
+      "optical-networking", "an `NCS2K-M` prefix — 9 of those 90 carry physical facts"],
+    ["HX-NVMEI4-I1600", "1.6TB 2.5in U.2 Intel P5600 NVMe High Perf Medium Endurance",
+      "hyperconverged-systems", "an `HX-NV` prefix — 29 of 139 carry physical facts; they are drives"],
   ];
   for (const [sku, name, cat, wouldEat] of mustStayHardware) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });

@@ -271,6 +271,60 @@ export const SKU_RULES: SkuRule[] = [
   // REJECTED in the same pass: `-IPB`. 39 parts and it looks like a paper-licence marker
   // ("IP Base License (Paper) for Cisco 2951-3901"), but IP Base is a FEATURE TIER that appears in
   // real switch PIDs — WS-C4500X-24X-IPB is a Catalyst 4500-X carrying 13 own facts.
+  // ---- round 5 (10 Sep 2026) — the eleven FLAT-PROFILE categories -----------------------------
+  // Rounds 4/4b were driven by `switches`. Surveying the eleven categories whose profile has no
+  // live conditional left 3,170 parts still classed `hardware` with a licence-shaped name, in
+  // routers (958), unified-communications (504), wireless (332), optical-networking (254),
+  // storage-networking (212) and seven more. Same method as round 4: the NAME finds a candidate
+  // family, the family is read IN FULL, and the rule is a SKU shape gated on OWN PHYSICAL FACTS
+  // across all 13 vendors.
+  //
+  // THE NAME-BASED GATE HAD TO BE THROWN AWAY AGAIN. A "does the name mention hardware?" screen
+  // flagged S-A9K-40G-AIP-SE ("ASR 9K Smart License L3 VPN for 40x10GE Linecard"),
+  // LIF5K-00-CUXICP ("Inline CUPS per ASR5500 Chassis") and ASR5K-00-CS10GYCC ("Write Gy CCR-T to
+  // HDD During OCS Failure") as blockers. Every one is a licence whose name DESCRIBES THE DEVICE
+  // IT LICENSES — the same thing that made the switches round refuse to act on names. Physical
+  // FACTS are the gate; every family below holds zero.
+  //
+  // And these families name a FEATURE rather than saying "licence" — "Dynamic Radius extensions
+  // (CoA and PoD)", "IPSG Inter-Chassis Session Recovery", "CPS ANDSF Enterprise +100
+  // Subscribers", "API GW per site". A licence-word screen scores them badly and they are still
+  // entitlements, exactly as the SSK9 family was in round 4.
+  { kind: "prefix", token: "S-A9K", klass: "license", why: "ASR 9000 Smart Licence (S-A9K-40G-AIP-SE 'ASR 9K Smart License L3 VPN'); 91 parts, 79 currently hardware, 0 own facts of any kind" },
+  { kind: "prefix", token: "S-XRV", klass: "license", why: "IOS XRv virtual-router licence; 69 parts, 59 currently hardware, 0 physical facts" },
+  { kind: "prefix", token: "A9K-DDOS", klass: "license", why: "ASR 9000 DDoS mitigation licence; 59 parts, 51 currently hardware, 0 physical facts" },
+  { kind: "prefix", token: "LIF5K-", klass: "license", why: "StarOS per-session feature licence for the ASR 5500 (LIF5K-00-FY10R-K9 'Home Node-B Gateway 10K Iurh Sessions'); 267 parts, 0 physical facts" },
+  // ASR5K-00 AND ASR5K-99 ONLY. The bare `ASR5K-` prefix is REFUSED and the refusal is measured:
+  // 175 ASR5K parts fall outside those two blocks and 32 carry physical facts — ASR5K-SMC-K9
+  // "System Management Card 4GB", ASR5K-MEM-PSC2= "DIMM Replacement Kit for PSC2 - 32GB",
+  // ASR5K-PFU "ASR5000 Power Filter Unit". Those two numeric blocks are the licence numbering.
+  { kind: "prefix", token: "ASR5K-00", klass: "license", why: "StarOS licence block 00; part of the 275 ASR5K-00/-99 parts, 0 physical facts. NOT the bare ASR5K- prefix: 32 of the other 175 are real cards" },
+  { kind: "prefix", token: "ASR5K-99", klass: "license", why: "StarOS licence block 99; same family, same gate" },
+  { kind: "prefix", token: "QMOG-", klass: "license", why: "Quantum policy/API gateway entitlement ('API GW per site'); 44 parts, 42 currently hardware, 0 physical facts" },
+  { kind: "prefix", token: "ANDSF-", klass: "license", why: "CPS ANDSF subscriber-tier entitlement ('CPS ANDSF Enterprise +100 Subscribers'); 41 parts, 0 physical facts" },
+  { kind: "prefix", token: "MIG-1", klass: "license", why: "migration licence tiers MIG-10X/11X/12X; 60 parts, every one licence-named, 0 physical facts" },
+  { kind: "prefix", token: "WAE-ENC", klass: "license", why: "WAN Automation Engine encryption entitlement; part of 81 WAE-ENC/WAE-SUB parts, 0 physical facts" },
+  { kind: "prefix", token: "WAE-SUB", klass: "license", why: "WAN Automation Engine subscription ('WAE Basic Planning Pkg, 500-999 devices'); same family, same gate" },
+  { kind: "prefix", token: "XR-NCS1K", klass: "license", why: "NCS 1000 IOS XR software licence; 57 parts, 0 physical facts" },
+  { kind: "prefix", token: "FL-CUBEE", klass: "license", why: "CUBE Enterprise feature licence; 20 parts, all licence-named. Not the bare FL- prefix, which round 3 measured as impure" },
+  { kind: "prefix", token: "HX-VSP", klass: "license", why: "HyperFlex-bundled VMware vSphere licence ('Factory Installed - vSphere 6.5 Enterprise Plus'); 76 parts, 0 physical facts. NOT HX-SP, which is REFUSED: HX-SP-NVME-6X8TB and HX-SP-D1P2T-4X '4 Pak HDD' are drive bundles" },
+  { kind: "prefix", token: "AIR-WIPS", klass: "license", why: "Adaptive wIPS licence; 16 parts, 0 physical facts" },
+  { kind: "prefix", token: "C1-SL-", klass: "license", why: "Cisco ONE software licence for ISR ('AppX Foundation License for Cisco ISR 1100'); 17 parts. Round 2 refused the bare C1- prefix because C1-N9K-C9508 is a real chassis; this is the subset that note said to adopt instead" },
+  { kind: "prefix", token: "MC-S-", klass: "license", why: "MATE Collector subscription ('MATE Collector BGP; Subscription'); 26 parts, 0 physical facts" },
+  { kind: "prefix", token: "NCS2K-L-R", klass: "license", why: "NCS 2000 software-release RTU ('NCS 2K/MSTP - R10.9 SW, Upgrade SW RTU'); 27 parts. Deliberately NOT `NCS2K-L`, and nothing like `NCS2K-M`, which holds real cards and a 1RU cover" },
+  { kind: "contains", token: "UWLADD", klass: "license", why: "Unified Workspace Licensing add-on; 44 parts. Escapes the existing -UWL- infix because the token runs on" },
+  // REFUSED in this round, each with the product it would have cost:
+  //   AIRCT2504-  53 parts, and it PASSED the automated gate — 0 physical facts, 53 of 53
+  //               licence-named — because every name contains "AP Lic.". Reading the family in
+  //               full killed it: ALL 53 are "Bundle WLC2504 w/ 10 AP Lic. and 5 AP-1602i Z Reg
+  //               Domain", a controller shipped with five or ten physical access points. Not one
+  //               is a pure licence. This is why a family is read in full and not merely gated.
+  //   PROMO-      99 parts. PROMO-AP2800-S-K9 is "AP2800 (Internal Ant only) Promotion with DNA"
+  //               — a real access point bundled with a licence, the same shape as the
+  //               N3K-C3172-FA-L3 chassis bundles that round 4 refused.
+  //   HX-SP       89 parts, five naming drive paks outright.
+  //   NCS2K-M     90 parts, 9 with physical facts (NCS2K-MF-COVER= is a 1RU cover).
+  //   HX-NV      139 parts, 29 with physical facts — they are NVMe drives.
   { kind: "regex", token: "tier-upgrade", re: /^C\d+\w*-\d+-[ELS]-[AES](?:-\d+)?$/, probe: "C9300-24-E-A-3",
     klass: "license", why: "Catalyst tier-upgrade / paper licence ('24-port NW and Cisco DNA Essentials to NW and Cisco DNA Advantage Upgrade License', 'C3650 24-port LAN Base to IP Services Paper License'); 59 parts, 0 with a physical fact" },
 ];

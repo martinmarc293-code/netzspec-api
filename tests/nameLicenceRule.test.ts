@@ -50,7 +50,18 @@ const MUST_STAY_HARDWARE: [string, string, string][] = [
   // below stands, on better evidence than it was originally given.
   ["DS-C9396V-96ITK9P", "MDS 9396V 64G 2RU FC switch, w/ 96 active ports, 96x64G SW SFP+, license", "word-license, 20 real parts corpus-wide"],
   ["CRS-FP140-MC=", "Cisco CRS Series Forwarding Processor 140G inc MC license", "word-license"],
-  ["S-A9K-MACSEC-100", "ASR 9000 MACSEC 100G Right to use license", "word-license"],
+  // REMOVED, 10 Sep 2026 (round 5): the FOURTH exemplar in this file chosen believing a licence
+  // was hardware. S-A9K-MACSEC-100 belongs to the 91-part S-A9K Smart Licence family — every
+  // member reads "ASR 9K Smart License ...", not one carries an own fact of any kind, and
+  // sku-prefix:S-A9K now classes it correctly. Its own name says "Right to use license".
+  //
+  // The `word-license` rejection does NOT depend on it: DS-C9396V-96ITK9P and CRS-FP140-MC=
+  // above are real hardware named "...license" that carry OWN PHYSICAL FACTS, which is the
+  // evidence this refusal needs. Twenty such parts exist across 91,543.
+  //
+  // Four wrong exemplars in one file is a pattern worth naming: each was picked by reading a
+  // name and assuming, and each survived because nothing here checked the part against the
+  // corpus. A refusal case must cite a part with an own physical fact, or it is an opinion.
   ["NC55-32T16Q4H-BA", "NCS 5500 Series 48 ports of 1/10/25 GE base bundle", "bundle-bare, 6 real parts"],
   ["ESS-2020-24TC-NCP", "Embedded Service 2020 Switch, Main/Expansion bundle", "bundle-bare"],
   ["NCS-57B1-5DSE-SYS", "NCS57B1 Fixed Scale HW Flexible Consumption lic", "lic-abbrev, 19 real parts"],
