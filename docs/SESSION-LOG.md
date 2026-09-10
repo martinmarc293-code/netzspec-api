@@ -4,6 +4,66 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-10 - Opus/PARENT, work block 59: went to fix the routers EXTRACTION gap. There isn't one — my own claim was wrong twice — and the measurement found 12,732 unfillable slots instead.**
+
+  I had written that "routers' 2,160 linked spec-documents yielding 19 rich parts is an EXTRACTION
+  problem". Both halves of that were wrong.
+
+  **WRONG ONCE — the metric.** "19 rich parts" counted parts with >= 10 OWN facts. The scorer does
+  not filter `inherited`; it reads any fact in state verified|corroborated. As the scorer sees them:
+
+        routers 112 rich (not 19) · wireless 56 (not 0) · optical-networking 10 (not 0)
+        storage-networking 0, max 9 values on any part
+
+  A filter I added for a different question silently became the definition of the metric.
+
+  **WRONG TWICE — the diagnosis.** Extraction for routers is fine. Like-for-like, html_table only:
+
+        switches  14,816 facts · 2,809 parts · 169 docs · 87.7 per doc
+        routers   10,154 facts · 2,073 parts · 203 docs · 50.0 per doc
+        optical    3,288 · wireless 1,043 · security 460
+
+  Routers extracts from MORE documents than switches. The visible difference is `hexcat_seed`,
+  which reached exactly TWO categories — switches (13,222 facts on 1,300 parts) and transceiver
+  (4,344 on 560) — and those are precisely the two categories with the high scores. Extending that
+  import is a data decision for the operator, not an extraction fix.
+
+  I nearly reported a third wrong thing: `form_factor` and `forwarding_rate` looked "demonstrably
+  extractable, zero in routers" — until I read the METHOD column. form_factor is 1,066 of 1,066
+  from the seed; forwarding_rate is 913 seeded against 35 extracted. Seeded is not extracted.
+
+  **WHAT THE MEASUREMENT ACTUALLY FOUND.** Every field key that has EVER held a fact — any vendor,
+  any state, superseded or not — against every required/conditional field in every profile.
+  Thirteen had never held one. The field-registry audit split them: only THREE have no alias rule
+  at all, and a fourth has an alias but zero labels anywhere that could match it.
+
+        routers.mgmt_ports  5,758 · transceiver.bidi_wavelengths 1,760 · transceiver.fec 1,390
+        hyperconverged-systems.cpu_sockets 1,599 · servers.cpu_sockets 1,265
+        hyperconverged-infrastructure.cpu_sockets 960          TOTAL 12,732 slots
+
+  Three independent tests agreeing: zero facts ever; no per-category seen-list in
+  data/schema/source-fields.json (the `*` lists and `added_by_profile` do NOT count — that file's
+  own _about says they include every key a profile CAN require, which is how mgmt_ports looked
+  covered); and zero candidate labels in any runs/vocab inventory to alias. All four demoted to
+  `opt`, all still DECLARED. Every category moved by exactly its predicted amount.
+
+  **AND THE DEMOTION EXPOSED A SABOTAGE THAT HAD GONE VACUOUS.** tests/source-fields.test.ts
+  hardcoded `mgmt_ports` as the key it removes to prove the coverage checker notices a hole. With
+  no category requiring it, the expected set was EMPTY and the assertion passed while checking
+  nothing — in the file whose whole job is catching exactly that. The key is DERIVED from the
+  profiles now (excluding vendor/series, which come from the parts row and which the checker never
+  reports), and the claim is stated as before-versus-after: holing the file must CREATE problems
+  and every new one must name the key removed.
+
+  Deployed `b7b3ca3`, 35/35 suites.
+
+  **THE REAL LEVER FOR THE THIN CATEGORIES, unchanged and now better evidenced**: the seed reached
+  2 of 16 categories. Second: routers' well-supplied fields are declared `opt` —
+  supported_protocols 699 parts, temp_storage 531, emc_immunity 488, qos_features 486,
+  humidity_storage 453, altitude_max 446 — and `promote-required` correctly REFUSES them all at
+  the 60% bar, because they sit at 15-30% of described parts. Lowering that bar for a category is
+  an operator decision, not a schema one.
+
 - **2026-09-10 - Opus/PARENT, work block 58: both shared passes across the eleven flat categories. 2,467 licences and 48,898 required slots, in one piece of work instead of eleven.**
 
   **PASS A — 1,235 licences reclassified (round 5 of the product-class table).** Nineteen SKU
