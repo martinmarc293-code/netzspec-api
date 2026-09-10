@@ -344,6 +344,15 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
       "optical-networking", "an `NCS2K-M` prefix — 9 of those 90 carry physical facts"],
     ["HX-NVMEI4-I1600", "1.6TB 2.5in U.2 Intel P5600 NVMe High Perf Medium Endurance",
       "hyperconverged-systems", "an `HX-NV` prefix — 29 of 139 carry physical facts; they are drives"],
+    // Round 6, 10 Sep 2026 — found by asking which NON-hardware parts carry an own PHYSICAL fact.
+    ["E-SSD-SATA-1TB=", "1 TB, SATA SSD drive for UCS-E M6 spare",
+      "servers-unified-computing", "the round-1 `E-` licence prefix — E- means e-delivery, but E-SSD- is the UCS-E module's drive family"],
+    ["UCS-EZ-ENSC-B200", "UCS B200 M3 Blade Server w/ 2650, 8x16GB, Dual VIC",
+      "servers-unified-computing", "ucsKind's `EZ` os-license token — a SmartPlay pack of real blade servers"],
+    ["UCSW-SD480G0KA4-C", "480GB 2.5 inch SATA SSD",
+      "servers-unified-computing", "ucsKind's `UCSW` os-license token, generalised from one part to the whole Invicta line"],
+    ["UCS-SL-HANA-7", "HANA Solution with 8 B440 M2 Blades",
+      "servers-unified-computing", "ucsKind's `SL` os-license token"],
   ];
   for (const [sku, name, cat, wouldEat] of mustStayHardware) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });

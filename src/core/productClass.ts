@@ -126,7 +126,16 @@ export const LICENSE_INFIXES = ["-LIC-", "DNA", "MERAKI-LIC"] as const;
  */
 export const SKU_RULES: SkuRule[] = [
   { kind: "prefix", token: SERVICE_PREFIX, klass: "service", why: "SmartNet / service contract (455 parts)" },
-  ...LICENSE_PREFIXES.map((token) => ({ kind: "prefix" as const, token, klass: "license" as const, why: "round-1 licence prefix" })),
+  // `E-` carries a veto and the rest do not, so it is declared separately rather than mapped.
+  // `E-` means E-DELIVERY (E-NCS2K-S12.1K9= "NCS 2K Release 12.1 NE SW, Full, 1 Chassis, E-del")
+  // and that reading holds for 80 of its 92 parts. The exception is `E-SSD-`: twelve parts, every
+  // one "N TB, SATA SSD drive for UCS-E M6", and each carrying its own storage_capacity fact. They
+  // are the drives for the UCS-E server module, and the letter there is the PLATFORM, not delivery.
+  // Found 10 Sep 2026 by asking the opposite question to every licence round — which NON-hardware
+  // parts carry an own PHYSICAL fact.
+  ...LICENSE_PREFIXES.filter((t) => t !== "E-").map((token) => ({ kind: "prefix" as const, token, klass: "license" as const, why: "round-1 licence prefix" })),
+  { kind: "prefix", token: "E-", klass: "license", except: ["E-SSD-"],
+    why: "round-1 licence prefix, e-delivery; 92 parts. Vetoes E-SSD-, which is the UCS-E module's SATA drive family (12 parts, each with its own storage_capacity)" },
   ...LICENSE_SUFFIXES.map((token) => ({ kind: "suffix" as const, token, klass: "license" as const, why: "round-1 licence suffix" })),
   ...LICENSE_INFIXES.map((token) => ({ kind: "contains" as const, token, klass: "license" as const, why: "round-1 licence infix" })),
 

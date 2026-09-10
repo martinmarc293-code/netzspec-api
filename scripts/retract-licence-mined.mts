@@ -24,13 +24,20 @@
  * stops proposing its facts, and there is no list to keep in step. The corollary is that it must
  * be re-run after any reclassify: that is the point, not a caveat.
  *
- * `license`, NOT "anything that is not hardware" — which is what this script tried first, and the
- * dry run refused it. `software` and `non_product` parts are frequently mislabelled PHYSICAL
- * things whose mined spec is perfectly correct: UCSW-SD960G0KA4-C "960GB 2.5 inch SATA SSD" ->
- * storage_capacity 960, UCSW-PCIE-Q2562 "Qlogic QLE2562 Dual Port 8Gb Fibre Channel HBA" ->
- * data_rate 8, and 34 more. The wider predicate scored better and would have deleted good data,
- * for the reason this repo keeps re-learning: its false positives look exactly like its true ones.
- * A LICENCE is the specific case where the name describes a DIFFERENT product.
+ * THE SCOPE WIDENED ON 10 SEP 2026, AND ONLY BECAUSE THE CLASSES WERE FIXED FIRST. This started
+ * as `product_class <> 'hardware'` and the dry run refused it: UCSW-SD960G0KA4-C "960GB 2.5 inch
+ * SATA SSD" and UCSW-PCIE-Q2562 "Qlogic QLE2562 8Gb HBA" were classed `license`, so retracting
+ * their mined specs would have deleted CORRECT data and propagated a class defect into the facts.
+ * It was narrowed to `license` plus three device-capacity fields.
+ *
+ * Those 404 parts have since been corrected to `hardware` (three bad tokens in ucsKind's
+ * os-license set, plus E-SSD- under the round-1 `E-` prefix), so the wider predicate is now safe
+ * and it is the right one: a TRACER is no more capable of having a storage capacity than a licence
+ * is. TR-EZ8-M16G-8 "16GB DDR4-2133-MHz RDIMM 8Pk Tracer" -> dram 16 is the same error as
+ * ISR4321-DNA "Cisco ISR 4321 (2GE,2NIM,4G FLASH,4G DRAM)" -> dram 4.
+ *
+ * The ORDER matters and is the reusable part: fix what a part IS before retracting what it says.
+ * Run the other way round, this script would have destroyed 34 correct facts.
  *
  * IT REFUSES ITS OWN OUTPUT. `retractFact` writes a superseding row with `raw = ''` and
  * `method = 'retracted:<rule>'`. A selector on "has a raw" would match that empty string back —
@@ -57,19 +64,18 @@ const SELECT = `
    WHERE f.superseded_at IS NULL
      AND NOT f.inherited
      AND f.method = 'description_mining'
-     AND p.product_class = 'license'
-     -- DEVICE-CAPACITY FIELDS ONLY. (No backticks below: this SQL is a JS template literal, and
-     -- a backtick in a comment ends the string. Same defect as src/api/queries/gaps.ts today.)
-     -- class=license + description_mining is 162 facts and most of them
-     -- are RIGHT: a licence for an MDS 9100 legitimately has series "MDS 9100" (68 rows), a
-     -- minimum software release (25) and a product compatibility (2) — identity and applicability,
-     -- not a physical measurement. And storage_capacity/data_rate/cpu/dram/flash (48) sit on
-     -- UCSW-SD960G0KA4-C "960GB 2.5 inch SATA SSD" and UCSW-PCIE-Q2562 "Qlogic QLE2562 8Gb HBA",
-     -- which are PHYSICAL parts wearing the wrong class — a separate defect, and retracting their
-     -- correct facts would propagate it rather than fix it.
-     -- What remains is the field where a licence cannot have a value of its own and the number in
-     -- its name always belongs to the device it licenses.
-     AND f.field_key IN ('switching_capacity', 'ports', 'module_slots')
+     AND p.product_class <> 'hardware'
+     -- PHYSICAL AND CAPACITY FIELDS ONLY. (No backticks below: this SQL is a JS template literal,
+     -- and a backtick in a comment ends the string. Same defect as src/api/queries/gaps.ts.)
+     -- IDENTITY AND APPLICABILITY ARE DELIBERATELY ABSENT: a licence for an MDS 9100 legitimately
+     -- has series "MDS 9100" (68 rows), a min_software_release (25) and a product_compatibility
+     -- (2). Those are what a licence IS FOR, not measurements of it. What is listed below is the
+     -- set where a non-product cannot have a value of its own, so the number in its name always
+     -- belongs to the device it licenses or tracks.
+     AND f.field_key IN ('switching_capacity', 'ports', 'module_slots', 'data_rate',
+                         'storage_capacity', 'dram', 'flash', 'cpu', 'power_max', 'weight',
+                         'dimensions', 'rack_units', 'form_factor', 'reach_max', 'wavelength',
+                         'memory_speed_max', 'psu_rated_output', 'poe_standard', 'temp_operating')
      AND p.retired_at IS NULL
      AND ($1::text IS NULL OR v.slug = $1)
    ORDER BY p.sku`;
