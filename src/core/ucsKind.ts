@@ -53,6 +53,11 @@ export function ucsToken(sku: string): string {
   // largest single unnamed token was a 960 GB SSD.
   s = s.replace(/^UCS[CBXSE]?-/, "").replace(/^UCS[CBXSE](?=[A-Z])/, "");
   s = s.replace(/^(?:HXAF|HCIX|HCI|HX)-/, "").replace(/^(?:HXAF|HX)(?=[A-Z]{2})/, "");
+  // KIN- is the Kinetic system prefix and behaves exactly like HX-: the kind is the NEXT token.
+  // Found by the machine-hunt — the only two residue rows carrying an own physical fact were
+  // KIN-CPU-4114 and KIN-CPU-I4214, i.e. CPUs, and the "physical fact" was power_max holding the
+  // processor's 85 W TDP. Not machines; a field-mapping defect wearing a machine's signal.
+  s = s.replace(/^KIN-/, "");
   s = s.replace(/^[BC]-(?=[A-Z])/, "");
   s = s.replace(/^UCS[CBXSE]?-/, "");
   return s.split("-")[0] ?? s;
@@ -87,12 +92,30 @@ const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
   { kind: "chassis", exact: new Set(["5108", "9508", "C4200", "C3X60", "N20"]),
     prefix: ["IOM", "IFM", "I-9108"] },
   // Server model numbers: a letter class plus digits (C220, B200, X210C, C480, S3260, C880).
-  { kind: "server", exact: new Set(["885A", "EX", "S"]),
+  // Read out of the residue machine-hunt, 10 Sep 2026 — each from its NAME, not its shape:
+  //   C125  "UCS C125 Base Compute Node Tray"      a server node
+  //   6296  "6296 FI Chassis"                       a fabric interconnect
+  //   VCE   "VCE UCS 5108 Blade Svr AC Chassis"     a chassis
+  // PLHC is deliberately NOT here: PLHC-CI-5108-1A is a chassis and PLHC-MLOM-40G-04 is a NIC, so
+  // the token is impure and assigning it would put a NIC behind a machine's profile.
+  { kind: "fabric-interconnect", exact: new Set(["6296", "6248", "6332", "6454"]) },
+  { kind: "chassis", exact: new Set(["VCE"]) },
+  // The machine-hunt's spec-doc arm surfaced three real server tokens among 160 rows that were
+  // otherwise all components — a datasheet lists what goes IN it, so its NICs, drives and blanks
+  // inherit a spec-bearing document. Same conclusion as security's finding H: "has a spec-bearing
+  // doc" is a poor machine test. These three are machines by NAME:
+  //   880A     "2x Intel Xeon 6776P 2.3 GHz CPUs, 8x ..."  a C880 M8 configuration
+  //   240M8E3  "UCSC-240M8E3-32X2"                          a C240 M8 configuration
+  //   M8       "UCS X-Series M8 modular server"
+  { kind: "server", exact: new Set(["885A", "EX", "S", "C125", "880A", "M8"]),
     prefix: ["C2", "C4", "C8", "B2", "B4", "S3", "210C", "410C", "215C", "440P",
              "RC4", "R2XX", "E1", "E100", "UCSAI", "UCSXE", "885A", "HX2", "HX3", "HXAF2",
              // E-Series Network Compute Engines glue the variant onto the token
              // (UCS-EN120E208B -> EN120E); they are router service modules, i.e. servers.
-             "EN1", "EN2", "EN12"] },
+             "EN1", "EN2", "EN12",
+             // Cisco writes a rack-server configuration as <model><generation><variant>:
+             // UCSC-240M8E3-32X2 -> 240M8E3. Digits then M then a generation digit.
+             "220M", "240M", "225M", "245M", "480M", "880A"] },
 
   { kind: "cpu", exact: new Set(["CPU"]), prefix: ["CPU"] },
   { kind: "memory", exact: new Set(["MR", "ML", "MRX", "MLX", "MEM"]), prefix: ["MR", "ML", "MEM"] },
@@ -113,6 +136,11 @@ const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
   // Solution packs and bundles: their facts belong to the base server they contain.
   { kind: "bundle", exact: new Set(["SP", "SPL", "SPR", "SPM", "SPB", "SP5", "DBUN", "SA", "SM"]),
     prefix: ["SP", "DBUN", "EZ7", "EZ8", "SM-"] },
+  // Solution bundles the machine-hunt surfaced: each names the machines it CONTAINS, which is what
+  // made them look like machines. "UCS Mini FastTrack w/ 1x5108 Mini Chassis, 4xB200M".
+  { kind: "bundle", exact: new Set(["FT", "NFVI", "SHRPT", "COPC", "FPOD", "ASR57", "FSA1", "C6508"]) },
+  // Power distribution boards and input modules are PSU-side, not machines.
+  { kind: "psu", exact: new Set(["PBD", "PWRM"]) },
   // A BARE HX/HCI token is the converged node itself — a server. Anything after the system
   // prefix has already been re-tokenised above, so `HX-B-NVMEHW-...` reaches the drive rule
   // rather than this one.
