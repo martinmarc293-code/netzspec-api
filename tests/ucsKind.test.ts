@@ -70,6 +70,27 @@ eq("token strips UCS-", ucsToken("UCS-MR-X32G1RW"), "MR");
 eq("token strips the HyperFlex system AND its form letter", ucsToken("HX-B-NVMEHW-I3200"), "NVMEHW");
 eq("a SKU with no dash yields itself", ucsToken("SAS3"), "SAS3");
 
+// --- REFUSALS: three tokens removed from the os-license set, 10 Sep 2026 ---------------------------
+// Each was in that set and each is real hardware. `UCSW` was generalised from ONE part
+// (UCSW-WT-SMMR54) to the whole Whiptail/Invicta line — 279 parts, 143 of them naming hardware and
+// 12 carrying their own physical facts. If one of these goes red, a token was readmitted and
+// hundreds of blades, SSDs and adapters are classed as operating systems again.
+for (const [sku, why] of [
+  ["UCS-EZ-ENSC-B200", "SmartPlay pack: 'UCS B200 M3 Blade Server w/ 2650, 8x16GB, Dual VIC'"],
+  ["UCS-EZ-300GB-HDD", "'300GB 6Gb SAS 10K RPM SFF HDD'"],
+  ["UCS-SL-HANA-7", "'HANA Solution with 8 B440 M2 Blades'"],
+  ["UCS-SL-VDI-B200-L", "'UCS VDI EXP B200 w/LSI400,2xE5-2680v2,128G'"],
+  ["UCSW-SD480G0KA4-C", "'480GB 2.5 inch SATA SSD'"],
+  ["UCSW-PCIE-IX5204", "'Intel Quad Port 10 GbE X520 Server Adapter'"],
+  ["UCSW-RACK31X", "'UCS Invicta Rack With Side Panels'"],
+] as [string, string][]) {
+  const got = ucsKind(sku);
+  eq(`not an OS licence: ${sku} — ${why.slice(0, 44)}`, got === "os-license", false);
+}
+// And the six that genuinely ARE operating systems keep a home: they are caught by the `-OS5.`
+// SKU marker in productClass.ts, not by a token here. ucsKind itself makes no claim about them.
+eq("ucsKind makes no os-license claim about UCSW-A-OS5.X-K9", ucsKind("UCSW-A-OS5.X-K9") === "os-license", false);
+
 // --- REFUSALS: never guess ------------------------------------------------------------------------
 // `unknown` is a real answer. A part the rules do not name is asked nothing it might not have,
 // which is the same default `security` uses for an unshaped series. Guessing is how a DIMM ends up

@@ -80,12 +80,39 @@ const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
   // 1,243 parts, 9.9% of the category — operating systems and hypervisors sold as UCS SKUs and
   // classed `hardware`. They are not a kind of hardware; they are a product_class defect, and
   // naming them here is what makes them findable rather than sitting in `unknown`.
-  { kind: "os-license", exact: new Set(["VMW", "SLES", "RHEL", "MSWS", "CTX", "NV", "RH", "SL",
-                                        "CVLT", "STORM", "VEM", "EZ", "BD",
+  // THREE TOKENS WERE REMOVED FROM THIS SET ON 10 SEP 2026, and they were mine. The note below
+  // says "read out of the residue, not guessed" — and for `UCSW` what I actually read was ONE
+  // part, UCSW-WT-SMMR54, from which I took the whole token. Audited by reading every family in
+  // full, scoped to the only category this function is consulted for:
+  //
+  //   EZ     85 parts   ZERO name an operating system.   UCS-EZ-ENSC-B200 "UCS B200 M3 Blade
+  //                     Server w/ 2650, 8x16GB, Dual VIC", UCS-EZ-300GB-HDD "300GB 6Gb SAS 10K
+  //                     RPM SFF HDD". SmartPlay/EZ PACKS of real servers and drives; 13 carry
+  //                     their own physical facts.
+  //   SL     46 parts   ZERO. UCS-SL-HANA-7 "HANA Solution with 8 B440 M2 Blades",
+  //                     UCS-SL-VDI-B200-L "UCS VDI EXP B200 w/LSI400,2xE5-2680v2,128G".
+  //   UCSW  279 parts   SIX name an operating system, and 143 name hardware. This is the
+  //                     Whiptail/Invicta storage line: UCSW-SD480G0KA4-C "480GB 2.5 inch SATA
+  //                     SSD", UCSW-PCIE-IX5204 "Intel Quad Port 10 GbE X520 Server Adapter",
+  //                     UCSW-RACK31X "Invicta Rack With Side Panels". 12 carry physical facts.
+  //
+  // 410 parts, every one classed `license`, most of them real hardware. The six genuine Invicta
+  // operating systems are caught instead by an exact SKU marker in productClass.ts (`-OS5.`,
+  // which matches those six and nothing else in 91,543 parts).
+  //
+  // THE OTHER TOKENS WERE RE-READ IN THE SAME PASS AND ALL SURVIVED, because a name-based screen
+  // scored them badly and reading them corrected it: `BD` is MapR/Cloudera licensing, `BDMREP`
+  // MapR ("MapR-XD Ent-Prem. HDD. Per TB" — a storage TIER, not a drive), `VEM` is Veeam, `BMC`
+  // BladeLogic, `CUIC` and `C1` UCS Director and Cisco ONE ("Per Server" is a licensing UNIT),
+  // `NV` NVIDIA GRID, `RH` Red Hat, `CVLT` CommVault, `DC` Data Center Management SaaS. The screen
+  // matched "Server", "HDD" and "Cores" inside software product names — the same failure that a
+  // name gate has produced in every round of this work.
+  { kind: "os-license", exact: new Set(["VMW", "SLES", "RHEL", "MSWS", "CTX", "NV", "RH",
+                                        "CVLT", "STORM", "VEM", "BD",
                                         // read out of the residue 9 Sep 2026, not guessed:
-                                        // UCSW-WT-SMMR54, C1-CWOM-750SVR-5Y, CUIC-NFV-1Y-PHYSVR,
+                                        // C1-CWOM-750SVR-5Y, CUIC-NFV-1Y-PHYSVR,
                                         // C16S16-L64G-YR-SVA, DC-MGT-IS-SAAS-ES1, UCS-BDMREP-DH
-                                        "UCSW", "C1", "CUIC", "DC", "BDMREP", "BMC"]),
+                                        "C1", "CUIC", "DC", "BDMREP", "BMC"]),
     prefix: ["C16S", "C1-", "INTERSIGHT"] },
 
   { kind: "fabric-interconnect", exact: new Set(["FI"]), prefix: ["FI"] },

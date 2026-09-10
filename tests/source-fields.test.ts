@@ -148,10 +148,15 @@ function inventoryPath(): string | null {
   const enabled = enabledSources(committed.evidence);
   const uncovered = requiredFieldCoverageProblems(committed, enabled);
   check(`committed file: EVERY required field of every hardware category has at least one ENABLED capable source (${total} fields, ${enabled.length} enabled sources)`, uncovered.length === 0, uncovered.slice(0, 20));
+  // `mgmt_ports` was in this list until 10 Sep 2026, when it was demoted in every category — zero
+  // facts across every vendor and state, no per-category source, no label anywhere to alias. It is
+  // no longer required, so "it now has a source" is not a claim worth asserting about it, and
+  // keeping it here made this check red for the opposite of a regression. The rest of finding 5
+  // stands and is still asserted.
   check("committed file: the fields finding 5 named as uncoverable now have a source",
-    (["mgmt_ports", "uplink_ports", "heat_dissipation", "power_typical", "layer", "psu_config"] as const).every((f) => capableSources(committed, "switches", f, enabled).length > 0)
+    (["uplink_ports", "heat_dissipation", "power_typical", "layer", "psu_config"] as const).every((f) => capableSources(committed, "switches", f, enabled).length > 0)
     && capableSources(committed, "routers", "router_throughput", enabled).length > 0,
-    Object.fromEntries((["mgmt_ports", "uplink_ports", "heat_dissipation", "power_typical", "layer", "psu_config"] as const).map((f) => [f, capableSources(committed, "switches", f, enabled)])));
+    Object.fromEntries((["uplink_ports", "heat_dissipation", "power_typical", "layer", "psu_config"] as const).map((f) => [f, capableSources(committed, "switches", f, enabled)])));
 
   sabotages++;
   // THE SABOTAGE KEY IS DERIVED, NOT NAMED. It was hardcoded to `mgmt_ports` until 10 Sep 2026,
@@ -188,9 +193,18 @@ function inventoryPath(): string | null {
   const p6 = requiredFieldCoverageProblems(committed, withoutVendor);
   check("SABOTAGE coverage: disabling both vendor-datasheet sources leaves required fields uncoverable (the check is not a tautology)", p6.length > 20, p6.length);
   sabotages++;
-  const extraReq = { switches: { mgmt_ports: { kind: "req" }, nz_not_a_real_field: { kind: "req" } } };
+  // THE CONTROL FIELD IS DERIVED, for the same reason the victim above is. This injected
+  // `mgmt_ports` as a required field that IS covered, proving the checker names the fake one and
+  // not the real one. On 10 Sep 2026 mgmt_ports was demoted everywhere (zero facts across every
+  // vendor and state, no source, no label to alias), so it left the '*' lists and the control
+  // started being named too — the sabotage went red for a reason that had nothing to do with the
+  // check. Picking a covered field from the committed file cannot go stale that way.
+  const covered = (committed.sources["cisco-datasheets"]?.["*"] ?? []).find((k) => k !== "vendor" && k !== "series");
+  check("a covered control field exists", !!covered, "the '*' list is empty, so this sabotage has no control");
+  const extraReq = { switches: { [covered as string]: { kind: "req" }, nz_not_a_real_field: { kind: "req" } } };
   const p7 = requiredFieldCoverageProblems(committed, enabled, extraReq);
-  check("SABOTAGE coverage: a NEW required field added to a profile without regenerating the file is named", p7.join() === "switches/nz_not_a_real_field: required by the profile and no enabled source publishes it", p7);
+  check(`SABOTAGE coverage: a NEW required field is named and the covered control ("${covered}") is not`,
+    p7.join() === "switches/nz_not_a_real_field: required by the profile and no enabled source publishes it", { covered, got: p7 });
   check("coverage: a conditional field counts as required (it is `req` for any part that trips it and lands in completeness.missing)",
     (requiredKeysByCategory().switches ?? []).includes("rack_units") && (requiredKeysByCategory().transceiver ?? []).includes("fiber_type"));
 }

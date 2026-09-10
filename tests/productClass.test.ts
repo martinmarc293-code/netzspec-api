@@ -292,6 +292,8 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["MC-S-DMNF-SM", "MATE Collector Dmd Netflow; Small Device; Subscription", "routers", "license", "sku-prefix:MC-S-"],
     ["NCS2K-L-R1080FSK9", "NCS 2K/MSTP - R10.8.0 SW, Upgrade License RTU - FlexSpectrum", "optical-networking", "license", "sku-prefix:NCS2K-L-R"],
     ["UCXN7-48P-UWLADD", "Additional Unity Connection 7.0 48P Server License - CUWL on", "unified-communications", "license", "sku-contains:UWLADD"],
+    // The six Invicta operating systems, which replaced the UCSW token removed from ucsKind.
+    ["UCSW-A-OS5.X-K9", "UCS Invicta C3124SA Appliance Operating System 5.X - K9", "servers-unified-computing", "license", "sku-contains:-OS5."],
   ];
   for (const [sku, name, cat, klass, reason] of added) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });

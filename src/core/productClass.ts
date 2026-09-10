@@ -312,6 +312,12 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "prefix", token: "C1-SL-", klass: "license", why: "Cisco ONE software licence for ISR ('AppX Foundation License for Cisco ISR 1100'); 17 parts. Round 2 refused the bare C1- prefix because C1-N9K-C9508 is a real chassis; this is the subset that note said to adopt instead" },
   { kind: "prefix", token: "MC-S-", klass: "license", why: "MATE Collector subscription ('MATE Collector BGP; Subscription'); 26 parts, 0 physical facts" },
   { kind: "prefix", token: "NCS2K-L-R", klass: "license", why: "NCS 2000 software-release RTU ('NCS 2K/MSTP - R10.9 SW, Upgrade SW RTU'); 27 parts. Deliberately NOT `NCS2K-L`, and nothing like `NCS2K-M`, which holds real cards and a 1RU cover" },
+  // The six UCS Invicta operating systems, which used to be caught — along with 273 pieces of real
+  // hardware — by the `UCSW` token in ucsKind's os-license set. `-OS5.` matches exactly these six
+  // in 91,543 parts and nothing else: UCSW-A-OS5.SD-K9= "UCS Invicta Array OS with 32GB SD Card",
+  // UCSW-SAR-OS5.X-K9 "Invicta Scaling System Router Operating System 5.x". A marker read off the
+  // parts themselves, replacing a token generalised from one example.
+  { kind: "contains", token: "-OS5.", klass: "license", why: "UCS Invicta operating system; 6 parts, Cisco only, every one naming an OS. Replaces the UCSW token removed from ucsKind on 10 Sep 2026" },
   { kind: "contains", token: "UWLADD", klass: "license", why: "Unified Workspace Licensing add-on; 44 parts. Escapes the existing -UWL- infix because the token runs on" },
   // REFUSED in this round, each with the product it would have cost:
   //   AIRCT2504-  53 parts, and it PASSED the automated gate — 0 physical facts, 53 of 53
