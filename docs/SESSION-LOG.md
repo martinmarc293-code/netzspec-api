@@ -4,6 +4,71 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-10 - Opus/PARENT, work block 54: `switches` asks 23.4 fields, not 40.5. And "nothing to score" was being reported as 0 %.**
+
+  Third category after `security` and `servers-unified-computing`. It was the worst over-asked and
+  the best populated: 40.5 required fields on every one of 8,985 hardware parts, 363,773 slots, six
+  times `security`, while 4,697 parts carry at least one required field (against 54 and 172).
+
+  `src/core/switchKind.ts` names the COMPONENTS and defaults everything else to `switch` — the
+  opposite of `ucsKind`, because neither token position discriminates here (first segment: `WS`
+  covers a switch, a line card AND a power supply; second segment splits `C9300-48P` as model |
+  PORT COUNT). Defaulting to `switch` fails safe: a component left as a switch carries gaps, where a
+  switch called a component has its questions closed.
+
+        slots 363,773 -> 210,510 (-42 %)    req/part 40.5 -> 23.4    scored mean 10.61 %
+        1,325 parts (fans, cords, brackets, blanks, OS images) are asked nothing at all
+
+  **Reading the corpus killed three markers I had already written.** `X`, `M`, `F` as whole segments
+  look exactly like Cisco's line-card / supervisor / fabric letters. Across 8,985 parts: ZERO
+  part-evidence between them, 44 device-evidence. Also measured out: `FAB` is a fabric MODULE not a
+  chassis, `CHAS` matches one SKU in 8,985 and it is a MIB name (so there is no detectable chassis
+  kind — real chassis default to `switch`, correctly), and `NXA-` is an accessory prefix covering 27
+  fans as well as 74 supplies. All eight single-letter cases are pinned as refusals; re-admitting
+  `X` turns three red.
+
+  **I read the head of a sorted list and got it wrong once**: called all 74 non-switch parts holding
+  a device spec "supervisors". Only 16 are; 58 are WS-X4748 line cards, and per-slot bandwidth is a
+  real published figure for a line card. Modules keep `ports`, `switching_capacity`,
+  `forwarding_rate`.
+
+  **`stack_max_members` was a conditional nothing could ever fill** — ZERO facts across every
+  category and every vendor, ZERO labels in any inventory carrying a member count. Now `opt`.
+  Deleting it broke the S13 sabotage anchor I had adopted an hour earlier, and the uniqueness
+  assertion failed loudly instead of the replace silently matching nothing.
+
+  **Two guards caught me and both were right.** `fieldSchema.test.ts` + the S8 spec-gate case failed
+  because their fixtures supply no `kind` — which is the defect, not a fixture problem: `kind` is
+  synthetic, so a profile gating on it while the caller fills none marks EVERY device requirement
+  `na` and reports a collapsed denominator that looks like success. `src/core/partKind.ts` now owns
+  the mapping and `tests/partKind.test.ts` derives the gating categories out of PROFILES and
+  reconciles both directions. `promote-required.test.ts` failed on an assertion spelled
+  `ports.kind === "req"` whose claim is "never the generated opt" — the assertion now checks the
+  claim.
+
+  **NOTHING TO SCORE IS NOT ZERO PER CENT, and it was already live and unnoticed.** completenessV2
+  returns pct 0 for an empty denominator (numeric(5,1) NOT NULL cannot say not-applicable), and
+  `gaps.ts` / `shared.ts` / the parent dashboard excluded only `no_profile`. From the 9 Sep servers
+  work, 5,607 of 9,387 UCS parts were already reading as permanent 0 % gaps: that category's honest
+  mean is **0.70 %, not the 0.28 % being reported**. All three now exclude `required_total = 0`, and
+  `gaps.ts` reports the excluded count beside the mean. Verified by curl against production, which
+  is how I found that Fastify had been dropping the new field: the ROUTE schema had to declare it
+  too.
+
+  Deployed `d37ebff`, 34/34 suites, typecheck clean. Every remaining switches gap is now a real
+  switch property (input_voltage 6,836; heat_dissipation 6,546; packet_buffer 6,533; power_typical;
+  vlan_max; dram; mac_table; uplink_ports; dimensions) — closable by acquisition, none by schema.
+
+  **OPEN, MEASURED, NOT FIXED — 507 licences scored as hardware in `switches`.** Names say
+  "Network Advantage License", "Layer 3 License", "Paper License". At ~23 slots each that is roughly
+  12,000 phantom required slots. It is NOT a clean split and must not be done by a loose net: 450
+  name no physical thing and read as pure entitlements, but 53 sit in an ambiguous middle where
+  `N3K-C3172-FA-L3` ("Nexus 3172PQ, Forward Airflow, AC P/S, LAN Enterprise License") and
+  `C9500-24X-E` are SWITCHES, while `C1-N56128-128PK9` ("Nexus 56128 Chassis Storage License") is a
+  licence — and both name a chassis. Four `LL-C3850-*` licences carry a physical fact each, which is
+  its own small defect. This needs its own measured pass with per-pattern refusals, the way
+  NAME_LICENSE_RULES was built. Not started.
+
 - **2026-09-08 ~13:35 - Opus/PARENT, work block 51: the extract is APPLIED and gated. The dashboard barely moves, and the reason is the corpus.**
 
   `apply-extract runs/extract/cisco-pdf-2026-09-08.json --commit` ran ON THE BOX (local Postgres,
