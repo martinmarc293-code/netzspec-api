@@ -15,7 +15,14 @@ const ByField = Type.Object({
 const ByCategory = Type.Object({
   category: Type.String(), hardware_parts: Type.Integer(),
   parts_complete: Type.Integer({ description: "scored parts at 100 %" }),
-  mean_pct: Nullable(Type.Number({ description: "mean completeness over scored parts; null when none is scored" })),
+  mean_pct: Nullable(Type.Number({ description: "mean completeness over SCORED parts only; null when none is scored" })),
+  // The count EXCLUDED from mean_pct, declared here because a number the response schema does not
+  // declare is a number Fastify silently drops — the query and the type carried this field and the
+  // live endpoint returned it nowhere, which is the same defect as a counter that reports the
+  // branch instead of the world. A reader needs to see how much of the category the mean speaks
+  // for: on `switches` it is 1,325 of 8,985 (fans, cords, brackets, blanks, OS images), and on
+  // `servers-unified-computing` 5,607 of 9,387.
+  parts_nothing_required: Type.Integer({ description: "parts whose profile requires nothing of them; excluded from mean_pct, never counted as 0 %" }),
 });
 const GapStats = Type.Object({
   generated_at: Type.String({ format: "date-time" }),
