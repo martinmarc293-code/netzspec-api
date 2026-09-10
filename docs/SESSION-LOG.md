@@ -4,6 +4,71 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-10 - Opus/PARENT, work block 57: surveyed the eleven flat-profile categories before starting routers. Two shared fixes are real; the device-side work is not designable yet, and the reason is one number.**
+
+  Survey only — no code changed. Every Cisco category except `switches`, `security`,
+  `servers-unified-computing` and `transceiver` has a profile where **no conditional has ever
+  fired**: `count(DISTINCT required_total) = 1`, every part asked an identical set.
+
+        routers 7,026 @ 13.0   wireless 5,825 @ 8.0   video 3,370 @ 10.0
+        unified-comms 3,071 @ 10.0   collab-endpoints 2,902 @ 14.0
+        optical-networking 2,174 @ 10.0   hyperconverged-systems 1,735 @ 12.0
+        interfaces-modules 1,471 @ 7.0   storage-networking 1,418 @ 8.0
+        hyperconverged-infra 997 @ 14.0   meraki 283 @ 12.0
+        ~30,000 hardware parts, ~324,000 required slots
+
+  Nine of the eleven declare ZERO conditionals. Routers and storage-networking declare exactly one
+  (`rack_units` on `form_factor`), and it is `pending` for 100% of parts because `form_factor` is
+  required and present on zero.
+
+  **SHARED FIX 1 — one generic component axis serves all eleven.** The component half of
+  switchKind (PWR/PAC/PHV/PDC/PSU/CAC, S?FAN, CAB/CBL, BLNK/RCKMNT/KIT/RAIL/COVER, NXOS/SW/IOS)
+  is a Cisco-wide convention, not a switches one. Applied across the eleven: **3,229 component
+  parts, ~36,950 required slots**. Share varies hugely — collab-endpoints 29.4%, storage-networking
+  16.1%, routers 13.6%, down to meraki 0.4%. Purity checked by name control per category; the
+  "device-named" hits are almost all control artefacts (CRS-16-FAN-CT++= is a FAN CONTROLLER,
+  SB-PWR-48V is a POWER ADAPTER, PWR-GE-POE-4400 is a POWER MODULE). Two genuine marker defects to
+  fix before reuse: `-SW` fires on physical switches outside this category (HX-C480-INT-SW "UCS
+  C480 Safety Intrusion Switch", CTS-5K-CBL-R1-SW "Cable kit, front row table switch" — where it
+  also beats the CBL cable marker on order), and `KIT` fires on two fabric-card kits
+  (NCS4009-FC2-S-KIT, NCS4KF-STRT-KIT). Everything else the KIT grep flagged is a real accessory
+  kit FOR a chassis, which is correct.
+
+  **SHARED FIX 2 — 2,595 licence-named hardware parts across the eleven**, after round 4/4b ran.
+  routers 958, unified-communications 504, wireless 332, optical-networking 254,
+  storage-networking 212, hyperconverged-systems 133, collab-endpoints 66, interfaces-modules 63,
+  video 35, conferencing 19, hyperconverged-infra 18, meraki 1. Routers alone is bigger than the
+  507 that started the switches licence work. Same method, rules already exist.
+
+  **WHAT IS NOT SHARED, AND CANNOT BE DESIGNED YET.** Parts carrying >= 10 own (non-inherited,
+  non-retracted) facts — i.e. a datasheet actually parsed at depth:
+
+        switches 1,044 (12%)   meraki 68 (24%)   routers 19 (0%)   transceiver 11   security 3
+        EVERY OTHER FLAT CATEGORY: ZERO
+
+  And the ceiling, not just the count — `max(facts) per part`: switches 25, routers 12,
+  optical-networking **8**, wireless **7**, storage-networking **3**. No part in
+  storage-networking has more than three facts, on 1,418 parts of which 89% are "described".
+
+  So `switches` is the only category where a shaped profile could be designed against evidence.
+  The publish-rate style measurement that settled the switches req-vs-cond question is impossible
+  in nine of the eleven — there is nothing to measure. Refining a device-side shape there would be
+  guessing, which is the failure this whole exercise exists to stop.
+
+  The documents are NOT the bottleneck: spec-bearing docs are linked to 31% of routers, 44% of
+  optical-networking, 36% of hyperconverged-infrastructure, 51% of meraki. They are linked and
+  yielding one to three facts each. **That is an extraction gap, not an acquisition gap and not a
+  schema gap.**
+
+  **RECOMMENDATION**: do the two shared passes ONCE across all eleven rather than eleven rounds
+  (~37,000 slots and ~2,595 misclassed licences), then stop schema work on the flat categories
+  until extraction depth moves. Routers is the only one worth device-side shaping after that, and
+  even it has 19 rich parts.
+
+  **ODDITY**: `conferencing` — 310 hardware parts, profile declares only `vendor, series`, both
+  COLUMN_BACKED, so `required_total = 0` for every part. It has no profile in any meaningful sense
+  and 0% of its parts carry a fact. Not an over-ask; a hole.
+
 - **2026-09-10 - Opus/PARENT, work block 56: a review round on switches. Two of its four findings were real, and one of the real ones was a defect I had shipped that morning.**
 
   The reviewer stated plainly that they measured nothing ("every number below is yours"), so every
