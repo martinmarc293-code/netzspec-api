@@ -4,6 +4,60 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-10/11 - Opus/PARENT, overnight loop. Two angles nobody had tried: the REVERSE class audit, and the VALUE layer.**
+
+  **ANGLE 1 — which NON-hardware parts carry an own PHYSICAL fact?** Every licence round so far
+  asked the opposite. Fifty parts did, and their product_class_reason led straight back to a rule
+  I shipped the day before: three tokens in ucsKind's os-license set.
+
+        EZ     85 parts   ZERO name an OS. UCS-EZ-ENSC-B200 is a "B200 M3 Blade Server".
+        SL     46 parts   ZERO. UCS-SL-HANA-7 "HANA Solution with 8 B440 M2 Blades".
+        UCSW  279 parts   SIX name an OS; 143 name hardware. The Whiptail/Invicta line.
+
+  404 parts returned to `hardware`. The comment above that set said "read out of the residue, not
+  guessed" — and for `UCSW` what I had actually read was ONE part, UCSW-WT-SMMR54. **A token
+  generalised from a single example is a guess wearing a citation.** The other ten tokens were
+  re-read in the same pass and all survived: a name screen matched "Server", "HDD" and "Cores"
+  inside SOFTWARE product names (`BDMREP`'s "MapR-XD Ent-Prem. HDD. Per TB" is a storage TIER).
+
+  Also `E-SSD-` — twelve "N TB, SATA SSD drive for UCS-E M6", classed licence by the round-1 `E-`
+  prefix. `E-` means e-delivery for 80 of its 92 parts; in `E-SSD-` the letter is the PLATFORM.
+
+  Then 19 borrowed specs retracted (ISR4321-DNA carried the ROUTER's 4G DRAM; TR-EZ8-M16G-8 the
+  tracked DIMM's 16GB). **The order is the reusable part: fix what a part IS before retracting what
+  it says.** Run the other way round this pass would have destroyed 34 correct facts — and its own
+  dry run had refused exactly that two iterations earlier. Non-hardware with an own physical fact:
+  50 -> 0.
+
+  I nearly reported the token defect at FOUR TIMES its size: the first audit ran over every Cisco
+  part matching those SKU shapes, and ucsKind is only consulted for `servers-unified-computing`.
+  Scoped correctly C1 is 95 parts with zero physical facts, not 620 with 80.
+
+  **ANGLE 2 — do stored values comply with what the dictionary declares?** Bands: 46 fields, zero
+  violations. Enums: zero. Struct shapes: **nothing had ever read one.**
+
+  My first enum pass reported 1,742 violations and WAS ITSELF THE DEFECT — it read
+  FIELD_DICTIONARY[key].domain directly and ignored DOMAIN_OVERRIDES, which gives `transceiver` its
+  own form_factor domain. Through domainFor(), the real function: zero. Re-implementing the thing
+  you are auditing gives you a different check.
+
+  The real finding is `reach_max`: declared `list{ medium: s, distanz: n(m) }`, stored
+  `{ m: 550, values_m: [220, 275, 500, 500, 550, 550] }` on ALL 471 facts. **The stored shape
+  carries no MEDIUM** — six reach figures for six fibre types collapsed to one number, in a field
+  an optic is bought on. `expansion_io` is a struct declaring no shape at all.
+
+  parseShape() and structShapeProblem() are now pure and unit-tested (6 sabotage cases, 2
+  controls), and audit-field-registry --cost runs them over the store: 3,403 live facts checked
+  across six shaped fields, and it prints WHAT IT CHECKED rather than only what failed. The parser
+  is the risky half — a shape's value side holds colons and parentheses, so a naive split invents
+  keys out of an enum's members.
+
+  **NOT FIXED, DELIBERATELY**: all 471 reach_max facts come from `vendor_page:juniper`. A note you
+  can check beats a write you have to undo — the finding goes to that lane with the shape, the
+  count and the example.
+
+  Deployed e1ea7be; 844791e follows. 36/36 suites.
+
 - **2026-09-10 - Opus/PARENT, work block 59: went to fix the routers EXTRACTION gap. There isn't one — my own claim was wrong twice — and the measurement found 12,732 unfillable slots instead.**
 
   I had written that "routers' 2,160 linked spec-documents yielding 19 rich parts is an EXTRACTION
