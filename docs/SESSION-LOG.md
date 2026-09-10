@@ -4,6 +4,74 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-10 - Opus/PARENT, work block 56: a review round on switches. Two of its four findings were real, and one of the real ones was a defect I had shipped that morning.**
+
+  The reviewer stated plainly that they measured nothing ("every number below is yours"), so every
+  claim was settled against the corpus before acting. Four verdicts:
+
+  **§4 pending — REAL, and mine.** They asked whether an unresolved gate double-counts. Measured,
+  the opposite was true: `requirementFor` decided "unanswered or answered-no?" by reading
+  `profile[f].kind === "req"`, the RAW entry, and gating `switches` on the part kind that morning
+  turned `stackable`/`poe_standard`/`layer`/`form_factor` into `cond`. So no gate looked required
+  and every dependent resolved to `na`. **The gaps did not narrow, they CLOSED.**
+
+        a Catalyst 9300 answering nothing   before  req 33, pending 0
+                                            after   req 33, pending 8
+        switches   200,249 -> 238,553 slots   mean 10.98% -> 10.26%
+
+  200,249 was a falsely good number. Gate resolution is now recursive with a cycle guard; sabotage
+  turns five cases red, each naming the field it wrongly closed.
+
+  **§1 markers — REAL, smaller than claimed.** Their reverse name control returned 137, not the
+  "at least 300" estimated, and some are false positives of the control (C9500-24X-E is a SWITCH
+  whose name ends "8 x 10GE Network Module"). Nine patterns measured individually and adopted
+  (+135 modules): WS-F6K-/WS-F6700-, N5[56]-M###, N77-[MF]###, C6800-*P10G, VS-S720-/VS-S2T-,
+  7600-ES, C9400-SSD, WS-S32, C6880-X-LE-. **Two families they named have ZERO parts here** —
+  N9K-X#### and N9K-SC- are under data-center-networking.
+
+  **§3 publish-rate — METHOD INVALID, and it would have emptied the profile.** Their rule was
+  "under ~60% publish rate goes cond or opt", denominator "parts carrying >=1 datasheet-class
+  fact". Run as specified: **all 42 required fields score under 60%**, the top being `ports` at
+  59.5%. The denominator measures ACQUISITION, not what Cisco publishes. Against parts whose
+  datasheet was actually read (>=10 own facts, n=1,034) it becomes meaningful — vendor/series/
+  cooling/form_factor/temp_operating 99%, switching_capacity 96%, poe_standard 91.5% — but it
+  still cannot separate "Cisco does not publish it" from "we did not parse that table":
+  dimensions/weight sit at 14% over 1,034 parts and **64.5% over the richest 31**. So no field was
+  demoted on it. Their specific picks were inverted too: they wanted mac_table, vlan_max and
+  input_voltage KEPT as req, and those are the LOWEST (1.7%, 0.2%, 5.7%).
+
+  **§2 module sub-kinds — premise does not match our raws, one part adopted.** Their case was that
+  WS-X4748 slot bandwidth is supervisor-dependent (24 under Sup7-E, 6 under Sup6-E). Ours reads
+  `WS-X4748-12X48U+E = 48 <- "48 Gbit/s je Steckplatz"`, and `WS-X45-SUP6-E = 24` is a SUPERVISOR's
+  own figure. The underlying point is fair — `C6800-SUP6T = 6000` ("6 Tbit/s Crossbar-Fabric") is a
+  system figure sharing a key with a 48 Gbit/s per-slot figure — but a new `slot_bandwidth` key
+  plus a five-way module split over 67 facts is a piece of work, not a tail-end change. RECORDED,
+  NOT DONE. What was adopted: **modules now get `poe_standard`** — 28 modules carry a PoE token in
+  their PID and exactly one holds the fact, so it opens 27 real questions.
+
+  **§5 licences — all three suggestions wrong or already done.** `-DNA-` is already a round-1
+  infix (all 902 SKUs are licences, zero hardware). Adding NCS4K-/NCS1K- to the `-LIC` exclusion
+  touches exactly ONE part, `S-NCS4K-100G-LIC=`, which IS a licence — the change would
+  un-classify it. The DNXA/DNXE/SSK9 verification they asked for passes: all 12 hardware-looking
+  names are "Nexus 6004 20 Port Storage License".
+
+  **§1 chassis / fex — MEASURED AND DECLINED.** 416 chassis-named parts sit in kind=switch. Split
+  by the facts they carry: 109 are bare frames (their point stands), but **41 carry BOTH** frame
+  and switch facts (WS-C4503-E has `layer` AND `module_slots`) and 12 are chassis-bundles sold as
+  working switches (N6004EF-4FEX-10GT). Not separable by SKU, and a name-based rule here is the
+  exact trap avoided for licences.
+
+  **§6b residue test — PASSES.** 29 of the 1,251 parts asked nothing carry a switch-only fact, all
+  `rack_units`, all legitimately RU-rated accessories ("1RU Rack Mount Kit").
+
+  Deployed `498600e`, 34/34 suites. switches 8,593 hardware, 238,553 slots, mean 10.2%.
+
+  **STILL OPEN after this round**: their SKU-derived gate tier (Cisco encodes PoE class as
+  -P/-FP/-UP/-U/-PX and layer as -L/-S/-E in the PID; deriving GATE fields only, never numeric
+  values, would resolve most of the ~38k pending slots) — a new provenance tier is an operator
+  decision against "never guess a value", so it is a costed proposal, not a change. Also open:
+  slot_bandwidth vs switching_capacity (§2), and their §4 alternative of counting a gate once.
+
 - **2026-09-10 - Opus/PARENT, work block 55: 989 licences stop being scored as hardware. The method mattered more than the rules.**
 
   `switches` held 507 parts classed `hardware` whose NAME says licence. Acting on the name would
