@@ -56,7 +56,23 @@ const MUST_STAY_HARDWARE: [string, string, string][] = [
   ["NCS-57B1-5DSE-SYS", "NCS57B1 Fixed Scale HW Flexible Consumption lic", "lic-abbrev, 19 real parts"],
   ["A9K-24P10G-IVRF", "Infra. VRF lic. for up to 8 VRF instances", "lic-abbrev"],
   ["C1E1TN9300XF-5Y", "Cisco ACI and NX-OS subscription Essentials 5Y term", "subscription + term-bare"],
-  ["C9200CX-DNXA-8-5Y", "C9200CX Cisco Catalyst Advantage software 5 Y lic", "n-year-lic, 12 real parts"],
+  // REMOVED, 10 Sep 2026: `C9200CX-DNXA-8-5Y`, the n-year-lic exemplar, on the note "12 real
+  // parts". It is "C9200CX Cisco Catalyst Advantage software subscription, 8-port, 5 Year" — a
+  // LICENCE, and round 4b now classes it as one via sku-contains:-DNXA-. The third exemplar in
+  // this file chosen in the belief that a licence was hardware.
+  //
+  // There is no replacement, and that is the finding. Measured across all 91,543 parts, the
+  // rejected n-year-lic pattern (a digit run, optional space, Y, space, "lic" - spelled
+  // out rather than written as a regex, because writing THIS line through a Python
+  // heredoc is what put a literal 0x08 backspace byte here on the first attempt, and
+  // tests/source-scan.test.ts caught it) matches 850 rows: 835 already classed license,
+  // 15 wearing `hardware` are ESA/WSA software bundles ("Premium SW Bun(AS+AV+OF+ENC+DLP) 5Y Lic,
+  // 25K and above") carrying ZERO own facts. Not one real product.
+  //
+  // So this pattern's REJECTION is unevidenced — it is not refused here any more, and it is not
+  // adopted either. Adopting a NAME rule needs the same corpus pass the four adopted ones got, and
+  // it would move 15 parts; that is a decision to take on its own measurement, not as a side
+  // effect of losing an exemplar. Recorded so the next person starts from the number.
   // Found by READING the dry run, not by reasoning: this matched name-sw-bundle on a name that
   // calls itself hardware. It carries no facts at all, so the physical-fact test could not see it.
   ["ASR5K-0F-B00-2069=", "Motorola PSC2 LTE Hardware and Software bundle", "says HARDWARE"],

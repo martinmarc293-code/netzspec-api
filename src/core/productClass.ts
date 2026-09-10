@@ -259,6 +259,18 @@ export const SKU_RULES: SkuRule[] = [
   // `C9300-24-E-A-3` is a tier UPGRADE licence: model, PORT COUNT AS BARE DIGITS, from-tier,
   // to-tier, optional term. A real switch never has a bare-digit port token — it is 24T, 48U,
   // 24UX, 48P — which is precisely what keeps C9300-48U-A out.
+  // Three families found by re-auditing `switches` AFTER round 4 landed — the residual was 87 of
+  // 8,603 and these are its three clean groups. DNXA/DNXE are a near-miss of round 2's `-DNX-`:
+  // the token there ends in a hyphen and Catalyst writes the tier letter against it
+  // (C9200CX-DNXE-12-5Y). Added as their own rules rather than by widening `-DNX-` to `-DNX`,
+  // which would change an existing rule's NAME and so the reason string on rows already carrying
+  // it — and would shadow it, which the reachability check would then report for ever.
+  { kind: "contains", token: "-DNXA-", klass: "license", why: "Catalyst Advantage software subscription (C9200CX-DNXA-12-5Y); 6 parts, 0 with own facts" },
+  { kind: "contains", token: "-DNXE-", klass: "license", why: "Catalyst Essentials software subscription; 6 parts, 0 with own facts" },
+  { kind: "contains", token: "VMFEX", klass: "license", why: "Nexus VM-FEX feature licence (N55-VMFEXK9, C1-N55-VMFEXK9); 15 parts, 11 currently hardware, 0 with own facts" },
+  // REJECTED in the same pass: `-IPB`. 39 parts and it looks like a paper-licence marker
+  // ("IP Base License (Paper) for Cisco 2951-3901"), but IP Base is a FEATURE TIER that appears in
+  // real switch PIDs — WS-C4500X-24X-IPB is a Catalyst 4500-X carrying 13 own facts.
   { kind: "regex", token: "tier-upgrade", re: /^C\d+\w*-\d+-[ELS]-[AES](?:-\d+)?$/, probe: "C9300-24-E-A-3",
     klass: "license", why: "Catalyst tier-upgrade / paper licence ('24-port NW and Cisco DNA Essentials to NW and Cisco DNA Advantage Upgrade License', 'C3650 24-port LAN Base to IP Services Paper License'); 59 parts, 0 with a physical fact" },
 ];

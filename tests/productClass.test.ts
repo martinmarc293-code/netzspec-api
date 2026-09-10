@@ -268,6 +268,10 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["C9500-LIC=", "Cisco DNA software license upgrade from Essentials to Advantage", "switches", "license", "sku-suffix:-LIC"],
     ["C9300-24-E-A-3", "24-port NW and Cisco DNA Essentials to NW and Cisco DNA Advantage Upgrade License", "switches", "license", "sku-regex:tier-upgrade"],
     ["C2960L-16TS-LL-SW", "Software license for C2960L", "switches", "license", "name-software-image"],
+    // Round 4b: the residual families, found by re-auditing switches after round 4 landed.
+    ["C9200CX-DNXA-12-5Y", "C9200CX Cisco Catalyst Advantage software subscription, 12-port, 5 Year", "switches", "license", "sku-contains:-DNXA-"],
+    ["C9200CX-DNXE-8-3Y", "C9200CX Cisco Catalyst Essentials software subscription, 8-port, 3 Year", "switches", "license", "sku-contains:-DNXE-"],
+    ["N55-VMFEXK9", "Nexus 5500 series VM-FEX license", "switches", "license", "sku-contains:VMFEX"],
   ];
   for (const [sku, name, cat, klass, reason] of added) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
@@ -298,6 +302,8 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
       "transceiver", "a `-SW` suffix rule: SW is SHORT WAVELENGTH here, the same reach-code trap as -S/-L/-Z"],
     ["FP8250-BASE-K9", "FirePOWER 8250 Chassis, No IPS Lic",
       "security", "a name rule on 'Lic' — this chassis's name says it has NO licence"],
+    ["WS-C4500X-24X-IPB", "Cisco WS-C4500X-24X-IPB Catalyst 4500-X 24-port 10G IP Base",
+      "switches", "an `-IPB` rule — IP Base is a FEATURE TIER in real switch PIDs; this one carries 13 own facts"],
   ];
   for (const [sku, name, cat, wouldEat] of mustStayHardware) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
