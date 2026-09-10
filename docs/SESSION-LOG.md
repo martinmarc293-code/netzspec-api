@@ -4,6 +4,66 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-10 - Opus/PARENT, work block 55: 989 licences stop being scored as hardware. The method mattered more than the rules.**
+
+  `switches` held 507 parts classed `hardware` whose NAME says licence. Acting on the name would
+  have been a disaster and that is the whole story of this block.
+
+        N3K-C3172-FA-L3   "Nexus 3172PQ, Forward Airflow (port side exhaust), AC P/S,
+                           Base and LAN Enterprise License Bundle"     <- a box you rack
+        C9300-48U-A       "...48-port 1G copper, Network Advantage"    <- 7 physical facts
+
+  A name rule on "Network Advantage" scored 206 hits and ~200 are real Catalyst 9300s. So the name
+  was used only to FIND candidate SKU families; each family was then read IN FULL, including every
+  member whose name does not say licence (all licences, abbreviating: "Enhanced layer 2 (includes
+  FabricPath, RISE)").
+
+        -LIC 563 · SSK9 134 · name-software-image 73 · tier-upgrade 59 · LL- 55 · LAN1K9 21
+        -NW-A 21 · BAS1K9 16 · -EL2 12 · VMFEX 11 · -NW-E 7 · -DNXA- 6 · -DNXE- 6 · -FNPV 5
+        989 parts total. switches 8,985 -> 8,593 hardware, 200,962 slots, mean 10.96 %.
+
+  **RE-MEASURING OVER ALL 13 VENDORS IS WHAT CAUGHT THE DANGEROUS ONE.** A `-SW` SUFFIX rule was
+  perfect on switches (73 hits, every name "Software license for C2960L" or "IOS build PID") and in
+  `transceiver` **-SW is SHORT WAVELENGTH**: DS-SFP-FC16G-SW and ONS-QC-16GFC-SW are Fibre Channel
+  optics with real physical facts. Same reach-code trap as -S/-L/-Z. Replaced by a NAME rule
+  anchored at the start of the string, which a reach code cannot reach. Also rejected: `-UPG`
+  (WS-CF-UPG= is a Compact Flash adapter) and `-IPB` (WS-C4500X-24X-IPB is a Catalyst, 13 facts).
+
+  **`-LIC` HAD BEEN REJECTED IN ROUND 2 WITH TWO SABOTAGE CASES, AND BOTH ARE RIGHT.** In Cisco's
+  OPTICAL TRANSPORT families the suffix marks licence-GATED hardware — 15454-SMR2-LIC "SM ROADM ...
+  License Restricted". Adopted with the exclusion that round-2 note itself prescribed: the four
+  family tokens, which is the CONDITION rather than a list of the parts that caught me.
+
+  **THREE REFUSAL EXEMPLARS IN nameLicenceRule.test.ts WERE WRONG, ALL THE SAME WAY.**
+  `IE3300-NW-A=` was recorded as hardware with "2 physical" — every one of its facts is
+  `inherited: true` from the group catalyst-ie3300-rugged-series, values the part never had.
+  `C9200CX-DNXA-8-5Y` is a subscription. Asking the corpus for hardware named "...license" WITH an
+  own physical fact returns 20 across 91,543 parts, so `word-license` stays rejected on better
+  evidence; the n-year-lic pattern returns ZERO real products, so its rejection is unevidenced and
+  is now recorded as a number rather than a false example.
+
+  **MY OWN REFUSAL TEST WAS WRONG TWICE, both flattering the rules.** Its physical-field list was
+  10 keys (which is why it missed the 15454 cards); widened to ANY own fact it reported 23, and all
+  23 were RETRACTED TOMBSTONES that survive `superseded_at IS NULL`. Against live facts: 9.
+
+  **THE RETRACTION'S FIRST TWO PREDICATES WERE ALSO REFUSED BY THEIR OWN DRY RUN.**
+  "not hardware" gave 200 and would have deleted UCSW-SD960G0KA4-C "960GB 2.5 inch SATA SSD" ->
+  storage_capacity 960 (a physical part wearing the wrong class). "= license" gave 162 and most
+  were RIGHT — series "MDS 9100" on a licence for the MDS 9100 is correct identity. What survived
+  is switching_capacity/ports/module_slots on a licence, 19 facts, every one printed and read.
+
+  Deployed `e1c3195`, 34/34 suites. cisco: 55,920 hardware / 22,036 license.
+
+  **AND I WROTE A REGEX THROUGH A PYTHON HEREDOC**, putting a literal 0x08 into
+  tests/nameLicenceRule.test.ts — while writing the comment about a different lesson.
+  `tests/source-scan.test.ts` named the file, line and column. That is CLAUDE.md §4's own
+  conclusion demonstrated: the defence has to be a check that runs, not resolve.
+
+  **RESIDUAL, MEASURED, NOT FIXED.** ~64 licence-named hardware parts remain in switches of 8,593
+  (was 507 of 8,985) — no further clean SKU family in them, so each would need its own evidence.
+  Separately: UCSW-* physical SSDs and HBAs are classed `license`/`software` — a real
+  misclassification in the OTHER direction, found here, not addressed.
+
 - **2026-09-10 - Opus/PARENT, work block 54: `switches` asks 23.4 fields, not 40.5. And "nothing to score" was being reported as 0 %.**
 
   Third category after `security` and `servers-unified-computing`. It was the worst over-asked and
