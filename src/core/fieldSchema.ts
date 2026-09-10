@@ -691,7 +691,14 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // is unanswered, so it stays an open gap rather than being closed on a value nobody has read.
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
     // a server is bought on its socket count; a CPU is not
-    cpu_sockets: cond({ field: "kind", inList: ["server"] }),
+    // UNREACHABLE BY CONSTRUCTION, measured 10 Sep 2026 and demoted for the same reason as
+    // switches' mgmt_ports and stack_max_members: ZERO facts hold it across every vendor and
+    // every state (not merely zero live ones), ZERO sources publish it in any per-category
+    // seen-list, and ZERO labels in any source inventory could be aliased to it. Required, it
+    // printed a gap on every part that no crawler could ever close. It stays DECLARED, so a
+    // value is accepted the day a source publishes one.
+    // 1,265 slots here, 1,599 in hyperconverged-systems, 960 in hyperconverged-infrastructure.
+    cpu_sockets: opt,
     // `cpu` came from the GENERATED profile as a bare `req` and the curated block did not name it,
     // so it survived the merge and was required of 8,794 parts — cables, GPUs and rails among
     // them. A generated requirement is only invisible until something counts it.
@@ -730,7 +737,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
   "hyperconverged-systems": deviceOnly({
-    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, cpu_sockets: req, memory_speed_max: req, storage_raw_capacity: req,
+    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, memory_speed_max: req, storage_raw_capacity: req,
+    cpu_sockets: opt,  // unreachable — see the note in servers-unified-computing
     // STRUCTURE 8 Sep 2026: 3 field(s) its documents already produce and no profile declared — invisible to completeness until now
     humidity_storage: opt, cpu_cores: opt, hypervisor: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
@@ -741,7 +749,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
   "hyperconverged-infrastructure": deviceOnly({
-    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, cpu_sockets: req, memory_speed_max: req, storage_raw_capacity: req,
+    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, memory_speed_max: req, storage_raw_capacity: req,
+    cpu_sockets: opt,  // unreachable — see the note in servers-unified-computing
     // STRUCTURE 8 Sep 2026: 7 field(s) its documents already produce and no profile declared — invisible to completeness until now
     humidity_storage: opt, cpu_cores: opt, altitude_storage: opt, management_mode: opt, deploy_role: opt, max_wlans: opt, operating_system: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
@@ -945,9 +954,23 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // can ever fill" shape this project has paid for before.
     tx_max_output_power: opt,
     link_budget: opt, laser_type: opt, mode: req,
-    bidi_wavelengths: cond({ field: "mode", eq: "simplex-bidi" }),
+    // UNREACHABLE BY CONSTRUCTION, measured 10 Sep 2026 and demoted for the same reason as
+    // switches' mgmt_ports and stack_max_members: ZERO facts hold it across every vendor and
+    // every state (not merely zero live ones), ZERO sources publish it in any per-category
+    // seen-list, and ZERO labels in any source inventory could be aliased to it. Required, it
+    // printed a gap on every part that no crawler could ever close. It stays DECLARED, so a
+    // value is accepted the day a source publishes one.
+    // 1,760 slots in `transceiver`.
+    bidi_wavelengths: opt,
     ddm: req,
-    fec: cond({ field: "data_rate", gte: 25 }),
+    // UNREACHABLE BY CONSTRUCTION, measured 10 Sep 2026 and demoted for the same reason as
+    // switches' mgmt_ports and stack_max_members: ZERO facts hold it across every vendor and
+    // every state (not merely zero live ones), ZERO sources publish it in any per-category
+    // seen-list, and ZERO labels in any source inventory could be aliased to it. Required, it
+    // printed a gap on every part that no crawler could ever close. It stays DECLARED, so a
+    // value is accepted the day a source publishes one.
+    // 1,390 slots in `transceiver`.
+    fec: opt,
     power_max: req, temp_class: req,
     cable_length: cond({ field: "media", inList: ["dac-copper", "aoc"] }),
     wire_gauge: opt, msa: opt, dimensions: opt, weight: opt, certifications: opt, mtbf: opt,
@@ -1062,7 +1085,15 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     vendor: req, series: req, form_factor: req,
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
     router_throughput: req, forwarding_rate: req, ipsec_throughput: opt, ipsec_tunnels: opt,
-    dram: req, flash: req, mgmt_ports: req, module_slots: opt,
+    dram: req, flash: req, module_slots: opt,
+    // UNREACHABLE BY CONSTRUCTION, measured 10 Sep 2026 and demoted for the same reason as
+    // switches' stack_max_members: ZERO facts hold it across every vendor and
+    // every state (not merely zero live ones), ZERO sources publish it in any per-category
+    // seen-list, and ZERO labels in any source inventory could be aliased to it. Required, it
+    // printed a gap on every part that no crawler could ever close. It stays DECLARED, so a
+    // value is accepted the day a source publishes one.
+    // 5,758 slots in `routers`.
+    mgmt_ports: opt,
     psu_config: opt, psu_redundant: opt, power_max: req, power_typical: opt,
     temp_operating: req, humidity_operating: req, dimensions: req, weight: req, certifications: req, mtbf: opt,
     // STRUCTURE 8 Sep 2026: 3 field(s) its documents already produce and no profile declared — invisible to completeness until now

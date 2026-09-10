@@ -154,20 +154,35 @@ function inventoryPath(): string | null {
     Object.fromEntries((["mgmt_ports", "uplink_ports", "heat_dissipation", "power_typical", "layer", "psu_config"] as const).map((f) => [f, capableSources(committed, "switches", f, enabled)])));
 
   sabotages++;
-  const holed = { ...committed, sources: { ...committed.sources, "cisco-datasheets": { ...committed.sources["cisco-datasheets"], "*": (committed.sources["cisco-datasheets"]["*"] ?? []).filter((k) => k !== "mgmt_ports") }, "cisco-datasheet-pdf": { ...committed.sources["cisco-datasheet-pdf"], "*": (committed.sources["cisco-datasheet-pdf"]["*"] ?? []).filter((k) => k !== "mgmt_ports") } } };
+  // THE SABOTAGE KEY IS DERIVED, NOT NAMED. It was hardcoded to `mgmt_ports` until 10 Sep 2026,
+  // when that field was demoted everywhere (zero facts across every vendor and state, zero sources
+  // publishing it, zero labels to alias). No category required it any more, so `mustNameFor` was
+  // EMPTY and this sabotage asserted nothing at all — a check that had quietly stopped checking,
+  // which is the failure mode this whole file exists to catch. Picking the key from the profiles
+  // means a future demotion moves the sabotage instead of hollowing it.
+  const shared = Object.entries(requiredKeysByCategory())
+    .flatMap(([cat, keys]) => (keys as string[]).map((k) => [cat, k] as const));
+  const inBothStars = new Set((committed.sources["cisco-datasheets"]?.["*"] ?? [])
+    .filter((k) => (committed.sources["cisco-datasheet-pdf"]?.["*"] ?? []).includes(k)));
+  // `vendor` and `series` come from the parts ROW, so the coverage checker never reports them and
+  // a sabotage on one names nothing. Excluded here rather than discovered again next time.
+  const IDENTITY = new Set(["vendor", "series"]);
+  const victim = shared.map(([, k]) => k).find((k) => inBothStars.has(k) && !IDENTITY.has(k));
+  check("a sabotage key exists at all — a required field carried by both '*' lists", !!victim,
+    "no required field is in both star lists, so this sabotage cannot fire");
+  const drop = (src: string) => ({ ...committed.sources[src], "*": (committed.sources[src]?.["*"] ?? []).filter((k) => k !== victim) });
+  const holed = { ...committed, sources: { ...committed.sources, "cisco-datasheets": drop("cisco-datasheets"), "cisco-datasheet-pdf": drop("cisco-datasheet-pdf") } };
   const p5 = requiredFieldCoverageProblems(holed, enabled);
-  // ONE KEY, EVERY CATEGORY THAT REQUIRES IT. The assertion used to demand exactly one problem
-  // naming switches/mgmt_ports, which held only while switches was the sole category requiring it.
-  // On 8 Sep 2026 routers gained mgmt_ports as part of completing the structural profiles, so
-  // removing the key correctly names both — the sabotage worked and the expectation was stale.
-  // Pinning it to "exactly one" would mean any future profile that requires a shared field turns
-  // this red, which trains the reader to edit the test instead of reading the finding.
-  const mustNameFor = Object.entries(requiredKeysByCategory())
-    .filter(([, keys]) => (keys as string[]).includes("mgmt_ports"))
-    .map(([cat]) => `${cat}/mgmt_ports: required by the profile and no enabled source publishes it`);
-  check(`SABOTAGE coverage: dropping one required key from the '*' lists names every category that requires it (${mustNameFor.length})`,
-    mustNameFor.length > 0 && p5.length === mustNameFor.length
-      && mustNameFor.every((m) => p5.includes(m)), { expected: mustNameFor, got: p5 });
+  // WHAT THE SABOTAGE ACTUALLY CLAIMS: holing the file CREATES coverage problems, and every new
+  // one names the key that was removed. Predicting the exact category set is fragile — a category
+  // with its own per-category seen-list stays covered when the '*' entry goes, so an expected-set
+  // assertion goes red for a reason that has nothing to do with the check working. Comparing
+  // BEFORE against AFTER states the claim directly and cannot be stale.
+  const before = requiredFieldCoverageProblems(committed, enabled);
+  const created = p5.filter((m) => !before.includes(m));
+  check(`SABOTAGE coverage: dropping "${victim}" from the '*' lists creates problems, all naming it (${created.length})`,
+    created.length > 0 && created.every((m) => m.includes(`/${victim}:`)),
+    { victim, before: before.length, after: p5.length, created: created.slice(0, 5) });
   sabotages++;
   const withoutVendor = enabled.filter((s) => !(ANY_CATEGORY_SOURCES as readonly string[]).includes(s));
   const p6 = requiredFieldCoverageProblems(committed, withoutVendor);
