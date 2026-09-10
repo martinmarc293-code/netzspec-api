@@ -4,6 +4,70 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-10 - Opus/PARENT, work block 58: both shared passes across the eleven flat categories. 2,467 licences and 48,898 required slots, in one piece of work instead of eleven.**
+
+  **PASS A — 1,235 licences reclassified (round 5 of the product-class table).** Nineteen SKU
+  families, each read IN FULL and gated on OWN PHYSICAL FACTS across all 13 vendors:
+
+        LIF5K- 267 · ASR5K-00 235 · S-A9K 79 · HX-VSP 76 · MIG-1 60 · S-XRV 59 · XR-NCS1K 57
+        WAE-SUB 56 · A9K-DDOS 51 · UWLADD 44 · QMOG- 42 · ANDSF- 41 · ASR5K-99 40 · MC-S- 26
+        WAE-ENC 25 · NCS2K-L-R 22 · FL-CUBEE 20 · AIR-WIPS 16 · C1-SL- 16
+
+  The name gate had to be thrown away a THIRD time: it flagged S-A9K-40G-AIP-SE ("Smart License
+  L3 VPN for 40x10GE Linecard") and LIF5K-00-CUXICP ("Inline CUPS per ASR5500 Chassis") as
+  blockers, and both are licences whose name describes the device they license.
+
+  **AND ONE FAMILY PASSED THE AUTOMATED GATE AND WAS KILLED BY READING IT.** `AIRCT2504-`: 53
+  parts, 0 physical facts, 53 of 53 licence-named because every name contains "AP Lic." All 53 are
+  "Bundle WLC2504 w/ 10 AP Lic. and 5 AP-1602i Z Reg Domain" — a controller shipped with five or
+  ten PHYSICAL ACCESS POINTS. That is the argument for reading a family rather than trusting a
+  gate, and it is pinned. Also refused: PROMO- (99 AP bundles), HX-SP (drive paks), NCS2K-M,
+  HX-NV, and the bare ASR5K- prefix (32 of 175 outside the 00/99 blocks are real cards).
+
+  **PASS B — one shared device/component axis, 48,898 slots.** src/core/componentKind.ts is the
+  generalisable half of switchKind; it claims NOTHING about modules, whose markers are
+  switch-family specific.
+
+        324,531 -> 275,633 required slots across the eleven
+        routers -16,484 · collab-endpoints -11,928 · wireless -8,448 · unified-comms -4,430
+        storage-networking -1,832 · optical -1,640 · hyperconverged-systems -1,632
+        interfaces-modules -1,204 · video -780 · hyperconverged-infra -518 · meraki -12
+
+  `nothing_required` per category matched the component count predicted BEFORE the change,
+  exactly, on all eleven — routers 956, collab 852, wireless 415, unified-comms 319, and so on.
+
+  **THE WRAPPER ALONE WAS NOT ENOUGH.** `deviceOnly()` wraps a hand-written block and the merge
+  puts GENERATED_PROFILES UNDER it, so a `req` declared only in the generated half never passes
+  through. Straight after wrapping all eleven, `wireless` still asked a POWER CORD for `standard`
+  and every one of the eleven kept exactly one such field — the category looks done and one field
+  per category is still required of every cable. Same leak as `cpu` in switches. Fixed by
+  re-gating the MERGED profile; pinned BEHAVIOURALLY (a component is asked nothing, a device in
+  the same category is still asked something).
+
+  **ORDER DIFFERS FROM switchKind DELIBERATELY.** switchKind tests software FIRST; across the
+  other eleven that misfiled AIR-PWR-CORD-SW (a SWITZERLAND power cord) and CTS-5K-CBL-R1-SW,
+  because `SW` there is a country code. Software is tested LAST in the shared axis.
+
+  **THREE GUARDS FIRED, ALL RIGHT.** partKind.test.ts derived all 13 gating categories out of
+  PROFILES and named the eleven gated-but-not-wired. promote-required's source-text parser refused
+  `routers: deviceOnly({` — and teaching it to SKIP the wrapper was not enough, it then reported
+  `req` where the runtime resolves `cond`, so it now MODELS the transform. Its reconciliation then
+  caught the post-merge gate from the other direction; it imports DEVICE_GATED_CATEGORIES rather
+  than restating the list.
+
+  **A FIFTH WRONG REFUSAL EXEMPLAR.** nameLicenceRule.test.ts held S-A9K-MACSEC-100 as a part that
+  must stay hardware; it is a Smart Licence with no own fact. After IE3300-NW-A=,
+  C9200CX-DNXA-8-5Y and the n-year-lic case, the rule is now written down: a refusal case must
+  cite a part with an OWN PHYSICAL FACT, or it is an opinion.
+
+  Deployed `dd4554c`, 35/35 suites. Two invented test SKUs were caught by the reachability check
+  (both shadowed by round 4's -LIC rules) and replaced with real PIDs.
+
+  **UNCHANGED BY THIS WORK, and it is the thing that matters next**: nine of the eleven still have
+  ZERO parts carrying >= 10 own facts. storage-networking's richest part has THREE. The device-side
+  shaping is still not designable, and routers' 2,160 linked spec-documents yielding 19 rich parts
+  is an EXTRACTION problem, not a schema one.
+
 - **2026-09-10 - Opus/PARENT, work block 57: surveyed the eleven flat-profile categories before starting routers. Two shared fixes are real; the device-side work is not designable yet, and the reason is one number.**
 
   Survey only — no code changed. Every Cisco category except `switches`, `security`,
