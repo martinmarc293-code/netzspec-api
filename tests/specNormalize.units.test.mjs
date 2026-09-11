@@ -413,6 +413,42 @@ const CASES = [
   ["SABOTAGE a three-way list is not layer 3", "switches", "layer", "2/3/4", EN, "ENUM_VIOLATION"],
   ["SABOTAGE prose with no layer in it is refused", "switches", "layer",
     "Supports advanced routing features", EN, "ENUM_VIOLATION"],
+
+  // =================================================================================================
+  // PER-CATEGORY BANDS (11 Sep 2026). power_max's band was a switch's, [1, 30000] W, for every
+  // category: an optic drawing 0.8 W was refused and a 3 kW "SFP" would have been stored. The band
+  // is now looked up per category (BAND_OVERRIDES). Both ends are pinned, and so is the switch —
+  // a fix that simply widened the global band would pass the first two and fail the fourth.
+  // =================================================================================================
+  ["a sub-watt optic's power is stored", "transceiver", "power_max", "0.8 W", EN, 0.8],
+  ["an optic's power in the 20s (coherent QSFP-DD) is stored", "transceiver", "power_max", "24 W", EN, 24],
+  ["SABOTAGE a 3 kW transceiver is refused", "transceiver", "power_max", "3000 W", EN, "RANGE_VIOLATION"],
+  ["SABOTAGE the switch band is unchanged: 0.8 W on a switch is still refused", "switches", "power_max", "0.8 W", EN, "RANGE_VIOLATION"],
+  ["SABOTAGE the switch band is unchanged: a 3 kW switch is still stored", "switches", "power_max", "3000 W", EN, 3000],
+
+  // =================================================================================================
+  // ENUM RULES, 11 Sep 2026. Every accepted case is a raw string the store actually held, and each
+  // rule's sabotage twin proves it did not simply swallow its neighbour.
+  // =================================================================================================
+  // airflow: "port side" must never again read as SIDE-TO-SIDE (239 facts did).
+  ["port-side intake (185 datasheet cells)", "switches", "airflow", "Port-side intake", EN, "port-side-intake"],
+  ["port side exhaust, spaced", "storage-networking", "airflow", "Port side exhaust", EN, "port-side-exhaust"],
+  ["a name clause: Forward airflow (port side exhaust)", "switches", "airflow", "Forward airflow (port side exhaust)", EN, "port-side-exhaust"],
+  ["I/O side to fan side is port-side intake", "cloud-systems-management", "airflow", "I/O side to fan side", EN, "port-side-intake"],
+  ["SABOTAGE genuine side-to-side airflow stays side", "switches", "airflow", "Side-to-side", EN, "side"],
+  ["SABOTAGE front to back stays front-to-back", "routers", "airflow", "front to back", EN, "front-to-back"],
+  // mode: BiDi over a duplex pair is its own value; plain BiDi is still single-fibre.
+  ["BiDi over duplex LC is duplex-bidi", "transceiver", "mode", "BiDi over duplex LC", EN, "duplex-bidi"],
+  ["SABOTAGE a plain BiDi is still simplex-bidi", "transceiver", "mode", "BiDi", EN, "simplex-bidi"],
+  ["SABOTAGE plain duplex is still duplex", "transceiver", "mode", "Duplex", EN, "duplex"],
+  // connector: 24-fibre MPO, and the 12-fibre default untouched.
+  ["MPO-24 (CFP-100G-SR10)", "transceiver", "connector", "MPO-24", EN, "mpo-24"],
+  ["SABOTAGE a bare MPO is still mpo-12", "transceiver", "connector", "MPO", EN, "mpo-12"],
+  // form factor: OSFP must not fall into the catch-all SFP rule; CPAK had no rule at all.
+  ["OSFP is osfp", "transceiver", "form_factor", "OSFP", EN, "osfp"],
+  ["CPAK is cpak", "transceiver", "form_factor", "CPAK", EN, "cpak"],
+  ["SABOTAGE plain SFP is still sfp", "transceiver", "form_factor", "SFP", EN, "sfp"],
+  ["SABOTAGE QSFP-DD is still qsfp-dd", "transceiver", "form_factor", "QSFP-DD", EN, "qsfp-dd"],
 ];
 
 for (const [label, category, key, input, opts, want] of CASES) run(label, category, key, input, opts, want);

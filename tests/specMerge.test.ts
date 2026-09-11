@@ -331,7 +331,10 @@ for (const [a, b] of [[["a"], ["b"]], [["a", "b"], ["b", "c"]], [[], ["x"]], [["
     "a citation cut in half can never set-equal one that survived, so the pair is held as a conflict "
     + "for a difference the splitter invented");
 
-  check("NORM_VERSION says the split changed", NORM_VERSION === "1.5.2",
+  // At LEAST 1.5.2, not exactly: the point is that the version moved past 1.5.1 when the split changed.
+  // An exact pin broke the day the next normaliser change (1.6.0, 11 Sep 2026) bumped it again.
+  const [maj, min, pat] = NORM_VERSION.split(".").map(Number);
+  check("NORM_VERSION says the split changed", maj > 1 || (maj === 1 && (min > 5 || (min === 5 && pat >= 2))),
     `a value stored under 1.5.1 splits differently under this build; got ${NORM_VERSION}`);
 }
 

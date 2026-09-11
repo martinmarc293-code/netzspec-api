@@ -13,7 +13,7 @@
 // caller quarantines it. Storing an unparsed string as if it were a spec is the exact thing this
 // module exists to prevent.
 
-import { FIELD_DICTIONARY, domainFor, unitFor, type FieldType } from "./fieldSchema.js";
+import { FIELD_DICTIONARY, domainFor, unitFor, bandFor, type FieldType } from "./fieldSchema.js";
 import { parsePorts } from "./portParse.js";
 // The transposed-table detector needs "is this string a Cisco PID?". That question already has
 // ONE answer in this repo (src/pipeline/partNumber.ts, the twin of scraper/sources/base.py, held
@@ -66,7 +66,7 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        string to a list on 4 Sep 2026 and the comma splitter then read 396 citation cells for the
 //        first time, cutting "MIL-STD-810, Method 514.4" into two standards that do not exist. The
 //        rule and every bound in it are read off the stored raws — see isCitationContinuation.
-export const NORM_VERSION = "1.5.2";
+export const NORM_VERSION = "1.6.0"; // 11 Sep 2026: per-category bands; port-side airflow; duplex-bidi, mpo-24, cpak, osfp
 
 export type NormReason =
   | "PARSE_FAIL" | "UNIT_MISSING" | "UNIT_UNKNOWN" | "ENUM_VIOLATION"
@@ -886,8 +886,10 @@ function convert(n: number, rawUnit: string, canonical: string | undefined, key:
   return ok(roundTo((n * factor) / target[1], canonical), canonical);
 }
 
-function inBand(key: string, v: number): NormResult | null {
-  const band = FIELD_DICTIONARY[key]?.band;
+// The band is looked up PER CATEGORY (bandFor): an optic's power_max is not a switch's. Until
+// 11 Sep 2026 this read FIELD_DICTIONARY[key].band directly, so "0.8 W" on a transceiver was refused.
+function inBand(category: string, key: string, v: number): NormResult | null {
+  const band = bandFor(category, key);
   if (!band) return null;
   if (v < band[0] || v > band[1]) {
     return bad("RANGE_VIOLATION", `${key}: ${v} outside plausible band [${band[0]}, ${band[1]}]`);
@@ -922,7 +924,14 @@ const ENUM_RULES: Record<string, [RegExp, string][]> = {
     [/802\.3at|poe\+/i, "802.3at"], [/802\.3af|poe/i, "802.3af"]],
   deploy_role: [[/industrial|industrie/i, "industrial"], [/tor|top.of.rack|rechenzentrum|data.?cent/i, "datacenter-tor"],
     [/core|kern/i, "core"], [/aggregat/i, "aggregation"], [/access|zugang/i, "access"]],
-  airflow: [[/reversib|umkehrbar/i, "reversible"], [/back.?to.?front|hinten nach vorn/i, "back-to-front"],
+  // PORT-SIDE FIRST (11 Sep 2026). Cisco's unambiguous terms name the PORT side, and the last rule
+  // below matched the word "side" inside them: 239 facts saying "port-side intake/exhaust" were
+  // stored as SIDE-TO-SIDE airflow. They precede front/back too, because a cell giving both
+  // ("front-to-back (port-side exhaust)") is decided by the term that cannot mean two things.
+  // "I/O side to fan side" is the same airflow as port-side intake, in other words.
+  airflow: [[/port.?side.?intake|port.?intake|i\/o.?side.?to.?fan.?side/i, "port-side-intake"],
+    [/port.?side.?exhaust|port.?exhaust|fan.?side.?to.?i\/o.?side/i, "port-side-exhaust"],
+    [/reversib|umkehrbar/i, "reversible"], [/back.?to.?front|hinten nach vorn/i, "back-to-front"],
     [/front.?to.?back|vorn nach hinten/i, "front-to-back"], [/seit|side/i, "side"]],
   media: [[/aoc/i, "aoc"], [/dac|twinax|direct.?attach|kupferkabel/i, "dac-copper"],
     [/rj.?45|kat\.?\s*[567]|cat\.?\s*[567]/i, "rj45-copper"],
@@ -934,11 +943,14 @@ const ENUM_RULES: Record<string, [RegExp, string][]> = {
   // otherwise the bare "SFP" inside the string would match something else first.
   connector: [[/\b(q?sfp|cfp|xfp)[^\s]*\s*(auf|to|->|→)\s*/i, "integrated"],
     [/fest konfektioniert|im kabel enthalten|angeschlagen/i, "integrated"],
-    [/mpo.?16|mtp.?16/i, "mpo-16"], [/mpo|mtp/i, "mpo-12"], [/rj.?45/i, "rj45"],
+    [/mpo.?24|mtp.?24/i, "mpo-24"], [/mpo.?16|mtp.?16/i, "mpo-16"], [/mpo|mtp/i, "mpo-12"], [/rj.?45/i, "rj45"],
     [/integriert|integrated|fest/i, "integrated"], [/lc.?simplex|simplex.?lc/i, "lc-simplex"],
     [/\bsc\b/i, "sc"], [/\blc\b/i, "lc-duplex"]],
   laser_type: [[/vcsel/i, "vcsel"], [/\beml\b/i, "eml"], [/\bdfb\b/i, "dfb"], [/\bfp\b/i, "fp"]],
-  mode: [[/bidi|simplex|einzelfaser|single.?fib/i, "simplex-bidi"], [/duplex|zweifaser/i, "duplex"]],
+  // duplex-bidi first: "BiDi over duplex LC" (QSFP-40G-SR-BD) is neither of the other two, and the
+  // bare "bidi" rule would file it as single-fibre.
+  mode: [[/duplex.{0,24}bidi|bidi.{0,24}duplex|\bsr-?bd\b/i, "duplex-bidi"],
+    [/bidi|simplex|einzelfaser|single.?fib/i, "simplex-bidi"], [/duplex|zweifaser/i, "duplex"]],
   fec: [[/rs.?fec|clause\s*91|kr4/i, "rs-fec"], [/fc.?fec|firecode|clause\s*74/i, "fc-fec"],
     [/host|abh(ä|ae)ngig|dependent/i, "host-dependent"], [/kein|none|nicht erforderlich|ohne/i, "none"]],
   // Cisco writes the optic temperature class as a bare three-letter code in its own tables —
@@ -956,6 +968,9 @@ const FORM_FACTOR_SWITCH: [RegExp, string][] = [
   [/19|rack|\bhe\b|\bru\b/i, "rack-19"], [/desktop|tisch|kompakt/i, "desktop"],
 ];
 const FORM_FACTOR_OPTIC: [RegExp, string][] = [
+  // OSFP and CPAK FIRST (11 Sep 2026): the catch-all /sfp/ at the end of this list would file an
+  // OSFP as a plain SFP, and CPAK matched nothing at all.
+  [/osfp/i, "osfp"], [/cpak/i, "cpak"],
   [/qsfp.?dd/i, "qsfp-dd"], [/qsfp56/i, "qsfp56"], [/qsfp28/i, "qsfp28"], [/qsfp\+|qsfp/i, "qsfp-plus"],
   [/cfp2/i, "cfp2"], [/cfp/i, "cfp"], [/sfp56/i, "sfp56"], [/sfp28/i, "sfp28"],
   [/sfp\+|sfp-plus/i, "sfp-plus"], [/xenpak/i, "xenpak"], [/xfp/i, "xfp"], [/\bx2\b/i, "x2"],
@@ -1175,7 +1190,7 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       if (!hit) return bad("PARSE_FAIL", `${key}: no number in "${s}"`);
       const conv = convert(hit.n, hit.unit, canonical, key, hint, hit);
       if (!conv.ok) return conv;
-      const viol = inBand(key, conv.value as number);
+      const viol = inBand(category, key, conv.value as number);
       return viol ?? conv;
     }
     case "nr": {
@@ -1188,7 +1203,7 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
         const c1 = convert(hit.n, hit.unit, canonical, key, hint, hit);
         if (!c1.ok) return c1;
         const v1 = c1.value as number;
-        return inBand(key, v1) ?? ok({ min: v1, max: v1 }, canonical);
+        return inBand(category, key, v1) ?? ok({ min: v1, max: v1 }, canonical);
       }
       const lo = parseNumber(m[1], locale), hi = parseNumber(m[3], locale);
       if (lo === null || hi === null) return bad("PARSE_FAIL", `${key}: unparsable range "${s}"`);
@@ -1198,7 +1213,7 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       if (!ch.ok) return ch;
       const min = cl.value as number, max = ch.value as number;
       if (min > max) return bad("PARSE_FAIL", `${key}: range min ${min} > max ${max}`);
-      return inBand(key, min) ?? inBand(key, max) ?? ok({ min, max }, canonical);
+      return inBand(category, key, min) ?? inBand(category, key, max) ?? ok({ min, max }, canonical);
     }
     case "ls": {
       const parts = splitListValue(s);

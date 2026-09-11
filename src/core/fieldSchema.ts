@@ -163,7 +163,12 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   psu_redundant: { key: "psu_redundant", de: "Redundante Stromversorgung", en: "Redundant PSU", type: "b", etim: ["EF012482"], icecat: null },
   psu_options: { key: "psu_options", de: "Netzteil-Optionen", en: "PSU options", type: "ls", etim: [], icecat: null },
   cooling: { key: "cooling", de: "Kühlung", en: "Cooling", type: "e", domain: ["fanless", "fixed-fans", "redundant-replaceable"], etim: [], icecat: null },
-  airflow: { key: "airflow", de: "Luftstromrichtung", en: "Airflow direction", type: "e", domain: ["front-to-back", "back-to-front", "side", "reversible"], etim: [], icecat: null },
+  // port-side-intake / port-side-exhaust ADDED 11 Sep 2026. They are Cisco's own unambiguous terms —
+  // "front" means the port side on some platforms and the fan side on others, so Cisco says
+  // "port-side" instead — and the domain had no value for them: the enum rule for "side" matched the
+  // word inside "port SIDE intake", and 239 Cisco facts were stored as SIDE-TO-SIDE airflow, a
+  // different thing (185 of them from datasheet tables on switches).
+  airflow: { key: "airflow", de: "Luftstromrichtung", en: "Airflow direction", type: "e", domain: ["front-to-back", "back-to-front", "side", "reversible", "port-side-intake", "port-side-exhaust"], etim: [], icecat: null },
   power_typical: { key: "power_typical", de: "Leistungsaufnahme (typisch)", en: "Typical power draw", type: "n", unit: "W", band: [1, 20000], etim: [], icecat: null },
   power_max: { key: "power_max", de: "Leistungsaufnahme (max.)", en: "Max power draw", type: "n", unit: "W", band: [1, 30000], etim: ["EF001003"], icecat: null },
   input_voltage: { key: "input_voltage", de: "Eingangsspannung", en: "Input voltage", type: "nr", unit: "V", band: [-72, 600], etim: [], icecat: null },
@@ -250,7 +255,10 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   fiber_type: { key: "fiber_type", de: "Fasertyp", en: "Fiber type", type: "e", domain: ["om1", "om2", "om3", "om4", "om5", "os1", "os2"], etim: [], icecat: null },
   wavelength: { key: "wavelength", de: "Wellenlänge", en: "Wavelength", type: "n", unit: "nm", band: [600, 2000], etim: [], icecat: null },
   reach_max: { key: "reach_max", de: "Max. Reichweite", en: "Max reach", type: "struct", unit: "m", shape: "list{ medium: s, distanz: n(m) }", etim: [], icecat: null },
-  connector: { key: "connector", de: "Anschlusstyp", en: "Connector", type: "e", domain: ["lc-duplex", "lc-simplex", "sc", "mpo-12", "mpo-16", "rj45", "integrated"], etim: [], icecat: null },
+  // mpo-24 ADDED 11 Sep 2026: CFP-100G-SR10 and the CPAK SR10 / 10x10G parts (10 in the catalogue)
+  // use a 24-fibre MPO, which no value could hold. SN and CS were proposed too; ZERO catalogue parts
+  // name either, so they are not added — a value no product can take is a value nobody has seen work.
+  connector: { key: "connector", de: "Anschlusstyp", en: "Connector", type: "e", domain: ["lc-duplex", "lc-simplex", "sc", "mpo-12", "mpo-16", "mpo-24", "rj45", "integrated"], etim: [], icecat: null },
   tx_power: { key: "tx_power", de: "Sendeleistung (TX)", en: "TX power", type: "nr", unit: "dBm", band: [-40, 20], etim: [], icecat: null },
   rx_sensitivity: { key: "rx_sensitivity", de: "Empfangsempfindlichkeit (RX)", en: "RX sensitivity", type: "nr", unit: "dBm", band: [-40, 20], etim: [], icecat: null },
   // THE TRANSMIT TWIN OF rx_max_input_power, added 6 Sep 2026 because the receive side already had
@@ -277,7 +285,9 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   tx_max_output_power: { key: "tx_max_output_power", de: "Maximale Sendeleistung (TX)", en: "Maximum transmitter output power", type: "n", unit: "dBm", band: [-40, 20], etim: [], icecat: null },
   link_budget: { key: "link_budget", de: "Link-Budget", en: "Link budget", type: "n", unit: "dB", band: [0, 60], etim: [], icecat: null },
   laser_type: { key: "laser_type", de: "Lasertyp", en: "Laser type", type: "e", domain: ["vcsel", "fp", "dfb", "eml"], etim: [], icecat: null },
-  mode: { key: "mode", de: "Übertragungsmodus", en: "Transmission mode", type: "e", domain: ["duplex", "simplex-bidi"], etim: [], icecat: null },
+  // duplex-bidi ADDED 11 Sep 2026: QSFP-40G-SR-BD (5 parts) runs BiDi over a DUPLEX LC pair — neither
+  // two plain fibres (duplex) nor one fibre (simplex-bidi), and the old rule filed any "BiDi" as simplex.
+  mode: { key: "mode", de: "Übertragungsmodus", en: "Transmission mode", type: "e", domain: ["duplex", "simplex-bidi", "duplex-bidi"], etim: [], icecat: null },
   bidi_wavelengths: { key: "bidi_wavelengths", de: "BiDi-Wellenlängen (TX/RX)", en: "BiDi wavelengths", type: "struct", unit: "nm", shape: "{ tx: n, rx: n }", etim: [], icecat: null },
   ddm: { key: "ddm", de: "DDM/DOM", en: "DDM/DOM", type: "b", etim: [], icecat: null },
   fec: { key: "fec", de: "FEC-Anforderung", en: "FEC requirement", type: "e", domain: ["none", "rs-fec", "fc-fec", "host-dependent"], etim: [], icecat: null },
@@ -424,6 +434,13 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // defect, so this one is used rather than inventing `slot_bandwidth`. Band: Cisco publishes from
   // 622 Mbit/s (an optical SPA slot) to 6.4 Tbit/s (C9600, "Per-slot Switching Capacity").
   fabric_bandwidth: { key: "fabric_bandwidth", de: "Bandbreite der Switch-Fabric-Anbindung", en: "Switch fabric connection bandwidth", type: "n", unit: "Gbit/s", band: [0.1, 20000], etim: [], icecat: null },
+
+  // THREE TRANSCEIVER CUPS, 11 Sep 2026, each declared OPTIONAL: the catalogue names them (85 parts say
+  // "breakout", 27 "passive" and 9 "active copper", the coherent ZR/DCO line is tunable) but no label
+  // in any source inventory maps to them yet, and a required field nothing can fill is a permanent gap.
+  breakout: { key: "breakout", de: "Breakout-Konfiguration", en: "Breakout configuration", type: "s", examples: ["1x4", "1x2", "1x8"], etim: [], icecat: null },
+  tunable: { key: "tunable", de: "Wellenlänge durchstimmbar", en: "Tunable wavelength", type: "b", etim: [], icecat: null },
+  dac_type: { key: "dac_type", de: "DAC-Typ (passiv/aktiv)", en: "DAC type (passive/active)", type: "e", domain: ["passive", "active"], etim: [], icecat: null },
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -972,7 +989,11 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     vendor: req, form_factor: req, standard: req, data_rate: req, media: req,
     fiber_type: cond({ field: "media", inList: ["mmf", "smf"] }),
     wavelength: cond({ field: "media", inList: ["mmf", "smf", "aoc"] }),
-    reach_max: req, connector: req,
+    // SHAPED 11 Sep 2026 (reviewer §2.2, measured). A DAC or AOC is a fixed-length CABLE: its reach
+    // IS its cable_length (135 of 143 hold one; 0 hold a reach_max), so asking both asked one
+    // question twice. Transmission mode (duplex vs BiDi) is a property of a fibre optic: 0 of 143
+    // DAC/AOC hold one and no source states it for a cable. rj45-copper keeps reach (30 m over Cat6a).
+    reach_max: cond({ field: "media", inList: ["mmf", "smf", "rj45-copper"] }), connector: req,
     tx_power: cond({ field: "media", inList: ["mmf", "smf"] }),
     rx_sensitivity: cond({ field: "media", inList: ["mmf", "smf"] }),
     // OPTIONAL, not conditional-required, and the distinction is deliberate. The guaranteed minimum
@@ -982,7 +1003,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // transceivers for a number their vendor never published, which is the "required field nothing
     // can ever fill" shape this project has paid for before.
     tx_max_output_power: opt,
-    link_budget: opt, laser_type: opt, mode: req,
+    link_budget: opt, laser_type: opt, mode: cond({ field: "media", inList: ["mmf", "smf"] }),
     // UNREACHABLE BY CONSTRUCTION, measured 10 Sep 2026 and demoted for the same reason as
     // switches' mgmt_ports and stack_max_members: ZERO facts hold it across every vendor and
     // every state (not merely zero live ones), ZERO sources publish it in any per-category
@@ -1002,7 +1023,12 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     fec: opt,
     power_max: req, temp_class: req,
     cable_length: cond({ field: "media", inList: ["dac-copper", "aoc"] }),
-    wire_gauge: opt, msa: opt, dimensions: opt, weight: opt, certifications: opt, mtbf: opt,
+    // wire_gauge REQUIRED OF A DAC, 11 Sep 2026: a passive copper cable's gauge (Cisco prints 30/26 AWG)
+    // decides its reach. Fillable — "Gauge" occurs 30 times in the cisco-datasheets inventory and the
+    // alias already writes wire_gauge — though 0 of the 94 Cisco DACs hold it yet: a coverage gap.
+    wire_gauge: cond({ field: "media", inList: ["dac-copper"] }),
+    msa: opt, dimensions: opt, weight: opt, certifications: opt, mtbf: opt,
+    breakout: opt, tunable: opt, dac_type: opt,
     // STRUCTURE 8 Sep 2026: 1 field(s) its documents already produce and no profile declared — invisible to completeness until now
     series: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
@@ -1190,13 +1216,31 @@ export const UNIT_OVERRIDES: Record<string, Record<string, string>> = {
 // every optic would fail ENUM_VIOLATION against the switch domain.
 export const DOMAIN_OVERRIDES: Record<string, Record<string, string[]>> = {
   transceiver: {
+    // cpak and osfp ADDED 11 Sep 2026: 21 CPAK and 7 OSFP transceivers in the catalogue had no value
+    // their form factor could take. SFP-DD and CFP8 were checked the same way and have zero parts.
     form_factor: ["gbic", "x2", "xenpak", "xfp", "sfp", "sfp-plus", "sfp28", "sfp56",
-      "qsfp-plus", "qsfp28", "qsfp56", "qsfp-dd", "cfp", "cfp2"],
+      "qsfp-plus", "qsfp28", "qsfp56", "qsfp-dd", "cfp", "cfp2", "cpak", "osfp"],
   },
+};
+
+// And for plausibility BANDS — 11 Sep 2026, raised by the reviewer and confirmed by replay. The
+// band lived only on the dictionary entry, and power_max's is a switch's: [1, 30000] W. On an optic
+// that is wrong at both ends: the real normaliser refuses "0.8 W" (RANGE_VIOLATION) and not one of
+// the 520 stored transceiver power facts is below 1 W, while the same band would store a 3 kW SFP.
+// Measured distribution: 376 of 520 under 5 W, the largest real value in the 20s (coherent QSFP-DD);
+// the one value above 40 W is a German-comma misread ("2,475 W (typisch)" stored as 2475) on a
+// tier-0 seed row, listed for the operator rather than silently changed. Like the unit and domain
+// overrides, a per-category band is not representable in field_dictionary and is not synced.
+export const BAND_OVERRIDES: Record<string, Record<string, [number, number]>> = {
+  transceiver: { power_max: [0.1, 40] },
 };
 
 export function unitFor(category: string, key: string): string | undefined {
   return UNIT_OVERRIDES[category]?.[key] ?? FIELD_DICTIONARY[key]?.unit;
+}
+
+export function bandFor(category: string, key: string): [number, number] | undefined {
+  return BAND_OVERRIDES[category]?.[key] ?? FIELD_DICTIONARY[key]?.band;
 }
 
 export function domainFor(category: string, key: string): string[] | undefined {
@@ -1598,6 +1642,7 @@ export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string
     "qsfp-plus": { de: "QSFP+", en: "QSFP+" }, qsfp28: { de: "QSFP28", en: "QSFP28" },
     qsfp56: { de: "QSFP56", en: "QSFP56" }, "qsfp-dd": { de: "QSFP-DD", en: "QSFP-DD" },
     cfp: { de: "CFP", en: "CFP" }, cfp2: { de: "CFP2", en: "CFP2" },
+    cpak: { de: "CPAK", en: "CPAK" }, osfp: { de: "OSFP", en: "OSFP" },
   },
   deploy_role: {
     access: { de: "Access", en: "Access" }, aggregation: { de: "Aggregation", en: "Aggregation" },
@@ -1628,6 +1673,8 @@ export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string
     "front-to-back": { de: "Vorne nach hinten", en: "Front to back" },
     "back-to-front": { de: "Hinten nach vorne", en: "Back to front" },
     side: { de: "Seitlich", en: "Side" }, reversible: { de: "Umkehrbar", en: "Reversible" },
+    "port-side-intake": { de: "Ansaugung portseitig", en: "Port-side intake" },
+    "port-side-exhaust": { de: "Ausblasung portseitig", en: "Port-side exhaust" },
   },
   mgmt_ports: {
     "console-rj45": { de: "Konsole (RJ45)", en: "Console (RJ45)" },
@@ -1651,7 +1698,7 @@ export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string
   connector: {
     "lc-duplex": { de: "LC Duplex", en: "LC duplex" }, "lc-simplex": { de: "LC Simplex", en: "LC simplex" },
     sc: { de: "SC", en: "SC" }, "mpo-12": { de: "MPO-12", en: "MPO-12" },
-    "mpo-16": { de: "MPO-16", en: "MPO-16" }, rj45: { de: "RJ45", en: "RJ45" },
+    "mpo-16": { de: "MPO-16", en: "MPO-16" }, "mpo-24": { de: "MPO-24", en: "MPO-24" }, rj45: { de: "RJ45", en: "RJ45" },
     integrated: { de: "Fest konfektioniert", en: "Integrated" },
   },
   laser_type: {
@@ -1661,6 +1708,10 @@ export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string
   mode: {
     duplex: { de: "Duplex (Zweifaser)", en: "Duplex (two-fibre)" },
     "simplex-bidi": { de: "BiDi (Einzelfaser)", en: "BiDi (single-fibre)" },
+    "duplex-bidi": { de: "BiDi über Duplex-Faserpaar", en: "BiDi over a duplex fibre pair" },
+  },
+  dac_type: {
+    passive: { de: "Passiv", en: "Passive" }, active: { de: "Aktiv", en: "Active" },
   },
   fec: {
     none: { de: "Nicht erforderlich", en: "Not required" },

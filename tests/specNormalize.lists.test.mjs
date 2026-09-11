@@ -254,8 +254,13 @@ norm("the metric restatement in brackets also keeps its sign", "switches", "temp
 // =================================================================================================
 // 3. the version
 // =================================================================================================
-check("NORM_VERSION was bumped for these changes", NORM_VERSION === "1.5.2",
-  `a value stored under 1.5.0 splits differently under this build, so the version must say so; got ${NORM_VERSION}`);
+// At LEAST 1.5.2, not exactly — the point is that it moved past 1.5.0 for these changes. The exact
+// pin broke when the next normaliser change (1.6.0, 11 Sep 2026) bumped it again.
+{
+  const [maj, min, pat] = NORM_VERSION.split(".").map(Number);
+  check("NORM_VERSION was bumped for these changes", maj > 1 || (maj === 1 && (min > 5 || (min === 5 && pat >= 2))),
+    `a value stored under 1.5.0 splits differently under this build, so the version must say so; got ${NORM_VERSION}`);
+}
 
 console.log(`${pass}/${pass + misses.length} passed`);
 if (misses.length) {
