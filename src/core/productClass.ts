@@ -501,6 +501,11 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "exact", token: "NX-OS", klass: "software", why: "'Cisco NX-OS'" },
   { kind: "exact", token: "SF-ASASM-8.5-K8", klass: "software", why: "'ASA Software 8.5 for Catalyst 6500-E ASASM, 2 free VFW'" },
   { kind: "exact", token: "C2K-SW-EXT", klass: "service", why: "'C2K Security and Vulnerability Software Support extension'" },
+  // Found by the switches KIND audit, after round 8: parts whose kind was wrong because their CLASS was.
+  { kind: "prefix", token: "SC4K-", klass: "software", why: "CatOS supervisor image ('Catalyst 4K Supervisor Flash Image w/ SSH, Release 7.6.9'); 5 parts, 0 facts" },
+  // An ordering option that ships nothing: "ECO friendly green option, no power cable will be
+  // shipped". Exact, not a NO- prefix — NO-OS-SELECTION is already non-hardware and would churn.
+  { kind: "exact", token: "NO-POWER-CORD", klass: "non_product", why: "'ECO friendly green option, no power cable will be shipped' — an option that ships nothing" },
 ];
 
 /** The reason string a rule emits — the same slug runs/vocab/cisco-round2 uses. */

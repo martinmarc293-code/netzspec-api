@@ -106,14 +106,16 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   // FAN, FAN1, FANTRAY, and Nexus's single-fan SFAN. 140 fan-evidence, 0 genuine device. NXASFAN
   // glues the NXA accessory prefix onto SFAN with no hyphen; BLWR is the RPS 2300's blower.
   { kind: "fan", re: /(?:^|-)(?:NXA)?S?FAN(?:TRAY)?\d*(?:-|=|$)|(?:^|-)BLWR(?:-|=|$)/ },
-  { kind: "cable", re: /(?:^|-)(?:CAB|CBL)(?:-|=|$)|-STACK|^STACK-|-STK(?:-|=|$)/ },
+  // CB-LC-LC-SMF (a patch cord) and CSS5-CABSX-LC= (a fibre cable) were `module` until 11 Sep 2026:
+  // their "-LC" reads as the line-card marker, and cable runs before module precisely so it wins.
+  { kind: "cable", re: /(?:^|-)(?:CAB|CBL)(?:-|=|$)|-STACK|^STACK-|-STK(?:-|=|$)|^CB-|(?:^|-)CAB[A-Z]{1,3}-|^CAT(?:5E|6A?)$/ },
   {
     kind: "accessory",
-    re: /(?:^|-)(?:BLNK|BLANK|BRKT|RCKMNT|MNT|KIT|ACC|CVR|TRAY|RAIL|REC|COVER)(?:-|=|\d|$)|(?:^|-)(?:MEM|SSD|CF|CPF|USB|RMK|RMB|RM|ACK|RACK|RACKMNT|DINRAIL|CBLE|PCM|CPU|CLK|BMP|DINCLP|RPNL|XBLNK|AFLT)(?:-|=|$)|[A-Z0-9]KIT(?:-|=|$)|FILTER(?:-|=|$)|(?:^|-)M?SD-(?:IE-)?\d+G/,
+    re: /(?:^|-)(?:BLNK|BLANK|BRKT|RCKMNT|MNT|KIT|ACC|CVR|TRAY|RAIL|REC|COVER)(?:-|=|\d|$)|(?:^|-)(?:MEM|SSD|CF|CPF|USB|RMK|RMB|RM|ACK|RACK|RACKMNT|DINRAIL|CBLE|PCM|CPU|CLK|BMP|DINCLP|RPNL|XBLNK|AFLT|BKT)(?:-|=|$)|[A-Z0-9]KIT(?:-|=|$)|FILTER(?:-|=|$)|(?:^|-)M?SD-(?:IE-)?\d+G|^FQ(?:9N|MAP)/,
   },
   // PAC 66/83 psu, PHV 17/17, PDC 26/27, CAC 8/10, and a bare wattage token 111/135. Widened: the
   // AC/DC letters may follow a hyphen, kilowatts, the PUV universal supply, a trailing wattage, RPS.
-  { kind: "power", re: /(?:^|-)(?:PWR|PAC|PHV|PDC|PSU|CAC|DCPWR|ACPWR|PUV)(?:-|=|\d|$)|-\d+W-?(?:AC|DC)|\d(?:\.\d)?KW|-\d{3,4}W(?:-|=|$)|^RPS\d/ },
+  { kind: "power", re: /(?:^|-)(?:PWR|PAC|PHV|PDC|PSU|CAC|DCPWR|ACPWR|PUV)(?:-|=|\d|$)|-\d+W-?(?:AC|DC)|\d(?:\.\d)?KW|-\d{3,4}W(?:-|=|$)|^RPS\d|^XPS-\d/ },
   // Line cards, supervisors, network/expansion/fabric modules. Every one measured above.
   //
   // THE SECOND HALF WAS ADDED 10 SEP 2026 after a review asked for the REVERSE name control:
@@ -145,7 +147,7 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   // nobody has seen work, and productClass.test.ts's reachability check exists for that reason.
   {
     kind: "module",
-    re: /-X\d|(?:^|-)N\d+K-[MF]\d|^IEM-|-LC(?:-|=|$)|-NM(?:-|=|$)|-(?:FM|FAB)(?:-|=|\d|$)|(?:^|-)SUP(?:-|=|\d|$)|^(?:WS|VS)-F6(?:K|700)|^N5[56]-M\d|^N77-[MF]\d|^C6800-.*P10G|^VS-S(?:720|2T)|^7600-ES|^WS-S\d|^C6880-X-LE-|^SPA-|(?:^|-)SIP-\d|-DFC\d|^WS-SVC-/,
+    re: /-X\d|(?:^|-)N\d+K-[MF]\d|^IEM-|-LC(?:-|=|$)|-NM(?:-|=|$)|-(?:FM|FAB)(?:-|=|\d|$)|(?:^|-)SUP(?:-|=|\d|$)|^(?:WS|VS)-F6(?:K|700)|^N5[56]-M\d|^N77-[MF]\d|^C6800-.*P10G|^VS-S(?:720|2T)|^7600-ES|^WS-S\d|^C6880-X-LE-|^SPA-|(?:^|-)SIP-\d|(?:^|-)DFC\d|^WS-SVC-/,
   },
 ];
 

@@ -383,6 +383,8 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["NX-OS", "Cisco NX-OS", "switches", "software", "sku-exact:NX-OS"],
     ["SF-ASASM-8.5-K8", "ASA Software 8.5 for Catalyst 6500-E ASASM, 2 free VFW", "switches", "software", "sku-exact:SF-ASASM-8.5-K8"],
     ["C2K-SW-EXT", "C2K Security and Vulnerability Software Support extension", "switches", "service", "sku-exact:C2K-SW-EXT"],
+    ["SC4K-SUPK9-7.6.9", "Catalyst 4K Supervisor Flash Image w/ SSH, Release 7.6.9", "switches", "software", "sku-prefix:SC4K-"],
+    ["NO-POWER-CORD", "ECO friendly green option, no power cable will be shipped", "switches", "non_product", "sku-exact:NO-POWER-CORD"],
   ];
   for (const [sku, name, cat, klass, reason] of added) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });

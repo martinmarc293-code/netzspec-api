@@ -97,6 +97,13 @@ const CASES: [string, string][] = [
   ["NXASFAN-160CFM2PE", "fan"],        // "Cisco Nexus fan, 160CFM, port-side exhaust airflow"
   ["BLWR-RPS2300=", "fan"],            // "Spare 45CFM Blower for Cisco Redundant Power System 2300"
   ["STACK-T1-3M", "cable"],            // "Data stack 3m" — no hyphen before STACK
+  ["CB-M12-4LC-SMF", "cable"],         // "Cable, MPO12-4X duplex LC, breakout cable, SMF"
+  ["CSS5-CABSX-LCSC=", "cable"],       // "Cisco CSS 11500 10m multimode fiber, SX LC-to-SC connectors"
+  ["CAT6A", "cable"],                  // "Copper cable for 10G"
+  ["C4948-REAR-BKT=", "accessory"],    // "C49xx rear mount brackets"
+  ["FQMAP66BL", "accessory"],          // "QuickNet Fiber Optic Migration Adapter Panel"
+  ["DFC3CXL", "module"],               // a bare Distributed Forwarding Card PID
+  ["XPS-2200", "power"],               // "eXpandable Power System 2200"
 
   // power
   ["NXA-PAC-500W", "power"],
@@ -167,6 +174,9 @@ eq("MEM-X45 is memory, not a line card (its -X45 reads as the -X module marker)"
 eq("WS-X4507-FILTER= is an air filter, not a line card", switchKind("WS-X4507-FILTER="), "accessory");
 eq("a 2500W power CORD is a cable, not a power supply", switchKind("CAB-AC-2500W-EU"), "cable");
 eq("a USB console CABLE is a cable, not USB flash", switchKind("CAB-CONSOLE-USB-C"), "cable");
+eq("a LC-LC patch cord is a cable, not a line card (its -LC- reads as the module marker)", switchKind("CB-LC-LC-SMF"), "cable");
+eq("a fibre cable ending -LC= is a cable, not a line card", switchKind("CSS5-CABSX-LC="), "cable");
+eq("the XPS 2200 FAN module is a fan, not the power system it cools", switchKind("XPS-2200-FAN"), "fan");
 // ...and the refusal that makes the SD-card marker safe: WS-C3560V2-24TS-SD is a Catalyst 3560V2
 // SWITCH ("24 10/100 + 2 SFP + IPB Image + DC Power") whose PID ends in -SD. The marker requires a
 // capacity after SD-, so a trailing -SD cannot fire it.
