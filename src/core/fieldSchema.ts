@@ -35,7 +35,7 @@ export type Condition =
 /** req = always required · opt = nice to have · cond = required only when the condition holds
  *  (not-applicable otherwise) · na = never applicable to this category. */
 import { UCS_MACHINE } from "./ucsKind.js";
-import { SW_DEVICE } from "./switchKind.js";
+import { SW_DEVICE, SW_BOX, SW_COMPONENT } from "./switchKind.js";
 import { GENERIC_DEVICE } from "./componentKind.js";
 
 export type Requirement =
@@ -441,6 +441,12 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   breakout: { key: "breakout", de: "Breakout-Konfiguration", en: "Breakout configuration", type: "s", examples: ["1x4", "1x2", "1x8"], etim: [], icecat: null },
   tunable: { key: "tunable", de: "Wellenlänge durchstimmbar", en: "Tunable wavelength", type: "b", etim: [], icecat: null },
   dac_type: { key: "dac_type", de: "DAC-Typ (passiv/aktiv)", en: "DAC type (passive/active)", type: "e", domain: ["passive", "active"], etim: [], icecat: null },
+  // A power cord's plug (CEE 7/7, NEMA 5-15P, SEV 1011). Declared OPTIONAL: no source label names it.
+  plug_type: { key: "plug_type", de: "Steckertyp", en: "Plug type", type: "s", examples: ["CEE 7/7", "NEMA 5-15P", "SEV 1011"], etim: [], icecat: null },
+  // psu_rated_output had no band. It becomes a REQUIRED field of every switches PSU on 11 Sep 2026,
+  // and a required number with no plausibility range is the shape that once stored 100 ports on a
+  // one-port optic. Measured on the 277 PSU wattages it inherits: 240 W to 6,000 W.
+  psu_rated_output: { key: "psu_rated_output", de: "Nennausgangsleistung", en: "Rated power output", type: "n", unit: "W", band: [5, 20000], etim: [], icecat: null },
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -897,11 +903,26 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // --- the device itself -----------------------------------------------------------------
     mgmt_class: cond({ field: "kind", inList: [...SW_DEVICE] }),
     layer: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    form_factor: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    // SW_BOX = switch + fex (11 Sep 2026): a fabric extender is a box you rack and power, so it keeps
+    // the physical envelope below; it is not asked what only a SWITCHING device has.
+    form_factor: cond({ field: "kind", inList: [...SW_BOX] }),
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
     stackable: cond({ field: "kind", inList: ["switch"] }), deploy_role: opt,
-    ports: cond({ field: "kind", inList: [...SW_DEVICE, "module"] }),
-    uplink_ports: cond({ field: "kind", inList: [...SW_DEVICE] }), uplink_modular: opt,
+    // PORTS ARE NOT ASKED OF A MODULAR CHASSIS (11 Sep 2026, reviewer §1.8, reshaped by measurement).
+    // The reviewer proposed "uplink_ports only for access families — Nexus, 4500-X and 9500 have
+    // none". Measured, that is false for fixed switches: Cisco's own datasheets call the 6x100G on a
+    // Nexus 93180YC-FX and the 4x100G on a C9500-48Y4C "uplink ports". What has neither is a bare
+    // CHASSIS (WS-C4507R-E, N9K-C9508): its ports arrive on line cards. So both fields are asked of
+    // a switch until its form factor says modular-chassis, and of the kinds that carry ports themselves.
+    ports: cond({ any: [
+      { field: "kind", inList: ["module", "linecard", "fex"] },
+      { all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", ne: "modular-chassis" }] },
+    ] }),
+    uplink_ports: cond({ any: [
+      { field: "kind", inList: ["fex", "supervisor"] },
+      { all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", ne: "modular-chassis" }] },
+    ] }),
+    uplink_modular: opt,
     module_slots: cond({ any: [{ field: "form_factor", eq: "modular-chassis" }, { field: "uplink_modular", eq: true }] }),
     // mgmt_ports holds ZERO facts across every Cisco category, not merely across this one —
     // measured 10 Sep 2026, and the four mentions in data/schema/source-fields.json are
@@ -921,8 +942,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // the budget is the chassis PSU's, not the card's. The kind is now a clause of its own, and
     // requirementFor settles an `all` as soon as one answered clause is false (settledFalse).
     // A PoE line card still owes its PoE PORT count ("48-Port PoE 802.3at"); only switches owe a budget.
-    poe_standard: cond({ field: "kind", inList: ["switch", "module"] }),
-    poe_ports: cond({ all: [{ field: "kind", inList: ["switch", "module"] }, { field: "poe_standard", ne: "none" }] }),
+    poe_standard: cond({ field: "kind", inList: ["switch", "module", "linecard"] }),
+    poe_ports: cond({ all: [{ field: "kind", inList: ["switch", "module", "linecard"] }, { field: "poe_standard", ne: "none" }] }),
     poe_budget: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "poe_standard", ne: "none" }] }),
     poe_per_port_max: opt,
     // SPLIT 11 Sep 2026. Until today modules kept these two on the note that Cisco publishes "a
@@ -941,7 +962,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // being asked for ports and a PoE standard, which no fabric module has.
     switching_capacity: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
     forwarding_rate: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
-    fabric_bandwidth: cond({ field: "kind", inList: ["supervisor", "fabric"] }),
+    // + linecard (11 Sep 2026, reviewer §1.5): a card in a chassis slot has a fabric connection — the
+    // 31 per-slot figures moved on 11 Sep all sit on line cards (WS-X47xx, WS-X68xx, C6800 port cards).
+    fabric_bandwidth: cond({ field: "kind", inList: ["supervisor", "fabric", "linecard"] }),
     stacking_bandwidth: cond({ field: "stackable", eq: true }),
     // stack_max_members is OPTIONAL, not conditional, and the measurement is the reason:
     // ZERO facts hold it — across every category and every vendor in the catalogue — and ZERO
@@ -952,32 +975,56 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // is accepted the day a source publishes one. Measured 10 Sep 2026.
     stack_max_members: opt,
     packet_buffer: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    mac_table: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    // A SUPERVISOR sets the chassis' table sizes and memory (11 Sep 2026, reviewer §1.6): Sup2T 128K
+    // MAC entries, C9400-SUP-1XL 16 GB. 10 supervisors already hold a mac_table, 7 an ipv4_routes.
+    mac_table: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
     vlan_max: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    ipv4_routes: cond({ field: "layer", ne: "l2" }),
+    ipv4_routes: cond({ any: [{ field: "kind", inList: ["supervisor"] }, { field: "layer", ne: "l2" }] }),
     ipv6_routes: cond({ field: "layer", ne: "l2" }),
     multicast_groups: opt, acl_entries: opt,
     jumbo_mtu: cond({ field: "kind", inList: [...SW_DEVICE] }), latency: opt, cpu: opt,
-    dram: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    flash: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    psu_config: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    psu_redundant: cond({ field: "kind", inList: [...SW_DEVICE] }), psu_options: opt,
-    cooling: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    airflow: cond({ field: "deploy_role", inList: ["datacenter-tor", "aggregation", "core"] }),
-    // --- physical: the device, and the parts that have their own -----------------------------
-    power_typical: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    power_max: cond({ field: "kind", inList: [...SW_DEVICE, "power"] }),
-    input_voltage: cond({ field: "kind", inList: [...SW_DEVICE, "power"] }), input_freq: opt,
-    heat_dissipation: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    temp_operating: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    temp_storage: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    humidity_operating: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    altitude_max: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    acoustic_noise: opt, mtbf: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    dimensions: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    weight: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    certifications: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    ieee_standards: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    dram: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
+    flash: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
+    psu_config: cond({ field: "kind", inList: [...SW_BOX] }),
+    // Redundancy is a question only where a PSU is MODULAR (11 Sep 2026, reviewer §1.8): a switch with
+    // a fixed internal supply has nothing to be redundant, and no source prints "not redundant".
+    psu_redundant: cond({ field: "psu_config", inList: ["modular-single", "modular-redundant"] }), psu_options: opt,
+    cooling: cond({ field: "kind", inList: [...SW_BOX] }),
+    // AIRFLOW IS HOW A FAN OR A PSU IS SOLD (11 Sep 2026, reviewer §1.3): NXA-PAC-1100W-PE2 and -PI2 are
+    // the same supply with the air going opposite ways, and FEX packs come as "Standard" or "Reversed
+    // airflow pack". Fillable — "Airflow" / "Airflow direction" / "Air flow" occur 185 times in the
+    // datasheet inventory, and 145 fans and PSUs already hold a value. Switches keep the role gate.
+    airflow: cond({ any: [{ field: "kind", inList: ["fan", "power", "fex"] }, { field: "deploy_role", inList: ["datacenter-tor", "aggregation", "core"] }] }),
+    // --- physical: the box, and the parts that have their own -----------------------------------
+    power_typical: cond({ field: "kind", inList: [...SW_BOX] }),
+    // A PSU's wattage is what it DELIVERS (psu_rated_output), not what it draws (power_max): all 277
+    // power_max facts on power-kind parts read "<n>W" off the supply's own name — "Cisco N9000 1400W AC
+    // power supply" — and are moved to psu_rated_output by scripts/rekey-psu-and-compat.mts. A line
+    // card DRAWS power of its own, and Cisco prints it (48 line cards hold one today).
+    power_max: cond({ field: "kind", inList: [...SW_BOX, "linecard"] }),
+    psu_rated_output: cond({ field: "kind", inList: ["power"] }),
+    input_voltage: cond({ field: "kind", inList: [...SW_BOX, "power"] }), input_freq: opt,
+    heat_dissipation: cond({ field: "kind", inList: [...SW_BOX] }),
+    temp_operating: cond({ field: "kind", inList: [...SW_BOX] }),
+    temp_storage: cond({ field: "kind", inList: [...SW_BOX] }),
+    humidity_operating: cond({ field: "kind", inList: [...SW_BOX] }),
+    altitude_max: cond({ field: "kind", inList: [...SW_BOX] }),
+    acoustic_noise: opt, mtbf: cond({ field: "kind", inList: [...SW_BOX] }),
+    dimensions: cond({ field: "kind", inList: [...SW_BOX] }),
+    weight: cond({ field: "kind", inList: [...SW_BOX] }),
+    certifications: cond({ field: "kind", inList: [...SW_BOX] }),
+    ieee_standards: cond({ field: "kind", inList: [...SW_BOX] }),
+    // WHAT IT FITS (11 Sep 2026, reviewer §1.1): the first question asked of a line card, a PSU or a
+    // fan, and asked of NONE of them until today. Fillable — "Product compatibility" (92),
+    // "Chassis compatibility" (36) and "Chassis support" (23) occur in the datasheet inventory; only 5
+    // components hold a value yet, which is coverage, not schema. chassis_compatibility, the same
+    // quantity under a second key, is retired into this one (SUPERSEDED_KEYS).
+    product_compatibility: cond({ field: "kind", inList: [...SW_COMPONENT] }),
+    // A cable is bought by its length ("3M Type 2 Stacking Cable", "Power Cord ... 2.5m"); "Length"
+    // occurs 58 times in the inventory and already maps to cable_length. The plug of a power cord is
+    // declared OPTIONAL: no label in any source inventory names it yet.
+    cable_length: cond({ field: "kind", inList: ["cable"] }),
+    plug_type: opt,
     ip_rating: cond({ any: [{ field: "form_factor", eq: "din-rail" }, { field: "deploy_role", eq: "industrial" }] }),
     // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
     psu_efficiency: opt, power_cord_rating: opt, box_contents: opt, qos_queues: opt,
@@ -1544,6 +1591,10 @@ export const SUPERSEDED_KEYS: Readonly<Record<string, string>> = {
   indicator_leds: "status_leds",                        // 0 vs 36; "^indicator leds$" already writes status_leds
   poe_budget_redundant_psu: "poe_budget_redundant",     // 0 vs 7; the latter is numeric, in W
   enclosure_material: "housing_material",               // both 0; the enclosure alias is redirected
+  // A SYNONYM the label scan could not see (different labels, same quantity): which chassis or products
+  // a part fits. 9 facts, moved by scripts/rekey-psu-and-compat.mts; its two aliases are redirected.
+  // The first retirement that moves VALUES — every one before it held zero facts. 11 Sep 2026.
+  chassis_compatibility: "product_compatibility",       // 9 vs 70; "Chassis compatibility" / "Chassis support"
 };
 for (const p of Object.values(PROFILES)) {
   for (const [dup, canon] of Object.entries(SUPERSEDED_KEYS)) {

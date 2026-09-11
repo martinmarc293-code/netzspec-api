@@ -111,13 +111,19 @@ check("and the collapse is severe enough to be worth a guard",
     "hyperconverged-infrastructure": "CAB-9K16A-AUS", "meraki": "CAB-9K16A-AUS",
     "switches": "CAB-9K16A-AUS", "servers-unified-computing": "CAB-C13-C14-AC=",
   };
+  // SWITCHES ASKS A COMPONENT ITS OWN QUESTIONS since 11 Sep 2026 (reviewer §1.1/§1.7): a cable its
+  // length and what it fits. So the guard there is the leak it was written for — NO DEVICE QUESTION
+  // reaches a component — asserted against an explicit allow-list of what a cable may be asked.
+  const COMPONENT_OWN: Record<string, string[]> = { switches: ["cable_length", "product_compatibility"] };
   for (const cat of declared) {
     const sku = COMPONENT_PROBE[cat];
     if (!sku) { check(`a component probe exists for ${cat}`, false, "add one to COMPONENT_PROBE"); continue; }
     const kind = partKind(cat, sku);
     const c = completenessV2(cat, { kind, vendor: "cisco" } as never);
-    check(`${cat}: a component (${sku}, kind=${kind}) is asked NOTHING`,
-      c.required_total === 0, `required_total=${c.required_total}, missing=[${c.missing.join(",")}]`);
+    const allowed = COMPONENT_OWN[cat] ?? [];
+    const leaked = c.missing.filter((k) => !allowed.includes(k));
+    check(`${cat}: a component (${sku}, kind=${kind}) is asked no DEVICE question${allowed.length ? ` (only ${allowed.join(", ")})` : " at all"}`,
+      leaked.length === 0, `required_total=${c.required_total}, missing=[${c.missing.join(",")}]`);
   }
   // And the control: a DEVICE in the same category must still be asked something, or the gate has
   // simply switched the whole category off.

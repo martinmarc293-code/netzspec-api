@@ -55,11 +55,19 @@
 // test was wrong, not the axis.
 
 export type SwitchKind =
-  | "switch" | "module" | "supervisor" | "fabric" | "daughter"
+  | "switch" | "fex" | "linecard" | "module" | "supervisor" | "fabric" | "daughter"
   | "power" | "fan" | "cable" | "accessory" | "software";
 
 /** Kinds that are a whole networking device — the only ones a switching specification belongs to. */
 export const SW_DEVICE: readonly SwitchKind[] = ["switch"];
+
+/**
+ * Kinds that are a whole BOX you rack and power — they carry a physical envelope (dimensions, weight,
+ * temperatures, power, PSU, cooling, certifications) whether or not they switch. A fabric extender is
+ * the one box that does not switch: it forwards everything to its parent, so it is asked the envelope
+ * and its ports, never a MAC table, VLANs, a layer, stacking, DRAM or flash (11 Sep 2026).
+ */
+export const SW_BOX: readonly SwitchKind[] = ["switch", "fex"];
 
 /**
  * Kinds that plug into one.
@@ -80,7 +88,11 @@ export const SW_DEVICE: readonly SwitchKind[] = ["switch"];
  * so in their name; every remaining one was read (C9400X-SUP-2, N9K-C9508-FM-G, "Dist Fwd Card").
  */
 export const SW_PART: readonly SwitchKind[] =
-  ["module", "supervisor", "fabric", "daughter", "power", "fan", "cable", "accessory", "software"];
+  ["linecard", "module", "supervisor", "fabric", "daughter", "power", "fan", "cable", "accessory", "software"];
+
+/** Kinds that plug into or attach to a switch — every one is bought for WHAT IT FITS (11 Sep 2026). */
+export const SW_COMPONENT: readonly SwitchKind[] =
+  ["linecard", "module", "supervisor", "fabric", "daughter", "power", "fan", "cable", "accessory"];
 
 // Ordered; the FIRST rule that matches wins. The order is not cosmetic:
 //   fan before power   — `NXA-` is a Nexus ACCESSORY prefix covering both (27 fans, 74 supplies),
@@ -119,21 +131,34 @@ export const SW_PART: readonly SwitchKind[] =
 // filed in `switches`. The CPU and SD markers give some of them a truer kind, but the defect is their
 // category, which is a row-membership decision held for the operator.
 const RULES: { kind: SwitchKind; re: RegExp }[] = [
+  // CABLE FIRST since 11 Sep 2026 (reviewer §0.6): four Swiss power cords — CAB-TA-SW, CAB-9K16A-SW,
+  // CAB-3KX-AC-SW, CAB-AC-16A-SG-SW — end in "-SW", the COUNTRY, and the software rule below read it as
+  // software. CB-LC-LC-SMF (a patch cord) and CSS5-CABSX-LC= (a fibre cable) were `module` until the
+  // same day: their "-LC" reads as the line-card marker.
+  { kind: "cable", re: /(?:^|-)(?:CAB|CBL)(?:-|=|$)|-STACK|^STACK-|-STK(?:-|=|$)|^CB-|(?:^|-)CAB[A-Z]{1,3}-|^CAT(?:5E|6A?)$/ },
   // N5KUK9-503N1.1, NXOS-703I7.6 — an operating-system image sold under a switch family PID.
-  { kind: "software", re: /(?:^|-)(?:NXOS|SW|IOS)(?:-|$)|UK9(?:-|=|$)/ },
+  // N9K-C9400-SW-GX2A is excluded: "Cisco N9400 switch card", a line card whose "-SW-" is not software.
+  { kind: "software", re: /^(?!N9K-C9400-SW-)(?:.*?(?:^|-)(?:NXOS|SW|IOS)(?:-|$)|.*UK9(?:-|=|$))/ },
   // FAN, FAN1, FANTRAY, and Nexus's single-fan SFAN. 140 fan-evidence, 0 genuine device. NXASFAN
   // glues the NXA accessory prefix onto SFAN with no hyphen; BLWR is the RPS 2300's blower.
   { kind: "fan", re: /(?:^|-)(?:NXA)?S?FAN(?:TRAY)?\d*(?:-|=|$)|(?:^|-)BLWR(?:-|=|$)/ },
-  // CB-LC-LC-SMF (a patch cord) and CSS5-CABSX-LC= (a fibre cable) were `module` until 11 Sep 2026:
-  // their "-LC" reads as the line-card marker, and cable runs before module precisely so it wins.
-  { kind: "cable", re: /(?:^|-)(?:CAB|CBL)(?:-|=|$)|-STACK|^STACK-|-STK(?:-|=|$)|^CB-|(?:^|-)CAB[A-Z]{1,3}-|^CAT(?:5E|6A?)$/ },
+  // + 11 Sep 2026: N2K-QSFP-* / N2K-F10G-* are "N2K Uplink option" SETS OF TRANSCEIVERS for a fabric
+  // extender, not extenders; CSP-MR-* are server DIMMs; SD-X45-2GB-E= is an SD card the SD marker missed.
   {
     kind: "accessory",
-    re: /(?:^|-)(?:BLNK|BLANK|BRKT|RCKMNT|MNT|KIT|ACC|CVR|TRAY|RAIL|REC|COVER)(?:-|=|\d|$)|(?:^|-)(?:MEM|SSD|CF|CPF|USB|RMK|RMB|RM|ACK|RACK|RACKMNT|DINRAIL|CBLE|PCM|CPU|CLK|BMP|DINCLP|RPNL|XBLNK|AFLT|BKT)(?:-|=|$)|[A-Z0-9]KIT(?:-|=|$)|FILTER(?:-|=|$)|(?:^|-)M?SD-(?:IE-)?\d+G|^FQ(?:9N|MAP)|BLNKCVR(?:-|=|$)/,
+    re: /(?:^|-)(?:BLNK|BLANK|BRKT|RCKMNT|MNT|KIT|ACC|CVR|TRAY|RAIL|REC|COVER)(?:-|=|\d|$)|(?:^|-)(?:MEM|SSD|CF|CPF|USB|RMK|RMB|RM|ACK|RACK|RACKMNT|DINRAIL|CBLE|PCM|CPU|CLK|BMP|DINCLP|RPNL|XBLNK|AFLT|BKT)(?:-|=|$)|[A-Z0-9]KIT(?:-|=|$)|FILTER(?:-|=|$)|(?:^|-)M?SD-(?:IE-|X\d+-)?\d+G|^FQ(?:9N|MAP)|BLNKCVR(?:-|=|$)|^N2K-(?:QSFP|F\d)|^CSP-MR-/,
   },
   // PAC 66/83 psu, PHV 17/17, PDC 26/27, CAC 8/10, and a bare wattage token 111/135. Widened: the
   // AC/DC letters may follow a hyphen, kilowatts, the PUV universal supply, a trailing wattage, RPS.
   { kind: "power", re: /(?:^|-)(?:PWR|PAC|PHV|PDC|PSU|CAC|DCPWR|ACPWR|PUV)(?:-|=|\d|$)|-\d+W-?(?:AC|DC)|\d(?:\.\d)?KW|-\d{3,4}W(?:-|=|$)|^RPS\d|^XPS-\d/ },
+  // FABRIC EXTENDERS — 11 Sep 2026, reviewer §1.4, measured: 166 N2K-* / N2### parts sat in `switch`
+  // and were asked a MAC table, a VLAN maximum, a layer, stacking, DRAM and flash — none of which a FEX
+  // has: it switches nothing, its parent does. Every one of the 166 was read; all are extenders or
+  // extender packs ("Reversed airflow pack: N2K-C2232PP-10GE, 2AC PS, 1Fan") except the uplink-option
+  // transceiver sets, which the accessory rule above already took. After fan and power, so a FEX's own
+  // PSU (N2K-PAC-400W) and fan stay what they are. N5548UPM-4FEX ("Nexus 5548UP ... 4 x FEX") is a
+  // bundle led by a 5548 SWITCH and does not start with N2, so it stays `switch`.
+  { kind: "fex", re: /^N2K-(?:C2|B22|UCS22)|^N2\d{3}[A-Z]*(?:-|=|$)/ },
   // Line cards, supervisors, network/expansion/fabric modules. Every one measured above.
   //
   // THE SECOND HALF WAS ADDED 10 SEP 2026 after a review asked for the REVERSE name control:
@@ -175,11 +200,21 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   { kind: "fabric", re: /^(?!N35-).*-(?:FM|FAB)(?:-|=|\d|$)/ },
   // Daughter cards: 6500 PFC / DFC / CFC / MSFC boards, and the DFC 4-packs.
   { kind: "daughter", re: /^(?:WS|VS)-F6(?:K|700)|(?:^|-)DFC\d/ },
-  // Everything left that plugs into a slot and carries PORTS: line cards, network and expansion
-  // modules, port cards, port adapters and their interface processors, service modules.
+  // LINE CARDS — split from `module` on 11 Sep 2026 (reviewer §1.5). A card that takes a CHASSIS SLOT
+  // has a fabric connection and its own power draw; an uplink or expansion module for a fixed switch
+  // (C9300-NM-8X, N9K-M6PQ "Uplink Module for Nexus 9300") and a port adapter have neither. N7K/N77 M
+  // and F cards, WS-X / N9K-X / ME-X / NXM-X cards, -LC- cards, 6800/6880 port cards, 7600 ES cards,
+  // WS-SVC service modules, SPA interface processors, and the N9400 switch card.
+  {
+    kind: "linecard",
+    re: /^N9K-C9400-SW-|^N7K-[MF]\d|^N77-[MF]\d|-X\d|-LC(?:-|=|$)|^C6800-.*P10G|^7600-ES|^C6880-X-LE-|^WS-SVC-|(?:^|-)SIP-\d/,
+  },
+  // Everything left that plugs in and carries PORTS without a chassis slot of its own: uplink and
+  // network modules for fixed switches, Nexus 5500/5600 expansion modules, IE expansion modules,
+  // shared port adapters.
   {
     kind: "module",
-    re: /-X\d|(?:^|-)N\d+K-[MF]\d|^IEM-|-LC(?:-|=|$)|-NM(?:-|=|$)|^N5[56]-M\d|^N77-[MF]\d|^C6800-.*P10G|^7600-ES|^C6880-X-LE-|^SPA-|(?:^|-)SIP-\d|^WS-SVC-/,
+    re: /(?:^|-)N\d+K-[MF]\d|^IEM-|-NM(?:-|=|$)|^N5[56]-M\d|^SPA-/,
   },
 ];
 

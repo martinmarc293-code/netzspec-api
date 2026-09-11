@@ -503,6 +503,11 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "exact", token: "C2K-SW-EXT", klass: "service", why: "'C2K Security and Vulnerability Software Support extension'" },
   // Found by the switches KIND audit, after round 8: parts whose kind was wrong because their CLASS was.
   { kind: "prefix", token: "SC4K-", klass: "software", why: "CatOS supervisor image ('Catalyst 4K Supervisor Flash Image w/ SSH, Release 7.6.9'); 5 parts, 0 facts" },
+  // The reviewer's §0.6 query (hardware rows that switchKind calls software) found six Catalyst 4500
+  // IOS XE images still classed hardware: their release tails — "331-1511SG", "S8-38E", "31-01XO" —
+  // fit neither image pattern above. Every S45*- part in the catalogue was read: 21, all images.
+  { kind: "regex", token: "cat4500-xe-image", re: /^S45[A-Z0-9]*-(?:S\d-)?\d/, probe: "S45XU-331-1511SG",
+    klass: "software", why: "Catalyst 4500 IOS XE image (S45XU-331-1511SG 'IOS Software XE Release 3.3.1 SG', S45EUK9-S8-38E); 6 more parts, 0 facts" },
   // An ordering option that ships nothing: "ECO friendly green option, no power cable will be
   // shipped". Exact, not a NO- prefix — NO-OS-SELECTION is already non-hardware and would churn.
   { kind: "exact", token: "NO-POWER-CORD", klass: "non_product", why: "'ECO friendly green option, no power cable will be shipped' — an option that ships nothing" },
@@ -526,6 +531,7 @@ export const RULE_NAMES = [
   // about a class this table had decided an hour earlier.
   "name-lic-key", "name-entitlement", "name-sw-bundle", "name-user-tier",
   "name-software-image",
+  "name-dummy-pid",
   "ucs-kind-os-license",
   "ucs-kind-non-product",
   "category-is_hardware=false",
@@ -643,6 +649,13 @@ export function classify(input: ClassifyInput): Classification {
   }
 
   const name = typeof input.name === "string" ? input.name : "";
+  // A DUMMY PID SHIPS NOTHING (11 Sep 2026, reviewer round). "Dummy PID to Track First PS S/N, 1025WAC
+  // Kingfisher", "Dummy PIDs on the test orders:", "N5596 Dummy PID - Not for use outside of N5K/N2K
+  // bundles": 71 catalogue names say dummy / tracker / placeholder PID and NONE holds a physical fact.
+  // Only "dummy" and "placeholder" are matched: NCS-55A1-24Q6-TRK is a "chassis HW Tracking PID" — in
+  // the consumption model the chassis ships under it — and the Cisco ONE "Tracker PID v01 ... no
+  // delivery" rows are already licences by their SKU rule, which runs first.
+  if (/\bdummy pids?\b|\bplaceholder pid\b/i.test(name)) return { klass: "non_product", reason: "name-dummy-pid" };
   // A NAME THAT SAYS HARDWARE OVERRIDES ALL FOUR. Found by reading the dry run rather than by
   // reasoning: `ASR5K-0F-B00-2069=` is a "Motorola PSC2 LTE Hardware and Software bundle", so
   // `name-sw-bundle` fired on a name that calls itself hardware in the same clause. A licence is

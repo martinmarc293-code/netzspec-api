@@ -14,7 +14,7 @@
 //
 // Every SKU here comes from the catalogue. None is invented — an invented SKU tests my guess
 // about the PID form rather than the rule.
-import { switchKind, SW_DEVICE, SW_PART } from "../src/core/switchKind.js";
+import { switchKind, SW_DEVICE, SW_BOX, SW_PART } from "../src/core/switchKind.js";
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -35,12 +35,22 @@ const CASES: [string, string][] = [
   ["WS-C4507R-E", "switch"],
   ["WS-C6509-V-E", "switch"],
   ["N6K-C6004", "switch"],
-  // modules: line cards, supervisors, network/expansion/fabric modules
-  ["WS-X4748-RJ45-E", "module"],
-  ["WS-X6748-SFP", "module"],
-  ["N7K-M108X2-12", "module"],
-  ["C9600-LC-48TX", "module"],
+  // LINE CARDS (a chassis slot) split from modules on 11 Sep 2026: they have a fabric connection and
+  // a power draw of their own, which an uplink module for a fixed switch does not.
+  ["WS-X4748-RJ45-E", "linecard"],
+  ["WS-X6748-SFP", "linecard"],
+  ["N7K-M108X2-12", "linecard"],
+  ["C9600-LC-48TX", "linecard"],
+  ["ME-X4748-SFP-E", "linecard"],      // "Catalyst 4500 E-Series 48-Port GE (SFP) Bundle PID"
+  ["NXM-X16C", "linecard"],            // "Nexus 100G Line Expansion Module"
+  ["N9K-C9400-SW-GX2A", "linecard"],   // "Cisco N9400 switch card" — its -SW- is not software
+  // modules: port-bearing, no chassis slot — uplink/network modules, expansion modules, adapters
   ["C3850-NM-4-1G", "module"],
+  ["N9K-M6PQ", "module"],              // "ACI capable Uplink Module for Nexus 9300, 6p 40G QSFP"
+  // FABRIC EXTENDERS: a box, not a switching device (11 Sep 2026)
+  ["N2K-C2248TP-E-1GE", "fex"],        // "2248TP-E Fabric Extender"
+  ["N2K-B22HP-P", "fex"],              // "B22HP Fabric Extender"
+  ["N2348TQ-E-BA-BUN", "fex"],         // "Reverse airflow pack: N2K-C2348TQ-E, 2AC PS, 3 Fan"
   ["IEM-3000-8FM=", "module"],
   // Split out of `module` on 11 Sep 2026 — a supervisor is asked the system switching capacity and
   // its per-slot bandwidth, a fabric module only the latter, a daughter card neither.
@@ -55,21 +65,21 @@ const CASES: [string, string][] = [
   ["WS-F6700-DFC3C", "daughter"],      // 6700 distributed forwarding card
   ["N55-M16P", "module"],              // Nexus 5500 expansion module
   ["N56-M24UP2Q", "module"],           // Nexus 5600 expansion module
-  ["N77-F324FQ-25", "module"],         // 7700 I/O line card
-  ["N77-M348XP-23L", "module"],        // 7700 M-series line card
+  ["N77-F324FQ-25", "linecard"],       // 7700 I/O line card
+  ["N77-M348XP-23L", "linecard"],      // 7700 M-series line card
   ["VS-S720-10G-3C", "supervisor"],    // Sup720 — carries no SUP token
   ["VS-S2T-10G", "supervisor"],        // Sup2T — likewise
-  ["7600-ES+2TG3C", "module"],         // 7600 Ethernet Services line card
+  ["7600-ES+2TG3C", "linecard"],       // 7600 Ethernet Services line card
   ["WS-S32-GE-3B", "supervisor"],      // Sup32
-  ["C6880-X-LE-16P10G", "module"],     // 6880-X port card
+  ["C6880-X-LE-16P10G", "linecard"],   // 6880-X port card
   // Added 11 Sep 2026 from the default-bucket audit (256 parts filed `switch` whose name said
   // otherwise). Every one from the catalogue.
   ["SPA-2X1GE", "module"],             // "Cisco 2-Port Gigabit Ethernet Shared Port Adapter"
-  ["7600-SIP-400", "module"],          // "Cisco 7600 Series SPA Interface Processor-400"
+  ["7600-SIP-400", "linecard"],        // "Cisco 7600 Series SPA Interface Processor-400" — takes a chassis slot
   ["VS-F6K-PFC4", "daughter"],         // "Cat 6k 80G Sys Daughter Board Sup2T PFC4" — the WS- twin's kind
   ["VS-F6K-MSFC3", "daughter"],        // "Catalyst 6500 Multilayer Switch Feature Card (MSFC) III"
   ["WS-DFC4AXL-4PAK=", "daughter"],    // "DFC4-AXL 4 Pack Bundle"
-  ["WS-SVC-WISM-1-K9", "module"],      // Catalyst 6500 Wireless Services Module
+  ["WS-SVC-WISM-1-K9", "linecard"],    // Catalyst 6500 Wireless Services Module — takes a chassis slot
   ["C9400-SSD-240GB", "accessory"],    // was `module` by name; storage has no ports or switching capacity
   ["MEM-SUP2T-4GB", "accessory"],      // "4G DRAM Memory Total for Sup2T and Sup2TXL"
   ["C9K-F1-SSD-480G", "accessory"],    // "Cisco pluggable SSD storage – 480 GB"
@@ -142,7 +152,7 @@ for (const [sku, kind] of CASES) eq(sku, switchKind(sku), kind);
 // is nonetheless already handled by the pre-existing `-X\d` marker, correctly (it IS a line card);
 // the second falls to the safe default. Pinned so the difference stays visible: one needs no rule
 // because a rule already covers it, the other needs no rule because there is nothing to cover.
-eq("N9K-X#### is already a module via the existing -X marker", switchKind("N9K-X9736C-FX"), "module");
+eq("N9K-X#### is a line card via the existing -X marker", switchKind("N9K-X9736C-FX"), "linecard");
 eq("N9K-SC- has no rule and takes the safe default", switchKind("N9K-SC-A"), "switch");
 
 // --- REFUSALS: the three deleted single-letter markers ---------------------------------------------
@@ -155,9 +165,13 @@ const SINGLE_LETTER: string[] = [
   "ME-3600X-24FS-M",       // ME 3600X switch
   "C3850-48XS-F-S++",      // Catalyst 3850 48-port fibre switch
   "WS-C4500X-F-16SFP+",    // Catalyst 4500-X, "F" = front-to-back airflow
-  "N2K-B22DELL-F",         // B22 fabric extender — a device
 ];
 for (const sku of SINGLE_LETTER) eq(`single letter is not a kind: ${sku}`, switchKind(sku), "switch");
+// N2K-B22DELL-F stood in the list above until 11 Sep 2026, pinned as "a device". It still is one — a
+// fabric extender, a BOX — and its trailing F is still an airflow code, not a component marker: it is
+// `fex` through the N2K-B22 token, and must never become a part.
+eq("N2K-B22DELL-F is a fabric extender (a box), its -F is airflow not a kind", switchKind("N2K-B22DELL-F"), "fex");
+eq("N2K-B22DELL-F is not a part kind", (SW_PART as readonly string[]).includes(switchKind("N2K-B22DELL-F")), false);
 
 // --- REFUSALS: FAB is a fabric MODULE, not a chassis -----------------------------------------------
 // `CHAS`/`CHASSIS` as a segment matches exactly one SKU in 8,985 and it is a MIB name, so there is
@@ -192,6 +206,17 @@ eq("a Xenpak blank cover under the WS-F6K- prefix is an accessory, not a daughte
 // SWITCH ("24 10/100 + 2 SFP + IPB Image + DC Power") whose PID ends in -SD. The marker requires a
 // capacity after SD-, so a trailing -SD cannot fire it.
 eq("a switch whose PID ends -SD is not an SD card", switchKind("WS-C3560V2-24TS-SD"), "switch");
+// 11 Sep 2026 (reviewer §0.6): four Swiss power cords ended in "-SW" and were `software`; cable now
+// runs first. The N9400 switch card's "-SW-" is not software either. And the SD marker now reads the
+// X45 platform token SD-X45-2GB-E= carries between "SD-" and its capacity.
+eq("a Swiss power cord ending -SW is a cable, not software", switchKind("CAB-9K16A-SW"), "cable");
+eq("CAB-TA-SW (Switzerland Type A) is a cable", switchKind("CAB-TA-SW"), "cable");
+eq("SABOTAGE a real NX-OS image is still software", switchKind("N5KUK9-503N1.1"), "software");
+eq("an SD card with a platform token is an accessory, not a line card", switchKind("SD-X45-2GB-E="), "accessory");
+eq("an N2K uplink-option transceiver set is an accessory, not a fabric extender", switchKind("N2K-QSFPBD-QSFPBD"), "accessory");
+eq("a server DIMM misfiled here is an accessory, not a line card", switchKind("CSP-MR-X16G1RS-H"), "accessory");
+eq("a FEX's own PSU stays a power supply", switchKind("N2K-PAC-400W"), "power");
+eq("N5548UPM-4FEX (a 5548 switch bundled with four FEX) is a switch", switchKind("N5548UPM-4FEX"), "switch");
 
 // --- degenerate input defaults to the safe side ----------------------------------------------------
 // `switch` asks the most, so an unrecognisable SKU carries gaps rather than having them closed.
@@ -202,14 +227,18 @@ for (const sku of ["", "QQQ", "ZZ-NOSUCH-1"]) {
 // --- the two sets are disjoint, neither empty, and together they are every kind ---------------------
 eq("device and part kinds do not overlap",
    SW_DEVICE.filter((k) => (SW_PART as readonly string[]).includes(k)).length, 0);
+eq("box and part kinds do not overlap (a fabric extender is a box, never a part)",
+   SW_BOX.filter((k) => (SW_PART as readonly string[]).includes(k)).length, 0);
+eq("every switching device is also a box", SW_DEVICE.every((k) => (SW_BOX as readonly string[]).includes(k)), true);
 eq("there are device kinds", SW_DEVICE.length > 0, true);
 eq("there are part kinds", SW_PART.length > 0, true);
-// Every kind the function can return must be in one set or the other, or a new kind added later is
-// silently asked nothing at all — the failure direction that closes a real switch's questions.
+// Every kind the function can return must be a BOX or a PART, or a new kind added later is silently
+// asked nothing at all — the failure direction that closes a real switch's questions. (Box, not
+// device: `fex` is a box that does not switch, added 11 Sep 2026.)
 const REACHABLE = new Set(CASES.map(([, k]) => k));
 for (const k of REACHABLE) {
-  eq(`kind "${k}" is classified as device or part`,
-     (SW_DEVICE as readonly string[]).includes(k) || (SW_PART as readonly string[]).includes(k), true);
+  eq(`kind "${k}" is classified as box or part`,
+     (SW_BOX as readonly string[]).includes(k) || (SW_PART as readonly string[]).includes(k), true);
 }
 
 lines.unshift(`    switch kind: ${passed} passed, ${failed} missed ` +

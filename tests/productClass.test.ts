@@ -385,6 +385,10 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["C2K-SW-EXT", "C2K Security and Vulnerability Software Support extension", "switches", "service", "sku-exact:C2K-SW-EXT"],
     ["SC4K-SUPK9-7.6.9", "Catalyst 4K Supervisor Flash Image w/ SSH, Release 7.6.9", "switches", "software", "sku-prefix:SC4K-"],
     ["NO-POWER-CORD", "ECO friendly green option, no power cable will be shipped", "switches", "non_product", "sku-exact:NO-POWER-CORD"],
+    ["S45XU-331-1511SG", "Cisco IOS Software XE Release 3.3.1 SG non-crypto universal image for Cisco Catalyst 4500-X 16-port and 24-port models", "switches", "software", "sku-regex:cat4500-xe-image"],
+    ["S45EUK9-S8-38E", "Cisco Catalyst 4500 Supervisor Engine 8L-E Cisco IOS Software XE release 3.8.1E crypto universal", "switches", "software", "sku-regex:cat4500-xe-image"],
+    ["PWR-C2-1025WAC-", "Dummy PID to Track First PS S/N, 1025WAC Kingfisher", "switches", "non_product", "name-dummy-pid"],
+    ["C9120-MULTI", "Dummy PIDs on the test orders:", "wireless", "non_product", "name-dummy-pid"],
   ];
   for (const [sku, name, cat, klass, reason] of added) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
@@ -475,6 +479,10 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
       "switches", "ios-image widened to three-digit releases — the 120G reads as a release"],
     ["C4500E-S7L/2-IPB", "Upgrade to Redundant Sup7L-E with IPBASE License",
       "switches", "a bare -IPB suffix (WS-C4500X-24X-IPB above is the other) — this upgrade ships a redundant supervisor"],
+    // The dummy-PID name rule matches "dummy" and "placeholder" only: an NCS "HW Tracking PID" is the
+    // line the chassis ships under in the consumption model.
+    ["NCS-55A1-24Q6-TRK", "NCS 55A1 Fixed 24X10, 25G and 6X100G chassis HW Tracking PID",
+      "routers", "a name rule on 'tracking PID' — this is the chassis' own line in the consumption model"],
     ["N5K-C5548UP-FA", "Chassis includes 32 fixed unified ports, Front-to-Back Airflow, 2 750W AC Power Supplies, Fan Trays, 1 Expansion Slot",
       "switches", "nxos-image without the no-hyphen anchor — N5K- followed by a chassis"],
   ];

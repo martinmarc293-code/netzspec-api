@@ -895,6 +895,11 @@
    "[agent switches] Directly the airflow-direction enum (port-side intake/exhaust, front-to-back)."
   ],
   [
+   "^airflow direction$",
+   "airflow",
+   "switches: 'Airflow direction' occurs 50 times in the cisco-datasheets inventory and was unmapped until 11 Sep 2026 — the same enum as 'Airflow'. Airflow became a required question of fans, PSUs and fabric extenders the same day."
+  ],
+  [
    "^fabric capacity$",
    "switching_capacity",
    "[agent routers] Chassis switch-fabric capacity is the total switching bandwidth; values in Tbps must normalize to Gbit/s. Some samples ("
@@ -1061,7 +1066,7 @@
   ],
   [
    "^Chassis compatibility$",
-   "chassis_compatibility",
+   "product_compatibility",
    "[agent routers] For line cards/components: which chassis they fit ('Compatible with all current Cisco CRS-"
   ],
   [
@@ -1361,7 +1366,7 @@
   ],
   [
    "^chassis support$",
-   "chassis_compatibility",
+   "product_compatibility",
    "routers: Values are chassis lists the card fits (ASR1004, ASR1006-X, ASR1009-X, ASR1013)."
   ],
   [
@@ -2056,7 +2061,7 @@
   ],
   [
    "^x-series chassis$",
-   "chassis_compatibility",
+   "product_compatibility",
    "servers-unified-computing: Values name the chassis the node installs into (\"Cisco UCS X9508 Chassis\") - exactly chassis_compatibility."
   ],
   [
@@ -4461,7 +4466,7 @@
   ],
   [
    "^chassis supported$",
-   "chassis_compatibility",
+   "product_compatibility",
    "switches: Lists the chassis a supervisor/line card is supported in."
   ],
   [
@@ -5013,7 +5018,7 @@
   ],
   [
    "^supported blade chassis$",
-   "chassis_compatibility",
+   "product_compatibility",
    "transceiver: Values are host enclosures (HP c7000, Dell M1000e, IBM Flex System) — a chassis compatibility list."
   ],
   [
@@ -5498,7 +5503,7 @@
   ],
   [
    "^Cisco UCS X-Series chassis$",
-   "chassis_compatibility",
+   "product_compatibility",
    "servers-unified-computing: Values are the chassis the compute node installs into ('Cisco UCS X9508 Chassis')."
   ],
   [

@@ -21,3 +21,6 @@ message the existing agent. One build at a time on this laptop.
 | 2026-09-05 | forensics + design, 4 + 4 | workflow, 8 agents | opus/high | none | none | STOPPED by operator mid-run | journal under subagents/workflows/wf_2448c142-27f |
 | 2026-09-05 | recall audit + official lanes, 2 + 2 | workflow, 4 agents | opus/high | none | none | STOPPED by operator mid-run | journal under subagents/workflows/wf_29580478-c0c |
 | 2026-09-05 | OPERATOR VERDICT: 11% of the weekly limit in 90 min — NO SUBAGENTS from here on unless named per task | | | | | | rule reinstated in CLAUDE.md and memory |
+| 2026-09-11 | OPERATOR (Fri night, 42% of weekly limit used): "I am allowing you to use agents to work effectively" | | | | | | general permission; each spawn still logged here first |
+| 2026-09-11 | security class-residue survey (1,222 flagged hardware parts) — READ-ONLY, proposes rules with evidence, main session implements | agent, 1 | opus | ~90k | 100k | (pending) | (pending) |
+| 2026-09-11 | routers class-residue survey (782 flagged hardware parts) — READ-ONLY, proposes rules with evidence, main session implements | agent, 1 | opus | ~90k | 100k | (pending) | (pending) |
