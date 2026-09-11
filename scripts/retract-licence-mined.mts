@@ -72,10 +72,13 @@ const SELECT = `
      -- (2). Those are what a licence IS FOR, not measurements of it. What is listed below is the
      -- set where a non-product cannot have a value of its own, so the number in its name always
      -- belongs to the device it licenses or tracks.
+     -- cable_length added 11 Sep 2026: three family placeholders (QSFP-H40G-CUxM "length x - 1m to 5m")
+     -- held cable_length = 1, the FIRST number of the family's range, mined from a row that is not a cable.
      AND f.field_key IN ('switching_capacity', 'ports', 'module_slots', 'data_rate',
                          'storage_capacity', 'dram', 'flash', 'cpu', 'power_max', 'weight',
                          'dimensions', 'rack_units', 'form_factor', 'reach_max', 'wavelength',
-                         'memory_speed_max', 'psu_rated_output', 'poe_standard', 'temp_operating')
+                         'memory_speed_max', 'psu_rated_output', 'poe_standard', 'temp_operating',
+                         'cable_length')
      AND p.retired_at IS NULL
      AND ($1::text IS NULL OR v.slug = $1)
    ORDER BY p.sku`;

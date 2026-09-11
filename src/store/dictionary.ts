@@ -40,6 +40,8 @@ export type DictionaryRow = {
   shape: string | null;
   etim: string[] | null;
   generated: boolean;
+  /** the key that holds this quantity now, when fieldSchema SUPERSEDED_KEYS retires this one; else null */
+  superseded_by: string | null;
 };
 
 export type ProfileRow = { category: string; field_key: string; requirement: Requirement };
@@ -76,6 +78,7 @@ function toRow(key: string, def: FieldDef): DictionaryRow {
     shape: def.shape ?? null,
     etim: def.etim ?? null,
     generated: GENERATED_FIELDS[key] === def,
+    superseded_by: SUPERSEDED_KEYS[key] ?? null,
   };
 }
 
@@ -118,20 +121,23 @@ export function labelDrift(): string[] {
 
 const json = (v: unknown): string | null => (v === null || v === undefined ? null : JSON.stringify(v));
 
+// superseded_by is a self-reference (migration 0015). Every target is a key of this same batch, and a
+// NOT DEFERRABLE foreign key is checked at the end of the statement, so one statement is enough.
 const DICT_UPSERT = `
-  INSERT INTO field_dictionary (key, type, unit, label_en, label_de, domain, band, shape, etim, generated, updated_at)
-  SELECT u.key, u.type, u.unit, u.label_en, u.label_de, u.domain, u.band, u.shape, u.etim, u.generated, now()
-    FROM unnest($1::text[], $2::text[], $3::text[], $4::text[], $5::text[], $6::jsonb[], $7::jsonb[], $8::text[], $9::jsonb[], $10::boolean[])
-      AS u(key, type, unit, label_en, label_de, domain, band, shape, etim, generated)
+  INSERT INTO field_dictionary (key, type, unit, label_en, label_de, domain, band, shape, etim, generated, superseded_by, updated_at)
+  SELECT u.key, u.type, u.unit, u.label_en, u.label_de, u.domain, u.band, u.shape, u.etim, u.generated, u.superseded_by, now()
+    FROM unnest($1::text[], $2::text[], $3::text[], $4::text[], $5::text[], $6::jsonb[], $7::jsonb[], $8::text[], $9::jsonb[], $10::boolean[], $11::text[])
+      AS u(key, type, unit, label_en, label_de, domain, band, shape, etim, generated, superseded_by)
   ON CONFLICT (key) DO UPDATE SET
     type = EXCLUDED.type, unit = EXCLUDED.unit, label_en = EXCLUDED.label_en, label_de = EXCLUDED.label_de,
     domain = EXCLUDED.domain, band = EXCLUDED.band, shape = EXCLUDED.shape, etim = EXCLUDED.etim,
-    generated = EXCLUDED.generated, updated_at = now()
+    generated = EXCLUDED.generated, superseded_by = EXCLUDED.superseded_by, updated_at = now()
   WHERE (field_dictionary.type, field_dictionary.unit, field_dictionary.label_en, field_dictionary.label_de,
-         field_dictionary.domain, field_dictionary.band, field_dictionary.shape, field_dictionary.etim, field_dictionary.generated)
+         field_dictionary.domain, field_dictionary.band, field_dictionary.shape, field_dictionary.etim, field_dictionary.generated,
+         field_dictionary.superseded_by)
         IS DISTINCT FROM
         (EXCLUDED.type, EXCLUDED.unit, EXCLUDED.label_en, EXCLUDED.label_de,
-         EXCLUDED.domain, EXCLUDED.band, EXCLUDED.shape, EXCLUDED.etim, EXCLUDED.generated)
+         EXCLUDED.domain, EXCLUDED.band, EXCLUDED.shape, EXCLUDED.etim, EXCLUDED.generated, EXCLUDED.superseded_by)
   RETURNING key, (xmax = 0) AS inserted`;
 
 const PROFILE_UPSERT = `
@@ -174,7 +180,7 @@ export async function syncDictionaryOn(db: Queryable, opts: { quiet?: boolean } 
     rows.map((r) => r.key), rows.map((r) => r.type), rows.map((r) => r.unit),
     rows.map((r) => r.label_en), rows.map((r) => r.label_de),
     rows.map((r) => json(r.domain)), rows.map((r) => json(r.band)), rows.map((r) => r.shape),
-    rows.map((r) => json(r.etim)), rows.map((r) => r.generated),
+    rows.map((r) => json(r.etim)), rows.map((r) => r.generated), rows.map((r) => r.superseded_by),
   ]);
   const inserted = d.rows.filter((r) => r.inserted).length;
   const updated = d.rows.length - inserted;

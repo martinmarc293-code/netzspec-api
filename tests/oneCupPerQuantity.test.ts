@@ -8,6 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { FIELD_DICTIONARY, PROFILES, SUPERSEDED_KEYS, unsupersededDuplicates } from "../src/core/fieldSchema.js";
+import { dictionaryRows } from "../src/store/dictionary.js";
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -63,6 +64,22 @@ check("SABOTAGE labels differing only in case and punctuation are one group", s3
 // 4. Different quantities with different labels are NOT grouped — the scan must not cry wolf.
 const s4 = unsupersededDuplicates({ a: { en: "Operating temperature" }, b: { en: "Operating temperature (extended)" } }, {});
 check("control: two different labels are not a duplicate", s4.length === 0, s4);
+
+// ---- the pointer the API serves (migration 0015, reviewer §1.3) ----------------------------------------
+// /v1/fields lists retired keys, because stored history references them; `superseded_by` is what tells a
+// consumer they are not a second cup. It is written by sync-dictionary from dictionaryRows(), so the rows
+// are what is checked: every retired key points at a LIVE key (no chains, no dangling), and nothing else
+// points anywhere.
+{
+  const rows = dictionaryRows();
+  const byKey = new Map(rows.map((r) => [r.key, r]));
+  for (const [old, canon] of Object.entries(SUPERSEDED_KEYS)) {
+    check(`dictionary row for retired ${old} says superseded_by ${canon}`, byKey.get(old)?.superseded_by === canon, byKey.get(old)?.superseded_by);
+    check(`the target ${canon} is itself live (no chain)`, byKey.get(canon)?.superseded_by === null, byKey.get(canon)?.superseded_by);
+  }
+  const stray = rows.filter((r) => r.superseded_by !== null && !(r.key in SUPERSEDED_KEYS)).map((r) => r.key);
+  check("no live key carries a superseded_by", stray.length === 0, stray);
+}
 
 lines.unshift(`    one cup per quantity: ${passed} passed, ${failed} missed (${Object.keys(SUPERSEDED_KEYS).length} superseded keys, 4 sabotage cases)`);
 console.log(lines.join("\n"));

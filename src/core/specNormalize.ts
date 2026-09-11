@@ -66,7 +66,10 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        string to a list on 4 Sep 2026 and the comma splitter then read 396 citation cells for the
 //        first time, cutting "MIL-STD-810, Method 514.4" into two standards that do not exist. The
 //        rule and every bound in it are read off the stored raws — see isCitationContinuation.
-export const NORM_VERSION = "1.6.0"; // 11 Sep 2026: per-category bands; port-side airflow; duplex-bidi, mpo-24, cpak, osfp
+export const NORM_VERSION = "1.6.2"; // 11 Sep 2026 (late): reach_max strict parser — until now every reach was STRUCT_UNPARSED
+// 1.6.1 — Tx/Rx pairs for wavelength + rx_wavelength; stacking_technology names; chromatic dispersion as a
+//         ±range (ns/nm); SFP-DD / OSFP-XD named, not folded into sfp / osfp (runs 960-961 were stamped 1.6.1)
+// 1.6.0 — 11 Sep 2026: per-category bands; port-side airflow; duplex-bidi, mpo-24, cpak, osfp
 
 export type NormReason =
   | "PARSE_FAIL" | "UNIT_MISSING" | "UNIT_UNKNOWN" | "ENUM_VIOLATION"
@@ -230,7 +233,7 @@ const UNITS: Record<string, [string, number]> = {
   "iops": ["iops", 1], "kiops": ["iops", 1e3],
   "ohm": ["resistance", 1], "ohms": ["resistance", 1], "kohm": ["resistance", 1e3],
   "lux": ["illuminance", 1], "lx": ["illuminance", 1],
-  "ps": ["duration", 1e-12], "ps/nm": ["dispersion", 1],
+  "ps": ["duration", 1e-12], "ps/nm": ["dispersion", 1], "ns/nm": ["dispersion", 1e3],
   "deg": ["angle", 1], "degree": ["angle", 1], "degrees": ["angle", 1], "°": ["angle", 1],
   "grms": ["grms", 1], "v/mw": ["responsivity", 1], "pa/√hz": ["noisedensity", 1],
   "km/h": ["speed", 1], "kmh": ["speed", 1], "kph": ["speed", 1], "mph": ["speed", 1.609344],
@@ -319,7 +322,7 @@ export const CANON: Record<string, [string, number]> = {
   "THz": ["freq", 1e12], "IOPS": ["iops", 1],
   "dBi": ["dbi", 1], "dBA": ["dba", 1], "dBmV": ["dbmv", 1],
   "km/h": ["speed", 1], "ohm": ["resistance", 1], "lux": ["illuminance", 1],
-  "ps": ["duration", 1e-12], "ps/nm": ["dispersion", 1],
+  "ps": ["duration", 1e-12], "ps/nm": ["dispersion", 1], "ns/nm": ["dispersion", 1e3],
   "deg": ["angle", 1], "degrees": ["angle", 1], "°": ["angle", 1],
   "Grms": ["grms", 1], "V/mW": ["responsivity", 1],
   "1/s": ["persecond", 1], "CPS": ["persecond", 1],
@@ -968,6 +971,14 @@ const FORM_FACTOR_SWITCH: [RegExp, string][] = [
   [/19|rack|\bhe\b|\bru\b/i, "rack-19"], [/desktop|tisch|kompakt/i, "desktop"],
 ];
 const FORM_FACTOR_OPTIC: [RegExp, string][] = [
+  // NAMED, NOT FOLDED (11 Sep 2026, reviewer §2.5). The reviewer accepted leaving unseen form factors out of
+  // the domain on condition that the first one to arrive is refused loudly. Probed, it was not: "SFP-DD"
+  // reached the catch-all /sfp/ and was STORED as "sfp" (26 facts, four vendors), and "OSFP-XD" would have
+  // been stored as "osfp" — a double-density module filed as a single-lane one. Each now maps to its own
+  // name: sfp-dd is in the domain (those 26 parts exist), osfp-xd is not and is quarantined as
+  // ENUM_VIOLATION naming what it is. (QSFP-DD800 still reads as qsfp-dd: the same cage, rated for 800G.)
+  // The lookbehinds matter: "QSFP-DD" and "OSFP" CONTAIN "SFP"; the first draft refused QSFP-DD800.
+  [/(?<![QqOo])sfp[-\s]?dd/i, "sfp-dd"], [/osfp[-\s]?xd/i, "osfp-xd"],
   // OSFP and CPAK FIRST (11 Sep 2026): the catch-all /sfp/ at the end of this list would file an
   // OSFP as a plain SFP, and CPAK matched nothing at all.
   [/osfp/i, "osfp"], [/cpak/i, "cpak"],
@@ -1045,6 +1056,116 @@ const PARENTHETICAL = new RegExp("\\([^()]*\\)", "g");
 //    such part's power budget.
 const TYPICAL_MAX = new RegExp("([0-9][0-9.,]*)\\s*([A-Za-z/()]+)?\\s*(?:typical|typ\\.?|nominal)[^0-9]*([0-9][0-9.,]*)\\s*([A-Za-z/()]+)?\\s*(?:max|maximum)", "i");
 
+// Tx/Rx pairs. Two spellings, tried in order, and a spelling counts only if it finds BOTH roles: label
+// first ("Tx 1490 nm / Rx 1310 nm") and number first ("1490-nm TX/1310-nm RX", "1490Tx/1310Rx"). Label
+// first runs first because in "Tx 1490 nm Rx 1310 nm" the number-first reading would pair 1490 with RX.
+// Explicit lookarounds, never \b: "1490Tx" has no word boundary between the 0 and the T.
+const TXRX_LABEL_FIRST = /(?<![A-Za-z])(TX|RX)(?![A-Za-z])\s*[:=]?\s*([0-9]{3,4}(?:\.[0-9]+)?)/gi;
+const TXRX_NUMBER_FIRST = /([0-9]{3,4}(?:\.[0-9]+)?)\s*-?\s*(?:nm)?\s*-?\s*(TX|RX)(?![A-Za-z])/gi;
+function txRxPair(s: string): { tx: string; rx: string } | null {
+  for (const [re, roleAt, numAt] of [[TXRX_LABEL_FIRST, 1, 2], [TXRX_NUMBER_FIRST, 2, 1]] as const) {
+    const got: Record<string, string> = {};
+    for (const m of s.matchAll(re)) {
+      const role = m[roleAt].toUpperCase();
+      if (!(role in got)) got[role] = m[numAt];
+    }
+    if (got.TX && got.RX) return { tx: `${got.TX} nm`, rx: `${got.RX} nm` };
+  }
+  return null;
+}
+
+// ---- reach_max: "list{ medium: s, distanz: n(m) }" -----------------------------------------------------
+// WHY A PARSER, 11 Sep 2026. Until today every reach string was refused STRUCT_UNPARSED — "10 km" included —
+// so a field REQUIRED of ~1,300 Cisco optics could never hold a value, and the 147 label occurrences the
+// Cisco inventory maps to it were thrown away. It is CLAUDE.md §3's `ports` lesson on another field: refusing
+// to guess is right, leaving a required field unfillable is a decision to fail for ever.
+// STRICT, THE SAME WAY `ports` IS. A value is split into segments (",", ";", " / ", the "$|$" cell joiner);
+// each segment must state exactly ONE distance — or an explicit range "2 m to 10 km", whose upper end IS the
+// maximum reach — and at most one medium from a closed list. Any other word in a segment ("with FEC",
+// "or", "typical", a vendor name) refuses the WHOLE value: a reach that holds only under a condition is a
+// capability statement, and a confident wrong reach is worse than a gap. A value of several segments must
+// name a medium on every one of them, or it cannot say which distance belongs to which fibre.
+const REACH_SPLIT = /\s*(?:\$\|\$|;|,(?!\d{3}(?!\d))|\s\/\s)\s*/;
+const REACH_DIST = /(?<![\d.,])(\d+(?:[.,]\d+)?)\s*(km|kilometers?|kilometres?|m|meters?|metres?|ft|feet)(?![A-Za-z])/gi;
+const REACH_RANGE_WORD = /^\s*(?:to|bis|-|–|—)\s*$/i;
+const REACH_MEDIA: [RegExp, string][] = [
+  // the fibre CORE is the medium Cisco names most often: "220 m on 62.5/125 µm MMF", "550 m on 50 µm MMF" —
+  // two different reaches on two different fibres, so the core size is part of the medium
+  [/(?<![\d.])62\.5\s*(?:\/\s*125\s*)?(?:µm|um|microns?|µ)(?![A-Za-z])/i, "mmf-62.5"],
+  [/(?<![\d.])50\s*(?:\/\s*125\s*)?(?:µm|um|microns?|µ)(?![A-Za-z])/i, "mmf-50"],
+  [/(?<![\d.])9\s*(?:\/\s*125\s*)?(?:µm|um|microns?|µ)(?![A-Za-z])/i, "smf"],
+  [/(?<![A-Za-z0-9])OM([1-5])(?![0-9])/i, "om$1"], [/(?<![A-Za-z0-9])OS([12])(?![0-9])/i, "os$1"],
+  [/(?<![A-Za-z])cat\s*-?\s*(5e|6a|6|7)(?![0-9A-Za-z])/i, "cat$1"],
+  [/(?<![A-Za-z])(?:SMF|single[- ]?mode|singlemode)(?![A-Za-z])/i, "smf"],
+  [/(?<![A-Za-z])(?:MMF|multi[- ]?mode|multimode)(?![A-Za-z])/i, "mmf"],
+  [/(?<![A-Za-z])twin-?ax(?:ial)?(?![A-Za-z])/i, "twinax"],
+];
+// words a reach segment may carry besides its distance and medium
+const REACH_FILLER = /(?<![A-Za-z])(?:up\s+to|max(?:imum)?|reach|over|on|of|via|fib(?:er|re)|cable|link|distance|bis\s+zu)(?![A-Za-z])/gi;
+type Reach = { medium?: string; distanz: number };
+function parseReach(s: string, locale: Locale): { ok: true; value: Reach[] } | { ok: false; detail: string } {
+  const segs = s.split(REACH_SPLIT).map((x) => x.trim()).filter(Boolean);
+  if (!segs.length) return { ok: false, detail: `no reach in "${s}"` };
+  const out: Reach[] = [];
+  for (const seg of segs) {
+    const d = [...seg.matchAll(REACH_DIST)];
+    if (!d.length) return { ok: false, detail: `segment "${seg}" states no distance with a unit` };
+    let meters: number;
+    const toM = (m: RegExpMatchArray) => {
+      const n = parseNumber(m[1], locale);
+      const u = m[2].toLowerCase();
+      return n === null ? null : n * (u.startsWith("k") ? 1000 : u.startsWith("f") ? 0.3048 : 1);
+    };
+    if (d.length === 1) { const v = toM(d[0]); if (v === null) return { ok: false, detail: `unparsable number in "${seg}"` }; meters = v; }
+    else if (d.length === 2 && REACH_RANGE_WORD.test(seg.slice(d[0].index! + d[0][0].length, d[1].index!))) {
+      const a = toM(d[0]), b = toM(d[1]);
+      if (a === null || b === null || a > b) return { ok: false, detail: `range "${seg}" does not run low to high` };
+      meters = b;
+    } else return { ok: false, detail: `segment "${seg}" states ${d.length} distances and is not a range — refused, not chosen` };
+    // EVERY mention, not the first per rule: "300 m OM3/OM4" names two media and must be refused, and a
+    // first-match reader saw only OM3 and stored 300 m against it (caught by the refusal case, 11 Sep 2026)
+    let media = [...new Set(REACH_MEDIA.flatMap(([re, v]) =>
+      [...seg.matchAll(new RegExp(re.source, "gi"))].map((m) => m[0].replace(re, v).toLowerCase())))];
+    // a grade or core names its family: "OM4 MMF", "62.5 µm MMF", "OS2 SMF" are ONE medium, the specific one
+    if (media.some((m) => /^(?:om\d|mmf-)/.test(m))) media = media.filter((m) => m !== "mmf");
+    if (media.some((m) => /^os\d/.test(m))) media = media.filter((m) => m !== "smf");
+    if (media.length > 1) return { ok: false, detail: `segment "${seg}" names ${media.length} media (${media.join(", ")}) for one distance` };
+    // STRICTNESS: strip what a reach segment may say; anything left is a condition or a qualifier
+    let rest = seg.replace(REACH_DIST, " ").replace(REACH_FILLER, " ");
+    for (const [re] of REACH_MEDIA) rest = rest.replace(new RegExp(re.source, "gi"), " ");
+    rest = rest.replace(/(?<![A-Za-z])(?:to|bis)(?![A-Za-z])/gi, " ").replace(/[()[\]{}:.,~≤<=+\-–—]/g, " ").trim();
+    if (/[A-Za-z]/.test(rest)) return { ok: false, detail: `segment "${seg}" carries "${rest}", which a reach cannot be read through — refused` };
+    if (meters < 0.1 || meters > 200000) return { ok: false, detail: `${meters} m is outside the plausible reach band [0.1 m, 200 km]` };
+    out.push({ ...(media[0] ? { medium: media[0] } : {}), distanz: Math.round(meters * 100) / 100 });
+  }
+  if (out.length > 1 && out.some((r) => !r.medium)) {
+    return { ok: false, detail: `"${s}" states ${out.length} reaches without naming the medium of each — which distance is which fibre is unknown` };
+  }
+  return { ok: true, value: out };
+}
+
+// A symmetric dispersion window: "±X", "+/-X", "+/–X" (en dash), "+/−X" (minus sign), then the unit.
+const CD_SYMMETRIC = /(?:±|\+\s*\/\s*[-–−])\s*([0-9][0-9.,]*)\s*(ps\/nm|ns\/nm)/i;
+// A bound on the absolute dispersion: "|CD|<= 2400 ps/nm", "|CD| ≤ 2400 ps/nm".
+const CD_ABS_BOUND = /\|\s*CD\s*\|\s*(?:<=|≤|<)\s*([0-9][0-9.,]*)\s*(ps\/nm|ns\/nm)/i;
+
+// Stacking technology names, most specific first within each family: "StackWise-480" must not also read as
+// the plain "StackWise" (the 3750's 32 Gbit/s ring), nor "FlexStack-Plus" as plain "FlexStack". StackPower
+// is not a data stack and is not here. vPC is not a stack either (two control planes) and is not here.
+const STACKING_TOKENS: [RegExp, string][] = [
+  [/stack\s*wise[\s-]*virtual|(?<![A-Za-z])SVL(?![A-Za-z])/i, "stackwise-virtual"],
+  [/virtual\s+switching\s+system|(?<![A-Za-z])VSS(?![A-Za-z])/i, "vss"],
+  [/stack\s*wise[\s-]*1\s*T(?![A-Za-z0-9])/i, "stackwise-1t"],
+  [/stack\s*wise[\s-]*480/i, "stackwise-480"],
+  [/stack\s*wise[\s-]*160/i, "stackwise-160"],
+  [/stack\s*wise[\s-]*80(?![0-9])/i, "stackwise-80"],
+  [/stack\s*wise[\s-]*plus/i, "stackwise-plus"],
+  [/stack\s*wise(?![\s-]*(?:virtual|1\s*T|480|160|80|plus))/i, "stackwise"],
+  [/flex\s*stack[\s-]*extended/i, "flexstack-extended"],
+  [/flex\s*stack[\s-]*plus/i, "flexstack-plus"],
+  [/flex\s*stack(?![\s-]*(?:plus|extended))/i, "flexstack"],
+];
+
 export function preprocessValue(raw: string, key: string): string {
   let s = raw.replace(NBSP, " ");
   s = s.replace(DEGREE_LOOKALIKES, "°");
@@ -1077,6 +1198,41 @@ export function preprocessValue(raw: string, key: string): string {
   if (key === "poe_budget") {
     const w = /([0-9][0-9.,]*)\s*W\b/i.exec(s);
     if (w) return `${w[1]} W`;
+  }
+
+  // A SINGLE-FIBRE BIDI STATES TWO WAVELENGTHS IN ONE CELL — "Tx 1490 nm / Rx 1310 nm", "Tx 1330/Rx 1270 nm",
+  // "1490-nm TX/1310-nm RX", "1490Tx/1310Rx". `wavelength` is the transmit side and `rx_wavelength` the
+  // receive side (11 Sep 2026). Reading the first number was right for `wavelength` only because every
+  // stored raw happens to lead with Tx: "Rx 1310 nm / Tx 1490 nm" would have been filed as 1310, and
+  // `rx_wavelength` would have been handed the Tx number. BOTH sides must be labelled before either is
+  // taken, so a lone "Tx 1550 nm" is left to the generic reader exactly as before.
+  if (key === "wavelength" || key === "rx_wavelength") {
+    const pair = txRxPair(s);
+    if (pair) return key === "wavelength" ? pair.tx : pair.rx;
+  }
+
+  // CHROMATIC DISPERSION TOLERANCE IS A RANGE (reviewer §2.3, 11 Sep 2026; every one of the 22 stored raws
+  // read). A symmetric window is written "+/-2,500 ps/nm", "+/– 2.4 ns/nm", ">±350,000 ps/nm", or as a bound
+  // on the absolute value, "100G QPSK: 0.5 |CD|<= 2400 ps/nm" — all of them -X to +X. An asymmetric one is
+  // already a range ("-200 ps/nm to 1450 ps/nm") and is left to the range reader. A cell holding one
+  // tolerance PER LINE RATE ("+/- 40,000 ps/nm$|$+/- 26,000 ps/nm$|$...") cannot be one range: it is
+  // replaced by a sentence with no number in it, so the reader REFUSES it rather than keep the first rate's.
+  // (Read as a plain number the first raw would have been 100 — the "100G" of the line rate.)
+  if (key === "chromatic_dispersion_tolerance") {
+    if (s.includes("$|$")) return "one tolerance per line rate; a single range cannot hold several";
+    const sym = CD_SYMMETRIC.exec(s) ?? CD_ABS_BOUND.exec(s);
+    if (sym) return `-${sym[1]} ${sym[2]} to ${sym[1]} ${sym[2]}`;
+  }
+
+  // The stacking technology is written in prose around the name — "Ja – StackWise-160 (optional, bis 9
+  // Einheiten, 160 Gbit/s)", "FlexStack-Plus, FlexStack-Extended". Reduce the cell to the technology
+  // names it states, so the closed list sees names and not a comma-split sentence. A cell that names none
+  // ("No", "Nein", "Single-IP-Management") is passed through untouched and refused by the domain.
+  if (key === "stacking_technology") {
+    // in the order the cell states them, not the order of the table
+    const names = STACKING_TOKENS.map(([re, v]) => ({ v, at: s.search(re) })).filter((x) => x.at >= 0)
+      .sort((a, b) => a.at - b.at).map((x) => x.v);
+    return names.length ? names.join(", ") : s;
   }
 
   // Acoustic noise is quoted at more than one fan speed — "23.5 dBA @ 27°C 42.7 dBA @ maximum
@@ -1286,6 +1442,11 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       // wrong port map still cannot be invented — but `ports` is REQUIRED for switches, and
       // leaving it unparsable meant every switch reported a permanent gap on the one
       // specification a switch is actually bought for. See lib/portParse.ts.
+      if (key === "reach_max") {
+        const rr = parseReach(s, locale);
+        if (!rr.ok) return bad("STRUCT_UNPARSED", `${key}: ${rr.detail}`);
+        return ok(rr.value);
+      }
       if (key === "ports" || key === "uplink_ports") {
         const p = parsePorts(s);
         if (!p.ok) return bad("STRUCT_UNPARSED", `${key}: ${p.detail}`);

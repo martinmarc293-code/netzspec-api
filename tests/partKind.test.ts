@@ -68,8 +68,9 @@ check("every category partKind FILLS actually gates on kind",
 for (const cat of declared) {
   check(`partKind returns a kind for ${cat}`, partKind(cat, "WS-C3750G-24T-E") !== undefined);
 }
+// transceiver gates on its own optic kind since 11 Sep 2026; security still has no kind axis at all.
 check("partKind returns undefined for a category that does not gate",
-  partKind("transceiver", "SFP-10G-SR") === undefined);
+  partKind("security", "FPR2110-NGFW-K9") === undefined);
 check("partKind returns undefined for a category that does not exist",
   partKind("no-such-category", "ANYTHING") === undefined);
 
@@ -110,6 +111,8 @@ check("and the collapse is severe enough to be worth a guard",
     "interfaces-modules": "SB-PWR-48V-EU", "storage-networking": "CAB-9K16A-AUS",
     "hyperconverged-infrastructure": "CAB-9K16A-AUS", "meraki": "CAB-9K16A-AUS",
     "switches": "CAB-9K16A-AUS", "servers-unified-computing": "CAB-C13-C14-AC=",
+    // "Mounting bracket for one CVR-4SFP10G-QSFP" — until 11 Sep 2026 asked DDM, a fibre type and a power draw
+    "transceiver": "CVR-BRKT-1",
   };
   // SWITCHES ASKS A COMPONENT ITS OWN QUESTIONS since 11 Sep 2026 (reviewer §1.1/§1.7): a cable its
   // length and what it fits. So the guard there is the leak it was written for — NO DEVICE QUESTION
@@ -128,7 +131,8 @@ check("and the collapse is severe enough to be worth a guard",
   // And the control: a DEVICE in the same category must still be asked something, or the gate has
   // simply switched the whole category off.
   for (const [cat, sku] of [["routers", "ISR4331/K9"], ["wireless", "AIR-AP2802I-B-K9"],
-                            ["switches", "WS-C3750G-24T-E"]] as [string, string][]) {
+                            ["switches", "WS-C3750G-24T-E"], ["transceiver", "SFP-10G-SR"],
+                            ["transceiver", "GLC-BX-D"], ["transceiver", "QDD-400G-ZR-S"]] as [string, string][]) {
     const c = completenessV2(cat, { kind: partKind(cat, sku), vendor: "cisco" } as never);
     check(`${cat}: a DEVICE (${sku}) is still asked something`, c.required_total > 0,
       `required_total=${c.required_total}`);

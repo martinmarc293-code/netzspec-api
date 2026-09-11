@@ -14,21 +14,24 @@ import type { FilterDictionary, FilterFieldType } from "../filter.js";
 
 export type Requirement = { kind: "req" | "opt" | "na" | "cond"; when?: unknown };
 
+// `superseded_by` (migration 0015): a retired key stays in the dictionary because stored facts reference
+// it, and this names the key that holds the same quantity now. NULL = not retired. Without it the list
+// showed cd_tolerance beside chromatic_dispersion_tolerance with nothing to say they are one quantity.
 export type FieldItem = {
   key: string; type: string; unit: string | null; label_en: string; label_de: string;
-  domain: unknown; band: unknown; shape: string | null; requirement?: Requirement;
+  domain: unknown; band: unknown; shape: string | null; superseded_by: string | null; requirement?: Requirement;
 };
 
 export async function listFields(category?: string): Promise<FieldItem[]> {
   if (category === undefined) {
     const { rows } = await query<FieldItem>(
-      "SELECT key, type, unit, label_en, label_de, domain, band, shape FROM field_dictionary ORDER BY key");
+      "SELECT key, type, unit, label_en, label_de, domain, band, shape, superseded_by FROM field_dictionary ORDER BY key");
     return rows;
   }
   const c = await query<{ id: number }>("SELECT id FROM categories WHERE slug = $1", [category]);
   if (c.rows.length === 0) throw badRequest(`unknown category "${category}"`);
   const { rows } = await query<FieldItem & { requirement: Requirement | null }>(`
-    SELECT d.key, d.type, d.unit, d.label_en, d.label_de, d.domain, d.band, d.shape, cp.requirement
+    SELECT d.key, d.type, d.unit, d.label_en, d.label_de, d.domain, d.band, d.shape, d.superseded_by, cp.requirement
       FROM field_dictionary d
       LEFT JOIN category_profiles cp ON cp.field_key = d.key AND cp.category_id = $1
      ORDER BY d.key`, [c.rows[0].id]);

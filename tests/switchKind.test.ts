@@ -111,7 +111,7 @@ const CASES: [string, string][] = [
   ["RPS2300-750BDL", "power"],         // "Cisco Redundant Power System 2300 with 750W Power Supply"
   ["NXASFAN-160CFM2PE", "fan"],        // "Cisco Nexus fan, 160CFM, port-side exhaust airflow"
   ["BLWR-RPS2300=", "fan"],            // "Spare 45CFM Blower for Cisco Redundant Power System 2300"
-  ["STACK-T1-3M", "cable"],            // "Data stack 3m" — no hyphen before STACK
+  ["STACK-T1-3M", "stack-cable"],      // "Data stack 3m" — no hyphen before STACK
   ["CB-M12-4LC-SMF", "cable"],         // "Cable, MPO12-4X duplex LC, breakout cable, SMF"
   ["CSS5-CABSX-LCSC=", "cable"],       // "Cisco CSS 11500 10m multimode fiber, SX LC-to-SC connectors"
   ["CAT6A", "cable"],                  // "Copper cable for 10G"
@@ -131,10 +131,27 @@ const CASES: [string, string][] = [
   ["NXA-SFAN-30CFM-PI", "fan"],
   ["C9K-T2-FANTRAY", "fan"],
   ["WS-C6K-9SLOT-FAN2", "fan"],
-  // cable and stacking
-  ["CAB-9K16A-AUS", "cable"],
-  ["CAB-SPWR-150CM", "cable"],
-  ["C2960X-STACK", "cable"],
+  // cables and stacking — split 11 Sep 2026 (reviewer §1.2), every member read by name
+  ["CAB-9K16A-AUS", "power-cord"],     // "Power cord 250VAC 16A, Australia, source plug AU20S3"
+  ["CAB-TA-SW", "power-cord"],         // "Switzerland AC Type A Power Cable" — its -SW is the COUNTRY
+  ["CAB-7KACE=", "power-cord"],        // a Nexus 7000 AC cord whose name never says "power"
+  ["CAB-C2316-C19-IT", "power-cord"],  // "CEI 23-16 to IEC-C19 14ft, Italy"
+  ["N7K-DC-CAB=", "power-cord"],       // "Nexus 7000 - DC 48V-48V Cable (Spare)"
+  ["PWR-CAB-AC-CHN", "power-cord"],    // "Power Cord for AC V2 Power Module (China)"
+  ["CAB-STACK-1M-NH", "stack-cable"],  // "Cisco StackWise 1M Non-Halogen Lead Free Stacking Cable"
+  ["CAB-STK-E-1M", "stack-cable"],     // "FlexStack stacking cable with a 1.0 m length"
+  ["STACK-CAB-50CM", "stack-cable"],   // "Cisco 50CM Stacking Cable"
+  ["C2960X-STACK", "stack-module"],    // "Catalyst 2960-X FlexStack Plus Stacking Module" — no length
+  ["C3650-STACK-KIT", "stack-module"], // "Cisco Catalyst 3650 Stack Module"
+  ["C2960X-HYBRID-STK", "stack-module"], // "FlexStack-Extended Hybrid module, with one copper and one fiber port"
+  ["C9300L-STACK-KIT2=", "stack-module"], // "Stack Kit 2 ... includes 2 Stack Adaptors and 1 Stack Cable"
+  ["CAB-SPWR-150CM", "cable"],         // StackPower shares POWER, not data: not a stack cable, not a cord
+  ["CAB-RPS2300-E", "cable"],          // "RPS Cable for Cat 3K-E, 2960 PoE Switches"
+  ["CAB-SM-LCSC-1M", "cable"],         // "1 m single-mode fiber, LC-to-SC connectors"
+  ["N7K-C7009-CAB-TOP", "accessory"],  // "Nexus 7009 Front Top Section and Cable Mgmt- Kit" — not a cable
+  ["N77-C7702-CAB=", "accessory"],     // "Nexus 7700 2 Slot Chassis Cable Management Kit"
+  ["CAB-GUIDE-1RU", "accessory"],      // "1RU Cable Management Guides 9200 and 9300"
+  ["STACK-T2-BLANK", "accessory"],     // "Type 2 Stacking Blank"
   // accessory
   ["REC-KIT-T1=", "accessory"],
   ["RCKMNT-1RU-2KX", "accessory"],
@@ -191,8 +208,18 @@ eq("NXA- is an accessory prefix, not a power one", switchKind("NXA-FAN-35CFM-PE"
 // 2500W power CORD and a USB console CABLE stay cables.
 eq("MEM-X45 is memory, not a line card (its -X45 reads as the -X module marker)", switchKind("MEM-X45-1GB-LE"), "accessory");
 eq("WS-X4507-FILTER= is an air filter, not a line card", switchKind("WS-X4507-FILTER="), "accessory");
-eq("a 2500W power CORD is a cable, not a power supply", switchKind("CAB-AC-2500W-EU"), "cable");
+eq("a 2500W power CORD is a power cord, not a power supply", switchKind("CAB-AC-2500W-EU"), "power-cord");
 eq("a USB console CABLE is a cable, not USB flash", switchKind("CAB-CONSOLE-USB-C"), "cable");
+// The cable split's refusals (11 Sep 2026). The power-cord rule is a NEGATIVE list over CAB-, so each
+// exclusion is pinned: the census read CAB-USBA-USBB "Console Cable 7ft with USBA and USBB" as a cord
+// before USB was excluded.
+eq("a USB-A to USB-B console cable is not a power cord", switchKind("CAB-USBA-USBB"), "cable");
+eq("a console cable is not a power cord", switchKind("CAB-CONSOLE-RJ45"), "cable");
+eq("a CX4 patch cable is not a power cord", switchKind("CAB-INF-28G-5="), "cable");
+eq("an SFP interconnect cable is not a power cord", switchKind("CAB-SFP-50CM="), "cable");
+eq("an XPS StackPower cable is not a power cord", switchKind("CAB-XPS-58CM"), "cable");
+eq("a CAT5E/6E cable is not a power cord", switchKind("CAB-CAT5E/6E"), "cable");
+eq("a stack module has no length: it is not a stack cable", switchKind("C9300L-STACK"), "stack-module");
 eq("a LC-LC patch cord is a cable, not a line card (its -LC- reads as the module marker)", switchKind("CB-LC-LC-SMF"), "cable");
 eq("a fibre cable ending -LC= is a cable, not a line card", switchKind("CSS5-CABSX-LC="), "cable");
 eq("the XPS 2200 FAN module is a fan, not the power system it cools", switchKind("XPS-2200-FAN"), "fan");
@@ -209,8 +236,8 @@ eq("a switch whose PID ends -SD is not an SD card", switchKind("WS-C3560V2-24TS-
 // 11 Sep 2026 (reviewer §0.6): four Swiss power cords ended in "-SW" and were `software`; cable now
 // runs first. The N9400 switch card's "-SW-" is not software either. And the SD marker now reads the
 // X45 platform token SD-X45-2GB-E= carries between "SD-" and its capacity.
-eq("a Swiss power cord ending -SW is a cable, not software", switchKind("CAB-9K16A-SW"), "cable");
-eq("CAB-TA-SW (Switzerland Type A) is a cable", switchKind("CAB-TA-SW"), "cable");
+eq("a Swiss power cord ending -SW is a power cord, not software", switchKind("CAB-9K16A-SW"), "power-cord");
+eq("CAB-TA-SW (Switzerland Type A) is a power cord", switchKind("CAB-TA-SW"), "power-cord");
 eq("SABOTAGE a real NX-OS image is still software", switchKind("N5KUK9-503N1.1"), "software");
 eq("an SD card with a platform token is an accessory, not a line card", switchKind("SD-X45-2GB-E="), "accessory");
 eq("an N2K uplink-option transceiver set is an accessory, not a fabric extender", switchKind("N2K-QSFPBD-QSFPBD"), "accessory");

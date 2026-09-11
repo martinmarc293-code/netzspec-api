@@ -405,6 +405,15 @@ const CASES = [
   // SABOTAGE: a layer the domain cannot express is a RECORDED gap, never rounded into l3. Four real
   // provantage values say "4"; filing them as layer 3 would be a fiction about a routing product.
   ["SABOTAGE layer 4 is refused, not filed as l3", "switches", "layer", "4", EN, "ENUM_VIOLATION"],
+  // An UNSEEN optic form factor must be refused by name, not folded into its nearest neighbour (reviewer
+  // §2.5, 11 Sep 2026). Before this, "SFP-DD" was STORED as "sfp" and "OSFP-XD" as "osfp".
+  ["SABOTAGE SFP-DD is its own form factor, not filed as sfp", "transceiver", "form_factor", "SFP-DD", EN, "sfp-dd"],
+  ["SABOTAGE OSFP-XD is refused, not filed as osfp", "transceiver", "form_factor", "OSFP-XD", EN, "ENUM_VIOLATION"],
+  ["QSFP-DD800 is the QSFP-DD cage, not SFP-DD", "transceiver", "form_factor", "QSFP-DD800", EN, "qsfp-dd"],
+  ["QSFP-DD stays qsfp-dd", "transceiver", "form_factor", "QSFP-DD", EN, "qsfp-dd"],
+  ["OSFP stays osfp", "transceiver", "form_factor", "OSFP", EN, "osfp"],
+  ["an SN connector is refused, not guessed", "transceiver", "connector", "SN", EN, "ENUM_VIOLATION"],
+  ["AEC media is refused, not filed as a DAC", "transceiver", "media", "AEC", EN, "ENUM_VIOLATION"],
   ["SABOTAGE layer 7 likewise", "switches", "layer", "7", EN, "ENUM_VIOLATION"],
   ["SABOTAGE layer 2.5 is not layer 2", "switches", "layer", "2.5", EN, "ENUM_VIOLATION"],
   // SABOTAGE the anchors. Every one of these contains a digit the rule would take unanchored.

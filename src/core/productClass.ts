@@ -511,6 +511,32 @@ export const SKU_RULES: SkuRule[] = [
   // An ordering option that ships nothing: "ECO friendly green option, no power cable will be
   // shipped". Exact, not a NO- prefix — NO-OS-SELECTION is already non-hardware and would churn.
   { kind: "exact", token: "NO-POWER-CORD", klass: "non_product", why: "'ECO friendly green option, no power cable will be shipped' — an option that ships nothing" },
+  // ---- found by the transceiver KIND census, 11 Sep 2026 (reviewer §2), every match read ------------------
+  // FirePOWER subscriptions sold through a service provider, filed as hardware OPTICS because the model
+  // number is glued onto "SFP": SFP7010-TAC-OPS "SVP Cisco FirePOWER 7010 IPS, Apps and URL Adjustable OPS".
+  // 171 parts, all Cisco, all in `transceiver`, all 0 facts, 9 name shapes (TAC/TAM/TAMC x OPS/SMS-1/SMS-1K),
+  // every one "SVP ... FirePOWER". A real optic has a hyphen straight after SFP (SFP-10G-SR), so it cannot match.
+  { kind: "regex", token: "firepower-svp-subscription", re: /^SFP[78]\d{3}(?:TAMC)?-/, probe: "SFP7010-TAC-OPS",
+    klass: "license", why: "FirePOWER IPS/Apps/URL/AMP subscription (SVP); 171 parts in transceiver, 0 facts" },
+  // A FORM FACTOR IS NOT A PRODUCT. Nine rows named only "Cisco <form factor>", enumerated from datasheet
+  // cells; catalogue-wide these exact tokens occur nowhere else. SFP28 carries 7 facts, all describing an
+  // optic that is not this row.
+  ...["QSFP-", "QSFP-DD", "QSFP28", "QSFP28-DD", "QSFP56", "QSFP56-DD", "QSFP112", "SFP28", "SFP56"].map((token) => ({
+    kind: "exact" as const, token, klass: "non_product" as const, why: "a form-factor name enumerated as a part ('Cisco QSFP28'), not an orderable product" })),
+  // FAMILY PLACEHOLDERS WHOSE "x" VARIES THE SPECIFICATION: a DWDM channel (DWDM-XFP-xx.yy "where xx.yy ranges
+  // from 30.33 to 60.61"), a CWDM/DWDM wavelength (CWDM-SFP10G-xxxx, DS-CWDM-XXXX= "where XXXX = 1470..."), a
+  // cable length (SFP-H10GB-CUxM "length x - 1m to 5m"), an ITU channel (XFP-RF-ITUXX=). The concrete SKUs
+  // exist beside them (CWDM-SFP10G-1470, SFP-H10GB-CU1M). 32 parts once the refusals below are applied (reclassify
+  // run of 11 Sep 2026: 26 in transceiver, 1 each in switches, routers, storage- and optical-networking, 2 in
+  // interfaces-modules — 7300-2OC3POS-xxx, where xxx is the fibre-variant placeholder).
+  // REFUSED, and the refusal is the reason this rule is narrow: a TWO-letter `-xx` is Cisco's REGION code on
+  // Small Business gear — SG350-28-K9-xx, CBS350-8P-2G-xx, SF110D-08-xx (9 facts) — real switches, 190 of
+  // them in `switches`, identical in every region. The first draft (`X{2,}`) would have filed all 190 as
+  // non-products. The 9800-CL cloud controllers (SC9800CLAMIK9-xxxx "Catalyst 9800-CL Wireless Controller –
+  // AWS") are software, not placeholders, and are vetoed by name.
+  { kind: "regex", token: "family-placeholder", re: /-(?:X{2}\.Y{2}|X{3,4}|CUXM)$|-ITUXX$/, probe: "DWDM-XFP-XX.YY",
+    except: ["SC9800CL"],
+    klass: "non_product", why: "a family placeholder whose x stands for a channel, wavelength or cable length; the concrete SKUs exist beside it" },
 ];
 
 /** The reason string a rule emits — the same slug runs/vocab/cisco-round2 uses. */

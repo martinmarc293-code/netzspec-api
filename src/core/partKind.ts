@@ -19,6 +19,7 @@
 import { ucsKind } from "./ucsKind.js";
 import { switchKind } from "./switchKind.js";
 import { componentKind } from "./componentKind.js";
+import { opticKind } from "./opticKind.js";
 
 /**
  * Categories whose profile gates requirements on a derived `kind`. Checked against PROFILES by
@@ -32,7 +33,7 @@ import { componentKind } from "./componentKind.js";
  * kinds that do not generalise.
  */
 export const KIND_CATEGORIES: readonly string[] = [
-  "servers-unified-computing", "switches",
+  "servers-unified-computing", "switches", "transceiver",
   "routers", "wireless", "video", "unified-communications", "collaboration-endpoints",
   "optical-networking", "hyperconverged-systems", "interfaces-modules", "storage-networking",
   "hyperconverged-infrastructure", "meraki",
@@ -47,6 +48,9 @@ export const KIND_CATEGORIES: readonly string[] = [
 export function partKind(categorySlug: string, sku: string): string | undefined {
   if (categorySlug === "servers-unified-computing") return ucsKind(sku);
   if (categorySlug === "switches") return switchKind(sku);
+  // transceiver names OPTIC sub-kinds (single-fibre BiDi, tunable/coherent) plus the adapters and
+  // accessories filed beside them — its own axis, see opticKind.ts (11 Sep 2026).
+  if (categorySlug === "transceiver") return opticKind(sku);
   // The shared axis. Deliberately driven off KIND_CATEGORIES rather than a second list, so the
   // membership test and the dispatch cannot drift apart.
   if (KIND_CATEGORIES.includes(categorySlug)) return componentKind(sku);

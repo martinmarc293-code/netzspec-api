@@ -50,6 +50,37 @@ const CASES = [
   ["52.1 dBA", "acoustic_noise", "52.1 dB(A)"],
   // these rules must not touch other fields
   ["4 ports, 120W total", "power_max", "4 ports, 120W total"],
+
+  // --- single-fibre BiDi: one cell, two wavelengths (11 Sep 2026) -----------------------------
+  // Real raws from the 23 BiDi facts and the catalogue's own names. `wavelength` takes Tx, rx_wavelength Rx.
+  ["Tx 1490 nm / Rx 1310 nm", "wavelength", "1490 nm"],
+  ["Tx 1490 nm / Rx 1310 nm", "rx_wavelength", "1310 nm"],
+  ["Tx 1330/Rx 1270 nm", "rx_wavelength", "1270 nm"],
+  ["1490-nm TX/1310-nm RX wavelength", "wavelength", "1490 nm"],
+  ["1310-nm TX/1490-nm RX wavelength", "rx_wavelength", "1490 nm"],
+  ["1490Tx/1310Rx", "rx_wavelength", "1310 nm"],
+  // ORDER SABOTAGE: the first-number reading gave 1310 for this cell's `wavelength`. Rx first, Tx still wins.
+  ["Rx 1310 nm / Tx 1490 nm", "wavelength", "1490 nm"],
+  // label-first beats number-first when there is no slash: number-first would pair 1490 with RX
+  ["Tx 1490 nm Rx 1310 nm", "rx_wavelength", "1310 nm"],
+  // a lone Tx, or no labels at all, is NOT a pair and is left for the generic reader, untouched
+  ["Tx 1550 nm", "wavelength", "Tx 1550 nm"],
+  ["1310 nm", "rx_wavelength", "1310 nm"],
+  ["1530 - 1565", "rx_wavelength", "1530 - 1565"],
+  // the pair rule touches only the two wavelength keys
+  ["Tx 1490 nm / Rx 1310 nm", "tx_power", "Tx 1490 nm / Rx 1310 nm"],
+
+  // --- stacking technology named in prose (11 Sep 2026) ----------------------------------------
+  ["Ja – StackWise-160 (optional, bis 9 Einheiten, 160 Gbit/s)", "stacking_technology", "stackwise-160"],
+  ["Ja – Cisco StackWise-480 (bis 9 Einheiten, 480 Gbit/s)", "stacking_technology", "stackwise-480"],
+  ["Ja – Cisco StackWise Plus (bis 9 Einheiten, 64 Gbit/s Stack-Ring)", "stacking_technology", "stackwise-plus"],
+  ["Ja – Cisco StackWise (bis 9 Einheiten, 32 Gbit/s Stack-Ring)", "stacking_technology", "stackwise"],
+  ["FlexStack-Plus, FlexStack-Extended", "stacking_technology", "flexstack-plus, flexstack-extended"],
+  ["StackWise Virtual", "stacking_technology", "stackwise-virtual"],
+  // names nothing: passed through untouched, for the closed domain to refuse
+  ["Nein", "stacking_technology", "Nein"],
+  ["Single-IP-Management", "stacking_technology", "Single-IP-Management"],
+  ["StackPower", "stacking_technology", "StackPower"],
 ];
 
 let pass = 0;
@@ -72,6 +103,56 @@ const e2e = [];
   const r = normalizeField("switches", "power_max", "425 watts typical, 525 watts maximum", { locale: "en" });
   if (r.ok && Number(r.value) === 525) pass++;
   else e2e.push(`power_max typical/max -> ${r.ok ? r.value : r.reason + " " + r.detail} (want 525)`);
+}
+
+// End-to-end for the 11 Sep rules: the stored VALUE, not the rewritten string. A BiDi's receive side lands
+// in rx_wavelength as a degenerate range; the stacking cell lands as a list of domain names; a cell that
+// names no technology is REFUSED by the domain rather than stored.
+const E2E_1609 = [
+  ["transceiver", "wavelength", "Tx 1490 nm / Rx 1310 nm", 1490],
+  ["transceiver", "wavelength", "Rx 1310 nm / Tx 1490 nm", 1490],
+  ["transceiver", "rx_wavelength", "Tx 1490 nm / Rx 1310 nm", { min: 1310, max: 1310 }],
+  ["transceiver", "rx_wavelength", "1530 - 1565 nm", { min: 1530, max: 1565 }],
+  ["switches", "stacking_technology", "Ja – StackWise-160 (optional, bis 9 Einheiten, 160 Gbit/s)", ["stackwise-160"]],
+  ["switches", "stacking_technology", "FlexStack-Plus, FlexStack-Extended", ["flexstack-plus", "flexstack-extended"]],
+  ["switches", "stacking_technology", "Nein", "ENUM_VIOLATION"],
+  ["switches", "stacking_technology", "StackPower", "ENUM_VIOLATION"],
+  // chromatic dispersion tolerance — every shape among the 22 stored raws, verbatim
+  ["transceiver", "chromatic_dispersion_tolerance", "+/-2,500 ps/nm", { min: -2500, max: 2500 }],
+  ["transceiver", "chromatic_dispersion_tolerance", "+/– 2.4 ns/nm", { min: -2400, max: 2400 }],
+  ["transceiver", "chromatic_dispersion_tolerance", "+/–6.0ns/nm", { min: -6000, max: 6000 }],
+  ["optical-networking", "chromatic_dispersion_tolerance", ">±350,000 ps/nm", { min: -350000, max: 350000 }],
+  ["transceiver", "chromatic_dispersion_tolerance", "0 ps/nm to 1400 ps/nm", { min: 0, max: 1400 }],
+  ["transceiver", "chromatic_dispersion_tolerance", "-200 ps/nm to 1450 ps/nm", { min: -200, max: 1450 }],
+  // the one the old free-text type hid: read as a number it would have been 100, the "100G" line rate
+  ["transceiver", "chromatic_dispersion_tolerance", "100G QPSK: 0.5 |CD|<= 2400 ps/nm", { min: -2400, max: 2400 }],
+  // REFUSED: one tolerance per line rate cannot be one range; the first rate must not be kept silently
+  ["transceiver", "chromatic_dispersion_tolerance", "+/- 40,000 ps/nm$|$+/- 40,000 ps/nm$|$+/- 26,000 ps/nm", "PARSE_FAIL"],
+  // REFUSED: no unit ("max" is read as one and not recognised), and no label to lend one
+  ["transceiver", "chromatic_dispersion_tolerance", "1400 max", "UNIT_UNKNOWN"],
+
+  // reach_max — until 11 Sep 2026 every one of these was STRUCT_UNPARSED, "10 km" included
+  ["transceiver", "reach_max", "10 km", [{ distanz: 10000 }]],
+  ["transceiver", "reach_max", "Up to 10 km on SMF", [{ medium: "smf", distanz: 10000 }]],
+  ["transceiver", "reach_max", "300 m (OM3), 400 m (OM4)", [{ medium: "om3", distanz: 300 }, { medium: "om4", distanz: 400 }]],
+  ["transceiver", "reach_max", "Up to 150 m on OM4 MMF", [{ medium: "om4", distanz: 150 }]],
+  ["transceiver", "reach_max", "220 m on 62.5/125 µm MMF; 550 m on 50/125 µm MMF", [{ medium: "mmf-62.5", distanz: 220 }, { medium: "mmf-50", distanz: 550 }]],
+  ["transceiver", "reach_max", "100 m over Cat6a", [{ medium: "cat6a", distanz: 100 }]],
+  ["transceiver", "reach_max", "2 m to 10 km", [{ distanz: 10000 }]],            // a stated range: its top IS the reach
+  ["transceiver", "reach_max", "328 ft", [{ distanz: 99.97 }]],
+  // REFUSED — each one a way a looser reader would store a confident wrong reach
+  ["transceiver", "reach_max", "40 km with FEC", "STRUCT_UNPARSED"],            // conditional
+  ["transceiver", "reach_max", "10 km or 40 km", "STRUCT_UNPARSED"],            // alternatives, not a range
+  ["transceiver", "reach_max", "2 km$|$100 m$|$150 m", "STRUCT_UNPARSED"],      // three reaches, no fibre named for any
+  ["transceiver", "reach_max", "300 m OM3/OM4", "STRUCT_UNPARSED"],             // one distance, two media
+  ["transceiver", "reach_max", "Long reach", "STRUCT_UNPARSED"],                // no distance
+  ["transceiver", "reach_max", "500 km", "STRUCT_UNPARSED"],                    // outside the plausible band
+];
+for (const [category, key, input, want] of E2E_1609) {
+  const r = normalizeField(category, key, input, { locale: "en" });
+  const hit = typeof want === "string" ? (!r.ok && r.reason === want) : (r.ok && JSON.stringify(r.value) === JSON.stringify(want));
+  if (hit) pass++;
+  else e2e.push(`${key} ${JSON.stringify(input)} -> ${r.ok ? JSON.stringify(r.value) : r.reason + " " + r.detail} (want ${JSON.stringify(want)})`);
 }
 
 // Locale sabotage. The `n` branch used to parse its number with German rules no matter what
@@ -197,7 +278,7 @@ for (const [category, key, input, locale, want] of MULTIPLIER_CASES) {
   else e2e.push(`${key} ${JSON.stringify(input)} locale=${locale} -> ${r.ok ? JSON.stringify(r.value) : r.reason + " " + r.detail} (want ${JSON.stringify(want)})`);
 }
 
-const TOTAL = CASES.length + 2 + LOCALE_CASES.length + PARSE_CASES.length + MULTIPLIER_CASES.length;
+const TOTAL = CASES.length + 2 + E2E_1609.length + LOCALE_CASES.length + PARSE_CASES.length + MULTIPLIER_CASES.length;
 console.log(`${pass}/${TOTAL} passed`);
 if (misses.length || e2e.length) {
   for (const m of misses) {

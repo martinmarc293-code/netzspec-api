@@ -21,6 +21,8 @@ const Query = Type.Object({
 const FieldItem = Type.Object({
   key: Type.String(), type: Type.String(), unit: Nullable(Type.String()), label_en: Type.String(), label_de: Type.String(),
   domain: AnyJson, band: AnyJson, shape: Nullable(Type.String()),
+  /** a retired key names the key that holds its quantity now; null = not retired (migration 0015) */
+  superseded_by: Nullable(Type.String()),
   requirement: Type.Optional(Type.Object({ kind: Type.String(), when: Type.Optional(AnyJson) })),
 });
 

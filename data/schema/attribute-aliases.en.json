@@ -163,6 +163,16 @@
   ],
   [
    "^frequency range",
+   "tuning_range",
+   "transceiver: 'Frequency range: 191.25 to 196.10 THz (1528.77 to 1566.72 nm)' is the span a tunable optic covers. The generic rule below sends it to the AC mains input_freq; a transceiver has no mains supply, so in this category the label can only be optical (11 Sep 2026).",
+   {
+    "only": [
+     "transceiver"
+    ]
+   }
+  ],
+  [
+   "^frequency range",
    "input_freq",
    "pdf-server: '50 to 60' Hz AC input frequency — exactly the existing input_freq field."
   ],
@@ -493,6 +503,17 @@
    "^stacking bandwidth",
    "stacking_bandwidth",
    ""
+  ],
+  [
+   "^stacking$",
+   "stacking_technology",
+   "switches: Cisco's 'Stacking' row NAMES the technology ('FlexStack-Plus, FlexStack-Extended', 'FlexStack', 'No'). 6 occurrences, unmapped until 11 Sep 2026. A 'No' is refused by the closed domain, not stored — stackable carries the no.",
+   {
+    "only": [
+     "switches",
+     "data-center-networking"
+    ]
+   }
   ],
   [
    "^stacking support|^stack support",
@@ -1098,6 +1119,11 @@
    "^Jacket Color$",
    "jacket_color",
    "[agent interfaces-modules] Outer jacket color of a cable assembly (Black, Orange, Aqua, Yellow...). Meaningful spec b"
+  ],
+  [
+   "^input wavelength$",
+   "rx_wavelength",
+   "EDFA sheets: 'Input Wavelength' 1530 - 1565 nm — the window an amplifier or receiver accepts, which is rx_wavelength. 8 occurrences in the cisco-datasheets inventory, unmapped until 11 Sep 2026; the retired input_wavelength key named the same quantity."
   ],
   [
    "^Receiver optical input wavelength$",

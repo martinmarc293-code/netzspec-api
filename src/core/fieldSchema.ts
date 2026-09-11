@@ -35,7 +35,8 @@ export type Condition =
 /** req = always required · opt = nice to have · cond = required only when the condition holds
  *  (not-applicable otherwise) · na = never applicable to this category. */
 import { UCS_MACHINE } from "./ucsKind.js";
-import { SW_DEVICE, SW_BOX, SW_COMPONENT } from "./switchKind.js";
+import { SW_DEVICE, SW_BOX, SW_COMPONENT, SW_CABLE } from "./switchKind.js";
+import { OPT_MODULE, OPT_FIXED_WAVELENGTH } from "./opticKind.js";
 import { GENERIC_DEVICE } from "./componentKind.js";
 
 export type Requirement =
@@ -447,6 +448,32 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // and a required number with no plausibility range is the shape that once stored 100 ports on a
   // one-port optic. Measured on the 277 PSU wattages it inherits: 240 W to 6,000 W.
   psu_rated_output: { key: "psu_rated_output", de: "Nennausgangsleistung", en: "Rated power output", type: "n", unit: "W", band: [5, 20000], etim: [], icecat: null },
+
+  // THE SPAN A TUNABLE OPTIC COVERS, 11 Sep 2026 (reviewer §2.2). A tunable or coherent module has no single
+  // wavelength — DP04QSDD-HE0 stored "C-Band (1550 nm, volltunbar)" as 1550 — so it is asked for the range
+  // it tunes over instead. NOT `optical_frequency`: that key holds 10 facts that are CHANNEL LISTS on mux
+  // modules ("192.7; 192.6; 192.5; 192.4"), and a range type would keep the first channel and drop three.
+  // A fixed device's channel set and a laser's tuning span are different quantities. Cisco prints the span
+  // as "Frequency range: 191.25 to 196.10 THz (1528.77 to 1566.72 nm)" — a label the alias table sent to the
+  // AC mains `input_freq` until today. Band: the ITU C+L grid, 184.5-196.2 THz, with margin.
+  tuning_range: { key: "tuning_range", de: "Abstimmbereich (Frequenz)", en: "Tuning range (frequency)", type: "nr", unit: "THz", band: [180, 200], etim: [], icecat: null },
+  // A TOLERANCE IS A RANGE (reviewer §2.3 asked for `n`; measured, `nr` is the shape). The generated entry was
+  // a free STRING, so "+/-2,500 ps/nm" and "0 ps/nm to 1400 ps/nm" were stored as text nothing could compare.
+  // "±X" is the window -X..+X; "0 to 1400" is asymmetric; "±2.4 ns/nm" is ±2400 ps/nm. Band: the widest real
+  // value is CIM8-LE-K9 ">±350,000 ps/nm", a coherent line card; ±500,000 leaves margin and refuses a typo.
+  chromatic_dispersion_tolerance: { key: "chromatic_dispersion_tolerance", de: "Chromatische Dispersionstoleranz", en: "Chromatic dispersion tolerance", type: "nr", unit: "ps/nm", band: [-500000, 500000], etim: [], icecat: null },
+  // WHICH STACK A SWITCH JOINS, 11 Sep 2026 (reviewer §1.1). `stacking_bandwidth` does not imply it:
+  // StackWise Virtual and VSS join two chassis with no member bandwidth at all, and StackWise-160 and
+  // FlexStack-Plus are both 80 Gbit/s families that do not stack with each other. The name is already in
+  // our own data — 300+ `stackable` raws read "Ja – StackWise-160 (optional, bis 9 Einheiten, 160 Gbit/s)",
+  // "Ja – Cisco StackWise Plus (bis 9 Einheiten, 64 Gbit/s Stack-Ring)", "FlexStack-Plus". No `none`:
+  // a switch that does not stack says so in `stackable` (423 "Nein"), and a second cup for it would split
+  // one answer across two keys. vPC is not here either — it keeps two control planes; it is not a stack.
+  // A CLOSED LIST, not a single enum: Cisco's own "Stacking" row reads "FlexStack-Plus, FlexStack-Extended"
+  // on a 2960-X, and a single-value type would keep the first and drop the second without a word.
+  stacking_technology: { key: "stacking_technology", de: "Stacking-Technologie", en: "Stacking technology", type: "ls",
+    domain: ["stackwise", "stackwise-plus", "stackwise-80", "stackwise-160", "stackwise-480", "stackwise-1t",
+             "stackwise-virtual", "flexstack", "flexstack-plus", "flexstack-extended", "vss"], etim: [], icecat: null },
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -902,6 +929,16 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     vendor: req, series: req,
     // --- the device itself -----------------------------------------------------------------
     mgmt_class: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    // THE CHASSIS TRADE-OFF, recorded 11 Sep 2026 (reviewer §1.4). A modular chassis stays kind `switch`: no
+    // SKU marker separates WS-C4507R-E from a fixed switch (switchKind.ts: `CHAS` matches one SKU of 8,985,
+    // and it is a MIB name). Its ports, uplink ports and PoE are already gated off by form_factor below.
+    // What it is still asked that, in a modular system, belongs to the SUPERVISOR it ships with:
+    // switching_capacity, forwarding_rate, mac_table, vlan_max, ipv4/ipv6_routes, dram, flash,
+    // packet_buffer, jumbo_mtu, stackable and layer. Kept on purpose: Cisco's chassis datasheets state these
+    // as system figures ("up to 2 Tbps with Supervisor 2T"), so they can be filled, and gating them off a
+    // chassis would close questions a buyer asks of the whole system. Measured: 18 parts hold
+    // form_factor = modular-chassis; 19 whose NAME says chassis carry `layer`, every one their OWN value
+    // (tier-0 seed, "L3"), none inherited — 0 of the category's 1,054 `layer` facts are inherited.
     layer: cond({ field: "kind", inList: [...SW_DEVICE] }),
     // SW_BOX = switch + fex (11 Sep 2026): a fabric extender is a box you rack and power, so it keeps
     // the physical envelope below; it is not asked what only a SWITCHING device has.
@@ -966,6 +1003,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // 31 per-slot figures moved on 11 Sep all sit on line cards (WS-X47xx, WS-X68xx, C6800 port cards).
     fabric_bandwidth: cond({ field: "kind", inList: ["supervisor", "fabric", "linecard"] }),
     stacking_bandwidth: cond({ field: "stackable", eq: true }),
+    // Which stack it joins — OPTIONAL (reviewer §1.1). Asked of nothing yet: the "Stacking" row that names it
+    // occurs 6 times in the inventory; the other 300+ values sit inside `stackable` raws and are coverage work.
+    stacking_technology: opt,
     // stack_max_members is OPTIONAL, not conditional, and the measurement is the reason:
     // ZERO facts hold it — across every category and every vendor in the catalogue — and ZERO
     // labels in any source inventory carry a stack MEMBER COUNT. The one candidate,
@@ -1023,7 +1063,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // A cable is bought by its length ("3M Type 2 Stacking Cable", "Power Cord ... 2.5m"); "Length"
     // occurs 58 times in the inventory and already maps to cable_length. The plug of a power cord is
     // declared OPTIONAL: no label in any source inventory names it yet.
-    cable_length: cond({ field: "kind", inList: ["cable"] }),
+    // power cords, stack cables and other cables have a length; a stack MODULE or KIT does not (§1.2)
+    cable_length: cond({ field: "kind", inList: [...SW_CABLE] }),
     plug_type: opt,
     ip_rating: cond({ any: [{ field: "form_factor", eq: "din-rail" }, { field: "deploy_role", eq: "industrial" }] }),
     // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
@@ -1032,15 +1073,42 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     automation_features: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, ethernet_technology: opt, layer2_features: opt, layer3_features: opt, manageable: opt, management_interfaces: opt, max_ports_100g: opt, max_ports_10g: opt, max_ports_1g: opt, max_ports_25g: opt, max_ports_40g: opt, max_ports_50g: opt, media_type_supported: opt, module_width_slots: opt, multicast_features: opt, network_technology: opt, oversubscription_ratio: opt, packaging_dimensions: opt, poe_budget_redundant_psu: opt, power_load_range: opt, product_line: opt, qsfp28_ports: opt, rear_clearance: opt, rear_panel_ports: opt, security_features: opt, series_release_date: opt, temp_operating_extended: opt, thermal_shock: opt, voq_buffer: opt,
   },
   transceiver: {
-    itu_channel: opt, jacket_material: opt, jacket_color: opt, rx_wavelength: opt, optical_pm: opt, input_power_range: opt, // deep-spec fields 2026-09-02
-    vendor: req, form_factor: req, standard: req, data_rate: req, media: req,
+    itu_channel: opt, jacket_material: opt, jacket_color: opt, optical_pm: opt, input_power_range: opt, // deep-spec fields 2026-09-02
+    // SHAPED BY KIND, 11 Sep 2026 (reviewer §2.1/§2.2; see opticKind.ts). Until today every part here was
+    // asked the module questions — a mounting bracket (CVR-BRKT-1) and a passive mux (CWDM-MUX-4-SF1=) owed a
+    // DDM answer, a fibre type and a power draw, and a QSA adapter owed a connector and an IEEE standard. An
+    // ADAPTER is asked what it converts to and at what rate; an ACCESSORY is asked nothing but what the
+    // parts row already knows. `kind` is derived from the SKU, so it is always answered: gating on it can
+    // never collapse a question into `na` the way a condition on an unanswered optional fact does.
+    vendor: req,
+    form_factor: cond({ field: "kind", inList: [...OPT_MODULE, "adapter"] }),
+    data_rate: cond({ field: "kind", inList: [...OPT_MODULE, "adapter"] }),
+    standard: cond({ field: "kind", inList: [...OPT_MODULE] }),
+    media: cond({ field: "kind", inList: [...OPT_MODULE] }),
     fiber_type: cond({ field: "media", inList: ["mmf", "smf"] }),
-    wavelength: cond({ field: "media", inList: ["mmf", "smf", "aoc"] }),
+    // `wavelength` IS THE TRANSMIT WAVELENGTH — for a duplex optic the one it emits and receives on, for a
+    // single-fibre BiDi the Tx side. Every one of the 23 BiDi parts holding one already stores the Tx number
+    // ("Tx 1490 nm / Rx 1310 nm" -> 1490), so the reviewer's `wavelength_tx` would have been a second cup
+    // for the value this one holds. A TUNABLE part has no fixed wavelength and is asked `tuning_range`.
+    wavelength: cond({ all: [{ field: "media", inList: ["mmf", "smf", "aoc"] }, { field: "kind", inList: [...OPT_FIXED_WAVELENGTH] }] }),
+    // The receive side of a single-fibre BiDi — the cup that did not exist. REQUIRED of `bidi`: the pair is
+    // what a BiDi is bought on (a U and a D must be matched), and it is fillable — 23 of 23 BiDi wavelength
+    // raws carry it, and "Receiver optical input wavelength" occurs 22 times in the cisco-datasheets
+    // inventory. `rx_wavelength` already existed (type nr, "Receiver input wavelength") and two alias rules
+    // write it; `bidi_wavelengths` ({tx, rx}, 0 facts) and `input_wavelength` (0 facts) are the same
+    // quantity under other names and are retired into it (SUPERSEDED_KEYS).
+    rx_wavelength: cond({ field: "kind", inList: ["bidi"] }),
+    // The span a tunable or coherent module covers. OPTIONAL, deliberately: every tunable optic has one,
+    // but the "Frequency range ... THz" rows in the Cisco inventory come from video transmitter sheets, not
+    // from transceiver datasheets, so fillability for this kind is unmeasured — and a required field
+    // nothing can fill is a permanent gap. Promote it when a transceiver source is seen to publish it.
+    tuning_range: opt,
     // SHAPED 11 Sep 2026 (reviewer §2.2, measured). A DAC or AOC is a fixed-length CABLE: its reach
     // IS its cable_length (135 of 143 hold one; 0 hold a reach_max), so asking both asked one
     // question twice. Transmission mode (duplex vs BiDi) is a property of a fibre optic: 0 of 143
     // DAC/AOC hold one and no source states it for a cable. rj45-copper keeps reach (30 m over Cat6a).
-    reach_max: cond({ field: "media", inList: ["mmf", "smf", "rj45-copper"] }), connector: req,
+    reach_max: cond({ field: "media", inList: ["mmf", "smf", "rj45-copper"] }),
+    connector: cond({ field: "kind", inList: [...OPT_MODULE] }),
     tx_power: cond({ field: "media", inList: ["mmf", "smf"] }),
     rx_sensitivity: cond({ field: "media", inList: ["mmf", "smf"] }),
     // OPTIONAL, not conditional-required, and the distinction is deliberate. The guaranteed minimum
@@ -1050,16 +1118,23 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // transceivers for a number their vendor never published, which is the "required field nothing
     // can ever fill" shape this project has paid for before.
     tx_max_output_power: opt,
-    link_budget: opt, laser_type: opt, mode: cond({ field: "media", inList: ["mmf", "smf"] }),
+    // `mode` DEMOTED TO OPTIONAL, 11 Sep 2026 — check 5 run WITHOUT the circle. source-fields.json admits every
+    // required key for the Cisco datasheet sources by construction, so its test could not fail here. Asked
+    // directly: ZERO label occurrences in the 23,651-label cisco-datasheets inventory map to `mode` (its one
+    // alias, "Operating mode", carries "Electrical, 1310 nm, 1550 nm, DWDM" — not duplex or BiDi), and 0 of the
+    // category's Cisco optics hold it; catalogue-wide it has 3 facts, one vendor's seed. Required, it opened a
+    // slot on 1,369 Cisco optics that nothing could close. The question it asked — one fibre or two? — is now
+    // carried by the derived `kind` (bidi = single-fibre) and by `connector` ("Duplex LC" vs "Single LC").
+    link_budget: opt, laser_type: opt, mode: opt,
     // UNREACHABLE BY CONSTRUCTION, measured 10 Sep 2026 and demoted for the same reason as
     // switches' mgmt_ports and stack_max_members: ZERO facts hold it across every vendor and
     // every state (not merely zero live ones), ZERO sources publish it in any per-category
     // seen-list, and ZERO labels in any source inventory could be aliased to it. Required, it
     // printed a gap on every part that no crawler could ever close. It stays DECLARED, so a
     // value is accepted the day a source publishes one.
-    // 1,760 slots in `transceiver`.
-    bidi_wavelengths: opt,
-    ddm: req,
+    // 1,760 slots in `transceiver`. (`bidi_wavelengths` stood here, declared optional with zero facts; it is
+    // `wavelength` + `rx_wavelength` under a third name and is retired into the latter, 11 Sep 2026.)
+    ddm: cond({ field: "kind", inList: [...OPT_MODULE] }),
     // UNREACHABLE BY CONSTRUCTION, measured 10 Sep 2026 and demoted for the same reason as
     // switches' mgmt_ports and stack_max_members: ZERO facts hold it across every vendor and
     // every state (not merely zero live ones), ZERO sources publish it in any per-category
@@ -1068,7 +1143,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // value is accepted the day a source publishes one.
     // 1,390 slots in `transceiver`.
     fec: opt,
-    power_max: req, temp_class: req,
+    power_max: cond({ field: "kind", inList: [...OPT_MODULE] }), temp_class: cond({ field: "kind", inList: [...OPT_MODULE] }),
     cable_length: cond({ field: "media", inList: ["dac-copper", "aoc"] }),
     // wire_gauge REQUIRED OF A DAC, 11 Sep 2026: a passive copper cable's gauge (Cisco prints 30/26 AWG)
     // decides its reach. Fillable — "Gauge" occurs 30 times in the cisco-datasheets inventory and the
@@ -1079,7 +1154,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // STRUCTURE 8 Sep 2026: 1 field(s) its documents already produce and no profile declared — invisible to completeness until now
     series: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
-    breakout_point_length: opt, channel_bandwidth: opt, color: opt, color_options: opt, country_of_origin: opt, input_wavelength: opt, modulation_type: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, product_line: opt, series_release_date: opt,
+    breakout_point_length: opt, channel_bandwidth: opt, color: opt, color_options: opt, country_of_origin: opt, modulation_type: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, product_line: opt, series_release_date: opt,
     // ONE CUP, NOT TWO — 11 Sep 2026. The 8 Sep pass above declared `cd_tolerance` here because no
     // category declared it. It had no facts and no alias, and it is the SAME QUANTITY as
     // `chromatic_dispersion_tolerance` — same English label, same unit (ps/nm) — which holds this
@@ -1264,8 +1339,13 @@ export const UNIT_OVERRIDES: Record<string, Record<string, string>> = {
 export const DOMAIN_OVERRIDES: Record<string, Record<string, string[]>> = {
   transceiver: {
     // cpak and osfp ADDED 11 Sep 2026: 21 CPAK and 7 OSFP transceivers in the catalogue had no value
-    // their form factor could take. SFP-DD and CFP8 were checked the same way and have zero parts.
-    form_factor: ["gbic", "x2", "xenpak", "xfp", "sfp", "sfp-plus", "sfp28", "sfp56",
+    // their form factor could take.
+    // sfp-dd ADDED the same night, CORRECTING the line that stood here ("SFP-DD ... zero parts"): that
+    // count was CISCO-ONLY. Catalogue-wide 26 SFP-DD transceivers exist (Arista 9, Dell EMC 3, Extreme 3,
+    // Juniper 11), and every one had been STORED as "sfp" — the catch-all /sfp/ read the double-density
+    // module as a single-lane one. The domain is shared by every vendor in the category, so the count that
+    // decides it must be too. OSFP-XD still has no part and is refused by name (specNormalize.ts).
+    form_factor: ["gbic", "x2", "xenpak", "xfp", "sfp", "sfp-plus", "sfp28", "sfp56", "sfp-dd",
       "qsfp-plus", "qsfp28", "qsfp56", "qsfp-dd", "cfp", "cfp2", "cpak", "osfp"],
   },
 };
@@ -1595,6 +1675,13 @@ export const SUPERSEDED_KEYS: Readonly<Record<string, string>> = {
   // a part fits. 9 facts, moved by scripts/rekey-psu-and-compat.mts; its two aliases are redirected.
   // The first retirement that moves VALUES — every one before it held zero facts. 11 Sep 2026.
   chassis_compatibility: "product_compatibility",       // 9 vs 70; "Chassis compatibility" / "Chassis support"
+  // THE RECEIVE WAVELENGTH UNDER TWO MORE NAMES, found by the transceiver BiDi census (11 Sep 2026). Both hold
+  // zero facts in every category. `bidi_wavelengths` is a {tx, rx} pair: its Tx half is `wavelength`, which
+  // every BiDi raw already feeds, and its Rx half is this key. `input_wavelength` ("Input wavelength range")
+  // is an amplifier's or receiver's accepted window — exactly what `rx_wavelength` ("Receiver input
+  // wavelength", a range) holds; the unmapped "Input Wavelength" label (8 rows, EDFA sheets) now writes it.
+  bidi_wavelengths: "rx_wavelength",                     // 0 facts anywhere; Tx half = `wavelength`
+  input_wavelength: "rx_wavelength",                     // 0 facts anywhere; same window, same unit
 };
 for (const p of Object.values(PROFILES)) {
   for (const [dup, canon] of Object.entries(SUPERSEDED_KEYS)) {
@@ -1693,7 +1780,7 @@ export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string
     "qsfp-plus": { de: "QSFP+", en: "QSFP+" }, qsfp28: { de: "QSFP28", en: "QSFP28" },
     qsfp56: { de: "QSFP56", en: "QSFP56" }, "qsfp-dd": { de: "QSFP-DD", en: "QSFP-DD" },
     cfp: { de: "CFP", en: "CFP" }, cfp2: { de: "CFP2", en: "CFP2" },
-    cpak: { de: "CPAK", en: "CPAK" }, osfp: { de: "OSFP", en: "OSFP" },
+    cpak: { de: "CPAK", en: "CPAK" }, osfp: { de: "OSFP", en: "OSFP" }, "sfp-dd": { de: "SFP-DD", en: "SFP-DD" },
   },
   deploy_role: {
     access: { de: "Access", en: "Access" }, aggregation: { de: "Aggregation", en: "Aggregation" },

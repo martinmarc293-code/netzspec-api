@@ -56,7 +56,7 @@
 
 export type SwitchKind =
   | "switch" | "fex" | "linecard" | "module" | "supervisor" | "fabric" | "daughter"
-  | "power" | "fan" | "cable" | "accessory" | "software";
+  | "power" | "fan" | "power-cord" | "stack-cable" | "stack-module" | "cable" | "accessory" | "software";
 
 /** Kinds that are a whole networking device — the only ones a switching specification belongs to. */
 export const SW_DEVICE: readonly SwitchKind[] = ["switch"];
@@ -88,11 +88,23 @@ export const SW_BOX: readonly SwitchKind[] = ["switch", "fex"];
  * so in their name; every remaining one was read (C9400X-SUP-2, N9K-C9508-FM-G, "Dist Fwd Card").
  */
 export const SW_PART: readonly SwitchKind[] =
-  ["linecard", "module", "supervisor", "fabric", "daughter", "power", "fan", "cable", "accessory", "software"];
+  ["linecard", "module", "supervisor", "fabric", "daughter", "power", "fan",
+   "power-cord", "stack-cable", "stack-module", "cable", "accessory", "software"];
 
 /** Kinds that plug into or attach to a switch — every one is bought for WHAT IT FITS (11 Sep 2026). */
 export const SW_COMPONENT: readonly SwitchKind[] =
-  ["linecard", "module", "supervisor", "fabric", "daughter", "power", "fan", "cable", "accessory"];
+  ["linecard", "module", "supervisor", "fabric", "daughter", "power", "fan",
+   "power-cord", "stack-cable", "stack-module", "cable", "accessory"];
+
+/**
+ * Kinds that are a length of cable — asked its length. `cable` WAS FOUR THINGS until 11 Sep 2026 (reviewer
+ * §1.2), all asked the same two questions. Read by name, all 342: 187 power cords (AC and DC), 65 stack
+ * cables, 28 stack MODULES and KITS (C3650-STACK-KIT "Cisco Catalyst 3650 Stack Module", C2960X-FIBER-STK
+ * "FlexStack-Extended Fiber") that have no length at all, and 16 cable-MANAGEMENT kits and blanks
+ * (N7K-C7009-CAB-TOP "Front Top Section and Cable Mgmt Kit", STACK-T2-BLANK) that are accessories. The other
+ * 46 — console, fibre, CX4, RPS and StackPower cables — stay `cable`.
+ */
+export const SW_CABLE: readonly SwitchKind[] = ["power-cord", "stack-cable", "cable"];
 
 // Ordered; the FIRST rule that matches wins. The order is not cosmetic:
 //   fan before power   — `NXA-` is a Nexus ACCESSORY prefix covering both (27 fans, 74 supplies),
@@ -131,11 +143,24 @@ export const SW_COMPONENT: readonly SwitchKind[] =
 // filed in `switches`. The CPU and SD markers give some of them a truer kind, but the defect is their
 // category, which is a row-membership decision held for the operator.
 const RULES: { kind: SwitchKind; re: RegExp }[] = [
+  // THE CABLE SPLIT, 11 Sep 2026 (reviewer §1.2; see SW_CABLE). These run first of all, for the reason the
+  // cable rule below always has: a Swiss cord ends in "-SW" and must not reach the software rule.
+  //   Cable-MANAGEMENT kits and stack blanks carry a CAB/STACK token and are not cables.
+  { kind: "accessory", re: /-CAB-TOP(?:-|=|$)|^N77-C77\d{2}-CAB(?:-|=|$)|^CAB-GUIDE|^STACK-T\d+A?-BLANK/ },
+  //   Stack cables: STACK-T1-3M, STACK-CAB-50CM, CAB-STACK-1M-NH, CAB-STK-E-0.5M ("FlexStack stacking cable").
+  { kind: "stack-cable", re: /^(?:CAB-)?STACK-|^CAB-STK-/ },
+  //   Stack modules and kits: C2960X-STACK, C3650-STACK-KIT, C9300L-STACK-A, C2960X-HYBRID-STK.
+  { kind: "stack-module", re: /-STACK(?:-|=|$)|-STK(?:-|=|$)/ },
+  //   Power cords, AC and DC: every CAB- that is not a console, fibre, CX4, RPS, StackPower/XPS, InfiniBand
+  //   or category cable — read by name, including the 17 whose name never says "power" (CAB-7KACE=,
+  //   CAB-C2316-C19-IT "CEI 23-16 to IEC-C19 14ft, Italy") — plus PWR-CAB- and the Nexus 7000 DC cables.
+  //   USB is excluded after the census read CAB-USBA-USBB "Console Cable 7ft with USBA and USBB" as a cord.
+  { kind: "power-cord", re: /^CAB-(?!CON|USB|SFP|SM-|INF-|RPS|GUIDE|SPWR|XPS|MCP|04X|STK|STACK|CAT)|^PWR-CAB-|-DC-CAB(?:-|=|$)/ },
   // CABLE FIRST since 11 Sep 2026 (reviewer §0.6): four Swiss power cords — CAB-TA-SW, CAB-9K16A-SW,
   // CAB-3KX-AC-SW, CAB-AC-16A-SG-SW — end in "-SW", the COUNTRY, and the software rule below read it as
   // software. CB-LC-LC-SMF (a patch cord) and CSS5-CABSX-LC= (a fibre cable) were `module` until the
-  // same day: their "-LC" reads as the line-card marker.
-  { kind: "cable", re: /(?:^|-)(?:CAB|CBL)(?:-|=|$)|-STACK|^STACK-|-STK(?:-|=|$)|^CB-|(?:^|-)CAB[A-Z]{1,3}-|^CAT(?:5E|6A?)$/ },
+  // same day: their "-LC" reads as the line-card marker. The stack alternatives moved to the rules above.
+  { kind: "cable", re: /(?:^|-)(?:CAB|CBL)(?:-|=|$)|^CB-|(?:^|-)CAB[A-Z]{1,3}-|^CAT(?:5E|6A?)$/ },
   // N5KUK9-503N1.1, NXOS-703I7.6 — an operating-system image sold under a switch family PID.
   // N9K-C9400-SW-GX2A is excluded: "Cisco N9400 switch card", a line card whose "-SW-" is not software.
   { kind: "software", re: /^(?!N9K-C9400-SW-)(?:.*?(?:^|-)(?:NXOS|SW|IOS)(?:-|$)|.*UK9(?:-|=|$))/ },

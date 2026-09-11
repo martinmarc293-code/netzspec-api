@@ -227,7 +227,7 @@
     "name_en": "Transceiver by wavelength", "name_de": "Transceiver nach Wellenlänge",
     "description_en": "850, 1310, 1550 nm and the CWDM/DWDM grid — the number that has to match at both ends.",
     "facets": [ { "key": "wavelength", "ui": "range" }, { "key": "mode", "ui": "select" } ],
-    "columns": ["wavelength", "mode", "bidi_wavelengths", "media", "standard", "laser_type"],
+    "columns": ["wavelength", "rx_wavelength", "mode", "media", "standard", "laser_type"],
     "examples": [ { "title": "1310 nm", "filter": "wavelength_min=1300&wavelength_max=1320" } ] },
 
   { "id": "transceiver-by-standard", "category": "transceiver",
@@ -296,7 +296,7 @@
     "description_en": "Single-fibre optics with a transmit and a receive wavelength — half the fibre for the same link.",
     "fixed_filter": "mode=simplex-bidi",
     "facets": [ { "key": "wavelength", "ui": "range" }, { "key": "connector", "ui": "select" } ],
-    "columns": ["mode", "bidi_wavelengths", "wavelength", "standard", "connector", "media"],
+    "columns": ["mode", "wavelength", "rx_wavelength", "standard", "connector", "media"],
     "examples": [ { "title": "BiDi optics", "filter": "connector=lc-simplex" } ] },
 
   { "id": "transceiver-fec", "category": "transceiver",

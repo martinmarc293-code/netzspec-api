@@ -83,7 +83,11 @@ An unknown vendor is `400` naming it.
 
 ### `GET /v1/fields?category=switches`
 The dictionary as the database holds it (the table `facts.field_key` references).
-`items: [{ key, type, unit, label_en, label_de, domain, band, shape, requirement? }]`, by key.
+`items: [{ key, type, unit, label_en, label_de, domain, band, shape, superseded_by, requirement? }]`, by key.
+
+- `superseded_by` is null for a live key. A RETIRED key — the same quantity as another, kept in the
+  dictionary only because stored history references it — names the key to read instead
+  (`cd_tolerance` → `chromatic_dispersion_tolerance`). A retired key is `na` in every category.
 
 - `type` is one of `n` number · `nr` `{min,max}` range · `b` boolean · `e` enum · `s` string ·
   `ls` string list · `struct` (shape named by `shape`, e.g. `ports`).

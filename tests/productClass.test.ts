@@ -389,6 +389,22 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["S45EUK9-S8-38E", "Cisco Catalyst 4500 Supervisor Engine 8L-E Cisco IOS Software XE release 3.8.1E crypto universal", "switches", "software", "sku-regex:cat4500-xe-image"],
     ["PWR-C2-1025WAC-", "Dummy PID to Track First PS S/N, 1025WAC Kingfisher", "switches", "non_product", "name-dummy-pid"],
     ["C9120-MULTI", "Dummy PIDs on the test orders:", "wireless", "non_product", "name-dummy-pid"],
+    // Transceiver kind census, 11 Sep 2026 — names verbatim from the catalogue.
+    ["SFP7010-TAC-OPS", "SVP Cisco FirePOWER 7010 IPS, Apps and URL Adjustable OPS", "transceiver", "license", "sku-regex:firepower-svp-subscription"],
+    ["SFP8370TAMC-OPS", "SVP FirePOWER 8370 IPS, Apps, AMP & URL Adjustable OPS", "transceiver", "license", "sku-regex:firepower-svp-subscription"],
+    ["QSFP-", "Cisco QSFP-", "transceiver", "non_product", "sku-exact:QSFP-"],
+    ["QSFP-DD", "Cisco QSFP-DD", "transceiver", "non_product", "sku-exact:QSFP-DD"],
+    ["QSFP28", "Cisco QSFP28", "transceiver", "non_product", "sku-exact:QSFP28"],
+    ["QSFP28-DD", "Cisco QSFP28-DD", "transceiver", "non_product", "sku-exact:QSFP28-DD"],
+    ["QSFP56", "Cisco QSFP56", "transceiver", "non_product", "sku-exact:QSFP56"],
+    ["QSFP56-DD", "Cisco QSFP56-DD", "transceiver", "non_product", "sku-exact:QSFP56-DD"],
+    ["QSFP112", "Cisco QSFP112", "transceiver", "non_product", "sku-exact:QSFP112"],
+    ["SFP28", "Cisco SFP28", "transceiver", "non_product", "sku-exact:SFP28"],
+    ["SFP56", "Cisco SFP56", "transceiver", "non_product", "sku-exact:SFP56"],
+    ["QSFP-H40G-CUxM", "QSFP to QSFP copper direct-attach cables (length x- 1m to 5m)", "transceiver", "non_product", "sku-regex:family-placeholder"],
+    ["SFP-H10GB-CUxM=", "Cisco SFP-H10GB-CUxM=", "transceiver", "non_product", "sku-regex:family-placeholder"],
+    ["CWDM-SFP10G-xxxx=", "Cisco CWDM-SFP10G-xxxx=", "transceiver", "non_product", "sku-regex:family-placeholder"],
+    ["XFP-RF-ITUXX=", "Cisco XFP QAM Transmitter Fixed Wavelength ITUXX 1", "transceiver", "non_product", "sku-regex:family-placeholder"],
   ];
   for (const [sku, name, cat, klass, reason] of added) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
@@ -485,6 +501,13 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
       "routers", "a name rule on 'tracking PID' — this is the chassis' own line in the consumption model"],
     ["N5K-C5548UP-FA", "Chassis includes 32 fixed unified ports, Front-to-Back Airflow, 2 750W AC Power Supplies, Fan Trays, 1 Expansion Slot",
       "switches", "nxos-image without the no-hyphen anchor — N5K- followed by a chassis"],
+    // Transceiver kind census refusals, 11 Sep 2026. A TWO-letter -xx is Cisco's region code on Small
+    // Business gear; the first draft of family-placeholder (`X{2,}`) filed 190 such switches as non-products.
+    ["SG350-28-K9-xx", "Cisco SG350-28-K9-xx", "switches", "family-placeholder at X{2,} — -xx is the REGION, not a spec"],
+    ["SF110D-08-xx", "Cisco SF110D-08 8-port 10/100 Desktop Switch", "switches", "family-placeholder at X{2,} — a real desktop switch with 9 facts"],
+    ["CBS350-8P-2G-xx", "Cisco CBS350-8P-2G-xx", "switches", "family-placeholder at X{2,} — region code on a Catalyst Business switch"],
+    ["SC9800CLAMIK9-xxxx", "Cisco Catalyst 9800-CL Wireless Controller – AWS", "wireless", "family-placeholder without its SC9800CL veto — a cloud controller, not a placeholder"],
+    ["SFP-GE-S", "Cisco SFP-GE-S 1000BASE-SX SFP-Modul — SX (Kurzstrecke), Multimode, bis 550 m (OM3)", "transceiver", "firepower-svp-subscription without its digits-after-SFP anchor"],
   ];
   for (const [sku, name, cat, wouldEat] of mustStayHardware) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
