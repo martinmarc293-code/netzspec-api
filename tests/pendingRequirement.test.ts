@@ -153,6 +153,32 @@ ok("both are still DECLARED required in the profile — this is a scoring rule, 
   eq("a cable is asked for no ports at all", requirementFor("switches", "ports", cable), "na");
 }
 
+// --- `all`: settled by ONE answered false clause (11 Sep 2026) ----------------------------------
+// poe_budget is cond({ all: [kind is switch, poe_standard is not none] }). Before settledFalse, a
+// LINE CARD whose poe_standard was unanswered came back `pending` — its kind rules it out for good,
+// but the unanswered required gate kept the whole `all` open — and all 619 port-bearing modules
+// were counted as owing a PoE budget. Each case below pins one cell of the table.
+{
+  const card = { kind: "module" };
+  const sw = { kind: "switch" };
+  eq("a line card with poe_standard unanswered owes NO poe_budget (na, not pending)",
+     requirementFor("switches", "poe_budget", card), "na");
+  eq("...but still owes poe_standard itself",
+     requirementFor("switches", "poe_standard", card), "req");
+  eq("...and its poe_ports stay pending until poe_standard is answered",
+     requirementFor("switches", "poe_ports", card), "pending");
+  eq("a PoE line card owes its PoE port count",
+     requirementFor("switches", "poe_ports", { kind: "module", poe_standard: "802.3at" }), "req");
+  eq("a PoE line card still owes no PoE budget — the chassis PSU's",
+     requirementFor("switches", "poe_budget", { kind: "module", poe_standard: "802.3at" }), "na");
+  eq("a switch with poe_standard unanswered: poe_budget pending", requirementFor("switches", "poe_budget", sw), "pending");
+  eq("a PoE switch: poe_budget req", requirementFor("switches", "poe_budget", { kind: "switch", poe_standard: "802.3at" }), "req");
+  eq("a non-PoE switch: poe_budget na", requirementFor("switches", "poe_budget", { kind: "switch", poe_standard: "none" }), "na");
+  // A single-field condition behaves exactly as before: gate absent and required -> pending.
+  eq("control: a single-field cond with its required gate absent is still pending",
+     requirementFor("security", "rack_units", unknownFF), "pending");
+}
+
 lines.unshift(`    pending requirement: ${passed} passed, ${failed} missed ` +
               `(3-way na/pending/req, ${optGated.length} conds in security)`);
 console.log(lines.join("\n"));

@@ -896,12 +896,17 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // standard per LINE CARD, and 28 of this category's modules carry a PoE token in their PID
     // (WS-X4748-RJ45V+E "Catalyst 4500E 48-Port PoE 802.3at", C9400-LC-48U-B, WS-X6148-RJ45V).
     // Exactly one of the 28 holds a poe_standard fact today, so this opens 27 real questions.
-    // `poe_budget` and `poe_ports` stay device-only — the budget is a function of the chassis PSU,
-    // not of the card — which is what their gate on poe_standard already achieves for a module
-    // whose poe_standard is unanswered.
+    //
+    // CORRECTED 11 Sep 2026. This comment used to say poe_budget stays device-only "which is what
+    // their gate on poe_standard already achieves for a module whose poe_standard is unanswered".
+    // Measured, it achieved the opposite: an unanswered REQUIRED gate makes its dependents PENDING,
+    // so all 619 port-bearing modules were counted as owing a PoE budget, and 0 of them hold one —
+    // the budget is the chassis PSU's, not the card's. The kind is now a clause of its own, and
+    // requirementFor settles an `all` as soon as one answered clause is false (settledFalse).
+    // A PoE line card still owes its PoE PORT count ("48-Port PoE 802.3at"); only switches owe a budget.
     poe_standard: cond({ field: "kind", inList: ["switch", "module"] }),
-    poe_ports: cond({ field: "poe_standard", ne: "none" }),
-    poe_budget: cond({ field: "poe_standard", ne: "none" }),
+    poe_ports: cond({ all: [{ field: "kind", inList: ["switch", "module"] }, { field: "poe_standard", ne: "none" }] }),
+    poe_budget: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "poe_standard", ne: "none" }] }),
     poe_per_port_max: opt,
     // SPLIT 11 Sep 2026. Until today modules kept these two on the note that Cisco publishes "a
     // per-SLOT bandwidth" for a line card "as well as a system figure for the switch" — true, and
@@ -1284,6 +1289,23 @@ export function evalCondition(c: Condition, v: PartValues): boolean {
   return false;
 }
 
+/**
+ * True when the ANSWERED fields alone already make the condition false, so that no answer to the
+ * unanswered ones could ever make it true. This is what separates `na` from `pending`.
+ *
+ * Added 11 Sep 2026. requirementFor used to call a false condition `pending` whenever ANY of its
+ * gate fields was unanswered and required — right for a single field and for `any`, wrong for
+ * `all`: in `{ all: [kind is switch, poe_standard is not none] }` a LINE CARD fails the first clause
+ * for good, yet its unanswered poe_standard kept the whole condition pending, so the card was
+ * counted as owing a PoE budget for ever. For a single field and for `any` this returns exactly
+ * what the old path concluded, so only `all` changes.
+ */
+export function settledFalse(c: Condition, v: PartValues): boolean {
+  if ("any" in c) return c.any.every((x) => settledFalse(x, v));
+  if ("all" in c) return c.all.some((x) => settledFalse(x, v));
+  return v[c.field] !== undefined && !evalCondition(c, v);
+}
+
 /** Every field name a condition reads, including through `any` / `all`. */
 export function gateFields(c: Condition): string[] {
   if ("any" in c) return c.any.flatMap(gateFields);
@@ -1321,6 +1343,8 @@ export function requirementFor(
   if (!r) return "na";
   if (r.kind !== "cond") return r.kind;
   if (evalCondition(r.when, values)) return "req";
+  // Settled false by what IS answered: nothing left unanswered can make it true (see settledFalse).
+  if (settledFalse(r.when, values)) return "na";
   // False — but is it false because the gate says no, or because nobody has answered the gate?
   //
   // THE GATE'S REQUIREMENT MUST BE RESOLVED, NOT READ OFF THE PROFILE. This line used to test
