@@ -412,6 +412,18 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   ride_through_time: { key: "ride_through_time", de: "Minimale Überbrückungszeit", en: "Minimum ride-through time", type: "n", unit: "ms", etim: [], icecat: null },
   supported_os: { key: "supported_os", de: "Unterstützte Betriebssysteme", en: "Supported operating systems", type: "s", etim: [], icecat: null },
   insertion_loss_max: { key: "insertion_loss_max", de: "Maximale Einfügedämpfung", en: "Maximum insertion loss", type: "n", unit: "dB", etim: [], icecat: null },
+
+  // fabric_bandwidth, RETYPED to a number on 11 Sep 2026. The generated definition already said the
+  // right thing — "per-slot fabric attachment of a line card, chassis-dependent; not the system
+  // switching capacity" — but typed it a STRING, so "40 Gbps (80 Gbps full duplex)" would have been
+  // served as text nobody can compare or filter. It held ZERO facts when retyped, so nothing
+  // re-parses. It is the cup for every PER-SLOT figure that was being poured into
+  // switching_capacity: 86 switches facts held both a line card's "48 Gbit/s je Steckplatz" and a
+  // supervisor's "6 Tbit/s Crossbar-Fabric" under one key, and WS-X45-SUP7-E said 48 where its own
+  // source says "(848 Gbit/s System)". A second key for the same quantity would have been its own
+  // defect, so this one is used rather than inventing `slot_bandwidth`. Band: Cisco publishes from
+  // 622 Mbit/s (an optical SPA slot) to 6.4 Tbit/s (C9600, "Per-slot Switching Capacity").
+  fabric_bandwidth: { key: "fabric_bandwidth", de: "Bandbreite der Switch-Fabric-Anbindung", en: "Switch fabric connection bandwidth", type: "n", unit: "Gbit/s", band: [0.1, 20000], etim: [], icecat: null },
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -856,9 +868,12 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // to `switch`. That default fails safe: a component left as a switch carries gaps, where a switch
   // called a component would have its real questions closed.
   //
-  // Line cards KEEP `ports`, `switching_capacity` and `forwarding_rate`: C9600-LC-48TX is a
-  // 48-port module and Cisco publishes a per-slot bandwidth for it. They do NOT get a MAC table,
-  // a VLAN maximum, PoE, stacking or a physical envelope — those belong to the chassis it sits in.
+  // Port-bearing modules (line cards, network and expansion modules, port adapters) KEEP `ports`
+  // and `poe_standard`: C9600-LC-48TX is a 48-port module. Since 11 Sep 2026 they are no longer
+  // asked `switching_capacity` or `forwarding_rate` — a line card's figure is PER SLOT and lives in
+  // `fabric_bandwidth` (see the split below), and 0 of 619 answered a forwarding rate. Supervisors,
+  // fabric modules and daughter cards are their own kinds now. None of them gets a MAC table, a
+  // VLAN maximum, stacking or a physical envelope — those belong to the chassis they sit in.
   switches: {
     rfc_compliance: opt, emc_immunity: opt, emc_emissions: opt, power_full_load: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req,
@@ -888,14 +903,23 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     poe_ports: cond({ field: "poe_standard", ne: "none" }),
     poe_budget: cond({ field: "poe_standard", ne: "none" }),
     poe_per_port_max: opt,
-    // Modules keep these two: Cisco publishes a per-SLOT bandwidth and forwarding rate for a line
-    // card as well as a system figure for the switch. Measured — 73 of the 81 device-spec facts
-    // held by non-switch parts are these two on modules, and they are correct
-    // (WS-X45-SUP7-E "48 Gbit/s je Steckplatz", WS-X4748-RJ45-E likewise). They do NOT keep
-    // mac_table or vlan_max: those 8 facts are all supervisors, too thin a population to gate on,
-    // and a fact that is not REQUIRED is still stored and still served.
-    switching_capacity: cond({ field: "kind", inList: [...SW_DEVICE, "module"] }),
-    forwarding_rate: cond({ field: "kind", inList: [...SW_DEVICE, "module"] }),
+    // SPLIT 11 Sep 2026. Until today modules kept these two on the note that Cisco publishes "a
+    // per-SLOT bandwidth" for a line card "as well as a system figure for the switch" — true, and
+    // exactly the defect: those are two DIFFERENT QUANTITIES, and they were both being poured into
+    // switching_capacity. 86 module facts held "48 Gbit/s je Steckplatz" (a line card, per slot)
+    // beside "6 Tbit/s Crossbar-Fabric" (a supervisor, the whole system), and WS-X45-SUP7-E said 48
+    // where its own source says "(848 Gbit/s System)". Now:
+    //   switching_capacity  the SYSTEM figure — a switch, or the supervisor that provides it
+    //   forwarding_rate     likewise: 8 of 120 supervisors answer it, 0 of 619 port-bearing modules
+    //   fabric_bandwidth    the PER-SLOT figure — what a supervisor gives each slot, what a fabric
+    //                       module adds to each slot. Cisco labels it "Per-slot switching capacity",
+    //                       "Capacity (per slot)", "Switch fabric connection" (~50 occurrences in the
+    //                       datasheet inventory) and the seed "je Steckplatz".
+    // The `module` kind itself was split for the same reason (switchKind.ts): a fabric module was
+    // being asked for ports and a PoE standard, which no fabric module has.
+    switching_capacity: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
+    forwarding_rate: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
+    fabric_bandwidth: cond({ field: "kind", inList: ["supervisor", "fabric"] }),
     stacking_bandwidth: cond({ field: "stackable", eq: true }),
     // stack_max_members is OPTIONAL, not conditional, and the measurement is the reason:
     // ZERO facts hold it — across every category and every vendor in the catalogue — and ZERO

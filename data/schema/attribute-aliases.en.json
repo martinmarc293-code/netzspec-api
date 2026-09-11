@@ -4660,6 +4660,28 @@
    "switches: Per-slot fabric attachment bandwidth for a line card, not the system switching capacity."
   ],
   [
+   "^per[- ]?slot switching capacity$",
+   "fabric_bandwidth",
+   "switches: 'Per-slot switching capacity' is the bandwidth a supervisor gives EACH SLOT (Cat 4500 Sup7-E '48 Gbps', C9600 'Up to 2.4 Tbps') — a per-slot figure, never the system switching capacity it sits beside. 24 occurrences over four spellings in the cisco-datasheets inventory, all unmapped until 11 Sep 2026.",
+   {
+    "only": [
+     "switches",
+     "data-center-networking"
+    ]
+   }
+  ],
+  [
+   "^capacity \\(per slot\\)$",
+   "fabric_bandwidth",
+   "switches: 'Capacity (per slot)' ('1.6 Tbps', '800 Gbps') — the same per-slot figure. 7 occurrences, unmapped until 11 Sep 2026.",
+   {
+    "only": [
+     "switches",
+     "data-center-networking"
+    ]
+   }
+  ],
+  [
    "^integrated poe$",
    "poe_integrated",
    "switches: Yes / No (data only) / Yes (up to 3855W) — whether PoE is built in."

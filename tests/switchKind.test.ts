@@ -42,28 +42,33 @@ const CASES: [string, string][] = [
   ["C9600-LC-48TX", "module"],
   ["C3850-NM-4-1G", "module"],
   ["IEM-3000-8FM=", "module"],
-  ["WS-X45-SUP7-E", "module"],
-  ["N77-C7718-FAB-3", "module"],
+  // Split out of `module` on 11 Sep 2026 — a supervisor is asked the system switching capacity and
+  // its per-slot bandwidth, a fabric module only the latter, a daughter card neither.
+  ["WS-X45-SUP7-E", "supervisor"],     // carries "-X4" too: supervisor runs before the line-card marker
+  ["N77-C7718-FAB-3", "fabric"],
+  ["C9400X-SUP-2", "supervisor"],      // name is only the SKU; the SUP token decides
+  ["C6800-SUP6T", "supervisor"],       // "6 Tbit/s Crossbar-Fabric"
+  ["N9K-C9508-FM-G", "fabric"],        // name is only the SKU; the FM token decides
   // Added 10 Sep 2026 from the reverse name control (parts filed `switch` whose NAME says
   // component). Each pattern measured on its own for part- against device-evidence.
-  ["WS-F6K-PFC3B", "module"],          // 6500 policy feature card
-  ["WS-F6700-DFC3C", "module"],        // 6700 distributed forwarding card
+  ["WS-F6K-PFC3B", "daughter"],        // 6500 policy feature card
+  ["WS-F6700-DFC3C", "daughter"],      // 6700 distributed forwarding card
   ["N55-M16P", "module"],              // Nexus 5500 expansion module
   ["N56-M24UP2Q", "module"],           // Nexus 5600 expansion module
   ["N77-F324FQ-25", "module"],         // 7700 I/O line card
   ["N77-M348XP-23L", "module"],        // 7700 M-series line card
-  ["VS-S720-10G-3C", "module"],        // Sup720 — carries no SUP token
-  ["VS-S2T-10G", "module"],            // Sup2T — likewise
+  ["VS-S720-10G-3C", "supervisor"],    // Sup720 — carries no SUP token
+  ["VS-S2T-10G", "supervisor"],        // Sup2T — likewise
   ["7600-ES+2TG3C", "module"],         // 7600 Ethernet Services line card
-  ["WS-S32-GE-3B", "module"],          // Sup32
+  ["WS-S32-GE-3B", "supervisor"],      // Sup32
   ["C6880-X-LE-16P10G", "module"],     // 6880-X port card
   // Added 11 Sep 2026 from the default-bucket audit (256 parts filed `switch` whose name said
   // otherwise). Every one from the catalogue.
   ["SPA-2X1GE", "module"],             // "Cisco 2-Port Gigabit Ethernet Shared Port Adapter"
   ["7600-SIP-400", "module"],          // "Cisco 7600 Series SPA Interface Processor-400"
-  ["VS-F6K-PFC4", "module"],           // "Cat 6k 80G Sys Daughter Board Sup2T PFC4" — the WS- twin was already a module
-  ["VS-F6K-MSFC3", "module"],          // "Catalyst 6500 Multilayer Switch Feature Card (MSFC) III"
-  ["WS-DFC4AXL-4PAK=", "module"],      // "DFC4-AXL 4 Pack Bundle"
+  ["VS-F6K-PFC4", "daughter"],         // "Cat 6k 80G Sys Daughter Board Sup2T PFC4" — the WS- twin's kind
+  ["VS-F6K-MSFC3", "daughter"],        // "Catalyst 6500 Multilayer Switch Feature Card (MSFC) III"
+  ["WS-DFC4AXL-4PAK=", "daughter"],    // "DFC4-AXL 4 Pack Bundle"
   ["WS-SVC-WISM-1-K9", "module"],      // Catalyst 6500 Wireless Services Module
   ["C9400-SSD-240GB", "accessory"],    // was `module` by name; storage has no ports or switching capacity
   ["MEM-SUP2T-4GB", "accessory"],      // "4G DRAM Memory Total for Sup2T and Sup2TXL"
@@ -102,7 +107,7 @@ const CASES: [string, string][] = [
   ["CAT6A", "cable"],                  // "Copper cable for 10G"
   ["C4948-REAR-BKT=", "accessory"],    // "C49xx rear mount brackets"
   ["FQMAP66BL", "accessory"],          // "QuickNet Fiber Optic Migration Adapter Panel"
-  ["DFC3CXL", "module"],               // a bare Distributed Forwarding Card PID
+  ["DFC3CXL", "daughter"],             // a bare Distributed Forwarding Card PID
   ["XPS-2200", "power"],               // "eXpandable Power System 2200"
 
   // power
@@ -158,7 +163,7 @@ for (const sku of SINGLE_LETTER) eq(`single letter is not a kind: ${sku}`, switc
 // `CHAS`/`CHASSIS` as a segment matches exactly one SKU in 8,985 and it is a MIB name, so there is
 // no detectable chassis kind at all. All 25 N7X-*-FAB-n parts plug INTO a chassis.
 for (const sku of ["N7K-C7010-FAB-2", "N77-C7706-FAB-3=", "N7K-C7018-FAB-2"]) {
-  eq(`FAB is a module, not a chassis: ${sku}`, switchKind(sku), "module");
+  eq(`FAB is a fabric module, not a chassis: ${sku}`, switchKind(sku), "fabric");
 }
 
 // --- REFUSALS: the ordering that fan/cable/accessory must win --------------------------------------
@@ -177,6 +182,12 @@ eq("a USB console CABLE is a cable, not USB flash", switchKind("CAB-CONSOLE-USB-
 eq("a LC-LC patch cord is a cable, not a line card (its -LC- reads as the module marker)", switchKind("CB-LC-LC-SMF"), "cable");
 eq("a fibre cable ending -LC= is a cable, not a line card", switchKind("CSS5-CABSX-LC="), "cable");
 eq("the XPS 2200 FAN module is a fan, not the power system it cools", switchKind("XPS-2200-FAN"), "fan");
+// The module split's two refusals. N35-FM-48X carries the fabric marker and is "Nexus 3550-F
+// Programmable Multiplexer Switch" — a whole switch, which as a fabric module would be asked for a
+// per-slot bandwidth. WS-F6K-XENBLNKCVR carries the daughter-card prefix and is "Xenpak Blank
+// Covers": accessory runs first.
+eq("N35-FM-48X is a multiplexer SWITCH, not a fabric module", switchKind("N35-FM-48X"), "switch");
+eq("a Xenpak blank cover under the WS-F6K- prefix is an accessory, not a daughter card", switchKind("WS-F6K-XENBLNKCVR"), "accessory");
 // ...and the refusal that makes the SD-card marker safe: WS-C3560V2-24TS-SD is a Catalyst 3560V2
 // SWITCH ("24 10/100 + 2 SFP + IPB Image + DC Power") whose PID ends in -SD. The marker requires a
 // capacity after SD-, so a trailing -SD cannot fire it.

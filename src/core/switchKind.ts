@@ -55,14 +55,32 @@
 // test was wrong, not the axis.
 
 export type SwitchKind =
-  | "switch" | "module" | "power" | "fan" | "cable" | "accessory" | "software";
+  | "switch" | "module" | "supervisor" | "fabric" | "daughter"
+  | "power" | "fan" | "cable" | "accessory" | "software";
 
 /** Kinds that are a whole networking device — the only ones a switching specification belongs to. */
 export const SW_DEVICE: readonly SwitchKind[] = ["switch"];
 
-/** Kinds that plug into one. Cisco publishes no switching capacity or MAC table for these. */
+/**
+ * Kinds that plug into one.
+ *
+ * `module` WAS FOUR THINGS until 11 Sep 2026, and the profile asked all four the same questions.
+ * Measured over the 852 parts it held, against what each actually answers today:
+ *
+ *   port-bearing  619   ports 175  poe 42  switching_capacity 63  forwarding_rate  0
+ *   supervisor    120   ports   0  poe  0  switching_capacity 13  forwarding_rate  8
+ *   fabric         63   ports   0  poe  0  switching_capacity 10  forwarding_rate  0
+ *   daughter       50   ports   0  poe  2  switching_capacity  0  forwarding_rate  0
+ *
+ * A fabric module was asked for ports and a PoE standard; a supervisor for a PoE standard. And the
+ * switching_capacity column held two quantities: a line card's PER-SLOT bandwidth ("48 Gbit/s je
+ * Steckplatz") and a supervisor's SYSTEM fabric ("6 Tbit/s Crossbar-Fabric"). So the three named
+ * sub-kinds are split out, each by its own markers, and `module` keeps the port-bearing majority.
+ * Name evidence: 110 of 120 supervisors, 58 of 63 fabric modules and 42 of 50 daughter cards say
+ * so in their name; every remaining one was read (C9400X-SUP-2, N9K-C9508-FM-G, "Dist Fwd Card").
+ */
 export const SW_PART: readonly SwitchKind[] =
-  ["module", "power", "fan", "cable", "accessory", "software"];
+  ["module", "supervisor", "fabric", "daughter", "power", "fan", "cable", "accessory", "software"];
 
 // Ordered; the FIRST rule that matches wins. The order is not cosmetic:
 //   fan before power   — `NXA-` is a Nexus ACCESSORY prefix covering both (27 fans, 74 supplies),
@@ -111,7 +129,7 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   { kind: "cable", re: /(?:^|-)(?:CAB|CBL)(?:-|=|$)|-STACK|^STACK-|-STK(?:-|=|$)|^CB-|(?:^|-)CAB[A-Z]{1,3}-|^CAT(?:5E|6A?)$/ },
   {
     kind: "accessory",
-    re: /(?:^|-)(?:BLNK|BLANK|BRKT|RCKMNT|MNT|KIT|ACC|CVR|TRAY|RAIL|REC|COVER)(?:-|=|\d|$)|(?:^|-)(?:MEM|SSD|CF|CPF|USB|RMK|RMB|RM|ACK|RACK|RACKMNT|DINRAIL|CBLE|PCM|CPU|CLK|BMP|DINCLP|RPNL|XBLNK|AFLT|BKT)(?:-|=|$)|[A-Z0-9]KIT(?:-|=|$)|FILTER(?:-|=|$)|(?:^|-)M?SD-(?:IE-)?\d+G|^FQ(?:9N|MAP)/,
+    re: /(?:^|-)(?:BLNK|BLANK|BRKT|RCKMNT|MNT|KIT|ACC|CVR|TRAY|RAIL|REC|COVER)(?:-|=|\d|$)|(?:^|-)(?:MEM|SSD|CF|CPF|USB|RMK|RMB|RM|ACK|RACK|RACKMNT|DINRAIL|CBLE|PCM|CPU|CLK|BMP|DINCLP|RPNL|XBLNK|AFLT|BKT)(?:-|=|$)|[A-Z0-9]KIT(?:-|=|$)|FILTER(?:-|=|$)|(?:^|-)M?SD-(?:IE-)?\d+G|^FQ(?:9N|MAP)|BLNKCVR(?:-|=|$)/,
   },
   // PAC 66/83 psu, PHV 17/17, PDC 26/27, CAC 8/10, and a bare wattage token 111/135. Widened: the
   // AC/DC letters may follow a hyphen, kilowatts, the PUV universal supply, a trailing wattage, RPS.
@@ -145,9 +163,23 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   // `N9K-X####` (Nexus 9500 line cards) and `N9K-SC-` (system controllers) both return 0 — they
   // live under `data-center-networking`. A rule for a population that does not exist is a rule
   // nobody has seen work, and productClass.test.ts's reachability check exists for that reason.
+  //
+  // SPLIT 11 Sep 2026 into four kinds (see SW_PART). The three named ones run FIRST, because the
+  // port-bearing markers are broader: WS-X45-SUP7-E carries both "-X4" (a line-card marker) and
+  // "SUP7" (a supervisor), and it is a supervisor.
+  // Supervisors: the SUP token, and the three families whose PID has none.
+  { kind: "supervisor", re: /(?:^|-)SUP(?:-|=|\d|$)|^VS-S(?:720|2T)|^WS-S\d/ },
+  // Fabric modules. N35- is excluded: N35-FM-48X is "Nexus 3550-F Programmable Multiplexer Switch",
+  // the one genuine miss the header has recorded since 10 Sep — as a fabric module it would be
+  // asked for a per-slot bandwidth, and it is a whole switch. It falls through to `switch`.
+  { kind: "fabric", re: /^(?!N35-).*-(?:FM|FAB)(?:-|=|\d|$)/ },
+  // Daughter cards: 6500 PFC / DFC / CFC / MSFC boards, and the DFC 4-packs.
+  { kind: "daughter", re: /^(?:WS|VS)-F6(?:K|700)|(?:^|-)DFC\d/ },
+  // Everything left that plugs into a slot and carries PORTS: line cards, network and expansion
+  // modules, port cards, port adapters and their interface processors, service modules.
   {
     kind: "module",
-    re: /-X\d|(?:^|-)N\d+K-[MF]\d|^IEM-|-LC(?:-|=|$)|-NM(?:-|=|$)|-(?:FM|FAB)(?:-|=|\d|$)|(?:^|-)SUP(?:-|=|\d|$)|^(?:WS|VS)-F6(?:K|700)|^N5[56]-M\d|^N77-[MF]\d|^C6800-.*P10G|^VS-S(?:720|2T)|^7600-ES|^WS-S\d|^C6880-X-LE-|^SPA-|(?:^|-)SIP-\d|(?:^|-)DFC\d|^WS-SVC-/,
+    re: /-X\d|(?:^|-)N\d+K-[MF]\d|^IEM-|-LC(?:-|=|$)|-NM(?:-|=|$)|^N5[56]-M\d|^N77-[MF]\d|^C6800-.*P10G|^7600-ES|^C6880-X-LE-|^SPA-|(?:^|-)SIP-\d|^WS-SVC-/,
   },
 ];
 
