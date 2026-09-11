@@ -11,11 +11,15 @@ import { createHash } from "node:crypto";
 import { PROFILES, requirementFor, gateFields, COLUMN_BACKED, type Requirement } from "./fieldSchema.js";
 import { SW_BOX, SW_PART } from "./switchKind.js";
 import type { OpticKind } from "./opticKind.js";
+// wireless (12 Sep 2026)
+import { WL_KINDS } from "./wirelessKind.js";
 
 /** Every kind a category's axis can name — including kinds no part holds today, which still have a question set. */
 export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   switches: [...SW_BOX, ...SW_PART],
   transceiver: ["pluggable", "bidi", "tunable", "adapter", "accessory"] satisfies OpticKind[],
+  // wireless (12 Sep 2026)
+  wireless: WL_KINDS,
 };
 
 export type KindQuestionSet = {

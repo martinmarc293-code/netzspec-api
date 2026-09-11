@@ -20,6 +20,8 @@ import { ucsKind } from "./ucsKind.js";
 import { switchKind } from "./switchKind.js";
 import { componentKind } from "./componentKind.js";
 import { opticKind } from "./opticKind.js";
+// wireless (12 Sep 2026)
+import { wirelessKind } from "./wirelessKind.js";
 
 /**
  * Categories whose profile gates requirements on a derived `kind`. Checked against PROFILES by
@@ -51,6 +53,9 @@ export function partKind(categorySlug: string, sku: string): string | undefined 
   // transceiver names OPTIC sub-kinds (single-fibre BiDi, tunable/coherent) plus the adapters and
   // accessories filed beside them — its own axis, see opticKind.ts (11 Sep 2026).
   if (categorySlug === "transceiver") return opticKind(sku);
+  // wireless (12 Sep 2026): access points, controllers, antennas, backhaul radios and what plugs into them
+  // — its own axis, see wirelessKind.ts. Before the shared axis, which would call all of them `device`.
+  if (categorySlug === "wireless") return wirelessKind(sku);
   // The shared axis. Deliberately driven off KIND_CATEGORIES rather than a second list, so the
   // membership test and the dispatch cannot drift apart.
   if (KIND_CATEGORIES.includes(categorySlug)) return componentKind(sku);

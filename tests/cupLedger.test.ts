@@ -65,6 +65,21 @@ for (const f of files) {
   check("SABOTAGE a ledger still counting the demoted mode is caught", drift("bidi", extra, q).some((m) => m.includes("mode") && m.includes("no longer asks")));
 }
 
-lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 2 sabotage cases)`);
+// wireless (12 Sep 2026): the controller's defining cup, and the antenna's, must be counted — and a ledger that
+// still asks an ANTENNA for a Wi-Fi generation (the pre-kind profile) must be caught.
+{
+  const q = kindQuestionSet("wireless", "wlc");
+  check("wireless control: a controller is asked AP and client capacity", q.required.includes("wlc_ap_capacity") && q.required.includes("wlc_client_capacity"), q.required.join(","));
+  const good: LedgerKind = { required: q.required.map((key) => ({ key })), pending_until_gate_answered: q.pending,
+    not_applicable_by_kind: q.not_applicable_by_kind, optional: q.optional };
+  const lost = { ...good, required: good.required.filter((r) => r.key !== "wlc_ap_capacity") };
+  check("SABOTAGE a wireless ledger missing wlc_ap_capacity is caught", drift("wlc", lost, q).some((m) => m.includes("wlc_ap_capacity") && m.includes("does not count")));
+  const qa = kindQuestionSet("wireless", "antenna");
+  const ant: LedgerKind = { required: [...qa.required.map((key) => ({ key })), { key: "wifi_generation" }], pending_until_gate_answered: qa.pending,
+    not_applicable_by_kind: qa.not_applicable_by_kind, optional: qa.optional };
+  check("SABOTAGE a wireless ledger asking an antenna for wifi_generation is caught", drift("antenna", ant, qa).some((m) => m.includes("wifi_generation") && m.includes("no longer asks")));
+}
+
+lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 4 sabotage cases)`);
 console.log(lines.join("\n"));
 if (failed) process.exit(1);

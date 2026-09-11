@@ -38,6 +38,8 @@ import { UCS_MACHINE } from "./ucsKind.js";
 import { SW_DEVICE, SW_BOX, SW_COMPONENT, SW_CABLE } from "./switchKind.js";
 import { OPT_MODULE, OPT_FIXED_WAVELENGTH } from "./opticKind.js";
 import { GENERIC_DEVICE } from "./componentKind.js";
+// wireless (12 Sep 2026)
+import { WL_AP, WL_BOX, WL_PORTED } from "./wirelessKind.js";
 
 export type Requirement =
   | { kind: "req" }
@@ -536,8 +538,10 @@ export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series"]);
  * `switches` and `servers-unified-computing` are deliberately absent: they gate on their own axes,
  * which name module and machine kinds this one makes no claim about.
  */
+// wireless (12 Sep 2026): removed — it gates on its own axis (src/core/wirelessKind.ts), whose kinds
+// (ap, wlc, antenna, ...) the generic `device` gate would have closed every question for.
 export const DEVICE_GATED_CATEGORIES = [
-  "routers", "wireless", "video", "unified-communications", "collaboration-endpoints",
+  "routers", "video", "unified-communications", "collaboration-endpoints",
   "optical-networking", "hyperconverged-systems", "interfaces-modules", "storage-networking",
   "hyperconverged-infrastructure", "meraki",
 ] as const;
@@ -1253,19 +1257,56 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, gre_tunnels: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, rear_clearance: opt, rear_panel_ports: opt, security_features: opt, series_release_date: opt, simultaneous_connections: opt, temp_operating_extended: opt, thermal_shock: opt,
   },
-  wireless: deviceOnly({
-    supported_transceivers: opt, antenna_gain: opt, polarization: opt, antenna_connector: opt, beamwidth_elevation: opt, mounting: opt, recycled_content: opt, // deep-spec fields 2026-09-02
+  // wireless (12 Sep 2026) — SHAPED BY KIND (src/core/wirelessKind.ts). Until today every non-component was a
+  // generic `device` asked wifi_generation, poe_standard, power, dimensions and a temperature: a ceiling
+  // antenna owed a Wi-Fi generation, a controller a PoE standard, a CMX server's DIMM an operating
+  // temperature. Each kind now owes what it is bought on; the fallback kind `other` owes nothing.
+  // Evidence per cup (label occurrences in the 23,651-label cisco-datasheets inventory, facts in the store)
+  // is in data/ledger/cisco-wireless.json and runs/reports/schema-wireless-2026-09-12.md.
+  wireless: {
+    supported_transceivers: opt, polarization: opt, beamwidth_elevation: opt, mounting: opt, recycled_content: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req,
-    wifi_generation: req, spatial_streams: opt, radio_count: opt, radio_bands: opt,
-    max_data_rate: opt, ap_max_clients: opt,
-    wlc_ap_capacity: opt, wlc_client_capacity: opt,
-    poe_standard: req, power_max: req,
-    dimensions: req, weight: req, temp_operating: req, certifications: req, mtbf: opt,
+    // --- access points: radio, clients, power class, ports -----------------------------------------
+    // wifi_generation is THE cup for the 802.11 generation here. `standard` holds the same quantity in this
+    // category (775 mined "802.11ac"/"802.11n" values, pattern wl-ieee-80211) and cannot be retired globally —
+    // it is the transceiver's transmission standard. It is declared optional below and the rekey is a proposal.
+    wifi_generation: cond({ field: "kind", inList: [...WL_AP] }),
+    spatial_streams: cond({ field: "kind", inList: [...WL_AP] }),
+    ap_max_clients: cond({ field: "kind", inList: [...WL_AP] }),
+    // Band coverage is what an AP, a backhaul radio AND an antenna are matched on ("2.4 GHz 4dBi/5 GHz 7dBi").
+    radio_bands: cond({ field: "kind", inList: [...WL_AP, "antenna", "backhaul"] }),
+    radio_count: opt, max_data_rate: opt, tx_power: opt, rx_sensitivity: opt, max_ssids: opt,
+    // The PoE class an AP DRAWS. Required of APs, and of an injector (the class it SUPPLIES).
+    poe_standard: cond({ field: "kind", inList: [...WL_AP, "power-injector"] }),
+    ports: cond({ field: "kind", inList: [...WL_PORTED] }),
+    // --- controllers --------------------------------------------------------------------------------
+    wlc_ap_capacity: cond({ field: "kind", inList: ["wlc"] }),
+    wlc_client_capacity: cond({ field: "kind", inList: ["wlc"] }),
+    // --- antennas: gain, band (radio_bands above), connector; the pattern is declared, see the ledger --------
+    antenna_gain: cond({ field: "kind", inList: ["antenna"] }),
+    antenna_connector: cond({ field: "kind", inList: ["antenna"] }),
+    antenna_type: opt, beamwidth_azimuth: opt,
+    // --- power: what a supply or injector DELIVERS (a PSU's wattage is not its draw — switches precedent) ---
+    psu_rated_output: cond({ field: "kind", inList: ["power", "power-injector"] }),
+    input_voltage: cond({ field: "kind", inList: ["power"] }),
+    // --- cables ---------------------------------------------------------------------------------------
+    cable_length: cond({ field: "kind", inList: ["cable"] }),
+    // --- the physical envelope of every box ----------------------------------------------------------
+    power_max: cond({ field: "kind", inList: [...WL_BOX] }),
+    dimensions: cond({ field: "kind", inList: [...WL_BOX] }),
+    weight: cond({ field: "kind", inList: [...WL_BOX] }),
+    temp_operating: cond({ field: "kind", inList: [...WL_BOX] }),
+    certifications: cond({ field: "kind", inList: [...WL_BOX] }),
+    mtbf: opt, humidity_operating: opt, ip_rating: opt, product_compatibility: opt,
+    // ONE CUP PER QUANTITY: the generated profile made `standard` REQUIRED here on 8 Sep (775 mined values);
+    // those values are the 802.11 generation, which `wifi_generation` asks. Optional, so it is not a second
+    // required cup; the 775 facts are listed as a rekey proposal in the report.
+    standard: opt,
     // STRUCTURE 8 Sep 2026: 1 field(s) its documents already produce and no profile declared — invisible to completeness until now
     power_cord_rating: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, rear_clearance: opt, rear_panel_ports: opt, security_features: opt, series_release_date: opt, temp_operating_extended: opt, thermal_shock: opt,
-  }),
+  },
   routers: deviceOnly({
     supported_modules: opt, usb_console: opt, redundancy: opt, chassis_compatibility: opt, etsi_standards: opt, supported_protocols: opt, min_software_release: opt, emc_immunity: opt, emc_emissions: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req, form_factor: req,
@@ -1360,6 +1401,10 @@ export const DOMAIN_OVERRIDES: Record<string, Record<string, string[]>> = {
 // overrides, a per-category band is not representable in field_dictionary and is not synced.
 export const BAND_OVERRIDES: Record<string, Record<string, [number, number]>> = {
   transceiver: { power_max: [0.1, 40] },
+  // wireless (12 Sep 2026): power_max is now asked of APs (a few W to ~60 W on UPOE), controllers (9800-80
+  // 1100 W PSUs) and UCS-based appliances; the switch band [1, 30000] would store a 3 kW access point. The 38
+  // stored values (30..950 W) are PSU RATINGS mined from supply names, filed under the wrong key (proposal).
+  wireless: { power_max: [1, 2500] },
 };
 
 export function unitFor(category: string, key: string): string | undefined {

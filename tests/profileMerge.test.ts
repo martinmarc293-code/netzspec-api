@@ -31,7 +31,7 @@ import { GENERATED_PROFILES } from "../src/core/fieldSchema.generated.js";
  */
 const KNOWN_LEAKS: Record<string, string[]> = {
   video: ["standard"],
-  wireless: ["standard"],
+  // wireless (12 Sep 2026): `standard` is declared optional by the curated block — the leak is closed.
   "hyperconverged-systems": ["emc_emissions", "emc_immunity"],
   "hyperconverged-infrastructure": ["clock_speed", "cpu_cache", "emc_emissions", "emc_immunity"],
   "collaboration-endpoints": ["supported_protocols", "temp_storage", "ui_languages"],
