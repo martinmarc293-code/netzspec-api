@@ -5248,8 +5248,8 @@
   ],
   [
    "^enclosure characteristic$",
-   "enclosure_material",
-   "wireless: New field. Value 'Die-cast aluminum' is the housing material - relevant for outdoor/industrial gear."
+   "housing_material",
+   "wireless: Value 'Die-cast aluminum' is the housing material - relevant for outdoor/industrial gear. Written to housing_material since 11 Sep 2026: enclosure_material was the same quantity under a second key (SUPERSEDED_KEYS)."
   ],
   [
    "^output power \\(p ?tmin to p ?tmax ?\\)$",

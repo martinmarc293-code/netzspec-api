@@ -23,7 +23,7 @@
 // Not representable in the table, so not synced: UNIT_OVERRIDES / DOMAIN_OVERRIDES (transceiver
 // weight in grams, optic form factors). field_dictionary has one unit and one domain per key;
 // the per-category override lives in fieldSchema.ts and consumers read it from there.
-import { FIELD_DICTIONARY, PROFILES, type FieldDef, type Requirement } from "../core/fieldSchema.js";
+import { FIELD_DICTIONARY, PROFILES, SUPERSEDED_KEYS, type FieldDef, type Requirement } from "../core/fieldSchema.js";
 import { GENERATED_FIELDS, GENERATED_PROFILES } from "../core/fieldSchema.generated.js";
 import { FIELD_LABELS } from "../core/fieldLabels.generated.js";
 import { withTx } from "./db.js";
@@ -57,6 +57,8 @@ export type DictionarySyncResult = {
   orphaned: string[];
   /** "category/field" profile rows in the database that are no longer in code — kept */
   profiles_orphaned: string[];
+  /** "category/field" profile rows REMOVED because the key is superseded (fieldSchema SUPERSEDED_KEYS) */
+  profiles_superseded_removed: string[];
   /** keys where FIELD_LABELS disagrees with the FieldDef */
   label_drift: string[];
 };
@@ -179,6 +181,19 @@ export async function syncDictionaryOn(db: Queryable, opts: { quiet?: boolean } 
   const profiles_inserted = p.rows.filter((r) => r.inserted).length;
   const profiles_updated = p.rows.length - profiles_inserted;
 
+  // ---- superseded keys: the ONE kind of profile row that is removed --------------------------
+  // "Never delete" protects DICTIONARY keys, which facts reference through a foreign key. A profile
+  // row is referenced by nothing — its only reader is /v1/fields, which LEFT JOINs it and calls a
+  // missing row "na". So for a key SUPERSEDED_KEYS retires (the same quantity as another key), a
+  // kept row is not caution, it is the defect itself, served: /v1/fields?category=transceiver would
+  // list cd_tolerance beside chromatic_dispersion_tolerance as two optional cups for one quantity.
+  // Only superseded keys are removed; every other orphan is still kept and reported below. The
+  // dictionary rows for superseded keys stay.
+  const sup = await db.query<{ id: string }>(
+    `DELETE FROM category_profiles cp USING categories c
+      WHERE c.id = cp.category_id AND cp.field_key = ANY($1::text[])
+      RETURNING c.slug || '/' || cp.field_key AS id`, [Object.keys(SUPERSEDED_KEYS)]);
+
   // ---- orphans: reported, kept ---------------------------------------------------------------
   const orphanKeys = await db.query<{ key: string }>(
     "SELECT key FROM field_dictionary WHERE NOT (key = ANY($1::text[])) ORDER BY key", [rows.map((r) => r.key)]);
@@ -192,9 +207,11 @@ export async function syncDictionaryOn(db: Queryable, opts: { quiet?: boolean } 
     profiles: profs.length, profiles_inserted, profiles_updated,
     orphaned: orphanKeys.rows.map((r) => r.key),
     profiles_orphaned: orphanProfiles.rows.map((r) => r.id),
+    profiles_superseded_removed: sup.rows.map((r) => r.id).sort(),
     label_drift: labelDrift(),
   };
   if (!opts.quiet) {
+    if (result.profiles_superseded_removed.length) console.warn(`dictionary sync: removed ${result.profiles_superseded_removed.length} profile row(s) for superseded keys: ${result.profiles_superseded_removed.slice(0, 20).join(", ")}${result.profiles_superseded_removed.length > 20 ? ", …" : ""}`);
     if (result.orphaned.length) console.warn(`dictionary sync: ${result.orphaned.length} orphaned key(s) in the database, kept (facts may reference them): ${result.orphaned.join(", ")}`);
     if (result.profiles_orphaned.length) console.warn(`dictionary sync: ${result.profiles_orphaned.length} orphaned profile row(s), kept: ${result.profiles_orphaned.slice(0, 20).join(", ")}${result.profiles_orphaned.length > 20 ? ", …" : ""}`);
     if (result.label_drift.length) console.warn(`dictionary sync: FIELD_LABELS disagrees with the FieldDef on ${result.label_drift.length} key(s): ${result.label_drift.slice(0, 10).join(", ")}`);

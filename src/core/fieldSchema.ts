@@ -1001,7 +1001,16 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // STRUCTURE 8 Sep 2026: 1 field(s) its documents already produce and no profile declared — invisible to completeness until now
     series: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
-    breakout_point_length: opt, cd_tolerance: opt, channel_bandwidth: opt, color: opt, color_options: opt, country_of_origin: opt, input_wavelength: opt, modulation_type: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, product_line: opt, series_release_date: opt,
+    breakout_point_length: opt, channel_bandwidth: opt, color: opt, color_options: opt, country_of_origin: opt, input_wavelength: opt, modulation_type: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, product_line: opt, series_release_date: opt,
+    // ONE CUP, NOT TWO — 11 Sep 2026. The 8 Sep pass above declared `cd_tolerance` here because no
+    // category declared it. It had no facts and no alias, and it is the SAME QUANTITY as
+    // `chromatic_dispersion_tolerance` — same English label, same unit (ps/nm) — which holds this
+    // category's 21 real facts ("100G QPSK: 0.5 |CD|<= 2400 ps/nm", juniper's "+/- 40,000 ps/nm")
+    // and carries the alias, but was never declared here: the cup with the data was missing from the
+    // table while an empty duplicate sat on it. OPTIONAL: only coherent and DWDM optics state one.
+    // `cd_tolerance` stays defined in the generated dictionary, declared by no profile; do not
+    // re-add it — a second key for one quantity splits every value between two cups.
+    chromatic_dispersion_tolerance: opt,
   },
   security: {
     anyconnect_sessions: opt, expansion_io: opt, shock: opt, redundancy: opt, // deep-spec fields 2026-09-02
@@ -1145,7 +1154,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     data_rate: req, wavelength: req, reach_max: req, connector: req, fec: opt,
     power_max: req, dimensions: req, weight: req, temp_operating: req, certifications: req, mtbf: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
-    breakout_point_length: opt, cd_tolerance: opt, channel_bandwidth: opt, cin: opt, color: opt, color_options: opt, country_of_origin: opt, gain: opt, gain_flatness: opt, input_wavelength: opt, modulation_type: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, pdl: opt, pmd: opt, product_line: opt, rear_clearance: opt, restore_threshold: opt, rf_attenuation_range: opt, rf_bandwidth: opt, rf_input_return_loss: opt, rf_output_return_loss: opt, rf_response_flatness: opt, rf_test_point: opt, rf_tilt: opt, series_release_date: opt, switching_threshold: opt, temp_operating_extended: opt, thermal_shock: opt,
+    // cd_tolerance REMOVED 11 Sep 2026: a duplicate of chromatic_dispersion_tolerance (same label, same
+    // unit, zero facts), which this category already declares. See the note under `transceiver`.
+    breakout_point_length: opt, channel_bandwidth: opt, cin: opt, color: opt, color_options: opt, country_of_origin: opt, gain: opt, gain_flatness: opt, input_wavelength: opt, modulation_type: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, pdl: opt, pmd: opt, product_line: opt, rear_clearance: opt, restore_threshold: opt, rf_attenuation_range: opt, rf_bandwidth: opt, rf_input_return_loss: opt, rf_output_return_loss: opt, rf_response_flatness: opt, rf_test_point: opt, rf_tilt: opt, series_release_date: opt, switching_threshold: opt, temp_operating_extended: opt, thermal_shock: opt,
   }),
   // Line cards, network modules, interface cards.
   "interfaces-modules": deviceOnly({
@@ -1156,7 +1167,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
     layer: opt, module_type: opt, compatible_platform: opt, installation_type: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
-    breakout_point_length: opt, cd_tolerance: opt, channel_bandwidth: opt, color: opt, color_options: opt, country_of_origin: opt, input_wavelength: opt, modulation_type: opt, module_width_slots: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, product_line: opt, series_release_date: opt,
+    // cd_tolerance -> chromatic_dispersion_tolerance, 11 Sep 2026: one key per quantity (see `transceiver`).
+    breakout_point_length: opt, chromatic_dispersion_tolerance: opt, channel_bandwidth: opt, color: opt, color_options: opt, country_of_origin: opt, input_wavelength: opt, modulation_type: opt, module_width_slots: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, product_line: opt, series_release_date: opt,
   }),
 };
 
@@ -1436,6 +1448,64 @@ for (const [key, def] of Object.entries(GENERATED_FIELDS)) {
 }
 for (const [cat, fields] of Object.entries(GENERATED_PROFILES)) {
   PROFILES[cat] = { ...fields, ...(PROFILES[cat] || {}) };
+}
+
+// ONE CUP PER QUANTITY — 11 Sep 2026.
+//
+// A dictionary-wide scan for keys sharing a label found nine pairs that are the SAME QUANTITY
+// under two keys: `cd_tolerance` beside `chromatic_dispersion_tolerance` (same label, same ps/nm),
+// `indicator_leds` beside `status_leds`, and seven more. Each pair splits one question across two
+// cups: a value lands in whichever key an alias happens to route to, and completeness asks the
+// other. In `transceiver` the cup WITH the data (21 facts) was not even on the table while its empty
+// twin was. The map says which key survives — always the one that holds facts or that an alias
+// routes to, never the tidier-looking name: `random_read_iops_4k` reads as canonical and is the
+// dead one, because both alias rules write `iops_random_read_4k`.
+//
+// It is applied AFTER the merge because four of the nine duplicates are declared by GENERATED
+// profiles, which a hand edit cannot remove — the next regeneration would put them back. Every
+// duplicate held zero facts when this was written, so no value moves. tests/oneCupPerQuantity
+// fails if a profile declares a superseded key, if an alias writes one, or if a new label-sharing
+// pair appears that this map does not resolve.
+export const SUPERSEDED_KEYS: Readonly<Record<string, string>> = {
+  cd_tolerance: "chromatic_dispersion_tolerance",       // 0 facts vs 22; the alias writes the latter
+  optical_input_range: "input_power_range",             // 0 vs 1; eleven alias rules write the latter
+  pdl: "polarization_dependent_loss",                   // both 0; the latter is numeric and aliased
+  random_read_iops_4k: "iops_random_read_4k",           // both 0; the alias writes the latter
+  random_write_iops_4k: "iops_random_write_4k",         // both 0; the alias writes the latter
+  ride_through_time: "holdup_time",                     // 0 vs 36; one alias covers both spellings
+  indicator_leds: "status_leds",                        // 0 vs 36; "^indicator leds$" already writes status_leds
+  poe_budget_redundant_psu: "poe_budget_redundant",     // 0 vs 7; the latter is numeric, in W
+  enclosure_material: "housing_material",               // both 0; the enclosure alias is redirected
+};
+for (const p of Object.values(PROFILES)) {
+  for (const [dup, canon] of Object.entries(SUPERSEDED_KEYS)) {
+    if (!(dup in p)) continue;
+    if (!(canon in p)) p[canon] = p[dup];
+    delete p[dup];
+  }
+}
+
+/**
+ * Label groups that still hold MORE THAN ONE live key — the check behind SUPERSEDED_KEYS. A group is
+ * keys whose English (or German) label is identical once case and punctuation are dropped; a key in
+ * `superseded` does not count. Pure, so the test can hand it a sabotaged dictionary.
+ */
+export function unsupersededDuplicates(
+  dict: Record<string, { en?: string; de?: string }>, superseded: Readonly<Record<string, string>>,
+): { lang: "en" | "de"; label: string; keys: string[] }[] {
+  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9äöüß]+/g, " ").trim();
+  const out: { lang: "en" | "de"; label: string; keys: string[] }[] = [];
+  for (const lang of ["en", "de"] as const) {
+    const groups = new Map<string, string[]>();
+    for (const [k, d] of Object.entries(dict)) {
+      const l = d[lang];
+      if (!l || k in superseded) continue;
+      const g = norm(l);
+      groups.set(g, [...(groups.get(g) ?? []), k]);
+    }
+    for (const [label, keys] of groups) if (keys.length > 1) out.push({ lang, label, keys });
+  }
+  return out;
 }
 
 // THE DEVICE GATE HAS TO BE APPLIED AFTER THE MERGE, NOT TO THE LITERAL.

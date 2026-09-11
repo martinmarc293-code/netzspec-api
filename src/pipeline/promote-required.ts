@@ -63,7 +63,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { getPool, closePool } from "../store/db.js";
 import {
-  FIELD_DICTIONARY, PROFILES, completenessV2, DEVICE_GATED_CATEGORIES,
+  FIELD_DICTIONARY, PROFILES, completenessV2, DEVICE_GATED_CATEGORIES, SUPERSEDED_KEYS,
   type FieldType, type Requirement, type PartValues,
 } from "../core/fieldSchema.js";
 import { REPO_ROOT } from "../config.js";
@@ -279,6 +279,9 @@ export function handWritten(source: string, generated: Record<string, Record<str
     if (!PROFILES[cat]) { problems.push(`hand-written category "${cat}" is missing from the merged PROFILES`); continue; }
     out.set(cat, new Set(keys.keys()));
     for (const [k, kind] of keys) {
+      // A SUPERSEDED key is removed from every profile after the merge, on purpose — its canonical
+      // twin takes the cup (src/core/fieldSchema.ts, SUPERSEDED_KEYS). Imported, not restated.
+      if (k in SUPERSEDED_KEYS) continue;
       const merged = PROFILES[cat][k];
       if (!merged) problems.push(`hand-written ${cat}.${k} is missing from the merged PROFILES`);
       else if (kind !== "unknown" && merged.kind !== kind) problems.push(`hand-written ${cat}.${k} parsed as "${kind}" but merged as "${merged.kind}"`);
