@@ -14,6 +14,7 @@ import type { OpticKind } from "./opticKind.js";
 // wireless (12 Sep 2026)
 import { WL_KINDS } from "./wirelessKind.js";
 import { UCS_KINDS } from "./ucsKind.js";
+import { VIDEO_KINDS } from "./videoKind.js"; // video (12 Sep 2026)
 
 /** Every kind a category's axis can name — including kinds no part holds today, which still have a question set. */
 export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
@@ -25,6 +26,8 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   "servers-unified-computing": [...UCS_KINDS],
   "hyperconverged-systems": [...UCS_KINDS],
   "hyperconverged-infrastructure": [...UCS_KINDS],
+  // video (12 Sep 2026)
+  video: VIDEO_KINDS,
 };
 
 export type KindQuestionSet = {

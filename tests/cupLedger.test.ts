@@ -8,7 +8,7 @@
 // field and the command that regenerates it. Counts (parts, slots) come from the store and are NOT checked here.
 import fs from "node:fs";
 import path from "node:path";
-import { kindQuestionSet, profileHash, LEDGER_KINDS, type KindQuestionSet } from "../src/core/cupLedger.js";
+import { kindQuestionSet, profileHash, LEDGER_KINDS, slotsAtNothingKnown as slotsOf, type KindQuestionSet } from "../src/core/cupLedger.js";
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -79,6 +79,20 @@ for (const f of files) {
     not_applicable_by_kind: qa.not_applicable_by_kind, optional: qa.optional };
   check("SABOTAGE a wireless ledger asking an antenna for wifi_generation is caught", drift("antenna", ant, qa).some((m) => m.includes("wifi_generation") && m.includes("no longer asks")));
 }
+// video (12 Sep 2026): the same two sabotages on the video axis — a transmitter ledger that lost `wavelength`,
+// and one still counting the conferencing `video_codecs` this category was asked until today.
+{
+  const q = kindQuestionSet("video", "transmitter");
+  check("video: a transmitter is asked wavelength and tx_power", q.required.includes("wavelength") && q.required.includes("tx_power"), q.required.join(", "));
+  check("video: an `unknown` part is asked nothing", slotsOf(kindQuestionSet("video", "unknown")) === 0);
+  const good: LedgerKind = { required: q.required.map((key) => ({ key })), pending_until_gate_answered: q.pending,
+    not_applicable_by_kind: q.not_applicable_by_kind, optional: q.optional };
+  const lost = { ...good, required: good.required.filter((r) => r.key !== "wavelength") };
+  check("SABOTAGE video: a ledger missing wavelength is caught", drift("transmitter", lost, q).some((m) => m.includes("wavelength") && m.includes("does not count")));
+  const extra = { ...good, required: [...good.required, { key: "video_codecs" }] };
+  check("SABOTAGE video: a ledger still counting video_codecs is caught", drift("transmitter", extra, q).some((m) => m.includes("video_codecs") && m.includes("no longer asks")));
+}
+// end video (12 Sep 2026)
 
 lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 4 sabotage cases)`);
 console.log(lines.join("\n"));

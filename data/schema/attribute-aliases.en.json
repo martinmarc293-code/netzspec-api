@@ -172,6 +172,56 @@
    }
   ],
   [
+   "^nominal optical output wavelength",
+   "wavelength",
+   "video (12 Sep 2026): Prisma II transmitter sheets (datasheet-c78-733672) print the emission wavelength as 'Nominal optical output wavelength | nm | 1310 ± 10'. Unmapped until today, on the one quantity a transmitter is bought on.",
+   {
+    "only": [
+     "video"
+    ]
+   }
+  ],
+  [
+   "^insertion loss \\(maximum\\)",
+   "insertion_loss_max",
+   "video (12 Sep 2026): Prisma passive sheets (datasheet-c78-730313) write 'Insertion loss (maximum) 200 GHz' / '... 100 GHz multiplexer and demultiplexer' — the loss a passive is bought on, with the channel plan appended to the label.",
+   {
+    "only": [
+     "video"
+    ]
+   }
+  ],
+  [
+   "^gain$",
+   "gain",
+   "video (12 Sep 2026): on a Prisma EDFA sheet (data_sheet_c78-726657) 'Gain | dB | 12 | 15 | 17' is the OPTICAL amplifier gain. The general rule below files it as antenna_gain (dBi, per radio band) — a wireless quantity on a fibre amplifier.",
+   {
+    "only": [
+     "video"
+    ]
+   }
+  ],
+  [
+   "^(operating )?bandwidth$",
+   "passband",
+   "video (12 Sep 2026): a Prisma transmitter's 'Bandwidth | MHz | 52-1218' / 'Operating bandwidth | 45 MHz to 1218 MHz' is its RF pass band. The general rule below files it as call_bandwidth (a conferencing Mbit/s figure).",
+   {
+    "only": [
+     "video"
+    ]
+   }
+  ],
+  [
+   "^total composite rf input",
+   "rf_input_level",
+   "video (12 Sep 2026): 'Total composite RF input | 38.25 dBmV (nominal channel loading)' on Prisma II 1550 transmitter sheets — the RF drive a transmitter needs. No cup existed.",
+   {
+    "only": [
+     "video"
+    ]
+   }
+  ],
+  [
    "^frequency range",
    "input_freq",
    "pdf-server: '50 to 60' Hz AC input frequency — exactly the existing input_freq field."

@@ -40,6 +40,7 @@ import { OPT_MODULE, OPT_FIXED_WAVELENGTH } from "./opticKind.js";
 import { GENERIC_DEVICE } from "./componentKind.js";
 // wireless (12 Sep 2026)
 import { WL_AP, WL_BOX, WL_PORTED } from "./wirelessKind.js";
+import { VIDEO_BOX, VIDEO_EMITTER, type VideoKind } from "./videoKind.js"; // video (12 Sep 2026)
 
 export type Requirement =
   | { kind: "req" }
@@ -476,6 +477,15 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   stacking_technology: { key: "stacking_technology", de: "Stacking-Technologie", en: "Stacking technology", type: "ls",
     domain: ["stackwise", "stackwise-plus", "stackwise-80", "stackwise-160", "stackwise-480", "stackwise-1t",
              "stackwise-virtual", "flexstack", "flexstack-plus", "flexstack-extended", "vss"], etim: [], icecat: null },
+  // --- video (12 Sep 2026) ---------------------------------------------------------------------------------
+  // THE RF DRIVE AN HFC TRANSMITTER NEEDS. Prisma II 1550 sheets print "Total composite RF input | 38.25 dBmV
+  // (nominal channel loading)" and "36.5 dBmV"; no key could hold it (rf_output_level is the other end, and a
+  // string). A range type, because the XFP-RF sheet states a window ("+1.5 ± 5.0"). dBm values are REFUSED, not
+  // converted: dBm→dBmV depends on the impedance (50 vs 75 Ω) and the one dBm-stated sheet is 50 Ω differential.
+  // Band: the widest real value is 38.25 dBmV; -20..70 leaves margin both ways and refuses a W or mV figure.
+  // OPTIONAL in video: 4 label occurrences in the whole acquired corpus, all Prisma 1550 sheets.
+  rf_input_level: { key: "rf_input_level", de: "HF-Gesamteingangspegel", en: "Total composite RF input level", type: "nr", unit: "dBmV", band: [-20, 70], etim: [], icecat: null },
+  // --- end video (12 Sep 2026) -----------------------------------------------------------------------------
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -540,8 +550,10 @@ export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series"]);
  */
 // wireless (12 Sep 2026): removed — it gates on its own axis (src/core/wirelessKind.ts), whose kinds
 // (ap, wlc, antenna, ...) the generic `device` gate would have closed every question for.
+// video (12 Sep 2026): removed for the same reason — its axis (src/core/videoKind.ts) has no `device`
+// kind, so this loop would turn every bare `req` into `na`.
 export const DEVICE_GATED_CATEGORIES = [
-  "routers", "video", "unified-communications", "collaboration-endpoints",
+  "routers", "unified-communications", "collaboration-endpoints",
   "optical-networking", "interfaces-modules", "storage-networking",
   // servers (12 Sep 2026): hyperconverged-systems and hyperconverged-infrastructure removed — they gate
   // on the UCS kind now (ucsCups), and this loop would re-gate their `req` keys onto `device`.
@@ -840,16 +852,68 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     automation_features: opt, bmc_management: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, drive_options: opt, expansion_slot_type: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, onboard_nics: opt, oversubscription_ratio: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, psu_count: opt, random_read_iops_4k: opt, random_write_iops_4k: opt, read_latency: opt, rear_clearance: opt, rear_panel_ports: opt, riser_options: opt, security_features: opt, sequential_write_throughput: opt, series_release_date: opt, system_memory: opt, temp_operating_extended: opt, thermal_shock: opt, write_latency: opt,
   },
 
-  // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
-  // which declares its fields but marks none required. A curated entry states what a
-  // product of this kind is BOUGHT ON, and merges over the generated one.
-  video: deviceOnly({
-    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, video_codecs: req, max_resolution: req,
-    // STRUCTURE 8 Sep 2026: 1 field(s) its documents already produce and no profile declared — invisible to completeness until now
-    laser_type: opt,
+  // --- video (12 Sep 2026) ---------------------------------------------------------------------------------
+  // SHAPED BY KIND (src/core/videoKind.ts). `video` is cable-access plant, not conferencing: until today every
+  // "device" here owed `video_codecs` and `max_resolution` — a question no GS7000 node, Prisma optic, cBR-8 or
+  // RF Gateway can answer — plus `form_factor`, whose domain (rack-19 / desktop / din-rail / modular-chassis)
+  // has no value for a strand-mounted node, and `standard`, which in this category holds the WDM GRID
+  // (DWDM / CWDM / iWDM, 690 description-mined facts) and was asked of every box. All four are now opt, except
+  // `standard` for the one kind it describes: a passive is bought on its grid.
+  //
+  // PER KIND, what Cisco's own sheets state and a source can fill (evidence per cup in the 12 Sep report):
+  //   node         rf_gain ("Operational gain (minimum)", 6 labels), power_max, temp_operating,
+  //                humidity_operating, dimensions ("Housing Dimensions"), weight — GS7000 node sheets
+  //   chassis,     power_max, temp_operating, humidity_operating, dimensions, weight, certifications — the RF
+  //   system       Gateway sheets fill temperature/humidity/certifications today (71 / 69 / 27 facts)
+  //   transmitter, wavelength (318 facts, "Nominal optical output wavelength"), tx_power (400 facts,
+  //   optic        "Optical output power")
+  //   receiver     input_power_range ("Optical input range", 5 labels)
+  //   amplifier    tx_power ("Output Power (maximum)"), input_power_range ("Input Power"),
+  //                rx_wavelength ("Input Wavelength") — the EDFA sheet
+  //   rf-amplifier rf_gain
+  //   passive      standard (the grid), insertion_loss_max ("Insertion loss (maximum) ...", aliased today)
+  //   power        input_voltage (20 facts, description-mined)
+  //   line-card, plug-in, fan, cable, accessory, software, unknown: nothing required (see the report —
+  //   no video sheet states a per-card or per-plug-in figure a source maps; `unknown` asks less by design).
+  //
+  // DECLARED OPTIONAL, WITH THE REASON, so nobody promotes them without it:
+  //   passband, rf_output_level, gain, noise_figure — typed STRING by the generated dictionary (a range like
+  //       "105-1002" MHz), with no band. Retyping is a global change to keys twelve generated profiles
+  //       declare; proposed in the report, not done here. Until then a required string quantity with no band
+  //       fails check 4.
+  //   connector — the domain has no FC and no polish: SC/APC and SC/UPC both store "sc", and FC/APC is
+  //       refused, while APC/UPC/FC is exactly what separates GS7K-TXAH-1470SA from -SU and -FC. Required, the
+  //       FC variants would own slots the normaliser refuses. Proposal in the report.
+  //   itu_channel — the grid LABEL of `wavelength` on a transmitter (ITU 26 = 1556.55 nm); asked once, as
+  //       the wavelength. On a passive it is the channel LIST, which no numeric key can hold.
+  //   module_slots, rack_units — 0 labels in the 88 video documents and 0 facts.
+  //   cable_length, product_compatibility — 0 video labels, 0 video facts; the switches evidence is switch SKUs.
+  video: {
+    vendor: req, series: req,
+    rf_gain: cond({ field: "kind", inList: ["node", "rf-amplifier"] satisfies VideoKind[] }),
+    power_max: cond({ field: "kind", inList: [...VIDEO_BOX] }),
+    temp_operating: cond({ field: "kind", inList: [...VIDEO_BOX] }),
+    humidity_operating: cond({ field: "kind", inList: [...VIDEO_BOX] }),
+    dimensions: cond({ field: "kind", inList: [...VIDEO_BOX] }),
+    weight: cond({ field: "kind", inList: [...VIDEO_BOX] }),
+    certifications: cond({ field: "kind", inList: ["chassis", "system"] satisfies VideoKind[] }),
+    wavelength: cond({ field: "kind", inList: [...VIDEO_EMITTER] }),
+    tx_power: cond({ field: "kind", inList: [...VIDEO_EMITTER, "amplifier"] }),
+    input_power_range: cond({ field: "kind", inList: ["receiver", "amplifier"] satisfies VideoKind[] }),
+    rx_wavelength: cond({ field: "kind", inList: ["amplifier"] satisfies VideoKind[] }),
+    standard: cond({ field: "kind", inList: ["passive"] satisfies VideoKind[] }),
+    insertion_loss_max: cond({ field: "kind", inList: ["passive"] satisfies VideoKind[] }),
+    input_voltage: cond({ field: "kind", inList: ["power"] satisfies VideoKind[] }),
+    // the conferencing and switch-shaped questions this category was asked, now optional (see above)
+    video_codecs: opt, max_resolution: opt, form_factor: opt,
+    passband: opt, rf_output_level: opt, gain: opt, noise_figure: opt, connector: opt, itu_channel: opt,
+    rf_input_level: opt, modulation_type: opt, laser_type: opt, tuning_range: opt, total_output_power: opt,
+    module_slots: opt, rack_units: opt, cable_length: opt, product_compatibility: opt, psu_rated_output: opt,
+    temp_storage: opt, frequency_response: opt, test_point_level: opt, internal_tilt: opt, channel_spacing: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     aes_audio_encryption: opt, bluetooth_profiles: opt, bluetooth_version: opt, camera_aperture: opt, camera_focus_distance: opt, camera_pan_tilt_range: opt, camera_zoom: opt, color: opt, color_options: opt, country_of_origin: opt, mic_frequency_response: opt, mic_pickup_range: opt, mic_type: opt, packaging_dimensions: opt, phantom_power: opt, product_line: opt, rear_panel_ports: opt, series_release_date: opt, speaker_frequency_response: opt, speaker_impedance: opt, speaker_size: opt, supported_pc_resolutions: opt, video_interfaces: opt,
-  }),
+  },
+  // --- end video (12 Sep 2026) -----------------------------------------------------------------------------
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
@@ -1497,6 +1561,15 @@ export const BAND_OVERRIDES: Record<string, Record<string, [number, number]>> = 
     tdp: [5, 1000] as [number, number], clock_speed: [0.5, 6] as [number, number], cpu_cache: [1, 2048] as [number, number],
     memory_speed_max: [400, 12800] as [number, number], drive_bays: [1, 120] as [number, number],
   }])),
+  // video (12 Sep 2026). Checked against the stored values and the 466 dBm figures in video part names:
+  //   tx_power  global [-40, 20] is an optic's. An EDFA's output is the same quantity (optical output power,
+  //             dBm) and reaches 24 dBm per port (P2-EDFA-MOD-1X24-SA) and 26.5 dBm total (4005262 "FTTH Post
+  //             Amp, 26.5dBm"); stored video values run 0..20. [-10, 30] refuses a mW or W figure read as dBm.
+  //   rf_gain   no global band. Label values 32 (forward) and -2 (reverse) dB on the GS7000 node sheet; a launch
+  //             amplifier's gain is ~30-40 dB. [-10, 60]. 0 stored facts anywhere.
+  //   insertion_loss_max  no global band. Passive sheet values "<0.8" to "4.5" dB; a DCM's loss is higher.
+  //             [0, 20]. 0 stored facts anywhere.
+  video: { tx_power: [-10, 30], rf_gain: [-10, 60], insertion_loss_max: [0, 20] },
 };
 
 export function unitFor(category: string, key: string): string | undefined {
@@ -1819,6 +1892,13 @@ export const SUPERSEDED_KEYS: Readonly<Record<string, string>> = {
   // wavelength", a range) holds; the unmapped "Input Wavelength" label (8 rows, EDFA sheets) now writes it.
   bidi_wavelengths: "rx_wavelength",                     // 0 facts anywhere; Tx half = `wavelength`
   input_wavelength: "rx_wavelength",                     // 0 facts anywhere; same window, same unit
+  // video (12 Sep 2026): three HFC quantities the generated sweep named twice, under DIFFERENT labels, so the
+  // label scan could not pair them. Each twin holds 0 facts in every category and no alias rule writes it; the
+  // survivor is the key the video sheets' labels already route to. No value moves.
+  rf_bandwidth: "passband",                              // "RF passband" vs "Pass band" — the node/Tx RF band
+  rf_response_flatness: "frequency_response",            // "RF frequency response flatness" vs "Frequency response"
+  rf_test_point: "test_point_level",                     // "RF test point level" vs "Test points (±0.5 dB)"
+  // end video (12 Sep 2026)
 };
 for (const p of Object.values(PROFILES)) {
   for (const [dup, canon] of Object.entries(SUPERSEDED_KEYS)) {

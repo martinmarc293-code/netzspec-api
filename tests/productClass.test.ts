@@ -405,6 +405,24 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["SFP-H10GB-CUxM=", "Cisco SFP-H10GB-CUxM=", "transceiver", "non_product", "sku-regex:family-placeholder"],
     ["CWDM-SFP10G-xxxx=", "Cisco CWDM-SFP10G-xxxx=", "transceiver", "non_product", "sku-regex:family-placeholder"],
     ["XFP-RF-ITUXX=", "Cisco XFP QAM Transmitter Fixed Wavelength ITUXX 1", "transceiver", "non_product", "sku-regex:family-placeholder"],
+    // video (12 Sep 2026). Every SKU and name is from the catalogue.
+    ["SWLIC-RFGW1-OCTAL3", "RFGW-1 3 QAM OCTAL LICENSE: MUST CONFIGURE WITH RFGW1", "video", "license", "sku-prefix:SWLIC-"],
+    ["SWLIC-DS384", "QAM DS-384 License (Single QAM): Must configure with RFGW-DS", "video", "license", "sku-prefix:SWLIC-"],
+    ["INODEMGR-STD-NOD", "Intelligent Node Mgr - Standard RTU SW License", "video", "license", "sku-exact:INODEMGR-STD-NOD"],
+    ["4021701C", "RFGW-1 License Upgrade, PowerKey, 4 QAMs Per Port", "video", "license", "sku-exact:4021701C"],
+    ["4021700", "RFGW-1 Data License Option Kit", "video", "license", "sku-exact:4021700"],
+    ["4021701", "RFGW-1 License Upgrade, PowerKey, 4 QAMs Per Port", "video", "license", "sku-exact:4021701"],
+    ["4021702", "RFGW-1 License, DVB Scrambling", "video", "license", "sku-exact:4021702"],
+    ["RFGW-1-RMU", "RF Gateway 1 Remote Management Utility", "video", "software", "sku-regex:rfgw-mgmt-utility"],
+    ["RFGW-10-RPU", "RF Gateway 10 Remote Provisioning Utility", "video", "software", "sku-regex:rfgw-mgmt-utility"],
+    ["SCBR8-UK9-173", "Cisco CBR8 IOS XE UNIVERSAL", "video", "software", "sku-prefix:SCBR8-UK9"],
+    ["CBR-8-IOS-OPT", "IOS OPT CLS", "video", "software", "sku-exact:CBR-8-IOS-OPT"],
+    ["CBR-8", "Container (Top Level) PID for configuring the cBR-8 System", "video", "non_product", "sku-exact:CBR-8"],
+    ["HA-RPHY", "Container (Top Level) PID for configuring the RPHY HA shelf", "video", "non_product", "sku-exact:HA-RPHY"],
+    ["GS7000", "Cisco GS7000", "video", "non_product", "sku-exact:GS7000"],
+    ["ITU20", "Cisco ITU20", "video", "non_product", "sku-exact:ITU20"],
+    ["E2000/APC", "Cisco E2000/APC", "video", "non_product", "sku-exact:E2000/APC"],
+    // end video (12 Sep 2026)
   ];
   for (const [sku, name, cat, klass, reason] of added) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
@@ -425,6 +443,16 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     // name than the part carries is a stand-in, not the part.
     ["C9300-48U-A", "C9300-48U-A – Catalyst 9300 48-port 1G copper with modular uplinks, UPOE, Network Advantage",
       "switches", "tier-upgrade / a name rule on 'Network Advantage' (206 hits, ~200 real switches; this one has 7 physical facts)"],
+    // video (12 Sep 2026): real hardware beside each new video rule
+    ["CBR-8-CCAP-CHASS", "Cisco cBR-8 Series CCAP Router Chassis", "video", "exact CBR-8 (the container) — the chassis must stay"],
+    ["CBR-8-SYSTEM-KIT", "Cisco approval required to book; a system without line cards", "video", "exact CBR-8 / the container rule widened to a prefix"],
+    ["GS7K-OPT-NODE", "GS7000 Node", "video", "exact GS7000 widened to a prefix — every GS7000 node would go"],
+    ["GS7000-OP-BWDM-NCBC8-BC18-NC2027FR-SAMPO", "Cisco GS7000-OP-BWDM-NCBC8-BC18-NC2027FR-SAMPO", "video", "exact GS7000 widened to a prefix — an optical-hub passive"],
+    ["HA-RPHY-CHASSIS", "Cisco Remote PHY Shelf 7200 Chassis", "video", "exact HA-RPHY (the container) widened to a prefix"],
+    ["RFGW-1", "RFGW-1-D CHASSIS,FPD,I/O,FANs, 2 PS AND 6 QAM MODULE SLOTS", "video", "rfgw-mgmt-utility widened past R[MP]U"],
+    ["RFGW-10-RFSW1", "RFGW RF Switch v1", "video", "rfgw-mgmt-utility widened to any RFGW-10-R*"],
+    ["4021052", "LGX-DWDM-SQAM 8Ch 1G SA EXP DTP 20, 21, 22, 23, 24, 25, 26, 27", "video", "a numeric licence exact widened to a 40210 prefix"],
+    ["P2-15TXM-12-EM-IWDM-SA-ITU20-1WD", "Cisco P2-15TXM-12-EM-IWDM-SA-ITU20-1WD", "video", "exact ITU20 widened to a contains — an iWDM transmitter"],
     ["C9500-24Q-A=", "Catalyst 9500 24-port 40G, Adv. License, no PS",
       "switches", "the trap named in the round-3 comment: structurally identical to N55-96P-SSK9 and it is a real Catalyst"],
     ["N3K-C3172-FA-L3", "Nexus 3172PQ, Forward Airflow (port side exhaust), AC P/S, Base and LAN Enterprise License Bundle",

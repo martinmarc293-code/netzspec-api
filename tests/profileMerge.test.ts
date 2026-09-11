@@ -30,7 +30,7 @@ import { GENERATED_PROFILES } from "../src/core/fieldSchema.generated.js";
  * list can only shrink.
  */
 const KNOWN_LEAKS: Record<string, string[]> = {
-  video: ["standard"],
+  // video (12 Sep 2026): `standard` no longer leaks — the curated block gates it on kind `passive`.
   // wireless (12 Sep 2026): `standard` is declared optional by the curated block — the leak is closed.
   // servers (12 Sep 2026): both hyperconverged entries removed — their curated blocks spread ucsCups(),
   // which names every one of these keys (emc_* as opt, clock_speed / cpu_cache as cond on kind cpu).

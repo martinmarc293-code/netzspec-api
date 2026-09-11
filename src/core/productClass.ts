@@ -567,6 +567,29 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "regex", token: "hyperconverged-sw-subscription", re: /^HCI-NVGR|^(?:HXC?|HX-E)-FSS-|^HX-VSSD?2VSP-/, probe: "HCI-NVGRVAS-4YRM6", klass: "license",
     why: "hyperconverged: 'NVIDIA GRID Software Subscription', 'Full Stack Subscription Bundle - 3YR', 'Upgrade PAC vSphere v7.x'; 35 parts" },
   // end servers (12 Sep 2026) ---------------------------------------------------------------------------
+  // --- video (12 Sep 2026) — the residue found by the video kind census; every SKU below read by name ---------
+  // RF Gateway licences classed hardware: 16 in `video` ("QAM DS-384 License (Single QAM)", "RFGW-1 OCTAL
+  // LICENSE: MUST CONFIGURE WITH RFGW1", "DS-384 PowerKEY License"); catalogue-wide the token starts nothing else.
+  { kind: "prefix", token: "SWLIC-", klass: "license", why: "RF Gateway QAM, octal, data and scrambling licences; 16 hardware-classed parts in video, every name says License" },
+  { kind: "exact", token: "INODEMGR-STD-NOD", klass: "license", why: "'Intelligent Node Mgr - Standard RTU SW License'; 1 part in video" },
+  ...["4021700", "4021701", "4021701C", "4021702"].map((token) => ({ kind: "exact" as const, token, klass: "license" as const,
+    why: "RF Gateway 1 licence under a bare Scientific-Atlanta number ('RFGW-1 License Upgrade, PowerKey, 4 QAMs Per Port', 'RFGW-1 License, DVB Scrambling', 'RFGW-1 Data License Option Kit'); 4 parts" })),
+  // Management software sold as a PID: 'RF Gateway 1 Remote Management Utility', '... Remote Provisioning Utility'.
+  { kind: "regex", token: "rfgw-mgmt-utility", re: /^RFGW-1?0?-R[MP]U$/, probe: "RFGW-10-RPU", klass: "software",
+    why: "RF Gateway remote management / provisioning utility; 3 parts in video (RFGW-1-RMU, RFGW-1-RPU, RFGW-10-RPU)" },
+  // cBR-8 software images and the IOS option class: 'Cisco CBR8 IOS XE UNIVERSAL' x5, 'IOS OPT CLS'.
+  { kind: "prefix", token: "SCBR8-UK9", klass: "software", why: "cBR-8 IOS XE Universal image by release (SCBR8-UK9-1610); 5 parts in video" },
+  { kind: "exact", token: "CBR-8-IOS-OPT", klass: "software", why: "'IOS OPT CLS' — the cBR-8 IOS option class of the configurator; 1 part" },
+  // NOT ORDERABLE THINGS: configurator container PIDs, the family name, a channel name and a connector name
+  // enumerated as parts. REFUSED: CBR-8-CCAP-CHASS (the real chassis) and GS7K-OPT-NODE (a real node) — the
+  // rules are EXACT, so neither is touched.
+  ...[["CBR-8", "'Container (Top Level) PID for configuring the cBR-8 System'"],
+      ["HA-RPHY", "'Container (Top Level) PID for configuring the RPHY HA shelf'"],
+      ["GS7000", "'Cisco GS7000' — the family name, not a configured node"],
+      ["ITU20", "'Cisco ITU20' — a DWDM channel name enumerated from a datasheet cell"],
+      ["E2000/APC", "'Cisco E2000/APC' — a connector type enumerated from a datasheet cell"]].map(([token, why]) => ({
+    kind: "exact" as const, token, klass: "non_product" as const, why: `${why}; 1 part in video` })),
+  // --- end video (12 Sep 2026) ----------------------------------------------------------------------------------
 ];
 
 /** The reason string a rule emits — the same slug runs/vocab/cisco-round2 uses. */

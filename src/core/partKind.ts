@@ -22,6 +22,7 @@ import { componentKind } from "./componentKind.js";
 import { opticKind } from "./opticKind.js";
 // wireless (12 Sep 2026)
 import { wirelessKind } from "./wirelessKind.js";
+import { videoKind } from "./videoKind.js"; // video (12 Sep 2026)
 
 /**
  * Categories whose profile gates requirements on a derived `kind`. Checked against PROFILES by
@@ -63,6 +64,9 @@ export function partKind(categorySlug: string, sku: string): string | undefined 
   // wireless (12 Sep 2026): access points, controllers, antennas, backhaul radios and what plugs into them
   // — its own axis, see wirelessKind.ts. Before the shared axis, which would call all of them `device`.
   if (categorySlug === "wireless") return wirelessKind(sku);
+  // video (12 Sep 2026): HFC plant and headend gear — nodes, transmitters, EDFAs, passives, cBR-8, RF Gateway —
+  // its own axis, see videoKind.ts. Before the shared fallthrough, which would name everything a `device`.
+  if (categorySlug === "video") return videoKind(sku);
   // The shared axis. Deliberately driven off KIND_CATEGORIES rather than a second list, so the
   // membership test and the dispatch cannot drift apart.
   if (KIND_CATEGORIES.includes(categorySlug)) return componentKind(sku);
