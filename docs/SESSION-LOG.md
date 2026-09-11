@@ -4,6 +4,49 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-11 - Opus/PARENT. Switches finished: class, kind, one cup per quantity. Transceiver's undeclared field, which was a duplicate.**
+
+  **DONE AND VERIFIED** (commits f26b830, 7c8cacd, d1c1e28, 567e1f0, a22967b; deployed; runs 935,
+  939, 941, 944 + the reroute run; live `/v1/parts` read with the owner token):
+  - Class, rounds 7-8: 270 + 1,622 + 7 Cisco parts off `hardware`. Round 7 closed every switches
+    part whose NAME said licence and left 17 — **the net was measuring the wrong thing.** "Nexus 5000
+    Base OS Software Rel 5.0(3)N1(1a)" and "Cisco ONE ELA FND Perpetual Nexus 5596" never say it.
+    Widened to zero-fact parts whose names use agreement/term/software vocabulary and no box
+    vocabulary: 557, not 17. Families gated across 13 vendors and read IN FULL (every name shape).
+    New rule kind `exact` for 16 singletons — and it exposed ruleMatches() ending in a bare
+    `includes()`, so any unnamed kind silently became CONTAINS. Every kind is named now; unknown throws.
+  - The refusal list was partly fiction: C3750X-24S-S ("a real product", round 7) is not in the
+    catalogue, and seven refusal names were paraphrases — PROMO-AP2800-S-K9's real name carries the
+    "Lic" a name rule reads. All 85 cited cases now checked verbatim against the catalogue.
+  - Kind: the default `switch` bucket audited from the other side — 256 parts whose name says
+    otherwise, 9,386 slots. 331 parts moved, all read. Then `module` split into module / supervisor /
+    fabric / daughter (a fabric module was asked for ports and PoE).
+  - **switching_capacity held two quantities**: per-slot ("48 Gbit/s je Steckplatz") and system
+    ("6 Tbit/s Crossbar-Fabric"); WS-X45-SUP7-E was served as 48 where its source says "(848 Gbit/s
+    System)". The cup already existed — `fabric_bandwidth`, documented as per-slot, typed a STRING,
+    zero facts — retyped to a number rather than inventing `slot_bandwidth`. 52 facts moved by
+    scripts/reroute-per-slot-capacity.mts (raw = the verbatim span, value = the real normaliser,
+    a per-slot-only move may not change the number). Live API: Sup7-E 848 system / 48 per slot.
+  - Switches: 238,553 -> 199,941 required slots; asked per part: switch 38.2, module 4, supervisor 3,
+    power 2, fabric 1, cables/fans/accessories 0. Scorecard: all 8 checks ok.
+  - **One cup per quantity**: transceiver's "undeclared chromatic_dispersion_tolerance" was a
+    DUPLICATE — the profile declared `cd_tolerance`, same quantity, zero facts. Dictionary-wide label
+    scan: nine such pairs. SUPERSEDED_KEYS (applied after the merge; four are in GENERATED profiles)
+    + tests/oneCupPerQuantity. sync-dictionary now removes profile rows for superseded keys only —
+    /v1/fields reads category_profiles from the DATABASE and would have kept serving both cups.
+    Transceiver: all 8 checks ok.
+
+  **TRAPS HIT**: a regex generated through `sed` lost its backslashes (`\bsup\d` -> `bsupd`) and ran,
+  matching nothing, in my own scratch scorecard — CLAUDE.md §4, again. The class check itself was
+  wrong in both directions (failed switches on 94 real bundles, passed it with 1,622 images inside).
+
+  **HELD FOR THE OPERATOR**: ~30 CSP-* server components and UCSC-885A-M8-HC1 (a GPU server) filed in
+  `switches` — row membership. The box disk read 95.12% at deploy.
+
+  **NEXT**: the corrected class check shows the real non-hardware residue elsewhere — routers 782,
+  security 1,222, wireless 653, unified-communications 657, storage-networking 298. Routers is the
+  next category. Send the juniper lane the reach_max shape finding (still unsent).
+
 - **2026-09-10/11 - Opus/PARENT, overnight loop. Two angles nobody had tried: the REVERSE class audit, and the VALUE layer.**
 
   **ANGLE 1 — which NON-hardware parts carry an own PHYSICAL fact?** Every licence round so far

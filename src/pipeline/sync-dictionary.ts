@@ -33,6 +33,9 @@ async function main(): Promise<void> {
   if (r.orphaned.length) console.log(`orphaned dictionary keys (kept; facts may reference them): ${r.orphaned.join(", ")}`);
   else console.log("orphaned dictionary keys: none");
   if (r.profiles_orphaned.length) console.log(`orphaned profile rows (kept): ${r.profiles_orphaned.slice(0, 20).join(", ")}${r.profiles_orphaned.length > 20 ? ` … (${r.profiles_orphaned.length} total)` : ""}`);
+  // The one DELETE this command makes must be visible in its own output, not only in the run row —
+  // run #944 removed 13 rows and printed nothing about it.
+  if (r.profiles_superseded_removed.length) console.log(`profile rows REMOVED for superseded keys (fieldSchema SUPERSEDED_KEYS): ${r.profiles_superseded_removed.length} — ${r.profiles_superseded_removed.slice(0, 20).join(", ")}`);
   if (r.label_drift.length) console.log(`label drift (FIELD_LABELS vs FieldDef, FieldDef wins): ${r.label_drift.join(", ")}`);
 }
 
