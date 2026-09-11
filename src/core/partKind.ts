@@ -27,6 +27,11 @@ import { videoKind } from "./videoKind.js"; // video (12 Sep 2026)
 import { collabKind } from "./collabKind.js";
 /** The three collaboration categories share ONE axis (collabKind.ts): the same SKU, the same kind, wherever filed. */
 export const COLLAB_CATEGORIES: readonly string[] = ["unified-communications", "collaboration-endpoints", "conferencing"];
+import { routerKind } from "./routerKind.js"; // routers (12 Sep 2026)
+// optical-storage (12 Sep 2026)
+import { opticalKind } from "./opticalKind.js";
+import { sanKind } from "./sanKind.js";
+// end optical-storage
 
 /**
  * Categories whose profile gates requirements on a derived `kind`. Checked against PROFILES by
@@ -77,6 +82,15 @@ export function partKind(categorySlug: string, sku: string): string | undefined 
   // collab (12 Sep 2026): must run BEFORE the shared componentKind dispatch below, which would otherwise claim
   // unified-communications and collaboration-endpoints (they are still in KIND_CATEGORIES).
   if (COLLAB_CATEGORIES.includes(categorySlug)) return collabKind(sku);
+  // routers (12 Sep 2026): its own axis — line cards, interface modules, route processors, fabric cards, memory,
+  // drives, antennas and optics beside the generic power/fan/cable/accessory, defaulting to `router`. routerKind.ts.
+  if (categorySlug === "routers") return routerKind(sku);
+  // optical-storage (12 Sep 2026): both left the shared device/component axis for their own — a shelf, an
+  // amplifier, a mux and a pluggable are not one "device", and an MDS director is not a fixed switch. See
+  // opticalKind.ts and sanKind.ts. Still listed in KIND_CATEGORIES, so the membership test is unchanged.
+  if (categorySlug === "optical-networking") return opticalKind(sku);
+  if (categorySlug === "storage-networking") return sanKind(sku);
+  // end optical-storage
   // The shared axis. Deliberately driven off KIND_CATEGORIES rather than a second list, so the
   // membership test and the dispatch cannot drift apart.
   if (KIND_CATEGORIES.includes(categorySlug)) return componentKind(sku);

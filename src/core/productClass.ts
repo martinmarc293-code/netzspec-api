@@ -1,10 +1,10 @@
-// src/core/productClass.ts — which of a vendor's part numbers are hardware at all.
+﻿// src/core/productClass.ts â€” which of a vendor's part numbers are hardware at all.
 //
 // WHY: 27,281 of Cisco's 89,090 part numbers are licences, service contracts and software images
-// (docs/ARCHITECTURE.md § What a part is). Scored against a hardware profile every one of them is
+// (docs/ARCHITECTURE.md Â§ What a part is). Scored against a hardware profile every one of them is
 // a permanent, unfillable spec gap; classed honestly they get a record, a `not_applicable`
 // profile, and drop out of the coverage denominators. This file is the rule table in
-// docs/DATA_MODEL.md § Product class, implemented in that order with those tokens, and `reason`
+// docs/DATA_MODEL.md Â§ Product class, implemented in that order with those tokens, and `reason`
 // names the rule that fired so parts.product_class_reason traces back to one line here.
 //
 // Rules it enforces:
@@ -15,7 +15,7 @@
 //     "SFP-10G-SR=" and "L-C9200-24-E-A=" class exactly like their non-spare twins.
 //   * SKU matching is case-insensitive. Cisco writes PIDs in upper case; sources do not always.
 //   * Nothing is inferred from a category NAME. Only the categories row (`is_hardware`) separates
-//     hardware from software, and a part whose category is not known yields `unknown` — never
+//     hardware from software, and a part whose category is not known yields `unknown` â€” never
 //     hardware by default, because hardware is the one class that opens a spec gap.
 //   * An empty SKU is `unknown` with a reason. A classifier that quietly classed "" would put a
 //     hardware profile on a row that has no identity.
@@ -25,15 +25,15 @@
 //
 // ROUND 2 (4 Sep 2026). Twenty-one rules were added from runs/vocab/cisco-round2/
 // product-class-rules.json, each counted against the live database. FOUR of that file's rules were
-// REJECTED after replaying them over the whole corpus rather than over Cisco alone — the counts in
+// REJECTED after replaying them over the whole corpus rather than over Cisco alone â€” the counts in
 // the file are Cisco-only, and `classify()` is vendor-neutral:
 //   * `sku-prefix:A-` (1,077 Cisco licences) also matches 63 ARISTA parts, and A-D800-D800-7M is a
 //     QSFP-DD active optical cable carrying 7 facts. A vendor-neutral prefix cannot hold a
-//     vendor-specific meaning, so the two subsets the file itself names — `A-FLEX-` (595) and
-//     `A-SUB-` (53), both Cisco-only — are adopted instead and the bare `A-` is not.
+//     vendor-specific meaning, so the two subsets the file itself names â€” `A-FLEX-` (595) and
+//     `A-SUB-` (53), both Cisco-only â€” are adopted instead and the bare `A-` is not.
 //   * `sku-suffix:-LIC` (467) is not a licence marker in Cisco optical, where it marks a
 //     licence-RESTRICTED CARD: 15454-AR-MXP-LIC "ONS15454 Any-Rate Muxponder", 15454-M-100GC-LIC=
-//     "100G OTU-4 line card - Licensed" (5 facts), 15216-MD-ODD-LIC "Mux demux patch panel …
+//     "100G OTU-4 line card - Licensed" (5 facts), 15216-MD-ODD-LIC "Mux demux patch panel â€¦
 //     License restricted" (1 fact), 15454-SMR1-LIC "SM ROADM 1-PRE-AMP". About 20 real cards
 //     holding ~30 facts would lose their hardware class. The infix rule `-LIC-` already covers the
 //     unambiguous form. A future `-LIC` rule needs a category exclusion, not a bare suffix.
@@ -52,12 +52,12 @@
 //
 // Pure: no I/O, no database. tests/productClass.test.ts runs it over real Cisco SKUs, including
 // the ones that look like the wrong class, and asserts that every rule in the table fires at
-// least once — a rule the suite never exercised is a rule nobody has seen work.
+// least once â€” a rule the suite never exercised is a rule nobody has seen work.
 
 import { ucsKind } from "./ucsKind.js";
 
 /**
- * `non_product` (added 10 Sep 2026, migration 0014) is NOT a kind of product — it is the answer
+ * `non_product` (added 10 Sep 2026, migration 0014) is NOT a kind of product â€” it is the answer
  * "this part number does not describe a thing anyone ships": Cisco tracer SKUs and solution-ID
  * tags. It differs from `unknown` in exactly one way that matters: both leave the SCORE, only
  * non_product leaves the POPULATION. `unknown` is unfinished work and must keep being counted so
@@ -89,7 +89,7 @@ export type SkuRule = {
   /**
    * For prefix/suffix/contains: the token, upper case, matched against the spare-suffix-stripped
    * SKU. For `exact`: the whole stripped SKU, so one rule covers a part and its `=` spare and
-   * nothing else. For `regex`: a short stable IDENTIFIER, not the pattern — `ruleName()` builds the
+   * nothing else. For `regex`: a short stable IDENTIFIER, not the pattern â€” `ruleName()` builds the
    * reason string out of it, so it must stay readable and must never change once rows carry it.
    */
   token: string;
@@ -97,7 +97,7 @@ export type SkuRule = {
   re?: RegExp;
   /**
    * A SKU this rule must match, for the reachability check. The check builds its own probe for
-   * prefix/suffix/contains (token + filler) and CANNOT for a regex — its generated probe would
+   * prefix/suffix/contains (token + filler) and CANNOT for a regex â€” its generated probe would
    * simply never match, and the rule would be reported unreachable for ever. Give a real PID.
    */
   probe?: string;
@@ -113,7 +113,7 @@ export type SkuRule = {
   why: string;
 };
 
-/** docs/DATA_MODEL.md § Product class — the tokens, in the order the table lists them. */
+/** docs/DATA_MODEL.md Â§ Product class â€” the tokens, in the order the table lists them. */
 export const SERVICE_PREFIX = "CON-";
 export const LICENSE_PREFIXES = ["L-", "LIC-", "SL-", "SUB-", "E-", "SWSS"] as const;
 export const LICENSE_SUFFIXES = ["AAE", "-STU"] as const;
@@ -132,7 +132,7 @@ export const SKU_RULES: SkuRule[] = [
   // and that reading holds for 80 of its 92 parts. The exception is `E-SSD-`: twelve parts, every
   // one "N TB, SATA SSD drive for UCS-E M6", and each carrying its own storage_capacity fact. They
   // are the drives for the UCS-E server module, and the letter there is the PLATFORM, not delivery.
-  // Found 10 Sep 2026 by asking the opposite question to every licence round — which NON-hardware
+  // Found 10 Sep 2026 by asking the opposite question to every licence round â€” which NON-hardware
   // parts carry an own PHYSICAL fact.
   ...LICENSE_PREFIXES.filter((t) => t !== "E-").map((token) => ({ kind: "prefix" as const, token, klass: "license" as const, why: "round-1 licence prefix" })),
   { kind: "prefix", token: "E-", klass: "license", except: ["E-SSD-"],
@@ -141,7 +141,7 @@ export const SKU_RULES: SkuRule[] = [
   ...LICENSE_INFIXES.map((token) => ({ kind: "contains" as const, token, klass: "license" as const, why: "round-1 licence infix" })),
 
   // ---- round 2 (runs/vocab/cisco-round2/product-class-rules.json, counted 4 Sep 2026) ---------
-  { kind: "prefix", token: "A-FLEX-", klass: "license", why: "Webex Flex Plan subscription; 595 parts, Cisco only — the safe half of the rejected bare `A-`" },
+  { kind: "prefix", token: "A-FLEX-", klass: "license", why: "Webex Flex Plan subscription; 595 parts, Cisco only â€” the safe half of the rejected bare `A-`" },
   { kind: "prefix", token: "A-SUB-", klass: "license", why: "Cisco Commerce subscription line; 53 parts, Cisco only" },
   { kind: "contains", token: "-UWL-", klass: "license", why: "Cisco Unified Workspace Licensing, infix form; 301 parts" },
   { kind: "suffix", token: "-UWL", klass: "license", why: "Cisco Unified Workspace Licensing, suffix form; 177 parts" },
@@ -160,19 +160,19 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "prefix", token: "EVAL-", klass: "license", why: "evaluation / NFR entitlement, not a shippable product; 15 parts" },
   { kind: "contains", token: "SUBSCR", klass: "license", why: "spelled-out subscription (EI-SUBSCRIPTIONS, WAESUBSCRIPTIBDQ8); 3 parts" },
   // ---- round 3 (measured over all 91,543 parts and 13 vendors, 8 Sep 2026, working `security`) --
-  // Every hardware part in `security` is hardware by the category fallback alone — no SKU rule
-  // fires for any of the 6,689 — so anything the table can catch there is a part that was carrying
+  // Every hardware part in `security` is hardware by the category fallback alone â€” no SKU rule
+  // fires for any of the 6,689 â€” so anything the table can catch there is a part that was carrying
   // an appliance profile it can never satisfy. Both rules below match Cisco only today, hit ZERO
   // parts that carry a fact, and are industry acronyms rather than family names.
   { kind: "prefix", token: "MSLA-", klass: "license", why: "Managed Service Licence Agreement; 13 parts, 12 of them currently hardware, 0 facts. Every one is an XDR or Vulnerability Management subscription" },
   { kind: "prefix", token: "SPLA-", klass: "license", why: "Service Provider Licence Agreement; 7 parts, all currently hardware, 0 facts. Stealthwatch Cloud monthly monitoring and an Umbrella DNS entitlement" },
-  { kind: "prefix", token: "S-ISE-", klass: "license", why: "ISE endpoint term licence sold through a service provider ('SVP Cisco ISE 1-Yr 100 Endpoint Apex License'); 78 parts, all currently hardware, 0 facts. The existing ISE- rule cannot reach these — the S- puts the token off the front" },
+  { kind: "prefix", token: "S-ISE-", klass: "license", why: "ISE endpoint term licence sold through a service provider ('SVP Cisco ISE 1-Yr 100 Endpoint Apex License'); 78 parts, all currently hardware, 0 facts. The existing ISE- rule cannot reach these â€” the S- puts the token off the front" },
   { kind: "prefix", token: "ASA-CSC", klass: "license", why: "Content Security and Control user licences and renewals for the CSC-SSM ('ASA 5500 Series CSC-SSM-10 100-User License'); 55 parts, all currently hardware, 0 facts. Deliberately NOT the bare CSC token: the module itself is CSC-SSM-10 / CSC-SSM-20 with no ASA- prefix, and it is real hardware" },
-  // REJECTED in the same pass, and worth the line: `-SUB-` as an infix looked ideal — 198 matches,
+  // REJECTED in the same pass, and worth the line: `-SUB-` as an infix looked ideal â€” 198 matches,
   // 79 of them hardware, 0 facts at risk. Reading the parts killed it. CS-BOARD55S-SUB-K9 is "MLB
   // for Subscription - Board 55": a MAIN LOGIC BOARD sold under a subscription plan, and so are
   // the other nine Room Kit and Board entries. `-SUB-` marks the ordering programme, not the
-  // product class — the same reason the file rejected `C1-` (Cisco ONE) above. The `-SUB` SUFFIX
+  // product class â€” the same reason the file rejected `C1-` (Cisco ONE) above. The `-SUB` SUFFIX
   // rule already in this table is the unambiguous form and stays.
   { kind: "prefix", token: "SW-", klass: "software", why: "Cisco software image / feature-set SKU (SW-CCME-UL-ENH=); 275 parts" },
   { kind: "prefix", token: "SVS-", klass: "service", why: "Cisco Solution Support service line; 28 parts" },
@@ -211,7 +211,7 @@ export const SKU_RULES: SkuRule[] = [
 
   // ---- round 4 (10 Sep 2026, working `switches`; measured over all 91,543 parts) ---------------
   // Round 3 above concluded that the NAME cannot separate "licence FOR a switch" from "switch sold
-  // WITH a licence", and it is right — this round is the SKU-shape answer it recommended. The two
+  // WITH a licence", and it is right â€” this round is the SKU-shape answer it recommended. The two
   // parts that comment names as the trap are the test: `C9500-24Q-A=` ("Catalyst 9500 24-port 40G,
   // Adv. License, no PS") is matched by NOTHING here, and `N55-96P-SSK9` ("Nexus 5500 Storage
   // License, 96 Ports") is caught by the SSK9 suffix. Both are pinned in productClass.test.ts.
@@ -219,7 +219,7 @@ export const SKU_RULES: SkuRule[] = [
   // HOW THESE WERE FOUND, because the method is the reusable part. `switches` held 507 parts with
   // product_class 'hardware' whose NAME says licence. Acting on that name would have been a
   // disaster: the 37-strong `N3K-C####-XX-L3` family reads "Nexus 3172PQ, Reversed Airflow (port
-  // side intake), AC P/S, Base and LAN Enterprise License Bundle" — a box you rack, with a licence
+  // side intake), AC P/S, Base and LAN Enterprise License Bundle" â€” a box you rack, with a licence
   // in the carton. So the name was used only to FIND candidate SKU families, and each family was
   // then read in full, including every member whose name does NOT say licence (those turned out to
   // be licences too, abbreviating: "Enhanced layer 2 (includes FabricPath, RISE)").
@@ -227,20 +227,20 @@ export const SKU_RULES: SkuRule[] = [
   // EVERY RULE WAS THEN RE-MEASURED OVER ALL 13 VENDORS, and that is what caught the one that
   // would have done real damage: a `-SW` SUFFIX rule looked perfect on switches (73 hits, every
   // name saying "Software license for C2960L" or "IOS build PID") and in `transceiver` **-SW means
-  // SHORT WAVELENGTH** — DS-SFP-FC16G-SW and ONS-QC-16GFC-SW are Fibre Channel optics, the same
+  // SHORT WAVELENGTH** â€” DS-SFP-FC16G-SW and ONS-QC-16GFC-SW are Fibre Channel optics, the same
   // reach-code trap that -S/-L/-Z sprang on the model derivation on 8 Sep. It was replaced by the
   // name rule `name-software-image`, which cannot be confused by a reach code and catches 75 with
   // ZERO physical-fact parts. Also rejected: `-UPG` (WS-CF-UPG= is a Compact Flash ADAPTER) and
   // `\bnetwork (essentials|advantage)\b` as a name rule (206 hits, ~200 of them real Catalyst 9300
-  // switches whose licence TIER is in their name — C9300-48U-A carries 7 physical facts).
+  // switches whose licence TIER is in their name â€” C9300-48U-A carries 7 physical facts).
   //
   // The refusal test is the same one round 3 used: does the rule catch a part carrying an OWN
-  // physical fact? Seven do, and all seven are the SAME known defect rather than a bad rule —
+  // physical fact? Seven do, and all seven are the SAME known defect rather than a bad rule â€”
   // description_mining reading the licensed device's spec out of the licence's own name
   // ("Advanced Optical license to activate G.709 and FEC per 400G modular line card" ->
   // switching_capacity 400). Those facts are retracted by scripts/retract-licence-mined.mts.
   { kind: "prefix", token: "LL-", klass: "license", why: "IOS re-licence / right-to-use for used kit ('Catalyst 2960 family 48 GE ports IOS IP Lite sw relicense'); 55 parts, Cisco only, every one licence-named" },
-  { kind: "contains", token: "-NW-A", klass: "license", why: "Network Advantage tier licence sold as its own PID (IE3300-NW-A=, C9200-NW-A-24-EDU); 21 parts. The TIER letter alone is not enough — C9300-48U-A is a switch — so the rule needs the NW segment" },
+  { kind: "contains", token: "-NW-A", klass: "license", why: "Network Advantage tier licence sold as its own PID (IE3300-NW-A=, C9200-NW-A-24-EDU); 21 parts. The TIER letter alone is not enough â€” C9300-48U-A is a switch â€” so the rule needs the NW segment" },
   { kind: "contains", token: "-NW-E", klass: "license", why: "Network Essentials tier licence, same shape; 7 parts" },
   { kind: "suffix", token: "SSK9", klass: "license", why: "Nexus Storage Services licence ('Nexus 5600 Promo Storage Lic, 12-ports 40G'); 134 parts. This is the family round 3 named as the one a name rule could not separate" },
   { kind: "contains", token: "-EL2", klass: "license", why: "Nexus Enhanced Layer 2 licence (FabricPath/RISE); 12 parts not already caught by SSK9" },
@@ -250,7 +250,7 @@ export const SKU_RULES: SkuRule[] = [
   // ROUND 2 REJECTED THIS RULE and productClass.test.ts holds two sabotage cases for it. Those
   // cases are RIGHT and they are also SCOPED: in Cisco's OPTICAL TRANSPORT families the -LIC
   // suffix does not mean "this is a licence", it means "this card's capacity is licence-GATED".
-  // The names say so outright — 15454-SMR2-LIC "SM ROADM 2-PRE-AMP-BST 100GHZ-CBAND-10ch License
+  // The names say so outright â€” 15454-SMR2-LIC "SM ROADM 2-PRE-AMP-BST 100GHZ-CBAND-10ch License
   // Restricted", 15454-AR-MXP-LIC "Any-Rate Muxponder - SW License Upgradeable", NCS2K-MR-MXP-LIC
   // "10/40/100G MR Muxponder - Licensable for Encryption", 15216-MD-ODD-LIC "Mux demux patch panel
   // ... License restricted". Every one is a physical card, ROADM or patch panel.
@@ -258,30 +258,30 @@ export const SKU_RULES: SkuRule[] = [
   // The except list is the CONDITION, not a list of the parts that caught me: these four tokens
   // are Cisco's optical-transport platform families (ONS 15216 / ONS 15454 / NCS 2000 / ONS
   // pluggables), and the licence-gated-hardware convention is a property of that product line.
-  // Outside them, all 770 remaining -LIC parts are licences — a random 24 read across security,
+  // Outside them, all 770 remaining -LIC parts are licences â€” a random 24 read across security,
   // routers, unified-communications and optical were all licences, and the three whose name
   // carries a hardware word are licences SCOPED to hardware ("NV Cluster license applicable per
   // chassis"). The two optical-family parts that ARE licences (S-CFP2-WDM-LIC=, S-NCS4K-100G-LIC=)
   // keep their class because they carry neither token; L-NCS2K-*-LIC= is caught earlier by `L-`.
   { kind: "suffix", token: "-LIC", klass: "license", except: ["15216-", "15454-", "NCS2K-", "ONS-"],
-    why: "explicit licence suffix; 797 parts, 770 after the optical-transport veto — security (248), routers (100), contact-center, unified-communications (30) and switches (19). The existing table had the -LIC- INFIX and not the suffix" },
+    why: "explicit licence suffix; 797 parts, 770 after the optical-transport veto â€” security (248), routers (100), contact-center, unified-communications (30) and switches (19). The existing table had the -LIC- INFIX and not the suffix" },
   // The only regex rule, because this shape cannot be written as a prefix, suffix or substring.
   // `C9300-24-E-A-3` is a tier UPGRADE licence: model, PORT COUNT AS BARE DIGITS, from-tier,
-  // to-tier, optional term. A real switch never has a bare-digit port token — it is 24T, 48U,
-  // 24UX, 48P — which is precisely what keeps C9300-48U-A out.
-  // Three families found by re-auditing `switches` AFTER round 4 landed — the residual was 87 of
+  // to-tier, optional term. A real switch never has a bare-digit port token â€” it is 24T, 48U,
+  // 24UX, 48P â€” which is precisely what keeps C9300-48U-A out.
+  // Three families found by re-auditing `switches` AFTER round 4 landed â€” the residual was 87 of
   // 8,603 and these are its three clean groups. DNXA/DNXE are a near-miss of round 2's `-DNX-`:
   // the token there ends in a hyphen and Catalyst writes the tier letter against it
   // (C9200CX-DNXE-12-5Y). Added as their own rules rather than by widening `-DNX-` to `-DNX`,
   // which would change an existing rule's NAME and so the reason string on rows already carrying
-  // it — and would shadow it, which the reachability check would then report for ever.
+  // it â€” and would shadow it, which the reachability check would then report for ever.
   { kind: "contains", token: "-DNXA-", klass: "license", why: "Catalyst Advantage software subscription (C9200CX-DNXA-12-5Y); 6 parts, 0 with own facts" },
   { kind: "contains", token: "-DNXE-", klass: "license", why: "Catalyst Essentials software subscription; 6 parts, 0 with own facts" },
   { kind: "contains", token: "VMFEX", klass: "license", why: "Nexus VM-FEX feature licence (N55-VMFEXK9, C1-N55-VMFEXK9); 15 parts, 11 currently hardware, 0 with own facts" },
   // REJECTED in the same pass: `-IPB`. 39 parts and it looks like a paper-licence marker
   // ("IP Base License (Paper) for Cisco 2951-3901"), but IP Base is a FEATURE TIER that appears in
-  // real switch PIDs — WS-C4500X-24X-IPB is a Catalyst 4500-X carrying 13 own facts.
-  // ---- round 5 (10 Sep 2026) — the eleven FLAT-PROFILE categories -----------------------------
+  // real switch PIDs â€” WS-C4500X-24X-IPB is a Catalyst 4500-X carrying 13 own facts.
+  // ---- round 5 (10 Sep 2026) â€” the eleven FLAT-PROFILE categories -----------------------------
   // Rounds 4/4b were driven by `switches`. Surveying the eleven categories whose profile has no
   // live conditional left 3,170 parts still classed `hardware` with a licence-shaped name, in
   // routers (958), unified-communications (504), wireless (332), optical-networking (254),
@@ -293,10 +293,10 @@ export const SKU_RULES: SkuRule[] = [
   // flagged S-A9K-40G-AIP-SE ("ASR 9K Smart License L3 VPN for 40x10GE Linecard"),
   // LIF5K-00-CUXICP ("Inline CUPS per ASR5500 Chassis") and ASR5K-00-CS10GYCC ("Write Gy CCR-T to
   // HDD During OCS Failure") as blockers. Every one is a licence whose name DESCRIBES THE DEVICE
-  // IT LICENSES — the same thing that made the switches round refuse to act on names. Physical
+  // IT LICENSES â€” the same thing that made the switches round refuse to act on names. Physical
   // FACTS are the gate; every family below holds zero.
   //
-  // And these families name a FEATURE rather than saying "licence" — "Dynamic Radius extensions
+  // And these families name a FEATURE rather than saying "licence" â€” "Dynamic Radius extensions
   // (CoA and PoD)", "IPSG Inter-Chassis Session Recovery", "CPS ANDSF Enterprise +100
   // Subscribers", "API GW per site". A licence-word screen scores them badly and they are still
   // entitlements, exactly as the SSK9 family was in round 4.
@@ -305,7 +305,7 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "prefix", token: "A9K-DDOS", klass: "license", why: "ASR 9000 DDoS mitigation licence; 59 parts, 51 currently hardware, 0 physical facts" },
   { kind: "prefix", token: "LIF5K-", klass: "license", why: "StarOS per-session feature licence for the ASR 5500 (LIF5K-00-FY10R-K9 'Home Node-B Gateway 10K Iurh Sessions'); 267 parts, 0 physical facts" },
   // ASR5K-00 AND ASR5K-99 ONLY. The bare `ASR5K-` prefix is REFUSED and the refusal is measured:
-  // 175 ASR5K parts fall outside those two blocks and 32 carry physical facts — ASR5K-SMC-K9
+  // 175 ASR5K parts fall outside those two blocks and 32 carry physical facts â€” ASR5K-SMC-K9
   // "System Management Card 4GB", ASR5K-MEM-PSC2= "DIMM Replacement Kit for PSC2 - 32GB",
   // ASR5K-PFU "ASR5000 Power Filter Unit". Those two numeric blocks are the licence numbering.
   { kind: "prefix", token: "ASR5K-00", klass: "license", why: "StarOS licence block 00; part of the 275 ASR5K-00/-99 parts, 0 physical facts. NOT the bare ASR5K- prefix: 32 of the other 175 are real cards" },
@@ -322,44 +322,44 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "prefix", token: "C1-SL-", klass: "license", why: "Cisco ONE software licence for ISR ('AppX Foundation License for Cisco ISR 1100'); 17 parts. Round 2 refused the bare C1- prefix because C1-N9K-C9508 is a real chassis; this is the subset that note said to adopt instead" },
   { kind: "prefix", token: "MC-S-", klass: "license", why: "MATE Collector subscription ('MATE Collector BGP; Subscription'); 26 parts, 0 physical facts" },
   { kind: "prefix", token: "NCS2K-L-R", klass: "license", why: "NCS 2000 software-release RTU ('NCS 2K/MSTP - R10.9 SW, Upgrade SW RTU'); 27 parts. Deliberately NOT `NCS2K-L`, and nothing like `NCS2K-M`, which holds real cards and a 1RU cover" },
-  // The six UCS Invicta operating systems, which used to be caught — along with 273 pieces of real
-  // hardware — by the `UCSW` token in ucsKind's os-license set. `-OS5.` matches exactly these six
+  // The six UCS Invicta operating systems, which used to be caught â€” along with 273 pieces of real
+  // hardware â€” by the `UCSW` token in ucsKind's os-license set. `-OS5.` matches exactly these six
   // in 91,543 parts and nothing else: UCSW-A-OS5.SD-K9= "UCS Invicta Array OS with 32GB SD Card",
   // UCSW-SAR-OS5.X-K9 "Invicta Scaling System Router Operating System 5.x". A marker read off the
   // parts themselves, replacing a token generalised from one example.
   { kind: "contains", token: "-OS5.", klass: "license", why: "UCS Invicta operating system; 6 parts, Cisco only, every one naming an OS. Replaces the UCSW token removed from ucsKind on 10 Sep 2026" },
   { kind: "contains", token: "UWLADD", klass: "license", why: "Unified Workspace Licensing add-on; 44 parts. Escapes the existing -UWL- infix because the token runs on" },
   // REFUSED in this round, each with the product it would have cost:
-  //   AIRCT2504-  53 parts, and it PASSED the automated gate — 0 physical facts, 53 of 53
-  //               licence-named — because every name contains "AP Lic.". Reading the family in
+  //   AIRCT2504-  53 parts, and it PASSED the automated gate â€” 0 physical facts, 53 of 53
+  //               licence-named â€” because every name contains "AP Lic.". Reading the family in
   //               full killed it: ALL 53 are "Bundle WLC2504 w/ 10 AP Lic. and 5 AP-1602i Z Reg
   //               Domain", a controller shipped with five or ten physical access points. Not one
   //               is a pure licence. This is why a family is read in full and not merely gated.
   //   PROMO-      99 parts. PROMO-AP2800-S-K9 is "AP2800 (Internal Ant only) Promotion with DNA"
-  //               — a real access point bundled with a licence, the same shape as the
+  //               â€” a real access point bundled with a licence, the same shape as the
   //               N3K-C3172-FA-L3 chassis bundles that round 4 refused.
   //   HX-SP       89 parts, five naming drive paks outright.
   //   NCS2K-M     90 parts, 9 with physical facts (NCS2K-MF-COVER= is a 1RU cover).
-  //   HX-NV      139 parts, 29 with physical facts — they are NVMe drives.
-  // ---- round 7 (11 Sep 2026) — closing the switches residue ------------------------------------
+  //   HX-NV      139 parts, 29 with physical facts â€” they are NVMe drives.
+  // ---- round 7 (11 Sep 2026) â€” closing the switches residue ------------------------------------
   // After rounds 4-6, `switches` still held 177 hardware parts whose name mentions a licence. 112
-  // of those name a BOX — "Nexus 3172PQ, Reversed Airflow, AC P/S, Base and LAN Enterprise License
-  // Bundle" — and are correctly hardware. The other 65 were read one by one, grouped into the
+  // of those name a BOX â€” "Nexus 3172PQ, Reversed Airflow, AC P/S, Base and LAN Enterprise License
+  // Bundle" â€” and are correctly hardware. The other 65 were read one by one, grouped into the
   // families below, and each family gated across all 13 vendors on facts NOT mined from a name.
   //
-  // THE LARGEST WAS NOT A LICENCE AT ALL. 102 parts ending `-MIB` — CISCO-NTP-MIB,
-  // MPLS-L3VPN-STD-MIB, CISCO-LICENSE-MGMT-MIB — are SNMP MIB definitions: a file describing what a
+  // THE LARGEST WAS NOT A LICENCE AT ALL. 102 parts ending `-MIB` â€” CISCO-NTP-MIB,
+  // MPLS-L3VPN-STD-MIB, CISCO-LICENSE-MGMT-MIB â€” are SNMP MIB definitions: a file describing what a
   // device reports, not a thing anyone ships. 95 sat in `switches` and 7 in unified-communications,
   // all classed hardware and asked for a switching capacity.
   { kind: "suffix", token: "-MIB", klass: "non_product", why: "SNMP MIB definition (CISCO-NTP-MIB, MPLS-L3VPN-STD-MIB); 102 parts, all Cisco, all classed hardware, 0 facts of any kind" },
-  // "Cisco ONE Nexus 5600 FNPV License (Reference, No License)" — a REFERENCE line in a Cisco ONE
+  // "Cisco ONE Nexus 5600 FNPV License (Reference, No License)" â€” a REFERENCE line in a Cisco ONE
   // configuration that delivers nothing, which is why it is non_product rather than license: its
   // own name says there is no licence. Distinct from round 2's refused bare `C1-` (C1-N9K-C9508 is
   // a real chassis) and from `C1-SL-`, which does deliver a licence.
   { kind: "prefix", token: "C1-R-", klass: "non_product", why: "Cisco ONE reference SKU, '(Reference, No License)'; 43 parts, 0 facts" },
   // NX-OS software images and tier entitlements: NXOS-703I4.1 "Nexus 9500, 9300, 3000 Base NX-OS
   // Software Rel 7.0(3)I4(1)". switchKind already calls these `software` so they were asked nothing,
-  // but their CLASS still said hardware — the kind gate hid a class defect rather than fixing it.
+  // but their CLASS still said hardware â€” the kind gate hid a class defect rather than fixing it.
   { kind: "prefix", token: "NXOS-", klass: "software", why: "NX-OS software image or tier entitlement; part of 83 NXOS-/NX-OS- parts, 81 of them classed hardware, 0 physical facts" },
   { kind: "prefix", token: "NX-OS-", klass: "software", why: "NX-OS tier entitlement, hyphenated form (NX-OS-ES-XF); same family" },
   // ACI and NX-OS subscription packages: C1E1TN9300XF-5Y "Cisco ACI and NX-OS subscription
@@ -368,15 +368,15 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "prefix", token: "C1A1TN", klass: "license", why: "ACI & NX-OS Advantage subscription package; part of 18 C1A1TN/C1E1TN parts, 0 facts" },
   { kind: "prefix", token: "C1E1TN", klass: "license", why: "ACI & NX-OS Essentials subscription package; same family" },
   // ONLY the two tier forms. The bare `ACI-` prefix is REFUSED: ACI-C9336-APIC-B1 is "ACI Bundle
-  // with 2 9336 and APIC" and ACI-C9336-BL-EAL "ACI Lab Bun with 1 9336, 2 9396PX Leafs" — real
+  // with 2 9336 and APIC" and ACI-C9336-BL-EAL "ACI Lab Bun with 1 9336, 2 9396PX Leafs" â€” real
   // switches in a bundle.
   { kind: "prefix", token: "ACI-ES-", klass: "license", why: "ACI Essentials SW licence per leaf ('ACI Essentials SW license for a 10/25/40G+ Nexus 9K Leaf'); 2 parts. Not bare ACI-, which holds switch bundles" },
   { kind: "prefix", token: "ACI-AD-", klass: "license", why: "ACI Advantage SW licence per leaf; 2 parts" },
   { kind: "regex", token: "n7k-scalable-feature", re: /^N7K-C70\d\d-XL$/, probe: "N7K-C7010-XL",
     klass: "license", why: "Nexus 7000 Scalable Feature License ('Cisco Nexus 7010 Scalable Feature License'); 4 parts. Anchored to the chassis-number form: a bare -XL suffix also ends real supervisors (WS-SUP720-3BXL)" },
   // The CONTAINS siblings of three round-4 SUFFIX rules. Cisco sometimes writes a spare, promo or
-  // bundle marker after the licence token — N55-LAN1K9-IN=, N6001-LAN1K9-P, N55-BAS1K9-BUN,
-  // N5020-SSK9-LAB — so the suffix form misses them. Placed AFTER the suffix rules, so every part
+  // bundle marker after the licence token â€” N55-LAN1K9-IN=, N6001-LAN1K9-P, N55-BAS1K9-BUN,
+  // N5020-SSK9-LAB â€” so the suffix form misses them. Placed AFTER the suffix rules, so every part
   // those already catch keeps its existing reason.
   { kind: "contains", token: "LAN1K9", klass: "license", why: "Nexus Layer 3 LAN licence with a trailing spare/promo marker (N55-LAN1K9-IN=); 9 parts, 0 physical facts" },
   { kind: "contains", token: "LAN2K9", klass: "license", why: "Nexus 3000 Layer 3 LAN Enterprise licence, second form (N3K-LAN2K9)" },
@@ -389,23 +389,23 @@ export const SKU_RULES: SkuRule[] = [
   // carries one: C9300-24S-A, C3750X-24S-S and C9500-24Q-A all fail the pattern and are pinned.
   { kind: "regex", token: "tier-upgrade", re: /^C\d+\w*-\d+[A-Z]*-[ELS]-[AES](?:-\d+)?$/, probe: "C9300-24-E-A-3",
     klass: "license", why: "Catalyst tier-upgrade / paper licence ('24-port NW and Cisco DNA Essentials to NW and Cisco DNA Advantage Upgrade License', 'C3650 24-port LAN Base to IP Services Paper License'); 59 parts, 0 with a physical fact" },
-  // ---- round 8 (11 Sep 2026) — the residue the licence-word net could not see ----------------------
+  // ---- round 8 (11 Sep 2026) â€” the residue the licence-word net could not see ----------------------
   // Round 7 closed every switches part whose NAME said licence, and the count looked finished: 17
   // left. It was measuring the wrong thing. "Cisco ONE ELA FND Perpetual Nexus 5596", "Nexus 5000
   // Base OS Software Rel 5.0(3)N1(1a)" and "Cisco C1P1TN9300GF-5Y" never use the word, so a net
   // built on it could not catch them. Widened to every switches hardware part with ZERO facts whose
   // name uses agreement/term/software vocabulary and no box vocabulary: 557, not 17. Each family
-  // below was then gated across all 13 vendors and read IN FULL — every distinct name shape printed,
-  // every member whose name uses box vocabulary printed on its own — before a rule was written.
+  // below was then gated across all 13 vendors and read IN FULL â€” every distinct name shape printed,
+  // every member whose name uses box vocabulary printed on its own â€” before a rule was written.
   //
   // NX-OS software images. 442 parts, every one classed hardware, 0 physical facts: "Nexus 5000 Base
   // OS Software Rel 5.0(3)N1(1a)", "Cisco NX-OS Release 6.2(10) for SUP2 Nexus 7000". switchKind
-  // already called them `software` (its UK9 token), so the kind gate asked them nothing — the same
+  // already called them `software` (its UK9 token), so the kind gate asked them nothing â€” the same
   // class defect round 7 found hidden under NXOS-. The K9 sits directly on the platform token with no
   // hyphen, which is what keeps N5K-C5548UP-FA and N7K-SUP2 (hyphen after the K) out.
   { kind: "regex", token: "nxos-image", re: /^N\d+K[A-Z0-9]*K9-/, probe: "N5KUK9-503N1.1",
     klass: "software", why: "NX-OS software image (N5KUK9-503N1.1 'Nexus 5000 Base OS Software Rel 5.0(3)N1(1a)', N7KS2K9-6210); 442 parts, all classed hardware, 0 physical facts" },
-  // IOS software images: an S, a platform + feature-set code, then the RELEASE — 15502T is 15.5(2)T,
+  // IOS software images: an S, a platform + feature-set code, then the RELEASE â€” 15502T is 15.5(2)T,
   // 12250SE is 12.2(50)SE, 33-1511SG is XE 3.3 / 15.1(1)SG. 627 parts across routers, switches,
   // video and interfaces-modules, 435 of them classed hardware, 0 physical facts, 155 distinct name
   // shapes read and every one an image ("Cisco 1900 IOS UNIVERSAL", "Cisco CAT6000-VS-S2T IOS IP
@@ -414,13 +414,13 @@ export const SKU_RULES: SkuRule[] = [
   // three-token optic like SFP-10G-SR out.
   { kind: "regex", token: "ios-image", re: /^S[0-9A-Z]{2,10}-(?:\d{2}-)?\d{4,5}[A-Z]{1,3}$/, probe: "S19UK9-15102T",
     klass: "software", why: "IOS / IOS XE software image by release (S19UK9-15102T 'Cisco 1900 IOS UNIVERSAL', S45XUK9-33-1511SG); 627 parts, 435 classed hardware, 0 physical facts" },
-  // Cisco ONE licensing: C1 followed directly by a LETTER — C1A2ANEX55481K9 "Cisco ONE Advanced
+  // Cisco ONE licensing: C1 followed directly by a LETTER â€” C1A2ANEX55481K9 "Cisco ONE Advanced
   // Perpetual Nexus 5548", C1E1ATCAT93002-5Y "C1 Essentials Term C9300 48P 5Y", C1P1TN9300GF-5Y (the
   // Premier sibling of round 7's C1A1TN/C1E1TN, whose names are only the SKU), C1A1VISR2900S-01
   // "Tracker PID v01 Adv Perpetual ISR2900S - no delivery". 679 parts, 180 classed hardware, 0
   // physical facts, 64 name shapes read. Real devices put a DIGIT there: C1000-16T-2G-L (a Catalyst
   // 1000 switch, 13 facts) and C1100TG-1N32A (a terminal gateway, 25 facts) are pinned. Round 2's
-  // refusal of bare `C1-` stands — the hyphen form holds real chassis.
+  // refusal of bare `C1-` stands â€” the hyphen form holds real chassis.
   { kind: "regex", token: "cisco-one", re: /^C1[A-Z]/, probe: "C1A2ANEX55481K9",
     klass: "license", why: "Cisco ONE perpetual / term / tracker licence (C1A2ANEX55481K9 'Cisco ONE Advanced Perpetual Nexus 5548'); 679 parts, 0 physical facts; C1 + digit is hardware (C1000, C1100)" },
   // Enterprise Licence / Enterprise Agreement SKUs: "Cisco ONE ELA FND Perpetual Nexus 5596",
@@ -439,9 +439,9 @@ export const SKU_RULES: SkuRule[] = [
   // category; the 41 hardware-classed ones ("DCNM SAN Adv Features for MDS 9300 Switch-Based, EMC
   // Spare") join them rather than moving all 118 to a new class.
   { kind: "prefix", token: "DCNM-", klass: "software", why: "Data Center Network Manager licence/software ('DCNM for SAN Advanced Edt. for MDS 9100 embedded'); 118 parts, 77 already software, 0 physical facts" },
-  // Nexus promotional SOFTWARE bundles. Every name is a list of licence features — "Inc
+  // Nexus promotional SOFTWARE bundles. Every name is a list of licence features â€” "Inc
   // LAN,ADV,TRS,EL2,DCNM,DCNMSAN,MPLS,SAN,XL - Promotion", "Nexus 6004 SBUN;LAN, DCNM-LAN/SAN, 96p
-  // 40G Storage, EL2" — where "96p 40G Storage" is the storage-protocol licence for 96 ports, not 96
+  // 40G Storage, EL2" â€” where "96p 40G Storage" is the storage-protocol licence for 96 ports, not 96
   // ports. 52 parts across both forms, 0 physical facts.
   { kind: "contains", token: "-SBUN-", klass: "license", why: "Nexus software-bundle promotion ('Inc LAN,ADV,TRS,EL2,DCNM,DCNMSAN,MPLS,SAN,XL - Promotion'); 38 parts, 0 physical facts" },
   { kind: "contains", token: "-DFA-BUN-", klass: "license", why: "Nexus DFA licence bundle ('Nexus 6001 DFA Bundle-Limited Time Promo; LAN, EL2, DCNM-LAN'); 14 parts, 0 facts" },
@@ -466,12 +466,12 @@ export const SKU_RULES: SkuRule[] = [
     klass: "license", why: "factory IOS tier upgrade ('C3750X-48 IP Base to IP Services factory IOS Upgrade'); 4 parts, 0 facts" },
   // IOS XE images whose release is three digits and a letter (310E = 3.10.0E, 316S = 16.3.x S).
   // Deliberately NOT a widening of ios-image: the widened pattern also matched SSD-120G= and
-  // SSD-240G, "Cisco pluggable USB3.0 120G SSD storage" — the 120G reads as a release. Anchored to
+  // SSD-240G, "Cisco pluggable USB3.0 120G SSD storage" â€” the 120G reads as a release. Anchored to
   // the two platforms that use the form, and the SSDs are pinned.
   { kind: "regex", token: "ios-xe-image", re: /^S(?:45|ISR)[A-Z0-9]*-(?:S\d-)?\d{3}[A-Z]$/, probe: "S45XUK9T-310E",
     klass: "software", why: "IOS XE image, three-digit release (S45EUK9T-S9-310E 'CAT4500E SUP9E Universal Crypto Image', SISR4300UK9-316S); 9 parts, 0 facts. Not SSD-120G, an SSD" },
   // WLAN controller software: "Cisco Unified WLAN Controller SW Release 5.0", "WLAN Controller SW for
-  // WiSM". 28 parts, every one in `switches` and every one asked a switch's questions — switchKind's
+  // WiSM". 28 parts, every one in `switches` and every one asked a switch's questions â€” switchKind's
   // software token needs a hyphen or end after SW, and SWLC6K9-51 has neither.
   { kind: "regex", token: "wlc-software", re: /^SW(?:LC|ISM)/, probe: "SWLC4400K9-50",
     klass: "software", why: "WLAN controller software release (SWLC4400K9-50 'Cisco Unified WLAN Controller SW Release 5.0'); 28 parts, 0 facts" },
@@ -483,7 +483,7 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "contains", token: "AISK9LC", klass: "license", why: "Advanced IP Services upgrade licence ('Advanced IP Services upgrade for 3750G-48 with IP Base'); 2 parts, 0 facts" },
   { kind: "suffix", token: "-LB-IPB", klass: "license", why: "LAN Base to IP Base upgrade licence ('LAN BASE to IP BASE upgrade license (paper delivery)'); 2 parts. Not bare -IPB: WS-C4500X-24X-IPB is a switch with 13 facts" },
   // SINGLETONS. Each is one product (with its spare) whose own name says it is a licence, software or a
-  // service, and whose SKU shares its shape with nothing else in the catalogue — so a family rule would
+  // service, and whose SKU shares its shape with nothing else in the catalogue â€” so a family rule would
   // be a rule of one. Named exactly, so none of them can reach a part it was not read against.
   { kind: "exact", token: "N3548-ALGK9", klass: "license", why: "'Nexus 3500 Algo Boost License'" },
   { kind: "exact", token: "N3K-STR1K9", klass: "license", why: "'Telemetry license for Nexus 3000 platform'" },
@@ -503,15 +503,15 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "exact", token: "C2K-SW-EXT", klass: "service", why: "'C2K Security and Vulnerability Software Support extension'" },
   // Found by the switches KIND audit, after round 8: parts whose kind was wrong because their CLASS was.
   { kind: "prefix", token: "SC4K-", klass: "software", why: "CatOS supervisor image ('Catalyst 4K Supervisor Flash Image w/ SSH, Release 7.6.9'); 5 parts, 0 facts" },
-  // The reviewer's §0.6 query (hardware rows that switchKind calls software) found six Catalyst 4500
-  // IOS XE images still classed hardware: their release tails — "331-1511SG", "S8-38E", "31-01XO" —
+  // The reviewer's Â§0.6 query (hardware rows that switchKind calls software) found six Catalyst 4500
+  // IOS XE images still classed hardware: their release tails â€” "331-1511SG", "S8-38E", "31-01XO" â€”
   // fit neither image pattern above. Every S45*- part in the catalogue was read: 21, all images.
   { kind: "regex", token: "cat4500-xe-image", re: /^S45[A-Z0-9]*-(?:S\d-)?\d/, probe: "S45XU-331-1511SG",
     klass: "software", why: "Catalyst 4500 IOS XE image (S45XU-331-1511SG 'IOS Software XE Release 3.3.1 SG', S45EUK9-S8-38E); 6 more parts, 0 facts" },
   // An ordering option that ships nothing: "ECO friendly green option, no power cable will be
-  // shipped". Exact, not a NO- prefix — NO-OS-SELECTION is already non-hardware and would churn.
-  { kind: "exact", token: "NO-POWER-CORD", klass: "non_product", why: "'ECO friendly green option, no power cable will be shipped' — an option that ships nothing" },
-  // ---- found by the transceiver KIND census, 11 Sep 2026 (reviewer §2), every match read ------------------
+  // shipped". Exact, not a NO- prefix â€” NO-OS-SELECTION is already non-hardware and would churn.
+  { kind: "exact", token: "NO-POWER-CORD", klass: "non_product", why: "'ECO friendly green option, no power cable will be shipped' â€” an option that ships nothing" },
+  // ---- found by the transceiver KIND census, 11 Sep 2026 (reviewer Â§2), every match read ------------------
   // FirePOWER subscriptions sold through a service provider, filed as hardware OPTICS because the model
   // number is glued onto "SFP": SFP7010-TAC-OPS "SVP Cisco FirePOWER 7010 IPS, Apps and URL Adjustable OPS".
   // 171 parts, all Cisco, all in `transceiver`, all 0 facts, 9 name shapes (TAC/TAM/TAMC x OPS/SMS-1/SMS-1K),
@@ -528,11 +528,11 @@ export const SKU_RULES: SkuRule[] = [
   // cable length (SFP-H10GB-CUxM "length x - 1m to 5m"), an ITU channel (XFP-RF-ITUXX=). The concrete SKUs
   // exist beside them (CWDM-SFP10G-1470, SFP-H10GB-CU1M). 32 parts once the refusals below are applied (reclassify
   // run of 11 Sep 2026: 26 in transceiver, 1 each in switches, routers, storage- and optical-networking, 2 in
-  // interfaces-modules — 7300-2OC3POS-xxx, where xxx is the fibre-variant placeholder).
+  // interfaces-modules â€” 7300-2OC3POS-xxx, where xxx is the fibre-variant placeholder).
   // REFUSED, and the refusal is the reason this rule is narrow: a TWO-letter `-xx` is Cisco's REGION code on
-  // Small Business gear — SG350-28-K9-xx, CBS350-8P-2G-xx, SF110D-08-xx (9 facts) — real switches, 190 of
+  // Small Business gear â€” SG350-28-K9-xx, CBS350-8P-2G-xx, SF110D-08-xx (9 facts) â€” real switches, 190 of
   // them in `switches`, identical in every region. The first draft (`X{2,}`) would have filed all 190 as
-  // non-products. The 9800-CL cloud controllers (SC9800CLAMIK9-xxxx "Catalyst 9800-CL Wireless Controller –
+  // non-products. The 9800-CL cloud controllers (SC9800CLAMIK9-xxxx "Catalyst 9800-CL Wireless Controller â€“
   // AWS") are software, not placeholders, and are vetoed by name.
   { kind: "regex", token: "family-placeholder", re: /-(?:X{2}\.Y{2}|X{3,4}|CUXM)$|-ITUXX$/, probe: "DWDM-XFP-XX.YY",
     except: ["SC9800CL"],
@@ -561,13 +561,13 @@ export const SKU_RULES: SkuRule[] = [
     except: ["-SMS", "-OPS"], klass: "license",
     why: "hyperconverged: HyperFlex Data Platform subscriptions and EA allocations ('HyperFlex Data Platform Datacenter Advantage Subscription', 'Cisco Data Center EA for Hyperflex'); 204 parts, all hyperconverged-systems, 0 facts. The -SMS/-OPS rows (33) are left to the security agent's svp-ops-sms rule. Not contains-HXDP: HX-M5S-HXDP-BR is a 'HX2X0C M5 Hyperflex System'" },
   { kind: "prefix", token: "NT-", klass: "license",
-    why: "hyperconverged: Nutanix software licences sold by Cisco — NUS/NCI/NCM/NDB/EUC product codes with PRO/ULT/STR editions (NT-NCI-STR-PR, NT-EUC-ULT-AP); 180 parts, all hyperconverged-infrastructure, 0 facts, no NT- part in any other category or vendor. Names carry no words, so this is the SKU-only rule of the set" },
+    why: "hyperconverged: Nutanix software licences sold by Cisco â€” NUS/NCI/NCM/NDB/EUC product codes with PRO/ULT/STR editions (NT-NCI-STR-PR, NT-EUC-ULT-AP); 180 parts, all hyperconverged-infrastructure, 0 facts, no NT- part in any other category or vendor. Names carry no words, so this is the SKU-only rule of the set" },
   { kind: "regex", token: "cisco-plus-hybrid-cloud", re: /^PLHC-?HX|^(?:ONDEMAND|RESERVE)-/, probe: "PLHC-HXMCVSI-OND", klass: "license",
     why: "hyperconverged: 'Cisco+ Hybrid Cloud Ondemand/Reserve for HyperFlex' consumption subscriptions; 50 parts. Not bare PLHC-: PLHC-MLOM-40G-04 is a VIC and PLHC-IOM-2408 an I/O module" },
   { kind: "regex", token: "hyperconverged-sw-subscription", re: /^HCI-NVGR|^(?:HXC?|HX-E)-FSS-|^HX-VSSD?2VSP-/, probe: "HCI-NVGRVAS-4YRM6", klass: "license",
     why: "hyperconverged: 'NVIDIA GRID Software Subscription', 'Full Stack Subscription Bundle - 3YR', 'Upgrade PAC vSphere v7.x'; 35 parts" },
   // end servers (12 Sep 2026) ---------------------------------------------------------------------------
-  // --- video (12 Sep 2026) — the residue found by the video kind census; every SKU below read by name ---------
+  // --- video (12 Sep 2026) â€” the residue found by the video kind census; every SKU below read by name ---------
   // RF Gateway licences classed hardware: 16 in `video` ("QAM DS-384 License (Single QAM)", "RFGW-1 OCTAL
   // LICENSE: MUST CONFIGURE WITH RFGW1", "DS-384 PowerKEY License"); catalogue-wide the token starts nothing else.
   { kind: "prefix", token: "SWLIC-", klass: "license", why: "RF Gateway QAM, octal, data and scrambling licences; 16 hardware-classed parts in video, every name says License" },
@@ -579,23 +579,23 @@ export const SKU_RULES: SkuRule[] = [
     why: "RF Gateway remote management / provisioning utility; 3 parts in video (RFGW-1-RMU, RFGW-1-RPU, RFGW-10-RPU)" },
   // cBR-8 software images and the IOS option class: 'Cisco CBR8 IOS XE UNIVERSAL' x5, 'IOS OPT CLS'.
   { kind: "prefix", token: "SCBR8-UK9", klass: "software", why: "cBR-8 IOS XE Universal image by release (SCBR8-UK9-1610); 5 parts in video" },
-  { kind: "exact", token: "CBR-8-IOS-OPT", klass: "software", why: "'IOS OPT CLS' — the cBR-8 IOS option class of the configurator; 1 part" },
+  { kind: "exact", token: "CBR-8-IOS-OPT", klass: "software", why: "'IOS OPT CLS' â€” the cBR-8 IOS option class of the configurator; 1 part" },
   // NOT ORDERABLE THINGS: configurator container PIDs, the family name, a channel name and a connector name
-  // enumerated as parts. REFUSED: CBR-8-CCAP-CHASS (the real chassis) and GS7K-OPT-NODE (a real node) — the
+  // enumerated as parts. REFUSED: CBR-8-CCAP-CHASS (the real chassis) and GS7K-OPT-NODE (a real node) â€” the
   // rules are EXACT, so neither is touched.
   ...[["CBR-8", "'Container (Top Level) PID for configuring the cBR-8 System'"],
       ["HA-RPHY", "'Container (Top Level) PID for configuring the RPHY HA shelf'"],
-      ["GS7000", "'Cisco GS7000' — the family name, not a configured node"],
-      ["ITU20", "'Cisco ITU20' — a DWDM channel name enumerated from a datasheet cell"],
-      ["E2000/APC", "'Cisco E2000/APC' — a connector type enumerated from a datasheet cell"]].map(([token, why]) => ({
+      ["GS7000", "'Cisco GS7000' â€” the family name, not a configured node"],
+      ["ITU20", "'Cisco ITU20' â€” a DWDM channel name enumerated from a datasheet cell"],
+      ["E2000/APC", "'Cisco E2000/APC' â€” a connector type enumerated from a datasheet cell"]].map(([token, why]) => ({
     kind: "exact" as const, token, klass: "non_product" as const, why: `${why}; 1 part in video` })),
   // --- end video (12 Sep 2026) ----------------------------------------------------------------------------------
-  // collab (12 Sep 2026) — the collaboration categories' residue. unified-communications held 2,928 "hardware"
+  // collab (12 Sep 2026) â€” the collaboration categories' residue. unified-communications held 2,928 "hardware"
   // parts and ~2,150 of them are UCM / Unity Connection / HCS / CUWL entitlements that name a product and never
   // say "licence" (the name rules cannot see them). Each family below was measured over all 12,418 Cisco parts
   // in unified-communications, collaboration-endpoints and conferencing: 0 facts of any kind in every one, and
-  // every name read. NOT measured against the other twelve vendors — this group's database scope is its own
-  // three categories — so every token is a Cisco product name, never a bare letter prefix (the bare `A-` stays
+  // every name read. NOT measured against the other twelve vendors â€” this group's database scope is its own
+  // three categories â€” so every token is a Cisco product name, never a bare letter prefix (the bare `A-` stays
   // refused: A-D800-D800-7M is an Arista cable).
   { kind: "prefix", token: "HCS-", klass: "license", why: "Hosted Collaboration Solution tier / user / PAK entitlement ('HCS Tier 5 HCM-F for Standard Users'); 183 parts, 178 classed hardware, 0 facts" },
   { kind: "prefix", token: "UNITYCN", klass: "license", except: ["BUNDLE"], why: "Unity Connection port / user / upgrade licence; 145 parts, 0 facts. UNITYCN7-BUNDLE 'Unity Connection 7.x SW plus HW Bundle' ships a server and is vetoed" },
@@ -620,9 +620,192 @@ export const SKU_RULES: SkuRule[] = [
   // "Number of 3951 per room", "Number of 792X per room": an ordering-tool QUESTION enumerated as a part. 14 parts.
   { kind: "suffix", token: "-PER-ROOM", klass: "non_product", why: "an ordering-tool quantity question ('Number of 7906 per room'); 14 parts, 0 facts" },
   // end collab
+  // ---- routers (12 Sep 2026) â€” the class residue of `routers` (reviewer Â§6.1) ----------------------------------
+  // 735 routers hardware parts had licence/software vocabulary in their name and no box vocabulary. The survey
+  // (evidence/routers-class-residue.md) measured each family below across all 13 vendors on OWN physical facts;
+  // this block adopts them in the switches method: family read in full, every refusal pinned verbatim in
+  // tests/productClass.test.ts. Appended LAST so every existing rule keeps precedence and every part an older rule
+  // already decides keeps its reason. NOT here, by ownership: SF-, UMB-, FL-SSLVPN/FL-WEBVPN, C1-nY-, PCP-,
+  // N1K-ASA1K-, FL-SRE-, FL-UCSE- are the security agent's (the FL- rule below is fenced off them).
+  { kind: "regex", token: "wae", re: /^WAE-(?!\d{3,4}-K9)/, probe: "WAE-PS-PLT-PAKL",
+    klass: "license", why: "WAN Automation Engine packs, terms and perpetual suites ('WAE Planning Standard Platform PAK Licenses, Perpetual'); 325 parts, 237 routers hardware, 0 physical facts. Fenced off the WAAS appliance shape WAE-nnnn-K9" },
+  // XC- is CRS software: the control-plane and line-card IMAGES first, the licences after.
+  { kind: "regex", token: "xr-crs-image", re: /^XC-(?:RP|RPK9|LCBASE)[-_]/, probe: "XC-RP-03.25",
+    klass: "software", why: "IOS XR image for CRS-1 ('Cisco IOS XR Software for CRS-1 Multi-chassis Systems', 'Line Card Base Software version v3.0'); 17 parts, 0 physical facts" },
+  { kind: "regex", token: "xc-licence", re: /^XC-(?!SLOT-)/, probe: "XC-XLAT44-10M",
+    klass: "license", why: "CRS line-card and bundle licences ('Line Card License'); 121 parts, 107 hardware, 0 physical facts. Not XC-SLOT-CVR-E, an X-Series slot cover" },
+  // MERGE, 12 Sep 2026: the routers agent read every XR- release as an IMAGE (software); the optical agent read the
+  // NCS 4000 and NCS 1000 releases as RTU LICENCES, which is what their own names say — "…USB key- RTU License",
+  // "…Release 712 RTU". Each is right about its own rows, so the two narrow prefixes (XR-NCS4K, XR-1K, below) keep
+  // their rows and this rule keeps the rest. Without the veto it shadowed them and their test cases never fired,
+  // which is how the collision surfaced: a rule that never fires is the tell.
+  { kind: "regex", token: "xr-image", re: /^XR-(?:NC(?!S4K)\d|A9K|CRX|RP|XR\d)/, probe: "XR-A9K-X64K9-07.6",
+    klass: "software", why: "IOS XR images and releases (XR-A9K-X64K9-07.6, XR-NC55-PK9-07.02); 81 parts, 0 physical facts. Not bare XR-: XR-10GB-LR is a 10GBASE-LR X2 optic. The NCS 4000 and NCS 1000 release RTUs are licences (XR-NCS4K, XR-1K)" },
+  { kind: "prefix", token: "XR-EA-", klass: "non_product", why: "'Internal attributions PID for CRS'; 2 parts" },
+  { kind: "regex", token: "mate-collector", re: /^MC-(?:P|\d+Y)-/, probe: "MC-1Y-NDA-B-ADSM",
+    klass: "license", why: "MATE Collector perpetual and N-year bundle ('MATE Collector ... Bndl ... Sub'); 40 parts, 0 physical facts. Not MC-3G-HSPA-U / MC-3G-EVDO-B, 3G modem cards" },
+  { kind: "prefix", token: "MATE-", klass: "license", why: "MATE Design / Live suites; 21 parts, 0 physical facts" },
+  { kind: "prefix", token: "8KSW", klass: "license", why: "Cisco 8000 software tiers and SIA; 28 parts, 0 physical facts" },
+  { kind: "regex", token: "cube-sp-session", re: /^CUBESP-(?!AP-)/, probe: "CUBESP-32KP-RED",
+    klass: "license", why: "CUBE(SP) session licences; 14 parts. Not CUBESP-AP-H250B/K9, the CUBE(SP) appliance" },
+  { kind: "prefix", token: "FLASR1-", klass: "license", why: "ASR 1000 feature licences; 79 parts, 0 physical facts" },
+  { kind: "prefix", token: "FLSASR", klass: "license", why: "ASR 902/903/907/1000 licence PAKs; 62 parts, 0 physical facts" },
+  { kind: "prefix", token: "FLSA1", klass: "license", why: "ASR 1001-HX throughput licences, incl. FLSA1C1-; 53 parts, 0 physical facts" },
+  // FL- as a whole: round 3 refused it as impure, and the impurity is ONE SHAPE, not one family â€” a DRAM upgrade
+  // written <platform>-<from>U<to>: FL-8XX-512U1GB "512 MB DRAM upgrade ... Cisco 89x" (a physical fact) and, found
+  // by this dry run in interfaces-modules, FL-1900-256U512MB "CISCO1905 DRAM Upgrade from 256MB to 512MB". The
+  // fence states the shape rather than the two families. The security agent's four sub-families are fenced off
+  // too, so this rule and theirs never both claim a part.
+  { kind: "regex", token: "feature-licence", re: /^FL-(?!SSLVPN|WEBVPN|SRE-|UCSE-)(?![A-Z0-9]+-\d+U\d+[MG]B)/, probe: "FL-C800-APP",
+    klass: "license", why: "IOS feature licences (FL-4330-PERF-K9, FL-GK-IPIP7200, FL-C1900-PA); 130 parts not already decided, 0 physical facts. Not the FL-<platform>-<n>U<n>MB DRAM upgrades" },
+  { kind: "prefix", token: "S-A99", klass: "license", why: "ASR 9900/9903 Smart licences; 24 parts, 0 physical facts (S-A9K is an older rule)" },
+  // Actility LoRaWAN: SaaS licences, except the support and install lines, which are services.
+  { kind: "regex", token: "act-service", re: /^ACT-.*-(?:SUPP|INSTALL)$/, probe: "ACT-TPE-V-SUPP",
+    klass: "service", why: "Actility support / installation-training line (ACT-TPE-V-SUPP, ACT-TPE-E-INSTALL)" },
+  { kind: "prefix", token: "ACT-", klass: "license", why: "Actility LoRaWAN SaaS; 60 parts, 0 physical facts" },
+  { kind: "prefix", token: "SWOA-", klass: "license", why: "'SWOA for 1900ISR Cisco ONE Plus ELA'; 15 parts" },
+  { kind: "prefix", token: "WAN-", klass: "license", why: "WAN Automation suites; 12 parts, 0 physical facts" },
+  { kind: "regex", token: "cube-sp-pak", re: /^CSP-\d+K?P-/, probe: "CSP-250P-RED",
+    klass: "license", why: "CUBE(SP) paper PAK; 11 parts. Not CSP-5444 '2RU NFV Platform' or CSP-CPU-6154, hardware" },
+  { kind: "prefix", token: "SASR", klass: "software", why: "ASR IOS XE images ('RP2 Advanced IP Services w/o Crypto'); 20 parts, 0 physical facts" },
+  { kind: "regex", token: "ios-xe-image-2", re: /^S(?:ISR\d|C8KAE|A9\d\dR)[A-Z0-9]*-?\d{2,4}[A-Z]{0,2}$/, probe: "SISR4451XUK9-39S",
+    klass: "software", why: "IOS XE images the older image rules miss (SISR4451XUK9-39S, SC8KAEPUK9-1710, SA903R1NPEK9318SP); 0 physical facts. SSD-M2SED-600G and SSD-120G do not match" },
+  { kind: "regex", token: "ios12-image", re: /^S[0-9A-Z]{2,10}-\d{5}$/, probe: "S805CHP-12321",
+    klass: "software", why: "IOS 12.x images with no letter tail (S805CHP-12321, S28NASK9-12401); 6 parts" },
+  { kind: "prefix", token: "WAAS-", klass: "license", why: "WAAS licences for SRE; 18 parts, 0 physical facts" },
+  { kind: "prefix", token: "MD-", klass: "license", why: "MATE Design; 21 parts, 0 physical facts" },
+  { kind: "prefix", token: "ML-", klass: "license", why: "MATE Live; 6 parts" },
+  { kind: "prefix", token: "CGR1K-IPSW-", klass: "software", why: "'Connected Grid OS Software Version 4.2'; 5 parts" },
+  { kind: "regex", token: "rtu-n", re: /-RTU\d+$/, probe: "ESS-ED-100G-RTU1",
+    klass: "license", why: "Right-To-Use licence with a digit (ESS-ED-100G-RTU1); 10 parts â€” the older -RTU rules miss the digit" },
+  { kind: "regex", token: "rtu-per-g", re: /-\d+G-RT$/, probe: "ESS-ADN-AC-100G-RT",
+    klass: "license", why: "'Upgrade RTU per 10G'; 5 parts. Not bare ESS-: ESS-9300-10X-E is a board with physical facts" },
+  { kind: "prefix", token: "NGA-", klass: "license", why: "Cisco 8000 SIA / RTU; 16 parts" },
+  { kind: "prefix", token: "SCUE-", klass: "software", why: "Unity Express 'Release x.y'" },
+  { kind: "prefix", token: "SCUSP-", klass: "software", why: "SIP Proxy 'Release x.y'" },
+  { kind: "prefix", token: "SUMG-", klass: "software", why: "Unified Messaging Gateway 'Release x.y'" },
+  { kind: "prefix", token: "SLASR", klass: "license", why: "ASR IP Base / Metro tiers; 38 parts, 0 physical facts" },
+  { kind: "prefix", token: "SDR-", klass: "license", why: "'SD-Routing monitoring cloud license'; 9 parts" },
+  { kind: "prefix", token: "LS-", klass: "license", why: "RV router security subscriptions ('Cisco 1-Year RV Router Anyconnect Server 25 Tunnels'); 20 parts" },
+  { kind: "prefix", token: "R-XRV", klass: "software", why: "IOS XRv 9000 e-delivery; 4 parts" },
+  { kind: "prefix", token: "C1-ISRWAAS", klass: "license", why: "Cisco ONE ISR-WAAS RTU; 6 parts" },
+  { kind: "prefix", token: "C1-FL-", klass: "license", why: "Cisco ONE feature licence; 6 parts. Bare C1- stays refused (C1-N9K-C9508)" },
+  { kind: "prefix", token: "IOSXE-", klass: "software", why: "'IOS XE Autonomous Mode (default mode)', an ordering option of the image; 2 parts" },
+  { kind: "regex", token: "hsec", re: /-HSEC(?:-|$)/, probe: "C8000-HSEC",
+    klass: "license", why: "'U.S. Export Restriction Compliance license' (HSEC); 21 parts, 0 physical facts. CISCO2911-HSEC+/K9, a VPN ISM module bundle, does not match (+)" },
+  { kind: "prefix", token: "CRS-DDOS-", klass: "license", why: "Arbor DDoS licences for CRS; 6 parts. Not CRS-FP140-C, a forwarding processor with its own facts" },
+  { kind: "prefix", token: "OAI-", klass: "non_product", why: "'Offer Attribution (Immediate)' â€” a tracking line that ships nothing; part of 10" },
+  { kind: "prefix", token: "OAD-", klass: "non_product", why: "'Offer Attribution (Daily)'; same family" },
+  { kind: "suffix", token: "SPARECD", klass: "software", why: "spare software CD" },
+  { kind: "regex", token: "adsl-firmware", re: /^FW\d+\.\d+/, probe: "FW3.0.33",
+    klass: "software", why: "ADSL modem firmware release" },
+  { kind: "regex", token: "asr-image-kit", re: /^ASR\d+X?IMG/, probe: "ASR1002XIMGWSSH",
+    klass: "software", why: "'Image - with SSH'" },
+  { kind: "prefix", token: "DVD-", klass: "software", why: "software on DVD" },
+  { kind: "regex", token: "quantum-wave", re: /^(?:QUANTUM-WAVE|QW-\d+-SW)/, probe: "QW-10-SW-K9",
+    klass: "software", why: "Quantum WAVE software" },
+  { kind: "regex", token: "ap-image", re: /^SW\d/, probe: "SW9105AX-EWCEX-K9",
+    klass: "software", why: "AP / WLC CAPWAP, EWC and mesh images; 21 parts, 0 physical facts" },
+  { kind: "prefix", token: "A9K-MACSEC", klass: "license", why: "ASR 9000 MACsec RTU; 3 parts" },
+  { kind: "prefix", token: "A9K-WDM-", klass: "license", why: "ASR 9000 IPoDWDM FEC licence; 4 parts" },
+  { kind: "regex", token: "a9k-chassis-upgrade", re: /^A9K\d{4}-UP/, probe: "A9K9901-UP256-456G",
+    klass: "license", why: "ASR 9901 upgrade licences; 2 parts. Bare A9K- is refused: A9K-MPA-32X1GE and A9K-MOD400-SE hold physical facts" },
+  // Per-line-card feature licences an A9K line-card rule would otherwise file as the CARD: 'L3 VPN license for
+  // 36X10GE Linecard Service Edge Optimized', 'Infra. VRF lic. for up to 8 VRF instances per 24-port 10G/1G LC',
+  // 'License for Inline CGv6 Transition features on the 36X10G Line Card'. Anchored to the WHOLE tail, so the
+  // card itself (A9K-36X10GE-SE, A9K-MOD400-SE) cannot match.
+  { kind: "regex", token: "a9k-lc-feature-licence", re: /^A9K-[A-Z0-9]+-(?:AIP-(?:SE|TR)|IVRF|V6-INLN)$/, probe: "A9K-36X10G-AIP-SE",
+    klass: "license", why: "ASR 9000 per-line-card feature licence (-AIP-SE/-AIP-TR/-IVRF/-V6-INLN); names all say licence" },
+  { kind: "exact", token: "A9K-RSP440L-ALIC", klass: "license", why: "'A9K-RSP440-LTUpgrade License to activate 440Gbps/slot'" },
+  { kind: "exact", token: "CPFLICENSEA8UM", klass: "license", why: "'Cisco CPFLICENSEA8UM' â€” a licence PID named only by its SKU" },
+  { kind: "exact", token: "CPFLICENSEA8UK", klass: "license", why: "'Cisco CPFLICENSEA8UK' â€” same" },
+  { kind: "exact", token: "IOX-SOFTWARE", klass: "software", why: "'Cisco IOX-SOFTWARE'" },
+  // The residue after the families above: 80 of the 735 flagged parts stay hardware and are read one by one in the
+  // report. These eight are the licences and services among them; the rest are real devices (5940 ESR cards, IW
+  // industrial APs, SPIAD and C88x bundles, promotion hardware) pinned as refusals in the test.
+  { kind: "regex", token: "mate-bundle", re: /^M-[EPS]-B-/, probe: "M-S-B-BV",
+    klass: "license", why: "MATE visibility bundle ('MATE Infra Visibility Bndl, Subscription'); 3 parts. Not bare M-: M-ASR1K-* is memory" },
+  { kind: "prefix", token: "FLS-ASR", klass: "license", why: "'Upgrade from 2.5 Gbps to 5Gbps License for ASR 1001'; 2 parts" },
+  { kind: "regex", token: "cisco-one-sl", re: /^C1-SL\d/, probe: "C1-SL19-DATA-APPK9",
+    klass: "license", why: "'Cisco ONE DATA features for 1900 series APP license' â€” C1-SL- with the platform glued on" },
+  { kind: "exact", token: "ASR920-1588", klass: "license", why: "'Cisco ASR 920 IEEE 1588-2008 BC/MC License'" },
+  { kind: "exact", token: "CME-UL", klass: "license", why: "'Cisco Communication Manager Express (CME) - 1 User License'" },
+  { kind: "exact", token: "IOTFND-IR8100", klass: "license", why: "'IoT FND Subscription License for Managing IR8100 Router'. Exact: its 14 siblings are already software by category" },
+  { kind: "exact", token: "IXM-LORAWAN-CPF", klass: "license", why: "'System part number for Common Packet Forwarder license'. Not IXM-: IXM-LPWA-900-K9+ is the gateway" },
+  { kind: "exact", token: "CRS-SWM-EXTN", klass: "service", why: "'IOS XR Software Support Extension for CRS for 1 year'" },
+  // Four more found by the routerKind reverse control (a component-worded name in the `router` default bucket).
+  // Exact, because the DISK-MODE- family also holds four rows in servers-unified-computing, which is not this block's.
+  { kind: "exact", token: "NCS-MC-LIC600", klass: "license", why: "'NCS6000 per 60x10GE card IOS-XR multi chassis' capability â€” its four NCS-MC-LIC siblings are already licences" },
+  { kind: "exact", token: "IR510-COMPUTE-1.4", klass: "software", why: "'IR510 Software PID for compute module'" },
+  { kind: "exact", token: "DISK-MODE-RAID-5", klass: "non_product", why: "'Configure Hard Drives as RAID 5' â€” a configuration option that ships nothing" },
+  { kind: "exact", token: "DISK-MODE-RAID1JBD", klass: "non_product", why: "'Configure Two Hard Drives in RAID 1 Config and 3rd Non RAID' â€” a configuration option" },
+  { kind: "exact", token: "CRS-8-NO-FC", klass: "non_product", why: "'CRS 8 slots with no fabric card option' â€” an ordering option that ships nothing" },
+  { kind: "exact", token: "ASR1000-SPA", klass: "non_product", why: "'SPA for ASR1000; No Physical Part; For Tracking Only' â€” its own name says nothing ships" },
+  // ---- end routers (12 Sep 2026)---------------------------------------------------------------------------------
+  // ---- optical-storage (12 Sep 2026) — the residue in optical-networking and storage-networking ------------------
+  // Every rule below was counted catalogue-wide (all 13 vendors, every category) before it was written: every
+  // match is Cisco, and between them they hold ONE non-inherited physical fact (SSI-M9K9-521 rack_units 2, mined
+  // from "5.2(1)" — listed for retraction). Where a rule also reaches another category the count says so. NOT
+  // written here, by ownership: `SF-` (the security group's global software rule — 127 optical-networking hardware
+  // rows), `-SMS`/`-OPS`, `C1-<n>Y-`, `PCP-`.
+  //
+  // MDS NX-OS / SAN-OS images: "MDS 9200 Supervisor/Fabric-2, NX-OS Software Release 5.2(1)" (M92S2K9-5.2.1),
+  // "MDS 9124V 64G FC - NXOS NPE System Image version 9.3(1)" (M9124VS8K9-N9.3.1), M9148S6K9NPE8.5.1. The RELEASE
+  // (digits, a dot, a digit) after K9 is what makes it an image: 533 parts, all storage-networking, 0 physical facts.
+  { kind: "regex", token: "mds-image", re: /^M9\d{1,4}[A-Z]*\d?K9-?(?:N|NPE-?)?\d+\.\d/, probe: "M92S2K9-5.2.1",
+    klass: "software", why: "MDS NX-OS / SAN-OS software image by release (M92S2K9-5.2.1 'MDS 9200 Supervisor/Fabric-2, NX-OS Software Release 5.2(1)'); 533 parts, 0 physical facts" },
+  { kind: "prefix", token: "SSI-M9K9-", klass: "software", why: "MDS SSI image ('MDS SSI Image 5.2(8)'); 15 parts, 1 mined rack_units read off the release number" },
+  // MDS subscriptions: M91XK9-SD-5Y "MDS SA + DCNM Subscription M9100 5Y", M91VXK9-A-1Y-OSM. 63 parts, 0 physical.
+  { kind: "regex", token: "mds-subscription", re: /^M9\dV?XK9-/, probe: "M91XK9-SD-5Y",
+    klass: "license", why: "MDS SAN Analytics / DCNM subscription (M91XK9-SD-5Y 'MDS SA + DCNM Subscription M9100 5Y'); 63 parts, 0 physical facts" },
+  // EVERY OTHER M9 PID IS A LICENCE — feature packages (M9100ENT1K9 "Enterprise Package", M9200FIC1K9 "Mainframe
+  // Package", M92DMM184K9 "Data Mobility Manager License", M95IOASSN "I/O Accelerator License", M9500XRC "XRC
+  // Acceleration package") and port activations (M9148S-PL12 "12-port On-Demand Activation license", M9250IP20-16G
+  // "20-port FC Upgrade License", M9220I-UPGK9). 161 in storage-networking, 12 in interfaces-modules, 3 in
+  // security; 0 physical facts. The one M9 hardware module is REFUSED by name: M9XT-FC1632 "MDS 32G FC Port
+  // Expansion module". Runs after the image and subscription rules, so those keep their class.
+  { kind: "regex", token: "mds-licence", re: /^M9(?!XT-)/, probe: "M9148S-PL12",
+    klass: "license", why: "MDS feature package or port-activation licence (M9148S-PL12 'MDS 9148S 12-port On-Demand Activation license'); 176 parts, 0 physical facts. M9XT- (a real expansion module) refused" },
+  { kind: "prefix", token: "C1-ENT-M9", klass: "license", why: "Cisco ONE Enterprise Package licence for one MDS switch ('Cisco ONE Enterprise Package License for 1 MDS9700 Switch'); 4 parts, 0 facts" },
+  { kind: "prefix", token: "UCS-EP-MDS", klass: "license", why: "MDS port-upgrade licence sold with the UCS bundle ('MDS 9148S 16G FC 12-port upgrade license + 8G SW SFPs'); 6 parts, 0 physical facts" },
+  { kind: "regex", token: "mds-analytics-term", re: /^L\d-D-M9\d/, probe: "L1-D-M91S-AXK9",
+    klass: "license", why: "SAN Analytics term licence ('SAN Analytics solution license for MDS9100 1 year'); 12 parts (10 storage-, 2 interfaces-modules), 0 facts. The round-1 L- prefix cannot reach them: the digit comes before the hyphen" },
+  { kind: "exact", token: "MDS-9222I-FREE-SW", klass: "software", why: "'9222i SMB Free Software Package Promotion'" },
+  // ONS 15454 MSTP / NCS 2000 / NCS 1000 / NCS 4000 / NCS 4200 software and right-to-use licences.
+  { kind: "prefix", token: "SF15454", klass: "software", why: "MSTP software preloaded on a controller ('MSTP - R10.0.1 Preloaded SW, TCC3, TNC/E, TSC/E - NO WSON'); 67 parts, 0 facts. The hyphenated SF- form is the security group's rule; this one has no hyphen" },
+  { kind: "prefix", token: "NCS2K-M-R", klass: "license", why: "NCS 2000 release on media with right-to-use ('NCS 2K/MSTP - R10.0.1 SW, Media (DVD) SW RTU - WSON CP'); 54 more parts, 0 facts. Sibling of the existing NCS2K-L-R; the hyphen after R keeps NCS2K-MR-MXP (a muxponder) out" },
+  { kind: "prefix", token: "NCS2K-R-", klass: "license", why: "NCS 2000 network-element software licence ('NCS 2K Rel 12.0 NE SW, SVO Base License, One Chassis, USB'); 9 parts, 0 facts" },
+  { kind: "regex", token: "mstp-release", re: /^15454[A-Z]?-R\d/, probe: "15454-R9.8.1SWK9",
+    klass: "license", why: "ONS 15454 MSTP release RTU ('15454 ANSI ETSI MSTP Rel. 9.8.1 Pkgs., DVD, RTU License', 15454M-R1070SWK9 'RTU LIC DVD'); 41 parts, 0 facts. The R and a digit straight after the platform token keep every 15454 card out" },
+  { kind: "prefix", token: "XR-NCS4K", klass: "license", why: "NCS 4000 IOS XR release RTU ('NCS 4000 IOS XR Software Release 6.1.2 USB key- RTU License'); 21 parts. Sibling of the existing XR-NCS1K" },
+  { kind: "prefix", token: "XR-1K", klass: "license", why: "NCS 1000 IOS XR release RTU ('NCS 1002 IOS XR Software Release 712 RTU'); 8 parts, 0 facts" },
+  { kind: "prefix", token: "SNCS42", klass: "software", why: "NCS 4200 consolidated IOS XE software package ('Provides a consolidated software package for NCS4200 RSP2'); 30 parts, 0 facts. The ios-image rule needs a hyphen and these have none" },
+  { kind: "regex", token: "ncs-smart-licence", re: /^S-(?:NCS1K|NCS4K|N1K)/, probe: "S-NCS1K4-ULIC-100",
+    klass: "license", why: "NCS 1000 / 4000 Smart Licence ('NCS 1004 Universal 100G Client Smart License', 'License POTS - CE and MPLS - for NCS 4000 Packet Line Card'); 10 more parts, 0 physical facts" },
+  { kind: "prefix", token: "S-OAS-", klass: "software", why: "Optical Network Planner software ('OAS Optical Network Planner Software Version 5.0'); 5 parts, 0 facts" },
+  { kind: "prefix", token: "CONC-RTM-", klass: "license", why: "Crosswork Optical Network Controller subscription ('Essential CONC subscription for small device with support'); 6 parts, 0 facts" },
+  { kind: "prefix", token: "FASTPAD", klass: "license", why: "FastPAD feature licence ('License for Bisync 2780 support', 'License for SDLC protocol support'); 7 parts, 0 facts" },
+  { kind: "regex", token: "legacy-protocol-sw", re: /^(?:ESP|VNS|DNS)-SW-/, probe: "ESP-SW-2.0",
+    klass: "software", why: "legacy protocol software ('ESP Version 2.0 Software For ATM and FR SVCs, PNNI', 'DPNSS Protocol Feature'); 3 parts, 0 facts" },
+  { kind: "prefix", token: "OAS-COSM-", klass: "license", why: "'Cisco Optical Site Manager - Managed Line Card License'; 1 part, 0 facts" },
+  // DATASHEET CELLS ENUMERATED AS PARTS, every one named only "Cisco <token>": SONET/SDH/OTN performance-monitoring
+  // counter names (BBE-PM, UAS-SM, MS-SESR, RS-OFS, CV-S, FC-PM, SEFS-S), modulation formats (CP-16QAM, DP-QPSK,
+  // PM-8QAM, CP-BPSK), OTU rate names (OTU3, OTU3e, OTU-4) and optical monitoring points (LINE-TX, MON-CPL,
+  // SPL-TXL, CPL-RXC, LC-LC). 68 parts, all optical-networking, all Cisco, 0 physical facts; they DO hold a few
+  // facts copied from the table they were read out of (OTU-4 10, PM-16QAM 6) — listed for retraction. Anchored at
+  // both ends on the counter / format vocabulary, so a real PID carrying one of these tokens cannot match.
+  { kind: "regex", token: "pm-counter-name", re: /^(?:MS|RS)-(?:BBER?|ESR?|SESR?|UAS|EB|OFS)$|^(?:BBER?|ESR?|SESR?|SEFS|UAS|EAS|CV|FC)-(?:PM|SM|L|S)$/, probe: "UAS-PM",
+    klass: "non_product", why: "a performance-monitoring counter name read out of a datasheet table ('Cisco UAS-PM'); 44 parts, 0 physical facts" },
+  { kind: "regex", token: "modulation-name", re: /^(?:CP|DP|PM)-(?:\d+-?QAM|QPSK|BPSK)$/, probe: "DP-16QAM",
+    klass: "non_product", why: "a modulation-format name read out of a datasheet table ('Cisco DP-16QAM'); 11 parts, 0 physical facts" },
+  { kind: "regex", token: "otu-rate-name", re: /^OTU-?\d[EF]?$/, probe: "OTU4",
+    klass: "non_product", why: "an OTN rate name read out of a datasheet table ('Cisco OTU4'); 4 parts, 0 physical facts" },
+  { kind: "regex", token: "monitor-point-name", re: /^(?:LINE|MON|SPL|CPL)-(?:TX|RX|LINE|CPL|TXL|TXC|RXL|RXC)$|^LC-LC$/, probe: "LINE-TX",
+    klass: "non_product", why: "an optical monitoring-point or connector-pair name read out of a datasheet table ('Cisco MON-LINE', 'Cisco LC-LC'); 9 parts, 0 facts" },
+  // end optical-storage
 ];
 
-/** The reason string a rule emits — the same slug runs/vocab/cisco-round2 uses. */
+/** The reason string a rule emits â€” the same slug runs/vocab/cisco-round2 uses. */
 export function ruleName(r: SkuRule): string {
   return `sku-${r.kind}:${r.token}`;
 }
@@ -632,11 +815,11 @@ export const RULE_NAMES = [
   "empty-sku",
   ...SKU_RULES.map(ruleName),
   // EVERY REASON classify() CAN EMIT MUST BE LISTED HERE. reclassify.ts asks ownedReason() whether
-  // a row's existing reason came from this table, and refuses to touch it if not — "an unexplained
+  // a row's existing reason came from this table, and refuses to touch it if not â€” "an unexplained
   // class is not this table's to overwrite". Correct, and it means a rule added WITHOUT its name
   // here produces rows this table can never correct again: on 10 Sep 2026 the four name rules and
   // ucs-kind-os-license were missing, so 400 tracer SKUs that classify() now calls non_product
-  // stayed `license`, reported as "left alone because this table did not decide their class" —
+  // stayed `license`, reported as "left alone because this table did not decide their class" â€”
   // about a class this table had decided an hour earlier.
   "name-lic-key", "name-entitlement", "name-sw-bundle", "name-user-tier",
   "name-software-image",
@@ -658,14 +841,14 @@ export function ruleMatches(rule: SkuRule, sku: string): boolean {
   if (rule.except?.some((x) => sku.includes(x))) return false;
   if (rule.kind === "prefix") return sku.startsWith(rule.token);
   if (rule.kind === "suffix") return sku.endsWith(rule.token);
-  // A regex rule with no pattern would silently match NOTHING and report success — the failure
-  // shape this repo pays for most often — so it throws instead.
+  // A regex rule with no pattern would silently match NOTHING and report success â€” the failure
+  // shape this repo pays for most often â€” so it throws instead.
   if (rule.kind === "regex") {
     if (!rule.re) throw new Error(`SkuRule ${ruleName(rule)} is kind "regex" and carries no pattern`);
     return rule.re.test(sku);
   }
   // `exact` MUST be its own branch. This function used to end in a bare `return sku.includes(...)`,
-  // so any kind it did not name fell through to CONTAINS — an `exact: "NX-OS"` rule would have
+  // so any kind it did not name fell through to CONTAINS â€” an `exact: "NX-OS"` rule would have
   // silently matched every NX-OS-* SKU. Every kind is now named and an unknown one throws.
   if (rule.kind === "exact") return sku === rule.token;
   if (rule.kind === "contains") return sku.includes(rule.token);
@@ -682,13 +865,13 @@ export function ruleMatches(rule: SkuRule, sku: string): boolean {
  * is scored, every one of them was being asked for a weight and an operating temperature.
  *
  * WHY ONLY FOUR PATTERNS. Eleven were measured. The test is whether a pattern catches a part that
- * carries a PHYSICAL fact — a weight, dimensions, a power draw, an operating temperature — because
+ * carries a PHYSICAL fact â€” a weight, dimensions, a power draw, an operating temperature â€” because
  * that is evidence somebody measured a physical object and a licence has none.
  *
  * Run against `security` alone, ALL ELEVEN passed, and that verdict was worthless: only 17 of its
  * 6,544 hardware parts carry a physical fact at all, so there was almost nothing to refuse them
- * with. Re-run against switches/routers/wireless/transceiver — 23,714 parts, 3,723 with physical
- * facts — six of the eleven were refused:
+ * with. Re-run against switches/routers/wireless/transceiver â€” 23,714 parts, 3,723 with physical
+ * facts â€” six of the eleven were refused:
  *
  *     word-license   \blicense\b        1,555 hits, 220 catch real hardware
  *                                       (IE3300-NW-A= "Network Advantage License", 2 physical)
@@ -701,17 +884,17 @@ export function ruleMatches(rule: SkuRule, sku: string): boolean {
  * That is this project's recurring lesson in one measurement: the wider net always scores better
  * in the population you are looking at, because its false positives are the rows that look like
  * the true ones. The four below catch 762 of security's 6,544 (11.6%) and zero physical-fact parts
- * in either population. They do NOT catch every licence — roughly half of the misfiled ones stay
- * hardware — and that is the correct trade: a licence left as hardware is a bad score, a real
+ * in either population. They do NOT catch every licence â€” roughly half of the misfiled ones stay
+ * hardware â€” and that is the correct trade: a licence left as hardware is a bad score, a real
  * appliance called a licence is a deleted product.
  */
 export const NAME_LICENSE_RULES: { name: string; re: RegExp }[] = [
   { name: "name-lic-key", re: /\blic(?:ence|ense)?\s*key\b/i },
   { name: "name-entitlement", re: /\bentitlement\b/i },
   { name: "name-sw-bundle", re: /\b(?:sw|software)\s+bundle\b/i },
-  // "100-499 Users", "5K-9999 Users" — a user TIER band, which only a licence is sold in.
+  // "100-499 Users", "5K-9999 Users" â€” a user TIER band, which only a licence is sold in.
   { name: "name-user-tier", re: /\b\d[\d,kK]*\s*-\s*[\d,kK]+\s+users?\b/i },
-  // 10 Sep 2026. The name says the part IS software, not that it SHIPS WITH some — which is the
+  // 10 Sep 2026. The name says the part IS software, not that it SHIPS WITH some â€” which is the
   // whole distinction round 3 could not draw with `\blic\b`. Anchored at the START for the two
   // "Software licence/for" forms so it cannot fire on a trailing clause ("...Base and LAN
   // Enterprise License Bundle"), and matched anywhere only for two unambiguous Cisco phrases.
@@ -736,7 +919,7 @@ export function classify(input: ClassifyInput): Classification {
   // exactly the case that was defaulting to `hardware` on the strength of the category alone.
   // UCS OS AND SUBSCRIPTION SKUS, category-scoped. `servers-unified-computing` carries 3,131
   // parts (25%) that are VMware, SUSE, Red Hat, Windows Server, Citrix, UCS Director, Intersight
-  // and Cisco ONE subscriptions sold under a UCS part number and classed `hardware` — so each was
+  // and Cisco ONE subscriptions sold under a UCS part number and classed `hardware` â€” so each was
   // scored as a server. No name rule reaches them: "VMware vSphere 5 Enterprise" never says
   // "license". The SKU token does, and ucsKind already names it.
   //
@@ -744,7 +927,7 @@ export function classify(input: ClassifyInput): Classification {
   // software suite and in switches it is `C1-N9K-C9508`, a real Nexus chassis.
   //
   // Acceptance measured before shipping: 0 of the 3,131 carries an OWN (non-inherited) physical
-  // fact. The `own` matters — every one of this category's 3,110 inherited facts comes from a
+  // fact. The `own` matters â€” every one of this category's 3,110 inherited facts comes from a
   // GROUP rather than a part, and 878 are physical, so counting inherited facts would have failed
   // this check against values the parts never had.
   // servers (12 Sep 2026): the two hyperconverged categories derive the same ucsKind (partKind.ts). Their
@@ -766,15 +949,15 @@ export function classify(input: ClassifyInput): Classification {
   // A DUMMY PID SHIPS NOTHING (11 Sep 2026, reviewer round). "Dummy PID to Track First PS S/N, 1025WAC
   // Kingfisher", "Dummy PIDs on the test orders:", "N5596 Dummy PID - Not for use outside of N5K/N2K
   // bundles": 71 catalogue names say dummy / tracker / placeholder PID and NONE holds a physical fact.
-  // Only "dummy" and "placeholder" are matched: NCS-55A1-24Q6-TRK is a "chassis HW Tracking PID" — in
-  // the consumption model the chassis ships under it — and the Cisco ONE "Tracker PID v01 ... no
+  // Only "dummy" and "placeholder" are matched: NCS-55A1-24Q6-TRK is a "chassis HW Tracking PID" â€” in
+  // the consumption model the chassis ships under it â€” and the Cisco ONE "Tracker PID v01 ... no
   // delivery" rows are already licences by their SKU rule, which runs first.
   if (/\bdummy pids?\b|\bplaceholder pid\b/i.test(name)) return { klass: "non_product", reason: "name-dummy-pid" };
   // A NAME THAT SAYS HARDWARE OVERRIDES ALL FOUR. Found by reading the dry run rather than by
   // reasoning: `ASR5K-0F-B00-2069=` is a "Motorola PSC2 LTE Hardware and Software bundle", so
   // `name-sw-bundle` fired on a name that calls itself hardware in the same clause. A licence is
   // never described as hardware, so this costs nothing and stops the one class of false positive
-  // the physical-fact test could not see — the part has no facts at all, so nothing protected it.
+  // the physical-fact test could not see â€” the part has no facts at all, so nothing protected it.
   if (name && !/\bhardware\b/i.test(name)) {
     for (const r of NAME_LICENSE_RULES) if (r.re.test(name)) return { klass: "license", reason: r.name };
   }

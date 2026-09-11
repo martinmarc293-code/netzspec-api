@@ -97,6 +97,27 @@
    { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
   ],
   [
+   "^gain$",
+   "gain",
+   "optical-storage 12 Sep 2026: in optical-networking a bare 'Gain' row is an AMPLIFIER's (36 occurrences in the cisco-datasheets inventory, samples 'Booster (EDFA2-BST2): Up to 24 dB'); the global rule below sends it to the wireless antenna_gain (dBi). Scoped, and first, so it wins only here. The real normaliser reads 'Up to 24 dB' as 24..24 and REFUSES the booster sample (UNIT_MISSING on the '2' of EDFA2) — a refusal, never a wrong value.",
+   {
+    "only": [
+     "optical-networking"
+    ]
+   }
+  ],
+  [
+   "^(total number of slots|(number of )?line card slots|service slots)$",
+   "module_slots",
+   "optical-storage 12 Sep 2026: a shelf or director is bought on its slot count and these rows state it: 'Total number of slots' (11, '6', '10'), 'Line card slots' (8, '4', '8'), 'Number of line card slots' (3), 'Service slots' (3, '15', '6'). All four were unmapped. Scoped to the two categories whose chassis this group shapes; the router sheets' 'Slots' ('1 NIM 1 PIM') is deliberately NOT taken - it lists module types, not a count.",
+   {
+    "only": [
+     "optical-networking",
+     "storage-networking"
+    ]
+   }
+  ],
+  [
    "^maximum socket(s)?$",
    "cpu_sockets_max",
    "pdf-server: Direct match; strip the trailing S from \"1S\"/\"2S\"."
@@ -220,6 +241,116 @@
    "maximum inrush current",
    "inrush_current_max",
    "pdf-server: Peak inrush of a PSU option PID, amperes."
+  ],
+  [
+   "^throughput$",
+   "router_throughput",
+   "routers (12 Sep 2026): the C8000-G2 'Throughput' column is Gbps (63 occurrences, 5 of 8 stored samples routers parts). The unscoped switches rule below sends it to forwarding_rate (Mpps) and the normaliser refused every value as not a packet rate. Scoped and placed first so the switches reading is untouched.",
+   {
+    "only": [
+     "routers"
+    ]
+   }
+  ],
+  [
+   "^forwarding \\(512b\\)$|^ipv4 forwarding throughput \\(1400 ?bytes\\)$",
+   "router_throughput",
+   "routers (12 Sep 2026): 'Forwarding (512B)' 29 ('38 Gbps' | '5.6 Gbps'), 'IPv4 Forwarding Throughput (1400Bytes)' 6 and '(1400 bytes)' 4 ('Up to 500Gbps'); every stored sample a routers part. 'Max throughput (with 400G/800G LC)' is NOT aliased: its '57.6T' cells are refused UNIT_UNKNOWN until the parser reads a bare T.",
+   {
+    "only": [
+     "routers"
+    ]
+   }
+  ],
+  [
+   "^ipsec \\(512b\\)$",
+   "ipsec_throughput",
+   "routers (12 Sep 2026): 'IPsec (512B)' 29 ('20 Gbps' | '3 Gbps'), the same C8000 table as Forwarding (512B).",
+   {
+    "only": [
+     "routers"
+    ]
+   }
+  ],
+  [
+   "^wan ports?$|^integrated/fixed wan connections$",
+   "wan_interfaces",
+   "routers (12 Sep 2026): 'WAN Ports' 25, 'WAN ports' 16 ('2x 1/10 GE SFP+, 2x 2.5 GE mGig RJ-45'), 'Integrated/Fixed WAN Connections' 2. The bare-count column 'WAN [GE]' ('2') is NOT aliased: a string cup would keep the count and lose the port type.",
+   {
+    "only": [
+     "routers"
+    ]
+   }
+  ],
+  [
+   "^lan ports?$|^integrated/fixed lan connections$",
+   "lan_interfaces",
+   "routers (12 Sep 2026): 'LAN ports' 22, 'LAN Ports' 12 ('4x 1 GE RJ-45'), 'Integrated/Fixed LAN Connections' 2. 'LAN [GE]' / 'LAN switch [GE]' (bare counts) not aliased, as for WAN.",
+   {
+    "only": [
+     "routers"
+    ]
+   }
+  ],
+  [
+   "^route scale$",
+   "ipv4_routes",
+   "routers (12 Sep 2026): 'Route scale' 5 ('Up to 1.1M Forwarding Information Base (FIB) entries'). The combined 'IPv4/IPv6 routes' (28, '2M' | '1.5M') is NOT aliased: one cell, two quantities.",
+   {
+    "only": [
+     "routers"
+    ]
+   }
+  ],
+  [
+   "^rack units$",
+   "rack_units",
+   "routers (12 Sep 2026): the Cisco 8000 chassis tables' bare 'Rack units' 12 ('10' | '16' | '21'); the existing rule needs '(RU)'.",
+   {
+    "only": [
+     "routers"
+    ]
+   }
+  ],
+  [
+   "^power maximum rating$",
+   "psu_rated_output",
+   "routers (12 Sep 2026): 'Power maximum rating' 18 ('1100W' | '750W'), 7 of 8 stored samples the PWR-CC1-* supplies - a supply's RATING is what it delivers, not a draw.",
+   {
+    "only": [
+     "routers"
+    ]
+   }
+  ],
+  [
+   "^typical system power \\(with [0-9]+g lc\\)$",
+   "power_typical",
+   "routers (12 Sep 2026): Cisco 8000 chassis 'Typical system power (with 400G LC)' / '(with 800G LC)', 4 + 4 ('4.2KW' | '33.4KW'); the routers power band admits 33.4 kW.",
+   {
+    "only": [
+     "routers"
+    ]
+   }
+  ],
+  [
+   "^chassis weight( with 2x ac power supplies and fan tray)?$",
+   "weight",
+   "routers (12 Sep 2026): 'Chassis weight' 31 ('14.3 lbs (with 2X AC power supplies and fan tray)') and the long form 12 ('20.6 lbs').",
+   {
+    "only": [
+     "routers"
+    ]
+   }
+  ],
+  [
+   "^redundant-power-supply support$",
+   "psu_redundant",
+   "routers (12 Sep 2026): 'Redundant-power-supply support' 2 ('No').",
+   {
+    "only": [
+     "routers"
+    ]
+   }
   ],
   [
    "^frequency range",
@@ -864,8 +995,8 @@
   ],
   [
    "^ipsec vpn throughput|^vpn throughput",
-   "vpn_throughput",
-   ""
+   "ipsec_throughput",
+   "routers (12 Sep 2026): redirected from vpn_throughput, retired into ipsec_throughput (SUPERSEDED_KEYS) - an IPsec VPN throughput is the IPsec throughput."
   ],
   [
    "^maximum concurrent (sessions|connections)|^concurrent (sessions|connections)",
@@ -2039,8 +2170,8 @@
   ],
   [
    "^(extended |standard )?gain range$",
-   "gain_range",
-   "optical-networking: Amplifier gain window in dB (17 - 20 dB, 12 - 35 dB)."
+   "gain",
+   "optical-networking: Amplifier gain window in dB (17 - 20 dB, 12 - 35 dB). optical-storage 12 Sep 2026: redirected from the retired gain_range (0 facts) to gain, now a range (nr, dB)."
   ],
   [
    "^noise figure at (nominal|minimum|maximum) gain$",
@@ -2049,8 +2180,8 @@
   ],
   [
    "^insertion loss$",
-   "insertion_loss",
-   "optical-networking: Passive/optical insertion loss in dB (3 dB, 4 dB, 5.5 dB)."
+   "insertion_loss_max",
+   "optical-networking: Passive/optical insertion loss in dB (3 dB, 4 dB, 5.5 dB). optical-storage 12 Sep 2026: redirected from the retired insertion_loss (a string, 0 facts) to the numeric insertion_loss_max."
   ],
   [
    "^return loss$",
@@ -2484,8 +2615,8 @@
   ],
   [
    "^3des/aes vpn throughput( ?\\[[0-9]+\\])?$",
-   "vpn_throughput",
-   "security: Values are Mbps of encrypted VPN throughput. Optional trailing footnote marker allowed."
+   "ipsec_throughput",
+   "security: Values are Mbps of encrypted VPN throughput. Optional trailing footnote marker allowed. routers (12 Sep 2026): redirected from the retired vpn_throughput."
   ],
   [
    "^premium anyconnect vpn peers$",
@@ -3579,18 +3710,18 @@
   ],
   [
    "^Gain\\s+range$",
-   "gain_range",
-   "optical-networking: label cited as evidence for the field"
+   "gain",
+   "optical-networking: label cited as evidence for the field (optical-storage 12 Sep 2026: gain_range retired into gain)"
   ],
   [
    "^Standard\\s+gain\\s+range$",
-   "gain_range",
-   "optical-networking: label cited as evidence for the field"
+   "gain",
+   "optical-networking: label cited as evidence for the field (optical-storage 12 Sep 2026: gain_range retired into gain)"
   ],
   [
    "^Extended\\s+gain\\s+range$",
-   "gain_range",
-   "optical-networking: label cited as evidence for the field"
+   "gain",
+   "optical-networking: label cited as evidence for the field (optical-storage 12 Sep 2026: gain_range retired into gain)"
   ],
   [
    "^Noise\\s+figure\\s+at\\s+nominal\\s+gain$",
@@ -3609,8 +3740,8 @@
   ],
   [
    "^Insertion\\s+loss$",
-   "insertion_loss",
-   "optical-networking: label cited as evidence for the field"
+   "insertion_loss_max",
+   "optical-networking: label cited as evidence for the field (optical-storage 12 Sep 2026: insertion_loss retired into insertion_loss_max)"
   ],
   [
    "^Return\\s+loss$",
@@ -3704,13 +3835,13 @@
   ],
   [
    "^Insertion\\s+Loss$",
-   "insertion_loss",
-   "interfaces-modules: label cited as evidence for the field"
+   "insertion_loss_max",
+   "interfaces-modules: label cited as evidence for the field (optical-storage 12 Sep 2026: insertion_loss retired into insertion_loss_max)"
   ],
   [
    "^Multi\\s+fiber\\s+Connector$",
-   "insertion_loss",
-   "interfaces-modules: label cited as evidence for the field"
+   "insertion_loss_max",
+   "interfaces-modules: label cited as evidence for the field (optical-storage 12 Sep 2026: insertion_loss retired into insertion_loss_max; the rule's own author routed this column to insertion loss, kept)"
   ],
   [
    "^Reflectance$",
@@ -3904,8 +4035,8 @@
   ],
   [
    "^Insertion\\s+Loss\\s+\\(see\\s+note\\)$",
-   "insertion_loss",
-   "video: label cited as evidence for the field"
+   "insertion_loss_max",
+   "video: label cited as evidence for the field (optical-storage 12 Sep 2026: insertion_loss retired into insertion_loss_max)"
   ],
   [
    "^AC\\s+Current\\s+\\(A\\)$",
@@ -4104,13 +4235,13 @@
   ],
   [
    "^DC\\s+Domestic\\s+Line\\s+Voltage$",
-   "dc_input_voltage",
-   "security: label cited as evidence for the field"
+   "input_voltage",
+   "security: label cited as evidence for the field. routers (12 Sep 2026): redirected from the retired dc_input_voltage - input_voltage already stores DC ranges."
   ],
   [
    "^DC\\s+International\\s+Line\\s+Voltage$",
-   "dc_input_voltage",
-   "security: label cited as evidence for the field"
+   "input_voltage",
+   "security: label cited as evidence for the field. routers (12 Sep 2026): redirected from the retired dc_input_voltage."
   ],
   [
    "^DC\\s+Current$",
@@ -6366,8 +6497,8 @@
   ],
   [
    "(^|> )(compatible|supported) platforms?$",
-   "compatible_platform",
-   "router-switch: 18/18 normalise over three spellings (Compatible Platform, Supported Platform, Supported Platforms)."
+   "product_compatibility",
+   "router-switch: 18/18 normalise over three spellings (Compatible Platform, Supported Platform, Supported Platforms). routers (12 Sep 2026): redirected from the retired compatible_platform."
   ],
   [
    "(^|> )module type$",

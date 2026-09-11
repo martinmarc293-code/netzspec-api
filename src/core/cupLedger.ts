@@ -17,6 +17,11 @@ import { UCS_KINDS } from "./ucsKind.js";
 import { VIDEO_KINDS } from "./videoKind.js"; // video (12 Sep 2026)
 // collab (12 Sep 2026)
 import { COLLAB_KINDS } from "./collabKind.js";
+import { RT_KINDS } from "./routerKind.js"; // routers (12 Sep 2026)
+// optical-storage (12 Sep 2026)
+import { OPTICAL_KINDS } from "./opticalKind.js";
+import { SAN_KINDS } from "./sanKind.js";
+// end optical-storage
 
 /** Every kind a category's axis can name — including kinds no part holds today, which still have a question set. */
 export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
@@ -34,6 +39,12 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   "unified-communications": COLLAB_KINDS,
   "collaboration-endpoints": COLLAB_KINDS,
   conferencing: COLLAB_KINDS,
+  // routers (12 Sep 2026)
+  routers: [...RT_KINDS],
+  // optical-storage (12 Sep 2026) — derived from the axes' own exported kind lists, so a kind added there is listed here
+  "optical-networking": OPTICAL_KINDS,
+  "storage-networking": SAN_KINDS,
+  // end optical-storage
 };
 
 export type KindQuestionSet = {

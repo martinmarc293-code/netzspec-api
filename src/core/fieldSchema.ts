@@ -43,6 +43,11 @@ import { WL_AP, WL_BOX, WL_PORTED } from "./wirelessKind.js";
 import { VIDEO_BOX, VIDEO_EMITTER, type VideoKind } from "./videoKind.js"; // video (12 Sep 2026)
 // collab (12 Sep 2026)
 import { COLLAB_ENDPOINT, COLLAB_CALLING, COLLAB_VIDEO, COLLAB_SCREEN, COLLAB_FITS, COLLAB_CABLE } from "./collabKind.js";
+import { RT_DEVICE, RT_PORTED, RT_COMPONENT, RT_CABLE } from "./routerKind.js"; // routers (12 Sep 2026)
+// optical-storage (12 Sep 2026)
+import { OPN_SHELF, OPN_PLUGGABLE, OPN_FIXED_WAVELENGTH, OPN_POWERED, OPN_WAVELENGTH_ROUTING, OPN_FITS } from "./opticalKind.js";
+import { SAN_BOX, SAN_MODULE, SAN_FITS } from "./sanKind.js";
+// end optical-storage
 
 export type Requirement =
   | { kind: "req" }
@@ -488,6 +493,26 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // OPTIONAL in video: 4 label occurrences in the whole acquired corpus, all Prisma 1550 sheets.
   rf_input_level: { key: "rf_input_level", de: "HF-Gesamteingangspegel", en: "Total composite RF input level", type: "nr", unit: "dBmV", band: [-20, 70], etim: [], icecat: null },
   // --- end video (12 Sep 2026) -----------------------------------------------------------------------------
+
+  // optical-storage (12 Sep 2026) -------------------------------------------------------------------------------
+  // AN AMPLIFIER IS BOUGHT ON ITS GAIN, and `gain` was a generated free STRING with no band, declared by one
+  // category (optical-networking, opt) and holding ZERO facts anywhere — so retyping it moves nothing and changes
+  // no other category. `nr`, because Cisco prints both "Up to 24 dB" (a degenerate range) and a variable-gain
+  // span ("Gain range 5 to 20 dB"); `gain_range` (0 facts) is the same quantity and is retired into it
+  // (SUPERSEDED_KEYS). Band: the catalogue's own names go from 17 dB (15454-OPT-AMP-17-C) to a 35 dB span
+  // (NCS2K-EDRA1-35C); a Raman pump adds ~10-15 dB. [0, 45] leaves margin and refuses a dBm or a channel count.
+  gain: { key: "gain", de: "Nennverstärkung", en: "Nominal gain", type: "nr", unit: "dB", band: [0, 45], etim: [], icecat: null },
+  // A MUX IS BOUGHT ON ITS CHANNEL COUNT, and no key held one: "40-Channel Mux/DeMux" (15216-MD-40-EVEN), "96
+  // channel" (15454-OPT-EDFA-24), "16x16 Blue multiplexer". No unit (a count, like module_slots). Band: 1 (a
+  // one-channel OADM, 15216-OADM1-35) to 96 (C-band at 50 GHz) with margin for flex-grid plans. DECLARED OPT:
+  // zero datasheet labels map to it (the name is the only source, and no name-mining rule exists yet).
+  channel_count: { key: "channel_count", de: "Kanalanzahl", en: "Channel count", type: "n", band: [1, 200], etim: [], icecat: null },
+  // A DISPERSION COMPENSATION UNIT IS BOUGHT ON ITS COMPENSATION: 15216-DCU-100= "DCF of -100 ps/nm",
+  // 15216-DCU-L-1000= "... 1000ps/nm". Not `chromatic_dispersion_tolerance`, which is what a RECEIVER tolerates.
+  // `ps/nm` is the unit chromatic_dispersion_tolerance already declares. Band: the catalogue spans 100 to 1983
+  // ps/nm (15216-FBGDCU-1983=), written with either sign. DECLARED OPT: no label maps to it and no fact holds it.
+  dispersion_compensation: { key: "dispersion_compensation", de: "Dispersionskompensation", en: "Dispersion compensation", type: "n", unit: "ps/nm", band: [-3000, 3000], etim: [], icecat: null },
+  // end optical-storage
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -550,18 +575,15 @@ export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series"]);
  * `switches` and `servers-unified-computing` are deliberately absent: they gate on their own axes,
  * which name module and machine kinds this one makes no claim about.
  */
-// wireless (12 Sep 2026): removed — it gates on its own axis (src/core/wirelessKind.ts), whose kinds
-// (ap, wlc, antenna, ...) the generic `device` gate would have closed every question for.
-// video (12 Sep 2026): removed for the same reason — its axis (src/core/videoKind.ts) has no `device`
-// kind, so this loop would turn every bare `req` into `na`.
-// collab (12 Sep 2026): unified-communications, collaboration-endpoints and conferencing left for the same
-// reason — they gate on collabKind.ts, whose kinds this loop's `device` is not one of.
+// EMPTIED CATEGORY BY CATEGORY ON 12 Sep 2026. Each of these gained its OWN kind axis, whose kinds do not
+// include the generic `device`, so this loop would have re-gated every `req` onto a kind no part of that
+// category has — closing the question for all of them, in silence: wireless (wirelessKind), video (videoKind),
+// unified-communications / collaboration-endpoints / conferencing (collabKind), servers and the two
+// hyperconverged categories (ucsKind), routers (routerKind).
+// optical-storage (12 Sep 2026): optical-networking and storage-networking left too, for opticalKind.ts and
+// sanKind.ts. What remains is the categories that still have no axis of their own.
 export const DEVICE_GATED_CATEGORIES = [
-  "routers",
-  "optical-networking", "interfaces-modules", "storage-networking",
-  // servers (12 Sep 2026): hyperconverged-systems and hyperconverged-infrastructure removed — they gate
-  // on the UCS kind now (ucsCups), and this loop would re-gate their `req` keys onto `device`.
-  "meraki",
+  "interfaces-modules", "meraki",
 ] as const;
 
 const deviceOnly = <T extends Record<string, Requirement>>(block: T): T => {
@@ -1537,51 +1559,201 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, rear_clearance: opt, rear_panel_ports: opt, security_features: opt, series_release_date: opt, temp_operating_extended: opt, thermal_shock: opt,
   },
-  routers: deviceOnly({
-    supported_modules: opt, usb_console: opt, redundancy: opt, chassis_compatibility: opt, etsi_standards: opt, supported_protocols: opt, min_software_release: opt, emc_immunity: opt, emc_emissions: opt, // deep-spec fields 2026-09-02
-    vendor: req, series: req, form_factor: req,
+  // routers (12 Sep 2026) — SHAPED BY KIND (reviewer §6.3; kinds in src/core/routerKind.ts). Until today the whole
+  // category was one flat device set behind componentKind: 5,571 parts were `device`, and 2,600 of them were line
+  // cards, interface modules, processors, fabric cards, DIMMs, SSDs, antennas and optics, each asked a router's
+  // thirteen questions. Now every gate is the derived `kind` (always answered) or a REQUIRED field (form_factor,
+  // psu_config) — R1: no requirement hangs on an optional fact. The cups and their evidence are in the report and the
+  // ledger (data/ledger/cisco-routers.json).
+  routers: {
+    supported_modules: opt, usb_console: opt, redundancy: opt, etsi_standards: opt, supported_protocols: opt, min_software_release: opt, emc_immunity: opt, emc_emissions: opt, // deep-spec fields 2026-09-02
+    vendor: req, series: req,
+    // --- the router itself (fixed or modular: no SKU marker separates a chassis, see routerKind.ts) ---------------
+    form_factor: cond({ field: "kind", inList: [...RT_DEVICE] }),
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
-    router_throughput: req, forwarding_rate: req, ipsec_throughput: opt, ipsec_tunnels: opt,
-    dram: req, flash: req, module_slots: opt,
-    // UNREACHABLE BY CONSTRUCTION, measured 10 Sep 2026 and demoted for the same reason as
-    // switches' stack_max_members: ZERO facts hold it across every vendor and
-    // every state (not merely zero live ones), ZERO sources publish it in any per-category
-    // seen-list, and ZERO labels in any source inventory could be aliased to it. Required, it
-    // printed a gap on every part that no crawler could ever close. It stays DECLARED, so a
-    // value is accepted the day a source publishes one.
-    // 5,758 slots in `routers`.
+    // The aggregate forwarding figure Cisco prints per model ("Aggregate Throughput", "Forwarding (512B)", "IPv4
+    // Forwarding Throughput (1400 bytes)"), in Gbit/s. `forwarding_rate` (Mpps) was ALSO required here and held 0
+    // facts: the router "Throughput" column is Gbps and the normaliser refused every value as not a packet rate. One
+    // question, one cup — forwarding_rate stays declared, optional, for the rare "720 mpps" prose.
+    router_throughput: cond({ field: "kind", inList: [...RT_DEVICE] }), forwarding_rate: opt,
+    ipsec_throughput: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    ipsec_tunnels: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    // WAN and LAN ports as the datasheet's own cell ("2x 1/10 GE SFP+, 2x 2.5 GE mGig RJ-45"), type s. Retyping both
+    // to the `ports` struct is an open question in the report: other categories hold the keys.
+    wan_interfaces: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    lan_interfaces: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    // OPTIONAL: a fixed ISR 1100 has no module slot, and 0 is below any band — required, it would be a permanent gap
+    // on every slotless router. 72 of its 253 stored values are CRS chassis sizes read off fan trays and blanks (a
+    // retraction proposal). "Slots" (2 SM 2 NIM 1 PIM) is not aliased until the parser sums the breakdown.
+    module_slots: opt,
+    // A processor carries the memory of a modular system (ASR1000-RP2 "8 GB DRAM", 8800-RP2 "64 GB DRAM").
+    dram: cond({ field: "kind", inList: [...RT_DEVICE, "processor", "memory"] }),
+    flash: cond({ field: "kind", inList: [...RT_DEVICE, "processor", "flash"] }),
+    ipv4_routes: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    // OPTIONAL, both: nat_sessions is a STRING key (9 facts "100K", "32M") with no band, and a band cannot be
+    // enforced on a string — retyping it to a count is global (security declares it too) and is an open question.
+    // poe_standard: a PoE router (C1111-8P) has no SKU marker a kind could carry, and a cond on an optional fact
+    // would be R1's silent-na defect.
+    nat_sessions: opt, poe_standard: opt,
+    // UNREACHABLE BY CONSTRUCTION, measured 10 Sep 2026: ZERO facts across every vendor and state, ZERO sources,
+    // ZERO labels. 5,758 slots in `routers` when it was required. Declared so a value is accepted.
     mgmt_ports: opt,
-    psu_config: opt, psu_redundant: opt, power_max: req, power_typical: opt,
-    temp_operating: req, humidity_operating: req, dimensions: req, weight: req, certifications: req, mtbf: opt,
+    // DEMOTED to opt, with the counts (check 5): psu_config has 2 label occurrences in the 23,651-label inventory
+    // (both "Power Entry Module (PEM)"), 0 facts in routers and no source SEEN publishing it — required, it was 2,948
+    // slots nothing could close. psu_redundant goes with it: gated on an OPTIONAL psu_config it would resolve na in
+    // silence (R1). It has 26 labels and 7 mined facts, and "Redundancy" (56, "AC: N+N redundancy") maps elsewhere.
+    psu_config: opt, psu_redundant: opt,
+    // A PSU's wattage is what it DELIVERS (psu_rated_output), not what it draws — the switches rule. A line card
+    // draws power of its own and Cisco prints it.
+    power_max: cond({ field: "kind", inList: [...RT_DEVICE, "linecard"] }),
+    power_typical: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    input_voltage: cond({ field: "kind", inList: [...RT_DEVICE, "power"] }),
+    psu_rated_output: cond({ field: "kind", inList: ["power"] }),
+    // Airflow is how a fan or PSU is SOLD (port-side intake vs exhaust twins). Of a router it is optional: the
+    // reviewer's "data-centre deploy_role" gate would hang on an optional fact (R1).
+    airflow: cond({ field: "kind", inList: ["fan", "power"] }),
+    temp_operating: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    temp_storage: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    humidity_operating: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    altitude_max: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    dimensions: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    weight: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    certifications: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    // OPTIONAL, with the counts: mtbf has 600 label occurrences in the inventory and 0 whose stored sample SKU is a
+    // router part, and 3 facts (CG418-E, CG522-E and an optic). ip_rating: 0 router facts, "IP rating" 17 labels
+    // (IR1800 "IP54 with IP54-KIT") — industrial routers have no SKU marker a kind could carry.
+    mtbf: opt, ip_rating: opt, cooling: opt,
+    // --- what plugs in ------------------------------------------------------------------------------------------
+    ports: cond({ field: "kind", inList: [...RT_PORTED] }),
+    // Per-slot bandwidth of a line card / capacity a fabric card adds (A9K-MOD400 "400G", 8800-LC-48H 4.8 Tbit/s).
+    // 40 line cards hold that figure under switching_capacity today (description mining) — a rekey proposal.
+    fabric_bandwidth: cond({ field: "kind", inList: ["linecard", "fabric"] }),
+    product_compatibility: cond({ field: "kind", inList: [...RT_COMPONENT] }),
+    storage_capacity: cond({ field: "kind", inList: ["drive"] }),
+    cable_length: cond({ field: "kind", inList: [...RT_CABLE] }),
+    plug_type: opt,
     // STRUCTURE 8 Sep 2026: 3 field(s) its documents already produce and no profile declared — invisible to completeness until now
-    power_cord_rating: opt, compatible_platform: opt, chromatic_dispersion_tolerance: opt,
+    // (compatible_platform retired into product_compatibility, 12 Sep 2026)
+    power_cord_rating: opt, chromatic_dispersion_tolerance: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, ethernet_technology: opt, gre_tunnels: opt, layer2_features: opt, layer3_features: opt, manageable: opt, management_interfaces: opt, max_ports_100g: opt, max_ports_10g: opt, max_ports_1g: opt, max_ports_25g: opt, max_ports_40g: opt, max_ports_50g: opt, media_type_supported: opt, module_width_slots: opt, multicast_features: opt, network_technology: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, qsfp28_ports: opt, rear_clearance: opt, rear_panel_ports: opt, security_features: opt, series_release_date: opt, simultaneous_connections: opt, temp_operating_extended: opt, thermal_shock: opt, voq_buffer: opt,
-  }),
-  // MDS storage-networking switches are Fibre Channel switches — the switch dictionary fields apply.
-  "storage-networking": deviceOnly({
-    fabric_services: opt, serviceability: opt, supported_protocols: opt, programming_interfaces: opt, advanced_functions: opt, product_compatibility: opt, diagnostics: opt, redundancy: opt, // deep-spec fields 2026-09-02
-    vendor: req, series: req, form_factor: req,
-    rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
-    ports: req, switching_capacity: opt, forwarding_rate: opt, latency: opt, module_slots: opt,
-    psu_config: opt, psu_redundant: opt, power_max: req, cooling: opt, airflow: opt,
-    temp_operating: req, dimensions: req, weight: req, certifications: req, mtbf: opt,
+  },
+  // end routers (12 Sep 2026)
+  // optical-storage (12 Sep 2026) -------------------------------------------------------------------------------
+  // SHAPED BY KIND (src/core/sanKind.ts). Until today every MDS part was asked one flat set behind the shared
+  // device/component axis — a fabric module owed a port layout, a director chassis owed the ports its line cards
+  // carry, a supervisor owed a rack height. Now:
+  //   switch     a fixed fabric switch: its envelope, ports, FC rate, airflow (sold port-side intake/exhaust)
+  //   director   a modular chassis: its envelope and SLOTS — never ports, which arrive on line cards
+  //   linecard   ports, rate, power draw, what it fits
+  //   supervisor / fabric   power draw and what it fits; a fabric module also its per-slot bandwidth
+  //   power      rated output (what it DELIVERS, not power_max), input voltage, airflow, what it fits
+  //   fan        airflow, what it fits · cable  length · accessory  what it fits
+  //   pluggable  the optic questions (one part, DS-FC-SW-4PK=; a move to `transceiver` is proposed)
+  //   software / other   nothing: licences and images (the class rules take them) and the unnamed residue
+  // form_factor is no longer required: the kind already says rack switch or modular chassis. It is NOT asked of the
+  // pluggable either — the normaliser picks its form-factor reader BY CATEGORY (optic words only for
+  // `transceiver`, specNormalize.ts), so "SFP+" here is refused ENUM_VIOLATION: a cup nothing can fill. The
+  // pluggable's fill path is its move to `transceiver` (report, PROPOSALS).
+  "storage-networking": {
+    fabric_services: opt, serviceability: opt, supported_protocols: opt, programming_interfaces: opt, advanced_functions: opt, diagnostics: opt, redundancy: opt, // deep-spec fields 2026-09-02
+    vendor: req, series: req,
+    form_factor: opt,
+    rack_units: cond({ field: "kind", inList: [...SAN_BOX] }),
+    module_slots: cond({ field: "kind", inList: ["director"] }),
+    ports: cond({ field: "kind", inList: ["switch", "linecard"] }),
+    data_rate: cond({ field: "kind", inList: ["switch", "linecard", "pluggable"] }),
+    // OPTIONAL: an MDS datasheet quotes "aggregate bandwidth" per switch, but no label maps it here yet and 0 of
+    // the category's parts hold one; forwarding_rate and latency likewise. Declared, so a value is accepted.
+    switching_capacity: opt, forwarding_rate: opt, latency: opt,
+    fabric_bandwidth: cond({ field: "kind", inList: ["fabric"] }),
+    psu_config: opt, psu_redundant: opt, cooling: opt,
+    power_max: cond({ field: "kind", inList: [...SAN_BOX, ...SAN_MODULE] }),
+    psu_rated_output: cond({ field: "kind", inList: ["power"] }),
+    input_voltage: cond({ field: "kind", inList: ["power"] }),
+    airflow: cond({ field: "kind", inList: ["switch", "power", "fan"] }),
+    temp_operating: cond({ field: "kind", inList: [...SAN_BOX] }),
+    humidity_operating: cond({ field: "kind", inList: [...SAN_BOX] }),
+    dimensions: cond({ field: "kind", inList: [...SAN_BOX] }),
+    weight: cond({ field: "kind", inList: [...SAN_BOX] }),
+    certifications: cond({ field: "kind", inList: [...SAN_BOX] }),
+    product_compatibility: cond({ field: "kind", inList: [...SAN_FITS] }),
+    cable_length: cond({ field: "kind", inList: ["cable"] }),
+    connector: cond({ field: "kind", inList: ["pluggable"] }),
+    wavelength: cond({ field: "kind", inList: ["pluggable"] }),
+    reach_max: cond({ field: "kind", inList: ["pluggable"] }),
+    mtbf: opt, altitude_max: opt, temp_storage: opt, power_typical: opt, dram: opt, flash: opt, power_cord_rating: opt, plug_type: opt,
     // STRUCTURE 8 Sep 2026: 7 field(s) its documents already produce and no profile declared — invisible to completeness until now
     temp_class: opt, segment_routing_features: opt, qos_features: opt, modulation_format: opt, safety_standards: opt, queues_per_port: opt, status_leds: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, drive_options: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, packaging_dimensions: opt, product_line: opt, random_read_iops_4k: opt, random_write_iops_4k: opt, read_latency: opt, rear_clearance: opt, security_features: opt, sequential_write_throughput: opt, series_release_date: opt, temp_operating_extended: opt, thermal_shock: opt, write_latency: opt,
-  }),
-  // Transponders / muxponders / DWDM systems — reuse the transceiver optical fields.
-  "optical-networking": deviceOnly({
-    optical_pm: opt, input_power_range: opt, coherent_interop_standards: opt, shelf_assembly: opt, min_software_release: opt, cross_connect: opt, slot_compatibility: opt, otn_pm: opt, attenuation_dead_zone: opt, reflective_dead_zone: opt, rx_wavelength: opt, // deep-spec fields 2026-09-02
-    vendor: req, series: req, form_factor: req,
-    data_rate: req, wavelength: req, reach_max: req, connector: req, fec: opt,
-    power_max: req, dimensions: req, weight: req, temp_operating: req, certifications: req, mtbf: opt,
+  },
+  // SHAPED BY KIND (src/core/opticalKind.ts). This profile was "transponders / muxponders / DWDM systems — reuse
+  // the transceiver optical fields", and it asked those fields of all 2,094 parts: a 40-channel passive mux owed
+  // a data rate and a reach, an EDFA a connector and a wavelength (and never its gain), a shelf a wavelength,
+  // a DCU a data rate. Now each kind is asked what it is bought on:
+  //   chassis     slots, rack units, power draw and the physical envelope
+  //   linecard    ports, rate, power draw, what it fits
+  //   amplifier   gain, operating band (the input wavelength window, rx_wavelength), power draw, what it fits
+  //   roadm       power draw, insertion loss, what it fits (an SMR / WSS / WXC routes wavelengths AND is powered)
+  //   mux / dcu   insertion loss and what it fits (passive: no power draw)
+  //   controller / fabric   power draw and what it fits; a fabric card also its per-slot bandwidth
+  //   pluggable-* the optic questions, split exactly as `transceiver` splits them (a tunable has no fixed
+  //               wavelength, a single-fibre BiDi has an Rx side); a move to `transceiver` is proposed for each
+  //   power / fan / cable / accessory   rated output + input voltage / airflow / length / what it fits
+  //   software / other   nothing
+  // Declared OPTIONAL with the reason, per the fillability rule (a required cup nothing can fill is a permanent
+  // gap): channel_count (0 labels map to it; only part NAMES state it), channel_spacing (a generated free string
+  // shared by 12 categories — a numeric retype is the operator's call, see the report), total_output_power (same:
+  // a string, 12 categories), dispersion_compensation (0 labels, 0 facts), tuning_range (as in `transceiver`).
+  "optical-networking": {
+    optical_pm: opt, input_power_range: opt, coherent_interop_standards: opt, shelf_assembly: opt, min_software_release: opt, cross_connect: opt, slot_compatibility: opt, otn_pm: opt, attenuation_dead_zone: opt, reflective_dead_zone: opt, // deep-spec fields 2026-09-02
+    vendor: req, series: req,
+    // --- the shelf --------------------------------------------------------------------------------------------
+    module_slots: cond({ field: "kind", inList: [...OPN_SHELF] }),
+    rack_units: cond({ field: "kind", inList: [...OPN_SHELF] }),
+    dimensions: cond({ field: "kind", inList: [...OPN_SHELF] }),
+    weight: cond({ field: "kind", inList: [...OPN_SHELF] }),
+    temp_operating: cond({ field: "kind", inList: [...OPN_SHELF] }),
+    humidity_operating: cond({ field: "kind", inList: [...OPN_SHELF] }),
+    certifications: cond({ field: "kind", inList: [...OPN_SHELF] }),
+    power_max: cond({ field: "kind", inList: [...OPN_POWERED] }),
+    // --- cards ------------------------------------------------------------------------------------------------
+    ports: cond({ field: "kind", inList: ["linecard"] }),
+    data_rate: cond({ field: "kind", inList: ["linecard", ...OPN_PLUGGABLE] }),
+    fabric_bandwidth: cond({ field: "kind", inList: ["fabric"] }),
+    // --- amplifiers -------------------------------------------------------------------------------------------
+    gain: cond({ field: "kind", inList: ["amplifier"] }),
+    // The operating BAND of an amplifier is the wavelength window it accepts ("Input Wavelength 1530 - 1565 nm")
+    // — rx_wavelength, into which the retired input_wavelength already folds. For a BiDi pluggable it is the
+    // receive wavelength, exactly as in `transceiver`.
+    rx_wavelength: cond({ field: "kind", inList: ["amplifier", "pluggable-bidi"] }),
+    total_output_power: opt, noise_figure: opt, gain_flatness: opt,
+    // --- wavelength routing and passives ------------------------------------------------------------------------
+    insertion_loss_max: cond({ field: "kind", inList: [...OPN_WAVELENGTH_ROUTING, "dcu"] }),
+    channel_count: opt, channel_spacing: opt, dispersion_compensation: opt,
+    // --- pluggables (the transceiver questions) ---------------------------------------------------------------
+    // form_factor OPTIONAL: the normaliser reads optic form factors only in `transceiver` (by category), so
+    // "SFP+" here is refused ENUM_VIOLATION — measured with the real normaliser, 12 Sep 2026. The fill path is
+    // the proposed move of these 459 parts to `transceiver`, where the question is already asked.
+    form_factor: opt,
+    wavelength: cond({ field: "kind", inList: [...OPN_FIXED_WAVELENGTH] }),
+    reach_max: cond({ field: "kind", inList: [...OPN_PLUGGABLE] }),
+    connector: cond({ field: "kind", inList: [...OPN_PLUGGABLE] }),
+    tuning_range: opt, fec: opt, temp_class: opt, tx_power: opt, rx_sensitivity: opt, chromatic_dispersion_tolerance: opt,
+    // --- components -------------------------------------------------------------------------------------------
+    psu_rated_output: cond({ field: "kind", inList: ["power"] }),
+    input_voltage: cond({ field: "kind", inList: ["power"] }),
+    airflow: cond({ field: "kind", inList: ["fan"] }),
+    cable_length: cond({ field: "kind", inList: ["cable"] }),
+    product_compatibility: cond({ field: "kind", inList: [...OPN_FITS] }),
+    mtbf: opt, altitude_max: opt, temp_storage: opt, humidity_storage: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     // cd_tolerance REMOVED 11 Sep 2026: a duplicate of chromatic_dispersion_tolerance (same label, same
     // unit, zero facts), which this category already declares. See the note under `transceiver`.
-    breakout_point_length: opt, channel_bandwidth: opt, cin: opt, color: opt, color_options: opt, country_of_origin: opt, gain: opt, gain_flatness: opt, input_wavelength: opt, modulation_type: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, pdl: opt, pmd: opt, product_line: opt, rear_clearance: opt, restore_threshold: opt, rf_attenuation_range: opt, rf_bandwidth: opt, rf_input_return_loss: opt, rf_output_return_loss: opt, rf_response_flatness: opt, rf_test_point: opt, rf_tilt: opt, series_release_date: opt, switching_threshold: opt, temp_operating_extended: opt, thermal_shock: opt,
-  }),
+    breakout_point_length: opt, channel_bandwidth: opt, cin: opt, color: opt, color_options: opt, country_of_origin: opt, modulation_type: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, pmd: opt, product_line: opt, rear_clearance: opt, restore_threshold: opt, rf_attenuation_range: opt, rf_bandwidth: opt, rf_input_return_loss: opt, rf_output_return_loss: opt, rf_response_flatness: opt, rf_test_point: opt, rf_tilt: opt, series_release_date: opt, switching_threshold: opt, temp_operating_extended: opt, thermal_shock: opt,
+  },
+  // end optical-storage
   // Line cards, network modules, interface cards.
   "interfaces-modules": deviceOnly({
     itu_channel: opt, jacket_material: opt, jacket_color: opt, rx_wavelength: opt, supported_transceivers: opt, supported_modules: opt, // deep-spec fields 2026-09-02
@@ -1679,6 +1851,37 @@ export const BAND_OVERRIDES: Record<string, Record<string, [number, number]>> = 
   video: { tx_power: [-10, 30], rf_gain: [-10, 60], insertion_loss_max: [0, 20] },
   // collab (12 Sep 2026)
   "unified-communications": COLLAB_BANDS, "collaboration-endpoints": COLLAB_BANDS, conferencing: COLLAB_BANDS,
+  // routers (12 Sep 2026, reviewer §6.4) — a router band is never the switch band by inheritance. Each checked against
+  // the stored routers values AND the label values in the cisco-datasheets inventory (report, band table):
+  routers: {
+    // 0.1 ("100 Mbps", ISR 4331 default) .. 518,400 ("518.4T", Cisco 8818 with 800G LCs). The dictionary's 1e4 and the
+    // reviewer's 2e5 both refuse the 8812/8818 system figures. 0 stored routers facts to refuse.
+    router_throughput: [0.001, 1000000],
+    // stored 0.46 ("Up to 460Mbps", C8200L) .. 100 (C8500-20X6C); largest label "Up to 400Gbps".
+    ipsec_throughput: [0.001, 10000],
+    // stored 0.125 (MEM-243-1X128D, a 128 MB DIMM) .. 64 (8800-RP2). The reviewer's 0.25 floor refuses 2 real DIMMs.
+    dram: [0.125, 512],
+    // stored 280K (C1101-4P) .. 7M/16M (C8500-20X6C). The 1,000 floor refuses the 18 stored "June, 2024" dates read
+    // as 2024 routes — which the dictionary's [10, 1e7] admits — and nothing real.
+    ipv4_routes: [1000, 100000000],
+    // stored 700 .. 4,000; largest label "10,000".
+    ipsec_tunnels: [1, 100000],
+    // 8818 "33.4KW" typical with 800G LCs, 8812 "22KW": the dictionary's 30 kW refuses the first. Stored max 3,000.
+    power_max: [1, 60000],
+    power_typical: [1, 50000],
+    // stored min 4.2 m on 18 parts is "13.800 ft" misread; a 100 m floor refuses it and no real ceiling.
+    altitude_max: [100, 10000],
+  },
+  // optical-storage (12 Sep 2026). Checked against the category's stored values (report, BANDS):
+  //   power_max           39 facts, 1 to 19 W — every one on a PLUGGABLE (ONS-SE-4G-MM "1W", ONS-CC-40G-LR4 19),
+  //                       which this category now asks; the global floor of 1 W would refuse a 0.8 W SFP. The
+  //                       ceiling stays the global 30 kW (an NCS 4016 shelf draws several kW).
+  //   data_rate           294 facts, 10 to 400 Gbit/s; the floor comes down to 1 Mbit/s because a CEM line card
+  //                       carries T1/E1 (NCS4200-48T1E1-CE, 1.544 Mbit/s), which the global 0.1 Gbit/s refuses.
+  //   insertion_loss_max  0 facts; the inventory's own values run 0.25 dB to 13.5 dB ("Insertion loss COM-RX ->
+  //                       EXP-TX"); the curated entry had NO band, and it is required of a mux, a ROADM and a DCU.
+  "optical-networking": { power_max: [0.1, 30000], data_rate: [0.001, 1600], insertion_loss_max: [0, 30] },
+  // end optical-storage
 };
 
 export function unitFor(category: string, key: string): string | undefined {
@@ -2008,6 +2211,21 @@ export const SUPERSEDED_KEYS: Readonly<Record<string, string>> = {
   rf_response_flatness: "frequency_response",            // "RF frequency response flatness" vs "Frequency response"
   rf_test_point: "test_point_level",                     // "RF test point level" vs "Test points (±0.5 dB)"
   // end video (12 Sep 2026)
+  // routers (12 Sep 2026) — duplicates found by the routers fields survey; values that move are a PROPOSAL in
+  // runs/reports/schema-routers-2026-09-12.md, never moved here. Every alias that wrote the left key now writes the right.
+  system_memory: "dram",                                 // 0 facts, 0 labels, 0 aliases: "System memory" already maps to dram
+  vpn_throughput: "ipsec_throughput",                    // 3 facts (security SM-56/SM-40) vs 6 routers; two aliases redirected
+  compatible_platform: "product_compatibility",          // 7 facts (2 routers + 5 interfaces-modules), s -> ls; one alias redirected
+  dc_input_voltage: "input_voltage",                     // 0 facts anywhere; input_voltage (nr) already stores "DC: -40 to -72V"
+  // end routers (12 Sep 2026)
+  // optical-storage (12 Sep 2026). Both hold ZERO facts in every category, so no value moves; both became visible
+  // only once a mux and an amplifier were asked their loss and their gain. `insertion_loss` (a free string) and
+  // `insertion_loss_max` (a number, dB) are one quantity — Cisco's "Insertion loss" rows are maxima ("IL 0.35dB
+  // (max)"); `gain_range` (a string) is the span of the `gain` cup, now a range. The alias rules that wrote the
+  // retired keys ("^insertion loss$", "^Gain\s+range$", "^Standard\s+gain\s+range$") are redirected.
+  insertion_loss: "insertion_loss_max",                  // 0 facts vs 0; the numeric key survives
+  gain_range: "gain",                                    // 0 facts vs 0; gain is nr since 12 Sep 2026
+  // end optical-storage
 };
 for (const p of Object.values(PROFILES)) {
   for (const [dup, canon] of Object.entries(SUPERSEDED_KEYS)) {

@@ -126,7 +126,8 @@ const RULES: [string, string, string, string, Reason?][] = [
   ["Hardware Breakdown > 40GbE QSFP+", "qsfp_plus_ports", "Context and Comparisons > 100GbE QSFP28", "-", "PARSE_FAIL"],
   ["Context and Comparisons > UPoE Capable", "upoe_support", "Throughput and Capabilities > PoE/PoE+ Capable", "-", "PARSE_FAIL"],
   ["Throughput and Capabilities > PoE/PoE+ Capable", "poe_budget", "Context and Comparisons > UPoE Capable", "Yes", "PARSE_FAIL"],
-  ["Product Features Comparison > Compatible Platform", "compatible_platform", "Miscellaneous > Platform Supported", NO_SHAPE],
+  // routers (12 Sep 2026): compatible_platform is retired into product_compatibility (SUPERSEDED_KEYS); its alias writes the latter.
+  ["Product Features Comparison > Compatible Platform", "product_compatibility", "Miscellaneous > Platform Supported", "-", "PARSE_FAIL"],
   ["Product Features Comparison > Module Type", "module_type", "Specification > Interface Module Support", NO_SHAPE],
   ["Product Features Comparison > Installation Type", "installation_type", "Installation Clearance", NO_SHAPE],
 

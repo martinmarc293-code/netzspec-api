@@ -134,7 +134,10 @@ for (const c of COLLAB_CATEGORIES) {
   check(`${c} is a KIND_CATEGORY`, KIND_CATEGORIES.includes(c));
   check(`partKind(${c}) uses collabKind`, partKind(c, "CP-8841-3PW-NA-K9") === "phone" && partKind(c, "CAB-PWR-C7-BRA-A") === "power-cord");
 }
-check("routers still uses componentKind (untouched)", partKind("routers", "CAB-PWR-C7-BRA-A") !== "power-cord");
+// 12 Sep 2026: this asserted "routers still uses componentKind (untouched)" and was written the same day routers
+// gained routerKind, where that cord IS a power-cord. What it was really guarding is that this axis does not leak
+// into a category it does not own — asserted against a phone SKU no other axis would call a phone.
+check("the collaboration axis does not reach routers", partKind("routers", "CP-8841-3PW-NA-K9") !== "phone");
 
 console.log(`\ncollabKind: ${pass} passed, ${misses.length} missed`);
 if (misses.length) process.exit(1);

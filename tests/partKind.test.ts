@@ -131,6 +131,11 @@ check("and the collapse is severe enough to be worth a guard",
     "unified-communications": ["cable_length", "product_compatibility", "psu_rated_output"],
     "collaboration-endpoints": ["cable_length", "product_compatibility", "psu_rated_output"],
     conferencing: ["cable_length", "product_compatibility", "psu_rated_output"],
+    // routers (12 Sep 2026): the same allow-list — its own axis asks a cord its length and what it fits, nothing else.
+    routers: ["cable_length", "product_compatibility"],
+    // optical-storage (12 Sep 2026): both now ask a component its own questions (a cable its length), exactly as
+    // switches does since 11 Sep — so the guard is again the leak itself: no DEVICE question reaches a cable.
+    "optical-networking": ["cable_length"], "storage-networking": ["cable_length"],
   };
   for (const cat of declared) {
     const sku = COMPONENT_PROBE[cat];
@@ -146,7 +151,10 @@ check("and the collapse is severe enough to be worth a guard",
   // simply switched the whole category off.
   for (const [cat, sku] of [["routers", "ISR4331/K9"], ["wireless", "AIR-AP2802I-B-K9"],
                             ["switches", "WS-C3750G-24T-E"], ["transceiver", "SFP-10G-SR"],
-                            ["transceiver", "GLC-BX-D"], ["transceiver", "QDD-400G-ZR-S"]] as [string, string][]) {
+                            ["transceiver", "GLC-BX-D"], ["transceiver", "QDD-400G-ZR-S"],
+                            // optical-storage (12 Sep 2026): a shelf, an amplifier, a director and a switch
+                            ["optical-networking", "15454-M6-SA"], ["optical-networking", "15454-OPT-EDFA-24="],
+                            ["storage-networking", "DS-C9706="], ["storage-networking", "DS-C9148S-12PK9="]] as [string, string][]) {
     const c = completenessV2(cat, { kind: partKind(cat, sku), vendor: "cisco" } as never);
     check(`${cat}: a DEVICE (${sku}) is still asked something`, c.required_total > 0,
       `required_total=${c.required_total}`);

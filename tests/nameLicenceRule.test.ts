@@ -65,7 +65,9 @@ const MUST_STAY_HARDWARE: [string, string, string][] = [
   ["NC55-32T16Q4H-BA", "NCS 5500 Series 48 ports of 1/10/25 GE base bundle", "bundle-bare, 6 real parts"],
   ["ESS-2020-24TC-NCP", "Embedded Service 2020 Switch, Main/Expansion bundle", "bundle-bare"],
   ["NCS-57B1-5DSE-SYS", "NCS57B1 Fixed Scale HW Flexible Consumption lic", "lic-abbrev, 19 real parts"],
-  ["A9K-24P10G-IVRF", "Infra. VRF lic. for up to 8 VRF instances", "lic-abbrev"],
+  // routers (12 Sep 2026) — REMOVED, the SEVENTH exemplar chosen believing a licence was hardware: A9K-24P10G-IVRF
+  // is "Infra. VRF lic. for up to 8 VRF instances per 24-port 10G/1G LC", zero own facts of any kind, and
+  // sku-regex:a9k-lc-feature-licence now classes it a licence. The lic-abbrev refusal stands on NCS-57B1-5DSE-SYS.
   // REMOVED, 11 Sep 2026: the SIXTH exemplar in this file chosen believing a licence was hardware.
   // C1E1TN9300XF-5Y is "Cisco ACI and NX-OS subscription Essentials package for 10/25/40G+ Cisco
   // N9000 leaf switch, 5-year term" — a SUBSCRIPTION with zero own facts. It names a leaf switch

@@ -455,9 +455,9 @@
   { "id": "firewall-vpn", "category": "security",
     "name_en": "Firewall VPN capacity", "name_de": "VPN-Kapazität Firewall",
     "description_en": "Site-to-site peers, remote-access sessions and encrypted throughput.",
-    "facets": [ { "key": "vpn_throughput", "ui": "range" }, { "key": "vpn_peers", "ui": "range" }, { "key": "anyconnect_sessions", "ui": "range" } ],
+    "facets": [ { "key": "ipsec_throughput", "ui": "range" }, { "key": "vpn_peers", "ui": "range" }, { "key": "anyconnect_sessions", "ui": "range" } ],
     "sort": { "key": "vpn_peers", "dir": "desc" },
-    "columns": ["vpn_throughput", "vpn_peers", "anyconnect_sessions", "firewall_throughput", "concurrent_sessions"],
+    "columns": ["ipsec_throughput", "vpn_peers", "anyconnect_sessions", "firewall_throughput", "concurrent_sessions"],
     "examples": [ { "title": "500 VPN peers or more", "filter": "vpn_peers_min=500" } ] },
 
   { "id": "firewall-session-scale", "category": "security",
