@@ -10,7 +10,7 @@
 // docs/DATA_MODEL.md table fired at least once — a rule no case reaches is a rule nobody has
 // seen work — and that the reason names the rule, because parts.product_class_reason is how a
 // wrong class is traced back.
-import { classify, ruleSku, ruleName, RULE_NAMES, SKU_RULES, type ProductClass } from "../src/core/productClass.js";
+import { classify, ruleSku, ruleName, ruleMatches, RULE_NAMES, SKU_RULES, type ProductClass, type SkuRule } from "../src/core/productClass.js";
 
 type Case = { sku: string; cat?: string; hw?: boolean | null; want: ProductClass; reason: string; note?: string };
 
@@ -107,7 +107,12 @@ const cases: Case[] = [
   { sku: "CTS-SX20-PHD4X-K9", cat: "collaboration-endpoints", hw: true, want: "hardware", reason: "category-is_hardware=true:collaboration-endpoints" },
 
   // ---- software: the category decides when no SKU rule fires ------------------------------
-  { sku: "C1A1ATCAT36501", cat: "software", hw: false, want: "software", reason: "category-is_hardware=false:software", note: "Cisco ONE subscription PID in the software category" },
+  // Until round 8 (11 Sep 2026) this path was exercised by C1A1ATCAT36501, a Cisco ONE subscription.
+  // sku-regex:cisco-one now classes that one `license` in every category — as round 7's C1A1TN rule
+  // already did for its siblings — so the category path needs a PID no SKU rule reaches. This one
+  // also pins that cisco-one does not reach the HYPHENATED C1- form.
+  { sku: "C1-ADD-OPTOUT", cat: "software", hw: false, want: "software", reason: "category-is_hardware=false:software", note: "Cisco DNA Premier Add-On Session Opt Out — no SKU rule, the category decides" },
+  { sku: "C1A1ATCAT36501", cat: "software", hw: false, want: "license", reason: "sku-regex:cisco-one", note: "a Cisco ONE term subscription: licence by its SKU, whatever category it is filed in" },
   { sku: "8000-SW-LICENSE", cat: "ios-nx-os-software", hw: false, want: "software", reason: "category-is_hardware=false:ios-nx-os-software" },
   { sku: "A-CMS-API", cat: "contact-center", hw: false, want: "software", reason: "category-is_hardware=false:contact-center" },
 
@@ -219,10 +224,24 @@ sabotages++;
   const unreachable = SKU_RULES.filter((r) => {
     // A regex rule carries its own probe: a generated one would never match, so the rule would
     // be reported unreachable for ever — a check that always fails teaches people to ignore it.
-    const probe = r.probe ?? (r.kind === "prefix" ? r.token + "0000TEST" : r.kind === "suffix" ? "TEST0000" + r.token : "TEST" + r.token + "0000");
+    // An `exact` rule's only possible probe is its own token.
+    const probe = r.probe ?? (r.kind === "exact" ? r.token : r.kind === "prefix" ? r.token + "0000TEST" : r.kind === "suffix" ? "TEST0000" + r.token : "TEST" + r.token + "0000");
     return classify({ sku: probe, categoryIsHardware: true }).reason !== ruleName(r);
   }).map(ruleName);
   check(`no rule in the table is shadowed into never firing (${SKU_RULES.length} rules)`, unreachable.length === 0, unreachable);
+}
+// `exact` is exact. ruleMatches() used to END in a bare contains, so a kind it did not name fell
+// through to substring matching — an exact "NX-OS" would have eaten every NX-OS-* SKU. Sabotage:
+// the whole SKU matches, a longer SKU carrying it does not, and an unknown kind throws rather than
+// silently becoming a contains rule.
+{
+  const ex: SkuRule = { kind: "exact", token: "NX-OS", klass: "software", why: "test" };
+  check("exact rule matches its own SKU", ruleMatches(ex, "NX-OS"));
+  check("SABOTAGE exact rule does NOT match a longer SKU containing its token (NX-OS-ES-XF)", !ruleMatches(ex, "NX-OS-ES-XF"));
+  check("SABOTAGE exact rule does NOT match with a prefix in front (CISCO-NX-OS)", !ruleMatches(ex, "CISCO-NX-OS"));
+  let threw = false;
+  try { ruleMatches({ kind: "bogus" as SkuRule["kind"], token: "X", klass: "license", why: "test" }, "X"); } catch { threw = true; }
+  check("SABOTAGE a rule of unknown kind throws instead of falling through to contains", threw);
 }
 
 // ---- every rule in the table fired at least once --------------------------------------------------
@@ -310,6 +329,60 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["N5020-SSK9-LAB", "Storage Protocol Services license for N5020 LAB Bundle", "switches", "license", "sku-contains:SSK9"],
     ["E3N-IE4000L-RA-E", "Stratix 5400L DNA (up to 12 ports), Essential License", "switches", "license", "sku-prefix:E3N-"],
     ["C3750X-12S-S-E", "C3750X-12S IP Base to IP Services Paper License", "switches", "license", "sku-regex:tier-upgrade"],
+    // Round 8, 11 Sep 2026 — the residue a licence-word net could not see. Real SKUs and names.
+    ["N5KUK9-503N1.1", "Nexus 5000 Base OS Software Rel 5.0(3)N1(1a)", "switches", "software", "sku-regex:nxos-image"],
+    ["N7KS2K9-6210", "Cisco NX-OS Release 6.2(10) for SUP2 Nexus 7000", "switches", "software", "sku-regex:nxos-image"],
+    ["S19UK9-15102T", "Cisco 1900 IOS UNIVERSAL", "routers", "software", "sku-regex:ios-image"],
+    ["S45XUK9-33-1511SG", "Cisco IOS Software XE Release 3.3.0 SG crypto universal image for Cisco Catalyst 4500-X 32-port and 40-port models", "switches", "software", "sku-regex:ios-image"],
+    ["C1A2ANEX55481K9", "Cisco ONE Advanced Perpetual Nexus 5548", "switches", "license", "sku-regex:cisco-one"],
+    ["C1P1TN9300GF-5Y", "Cisco C1P1TN9300GF-5Y", "switches", "license", "sku-regex:cisco-one"],
+    ["C1E1ATCAT38502-5Y", "Cisco ONE Essentials Term C3850 48-Port 5Y", "switches", "license", "sku-regex:cisco-one"],
+    ["ELA-CUIC-BASE-K9", "ELA Cisco UCS Director Base Software License", "servers-unified-computing", "license", "sku-prefix:ELA-"],
+    ["ELA2-C1-NEX55961F", "Cisco ONE ELA FND Perpetual Nexus 5596", "switches", "license", "sku-prefix:ELA2-"],
+    ["ELAC-CUIC-SERV500", "Cisco UCS Director Capped ELA-Servers 500", "servers-unified-computing", "license", "sku-prefix:ELAC-"],
+    ["ELAU-CUIC-SERV5000", "Cisco UCS Director UnCapped ELA-Servers 5000", "servers-unified-computing", "license", "sku-prefix:ELAU-"],
+    ["E2C1-NEX55961F", "Cisco ONE EA FND Perpetual Nexus 5596", "switches", "license", "sku-prefix:E2C1-"],
+    ["D2OPS-MOD-7Y", "DCN Day2 Ops Assurance and Insights for Modular, 7Y", "switches", "license", "sku-prefix:D2OPS-"],
+    ["C1-DCL-N5K-K9", "Cisco ONE DCNM for LAN Advanced Edt. for Nexus 5000", "switches", "license", "sku-prefix:C1-DCL-"],
+    ["C1-DCS-N5K-K9", "Cisco ONE DCNM for SAN License for Nexus 5000", "switches", "license", "sku-prefix:C1-DCS-"],
+    ["C1-ISE-PLS-30-T", "Cisco ONE ISE PLUS 30 End-Point Lic Term", "switches", "license", "sku-prefix:C1-ISE-"],
+    ["DCNM-S-M93XK9=", "DCNM SAN Adv Features for MDS 9300 Switch-Based", "storage-networking", "software", "sku-prefix:DCNM-"],
+    ["N7K-C7018-SBUN-P1", "Inc. LAN,ADV,TRS,EL2,DCNM,DCNMSAN,MPLS,SAN,XL - Promotion", "switches", "license", "sku-contains:-SBUN-"],
+    ["N6001-DFA-BUN-P1", "Nexus 6001 DFA Bundle-Limited Time Promo; LAN, EL2, DCNM-LAN", "switches", "license", "sku-contains:-DFA-BUN-"],
+    ["N7K-DFA-P1", "Nexus DFA production support", "switches", "license", "sku-regex:nexus-dfa"],
+    ["CONE-2921-FND-P", "Perpetual License Cisco ONE Foundation 2900 ISR Family", "routers", "license", "sku-regex:cone-tier"],
+    ["CD-3750G-48EMI=", "● IP Services image upgrade kit for standard versions of the Cisco Catalyst 3750G-48TS and 3750G-48PS switches ● Provides advanced IP routing", "switches", "software", "sku-regex:cd-image-kit"],
+    ["R-CD-ME3400-A2I=", "E-delivery METROIPACCESS image upgrade kit for Cisco ME 3400 Series Switches with METROACCESS image", "switches", "software", "sku-regex:cd-image-kit"],
+    ["ACI-VPOD-MGMT=", "ACI vPod virtual pod redundant management cluster software (vSpine/vLeaf + vSpine/vLeaf)", "switches", "software", "sku-prefix:ACI-VPOD-"],
+    ["N3K-XNC-MM-B-SM", "Nexus 3000, XNC with Monitor Manager Small Bundle", "switches", "software", "sku-prefix:N3K-XNC-"],
+    ["N3K-ES-XF2", "Nexus 3432D-S Essential License including Layer-3 LAN Enterprise and Telemetry features", "switches", "license", "sku-prefix:N3K-ES-"],
+    ["C3750X-48-IOS-S-E", "C3750X-48 IP Base to IP Services factory IOS Upgrade", "switches", "license", "sku-regex:factory-ios-upgrade"],
+    ["S45EUK9T-S9-310E", "CAT4500E SUP9E Universal Crypto Image", "switches", "software", "sku-regex:ios-xe-image"],
+    ["SISR4300UK9-316S", "Cisco ISR 4300 Series IOS XE Universal", "routers", "software", "sku-regex:ios-xe-image"],
+    ["SWLC4400K9-50", "Cisco Unified WLAN Controller SW Release 5.0 - ED", "switches", "software", "sku-regex:wlc-software"],
+    ["SWISMK9-41", "Cisco Unified WLAN Controller SW Release 4.1", "switches", "software", "sku-regex:wlc-software"],
+    ["M9500FMS1K9", "Cisco FMS package for one Cisco MDS 9500 Series Multilayer Director", "storage-networking", "license", "sku-contains:FMS1K9"],
+    ["C1-N5K-UPG", "Cisco ONE Upgrade for Nexus 5000 - CHOOSE ONLY QTY 1 HERE", "switches", "license", "sku-regex:c1-nexus-upgrade"],
+    ["C1-SWATCH-50-T", "Cisco ONE StealthWatch 50 FPS Lic Term", "switches", "license", "sku-prefix:C1-SWATCH-"],
+    ["C1-CAT-ADD-T", "Cisco ONE Term Add for Catalyst Switches - CHOOSE QTY 1 HERE", "switches", "license", "sku-prefix:C1-CAT-"],
+    ["3750G48-AISK9LC-B=", "Advanced IP Services upgrade for 3750G-48 with IP Base", "switches", "license", "sku-contains:AISK9LC"],
+    ["C4500E-LB-IPB=", "Lan Base to IP Base license Spare", "switches", "license", "sku-suffix:-LB-IPB"],
+    ["N3548-ALGK9", "Nexus 3500 Algo Boost License", "switches", "license", "sku-exact:N3548-ALGK9"],
+    ["N3K-STR1K9", "Telemetry license for Nexus 3000 platform", "switches", "license", "sku-exact:N3K-STR1K9"],
+    ["N5020-P02K9=", "Nexus 5020 Storage Protocols Services License Promotion", "switches", "license", "sku-exact:N5020-P02K9"],
+    ["C4500X-IPB", "Catalyst 4500-X IP BASE software license (paper delivery)", "switches", "license", "sku-exact:C4500X-IPB"],
+    ["IE-LICENSE-SPARE", "Spare license for software upgrade (L2 to L3 features or MRP protocols)", "switches", "license", "sku-exact:IE-LICENSE-SPARE"],
+    ["IE2000-B-E=", "IE2000 LAN Base to Enhanced LAN Base Paper NAT License to Enable NAT Capability", "switches", "license", "sku-exact:IE2000-B-E"],
+    ["SV-VF30-BASE+5K9", "Cisco VFrame 3.0 Director Base + 5 Node License", "switches", "license", "sku-exact:SV-VF30-BASE+5K9"],
+    ["DCN-SYNCE-XF", "SyncE add-on license", "switches", "license", "sku-exact:DCN-SYNCE-XF"],
+    ["PRIMEINFRAEXPAUY2", "Prime Infra Expansion", "switches", "license", "sku-exact:PRIMEINFRAEXPAUY2"],
+    ["IE-SW-SPARE", "SPARE IOS software for IE2000U, CGS2520, IE3000, IE3010, ESM", "switches", "software", "sku-exact:IE-SW-SPARE"],
+    ["CSP-SW", "Data Center NFV Platform Software", "switches", "software", "sku-exact:CSP-SW"],
+    ["IOX-IE4K-CORE", "Cisco IOx Core Software for IE4K family", "switches", "software", "sku-exact:IOX-IE4K-CORE"],
+    ["N7K-NAM-SW-6.0-K9", "Cisco Prime NAM Software version 6.0", "switches", "software", "sku-exact:N7K-NAM-SW-6.0-K9"],
+    ["NX-OS", "Cisco NX-OS", "switches", "software", "sku-exact:NX-OS"],
+    ["SF-ASASM-8.5-K8", "ASA Software 8.5 for Catalyst 6500-E ASASM, 2 free VFW", "switches", "software", "sku-exact:SF-ASASM-8.5-K8"],
+    ["C2K-SW-EXT", "C2K Security and Vulnerability Software Support extension", "switches", "service", "sku-exact:C2K-SW-EXT"],
   ];
   for (const [sku, name, cat, klass, reason] of added) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
@@ -324,7 +397,11 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
 {
   const mustStayHardware: [string, string, string, string][] = [
     // sku, name, category, which rule would have eaten it
-    ["C9300-48U-A", "C9300-48U-A - Catalyst 9300 48-port 1G copper with modular uplinks, Network Advantage",
+    // NAMES ARE THE CATALOGUE'S, verbatim (11 Sep 2026). Seven entries here had been paraphrased, and
+    // a paraphrase can hide exactly what a name rule reads: PROMO-AP2800-S-K9 is really "...with DNA-A
+    // Lic -S Domain", and the tidied test name had dropped the "Lic". A refusal tested on a cleaner
+    // name than the part carries is a stand-in, not the part.
+    ["C9300-48U-A", "C9300-48U-A – Catalyst 9300 48-port 1G copper with modular uplinks, UPOE, Network Advantage",
       "switches", "tier-upgrade / a name rule on 'Network Advantage' (206 hits, ~200 real switches; this one has 7 physical facts)"],
     ["C9500-24Q-A=", "Catalyst 9500 24-port 40G, Adv. License, no PS",
       "switches", "the trap named in the round-3 comment: structurally identical to N55-96P-SSK9 and it is a real Catalyst"],
@@ -332,25 +409,25 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
       "switches", "any name rule on 'License' — 37 of these exist and each is a box you rack"],
     ["C9500X-28C8D-E", "Catalyst 9500 28x100G + 8x400G switch, NW Essentials License",
       "switches", "a name rule on 'Network/NW Essentials'"],
-    ["WS-CF-UPG=", "Catalyst 6500/Cisco 7600 Compact Flash Adapter with 512MB CF",
+    ["WS-CF-UPG=", "Catalyst 6500/Cisco 7600 Compact Flash Adapter with 512M CF",
       "switches", "a `-UPG` suffix rule — this is a physical flash adapter, which is why -UPG was rejected"],
     ["CAB-TA-SW", "Switzerland AC Type A Power Cable",
       "switches", "a `-SW` suffix rule: SW is the COUNTRY here"],
-    ["DS-SFP-FC16G-SW", "Cisco MDS 9000 Family 4/8/16-Gbps Fibre Channel SW SFP+, LC",
+    ["DS-SFP-FC16G-SW", "16-Gbps Fibre Channel shortwave SFP+, LC connector (16G Fibre Channel support only on last 24 ports (highlighted in Orange on the chassis for easy identification ) of the Cisco Nexus 5672UP-16G",
       "transceiver", "a `-SW` suffix rule: SW is SHORT WAVELENGTH here, the same reach-code trap as -S/-L/-Z"],
-    ["FP8250-BASE-K9", "FirePOWER 8250 Chassis, No IPS Lic",
+    ["FP8250-BASE-K9", "Cisco FirePOWER 8250 Chassis, No IPS Lic, 2U, 7 Slots",
       "security", "a name rule on 'Lic' — this chassis's name says it has NO licence"],
-    ["WS-C4500X-24X-IPB", "Cisco WS-C4500X-24X-IPB Catalyst 4500-X 24-port 10G IP Base",
+    ["WS-C4500X-24X-IPB", "Cisco WS-C4500X-24X-IPB Catalyst 4500-X gemanagter L3-10G-Aggregations-Switch (24× 10G-SFP+, IP Base, 1 HE)",
       "switches", "an `-IPB` rule — IP Base is a FEATURE TIER in real switch PIDs; this one carries 13 own facts"],
     // --- round 5 refusals -------------------------------------------------------------------
-    ["PROMO-AP2800-S-K9", "AP2800(Internal Ant only) Promotion with DNA-Advantage",
+    ["PROMO-AP2800-S-K9", "AP2800(Internal Ant only) Promotion with DNA-A Lic -S Domain",
       "wireless", "a `PROMO-` prefix — 99 parts, and these are real access points bundled with a licence"],
     // THIS ONE PASSED THE AUTOMATED GATE and was killed by reading the family: 0 physical facts and
     // 53 of 53 "licence-named", because every name contains "AP Lic." — and all 53 ship a
     // controller with five or ten physical access points.
     ["AIRCT2504-1602IH10", "Bundle WLC2504 w/ 10 AP Lic. and 10 AP-1602i H Reg Domain",
       "wireless", "an `AIRCT2504-` prefix — every member is a controller-plus-APs hardware bundle"],
-    ["HX-SP-NVME-6X8TB", "HX NVMe Pak w/1x375GB Optane, 1x1TB NVMe, 6x8TB",
+    ["HX-SP-NVME-6X8TB", "HX NVMe Pak w/1x375GB Optane, 1x1TB NVMe, 6x8TB NVMe",
       "hyperconverged-systems", "an `HX-SP` prefix — this is a drive pak; only HX-VSP (vSphere) is a licence"],
     ["ASR5K-SMC-K9", "System Management Card 4GB",
       "wireless", "the bare `ASR5K-` prefix — 32 of the 175 outside the 00/99 blocks carry physical facts"],
@@ -374,10 +451,30 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
       "switches", "a bare `ACI-` prefix — ACI bundles ship real Nexus 9336 switches"],
     ["WS-SUP720-3BXL", "Catalyst 6500/Cisco 7600 Supervisor 720 Fabric MSFC3 PFC3BXL",
       "switches", "a bare `-XL` suffix — this is a supervisor engine, which is why the rule is anchored to N7K-C70nn-XL"],
-    ["C3750X-24S-S", "Catalyst 3750X 24 Port GE SFP IP Base",
-      "switches", "the widened tier-upgrade regex — a switch carries ONE tier letter, an upgrade licence two"],
-    ["C9300-24S-A", "Catalyst 9300 24-port 1G SFP, Network Advantage",
+    // C3750X-24S-S stood here until 11 Sep 2026, described as a real product. It is NOT in the
+    // catalogue — Cisco's PID is WS-C3750X-24S-S, which the anchored regex never sees at all. Replaced
+    // by a catalogue switch of exactly the shape the widening admits: a LETTERED port token, one tier.
+    ["C9300-24UB-A", "C9300-24UB-A – Catalyst 9300 higher scale 24-port 1G copper with modular uplinks, UPOE, Network Advantage",
+      "switches", "the widened tier-upgrade regex — lettered port token (24UB), ONE tier letter, 15 facts"],
+    ["C9300-24S-A", "C9300-24S-A – Catalyst 9300 24-port 1G SFP with modular uplinks, Network Advantage",
       "switches", "the widened tier-upgrade regex — one tier letter, a real switch"],
+    // Round 8 refusals — each a real product the obvious wider form of a round-8 rule would take.
+    ["C1000-16T-2G-L", "Cisco C1000-16T-2G-L Catalyst-1000-Managed-Switch (L2, IOS) – 16× 1G-RJ45 + 2× 1G-SFP",
+      "switches", "cisco-one widened to C1 + anything — a Catalyst 1000 switch with 13 facts puts a DIGIT after C1"],
+    ["C1100TG-1N32A", "Cisco 1100 Terminal Services Gateway w/ 32 Async, 1 NIM (support for 2 GB DRAM)",
+      "cloud-systems-management", "cisco-one widened to C1 + anything — a terminal gateway with 25 facts"],
+    ["C1-N9K-C9364C", "Cisco ONE Nexus 9300 ACI & NX-OS Spine, 64p 40/100G",
+      "switches", "a bare C1- prefix — a Cisco ONE spine SWITCH, why only named C1- sub-families are rules"],
+    ["CONE-2921-ATO", "ISR 2921 for Cisco ONE",
+      "routers", "a bare CONE- prefix — an assemble-to-order ISR 2921 router"],
+    ["CD-DSKCAM-C-US", "Cisco Desk Camera 4K in carbon black for United States (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)",
+      "collaboration-endpoints", "a bare CD- prefix — a desk camera"],
+    ["SSD-120G=", "Cisco pluggable USB3.0 120G SSD storage, spare",
+      "switches", "ios-image widened to three-digit releases — the 120G reads as a release"],
+    ["C4500E-S7L/2-IPB", "Upgrade to Redundant Sup7L-E with IPBASE License",
+      "switches", "a bare -IPB suffix (WS-C4500X-24X-IPB above is the other) — this upgrade ships a redundant supervisor"],
+    ["N5K-C5548UP-FA", "Chassis includes 32 fixed unified ports, Front-to-Back Airflow, 2 750W AC Power Supplies, Fan Trays, 1 Expansion Slot",
+      "switches", "nxos-image without the no-hyphen anchor — N5K- followed by a chassis"],
   ];
   for (const [sku, name, cat, wouldEat] of mustStayHardware) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });

@@ -134,7 +134,8 @@ for (const [sku, name] of [
 // "IOS build PID") and in OPTICS -SW means SHORT WAVELENGTH. These three must never be touched:
 // they are Fibre Channel transceivers, and two of them carry their own physical facts.
 for (const [sku, name] of [
-  ["DS-SFP-FC16G-SW", "Cisco MDS 9000 Family 4/8/16-Gbps Fibre Channel SW SFP+, LC"],
+  // The catalogue's name, verbatim — a paraphrase is a stand-in for the part, not the part.
+  ["DS-SFP-FC16G-SW", "16-Gbps Fibre Channel shortwave SFP+, LC connector (16G Fibre Channel support only on last 24 ports (highlighted in Orange on the chassis for easy identification ) of the Cisco Nexus 5672UP-16G"],
   ["ONS-QC-16GFC-SW", "Cisco ONS-QC-16GFC-SW 4x16G Fibre Channel QSFP+"],
   ["DS-X2-FC10G-SW", "10 Gbps Fibre Channel-SW X2"],
 ] as [string, string][]) {
