@@ -617,7 +617,7 @@
     "description_en": "One, two or four sockets, with the clock and cache behind the socket count.",
     "facets": [ { "key": "cpu_sockets_max", "ui": "range" }, { "key": "cpu", "ui": "select" }, { "key": "clock_speed", "ui": "range" } ],
     "sort": { "key": "cpu_sockets_max", "dir": "desc" },
-    "columns": ["cpu_sockets_max", "cpu", "clock_speed", "cpu_cache", "cpu_base_clock", "cpu_boost_clock", "cpu_cores"],
+    "columns": ["cpu_sockets_max", "cpu", "clock_speed", "cpu_cache", "cpu_boost_clock", "cpu_cores"],
     "examples": [ { "title": "Two sockets or more", "filter": "cpu_sockets_max_min=2" } ] },
 
   { "id": "ucs-server-memory", "category": "servers-unified-computing",
@@ -678,7 +678,7 @@
     "description_en": "Socket count, clock and thermal envelope for a hyperconverged node.",
     "facets": [ { "key": "cpu_sockets_max", "ui": "range" }, { "key": "clock_speed", "ui": "range" }, { "key": "tdp", "ui": "range" } ],
     "sort": { "key": "cpu_sockets_max", "dir": "desc" },
-    "columns": ["cpu_sockets_max", "clock_speed", "cpu_base_clock", "cpu_boost_clock", "cpu_cache", "tdp"],
+    "columns": ["cpu_sockets_max", "clock_speed", "cpu_boost_clock", "cpu_cache", "tdp"],
     "examples": [ { "title": "Under 205 W TDP", "filter": "tdp_max=205" } ] },
 
   { "id": "hci-node-memory", "category": "hyperconverged-infrastructure",
@@ -705,11 +705,11 @@
 
   { "id": "hci-system-cpu-cache", "category": "hyperconverged-systems",
     "name_en": "Hyperconverged system CPU", "name_de": "Hyperconverged-System CPU",
-    "description_en": "Clock, L3 cache and thermal envelope of the CPUs a system ships with.",
-    "facets": [ { "key": "clock_speed", "ui": "range" }, { "key": "cache_l3", "ui": "range" }, { "key": "tdp", "ui": "range" } ],
-    "sort": { "key": "cache_l3", "dir": "desc" },
-    "columns": ["clock_speed", "cache_l3", "cpu_cache", "tdp", "cpu_interconnect_links"],
-    "examples": [ { "title": "32 MB L3 or more", "filter": "cache_l3_min=32" } ] },
+    "description_en": "Clock, last-level cache and thermal envelope of the CPUs a system ships with.",
+    "facets": [ { "key": "clock_speed", "ui": "range" }, { "key": "cpu_cache", "ui": "range" }, { "key": "tdp", "ui": "range" } ],
+    "sort": { "key": "cpu_cache", "dir": "desc" },
+    "columns": ["clock_speed", "cpu_cache", "tdp", "cpu_interconnect_links", "cpu_sockets_max"],
+    "examples": [ { "title": "32 MB of cache or more", "filter": "cpu_cache_min=32" } ] },
 
   { "id": "hci-system-storage", "category": "hyperconverged-systems",
     "name_en": "Hyperconverged system storage", "name_de": "Hyperconverged-System Speicher",

@@ -537,6 +537,36 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "regex", token: "family-placeholder", re: /-(?:X{2}\.Y{2}|X{3,4}|CUXM)$|-ITUXX$/, probe: "DWDM-XFP-XX.YY",
     except: ["SC9800CL"],
     klass: "non_product", why: "a family placeholder whose x stands for a channel, wavelength or cable length; the concrete SKUs exist beside it" },
+  // servers (12 Sep 2026) -------------------------------------------------------------------------------
+  // S1-S7 from evidence/security-servers-series-survey.md (g), each family read in full, plus the
+  // hyperconverged-only families. Measured on the 11 Sep snapshot, ALL vendors (91,543 parts): every rule
+  // below hits only servers-unified-computing / hyperconverged-*, and ZERO rows carrying an own physical
+  // fact. The pinned refusals are in tests/productClass.test.ts. FL-UCSE-, FL-SRE-, -SMS/-OPS, C1-\dY-
+  // and PCP- are the SECURITY agent's global rules and are deliberately not repeated here.
+  { kind: "regex", token: "ucs-manager-image", re: /^N10-MGT\d/, probe: "N10-MGT016", klass: "software",
+    why: "S1: 'UCS Manager v4.0' / 'UCS Manager v4.2 and Intersight Managed Mode v4.2'; 19 parts, all servers, 0 facts" },
+  { kind: "regex", token: "ucs-firmware-package", re: /^(?:N20|UCSB)-FW\d/, probe: "N20-FW018", klass: "software",
+    why: "S2: 'UCS 5108 Blade Chassis FW Package 4.2', 'UCS B200 M4 server node FW'; 19 parts, 0 facts. Anchored: N20-C6508 is the chassis" },
+  { kind: "regex", token: "ucs-fi-port-licence", re: /^N10-L\d{3}$|^UCS-6324-40G$|-FI-L-|^(?:UCS|HX|HCI)-L-6[234]\d{2,3}-/, probe: "N10-L003",
+    klass: "license", why: "S3: 'UCS 6100 Series Fabric Interconnect/Storage protocol license', '6324 Fabric Interconnect License for 40G Scalability Port', 'FI per port license to connect to B-Series, C-Series or FEX' (HX-L-6400-25G, whose UCS-L-6400-* twins are named only by SKU); 33 parts. Not bare UCS-6324: UCS-SPM-MINI is the 5108 AC2 chassis with FI6324" },
+  { kind: "regex", token: "ucs-management-licence", re: /^UCS-MDMGR-|^NFR-CUIC-|^SSTACK-MCP/, probe: "UCS-MDMGR-1S", klass: "license",
+    why: "S4: 'UCS Central Per Domain License', 'NOT FOR RESALE Cisco UCS Dir Res Lic', 'Additional Private Cloud Capacity for SSTACK-MCP'; 28 parts. Not bare SSTACK-: SSTACK-LS-OPS is a training service" },
+  { kind: "regex", token: "ucs-platform-software", re: /^CIMC-C\d|^UCSW-DDUP-|^UCSX-C-SW-LATEST$/, probe: "CIMC-C220M4-209E", klass: "software",
+    why: "S5: 'C-Series Software 2.0(9e) for C220 M4', 'Not Standalone 24T DDUP software', 'Platform SW (Recommended) latest release'; 13 parts. Not UCSW- (UCSW-SD480G0KA4-C is an SSD) and not UCSX-C- (UCSX-C-M6-HS-R is a heat sink)" },
+  { kind: "regex", token: "ucs-licence-key", re: /^UCSC-SWRAID\d$|^SWIFTSTACK-LICENSE$|^UCS-SLESTERMS$|^SVC-DATAPRTECT/, probe: "UCSC-SWRAID5", klass: "license",
+    why: "S6: 'Software Raid 5 upgrade key', 'Acceptance of Terms, Standalone SLES License', 'Cohesity DataProtect Advanced Service Subscription'; 5 parts" },
+  { kind: "contains", token: "CWOM", except: ["C1-"], klass: "license",
+    why: "S7: Cisco Workload Optimization Manager ('Advantage - Per VM', AWS marketplace, EA); 8 hardware parts. C1-CWOM-* is vetoed so its rows keep their existing ucs-kind-os-license reason" },
+  { kind: "regex", token: "hyperflex-data-platform-licence", re: /^(?:(?:E2N|E3A|E2-N|WPA|XCAT)-(?:ELA-)?)?HXDP|^E2-N-HYPERFLEX$/, probe: "HXDPS001-3YR",
+    except: ["-SMS", "-OPS"], klass: "license",
+    why: "hyperconverged: HyperFlex Data Platform subscriptions and EA allocations ('HyperFlex Data Platform Datacenter Advantage Subscription', 'Cisco Data Center EA for Hyperflex'); 204 parts, all hyperconverged-systems, 0 facts. The -SMS/-OPS rows (33) are left to the security agent's svp-ops-sms rule. Not contains-HXDP: HX-M5S-HXDP-BR is a 'HX2X0C M5 Hyperflex System'" },
+  { kind: "prefix", token: "NT-", klass: "license",
+    why: "hyperconverged: Nutanix software licences sold by Cisco — NUS/NCI/NCM/NDB/EUC product codes with PRO/ULT/STR editions (NT-NCI-STR-PR, NT-EUC-ULT-AP); 180 parts, all hyperconverged-infrastructure, 0 facts, no NT- part in any other category or vendor. Names carry no words, so this is the SKU-only rule of the set" },
+  { kind: "regex", token: "cisco-plus-hybrid-cloud", re: /^PLHC-?HX|^(?:ONDEMAND|RESERVE)-/, probe: "PLHC-HXMCVSI-OND", klass: "license",
+    why: "hyperconverged: 'Cisco+ Hybrid Cloud Ondemand/Reserve for HyperFlex' consumption subscriptions; 50 parts. Not bare PLHC-: PLHC-MLOM-40G-04 is a VIC and PLHC-IOM-2408 an I/O module" },
+  { kind: "regex", token: "hyperconverged-sw-subscription", re: /^HCI-NVGR|^(?:HXC?|HX-E)-FSS-|^HX-VSSD?2VSP-/, probe: "HCI-NVGRVAS-4YRM6", klass: "license",
+    why: "hyperconverged: 'NVIDIA GRID Software Subscription', 'Full Stack Subscription Bundle - 3YR', 'Upgrade PAC vSphere v7.x'; 35 parts" },
+  // end servers (12 Sep 2026) ---------------------------------------------------------------------------
 ];
 
 /** The reason string a rule emits — the same slug runs/vocab/cisco-round2 uses. */
@@ -664,7 +694,12 @@ export function classify(input: ClassifyInput): Classification {
   // fact. The `own` matters — every one of this category's 3,110 inherited facts comes from a
   // GROUP rather than a part, and 878 are physical, so counting inherited facts would have failed
   // this check against values the parts never had.
-  if (input.categorySlug === "servers-unified-computing") {
+  // servers (12 Sep 2026): the two hyperconverged categories derive the same ucsKind (partKind.ts). Their
+  // os-license rows are 126 NVIDIA GRID / Windows Server / DC-MGT / VMware-terms SKUs ("NVIDIA GRID Software
+  // Subscription - VDI Apps 1CCU - 5 Year") and their non-product rows 15 ordering settings (HX-E-TOPO1
+  // "10GbE Single or Dual Switch", HCI-IS-MANAGED "Deployment mode ..."); 0 own physical facts in either.
+  if (input.categorySlug === "servers-unified-computing" || input.categorySlug === "hyperconverged-systems"
+      || input.categorySlug === "hyperconverged-infrastructure") {
     const k = ucsKind(input.sku);
     if (k === "os-license") return { klass: "license", reason: "ucs-kind-os-license" };
     // NOT A PRODUCT. Distinct from `unknown` on purpose: both leave the SCORE, only this one

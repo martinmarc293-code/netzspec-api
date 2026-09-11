@@ -79,6 +79,7 @@ const sha1 = (s: string) => crypto.createHash("sha1").update(s).digest("hex");
 const U1 = "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet.html";
 const U1B = "https://www.cisco.com/c/en/us/products/collateral/switches/nztest-9300-series-switches/nztest-9300-datasheet-rev2.html";
 const U2 = "https://www.cisco.com/c/dam/en/us/products/collateral/servers-unified-computing/nztest-c240-specsheet.pdf";
+const U3 = "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/nztest-800g-optics/nztest-800g-datasheet.html";
 const D1 = docIdFor(U1), D2 = docIdFor(U2);
 
 // ---- the cached documents the gate re-reads -------------------------------------------------------
@@ -101,6 +102,11 @@ const PAGES: Record<string, string> = {
   [U1B]: `<html><body><h1>NZTEST 9300 Series Switches Data Sheet (rev 2)</h1>
 <table><tr><th>Model</th><th>Switching capacity</th><th>Forwarding rate</th><th>MAC address table</th></tr>
 <tr><td>NZT-9300-24P</td><td>218 Gbps</td><td>154.76 Mpps</td><td>32,000</td></tr></table></body></html>`,
+  // Condition A (12 Sep 2026): row 1 states three values no domain holds; row 2 is the in-domain control.
+  [U3]: `<html><body><h1>NZTEST 800G Optics Data Sheet</h1>
+<table><tr><th>Model</th><th>Form factor</th><th>Connector type</th><th>Cable type</th></tr>
+<tr><td>NZT-OSFP-XD-A</td><td>OSFP-XD</td><td>SN</td><td>AEC</td></tr>
+<tr><td>NZT-QDD-400G-B</td><td>QSFP-DD</td><td>LC</td><td>SMF</td></tr></table></body></html>`,
 };
 
 /** A minimal PDF with ruled tables pdfplumber extracts: one table per page at (x0 50, y0 700), 24pt rows, 130pt columns (four of them still fit inside the 612pt MediaBox). */
@@ -856,6 +862,69 @@ const extraTags: string[] = [];
 }
 
 check("no sabotage run was ever recorded as succeeded", (await query<{ n: number }>("SELECT count(*)::int AS n FROM runs WHERE kind = 'apply-specs' AND status = 'succeeded'")).rows[0].n === 2);
+
+// ---- CONDITION A (reviewer verdict on 678606c, §3.3; 12 Sep 2026) ----------------------------------------
+// A value the domain cannot express is REFUSED — ENUM_VIOLATION, one quarantine line per value naming key,
+// document and locator — and NOTHING is written for it: above all nothing FOLDED to the nearest value the
+// domain does hold. "SFP-DD stored as sfp" was a silent fold, and a fold passes every other check: the stored
+// value is in the domain, in band, and its cell is on the page. Proven through the real pipeline (plan AND a
+// committed run behind a passing gate), not through one normaliser call. The control row maps the same three
+// labels to in-domain values, so a refusal here is about the VALUE, never an unmapped label.
+// Sabotage, run by hand on 12 Sep 2026: with the enum branch of normalizeField made to accept any value, the
+// quarantine cases and the no-write cases went red.
+{
+  const transceiver = await cat("transceiver");
+  await query(`INSERT INTO field_dictionary (key, type, unit, label_en, label_de) VALUES
+    ('form_factor', 'e', NULL, 'Form factor', 'Formfaktor'), ('connector', 'e', NULL, 'Connector', 'Anschluss'), ('media', 'e', NULL, 'Media', 'Medium')
+    ON CONFLICT (key) DO NOTHING`);
+  const pXD = await part("NZT-OSFP-XD-A", transceiver, "NZTEST 800G");
+  const pQDD = await part("NZT-QDD-400G-B", transceiver, "NZTEST 800G");
+  const rec = (sku: string, label: string, value: string, locator: string) => ({ sku, label, value, shape: "A", locator, source_url: U3 });
+  const condA = path.join(tmp, "condition-a.json");
+  fs.writeFileSync(condA, JSON.stringify({ source: "cisco-specs-deep", generated_at: "2026-09-12T00:00:00Z", records: [
+    { __doc__: true, source_url: U3, pid_list: ["NZT-OSFP-XD-A", "NZT-QDD-400G-B"], tables: 1, defects: [] },
+    rec("NZT-OSFP-XD-A", "Form factor", "OSFP-XD", "t0:r1:c1"), rec("NZT-OSFP-XD-A", "Connector type", "SN", "t0:r1:c2"), rec("NZT-OSFP-XD-A", "Cable type", "AEC", "t0:r1:c3"),
+    rec("NZT-QDD-400G-B", "Form factor", "QSFP-DD", "t0:r2:c1"), rec("NZT-QDD-400G-B", "Connector type", "LC", "t0:r2:c2"), rec("NZT-QDD-400G-B", "Cable type", "SMF", "t0:r2:c3"),
+  ] }, null, 1));
+  const D3 = docIdFor(U3);
+  const KEYS = ["form_factor", "connector", "media"];
+
+  const ap = await planExtract([loadExtractFile(condA)], { vendor: "cisco", db: db() });
+  const qa = ap.quarantine.filter((q) => q.sku === "NZT-OSFP-XD-A");
+  sabotages++;
+  check("CONDITION A plan: OSFP-XD, SN and AEC are each ONE quarantine line with key, ENUM_VIOLATION, document and locator",
+    qa.length === 3 && KEYS.every((k) => qa.filter((q) => q.key === k).length === 1)
+      && qa.every((q) => q.reason === "ENUM_VIOLATION" && q.doc_id === D3 && /^t0:r1:c[123]$/.test(String(q.locator))), ap.quarantine);
+  const xdIncoming = (ap.incoming.get(pXD) ?? []).filter((e) => KEYS.includes(e.k));
+  sabotages++;
+  check("CONDITION A plan: NOTHING is offered for the refused part under any of the three keys — no fold to osfp, lc-duplex, dac-copper or any neighbour",
+    xdIncoming.length === 0, xdIncoming.map((e) => `${e.k}=${JSON.stringify(e.value)}`));
+  const qddIncoming = new Map((ap.incoming.get(pQDD) ?? []).map((e) => [e.k, e.value]));
+  check("CONDITION A control: the same three labels map for the in-domain row (qsfp-dd, lc-duplex, smf), so the refusals are about the values",
+    qddIncoming.get("form_factor") === "qsfp-dd" && qddIncoming.get("connector") === "lc-duplex" && qddIncoming.get("media") === "smf", [...qddIncoming]);
+
+  // The committed run, behind a gate that passes on the control row's golden expectations.
+  const goldA = fs.mkdtempSync(path.join(os.tmpdir(), "nz-golden-a-")); tmpDirs.push(goldA);
+  fs.writeFileSync(path.join(goldA, "condition-a.golden.json"), JSON.stringify({ expectations: [
+    { sku: "NZT-QDD-400G-B", field: "form_factor", raw: "QSFP-DD", value: "qsfp-dd", unit: null },
+    { sku: "NZT-QDD-400G-B", field: "connector", raw: "LC", value: "lc-duplex", unit: null },
+    { sku: "NZT-QDD-400G-B", field: "media", raw: "SMF", value: "smf", unit: null },
+  ] }));
+  extraTags.push("nztest-conda");
+  await main([condA, "--commit", "--golden-dir", goldA, "--tag", "nztest-conda", "--sample", "100"]);
+  const runA = (await query<{ status: string }>("SELECT status FROM runs WHERE kind = 'apply-specs' ORDER BY id DESC LIMIT 1")).rows[0];
+  const factsOf = async (pid: number) => (await query<{ field_key: string; value: unknown }>(
+    "SELECT field_key, value FROM facts WHERE part_id = $1 AND superseded_by IS NULL AND field_key = ANY($2::text[])", [pid, KEYS])).rows;
+  const xdFacts = await factsOf(pXD), qddFacts = await factsOf(pQDD);
+  check("CONDITION A commit: the run succeeded behind its gate and wrote the control row's three facts", runA?.status === "succeeded" && qddFacts.length === 3, { runA, qddFacts });
+  sabotages++;
+  check("CONDITION A commit: NO fact exists for the refused part under form_factor, connector or media — not the raw value, not a folded neighbour",
+    xdFacts.length === 0, xdFacts);
+  const qlines = fs.readFileSync(reportPaths("nztest-conda").quarantine, "utf8").trim().split("\n").filter(Boolean).map((l) => JSON.parse(l) as Record<string, unknown>);
+  sabotages++;
+  check("CONDITION A report: the quarantine file carries the three lines with key, reason, document and locator",
+    qlines.length === 3 && KEYS.every((k) => qlines.some((x) => x.sku === "NZT-OSFP-XD-A" && x.key === k && x.reason === "ENUM_VIOLATION" && x.doc_id === D3 && typeof x.locator === "string")), qlines);
+}
 
 // ---- cleanup ----------------------------------------------------------------------------------------------
 for (const t of ["nztest", ...extraTags]) for (const f of Object.values(reportPaths(t))) fs.rmSync(f, { force: true });

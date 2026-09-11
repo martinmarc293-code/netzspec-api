@@ -32,8 +32,8 @@ import { GENERATED_PROFILES } from "../src/core/fieldSchema.generated.js";
 const KNOWN_LEAKS: Record<string, string[]> = {
   video: ["standard"],
   // wireless (12 Sep 2026): `standard` is declared optional by the curated block — the leak is closed.
-  "hyperconverged-systems": ["emc_emissions", "emc_immunity"],
-  "hyperconverged-infrastructure": ["clock_speed", "cpu_cache", "emc_emissions", "emc_immunity"],
+  // servers (12 Sep 2026): both hyperconverged entries removed — their curated blocks spread ucsCups(),
+  // which names every one of these keys (emc_* as opt, clock_speed / cpu_cache as cond on kind cpu).
   "collaboration-endpoints": ["supported_protocols", "temp_storage", "ui_languages"],
   meraki: ["mounting", "psu_options", "switching_capacity"],
 };
@@ -62,7 +62,12 @@ for (const [cat, fields] of Object.entries(PROFILES)) {
   const gen = GENERATED_PROFILES[cat] ?? {};
   // Which keys the curated block names, read from the source text of THAT block only.
   const start = profileBlock.indexOf(`\n  ${cat.includes("-") ? `"${cat}"` : cat}:`);
-  const body = start < 0 ? "" : profileBlock.slice(start, profileBlock.indexOf("\n  },", start));
+  let body = start < 0 ? "" : profileBlock.slice(start, profileBlock.indexOf("\n  },", start));
+  // servers (12 Sep 2026): a block that spreads ucsCups() names every key that function names.
+  if (body.includes("...ucsCups()")) {
+    const f = src.indexOf("const ucsCups = ()");
+    body += f < 0 ? "" : src.slice(f, src.indexOf("\n});", f));
+  }
   const leaked: string[] = [];
   for (const [key, req] of Object.entries(fields)) {
     if (req.kind !== "req" && req.kind !== "cond") continue;

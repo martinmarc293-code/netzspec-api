@@ -22,10 +22,16 @@
 // fact is evidence about the PARENT and never about the kind of the child. Any future rule that
 // reads facts as evidence of what a part IS must exclude them.
 
+// servers (12 Sep 2026) — `io-module` and `software` added. An IOM/IFM (UCS 2408 "8 External 25Gb
+// Ports") was filed `chassis` and asked for a rack height, a weight and a form factor; it is a card
+// in the chassis and is bought on its ports and on which chassis takes it. `software` names the
+// firmware packages and management images that sit in `hardware` (N20-FW018 "UCS 5108 Blade Chassis
+// FW Package 4.2" was kind `chassis` and asked 8 chassis fields) — a kind that asks nothing, so a
+// row still classed hardware until the class rules S1/S2/S5 are applied is not scored as a box.
 export type UcsKind =
   | "server" | "chassis" | "fabric-interconnect"
-  | "cpu" | "memory" | "drive" | "psu" | "nic" | "gpu" | "storage-controller"
-  | "accessory" | "os-license" | "bundle" | "non-product" | "unknown";
+  | "cpu" | "memory" | "drive" | "psu" | "nic" | "gpu" | "storage-controller" | "io-module"
+  | "accessory" | "os-license" | "software" | "bundle" | "non-product" | "unknown";
 
 /** Kinds that are a whole machine — the only ones a physical specification belongs to. */
 export const UCS_MACHINE: readonly UcsKind[] = ["server", "chassis", "fabric-interconnect"];
@@ -33,7 +39,14 @@ export const UCS_MACHINE: readonly UcsKind[] = ["server", "chassis", "fabric-int
 /** Kinds that are a part OF a machine. Cisco publishes no weight or operating temperature for
  *  these, so a physical requirement on them is a gap nothing can ever close. */
 export const UCS_COMPONENT: readonly UcsKind[] =
-  ["cpu", "memory", "drive", "psu", "nic", "gpu", "storage-controller", "accessory"];
+  ["cpu", "memory", "drive", "psu", "nic", "gpu", "storage-controller", "io-module", "accessory"];
+
+/** Kinds asked NOTHING: not a product of a kind we can specify (a bundle's contents are a relation,
+ *  R3), not hardware at all, or not yet determined — the fallback that asks less, never more. */
+export const UCS_UNASKED: readonly UcsKind[] = ["bundle", "os-license", "software", "non-product", "unknown"];
+
+/** Every kind ucsKind can return, in ledger order. */
+export const UCS_KINDS: readonly UcsKind[] = [...UCS_MACHINE, ...UCS_COMPONENT, ...UCS_UNASKED];
 
 /**
  * The kind-bearing token: `UCSC-C220-M5SX` -> `C220`, `UCS-MR-X32G1RW` -> `MR`.
@@ -52,7 +65,17 @@ export function ucsToken(sku: string): string {
   // residue with the whole SKU as its token, which is why 1,449 parts were unnamed and the
   // largest single unnamed token was a 960 GB SSD.
   s = s.replace(/^UCS[CBXSE]?-/, "").replace(/^UCS[CBXSE](?=[A-Z])/, "");
-  s = s.replace(/^(?:HXAF|HCIX|HCI|HX)-/, "").replace(/^(?:HXAF|HX)(?=[A-Z]{2})/, "");
+  // servers (12 Sep 2026): HXE-/HCIXE- are the Edge/E-series spellings of the same system prefix
+  // (HXE-CPU-A7763, HCIXE-MRX64G2RE5) and were whole-SKU tokens in the residue.
+  s = s.replace(/^(?:HXAF|HCIXE|HCIX|HCI|HXE|HX)-/, "").replace(/^(?:HXAF|HX)(?=[A-Z]{2})/, "");
+  // servers (12 Sep 2026): three more SYSTEM prefixes that put the kind in the second segment.
+  //   UCSW-  Whiptail/Invicta: UCSW-SD480G0KA4-C "480GB 2.5 inch SATA SSD", UCSW-PCIE-IX5204 a NIC
+  //   CSP-   Cloud Services Platform 5000: CSP-CPU-5120, CSP-PSU1-1050W, CSP-TPM2-002 (the platform
+  //          itself, CSP-5444 "2RU NFV Platform", is named by PRE_RULES before this runs)
+  //   N20- / N10- / N01-  first-generation UCS: N20-PAC5-2500W a PSU, N20-BBLKD a blank, N20-CRMK2 a
+  //          rack kit. The bare `N20` token used to be exact `chassis`, which filed every one of the
+  //          69 N20-* parts — fans, blanks, heat sinks, firmware — as a 5108 chassis.
+  s = s.replace(/^(?:UCSW|CSP|N20|N10|N01)-/, "");
   // KIN- is the Kinetic system prefix and behaves exactly like HX-: the kind is the NEXT token.
   // Found by the machine-hunt — the only two residue rows carrying an own physical fact were
   // KIN-CPU-4114 and KIN-CPU-I4214, i.e. CPUs, and the "physical fact" was power_max holding the
@@ -66,7 +89,7 @@ export function ucsToken(sku: string): string {
 // Ordered. First match wins. Each entry is (kind, exact tokens, token prefixes) and the ORDER
 // encodes precedence: an OS licence beats everything (VMW-* is a licence whatever else it says),
 // then machines, then components, then accessories.
-const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
+export const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
   // NOT PRODUCTS AT ALL — ordering-system artefacts, first because they outrank every other
   // reading of the same token. Read from the names, not guessed:
   //   TR-*   400 parts, every one a "Tracer" SKU — Cisco's ordering artefact for tracking a
@@ -115,9 +138,10 @@ const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
                                         "C1", "CUIC", "DC", "BDMREP", "BMC"]),
     prefix: ["C16S", "C1-", "INTERSIGHT"] },
 
-  { kind: "fabric-interconnect", exact: new Set(["FI"]), prefix: ["FI"] },
-  { kind: "chassis", exact: new Set(["5108", "9508", "C4200", "C3X60", "N20"]),
-    prefix: ["IOM", "IFM", "I-9108"] },
+  // servers (12 Sep 2026): S9108 is "Cisco UCS Fabric Interconnects 9108 100G" (UCSX-S9108-100G).
+  { kind: "fabric-interconnect", exact: new Set(["FI", "S9108"]), prefix: ["FI"] },
+  // `N20` removed (it is stripped as a system prefix now) and IOM/IFM moved to PRE_RULES' io-module.
+  { kind: "chassis", exact: new Set(["5108", "9508", "C4200", "C3X60"]) },
   // Server model numbers: a letter class plus digits (C220, B200, X210C, C480, S3260, C880).
   // Read out of the residue machine-hunt, 10 Sep 2026 — each from its NAME, not its shape:
   //   C125  "UCS C125 Base Compute Node Tray"      a server node
@@ -149,24 +173,60 @@ const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
   // Found by the reviewer's power_max/TDP check, which is the only reason it surfaced: the wrong
   // kind was invisible until something asked what kind of part carries a processor wattage.
   { kind: "cpu", exact: new Set(["CPU"]), prefix: ["CPU", "A01"] },
-  { kind: "memory", exact: new Set(["MR", "ML", "MRX", "MLX", "MEM"]), prefix: ["MR", "ML", "MEM"] },
+  // servers (12 Sep 2026): MP = Optane persistent memory ("Intel Optane Persistent Memory, 128GB,
+  // 2666MHz"), EM3 = UCS-E M3 DIMMs ("8 GB 1200MHz VLP RDIMM ... for UCS-E M3"), MKIT = "Mem kit
+  // for UCS-ML-2X648RY-E".
+  { kind: "memory", exact: new Set(["MR", "ML", "MRX", "MLX", "MEM", "MP", "EM3", "MKIT"]), prefix: ["MR", "ML", "MEM"] },
   // Drives are the most fragmented token family in the catalogue — NVMEG4, NVME4, NVMEHW,
   // NVB3T8O1V, SDB3T8OA1P, UCSXSD960GBKNK9. Prefixes, not a list, or every new capacity is an edit.
   // `F` is Fusion-io (UCSC-F-H19001), `C3K` the C3000 storage server's drives.
+  // servers (12 Sep 2026): HY = the 3.5-inch "Enterprise Value/Performance SATA/SAS SSD" family
+  // (UCS-HY16T61X-EV, 46 parts each holding storage_capacity), NVM = NVM2/NVMHG NVMe drives the
+  // NVME prefix missed, USBFLSH/MSD = boot flash ("4GB Flash USB Drive", "32GB Micro SD Card").
   { kind: "drive", exact: new Set(["F", "C3K"]),
-    prefix: ["HD", "SD", "NVME", "NVB", "SDB", "M2", "HYB", "SSD", "C3K"] },
-  { kind: "psu", prefix: ["PSU", "PSUV2"] },
+    prefix: ["HD", "SD", "NVME", "NVB", "SDB", "M2", "HYB", "SSD", "C3K", "HY", "NVM", "USBFLSH", "MSD"] },
+  // servers (12 Sep 2026): PAC/UAC are the 5108's supplies once the N20-/N01- prefix is stripped
+  // (N20-PAC5-2500W "2500W AC power supply unit", N01-UAC1 "Single phase AC power module").
+  { kind: "psu", prefix: ["PSU", "PSUV2", "PAC", "UAC"] },
   { kind: "gpu", prefix: ["GPU"] },
-  { kind: "storage-controller", prefix: ["RAID", "SAS", "HBA", "9300", "MRAID"] },
+  // servers (12 Sep 2026): BRAID = N20-BRAID-K1 "RAID upgrade", 9400 = "9400-8I 12G SAS HBA",
+  // X10C = "UCS X10c Compute RAID Controller" / "Pass Through Controller".
+  { kind: "storage-controller", prefix: ["RAID", "SAS", "HBA", "9300", "MRAID", "BRAID", "9400", "X10C"] },
   // `P` is the X-Series PCIe node adapter (UCSC-P-NC3220); N2XX/N20 are the first-generation
   // mezzanine adapters.
-  { kind: "nic", exact: new Set(["P", "N2XX"]), prefix: ["MLOM", "PCIE", "VIC", "P-", "PCI"] },
-  { kind: "accessory", exact: new Set(["CB", "CBL", "N10"]),
+  // servers (12 Sep 2026): M = mLOM VIC (UCSC-M-V100-04 "VIC 1477 dual port 40/100G QSFP28 mLOM"),
+  // O = OCP NIC (UCSC-O-ID25GF "Intel XXV710DA2OCP1 2x25/10GbE OCP 2.0 NIC"), MEZ/ME/V4/V5 = VIC
+  // mezzanines (UCSX-V4-Q25GME "UCS VIC 14825 4x25G mezz"). VIC bridges are refused to accessory
+  // by PRE_RULES first.
+  { kind: "nic", exact: new Set(["P", "N2XX", "M", "O", "MEZ", "ME", "V4", "V5"]), prefix: ["MLOM", "PCIE", "VIC", "P-", "PCI"] },
+  // `N10` removed from the exact set: N10- is stripped as a system prefix now, and the token covered
+  // UCS Manager images (software) and FI port licences, not accessories.
+  // servers (12 Sep 2026) additions, each read from names in the residue: blanks (BBLKD, CBLK, DIMM
+  // "UCS-DIMM-BLK", FBRS "Riser Filler Blank"), air ducts and baffles (AD, ADGPU, BAFF, AIRBAF),
+  // control panels (CP, CPL), risers (RS, R1, R2A, R2B), storage carriers and backplanes (MSTOR,
+  // LSTOR, DBKP, XPAND), brackets and cages (BRCKT, RDBKT, CAGE, PCOL), cables (RC "SAS RAID Cable",
+  // AUXCBL, M10CBL, V340CBL, 300W "300 Watt Cable"), interposers (IP, OCP3), supercap (SCAP), heat
+  // sink (BHTS), rack kits (CRMK), the chassis intrusion switch (INT "Chassis Intrusion Switch"),
+  // an optical media drive (DVD), packaging (PKG), accessory kits (ACC), LP, FTCX.
+  { kind: "accessory", exact: new Set(["CB", "CBL", "ACC", "CP", "AD", "IP", "RC", "LP", "INT", "R1", "R2A", "R2B",
+                                       "DIMM", "SCAP", "CAGE", "PKG", "300W", "DVD", "OCP3", "PCOL", "FTCX"]),
     prefix: ["RIS", "FAN", "HS", "TPM", "CAB", "RAIL", "CMA", "BZL", "KIT",
-             "RACK", "BLKE", "BLK", "SCRW", "LBL", "CBL", "CB-"] },
+             "RACK", "BLKE", "BLK", "SCRW", "LBL", "CBL", "CB-",
+             "BBLKD", "BAFF", "FBRS", "AIRBAF", "CPL", "ADGPU", "RS", "MSTOR", "LSTOR", "DBKP", "XPAND",
+             "BRCKT", "AUXCBL", "M10CBL", "V340CBL", "RDBKT", "CRMK", "CBLK", "BHTS"] },
   // Solution packs and bundles: their facts belong to the base server they contain.
   { kind: "bundle", exact: new Set(["SP", "SPL", "SPR", "SPM", "SPB", "SP5", "DBUN", "SA", "SM"]),
     prefix: ["SP", "DBUN", "EZ7", "EZ8", "SM-"] },
+  // servers (12 Sep 2026): configured systems and packs, each read from its name — EZ/SL SmartPlay
+  // and solution packs ("UCS HANA XL Bundle w/B440 M2"), SR/CX "(Not sold Standalone)B200M3 w/ ...",
+  // WMS/YES/SB/UCUCS/OPS/SEED/MINI/BR/MAN configured servers ("Brazil- UCS C240M4X 24HD w/2xE52680v4",
+  // "MSFT AzureStack FixedNode C240M4L"), 10PK "MULTIPACK: 10PK B200 M6", VSPEX/FPEX/VXI/CDV/SF/CESIUM
+  // solution stacks, and the HyperFlex system/config SKUs STD/ENCR ("HX Standard w/1x400GB SAS ..."),
+  // UC ("UC on HX TRC"), HXC/HXM5/M5S/AF2X0C ("Cisco HXAF2X0C M5 Hyperflex System"). R3: what a
+  // bundle CONTAINS is a relation, so the kind asks nothing.
+  { kind: "bundle", exact: new Set(["EZ", "SL", "SR", "WMS", "CX", "BR", "YES", "SB", "VSPEX", "UCUCS", "10PK",
+                                    "FPEX", "VXI", "SEED", "OPS", "MAN", "HXC", "SF", "CESIUM", "CDV", "MINI",
+                                    "STD", "ENCR", "UC", "HXM5", "M5S", "AF2X0C"]) },
   // Solution bundles the machine-hunt surfaced: each names the machines it CONTAINS, which is what
   // made them look like machines. "UCS Mini FastTrack w/ 1x5108 Mini Chassis, 4xB200M".
   { kind: "bundle", exact: new Set(["FT", "NFVI", "SHRPT", "COPC", "FPOD", "ASR57", "FSA1", "C6508"]) },
@@ -179,6 +239,44 @@ const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
 ];
 
 /**
+ * servers (12 Sep 2026). Rules on the WHOLE SKU (upper-cased, spare `=` removed), tried before the
+ * token rules, for the shapes a single token cannot carry. Ordered; first match wins. Every entry was
+ * read from names in the residue and each has refusal cases in tests/ucsKind.test.ts.
+ *
+ *   software      N10-MGT016 "UCS Manager v4.0", N20-FW018 "UCS 5108 Blade Chassis FW Package 4.2",
+ *                 UCSB-FW014-D "UCS B200 M4 server node FW", CIMC-C220M4-209E "C-Series Software
+ *                 2.0(9e)", UCSW-DDUP-24T "Invicta dedup" images, UCSX-C-SW-LATEST. Anchored so the
+ *                 real N20-C6508 chassis and UCSX-C-M6-HS-R heat sink are not reached.
+ *   non-product   ordering-system SETTINGS and datasheet cells, not things anyone ships:
+ *                 HX-E-TOPO1 "10GbE Single or Dual Switch (2, 3, or 4 node)" (a topology choice),
+ *                 DISK-MODE-RAID-10, UCSC-SW-C220M4-P01 "Performance Optimized setting",
+ *                 UCSC-CCARD-01 "Card Mode BIOS setting", HCI-IS-MANAGED "Deployment mode for
+ *                 Standalone Server Managed by Intersight", HX-DCPMM-AD "Optane ... Operational Mode",
+ *                 DDR5-5600MT/s and E5-2699 (a speed and a CPU family enumerated as parts).
+ *   io-module     IOM/IFM cards: UCS-IOM-2408 "I/O Module (8 external 25G ports ...)",
+ *                 UCSX-I-9108-100G / UCSX-I9108-100G, X9108-IFM-100G. `(?:^|-)` so C890-M5-SIOM-B
+ *                 (a server's system I/O card, not a chassis IOM) is refused.
+ *   chassis       N20-C6508 "UCS 5108 Blade Svr AC Chassis" — its token C6508 is also a bundle token.
+ *   server        converged NODES whose model is glued to the system prefix: HXAF220C-M5SX,
+ *                 HX240C-M6SX, HX-E-240-M6SX "HyperFlex Hybrid Edge 240", HCIAF220C-M7SN "Compute
+ *                 Hyperconverged ... All Flash Node", HCONX240C-M8L "Compute-Only C240 M8",
+ *                 HCIXNX215C-M8SN, and the CSP 5000 NFV platforms (CSP-5444 "2RU NFV Platform").
+ *                 The `-M<gen>` / `C(?:-|$)` anchors refuse HXAF220C-BZL-M5S (a bezel) and
+ *                 HX-E-220C-BZL-M5.
+ *   drive         E-SSD-SATA-4TB "SATA SSD drive for UCS-E M6", A03-D1TBSATA "1TB 6Gb SATA ... HDD".
+ *   accessory     VIC bridges (UCSX-V5-BRIDGE-D) before the V5 token reads them as a NIC.
+ */
+export const PRE_RULES: { kind: UcsKind; re: RegExp }[] = [
+  { kind: "software", re: /^N10-MGT\d|^(?:N20|UCSB)-FW\d|^CIMC-C\d|^UCSW-DDUP-|^UCSX-C-SW-LATEST$/ },
+  { kind: "non-product", re: /-TOPO\d+$|^DISK-MODE-|^UCSC-SW-C\d{3}M\d-P\d|^UCSC-CCARD-|-(?:IS|IMM)-MANAGED(?:-M\d)?$|^HX-DCPMM-|^DDR\d-\d{4}|^E5-\d{4}$/ },
+  { kind: "io-module", re: /(?:^|-)IOM-?\d{4}|(?:^|-)IFM(?:-|$)|(?:^|-)I-?9108-|^X9108-IFM/ },
+  { kind: "chassis", re: /^N20-C65\d\d/ },
+  { kind: "server", re: /^HX(?:AF)?\d{3}C-M\d|^HX-E-\d{3}C?-?M\d|^HC[IO][A-Z]*\d{3}C(?:-|$)|^CSP-5\d{3}(?:-|$)/ },
+  { kind: "drive", re: /^E-(?:SSD|HDD)-|^A03-D\d/ },
+  { kind: "accessory", re: /-BRIDGE/ },
+];
+
+/**
  * The kind of a UCS part, or `unknown`.
  *
  * `unknown` is a real answer and is never guessed into a neighbouring kind: a wrong kind puts a
@@ -186,11 +284,35 @@ const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] = [
  * by the audit so it can be read rather than assumed away.
  */
 export function ucsKind(sku: string): UcsKind {
+  const whole = String(sku ?? "").trim().toUpperCase().replace(/=+$/, "");
+  for (const r of PRE_RULES) if (r.re.test(whole)) return r.kind;
   const t = ucsToken(sku);
   if (!t) return "unknown";
   for (const r of RULES) {
-    if (r.exact?.has(t)) return r.kind;
-    if (r.prefix?.some((p) => t.startsWith(p))) return r.kind;
+    if (r.exact?.has(t)) return (r.kind === "server" || r.kind === "chassis") ? refineMachine(whole, r.kind) : r.kind;
+    if (r.prefix?.some((p) => t.startsWith(p))) return (r.kind === "server" || r.kind === "chassis") ? refineMachine(whole, r.kind) : r.kind;
   }
   return "unknown";
+}
+
+/**
+ * servers (12 Sep 2026). A MACHINE token names the platform a part belongs to, and Cisco also files the
+ * platform's own spares under it: UCS-S3260-HD8TB "UCS S3260 8TB NL-SAS 7.2K HDD", C890-M5-64T-SSD
+ * "UCS C890 M5 6.4T SSD Drive", RC460-SLDRAIL-S "Short Slide Rail Kit for C460", C880-J-SASCBL "C880 M4
+ * JBOD SAS Cable", C890-M5-NET-ADPT "Dual NIC", C880-SASI-RC-HW "SAS Internal RAID Controller". Read out
+ * of the server bucket sorted by component words in the name. A later SEGMENT carrying a component marker
+ * makes the part that component; the model segments themselves (C240, M5SX, M6N) never carry one.
+ * Exported for the sabotage case.
+ */
+export const MACHINE_REFINE: { kind: UcsKind; re: RegExp }[] = [
+  // NOT a bare `<n>T` segment: C880-6T-M4 is "C880 M4 Server for SAP HANA 6T Scale out" — 6 TB of MEMORY.
+  { kind: "drive", re: /^(?:\d*K?S?SD\d|HDD?(?:\d+TB?)?$|SSD|HDD)/ },
+  { kind: "accessory", re: /(?:RAIL|CBL|CABLE|PKG|BZL|BEZEL)/ },
+  { kind: "nic", re: /^(?:NET-)?ADPT$|^NIC$/ },
+  { kind: "storage-controller", re: /^SASI$|^RAID/ },
+];
+function refineMachine(whole: string, kind: UcsKind): UcsKind {
+  const segs = whole.split("-").slice(1);
+  for (const r of MACHINE_REFINE) if (segs.some((s) => r.re.test(s))) return r.kind;
+  return kind;
 }

@@ -616,6 +616,18 @@
    ""
   ],
   [
+   "^memory speed$",
+   "memory_speed_max",
+   "servers (12 Sep 2026): 'Memory speed' = '6400 MHz', '3200 MHz', '4800 MHz' (10 occurrences, UCS spec sheets) is a DIMM SPEED. The generic ^memory rule below sent it to dram (GB), where the unit could never convert; memory_speed_max is REQUIRED of every UCS server, CPU and DIMM. Verbatim label, scoped.",
+   {
+    "only": [
+     "servers-unified-computing",
+     "hyperconverged-systems",
+     "hyperconverged-infrastructure"
+    ]
+   }
+  ],
+  [
    "^dram|^memory",
    "dram",
    ""

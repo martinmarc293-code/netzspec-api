@@ -13,6 +13,7 @@ import { SW_BOX, SW_PART } from "./switchKind.js";
 import type { OpticKind } from "./opticKind.js";
 // wireless (12 Sep 2026)
 import { WL_KINDS } from "./wirelessKind.js";
+import { UCS_KINDS } from "./ucsKind.js";
 
 /** Every kind a category's axis can name — including kinds no part holds today, which still have a question set. */
 export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
@@ -20,6 +21,10 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   transceiver: ["pluggable", "bidi", "tunable", "adapter", "accessory"] satisfies OpticKind[],
   // wireless (12 Sep 2026)
   wireless: WL_KINDS,
+  // servers (12 Sep 2026): all three categories derive their kind with ucsKind (partKind.ts).
+  "servers-unified-computing": [...UCS_KINDS],
+  "hyperconverged-systems": [...UCS_KINDS],
+  "hyperconverged-infrastructure": [...UCS_KINDS],
 };
 
 export type KindQuestionSet = {

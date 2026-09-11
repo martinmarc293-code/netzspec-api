@@ -10,7 +10,7 @@
 // filed 328 components as servers, and the tell was that the `server` bucket carried 328 COMPONENT
 // facts and zero physical ones — the wrong way round for a machine. Every HyperFlex form is pinned
 // below so that regression cannot come back silently.
-import { ucsKind, ucsToken, UCS_MACHINE, UCS_COMPONENT } from "../src/core/ucsKind.js";
+import { ucsKind, ucsToken, UCS_MACHINE, UCS_COMPONENT, UCS_KINDS, PRE_RULES, RULES, MACHINE_REFINE } from "../src/core/ucsKind.js";
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -105,7 +105,73 @@ eq("machine and component kinds do not overlap",
 eq("there are machine kinds", UCS_MACHINE.length > 0, true);
 eq("there are component kinds", UCS_COMPONENT.length > 0, true);
 
+// --- servers (12 Sep 2026): the extensions, their refusals and one sabotage per rule family ----------------
+// Every SKU is a live catalogue row. More refusals than positives, on purpose: each refusal is a real part a
+// widened rule would misfile, read out of the same families.
+const POS12: [string, string][] = [
+  ["N20-PAC5-2500W=", "psu"], ["N20-BBLKD=", "accessory"], ["N20-FW018", "software"], ["N10-MGT016", "software"],
+  ["UCS-IOM-2408", "io-module"], ["UCSX-I-9108-100G", "io-module"], ["X9108-IFM-100G", "io-module"],
+  ["HXAF220C-M5SX", "server"], ["HX-E-240-M6SX", "server"], ["HCIAF220C-M7SN1", "server"], ["CSP-5444", "server"],
+  ["CSP-CPU-5120", "cpu"], ["E-SSD-SATA-4TB", "drive"], ["UCS-HY16T61X-EV", "drive"], ["UCS-MP-128GS-A0", "memory"],
+  ["UCSC-M-V100-04", "nic"], ["HX-M-V5Q50G", "nic"], ["UCSX-V5-BRIDGE-D=", "accessory"], ["UCS-S3260-HD8TB", "drive"],
+  ["RC460-SLDRAIL-S", "accessory"], ["UCSX-S9108-100G", "fabric-interconnect"], ["HX-E-TOPO1", "non-product"],
+  ["DDR5-4800", "non-product"], ["UCS-EZ-HANA-XL2", "bundle"], ["HX-STD-05", "bundle"],
+];
+for (const [sku, kind] of POS12) eq(`12 Sep: ${sku}`, ucsKind(sku), kind);
+const REF12: [string, string, string][] = [
+  // [sku, the kind it must NOT be, why]
+  ["N20-C6508", "bundle", "the 5108 chassis; its token C6508 is a bundle token"],
+  ["N20-C6508", "software", "N20-FW\\d is anchored"],
+  ["C890-M5-SIOM-B", "io-module", "a server's system I/O card — no dash before IOM"],
+  ["HXAF220C-BZL-M5S", "server", "'HXAF220C M5 Security Bezel' — the node rule needs -M<gen> after the model"],
+  ["HX-E-220C-BZL-M5", "server", "an Edge bezel, not the Edge node"],
+  ["HX-E-TOPO1", "server", "a topology choice"],
+  ["UCSX-C-M6-HS-R", "software", "'CPU Heat Sink' — UCSX-C-SW-LATEST is exact"],
+  ["UCSW-SD480G0KA4-C", "software", "'480GB 2.5 inch SATA SSD' — only UCSW-DDUP- is software"],
+  ["C880-6T-M4", "drive", "'C880 M4 Server for SAP HANA 6T' — 6 TB of memory, not a drive"],
+  ["UCSC-C3X60-56HD8", "drive", "the C3160 chassis; 56HD8 is a drive COUNT in the model"],
+  ["UCSC-C240-M5SX", "drive", "a server; M5SX is a model segment"],
+  ["UCSB-B200-M6++=", "accessory", "a blade"],
+  ["HCI-ADGPU-240M6", "server", "'C240M6 GPU Air Duct' — HCI- then a dash is not a node"],
+  ["HXAF2X0C-M5S", "server", "'Cisco Hyperconverged System' — a system bundle, 2X0 is not a model number"],
+  ["UCS-EN120E208B/K9", "bundle", "'Promo UCS E-Series NCE' — a real E-Series module"],
+  ["CSP-PSU1-1050W", "server", "a CSP power supply, not the CSP platform"],
+  ["UCS-DIMM-BLK", "memory", "a DIMM blank"],
+  ["E-MEM-16G", "drive", "UCS-E memory; only E-SSD-/E-HDD- are drives"],
+  ["UCSX-V5-BRIDGE-D", "nic", "a VIC bridge, not a VIC"],
+  ["DDR5-5600MT/s", "memory", "a speed enumerated as a part"],
+  ["E5-2699", "cpu", "a CPU family enumerated as a part"],
+  ["UCS-IOM2208-16FET", "chassis", "an I/O module, no longer the chassis"],
+  ["N10-L003", "accessory", "an FI licence; the N10 token no longer names accessories"],
+  ["HX-M6-AAS", "nic", "'Cisco+ Hybrid Cloud - M6 HX Bundle' — only the bare M token is a mLOM"],
+  ["UCSC-C22-M3L", "accessory", "a rack server whose name says 'w/ rail kit' — the SKU carries no RAIL segment"],
+];
+for (const [sku, not, why] of REF12) eq(`12 Sep REFUSAL ${sku} is not ${not} — ${why.slice(0, 50)}`, ucsKind(sku) === not, false);
+// SABOTAGE: disable each rule family and its own positive must change kind.
+for (let i = 0; i < PRE_RULES.length; i++) {
+  const probe = { software: "N10-MGT016", "non-product": "HX-E-TOPO1", "io-module": "UCS-IOM-2408", chassis: "N20-C6508",
+    server: "HXAF220C-M5SX", drive: "E-SSD-SATA-4TB", accessory: "UCSX-V5-BRIDGE-D=" }[PRE_RULES[i].kind as string];
+  if (!probe) { eq(`a sabotage probe exists for PRE_RULES[${i}]`, false, true); continue; }
+  const before = ucsKind(probe);
+  const [rule] = PRE_RULES.splice(i, 1);
+  const after = ucsKind(probe);
+  PRE_RULES.splice(i, 0, rule);
+  eq(`SABOTAGE PRE_RULES ${rule.kind} off: ${probe} stops being ${before}`, after !== before, true);
+}
+{
+  const saved = MACHINE_REFINE.splice(0, MACHINE_REFINE.length);
+  eq("SABOTAGE MACHINE_REFINE off: UCS-S3260-HD8TB falls back to the S3260 server", ucsKind("UCS-S3260-HD8TB"), "server");
+  MACHINE_REFINE.push(...saved);
+  const drive = RULES.find((r) => r.kind === "drive")!;
+  const i = drive.prefix!.indexOf("HY");
+  drive.prefix!.splice(i, 1);
+  eq("SABOTAGE drive prefix HY off: UCS-HY16T61X-EV is no longer a drive", ucsKind("UCS-HY16T61X-EV") === "drive", false);
+  drive.prefix!.splice(i, 0, "HY");
+  eq("control: restored, UCS-HY16T61X-EV is a drive again", ucsKind("UCS-HY16T61X-EV"), "drive");
+}
+eq("UCS_KINDS lists every kind exactly once", new Set(UCS_KINDS).size === UCS_KINDS.length, true);
+
 lines.unshift(`    ucs kind: ${passed} passed, ${failed} missed ` +
-              `(${HYPERFLEX.length} HyperFlex regressions, 4 refusals)`);
+              `(${HYPERFLEX.length} HyperFlex regressions, ${POS12.length} positives and ${REF12.length} refusals of 12 Sep, ${PRE_RULES.length + 2} sabotage cases)`);
 console.log(lines.join("\n"));
 if (failed) process.exit(1);

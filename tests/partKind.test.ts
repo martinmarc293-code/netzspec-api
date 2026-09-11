@@ -119,7 +119,10 @@ check("and the collapse is severe enough to be worth a guard",
   // reaches a component — asserted against an explicit allow-list of what a cable may be asked.
   const COMPONENT_OWN: Record<string, string[]> = { switches: ["cable_length", "product_compatibility"],
     // wireless (12 Sep 2026): the Swiss power cord is kind `cable` on wirelessKind's axis and is asked its length only
-    wireless: ["cable_length"] };
+    wireless: ["cable_length"],
+    // servers (12 Sep 2026): a UCS component (the probe is a cable, kind accessory) is asked what it fits.
+    "servers-unified-computing": ["product_compatibility"], "hyperconverged-systems": ["product_compatibility"],
+    "hyperconverged-infrastructure": ["product_compatibility"] };
   for (const cat of declared) {
     const sku = COMPONENT_PROBE[cat];
     if (!sku) { check(`a component probe exists for ${cat}`, false, "add one to COMPONENT_PROBE"); continue; }

@@ -49,6 +49,13 @@ export const KIND_CATEGORIES: readonly string[] = [
  */
 export function partKind(categorySlug: string, sku: string): string | undefined {
   if (categorySlug === "servers-unified-computing") return ucsKind(sku);
+  // servers (12 Sep 2026): the two HyperFlex / Compute Hyperconverged categories hold the SAME kinds
+  // as UCS — HX-CPU-*, HX-MR-*, HX-SD*, HCI-M-V5Q50GV2 (a VIC), HXAF220C-M5SX (a node) — and were on
+  // the generic device/component axis, which called 1,599 of 1,673 and 960 of 997 hardware parts
+  // `device` and asked every CPU, DIMM and SSD for a weight and a rack height. Measured with ucsKind
+  // before the move: 1,104 of 1,673 and 641 of 997 already fell into a named UCS kind, and the
+  // residue was converged-node and licence SKUs that the ucsKind additions of this date now name.
+  if (categorySlug === "hyperconverged-systems" || categorySlug === "hyperconverged-infrastructure") return ucsKind(sku);
   if (categorySlug === "switches") return switchKind(sku);
   // transceiver names OPTIC sub-kinds (single-fibre BiDi, tunable/coherent) plus the adapters and
   // accessories filed beside them — its own axis, see opticKind.ts (11 Sep 2026).

@@ -34,7 +34,7 @@ export type Condition =
 
 /** req = always required · opt = nice to have · cond = required only when the condition holds
  *  (not-applicable otherwise) · na = never applicable to this category. */
-import { UCS_MACHINE } from "./ucsKind.js";
+import { UCS_MACHINE, UCS_COMPONENT } from "./ucsKind.js";
 import { SW_DEVICE, SW_BOX, SW_COMPONENT, SW_CABLE } from "./switchKind.js";
 import { OPT_MODULE, OPT_FIXED_WAVELENGTH } from "./opticKind.js";
 import { GENERIC_DEVICE } from "./componentKind.js";
@@ -542,8 +542,10 @@ export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series"]);
 // (ap, wlc, antenna, ...) the generic `device` gate would have closed every question for.
 export const DEVICE_GATED_CATEGORIES = [
   "routers", "video", "unified-communications", "collaboration-endpoints",
-  "optical-networking", "hyperconverged-systems", "interfaces-modules", "storage-networking",
-  "hyperconverged-infrastructure", "meraki",
+  "optical-networking", "interfaces-modules", "storage-networking",
+  // servers (12 Sep 2026): hyperconverged-systems and hyperconverged-infrastructure removed — they gate
+  // on the UCS kind now (ucsCups), and this loop would re-gate their `req` keys onto `device`.
+  "meraki",
 ] as const;
 
 const deviceOnly = <T extends Record<string, Requirement>>(block: T): T => {
@@ -614,6 +616,73 @@ const SEC_ANALYTICS = ["Secure Network Analytics", "UDP Director", "Flow Sensor"
 const SEC_IDENTITY = ["Identity Services Engine"];
 /** Anything that terminates or inspects traffic in line. */
 const SEC_INLINE = [...SEC_FIREWALL, ...SEC_IPS];
+
+// servers (12 Sep 2026) ------------------------------------------------------------------------------
+// ONE QUESTION SET PER UCS KIND, shared by servers-unified-computing, hyperconverged-systems and
+// hyperconverged-infrastructure (all three derive `kind` with ucsKind, see partKind.ts). Every gate is
+// the derived kind or a REQUIRED field (R1): `rack_units` waits on `form_factor`, which every machine
+// is asked. Evidence per cup (labels, facts, fill path) is in runs/reports/schema-servers-2026-09-12.md
+// and data/ledger/cisco-<category>.json.
+//
+//   machine (server, chassis, fabric-interconnect) — the physical envelope and environment. temp_storage
+//     and altitude_max ADDED: every UCS datasheet states them ("Nonoperating temperature", "Altitude"),
+//     431 and 335 label occurrences, and 285 / 277 series-level facts already sit on these parts.
+//   server — processor, max DIMM speed, drive bays (33 own facts, "Drive bays" rows in spec sheets).
+//   fabric-interconnect — its ports and switching capacity ("Throughput"), like any switch.
+//   io-module — an IOM/IFM is a card: its ports and which chassis takes it.
+//   cpu — TDP (1,823 facts), base clock, cores, last-level cache, max DIMM speed: the five columns of
+//     every Cisco processor table. NOT power_max: on 1,571 CPUs power_max holds the same number as
+//     tdp (both mined from "…/105W 14C/…"), one quantity in two cups — see PROPOSALS.
+//   memory — capacity (`dram`, 152 facts) and speed (memory_speed_max).
+//   drive — capacity (storage_capacity, 987 facts; NOT storage_raw_capacity, which was asked of drives
+//     until today while holding 0 drive facts — it is a storage SERVER's aggregate, 29 facts, all on
+//     S-Series servers) and interface (drive_interface).
+//   psu — rated output and input voltage, exactly the switches PSU set.
+//   gpu — board power (power_max: a GPU draws it, "AMD Instinct MI210: 300W").
+//   every component — what it fits (product_compatibility), the switches rule (§1.1).
+//   bundle / os-license / software / non-product / unknown — asked nothing (R3 and the fallback).
+const UCS_BOX_K = [...UCS_MACHINE] as string[];
+const UCS_PART_K = [...UCS_COMPONENT] as string[];
+const ucsK = (...kinds: string[]): Requirement => cond({ field: "kind", inList: kinds });
+const ucsCups = (): Record<string, Requirement> => ({
+  form_factor: ucsK(...UCS_BOX_K),
+  rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
+  dimensions: ucsK(...UCS_BOX_K), weight: ucsK(...UCS_BOX_K),
+  power_max: ucsK(...UCS_BOX_K, "gpu"),
+  temp_operating: ucsK(...UCS_BOX_K), temp_storage: ucsK(...UCS_BOX_K),
+  humidity_operating: ucsK(...UCS_BOX_K), altitude_max: ucsK(...UCS_BOX_K),
+  certifications: ucsK(...UCS_BOX_K),
+  cpu: ucsK("server"), drive_bays: ucsK("server"),
+  memory_speed_max: ucsK("server", "cpu", "memory"),
+  ports: ucsK("fabric-interconnect", "io-module", "nic"),
+  switching_capacity: ucsK("fabric-interconnect"),
+  tdp: ucsK("cpu"), clock_speed: ucsK("cpu"), cpu_cores: ucsK("cpu"), cpu_cache: ucsK("cpu"),
+  dram: ucsK("memory"),
+  storage_capacity: ucsK("drive"), drive_interface: ucsK("drive"),
+  psu_rated_output: ucsK("psu"), input_voltage: ucsK("psu"),
+  product_compatibility: ucsK(...UCS_PART_K),
+  // Declared, never required. cpu_sockets: 0 facts anywhere, 0 labels (demoted 10 Sep 2026, unchanged).
+  // storage_raw_capacity: a storage server's aggregate (S3260 "784 TB"), 29 facts, kind-unscoped.
+  cpu_sockets: opt, storage_raw_capacity: opt, cpu_sockets_max: opt, cpu_boost_clock: opt,
+  dimm_ranks: opt, dimm_voltage: opt, data_rate: opt, gpu_max: opt, pcie_card_size: opt,
+  slot_compatibility: opt, psu_options: opt, psu_efficiency: opt, heat_dissipation: opt,
+  humidity_storage: opt, altitude_storage: opt, hypervisor: opt, management_mode: opt,
+  module_slots: opt, cpu_interconnect_links: opt, workload_segment: opt,
+  // DEMOTED in the two hyperconverged categories, where the generated profile made them `req` (and the
+  // device loop gated them to `device`, i.e. every CPU and DIMM). Optional here as in switches, the READY
+  // profile: 0 own facts in all three categories (every value is inherited from a series document), and
+  // the Safety/EMC/EMI rows they come from are already read into `certifications` (751 label occurrences).
+  emc_emissions: opt, emc_immunity: opt,
+});
+/** R2 inside these three categories: second cups for a quantity that already has one. Removed from the
+ *  three profiles after the generated merge (below); the global SUPERSEDED_KEYS entry is a PROPOSAL
+ *  because it would also rewrite the switches profile (both are optional there) and its frozen ledger. */
+const UCS_R2_DUPLICATES: Readonly<Record<string, string>> = {
+  cache_l3: "cpu_cache",            // "L3 Cache" MB vs "CPU cache" MB — 31 facts vs 333 in these categories
+  cpu_base_clock: "clock_speed",    // "CPU Base Clock Frequency" GHz vs "Base Clock Frequency" GHz — 63 vs 298
+};
+export const UCS_PROFILE_CATEGORIES = ["servers-unified-computing", "hyperconverged-systems", "hyperconverged-infrastructure"] as const;
+// end servers (12 Sep 2026) --------------------------------------------------------------------------
 
 export const PROFILES: Record<string, Record<string, Requirement>> = {
   // --- SOFTWARE AND LICENCE CATEGORIES, added 8 Sep 2026 ---------------------------------------
@@ -745,14 +814,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // NOTHING it might not have, the same default `security` uses for an unshaped series. A rule that
   // guesses is how a component ends up behind a machine's profile, which is the defect being fixed.
   "servers-unified-computing": {
-    // machines only
-    dimensions: cond({ field: "kind", inList: [...UCS_MACHINE] }),
-    weight: cond({ field: "kind", inList: [...UCS_MACHINE] }),
-    form_factor: cond({ field: "kind", inList: [...UCS_MACHINE] }),
-    power_max: cond({ field: "kind", inList: [...UCS_MACHINE] }),
-    temp_operating: cond({ field: "kind", inList: [...UCS_MACHINE] }),
-    humidity_operating: cond({ field: "kind", inList: [...UCS_MACHINE] }),
-    certifications: cond({ field: "kind", inList: [...UCS_MACHINE] }),
+    // servers (12 Sep 2026): the per-kind question set is ucsCups() — see the note above PROFILES.
+    // The lines below this spread are the 9-10 Sep history, kept for its reasoning; every key they
+    // name is overridden by the spread that follows them.
+    ...ucsCups(),
     // rack units only where the form factor says it is racked — and `pending` while form_factor
     // is unanswered, so it stays an open gap rather than being closed on a value nobody has read.
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
@@ -768,11 +833,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // `cpu` came from the GENERATED profile as a bare `req` and the curated block did not name it,
     // so it survived the merge and was required of 8,794 parts — cables, GPUs and rails among
     // them. A generated requirement is only invisible until something counts it.
-    cpu: cond({ field: "kind", inList: ["server"] }),
-    // component properties, required of the component that HAS them and nothing else
-    psu_rated_output: cond({ field: "kind", inList: ["psu"] }),
-    memory_speed_max: cond({ field: "kind", inList: ["memory", "server"] }),
-    storage_raw_capacity: cond({ field: "kind", inList: ["drive"] }),
+    // (cpu, psu_rated_output, memory_speed_max and the drive's capacity come from ucsCups() above.
+    // servers 12 Sep 2026: the drive line that stood here asked `storage_raw_capacity` — 0 drive facts —
+    // while 987 drive capacities sat in `storage_capacity`; the cup with the data was not on the table.)
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, bmc_management: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, drive_options: opt, expansion_slot_type: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, onboard_nics: opt, oversubscription_ratio: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, psu_count: opt, random_read_iops_4k: opt, random_write_iops_4k: opt, read_latency: opt, rear_clearance: opt, rear_panel_ports: opt, riser_options: opt, security_features: opt, sequential_write_throughput: opt, series_release_date: opt, system_memory: opt, temp_operating_extended: opt, thermal_shock: opt, write_latency: opt,
   },
@@ -802,26 +865,30 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
-  "hyperconverged-systems": deviceOnly({
-    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, memory_speed_max: req, storage_raw_capacity: req,
+  // servers (12 Sep 2026): gated on the UCS kind (partKind -> ucsKind), no longer deviceOnly. The flat
+  // block that stood here asked all 1,599 "device" parts — CPUs, DIMMs, SSDs, VICs — for a weight, a rack
+  // height and a raw storage capacity; memory_speed_max and storage_raw_capacity were `req` of a fan.
+  "hyperconverged-systems": {
+    ...ucsCups(),
     cpu_sockets: opt,  // unreachable — see the note in servers-unified-computing
     // STRUCTURE 8 Sep 2026: 3 field(s) its documents already produce and no profile declared — invisible to completeness until now
-    humidity_storage: opt, cpu_cores: opt, hypervisor: opt,
+    humidity_storage: opt, hypervisor: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, bmc_management: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, drive_options: opt, expansion_slot_type: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, onboard_nics: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, psu_count: opt, random_read_iops_4k: opt, random_write_iops_4k: opt, read_latency: opt, rear_clearance: opt, rear_panel_ports: opt, riser_options: opt, security_features: opt, sequential_write_throughput: opt, series_release_date: opt, system_memory: opt, temp_operating_extended: opt, thermal_shock: opt, write_latency: opt,
-  }),
+  },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
-  "hyperconverged-infrastructure": deviceOnly({
-    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, memory_speed_max: req, storage_raw_capacity: req,
+  // servers (12 Sep 2026): gated on the UCS kind, like hyperconverged-systems above.
+  "hyperconverged-infrastructure": {
+    ...ucsCups(),
     cpu_sockets: opt,  // unreachable — see the note in servers-unified-computing
     // STRUCTURE 8 Sep 2026: 7 field(s) its documents already produce and no profile declared — invisible to completeness until now
-    humidity_storage: opt, cpu_cores: opt, altitude_storage: opt, management_mode: opt, deploy_role: opt, max_wlans: opt, operating_system: opt,
+    humidity_storage: opt, altitude_storage: opt, management_mode: opt, deploy_role: opt, max_wlans: opt, operating_system: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, bmc_management: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, drive_options: opt, expansion_slot_type: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, onboard_nics: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, psu_count: opt, random_read_iops_4k: opt, random_write_iops_4k: opt, read_latency: opt, rear_clearance: opt, rear_panel_ports: opt, riser_options: opt, security_features: opt, sequential_write_throughput: opt, series_release_date: opt, system_memory: opt, temp_operating_extended: opt, thermal_shock: opt, write_latency: opt,
-  }),
+  },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
@@ -1393,6 +1460,14 @@ export const DOMAIN_OVERRIDES: Record<string, Record<string, string[]>> = {
     form_factor: ["gbic", "x2", "xenpak", "xfp", "sfp", "sfp-plus", "sfp28", "sfp56", "sfp-dd", "dsfp",
       "qsfp-plus", "qsfp28", "qsfp56", "qsfp112", "qsfp-dd", "cfp", "cfp2", "cpak", "osfp"],
   },
+  // servers (12 Sep 2026) — reviewer §4 servers b). The shared domain could not express a blade or a
+  // node, so a UCS B200 ("half-width blade"), a B460 ("full-width"), an X210c ("compute node") or a UCS-E
+  // module ("ISR service module") had no value its form factor could take, and the enum is what refuses a
+  // wrong one when extraction writes it. rack-19 / desktop / din-rail / modular-chassis are kept. Scoped to
+  // the three UCS categories: the shared dictionary domain is not changed.
+  ...Object.fromEntries(UCS_PROFILE_CATEGORIES.map((c) => [c, {
+    form_factor: ["rack-19", "desktop", "din-rail", "modular-chassis", "blade-half", "blade-full", "compute-node", "router-module"],
+  }])),
 };
 
 // And for plausibility BANDS — 11 Sep 2026, raised by the reviewer and confirmed by replay. The
@@ -1409,6 +1484,19 @@ export const BAND_OVERRIDES: Record<string, Record<string, [number, number]>> = 
   // 1100 W PSUs) and UCS-based appliances; the switch band [1, 30000] would store a 3 kW access point. The 38
   // stored values (30..950 W) are PSU RATINGS mined from supply names, filed under the wrong key (proposal).
   wireless: { power_max: [1, 2500] },
+  // servers (12 Sep 2026). Bands for the required numeric cups whose dictionary entry has none (generated
+  // keys), checked against the stored own values in the three categories on 12 Sep 2026:
+  //   tdp               stored 40..400 W (1,823)       band 5..1000     (a 500 W Xeon 6 / MI300-class part fits)
+  //   clock_speed       stored 1.8..4.0 GHz (301)      band 0.5..6
+  //   cpu_cache         stored 12..1152 MB (333)       band 1..2048     (1152 = AMD 9684X 3D V-Cache, real)
+  //   memory_speed_max  stored 2400..6400 MT/s (364)   band 400..12800  (DDR2-400 through MRDIMM-8800 and margin)
+  //   drive_bays        stored 4..56 (33)              band 1..120
+  // Shared keys with an existing band (cpu_cores 1..512, dram 0.06..512, storage_capacity 1..200000 GB,
+  // psu_rated_output 5..20000, weight, temperatures) were checked against the same stored values and kept.
+  ...Object.fromEntries(UCS_PROFILE_CATEGORIES.map((c) => [c, {
+    tdp: [5, 1000] as [number, number], clock_speed: [0.5, 6] as [number, number], cpu_cache: [1, 2048] as [number, number],
+    memory_speed_max: [400, 12800] as [number, number], drive_bays: [1, 120] as [number, number],
+  }])),
 };
 
 export function unitFor(category: string, key: string): string | undefined {
@@ -1734,6 +1822,18 @@ export const SUPERSEDED_KEYS: Readonly<Record<string, string>> = {
 };
 for (const p of Object.values(PROFILES)) {
   for (const [dup, canon] of Object.entries(SUPERSEDED_KEYS)) {
+    if (!(dup in p)) continue;
+    if (!(canon in p)) p[canon] = p[dup];
+    delete p[dup];
+  }
+}
+// servers (12 Sep 2026): R2 inside the three UCS categories (UCS_R2_DUPLICATES) — the generated merge puts
+// cache_l3 and cpu_base_clock back as optional second cups for cpu_cache and clock_speed, which these
+// profiles REQUIRE of every CPU. Scoped here; the global SUPERSEDED_KEYS entry is a proposal (see the report).
+for (const cat of UCS_PROFILE_CATEGORIES) {
+  const p = PROFILES[cat];
+  if (!p) continue;
+  for (const [dup, canon] of Object.entries(UCS_R2_DUPLICATES)) {
     if (!(dup in p)) continue;
     if (!(canon in p)) p[canon] = p[dup];
     delete p[dup];

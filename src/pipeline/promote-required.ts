@@ -184,6 +184,22 @@ export function blockOf(source: string, head: string): { start: number; end: num
   throw new Error("promote-required: unbalanced braces in the block — refusing to write");
 }
 
+/** The keys a SPREAD helper declares. `...ucsCups(),` inside a category block (servers, 12 Sep 2026: one
+ *  question set shared by servers-unified-computing and the two hyperconverged categories) is hand-written
+ *  too, but it names no key where the category block can see it. The helper returns an object LITERAL —
+ *  `const ucsCups = (): Record<string, Requirement> => ({ … })` — so its body is read with this same scanner
+ *  and its keys are folded into the category. Without this the parser threw on the spread, and the shape it
+ *  would have taken silently (skip the spread) is the under-reading the reconciler below exists to catch. */
+function spreadKeys(source: string, name: string): Map<string, string> {
+  const at = source.indexOf(`const ${name} = (`);
+  const open = at < 0 ? -1 : source.indexOf("=> ({", at);
+  if (at < 0 || open < 0) throw new Error(`promote-required: the spread ...${name}() has no object-literal helper "const ${name} = (… ) => ({" in fieldSchema.ts`);
+  const { text } = blockOf(source, source.slice(at, open + "=> ({".length));
+  const obj = text.slice(text.indexOf("=> ({") + "=> (".length);
+  const literal = obj.slice(0, obj.lastIndexOf("}") + 1);
+  return parseHandWritten(`${PROFILES_HEAD}\n  __spread__: ${literal},\n};`).get("__spread__") ?? new Map();
+}
+
 /** The (category -> keys) fieldSchema.ts declares BY HAND, with the requirement kind of each.
  *  Values contain nested objects (`cond({ any: [...] })`), so this is a depth scanner, not a
  *  line matcher; it is reconciled against the merged PROFILES by `handWritten()` below. */
@@ -238,6 +254,14 @@ export function parseHandWritten(source: string): Map<string, Map<string, string
         depth = 0; cat = null; catKeys = null; continue;
       }
       break;   // closes PROFILES itself
+    }
+    // a spread of a helper that returns the question set: its keys belong to this category
+    if (depth === 1 && body.startsWith("...", i)) {
+      const sp = /^\.\.\.([A-Za-z_$][\w$]*)\(\s*\)/.exec(body.slice(i));
+      if (!sp) throw new Error(`promote-required: cannot parse the spread in PROFILES near "${body.slice(i, i + 40)}"`);
+      i += sp[0].length;
+      for (const [k, kind] of spreadKeys(source, sp[1])) catKeys!.set(k, kind);
+      continue;
     }
     // a key: bare identifier or quoted string, then ':'
     let name: string;

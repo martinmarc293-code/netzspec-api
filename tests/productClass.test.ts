@@ -516,6 +516,76 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
   }
 }
 
+// servers (12 Sep 2026) ------------------------------------------------------------------------------------
+// S1-S7 and the hyperconverged-only rules. Every SKU is a live catalogue row (read-only snapshot, 11/12 Sep).
+{
+  const SRV = "servers-unified-computing", HXS = "hyperconverged-systems", HCI = "hyperconverged-infrastructure";
+  const POS: [string, string, string, ProductClass, string][] = [
+    ["N10-MGT016", "UCS Manager v4.0", SRV, "software", "sku-regex:ucs-manager-image"],
+    ["N20-FW018", "UCS 5108 Blade Chassis FW Package 4.2", SRV, "software", "sku-regex:ucs-firmware-package"],
+    ["N10-L003", "UCS 6100 Series Fabric Interconnect/Storage protocol license", SRV, "license", "sku-regex:ucs-fi-port-licence"],
+    ["HX-L-6400-25G", "FI per port license to connect to B-Series, C-Series or FEX", HXS, "license", "sku-regex:ucs-fi-port-licence"],
+    ["UCS-MDMGR-1S", "Cisco UCS-MDMGR-1S", SRV, "license", "sku-regex:ucs-management-licence"],
+    ["CIMC-C220M4-209E", "Cisco C-Series Software 2.0(9e) for C220 M4 servers", SRV, "software", "sku-regex:ucs-platform-software"],
+    ["UCSC-SWRAID5=", "Software Raid 5 upgrade key for embedded Raid", SRV, "license", "sku-regex:ucs-licence-key"],
+    ["E3A-CWOM-A", "Cisco Workload Optimization Manager Advantage - Per VM", SRV, "license", "sku-contains:CWOM"],
+    ["HXDPS001-3YR", "HyperFlex Data Platform Datacenter Advantage Subscription", HXS, "license", "sku-regex:hyperflex-data-platform-licence"],
+    ["NT-NCI-STR-PR", "Cisco NT-NCI-STR-PR", HCI, "license", "sku-prefix:NT-"],
+    ["PLHC-HXMCVSI-OND", "Cisco+ Hybrid Cloud HX VSI Compute Ondemand for Memory", HXS, "license", "sku-regex:cisco-plus-hybrid-cloud"],
+    ["HCI-NVGRVAS-4YRM6", "NVIDIA GRID Software Subscription - VDI Apps 1CCU - 4 Year", HCI, "license", "sku-regex:hyperconverged-sw-subscription"],
+    // the ucsKind class mapping, widened to the two hyperconverged categories
+    ["HX-MSWS-19-ST16C", "Cisco HX-MSWS-19-ST16C", HXS, "license", "ucs-kind-os-license"],
+    ["HX-E-TOPO1", "10GbE Single or Dual Switch (2, 3, or 4 node)", HXS, "non_product", "ucs-kind-non-product"],
+  ];
+  for (const [sku, name, cat, want, reason] of POS) {
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
+    seenReasons.add(got.reason);
+    check(`servers: ${sku} -> ${want} (${reason})`, got.klass === want && got.reason === reason, `got ${got.klass} / ${got.reason}`);
+  }
+  // REFUSALS — more of them than positives. Each is a real product one of the rules above would cost if
+  // widened: named in the survey's refusal table or read out of the same families.
+  const mine = SKU_RULES.slice(SKU_RULES.findIndex((r) => r.token === "ucs-manager-image"));
+  const REF: [string, string, string][] = [
+    ["UCS-EN120E208B/K9", "Promo UCS E-Series NCE DW-EHWIC, 2C, 8GB RAM, 200GB HDD", SRV],
+    ["UCS-SL-VDI-B200-01", "UCS VDI PROMO 2x6296,2xB200", SRV],
+    ["UCS-SL-VDI-B200-02", "UCS VDI PROMO 2x6296,2xB200", SRV],
+    ["DUO-TOKEN-10PACK", "A hardware token used with a Cisco Duo subscription (10 pack)", SRV],
+    ["UCSX-C-M6-HS-R", "CPU Heat Sink", SRV],
+    ["UCSW-SD480G0KA4-C", "480GB 2.5 inch SATA SSD", SRV],
+    ["UCS-SPM-MINI", "UCS 5108 AC2 Chassis w/ FI6324", SRV],
+    ["N20-C6508", "UCS 5108 Blade Svr AC Chassis/0 PSU/8 fans/0 fabric extender", SRV],
+    ["UCSB-B200-M6++", "UCS B200 M6 Blade w/o CPU, mem, HDD, mezz", SRV],
+    ["HX-M5S-HXDP-BR", "Cisco HX2X0C M5 Hyperflex System", HXS],
+    ["HXAF-M5S-HXDP-BR", "Cisco HXAF2X0C M5 Hyperflex System", HXS],
+    ["PLHC-MLOM-40G-04", "Cisco+ UCS VIC 1440 modular LOM for Blade Servers", SRV],
+    ["PLHC-IOM-2408", "UCS 2408 I/O Module (8 External 25Gb Ports, 32 Internal 10Gb", SRV],
+    ["HX-E-240-M6SX", "Cisco HyperFlex Hybrid Edge 240 Full Capacity M6 system", HXS],
+    ["HX-INT-SW02", "C220 and C240 M6 Chassis Intrusion Switch", HXS],
+    ["NTX-SW-PS", "Cisco NTX-SW-PS", HCI],
+    ["HCINX240C-M8L", "Cisco Compute Hyperconverged C240 M8 2RU standard rack server", HCI],
+  ];
+  for (const [sku, name, cat] of REF) {
+    const hitBy = mine.filter((r) => ruleMatches(r, ruleSku(sku))).map(ruleName);
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
+    check(`servers REFUSAL: ${sku} is hit by none of the servers rules and stays hardware`, hitBy.length === 0 && got.klass === "hardware",
+      `hit by ${hitBy.join(",") || "none"}; classify ${got.klass} / ${got.reason}`);
+  }
+  // the vetoes, each FOR its stated reason
+  check("servers REFUSAL: HXDPE-SLR-SMS-1K is left to the security agent's -SMS rule (hyperflex veto)",
+    !mine.some((r) => ruleMatches(r, "HXDPE-SLR-SMS-1K")));
+  check("servers REFUSAL: C1-CWOM-750SVR-5Y keeps its ucs-kind-os-license reason (CWOM veto)",
+    classify({ sku: "C1-CWOM-750SVR-5Y", categorySlug: SRV, categoryIsHardware: true }).reason === "ucs-kind-os-license");
+  // SABOTAGE per rule: take each rule out of the table and its own positive must lose that reason.
+  for (const [sku, , cat, , reason] of POS.filter(([, , , , r]) => r.startsWith("sku-"))) {
+    const i = SKU_RULES.findIndex((r) => ruleName(r) === reason);
+    const [rule] = SKU_RULES.splice(i, 1);
+    const got = classify({ sku, categorySlug: cat, categoryIsHardware: true });
+    SKU_RULES.splice(i, 0, rule);
+    sabotages++;
+    check(`SABOTAGE servers: without ${reason}, ${sku} is no longer classed by it`, got.reason !== reason, `still ${got.reason}`);
+  }
+}
+
 const stillUntested = RULE_NAMES.filter((r) => ![...seenReasons].some((s) => s === r || s.startsWith(r + ":")));
 check(`every rule in the docs/DATA_MODEL.md table fired at least once (${RULE_NAMES.length} rules)`, stillUntested.length === 0, `never fired: ${stillUntested.join(", ")}`);
 check("at least 25 real Cisco SKUs are covered", cases.filter((c) => c.sku.trim()).length >= 25);

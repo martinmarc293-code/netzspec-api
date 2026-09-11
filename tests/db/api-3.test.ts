@@ -194,7 +194,7 @@ async function main(): Promise<void> {
   }
 
   // ---- families -------------------------------------------------------------------------------
-  const FAMILY_KEYS = ["vendor", "family", "category", "parts", "hardware_parts", "with_facts", "lifecycle"];
+  const FAMILY_KEYS = ["vendor", "family", "category", "parts", "hardware_parts", "with_facts", "lifecycle", "url"];
   {
     const r = await get("/v1/families");
     check("/v1/families is 200 with three families, largest first", r.status === 200 && r.body?.items?.map((x: Json) => x.family).join("|") === `${FAM_CHAIN}|${FAM_9200}|${FAM_9300}` && r.body?.next_cursor === null, r.body);
@@ -233,7 +233,7 @@ async function main(): Promise<void> {
     check("members page of 2 with a cursor, ordered by sku", r.body?.members?.length === 2 && r.body.members[0].sku === "C9200L-24P-4G" && r.body.members[1].sku === "C9200L-48P-4G" && typeof r.body?.next_cursor === "string", r.body?.members?.map((m: Json) => m.sku));
     const p2 = await get(`/v1/families/cisco/${enc(FAM_9200)}?limit=2&cursor=${enc(r.body?.next_cursor ?? "")}`);
     check("second members page completes the family (licence included) with no overlap", p2.body?.members?.map((m: Json) => m.sku).join("|") === "C9200L-48PXG-4X|L-C9200-NE" && p2.body?.next_cursor === null, p2.body?.members?.map((m: Json) => m.sku));
-    check("member items are part summaries", sameKeys(r.body?.members?.[0], ["vendor", "sku", "slug", "category", "family", "product_class", "name", "lifecycle_status", "fact_count", "completeness_pct", "has_image", "updated_at"]), Object.keys(r.body?.members?.[0] ?? {}));
+    check("member items are part summaries", sameKeys(r.body?.members?.[0], ["vendor", "sku", "slug", "category", "series", "family", "product_class", "name", "lifecycle_status", "fact_count", "completeness_pct", "has_image", "updated_at"]), Object.keys(r.body?.members?.[0] ?? {}));
 
     const r2 = await get(`/v1/families/cisco/${enc(FAM_9300)}`);
     const shared2 = (r2.body?.shared_facts ?? []).map((s: Json) => s.key);
@@ -293,7 +293,7 @@ async function main(): Promise<void> {
     check("siblings ranked by shared rendered values: B (3) before C (2)", JSON.stringify(skus) === JSON.stringify(["C9200L-48P-4G:3", "C9200L-48PXG-4X:2"]), skus);
     check("SABOTAGE the part itself and the licence in its family are excluded", !r.body?.items?.some((x: Json) => x.sku === "C9200L-24P-4G" || x.sku === "L-C9200-NE"), skus);
     const c = r.body?.items?.find((x: Json) => x.sku === "C9200L-48PXG-4X") ?? {};
-    check("similar item is a part summary plus shared_facts and differs", sameKeys(c, ["vendor", "sku", "slug", "category", "family", "product_class", "name", "lifecycle_status", "fact_count", "completeness_pct", "has_image", "updated_at", "shared_facts", "differs"]), Object.keys(c));
+    check("similar item is a part summary plus shared_facts and differs", sameKeys(c, ["vendor", "sku", "slug", "category", "series", "family", "product_class", "name", "lifecycle_status", "fact_count", "completeness_pct", "has_image", "updated_at", "shared_facts", "differs"]), Object.keys(c));
     check("C differs from A in exactly poe_budget: value 370 vs other 740", c.differs?.length === 1 && sameKeys(c.differs[0], ["key", "label_en", "label_de", "type", "unit", "value", "other"]) && c.differs[0].key === "poe_budget" && c.differs[0].value === 370 && c.differs[0].other === 740 && c.differs[0].unit === "W", c.differs);
     const b = r.body?.items?.find((x: Json) => x.sku === "C9200L-48P-4G") ?? {};
     check("B differs from A in nothing rendered", Array.isArray(b.differs) && b.differs.length === 0, b.differs);
@@ -396,7 +396,7 @@ async function main(): Promise<void> {
     check("by_field: mtbf (1 unattempted, 1 confirmed, 2 missing) before stackable (2, 0, 2), by parts_missing then key", JSON.stringify(bf) === JSON.stringify(["mtbf:1/1/2", "stackable:2/0/2"]), bf);
     check("by_field item has exactly the documented keys", sameKeys(r.body?.by_field?.[0], ["key", "label_en", "gap_unattempted", "gap_confirmed", "parts_missing"]) && r.body?.by_field?.[0]?.label_en === "MTBF", r.body?.by_field?.[0]);
     const bc = r.body?.by_category ?? [];
-    check("by_category: switches only (no other category has parts), 15 hardware parts (3 + 3 + 8 + the family-less one), 1 complete, mean 70.0 over the 3 scored", bc.length === 1 && sameKeys(bc[0], ["category", "hardware_parts", "parts_complete", "mean_pct"]) && bc[0].category === "switches" && bc[0].hardware_parts === 15 && bc[0].parts_complete === 1 && bc[0].mean_pct === 70, bc);
+    check("by_category: switches only (no other category has parts), 15 hardware parts (3 + 3 + 8 + the family-less one), 1 complete, mean 70.0 over the 3 scored", bc.length === 1 && sameKeys(bc[0], ["category", "hardware_parts", "parts_complete", "mean_pct", "parts_nothing_required"]) && bc[0].category === "switches" && bc[0].hardware_parts === 15 && bc[0].parts_complete === 1 && bc[0].mean_pct === 70, bc);
     const v = await get("/v1/stats/gaps?vendor=cisco&category=switches");
     check("vendor + category selection gives the same numbers", JSON.stringify(v.body?.by_field) === JSON.stringify(r.body?.by_field), v.body?.by_field);
     const none = await get("/v1/stats/gaps?vendor=hpe");
@@ -410,6 +410,30 @@ async function main(): Promise<void> {
     resetGapStatsCache();
     const fresh = await get("/v1/stats/gaps");
     check("after a reset the new gap (layer on CHAIN-1) is counted and the mean drops", fresh.body?.by_field?.some((x: Json) => x.key === "layer" && x.parts_missing === 1 && x.gap_unattempted === 1) && fresh.body?.by_category?.[0]?.mean_pct === 52.5 && fresh.body?.generated_at !== r.body?.generated_at, fresh.body);
+  }
+
+  // ---- start / ledger / report (12 Sep 2026): the reviewer's entry point and what it links ----------
+  {
+    const s = await get("/v1/start");
+    check("/v1/start is 200 and every ledger it lists carries a /ledger url", s.status === 200 && Array.isArray(s.body?.ledgers) && s.body.ledgers.length > 0
+      && s.body.ledgers.every((l: Json) => typeof l.url === "string" && l.url.includes("/ledger?")), s.body?.ledgers);
+    const reports: Json[] = s.body?.reports ?? [];
+    check("/v1/start lists the committed reports, each with a /report url", reports.length > 0
+      && reports.every((x) => /^[a-z0-9][a-z0-9.-]*\.md$/.test(x.name) && String(x.url).includes("/report?name=")), reports);
+    const first = reports[0]?.name ?? "";
+    const r = await app.inject({ method: "GET", url: `/v1/report?name=${enc(first)}`, headers: auth });
+    check("/v1/report serves a listed report as markdown", r.statusCode === 200 && /markdown/.test(String(r.headers["content-type"])) && r.body.length > 100,
+      { status: r.statusCode, type: r.headers["content-type"] });
+    for (const bad of ["../README.md", enc("../../.env"), "not-a-report.md", "reconciliation.txt"]) {
+      const b = await app.inject({ method: "GET", url: `/v1/report?name=${bad}`, headers: auth });
+      check(`SABOTAGE /v1/report refuses ${decodeURIComponent(bad)} as not found`, b.statusCode === 404, { status: b.statusCode, body: b.body.slice(0, 160) });
+    }
+    const noKey = await get(`/v1/report?name=${enc(first)}`, {});
+    check("SABOTAGE /v1/report without a key is 401", noKey.status === 401, noKey.body);
+    const l = await get("/v1/ledger?category=switches");
+    check("/v1/ledger serves the committed switches ledger", l.status === 200 && l.body?.category === "switches" && l.body?.vendor === "cisco", l.body?.category);
+    const nl = await get("/v1/ledger?category=no-such-category");
+    check("SABOTAGE a missing ledger is 404 naming the ledgers that exist", nl.status === 404 && /cisco\/switches/.test(nl.body?.error?.message ?? ""), nl.body);
   }
 
   await app.close();
