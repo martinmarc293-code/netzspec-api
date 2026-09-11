@@ -68,11 +68,29 @@ check("every category partKind FILLS actually gates on kind",
 for (const cat of declared) {
   check(`partKind returns a kind for ${cat}`, partKind(cat, "WS-C3750G-24T-E") !== undefined);
 }
-// transceiver gates on its own optic kind since 11 Sep 2026; security still has no kind axis at all.
-check("partKind returns undefined for a category that does not gate",
-  partKind("security", "FPR2110-NGFW-K9") === undefined);
+// The non-gating example moved on 12 Sep 2026: `security` gates on its own axis now, so the case
+// that used to stand here (partKind("security", "FPR2110-NGFW-K9") === undefined) was replaced
+// rather than deleted. `interfaces-modules` is NOT the replacement — it is in KIND_CATEGORIES and
+// gates on the generic component axis. The categories that still derive nothing are the ones with
+// no profile requirements of their own at all; `conferencing` is one, and it holds 1,300 parts.
+// 12 Sep 2026, third replacement in one day: `security` gained securityKind and `conferencing` the
+// collaboration axis, so each stopped being an example of a category that derives nothing. This check needs a
+// category that CANNOT gain an axis, and the software/licence ones are those: `ios-nx-os-software` holds
+// software releases, has no hardware profile of its own, and is in no kind list. Derived, not remembered:
+// the assertion is that SOME category outside KIND_CATEGORIES returns undefined, whichever it is.
+{
+  const outsider = ["ios-nx-os-software", "software", "contact-center", "customer-collaboration", "cloud-systems-management"]
+    .find((c) => !KIND_CATEGORIES.includes(c));
+  check("a category outside KIND_CATEGORIES exists to test with", !!outsider, "every candidate is now gating — pick another");
+  check("partKind returns undefined for a category that does not gate",
+    !!outsider && partKind(outsider, "CTS-SX20-K9") === undefined, `${outsider} returned ${outsider ? partKind(outsider, "CTS-SX20-K9") : "-"}`);
+}
 check("partKind returns undefined for a category that does not exist",
   partKind("no-such-category", "ANYTHING") === undefined);
+// And the positive control for the case that moved: security must now ANSWER, for a box and for a
+// component, or the whole profile silently resolves na (the failure this file exists for).
+check("security derives a kind for an appliance", partKind("security", "FPR2110-NGFW-K9") === "firewall");
+check("security derives a kind for a component", partKind("security", "FPR3K-PSU-BLANK") === "accessory");
 
 // --- THE SABOTAGE: a missing kind must not silently mark a device requirement na ----------------------
 // This is the defect itself, asserted rather than described. Same part, once with the kind the
@@ -116,6 +134,11 @@ check("and the collapse is severe enough to be worth a guard",
     // collab (12 Sep 2026): a Meeting Server CPU option
     "conferencing": "CIT3-CPU-I6240",
     // end collab
+    // security (12 Sep 2026): "Firepower 3000 Power Supply Blank Slot Cover" — until today asked a
+    // weight, a rack height, an operating temperature, a power draw and a certification list, plus
+    // firewall_throughput / threat_throughput / concurrent_sessions, because its series is "4100
+    // Firepower". It is the part that motivated the whole axis.
+    "security": "FPR3K-PSU-BLANK",
   };
   // SWITCHES ASKS A COMPONENT ITS OWN QUESTIONS since 11 Sep 2026 (reviewer §1.1/§1.7): a cable its
   // length and what it fits. So the guard there is the leak it was written for — NO DEVICE QUESTION
@@ -136,6 +159,11 @@ check("and the collapse is severe enough to be worth a guard",
     // optical-storage (12 Sep 2026): both now ask a component its own questions (a cable its length), exactly as
     // switches does since 11 Sep — so the guard is again the leak itself: no DEVICE question reaches a cable.
     "optical-networking": ["cable_length"], "storage-networking": ["cable_length"],
+    // security (12 Sep 2026), same reason: a component is asked WHAT IT FITS, and a PSU, a fan, a drive, a
+    // cable and a netmod are each asked the one or two figures they are bought on. The allow-list is the whole
+    // union, so a DEVICE question leaking onto a component still fails.
+    security: ["product_compatibility", "psu_rated_output", "input_voltage", "airflow",
+               "storage_capacity", "cable_length", "ports", "power_max"],
   };
   for (const cat of declared) {
     const sku = COMPONENT_PROBE[cat];
@@ -154,7 +182,9 @@ check("and the collapse is severe enough to be worth a guard",
                             ["transceiver", "GLC-BX-D"], ["transceiver", "QDD-400G-ZR-S"],
                             // optical-storage (12 Sep 2026): a shelf, an amplifier, a director and a switch
                             ["optical-networking", "15454-M6-SA"], ["optical-networking", "15454-OPT-EDFA-24="],
-                            ["storage-networking", "DS-C9706="], ["storage-networking", "DS-C9148S-12PK9="]] as [string, string][]) {
+                            ["storage-networking", "DS-C9706="], ["storage-networking", "DS-C9148S-12PK9="],
+                            // security (12 Sep 2026): a firewall, an email gateway and a firewall BLADE
+                            ["security", "FPR2110-NGFW-K9"], ["security", "ESA-C390-K9"], ["security", "FPR9K-SM-36"]] as [string, string][]) {
     const c = completenessV2(cat, { kind: partKind(cat, sku), vendor: "cisco" } as never);
     check(`${cat}: a DEVICE (${sku}) is still asked something`, c.required_total > 0,
       `required_total=${c.required_total}`);

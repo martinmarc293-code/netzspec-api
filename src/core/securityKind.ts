@@ -1,0 +1,200 @@
+// src/core/securityKind.ts — what KIND of thing a Cisco `security`-category part is.
+//
+// THE DEFECT (reviewer verdict on 678606c, §0 and §4). `security` had no kind axis at all: every one of
+// its 5,515 hardware parts was asked the same appliance questions, shaped only by SERIES. A fan tray, a
+// rack rail, a blank slot cover and an SSD were each asked for dimensions, a weight, an operating
+// temperature, a power draw and certifications — and, when their series was a firewall series, for a
+// firewall throughput and a session table. The survey of 11 Sep 2026 (evidence/security-servers-series-
+// survey.md §e) counted 1,077 component parts carrying 10,621 slots, not one holding an own physical fact.
+// Series could not fix it: FPR3K-PSU-BLANK and FPR3105-NGFW-K9 share "4100 Firepower", a series label
+// that is wrong for both.
+//
+// THE DESIGN — the switches pattern, plus the one thing security has that switches do not.
+//   1. A SKU the class table (productClass.ts) already calls non-hardware is `non-hardware` and is asked
+//      NOTHING. Such a part is still stored `hardware` until a reclassify run moves it; until then it
+//      would otherwise be asked a box's questions. Derived from the SKU rules only (no name), so it is
+//      the same answer reclassify will write.
+//   2. COMPONENT markers in any segment — accessory, cable, power, fan, drive, compute, module — the
+//      survey's markers, each counted part-evidence against device-evidence by name.
+//   3. SERVICE MODULES: the processing blades that ARE a firewall's engine (Firepower 9300 SM-xx, ASA
+//      5585-X SSP-xx) and the IPS processors of the same chassis. A datasheet quotes throughput PER BLADE
+//      ("SM-40 ... 55 Gbps"), so they keep the figures they are bought on and drop the box envelope.
+//   4. APPLIANCE SHAPES where the SKU names one: firewall, ips, email-gateway, web-gateway, management,
+//      analytics, identity. Series is a column and still shapes the rest (fieldSchema.ts), but series
+//      labels are wrong often enough in this category (FMC1700-K9 in "4100 Firepower", FPR3105-NGFW-K9 in
+//      "Firepower 9300 Series") that a SKU which names its shape must win.
+//   5. Everything else is `appliance`: a box of no SKU-known shape. It is asked the universal box fields
+//      and whatever its SERIES shape asks — never more than it was asked before this axis existed.
+//
+// DEFAULT `appliance` FAILS SAFE, as `switch` does: a component left as an appliance carries gaps; an
+// appliance called a component would have its real questions closed.
+//
+// THE REFUSAL THAT MATTERS (survey §e). ASA5512-SSD120-K9 / ASA5525-SSD120-K8 are the APPLIANCE shipped
+// with a 120 GB SSD ("NGFW ASA 5512-X w/ SW,6GE Data,...,SSD 120G"), not a drive. The drive marker would
+// file all five as drives, so the appliance pattern for them runs before it.
+import { classify } from "./productClass.js";
+
+export type SecurityKind =
+  | "non-hardware"
+  | "firewall" | "ips" | "email-gateway" | "web-gateway" | "management" | "analytics" | "identity" | "appliance"
+  | "security-module" | "ips-module"
+  | "module" | "power" | "fan" | "drive" | "compute" | "cable" | "accessory";
+
+/** Every kind that is a whole box you rack and power — asked the physical envelope. */
+export const SEC_BOX: readonly SecurityKind[] =
+  ["firewall", "ips", "email-gateway", "web-gateway", "management", "analytics", "identity", "appliance"];
+
+/** Kinds that plug into or attach to a box — every one is bought for WHAT IT FITS. */
+export const SEC_COMPONENT: readonly SecurityKind[] =
+  ["security-module", "ips-module", "module", "power", "fan", "drive", "compute", "cable", "accessory"];
+
+/**
+ * The SHAPE a SKU names, for the profile. A box whose SKU names no shape falls back to its SERIES
+ * (fieldSchema.ts), which is why these lists hold only the kinds and `appliance` is absent.
+ *
+ * `security-module` is in SEC_FIREWALL_KIND on purpose: a Firepower 9300 SM-40 is quoted its OWN
+ * firewall throughput, threat throughput and session table ("SM-40 … 55 Gbps"), which is what the
+ * blade is bought on, and 3 of the 88 already hold those facts. The chassis it plugs into is a
+ * different product with different numbers.
+ */
+export const SEC_FIREWALL_KIND: readonly SecurityKind[] = ["firewall", "security-module"];
+/** Anything that inspects traffic in line — a firewall, a dedicated IPS, or a firewall blade. */
+export const SEC_INLINE_KIND: readonly SecurityKind[] = ["firewall", "ips", "security-module"];
+/** Bought on INSPECTED throughput: the dedicated IPS appliances and the 5585-X IPS processors. */
+export const SEC_IPS_KIND: readonly SecurityKind[] = ["ips", "ips-module"];
+/** Sized by the number of mailboxes or users behind it. */
+export const SEC_USER_SIZED_KIND: readonly SecurityKind[] = ["email-gateway", "web-gateway"];
+/** Boxes sized by the store they keep (a mail spool, an event or flow store). */
+export const SEC_STORE_KIND: readonly SecurityKind[] = ["email-gateway", "web-gateway", "management", "analytics"];
+/** Every kind that DRAWS power of its own and has a figure printed for it. */
+export const SEC_POWERED_KIND: readonly SecurityKind[] = [...SEC_BOX, "module", "security-module", "ips-module"];
+
+/** Everything securityKind can return, in the order the ledger lists it. */
+export const SEC_KINDS: readonly SecurityKind[] = [...SEC_BOX, ...SEC_COMPONENT, "non-hardware"];
+
+// Ordered; the FIRST rule that matches wins.
+const RULES: { kind: SecurityKind; id: string; re: RegExp }[] = [
+  // ---- components (survey §e markers) --------------------------------------------------------------
+  // Blanks, SSD carriers and cable management FIRST: FPR3K-PSU-BLANK, FPR4K-SSD-BBLKD, FPR3K-NM-BLANK and
+  // FPR3K-CBL-MGMT carry a power / drive / module / cable token and are none of those.
+  { kind: "accessory", id: "blank-carrier", re: /(?:^|-)(?:BLANK|BLNK|BBLKD|BLKD|BLK|DIV|FBRS\d)(?:-|=|$)|-SSD-BLANK|CBL-MGMT|CABLE-?MGMT|CABLEARM/ },
+  // + BRACKETS (ASA-BRACKETS= "brackets for rack mounting"), LKFP (Content Security locking faceplate) and HS-n
+  // (CCS-HS-1U "heat sink for 1U") — found in the default bucket, 12 Sep 2026.
+  // RAIL is matched with anything in front of it, not only at a segment start: CCS-RAIL=, CCS-X90RAIL=,
+  // UCSC-RAILB-M4= and TG-RAILF-M4 are all rail kits and only the first is `-RAIL`-shaped. 98 catalogue
+  // parts carry the token and not one holds an own physical fact. BEZEL / FPLT / FACEPLATE join for the
+  // same reason (FP-8000-BEZEL=, SMA-STD-FPLT "Standard Mechanical Faceplate for M1070").
+  { kind: "accessory", id: "mount-kit", re: /(?:^|-)(?:BRKT|BRACKETS?|SLIDE|SLD|RSLIDE|RMK|RM|RACK|RCKMNT|MNT|ACC|ACY|ACK|CVR|COVER|BEZEL|FPLT|FACEPLATE|FILTER|BBU|OCP3|ADPT)(?:-|=|\d|$)|(?:^|-)[A-Z0-9]*RAILS?[BF]?(?:-|=|\d|$)|(?:^|-)[A-Z]*KIT\d*(?:-|=|$)|(?:^|-)HS-\d|^CCS-LKFP/ },
+  // (LKFP is anchored to CCS-: ESA-C680-LKFP-K9 is "ESA C680 Email Security Appliance with Locking Faceplate".)
+  { kind: "accessory", id: "stack-kit", re: /-STACK(?:-|=|$)|-STK\d+G/ },
+  // Two one-part shapes read out of the default bucket, 12 Sep 2026. Both are mechanical: ST-M6-AD-245
+  // "C245M6 PCIe Air Duct for PCIe Cards" and AMPPC-DM-2X-R "Secure Endpoint Cloud Rear Drive Module -
+  // 2 Slot", a drive CAGE rather than a drive. Each token matches exactly one part in the whole catalogue.
+  { kind: "accessory", id: "chassis-mech", re: /(?:^|-)AD-\d{3}(?:-|=|$)|(?:^|-)DM-\d+X/ },
+  // AN UPGRADE KIT IS NOT THE THING IT UPGRADES. ASA5512-FP-UPG / ASA5515-FP-UPG are "Upgrade Kit:
+  // ASA5512-X FW, IPS, CX to ASA5512-X FirePower" — a part you fit to an appliance you already own, and
+  // the only two rows the reverse name control flagged as a BOX kind whose name says component
+  // (12 Sep 2026). The firewall rule below would take them on `^ASA-?55\d\d` and ask each one the
+  // throughput and session table of the chassis it upgrades, which is this repo's port-parser mistake
+  // in another field.
+  { kind: "accessory", id: "upgrade-kit", re: /-FP-UPG(?:-|=|$)/ },
+  { kind: "cable", id: "cable", re: /(?:^|-)(?:CAB|CBL|CABLE|BKVM)(?:-|=|$)/ },
+  { kind: "power", id: "power", re: /(?:^|-)(?:PWR|PSU\d?|PS)(?:-|=|$)|-\d{3,4}W(?:-|=|$)|^[A-Z0-9]+-AC-\d{3,4}W?(?:-|=|$)|-PS-AC/ },
+  { kind: "fan", id: "fan", re: /(?:^|-)S?FAN(?:TRAY)?\d*(?:-|=|$)/ },
+  // REFUSAL, pinned: the ASA 5500-X appliance ordered with its SSD (see the header).
+  { kind: "firewall", id: "refuse:asa-with-ssd", re: /^ASA55\d\d-SSD\d+-K\d/ },
+  // + NVME / NVB (CV-NVME4-1600 "1.6TB 2.5in U.2 ... P5620", CV-NVB1T6M2P), 12 Sep 2026.
+  // + the M.2 and SATA shapes the default bucket showed, 12 Sep 2026: ST-M6-240GB-SATAM2 ("Cisco SNA 240GB
+  // SATA M.2") and TG-M7-SDB3T8SA1VD (a 3.8 TB SATA drive).
+  { kind: "drive", id: "drive", re: /(?:^|-)(?:SSD|HDD|SAS|FLASH)\d*(?:\.\d)?(?:[GT]B?)?(?:-|=|$)|(?:^|-)(?:SSD|HDD|HD|SD)-?\d{2,4}(?:\.\d)?[GT]|-S\d{3,4}G[A-Z]|-D\d{3}G[A-Z]|-CF-\d+MB|-D\d+TBSATA|-DVD-|(?:^|-)NVME|(?:^|-)NVB\d|-\d{2,4}GB?-SATA|(?:^|-)SDB\d+T\d|(?:^|-)(?:SSD|HDD)\d{2,4}[A-Z]{2,}/ },
+  // CPUs, DIMMs, RAID controllers, NICs, TPMs and risers of the UCS-based appliances (FMC, SNS, TG, AMPPC, CCS, CV,
+  // CSM, Stealthwatch). + four token shapes the default bucket showed: FPR9K-X32G2RW= / CV-MRX16G1RE5 (DIMMs),
+  // FMC-M6-O-ID10GC (an OCP NIC), PRSM-RAID9271CV-8I (MegaRAID), CCS-10GE-FI (a fibre NIC).
+  // + four more shapes from the default bucket, 12 Sep 2026: SNS-4GBSR-1X041RY ("4GB 1600 Mhz Memory
+  // Module"), SNS-UCS-SSL-CATD ("Cavium Card"), ST-M6-M2EXT-240 ("C240 2U M6 M.2 Extended Board") and
+  // TG-M7-PCIEID10GF-D (a PCIe NIC).
+  // `-\d{1,2}GE-CU` IS ANCHORED TO CCS-/WSA-: the unanchored form would take ASA-IC-6GE-CU-A, which is an
+  // ASA Interface Card — a netmod with six data ports and a fact of its own — and this rule runs BEFORE
+  // the netmod rule, so it would win. The -FI twin needs no anchor: no ASA-IC- part is -FI shaped.
+  { kind: "compute", id: "compute", re: /(?:^|-)(?:CPU|MEM|MR|ML|RAID\d*|MRAID\d*G?|HWRAID|NIC|PCIE|PCI|MLOM|TPM2?|RIS\d[ABH]?|R2R3|MSTOR|N2XX)(?:-|=|$)|-\d{1,2}G-NIC|-TPM|-RIS\d|-X\d+G\dR[WS]|(?:^|-)MRX\d|-[OP]-I\d?[A-Z0-9]*G[CF]|-RAID\d{4}|-\d{1,2}GE-FI|^(?:CCS|WSA)-\d{1,2}GE-CU|(?:^|-)PCIEI?D?\d|-SSL-CAT|(?:^|-)\d+GBSR-|(?:^|-)M\dEXT-|-\d{1,2}G-\dFI/ },
+  // ---- service modules: the blade IS the engine ----------------------------------------------------
+  // IPS processors first: ASA-SSP-IPS60-K9 "ASA 5585-X IPS Security Services Processor-60", IPS-4510-SSP-K9
+  // "IPS 4510 w SW ... CARD ONLY". They are bought on inspected throughput, never on a firewall figure.
+  // + ASA-IPS-10-INC-K9 "ASA 5585-X IPS Security Services Processor-10", whose PID carries no SSP token.
+  { kind: "ips-module", id: "ips-processor", re: /-SSP-IPS\d|^IPS-\d{4}-SSP|^ASA-IPS-\d+-/ },
+  // Firewall blades: FPR9K-SM-36 "Firepower 9000 Series High Performance Security Module", FPR9K-SM44-FTD-BUN,
+  // ASA5585-SSP-10 "ASA 5585-X Security Services Processor-10 with 8GE", ASA-SSP-CX20-K8 (the CX SSP), and
+  // the datasheet MODEL rows SM-48 / SSP-20 that hold the per-blade figures (open question 4).
+  // + ASA-CX20-INC-K8 "ASA 5585-X CX SSP-20 with 8GE", whose PID carries no SSP token either.
+  // + ASA-SSE-AIP-65 "ASA 5500 Security Services Engine-65 w 8GE,2SFP+" — the SSE is the same kind of
+  // engine under Cisco's other name for it, and it is quoted its own throughput (12 Sep 2026).
+  { kind: "security-module", id: "fw-blade", re: /^FPR9K-SM(?:-|\d)|^ASA5585-SSP-|^ASA-SSP-|^ASA-SSE-|^ASA-CX\d+-|^SSP-\d+$|^SM-\d+$/ },
+  // Network modules and interface cards: FPR-NM-8X10G, FPR4K-NM-4X40G, FPR3K-XNM-6X25SRF, ASA-IC-6GE-CU-A,
+  // ASA5585-NM-4-10GE, FP-NMSB-10G, SSM-4GE (a 4-port ASA module — ports, not a service).
+  // + FPR9K-SUP= "Firepower 9000 Series Supervisor Spare": the 9300's supervisor is a slot-in module, and
+  // FPR9K-SUP-BLANK (its slot cover) is taken by the blank rule above, which runs first (12 Sep 2026).
+  { kind: "module", id: "netmod", re: /(?:^|-)X?NM(?:-|=|$)|DNM|^FPNM-|^FP-NMSB-|(?:^|-)SSM-|^ASA-IC-|-IC-\d|^ASA5585-NM-|^SM-EC-|^FPR\dK-SUP|^AIM-/ },
+  // ---- appliance shapes named by the SKU -----------------------------------------------------------
+  // Firewalls: Firepower 1000-9300, Secure Firewall 200-6100 (CSF), ASA 5500/5500-X, ISA 3000 industrial.
+  // + the 9300 chassis (FPR-CH-9300-AC "Firepower 9300 Chassis for AC Power Supply, 2 PSU/4 fans") and the
+  // hardware bundles named without a model digit run (FPR9K-FTD-BUN "FPR9300 Threat Defense Bundle for Security
+  // Modules", FPR9KT-HA-BUN, FPR4K-ASA-NGFW-BUN "Firepower 4110 ASA + NGFW Bundle", F4150-ASA-NGFW-BUN).
+  // + F4110/F4120/F4140/F4150-ASA-NGFW-BUN (the 4100 bundles are spelled F4nnn, not just F4150) and
+  // FPR9KT-SM36-HA-BUN, whose HA token sits after the module size (12 Sep 2026).
+  { kind: "firewall", id: "firewall", re: /^FPR-?\d{4}|^FPR-C?9300|^FPR-CH-9300|^FPR9KT?-(?:FTD|HA|SM\d+-HA)|^FPR\dK-ASA-(?:VPN|NGFW)-BUN|^F4\d{3}-|^CSF\d{3,4}|^ASA-?55\d\d|^55\d\d-X$|^ISA-?3000/ },
+  // Dedicated IPS: FirePOWER 7000/8000 (FP7010-K9, FP8250-BASE-K9), IPS 4300/4500 (IPS-4345-K9), AMP 7150/8150.
+  { kind: "ips", id: "ips", re: /^FP[78]\d{3}(?:-|$)|^IPS-4\d{3}(?:-|$)|^AMP[78]\d{3}(?:-|$)/ },
+  // Secure Email (ESA-C390-K9, ESA-X1070-K9) and Secure Web (WSA-S390-K9) appliances. The licences in the
+  // same families (ESA-MFE-3Y-S2, WSA-WSS-1Y-S1) never reach here: step 1 took them.
+  { kind: "email-gateway", id: "email", re: /^ESA-?[CX]\d{2,4}/ },
+  // `^S\d{3}$` is the DATASHEET MODEL ROW for a Secure Web Appliance (S170, S380, S680, S696) — six of
+  // them, every one in `security` and in the "Secure Web Appliance" series. A bare three-digit S row
+  // exists nowhere else in this category; outside it the shape is S132, a hyperconverged node, which
+  // securityKind never sees. (12 Sep 2026; the ASA model rows 55nn-X are handled by the firewall rule.)
+  { kind: "web-gateway", id: "web", re: /^WSA-?S\d{3}|^S\d{3}$/ },
+  // Management: Secure Email and Web Manager (SMA-M690-K9), Firepower Management Center (FMC1600-K9,
+  // FMC4700-K9) and its FireSIGHT predecessors (FS750-K9, FS4000-BASE-K9), Prime Security Manager hardware.
+  // + the CSM UCS server bundles (CSM4-UCS2-150-HW "CSM UCS bundle to manage 150 devices"; the -SW halves are
+  // licences, see productClass) and PRSM-APPLSW2-25-K9 "PRSM Software Bundled With Physical Appliance".
+  // + FMC-M6-BUN ("Secure Firewall Management Center M6 Bundle") and PRSM-APPSW2-100-K9, the second
+  // spelling of "PRSM Software Bundled With Physical Appliance" — `^PRSM-APPL` reached only the first.
+  { kind: "management", id: "management", re: /^SMA-?M\d{3}|^FMC-?\d{3,4}(?:-|$)|^FMC-M\d-BUN|^FS\d{3,4}-|^PRSM-HW|^PRSM-APP|^CSM4-UCS2-\d+-(?:HW|K9)/ },
+  // Secure Network Analytics (Stealthwatch) Flow Collector, Flow Sensor, UDP Director, Management Console — the
+  // ST- generation and the Lancope LC- generation before it (LC-SMC-2K-K9 "StealthWatch Management Console 2000
+  // appliance", LC-FCNF4010, LC-SENS-3000-F "FlowSensor 3000 appliance", LC-REP-1000 "FlowReplicator 1000") —
+  // and the Cyber Vision Center appliance (CV-CNTR-M8N "Cyber Vision Center hardware appliance"). The LC-
+  // components (LC-FC-HDD-1.2TB, LC-FC-PWR-AC-1200W) and licences never reach here.
+  // + the Data Store and Data Node generation: ST-DS6200-K9 "Stealthwatch Data Store 6200", ST-DN6300-K9
+  // "Secure Network Analytics Data Node 6300", ST-TB2400-K9 — 14 boxes that sat in the default bucket.
+  { kind: "analytics", id: "analytics", re: /^ST-(?:FC|FS|UDP|SMC|FD|DS|DN|TB)\d{4}|^LC-(?:SMC|FCSF|FCNF|FC|FS|UDP|UD|REP|FR|SENS|COLLECT|CONSOLE|ID)[-\d]|^CV-CNTR-/ },
+  // Identity: the Secure Network Server appliances ISE runs on (SNS-3655-K9, SNS-3495-M-ISE-K9 "Migration
+  // Server: Loaded with ISE Software"). NOT CSACS-3415-K9 "ACS application & BASE license for SNS-3415-K9
+  // appliance": licence or appliance SKU is undecided (class-residue §C), so it keeps the fallback.
+  { kind: "identity", id: "identity", re: /^SNS-3\d{3}(?:-|$)/ },
+];
+
+/**
+ * Every rule id, in table order, plus the two ids that are not rules (`class-table` and the
+ * fallback). Exported so tests/securityKind.test.ts can assert each family is EXERCISED by a real
+ * catalogue SKU — a rule no case reaches is a rule nobody has seen work.
+ */
+export const SEC_RULE_IDS: readonly string[] = ["class-table", ...RULES.map((r) => r.id), "(default)"];
+
+function ruleFor(sku: string): { kind: SecurityKind; id: string } {
+  const s = String(sku ?? "").trim().toUpperCase().replace(/=+$/, "");
+  if (s === "") return { kind: "appliance", id: "(default)" };
+  if (classify({ sku: s, categorySlug: "security", categoryIsHardware: true }).klass !== "hardware") {
+    return { kind: "non-hardware", id: "class-table" };
+  }
+  for (const r of RULES) if (r.re.test(s)) return { kind: r.kind, id: r.id };
+  return { kind: "appliance", id: "(default)" };
+}
+
+export function securityKind(sku: string): SecurityKind {
+  return ruleFor(sku).kind;
+}
+
+/** Which rule decided — for the distribution report and the refusal tests, never for a profile. */
+export function securityKindRule(sku: string): string {
+  return ruleFor(sku).id;
+}

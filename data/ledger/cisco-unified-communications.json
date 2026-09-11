@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "unified-communications",
  "profile_hash": "44387b0cb4f56c53",
- "built_on_commit": "4962945",
+ "built_on_commit": "3b77b1d",
  "norm_version": "1.6.2",
  "declared_fields": 155,
  "gap_states": {
@@ -41,7 +41,9 @@
    "transceiver": 8,
    "software": 275,
    "unknown": 2147
-  }
+  },
+  "pending_reclassification": 0,
+  "pending_reclassification_stored_slots": 0
  },
  "kinds": {
   "phone": {

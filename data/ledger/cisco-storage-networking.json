@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "storage-networking",
  "profile_hash": "1588da783f119172",
- "built_on_commit": "4962945",
+ "built_on_commit": "3b77b1d",
  "norm_version": "1.6.2",
  "declared_fields": 180,
  "gap_states": {
@@ -30,7 +30,9 @@
    "pluggable": 1,
    "software": 793,
    "other": 2
-  }
+  },
+  "pending_reclassification": 0,
+  "pending_reclassification_stored_slots": 0
  },
  "kinds": {
   "switch": {

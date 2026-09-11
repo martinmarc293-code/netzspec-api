@@ -13,11 +13,12 @@
 // tests/cupLedger.test.ts guards against drift — so what the reviewer reads is what the suite checks.
 import fs from "node:fs";
 import path from "node:path";
-import type { FastifyInstance } from "fastify";
+import type { FastifyInstance, FastifyRequest } from "fastify";
 import { Type, type Static } from "@sinclair/typebox";
 import { REPO_ROOT } from "../../config.js";
 import { linkBase, followable, qs } from "../links.js";
 import { listCategories } from "../queries/categories.js";
+import { listVendors } from "../queries/vendors.js";
 import { notFound } from "../errors.js";
 import { AnyJson, ERROR_RESPONSES, Nullable } from "../schemas.js";
 
@@ -54,6 +55,23 @@ export function ledgerRefs(dir: string = LEDGER_DIR): LedgerRef[] {
 }
 
 const Link = Type.Object({ name: Type.String(), url: Type.String() });
+
+/** THE FIRST LAYER IS THE BRANDS (operator, 12 Sep 2026). `/start` answered with one vendor's categories, so the
+ *  entry point to a THIRTEEN-vendor catalogue read as a Cisco page and the other twelve were invisible from it.
+ *  `/start` now lists the brands; `/start/{vendor}` is the brand's own page, and the shape below is unchanged. */
+const BrandsResponse = Type.Object({
+  links: Type.Object({ self: Type.String() }),
+  about: Type.String(),
+  brands: Type.Array(Type.Object({
+    slug: Type.String(), name: Type.String(), parts: Type.Integer(), hardware_parts: Type.Integer(),
+    parts_with_facts: Type.Integer(), spec_bearing_documents: Type.Integer(),
+    cup_ledgers: Type.Integer(), start: Type.String(),
+  })),
+  other: Type.Array(Link),
+  count: Type.Integer(),
+  generated_at: Type.String({ format: "date-time" }),
+});
+
 const StartResponse = Type.Object({
   links: Type.Object({ self: Type.String() }),
   about: Type.String(),
@@ -63,8 +81,8 @@ const StartResponse = Type.Object({
     index: Type.String(), fields: Type.String(), ledger: Nullable(Type.String()),
   })),
   ledgers: Type.Array(Type.Object({
-    vendor: Type.String(), category: Type.String(), url: Type.String(), profile_hash: Type.String(),
-    parts: Type.Integer(), required_slots: Type.Integer(),
+    vendor: Type.String(), category: Type.String(), url: Type.String(), summary_url: Type.String(),
+    profile_hash: Type.String(), parts: Type.Integer(), required_slots: Type.Integer(),
   })),
   reports: Type.Array(Link),
   other: Type.Array(Link),
@@ -81,16 +99,43 @@ const ReportQuery = Type.Object({ name: Type.String({ description: "a file name 
 export type StartRouteOptions = { publicBaseUrl: string };
 
 export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions): Promise<void> {
-  app.get<{ Querystring: Static<typeof StartQuery> }>("/start", {
+  // LAYER 1 — the brands. `/start` with no vendor lists them; each one links to its own page.
+  app.get("/start", {
     schema: {
       tags: ["catalogue"],
-      summary: "One page that LINKS every category's index, field list and cup ledger — the entry point for a "
-             + "client that can only fetch URLs it has already seen.",
-      querystring: StartQuery,
-      response: { 200: StartResponse, ...ERROR_RESPONSES },
+      summary: "The entry point: every BRAND in the catalogue, each linking to its own page of categories, "
+             + "field lists and cup ledgers. Follow the links; do not construct URLs.",
+      response: { 200: BrandsResponse, ...ERROR_RESPONSES },
     },
   }, async (req) => {
-    const vendor = req.query.vendor ?? "cisco";
+    const base = linkBase(req, opts.publicBaseUrl);
+    const link = (...segments: string[]) => followable(req, base, segments);
+    const refs = ledgerRefs();
+    const vendors = await listVendors();
+    const brands = vendors.map((v) => ({
+      slug: v.slug, name: v.name, parts: v.parts, hardware_parts: v.hardware_parts,
+      parts_with_facts: v.parts_with_facts, spec_bearing_documents: v.spec_bearing_documents,
+      cup_ledgers: refs.filter((l) => l.vendor === v.slug).length,
+      start: link("start", v.slug),
+    }));
+    const other = [
+      { name: "all brands with counts", url: link("vendors") },
+      { name: "all categories with counts", url: link("categories") },
+      { name: "the whole field dictionary", url: link("fields") },
+      { name: "catalogue statistics", url: link("stats") },
+      { name: "recent pipeline runs", url: link("runs") },
+      { name: "sources and what they publish", url: link("sources") },
+    ];
+    return {
+      links: { self: link("start") },
+      about: "Layer 1 of 2: the brands. Follow a brand's `start` for its categories, field lists and cup ledgers. "
+           + "Every URL here is complete, carries this request's key form and has no query string.",
+      brands, other, count: brands.length + other.length, generated_at: new Date().toISOString(),
+    };
+  });
+
+  // LAYER 2 — one brand. Both forms serve it: the path form is what layer 1 links to.
+  const brandStart = async (req: FastifyRequest, vendor: string) => {
     const base = linkBase(req, opts.publicBaseUrl);
     const refs = ledgerRefs().filter((l) => l.vendor === vendor);
     const cats = (await listCategories(vendor)).filter((c) => c.is_hardware);
@@ -106,6 +151,8 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
       ledger: refs.some((l) => l.category === c.slug) ? link("ledger", vendor, c.slug) : null,
     }));
     const ledgers = refs.map((l) => ({ vendor: l.vendor, category: l.category, url: link("ledger", l.vendor, l.category),
+      // The reviewable form, linked beside the full one (reviewer §2.9: the full payload cut their read mid-kind).
+      summary_url: link("ledger", l.vendor, l.category, "summary"),
       profile_hash: l.profile_hash, parts: l.parts, required_slots: l.slots }));
     const other = [
       { name: "all categories with counts", url: link("categories") },
@@ -116,12 +163,32 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
     ];
     const reports = reportNames().map((name) => ({ name, url: link("report", name) }));
     return {
-      links: { self: link("start") },
-      about: "Every URL below is complete, carries this request's key form and has NO query string: follow them as they are, and do not construct URLs.",
+      links: { self: link("start", vendor) },
+      about: `Layer 2 of 2: ${vendor}. Every URL below is complete, carries this request's key form and has NO `
+           + "query string: follow them as they are, and do not construct URLs. Layer 1 (all brands) is /start.",
       vendor, categories, ledgers, reports, other, count: categories.length + ledgers.length + reports.length + other.length,
       generated_at: new Date().toISOString(),
     };
-  });
+  };
+
+  app.get<{ Params: { vendor: string } }>("/start/:vendor", {
+    schema: {
+      tags: ["catalogue"],
+      summary: "One brand's page: every category's index, field list and cup ledger, plus the evidence reports.",
+      params: Type.Object({ vendor: Type.String() }),
+      response: { 200: StartResponse, ...ERROR_RESPONSES },
+    },
+  }, async (req) => brandStart(req, req.params.vendor));
+
+  // The query form kept for callers already on it: `/start?vendor=cisco` is layer 2 for that brand.
+  app.get<{ Querystring: Static<typeof StartQuery> }>("/start-vendor", {
+    schema: {
+      tags: ["catalogue"],
+      summary: "One brand's page by query (`?vendor=`) — the same document as /start/{vendor}.",
+      querystring: StartQuery,
+      response: { 200: StartResponse, ...ERROR_RESPONSES },
+    },
+  }, async (req) => brandStart(req, req.query.vendor ?? "cisco"));
 
   app.get<{ Querystring: Static<typeof ReportQuery> }>("/report", {
     schema: {
@@ -176,6 +243,39 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
       response: { 200: AnyJson, ...ERROR_RESPONSES },
     },
   }, async (req) => serveLedger(req.params.vendor, req.params.category));
+
+  // SUMMARY (reviewer §2.9, 12 Sep 2026). Each kind in a full ledger repeats the ~400-key `optional` list, which
+  // is identical across kinds: the routers ledger alone is ~35k tokens and was CUT mid-kind during the audit, so
+  // twelve of thirteen ledgers went unread. This serves what a review of the arrangement needs — per kind the
+  // required cups, the pending ones with their gate, and the not-applicable ones — plus `optional` ONCE. Same
+  // file, no second source of truth: it is the full ledger with the repetition removed.
+  app.get<{ Params: { vendor: string; category: string } }>("/ledger/:vendor/:category/summary", {
+    schema: {
+      tags: ["catalogue"],
+      summary: "The cup ledger for one category with the per-kind `optional` repetition removed — the reviewable form.",
+      params: Type.Object({ vendor: Type.String(), category: Type.String() }),
+      response: { 200: AnyJson, ...ERROR_RESPONSES },
+    },
+  }, async (req) => {
+    const full = serveLedger(req.params.vendor, req.params.category) as {
+      kinds: Record<string, { required: unknown[]; pending_until_gate_answered: unknown[]; not_applicable_by_kind: string[]; optional: string[] }>;
+      [k: string]: unknown;
+    };
+    const kinds = Object.fromEntries(Object.entries(full.kinds ?? {}).map(([kind, k]) => [kind, {
+      parts: (k as { parts?: number }).parts,
+      required: k.required, pending_until_gate_answered: k.pending_until_gate_answered,
+      not_applicable_by_kind: k.not_applicable_by_kind,
+      optional_count: k.optional?.length ?? 0,
+    }]));
+    const anyKind = Object.values(full.kinds ?? {})[0];
+    return {
+      ...full, kinds,
+      optional_shared_by_every_kind: anyKind?.optional ?? [],
+      _about_summary: "The per-kind `optional` lists are identical and are listed once, as "
+        + "`optional_shared_by_every_kind`; each kind keeps its own required / pending / not-applicable sets. "
+        + "The full ledger is at the same path without /summary.",
+    };
+  });
 
   app.get<{ Params: { name: string } }>("/report/:name", {
     schema: {

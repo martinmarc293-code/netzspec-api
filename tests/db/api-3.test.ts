@@ -416,8 +416,8 @@ async function main(): Promise<void> {
 
   // ---- start / ledger / report (12 Sep 2026): the reviewer's entry point and what it links ----------
   {
-    const s = await get("/v1/start");
-    check("/v1/start is 200 and every ledger it lists carries a /ledger url", s.status === 200 && Array.isArray(s.body?.ledgers) && s.body.ledgers.length > 0
+    const s = await get("/v1/start/cisco");
+    check("/v1/start/cisco is 200 and every ledger it lists carries a /ledger url", s.status === 200 && Array.isArray(s.body?.ledgers) && s.body.ledgers.length > 0
       && s.body.ledgers.every((l: Json) => typeof l.url === "string" && l.url.includes("/ledger/cisco/")), s.body?.ledgers);
     const reports: Json[] = s.body?.reports ?? [];
     check("/v1/start lists the committed reports, each with a /report url", reports.length > 0
@@ -438,12 +438,21 @@ async function main(): Promise<void> {
     // its QUERY STRING STRIPPED, so `…/ledger?category=routers` can never be followed. So: fetch /start with
     // the key in the query and NOTHING else, then follow every link it emits with no headers at all.
     {
-      const s2 = await app.inject({ method: "GET", url: `/v1/start?api_key=${TOKEN}` });
+      // TWO LAYERS since 12 Sep 2026 (operator): /start lists the BRANDS, each linking to its own page. Walk both.
+      const l1 = JSON.parse((await app.inject({ method: "GET", url: `/v1/start?api_key=${TOKEN}` })).body) as Json;
+      check("/start layer 1 lists the brands, not one brand's categories", Array.isArray(l1.brands) && l1.brands.length > 1 && !("categories" in l1),
+        Object.keys(l1));
+      const cisco = l1.brands.find((b: Json) => b.slug === "cisco");
+      check("cisco is a brand on layer 1, with its ledger count and its own start link", !!cisco && cisco.cup_ledgers > 0 && String(cisco.start).includes("/start/cisco"), cisco);
+      const s2 = await app.inject({ method: "GET", url: String(cisco.start).replace(/^https?:\/\/[^/]+/, "") });
       const body = JSON.parse(s2.body) as Json;
+      check("a brand's page is layer 2: its categories, ledgers and reports", s2.statusCode === 200 && body.vendor === "cisco" && body.categories.length > 0, s2.statusCode);
       const urls: string[] = [
+        l1.links.self, ...l1.brands.map((b: Json) => b.start), ...l1.other.map((o: Json) => o.url),
         body.links.self,
         ...body.categories.flatMap((c: Json) => [c.index, c.fields, c.ledger].filter(Boolean)),
-        ...body.ledgers.map((l: Json) => l.url), ...body.reports.map((r: Json) => r.url), ...body.other.map((o: Json) => o.url),
+        ...body.ledgers.flatMap((l: Json) => [l.url, l.summary_url]),
+        ...body.reports.map((r: Json) => r.url), ...body.other.map((o: Json) => o.url),
       ];
       check("every link on /start carries the caller's query key", urls.length > 10 && urls.every((u) => u.includes(`api_key=${TOKEN}`)),
         urls.filter((u) => !u.includes("api_key=")).slice(0, 4));

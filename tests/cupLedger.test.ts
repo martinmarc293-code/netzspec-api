@@ -1,10 +1,10 @@
-﻿// tests/cupLedger.test.ts â€” a committed cup ledger must still describe the profile it was built from.
+// tests/cupLedger.test.ts — a committed cup ledger must still describe the profile it was built from.
 //
-// data/ledger/<vendor>-<category>.json is the frozen denominator of the filling phase (reviewer Â§5, 11 Sep 2026).
+// data/ledger/<vendor>-<category>.json is the frozen denominator of the filling phase (reviewer §5, 11 Sep 2026).
 // A frozen copy of a changing thing drifts silently in BOTH directions: edit a profile and the ledger goes on
 // counting slots the profile no longer asks, or misses ones it now does, and every coverage number computed
-// against it is quietly wrong. So each committed ledger is re-derived here from the live profile â€” its hash,
-// and every kind's required / pending / not-applicable / optional lists â€” and any difference fails, naming the
+// against it is quietly wrong. So each committed ledger is re-derived here from the live profile — its hash,
+// and every kind's required / pending / not-applicable / optional lists — and any difference fails, naming the
 // field and the command that regenerates it. Counts (parts, slots) come from the store and are NOT checked here.
 import fs from "node:fs";
 import path from "node:path";
@@ -14,7 +14,7 @@ let passed = 0, failed = 0;
 const lines: string[] = [];
 const check = (name: string, ok: boolean, detail = ""): void => {
   if (ok) passed++;
-  else { failed++; lines.push(`    MISS ${name}${detail ? " â€” " + detail : ""}`); }
+  else { failed++; lines.push(`    MISS ${name}${detail ? " — " + detail : ""}`); }
 };
 
 type LedgerKind = { required: { key: string }[]; pending_until_gate_answered: { key: string; gate: string[] }[];
@@ -45,15 +45,15 @@ for (const f of files) {
   const regen = `npx tsx scripts/build-cup-ledger.mts --category ${led.category}`;
   check(`${f}: its category has a kind axis`, !!LEDGER_KINDS[led.category], `no LEDGER_KINDS entry for ${led.category}`);
   check(`${f}: built from the live profile (hash)`, led.profile_hash === profileHash(led.category),
-    `ledger ${led.profile_hash}, profile ${profileHash(led.category)} â€” the profile changed; run ${regen}`);
+    `ledger ${led.profile_hash}, profile ${profileHash(led.category)} — the profile changed; run ${regen}`);
   for (const kind of LEDGER_KINDS[led.category] ?? []) {
     const d = drift(kind, led.kinds[kind], kindQuestionSet(led.category, kind));
-    check(`${f}: ${kind} matches the profile`, d.length === 0, `${d.join("; ")} â€” run ${regen}`);
+    check(`${f}: ${kind} matches the profile`, d.length === 0, `${d.join("; ")} — run ${regen}`);
   }
 }
 
 // SABOTAGE: a ledger that lost one required field, and one that counts a field the profile never asked, must both
-// be caught FOR THAT REASON â€” or the comparison above is a check that has never failed.
+// be caught FOR THAT REASON — or the comparison above is a check that has never failed.
 {
   const q = kindQuestionSet("transceiver", "bidi");
   const good: LedgerKind = { required: q.required.map((key) => ({ key })), pending_until_gate_answered: q.pending,
@@ -65,7 +65,7 @@ for (const f of files) {
   check("SABOTAGE a ledger still counting the demoted mode is caught", drift("bidi", extra, q).some((m) => m.includes("mode") && m.includes("no longer asks")));
 }
 
-// wireless (12 Sep 2026): the controller's defining cup, and the antenna's, must be counted â€” and a ledger that
+// wireless (12 Sep 2026): the controller's defining cup, and the antenna's, must be counted — and a ledger that
 // still asks an ANTENNA for a Wi-Fi generation (the pre-kind profile) must be caught.
 {
   const q = kindQuestionSet("wireless", "wlc");
@@ -79,7 +79,7 @@ for (const f of files) {
     not_applicable_by_kind: qa.not_applicable_by_kind, optional: qa.optional };
   check("SABOTAGE a wireless ledger asking an antenna for wifi_generation is caught", drift("antenna", ant, qa).some((m) => m.includes("wifi_generation") && m.includes("no longer asks")));
 }
-// video (12 Sep 2026): the same two sabotages on the video axis â€” a transmitter ledger that lost `wavelength`,
+// video (12 Sep 2026): the same two sabotages on the video axis — a transmitter ledger that lost `wavelength`,
 // and one still counting the conferencing `video_codecs` this category was asked until today.
 {
   const q = kindQuestionSet("video", "transmitter");
@@ -94,7 +94,7 @@ for (const f of files) {
 }
 // end video (12 Sep 2026)
 // routers (12 Sep 2026): the routers ledger exists, and the two questions its kinds were built on are caught when
-// dropped â€” a line card's per-slot bandwidth and a power supply's rated output.
+// dropped — a line card's per-slot bandwidth and a power supply's rated output.
 check("routers: a committed ledger exists (data/ledger/cisco-routers.json)", files.includes("cisco-routers.json"));
 {
   for (const [kind, key] of [["linecard", "fabric_bandwidth"], ["power", "psu_rated_output"]] as const) {
@@ -135,5 +135,68 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
 // end optical-storage
 
 lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 3 sabotage cases)`);
+// ---- security (12 Sep 2026) --------------------------------------------------------------------
+// Three things about this ledger the generic drift check cannot see.
+{
+  const p = path.join(dir, "cisco-security.json");
+  if (!fs.existsSync(p)) check("the security ledger exists", false, "run npx tsx scripts/build-cup-ledger.mts --category security");
+  else {
+    const led = JSON.parse(fs.readFileSync(p, "utf8")) as Ledger & {
+      totals: { parts: number; pending_reclassification?: number; by_kind: Record<string, number> };
+      kinds: Record<string, LedgerKind & {
+        parts: number;
+        required: { key: string; observed_fill_path: boolean; seed_only: boolean; label_occurrences: number; sources: { basis: string }[] }[];
+        pending_until_gate_answered: { key: string; observed_fill_path: boolean; seed_only: boolean }[];
+      }>;
+    };
+    // 1. THE DENOMINATOR MUST ACCOUNT FOR EVERY `hardware` ROW. securityKind judges 3,525 of the
+    //    category's 5,515 stored-hardware parts non-hardware from the class table, and they are held
+    //    OUT of the kinds. A ledger that simply omitted them would report 1,990 parts for a category
+    //    whose parts table holds 5,515, with nothing saying where the rest went — the same defect as
+    //    an output field named for the thing you wish it measured. So the count is its own number and
+    //    this asserts it is PRESENT and non-zero, not merely that the kinds add up.
+    check("security: the ledger records the rows held out for reclassification, as their own number",
+      typeof led.totals.pending_reclassification === "number" && led.totals.pending_reclassification > 0,
+      `pending_reclassification=${led.totals.pending_reclassification} — a missing or zero count means the field was dropped, not that every row is classified`);
+    check("security: `parts` is the sum of the kinds and EXCLUDES the held-out rows",
+      led.totals.parts === Object.values(led.totals.by_kind).reduce((a, b) => a + b, 0),
+      `parts=${led.totals.parts}, by_kind sum=${Object.values(led.totals.by_kind).reduce((a, b) => a + b, 0)}`);
+    check("security: `non-hardware` is not a ledger kind",
+      !("non-hardware" in led.kinds) && !LEDGER_KINDS.security.includes("non-hardware"));
+
+    // 2. FILLABILITY, checked on the ledger rather than on the profile. The reviewer's check 5: a
+    //    required cup nothing can fill is a permanent gap. `observed_fill_path` is the ledger's own
+    //    verdict (a source SEEN publishing the key, a datasheet label that maps to it, or the part's
+    //    own name), and `seed_only` is the operator-seed case that does not grow.
+    const blind: string[] = [], seedOnly: string[] = [];
+    for (const [kind, k] of Object.entries(led.kinds)) {
+      for (const f of [...k.required, ...k.pending_until_gate_answered]) {
+        if (f.seed_only) seedOnly.push(`${kind}/${f.key}`);
+        else if (!f.observed_fill_path) blind.push(`${kind}/${f.key}`);
+      }
+    }
+    check("security: every required or pending cup has an OBSERVED fill path", blind.length === 0, blind.join(", "));
+    check("security: no required cup is fillable only by the operator seed", seedOnly.length === 0, seedOnly.join(", "));
+
+    // 3. THE SHAPING ITSELF, asserted on the frozen file so a future profile edit that re-flattens the
+    //    category fails here too and not only in tests/securityShapes. A component must be asked
+    //    strictly fewer slots than the leanest box: that difference IS the defect this axis fixed.
+    const box = ["firewall", "ips", "email-gateway", "web-gateway", "management", "analytics", "identity"];
+    const comp = ["security-module", "ips-module", "module", "power", "fan", "drive", "compute", "cable", "accessory"];
+    const n = (k: string) => led.kinds[k].required.length + led.kinds[k].pending_until_gate_answered.length;
+    check("security: every component kind is asked fewer slots than the leanest box",
+      Math.max(...comp.map(n)) < Math.min(...box.map(n)),
+      `components ${comp.map((k) => `${k}:${n(k)}`).join(" ")} · boxes ${box.map((k) => `${k}:${n(k)}`).join(" ")}`);
+    check("security: no component kind is asked the physical envelope",
+      comp.every((k) => !["weight", "dimensions", "temp_operating", "humidity_operating", "certifications", "form_factor", "rack_units"]
+        .some((f) => led.kinds[k].required.some((r) => r.key === f) || led.kinds[k].pending_until_gate_answered.some((r) => r.key === f))),
+      comp.filter((k) => led.kinds[k].required.some((r) => r.key === "weight")).join(", "));
+    check("security: every component kind is still asked WHAT IT FITS",
+      comp.every((k) => led.kinds[k].required.some((r) => r.key === "product_compatibility")),
+      comp.filter((k) => !led.kinds[k].required.some((r) => r.key === "product_compatibility")).join(", "));
+  }
+}
+
+lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 2 sabotage cases)`);
 console.log(lines.join("\n"));
 if (failed) process.exit(1);

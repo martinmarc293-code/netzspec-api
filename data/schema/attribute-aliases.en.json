@@ -672,8 +672,8 @@
   ],
   [
    "^threat defense( throughput)?$|^ngfw throughput$|^threat inspection throughput$",
-   "threat_defense_throughput",
-   "firewall datasheets state this beside firewall/IPS throughput"
+   "threat_throughput",
+   "security (12 Sep 2026): REDIRECTED from threat_defense_throughput, which is the same quantity under a second key and is retired into this one by SUPERSEDED_KEYS (R2). The rule is kept rather than deleted because '^threat defense$' is a label the threat_throughput rule below does not match."
   ],
   [
    "^tls( decryption)?( throughput)?$|^ssl decryption throughput$",

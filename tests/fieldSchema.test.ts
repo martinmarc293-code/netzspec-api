@@ -6,6 +6,8 @@
 import {
   FIELD_DICTIONARY, PROFILES, CATEGORIES, UNIT_OVERRIDES, completenessV2, requirementFor,
   evalCondition, profileCounts, domainFor, unitFor, type PartValues,
+  // security (12 Sep 2026)
+  gateSecurityGeneratedReq,
 } from "../src/core/fieldSchema.js";
 // The dimension map is taken from the normaliser's own CANON rather than restated here. A second
 // list of "which unit is which dimension" would drift from the one convert() actually uses, and
@@ -233,6 +235,45 @@ check("SABOTAGE: a compound unit that is not on the allowlist is caught",
 const sabUnused = unitDefects(FIELD_DICTIONARY, UNIT_OVERRIDES, CANON, new Set([...COMPOUND_UNITS, "furlong/fortnight"]));
 check("SABOTAGE: an allowlist entry no field uses is caught, so the list cannot drift",
   sabUnused.some((d) => d.startsWith("UNUSED:") && d.includes("furlong/fortnight")));
+
+// ---- security (12 Sep 2026): the generated-`req` gate is not a comment ---------------------------
+// `security` is not in DEVICE_GATED_CATEGORIES, so the post-merge loop that re-gates a `req`
+// arriving from GENERATED_PROFILES does not reach it, and `gateSecurityGeneratedReq` exists to
+// close that. Today the generated half declares security entirely `opt`, so the loop changes
+// nothing — which means it has never been observed to fire and, per this repo's first rule, is not
+// a check anyone has. Driven here with a SABOTAGED profile object: an unconditional `req` becomes a
+// cond on the box kinds, so a component is not asked it; `opt` and existing conds pass through; and
+// COLUMN_BACKED keys are left alone, because gating `vendor` on a value the validator does not have
+// would only break validation.
+{
+  const sab: Record<string, { kind: string; when?: unknown }> = {
+    vendor: { kind: "req" },                                   // column-backed: must NOT be gated
+    invented_box_spec: { kind: "req" },                        // the leak this closes
+    invented_optional: { kind: "opt" },
+    invented_cond: { kind: "cond", when: { field: "kind", inList: ["power"] } },
+  };
+  const gated = gateSecurityGeneratedReq(sab as never);
+  check("SABOTAGE: gateSecurityGeneratedReq gates exactly the one unconditional req", gated === 1);
+  check("SABOTAGE: the generated req became a cond on the box kinds",
+    sab.invented_box_spec.kind === "cond" &&
+    JSON.stringify(sab.invented_box_spec.when).includes("firewall"));
+  // `when` is guarded: with the loop disabled the key stays `req` and carries no condition, and a
+  // bare evalCondition(undefined) would THROW — a red suite with a stack trace instead of a named
+  // miss. Proven by disabling the loop and reading the output: these two now report the miss.
+  const boxWhen = sab.invented_box_spec.when;
+  check("SABOTAGE: a component is NOT asked the gated key",
+    !!boxWhen && !evalCondition(boxWhen as never, { kind: "power" }));
+  check("SABOTAGE-CONTROL: a box IS still asked it",
+    !!boxWhen && evalCondition(boxWhen as never, { kind: "firewall" }));
+  check("SABOTAGE: vendor is left alone (column-backed)", sab.vendor.kind === "req");
+  check("SABOTAGE: opt and an existing cond pass through untouched",
+    sab.invented_optional.kind === "opt" && JSON.stringify(sab.invented_cond.when) === JSON.stringify({ field: "kind", inList: ["power"] }));
+  check("gateSecurityGeneratedReq on an absent profile is a no-op, not a throw",
+    gateSecurityGeneratedReq(undefined) === 0);
+  // And the live profile is already clean, which is the state the loop maintains.
+  check("the live security profile has no unconditional req outside the column-backed keys",
+    Object.entries(PROFILES.security).every(([k, r]) => r.kind !== "req" || k === "vendor" || k === "series"));
+}
 
 // And the rules must not be vacuous: if nothing declared a "/" or had a CANON dimension, every
 // case above would pass on an empty dictionary.

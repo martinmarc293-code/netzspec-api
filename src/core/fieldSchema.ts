@@ -37,6 +37,11 @@ export type Condition =
 import { UCS_MACHINE, UCS_COMPONENT } from "./ucsKind.js";
 import { SW_DEVICE, SW_BOX, SW_COMPONENT, SW_CABLE } from "./switchKind.js";
 import { OPT_MODULE, OPT_FIXED_WAVELENGTH } from "./opticKind.js";
+// security (12 Sep 2026)
+import {
+  SEC_BOX, SEC_COMPONENT, SEC_FIREWALL_KIND, SEC_INLINE_KIND, SEC_IPS_KIND,
+  SEC_USER_SIZED_KIND, SEC_STORE_KIND, SEC_POWERED_KIND, type SecurityKind,
+} from "./securityKind.js";
 import { GENERIC_DEVICE } from "./componentKind.js";
 // wireless (12 Sep 2026)
 import { WL_AP, WL_BOX, WL_PORTED } from "./wirelessKind.js";
@@ -654,6 +659,35 @@ const SEC_ANALYTICS = ["Secure Network Analytics", "UDP Director", "Flow Sensor"
 const SEC_IDENTITY = ["Identity Services Engine"];
 /** Anything that terminates or inspects traffic in line. */
 const SEC_INLINE = [...SEC_FIREWALL, ...SEC_IPS];
+// "Secure Firewall 200 Series" joins "200 Secure" 12 Sep 2026. There is no such series in the live
+// data — the two CSF220 appliances carry the mangled "200 Secure" — and the survey's repair proposal
+// (evidence/security-servers-series-survey.md §b) is to relabel them to match their "1200" and "6100"
+// siblings. That relabel is a database write and a PROPOSAL, not this; listing BOTH spellings means
+// the requirement keeps firing whichever side of the rename the data is on. A series a shape names
+// and no part carries is reported by netzspec-parent/security-shapes.py, so it cannot rot silently.
+SEC_FIREWALL.push("Secure Firewall 200 Series");
+
+// --- SECURITY BY KIND, 12 Sep 2026 (reviewer verdict on 678606c §4a-b) -------------------------
+// The shape lists above are SERIES lists, and series is the wrong axis on its own: FPR3K-PSU-BLANK
+// and FPR3105-NGFW-K9 both carry "4100 Firepower", so a blank slot cover was asked a firewall
+// throughput and a session table. `securityKind` derives the shape from the SKU instead.
+//
+// THE TWO ARE COMBINED RATHER THAN SWAPPED. A SKU that names its shape wins, because series labels
+// in this category are wrong often enough to matter (FMC1700-K9 sits in "4100 Firepower",
+// FPR3105-NGFW-K9 in "Firepower 9300 Series", and 17 of the 83 hardware rows in "Email Security
+// Appliance" are WSA or SMA boxes). Where the SKU names NO shape the kind is the deliberate
+// `appliance` fallback, and only then does the series list decide — which is how the 30 remaining
+// fallback rows (Threat Grid models, Secure Endpoint Private Cloud, Secure Workload clusters and
+// the 1210CE/1210CP/1220CX datasheet MODEL rows that hold 61 of the category's facts) keep the
+// requirements their series earns them.
+//
+// R1: both gates are answered by construction. `kind` is derived from the SKU for every part
+// (partKind.ts) and `series` is a required, column-backed field.
+const secShape = (kinds: readonly SecurityKind[], series: readonly string[]): Requirement =>
+  cond({ any: [
+    { field: "kind", inList: [...kinds] },
+    { all: [{ field: "kind", inList: ["appliance"] }, { field: "series", inList: [...series] }] },
+  ] });
 
 // servers (12 Sep 2026) ------------------------------------------------------------------------------
 // ONE QUESTION SET PER UCS KIND, shared by servers-unified-computing, hyperconverged-systems and
@@ -1424,26 +1458,79 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   security: {
     anyconnect_sessions: opt, expansion_io: opt, shock: opt, redundancy: opt, // deep-spec fields 2026-09-02
 
-    // UNIVERSAL — true of any physical security appliance, whatever it does.
-    vendor: req, series: req, form_factor: req,
+    // UNIVERSAL FOR A BOX — true of any physical security appliance, whatever it does, and asked of
+    // NOTHING ELSE since 12 Sep 2026. Until then these seven were unconditional `req`, so each of the
+    // 1,068 component parts (fans, rails, blank slot covers, SSDs, DIMMs, PSUs) was asked a weight, a
+    // rack height, an operating temperature, a power draw and a certification list. Not one of them
+    // held a single own physical fact, and the gaps were unclosable by construction: Cisco does not
+    // print an operating humidity for a slot cover.
+    vendor: req, series: req,
+    form_factor: cond({ field: "kind", inList: [...SEC_BOX] }),
+    // The gate stays `form_factor` alone, which is correct in BOTH directions and is why it is not
+    // also gated on kind: for a component form_factor resolves `na`, so requirementFor finds no
+    // required gate and rack_units is `na` too rather than `pending`; for a box with no extracted
+    // form_factor the gate is `req` and unanswered, so rack_units stays `pending` — an open gap that
+    // names the field which would settle it. tests/securityShapes pins both halves.
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
-    power_max: req, temp_operating: req, humidity_operating: req,
-    dimensions: req, weight: req, certifications: req,
+    // A BLADE AND A NETMOD DRAW POWER OF THEIR OWN and Cisco prints it, the same trade switches made
+    // for line cards. A PSU's wattage is what it DELIVERS and belongs in psu_rated_output, below.
+    power_max: cond({ field: "kind", inList: [...SEC_POWERED_KIND] }),
+    temp_operating: cond({ field: "kind", inList: [...SEC_BOX] }),
+    humidity_operating: cond({ field: "kind", inList: [...SEC_BOX] }),
+    dimensions: cond({ field: "kind", inList: [...SEC_BOX] }),
+    weight: cond({ field: "kind", inList: [...SEC_BOX] }),
+    certifications: cond({ field: "kind", inList: [...SEC_BOX] }),
     psu_config: opt, psu_redundant: opt, power_typical: opt, altitude_max: opt, mtbf: opt,
 
-    // BY SHAPE — see the SEC_* lists above. Each of these was `req` for all 6,689 hardware parts
-    // until 8 Sep 2026; they are now asked only of the products that have them.
-    firewall_throughput: cond({ field: "series", inList: SEC_FIREWALL }),
-    threat_throughput: cond({ field: "series", inList: SEC_INLINE }),
+    // BY SHAPE — `secShape` above: the kind the SKU names, or the series where it names none. Each of
+    // these was `req` for all 6,689 hardware parts until 8 Sep 2026 and series-gated until 12 Sep.
+    firewall_throughput: secShape(SEC_FIREWALL_KIND, SEC_FIREWALL),
+    threat_throughput: secShape(SEC_INLINE_KIND, SEC_INLINE),
     // FIREWALLS ONLY. ISE was in this list and the two measurements are not the same thing:
     // a firewall's concurrent sessions are TCP/UDP connections and run to millions, while ISE's
     // are authenticated ENDPOINTS and run to tens of thousands. One key holding both makes the
     // band useless and any comparison between an ISE node and a firewall meaningless. ISE keeps
     // its own question below.
-    concurrent_sessions: cond({ field: "series", inList: SEC_FIREWALL }),
-    ips_throughput: cond({ field: "series", inList: SEC_IPS }),
-    recommended_users: cond({ field: "series", inList: [...SEC_EMAIL, ...SEC_WEB] }),
-    storage_capacity: cond({ field: "series", inList: [...SEC_EMAIL, ...SEC_WEB, ...SEC_MGMT, ...SEC_ANALYTICS] }),
+    concurrent_sessions: secShape(SEC_FIREWALL_KIND, SEC_FIREWALL),
+    ips_throughput: secShape(SEC_IPS_KIND, SEC_IPS),
+    recommended_users: secShape(SEC_USER_SIZED_KIND, [...SEC_EMAIL, ...SEC_WEB]),
+    // A DRIVE IS ASKED ITS CAPACITY, and that is where every one of this category's 45
+    // storage_capacity facts already sits — AMPPC-SSD-800GB, FMC-M5-HDD-600G, SNS-SD960GM2NK9. Until
+    // today the key was asked only of gateway and console BOXES (their mail spool / event store),
+    // which is also right and stays: the cup is the same quantity, bytes of storage, exactly as
+    // servers-unified-computing uses it for both a server and its disk.
+    storage_capacity: cond({ any: [
+      { field: "kind", inList: ["drive", ...SEC_STORE_KIND] },
+      { all: [{ field: "kind", inList: ["appliance"] }, { field: "series", inList: [...SEC_EMAIL, ...SEC_WEB, ...SEC_MGMT, ...SEC_ANALYTICS] }] },
+    ] }),
+
+    // --- WHAT A COMPONENT IS BOUGHT ON (12 Sep 2026, reviewer §4b) --------------------------------
+    // WHAT IT FITS is the first question asked of a power supply, a fan, a blade or a rail kit, and
+    // it was asked of none of them. Fillable: "Product compatibility" (74 occurrences in the
+    // 23,651-label datasheet inventory), "Chassis compatibility" (36), "Chassis support" (23); 9
+    // security components already hold a value and 79 parts hold one catalogue-wide.
+    // chassis_compatibility, the same quantity under a second key, is retired into this one
+    // (SUPERSEDED_KEYS), so R2 holds.
+    product_compatibility: cond({ field: "kind", inList: [...SEC_COMPONENT] }),
+    // A supply is bought on what it DELIVERS. 274 facts catalogue-wide (272 of them on switches
+    // PSUs) prove the cup is fillable; security holds none yet, which is coverage, not schema.
+    psu_rated_output: cond({ field: "kind", inList: ["power"] }),
+    // Input voltage is asked of the SUPPLY, not of the box. It is a real appliance spec too — "AC
+    // input voltage" occurs 53 times in the inventory — so a box's value is still accepted and
+    // served; it is simply not scored against the box, because an appliance is not chosen on it and
+    // requiring it would open 922 gaps for no gain. Same reasoning as switches' airflow gate.
+    input_voltage: cond({ field: "kind", inList: ["power"] }),
+    // AIRFLOW IS HOW A FAN OR A PSU IS SOLD: the same supply ships with the air going either way, so
+    // the direction is the ordering decision. 187 label occurrences, 368 facts catalogue-wide.
+    airflow: cond({ field: "kind", inList: ["power", "fan"] }),
+    // A cable is bought by its length ("Length" 58 occurrences, 1,142 facts catalogue-wide).
+    cable_length: cond({ field: "kind", inList: ["cable"] }),
+    // A network module is bought on its ports and nothing else — FPR-NM-8X10G, ASA-IC-6GE-CU-A,
+    // FPR4K-XNM-2X400G. 80 of the category's ports facts already sit on module-kind parts and the
+    // struct parser is the switches one. NOT asked of the service blades: an FPR9K-SM-36 has no front
+    // ports at all while an ASA5585-SSP-10 has eight, and a cup asked of a kind only half of which
+    // can have it is the "capability statement" mistake in schema form.
+    ports: cond({ field: "kind", inList: ["module"] }),
 
     // DECLARED FOR THEIR SHAPE, NOT REQUIRED OF IT — and the reason is a check, not a judgement.
     // These four were written as conds too, and tests/source-fields refused the commit: no
@@ -2226,6 +2313,21 @@ export const SUPERSEDED_KEYS: Readonly<Record<string, string>> = {
   insertion_loss: "insertion_loss_max",                  // 0 facts vs 0; the numeric key survives
   gain_range: "gain",                                    // 0 facts vs 0; gain is nr since 12 Sep 2026
   // end optical-storage
+  // ---- security (12 Sep 2026) ------------------------------------------------------------------
+  // THE SAME THROUGHPUT UNDER TWO KEYS, and the label scan could not see it because the labels
+  // differ ("Threat Defense throughput" against "NGFW"). Both are the Gbit/s a box does with threat
+  // inspection on, both are Cisco's own figure from the same table, and the two alias rules
+  // OVERLAPPED: "^ngfw throughput$" wrote threat_defense_throughput while "^ngfw.*throughput" wrote
+  // threat_throughput, so which cup a value landed in depended on the order of the rules file.
+  // Survivor chosen by facts and by band, not by the tidier name: threat_throughput holds 17 facts
+  // and a curated band [0.02, 5000] Gbit/s, threat_defense_throughput holds 3 and its generated
+  // dictionary entry has NO band, so nothing could refuse an implausible value written to it.
+  // The alias rule is redirected in data/schema/attribute-aliases.en.json.
+  // 3 FACTS MOVE — CSF1210CE 6, CSF1210CP 6, CSF1220CX 9 Gbit/s, every one inside the survivor's
+  // band and every one a datasheet MODEL row. Moving them is a database write: it is a PROPOSAL in
+  // docs/reports/schema-security-2026-09-12.md, not done here. Until it runs, those three rows read
+  // "missing threat_throughput" while holding the value under the retired key.
+  threat_defense_throughput: "threat_throughput",        // 3 facts vs 17; the survivor has the band
 };
 for (const p of Object.values(PROFILES)) {
   for (const [dup, canon] of Object.entries(SUPERSEDED_KEYS)) {
@@ -2292,6 +2394,33 @@ for (const cat of DEVICE_GATED_CATEGORIES) {
     }
   }
 }
+// ---- security (12 Sep 2026) --------------------------------------------------------------------
+// The same leak, on security's OWN axis. `security` is not in DEVICE_GATED_CATEGORIES — its kinds
+// name module, blade and appliance shapes the generic axis makes no claim about — so the loop above
+// does not reach it, and a `req` arriving from GENERATED_PROFILES would stay unconditional and be
+// asked of every fan, rail and blank slot cover, which is the whole defect the kind axis just fixed.
+//
+// TODAY THE GENERATED HALF DECLARES security ENTIRELY `opt`, so this loop changes nothing — which is
+// exactly why it is here rather than in a comment. The generated file is regenerated from the labels
+// the sources publish; the day a regeneration promotes one key, the gate is already in place. It is
+// the cheapest possible insurance against a defect this file has already paid for twice (`standard`
+// on a power cord in wireless, `cpu` required of 8,794 cables).
+//
+// Gated to SEC_BOX, not to the component kinds: an unreviewed requirement belongs on the box, which
+// is the kind that has a physical envelope at all. tests/fieldSchema asserts the loop fires by
+// feeding it a sabotaged profile.
+export function gateSecurityGeneratedReq(p: Record<string, Requirement> | undefined): number {
+  if (!p) return 0;
+  let gated = 0;
+  for (const [key, r] of Object.entries(p)) {
+    if (r.kind === "req" && !COLUMN_BACKED.has(key)) {
+      p[key] = cond({ field: "kind", inList: [...SEC_BOX] });
+      gated++;
+    }
+  }
+  return gated;
+}
+gateSecurityGeneratedReq(PROFILES.security);
 
 export const CATEGORIES = Object.keys(PROFILES);
 

@@ -66,6 +66,19 @@ async function main(): Promise<void> {
     const b = byKind.get(k) ?? { n: 0, stored: 0 };
     b.n++; b.stored += p.rt ?? 0; byKind.set(k, b);
   }
+  // ---- security (12 Sep 2026): the rows the class table has already judged non-hardware ----------------
+  // `securityKind` returns "non-hardware" for a SKU productClass.ts calls a licence, software or a service
+  // while the parts row still says `hardware` — 3,525 of security's 5,515 as of 11 Sep, because a reclassify
+  // run has not moved them yet. They have no question set and belong in no kind, so they are taken OUT of
+  // the per-kind map rather than added to LEDGER_KINDS as a pseudo-kind.
+  //
+  // AND THE COUNT IS WRITTEN DOWN, beside the kinds rather than folded into one of them. A part silently
+  // dropped from a denominator is this repo's own `sampled`-carrying-`checked` defect: the ledger would
+  // report 1,990 parts for a category whose parts table holds 5,515 `hardware` rows and nothing would say
+  // where the other 3,525 went.
+  const pendingReclass = byKind.get("non-hardware")?.n ?? 0;
+  const pendingReclassStoredSlots = byKind.get("non-hardware")?.stored ?? 0;
+  byKind.delete("non-hardware");
   const unknownKinds = [...byKind.keys()].filter((k) => !LEDGER_KINDS[category].includes(k));
   if (unknownKinds.length) throw new Error(`parts carry kinds the ledger does not list: ${unknownKinds.join(", ")} — add them to LEDGER_KINDS`);
 
@@ -151,6 +164,11 @@ async function main(): Promise<void> {
       required_slots_stored: slotsStored,
       _slots_note: "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
       by_kind: Object.fromEntries(LEDGER_KINDS[category].map((k) => [k, (kinds[k] as { parts: number }).parts])),
+      // security (12 Sep 2026): rows the kind axis judged non-hardware from the class table while the parts
+      // row still says `hardware`. Counted here, not inside a kind — see the note at byKind.delete().
+      // `parts` above EXCLUDES them, so parts + pending_reclassification is the category's hardware count.
+      pending_reclassification: pendingReclass,
+      pending_reclassification_stored_slots: pendingReclassStoredSlots,
     },
     kinds,
   };

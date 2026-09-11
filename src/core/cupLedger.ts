@@ -22,6 +22,8 @@ import { RT_KINDS } from "./routerKind.js"; // routers (12 Sep 2026)
 import { OPTICAL_KINDS } from "./opticalKind.js";
 import { SAN_KINDS } from "./sanKind.js";
 // end optical-storage
+// security (12 Sep 2026)
+import { SEC_BOX, SEC_COMPONENT } from "./securityKind.js";
 
 /** Every kind a category's axis can name — including kinds no part holds today, which still have a question set. */
 export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
@@ -45,6 +47,11 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   "optical-networking": OPTICAL_KINDS,
   "storage-networking": SAN_KINDS,
   // end optical-storage
+  // security (12 Sep 2026). `non-hardware` is deliberately absent: securityKind returns it for a SKU
+  // the class table already calls a licence, software or a service, and such a part is asked NOTHING
+  // — it has no question set to freeze, and once a reclassify run moves it out of `hardware`,
+  // recompute-completeness gives it no_profile before it looks up a profile at all.
+  security: [...SEC_BOX, ...SEC_COMPONENT],
 };
 
 export type KindQuestionSet = {

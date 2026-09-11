@@ -32,6 +32,8 @@ import { routerKind } from "./routerKind.js"; // routers (12 Sep 2026)
 import { opticalKind } from "./opticalKind.js";
 import { sanKind } from "./sanKind.js";
 // end optical-storage
+// security (12 Sep 2026)
+import { securityKind } from "./securityKind.js";
 
 /**
  * Categories whose profile gates requirements on a derived `kind`. Checked against PROFILES by
@@ -46,6 +48,10 @@ import { sanKind } from "./sanKind.js";
  */
 export const KIND_CATEGORIES: readonly string[] = [
   "servers-unified-computing", "switches", "transceiver",
+  // security (12 Sep 2026) — its own axis, see securityKind.ts. It names appliance SHAPES (firewall,
+  // ips, email-gateway, web-gateway, management, analytics, identity) and two classes of service
+  // BLADE alongside the ordinary components, none of which componentKind claims.
+  "security",
   "routers", "wireless", "video", "unified-communications", "collaboration-endpoints",
   "optical-networking", "hyperconverged-systems", "interfaces-modules", "storage-networking",
   "hyperconverged-infrastructure", "meraki",
@@ -91,6 +97,10 @@ export function partKind(categorySlug: string, sku: string): string | undefined 
   if (categorySlug === "optical-networking") return opticalKind(sku);
   if (categorySlug === "storage-networking") return sanKind(sku);
   // end optical-storage
+  // security names APPLIANCE SHAPES from the SKU, because its `series` column is wrong often enough
+  // to matter, plus the two blade kinds that carry a firewall's own throughput figures — neither is
+  // anything componentKind knows about (12 Sep 2026, reviewer §4a).
+  if (categorySlug === "security") return securityKind(sku);
   // The shared axis. Deliberately driven off KIND_CATEGORIES rather than a second list, so the
   // membership test and the dispatch cannot drift apart.
   if (KIND_CATEGORIES.includes(categorySlug)) return componentKind(sku);

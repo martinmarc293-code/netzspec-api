@@ -471,8 +471,8 @@
   { "id": "firewall-tls-inspection", "category": "security",
     "name_en": "Firewall TLS inspection", "name_de": "TLS-Inspektion Firewall",
     "description_en": "The throughput that survives decryption — usually a fraction of the headline number.",
-    "facets": [ { "key": "tls_throughput", "ui": "range" }, { "key": "threat_defense_throughput", "ui": "range" } ],
-    "columns": ["tls_throughput", "threat_defense_throughput", "threat_throughput", "ips_throughput", "firewall_throughput"],
+    "facets": [ { "key": "tls_throughput", "ui": "range" }, { "key": "threat_throughput", "ui": "range" } ],
+    "columns": ["tls_throughput", "threat_throughput", "ips_throughput", "firewall_throughput"],
     "examples": [ { "title": "TLS inspection above 1 Gbit/s", "filter": "tls_throughput_min=1" } ] },
 
   { "id": "firewall-by-form-factor", "category": "security",

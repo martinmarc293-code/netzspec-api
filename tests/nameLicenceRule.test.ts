@@ -101,8 +101,18 @@ for (const [sku, name, why] of MUST_STAY_HARDWARE) {
 }
 
 // --- the reason names the rule, so a wrong class can be traced to its cause ----------------------
-check("reason names the rule", hw("ESA-MFE-3Y-S2", "Anti-Virus 3Y Lic Key, 100-499 Users").reason,
+// The witness moved 12 Sep 2026. Every ESA-*-nY-Sn row is now decided by its SKU
+// (sku-regex:term-user-band, from the security class-residue block), and a SKU rule runs before
+// every name rule — so the old case here asserted `name-lic-key` about a row the name rules never
+// see. Same class, different reason. The replacement is a real part whose SKU no rule in the table
+// decides, so the NAME rule is what answers: "ESA PXE Encryption 5Y Lic Key, 1K-4,999 Users".
+// The CAUGHT list above is deliberately left alone — it asserts the CLASS, which has not moved.
+check("reason names the rule", hw("ESA-ENC-5Y-S4-K9", "ESA PXE Encryption 5Y Lic Key, 1K-4,999 Users").reason,
       "name-lic-key");
+// And the rule that took the old witness is named, so the precedence is visible here too.
+check("a SKU rule in the security block outranks the identical name rule",
+      hw("ESA-MFE-3Y-S2", "Email McAfee Anti-Virus 3Y Lic Key, 100-499 Users").reason,
+      "sku-regex:term-user-band");
 
 // --- precedence: a SKU rule still wins over the name --------------------------------------------
 // `CON-` is a service contract. Its name mentioning a licence key must not turn it into a licence.
