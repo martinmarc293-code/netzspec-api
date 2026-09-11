@@ -36,6 +36,15 @@ into `CLAUDE.md`'s rules or memory, never only here.
     /v1/fields reads category_profiles from the DATABASE and would have kept serving both cups.
     Transceiver: all 8 checks ok.
 
+  - Read off a live line card's own API response: all 619 port-bearing modules owed a PoE BUDGET
+    (0 hold one — it is the chassis PSU's). The profile comment claimed the gate prevented it; the
+    pending rule defeated it. And the obvious `all:` gate would have done nothing: requirementFor
+    called any false `all` pending while one gate was unanswered. settledFalse() settles an `all` on
+    one answered false clause (single fields and `any` unchanged). poe_budget -> switches only.
+    Switches now 199,314 slots.
+  - profileRows() re-added the superseded keys from GENERATED_PROFILES on every sync (insert 19,
+    delete 19 — run #945's "inserted 19" meant nothing). Fixed; run #947: code 6,136 = DB 6,136.
+
   **TRAPS HIT**: a regex generated through `sed` lost its backslashes (`\bsup\d` -> `bsupd`) and ran,
   matching nothing, in my own scratch scorecard — CLAUDE.md §4, again. The class check itself was
   wrong in both directions (failed switches on 94 real bundles, passed it with 1,622 images inside).

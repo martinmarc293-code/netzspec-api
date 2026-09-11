@@ -95,6 +95,11 @@ export function profileRows(): ProfileRow[] {
   const out = new Map<string, ProfileRow>();
   const add = (category: string, fields: Record<string, Requirement>) => {
     for (const [field_key, requirement] of Object.entries(fields)) {
+      // The GENERATED pass below re-adds any key the merged PROFILES lacks — and since the merge
+      // already holds every generated key, the only keys it can add are the SUPERSEDED ones the
+      // merge removed on purpose. Without this, every sync inserted 19 duplicate rows and then
+      // deleted them again (run #945: "inserted 19"), a count that meant nothing.
+      if (field_key in SUPERSEDED_KEYS) continue;
       const id = `${category}/${field_key}`;
       if (!out.has(id)) out.set(id, { category, field_key, requirement });
     }
