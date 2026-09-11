@@ -4,6 +4,66 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-12 - Opus/PARENT. Eight category agents in parallel: eleven more Cisco categories shaped by kind. 5.0M subagent tokens against a 3M estimate.**
+
+  Operator: "use sub agents to make the work faster ... make the cup arrangement complete so we can start
+  getting the data", then "Yes, run all 8" to an estimate of ~3M. **The estimate was per agent and held for
+  none of them**: a category round costs 450-620k, not 400k. Actuals in `docs/ORCHESTRATION-LEDGER.md` —
+  three surveys 1.02M, eight category agents 4.00M. Each agent worked in its OWN git worktree
+  (`D:\Project\nzs-agents\<group>`, branch `cisco-agent/<group>`, node_modules junction, .env copied) from one
+  brief (`D:\Project\nzs-agents\BRIEF.md`); the parent reviewed, resolved every conflict and committed. No
+  agent committed, pushed or wrote to the database.
+
+  **DONE AND VERIFIED** (937c1ae wireless, 813b070 servers x3, 4d99ac6 video, 4962945 collab x3, cc7ccf6
+  routers + optical + storage; suite 46/46, typecheck clean, all 13 ledgers rebuilt):
+  - Eleven categories left the generic device/component axis for an axis of their own: wirelessKind (13),
+    videoKind (17), collabKind (23, shared by three categories), ucsKind extended (servers + both
+    hyperconverged), routerKind (15), opticalKind (17), sanKind (12). Every gate is the derived kind or a
+    required field (R1), and every fallback kind asks LESS than any named kind — usually nothing.
+  - The shape of what was wrong: an antenna was asked a Wi-Fi generation, a controller a PoE standard, a
+    ceiling mount an operating temperature, a CPU and a DIMM a rack height and a weight, a director chassis
+    the ports its line cards carry, no transmitter its wavelength. Slots at nothing-known fell by 15-27k per
+    large category while the remaining slots became fillable ones.
+  - `DEVICE_GATED_CATEGORIES` is down to interfaces-modules and meraki. **Merge decision:** six agents each
+    removed their own category from that list; leaving one in would re-gate its `req` keys onto a `device`
+    kind its axis never names, closing every requirement in silence.
+  - Duplicate cups retired across the merge: cache_l3, cpu_base_clock (servers-scoped), rf_bandwidth,
+    rf_response_flatness, rf_test_point, system_memory, vpn_throughput, compatible_platform,
+    dc_input_voltage, insertion_loss, gain_range. Values that would move are PROPOSALS, never moved.
+  - **Form factor, three more folds** (all vendors, transceiver): about 120 two-ended cables stored as ONE
+    end chosen by rule order ("OSFP auf 2x QSFP56" -> qsfp56), QSFP112 stored as qsfp-plus (12 parts, Cisco
+    QSFP-400G-VR4), DSFP as sfp (9). opticEnds() refuses a value naming two different cages; qsfp112 and
+    dsfp added to the domain; SFP112 refused by name. 16 cases, 6 refusals go red with the branch disabled.
+  - **Condition A proven** (reviewer §3.3): SN / AEC / OSFP-XD through the real apply-extract pipeline, plan
+    AND a committed run — three quarantine lines with key, ENUM_VIOLATION, document and locator, no fact
+    written, nothing folded, with an in-domain control row on the same page.
+  - **§1 closed, row by row** (`docs/reports/reconciliation-2026-09-12.md`): transceiver 1,760 - 206 = 1,554;
+    switches 7,466 - 53 = 7,413. The reviewer subtracted 212 where 6 were other categories, and 54 where one
+    moved row was software. My own first attempt double-subtracted run 956.
+  - **Disk guard live in code** (bd9c355): host_disk + a box cron probe, openRun refuses on missing, stale
+    (>10 min) or under 5 GiB, /health carries the verdict. It proved itself the same hour by refusing two
+    approved one-part moves, because no probe has run yet and the host has 1.9 GB free.
+  - `/v1/start` now lists `reports`, and `GET /v1/report?name=` serves a committed report as markdown (only
+    a listed name; a path or `../` is 404) — `runs/reports` is gitignored and never reaches the reviewer.
+  - reclassify writes one report per RUN ID with every change (it was per day, truncated at 200, and run 956
+    overwrote 951). `db/migrate.ts` now uses the pool's resolver: `NETZSPEC_DB=test npm run migrate` had
+    migrated PRODUCTION (0016, additive, due with this deploy anyway); the cisco test database went 0011->0016.
+  - Test-database drift cleared: the DB suites had not run since 5 Sep. api-3 was 30 misses, now 4 stale
+    expectations fixed and the fields they missed documented in API.md.
+
+  **NEXT**: security and modules-misc are the two categories still unfinished (agents running: security has
+  108 class rules and a draft securityKind, no profile; modules-misc has a survey and no code). Then the
+  operator's approved data steps, which the disk guard blocks until the page cache is cleared: the 131 tier-0
+  form_factor rows, the two category moves, a reclassify with ~7,000 new class rows, recompute. The
+  proposals each agent left are in its report under PROPOSALS and need the operator, not me.
+
+  **TRAPS**: a per-agent token estimate does not multiply; eight agents appending to the same lists means
+  every merge conflict is "keep both", but the three that are NOT — a list repeated on both sides, a profile
+  block rewritten, two agents disagreeing about a class — are the ones that matter, and the tell for the
+  third was a rule whose test case never fired. `promote-required`'s PROFILES parser threw on the new
+  `...ucsCups()` spread: skipping the spread would have been the silent version of the same bug.
+
+
 - **2026-09-11 (night) - Opus/PARENT. Reviewer verdict: switches READY, transceiver NOT READY (2 fields). Worked through; transceiver needed far more than 2.**
 
   **DEPLOYED 678606c** (/health read back; /v1/fields serves superseded_by) and **PUSHED** origin/cisco
