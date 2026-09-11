@@ -113,6 +113,9 @@ check("and the collapse is severe enough to be worth a guard",
     "switches": "CAB-9K16A-AUS", "servers-unified-computing": "CAB-C13-C14-AC=",
     // "Mounting bracket for one CVR-4SFP10G-QSFP" — until 11 Sep 2026 asked DDM, a fibre type and a power draw
     "transceiver": "CVR-BRKT-1",
+    // collab (12 Sep 2026): a Meeting Server CPU option
+    "conferencing": "CIT3-CPU-I6240",
+    // end collab
   };
   // SWITCHES ASKS A COMPONENT ITS OWN QUESTIONS since 11 Sep 2026 (reviewer §1.1/§1.7): a cable its
   // length and what it fits. So the guard there is the leak it was written for — NO DEVICE QUESTION
@@ -122,7 +125,13 @@ check("and the collapse is severe enough to be worth a guard",
     wireless: ["cable_length"],
     // servers (12 Sep 2026): a UCS component (the probe is a cable, kind accessory) is asked what it fits.
     "servers-unified-computing": ["product_compatibility"], "hyperconverged-systems": ["product_compatibility"],
-    "hyperconverged-infrastructure": ["product_compatibility"] };
+    "hyperconverged-infrastructure": ["product_compatibility"],
+    // collab (12 Sep 2026): the collaboration axis asks a cable its length, a PSU its rated output and what it
+    // fits, a server part what it fits (collabBlock in fieldSchema.ts) — and no device question.
+    "unified-communications": ["cable_length", "product_compatibility", "psu_rated_output"],
+    "collaboration-endpoints": ["cable_length", "product_compatibility", "psu_rated_output"],
+    conferencing: ["cable_length", "product_compatibility", "psu_rated_output"],
+  };
   for (const cat of declared) {
     const sku = COMPONENT_PROBE[cat];
     if (!sku) { check(`a component probe exists for ${cat}`, false, "add one to COMPONENT_PROBE"); continue; }

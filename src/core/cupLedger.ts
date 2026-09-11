@@ -15,6 +15,8 @@ import type { OpticKind } from "./opticKind.js";
 import { WL_KINDS } from "./wirelessKind.js";
 import { UCS_KINDS } from "./ucsKind.js";
 import { VIDEO_KINDS } from "./videoKind.js"; // video (12 Sep 2026)
+// collab (12 Sep 2026)
+import { COLLAB_KINDS } from "./collabKind.js";
 
 /** Every kind a category's axis can name — including kinds no part holds today, which still have a question set. */
 export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
@@ -28,6 +30,10 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   "hyperconverged-infrastructure": [...UCS_KINDS],
   // video (12 Sep 2026)
   video: VIDEO_KINDS,
+  // collab (12 Sep 2026): one axis, three categories (collabKind.ts)
+  "unified-communications": COLLAB_KINDS,
+  "collaboration-endpoints": COLLAB_KINDS,
+  conferencing: COLLAB_KINDS,
 };
 
 export type KindQuestionSet = {

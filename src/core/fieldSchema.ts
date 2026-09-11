@@ -41,6 +41,8 @@ import { GENERIC_DEVICE } from "./componentKind.js";
 // wireless (12 Sep 2026)
 import { WL_AP, WL_BOX, WL_PORTED } from "./wirelessKind.js";
 import { VIDEO_BOX, VIDEO_EMITTER, type VideoKind } from "./videoKind.js"; // video (12 Sep 2026)
+// collab (12 Sep 2026)
+import { COLLAB_ENDPOINT, COLLAB_CALLING, COLLAB_VIDEO, COLLAB_SCREEN, COLLAB_FITS, COLLAB_CABLE } from "./collabKind.js";
 
 export type Requirement =
   | { kind: "req" }
@@ -552,8 +554,10 @@ export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series"]);
 // (ap, wlc, antenna, ...) the generic `device` gate would have closed every question for.
 // video (12 Sep 2026): removed for the same reason — its axis (src/core/videoKind.ts) has no `device`
 // kind, so this loop would turn every bare `req` into `na`.
+// collab (12 Sep 2026): unified-communications, collaboration-endpoints and conferencing left for the same
+// reason — they gate on collabKind.ts, whose kinds this loop's `device` is not one of.
 export const DEVICE_GATED_CATEGORIES = [
-  "routers", "unified-communications", "collaboration-endpoints",
+  "routers",
   "optical-networking", "interfaces-modules", "storage-networking",
   // servers (12 Sep 2026): hyperconverged-systems and hyperconverged-infrastructure removed — they gate
   // on the UCS kind now (ucsCups), and this loop would re-gate their `req` keys onto `device`.
@@ -695,6 +699,89 @@ const UCS_R2_DUPLICATES: Readonly<Record<string, string>> = {
 };
 export const UCS_PROFILE_CATEGORIES = ["servers-unified-computing", "hyperconverged-systems", "hyperconverged-infrastructure"] as const;
 // end servers (12 Sep 2026) --------------------------------------------------------------------------
+
+// collab (12 Sep 2026) ---------------------------------------------------------------------------------------
+// ONE KIND-GATED BLOCK FOR THE THREE COLLABORATION CATEGORIES (src/core/collabKind.ts). The axis is shared, so
+// the block is too: a phone filed in unified-communications is asked exactly what a phone in
+// collaboration-endpoints is asked. Every gate is on `kind` — derived from the SKU, always answered — never on
+// an optional fact (R1). Before this, every "device" in both categories was asked one flat set: a headset owed a
+// display, video codecs and a PoE standard; a microphone owed a display; a phone owed video codecs.
+//
+// FILLABILITY DECIDED EVERY `req` (check 5). Evidence per cup, measured 12 Sep 2026 over the 23,651-label
+// cisco-datasheets inventory (mapLabel, current rules; an upper bound — the inventory is not per category) and
+// the store (Cisco hardware in the three categories, live facts): see runs/reports/schema-collab-2026-09-12.md.
+// A cup with no label and no fact is declared OPTIONAL with its counts beside it, never required.
+const cK = (kinds: readonly string[]): Requirement => cond({ field: "kind", inList: [...kinds] });
+const collabBlock = (): Record<string, Requirement> => ({
+  vendor: req, series: req,
+  // --- the envelope of anything with its own specification sheet ----------------------------------------
+  // dimensions / weight: 0 facts in the three categories, but Cisco prints both on every phone, headset, camera
+  // and room-device sheet, and "Dimensions"/"Weight" map in the inventory (the ledger records the counts).
+  dimensions: cK(COLLAB_ENDPOINT), weight: cK(COLLAB_ENDPOINT),
+  // environment: 332 / 378 / 318 phones and headsets hold temp_operating / humidity_operating / temp_storage.
+  temp_operating: cK(COLLAB_ENDPOINT), humidity_operating: cK(COLLAB_ENDPOINT), temp_storage: cK(COLLAB_ENDPOINT),
+  certifications: cK(COLLAB_ENDPOINT),
+  // Mains-powered boxes only. A phone, a DECT base and a touch panel are powered over Ethernet and are asked
+  // their PoE standard instead; a headset, a microphone and a camera draw from the device they plug into.
+  // Every endpoint that draws its own power ("Power consumption" 170 mapped). NOT a headset, a microphone or a
+  // key expansion module: they draw from the host they plug into, and their draw is part of the host's figure.
+  power_max: cK(["phone", "dect-base", "video-device", "video-codec", "camera", "speaker", "touch-panel", "display", "gateway", "ata", "server"]),
+  // PoE-powered endpoints ("PoE Support" 13 aliased today; 9 mapped). A speaker is NOT gated in: the IX5000 and
+  // MX speakers are amplifier-fed while the Atlas IP speakers are PoE+, so the kind cannot answer it (report).
+  poe_standard: cK(["phone", "dect-base", "touch-panel"]),
+  // Racked boxes only; a phone has no form factor in this domain (rack-19 / desktop / din-rail / chassis).
+  form_factor: cK(["gateway", "server"]),
+  rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
+  // --- calling ------------------------------------------------------------------------------------------
+  // supported_protocols: 347 facts (SIP, H.323 ... on phones). ui_languages: 323 facts (phone firmware).
+  supported_protocols: cK([...COLLAB_CALLING, "dect-base"]),
+  ui_languages: cK(["phone", ...COLLAB_VIDEO]),
+  // audio codecs: 80 facts; "Audio codec support" 10 mapped, and "Codecs"/"Codec support" (13) aliased today.
+  audio_codecs: cK([...COLLAB_CALLING]),
+  // the network ports a phone, a room device or a gateway carries (LAN + PC port, codec Ethernet)
+  ports: cK(["phone", "dect-base", ...COLLAB_VIDEO, "gateway", "ata"]),
+  // --- screens ------------------------------------------------------------------------------------------
+  // "Display" 39 + "Graphical display" 19 + "Hardware Features: Graphical display" 7 map; the samples are phone,
+  // Room Navigator and Touch 10 sheets. A codec, a bar and a kit drive external screens and have none.
+  display: cK(COLLAB_SCREEN),
+  // lines a phone registers — 6 facts, "Voice Lines" 6 mapped. Band in BAND_OVERRIDES.
+  voice_lines: cK(["phone"]),
+  // --- video --------------------------------------------------------------------------------------------
+  // "Video standards" 27 mapped (CE software sheets), "Video standards supported" 6 aliased today.
+  video_codecs: cK(COLLAB_VIDEO),
+  // "Resolution" 5 mapped (Room Navigator / Touch 10), "Video resolution" 12 aliased today (collab-scoped).
+  max_resolution: cK([...COLLAB_VIDEO, "camera", "touch-panel"]),
+  // --- cameras --------------------------------------------------------------------------------------------
+  // A camera is bought on resolution, zoom and field of view: "Field of view" 16 mapped, "Zoom" 8 aliased today.
+  camera_zoom: cK(["camera"]), field_of_view: cK(["camera"]),
+  camera_pan_tilt_range: opt,            // 0 labels, 0 facts — a PTZ-only figure; declared, not required
+  // --- audio ----------------------------------------------------------------------------------------------
+  // mic_type: "Microphone type" 6, aliased today; the samples are headset sheets (950 earbuds), so it is asked
+  // of a headset. A table or ceiling microphone's type is not in the inventory at all:
+  // Gated on microphones too: a cond that excludes a kind makes the cup `na` for it, and a microphone's type is
+  // never not-applicable. The label evidence is headset sheets only (Table / Ceiling Mic Pro sheets not held).
+  mic_type: cK(["headset", "microphone"]),
+  mic_pickup_range: opt,                 // 0 labels, 0 facts (Table Mic Pro / Ceiling Mic Pro sheets not held)
+  mic_frequency_response: opt,           // "Microphone frequency response" 6, headset sheets — aliased, optional
+  speaker_frequency_response: opt,       // "Speaker bandwidth" 5, headset sheets — aliased, optional
+  speaker_impedance: opt, speaker_size: opt, // "Speaker impedance" 6 / "Speaker size" 6 — aliased, optional
+  // --- voice gateways and adapters ----------------------------------------------------------------------
+  // FXS is what an analog gateway or ATA is bought on: 10 facts (VG 2..144). FXO is NOT universal (VG350 is
+  // FXS-only; 6 facts, one stores 0) and a gate on it would be a gate on an optional fact — it stays optional.
+  fxs_ports: cK(["gateway", "ata"]), fxo_ports: opt,
+  // --- what a part fits --------------------------------------------------------------------------------
+  // A voice card, a server CPU, a PSU, a key expansion module: bought for its host. "Product compatibility" 92,
+  // "Chassis compatibility" 36, "Chassis support" 23 map (switch and optical sheets — an upper bound here).
+  product_compatibility: cK(COLLAB_FITS),
+  psu_rated_output: cK(["power-supply"]),
+  cable_length: cK(COLLAB_CABLE), plug_type: opt,
+  // declared, not required — no label, or only another category's
+  video_inputs: opt, video_outputs: opt, keys_buttons: opt, headset_support: opt, handset: opt, touchscreen: opt,
+  bluetooth_version: opt, call_control: opt, cucm_versions: opt, mounting: opt, altitude_max: opt,
+  input_voltage: opt, cpu: opt, storage_raw_capacity: opt, psu_config: opt, content_share_resolution: opt,
+  license_type: opt, license_for: opt,
+});
+// end collab --------------------------------------------------------------------------------------------------
 
 export const PROFILES: Record<string, Record<string, Requirement>> = {
   // --- SOFTWARE AND LICENCE CATEGORIES, added 8 Sep 2026 ---------------------------------------
@@ -918,13 +1005,17 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
-  "unified-communications": deviceOnly({
-    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, display: req, ports: req, poe_standard: req,
+  // collab (12 Sep 2026): kind-gated by collabBlock() — was deviceOnly(), which asked a headset a display.
+  "unified-communications": {
     // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
-    fxs_ports: opt, fxo_ports: opt, qos_features: opt, module_slots: opt,
+    qos_features: opt, module_slots: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     aes_audio_encryption: opt, bluetooth_profiles: opt, bluetooth_version: opt, camera_aperture: opt, camera_focus_distance: opt, camera_pan_tilt_range: opt, camera_zoom: opt, color: opt, color_options: opt, country_of_origin: opt, mic_frequency_response: opt, mic_pickup_range: opt, mic_type: opt, packaging_dimensions: opt, phantom_power: opt, product_line: opt, rear_panel_ports: opt, series_release_date: opt, speaker_frequency_response: opt, speaker_impedance: opt, speaker_size: opt, supported_pc_resolutions: opt, video_interfaces: opt,
-  }),
+    // LAST, so the kind gates win over the 8 Sep `opt` lists above (camera_zoom and mic_type are in both).
+    ...collabBlock(),
+    // The GENERATED profile's one `req` ("promoted 2026-09-04", 32 of 44 parts), named so this block governs it.
+    certifications: cK(COLLAB_ENDPOINT),
+  },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
@@ -957,11 +1048,18 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
-  "collaboration-endpoints": deviceOnly({
-    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, display: req, video_codecs: req, audio_codecs: req, ports: req,
+  // collab (12 Sep 2026): kind-gated by collabBlock() — was deviceOnly(), which asked a headset a display, video
+  // codecs and a PoE standard, and a microphone the same set as a Board Pro.
+  "collaboration-endpoints": {
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     aes_audio_encryption: opt, bluetooth_profiles: opt, bluetooth_version: opt, camera_aperture: opt, camera_focus_distance: opt, camera_pan_tilt_range: opt, camera_zoom: opt, color: opt, color_options: opt, country_of_origin: opt, mic_frequency_response: opt, mic_pickup_range: opt, mic_type: opt, packaging_dimensions: opt, phantom_power: opt, product_line: opt, rear_panel_ports: opt, series_release_date: opt, speaker_frequency_response: opt, speaker_impedance: opt, speaker_size: opt, supported_pc_resolutions: opt, video_interfaces: opt,
-  }),
+    // LAST, so the kind gates win over the `opt` list above.
+    ...collabBlock(),
+    // The GENERATED profile's five `req`, NAMED here so the curated block governs them (tests/profileMerge): the
+    // same kind gates collabBlock() gives them — restated, not changed.
+    temp_operating: cK(COLLAB_ENDPOINT), humidity_operating: cK(COLLAB_ENDPOINT), temp_storage: cK(COLLAB_ENDPOINT),
+    supported_protocols: cK([...COLLAB_CALLING, "dect-base"]), ui_languages: cK(["phone", ...COLLAB_VIDEO]),
+  },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
@@ -998,11 +1096,12 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
+  // collab (12 Sep 2026): the 299 "hardware" parts here are Meeting Server / TMS appliances, their blades and
+  // server parts, and a residue of Webex subscriptions still classed hardware — so the same kind-gated block.
   conferencing: {
-    vendor: req, series: req,
-    license_type: opt, license_for: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     aes_audio_encryption: opt, bluetooth_profiles: opt, bluetooth_version: opt, camera_aperture: opt, camera_focus_distance: opt, camera_pan_tilt_range: opt, camera_zoom: opt, color: opt, color_options: opt, country_of_origin: opt, mic_frequency_response: opt, mic_pickup_range: opt, mic_type: opt, packaging_dimensions: opt, phantom_power: opt, product_line: opt, rear_panel_ports: opt, series_release_date: opt, speaker_frequency_response: opt, speaker_impedance: opt, speaker_size: opt, supported_pc_resolutions: opt, video_interfaces: opt,
+    ...collabBlock(),
   },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
@@ -1542,6 +1641,14 @@ export const DOMAIN_OVERRIDES: Record<string, Record<string, string[]>> = {
 // the one value above 40 W is a German-comma misread ("2,475 W (typisch)" stored as 2475) on a
 // tier-0 seed row, listed for the operator rather than silently changed. Like the unit and domain
 // overrides, a per-category band is not representable in field_dictionary and is not synced.
+// collab (12 Sep 2026): three generated counts that become REQUIRED in the collaboration categories carried no
+// band, and a required number with no range cannot refuse "100 ports on a one-port optic". Per category, not on
+// the shared dictionary entry (routers declares fxs_ports too). Checked against the stored values:
+//   voice_lines  6 facts, 1..12 (SPA509G "12 Line IP Phone"); a phone plus KEMs tops out in the tens.
+//   fxs_ports   10 facts, 2..144 (VG350-144FXS); the densest Cisco gateway is VG350-160FXS.
+//   fxo_ports    6 facts, 0..6 — optional, banded because 0 is a real answer ("0 FXO") and must not be refused.
+const COLLAB_BANDS: Record<string, [number, number]> = { voice_lines: [1, 128], fxs_ports: [1, 512], fxo_ports: [0, 512] };
+// end collab
 export const BAND_OVERRIDES: Record<string, Record<string, [number, number]>> = {
   transceiver: { power_max: [0.1, 40] },
   // wireless (12 Sep 2026): power_max is now asked of APs (a few W to ~60 W on UPOE), controllers (9800-80
@@ -1570,6 +1677,8 @@ export const BAND_OVERRIDES: Record<string, Record<string, [number, number]>> = 
   //   insertion_loss_max  no global band. Passive sheet values "<0.8" to "4.5" dB; a DCM's loss is higher.
   //             [0, 20]. 0 stored facts anywhere.
   video: { tx_power: [-10, 30], rf_gain: [-10, 60], insertion_loss_max: [0, 20] },
+  // collab (12 Sep 2026)
+  "unified-communications": COLLAB_BANDS, "collaboration-endpoints": COLLAB_BANDS, conferencing: COLLAB_BANDS,
 };
 
 export function unitFor(category: string, key: string): string | undefined {

@@ -590,6 +590,36 @@ export const SKU_RULES: SkuRule[] = [
       ["E2000/APC", "'Cisco E2000/APC' — a connector type enumerated from a datasheet cell"]].map(([token, why]) => ({
     kind: "exact" as const, token, klass: "non_product" as const, why: `${why}; 1 part in video` })),
   // --- end video (12 Sep 2026) ----------------------------------------------------------------------------------
+  // collab (12 Sep 2026) — the collaboration categories' residue. unified-communications held 2,928 "hardware"
+  // parts and ~2,150 of them are UCM / Unity Connection / HCS / CUWL entitlements that name a product and never
+  // say "licence" (the name rules cannot see them). Each family below was measured over all 12,418 Cisco parts
+  // in unified-communications, collaboration-endpoints and conferencing: 0 facts of any kind in every one, and
+  // every name read. NOT measured against the other twelve vendors — this group's database scope is its own
+  // three categories — so every token is a Cisco product name, never a bare letter prefix (the bare `A-` stays
+  // refused: A-D800-D800-7M is an Arista cable).
+  { kind: "prefix", token: "HCS-", klass: "license", why: "Hosted Collaboration Solution tier / user / PAK entitlement ('HCS Tier 5 HCM-F for Standard Users'); 183 parts, 178 classed hardware, 0 facts" },
+  { kind: "prefix", token: "UNITYCN", klass: "license", except: ["BUNDLE"], why: "Unity Connection port / user / upgrade licence; 145 parts, 0 facts. UNITYCN7-BUNDLE 'Unity Connection 7.x SW plus HW Bundle' ships a server and is vetoed" },
+  { kind: "prefix", token: "UPG-UC", klass: "license", why: "UC Manager / Unity Connection version-upgrade licence ('UC Manager Upgrade ENH to STD, v9.x to 10.x, 1 user'); 135 parts, 0 facts. NOT the bare UPG- prefix: an upgrade KIT is hardware" },
+  { kind: "prefix", token: "UPG-TP-", klass: "license", why: "TelePresence room licence upgrade ('Upg to UCM 12.x TP Room from 11.x'); 8 parts, 0 facts" },
+  { kind: "prefix", token: "USOL-", klass: "license", why: "Unified Communications Solution UIP / user bundle ('Solution UIP - Package B, SE, 3-Year'); 54 parts, 0 facts" },
+  { kind: "prefix", token: "CUWL", klass: "license", why: "Cisco Unified Workspace Licensing ('CUWL - Collab 2 Month, 1 User'); 26 parts, 0 facts" },
+  { kind: "prefix", token: "A-SPK-", klass: "license", why: "Webex (Spark) subscription ('Cloud device registration', 'Toll Shared 5k Minute Bundle'); 94 parts, 0 facts" },
+  { kind: "prefix", token: "A-WRK-", klass: "license", why: "Webex Work committed / overage / usage subscription; 78 parts, 0 facts" },
+  { kind: "prefix", token: "A-WORK", klass: "license", why: "Webex Work bundle subscription ('Committed Bundle + Toll Dial In Audio'); 65 parts, 0 facts" },
+  { kind: "prefix", token: "A-PRM-", klass: "license", why: "Cisco Collaboration on-premises subscription ('UC Manager 10x - SW Kit for UCM'); 42 parts, 0 facts" },
+  { kind: "prefix", token: "A-HST-", klass: "license", why: "Cisco Collaboration hosted subscription; 15 parts, 0 facts" },
+  { kind: "prefix", token: "A-TPAAS", klass: "license", why: "TelePresence-as-a-Service subscription for Meeting Server; 4 parts, 0 facts" },
+  // `A-CMS` (12 parts, 0 facts, all Meeting Server subscription options) is NOT adopted: tests/productClass pins
+  // A-CMS-API in contact-center as the category-fallback example (software), and a licence rule would move it.
+  // The 12 are listed as a proposal in the report instead.
+  { kind: "prefix", token: "CTES-MRC-", klass: "service", why: "CTES monthly recurring fee per endpoint tier ('1 screen endpoint (0-100)'); 11 parts, 0 facts" },
+  // A TLS CIPHER-SUITE NAME IS NOT A PRODUCT: TLS_AES_128_GCM_SHA256 was enumerated as a conferencing part from a
+  // Meeting Server table. 8 parts, 0 facts. The underscore is the anchor; no Cisco PID carries one.
+  { kind: "regex", token: "tls-cipher-suite", re: /^TLS_[A-Z0-9_]+$/, probe: "TLS_AES_128_GCM_SHA256",
+    klass: "non_product", why: "a TLS cipher-suite name enumerated from a Meeting Server table; 8 parts, 0 facts" },
+  // "Number of 3951 per room", "Number of 792X per room": an ordering-tool QUESTION enumerated as a part. 14 parts.
+  { kind: "suffix", token: "-PER-ROOM", klass: "non_product", why: "an ordering-tool quantity question ('Number of 7906 per room'); 14 parts, 0 facts" },
+  // end collab
 ];
 
 /** The reason string a rule emits — the same slug runs/vocab/cisco-round2 uses. */

@@ -34,7 +34,8 @@ const KNOWN_LEAKS: Record<string, string[]> = {
   // wireless (12 Sep 2026): `standard` is declared optional by the curated block — the leak is closed.
   // servers (12 Sep 2026): both hyperconverged entries removed — their curated blocks spread ucsCups(),
   // which names every one of these keys (emc_* as opt, clock_speed / cpu_cache as cond on kind cpu).
-  "collaboration-endpoints": ["supported_protocols", "temp_storage", "ui_languages"],
+  // collab (12 Sep 2026): collaboration-endpoints' three leaks are CLOSED — its curated block now names all five
+  // generated requirements, each kind-gated (fieldSchema.ts). The ratchet entry is removed.
   meraki: ["mounting", "psu_options", "switching_capacity"],
 };
 

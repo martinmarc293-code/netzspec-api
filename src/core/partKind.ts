@@ -23,6 +23,10 @@ import { opticKind } from "./opticKind.js";
 // wireless (12 Sep 2026)
 import { wirelessKind } from "./wirelessKind.js";
 import { videoKind } from "./videoKind.js"; // video (12 Sep 2026)
+// collab (12 Sep 2026)
+import { collabKind } from "./collabKind.js";
+/** The three collaboration categories share ONE axis (collabKind.ts): the same SKU, the same kind, wherever filed. */
+export const COLLAB_CATEGORIES: readonly string[] = ["unified-communications", "collaboration-endpoints", "conferencing"];
 
 /**
  * Categories whose profile gates requirements on a derived `kind`. Checked against PROFILES by
@@ -40,6 +44,9 @@ export const KIND_CATEGORIES: readonly string[] = [
   "routers", "wireless", "video", "unified-communications", "collaboration-endpoints",
   "optical-networking", "hyperconverged-systems", "interfaces-modules", "storage-networking",
   "hyperconverged-infrastructure", "meraki",
+  // collab (12 Sep 2026)
+  "conferencing",
+  // end collab
 ];
 
 /**
@@ -67,6 +74,9 @@ export function partKind(categorySlug: string, sku: string): string | undefined 
   // video (12 Sep 2026): HFC plant and headend gear — nodes, transmitters, EDFAs, passives, cBR-8, RF Gateway —
   // its own axis, see videoKind.ts. Before the shared fallthrough, which would name everything a `device`.
   if (categorySlug === "video") return videoKind(sku);
+  // collab (12 Sep 2026): must run BEFORE the shared componentKind dispatch below, which would otherwise claim
+  // unified-communications and collaboration-endpoints (they are still in KIND_CATEGORIES).
+  if (COLLAB_CATEGORIES.includes(categorySlug)) return collabKind(sku);
   // The shared axis. Deliberately driven off KIND_CATEGORIES rather than a second list, so the
   // membership test and the dispatch cannot drift apart.
   if (KIND_CATEGORIES.includes(categorySlug)) return componentKind(sku);

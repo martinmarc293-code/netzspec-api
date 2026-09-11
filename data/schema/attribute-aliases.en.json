@@ -37,6 +37,66 @@
  "case_insensitive": true,
  "rules": [
   [
+   "^zoom$",
+   "camera_zoom",
+   "collab (12 Sep 2026): 'Zoom' ('4x digital zoom', '12x optical') is the camera's zoom factor, required of every collaboration camera. 8 occurrences in the cisco-datasheets inventory, unmapped until today. Scoped: in another category a bare 'Zoom' could be the Zoom Meetings interop row.",
+   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+  ],
+  [
+   "^poe support$",
+   "poe_standard",
+   "collab (12 Sep 2026): SPA500 phone sheets, 'Yes (both IEEE 802.3af and Cisco Prestandard)' — the PoE standard a phone draws on, required of phones, DECT bases and touch panels. 13 occurrences, unmapped until today.",
+   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+  ],
+  [
+   "^video resolution$",
+   "max_resolution",
+   "collab (12 Sep 2026): 'Video resolution' is the maximum resolution a camera or video endpoint delivers; required of cameras and video endpoints. 12 occurrences, unmapped until today (the samples are Small Business camera sheets, which is why it is scoped).",
+   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+  ],
+  [
+   "^video standards supported$",
+   "video_codecs",
+   "collab (12 Sep 2026): 'Video standards supported' ('H.264 AVC, H.265 H.263') — the same list 'Video standards' already writes to video_codecs. 6 occurrences, unmapped until today.",
+   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+  ],
+  [
+   "^codecs?( support)?$",
+   "audio_codecs",
+   "collab (12 Sep 2026): 'Codecs' ('OPUS, G.722, G.722.2, iSAC, G.711') and 'Codec support' ('G.711a, G.729a, iLBC') on phone sheets are AUDIO codecs — 8 + 5 occurrences, unmapped until today. Scoped: on a video sheet a bare 'Codec' is the video engine.",
+   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+  ],
+  [
+   "^microphone type$",
+   "mic_type",
+   "collab (12 Sep 2026): 'Microphone type' ('6 MEMS Mic integrated into the earbuds') on headset sheets; required of headsets. 6 occurrences, unmapped until today.",
+   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+  ],
+  [
+   "^microphone frequency response$",
+   "mic_frequency_response",
+   "collab (12 Sep 2026): headset sheets, '20 to 20 kHz'. 6 occurrences, unmapped until today. Optional cup.",
+   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+  ],
+  [
+   "^speaker (frequency response|bandwidth)$",
+   "speaker_frequency_response",
+   "collab (12 Sep 2026): 'Speaker bandwidth' ('20 Hz to 22 kHz') is the speaker's frequency response. 5 occurrences, unmapped until today. Optional cup.",
+   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+  ],
+  [
+   "^speaker impedance$",
+   "speaker_impedance",
+   "collab (12 Sep 2026): headset sheets, '32 Ohm'. 6 occurrences, unmapped until today. Optional cup.",
+   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+  ],
+  [
+   "^speaker size$",
+   "speaker_size",
+   "collab (12 Sep 2026): headset sheets, '9.2 mm'. 6 occurrences, unmapped until today. Optional cup.",
+   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+  ],
+  [
    "^maximum socket(s)?$",
    "cpu_sockets_max",
    "pdf-server: Direct match; strip the trailing S from \"1S\"/\"2S\"."

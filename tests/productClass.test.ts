@@ -613,6 +613,61 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     check(`SABOTAGE servers: without ${reason}, ${sku} is no longer classed by it`, got.reason !== reason, `still ${got.reason}`);
   }
 }
+// collab (12 Sep 2026) — the collaboration residue rules. Every SKU and name is from the catalogue.
+{
+  const fire: [string, string, string, ProductClass, string][] = [
+    ["HCS-HCMF-S-TIER5", "HCS Tier 5 HCM-F for Standard Users for 750K to 1.", "unified-communications", "license", "sku-prefix:HCS-"],
+    ["UNITYCN8-MAXP-HCS", "Unity Connection 8.x Port License - Max ports for", "unified-communications", "license", "sku-prefix:UNITYCN"],
+    ["UPG-UCM9TO10-ETOS", "UC Manager Upgrade ENH to STD, v9.x to 10.x, 1 user", "unified-communications", "license", "sku-prefix:UPG-UC"],
+    ["UPG-TP-11TO12-ROOM", "Upg to UCM 12.x TP Room from 11.x", "unified-communications", "license", "sku-prefix:UPG-TP-"],
+    ["USOL-B-SE-UIP-3YR=", "Solution UIP - Package B, SE, 3-Year", "unified-communications", "license", "sku-prefix:USOL-"],
+    ["CUWL-T-2M", "CUWL - Collab 2 Month, 1 User", "unified-communications", "license", "sku-prefix:CUWL"],
+    ["A-SPK-SH-RMM", "MX 200/300, MX700/800 and Room 55/70 Subscription", "collaboration-endpoints", "license", "sku-prefix:A-SPK-"],
+    ["A-WRK-BUN-C", "Webex Meetings and Webex Calling Committed", "conferencing", "license", "sku-prefix:A-WRK-"],
+    ["A-WORK-MEET-C", "Webex Meetings + VOIP Committed (1)", "conferencing", "license", "sku-prefix:A-WORK"],
+    ["A-PRM-S-UCM-10X-K9", "UC Manager 10x - SW Kit for UCM", "unified-communications", "license", "sku-prefix:A-PRM-"],
+    ["A-HST-SW-NU-10X-K9", "Cisco Collaboration Subscription (CCS) - Software", "unified-communications", "license", "sku-prefix:A-HST-"],
+    ["A-TPAAS-PMPPLUS", "TP as a Service - Personal Multi Party for CMS", "conferencing", "license", "sku-prefix:A-TPAAS"],
+    ["CTES-MRC-EP-1-T1", "CTES Monthly Recurring Fees - 1 screen endpoint (0-100)", "collaboration-endpoints", "service", "sku-prefix:CTES-MRC-"],
+    ["TLS_AES_128_GCM_SHA256", "Cisco TLS_AES_128_GCM_SHA256", "conferencing", "non_product", "sku-regex:tls-cipher-suite"],
+    ["7906-PER-ROOM", "Number of 7906 per room", "unified-communications", "non_product", "sku-suffix:-PER-ROOM"],
+  ];
+  for (const [sku, name, cat, want, reason] of fire) {
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
+    check(`collab residue: ${sku} -> ${want} by ${reason}`, got.klass === want && got.reason === reason, `${got.klass} / ${got.reason}`);
+    seenReasons.add(got.reason);
+  }
+  // REFUSALS — more of them than positives. Each is a real device whose SKU sits next to a rule's token.
+  const stay: [string, string, string, string][] = [
+    ["UNITYCN7-BUNDLE", "Unity Connection 7.x SW plus HW Bundle", "unified-communications", "UNITYCN without its BUNDLE veto — the bundle ships a server"],
+    ["CP-8851-3PW-NA-MK9", "MLB Subscription- Phone 8851", "unified-communications", "a subscription NAME on a real phone — no rule reads the word"],
+    ["CS-KIT-SUB-K9", "MLB for Subscription Room Kit", "unified-communications", "the same: a Room Kit shipped under a device subscription"],
+    ["CTI-CMS-1000-K9", "Cisco Meeting Server 1000", "conferencing", "A-CMS read as a bare CMS token — the appliance itself"],
+    ["CMS-M-M8-K9", "Cisco CMS-M-M8-K9", "conferencing", "A-CMS read as a bare CMS token — a Meeting Server platform"],
+    ["BE7H-M6-K9", "Cisco Business Edition 7000H (M6) Appliance, Export Restr SW", "unified-communications", "a UC-software prefix read loosely — the BE7000 appliance"],
+    ["EXPWY-1200-K9", "Cisco Expressway Series Multi-purpose 1200 Appliance", "unified-communications", "an Expressway licence rule — the 1200 appliance"],
+    ["VG350-144FXS/K9", "Cisco VG350 144 FXS Bundle", "unified-communications", "a 'bundle' read as a software bundle — a 144-port gateway"],
+    ["HS-WL-730-BUNAS-P", "730 Wireless Dual On-ear Headset+Stand USB-A Bundle-Platinum", "collaboration-endpoints", "a 'bundle' read as a licence — a headset"],
+    ["SP-ATLAS-I128SYS=", "Atlas I128SYS Ceiling Tile IP Speaker", "unified-communications", "SP- read as a subscription prefix — an IP speaker"],
+    ["CP-7942G-APACSP", "Cisco UC phone 7942G AsiaPac Bundle", "unified-communications", "a -SP suffix read as a service — a phone"],
+    ["UPGRADE-KIT-TEST", "hypothetical hardware upgrade kit", "unified-communications", "the bare UPG- prefix, refused: only UPG-UC and UPG-TP- are licences"],
+    ["SPA8000-BR", "8-Port IP Telephony Gateway", "unified-communications", "a Brazil-region gateway beside the -PER-ROOM and TLS_ non-product rules"],
+    ["CP-8831-3PCC-K9", "Cisco IP Conference Phone 8831", "collaboration-endpoints", "a per-room conference phone — PER-ROOM is a suffix, not a word"],
+    ["TLS-GATEWAY-K9", "hypothetical gateway", "unified-communications", "tls-cipher-suite without its underscore anchor"],
+    ["AHCS-100", "hypothetical part", "unified-communications", "HCS- read as a contains token rather than a prefix"],
+    ["CUCM-UCS-SRV", "hypothetical server", "unified-communications", "CUWL read as CU* — a different family"],
+  ];
+  for (const [sku, name, cat, wouldEat] of stay) {
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
+    check(`collab refusal: ${sku} stays hardware (would have been eaten by ${wouldEat.slice(0, 50)})`, got.klass === "hardware", `${got.klass} / ${got.reason}`);
+  }
+  // SABOTAGE: drop the UNITYCN veto and the bundle must be eaten — the veto is live, not decorative.
+  const unity = SKU_RULES.find((r) => r.token === "UNITYCN")!;
+  check("SABOTAGE UNITYCN without its BUNDLE veto eats UNITYCN7-BUNDLE", ruleMatches({ ...unity, except: [] }, "UNITYCN7-BUNDLE"));
+  const tls = SKU_RULES.find((r) => r.token === "tls-cipher-suite")!;
+  check("SABOTAGE tls-cipher-suite widened to a hyphen eats TLS-GATEWAY-K9", ruleMatches({ ...tls, re: /^TLS[_-]/ }, "TLS-GATEWAY-K9"));
+}
+// end collab
 
 const stillUntested = RULE_NAMES.filter((r) => ![...seenReasons].some((s) => s === r || s.startsWith(r + ":")));
 check(`every rule in the docs/DATA_MODEL.md table fired at least once (${RULE_NAMES.length} rules)`, stillUntested.length === 0, `never fired: ${stillUntested.join(", ")}`);
