@@ -71,15 +71,49 @@ export const SW_PART: readonly SwitchKind[] =
 //   cable/accessory before power — `CAB-SPWR-150CM` is a cord and `ME34X-PWR-BLANK` is a cover;
 //                        both carry a power token and neither is a power supply.
 //   module last        — its markers are the least specific, and a device must not fall into it.
+// THE SECOND WIDENING, 11 Sep 2026 — the default bucket, audited from the other side. Parts filed
+// `switch` whose NAME says they are something else and never calls itself a switch: 256, carrying
+// 9,386 open required slots, because `switch` is the kind asked everything. Stacking cables asked for
+// a MAC table, SD cards for a PoE budget. Every marker added below was gated the way the header
+// demands — over all 7,480 switches hardware parts, part-evidence against DEVICE-evidence by name —
+// and all 331 parts that change kind were read by name. Every device-evidence hit was a false alarm
+// of the device test itself: a rack kit that names its chassis ("Rack Mount Kit for N9508 and N9516
+// chassis"), a port adapter that names its ports ("2-Port Gigabit Ethernet Shared Port Adapter").
+// No part that moves is a switch.
+//
+//   cable      ^STACK-            37   STACK-T2-3M — the old rule needed a hyphen BEFORE "STACK"
+//   accessory  MEM / SSD / SD /    ~110 memory, SSDs, SD cards, compact flash and USB flash; MEM-X45 was
+//              CF / CPF / USB          a `module` through -X\d and C9400-SSD a module by name — storage
+//                                      has no ports and no switching capacity, which a module is asked
+//              RMK RMB RM ACK RACK  34  rack-mount and accessory kits; glued KIT (IP30KIT, ACCKIT) 4
+//              CBLE PCM CPU CLK     22  cable guards, power-cable management, CPU and clock FRUs
+//              BMP DINCLP RPNL XBLNK 5  IE3000 bumper/clip/panel, Nexus blank module
+//              FILTER / AFLT        17  air filters; WS-X4507-FILTER= was a `module` through -X\d
+//   power      -nnnnW-AC/DC          8  C6840-X-1100W-DC — the old rule needed the letters glued on
+//              n.nKW               35  N7K-AC-6.0KW, NXK-HV6.3KW20A-A, 2KWAC
+//              PUV, -nnnnW, ^RPS#  11  N9K-PUV-1200W, WS-CDC-2500W, RPS2300-750BDL
+//   fan        NXASFAN, BLWR        8  the old rule needed a hyphen before the S of SFAN
+//   module     ^SPA- / SIP-#        26  shared port adapters and the SPA interface processor
+//              ^VS-F6K / -DFC#     14  the VS- twins of the WS-F6K PFC/MSFC cards; DFC 4-packs
+//              ^WS-SVC-             8  Catalyst 6500 service modules
+//
+// NOT FIXED HERE: 30-odd CSP-* parts (CPUs, SSDs, Intel NICs "for UCS Servers") are SERVER components
+// filed in `switches`. The CPU and SD markers give some of them a truer kind, but the defect is their
+// category, which is a row-membership decision held for the operator.
 const RULES: { kind: SwitchKind; re: RegExp }[] = [
   // N5KUK9-503N1.1, NXOS-703I7.6 — an operating-system image sold under a switch family PID.
   { kind: "software", re: /(?:^|-)(?:NXOS|SW|IOS)(?:-|$)|UK9(?:-|=|$)/ },
-  // FAN, FAN1, FANTRAY, and Nexus's single-fan SFAN. 140 fan-evidence, 0 genuine device.
-  { kind: "fan", re: /(?:^|-)S?FAN(?:TRAY)?\d*(?:-|=|$)/ },
-  { kind: "cable", re: /(?:^|-)(?:CAB|CBL)(?:-|=|$)|-STACK|-STK(?:-|=|$)/ },
-  { kind: "accessory", re: /(?:^|-)(?:BLNK|BLANK|BRKT|RCKMNT|MNT|KIT|ACC|CVR|TRAY|RAIL|REC|COVER)(?:-|=|\d|$)/ },
-  // PAC 66/83 psu, PHV 17/17, PDC 26/27, CAC 8/10, and a bare wattage token 111/135.
-  { kind: "power", re: /(?:^|-)(?:PWR|PAC|PHV|PDC|PSU|CAC|DCPWR|ACPWR)(?:-|=|\d|$)|-\d+W(?:AC|DC)/ },
+  // FAN, FAN1, FANTRAY, and Nexus's single-fan SFAN. 140 fan-evidence, 0 genuine device. NXASFAN
+  // glues the NXA accessory prefix onto SFAN with no hyphen; BLWR is the RPS 2300's blower.
+  { kind: "fan", re: /(?:^|-)(?:NXA)?S?FAN(?:TRAY)?\d*(?:-|=|$)|(?:^|-)BLWR(?:-|=|$)/ },
+  { kind: "cable", re: /(?:^|-)(?:CAB|CBL)(?:-|=|$)|-STACK|^STACK-|-STK(?:-|=|$)/ },
+  {
+    kind: "accessory",
+    re: /(?:^|-)(?:BLNK|BLANK|BRKT|RCKMNT|MNT|KIT|ACC|CVR|TRAY|RAIL|REC|COVER)(?:-|=|\d|$)|(?:^|-)(?:MEM|SSD|CF|CPF|USB|RMK|RMB|RM|ACK|RACK|RACKMNT|DINRAIL|CBLE|PCM|CPU|CLK|BMP|DINCLP|RPNL|XBLNK|AFLT)(?:-|=|$)|[A-Z0-9]KIT(?:-|=|$)|FILTER(?:-|=|$)|(?:^|-)M?SD-(?:IE-)?\d+G/,
+  },
+  // PAC 66/83 psu, PHV 17/17, PDC 26/27, CAC 8/10, and a bare wattage token 111/135. Widened: the
+  // AC/DC letters may follow a hyphen, kilowatts, the PUV universal supply, a trailing wattage, RPS.
+  { kind: "power", re: /(?:^|-)(?:PWR|PAC|PHV|PDC|PSU|CAC|DCPWR|ACPWR|PUV)(?:-|=|\d|$)|-\d+W-?(?:AC|DC)|\d(?:\.\d)?KW|-\d{3,4}W(?:-|=|$)|^RPS\d/ },
   // Line cards, supervisors, network/expansion/fabric modules. Every one measured above.
   //
   // THE SECOND HALF WAS ADDED 10 SEP 2026 after a review asked for the REVERSE name control:
@@ -99,7 +133,9 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   //                                                        token in the PID, which is why the
   //                                                        SUP rule above misses them
   //   7600-ES               4 parts    4 / 0               7600 Ethernet Services line cards
-  //   C9400-SSD             4 parts    3 / 0               supervisor M.2 storage
+  //   C9400-SSD             4 parts    3 / 0               supervisor M.2 storage — REMOVED 11 Sep
+  //                                                        2026: storage is an accessory; a module is
+  //                                                        asked ports and switching capacity
   //   WS-S32                2 parts    2 / 0               Sup32
   //   C6880-X-LE-           3 parts    1 / 0               6880-X port cards
   //
@@ -109,7 +145,7 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   // nobody has seen work, and productClass.test.ts's reachability check exists for that reason.
   {
     kind: "module",
-    re: /-X\d|(?:^|-)N\d+K-[MF]\d|^IEM-|-LC(?:-|=|$)|-NM(?:-|=|$)|-(?:FM|FAB)(?:-|=|\d|$)|(?:^|-)SUP(?:-|=|\d|$)|^WS-F6(?:K|700)|^N5[56]-M\d|^N77-[MF]\d|^C6800-.*P10G|^VS-S(?:720|2T)|^7600-ES|^C9400-SSD|^WS-S\d|^C6880-X-LE-/,
+    re: /-X\d|(?:^|-)N\d+K-[MF]\d|^IEM-|-LC(?:-|=|$)|-NM(?:-|=|$)|-(?:FM|FAB)(?:-|=|\d|$)|(?:^|-)SUP(?:-|=|\d|$)|^(?:WS|VS)-F6(?:K|700)|^N5[56]-M\d|^N77-[MF]\d|^C6800-.*P10G|^VS-S(?:720|2T)|^7600-ES|^WS-S\d|^C6880-X-LE-|^SPA-|(?:^|-)SIP-\d|-DFC\d|^WS-SVC-/,
   },
 ];
 

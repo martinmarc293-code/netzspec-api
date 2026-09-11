@@ -55,9 +55,48 @@ const CASES: [string, string][] = [
   ["VS-S720-10G-3C", "module"],        // Sup720 — carries no SUP token
   ["VS-S2T-10G", "module"],            // Sup2T — likewise
   ["7600-ES+2TG3C", "module"],         // 7600 Ethernet Services line card
-  ["C9400-SSD-240GB", "module"],       // supervisor M.2 storage
   ["WS-S32-GE-3B", "module"],          // Sup32
   ["C6880-X-LE-16P10G", "module"],     // 6880-X port card
+  // Added 11 Sep 2026 from the default-bucket audit (256 parts filed `switch` whose name said
+  // otherwise). Every one from the catalogue.
+  ["SPA-2X1GE", "module"],             // "Cisco 2-Port Gigabit Ethernet Shared Port Adapter"
+  ["7600-SIP-400", "module"],          // "Cisco 7600 Series SPA Interface Processor-400"
+  ["VS-F6K-PFC4", "module"],           // "Cat 6k 80G Sys Daughter Board Sup2T PFC4" — the WS- twin was already a module
+  ["VS-F6K-MSFC3", "module"],          // "Catalyst 6500 Multilayer Switch Feature Card (MSFC) III"
+  ["WS-DFC4AXL-4PAK=", "module"],      // "DFC4-AXL 4 Pack Bundle"
+  ["WS-SVC-WISM-1-K9", "module"],      // Catalyst 6500 Wireless Services Module
+  ["C9400-SSD-240GB", "accessory"],    // was `module` by name; storage has no ports or switching capacity
+  ["MEM-SUP2T-4GB", "accessory"],      // "4G DRAM Memory Total for Sup2T and Sup2TXL"
+  ["C9K-F1-SSD-480G", "accessory"],    // "Cisco pluggable SSD storage – 480 GB"
+  ["SD-IE-4GB", "accessory"],          // "IE 4GB SD Memory Card for IE"
+  ["CMICR-MSD-1G", "accessory"],       // "CMICR 1GB MicroSD Memory Card"
+  ["N7K-USB-8GB", "accessory"],        // "Nexus 7K USB Flash Memory - 8GB (Log Flash)"
+  ["N7K-CPF-2GB", "accessory"],        // "Nexus Compact Flash Memory 2GB"
+  ["CF-ADAPTER", "accessory"],         // "Compact Flash Adapter for Sup720/3B/3BXL"
+  ["N9K-C9300-RMK", "accessory"],      // "Nexus 9K Rack Fixed Mount Kit"
+  ["N9K-C9804-RMB", "accessory"],      // "Cisco N9800 4-slot chassis rear-mounting brackets"
+  ["RM-RGD-19IN=", "accessory"],       // "Spare 19IN rack-mount kit"
+  ["N9K-C9300-ACK", "accessory"],      // "Nexus 9K Fixed Accessory Kit"
+  ["STK-RACK-DINRAIL=", "accessory"],  // "19 in. DIN Rail mount kit"
+  ["CMPCT-CBLE-GRD", "accessory"],     // "Cable Guard for 3560-CX, 2960-CX, and 2960-L Compact Switches"
+  ["N77-C7718-PCM", "accessory"],      // "Nexus 7700 - 18 Slot Chassis Power Cable Management"
+  ["NXB-CPU-FRU", "accessory"],        // "1.9Ghz, 6Core Broadwell DE CPU, 128G SSD, 32G DRAM"
+  ["CLK-7600=", "accessory"],          // "Spare Clock card for CISCO7603, CISCO7606 or CISCO7609 (FRU)"
+  ["BMP-IE3000=", "accessory"],        // "Spare Bumper Pack, IE 3000"
+  ["NXM-XBLNK", "accessory"],          // "Nexus Blank Line Expansion Module"
+  ["CGS-2520-IP30KIT", "accessory"],   // "IP30 accessory kit"
+  ["N77-C7710-AFLT", "accessory"],     // "Nexus 7700 - 10 Slot Chassis Air Filter Kit (Front/Side)"
+  ["C9610-NEBSFILTER=", "accessory"],  // "Cisco C9610 Series Smart Switches NEBS kit filter"
+  ["C6840-X-1100W-DC", "power"],       // "Power Supply DC-1100W" — AC/DC after a hyphen
+  ["N7K-AC-6.0KW", "power"],           // "Cisco Nexus 7000 6.0kW AC Power Supply Module"
+  ["NXK-HV6.3KW20A-A", "power"],       // "Cisco N9800 6300W 20A AC and HV power supply"
+  ["2KWAC", "power"],                  // "Cisco 2KWAC"
+  ["N9K-PUV-1200W", "power"],          // "Cisco N9300 1200W universal power supply"
+  ["WS-CDC-2500W", "power"],           // "Catalyst 6000 2500W DC Power Supply"
+  ["RPS2300-750BDL", "power"],         // "Cisco Redundant Power System 2300 with 750W Power Supply"
+  ["NXASFAN-160CFM2PE", "fan"],        // "Cisco Nexus fan, 160CFM, port-side exhaust airflow"
+  ["BLWR-RPS2300=", "fan"],            // "Spare 45CFM Blower for Cisco Redundant Power System 2300"
+  ["STACK-T1-3M", "cable"],            // "Data stack 3m" — no hyphen before STACK
 
   // power
   ["NXA-PAC-500W", "power"],
@@ -121,6 +160,17 @@ for (const sku of ["N7K-C7010-FAB-2", "N77-C7706-FAB-3=", "N7K-C7018-FAB-2"]) {
 eq("a StackPower CABLE is not a power supply", switchKind("CAB-SPWR-150CM"), "cable");
 eq("a power/fan slot COVER is not a power supply", switchKind("ME34X-PWR-BLANK"), "accessory");
 eq("NXA- is an accessory prefix, not a power one", switchKind("NXA-FAN-35CFM-PE"), "fan");
+// The 11 Sep 2026 markers, where order decides. Accessory runs BEFORE module, so memory and filters
+// whose PIDs carry an -X4 no longer read as line cards; cable runs BEFORE power and accessory, so a
+// 2500W power CORD and a USB console CABLE stay cables.
+eq("MEM-X45 is memory, not a line card (its -X45 reads as the -X module marker)", switchKind("MEM-X45-1GB-LE"), "accessory");
+eq("WS-X4507-FILTER= is an air filter, not a line card", switchKind("WS-X4507-FILTER="), "accessory");
+eq("a 2500W power CORD is a cable, not a power supply", switchKind("CAB-AC-2500W-EU"), "cable");
+eq("a USB console CABLE is a cable, not USB flash", switchKind("CAB-CONSOLE-USB-C"), "cable");
+// ...and the refusal that makes the SD-card marker safe: WS-C3560V2-24TS-SD is a Catalyst 3560V2
+// SWITCH ("24 10/100 + 2 SFP + IPB Image + DC Power") whose PID ends in -SD. The marker requires a
+// capacity after SD-, so a trailing -SD cannot fire it.
+eq("a switch whose PID ends -SD is not an SD card", switchKind("WS-C3560V2-24TS-SD"), "switch");
 
 // --- degenerate input defaults to the safe side ----------------------------------------------------
 // `switch` asks the most, so an unrecognisable SKU carries gaps rather than having them closed.
