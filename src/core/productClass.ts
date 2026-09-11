@@ -340,7 +340,53 @@ export const SKU_RULES: SkuRule[] = [
   //   HX-SP       89 parts, five naming drive paks outright.
   //   NCS2K-M     90 parts, 9 with physical facts (NCS2K-MF-COVER= is a 1RU cover).
   //   HX-NV      139 parts, 29 with physical facts — they are NVMe drives.
-  { kind: "regex", token: "tier-upgrade", re: /^C\d+\w*-\d+-[ELS]-[AES](?:-\d+)?$/, probe: "C9300-24-E-A-3",
+  // ---- round 7 (11 Sep 2026) — closing the switches residue ------------------------------------
+  // After rounds 4-6, `switches` still held 177 hardware parts whose name mentions a licence. 112
+  // of those name a BOX — "Nexus 3172PQ, Reversed Airflow, AC P/S, Base and LAN Enterprise License
+  // Bundle" — and are correctly hardware. The other 65 were read one by one, grouped into the
+  // families below, and each family gated across all 13 vendors on facts NOT mined from a name.
+  //
+  // THE LARGEST WAS NOT A LICENCE AT ALL. 102 parts ending `-MIB` — CISCO-NTP-MIB,
+  // MPLS-L3VPN-STD-MIB, CISCO-LICENSE-MGMT-MIB — are SNMP MIB definitions: a file describing what a
+  // device reports, not a thing anyone ships. 95 sat in `switches` and 7 in unified-communications,
+  // all classed hardware and asked for a switching capacity.
+  { kind: "suffix", token: "-MIB", klass: "non_product", why: "SNMP MIB definition (CISCO-NTP-MIB, MPLS-L3VPN-STD-MIB); 102 parts, all Cisco, all classed hardware, 0 facts of any kind" },
+  // "Cisco ONE Nexus 5600 FNPV License (Reference, No License)" — a REFERENCE line in a Cisco ONE
+  // configuration that delivers nothing, which is why it is non_product rather than license: its
+  // own name says there is no licence. Distinct from round 2's refused bare `C1-` (C1-N9K-C9508 is
+  // a real chassis) and from `C1-SL-`, which does deliver a licence.
+  { kind: "prefix", token: "C1-R-", klass: "non_product", why: "Cisco ONE reference SKU, '(Reference, No License)'; 43 parts, 0 facts" },
+  // NX-OS software images and tier entitlements: NXOS-703I4.1 "Nexus 9500, 9300, 3000 Base NX-OS
+  // Software Rel 7.0(3)I4(1)". switchKind already calls these `software` so they were asked nothing,
+  // but their CLASS still said hardware — the kind gate hid a class defect rather than fixing it.
+  { kind: "prefix", token: "NXOS-", klass: "software", why: "NX-OS software image or tier entitlement; part of 83 NXOS-/NX-OS- parts, 81 of them classed hardware, 0 physical facts" },
+  { kind: "prefix", token: "NX-OS-", klass: "software", why: "NX-OS tier entitlement, hyphenated form (NX-OS-ES-XF); same family" },
+  // ACI and NX-OS subscription packages: C1E1TN9300XF-5Y "Cisco ACI and NX-OS subscription
+  // Essentials package for 10/25/40G+ Cisco N9000 leaf switch, 5-year term". The name mentions a
+  // leaf switch because that is what the subscription COVERS.
+  { kind: "prefix", token: "C1A1TN", klass: "license", why: "ACI & NX-OS Advantage subscription package; part of 18 C1A1TN/C1E1TN parts, 0 facts" },
+  { kind: "prefix", token: "C1E1TN", klass: "license", why: "ACI & NX-OS Essentials subscription package; same family" },
+  // ONLY the two tier forms. The bare `ACI-` prefix is REFUSED: ACI-C9336-APIC-B1 is "ACI Bundle
+  // with 2 9336 and APIC" and ACI-C9336-BL-EAL "ACI Lab Bun with 1 9336, 2 9396PX Leafs" — real
+  // switches in a bundle.
+  { kind: "prefix", token: "ACI-ES-", klass: "license", why: "ACI Essentials SW licence per leaf ('ACI Essentials SW license for a 10/25/40G+ Nexus 9K Leaf'); 2 parts. Not bare ACI-, which holds switch bundles" },
+  { kind: "prefix", token: "ACI-AD-", klass: "license", why: "ACI Advantage SW licence per leaf; 2 parts" },
+  { kind: "regex", token: "n7k-scalable-feature", re: /^N7K-C70\d\d-XL$/, probe: "N7K-C7010-XL",
+    klass: "license", why: "Nexus 7000 Scalable Feature License ('Cisco Nexus 7010 Scalable Feature License'); 4 parts. Anchored to the chassis-number form: a bare -XL suffix also ends real supervisors (WS-SUP720-3BXL)" },
+  // The CONTAINS siblings of three round-4 SUFFIX rules. Cisco sometimes writes a spare, promo or
+  // bundle marker after the licence token — N55-LAN1K9-IN=, N6001-LAN1K9-P, N55-BAS1K9-BUN,
+  // N5020-SSK9-LAB — so the suffix form misses them. Placed AFTER the suffix rules, so every part
+  // those already catch keeps its existing reason.
+  { kind: "contains", token: "LAN1K9", klass: "license", why: "Nexus Layer 3 LAN licence with a trailing spare/promo marker (N55-LAN1K9-IN=); 9 parts, 0 physical facts" },
+  { kind: "contains", token: "LAN2K9", klass: "license", why: "Nexus 3000 Layer 3 LAN Enterprise licence, second form (N3K-LAN2K9)" },
+  { kind: "contains", token: "BAS1K9", klass: "license", why: "Nexus LAN Base licence in a bundle PID (N55-BAS1K9-BUN)" },
+  { kind: "contains", token: "SSK9", klass: "license", why: "Nexus storage-services licence with a trailing marker (N5020-SSK9-LAB); 8 parts, 0 physical facts" },
+  { kind: "prefix", token: "E3N-", klass: "license", why: "Rockwell Stratix DNA licence ('Stratix 5400L DNA (up to 12 ports), Essential License'); 15 parts, 0 facts" },
+  // WIDENED on 11 Sep 2026: the port token may now carry LETTERS (12S, 24S), so
+  // C3750X-12S-S-E "C3750X-12S IP Base to IP Services Paper License" is caught. What keeps real
+  // switches out is that an upgrade licence carries TWO tier letters (from, to) where a switch
+  // carries one: C9300-24S-A, C3750X-24S-S and C9500-24Q-A all fail the pattern and are pinned.
+  { kind: "regex", token: "tier-upgrade", re: /^C\d+\w*-\d+[A-Z]*-[ELS]-[AES](?:-\d+)?$/, probe: "C9300-24-E-A-3",
     klass: "license", why: "Catalyst tier-upgrade / paper licence ('24-port NW and Cisco DNA Essentials to NW and Cisco DNA Advantage Upgrade License', 'C3650 24-port LAN Base to IP Services Paper License'); 59 parts, 0 with a physical fact" },
 ];
 

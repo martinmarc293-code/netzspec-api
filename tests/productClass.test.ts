@@ -294,6 +294,22 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["UCXN7-48P-UWLADD", "Additional Unity Connection 7.0 48P Server License - CUWL on", "unified-communications", "license", "sku-contains:UWLADD"],
     // The six Invicta operating systems, which replaced the UCSW token removed from ucsKind.
     ["UCSW-A-OS5.X-K9", "UCS Invicta C3124SA Appliance Operating System 5.X - K9", "servers-unified-computing", "license", "sku-contains:-OS5."],
+    // Round 7, 11 Sep 2026 — closing the switches residue. Every SKU and name is from the catalogue.
+    ["CISCO-NTP-MIB", "Cisco CISCO-NTP-MIB", "switches", "non_product", "sku-suffix:-MIB"],
+    ["C1-R-N56FNPV-K9", "Cisco ONE Nexus 5600 FNPV License (Reference, No License)", "switches", "non_product", "sku-prefix:C1-R-"],
+    ["NXOS-703I4.1", "Nexus 9500, 9300, 3000 Base NX-OS Software Rel 7.0(3)I4(1)", "switches", "software", "sku-prefix:NXOS-"],
+    ["NX-OS-ES-XF", "Cisco NX-OS Essentials SW license for a 10/25/40G+ Nexus 9K Leaf", "switches", "software", "sku-prefix:NX-OS-"],
+    ["C1A1TN9300XF-5Y", "Cisco ACI and NX-OS subscription Advantage package for 10/25/40G+ Cisco N9000 leaf switch, 5-year term", "switches", "license", "sku-prefix:C1A1TN"],
+    ["C1E1TN9300XF-5Y", "Cisco ACI and NX-OS subscription Essentials package for 10/25/40G+ Cisco N9000 leaf switch, 5-year term", "switches", "license", "sku-prefix:C1E1TN"],
+    ["ACI-ES-XF", "Cisco ACI Essentials SW license for a 10/25/40G+ Cisco Nexus 9K Leaf", "switches", "license", "sku-prefix:ACI-ES-"],
+    ["ACI-AD-GF", "ACI Advantage SW license for a 1G Nexus 9K Leaf", "switches", "license", "sku-prefix:ACI-AD-"],
+    ["N7K-C7010-XL", "Cisco Nexus 7010 Scalable Feature License", "switches", "license", "sku-regex:n7k-scalable-feature"],
+    ["N55-LAN1K9-IN=", "Nexus 5500 Layer 3 Base Enterprise License, Spare", "switches", "license", "sku-contains:LAN1K9"],
+    ["N3K-LAN2K9", "Nexus 3000 Layer 3 LAN Enterprise License for Nexus 3464C", "switches", "license", "sku-contains:LAN2K9"],
+    ["N55-BAS1K9-BUN", "Layer 3 License for Nexus 5500 Platform", "switches", "license", "sku-contains:BAS1K9"],
+    ["N5020-SSK9-LAB", "Storage Protocol Services license for N5020 LAB Bundle", "switches", "license", "sku-contains:SSK9"],
+    ["E3N-IE4000L-RA-E", "Stratix 5400L DNA (up to 12 ports), Essential License", "switches", "license", "sku-prefix:E3N-"],
+    ["C3750X-12S-S-E", "C3750X-12S IP Base to IP Services Paper License", "switches", "license", "sku-regex:tier-upgrade"],
   ];
   for (const [sku, name, cat, klass, reason] of added) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
@@ -353,6 +369,15 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
       "servers-unified-computing", "ucsKind's `UCSW` os-license token, generalised from one part to the whole Invicta line"],
     ["UCS-SL-HANA-7", "HANA Solution with 8 B440 M2 Blades",
       "servers-unified-computing", "ucsKind's `SL` os-license token"],
+    // Round 7 refusals — each a real product a slightly wider round-7 rule would have deleted.
+    ["ACI-C9336-APIC-B1", "ACI Bundle with 2 9336 and APIC",
+      "switches", "a bare `ACI-` prefix — ACI bundles ship real Nexus 9336 switches"],
+    ["WS-SUP720-3BXL", "Catalyst 6500/Cisco 7600 Supervisor 720 Fabric MSFC3 PFC3BXL",
+      "switches", "a bare `-XL` suffix — this is a supervisor engine, which is why the rule is anchored to N7K-C70nn-XL"],
+    ["C3750X-24S-S", "Catalyst 3750X 24 Port GE SFP IP Base",
+      "switches", "the widened tier-upgrade regex — a switch carries ONE tier letter, an upgrade licence two"],
+    ["C9300-24S-A", "Catalyst 9300 24-port 1G SFP, Network Advantage",
+      "switches", "the widened tier-upgrade regex — one tier letter, a real switch"],
   ];
   for (const [sku, name, cat, wouldEat] of mustStayHardware) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });

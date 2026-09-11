@@ -66,7 +66,12 @@ const MUST_STAY_HARDWARE: [string, string, string][] = [
   ["ESS-2020-24TC-NCP", "Embedded Service 2020 Switch, Main/Expansion bundle", "bundle-bare"],
   ["NCS-57B1-5DSE-SYS", "NCS57B1 Fixed Scale HW Flexible Consumption lic", "lic-abbrev, 19 real parts"],
   ["A9K-24P10G-IVRF", "Infra. VRF lic. for up to 8 VRF instances", "lic-abbrev"],
-  ["C1E1TN9300XF-5Y", "Cisco ACI and NX-OS subscription Essentials 5Y term", "subscription + term-bare"],
+  // REMOVED, 11 Sep 2026: the SIXTH exemplar in this file chosen believing a licence was hardware.
+  // C1E1TN9300XF-5Y is "Cisco ACI and NX-OS subscription Essentials package for 10/25/40G+ Cisco
+  // N9000 leaf switch, 5-year term" — a SUBSCRIPTION with zero own facts. It names a leaf switch
+  // because that is what it COVERS. sku-prefix:C1E1TN now classes it correctly. The `subscription`
+  // and `term-bare` name rules stay refused on the strength of the corpus-wide measurement recorded
+  // at the top of this list, not on this part.
   // REMOVED, 10 Sep 2026: `C9200CX-DNXA-8-5Y`, the n-year-lic exemplar, on the note "12 real
   // parts". It is "C9200CX Cisco Catalyst Advantage software subscription, 8-port, 5 Year" — a
   // LICENCE, and round 4b now classes it as one via sku-contains:-DNXA-. The third exemplar in
