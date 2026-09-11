@@ -224,7 +224,9 @@ async function main(): Promise<void> {
   const SHARED_KEYS = ["key", "label_en", "label_de", "value", "unit", "members", "of"];
   {
     const r = await get(`/v1/families/cisco/${enc(FAM_9200)}?limit=2`);
-    check("family record is 200 with exactly the documented keys", r.status === 200 && sameKeys(r.body, [...FAMILY_KEYS, "shared_facts", "members", "next_cursor"]), Object.keys(r.body ?? {}));
+    // `url` is a LIST-item key (the link to this record); the record itself is that URL, so it does not carry one.
+    check("family record is 200 with exactly the documented keys", r.status === 200
+      && sameKeys(r.body, [...FAMILY_KEYS.filter((k) => k !== "url"), "shared_facts", "members", "next_cursor"]), Object.keys(r.body ?? {}));
     const shared = (r.body?.shared_facts ?? []).map((s: Json) => `${s.key}=${JSON.stringify(s.value)}:${s.members}/${s.of}`);
     check("shared_facts = layer and switching_capacity (3 of 3), by key", JSON.stringify(shared) === JSON.stringify(["layer=\"l3\":3/3", "switching_capacity=56:3/3"]), shared);
     check("SABOTAGE poe_budget carried by 2 of 3 members is NOT shared", !r.body?.shared_facts?.some((s: Json) => s.key === "poe_budget"), shared);
@@ -416,10 +418,10 @@ async function main(): Promise<void> {
   {
     const s = await get("/v1/start");
     check("/v1/start is 200 and every ledger it lists carries a /ledger url", s.status === 200 && Array.isArray(s.body?.ledgers) && s.body.ledgers.length > 0
-      && s.body.ledgers.every((l: Json) => typeof l.url === "string" && l.url.includes("/ledger?")), s.body?.ledgers);
+      && s.body.ledgers.every((l: Json) => typeof l.url === "string" && l.url.includes("/ledger/cisco/")), s.body?.ledgers);
     const reports: Json[] = s.body?.reports ?? [];
     check("/v1/start lists the committed reports, each with a /report url", reports.length > 0
-      && reports.every((x) => /^[a-z0-9][a-z0-9.-]*\.md$/.test(x.name) && String(x.url).includes("/report?name=")), reports);
+      && reports.every((x) => /^[a-z0-9][a-z0-9.-]*\.md$/.test(x.name) && String(x.url).includes("/report/")), reports);
     const first = reports[0]?.name ?? "";
     const r = await app.inject({ method: "GET", url: `/v1/report?name=${enc(first)}`, headers: auth });
     check("/v1/report serves a listed report as markdown", r.statusCode === 200 && /markdown/.test(String(r.headers["content-type"])) && r.body.length > 100,
@@ -430,6 +432,32 @@ async function main(): Promise<void> {
     }
     const noKey = await get(`/v1/report?name=${enc(first)}`, {});
     check("SABOTAGE /v1/report without a key is 401", noKey.status === 401, noKey.body);
+    // THE REVIEWER'S ACCEPTANCE TEST (12 Sep 2026). Two defects, one test. (1) A caller authenticated with
+    // `?api_key=` was handed KEY-LESS links, so every link on /start 401'd — the page said it carried the
+    // caller's key form and it did not. (2) A URL lifted out of a page reaches the reviewer's fetcher with
+    // its QUERY STRING STRIPPED, so `…/ledger?category=routers` can never be followed. So: fetch /start with
+    // the key in the query and NOTHING else, then follow every link it emits with no headers at all.
+    {
+      const s2 = await app.inject({ method: "GET", url: `/v1/start?api_key=${TOKEN}` });
+      const body = JSON.parse(s2.body) as Json;
+      const urls: string[] = [
+        body.links.self,
+        ...body.categories.flatMap((c: Json) => [c.index, c.fields, c.ledger].filter(Boolean)),
+        ...body.ledgers.map((l: Json) => l.url), ...body.reports.map((r: Json) => r.url), ...body.other.map((o: Json) => o.url),
+      ];
+      check("every link on /start carries the caller's query key", urls.length > 10 && urls.every((u) => u.includes(`api_key=${TOKEN}`)),
+        urls.filter((u) => !u.includes("api_key=")).slice(0, 4));
+      // …and exactly one query parameter, the key itself: no `?category=`, which the fetcher would strip.
+      const extraQuery = urls.filter((u) => (u.match(/[?&]/g) ?? []).length !== 1);
+      check("no link carries a query parameter other than the key — the stripped-query constraint", extraQuery.length === 0, extraQuery.slice(0, 4));
+      const followed = await Promise.all(urls.map(async (u) => ({ u, r: await app.inject({ method: "GET", url: u.replace(/^https?:\/\/[^/]+/, "") }) })));
+      const bad = followed.filter((x) => x.r.statusCode !== 200).map((x) => `${x.r.statusCode} ${x.u}`);
+      check(`every one of the ${urls.length} links on /start returns 200 when followed with no headers`, bad.length === 0, bad.slice(0, 6));
+      // The other direction of the same rule, unchanged: a HEADER key is never promoted into a body.
+      const hdr = JSON.parse((await app.inject({ method: "GET", url: "/v1/start", headers: auth })).body) as Json;
+      check("SABOTAGE a Bearer-authenticated caller still gets key-less links (a header credential is never reflected)",
+        !JSON.stringify(hdr).includes(TOKEN), "the token appeared in a body it did not arrive in");
+    }
     const l = await get("/v1/ledger?category=switches");
     check("/v1/ledger serves the committed switches ledger", l.status === 200 && l.body?.category === "switches" && l.body?.vendor === "cisco", l.body?.category);
     const nl = await get("/v1/ledger?category=no-such-category");

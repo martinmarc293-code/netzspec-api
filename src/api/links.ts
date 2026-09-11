@@ -16,7 +16,7 @@
 // merely reflecting. `linkBase()` is the single place that decision is made, and `urlAuth.test.ts`
 // asserts both directions.
 import type { FastifyRequest } from "fastify";
-import { PATH_KEY_HEADER } from "./auth.js";
+import { PATH_KEY_HEADER, QUERY_KEY_HEADER } from "./auth.js";
 
 /**
  * The prefix every emitted URL is built on.
@@ -45,6 +45,29 @@ export function linkBase(req: FastifyRequest, publicBaseUrl: string): string {
  */
 export function encodeSegment(s: string): string {
   return encodeURIComponent(s);
+}
+
+/**
+ * A URL a page-fetcher can actually follow, built from PATH SEGMENTS and carrying the caller's own
+ * key form.
+ *
+ * MEASURED 12 Sep 2026, from the reviewer: a URL lifted OUT of a page is fetched with its QUERY
+ * STRING STRIPPED. So `…/ledger?category=routers` is unfollowable however well-formed — it arrives
+ * as `…/ledger` and 400s on the missing parameter — and `/start`'s whole purpose is links that can be
+ * followed. Every parameter that matters therefore has to be a path segment. The same report found the
+ * other half: a request authenticated with `?api_key=` was being handed KEY-LESS links, so every one
+ * 401'd. That contradicted this file's own rule — a key the caller already put in their URL may be
+ * reflected, because it is already wherever that URL is written down — and it is fixed here: a query
+ * key is appended (the one query parameter the caller's own URL already carried), a PATH key is
+ * already in `base`, and a HEADER key is still never reflected.
+ */
+export function followable(req: FastifyRequest, base: string, segments: string[]): string {
+  const path = `${base}/${segments.map(encodeSegment).join("/")}`;
+  if (req.apiKeyForm === "query") {
+    const k = req.headers[QUERY_KEY_HEADER];
+    if (typeof k === "string" && k) return `${path}${qs({ api_key: k })}`;
+  }
+  return path;
 }
 
 /** `…/parts/{vendor}/{sku}` with both segments encoded. */

@@ -17,7 +17,7 @@
 import type { FastifyInstance } from "fastify";
 import { Type, type Static } from "@sinclair/typebox";
 import { seriesIndex } from "../queries/seriesIndex.js";
-import { buildLinkIndex, linkBase, qs } from "../links.js";
+import { buildLinkIndex, linkBase, followable, qs } from "../links.js";
 import { ERROR_RESPONSES, Nullable } from "../schemas.js";
 
 const Query = Type.Object({
@@ -65,6 +65,28 @@ export async function linkIndexRoutes(app: FastifyInstance, opts: LinkIndexRoute
       vendor,
       count: index.length,
       generated_at: new Date().toISOString(),
+    };
+  });
+
+  // PATH FORM (12 Sep 2026): a URL lifted out of a page loses its query string, so /start links to this
+  // shape instead. Same builder, so the two representations cannot drift. The entries INSIDE the index
+  // keep their query strings where the resource genuinely needs one (a filter, a SKU prefix) — those are
+  // pasteable, not followable, and the ledger and report links on /start are the followable path.
+  app.get<{ Params: { vendor: string; category: string } }>("/index/:vendor/:category", {
+    schema: {
+      tags: ["catalogue"],
+      summary: "Every URL an audit of one category needs, with no query string of its own — the followable form of /index.",
+      params: Type.Object({ vendor: Type.String(), category: Type.String() }),
+      response: { 200: Response, ...ERROR_RESPONSES },
+    },
+  }, async (req) => {
+    const { vendor, category } = req.params;
+    const base = linkBase(req, opts.publicBaseUrl);
+    const series = await seriesIndex(vendor, category);
+    const index = buildLinkIndex(base, vendor, category, series);
+    return {
+      links: { self: followable(req, base, ["index", vendor, category]), index },
+      category, vendor, count: index.length, generated_at: new Date().toISOString(),
     };
   });
 }

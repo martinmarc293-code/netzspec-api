@@ -16,7 +16,7 @@ import path from "node:path";
 import type { FastifyInstance } from "fastify";
 import { Type, type Static } from "@sinclair/typebox";
 import { REPO_ROOT } from "../../config.js";
-import { linkBase, qs } from "../links.js";
+import { linkBase, followable, qs } from "../links.js";
 import { listCategories } from "../queries/categories.js";
 import { notFound } from "../errors.js";
 import { AnyJson, ERROR_RESPONSES, Nullable } from "../schemas.js";
@@ -94,25 +94,30 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
     const base = linkBase(req, opts.publicBaseUrl);
     const refs = ledgerRefs().filter((l) => l.vendor === vendor);
     const cats = (await listCategories(vendor)).filter((c) => c.is_hardware);
+    // PATH SEGMENTS, NOT QUERY (12 Sep 2026). The reviewer's fetcher strips the query string from any URL
+    // it lifts out of a page, so `…/ledger?category=routers` arrives as `…/ledger` and cannot work. Every
+    // link below is therefore query-less — see followable() in links.ts, which also carries the caller's
+    // own key form, the other half of the same report (every link 401'd for a ?api_key= caller).
+    const link = (...segments: string[]) => followable(req, base, segments);
     const categories = cats.map((c) => ({
       slug: c.slug, name_en: c.name_en, parts: c.parts,
-      index: `${base}/index${qs({ category: c.slug, vendor })}`,
-      fields: `${base}/fields${qs({ category: c.slug })}`,
-      ledger: refs.some((l) => l.category === c.slug) ? `${base}/ledger${qs({ category: c.slug, vendor })}` : null,
+      index: link("index", vendor, c.slug),
+      fields: link("fields", c.slug),
+      ledger: refs.some((l) => l.category === c.slug) ? link("ledger", vendor, c.slug) : null,
     }));
-    const ledgers = refs.map((l) => ({ vendor: l.vendor, category: l.category, url: `${base}/ledger${qs({ category: l.category, vendor })}`,
+    const ledgers = refs.map((l) => ({ vendor: l.vendor, category: l.category, url: link("ledger", l.vendor, l.category),
       profile_hash: l.profile_hash, parts: l.parts, required_slots: l.slots }));
     const other = [
-      { name: "all categories with counts", url: `${base}/categories${qs({ vendor })}` },
-      { name: "the whole field dictionary", url: `${base}/fields` },
-      { name: "catalogue statistics", url: `${base}/stats` },
-      { name: "recent pipeline runs", url: `${base}/runs` },
-      { name: "sources and what they publish", url: `${base}/sources` },
+      { name: "all categories with counts", url: link("categories") },
+      { name: "the whole field dictionary", url: link("fields") },
+      { name: "catalogue statistics", url: link("stats") },
+      { name: "recent pipeline runs", url: link("runs") },
+      { name: "sources and what they publish", url: link("sources") },
     ];
-    const reports = reportNames().map((name) => ({ name, url: `${base}/report${qs({ name })}` }));
+    const reports = reportNames().map((name) => ({ name, url: link("report", name) }));
     return {
-      links: { self: `${base}/start${qs({ vendor: req.query.vendor })}` },
-      about: "Every URL below is complete and carries this request's key form. Follow them; do not construct URLs.",
+      links: { self: link("start") },
+      about: "Every URL below is complete, carries this request's key form and has NO query string: follow them as they are, and do not construct URLs.",
       vendor, categories, ledgers, reports, other, count: categories.length + ledgers.length + reports.length + other.length,
       generated_at: new Date().toISOString(),
     };
@@ -150,5 +155,41 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
       throw notFound(`no cup ledger for ${vendor}/${req.query.category} — ledgers exist for: ${have}`);
     }
     return JSON.parse(fs.readFileSync(path.join(LEDGER_DIR, ref.file), "utf8"));
+  });
+
+  // PATH FORM of the same two resources, added 12 Sep 2026 for the reason in links.ts followable(): a URL
+  // taken out of a page loses its query string, so the parameters have to be segments. Same handlers, one
+  // source of truth each; the query forms stay for callers that already use them.
+  const serveLedger = (vendor: string, category: string) => {
+    const ref = ledgerRefs().find((l) => l.vendor === vendor && l.category === category);
+    if (!ref) {
+      const have = ledgerRefs().map((l) => `${l.vendor}/${l.category}`).join(", ") || "none";
+      throw notFound(`no cup ledger for ${vendor}/${category} — ledgers exist for: ${have}`);
+    }
+    return JSON.parse(fs.readFileSync(path.join(LEDGER_DIR, ref.file), "utf8"));
+  };
+  app.get<{ Params: { vendor: string; category: string } }>("/ledger/:vendor/:category", {
+    schema: {
+      tags: ["catalogue"],
+      summary: "The cup ledger for one category, with no query string — the followable form of /ledger.",
+      params: Type.Object({ vendor: Type.String(), category: Type.String() }),
+      response: { 200: AnyJson, ...ERROR_RESPONSES },
+    },
+  }, async (req) => serveLedger(req.params.vendor, req.params.category));
+
+  app.get<{ Params: { name: string } }>("/report/:name", {
+    schema: {
+      tags: ["catalogue"],
+      summary: "One committed report as markdown, with no query string — the followable form of /report.",
+      params: Type.Object({ name: Type.String() }),
+      response: { 200: Type.String(), ...ERROR_RESPONSES },
+    },
+  }, async (req, reply) => {
+    const name = req.params.name;
+    if (!REPORT_NAME.test(name) || !reportNames().includes(name)) {
+      throw notFound(`no report named ${JSON.stringify(name)} — reports: ${reportNames().join(", ") || "none"}`);
+    }
+    reply.type("text/markdown; charset=utf-8");
+    return fs.readFileSync(path.join(REPORT_DIR, name), "utf8");
   });
 }

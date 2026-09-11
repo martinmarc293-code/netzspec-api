@@ -10,7 +10,7 @@ import type { FastifyInstance } from "fastify";
 import { Type, type Static } from "@sinclair/typebox";
 import { listFields } from "../queries/fields.js";
 import { seriesIndex } from "../queries/seriesIndex.js";
-import { buildLinkIndex, linkBase, qs } from "../links.js";
+import { buildLinkIndex, linkBase, followable, qs } from "../links.js";
 import { AnyJson, ERROR_RESPONSES, ListOf, Nullable } from "../schemas.js";
 
 const Query = Type.Object({
@@ -67,6 +67,26 @@ export async function fieldsRoutes(app: FastifyInstance, opts: FieldsRouteOption
         self: `${base}/fields${qs({ category, vendor: req.query.vendor })}`,
         index: buildLinkIndex(base, vendor, category, series),
       },
+    };
+  });
+
+  // PATH FORM (12 Sep 2026): /start links here, because a URL taken out of a page loses its query string
+  // (links.ts followable()). Same query and same builder as /fields?category=, one source of truth.
+  app.get<{ Params: { category: string } }>("/fields/:category", {
+    schema: {
+      tags: ["catalogue"],
+      summary: "The field dictionary with this category's requirement per key, with no query string — the followable form of /fields?category=.",
+      params: Type.Object({ category: Type.String() }),
+      response: { 200: ListOf(FieldItem, { links: Type.Optional(Links) }), ...ERROR_RESPONSES },
+    },
+  }, async (req) => {
+    const category = req.params.category;
+    const items = await listFields(category);
+    const base = linkBase(req, opts.publicBaseUrl);
+    const series = await seriesIndex("cisco", category);
+    return {
+      items, next_cursor: null,
+      links: { self: followable(req, base, ["fields", category]), index: buildLinkIndex(base, "cisco", category, series) },
     };
   });
 }
