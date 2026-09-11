@@ -4,6 +4,40 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-11 (evening) - Opus/PARENT. The reviewer's five-check re-audit worked through, every premise measured first.**
+
+  **DONE AND VERIFIED** (commits 82f8f5f, d98db20; runs 950 sync, 951 reclassify 14, 952 rekey 283,
+  953 recompute 5,598 rows, 954 retract 3; suite 37/37, typecheck clean):
+  - Switches kinds: `fex` (163) and `linecard` (452) split out of switch/module. A FEX is a box that
+    owes ports, uplinks, airflow, power and environment and no switching figures; a line card owes
+    ports, PoE, fabric bandwidth, power and what it fits. Components asked their own questions:
+    power -> psu_rated_output, input_voltage, airflow; fan -> airflow; cable -> cable_length; every
+    component -> product_compatibility.
+  - Wrong-key moves: 274 PSU `power_max` -> `psu_rated_output` (a PSU's wattage is what it DELIVERS);
+    9 `chassis_compatibility` -> `product_compatibility` (superseded key). Each value re-derived under
+    the new key by the real normaliser; selector re-run 0.
+  - Transceiver: power_max band per category ([0.1, 40] W — the global band had admitted a 2,475 W
+    optic); enum gaps filled (cpak, osfp, mpo-24, duplex-bidi); port-side airflow read as port-side
+    (239 facts had said "side"); DAC reach/mode made na by media; breakout/tunable/dac_type declared opt.
+  - Class: 8 "Dummy PID" placeholders -> non_product (name rule), 6 Cat4500 XE images -> software.
+    **Then forgot the step retract-licence-mined's own header demands after any reclassify**: the
+    scorecard's reverse check failed switches on 3 placeholder PSUs still holding a mined power_max.
+    Run 954 retracted them; switches back to all-ok.
+  - Scorecard after: switches and transceiver pass all 8 columns. Staleness proof (a stored required
+    key the live profile does not mark req/cond): 0 of 200,776 switch slots, 0 of 26,416 transceiver.
+    Switches 200,776 required slots (switch 38.1/part, fex 22.8, linecard 6, supervisor 9, power 4).
+
+  **REFUTED REVIEWER PREMISES** (measured): FEX 166 not 68; "servers stores psu_rated_output" (0
+  facts); DDM na for DAC (140 of 143 DACs hold ddm); BiDi wavelength labels (0); SN/CS/AEC/SFP-DD
+  parts (0); cable_type as a field (kind is the mechanism). Band-refusal count is not determinable:
+  the quarantine logs hold none.
+
+  **HELD FOR THE OPERATOR**: push branch `cisco`; CSP-* + UCSC-885A-M8-HC1 row moves to servers;
+  SFP-10G-OLT20-X tier-0 value 2475 (should be 2.475); box disk.
+
+  **NEXT**: send the reviewer the reply; on its verdict, routers (agent survey of ~40 rules is
+  groundwork only, nothing implemented).
+
 - **2026-09-11 - Opus/PARENT. Switches finished: class, kind, one cup per quantity. Transceiver's undeclared field, which was a duplicate.**
 
   **DONE AND VERIFIED** (commits f26b830, 7c8cacd, d1c1e28, 567e1f0, a22967b; deployed; runs 935,
