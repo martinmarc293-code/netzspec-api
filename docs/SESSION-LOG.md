@@ -6,6 +6,9 @@ into `CLAUDE.md`'s rules or memory, never only here.
 
 - **2026-09-11 (night) - Opus/PARENT. Reviewer verdict: switches READY, transceiver NOT READY (2 fields). Worked through; transceiver needed far more than 2.**
 
+  **DEPLOYED 678606c** (/health read back; /v1/fields serves superseded_by) and **PUSHED** origin/cisco
+  (first push; private repo, read back with ls-remote). Reply to the reviewer:
+  D:\tmp\reply-to-claude-web-2026-09-11-night.md.
   **DONE AND VERIFIED** (commit 678606c; runs 955 sync, 956 reclassify 212, 957-959 retract 1+3 and
   split-bidi-rx 30, 960 renormalize CD tolerance 17/5, 961 renormalize form_factor 34 (131 tier-0 held),
   move-category 54, correct-tier0 1, recompute full + transceiver, 965 sync; suite 39/39, typecheck clean):
