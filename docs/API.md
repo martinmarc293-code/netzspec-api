@@ -89,6 +89,11 @@ for a client whose fetcher opens only URLs it has already seen: paste `/start` o
 as committed — per kind the parts, required and pending fields with their gates, and per field the sources
 (with class and basis) and labels that can fill it. `404` names the ledgers that do exist.
 
+`/v1/start` also lists `reports: [{ name, url }]` — the committed evidence reports in `docs/reports/`
+(per-category schema reports, reconciliations), newest name first. `GET /v1/report?name=<name>` serves one as
+`text/markdown`; only a name the listing produced is served, and anything else (a path, `../`, an unknown
+name) is `404` naming the reports that exist.
+
 ### `GET /v1/fields?category=switches`
 The dictionary as the database holds it (the table `facts.field_key` references).
 `items: [{ key, type, unit, label_en, label_de, domain, band, shape, superseded_by, requirement? }]`, by key.
@@ -141,11 +146,13 @@ satisfies a filter: the answer is the same set the part page would render.
 Item shape (summary; identical on `/v1/lifecycle` and `/v1/search`):
 ```json
 { "vendor": "cisco", "sku": "C9200L-24P-4G", "slug": "c9200l-24p-4g", "category": "switches",
-  "family": "Cisco Catalyst 9200", "product_class": "hardware", "name": "…",
+  "series": "Catalyst 9200", "family": "C9200L-24P-4G", "product_class": "hardware", "name": "…",
   "lifecycle_status": "active", "fact_count": 31, "completeness_pct": 61.0,
   "has_image": true, "updated_at": "2026-09-03T14:02:11.123Z" }
 ```
 - `lifecycle_status` is `unknown` when no lifecycle row exists — never guessed as `active`.
+- `series` is the product line (`parts.series`, migration 0012); `family` is the model, the SKU without its
+  ordering suffix. Either is null when unknown.
 - `fact_count` counts rendered facts only.
 - `completeness_pct` is null when no completeness row exists or the part has no profile.
 - `has_image` is true only for a downloaded image (one with a URL).
@@ -341,9 +348,11 @@ that slug. An unknown vendor or category is an empty list, not an error. Keyset-
 ```json
 { "items": [ { "vendor": "cisco", "family": "Cisco Catalyst 9200", "category": "switches",
                "parts": 412, "hardware_parts": 380, "with_facts": 311,
-               "lifecycle": { "active": 250, "eol_announced": 90, "unknown": 72 } } ],
+               "lifecycle": { "active": 250, "eol_announced": 90, "unknown": 72 },
+               "url": "https://api.netzspec.com/v1/families/cisco/Cisco%20Catalyst%209200" } ],
   "next_cursor": "…" }
 ```
+- `url` is the family record, complete and in the caller's key form: follow it rather than build it.
 - `category` is the mode of the members' categories: a family that straddles two categories
   is listed once, under the one most of its parts sit in.
 - `parts` counts every member; `hardware_parts` those with `product_class = hardware`;
@@ -500,7 +509,7 @@ selection (`generated_at` says when). An unknown vendor or category is an empty 
 ```json
 { "generated_at": "2026-09-03T14:02:11.123Z",
   "by_field": [ { "key": "mtbf", "label_en": "MTBF", "gap_unattempted": 41200, "gap_confirmed": 310, "parts_missing": 41510 } ],
-  "by_category": [ { "category": "switches", "hardware_parts": 9950, "parts_complete": 120, "mean_pct": 61.3 } ] }
+  "by_category": [ { "category": "switches", "hardware_parts": 9950, "parts_complete": 120, "mean_pct": 61.3, "parts_nothing_required": 1325 } ] }
 ```
 - `by_field`: the top 100 fields by `parts_missing` (then key). `parts_missing` counts
   hardware parts whose profile requires the field and that render no value for it, whatever
@@ -509,6 +518,8 @@ selection (`generated_at` says when). An unknown vendor or category is an empty 
 - `by_category`: every category with parts in the selection, by `hardware_parts` descending.
   `parts_complete` counts scored parts at exactly 100 %; `mean_pct` is the mean completeness
   over scored parts (rows with `no_profile = false`), one decimal, `null` when none is scored.
+  `parts_nothing_required` counts scored parts whose profile requires nothing of them (fans, cords,
+  blanks): they are excluded from `mean_pct` and reported here, never averaged in as 0 % or 100 %.
 
 ## Tools
 

@@ -979,14 +979,38 @@ const FORM_FACTOR_OPTIC: [RegExp, string][] = [
   // ENUM_VIOLATION naming what it is. (QSFP-DD800 still reads as qsfp-dd: the same cage, rated for 800G.)
   // The lookbehinds matter: "QSFP-DD" and "OSFP" CONTAIN "SFP"; the first draft refused QSFP-DD800.
   [/(?<![QqOo])sfp[-\s]?dd/i, "sfp-dd"], [/osfp[-\s]?xd/i, "osfp-xd"],
+  // DSFP and the 112G-lane cages (12 Sep 2026), the same fold again: "DSFP" (dual SFP, 9 Arista parts) reached
+  // the catch-all /sfp/ and was stored as "sfp"; "QSFP112" (12 parts, Cisco QSFP-400G-VR4 among them) reached
+  // /qsfp/ and was stored as "qsfp-plus", the 40G cage. dsfp and qsfp112 are in the domain; SFP112 has no
+  // part and is refused by name rather than filed as an SFP.
+  [/dsfp/i, "dsfp"], [/(?<![QqOoDd])sfp[-\s]?112/i, "sfp112"],
   // OSFP and CPAK FIRST (11 Sep 2026): the catch-all /sfp/ at the end of this list would file an
   // OSFP as a plain SFP, and CPAK matched nothing at all.
   [/osfp/i, "osfp"], [/cpak/i, "cpak"],
-  [/qsfp.?dd/i, "qsfp-dd"], [/qsfp56/i, "qsfp56"], [/qsfp28/i, "qsfp28"], [/qsfp\+|qsfp/i, "qsfp-plus"],
+  [/qsfp.?dd/i, "qsfp-dd"], [/qsfp56/i, "qsfp56"], [/qsfp[-\s]?112/i, "qsfp112"], [/qsfp28/i, "qsfp28"], [/qsfp\+|qsfp/i, "qsfp-plus"],
   [/cfp2/i, "cfp2"], [/cfp/i, "cfp"], [/sfp56/i, "sfp56"], [/sfp28/i, "sfp28"],
   [/sfp\+|sfp-plus/i, "sfp-plus"], [/xenpak/i, "xenpak"], [/xfp/i, "xfp"], [/\bx2\b/i, "x2"],
   [/gbic/i, "gbic"], [/sfp/i, "sfp"],
 ];
+
+// TWO-ENDED CABLES (12 Sep 2026; reviewer verdict on 678606c §5.1, operator-approved). A breakout or conversion
+// cable names a cage at EACH end — "OSFP auf 2x QSFP56", "QSFP28 zu 4× SFP28", "QSFP-DD ↔ 4× QSFP28",
+// "QSFP-DD, QSFP" — and the first-match rules above read whichever end their ORDER meets first: about 120
+// current values across seven vendors were one end chosen by rule order (Arista "OSFP auf QSFP112" became
+// qsfp-plus, neither end). The domain names ONE cage and neither end is THE form factor, so a value naming two
+// DIFFERENT cages is refused (ENUM_VIOLATION, naming both) and quarantined — never folded to one end. The same
+// cage at both ends ("SFP28 zu SFP28", "OSFP auf OSFP") is one cage and reads as that. A parenthesis is a
+// note, not an end: "QSFP28 (QSFP+/QSFP28)" is a QSFP28 part and "QSFP56 Breakout (1 zu 4)" a QSFP56 one. A
+// slash is left alone: "QSFP28/QSFP+" states what one cage accepts, not a second end.
+const OPTIC_END_JOINER = /\s+(?:auf|to|zu)\s+|\s*(?:↔|→|<->|->|,)\s*/i;
+export function opticEnds(s: string): string[] {
+  const out: string[] = [];
+  for (const seg of s.replace(/\([^)]*\)/g, " ").split(OPTIC_END_JOINER)) {
+    const hit = FORM_FACTOR_OPTIC.find(([re]) => re.test(seg));
+    if (hit) out.push(hit[1]);
+  }
+  return out;
+}
 
 const TRUE_RE = /^\s*(ja|yes|true|vorhanden|unterst(ü|ue)tzt|supported|standard|✓|x)\b/i;
 const FALSE_RE = /^\s*(nein|no|false|nicht|kein|keine|ohne|n\/a|-)\b/i;
@@ -1329,6 +1353,12 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       const rules = key === "form_factor"
         ? (category === "transceiver" ? FORM_FACTOR_OPTIC : FORM_FACTOR_SWITCH)
         : ENUM_RULES[key];
+      if (key === "form_factor" && category === "transceiver") {
+        const ends = opticEnds(s);
+        if (new Set(ends).size > 1) {
+          return bad("ENUM_VIOLATION", `form_factor: "${s}" names two different cages (${ends.join(" to ")}): a two-ended cable, and the domain holds one cage — neither end is chosen`);
+        }
+      }
       if (rules) {
         for (const [re, val] of rules) {
           if (re.test(s)) {

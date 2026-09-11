@@ -1386,8 +1386,12 @@ export const DOMAIN_OVERRIDES: Record<string, Record<string, string[]>> = {
     // Juniper 11), and every one had been STORED as "sfp" — the catch-all /sfp/ read the double-density
     // module as a single-lane one. The domain is shared by every vendor in the category, so the count that
     // decides it must be too. OSFP-XD still has no part and is refused by name (specNormalize.ts).
-    form_factor: ["gbic", "x2", "xenpak", "xfp", "sfp", "sfp-plus", "sfp28", "sfp56", "sfp-dd",
-      "qsfp-plus", "qsfp28", "qsfp56", "qsfp-dd", "cfp", "cfp2", "cpak", "osfp"],
+    // qsfp112 and dsfp ADDED 12 Sep 2026, the same fold found by listing every cage token against its stored
+    // value: 12 QSFP112 parts (Cisco QSFP-400G-VR4 among them) were stored as "qsfp-plus", a 112G-lane cage
+    // filed as a 40G one, and 9 DSFP parts (Arista) as "sfp". Both exist, so both are in the domain; SFP112
+    // has no part yet and is refused by name.
+    form_factor: ["gbic", "x2", "xenpak", "xfp", "sfp", "sfp-plus", "sfp28", "sfp56", "sfp-dd", "dsfp",
+      "qsfp-plus", "qsfp28", "qsfp56", "qsfp112", "qsfp-dd", "cfp", "cfp2", "cpak", "osfp"],
   },
 };
 
@@ -1824,6 +1828,7 @@ export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string
     sfp28: { de: "SFP28", en: "SFP28" }, sfp56: { de: "SFP56", en: "SFP56" },
     "qsfp-plus": { de: "QSFP+", en: "QSFP+" }, qsfp28: { de: "QSFP28", en: "QSFP28" },
     qsfp56: { de: "QSFP56", en: "QSFP56" }, "qsfp-dd": { de: "QSFP-DD", en: "QSFP-DD" },
+    qsfp112: { de: "QSFP112", en: "QSFP112" }, dsfp: { de: "DSFP", en: "DSFP" },
     cfp: { de: "CFP", en: "CFP" }, cfp2: { de: "CFP2", en: "CFP2" },
     cpak: { de: "CPAK", en: "CPAK" }, osfp: { de: "OSFP", en: "OSFP" }, "sfp-dd": { de: "SFP-DD", en: "SFP-DD" },
   },

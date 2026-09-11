@@ -22,6 +22,16 @@ import { notFound } from "../errors.js";
 import { AnyJson, ERROR_RESPONSES, Nullable } from "../schemas.js";
 
 const LEDGER_DIR = path.join(REPO_ROOT, "data", "ledger");
+const REPORT_DIR = path.join(REPO_ROOT, "docs", "reports");
+/** A report name is a bare file name the listing produced; anything else (a path, a traversal) is refused. */
+const REPORT_NAME = /^[a-z0-9][a-z0-9.-]*\.md$/;
+
+/** The committed reports (docs/reports/*.md), newest name first. runs/reports is gitignored and never deployed,
+ *  so a report the reviewer must read is committed here and linked from /start (12 Sep 2026). */
+export function reportNames(dir: string = REPORT_DIR): string[] {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir).filter((f) => REPORT_NAME.test(f)).sort().reverse();
+}
 
 type LedgerRef = { vendor: string; category: string; file: string; profile_hash: string; parts: number; slots: number };
 let ledgerCache: LedgerRef[] | null = null;
@@ -56,6 +66,7 @@ const StartResponse = Type.Object({
     vendor: Type.String(), category: Type.String(), url: Type.String(), profile_hash: Type.String(),
     parts: Type.Integer(), required_slots: Type.Integer(),
   })),
+  reports: Type.Array(Link),
   other: Type.Array(Link),
   count: Type.Integer(),
   generated_at: Type.String({ format: "date-time" }),
@@ -65,6 +76,7 @@ const LedgerQuery = Type.Object({
   category: Type.String({ description: "category slug" }),
   vendor: Type.Optional(Type.String({ description: "vendor slug (default cisco)" })),
 });
+const ReportQuery = Type.Object({ name: Type.String({ description: "a file name exactly as /start lists it" }) });
 
 export type StartRouteOptions = { publicBaseUrl: string };
 
@@ -97,12 +109,29 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
       { name: "recent pipeline runs", url: `${base}/runs` },
       { name: "sources and what they publish", url: `${base}/sources` },
     ];
+    const reports = reportNames().map((name) => ({ name, url: `${base}/report${qs({ name })}` }));
     return {
       links: { self: `${base}/start${qs({ vendor: req.query.vendor })}` },
       about: "Every URL below is complete and carries this request's key form. Follow them; do not construct URLs.",
-      vendor, categories, ledgers, other, count: categories.length + ledgers.length + other.length,
+      vendor, categories, ledgers, reports, other, count: categories.length + ledgers.length + reports.length + other.length,
       generated_at: new Date().toISOString(),
     };
+  });
+
+  app.get<{ Querystring: Static<typeof ReportQuery> }>("/report", {
+    schema: {
+      tags: ["catalogue"],
+      summary: "One committed report (docs/reports), as markdown text — the evidence behind a category's cups.",
+      querystring: ReportQuery,
+      response: { 200: Type.String(), ...ERROR_RESPONSES },
+    },
+  }, async (req, reply) => {
+    const name = req.query.name;
+    if (!REPORT_NAME.test(name) || !reportNames().includes(name)) {
+      throw notFound(`no report named ${JSON.stringify(name)} — reports: ${reportNames().join(", ") || "none"}`);
+    }
+    reply.type("text/markdown; charset=utf-8");
+    return fs.readFileSync(path.join(REPORT_DIR, name), "utf8");
   });
 
   app.get<{ Querystring: Static<typeof LedgerQuery> }>("/ledger", {
