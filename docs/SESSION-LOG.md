@@ -35,6 +35,12 @@ into `CLAUDE.md`'s rules or memory, never only here.
   **HELD FOR THE OPERATOR**: push branch `cisco`; CSP-* + UCSC-885A-M8-HC1 row moves to servers;
   SFP-10G-OLT20-X tier-0 value 2475 (should be 2.475); box disk.
 
+  **DEPLOYED** 0fa48e5 (/health SHA confirmed). Live: a PSU serves psu_rated_output, not power_max.
+  **FOUND, NOT FIXED**: /v1/fields?category=switches still lists the 10 superseded keys
+  (cd_tolerance, chassis_compatibility, ...) as dictionary entries with requirement "na" and no
+  pointer to their successor — two names for one quantity to a consumer. Omit them or add
+  superseded_by. Reply to the reviewer saved at D:\tmp\reply-to-claude-web-2026-09-11.md.
+
   **NEXT**: send the reviewer the reply; on its verdict, routers (agent survey of ~40 rules is
   groundwork only, nothing implemented).
 
