@@ -81,6 +81,14 @@ database cannot be reached the status is `503` with `ok: false, db: false, parts
 is listed, including those with zero parts; `parts` is per vendor when `vendor` is given.
 An unknown vendor is `400` naming it.
 
+### `GET /v1/start` and `GET /v1/ledger?category=`
+`/v1/start` is ONE page that links, fully expanded and in the caller's own key form, every hardware
+category's `index`, `fields` and (where one is committed) `ledger`, plus the catalogue-wide pages. It exists
+for a client whose fetcher opens only URLs it has already seen: paste `/start` once and follow links.
+`/v1/ledger?category=switches` returns the frozen cup ledger (`data/ledger/<vendor>-<category>.json`) exactly
+as committed — per kind the parts, required and pending fields with their gates, and per field the sources
+(with class and basis) and labels that can fill it. `404` names the ledgers that do exist.
+
 ### `GET /v1/fields?category=switches`
 The dictionary as the database holds it (the table `facts.field_key` references).
 `items: [{ key, type, unit, label_en, label_de, domain, band, shape, superseded_by, requirement? }]`, by key.

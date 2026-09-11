@@ -8,6 +8,11 @@ import { Nullable } from "../schemas.js";
 
 export type HealthOptions = { gitSha: string };
 
+/** The database host's disk as its own probe last measured it; alert on any status but "ok". */
+const Disk = Type.Object({
+  status: Type.String(), used_pct: Nullable(Type.Number()), free_gb: Nullable(Type.Number()), measured_at: Nullable(Type.String()),
+});
+
 export async function healthRoutes(app: FastifyInstance, opts: HealthOptions): Promise<void> {
   app.get("/health", {
     schema: {
@@ -15,8 +20,8 @@ export async function healthRoutes(app: FastifyInstance, opts: HealthOptions): P
       summary: "Liveness: database reachable, parts count, build sha. No key required.",
       security: [],
       response: {
-        200: Type.Object({ ok: Type.Boolean(), db: Type.Boolean(), version: Type.String(), parts: Nullable(Type.Integer()) }),
-        503: Type.Object({ ok: Type.Boolean(), db: Type.Boolean(), version: Type.String(), parts: Nullable(Type.Integer()) }),
+        200: Type.Object({ ok: Type.Boolean(), db: Type.Boolean(), version: Type.String(), parts: Nullable(Type.Integer()), disk: Nullable(Disk) }),
+        503: Type.Object({ ok: Type.Boolean(), db: Type.Boolean(), version: Type.String(), parts: Nullable(Type.Integer()), disk: Nullable(Disk) }),
       },
     },
   }, async (_req, reply) => {

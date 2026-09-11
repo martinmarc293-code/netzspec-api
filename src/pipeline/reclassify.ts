@@ -188,8 +188,11 @@ export async function applyPlan(p: Plan, batch = 5000, onProgress?: (written: nu
   return written;
 }
 
-export function reportPath(day = new Date().toISOString().slice(0, 10)): string {
-  return path.join(REPO_ROOT, "runs", "reports", `reclassify-${day}.json`);
+/** One report per run, named by run id; a dry run by the time it ran. Until 12 Sep 2026 the name was the day
+ *  alone and the report kept 200 changes, so a second same-day run (956) overwrote the first (951) and the
+ *  transceiver reconciliation could not be rebuilt from run ids: both a lost file and a truncated one. */
+export function reportPath(tag: string, day = new Date().toISOString().slice(0, 10)): string {
+  return path.join(REPO_ROOT, "runs", "reports", `reclassify-${day}-${tag}.json`);
 }
 
 /** The stats block that goes into runs.stats — small enough to read in psql. */
@@ -206,7 +209,9 @@ export async function main(argv: string[]): Promise<void> {
   const a = parseArgs(argv);
   const rows = await readParts(a.vendor);
   const p = plan(rows, a.examples);
-  const day = new Date().toISOString().slice(0, 10);
+  const now = new Date().toISOString();
+  const day = now.slice(0, 10);
+  let tag = `${a.commit ? "nochange" : "dry"}-${now.slice(11, 19).replaceAll(":", "")}`;
 
   let runId: number | null = null;
   let written = 0;
@@ -215,25 +220,28 @@ export async function main(argv: string[]): Promise<void> {
     // it got: `partial` hands withRun the counters that are otherwise lost with the exception
     let progress = 0;
     const out = await withRun("reclassify", { vendor: a.vendor, rules: SKU_RULES.length, scanned: p.scanned, examples: a.examples }, async (id) => {
+      tag = `run${id}`;
       const n = await applyPlan(p, a.batch, (w) => { progress = w; });
       const lines = Object.entries(p.by_rule).sort((x, y) => y[1].count - x[1].count)
         .map(([rule, v]) => `${rule} -> ${v.to}: ${v.count} (${Object.entries(v.transitions).map(([t, c]) => `${t} ${c}`).join(", ")}) e.g. ${v.examples.join(", ")}`);
       return {
         stats: statsOf(p, n),
         notes: [`reclassify ${a.vendor ?? "all vendors"}: ${n} of ${p.scanned} parts changed class; ${p.reason_only} kept their class with a new reason (not written).`,
-          ...lines, `report: runs/reports/reclassify-${day}.json`].join("\n"),
+          ...lines, `report: runs/reports/${path.basename(reportPath(tag, day))}`].join("\n"),
       };
     }, { partial: () => ({ stats: statsOf(p, progress), progress: `${progress} of ${p.changes.length} rows written` }) });
     runId = out.runId;
     written = (out.stats as { written: number }).written;
   }
 
-  fs.mkdirSync(path.dirname(reportPath(day)), { recursive: true });
-  fs.writeFileSync(reportPath(day), JSON.stringify({
+  const report = reportPath(tag, day);
+  fs.mkdirSync(path.dirname(report), { recursive: true });
+  // every change, not a sample: the report is the only per-part record of which rule moved which SKU
+  fs.writeFileSync(report, JSON.stringify({
     generated_at: new Date().toISOString(), commit: a.commit, run_id: runId, vendor: a.vendor,
     rules_in_table: SKU_RULES.length, stats: statsOf(p, written),
     by_rule: p.by_rule, reason_only_by_rule: p.reason_only_by_rule, foreign_by_reason: p.foreign_by_reason,
-    changes_sample: p.changes.slice(0, 200),
+    changes_count: p.changes.length, changes: p.changes,
   }, null, 1) + "\n");
 
   console.log(`${a.commit ? (runId ? `COMMITTED run ${runId}` : "COMMIT — nothing to change") : "DRY RUN"} — reclassify ${a.vendor ?? "all vendors"} over ${SKU_RULES.length} SKU rules`);
@@ -246,7 +254,7 @@ export async function main(argv: string[]): Promise<void> {
   for (const [rule, v] of Object.entries(p.by_rule).sort((x, y) => y[1].count - x[1].count)) {
     console.log(`  ${rule.padEnd(28)} -> ${v.to.padEnd(9)} ${String(v.count).padStart(5)}  e.g. ${v.examples.slice(0, 6).join(", ")}`);
   }
-  console.log(`report -> runs/reports/reclassify-${day}.json`);
+  console.log(`report -> runs/reports/${path.basename(report)}`);
   if (written) console.log("NEXT: ingest recompute-completeness — a part that left `hardware` still carries its old required-field list.");
   await closePool();
 }

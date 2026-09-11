@@ -1,0 +1,13 @@
+# ops/netzspec-api-disk.cron — the database host measures its own free disk space every minute (ops/disk-probe.sh).
+#
+# Install on the box (a /etc/cron.d file carries the user field and survives reboots):
+#   install -m 644 /root/netzspec-api/ops/netzspec-api-disk.cron /etc/cron.d/netzspec-api-disk
+#   systemctl reload cron
+# Verify:  psql ... -c "SELECT * FROM host_disk"   (measured_at within the last minute)
+#          curl -s https://api.netzspec.com/health   ("disk" block)
+# Every run (openRun) refuses below 5 GB free or when the newest reading is older than ten minutes.
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+MAILTO=""
+
+* * * * *   root   /bin/bash /root/netzspec-api/ops/disk-probe.sh >> /var/log/netzspec-api-disk.log 2>&1

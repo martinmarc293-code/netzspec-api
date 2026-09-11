@@ -16,6 +16,7 @@ import fs from "node:fs";
 import type pg from "pg";
 import { getPool, withTx } from "./db.js";
 import { rollbackRun } from "./facts.js";
+import { assertDiskForRun } from "./diskGuard.js";
 
 /** A pool or a client inside a transaction: anything with pg's `query`. */
 export type Queryable = pg.Pool | pg.PoolClient;
@@ -190,9 +191,14 @@ export async function openRun(
   } catch {
     // A reaper that cannot run must never stop the work it was tidying up after.
   }
+  // THE DISK GUARD (12 Sep 2026, diskGuard.ts): no run starts below 5 GB free on the database host, or on a
+  // missing or stale reading. It throws BEFORE the row exists, so a refused run leaves nothing behind; the free
+  // space it saw is written onto the row, and an override or a test database is recorded in the inputs.
+  const disk = await assertDiskForRun(db);
+  const inputs = { ...(opts.inputs ?? {}), ...(disk.skipped ? { disk_guard: disk.skipped } : {}) };
   const r = await db.query<{ id: number }>(
-    "INSERT INTO runs (kind, inputs, git_sha, notes) VALUES ($1, $2::jsonb, $3, $4) RETURNING id",
-    [kind, JSON.stringify(opts.inputs ?? {}), opts.gitSha ?? null, opts.notes ?? null],
+    "INSERT INTO runs (kind, inputs, git_sha, notes, disk_free_bytes) VALUES ($1, $2::jsonb, $3, $4, $5) RETURNING id",
+    [kind, JSON.stringify(inputs), opts.gitSha ?? null, opts.notes ?? null, disk.free_bytes],
   );
   return r.rows[0].id;
 }
