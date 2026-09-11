@@ -4,6 +4,46 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-11 (night) - Opus/PARENT. Reviewer verdict: switches READY, transceiver NOT READY (2 fields). Worked through; transceiver needed far more than 2.**
+
+  **DONE AND VERIFIED** (commit 678606c; runs 955 sync, 956 reclassify 212, 957-959 retract 1+3 and
+  split-bidi-rx 30, 960 renormalize CD tolerance 17/5, 961 renormalize form_factor 34 (131 tier-0 held),
+  move-category 54, correct-tier0 1, recompute full + transceiver, 965 sync; suite 39/39, typecheck clean):
+  - TRANSCEIVER gets a derived kind (src/core/opticKind.ts): pluggable 1,395 / bidi 77 / tunable 46 /
+    adapter 18 / accessory 18. **The reviewer's own gates were unsafe**: `wavelength` cond on `mode` or
+    `tunable` — both facts hold 0 values, and requirementFor resolves a condition on an unanswered OPTIONAL
+    gate to `na`, so "wavelength unless tunable" would have closed `wavelength` on every optic.
+  - BiDi: `wavelength` = Tx (23/23 raws already store Tx); existing `rx_wavelength` required of bidi —
+    `wavelength_tx/_rx` would have been duplicates. Tx/Rx pair reader; 30 Rx facts split from own raws.
+  - Found by the census, missed by every earlier check: 171 FirePOWER SVP subscriptions filed as optics
+    (SFP7010-TAC-OPS) -> license; 9 form-factor names + 32 family placeholders -> non_product (the first
+    placeholder draft would have eaten 190 region-coded `-xx` switches — sabotage-proven refusal).
+  - reach_max was UNFILLABLE BY CONSTRUCTION: every value STRUCT_UNPARSED, "10 km" included — CLAUDE.md
+    §3's `ports` lesson on the one field an optic is bought on. Strict parser written (refusals tested).
+  - `mode` demoted to opt: 0 labels in the 23,651-label inventory, 0 Cisco facts. source-fields.json admits
+    every required key for Cisco by construction, so check 5 could not fail — the ledger now records, per
+    field, whether a source was SEEN or is listed only because a profile requires it.
+  - SFP-DD was stored as "sfp" (26 parts, 4 other vendors; my "0 parts" was Cisco-only) -> sfp-dd added.
+  - chromatic_dispersion_tolerance s -> nr (±X, |CD|<=X, ns/nm); 5 juniper multi-rate/unit-less retracted.
+  - SWITCHES: cable split (power-cord 187, stack-cable 65, stack-module 28, cable 46; 16 mgmt kits ->
+    accessory); stacking_technology (ls, opt); chassis trade-off recorded; /v1/fields superseded_by
+    (migration 0015). Operator: 54 CSP-*/C885A parts -> servers; SFP-10G-OLT20-X 2475 -> 2.475 W.
+  - LEDGERS: data/ledger/cisco-switches.json (7,413 parts, 199,381 slots) and cisco-transceiver.json
+    (1,554 parts, 21,258 slots), guarded by tests/cupLedger.test.ts. Only flag: switch `layer` seed-only.
+
+  **HELD FOR THE OPERATOR**: 131 tier-0 form_factor seed rows (72 OSFP + 15 SFP-DD stored as sfp, 44
+  two-ended cables) listed in runs/reports/renormalize-tier0-2026-09-11.jsonl; UCSC-885A-M8-H12 (not named
+  in the approval); CVR328W-K9-CN (a router in transceiver). Disk: see the reply.
+
+  **FINDINGS FOR OTHER LANES (sent, not written)**: juniper's 471 reach_max facts are stored as
+  {m, values_m} (not the declared shape); a renormalize dry run converts 376 and would retract 95 multi-reach
+  cells — not committed, juniper's pipeline would re-write the old shape.
+
+  **TRAPS HIT**: a `sed` range read as one rule invented an alias defect (withdrawn); `--help` on
+  build-source-fields ran it (file only, no DB write).
+
+  **NEXT**: reviewer verdict on this batch; then routers (class residue 735 first).
+
 - **2026-09-11 (evening) - Opus/PARENT. The reviewer's five-check re-audit worked through, every premise measured first.**
 
   **DONE AND VERIFIED** (commits 82f8f5f, d98db20; runs 950 sync, 951 reclassify 14, 952 rekey 283,
