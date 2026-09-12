@@ -502,8 +502,18 @@ for (const f of files) {
     "data-center-networking": 0.0,
   };
   const CATALOGUE_CEILING = 7.0;   // measured 6.90%; the target is under 5%
-  type Fallback = { kinds: string[]; parts: number; hardware_parts: number; facts3: number; device_noun: number };
+  // TWO AXES (round-6 reviewer §8.2, 12 Sep 2026). `parts`/`facts3`/`device_noun` at the top level
+  // keep the UNRESOLVED-KIND meaning so the ceilings above compare like with like across the change.
+  // `asked_nothing` is the profile property and is the real phase-1 number; `either` is the union,
+  // and the two detectors are judged over the UNION so a kind with a perfectly good name cannot
+  // shelter a real product from them — `servers-unified-computing.bundle` held 1,432 parts asked
+  // nothing, 95 of them with a device noun, and not one was visible in the old single-axis count.
+  type Axis = { kinds: string[]; parts: number; facts3: number; device_noun: number };
+  type Fallback = Axis & { hardware_parts: number; asked_nothing?: Axis;
+    unresolved_kind?: Axis & { asked_at_least_one_cup: number }; either?: Axis };
   let parts = 0, hardware = 0, facts3 = 0, noun = 0, looked = 0;
+  let askedNothing = 0, unresolvedAskedSomething = 0, unionFacts3 = 0, unionNoun = 0;
+  const namedZero: string[] = [];
   const over: string[] = [];
   for (const f of files) {
     const led = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")) as Ledger & { totals: { fallback?: Fallback } };
@@ -515,6 +525,18 @@ for (const f of files) {
     if (!fb) continue;
     looked++;
     parts += fb.parts; hardware += fb.hardware_parts; facts3 += fb.facts3; noun += fb.device_noun;
+    // THE SECOND AXIS IS A REQUIRED FIELD, not an optional extra: a ledger built before it existed
+    // must fail rather than skip, the same rule as the census block above.
+    check(`${f}: the ledger carries the asked-nothing axis`, !!fb.asked_nothing && !!fb.either,
+      "rebuild it: npx tsx scripts/build-cup-ledger.mts --category <slug>");
+    if (!fb.asked_nothing || !fb.either || !fb.unresolved_kind) continue;
+    askedNothing += fb.asked_nothing.parts;
+    unresolvedAskedSomething += fb.unresolved_kind.asked_at_least_one_cup;
+    unionFacts3 += fb.either.facts3; unionNoun += fb.either.device_noun;
+    // A kind asked nothing whose name is NOT one of the shrugs is the B1 shape: named, so it fell
+    // out of every previous count, and asked nothing, so every one of its cups closed in silence.
+    for (const k of fb.asked_nothing.kinds)
+      if (!fb.unresolved_kind.kinds.includes(k)) namedZero.push(`${led.category}.${k}`);
     const share = fb.hardware_parts ? (100 * fb.parts) / fb.hardware_parts : 0;
     const ceiling = CEILING[led.category];
     check(`${led.category}: the fallback share has a ceiling in this test`, ceiling !== undefined,
@@ -531,6 +553,23 @@ for (const f of files) {
   const catalogueShare = hardware ? (100 * parts) / hardware : 0;
   check(`the catalogue-wide fallback share is at or under ${CATALOGUE_CEILING}% (measured ${catalogueShare.toFixed(2)}%, target under 5%)`,
     catalogueShare <= CATALOGUE_CEILING, `${parts} of ${hardware}`);
+
+  // ---- THE ASKED-NOTHING AXIS ------------------------------------------------------------------
+  // The number the phase is actually judged on, and it is LARGER than the one this project has been
+  // publishing: 3,071 against 2,929, because the two sets overlap without either containing the
+  // other. The ceiling records today's measurement; the target is the same under-5%.
+  const ASKED_NOTHING_CEILING = 3100;
+  check(`parts asked NOTHING are at or under ${ASKED_NOTHING_CEILING} (measured ${askedNothing}; the unresolved-kind count is ${parts}, and neither contains the other)`,
+    askedNothing <= ASKED_NOTHING_CEILING, `${askedNothing} of ${hardware}`);
+  check(`the ceiling is still close to the measurement (${askedNothing} vs ${ASKED_NOTHING_CEILING})`,
+    askedNothing > ASKED_NOTHING_CEILING - 250,
+    `it fell — lower the ceiling to ${Math.ceil(askedNothing / 50) * 50} and record the win`);
+  // THE TWO NUMBERS MUST DISAGREE, and the test says so out loud. If they ever became equal it
+  // would mean one axis had been derived from the other, which is the conflation this exists to end.
+  check(`the axes are measured independently (${unresolvedAskedSomething} unresolved-kind parts ARE asked a cup; ${namedZero.length} named kinds are asked nothing)`,
+    unresolvedAskedSomething > 0 && namedZero.length > 0,
+    `unresolved-but-asked ${unresolvedAskedSomething}, named-but-empty ${namedZero.join(", ") || "none"}`);
+  lines.push(`    asked nothing: ${askedNothing} parts (${namedZero.length} NAMED kinds among them: ${namedZero.join(", ")}) · ${unresolvedAskedSomething} unresolved-kind parts are asked at least one cup`);
 
   /**
    * (b) ZERO FALLBACK PARTS THAT LOOK LIKE A REAL PRODUCT — and this is the real check, because it is
@@ -553,13 +592,19 @@ for (const f of files) {
    *               batches, not one at a time, so the honest statement is a ceiling and a note, not a
    *               pass. It was 710 before this work.
    */
-  check("ZERO fallback parts hold three or more facts of their own", facts3 === 0,
-    `${facts3} do — a fallback kind asking nothing scores every one of them complete (see the UNITY-PIMG case)`);
-  const DEVICE_NOUN_CEILING = 159;   // NOT a target: the target is 0. See the note above.
-  check(`fallback parts whose NAME names a device are at or under the ceiling of ${DEVICE_NOUN_CEILING} (measured ${noun})`,
-    noun <= DEVICE_NOUN_CEILING,
+  // OVER THE UNION of both axes: judging only the unresolved half is how 1,432 bundle parts, 95 of
+  // them named after a whole box, stayed outside the detectors for the life of this census.
+  check("ZERO parts in an unresolved OR empty kind hold three or more facts of their own", unionFacts3 === 0,
+    `${unionFacts3} do — a kind asking nothing scores every one of its parts complete (see the UNITY-PIMG case)`);
+  // RE-BASELINED 12 Sep 2026 FROM 159 TO THE UNION, and upward, which is the honest direction: the
+  // old 159 counted only the unresolved axis, and the reviewer was right that a ceiling-with-a-note
+  // is a weak carrier for a known failure. It stays a ceiling for one round because the union adds
+  // 95 bundle rows that have never been read one at a time; the fix is the kind, not the number.
+  const DEVICE_NOUN_CEILING = 260;   // NOT a target: the target is 0. See the note above.
+  check(`parts in an unresolved OR empty kind whose NAME names a device are at or under ${DEVICE_NOUN_CEILING} (measured ${unionNoun}; unresolved half ${noun})`,
+    unionNoun <= DEVICE_NOUN_CEILING,
     "this ceiling CODIFIES TODAY'S FAILURE: the property is zero and the measurement is not");
-  lines.push(`    fallback census: ${parts} of ${hardware} parts in a fallback kind (${catalogueShare.toFixed(2)}%, target <5%) · ${facts3} hold 3+ own facts (asserted 0) · ${noun} name a device (ceiling ${DEVICE_NOUN_CEILING}, target 0)`);
+  lines.push(`    fallback census: ${parts} of ${hardware} parts in a fallback kind (${catalogueShare.toFixed(2)}%, target <5%) · ${unionFacts3} hold 3+ own facts (asserted 0) · ${unionNoun} name a device over the union of both axes (${noun} in the unresolved half; ceiling ${DEVICE_NOUN_CEILING}, target 0)`);
 
   // SABOTAGE, on a census nobody committed, so the two thresholds cannot be checks that never fail.
   const judge = (fb: Fallback, ceiling: number): string[] => {

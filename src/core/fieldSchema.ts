@@ -732,7 +732,19 @@ const opt: Requirement = { kind: "opt" };
 // it, check which parts the scorer actually hands to the profile — that is what caught it here.
 const na: Requirement = { kind: "na" };
 void na; // kept for the case above; referenced so an unused-symbol check cannot silently drop it
-const cond = (when: Condition): Requirement => ({ kind: "cond", when });
+/**
+ * `cond(when)` — required when the condition holds; `na` when it does not.
+ * `cond(when, { elseOpt: true })` — required when it holds, OPTIONAL when it does not.
+ *
+ * The second form is how a gate stops closing a cup in silence. `na` is permanent, so an unmet
+ * condition that resolves to `na` ends the question; with `elseOpt` the answer is "not required of
+ * you, but say so if you know", which is the only honest shape when the discriminator is real and
+ * nothing answerable expresses it (switches `airflow`, `ip_rating`, `module_slots` — R1, 12 Sep
+ * 2026). It is also what makes an optional gate permissible under R1 at all: see
+ * tests/gateR1.test.ts, which refuses any other cond whose gate is not required.
+ */
+const cond = (when: Condition, opts?: { elseOpt?: boolean }): Requirement =>
+  opts?.elseOpt ? { kind: "cond", when, elseOpt: true } : { kind: "cond", when };
 
 // Declared here rather than beside completenessV2 because `deviceOnly` below runs at module
 // initialisation and must see it. Its documentation stays with the scorer that reads it.
@@ -1607,7 +1619,12 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
       { all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", ne: "modular-chassis" }] },
     ] }),
     uplink_modular: opt,
-    module_slots: cond({ any: [{ field: "form_factor", eq: "modular-chassis" }, { field: "uplink_modular", eq: true }] }),
+    // R1: `uplink_modular` is `opt`, holds ZERO facts and NO label in the 23,651-label inventory
+    // maps to it — a boolean nothing can ever answer, so the branch could only ever contribute a
+    // silent `na`. Gated on `form_factor` alone (required, 145 occurrences) with elseOpt, so a
+    // FIXED switch with a network-module slot can still hold the 234 facts this cup already has
+    // ("NIM slots" x8, "Expansion Slot" x7) instead of being told the question does not apply.
+    module_slots: cond({ field: "form_factor", eq: "modular-chassis" }, { elseOpt: true }),
     // mgmt_ports holds ZERO facts across every Cisco category, not merely across this one —
     // measured 10 Sep 2026, and the four mentions in data/schema/source-fields.json are
     // added_by_profile entries (a field a profile CAN require), never evidence that anything
@@ -1681,7 +1698,22 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // the same supply with the air going opposite ways, and FEX packs come as "Standard" or "Reversed
     // airflow pack". Fillable — "Airflow" / "Airflow direction" / "Air flow" occur 185 times in the
     // datasheet inventory, and 145 fans and PSUs already hold a value. Switches keep the role gate.
-    airflow: cond({ any: [{ field: "kind", inList: ["fan", "power", "fex"] }, { field: "deploy_role", inList: ["datacenter-tor", "aggregation", "core"] }] }),
+    // R1 (12 Sep 2026, round-6 reviewer B7 and one instance the reviewer could not see): THE
+    // `deploy_role` BRANCH WAS A SILENT CLOSURE. `deploy_role` is `opt` in this profile, and
+    // tests/pendingRequirement.test.ts records the deliberate decision that an unanswered OPTIONAL
+    // gate resolves to `na` rather than `pending` — correct, because nobody is obliged to answer it.
+    // The consequence here was that `airflow` was NOT APPLICABLE to all 4,931 parts of kind
+    // `switch`: a cup with 187 label occurrences in the inventory ("Airflow" x119, "Airflow
+    // direction" x50, "Air flow" x16) and 225 stored facts, closed for the category's largest kind
+    // without anyone deciding to close it. It is invisible to a dead-gate scan over the ledger,
+    // which can only see cups still in `pending_until_gate_answered` — this one had already gone.
+    //
+    // `deploy_role` cannot be the discriminator: 2 facts catalogue-wide and NO label maps to it, so
+    // it will never be answered. A ToR switch does publish airflow and an access switch does not,
+    // and no answerable cup separates them — so the honest shape is the one the routers profile
+    // already chose for the same reason: REQUIRED of the kinds that are sold by it, OPTIONAL (never
+    // `na`) of everything else, so a value is accepted the day one is extracted.
+    airflow: cond({ field: "kind", inList: ["fan", "power", "fex"] }, { elseOpt: true }),
     // --- physical: the box, and the parts that have their own -----------------------------------
     power_typical: cond({ field: "kind", inList: [...SW_BOX] }),
     // A PSU's wattage is what it DELIVERS (psu_rated_output), not what it draws (power_max): all 277
@@ -1713,7 +1745,13 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // power cords, stack cables and other cables have a length; a stack MODULE or KIT does not (§1.2)
     cable_length: cond({ field: "kind", inList: [...SW_CABLE] }),
     plug_type: opt,
-    ip_rating: cond({ any: [{ field: "form_factor", eq: "din-rail" }, { field: "deploy_role", eq: "industrial" }] }),
+    // R1: the `deploy_role` branch is dropped for the reason above — it is `opt`, unfillable (2
+    // facts, no label), and its presence made this cup`s only live branch an unanswerable one.
+    // `form_factor` IS required of a switch and has 145 label occurrences, and Cisco's industrial
+    // sheets give the IE/IR line a din-rail form factor, so the surviving branch is the fillable
+    // one. elseOpt: a switch whose form factor is rack-19 may still state an IP rating (9 facts,
+    // 21 labels) and is no longer told it cannot have one.
+    ip_rating: cond({ field: "form_factor", eq: "din-rail" }, { elseOpt: true }),
     // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
     psu_efficiency: opt, power_cord_rating: opt, box_contents: opt, qos_queues: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now

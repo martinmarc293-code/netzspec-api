@@ -47,7 +47,15 @@ check("rack_units N/A for DIN-rail", requirementFor("switches", "rack_units", di
 check("ipv4_routes required for L3", requirementFor("switches", "ipv4_routes", rackPoe) === "req");
 check("ipv4_routes N/A for L2", requirementFor("switches", "ipv4_routes", dinNoPoe) === "na");
 check("ip_rating required for DIN-rail", requirementFor("switches", "ip_rating", dinNoPoe) === "req");
-check("ip_rating N/A for rack", requirementFor("switches", "ip_rating", rackPoe) === "na");
+// CHANGED 12 Sep 2026 FROM `na` TO `opt`, deliberately (R1, tests/gateR1.test.ts). This line used to
+// assert `na` and that was the honest reading of the old two-branch condition
+// `form_factor = din-rail OR deploy_role = industrial` — but `deploy_role` is `opt`, holds 2 facts
+// and no label maps to it, so the second branch could never fire and `na` was a permanent closure
+// reached by accident rather than by decision. The cup has 9 facts and 21 label occurrences, so a
+// rack switch that states an IP rating should be able to. `opt` accepts the value and still keeps it
+// out of the denominator, which is what the assertion below checks and what `na` was here for.
+check("ip_rating OPTIONAL for rack — not `na`, which closed the cup for every non-DIN switch",
+  requirementFor("switches", "ip_rating", rackPoe) === "opt");
 check("unknown field is na", requirementFor("switches", "does_not_exist", rackPoe) === "na");
 
 // ---- the denominator actually discriminates -------------------------------------------------------

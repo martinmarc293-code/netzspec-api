@@ -166,13 +166,57 @@ async function main(): Promise<void> {
   byKind.delete("non-hardware");
   // fallback-kinds (12 Sep 2026): the census totals, computed BEFORE the per-kind loop drops anything,
   // so the share has the category's own hardware count as its denominator and not the survivors'.
+  //
+  // TWO AXES, NOT ONE — round-6 reviewer §8.2, and they were conflated in every number this project
+  // has published about the arrangement phase.
+  //
+  //   ASKED NOTHING     the kind's question set is empty: slots_per_part_at_nothing_known == 0.
+  //                     THIS is the phase-1 number. It is a property of the PROFILE.
+  //   UNRESOLVED KIND   the kind name means "the axis could not say" (FALLBACK_KINDS). A property
+  //                     of the CLASSIFIER.
+  //
+  // They are independent, and reporting only the second understated the problem in one direction
+  // and overstated it in the other. Measured at f806b65: 2,929 parts sat in an unresolved kind and
+  // the project called that "asked ~nothing", but 1,426 of them ARE asked a cup (every `accessory`
+  // kind except transceiver's asks `product_compatibility`; meraki's `unknown` asks seven), while
+  // 1,568 parts asked literally nothing sat in kinds with PERFECTLY GOOD NAMES and so fell out of
+  // the count entirely — `servers-unified-computing.bundle` 1,432 of them, 95 with a device noun in
+  // the name, none of which the 158 could see. A SmartPlay bundle is a server; asking it nothing is
+  // term 2, and the fact that `bundle` is a name rather than a shrug is not a defence.
+  //
+  // So both are emitted, both detectors are summed over the UNION, and tests/cupLedger.test.ts
+  // asserts both. A named kind can no longer hide a real product from the phase number.
+  const askedNothing = (k: string): boolean => {
+    if (!LEDGER_KINDS[category].includes(k)) return false;   // "(none)" and any unlisted kind
+    try { return slotsAtNothingKnown(kindQuestionSet(category, k)) === 0; } catch { return false; }
+  };
+  const census = (pred: (k: string) => boolean) => {
+    const rows = [...byKind].filter(([k]) => pred(k));
+    return {
+      kinds: rows.map(([k]) => k).sort(),
+      parts: rows.reduce((a, [, b]) => a + b.n, 0),
+      facts3: rows.reduce((a, [, b]) => a + b.facts3, 0),
+      device_noun: rows.reduce((a, [, b]) => a + b.noun, 0),
+    };
+  };
+  const isUnresolved = (k: string) => FALLBACK_KINDS.has(k);
   const fallbackCensus = {
-    _about: "parts in a kind that means 'the axis could not say'. `facts3` and `device_noun` are the two detectors for a real product swallowed by a fallback: a part holding three or more facts of its own, and a part whose NAME names a whole box. Both are asserted by tests/cupLedger.test.ts.",
-    kinds: [...byKind.keys()].filter((k) => FALLBACK_KINDS.has(k)).sort(),
-    parts: [...byKind].filter(([k]) => FALLBACK_KINDS.has(k)).reduce((a, [, b]) => a + b.n, 0),
+    _about: "TWO AXES. `asked_nothing` = the kind's question set is empty (a profile property, and the phase-1 number). `unresolved_kind` = the kind name means the axis could not say (a classifier property). They are independent: a named kind can be asked nothing, and an unresolved kind can be asked a cup. `facts3` and `device_noun` are the two detectors for a real product swallowed by either: a part holding three or more facts of its own, and a part whose NAME names a whole box. tests/cupLedger.test.ts asserts both axes.",
     hardware_parts: parts.length,
-    facts3: [...byKind].filter(([k]) => FALLBACK_KINDS.has(k)).reduce((a, [, b]) => a + b.facts3, 0),
-    device_noun: [...byKind].filter(([k]) => FALLBACK_KINDS.has(k)).reduce((a, [, b]) => a + b.noun, 0),
+    asked_nothing: census(askedNothing),
+    unresolved_kind: {
+      ...census(isUnresolved),
+      asked_at_least_one_cup: [...byKind].filter(([k]) => isUnresolved(k) && !askedNothing(k)).reduce((a, [, b]) => a + b.n, 0),
+    },
+    // The union is what the two standing tests judge, so neither axis can shelter a part from them.
+    either: census((k) => askedNothing(k) || isUnresolved(k)),
+    // KEPT at the old names and the old meaning (the unresolved axis) so the ratchet in
+    // tests/cupLedger.test.ts compares like with like across this change rather than re-baselining
+    // silently. The new axis is asserted beside it, not instead of it.
+    kinds: census(isUnresolved).kinds,
+    parts: census(isUnresolved).parts,
+    facts3: census(isUnresolved).facts3,
+    device_noun: census(isUnresolved).device_noun,
   };
   const unknownKinds = [...byKind.keys()].filter((k) => !LEDGER_KINDS[category].includes(k));
   if (unknownKinds.length) throw new Error(`parts carry kinds the ledger does not list: ${unknownKinds.join(", ")} — add them to LEDGER_KINDS`);

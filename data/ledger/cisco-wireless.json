@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "wireless",
  "profile_hash": "05c468e66379e563",
- "built_on_commit": "0309da6",
+ "built_on_commit": "b7a373a",
  "norm_version": "1.6.2",
  "declared_fields": 406,
  "gap_states": {
@@ -36,13 +36,42 @@
   "pending_reclassification": 0,
   "pending_reclassification_stored_slots": 0,
   "fallback": {
-   "_about": "parts in a kind that means 'the axis could not say'. `facts3` and `device_noun` are the two detectors for a real product swallowed by a fallback: a part holding three or more facts of its own, and a part whose NAME names a whole box. Both are asserted by tests/cupLedger.test.ts.",
+   "_about": "TWO AXES. `asked_nothing` = the kind's question set is empty (a profile property, and the phase-1 number). `unresolved_kind` = the kind name means the axis could not say (a classifier property). They are independent: a named kind can be asked nothing, and an unresolved kind can be asked a cup. `facts3` and `device_noun` are the two detectors for a real product swallowed by either: a part holding three or more facts of its own, and a part whose NAME names a whole box. tests/cupLedger.test.ts asserts both axes.",
+   "hardware_parts": 4017,
+   "asked_nothing": {
+    "kinds": [
+     "bundle",
+     "other"
+    ],
+    "parts": 274,
+    "facts3": 0,
+    "device_noun": 12
+   },
+   "unresolved_kind": {
+    "kinds": [
+     "accessory",
+     "other"
+    ],
+    "parts": 236,
+    "facts3": 0,
+    "device_noun": 11,
+    "asked_at_least_one_cup": 44
+   },
+   "either": {
+    "kinds": [
+     "accessory",
+     "bundle",
+     "other"
+    ],
+    "parts": 318,
+    "facts3": 0,
+    "device_noun": 13
+   },
    "kinds": [
     "accessory",
     "other"
    ],
    "parts": 236,
-   "hardware_parts": 4017,
    "facts3": 0,
    "device_noun": 11
   }
