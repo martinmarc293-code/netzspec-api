@@ -48,13 +48,16 @@ import { WL_AP, WL_BOX, WL_PORTED } from "./wirelessKind.js";
 import { VIDEO_BOX, VIDEO_EMITTER, type VideoKind } from "./videoKind.js"; // video (12 Sep 2026)
 // collab (12 Sep 2026)
 import { COLLAB_ENDPOINT, COLLAB_CALLING, COLLAB_VIDEO, COLLAB_SCREEN, COLLAB_FITS, COLLAB_CABLE } from "./collabKind.js";
-import { RT_DEVICE, RT_PORTED, RT_COMPONENT, RT_CABLE } from "./routerKind.js"; // routers (12 Sep 2026)
+import { RT_DEVICE, RT_DEVICE_PORTED, RT_BRANCH, RT_PORTED, RT_COMPONENT, RT_CABLE } from "./routerKind.js"; // routers (12 Sep 2026)
 // optical-storage (12 Sep 2026)
 import { OPN_SHELF, OPN_PLUGGABLE, OPN_FIXED_WAVELENGTH, OPN_POWERED, OPN_WAVELENGTH_ROUTING, OPN_FITS } from "./opticalKind.js";
 import { SAN_BOX, SAN_MODULE, SAN_FITS } from "./sanKind.js";
 // end optical-storage
 // modules-misc (12 Sep 2026)
-import { MOD_COMPONENT, MOD_PORTED, MOD_SLOTTED } from "./moduleKind.js";
+// modules-r8 (12 Sep 2026): MOD_SLOTTED came off this import with the constant. It was imported and
+// never used — a kind list this file consulted for nothing — and MOD_PHYSICAL beside it was never
+// imported at all. Both are deleted in moduleKind.ts; the note there says why.
+import { MOD_COMPONENT, MOD_PORTED } from "./moduleKind.js";
 import { MK_BOX, MK_PORTED, MK_POWERED } from "./merakiKind.js";
 
 export type Requirement =
@@ -334,6 +337,17 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   threat_throughput: { key: "threat_throughput", de: "Threat-Inspection-Durchsatz", en: "Threat inspection throughput", type: "n", unit: "Gbit/s", band: [0.02, 5000], etim: [], icecat: null },
   ips_throughput: { key: "ips_throughput", de: "IPS-Durchsatz", en: "IPS throughput", type: "n", unit: "Gbit/s", band: [0.02, 5000], etim: [], icecat: null },
   vpn_throughput: { key: "vpn_throughput", de: "IPsec-VPN-Durchsatz", en: "IPsec VPN throughput", type: "n", unit: "Gbit/s", band: [0.01, 5000], etim: [], icecat: null },
+  // security-r6 (12 Sep 2026) -------------------------------------------------------------------
+  // CURATED OVERRIDE of the generated entry, which has a unit and NO BAND. It is required of the
+  // firewall shapes from today, and a required numeric with no plausibility range cannot refuse an
+  // implausible value — the shape that once stored 100 ports on a single-port transceiver. Checked
+  // against everything that exists: stored facts min 1.0 max 1.5 Gbit/s (1210CE, 1210CP, 1220CX,
+  // from the Secure Firewall 1200 datasheet), and the label values in the 23,651-label inventory
+  // run 16.99 Mbps ("Performance: SSL throughput", an ACE figure) to 50 Gbps ("SSL bulk encryption
+  // throughput (Gbps)", Firepower 9300). Floor 0.01 sits under the smallest of those; ceiling 5000
+  // is the one its four sibling throughput cups use, so the whole family ranks on one scale.
+  tls_throughput: { key: "tls_throughput", de: "TLS-/SSL-Durchsatz", en: "TLS/SSL decryption throughput", type: "n", unit: "Gbit/s", band: [0.01, 5000], etim: [], icecat: null },
+  // end security-r6 (12 Sep 2026) ---------------------------------------------------------------
   // TWO SYNONYM PAIRS, RECORDED RATHER THAN MERGED (9 Sep 2026). Each curated key above has a
   // GENERATED twin that different datasheets spell differently, so one measurement lands under
   // two keys depending on which page it came from:
@@ -402,7 +416,68 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
     key: "wifi_generation", de: "WLAN-Generation", en: "Wi-Fi generation", type: "e",
     domain: ["wi-fi 4", "wi-fi 5", "wi-fi 6", "wi-fi 6e", "wi-fi 7"], etim: [], icecat: null,
   },
-  spatial_streams: { key: "spatial_streams", de: "Spatial Streams", en: "Spatial streams", type: "s", examples: ["4x4:4", "2x2:2", "8x8:8"], etim: [], icecat: null },
+  // wireless-r7 (12 Sep 2026) ---------------------------------------------------------------------
+  // SPATIAL STREAMS BECAME AN ENUM, and the domain is the catalogue's own eight configurations.
+  // `spatial_streams` is declared by ONE category (wireless: 506 facts, 13 distinct values; no other
+  // Cisco category holds a single fact under it — checked across all 17 censuses), so retyping it
+  // costs no other category anything, which is the whole reason it can be closed and `radio_bands`
+  // cannot (see DOMAIN_OVERRIDES for that argument).
+  //
+  // The eight members cover 501 of the 506 stored facts:
+  //   4x4:3 234 · 4x4:4 83 · 2x2 57 · 3x4:3 51 · 4x4 27 · 2x2:2 26 · 3x3:2 21 · 8x8:8 2
+  // "4x4" is NOT folded into "4x4:4" and "2x2" not into "2x2:2": an array size with no stream count
+  // is what the source said, and inventing the third number is how "4x4:3" would become a lie.
+  //
+  // THE OTHER FIVE ARE REFUSED, and each is refused for a reason the value states:
+  //   CW9174E "10 or 8 (2x2+4x4+4x4 or 4x4+4x4)"   — ALTERNATIVES: a capability statement, not a spec
+  //   MR46E   "8 (4x4 + 4x4)"                      — a stream TOTAL across two radios
+  //   MR44/MR56 "2.4GHz: 2 x 2 … 5GHz: 4 x 4 …"    — two radios in one cell; picking one is classifying
+  //   MR46    "4 x 4 … (MIMO) with four spatial streams" — a single radio in PROSE. Foldable in
+  //           principle; left refused because a rule written for one row is a rule that fits one row,
+  //           and the fix belongs in the Meraki extractor (report, proposal M1).
+  spatial_streams: {
+    key: "spatial_streams", de: "Spatial Streams", en: "Spatial streams", type: "e",
+    domain: ["2x2", "2x2:2", "3x3:2", "3x4:3", "4x4", "4x4:3", "4x4:4", "8x8:8"], etim: [], icecat: null,
+  },
+  // REGULATORY DOMAIN — a NEW cup (reviewer round 3 item 7). A Cisco access point is ORDERED per
+  // regulatory domain: AIR-AP1832I-B-K9 is the same hardware as -E with a different channel set, and
+  // a buyer who takes the wrong one cannot deploy it. 311 part NAMES state it in words ("Reg Domain
+  // A", "B Reg Domain (for US)", "-A Regulatory Domain", "P Domain") and 1,443 of the 2,756 AP SKUs
+  // carry the token; the datasheet does NOT state it — its "Regulatory domains" row (20 occurrences)
+  // holds a note pointing at Cisco's compliance lookup, which is why the fill path is the four
+  // `wl-reg-domain-*` description patterns and not an alias (see the report).
+  //
+  // AN ENUM, NOT A FREE STRING, AND THAT IS THE POINT. "NA" is North America here; under type "s" the
+  // placeholder guard below `PLACEHOLDER_VALUE` in specNormalize reads "NA" as "not applicable" and
+  // deletes the answer. The guard's own comment names this field as the reason it is scoped to s/ls.
+  // tests/specNormalize.refusals asserts both halves: "NA" is ACCEPTED here and refused as a
+  // placeholder under a type-"s" key.
+  //
+  // THE DOMAIN IS TWO NOTATIONS BECAUSE THE VENDOR USES TWO, measured over the 6,269 Cisco wireless
+  // parts (replay in the report):
+  //   20 letters  a b c d e f g h i j k l m n p q r s t z — Aironet/Catalyst/CBW/WAP APs. 19 have
+  //               direct NAME evidence (305 parts, and the letter AGREES with the SKU token in 305 of
+  //               305, 0 disagreements); `j` is evidenced by the SKU alone (AIR-AP3802H-J-K9,
+  //               WAP125-J-K9-JP, 7 parts). o/u/v/w/x/y are absent from the catalogue and absent here.
+  //   universal   38 parts, "Bulk PID for Universal Domain" / "3x3:2SS; Int Ant; Universal Domain"
+  //   row         3 parts, C9124AXE-EWC-ROW "ROW Regulatory Domain"
+  //   na          Fluidmesh FLMESH-HW-*-1NA / -2NA (7 parts) — the North-America variant
+  //   nam-lam     the same 7 parts' NAMES: "FM3200B-HW, NAM/LAM Version", "NAM, LAM, CANADA Version"
+  //               — ONE orderable variant approved for two regions, so it is one member and not a
+  //               refusal; folding it to `na` would drop what the vendor actually shipped.
+  // NOT in the domain, deliberately: "etsi" and "fcc". Every part whose name says ETSI or FCC
+  // (AIR-CAP1552E-E-K9 "ETSI config", AIR-CT100-1140A30 "FCC Cfg") ALSO carries the domain letter in
+  // its SKU, so the region word is a second notation for a value that is already better sourced; and
+  // AIR-AMERICAS / AIR-EMEA ("Regulatory Domain Configuration for Americas (FCC)") are ordering
+  // options, not products. Mapping a letter onto a region (-A -> Americas) needs Cisco's own
+  // regulatory-domain table, which the corpus does not carry: an operator question, not a guess.
+  regulatory_domain: {
+    key: "regulatory_domain", de: "Regulierungsbereich", en: "Regulatory domain", type: "e",
+    domain: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "p", "q", "r", "s",
+      "t", "z", "na", "nam-lam", "row", "universal"],
+    etim: [], icecat: null,
+  },
+  // end wireless-r7 ---------------------------------------------------------------------------------
   radio_count: { key: "radio_count", de: "Anzahl Funkmodule", en: "Radio count", type: "n", band: [1, 8], etim: [], icecat: null },
   max_data_rate: { key: "max_data_rate", de: "Max. Datenrate", en: "Maximum data rate", type: "n", unit: "Gbit/s", band: [0.05, 100], etim: [], icecat: null },
   ap_max_clients: { key: "ap_max_clients", de: "Max. Clients je AP", en: "Max clients per AP", type: "n", band: [1, 10000], etim: [], icecat: null },
@@ -421,8 +496,41 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // no safe domain kept as strings, sensible bands on numerics. These map the ~7.3k per-SKU facts
   // the switch-shaped dictionary could not name.
   advanced_functions: { key: "advanced_functions", de: "Erweiterte Funktionen", en: "Advanced functions", type: "ls", etim: [], icecat: null },
-  antenna_connector: { key: "antenna_connector", de: "Antennenanschluss", en: "Antenna connector", type: "s", etim: [], icecat: null },
+  // wireless-r7 (12 Sep 2026) — CLOSED. `antenna_connector` is declared by one category (wireless,
+  // 99 facts, two spellings: "RP-TNC" 85, "N-type" 14) so the type change reaches nobody else. The
+  // domain is five members because the LABEL values name five connectors, not two: "Antenna
+  // Connector" (3 occurrences) holds "QMA, female" and "RF Mesh N connector (female)", "Coaxial
+  // connectors" (3) holds "2x Cu-Sn-Zn-plated QMA", and AIR-ANT3351's own name states MMCX; SMA
+  // appears on Fluidmesh coax (FM-QMA2SMA, FM-LMR240-RPSMA2N). A bare "TNC" is NOT a member — reverse
+  // polarity is a different connector and no antenna in the catalogue states one.
+  // A CELL NAMING TWO DIFFERENT CONNECTORS IS REFUSED rather than resolved by rule order: "RF Mesh
+  // QMA (female), GPS: SMA (female)" is a radio connector and a GPS connector in one cell, and
+  // first-match-wins would silently pick whichever rule came first (the two-ended-cable defect in
+  // form_factor, one cup over). ENUM_RULES.antenna_connector maps it to `multiple-connectors`, which
+  // is not in the domain, so it quarantines naming what it is.
+  antenna_connector: {
+    key: "antenna_connector", de: "Antennenanschluss", en: "Antenna connector", type: "e",
+    domain: ["rp-tnc", "n-type", "qma", "sma", "mmcx"], etim: [], icecat: null,
+  },
   antenna_gain: { key: "antenna_gain", de: "Antennengewinn", en: "Antenna gain", type: "struct", unit: "dBi", shape: "{ band24: n, band5: n }", etim: [], icecat: null },
+  // CURATED OVERRIDE of the generated `antenna_type` (type "s", no domain) — reviewer round 4 §6.
+  // The question is INTERNAL OR EXTERNAL, and it is closed: the three stored facts are the AP1572
+  // datasheet's own SKU legend, "E: External antennas" and "I: Internal antennas"; the label
+  // "Internal antennas" (8 occurrences) holds "Internal fixed PiFA antenna"; and 594 of the 2,756 AP
+  // names state it in words (internal 337, external 257, ZERO naming both), which is the second fill
+  // path. `antenna_type` is declared by three categories and holds 5 facts in total, so closing it
+  // reaches almost nothing: the two meraki facts ("4x Omni-directional antennas (5.4 dBi gain at 2.4
+  // GHz…)") are refused, and they are a wrong pour — a pattern and a gain in an internal/external cup.
+  //
+  // THE PATTERN IS A DIFFERENT QUANTITY and does not belong here: "Dipole (On-Board)", "Sector 2x2
+  // MIMO", "Omnidirectional" describe the radiation pattern of an antenna, not whether an AP's
+  // antenna is built in. Those values are why `modulation_format` holds 14 antenna patterns in this
+  // category (retraction P1 in schema-dictionary-2026-09-12.md), and they are refused here too.
+  antenna_type: {
+    key: "antenna_type", de: "Antennentyp", en: "Antenna type", type: "e",
+    domain: ["internal", "external"], etim: [], icecat: null,
+  },
+  // end wireless-r7
   anyconnect_sessions: { key: "anyconnect_sessions", de: "AnyConnect-/Clientless-VPN-Benutzersitzungen", en: "AnyConnect/clientless VPN user sessions", type: "n", unit: "Sitzungen", band: [1, 5000000], etim: [], icecat: null },
   attenuation_dead_zone: { key: "attenuation_dead_zone", de: "Dämpfungstotzone", en: "Attenuation dead zone", type: "n", unit: "m", band: [0, 5000], etim: [], icecat: null },
   // Unit "°" -> "deg" (4 Sep 2026). This field and beamwidth_azimuth are the two halves of ONE
@@ -498,6 +606,25 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   breakout: { key: "breakout", de: "Breakout-Konfiguration", en: "Breakout configuration", type: "s", examples: ["1x4", "1x2", "1x8"], etim: [], icecat: null },
   tunable: { key: "tunable", de: "Wellenlänge durchstimmbar", en: "Tunable wavelength", type: "b", etim: [], icecat: null },
   dac_type: { key: "dac_type", de: "DAC-Typ (passiv/aktiv)", en: "DAC type (passive/active)", type: "e", domain: ["passive", "active"], etim: [], icecat: null },
+  // routers-r5 (12 Sep 2026) — nat_sessions RETYPED from `s` to a COUNT, reviewer §6 item 4.
+  // A NAT translation scale is a number, and the generated entry made it a free string, so the nine
+  // stored values are the text "100K", "2M", "12M", "16M", "32M" — a quantity nobody can compare,
+  // filter or band. It is also the shape that lets a placeholder in: nothing could have refused
+  // "NA" here, because only a number's band or an enum's domain can.
+  //
+  // THE RETYPE IS GLOBAL AND THAT WAS CHECKED, not assumed. `security` declares the key too, so the
+  // house rule is to use a per-category override rather than change a shared type — but an override
+  // exists for unit, domain and band and NOT for type. Measured across all 17 categories on 12 Sep
+  // 2026: nat_sessions holds 9 facts in the whole catalogue and every one is in `routers`, and the
+  // sibling `nat_entries` holds 0. So no other category's stored values move, and `security`'s own
+  // declaration is `opt` with nothing under it. Recorded in the report as a global change.
+  //
+  // BAND read off the catalogue's own values, which is the reviewer's instruction: stored 100,000
+  // (C1101-4P, C1111X-8P, C1121-4P) to 32,000,000 (C8500-20X6C), with 600K/1.2M/2M/12M/16M between.
+  // The floor of 1,000 refuses nothing real — Cisco's smallest published figure is 100K — and
+  // catches the shapes this file has paid for before: a bare "2024" read out of a date, and a count
+  // whose magnitude suffix was dropped ("100K" stored as 100).
+  nat_sessions: { key: "nat_sessions", de: "NAT-Sitzungen", en: "NAT sessions", type: "n", band: [1000, 100000000], etim: [], icecat: null },
   // A power cord's plug (CEE 7/7, NEMA 5-15P, SEV 1011). Declared OPTIONAL: no source label names it.
   plug_type: { key: "plug_type", de: "Steckertyp", en: "Plug type", type: "s", examples: ["CEE 7/7", "NEMA 5-15P", "SEV 1011"], etim: [], icecat: null },
   // psu_rated_output had no band. It becomes a REQUIRED field of every switches PSU on 11 Sep 2026,
@@ -658,7 +785,12 @@ export const DEVICE_GATED_CATEGORIES = [
  * The loop closes both halves at once, exactly as the generic one does.
  */
 export const AXIS_GATED_CATEGORIES: Readonly<Record<string, readonly string[]>> = {
-  "interfaces-modules": ["interface", "voice", "cellular", "radio", "service", "device"],
+  // modules-r8 (12 Sep 2026): `fabric` JOINS the list — an MDS crossbar fabric module is a card in a
+  // chassis slot, as much "the whole product" as an interface card, so a `req` that arrives in a
+  // future regeneration should reach it. `mux` DELIBERATELY DOES NOT, for the same reason `optic`,
+  // `cable` and `accessory` do not: a passive OADM has no electrical behaviour that a generated
+  // switch-or-router field would describe, and its real profile is `optical-networking`'s.
+  "interfaces-modules": ["interface", "fabric", "voice", "cellular", "radio", "service", "device"],
   meraki: ["unknown", "switch", "access-point", "appliance", "camera", "sensor", "gateway"],
   "data-center-networking": ["switch", "fex"],
 };
@@ -1694,7 +1826,63 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // band useless and any comparison between an ISE node and a firewall meaningless. ISE keeps
     // its own question below.
     concurrent_sessions: secShape(SEC_FIREWALL_KIND, SEC_FIREWALL),
-    ips_throughput: secShape(SEC_IPS_KIND, SEC_IPS),
+    // --- security-r6 (12 Sep 2026): THE FIVE CUPS A FIREWALL IS BOUGHT ON AND WAS NOT ASKED ----
+    // A Cisco NGFW performance table has one row per model and one COLUMN per figure, and the
+    // columns are: firewall throughput · threat/NGFW throughput · IPS throughput · IPsec VPN
+    // throughput · TLS throughput · new connections per second · concurrent sessions · VPN peers.
+    // Three of those eight were required; five were `opt`, so a firewall could hold every physical
+    // fact and still say nothing about what it does. Each cup below is promoted on the same three
+    // pieces of evidence the demotion standard uses in reverse (facts ever stored · a per-category
+    // seen-list in data/schema/source-fields.json · candidate labels in a runs/vocab inventory),
+    // and the one of the six that fails them stays `opt` with its numbers written down.
+    //
+    // IPS THROUGHPUT IS A FIREWALL FIGURE TOO, and scoping it to the dedicated-IPS shapes was the
+    // narrower half of a true statement. All 24 of its facts are in `security` and only THREE sit
+    // on an `ips`-kind part: the other 21 are firewalls — FPR-1010/1120/1140/1150, FPR-2110..2140,
+    // FPR-4112..4145, ASA-5506..5555, 1210CE/1210CP/1220CX — plus SM-40/48/56, the 9300 blades.
+    // So the cup was required of the 74 parts that hold 3 facts and optional on the 450 that hold
+    // 21. Labels: "IPS Throughput [4]" 7, "NGIPS" 6, "Throughput: NGIPS (1024B)" 5, "IPS
+    // Throughput" 4 — every one of them a row on an NGFW sheet.
+    ips_throughput: secShape([...SEC_IPS_KIND, ...SEC_FIREWALL_KIND], [...SEC_IPS, ...SEC_FIREWALL]),
+    // IPsec VPN throughput. 74 label occurrences in 14 spellings, of which 26 are the firewall
+    // ones, and each was checked against its own sample SKUs rather than its count: "IPSec VPN
+    // Throughput (1024B TCP w/Fastpath)" 10 (VM.Standard.A1 / VM.Standard3 — FTDv), "3DES/AES VPN
+    // Throughput [6]" 7 (Cisco ASA 5520 / 5525-X / 5540 / 5545-X / 5550 / 5555-X), "IPSec VPN
+    // throughput (1024B TCP /Fastpath)" 4 (SM-40 / SM-48 / SM-56), "IPsec VPN throughput (450B UDP
+    // L2L test)" 4, "IPsec VPN throughput (1024B TCP with Fastpath)" 1; the other 48 are the
+    // SD-WAN rows of the C8000 sheets and belong to `routers`, which declares the same cup. Four alias rules already
+    // cover all five firewall spellings, so nothing had to be written. FACTS: 6 live (all routers)
+    // plus the 3 on SM-40/48/56 that still sit under `vpn_throughput`, retired into this key on
+    // 12 Sep — until the rekey run moves them those three read "missing" while holding the value.
+    ipsec_throughput: secShape(SEC_FIREWALL_KIND, SEC_FIREWALL),
+    // VPN PEERS — the best-evidenced firewall cup in the category and it was optional. 73 facts
+    // catalogue-wide, 64 of them here, on ASA5540/5520/5585/5545/5505 bundles and on SM-40/48/56;
+    // `cisco-datasheets` carries it in its per-category `security` seen-list, not only in '*'.
+    // Labels: "Maximum VPN peers" 9 (Performance / VM.Standard.A1 / VM.Standard3), "IPsec VPN
+    // Peers" 7 (Cisco ASA 5520 … 5555-X), "Maximum VPN Peers" 4 (SM-40 / SM-48 / SM-56) — every
+    // one a Cisco firewall row, all covered by the two existing alias rules, nothing to write.
+    // Band [1, 200000] against stored 10..20,000 and labelled 25..60,000.
+    vpn_peers: secShape(SEC_FIREWALL_KIND, SEC_FIREWALL),
+    // TLS/SSL DECRYPTION THROUGHPUT. 3 facts (1210CE 1.0, 1210CP 1.0, 1220CX 1.5 Gbit/s, from the
+    // Secure Firewall 1200 datasheet's own column, t0:r1..r3:c5), and `cisco-datasheets` carries
+    // the key in its per-category `security` seen-list. The ONE alias rule reached only spellings
+    // starting with "TLS", so the 4200-series column "TLS (Hardware Decryption) 2" — 4
+    // occurrences, "10 Gbps" | "11 Gbps" | "12 Gbps", sample SKUs SM-40 / SM-48 / SM-56 — reached
+    // nothing. Aliased now, scoped `only: ["security"]`, together with the bare "SSL throughput".
+    //
+    // AND THE SAMPLE SKUS HALVED THE RULE I FIRST WROTE, which is worth recording because the raw
+    // counts said the opposite. "SSL bulk encryption throughput (Gbps)" has 12 occurrences — three
+    // times any other — and its sample SKUs are Alteon D-5424SL / D-9800S: RADWARE, in a
+    // comparison table. "SSL Throughput" (4) names "Cisco ACE Application Control Engine", a load
+    // balancer, and the two "Performance:" forms are section paths over the same ACE figure. So of
+    // the 27 occurrences that looked like evidence, 20 belong to other vendors' or other
+    // categories' products and only 4 to a Cisco security part. Counts without their sample SKUs
+    // would have promoted this cup on a competitor's datasheet row.
+    //
+    // The curated band arrived with the cup (see the dictionary block): the generated entry had
+    // none, and a required numeric with no band refuses nothing.
+    tls_throughput: secShape(SEC_FIREWALL_KIND, SEC_FIREWALL),
+    // --- end security-r6 (12 Sep 2026) ---------------------------------------------------------
     recommended_users: secShape(SEC_USER_SIZED_KIND, [...SEC_EMAIL, ...SEC_WEB]),
     // A DRIVE IS ASKED ITS CAPACITY, and that is where every one of this category's 45
     // storage_capacity facts already sits — AMPPC-SSD-800GB, FMC-M5-HDD-600G, SNS-SD960GM2NK9. Until
@@ -1730,12 +1918,52 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     airflow: cond({ field: "kind", inList: ["power", "fan"] }),
     // A cable is bought by its length ("Length" 58 occurrences, 1,142 facts catalogue-wide).
     cable_length: cond({ field: "kind", inList: ["cable"] }),
+    // security-r6 (12 Sep 2026): THE TWO CUPS THE `compute` COHORT WAS ALREADY CARRYING.
+    // `compute` held 224 parts asked exactly one cup, and 39 of them held a fact. The 39 are not
+    // spread across the kind — 33 are `dram` on memory modules and 6 are `ports` on network cards,
+    // and the other 132 members (CPUs, RAID controllers, TPMs, risers) hold nothing at all. So
+    // both cups were being filled by parts nobody was asking, which is the state that lets an
+    // extraction look like coverage and score as a gap. securityKind now returns `memory` (61) and
+    // `nic` (31) for those shapes and `compute` (131) for the rest; the split is by SKU token and
+    // was validated by diffing the kind of all 1,990 hardware parts, which is how the ASA-IC-6GE-CU
+    // collision was caught. `dram` band [0.06, 512] GB against stored 4..64 on these very parts;
+    // `ports` is the same struct cup and the same switches parser as everywhere else.
+    // `memory_speed_max` JOINS IT, and the reason it does is a check rather than a judgement. I
+    // left it out first — zero facts in `security`, zero labels in the 23,651-label inventory — and
+    // tests/cupLedger refused it: "kind `memory` owes a different set in security than in the other
+    // 4 — missing: memory_speed_max". That check is right and the omission was the mistake. One
+    // kind name must mean one question set, and the cup is demonstrably fillable: 364 facts in
+    // servers-unified-computing and the two hyperconverged categories, 2400..6400 MHz, on the same
+    // UCS DIMMs under a different prefix (SNS-MR-X16G1RT-H here is UCS-MR-X16G1RT-H there), and
+    // every one of these 61 names states it — "32GB DDR4-2933-MHz RDIMM/2Rx4/1.2v". Security holds
+    // none yet, which is coverage, not schema — the psu_rated_output argument three cups above.
+    dram: cond({ field: "kind", inList: ["memory"] }),
+    memory_speed_max: cond({ field: "kind", inList: ["memory"] }),
     // A network module is bought on its ports and nothing else — FPR-NM-8X10G, ASA-IC-6GE-CU-A,
     // FPR4K-XNM-2X400G. 80 of the category's ports facts already sit on module-kind parts and the
     // struct parser is the switches one. NOT asked of the service blades: an FPR9K-SM-36 has no front
     // ports at all while an ASA5585-SSP-10 has eight, and a cup asked of a kind only half of which
     // can have it is the "capability statement" mistake in schema form.
-    ports: cond({ field: "kind", inList: ["module"] }),
+    //
+    // security-r6 (12 Sep 2026): AND A FIREWALL IS BOUGHT ON ITS PORTS BEFORE ANYTHING ELSE. The
+    // cup reached the cards and not the boxes they go in — so an FPR-NM-8X10G was asked its ports
+    // and an FPR-2140 was not, on a sheet whose first table is "Interfaces". 1,213 label
+    // occurrences ("Ports" 487, "Ethernet interfaces" 38 — "6 port 1G Base-T copper network
+    // interface (NICs), RJ-45", "Physical Interfaces" 27, "Integrated I/O" 17), and three firewall
+    // shapes already hold the fact: 1210CE / 1210CP / 1220CX, "8x 1000BASE-T", t4:r1:c1-c3 of the
+    // Secure Firewall 1200 datasheet. The struct parser is the switches one, unchanged.
+    //
+    // STILL NOT THE BLADES, for the reason above, and not `ips` / the gateways / the consoles
+    // either: their SKUs are a separate question this round did not measure, and a cup added to a
+    // kind on a guess is the thing the shape axis exists to stop. `analytics` is the one to be
+    // careful about — LC-UDP-2010-C-U-K9 holds a ports value of 10 mined out of "Dir Upg from 10XX
+    // to 2010", which is a model number read as a port count (retraction PROPOSAL in the report).
+    ports: cond({ any: [
+      // `nic` joins `module` (security-r6): a CCS-P-IQ10GC is "4x10 GbE RJ45 PCIe NIC" and six of
+      // the 31 already hold the struct. Same cup, same parser, a card is a card.
+      { field: "kind", inList: ["module", "nic", "firewall"] },
+      { all: [{ field: "kind", inList: ["appliance"] }, { field: "series", inList: [...SEC_FIREWALL] }] },
+    ] }),
 
     // DECLARED FOR THEIR SHAPE, NOT REQUIRED OF IT — and the reason is a check, not a judgement.
     // These four were written as conds too, and tests/source-fields refused the commit: no
@@ -1760,6 +1988,37 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // it"). Requiring it would open a gap on 112 real appliances that nothing can close — this
     // file's own rule about a required field nothing can ever fill. Declared, so a value is
     // accepted the moment one is extracted; not required, until a source publishes it.
+    //
+    // security-r6 (12 Sep 2026): AND A SOURCE NOW CAN. The paragraph above read two labels —
+    // 'Endpoints' (25, ambiguous) and 'Included ISE endpoint licenses' (11, not a spec) — and
+    // concluded the figure was not published. Four more labels were sitting unmapped in the same
+    // inventory, 12 occurrences, and their sample SKUs are the appliances themselves: "Concurrent
+    // active endpoints supported by a dedicated PSN (Cisco ISE node only has PSN persona[.])",
+    // values 50,000 and 100,000, on "Cisco Secure Network Server 3815 / 3855 / 3895" and "3715 /
+    // 3755 / 3795". Both SNS datasheets are LINKED to these parts and 63 facts have already been
+    // extracted from them, so the value lands on the next apply at zero network cost. The rule is
+    // in attribute-aliases.en.json, scoped to security, and it REFUSES the shared-PSN twin (same
+    // appliances, 25,000/50,000) — two measurements in one cup is the defect that took ISE out of
+    // concurrent_sessions. STILL `opt`: no enabled source has been SEEN to publish the key (zero
+    // facts anywhere, and it is absent from both datasheet '*' lists), so promoting it today would
+    // fail tests/source-fields for the right reason. It is now an EARNED promotion waiting on one
+    // fact, not an unfillable field — which is a different report line, and the difference matters.
+    //
+    // THE OTHER TWO SHAPES WERE RE-MEASURED THE SAME WAY AND THE EARLIER VERDICT HOLDS.
+    //   analytics / Secure Network Analytics — `flows_per_second`: the only mapped label is
+    //     "Number of flow events that can be processed per second", ZERO occurrences in the
+    //     inventory. The nearest candidates are feature-matrix rows: "NetFlow" 4, whose two samples
+    //     are "250,000 flows/sec" AND a paragraph about DDoS detection, so the label does not
+    //     determine the cell; "NetFlow entries" 12 and "NetFlow cache" 4 are a switch's flow-table
+    //     size, a different quantity. Nothing to alias. Stays `opt`.
+    //   management / FMC, Security Manager, SMA — `managed_devices_max`: two labels, still neither
+    //     a spec ("Includes first 10 TMS managed devices/servers plus Exchange/O365 integration" 4,
+    //     "Maximum number of devices across networks", the cloud-systems-management rule). Stays
+    //     `opt`. `events_per_second` unchanged for the reason recorded above it.
+    // So management, analytics and identity keep the eight / eight / seven universal box cups they
+    // already had, and NONE of them is asked a firewall cup: every throughput and session cup is
+    // gated by `secShape`, whose kind list holds only firewall shapes and whose series fallback
+    // fires only for kind `appliance`. tests/securityShapes pins that in both directions.
     // THE FIVE LICENCE FIELDS, declared for security 9 Sep 2026. 7,268 of this category's 13,273
     // parts are licences — more than half — and every one of them was reading `na` on the only
     // questions a licence is actually bought on, because a key the profile does not mention
@@ -1790,11 +2049,41 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
 
     // The rest of the inline-security vocabulary stays optional: a firewall datasheet states some
     // of these and not others, and promote-required earns a requirement from evidence rather than
-    // taste — there is none yet, because every document the corpus holds for `security` is an
-    // end-of-life bulletin or an ordering guide. Not one datasheet, which is why the category
-    // yields almost no facts. That is an ACQUISITION gap and it is not fixed by the schema.
-    vpn_throughput: opt, ipsec_throughput: opt, tls_throughput: opt, threat_defense_throughput: opt,
-    new_conn_per_sec: opt, vpn_peers: opt, nat_sessions: opt, ipsec_tunnels: opt,
+    // taste.
+    //
+    // security-r6 (12 Sep 2026) CORRECTS THE SENTENCE THAT USED TO STAND HERE. It said "every
+    // document the corpus holds for `security` is an end-of-life bulletin or an ordering guide.
+    // Not one datasheet." Re-measured against doc_parts today: 366 EoL bulletins (11,654 parts),
+    // 6 guides (951), 1 Q&A (13) — AND 29 `vendor_datasheet_html` plus 1 `vendor_datasheet_pdf`,
+    // linked to 332 and 6 parts. They are the Firepower 1000/2100/4100/9300, Secure Firewall
+    // 220/1200/6100, ASA 5500, ISA3000, NGIPS, FMC x800 and Previous Models, Secure Network
+    // Analytics, Secure Network Server 3700/3800, Cyber Vision, Content Security Management,
+    // Secure Workload and AMP Private Cloud sheets, and 460 of this category's 725 facts came out
+    // of 16 of them by `html_table`. The category's yield problem is real and it is NARROWER than
+    // that sentence: the datasheets exist and are linked; what is thin is how many parts each one
+    // reaches (332 of 1,990 hardware parts have any spec-bearing document at all).
+    //
+    // NEW CONNECTIONS PER SECOND IS THE ONE OF THE SIX THIS ROUND COULD NOT PROMOTE, and the
+    // reason is not acquisition — it is this cup's own UNIT. 28 label occurrences in four
+    // spellings, all four already covered by three alias rules, samples "2700", "380K", "450K",
+    // "490K", "1.1M", "12,000", "20,000", "1.6 million", "300,000"; the biggest label's sample
+    // SKUs are SM-40 / SM-48 / SM-56, which hold 15 facts each from a linked datasheet. And ZERO
+    // facts exist under the key in any category, because `unit: "1/s"` is a real unit and not in
+    // specNormalize's COUNT_LIKE set, so the normaliser demands a unit token in the cell:
+    //
+    //     new_conn_per_sec  "2700"    -> UNIT_MISSING        concurrent_sessions "20K"  -> 20000
+    //     new_conn_per_sec  "380K"    -> UNIT_UNKNOWN        concurrent_sessions "32M"  -> 32000000
+    //     new_conn_per_sec  "1.1M"    -> UNIT_UNKNOWN        vpn_peers           "25"   -> 25
+    //
+    // Ten of ten real values refused; the same values parse under `Sessions` and `Peers`, which
+    // ARE count-like. Four cups declare `1/s` — new_conn_per_sec, events_per_second,
+    // flows_per_second, ssl_connections_per_sec — and all four hold zero facts everywhere. The fix
+    // is one token in COUNT_LIKE, which changes what the normaliser accepts and therefore needs a
+    // NORM_VERSION bump, so it is the parent's: PROPOSAL in the report, not done here. Requiring
+    // the cup before that lands would create 450 gaps nothing could close.
+    new_conn_per_sec: opt,
+    vpn_throughput: opt, threat_defense_throughput: opt,
+    nat_sessions: opt, ipsec_tunnels: opt,
     ssl_connections_per_sec: opt, attack_concurrent_sessions: opt, uc_proxy_sessions: opt,
     ddos_blocking_throughput: opt, ddos_prevention_rate: opt,
     max_interfaces: opt, storage_raw_capacity: opt, managed_by_fdm: opt,
@@ -1826,10 +2115,52 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // --- controllers --------------------------------------------------------------------------------
     wlc_ap_capacity: cond({ field: "kind", inList: ["wlc"] }),
     wlc_client_capacity: cond({ field: "kind", inList: ["wlc"] }),
+    // wireless-r7 (12 Sep 2026): A CONTROLLER'S THROUGHPUT, and it reuses the cup that already holds
+    // that quantity rather than opening a second one. `router_throughput` is "System-Durchsatz /
+    // System throughput" in Gbit/s — the aggregate data-plane figure of a box — and the label that
+    // states it, "Maximum throughput", ALREADY maps here in this category (alias rule 181 is
+    // unscoped; mapLabel("Maximum throughput", "wireless") returns router_throughput today). A new
+    // `wlc_throughput` key would be the reviewer's own "duplicate cup" — one quantity, two cups —
+    // and would make that label contested between them.
+    //
+    // SCOPED BY SERIES, because only one controller family publishes it. Read out of the cached
+    // datasheets: 9800-40 "Up to 40 Gbps", 9800-80 "Up to 80 Gbps", CW9800H "Up to 100 Gbps",
+    // CW9800M "Up to 50 Gbps", CW9800L "Up to 10 Gbps", 9800-L "5 Gbps, 10 Gbps (with Performance
+    // license)". The AireOS controllers (2500/3500/5500/8500 — 108 of the 132 `wlc` parts) publish
+    // AP and client counts and NO throughput figure at all, so asking them would be 108 gaps nothing
+    // can ever close. R1 holds: `kind` is derived for every part and `series` is required and
+    // column-backed, so both gates are answered; at nothing-known the cup is `pending`, which is how
+    // the security appliance shapes read too.
+    router_throughput: cond({ all: [
+      { field: "kind", inList: ["wlc"] },
+      { field: "series", inList: ["Catalyst 9800 Series Wireless Controllers"] },
+    ] }),
+    // end wireless-r7
     // --- antennas: gain, band (radio_bands above), connector; the pattern is declared, see the ledger --------
     antenna_gain: cond({ field: "kind", inList: ["antenna"] }),
     antenna_connector: cond({ field: "kind", inList: ["antenna"] }),
-    antenna_type: opt, beamwidth_azimuth: opt,
+    // wireless-r7 (12 Sep 2026) ------------------------------------------------------------------
+    // INTERNAL OR EXTERNAL is an AP question, not an antenna one: it says whether the access point
+    // has its antennas built in or takes separate ones, which decides what else must be ordered. It
+    // was `opt` here because "no derivation rule exists" (report of 12 Sep); there is one now, and
+    // it is measured — 594 of the 2,756 AP names state it (internal 337, external 257, none
+    // ambiguous), "Internal antennas" and "Antenna Type(s)" are mapped labels with 11 occurrences
+    // between them, and cisco-datasheets is listed as a seen source for the key in this category.
+    // Required of APs only: an ANTENNA's own type is its radiation pattern, a different cup.
+    antenna_type: cond({ field: "kind", inList: [...WL_AP] }),
+    // DECLARED, NOT YET ASKED. The cup, its domain and its fill path are settled above; it stays
+    // `opt` for one measurable reason: `requiredKeysByCategory` in build-source-fields counts `cond`
+    // as required, and data/schema/source-fields.json — a GENERATED file — has no entry for a key
+    // that did not exist when it was generated, so a `cond` here makes
+    // `requiredFieldCoverageProblems` report "wireless/regulatory_domain: no enabled source
+    // publishes it" and tests/source-fields.test.ts red. Promoting it is two steps the parent owns:
+    // regenerate source-fields (the generator admits every required key to the cisco-datasheets "*"
+    // list by construction) and run the description patterns once so the ledger sees a fill path.
+    // Measured today: 409 parts match the four `wl-reg-domain-*` patterns (ap 349, bundle 53,
+    // backhaul 7) and the captured letter agrees with the SKU token 305 times out of 305.
+    regulatory_domain: opt,
+    // end wireless-r7 ----------------------------------------------------------------------------
+    beamwidth_azimuth: opt,
     // --- power: what a supply or injector DELIVERS (a PSU's wattage is not its draw — switches precedent) ---
     psu_rated_output: cond({ field: "kind", inList: ["power", "power-injector"] }),
     input_voltage: cond({ field: "kind", inList: ["power"] }),
@@ -1879,25 +2210,61 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // facts: the router "Throughput" column is Gbps and the normaliser refused every value as not a packet rate. One
     // question, one cup — forwarding_rate stays declared, optional, for the rare "720 mpps" prose.
     router_throughput: cond({ field: "kind", inList: [...RT_DEVICE] }), forwarding_rate: opt,
-    ipsec_throughput: cond({ field: "kind", inList: [...RT_DEVICE] }),
-    ipsec_tunnels: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    // --- routers-r5 (12 Sep 2026): THE BRANCH CUPS -----------------------------------------------
+    // These five moved from every device to `enterprise` alone, and the measurement is the whole
+    // argument. Over the live store, the device parts holding each of them:
+    //   ipsec_throughput 6  ipsec_tunnels 9  nat_sessions 9  acl_entries 9  vlan_max 15
+    // and every single one is a C1100 / C8200 / C8500L / C8xxx-G2 / RV — a branch or SD-WAN box.
+    // From the label side the same: the sample SKUs behind "IPsec (512B)" (29), "IPsec tunnels"
+    // (25), "Number of NAT sessions" (12), "Number of IPv4 ACEs per system" (22) are C8130-G2,
+    // C8200-1N-4T, C8300, C1101-4P, Cisco 4331. NOT ONE is an ASR 9000, NCS, CRS or 8000: a
+    // service-provider datasheet does not publish a VPN, NAT or ACL figure at all, so asking a
+    // carrier router for one was 2,000-odd slots nothing could ever close.
+    ipsec_throughput: cond({ field: "kind", inList: [...RT_BRANCH] }),
+    ipsec_tunnels: cond({ field: "kind", inList: [...RT_BRANCH] }),
     // WAN and LAN ports as the datasheet's own cell ("2x 1/10 GE SFP+, 2x 2.5 GE mGig RJ-45"), type s. Retyping both
-    // to the `ports` struct is an open question in the report: other categories hold the keys.
-    wan_interfaces: cond({ field: "kind", inList: [...RT_DEVICE] }),
-    lan_interfaces: cond({ field: "kind", inList: [...RT_DEVICE] }),
-    // OPTIONAL: a fixed ISR 1100 has no module slot, and 0 is below any band — required, it would be a permanent gap
-    // on every slotless router. 72 of its 253 stored values are CRS chassis sizes read off fan trays and blanks (a
-    // retraction proposal). "Slots" (2 SM 2 NIM 1 PIM) is not aliased until the parser sums the breakdown.
-    module_slots: opt,
+    // to the `ports` struct is an open question in the report: other categories hold the keys. Branch-only for the
+    // same reason — all 24 stored values are C88x/C89x/C92x, and "WAN Ports" lists C8130-G2 … C8231-G2.
+    wan_interfaces: cond({ field: "kind", inList: [...RT_BRANCH] }),
+    lan_interfaces: cond({ field: "kind", inList: [...RT_BRANCH] }),
+    // DECLARED HERE FOR THE FIRST TIME (check 1, missing field): the store already holds 9
+    // `acl_entries` (C1101 10,000 … C8500-20X6C 380,000), 9 `ipv6_routes` (C1101 260K …
+    // C8500-20X6C 7M) and 15 `vlan_max` (RV130 5, RV132W/RV134W 6) facts in this category under
+    // keys no routers profile declared, so completeness could not see one of them. All three are
+    // listed for `cisco-datasheets:routers` in data/schema/source-fields.json.
+    // vlan_max is branch-only (a carrier router's VLAN scale is not published); the routing tables
+    // are asked of sp-core too, where "Route scale" (5 occurrences, NCS-55A1/NCS-57B1 samples)
+    // fills them.
+    acl_entries: cond({ field: "kind", inList: [...RT_BRANCH] }),
+    vlan_max: cond({ field: "kind", inList: [...RT_BRANCH] }),
+    // MODULE SLOTS ARE A CHASSIS'S WHOLE POINT, and until today this cup was required of nothing.
+    // All 64 device `module_slots` facts sit on the modular-chassis cohort and every one is right —
+    // 8808-SYS 8, 8812-SYS 12, 8818-SYS 18, NCS-5516 16, CRS-16/S 16, ASR-9904 2. (The other 173
+    // stored values are on fan trays, blanks, PSUs and kits, mined from the CHASSIS SIZE in their
+    // own names: a retraction proposal, and now also a `na` by kind.)
+    // The second gate keeps the modular ISRs open rather than closing them: `form_factor` is
+    // required of every device and has 0 facts today, so an enterprise router resolves `pending`,
+    // not `na`, and the "NIM slots" label (8 occurrences, Cisco 4221(X)…4451) still has somewhere
+    // to land. R1-clean: form_factor is required, never optional.
+    module_slots: cond({ any: [{ field: "kind", inList: ["chassis"] }, { field: "form_factor", eq: "modular-chassis" }] }),
     // A processor carries the memory of a modular system (ASR1000-RP2 "8 GB DRAM", 8800-RP2 "64 GB DRAM").
-    dram: cond({ field: "kind", inList: [...RT_DEVICE, "processor", "memory"] }),
-    flash: cond({ field: "kind", inList: [...RT_DEVICE, "processor", "flash"] }),
-    ipv4_routes: cond({ field: "kind", inList: [...RT_DEVICE] }),
-    // OPTIONAL, both: nat_sessions is a STRING key (9 facts "100K", "32M") with no band, and a band cannot be
-    // enforced on a string — retyping it to a count is global (security declares it too) and is an open question.
+    // A CHASSIS DOES NOT: it is sold empty and its RP holds the memory, which is why `chassis` is
+    // absent from both lists (0 of 153 chassis parts hold either fact). Nor does a `forwarding`
+    // engine — see the ESP note below.
+    dram: cond({ field: "kind", inList: [...RT_DEVICE_PORTED, "processor", "memory"] }),
+    flash: cond({ field: "kind", inList: [...RT_DEVICE_PORTED, "processor", "flash"] }),
+    ipv4_routes: cond({ field: "kind", inList: [...RT_DEVICE_PORTED] }),
+    ipv6_routes: cond({ field: "kind", inList: [...RT_DEVICE_PORTED] }),
+    // nat_sessions is now a COUNT with a band (routers-r5). It was type `s` holding "100K"/"32M",
+    // which is a number that cannot be compared or refused; the retype is global and safe because
+    // all 9 facts under the key anywhere in the catalogue are in this category (measured 12 Sep
+    // 2026 across all 17). Two of the nine are capability statements — "1.2M w/ default 8GB, up to
+    // 2M w/ 32GB" — and the count parser silently takes the first number, so which figure is stored
+    // depends on the order the sheet wrote them in. Refused by the guard in specNormalize, recorded
+    // as a gap: a coin flip is not a specification.
     // poe_standard: a PoE router (C1111-8P) has no SKU marker a kind could carry, and a cond on an optional fact
     // would be R1's silent-na defect.
-    nat_sessions: opt, poe_standard: opt,
+    nat_sessions: cond({ field: "kind", inList: [...RT_BRANCH] }), poe_standard: opt,
     // UNREACHABLE BY CONSTRUCTION, measured 10 Sep 2026: ZERO facts across every vendor and state, ZERO sources,
     // ZERO labels. 5,758 slots in `routers` when it was required. Declared so a value is accepted.
     mgmt_ports: opt,
@@ -1927,7 +2294,24 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // (IR1800 "IP54 with IP54-KIT") — industrial routers have no SKU marker a kind could carry.
     mtbf: opt, ip_rating: opt, cooling: opt,
     // --- what plugs in ------------------------------------------------------------------------------------------
-    ports: cond({ field: "kind", inList: [...RT_PORTED] }),
+    // ROUTERS GET A PORT CUP (routers-r5, 12 Sep 2026, reviewer §6 item 1). `ports` was `na` for
+    // every device kind while the store already held 48 `ports` facts on device parts — a cup being
+    // filled behind a profile that said the question did not apply. They come by both paths
+    // (43 description_mining, 5 html_table) and they read correctly: 8101-32FH-O 32x qsfp-dd 400G,
+    // N540-6Z18G-SYS-A 18x sfp 1G + 6x sfp-plus 10G, C8300-1N1S-4T2X 2x sfp-plus 10G + 4x rj45 1G.
+    // `cisco-datasheets` is listed for `ports` under `routers` in source-fields.json, so check 5 is
+    // satisfied by a SEEN source and not by a hope.
+    //
+    // A MODULAR CHASSIS IS EXCLUDED, and that is the measured half: 0 of the 153 chassis parts hold
+    // a ports fact, because a chassis is sold empty and its ports arrive on the line cards it takes.
+    // Requiring it there would have created 153 permanent gaps on the one cup this change exists to
+    // open.
+    //
+    // The strict parser is src/core/portParse.ts and this branch fixed three defects in it that the
+    // corpus showed and no tidy case could — a `\b` that could not see QSFP-DD800, a missing "&"
+    // separator that merged two port groups into a device that exists in no configuration, and a
+    // gigaBYTE read as a speed. Every refusal is tested as hard as every success there.
+    ports: cond({ field: "kind", inList: [...RT_DEVICE_PORTED, ...RT_PORTED] }),
     // Per-slot bandwidth of a line card / capacity a fabric card adds (A9K-MOD400 "400G", 8800-LC-48H 4.8 Tbit/s).
     // 40 line cards hold that figure under switching_capacity today (description mining) — a rekey proposal.
     fabric_bandwidth: cond({ field: "kind", inList: ["linecard", "fabric"] }),
@@ -2081,19 +2465,23 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // the axis and the marker measurements; the per-cup evidence is in
   // docs/reports/schema-modules-misc-2026-09-12.md.
   //
-  // WHAT EACH KIND IS ASKED, and the facts that decided it (parts holding the key / parts):
-  //   interface 459  ports 43 · power_max 10 · certifications 55 · weight 8 · poe_standard 9
-  //   module    199  the DEFAULT — product_compatibility only, the one question every component answers
-  //   accessory 104  product_compatibility only
+  // WHAT EACH KIND IS ASKED, and the facts that decided it (parts holding the key / parts). Counts
+  // RE-READ 12 Sep 2026 (round 8) over the 1,192 Cisco hardware rows the reclassify run left — the
+  // 1,364 the block above quotes was the pre-run denominator — and the distribution sums to 1,192:
+  //   interface 476  ports 43 · power_max 10 · poe_standard 9 · weight 8
   //   device     99  the envelope: a whole router or chassis filed here (a MOVE proposal)
-  //   cable      97  cable_length
+  //   accessory  98  product_compatibility only
+  //   cable      96  cable_length
   //   optic      94  a transceiver filed here (a MOVE proposal) — form_factor, data_rate, connector
-  //   power      77  psu_rated_output · temp_operating 41 · humidity_operating 50 · certifications 34
-  //   service    63  power_max, and the envelope
-  //   cellular   60  cellular_bands 14
+  //   power      69  psu_rated_output, input_voltage, airflow
+  //   radio      52  ieee_standards 16
+  //   cellular   51  cellular_bands (14 today, 51 after the `im-radio-bands-mhz` rekey of this date)
   //   voice      51  ports (its names state them; see MOD_PORTED)
-  //   radio      46  ieee_standards 16
-  //   memory     11  storage_capacity
+  //   service    42  power_max
+  //   module     22  the DEFAULT — product_compatibility only, the one question every component answers
+  //   mux        17  insertion_loss_max (NEW) — a passive OADM filed here (a MOVE proposal)
+  //   memory     13  dram, flash, memory_speed_max
+  //   fabric      8  fabric_bandwidth (NEW) — three of the eight were `interface`, asked a port count
   //   fan         4  airflow
   //
   // TWO CUPS WERE DEMOTED, EACH WITH ITS COUNT — see the report for the full argument:
@@ -2107,11 +2495,17 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   //                 missing cup is `module_type` (the slot type: "Shared Port Adapter Interface
   //                 Processor (SIP)", 5 facts) — an OPEN ITEM in the report, because requiring it
   //                 needs data/schema/source-fields.json regenerated and that is the parent's run.
-  //   poe_standard  9 facts on the 459 interface parts, and a PoE standard is a property of the
-  //                 minority of port-bearing modules that SUPPLY power (WS-X4548-GB-RJ45V, the
-  //                 SM-ES2/ES3 EtherSwitch modules, ILPM-4/8). No derived signal separates them
-  //                 from a POS/ATM line card, which has none and never will, so requiring it of
-  //                 all 459 would open 450 gaps nothing can close.
+  //   poe_standard  9 facts on the 476 interface parts, and a PoE standard is a property of the
+  //                 minority of port-bearing modules that SUPPLY power. No derived signal separates
+  //                 them from a POS/ATM line card, which has none and never will, so requiring it of
+  //                 all 476 would open 467 gaps nothing can close.
+  //                 THE NINE WERE READ 12 Sep 2026 (round 8) and the list that stood here was wrong:
+  //                 it named "the SM-ES2/ES3 EtherSwitch modules, ILPM-4/8", and NONE of those holds
+  //                 one. All nine are WS-X4xxx Catalyst 4500 PoE line cards — WS-X4548-GB-RJ45V,
+  //                 WS-X4506-GB-T, WS-X4248-RJ45V(=), WS-X4248-RJ21V=, WS-X4524-GB-RJ45V(=),
+  //                 WS-X4224-RJ45V=, WS-X4548-RJ45V+ — every one "802.3af" and own, not inherited.
+  //                 The 22 EtherSwitch rows the round-8 kind rule moved off `power` hold zero between
+  //                 them. The demotion is unchanged; the example list is now the one in the store.
   "interfaces-modules": {
     itu_channel: opt, jacket_material: opt, jacket_color: opt, rx_wavelength: opt, supported_transceivers: opt, supported_modules: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req,
@@ -2128,7 +2522,36 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // modules, [5 .. 80] W (WS-X4548-GB-RJ45 60 W, WS-X4506-GB-T 30 W). A service module runs a
     // workload and draws its own too. A PSU DELIVERS rather than draws — psu_rated_output below,
     // the same split switches made on 11 Sep 2026.
-    power_max: cond({ field: "kind", inList: ["interface", "service", "device"] }),
+    power_max: cond({ field: "kind", inList: ["interface", "service", "device", "fabric"] }),
+    // A FABRIC CARD HAS NO PORTS AND IS BOUGHT ON PER-SLOT BANDWIDTH (12 Sep 2026, round 8). Three of
+    // the eight MDS crossbar fabric modules here were reaching the `^DS-X\d` line-card marker and
+    // being asked a port count. `fabric` is the kind name `optical-networking` (10 parts) and
+    // `storage-networking` (24) already use for the same card, so the cup set is theirs verbatim —
+    // fabric_bandwidth, power_max, product_compatibility — which is what keeps the one-cup-set-per-kind
+    // test green.
+    // FILLABILITY, STATED RATHER THAN ASSUMED: 13 occurrences of "Switch fabric connection" map to this
+    // key here ("40 Gbps (80 Gbps full duplex)", "160 Gbps in 6807-XL chassis" — exactly the quantity),
+    // and 0 of these 8 rows holds a value, because no MDS fabric datasheet has been acquired. NO alias
+    // rule is added: the other five spellings that carry the figure ("Per-slot switching capacity" 11,
+    // "Capacity (per slot)" 7, "Per-slot Switching Capacity" 5, "Per Slot Switching Capacity" 4,
+    // "Per-slot switching Capacity" 4 = 31 occurrences) are deliberately SCOPED to `switches` — and
+    // rightly, because every sample SKU under them is a Catalyst supervisor or an N9K fabric module.
+    // Checked with the live mapLabel in all three categories rather than with labels.json's own `state`
+    // column, which was written on 8 Sep and still calls all five "unmapped".
+    fabric_bandwidth: cond({ field: "kind", inList: ["fabric"] }),
+    // A PASSIVE MUX IS BOUGHT ON ITS INSERTION LOSS (12 Sep 2026, round 8). 17 passive WDM mux,
+    // demux, OADM and splitter cards were in the default, asked only what they fit. Same argument as
+    // `fabric`: `mux` is `optical-networking`'s own kind name for the same card (275 parts) and this
+    // is its cup set there — insertion_loss_max, product_compatibility — so the sets match by
+    // construction. Fillable: "Insertion loss" (27) / "Insertion Loss" (10) / "Insertion Loss (see
+    // note)" (9) = 46 usable occurrences, all three MAPPED to this key. The ledger reports 55 because a
+    // fourth rule sends "Multi fiber Connector" (9) here as well, and THAT NINE IS NOT EVIDENCE: its
+    // values are "Insertion Loss" and "Single Mode" — a transposed column whose own author noted the
+    // routing and kept it — so a numeric cup can never take one. 0 of these 17 rows holds a value,
+    // because their documents have not been acquired. That is a coverage gap in a cup that should
+    // exist, not a cup that should not — the distinction the `cellular_category` note below turns the
+    // other way.
+    insertion_loss_max: cond({ field: "kind", inList: ["mux"] }),
     // THE ENVELOPE BELONGS TO THE BOX (12 Sep 2026, after the reviewer's round 3 asked why this category alone
     // required it of components). The block that stood here asked certifications, dimensions, temperature,
     // humidity and weight of interface, voice, cellular, radio, service, power and fan, on measured evidence —
@@ -2147,10 +2570,39 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     certifications: cond({ field: "kind", inList: ["device"] }),
     weight: opt,
     // A cellular module is bought on its bands: "Bands supported" (33) and "Bands" (23) = 56
-    // occurrences, 14 parts hold one. `radio_bands` is NOT this cup — its 51 facts here all sit on
-    // cellular ROUTER bundles that the report proposes moving to `routers`, and its dominant label
-    // "Frequency" (175) is an AC input frequency. R2 note in the report, for the routers agent.
+    // occurrences, 14 parts hold one.
+    // 12 Sep 2026 (round 8) — THE R2 NOTE THAT STOOD HERE WAS WRONG, and reading the rows is what
+    // showed it. It said `radio_bands`' 51 facts here "all sit on cellular ROUTER bundles". They do
+    // not: 38 of the 51 sit on the cellular MODULES themselves (EHWIC-4G-LTE-A "700 MHz",
+    // EHWIC-3G-EVDO-V "800/1900MHz"), 13 on the router bundles, and EHWIC-4G-LTE-A holds BOTH
+    // `radio_bands` "700 MHz" and `cellular_bands` "LTE band 17 (700 MHz) & band 4" — one quantity in
+    // two cups on one part, which is exactly R2. The producer is `im-radio-bands-mhz` in
+    // data/schema/description-patterns.json, a rule scoped to THIS category, and it is rekeyed to
+    // `cellular_bands` today: all 48 of its live matches here are cellular band lists, checked one by
+    // one. `radio_bands` is NOT retired globally, because catalogue-wide it holds three different
+    // quantities — Wi-Fi bands in `wireless` (145 facts, "2.4 GHz"), cellular bands here, and an AC
+    // MAINS FREQUENCY on 19 `switches` parts and 7 HPE parts in this category ("50Hz/60Hz",
+    // "47 to 63 Hz"), which is `input_frequency` wearing the wrong cup. Both of those are proposals
+    // in the report for the categories that own them.
     cellular_bands: cond({ field: "kind", inList: ["cellular"] }),
+    // `cellular_category` STAYS OPTIONAL, WITH THE COUNTS, and round 8 asked for it to be required of
+    // the cellular kinds. Measured before writing it: of the 51 cellular rows, TWO state a category
+    // (NIM-LTEA-EA= and NIM-LTEA-LA=, "CAT6 LTE Advanced NIM …") and 49 do not — an EHWIC-3G-EVDO has
+    // no LTE category at all, and the 3G/4G-EHWIC generation this category holds pre-dates the
+    // categories entirely. One label maps to the key, "Cellular" (38 occurrences), and EVERY sample
+    // SKU under it is a `routers` C1109/C1111/C8151 — none is in this category. The three labels that
+    // do name a category on a module put it in the LABEL and not the value ("WAN [LTE (CAT 6)]" 23 and
+    // "WAN [LTE (CAT4)]" 10 both hold "Yes"/"No"; "Theoretical Category 4 download/upload speeds" 3
+    // holds a speed), so nothing here can read one. Requiring it would open 49 gaps no source can
+    // close — the fillability rule's own case for a demotion.
+    // AND ITS DEFINITION IS THE SHAPE THAT CANNOT REFUSE A WRONG VALUE: a GENERATED free string with no
+    // domain. All 31 live facts are in `routers` — 17 "CAT6", 11 "CAT4", and THREE prose capability
+    // statements ("Optional Pluggable Module – LTE or 5G", "Embedded 5G 3GPP Release 17 module with
+    // dual nano SIM slots") which are a capability statement and not a specification. Retyping it to an
+    // `e` over the domain the catalogue's own values give — [cat-4|cat-6|cat-12|cat-18|5g-nr] — would
+    // refuse those three and canonicalise the other 28, and it is a GLOBAL change to a key another
+    // agent's category owns every fact of. So it is a costed proposal in the report with the exact
+    // patch and the three affected SKUs, not a line here.
     cellular_category: opt, cellular_max_speed: opt, radio_bands: opt, antenna_gain: opt, antenna_type: opt,
     // An 802.11 radio module is bought on the standards it speaks: 16 of the 46 already hold it
     // ("802.11 B,G" on HWIC-AP-G-A).
@@ -2184,6 +2636,24 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     dram: cond({ field: "kind", inList: ["memory"] }),
     flash: cond({ field: "kind", inList: ["memory"] }),
     memory_speed_max: cond({ field: "kind", inList: ["memory"] }),
+    // `fxs_ports` AND `fxo_ports` STAY OPTIONAL BECAUSE THIS CATEGORY HAS NO ANALOG VOICE MODULE AT
+    // ALL (12 Sep 2026, round 8, which asked for them to be required of `voice`). Measured first:
+    // ZERO of the 51 `voice` rows here states an FXS or an FXO count in its SKU or its name, and the
+    // named examples the request cited are all filed elsewhere — VIC3-4FXS/DID, NIM-4FXSP, VIC2-2FXS
+    // and EM-HDA-8FXS in `routers` (50 such rows), SM-D-72FXS and EM-HDA-6FXO in
+    // `unified-communications` (34), one in `switches`. What IS here is 51 DIGITAL modules: T1/E1/J1
+    // multiflex trunks, high-density voice NMs and DSP farms ("Dual-Port 48 Channel T1 Voice/Fax
+    // Network Module", "36 Port DSP Farm Bundle"). An E1 trunk card has no FXS port, so requiring one
+    // of it would be 102 slots that are not merely unfillable but not applicable — and `na` is worse
+    // than `opt` here, because it would close the question for the first real FXS card to land.
+    // The cup these 51 rows actually lack is a VOICE CHANNEL COUNT, which every one of them states in
+    // its own name and which no dictionary key holds (`voice_channels` and `dsp_channels` do not
+    // exist; `voice_lines` is a phone's line count, 6 facts, all in `collaboration-endpoints`).
+    // Adding a key needs the dictionary and source-fields regenerated, which is the parent's run, so
+    // it is a proposal in the report with the label evidence beside it.
+    // They are BANDED anyway (BAND_OVERRIDES below): both are generated definitions with no band, so
+    // until today nothing could have refused "1905 FXS ports" if description mining had ever written
+    // one — the same shape as the 100-port transceiver.
     storage_capacity: opt, voice_lines: opt, fxs_ports: opt, fxo_ports: opt,
     // The optical questions this profile can express, asked of the 94 transceivers filed here so
     // that their MOVE to `transceiver` (where opticKind asks the full set) is visible rather than
@@ -2257,7 +2727,14 @@ export const BAND_OVERRIDES: Record<string, Record<string, [number, number]>> = 
   // wireless (12 Sep 2026): power_max is now asked of APs (a few W to ~60 W on UPOE), controllers (9800-80
   // 1100 W PSUs) and UCS-based appliances; the switch band [1, 30000] would store a 3 kW access point. The 38
   // stored values (30..950 W) are PSU RATINGS mined from supply names, filed under the wrong key (proposal).
-  wireless: { power_max: [1, 2500] },
+  // wireless-r7 (12 Sep 2026): router_throughput is a ROUTER's band globally ([0.005, 10000] Gbit/s)
+  // and routers override it to a million. A wireless controller's published figures run 5 to 100
+  // Gbit/s (9800-L 5, CW9800L 10, 9800-40 40, CW9800M 50, 9800-80 80, CW9800H 100), and the band is
+  // asked to do real work here: the figure sits in the SAME datasheet table as "Maximum WLANs 4096",
+  // "Maximum VLANs 4096" and "Maximum site tags 6000", so a neighbouring row read into this cup is
+  // the accident that actually happens. [1, 200] refuses all three and admits twice the largest real
+  // controller.
+  wireless: { power_max: [1, 2500], router_throughput: [1, 200] },
   // servers (12 Sep 2026). Bands for the required numeric cups whose dictionary entry has none (generated
   // keys), checked against the stored own values in the three categories on 12 Sep 2026:
   //   tdp               stored 40..400 W (1,823)       band 5..1000     (a 500 W Xeon 6 / MI300-class part fits)
@@ -2313,6 +2790,26 @@ export const BAND_OVERRIDES: Record<string, Record<string, [number, number]>> = 
   //                       EXP-TX"); the curated entry had NO band, and it is required of a mux, a ROADM and a DCU.
   "optical-networking": { power_max: [0.1, 30000], data_rate: [0.001, 1600], insertion_loss_max: [0, 30] },
   // end optical-storage
+  // --- modules-r8 (12 Sep 2026) ----------------------------------------------------------------
+  // Three numeric cups this category names whose DICTIONARY entry carries no band, which is the
+  // definition nothing can refuse a wrong value with. Each band is read off the catalogue, not chosen:
+  //   insertion_loss_max  BECOMES REQUIRED of `mux` today, and the curated dictionary entry has no
+  //                       band at all. The inventory's own values for this label run 0.25 dB
+  //                       ("I.L. 0.25 dB(max)") to 13.5 dB ("Insertion loss COM-RX -> EXP-TX"), and
+  //                       a DCM's is higher; [0, 30] is `optical-networking`'s band for the same cup
+  //                       on the same cards, kept identical on purpose — a band that differs between
+  //                       two categories asking one kind the same question is a second definition.
+  //   fxs_ports           OPTIONAL here (see the note in the profile: zero of the 51 voice rows state
+  //                       one), banded so a mining rule could never write "1905 FXS ports". Stored
+  //                       catalogue-wide: 10 facts in `unified-communications`, 2..144 (SM-D-72FXS,
+  //                       VG350-144FXS) and 4 in `routers`, 8..72. The densest Cisco gateway is
+  //                       VG350-160FXS, so 512 leaves room for a chassis nobody has shipped yet.
+  //   fxo_ports           6 facts, 0..6. The FLOOR IS ZERO AND MUST STAY ZERO: "0 FXO" is a real
+  //                       answer a datasheet prints, and a floor of 1 would refuse it.
+  // The three values are the same as the collab categories' COLLAB_BANDS for the two voice keys,
+  // which is deliberate: one band per key unless the product really differs.
+  "interfaces-modules": { insertion_loss_max: [0, 30], fxs_ports: [1, 512], fxo_ports: [0, 512] },
+  // end modules-r8
 };
 
 export function unitFor(category: string, key: string): string | undefined {

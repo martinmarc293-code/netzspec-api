@@ -69,7 +69,17 @@ const CASES: Case[] = [
   { kind: "security-module", series: "ASA", field: "power_max", want: "req", why: "a blade draws power and Cisco prints it" },
   { kind: "security-module", series: "ASA", field: "product_compatibility", want: "req", why: "it is bought for the chassis it fits" },
   { kind: "security-module", series: "ASA", field: "weight", want: "na", why: "but it is NOT a box: no dimensions, weight, humidity or certifications" },
-  { kind: "security-module", series: "ASA", field: "ips_throughput", want: "na", why: "the inspected-throughput cup belongs to the dedicated IPS kinds" },
+  // security-r6 (12 Sep 2026): this case READ "na", and the corpus says otherwise. SM-40, SM-48 and
+  // SM-56 hold ips_throughput facts of 60, 68 and 73 Gbit/s (t1:r6:c1-c3 of the Firepower 9300
+  // datasheet), and 21 of the cup's 24 facts sit on firewalls rather than on the `ips` kinds it was
+  // scoped to. So the cup was required of the 74 parts holding 3 facts and optional on the 450
+  // holding 21. It is now asked of every inline shape, blades included.
+  { kind: "security-module", series: "ASA", field: "ips_throughput", want: "req", why: "SM-40/48/56 are quoted 60/68/73 Gbit/s of NGIPS throughput, and hold it" },
+  { kind: "security-module", series: "ASA", field: "ipsec_throughput", want: "req", why: "'IPSec VPN throughput (1024B TCP /Fastpath)' names SM-40/48/56; the three facts are stored" },
+  { kind: "security-module", series: "ASA", field: "vpn_peers", want: "req", why: "'Maximum VPN Peers' names SM-40/48/56; all three hold 20,000" },
+  { kind: "security-module", series: "ASA", field: "tls_throughput", want: "req", why: "'TLS (Hardware Decryption)' names SM-40/48/56 (10/11/12 Gbps)" },
+  { kind: "security-module", series: "ASA", field: "ports", want: "na", why: "and STILL not ports: an FPR9K-SM-36 has none at all (the pre-r6 refusal, kept)" },
+  { kind: "security-module", series: "ASA", field: "new_conn_per_sec", want: "opt", why: "the cup its labels name but its `1/s` unit refuses — DECLARED, not required, until COUNT_LIKE admits the unit; `opt` and not `na` is the difference between an earned promotion waiting on a parser fix and a field nobody asked for" },
   { kind: "security-module", series: "ASA", field: "ports", want: "na", why: "FPR9K-SM-36 has no front ports while ASA5585-SSP-10 has eight — a cup half the kind cannot have is refused" },
   { kind: "ips-module", series: "5500-X ASA with Firepower", field: "ips_throughput", want: "req", why: "an ASA 5585-X IPS SSP is bought on inspected throughput" },
   { kind: "ips-module", series: "5500-X ASA with Firepower", field: "firewall_throughput", want: "na", why: "an IPS processor is not a firewall" },
@@ -174,9 +184,24 @@ export function run(): { passed: number; failed: number; lines: string[] } {
   const compTotals = SEC_COMPONENT.map((k) => ({ k, n: completenessV2("security", { kind: k, series: "Firepower NGFW", vendor: "cisco" } as never).required_total }));
   check("every BOX kind is still asked something", boxTotals.every((b) => b.n > 0),
     boxTotals.filter((b) => b.n === 0).map((b) => b.k).join(", "));
-  check("every COMPONENT kind is asked FEWER slots than the leanest box",
-    Math.max(...compTotals.map((c) => c.n)) < Math.min(...boxTotals.map((b) => b.n)),
-    `components ${compTotals.map((c) => `${c.k}:${c.n}`).join(" ")} · boxes ${boxTotals.map((b) => `${b.k}:${b.n}`).join(" ")}`);
+  // security-r6 (12 Sep 2026): `security-module` IS NAMED OUT OF THIS INVARIANT rather than the
+  // bound being loosened, because it is the one kind that is a component by form and a box by what
+  // it is bought on — the securityKind header says so ("`security-module` is in SEC_FIREWALL_KIND
+  // on purpose"), and the corpus agrees: SM-40/48/56 hold firewall_throughput, threat_throughput,
+  // ips_throughput, ipsec_throughput, vpn_peers and concurrent_sessions, 15 facts each. Adding the
+  // three r6 cups took it from 5 slots to 9, past `identity` at 8, so the invariant went red for a
+  // blade being asked what the datasheet quotes for it. Loosening the comparison to a number would
+  // have hidden the next real regression; exempting the ONE kind whose reason is written down does
+  // not. Every other component kind is still held to the original bound, and the exemption is
+  // asserted in both directions below so it cannot quietly become the whole list.
+  const BOXLIKE_COMPONENT = ["security-module"];
+  const strictComp = compTotals.filter((c) => !BOXLIKE_COMPONENT.includes(c.k));
+  check("every COMPONENT kind except the blade is asked FEWER slots than the leanest box",
+    Math.max(...strictComp.map((c) => c.n)) < Math.min(...boxTotals.map((b) => b.n)),
+    `components ${strictComp.map((c) => `${c.k}:${c.n}`).join(" ")} · boxes ${boxTotals.map((b) => `${b.k}:${b.n}`).join(" ")}`);
+  check("and the exemption list is exactly the kinds that BREAK the bound — an exemption for a kind that does not need it is a hole",
+    BOXLIKE_COMPONENT.every((k) => (compTotals.find((c) => c.k === k)?.n ?? 0) >= Math.min(...boxTotals.map((b) => b.n))),
+    `exempt ${BOXLIKE_COMPONENT.map((k) => `${k}:${compTotals.find((c) => c.k === k)?.n}`).join(" ")} · leanest box ${Math.min(...boxTotals.map((b) => b.n))}`);
   check("and every COMPONENT kind is asked at LEAST what it fits (nothing is asked nothing)",
     compTotals.every((c) => c.n > 0), compTotals.filter((c) => c.n === 0).map((c) => c.k).join(", "));
 

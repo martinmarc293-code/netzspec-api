@@ -69,16 +69,18 @@
 
 export type ModuleKind =
   | "module"     // the default: a component whose family nobody has named yet
-  | "interface"  // port-bearing: line cards, network/interface cards, port adapters, SPAs
+  | "interface"  // port-bearing: line cards, network/interface cards, port adapters, SPAs, NICs
+  | "fabric"     // crossbar switching-fabric modules — a card with no ports at all
   | "voice"      // voice and DSP cards
-  | "cellular"   // cellular (3G/4G/LTE), WiMAX and WPAN modules
-  | "radio"      // 802.11 radio and wireless-security modules
+  | "cellular"   // cellular (3G/4G/LTE) modules
+  | "radio"      // 802.11, WiMAX and WPAN radio and wireless-security modules
   | "service"    // service, compute and security-service modules (SRE, NAM blades, SSM, ACE30)
   | "memory"     // DRAM, flash, SD, USB and disk
   | "power"      // power supplies, PoE injectors and inline-power modules
   | "fan"
   | "cable"
   | "accessory"  // brackets, blanks, bezels, panels, antennas, third-party structured cabling
+  | "mux"        // passive WDM mux / demux / OADM / splitter — a MOVE proposal to optical-networking
   | "optic"      // a transceiver filed here — a MOVE proposal, asked nothing of a module
   | "device";    // a whole device filed here — a MOVE proposal, asked nothing of a module
 
@@ -96,31 +98,23 @@ export type ModuleKind =
 export const MOD_PORTED: readonly ModuleKind[] = ["interface", "voice"];
 
 /**
- * Kinds that are a component of a Cisco device — everything except the two misfiling markers.
- * Every one of them is bought for WHAT IT FITS, so `product_compatibility` is asked of all of them.
+ * Kinds that are a component of a Cisco device — everything except the three misfiling markers
+ * (`optic`, `mux` and `device`, each of which is a MOVE proposal whose real profile lives in
+ * another category). Every one of them is bought for WHAT IT FITS, so `product_compatibility` is
+ * asked of all of them — `mux` included, which is why it is listed here and not above.
  */
 export const MOD_COMPONENT: readonly ModuleKind[] =
-  ["module", "interface", "voice", "cellular", "radio", "service", "memory",
-   "power", "fan", "cable", "accessory"];
+  ["module", "interface", "fabric", "voice", "cellular", "radio", "service", "memory",
+   "power", "fan", "cable", "accessory", "mux"];
 
-/** Kinds that occupy a SLOT in a Cisco chassis — a card, not a cord, a cover or an SD card. */
-export const MOD_SLOTTED: readonly ModuleKind[] =
-  ["interface", "voice", "cellular", "radio", "service"];
-
-/**
- * Kinds with a physical envelope Cisco states: dimensions, weight, an operating temperature, a
- * humidity range and safety certifications. Measured over the 1,364 hardware parts, facts held:
- * certifications interface 55 / power 34 / cellular 17 / module 12 · temp_operating power 41 /
- * interface 11 · humidity_operating power 50 / interface 14 · weight interface 8.
- *
- * A CABLE, A BRACKET, A PANDUIT PATCH PANEL AND AN SD CARD ARE NOT HERE. Between them they hold 4
- * temp_operating facts and 4 humidity facts out of 305 parts, all four inherited from a family
- * document — including `certifications` and `emc_immunity` on 4OC3X/ATM-BLANK, a BLANK FACEPLATE,
- * which the report lists as a retraction proposal. Requiring the envelope of them was 1,525 slots
- * that no source will ever fill, for parts that have no electrical behaviour to certify.
- */
-export const MOD_PHYSICAL: readonly ModuleKind[] =
-  ["interface", "voice", "cellular", "radio", "service", "power", "fan", "device"];
+// MOD_SLOTTED AND MOD_PHYSICAL WERE DELETED HERE ON 12 SEP 2026 (round 8), and the deletion is the
+// point. Both were exported, both were asserted by tests/moduleKind.test.ts, and NEITHER WAS READ BY
+// ANY PROFILE: fieldSchema.ts imported MOD_SLOTTED and never used it, and did not import MOD_PHYSICAL
+// at all. MOD_PHYSICAL's own comment still argued for an envelope requirement that the same file had
+// already withdrawn hours earlier (the envelope is asked of `device` only, because every fact behind
+// the old list was INHERITED) — so the constant and the profile said opposite things, and the test
+// asserting the constant passed either way. A declared constant nothing reads is the drift this repo
+// keeps paying for; the fix is to delete it, not to comment it.
 
 // Ordered; the FIRST rule that matches wins. The order is not cosmetic:
 //   optic first        — RPHY-S10G-20K-480= would fall to the default, and DP04SFP8-E20= carries
@@ -145,6 +139,28 @@ const RULES: { kind: ModuleKind; re: RegExp }[] = [
   // Q100-ZR4 a 100G ZR4 QSFP; WS-G5486 a 1000BASE-LX GBIC; WSP-Q40GLRL a 40G QSFP;
   // PQSF2PXA#MBL a QSFP28 DAC assembly; ONS-SE- the NCS 2000 SFP line.
   { kind: "optic", re: /^DP0\d|^RPHY-S10G-|^S10G-B[DU]|^S10G-B\d|^CXP-\d|^Q\d{2,3}-ZR|^WS-G\d{4}|^WSP-Q\d|^PQSF\d|^ONS-SE-/ },
+  // 1b. PASSIVE WDM MUX / DEMUX / OADM / SPLITTER (17 rows, MOVE to `optical-networking`), added
+  // 12 Sep 2026 (round 8, reviewer §6). These were the largest single population left in the
+  // default, and the default was asking a 32-channel demultiplexer card the one question a
+  // component answers and nothing else. A passive is bought on its INSERTION LOSS, which is the
+  // cup `optical-networking` requires of its own 275 `mux` parts — and that is why the kind is
+  // named `mux` and not something new: one cup set per kind name across categories
+  // (tests/cupLedger.test.ts). Enumerated families, every row read:
+  //   ^15216-CS      the Y-cable splitter/combiner (2)
+  //   ^15216-FLD     the Edge 4-channel bi-directional OADM (6, each holding an optical_frequency
+  //                  CHANNEL LIST — "194.7; 194.6; 194.5; 194.4" — which is the tell)
+  //   ^15454-32MUX/32DMX and ^15454-AD-\d   the 32-channel mux and demux and the band OADMs (4)
+  //   ^EWDM-OADM\d   the 2- and 4-channel EWDM OADMs (2)
+  //   ^NCS1K-MD-     the NCS 1000 64-channel mux/demux patch panel (1)
+  //   ^ONS-BRK-      the colourless flex-spectrum mux/dmx breakouts (2)
+  // THREE REFUSALS, all pinned: `15216-FL-SA=` is a SHELF ASSEMBLY ("4 module slots, 1-rack unit
+  // high") and not a passive at all, so the 15216 families are named rather than the prefix;
+  // `EWDM-OA=` and `ONS-QDD-OLS=` are optical AMPLIFIERS (an EDFA), which is a different cup set
+  // (gain, rx_wavelength) and a population of TWO — this file's own rule is that a rule for a
+  // population of one or two is a rule nobody has seen work, so they stay in the default and are
+  // move proposals in the report; and `WDM-SFP-2CH-CONV=` is a TRANSPONDER, which converts a
+  // client signal rather than combining channels.
+  { kind: "mux", re: /^15216-(?:CS|FLD)|^15454-(?:32(?:MUX|DMX)|AD-\d)|^EWDM-OADM\d|^NCS1K-MD-|^ONS-BRK-/ },
   // 2. CABLE, BEFORE ACCESSORY (92 rows). Two reasons, both found by reading the buckets:
   //   CAB-HD8-KIT is a CABLE kit and holds `cable_length` = 3 m, so the KIT token in the accessory
   //        rule below must not reach it. switchKind solves the mirror image of this the mirror way
@@ -166,6 +182,15 @@ const RULES: { kind: ModuleKind; re: RegExp }[] = [
     kind: "accessory",
     re: /^(?:FAPH|FHMP|FZTR|FQ|PHQ4|CS78|E78|JE8E|AZ83|CMPH|EDGE8|DGE8|ECM8|CM8|FC29N|FC2ZO|FHC9N|FHCZO|XG74|ZA|STGR|NAL)|^LIM-SL-|(?:^|-)ANT\d*-|^FIPS-|(?:^|-)(?:BEZEL|BLANK|BLNK|BRKT|RCKMNT|MNT|KIT|ACC|CVR|COVER|TRAY|RAIL|PNL|SHIELD|PANEL)(?:-|=|\d|$)|^ACS-\d.*-RM-|^RPS-COVER|^PP\d-\d|^SM-NM-ADPTR|-FD-MB(?:-|=|$)/,
   },
+  // 3b. ETHERSWITCH MODULES, BEFORE POWER (11 rows), added 12 Sep 2026 (round 8). `NMD-36-ESW-PWR`,
+  // `NMD-36-ESW-PWR=` and `NMD-36-ESW-PWR-2G=` were being read as POWER SUPPLIES by the `-PWR`
+  // token below, and the last of the three holds a real `ports` fact — 36 × 10/100 plus 2 Gig,
+  // mined from its own name. So the profile was asking a 36-port EtherSwitch network module what
+  // it DELIVERS in watts, which way it blows and what voltage it takes, and asking it no port
+  // count. `PWR` in these SKUs is the inline power the module SUPPLIES to phones, not a supply.
+  // The other eight (NM-16ESW, HWIC-D-9ESW, GE-DCARD-ESW, …) already reached `interface` through
+  // their own family prefix; they are here so the rule is one rule rather than three exceptions.
+  { kind: "interface", re: /(?:^|-)\d*ESW(?:-|=|\d|$)/ },
   // 4. POWER — supplies, PoE injectors and inline-power modules. 68 rows, 25 part-evidence and no
   // device evidence. PWR/PAC/PHV/PDC/PSU/CAC are Cisco's supply tokens in every category
   // (componentKind.ts); ILPM- is the 1700/1800 inline-power module; RPS# the redundant supply;
@@ -177,7 +202,13 @@ const RULES: { kind: ModuleKind; re: RegExp }[] = [
   // 6. MEMORY AND STORAGE. MEM- DRAM upgrades, the Catalyst 4500 SD and USB cards, the NAM disk.
   // Storage has no ports, no form factor Cisco states and no power figure; it is asked what it
   // fits and how much it holds.
-  { kind: "memory", re: /^MEM-|(?:^|-)SD-X\d|(?:^|-)USB-X\d|(?:^|-)HDD(?:-|=|\d|$)|^NAM\d?-HDD/ },
+  // `^FL-<platform>-<from>U<to>(MB|GB)` ADDED 12 Sep 2026 (round 8). `FL-1900-256U512MB` and its
+  // spare read "CISCO1905 DRAM Upgrade from 256MB to 512MB" — a DRAM part wearing Cisco's
+  // feature-licence prefix, which is why the routers agent's `^FL-(?!8XX-)` licence rule would
+  // class it as a licence and why it fell to the default here. The shape is exact (a platform, a
+  // from-size, `U`, a to-size, a unit) and matches those two rows and nothing else in the whole
+  // catalogue — checked against all 91k parts, not just this category.
+  { kind: "memory", re: /^MEM-|^FL-\d{3,4}-\d+U[\d.]+(?:MB|GB)|(?:^|-)SD-X\d|(?:^|-)USB-X\d|(?:^|-)HDD(?:-|=|\d|$)|^NAM\d?-HDD/ },
   // 7. WHOLE DEVICES FILED HERE (87 rows, MOVE — see the report). Named families only, every row
   // read. Routers: CISCO####-* (9), the C18xx/C19xx/C28xx/C29xx/C39xx SHDSL, 3G/4G and WAAS
   // bundles (36), ASR1001-HX, NCS-55A2-MOD-S, NCS-57B1-*. Switches: WS-C####. Servers: UCS-FI-,
@@ -187,28 +218,59 @@ const RULES: { kind: ModuleKind; re: RegExp }[] = [
   // category). Security: the ASA55xx appliance bundles. XGS-PON ONTs: ENC-10G-ONT-*.
   {
     kind: "device",
-    re: /^CISCO\d{4}|^C1[89]\d\d-|^C2[89]\d\d-|^C39\d\d-|^ASR1001|^NCS-5\d|^WS-C\d|^UCSX?-FI-|^UCSC-C\d|^DS-C9\d|^DS-9\d|^ASA55\d\d-(?!SC-|GTP)|^ENC-10G-ONT/,
+    // `^C6\d{3}E-` ADDED 12 Sep 2026 (round 8): `C6504E-ACE30-4-K9` and `C6509E-ACE30-8X-K9` are
+    // CATALYST 6500-E CHASSIS BUNDLES ("ACE30 8G 6509-E 720-10G-3CXL Bundle") — a chassis, a
+    // supervisor and an ACE30 blade sold as one line. They fell to the default, so a whole
+    // Catalyst 6509 was asked what it fits and nothing else. The `E` is load-bearing: it is what
+    // separates the chassis line from `C6800-SUP6T-XL=`, which is a SUPERVISOR and stays in the
+    // default (a population of one, and the move to `switches` is where switchKind already names it).
+    re: /^CISCO\d{4}|^C1[89]\d\d-|^C2[89]\d\d-|^C39\d\d-|^C6\d{3}E-|^ASR1001|^NCS-5\d|^WS-C\d|^UCSX?-FI-|^UCSC-C\d|^DS-C9\d|^DS-9\d|^ASA55\d\d-(?!SC-|GTP)|^ENC-10G-ONT/,
   },
   // 8. VOICE AND DSP. PVDM- packet voice/fax DSP modules, VIC-/VWIC- voice interface cards, the
   // NM-HDV high-density voice NMs (30 rows, 28 part-evidence), PA-VXA/VXB/VXC voice port adapters,
   // the 3810 APM/DVM/VCM voice modules, and the -FXS/-FXO/-E&M analogue cards.
   { kind: "voice", re: /^PVDM\d?-|^V?VIC\d?-|^VWIC\d?-|^NM-HD|^NM-\d*V|^PA-VX|^3810-|(?:^|-)\d*(?:FXS|FXO|E&M|BRI|DSP)[A-Z]?(?:[-=/\d]|$)|(?:^|-)HDV(?:-|=|\d|$)/ },
-  // 9. CELLULAR, WiMAX AND WPAN. The 3G/4G/LTE HWICs and NIMs (43 rows), the Connected Grid
-  // WiMAX/WPAN modules (7, all 7 part-evidence), and P-1T. `cellular_bands` is their cup:
-  // "Bands supported" / "Bands" occur 56 times in the vocabulary and 14 rows already hold one.
-  { kind: "cellular", re: /^(?:E?HWIC|NIM|NM|GRWIC)-(?:3G|4G|LTE)|-LTEA?(?:-|=|$)|^CGM-(?:WIMAX|WPAN)|^P-1T|(?:^|-)(?:3G|4G)-(?:CDMA|HSPA|EVDO|GSM)/ },
-  // 10. 802.11 RADIO. HWIC-AP-* access-point HWICs and the AIR-RM3000M / AIR-RM3010L wireless
-  // security and hyperlocation modules (46 rows, 43 part-evidence). Their cup is
-  // `ieee_standards` — 54 facts already hold it ("802.11 B,G" on HWIC-AP-G-A) — not
-  // `cellular_bands`, which is a cellular quantity, and not `radio_bands`: see the report's R2
-  // note on the 51 radio_bands facts, every one of them on a cellular ROUTER bundle.
-  { kind: "radio", re: /^E?HWIC-AP|^AIR-RM\d/ },
+  // 9. CELLULAR — 3G/4G/LTE only, as of 12 Sep 2026 (round 8). The 3G/4G/LTE HWICs and NIMs (51
+  // rows). `cellular_bands` is their cup: "Bands supported" (33) / "Bands" (23) = 56 occurrences
+  // in the vocabulary, and after the `im-radio-bands-mhz` rekey of this date 51 of the 53 hold one.
+  //
+  // TWO POPULATIONS LEFT THIS RULE, and both were being asked a cellular band they cannot have:
+  //   ^CGM-(WIMAX|WPAN)  7 rows. WiMAX is IEEE 802.16e and WPAN is IEEE 802.15.4e/g — neither is
+  //        cellular, and each names its standard in its own name ("Connected Grid Module - IEEE
+  //        802.16e WiMAX 1.8-1.830 GHz"). They move to `radio`, whose cup IS `ieee_standards`.
+  //        Their three stored `radio_bands` facts ("1390 MHz - 1525 MHz") are a WiMAX channel
+  //        plan, not an LTE band list, which is the second half of the same reading.
+  //   ^P-\d+T            2 rows (P-1T, P-1T=). "High Speed Serial Pluggable" — a one-port SERIAL
+  //        pluggable for the ISR 1100, filed here because the P- prefix is shared with the
+  //        P-LTEA7-* and P-5GS6-* cellular pluggables (which live in `routers`). It states one
+  //        port in its own SKU, so it is an `interface`. The `-LTEA?` alternative below still
+  //        catches a cellular P- module if one ever lands here.
+  { kind: "cellular", re: /^(?:E?HWIC|NIM|NM|GRWIC)-(?:3G|4G|LTE)|-LTEA?(?:-|=|$)|(?:^|-)(?:3G|4G)-(?:CDMA|HSPA|EVDO|GSM)/ },
+  // 10. RADIO — 802.11, WiMAX and WPAN. HWIC-AP-* access-point HWICs, the AIR-RM3000M / AIR-RM3010L
+  // wireless security and hyperlocation modules (45 rows, 43 part-evidence) and, from 12 Sep 2026,
+  // the seven Connected Grid WiMAX/WPAN modules. Their cup is `ieee_standards` — 16 rows hold it
+  // already ("802.11 B,G" on HWIC-AP-G-A) — not `cellular_bands`, and not `radio_bands`, which
+  // catalogue-wide holds THREE different quantities (Wi-Fi bands in `wireless`, cellular bands
+  // here, and an AC mains frequency on seven HPE parts in this very category: "50Hz/60Hz").
+  { kind: "radio", re: /^E?HWIC-AP|^AIR-RM\d|^CGM-(?:WIMAX|WPAN)/ },
   // 11. SERVICE, COMPUTE AND SECURITY-SERVICE MODULES. SM-SRE-/NME-/SC-SVC- service-ready
   // engines, WS-SVC- Catalyst 6500 service blades (18 rows, 13 part-evidence), the ASA SSM/SSC
   // and CSC-SSM blades (10, 6/0), ACE30 application-control modules, the IPSec SPAs and the
   // NAM appliances filed here. These run a workload, so they are asked DRAM and storage and
   // never a port count: 0 of them hold `ports`, 42 hold `dram`.
   { kind: "service", re: /^SM-SRE|^NME-|^SC-SVC-|^WS-SVC-|^ASA-SS[MC]|^CSC-SSM|^ACE30-|^SPA-IPSEC|^NAM\d|^SM-NAM|^SM-\d?SRE/ },
+  // 11b. CROSSBAR SWITCHING-FABRIC MODULES, BEFORE INTERFACE (8 rows), added 12 Sep 2026 (round 8,
+  // reviewer §6). THREE OF THE EIGHT WERE `interface` AND BEING ASKED A PORT COUNT: DS-X9706-FAB1B=,
+  // DS-X9710-FAB1B= and DS-X9710-FAB3= are MDS crossbar fabric modules caught by the `^DS-X\d`
+  // Fibre-Channel line-card marker, and a fabric card has no external port at all — it is bought on
+  // the per-slot bandwidth it gives the cards around it. The other five (DS-13SLT-FAB1/1=/2HP=/2P=/
+  // 3NH=, the MDS 9513 fabrics) fell to the default. `fabric` is the kind name `optical-networking`
+  // and `storage-networking` already use for the same card, so the cup set is theirs: fabric_bandwidth,
+  // power_max, product_compatibility.
+  // THE REFUSAL IS WHY THE RULE IS `FAB\d` AND NOT `FAB`: `NCS-FAB-OPT` and `NCS-FAB-OPT=` are a
+  // "Bundle of 96 CXP-100G-SR12" — ninety-six OPTICS ordered on one line, with FAB followed by a
+  // hyphen. A `FAB`-anywhere rule would have called a crate of transceivers a switching fabric.
+  { kind: "fabric", re: /(?:^|-)FAB\d/ },
   // 12. PORT-BEARING INTERFACE MODULES — the category's real subject. Named families, each
   // measured above: NIM-, HWIC-/EHWIC-, WIC-, NM-/NMD-, SM-X-/SM-D-ES, GRWIC-, PA- port adapters,
   // SPA-/EPA-/SIP-, the 7300/7500/10000/12000 line cards, the nOC3/nOC12 POS and ATM cards
@@ -218,7 +280,20 @@ const RULES: { kind: ModuleKind; re: RegExp }[] = [
   // backcards, GE-DCARD daughter cards and the UCS VIC adapters.
   {
     kind: "interface",
-    re: /^NIM-|^E?HWIC\d?-|^V?WIC\d?-|^NMD?-|^SM-(?:[XD]-|ES\d|\d)|^GRWIC-|^(?:SPA|ESPA|EPA|PA)-|(?:^|-)SIP-\d|-SIP(?:=|$)|^(?:73\d\d|76\d\d|1[02]000)-|^\d+(?:CH)?OC-?\d+|^OC\d+E?\/(?:POS|ATM)|^\d+X?\d*(?:GE|FE)-|^STM\d|^WS-X\d|^DS-X\d|^15454E?-ML|^MGX-|^GE-DCARD|^UCSC?-VIC|^N7K-|^C\d{4}-LC-/,
+    // THREE FAMILIES ADDED 12 Sep 2026 (round 8, reviewer §6) — every one port-bearing, and every
+    // one previously in the default, asked what it fits and never how many ports it has:
+    //   ^UCSC-(P|PCIE)-  11 PCIe NICs (UCSC-P-M5D100GF is "MELLANOX CX-5 MCX516A-CDAT 2x100GbE
+    //        QSFP PCIe NIC" and already holds a mined `ports` fact of 2 × 100G). The file's earlier
+    //        note kept them out of `device` on the right grounds — a NIC is a component — and then
+    //        left them in a default that asks no ports. `UCSC-P-` needs the hyphen: `UCSC-PSU-6536-AC`
+    //        is a supply and the power rule takes it first either way.
+    //   ^88-LC[O0]-      3 Cisco 8800 line cards (88-LC0-36FH is the 36 × 400GE card). Filed under
+    //        series "Transceiver Modules" with the name equal to the SKU, which is why no reader had
+    //        placed them. Both spellings are accepted because the catalogue holds the letter-O form
+    //        and Cisco prints the zero form.
+    //   ^P-\d+T          the ISR 1100 serial pluggables (P-1T, P-1T=) — see the cellular rule above,
+    //        which they left today.
+    re: /^NIM-|^E?HWIC\d?-|^V?WIC\d?-|^NMD?-|^SM-(?:[XD]-|ES\d|\d)|^GRWIC-|^(?:SPA|ESPA|EPA|PA)-|(?:^|-)SIP-\d|-SIP(?:=|$)|^(?:73\d\d|76\d\d|1[02]000)-|^\d+(?:CH)?OC-?\d+|^OC\d+E?\/(?:POS|ATM)|^\d+X?\d*(?:GE|FE)-|^STM\d|^WS-X\d|^DS-X\d|^15454E?-ML|^MGX-|^GE-DCARD|^UCSC?-VIC|^UCSC-(?:P|PCIE)-|^88-LC[O0]-|^P-\d+T(?:-|=|$)|^N7K-|^C\d{4}-LC-/,
   },
 ];
 

@@ -532,6 +532,39 @@ check("an UNKNOWN category applies every rule, as before scoping existed",
     onServer.kind === "ok" ? onServer.key : onServer.kind, "drive_interface");
 }
 
+// ---- security-r6 (12 Sep 2026): the two scoped rules added for the firewall and ISE cups -------
+// Both are scoped `only: ["security"]`, so each one is asserted to FIRE there and to stay silent
+// in a neighbouring category — a scoped rule proved only inside its own scope has not been proved
+// to be scoped at all.
+check('"TLS (Hardware Decryption) 2" reaches tls_throughput (the 4200 column, SM-40/48/56)',
+  mapLabel("TLS (Hardware Decryption) 2", "security"), "tls_throughput");
+check('...and the unnumbered form too', mapLabel("TLS (Hardware Decryption)", "security"), "tls_throughput");
+check('...and the bare synonym', mapLabel("SSL throughput", "security"), "tls_throughput");
+check('SCOPED: the same bare synonym maps NOTHING in routers, where an ACE figure lives',
+  mapLabel("SSL throughput", "routers") ?? "unmapped", "unmapped");
+// THE REFUSALS THAT DECIDED THE RULE'S SHAPE. Each of these was in the first draft and each was
+// removed after reading its sample SKUs or its sample VALUES: the (Gbps) form is Radware Alteon,
+// and the "performance" forms are section headers whose cell repeats the label.
+check('REFUSED: "SSL bulk encryption throughput (Gbps)" (12 occurrences, Alteon D-9800S)',
+  mapLabel("SSL bulk encryption throughput (Gbps)", "security") ?? "unmapped", "unmapped");
+check('REFUSED: "SSL performance" — a section header whose cell repeats the label',
+  mapLabel("SSL performance", "security") ?? "unmapped", "unmapped");
+check('REFUSED: "SSL Transactions Per Second" — a rate, not a throughput',
+  mapLabel("SSL Transactions Per Second", "security") ?? "unmapped", "unmapped");
+check('and "SSL/TLS Connections per Second" still reaches the RATE cup, not this one',
+  mapLabel("SSL/TLS Connections per Second", "security"), "ssl_connections_per_sec");
+check('"Concurrent active endpoints supported by a dedicated PSN (Cisco ISE node only has PSN persona)" reaches max_endpoints',
+  mapLabel("Concurrent active endpoints supported by a dedicated PSN (Cisco ISE node only has PSN persona)", "security"), "max_endpoints");
+check('...and the full-stopped twin the other SNS sheet prints',
+  mapLabel("Concurrent active endpoints supported by a dedicated PSN (Cisco ISE node only has PSN persona.)", "security"), "max_endpoints");
+// THE REFUSAL THE RULE EXISTS FOR: the shared-PSN row is a DIFFERENT measurement of the same
+// appliance (25,000 against 50,000). One cup holding both makes its band and any comparison
+// meaningless — the reason ISE was taken out of concurrent_sessions on 12 Sep 2026.
+check('REFUSED: the SHARED-PSN row, a second measurement of the same box',
+  mapLabel("Concurrent active endpoints supported by a shared PSN (Cisco ISE node has multiple personas)", "security") ?? "unmapped", "unmapped");
+check('SCOPED: the dedicated-PSN row maps nothing in wireless',
+  mapLabel("Concurrent active endpoints supported by a dedicated PSN (Cisco ISE node only has PSN persona)", "wireless") ?? "unmapped", "unmapped");
+
 // ---- THE ONE SUMMARY AND THE ONE EXIT ---------------------------------------------------------
 // Arithmetic, like TOTAL, and for the same reason: a denominator derived from `pass` cannot notice
 // a dropped case. 9 fixed checks in the scoped block (Type-in-optical, Integrated antenna,
@@ -539,7 +572,14 @@ check("an UNKNOWN category applies every rule, as before scoping existed",
 // category), plus the two mapFact cases, plus the subtotal assertion itself.
 const SCOPED_TOTAL = SPEED_IS_A_DRIVE.length * 2 + SPEED_IS_NOT_A_DRIVE.length
   + FREQ_IS_A_RADIO.length + FREQ_IS_NOT_A_RADIO.length + 1 + TYPE_IS_NOT_A_MODULATION.length
-  + 3 + 2 + 3 + 1 + 2 + 1;
+  + 3 + 2 + 3 + 1 + 2 + 1
+  // security-r6 (12 Sep 2026): 12 checks — tls_throughput 3 maps + 4 refusals/controls (the
+  // routers scope, the Alteon "(Gbps)" form, the "SSL performance" header, "SSL Transactions Per
+  // Second") + 1 control that the rate cup still wins its own label; max_endpoints 2 maps + 2
+  // refusals (the shared-PSN row, the wrong category). Counted, not derived from `pass`: the first
+  // version of this line said 13 and the suite printed 271/272 with an EMPTY miss list, which is
+  // exactly the arithmetic-versus-pass point the comment above makes, caught by its own guard.
+  + 12;
 const stated = RULES.filter(([, , , v]) => v !== NO_SHAPE).length;
 console.log(`${pass}/${TOTAL + SCOPED_TOTAL} passed (${TOTAL} rule-table, ${SCOPED_TOTAL} category-scoped)`);
 if (misses.length) {

@@ -56,8 +56,12 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   // recompute-completeness gives it no_profile before it looks up a profile at all.
   security: [...SEC_BOX, ...SEC_COMPONENT],
   // --- modules-misc (12 Sep 2026) -------------------------------------------------------------
-  "interfaces-modules": ["module", "interface", "voice", "cellular", "radio", "service", "memory",
-    "power", "fan", "cable", "accessory", "optic", "device"] satisfies ModuleKind[],
+  // modules-r8 (12 Sep 2026): `fabric` and `mux` added with the round-8 kind rules. Both take their
+  // cup set from the category that already uses the name — `fabric` from storage-networking and
+  // optical-networking, `mux` from optical-networking — so the one-cup-set-per-kind check below has
+  // something to compare and needs no exception for either.
+  "interfaces-modules": ["module", "interface", "fabric", "voice", "cellular", "radio", "service", "memory",
+    "power", "fan", "cable", "accessory", "mux", "optic", "device"] satisfies ModuleKind[],
   meraki: ["unknown", "switch", "access-point", "appliance", "camera", "sensor", "gateway",
     "accessory"] satisfies MerakiKind[],
   // data-center-networking reuses switchKind, so it reuses its kind list — every one gets a

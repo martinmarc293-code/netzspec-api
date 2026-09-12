@@ -98,6 +98,106 @@ const CASES = [
   ["routers", "wifi_generation", "–", "ENUM_VIOLATION"],
   // NOT INVENTED: no product in the catalogue claims Wi-Fi 8, so it is not in the domain.
   ["wireless", "wifi_generation", "Wi-Fi 8", "ENUM_VIOLATION"],
+
+  // ---- wireless-r7 (12 Sep 2026): four more wireless cups closed -------------------------------
+  // Every ACCEPTED case below is a spelling the corpus really holds and every REFUSED case is a
+  // value the census found in the store or in the label inventory — not an invented string.
+  //
+  // 4. spatial_streams. Eight configurations; the compact spellings are what is stored and the
+  //    spaced one is what a datasheet cell writes.
+  ["wireless", "spatial_streams", "4x4:3", "4x4:3"],          // 234 stored
+  ["wireless", "spatial_streams", "4X4:4", "4x4:4"],          // case only
+  ["wireless", "spatial_streams", "4 x 4 : 3", "4x4:3"],      // the reason the rules exist
+  ["wireless", "spatial_streams", "3x4:3", "3x4:3"],
+  ["wireless", "spatial_streams", "3x3:2", "3x3:2"],
+  ["wireless", "spatial_streams", "2x2:2", "2x2:2"],
+  ["wireless", "spatial_streams", "8x8:8", "8x8:8"],
+  ["wireless", "spatial_streams", "4x4", "4x4"],              // the array with no stream count
+  ["wireless", "spatial_streams", "2x2 MIMO", "2x2"],
+  // REFUSED: the five values the census lists under this cup that are not one configuration.
+  ["wireless", "spatial_streams", "10 or 8 (2x2+4x4+4x4 or 4x4+4x4)", "ENUM_VIOLATION"],   // CW9174E: alternatives
+  ["wireless", "spatial_streams", "8 (4x4 + 4x4)", "ENUM_VIOLATION"],                       // MR46E: a total
+  ["wireless", "spatial_streams", "2.4GHz: 2 x 2 multiple input, multiple output (MIMO) with two spatial streams 5GHz: 4 x 4 multiple input, multiple output (MIMO) with four spatial streams", "ENUM_VIOLATION"],
+  ["wireless", "spatial_streams", "4 x 4 multiple input, multiple output (MIMO) with four spatial streams", "ENUM_VIOLATION"],
+  // NOT INVENTED: no Cisco wireless part in the catalogue is 5x5:5.
+  ["wireless", "spatial_streams", "5x5:5", "ENUM_VIOLATION"],
+  //
+  // 5. antenna_connector. Five connectors, and a cell naming two of them is refused rather than
+  //    resolved by rule order.
+  ["wireless", "antenna_connector", "RP-TNC", "rp-tnc"],      // 85 stored
+  ["wireless", "antenna_connector", "RP TNC", "rp-tnc"],
+  ["wireless", "antenna_connector", "N-type", "n-type"],      // 14 stored
+  ["wireless", "antenna_connector", "RF Mesh N connector (female)", "n-type"],
+  ["wireless", "antenna_connector", "QMA, female", "qma"],
+  ["wireless", "antenna_connector", "2x Cu-Sn-Zn-plated QMA compliant with ASTM B-117", "qma"],
+  ["wireless", "antenna_connector", "MMCX", "mmcx"],
+  // REFUSED: one cell, two different connectors (the radio's and the GPS's) — the two-ended-cable
+  // shape. Rule order would have picked one of them and stored it as the antenna's.
+  ["wireless", "antenna_connector", "RF Mesh QMA (female), GPS: SMA (female)", "ENUM_VIOLATION"],
+  // REFUSED: a bare TNC is not an RP-TNC — reverse polarity is a different connector, and no
+  // antenna in the catalogue states one.
+  ["wireless", "antenna_connector", "TNC", "ENUM_VIOLATION"],
+  //
+  // 6. antenna_type. Internal or external, which is what an AP is ordered on.
+  ["wireless", "antenna_type", "I: Internal antennas", "internal"],     // stored
+  ["wireless", "antenna_type", "E: External antennas", "external"],     // stored
+  ["wireless", "antenna_type", "Internal fixed PiFA antenna", "internal"],
+  ["wireless", "antenna_type", "Integrated antenna", "internal"],       // the 73 repointed labels
+  ["wireless", "antenna_type", "Ext. Ant", "external"],
+  // REFUSED: a radiation PATTERN answers a different question, and a cell naming both internal and
+  // external must not be settled by rule order.
+  ["wireless", "antenna_type", "Dipole (On-Board)", "ENUM_VIOLATION"],
+  ["wireless", "antenna_type", "Sector 2x2 MIMO", "ENUM_VIOLATION"],
+  ["meraki", "antenna_type", "4x Omni-directional antennas (5.4 dBi gain at 2.4 GHz, 6 dBi gain at 5 GHz)", "ENUM_VIOLATION"],
+  ["wireless", "antenna_type", "Internal and external antennas", "ENUM_VIOLATION"],
+  //
+  // 7. regulatory_domain, and the pair below it is the whole reason this cup is an enum.
+  ["wireless", "regulatory_domain", "A", "a"],
+  ["wireless", "regulatory_domain", "Z", "z"],
+  ["wireless", "regulatory_domain", "Universal Domain", "universal"],
+  ["wireless", "regulatory_domain", "ROW", "row"],
+  ["wireless", "regulatory_domain", "NAM/LAM", "nam-lam"],
+  ["wireless", "regulatory_domain", "NAM, LAM, CANADA", "nam-lam"],
+  // "NA" IS NORTH AMERICA HERE and the enum accepts it; under a free-text key the placeholder guard
+  // at the top of this file deletes the same string. Both halves are asserted, one line apart,
+  // because the guard's own comment names this field as the reason it is scoped to s/ls.
+  ["wireless", "regulatory_domain", "NA", "na"],
+  ["wireless", "mounting", "NA", "PARSE_FAIL"],
+  // REFUSED: "x" is the family-placeholder letter on 41 SKUs (3-CBW140AC-x), "O" is a letter no
+  // Cisco part takes, and "EU" belongs to the market/plug-code axis (AIR-MOD-AC-IN "AC plug module
+  // for India"), not to the regulatory domain.
+  ["wireless", "regulatory_domain", "x", "ENUM_VIOLATION"],
+  ["wireless", "regulatory_domain", "O", "ENUM_VIOLATION"],
+  ["wireless", "regulatory_domain", "EU", "ENUM_VIOLATION"],
+  // end wireless-r7
+  // ---- routers-r5 (12 Sep 2026): the census's own refusal population, three guards -------------
+  // 1. A EUROPEAN THOUSANDS SEPARATOR in an English document (census Q3, 18 stored rows). The
+  //    relabel can only ever fire where the band already refused, so the CONTROLS matter more than
+  //    the case: a real decimal that is in band must still parse, and a value out of band BOTH ways
+  //    must keep its plain RANGE_VIOLATION.
+  ["routers", "altitude_max", "● Maximum altitude: 13.800 ft per IEC 68-2-41", "RANGE_VIOLATION"],
+  ["routers", "altitude_max", "0 to 10,000 feet (0 to 3050 meters)", 3050],
+  ["routers", "altitude_max", "-60 to 4000m (up to 2000m conforms to IEC, EN, UL, and CSA 60950 requirements)", 4000],
+  ["routers", "weight", "0.800 kg", 0.8],
+  ["routers", "altitude_max", "0.004 m", "RANGE_VIOLATION"],
+
+  // 2. A NEGATIVE DC RANGE is written magnitude-first (census Q6, 2 stored rows in routers and 2
+  //    more in switches). The swap is fenced to endpoints that are both non-positive.
+  ["routers", "input_voltage", "DC: -40 to -72V", { min: -72, max: -40 }],
+  ["switches", "input_voltage", "DC -40 to -72 VDC", { min: -72, max: -40 }],
+  ["routers", "input_voltage", "100 to 240 VAC", { min: 100, max: 240 }],
+  //    REFUSAL: a range straddling zero and out of order is a broken cell, not a magnitude-first
+  //    reading, and must keep failing. This is the case the fence exists for.
+  ["routers", "input_voltage", "70 to -40 V", "PARSE_FAIL"],
+
+  // 3. A FIGURE CONDITIONAL ON A CONFIGURATION is a capability statement, not a specification.
+  ["routers", "nat_sessions", "1.2M w/ default 8GB, up to 2M w/ 32GB", "PARSE_FAIL"],
+  ["routers", "nat_sessions", "600k w/ default 4GB, up to 2M w/ 32GB", "PARSE_FAIL"],
+  //    CONTROLS: the seven plain values must still parse, magnitude suffix and all, and "up to" on
+  //    its own must NOT trip the guard — ~190 good altitude_max values contain it.
+  ["routers", "nat_sessions", "100K", 100000],
+  ["routers", "nat_sessions", "32M", 32000000],
+  ["routers", "nat_sessions", "up to 2M", 2000000],
 ];
 
 for (const [category, key, raw, want] of CASES) {
@@ -119,6 +219,22 @@ const DEFS = [
   ["wifi_generation", (d) => d.type === "e" && (d.domain ?? []).length === 5 && d.domain.includes("wi-fi 6e")],
   ["rx_max_input_power", (d) => d.type === "n" && d.unit === "dBm" && Array.isArray(d.band)],
   ["radio_bands", (d) => d.type === "s"],
+  // wireless-r7 (12 Sep 2026). The four cups closed above must BE enums with their measured domains,
+  // for the same reason wifi_generation is asserted here: a regeneration of fieldSchema.generated.ts
+  // would quietly restore `antenna_type` to a free string, and the guards above would all still pass
+  // while refusing nothing.
+  ["spatial_streams", (d) => d.type === "e" && (d.domain ?? []).length === 8 && d.domain.includes("4x4:3")],
+  ["antenna_connector", (d) => d.type === "e" && (d.domain ?? []).includes("rp-tnc") && !d.domain.includes("tnc")],
+  ["antenna_type", (d) => d.type === "e" && JSON.stringify(d.domain) === JSON.stringify(["internal", "external"])],
+  // "na" is IN and "x" is OUT: the first is the reviewer's point, the second is the family
+  // placeholder that 41 SKUs carry and no product is built for.
+  ["regulatory_domain", (d) => d.type === "e" && (d.domain ?? []).includes("na") && !d.domain.includes("x") && d.domain.length === 24],
+  // end wireless-r7
+  // routers-r5: nat_sessions is a COUNT with a band read off the catalogue's own values (stored
+  // 100,000 … 32,000,000). Asserted because the key lives in the GENERATED half of the dictionary
+  // as type "s", and only the curated override keeps it a number through a regeneration — the
+  // eol_announcement_date lesson, in the other direction.
+  ["nat_sessions", (d) => d.type === "n" && Array.isArray(d.band) && d.band[0] === 1000],
 ];
 for (const [key, ok] of DEFS) {
   const d = FIELD_DICTIONARY[key];
@@ -136,7 +252,30 @@ for (const key of LIFECYCLE_GONE) {
   else misses.push(`${key} is back in the dictionary — a lifecycle date is Cisco's sales calendar, not a property of the part`);
 }
 
-const TOTAL = CASES.length + DEFS.length + LIFECYCLE_GONE.length;
+// routers-r5: AND THE SEPARATOR CASE ABOVE COULD NOT FAIL. `RANGE_VIOLATION` is the reason with the
+// relabel AND without it — the band refuses the value either way — so disabling `ambiguousSeparator`
+// left the suite at 69/69. A case that asserts a reason code cannot test a change that only alters
+// the DETAIL. Found by running the sabotage, which is the only thing that would have found it.
+// Both directions, because "it mentions the ambiguity" is only evidence if something does not.
+let sepPass = 0;
+{
+  const amb = normalizeField("routers", "altitude_max", "● Maximum altitude: 13.800 ft per IEC 68-2-41", { locale: "en" });
+  const ok1 = !amb.ok && /AMBIGUOUS DECIMAL SEPARATOR/.test(amb.detail) &&
+    amb.detail.includes("4206") === false && /13800|4206|4,206/.test(amb.detail.replace(/\s/g, ""));
+  if (!amb.ok && /AMBIGUOUS DECIMAL SEPARATOR/.test(amb.detail)) sepPass++;
+  else misses.push(`altitude_max "13.800 ft" must be refused AS AN AMBIGUOUS SEPARATOR, got: ${amb.ok ? JSON.stringify(amb.value) : amb.detail}`);
+  // the CONTROL: a value out of band by both readings gets the ordinary message and no ambiguity claim
+  const plain = normalizeField("routers", "altitude_max", "0.004 m", { locale: "en" });
+  if (!plain.ok && !/AMBIGUOUS/.test(plain.detail)) sepPass++;
+  else misses.push(`altitude_max "0.004 m" must be a PLAIN range violation, got: ${plain.ok ? JSON.stringify(plain.value) : plain.detail}`);
+  void ok1;
+}
+pass += sepPass;
+
+// MERGED, 12 Sep 2026: two agents and the parent all added to this total in the same hour. The
+// `2` is the separator block's own pair of checks; LIFECYCLE_GONE is the two retired lifecycle keys
+// (it was 1 when the routers agent branched, which is why its side of the conflict says `+ 1`).
+const TOTAL = CASES.length + DEFS.length + LIFECYCLE_GONE.length + 2;
 console.log(`    value refusals: ${pass}/${TOTAL} passed (${CASES.filter((c) => /^[A-Z_]+$/.test(String(c[3]))).length} refusal cases, ${DEFS.length + LIFECYCLE_GONE.length} definition assertions)`);
 if (misses.length) {
   for (const m of misses) console.log("  MISS  " + m);

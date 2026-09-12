@@ -876,7 +876,11 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["SG350-28-K9-xx", "Cisco SG350-28-K9-xx", "switches", "family-placeholder at X{2,} — -xx is the REGION, not a spec"],
     ["SF110D-08-xx", "Cisco SF110D-08 8-port 10/100 Desktop Switch", "switches", "family-placeholder at X{2,} — a real desktop switch with 9 facts"],
     ["CBS350-8P-2G-xx", "Cisco CBS350-8P-2G-xx", "switches", "family-placeholder at X{2,} — region code on a Catalyst Business switch"],
-    ["SC9800CLAMIK9-xxxx", "Cisco Catalyst 9800-CL Wireless Controller – AWS", "wireless", "family-placeholder without its SC9800CL veto — a cloud controller, not a placeholder"],
+    // (SC9800CLAMIK9-xxxx stood here asserting "stays hardware". MOVED into the wl-uc-class block on
+    //  12 Sep 2026: the family-placeholder comment says outright that the 9800-CL cloud controllers
+    //  "are software, not placeholders", and that lane has now given them `software`, so the proxy
+    //  assertion is false while the thing it proves — family-placeholder must not decide them — still
+    //  holds and is asserted there against the rule by name.)
     ["SFP-GE-S", "Cisco SFP-GE-S 1000BASE-SX SFP-Modul — SX (Kurzstrecke), Multimode, bis 550 m (OM3)", "transceiver", "firepower-svp-subscription without its digits-after-SFP anchor"],
     // routers (12 Sep 2026) — each a real part the obvious wider form of a routers class rule would take. Names verbatim.
     ["XC-SLOT-CVR-E", "X-Series Family Slot Cover", "switches", "xc-licence without its SLOT- fence — a slot cover"],
@@ -912,7 +916,11 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["SG350-28-K9-xx", "Cisco SG350-28-K9-xx", "switches", "family-placeholder at X{2,} — -xx is the REGION, not a spec"],
     ["SF110D-08-xx", "Cisco SF110D-08 8-port 10/100 Desktop Switch", "switches", "family-placeholder at X{2,} — a real desktop switch with 9 facts"],
     ["CBS350-8P-2G-xx", "Cisco CBS350-8P-2G-xx", "switches", "family-placeholder at X{2,} — region code on a Catalyst Business switch"],
-    ["SC9800CLAMIK9-xxxx", "Cisco Catalyst 9800-CL Wireless Controller – AWS", "wireless", "family-placeholder without its SC9800CL veto — a cloud controller, not a placeholder"],
+    // (SC9800CLAMIK9-xxxx stood here asserting "stays hardware". MOVED into the wl-uc-class block on
+    //  12 Sep 2026: the family-placeholder comment says outright that the 9800-CL cloud controllers
+    //  "are software, not placeholders", and that lane has now given them `software`, so the proxy
+    //  assertion is false while the thing it proves — family-placeholder must not decide them — still
+    //  holds and is asserted there against the rule by name.)
     ["SFP-GE-S", "Cisco SFP-GE-S 1000BASE-SX SFP-Modul — SX (Kurzstrecke), Multimode, bis 550 m (OM3)", "transceiver", "firepower-svp-subscription without its digits-after-SFP anchor"],
     // ---- security (12 Sep 2026) ------------------------------------------------------------------
     // The nine products the security block's wider forms would have deleted. Each is named in that
@@ -1381,9 +1389,12 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     // The R- e-delivery prefix. These are wireless / switches SOFTWARE wrongly classed hardware —
     // another lane's rows AND another lane's class (software, not licence), so the rule is anchored
     // on a UC application token instead and they are reported rather than written.
-    ["R-POLICY-241-SWK9", "Cisco Policy Suite 24.1 Software", "wireless", "a bare R- prefix — wireless software, not a UC licence, and not this agent's row"],
+    // (R-POLICY-241-SWK9 and R-NAM-VX20-62K9S= stood here asserting "stays hardware". MOVED into the
+    //  wl-uc-class block on 12 Sep 2026 — this note said they were "another lane's rows AND another
+    //  lane's class (software, not licence) ... reported rather than written", and that lane has now
+    //  written them as software. What this list was proving, that uc-app-edelivery must not decide
+    //  them, is asserted there against the rule by name, and the bare-R- sabotage below is unchanged.)
     ["R-ME3400E-B2I=", "Metro Base to Metro IPAccess Image Upgrade for ME3400E Switch", "switches", "a bare R- prefix — a switches IOS image"],
-    ["R-NAM-VX20-62K9S=", "Smat Lic based Cisco Prime Virtual NAM VX20 Software 6.2", "wireless", "a bare R- prefix"],
     // Cisco ONE: the round-2 refusal, re-confirmed for the CUBE rule.
     ["C1-ASR1001-HX/K9", "ONE - ASR1001-HX, 4x10GE+4x1GE, 2x P/S", "routers", "cube-session-license without its -CUBEE anchor — a real ASR 1001-HX chassis"],
     ["C1-FLOW-IE4K", "ONE Netflow IE4000", "switches", "cube-session-license with C1-FL and no hyphen — this one carries 14 facts"],
@@ -1528,6 +1539,318 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
   sabotages += 22;
 }
 // end collab-class
+
+// wl-uc-class (12 Sep 2026) — the wireless and unified-communications class residue named by the
+// reviewer's round 4 §6: wireless kind `software` 134 and kind `other` 1,187, UC kind `software` 239.
+// Every SKU and every name below is verbatim from the live catalogue — each was looked up before it was
+// pinned, because a refusal pinned against a SKU that does not exist is a test that proves nothing.
+// There are more refusals than positives, and each refusal names the wider form of the rule above it
+// and the real product that form would have declassified.
+{
+  const fire: [string, string, string, ProductClass, string][] = [
+    // --- the StarOS / mobile packet core catalogue filed in `wireless` -----------------------------
+    ["ASR55-00-SWUDP218", "ASR5500 StarOS Release 18 System SW, Per UDPC2", "wireless", "license", "sku-regex:staros-5500-licence"],
+    ["ASR5S-00SWUD22122=", "ASR5500 Subscr Release 21.22 System SW, Per UDPC2", "wireless", "license", "sku-regex:staros-5500-licence"],
+    ["LIF55-00-SWUDP219=", "ASR5500 StarOS Release 19 System SW, Per UDPC2 (Failover)", "wireless", "license", "sku-regex:staros-5500-licence"],
+    ["ASR5K-SW-R21-K9", "ASR5000 System Software, Release 21.0, Per SMC or MIO", "wireless", "software", "sku-regex:staros-image"],
+    ["ASR5K-03-HA-P3=", "Sprint Only HA Per PSC3", "wireless", "license", "sku-regex:asr5000-feature-licence"],
+    ["ASR5K-1D-R120-K9=", "SCM R12 upgrade, including IMSI prefix, AAR enable", "wireless", "license", "sku-regex:asr5000-feature-licence"],
+    ["ASR5000-NETW4RTM", "Cisco ASR5000-NETW4RTM", "wireless", "license", "sku-prefix:ASR5000-NETW4"],
+    ["MIXS-00-HS3S41=", "HSS 10,000 Provisioned Subscriber Block", "wireless", "license", "sku-regex:ims-mobility-licence"],
+    ["MIXSA-00-SSE0R10", "ECS Offboard Storage Server (ESS) Rel 10", "wireless", "license", "sku-regex:ims-mobility-licence"],
+    ["MIXF-0D-1-SB31-M1", "TMO SBC Bundle per 1K Ports, 16K Sess, Call Model 1 Failover", "wireless", "license", "sku-regex:ims-mobility-licence"],
+    ["QVPCA-00-SW-2502", "QVPC StarOS Release 2025.02 System SW", "wireless", "software", "sku-regex:qvpc-image"],
+    ["QVPCA-00-HA10SW", "Home Agent Software License, 10K sessions", "wireless", "license", "sku-regex:qvpc-licence"],
+    ["UCC5G-SMF-S31-L", "UCC - Session Management Function (SMF), 1K sessions", "wireless", "license", "sku-regex:ucc-cloud-core"],
+    ["MI3P-00-AND-100S=", "ANDSF Capacity License (activated clients) - 100k", "wireless", "license", "sku-prefix:MI3P-"],
+    ["AND-R17-ALL-10M_S=", "ANDSF All Inclusive 2017 Release Upgrades- 10M sessions", "wireless", "license", "sku-regex:andsf-release-upgrade"],
+    ["CUTO-00-P91=", "CUTO Standalone Perpetual 1 Gbps", "wireless", "license", "sku-regex:cuto-perpetual"],
+    ["MOG-SW-09=", "CPS MOG Release 9.0, per instance", "wireless", "software", "sku-regex:mog-software"],
+    ["MOG-FDC-100=", "MOG Non-RTU Features, AT&T Only", "wireless", "license", "sku-prefix:MOG-FDC"],
+    ["OWM-4-PPA-K9=", "PPI+Analytics Bundle 1-9.9M Active Users", "wireless", "license", "sku-prefix:OWM-"],
+    ["EMSP-L-BASE-5Y", "EMSP Base Platform Large package - 5 Year Duration", "wireless", "license", "sku-prefix:EMSP-"],
+    // --- Cisco Policy Suite: the software and the application licences, two spellings ---------------
+    ["POLICY-75-AIO-K9", "Cisco Policy Suite 7.5 All-In-One Lab Software", "wireless", "software", "sku-regex:policy-suite-software"],
+    ["R-POLICY-241-SWK9", "Cisco Policy Suite 24.1 Software", "wireless", "software", "sku-regex:policy-suite-software"],
+    ["POL-P-ALL-100K", "CPS All-Inclusive Feature Pack - 100K sessions", "wireless", "license", "sku-prefix:POL-"],
+    ["QP-LTE-BASE-1", "Cisco QP-LTE-BASE-1", "wireless", "license", "sku-regex:policy-runtime"],
+    ["PDRA-P-PRE-1M", "Policy DRA - Premium Pack - 1M Sessions", "wireless", "license", "sku-regex:policy-dra"],
+    ["VDRA-INIT", "VDRA Application Base License", "wireless", "license", "sku-regex:policy-dra"],
+    ["APS-P-AAA-10K-1T", "AAA Feature Pack - 10K Sessions - 1-999K", "wireless", "license", "sku-regex:policy-feature-pack"],
+    ["M-P-SIR-10K-1T", "Subscriber Intelligence Module - 10k Subscribers - 10-999K", "wireless", "license", "sku-regex:policy-feature-pack"],
+    ["CPS-S-ATS-MV=", "CPS Automation Tool SW SWSS + Install, Multi VM", "wireless", "license", "sku-regex:cps-automation"],
+    ["SSAS20K9-COSLI20", "WSG R2.0 Application Software RTU per SAMI (Crypto)", "wireless", "license", "sku-regex:wsg-sami-rtu"],
+    ["SC-SBC-NAP-SAMI-1", "No App Image For WS-SVC-SAMI-BB=", "wireless", "software", "sku-regex:sami-no-app-image"],
+    ["R-NAM-VX10-62K9S=", "Smart Lic based Cisco Prime Virtual NAM VX10 Software 6.2", "wireless", "software", "sku-regex:prime-virtual-nam"],
+    // --- wireless management, location and controller software -------------------------------------
+    ["AIR-CAS-1KC-K9", "Context Aware Engine for Clients License For 1K Clients", "wireless", "license", "sku-regex:context-aware-licence"],
+    ["AIR-LM-WIPS-2000", "Cisco Enhanced Local Mode wIPS License, Supporting 2000 APs", "wireless", "license", "sku-regex:context-aware-licence"],
+    ["AIR-CMX-CLD-CPA-1Y", "CMX Cloud - Connect with Presence Analytics 1Yr license", "wireless", "license", "sku-regex:context-aware-licence"],
+    ["AIR-CT2504-SW-8.1", "Cisco 2504 Wireless Controller SW Rel. 8.1", "wireless", "software", "sku-regex:wlc-ap-image"],
+    ["SWC5500K9-81", "Cisco Unified Wireless Controller SW Release 8.1", "wireless", "software", "sku-regex:wlc-ap-sw-image"],
+    ["SWLAP3700-MESH-K9", "Enterprise Wireless Mesh - AP3700 Controller-based SW Image", "wireless", "software", "sku-regex:wlc-ap-sw-image"],
+    ["SWIEC6400-URWB", "URWB software for IEC6400", "wireless", "software", "sku-regex:wlc-ap-sw-image"],
+    ["SC9800CLAMIK9-xxxx", "Cisco Catalyst 9800-CL Wireless Controller - AWS", "wireless", "software", "sku-prefix:SC9800"],
+    ["SC980080K9-171", "UNIVERSAL (NETWORK ESSENTIALS)", "wireless", "software", "sku-prefix:SC9800"],
+    ["SC-SVC-WISM2-8.1", "WiSM2 SW Rel. 8.1", "wireless", "software", "sku-regex:wism-software"],
+    ["MSE-SW-NEW-WIPS", "MSE software option - WIPS 10.x SW", "wireless", "software", "sku-regex:mse-software"],
+    ["MSE-WIPS-T-5Y", "MSE WIPS Tracker Term 5Y", "wireless", "license", "sku-prefix:MSE-WIPS-"],
+    ["C1-WLC-AP-T", "Cisco ONE Wireless LAN Controller Term License", "wireless", "license", "sku-regex:cisco-one-wireless"],
+    ["C1-MSE-WIPS-1", "Cisco ONE Mobility Svcs - Wireless Intrusion Prevention 1AP", "wireless", "license", "sku-regex:cisco-one-wireless"],
+    ["PRO-L-LS-100AP", "Promotion- 100 AP Base Location Services license", "wireless", "license", "sku-regex:promo-location-licence"],
+    ["S-MGMT3X-N5K", "Cisco Ent MGMT: PI 3.x LF, AS Smart Lic, 1 Nexus 5K", "wireless", "license", "sku-prefix:S-MGMT3X-"],
+    ["WCS-NAV-20", "Cisco WCS Navigator License to support 20 Cisco WCS management platforms", "wireless", "license", "sku-prefix:WCS-NAV-"],
+    ["C4500E-S8-CA", "5 AP license upgrade for Cisco 4500 Wireless Controller", "wireless", "license", "sku-exact:C4500E-S8-CA"],
+    ["ASCT-EXCMGR", "Exciter Manager Software", "wireless", "software", "sku-exact:ASCT-EXCMGR"],
+    // --- Fluidmesh ---------------------------------------------------------------------------------
+    ["FM3200-30", "Enable up to 30 Mbit/s ethernet througput in FM3200 Devices for fix backhaul", "wireless", "license", "sku-regex:fluidmesh-throughput"],
+    ["FM4500-FLU-TRK-15", "Enable FLUIDITY Infrastructure Mode up to 15 Mbit/sec in FM4500", "wireless", "license", "sku-regex:fluidmesh-throughput"],
+    ["FM1000-GWY-500", "Software upgrade up to 500 Mbps (aggregate throughput)", "wireless", "license", "sku-regex:fluidmesh-throughput"],
+    ["FM4800-FLU-TRK-MOB-250", "Cisco FM4800-FLU-TRK-MOB-250", "wireless", "license", "sku-regex:fluidmesh-throughput"],
+    ["FM-TITAN", "TITAN Plug-in. Enables Fast Failover in case of network, radio or power failure", "wireless", "license", "sku-regex:fluidmesh-plugin"],
+    ["FM-MONITOR-2500", "Cisco FM-MONITOR-2500", "wireless", "license", "sku-regex:fluidmesh-plugin"],
+    ["FLMESH-SW-PAK", "SW Container PID Only", "wireless", "non_product", "sku-exact:FLMESH-SW-PAK"],
+    // --- ordering options and datasheet cells ------------------------------------------------------
+    ["AIR-EMEA", "Regulatory Domain Configuration for EMEA (ETSI)", "wireless", "non_product", "sku-regex:regulatory-domain-option"],
+    ["AIR3500-DP-DLR", "Product family - demand planning dollar adjustment", "wireless", "non_product", "sku-regex:demand-planning-adjust"],
+    ["U-NII-6", "Cisco U-NII-6", "wireless", "non_product", "sku-regex:wifi-datasheet-cell"],
+    ["WPA3", "Cisco WPA3", "wireless", "non_product", "sku-regex:wifi-datasheet-cell"],
+    ["MSC15", "Cisco MSC15", "wireless", "non_product", "sku-regex:wifi-datasheet-cell"],
+    ["VMXNET3", "Cisco VMXNET3", "wireless", "non_product", "sku-regex:wifi-datasheet-cell"],
+    ["FINISAR-LR", "Cisco FINISAR-LR", "wireless", "non_product", "sku-regex:wifi-datasheet-cell"],
+    ["AP1542D", "D: Internal directional antenna", "wireless", "non_product", "sku-regex:ap-antenna-option-cell"],
+    ["AP1562E", "E: External Antenna", "wireless", "non_product", "sku-regex:ap-antenna-option-cell"],
+    ["C9130-OVER", "C9130AX OVER OPTION", "wireless", "non_product", "sku-regex:ap-pack-option"],
+    ["C9130-MULTI", "Minimum Quantity = 10", "wireless", "non_product", "sku-regex:ap-pack-option"],
+    // --- unified-communications --------------------------------------------------------------------
+    ["UCM-7825-NODE", "CUCM 7825 Node", "unified-communications", "license", "sku-regex:ucm-node-entitlement"],
+    ["UCM-7835-UPG-PAK", "Include Upg PAK Auto-expanding PAK for CUCM 8.0", "unified-communications", "license", "sku-regex:ucm-node-entitlement"],
+    ["UCM-7825-85-KIT", "CUCM 8.5 Media Kit", "unified-communications", "software", "sku-regex:cucm-mcs-software"],
+    ["UCM-51-7845-KIT", "CUCM 5.1 Media Kit for CUWL Only", "unified-communications", "software", "sku-regex:cucm-mcs-software"],
+    ["UCM-7816-86", "Unified Communications Manager 8.6 Server Software", "unified-communications", "software", "sku-regex:cucm-mcs-software"],
+    ["UCM-10.5-SW-K9-XU=", "CUCM Software Version 10.X for PUT Only, Export Unrestricted", "unified-communications", "software", "sku-regex:cucm-put-software"],
+    ["UC-14-SW-K9-XU=", "CUCM Software Version 14 for MCE Only, Export Unrestricted", "unified-communications", "software", "sku-regex:cucm-put-software"],
+    ["UCM-11X-ESS-UCL", "BE6K UCM 11X Essential User Connect Lic-Single Fulfillment", "unified-communications", "license", "sku-regex:cucm-user-licence"],
+    ["UCM-90-ENHP-UCL", "BE6K UCM 90 Enhanced Plus User Connect License", "unified-communications", "license", "sku-regex:cucm-user-licence"],
+    ["JAB9-DSK-CLNT-EA", "Jabber for Desktop 9.x Client License for Windows/Mac", "unified-communications", "license", "sku-regex:jabber-client"],
+    ["JABBER-GUEST-EA-K9", "Jabber Guest Right to Use", "unified-communications", "license", "sku-regex:jabber-client"],
+    ["JABG-EXP-2SBDL-K9=", "Jabber Guest 2 Session Bundle", "unified-communications", "license", "sku-regex:jabber-client"],
+    ["CALL-SW-12.X-K9", "PS Calling for EMEAR - Software Version 12", "unified-communications", "software", "sku-regex:ps-calling-software"],
+    ["E3C-SW-15-K9", "Cisco E3C-SW-15-K9", "unified-communications", "license", "sku-exact:E3C-SW-15-K9"],
+  ];
+  for (const [sku, name, cat, want, reason] of fire) {
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
+    check(`wl-uc-class: ${sku} -> ${want} by ${reason}`, got.klass === want && got.reason === reason, `${got.klass} / ${got.reason}`);
+    seenReasons.add(got.reason);
+  }
+
+  // REFUSALS. Every one is a real product, with the catalogue's own name, that a wider form of a rule
+  // above would have deleted. Nine of them carry an own fact, which is why the fact gate could refuse
+  // those nine; the rest could only be found by reading the family, which is the point.
+  const stay: [string, string, string, string][] = [
+    // The ASR 5000/5500 platform. The rule takes LICENCE BLOCKS, never the platform token.
+    ["ASR5K-SMC-K9", "System Management Card 4GB", "wireless", "a bare ASR5K- prefix — the System Management Card"],
+    ["ASR5K-MEM-PSC2=", "DIMM Replacement Kit for PSC2 - 32GB", "wireless", "a bare ASR5K- prefix — a DIMM kit"],
+    ["ASR5K-0110G-MM-K9", "XGLC 1-Port 10 Gigabit Ethernet Line Card w/MM SFP+", "wireless", "a bare ASR5K- prefix — a line card with an own physical fact"],
+    ["ASR5K-12-PSC32GK9=", "Packet Services Card (PSC2) 32GB, ATT Femto only", "wireless", "asr5000-feature-licence widened to any two-character block — block 12 holds a CARD"],
+    ["ASR5K-20-LAB-PSC3", "ASR 5000 Platform Partner Lab Bundle, 3x PSC3", "wireless", "the same — block 20 holds chassis lab bundles"],
+    ["ASR5K-0F-B00-2069=", "Motorola PSC2 LTE Hardware and Software bundle", "wireless", "the same — block 0F is a hardware+software bundle"],
+    ["ASR5K-232216V3-K9", "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIO 3PN", "wireless", "a two-digit block read off a six-digit configuration code"],
+    ["ASR55-DPC-K9", "ASR5500 Data Processing Card (DPC)", "wireless", "a bare ASR55- prefix — a Data Processing Card"],
+    ["ASR55-UDPC-K9", "ASR5500 Universal Data Processing Card (UDPC)", "wireless", "the same"],
+    ["ASR55-CHS-SYS-U8B", "ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC", "wireless", "a bare ASR55- prefix — a chassis system"],
+    ["ASR55-04-UDPCRX", "ASR5500 UDPC Card and Initial System SW, KDDI Only", "wireless", "staros-5500-licence without its -UDPCRX veto — a card sold with its software"],
+    // The one mixed MIX* block: AT&T's PAS rack build.
+    ["MIXS-12-PA2121AC=", "PAS AC ENCLOSURE [ATT US PAS Only]", "wireless", "ims-mobility-licence without its PA2 veto — an enclosure"],
+    ["MIXS-12-PA2211BL=", "PAS SPARE BLADE [ATT US PAS Only]", "wireless", "the same — a spare blade"],
+    ["MIXS-12-PA2141CO=", "PAS 10G ENCLOSURE SWITCH [ATT US PAS Only]", "wireless", "the same — an enclosure switch"],
+    // AIR-: 2,186 products, 61 with an own physical fact. Five measured sub-families only.
+    ["AIR-MRAID12G", "Cisco 12G SAS Modular Raid Controller", "wireless", "a bare AIR- prefix — a RAID controller"],
+    ["AIR-MOD-AC-EU", "AP1800 AC plug module for the EU", "wireless", "a bare AIR- prefix — an AC plug module"],
+    ["AIR-330-MB-1", "MobileAccessVE One-link Main Building Unit", "wireless", "a bare AIR- prefix — a DAS building unit"],
+    ["AIR-CT85DC-SP-K9", "8500 Series Wireless Controller with 0 APs included, Dual DC PSU", "wireless", "an AIR-CT rule read without the -SW- release anchor — an 8500 controller"],
+    ["AIR-1550-HAZBBU", "1550 Series Hazardous Location Battery Backup Unit", "wireless", "a bare AIR- prefix — a battery backup unit"],
+    ["AIR-CORD1500-40UE=", "Aironet 1500 AC Power Cord, 40 ft. unterm, EU", "wireless", "a bare AIR- prefix — a power cord with an own fact"],
+    ["AIR-MSE3350-HD=", "Field Replaceable Hard Disk For The MSE 3350", "wireless", "an AIR-MSE rule wider than -PAK — a hard disk"],
+    ["AIR-MSE-B2-C3-W25", "MSE 3350 Bundle", "wireless", "an AIR-MSE rule wider than -PAK — a bundle that ships the MSE 3350"],
+    ["AIR-VBLE1-K9", "Cisco CMX Beacon Point", "wireless", "an AIR-...BLE rule — a physical beacon point"],
+    ["MSE-HD600G10K12G", "600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted", "wireless", "a bare MSE- prefix — a 600 GB drive"],
+    ["MSE-MRAID12G", "Cisco 12G SAS Modular Raid Controller", "wireless", "a bare MSE- prefix — a RAID controller"],
+    // Fluidmesh: the tier at the end is the whole discriminator.
+    ["FM1000-GWY", "Cisco FM1000 Gateway for Fluidity up to 1 Gbps of aggregate throughput", "wireless", "fluidmesh-throughput without its tier requirement — the gateway itself, with an own physical fact"],
+    ["FM10000-GWY", "Cisco FM10000 Gateway for Fluidity up to 10 Gpbs of aggregate throughput", "wireless", "the same, one model up"],
+    ["FM3200B-HW", "Cisco FM3200 Base, single MIMO radio device, up to 15 Mbit/s", "wireless", "fluidmesh-throughput with -HW read as a tier — a backhaul radio"],
+    ["FM1200V-HW", "Cisco FM1200 Volo, single MIMO radio device, up to 2.5 Mbit/s", "wireless", "the same"],
+    ["FM-OMNI-5-V", "Cisco FM-OMNI-5-V", "wireless", "a bare FM- prefix — an omni antenna"],
+    ["FM-PANEL-9", "Cisco FM-PANEL-9", "wireless", "a bare FM- prefix — a panel antenna"],
+    ["FM-SHARK-16", "Cisco FM-SHARK-16", "wireless", "a bare FM- prefix — a shark-fin antenna"],
+    ["FM-SECTOR90-16DS", "Cisco FM-SECTOR90-16DS", "wireless", "a bare FM- prefix — a 90-degree sector antenna"],
+    ["FM-POE-STD", "Cisco FM-POE-STD", "wireless", "a bare FM- prefix — a PoE injector"],
+    ["FLMESH-HW-ACC-61", "Cisco FLMESH-HW-ACC-61", "wireless", "a bare FLMESH- prefix — a Fluidmesh accessory with an own fact"],
+    // Ordering options and datasheet cells are anchored to the WHOLE SKU.
+    ["C9800-40-K9", "Cisco Catalyst 9800-40 Wireless Controller", "wireless", "ap-pack-option widened to ^C9\\d{3}- — the real Catalyst 9800-40 controller"],
+    ["AP1572IC", "Cisco AP1572IC", "wireless", "ap-antenna-option-cell widened to ^AP1 — an AP variant carrying two own facts"],
+    ["AP18321-UXK9", "Hydra 3X3 cost saving version for Corsica Lite AP1830", "wireless", "the same — a real AP1830 variant"],
+    ["C9124-CVR1=", "Paintable cover for Catalyst 9124AX", "wireless", "a C9124- prefix — a paintable cover"],
+    // Cisco ONE and EDU: the ordering-form spellings of real controllers.
+    ["C1-AIR-CT5508-K9", "Cisco ONE - 5500 series WLAN Controller w/ 0 AP lics", "wireless", "cisco-one-wireless widened to ^C1-AIR- — a real 5508 controller on the Cisco ONE form"],
+    ["C1-N9K-C9508", "Cisco ONE Nexus 9508 Chassis with 8 linecard slots", "switches", "cisco-one-wireless widened to a bare C1- — round 2's refusal, still refused"],
+    ["EDU-CT5520-K9", "Cisco 5520 Wireless Controller w/rack mounting kit K12", "wireless", "a bare EDU- prefix — a real K12 controller"],
+    ["EDU-CW9800M", "Cisco EDU-CW9800M", "wireless", "the same"],
+    ["PROMOCT5508-1-K9", "Migration to Cisco - 5508 100 licenses", "wireless", "promo-location-licence widened to ^PRO — a controller migration that may ship the controller"],
+    // Other lanes' products that a wider token would have reached.
+    ["S-4554LC80D", "MikroTik S-4554LC80D 1,25G SFP BiDi", "transceiver", "S-MGMT3X- widened to a bare S- — a MikroTik optic with two own physical facts"],
+    ["WS-SVCWISM2FIPKIT=", "WS-SVC-WISM2 FIPS Kit", "wireless", "wism-software read as a WISM substring — a FIPS kit"],
+    ["ASCT-EX3200", "Compact exciter", "wireless", "an ASCT- prefix — a compact exciter; only its -EXCMGR software sibling is taken"],
+    ["IWA-SATAIN-220M6", "C220M6 SATA Interposer board (1U)", "wireless", "any residue rule — a server interposer board misfiled in wireless"],
+    ["CS-ROOM70P-WMK=", "Cisco Room 70 Panorama Wall Mount Kit - hangs on wall", "wireless", "any residue rule — a wall mount kit with an own physical fact (a category-move proposal)"],
+    ["CW-INJ-8", "Cisco CW-INJ-8", "wireless", "any residue rule — a PoE injector, and a wirelessKind gap reported rather than classed"],
+    ["FM-PONTE-50", "Cisco FM-PONTE-50", "wireless", "fluidmesh-throughput read over the hyphenated FM- form — undecided between a PONTE radio and a 50 Mbps tier, so left hardware and reported"],
+    ["WL5520-28-ADV-100", "Cisco WL5520-28-ADV-100", "wireless", "any WL<model>-<tier> rule — a controller-and-licence bundle whose name is only its SKU, left hardware and reported"],
+  ];
+  for (const [sku, name, cat, wouldEat] of stay) {
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
+    check(`wl-uc-class refusal: ${sku} stays hardware (would have been eaten by ${wouldEat.slice(0, 56)})`,
+      got.klass === "hardware", `${got.klass} / ${got.reason}`);
+  }
+  check(`wl-uc-class has more refusals (${stay.length}) than positives (${fire.length}) is NOT required, but it has at least 40`, stay.length >= 40);
+
+  // A SECOND KIND OF REFUSAL, the one "stays hardware" cannot state. The twelve WPA-HXDP rows in
+  // hyperconverged-systems are ALREADY licences (the servers agent's hyperflex rule), so a bare ^WPA
+  // prefix here would not change their class — it would change their REASON to `non_product` and move
+  // twelve rows of another agent's category into this block. What must hold is that no rule of mine
+  // decides them.
+  const mineNames = new Set(SKU_RULES.slice(SKU_RULES.findIndex((r) => r.token === "staros-5500-licence")).map(ruleName));
+  for (const [sku, name, cat] of [
+    ["WPA-ELA-HXDP-3Y", "WPA Purposes Only 3Y Data Center Hyperflex Software", "hyperconverged-systems"],
+    ["WPA-HXDP-5Y-OASUB", "WPA Purposes Only 5Y Data Center Hyperflex OA Ratable", "hyperconverged-systems"],
+  ] as [string, string, string][]) {
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
+    check(`wl-uc-class does not decide ${sku} (a bare ^WPA prefix would take the servers agent's HyperFlex EA rows)`,
+      !mineNames.has(got.reason) && got.klass === "license", `${got.klass} / ${got.reason}`);
+  }
+  // The control for that assertion: the predicate must be able to fire. WPA3 IS one of my rows.
+  check("CONTROL: the not-decided-here predicate does fire on a row this block DOES decide (WPA3)",
+    mineNames.has(classify({ sku: "WPA3", name: "Cisco WPA3", categorySlug: "wireless", categoryIsHardware: true }).reason));
+
+  // THREE REFUSALS THAT MOVED HERE from other blocks' "stays hardware" lists, because this block gave
+  // those rows a class and "stays hardware" is only a PROXY for what those lists were proving. Asserted
+  // against the rule BY NAME instead, which is what they meant and which survives a later decision.
+  for (const [sku, name, notThis, why] of [
+    ["SC9800CLAMIK9-xxxx", "Cisco Catalyst 9800-CL Wireless Controller - AWS", "sku-regex:family-placeholder",
+      "a cloud controller, not a -xxxx placeholder; the transceiver block's veto says so in writing"],
+    ["R-POLICY-241-SWK9", "Cisco Policy Suite 24.1 Software", "sku-regex:uc-app-edelivery",
+      "wireless Policy Suite software, not a UC application's e-delivery twin"],
+    ["R-NAM-VX20-62K9S=", "Smat Lic based Cisco Prime Virtual NAM VX20 Software 6.2", "sku-regex:uc-app-edelivery",
+      "wireless Prime Virtual NAM software, the same"],
+  ] as [string, string, string, string][]) {
+    const got = classify({ sku, name, categorySlug: "wireless", categoryIsHardware: true });
+    check(`wl-uc-class: ${sku} is NOT decided by ${notThis} (${why.slice(0, 58)})`,
+      got.reason !== notThis && got.klass === "software", `${got.klass} / ${got.reason}`);
+  }
+  // And the control for THAT: family-placeholder must still decide a real placeholder, or the three
+  // assertions above would pass because the rule had stopped working rather than because it was fenced.
+  check("CONTROL: family-placeholder still decides DWDM-XFP-XX.YY",
+    classify({ sku: "DWDM-XFP-XX.YY", name: "Cisco DWDM-XFP-xx.yy", categorySlug: "transceiver", categoryIsHardware: true }).reason
+      === "sku-regex:family-placeholder");
+
+  // SABOTAGE. Each disables exactly one guard and asserts the product it protects is eaten. A veto or an
+  // anchor whose removal nothing notices is not a guard.
+  const staros55 = SKU_RULES.find((r) => r.token === "staros-5500-licence")!;
+  check("SABOTAGE staros-5500-licence without its -UDPCRX veto eats the UDPC card",
+    ruleMatches({ ...staros55, re: /^(?:ASR55|ASR5S|LIF55)-\d\d/ }, "ASR55-04-UDPCRX"));
+  for (const eaten of ["ASR55-DPC-K9", "ASR55-CHS-SYS-U8B", "ASR55-UDPC-K9"]) {
+    check(`SABOTAGE staros-5500-licence as a bare ASR55- prefix eats ${eaten}`,
+      ruleMatches({ ...staros55, kind: "prefix", token: "ASR55-", re: undefined }, eaten));
+  }
+  const asr5k = SKU_RULES.find((r) => r.token === "asr5000-feature-licence")!;
+  for (const eaten of ["ASR5K-12-PSC32GK9", "ASR5K-20-LAB-PSC3", "ASR5K-0F-B00-2069"]) {
+    check(`SABOTAGE asr5000-feature-licence widened to any two-character block eats ${eaten}`,
+      ruleMatches({ ...asr5k, re: /^ASR5K-[0-9A-F]{2}-/ }, eaten));
+  }
+  const mix = SKU_RULES.find((r) => r.token === "ims-mobility-licence")!;
+  for (const eaten of ["MIXS-12-PA2121AC", "MIXS-12-PA2211BL", "MIXS-12-PA2141CO"]) {
+    check(`SABOTAGE ims-mobility-licence without its PA2 veto eats ${eaten}`,
+      ruleMatches({ ...mix, re: /^MIX(?:SA|SF|S|F)-[0-9][0-9A-F]-/ }, eaten));
+  }
+  const caware = SKU_RULES.find((r) => r.token === "context-aware-licence")!;
+  for (const eaten of ["AIR-MRAID12G", "AIR-MOD-AC-EU", "AIR-1550-HAZBBU", "AIR-CT85DC-SP-K9"]) {
+    check(`SABOTAGE context-aware-licence as a bare AIR- prefix eats ${eaten}`,
+      ruleMatches({ ...caware, kind: "prefix", token: "AIR-", re: undefined }, eaten));
+  }
+  const fmTier = SKU_RULES.find((r) => r.token === "fluidmesh-throughput")!;
+  for (const eaten of ["FM1000-GWY", "FM10000-GWY", "FM3200B-HW", "FM1200V-HW"]) {
+    check(`SABOTAGE fluidmesh-throughput without its tier requirement eats ${eaten}`,
+      ruleMatches({ ...fmTier, re: /^FM(?:PONTE|\d{4,5}[A-Z]?)-/ }, eaten));
+  }
+  const fmPlug = SKU_RULES.find((r) => r.token === "fluidmesh-plugin")!;
+  for (const eaten of ["FM-OMNI-5-V", "FM-PANEL-9", "FM-SHARK-16", "FM-POE-STD", "FM-SECTOR90-16DS"]) {
+    check(`SABOTAGE fluidmesh-plugin as a bare FM- prefix eats ${eaten}`,
+      ruleMatches({ ...fmPlug, kind: "prefix", token: "FM-", re: undefined }, eaten));
+  }
+  const cell = SKU_RULES.find((r) => r.token === "wifi-datasheet-cell")!;
+  check("SABOTAGE wifi-datasheet-cell with WPA unanchored eats the servers agent's HyperFlex EA row",
+    ruleMatches({ ...cell, re: /^WPA/ }, "WPA-ELA-HXDP-3Y"));
+  const apCell = SKU_RULES.find((r) => r.token === "ap-antenna-option-cell")!;
+  for (const eaten of ["AP1572IC", "AP18321-UXK9"]) {
+    check(`SABOTAGE ap-antenna-option-cell widened to ^AP1 eats ${eaten}`, ruleMatches({ ...apCell, re: /^AP1/ }, eaten));
+  }
+  const pack = SKU_RULES.find((r) => r.token === "ap-pack-option")!;
+  check("SABOTAGE ap-pack-option widened to ^C9\\d{3}- eats the Catalyst 9800-40 controller",
+    ruleMatches({ ...pack, re: /^C9\d{3}-/ }, "C9800-40-K9"));
+  const c1w = SKU_RULES.find((r) => r.token === "cisco-one-wireless")!;
+  check("SABOTAGE cisco-one-wireless widened to ^C1-AIR- eats the Cisco ONE 5508 controller",
+    ruleMatches({ ...c1w, re: /^C1-AIR-/ }, "C1-AIR-CT5508-K9"));
+  check("SABOTAGE cisco-one-wireless as a bare C1- prefix eats the Nexus 9508 chassis",
+    ruleMatches({ ...c1w, kind: "prefix", token: "C1-", re: undefined }, "C1-N9K-C9508"));
+  const mgmt = SKU_RULES.find((r) => r.kind === "prefix" && r.token === "S-MGMT3X-")!;
+  check("SABOTAGE S-MGMT3X- as a bare S- prefix eats a MikroTik optic",
+    ruleMatches({ ...mgmt, token: "S-" }, "S-4554LC80D"));
+  const mseSw = SKU_RULES.find((r) => r.token === "mse-software")!;
+  check("SABOTAGE mse-software as a bare MSE- prefix eats the 600 GB drive",
+    ruleMatches({ ...mseSw, kind: "prefix", token: "MSE-", re: undefined }, "MSE-HD600G10K12G"));
+  const wism = SKU_RULES.find((r) => r.token === "wism-software")!;
+  check("SABOTAGE wism-software read as a WISM substring eats the WiSM2 FIPS kit",
+    ruleMatches({ ...wism, kind: "contains", token: "WISM", re: undefined }, "WS-SVCWISM2FIPKIT"));
+  const promoL = SKU_RULES.find((r) => r.token === "promo-location-licence")!;
+  check("SABOTAGE promo-location-licence widened to ^PRO eats the 5508 migration promotion",
+    ruleMatches({ ...promoL, re: /^PRO/ }, "PROMOCT5508-1-K9"));
+  // ORDER, not a veto: cucm-mcs-software WOULD take a node licence, which is why the node rule runs
+  // first. This asserts the overlap exists — if it stops existing, the ordering comment is stale.
+  const mcs = SKU_RULES.find((r) => r.token === "cucm-mcs-software")!;
+  check("cucm-mcs-software does reach UCM-7825-NODE, so ucm-node-entitlement must run before it",
+    ruleMatches(mcs, "UCM-7825-NODE")
+    && SKU_RULES.findIndex((r) => r.token === "ucm-node-entitlement") < SKU_RULES.findIndex((r) => r.token === "cucm-mcs-software"));
+  check("SABOTAGE cucm-mcs-software as a bare UCM- prefix calls a User Connect Licence a media kit",
+    ruleMatches({ ...mcs, kind: "prefix", token: "UCM-", re: undefined }, "UCM-11X-ESS-UCL"));
+  // qvpc-image must run before qvpc-licence, or a release image is called a licence.
+  check("qvpc-image runs before qvpc-licence and both reach QVPCA-00-SW-2502",
+    ruleMatches(SKU_RULES.find((r) => r.token === "qvpc-licence")!, "QVPCA-00-SW-2502")
+    && SKU_RULES.findIndex((r) => r.token === "qvpc-image") < SKU_RULES.findIndex((r) => r.token === "qvpc-licence"));
+  // THE CLASS CONTROL for Jabber. It was not a judgement call: the table ALREADY calls most of the
+  // family `license` through the -RTU / -UWL / -LIC suffixes, so any other class would put one product
+  // in two. If this drops, the jabber-client class needs re-deciding, not patching.
+  const jabberAlready = ["JABBER-CLNT-RTU", "JAB9-DSK-CLNT-RTU"].map((s) =>
+    classify({ sku: s, name: "", categorySlug: "unified-communications", categoryIsHardware: true }));
+  check("jabber-client agrees with the class the table already gives the family through -RTU",
+    jabberAlready.every((c) => c.klass === "license"),
+    jabberAlready.map((c) => `${c.klass}/${c.reason}`).join(" "));
+  // THE E3C LESSON, as a live assertion rather than a comment. The v14 row must keep `name-sw-bundle`:
+  // it is that rule's only live witness, and the first draft of ps-calling-software took it.
+  check("ps-calling-software leaves E3C-SW-14-K9 to name-sw-bundle (its only live witness)",
+    classify({ sku: "E3C-SW-14-K9", name: "On-Premises SW Bundle v14 (1)", categorySlug: "unified-communications", categoryIsHardware: true }).reason
+      === "name-sw-bundle");
+  check("SABOTAGE ps-calling-software widened to E3C takes that witness and gets the class wrong",
+    ruleMatches({ ...SKU_RULES.find((r) => r.token === "ps-calling-software")!, re: /^(?:CALL|E3C)-SW-\d/ }, "E3C-SW-14-K9"));
+  // And the two C9120 rows keep name-dummy-pid for the same reason, which is what the veto is for.
+  check("ap-pack-option leaves the two 'Dummy PIDs on the test orders:' rows to name-dummy-pid",
+    ["C9120-MULTI", "C9120-SINGLE"].every((s) =>
+      classify({ sku: s, name: "Dummy PIDs on the test orders:", categorySlug: "wireless", categoryIsHardware: true }).reason === "name-dummy-pid"));
+  check("SABOTAGE ap-pack-option without its C9120 veto takes them",
+    ruleMatches({ ...pack, except: [] }, "C9120-MULTI"));
+  sabotages += 33;
+}
+// end wl-uc-class
 
 const stillUntested = RULE_NAMES.filter((r) => ![...seenReasons].some((s) => s === r || s.startsWith(r + ":")));
 check(`every rule in the docs/DATA_MODEL.md table fired at least once (${RULE_NAMES.length} rules)`, stillUntested.length === 0, `never fired: ${stillUntested.join(", ")}`);

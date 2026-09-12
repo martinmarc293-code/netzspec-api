@@ -17,9 +17,7 @@
 //
 // Every SKU below is a real catalogue row, read by name in the census. None is invented. The
 // sabotage block at the foot disables one rule family at a time and asserts the loss is visible.
-import {
-  moduleKind, MOD_COMPONENT, MOD_PORTED, MOD_SLOTTED, MOD_PHYSICAL, type ModuleKind,
-} from "../src/core/moduleKind.js";
+import { moduleKind, MOD_COMPONENT, MOD_PORTED, type ModuleKind } from "../src/core/moduleKind.js";
 import { completenessV2 } from "../src/core/fieldSchema.js";
 import { partKind } from "../src/core/partKind.js";
 
@@ -44,9 +42,22 @@ const CASES: [string, ModuleKind][] = [
   ["7300-2OC3ATM-MM", "interface"], ["7600-SSC-400=", "interface"], ["16OC3/POS-SM=", "interface"],
   ["4OC12X/ATM-IR-SC", "interface"], ["4CHOC12/DS3-I-SCB", "interface"], ["OC48E/POS-LR-FC-B", "interface"],
   ["8FE-TX-RJ45-B", "interface"], ["1x10GE-ER-SC", "interface"], ["4GE-SFP-LC", "interface"],
-  ["STM1-CN-SMI", "interface"], ["WS-X4248-RJ21V=", "interface"], ["DS-X9706-FAB1B=", "interface"],
+  ["STM1-CN-SMI", "interface"], ["WS-X4248-RJ21V=", "interface"],
   ["15454-ML100T-12", "interface"], ["15454E-ML1000-2", "interface"], ["MGX-2GE", "interface"],
   ["GE-DCARD-ESW", "interface"],
+  // round 8 (12 Sep 2026): three port-bearing families that had fallen to the default, and the
+  // EtherSwitch modules the `-PWR` token had been reading as power supplies
+  ["UCSC-P-M5D100GF", "interface"], ["UCSC-PCIE-ID25GF", "interface"], ["UCSC-P-I8Q25GF", "interface"],
+  ["88-LCO-36FH", "interface"], ["88-LCO-34H14FH", "interface"], ["88-LC0-36FH-M", "interface"],
+  ["P-1T", "interface"], ["P-1T=", "interface"],
+  ["NMD-36-ESW-PWR-2G=", "interface"], ["HWIC-4ESW-POE", "interface"], ["NM-16ESW", "interface"],
+  // crossbar switching fabric — a card with no ports at all
+  ["DS-X9706-FAB1B=", "fabric"], ["DS-X9710-FAB3=", "fabric"], ["DS-13SLT-FAB1", "fabric"],
+  ["DS-13SLT-FAB2HP=", "fabric"],
+  // passive WDM mux / demux / OADM / splitter
+  ["15216-FLD-4-39.7=", "mux"], ["15216-CS-SM-Y=", "mux"], ["15454-32DMX-O=", "mux"],
+  ["15454-AD-4B-xx=", "mux"], ["EWDM-OADM4=", "mux"], ["NCS1K-MD-64-C=", "mux"],
+  ["ONS-BRK-CS-16LC=", "mux"],
   // voice and DSP
   ["PVDM-12=", "voice"], ["PVDM3-64", "voice"], ["VIC-1J1", "voice"], ["VIC2-2FXS", "voice"],
   ["NM-HDV-2T1-48", "voice"], ["PA-VXB-2TE1+", "voice"], ["PA-VXC-2TE1+", "voice"],
@@ -54,19 +65,19 @@ const CASES: [string, ModuleKind][] = [
   // VWIC = Voice/WAN Interface Card, and a VWIC3-2MFT multiflex trunk is a voice card first: it
   // terminates T1/E1 voice trunks. A plain WIC- (WIC-1DSU-T1) is a DATA card and stays `interface`.
   ["VWIC3-2MFT-T1/E1", "voice"], ["VWIC2-2MFT-G703", "voice"], ["NIM-2FXS/4FXOP", "voice"],
-  // cellular, WiMAX, WPAN
+  // cellular — 3G/4G/LTE only from round 8; WiMAX and WPAN moved to `radio`
   ["EHWIC-4G-LTE-A=", "cellular"], ["EHWIC-3G-HSPA-U", "cellular"], ["NIM-LTEA-LA=", "cellular"],
-  ["CGM-WPAN-FSK-NA", "cellular"], ["CGM-WIMAX-25", "cellular"], ["P-1T", "cellular"],
-  // 802.11 radio modules
+  ["EHWIC-3G-EVDO-V", "cellular"], ["GRWIC-4G-LTE-A", "cellular"],
+  // radio: 802.11 modules, plus the Connected Grid WiMAX (802.16e) and WPAN (802.15.4e/g) modules
   ["HWIC-AP-G-A=", "radio"], ["HWIC-AP-AG-E", "radio"], ["AIR-RM3000M", "radio"],
-  ["AIR-RM3010L-N-K9=", "radio"],
+  ["AIR-RM3010L-N-K9=", "radio"], ["CGM-WPAN-FSK-NA", "radio"], ["CGM-WIMAX-1.8GHZ", "radio"],
   // service, compute and security-service modules
   ["SM-SRE-700-K9", "service"], ["WS-SVC-NAM3-6G-K9", "service"], ["ASA-SSM-AIP-20-K9=", "service"],
   ["ASA-SSC-AIP-5-K9=", "service"], ["CSC-SSM-10", "service"], ["ACE30-MOD-K9", "service"],
   ["NAM2420-K9", "service"], ["SPA-IPSEC-2G", "service"],
   // memory and storage
   ["MEM-2951-512U2.5GB", "memory"], ["SD-X45-2GB-E=", "memory"], ["USB-X45-4GB-E=", "memory"],
-  ["NAM3-HDD-1TB", "memory"],
+  ["NAM3-HDD-1TB", "memory"], ["FL-1900-256U512MB", "memory"], ["FL-1900-256U512MB=", "memory"],
   // power
   ["PWR-2901-POE=", "power"], ["SB-PWR-48V-EU", "power"], ["SB-PWR-INJ2-NA", "power"],
   ["ILPM-8=", "power"], ["RPS1000", "power"], ["UCS-PSU-6536-AC", "power"],
@@ -98,9 +109,10 @@ const CASES: [string, ModuleKind][] = [
   ["WS-C4510RE-S7+96V+", "device"], ["UCS-FI-6536-U", "device"], ["UCSX-FI-6536-U", "device"],
   ["UCSC-C220-M5SN", "device"], ["DS-C9509-2AK9", "device"], ["DS-9509-UPGR", "device"],
   ["ASA5510-AIP20SP-K9", "device"], ["ENC-10G-ONT-10", "device"],
-  // the default
-  ["DS-13SLT-FAB1", "module"], ["DS-PAA-2", "module"], ["15216-FLD-4-39.7=", "module"],
-  ["EWDM-OADM4=", "module"], ["UCSC-PCIE-ID25GF", "module"], ["C6800-SUP6T-XL=", "module"],
+  ["C6504E-ACE30-4-K9", "device"], ["C6509E-ACE30-8X-K9", "device"],
+  // the default — the 22 rows round 8 deliberately LEFT there, each for a stated reason
+  ["DS-PAA-2", "module"], ["C6800-SUP6T-XL=", "module"], ["EWDM-OA=", "module"],
+  ["NCS-FAB-OPT=", "module"], ["15216-FL-SA=", "module"], ["SMLT-A", "module"],
 ];
 for (const [sku, want] of CASES) eq(`${sku} is ${want}`, moduleKind(sku), want);
 
@@ -155,8 +167,34 @@ const REFUSALS: [string, ModuleKind, string][] = [
   ["2900-ZTD-CFG", "module", "a zero-touch-deployment config option, not a 2900-series card"],
   ["3900-ZTD-CFG", "module", "likewise"],
   // 15216 / 15454 passive optics: five digits and a hyphen, but not a 7300/12000 line card
-  ["15216-FLD-4-42.9=", "module", "an Edge 4-channel OADM — a passive optical module, moves to optical-networking"],
-  ["15216-FL-SA=", "module", "a shelf assembly"],
+  ["15216-FLD-4-42.9=", "mux", "an Edge 4-channel OADM — a passive, and from round 8 it says so"],
+  ["15454-ML100T-12", "interface", "the 15454 ML is an ETHERNET card, not a passive: the mux rule names 32MUX/32DMX/AD-n only"],
+  // --- round 8 refusals (12 Sep 2026) ---------------------------------------------------------
+  // the mux rule is families, not the 15216 prefix, and these three are why
+  ["15216-FL-SA=", "module", "a SHELF ASSEMBLY (4 module slots, 1 RU) — a 15216 SKU that is not a passive"],
+  ["EWDM-OA=", "module", "an optical AMPLIFIER (EDFA): gain and rx_wavelength, not insertion loss — and a population of two"],
+  ["ONS-QDD-OLS=", "module", "likewise, a QSFP-DD open line system with pre- and boost EDFA"],
+  ["WDM-SFP-2CH-CONV=", "module", "a TRANSPONDER: it converts a client signal rather than combining channels"],
+  // the fabric rule is FAB followed by a DIGIT, and this is the row that decides it
+  ["NCS-FAB-OPT", "module", "\"Bundle of 96 CXP-100G-SR12\" — ninety-six optics on one order line, not a switching fabric"],
+  ["NCS-FAB-OPT=", "module", "likewise, the spare"],
+  // EtherSwitch: PWR here is the inline power the module SUPPLIES, not a supply
+  ["NMD-36-ESW-PWR=", "interface", "a 36-port EtherSwitch NM with inline power — it holds a ports fact, not a wattage"],
+  ["HWIC-D-9ESW-POE=", "interface", "a 9-port EtherSwitch HWIC with an inline-power daughtercard"],
+  ["PWR-2901-POE=", "power", "and the control: a real PoE-capable SUPPLY still reaches `power`"],
+  // the C6xxxE chassis bundle versus the C6800 supervisor
+  ["C6509E-ACE30-8X-K9", "device", "a Catalyst 6509-E CHASSIS bundle sold with an ACE30 blade"],
+  ["C6800-SUP6T-XL=", "module", "a SUPERVISOR — no E before the hyphen, a population of one, and a move to `switches`"],
+  // the FL- licence prefix hiding a DRAM part
+  ["FL-1900-256U512MB=", "memory", "\"CISCO1905 DRAM Upgrade from 256MB to 512MB\" — a memory part wearing the licence prefix"],
+  // a NIC is a component with ports; a PSU with the same first two tokens is not
+  ["UCSC-P-I8D100GF", "interface", "a PCIe NIC: ports, not the UCSC-C rack server the device rule names"],
+  ["UCSC-PSU-6536-AC", "power", "and the control: UCSC-PSU- has no hyphen after the P and is a supply"],
+  ["UCSC-C220-M5SN", "device", "a whole rack server filed here — the device rule still wins over the NIC rule"],
+  // WiMAX and WPAN are not cellular
+  ["CGM-WIMAX-2.3GHZ", "radio", "IEEE 802.16e — ieee_standards, not an LTE band list"],
+  ["CGM-WPAN-FSK-NA", "radio", "IEEE 802.15.4e/g at 900 MHz — a mesh radio, not a cellular modem"],
+  ["P-1T=", "interface", "\"High Speed Serial Pluggable\" — one serial port; the P- prefix is shared with P-LTEA7"],
   // the Panduit prefix must not swallow a Cisco family
   ["FQMAP46CG", "accessory", "a Panduit fibre migration adapter panel"],
   ["FC29N-12-10U", "accessory", "a Panduit cassette, not an FC (Fibre Channel) part"],
@@ -173,6 +211,11 @@ eq("device runs before cellular: C1921-3G-U-K9", moduleKind("C1921-3G-U-K9"), "d
 eq("voice runs before interface: NM-HDV-2T1-48", moduleKind("NM-HDV-2T1-48"), "voice");
 eq("radio runs before interface: HWIC-AP-G-A=", moduleKind("HWIC-AP-G-A="), "radio");
 eq("service runs before interface: WS-SVC-NAM3-6G-K9", moduleKind("WS-SVC-NAM3-6G-K9"), "service");
+// round 8 (12 Sep 2026)
+eq("EtherSwitch runs before power: NMD-36-ESW-PWR", moduleKind("NMD-36-ESW-PWR"), "interface");
+eq("fabric runs before interface: DS-X9710-FAB1B=", moduleKind("DS-X9710-FAB1B="), "fabric");
+eq("mux runs before nothing it has to beat — it is first after optic: 15216-CS-MM-Y=", moduleKind("15216-CS-MM-Y="), "mux");
+eq("device still runs before the NIC rule: UCSC-C125", moduleKind("UCSC-C125"), "device");
 
 // =================================================================================================
 // SABOTAGE — one per rule family. Each disables the family by asking what a DIFFERENT, weaker rule
@@ -205,6 +248,14 @@ const SABOTAGE: Sab[] = [
   { family: "service", sku: "WS-SVC-NAM3-6G-K9", live: "service", ifDisabled: "module" },
   // Without the interface rule, NM-1FE-FX-V2 falls to the default.
   { family: "interface", sku: "NM-1FE-FX-V2", live: "interface", ifDisabled: "module" },
+  // --- round 8 (12 Sep 2026), one per new rule family -----------------------------------------
+  // Without the mux rule, 15216-FLD-4-39.7= falls to the default and is asked no insertion loss.
+  { family: "mux", sku: "15216-FLD-4-39.7=", live: "mux", ifDisabled: "module" },
+  // Without the fabric rule, DS-X9706-FAB1B= is taken by the ^DS-X\d line-card marker and is
+  // asked a port count. THIS IS THE DANGEROUS ONE: the default would merely ask it less.
+  { family: "fabric-before-interface", sku: "DS-X9706-FAB1B=", live: "fabric", ifDisabled: "interface" },
+  // Without the EtherSwitch rule, NMD-36-ESW-PWR-2G= is taken by the power `-PWR` token.
+  { family: "esw-before-power", sku: "NMD-36-ESW-PWR-2G=", live: "interface", ifDisabled: "power" },
 ];
 for (const s of SABOTAGE) {
   eq(`sabotage ${s.family}: ${s.sku} is ${s.live} today`, moduleKind(s.sku), s.live);
@@ -218,21 +269,27 @@ eq("cellular is NOT asked a port count (0 of 60 hold one; it is bought on bands)
    (MOD_PORTED as readonly string[]).includes("cellular"), false);
 eq("radio is NOT asked a port count either", (MOD_PORTED as readonly string[]).includes("radio"), false);
 eq("voice IS (its names state the count outright)", (MOD_PORTED as readonly string[]).includes("voice"), true);
-eq("a cable has no physical envelope", (MOD_PHYSICAL as readonly string[]).includes("cable"), false);
-eq("an accessory has none", (MOD_PHYSICAL as readonly string[]).includes("accessory"), false);
-eq("a memory card has none", (MOD_PHYSICAL as readonly string[]).includes("memory"), false);
-eq("a power supply does (41 hold temp_operating, 50 humidity)", (MOD_PHYSICAL as readonly string[]).includes("power"), true);
+eq("a FABRIC card is not asked a port count — that is the whole point of the kind",
+   (MOD_PORTED as readonly string[]).includes("fabric"), false);
+eq("nor is a passive mux", (MOD_PORTED as readonly string[]).includes("mux"), false);
 eq("an optic is not a component of this category — it moves", (MOD_COMPONENT as readonly string[]).includes("optic"), false);
 eq("nor is a whole device", (MOD_COMPONENT as readonly string[]).includes("device"), false);
 eq("the default IS (the one question every component answers)", (MOD_COMPONENT as readonly string[]).includes("module"), true);
-eq("a cable is not slotted", (MOD_SLOTTED as readonly string[]).includes("cable"), false);
+eq("a fabric card IS a component: it fits one chassis", (MOD_COMPONENT as readonly string[]).includes("fabric"), true);
+eq("and so is a mux, which is why it is asked what it fits as well as its loss",
+   (MOD_COMPONENT as readonly string[]).includes("mux"), true);
+// MOD_SLOTTED and MOD_PHYSICAL were DELETED on 12 Sep 2026 (round 8) and their four assertions with
+// them. Both were exported and asserted here and read by no profile — fieldSchema.ts imported
+// MOD_SLOTTED without using it and never imported MOD_PHYSICAL — while MOD_PHYSICAL's comment still
+// argued for an envelope requirement the same file had already withdrawn. These assertions passed
+// against a constant nothing consulted, which is the shape of a test that cannot fail.
 eq("empty SKU falls to the default", moduleKind(""), "module");
 for (const sku of ["QQQ", "ZZ-NOSUCH-1"]) eq(`unrecognisable falls to the default: ${sku}`, moduleKind(sku), "module");
 
 // every kind the type names is reached by a real catalogue SKU
 const REACHED = new Set(CASES.map(([, k]) => k));
-for (const k of ["module", "interface", "voice", "cellular", "radio", "service", "memory",
-                 "power", "fan", "cable", "accessory", "optic", "device"] as ModuleKind[]) {
+for (const k of ["module", "interface", "fabric", "voice", "cellular", "radio", "service", "memory",
+                 "power", "fan", "cable", "accessory", "mux", "optic", "device"] as ModuleKind[]) {
   eq(`kind "${k}" is reached by a catalogue SKU`, REACHED.has(k), true);
 }
 
@@ -268,15 +325,37 @@ const ask = (sku: string) =>
   const fan = ask("UCS-FAN-6652");
   eq("a fan is asked its airflow direction", fan.missing.includes("airflow"), true);
   eq("and a line card is not", lc.missing.includes("airflow"), false);
+  // --- round 8 (12 Sep 2026): the two new kinds, key by key ------------------------------------
+  const fab = ask("DS-X9706-FAB1B=");
+  eq("a crossbar fabric module is asked per-slot bandwidth, its draw and what it fits",
+     [...fab.missing].sort().join(","), "fabric_bandwidth,power_max,product_compatibility");
+  eq("and NOT a port count — the defect this kind exists to fix", fab.missing.includes("ports"), false);
+  const mux = ask("15216-FLD-4-39.7=");
+  eq("a passive OADM is asked its insertion loss and what it fits",
+     [...mux.missing].sort().join(","), "insertion_loss_max,product_compatibility");
+  eq("and no power draw: a passive takes none", mux.missing.includes("power_max"), false);
+  const esw = ask("NMD-36-ESW-PWR-2G=");
+  eq("an EtherSwitch module with inline power is asked a PORT COUNT", esw.missing.includes("ports"), true);
+  eq("and not what a supply DELIVERS", esw.missing.includes("psu_rated_output"), false);
+  const dramUp = ask("FL-1900-256U512MB");
+  eq("a DRAM upgrade is asked dram and flash, not a drive's capacity",
+     dramUp.missing.includes("dram") && !dramUp.missing.includes("storage_capacity"), true);
+  const wimax = ask("CGM-WIMAX-1.8GHZ");
+  eq("a WiMAX module is asked its IEEE standard", wimax.missing.includes("ieee_standards"), true);
+  eq("and NOT a cellular band list", wimax.missing.includes("cellular_bands"), false);
+  const ser = ask("P-1T");
+  eq("a serial pluggable is asked its ports", ser.missing.includes("ports"), true);
+  eq("and not cellular bands either", ser.missing.includes("cellular_bands"), false);
   // The control: every kind must still be asked SOMETHING, or the gate has switched the category off.
   for (const sku of ["NM-1FE-FX-V2", "PVDM-12=", "EHWIC-4G-LTE-A=", "HWIC-AP-G-A=", "SM-SRE-700-K9",
                      "SD-X45-2GB-E=", "SB-PWR-48V-EU", "UCS-FAN-6652", "CAB-E1-RJ45BNC",
-                     "4OC3X/ATM-BLANK", "DS-13SLT-FAB1", "DP04QSDD-E36-A1", "CISCO2821-AC-IP"]) {
+                     "4OC3X/ATM-BLANK", "DS-13SLT-FAB1", "15216-FLD-4-39.7=", "FL-1900-256U512MB",
+                     "SMLT-A", "DP04QSDD-E36-A1", "CISCO2821-AC-IP"]) {
     eq(`${sku} (kind=${partKind("interfaces-modules", sku)}) is still asked something`, ask(sku).required_total > 0, true);
   }
 }
 
 lines.unshift(`    module kind: ${passed} passed, ${failed} missed ` +
-              `(${CASES.length} positives, ${REFUSALS.length} refusals, ${SABOTAGE.length} sabotage families, 7 ordering cases)`);
+              `(${CASES.length} positives, ${REFUSALS.length} refusals, ${SABOTAGE.length} sabotage families, 11 ordering cases)`);
 console.log(lines.join("\n"));
 if (failed) process.exit(1);

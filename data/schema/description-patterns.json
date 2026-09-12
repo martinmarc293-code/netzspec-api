@@ -509,6 +509,61 @@
    "confidence": "medium"
   },
   {
+   "_note": "wireless-r7 (12 Sep 2026). The regulatory domain is stated in the part's own NAME and nowhere else — the datasheet's 'Regulatory domains' row (20 occurrences) holds a note pointing at Cisco's compliance lookup, so there is no label to alias. ORDER MATTERS: nam-lam, universal and row have their own patterns, and the letter pattern cannot steal them because its lookbehind refuses a letter before the captured one (the W of ROW, the l of Universal). Cross-checked against the SKU token on the 305 parts that carry both: 305 agree, 0 disagree.",
+   "id": "wl-reg-domain-namlam",
+   "category": "wireless",
+   "field_key": "regulatory_domain",
+   "regex": "(?<![A-Za-z])NAM\\s*[,/]\\s*LAM(?![A-Za-z])",
+   "value_group": 0,
+   "fixed_value": "NAM/LAM",
+   "matched_at_accept": 7,
+   "clean_rate_at_accept": 1,
+   "confidence": "high"
+  },
+  {
+   "id": "wl-reg-domain-row",
+   "category": "wireless",
+   "field_key": "regulatory_domain",
+   "regex": "(?<![A-Za-z])ROW\\s?Regulatory\\s?Dom",
+   "value_group": 0,
+   "fixed_value": "ROW",
+   "matched_at_accept": 3,
+   "clean_rate_at_accept": 1,
+   "confidence": "high"
+  },
+  {
+   "id": "wl-reg-domain-universal",
+   "category": "wireless",
+   "field_key": "regulatory_domain",
+   "regex": "(?<![A-Za-z])Universal\\s+Domain(?![a-z])",
+   "value_group": 0,
+   "fixed_value": "Universal",
+   "matched_at_accept": 38,
+   "clean_rate_at_accept": 1,
+   "confidence": "high"
+  },
+  {
+   "id": "wl-reg-domain-letter",
+   "category": "wireless",
+   "field_key": "regulatory_domain",
+   "regex": "(?<![A-Za-z])([A-Z])[ -]?(?:Reg(?:ulatory)?\\.?[ -]?Dom(?:ain|\\.)?)(?![a-z])",
+   "value_group": 1,
+   "matched_at_accept": 329,
+   "clean_rate_at_accept": 1,
+   "confidence": "high"
+  },
+  {
+   "id": "wl-reg-domain-letter-prefix",
+   "category": "wireless",
+   "field_key": "regulatory_domain",
+   "_note": "Two guards, each put here by a real miss the SKU-agreement control found, not by review. (1) The trailing class is [A-Za-z/] because the applier compiles every pattern case-INSENSITIVELY: on 'Q Reg. Dom. w/cord' the first draft read past the letter that PRECEDES the phrase and captured the w of w/cord. (2) The separator before the capture is mandatory, because 'Regulatory domains: (x = regulatory domain)' otherwise hands over the PLURAL S — and s is a real Cisco domain, so nothing downstream could have refused it. Both were silent: the pattern still matched, still normalised, still looked clean.",
+   "regex": "(?<![A-Za-z])Reg(?:ulatory)?\\.?[ -]?(?:Dom(?:ain|\\.)?)?[ -]([A-Z])(?![A-Za-z/])",
+   "value_group": 1,
+   "matched_at_accept": 86,
+   "clean_rate_at_accept": 1,
+   "confidence": "high"
+  },
+  {
    "id": "psu-watts-ac-dc",
    "category": "routers",
    "field_key": "power_max",
@@ -1048,12 +1103,13 @@
   {
    "id": "im-radio-bands-mhz",
    "category": "interfaces-modules",
-   "field_key": "radio_bands",
+   "field_key": "cellular_bands",
    "regex": "((([0-9]{3,4})[/])*[0-9]{3,4}[ ]?MHz)",
    "value_group": 1,
    "matched_at_accept": 48,
    "clean_rate_at_accept": 1,
-   "confidence": "medium"
+   "confidence": "medium",
+   "note": "REKEYED radio_bands -> cellular_bands 12 Sep 2026 (modules-r8). All 48 live matches in this category were read one by one and every one is a CELLULAR band list from the part's own name: EHWIC-4G-LTE-A '700 MHz', EHWIC-3G-EVDO-V '800/1900MHz', C1921-3G+7-K9 '850/900/1900/2100 MHz'. `cellular_bands` is the cup the profile requires of the cellular kind (14 of 51 held it before this), and EHWIC-4G-LTE-A held BOTH keys for one quantity, which is the duplicate this removes. The id keeps its old name so the rekey is visible in the history rather than looking like a new rule. `radio_bands` is NOT retired globally: catalogue-wide it also holds Wi-Fi bands in `wireless` (145 facts) and an AC MAINS FREQUENCY on 19 switches parts and 7 HPE parts in this category ('50Hz/60Hz'), so a global fold would merge three quantities. The 51 already-stored radio_bands facts here are a rekey proposal in docs/reports/schema-modules-r8-2026-09-12.md — this rule only changes what the NEXT mining run writes."
   },
   {
    "id": "im-data-rate-gbps-fc",
@@ -1081,23 +1137,25 @@
    "id": "im-dram-mb",
    "category": "interfaces-modules",
    "field_key": "dram",
-   "regex": "([0-9]{2,5})[ ]?(MB[ ]?)?DR(AM)?([^a-z0-9]|$)",
-   "value_group": 1,
+   "regex": "(^|[^A-Za-z0-9])([0-9]{2,5})[ ]?(MB[ ]?)?DR(AM)?([^a-z0-9]|$)",
+   "value_group": 2,
    "unit": "MB",
-   "matched_at_accept": 10,
+   "matched_at_accept": 8,
    "clean_rate_at_accept": 1,
-   "confidence": "medium"
+   "confidence": "medium",
+   "note": "TIGHTENED 12 Sep 2026 (modules-r8): a leading boundary that is not a letter. The old pattern had no left anchor, so digits GLUED TO A MODEL NAME were read as a size: 'CISCO1905 DRAM Upgrade from 256MB to 512MB' stored dram = 1905 MB on FL-1900-256U512MB and its spare — the router's model number as its memory, and in band, so no band could refuse it. It is one of the seven refusals the value census reports for this category (UNIT_MISSING on raw '1905'). Replayed over the live corpus the change takes the rule from 10 matches to 8: the two FL-1900 rows drop and all eight correct ones ('64MB FL/256MB DRAM', '512MBDR') are kept. The right answer for FL-1900 is 512 (the upgrade TO size) and the rule does not attempt it — no match is better than the model number. The two stored facts are a retraction proposal in docs/reports/schema-modules-r8-2026-09-12.md."
   },
   {
    "id": "im-flash-mb",
    "category": "interfaces-modules",
    "field_key": "flash",
-   "regex": "([0-9]{2,5})[ ]?(MB[ ]?)?FL(ASH)?([^a-z0-9]|$)",
-   "value_group": 1,
+   "regex": "(^|[^A-Za-z0-9])([0-9]{2,5})[ ]?(MB[ ]?)?FL(ASH)?([^a-z0-9]|$)",
+   "value_group": 2,
    "unit": "MB",
    "matched_at_accept": 8,
    "clean_rate_at_accept": 1,
-   "confidence": "medium"
+   "confidence": "medium",
+   "note": "TIGHTENED 12 Sep 2026 (modules-r8), the same left anchor as im-dram-mb above. No stored fact was wrong here — replayed over the live corpus it is 8 matches before and 8 after — but 'CISCO1905 FLASH' is the identical shape one letter away, and a rule fixed for the phrasing that bit us and not for the field is this repo's most repeated mistake."
   },
   {
    "id": "im-flash-fd-pair",

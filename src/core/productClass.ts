@@ -1462,6 +1462,212 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "regex", token: "uc-version-migration-question", re: /^UC-\d{1,2}\.X(?:-OR-EARLIER)?$/, probe: "UC-10.X",
     klass: "non_product", why: "the ordering tool's 'which version are you coming from' choice ('UC 7.X or earlier Version Migration'); 7 parts, 0 facts" },
   // end collab-class
+
+  // wl-uc-class (12 Sep 2026) — THE WIRELESS AND UC CLASS RESIDUE (reviewer round 4 §6, term 3).
+  //
+  // WHAT WAS MEASURED, and the cohort is recorded by identity in the report so the denominator cannot
+  // drift later. Reproduced exactly: `wireless` holds 134 parts classed hardware whose wirelessKind is
+  // `software` and 1,187 whose kind is `other`; `unified-communications` holds 239 whose collabKind is
+  // `software`. 1,560 rows. Running classify() from THIS tree first — before writing anything, because a
+  // rule that re-decides a row another rule already decides is dead weight the suite reports as shadowed —
+  // showed 45 of the UC 239 are ALREADY decided by the collab-class block landed earlier today
+  // (business-edition-image 36, webex-collab-subscription 7, UCAPPS 2). So the open residue is 1,515, and
+  // no rule below is written for those 45.
+  //
+  // METHOD, and it is this file's own. A NAME found each candidate family; the family was then read IN
+  // FULL, every member, before a rule was written; and every rule was re-measured over ALL 91,543 live
+  // parts and ALL 13 vendors, not over the two categories that produced it. THE GATE IS AN OWN
+  // (non-inherited) PHYSICAL FACT: across this whole block 1,292 rows are decided and NOT ONE carries an
+  // own fact of any kind, physical or otherwise. Every rule below is Cisco-only and, apart from
+  // `jabber-client` (16 collaboration-endpoints rows, named in the report), reaches only these two
+  // categories.
+  //
+  // REFUSED, each with the product it would have cost (all pinned in tests/productClass.test.ts):
+  //   bare `ASR5K-`   the refusal round 5 already measured stands: 32 of the other 175 are real cards.
+  //                   Only the two-character LICENCE BLOCKS actually read are taken — 02/03/04/05/0B/0D/
+  //                   11/15/1D/21 — and blocks 12, 20 and 0F are EXCLUDED because they hold hardware:
+  //                   ASR5K-12-PSC32GK9= is a Packet Services Card, ASR5K-12-LABADV-K9 and the three
+  //                   ASR5K-20-LAB-* are chassis lab bundles, ASR5K-0F-B00-2069= is the "Motorola PSC2
+  //                   LTE Hardware and Software bundle" this file's name-rule override already names.
+  //   bare `ASR55-`   ASR55-DPC / ASR55-UDPC-K9 are Data Processing CARDS and ASR55-CHS-SYS-U8B is a
+  //                   chassis system. The rule needs the two-digit block, and vetoes `-UDPCRX`:
+  //                   ASR55-04-UDPCRX is "ASR5500 UDPC Card and Initial System SW" — a card in the box.
+  //   `MIXS-12-PA2`   fourteen rows of the AT&T PAS rack build — "PAS AC ENCLOSURE", "PAS SPARE BLADE",
+  //                   "PAS 10G ENCLOSURE SWITCH", "PAS DC SEISMIC CABINET". Block 12 is the only mixed
+  //                   one in 228 MIX* rows and reading the family in full is what found it.
+  //   bare `AIR-`     2,186 parts, 61 with an own physical fact. Only the five measured management /
+  //                   location sub-families are taken. AIR-MOD-AC-* (AP1800 plug modules), AIR-330-*
+  //                   (MobileAccessVE building units), AIR-MRAID12G (a RAID controller), AIR-CT85DC-K9
+  //                   (an 8500 controller) and AIR-1550-HAZBBU (a battery) all stay hardware.
+  //   bare `FM`       FM-OMNI-5-V, FM-PANEL-9, FM-SECTOR90-16DS and FM-SHARK-16 are ANTENNAS, FM-POE-STD
+  //                   a PoE injector, FM-SPLITTER / FM-SURGE / FM-WMOUNT accessories, and the 44
+  //                   FLMESH-HW-ACC-* rows carry the letters HW. The throughput rule requires a TIER
+  //                   (digits or UN) at the end, which is exactly what separates the licence from the
+  //                   radio it unlocks: FM1000-GWY and FM10000-GWY are the real gateways and each holds
+  //                   an own physical fact, while FM1000-GWY-500 is named "Software upgrade up to 500
+  //                   Mbps". Both bare forms are pinned.
+  //   bare `MSE-`     MSE-HD600G10K12G is a 600 GB SAS drive and MSE-MRAID12G a RAID controller.
+  //   bare `EDU-`     EDU-CT5520-K9 and EDU-CW9800M are real K12 wireless controllers. (Their KIND is
+  //                   wrong — wirelessKind's controller rule wants AIR before CT — which is a finding
+  //                   for the wireless owner, in the report, not a class change here.)
+  //   bare `C1-`      stays refused as round 2 decided; only C1-AIR-CMX / C1-AIR-K9 / C1-MSE- / C1-WLC-
+  //                   are taken, and C1-AIR-CT#### (a real controller on the Cisco ONE form) cannot match.
+  //   bare `PROMO`    the existing refusal stands, and PROMOCT5508-1-K9 "Migration to Cisco - 5508 100
+  //                   licenses" is left hardware: a controller migration may ship the controller.
+  //
+  // --- the StarOS / mobile packet core catalogue filed in `wireless` -----------------------------------
+  // The single largest family in the residue. Cisco files the whole ASR 5000/5500 packet-core business in
+  // `wireless`, so its per-session, per-subscriber and per-card entitlements are scored as access points.
+  // The two-character block after the platform token is Cisco's LICENCE NUMBERING — the existing
+  // `ASR5K-00` and `ASR5K-99` rules are the same shape, which is why the 5500 siblings are `license` too
+  // rather than `software`: the identical product must not sit in two classes on the strength of a
+  // spelling. 185 parts, every name "StarOS Release nn System SW, Per UDPC2" or a feature entitlement.
+  { kind: "regex", token: "staros-5500-licence", re: /^(?:ASR55|ASR5S|LIF55)-\d\d(?!-UDPCRX)/, probe: "ASR55-00-SWUDP218",
+    klass: "license", why: "ASR 5500 StarOS system-software and feature entitlement by licence block ('ASR5500 StarOS Release 18 System SW, Per UDPC2', 'Flow Aware Packet Acceleration, Per ASR5500-U System'); 185 parts, all Cisco, all wireless, 0 own facts. Vetoes ASR55-04-UDPCRX, a UDPC card sold with its software" },
+  // The RELEASE IMAGES, which carry no per-unit qualifier: "ASR5000 System Software, Release 21.7, Per SMC
+  // or MIO". Software rather than license, the same reading nxos-image and ios-image already take.
+  { kind: "regex", token: "staros-image", re: /^(?:ASR5K|ASR55)-SW-R\d/, probe: "ASR5K-SW-R21-K9",
+    klass: "software", why: "ASR 5000 / 5500 StarOS release image (ASR5K-SW-R2122-K9 'ASR5000 System Software, Release 21.22'); 63 parts, 0 own facts" },
+  { kind: "regex", token: "asr5000-feature-licence", re: /^ASR5K-(?:0[2345BD]|1[15D]|21)-/, probe: "ASR5K-03-HA-P3",
+    klass: "license", why: "ASR 5000 per-operator feature licence block ('Sprint Only HA Per PSC3', 'GGSN+S/PGW Sessions License-1, 10K Sessions'); 30 parts, 0 own facts. ONLY the ten blocks read in full — 12, 20 and 0F hold cards, lab chassis bundles and a hardware+software bundle" },
+  { kind: "prefix", token: "ASR5000-NETW4", klass: "license", why: "'Cisco ASR5000-NETW4RTM' — the ASR 5000 member of the NETW4 ordering family whose ASA sibling ASA5585-NETW4UP3 is already a licence singleton; 1 part, 0 facts" },
+  // Cisco's IMS / mobility application catalogue (MIXS, MIXSA failover-A, MIXSF failover, MIXF): AAA, HSS,
+  // PCRF, SDB, CSCF, IP-SMSC, MMS, MMTEL, MSC TAS, ECS storage, Web Element Manager. Sold per subscriber
+  // block, per session, per TPS band or per server. 226 undecided of 228; the name vocabulary splits
+  // entitlement 125 / image 44, so the family is `license`. 54 of the names contain a BOX word and every
+  // one of the 54 was read: "AAA Base Server (incl available technology licensing)" and "Home Subscriber
+  // Server Base SW per server" license a server they do not ship.
+  { kind: "regex", token: "ims-mobility-licence", re: /^MIX(?:SA|SF|S|F)-[0-9][0-9A-F]-(?!PA2)/, probe: "MIXS-00-HS3S41",
+    klass: "license", why: "IMS / mobility application entitlement per subscriber, session, TPS or server ('HSS 10,000 Provisioned Subscriber Block', 'ECS Offboard Storage Server (ESS) Rel 12'); 212 parts, 0 own facts. Vetoes the MIXS-12-PA2* AT&T PAS rack build (14 enclosures, cabinets, blades and switches)" },
+  // Quantum Virtualized Packet Core. The `-SW-` release rows first, so a release image is not called a
+  // licence: "QVPC StarOS Release 2025.02 System SW".
+  { kind: "regex", token: "qvpc-image", re: /^QVP[CM][AF]-\d\d-SW-\d/, probe: "QVPCA-00-SW-2502",
+    klass: "software", why: "Quantum Virtualized Packet Core release image ('QVPC StarOS Release 2025.02 System SW'); 10 parts, 0 own facts" },
+  { kind: "regex", token: "qvpc-licence", re: /^QVP[CM][AF]-\d\d-/, probe: "QVPCA-00-HA10SW",
+    klass: "license", why: "Quantum Virtualized Packet Core session / feature licence ('Home Agent Software License, 10K sessions', 'Session Recovery, IPSG, 10K Sessions'); 109 parts, 0 own facts. The six names containing 'Bundle' are SESSION bundles, read one by one" },
+  // The two spellings that exist, not a bare UCC prefix: `UCCX` (Contact Center Express) is a real Cisco
+  // product line, and a veto against something the catalogue does not contain today is a guard nobody has
+  // ever seen fire. All nine UCC rows in 91,543 are Ultra Cloud Core and were read.
+  { kind: "regex", token: "ucc-cloud-core", re: /^UCC(?:5G)?-/, probe: "UCC5G-SMF-S31-L",
+    klass: "license", why: "Ultra Cloud Core network-function entitlement ('UCC - Session Management Function (SMF), 1K sessions', 'Ultra Cloud Core (UCC) - Policy Control Function (PCF)'); 8 parts newly decided of 9 matched, all wireless, 0 facts" },
+  { kind: "prefix", token: "MI3P-", klass: "license", why: "ANDSF capacity and installation licence ('ANDSF Capacity License (activated clients) - 100k'); 6 parts, 0 facts" },
+  { kind: "regex", token: "andsf-release-upgrade", re: /^AND-R\d\d-/, probe: "AND-R17-ALL-10M_S",
+    klass: "license", why: "'ANDSF All Inclusive 2017 Release Upgrades- 10M sessions'; 1 part, 0 facts" },
+  { kind: "regex", token: "cuto-perpetual", re: /^CUTO-\d\d-P/, probe: "CUTO-00-P91",
+    klass: "license", why: "'CUTO Standalone Perpetual 1 Gbps' (Ultra Traffic Optimization); 1 part, 0 facts. Its QVPCA- siblings are taken by qvpc-licence" },
+  { kind: "regex", token: "mog-software", re: /^MOG-SW-\d/, probe: "MOG-SW-09",
+    klass: "software", why: "'CPS MOG Release 9.0, per instance'; 2 parts, 0 facts" },
+  { kind: "prefix", token: "MOG-FDC", klass: "license", why: "'MOG Non-RTU Features, AT&T Only'; 1 part, 0 facts" },
+  { kind: "prefix", token: "OWM-", klass: "license", why: "Openwave Mobility TCP-acceleration, video-optimisation and analytics subscription ('MDO+STM+Dynaboost SA per 100K Users', 'PPI+Analytics Bundle 10M Active Users'); 35 parts, all wireless, 0 facts. Its six 'Bundle' names are user-count bundles, read individually" },
+  { kind: "prefix", token: "EMSP-", klass: "license", why: "Enterprise Mobility Services Platform run-time and base-platform subscription ('EMSP Run Time (50-250) Access Points: 1 Month Duration'); 48 parts, 0 facts" },
+  // --- Cisco Policy Suite, filed in `wireless` --------------------------------------------------------
+  // Two spellings, two classes, and the family itself draws the line: `POLICY-` names the SOFTWARE
+  // ("Cisco Policy Suite 9 Software (VMWare edition)", 14 image-worded names of 15) and `POL-` the
+  // APPLICATION LICENCES ("CPS All-Inclusive Feature Pack - 100K sessions", 18 of 18 entitlement-worded).
+  { kind: "regex", token: "policy-suite-software", re: /^(?:R-)?POLICY-|^CISCO-POLICY$/, probe: "POLICY-75-AIO-K9",
+    klass: "software", why: "Cisco / Quantum Policy Suite software by release and edition ('Cisco Policy Suite 22.2 Software', 'All-In-One Lab Software (OpenStack)'); 32 parts including the 16 R- e-delivery twins the collab block named as this lane's rows, 0 facts" },
+  { kind: "prefix", token: "POL-", klass: "license", why: "Cisco Policy Suite application licence ('DRA Application License - Additional Applications', 'Upgrade from Value Plus to All inclusive - 10M sessions'); 18 parts, 0 facts" },
+  { kind: "regex", token: "policy-runtime", re: /^QP-(?:3G|LTE|BNG|SPW|MBL)-/, probe: "QP-LTE-BASE-1",
+    klass: "license", why: "Policy Runtime Environment base and lab package ('Policy Runtime Environment - 4G LTE - Addtl Base Package'); 14 parts, 0 facts. Anchored to the five access types rather than a bare QP- prefix" },
+  { kind: "regex", token: "policy-dra", re: /^(?:PDRA-P|VDRA)-/, probe: "PDRA-P-PRE-1M",
+    klass: "license", why: "Policy DRA premium pack and vDRA application licence ('Policy DRA - Premium Pack - 1M Sessions', 'VDRA Application Base License'); 8 parts, 0 facts" },
+  { kind: "regex", token: "policy-feature-pack", re: /^(?:APS|M)-P-(?:AAA|OSS|EXTSPR|SIR)-/, probe: "APS-P-AAA-10K-1T",
+    klass: "license", why: "policy feature pack by session count and subscriber tier ('AAA Feature Pack - 10K Sessions - 1M-4.99M'); 15 parts, 0 facts. NOT a bare M- prefix, which this file already refuses (M-ASR1K-* is memory), and not M-[EPS]-B-, the MATE bundle rule" },
+  { kind: "regex", token: "cps-automation", re: /^CPS-(?:S-ATS|ANDSF-FDC|DRA-FDC|PCRF-FDC)/, probe: "CPS-S-ATS-MV",
+    klass: "license", why: "CPS Automation Tool subscription and release-independent feature credit ('CPS Automation Tool SW SWSS + Install, Multi VM'); 14 parts, 0 facts. Token-anchored: CPS- is one letter away from the CSP- CUBE(SP) and NFV-platform rules already in this table" },
+  { kind: "regex", token: "wsg-sami-rtu", re: /^SSAS\d0K9-COSLI/, probe: "SSAS20K9-COSLI20",
+    klass: "license", why: "Wireless Security Gateway application software RTU per SAMI blade ('WSG R2.0 Application Software RTU per SAMI (Crypto)'); 8 parts, 0 facts" },
+  { kind: "regex", token: "sami-no-app-image", re: /^SC-SBC-NAP-SAMI/, probe: "SC-SBC-NAP-SAMI-1",
+    klass: "software", why: "'No App Image For WS-SVC-SAMI-BB=' / 'SAMI No Application Spare Software'; 2 parts, 0 facts" },
+  { kind: "regex", token: "prime-virtual-nam", re: /^R-NAM-?VX\d/, probe: "R-NAM-VX10-62K9S",
+    klass: "software", why: "'Smart Lic based Cisco Prime Virtual NAM VX10 Software 6.2'; 3 parts across both SKU spellings, 0 facts. The collab block named R-NAM-VX10-62K9S= as a wireless row for this lane to decide" },
+  // --- wireless management, location and controller software ------------------------------------------
+  { kind: "regex", token: "context-aware-licence", re: /^AIR-(?:CAS-|CA-LE-|LM-WIPS-|CMX-(?:CLD|SVC)-|MSE-PAK|WSA-\dYR)/, probe: "AIR-CAS-1KC-K9",
+    klass: "license", why: "Context Aware, local-mode wIPS, CMX Cloud and Mobility Services entitlement ('Context Aware Engine for Clients License For 12K Clients', 'Cisco Enhanced Local Mode wIPS License, Supporting 2000 APs'); 36 parts, 0 facts. Five measured sub-families, never the bare AIR- prefix" },
+  { kind: "regex", token: "wlc-ap-image", re: /^AIR-CT\d+-SW-\d/, probe: "AIR-CT2504-SW-8.1",
+    klass: "software", why: "wireless controller software release ('Cisco 2504 Wireless Controller SW Rel. 8.1'); 11 parts, 0 facts. wirelessKind already calls these `software`, so until now the kind gate asked them nothing while the class still said hardware — the same pair round 7 found under NXOS-" },
+  { kind: "regex", token: "wlc-ap-sw-image", re: /^SW(?:AP|LAP|C)\d{3,4}|^SWIEC\d|^CUWN-SW-/, probe: "SWC5500K9-81",
+    klass: "software", why: "access-point and controller image ('Cisco Unified Wireless Controller SW Rel. 7.6', 'Enterprise Wireless Mesh - AP3700 Controller-based SW Image', 'URWB software for IEC6400'); 36 parts, 0 facts. The routers block's ap-image rule is ^SW + a DIGIT and cannot reach SWAP/SWLAP/SWC" },
+  { kind: "prefix", token: "SC9800", klass: "software", why: "Catalyst 9800 controller image and cloud edition ('Cisco Catalyst 9800-CL Wireless Controller - AWS', 'Cisco Catalyst 9800-40 Wireless Controller' release 17.15); 8 parts, 0 facts. The transceiver block's family-placeholder rule vetoes SC9800CL by name precisely so this lane could give them a class" },
+  { kind: "regex", token: "wism-software", re: /^SC-SVC-WISM\d?-\d/, probe: "SC-SVC-WISM2-8.1",
+    klass: "software", why: "'WiSM2 SW Rel. 8.1'; 3 parts, 0 facts. WS-SVCWISM2FIPKIT= (a FIPS kit) carries no release and cannot match" },
+  { kind: "regex", token: "mse-software", re: /^MSE-(?:SW-|VA-SW)/, probe: "MSE-SW-NEW-WIPS",
+    klass: "software", why: "'MSE software option - WIPS 10.x SW', 'Mobility Services Engine Virtual Appliance SW'; 4 parts, 0 facts. Not a bare MSE- prefix: MSE-HD600G10K12G is a 600 GB drive" },
+  { kind: "prefix", token: "MSE-WIPS-", klass: "license", why: "'1 AP WIPS Monitor Mode license', 'MSE WIPS Tracker Term 5Y'; 6 parts, 0 facts" },
+  { kind: "regex", token: "cisco-one-wireless", re: /^C1-(?:AIR-(?:CMX|K9)|MSE-|WLC-)|^E2-C1-T-AIR$/, probe: "C1-WLC-AP-T",
+    klass: "license", why: "Cisco ONE wireless term licence ('Cisco ONE Wireless LAN Controller AP License (any WLC)', 'CISCO ONE ELA TERM - ACCESS Wireless'); 7 parts, 0 facts. Bare C1- stays refused, and C1-AIR-CT#### — a real controller on the Cisco ONE order form — cannot match" },
+  { kind: "regex", token: "promo-location-licence", re: /^PRO-L-(?:AD-LS|CAS|LS)-/, probe: "PRO-L-LS-100AP",
+    klass: "license", why: "promotional Context Aware and Location Services licence ('Promotion- 1000 AP Base Location Services licenses'); 10 parts, 0 facts. Distinct from the refused PROMO- prefix, where PROMO-AP2800-S-K9 is a real access point" },
+  { kind: "prefix", token: "S-MGMT3X-", klass: "license", why: "'Cisco Ent MGMT: PI 3.x LF, AS Smart Lic, 1 Nexus 5K' — Prime Infrastructure smart licence; 4 parts, 0 facts. The bare S- prefix stays refused (MikroTik optics)" },
+  { kind: "prefix", token: "WCS-NAV-", klass: "license", why: "'Cisco WCS Navigator License to support 20 Cisco WCS management platforms'; 1 part, 0 facts" },
+  { kind: "exact", token: "C4500E-S8-CA", klass: "license", why: "'5 AP license upgrade for Cisco 4500 Wireless Controller'. Exact, because the modules-misc block owns the other C4500E- feature licences" },
+  { kind: "exact", token: "ASCT-EXCMGR", klass: "software", why: "'Exciter Manager Software'. Exact: its ASCT-EX2000 / ASCT-EX3200 siblings are compact exciters, real hardware" },
+  // --- Fluidmesh: the plug-in licences, and the radios and antennas they are NOT ----------------------
+  // wirelessKind's header already says `FM####-<tier>` is a plug-in licence "classed by productClass.ts".
+  // It was not, until now. The tier at the END is the whole discriminator, and the family proves it: the
+  // bare FM1000-GWY and FM10000-GWY hold an own physical fact and are the gateways; FM1000-GWY-500 is
+  // named "Software upgrade up to 500 Mbps (aggregate throughput)".
+  { kind: "regex", token: "fluidmesh-throughput", re: /^FM(?:PONTE|\d{4,5}V?)-(?:FLU-|MOB-|PMCL-|PTP-|GWY-)?(?:MOB-|TRK-)?(?:MOB-)?(?:\d+|UN)$/, probe: "FM3200-30",
+    klass: "license", why: "Fluidmesh throughput / Fluidity plug-in licence ('Enable up to 30 Mbit/s ethernet througput in FM3200 Devices for fix backhaul', 'Enable FLUIDITY Fast-roaming Mobile-Unit Mode up to 5 Mbit/sec in FM3500'); 102 parts, all Cisco, all wireless, 0 own facts. Requires a TIER: FM3200B-HW, FM1200V-HW and both bare gateways cannot match" },
+  { kind: "regex", token: "fluidmesh-plugin", re: /^FM-(?:AES|TITAN|VLAN|QNET|PROFINET|CANBUS|EMP|FIPS140-2|MONITOR-\d+)$/, probe: "FM-TITAN",
+    klass: "license", why: "Fluidmesh software plug-in and FM Monitor device-count licence ('TITAN Plug-in. Enables Fast Failover', 'AES Plug-in'); 18 parts, 0 facts. Named one by one because the rest of the FM- prefix is antennas (FM-OMNI, FM-PANEL, FM-SECTOR90, FM-SHARK), injectors (FM-POE) and accessories" },
+  { kind: "exact", token: "FLMESH-SW-PAK", klass: "non_product", why: "'SW Container PID Only' — the container the Fluidmesh plug-ins are ordered under, which ships nothing itself; the same reading as the video block's 'Container (Top Level) PID' rows" },
+  // --- ordering options and datasheet cells enumerated as parts ---------------------------------------
+  { kind: "regex", token: "regulatory-domain-option", re: /^AIR-(?:AMERICAS|EMEA|ISRAEL|JAPAN)$/, probe: "AIR-EMEA",
+    klass: "non_product", why: "'Regulatory Domain Configuration for EMEA (ETSI)' — an ordering-tool choice that ships nothing; 4 parts, 0 facts. Anchored whole, so the 2,186 real AIR- products cannot match" },
+  { kind: "regex", token: "demand-planning-adjust", re: /^AIR\d{4}-DP-DLR$/, probe: "AIR3500-DP-DLR",
+    klass: "non_product", why: "'Product family - demand planning dollar adjustment' — a price line, the same shape as the collab block's TELPRES-DP-DLRPID; 1 part, 0 facts" },
+  // A DATASHEET CELL IS NOT A PRODUCT, wireless edition. Every one of the eighteen is named "Cisco " plus
+  // its own SKU and holds no fact: a regulatory band (U-NII-5..8), a security protocol (WPA2, WPA3), a
+  // modulation-and-coding-scheme index from an 802.11 data-rate table (MSC0..MSC15), a virtual NIC driver
+  // from the 9800-CL datasheet (E1000, E1000E, VMXNET3) and an optic VENDOR plus reach code from a
+  // compatibility table (FINISAR-LR, FINISAR-SR). Anchored to the WHOLE SKU, which is what keeps a real
+  // product out — SFP-10G-SR is not FINISAR-SR, and MSE-* is not MSC12.
+  { kind: "regex", token: "wifi-datasheet-cell", re: /^(?:U-NII-\d|WPA[23]|MSC\d{1,2}|E1000E?|VMXNET3|FINISAR-[LS]R)$/, probe: "U-NII-6",
+    klass: "non_product", why: "a band, protocol, MCS index, vNIC driver or optic-vendor code read out of a wireless datasheet table; 18 parts, all Cisco, all wireless, 0 facts" },
+  // The antenna-OPTION LETTER of an access point's model suffix, enumerated as five parts. The names are
+  // the table cell verbatim: AP1542D is "D: Internal directional antenna", AP1562E is "E: External
+  // Antenna". The real products are AIR-AP1542D-x-K9. Anchored whole: AP1572EAC / AP1572EC / AP1572IC
+  // carry two own facts each and are left alone.
+  { kind: "regex", token: "ap-antenna-option-cell", re: /^AP15[46]2[DEI]$/, probe: "AP1542D",
+    klass: "non_product", why: "an access-point antenna-option letter read out of a model-suffix table ('D: Internal directional antenna'); 5 parts, 0 facts" },
+  // The two vetoed rows are the same class either way and the veto is about REASON STABILITY, which is
+  // this table's stated convention ("so every part those already catch keeps its existing reason").
+  // C9120-MULTI and C9120-SINGLE are both named "Dummy PIDs on the test orders:" and are already
+  // `non_product` through the `name-dummy-pid` rule, whose witness they are in this suite.
+  { kind: "regex", token: "ap-pack-option", re: /^C9\d{3}-(?:OVER|MULTI|SINGLE)$/, probe: "C9130-OVER",
+    except: ["C9120-MULTI", "C9120-SINGLE"],
+    klass: "non_product", why: "an access-point PACKAGING option that ships nothing ('C9130AX OVER OPTION', 'Minimum Quantity = 10', 'SINGLE PACK OPTION'); 6 parts of the shape's 8, 0 facts. The two C9120 rows are named 'Dummy PIDs on the test orders:' and keep their name-dummy-pid reason" },
+  // --- unified-communications: the 194 the collab block did not already decide ------------------------
+  // Three families, and the UCM- one splits on the MCS SERVER MODEL. A SKU naming a 78xx server is the
+  // media kit or server software FOR that server (78 of its 96 names use image vocabulary, 3 entitlement);
+  // a SKU naming a VERSION is a User Connect Licence (42 of 48 entitlement-worded, 0 image-worded).
+  { kind: "regex", token: "ucm-node-entitlement", re: /^UCM-\d{4}-(?:UPG-)?(?:NODE|PAK)$/, probe: "UCM-7825-NODE",
+    klass: "license", why: "'CUCM 7825 Node', 'CUCM 7835 Upgrade Node', 'Include Upg PAK Auto-expanding PAK for CUCM 8.0'; 11 parts, 0 facts. Placed BEFORE cucm-mcs-software, which would otherwise call a node licence a media kit" },
+  { kind: "regex", token: "cucm-mcs-software", re: /^UCM-(?:\d\d-)?78\d\d(?:-|$)/, probe: "UCM-7825-85-KIT",
+    klass: "software", why: "CallManager media kit and server software for an MCS 78xx ('CUCM 8.5 Media Kit', 'Unified Communications Manager 8.6 Server Software', 'CUCM 5.1 Media Kit for CUWL Only'); 96 parts, 0 facts. The optional two-digit head is the UCM-51-7845-KIT spelling" },
+  { kind: "regex", token: "cucm-put-software", re: /^UCM?-\d+(?:\.(?:\d+|X))?-SW-K9/, probe: "UCM-10.5-SW-K9-XU",
+    klass: "software", why: "'CUCM Software Version 10.X for PUT Only, Export Unrestricted' and its UC- spelling ('CUCM Software Version 14 for MCE Only'); 11 parts, 0 facts" },
+  { kind: "regex", token: "cucm-user-licence", re: /^UCM-(?:90|9X|10X|11X|12X)-/, probe: "UCM-11X-ESS-UCL",
+    klass: "license", why: "UC Manager User Connect, HCS and EA licence by version ('BE6K UCM 11X Enhanced User Connect Lic', 'UC Manager 10.x License for HCS Basic'); 48 parts, 0 facts. The five version tokens are the ones read, not a bare UCM-\\d" },
+  // Jabber. The class was not a judgement call in the end: 54 of the family's 102 rows are ALREADY
+  // `license` in this table through the -RTU, -UWL and -LIC suffixes, so calling the remaining 48
+  // anything else would put one product in two classes. 16 of the 48 sit in collaboration-endpoints
+  // under the same SKU spellings — no pattern separates them, they hold no fact either, and they are
+  // named in docs/reports/schema-wl-uc-class-2026-09-12.md for that lane's owner to check.
+  { kind: "regex", token: "jabber-client", re: /^JAB(?:BER|G)?[89]?-/, probe: "JAB9-DSK-CLNT-EA",
+    klass: "license", why: "Jabber client, guest and SDK seat licence ('Jabber for Desktop 9.x Client License for Windows/Mac', 'Jabber Guest Right to Use'); 48 parts newly decided of 102 matched, 0 facts, unified-communications 32 and collaboration-endpoints 16" },
+  { kind: "regex", token: "ps-calling-software", re: /^CALL-SW-\d/, probe: "CALL-SW-12.X-K9",
+    klass: "software", why: "'PS Calling for EMEAR - Software Version 12'; 6 parts, 0 facts" },
+  // E3C WAS IN THE RULE ABOVE AND IS NOT ANY MORE, and the suite is why. The first draft read
+  // `^(?:CALL|E3C)-SW-\d` on the strength of ONE row — E3C-SW-15-K9, whose name is only its SKU — and
+  // the family was not read. It is two rows, and the other one, E3C-SW-14-K9, is named "On-Premises SW
+  // Bundle v14 (1)" and is already a LICENCE, decided by this file's `name-sw-bundle` rule. So the wider
+  // form got the class wrong (software for a licence) AND took the only live witness `name-sw-bundle`
+  // has, which turned the "every rule fired at least once" assertion red. The v15 sibling is taken
+  // exactly, so the v14 row keeps its reason and the name rule keeps its witness.
+  { kind: "exact", token: "E3C-SW-15-K9", klass: "license", why: "'Cisco E3C-SW-15-K9' — the v15 of the Enterprise Agreement on-premises software bundle whose v14 sibling E3C-SW-14-K9 is named 'On-Premises SW Bundle v14 (1)' and is already a licence by name; 1 part, 0 facts" },
+  // end wl-uc-class
 ];
 
 /** The reason string a rule emits — the same slug runs/vocab/cisco-round2 uses. */

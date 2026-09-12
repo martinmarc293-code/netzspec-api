@@ -234,11 +234,28 @@ norm("TWIN a SPACED dash between two numbers is the separator, not a sign", "swi
 // "DC -40 to -72 VDC" is a NEGATIVE supply range written high-magnitude-last. UNIT_TOKEN used to
 // swallow the "to" as the first number's unit, leaving the dash of "-72" to act as the separator,
 // and the pair was stored {min:-40, max:+72} — a positive upper bound on a negative rail, in band
-// and invisible (8 current facts). Both signs are now read, and the descending pair is REFUSED by
-// the existing min>max guard rather than reordered: a refusal is a recorded gap, the old +72 was a
-// wrong value. Swapping the ends would be a third change to this file and is not made here.
-norm("a negative UPPER bound is read, and a descending range is refused rather than stored wrong",
-  "switches", "input_voltage", "-40 to -72 VDC", "PARSE_FAIL", { locale: "en" });
+// and invisible (8 current facts). Both signs are now read.
+//
+// THE DESCENDING PAIR IS NOW REORDERED, not refused — routers-r5, 12 Sep 2026. The author of this
+// case wrote "swapping the ends would be a third change to this file and is not made here", which
+// is a scope decision and not an argument against the swap; the value census then named it as
+// defect Q6, *"fix the parser first (min/max ordering for negative volts), then renormalise"*, and
+// this branch is the one that was asked to fix the census's code defects. Telecom DC is always
+// stated magnitude-first — "-40 to -72 VDC", "-48 to -60 VDC" — because the engineer reads the
+// magnitude and the sign is understood, so the reordering is the source's own meaning rather than a
+// repair. Two real power supplies (PWR-CC1-400WDC, PWR-CC1-650WDC in routers, plus
+// C9K-PWR-1600WDC-R in switches) carried a gap on their input range because of it.
+//
+// WHAT MUST NOT COME BACK is the {min:-40, max:+72} this case was written to pin, so the assertion
+// is on the VALUE and not merely on "it parsed": a positive upper bound on a negative rail would
+// fail this line as loudly as the refusal did.
+norm("a negative supply range is read magnitude-first and reordered, never stored with a positive upper bound",
+  "switches", "input_voltage", "-40 to -72 VDC", { min: -72, max: -40 }, { locale: "en" });
+// AND THE FENCE, in the same file as the swap it protects: the reorder applies only when BOTH ends
+// are non-positive. A range that straddles zero and arrives out of order is not a magnitude-first
+// reading of anything — it is a broken cell — and the min>max guard must still refuse it.
+norm("TWIN a descending range that straddles zero is still refused",
+  "switches", "input_voltage", "70 to -40 V", "PARSE_FAIL", { locale: "en" });
 
 norm("a storage range written with en dashes keeps its minus", "switches", "temp_storage",
   "–40 to 70°C", { min: -40, max: 70 }, { locale: "en" });

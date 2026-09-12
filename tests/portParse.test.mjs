@@ -124,6 +124,48 @@ const cases = [
   // Partial credit is banned: one unreadable segment rejects the whole string, because a list
   // that silently drops a row is a wrong answer wearing the costume of a complete one.
   { in: "24 x RJ45, 4 x 10G", refuse: "no connector stated" },
+
+  // ---- routers-r5 (12 Sep 2026) — three defects the live corpus showed and no tidy case could.
+  // Each was measured by replaying parsePorts over all 3,253 stored ports/uplink_ports facts and
+  // reading every row that moved (33 rows; runs/reports/schema-routers-r5-2026-09-12.md).
+
+  // A. `\b` could not see QSFP-DD800, so an 800G cage fell through to the bare-QSFP rule and was
+  //    stored as qsfp-plus (40G). All four spellings must reach the same cage.
+  //    SABOTAGE: reverting that rule to /\bQSFP-?DD\b/i breaks this ONE case and no other — which
+  //    is exactly the size of the measured defect (3 facts, all QSFP-DD800). "QSFP56-DD" below
+  //    survives the revert because the QSFP-56 rule catches it, so it is a control, not a proof.
+  { in: "64x800G QSFP-DD800", want: [g("qsfp-dd", ["800G"], 64)] },
+  { in: "32x400G QSFPDD", want: [g("qsfp-dd", ["400G"], 32)] },
+  { in: "8x400GE QSFP56-DD", want: [g("qsfp-dd", ["400G"], 8)] },
+  { in: "4 x QSFP-DD", want: [g("qsfp-dd", [], 4)] },
+  //    REFUSAL of the wider form: a bare QSFP is NOT a QSFP-DD and must stay qsfp-plus, or the
+  //    fix for the 800G cage would relabel every 40G uplink in the catalogue.
+  { in: "6 x QSFP+", want: [g("qsfp-plus", [], 6)] },
+  { in: "2 ports QSFP", want: [g("qsfp-plus", [], 2)] },
+
+  // B. "&" is a separator. Without it one segment held two port groups: the first count, the LAST
+  //    connector, and the speeds merged ACROSS both — a device that exists in no configuration.
+  { in: "8x400GE QSFP56-DD&24x100GE QSFP28",
+    want: [g("qsfp-dd", ["400G"], 8), g("qsfp28", ["100G"], 24)] },
+  { in: "48 x SFP+ & 6 QSFP+ ports",
+    want: [g("sfp-plus", [], 48), g("qsfp-plus", [], 6)] },
+  //    REFUSAL: an ampersand NOT followed by a digit is part of a name, not a separator, and must
+  //    not break a clause apart. "R&D" keeps its one group.
+  { in: "24 x 10/100/1000 RJ45 R&D sample", want: [g("rj45", ["10/100/1000M"], 24)] },
+
+  // C. A gigaBYTE is not a speed. "Dual 8GB GE SFP" stored speed 8G on eight 1G SFP ports, while
+  //    the same router without the memory in its name stored the correct 1G.
+  { in: "ISR 1100 8P Dual 8GB GE SFP Higher Perf Router", want: [g("sfp", ["1G"], 8)] },
+  { in: "32p 400/100-Gbps QSFP-DD ports and 2p 1/10 SFP+ ports (32GB memory)",
+    want: [g("qsfp-dd", [], 32), g("sfp-plus", [], 2)] },
+  //    REFUSALS of the wider form — every one of these B's IS part of a speed token, and a
+  //    case-insensitive or letter-blind guard silently deletes it:
+  { in: "48 x 10GBASE-T", want: [g("rj45", ["10G"], 48)] },
+  { in: "2x1GBT uplinks", want: [g("rj45", ["1G"], 2)] },
+  // Gb is a gigaBIT and the 10G must survive. (The cage is sfp-plus: the connector scan is
+  // longest-name-first, so SFP+ beats the trailing "Copper" of a direct-attach description.)
+  { in: "2port 10Gb SFP+ Copper", want: [g("sfp-plus", ["10G"], 2)] },
+  { in: "32x400GbE QSFP56-DD", want: [g("qsfp-dd", ["400G"], 32)] },
 ];
 
 let pass = 0;

@@ -927,6 +927,63 @@ const ENUM_RULES: Record<string, [RegExp, string][]> = {
     [/wi-?fi\s*5|802\.11\s*ac/i, "wi-fi 5"],
     [/wi-?fi\s*4|802\.11\s*n(?![a-z])/i, "wi-fi 4"],
   ],
+  // wireless-r7 (12 Sep 2026) — four wireless cups became enums; these fold the spellings the corpus
+  // actually uses onto their domains (see fieldSchema.ts for each domain and its evidence).
+  //
+  // SPATIAL STREAMS. The eight compact spellings need only case folding, which the direct fallback
+  // already does ("4X4:3" -> "4x4:3"), so every rule here exists for a SPACED form: the stored
+  // "4x4:3" family is compact, but a datasheet cell writes "4 x 4 : 3" and the fallback's
+  // whitespace-to-hyphen slug would make that "4-x-4-:-3" and refuse a correct value. Each rule is
+  // ANCHORED END TO END, and that is the safety argument rather than tidiness: an unanchored "4 x 4"
+  // would fire on MR44's "2.4GHz: 2 x 2 … 5GHz: 4 x 4 …" and pick one of two radios, and on
+  // CW9174E's "10 or 8 (2x2+4x4+4x4 or 4x4+4x4)" and pick one of two configurations. Both must
+  // quarantine, and the anchors are what makes them.
+  spatial_streams: [
+    [/^\s*8\s*x\s*8\s*:\s*8\s*$/i, "8x8:8"],
+    [/^\s*4\s*x\s*4\s*:\s*4\s*$/i, "4x4:4"], [/^\s*4\s*x\s*4\s*:\s*3\s*$/i, "4x4:3"],
+    [/^\s*3\s*x\s*4\s*:\s*3\s*$/i, "3x4:3"], [/^\s*3\s*x\s*3\s*:\s*2\s*$/i, "3x3:2"],
+    [/^\s*2\s*x\s*2\s*:\s*2\s*$/i, "2x2:2"],
+    // The bare array size, with or without the word MIMO after it ("2x2 MIMO", "4X4 MIMO"): the
+    // stream count is NOT in the cell and is not invented. A trailing "SS" count is a stream count
+    // and would belong in the colon form, so it is not admitted here.
+    [/^\s*4\s*x\s*4(?:\s*mimo)?\s*$/i, "4x4"], [/^\s*2\s*x\s*2(?:\s*mimo)?\s*$/i, "2x2"],
+  ],
+  // ANTENNA CONNECTOR. Order is the rule: the two-connector guard first (a cell naming a radio
+  // connector AND a GPS connector must not be resolved by rule order — it maps to a value that is
+  // deliberately NOT in the domain, the OSFP-XD trick in FORM_FACTOR_OPTIC), then RP-TNC before any
+  // N rule because "RP-TNC" contains neither "N connector" nor "N-type" but a looser N rule would
+  // reach the N in "TNC". Lookarounds are explicit: "RP-TNC" has no word boundary where \b expects.
+  antenna_connector: [
+    [/(?<![a-z])(?:qma[^;]{0,40}[,;][^;]{0,40}(?:sma|n[-\s]connector)|sma[^;]{0,40}[,;][^;]{0,40}(?:qma|n[-\s]connector)|n[-\s]connector[^;]{0,40}[,;][^;]{0,40}(?:qma|sma))/i, "multiple-connectors"],
+    [/(?<![a-z])rp[-\s]?tnc(?![a-z])/i, "rp-tnc"],
+    [/(?<![a-z])mmcx(?![a-z])/i, "mmcx"],
+    [/(?<![a-z])rp[-\s]?sma(?![a-z])/i, "sma"], [/(?<![a-z])sma(?![a-z])/i, "sma"],
+    [/(?<![a-z])qma(?![a-z])/i, "qma"],
+    [/(?<![a-z])n[-\s]?(?:type|connector|male|female)(?![a-z])|(?<![a-z])type[-\s]?n(?![a-z])/i, "n-type"],
+  ],
+  // ANTENNA TYPE. "Integrated" is Cisco's other word for an internal antenna — the AP1572 legend
+  // says "I: Internal antennas" and the spec row says "Integrated antenna" of the same hardware — so
+  // it folds rather than quarantining 73 label occurrences. A cell naming BOTH ("internal and
+  // external", the modular 3802 shape) maps to a value outside the domain instead of letting rule
+  // order choose one. A radiation pattern ("Dipole (On-Board)", "Sector 2x2 MIMO", "Omnidirectional")
+  // matches nothing here and is refused: it answers a different question.
+  antenna_type: [
+    [/(?:int(?:ernal)?|integrated)[^.;]{0,24}(?:and|or|\/|\+)[^.;]{0,24}ext(?:ernal)?|ext(?:ernal)?[^.;]{0,24}(?:and|or|\/|\+)[^.;]{0,24}(?:int(?:ernal)?|integrated)/i, "internal-and-external"],
+    [/(?<![a-z])ext(?:ernal)?(?![a-z])/i, "external"],
+    [/(?<![a-z])(?:int(?:ernal)?|integrated)(?![a-z])/i, "internal"],
+  ],
+  // REGULATORY DOMAIN. The description patterns capture the token itself ("A", "Universal",
+  // "NAM/LAM"), so the bare letters need no rule — the direct fallback lowercases them. These three
+  // exist for the spellings a label or a name states as words. NAM/LAM FIRST: it is one variant
+  // approved for two regions and the bare-NA rule below would otherwise read only its first half.
+  // "NA" is a MEMBER here on purpose; under a type-"s" key the placeholder guard would delete it.
+  regulatory_domain: [
+    [/(?<![a-z])nam\s*[,/]\s*lam(?![a-z])/i, "nam-lam"],
+    [/(?<![a-z])universal(?![a-z])/i, "universal"],
+    [/(?<![a-z])(?:row|rest\s+of\s+world)(?![a-z])/i, "row"],
+    [/^\s*nam?\s*$/i, "na"],
+  ],
+  // end wireless-r7
   mgmt_class: [[/unmanaged|unverwaltet/i, "unmanaged"], [/smart/i, "smart-managed"], [/managed|verwaltet/i, "managed"]],
   // A distributor states the switching layer as the bare NUMBER — provantage's "Layer Supported"
   // is "3" (81), "2" (33), "3.0" (2) and "4" (4) and nothing else — so 116 correct answers were
@@ -1356,7 +1413,65 @@ const VALUE_REFUSALS: Record<string, { re: RegExp; code: NormReason; why: string
     code: "RANGE_VIOLATION",
     why: "a frequency in bare Hz is mains power, not a radio band (a radio band is kHz/MHz/GHz/THz)",
   },
+  // routers-r5 (12 Sep 2026) — A FIGURE THAT DEPENDS ON A CONFIGURATION IS A CAPABILITY STATEMENT.
+  //
+  //   C8200-1N-4T    "1.2M w/ default 8GB, up to 2M w/ 32GB"
+  //   C8200L-1N-4T   "600k w/ default 4GB, up to 2M w/ 32GB"
+  //
+  // Two numbers, each true only of a particular memory configuration, and `nat_sessions` holds one
+  // number. The count parser takes the FIRST one, so which figure is served depends on the order
+  // the datasheet happened to write them in — the same coin flip `portParse` refuses for "32p ...
+  // or ... 18p", and the file's rule is that a recorded gap beats a confident wrong value.
+  //
+  // NARROW ON PURPOSE. The discriminator is a `w/`-or-`with` qualifier on BOTH sides of a comma or
+  // semicolon, each carrying its own number — not the words "up to", which appear in ~190 perfectly
+  // good `altitude_max` values ("-60 to 4000m (up to 2000m conforms to IEC...)") and would take
+  // them all with them.
+  nat_sessions: {
+    // NO TRAILING `\b` AFTER `w/`: the boundary would have to sit between "/" and a space, and
+    // neither is a word character, so there is none. The first draft of this rule matched nothing
+    // at all and said so only when the two real values were replayed — the house lesson about `\b`
+    // on product strings, met on a separator instead of a token.
+    re: /\d[^,;]*\bw(?:\/|ith(?![A-Za-z]))[^,;]*[,;][^,;]*\d[^,;]*\bw(?:\/|ith(?![A-Za-z]))/i,
+    code: "PARSE_FAIL",
+    why: "two figures, each conditional on a different configuration — a capability statement, not a specification",
+  },
 };
+
+/**
+ * A EUROPEAN THOUSANDS SEPARATOR IN AN ENGLISH DOCUMENT — routers-r5, 12 Sep 2026, census Q3.
+ *
+ *   4G-ACC-OUT-LA and 17 more   altitude_max = "● Maximum altitude: 13.800 ft per IEC 68-2-41"
+ *
+ * Read as an English decimal that is 13.8 ft — four metres — for a maximum operating altitude; read
+ * as a thousands group it is 13,800 ft, which is 4,206 m and exactly what Cisco means. The band
+ * [100, 10000] m already refuses it, so nothing is stored today; what was wrong is that the refusal
+ * was an ACCIDENT of the band's floor rather than a statement about the value, and the reason it
+ * gave — "4.20624 outside plausible band" — sends the reader hunting a conversion bug.
+ *
+ * THIS FUNCTION CANNOT LOOSEN ANYTHING. It runs only after `inBand` has already refused, and it
+ * only ever returns another refusal; a value that normalises today is never reached. What it adds
+ * is a name for the defect, so the retraction population is greppable and a re-extraction knows the
+ * figure is recoverable from the page rather than lost.
+ *
+ * The test is deliberately two-sided, which is what makes it evidence rather than a hunch: the
+ * decimal reading must be OUT of band and the thousands reading IN it. "0.800 kg" stays a decimal —
+ * 0.8 kg is in band, so this is never consulted — and a value that is out of band both ways (a
+ * genuine typo) keeps its ordinary RANGE_VIOLATION.
+ */
+function ambiguousSeparator(category: string, key: string, s: string, value: number): NormResult | null {
+  // Exactly three digits after the dot, and no digit or separator immediately before the integer
+  // part: "13.800", never "1.5" (a real decimal) and never "1.234.567" (already a grouped number).
+  if (!/(?<![0-9.,])[0-9]{1,3}\.[0-9]{3}(?![0-9])/.test(s)) return null;
+  const band = bandFor(category, key);
+  if (!band) return null;
+  const grouped = value * 1000;
+  if (grouped < band[0] || grouped > band[1]) return null;
+  return bad("RANGE_VIOLATION",
+    `${key}: "${s}" — an AMBIGUOUS DECIMAL SEPARATOR. Read as a decimal the value is ${value}, outside ` +
+    `[${band[0]}, ${band[1]}]; read as a European thousands group it is ${grouped}, inside it. The source ` +
+    `does not say which, so neither reading is taken`);
+}
 
 /** The free-text types, where nothing but this guard can refuse a "we do not state this" cell. */
 const PLACEHOLDER_TYPES = new Set<FieldType>(["s", "ls"]);
@@ -1390,6 +1505,13 @@ export function normalizeField(category: string, key: string, raw: string, opts:
   if (PLACEHOLDER_TYPES.has(def.type) && PLACEHOLDER_VALUE.test(s)) {
     return bad("PARSE_FAIL", `${key}: "${s}" is a placeholder, not a value — the source states no answer`);
   }
+  // A VALUE THE FIELD CANNOT MEAN, checked for EVERY TYPE (routers-r5, 12 Sep 2026). This lookup
+  // used to sit inside the `case "s"` branch alone, so a per-key refusal was silently tied to the
+  // key's current type: retyping `radio_bands` or `nat_sessions` to a number would have switched
+  // its guard off without a word. The guard belongs to the KEY, not to the type it happens to have
+  // today, so it runs here — before the dispatch — and the `case "s"` branch no longer repeats it.
+  const refusal = VALUE_REFUSALS[key];
+  if (refusal && refusal.re.test(s)) return bad(refusal.code, `${key}: ${refusal.why} — "${s}"`);
   // A value with no letter in it is a NUMBER, whatever an enqueue-time gate makes of it. That gate
   // answers a different question — "could this token, taken from a part-number column, name a
   // part?" — and it deliberately KEEPS the six-to-eight-digit Scientific-Atlanta PIDs (1030033)
@@ -1449,7 +1571,7 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       const conv = convert(hit.n, hit.unit, canonical, key, hint, hit);
       if (!conv.ok) return conv;
       const viol = inBand(category, key, conv.value as number);
-      return viol ?? conv;
+      return viol ? (ambiguousSeparator(category, key, s, conv.value as number) ?? viol) : conv;
     }
     case "nr": {
       const re = new RegExp(`(${NUM})\\s*${NOT_RANGE_WORD}(${UNIT_TOKEN})\\s*${RANGE_SEP}\\s*(${NUM})\\s*(${UNIT_TOKEN})`, "i");
@@ -1469,7 +1591,21 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       const cl = convert(lo, unit, canonical, key, hint), ch = convert(hi, unit, canonical, key, hint);
       if (!cl.ok) return cl;
       if (!ch.ok) return ch;
-      const min = cl.value as number, max = ch.value as number;
+      let min = cl.value as number, max = ch.value as number;
+      // A NEGATIVE DC FEED IS WRITTEN MAGNITUDE-FIRST (routers-r5, 12 Sep 2026, census Q6).
+      //
+      //   PWR-CC1-400WDC / PWR-CC1-650WDC   input_voltage = "DC: -40 to -72V"
+      //
+      // Telecom DC is always stated that way — "-40 to -72 VDC", "-48 to -60 VDC" — because the
+      // engineer reads the magnitude and the sign is understood. Numerically -72 is the minimum and
+      // -40 the maximum, so the row was refused as "range min -40 > max -72" and two real power
+      // supplies carried a gap. The census found the same shape on `C9K-PWR-1600WDC-R` in switches.
+      //
+      // THE SWAP IS FENCED TO ENDPOINTS THAT ARE BOTH NON-POSITIVE, and that fence is the whole
+      // safety of it. A range whose two ends straddle zero and arrive out of order — "70 to -40" —
+      // is not a magnitude-first reading of anything; it is a broken cell, and it must keep failing.
+      // Pinned in both directions in tests/specNormalize.refusals.
+      if (min > max && min <= 0 && max <= 0) { const t = min; min = max; max = t; }
       if (min > max) return bad("PARSE_FAIL", `${key}: range min ${min} > max ${max}`);
       return inBand(category, key, min) ?? inBand(category, key, max) ?? ok({ min, max }, canonical);
     }
@@ -1490,8 +1626,8 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       return ok(parts);
     }
     case "s": {
-      const refusal = VALUE_REFUSALS[key];
-      if (refusal && refusal.re.test(s)) return bad(refusal.code, `${key}: ${refusal.why} — "${s}"`);
+      // VALUE_REFUSALS moved up into normalizeField (routers-r5): it is a guard on the KEY, and
+      // leaving it here made it a guard on the key's type.
       return ok(s);
     }
     case "struct": {

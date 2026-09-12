@@ -38,7 +38,7 @@ export type SecurityKind =
   | "non-hardware"
   | "firewall" | "ips" | "email-gateway" | "web-gateway" | "management" | "analytics" | "identity" | "appliance"
   | "security-module" | "ips-module"
-  | "module" | "power" | "fan" | "drive" | "compute" | "cable" | "accessory";
+  | "module" | "power" | "fan" | "drive" | "compute" | "memory" | "nic" | "cable" | "accessory";
 
 /** Every kind that is a whole box you rack and power — asked the physical envelope. */
 export const SEC_BOX: readonly SecurityKind[] =
@@ -46,7 +46,7 @@ export const SEC_BOX: readonly SecurityKind[] =
 
 /** Kinds that plug into or attach to a box — every one is bought for WHAT IT FITS. */
 export const SEC_COMPONENT: readonly SecurityKind[] =
-  ["security-module", "ips-module", "module", "power", "fan", "drive", "compute", "cable", "accessory"];
+  ["security-module", "ips-module", "module", "power", "fan", "drive", "compute", "memory", "nic", "cable", "accessory"];
 
 /**
  * The SHAPE a SKU names, for the profile. A box whose SKU names no shape falls back to its SERIES
@@ -107,7 +107,40 @@ const RULES: { kind: SecurityKind; id: string; re: RegExp }[] = [
   // + the M.2 and SATA shapes the default bucket showed, 12 Sep 2026: ST-M6-240GB-SATAM2 ("Cisco SNA 240GB
   // SATA M.2") and TG-M7-SDB3T8SA1VD (a 3.8 TB SATA drive).
   { kind: "drive", id: "drive", re: /(?:^|-)(?:SSD|HDD|SAS|FLASH)\d*(?:\.\d)?(?:[GT]B?)?(?:-|=|$)|(?:^|-)(?:SSD|HDD|HD|SD)-?\d{2,4}(?:\.\d)?[GT]|-S\d{3,4}G[A-Z]|-D\d{3}G[A-Z]|-CF-\d+MB|-D\d+TBSATA|-DVD-|(?:^|-)NVME|(?:^|-)NVB\d|-\d{2,4}GB?-SATA|(?:^|-)SDB\d+T\d|(?:^|-)(?:SSD|HDD)\d{2,4}[A-Z]{2,}/ },
-  // CPUs, DIMMs, RAID controllers, NICs, TPMs and risers of the UCS-based appliances (FMC, SNS, TG, AMPPC, CCS, CV,
+  // ---- security-r6 (12 Sep 2026): TWO SHAPES OUT OF `compute`, BECAUSE THEY HOLD ALL ITS FACTS --
+  // `compute` was ONE kind of 224 parts asked ONE cup (product_compatibility), and 39 of those
+  // parts hold a fact. Read by SKU token, the 39 facts are not spread across the kind: 33 are
+  // `dram` on memory modules and 6 are `ports` on network cards. Every other member — 132 CPUs,
+  // RAID controllers, TPMs, risers and storage carriers — holds nothing. So the cup a DIMM is
+  // bought on and the cup a NIC is bought on were both being carried by parts nobody asked, while
+  // a TPM would have been asked a DRAM capacity had the cup been added to `compute` as a whole:
+  // the "capability statement" mistake in schema form, which is why this is two kinds and not one
+  // wider cup set. 132 parts stay `compute` and stay asked only what they fit.
+  //
+  // ORDER: both rules sit HERE, after the blank / mount-kit / cable / power / fan / drive rules and
+  // before `compute`, and the placement is load-bearing in two measured cases. CCS-MLOM-BLNK is a
+  // "MLOM Blanking Panel" and the MLOM token would take it; FS750-MEM-KIT= and FS3500-MEM-KIT= are
+  // "Memory Kit" rows with no capacity; all three are taken by the earlier accessory rules and must
+  // stay there. tests/securityKind.test.ts pins all three as ordering cases.
+  //
+  // A `MEM-` PREFIX OVER A STORAGE PART, and it is refused by naming it rather than by a negative
+  // lookahead: MEM-7100-CFL128M is "Cisco 7160 Compact Flash Disk, 128 MB". Its siblings
+  // ASA5500-CF-256MB= and FS2K-FLASH-16GB are already `drive`; this one is spelled CFL and the
+  // drive rule's `-CF-\d+MB` does not reach it, so the memory rule would have taken it and asked a
+  // flash disk for a DRAM capacity — the wrong cup holding a plausible number, the hardest error
+  // to find later. It is the ONLY `CFL` part in the catalogue, which is why the rule is this tight.
+  { kind: "drive", id: "compact-flash", re: /(?:^|-)CFL\d{2,4}[MG]/ },
+  { kind: "memory", id: "memory",
+    re: /(?:^|-)(?:MEM|MR|DIMM)(?:-|=|\d|$)|(?:^|-)MRX\d|(?:^|-)X\d{1,3}G\dR[WS]|(?:^|-)\d+GBSR-/ },
+  // `-\d{1,2}GE-CU` IS STILL ANCHORED TO CCS-/WSA-, for the reason the compute rule below records:
+  // the unanchored form takes ASA-IC-6GE-CU-A, an ASA Interface Card, which is a netmod with six
+  // data ports and three stored facts of its own. The first draft of this rule dropped the anchor
+  // and the corpus diff showed all six ASA-IC-6GE-CU-* moving out of `module` — the rule's own
+  // documented refusal, re-broken and caught by reading the diff rather than by the suite.
+  { kind: "nic", id: "nic",
+    re: /(?:^|-)(?:NIC|MLOM)(?:-|=|$)|-\d{1,2}G-NIC|-\d{1,2}GE-FI|^(?:CCS|WSA)-\d{1,2}GE-CU|-[OP]-I\d?[A-Z0-9]*G[CF]|(?:^|-)PCIEI?D?\d|-\d{1,2}G-\dFI/ },
+  // ---- end security-r6 (12 Sep 2026) --------------------------------------------------------------
+  // CPUs, RAID controllers, TPMs and risers of the UCS-based appliances (FMC, SNS, TG, AMPPC, CCS, CV,
   // CSM, Stealthwatch). + four token shapes the default bucket showed: FPR9K-X32G2RW= / CV-MRX16G1RE5 (DIMMs),
   // FMC-M6-O-ID10GC (an OCP NIC), PRSM-RAID9271CV-8I (MegaRAID), CCS-10GE-FI (a fibre NIC).
   // + four more shapes from the default bucket, 12 Sep 2026: SNS-4GBSR-1X041RY ("4GB 1600 Mhz Memory

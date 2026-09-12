@@ -6638,6 +6638,18 @@
    "cable_length",
    "modules-misc 12 Sep 2026: 10 occurrences, value '10 ft (3 m)'. `cable_length` is required of the 97 `cable`-kind parts in interfaces-modules and only 3 hold a value. The sibling columns of the same table ('[Cable type]' -> V.35 DTE, '[Connector type]' -> Male) are deliberately NOT mapped: one is a media type this profile does not require and the other has no cup. SCOPED to interfaces-modules, where the smart-serial cables live.",
    { "only": ["interfaces-modules"] }
+  ],
+  [
+   "^ssl throughput$|^tls \\(hardware decryption\\)( ?[0-9]+)?$",
+   "tls_throughput",
+   "security-r6 12 Sep 2026: tls_throughput is REQUIRED of the firewall shapes from today and its only rule was '^tls( decryption)?( throughput)?$|^ssl decryption throughput$' - four spellings, all starting with TLS, so the Secure Firewall 4200 column 'TLS (Hardware Decryption) 2' (4 occurrences, '10 Gbps' | '11 Gbps' | '12 Gbps', sample SKUs SM-40 / SM-48 / SM-56) reached nothing. THE SAMPLE SKUS DECIDED THE REST OF THE RULE, and they cut it in half: 'SSL bulk encryption throughput (Gbps)' (12) names Alteon D-5424SL / D-9800S - RADWARE, in a comparison table, not a Cisco figure - and its cell is a bare '30' the Gbit/s unit refuses anyway; 'SSL Throughput' (4, 'Up to 3.3 Gbps') names 'Cisco ACE Application Control Engine', a load balancer; 'Performance: SSL throughput' and 'SSL Performance: SSL throughput' (2 + 2) are section paths over the same ACE figure. None of the four is evidence that a Cisco SECURITY datasheet publishes the row, so none is aliased. '^ssl throughput$' is kept as the bare synonym and scoped to security, where no ACE or Alteon part lives. REFUSED ON PURPOSE, each checked against its own samples: 'SSL performance' 20, 'SSL performance *' 12, 'SSL performance **' 8 and 'SSL/TLS Decryption' 6 are section HEADERS whose cell repeats the label; 'SSL Transactions Per Second' 4 and 'SSL/TLS Connections per Second' 5 are a RATE, not a throughput, and the second already maps to ssl_connections_per_sec; 'SSL acceleration' and 'Fast: SSL acceleration' are prose.",
+   { "only": ["security"] }
+  ],
+  [
+   "^concurrent active endpoints supported by a dedicated psn \\(cisco ise node only has psn persona\\.?\\)$",
+   "max_endpoints",
+   "security-r6 12 Sep 2026: ISE's own sizing figure, and the earlier round recorded it as unavailable ('Endpoints' 25 is ambiguous, 'Included ISE endpoint licenses' 11 is not a spec) after reading those two labels and not these. Four unmapped labels, 12 occurrences, and their sample SKUs are the parts themselves: 'Cisco Secure Network Server 3815 / 3855 / 3895' and '3715 / 3755 / 3795', values '50,000' and '100,000'. Both SNS datasheets are LINKED (16 and 47 facts already extracted from them), so this lands on real appliances at zero network cost. The trailing-full-stop twin of each label is matched by '\\.?' - the two sheets punctuate the same label differently. THE SHARED-PSN ROW IS REFUSED, and that is the point of anchoring on 'a dedicated psn': 'Concurrent active endpoints supported by a shared PSN (Cisco ISE node has multiple personas)' carries 25,000/50,000 for the SAME appliance, so admitting both would put two different measurements in one cup - the reason ISE was taken out of concurrent_sessions on 12 Sep. max_endpoints stays `opt` until a fact lands (no enabled source has been SEEN to publish it); promote-required earns the requirement then.",
+   { "only": ["security"] }
   ]
  ]
 }

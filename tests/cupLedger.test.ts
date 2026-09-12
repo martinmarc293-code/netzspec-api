@@ -187,11 +187,24 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
     //    category fails here too and not only in tests/securityShapes. A component must be asked
     //    strictly fewer slots than the leanest box: that difference IS the defect this axis fixed.
     const box = ["firewall", "ips", "email-gateway", "web-gateway", "management", "analytics", "identity"];
-    const comp = ["security-module", "ips-module", "module", "power", "fan", "drive", "compute", "cable", "accessory"];
+    // security-r6 (12 Sep 2026): `memory` and `nic` join the component list (two shapes split out of
+    // `compute`, which was one kind of 224 parts carrying 39 facts in two cups it was never asked).
+    const comp = ["security-module", "ips-module", "module", "power", "fan", "drive", "compute", "memory", "nic", "cable", "accessory"];
     const n = (k: string) => led.kinds[k].required.length + led.kinds[k].pending_until_gate_answered.length;
-    check("security: every component kind is asked fewer slots than the leanest box",
-      Math.max(...comp.map(n)) < Math.min(...box.map(n)),
-      `components ${comp.map((k) => `${k}:${n(k)}`).join(" ")} · boxes ${box.map((k) => `${k}:${n(k)}`).join(" ")}`);
+    // AND `security-module` IS NAMED OUT OF THE BOUND, not the bound loosened — the same exemption
+    // tests/securityShapes carries, for the same recorded reason: a Firepower 9300 SM blade is a
+    // component by form and a firewall by what it is bought on, and SM-40/48/56 hold 15 facts each
+    // (firewall_throughput, threat_throughput, ips_throughput, vpn_peers, concurrent_sessions and
+    // the IPsec figure). Adding the r6 cups took it from 5 slots to 9, past `identity` at 8. The
+    // exemption is asserted to be NECESSARY below, so it cannot quietly grow into the whole list.
+    const BOXLIKE_COMPONENT = ["security-module"];
+    const strict = comp.filter((k) => !BOXLIKE_COMPONENT.includes(k));
+    check("security: every component kind except the blade is asked fewer slots than the leanest box",
+      Math.max(...strict.map(n)) < Math.min(...box.map(n)),
+      `components ${strict.map((k) => `${k}:${n(k)}`).join(" ")} · boxes ${box.map((k) => `${k}:${n(k)}`).join(" ")}`);
+    check("security: the exemption list is exactly the kinds that BREAK the bound",
+      BOXLIKE_COMPONENT.every((k) => n(k) >= Math.min(...box.map(n))),
+      `exempt ${BOXLIKE_COMPONENT.map((k) => `${k}:${n(k)}`).join(" ")} · leanest box ${Math.min(...box.map(n))}`);
     check("security: no component kind is asked the physical envelope",
       comp.every((k) => !["weight", "dimensions", "temp_operating", "humidity_operating", "certifications", "form_factor", "rack_units"]
         .some((f) => led.kinds[k].required.some((r) => r.key === f) || led.kinds[k].pending_until_gate_answered.some((r) => r.key === f))),
@@ -332,6 +345,17 @@ for (const f of files) {
     "server:conferencing": "the same, for Meeting Server appliances",
     "chassis:optical-networking": "an optical shelf is bought on its slot count; a UCS chassis on its envelope",
     "chassis:video": "a cable-plant housing is strand-mounted: no rack units, no form factor",
+    // routers-r5 (12 Sep 2026). `chassis` now names five different things in five categories, and the
+    // routers one is a LINE-CARD chassis: a CRS-16/S, an ASR 9922, an 8818-SYS. Cisco publishes four
+    // figures on that shelf's own datasheet that a server or HCI enclosure's sheet does not carry,
+    // which is the whole of the difference the check reports:
+    //   module_slots      its defining spec, and all 64 device facts are on this cohort
+    //   input_voltage     the PSU bays' supply range is stated on the chassis sheet, not the PSU's
+    //   power_typical     printed per shelf ("8818 22KW typical with 800G LCs")
+    //   router_throughput the system figure ("Max throughput with 800G LC", 518.4T)
+    // A UCS chassis's power and a video housing's are stated on the blades and the line cards, so
+    // those three kinds legitimately owe the envelope alone. Same name, three different products.
+    "chassis:routers": "a line-card chassis states its slot count, its supply range, its typical draw and its system throughput; a UCS or HCI chassis owes the envelope alone",
     "module:routers": "a router interface module states its ports; a UCS io-module does not",
     "module:switches": "a switch module adds PoE ports and a PoE standard to the same set",
     "module:security": "a netmod states ports and its own draw",
@@ -377,6 +401,67 @@ for (const f of files) {
   }
 }
 
-lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 7 sabotage cases)`);
+// A MEMORY KIND MUST NOT BE ASKED `storage_capacity` (reviewer round 4 §6; modules-r8, 12 Sep 2026).
+//
+// THE DEFECT IT NAMES. `interfaces-modules` asked its `memory` kind for `storage_capacity` while meaning
+// `dram` or `flash`. `storage_capacity` is a DRIVE's onboard capacity — band [1, 200000] GB — and `dram`
+// and `flash` are a module's, bands [0.06, 512] and [0.03, 1024]. A 512 MB DRAM upgrade poured into the
+// drive cup stores 0.5 against a floor of 1 and is refused; a 1 TB disk poured into `dram` is refused the
+// other way. It was fixed in the profile on 12 Sep 2026 (the same eleven parts, the right cup), and the
+// ONE-CUP-SET-PER-KIND check above cannot catch it coming back: `memory` already has a NAMED EXCEPTION
+// there ("an SD/USB/CF card answers flash as well as dram"), so an exception-bearing kind can drift to any
+// set at all without a word. That is what makes this its own rule rather than a comment on the fix.
+//
+// IT IS STATED AS A PAIR, BOTH DIRECTIONS, because the mirror defect is as easy to write: a `drive` kind
+// asked `dram` means the profile meant `storage_capacity`. Written over the ledgers rather than the
+// profiles so it reads exactly what a part of that kind is ASKED, gate included — a requirement that is
+// conditional and open still lands in `pending_until_gate_answered` and still counts.
+{
+  /** Pure, so the sabotage below can drive it with a ledger nobody committed. */
+  const wrongCup = (kind: string, asked: string[]): string[] => {
+    const MEMORY_KINDS = ["memory", "flash", "processor", "dimm"];
+    const DRIVE_KINDS = ["drive", "disk", "ssd"];
+    const out: string[] = [];
+    if (MEMORY_KINDS.includes(kind) && asked.includes("storage_capacity")) {
+      out.push(`kind "${kind}" is asked storage_capacity, which is a DRIVE's cup — it means dram or flash`);
+    }
+    for (const k of ["dram", "flash"]) {
+      if (DRIVE_KINDS.includes(kind) && asked.includes(k)) {
+        out.push(`kind "${kind}" is asked ${k}, which is a MEMORY module's cup — it means storage_capacity`);
+      }
+    }
+    return out;
+  };
+  let looked = 0;
+  for (const f of files) {
+    const led = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")) as Ledger & {
+      kinds: Record<string, LedgerKind & { parts: number }> };
+    for (const [kind, v] of Object.entries(led.kinds)) {
+      const asked = [...v.required.map((r) => r.key), ...v.pending_until_gate_answered.map((p) => p.key)];
+      looked++;
+      const bad = wrongCup(kind, asked);
+      check(`${f}: ${kind} is asked the right capacity cup`, bad.length === 0, bad.join("; "));
+    }
+  }
+  // The denominator, so "no findings" cannot be read as "nothing was looked at" — a check that reports
+  // only its failures is indistinguishable from a check that ran over an empty set.
+  lines.push(`    memory/drive capacity cup: ${looked} kind rows across ${files.length} ledgers`);
+  check("the capacity-cup check looked at a real number of kinds", looked > 50, `only ${looked}`);
+  // SABOTAGE, both directions, on ledgers nobody committed — the rule has to refuse FOR THE STATED REASON.
+  check("SABOTAGE a memory kind asked a drive's storage_capacity is caught",
+    wrongCup("memory", ["storage_capacity", "product_compatibility"]).some((m) => m.includes("storage_capacity") && m.includes("dram or flash")));
+  check("SABOTAGE a drive kind asked a module's dram is caught",
+    wrongCup("drive", ["dram", "drive_interface"]).some((m) => m.includes("dram") && m.includes("storage_capacity")));
+  check("SABOTAGE and it catches the cup whether the gate is answered or still pending",
+    wrongCup("flash", ["storage_capacity"]).length === 1);
+  // THE CONTROL, which is the half that proves the rule is not simply refusing everything: the real
+  // shapes must pass. A drive owes storage_capacity, a memory module owes dram, and a memory kind that
+  // ALSO owes flash (interfaces-modules' SD/USB cards) is legitimate.
+  check("CONTROL a drive asked storage_capacity passes", wrongCup("drive", ["storage_capacity", "drive_interface"]).length === 0);
+  check("CONTROL a memory module asked dram and flash passes", wrongCup("memory", ["dram", "flash", "memory_speed_max"]).length === 0);
+  check("CONTROL a kind this rule says nothing about is untouched", wrongCup("switch", ["storage_capacity", "dram"]).length === 0);
+}
+
+lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 13 sabotage/control cases)`);
 console.log(lines.join("\n"));
 if (failed) process.exit(1);

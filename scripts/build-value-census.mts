@@ -21,8 +21,12 @@
  * retraction or renormalisation run has to work through. `facts` is append-only, so a rule tightened
  * after a value was stored leaves that value serving: this is the report that finds it.
  *
- * The replay is not the pipeline call exactly — see replayOpts below for the two differences and why
- * they make the refusal count a LOWER bound rather than an upper one.
+ * THE REPLAY IS NOT THE PIPELINE'S CALL and cannot be — the label is not stored. Read the block over
+ * `replayRefusal` before quoting any number out of this file: it took FOUR versions to stop
+ * over-reporting, three of them read plausibly, and the fourth exists because a fact whose unit came
+ * from the extraction pattern can be replayed by neither arm. Those rows are counted as
+ * `could_not_replay`, in their own field, never as refusals.
+ *
  * Read-only: queries the store, writes one JSON file. No run row, because it writes no database row.
  */
 import fs from "node:fs";
@@ -81,6 +85,24 @@ type FactRow = {
  *
  * (`hexcat_seed` values are the operator's German text — "bis -28 dBm" — so the locale follows the
  * method rather than being fixed at "en".)
+ *
+ * v4 — AND THE LOWER-BOUND CLAIM WAS STILL FALSE FOR ONE SHAPE, found by the wireless agent
+ * reading its own category's refusals rather than trusting mine. `AIR-CAB150ULL-R` is a 150-FOOT
+ * cable: `raw` is the bare string "150", the unit `ft` came from the EXTRACTION PATTERN
+ * (data/schema/description-patterns.json carries `"unit":"ft"`), and the value stored is a correct
+ * 45.72 m. Neither replay arm can know that — `facts.unit` holds the canonical `m`, so the hinted
+ * arm reads 150 m and the bare arm reads no unit at all, and both refuse a value that is right.
+ *
+ * So the guarantee is narrower than "every refusal is real": it holds only when the raw CARRIES a
+ * unit token of its own. When it does not, the original unit is unrecoverable from the row and the
+ * replay cannot answer — which this repo already has a rule for. **Count what you could not check
+ * as its own number and put it in the output**, never folded into either side; `unreadable` beside
+ * `checked`, not inside it. So a bare-magnitude raw on a unit-bearing cup is reported as
+ * `could_not_replay` and is NOT a refusal.
+ *
+ * That is also why `would_refuse` fell in every category when this arrived: the earlier numbers
+ * counted these rows as defects. Three of the four census versions over-reported, each in a
+ * different way, and each was found by someone reading the output rather than the code.
  */
 function replayRefusal(category: string, key: string, r: FactRow): { reason: string; detail: string } | null {
   const locale = r.method === "hexcat_seed" ? "de" : "en";
@@ -89,6 +111,14 @@ function replayRefusal(category: string, key: string, r: FactRow): { reason: str
   const hinted = normalizeField(category, key, r.raw, { locale, unitHint: r.unit ?? undefined });
   if (hinted.ok) return null;
   return { reason: bare.reason, detail: bare.detail };
+}
+
+/** A raw the replay CANNOT answer: the cup declares a unit, and the raw is a bare magnitude with no
+ *  unit token, so whatever unit the extractor used is not in the row. Its own bucket, never a
+ *  refusal and never an acceptance. */
+const BARE_MAGNITUDE = /^[\s(]*[-+−]?[\d.,]+[\s)]*$/;
+function couldNotReplay(key: string, r: FactRow): boolean {
+  return Boolean(FIELD_DICTIONARY[key]?.unit) && BARE_MAGNITUDE.test(r.raw);
 }
 
 async function main(): Promise<void> {
@@ -127,7 +157,7 @@ async function main(): Promise<void> {
   for (const f of facts) byKey.set(f.field_key, [...(byKey.get(f.field_key) ?? []), f]);
 
   const cups: unknown[] = [];
-  let refusedTotal = 0;
+  let refusedTotal = 0, unreplayableTotal = 0;
   for (const [key, rows] of [...byKey].sort((a, b) => b[1].length - a[1].length)) {
     const def = FIELD_DICTIONARY[key];
     // A value counted per DISTINCT rendering, with one example SKU each — the reviewer reads the
@@ -141,8 +171,10 @@ async function main(): Promise<void> {
     // THE REPLAY. Every stored raw through the real normaliser, under this category.
     const refusals: { sku: string; raw: string; reason: string; detail: string }[] = [];
     const byReason: Record<string, number> = {};
+    let unreplayable = 0;
     for (const r of rows) {
       if (!def) break;                                   // a key the dictionary no longer holds: reported below
+      if (couldNotReplay(key, r)) { unreplayable++; continue; }
       const res = replayRefusal(category, key, r);
       if (!res) continue;
       byReason[res.reason] = (byReason[res.reason] ?? 0) + 1;
@@ -150,6 +182,7 @@ async function main(): Promise<void> {
     }
     const refusedN = Object.values(byReason).reduce((a, b) => a + b, 0);
     refusedTotal += refusedN;
+    unreplayableTotal += unreplayable;
     cups.push({
       key,
       in_dictionary: Boolean(def),
@@ -169,6 +202,11 @@ async function main(): Promise<void> {
       // closed set should be is a decision, and this file only says which cups need one.
       free_string_candidate: def?.type === "s" && !def.domain && values.size >= FREE_STRING_FLOOR,
       would_refuse: { n: refusedN, by_reason: byReason, examples: refusals },
+      // COULD NOT CHECK, as its own number. A bare magnitude on a unit-bearing cup carries no unit
+      // token, so the unit the extractor used is not in the row and neither replay arm can answer.
+      // Never folded into would_refuse (it is not a defect) nor into the accepted rows (it is not
+      // verified): `unreadable` beside `checked`, which is this repo's own rule.
+      could_not_replay: unreplayable,
       top_values: [...values].sort((a, b) => b[1].n - a[1].n).slice(0, TOP_VALUES)
         .map(([value, e]) => ({ value: value.length > 120 ? value.slice(0, 120) + "…" : value, n: e.n, example_sku: e.sku })),
     });
@@ -188,6 +226,7 @@ async function main(): Promise<void> {
     facts: facts.length,
     cups_holding_values: cups.length,
     would_refuse_total: refusedTotal,
+    could_not_replay_total: unreplayableTotal,
     free_string_candidates: cups.filter((c) => (c as { free_string_candidate: boolean }).free_string_candidate)
       .map((c) => (c as { key: string }).key),
     cups,
@@ -198,6 +237,7 @@ async function main(): Promise<void> {
   fs.writeFileSync(file, JSON.stringify(out, null, 1) + "\n");
   console.log(`${category.padEnd(30)} ${String(parts.length).padStart(6)} parts  ${String(facts.length).padStart(6)} facts  `
     + `${String(cups.length).padStart(4)} cups  would refuse ${String(refusedTotal).padStart(5)}  `
+    + `could-not-replay ${String(unreplayableTotal).padStart(5)}  `
     + `free-string candidates ${out.free_string_candidates.length}`);
 }
 

@@ -32,8 +32,28 @@ export type PortGroup = { port_typ: string; speed: string[]; anzahl: number };
 
 // Connector tokens, longest-first so "SFP+" is not consumed by "SFP" and "QSFP28" not by "QSFP".
 const CONNECTORS: [RegExp, string][] = [
-  [/\bQSFP-?DD\b/i, "qsfp-dd"],
-  [/\bQSFP-?56\b/i, "qsfp-dd"],
+  // routers-r5 (12 Sep 2026) — `\b` COULD NOT SEE `QSFP-DD800`, AND THE FALL-THROUGH WAS SILENT.
+  // `/\bQSFP-?DD\b/` needs a word boundary after the second D; in "QSFP-DD800" the next character
+  // is a digit, so there is none and the rule never fired. The value then fell to the bare
+  // `/\bQSFP\b/` rule below (the "-" after QSFP IS a boundary) and an 800G cage was stored as
+  // `qsfp-plus` — a 40G one. Measured over the live store: `8223-64E-M` and `8223-64E-MO`
+  // ("Cisco 8223 64x800G QSFP-DD800 Router") and `8711-32FH-M` ("16 ports QSFP-DD800 and 16 ports
+  // QSFP56-DD") — 3 facts, all in `routers`, all wrong in the same direction. This is CLAUDE.md's
+  // "`\b` is the wrong tool for product strings" exactly: `10GBASE-T`, `4x10G`, `2xSFP` and now
+  // `QSFP-DD800`. Explicit lookarounds, and the trailing one allows a digit on purpose.
+  //
+  // A `(?:56-?)?` branch was drafted here too, for "QSFP56-DD". FILE-LEVEL SABOTAGE PROVED IT
+  // DEAD: removing it left the suite at 59/59 and the 3,253-row corpus replay byte-identical,
+  // because the QSFP-56 rule immediately below already catches that spelling. Deleted rather than
+  // kept as decoration — the same call as the fan rule's `(?!FLTR)` in routerKind.ts. Reverting
+  // this line to the `\b` form breaks exactly ONE case, "64x800G QSFP-DD800", which is the whole
+  // of the measured defect and is now the pinned sabotage.
+  [/(?<![A-Za-z0-9])QSFP-?DD(?![A-Za-z])/i, "qsfp-dd"],
+  // A bare QSFP56 (200G) is NOT a QSFP-DD (400G), and the domain has no `qsfp56` member — so this
+  // line is knowingly imprecise and is left as the switches owner wrote it. `8711-48Z-M` "4 ports
+  // QSFP56" is the one routers part it touches; retyping the domain is a proposal in the report,
+  // not a change made here, because it would move switches values.
+  [/(?<![A-Za-z0-9])QSFP-?56(?![A-Za-z0-9])/i, "qsfp-dd"],
   [/\bQSFP-?28\b/i, "qsfp28"],
   [/\bQSFP\+|\bQSFP-?PLUS\b/i, "qsfp-plus"],
   [/\bQSFP\b/i, "qsfp-plus"],
@@ -78,8 +98,29 @@ function speedsOf(seg: string): string[] {
   else if (/10\/100(?!\/)/.test(seg)) add("10/100M");
   if (/1000BASE-?T/i.test(seg)) add("1G");
   if (/100BASE-?TX?/i.test(seg)) add("100M");
-  // "10G", "2.5G", "400G" wherever they sit in a token — but never the G of GHz.
-  const re = /(?<![0-9.])(\d+(?:\.\d+)?)\s*G(?![Hh]z)/g;
+  // "10G", "2.5G", "400G" wherever they sit in a token — but never the G of GHz, and never the G
+  // of a CAPACITY.
+  //
+  // routers-r5 (12 Sep 2026): `C1161X-8P` "ISR 1100 8P Dual 8GB GE SFP Higher Perf Router" stored
+  // `speed: ["8G"]` on eight 1-Gigabit SFP ports. The 8GB is the DRAM, and "8G" is not a speed
+  // Ethernet has ever had. Its sibling `C1161-8P` — the same router with the memory left out of
+  // the name — stored the correct ["1G"], so the two rows of one product disagreed about the
+  // speed of the same port.
+  //
+  // The discriminator is the letter after the G, and it must distinguish a capacity from the
+  // copper speed tokens that also spell GB: `10GBASE-T`, `1GBT`, `32x400GbE` are speeds, "8GB",
+  // "16 GB", "8 Gb" are capacities. So a B (either case) is only disqualifying when NOTHING
+  // alphabetic follows it — which is the whole difference between "8GB DRAM" and "10GBASE-T".
+  // With 8G refused, `speedsOf` finds nothing numeric and falls through to the bare-GigE rule
+  // below, which reads the "GE" and gives 1G: the right answer, from the token that states it.
+  //
+  // AND THE B IS CASE-SENSITIVE, which the corpus replay taught rather than the rule. A case-
+  // insensitive first draft refused `N2XX-AQPCI01` "Qlogic QLE 8152-CNA 2port 10Gb SFP+ Copper"
+  // and took a CORRECT 10G off a 10-gigabit adapter. GB is a gigabyte and Gb is a gigabit —
+  // Cisco writes both and observes the distinction ("8GB DRAM", "32GB memory", "10Gb SFP+") — so
+  // only the upper-case B disqualifies. That one row is the only thing that separated the two
+  // drafts, and no unit test would have contained it.
+  const re = /(?<![0-9.])(\d+(?:\.\d+)?)\s*G(?![Hh]z)(?!B(?![A-Za-z]))/g;
   let m: RegExpExecArray | null;
   while ((m = re.exec(seg))) add(`${m[1]}G`);
   // Only if nothing numeric was found: a bare "GigE"/"GE"/"Gigabit" is 1G by definition.
@@ -151,7 +192,21 @@ function segments(s: string): string[] {
     // split "48-port PoE+ 4x10G fixed uplink" into two clauses, and the orphaned second clause —
     // which names no connector — then picked up copper from the string-wide PoE inference and
     // published the 10G SFP+ uplinks as RJ45.
-    .split(/\s*(?:,|;|(?<=\s)\+(?=\s*\d)|\band\b|\bwith\b|\bplus\b|\/(?=\s*\d+\s*x))\s*/i)
+    // routers-r5 (12 Sep 2026): "&" IS A SEPARATOR, and leaving it out merged two port groups into
+    // one fiction. Cisco writes the 8000-series PID descriptions with an ampersand and no spaces:
+    //
+    //   8201-24H8FH   "Cisco 8201 1RU System w/ 8x400GE QSFP56-DD&24x100GE QSFP28"
+    //                 -> [{ port_typ: "qsfp-dd", speed: ["400G","100G"], anzahl: 8 }]
+    //
+    // One segment, so the FIRST count won (8), the LAST connector won, and the speeds were merged
+    // ACROSS both groups — the stored fact describes eight ports that are simultaneously 400G and
+    // 100G, and the 24x100GE group vanished. That is the mutually-exclusive-configuration defect
+    // this file already refuses, arriving through a separator instead of through "or". Measured:
+    // `8201-24H8FH`, `8201=`, `8202=` — 3 facts, all `routers`, each losing a whole port group.
+    //
+    // Guarded like the "+" separator: only an "&" followed by a digit splits, so an ampersand
+    // inside a name ("R&D", "AT&T") cannot break a clause apart.
+    .split(/\s*(?:,|;|(?<=\s)\+(?=\s*\d)|&(?=\s*\d)|\band\b|\bwith\b|\bplus\b|\/(?=\s*\d+\s*x))\s*/i)
     .map((x) => x.trim())
     .filter(Boolean);
 }
