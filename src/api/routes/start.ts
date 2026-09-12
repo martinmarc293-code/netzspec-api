@@ -359,6 +359,16 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
         not_applicable: k.not_applicable_by_kind,
         optional_count: k.optional?.length ?? 0,
         column_backed: (kk.column_backed as string[] | undefined) ?? [],
+        // THE THREE THE SUMMARY USED TO DROP (round-6 reviewer C3, 12 Sep 2026). The brief told the
+        // reviewer this form was "identical content with the optional list emitted once", and it was
+        // not: `document_evidence` appeared 16-24 times in every full ledger and ZERO times in any
+        // summary, so a reviewer following the brief's own instruction to prefer /summary could not
+        // check the 23.2% spec-bearing split or read `blocked_by` at all — the number the filling
+        // phase is bound by, invisible on the form they were told to use. The two per-kind detectors
+        // went with it. They are small, they are per kind, and they are the point.
+        document_evidence: kk.document_evidence,
+        parts_with_3plus_own_facts: kk.parts_with_3plus_own_facts,
+        parts_with_a_device_noun_in_name: kk.parts_with_a_device_noun_in_name,
       }];
     }));
     const anyKind = Object.values(full.kinds ?? {})[0];
@@ -372,7 +382,12 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
       _about_summary: "The reviewable form (reviewer round 2, item 1). A kind carries KEY NAMES only; each cup's "
         + "evidence — sources with basis, label occurrences, holders, fill path — is in `label_evidence`, keyed by "
         + "field, once for the category, because it is a property of the field and not of the kind. `optional` is "
-        + "identical across kinds and is listed once. The full ledger is the same path without /summary.",
+        + "identical across kinds and is listed once. WHAT IS DROPPED, stated so nobody has to discover it: "
+        + "the per-cup evidence ARRAYS (every source, every label, every holder) become one compact line each in "
+        + "`label_evidence`, and the ~400-key `optional` list becomes `optional_count`. Nothing else — "
+        + "`document_evidence` and both per-kind detectors are here, because they were missing until 12 Sep 2026 "
+        + "and a reviewer told to prefer this form could not check the spec-bearing split. The full ledger is the "
+        + "same path without /summary.",
     };
   });
 

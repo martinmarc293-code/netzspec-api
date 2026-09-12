@@ -9,6 +9,7 @@
 //   * `updated_at` is read twice — as a Date for the ISO field and as `::text` for ETags and
 //     cursors, which need the microseconds a Date discards.
 import { query } from "../../store/db.js";
+import { partKind } from "../../core/partKind.js";
 import type { PartSummaryT } from "../schemas.js";
 
 export const RENDERED_STATES = ["verified", "corroborated"] as const;
@@ -90,6 +91,13 @@ export type SummaryRow = {
 export function toSummary(r: SummaryRow): PartSummaryT {
   return {
     vendor: r.vendor, sku: r.sku, slug: r.slug, category: r.category, series: r.series, family: r.family,
+    // THE DERIVED KIND, added 12 Sep 2026 because a reviewer could not check three of their own
+    // findings without it. `kind` is which cup set inside the category a part is asked -- the third
+    // axis of term 3, after category and product_class -- and it was computed by the ledger
+    // builder, the completeness recompute and four test suites while being invisible on every
+    // listing. Free here: partKind is pure, and it takes the NAME because three kinds are derived
+    // from it (a builder that omits the name measures a system nobody runs).
+    kind: partKind(r.category, r.sku, r.name ?? undefined) ?? null,
     product_class: r.product_class, name: r.name, lifecycle_status: r.lifecycle_status,
     fact_count: r.fact_count, completeness_pct: r.completeness_pct, has_image: r.has_image,
     updated_at: isoOf(r.updated_at) as string,

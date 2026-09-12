@@ -87,10 +87,17 @@ export function scanOne(src: string): "ignore" | "guarded" | "exempt" | "dirty" 
   const usesSummary = src.includes("SUMMARY_FROM");
   if (!usesParts && !usesSummary) return "ignore";
   if (src.includes(EXEMPT_NOTE)) return "exempt";
+  // THE GUARD HAS TWO LEGITIMATE SPELLINGS and the scan must know both, or it cries wolf on clean
+  // code — which it did, on the first module to use the helper properly: `${LIVE_PART()}` expands
+  // to the predicate at runtime and leaves no literal in the source, so parts.ts read as unguarded
+  // while being guarded by the very constant this file exports. A scanner that knows one spelling
+  // is the false-positive half of the same defect as a scanner that misses one.
+  const guardedInSql = /retired_at\s+IS\s+NULL/i.test(src);
+  const guardedByHelper = /\bLIVE_PART\s*\(/.test(src);
   // A module that only composes SUMMARY_FROM inherits its guard; one that ALSO writes its own bare
   // `parts` query does not — which is exactly what hid compare.ts, part.ts and tools.ts from my
   // first pass at this fix, and what this scan caught.
-  return /retired_at\s+IS\s+NULL/i.test(src) || (usesSummary && !usesParts) ? "guarded" : "dirty";
+  return guardedInSql || guardedByHelper || (usesSummary && !usesParts) ? "guarded" : "dirty";
 }
 
 const files = fs.readdirSync(DIR).filter((f) => f.endsWith(".ts")).sort();
@@ -150,6 +157,7 @@ for (const [file, frag] of [
   ["categories.ts", "WHERE p.retired_at IS NULL AND p.category_id = c.id"],
   ["export.ts", 'where.push("p.retired_at IS NULL")'],
   ["similar.ts", "WHERE p.retired_at IS NULL"],
+  ["parts.ts", "WHERE ${LIVE_PART()} AND c.slug = $1"],
 ] as const) {
   const src = fs.readFileSync(path.join(DIR, file), "utf8");
   check(`${file} filters retired in the statement that counts or lists`, src.includes(frag), `expected to contain: ${frag}`);
@@ -166,8 +174,11 @@ check("both successor SKU lookups prefer the live row", succHits === 2, `${succH
 // nothing behind — the lesson from a sabotage run whose restore line never executed.
 check("CONTROL a module that reads no parts at all is IGNORED, not passed",
   scanOne("const q = `SELECT slug FROM vendors`") === "ignore");
-check("CONTROL a guarded query passes the scan",
+check("CONTROL a guarded query passes the scan (literal predicate)",
   scanOne("const q = `SELECT p.id FROM parts p WHERE p.retired_at IS NULL AND p.vendor_id = $1`") === "guarded");
+check("CONTROL a query guarded through the LIVE_PART helper passes too — the other legitimate spelling",
+  scanOne("const q = `SELECT p.id FROM parts p WHERE ${LIVE_PART()} AND p.vendor_id = $1`") === "guarded",
+  "parts.ts was flagged by the first version of this scan while being correctly guarded");
 check("SABOTAGE an unguarded FROM parts is caught",
   scanOne("const q = `SELECT p.id FROM parts p WHERE p.vendor_id = $1`") === "dirty");
 check("SABOTAGE an unguarded JOIN parts is caught",

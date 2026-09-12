@@ -45,6 +45,9 @@ export const PartSummary = Type.Object({
   series: Nullable(Type.String()),
   family: Nullable(Type.String()),
   product_class: Type.String(),
+  /** The derived kind: which cup set inside the category this part is asked. null when the
+   *  category has no kind axis. Filter with ?kind= (requires ?category=). */
+  kind: Nullable(Type.String()),
   name: Nullable(Type.String()),
   /** `unknown` when no lifecycle row exists yet; never guessed as `active` */
   lifecycle_status: Type.String(),

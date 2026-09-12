@@ -11,6 +11,7 @@ const Query = Type.Object({
   series: Type.Optional(Type.String()),
   family: Type.Optional(Type.String()),
   class: Type.Optional(Type.String({ description: "product_class: hardware | license | service | software | accessory | bundle | unknown" })),
+  kind: Type.Optional(Type.String({ description: "the DERIVED cup set inside the category (switch, server, bundle, accessory, unknown, '(none)' ...). Requires category; the ledger at /v1/ledger/<vendor>/<category> lists a category's kinds." })),
   sku: Type.Optional(Type.String({ description: "exact SKU, case-insensitive (sku_norm); returns 0 or 1 part per vendor" })),
   sku_prefix: Type.Optional(Type.String({ description: "SKU prefix, case-insensitive; % and _ are literal" })),
   q: Type.Optional(Type.String({ description: "substring / trigram match on sku and name" })),
@@ -32,7 +33,7 @@ export async function partsRoutes(app: FastifyInstance, opts: PartsRouteOptions)
   }, async (req) => {
     const q = req.query;
     const page = await listParts({
-      vendor: q.vendor, category: q.category, series: q.series, family: q.family, class: q.class,
+      vendor: q.vendor, category: q.category, series: q.series, family: q.family, class: q.class, kind: q.kind,
       sku: q.sku, sku_prefix: q.sku_prefix, q: q.q, has: q.has,
       updated_since: q.updated_since, filter: q.filter, limit: q.limit ?? 50, cursor: q.cursor,
     });

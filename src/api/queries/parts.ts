@@ -8,11 +8,15 @@ import { decodeCursor, encodeCursor } from "../cursor.js";
 import { badRequest } from "../errors.js";
 import { compileFilter } from "../filter.js";
 import type { PartSummaryT } from "../schemas.js";
+import { partKind } from "../../core/partKind.js";
+import { LEDGER_KINDS } from "../../core/cupLedger.js";
 import { filterDictionary } from "./fields.js";
-import { SUMMARY_COLUMNS, SUMMARY_FROM, page, toSummary, type SummaryRow } from "./shared.js";
+import { LIVE_PART, SUMMARY_COLUMNS, SUMMARY_FROM, page, toSummary, type SummaryRow } from "./shared.js";
 
 export type PartsListParams = {
   vendor?: string; category?: string; series?: string; family?: string; class?: string; sku?: string; sku_prefix?: string; q?: string;
+  /** The derived cup set inside the category. Requires `category`, because partKind is per category. */
+  kind?: string;
   has?: string; updated_since?: string; filter?: string; limit: number; cursor?: string;
 };
 
@@ -70,6 +74,44 @@ export async function listParts(params: PartsListParams): Promise<{ items: PartS
   if (params.q !== undefined && params.q !== "") {
     const like = bind("%" + likeLiteral(params.q) + "%");
     where.push(`(p.sku ILIKE ${like} OR p.name ILIKE ${like})`);
+  }
+  // ---- ?kind= : THE THIRD AXIS OF TERM 3, filterable ------------------------------------------
+  //
+  // The derived kind is which cup set inside the category a part is asked. It is computed by
+  // partKind() in TypeScript and is NOT a column, so it cannot be a WHERE clause — which is why
+  // the round-6 reviewer had to report three of their own findings as "could not check from the
+  // API": the 158 device-noun SKUs, the fact-holding half of the 532 phase-1 parts, and any term-3
+  // spot check needed a kind per part and no endpoint carried one.
+  //
+  // Resolved by bounding the population and constraining on ids. `category` is REQUIRED for this
+  // filter, which is what makes the bound real (the largest category is 9,684 rows); without it
+  // the resolution would be the whole catalogue on every page. Doing it as an id list rather than
+  // filtering after the query keeps SQL pagination honest — a post-filter would return three rows
+  // for a page of two hundred and a cursor that means nothing.
+  if (params.kind !== undefined && params.kind !== "") {
+    if (params.category === undefined) throw badRequest('"kind" is derived per category — pass "category" with it');
+    const kinds = LEDGER_KINDS[params.category];
+    if (kinds !== undefined && !kinds.includes(params.kind) && params.kind !== "(none)") {
+      throw badRequest(`unknown kind "${params.kind}" for category "${params.category}" — kinds: ${kinds.join(", ")}`);
+    }
+    // Written out rather than derived from SUMMARY_FROM by a regex: this needs three columns and
+    // two joins, and a string surgery on someone else's FROM clause is a coupling that breaks
+    // silently the day SUMMARY_FROM gains a join. LIVE_PART here for the same reason it is there.
+    const pop = await query<{ id: number; sku: string; name: string | null }>(
+      `SELECT p.id, p.sku, p.name
+         FROM parts p
+         JOIN categories c ON c.id = p.category_id
+         JOIN vendors v ON v.id = p.vendor_id
+        WHERE ${LIVE_PART()} AND c.slug = $1${params.vendor === undefined ? "" : " AND v.slug = $2"}`,
+      params.vendor === undefined ? [params.category] : [params.category, params.vendor]);
+    const want = params.kind;
+    const ids = pop.rows
+      .filter((r) => (partKind(params.category as string, r.sku, r.name ?? undefined) ?? "(none)") === want)
+      .map((r) => r.id);
+    // An empty id list must produce an empty page, not an unfiltered one: `= ANY('{}')` is false
+    // for every row, which is the behaviour wanted, but it is spelled out because a dropped clause
+    // here would silently return the whole category.
+    where.push(`p.id = ANY(${bind(ids)}::bigint[])`);
   }
   if (params.has !== undefined) where.push(...parseHas(params.has));
   if (params.updated_since !== undefined) {
