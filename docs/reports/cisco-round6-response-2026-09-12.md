@@ -282,10 +282,45 @@ next step and needs the `?kind=` listing that now exists. Your view on the nine 
 and `codec` are whole boxes, `transponder`/`multiplexer` depend on a chassis PID prefix — is taken.
 
 **B2 `layer`.** Confirmed as the only required-or-pending cup in the catalogue with
-`observed_fill_path: false`. Of your two options, deriving it is the better one and the derivation
-you suggest is sound, with one correction: gating `ipv4_routes`/`ipv6_routes` on a derived `layer`
-only works if the derivation is recorded as a *fill path*, or R1's new check will refuse it — which
-is the check doing its job. Pending a decision, `layer` optional is the safe intermediate.
+`observed_fill_path: false`. **Then measured, and the derivation does not survive the data — by
+either route.** Both attempts were validated against the 1,054 seed `layer` facts, which are the
+operator's own ground truth.
+
+*From `series`* — the route you proposed, and the one that looks obviously right because `series` is
+column-backed with 0 nulls in 42,450 rows:
+
+```
+switches kind=switch          4,931 parts, 1,054 hold a layer fact, 172 series
+series with ONE seed value       88 series, 1,348 parts   derivable
+series whose seeds DISAGREE       6 series,   356 parts   NOT derivable
+series with NO seed value        78 series, 3,227 parts   a derivation would have to guess (65%)
+```
+
+And the six disagreements are not noise, which is what settles it: Catalyst 3850 seeds `l3` ×52 /
+`l2` ×9, Catalyst 3650 `l3` ×73 / `l2` ×21, Catalyst 2960-X `l2` ×13 / `l3` ×10. Those lines ship in
+LAN Base (L2) **and** IP Base / IP Services (L3). The discriminator is the feature set, and the
+feature set is not the series.
+
+*From the SKU's feature-set suffix* — which is where the split series point, and which this repo
+already knows is a tier letter in switches specifically:
+
+```
+against the 1,054 seed values:  agrees 485 · DISAGREES 46 · says nothing 523 (50%)
+precision where it speaks 0.913 · coverage over all 4,931 switch parts: 988 (20%)
+```
+
+The 46 disagreements are all one shape: `IE-4000-16T4G-E`, `IE-2000-8TC-G-E`, `IE-3100-3P1U2S-E`,
+`WS-C2960-24PC-S`. **On the industrial and 2960 lines those letters are not a feature-set tier** —
+which is the same trap as `-A`/`-E`/`-L`/`-S` being the *reach* on an optic and a *tier* on a switch,
+one level finer: inside switches, the letters are a tier on the 3850/3650/9300 and something else on
+the IE and 2960 lines. At 20% coverage it would answer for one switch in five even if it were exact.
+
+**So `layer` cannot be derived, and deriving it from `ipv4_routes` is circular** — `ipv4_routes` is
+gated on `layer`. What follows is a decision rather than a measurement, and it is yours: `layer`
+becomes `opt`, and `ipv4_routes`/`ipv6_routes` lose the gate and become `opt` too. That removes three
+requirements from 4,931 parts that nothing can close, and it is honest about a distinction the corpus
+does not record. **Your condition for the recompute is therefore not satisfiable as written**, so the
+recompute is held — see §5.
 
 ---
 
@@ -294,15 +329,36 @@ is the check doing its job. Pending a decision, `layer` optional is the safe int
 Nothing below is done. Each writes to the store and needs the operator's approval; they are listed
 in the order I would run them.
 
-1. **`ingest sync-dictionary`** — pushes the 28 drift items in §3: 4 keys a fact cannot currently
-   reference, 14 supersessions, 8 type/domain/band changes. Idempotent, opens a run, writes no
-   facts. Highest value of anything on this list: without it four enums closed this session enforce
-   nothing and `regulatory_domain` cannot store a value.
-2. **`promote-required` + `recompute-completeness`** for `switches` — the R1 regating changed what
-   4,931 parts are asked. Until this runs, the live profile and the code disagree.
-3. **The retired-row residue** — retract or move the 10 facts on 7 retired parts (4 of them are a
-   real loss: `HX-GPU-7150x2`'s facts never reached `HX-GPU-7150X2`), and delete the 139
-   `completeness` rows for retired parts.
+1. **`ingest sync-dictionary`** — **RUN, #986.** 4 keys inserted (a fact could not reference them at
+   all), 25 updated, 88 profile rows inserted, 357 updated, **104 stale profile rows removed** for
+   superseded keys. Re-measured afterwards: **0 of 27 supersessions invisible, 0 type/domain/band
+   differences, 0 keys missing from the table.** The only residue is the two orphans the sync keeps
+   by design — `eol_announcement_date` and `end_of_support_date`, still declared by
+   `interfaces-modules` and `wireless`, holding 0 facts between them. Deleting a dictionary row is
+   the one thing `syncDictionary` deliberately never does, so those two need their own decision.
+2. **`promote-required` + `recompute-completeness`** for `switches` — **promote-required RUN dry:
+   0 promotions**, and neither `deploy_role` nor `uplink_modular` appears in the candidate list, so
+   the stop condition does not trigger (it earns required status from a ≥60% coverage share over
+   ≥30 parts, and those two hold 2 facts and 0). Three candidates clear the bar but are hand-declared
+   and so cannot be won by the generated half: `hyperconverged-systems.emc_emissions` 91%,
+   `humidity_storage` 86%, `meraki.power_load_idle_max` 61%. **The recompute is HELD** — your third
+   gate condition is not satisfiable, see §4 B2.
+   **But run 1 has made the recompute necessary on its own account**, independent of switches: the
+   sync changed 445 profile rows and removed 104, so `completeness` is now stale catalogue-wide, and
+   every `required_slots_stored` in the ledgers and every figure in `/v1/stats/gaps` is stale with
+   it. That is a consequence of an approved run rather than a new request, and it needs a decision:
+   recompute now with `layer` as it stands, or settle B2 first.
+3. **The retired-row residue** — **RUN, #988: 4 moved, 6 retracted, 139 completeness rows deleted.**
+   Your algorithm exactly: move before delete, and the four facts the earlier merge lost
+   (`certifications`, `emc_emissions`, `humidity_operating`, `humidity_storage`, all `pdf_table`) are
+   verified present **on `HX-GPU-7150X2` by name**, not by a counter — "moved: 4" proves the write
+   ran, not that it landed. The 6 with no canonical row are the two IBM OEM parts and four CVD VLAN
+   names, all retired `not_a_cisco_part`. The selector re-runs to **0 facts and 0 completeness rows**,
+   so the repair cannot run twice.
+   One note worth keeping: the first attempt threw inside the run (I built the fact entry from the
+   `facts` column names instead of the nested `SpecEntry` shape). `withRun` closed #987 as `failed`
+   and rolled back, and a re-read showed the state byte-for-byte unchanged — which is the argument
+   for writing through the store's own helpers inside a run rather than hand-rolled SQL.
 4. **The `bundle` separation** (§1, B1) — a reclassify for the software subscriptions, the promo
    SKUs and the `INVALID SKU` row, and the `ASR5K-*` category move. ~1,500 rows and four decisions.
 5. **The retraction run** — now larger and better-evidenced: **would-refuse 261 → 352**, because
