@@ -27,46 +27,51 @@ import { SEC_BOX, SEC_COMPONENT } from "./securityKind.js";
 // modules-misc (12 Sep 2026)
 import type { ModuleKind } from "./moduleKind.js";
 import type { MerakiKind } from "./merakiKind.js";
+// fallback-kinds (12 Sep 2026): the kinds no SKU axis returns, only a name. See nameMarker.ts for why
+// they live in a shared list rather than inside eleven other agents' axis files, and partKind.ts for
+// the dispatch that reaches them. `MECH` is appended to every kind-bearing category and `UCS_EXTRA` to
+// the three UCS-profile ones, so LEDGER_KINDS stays the single place that says which kinds exist.
+import { NAME_ONLY_KINDS as MECH, UCS_NAME_ONLY_KINDS as UCS_EXTRA } from "./nameMarker.js";
 
 /** Every kind a category's axis can name — including kinds no part holds today, which still have a question set. */
 export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
-  switches: [...SW_BOX, ...SW_PART],
-  transceiver: ["pluggable", "bidi", "tunable", "adapter", "accessory"] satisfies OpticKind[],
+  switches: [...SW_BOX, ...SW_PART, ...MECH],
+  transceiver: [...(["pluggable", "bidi", "tunable", "adapter", "accessory"] satisfies OpticKind[]), ...MECH],
   // wireless (12 Sep 2026)
-  wireless: WL_KINDS,
+  wireless: [...WL_KINDS, ...MECH],
   // servers (12 Sep 2026): all three categories derive their kind with ucsKind (partKind.ts).
-  "servers-unified-computing": [...UCS_KINDS],
-  "hyperconverged-systems": [...UCS_KINDS],
-  "hyperconverged-infrastructure": [...UCS_KINDS],
+  "servers-unified-computing": [...UCS_KINDS, ...MECH, ...UCS_EXTRA],
+  "hyperconverged-systems": [...UCS_KINDS, ...MECH, ...UCS_EXTRA],
+  "hyperconverged-infrastructure": [...UCS_KINDS, ...MECH, ...UCS_EXTRA],
   // video (12 Sep 2026)
-  video: VIDEO_KINDS,
+  video: [...VIDEO_KINDS, ...MECH],
   // collab (12 Sep 2026): one axis, three categories (collabKind.ts)
-  "unified-communications": COLLAB_KINDS,
-  "collaboration-endpoints": COLLAB_KINDS,
-  conferencing: COLLAB_KINDS,
+  "unified-communications": [...COLLAB_KINDS, ...MECH],
+  "collaboration-endpoints": [...COLLAB_KINDS, ...MECH],
+  conferencing: [...COLLAB_KINDS, ...MECH],
   // routers (12 Sep 2026)
-  routers: [...RT_KINDS],
+  routers: [...RT_KINDS, ...MECH],
   // optical-storage (12 Sep 2026) — derived from the axes' own exported kind lists, so a kind added there is listed here
-  "optical-networking": OPTICAL_KINDS,
-  "storage-networking": SAN_KINDS,
+  "optical-networking": [...OPTICAL_KINDS, ...MECH],
+  "storage-networking": [...SAN_KINDS, ...MECH],
   // end optical-storage
   // security (12 Sep 2026). `non-hardware` is deliberately absent: securityKind returns it for a SKU
   // the class table already calls a licence, software or a service, and such a part is asked NOTHING
   // — it has no question set to freeze, and once a reclassify run moves it out of `hardware`,
   // recompute-completeness gives it no_profile before it looks up a profile at all.
-  security: [...SEC_BOX, ...SEC_COMPONENT],
+  security: [...SEC_BOX, ...SEC_COMPONENT, ...MECH],
   // --- modules-misc (12 Sep 2026) -------------------------------------------------------------
   // modules-r8 (12 Sep 2026): `fabric` and `mux` added with the round-8 kind rules. Both take their
   // cup set from the category that already uses the name — `fabric` from storage-networking and
   // optical-networking, `mux` from optical-networking — so the one-cup-set-per-kind check below has
   // something to compare and needs no exception for either.
-  "interfaces-modules": ["module", "interface", "fabric", "voice", "cellular", "radio", "service", "memory",
-    "power", "fan", "cable", "accessory", "mux", "optic", "device"] satisfies ModuleKind[],
-  meraki: ["unknown", "switch", "access-point", "appliance", "camera", "sensor", "gateway",
-    "accessory"] satisfies MerakiKind[],
+  "interfaces-modules": [...(["module", "interface", "fabric", "voice", "cellular", "radio", "service", "memory",
+    "power", "fan", "cable", "accessory", "mux", "optic", "device"] satisfies ModuleKind[]), ...MECH],
+  meraki: [...(["unknown", "switch", "access-point", "appliance", "camera", "sensor", "gateway",
+    "accessory"] satisfies MerakiKind[]), ...MECH],
   // data-center-networking reuses switchKind, so it reuses its kind list — every one gets a
   // question set even though only four of the fifteen have a part today (partKind.ts says which).
-  "data-center-networking": [...SW_BOX, ...SW_PART],
+  "data-center-networking": [...SW_BOX, ...SW_PART, ...MECH],
 };
 
 export type KindQuestionSet = {

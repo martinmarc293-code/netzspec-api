@@ -30,6 +30,22 @@ import { NORM_VERSION } from "../src/core/specNormalize.js";
 import { mapLabel } from "../src/core/deepSpecMap.js";
 
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
+
+/**
+ * fallback-kinds (12 Sep 2026). A DEVICE NOUN IN THE NAME of a part sitting in a fallback kind: the
+ * second half of the own-fact census, and the shape that hid the UNITY-PIMG media gateways — 14 real
+ * PBX-IP gateways a licence rule was about to delete, found by asking which rows a class rule calls
+ * non-hardware while the name says "gateway". A fact count cannot see them, because an undocumented
+ * product holds no facts; its NAME is the only thing that says what it is.
+ *
+ * Recorded per kind in the ledger, so tests/cupLedger.test.ts can assert it over the live corpus
+ * rather than over a profile. Deliberately narrower than nameMarker's own device list: only nouns
+ * that name a whole box, because a component noun in a component's name is correct and not a finding.
+ */
+const DEVICE_NOUN_IN_NAME =
+  /(^|[^a-z])(?:switch|router|firewall|gateway|access point|transmitter|receiver|amplifier|server|appliance|chassis|controller|transceiver)(?:es|s)?([^a-z]|$)/i;
+/** Kinds that mean "this axis could not say" — mirrors FALLBACK_KINDS in src/core/partKind.ts. */
+const FALLBACK_KINDS = new Set(["unknown", "other", "component", "accessory", "non-hardware", "(none)"]);
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
 
 // Source slug -> the class of document it reads. "prose" (a part's own name) is description_mining, which no
@@ -79,8 +95,21 @@ async function main(): Promise<void> {
   const pool = getPool();
 
   // ---- parts per kind ---------------------------------------------------------------------------------
-  const parts = (await pool.query<{ id: string; sku: string; rt: number | null; spec_docs: number; any_docs: number }>(`
-    SELECT p.id::text, p.sku, cp.required_total AS rt,
+  // MERGED 12 Sep 2026 — two additions to this query landed in the same hour and BOTH are load-bearing:
+  // the parent's document evidence (the `not-held` state) and the fallback-kinds agent's own-fact and
+  // device-noun census. Dropping either half would leave a green suite asserting half a picture, so the
+  // SELECT carries all five derived columns and the per-kind accumulator all five counters.
+  //
+  // `p.name` IS THE ONE THAT CHANGES BEHAVIOUR: partKind now takes an optional name and consults it only
+  // where the category's own axis gave up. A builder that does not pass it measures a system nobody runs
+  // — the three name-derived kinds would report zero parts — which is the structural gap the
+  // asked-nothing survey identified (`recompute-completeness.ts` selected every column except p.name).
+  const parts = (await pool.query<{ id: string; sku: string; name: string | null; rt: number | null;
+    own: string; spec_docs: number; any_docs: number }>(`
+    SELECT p.id::text, p.sku, p.name, cp.required_total AS rt,
+           (SELECT count(*) FROM facts f
+             WHERE f.part_id = p.id AND f.superseded_by IS NULL AND f.inherited_from IS NULL
+               AND f.method NOT LIKE 'retracted:%')::text AS own,
            (SELECT count(*) FROM doc_parts dp JOIN source_docs sd ON sd.doc_id = dp.doc_id
              WHERE dp.part_id = p.id AND sd.doc_type = ANY($3::text[]))::int AS spec_docs,
            (SELECT count(*) FROM doc_parts dp WHERE dp.part_id = p.id)::int AS any_docs
@@ -88,11 +117,19 @@ async function main(): Promise<void> {
       LEFT JOIN completeness cp ON cp.part_id = p.id
      WHERE v.slug = $1 AND ct.slug = $2 AND p.retired_at IS NULL AND p.product_class = 'hardware'`,
     [vendor, category, SPEC_BEARING_DOC_TYPES])).rows;
-  const byKind = new Map<string, { n: number; stored: number; spec: number; eolOnly: number; noDoc: number }>();
+  const byKind = new Map<string, { n: number; stored: number; spec: number; eolOnly: number; noDoc: number;
+    facts3: number; noun: number }>();
   for (const p of parts) {
-    const k = partKind(category, p.sku) ?? "(none)";
-    const b = byKind.get(k) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0 };
+    const k = partKind(category, p.sku, p.name ?? undefined) ?? "(none)";
+    const b = byKind.get(k) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0 };
     b.n++; b.stored += p.rt ?? 0;
+    // THE OWN-FACT AND DEVICE-NOUN CENSUS (fallback-kinds agent): a part in a fallback kind holding
+    // three or more of its own facts is the only detector for a real product swallowed by a fallback,
+    // and the device noun is the detector for one that holds none — an undocumented product has no
+    // facts, and its NAME is the only thing that says what it is. That is the shape that hid the
+    // fourteen UNITY-PIMG media gateways a licence rule was about to delete.
+    if (Number(p.own) >= 3) b.facts3++;
+    if (DEVICE_NOUN_IN_NAME.test(p.name ?? "")) b.noun++;
     // THE `not-held` STATE, COMPUTED AT LAST — reviewer round 4 §9(2), 12 Sep 2026.
     //
     // GAP_STATES below has defined `not-held` ("no spec-bearing document is linked to the part at
@@ -127,6 +164,16 @@ async function main(): Promise<void> {
   const pendingReclass = byKind.get("non-hardware")?.n ?? 0;
   const pendingReclassStoredSlots = byKind.get("non-hardware")?.stored ?? 0;
   byKind.delete("non-hardware");
+  // fallback-kinds (12 Sep 2026): the census totals, computed BEFORE the per-kind loop drops anything,
+  // so the share has the category's own hardware count as its denominator and not the survivors'.
+  const fallbackCensus = {
+    _about: "parts in a kind that means 'the axis could not say'. `facts3` and `device_noun` are the two detectors for a real product swallowed by a fallback: a part holding three or more facts of its own, and a part whose NAME names a whole box. Both are asserted by tests/cupLedger.test.ts.",
+    kinds: [...byKind.keys()].filter((k) => FALLBACK_KINDS.has(k)).sort(),
+    parts: [...byKind].filter(([k]) => FALLBACK_KINDS.has(k)).reduce((a, [, b]) => a + b.n, 0),
+    hardware_parts: parts.length,
+    facts3: [...byKind].filter(([k]) => FALLBACK_KINDS.has(k)).reduce((a, [, b]) => a + b.facts3, 0),
+    device_noun: [...byKind].filter(([k]) => FALLBACK_KINDS.has(k)).reduce((a, [, b]) => a + b.noun, 0),
+  };
   const unknownKinds = [...byKind.keys()].filter((k) => !LEDGER_KINDS[category].includes(k));
   if (unknownKinds.length) throw new Error(`parts carry kinds the ledger does not list: ${unknownKinds.join(", ")} — add them to LEDGER_KINDS`);
 
@@ -180,11 +227,14 @@ async function main(): Promise<void> {
   let slotsNothing = 0, slotsStored = 0, partsTotal = 0;
   for (const kind of LEDGER_KINDS[category]) {
     const qs = kindQuestionSet(category, kind);
-    const b = byKind.get(kind) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0 };
+    const b = byKind.get(kind) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0 };
     const per = slotsAtNothingKnown(qs);
     slotsNothing += b.n * per; slotsStored += b.stored; partsTotal += b.n;
     kinds[kind] = {
       parts: b.n,
+      // fallback-kinds (12 Sep 2026): the own-fact and device-noun census, per kind.
+      parts_with_3plus_own_facts: b.facts3,
+      parts_with_a_device_noun_in_name: b.noun,
       slots_per_part_at_nothing_known: per,
       required_slots_at_nothing_known: b.n * per,
       required_slots_stored: b.stored,
@@ -226,6 +276,8 @@ async function main(): Promise<void> {
       // `parts` above EXCLUDES them, so parts + pending_reclassification is the category's hardware count.
       pending_reclassification: pendingReclass,
       pending_reclassification_stored_slots: pendingReclassStoredSlots,
+      // fallback-kinds (12 Sep 2026)
+      fallback: fallbackCensus,
     },
     kinds,
   };

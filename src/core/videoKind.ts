@@ -136,13 +136,98 @@ const RULES: { kind: VideoKind; re: RegExp }[] = [
 
 const NONE: ReadonlySet<VideoKind> = new Set();
 
+// --- fallback-kinds (12 Sep 2026) -----------------------------------------------------------------
+// THE ALTERNATE PART NUMBER IS IN THE NAME, AND THE RULES ABOVE ALREADY READ IT — they were simply
+// never shown it. The header at the top of this file says so: *"The name often says what the part is
+// ('(P2-HD-13TXF-10-SA) 1310HD Fwd Tx') but partKind() is handed the SKU only, so those parts fall to
+// `unknown`."* A GS7000 or Prisma II module carries two numbers, the one printed on the module and the
+// one you order, and the store holds the ordered one as the SKU with the printed one in parentheses:
+//
+//   ordered 4028905   "(P2-HD-13TXM-10-SA-D-ST) HD M-W Fwd Tx, Std, 1GHz, 10dBm, SA, CH D"
+//   ordered  737666   "(P2-HD-15TXQ-Super-SA-ITU51) SuperQAM, 10dBm, 1GHz, ITU51"
+//   ordered 4004668   "(DCM-05-LL-SA) Low Insertion Loss DCF, 5km, SA"
+//   ordered 4011176   "(P2-CH-F-F-28-R-DDS) Chassis, Frt Acc, 28F, 2/-48VDC, NMS"
+//
+// Measured over the 505 HFC rows the survey verdicted: 395 carry such a token. So the name path is
+// not a second classifier — it EXTRACTS candidate part numbers and runs the SAME `RULES` over them,
+// which is what makes every refusal above apply to it unchanged. A candidate no rule claims is
+// dropped, so the path can only ever move a part off `unknown`.
+//
+// WHY THE PARENTHESIS IS NOT REQUIRED. 110 of the 505 carry the token with the OPENING bracket
+// missing — "P2-15TXM-08-EM-IWDM-SA-CH1-1WD) 1550DWDM, 8dBm" — a truncation in the vendor's own feed.
+// Requiring a balanced pair would drop a fifth of the family for a typographical reason, so a token
+// at the start of the name, or one ending in `)`, is read too.
+//
+// THE WORD RULES BELOW ARE THE REMAINDER, and they are deliberately few. Cisco's HFC naming states
+// the function in a fixed abbreviation — "Rev Tx", "Fwd Tx", "Opt Tx", "HG Rev Tx", "Launch Amp",
+// "EDFA" — and those phrases are what the 110 without a part number carry. Nothing wider: "filter"
+// alone is an air filter as often as an optical one, and `w()` in nameMarker.ts owns that vocabulary.
+const ALT_PN = /(?:^|[(\s])([A-Z0-9][A-Z0-9./]*(?:-[A-Z0-9.+/]+)+|\d{6,7}\.\d{2,4})(?=[)\s,]|$)/gi;
+
+const NAME_RULES: { kind: VideoKind; re: RegExp; not?: RegExp }[] = [
+  // An erbium amplifier states its own name; a LAUNCH amp is the RF one, as GS7K-LA-* is above.
+  { kind: "amplifier", re: /(?:^|[^a-z])EDFA(?:[^a-z]|$)/i },
+  { kind: "rf-amplifier", re: /(?:^|[^a-z])(?:launch|lnch)\s*amp/i },
+  // "…Fwd Tx", "…Rev Tx", "Opt Tx", "M-W Fwd Tx", "SuperQAM" (a Prisma II QAM transmitter), "1550Tx".
+  // …and `DFB`, a distributed-feedback LASER, which is how the Prisma II QAM transmitters name
+  // themselves: "(P2-HD15TXQ-10-GHZ-DM-QAM-SA-ITU26) 1550HD DFB, 10dBm, ITU26, SA". Twelve rows, and
+  // they were the LAST parts in the whole catalogue sitting in a fallback kind while holding three or
+  // more facts of their own — the census's single finding. The alternate part number could not reach
+  // them either: the vendor's own string is `P2-HD15TXQ`, with no hyphen between HD and 15TXQ, and the
+  // SKU rule above is anchored on `P2-HD-15TX`. Adding the word is the smaller, name-side fix.
+  { kind: "transmitter", re: /(?:^|[^a-z])(?:fwd|rev|opt|hd|m-w|hg)\s+tx(?:[^a-z]|$)|(?:^|[^a-z])superqam(?:[^a-z]|$)|(?:^|[^a-z0-9])\d{4}\s?tx(?:[^a-z]|$)|(?:^|[^a-z])transmitter(?:[^a-z]|$)|(?:^|[^a-z])DFB(?:[^a-z]|$)/i },
+  { kind: "receiver", re: /(?:^|[^a-z])(?:fwd|rev|opt|hd|m-w|hg)\s+rx(?:[^a-z]|$)|(?:^|[^a-z])receiver(?:[^a-z]|$)/i },
+  // Dispersion compensating fibre and the optical-plant passives, by their own words only.
+  { kind: "passive", re: /(?:^|[^a-z])DCF(?:[^a-z]|$)|(?:^|[^a-z])OADM(?:[^a-z]|$)|(?:^|[^a-z])(?:iWDM|CWDM|DWDM)\s*(?:mux|demux|filter)(?:[^a-z]|$)/i },
+  // A SUPPLY, where "PS" is followed by its voltages: "DPON PS, 220VAC/50-60Hz, 12VDC/1A, Wall-mt LS,
+  // KOR". Found by reading the moved rows — the bare "Wall-mt" token in those names had sent four
+  // D-PON subscriber power supplies to `mechanical`. "PS" ALONE IS NOT READ, deliberately: a node's
+  // own name states how many supplies it carries ("...,8p,SA,Rx,CWDM1510/1550,2PS,DOC"), which is the
+  // same trap this file already records for the SKU form (`GS7K-SHO-LID-PS=` is a lid).
+  { kind: "power", re: /(?:^|[^a-z])P\.?S\.?[,;]?\s*\d+\s?-?\d*\s?V(?:AC|DC)|(?:^|[^a-z])power suppl/i },
+  // The node plug-ins the survey's c13 bucket holds: an optical interface board, a configuration
+  // module, an equalizer, a diplexer, a directional coupler, a pad.
+  { kind: "plug-in", re: /(?:^|[^a-z])OIB(?:[^a-z]|$)|(?:^|[^a-z])config module(?:[^a-z]|$)|(?:^|[^a-z])equalizer(?:[^a-z]|$)|(?:^|[^a-z])diplexer(?:[^a-z]|$)|(?:^|[^a-z])directional coupler(?:[^a-z]|$)/i },
+  // A PRISMA II SHELF THAT NAMES ITSELF: "Prisma II Chassis, Frt Acc, 28F Conn, Frt Fan Exh,
+  // 2/-48VDC Pwr". The SKU is a bare ordered number with no `P2-CH-` token, so only the name says it.
+  // LAST, and with the mechanical tokens vetoed, because the word "chassis" appears in more rack-kit
+  // names than chassis names in this catalogue — "Catalyst 9600 Series 6-slot chassis Shelf Install
+  // Kit" is a kit, and that family is exactly what P-6 is about.
+  {
+    kind: "chassis",
+    re: /(?:^|[^a-z])chassis(?:[^a-z]|$)/i,
+    not: /(?:^|[^a-z])(?:kit|rack ?mount|rackmount|shelf install|bracket|rail|rails|door|filter|cover|blank)(?:[^a-z]|$)/i,
+  },
+];
+
+/** Every candidate part number in a name, longest first: a longer token carries more of the family. */
+export function altPartNumbers(name: string): string[] {
+  const out: string[] = [];
+  for (const m of String(name ?? "").matchAll(ALT_PN)) out.push(m[1].toUpperCase());
+  return [...new Set(out)].sort((a, b) => b.length - a.length);
+}
+// end fallback-kinds ------------------------------------------------------------------------------
+
 /**
  * The derived kind. `disabled` exists for the sabotage cases in tests/videoKind.test.ts only: switching a rule
  * family off must turn that family's positive cases red, or the family is a rule nobody has seen work.
+ *
+ * fallback-kinds (12 Sep 2026): `name` is optional and consulted ONLY after every SKU rule has declined,
+ * so a SKU that names its kind keeps that kind and no refusal above can be overruled.
  */
-export function videoKind(sku: string, disabled: ReadonlySet<VideoKind> = NONE): VideoKind {
+export function videoKind(sku: string, disabled: ReadonlySet<VideoKind> = NONE, name?: string): VideoKind {
   const s = String(sku ?? "").trim().toUpperCase();
-  if (s === "") return "unknown";
-  for (const r of RULES) if (!disabled.has(r.kind) && r.re.test(s)) return r.kind;
+  if (s !== "") for (const r of RULES) if (!disabled.has(r.kind) && r.re.test(s)) return r.kind;
+  if (name) {
+    for (const alt of altPartNumbers(name)) {
+      if (alt === s) continue;
+      for (const r of RULES) if (!disabled.has(r.kind) && r.re.test(alt)) return r.kind;
+    }
+    for (const r of NAME_RULES) {
+      if (disabled.has(r.kind) || !r.re.test(name)) continue;
+      if (r.not?.test(name)) continue;
+      return r.kind;
+    }
+  }
   return "unknown";
 }

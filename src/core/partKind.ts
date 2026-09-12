@@ -37,6 +37,11 @@ import { securityKind } from "./securityKind.js";
 // modules-misc (12 Sep 2026)
 import { moduleKind } from "./moduleKind.js";
 import { merakiKind } from "./merakiKind.js";
+// fallback-kinds (12 Sep 2026)
+import { nameMarker, nameIsJustTheSku, MARKER_TARGETS } from "./nameMarker.js";
+import { LEDGER_KINDS } from "./cupLedger.js";
+import { strayDevice } from "./strayDevice.js";
+// end fallback-kinds
 
 /**
  * Categories whose profile gates requirements on a derived `kind`. Checked against PROFILES by
@@ -72,7 +77,62 @@ export const KIND_CATEGORIES: readonly string[] = [
  * UCS names the MACHINES from a SKU token and defaults to `unknown`; switches name the
  * COMPONENTS from a marker in any segment and default to `switch`.
  */
-export function partKind(categorySlug: string, sku: string): string | undefined {
+export function partKind(categorySlug: string, sku: string, name?: string): string | undefined {
+  const axis = axisKind(categorySlug, sku, name);
+  // fallback-kinds (12 Sep 2026): the NAME is consulted only where the axis gave up. See nameMarker.ts
+  // for why that ordering is the whole of the safety, and reachThroughName below for the mapping.
+  if (axis !== undefined && name && FALLBACK_KINDS.has(axis) && !nameIsJustTheSku(sku, name)) {
+    return reachThroughName(categorySlug, name) ?? axis;
+  }
+  return axis;
+}
+
+/**
+ * The kinds that mean "this axis could not say" — they are asked LESS than any named kind, by design.
+ * Derived from the axes' own vocabularies rather than remembered: `component` is switchKind's old
+ * generic, `non-hardware` securityKind's, and `(none)` is not a kind at all.
+ *
+ * fallback-kinds (12 Sep 2026). The same set the asked-nothing survey counted its 6,301 rows with,
+ * kept identical so the before and after figures are measured over one population. Four of the five
+ * are live: `unknown` (ucsKind, videoKind, collabKind, merakiKind), `other` (wirelessKind,
+ * opticalKind, sanKind), `accessory` (every axis) and `non-hardware` (securityKind, which returns it
+ * for a SKU the class table already calls a licence and which LEDGER_KINDS therefore omits).
+ *
+ * `component` IS HISTORICAL and no axis returns it — it was switchKind's generic before the
+ * component axis was split out. It stays because removing it would change the population this work is
+ * measured over, and a member that can never match cannot cause a wrong answer, only a dead branch.
+ * tests/nameMarker.test.ts asserts the other four ARE returned by an axis, so a misspelling in this
+ * set cannot quietly stop the name path from ever firing.
+ */
+export const FALLBACK_KINDS: ReadonlySet<string> =
+  new Set(["unknown", "other", "component", "accessory", "non-hardware"]);
+
+/**
+ * The kind the NAME says, translated into a word this category's axis actually declares.
+ *
+ * A marker whose targets the category cannot name returns undefined and the fallback kind stands:
+ * a marker may add a question where the axis has one to ask, never invent a kind. The candidate
+ * lists are checked against LEDGER_KINDS in both directions by tests/nameMarker.test.ts.
+ */
+/*
+ * A NAME THAT IS ONLY THE SKU IS NOT EVIDENCE, and this guard was the single largest defect found by
+ * reading the real output rather than the counts. 1,157 of the 6,301 fallback rows are named
+ * "Cisco <sku>" — the store's placeholder when no description was ever acquired — and a keyword rule
+ * reading one of those is reading the SKU a second time, through a path built to have refusals the
+ * axis does not. Measured: 102 wireless rows named "Cisco FLMESH-HW-ACC-61" became `mechanical`
+ * because the mechanical rule's `acc` token matched the SKU's own `-ACC-` segment. The axis is the
+ * only thing entitled to read a SKU, and it already did.
+ */
+function reachThroughName(categorySlug: string, name: string): string | undefined {
+  const marker = nameMarker(name);
+  if (!marker) return undefined;
+  const declared = LEDGER_KINDS[categorySlug];
+  if (!declared) return undefined;
+  for (const candidate of MARKER_TARGETS[marker]) if (declared.includes(candidate)) return candidate;
+  return undefined;
+}
+
+function axisKind(categorySlug: string, sku: string, name?: string): string | undefined {
   if (categorySlug === "servers-unified-computing") return ucsKind(sku);
   // servers (12 Sep 2026): the two HyperFlex / Compute Hyperconverged categories hold the SAME kinds
   // as UCS — HX-CPU-*, HX-MR-*, HX-SD*, HCI-M-V5Q50GV2 (a VIC), HXAF220C-M5SX (a node) — and were on
@@ -90,7 +150,13 @@ export function partKind(categorySlug: string, sku: string): string | undefined 
   if (categorySlug === "wireless") return wirelessKind(sku);
   // video (12 Sep 2026): HFC plant and headend gear — nodes, transmitters, EDFAs, passives, cBR-8, RF Gateway —
   // its own axis, see videoKind.ts. Before the shared fallthrough, which would name everything a `device`.
-  if (categorySlug === "video") return videoKind(sku);
+  // fallback-kinds (12 Sep 2026): `video` is the ONE axis handed the name itself rather than being
+  // served by nameMarker afterwards, and the reason is specific. 395 of its 505 HFC plant rows carry
+  // the ALTERNATE Cisco part number inside the name — "(P2-HD-15TXQ-Super-SA-ITU21) SuperQAM, 13dBm"
+  // — so the marker that names the kind is a SKU, and videoKind's own verified rules read it once
+  // they are shown it. A word rule in nameMarker could only re-derive, less well, what that file
+  // already knows, and it would not inherit its refusals.
+  if (categorySlug === "video") return videoKind(sku, undefined, name);
   // collab (12 Sep 2026): must run BEFORE the shared componentKind dispatch below, which would otherwise claim
   // unified-communications and collaboration-endpoints (they are still in KIND_CATEGORIES).
   if (COLLAB_CATEGORIES.includes(categorySlug)) return collabKind(sku);
@@ -129,5 +195,13 @@ export function partKind(categorySlug: string, sku: string): string | undefined 
   // The shared axis. Deliberately driven off KIND_CATEGORIES rather than a second list, so the
   // membership test and the dispatch cannot drift apart.
   if (KIND_CATEGORIES.includes(categorySlug)) return componentKind(sku);
+  // fallback-kinds (12 Sep 2026), reviewer §8: the 51 real devices filed in a SOFTWARE category.
+  // Their categories gate on nothing and have no profile, so this answer reaches no scorer today —
+  // recompute-completeness gives such a part `no_profile` whatever its kind. It is here because the
+  // reviewer's sentence is about the marker, not about the score: *a device that a software-token rule
+  // can reach is a device whose kind marker is missing.* Now it is not missing, and one query says so.
+  // See src/core/strayDevice.ts; the category MOVE that makes it scoreable is a proposal.
+  const stray = strayDevice(sku);
+  if (stray) return stray.kind;
   return undefined;
 }

@@ -308,7 +308,23 @@ export function handWritten(source: string, generated: Record<string, Record<str
       if (k in SUPERSEDED_KEYS) continue;
       const merged = PROFILES[cat][k];
       if (!merged) problems.push(`hand-written ${cat}.${k} is missing from the merged PROFILES`);
-      else if (kind !== "unknown" && merged.kind !== kind) problems.push(`hand-written ${cat}.${k} parsed as "${kind}" but merged as "${merged.kind}"`);
+      // ONE POST-MERGE TRANSFORM IS LEGITIMATE, and it is narrow on purpose (12 Sep 2026).
+      //
+      // `askAlsoOf` in fieldSchema.ts widens a key to a newly added kind AFTER the hand-written
+      // block is declared, and when the key was `opt` it becomes `cond` with `elseOpt: true` — which
+      // means "required for these kinds, and still merely optional for every other kind", i.e. the
+      // hand-written `opt` is preserved for everything the new kind does not claim. The source text
+      // therefore says `opt` and the merged entry says `cond`, correctly, and this reconciliation
+      // fired on `mounting` in unified-communications and collaboration-endpoints.
+      //
+      // ALLOWED ONLY WITH `elseOpt`. An `opt` that becomes a bare `cond` is the dangerous shape —
+      // it tells every unclaimed kind "not applicable", which is how gating `switches` on the part
+      // kind once closed seven dependents' gaps in silence — so that stays a problem. Anything
+      // other than opt -> cond+elseOpt is still reported, which is what keeps this check alive.
+      else if (kind !== "unknown" && merged.kind !== kind
+               && !(kind === "opt" && merged.kind === "cond" && merged.elseOpt === true)) {
+        problems.push(`hand-written ${cat}.${k} parsed as "${kind}" but merged as "${merged.kind}"`);
+      }
     }
   }
   // The other direction, which is the one that catches a silently under-reading parse: the merge
@@ -326,6 +342,14 @@ export function handWritten(source: string, generated: Record<string, Record<str
       // is IMPORTED rather than restated, so it cannot drift from the transform it describes.
       if (r.kind === "cond" && (DEVICE_GATED_CATEGORIES as readonly string[]).includes(cat)
           && generated[cat]?.[k]?.kind === "req") continue;
+      // THE SAME EXEMPTION FROM THE OTHER SIDE (12 Sep 2026). `askAlsoOf` widens a key to a newly
+      // added kind after the merge, and a key that was `opt` in the GENERATED half becomes `cond`
+      // with `elseOpt: true` — so it appears in neither half as a `cond` while being exactly the
+      // generated `opt` plus one kind. `mounting` in servers-unified-computing and video is that
+      // case. `elseOpt` is the marker that makes it checkable rather than assumed: a bare `cond`
+      // arriving from a generated `opt` would still be reported, because that one would silently
+      // tell every unclaimed kind "not applicable".
+      if (r.kind === "cond" && r.elseOpt === true && generated[cat]?.[k]?.kind === "opt") continue;
       problems.push(`merged ${cat}.${k} is "${r.kind}" but appears in neither half — the PROFILES parser has drifted`);
     }
   }

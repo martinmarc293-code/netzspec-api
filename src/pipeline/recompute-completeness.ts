@@ -77,10 +77,17 @@ async function run(a: Args): Promise<Record<string, number>> {
   if (a.vendor) { params.push(a.vendor); where.push(`v.slug = $${params.length}`); }
   if (a.category) { params.push(a.category); where.push(`c.slug = $${params.length}`); }
   if (a.since) { params.push(a.since); where.push(`p.updated_at > $${params.length}::timestamptz`); }
-  const sql = `SELECT p.id, p.sku, p.category_id, p.product_class::text AS product_class, p.family, p.series, v.slug AS vendor_slug
+  // fallback-kinds (12 Sep 2026): `p.name` JOINS THIS SELECT, and its absence was the defect the
+  // asked-nothing survey named. `partKind` now takes an optional NAME and consults it only where the
+  // category's axis gave up, which is the only thing that can reach the 3,200 parts whose SKU carries
+  // no marker at all — "(P2-HD-15TXQ-Super-SA-ITU21) SuperQAM, 13dBm" is a transmitter and its SKU is
+  // the bare number 737666. This line selected every column BUT the name, so the scorer could not
+  // have seen it: verifying at the producer's level ("the rule works") would have proved nothing about
+  // whether the value reaches the consumer.
+  const sql = `SELECT p.id, p.sku, p.name, p.category_id, p.product_class::text AS product_class, p.family, p.series, v.slug AS vendor_slug
                  FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
                 ${where.length ? "WHERE " + where.join(" AND ") : ""} ORDER BY p.id`;
-  const parts = (await pool.query<{ id: number; sku: string; category_id: number; product_class: string; family: string | null; series: string | null; vendor_slug: string }>(sql, params)).rows;
+  const parts = (await pool.query<{ id: number; sku: string; name: string | null; category_id: number; product_class: string; family: string | null; series: string | null; vendor_slug: string }>(sql, params)).rows;
   console.log(`recompute-completeness: ${parts.length} parts${a.vendor ? " vendor=" + a.vendor : ""}${a.category ? " category=" + a.category : ""}${a.since ? " since=" + a.since : ""}`);
 
   let written = 0, unchanged = 0, noProfile = 0, nonHardware = 0;
@@ -128,7 +135,10 @@ async function run(a: Args): Promise<Record<string, number>> {
           // (src/core/partKind.ts) with a test that reconciles it against PROFILES in both
           // directions — because a profile that gates on `kind` while the caller fills none marks
           // every device requirement `na` in complete silence.
-          const derivedKind = partKind(category, p.sku);
+          // fallback-kinds (12 Sep 2026): the NAME is passed, and it is consulted only where the
+          // axis returned a fallback kind — see src/core/nameMarker.ts for why that ordering is the
+          // whole of the safety, and for the catalogue-wide control that measured its error rate.
+          const derivedKind = partKind(category, p.sku, p.name ?? undefined);
           if (derivedKind !== undefined) values.kind = derivedKind;
           const c = completenessV2(category, values);
           if (c.no_profile) noProfile++;

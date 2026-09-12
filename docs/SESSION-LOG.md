@@ -4,6 +4,51 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-12 (night) - Opus/PARENT. Round 3 items 5-9, round 4, and the two runs. The fallback residue falls 19.4% -> 6.9% and the arrangement phase is handed to the reviewer.**
+
+  Eight agents (~4.7M), all read-only or non-committing; the parent merged every one. **THE MERGE WAS
+  THE DANGEROUS PART TWICE OVER** and both lessons are in `docs/ORCHESTRATION-LEDGER.md`:
+  - `git apply` is ATOMIC, so three patches aborted whole because they carried their own copies of
+    GENERATED files the parent had regenerated. Symptom: a suite with two failures instead of many,
+    which reads like a nearly-clean merge. Caught by `git diff HEAD --stat src/core/` showing 151
+    insertions where four agents' work should be. **Merge with `--exclude` on every generated path.**
+  - An agent's new files can be UNTRACKED, so `git diff` does not carry them (`nameMarker.ts`,
+    `strayDevice.ts`). Typecheck caught it; nothing else would have.
+
+  **DONE AND VERIFIED** (52/52 suites, typecheck clean, all 51 artifacts rebuilt; 401d00b .. HEAD):
+  - Round 3 items 5-9 merged: routers `ports` + sub-kinds + an ESP kind, the six security firewall
+    cups by shape, three wireless domains + `regulatory_domain`, interfaces-modules `fabric`/`mux`,
+    five optical/storage cups with measured fill paths.
+  - `mechanical` (2,255), `pdu`, `tpm`, and `nameMarker` — **`partKind` now takes the NAME**, which
+    was the survey's one structural finding.
+  - TWO RUNS, both operator-approved: reclassify 973 (2,998 rows; the evidence guards refused 51
+    that would have been wrong) and the category-move run (651 parts over 10 families, each move
+    asserting its own idempotence).
+  - The ledger now COMPUTES `not-held`, which it had defined and never calculated: **76.8% of Cisco
+    hardware holds no spec-bearing document.** That is the number the filling phase is bound by.
+
+  **TRAPS HIT — every one was a measurement that lied plausibly:**
+  - **The census took FOUR versions.** 113 refusals, then 1,068, then 253, then the bucket for what
+    it cannot check. v2's artefacts were the sharpest: `facts.unit` on a count field is a count noun,
+    so "cores" and "sockets" were handed over as physical units and 262 correct core counts were
+    "refused". The 4th exists because an agent found a 150-FT cable I had reported as a defect.
+  - **`classify()` takes `categorySlug`, not `category`.** Passing the wrong key silently read every
+    undecided row as non-hardware: 100.0% of 8,788, and 0 survivors. An exactly-100 beside an
+    exactly-0 is the shape of a broken comparison.
+  - **`partKind` without the name measures a system nobody runs** — reported 6,302 where the ledger
+    says 2,929, in TWO of my scripts, after an agent had written the warning in a comment.
+  - **Four new classification reasons were emitted and never registered in `RULE_NAMES`**, so
+    reclassify could never have corrected those rows. Registering them then turned "every rule fired"
+    red for five: they were exercised via `ruleMatches` but no case produced the REASON. Both now
+    have checks, one derived from the source so it cannot drift.
+  - A ratcheting test fired on the move run because the DENOMINATOR shrank; re-baselined with the
+    reason recorded, not widened quietly.
+
+  **NEXT**: the reviewer's gate decision. Phase 1 owes **532 parts** (a fallback kind holding facts
+  or a datasheet — shaping, measurable, must reach zero) and **238** whose name says "device". The
+  other 2,397 are acquisition and carried as `not-held`. Retractions P1-P8 / Q1-Q7 / P-6 and the 551
+  parked NCS 2000 assembly numbers are still held, each with its reason written down.
+
 - **2026-09-12 (late) - Opus/PARENT. Reviewer round 3, items 2-4: the dictionary, the aliases, and the collaboration class residue. Three defect shapes the five checks could not name.**
 
   **DONE AND VERIFIED** (401d00b dictionary + aliases, 1790aed collab class; pure suite 50/50, typecheck

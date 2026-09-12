@@ -10,6 +10,7 @@
 // docs/DATA_MODEL.md table fired at least once — a rule no case reaches is a rule nobody has
 // seen work — and that the reason names the rule, because parts.product_class_reason is how a
 // wrong class is traced back.
+import fs from "node:fs";
 import { classify, ruleSku, ruleName, ruleMatches, RULE_NAMES, SKU_RULES, type ProductClass, type SkuRule } from "../src/core/productClass.js";
 
 type Case = { sku: string; cat?: string; hw?: boolean | null; want: ProductClass; reason: string; note?: string };
@@ -1851,6 +1852,100 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
   sabotages += 33;
 }
 // end wl-uc-class
+
+// ---- EVERY REASON classify() EMITS MUST BE IN RULE_NAMES (12 Sep 2026) -----------------------
+// The check that would have caught four unregistered reasons on merge. `ownedReason()` in
+// reclassify refuses to correct a row whose reason is not in RULE_NAMES, so a rule added without
+// its name there produces rows the table can NEVER correct again. That happened on 10 Sep and left
+// 400 tracer SKUs stranded at `license` while classify() called them non_product, and it happened
+// again with the fallback-kinds block's four name reasons — caught here rather than in production.
+//
+// Derived from the SOURCE of productClass.ts, not from a list, so it cannot drift from the thing it
+// describes. A family (`stray-device:<kind>`, `datasheet-cell:<shape>`) registers as its bare
+// prefix, the form `ownedReason` matches and `category-is_hardware=true` has always used.
+{
+  const src = fs.readFileSync(new URL("../src/core/productClass.ts", import.meta.url), "utf8");
+  const emitted = new Set<string>();
+  for (const m of src.matchAll(/reason: "([^"$]+)"/g)) emitted.add(m[1]);
+  for (const m of src.matchAll(/reason: `([a-z0-9=_-]+):\$\{/gi)) emitted.add(m[1]);
+  const owned = (r: string) => (RULE_NAMES as readonly string[]).some((n) => r === n || r.startsWith(`${n}:`));
+  const missing = [...emitted].filter((r) => !owned(r));
+  check(`every reason classify() can emit is in RULE_NAMES (${emitted.size} forms) — an unregistered `
+      + "reason is a row reclassify can never correct", missing.length === 0, missing.join(", "));
+  check("…and the derivation found the reasons at all, rather than passing on an empty set",
+    emitted.size >= 10, `found ${emitted.size}`);
+}
+
+// ---- THE PARKED-ROW CELL SHAPES: a witness each, and the refusals the narrowing protects -------
+// Every SKU is a real live Cisco part. The refusals are the rows a WIDER form of the same shape
+// swallowed when it was measured over all 91,543 parts, which is why they are cases and not a note.
+{
+  const cells: [string, string, string][] = [
+    ["1-800-722-2009", "video", "datasheet-cell:phone-number"],
+    ["1742.4W", "switches", "datasheet-cell:magnitude-unit"],
+    ["0.9-1.6A", "switches", "datasheet-cell:current-range"],
+    ["15.1.1T", "routers", "datasheet-cell:ios-release"],
+    ["1000BASE-LH", "interfaces-modules", "datasheet-cell:phy-clause-name"],
+    ["1.HHHL", "servers-unified-computing", "datasheet-cell:config-cell"],
+    ["1-CPU", "hyperconverged-infrastructure", "datasheet-cell:n-noun-cell"],
+    ["172.16.20.0/24", "security", "datasheet-cell:ip-subnet"],
+  ];
+  for (const [sku, cat, reason] of cells) {
+    const got = classify({ sku, name: `Cisco ${sku}`, categorySlug: cat, categoryIsHardware: true });
+    check(`cell shape: ${sku} is not a product (${reason})`,
+      got.klass === "non_product" && got.reason === reason, `${got.klass} / ${got.reason}`);
+    seenReasons.add(got.reason);
+  }
+  // `^\d+\.\d+` for an IOS release caught 435 rows outside the cohort, 77 WITH PHYSICAL FACTS,
+  // because a Scientific-Atlanta transmitter's digits after the dot are an ITU CHANNEL — already in
+  // CLAUDE.md. `BASE-?[A-Z]` caught real SKUs carrying "BASE" as a word.
+  const refusals: [string, string, string][] = [
+    ["4022938.58", "video", "an S-A transmitter whose decimals are an ITU channel, not a release"],
+    ["4011176.012.000.AB", "video", "the same shape with a longer tail"],
+    ["VIP-SFP-1GE-BASET", "interfaces-modules", "a real transceiver with BASE as a word"],
+    ["C1-UCD-BASE-K9", "switches", "a real SKU with BASE as a word"],
+    ["MC-S-BASE-SM", "optical-networking", "a real part with BASE as a word"],
+  ];
+  for (const [sku, cat, why] of refusals) {
+    const got = classify({ sku, name: `Cisco ${sku}`, categorySlug: cat, categoryIsHardware: true });
+    check(`SABOTAGE the cell shapes do NOT take ${sku} — ${why}`,
+      !got.reason.startsWith("datasheet-cell:"), `${got.klass} / ${got.reason}`);
+  }
+  sabotages += refusals.length + 1;
+  // THE NAME GATE IS THE OTHER HALF, and it is the guard the UCS cell rule above already relies on:
+  // a cell-shaped SKU that HAS acquired a real description is no longer this shape.
+  const described = classify({ sku: "1742.4W", name: "Catalyst 9600 1742.4W AC power supply",
+    categorySlug: "switches", categoryIsHardware: true });
+  check("SABOTAGE a cell-shaped SKU with a REAL description is not taken",
+    !described.reason.startsWith("datasheet-cell:"), `${described.klass} / ${described.reason}`);
+}
+
+// ---- WITNESSES FOR THE FIVE REASONS THE REGISTRATION CHECK EXPOSED (12 Sep 2026) --------------
+// Registering the fallback-kinds block's reasons in RULE_NAMES immediately turned the
+// "every rule fired at least once" assertion red for all five: they were emitted by classify() and
+// exercised only through `ruleMatches` or the kind path, so no case had ever produced the REASON.
+// A rule whose reason nothing asserts is a rule nobody can trace a wrong class back through, which
+// is what `parts.product_class_reason` exists for. Every row below is a real live Cisco part found
+// by running classify() over the catalogue, not written by hand.
+{
+  const witnesses: [string, string, string, string][] = [
+    ["C890-M5-CPU-BOARD", "Void: Not Used", "servers-unified-computing", "name-marker-not-a-part"],
+    ["CBW142A-NA-MULTI", "BOM Level CBW142ACM Bulk PID for A Domain", "wireless", "name-ordering-artefact"],
+    ["CTS-NAL-CP-DX70", "DX70 NAL label for China", "collaboration-endpoints", "name-regulatory-label"],
+    ["1.DDR4-3200MHz", "Cisco 1.DDR4-3200MHz", "hyperconverged-infrastructure", "ucs-datasheet-cell"],
+    // A REAL DEVICE FILED IN A SOFTWARE CATEGORY — the reviewer's §8 point that a device a
+    // software-token rule can reach is a device whose kind marker is missing. All three are the
+    // physical box: an ASR 9000 line card, a Nexus 9300 and a Wi-Fi 7 access point.
+    ["A99-4T-FC", "ASR 9000 4T Flexible Consumption Line Card", "ios-nx-os-software", "stray-device:linecard"],
+    ["TA-C93180YC-FX", "Nexus 9300 with 48p 10/25G SFP+, 6p 100G QSFP", "data-center-analytics", "stray-device:switch"],
+    ["CW9166D1", "Cisco CW9166D1", "cloud-systems-management", "stray-device:ap"],
+  ];
+  for (const [sku, name, cat, reason] of witnesses) {
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: cat !== "ios-nx-os-software" && cat !== "data-center-analytics" && cat !== "cloud-systems-management" });
+    check(`reason witness: ${sku} -> ${reason}`, got.reason === reason, `${got.klass} / ${got.reason}`);
+    seenReasons.add(got.reason);
+  }
+}
 
 const stillUntested = RULE_NAMES.filter((r) => ![...seenReasons].some((s) => s === r || s.startsWith(r + ":")));
 check(`every rule in the docs/DATA_MODEL.md table fired at least once (${RULE_NAMES.length} rules)`, stillUntested.length === 0, `never fired: ${stillUntested.join(", ")}`);

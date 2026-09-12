@@ -64,7 +64,30 @@ export type Requirement =
   | { kind: "req" }
   | { kind: "opt" }
   | { kind: "na" }
-  | { kind: "cond"; when: Condition };
+  /**
+   * fallback-kinds (12 Sep 2026): `elseOpt` says what an UNMET conditional means — `na` (the default,
+   * "this part can never have one") or `opt` ("not asked of this kind, still accepted").
+   *
+   * WHY IT HAD TO EXIST TO ADD ONE KIND. A new kind can only be asked a cup by making that cup
+   * `cond({field:"kind", inList:[…]})`, and a plain cond marks the cup `na` for every kind NOT in the
+   * list. `mounting` is `opt` in sixteen of the seventeen kind-bearing profiles, so requiring it of
+   * the new `mechanical` kind would have told every switch, access point and router that it has no
+   * mounting — measured against the store, a false statement backed by 420 live `mounting` facts on
+   * NAMED kinds (switches/switch 173, wireless/ap 100, meraki/switch 58, switches/module 19,
+   * wireless/antenna 17, meraki/appliance 17, routers/enterprise 15, and seven more). The `collab`
+   * profile declares `mounting: opt` by hand with its reason written beside it, so overriding it
+   * would also have reversed another category's deliberate decision.
+   *
+   * The alternative was to widen the cond to every kind that holds the fact, which ADDS a required
+   * cup to seven finished categories' box kinds — thousands of new gaps in work already signed off.
+   * Neither was mine to do. `elseOpt` asks the new kind and leaves every other kind's answer exactly
+   * as it is: no existing conditional carries the flag, so nothing changes for anything not edited.
+   *
+   * THE INVARIANT, in one sentence, because that is what tests/fieldSchema.test.ts pins: a cond
+   * declared `elseOpt` never resolves to `na` — it is `req` when the condition holds, `pending` while
+   * a required gate is unanswered, and `opt` otherwise.
+   */
+  | { kind: "cond"; when: Condition; elseOpt?: boolean };
 
 export type FieldDef = {
   key: string;
@@ -2963,9 +2986,12 @@ export function requirementFor(
   const r = profile?.[key];
   if (!r) return "na";
   if (r.kind !== "cond") return r.kind;
+  // fallback-kinds (12 Sep 2026): what an unmet conditional MEANS — see the `elseOpt` note on
+  // Requirement. Default `na`, so every conditional written before today behaves exactly as it did.
+  const unmet = r.elseOpt ? "opt" : "na";
   if (evalCondition(r.when, values)) return "req";
   // Settled false by what IS answered: nothing left unanswered can make it true (see settledFalse).
-  if (settledFalse(r.when, values)) return "na";
+  if (settledFalse(r.when, values)) return unmet;
   // False — but is it false because the gate says no, or because nobody has answered the gate?
   //
   // THE GATE'S REQUIREMENT MUST BE RESOLVED, NOT READ OFF THE PROFILE. This line used to test
@@ -2980,14 +3006,14 @@ export function requirementFor(
   //
   // `seen` is a cycle guard: two conditionals gating on each other would otherwise recurse for
   // ever, and "na" is the safe answer for a cycle — it asks less rather than more.
-  if (seen.has(key)) return "na";
+  if (seen.has(key)) return unmet;
   const next = new Set(seen).add(key);
   const unanswered = gateFields(r.when).some((f) => {
     if (values[f] !== undefined) return false;
     const gate = requirementFor(category, f, values, next);
     return gate === "req" || gate === "pending";
   });
-  return unanswered ? "pending" : "na";
+  return unanswered ? "pending" : unmet;
 }
 
 export type CompletenessV2 = {
@@ -3316,6 +3342,83 @@ for (const [cat, productKinds] of Object.entries(AXIS_GATED_CATEGORIES)) {
     }
   }
 }
+
+// --- fallback-kinds (12 Sep 2026) ---------------------------------------------------------------
+// THE CUPS FOR THE THREE KINDS NO SKU AXIS NAMES: `mechanical` (the survey's P-1, 2,509 parts),
+// `pdu` (P-4, 38) and `tpm` (P-4, 46). See src/core/nameMarker.ts for what they are and why they are
+// derived from the NAME, and docs/reports/schema-fallback-kinds-2026-09-12.md for the evidence.
+//
+// APPLIED AFTER THE MERGE, AS A LOOP, for exactly the reason the two loops above give and one more.
+// `mounting` is declared by the GENERATED half in sixteen of the seventeen kind-bearing profiles, so
+// a hand-written line per profile would have been sixteen chances to miss one in silence — and a
+// missed one is invisible: the cup simply stays `opt` and the new kind is asked nothing. The loop
+// cannot miss a category, and it derives that list from the profiles themselves (a profile that
+// gates on `kind`) rather than from a second copy of KIND_CATEGORIES, which would drift.
+//
+// WHAT EACH KIND IS ASKED, and every one of the three is chosen from what the corpus can fill:
+//
+//   mechanical   product_compatibility   what it fits — the ONE question a rack kit, a bracket, a
+//                                        blanking panel or a cover is bought on. 122 label
+//                                        occurrences; the sample SKUs for the label "Compatibility"
+//                                        are CAB-CONSOLE-RJ45 and RCKMNT-19-CMPCT=, i.e. this family.
+//                mounting                170 of the 2,509 already hold it and 735 labels map to it.
+//   pdu          the same two            input_voltage / ac_current / power_input_connector are what
+//                                        a PDU is really bought on and are NOT required: 38 parts
+//                                        hold ONE fact between them (a mounting), and no source
+//                                        publishes the labels. Their derivation IS available in the
+//                                        names ("10A Metered Input 1-Phase 8x C13, 2x C19 - 0U PDU")
+//                                        and is a PROPOSAL in the report, not a cup nothing fills.
+//   tpm          product_compatibility   a TPM's whole specification is which servers take it
+//                                        ("TPM 2.0 … for M5 servers"). 46 parts, 0 facts.
+//
+// NOT ADDED, and each refusal is measured rather than reasoned: `weight` and `dimensions` (460 and
+// 353 parts hold them and ZERO on any fallback kind across all 45,356, so requiring them would open
+// 2,509 gaps nothing has ever filled), `color` (46 label occurrences, 15 of them "BSS coloring", a
+// Wi-Fi feature) and `material` (1,134 occurrences, 811 of which map to `__not_a_spec`).
+const MECHANICAL_FITS_KINDS: readonly string[] = ["mechanical", "tpm", "pdu"];
+const MECHANICAL_MOUNTING_KINDS: readonly string[] = ["mechanical", "pdu"];
+
+/**
+ * Ask `key` of these kinds TOO, leaving every other kind's answer exactly as it is.
+ *
+ * Four shapes arrive here and each is handled rather than assumed:
+ *   `req`          already asked of everything, mine included — untouched.
+ *   `cond` on kind the common case: the kind list is widened, and the existing `elseOpt` is kept.
+ *   `cond` on else its condition is OR-ed with mine, so a part meeting either is asked.
+ *   `opt` / `na`   becomes a cond, with `elseOpt` set to whichever the key was — so an `opt` key
+ *                  stays `opt` for every kind but mine, and an `na` key stays `na`. This is the
+ *                  whole reason `elseOpt` exists; see its note on `Requirement`.
+ */
+function askAlsoOf(existing: Requirement | undefined, kinds: readonly string[]): Requirement {
+  const mine: Condition = { field: "kind", inList: [...kinds] };
+  if (existing?.kind === "req") return existing;
+  if (existing?.kind === "cond") {
+    const keep = existing.elseOpt ? { elseOpt: true } : {};
+    const when = existing.when as { field?: string; inList?: (string | number)[] };
+    if (when.field === "kind" && Array.isArray(when.inList)) {
+      const merged = [...new Set([...when.inList.map(String), ...kinds])];
+      return { kind: "cond", when: { field: "kind", inList: merged }, ...keep };
+    }
+    return { kind: "cond", when: { any: [existing.when, mine] }, ...keep };
+  }
+  return { kind: "cond", when: mine, ...(existing?.kind === "opt" ? { elseOpt: true } : {}) };
+}
+
+for (const cat of Object.keys(PROFILES)) {
+  const p = PROFILES[cat];
+  // The gating categories, derived from the profiles rather than remembered — the same derivation
+  // tests/partKind.test.ts uses to check KIND_CATEGORIES in both directions.
+  if (!Object.values(p).some((r) => r.kind === "cond" && gateFields(r.when).includes("kind"))) continue;
+  // `pdu` and `tpm` are listed ONLY where a part of that kind can exist (nameMarker.ts sends a PDU
+  // elsewhere to the category's own supply kind). A cond naming a kind no part can have fires for
+  // nobody and reads exactly like a rule nothing satisfies, which is the defect this avoids.
+  const ucs = (UCS_PROFILE_CATEGORIES as readonly string[]).includes(cat);
+  const fits = ucs ? MECHANICAL_FITS_KINDS : ["mechanical"];
+  const mount = ucs ? MECHANICAL_MOUNTING_KINDS : ["mechanical"];
+  p.product_compatibility = askAlsoOf(p.product_compatibility, fits);
+  p.mounting = askAlsoOf(p.mounting, mount);
+}
+// end fallback-kinds ------------------------------------------------------------------------------
 
 export const CATEGORIES = Object.keys(PROFILES);
 

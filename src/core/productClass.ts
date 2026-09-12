@@ -55,6 +55,10 @@
 // least once — a rule the suite never exercised is a rule nobody has seen work.
 
 import { ucsKind } from "./ucsKind.js";
+// fallback-kinds (12 Sep 2026): the "the name carries nothing but the SKU" test, shared with the kind
+// path so one definition decides both. R8 below is a claim about a row with no description at all.
+import { nameIsJustTheSku } from "./nameMarker.js";
+import { strayDevice } from "./strayDevice.js";
 
 /**
  * `non_product` (added 10 Sep 2026, migration 0014) is NOT a kind of product — it is the answer
@@ -1694,6 +1698,22 @@ export const RULE_NAMES = [
   // end collab-class
   "ucs-kind-os-license",
   "ucs-kind-non-product",
+  // fallback-kinds (12 Sep 2026) — FOUR REASONS THAT WERE EMITTED AND NEVER REGISTERED, found on
+  // merge by grepping every `reason:` in this file against this list. The comment at the head of
+  // RULE_NAMES describes exactly what that costs: reclassify's `ownedReason()` refuses to touch a
+  // row whose reason is not here, so these four would have produced rows the table could never
+  // correct again — the same defect as the four name rules on 10 Sep, which left 400 tracer SKUs
+  // stranded at `license` while classify() called them non_product. Registered before the rules
+  // ever ran, so no row was stranded this time.
+  "name-marker-not-a-part",
+  "name-ordering-artefact",
+  "name-regulatory-label",
+  "ucs-datasheet-cell",
+  // `ownedReason()` matches an exact reason OR one that begins `<name>:`, so a family of reasons
+  // registers as its bare prefix — the form `category-is_hardware=true` has always used.
+  "stray-device",
+  // the parked-row re-examination (12 Sep 2026): `datasheet-cell:<shape>`, eight shapes
+  "datasheet-cell",
   "category-is_hardware=false",
   "category-is_hardware=true",
   "category-unknown",
@@ -1838,6 +1858,123 @@ export function classify(input: ClassifyInput): Classification {
     return { klass: "non_product", reason: "name-ordering-question" };
   }
   // end collab-class
+  // --- fallback-kinds (12 Sep 2026): P-5, the not-a-product NAME shapes -------------------------
+  //
+  // Four of the asked-nothing survey's six adopted shapes. Each was re-measured over ALL 91,543 live
+  // parts and all 13 vendors with the test this file's own name rules were built on — does it catch a
+  // part carrying an OWN PHYSICAL FACT? — and then its rows were READ, because the control is
+  // necessary and not sufficient (see the two refusals below, which is what reading found).
+  //
+  //   shape                          hits  vendors  hardware today  physical facts  any own fact
+  //   R1 marker name                  135   cisco              111               0             1
+  //   R2 ordering artefact            285   cisco              281               0             0
+  //   R3 regulatory / asset label      46   cisco               45               0             0
+  //   R8 datasheet cell (UCS only)     45   cisco               43               0             0
+  //
+  // THE ONE OWN FACT is AIR-ANT5175V-N, named "NOT USED 4.9 GHz-5.8 GHz Omni with N Connector" — a
+  // withdrawn antenna PID whose own name says it is withdrawn, holding one non-physical fact. Named
+  // here rather than vetoed: the vendor's statement about its own part number is the evidence.
+  //
+  // TWO OF THE SIX ARE **NOT BUILT**, and both refusals came from reading rows the control passed:
+  //
+  //   R4 session / subscriber capacity licence. 1,239 hits, 0 physical facts — and of the five rows
+  //      still classed `hardware`, FOUR ARE REAL APPLIANCES: CUBESP-AP-H250B/K9 "CUBE(SP)
+  //      appliance,250 Session,10G Engine,2xSIP10,16xGE,HA", H500B, and two siblings. The fifth,
+  //      CN-BNG-100k-L "Session scale for 100K subscribers", is the licence the rule was written for.
+  //      A rule that moves one row and can eat four appliances is a bad trade at any exchange rate,
+  //      and they are in the routers owner's lane. A narrowed form — require a K/M thousands marker
+  //      and veto `appliance` — is put up as a PROPOSAL in the report instead of written here.
+  //   R5 "the name is only a release". 119 hits and ZERO rows classed hardware, so it would move
+  //      nothing today; and four of its hits are MDS supervisor images whose names END with the
+  //      release they ship with (M92S5K9-6.2.11C "MDS 9250i Supervisor/Fabric-3, NX-OS Software
+  //      Release 6.2.11C"). That is the exact trap the survey documented for the LOOSE form arriving
+  //      one notch tighter. A rule with no population and a known failure mode is not worth its risk.
+  //
+  // Every one of the four runs AFTER every SKU rule, so a family whose SKU is already known keeps its
+  // class, and each is pinned in tests/productClass.test.ts with a refusal beside its positives.
+
+  // R1. The vendor's own statement that a PID ships nothing: "VOID; Not Used", "DO NOT PUBLISH",
+  // "Obsolete PID", "PID not used". `not used` is matched anywhere, the bare `void` only at the start
+  // (a name may legitimately contain "avoid"), and "not orderable" / "do not order" join them because
+  // the same rows carry both spellings.
+  // The `\bhardware\b` guard is this file's own, adopted for the same reason it was written: a name
+  // that calls itself hardware is not a withdrawn PID, and "Motorola PSC2 LTE Hardware and Software
+  // bundle" is the row that taught the file that lesson once already.
+  if (!/(^|[^a-z])hardware([^a-z]|$)/i.test(name)
+    && /do not publish|obsolete pid|pid not used|(^|[^a-z])(?:not used|not in use|not orderable|do not order)([^a-z]|$)|^\s*\^?(?:void|not used)/i.test(name)) {
+    return { klass: "non_product", reason: "name-marker-not-a-part" };
+  }
+  // R2. An ORDERING ARTEFACT: a line the configurator emits, not a thing in a box. 281 rows, 277 of
+  // them in `wireless`: "BOM Level AP2800E Bulk PID for B Domain (CFG)", "Regulatory Domain
+  // Configuration", "Base PID", "Contains packing Kit For 2KI". Anchored at the START, because these
+  // are the whole name; matched anywhere, "base PID" appears inside real parts' descriptions.
+  if (/^(?:regulatory domain configuration|bom level|base pid|contains packing)/i.test(name)) {
+    return { klass: "non_product", reason: "name-ordering-artefact" };
+  }
+  // R3. A STICKER. "MX200 NAL label for China - for auto expand only", "^NAL Certification labels for
+  // China for C8200-1N-4T", "asset tab ID label". 45 rows, no vendor but Cisco, no facts.
+  if (/(^|[^a-z])nal (?:certification )?labels?([^a-z]|$)|certification labels? for|(^|[^a-z])asset tab id label([^a-z]|$)/i.test(name)) {
+    return { klass: "non_product", reason: "name-regulatory-label" };
+  }
+  // R8. A DATASHEET CELL ENUMERATED AS A PART — "94GB", "2.DDR4-3200MHz", "64108", "10/25/50G" — and
+  // THE CATEGORY SCOPE IS THE REFUSAL, not a detail of it. The identical SKU shape in `video` is the
+  // Scientific-Atlanta catalogue: the survey built the narrowed, evidence-free version of this rule
+  // without the scope and it still selected 568 parts, 534 of them real video product, because
+  // `1030032` sits between two described channel filters. Inside these three categories all 45
+  // members were read one at a time: 0 facts, 0 documents, 0 descriptions. The name test is part of
+  // the rule — a bare number that HAS acquired a description is no longer this shape.
+  if ((input.categorySlug === "servers-unified-computing" || input.categorySlug === "hyperconverged-systems"
+      || input.categorySlug === "hyperconverged-infrastructure")
+    && (/^[\d./]+$/.test(input.sku) || /^[\d.]+ ?(?:gb|tb|mb|ge|mhz|ghz|nm|v|w|a)$/i.test(input.sku)
+      || /^\d+\/[\d/]+g?$/.test(input.sku) || /^\d+\.DDR\d/i.test(input.sku))
+    && nameIsJustTheSku(input.sku, name)) {
+    return { klass: "non_product", reason: "ucs-datasheet-cell" };
+  }
+  // end fallback-kinds ---------------------------------------------------------------------------
+
+  // ---- THE PARKED ROWS, on the operator's instruction to re-examine them (12 Sep 2026) ----------
+  //
+  // 760 parts carry `product_class_reason = "catalogue-noise: fails is_part_number"` and sit at
+  // `unknown`, so they are in NO denominator — not hardware, not non-product, asked nothing,
+  // counted nowhere. `reclassify` refuses to touch them and is RIGHT to: the reason is one
+  // `classify()` cannot emit, so a person decided them, and a catch-up pass that silently undoes a
+  // deliberate decision is worse than no catch-up pass.
+  //
+  // The re-examination the operator asked for produced the opposite of what was expected. 555 of
+  // the 760 are accepted by TODAY'S `is_part_number`, and the unread-families survey read that as a
+  // stale verdict — but 551 of those 555 are ONE family, NCS 2000 assembly numbers, with ZERO own
+  // facts and ZERO documents between them. Passing the predicate says the SHAPE is plausible; it is
+  // not evidence a product exists. So the parking stands for them, and this block claims only the
+  // rows whose shape says outright that they are a cell lifted out of a table.
+  //
+  // Measured over all 91,543 live parts before being written, and TWO SHAPES WERE NARROWED BY THAT
+  // MEASUREMENT rather than by argument:
+  //   `^\d+\.\d+` for an IOS release caught 435 rows outside the cohort, 77 WITH PHYSICAL FACTS —
+  //      `4022938.58` and `4011176.012.000.AB` are Scientific-Atlanta transmitters whose digits
+  //      after the dot are an ITU CHANNEL, which CLAUDE.md already records. Bounded to a 1-2 digit
+  //      major version, which no seven-digit S-A number can satisfy.
+  //   `BASE-?[A-Z]` for a PHY name caught `VIP-SFP-1GE-BASET`, `C1-UCD-BASE-K9` and
+  //      `MC-S-BASE-SM` — real SKUs with "BASE" as a word. Anchored to the start, where a clause
+  //      name begins with its speed.
+  // After narrowing, every shape below catches ZERO parts with a physical fact anywhere in the
+  // catalogue, and the name gate is the same one the UCS rule above uses: a bare token that HAS
+  // acquired a description is no longer this shape.
+  const CELL_SHAPES: [string, RegExp][] = [
+    ["phone-number", /^1-800-\d{3}-\d{4}$/],                                    // 1-800-722-2009, enumerated as a part
+    ["magnitude-unit", /^[\d.]+ ?(?:K|M|W|A|V|GB|MB|GE|G|VAC|VDC|MHZ|GHZ|NM|DB|DBM|BTU|LBS?|KG|IN|FT)$/i],
+    ["current-range", /^[\d.]+-[\d.]+ ?(?:A|W|V|MA)$/i],                        // 0.9-1.6A, a PSU's draw
+    ["ios-release", /^\d{1,2}\.\d{1,2}(?:[._(]|[A-Z]?$)/],                      // 15.2.1T, 12.4(24)T
+    ["phy-clause-name", /^\d+G?BASE-?[A-Z]/i],                                  // 1000BASE-LH, 0GBASE-SR
+    ["config-cell", /^1\.[A-Z0-9]/i],                                           // 1.HHHL, 1.SSD, 1.UPI
+    ["n-noun-cell", /^\d-[A-Z]{2,}$/i],                                         // 1-CPU, 2-CPU
+    ["ip-subnet", /^\d{1,3}(?:\.\d{1,3}){3}(?:\/\d{1,2})?$/],                   // five RFC-1918 subnets
+  ];
+  for (const [tag, re] of CELL_SHAPES) {
+    if (re.test(input.sku) && nameIsJustTheSku(input.sku, name)) {
+      return { klass: "non_product", reason: `datasheet-cell:${tag}` };
+    }
+  }
+  // end parked rows ------------------------------------------------------------------------------
   // A NAME THAT SAYS HARDWARE OVERRIDES ALL FOUR. Found by reading the dry run rather than by
   // reasoning: `ASR5K-0F-B00-2069=` is a "Motorola PSC2 LTE Hardware and Software bundle", so
   // `name-sw-bundle` fired on a name that calls itself hardware in the same clause. A licence is
@@ -1848,6 +1985,17 @@ export function classify(input: ClassifyInput): Classification {
   }
 
   const slug = input.categorySlug ? String(input.categorySlug) : "?";
+  // fallback-kinds (12 Sep 2026), reviewer §8: A REAL DEVICE FILED IN A SOFTWARE CATEGORY.
+  // The 51 rows reclassify run 973's evidence guards refused — Cisco 8000 and NCS routers, Nexus
+  // 9300s, a Catalyst 2960-X, Catalyst 9166 access points, NICs and line cards — are named families
+  // in src/core/strayDevice.ts. The guard in the pipeline is the belt; this is the braces, and it is
+  // here rather than in a comment because a sampling guard in one command is not a refusal in the
+  // code. It sits AFTER every SKU rule and every name rule, so nothing it can reach was already
+  // decided; the real repair is a category MOVE and it is a proposal, not a write.
+  const stray = strayDevice(input.sku);
+  if (stray && input.categoryIsHardware === false) {
+    return { klass: "hardware", reason: `stray-device:${stray.kind}` };
+  }
   if (input.categoryIsHardware === false) return { klass: "software", reason: `category-is_hardware=false:${slug}` };
   if (input.categoryIsHardware === true) return { klass: "hardware", reason: `category-is_hardware=true:${slug}` };
   return { klass: "unknown", reason: `category-unknown:${slug}` };

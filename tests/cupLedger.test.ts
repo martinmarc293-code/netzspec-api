@@ -462,6 +462,122 @@ for (const f of files) {
   check("CONTROL a kind this rule says nothing about is untouched", wrongCup("switch", ["storage_capacity", "dram"]).length === 0);
 }
 
+// --- fallback-kinds (12 Sep 2026): THE TWO STANDING TESTS (reviewer §9) ------------------------
+//
+// These are the reviewer's definition of "arranged", and they are the only checks in this file that
+// read the LIVE CORPUS rather than the profile: a cup set can be perfect while the classifier files
+// half the category under a kind that asks nothing. Both numbers come from `totals.fallback` in the
+// committed ledgers, written by scripts/build-cup-ledger.mts from the store.
+//
+// BOTH ARE RATCHETS AND NEITHER IS A TARGET. A ceiling pinned at today's measurement fails on any
+// regression and has to be EDITED DOWN to record an improvement, which is the only shape that cannot
+// quietly rot. Where a ceiling codifies a number that is still wrong, the comment says so out loud —
+// a test that makes today's failure acceptable must admit that is what it is doing.
+{
+  /**
+   * (a) THE FALLBACK SHARE PER CATEGORY. Measured after this work: 2,928 of 42,450 Cisco hardware
+   * parts (6.9%) are in a kind that means "the axis could not say", down from 6,301 (14.8%).
+   *
+   * **THE TARGET IS UNDER 5% EVERYWHERE, AND SIX CATEGORIES ARE ABOVE IT TODAY.** The ceilings below
+   * are each category's measured share rounded up, so they hold the line; they are not a statement
+   * that 16.3% is acceptable. What is left above 5% is almost entirely an ACQUISITION gap wearing a
+   * shaping gap's clothes — 1,157 of the 2,788 remaining rows have no description at all (the name is
+   * literally "Cisco <sku>"), 464 of them in servers-unified-computing and 333 in video — plus three
+   * cells a kind this branch may not add would close: 190 UCS cables (the UCS axis has no `cable`
+   * kind), 47 switch memory modules and 21 switch drives (the switches axis has neither). All three
+   * are proposals in docs/reports/schema-fallback-kinds-2026-09-12.md.
+   */
+  const CEILING: Record<string, number> = {
+    "hyperconverged-systems": 16.3, "hyperconverged-infrastructure": 16.0, video: 13.2,
+    "servers-unified-computing": 11.1, "collaboration-endpoints": 10.6, "unified-communications": 7.7,
+    // RE-BASELINED AFTER THE CATEGORY-MOVE RUN (12 Sep 2026), and the reason matters more than the
+    // numbers. The move run took 651 CORRECTLY-KINDED parts out of these four categories — 449
+    // optical pluggables to `transceiver`, 94 misfiled optics and 92 whole devices out of
+    // `interfaces-modules`, MDS bundles to `storage-networking` — so the fallback COUNT did not
+    // move and the DENOMINATOR shrank. The ratchet fired, which is the test working: a share that
+    // rises for a legitimate population change still has to be looked at and re-recorded, never
+    // widened quietly. The target is unchanged at under 5%.
+    "optical-networking": 8.3, wireless: 5.9, "interfaces-modules": 6.4, "storage-networking": 4.8,
+    routers: 3.0, conferencing: 2.9, meraki: 2.3, switches: 1.9, security: 1.0, transceiver: 1.0,
+    "data-center-networking": 0.0,
+  };
+  const CATALOGUE_CEILING = 7.0;   // measured 6.90%; the target is under 5%
+  type Fallback = { kinds: string[]; parts: number; hardware_parts: number; facts3: number; device_noun: number };
+  let parts = 0, hardware = 0, facts3 = 0, noun = 0, looked = 0;
+  const over: string[] = [];
+  for (const f of files) {
+    const led = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")) as Ledger & { totals: { fallback?: Fallback } };
+    const fb = led.totals.fallback;
+    // A MISSING FIELD IS THE DEFECT, not a pass: a ledger built before the census existed would
+    // otherwise skip both tests in silence, which is this repo's `sampled`-carrying-`checked` shape.
+    check(`${f}: the ledger carries the fallback census`, !!fb,
+      "rebuild it: npx tsx scripts/build-cup-ledger.mts --category <slug>");
+    if (!fb) continue;
+    looked++;
+    parts += fb.parts; hardware += fb.hardware_parts; facts3 += fb.facts3; noun += fb.device_noun;
+    const share = fb.hardware_parts ? (100 * fb.parts) / fb.hardware_parts : 0;
+    const ceiling = CEILING[led.category];
+    check(`${led.category}: the fallback share has a ceiling in this test`, ceiling !== undefined,
+      "a category with no ceiling is a category nobody measured — add it");
+    if (ceiling === undefined) continue;
+    if (share > ceiling + 0.05) over.push(`${led.category} ${share.toFixed(1)}% > ${ceiling}%`);
+    // AND A CEILING THAT HAS GONE SLACK IS ALSO A FAILURE, or the ratchet only turns one way and
+    // stops meaning anything: a share more than 2pp under its ceiling says the ceiling is stale.
+    check(`${led.category}: its ceiling is still close to the measurement (${share.toFixed(1)}% vs ${ceiling}%)`,
+      share > ceiling - 2.0, `the share fell — lower the ceiling to ${Math.ceil(share * 10) / 10} and record the win`);
+  }
+  check(`the fallback census covered every ledger (${looked} of ${files.length})`, looked === files.length);
+  check("no category is above its fallback-share ceiling", over.length === 0, over.join(" · "));
+  const catalogueShare = hardware ? (100 * parts) / hardware : 0;
+  check(`the catalogue-wide fallback share is at or under ${CATALOGUE_CEILING}% (measured ${catalogueShare.toFixed(2)}%, target under 5%)`,
+    catalogueShare <= CATALOGUE_CEILING, `${parts} of ${hardware}`);
+
+  /**
+   * (b) ZERO FALLBACK PARTS THAT LOOK LIKE A REAL PRODUCT — and this is the real check, because it is
+   * the shape that hid the UNITY-PIMG media gateways: 14 PBX-IP gateways a licence rule was about to
+   * delete, invisible to every count because a fallback kind asking nothing scores every one of its
+   * parts complete.
+   *
+   * TWO DETECTORS, and they are kept as two numbers because they fail differently:
+   *
+   *   facts3      a part holding THREE OR MORE facts of its own. **This one is at ZERO and is
+   *               asserted at zero.** It was 39 before this work — all twelve of the last family were
+   *               Prisma II QAM transmitters named "1550HD DFB, 10dBm, ITU26" whose alternate part
+   *               number is `P2-HD15TXQ`, with the hyphen missing that videoKind's SKU rule needs.
+   *
+   *   device_noun a part whose NAME names a whole box (switch, router, server, chassis, gateway …).
+   *               **159, AND THIS CEILING CODIFIES A NUMBER THAT IS NOT ZERO.** Said plainly: the test
+   *               below does NOT prove the second half of the property. Most of the 159 are correct —
+   *               a mechanical accessory's name is mostly its host ("Nexus 5548 Chassis Accessory
+   *               Kit"), which is the detector's designed-in false positive — but they were read in
+   *               batches, not one at a time, so the honest statement is a ceiling and a note, not a
+   *               pass. It was 710 before this work.
+   */
+  check("ZERO fallback parts hold three or more facts of their own", facts3 === 0,
+    `${facts3} do — a fallback kind asking nothing scores every one of them complete (see the UNITY-PIMG case)`);
+  const DEVICE_NOUN_CEILING = 159;   // NOT a target: the target is 0. See the note above.
+  check(`fallback parts whose NAME names a device are at or under the ceiling of ${DEVICE_NOUN_CEILING} (measured ${noun})`,
+    noun <= DEVICE_NOUN_CEILING,
+    "this ceiling CODIFIES TODAY'S FAILURE: the property is zero and the measurement is not");
+  lines.push(`    fallback census: ${parts} of ${hardware} parts in a fallback kind (${catalogueShare.toFixed(2)}%, target <5%) · ${facts3} hold 3+ own facts (asserted 0) · ${noun} name a device (ceiling ${DEVICE_NOUN_CEILING}, target 0)`);
+
+  // SABOTAGE, on a census nobody committed, so the two thresholds cannot be checks that never fail.
+  const judge = (fb: Fallback, ceiling: number): string[] => {
+    const out: string[] = [];
+    const share = (100 * fb.parts) / fb.hardware_parts;
+    if (share > ceiling + 0.05) out.push(`share ${share.toFixed(1)}% over ceiling ${ceiling}%`);
+    if (fb.facts3 > 0) out.push(`${fb.facts3} parts hold 3+ own facts`);
+    return out;
+  };
+  const clean: Fallback = { kinds: ["accessory"], parts: 50, hardware_parts: 2000, facts3: 0, device_noun: 0 };
+  check("CONTROL a clean census passes both thresholds", judge(clean, 3.0).length === 0, judge(clean, 3.0).join("; "));
+  check("SABOTAGE a category whose fallback share doubled is caught",
+    judge({ ...clean, parts: 200 }, 3.0).some((m) => m.includes("over ceiling")));
+  check("SABOTAGE one fallback part holding three own facts is caught",
+    judge({ ...clean, facts3: 1 }, 3.0).some((m) => m.includes("3+ own facts")));
+}
+// end fallback-kinds ---------------------------------------------------------------------------
+
 lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 13 sabotage/control cases)`);
 console.log(lines.join("\n"));
 if (failed) process.exit(1);
