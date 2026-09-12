@@ -629,7 +629,8 @@
   [
    "^power( ?[(]w[)])?$",
    "tdp",
-   "pdf-server: Matches both the unit-bearing 'Power (W)' and the bare 'Power' left behind when the second header row is lost. Parentheses written as char"
+   "pdf-server: Matches both the unit-bearing 'Power (W)' and the bare 'Power' left behind when the second header row is lost. Parentheses written as character classes. SCOPED 12 Sep 2026, found by the mapper trace on its first run: this rule's own note says 'pdf-server' and it carried NO scope, so a bare 'Power' — 732 occurrences in the inventory, the second most contested label there is — became a CPU thermal design power on every kind of product. It is the `^spee *d$` -> drive_interface defect exactly, in a rule nobody had scoped. Measured: 15 tdp facts sit outside the three server categories and not one is a TDP — 8 access points at 'Power consumption: 15W max (802.3af)', 4 voice modules at '70.32W', a CRS chassis at 3,080 W, and two Secure Workload appliances holding a PSU RATING ('Redundant [1050 W] AC 50/60'). They are a rekey proposal, not a write. Scoped here to the three categories whose CPU tables the rule was written for; a bare 'Power' elsewhere now reaches the section-header sink below rather than a wrong cup, which is a recorded gap instead of a confident wrong value.",
+   { "only": ["servers-unified-computing", "hyperconverged-systems", "hyperconverged-infrastructure"] }
   ],
   [
    "^(maximum )?(allowable )?(input )?frequency range",

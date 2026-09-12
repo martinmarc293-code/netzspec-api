@@ -23,6 +23,33 @@ import { notFound } from "../errors.js";
 import { AnyJson, ERROR_RESPONSES, Nullable } from "../schemas.js";
 
 const LEDGER_DIR = path.join(REPO_ROOT, "data", "ledger");
+/**
+ * The two round-4 artifacts, served exactly like the ledgers and for the same reason: they are
+ * committed files the suite guards, so what the reviewer reads is what the tests check.
+ *
+ *   census — what is IN each cup, and what today's rules would refuse if it arrived now. The refusal
+ *            list is the REAL normaliser replayed over every stored raw, so it is the population a
+ *            retraction run must work through rather than a guess at one (term 7, wrong pour).
+ *   mapper — which rule actually wins each datasheet label in this category, which matched and lost,
+ *            and which reach nothing (term 8, reachability).
+ *
+ * They are NOT computed per request. Both are a full pass over the catalogue or the 23,651-label
+ * inventory; serving that live would be a minute-long request against the same pool the pipeline
+ * uses, which this repo has already paid for once (an ad-hoc diagnostic query blocking an apply).
+ */
+const ARTIFACT_DIRS: Record<string, string> = {
+  census: path.join(REPO_ROOT, "data", "census"),
+  mapper: path.join(REPO_ROOT, "data", "mapper"),
+};
+const ARTIFACT_NAME = /^[a-z0-9][a-z0-9-]*$/;
+
+/** Is there a committed artifact of this kind for this vendor and category? Used to link only what
+ *  exists — a link to a 404 is worse than no link, because the reviewer cannot tell them apart. */
+export function artifactExists(kind: string, vendor: string, category: string): boolean {
+  const dir = ARTIFACT_DIRS[kind];
+  if (!dir || !ARTIFACT_NAME.test(vendor) || !ARTIFACT_NAME.test(category)) return false;
+  return fs.existsSync(path.join(dir, `${vendor}-${category}.json`));
+}
 const REPORT_DIR = path.join(REPO_ROOT, "docs", "reports");
 /** A report name is a bare file name the listing produced; anything else (a path, a traversal) is refused. */
 const REPORT_NAME = /^[a-z0-9][a-z0-9.-]*\.md$/;
@@ -149,6 +176,11 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
       index: link("index", vendor, c.slug),
       fields: link("fields", c.slug),
       ledger: refs.some((l) => l.category === c.slug) ? link("ledger", vendor, c.slug) : null,
+      // The two artifacts that make terms 7 and 8 a computation rather than a reading (round 4). Linked
+      // beside the ledger because a reviewer needs all three for one category in one place: the ledger
+      // says what is ASKED, the census says what is IN the cups, the trace says which rule put it there.
+      census: artifactExists("census", vendor, c.slug) ? link("census", vendor, c.slug) : null,
+      mapper: artifactExists("mapper", vendor, c.slug) ? link("mapper", vendor, c.slug) : null,
     }));
     const ledgers = refs.map((l) => ({ vendor: l.vendor, category: l.category, url: link("ledger", l.vendor, l.category),
       // The reviewable form, linked beside the full one (reviewer §2.9: the full payload cut their read mid-kind).
@@ -249,6 +281,32 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
   // twelve of thirteen ledgers went unread. This serves what a review of the arrangement needs — per kind the
   // required cups, the pending ones with their gate, and the not-applicable ones — plus `optional` ONCE. Same
   // file, no second source of truth: it is the full ledger with the repetition removed.
+  // THE TWO ROUND-4 ARTIFACTS. Same shape as /ledger/:vendor/:category: path-only, no query string,
+  // served from the committed file. A missing one 404s with the list of what exists, so "this category
+  // has no census yet" and "I typed the URL wrong" are different answers.
+  for (const kind of ["census", "mapper"] as const) {
+    app.get<{ Params: { vendor: string; category: string } }>(`/${kind}/:vendor/:category`, {
+      schema: {
+        tags: ["catalogue"],
+        summary: kind === "census"
+          ? "What is IN each cup of one category, and what today's rules would refuse if it arrived now."
+          : "Which alias rule wins each datasheet label in one category, which matched and lost, and which reach nothing.",
+        params: Type.Object({ vendor: Type.String(), category: Type.String() }),
+        response: { 200: AnyJson, ...ERROR_RESPONSES },
+      },
+    }, async (req) => {
+      const { vendor, category } = req.params;
+      if (!artifactExists(kind, vendor, category)) {
+        const dir = ARTIFACT_DIRS[kind];
+        const have = fs.existsSync(dir)
+          ? fs.readdirSync(dir).filter((f) => f.endsWith(".json")).map((f) => f.replace(/\.json$/, "").replace("-", "/")).join(", ")
+          : "none";
+        throw notFound(`no ${kind} for "${vendor}/${category}" — built: ${have}`);
+      }
+      return JSON.parse(fs.readFileSync(path.join(ARTIFACT_DIRS[kind], `${vendor}-${category}.json`), "utf8"));
+    });
+  }
+
   app.get<{ Params: { vendor: string; category: string } }>("/ledger/:vendor/:category/summary", {
     schema: {
       tags: ["catalogue"],

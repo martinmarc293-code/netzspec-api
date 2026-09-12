@@ -72,6 +72,56 @@ function inScope(scope: Scope | null, category: string | undefined): boolean {
   return scope.only.includes(category);
 }
 
+/** One rule's position in the table, for a trace. `scoped` is the rule's category list, if any. */
+export type RuleHit = { index: number; pattern: string; key: string; scope: string[] | null; in_scope: boolean };
+/** What actually happened to one label in one category: which cup it reached, which rule won, and
+ *  every rule that matched and did not — with the reason it did not (position, or scope). */
+export type LabelTrace = {
+  label: string;
+  key: string | null;
+  /** true when no rule matched the label as written and it only mapped after the trailing-unit strip */
+  via_bare: boolean;
+  winner: RuleHit | null;
+  /** rules that matched the same label but lost: an earlier rule won, or this one is scoped away */
+  losers: RuleHit[];
+};
+
+/**
+ * TRACE, not map — the reachability report (reviewer round 4, term 8).
+ *
+ * `mapLabel` returns the first in-scope match and throws the rest away, which is correct for the
+ * pipeline and useless for an audit: a rule that is right and never fires is invisible from its own
+ * side, and two such rules were found by hand on 12 Sep (`^wireless ` swallowing "Wireless
+ * Standards" into a __backlog sink, and a `^frequency range$` -> radio_bands rule sitting 168 rules
+ * below `^frequency range` -> input_freq, so it had never fired in 32 occurrences). Neither was
+ * findable from the rules file, because both rules were individually correct.
+ *
+ * This returns the whole picture for one label: the winner, and every rule that matched and lost,
+ * with WHY it lost — a lower index won, or the rule is scoped to other categories. Ordering and the
+ * bare-label retry mirror `mapLabel` exactly, so a trace cannot disagree with what the pipeline does.
+ */
+export function traceLabel(label: string, category?: string): LabelTrace {
+  const hits = (s: string): RuleHit[] => RULES.flatMap(([re, key, scope], index) =>
+    re.test(s) ? [{ index, pattern: re.source, key, scope: scope?.only ?? null, in_scope: inScope(scope, category) }] : []);
+  let all = hits(label);
+  let viaBare = false;
+  if (!all.some((h) => h.in_scope)) {
+    const bare = label.replace(TRAILING_UNIT, "").trim();
+    if (bare && bare !== label) {
+      const bareHits = hits(bare);
+      if (bareHits.some((h) => h.in_scope)) { all = bareHits; viaBare = true; }
+    }
+  }
+  const winner = all.find((h) => h.in_scope) ?? null;
+  return { label, key: winner?.key ?? null, via_bare: viaBare, winner, losers: all.filter((h) => h !== winner) };
+}
+
+/** The rules table as data, so a caller can name every rule and report the ones no label reaches. */
+export function ruleTable(): RuleHit[] {
+  return RULES.map(([re, key, scope], index) =>
+    ({ index, pattern: re.source, key, scope: scope?.only ?? null, in_scope: true }));
+}
+
 // A trailing parenthetical that is ONLY a unit — "(C)", "(GHz)", "(W)", "(MT/s)", "(A rms)",
 // "(%)2" with a footnote digit. Not "(MTBF)" or "(H x W x D)", which are part of the name.
 const TRAILING_UNIT = /\s*\(\s*[A-Za-zµ°%]{1,4}(?:\s*\/\s*[A-Za-z]{1,3})?(?:\s+(?:rms|peak|dc|ac))?\s*\)\s*\d*\s*$/;
