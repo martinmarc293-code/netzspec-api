@@ -4,6 +4,49 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-12 (late) - Opus/PARENT. The round-6 audit brief, and five of my own claims corrected by checking them.**
+
+  `docs/reports/cisco-arrangement-audit-brief-2026-09-12.md` (752 lines, served at
+  `/v1/report/cisco-arrangement-audit-brief-2026-09-12.md`, 47 KB). Self-contained for the reviewer:
+  the two phases and why the order is not negotiable, every endpoint with what each field MEANS, the
+  eleven terms each with a measured example, a per-category worklist for all 17 categories, what we
+  got wrong, what is held, and an A-I answer shape ending in APPROVED / NOT YET.
+
+  **FIVE CLAIMS IN MY OWN FIRST DRAFT WERE WRONG.** Every one was found by running a check, not by
+  re-reading the prose, which is the only reason to write the draft first:
+  - **Cisco was "91,682 parts". That is ALL 13 BRANDS.** `/v1/start`'s brand list sums to exactly
+    91,682 and Cisco is 87,083 of it; `/health`'s `parts` is the catalogue, not the brand. A
+    denominator error at the top of a document about denominators.
+  - the cup conflicts were "12": `KNOWN_CUP_CONFLICTS` holds **13** entries over 12 labels.
+  - the device-noun figure was "238 with a ceiling of 158". The ceiling is **159**, the ledger
+    measures **158**, and 238 is a DIFFERENT detector (22 nouns against the ledger's 13).
+  - the mapper was described as dominated by a rule table **it does not contain**, and "111 of 123
+    harmless duplicates" is **110**.
+  - the catalogue-noise breakdown did not add up. It is **760 = 554 stale + 200 not-a-product + 6
+    real**, and a live query confirms **all 760 are still `unknown`** - so the 200 are a proposal,
+    not a run, which is the opposite of what the draft implied.
+
+  **Two instrument defects disclosed rather than left to be discovered.** The mapper's `contested`
+  array is TRUNCATED to 200 of ~465 with the total in a field beside it, so a conflict can exist
+  that the API cannot show. And `built_on_commit` reads `0309da6` in all 51 artifacts because the
+  builders record HEAD before the commit that carries them - the data IS current, proven by the
+  fields only `f806b65`'s builders write (`document_evidence`, `totals.fallback`,
+  `could_not_replay_total`), checked across all 51.
+
+  **And the brief nearly told the reviewer to stop.** It said "if your sha is not f806b65, stop" -
+  but committing the brief makes HEAD `fe84f62`, so its own existence would have failed its own
+  access check. Now worded as a floor ("fe84f62 or later; if f806b65 or earlier, STOP").
+
+  **Verified before shipping:** every endpoint named returns 200 (including the five new ones -
+  `/parts/<sku>/gaps`, `/stats/gaps`, `/facets`, `/docs/classes`, `/runs/<id>`); every report in the
+  appendix exists; `/v1/start/cisco` is 13 KB so the `head -c 4000` was removed; the ledger
+  `/summary` is ~9x smaller than the full form (23 KB vs 262 KB) and is now the instruction; and the
+  555-into-transceiver figure was confirmed from runs 975/976/983/984 (449+94+6+6), which also
+  re-proves the 651 total.
+
+  **NEXT:** the operator hands the brief to the reviewer. Nothing else moves until the verdict comes
+  back - the filling phase is gated on it, not on our own judgement.
+
 - **2026-09-12 (night) - Opus/PARENT. Round 3 items 5-9, round 4, and the two runs. The fallback residue falls 19.4% -> 6.9% and the arrangement phase is handed to the reviewer.**
 
   Eight agents (~4.7M), all read-only or non-committing; the parent merged every one. **THE MERGE WAS

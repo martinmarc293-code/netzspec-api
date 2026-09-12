@@ -1,6 +1,11 @@
 # NETZSPEC — Cisco cup-arrangement audit brief (round 6)
 
-**Build under audit: `f806b65`** · 12 September 2026 · `https://api.netzspec.com`
+**Code and artifacts under audit: `f806b65`.** The live build will read **`fe84f62` or later** —
+this document is itself a commit on top of the code, and a later docs-only commit may follow it.
+12 September 2026 · `https://api.netzspec.com`
+
+This document is also served from the API it describes, so you can re-read it there rather than
+from a paste: `/v1/report/cisco-arrangement-audit-brief-2026-09-12.md` (47 KB).
 
 This document is self-contained. It explains what the system is, what "arranging the cups"
 means, what has been built, every endpoint and what each field in it means, the eleven checks
@@ -57,7 +62,7 @@ say the arrangement is sound. That is why a vague answer is expensive: it costs 
 KEY=<your read key>
 # 1. THE BUILD. Report the version you read back to us. Do NOT assume it is current.
 curl -s https://api.netzspec.com/health
-# -> {"ok":true,"db":true,"version":"f806b65...","parts":91682,"disk":{...}}
+# -> {"ok":true,"db":true,"version":"fe84f62...","parts":91682,"disk":{...}}
 #    `parts` here is ALL 13 BRANDS. Cisco is 87,083 of it. Do not read it as Cisco's count.
 
 # 2. THE ENTRY POINT. It links every artifact and lists every committed report BY NAME.
@@ -70,9 +75,12 @@ curl -s -H "Authorization: Bearer $KEY" https://api.netzspec.com/v1/census/cisco
 
 Three rules about access, each of which has cost a round already:
 
-1. **Report the sha you read.** We will confirm it matches what we shipped. Round 4 was lost
-   entirely because a cached `/health` returned a two-build-old version and the audit proceeded
-   on it. If your sha is not `f806b65`, stop and tell us.
+1. **Report the sha you read, verbatim.** We will confirm it against what we shipped. Round 4 was
+   lost entirely because a cached `/health` returned a two-build-old version and the audit
+   proceeded on it — so this is the first thing to do and the first thing to report.
+   **`fe84f62…` or later is correct** (the schema work is `f806b65`; `fe84f62` adds this
+   document). **If it reads `f806b65` or anything earlier, STOP** — you are being served a cached
+   or un-deployed build and nothing else you read can be trusted. Tell us the sha and wait.
 2. **Use the report listing in `/v1/start/cisco`, not constructed report URLs.** Eight agents
    wrote reports this session; the listing is the only thing that knows what actually landed.
    Report URLs need the `.md` suffix: `/v1/report/<name>.md`.
