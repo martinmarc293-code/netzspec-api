@@ -40,61 +40,121 @@
    "^zoom$",
    "camera_zoom",
    "collab (12 Sep 2026): 'Zoom' ('4x digital zoom', '12x optical') is the camera's zoom factor, required of every collaboration camera. 8 occurrences in the cisco-datasheets inventory, unmapped until today. Scoped: in another category a bare 'Zoom' could be the Zoom Meetings interop row.",
-   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+   {
+    "only": [
+     "collaboration-endpoints",
+     "unified-communications",
+     "conferencing"
+    ]
+   }
   ],
   [
    "^poe support$",
    "poe_standard",
    "collab (12 Sep 2026): SPA500 phone sheets, 'Yes (both IEEE 802.3af and Cisco Prestandard)' — the PoE standard a phone draws on, required of phones, DECT bases and touch panels. 13 occurrences, unmapped until today.",
-   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+   {
+    "only": [
+     "collaboration-endpoints",
+     "unified-communications",
+     "conferencing"
+    ]
+   }
   ],
   [
    "^video resolution$",
    "max_resolution",
    "collab (12 Sep 2026): 'Video resolution' is the maximum resolution a camera or video endpoint delivers; required of cameras and video endpoints. 12 occurrences, unmapped until today (the samples are Small Business camera sheets, which is why it is scoped).",
-   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+   {
+    "only": [
+     "collaboration-endpoints",
+     "unified-communications",
+     "conferencing"
+    ]
+   }
   ],
   [
    "^video standards supported$",
    "video_codecs",
    "collab (12 Sep 2026): 'Video standards supported' ('H.264 AVC, H.265 H.263') — the same list 'Video standards' already writes to video_codecs. 6 occurrences, unmapped until today.",
-   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+   {
+    "only": [
+     "collaboration-endpoints",
+     "unified-communications",
+     "conferencing"
+    ]
+   }
   ],
   [
    "^codecs?( support)?$",
    "audio_codecs",
    "collab (12 Sep 2026): 'Codecs' ('OPUS, G.722, G.722.2, iSAC, G.711') and 'Codec support' ('G.711a, G.729a, iLBC') on phone sheets are AUDIO codecs — 8 + 5 occurrences, unmapped until today. Scoped: on a video sheet a bare 'Codec' is the video engine.",
-   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+   {
+    "only": [
+     "collaboration-endpoints",
+     "unified-communications",
+     "conferencing"
+    ]
+   }
   ],
   [
    "^microphone type$",
    "mic_type",
    "collab (12 Sep 2026): 'Microphone type' ('6 MEMS Mic integrated into the earbuds') on headset sheets; required of headsets. 6 occurrences, unmapped until today.",
-   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+   {
+    "only": [
+     "collaboration-endpoints",
+     "unified-communications",
+     "conferencing"
+    ]
+   }
   ],
   [
    "^microphone frequency response$",
    "mic_frequency_response",
    "collab (12 Sep 2026): headset sheets, '20 to 20 kHz'. 6 occurrences, unmapped until today. Optional cup.",
-   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+   {
+    "only": [
+     "collaboration-endpoints",
+     "unified-communications",
+     "conferencing"
+    ]
+   }
   ],
   [
    "^speaker (frequency response|bandwidth)$",
    "speaker_frequency_response",
    "collab (12 Sep 2026): 'Speaker bandwidth' ('20 Hz to 22 kHz') is the speaker's frequency response. 5 occurrences, unmapped until today. Optional cup.",
-   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+   {
+    "only": [
+     "collaboration-endpoints",
+     "unified-communications",
+     "conferencing"
+    ]
+   }
   ],
   [
    "^speaker impedance$",
    "speaker_impedance",
    "collab (12 Sep 2026): headset sheets, '32 Ohm'. 6 occurrences, unmapped until today. Optional cup.",
-   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+   {
+    "only": [
+     "collaboration-endpoints",
+     "unified-communications",
+     "conferencing"
+    ]
+   }
   ],
   [
    "^speaker size$",
    "speaker_size",
    "collab (12 Sep 2026): headset sheets, '9.2 mm'. 6 occurrences, unmapped until today. Optional cup.",
-   { "only": ["collaboration-endpoints", "unified-communications", "conferencing"] }
+   {
+    "only": [
+     "collaboration-endpoints",
+     "unified-communications",
+     "conferencing"
+    ]
+   }
   ],
   [
    "^gain$",
@@ -366,7 +426,13 @@
    "^frequency range$",
    "radio_bands",
    "wireless: 'Frequency range' on an antenna or AP sheet is the radio's operating span ('2.4 to 2.5 GHz', '5.150 to 5.925 GHz'). ADDED HERE, ABOVE THE GENERIC RULE, 12 Sep 2026 — the same shape as the transceiver rule directly above, and for the same reason. There was already a `^frequency range$` -> radio_bands rule in this file, 168 rules FURTHER DOWN, so it had never fired once: `^frequency range` -> input_freq comes first and takes all 32 occurrences as AC mains. Nothing was corrupted by that (input_freq is numeric in Hz with a mains band, so '2.4 to 2.5 GHz' was refused rather than stored) — the cost was a cup that could not be filled. Scoped to the three categories where a bare frequency span is a radio with near-certainty; interfaces-modules and routers are left to input_freq because both a cellular radio and a mains supply are plausible there, and a wrong reading is worse than a recorded gap.",
-   { "only": ["wireless", "meraki", "cloud-systems-management"] }
+   {
+    "only": [
+     "wireless",
+     "meraki",
+     "cloud-systems-management"
+    ]
+   }
   ],
   [
    "^nominal optical output wavelength",
@@ -630,7 +696,13 @@
    "^power( ?[(]w[)])?$",
    "tdp",
    "pdf-server: Matches both the unit-bearing 'Power (W)' and the bare 'Power' left behind when the second header row is lost. Parentheses written as character classes. SCOPED 12 Sep 2026, found by the mapper trace on its first run: this rule's own note says 'pdf-server' and it carried NO scope, so a bare 'Power' — 732 occurrences in the inventory, the second most contested label there is — became a CPU thermal design power on every kind of product. It is the `^spee *d$` -> drive_interface defect exactly, in a rule nobody had scoped. Measured: 15 tdp facts sit outside the three server categories and not one is a TDP — 8 access points at 'Power consumption: 15W max (802.3af)', 4 voice modules at '70.32W', a CRS chassis at 3,080 W, and two Secure Workload appliances holding a PSU RATING ('Redundant [1050 W] AC 50/60'). They are a rekey proposal, not a write. Scoped here to the three categories whose CPU tables the rule was written for; a bare 'Power' elsewhere now reaches the section-header sink below rather than a wrong cup, which is a recorded gap instead of a confident wrong value.",
-   { "only": ["servers-unified-computing", "hyperconverged-systems", "hyperconverged-infrastructure"] }
+   {
+    "only": [
+     "servers-unified-computing",
+     "hyperconverged-systems",
+     "hyperconverged-infrastructure"
+    ]
+   }
   ],
   [
    "^(maximum )?(allowable )?(input )?frequency range",
@@ -876,6 +948,55 @@
    }
   ],
   [
+   "^memory capacity$",
+   "memory_max",
+   "round-6 B6 (12 Sep 2026): 14 + 7 occurrences, and until today both went to `dram` -- the cup for INSTALLED memory -- while the sample values are \"32 DIMMs; up to 512 GB\" and \"12 GB (6 per GPU)\". That cell is a MAXIMUM, and a maximum in the installed-memory cup is two quantities in one place (term 6/7). Placed ABOVE rule 142 deliberately: 142 is the generic ^memory rule and it wins on order, not on fit.",
+   {
+    "only": [
+     "servers-unified-computing",
+     "hyperconverged-systems",
+     "hyperconverged-infrastructure",
+     "unified-communications",
+     "conferencing"
+    ]
+   }
+  ],
+  [
+   "^maximum memory speed$",
+   "memory_speed_max",
+   "round-6 B6 (12 Sep 2026): 6 occurrences, sample '3200 MT/s'. It was UNMAPPED, and it became visible because the memory_max rule above carries a (?! speed) lookahead to keep a speed out of a capacity cup -- which left the speed reaching nothing at all. Rules 13 and 34 only match the 'Highest DDR<n> DIMM Clock' spelling. A lookahead that excludes a label is only half a decision; the other half is where that label goes."
+  ],
+  [
+   "^number of cpus required$",
+   "cpus_required",
+   "round-6 B6: 3 occurrences, sample '2 CPUs required'. Same shape as the line above -- the ^number of cpus rule excludes it so a configuration requirement is not read as a socket count, and rule 66 (^cpus? required$) does not match this spelling, so it was reaching nothing."
+  ],
+  [
+   "^(?:maximum|max) memory(?! speed)",
+   "memory_max",
+   "round-6 B6: 'Maximum memory DDR3 ECC DRAM (data plane)' x7, '(control/services plane)' x7 and '(Combined)' x7 -- 21 occurrences, all unmapped. The negative lookahead keeps 'Maximum memory speed' (x6) away from this cup: that is memory_speed_max, which has its own rules at 13 and 34, and a speed in a capacity cup would be in band and wrong."
+  ],
+  [
+   "^processor sockets$",
+   "cpu_sockets_max",
+   "round-6 B6: 14 occurrences, unmapped, sample '4'. The cup is cpu_sockets_max because that is where the 246 facts are (see SUPERSEDED_KEYS: cpu_sockets merged INTO it, against the reviewer's stated direction, because the facts decide)."
+  ],
+  [
+   "^number of cpus(?! required)",
+   "cpu_sockets_max",
+   "round-6 B6: 'Number of CPUs' x4 plus two series-prefixed spellings, sample '4 Intel Xeon processor E7-4870 2.4-GHz CPUs'. The lookahead excludes 'Number of CPUs required' (x3), which rule 66 already routes to cpus_required -- a configuration requirement of an option card, not a socket count."
+  ],
+  [
+   "^dimm slots?$",
+   "dimm_slots",
+   "round-6 B6: FOUR occurrences, and that is the whole evidence base -- the other labels a DIMM-slot probe catches are USB flash-memory slots and a compact-flash slot cover. The cup is declared OPTIONAL for exactly this reason; the rule exists so the four land somewhere real instead of nowhere."
+  ],
+  [
+   "^pcie slots?$",
+   "pcie_slots",
+   "round-6 B6: 18 occurrences ('PCIe slots' x16, 'PCIe Slots' x2), unmapped. Deliberately NOT matching 'PCIe expansion' (x13) or 'Expansion slots' (x16), which rule 590 sends to expansion_io (a struct, the layout) -- a count beside a layout is defensible, a count stealing the layout's labels is term 6. Optional until the prose parses: the sample is '10 PCIe 2.0 slots available (total of 11 slots)'."
+  ],
+  [
    "^dram|^memory",
    "dram",
    ""
@@ -1034,7 +1155,15 @@
    "^(?:revised\\s+supported\\s+)?(?:wireless|wi-?fi)\\s+standards?$|^radio\\s+protocols?$",
    "wifi_generation",
    "WLAN. ANCHORED AND SCOPED 12 Sep 2026 (reviewer round 3, §4 item 3). The rule was an UNANCHORED alternation on 'wi-fi 6|802.11ax|802.11ac|…', so it matched any label CONTAINING a generation name: 28 inventory labels, 119 occurrences, of which only 8 ask the product what standard it speaks ('Wireless Standards' 4, 'Wireless standards' 1, 'Revised supported Wi-Fi standards' 3). The other 111 are a FEATURE MATRIX naming the generation in the row heading and answering Yes/No/NA per model — 'Wi-Fi 6 dashboard' 7, 'Passpoint support on all 802.11ac Wave 2 access points' 4, 'Air Time Fairness on 802.11ac Wave 1 Access Points in Mesh Mode' 4, '802.11ac Wave 2 capabilities' 2 — plus 'LAN [802.11ac]' 37, which is an interface row. They produced the 62 non-generation values measured under this key ('2X2 MIMO' 18, 'NA' 14, 'No' 11, '–' 4, 'Yes' 3, '4' 2). The AP-sheet radio headings ('Wi-Fi 6 and Wi-Fi 6E (802.11ax)' 8, 'Tri-radio Wi-Fi 7 (2.4, 5, and 6 GHz)' 2) are left UNMAPPED rather than given a cup by guess: their cells are 802.11ax feature lists, and an unmapped label is a named gap the inventory already reports. Scoped to the categories that hold a radio; the value side is now guarded independently by the wifi_generation domain.",
-   { "only": ["wireless", "meraki", "cloud-systems-management", "interfaces-modules", "routers"] }
+   {
+    "only": [
+     "wireless",
+     "meraki",
+     "cloud-systems-management",
+     "interfaces-modules",
+     "routers"
+    ]
+   }
   ],
   [
    "spatial streams|number of spatial streams|mu-mimo streams",
@@ -1855,7 +1984,14 @@
    "^frequency$",
    "radio_bands",
    "wireless: Values name the operating bands (\"Dual concurrent radios (2.4 and 5 GHz)\", \"4.9 GHz, 5.1 to 6.9 GHz\"). SCOPED 12 Sep 2026 (reviewer round 3, §4 item 3): a bare \"Frequency\" is 175 occurrences in the inventory and on a POWER table it is the AC mains frequency — N55-PAC-1100W, NXA-PAC-1100W and NXA-PHV-1100W, three 1,100 W power supplies, each hold radio_bands = \"47 to 63 Hz\", and N55-PDC-1100W holds \"–\". Scoped to the categories where a bare Frequency row is a radio; `switches`, where all four defects sit, is out. The scope is only half the fix, because every category has power tables: specNormalize VALUE_REFUSALS refuses a radio_bands value in bare Hz everywhere.",
-   { "only": ["wireless", "meraki", "cloud-systems-management", "interfaces-modules"] }
+   {
+    "only": [
+     "wireless",
+     "meraki",
+     "cloud-systems-management",
+     "interfaces-modules"
+    ]
+   }
   ],
   [
    "^antenna$",
@@ -2156,7 +2292,11 @@
    "^type$",
    "modulation_format",
    "optical-networking: In this category every sample is a modulation format (CP-DQPSK, DP-16QAM, PM-BPSK) or the modulator technology; it sits under the [heading]. SCOPED 12 Sep 2026 (reviewer round 3, §4 item 2) — THE NOTE SAID 'in this category' AND THE RULE HAD NO SCOPE, and a bare 'Type' means something different on every sheet. Of the 41 facts it produced, 4 are in optical-networking and 37 are not: 16 in `transceiver` naming the optical standard ('100GBASE-LR4 1310 nm SMF', '40G BASE SR4'), 14 in `wireless` and 1 in `routers` naming an antenna's radiation pattern ('Omnidirectional', 'Directional', 'Omnidirectional, white'), 6 in `servers-unified-computing` naming a server configuration or a PSU input ('Performance Optimized', 'Capacity & I/O Optimized', 'AC', 'DC'). The 37 are a retraction proposal in docs/reports/schema-dictionary-2026-09-12.md; the antenna values have a cup (`antenna_type`) and a proposed rule there, not taken here because a bare 'Type' on an AP sheet is not an antenna.",
-   { "only": ["optical-networking"] }
+   {
+    "only": [
+     "optical-networking"
+    ]
+   }
   ],
   [
    "^optical transmitter: ?type$",
@@ -3702,7 +3842,11 @@
    "^Type$",
    "modulation_format",
    "optical-networking: label cited as evidence for the field. SCOPED 12 Sep 2026, same reason as the earlier ^type$ rule — see it for the measurement.",
-   { "only": ["optical-networking"] }
+   {
+    "only": [
+     "optical-networking"
+    ]
+   }
   ],
   [
    "^Optical\\s+Transmitter:\\s+Type$",
@@ -6625,31 +6769,55 @@
    "^rack[- ]?mounting$",
    "mounting",
    "modules-misc 12 Sep 2026: 19 occurrences ('Rack-mounting' 12, 'Rack mounting' 7), values '19- or 23-in. (483- or 584-mm) EIA rack-mounting' and '19-in. default 21- and 23-in. adapters available'. `mounting` is required of every meraki box and is type 's', so the prose value is accepted as it stands. SCOPED: outside these three categories the same label sits over a rack-unit figure on server sheets, and 'Rack mountable' (8 occurrences, values 'Yes...') already maps to mounting through a different rule. ANCHORED AT BOTH ENDS on purpose — 'Rack-mounting brackets' (13) carries the bracket PIDs (N540-RCKMT-19-ACA), which are a compat relation and not this field; it is mapped to __compat below.",
-   { "only": ["interfaces-modules", "meraki", "data-center-networking"] }
+   {
+    "only": [
+     "interfaces-modules",
+     "meraki",
+     "data-center-networking"
+    ]
+   }
   ],
   [
    "^rack[- ]?mount(ing)? brackets$",
    "__compat",
    "modules-misc 12 Sep 2026: 13 occurrences, and the values are PART NUMBERS of the kits that fit ('N540-RCKMT-19-ACA N540-RCKMT-23-ACA', 'Accessory kit with 19 inch Type 1 rack mount'). That is a compatibility RELATION (R3), not a spec field. Named rather than left unmapped so the next generic mounting rule cannot file a list of PIDs as this box's mounting method — the same defect as 'Network module' yielding a module list into module_slots.",
-   { "only": ["interfaces-modules", "meraki", "data-center-networking"] }
+   {
+    "only": [
+     "interfaces-modules",
+     "meraki",
+     "data-center-networking"
+    ]
+   }
   ],
   [
    "^cisco smart serial cabling \\[length\\]$",
    "cable_length",
    "modules-misc 12 Sep 2026: 10 occurrences, value '10 ft (3 m)'. `cable_length` is required of the 97 `cable`-kind parts in interfaces-modules and only 3 hold a value. The sibling columns of the same table ('[Cable type]' -> V.35 DTE, '[Connector type]' -> Male) are deliberately NOT mapped: one is a media type this profile does not require and the other has no cup. SCOPED to interfaces-modules, where the smart-serial cables live.",
-   { "only": ["interfaces-modules"] }
+   {
+    "only": [
+     "interfaces-modules"
+    ]
+   }
   ],
   [
    "^ssl throughput$|^tls \\(hardware decryption\\)( ?[0-9]+)?$",
    "tls_throughput",
    "security-r6 12 Sep 2026: tls_throughput is REQUIRED of the firewall shapes from today and its only rule was '^tls( decryption)?( throughput)?$|^ssl decryption throughput$' - four spellings, all starting with TLS, so the Secure Firewall 4200 column 'TLS (Hardware Decryption) 2' (4 occurrences, '10 Gbps' | '11 Gbps' | '12 Gbps', sample SKUs SM-40 / SM-48 / SM-56) reached nothing. THE SAMPLE SKUS DECIDED THE REST OF THE RULE, and they cut it in half: 'SSL bulk encryption throughput (Gbps)' (12) names Alteon D-5424SL / D-9800S - RADWARE, in a comparison table, not a Cisco figure - and its cell is a bare '30' the Gbit/s unit refuses anyway; 'SSL Throughput' (4, 'Up to 3.3 Gbps') names 'Cisco ACE Application Control Engine', a load balancer; 'Performance: SSL throughput' and 'SSL Performance: SSL throughput' (2 + 2) are section paths over the same ACE figure. None of the four is evidence that a Cisco SECURITY datasheet publishes the row, so none is aliased. '^ssl throughput$' is kept as the bare synonym and scoped to security, where no ACE or Alteon part lives. REFUSED ON PURPOSE, each checked against its own samples: 'SSL performance' 20, 'SSL performance *' 12, 'SSL performance **' 8 and 'SSL/TLS Decryption' 6 are section HEADERS whose cell repeats the label; 'SSL Transactions Per Second' 4 and 'SSL/TLS Connections per Second' 5 are a RATE, not a throughput, and the second already maps to ssl_connections_per_sec; 'SSL acceleration' and 'Fast: SSL acceleration' are prose.",
-   { "only": ["security"] }
+   {
+    "only": [
+     "security"
+    ]
+   }
   ],
   [
    "^concurrent active endpoints supported by a dedicated psn \\(cisco ise node only has psn persona\\.?\\)$",
    "max_endpoints",
    "security-r6 12 Sep 2026: ISE's own sizing figure, and the earlier round recorded it as unavailable ('Endpoints' 25 is ambiguous, 'Included ISE endpoint licenses' 11 is not a spec) after reading those two labels and not these. Four unmapped labels, 12 occurrences, and their sample SKUs are the parts themselves: 'Cisco Secure Network Server 3815 / 3855 / 3895' and '3715 / 3755 / 3795', values '50,000' and '100,000'. Both SNS datasheets are LINKED (16 and 47 facts already extracted from them), so this lands on real appliances at zero network cost. The trailing-full-stop twin of each label is matched by '\\.?' - the two sheets punctuate the same label differently. THE SHARED-PSN ROW IS REFUSED, and that is the point of anchoring on 'a dedicated psn': 'Concurrent active endpoints supported by a shared PSN (Cisco ISE node has multiple personas)' carries 25,000/50,000 for the SAME appliance, so admitting both would put two different measurements in one cup - the reason ISE was taken out of concurrent_sessions on 12 Sep. max_endpoints stays `opt` until a fact lands (no enabled source has been SEEN to publish it); promote-required earns the requirement then.",
-   { "only": ["security"] }
+   {
+    "only": [
+     "security"
+    ]
+   }
   ]
  ]
 }

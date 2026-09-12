@@ -28,6 +28,7 @@ import { kindQuestionSet, slotsAtNothingKnown, profileHash, LEDGER_KINDS } from 
 import { PROFILES } from "../src/core/fieldSchema.js";
 import { NORM_VERSION } from "../src/core/specNormalize.js";
 import { mapLabel } from "../src/core/deepSpecMap.js";
+import { listSources } from "../src/api/queries/sources.js";
 
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
 
@@ -247,22 +248,77 @@ async function main(): Promise<void> {
        AND f.superseded_by IS NULL AND f.method NOT LIKE 'retracted:%' GROUP BY 1, 2`, [vendor, category])).rows) {
     byMethod.set(r.k, { ...(byMethod.get(r.k) ?? {}), [r.m]: Number(r.n) });
   }
+  // ---- THE §8.2 "SEEN" RULE (round-6 reviewer, 12 Sep 2026) ---------------------------------------------
+  // Two claims had one field between them. `observed_fill_path` said "a tap exists" — a source listed
+  // as seen, a label that maps here, or the part's own name — and a reader took it to mean "the tap
+  // has run". The reviewer found the gap from both ends: `cisco-datasheet-pdf` is DISABLED with
+  // facts_current 0 and was cited `basis: seen`, and transceiver.reach_max had 147 label occurrences,
+  // observed_fill_path TRUE, and ZERO holders. So:
+  //
+  //   basis "seen"         now also requires the source to be ENABLED with facts_current > 0. A source
+  //                        that is off, or has never produced a fact, cannot have been seen doing
+  //                        anything. It becomes "seen-but-inactive" and does not count as a tap.
+  //   observed_filled      NEW, beside observed_fill_path rather than replacing it: at least one OWN,
+  //                        NON-SEED fact under this key, on any hardware part of this vendor. Kept
+  //                        separate on purpose — "never name an output field for the thing you wish it
+  //                        measured", and redefining observed_fill_path would have silently changed
+  //                        what every earlier read of these ledgers said.
+  //
+  // `enabled` and `facts_current` come from the API's own listSources() and not from a re-derivation:
+  // its facts_current is a four-way union over methods, documents and evidence rows, and rebuilding it
+  // here would be a second check that disagrees with the one /v1/sources publishes.
+  const sourceState = new Map((await listSources()).map((s) => [s.slug, { enabled: s.enabled, facts_current: s.facts_current }]));
+  // ---- A DERIVATION IS A FILL PATH, and the ledger must be able to see one (12 Sep 2026) -----------------
+  // `observed_fill_path` knew three taps: an active source, a mapped label, the part's own name through
+  // stored description_mining facts. A pure function that reads the answer out of data the part already
+  // has is a fourth, and without this table the ledger reported "NO FILL PATH" for three breakout-cable
+  // cups that are answered for 51 of 51 parts — which reads exactly like the round-6 B2 defect and is its
+  // opposite. Each entry names the function, the population it was validated over, and its measured
+  // coverage and precision, so the claim is checkable rather than asserted.
+  //
+  // COVERAGE DECIDES REQUIRED, and that is why `layer` is listed and still OPTIONAL: its derivation is
+  // exact (precision 1.000 over the 1,054 seeds) but speaks for 10.1% of switches, and a cup required of
+  // 4,931 parts on a path that reaches 500 is still mostly a gap nobody can close.
+  const DERIVED_FILL_PATHS: Record<string, { by: string; validated: string }> = {
+    form_factor_a: { by: "src/core/breakoutEnds.ts breakoutEndsFor", validated: "51 of 51 breakout-cable parts; SKU table agrees with the text reading on all 32 that have text" },
+    form_factor_b: { by: "src/core/breakoutEnds.ts breakoutEndsFor", validated: "51 of 51 breakout-cable parts; SKU table agrees with the text reading on all 32 that have text" },
+    breakout_count: { by: "src/core/breakoutEnds.ts breakoutEndsFor", validated: "51 of 51 breakout-cable parts; SKU table agrees with the text reading on all 32 that have text" },
+    layer: { by: "src/core/layerFromSku.ts", validated: "precision 1.000 over the 1,054 seeds (276 agree, 0 disagree); speaks for 500 of 4,931 switches (10.1%) — which is why the cup is optional" },
+  };
+  const ownNonSeed = new Set((await pool.query<{ k: string }>(`
+    SELECT DISTINCT f.field_key k FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id
+     WHERE v.slug = $1 AND p.product_class = 'hardware' AND p.retired_at IS NULL
+       AND f.superseded_by IS NULL AND f.inherited_from IS NULL
+       AND f.method NOT LIKE 'retracted:%' AND f.method <> 'hexcat_seed'`, [vendor])).rows.map((r) => r.k));
   const evidence = (key: string) => {
     const lm = labelsFor.get(key) ?? new Map<string, number>();
-    const srcs = sourcesFor(key);
+    // §8.2: a "seen" source that is disabled or has never produced a fact is not a tap.
+    const srcs = sourcesFor(key).map((s) => {
+      const st = sourceState.get(s.source);
+      const active = st !== undefined && st.enabled && st.facts_current > 0;
+      return s.basis === "seen" && !active
+        ? { ...s, basis: "seen-but-inactive", enabled: st?.enabled ?? false, facts_current: st?.facts_current ?? 0 }
+        : { ...s, enabled: st?.enabled ?? false, facts_current: st?.facts_current ?? 0 };
+    });
     const methods = byMethod.get(key) ?? {};
     const labelOcc = [...lm.values()].reduce((a, b) => a + b, 0);
     const prose = (methods["description_mining"] ?? 0) > 0;
+    const activeSeen = srcs.some((s) => s.basis === "seen");
+    const derived = DERIVED_FILL_PATHS[key];
     return {
       key,
       sources: srcs,
       label_occurrences: labelOcc,
       labels: [...lm].sort((a, b) => b[1] - a[1]).slice(0, 6).map(([label, n]) => ({ label, n })),
       parts_holding_by_method: methods,
-      // A fill path a crawler can walk: a source SEEN publishing the key, a datasheet label that maps to it,
-      // or the part's own name (description_mining). The operator seed is a source, but not one that grows.
-      observed_fill_path: srcs.some((s) => s.basis === "seen") || labelOcc > 0 || prose,
-      seed_only: !(srcs.some((s) => s.basis === "seen") || labelOcc > 0 || prose) && (methods["hexcat_seed"] ?? 0) > 0,
+      ...(derived ? { derived_by: derived.by, derivation_validated: derived.validated } : {}),
+      // A TAP EXISTS: an ACTIVE source seen publishing the key, a datasheet label that maps to it, the part's
+      // own name (description_mining), or a validated derivation. The operator seed is a source, not one that grows.
+      observed_fill_path: activeSeen || labelOcc > 0 || prose || derived !== undefined,
+      // THE TAP HAS RUN: at least one own, non-seed fact under this key somewhere in this vendor's hardware.
+      // A label with no holder is a path nobody has walked — transceiver.reach_max is the case that proves it.
+      observed_filled: ownNonSeed.has(key),
+      seed_only: !(activeSeen || labelOcc > 0 || prose || derived !== undefined) && (methods["hexcat_seed"] ?? 0) > 0,
     };
   };
 

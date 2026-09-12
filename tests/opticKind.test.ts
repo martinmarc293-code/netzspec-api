@@ -73,10 +73,40 @@ eq("an adapter is not a module", (OPT_MODULE as readonly string[]).includes("ada
 eq("an accessory is not a module", (OPT_MODULE as readonly string[]).includes("accessory"), false);
 eq("empty SKU fails safe to pluggable", opticKind(""), "pluggable");
 
+// --- breakout-cable (round-6 B4c, 12 Sep 2026) ----------------------------------------------------------
+// A cable joining two DIFFERENT cages. Validated against every live Cisco transceiver part: 51 caught, and
+// 0 missed of the 27 parts whose own form_factor fact names two cages. Every positive is a real SKU.
+for (const sku of [
+  "QSFP-4SFP25G-CU1.5M", "QSFP-4SFP10G-CU5M", "QSFP-4SFP25-CU1M", "QSFP-4X10G-AOC2M", "QSFP-4X10G-AC10M",
+  "Q-4SFP25G-CU1.5M",
+  // the QSFP-DD to 2xQSFP56 fan-out, which a 4SFP/4X-only rule missed
+  "QDD-2Q200-CU3M", "QDD-2Q200-CI2M",
+  // length-generic SKUs: the length is a literal x ("length x - 1m to 10m")
+  "QSFP-4X10G-AOCxM", "QSFP-4X10G-ACxM",
+  // the spare suffix must not hide it
+  "QSFP-4SFP10G-CU4M=",
+]) eq(`${sku} is a breakout cable`, opticKind(sku), "breakout-cable");
+// THE REFUSALS ARE THE POINT. Each of these carries the fan-out marker and is a real multi-lane PLUGGABLE
+// OPTIC, not a cable. A rule on the fan-out alone would take all of them and tell each one it has no form
+// factor. What separates them is the second marker — no -CU/-AOC/-AC/-CI length suffix.
+for (const sku of [
+  "QSFP-4X10G-LR-S", "QSFP-4X10G-LR-S=", "QSFP-4X10G-LR=",
+  "QDD-4X100G-FR-S", "QDD-4X100G-LR-S", "QDD-8X100G-FR", "QDD-2X400G-FR4",
+]) eq(`${sku} is a multi-lane OPTIC, not a breakout cable`, opticKind(sku), "pluggable");
+// SABOTAGE: a straight (non-breakout) DAC must not be taken either — it has a cable suffix and no fan-out.
+eq("SABOTAGE a straight QSFP DAC is not a breakout", opticKind("QSFP-H40G-CU3M"), "pluggable");
+eq("SABOTAGE a straight SFP DAC is not a breakout", opticKind("SFP-H10GB-CU3M"), "pluggable");
+// SABOTAGE: the CVR- reverse adapters carry fan-out words and are adapters, which run first.
+eq("SABOTAGE CVR-4SFP10G-QSFP stays an adapter", opticKind("CVR-4SFP10G-QSFP"), "adapter");
+eq("a breakout cable is not a module (it is asked two ends, not one form factor)",
+  (OPT_MODULE as readonly string[]).includes("breakout-cable"), false);
+eq("a breakout cable has no fixed wavelength", (OPT_FIXED_WAVELENGTH as readonly string[]).includes("breakout-cable"), false);
+
 // every kind the type names is reached by at least one catalogue SKU
 for (const k of ["pluggable", "bidi", "tunable", "adapter", "accessory"]) {
   eq(`kind "${k}" is reached by a catalogue SKU`, CASES.some(([, w]) => w === k), true);
 }
+eq(`kind "breakout-cable" is reached by a catalogue SKU`, opticKind("QSFP-4SFP25G-CU1.5M"), "breakout-cable");
 
 lines.unshift(`    optic kind: ${passed} passed, ${failed} missed (${REFUSALS.length} refusals, 2 ordering cases)`);
 console.log(lines.join("\n"));

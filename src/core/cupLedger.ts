@@ -36,7 +36,7 @@ import { NAME_ONLY_KINDS as MECH, UCS_NAME_ONLY_KINDS as UCS_EXTRA } from "./nam
 /** Every kind a category's axis can name — including kinds no part holds today, which still have a question set. */
 export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   switches: [...SW_BOX, ...SW_PART, ...MECH],
-  transceiver: [...(["pluggable", "bidi", "tunable", "adapter", "accessory"] satisfies OpticKind[]), ...MECH],
+  transceiver: [...(["pluggable", "bidi", "tunable", "adapter", "accessory", "breakout-cable"] satisfies OpticKind[]), ...MECH],
   // wireless (12 Sep 2026)
   wireless: [...WL_KINDS, ...MECH],
   // servers (12 Sep 2026): all three categories derive their kind with ucsKind (partKind.ts).

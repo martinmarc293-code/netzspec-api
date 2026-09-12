@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "video",
  "profile_hash": "5f4a1cdf6e29f44c",
- "built_on_commit": "b7a373a",
+ "built_on_commit": "5c07a21",
  "norm_version": "1.6.2",
  "declared_fields": 399,
  "gap_states": {
@@ -99,22 +99,30 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "meraki",
        "class": "vendor-page",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 1089
       },
       {
        "source": "hpe-quickspecs",
        "class": "vendor-spec-sheet",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 1773
       }
      ],
      "label_occurrences": 1278,
@@ -146,6 +154,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -154,17 +163,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "hpe-quickspecs",
        "class": "vendor-spec-sheet",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 1773
       }
      ],
      "label_occurrences": 547,
@@ -198,6 +213,7 @@
       "html_table": 65
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -206,17 +222,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "provantage",
        "class": "reseller-spec-sheet",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 860,
@@ -248,6 +270,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -256,12 +279,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 36,
@@ -277,6 +304,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": false,
      "seed_only": false
     },
     {
@@ -285,17 +313,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "hpe-quickspecs",
        "class": "vendor-spec-sheet",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 1773
       }
      ],
      "label_occurrences": 861,
@@ -330,6 +364,7 @@
       "html_table": 55
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -338,22 +373,30 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "hpe-quickspecs",
        "class": "vendor-spec-sheet",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 1773
       },
       {
        "source": "router-switch",
        "class": "reseller-spec-sheet",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 21
       }
      ],
      "label_occurrences": 1061,
@@ -385,6 +428,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -809,17 +853,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "provantage",
        "class": "reseller-spec-sheet",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 751,
@@ -853,6 +903,7 @@
       "html_table": 26
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -861,22 +912,30 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "meraki",
        "class": "vendor-page",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 1089
       },
       {
        "source": "hpe-quickspecs",
        "class": "vendor-spec-sheet",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 1773
       }
      ],
      "label_occurrences": 1278,
@@ -908,6 +967,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -916,17 +976,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "hpe-quickspecs",
        "class": "vendor-spec-sheet",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 1773
       }
      ],
      "label_occurrences": 547,
@@ -960,6 +1026,7 @@
       "html_table": 65
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -968,17 +1035,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "provantage",
        "class": "reseller-spec-sheet",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 860,
@@ -1010,6 +1083,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -1018,17 +1092,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "hpe-quickspecs",
        "class": "vendor-spec-sheet",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 1773
       }
      ],
      "label_occurrences": 861,
@@ -1063,6 +1143,7 @@
       "html_table": 55
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -1071,22 +1152,30 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "hpe-quickspecs",
        "class": "vendor-spec-sheet",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 1773
       },
       {
        "source": "router-switch",
        "class": "reseller-spec-sheet",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 21
       }
      ],
      "label_occurrences": 1061,
@@ -1118,6 +1207,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -1542,17 +1632,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "provantage",
        "class": "reseller-spec-sheet",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 751,
@@ -1586,6 +1682,7 @@
       "html_table": 26
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -1594,22 +1691,30 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "meraki",
        "class": "vendor-page",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 1089
       },
       {
        "source": "hpe-quickspecs",
        "class": "vendor-spec-sheet",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 1773
       }
      ],
      "label_occurrences": 1278,
@@ -1641,6 +1746,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -1649,17 +1755,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "hpe-quickspecs",
        "class": "vendor-spec-sheet",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 1773
       }
      ],
      "label_occurrences": 547,
@@ -1693,6 +1805,7 @@
       "html_table": 65
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -1701,17 +1814,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "provantage",
        "class": "reseller-spec-sheet",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 860,
@@ -1743,6 +1862,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -1751,17 +1871,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "hpe-quickspecs",
        "class": "vendor-spec-sheet",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 1773
       }
      ],
      "label_occurrences": 861,
@@ -1796,6 +1922,7 @@
       "html_table": 55
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -1804,22 +1931,30 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "hpe-quickspecs",
        "class": "vendor-spec-sheet",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 1773
       },
       {
        "source": "router-switch",
        "class": "reseller-spec-sheet",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 21
       }
      ],
      "label_occurrences": 1061,
@@ -1851,6 +1986,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -2275,12 +2411,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 213,
@@ -2314,6 +2454,7 @@
       "description_mining": 400
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -2322,12 +2463,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 126,
@@ -2361,6 +2506,7 @@
       "description_mining": 318
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -2789,12 +2935,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 213,
@@ -2828,6 +2978,7 @@
       "description_mining": 400
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -2836,12 +2987,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 126,
@@ -2875,6 +3030,7 @@
       "description_mining": 318
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -3303,12 +3459,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 220,
@@ -3340,6 +3500,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -3769,12 +3930,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 220,
@@ -3806,6 +3971,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -3814,12 +3980,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 30,
@@ -3839,6 +4009,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": false,
      "seed_only": false
     },
     {
@@ -3847,12 +4018,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 213,
@@ -3886,6 +4061,7 @@
       "description_mining": 400
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -4313,12 +4489,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 36,
@@ -4334,6 +4514,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": false,
      "seed_only": false
     }
    ],
@@ -4763,12 +4944,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 68,
@@ -4800,6 +4985,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": false,
      "seed_only": false
     },
     {
@@ -4808,12 +4994,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 143,
@@ -4839,6 +5029,7 @@
       "description_mining": 690
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -5267,12 +5458,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 385,
@@ -5304,6 +5499,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -5733,12 +5929,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 385,
@@ -5770,6 +5970,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -6199,17 +6400,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "arista",
        "class": "vendor-page",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 187,
@@ -6233,6 +6440,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -6241,17 +6449,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "provantage",
        "class": "reseller-spec-sheet",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 501,
@@ -6285,6 +6499,7 @@
       "description_mining": 20
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -6293,12 +6508,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 385,
@@ -6330,6 +6549,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -6338,12 +6558,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 2,
@@ -6355,6 +6579,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -6781,17 +7006,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "arista",
        "class": "vendor-page",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 187,
@@ -6815,6 +7046,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -6823,12 +7055,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 385,
@@ -6860,6 +7096,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -7288,17 +7525,23 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "provantage",
        "class": "reseller-spec-sheet",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 61,
@@ -7314,6 +7557,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -7322,12 +7566,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 385,
@@ -7359,6 +7607,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -7787,12 +8036,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 385,
@@ -7824,6 +8077,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],
@@ -9095,22 +9349,30 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "profile-required-only"
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       },
       {
        "source": "meraki",
        "class": "vendor-page",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 1089
       },
       {
        "source": "provantage",
        "class": "reseller-spec-sheet",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 142,
@@ -9144,6 +9406,7 @@
       "html_table": 24
      },
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     },
     {
@@ -9152,12 +9415,16 @@
       {
        "source": "cisco-datasheets",
        "class": "datasheet-html",
-       "basis": "seen"
+       "basis": "seen",
+       "enabled": true,
+       "facts_current": 23375
       },
       {
        "source": "cisco-datasheet-pdf",
        "class": "datasheet-pdf",
-       "basis": "seen"
+       "basis": "seen-but-inactive",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 385,
@@ -9189,6 +9456,7 @@
      ],
      "parts_holding_by_method": {},
      "observed_fill_path": true,
+     "observed_filled": true,
      "seed_only": false
     }
    ],

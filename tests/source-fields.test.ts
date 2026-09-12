@@ -153,10 +153,17 @@ function inventoryPath(): string | null {
   // no longer required, so "it now has a source" is not a claim worth asserting about it, and
   // keeping it here made this check red for the opposite of a regression. The rest of finding 5
   // stands and is still asserted.
+  //
+  // `layer` LEFT THIS LIST ON 12 Sep 2026, by exactly the mgmt_ports precedent above. It was
+  // demoted to `opt` in switches (round-6 B2) because it had NO fill path: 1,054 operator seeds and
+  // nothing else, the only required cup in the catalogue whose observed_fill_path was false. Once
+  // it was optional, build-source-fields stopped adding it on a profile's say-so, and this check
+  // went red — for the removal of a circular claim, which is the opposite of a regression. Its
+  // real fill path is src/core/layerFromSku.ts, measured at precision 1.000 over the seeds.
   check("committed file: the fields finding 5 named as uncoverable now have a source",
-    (["uplink_ports", "heat_dissipation", "power_typical", "layer", "psu_config"] as const).every((f) => capableSources(committed, "switches", f, enabled).length > 0)
+    (["uplink_ports", "heat_dissipation", "power_typical", "psu_config"] as const).every((f) => capableSources(committed, "switches", f, enabled).length > 0)
     && capableSources(committed, "routers", "router_throughput", enabled).length > 0,
-    Object.fromEntries((["uplink_ports", "heat_dissipation", "power_typical", "layer", "psu_config"] as const).map((f) => [f, capableSources(committed, "switches", f, enabled)])));
+    Object.fromEntries((["uplink_ports", "heat_dissipation", "power_typical", "psu_config"] as const).map((f) => [f, capableSources(committed, "switches", f, enabled)])));
 
   sabotages++;
   // THE SABOTAGE KEY IS DERIVED, NOT NAMED. It was hardcoded to `mgmt_ports` until 10 Sep 2026,

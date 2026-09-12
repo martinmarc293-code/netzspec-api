@@ -37,7 +37,10 @@ type Trace = {
   rules_pointing_at_a_retired_key: unknown[];
   rules_pointing_at_a_key_not_in_the_dictionary: unknown[];
 };
-const files = fs.existsSync(DIR) ? fs.readdirSync(DIR).filter((f) => f.endsWith(".json")) : [];
+// `.contested.json` is the uncapped sidecar the builder writes beside each trace (round-6 §10.2) — the
+// full contested list and nothing else, so it has no `unreachable`. Globbing it in crashed this suite on
+// its first run after the sidecars existed, which is the same exclusion the /v1/mapper route needed.
+const files = fs.existsSync(DIR) ? fs.readdirSync(DIR).filter((f) => f.endsWith(".json") && !f.endsWith(".contested.json")) : [];
 check("the committed traces exist", files.length > 0, `data/mapper holds ${files.length} files`);
 const traces: Trace[] = files.map((f) => JSON.parse(fs.readFileSync(path.join(DIR, f), "utf8")));
 
@@ -85,20 +88,69 @@ const traces: Trace[] = files.map((f) => JSON.parse(fs.readFileSync(path.join(DI
 // Frozen as a table with its measured size, the way the cross-category exceptions table is: a new
 // entry means a new conflict and must be read, and a disappearing entry means one was resolved.
 // Nothing here is asserted to be CORRECT — only to be the known list.
-const KNOWN_CUP_CONFLICTS: Record<string, { wants: string; wins: string; occurrences: number }> = {
-  "Compliance|331": { wants: "certifications", wins: "ieee_standards", occurrences: 121 },
-  "Compliance|425": { wants: "standard", wins: "ieee_standards", occurrences: 121 },
-  "Frequency range|223": { wants: "radio_bands", wins: "input_freq", occurrences: 32 },
-  "Output holdup time|622": { wants: "output_holdup_time", wins: "holdup_time", occurrences: 46 },
-  "Height|1269": { wants: "height", wins: "dimensions", occurrences: 45 },
-  "Cabling type|1168": { wants: "standard", wins: "media", occurrences: 38 },
-  "Width|215": { wants: "dimensions", wins: "width", occurrences: 35 },
-  "Integrated interface|588": { wants: "data_rate", wins: "ports", occurrences: 11 },
-  "Integrated interfaces|588": { wants: "data_rate", wins: "ports", occurrences: 9 },
-  "Power and cooling|592": { wants: "psu_config", wins: "psu_options", occurrences: 18 },
-  "Data rate|1169": { wants: "data_rate", wins: "max_data_rate", occurrences: 10 },
-  "Color|1230": { wants: "color", wins: "jacket_color", occurrences: 9 },
-  "Signal output power range|1075": { wants: "tx_power", wins: "total_output_power", occurrences: 9 },
+/**
+ * KEYED ON `label|wants`, NOT ON THE RULE INDEX -- changed 12 Sep 2026, and the reason is worth the
+ * line. It used to be `label|index`, so INSERTING AN ALIAS RULE ANYWHERE ABOVE ONE OF THESE SHIFTED
+ * EVERY KEY and the test failed with a list of NEW and RESOLVED conflicts that were neither: the
+ * same thirteen rules, renumbered. Eight rules went in above index 142 for round-6 B6 and shifted
+ * all thirteen by eight.
+ *
+ * A frozen table has to be keyed on something that survives an edit elsewhere in the file it
+ * describes. `label|wants` is unique across all thirteen (Compliance appears twice and wants two
+ * different cups; the two "Integrated interface(s)" spellings are two labels), and it says what the
+ * conflict IS rather than where it currently sits. The index is still reported in the failure
+ * message, because that is what a reader needs in order to go and look.
+ */
+/**
+ * TWENTY-SIX, NOT THIRTEEN (12 Sep 2026, round-6 reviewer §5 and §8.3). This table was frozen from the
+ * top 200 contested labels the main trace carries, and the reviewer's objection was exact: "the
+ * 13-conflict freeze makes the other 19 invisible by construction". It proved itself the same day. When
+ * contested entries with no winner stopped being counted (they are unmapped, not contested), slots opened
+ * in the visible 200, a real 7-occurrence contest crossed the boundary, and this test reported it as NEW —
+ * a conflict that had existed all along, surfacing only because a cutoff moved.
+ *
+ * So the scan reads the UNCAPPED `.contested.json` sidecars, and this table is every conflict there is:
+ * 26 over the full lists. A frozen list that changes when an unrelated count shifts is not frozen.
+ *
+ *   THE ORIGINAL 13   with the reviewer's rulings in the round-6 report §5.
+ *   4 CASE TWINS      the same rule and the same ruling as a lowercase entry above them; the label
+ *                     inventory is case-sensitive and a datasheet capitalises as it likes.
+ *   9 NEWLY VISIBLE   recorded, ruling pending — each named in the round-7 response for the reviewer.
+ */
+const KNOWN_CUP_CONFLICTS: Record<string, { wins: string; occurrences: number }> = {
+  // --- the original 13 ------------------------------------------------------------------------------
+  "Compliance|certifications": { wins: "ieee_standards", occurrences: 121 },
+  "Compliance|standard": { wins: "ieee_standards", occurrences: 121 },
+  "Frequency range|radio_bands": { wins: "input_freq", occurrences: 32 },
+  "Output holdup time|output_holdup_time": { wins: "holdup_time", occurrences: 46 },
+  "Height|height": { wins: "dimensions", occurrences: 45 },
+  "Cabling type|standard": { wins: "media", occurrences: 38 },
+  "Width|dimensions": { wins: "width", occurrences: 35 },
+  "Integrated interface|data_rate": { wins: "ports", occurrences: 11 },
+  "Integrated interfaces|data_rate": { wins: "ports", occurrences: 9 },
+  "Power and cooling|psu_config": { wins: "psu_options", occurrences: 18 },
+  "Data rate|data_rate": { wins: "max_data_rate", occurrences: 10 },
+  "Color|color": { wins: "jacket_color", occurrences: 9 },
+  "Signal output power range|tx_power": { wins: "total_output_power", occurrences: 9 },
+  // --- 4 case twins: same rule, same ruling -----------------------------------------------------------
+  "Output Holdup Time|output_holdup_time": { wins: "holdup_time", occurrences: 7 },
+  "Data Rate|data_rate": { wins: "max_data_rate", occurrences: 6 },
+  "Power and Cooling|psu_config": { wins: "psu_options", occurrences: 5 },
+  "Integrated Interface|data_rate": { wins: "ports", occurrences: 1 },
+  // --- 9 newly visible, ruling pending ----------------------------------------------------------------
+  // A combined "operating/storage" row wins for storage; the operating rule matches too and loses. The
+  // reviewer called this winner correct and the loser fragile (§5).
+  "Environmental: Operating/storage humidity|humidity_operating": { wins: "humidity_storage", occurrences: 6 },
+  "Operating/storage humidity|humidity_operating": { wins: "humidity_storage", occurrences: 3 },
+  // A PSU's maximum input: VA and W both route to input_va_max, so the watts form loses its own cup.
+  "Maximum Input at Nominal Input Voltage (VA)|power_max": { wins: "input_va_max", occurrences: 4 },
+  "Maximum Input at Nominal Input Voltage (W)|power_max": { wins: "input_va_max", occurrences: 4 },
+  "Nominal Input Current (Arms)|input_current": { wins: "input_current_nominal", occurrences: 4 },
+  // the Compliance family again, with an (EMC) suffix
+  "Compliance (EMC)|certifications": { wins: "ieee_standards", occurrences: 3 },
+  "Compliance (EMC)|standard": { wins: "ieee_standards", occurrences: 3 },
+  "Maximum Rated Output (W) 1|psu_output_power": { wins: "psu_rated_output", occurrences: 2 },
+  "Safety Approvals|safety_standards": { wins: "certifications", occurrences: 1 },
 };
 {
   // Shadowed in every category, computed from the artifacts rather than restated.
@@ -108,14 +160,17 @@ const KNOWN_CUP_CONFLICTS: Record<string, { wants: string; wins: string; occurre
     everywhere = everywhere === null ? s : new Set<number>([...everywhere].filter((i: number) => s.has(i)));
   }
   const shadowed = everywhere ?? new Set<number>();
-  const found = new Map<string, { wants: string; wins: string; occurrences: number }>();
-  for (const t of traces) {
+  const found = new Map<string, { wins: string; occurrences: number; index: number }>();
+  // THE FULL LISTS: each trace's uncapped sidecar, not its top 200. See the note on the table above.
+  const complete = files.map((f) => JSON.parse(fs.readFileSync(path.join(DIR, f.replace(/\.json$/, ".contested.json")), "utf8")) as Trace);
+  check(`every trace has its uncapped contested sidecar (${complete.length} of ${files.length})`, complete.length === files.length);
+  for (const t of complete) {
     for (const c of t.contested) {
       for (const l of c.losers) {
         if (!shadowed.has(l.index) || !l.in_scope || c.key === l.key) continue;
-        const id = `${c.label}|${l.index}`;
+        const id = `${c.label}|${l.key}`;   // label + the cup the shadowed rule WANTS; see the note above
         const prev = found.get(id);
-        if (!prev || c.n > prev.occurrences) found.set(id, { wants: l.key, wins: c.key ?? "(unmapped)", occurrences: c.n });
+        if (!prev || c.n > prev.occurrences) found.set(id, { wins: c.key ?? "(unmapped)", occurrences: c.n, index: l.index });
       }
     }
   }
@@ -123,12 +178,12 @@ const KNOWN_CUP_CONFLICTS: Record<string, { wants: string; wins: string; occurre
   const resolved = Object.keys(KNOWN_CUP_CONFLICTS).filter((id) => !found.has(id));
   check(`the ${Object.keys(KNOWN_CUP_CONFLICTS).length} shadowed rules that disagree about the cup are exactly the known list (${found.size} found)`,
     unknown.length === 0 && resolved.length === 0,
-    `NEW: ${unknown.map(([id, v]) => `${id} wants ${v.wants}, ${v.wins} wins (${v.occurrences})`).join("; ")} | RESOLVED: ${resolved.join("; ")}`);
+    `NEW: ${unknown.map(([id, v]) => `${id} loses to ${v.wins} (${v.occurrences} occ, rule #${v.index})`).join("; ")} | RESOLVED: ${resolved.join("; ")}`);
   for (const [id, want] of Object.entries(KNOWN_CUP_CONFLICTS)) {
     const got = found.get(id);
     if (!got) continue;
-    check(`${id}: still wants ${want.wants} and still loses to ${want.wins}`,
-      got.wants === want.wants && got.wins === want.wins, `now wants ${got.wants}, loses to ${got.wins}`);
+    check(`${id}: still loses to ${want.wins} (rule #${got.index})`,
+      got.wins === want.wins, `now loses to ${got.wins} instead of ${want.wins}`);
   }
 }
 

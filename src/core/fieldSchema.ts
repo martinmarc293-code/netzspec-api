@@ -389,6 +389,66 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   drive_interface: { key: "drive_interface", de: "Laufwerksanbindung", en: "Per-Drive Interface", type: "e",
     domain: ["sas", "sas-3", "sata", "nvme", "pcie", "u.2", "u.3", "m.2"], etim: [], icecat: null },
   // end round-6 B4b -----------------------------------------------------------------------------
+  // round-6 B6 (12 Sep 2026) -- THE SERVER SIZING CUPS ------------------------------------------
+  // The reviewer's finding: a buyer choosing between two UCS rack servers chooses on memory
+  // capacity, DIMM slots, PCIe slots and socket count, and the dictionary held none of the first
+  // three. Their decision was to add all three and require them plus cpu_sockets of every `server`
+  // kind. THE LABEL EVIDENCE WAS COLLECTED FIRST, as they asked, and it changes three of the four
+  // -- measured over the 23,651-label cisco-datasheets inventory:
+  //
+  //   memory_max    84 occurrences over 15 labels. The strongest of the four, and it reveals a
+  //                 WRONG POUR: "Memory Capacity" (x14) and "Memory capacity" (x7) currently map
+  //                 to `dram`, and their sample values are "32 DIMMs; up to 512 GB" and "12 GB
+  //                 (6 per GPU)" -- a MAXIMUM in the cup for INSTALLED memory. Two quantities.
+  //   dimm_slots     4 occurrences. "DIMM slots" x4 and nothing else: the other 15 labels the
+  //                 probe caught are USB flash-memory slots and a compact-flash slot COVER.
+  //                 REQUIRED, this would be 1,555 gaps against four label occurrences -- the
+  //                 "required field nothing can ever fill" shape. Declared `opt` with the count.
+  //   pcie_slots    18 unmapped occurrences ("PCIe slots" x16, "PCIe Slots" x2), and the sample is
+  //                 PROSE: "10 PCIe 2.0 slots available (total of 11 slots)". It also overlaps the
+  //                 existing `expansion_io` (struct), which already takes "Expansion slots" x16 and
+  //                 "PCIe expansion" x13 -- a count beside a layout is defensible (`sfp_ports`
+  //                 beside `ports`) but it is term 6 territory, so this one is `opt` until the
+  //                 prose parses. Recorded rather than quietly required.
+  //   cpu_sockets   ~25 occurrences, all unmapped ("Processor Sockets" x14, "Number of CPUs" x4).
+  //                 See the supersession note below: the direction the reviewer chose is backwards.
+  //
+  // Bands are checked against what exists: a UCS X210c takes 8 TB, an S3260 32 DIMMs, a C240 M7
+  // 8 PCIe slots. The floors are 1 (a one-DIMM appliance is real); the ceilings leave room for one
+  // more generation and no more.
+  memory_max: { key: "memory_max", de: "Maximaler Arbeitsspeicher", en: "Maximum memory", type: "n", unit: "GB", band: [1, 32768], etim: [], icecat: null },
+  dimm_slots: { key: "dimm_slots", de: "DIMM-Steckplätze", en: "DIMM slots", type: "n", band: [1, 128], etim: [], icecat: null },
+  pcie_slots: { key: "pcie_slots", de: "PCIe-Steckplätze", en: "PCIe slots", type: "n", band: [1, 64], etim: [], icecat: null },
+  // end round-6 B6 ------------------------------------------------------------------------------
+  // round-6 B4c (12 Sep 2026) -- BREAKOUT CABLES ---------------------------------------------------
+  // A QSFP28-to-4xSFP28 cable has two cages, and `form_factor` holds one. The normaliser already
+  // refuses such a value by name, and the reviewer's decision was a `breakout-cable` kind asked both
+  // ends and the fan-out instead. Both ends take the optic cage domain unchanged: a breakout cable is
+  // described by which two CAGES it joins, and inventing cable-type members for form_factor would have
+  // made that one cup a cage for 545 parts and a cable type for 37 (term 6).
+  form_factor_a: { key: "form_factor_a", de: "Bauform Seite A", en: "Form factor, end A (host side)", type: "e",
+    domain: ["gbic", "x2", "xenpak", "xfp", "sfp", "sfp-plus", "sfp28", "sfp56", "sfp-dd", "dsfp",
+      "qsfp-plus", "qsfp28", "qsfp56", "qsfp112", "qsfp-dd", "cfp", "cfp2", "cpak", "osfp"], etim: [], icecat: null },
+  form_factor_b: { key: "form_factor_b", de: "Bauform Seite B", en: "Form factor, end B (fan-out side)", type: "e",
+    domain: ["gbic", "x2", "xenpak", "xfp", "sfp", "sfp-plus", "sfp28", "sfp56", "sfp-dd", "dsfp",
+      "qsfp-plus", "qsfp28", "qsfp56", "qsfp112", "qsfp-dd", "cfp", "cfp2", "cpak", "osfp"], etim: [], icecat: null },
+  // The fan-out count. 2 (QSFP-DD to 2xQSFP56) and 4 (QSFP28 to 4xSFP28) are what exists; 8 is an
+  // 800G OSFP to 8xSFP56 that will. A 1 is not a breakout, so the floor is 2.
+  breakout_count: { key: "breakout_count", de: "Anzahl Abzweige", en: "Breakout count", type: "n", band: [2, 16], etim: [], icecat: null },
+  // end round-6 B4c -----------------------------------------------------------------------------
+  // round-6 B5 (12 Sep 2026) -- WAVELENGTHS THAT ARE NOT ONE NUMBER ---------------------------------
+  // `wavelength` is a scalar (738 facts: 1310, 850, 1550 ...). `tx_wavelength` was the transmit RANGE
+  // under a free-string type -- its own alias note says "values are Tx-only windows (1530-1565)" -- and
+  // the reviewer's first proposal, superseding it into `wavelength`, would have coerced a span into a
+  // single number or refused it. Measured over its 17 facts (13 in optical-networking, 4 elsewhere):
+  //   15 are a RANGE      "1530-1565" x7, "840-860" x4, "1260-1355 (1310 typical)" x2, "1260-1335", "1260-1360"
+  //    2 are PER LANE     "1271 ±6.5 (lane 1) 1291 ±6.5 (lane 2) 1311 ±6.5 (lane 3) 1331 ±6.5 (lane 4)" (a
+  //                       CWDM4 LR4) and "1547.5 ±17.5 (lane 1)"
+  // So two cups, typed for what they hold. The band is the optical window Cisco sells into: 780 nm is
+  // the shortest multimode source in the catalogue and 1650 nm the top of the L-band.
+  wavelength_range: { key: "wavelength_range", de: "Wellenlängenbereich", en: "Wavelength range", type: "nr", unit: "nm", band: [780, 1650], etim: [], icecat: null },
+  lane_wavelengths: { key: "lane_wavelengths", de: "Wellenlängen je Lane", en: "Wavelength per lane", type: "ls", unit: "nm", etim: [], icecat: null },
+  // end round-6 B5 ------------------------------------------------------------------------------
   // TWO SYNONYM PAIRS, RECORDED RATHER THAN MERGED (9 Sep 2026). Each curated key above has a
   // GENERATED twin that different datasheets spell differently, so one measurement lands under
   // two keys depending on which page it came from:
@@ -999,6 +1059,14 @@ const ucsCups = (): Record<string, Requirement> => ({
   humidity_operating: ucsK(...UCS_BOX_K), altitude_max: ucsK(...UCS_BOX_K),
   certifications: ucsK(...UCS_BOX_K),
   cpu: ucsK("server"), drive_bays: ucsK("server"),
+  // round-6 B6: the two sizing cups a server is actually bought on, required of `server` in all
+  // three UCS categories (and of collab/conferencing `server` through their own profiles).
+  // `memory_max` has the evidence (84 label occurrences); `cpu_sockets_max` has the DATA (246 own
+  // facts). `dimm_slots` and `pcie_slots` are declared and optional, with their counts in the
+  // dictionary comment -- four label occurrences and eighteen prose ones are not a basis for
+  // 1,555 required gaps.
+  memory_max: ucsK("server"), cpu_sockets_max: ucsK("server"),
+  dimm_slots: opt, pcie_slots: opt,
   memory_speed_max: ucsK("server", "cpu", "memory"),
   ports: ucsK("fabric-interconnect", "io-module", "nic"),
   switching_capacity: ucsK("fabric-interconnect"),
@@ -1009,7 +1077,9 @@ const ucsCups = (): Record<string, Requirement> => ({
   product_compatibility: ucsK(...UCS_PART_K),
   // Declared, never required. cpu_sockets: 0 facts anywhere, 0 labels (demoted 10 Sep 2026, unchanged).
   // storage_raw_capacity: a storage server's aggregate (S3260 "784 TB"), 29 facts, kind-unscoped.
-  cpu_sockets: opt, storage_raw_capacity: opt, cpu_sockets_max: opt, cpu_boost_clock: opt,
+  // cpu_sockets is now SUPERSEDED into cpu_sockets_max (see SUPERSEDED_KEYS) and must not be
+  // declared by a profile -- tests/oneCupPerQuantity.test.ts refuses that.
+  storage_raw_capacity: opt, cpu_boost_clock: opt,
   dimm_ranks: opt, dimm_voltage: opt, data_rate: opt, gpu_max: opt, pcie_card_size: opt,
   slot_compatibility: opt, psu_options: opt, psu_efficiency: opt, heat_dissipation: opt,
   humidity_storage: opt, altitude_storage: opt, hypervisor: opt, management_mode: opt,
@@ -1633,7 +1703,24 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // chassis would close questions a buyer asks of the whole system. Measured: 18 parts hold
     // form_factor = modular-chassis; 19 whose NAME says chassis carry `layer`, every one their OWN value
     // (tier-0 seed, "L3"), none inherited — 0 of the category's 1,054 `layer` facts are inherited.
-    layer: cond({ field: "kind", inList: [...SW_DEVICE] }),
+    // OPTIONAL, 12 Sep 2026 (round-6 B2, and the reviewer's decision after two negative results).
+    // It was REQUIRED of 4,931 switches with observed_fill_path FALSE -- the only required-or-pending
+    // cup in the whole catalogue with no fill path, filled by 1,054 operator seeds and nothing else,
+    // and the gate for two more cups. Cisco does not print "Layer 2/3" as a labelled row.
+    //
+    // WHY NOT DERIVED, measured twice against those 1,054 seeds because both routes look obvious:
+    //   from `series`   6 series disagree with THEMSELVES (Catalyst 3850 l3 x52 / l2 x9, 3650
+    //                   l3 x73 / l2 x21, 2960-X l2 x13 / l3 x10) because those lines ship in LAN Base
+    //                   AND IP Base/IP Services -- a FEATURE SET, which is not the series -- and 78
+    //                   series covering 3,227 parts (65% of the kind) hold no seed at all.
+    //   from the SKU    precision 0.913, coverage 20%, and all 46 disagreements on the IE and 2960
+    //   suffix          lines, where those letters are not a tier. See layerFromSku below, which is
+    //                   the SCOPED version of this rule and is exact.
+    //   from            circular: ipv4_routes was gated on layer.
+    //   ipv4_routes
+    //
+    // So the cup is declared and accepted and required of nobody. The 1,054 seeds stay.
+    layer: opt,
     // SW_BOX = switch + fex (11 Sep 2026): a fabric extender is a box you rack and power, so it keeps
     // the physical envelope below; it is not asked what only a SWITCHING device has.
     form_factor: cond({ field: "kind", inList: [...SW_BOX] }),
@@ -1718,8 +1805,16 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // MAC entries, C9400-SUP-1XL 16 GB. 10 supervisors already hold a mac_table, 7 an ipv4_routes.
     mac_table: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
     vlan_max: cond({ field: "kind", inList: [...SW_DEVICE] }),
-    ipv4_routes: cond({ any: [{ field: "kind", inList: ["supervisor"] }, { field: "layer", ne: "l2" }] }),
-    ipv6_routes: cond({ field: "layer", ne: "l2" }),
+    // UNGATED, 12 Sep 2026. Both were gated on `layer != l2`, and `layer` is now optional, so under
+    // the three-way rule in tests/pendingRequirement.test.ts an unanswered optional gate resolves to
+    // `na` -- these two would have closed in silence for every switch without a seed, which is
+    // precisely the dead-gate shape R1 forbids and tests/gateR1.test.ts now refuses. A route table is
+    // an L3 property and nothing answerable in this corpus says which switches are L3, so the honest
+    // answer is optional rather than a requirement gated on a question nobody can answer.
+    // Their 24 stored facts are also 24 REFUSALS: "In hardware Up to 780 Mpps" is a forwarding rate
+    // in a route-table cup (a MOVE in the refusal dispositions), so the cup holds nothing real today.
+    ipv4_routes: opt,
+    ipv6_routes: opt,
     multicast_groups: opt, acl_entries: opt,
     jumbo_mtu: cond({ field: "kind", inList: [...SW_DEVICE] }), latency: opt, cpu: opt,
     dram: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
@@ -1802,9 +1897,15 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // never collapse a question into `na` the way a condition on an unanswered optional fact does.
     vendor: req,
     form_factor: cond({ field: "kind", inList: [...OPT_MODULE, "adapter"] }),
-    data_rate: cond({ field: "kind", inList: [...OPT_MODULE, "adapter"] }),
+    // breakout-cable (round-6 B4c) is asked data_rate and media like a module, and NOT form_factor --
+    // form_factor above stays OPT_MODULE + adapter, so a breakout cable resolves it to na. It is asked
+    // the two ends and the fan-out instead, below.
+    data_rate: cond({ field: "kind", inList: [...OPT_MODULE, "adapter", "breakout-cable"] }),
     standard: cond({ field: "kind", inList: [...OPT_MODULE] }),
-    media: cond({ field: "kind", inList: [...OPT_MODULE] }),
+    media: cond({ field: "kind", inList: [...OPT_MODULE, "breakout-cable"] }),
+    form_factor_a: cond({ field: "kind", inList: ["breakout-cable"] }),
+    form_factor_b: cond({ field: "kind", inList: ["breakout-cable"] }),
+    breakout_count: cond({ field: "kind", inList: ["breakout-cable"] }),
     fiber_type: cond({ field: "media", inList: ["mmf", "smf"] }),
     // `wavelength` IS THE TRANSMIT WAVELENGTH — for a duplex optic the one it emits and receives on, for a
     // single-fibre BiDi the Tx side. Every one of the 23 BiDi parts holding one already stores the Tx number
@@ -1864,7 +1965,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // 1,390 slots in `transceiver`.
     fec: opt,
     power_max: cond({ field: "kind", inList: [...OPT_MODULE] }), temp_class: cond({ field: "kind", inList: [...OPT_MODULE] }),
-    cable_length: cond({ field: "media", inList: ["dac-copper", "aoc"] }),
+    // A breakout cable is ALWAYS a cable, so it is asked its length by kind rather than waiting on
+    // `media` -- gating a cup a part certainly owes on a second question is the long way round to the
+    // same answer, and it leaves the cup pending until media is extracted.
+    cable_length: cond({ any: [{ field: "media", inList: ["dac-copper", "aoc"] }, { field: "kind", inList: ["breakout-cable"] }] }),
     // wire_gauge REQUIRED OF A DAC, 11 Sep 2026: a passive copper cable's gauge (Cisco prints 30/26 AWG)
     // decides its reach. Fillable — "Gauge" occurs 30 times in the cisco-datasheets inventory and the
     // alias already writes wire_gauge — though 0 of the 94 Cisco DACs hold it yet: a coverage gap.
@@ -3278,12 +3382,27 @@ export const SUPERSEDED_KEYS: Readonly<Record<string, string>> = {
   // Same quantity ("Modulationsart" / "Modulationsformat"), and the dead one is the one with the
   // tidier name — the `random_read_iops_4k` shape again. Nothing moves.
   modulation_type: "modulation_format",
-  // 12 Sep 2026, round-6 reviewer B5. Two dBm cups for a transmitter's output power.
-  // `tx_max_output_power` holds ZERO facts anywhere and `tx_power` is the pending-required cup of
-  // 2,071 transceiver parts with 12, so the merge is free and the direction is not in doubt:
-  // `tx_power` is an `nr`, which is how a datasheet prints it ("Transmit power: 1.5 to 5 dBm"),
-  // and a separate max key is that range's upper end wearing its own cup.
-  tx_max_output_power: "tx_power",
+  // REVERTED 12 Sep 2026, and the reason belongs here where the next reader of this map will look.
+  // `tx_max_output_power: "tx_power"` was committed in 6c3bff2 with the comment "holds ZERO facts
+  // anywhere", and sync-dictionary run #986 applied it. It held ZERO CISCO facts. Measured across every
+  // vendor it holds 231 JUNIPER facts — so the supersession stranded another lane's data under a retired
+  // key, and the sync deleted its profile rows in every category, taking the cup off Juniper's
+  // transceivers. The census that said "no values" is per vendor by construction; a SUPERSESSION is
+  // global by construction. Those two facts sat one query apart.
+  //
+  // THE RULE THIS COST: a dictionary change is measured across ALL vendors before it is made, because
+  // this worktree only owns Cisco's rows and the dictionary belongs to every lane. The same check caught
+  // two more before they shipped: `tx_wavelength` (261 Juniper facts) and `rx_max_input_power` (240).
+  // Whether tx_max_output_power and tx_power are one quantity is still a fair question — it is now a
+  // question for the Juniper lane, whose facts it would move, and not one this lane can settle alone.
+  // round-6 B6, 12 Sep 2026, AND THE DIRECTION IS THE REVIEWER'S REVERSED. They asked for
+  // `cpu_sockets_max` -> `cpu_sockets`, which reads as the tidier name surviving. Measured:
+  // `cpu_sockets_max` holds 246 own facts (154 in servers-unified-computing, 92 in
+  // hyperconverged-infrastructure) and `cpu_sockets` holds ZERO, anywhere. This file's own rule for
+  // the nine pairs of 11 Sep is "always the one that holds facts or that an alias routes to, never
+  // the tidier-looking name", and `random_read_iops_4k` is the recorded example of getting it
+  // wrong. Merging the other way would move 246 facts to gain a shorter key.
+  cpu_sockets: "cpu_sockets_max",
   //   rx_max_input_power        0 facts, "Saturation optical power" 4 + "Maximum receiver input
   //                             power" · type n dBm · now carries a curated band   <- survivor
   //   max_optical_input_power   0 facts, "Maximum input power" 11 + "Receiver damage threshold" 10
@@ -3293,6 +3412,14 @@ export const SUPERSEDED_KEYS: Readonly<Record<string, string>> = {
   // (tx_power / tx_max_output_power / rx_sensitivity / rx_max_input_power) — chosen by that
   // symmetry and by type, not by label count, because all three hold zero facts and the widest
   // label set belongs to a key whose own name says "optical" while its labels say "receiver".
+  // RECEIVER WINDOW — the round-6 decision (supersede rx_max_input_power into input_power_range) is NOT
+  // applied, and was caught one step before its sync. The premise was "all three held ZERO facts"; the
+  // reviewer read that off the Cisco census and so did I. Across every vendor, rx_max_input_power holds
+  // 240 JUNIPER facts, and superseding it would have repeated the tx_max_output_power damage above. So
+  // the two zero-fact keys keep pointing at rx_max_input_power as they did, and the merge into
+  // input_power_range is a cross-lane question. (Note for whoever takes it: a direct supersession would
+  // also create a CHAIN, which tests/oneCupPerQuantity.test.ts refuses — all three must point at the
+  // survivor in one change.)
   max_optical_input_power: "rx_max_input_power",
   rx_overload: "rx_max_input_power",
   //   installation_type   5 facts (all interfaces-modules, all from the router-switch reseller

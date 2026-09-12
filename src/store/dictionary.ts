@@ -175,6 +175,43 @@ export async function syncDictionaryOn(db: Queryable, opts: { quiet?: boolean } 
     throw new Error(`dictionary sync: category in code missing from the categories table: ${missing.join(", ")} — seed it (db/migrations) before syncing profiles`);
   }
 
+  // ---- preflight: a NEW supersession must not retire a key that still holds facts ---------------------
+  // 12 Sep 2026, and it was paid for. `tx_max_output_power: "tx_power"` went into SUPERSEDED_KEYS with the
+  // note "holds ZERO facts anywhere"; run #986 applied it. It held zero CISCO facts and 231 JUNIPER ones.
+  // This sync then deleted its profile row in every category — below, unconditionally, for every
+  // superseded key — which took the cup off Juniper's transceivers, and left 231 facts on a key no profile
+  // asks. Nothing refused, because nothing here looked at the facts. The same session nearly did it twice
+  // more: `rx_max_input_power` (240 Juniper facts) and `tx_wavelength` (261).
+  //
+  // The dictionary belongs to every lane and each worktree measures its own vendor, so the only place a
+  // cross-lane supersession can be caught is here, where the write happens and a connection exists.
+  // NEWLY superseded only: a key the table already retired may carry legacy facts, and refusing on those
+  // would block every future sync for a decision already made. What is refused is retiring a key in THIS
+  // sync while it still holds current facts — move them first, then supersede.
+  const codeSuperseded = rows.filter((r) => r.superseded_by !== null);
+  if (codeSuperseded.length) {
+    const current = await db.query<{ key: string; superseded_by: string | null }>(
+      "SELECT key, superseded_by FROM field_dictionary WHERE key = ANY($1::text[])", [codeSuperseded.map((r) => r.key)]);
+    const was = new Map(current.rows.map((r) => [r.key, r.superseded_by]));
+    const newly = codeSuperseded.filter((r) => was.get(r.key) !== r.superseded_by).map((r) => r.key);
+    if (newly.length) {
+      const held = await db.query<{ field_key: string; vendor: string; n: number }>(
+        `SELECT f.field_key, v.slug AS vendor, count(*)::int AS n
+           FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id
+          WHERE f.field_key = ANY($1::text[]) AND f.superseded_by IS NULL AND f.method NOT LIKE 'retracted:%'
+          GROUP BY 1, 2 ORDER BY 1, 3 DESC`, [newly]);
+      if (held.rows.length) {
+        const by = new Map<string, string[]>();
+        for (const r of held.rows) by.set(r.field_key, [...(by.get(r.field_key) ?? []), `${r.vendor} ${r.n}`]);
+        throw new Error(
+          `dictionary sync: REFUSED — ${by.size} key(s) would be newly superseded while still holding current facts: `
+          + [...by].map(([k, v]) => `${k} -> ${rows.find((r) => r.key === k)?.superseded_by} (${v.join(", ")})`).join("; ")
+          + ". A supersession deletes the key's profile rows in every category, so those facts would sit on a cup no profile asks. "
+          + "Move the facts to the survivor first (a rekey run, per vendor, by the lane that owns them), then supersede.");
+      }
+    }
+  }
+
   // ---- dictionary ----------------------------------------------------------------------------
   const d = await db.query<{ key: string; inserted: boolean }>(DICT_UPSERT, [
     rows.map((r) => r.key), rows.map((r) => r.type), rows.map((r) => r.unit),

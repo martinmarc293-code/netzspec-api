@@ -244,8 +244,10 @@ is right about the surface and the 26 are real in the code. And your §8.1-8 is 
 matters: **the table is what a stored fact can reference**, so a key the code dropped and the table
 kept is live where it counts. Our term-9 claim was true of the code and false of the store.
 
-This is one run away (`ingest sync-dictionary`, §5). It is not a code fix, and I have not run it,
-because it writes.
+~~This is one run away (`ingest sync-dictionary`, §5). It is not a code fix, and I have not run it,
+because it writes.~~ **Corrected (round-6 item 11): it WAS run** — #986, after this paragraph was written,
+and §5 below says so; the two contradicted each other in the copy you read. Then corrected again by #989,
+because #986 applied one supersession that was wrong across vendors (see the round-7 response).
 
 **Your §8.2 point about "seen" is also accepted as stated.** `cisco-datasheet-pdf` is
 `enabled: false` with `facts_current: 0` and is cited `basis: "seen"`. The evidence test should
@@ -273,8 +275,11 @@ fallback parts is the right method; the remaining ≤129 are fact-holders you co
 are accepted: the 1,568 sit outside the population, and "holds a datasheet" does not mean "fillable
 today" while the PDF tap is off.
 
-On the device-noun ceiling: **you are right that a ceiling-with-a-note is the wrong carrier.** It has
-been re-baselined 159 → 260 and *upward*, which is the honest direction — the union of both axes adds
+On the device-noun ceiling: **you are right that a ceiling-with-a-note is the wrong carrier.** The
+**measured figure is 256** over the union of both axes (158 in the unresolved half alone); the test's
+**ceiling** was re-baselined 159 → 260, and *upward*, which is the honest direction. *(Corrected, round-6
+item 11: the first copy gave 260 and 159 as though they were the figure — they are the old and new
+ceilings, and 256 is the number.)* The union of both axes adds
 95 `bundle` rows nobody has read one at a time. It stays a ceiling for one round because those 95
 are unread, and your kind-aware proposal (exempt `mechanical`, `cable`, `power-cord`, `stack-cable`,
 because a part named after its host is a *rule* and not a false positive to tolerate) is the right

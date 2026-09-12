@@ -44,8 +44,17 @@ check("poe_budget required when PoE present", requirementFor("switches", "poe_bu
 check("poe_budget N/A when PoE none", requirementFor("switches", "poe_budget", dinNoPoe) === "na");
 check("rack_units required for rack", requirementFor("switches", "rack_units", rackPoe) === "req");
 check("rack_units N/A for DIN-rail", requirementFor("switches", "rack_units", dinNoPoe) === "na");
-check("ipv4_routes required for L3", requirementFor("switches", "ipv4_routes", rackPoe) === "req");
-check("ipv4_routes N/A for L2", requirementFor("switches", "ipv4_routes", dinNoPoe) === "na");
+// CHANGED 12 Sep 2026 (round-6 B2). These two asserted `req` for an L3 part and `na` for an L2 one,
+// which was the honest reading of `ipv4_routes: cond(layer != l2)`. `layer` had no fill path and
+// could not be derived (measured twice against the 1,054 seeds), so it went optional — and an
+// optional gate resolves to `na` for every part that has not answered it, which would have closed
+// the route table for every unseeded switch. Both route cups are optional now. The assertion that
+// replaces them is the one that matters: the answer is the same whatever `layer` says, because a
+// cup must not be decided by a question the corpus cannot answer.
+check("ipv4_routes is OPTIONAL whatever `layer` says — an L3 part",
+  requirementFor("switches", "ipv4_routes", rackPoe) === "opt");
+check("ipv4_routes is OPTIONAL whatever `layer` says — an L2 part, no longer closed",
+  requirementFor("switches", "ipv4_routes", dinNoPoe) === "opt");
 check("ip_rating required for DIN-rail", requirementFor("switches", "ip_rating", dinNoPoe) === "req");
 // CHANGED 12 Sep 2026 FROM `na` TO `opt`, deliberately (R1, tests/gateR1.test.ts). This line used to
 // assert `na` and that was the honest reading of the old two-branch condition

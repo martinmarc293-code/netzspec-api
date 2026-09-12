@@ -15,6 +15,13 @@ full; the ones that bite hardest here are restated.
   caller quarantines. Store nothing.
 - **Never add a field key by hand to a fact.** Add it to the dictionary with type, unit and
   labels; the FK enforces it.
+- **Measure a dictionary change across ALL vendors before making it.** The dictionary and the
+  profiles are shared by every lane; a worktree's census measures one vendor. On 12 Sep 2026 a
+  supersession documented as "ZERO facts anywhere" held 0 Cisco facts and 231 Juniper ones, was
+  synced, and took the cup off Juniper's transceivers; two more (240, 261) were caught before sync.
+  `syncDictionaryOn` now REFUSES a new supersession of a key that still holds facts, naming each
+  vendor — but a retype or a closed domain is not covered by that guard, so query `facts` without a
+  vendor filter first.
 - **The site's concerns stay out.** No slugs for URLs beyond the part slug, no SEO titles, no
   indexability, no shop prices.
 

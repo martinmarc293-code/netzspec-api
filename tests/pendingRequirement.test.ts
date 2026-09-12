@@ -155,16 +155,29 @@ ok("both are still DECLARED required in the profile — this is a scoring rule, 
 // ports and IPv4 routes, because nobody has said whether it stacks, has PoE, or routes.
 {
   const bareSwitch = { kind: "switch", vendor: "cisco", series: "Catalyst 9300" };
-  for (const key of ["stacking_bandwidth", "poe_ports", "poe_budget", "ipv4_routes", "ipv6_routes"]) {
+  // `ipv4_routes` and `ipv6_routes` LEFT THIS LIST ON 12 Sep 2026. They were gated on `layer`, and
+  // `layer` is now optional (round-6 B2: required of 4,931 switches with no fill path, and not
+  // derivable — measured twice against the 1,054 seeds). An optional gate resolves to `na` by the
+  // rule this very file defends, so keeping them gated would have closed both for every unseeded
+  // switch: the dead-gate shape tests/gateR1.test.ts refuses. They are optional now, and that is
+  // pinned just below. The mechanism this block tests is untouched — the three cups that remain
+  // are gated on `stackable` and `poe_standard`, which are still required of a switch.
+  for (const key of ["stacking_bandwidth", "poe_ports", "poe_budget"]) {
     eq(`a switch answering nothing keeps "${key}" OPEN, not na`,
        requirementFor("switches", key, bareSwitch), "pending");
   }
+  // THE DECISION, pinned in the direction that matters: a switch that has answered nothing is
+  // offered both route cups and a `layer` cup, and none of the three is closed on it.
+  for (const key of ["ipv4_routes", "ipv6_routes", "layer"])
+    eq(`"${key}" is OPTIONAL for a switch — never na, and no longer pending on an unanswerable gate`,
+       requirementFor("switches", key, bareSwitch), "opt");
   // The gate itself resolves to req for a switch, which is WHY its dependents are pending.
   eq("the gate `stackable` resolves to req for kind=switch",
      requirementFor("switches", "stackable", bareSwitch), "req");
   // Answered NEGATIVELY the dependents close properly — pending must not be a permanent state.
   const notStacking = { ...bareSwitch, stackable: false, poe_standard: "none", layer: "l2" };
-  for (const key of ["stacking_bandwidth", "poe_ports", "poe_budget", "ipv4_routes"]) {
+  // (ipv4_routes dropped for the reason above: it is optional, so "answered NO closes it" no longer applies.)
+  for (const key of ["stacking_bandwidth", "poe_ports", "poe_budget"]) {
     eq(`answered NO closes "${key}"`, requirementFor("switches", key, notStacking), "na");
   }
   // And a gate that resolves to `na` for this part must NOT make its dependents pending: a CABLE

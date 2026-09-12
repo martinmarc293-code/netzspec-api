@@ -1665,6 +1665,33 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       return inBand(category, key, min) ?? inBand(category, key, max) ?? ok({ min, max }, canonical);
     }
     case "ls": {
+      // LANE WAVELENGTHS, 12 Sep 2026 (round-6 B5). A multi-lane optic states one centre wavelength
+      // per lane: "1271 ±6.5 (lane 1) 1291 ±6.5 (lane 2) 1311 ±6.5 (lane 3) 1331 ±6.5 (lane 4)".
+      // The generic list split below finds no separator in that and returned the WHOLE CELL as a
+      // one-element list — which "passed", and which is a free string wearing a list's type: no
+      // better than the `s` cup it was moved out of. Caught by reading the output, not by the status.
+      //
+      // STRICT: read a centre per "(lane N)" and nothing else. The ± tolerance is a second quantity
+      // and is not kept here. Lanes must be numbered 1..N with no gap and no repeat, or the cell is
+      // refused — a lane list that skips lane 3 is a cell that was cut, and filling the gap would be
+      // a guess. No `\b`: there is no word boundary between "±" and a digit.
+      if (key === "lane_wavelengths") {
+        const lanes = [...s.matchAll(/(\d{3,4}(?:\.\d+)?)\s*(?:±\s*\d+(?:\.\d+)?)?\s*(?:nm\s*)?\(\s*lane\s*(\d+)\s*\)/gi)];
+        if (lanes.length === 0) {
+          return bad("PARSE_FAIL", `lane_wavelengths: "${s}" names no "(lane N)" — not a per-lane wavelength list`);
+        }
+        const nums = lanes.map((m) => Number(m[2]));
+        const inOrder = nums.every((n, i) => n === i + 1);
+        if (!inOrder) {
+          return bad("PARSE_FAIL", `lane_wavelengths: lanes are numbered ${nums.join(",")}, not 1..${nums.length} — a cut or reordered cell, and a gap is not filled`);
+        }
+        const centres = lanes.map((m) => m[1]);
+        for (const c of centres) {
+          const n = Number(c);
+          if (!(n >= 780 && n <= 1650)) return bad("RANGE_VIOLATION", `lane_wavelengths: ${c} nm is outside 780..1650`);
+        }
+        return ok(centres);
+      }
       const parts = splitListValue(s);
       if (!parts.length) return bad("PARSE_FAIL", `${key}: empty list`);
       const domain = domainFor(category, key);

@@ -284,28 +284,53 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
   // THE TWO ROUND-4 ARTIFACTS. Same shape as /ledger/:vendor/:category: path-only, no query string,
   // served from the committed file. A missing one 404s with the list of what exists, so "this category
   // has no census yet" and "I typed the URL wrong" are different answers.
+  const builtList = (dir: string) => fs.existsSync(dir)
+    // the `.contested.json` sidecars are not a second category; keep them out of the "built:" listing
+    ? fs.readdirSync(dir).filter((f) => f.endsWith(".json") && !f.endsWith(".contested.json"))
+        .map((f) => f.replace(/\.json$/, "").replace("-", "/")).join(", ")
+    : "none";
+  /** The full contested list (round-6 reviewer §10.2). The main trace carries the top 200 and says so
+   *  in `contested_shown`; this is every one, from the sidecar the builder writes beside it. */
+  const serveContested = (vendor: string, category: string) => {
+    const file = path.join(ARTIFACT_DIRS.mapper, `${vendor}-${category}.contested.json`);
+    if (!ARTIFACT_NAME.test(vendor) || !ARTIFACT_NAME.test(category) || !fs.existsSync(file)) {
+      throw notFound(`no full contested list for "${vendor}/${category}" — rebuild with scripts/build-mapper-trace.mts; built: ${builtList(ARTIFACT_DIRS.mapper)}`);
+    }
+    return JSON.parse(fs.readFileSync(file, "utf8"));
+  };
   for (const kind of ["census", "mapper"] as const) {
-    app.get<{ Params: { vendor: string; category: string } }>(`/${kind}/:vendor/:category`, {
+    app.get<{ Params: { vendor: string; category: string }; Querystring: { contested?: string } }>(`/${kind}/:vendor/:category`, {
       schema: {
         tags: ["catalogue"],
         summary: kind === "census"
           ? "What is IN each cup of one category, and what today's rules would refuse if it arrived now."
-          : "Which alias rule wins each datasheet label in one category, which matched and lost, and which reach nothing.",
+          : "Which alias rule wins each datasheet label in one category, which matched and lost, and which reach nothing. `?contested=all` returns every contested label instead of the top 200.",
         params: Type.Object({ vendor: Type.String(), category: Type.String() }),
+        querystring: Type.Object({ contested: Type.Optional(Type.String({ description: "mapper only: `all` returns every contested label" })) }),
         response: { 200: AnyJson, ...ERROR_RESPONSES },
       },
     }, async (req) => {
       const { vendor, category } = req.params;
+      if (kind === "mapper" && req.query.contested !== undefined) {
+        if (req.query.contested !== "all") throw notFound(`contested must be "all", got "${req.query.contested}"`);
+        return serveContested(vendor, category);
+      }
       if (!artifactExists(kind, vendor, category)) {
-        const dir = ARTIFACT_DIRS[kind];
-        const have = fs.existsSync(dir)
-          ? fs.readdirSync(dir).filter((f) => f.endsWith(".json")).map((f) => f.replace(/\.json$/, "").replace("-", "/")).join(", ")
-          : "none";
-        throw notFound(`no ${kind} for "${vendor}/${category}" — built: ${have}`);
+        throw notFound(`no ${kind} for "${vendor}/${category}" — built: ${builtList(ARTIFACT_DIRS[kind])}`);
       }
       return JSON.parse(fs.readFileSync(path.join(ARTIFACT_DIRS[kind], `${vendor}-${category}.json`), "utf8"));
     });
   }
+  // The followable form of `?contested=all` — a path with no query string, the same reason every
+  // /start link is one (a caller that cannot send a query string can still follow a path).
+  app.get<{ Params: { vendor: string; category: string } }>("/mapper/:vendor/:category/contested", {
+    schema: {
+      tags: ["catalogue"],
+      summary: "Every contested datasheet label in one category — the uncapped form of the mapper trace's top 200.",
+      params: Type.Object({ vendor: Type.String(), category: Type.String() }),
+      response: { 200: AnyJson, ...ERROR_RESPONSES },
+    },
+  }, async (req) => serveContested(req.params.vendor, req.params.category));
 
   app.get<{ Params: { vendor: string; category: string } }>("/ledger/:vendor/:category/summary", {
     schema: {
@@ -334,7 +359,7 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
       const e = c as Cup & {
         sources?: { source: string; basis: string }[]; labels?: { label: string; n: number }[];
         label_occurrences?: number; parts_holding_by_method?: Record<string, number>;
-        observed_fill_path?: boolean; seed_only?: boolean;
+        observed_fill_path?: boolean; observed_filled?: boolean; seed_only?: boolean;
       };
       evidence[c.key] = {
         sources: (e.sources ?? []).map((s) => `${s.source}=${s.basis}`).join("; ") || null,
@@ -342,6 +367,8 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
         top_labels: (e.labels ?? []).slice(0, 3).map((l) => `${l.label} x${l.n}`),
         holders: Object.entries(e.parts_holding_by_method ?? {}).map(([m, n]) => `${m}=${n}`).join("; ") || null,
         observed_fill_path: e.observed_fill_path ?? false,
+        // §8.2: a tap EXISTS (above) versus the tap has RUN (below) — at least one own, non-seed fact.
+        observed_filled: e.observed_filled ?? false,
         ...(e.seed_only ? { seed_only: true } : {}),
       };
       return c.key;

@@ -84,6 +84,14 @@ async function run(a: Args): Promise<Record<string, number>> {
   // the bare number 737666. This line selected every column BUT the name, so the scorer could not
   // have seen it: verifying at the producer's level ("the rule works") would have proved nothing about
   // whether the value reaches the consumer.
+  // LIVE PARTS ONLY (12 Sep 2026) — the same defect as sixteen of the seventeen API query modules, one
+  // layer down. A retired row (a case duplicate merged into its survivor, or a row that is not this
+  // vendor's part) is not in the catalogue, so it has no completeness to compute. Without this filter
+  // the recompute re-created a completeness row for every tombstone, which is exactly what run #988 had
+  // just deleted — 139 of them, counted into the phase-2 denominator and scored against cups the
+  // survivor already answers. Found by reading the part count this printed (91,682, which is the
+  // catalogue INCLUDING tombstones) while the run it was about to undo was still fresh.
+  where.unshift("p.retired_at IS NULL");
   const sql = `SELECT p.id, p.sku, p.name, p.category_id, p.product_class::text AS product_class, p.family, p.series, v.slug AS vendor_slug
                  FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
                 ${where.length ? "WHERE " + where.join(" AND ") : ""} ORDER BY p.id`;

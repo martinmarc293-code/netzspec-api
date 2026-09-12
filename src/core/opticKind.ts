@@ -36,7 +36,7 @@
 //   `CVR328W-K9-CN` is a ROUTER ("Wireless-N 3G VPN Router") filed here; the adapter rule needs the
 //        hyphen (`^CVR-`) and does not take it. Its category is a row move held for the operator.
 
-export type OpticKind = "pluggable" | "bidi" | "tunable" | "adapter" | "accessory";
+export type OpticKind = "pluggable" | "bidi" | "tunable" | "adapter" | "accessory" | "breakout-cable";
 
 /** Kinds that are an optical or electrical transceiver (or a cable standing in for one). */
 export const OPT_MODULE: readonly OpticKind[] = ["pluggable", "bidi", "tunable"];
@@ -52,6 +52,24 @@ const RULES: { kind: OpticKind; re: RegExp }[] = [
   // Mux/Demux"; CWDM-MUX-AD-1470= an add/drop plug-in for CWDM-CHASSIS-2; CVR-TRAY-8 "Tray for
   // CVR-4SFP10G-QSFP" (the first census filed it an adapter through its CVR- prefix).
   { kind: "accessory", re: /(?:^|-)(?:BRKT|BRACKET|TRAY|MUX|DEMUX|MUXDEMUX)(?:-|=|\d|$)/ },
+  // BREAKOUT CABLES, 12 Sep 2026 (round-6 B4c). A QSFP28-to-4xSFP28 cable has TWO cages, and
+  // `form_factor` holds one: specNormalize already refuses such a value by name ("names two different
+  // cages ... neither end is chosen"), which is where the 37 refusals came from. The reviewer's decision
+  // was a kind of its own, asked both ends and the fan-out count instead of a single form factor.
+  //
+  // TWO MARKERS, BOTH REQUIRED, and the second is the one that matters. Measured against every live
+  // Cisco hardware part:
+  //   the FAN-OUT   -4SFP / -4X10G / -2Q200 ... : N of a smaller cage
+  //   the CABLE     -CU<len> copper, -AOC<len> active optical, -AC/-ACU<len> active copper, -CI<len>
+  // A rule on the fan-out ALONE catches seven REAL MULTI-LANE PLUGGABLE OPTICS that are not cables at
+  // all -- QSFP-4X10G-LR-S "4x10GBASE-LR QSFP+ module", QDD-4X100G-FR-S, QDD-8X100G-FR, QDD-2X400G-FR4 --
+  // which would have been told they have no form factor. With both markers: 50 caught, and 0 missed of
+  // the 27 parts whose own form_factor fact names two cages.
+  // The length may be a literal `x` (QSFP-4X10G-AOCxM "length x - 1m to 10m" is a length-generic SKU),
+  // and `\d+Q\d+` is the QSFP-DD-to-2xQSFP56 fan-out (QDD-2Q200-CU3M), which a 4SFP/4X-only rule missed.
+  // The SKU is upper-cased before these run, hence `X` for the length. No `\b`: there is no word
+  // boundary anywhere useful in "QSFP-4SFP25G-CU1.5M".
+  { kind: "breakout-cable", re: /^(?=.*-(?:CU|AOC|ACU|AC|CI)(?:\d|X))(?:Q|QSFP|QDD|QSFP28)-(?:\d+(?:SFP|QSFP)|\d+X\d+G|\d+Q\d+)/ },
   // Converters and adapters: QSA (CVR-QSFP-SFP10G), TwinGig (CVR-X2-SFP), OneX (CVR-X2-SFP10G), CPAK-to-QSFP,
   // the 4xSFP-to-QSFP reverse adapter and the 2xQSFP-to-8xSFP converter. The hyphen after CVR is required.
   { kind: "adapter", re: /^CVR-/ },
