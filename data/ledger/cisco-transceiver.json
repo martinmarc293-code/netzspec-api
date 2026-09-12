@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "transceiver",
  "profile_hash": "fd563c9b4ee8cd1e",
- "built_on_commit": "ab2f55a",
+ "built_on_commit": "0bd76d7",
  "norm_version": "1.6.2",
  "declared_fields": 395,
  "gap_states": {
@@ -13,12 +13,12 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 1554,
-  "required_slots_at_nothing_known": 22837,
-  "required_slots_stored": 21258,
+  "parts": 1553,
+  "required_slots_at_nothing_known": 22822,
+  "required_slots_stored": 21243,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
-   "pluggable": 1395,
+   "pluggable": 1394,
    "bidi": 77,
    "tunable": 46,
    "adapter": 18,
@@ -29,10 +29,10 @@
  },
  "kinds": {
   "pluggable": {
-   "parts": 1395,
+   "parts": 1394,
    "slots_per_part_at_nothing_known": 15,
-   "required_slots_at_nothing_known": 20925,
-   "required_slots_stored": 19492,
+   "required_slots_at_nothing_known": 20910,
+   "required_slots_stored": 19477,
    "required": [
     {
      "key": "connector",

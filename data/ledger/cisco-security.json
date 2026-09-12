@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "security",
  "profile_hash": "df74aa74807f6673",
- "built_on_commit": "ab2f55a",
+ "built_on_commit": "0bd76d7",
  "norm_version": "1.6.2",
  "declared_fields": 403,
  "gap_states": {
@@ -15,7 +15,7 @@
  "totals": {
   "parts": 1990,
   "required_slots_at_nothing_known": 11860,
-  "required_slots_stored": 19962,
+  "required_slots_stored": 11693,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
    "firewall": 450,
@@ -36,15 +36,15 @@
    "cable": 4,
    "accessory": 229
   },
-  "pending_reclassification": 3525,
-  "pending_reclassification_stored_slots": 35499
+  "pending_reclassification": 0,
+  "pending_reclassification_stored_slots": 0
  },
  "kinds": {
   "firewall": {
    "parts": 450,
    "slots_per_part_at_nothing_known": 11,
    "required_slots_at_nothing_known": 4950,
-   "required_slots_stored": 4896,
+   "required_slots_stored": 4950,
    "required": [
     {
      "key": "certifications",
@@ -991,7 +991,7 @@
    "parts": 60,
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 600,
-   "required_slots_stored": 612,
+   "required_slots_stored": 600,
    "required": [
     {
      "key": "certifications",
@@ -1879,7 +1879,7 @@
    "parts": 35,
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 350,
-   "required_slots_stored": 349,
+   "required_slots_stored": 350,
    "required": [
     {
      "key": "certifications",
@@ -2782,7 +2782,7 @@
    "parts": 37,
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 370,
-   "required_slots_stored": 369,
+   "required_slots_stored": 370,
    "required": [
     {
      "key": "certifications",
@@ -3685,7 +3685,7 @@
    "parts": 78,
    "slots_per_part_at_nothing_known": 9,
    "required_slots_at_nothing_known": 702,
-   "required_slots_stored": 751,
+   "required_slots_stored": 702,
    "required": [
     {
      "key": "certifications",
@@ -7333,7 +7333,7 @@
    "parts": 88,
    "slots_per_part_at_nothing_known": 5,
    "required_slots_at_nothing_known": 440,
-   "required_slots_stored": 968,
+   "required_slots_stored": 440,
    "required": [
     {
      "key": "concurrent_sessions",
@@ -7975,7 +7975,7 @@
    "parts": 14,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 42,
-   "required_slots_stored": 154,
+   "required_slots_stored": 42,
    "required": [
     {
      "key": "ips_throughput",
@@ -8528,7 +8528,7 @@
    "parts": 174,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 522,
-   "required_slots_stored": 1891,
+   "required_slots_stored": 522,
    "required": [
     {
      "key": "ports",
@@ -9100,7 +9100,7 @@
    "parts": 149,
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 596,
-   "required_slots_stored": 1450,
+   "required_slots_stored": 596,
    "required": [
     {
      "key": "airflow",
@@ -9680,7 +9680,7 @@
    "parts": 16,
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 32,
-   "required_slots_stored": 173,
+   "required_slots_stored": 32,
    "required": [
     {
      "key": "airflow",
@@ -10185,7 +10185,7 @@
    "parts": 173,
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 346,
-   "required_slots_stored": 1607,
+   "required_slots_stored": 346,
    "required": [
     {
      "key": "product_compatibility",
@@ -10700,7 +10700,7 @@
    "parts": 224,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 224,
-   "required_slots_stored": 2010,
+   "required_slots_stored": 224,
    "required": [
     {
      "key": "product_compatibility",
@@ -11164,7 +11164,7 @@
    "parts": 4,
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 8,
-   "required_slots_stored": 39,
+   "required_slots_stored": 8,
    "required": [
     {
      "key": "cable_length",
@@ -11661,7 +11661,7 @@
    "parts": 229,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 229,
-   "required_slots_stored": 2411,
+   "required_slots_stored": 229,
    "required": [
     {
      "key": "product_compatibility",

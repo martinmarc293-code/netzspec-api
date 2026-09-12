@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "interfaces-modules",
  "profile_hash": "c25ad519eb646ecd",
- "built_on_commit": "ab2f55a",
+ "built_on_commit": "0bd76d7",
  "norm_version": "1.6.2",
  "declared_fields": 395,
  "gap_states": {
@@ -13,34 +13,34 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 1364,
-  "required_slots_at_nothing_known": 7358,
-  "required_slots_stored": 8631,
+  "parts": 1192,
+  "required_slots_at_nothing_known": 7025,
+  "required_slots_stored": 7025,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
-   "module": 201,
-   "interface": 457,
+   "module": 62,
+   "interface": 455,
    "voice": 51,
    "cellular": 60,
-   "radio": 46,
-   "service": 63,
+   "radio": 45,
+   "service": 42,
    "memory": 11,
    "power": 77,
    "fan": 4,
-   "cable": 97,
-   "accessory": 104,
+   "cable": 96,
+   "accessory": 98,
    "optic": 94,
-   "device": 99
+   "device": 97
   },
   "pending_reclassification": 0,
   "pending_reclassification_stored_slots": 0
  },
  "kinds": {
   "module": {
-   "parts": 201,
+   "parts": 62,
    "slots_per_part_at_nothing_known": 1,
-   "required_slots_at_nothing_known": 201,
-   "required_slots_stored": 1372,
+   "required_slots_at_nothing_known": 62,
+   "required_slots_stored": 62,
    "required": [
     {
      "key": "product_compatibility",
@@ -84,7 +84,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 9
+      "html_table": 7
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -493,10 +493,10 @@
    ]
   },
   "interface": {
-   "parts": 457,
+   "parts": 455,
    "slots_per_part_at_nothing_known": 8,
-   "required_slots_at_nothing_known": 3656,
-   "required_slots_stored": 3199,
+   "required_slots_at_nothing_known": 3640,
+   "required_slots_stored": 3640,
    "required": [
     {
      "key": "certifications",
@@ -545,7 +545,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 126
+      "html_table": 118
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -810,7 +810,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 9
+      "html_table": 7
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -862,7 +862,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 71
+      "html_table": 70
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -1374,7 +1374,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 126
+      "html_table": 118
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -1587,7 +1587,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 9
+      "html_table": 7
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -1639,7 +1639,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 71
+      "html_table": 70
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -2183,7 +2183,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 126
+      "html_table": 118
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -2339,7 +2339,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 9
+      "html_table": 7
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -2391,7 +2391,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 71
+      "html_table": 70
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -2852,10 +2852,10 @@
    ]
   },
   "radio": {
-   "parts": 46,
+   "parts": 45,
    "slots_per_part_at_nothing_known": 7,
-   "required_slots_at_nothing_known": 322,
-   "required_slots_stored": 322,
+   "required_slots_at_nothing_known": 315,
+   "required_slots_stored": 315,
    "required": [
     {
      "key": "certifications",
@@ -2904,7 +2904,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 126
+      "html_table": 118
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -3118,7 +3118,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 9
+      "html_table": 7
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -3170,7 +3170,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 71
+      "html_table": 70
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -3631,10 +3631,10 @@
    ]
   },
   "service": {
-   "parts": 63,
+   "parts": 42,
    "slots_per_part_at_nothing_known": 7,
-   "required_slots_at_nothing_known": 441,
-   "required_slots_stored": 385,
+   "required_slots_at_nothing_known": 294,
+   "required_slots_stored": 294,
    "required": [
     {
      "key": "certifications",
@@ -3683,7 +3683,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 126
+      "html_table": 118
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -3891,7 +3891,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 9
+      "html_table": 7
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -3943,7 +3943,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 71
+      "html_table": 70
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -4407,7 +4407,7 @@
    "parts": 11,
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 22,
-   "required_slots_stored": 77,
+   "required_slots_stored": 22,
    "required": [
     {
      "key": "product_compatibility",
@@ -4451,7 +4451,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 9
+      "html_table": 7
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -4912,7 +4912,7 @@
    "parts": 77,
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 539,
-   "required_slots_stored": 77,
+   "required_slots_stored": 539,
    "required": [
     {
      "key": "certifications",
@@ -4961,7 +4961,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 126
+      "html_table": 118
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -5117,7 +5117,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 9
+      "html_table": 7
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -5194,7 +5194,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 71
+      "html_table": 70
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -5658,7 +5658,7 @@
    "parts": 4,
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 28,
-   "required_slots_stored": 0,
+   "required_slots_stored": 28,
    "required": [
     {
      "key": "airflow",
@@ -5749,7 +5749,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 126
+      "html_table": 118
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -5905,7 +5905,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 9
+      "html_table": 7
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -5957,7 +5957,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 71
+      "html_table": 70
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -6418,10 +6418,10 @@
    ]
   },
   "cable": {
-   "parts": 97,
+   "parts": 96,
    "slots_per_part_at_nothing_known": 2,
-   "required_slots_at_nothing_known": 194,
-   "required_slots_stored": 413,
+   "required_slots_at_nothing_known": 192,
+   "required_slots_stored": 192,
    "required": [
     {
      "key": "cable_length",
@@ -6505,7 +6505,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 9
+      "html_table": 7
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -6913,10 +6913,10 @@
    ]
   },
   "accessory": {
-   "parts": 104,
+   "parts": 98,
    "slots_per_part_at_nothing_known": 1,
-   "required_slots_at_nothing_known": 104,
-   "required_slots_stored": 672,
+   "required_slots_at_nothing_known": 98,
+   "required_slots_stored": 98,
    "required": [
     {
      "key": "product_compatibility",
@@ -6960,7 +6960,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 9
+      "html_table": 7
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -7372,7 +7372,7 @@
    "parts": 94,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 282,
-   "required_slots_stored": 658,
+   "required_slots_stored": 282,
    "required": [
     {
      "key": "connector",
@@ -7910,10 +7910,10 @@
    ]
   },
   "device": {
-   "parts": 99,
+   "parts": 97,
    "slots_per_part_at_nothing_known": 8,
-   "required_slots_at_nothing_known": 792,
-   "required_slots_stored": 679,
+   "required_slots_at_nothing_known": 776,
+   "required_slots_stored": 776,
    "required": [
     {
      "key": "certifications",
@@ -7962,7 +7962,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 126
+      "html_table": 118
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -8266,7 +8266,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 71
+      "html_table": 70
      },
      "observed_fill_path": true,
      "seed_only": false

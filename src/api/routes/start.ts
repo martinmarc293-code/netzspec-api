@@ -261,19 +261,60 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
       kinds: Record<string, { required: unknown[]; pending_until_gate_answered: unknown[]; not_applicable_by_kind: string[]; optional: string[] }>;
       [k: string]: unknown;
     };
-    const kinds = Object.fromEntries(Object.entries(full.kinds ?? {}).map(([kind, k]) => [kind, {
-      parts: (k as { parts?: number }).parts,
-      required: k.required, pending_until_gate_answered: k.pending_until_gate_answered,
-      not_applicable_by_kind: k.not_applicable_by_kind,
-      optional_count: k.optional?.length ?? 0,
-    }]));
+    // The evidence block for one cup (sources, label counts, holders) is a property of the FIELD, not of the kind,
+    // and repeating it inside every kind is what made the first summary unreadable too: 17 kinds x ~15k tokens.
+    // So it is emitted ONCE per category, keyed by field, and a kind carries key names only.
+    type Cup = { key: string } & Record<string, unknown>;
+    const evidence: Record<string, unknown> = {};
+    const keyOf = (c: Cup | string) => (typeof c === "string" ? c : c.key);
+    // COMPACT, because the point is that a reviewer can read all seventeen in one pass. Each field's evidence
+    // becomes one line: which sources publish it and on what basis, how many label occurrences and the three
+    // commonest labels, who holds it today, and whether a fill path was actually observed. The full arrays are
+    // in the un-suffixed ledger for the filling phase.
+    const remember = (c: Cup | string) => {
+      if (typeof c === "string" || evidence[c.key]) return keyOf(c);
+      const e = c as Cup & {
+        sources?: { source: string; basis: string }[]; labels?: { label: string; n: number }[];
+        label_occurrences?: number; parts_holding_by_method?: Record<string, number>;
+        observed_fill_path?: boolean; seed_only?: boolean;
+      };
+      evidence[c.key] = {
+        sources: (e.sources ?? []).map((s) => `${s.source}=${s.basis}`).join("; ") || null,
+        label_occurrences: e.label_occurrences ?? 0,
+        top_labels: (e.labels ?? []).slice(0, 3).map((l) => `${l.label} x${l.n}`),
+        holders: Object.entries(e.parts_holding_by_method ?? {}).map(([m, n]) => `${m}=${n}`).join("; ") || null,
+        observed_fill_path: e.observed_fill_path ?? false,
+        ...(e.seed_only ? { seed_only: true } : {}),
+      };
+      return c.key;
+    };
+    const kinds = Object.fromEntries(Object.entries(full.kinds ?? {}).map(([kind, k]) => {
+      const kk = k as unknown as Record<string, unknown> & { parts: number };
+      return [kind, {
+        parts: kk.parts,
+        slots_per_part_at_nothing_known: kk.slots_per_part_at_nothing_known,
+        required_slots_at_nothing_known: kk.required_slots_at_nothing_known,
+        required_slots_stored: kk.required_slots_stored,
+        required: (k.required as unknown as Cup[]).map(remember),
+        pending: (k.pending_until_gate_answered as unknown as (Cup & { gate?: string[] })[])
+          .map((p) => ({ key: remember(p), gate: p.gate ?? [] })),
+        not_applicable: k.not_applicable_by_kind,
+        optional_count: k.optional?.length ?? 0,
+        column_backed: (kk.column_backed as string[] | undefined) ?? [],
+      }];
+    }));
     const anyKind = Object.values(full.kinds ?? {})[0];
+    const { kinds: _drop, ...head } = full;
     return {
-      ...full, kinds,
-      optional_shared_by_every_kind: anyKind?.optional ?? [],
-      _about_summary: "The per-kind `optional` lists are identical and are listed once, as "
-        + "`optional_shared_by_every_kind`; each kind keeps its own required / pending / not-applicable sets. "
-        + "The full ledger is at the same path without /summary.",
+      ...head, kinds,
+      label_evidence: evidence,
+      // The ~400-key `optional` list is the same for every kind and is not part of the arrangement question;
+      // it is counted here and listed in the full ledger.
+      optional_count: anyKind?.optional?.length ?? 0,
+      _about_summary: "The reviewable form (reviewer round 2, item 1). A kind carries KEY NAMES only; each cup's "
+        + "evidence — sources with basis, label occurrences, holders, fill path — is in `label_evidence`, keyed by "
+        + "field, once for the category, because it is a property of the field and not of the kind. `optional` is "
+        + "identical across kinds and is listed once. The full ledger is the same path without /summary.",
     };
   });
 

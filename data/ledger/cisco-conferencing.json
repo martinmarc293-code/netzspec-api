@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "conferencing",
  "profile_hash": "3cdaf034529e7e09",
- "built_on_commit": "ab2f55a",
+ "built_on_commit": "0bd76d7",
  "norm_version": "1.6.2",
  "declared_fields": 399,
  "gap_states": {
@@ -13,9 +13,9 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 299,
+  "parts": 147,
   "required_slots_at_nothing_known": 249,
-  "required_slots_stored": 0,
+  "required_slots_stored": 249,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
    "phone": 0,
@@ -39,8 +39,8 @@
    "cable": 0,
    "accessory": 1,
    "transceiver": 0,
-   "software": 4,
-   "unknown": 227
+   "software": 3,
+   "unknown": 76
   },
   "pending_reclassification": 0,
   "pending_reclassification_stored_slots": 0
@@ -11906,7 +11906,7 @@
    "parts": 22,
    "slots_per_part_at_nothing_known": 9,
    "required_slots_at_nothing_known": 198,
-   "required_slots_stored": 0,
+   "required_slots_stored": 198,
    "required": [
     {
      "key": "certifications",
@@ -12759,7 +12759,7 @@
    "parts": 40,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 40,
-   "required_slots_stored": 0,
+   "required_slots_stored": 40,
    "required": [
     {
      "key": "product_compatibility",
@@ -13217,7 +13217,7 @@
    "parts": 5,
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 10,
-   "required_slots_stored": 0,
+   "required_slots_stored": 10,
    "required": [
     {
      "key": "product_compatibility",
@@ -14681,7 +14681,7 @@
    "parts": 1,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 1,
-   "required_slots_stored": 0,
+   "required_slots_stored": 1,
    "required": [
     {
      "key": "product_compatibility",
@@ -15594,7 +15594,7 @@
    ]
   },
   "software": {
-   "parts": 4,
+   "parts": 3,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
@@ -16007,7 +16007,7 @@
    ]
   },
   "unknown": {
-   "parts": 227,
+   "parts": 76,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,

@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "meraki",
  "profile_hash": "2235b202d65ca9e8",
- "built_on_commit": "ab2f55a",
+ "built_on_commit": "0bd76d7",
  "norm_version": "1.6.2",
  "declared_fields": 147,
  "gap_states": {
@@ -13,9 +13,9 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 283,
-  "required_slots_at_nothing_known": 2928,
-  "required_slots_stored": 3384,
+  "parts": 263,
+  "required_slots_at_nothing_known": 2748,
+  "required_slots_stored": 2748,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
    "unknown": 5,
@@ -24,7 +24,7 @@
    "appliance": 26,
    "camera": 52,
    "sensor": 16,
-   "gateway": 38,
+   "gateway": 18,
    "accessory": 1
   },
   "pending_reclassification": 0,
@@ -35,7 +35,7 @@
    "parts": 5,
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 35,
-   "required_slots_stored": 60,
+   "required_slots_stored": 35,
    "required": [
     {
      "key": "dimensions",
@@ -578,7 +578,7 @@
    "parts": 109,
    "slots_per_part_at_nothing_known": 12,
    "required_slots_at_nothing_known": 1308,
-   "required_slots_stored": 1296,
+   "required_slots_stored": 1308,
    "required": [
     {
      "key": "dimensions",
@@ -1342,7 +1342,7 @@
    "parts": 36,
    "slots_per_part_at_nothing_known": 9,
    "required_slots_at_nothing_known": 324,
-   "required_slots_stored": 432,
+   "required_slots_stored": 324,
    "required": [
     {
      "key": "dimensions",
@@ -1996,7 +1996,7 @@
    "parts": 26,
    "slots_per_part_at_nothing_known": 9,
    "required_slots_at_nothing_known": 234,
-   "required_slots_stored": 312,
+   "required_slots_stored": 234,
    "required": [
     {
      "key": "dimensions",
@@ -2644,7 +2644,7 @@
    "parts": 52,
    "slots_per_part_at_nothing_known": 11,
    "required_slots_at_nothing_known": 572,
-   "required_slots_stored": 624,
+   "required_slots_stored": 572,
    "required": [
     {
      "key": "dimensions",
@@ -3316,7 +3316,7 @@
    "parts": 16,
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 112,
-   "required_slots_stored": 192,
+   "required_slots_stored": 112,
    "required": [
     {
      "key": "battery_life",
@@ -3825,10 +3825,10 @@
    ]
   },
   "gateway": {
-   "parts": 38,
+   "parts": 18,
    "slots_per_part_at_nothing_known": 9,
-   "required_slots_at_nothing_known": 342,
-   "required_slots_stored": 456,
+   "required_slots_at_nothing_known": 162,
+   "required_slots_stored": 162,
    "required": [
     {
      "key": "cellular_bands",
@@ -4453,7 +4453,7 @@
    "parts": 1,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 1,
-   "required_slots_stored": 12,
+   "required_slots_stored": 1,
    "required": [
     {
      "key": "product_compatibility",

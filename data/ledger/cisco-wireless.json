@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "wireless",
  "profile_hash": "7941ec662f67a590",
- "built_on_commit": "ab2f55a",
+ "built_on_commit": "0bd76d7",
  "norm_version": "1.6.2",
  "declared_fields": 407,
  "gap_states": {
@@ -13,9 +13,9 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 5157,
+  "parts": 5116,
   "required_slots_at_nothing_known": 33382,
-  "required_slots_stored": 37936,
+  "required_slots_stored": 33382,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
    "ap": 2750,
@@ -29,8 +29,8 @@
    "cable": 162,
    "accessory": 180,
    "bundle": 82,
-   "software": 170,
-   "other": 1192
+   "software": 134,
+   "other": 1187
   },
   "pending_reclassification": 0,
   "pending_reclassification_stored_slots": 0
@@ -40,7 +40,7 @@
    "parts": 2750,
    "slots_per_part_at_nothing_known": 11,
    "required_slots_at_nothing_known": 30250,
-   "required_slots_stored": 22000,
+   "required_slots_stored": 30250,
    "required": [
     {
      "key": "ap_max_clients",
@@ -1775,7 +1775,7 @@
    "parts": 189,
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 756,
-   "required_slots_stored": 1504,
+   "required_slots_stored": 756,
    "required": [
     {
      "key": "antenna_connector",
@@ -2371,7 +2371,7 @@
    "parts": 41,
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 287,
-   "required_slots_stored": 296,
+   "required_slots_stored": 287,
    "required": [
     {
      "key": "certifications",
@@ -3167,7 +3167,7 @@
    "parts": 20,
    "slots_per_part_at_nothing_known": 5,
    "required_slots_at_nothing_known": 100,
-   "required_slots_stored": 160,
+   "required_slots_stored": 100,
    "required": [
     {
      "key": "certifications",
@@ -3855,7 +3855,7 @@
    "parts": 144,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 144,
-   "required_slots_stored": 1080,
+   "required_slots_stored": 144,
    "required": [
     {
      "key": "product_compatibility",
@@ -4321,7 +4321,7 @@
    "parts": 70,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 210,
-   "required_slots_stored": 208,
+   "required_slots_stored": 210,
    "required": [
     {
      "key": "input_voltage",
@@ -4862,7 +4862,7 @@
    "parts": 25,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 75,
-   "required_slots_stored": 184,
+   "required_slots_stored": 75,
    "required": [
     {
      "key": "poe_standard",
@@ -5376,7 +5376,7 @@
    "parts": 162,
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 324,
-   "required_slots_stored": 440,
+   "required_slots_stored": 324,
    "required": [
     {
      "key": "cable_length",
@@ -5877,7 +5877,7 @@
    "parts": 180,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 180,
-   "required_slots_stored": 744,
+   "required_slots_stored": 180,
    "required": [
     {
      "key": "product_compatibility",
@@ -6343,7 +6343,7 @@
    "parts": 82,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
-   "required_slots_stored": 656,
+   "required_slots_stored": 0,
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -6761,10 +6761,10 @@
    ]
   },
   "software": {
-   "parts": 170,
+   "parts": 134,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
-   "required_slots_stored": 432,
+   "required_slots_stored": 0,
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -7182,10 +7182,10 @@
    ]
   },
   "other": {
-   "parts": 1192,
+   "parts": 1187,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
-   "required_slots_stored": 9176,
+   "required_slots_stored": 0,
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [

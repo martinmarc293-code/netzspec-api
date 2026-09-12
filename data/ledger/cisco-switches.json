@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "switches",
  "profile_hash": "75760677bc486fbb",
- "built_on_commit": "ab2f55a",
+ "built_on_commit": "0bd76d7",
  "norm_version": "1.6.2",
  "declared_fields": 447,
  "gap_states": {
@@ -13,12 +13,12 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 7413,
-  "required_slots_at_nothing_known": 204092,
-  "required_slots_stored": 199381,
+  "parts": 7411,
+  "required_slots_at_nothing_known": 204014,
+  "required_slots_stored": 199303,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
-   "switch": 4932,
+   "switch": 4930,
    "fex": 163,
    "linecard": 452,
    "module": 158,
@@ -39,10 +39,10 @@
  },
  "kinds": {
   "switch": {
-   "parts": 4932,
+   "parts": 4930,
    "slots_per_part_at_nothing_known": 39,
-   "required_slots_at_nothing_known": 192348,
-   "required_slots_stored": 187663,
+   "required_slots_at_nothing_known": 192270,
+   "required_slots_stored": 187585,
    "required": [
     {
      "key": "altitude_max",
@@ -144,7 +144,7 @@
      ],
      "parts_holding_by_method": {
       "description_mining": 120,
-      "html_table": 1337
+      "html_table": 1336
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -2464,7 +2464,7 @@
      ],
      "parts_holding_by_method": {
       "description_mining": 120,
-      "html_table": 1337
+      "html_table": 1336
      },
      "observed_fill_path": true,
      "seed_only": false

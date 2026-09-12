@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "data-center-networking",
  "profile_hash": "5187fd5fdd98406f",
- "built_on_commit": "ab2f55a",
+ "built_on_commit": "0bd76d7",
  "norm_version": "1.6.2",
  "declared_fields": 431,
  "gap_states": {
@@ -13,12 +13,12 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 33,
-  "required_slots_at_nothing_known": 231,
-  "required_slots_stored": 297,
+  "parts": 22,
+  "required_slots_at_nothing_known": 121,
+  "required_slots_stored": 121,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
-   "switch": 20,
+   "switch": 9,
    "fex": 0,
    "linecard": 0,
    "module": 0,
@@ -39,10 +39,10 @@
  },
  "kinds": {
   "switch": {
-   "parts": 20,
+   "parts": 9,
    "slots_per_part_at_nothing_known": 10,
-   "required_slots_at_nothing_known": 200,
-   "required_slots_stored": 180,
+   "required_slots_at_nothing_known": 90,
+   "required_slots_stored": 90,
    "required": [
     {
      "key": "certifications",
@@ -4588,7 +4588,7 @@
    "parts": 5,
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 20,
-   "required_slots_stored": 45,
+   "required_slots_stored": 20,
    "required": [
     {
      "key": "airflow",
@@ -5194,7 +5194,7 @@
    "parts": 3,
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 6,
-   "required_slots_stored": 27,
+   "required_slots_stored": 6,
    "required": [
     {
      "key": "airflow",
@@ -7784,7 +7784,7 @@
    "parts": 5,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 5,
-   "required_slots_stored": 45,
+   "required_slots_stored": 5,
    "required": [
     {
      "key": "product_compatibility",

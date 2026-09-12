@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "hyperconverged-infrastructure",
  "profile_hash": "67ca41ef97c1c633",
- "built_on_commit": "ab2f55a",
+ "built_on_commit": "0bd76d7",
  "norm_version": "1.6.2",
  "declared_fields": 182,
  "gap_states": {
@@ -13,9 +13,9 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 997,
+  "parts": 786,
   "required_slots_at_nothing_known": 3131,
-  "required_slots_stored": 12480,
+  "required_slots_stored": 3131,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
    "server": 64,
@@ -31,10 +31,10 @@
    "io-module": 4,
    "accessory": 76,
    "bundle": 0,
-   "os-license": 1,
+   "os-license": 0,
    "software": 0,
-   "non-product": 4,
-   "unknown": 268
+   "non-product": 0,
+   "unknown": 62
   },
   "pending_reclassification": 0,
   "pending_reclassification_stored_slots": 0
@@ -816,7 +816,7 @@
    "parts": 2,
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 20,
-   "required_slots_stored": 26,
+   "required_slots_stored": 20,
    "required": [
     {
      "key": "altitude_max",
@@ -1514,7 +1514,7 @@
    "parts": 7,
    "slots_per_part_at_nothing_known": 12,
    "required_slots_at_nothing_known": 84,
-   "required_slots_stored": 78,
+   "required_slots_stored": 84,
    "required": [
     {
      "key": "altitude_max",
@@ -2317,7 +2317,7 @@
    "parts": 168,
    "slots_per_part_at_nothing_known": 6,
    "required_slots_at_nothing_known": 1008,
-   "required_slots_stored": 2184,
+   "required_slots_stored": 1008,
    "required": [
     {
      "key": "clock_speed",
@@ -2716,7 +2716,7 @@
    "parts": 42,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 126,
-   "required_slots_stored": 546,
+   "required_slots_stored": 126,
    "required": [
     {
      "key": "dram",
@@ -3040,7 +3040,7 @@
    "parts": 243,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 729,
-   "required_slots_stored": 3159,
+   "required_slots_stored": 729,
    "required": [
     {
      "key": "drive_interface",
@@ -3369,7 +3369,7 @@
    "parts": 18,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 54,
-   "required_slots_stored": 52,
+   "required_slots_stored": 54,
    "required": [
     {
      "key": "input_voltage",
@@ -3685,7 +3685,7 @@
    "parts": 65,
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 130,
-   "required_slots_stored": 845,
+   "required_slots_stored": 130,
    "required": [
     {
      "key": "ports",
@@ -3984,7 +3984,7 @@
    "parts": 29,
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 58,
-   "required_slots_stored": 377,
+   "required_slots_stored": 58,
    "required": [
     {
      "key": "power_max",
@@ -4276,7 +4276,7 @@
    "parts": 6,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 6,
-   "required_slots_stored": 78,
+   "required_slots_stored": 6,
    "required": [
     {
      "key": "product_compatibility",
@@ -4519,7 +4519,7 @@
    "parts": 4,
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 8,
-   "required_slots_stored": 52,
+   "required_slots_stored": 8,
    "required": [
     {
      "key": "ports",
@@ -4818,7 +4818,7 @@
    "parts": 76,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 76,
-   "required_slots_stored": 754,
+   "required_slots_stored": 76,
    "required": [
     {
      "key": "product_compatibility",
@@ -5253,10 +5253,10 @@
    "column_backed": []
   },
   "os-license": {
-   "parts": 1,
+   "parts": 0,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
-   "required_slots_stored": 13,
+   "required_slots_stored": 0,
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -5643,10 +5643,10 @@
    "column_backed": []
   },
   "non-product": {
-   "parts": 4,
+   "parts": 0,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
-   "required_slots_stored": 52,
+   "required_slots_stored": 0,
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -5838,10 +5838,10 @@
    "column_backed": []
   },
   "unknown": {
-   "parts": 268,
+   "parts": 62,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
-   "required_slots_stored": 3432,
+   "required_slots_stored": 0,
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [

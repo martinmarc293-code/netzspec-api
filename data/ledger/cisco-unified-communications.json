@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "unified-communications",
  "profile_hash": "9721bf85623234d2",
- "built_on_commit": "ab2f55a",
+ "built_on_commit": "0bd76d7",
  "norm_version": "1.6.2",
  "declared_fields": 155,
  "gap_states": {
@@ -13,9 +13,9 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 2928,
-  "required_slots_at_nothing_known": 2923,
-  "required_slots_stored": 26090,
+  "parts": 2193,
+  "required_slots_at_nothing_known": 2908,
+  "required_slots_stored": 2908,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
    "phone": 31,
@@ -34,13 +34,13 @@
    "voice-module": 23,
    "server": 86,
    "server-component": 114,
-   "power-supply": 69,
+   "power-supply": 62,
    "power-cord": 0,
    "cable": 0,
-   "accessory": 42,
+   "accessory": 41,
    "transceiver": 8,
-   "software": 275,
-   "unknown": 2147
+   "software": 239,
+   "unknown": 1456
   },
   "pending_reclassification": 0,
   "pending_reclassification_stored_slots": 0
@@ -50,7 +50,7 @@
    "parts": 31,
    "slots_per_part_at_nothing_known": 14,
    "required_slots_at_nothing_known": 434,
-   "required_slots_stored": 310,
+   "required_slots_stored": 434,
    "required": [
     {
      "key": "audio_codecs",
@@ -136,7 +136,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -883,7 +883,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -1494,7 +1494,7 @@
    "parts": 2,
    "slots_per_part_at_nothing_known": 14,
    "required_slots_at_nothing_known": 28,
-   "required_slots_stored": 20,
+   "required_slots_stored": 28,
    "required": [
     {
      "key": "audio_codecs",
@@ -1580,7 +1580,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -2286,7 +2286,7 @@
    "parts": 3,
    "slots_per_part_at_nothing_known": 13,
    "required_slots_at_nothing_known": 39,
-   "required_slots_stored": 20,
+   "required_slots_stored": 39,
    "required": [
     {
      "key": "audio_codecs",
@@ -2372,7 +2372,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -3116,7 +3116,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -3692,7 +3692,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -4143,7 +4143,7 @@
    "parts": 44,
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 308,
-   "required_slots_stored": 440,
+   "required_slots_stored": 308,
    "required": [
     {
      "key": "certifications",
@@ -4192,7 +4192,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -4717,7 +4717,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -5217,7 +5217,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -5834,7 +5834,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -6346,7 +6346,7 @@
    "parts": 1,
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 7,
-   "required_slots_stored": 10,
+   "required_slots_stored": 7,
    "required": [
     {
      "key": "certifications",
@@ -6395,7 +6395,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -6866,7 +6866,7 @@
    "parts": 48,
    "slots_per_part_at_nothing_known": 13,
    "required_slots_at_nothing_known": 624,
-   "required_slots_stored": 480,
+   "required_slots_stored": 624,
    "required": [
     {
      "key": "audio_codecs",
@@ -6952,7 +6952,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -7641,7 +7641,7 @@
    "parts": 34,
    "slots_per_part_at_nothing_known": 11,
    "required_slots_at_nothing_known": 374,
-   "required_slots_stored": 340,
+   "required_slots_stored": 374,
    "required": [
     {
      "key": "audio_codecs",
@@ -7727,7 +7727,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -8330,7 +8330,7 @@
    "parts": 23,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 23,
-   "required_slots_stored": 230,
+   "required_slots_stored": 23,
    "required": [
     {
      "key": "product_compatibility",
@@ -8544,7 +8544,7 @@
    "parts": 86,
    "slots_per_part_at_nothing_known": 9,
    "required_slots_at_nothing_known": 774,
-   "required_slots_stored": 860,
+   "required_slots_stored": 774,
    "required": [
     {
      "key": "certifications",
@@ -8593,7 +8593,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 22
+      "html_table": 20
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -9155,7 +9155,7 @@
    "parts": 114,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 114,
-   "required_slots_stored": 1130,
+   "required_slots_stored": 114,
    "required": [
     {
      "key": "product_compatibility",
@@ -9366,10 +9366,10 @@
    ]
   },
   "power-supply": {
-   "parts": 69,
+   "parts": 62,
    "slots_per_part_at_nothing_known": 2,
-   "required_slots_at_nothing_known": 138,
-   "required_slots_stored": 340,
+   "required_slots_at_nothing_known": 124,
+   "required_slots_stored": 124,
    "required": [
     {
      "key": "product_compatibility",
@@ -10098,10 +10098,10 @@
    ]
   },
   "accessory": {
-   "parts": 42,
+   "parts": 41,
    "slots_per_part_at_nothing_known": 1,
-   "required_slots_at_nothing_known": 42,
-   "required_slots_stored": 350,
+   "required_slots_at_nothing_known": 41,
+   "required_slots_stored": 41,
    "required": [
     {
      "key": "product_compatibility",
@@ -10315,7 +10315,7 @@
    "parts": 8,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 8,
-   "required_slots_stored": 80,
+   "required_slots_stored": 8,
    "required": [
     {
      "key": "product_compatibility",
@@ -10526,10 +10526,10 @@
    ]
   },
   "software": {
-   "parts": 275,
+   "parts": 239,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
-   "required_slots_stored": 1320,
+   "required_slots_stored": 0,
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -10695,10 +10695,10 @@
    ]
   },
   "unknown": {
-   "parts": 2147,
+   "parts": 1456,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
-   "required_slots_stored": 20150,
+   "required_slots_stored": 0,
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [

@@ -154,10 +154,15 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
     //    OUT of the kinds. A ledger that simply omitted them would report 1,990 parts for a category
     //    whose parts table holds 5,515, with nothing saying where the rest went — the same defect as
     //    an output field named for the thing you wish it measured. So the count is its own number and
-    //    this asserts it is PRESENT and non-zero, not merely that the kinds add up.
+    //    this asserts it is PRESENT — a missing field is the defect.
+    //
+    //    IT WAS `> 0` UNTIL THE RUN LANDED (12 Sep 2026, run 969 moved 7,878 rows off hardware, 3,525 of them
+    //    here). Zero is now the CORRECT answer and the old assertion made the suite red for the success case,
+    //    which is the shape of a check that pins today's number instead of the property. The property is: the
+    //    field exists, it is not negative, and `parts` + it equals the category's stored-hardware count.
     check("security: the ledger records the rows held out for reclassification, as their own number",
-      typeof led.totals.pending_reclassification === "number" && led.totals.pending_reclassification > 0,
-      `pending_reclassification=${led.totals.pending_reclassification} — a missing or zero count means the field was dropped, not that every row is classified`);
+      typeof led.totals.pending_reclassification === "number" && led.totals.pending_reclassification >= 0,
+      `pending_reclassification=${led.totals.pending_reclassification} — a MISSING count is the defect; 0 means the reclassify has run`);
     check("security: `parts` is the sum of the kinds and EXCLUDES the held-out rows",
       led.totals.parts === Object.values(led.totals.by_kind).reduce((a, b) => a + b, 0),
       `parts=${led.totals.parts}, by_kind sum=${Object.values(led.totals.by_kind).reduce((a, b) => a + b, 0)}`);
