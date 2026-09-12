@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "data-center-networking",
  "profile_hash": "028c23d8363a6aed",
- "built_on_commit": "37f0690",
+ "built_on_commit": "856dfd8",
  "norm_version": "1.6.2",
  "declared_fields": 430,
  "gap_states": {
@@ -43,6 +43,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 90,
    "required_slots_stored": 90,
+   "document_evidence": {
+    "spec_bearing": 9,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "certifications",
@@ -989,6 +995,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "airflow",
@@ -1925,6 +1937,12 @@
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "ports",
@@ -2519,6 +2537,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "ports",
@@ -3064,6 +3088,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -3604,6 +3634,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -4093,6 +4129,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -4582,6 +4624,12 @@
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 20,
    "required_slots_stored": 20,
+   "document_evidence": {
+    "spec_bearing": 5,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "airflow",
@@ -5187,6 +5235,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 6,
    "required_slots_stored": 6,
+   "document_evidence": {
+    "spec_bearing": 3,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "airflow",
@@ -5717,6 +5771,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "cable_length",
@@ -6239,6 +6299,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "cable_length",
@@ -6761,6 +6827,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -7250,6 +7322,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "cable_length",
@@ -7772,6 +7850,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 5,
    "required_slots_stored": 5,
+   "document_evidence": {
+    "spec_bearing": 5,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -8261,6 +8345,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [

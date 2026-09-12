@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "collaboration-endpoints",
  "profile_hash": "19206fb10ad861c4",
- "built_on_commit": "37f0690",
+ "built_on_commit": "856dfd8",
  "norm_version": "1.6.2",
  "declared_fields": 398,
  "gap_states": {
@@ -51,6 +51,12 @@
    "slots_per_part_at_nothing_known": 14,
    "required_slots_at_nothing_known": 7182,
    "required_slots_stored": 7182,
+   "document_evidence": {
+    "spec_bearing": 279,
+    "eol_only": 224,
+    "no_document": 10,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "audio_codecs",
@@ -1090,6 +1096,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 120,
    "required_slots_stored": 120,
+   "document_evidence": {
+    "spec_bearing": 12,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "certifications",
@@ -1999,6 +2011,12 @@
    "slots_per_part_at_nothing_known": 14,
    "required_slots_at_nothing_known": 4032,
    "required_slots_stored": 4032,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 218,
+    "no_document": 70,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "audio_codecs",
@@ -3044,6 +3062,12 @@
    "slots_per_part_at_nothing_known": 13,
    "required_slots_at_nothing_known": 3146,
    "required_slots_stored": 3146,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 192,
+    "no_document": 50,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "audio_codecs",
@@ -4053,6 +4077,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 600,
    "required_slots_stored": 600,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 34,
+    "no_document": 26,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "camera_zoom",
@@ -4903,6 +4933,12 @@
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 385,
    "required_slots_stored": 385,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 21,
+    "no_document": 34,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -5652,6 +5688,12 @@
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 70,
    "required_slots_stored": 70,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 8,
+    "no_document": 2,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -6426,6 +6468,12 @@
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 546,
    "required_slots_stored": 546,
+   "document_evidence": {
+    "spec_bearing": 59,
+    "eol_only": 12,
+    "no_document": 7,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "certifications",
@@ -7175,6 +7223,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 610,
    "required_slots_stored": 610,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 34,
+    "no_document": 27,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -8041,6 +8095,12 @@
    "slots_per_part_at_nothing_known": 8,
    "required_slots_at_nothing_known": 456,
    "required_slots_stored": 456,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 57,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -8851,6 +8911,12 @@
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 112,
    "required_slots_stored": 112,
+   "document_evidence": {
+    "spec_bearing": 7,
+    "eol_only": 8,
+    "no_document": 1,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -9620,6 +9686,12 @@
    "slots_per_part_at_nothing_known": 13,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "audio_codecs",
@@ -10644,6 +10716,12 @@
    "slots_per_part_at_nothing_known": 11,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "audio_codecs",
@@ -11582,6 +11660,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -12039,6 +12123,12 @@
    "slots_per_part_at_nothing_known": 9,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "certifications",
@@ -12899,6 +12989,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 4,
    "required_slots_stored": 4,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 4,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -13356,6 +13452,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 366,
    "required_slots_stored": 366,
+   "document_evidence": {
+    "spec_bearing": 73,
+    "eol_only": 96,
+    "no_document": 14,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -13837,6 +13939,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 506,
    "required_slots_stored": 506,
+   "document_evidence": {
+    "spec_bearing": 6,
+    "eol_only": 213,
+    "no_document": 34,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "cable_length",
@@ -14327,6 +14435,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 578,
    "required_slots_stored": 578,
+   "document_evidence": {
+    "spec_bearing": 4,
+    "eol_only": 213,
+    "no_document": 72,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "cable_length",
@@ -14817,6 +14931,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 642,
    "required_slots_stored": 642,
+   "document_evidence": {
+    "spec_bearing": 83,
+    "eol_only": 431,
+    "no_document": 128,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -15274,6 +15394,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -15731,6 +15857,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 11,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -16143,6 +16275,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 12,
+    "eol_only": 56,
+    "no_document": 9,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [

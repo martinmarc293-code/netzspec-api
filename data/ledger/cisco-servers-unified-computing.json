@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "servers-unified-computing",
  "profile_hash": "0f0415c076222c54",
- "built_on_commit": "37f0690",
+ "built_on_commit": "856dfd8",
  "norm_version": "1.6.2",
  "declared_fields": 403,
  "gap_states": {
@@ -45,6 +45,12 @@
    "slots_per_part_at_nothing_known": 13,
    "required_slots_at_nothing_known": 14742,
    "required_slots_stored": 14742,
+   "document_evidence": {
+    "spec_bearing": 142,
+    "eol_only": 867,
+    "no_document": 125,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "altitude_max",
@@ -1047,6 +1053,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 1210,
    "required_slots_stored": 1210,
+   "document_evidence": {
+    "spec_bearing": 4,
+    "eol_only": 107,
+    "no_document": 10,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "altitude_max",
@@ -1971,6 +1983,12 @@
    "slots_per_part_at_nothing_known": 12,
    "required_slots_at_nothing_known": 1248,
    "required_slots_stored": 1248,
+   "document_evidence": {
+    "spec_bearing": 12,
+    "eol_only": 78,
+    "no_document": 14,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "altitude_max",
@@ -3000,6 +3018,12 @@
    "slots_per_part_at_nothing_known": 6,
    "required_slots_at_nothing_known": 13014,
    "required_slots_stored": 13014,
+   "document_evidence": {
+    "spec_bearing": 207,
+    "eol_only": 1558,
+    "no_document": 404,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "clock_speed",
@@ -3621,6 +3645,12 @@
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 1230,
    "required_slots_stored": 1230,
+   "document_evidence": {
+    "spec_bearing": 69,
+    "eol_only": 279,
+    "no_document": 62,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "dram",
@@ -4169,6 +4199,12 @@
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 5769,
    "required_slots_stored": 5769,
+   "document_evidence": {
+    "spec_bearing": 268,
+    "eol_only": 1280,
+    "no_document": 375,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "drive_interface",
@@ -4721,6 +4757,12 @@
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 369,
    "required_slots_stored": 369,
+   "document_evidence": {
+    "spec_bearing": 8,
+    "eol_only": 93,
+    "no_document": 22,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "input_voltage",
@@ -5262,6 +5304,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 570,
    "required_slots_stored": 570,
+   "document_evidence": {
+    "spec_bearing": 65,
+    "eol_only": 163,
+    "no_document": 57,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "ports",
@@ -5782,6 +5830,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 364,
    "required_slots_stored": 364,
+   "document_evidence": {
+    "spec_bearing": 31,
+    "eol_only": 108,
+    "no_document": 43,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "power_max",
@@ -6297,6 +6351,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 130,
    "required_slots_stored": 130,
+   "document_evidence": {
+    "spec_bearing": 6,
+    "eol_only": 87,
+    "no_document": 37,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -6761,6 +6821,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 46,
    "required_slots_stored": 46,
+   "document_evidence": {
+    "spec_bearing": 6,
+    "eol_only": 7,
+    "no_document": 10,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "ports",
@@ -7281,6 +7347,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 728,
    "required_slots_stored": 728,
+   "document_evidence": {
+    "spec_bearing": 32,
+    "eol_only": 437,
+    "no_document": 259,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -7745,6 +7817,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 1378,
+    "no_document": 54,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -8161,6 +8239,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -8577,6 +8661,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -8993,6 +9083,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -9409,6 +9505,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 98,
+    "eol_only": 543,
+    "no_document": 242,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [

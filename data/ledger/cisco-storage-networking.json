@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "storage-networking",
  "profile_hash": "1588da783f119172",
- "built_on_commit": "37f0690",
+ "built_on_commit": "856dfd8",
  "norm_version": "1.6.2",
  "declared_fields": 180,
  "gap_states": {
@@ -40,6 +40,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 1840,
    "required_slots_stored": 1840,
+   "document_evidence": {
+    "spec_bearing": 58,
+    "eol_only": 102,
+    "no_document": 24,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "airflow",
@@ -744,6 +750,12 @@
    "slots_per_part_at_nothing_known": 8,
    "required_slots_at_nothing_known": 272,
    "required_slots_stored": 272,
+   "document_evidence": {
+    "spec_bearing": 11,
+    "eol_only": 21,
+    "no_document": 2,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -1351,6 +1363,12 @@
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 156,
    "required_slots_stored": 156,
+   "document_evidence": {
+    "spec_bearing": 21,
+    "eol_only": 15,
+    "no_document": 3,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "data_rate",
@@ -1746,6 +1764,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 24,
    "required_slots_stored": 24,
+   "document_evidence": {
+    "spec_bearing": 8,
+    "eol_only": 4,
+    "no_document": 0,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "power_max",
@@ -2036,6 +2060,12 @@
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 72,
    "required_slots_stored": 72,
+   "document_evidence": {
+    "spec_bearing": 5,
+    "eol_only": 13,
+    "no_document": 6,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "fabric_bandwidth",
@@ -2350,6 +2380,12 @@
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 200,
    "required_slots_stored": 200,
+   "document_evidence": {
+    "spec_bearing": 18,
+    "eol_only": 28,
+    "no_document": 4,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "airflow",
@@ -2707,6 +2743,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 50,
    "required_slots_stored": 50,
+   "document_evidence": {
+    "spec_bearing": 9,
+    "eol_only": 11,
+    "no_document": 5,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "airflow",
@@ -2989,6 +3031,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 74,
    "required_slots_stored": 74,
+   "document_evidence": {
+    "spec_bearing": 73,
+    "eol_only": 0,
+    "no_document": 1,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "cable_length",
@@ -3217,6 +3265,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 129,
    "required_slots_stored": 129,
+   "document_evidence": {
+    "spec_bearing": 19,
+    "eol_only": 77,
+    "no_document": 33,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -3456,6 +3510,12 @@
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 4,
    "required_slots_stored": 4,
+   "document_evidence": {
+    "spec_bearing": 1,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "connector",
@@ -3831,6 +3891,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -4025,6 +4091,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 1,
+    "no_document": 1,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [

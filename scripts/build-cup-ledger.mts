@@ -42,6 +42,30 @@ const SOURCE_CLASS: Record<string, string> = {
 
 // The four gap states the filling phase must use (reviewer §5, the cells defined on 10 Sep 2026), and the store
 // state each one is computed from. Coverage = filled ÷ required slots, reported by kind and by state, never as a mean.
+/**
+ * WHICH DOCUMENT TYPES CARRY A SPECIFICATION — measured, not assumed, and the first version of this
+ * list was wrong in a way that overstated the problem by a third.
+ *
+ * The obvious predicate is `doc_type LIKE '%datasheet%'`. It misses `vendor_page`, which is
+ * MERAKI'S ONLY SOURCE, and it would have had this ledger report Meraki as acquisition-blocked
+ * while its pages sit in the cache. The discriminator is not facts per DOCUMENT either, which is
+ * the trap the repo already recorded as "a JOIN cardinality is not a yield": an EoL bulletin scores
+ * 5.4 facts/doc, about the same as a vendor_page's 4.7, because a bulletin lists twenty SKUs in one
+ * table and the count is per document.
+ *
+ * FACTS PER PART-LINK is the number that separates them, measured over the live store:
+ *
+ *     vendor_tool            5.9      vendor_guide           0.52
+ *     vendor_datasheet_pdf   5.4      vendor_eol_bulletin    0.27
+ *     vendor_datasheet_html  5.2
+ *     vendor_page            3.6
+ *
+ * A bulletin binds a part and tells it nothing; a datasheet, a Meraki page or a config tool answers
+ * it. `vendor_guide` (76 docs, 2,412 part-links, 0.52) sits with the bulletins and is excluded
+ * despite a healthy 16.5 facts/doc — the same cardinality illusion one line up.
+ */
+const SPEC_BEARING_DOC_TYPES = ["vendor_datasheet_html", "vendor_datasheet_pdf", "vendor_page", "vendor_tool"];
+
 const GAP_STATES = {
   filled: "the part holds a current fact under the key (facts.superseded_by IS NULL, not retracted)",
   "not-parsed": "a spec-bearing document linked to the part (doc_parts) carries a label that maps to the key, and no fact was stored",
@@ -55,16 +79,40 @@ async function main(): Promise<void> {
   const pool = getPool();
 
   // ---- parts per kind ---------------------------------------------------------------------------------
-  const parts = (await pool.query<{ id: string; sku: string; rt: number | null }>(`
-    SELECT p.id::text, p.sku, cp.required_total AS rt
+  const parts = (await pool.query<{ id: string; sku: string; rt: number | null; spec_docs: number; any_docs: number }>(`
+    SELECT p.id::text, p.sku, cp.required_total AS rt,
+           (SELECT count(*) FROM doc_parts dp JOIN source_docs sd ON sd.doc_id = dp.doc_id
+             WHERE dp.part_id = p.id AND sd.doc_type = ANY($3::text[]))::int AS spec_docs,
+           (SELECT count(*) FROM doc_parts dp WHERE dp.part_id = p.id)::int AS any_docs
       FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories ct ON ct.id = p.category_id
       LEFT JOIN completeness cp ON cp.part_id = p.id
-     WHERE v.slug = $1 AND ct.slug = $2 AND p.retired_at IS NULL AND p.product_class = 'hardware'`, [vendor, category])).rows;
-  const byKind = new Map<string, { n: number; stored: number }>();
+     WHERE v.slug = $1 AND ct.slug = $2 AND p.retired_at IS NULL AND p.product_class = 'hardware'`,
+    [vendor, category, SPEC_BEARING_DOC_TYPES])).rows;
+  const byKind = new Map<string, { n: number; stored: number; spec: number; eolOnly: number; noDoc: number }>();
   for (const p of parts) {
     const k = partKind(category, p.sku) ?? "(none)";
-    const b = byKind.get(k) ?? { n: 0, stored: 0 };
-    b.n++; b.stored += p.rt ?? 0; byKind.set(k, b);
+    const b = byKind.get(k) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0 };
+    b.n++; b.stored += p.rt ?? 0;
+    // THE `not-held` STATE, COMPUTED AT LAST — reviewer round 4 §9(2), 12 Sep 2026.
+    //
+    // GAP_STATES below has defined `not-held` ("no spec-bearing document is linked to the part at
+    // all — an acquisition gap, not a parsing one") since the ledger was written, and NOTHING EVER
+    // COMPUTED IT. A definition with no reader is the drift this repo keeps paying for, and here it
+    // cost the argument rather than the data: 4,463 parts sit in a fallback kind with no datasheet
+    // held, and without this split a readiness report says "not ready" and lets a reader conclude
+    // "not ready — schema" about parts whose cups are arranged correctly and whose PAGES do not
+    // exist in the cache. The reviewer made it the CONDITION for treating those parts as phase 2:
+    // "the ledger must say so per family."
+    //
+    // Three states, per kind, because the kind is the family a reader acts on:
+    //   spec_bearing  at least one datasheet-class document is linked — a gap here is parsing or
+    //                 extraction, and it is ours to close now
+    //   eol_only      documents are linked and NONE is spec-bearing (an end-of-life bulletin names
+    //                 a SKU and carries no specification) — acquisition, and tractable: the
+    //                 bulletin names the family and the archived collateral usually still exists
+    //   no_document   nothing linked at all — acquisition, and the queue has to discover it first
+    if (p.spec_docs > 0) b.spec++; else if (p.any_docs > 0) b.eolOnly++; else b.noDoc++;
+    byKind.set(k, b);
   }
   // ---- security (12 Sep 2026): the rows the class table has already judged non-hardware ----------------
   // `securityKind` returns "non-hardware" for a SKU productClass.ts calls a licence, software or a service
@@ -132,7 +180,7 @@ async function main(): Promise<void> {
   let slotsNothing = 0, slotsStored = 0, partsTotal = 0;
   for (const kind of LEDGER_KINDS[category]) {
     const qs = kindQuestionSet(category, kind);
-    const b = byKind.get(kind) ?? { n: 0, stored: 0 };
+    const b = byKind.get(kind) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0 };
     const per = slotsAtNothingKnown(qs);
     slotsNothing += b.n * per; slotsStored += b.stored; partsTotal += b.n;
     kinds[kind] = {
@@ -140,6 +188,15 @@ async function main(): Promise<void> {
       slots_per_part_at_nothing_known: per,
       required_slots_at_nothing_known: b.n * per,
       required_slots_stored: b.stored,
+      // WHY A REQUIRED CUP OF THIS KIND IS EMPTY — the difference between our problem and the
+      // crawler's. `blocked_by` is the verdict a readiness report must print instead of a bare
+      // "not ready": `schema-or-parsing` when most of the kind holds a datasheet, `not-held` when
+      // most of it does not. The three counts are always emitted so the verdict can be re-derived
+      // rather than trusted.
+      document_evidence: {
+        spec_bearing: b.spec, eol_only: b.eolOnly, no_document: b.noDoc,
+        blocked_by: b.n === 0 ? "no parts" : b.spec >= b.n / 2 ? "schema-or-parsing" : "not-held (acquisition)",
+      },
       required: qs.required.map(evidence),
       pending_until_gate_answered: qs.pending.map((p) => ({ ...evidence(p.key), gate: p.gate })),
       not_applicable_by_kind: qs.not_applicable_by_kind,

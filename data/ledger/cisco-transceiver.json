@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "transceiver",
  "profile_hash": "e9100152a421d9aa",
- "built_on_commit": "37f0690",
+ "built_on_commit": "856dfd8",
  "norm_version": "1.6.2",
  "declared_fields": 393,
  "gap_states": {
@@ -33,6 +33,12 @@
    "slots_per_part_at_nothing_known": 15,
    "required_slots_at_nothing_known": 20910,
    "required_slots_stored": 19477,
+   "document_evidence": {
+    "spec_bearing": 907,
+    "eol_only": 350,
+    "no_document": 137,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "connector",
@@ -1079,6 +1085,12 @@
    "slots_per_part_at_nothing_known": 16,
    "required_slots_at_nothing_known": 1232,
    "required_slots_stored": 1142,
+   "document_evidence": {
+    "spec_bearing": 42,
+    "eol_only": 14,
+    "no_document": 21,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "connector",
@@ -2158,6 +2170,12 @@
    "slots_per_part_at_nothing_known": 14,
    "required_slots_at_nothing_known": 644,
    "required_slots_stored": 588,
+   "document_evidence": {
+    "spec_bearing": 24,
+    "eol_only": 11,
+    "no_document": 11,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "connector",
@@ -3153,6 +3171,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 36,
    "required_slots_stored": 36,
+   "document_evidence": {
+    "spec_bearing": 10,
+    "eol_only": 5,
+    "no_document": 3,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "data_rate",
@@ -3647,6 +3671,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 5,
+    "eol_only": 12,
+    "no_document": 1,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [

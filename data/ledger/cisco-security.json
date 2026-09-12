@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "security",
  "profile_hash": "19cf8067b21889d4",
- "built_on_commit": "37f0690",
+ "built_on_commit": "856dfd8",
  "norm_version": "1.6.2",
  "declared_fields": 402,
  "gap_states": {
@@ -47,6 +47,12 @@
    "slots_per_part_at_nothing_known": 16,
    "required_slots_at_nothing_known": 7200,
    "required_slots_stored": 7200,
+   "document_evidence": {
+    "spec_bearing": 48,
+    "eol_only": 400,
+    "no_document": 2,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -1201,6 +1207,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 600,
    "required_slots_stored": 600,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 43,
+    "no_document": 17,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -2088,6 +2100,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 350,
    "required_slots_stored": 350,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 35,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -2994,6 +3012,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 370,
    "required_slots_stored": 370,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 31,
+    "no_document": 6,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -3900,6 +3924,12 @@
    "slots_per_part_at_nothing_known": 9,
    "required_slots_at_nothing_known": 702,
    "required_slots_stored": 702,
+   "document_evidence": {
+    "spec_bearing": 12,
+    "eol_only": 66,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -4770,6 +4800,12 @@
    "slots_per_part_at_nothing_known": 9,
    "required_slots_at_nothing_known": 1773,
    "required_slots_stored": 1773,
+   "document_evidence": {
+    "spec_bearing": 4,
+    "eol_only": 178,
+    "no_document": 15,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -5640,6 +5676,12 @@
    "slots_per_part_at_nothing_known": 8,
    "required_slots_at_nothing_known": 256,
    "required_slots_stored": 256,
+   "document_evidence": {
+    "spec_bearing": 6,
+    "eol_only": 23,
+    "no_document": 3,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -6459,6 +6501,12 @@
    "slots_per_part_at_nothing_known": 18,
    "required_slots_at_nothing_known": 540,
    "required_slots_stored": 278,
+   "document_evidence": {
+    "spec_bearing": 7,
+    "eol_only": 21,
+    "no_document": 2,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -7730,6 +7778,12 @@
    "slots_per_part_at_nothing_known": 9,
    "required_slots_at_nothing_known": 792,
    "required_slots_stored": 792,
+   "document_evidence": {
+    "spec_bearing": 6,
+    "eol_only": 82,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "concurrent_sessions",
@@ -8522,6 +8576,12 @@
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 42,
    "required_slots_stored": 42,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 14,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "ips_throughput",
@@ -9074,6 +9134,12 @@
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 522,
    "required_slots_stored": 522,
+   "document_evidence": {
+    "spec_bearing": 42,
+    "eol_only": 131,
+    "no_document": 1,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "ports",
@@ -9645,6 +9711,12 @@
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 596,
    "required_slots_stored": 596,
+   "document_evidence": {
+    "spec_bearing": 10,
+    "eol_only": 128,
+    "no_document": 11,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "airflow",
@@ -10224,6 +10296,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 32,
    "required_slots_stored": 32,
+   "document_evidence": {
+    "spec_bearing": 1,
+    "eol_only": 15,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "airflow",
@@ -10728,6 +10806,12 @@
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 522,
    "required_slots_stored": 522,
+   "document_evidence": {
+    "spec_bearing": 9,
+    "eol_only": 156,
+    "no_document": 9,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "drive_interface",
@@ -11271,6 +11355,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 131,
    "required_slots_stored": 131,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 122,
+    "no_document": 9,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -11734,6 +11824,12 @@
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 183,
    "required_slots_stored": 183,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 57,
+    "no_document": 4,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "dram",
@@ -12272,6 +12368,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 62,
    "required_slots_stored": 62,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 29,
+    "no_document": 2,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "ports",
@@ -12792,6 +12894,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 8,
    "required_slots_stored": 8,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 3,
+    "no_document": 1,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "cable_length",
@@ -13288,6 +13396,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 229,
    "required_slots_stored": 229,
+   "document_evidence": {
+    "spec_bearing": 3,
+    "eol_only": 222,
+    "no_document": 4,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",

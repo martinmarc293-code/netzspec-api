@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "unified-communications",
  "profile_hash": "9721bf85623234d2",
- "built_on_commit": "37f0690",
+ "built_on_commit": "856dfd8",
  "norm_version": "1.6.2",
  "declared_fields": 155,
  "gap_states": {
@@ -51,6 +51,12 @@
    "slots_per_part_at_nothing_known": 14,
    "required_slots_at_nothing_known": 434,
    "required_slots_stored": 434,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 31,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "audio_codecs",
@@ -835,6 +841,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 10,
    "required_slots_stored": 10,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 1,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -1495,6 +1507,12 @@
    "slots_per_part_at_nothing_known": 14,
    "required_slots_at_nothing_known": 28,
    "required_slots_stored": 28,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 2,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "audio_codecs",
@@ -2287,6 +2305,12 @@
    "slots_per_part_at_nothing_known": 13,
    "required_slots_at_nothing_known": 39,
    "required_slots_stored": 39,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 3,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "audio_codecs",
@@ -3043,6 +3067,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "camera_zoom",
@@ -3644,6 +3674,12 @@
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "certifications",
@@ -4144,6 +4180,12 @@
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 308,
    "required_slots_stored": 308,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 22,
+    "no_document": 22,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -4669,6 +4711,12 @@
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "certifications",
@@ -5169,6 +5217,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "certifications",
@@ -5786,6 +5840,12 @@
    "slots_per_part_at_nothing_known": 8,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "certifications",
@@ -6347,6 +6407,12 @@
    "slots_per_part_at_nothing_known": 7,
    "required_slots_at_nothing_known": 7,
    "required_slots_stored": 7,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 1,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -6867,6 +6933,12 @@
    "slots_per_part_at_nothing_known": 13,
    "required_slots_at_nothing_known": 806,
    "required_slots_stored": 806,
+   "document_evidence": {
+    "spec_bearing": 13,
+    "eol_only": 48,
+    "no_document": 1,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "audio_codecs",
@@ -7642,6 +7714,12 @@
    "slots_per_part_at_nothing_known": 11,
    "required_slots_at_nothing_known": 374,
    "required_slots_stored": 374,
+   "document_evidence": {
+    "spec_bearing": 3,
+    "eol_only": 31,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "audio_codecs",
@@ -8331,6 +8409,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 23,
    "required_slots_stored": 23,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 21,
+    "no_document": 2,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -8545,6 +8629,12 @@
    "slots_per_part_at_nothing_known": 9,
    "required_slots_at_nothing_known": 693,
    "required_slots_stored": 693,
+   "document_evidence": {
+    "spec_bearing": 6,
+    "eol_only": 69,
+    "no_document": 2,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "certifications",
@@ -9156,6 +9246,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 114,
    "required_slots_stored": 114,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 114,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -9370,6 +9466,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 70,
    "required_slots_stored": 70,
+   "document_evidence": {
+    "spec_bearing": 9,
+    "eol_only": 26,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -9608,6 +9710,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "cable_length",
@@ -9855,6 +9963,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [
     {
      "key": "cable_length",
@@ -10102,6 +10216,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 36,
    "required_slots_stored": 36,
+   "document_evidence": {
+    "spec_bearing": 9,
+    "eol_only": 27,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -10316,6 +10436,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 8,
    "required_slots_stored": 8,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 8,
+    "no_document": 0,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -10530,6 +10656,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -10699,6 +10831,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 24,
+    "no_document": 1,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [

@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "hyperconverged-infrastructure",
  "profile_hash": "67ca41ef97c1c633",
- "built_on_commit": "37f0690",
+ "built_on_commit": "856dfd8",
  "norm_version": "1.6.2",
  "declared_fields": 182,
  "gap_states": {
@@ -45,6 +45,12 @@
    "slots_per_part_at_nothing_known": 13,
    "required_slots_at_nothing_known": 832,
    "required_slots_stored": 832,
+   "document_evidence": {
+    "spec_bearing": 51,
+    "eol_only": 3,
+    "no_document": 10,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "altitude_max",
@@ -817,6 +823,12 @@
    "slots_per_part_at_nothing_known": 10,
    "required_slots_at_nothing_known": 20,
    "required_slots_stored": 20,
+   "document_evidence": {
+    "spec_bearing": 2,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "altitude_max",
@@ -1515,6 +1527,12 @@
    "slots_per_part_at_nothing_known": 12,
    "required_slots_at_nothing_known": 84,
    "required_slots_stored": 84,
+   "document_evidence": {
+    "spec_bearing": 1,
+    "eol_only": 4,
+    "no_document": 2,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "altitude_max",
@@ -2318,6 +2336,12 @@
    "slots_per_part_at_nothing_known": 6,
    "required_slots_at_nothing_known": 1008,
    "required_slots_stored": 1008,
+   "document_evidence": {
+    "spec_bearing": 159,
+    "eol_only": 9,
+    "no_document": 0,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "clock_speed",
@@ -2717,6 +2741,12 @@
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 126,
    "required_slots_stored": 126,
+   "document_evidence": {
+    "spec_bearing": 41,
+    "eol_only": 1,
+    "no_document": 0,
+    "blocked_by": "schema-or-parsing"
+   },
    "required": [
     {
      "key": "dram",
@@ -3041,6 +3071,12 @@
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 729,
    "required_slots_stored": 729,
+   "document_evidence": {
+    "spec_bearing": 42,
+    "eol_only": 131,
+    "no_document": 70,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "drive_interface",
@@ -3370,6 +3406,12 @@
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 54,
    "required_slots_stored": 54,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 8,
+    "no_document": 10,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "input_voltage",
@@ -3686,6 +3728,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 130,
    "required_slots_stored": 130,
+   "document_evidence": {
+    "spec_bearing": 25,
+    "eol_only": 36,
+    "no_document": 4,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "ports",
@@ -3985,6 +4033,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 58,
    "required_slots_stored": 58,
+   "document_evidence": {
+    "spec_bearing": 10,
+    "eol_only": 14,
+    "no_document": 5,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "power_max",
@@ -4277,6 +4331,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 6,
    "required_slots_stored": 6,
+   "document_evidence": {
+    "spec_bearing": 1,
+    "eol_only": 2,
+    "no_document": 3,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -4520,6 +4580,12 @@
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 8,
    "required_slots_stored": 8,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 4,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "ports",
@@ -4819,6 +4885,12 @@
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 76,
    "required_slots_stored": 76,
+   "document_evidence": {
+    "spec_bearing": 18,
+    "eol_only": 19,
+    "no_document": 39,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [
     {
      "key": "product_compatibility",
@@ -5062,6 +5134,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -5257,6 +5335,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -5452,6 +5536,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -5647,6 +5737,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 0,
+    "eol_only": 0,
+    "no_document": 0,
+    "blocked_by": "no parts"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
@@ -5842,6 +5938,12 @@
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
+   "document_evidence": {
+    "spec_bearing": 5,
+    "eol_only": 4,
+    "no_document": 53,
+    "blocked_by": "not-held (acquisition)"
+   },
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [
