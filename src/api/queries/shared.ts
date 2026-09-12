@@ -54,8 +54,28 @@ export const SUMMARY_COLUMNS = `
   EXISTS (SELECT 1 FROM images i WHERE i.part_id = p.id AND i.storage_path IS NOT NULL) AS has_image,
   p.updated_at, p.updated_at::text AS updated_at_raw`;
 
+/**
+ * THE CATALOGUE IS THE LIVE ROWS. `retired_at` exists to take a row out of it (migration 0009:
+ * a case duplicate merged into its survivor, a row that is not this vendor's part), and on
+ * 12 Sep 2026 exactly ONE of the seventeen query modules that read `parts` honoured it —
+ * `seriesIndex.ts`. So every listing, count, facet, export and statistic served 139 tombstones
+ * as live parts: `/health` said 91,682 where the catalogue is 91,543, `/v1/stats` said 42,621
+ * Cisco hardware rows and `/v1/parts` 42,570 where the ledgers — which do filter — say 42,450.
+ *
+ * That 120-row gap was reported by the round-6 reviewer as the ledger silently dropping rows,
+ * with the proposed fix being to make the ledger COUNT them. It is the other way round: the 120
+ * are retired, all 120 have `series: null` because a tombstone carries no series, and counting
+ * them would have put the duplicates the catalogue spent a migration removing back into the
+ * phase-2 denominator. The ledger was right and the API was lying to the auditor.
+ *
+ * Use this predicate in any query that means "the catalogue". `tests/apiLiveParts.test.ts`
+ * scans this directory and fails on a `parts` query that has neither the predicate nor a
+ * recorded exemption, so the next query module cannot reintroduce it silently.
+ */
+export const LIVE_PART = (alias = "p") => `${alias}.retired_at IS NULL`;
+
 export const SUMMARY_FROM = `
-  FROM parts p
+  FROM (SELECT * FROM parts WHERE retired_at IS NULL) p
   JOIN vendors v ON v.id = p.vendor_id
   JOIN categories c ON c.id = p.category_id
   LEFT JOIN lifecycle l ON l.part_id = p.id
@@ -78,14 +98,32 @@ export function toSummary(r: SummaryRow): PartSummaryT {
 
 export type PartIdentity = { id: number; vendor: string; sku: string; updated_at: Date; updated_at_raw: string };
 
-/** Case-insensitive SKU lookup (sku_norm); the returned sku is the vendor's exact spelling. */
+/**
+ * Case-insensitive SKU lookup (sku_norm); the returned sku is the vendor's exact spelling.
+ *
+ * A RETIRED ROW MUST NOT WIN THIS LOOKUP, and until 12 Sep 2026 it could. `ORDER BY (p.sku = $2)`
+ * preferred the caller's exact spelling over everything else, so asking for `DS-C9222i-K9` — a
+ * case duplicate retired into `DS-C9222I-K9` by `ingest hygiene case-duplicates` — returned the
+ * hollow row: same cups asked, zero facts, because the merge moved the answers to the survivor.
+ * The round-6 reviewer read 112 such pairs off the API and reported them as live duplicate PIDs;
+ * `parts_vendor_sku_ci_uq` (migration 0010) makes two LIVE rows with one case-folded SKU
+ * impossible, so every pair they saw was this lookup serving the tombstone.
+ *
+ * So: prefer a live row; when only a retired row matches, follow `retired_into` to the part that
+ * holds the answers (127 of the 139 retired rows carry it and every target is alive). The 12 with
+ * no target are `not_a_cisco_part`, which is a 404 and not a redirect.
+ */
 export async function resolvePart(vendor: string, sku: string): Promise<PartIdentity | null> {
   const { rows } = await query<PartIdentity>(
-    `SELECT p.id, v.slug AS vendor, p.sku, p.updated_at, p.updated_at::text AS updated_at_raw
-       FROM parts p JOIN vendors v ON v.id = p.vendor_id
-      WHERE v.slug = $1 AND p.sku_norm = upper($2)
-      ORDER BY (p.sku = $2) DESC, p.id
-      LIMIT 1`,
+    `WITH m AS (
+       SELECT p.id, p.retired_at, p.retired_into, v.slug AS vendor
+         FROM parts p JOIN vendors v ON v.id = p.vendor_id
+        WHERE v.slug = $1 AND p.sku_norm = upper($2)
+        ORDER BY (p.retired_at IS NULL) DESC, (p.sku = $2) DESC, p.id
+        LIMIT 1)
+     SELECT t.id, m.vendor, t.sku, t.updated_at, t.updated_at::text AS updated_at_raw
+       FROM m JOIN parts t ON t.id = COALESCE(m.retired_into, m.id)
+      WHERE t.retired_at IS NULL`,
     [vendor, sku],
   );
   return rows[0] ?? null;

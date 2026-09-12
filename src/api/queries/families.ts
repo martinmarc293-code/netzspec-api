@@ -52,7 +52,8 @@ const FAMILY_AGG_SQL = `
     JOIN categories c ON c.id = p.category_id
     LEFT JOIN lifecycle l ON l.part_id = p.id
     LEFT JOIN pf ON pf.part_id = p.id
-   WHERE p.family IS NOT NULL AND ($1::text IS NULL OR v.slug = $1) AND ($2::text IS NULL OR p.family = $2)
+   -- LIVE rows only (shared.ts LIVE_PART).
+   WHERE p.retired_at IS NULL AND p.family IS NOT NULL AND ($1::text IS NULL OR v.slug = $1) AND ($2::text IS NULL OR p.family = $2)
    GROUP BY v.slug, p.family`;
 
 function toItem(r: FamilyRow): FamilyItem {
@@ -104,7 +105,8 @@ export async function listFamilies(params: FamiliesListParams): Promise<{ items:
 // A field is shared when ONE value is carried by >= 80 % of the members with any rendered fact.
 // Integer arithmetic (members * 5 >= of * 4) so 2 of 3 is refused without a rounding argument.
 const SHARED_FACTS_SQL = `
-  WITH mem AS (SELECT p.id FROM parts p JOIN vendors v ON v.id = p.vendor_id WHERE v.slug = $1 AND p.family = $2),
+  WITH mem AS (SELECT p.id FROM parts p JOIN vendors v ON v.id = p.vendor_id
+                WHERE p.retired_at IS NULL AND v.slug = $1 AND p.family = $2),   -- LIVE rows only
   cf AS (
     SELECT f.part_id, f.field_key, f.value, f.unit FROM facts f JOIN mem ON mem.id = f.part_id
      WHERE f.superseded_by IS NULL AND f.state IN ('verified', 'corroborated') AND f.value IS NOT NULL),

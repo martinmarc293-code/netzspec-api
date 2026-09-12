@@ -36,6 +36,8 @@ export async function exportParts(params: ExportParams, publicBaseUrl: string): 
   }
   const cursor = decodeCursor(params.cursor);
   if (cursor) where.push(`(p.updated_at, p.id) > (${bind(cursor.k)}::timestamptz, ${bind(cursor.id)})`);
+  // LIVE rows only (shared.ts LIVE_PART): an export is the catalogue, and a tombstone is not in it.
+  where.push("p.retired_at IS NULL");
 
   const limitParam = bind(params.limit + 1);
   const { rows } = await query<{ id: number; updated_at_raw: string; now_raw: string }>(`

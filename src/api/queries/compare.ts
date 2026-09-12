@@ -65,7 +65,9 @@ export async function compareParts(refs: CompareRef[]): Promise<CompareResult> {
   const resolved = await query<ResolvedRow>(`
     SELECT p.id, v.slug AS vendor, p.sku_norm
       FROM parts p JOIN vendors v ON v.id = p.vendor_id
-     WHERE (v.slug, p.sku_norm) IN (SELECT r.vendor, upper(r.sku) FROM unnest($1::text[], $2::text[]) AS r(vendor, sku))`,
+     WHERE p.retired_at IS NULL   -- LIVE rows only (shared.ts LIVE_PART): a tombstone compares as
+       -- an empty column beside its own survivor, which reads as a part with no specifications.
+       AND (v.slug, p.sku_norm) IN (SELECT r.vendor, upper(r.sku) FROM unnest($1::text[], $2::text[]) AS r(vendor, sku))`,
     [refs.map((r) => r.vendor), refs.map((r) => r.sku)]);
   const idByRef = new Map<string, number>();
   for (const r of refs) {

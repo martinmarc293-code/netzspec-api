@@ -45,6 +45,10 @@ const GROUP_SQL = (label: string, groupTable: string, joinOn: string) => `
          count(pi.part_id)::int AS with_images,
          COALESCE(sum(pc.n), 0)::int AS open_conflicts,
          COALESCE(sum(pg.n), 0)::int AS gaps_confirmed
+    -- LIVE rows only (shared.ts LIVE_PART): this endpoint reported 42,621 Cisco hardware parts
+    -- against a ledger total of 42,450, and the whole 171-row gap was tombstones plus the 51
+    -- hardware rows in categories that have no ledger. A statistic is the wrong place to
+    -- discover that.
     FROM parts p
     JOIN ${groupTable} g ON ${joinOn}
     LEFT JOIN pf ON pf.part_id = p.id
@@ -52,14 +56,15 @@ const GROUP_SQL = (label: string, groupTable: string, joinOn: string) => `
     LEFT JOIN pi ON pi.part_id = p.id
     LEFT JOIN pc ON pc.part_id = p.id
     LEFT JOIN pg ON pg.part_id = p.id
+   WHERE p.retired_at IS NULL
    GROUP BY g.slug
    ORDER BY parts DESC, g.slug`;
 
 async function compute(): Promise<Stats> {
   const [totals, byVendor, byCategory] = await Promise.all([
     query<{ parts: number; hardware_parts: number; open_conflicts: number; gaps_confirmed: number }>(`
-      SELECT (SELECT count(*)::int FROM parts) AS parts,
-             (SELECT count(*)::int FROM parts WHERE product_class = 'hardware') AS hardware_parts,
+      SELECT (SELECT count(*)::int FROM parts WHERE retired_at IS NULL) AS parts,
+             (SELECT count(*)::int FROM parts WHERE retired_at IS NULL AND product_class = 'hardware') AS hardware_parts,
              (SELECT count(*)::int FROM conflicts WHERE resolved_at IS NULL) AS open_conflicts,
              (SELECT count(*)::int FROM facts WHERE superseded_by IS NULL AND state = 'gap_confirmed') AS gaps_confirmed`),
     query<StatsGroup & { vendor: string }>(GROUP_SQL("vendor", "vendors", "g.id = p.vendor_id")),

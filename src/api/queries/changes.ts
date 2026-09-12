@@ -24,6 +24,9 @@ export async function listChanges(since: string, limit: number, cursorRaw?: stri
     where += " AND (p.updated_at, p.id) > ($3::timestamptz, $4)";
   }
   const { rows } = await query<{ id: number; vendor: string; sku: string; updated_at: Date; updated_at_raw: string; now_raw: string }>(`
+    -- LIVE_PART EXEMPT: a sync consumer must be TOLD a part was retired, or its mirror keeps the
+    -- tombstone for ever. This is the one endpoint where a retired row IS the payload rather than
+    -- a leak, so it deliberately does not filter retired_at (tests/apiLiveParts.test.ts).
     SELECT p.id, v.slug AS vendor, p.sku, p.updated_at, p.updated_at::text AS updated_at_raw, now()::text AS now_raw
       FROM parts p JOIN vendors v ON v.id = p.vendor_id
      WHERE ${where}

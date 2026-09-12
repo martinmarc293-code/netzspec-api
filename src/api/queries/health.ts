@@ -15,7 +15,9 @@ export type Health = { ok: boolean; db: boolean; version: string; parts: number 
 
 export async function health(version: string): Promise<Health> {
   try {
-    const { rows } = await query<{ n: number }>("SELECT count(*)::int AS n FROM parts");
+    // LIVE rows only: 139 retired tombstones made this report 91,682 for a catalogue of 91,543,
+    // and /health's count is the number every reviewer quotes first. See shared.ts LIVE_PART.
+    const { rows } = await query<{ n: number }>("SELECT count(*)::int AS n FROM parts WHERE retired_at IS NULL");
     const r = await readDisk(getPool());
     const v = diskVerdict(r, new Date());
     const disk: HealthDisk = {

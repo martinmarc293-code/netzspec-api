@@ -49,10 +49,11 @@ type RangeRow = { field_key: string; min: number | null; max: number | null; cou
 
 const FACETS_SQL = `
   WITH sel AS (
+    -- LIVE rows only (shared.ts LIVE_PART).
     SELECT p.id FROM parts p
       JOIN vendors v ON v.id = p.vendor_id
       JOIN categories c ON c.id = p.category_id
-     WHERE ($1::text IS NULL OR v.slug = $1) AND ($2::text IS NULL OR c.slug = $2)),
+     WHERE p.retired_at IS NULL AND ($1::text IS NULL OR v.slug = $1) AND ($2::text IS NULL OR c.slug = $2)),
   cf AS (
     SELECT f.field_key, f.value, f.value_num, f.value_min, f.value_max, d.type
       FROM facts f

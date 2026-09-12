@@ -41,7 +41,8 @@ const RANK_SQL = `
      WHERE part_id = $1 AND superseded_by IS NULL AND state IN ('verified', 'corroborated') AND value IS NOT NULL),
   cand AS (
     SELECT p.id, p.sku FROM parts p, me
-     WHERE p.vendor_id = me.vendor_id AND p.product_class = 'hardware' AND p.id <> $1
+     WHERE p.retired_at IS NULL   -- LIVE rows only (shared.ts LIVE_PART)
+       AND p.vendor_id = me.vendor_id AND p.product_class = 'hardware' AND p.id <> $1
        AND (($2::text = 'family' AND me.family IS NOT NULL AND p.family = me.family)
          OR ($2::text = 'category' AND p.category_id = me.category_id)))
   SELECT c.id,

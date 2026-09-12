@@ -48,9 +48,11 @@ const FORWARD_SQL = `
     UNION ALL
     SELECT l.part_id, l.successor_sku, NULL::bigint, 'lifecycle', NULL::int, l.source_url, 2, 0
       FROM lifecycle l WHERE l.part_id = ANY($1::bigint[]) AND l.successor_sku IS NOT NULL)
+  -- ORDER BY (retired_at IS NULL) DESC below: a successor named by SKU must resolve to the LIVE
+  -- row, not to a case-duplicate tombstone holding none of the answers (shared.ts resolvePart).
   SELECT e.src, e.sku, tp.id AS target_id, tp.sku AS target_sku, tl.status::text AS target_status, e.via, e.tier, e.source_url
     FROM e
-    LEFT JOIN parts tp ON tp.id = COALESCE(e.given_id, (SELECT p2.id FROM parts p2 WHERE p2.vendor_id = $2 AND p2.sku_norm = upper(e.sku) ORDER BY p2.id LIMIT 1))
+    LEFT JOIN parts tp ON tp.id = COALESCE(e.given_id, (SELECT p2.id FROM parts p2 WHERE p2.vendor_id = $2 AND p2.sku_norm = upper(e.sku) ORDER BY (p2.retired_at IS NULL) DESC, p2.id LIMIT 1))
     LEFT JOIN lifecycle tl ON tl.part_id = tp.id
    ORDER BY e.src, e.pri, e.ord, e.sku`;
 
@@ -70,7 +72,7 @@ const BACKWARD_SQL = `
      WHERE l.successor_sku IS NOT NULL AND lp.vendor_id = $2)
   SELECT e.src, e.sku, tp.id AS target_id, tp.sku AS target_sku, tl.status::text AS target_status, e.via, e.tier, e.source_url
     FROM e
-    LEFT JOIN parts tp ON tp.id = COALESCE(e.given_id, (SELECT p2.id FROM parts p2 WHERE p2.vendor_id = $2 AND p2.sku_norm = upper(e.sku) ORDER BY p2.id LIMIT 1))
+    LEFT JOIN parts tp ON tp.id = COALESCE(e.given_id, (SELECT p2.id FROM parts p2 WHERE p2.vendor_id = $2 AND p2.sku_norm = upper(e.sku) ORDER BY (p2.retired_at IS NULL) DESC, p2.id LIMIT 1))
     LEFT JOIN lifecycle tl ON tl.part_id = tp.id
    ORDER BY e.src, e.pri, e.ord, e.sku`;
 

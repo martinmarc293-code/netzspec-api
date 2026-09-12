@@ -11,9 +11,10 @@ export type VendorItem = {
 export async function listVendors(): Promise<VendorItem[]> {
   const { rows } = await query<VendorItem>(`
     SELECT v.slug, v.name,
-           (SELECT count(*)::int FROM parts p WHERE p.vendor_id = v.id) AS parts,
-           (SELECT count(*)::int FROM parts p WHERE p.vendor_id = v.id AND p.product_class = 'hardware') AS hardware_parts,
-           (SELECT count(*)::int FROM parts p WHERE p.vendor_id = v.id
+           -- LIVE rows only: a retired row is not in the catalogue (shared.ts LIVE_PART).
+           (SELECT count(*)::int FROM parts p WHERE p.retired_at IS NULL AND p.vendor_id = v.id) AS parts,
+           (SELECT count(*)::int FROM parts p WHERE p.retired_at IS NULL AND p.vendor_id = v.id AND p.product_class = 'hardware') AS hardware_parts,
+           (SELECT count(*)::int FROM parts p WHERE p.retired_at IS NULL AND p.vendor_id = v.id
               AND EXISTS (SELECT 1 FROM facts f WHERE f.part_id = p.id AND f.superseded_by IS NULL
                             AND f.state IN ('verified', 'corroborated'))) AS parts_with_facts,
            -- DOCUMENTS, added 5 Sep 2026. This endpoint answered "how many parts" and nothing about

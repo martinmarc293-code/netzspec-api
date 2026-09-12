@@ -109,7 +109,10 @@ const BY_CATEGORY_SQL = `
     JOIN categories c ON c.id = p.category_id
     JOIN vendors v ON v.id = p.vendor_id
     LEFT JOIN completeness cp ON cp.part_id = p.id
-   WHERE ($1::text IS NULL OR v.slug = $1) AND ($2::text IS NULL OR c.slug = $2)
+   -- LIVE rows only (shared.ts LIVE_PART). This is the phase-2 denominator surface: a retired
+   -- tombstone still has a completeness row, so counting it here inflates hardware_parts and
+   -- drags mean_pct down with a part nothing can ever fill.
+   WHERE p.retired_at IS NULL AND ($1::text IS NULL OR v.slug = $1) AND ($2::text IS NULL OR c.slug = $2)
    GROUP BY c.slug
    ORDER BY hardware_parts DESC, c.slug`;
 

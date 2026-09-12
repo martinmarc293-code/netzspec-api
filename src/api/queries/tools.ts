@@ -293,8 +293,12 @@ async function runRelationsTool(tool: Tool, params: RunParams): Promise<ToolRunR
   if (ref === undefined) throw badRequest(`tool "${tool.id}" needs a part: pass part=<vendor>:<sku>`);
   const { vendor, sku } = parseRef(ref);
   const head = await query<{ id: number; vendor_id: number; sku_norm: string }>(
+    // LIVE rows only, and prefer a live row over the caller's exact spelling: the same
+    // tombstone-wins ordering that made /v1/parts/cisco/DS-C9222i-K9 serve the retired twin
+    // (shared.ts resolvePart, 12 Sep 2026).
     `SELECT p.id, p.vendor_id, p.sku_norm FROM parts p JOIN vendors v ON v.id = p.vendor_id
-      WHERE v.slug = $1 AND p.sku_norm = upper($2) ORDER BY (p.sku = $2) DESC, p.id LIMIT 1`, [vendor, sku]);
+      WHERE p.retired_at IS NULL AND v.slug = $1 AND p.sku_norm = upper($2)
+      ORDER BY (p.sku = $2) DESC, p.id LIMIT 1`, [vendor, sku]);
   const start = head.rows[0];
   if (!start) throw notFound(`part ${vendor}/${sku} not found`);
 

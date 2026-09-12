@@ -156,6 +156,10 @@ type SourceRow = SourceItem & { part_id: number };
  */
 export async function partRecords(ids: number[], states: FactState[], publicBaseUrl: string): Promise<PartRecord[]> {
   if (ids.length === 0) return [];
+  // LIVE_PART EXEMPT: this loads parts BY ID, and the only route to an id is resolvePart, which
+  // already prefers the live row and follows `retired_into`. A row that is still retired when
+  // fetched by its own id is a real historical row and is served rather than 404'd; hiding it
+  // here would make a direct id lookup lie in the other direction (tests/apiLiveParts.test.ts).
   const [heads, facts, relations, images, variants, completeness, sources] = await Promise.all([
     query<HeadRow>(`
       SELECT p.id, v.slug AS vendor, p.sku, p.slug, c.slug AS cat_slug, c.name_en, c.name_de, p.series, p.family, p.product_class::text AS product_class,

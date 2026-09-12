@@ -15,7 +15,8 @@ export async function listCategories(vendor?: string): Promise<CategoryItem[]> {
   }
   const { rows } = await query<CategoryItem>(`
     SELECT c.slug, c.name_en, c.name_de, c.is_hardware,
-           (SELECT count(*)::int FROM parts p WHERE p.category_id = c.id AND ($1::int IS NULL OR p.vendor_id = $1)) AS parts
+           -- LIVE rows only: a retired row is not in the catalogue (shared.ts LIVE_PART).
+           (SELECT count(*)::int FROM parts p WHERE p.retired_at IS NULL AND p.category_id = c.id AND ($1::int IS NULL OR p.vendor_id = $1)) AS parts
       FROM categories c
      ORDER BY c.sort_order, c.slug`, [vendorId]);
   return rows;
