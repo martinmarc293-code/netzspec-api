@@ -100,12 +100,21 @@ const RULES: { kind: CollabKind; re: RegExp }[] = [
   { kind: "accessory", re: /^ACC-|^MB\d|^PWRCLIP|^DOC-/ },
   // Power supplies, cubes, injectors and adapters: CP-PWR-CUBE-4, PSU-12VDC-120W, CS-PWR-INJ-30W, POE-WW,
   // PA100-EU, PWR18W-ETH-NA, PWR-VG410-250WAC, and the server PSUs (BE7K-PSU, EXP-PSU1-1200W, CIT2-PSU2-1400W).
-  { kind: "power-supply", re: /(?:^|-)(?:PWR|PSU|PSU\d|PSUT|PWRINJ\d*|INJ|INJ\d|ADPT\d+W|CUBE)(?:-|\d|$)|^PSU-|^PA\d{3}-|^POE-|^PWR\d+W|-PWR$|^CP-\d+X?-PWR|-\d+W(?:AC|DC)$/ },
+  // collab-class (12 Sep 2026): `CUBE` was a bare token here and it is REDUNDANT AND WRONG. Every
+  // real power cube is `CP-PWR-CUBE-N` ("IP Phone power transformer for the 7900 phone series"),
+  // which the PWR token already matches; the only thing `CUBE` added was CUBE = Cisco Unified
+  // BORDER ELEMENT, so 15 session licences (UPG-CUBE-TS-12TO14, MIG-CUBE14-C1-STD) were being
+  // called power supplies. Found by the class-against-kind control, not by a test.
+  { kind: "power-supply", re: /(?:^|-)(?:PWR|PSU|PSU\d|PSUT|PWRINJ\d*|INJ|INJ\d|ADPT\d+W)(?:-|\d|$)|^PSU-|^PA\d{3}-|^POE-|^PWR\d+W|-PWR$|^CP-\d+X?-PWR|-\d+W(?:AC|DC)$/ },
   // Server parts for the collaboration appliances: CPUs, DIMMs, drives, RAID, NICs, TPMs, risers, blades.
   { kind: "server-component", re: /^CIT\d?-|^BE\d[A-Z]-(?:CPU|RAM|DISK|NIC|RAID|RAIDCTRLR|PCIE|PCIERISER|TPM)|^EXP-(?:CPU|MR|HD|M2|RAID|MRAID|TPM|PCIE|SD|MSTOR|UCSX|UCSCRAID)|^CE-(?:CPU|MR|HDD|RAID|UCSX|UCSCRAID|N2XX)|^MEM-\d|-SPE\d+/ },
   // Collaboration appliances: Business Edition 6000/7000 (and the ISR-based BE6000S), Expressway and VCS
   // appliances, Meeting Server 1000/2000 and TelePresence Management Server, the AI POD, legacy MCS servers.
-  { kind: "server", re: /^BE\d[A-Z]?-(?:M\d|K9|ST|XU)|^BE\d[A-Z]-M\d|^BE6S-|^EXPWY-(?:\d{4}|CE\d|[CE]-BDL)|^CTI-CE\d|^VCS-[CE]-BDL|^CMS-[MS]-M\d|^CMS\dK-(?!SW)|^CTI-(?:CMS-?\dK?|CMS\dKM|TMS-APL|ATP-TMS-APL)|^AIPOD-|^UCSC-C\d|^MCS-?\d/ },
+  // collab-class (12 Sep 2026): `ST` was a BARE token here and it matched the START of `START`, so
+  // the nine `BE6K-START-*` licence packs ("BE6000 User License Starter Bundle with 35 UWL Pro
+  // Licenses") were called servers. The two forms that ARE servers spell it `ST-BDL` and `STBDL`,
+  // so the token is anchored to those; `START` no longer reaches it.
+  { kind: "server", re: /^BE\d[A-Z]?-(?:M\d|K9|ST-|STBDL|XU)|^BE\d[A-Z]-M\d|^BE6S-|^EXPWY-(?:\d{4}|CE\d|[CE]-BDL)|^CTI-CE\d|^VCS-[CE]-BDL|^CMS-[MS]-M\d|^CMS\dK-(?!SW)|^CTI-(?:CMS-?\dK?|CMS\dKM|TMS-APL|ATP-TMS-APL)|^AIPOD-|^UCSC-C\d|^MCS-?\d/ },
   // Key expansion modules and attendant consoles: CP-BEKEM, CP-68KEM-3PCC, DP-9800-KEM, SPA500S, SPA500DS.
   { kind: "expansion-module", re: /KEM(?:-|\d|$)|^SPA500D?S$/ },
   // Spare monitors: CS-ROOM55D-MON-R, CTS-MX700-MONLS, CS-PANO-MON82, CTS-MON-42-WW.
@@ -125,6 +134,16 @@ const RULES: { kind: CollabKind; re: RegExp }[] = [
   { kind: "phone", re: /^CP-\d{3,4}|^CP-ROOM-|^DP-98\d\d|^WP-98\d\d|^SPA\d{3}G|^SPA30\d|^SPA302D/ },
   // Voice gateways: VG202..VG450, the SPA8000/8800 8-port gateways, the Euro-ISDN VG-2BRI, C3945-112FXS.
   { kind: "gateway", re: /^VG\d|^VG-\d?BRI|^SPA8\d{3}|^C3945-\d+FXS/ },
+  // collab-class (12 Sep 2026) — THE ONE REAL HARDWARE FAMILY IN THE FALLBACK RESIDUE.
+  // The reverse NAME control over unified-communications' 1,456 `unknown` rows was run to find
+  // licences wearing a hardware class; it found 1,430 of those and exactly one family going the
+  // other way. UNITY-PIMG-MITEL is "PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs",
+  // UNITY-PIMG-LEGEND the same for "Avaya Merlin Legend systems", UNITY-TIMG-1 a "T1 IP-Media
+  // Gateway": physical boxes that sit between a legacy PBX and Unity Connection. 14 parts.
+  // They are ALSO the `except` list on productClass's UNITY licence prefix — a rule and a veto for
+  // the same 14 parts, in the two files that each have to get them right.
+  { kind: "gateway", re: /^UNITY-[PT]IMG(?:-|\d|$)/ },
+  // end collab-class
   // Analog telephone adapters, including the ATA-with-router SKUs (SPA122, SPA2102, WRP400, ATA192).
   { kind: "ata", re: /^ATA\d|^SPA1\d\d|^SPA2\d{3}|^SPA232D|^WRP\d/ },
   // Voice cards and DSP modules: PVDM3-64, VIC3-4FXS/DID, VWIC3-2MFT-T1/E1, NIM-4FXSP, SM-D-72FXS.

@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "unified-communications",
  "profile_hash": "9721bf85623234d2",
- "built_on_commit": "70794ec",
+ "built_on_commit": "401d00b",
  "norm_version": "1.6.2",
  "declared_fields": 155,
  "gap_states": {
@@ -14,7 +14,7 @@
  },
  "totals": {
   "parts": 2193,
-  "required_slots_at_nothing_known": 2908,
+  "required_slots_at_nothing_known": 2955,
   "required_slots_stored": 2908,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
@@ -29,18 +29,18 @@
    "touch-panel": 0,
    "display": 0,
    "expansion-module": 1,
-   "gateway": 48,
+   "gateway": 62,
    "ata": 34,
    "voice-module": 23,
-   "server": 86,
+   "server": 77,
    "server-component": 114,
-   "power-supply": 62,
+   "power-supply": 35,
    "power-cord": 0,
    "cable": 0,
    "accessory": 41,
    "transceiver": 8,
    "software": 239,
-   "unknown": 1456
+   "unknown": 1478
   },
   "pending_reclassification": 0,
   "pending_reclassification_stored_slots": 0
@@ -6863,9 +6863,9 @@
    ]
   },
   "gateway": {
-   "parts": 48,
+   "parts": 62,
    "slots_per_part_at_nothing_known": 13,
-   "required_slots_at_nothing_known": 624,
+   "required_slots_at_nothing_known": 806,
    "required_slots_stored": 624,
    "required": [
     {
@@ -8541,10 +8541,10 @@
    ]
   },
   "server": {
-   "parts": 86,
+   "parts": 77,
    "slots_per_part_at_nothing_known": 9,
-   "required_slots_at_nothing_known": 774,
-   "required_slots_stored": 774,
+   "required_slots_at_nothing_known": 693,
+   "required_slots_stored": 693,
    "required": [
     {
      "key": "certifications",
@@ -9366,10 +9366,10 @@
    ]
   },
   "power-supply": {
-   "parts": 62,
+   "parts": 35,
    "slots_per_part_at_nothing_known": 2,
-   "required_slots_at_nothing_known": 124,
-   "required_slots_stored": 124,
+   "required_slots_at_nothing_known": 70,
+   "required_slots_stored": 70,
    "required": [
     {
      "key": "product_compatibility",
@@ -10695,10 +10695,10 @@
    ]
   },
   "unknown": {
-   "parts": 1456,
+   "parts": 1478,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
-   "required_slots_stored": 0,
+   "required_slots_stored": 135,
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [

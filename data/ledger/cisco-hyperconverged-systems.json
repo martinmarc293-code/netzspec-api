@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "hyperconverged-systems",
  "profile_hash": "e5bcbd29adb46075",
- "built_on_commit": "70794ec",
+ "built_on_commit": "401d00b",
  "norm_version": "1.6.2",
  "declared_fields": 178,
  "gap_states": {

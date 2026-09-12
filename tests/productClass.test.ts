@@ -114,7 +114,11 @@ const cases: Case[] = [
   { sku: "C1-ADD-OPTOUT", cat: "software", hw: false, want: "software", reason: "category-is_hardware=false:software", note: "Cisco DNA Premier Add-On Session Opt Out — no SKU rule, the category decides" },
   { sku: "C1A1ATCAT36501", cat: "software", hw: false, want: "license", reason: "sku-regex:cisco-one", note: "a Cisco ONE term subscription: licence by its SKU, whatever category it is filed in" },
   { sku: "8000-SW-LICENSE", cat: "ios-nx-os-software", hw: false, want: "software", reason: "category-is_hardware=false:ios-nx-os-software" },
-  { sku: "A-CMS-API", cat: "contact-center", hw: false, want: "software", reason: "category-is_hardware=false:contact-center" },
+  // collab-class (12 Sep 2026): this row used to be A-CMS-API, and `sku-regex:webex-collab-subscription`
+  // now classes every `A-` + two-letter SKU a licence, so it stopped exercising the category path —
+  // the same churn the round-8 note above describes one line up. ICME-ERIAGT-T1 replaces it: one of
+  // 1,599 contact-center parts that still reach the fallback after the whole collab block.
+  { sku: "ICME-ERIAGT-T1", cat: "contact-center", hw: false, want: "software", reason: "category-is_hardware=false:contact-center", note: "'ERI Agent Licenses - Tier 1' — no SKU rule, no name rule, the category decides" },
 
   // ---- unknown ----------------------------------------------------------------------------
   { sku: "", cat: "switches", hw: true, want: "unknown", reason: "empty-sku", note: "an empty SKU never gets a hardware profile" },
@@ -323,6 +327,25 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
   check(`table shape ${rule} fires (no real PID in data/reference yet: ${sku})`, got.klass === "license" && got.reason === rule, `${got.klass} / ${got.reason}`);
   seenReasons.add(got.reason);
 }
+// `name-user-tier` HAS NO LIVE POPULATION, and that is recorded rather than exempted.
+//
+// 12 Sep 2026, on merging the collab block. Measured with classify() over every live part of every
+// vendor — 91,543 rows — the rule decides ZERO: the security block's `term-user-band` and the collab
+// block's `MIG-` prefix take its whole population by SKU, and a SKU rule runs before every name
+// rule. It is NOT removed, and the distinction from the removed `voice-feature-license` is the one
+// that matters: that rule's population is covered by another rule matching the SAME SKU FAMILIES,
+// where this one is the generic net for a user-tier name whose SKU no rule happens to name. Take it
+// out and the next such licence arriving in a hardware category stays `hardware`.
+//
+// So it is exercised the way SHAPES_ONLY exercises a rule with no PID — on a name shaped like the
+// ones it is for, with a SKU no rule in the table decides. The day a real part reaches it, this
+// block should be replaced by that part.
+{
+  const got = classify({ sku: "XYZ-NOT-A-REAL-FAMILY", name: "Extra 1K - 10K Users", category: "unified-communications" } as never);
+  check("name shape name-user-tier fires (0 live parts decide it today: term-user-band and MIG- take them by SKU)",
+    got.klass === "license" && got.reason === "name-user-tier", `${got.klass} / ${got.reason}`);
+  seenReasons.add(got.reason);
+}
 // The six rules added 9-10 Sep 2026: four NAME rules and two derived from the UCS SKU kind. Each
 // needs a real SKU here or the "every rule fired" assertion below reports it as never exercised —
 // which is exactly what it did when they were added without these cases. Every SKU is from the
@@ -336,15 +359,27 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     // because the reason CHANGED and that must be visible, not because the name rules need them; the
     // three name rules get their own witnesses below, each outside term-user-band's shape.
     ["ESA-MFE-3Y-S2", "Email McAfee Anti-Virus 3Y Lic Key, 100-499 Users", "security", "license", "sku-regex:term-user-band"],
-    ["A-CC-NCMN-ENT", "Campaign Management Named Agent Entitlement", "unified-communications", "license", "name-entitlement"],
+    // collab-class (12 Sep 2026): A-CC-NCMN-ENT stood here and is now caught by its SKU
+    // (webex-collab-subscription), so it no longer reaches the name rule. This one does — one of the
+    // nine parts whose ONLY licence evidence is the word "entitlement" after the whole collab block.
+    ["CCX-90-CMBLDLIC", "CCX 9.0 CCX CM Bundle Appliance Entitlement, PAK pDelivery", "contact-center", "license", "name-entitlement"],
     ["ESA-ESO-1Y-S5", "ESA Outbound SW Bundle(ENC+DLP) 1Y Lic, 5K-9,999 Users", "security", "license", "sku-regex:term-user-band"],
     ["ESA-ESI-1Y-S2", "Inbound Essentials Bun(AS+AV+OF) 1Y Lic,100-499 Users", "security", "license", "sku-regex:term-user-band"],
     // The replacements. Each is a real part whose SKU no rule in the table decides, so the name rule
     // is the thing under test — which is what the three rows above stopped being.
     ["ESA-ENC-5Y-S4-K9", "ESA PXE Encryption 5Y Lic Key, 1K-4,999 Users", "security", "license", "name-lic-key"],
     ["UNITYCN12-K9-LAB", "Unity Connection 12.x Lab Software Bundle (E-Delivery Only)", "unified-communications", "license", "sku-prefix:UNITYCN"],   // 12 Sep: UNITYCN decides it before any name rule is consulted
-    ["R-UNITYCN10-K9-LAB", "Unity Connection 10.x Lab Software Bundle", "unified-communications", "license", "name-sw-bundle"],   // the name rule DOES decide this one (R- prefix, no UNITYCN token)
-    ["MIG-CUCM-ENHP-B", "Migration to UC Manager 9.x/10.x Enh Plus - 1K - 10K Users", "unified-communications", "license", "name-user-tier"],
+    // MERGE, 12 Sep 2026 — both witnesses were taken by the collab block's SKU rules, and their
+    // replacements were found by running classify() over the catalogue rather than chosen by eye.
+    // `uc-app-edelivery` now decides R-UNITYCN10-K9-LAB and `MIG-` decides MIG-CUCM-ENHP-B; both
+    // stay, at their new reasons, because the class must be shown not to have moved.
+    // and the CLASS moved with the reason, from `license` to `software`: a lab software bundle read
+    // by its name is a licence, read by its e-delivery SKU it is the software itself. Both are
+    // defensible and the SKU is the more authoritative signal, which is why SKU rules run first.
+    ["R-UNITYCN10-K9-LAB", "Unity Connection 10.x Lab Software Bundle", "unified-communications", "software", "sku-regex:uc-app-edelivery"],
+    ["MIG-CUCM-ENHP-B", "Migration to UC Manager 9.x/10.x Enh Plus - 1K - 10K Users", "unified-communications", "license", "sku-prefix:MIG-"],
+    // The real witness for name-sw-bundle: 1 of the 5 live parts the merged table decides by it.
+    ["E3C-SW-14-K9", "On-Premises SW Bundle v14 (1)", "unified-communications", "license", "name-sw-bundle"],
     ["VMW-VS5-ENTP-5A", "VMware vSphere 5 Enterprise", "servers-unified-computing", "license", "ucs-kind-os-license"],
     ["UCS-SID-WKL-SAP", "Cisco UCS-SID-WKL-SAP", "servers-unified-computing", "non_product", "ucs-kind-non-product"],
     // Round 4, 10 Sep 2026, working `switches`. Every SKU and name is from the catalogue.
@@ -1150,6 +1185,349 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
       `${got.klass} / ${got.reason}`);
   }
 }
+
+// collab-class (12 Sep 2026) — the FALLBACK RESIDUE of the three collaboration categories: the
+// 1,430 non-hardware rows collabKind was calling `unknown`, and the one hardware family among them.
+// Every SKU and every name is verbatim from the catalogue. There are more refusals than positives,
+// and each refusal names the wider form of a rule above that would have deleted a real product.
+{
+  const fire: [string, string, string, ProductClass, string][] = [
+    // Webex / cloud collaboration subscription
+    ["A-EPF-APP-T1", "Webex Events App (formerly Socio) 0-250", "conferencing", "license", "sku-regex:webex-collab-subscription"],
+    ["A-CJP-CNPN", "Webex Contact Center Premium Named Agent", "unified-communications", "license", "sku-regex:webex-collab-subscription"],
+    ["A-SS-NBR", "NBR Storage 1 GB", "conferencing", "license", "sku-regex:webex-collab-subscription"],
+    ["A-SW-EXPWY-14X-K9", "Expressway Version 14.2.5 Restricted Software", "unified-communications", "license", "sku-regex:webex-collab-subscription"],
+    ["EA-TPCNF-USR-T2", "EA TP Multi-Party User - Tier B", "unified-communications", "license", "sku-prefix:EA-"],
+    ["EA-CMS-KW-COUNT", "Total Knowledge Worker Count for CMS Add On Suite", "conferencing", "license", "sku-prefix:EA-"],
+    ["GM-ELA-6Y-EPT", "GM ELA, 6 year term - Collab End Point SW (upgr incl)", "collaboration-endpoints", "license", "sku-exact:GM-ELA-6Y-EPT"],
+    ["COL-WBX-ADVG", "Advantage 3 year term - WebEx - 1K Units", "conferencing", "license", "sku-prefix:COL-WBX-"],
+    ["WBX-MC1-BE-10USR", "Webex MC 10 hosts, 1 yr subscription", "conferencing", "license", "sku-prefix:WBX-"],
+    ["WEBEX-EXTERNAL", "WebEx External Ports for CUWL Add-on", "unified-communications", "license", "sku-prefix:WEBEX-"],
+    // UC application entitlements
+    ["MIG-9X-BASTOENH", "Mig from UCM 9.x Bas to Enh User Lic", "unified-communications", "license", "sku-prefix:MIG-"],
+    ["UPG-CUCM-ENHP-C", "Upgrade to UCM 9/10/11 Enh Plus from v8.x or earlier - 10K", "unified-communications", "license", "sku-prefix:UPG-"],
+    ["UPG-6K-PRO", "BE6000 CUWL Professional - SW Upgrade", "unified-communications", "license", "sku-prefix:UPG-"],
+    ["UP-UCM9TO10-ENHP-A", "Upg to UCM 10.x Enh Plus from 9.x", "unified-communications", "license", "sku-prefix:UP-UCM"],
+    ["M-UCN-UWLS-8TO10=", "UNTYCXN UWLS Migrate -8x to 10x - Order correct license qty", "unified-communications", "license", "sku-regex:uwl-version-migration"],
+    ["UWL-11X-PRO", "CUWL Professional 11.x Users - Service Use Only", "unified-communications", "license", "sku-prefix:UWL"],
+    ["RTMU-T-1Y-SUP", "Right To Major Upg for CUWL Upg Support - Collab 1 Yr,1 User", "unified-communications", "license", "sku-prefix:RTMU-"],
+    ["CUAC11X-ADV-HA", "Unified Attendant Console Advanced 11.x Server HA", "unified-communications", "license", "sku-prefix:CUAC"],
+    ["CUE-ATT-CON=", "Unified Enterprise Attendant Console", "unified-communications", "license", "sku-regex:attendant-console-legacy"],
+    ["UCXN-11X-SC-PORTS", "Unity Connection 11.x SpeechConnect Ports", "unified-communications", "license", "sku-prefix:UCXN"],
+    ["UNCN7-100USR-K9=", "Unity Connection, 16 ports, 100 users - All user Features", "unified-communications", "license", "sku-prefix:UNCN"],
+    ["UNITY-50-USR-ADDON", "Additional Unity 5.x Users for CUWL", "unified-communications", "license", "sku-prefix:UNITY"],
+    ["SPEECHVIEWPRO-1YR", "SpeechView Pro for Unity Connection 8.x 1 Year license", "unified-communications", "license", "sku-prefix:SPEECHVIEW"],
+    ["SPCHVIEW-PAK", "SpeechView for Unity Connection 9.x PAK", "unified-communications", "license", "sku-prefix:SPCHVIEW"],
+    ["CUP-SERVER8.5-K9", "Unified Presence Server License", "unified-communications", "license", "sku-prefix:CUP"],
+    ["PXY-8.6-SPM-SW", "CUP SIP Proxy Mode", "unified-communications", "license", "sku-prefix:PXY-"],
+    ["PAS-UIP-LRG-3YR", "EPAS Software UIP per seat, 1500 + for 3 Years", "unified-communications", "license", "sku-prefix:PAS-"],
+    ["BE6K-UCL-ENHP", "Business Edition 6000 - Enhanced Plus User Connect Lic", "unified-communications", "license", "sku-regex:be6000-entitlement"],
+    ["BE6K-START-UWL35", "BE6000 Starter Bundle with 35 UWL Standard Licenses", "unified-communications", "license", "sku-regex:be6000-entitlement"],
+    ["BE6K-SW-12.5", "Business Edition 6000 v12.5 export restricted software", "unified-communications", "software", "sku-regex:business-edition-image"],
+    ["BE7K-SW-9X10X-XU", "Media (no lic) for Cisco Collaboration 9.x 10.x Export Unrst", "unified-communications", "software", "sku-regex:business-edition-image"],
+    ["BE3K-ENH-USER", "Unified CMBE 3K Enhanced User Connect License (no VM)", "unified-communications", "license", "sku-prefix:BE3K"],
+    ["BE-12X-UWLS-STR", "BE6000 v12 UWL Standard Starter licenses (35-pack)", "unified-communications", "license", "sku-regex:be6000-starter"],
+    ["CPW-UC61-150USR-K9", "Partner Workspace UC 6.1 for 150 users", "unified-communications", "license", "sku-prefix:CPW-UC"],
+    ["SRST14-EP", "Survivable Remote Site Telephony (SRST) V14 - 1 Device Lic", "unified-communications", "license", "sku-prefix:SRST"],
+    // A LICENCE NAMED "PHONE". One of the six the reverse name control found; a name rule reading
+    // "Phone" as hardware evidence would have kept it, and a kind rule would have asked it a display.
+    ["CME-EA-LIC12X", "CME Phone / Seat License for EA", "unified-communications", "license", "sku-regex:cme-user-license"],
+    ["CUSP10-5CPS", "Unified SIP Proxy 10.x: 5 calls/sec (Smart License)", "unified-communications", "license", "sku-prefix:CUSP10-"],
+    ["TP-SMP-SL2SMP", "TP Screen License or MCU trade-in for 1 Shared Multiparty", "conferencing", "license", "sku-prefix:TP-SMP"],
+    ["KEY-CER1.X-10K=", "Cisco KEY-CER1.X-10K=", "unified-communications", "license", "sku-prefix:KEY-CER"],
+    ["UIP-CER-SVR-3YR=", "User Investment Protection CER Server 3 Years", "unified-communications", "license", "sku-prefix:UIP-CER-"],
+    ["VMW-UC-FND5-SNS", "UC Virt. Foundation 5.x SnS", "unified-communications", "license", "sku-prefix:VMW-UC-"],
+    ["VMW-VS6-HYP-K9", "Embedded License, Cisco UC Virt. Hypervisor 6.x (2-socket)", "unified-communications", "license", "sku-regex:uc-virt-embedded-license"],
+    ["VXME-WINDOWS-HCS", "VXME for Windows for HCS", "unified-communications", "license", "sku-prefix:VXME-"],
+    ["VPGW-99-LAR-K9=", "Virtualized PGW for HCS - Large Config", "unified-communications", "license", "sku-prefix:VPGW"],
+    ["CUMC-CLIENT-SYM-UW", "Unified Mobile Communicator Symbian Client for CUWL", "unified-communications", "license", "sku-prefix:CUMC-"],
+    ["CUCILYNC-CPW", "UC Integration for Lync Single Lic", "unified-communications", "license", "sku-prefix:CUCILYNC"],
+    ["VOIP-IPH-CPW", "Mobile for iPhone", "unified-communications", "license", "sku-regex:jabber-mobile-client"],
+    ["SP-INFORMACST-1K=", "InformaCast - 1000 End Point Licenses", "unified-communications", "license", "sku-regex:informacast-license"],
+    ["SP-INFMCST-3-25K=", "Cisco SP-INFMCST-3-25K=", "unified-communications", "license", "sku-regex:informacast-license"],
+    ["CUC-SL-EXRTKY-K9=", "Export Restricted Authorization Key for CUC -Smart Licensing", "unified-communications", "license", "sku-regex:cuc-smart-license-key"],
+    ["UCM-S-UCS-UPG-NODE", "CUCM CUCM-UCS-1000 Upgrade Node", "unified-communications", "license", "sku-regex:ucm-node-license"],
+    ["UCN-12X-VM-UCL", "BE6000 Unity Connection 12x Basic Voicemail Lic addon to UCL", "unified-communications", "license", "sku-regex:be6000-voicemail-ucl"],
+    ["SPCTRXMW260000015=", "Citrix Solutions Plus Voice Office 100 User License Spare", "unified-communications", "license", "sku-prefix:SPCTRXMW"],
+    ["V-CLOUD-SP", "Vyopta vAnalytics Cloud Starter Pack Subscription", "conferencing", "license", "sku-prefix:V-CLOUD"],
+    ["ESNA-TMSBOOKING-SP", "Cisco ESNA-TMSBOOKING-SP", "conferencing", "license", "sku-prefix:ESNA-"],
+    ["SP-ARC-XPS-ATT-CON", "SolutionsPlus ARC Express PC Attendant Console", "unified-communications", "license", "sku-prefix:SP-ARC-XPS"],
+    ["MPE-20-UWLA-PAK", "MeetingPlace Express 2.0 UWL Add-On PAK", "unified-communications", "license", "sku-regex:meetingplace-addon"],
+    ["PUBLIC-IP-DEV-BE", "Public Space non-app phone add-on for UWL BE", "unified-communications", "license", "sku-regex:uc-per-device-addon"],
+    ["UCM-HOSP-ROOMS", "UCM Hospitality - Number of Hotel rooms", "unified-communications", "license", "sku-prefix:UCM-HOSP"],
+    ["ADD-JAB-TO-ENH", "Add Jabber Device to Enhanced License in UC Manager 8.x", "unified-communications", "license", "sku-regex:uc-alacarte-migration"],
+    ["DBUPGRADE-SME", "Royalty option for IBM database upgrade", "unified-communications", "license", "sku-regex:uc-db-upgrade-royalty"],
+    ["VCS-MIG-EXP", "Migrate from VCS to Expressway", "unified-communications", "license", "sku-regex:vcs-migration"],
+    ["R-UCL-UCM-UPG-K9", "Top Level Sku For 11.X and Later User License - Migration", "unified-communications", "license", "sku-contains:UCL-UCM-UPG"],
+    ["LIC4.X-5.X-U-2500=", "License Upgrade of 2500 Addl Users, CM 4.x to CM 5.x", "unified-communications", "license", "sku-prefix:LIC4"],
+    ["UNIFIED-CM7.1", "CUCM 7.1 top level part number", "unified-communications", "license", "sku-prefix:UNIFIED-CM"],
+    ["MOBILE-USR", "Cisco MOBILE-USR", "unified-communications", "license", "sku-exact:MOBILE-USR"],
+    ["UCM-PAK", "Cisco UCM-PAK", "unified-communications", "license", "sku-exact:UCM-PAK"],
+    ["UPC-K9-OPT", "Unified Personal Communicator Options", "unified-communications", "license", "sku-exact:UPC-K9-OPT"],
+    ["CTI-VCSC-BE6K-PAK", "Config Only E-Delivery VCS Control PAK PID", "unified-communications", "license", "sku-exact:CTI-VCSC-BE6K-PAK"],
+    // MERGE, 12 Sep 2026: these four reach an EARLIER rule from the routers block — same class,
+    // different reason — because the collab block is appended last. Pinned at the reason the merged
+    // table really gives, not the one the collab block would give alone: a test that asserts the
+    // reason of a shadowed rule is a test that will be "fixed" by deleting a live rule.
+    ["FLASR1-CUBEE-16KP", "Unified Border Element - Enterprise Edition 16000 Sessions", "unified-communications", "license", "sku-prefix:FLASR1-"],
+    ["FLSASR1-CUE-500=", "Uni Border Element-Ent Edition 500 Sessions-Paper PAK-ASR1k", "unified-communications", "license", "sku-prefix:FLSASR"],
+    ["C1-ASR1-CUBEE-4KP", "ONE Unified Border Element Ent, 4000 Sessions, Redun", "unified-communications", "license", "sku-regex:cube-session-license"],
+    ["C1-FL-CUBEE-25", "ONE Unified Border Element Enterprise Lic 25 sessions", "unified-communications", "license", "sku-prefix:C1-FL-"],
+    // The bare CUBE forms, which only became visible once collabKind stopped calling them power supplies.
+    ["CUBE14-T-STD", "CUBE V14 - 1 Standard Trunk Session License", "unified-communications", "license", "sku-regex:cube-session-license"],
+    ["CUBE-T-RED-UP", "CUBE - 1 Standard to Redundant Trunk Session License Upgrade", "unified-communications", "license", "sku-regex:cube-session-license"],
+    ["FL-CUBE-100=", "Unified Border Element Feature License - 100 Sessions", "unified-communications", "license", "sku-regex:feature-licence"],
+    ["C1-CUBE-UP-RED", "Upgrade to C1 CUBE for CUBE REDUNDANT legacy license", "unified-communications", "license", "sku-regex:cube-session-license"],
+    // These two are the witnesses of the REMOVED `voice-feature-license` rule, kept deliberately.
+    // Measured over 91,543 live parts, that rule decided zero rows in the merged table because
+    // `feature-licence` takes them all; these rows prove the class did not move with it.
+    ["FL-CUSP-100U200=", "CUSP Upgrade License for 100 to 200 SIP requests/second", "unified-communications", "license", "sku-regex:feature-licence"],
+    ["FL-GK-2951=", "Gatekeeper Feature Paper PAK -2951 platform", "unified-communications", "license", "sku-regex:feature-licence"],
+    ["CMS-PMP-K9", "Meeting Server Personal Multiparty (a la carte offer)", "conferencing", "license", "sku-regex:cms-meeting-license"],
+    ["CUCM-CPL", "Unified Communication Manager Device License", "unified-communications", "license", "sku-regex:cucm-entitlement"],
+    ["CUCM861-EA-K9-PAK", "UC Manager 8.6.1 EA PAK", "unified-communications", "license", "sku-regex:cucm-entitlement"],
+    // Software: images, media kits, version SKUs, virtual editions
+    ["CM9.X-K9-NFR", "SW CM 9.X Not For Resale, 20 CUWL PRO, 5 TP Room", "unified-communications", "software", "sku-regex:cucm-version-image"],
+    ["CM85-UCS-1000-UKIT", "CUCM 8.5 Upgrade Media Kit for UCS", "unified-communications", "software", "sku-regex:cucm-version-image"],
+    ["R-CM8.6-K9-NFRTRNG", "SW CM 8.6 Not For Resale Trng Partners Only", "unified-communications", "software", "sku-regex:cucm-version-image"],
+    ["CM-UIP-7845-3YR=", "CM Software UIP for 7845 for 3 year", "unified-communications", "software", "sku-prefix:CM-UIP-"],
+    ["CM-7835K9-802-UKIT", "CUCM 8.0.2 Media Upgrade Kit", "unified-communications", "software", "sku-prefix:CM-"],
+    ["CMBE8.0-U-K9=", "SW Upgrade BE 7.X to 8.0", "unified-communications", "software", "sku-prefix:CMBE"],
+    ["CUCM-VERS-12.5-XU", "CUCM Software version 12.5 (Export Unrestricted)", "unified-communications", "software", "sku-regex:cucm-version-software"],
+    ["CUCM-UCS-7500-86", "Unified Communications Manager 8.6 Server Software", "unified-communications", "software", "sku-regex:cucm-version-software"],
+    ["SME-VERS-12.5", "SME Software Version 12.5", "unified-communications", "software", "sku-regex:sme-software"],
+    ["USME8.6-K9-NFR", "SW CM-SME 8.6 Appliance Not For Resale", "unified-communications", "software", "sku-regex:sme-software"],
+    ["R-SME8.6-K9-NFR", "SW CM-SME 8.6 Appliance Not For Resale", "unified-communications", "software", "sku-regex:sme-software"],
+    ["ER87-SW-U71-K9", "EMRGNCY RSPNDR 87 SW UPGD 71 ONLY", "unified-communications", "software", "sku-regex:emergency-responder-software"],
+    ["ER12.5-SW-UZZ-K9=", "Emergency Responder 12.5 Server Software Upgrade 10.X 11.X for PUT only", "unified-communications", "software", "sku-regex:emergency-responder-software"],
+    ["ER90-USR-10-ADD", "EMRGNCY RSPNDR 90 USR LIC 10 PHNS ADDL", "unified-communications", "license", "sku-regex:emergency-responder-entitlement"],
+    ["ER-911-EA-PAK", "ER 911 for EA PAK", "unified-communications", "license", "sku-regex:emergency-responder-entitlement"],
+    ["R-EMRGNCY-RSPNDR", "Cisco Emergency Responder Top Level (for Electronic Delivery)", "unified-communications", "license", "sku-contains:EMRGNCY-RSPNDR"],
+    ["IME8.5-K9-NFR-TRNG", "SW IME 8.5 Appliance Not For Resale", "unified-communications", "software", "sku-prefix:IME8"],
+    ["CSR14X-K9-DLT=", "UC 14 Partner Demo/Lab/Training Kit - Product Upgrade Tool", "unified-communications", "software", "sku-regex:uc-partner-dlt-kit"],
+    ["UPS1.0-K9-NFR=", "SW Cisco Unified Presence Server 1.0 DEMO Not For Resale", "unified-communications", "software", "sku-prefix:UPS1.0-K9"],
+    // MERGE, 12 Sep 2026: UCAPPSW-12.5-XU-K9 carries a RELEASE NUMBER, so `release-in-sku` decides
+    // it first — same class, different reason, and it left UCAPPS with no witness. Both are pinned:
+    // the one UCAPPS really wins (measured, 5 live parts) and the one it does not.
+    ["UCAPPSW-10.X-XU-K9", "Version 10.x - Export Unrestricted", "unified-communications", "software", "sku-prefix:UCAPPS"],
+    ["UCAPPSW-12.5-XU-K9", "Version 12.x - Export Unrestricted", "unified-communications", "software", "sku-regex:release-in-sku"],
+    ["EUR-CVP126VVB-SEC", "VVB 12.6 Server Software [Security Enabled]", "unified-communications", "software", "sku-prefix:EUR-"],
+    ["CTI-VMVCS-CTRL-K9", "Virtual VCS Control - includes FindMe application", "unified-communications", "software", "sku-regex:vcs-virtual-edition"],
+    ["EXPWY-VE-E-K9=", "Expressway-E Server, Virtual Edition", "unified-communications", "software", "sku-regex:vcs-virtual-edition"],
+    ["R-ATP-VM-VCSE-K9", "E-Delivery ATP Demo - Virtual VCS Expressway", "unified-communications", "software", "sku-regex:vcs-virtual-edition"],
+    ["CMS1K-SW-HMN", "Meeting server 1000 HMN sw preload", "conferencing", "software", "sku-prefix:CMS1K-SW-"],
+    ["VM-IM86ONLYDB-K9", "DB software for VMWare IM Only, used only if no CUCM present", "unified-communications", "software", "sku-regex:im-only-database"],
+    ["M7816-IM85ONYDB-K9", "IM ONLY DB for CUP 8.5", "unified-communications", "software", "sku-regex:im-only-database"],
+    ["PLM10X-K9=", "Prime License Manager 10.X", "unified-communications", "software", "sku-regex:prime-collab-software"],
+    ["CCX-125-NPS-K9=", "CCX 12.5 Non Production System", "unified-communications", "software", "sku-regex:contact-centre-app-media"],
+    ["CVP-125-SRV-LAB", "CVP 12.5 Server Software (Smart)", "unified-communications", "software", "sku-regex:contact-centre-app-media"],
+    ["UC-APPS-SW-DOD-K9", "DOD Certified Version of CUWL", "unified-communications", "software", "sku-regex:uc-app-software-kit"],
+    ["R-UNITYCN10-XU-K9", "Unity Connection 10.x Software - Export Unrestricted", "unified-communications", "software", "sku-regex:uc-app-edelivery"],
+    ["R-PC12.6-PRSW-K9=", "Prime Collaboration 12.6 Provisioning Software and BASE", "unified-communications", "software", "sku-regex:uc-app-edelivery"],
+    ["R-VMVCS-CTRL-K9", "TelePresence Video Communication Server Control (virtualized application)", "unified-communications", "software", "sku-regex:uc-app-edelivery"],
+    ["UCMBE-7828-85-KIT", "Unified Communication Manager BE MCS 7828 SW kit", "unified-communications", "software", "sku-prefix:UCMBE-"],
+    ["UCS-7500-86-UPG=", "CUCM 8.6 Server Software for UC on UCS 7500 or higher", "unified-communications", "software", "sku-regex:cucm-on-ucs-upgrade"],
+    ["UCM8.6-K9-NFR", "SW CM 8.6 Appliance Not For Resale", "unified-communications", "software", "sku-regex:cucm-appliance-image"],
+    ["CM5.1.1C-IBMONLY", "UC Manager 5.1.1C Release for IBM Only", "unified-communications", "software", "sku-exact:CM5.1.1C-IBMONLY"],
+    ["MCS-OS-2000.2.4=", "MCS Server Legacy OS (2000.2.4) Image Kit", "unified-communications", "software", "sku-exact:MCS-OS-2000.2.4"],
+    ["ISR-CCP-EXP-NONE", "Config Pro Express on Router Flash w/o default config", "unified-communications", "software", "sku-exact:ISR-CCP-EXP-NONE"],
+    // Service
+    ["CTX-YRC-SERVICE", "Yearly Recurring Charge for Cisco TelePresence Exchange", "collaboration-endpoints", "service", "sku-regex:telepresence-exchange-service"],
+    ["CTT-T4-FULL", "T4 Complete Program - Educator Training Module", "collaboration-endpoints", "service", "sku-prefix:CTT-T4-"],
+    ["SP-CP-860S-EXCARE=", "Extended hardware replacement coverage for Cisco 860S, only available in North America", "collaboration-endpoints", "service", "sku-regex:smallbiz-extended-care"],
+    // non_product
+    ["DD-CODEC-PRO-K9", "Codec Pro dummy", "collaboration-endpoints", "non_product", "sku-prefix:DD-"],
+    ["ECRR-FCC-NA", "FCC Emergency Call Routing Regulations Not Apply", "unified-communications", "non_product", "sku-exact:ECRR-FCC-NA"],
+    ["HOSP-TERMS", "Mandatory Hospitality Terms and Conditions", "unified-communications", "non_product", "sku-exact:HOSP-TERMS"],
+    ["TELPRES-DP-DLRPID", "Price Adjustment PIDS", "collaboration-endpoints", "non_product", "sku-exact:TELPRES-DP-DLRPID"],
+    ["UC-UCME", "UC320, UC500 or UCME", "unified-communications", "non_product", "sku-exact:UC-UCME"],
+    ["USB-C", "Cisco USB-C", "collaboration-endpoints", "non_product", "sku-exact:USB-C"],
+    ["321ABC432DEF", "Cisco 321ABC432DEF", "collaboration-endpoints", "non_product", "sku-exact:321ABC432DEF"],
+    ["FCH20100312/WZP20100113", "Cisco FCH20100312/WZP20100113", "collaboration-endpoints", "non_product", "sku-exact:FCH20100312/WZP20100113"],
+    ["NM-HD-1V/2V/2VE", "Cisco NM-HD-1V/2V/2VE", "unified-communications", "non_product", "sku-exact:NM-HD-1V/2V/2VE"],
+    ["19560-19660", "Cisco 19560-19660", "unified-communications", "non_product", "sku-exact:19560-19660"],
+    ["5060-5080", "Cisco 5060-5080", "unified-communications", "non_product", "sku-exact:5060-5080"],
+    ["15.0.1M", "Cisco 15.0.1M", "unified-communications", "non_product", "sku-exact:15.0.1M"],
+    ["15.0.1M3", "Cisco 15.0.1M3", "unified-communications", "non_product", "sku-exact:15.0.1M3"],
+    ["15.1.2T", "Cisco 15.1.2T", "unified-communications", "non_product", "sku-exact:15.1.2T"],
+    ["15.1.3T", "Cisco 15.1.3T", "unified-communications", "non_product", "sku-exact:15.1.3T"],
+    ["15.1.T2", "Cisco 15.1.T2", "unified-communications", "non_product", "sku-exact:15.1.T2"],
+    ["15.1.T3", "Cisco 15.1.T3", "unified-communications", "non_product", "sku-exact:15.1.T3"],
+    ["6.25A", "Cisco 6.25A", "collaboration-endpoints", "non_product", "sku-exact:6.25A"],
+    ["7.0A", "Cisco 7.0A", "collaboration-endpoints", "non_product", "sku-exact:7.0A"],
+    ["UC-7.X-OR-EARLIER", "UC 7.X or earlier Version Migration", "unified-communications", "non_product", "sku-regex:uc-version-migration-question"],
+    // The ordering-question NAME rule: no SKU shape in common, which is why it is a name rule.
+    ["ER-10.X", "Select when upgrading from Cisco Emergency Responder 10.X", "unified-communications", "non_product", "name-ordering-question"],
+    ["EXIST-DEPL-OVER10K", "Total Deployment is Over 10,000 users", "unified-communications", "non_product", "name-ordering-question"],
+    ["TP-ROOM-12", "Choose if Expway or for CUCM version 11.x TP-Room License", "conferencing", "non_product", "name-ordering-question"],
+    ["OTHER-APP", "Migrating from Other Application to CUWL", "unified-communications", "non_product", "name-ordering-question"],
+    ["FIRST-PRO", "Select when first ordering or upgrading CUWL Pro licenses", "unified-communications", "non_product", "name-ordering-question"],
+  ];
+  for (const [sku, name, cat, want, reason] of fire) {
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
+    check(`collab-class: ${sku} -> ${want} by ${reason}`, got.klass === want && got.reason === reason, `${got.klass} / ${got.reason}`);
+    seenReasons.add(got.reason);
+  }
+
+  // REFUSALS. Each is a real part that a wider form of one of the rules above would have deleted,
+  // and every one carries either an own physical fact or a name that plainly describes a thing.
+  const stay: [string, string, string, string][] = [
+    // The bare `A-` prefix, refused in round 2 and still refused: all 45 own-physical-fact parts
+    // under it are Arista cables, and every Arista member is `A-<one letter><three digits>-`.
+    ["A-D800-D800-7M", "Arista A-D800-D800-7M AOC QSFP-DD auf QSFP-DD - aktives optisches Kabel (AOC), Länge 7 m",
+      "transceiver", "webex-collab-subscription widened to one letter after A- — an Arista AOC cable with an own physical fact"],
+    ["A-O400-2Q200-10M", "Arista A-O400-2Q200-10M 400G AOC OSFP auf 2x QSFP56 - aktives optisches Kabel (AOC), Länge 10 m",
+      "transceiver", "the same, with three own physical facts"],
+    // The R- e-delivery prefix. These are wireless / switches SOFTWARE wrongly classed hardware —
+    // another lane's rows AND another lane's class (software, not licence), so the rule is anchored
+    // on a UC application token instead and they are reported rather than written.
+    ["R-POLICY-241-SWK9", "Cisco Policy Suite 24.1 Software", "wireless", "a bare R- prefix — wireless software, not a UC licence, and not this agent's row"],
+    ["R-ME3400E-B2I=", "Metro Base to Metro IPAccess Image Upgrade for ME3400E Switch", "switches", "a bare R- prefix — a switches IOS image"],
+    ["R-NAM-VX20-62K9S=", "Smat Lic based Cisco Prime Virtual NAM VX20 Software 6.2", "wireless", "a bare R- prefix"],
+    // Cisco ONE: the round-2 refusal, re-confirmed for the CUBE rule.
+    ["C1-ASR1001-HX/K9", "ONE - ASR1001-HX, 4x10GE+4x1GE, 2x P/S", "routers", "cube-session-license without its -CUBEE anchor — a real ASR 1001-HX chassis"],
+    ["C1-FLOW-IE4K", "ONE Netflow IE4000", "switches", "cube-session-license with C1-FL and no hyphen — this one carries 14 facts"],
+    // The CallManager version shape needs its -K9 / -UCS- marker.
+    ["CM8-UM08-04-E7G-ULL", "Cisco CM8-UM08-04-E7G-ULL", "interfaces-modules", "cucm-version-image without the -K9 / -UCS- requirement"],
+    ["CUCM-UCS-SRV", "hypothetical server", "unified-communications", "a bare CUCM prefix — cucm-entitlement is token-anchored so this stays out"],
+    // Juniper, under a Prime Collaboration shape.
+    ["PC-1OC192-SON-XFP", "SONET/SDH OC192/STM64 PIC with XFP", "interfaces-modules", "prime-collab-software as a `PC-1` prefix — a JUNIPER SONET PIC"],
+    // BUSINESS EDITION: the appliance and its parts. These SIX are the defect the class-against-kind
+    // control caught after the block was already green — a bare `BE6K-` prefix passed every
+    // automated test (115 parts, Cisco only, ZERO facts anywhere) and ate all of them, because a
+    // part with no facts cannot be refused by a fact gate. The residue had been read in full; the
+    // rest of the family had not.
+    ["BE6K-M6-K9", "Business Edition 6000 (M6) Appliance, Export Restr SW", "unified-communications", "a bare BE6K- prefix — the Business Edition 6000 appliance itself"],
+    ["BE6K-M7-XU", "Business Edition 6000 Svr (M7), Export Unrestricted SW", "unified-communications", "the same, one generation on"],
+    ["BE6K-ST-BDL-K9=", "Business Edition 6000M Svr (M3), Export Restricted SW", "unified-communications", "a bare BE6K- prefix — ST-BDL is a SERVER; START is the licence pack"],
+    ["BE6K-STBDL-PLS-XU=", "Business Edition 6000H (M3), Export Unrestrict. SW", "unified-communications", "the same, and the reason the token is ST-/STBDL and not bare ST"],
+    ["BE6K-PSU-M6-1200", "1200W Titanium power supply for C-Series Servers", "unified-communications", "a bare BE6K- prefix — a 1200W PSU"],
+    ["BE6K-RAIDCTRLR-M6", "12G SAS RAID Controller w/4GB FBWC (16 Drv) w/1U Brkt", "unified-communications", "a bare BE6K- prefix — a RAID controller"],
+    // Business Edition, continued.
+    ["BE7K-NIC-M6", "Cisco-Intel X710T4LG 4x10 GbE RJ45 PCIe NIC", "unified-communications", "a bare BE\\d prefix — a 4x10GbE NIC with an own physical fact"],
+    // The slash and version shapes, which are not markers.
+    ["QSFP-4SFP10G-CU3M", "40GBASE-CR4 QSFP+ to 4 10GBASE-CU SFP+ direct attach breakout cable assembly, 3 meter passive",
+      "transceiver", "a `/`-or-digits non_product shape read loosely"],
+    ["MP232-R", "Cisco MP232-R", "servers-unified-computing", "a bare MP prefix under meetingplace-addon"],
+    ["ISR-CCP-CD", "Config Professional on CD, CCP-Express on Router Flash (Both system and spare)",
+      "routers", "an ISR-CCP- prefix — correct to reclassify, but a routers row and the routers owner's call"],
+    // THE ONE REAL HARDWARE FAMILY IN THE RESIDUE, and the UNITY licence prefix's reason for a veto.
+    ["UNITY-PIMG-MITEL", "PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs", "unified-communications", "the UNITY licence prefix without its -PIMG veto"],
+    ["UNITY-PIMG-LEGEND", "PBX-IP Media Gateway for Avaya Merlin Legend systems", "unified-communications", "the same"],
+    ["UNITY-TIMG-1=", "T1 IP-Media Gateway", "unified-communications", "the UNITY licence prefix without its -TIMG veto"],
+    // Real collaboration hardware that stays hardware and is a collabKind gap, not a class defect.
+    ["SPK-SHARE-K9", "Webex Share wireless screen-sharing adapter.", "collaboration-endpoints", "any SP-/SPK- prefix rule — a real screen-sharing adapter"],
+    ["SPVAC-H450-W-US=", "SolutionsPlus: Jabra Handset 450 for Cisco -White-US", "collaboration-endpoints", "an SP- prefix rule — a Jabra handset"],
+    ["UC-RAID-9271", "MegaRAID 9271-8i + Battery Backup for C240 and C220", "unified-communications", "a bare UC- prefix under uc-version-migration-question / uc-app-software-kit — a RAID controller"],
+    ["EM-HDA-6FXO", "Cisco EM-HDA-6FXO", "unified-communications", "any name-blind residue rule — a 6-port FXO voice extension module"],
+    ["SM-X-NIM-ADPTR", "SM-X Adapter for one NIM module for Cisco 4000 Series ISR", "unified-communications", "the same — a physical module adapter"],
+    ["C1200-8FP-2G-OPT", "Catalyst 1200 8-port GE Switch, Full PoE, 2x1G Combo", "collaboration-endpoints", "any residue rule — a real Catalyst 1200 switch, misfiled (a category-move proposal)"],
+    ["WBP54G", "802.11b/g wireless bridge", "collaboration-endpoints", "a WB* prefix under WBX- — a real wireless bridge"],
+    ["ADPT-HDMI-DVID=", "Adaptor HDMI to DVID cable", "collaboration-endpoints", "any residue rule — a real cable"],
+    ["HS-WL-ADPT-USBC=", "Headset Wireless Bluetooth USB-C Adapter with USB-C to A converter", "collaboration-endpoints", "any residue rule — a real USB adapter"],
+    ["CTS-ATP-MX200-K9", "ATP Demo Cisco TelePresence MX200 42", "collaboration-endpoints", "a CTS-ATP- rule read as a demo licence — an ATP demo SHIPS the MX200"],
+    ["CP-ROOMPH-NA-MK9", "MLB Subscription Room Phone", "unified-communications", "a subscription NAME on a real main logic board"],
+    ["SP-ATLAS-IPDC=", "Wall Mount Clock, Less Enc.", "unified-communications", "an SP- prefix rule — an Atlas PoE IP clock"],
+    ["CS-PANO-SWITCH2+", "Room Panorama - Cisco C1000 16 Port Switch", "collaboration-endpoints", "any residue rule — a Catalyst C1000 sold inside Room Panorama"],
+    ["CTS-5K-LC-SWITCH", "Catalyst 2960C Switch 12 FE PoE, 2 x Dual Uplink, Lan Base", "collaboration-endpoints", "a CTS-5K- rule — a Catalyst 2960C with an own physical fact"],
+    ["CTS-ST-INT-PLATE=", "Interface plate CAM-P60 to Speaker Track 60", "collaboration-endpoints", "any residue rule — a metal interface plate"],
+    ["CP-HS-W-5EC8=", "8-pack Ear Pad Spare (optional accessory) for 520 and 530 Series", "collaboration-endpoints", "any residue rule — ear pads"],
+    ["CS-R-USB-T10-KIT", "Touch 10 Kit for Room USB Upgrade", "collaboration-endpoints", "an upgrade-kit rule — this kit ships a Touch 10 panel"],
+    ["AVIZ-TAC-K9", "SolutionsPlus: Avizia Tactical", "collaboration-endpoints", "an AVIZ- rule — the Avizia telehealth cart, not its -SW sibling"],
+    ["CTI-VCS-BRAGEEARS=", "116269 Brage Rack Ears Kit", "unified-communications", "a CTI-VCS- rule — rack ears"],
+    // The name rule must not read a DEVICE description as an ordering question.
+    ["CS-BOARD70S-K9++", "Cisco Webex Board 70S", "collaboration-endpoints", "name-ordering-question widened past its anchors"],
+  ];
+  for (const [sku, name, cat, wouldEat] of stay) {
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: true });
+    check(`collab-class refusal: ${sku} stays hardware (would have been eaten by ${wouldEat.slice(0, 52)})`,
+      got.klass === "hardware", `${got.klass} / ${got.reason}`);
+  }
+  check(`collab-class has at least as many refusals (${stay.length}) as it has rule families`, stay.length >= 30);
+
+  // A SECOND KIND OF REFUSAL, and it needs its own assertion because "stays hardware" cannot state
+  // it. Citrix and VMware in servers-unified-computing are ALREADY licences (ucs-kind-os-license),
+  // so a bare CTX- or VMW- prefix here would not change their class — it would change their REASON
+  // and quietly move them into this agent's block, in a category the servers agent owns. What must
+  // hold is that no collab-class rule is the one that decides them.
+  const collabRuleNames = new Set(SKU_RULES.slice(SKU_RULES.findIndex((r) => r.token === "webex-collab-subscription"))
+    .map(ruleName).concat("name-ordering-question"));
+  const notMine: [string, string, string, string][] = [
+    ["CTX-XD-ENT-U-1A=", "Citrix XenDesktop Enterprise Edition, 1 user, 1yr Support Required", "servers-unified-computing", "a bare CTX- prefix — 167 Citrix licences the servers agent owns"],
+    ["VMW-VSP-STD-4A", "VMware vSphere 6 Standard (1 CPU), 4-yr, Support Required", "servers-unified-computing", "a bare VMW- prefix — the servers agent's vSphere licences"],
+    ["VMW-VS5-ENTP-3A", "VMware vSphere 5 Enterprise Plus (1 CPU), 3yr Support Required", "servers-unified-computing", "uc-virt-embedded-license widened past its three UC forms"],
+    ["A-CMS-API", "CMS TMS Appint for Exchange/O365 or Cal. Connector", "conferencing", "nothing — this one IS a collab-class row, listed to show the assertion can fail"],
+  ];
+  for (const [sku, name, cat, wouldEat] of notMine.slice(0, 3)) {
+    const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: cat === "servers-unified-computing" });
+    check(`collab-class does not decide ${sku} (${wouldEat.slice(0, 50)})`, !collabRuleNames.has(got.reason), `${got.klass} / ${got.reason}`);
+  }
+  // The control for that assertion: it must be able to FAIL. A-CMS-API is a collab-class row, so the
+  // predicate above must return true for it — otherwise the three checks prove nothing.
+  check("CONTROL: the not-decided-here predicate does fire on a row this block DOES decide",
+    collabRuleNames.has(classify({ sku: "A-CMS-API", name: "CMS TMS Appint", categorySlug: "conferencing", categoryIsHardware: true }).reason));
+
+  // SABOTAGE. Each disables exactly one guard and asserts the thing it protects is eaten — a veto or
+  // an anchor that nothing would notice if removed is not a guard.
+  const unityLic = SKU_RULES.find((r) => r.kind === "prefix" && r.token === "UNITY")!;
+  check("SABOTAGE the UNITY licence prefix without its -PIMG veto eats a real media gateway",
+    ruleMatches({ ...unityLic, except: [] }, "UNITY-PIMG-MITEL"));
+  check("SABOTAGE the UNITY licence prefix without its BUNDLE veto re-eats UNITYCN7-BUNDLE",
+    ruleMatches({ ...unityLic, except: ["-PIMG", "-TIMG"] }, "UNITYCN7-BUNDLE"));
+  const webex = SKU_RULES.find((r) => r.token === "webex-collab-subscription")!;
+  check("SABOTAGE webex-collab-subscription at ONE letter after A- eats the Arista AOC cable",
+    ruleMatches({ ...webex, re: /^A-[A-Z]/ }, "A-D800-D800-7M"));
+  const cube = SKU_RULES.find((r) => r.token === "cube-session-license")!;
+  check("SABOTAGE cube-session-license without its -CUBEE anchor eats the ASR 1001-HX chassis",
+    ruleMatches({ ...cube, re: /^FLS?A?SR1-|^C1-(?:ASR1|CUBEE|FL)/ }, "C1-ASR1001-HX/K9"));
+  check("SABOTAGE cube-session-license with C1-FL and no hyphen eats C1-FLOW-IE4K",
+    ruleMatches({ ...cube, re: /^C1-FL/ }, "C1-FLOW-IE4K"));
+  const cmImg = SKU_RULES.find((r) => r.token === "cucm-version-image")!;
+  check("SABOTAGE cucm-version-image without its -K9 / -UCS- marker eats CM8-UM08-04-E7G-ULL",
+    ruleMatches({ ...cmImg, re: /^(?:R-)?CM\d/ }, "CM8-UM08-04-E7G-ULL"));
+  const ctx = SKU_RULES.find((r) => r.token === "telepresence-exchange-service")!;
+  check("SABOTAGE telepresence-exchange-service as a bare CTX- prefix eats a Citrix licence",
+    ruleMatches({ ...ctx, re: /^CTX-/ }, "CTX-XD-ENT-U-1A"));
+  const vmw = SKU_RULES.find((r) => r.token === "uc-virt-embedded-license")!;
+  check("SABOTAGE uc-virt-embedded-license widened to VMW-VS eats the servers agent's vSphere licence",
+    ruleMatches({ ...vmw, re: /^VMW-VS/ }, "VMW-VSP-STD-4A"));
+  const edel = SKU_RULES.find((r) => r.token === "uc-app-edelivery")!;
+  check("SABOTAGE uc-app-edelivery as a bare R- prefix eats the wireless Policy Suite software",
+    ruleMatches({ ...edel, re: /^R-/ }, "R-POLICY-241-SWK9"));
+  const prime = SKU_RULES.find((r) => r.token === "prime-collab-software")!;
+  check("SABOTAGE prime-collab-software as a PC-1 prefix eats a Juniper SONET PIC",
+    ruleMatches({ ...prime, re: /^PC-1/ }, "PC-1OC192-SON-XFP"));
+  const ccx = SKU_RULES.find((r) => r.token === "contact-centre-app-media")!;
+  check("SABOTAGE contact-centre-app-media without its version anchor reaches unread contact-center PIDs",
+    ruleMatches({ ...ccx, re: /^CCX/ }, "CCX-41-90UQAQMS1"));
+  const dlt = SKU_RULES.find((r) => r.token === "uc-partner-dlt-kit")!;
+  check("SABOTAGE uc-partner-dlt-kit widened to CSR1x eats the Cloud Services Router",
+    ruleMatches({ ...dlt, re: /^CSR1\d/ }, "CSR1000V"));
+  const ucsUpg = SKU_RULES.find((r) => r.token === "cucm-on-ucs-upgrade")!;
+  check("SABOTAGE cucm-on-ucs-upgrade as a bare UCS- prefix reaches the servers agent's catalogue",
+    ruleMatches({ ...ucsUpg, re: /^UCS-/ }, "UCS-CPU-I6338"));
+  // The BE6K defect, as a sabotage: the bare prefix is what was written first, and it eats the
+  // appliance, its PSU and its RAID controller. Restoring the bare form must make all three red.
+  const be = SKU_RULES.find((r) => r.token === "be6000-entitlement")!;
+  for (const eaten of ["BE6K-M6-K9", "BE6K-PSU-M6-1200", "BE6K-ST-BDL-K9"]) {
+    check(`SABOTAGE be6000-entitlement as a bare BE6K- prefix eats ${eaten}`,
+      ruleMatches({ ...be, kind: "prefix", token: "BE6K-", re: undefined }, eaten));
+  }
+  check("be6000-entitlement takes START and refuses ST-BDL — the family's own distinction",
+    ruleMatches(be, "BE6K-START-UWL35") && !ruleMatches(be, "BE6K-ST-BDL-K9"));
+  // The bare CUBE- forms must not reach a real power cube, which is the token collabKind had wrong.
+  check("cube-session-license leaves CP-PWR-CUBE-4 alone (a real IP phone power transformer)",
+    !ruleMatches(cube, "CP-PWR-CUBE-4"));
+  check("SABOTAGE cube-session-license widened to CUBE anywhere eats CP-PWR-CUBE-4",
+    ruleMatches({ ...cube, re: /CUBE/ }, "CP-PWR-CUBE-4"));
+  // The name rule: an ordering question is a whole-name shape, and a device name must not match.
+  check("SABOTAGE name-ordering-question unanchored ('number of' anywhere) eats a port-count spec name",
+    /number of /i.test("Switch with a high number of PoE ports") && !/^number of /i.test("Switch with a high number of PoE ports"));
+  check("name-ordering-question leaves a device alone",
+    classify({ sku: "CS-BOARD70S-K9", name: "Cisco Webex Board 70S", categorySlug: "collaboration-endpoints", categoryIsHardware: true }).klass === "hardware");
+  sabotages += 22;
+}
+// end collab-class
 
 const stillUntested = RULE_NAMES.filter((r) => ![...seenReasons].some((s) => s === r || s.startsWith(r + ":")));
 check(`every rule in the docs/DATA_MODEL.md table fired at least once (${RULE_NAMES.length} rules)`, stillUntested.length === 0, `never fired: ${stillUntested.join(", ")}`);

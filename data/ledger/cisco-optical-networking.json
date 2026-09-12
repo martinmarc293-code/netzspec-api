@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "optical-networking",
  "profile_hash": "e2b0990c0fbd7c16",
- "built_on_commit": "70794ec",
+ "built_on_commit": "401d00b",
  "norm_version": "1.6.2",
  "declared_fields": 404,
  "gap_states": {

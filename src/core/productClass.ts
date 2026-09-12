@@ -1189,6 +1189,279 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "regex", token: "isr-customization-service", re: /^C\d{4}ISR-CICS-S[A-Z]$/, probe: "C2900ISR-CICS-SL",
     klass: "service", why: "'Cisco Integrated Customization Services-2900 ISR (Silver)' — an engagement, not a product; 3 parts (2 interfaces-modules, 1 routers), 0 facts" },
   // ===== end modules-misc =======================================================================
+
+  // collab-class (12 Sep 2026) — THE FALLBACK RESIDUE OF THE THREE COLLABORATION CATEGORIES.
+  //
+  // WHAT WAS MEASURED. After the block above and reclassify run 969, `unified-communications` still
+  // held 2,193 parts classed hardware, and collabKind called 1,456 of them `unknown` — the kind that
+  // asks nothing, so the wrong class was hidden rather than harmless. The reverse NAME control over
+  // that bucket found 852 whose name says non-hardware outright (CM9.X-K9-LAB "SW CM 9.X Lab Only,
+  // 20 CUWL PRO, 5 TP Room"), 496 whose name says nothing at all (R-CUCM-USR-LSC "Top Level UCL
+  // SKU"), 82 named as software MEDIA KITS, and — the whole point of running the control — exactly
+  // ONE family of real hardware: the 14 UNITY-PIMG / UNITY-TIMG PBX-IP media gateways, which are
+  // vetoed here and given kind `gateway` in collabKind instead.
+  //
+  // METHOD, and it is the file's existing one. A name found each candidate family; the family was
+  // then read IN FULL, every member, before a rule was written; and every rule below was re-measured
+  // over ALL 91,543 live parts and ALL 13 vendors, not over the three categories that produced it.
+  // THE GATE IS AN OWN PHYSICAL FACT: across the whole block, 1,917 rows are decided and NOT ONE
+  // carries an own fact of any kind, physical or otherwise. Where a shape's members outside these
+  // three categories are already non-hardware the shape is adopted whole (the rule only refines a
+  // reason); where ONE such member is still classed `hardware` the shape is narrowed, because a
+  // class decision in another category's lane is not this agent's to make — those are listed as
+  // proposals in docs/reports/schema-collab-class-2026-09-12.md instead.
+  //
+  // REFUSED, each with the product it would have cost (all pinned in productClass.test.ts):
+  //   `A-`        the bare prefix stays refused, as round 2 decided: 63 Arista parts start A-, and
+  //               45 of them carry an own physical fact (A-D800-D800-7M, an AOC cable). EVERY Arista
+  //               member has the form `A-<one letter><three digits>-`, so requiring TWO letters
+  //               after the hyphen excludes the lot structurally rather than by a veto list.
+  //   `R-`        441 parts in ten categories. 19 wireless and 2 switches rows classed hardware are
+  //               Policy Suite / Prime NAM / ME3400 IOS images — someone else's defect, and they are
+  //               SOFTWARE, not licences, so even the class would be wrong. Only the 84 rows whose
+  //               second token names a UC application are taken (`uc-app-edelivery`).
+  //   `C1-ASR1`   C1-ASR1001-HX/K9 is "ONE - ASR1001-HX, 4x10GE+4x1GE, 2x P/S" — a real ASR 1000
+  //               chassis on the Cisco ONE order form. Only `C1-ASR1-CUBEE` is a session licence.
+  //   `C1-FL`     C1-FLOW-IE4K ("ONE Netflow IE4000") carries 14 facts. The rule needs the hyphen.
+  //   `CM\d`      CM8-UM08-04-E7G-ULL is an interfaces-modules part. Every one of the 95 CallManager
+  //               version SKUs carries `-K9` or `-UCS-`; that one carries neither.
+  //   `PC-1`      PC-1OC192-SON-XFP is a JUNIPER SONET PIC. Only the exact Prime SKUs are taken.
+  //   `CTX-`      167 servers-unified-computing parts are CITRIX licences the servers agent owns.
+  //               Only `CTX-...SERVICE`, the TelePresence Exchange fee, is taken.
+  //   `VMW-`      346 servers parts. Only the four UC Virtualization forms are taken.
+  //   `BE\d`      BE7K-NIC-M6 is "Cisco-Intel X710T4LG 4x10 GbE RJ45 PCIe NIC", 1 own physical fact.
+  //               Only BE6K-/BE3K- and the BE6000 starter forms are taken.
+  //   `/`         a slash looked like a "two serial numbers in one cell" marker; 1,314 parts contain
+  //               one and 136 carry an own physical fact (routers, 736). Two exact rules instead.
+  //   `^\d+\.\d`  499 parts, 107 with own facts, 389 of them in `video`. Exact rules instead.
+  //   `ISR-CCP-`  four routers rows are the same Config Pro software and would be correctly moved —
+  //               but that is the routers owner's call, so only the one UC row is taken by name.
+  //   `MP[E\d]`   MP232-R is a servers part; the rule names the three MeetingPlace forms instead.
+  //
+  // Webex / cloud collaboration subscription. `A-` plus TWO letters: 1,214 parts, EVERY ONE Cisco,
+  // ZERO facts of any kind, and no Arista member can reach it (see the refusal above).
+  { kind: "regex", token: "webex-collab-subscription", re: /^A-[A-Z]{2}/, probe: "A-EPF-APP-T1",
+    klass: "license", why: "Webex / Collaboration cloud subscription (A-EPF-APP-T1 'Webex Events App (formerly Socio) 0-250', A-CJP-CNPN 'Webex Contact Center Premium Named Agent', A-SS-NBR 'NBR Storage 1 GB'); 1,214 parts, 0 facts, Cisco only. 226 rows are decided here and 1,033 already carry a more specific reason (A-FLEX-, A-SPK-, A-WRK-, A-SUB-...), which is why this rule sits after them" },
+  { kind: "prefix", token: "EA-", klass: "license", why: "Collaboration Enterprise Agreement suite, user and migration line ('ELA Multiparty User - Tier B', 'Total Knowledge Worker Count for CMS Add On Suite'); 141 parts, Cisco only, 0 facts. 23 of the 129 it decides are in contact-center, where they were `software` by the category fallback — the class is a refinement, not a move" },
+  { kind: "exact", token: "GM-ELA-6Y-EPT", klass: "license", why: "'GM ELA, 6 year term - Collab End Point SW (upgr incl)'" },
+  { kind: "prefix", token: "COL-WBX-", klass: "license", why: "WebEx Advantage programme line ('Advantage 3 year term - WebEx - 1K Units'); 3 parts, 0 facts" },
+  { kind: "prefix", token: "WBX-", klass: "license", why: "WebEx named-user meeting subscription ('WebEx Named User Meetings Sub - 1 Year'); 14 parts, 0 facts" },
+  { kind: "prefix", token: "WEBEX-", klass: "license", why: "WebEx port entitlement for CUWL ('WebEx External Ports for CUWL Add-on'); 7 parts, 0 facts" },
+
+  // UC application entitlements: a user, session, port, node or device count, a PAK, an upgrade.
+  // `MIG-` widens round 5's `MIG-1`, and `UPG-` widens this file's `UPG-UC` / `UPG-TP-`: both were
+  // written narrow and BOTH ARE CLEAN AT FULL WIDTH when measured — 140 MIG- and 208 UPG- parts,
+  // every one Cisco, every one in unified-communications, 0 facts anywhere. The earlier note "NOT
+  // the bare UPG- prefix: an upgrade KIT is hardware" describes a part that does not exist in the
+  // catalogue; what it was protecting is `UPGRADE-KIT`, which has no hyphen after UPG and is pinned.
+  { kind: "prefix", token: "MIG-", klass: "license", why: "UC Manager / Unity / Presence migration licence ('Mig from UCM 9.x Bas to Enh User Lic'); 140 parts, all unified-communications, 0 facts. Widens round 5's MIG-1, which reached only the MIG-10X/11X/12X tiers" },
+  { kind: "prefix", token: "UPG-", klass: "license", why: "UC application upgrade licence ('Upgrade to UC Manager Enhanced - Above 10K Users', 'BE6000 CUWL Professional - SW Upgrade'); 208 parts, all unified-communications, 0 facts. Widens UPG-UC / UPG-TP-; UPGRADE-KIT has no hyphen there and is pinned as a refusal" },
+  { kind: "prefix", token: "UP-UCM", klass: "license", why: "UC Manager tier upgrade ('Upg to UCM 10.x Enh Plus from 9.x'); 9 parts, 0 facts" },
+  { kind: "regex", token: "uwl-version-migration", re: /^[MU]-UC[MN]-UWL/, probe: "M-UCM-UWLP-8TO10",
+    klass: "license", why: "Workspace-licensing version migration and upgrade ('UCM UWLP Migration - 8x to 10x - Order correct license qty'); 24 parts, 0 facts" },
+  { kind: "prefix", token: "UWL", klass: "license", why: "Unified Workspace Licensing user line ('CUWL Professional 10.x Users - Service Use Only'); 44 parts, 0 facts. The existing -UWL- / -UWL / UWLADD rules are infix and suffix forms and cannot reach these" },
+  { kind: "prefix", token: "RTMU-", klass: "license", why: "Right To Major Upgrades for CUWL ('Right To Major Upgrades for CUWL - Collab 1 Month, 1 User'); 12 parts, 0 facts" },
+  { kind: "prefix", token: "CUAC", klass: "license", why: "Unified Attendant Console licence ('Unified Attendant Console Advanced 11.x Server HA'); 59 parts, 0 facts" },
+  { kind: "regex", token: "attendant-console-legacy", re: /^CU[BDE]\d?X?-(?:MIG-AC|ATT-CON)/, probe: "CUD-ATT-CON",
+    klass: "license", why: "the pre-CUAC attendant-console editions ('Unified Enterprise Attendant Console', 'Unified Att Console Bus Edition 9.x Migration Offer'); 10 parts, 0 facts" },
+  { kind: "prefix", token: "UCXN", klass: "license", why: "Unity Connection user, SpeechConnect-port and upgrade licence ('Unity Connection 11.x SpeechConnect Ports'); 133 parts, 0 facts" },
+  { kind: "prefix", token: "UNCN", klass: "license", why: "Unity Connection, second SKU spelling ('Unity Connection, 16 ports, 100 users - All user Features'); 36 parts, 0 facts" },
+  // The `-PIMG` / `-TIMG` veto IS THE ONE REAL HARDWARE FAMILY IN THE WHOLE RESIDUE: 14 PBX-IP and
+  // T1 media gateways ("PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs"). BUNDLE repeats the
+  // veto the UNITYCN rule above already carries, because that rule declines UNITYCN7-BUNDLE and this
+  // wider one would otherwise pick it straight back up — a veto undone by a later rule is no veto.
+  { kind: "prefix", token: "UNITY", klass: "license", except: ["-PIMG", "-TIMG", "BUNDLE"],
+    why: "Unity / Unity Connection add-on and CUWL user licence ('Unity 5.0 UWL Add-On PAK', 'Additional Unity 7.x Users for CUWL'); 223 parts, 0 facts. Vetoes UNITY-PIMG / UNITY-TIMG (14 real PBX-IP and T1 media gateways, kind `gateway` in collabKind) and UNITYCN7-BUNDLE, which ships a server" },
+  { kind: "prefix", token: "SPEECHVIEW", klass: "license", why: "SpeechView transcription licence for Unity Connection; 5 parts, 0 facts" },
+  { kind: "prefix", token: "SPCHVIEW", klass: "license", why: "SpeechView, second SKU spelling; 2 parts, 0 facts" },
+  { kind: "prefix", token: "CUP", klass: "license", why: "Unified Presence server, node and user licence ('Unified Presence Server License', 'Unified Presence User License Add-On Licences'); 69 parts, 0 facts" },
+  { kind: "prefix", token: "PXY-", klass: "license", why: "Unified Presence SIP Proxy Mode licence; 10 parts, 0 facts" },
+  { kind: "prefix", token: "PAS-", klass: "license", why: "Presence Application Services per-seat UIP ('EPAS Software UIP per seat, 1500 + for I Year'); 12 parts, 0 facts" },
+  // TOKEN-ANCHORED, AND THE FIRST DRAFT WAS NOT — this is the defect the class-against-kind control
+  // caught. A bare `BE6K-` prefix looked clean by every automated test: 115 parts, Cisco only, ZERO
+  // facts of any kind, and every member of the fallback residue licence-named. It also ate
+  // `BE6K-M6-K9` "Business Edition 6000 (M6) Appliance", `BE6K-M7-K9`, the four `BE6K-ST-BDL` /
+  // `BE6K-STBDL-PLS` servers and thirteen server components — `BE6K-PSU-M6-1200` is "1200W Titanium
+  // power supply for C-Series Servers". None of them holds a fact, so the own-physical-fact gate
+  // could not refuse them; what found them was asking which rows this block calls non-hardware
+  // while collabKind gives them a PHYSICAL kind. The residue was read in full and the rest of the
+  // family was not, which is the whole reason the brief says to read the FAMILY.
+  //
+  // `START` is in and `ST-` / `STBDL` are out, and that distinction is the family's own: "BE6000
+  // User License Starter Bundle with 35 UWL Pro Licenses" is a licence pack, "Business Edition
+  // 6000M Svr (M3), Export Restricted SW" is a server. The 22 `BE6K-UWL-*` rows are not listed here
+  // because round 2's `-UWL-` infix already catches them.
+  { kind: "regex", token: "be6000-entitlement", re: /^BE6K-(?:\dX-|ADV|BAS|ENH|ESS|PAK|PUB|START|UC-|UCL|UPG|UXL|VCSC|VIRT|VM-|TP-RM)/, probe: "BE6K-UCL-ENHP",
+    klass: "license", why: "Business Edition 6000 User Connect Licence, starter pack and PAK ('Business Edition 6000 - Enhanced Plus User Connect License'); 40 of the family's 115 parts, 0 facts. The other 75 are the appliance, its server components, its software images and the -UWL- rows another rule holds — a bare BE6K- prefix took all of them" },
+  // The Business Edition software images, which the kind gate was hiding: collabKind already calls
+  // them `software` (its `^BE\d[A-Z]-SW-` rule) so they were asked nothing, while their CLASS still
+  // said hardware. Round 7 found the identical shape under NXOS-.
+  { kind: "regex", token: "business-edition-image", re: /^BE\d[A-Z]?-SW-/, probe: "BE6K-SW-12.5",
+    klass: "software", why: "Business Edition software image ('Business Edition 6000 v12.5 export restricted software', 'Media (no lic) for Cisco Collaboration 10.x 11.x'); 36 parts across BE6K / BE6S / BE7K, all classed hardware, 0 facts" },
+  { kind: "prefix", token: "BE3K", klass: "license", why: "Unified CMBE 3000 User Connect Licence; 5 parts, 0 facts" },
+  { kind: "regex", token: "be6000-starter", re: /^BE-1\dX-|^BE6000-|^BE6\/7K-/, probe: "BE-10X-UCL-STR",
+    klass: "license", why: "BE6000 starter / add-on / embedded-virtualisation licence ('BE6000 v12 UWL Standard Starter licenses (35-pack)'); 11 parts, 0 facts. Deliberately not the bare BE\\d prefix — BE7K-NIC-M6 is a 4x10GbE NIC with an own physical fact" },
+  { kind: "prefix", token: "CPW-UC", klass: "license", why: "Partner Workspace UC user licence ('Partner Workspace UC 6.1 for 150 users'); 3 parts, 0 facts" },
+  { kind: "prefix", token: "SRST", klass: "license", why: "Survivable Remote Site Telephony endpoint licence ('SRST - 1 SRST Endpoint License (E-Delivery Smart)'); 3 parts, 0 facts. The existing FL-SRST- rule is a different SKU form" },
+  { kind: "regex", token: "cme-user-license", re: /^CME(?:14|-EA)/, probe: "CME14-UL",
+    klass: "license", why: "Communications Manager Express seat licence ('CME Phone / Seat License for EA'); 2 parts, 0 facts. NAMED 'Phone' AND IS NOT ONE — one of the six phone-named licences the name control found" },
+  { kind: "prefix", token: "CUSP10-", klass: "license", why: "Unified SIP Proxy calls-per-second licence; 1 part, 0 facts" },
+  { kind: "prefix", token: "TP-SMP", klass: "license", why: "TelePresence Shared Multiparty licence; 2 parts, 0 facts" },
+  { kind: "prefix", token: "KEY-CER", klass: "license", why: "Emergency Responder licence key by phone tier (KEY-CER1.X-10K=); 5 parts, 0 facts" },
+  { kind: "prefix", token: "UIP-CER-", klass: "license", why: "User Investment Protection for the Emergency Responder server; 3 parts, 0 facts" },
+  { kind: "prefix", token: "VMW-UC-", klass: "license", why: "UC Virtualization Foundation entitlement; 1 part, 0 facts. NOT the bare VMW- prefix: 346 VMW- parts are the VMware licences in servers-unified-computing" },
+  { kind: "regex", token: "uc-virt-embedded-license", re: /^VMW-VS(?:-HYP|5-HYP|6-)/, probe: "VMW-VS6-HYP-K9",
+    klass: "license", why: "embedded Cisco UC / TelePresence virtualisation licence ('Embedded License, Cisco UC Virt. Hypervisor 6.x (2-socket)'); 8 parts, 0 facts. Anchored to the three UC forms — VMW-VS5-STD / -ENT / -EP and VMW-VSP / VMW-VSS are the servers agent's vSphere licences" },
+  { kind: "prefix", token: "VXME-", klass: "license", why: "Virtual Experience Media Engine client licence ('VXME for SUSE Linux for EA'); 8 parts, 0 facts" },
+  { kind: "prefix", token: "VPGW", klass: "license", why: "Virtualized PGW config tier and migration for HCS ('Virtualized PGW for HCS - Large Config'); 12 parts, 0 facts" },
+  { kind: "prefix", token: "CUMC-", klass: "license", why: "Unified Mobile Communicator client licence; 10 parts, 0 facts" },
+  { kind: "prefix", token: "CUCILYNC", klass: "license", why: "UC Integration for Microsoft Lync client licence; 5 parts, 0 facts" },
+  { kind: "regex", token: "jabber-mobile-client", re: /^VOIP-(?:IPH|ADR)|^IPC-JAB/, probe: "VOIP-IPH-CPW",
+    klass: "license", why: "Jabber / Cisco Mobile client licence and migration ('Mobile for iPhone', 'Migration from Cisco IP Comm to Cisco Jabber for Mac 8.6'); 17 parts, 0 facts" },
+  { kind: "regex", token: "informacast-license", re: /^SP-INF(?:ORMA?|M)C?ST/, probe: "SP-INFORMACST-1K",
+    klass: "license", why: "SolutionsPlus InformaCast end-point licence ('InformaCast - 1000 End Point Licenses'); 12 parts across both SKU spellings, 0 facts" },
+  { kind: "regex", token: "cuc-smart-license-key", re: /^CUC-(?:PLM|SL)-/, probe: "CUC-SL-EXRTKY-K9",
+    klass: "license", why: "Unity Connection PLM encryption / smart-licensing authorisation key; 3 parts, 0 facts. CUC- without the M is a separate SKU family from CUCM-" },
+  { kind: "regex", token: "ucm-node-license", re: /^UCM-[LMS]-UCS-(?:UPG-)?NODE$/, probe: "UCM-S-UCS-NODE",
+    klass: "license", why: "CUCM virtual-machine node licence by size ('CUCM CUCM-UCS-7500 Node'); 6 parts, 0 facts" },
+  { kind: "regex", token: "be6000-voicemail-ucl", re: /^UCN-\d+X-VM-UCL$/, probe: "UCN-10X-VM-UCL",
+    klass: "license", why: "BE6000 Unity Connection basic voicemail UCL ('BE6000 Unity Connection 11x Basic Voicemail License'); 4 parts, 0 facts" },
+  { kind: "prefix", token: "SPCTRXMW", klass: "license", why: "Citrix SolutionsPlus Voice Office user licence; 4 parts, 0 facts" },
+  { kind: "prefix", token: "V-CLOUD", klass: "license", why: "Vyopta vAnalytics Cloud subscription (SolutionsPlus); 2 parts, 0 facts" },
+  { kind: "prefix", token: "ESNA-", klass: "license", why: "Esna TMS booking SolutionsPlus licence; 1 part, 0 facts" },
+  { kind: "prefix", token: "SP-ARC-XPS", klass: "license", why: "ARC Express PC attendant console (SolutionsPlus); 1 part, 0 facts. NOT the bare SP- prefix, which holds the Atlas IP speakers and clocks and the Jabra handsets" },
+  { kind: "regex", token: "meetingplace-addon", re: /^MP-(?:60|70|MIG)|^MP[67]-ADD-PAK|^MPE-/, probe: "MPE-20-UWLA-PAK",
+    klass: "license", why: "MeetingPlace / MeetingPlace Express CUWL add-on PAK; 14 parts, 0 facts. Not the bare MP prefix: MP232-R is a servers part and MP-WMS-MIG-K9= a security one" },
+  { kind: "regex", token: "uc-per-device-addon", re: /^ANLG-DEV-|^PUBLIC-IP-DEV-/, probe: "ANLG-DEV-BE",
+    klass: "license", why: "non-application device add-on for UWL ('Public Space non-app phone add-on for UWL BE'); 9 parts, 0 facts" },
+  { kind: "prefix", token: "UCM-HOSP", klass: "license", why: "UC Manager Hospitality licensing and its DLU / room counts; 4 parts, 0 facts" },
+  { kind: "regex", token: "uc-alacarte-migration", re: /^PRO-MIG-USR|^PMP-MIG-USER|^ADD-JAB-TO-ENH|^AOL-FEDERATION/, probe: "PRO-MIG-USR",
+    klass: "license", why: "CUWL-to-a-la-carte migration and feature add-on ('Add Jabber Device to Enhanced License in UC Manager 8.x'); 4 parts, 0 facts" },
+  { kind: "regex", token: "uc-db-upgrade-royalty", re: /^DBUPGRADE|^DB-UPG/, probe: "DB-UPG",
+    klass: "license", why: "'Royalty option for IBM database upgrade'; 2 parts, 0 facts" },
+  { kind: "regex", token: "vcs-migration", re: /^VCS-(?:MIG|C-GWBDL)/, probe: "VCS-MIG-EXP",
+    klass: "license", why: "VCS-to-Expressway / UCM migration licence and the BE6000 VCS-C gateway bundle; 3 parts, 0 facts" },
+  { kind: "contains", token: "UCL-UCM-UPG", klass: "license", why: "'Top Level Sku For 11.X and Later User License - Migration', with and without the R- e-delivery prefix; 2 parts, 0 facts" },
+  { kind: "prefix", token: "LIC4", klass: "license", why: "'License Upgrade of 2500 Addl Users, CM 4.x to CM 5.x'; 1 part. The round-1 LIC- prefix cannot reach it — the digit sits where the hyphen would" },
+  { kind: "prefix", token: "UNIFIED-CM", klass: "license", why: "CallManager top-level order line ('CUCM 7.1 top level part number'); 2 parts, 0 facts" },
+  { kind: "exact", token: "MOBILE-USR", klass: "license", why: "a CUWL mobile user line whose name is only its SKU" },
+  { kind: "exact", token: "UCM-PAK", klass: "license", why: "a CUCM Product Authorization Key whose name is only its SKU" },
+  { kind: "exact", token: "UPC-K9-OPT", klass: "license", why: "'Unified Personal Communicator Options'" },
+  { kind: "exact", token: "CTI-VCSC-BE6K-PAK", klass: "license", why: "'Config Only E-Delivery VCS Control PAK PID' — a PAK, unlike its CTI-VCS- siblings, which may be the 1RU appliance and are deliberately left alone" },
+  // THE BARE `CUBE-` AND `FL-CUBE-` FORMS WERE ADDED LAST, and only because a defect in the KIND
+  // axis was hiding them: collabKind carried `CUBE` as a bare power-supply token (a real power cube
+  // is CP-PWR-CUBE-N), so 22 Unified Border Element session licences were being called power
+  // supplies and never appeared in the `unknown` residue this agent was reading. Fixing the token
+  // put them on the board. A wrong kind can hide a wrong class as surely as a wrong class hides a
+  // wrong kind — round 7 found the same pair under NXOS-.
+  // PROBE MOVED ON MERGE, 12 Sep 2026. `FLASR1-CUBEE-100P` is decided by the routers block's
+  // `sku-prefix:FLASR1-` — same class, earlier rule — so the reachability check called this rule
+  // shadowed while it decides 29 live parts. That check reads a rule's PROBE, which is the exact
+  // "judged by its probe, not by the rows it decides" trap this file has already paid for once: a
+  // probe must be a row the rule really wins. Measured with classify() over 91,543 live parts.
+  { kind: "regex", token: "cube-session-license", re: /^FLS?A?SR1-|^C1-(?:ASR1-CUBEE|CUBEE?|FL-)|^CUBE\d*-|^FL-CUBE/, probe: "C1-ASR1-CUBEE-4K-R",
+    klass: "license", why: "Unified Border Element (CUBE) session licence — ASR 1000, IOS feature-licence, Cisco ONE and bare V12/V14 forms ('CUBE V14 - 1 Standard Trunk Session License', 'Unified Border Element Feature License - 100 Sessions'); 169 parts across routers, security and unified-communications, 0 facts, every one already non-hardware outside these categories. C1-ASR1 without -CUBEE and C1-FL without the hyphen are REFUSED — they reach real ASR chassis and C1-FLOW-IE4K" },
+  // `voice-feature-license` WAS HERE AND IS REMOVED ON MERGE, 12 Sep 2026.
+  //
+  // It read /^FL-C(?:ME|USP)|^FL-E-SRST|^FL-GK-|^FL-PAYG|^FL-SRST$|^FL-VG4XX/ and was correct when
+  // it was written against a tree without the routers block. In the merged table the routers
+  // block's `sku-regex:feature-licence` decides every one of its rows first — same class, `license`,
+  // different reason — so measured with classify() over 91,543 live parts it decides **zero**. Not
+  // "its probe is shadowed": zero rows, which is the only test this file accepts for a dead rule
+  // after the 8-rule removal of this morning, where 2 of the 8 were alive and taking them out left
+  // a licence classed hardware. The FL-CUSP and FL-GK witnesses stay in the suite, asserting the
+  // reason `feature-licence` now gives them, so the removal cannot silently lose a class.
+  { kind: "regex", token: "cms-meeting-license", re: /^CMS-(?:3X|BRANDING|DLT|PMP|REC|SMP|TCS2CMS)/, probe: "CMS-PMP-K9",
+    klass: "license", why: "Meeting Server feature entitlement ('Meeting Server Personal Multiparty (a la carte offer)'); 8 parts, 0 facts. Token-anchored rather than a bare CMS- prefix because CMS-M-M8-K9 and CMS-S-M5-K9 are Meeting Server PLATFORMS — pinned as refusals" },
+  { kind: "regex", token: "cucm-entitlement", re: /^CUCM(?:\d|-(?:CPL|EA|PAK|USR|PLM|SL|TP-))/, probe: "CUCM-CPL",
+    klass: "license", why: "CUCM device-licence unit, PAK, EA and encryption entitlement ('Unified Communication Manager Device License'); 14 parts, 0 facts. Token-anchored so CUCM-UCS-SRV, the hypothetical server pinned as a refusal, stays out" },
+
+  // Software: an image, a media kit, a version SKU or a virtual edition. The split from `license`
+  // above was measured per family rather than assumed — the name vocabulary of each family was
+  // counted (image / media / kit / version / release against user / session / port / PAK / tier) and
+  // the majority reading taken, the way this file already settled DCNM-. The report records every
+  // family's counts, including the four where the split is genuinely mixed.
+  { kind: "regex", token: "cucm-version-image", re: /^(?:R-)?CM\d.*-(?:K9|UCS-)/, probe: "CM8.6-K9-NFR",
+    klass: "software", why: "CallManager version image, lab / NFR appliance and UCS media kit ('SW CM 9.X Not For Resale, 20 CUWL PRO, 5 TP Room', 'CUCM 8.5 Upgrade Media Kit for UCS'); 95 parts, 0 facts, 73 of 95 names use image vocabulary and none uses entitlement vocabulary alone. The -K9 / -UCS- requirement is what keeps CM8-UM08-04-E7G-ULL, an interfaces-modules part, out" },
+  { kind: "prefix", token: "CM-UIP-", klass: "software", why: "CallManager User Investment Protection term software ('CM Software UIP for 7845 plus 2500 users for 1 year'); 36 parts, 0 facts" },
+  { kind: "prefix", token: "CM-", klass: "software", why: "CallManager server software and media kit ('SW CallMgr 3.3 For MCS-7825-H1', 'CUCM 8.0.2 Media Upgrade Kit'); 51 parts, all in these three categories, 0 facts" },
+  { kind: "prefix", token: "CMBE", klass: "software", why: "CallManager Business Edition software upgrade ('SW Upgrade BE 7.X to 8.0'); 10 parts, 0 facts" },
+  { kind: "regex", token: "cucm-version-software", re: /^CUCM-(?:VERS-|UCS-\d)/, probe: "CUCM-VERS-10.5",
+    klass: "software", why: "CUCM software version and UC-on-UCS server software ('CUCM Software version 12.5'); 23 parts, 0 facts" },
+  { kind: "regex", token: "sme-software", re: /^(?:R-|U)?SME/, probe: "SME-VERS-10.5",
+    klass: "software", why: "Session Management Edition image, media kit and version SKU ('SW CM-SME 8.6 Appliance Not For Resale', 'SME Software Version 12.5'); 80 parts across the R- and U- spellings, 0 facts, 46 of 77 names image-worded" },
+  { kind: "regex", token: "emergency-responder-software", re: /^(?:R-)?ER[\d.]*-SW-/, probe: "ER87-SW-U71-K9",
+    klass: "software", why: "Emergency Responder server software and upgrade media ('EMRGNCY RSPNDR 87 SW UPGD 71 ONLY'); 110 parts, 0 facts, 105 of 110 image-worded" },
+  // TOKEN-ANCHORED, and the six SKUs it deliberately misses are the reason. `ER-10.X` is named
+  // "Select when upgrading from Cisco Emergency Responder 10.X" and `ER-NEW-OR-ADDON` "Select for
+  // new order or additional users": they are the ordering tool's QUESTIONS, and the name rule below
+  // calls them non_product. A `^ER[\d.-]` draft swallowed all six as licences — the first version of
+  // this rule did exactly that, and the name-rule test case is what caught it.
+  { kind: "regex", token: "emergency-responder-entitlement", re: /^ER\d|^ER-(?:911|HCS|PAK|1\dX-)/, probe: "ER90-USR-10",
+    klass: "license", why: "Emergency Responder user licence, PAK and HCS add-on ('EMRGNCY RSPNDR 90 USR LIC 10 PHNS'); 29 of the 145 ER parts, 0 facts. A digit must follow ER, or one of four named tokens — the six `ER-<version>.X` rows are ordering questions, not entitlements" },
+  { kind: "contains", token: "EMRGNCY-RSPNDR", klass: "license", why: "the Emergency Responder top-level order line, plain and R- e-delivery ('Emergency Responder Top Level'); 2 parts, 0 facts" },
+  { kind: "prefix", token: "IME8", klass: "software", why: "Intercompany Media Engine 8.5 appliance software, lab and NFR; 3 parts, 0 facts" },
+  { kind: "regex", token: "uc-partner-dlt-kit", re: /^CSR1\d[.X]*-K9-DLT$/, probe: "CSR14X-K9-DLT",
+    klass: "software", why: "UC partner Demo/Lab/Training software kit ('UC 14.X Partner Demo/Lab/Training Kit'); 4 parts, 0 facts. Anchored so CSR1000V, the Cloud Services Router, cannot match" },
+  { kind: "prefix", token: "UPS1.0-K9", klass: "software", why: "'SW Cisco Unified Presence Server 1.0 DEMO Not For Resale'; 1 part" },
+  { kind: "prefix", token: "UCAPPS", klass: "software", why: "UC applications software version ('Version 10.x - Export Unrestricted'); 9 parts, 0 facts" },
+  { kind: "prefix", token: "EUR-", klass: "software", why: "contact-centre application media and server software filed in unified-communications ('VVB 12.5 Server Software [Security Enabled]', 'CCX 12.5 Media'); 22 parts, 0 facts" },
+  { kind: "regex", token: "vcs-virtual-edition", re: /^CTI-VMVCS|^TMP-VMVCS|^(?:R-|CTI-)ATP-VM-|^EXPWY-VE-/, probe: "CTI-VMVCS-CTRL-K9",
+    klass: "software", why: "VCS and Expressway VIRTUAL editions and their trade-in / ATP-demo PIDs ('Virtual VCS Control - includes FindMe application', 'Expressway-C Server, Virtual Edition'); 14 parts, 0 facts. Deliberately only the virtual forms: CTI-VCS-BASE-K9 and EXPWY-C-K9 may be the 1RU appliance and are left as hardware with the question recorded in the report" },
+  { kind: "prefix", token: "CMS1K-SW-", klass: "software", why: "'Meeting server 1000 HMN sw preload'; 3 parts, 0 facts" },
+  { kind: "regex", token: "im-only-database", re: /^(?:VM-|M7816-)?IM8\d?ONL?Y?DB/, probe: "VM-IM86ONLYDB-K9",
+    klass: "software", why: "'DB software for VMWare IM Only, used only if no CUCM present'; 5 parts across three SKU spellings, 0 facts" },
+  // `PCP-BE6K-90-K9` ("Prime Collaboration Provisioning for BE6K 9.0") belongs to this family and is
+  // DELIBERATELY LEFT OUT: the security agent owns the `PCP-` token this round, and two branches
+  // classing one part differently (their `license` against this file's `software`) is a merge
+  // conflict about meaning rather than text. Reported in the report's overlap section instead.
+  { kind: "regex", token: "prime-collab-software", re: /^PLM10X|^PC-10X-STANDARD/, probe: "PLM10X-K9",
+    klass: "software", why: "Prime Licence Manager and Prime Collaboration Standard software ('Prime License Manager 10.X'); 2 parts, 0 facts. NOT a `PC-1` prefix: PC-1OC192-SON-XFP is a Juniper SONET PIC. PCP- is the security agent's token" },
+  { kind: "regex", token: "contact-centre-app-media", re: /^CCX(?:-12|-MIG|\d-ADD)|^CVP-(?:12|CCPORT|IVRPORT|NPS)|^IPCE-(?:DIALPT|NPSENT|PRMAGT)|^IVR-12\d-NFR|^CCEH-MED/, probe: "CCX-125-SYS-K9",
+    klass: "software", why: "Contact Center Express / CVP / IPCC media kit, non-production system and port licence ('CCX 12.5 Non Production System', 'CVP 12.5 Server Software (Smart)'); 75 parts, 0 facts. Version-anchored: the bare CCX / CVP / IPCE prefixes reach 1,700 contact-center and customer-collaboration parts this agent has not read" },
+  { kind: "regex", token: "uc-app-software-kit", re: /^UC(?:7\.0-K9-SDK|-14-LAB|-APPS-SW)/, probe: "UC-APPS-SW-DOD-K9",
+    klass: "software", why: "UC applications software kit, lab and DOD-certified build; 4 parts, 0 facts" },
+  { kind: "regex", token: "uc-app-edelivery", re: /^R-(?:BE\d|CBE6K|CMS-K9|CUCM|CUWL|EA-UC|HMN-K9|PC-?1|SW-CCM|UC-CBE6K|UCM|UCN\d|UCXN|UNCN|UNIFIED-CM|UNITYCN|VCS2EXPWY|VMVCS|VMW|VPGW|VS\d)/, probe: "R-UNITYCN10-K9",
+    klass: "software", why: "the R- (electronic-delivery) twin of a UC application image or top-level SKU ('Unity Connection 10.x Software', 'Prime Collaboration 12.6 Provisioning Software and BASE'); 84 parts, 0 facts. TOKEN-ANCHORED, not a bare R- prefix: 441 parts start R- across ten categories, and R-POLICY-191-SWK9 / R-NAM-VX10-62K9S= / R-ME3400E-B2A= are wireless and switches software still classed hardware — another lane's rows and another lane's call" },
+  { kind: "prefix", token: "UCMBE-", klass: "software", why: "'Unified Communication Manager BE MCS 7828 SW kit'; 5 parts, 0 facts" },
+  { kind: "regex", token: "cucm-on-ucs-upgrade", re: /^UCS-\d+-8\d-UPG/, probe: "UCS-1000-85-UPG",
+    klass: "software", why: "'CUCM 8.5 Server Software for UC on UCS 7500 or higher'; 6 parts, 0 facts. Shaped tightly because UCS- otherwise belongs to servers-unified-computing" },
+  { kind: "regex", token: "cucm-appliance-image", re: /^UCM(?:8\.6-K9|-UPG\d)/, probe: "UCM8.6-K9-NFR",
+    klass: "software", why: "'SW CM 8.6 Appliance Not For Resale' and the CUWP upgrade image; 2 parts, 0 facts" },
+  { kind: "exact", token: "CM5.1.1C-IBMONLY", klass: "software", why: "'UC Manager 5.1.1C Release for IBM Only' — the one CallManager version SKU with neither a -K9 nor a -UCS- marker" },
+  { kind: "exact", token: "MCS-OS-2000.2.4", klass: "software", why: "'MCS Server Legacy OS (2000.2.4) Image Kit'" },
+  { kind: "exact", token: "ISR-CCP-EXP-NONE", klass: "software", why: "'Config Pro Express on Router Flash w/o default config'. Exact, not an ISR-CCP- prefix: its four siblings are in `routers` and reclassifying them is that lane's decision — reported, not written" },
+
+  // Service: a recurring fee, a training module, an extended-coverage contract.
+  { kind: "regex", token: "telepresence-exchange-service", re: /^CTX-(?:NRC-|YRC-)?SERVICE/, probe: "CTX-YRC-SERVICE",
+    klass: "service", why: "TelePresence Exchange recurring and non-recurring charge; 4 parts, 0 facts. NOT the bare CTX- prefix: 167 CTX- parts are CITRIX licences in servers-unified-computing" },
+  { kind: "prefix", token: "CTT-T4-", klass: "service", why: "'T4 Complete Program - Educator Training Module'; 2 parts, 0 facts" },
+  { kind: "regex", token: "smallbiz-extended-care", re: /^SP-CP-860S?-EX-?CARE/, probe: "SP-CP-860-EX-CARE",
+    klass: "service", why: "'Extended hardware replacement coverage for Cisco 860' — a COVERAGE contract whose name contains the word hardware, which is exactly why this is a SKU rule and not a name rule; 2 parts, 0 own facts" },
+
+  // non_product: an ordering-tool question or a datasheet cell enumerated as a part number. Each
+  // was read individually; none holds a fact, a document or a relation. The `/`-containing and
+  // version-shaped ones are EXACT because the general shapes are not safe — see the refusals above.
+  { kind: "prefix", token: "DD-", klass: "non_product", why: "a placeholder PID whose name is '<product> dummy' (DD-CODEC-PRO-K9 'Codec Pro dummy', DD-KITPLUS-K9 'Room Kit Plus dummy'); 2 parts, 0 facts. The existing name-dummy-pid rule needs the phrase 'dummy PID' and cannot see these" },
+  { kind: "exact", token: "ECRR-FCC-NA", klass: "non_product", why: "'FCC Emergency Call Routing Regulations Not Apply' — an ordering-tool declaration" },
+  { kind: "exact", token: "HOSP-TERMS", klass: "non_product", why: "'Mandatory Hospitality Terms and Conditions'" },
+  { kind: "exact", token: "TELPRES-DP-DLRPID", klass: "non_product", why: "'Price Adjustment PIDS'" },
+  { kind: "exact", token: "UC-UCME", klass: "non_product", why: "'UC320, UC500 or UCME' — an ordering choice naming three products, not a product" },
+  { kind: "exact", token: "USB-C", klass: "non_product", why: "a CONNECTOR NAME enumerated from a datasheet cell, the same shape as the QSFP28 form-factor rows above" },
+  { kind: "exact", token: "321ABC432DEF", klass: "non_product", why: "a hex example string from a datasheet cell" },
+  { kind: "exact", token: "FCH20100312/WZP20100113", klass: "non_product", why: "a pair of SERIAL NUMBERS from a datasheet cell. Exact, not a `/` rule: 1,314 parts contain a slash and 136 carry an own physical fact" },
+  { kind: "exact", token: "NM-HD-1V/2V/2VE", klass: "non_product", why: "three network modules listed in one datasheet cell; the concrete SKUs exist beside it" },
+  { kind: "exact", token: "19560-19660", klass: "non_product", why: "a UDP PORT RANGE from a Meeting Server table" },
+  { kind: "exact", token: "5060-5080", klass: "non_product", why: "a SIP port range from the same table" },
+  // Six IOS release numbers and two current ratings, enumerated as parts. Exact rather than a
+  // version SHAPE: `^\d+\.\d` matches 499 parts of which 107 carry an own fact, 389 in `video`.
+  ...["15.0.1M", "15.0.1M3", "15.1.2T", "15.1.3T", "15.1.T2", "15.1.T3"].map((token) => ({
+    kind: "exact" as const, token, klass: "non_product" as const, why: "an IOS release number enumerated as a part from a compatibility table" })),
+  ...["6.25A", "7.0A"].map((token) => ({
+    kind: "exact" as const, token, klass: "non_product" as const, why: "a CURRENT RATING enumerated as a part from a power table" })),
+  { kind: "regex", token: "uc-version-migration-question", re: /^UC-\d{1,2}\.X(?:-OR-EARLIER)?$/, probe: "UC-10.X",
+    klass: "non_product", why: "the ordering tool's 'which version are you coming from' choice ('UC 7.X or earlier Version Migration'); 7 parts, 0 facts" },
+  // end collab-class
 ];
 
 /** The reason string a rule emits — the same slug runs/vocab/cisco-round2 uses. */
@@ -1210,6 +1483,9 @@ export const RULE_NAMES = [
   "name-lic-key", "name-entitlement", "name-sw-bundle", "name-user-tier",
   "name-software-image",
   "name-dummy-pid",
+  // collab-class (12 Sep 2026)
+  "name-ordering-question",
+  // end collab-class
   "ucs-kind-os-license",
   "ucs-kind-non-product",
   "category-is_hardware=false",
@@ -1339,6 +1615,23 @@ export function classify(input: ClassifyInput): Classification {
   // the consumption model the chassis ships under it — and the Cisco ONE "Tracker PID v01 ... no
   // delivery" rows are already licences by their SKU rule, which runs first.
   if (/\bdummy pids?\b|\bplaceholder pid\b/i.test(name)) return { klass: "non_product", reason: "name-dummy-pid" };
+  // collab-class (12 Sep 2026) — AN ORDERING-TOOL QUESTION IS NOT A PRODUCT. Cisco's collaboration
+  // configurators enumerate their own prompts as part numbers: ER-10.X is named "Select when
+  // upgrading from Cisco Emergency Responder 10.X", EXIST-DEPL-OVER10K is "Total Deployment is Over
+  // 10,000 users", TP-ROOM-12 is "Choose if Expway or for CUCM version 11.x TP-Room License". There
+  // is no SKU shape in common — that is why this is a name rule and not five more exact rules.
+  //
+  // WHY THIS NAME RULE IS SAFE WHERE THE ROUND-3 LICENCE ONES WERE NOT. The failure mode of a name
+  // rule here is that a name DESCRIBES THE DEVICE IT LICENSES; these names describe nothing at all,
+  // they instruct the person ordering. Measured over all 91,543 live parts and all 13 vendors: 97
+  // parts match, every one Cisco, every one in these three categories, and NOT ONE holds a fact of
+  // any kind. It runs AFTER every SKU rule, so a family whose SKU is already known keeps its class —
+  // CUP-SERVER8.0-K9 is named "Number of Cisco Unified Presence 8.x nodes required" and is a server
+  // licence by its SKU, which is the case that decided the ordering.
+  if (/^select (?:when|for|if) |^total deployment is |^choose if |^migrating from |^number of /i.test(name)) {
+    return { klass: "non_product", reason: "name-ordering-question" };
+  }
+  // end collab-class
   // A NAME THAT SAYS HARDWARE OVERRIDES ALL FOUR. Found by reading the dry run rather than by
   // reasoning: `ASR5K-0F-B00-2069=` is a "Motorola PSC2 LTE Hardware and Software bundle", so
   // `name-sw-bundle` fired on a name that calls itself hardware in the same clause. A licence is

@@ -40,6 +40,9 @@ const POSITIVE: [string, CollabKind][] = [
   ["CTS-SX80-K9", "video-codec"], ["DBS-110-3PC-UK-K9=", "dect-base"], ["CP-8841-3PW-NA-K9", "phone"],
   ["SPA525G2", "phone"], ["VG350-144FXS/K9", "gateway"], ["ATA191-K9", "ata"], ["PVDM3-64=", "voice-module"],
   ["NIM-4FXSP=", "voice-module"],
+  // collab-class (12 Sep 2026) — the one real hardware family the fallback residue held.
+  ["UNITY-PIMG-MITEL", "gateway"], ["UNITY-PIMG-ANALOG=", "gateway"], ["UNITY-TIMG-1=", "gateway"],
+  // end collab-class
 ];
 
 // [sku, the kind it must NOT take, the kind it must take, why]
@@ -102,6 +105,20 @@ const REFUSAL: [string, CollabKind, CollabKind, string][] = [
   ["CS-EQX-FRAME=", "video-device", "accessory", "a front frame module"],
   ["DP-9811-FS=", "phone", "accessory", "a replacement footstand"],
   ["CS-CODEC-EQ-RCK", "video-codec", "accessory", "rack ears for Codec EQ"],
+  // collab-class (12 Sep 2026) — the PIMG rule must reach the media gateways and nothing else in
+  // a family of 223 SKUs that is otherwise entirely Unity / Unity Connection licences.
+  ["UNITY-50-CPL", "gateway", "unknown", "'Unity 5.0 Single User License' — only the PIMG/TIMG media gateways are hardware"],
+  ["UNITY-D-70-UWLA", "gateway", "unknown", "'Unity 7.0 for Domino for CUWL Add-on only' — a licence, and PIMG is not a prefix rule"],
+  ["UNITYCN7-BUNDLE", "gateway", "unknown", "'Unity Connection 7.x SW plus HW Bundle' ships a server; PIMG needs the hyphen"],
+  // Two tokens that were BARE and matched the wrong thing, found by cross-checking product_class
+  // against kind rather than by a test: `ST` matched the START of START, and `CUBE` matched the
+  // Unified Border ELEMENT. Both anchored; these are the rows that prove the anchors.
+  ["BE6K-START-UWL35", "server", "unknown", "'BE6000 Starter Bundle with 35 UWL Standard Licenses' — START is not the ST- server token"],
+  ["BE6K-START-UCL200", "server", "unknown", "'BE 6000 - UCL Starter Bundle with 200 Enh + 200 VM Licenses'"],
+  ["BE6K-ST-BDL-K9=", "unknown", "server", "'Business Edition 6000M Svr (M3)' — the form that IS the server keeps its kind"],
+  ["UPG-CUBE-TS-12TO14", "power-supply", "unknown", "CUBE is the Unified Border Element here, not a power cube"],
+  ["MIG-CUBE14-C1-STD", "power-supply", "unknown", "the same — 'Unified Border Element Migrate C1 Std Trunk RTU to V14 Smart'"],
+  // end collab-class
 ];
 
 for (const [sku, want] of POSITIVE) check(`${sku} -> ${want}`, collabKind(sku) === want, collabKind(sku));
