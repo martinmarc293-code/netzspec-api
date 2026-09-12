@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "security",
  "profile_hash": "19cf8067b21889d4",
- "built_on_commit": "165f542",
+ "built_on_commit": "37f0690",
  "norm_version": "1.6.2",
  "declared_fields": 402,
  "gap_states": {
@@ -15,7 +15,7 @@
  "totals": {
   "parts": 1990,
   "required_slots_at_nothing_known": 14910,
-  "required_slots_stored": 11693,
+  "required_slots_stored": 14648,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
    "firewall": 450,
@@ -46,7 +46,7 @@
    "parts": 450,
    "slots_per_part_at_nothing_known": 16,
    "required_slots_at_nothing_known": 7200,
-   "required_slots_stored": 4950,
+   "required_slots_stored": 7200,
    "required": [
     {
      "key": "certifications",
@@ -6458,7 +6458,7 @@
    "parts": 30,
    "slots_per_part_at_nothing_known": 18,
    "required_slots_at_nothing_known": 540,
-   "required_slots_stored": 253,
+   "required_slots_stored": 278,
    "required": [
     {
      "key": "certifications",
@@ -7729,7 +7729,7 @@
    "parts": 88,
    "slots_per_part_at_nothing_known": 9,
    "required_slots_at_nothing_known": 792,
-   "required_slots_stored": 440,
+   "required_slots_stored": 792,
    "required": [
     {
      "key": "concurrent_sessions",
@@ -10727,7 +10727,7 @@
    "parts": 174,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 522,
-   "required_slots_stored": 347,
+   "required_slots_stored": 522,
    "required": [
     {
      "key": "drive_interface",
@@ -11733,7 +11733,7 @@
    "parts": 61,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 183,
-   "required_slots_stored": 61,
+   "required_slots_stored": 183,
    "required": [
     {
      "key": "dram",
@@ -12271,7 +12271,7 @@
    "parts": 31,
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 62,
-   "required_slots_stored": 31,
+   "required_slots_stored": 62,
    "required": [
     {
      "key": "ports",

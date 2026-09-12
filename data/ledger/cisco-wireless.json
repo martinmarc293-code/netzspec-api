@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "wireless",
  "profile_hash": "7a6e10b48945e925",
- "built_on_commit": "165f542",
+ "built_on_commit": "37f0690",
  "norm_version": "1.6.2",
  "declared_fields": 406,
  "gap_states": {
@@ -13,9 +13,9 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 5116,
+  "parts": 4017,
   "required_slots_at_nothing_known": 36334,
-  "required_slots_stored": 33382,
+  "required_slots_stored": 36225,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
    "ap": 2750,
@@ -29,8 +29,8 @@
    "cable": 162,
    "accessory": 180,
    "bundle": 82,
-   "software": 134,
-   "other": 1187
+   "software": 0,
+   "other": 222
   },
   "pending_reclassification": 0,
   "pending_reclassification_stored_slots": 0
@@ -40,7 +40,7 @@
    "parts": 2750,
    "slots_per_part_at_nothing_known": 12,
    "required_slots_at_nothing_known": 33000,
-   "required_slots_stored": 30250,
+   "required_slots_stored": 33000,
    "required": [
     {
      "key": "antenna_type",
@@ -997,7 +997,7 @@
    "parts": 132,
    "slots_per_part_at_nothing_known": 9,
    "required_slots_at_nothing_known": 1188,
-   "required_slots_stored": 1056,
+   "required_slots_stored": 1079,
    "required": [
     {
      "key": "certifications",
@@ -4381,7 +4381,7 @@
    "parts": 70,
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 280,
-   "required_slots_stored": 210,
+   "required_slots_stored": 280,
    "required": [
     {
      "key": "airflow",
@@ -6857,7 +6857,7 @@
    ]
   },
   "software": {
-   "parts": 134,
+   "parts": 0,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
@@ -7277,7 +7277,7 @@
    ]
   },
   "other": {
-   "parts": 1187,
+   "parts": 222,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,

@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "routers",
  "profile_hash": "f717683e41b59cb6",
- "built_on_commit": "165f542",
+ "built_on_commit": "37f0690",
  "norm_version": "1.6.2",
  "declared_fields": 429,
  "gap_states": {
@@ -15,7 +15,7 @@
  "totals": {
   "parts": 5398,
   "required_slots_at_nothing_known": 54966,
-  "required_slots_stored": 47009,
+  "required_slots_stored": 54966,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
    "enterprise": 1527,
@@ -45,7 +45,7 @@
    "parts": 1527,
    "slots_per_part_at_nothing_known": 26,
    "required_slots_at_nothing_known": 39702,
-   "required_slots_stored": 30523,
+   "required_slots_stored": 39702,
    "required": [
     {
      "key": "acl_entries",
@@ -1738,7 +1738,7 @@
    "parts": 243,
    "slots_per_part_at_nothing_known": 19,
    "required_slots_at_nothing_known": 4617,
-   "required_slots_stored": 4860,
+   "required_slots_stored": 4617,
    "required": [
     {
      "key": "altitude_max",
@@ -3141,7 +3141,7 @@
    "parts": 153,
    "slots_per_part_at_nothing_known": 14,
    "required_slots_at_nothing_known": 2142,
-   "required_slots_stored": 3060,
+   "required_slots_stored": 2142,
    "required": [
     {
      "key": "altitude_max",
@@ -4283,7 +4283,7 @@
    "parts": 518,
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 2072,
-   "required_slots_stored": 2104,
+   "required_slots_stored": 2072,
    "required": [
     {
      "key": "fabric_bandwidth",
@@ -5453,7 +5453,7 @@
    "parts": 166,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 498,
-   "required_slots_stored": 532,
+   "required_slots_stored": 498,
    "required": [
     {
      "key": "dram",
@@ -6052,7 +6052,7 @@
    "parts": 22,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 22,
-   "required_slots_stored": 66,
+   "required_slots_stored": 22,
    "required": [
     {
      "key": "product_compatibility",
@@ -8203,7 +8203,7 @@
    "parts": 157,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 471,
-   "required_slots_stored": 314,
+   "required_slots_stored": 471,
    "required": [
     {
      "key": "dram",
@@ -9311,7 +9311,7 @@
    "parts": 101,
    "slots_per_part_at_nothing_known": 3,
    "required_slots_at_nothing_known": 303,
-   "required_slots_stored": 202,
+   "required_slots_stored": 303,
    "required": [
     {
      "key": "drive_interface",
@@ -10933,7 +10933,7 @@
    "parts": 91,
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 364,
-   "required_slots_stored": 91,
+   "required_slots_stored": 364,
    "required": [
     {
      "key": "antenna_connector",
@@ -12028,7 +12028,7 @@
    "parts": 775,
    "slots_per_part_at_nothing_known": 1,
    "required_slots_at_nothing_known": 775,
-   "required_slots_stored": 1257,
+   "required_slots_stored": 775,
    "required": [
     {
      "key": "product_compatibility",

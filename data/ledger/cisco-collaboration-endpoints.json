@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "collaboration-endpoints",
  "profile_hash": "19206fb10ad861c4",
- "built_on_commit": "165f542",
+ "built_on_commit": "37f0690",
  "norm_version": "1.6.2",
  "declared_fields": 398,
  "gap_states": {
@@ -13,7 +13,7 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 2884,
+  "parts": 2851,
   "required_slots_at_nothing_known": 19355,
   "required_slots_stored": 19355,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
@@ -39,8 +39,8 @@
    "cable": 289,
    "accessory": 642,
    "transceiver": 0,
-   "software": 27,
-   "unknown": 94
+   "software": 11,
+   "unknown": 77
   },
   "pending_reclassification": 0,
   "pending_reclassification_stored_slots": 0
@@ -138,7 +138,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -1138,7 +1138,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -2086,7 +2086,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -3131,7 +3131,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -4126,7 +4126,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -4951,7 +4951,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -5700,7 +5700,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -6474,7 +6474,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -7223,7 +7223,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -8089,7 +8089,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -8899,7 +8899,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -9707,7 +9707,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -10731,7 +10731,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -12087,7 +12087,7 @@
       }
      ],
      "parts_holding_by_method": {
-      "html_table": 172
+      "html_table": 170
      },
      "observed_fill_path": true,
      "seed_only": false
@@ -15727,7 +15727,7 @@
    ]
   },
   "software": {
-   "parts": 27,
+   "parts": 11,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
@@ -16139,7 +16139,7 @@
    ]
   },
   "unknown": {
-   "parts": 94,
+   "parts": 77,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,

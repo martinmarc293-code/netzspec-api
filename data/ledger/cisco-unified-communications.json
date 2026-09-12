@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "unified-communications",
  "profile_hash": "9721bf85623234d2",
- "built_on_commit": "165f542",
+ "built_on_commit": "37f0690",
  "norm_version": "1.6.2",
  "declared_fields": 155,
  "gap_states": {
@@ -13,9 +13,9 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 2193,
-  "required_slots_at_nothing_known": 2955,
-  "required_slots_stored": 2908,
+  "parts": 496,
+  "required_slots_at_nothing_known": 2950,
+  "required_slots_stored": 2950,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
    "phone": 31,
@@ -37,10 +37,10 @@
    "power-supply": 35,
    "power-cord": 0,
    "cable": 0,
-   "accessory": 41,
+   "accessory": 36,
    "transceiver": 8,
-   "software": 239,
-   "unknown": 1478
+   "software": 0,
+   "unknown": 25
   },
   "pending_reclassification": 0,
   "pending_reclassification_stored_slots": 0
@@ -6866,7 +6866,7 @@
    "parts": 62,
    "slots_per_part_at_nothing_known": 13,
    "required_slots_at_nothing_known": 806,
-   "required_slots_stored": 624,
+   "required_slots_stored": 806,
    "required": [
     {
      "key": "audio_codecs",
@@ -10098,10 +10098,10 @@
    ]
   },
   "accessory": {
-   "parts": 41,
+   "parts": 36,
    "slots_per_part_at_nothing_known": 1,
-   "required_slots_at_nothing_known": 41,
-   "required_slots_stored": 41,
+   "required_slots_at_nothing_known": 36,
+   "required_slots_stored": 36,
    "required": [
     {
      "key": "product_compatibility",
@@ -10526,7 +10526,7 @@
    ]
   },
   "software": {
-   "parts": 239,
+   "parts": 0,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
@@ -10695,10 +10695,10 @@
    ]
   },
   "unknown": {
-   "parts": 1478,
+   "parts": 25,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
-   "required_slots_stored": 135,
+   "required_slots_stored": 0,
    "required": [],
    "pending_until_gate_answered": [],
    "not_applicable_by_kind": [

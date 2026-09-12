@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "video",
  "profile_hash": "76b2285c9d70f7ce",
- "built_on_commit": "165f542",
+ "built_on_commit": "37f0690",
  "norm_version": "1.6.2",
  "declared_fields": 399,
  "gap_states": {
@@ -15,7 +15,7 @@
  "totals": {
   "parts": 3319,
   "required_slots_at_nothing_known": 7497,
-  "required_slots_stored": 7429,
+  "required_slots_stored": 7497,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
    "node": 534,
@@ -6056,7 +6056,7 @@
    "parts": 29,
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 116,
-   "required_slots_stored": 58,
+   "required_slots_stored": 116,
    "required": [
     {
      "key": "airflow",
@@ -6630,7 +6630,7 @@
    "parts": 10,
    "slots_per_part_at_nothing_known": 2,
    "required_slots_at_nothing_known": 20,
-   "required_slots_stored": 10,
+   "required_slots_stored": 20,
    "required": [
     {
      "key": "airflow",

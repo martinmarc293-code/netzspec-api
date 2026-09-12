@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "conferencing",
  "profile_hash": "19206fb10ad861c4",
- "built_on_commit": "165f542",
+ "built_on_commit": "37f0690",
  "norm_version": "1.6.2",
  "declared_fields": 398,
  "gap_states": {
@@ -13,7 +13,7 @@
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it"
  },
  "totals": {
-  "parts": 147,
+  "parts": 70,
   "required_slots_at_nothing_known": 249,
   "required_slots_stored": 249,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
@@ -39,8 +39,8 @@
    "cable": 0,
    "accessory": 1,
    "transceiver": 0,
-   "software": 3,
-   "unknown": 76
+   "software": 1,
+   "unknown": 1
   },
   "pending_reclassification": 0,
   "pending_reclassification_stored_slots": 0
@@ -15573,7 +15573,7 @@
    ]
   },
   "software": {
-   "parts": 3,
+   "parts": 1,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,
@@ -15985,7 +15985,7 @@
    ]
   },
   "unknown": {
-   "parts": 76,
+   "parts": 1,
    "slots_per_part_at_nothing_known": 0,
    "required_slots_at_nothing_known": 0,
    "required_slots_stored": 0,

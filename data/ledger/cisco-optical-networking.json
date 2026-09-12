@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "optical-networking",
  "profile_hash": "e2b0990c0fbd7c16",
- "built_on_commit": "165f542",
+ "built_on_commit": "37f0690",
  "norm_version": "1.6.2",
  "declared_fields": 404,
  "gap_states": {
@@ -15,7 +15,7 @@
  "totals": {
   "parts": 1637,
   "required_slots_at_nothing_known": 5368,
-  "required_slots_stored": 5326,
+  "required_slots_stored": 5368,
   "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
   "by_kind": {
    "chassis": 50,
@@ -6647,7 +6647,7 @@
    "parts": 42,
    "slots_per_part_at_nothing_known": 4,
    "required_slots_at_nothing_known": 168,
-   "required_slots_stored": 126,
+   "required_slots_stored": 168,
    "required": [
     {
      "key": "airflow",
