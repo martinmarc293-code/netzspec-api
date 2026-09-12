@@ -4,6 +4,44 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-12 (late) - Opus/PARENT. Reviewer round 3, items 2-4: the dictionary, the aliases, and the collaboration class residue. Three defect shapes the five checks could not name.**
+
+  **DONE AND VERIFIED** (401d00b dictionary + aliases, 1790aed collab class; pure suite 50/50, typecheck
+  clean, all 17 ledgers rebuilt):
+  - Four dictionary retirements (`modulation_type`, `max_optical_input_power`, `rx_overload`,
+    `installation_type`) and one refusal with its measurement: `filter_passband` is nm and `passband` is
+    MHz, so merging them puts a wavelength in a frequency cup. `eol_announcement_date` is out of the
+    dictionary — a sales-calendar date is not a property of a part.
+  - Four aliases anchored or repointed, and the VALUE side closed where no label rule could have:
+    `wifi_generation` is an enum (62 of its 188 stored values were not a generation), `radio_bands`
+    refuses a bare-Hz value anywhere (three 1,100 W PSUs held "47 to 63 Hz"), a placeholder is not a value.
+  - 95 collab class rules over ~100 families, 1,937 rows decided, none with an own fact; the 14
+    UNITY-PIMG gateways given kind `gateway` (62 parts now asked 12 fields where they were asked nothing).
+
+  **THREE NEW CHECK TERMS**, each found by a defect the original five pass cleanly (table given to the
+  operator for the reviewer): **duplicate cup** (one quantity, three cups); **wrong pour** — the cup is
+  filled from the wrong tap, which passes every per-cup check because the cup exists, is shaped, is defined
+  and has a named source; **reachability** — a rule that is right and never fires because an earlier one
+  wins. Plus **out-of-scope cup**, **relation not a field**, and **dead gate** (R1).
+
+  **TRAPS HIT, all three the same shape — a check that could not fail:**
+  - `tests/aliasRules.test.ts` had its summary and `process.exit(1)` ABOVE the category-scoped section, so
+    every check below them pushed into `misses` and nothing read the array again. Proven by sabotage:
+    `222/222 passed`, exit 0, with a deliberately broken assertion. Unfailable since 5 Sep.
+  - The productClass reachability check reads each rule's PROBE, not the rows it decides — so it called
+    `cube-session-license` shadowed while that rule decides 29 live parts, and stayed silent about
+    `voice-feature-license`, which decides 0. Probes must be rows the rule really wins.
+  - The 70794ec deploy REPORTED AS UPLOADING HAD DIED ("Connection reset by peer"); the box was still on
+    d69d9b4 for hours. Read `/health` for the version, never the deploy log's last line.
+
+  **NEXT**: round 3 items 5-9 (routers sub-kinds + ports, security firewall cups, wireless domains +
+  regulatory_domain, interfaces-modules voice, optical/storage numerics), then item 10 — the second run
+  batch, which now also carries the retraction/rekey proposals in
+  `docs/reports/schema-dictionary-2026-09-12.md` and §7 of `schema-collab-class-2026-09-12.md`.
+  **Five DB suites are red and were red before this work** (api, apply-acquired, inheritedFrom,
+  migrate-atlas, remerge) — measured with a control at 70794ec, 0/5 identically. Two are a dirty test
+  database; three are unexplained and must not be filed under that until they are.
+
 - **2026-09-12 - Opus/PARENT. Eight category agents in parallel: eleven more Cisco categories shaped by kind. 5.0M subagent tokens against a 3M estimate.**
 
   Operator: "use sub agents to make the work faster ... make the cup arrangement complete so we can start
