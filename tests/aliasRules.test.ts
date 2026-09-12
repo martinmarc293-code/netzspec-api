@@ -103,7 +103,11 @@ const RULES: [string, string, string, string, Reason?][] = [
   ["Other Information > Number of Processors Supported", "cpu_sockets_max", "Other Information > Number of Processors Installed", "n/a", "PARSE_FAIL"],
   ["Other Information > Processor Supported", "cpu_options", "Other Information > Operating System Supported", NO_SHAPE],
   ["Controllers > RAID Levels", "raid_level", "Controllers > RAID Supported", NO_SHAPE],
-  ["Interfaces/Ports > Drive Interface", "drive_interface", "Interfaces/Ports > Host Interface", NO_SHAPE],
+  // NO_SHAPE UNTIL 12 Sep 2026, when drive_interface was closed from a free string to an enum
+  // (round-6 B4b). The row went red demanding a refusable shape, which is exactly what the NO_SHAPE
+  // note promises it will do. "1DWPD" is the right near-miss because it is a REAL stored value —
+  // four facts of drive endurance sitting in the interface cup — not an invented one.
+  ["Interfaces/Ports > Drive Interface", "drive_interface", "Interfaces/Ports > Host Interface", "1DWPD", "ENUM_VIOLATION"],
   ["Other Information > Flash Memory", "flash", "Other Information > Memory Technology", "5000 GB", "RANGE_VIOLATION"],
   ["Technical Information > Storage Capacity", "storage_capacity", "Storage > Total Hard Drive Capacity", "n/a", "PARSE_FAIL"],
   ["Environmental Conditions > Maximum Operating Elevation", "altitude_max", "Environmental Conditions > Maximum Operating Temperature", "n/a", "PARSE_FAIL"],
@@ -527,9 +531,25 @@ check("an UNKNOWN category applies every rule, as before scoping existed",
   check("mapFact on a SWITCH does not file an Ethernet speed as drive_interface",
     onSwitch.kind === "unmapped" ? "unmapped" : `${onSwitch.kind}:${(onSwitch as {key?: string}).key}`,
     "unmapped");
-  const onServer = mapFact({ ...f, value: "12G" }, "servers-unified-computing");
-  check("mapFact on a SERVER still maps it",
+  // THIS CASE USED TO PASS "12G" AND IT NO LONGER MAPS, which is a finding about the alias rule
+  // rather than about the enum (12 Sep 2026, round-6 B4b). `drive_interface` was closed to the
+  // eight interfaces its 284 stored facts actually name, and "12G" is a SAS GENERATION SPEED — a
+  // data rate, not an interface — so the value side now refuses it. The rule `^spee *d$` ->
+  // drive_interface was written for a real Cisco server PDF column, and on the evidence that
+  // column sometimes holds the bus ("SAS", "NVMe") and sometimes its speed ("12G"): a wrong pour
+  // at the ALIAS level, which the free-string type had been hiding for as long as it existed.
+  //
+  // Not repointed here. Moving a live alias rule changes what the mapper does to every label it
+  // matches, and the right target ("drive_speed"/"data_rate") is a dictionary decision, not a test
+  // fix. The case is changed to a value the cup can hold, so it still proves the end-to-end path
+  // passes the category — and the wrong pour is written down where the next reader of this rule
+  // will see it instead of being smoothed away by widening the domain.
+  const onServer = mapFact({ ...f, value: "SAS" }, "servers-unified-computing");
+  check("mapFact on a SERVER still maps it (end to end, with the category passed through)",
     onServer.kind === "ok" ? onServer.key : onServer.kind, "drive_interface");
+  const speedOnServer = mapFact({ ...f, value: "12G" }, "servers-unified-computing");
+  check("a SPEED in that same column is now REFUSED rather than filed as an interface",
+    speedOnServer.kind === "ok" ? `ok:${speedOnServer.key}` : speedOnServer.kind, "rejected");
 }
 
 // ---- security-r6 (12 Sep 2026): the two scoped rules added for the firewall and ISE cups -------
@@ -579,7 +599,11 @@ const SCOPED_TOTAL = SPEED_IS_A_DRIVE.length * 2 + SPEED_IS_NOT_A_DRIVE.length
   // refusals (the shared-PSN row, the wrong category). Counted, not derived from `pass`: the first
   // version of this line said 13 and the suite printed 271/272 with an EMPTY miss list, which is
   // exactly the arithmetic-versus-pass point the comment above makes, caught by its own guard.
-  + 12;
+  + 12
+  // round-6 B4b (12 Sep 2026): 1 check — the "Speed" column on a server now REFUSES "12G", a SAS
+  // generation speed, instead of filing it as a drive interface. Counted here for the same reason
+  // the line above is: a denominator derived from `pass` cannot notice a check that stopped running.
+  + 1;
 const stated = RULES.filter(([, , , v]) => v !== NO_SHAPE).length;
 console.log(`${pass}/${TOTAL + SCOPED_TOTAL} passed (${TOTAL} rule-table, ${SCOPED_TOTAL} category-scoped)`);
 if (misses.length) {

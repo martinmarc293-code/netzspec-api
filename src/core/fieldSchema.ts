@@ -371,6 +371,24 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // is the one its four sibling throughput cups use, so the whole family ranks on one scale.
   tls_throughput: { key: "tls_throughput", de: "TLS-/SSL-Durchsatz", en: "TLS/SSL decryption throughput", type: "n", unit: "Gbit/s", band: [0.01, 5000], etim: [], icecat: null },
   // end security-r6 (12 Sep 2026) ---------------------------------------------------------------
+  // round-6 B4b (12 Sep 2026) -------------------------------------------------------------------
+  // CURATED OVERRIDE of the generated entry, which is type "s" with no domain. Required of every
+  // `drive` kind -- 2,435 parts across servers, hci-infrastructure and hci-systems -- and as a free
+  // string it was holding three different quantities at once. Measured over its 284 stored facts:
+  //
+  //     the interface      NVMe 68, SAS 63, SATA 62, U.3 20, "U.3 NVMe" 8, SAS-3 5, U.2 2
+  //     a LANE COUNT       "3X" 12, "1X" 11                      <- how many lanes, not what bus
+  //     an ENDURANCE       "1DWPD" 4                             <- drive writes per day
+  //     a PCIe lane spec   "PCIe Gen5 x4" 3, "PCIe Gen5 x2" 1    <- bus AND width in one cell
+  //
+  // Closed to the interfaces. The lane counts and the DWPD now REFUSE, which is the point: 27 facts
+  // for a retraction run to rekey, and until now indistinguishable from a correct answer. The
+  // ENUM_RULES in specNormalize fold "PCIe Gen5 x4" to `pcie` (the interface IS PCIe; the width
+  // belongs in a cup nobody has asked for) and "U.3 NVMe" to `u.3` (a U.3 bay is NVMe by
+  // definition). `m.2` is in the domain for the drives the corpus will acquire, not the ones it has.
+  drive_interface: { key: "drive_interface", de: "Laufwerksanbindung", en: "Per-Drive Interface", type: "e",
+    domain: ["sas", "sas-3", "sata", "nvme", "pcie", "u.2", "u.3", "m.2"], etim: [], icecat: null },
+  // end round-6 B4b -----------------------------------------------------------------------------
   // TWO SYNONYM PAIRS, RECORDED RATHER THAN MERGED (9 Sep 2026). Each curated key above has a
   // GENERATED twin that different datasheets spell differently, so one measurement lands under
   // two keys depending on which page it came from:
@@ -506,7 +524,24 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   ap_max_clients: { key: "ap_max_clients", de: "Max. Clients je AP", en: "Max clients per AP", type: "n", band: [1, 10000], etim: [], icecat: null },
   wlc_ap_capacity: { key: "wlc_ap_capacity", de: "Max. Access Points (Controller)", en: "Max access points (controller)", type: "n", band: [1, 200000], etim: [], icecat: null },
   wlc_client_capacity: { key: "wlc_client_capacity", de: "Max. Clients (Controller)", en: "Max clients (controller)", type: "n", band: [1, 2000000], etim: [], icecat: null },
-  radio_bands: { key: "radio_bands", de: "Frequenzbänder", en: "Frequency bands", type: "s", examples: ["2.4 GHz", "5 GHz", "6 GHz"], etim: [], icecat: null },
+  // CURATED 12 Sep 2026 (round-6 reviewer B4a). Required of `ap` (2,750), `antenna` (191) and
+  // `backhaul` (41) in wireless and of `antenna` in routers, and a free string whose `examples`
+  // enforce nothing -- the shape wifi_generation was in. Its wireless population is ONE AXIS IN
+  // TWELVE SPELLINGS: "2.4 GHz" 56, "5 GHz" 30, "Dual-band" 15, "2.4GHz" 13, "Dual Band" 10,
+  // "5GHz" 6, "2.4/5 GHz" 4, "5Ghz" 3, "Tri-band" 3, "tri-band" 3, "2.4 and 5 GHz" 1, "2.4 Ghz" 1.
+  //
+  // A LIST, not an enum, because the quantity is a SET: a dual-band radio answers 2.4 AND 5, and
+  // "Dual-band" is a count of the set rather than a member of it. `ls` with a closed domain folds
+  // all twelve into the bands they name (ENUM_RULES in specNormalize).
+  //
+  // AND IT CARRIES A SECOND QUANTITY IN ROUTERS, which is why closing the type matters beyond
+  // tidiness: routers.radio_bands holds 27 facts of CELLULAR band text ("700MHz",
+  // "850/900/1900/2100 MHz", and four rows of LTE/5G band lists running past 300 characters) while
+  // `cellular_bands` sits in the same profile with 47 facts of exactly that. Those 27 are a wrong
+  // pour (term 7); they will now refuse rather than serve, which puts them on the retraction list
+  // instead of leaving them indistinguishable from a Wi-Fi answer.
+  radio_bands: { key: "radio_bands", de: "Frequenzbänder", en: "Frequency bands", type: "ls",
+    domain: ["2.4ghz", "5ghz", "6ghz", "60ghz"], etim: [], icecat: null },
 
   // --- routing (ISR / ASR / Catalyst 8000) ----------------------------------------------------
   router_throughput: { key: "router_throughput", de: "System-Durchsatz", en: "System throughput", type: "n", unit: "Gbit/s", band: [0.005, 10000], etim: [], icecat: null },
@@ -3243,6 +3278,12 @@ export const SUPERSEDED_KEYS: Readonly<Record<string, string>> = {
   // Same quantity ("Modulationsart" / "Modulationsformat"), and the dead one is the one with the
   // tidier name — the `random_read_iops_4k` shape again. Nothing moves.
   modulation_type: "modulation_format",
+  // 12 Sep 2026, round-6 reviewer B5. Two dBm cups for a transmitter's output power.
+  // `tx_max_output_power` holds ZERO facts anywhere and `tx_power` is the pending-required cup of
+  // 2,071 transceiver parts with 12, so the merge is free and the direction is not in doubt:
+  // `tx_power` is an `nr`, which is how a datasheet prints it ("Transmit power: 1.5 to 5 dBm"),
+  // and a separate max key is that range's upper end wearing its own cup.
+  tx_max_output_power: "tx_power",
   //   rx_max_input_power        0 facts, "Saturation optical power" 4 + "Maximum receiver input
   //                             power" · type n dBm · now carries a curated band   <- survivor
   //   max_optical_input_power   0 facts, "Maximum input power" 11 + "Receiver damage threshold" 10

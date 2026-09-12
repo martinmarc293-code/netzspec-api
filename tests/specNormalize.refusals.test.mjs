@@ -56,16 +56,78 @@ const CASES = [
   ["switches", "radio_bands", "47 to 63 Hz", "RANGE_VIOLATION"],
   ["wireless", "radio_bands", "50/60 Hz", "RANGE_VIOLATION"],
   ["routers", "radio_bands", "50 Hz", "RANGE_VIOLATION"],
-  // KEEP: every one of these is a real stored radio_bands value.
-  ["wireless", "radio_bands", "2.4/5 GHz", "2.4/5 GHz"],
-  ["interfaces-modules", "radio_bands", "700MHz", "700MHz"],
-  ["interfaces-modules", "radio_bands", "1390 MHz - 1525 MHz", "1390 MHz - 1525 MHz"],
-  ["interfaces-modules", "radio_bands", "850/900/1900/2100 MHz", "850/900/1900/2100 MHz"],
-  ["wireless", "radio_bands", "2.4 GHz, 5 GHz, and 6 GHz", "2.4 GHz, 5 GHz, and 6 GHz"],
+  // THESE FIVE WERE "KEEP" UNTIL 12 Sep 2026 and their expectations changed with the type. Each was
+  // a real stored value passing through a free string, and the split is now the decision:
+  //
+  //   a Wi-Fi cell is READ, and every band in it survives the read
+  //   a cellular or L-band cell is REFUSED, because `cellular_bands` is the cup for it and a
+  //   megahertz figure in a Wi-Fi cup is the wrong pour that closing the type exists to expose
+  //
+  // The bare-Hz RANGE_VIOLATIONs above are unaffected: VALUE_REFUSALS is a guard on the KEY and
+  // runs before the type, so mains frequency still fails for its own stated reason rather than
+  // falling into the domain and reporting the wrong one.
+  ["wireless", "radio_bands", "2.4 GHz, 5 GHz, and 6 GHz", ["2.4ghz", "5ghz", "6ghz"]],
+  ["interfaces-modules", "radio_bands", "700MHz", "ENUM_VIOLATION"],
+  ["interfaces-modules", "radio_bands", "1390 MHz - 1525 MHz", "ENUM_VIOLATION"],
+  ["interfaces-modules", "radio_bands", "850/900/1900/2100 MHz", "ENUM_VIOLATION"],
   // THE \b TRAP, pinned: "2.4GHz" has no word boundary between "4" and "G", so a \b-anchored
   // version of this rule reads the "Hz" inside "GHz" as bare and refuses a real value.
-  ["wireless", "radio_bands", "2.4GHz/5GHz", "2.4GHz/5GHz"],
-  ["interfaces-modules", "radio_bands", "900MHz", "900MHz"],
+  // RETYPED 12 Sep 2026 (round-6 B4a): radio_bands went from a free string to `ls` with a closed
+  // domain, so these two no longer pass their raw text through. Both new expectations are the
+  // point of the change rather than a consequence of it.
+  //
+  // A SET, AND EVERY BAND IN IT. The union over matching rules exists because first-match returned
+  // ["5ghz"] alone for this exact value — the whole-cell "2.4 and 5" rule needs a separator right
+  // after the 2.4, and here "GHz" is there instead. One band lost, in band, indistinguishable
+  // from a single-band radio. Twelve spellings of this axis are asserted below.
+  ["wireless", "radio_bands", "2.4GHz/5GHz", ["2.4ghz", "5ghz"]],
+  ["wireless", "radio_bands", "2.4/5 GHz", ["2.4ghz", "5ghz"]],
+  ["wireless", "radio_bands", "2.4 and 5 GHz", ["2.4ghz", "5ghz"]],
+  ["wireless", "radio_bands", "Dual-band", ["2.4ghz", "5ghz"]],
+  ["wireless", "radio_bands", "Dual Band", ["2.4ghz", "5ghz"]],
+  ["wireless", "radio_bands", "Tri-band", ["2.4ghz", "5ghz", "6ghz"]],
+  ["wireless", "radio_bands", "tri-band", ["2.4ghz", "5ghz", "6ghz"]],
+  ["wireless", "radio_bands", "2.4 GHz", ["2.4ghz"]],
+  ["wireless", "radio_bands", "2.4 Ghz", ["2.4ghz"]],
+  ["wireless", "radio_bands", "5Ghz", ["5ghz"]],
+  ["wireless", "radio_bands", "5 GHz", ["5ghz"]],
+  ["wireless", "radio_bands", "6 GHz", ["6ghz"]],
+  // AND THE SECOND QUANTITY THIS CUP WAS CARRYING. "900MHz" here used to pass through as a string:
+  // it is a CELLULAR band, `cellular_bands` exists in the same profiles, and routers.radio_bands
+  // held 27 facts of LTE/5G band text. Every one of them now refuses, which is what moves them
+  // onto the retraction list instead of leaving them indistinguishable from a Wi-Fi answer.
+  ["interfaces-modules", "radio_bands", "900MHz", "ENUM_VIOLATION"],
+  ["routers", "radio_bands", "700MHz", "ENUM_VIOLATION"],
+  ["routers", "radio_bands", "850/900/1900/2100 MHz", "ENUM_VIOLATION"],
+  ["wireless", "radio_bands", "1800 MHz", "ENUM_VIOLATION"],
+  // A Wi-Fi antenna filed under routers is still a Wi-Fi antenna: the cup is closed by VALUE, not
+  // by category, so the AIR-ANT case keeps working where it sits.
+  ["routers", "radio_bands", "2.4/5 GHz", ["2.4ghz", "5ghz"]],
+
+  // ---- 2b. drive_interface: one cup that was holding three quantities (round-6 B4b) ------------
+  // Required of every `drive` kind, 2,435 parts. Every accepted case below is a real stored value.
+  ["servers-unified-computing", "drive_interface", "NVMe", "nvme"],
+  ["servers-unified-computing", "drive_interface", "SAS", "sas"],
+  ["servers-unified-computing", "drive_interface", "SATA", "sata"],
+  ["servers-unified-computing", "drive_interface", "U.3", "u.3"],
+  ["servers-unified-computing", "drive_interface", "U.2", "u.2"],
+  // SAS-3 BEFORE SAS, or the generation is silently lost to the bare rule.
+  ["servers-unified-computing", "drive_interface", "SAS-3", "sas-3"],
+  // U.3 BEFORE NVMe: a U.3 bay is NVMe by definition, so reading this as `nvme` would throw away
+  // the form factor — the half a buyer chooses on.
+  ["hyperconverged-infrastructure", "drive_interface", "U.3 NVMe", "u.3"],
+  // The interface IS PCIe; the generation and the width are two further quantities with no cup.
+  ["servers-unified-computing", "drive_interface", "PCIe Gen5 x4", "pcie"],
+  ["servers-unified-computing", "drive_interface", "PCIe Gen5 x2", "pcie"],
+  // REFUSED, and all three are real stored values in the interface cup: a bare LANE COUNT and a
+  // drive ENDURANCE. 27 facts. Until the type was closed they were indistinguishable from an answer.
+  ["servers-unified-computing", "drive_interface", "3X", "ENUM_VIOLATION"],
+  ["servers-unified-computing", "drive_interface", "1X", "ENUM_VIOLATION"],
+  ["servers-unified-computing", "drive_interface", "1DWPD", "ENUM_VIOLATION"],
+  // A SAS generation SPEED, which the `^spee *d$` alias rule can route here. Refused: a data rate
+  // is not an interface. See the note in tests/aliasRules.test.ts.
+  ["servers-unified-computing", "drive_interface", "12G", "ENUM_VIOLATION"],
+  ["servers-unified-computing", "drive_interface", "Gen5", "ENUM_VIOLATION"],
 
   // ---- 3. wifi_generation: the six spellings fold, everything else is refused -------------------
   ["wireless", "wifi_generation", "Wi-Fi 6", "wi-fi 6"],
@@ -218,7 +280,14 @@ for (const [category, key, raw, want] of CASES) {
 const DEFS = [
   ["wifi_generation", (d) => d.type === "e" && (d.domain ?? []).length === 5 && d.domain.includes("wi-fi 6e")],
   ["rx_max_input_power", (d) => d.type === "n" && d.unit === "dBm" && Array.isArray(d.band)],
-  ["radio_bands", (d) => d.type === "s"],
+  // RETYPED 12 Sep 2026 (round-6 B4a): `s` -> `ls` with a closed domain. Asserted as a LIST rather
+  // than an enum on purpose — the quantity is a SET (a dual-band radio answers 2.4 AND 5), and an
+  // enum would force one member and lose the other. A regeneration that restored the free string
+  // would leave every case above green while refusing nothing, which is what this row prevents.
+  ["radio_bands", (d) => d.type === "ls" && JSON.stringify(d.domain) === JSON.stringify(["2.4ghz", "5ghz", "6ghz", "60ghz"])],
+  // round-6 B4b: drive_interface is the curated override of a generated `s`. If a regeneration wins,
+  // the lane counts and the DWPD go back to serving as interfaces.
+  ["drive_interface", (d) => d.type === "e" && (d.domain ?? []).includes("u.3") && !(d.domain ?? []).includes("12g")],
   // wireless-r7 (12 Sep 2026). The four cups closed above must BE enums with their measured domains,
   // for the same reason wifi_generation is asserted here: a regeneration of fieldSchema.generated.ts
   // would quietly restore `antenna_type` to a free string, and the guards above would all still pass

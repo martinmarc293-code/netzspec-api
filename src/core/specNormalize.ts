@@ -907,6 +907,61 @@ function inBand(category: string, key: string, v: number): NormResult | null {
 /** Ordered synonym rules per enum field. First matching pattern wins, so put the specific
  *  patterns before the general ones ("SFP+" must beat "SFP", "802.3bt" must beat "802.3at"). */
 const ENUM_RULES: Record<string, [RegExp, string][]> = {
+  // DRIVE INTERFACE, 12 Sep 2026 (round-6 B4b). The cup was closed to an enum because a free string
+  // was carrying three quantities: the interface, a bare lane count ("3X" 12, "1X" 11) and a drive
+  // endurance ("1DWPD" 4). These rules exist for the interfaces that arrive spelled more than one
+  // way; everything else falls through to the domain and refuses, which is what puts the 27
+  // wrong-quantity facts on the retraction list instead of leaving them serving.
+  //
+  // ORDER MATTERS TWICE. "SAS-3" must precede the bare "SAS" or the generation is lost. And U.2/U.3
+  // must precede NVMe: "U.3 NVMe" is a U.3 bay (which is NVMe by definition), and reading it as
+  // `nvme` would throw away the form factor, which is the part a buyer chooses on.
+  // NO `\b` IN ANY OF THESE, for two separate reasons, and both are in CLAUDE.md.
+  //
+  // The first is mechanical. This block was written once through a scripted edit and every `\b`
+  // became a literal 0x08 BACKSPACE byte — eighteen of them. It compiled, it typechecked, and grep
+  // printed it as correct. What caught it was replaying the real corpus and reading the output:
+  // "U.3 NVMe" refused while "U.3" passed, which is only possible if the rules were never being
+  // consulted at all. tests/source-scan.test.ts then named the file, line and column. Written with
+  // the Edit tool now, which is the rule that exists precisely because this keeps happening.
+  //
+  // The second reason stands even when the escape survives: `\b` is the wrong tool for product
+  // strings. There is no word boundary between the "." and the "3" of `U.3`, and none anywhere
+  // useful in `PCIe Gen5 x4`. Explicit character-class edges say what they mean.
+  //
+  // ORDER MATTERS TWICE. `sas-3` before the bare `sas`, or the generation is silently lost. And
+  // u.2/u.3 before `nvme`: "U.3 NVMe" is a U.3 bay, which is NVMe by definition, so reading it as
+  // `nvme` throws away the form factor — the half a buyer actually chooses on.
+  drive_interface: [
+    [/(^|[^a-z0-9])u[.\-_ ]?3([^a-z0-9]|$)/i, "u.3"],
+    [/(^|[^a-z0-9])u[.\-_ ]?2([^a-z0-9]|$)/i, "u.2"],
+    [/(^|[^a-z0-9])m[.\-_ ]?2([^a-z0-9]|$)/i, "m.2"],
+    [/(^|[^a-z])sas[-\s]?3([^0-9]|$)/i, "sas-3"],
+    [/(^|[^a-z])sas([^a-z]|$)/i, "sas"],
+    [/(^|[^a-z])sata([^a-z]|$)/i, "sata"],
+    [/(^|[^a-z])nvme([^a-z]|$)/i, "nvme"],
+    // "PCIe Gen5 x4" -> pcie. The interface IS PCIe; the generation and the width are two further
+    // quantities and neither has a cup. Reading the width as the interface is exactly what a bare
+    // "3X" did for twelve facts, which is why that value now refuses instead.
+    [/(^|[^a-z])pci[-\s]?e(xpress)?([^a-z]|$)/i, "pcie"],
+  ],
+  // RADIO BANDS, 12 Sep 2026 (round-6 B4a). An `ls` with a closed domain, so these map a cell to
+  // the SET of bands it names. "Dual-band" and "Tri-band" are counts of the set rather than members
+  // of it, and Cisco writes both alongside the explicit forms, so both are expanded here.
+  //
+  // The list normaliser splits on separators first and then matches each part against the domain,
+  // so a rule that has to see the WHOLE cell ("2.4 and 5 GHz", "Dual-band") must be applied before
+  // the split -- which is why these are ENUM_RULES on the key and not domain members. A cell naming
+  // no band at all (routers' LTE band text) matches nothing and refuses.
+  radio_bands: [
+    [/tri[-\s]?band/i, "2.4ghz,5ghz,6ghz"],
+    [/dual[-\s]?band|2\.4\s*(?:and|&|\/|,)\s*5/i, "2.4ghz,5ghz"],
+    [/(?<![0-9.])60\s*g\s*hz/i, "60ghz"],
+    [/(?<![0-9.])6\s*g\s*hz/i, "6ghz"],
+    [/(?<![0-9.])5\s*g\s*hz/i, "5ghz"],
+    [/(?<![0-9.])2\.4\s*g\s*hz/i, "2.4ghz"],
+  ],
+
   // WI-FI GENERATION, 12 Sep 2026. The cup became an enum because 62 of its 188 stored values were
   // not a generation at all (see fieldSchema); these rules exist for the other 126, which are one
   // axis written six ways — "Wi-Fi 6" 57, "WiFI6" 35, "Wi-Fi 6E" 13, "WiFi6" 11, "WIFI6" 1,
@@ -1614,6 +1669,36 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       if (!parts.length) return bad("PARSE_FAIL", `${key}: empty list`);
       const domain = domainFor(category, key);
       if (domain) {
+        // WHOLE-CELL RULES FIRST, then the split (12 Sep 2026, round-6 B4a). A closed list needs
+        // ENUM_RULES as much as an enum does, and it needs them BEFORE `splitListValue`, because
+        // the cells that need folding are exactly the ones the split destroys: "Dual-band" is one
+        // token naming two members, and "2.4 and 5 GHz" splits on "and" into "2.4" and "5 GHz",
+        // neither of which is a domain member. A rule may therefore name several members, comma
+        // separated, and every one of them is checked against the domain — a rule that maps to
+        // something outside the domain is a defect in the rule and says so rather than dropping
+        // the value.
+        // EVERY MATCHING RULE, UNIONED — not the first match. An enum picks one member and stops;
+        // a closed LIST is a set, and stopping at the first rule drops the rest of it. Caught by
+        // an existing case rather than by reasoning: "2.4GHz/5GHz" is a real stored value, and
+        // first-match returned ["5ghz"] alone because the whole-cell "2.4 and 5" rule needs a
+        // separator directly after the 2.4 and this cell has "GHz" there. One band silently lost,
+        // in band, indistinguishable from a single-band radio.
+        const rules = ENUM_RULES[key];
+        if (rules) {
+          const hit: string[] = [];
+          for (const [re, val] of rules) {
+            if (!re.test(s)) continue;
+            for (const m of val.split(",")) {
+              if (!domain.includes(m)) {
+                return bad("ENUM_VIOLATION", `${key}: a rule mapped "${s}" to "${m}", which is not in the domain [${domain.slice(0, 6).join("|")}]`);
+              }
+              if (!hit.includes(m)) hit.push(m);
+            }
+          }
+          // Domain order, not match order, so ["2.4ghz","5ghz"] reads the same whichever spelling
+          // the page used and two pages describing one radio produce one value.
+          if (hit.length) return ok(domain.filter((m) => hit.includes(m)));
+        }
         // Closed list: slugify so members compare against the domain.
         const mapped = parts.map((p) => p.toLowerCase().replace(/\s+/g, "-"));
         const known = mapped.filter((p) => domain.includes(p));
