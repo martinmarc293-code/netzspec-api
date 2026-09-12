@@ -1,0 +1,67 @@
+// tests/arrangementFreeze.test.ts — the phase-1 arrangement may not move silently.
+//
+//   npx tsx tests/arrangementFreeze.test.ts
+//
+// data/freeze/<vendor>.json pins the table filling is measured against (src/core/arrangementFreeze.ts). This test
+// re-derives every unit from the code and committed files, and fails naming the unit that moved and the command
+// that re-freezes it. Re-freezing is legitimate ONLY with a decision record and the rebuilt artifacts on the same
+// commit (CLAUDE.md "The arrangement is frozen"). Each unit has a sabotage case: a changed input must change that
+// unit's hash, or the pin is decoration.
+import fs from "node:fs";
+import path from "node:path";
+import { REPO_ROOT } from "../src/config.js";
+import { freezeUnits, freezeHash, parseKindSnapshot, kindDrift, sha, stable, type FreezeUnits, type KindRow } from "../src/core/arrangementFreeze.js";
+
+let pass = 0;
+const misses: string[] = [];
+const check = (name: string, ok: boolean, detail = ""): void => {
+  if (ok) pass++;
+  else misses.push(`${name}${detail ? `\n     ${detail}` : ""}`);
+};
+const REFREEZE = "npx tsx scripts/build-freeze.mts --vendor cisco (with a docs/decisions/ record, on the commit that rebuilds ledgers, censuses, traces and the completeness report)";
+
+const vendor = "cisco";
+const file = path.join(REPO_ROOT, "data", "freeze", `${vendor}.json`);
+const tsv = path.join(REPO_ROOT, "data", "freeze", `${vendor}-kinds.tsv`);
+check("the freeze file exists", fs.existsSync(file) && fs.existsSync(tsv), `missing ${file} or ${tsv} — ${REFREEZE}`);
+if (fs.existsSync(file) && fs.existsSync(tsv)) {
+  const frozen = JSON.parse(fs.readFileSync(file, "utf8")) as { freeze_hash: string; units: FreezeUnits };
+  const rows: KindRow[] = parseKindSnapshot(fs.readFileSync(tsv, "utf8").replace(/\r\n/g, "\n"));
+  const now = freezeUnits(vendor, REPO_ROOT, rows);
+  const f = frozen.units;
+
+  // ---- each unit, named ----------------------------------------------------------------------------------------
+  const movedProfiles = Object.keys({ ...f.profiles, ...now.profiles }).filter((c) => f.profiles[c] !== now.profiles[c]);
+  check(`profiles: all ${Object.keys(f.profiles).length} category profile hashes are the frozen ones`, movedProfiles.length === 0, `moved: ${movedProfiles.join(", ")} — ${REFREEZE}`);
+  check(`dictionary: the projection of ${f.dictionary.keys} keys (type, unit, domain, band, shape, superseded_by) is frozen`,
+    now.dictionary.sha === f.dictionary.sha, `${now.dictionary.keys} keys now — ${REFREEZE}`);
+  const drift = kindDrift(rows);
+  check(`kinds: the live classifier reproduces all ${rows.length} frozen (category, sku) -> kind rows`, drift.length === 0,
+    `${drift.length} moved, e.g. ${drift.slice(0, 5).map((d) => `${d.row.category}/${d.row.sku} ${d.row.kind}->${d.now}`).join("; ")} — ${REFREEZE}`);
+  check("kinds: the snapshot file is the one frozen (mapping hash)", now.kinds.mapping_sha === f.kinds.mapping_sha, REFREEZE);
+  check(`mapper: the alias rule file is frozen`, now.mapper.alias_file_sha === f.mapper.alias_file_sha, REFREEZE);
+  check(`mapper: the ${f.mapper.conflicts}-entry frozen conflict table is unchanged`, now.mapper.conflicts_sha === f.mapper.conflicts_sha, `${now.mapper.conflicts} entries now — ${REFREEZE}`);
+  check(`derived fill paths: ${f.derived_fill_paths.keys.join(", ")} (function, population, validation) are frozen`,
+    now.derived_fill_paths.sha === f.derived_fill_paths.sha, `now: ${now.derived_fill_paths.keys.join(", ")} — ${REFREEZE}`);
+  check(`spec-bearing document classes are frozen (${f.spec_bearing_classes.classes.join(", ")})`,
+    now.spec_bearing_classes.sha === f.spec_bearing_classes.sha, `now: ${now.spec_bearing_classes.classes.join(", ")} — ${REFREEZE}`);
+  const movedDen = Object.keys({ ...f.denominators, ...now.denominators }).filter((c) => stable(f.denominators[c]) !== stable(now.denominators[c]));
+  check("denominators: every committed ledger's parts and required_slots_stored equal the frozen ones", movedDen.length === 0,
+    movedDen.map((c) => `${c}: frozen ${stable(f.denominators[c])}, ledger ${stable(now.denominators[c])}`).join("; "));
+  const snapshotCounts = Object.entries(now.denominators).filter(([c, d]) => (now.kinds.by_category[c] ?? 0) !== d.parts);
+  check("the kind snapshot and the ledgers describe the same population, per category", snapshotCounts.length === 0,
+    snapshotCounts.map(([c, d]) => `${c}: snapshot ${now.kinds.by_category[c] ?? 0}, ledger ${d.parts}`).join("; "));
+  check("the freeze hash is reproduced", freezeHash(now) === frozen.freeze_hash, `now ${freezeHash(now).slice(0, 16)}, frozen ${frozen.freeze_hash.slice(0, 16)}`);
+
+  // ---- sabotage: a moved input must move its unit's hash, or the pin pins nothing ---------------------------
+  const tamperedRows = rows.map((r, i) => (i === 0 ? { ...r, kind: r.kind === "unknown" ? "server" : "unknown" } : r));
+  check("SABOTAGE a changed kind in the snapshot is caught by the classifier re-derivation", kindDrift(tamperedRows).length === 1);
+  check("SABOTAGE a changed kind changes the mapping hash", freezeUnits(vendor, REPO_ROOT, tamperedRows).kinds.mapping_sha !== f.kinds.mapping_sha);
+  check("SABOTAGE a dropped part changes the per-category count", stable(freezeUnits(vendor, REPO_ROOT, rows.slice(1)).kinds.by_category) !== stable(f.kinds.by_category));
+  const alt = { ...now, dictionary: { ...now.dictionary, sha: sha("x") } };
+  check("SABOTAGE any unit change changes the freeze hash", freezeHash(alt) !== freezeHash(now));
+}
+
+console.log(`    arrangement freeze: ${pass} passed, ${misses.length} missed`);
+for (const m of misses) console.log(`    MISS ${m}`);
+if (misses.length) process.exit(1);

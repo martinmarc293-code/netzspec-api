@@ -58,6 +58,42 @@ full; the ones that bite hardest here are restated.
   `autocommit=True` and wrap the write in ONE explicit transaction, or `conn.commit()` and
   re-read from a NEW connection before believing it.
 
+## The arrangement is frozen (phase 1 closed, 13 Sep 2026)
+
+Phase 2 (filling) measures against a fixed table: profile hashes, the dictionary projection, the kind
+classifier's mapping, the mapper rule set with its frozen-conflict table, the registered derivations, the
+spec-bearing document classes and the denominators. `data/freeze/<vendor>.json` pins them as ONE unit and
+`tests/arrangementFreeze.test.ts` fails when any of them moves. The model is `docs/completeness-model.md`;
+the progress surface is `/v1/completeness/<vendor>` and nothing else.
+
+**Changing the arrangement after the freeze:**
+1. A change to a required cup, a kind's cup set, a gate, a type/domain/band, or a spec-bearing flag is a
+   DECISION, recorded in `docs/decisions/` with the measurement that forced it (all vendors, live parts).
+2. It ships with the rebuilt ledgers, censuses, traces, the completeness report AND the regenerated freeze
+   file on the SAME commit. Never a ledger from one build and a dictionary from another.
+3. The completeness report prints `built_on_commit` and the freeze hash; two reports with different freeze
+   hashes are not compared without saying so.
+4. `syncDictionaryOn` keeps both guards: it refuses a supersession of a key holding current facts in any
+   vendor, and a type/unit/domain/band change that would refuse any current fact in any vendor unless
+   `--allow-refusing <key>` is recorded in the run.
+
+**Halting rules for filling:**
+- Never widen a band or a domain to admit a value. A refused value is a defect or a reshape decision.
+- Never store a placeholder, a capability statement (`A or B`), or a value conditional on a configuration.
+- Never store a derived value under a required cup unless the derivation is registered in
+  `DERIVED_FILL_PATHS` with its validation counts.
+- Inherited facts into required cups come only from the group-inheritance writer and are always marked
+  inherited; the inherited share is printed beside every filled percentage.
+- A cup whose refusal-at-arrival exceeds 5% on any day stops receiving from that source until the cause is named.
+- `could_not_replay` on arrivals is 0, or the run is failed.
+
+**Standing rules (the reviewer's constitution for this work):** legibility over cleanliness; every count
+says what it was counted over; not-held is never in a denominator; a cup means one thing (the survivor is
+the key holding the facts); measure across all vendors before any dictionary change; guards, not sentences;
+write the plan, read every row, then run; one commit per artifact set; refusal is an answer; retiring is not
+deleting; a derivation is a tap only when registered with its validation; the completeness report is the
+source of truth for progress.
+
 ## Session log
 
 **Start every session by reading the newest `docs/HANDOFF-*.md`** (currently
