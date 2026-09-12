@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "meraki",
  "profile_hash": "2235b202d65ca9e8",
- "built_on_commit": "d69d9b4",
+ "built_on_commit": "70794ec",
  "norm_version": "1.6.2",
  "declared_fields": 147,
  "gap_states": {
@@ -1811,31 +1811,19 @@
        "basis": "seen"
       }
      ],
-     "label_occurrences": 114,
+     "label_occurrences": 8,
      "labels": [
       {
-       "label": "LAN [802.11ac]",
-       "n": 37
+       "label": "Wireless Standards",
+       "n": 4
       },
       {
-       "label": "Wi-Fi 6 and Wi-Fi 6E (802.11ax)",
-       "n": 8
+       "label": "Revised supported Wi-Fi standards",
+       "n": 3
       },
       {
-       "label": "Wi-Fi 6 dashboard",
-       "n": 7
-      },
-      {
-       "label": "802.11ac Wave 2",
-       "n": 6
-      },
-      {
-       "label": "Aironet ® 802.11ac Wave 2",
-       "n": 5
-      },
-      {
-       "label": "Catalyst 9100 802.11ax",
-       "n": 5
+       "label": "Wireless standards",
+       "n": 1
       }
      ],
      "parts_holding_by_method": {

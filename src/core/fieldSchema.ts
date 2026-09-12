@@ -302,6 +302,18 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // ever breaks the value stores as POSITIVE 4.3 — which is inside [-40, 20] and passes. The band
   // catches a wrong magnitude, never a wrong sign.
   tx_max_output_power: { key: "tx_max_output_power", de: "Maximale Sendeleistung (TX)", en: "Maximum transmitter output power", type: "n", unit: "dBm", band: [-40, 20], etim: [], icecat: null },
+  // THE FOURTH OF THE FOUR, CURATED 12 Sep 2026 (reviewer round 3, §4 item 2). It is the receive
+  // twin the comment above names, and it was the only one of the four living in the GENERATED half
+  // — so it had no band, and a generated definition with no band is the one nothing can refuse a
+  // value to. Two further keys asked the SAME question and are retired into it (SUPERSEDED_KEYS):
+  // `max_optical_input_power` ("Maximum input power" 11 · "Receiver damage threshold" 10) and
+  // `rx_overload` ("Overload" 5, and type "s", so it could not even hold a number). All three held
+  // ZERO facts, so nothing moves; what moves is the 30 label occurrences, which now arrive here.
+  //
+  // Banded like its three siblings. The band is also the guard that keeps the unanchored
+  // "Maximum input power" rule honest: on a POWER table that label is watts, and 1,100 W is outside
+  // [-40, 20] dBm, so it is refused rather than stored as a receiver threshold.
+  rx_max_input_power: { key: "rx_max_input_power", de: "Maximale Empfängereingangsleistung (Sättigung)", en: "Maximum receiver input power (saturation)", type: "n", unit: "dBm", band: [-40, 20], etim: [], icecat: null },
   link_budget: { key: "link_budget", de: "Link-Budget", en: "Link budget", type: "n", unit: "dB", band: [0, 60], etim: [], icecat: null },
   laser_type: { key: "laser_type", de: "Lasertyp", en: "Laser type", type: "e", domain: ["vcsel", "fp", "dfb", "eml"], etim: [], icecat: null },
   // duplex-bidi ADDED 11 Sep 2026: QSFP-40G-SR-BD (5 parts) runs BiDi over a DUPLEX LC pair — neither
@@ -363,7 +375,33 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   storage_capacity: { key: "storage_capacity", de: "Onboard-Speicher", en: "Onboard storage", type: "n", unit: "GB", band: [1, 200000], etim: [], icecat: null },
 
   // --- wireless (access points / WLAN controllers) --------------------------------------------
-  wifi_generation: { key: "wifi_generation", de: "WLAN-Generation", en: "Wi-Fi generation", type: "s", examples: ["Wi-Fi 6", "Wi-Fi 6E", "Wi-Fi 7", "802.11ax"], etim: [], icecat: null },
+  // TYPE "s" -> "e" WITH A CLOSED DOMAIN, 12 Sep 2026 (reviewer round 3, §4 item 3 and item 7).
+  //
+  // `examples` is documentation and enforces nothing, so this cup accepted every string a Wi-Fi
+  // row ever carried. Read off the 188 stored facts:
+  //
+  //   126 REAL, in six spellings   "Wi-Fi 6" 57 · "WiFI6" 35 · "Wi-Fi 6E" 13 · "WiFi6" 11 ·
+  //                                "Wi-Fi 7" 8 · "WIFI6" 1 · "WiFi 6" 1
+  //    62 NOT A GENERATION AT ALL  "2X2 MIMO" 18 · "NA" 14 · "No" 11 · "Yes" 3 · "–" 4 · "4" 2 ·
+  //                                "DL-OFDMA**, UL-OFDMA**, TWT support**, BSS coloring**" 8 ·
+  //                                "Yes, 4 Stream MU-MIMO" 1 · "Yes, 8 Stream MU-MIMO" 1
+  //
+  // The 62 come from a FEATURE-MATRIX row: the ISR 1100 and Meraki sheets label a column
+  // "802.11ac Wave 2" or "Wi-Fi 6 and Wi-Fi 6E (802.11ax)" and fill the cell with yes/no, the MIMO
+  // configuration, or a list of 802.11ax features. The label names the generation; the cell does
+  // not state it. No label rule can separate those two, because the label is identical — only the
+  // VALUE can, which is what a domain is for. "2X2 MIMO" has a cup already (`spatial_streams`) and
+  // is not silently moved there: a normaliser that re-routes by value shape is classifying, not
+  // normalising, so it becomes an ENUM_VIOLATION and a recorded gap.
+  //
+  // The domain is the Wi-Fi Alliance generation names, which is the ONE axis every spelling in the
+  // corpus reduces to; ENUM_RULES.wifi_generation in specNormalize folds the six spellings and the
+  // 802.11 letters onto them. No "wi-fi 8": the catalogue holds no part that claims it, and a value
+  // no product has taken is a value nobody has seen work (the same argument as connector's SN/CS).
+  wifi_generation: {
+    key: "wifi_generation", de: "WLAN-Generation", en: "Wi-Fi generation", type: "e",
+    domain: ["wi-fi 4", "wi-fi 5", "wi-fi 6", "wi-fi 6e", "wi-fi 7"], etim: [], icecat: null,
+  },
   spatial_streams: { key: "spatial_streams", de: "Spatial Streams", en: "Spatial streams", type: "s", examples: ["4x4:4", "2x2:2", "8x8:8"], etim: [], icecat: null },
   radio_count: { key: "radio_count", de: "Anzahl Funkmodule", en: "Radio count", type: "n", band: [1, 8], etim: [], icecat: null },
   max_data_rate: { key: "max_data_rate", de: "Max. Datenrate", en: "Maximum data rate", type: "n", unit: "Gbit/s", band: [0.05, 100], etim: [], icecat: null },
@@ -2634,6 +2672,46 @@ export const SUPERSEDED_KEYS: Readonly<Record<string, string>> = {
   // docs/reports/schema-security-2026-09-12.md, not done here. Until it runs, those three rows read
   // "missing threat_throughput" while holding the value under the retired key.
   threat_defense_throughput: "threat_throughput",        // 3 facts vs 17; the survivor has the band
+  // ---- reviewer round 3, §4 item 2 (12 Sep 2026) -----------------------------------------------
+  // Four retirements the reviewer named after reading the dictionary rather than the labels, so each
+  // was measured against the live corpus before being taken. Three are clean and the fifth they
+  // asked for is REFUSED below, with its measurement.
+  //
+  //   modulation_type          0 facts, 0 labels, 0 alias rules, 4 profiles
+  //   modulation_format       41 facts, 3 labels, 4 alias rules, 13 profiles   <- survivor
+  // Same quantity ("Modulationsart" / "Modulationsformat"), and the dead one is the one with the
+  // tidier name — the `random_read_iops_4k` shape again. Nothing moves.
+  modulation_type: "modulation_format",
+  //   rx_max_input_power        0 facts, "Saturation optical power" 4 + "Maximum receiver input
+  //                             power" · type n dBm · now carries a curated band   <- survivor
+  //   max_optical_input_power   0 facts, "Maximum input power" 11 + "Receiver damage threshold" 10
+  //   rx_overload               0 facts, "Overload" 5 · type "s", so it cannot hold a number
+  // One quantity under three names: the receiver's saturation / damage threshold in dBm. The
+  // survivor is the one the curated block above documents as the fourth of the symmetric four
+  // (tx_power / tx_max_output_power / rx_sensitivity / rx_max_input_power) — chosen by that
+  // symmetry and by type, not by label count, because all three hold zero facts and the widest
+  // label set belongs to a key whose own name says "optical" while its labels say "receiver".
+  max_optical_input_power: "rx_max_input_power",
+  rx_overload: "rx_max_input_power",
+  //   installation_type   5 facts (all interfaces-modules, all from the router-switch reseller
+  //                       page), 0 datasheet labels
+  //   mounting          934 facts (591 own), 13 labels, 164 occurrences, 19 profiles   <- survivor
+  // "Installation type" and "Mounting" are one question: how the part is installed. THE FIVE VALUES
+  // DO NOT ALL MOVE — three are real ("Hot-swappable, front-insertion line card for Cisco 10000
+  // chassis") and two are the literal string "n/a", which is not a value under any key. The rekey
+  // of the three and the retraction of the two are a database write, so they are a PROPOSAL in
+  // docs/reports/schema-dictionary-2026-09-12.md, not done here.
+  installation_type: "mounting",
+  // REFUSED, and this is the one worth reading: `filter_passband` -> `passband` was also asked for.
+  //   filter_passband   type s, unit nm, 1 label: "Minimum transmit filter passband (at 0.5 dB
+  //                     resolution bandwidth)" 6 occurrences, optical filter/mux modules, values
+  //                     like "±0.18 nm" — a WAVELENGTH window.
+  //   passband          type s, unit MHz, 3 labels: "Pass band" 33 · "Pass Band" 13 · video-scoped
+  //                     "Bandwidth" 32 — the HFC/RF band of a video node ("52-1218 MHz").
+  // Two different quantities in two different units, and one has already absorbed `rf_bandwidth`.
+  // Merging them would put a nanometre window into a megahertz cup, which is the shape that stores
+  // a weight of 0.075 kg as 75. Both keys stay; the pair is listed in the report so the next reader
+  // does not have to re-derive the refusal.
 };
 for (const p of Object.values(PROFILES)) {
   for (const [dup, canon] of Object.entries(SUPERSEDED_KEYS)) {

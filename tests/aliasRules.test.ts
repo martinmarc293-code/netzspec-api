@@ -129,7 +129,9 @@ const RULES: [string, string, string, string, Reason?][] = [
   // routers (12 Sep 2026): compatible_platform is retired into product_compatibility (SUPERSEDED_KEYS); its alias writes the latter.
   ["Product Features Comparison > Compatible Platform", "product_compatibility", "Miscellaneous > Platform Supported", "-", "PARSE_FAIL"],
   ["Product Features Comparison > Module Type", "module_type", "Specification > Interface Module Support", NO_SHAPE],
-  ["Product Features Comparison > Installation Type", "installation_type", "Installation Clearance", NO_SHAPE],
+  // dictionary round 3 (12 Sep 2026): installation_type is retired into mounting (SUPERSEDED_KEYS) —
+  // one question, how the part is installed, and the survivor holds 934 facts against 5.
+  ["Product Features Comparison > Installation Type", "mounting", "Installation Clearance", NO_SHAPE],
 
   // --- 2026-09-04, the six labels normaliser 1.4.0 unblocked ------------------------------------
   // Every near-miss below is a real provantage label from runs/vocab/provantage/labels.json and
@@ -429,12 +431,21 @@ for (const [key, lo, hi] of BANDS) {
 // + the 3 structural checks in sections 3 and 4.
 const TOTAL = RULES.length * 3 + 6 + LABEL_CASES.length + ACCEPTS.length + BANDS.length
   + MUST_IGNORE.length + MUST_NOT_IGNORE.length + 3;
-console.log(`${pass}/${TOTAL} passed`);
-if (misses.length) {
-  console.log("\nMISSES:");
-  for (const m of misses) console.log(`  ${m}`);
-  process.exit(1);
-}
+// THE SUMMARY AND THE EXIT USED TO BE HERE, AND EVERYTHING BELOW THIS LINE COULD NOT FAIL.
+//
+// 12 Sep 2026. `console.log(pass/TOTAL)` plus `if (misses.length) process.exit(1)` sat at this
+// point in the file, and the CATEGORY-SCOPED section runs after it — so its checks pushed into
+// `misses` and nothing ever read the array again. Proven by sabotage before moving it: breaking
+// "an UNKNOWN category applies every rule" printed `222/222 passed` and exited 0. The scoped
+// block had been unfailable since the day it was written (5 Sep), which is the whole of this
+// repo's first rule arriving inside the suite that enforces it.
+//
+// TOTAL is kept as an ARITHMETIC denominator rather than derived from `pass`: a count computed
+// from the numerator cannot notice a case that was silently dropped. So the subtotal is asserted
+// against it here, the scoped block adds its own arithmetic total below, and the one exit is at
+// the end of the file.
+const subtotal = pass;
+check("the rule-table subtotal accounts for every case it claims", subtotal + misses.length, TOTAL);
 // ---- CATEGORY-SCOPED RULES -------------------------------------------------------------------
 // Rule "^spee *d$" -> drive_interface exists for Cisco's SERVER spec sheets, where a PDF column
 // split inserts a space inside "Speed" and the column is a SAS/SATA link rate. Unscoped it also
@@ -444,18 +455,66 @@ if (misses.length) {
 //
 // Both directions are pinned, because a scope that silenced the rule everywhere would "fix" the
 // switches by breaking the servers it was written for.
-for (const cat of ["servers-unified-computing", "hyperconverged-infrastructure",
-                   "hyperconverged-systems", "storage-networking"]) {
+const SPEED_IS_A_DRIVE = ["servers-unified-computing", "hyperconverged-infrastructure",
+                          "hyperconverged-systems", "storage-networking"];
+const SPEED_IS_NOT_A_DRIVE = ["switches", "routers", "wireless", "interfaces-modules", "optical-networking"];
+for (const cat of SPEED_IS_A_DRIVE) {
   check(`Speed still maps to drive_interface in ${cat} - the case the rule was written for`,
     mapLabel("Speed", cat), "drive_interface");
   check(`...and the space-split "Spee d" too, which is why the rule exists`,
     mapLabel("Spee d", cat), "drive_interface");
 }
-for (const cat of ["switches", "routers", "wireless", "interfaces-modules", "optical-networking"]) {
+for (const cat of SPEED_IS_NOT_A_DRIVE) {
   check(`SABOTAGE Speed is NOT a drive interface on ${cat} - it is left unmapped on purpose, so it `
       + `reaches the unmapped-label report and earns a field of its own rather than a wrong one`,
     mapLabel("Speed", cat), null);
 }
+// ---- ROUND 3, §4 item 3: FOUR LABELS THAT MEANT TWO THINGS (12 Sep 2026) ---------------------
+// Each pair below is one label whose reading depends on what kind of product the page is about,
+// and each is pinned in BOTH directions for the reason above: a scope that silenced the rule
+// everywhere would "fix" one category by emptying another.
+//
+// The two SHADOWING cases at the end are the ones the suite could not have found. Both rules were
+// individually correct; an earlier rule simply won, and only reading mapLabel's output per
+// category showed it. That is why they are pinned by OUTCOME (which key the label reaches) rather
+// than by rule.
+const FREQ_IS_A_RADIO = ["wireless", "meraki", "interfaces-modules"];
+const FREQ_IS_NOT_A_RADIO = ["switches", "routers", "servers-unified-computing", "video"];
+const TYPE_IS_NOT_A_MODULATION = ["transceiver", "wireless", "servers-unified-computing", "routers"];
+for (const cat of FREQ_IS_A_RADIO) {
+  check(`a bare "Frequency" is a radio band on ${cat}`, mapLabel("Frequency", cat), "radio_bands");
+}
+for (const cat of FREQ_IS_NOT_A_RADIO) {
+  check(`SABOTAGE a bare "Frequency" is NOT a radio band on ${cat} — on a power table it is the AC `
+      + `mains frequency, and three 1,100 W power supplies held radio_bands "47 to 63 Hz"`,
+    mapLabel("Frequency", cat), null);
+}
+check('"Type" is a modulation format in optical-networking, the category its note names',
+  mapLabel("Type", "optical-networking"), "modulation_format");
+for (const cat of TYPE_IS_NOT_A_MODULATION) {
+  check(`SABOTAGE a bare "Type" is NOT a modulation format on ${cat} — it produced 37 of its 41 `
+      + `facts outside optical-networking ("Performance Optimized", "Omnidirectional", "AC")`,
+    mapLabel("Type", cat), null);
+}
+check('"Integrated antenna" asks WHICH antenna, not how much gain', mapLabel("Integrated antenna"), "antenna_type");
+check('"Recommended user support" is a recommended count, not a hard client ceiling',
+  mapLabel("Recommended user support"), "recommended_users");
+check("an end-of-life date is not a specification", mapLabel("End-of-Llfe Announcement Date"), "__not_a_spec");
+// SHADOWED #1: "^wireless " with no end anchor parked the only label that asks a product its
+// wireless standard in __backlog, whose meaning is "no field_key yet" — while wifi_generation
+// existed. The __backlog reading is pinned for a label the narrowing must NOT release.
+check('"Wireless Standards" reaches wifi_generation, not __backlog',
+  mapLabel("Wireless Standards", "wireless"), "wifi_generation");
+check('...and "^wireless " still parks the embedded-wireless sub-table it was written for',
+  mapLabel("Wireless LAN", "wireless"), "__backlog");
+// SHADOWED #2: a `^frequency range$` -> radio_bands rule sat 168 rules below `^frequency range`
+// -> input_freq, so it had never fired on any of its 32 occurrences.
+check('"Frequency range" is a radio span on an AP sheet', mapLabel("Frequency range", "wireless"), "radio_bands");
+check("...and still the AC mains range on a server sheet",
+  mapLabel("Frequency range", "servers-unified-computing"), "input_freq");
+check("...and still the optical span on a tunable transceiver",
+  mapLabel("Frequency range", "transceiver"), "tuning_range");
+
 // An unknown category must not silently narrow the mapper: the inventory caller passes none, and
 // under-reporting what a source publishes is its own kind of wrong.
 check("an UNKNOWN category applies every rule, as before scoping existed",
@@ -473,7 +532,21 @@ check("an UNKNOWN category applies every rule, as before scoping existed",
     onServer.kind === "ok" ? onServer.key : onServer.kind, "drive_interface");
 }
 
+// ---- THE ONE SUMMARY AND THE ONE EXIT ---------------------------------------------------------
+// Arithmetic, like TOTAL, and for the same reason: a denominator derived from `pass` cannot notice
+// a dropped case. 9 fixed checks in the scoped block (Type-in-optical, Integrated antenna,
+// Recommended user support, the EoL sentinel, the two shadowing pairs — 2 + 3 — and the unknown
+// category), plus the two mapFact cases, plus the subtotal assertion itself.
+const SCOPED_TOTAL = SPEED_IS_A_DRIVE.length * 2 + SPEED_IS_NOT_A_DRIVE.length
+  + FREQ_IS_A_RADIO.length + FREQ_IS_NOT_A_RADIO.length + 1 + TYPE_IS_NOT_A_MODULATION.length
+  + 3 + 2 + 3 + 1 + 2 + 1;
 const stated = RULES.filter(([, , , v]) => v !== NO_SHAPE).length;
+console.log(`${pass}/${TOTAL + SCOPED_TOTAL} passed (${TOTAL} rule-table, ${SCOPED_TOTAL} category-scoped)`);
+if (misses.length) {
+  console.log("\nMISSES:");
+  for (const m of misses) console.log(`  ${m}`);
+  process.exit(1);
+}
 console.log(`every rule maps its own label and refuses its near-miss (${RULES.length} rules); `
   + `${stated} state a value their field refuses, with the reason; `
   + `${RULES.length - stated} are plain-string fields whose only possible refusal — the empty value — is proved instead`);

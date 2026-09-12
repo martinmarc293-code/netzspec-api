@@ -214,8 +214,12 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   filter_passband: { key: "filter_passband", de: "Durchlassbereich des Sendefilters", en: "Transmit filter passband", type: "s", unit: "nm", etim: [], icecat: null },
   // interfaces-modules — The upper bound of the receiver input range. rx_sensitivity holds the lower bound only, so overload/
   rx_max_input_power: { key: "rx_max_input_power", de: "Maximale Empfängereingangsleistung (Sättigung)", en: "Maximum receiver input power (saturation)", type: "n", unit: "dBm", etim: [], icecat: null },
-  // interfaces-modules — The dictionary has no lifecycle field at all, and EoL notices carry real per-part dates. B because o
-  eol_announcement_date: { key: "eol_announcement_date", de: "Datum der End-of-Life-Ankündigung", en: "End-of-life announcement date", type: "s", etim: [], icecat: null },
+  // interfaces-modules — REMOVED 12 Sep 2026 (reviewer round 3, §4 item 2): `eol_announcement_date` is
+  // out of the dictionary. Its own note ("the dictionary has no lifecycle field at all") is the argument
+  // against it, not for it — this catalogue's dictionary answers what a part IS, and an end-of-life
+  // announcement is metadata about Cisco's sales calendar. It held 0 facts. The 42 occurrences of its
+  // label now map to the __not_a_spec sentinel, which is what stops the next dictionary sweep proposing
+  // it again as a 42-occurrence gap. A regeneration must NOT put it back.
   // servers-unified-computing — '68 microseconds' storage read latency. The existing `latency` key is switch port-to-port latency; o
   read_latency: { key: "read_latency", de: "Lesezugriffszeit", en: "Read access latency", type: "n", unit: "µs", etim: [], icecat: null },
   // servers-unified-computing — '15 microseconds' / '43 microseconds'. Separate from read_latency because both appear on the same da
@@ -4255,7 +4259,6 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     emc_emissions: { kind: "opt" },
     emc_immunity: { kind: "opt" },
     encryption: { kind: "opt" },
-    eol_announcement_date: { kind: "opt" },
     ethernet_switch: { kind: "opt" },
     etsi_standards: { kind: "opt" },
     expansion_io: { kind: "opt" },

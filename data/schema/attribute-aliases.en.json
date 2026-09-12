@@ -363,6 +363,12 @@
    }
   ],
   [
+   "^frequency range$",
+   "radio_bands",
+   "wireless: 'Frequency range' on an antenna or AP sheet is the radio's operating span ('2.4 to 2.5 GHz', '5.150 to 5.925 GHz'). ADDED HERE, ABOVE THE GENERIC RULE, 12 Sep 2026 — the same shape as the transceiver rule directly above, and for the same reason. There was already a `^frequency range$` -> radio_bands rule in this file, 168 rules FURTHER DOWN, so it had never fired once: `^frequency range` -> input_freq comes first and takes all 32 occurrences as AC mains. Nothing was corrupted by that (input_freq is numeric in Hz with a mains band, so '2.4 to 2.5 GHz' was refused rather than stored) — the cost was a cup that could not be filled. Scoped to the three categories where a bare frequency span is a radio with near-certainty; interfaces-modules and routers are left to input_freq because both a cellular radio and a mains supply are plausible there, and a wrong reading is worse than a recorded gap.",
+   { "only": ["wireless", "meraki", "cloud-systems-management"] }
+  ],
+  [
    "^nominal optical output wavelength",
    "wavelength",
    "video (12 Sep 2026): Prisma II transmitter sheets (datasheet-c78-733672) print the emission wavelength as 'Nominal optical output wavelength | nm | 1310 ± 10'. Unmapped until today, on the one quantity a transmitter is bought on.",
@@ -974,9 +980,9 @@
    "stacking technology name used as a row label"
   ],
   [
-   "^wireless ",
+   "^wireless (?!standards?$)",
    "__backlog",
-   "embedded-wireless sub-table"
+   "embedded-wireless sub-table. NARROWED BY ONE LABEL 12 Sep 2026: this rule is `^wireless ` with no end anchor, so it also swallowed 'Wireless Standards' (4 occurrences) and 'Wireless standards' (1) — the ONLY labels in the whole inventory that ask a product which wireless standard it speaks — and parked them in __backlog, whose meaning is 'a real spec with no field_key yet'. There has been a field_key for two weeks (`wifi_generation`), so the gap was named and then never closed. Found by reading mapLabel's output per category after anchoring the wifi_generation rule, not by the suite: both rules were individually correct and the earlier one won."
   ],
   [
    "^firewall throughput|^firewall$|^stateful.*firewall.*throughput",
@@ -1024,9 +1030,10 @@
    ""
   ],
   [
-   "wi-fi 7|wi-fi 6e|wi-fi 6|802.11ax|802.11ac|wireless standard|wi-fi standard|radio protocols",
+   "^(?:revised\\s+supported\\s+)?(?:wireless|wi-?fi)\\s+standards?$|^radio\\s+protocols?$",
    "wifi_generation",
-   "WLAN"
+   "WLAN. ANCHORED AND SCOPED 12 Sep 2026 (reviewer round 3, §4 item 3). The rule was an UNANCHORED alternation on 'wi-fi 6|802.11ax|802.11ac|…', so it matched any label CONTAINING a generation name: 28 inventory labels, 119 occurrences, of which only 8 ask the product what standard it speaks ('Wireless Standards' 4, 'Wireless standards' 1, 'Revised supported Wi-Fi standards' 3). The other 111 are a FEATURE MATRIX naming the generation in the row heading and answering Yes/No/NA per model — 'Wi-Fi 6 dashboard' 7, 'Passpoint support on all 802.11ac Wave 2 access points' 4, 'Air Time Fairness on 802.11ac Wave 1 Access Points in Mesh Mode' 4, '802.11ac Wave 2 capabilities' 2 — plus 'LAN [802.11ac]' 37, which is an interface row. They produced the 62 non-generation values measured under this key ('2X2 MIMO' 18, 'NA' 14, 'No' 11, '–' 4, 'Yes' 3, '4' 2). The AP-sheet radio headings ('Wi-Fi 6 and Wi-Fi 6E (802.11ax)' 8, 'Tri-radio Wi-Fi 7 (2.4, 5, and 6 GHz)' 2) are left UNMAPPED rather than given a cup by guess: their cells are 802.11ax feature lists, and an unmapped label is a named gap the inventory already reports. Scoped to the categories that hold a radio; the value side is now guarded independently by the wifi_generation domain.",
+   { "only": ["wireless", "meraki", "cloud-systems-management", "interfaces-modules", "routers"] }
   ],
   [
    "spatial streams|number of spatial streams|mu-mimo streams",
@@ -1846,7 +1853,8 @@
   [
    "^frequency$",
    "radio_bands",
-   "wireless: Values name the operating bands (\"Dual concurrent radios (2.4 and 5 GHz)\", \"4.9 GHz, 5.1 to 6.9 GHz\")."
+   "wireless: Values name the operating bands (\"Dual concurrent radios (2.4 and 5 GHz)\", \"4.9 GHz, 5.1 to 6.9 GHz\"). SCOPED 12 Sep 2026 (reviewer round 3, §4 item 3): a bare \"Frequency\" is 175 occurrences in the inventory and on a POWER table it is the AC mains frequency — N55-PAC-1100W, NXA-PAC-1100W and NXA-PHV-1100W, three 1,100 W power supplies, each hold radio_bands = \"47 to 63 Hz\", and N55-PDC-1100W holds \"–\". Scoped to the categories where a bare Frequency row is a radio; `switches`, where all four defects sit, is out. The scope is only half the fix, because every category has power tables: specNormalize VALUE_REFUSALS refuses a radio_bands value in bare Hz everywhere.",
+   { "only": ["wireless", "meraki", "cloud-systems-management", "interfaces-modules"] }
   ],
   [
    "^antenna$",
@@ -1855,8 +1863,8 @@
   ],
   [
    "^integrated antennas?$",
-   "antenna_gain",
-   "wireless: Same content: \"2.4 GHz, peak gain 4 dBi, internal antenna, omnidirectional\"."
+   "antenna_type",
+   "wireless: \"2.4 GHz, peak gain 4 dBi, internal antenna, omnidirectional\". REPOINTED from antenna_gain 12 Sep 2026 (reviewer round 3, §4 item 3): the label asks WHICH ANTENNA, not how much gain, and the evidence is that it never once filled the cup it was pointed at — 73 occurrences across four spellings ('Integrated antenna' 54, 'Integrated antennas' 11, 'Integrated Antenna' 4, 'Integrated Antennas' 4) and ZERO stored facts, because antenna_gain is a struct { band24, band5 } in dBi and a prose antenna description cannot be parsed into it. antenna_type is a free string and holds exactly this content, so 73 occurrences stop being wasted."
   ],
   [
    "^maximum clients$",
@@ -1865,8 +1873,8 @@
   ],
   [
    "^recommended user support$",
-   "ap_max_clients",
-   "wireless: \"Up to 200 connective users, 50 active users per radio\" — same concept for small-business APs."
+   "recommended_users",
+   "wireless: \"Up to 200 connective users, 50 active users per radio\". REPOINTED from ap_max_clients 12 Sep 2026 (reviewer round 3, §4 item 3): a RECOMMENDED user count and the MAXIMUM clients a radio will associate are two different numbers, and a sizing figure filed as a hard ceiling is the kind of confident wrong value that is worse than a gap. `recommended_users` is the cup that already holds this quantity (type n, band [1, 1000000]). 9 occurrences, 0 facts stored under either key — the value states two numbers and the parser refuses it, which stays a recorded gap rather than a guess."
   ],
   [
    "^supported wireless lan controllers$",
@@ -2146,7 +2154,8 @@
   [
    "^type$",
    "modulation_format",
-   "optical-networking: In this category every sample is a modulation format (CP-DQPSK, DP-16QAM, PM-BPSK) or the modulator technology; it sits under the "
+   "optical-networking: In this category every sample is a modulation format (CP-DQPSK, DP-16QAM, PM-BPSK) or the modulator technology; it sits under the [heading]. SCOPED 12 Sep 2026 (reviewer round 3, §4 item 2) — THE NOTE SAID 'in this category' AND THE RULE HAD NO SCOPE, and a bare 'Type' means something different on every sheet. Of the 41 facts it produced, 4 are in optical-networking and 37 are not: 16 in `transceiver` naming the optical standard ('100GBASE-LR4 1310 nm SMF', '40G BASE SR4'), 14 in `wireless` and 1 in `routers` naming an antenna's radiation pattern ('Omnidirectional', 'Directional', 'Omnidirectional, white'), 6 in `servers-unified-computing` naming a server configuration or a PSU input ('Performance Optimized', 'Capacity & I/O Optimized', 'AC', 'DC'). The 37 are a retraction proposal in docs/reports/schema-dictionary-2026-09-12.md; the antenna values have a cup (`antenna_type`) and a proposed rule there, not taken here because a bare 'Type' on an AP sheet is not an antenna.",
+   { "only": ["optical-networking"] }
   ],
   [
    "^optical transmitter: ?type$",
@@ -2195,8 +2204,8 @@
   ],
   [
    "^overload$",
-   "rx_overload",
-   "optical-networking: Receiver saturation/overload threshold in dBm (0 dBm, -8 dBm)."
+   "rx_max_input_power",
+   "optical-networking: Receiver saturation/overload threshold in dBm (0 dBm, -8 dBm). REDIRECTED 12 Sep 2026: `rx_overload` is retired into `rx_max_input_power` (fieldSchema SUPERSEDED_KEYS) — one quantity that had three cups, and this one was type \"s\", so it could not hold the number it was given."
   ],
   [
    "^laser safety class$",
@@ -3691,7 +3700,8 @@
   [
    "^Type$",
    "modulation_format",
-   "optical-networking: label cited as evidence for the field"
+   "optical-networking: label cited as evidence for the field. SCOPED 12 Sep 2026, same reason as the earlier ^type$ rule — see it for the measurement.",
+   { "only": ["optical-networking"] }
   ],
   [
    "^Optical\\s+Transmitter:\\s+Type$",
@@ -3765,8 +3775,8 @@
   ],
   [
    "^Overload$",
-   "rx_overload",
-   "optical-networking: label cited as evidence for the field"
+   "rx_max_input_power",
+   "optical-networking: label cited as evidence for the field. Redirected 12 Sep 2026 with the earlier ^overload$ rule."
   ],
   [
    "^Laser\\s+safety\\s+class$",
@@ -3850,18 +3860,18 @@
   ],
   [
    "^Maximum\\s+input\\s+power$",
-   "max_optical_input_power",
-   "interfaces-modules: label cited as evidence for the field"
+   "rx_max_input_power",
+   "interfaces-modules: label cited as evidence for the field. REDIRECTED 12 Sep 2026: `max_optical_input_power` is retired into `rx_max_input_power` (fieldSchema SUPERSEDED_KEYS). The label is unanchored to a context and on a POWER table it means watts — what keeps that honest is the survivor's curated band [-40, 20] dBm, which refuses 1,100 W rather than storing it as a receiver threshold."
   ],
   [
    "^Receiver\\s+overload$",
-   "max_optical_input_power",
-   "interfaces-modules: label cited as evidence for the field"
+   "rx_max_input_power",
+   "interfaces-modules: label cited as evidence for the field. Redirected 12 Sep 2026 — see ^Maximum\\s+input\\s+power$."
   ],
   [
    "^Receiver\\s+damage\\s+threshold$",
-   "max_optical_input_power",
-   "interfaces-modules: label cited as evidence for the field"
+   "rx_max_input_power",
+   "interfaces-modules: label cited as evidence for the field. Redirected 12 Sep 2026 — see ^Maximum\\s+input\\s+power$."
   ],
   [
    "^Pass\\s+band$",
@@ -5732,8 +5742,8 @@
   ],
   [
    "^end.of.l.fe announcement date$",
-   "eol_announcement_date",
-   "interfaces-modules: Values are real EoL announcement dates (July 25, 2011; September 30, 2011). Regex tolerates the typo 'Llfe' and hyphen/space varia"
+   "__not_a_spec",
+   "interfaces-modules: Values are real EoL announcement dates (July 25, 2011; September 30, 2011). Regex tolerates the typo 'Llfe' (Cisco's own, in 42 of the 42 occurrences) and hyphen/space variants. SENT TO __not_a_spec 12 Sep 2026 (reviewer round 3, §4 item 2), and `eol_announcement_date` is out of the dictionary: an end-of-life date is LIFECYCLE metadata, not a specification of the product, and this catalogue's job is what a part IS. It held 0 facts. Keeping the rule rather than deleting it is deliberate — a mapped sentinel records the decision, where an unmapped label would be re-proposed by the next dictionary sweep as a 42-occurrence gap."
   ],
   [
    "^RX Sensitivity Optimal$",
@@ -6507,8 +6517,8 @@
   ],
   [
    "(^|> )installation( type)?$",
-   "installation_type",
-   "router-switch: 22/22 normalise, including provantage's 'Product Information > Installation Type'. Not matching 'Installation Clearance', which is a distanc"
+   "mounting",
+   "router-switch: 22/22 normalise, including provantage's 'Product Information > Installation Type'. Not matching 'Installation Clearance', which is a distance. REDIRECTED 12 Sep 2026 (reviewer round 3, §4 item 2): `installation_type` is retired into `mounting` — one question, how the part is installed, and the survivor holds 934 facts against 5. Two of those 5 were the literal string \"n/a\", which specNormalize now refuses outright."
   ],
   [
    "(^|> )Width$",

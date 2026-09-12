@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "unified-communications",
  "profile_hash": "9721bf85623234d2",
- "built_on_commit": "d69d9b4",
+ "built_on_commit": "70794ec",
  "norm_version": "1.6.2",
  "declared_fields": 155,
  "gap_states": {

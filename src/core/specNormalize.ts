@@ -907,6 +907,26 @@ function inBand(category: string, key: string, v: number): NormResult | null {
 /** Ordered synonym rules per enum field. First matching pattern wins, so put the specific
  *  patterns before the general ones ("SFP+" must beat "SFP", "802.3bt" must beat "802.3at"). */
 const ENUM_RULES: Record<string, [RegExp, string][]> = {
+  // WI-FI GENERATION, 12 Sep 2026. The cup became an enum because 62 of its 188 stored values were
+  // not a generation at all (see fieldSchema); these rules exist for the other 126, which are one
+  // axis written six ways — "Wi-Fi 6" 57, "WiFI6" 35, "Wi-Fi 6E" 13, "WiFi6" 11, "WIFI6" 1,
+  // "WiFi 6" 1. The separator is optional and the case is free, so all six fold to one member.
+  //
+  // ORDER IS NEWEST FIRST, and that is a decision rather than tidiness. "6E" must precede "6" or
+  // every 6E sheet reads as Wi-Fi 6. And an access point's own sheet names every generation it
+  // interoperates with — "802.11ax/ac/n", "Wi-Fi 6 (802.11ax), 802.11ac Wave 2" — so the NEWEST
+  // token in the cell is the product's generation and the older ones are its backward
+  // compatibility. Reading the first match under this order gives that answer.
+  // Anchoring is NOT used: these tokens appear inside a longer cell ("802.11ax (Wi-Fi 6) 4x4 MIMO")
+  // and the generation is what the token says wherever it sits. What cannot be read that way — a
+  // bare "Yes", "NA", "2X2 MIMO" — falls through to the domain and is refused, which is the point.
+  wifi_generation: [
+    [/wi-?fi\s*7|802\.11\s*be/i, "wi-fi 7"],
+    [/wi-?fi\s*6\s*e|802\.11\s*ax.*6\s*ghz|6\s*ghz.*802\.11\s*ax/i, "wi-fi 6e"],
+    [/wi-?fi\s*6|802\.11\s*ax/i, "wi-fi 6"],
+    [/wi-?fi\s*5|802\.11\s*ac/i, "wi-fi 5"],
+    [/wi-?fi\s*4|802\.11\s*n(?![a-z])/i, "wi-fi 4"],
+  ],
   mgmt_class: [[/unmanaged|unverwaltet/i, "unmanaged"], [/smart/i, "smart-managed"], [/managed|verwaltet/i, "managed"]],
   // A distributor states the switching layer as the bare NUMBER — provantage's "Layer Supported"
   // is "3" (81), "2" (33), "3.0" (2) and "4" (4) and nothing else — so 116 correct answers were
@@ -1313,11 +1333,63 @@ export type NormOpts = {
 // data_rate — is never taken away.
 const PID_CHECKED_TYPES = new Set<FieldType>(["n", "nr", "struct"]);
 
+/**
+ * A VALUE THE FIELD CANNOT MEAN — refused per key, for free-text cups that have no band to do it.
+ *
+ * `radio_bands` is the case that earned this (reviewer round 3 §4 item 3, 12 Sep 2026). Its alias
+ * rule `^frequency$` is one label with 175 occurrences in the datasheet inventory, and on a POWER
+ * table that label is the AC mains frequency. Measured: `N55-PAC-1100W`, `NXA-PAC-1100W` and
+ * `NXA-PHV-1100W` — three 1,100 W power supplies — each hold `radio_bands` = "47 to 63 Hz". The
+ * rule is also being scoped away from `switches`, where all three sit, but the scope is a guard
+ * against the culprit and this is a guard against the CONDITION: every category has power tables,
+ * so the same cell would land the same fiction in routers tomorrow.
+ *
+ * BARE HERTZ IS THE DISCRIMINATOR. Every real value in the corpus is in kHz/MHz/GHz/THz ("700MHz",
+ * "1390 MHz - 1525 MHz", "2.4/5 GHz", "850/900/1900/2100 MHz"); no radio band Cisco publishes is
+ * written in bare Hz, and mains frequency always is. The lookarounds are explicit rather than `\b`
+ * because "2.4GHz" has no word boundary between "4" and "G" — the documented trap — and a `\b`
+ * form would read the "Hz" inside "GHz" as bare.
+ */
+const VALUE_REFUSALS: Record<string, { re: RegExp; code: NormReason; why: string }> = {
+  radio_bands: {
+    re: /(?<![A-Za-z])Hz(?![A-Za-z])/i,
+    code: "RANGE_VIOLATION",
+    why: "a frequency in bare Hz is mains power, not a radio band (a radio band is kHz/MHz/GHz/THz)",
+  },
+};
+
+/** The free-text types, where nothing but this guard can refuse a "we do not state this" cell. */
+const PLACEHOLDER_TYPES = new Set<FieldType>(["s", "ls"]);
+/** The WHOLE value is the non-answer. Anchored end to end: "n/a" inside "n/a for DC models" is
+ *  part of a sentence that says something, and only a cell that is nothing but the placeholder is
+ *  nothing. The three dash characters are separate code points (hyphen, en dash, em dash) and all
+ *  three occur in the corpus. */
+const PLACEHOLDER_VALUE = /^(?:n\s*[/.]?\s*a\.?|not\s+applicable|nicht\s+zutreffend|k\.?\s*a\.?|tbd|to\s+be\s+determined|[-–—]+|\?+)$/i;
+
 export function normalizeField(category: string, key: string, raw: string, opts: NormOpts = {}): NormResult {
   const def = FIELD_DICTIONARY[key];
   if (!def) return bad("UNMAPPED_HEADER", `no dictionary entry for "${key}"`);
   const s = preprocessValue(String(raw ?? "").trim(), key);
   if (!s) return bad("PARSE_FAIL", `${key}: empty value`);
+  // A PLACEHOLDER IS NOT A VALUE — 12 Sep 2026, reviewer round 3 §4 item 3.
+  //
+  // A free-text cup accepts whatever the cell held, and a datasheet cell that means "we do not
+  // state this" is not empty: it holds "n/a", a dash, or "TBD". Measured across the live store,
+  // 20 facts said exactly that — `installation_type` "n/a" 2, `min_software_release` "NA" 8,
+  // `module_type` "n/a" 2, `mounting` "-" 3, `power_cord_rating` "–" 1, `radio_bands` "–" 1,
+  // `compatible_platform` "n/a" 1, `sfp_ports` "-" 6 — each one a gap wearing a value's clothes,
+  // which is strictly worse than the gap: completeness counts it as filled.
+  //
+  // SCOPED TO THE FREE-TEXT TYPES, deliberately. A number already refuses a non-number and an enum
+  // already has a domain to decide with; `poe_standard` = "none" is a LEGAL member of its domain
+  // and 464 parts hold it correctly. So the corollary is worth writing down: any field where a
+  // placeholder-shaped token is a real value — `regulatory_domain` "NA" is North America, not "not
+  // applicable" — must be declared as an enum with that token in its domain, and then this guard
+  // never sees it. "Yes" and "No" are NOT placeholders: `fan_hot_swap` = "Yes" is a real answer to
+  // a field that ought to be a boolean, and refusing it would delete an answer to fix a type.
+  if (PLACEHOLDER_TYPES.has(def.type) && PLACEHOLDER_VALUE.test(s)) {
+    return bad("PARSE_FAIL", `${key}: "${s}" is a placeholder, not a value — the source states no answer`);
+  }
   // A value with no letter in it is a NUMBER, whatever an enqueue-time gate makes of it. That gate
   // answers a different question — "could this token, taken from a part-number column, name a
   // part?" — and it deliberately KEEPS the six-to-eight-digit Scientific-Atlanta PIDs (1030033)
@@ -1417,8 +1489,11 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       // no machine domain to compare against, and that a page then has to display.
       return ok(parts);
     }
-    case "s":
+    case "s": {
+      const refusal = VALUE_REFUSALS[key];
+      if (refusal && refusal.re.test(s)) return bad(refusal.code, `${key}: ${refusal.why} — "${s}"`);
       return ok(s);
+    }
     case "struct": {
       // dimensions is mechanical: "1.73 x 17.5 x 19" / "4.4 x 44.5 x 48.3", H x W x D, with the
       // unit in the label. Everything else (port layouts, reach tables) is NOT reliably
