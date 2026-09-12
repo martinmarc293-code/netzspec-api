@@ -301,6 +301,82 @@ for (const f of files) {
   }
 }
 
+// ONE CUP SET PER KIND NAME, ACROSS CATEGORIES (reviewer round 3, §4 item 1; 12 Sep 2026).
+//
+// Fourteen categories were shaped by eight agents working in parallel, and a kind name means the same thing in
+// all of them: a `fan` is a fan whether it cools a switch, a router or a firewall. When the same name owes
+// different cups in different categories, one of them is wrong — and the difference is invisible from inside
+// either category, which is why it needs a test that reads across all of them.
+//
+// WHAT IT FOUND THE DAY IT WAS WRITTEN: `power` owed four cups in switches, routers, storage, security and
+// data-center-networking, three in wireless and optical, two in video, and SEVEN in interfaces-modules, where the
+// extra three were the environmental envelope. The evidence for that envelope turned out to be inherited facts
+// (the machine's rows copied onto its components), so it came off — see the note in fieldSchema.ts.
+//
+// EXCEPTIONS ARE NAMED, NOT ASSUMED. A category may legitimately ask a kind something extra when the product
+// really is different; each such pair is listed here with its reason, so the list can only shrink.
+{
+  const EXCEPTIONS: Record<string, string> = {
+    "cable:optical-networking": "an optical patch cord's length is its whole specification; it fits no one platform",
+    "cable:storage-networking": "the same, for SAN patch cords",
+    "accessory:transceiver": "the 18 here are dust caps and brackets; `product_compatibility` is asked, nothing else is",
+    // THE SAME WORD, A DIFFERENT PRODUCT. Each of these was read before being written down, and each is a case
+    // where the kind NAME is shared but the thing is not — so one cup set would be wrong for one of them. The
+    // four that were real defects (power's airflow and input_voltage, drive's interface, memory's dram/flash
+    // instead of a drive's capacity, the routers antenna set) are fixed in fieldSchema.ts rather than listed here.
+    "switch:switches": "a Catalyst switch is the category's whole product and owes ~30 cups; the `switch` kind elsewhere is a small appliance",
+    "switch:storage-networking": "an MDS fabric switch is bought on Fibre Channel rate and slots, not on Ethernet switching capacity",
+    "switch:meraki": "an MS is sold on PoE budget and its mounting, and its cloud licence carries what a Catalyst datasheet prints",
+    "camera:meraki": "an MV is a storage-carrying sensor (image_sensor, storage_capacity, video_quality_max); a Webex camera is bought on zoom and field of view",
+    "server:unified-communications": "a UC application server is ordered as a bundle; whether it should owe the UCS cups (cpu, drive_bays, memory_speed_max) is an open question in the round-3 reply",
+    "server:conferencing": "the same, for Meeting Server appliances",
+    "chassis:optical-networking": "an optical shelf is bought on its slot count; a UCS chassis on its envelope",
+    "chassis:video": "a cable-plant housing is strand-mounted: no rack units, no form factor",
+    "module:routers": "a router interface module states its ports; a UCS io-module does not",
+    "module:switches": "a switch module adds PoE ports and a PoE standard to the same set",
+    "module:security": "a netmod states ports and its own draw",
+    "linecard:routers": "an ASR line card is bought on per-slot fabric bandwidth; a chassis line card elsewhere on its rate",
+    "linecard:switches": "the same, plus PoE",
+    "fabric:routers": "a fabric card's power draw is stated on the chassis sheet, not the card's",
+    "fabric:switches": "the same",
+    "supervisor:switches": "a Catalyst supervisor IS the control plane: it owes the switching figures the chassis cannot state without it",
+    "appliance:security": "a security appliance is a firewall-class box with sessions and throughput; the wireless `appliance` is a CMX/location server",
+    "appliance:wireless": "the same pair, other side",
+    "gateway:unified-communications": "a voice gateway owes FXS ports, codecs and protocols; the wireless `gateway` is a Fluidmesh radio bridge",
+    "optic:video": "an analog cable-plant optic is bought on wavelength and output power; a pluggable on form factor and rate",
+    "amplifier:video": "an RF amplifier states input level and output; an optical EDFA states gain",
+    "pluggable:transceiver": "the transceiver category IS the optic profile; the pluggables elsewhere are proposals to move here",
+    "pluggable:storage-networking": "the same, other side",
+    "memory:interfaces-modules": "an SD/USB/CF card answers `flash` as well as `dram`; the memory kind elsewhere is DIMMs only",
+  };
+  const sets = new Map<string, { cat: string; req: string }[]>();
+  for (const f of files) {
+    const led = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")) as Ledger & { kinds: Record<string, LedgerKind & { parts: number }> };
+    for (const [kind, v] of Object.entries(led.kinds)) {
+      if (!v.parts || NOT_HARDWARE_KINDS.has(kind)) continue;
+      const req = [...v.required.map((r) => r.key), ...v.pending_until_gate_answered.map((p) => p.key)].sort().join(",");
+      sets.set(kind, [...(sets.get(kind) ?? []), { cat: led.category, req }]);
+    }
+  }
+  for (const [kind, list] of sets) {
+    if (list.length < 2) continue;
+    const distinct = new Map<string, string[]>();
+    for (const l of list) distinct.set(l.req, [...(distinct.get(l.req) ?? []), l.cat]);
+    if (distinct.size === 1) { passed++; continue; }
+    // The majority set is the contract; anything else must be a named exception.
+    const majority = [...distinct].sort((a, b) => b[1].length - a[1].length)[0][0];
+    const rebels = list.filter((l) => l.req !== majority && !EXCEPTIONS[`${kind}:${l.cat}`]);
+    if (rebels.length === 0) { passed++; continue; }
+    failed++;
+    for (const r of rebels) {
+      const extra = r.req.split(",").filter((k) => !majority.split(",").includes(k));
+      const missing = majority.split(",").filter((k) => !r.req.split(",").includes(k));
+      lines.push(`    MISS kind "${kind}" owes a different set in ${r.cat} than in the other ${distinct.get(majority)!.length}` +
+        `${extra.length ? ` — extra: ${extra.join(", ")}` : ""}${missing.length ? ` — missing: ${missing.join(", ")}` : ""}`);
+    }
+  }
+}
+
 lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 7 sabotage cases)`);
 console.log(lines.join("\n"));
 if (failed) process.exit(1);

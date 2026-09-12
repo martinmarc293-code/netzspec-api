@@ -54,7 +54,7 @@ import { OPN_SHELF, OPN_PLUGGABLE, OPN_FIXED_WAVELENGTH, OPN_POWERED, OPN_WAVELE
 import { SAN_BOX, SAN_MODULE, SAN_FITS } from "./sanKind.js";
 // end optical-storage
 // modules-misc (12 Sep 2026)
-import { MOD_COMPONENT, MOD_PORTED, MOD_SLOTTED, MOD_PHYSICAL } from "./moduleKind.js";
+import { MOD_COMPONENT, MOD_PORTED, MOD_SLOTTED } from "./moduleKind.js";
 import { MK_BOX, MK_PORTED, MK_POWERED } from "./merakiKind.js";
 
 export type Requirement =
@@ -1095,7 +1095,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // equaliser value) have no cup yet and no label: that is in the report as an open question, not invented here.
     product_compatibility: cond({ field: "kind", inList: ["line-card", "plug-in", "fan", "cable", "accessory", "power"] }),
     cable_length: cond({ field: "kind", inList: ["cable"] }),
-    module_slots: opt, rack_units: opt, psu_rated_output: opt,
+    module_slots: opt, rack_units: opt,
+    // 12 Sep 2026: a video power supply owes what it delivers, like every other category power kind.
+    psu_rated_output: cond({ field: "kind", inList: ["power"] satisfies VideoKind[] }),
+    airflow: cond({ field: "kind", inList: ["power", "fan"] satisfies VideoKind[] }),
     temp_storage: opt, frequency_response: opt, test_point_level: opt, internal_tilt: opt, channel_spacing: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     aes_audio_encryption: opt, bluetooth_profiles: opt, bluetooth_version: opt, camera_aperture: opt, camera_focus_distance: opt, camera_pan_tilt_range: opt, camera_zoom: opt, color: opt, color_options: opt, country_of_origin: opt, mic_frequency_response: opt, mic_pickup_range: opt, mic_type: opt, packaging_dimensions: opt, phantom_power: opt, product_line: opt, rear_panel_ports: opt, series_release_date: opt, speaker_frequency_response: opt, speaker_impedance: opt, speaker_size: opt, supported_pc_resolutions: opt, video_interfaces: opt,
@@ -1664,6 +1667,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
       { field: "kind", inList: ["drive", ...SEC_STORE_KIND] },
       { all: [{ field: "kind", inList: ["appliance"] }, { field: "series", inList: [...SEC_EMAIL, ...SEC_WEB, ...SEC_MGMT, ...SEC_ANALYTICS] }] },
     ] }),
+    // 12 Sep 2026, the cross-category test: servers and hyperconverged ask a drive its INTERFACE beside its
+    // capacity, and a firewall's spare SSD is bought the same way. The same cup, the same meaning, everywhere.
+    drive_interface: cond({ field: "kind", inList: ["drive"] }),
 
     // --- WHAT A COMPONENT IS BOUGHT ON (12 Sep 2026, reviewer §4b) --------------------------------
     // WHAT IT FITS is the first question asked of a power supply, a fan, a blade or a rail kit, and
@@ -1789,6 +1795,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // --- power: what a supply or injector DELIVERS (a PSU's wattage is not its draw — switches precedent) ---
     psu_rated_output: cond({ field: "kind", inList: ["power", "power-injector"] }),
     input_voltage: cond({ field: "kind", inList: ["power"] }),
+    // 12 Sep 2026, the cross-category power contract (reviewer round 3, item 1): the same supply ships with the
+    // air going either way, so the direction is part of what is ordered — asked of `power` in every category.
+    airflow: cond({ field: "kind", inList: ["power"] }),
     // --- cables ---------------------------------------------------------------------------------------
     cable_length: cond({ field: "kind", inList: ["cable"] }),
     // --- the physical envelope of every box ----------------------------------------------------------
@@ -1886,6 +1895,16 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     fabric_bandwidth: cond({ field: "kind", inList: ["linecard", "fabric"] }),
     product_compatibility: cond({ field: "kind", inList: [...RT_COMPONENT] }),
     storage_capacity: cond({ field: "kind", inList: ["drive"] }),
+    // 12 Sep 2026, the cross-category test: a drive is bought on capacity AND interface everywhere else
+    // (servers, hyperconverged, security); routers asked only capacity. An LTE/SSD module's interface is the
+    // thing that decides whether it fits.
+    drive_interface: cond({ field: "kind", inList: ["drive"] }),
+    memory_speed_max: cond({ field: "kind", inList: ["memory"] }),
+    // An antenna is bought on gain, band and connector — the wireless set, which routers' 91 antennas were not
+    // asked (reviewer round 3 §2.4 and the audit's §3.1). Same three cups, same category-independent meaning.
+    antenna_gain: cond({ field: "kind", inList: ["antenna"] }),
+    antenna_connector: cond({ field: "kind", inList: ["antenna"] }),
+    radio_bands: cond({ field: "kind", inList: ["antenna"] }),
     cable_length: cond({ field: "kind", inList: [...RT_CABLE] }),
     plug_type: opt,
     // STRUCTURE 8 Sep 2026: 3 field(s) its documents already produce and no profile declared — invisible to completeness until now
@@ -2000,7 +2019,11 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // --- components -------------------------------------------------------------------------------------------
     psu_rated_output: cond({ field: "kind", inList: ["power"] }),
     input_voltage: cond({ field: "kind", inList: ["power"] }),
-    airflow: cond({ field: "kind", inList: ["fan"] }),
+    // 12 Sep 2026, cross-category rule (reviewer round 3 item 1): a POWER SUPPLY owes the same four cups in
+    // every category — what it delivers, what it takes, which way it blows, and what it fits. `airflow` was missing
+    // here and in three other categories, which is the shape the new ledger test exists to catch: the same kind name
+    // owing a different set because eight agents wrote eight profiles in parallel.
+    airflow: cond({ field: "kind", inList: ["fan", "power"] }),
     cable_length: cond({ field: "kind", inList: ["cable"] }),
     product_compatibility: cond({ field: "kind", inList: [...OPN_FITS] }),
     mtbf: opt, altitude_max: opt, temp_storage: opt, humidity_storage: opt,
@@ -2068,12 +2091,23 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // workload and draws its own too. A PSU DELIVERS rather than draws — psu_rated_output below,
     // the same split switches made on 11 Sep 2026.
     power_max: cond({ field: "kind", inList: ["interface", "service", "device"] }),
-    // The envelope, asked only of the kinds that have one (MOD_PHYSICAL).
-    dimensions: cond({ field: "kind", inList: [...MOD_PHYSICAL] }),
-    weight: cond({ field: "kind", inList: [...MOD_PHYSICAL] }),
-    temp_operating: cond({ field: "kind", inList: [...MOD_PHYSICAL] }),
-    humidity_operating: cond({ field: "kind", inList: [...MOD_PHYSICAL] }),
-    certifications: cond({ field: "kind", inList: [...MOD_PHYSICAL] }),
+    // THE ENVELOPE BELONGS TO THE BOX (12 Sep 2026, after the reviewer's round 3 asked why this category alone
+    // required it of components). The block that stood here asked certifications, dimensions, temperature,
+    // humidity and weight of interface, voice, cellular, radio, service, power and fan, on measured evidence —
+    // "certifications interface 55 / power 34 · temp_operating power 41 · humidity_operating power 50". Every one
+    // of those numbers is an INHERITED fact. Counting own facts only: interface certifications 3 of 55, power
+    // humidity 0 of 50, power temperature 0 of 41, power certifications 0 of 34, cellular certifications 0 of 17.
+    // The group-inheritance writer had copied each machine's environmental rows onto its components, and the
+    // profile was then built on the copies as though a NIM published a humidity range. Catalogue-wide the same
+    // holds: across 18,246 component-kind parts in fourteen categories, 134 (0.7 %) hold an own weight fact and
+    // the other four cups are rarer still — which is also why the reviewer's "every component owes weight" is not
+    // adopted. So the envelope is asked of `device` only, the one kind here that IS a whole box, and the eight
+    // other categories that never asked it were right.
+    dimensions: cond({ field: "kind", inList: ["device"] }),
+    temp_operating: cond({ field: "kind", inList: ["device"] }),
+    humidity_operating: cond({ field: "kind", inList: ["device"] }),
+    certifications: cond({ field: "kind", inList: ["device"] }),
+    weight: opt,
     // A cellular module is bought on its bands: "Bands supported" (33) and "Bands" (23) = 56
     // occurrences, 14 parts hold one. `radio_bands` is NOT this cup — its 51 facts here all sit on
     // cellular ROUTER bundles that the report proposes moving to `routers`, and its dominant label
@@ -2089,17 +2123,30 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // 1100W AC Power Supply") — a description_mining derivation, which is the third form of
     // evidence the fillability rule accepts.
     psu_rated_output: cond({ field: "kind", inList: ["power"] }),
-    input_voltage: opt, psu_options: opt, mounting: opt,
+    // 12 Sep 2026: `input_voltage` was optional here while seven other categories require it of a power supply —
+    // the cross-category contract (psu_rated_output, input_voltage, airflow, product_compatibility).
+    input_voltage: cond({ field: "kind", inList: ["power"] }),
+    psu_options: opt, mounting: opt,
     // Airflow direction is how a FAN is sold ("Airflow" 119 / "Air flow" 16 / "Air Flow" 2 = 137
     // occurrences). Deliberately NOT asked of `power`: the 77 here are branch-router bricks and
     // PoE injectors with no airflow spec, unlike a data-centre supply.
-    airflow: cond({ field: "kind", inList: ["fan"] }),
+    // 12 Sep 2026, cross-category rule (reviewer round 3 item 1): a POWER SUPPLY owes the same four cups in
+    // every category — what it delivers, what it takes, which way it blows, and what it fits. `airflow` was missing
+    // here and in three other categories, which is the shape the new ledger test exists to catch: the same kind name
+    // owing a different set because eight agents wrote eight profiles in parallel.
+    airflow: cond({ field: "kind", inList: ["fan", "power"] }),
     // A cable is bought by its length; "Length" (58) + "Cord length" (3) = 61 occurrences, 3 facts.
     cable_length: cond({ field: "kind", inList: ["cable"] }),
     // A memory or storage card is bought on capacity: 418 label occurrences, and the value is in
     // the SKU of 9 of the 11 (SD-X45-2GB-E, USB-X45-4GB-E, MEM-2951-512U2.5GB).
-    storage_capacity: cond({ field: "kind", inList: ["memory"] }),
-    dram: opt, flash: opt, voice_lines: opt, fxs_ports: opt, fxo_ports: opt,
+    // 12 Sep 2026 (reviewer round 3 §3.1, and the new cross-category test): the cup was
+    // `storage_capacity`, which is a DRIVE's, while routers and servers ask a memory kind for `dram` and a flash
+    // card for `flash`. The same eleven parts, the right cup: DRAM modules answer `dram`, SD/USB/CF cards answer
+    // `flash`. storage_capacity stays declared for the drive kinds this category does not have.
+    dram: cond({ field: "kind", inList: ["memory"] }),
+    flash: cond({ field: "kind", inList: ["memory"] }),
+    memory_speed_max: cond({ field: "kind", inList: ["memory"] }),
+    storage_capacity: opt, voice_lines: opt, fxs_ports: opt, fxo_ports: opt,
     // The optical questions this profile can express, asked of the 94 transceivers filed here so
     // that their MOVE to `transceiver` (where opticKind asks the full set) is visible rather than
     // silent: 14 hold a data_rate, 6 a wavelength, 1 a connector.

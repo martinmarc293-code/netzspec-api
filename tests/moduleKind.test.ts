@@ -253,7 +253,7 @@ const ask = (sku: string) =>
      psu.missing.includes("psu_rated_output") && !psu.missing.includes("power_max"), true);
   eq("and it is asked no port count", psu.missing.includes("ports"), false);
   const sd = ask("SD-X45-2GB-E=");
-  eq("an SD card is asked its capacity and what it fits", [...sd.missing].sort().join(","), "product_compatibility,storage_capacity");
+  eq("an SD card is asked its capacity (dram/flash, not a drive’s storage_capacity — 12 Sep) and what it fits", [...sd.missing].sort().join(","), "dram,flash,memory_speed_max,product_compatibility");
   eq("and no operating temperature, no jumbo MTU", sd.missing.includes("temp_operating") || sd.missing.includes("jumbo_mtu"), false);
   const cell = ask("EHWIC-4G-LTE-A=");
   eq("a cellular module is asked its bands", cell.missing.includes("cellular_bands"), true);

@@ -178,7 +178,8 @@ check("and the collapse is severe enough to be worth a guard",
     // modules-misc (12 Sep 2026): the same, for the same reason.
     "data-center-networking": ["cable_length", "product_compatibility"],
     // video (12 Sep 2026): a fan, a cable, a plug-in, a line card and an accessory owe what they FIT (and a cable its length).
-    video: ["cable_length", "product_compatibility"],
+    // 12 Sep: the cross-category power/fan contract gives a video fan its airflow too.
+    video: ["cable_length", "product_compatibility", "airflow", "psu_rated_output", "input_voltage"],
     "interfaces-modules": ["product_compatibility"],
     meraki: ["product_compatibility"],
   };
