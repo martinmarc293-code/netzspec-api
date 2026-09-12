@@ -125,13 +125,19 @@ for (const [key, ok] of DEFS) {
   if (d && ok(d)) pass++;
   else misses.push(`dictionary ${key}: ${JSON.stringify(d)} fails its declared shape`);
 }
-// eol_announcement_date is OUT of the dictionary (reviewer round 3 §4 item 2). Asserted as an
-// absence, because the file it was removed from is generated and a regeneration would restore it.
-if (!FIELD_DICTIONARY.eol_announcement_date) pass++;
-else misses.push("eol_announcement_date is back in the dictionary — a lifecycle date is not a specification");
+// THE TWO LIFECYCLE KEYS ARE OUT of the dictionary (reviewer round 3 §4 item 2, round 4 §6 term 9).
+// Asserted as an ABSENCE, because both were removed from a GENERATED file and a regeneration would
+// restore them. Both, not one: `eol_announcement_date` went out in the morning and
+// `end_of_support_date` survived, because that pass retired the key the reviewer named instead of
+// sweeping the dictionary for the class it belongs to. A rule applied to an instance is not a rule.
+const LIFECYCLE_GONE = ["eol_announcement_date", "end_of_support_date"];
+for (const key of LIFECYCLE_GONE) {
+  if (!FIELD_DICTIONARY[key]) pass++;
+  else misses.push(`${key} is back in the dictionary — a lifecycle date is Cisco's sales calendar, not a property of the part`);
+}
 
-const TOTAL = CASES.length + DEFS.length + 1;
-console.log(`    value refusals: ${pass}/${TOTAL} passed (${CASES.filter((c) => /^[A-Z_]+$/.test(String(c[3]))).length} refusal cases, ${DEFS.length + 1} definition assertions)`);
+const TOTAL = CASES.length + DEFS.length + LIFECYCLE_GONE.length;
+console.log(`    value refusals: ${pass}/${TOTAL} passed (${CASES.filter((c) => /^[A-Z_]+$/.test(String(c[3]))).length} refusal cases, ${DEFS.length + LIFECYCLE_GONE.length} definition assertions)`);
 if (misses.length) {
   for (const m of misses) console.log("  MISS  " + m);
   process.exit(1);

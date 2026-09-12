@@ -177,8 +177,17 @@ export const GENERATED_FIELDS: Record<string, FieldDef> = {
   wind_rating: { key: "wind_rating", de: "Windlast (Überlebensgrenze)", en: "Wind rating (survival)", type: "s", unit: "km/h", etim: [], icecat: null },
   // wireless — Headline URWB mobility spec; differs between radio models.
   max_roaming_speed: { key: "max_roaming_speed", de: "Max. Fahrzeuggeschwindigkeit beim Roaming", en: "Max roaming vehicle speed", type: "s", unit: "km/h", etim: [], icecat: null },
-  // wireless, servers-unified-computing, video, collaboration-endpoints — Lifecycle date. Strictly per part number - two SKUs listed together routinely have different EoS dat
-  end_of_support_date: { key: "end_of_support_date", de: "Ende des Supports", en: "End-of-support date", type: "s", etim: [], icecat: null },
+  // REMOVED 12 Sep 2026, with `eol_announcement_date` and for the same reason (reviewer round 3 §4
+  // item 2, round 4 §6 term 9): an end-of-support date is Cisco's lifecycle calendar, not a property
+  // of the part. It held 0 facts.
+  //
+  // AND IT WAS MISSED THE FIRST TIME. `eol_announcement_date` went out this morning and this sibling
+  // stayed, because the retirement was driven by the one key the reviewer happened to name rather
+  // than by a sweep — so the rule was applied to an instance instead of to the class. Found by
+  // sweeping the WHOLE dictionary for labels about availability, ordering, price or the sales
+  // calendar, which is what should have been done the first time. Its label now maps to
+  // __not_a_spec, so the next dictionary sweep does not re-propose it. A regeneration must NOT
+  // put it back — tests/specNormalize.refusals asserts both keys are absent.
   // wireless — Virtual controller sizing. Kept as string because values carry qualifiers ('4 - low throughput 7 - h
   vcpu_count: { key: "vcpu_count", de: "Benötigte vCPUs", en: "vCPUs required", type: "s", etim: [], icecat: null },
   // wireless — Controller scale limit, one value per model column.
@@ -1147,7 +1156,6 @@ export const GENERATED_PROFILES: Record<string, Record<string, Requirement>> = {
     emc_immunity: { kind: "opt" },
     enclosure_material: { kind: "opt" },
     encryption: { kind: "opt" },
-    end_of_support_date: { kind: "opt" },
     ethernet_switch: { kind: "opt" },
     etsi_standards: { kind: "opt" },
     expansion_io: { kind: "opt" },

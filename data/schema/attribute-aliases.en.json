@@ -5488,8 +5488,8 @@
   ],
   [
    "^end-of-support date$",
-   "end_of_support_date",
-   "wireless: New field. Values are clean dates (30-NOV-2029) - lifecycle data, per PID."
+   "__not_a_spec",
+   "wireless: Values are clean dates (30-NOV-2029) - lifecycle data, per PID. SENT TO __not_a_spec 12 Sep 2026 and `end_of_support_date` is out of the dictionary, with `eol_announcement_date` and for the same reason: a support-end date is Cisco's lifecycle calendar, not a property of the part. It held 0 facts. This one was MISSED in the morning's retirement because that pass took the one key the reviewer named instead of sweeping the dictionary for the class — the sweep that found it is in docs/reports/schema-terms-9-10-2026-09-12.md."
   ],
   [
    "^vcpus? required",
