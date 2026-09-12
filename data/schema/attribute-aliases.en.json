@@ -6609,6 +6609,24 @@
    "events per second",
    "events_per_second",
    "security 8 Sep 2026: 'Sustained Firewall Events per Second (eps)', 9 occurrences. Unanchored because the label carries a product word in front of it and the '(eps)' suffix behind; 'events per second' is unambiguous on its own — no other inventory label contains the phrase."
+  ],
+  [
+   "^rack[- ]?mounting$",
+   "mounting",
+   "modules-misc 12 Sep 2026: 19 occurrences ('Rack-mounting' 12, 'Rack mounting' 7), values '19- or 23-in. (483- or 584-mm) EIA rack-mounting' and '19-in. default 21- and 23-in. adapters available'. `mounting` is required of every meraki box and is type 's', so the prose value is accepted as it stands. SCOPED: outside these three categories the same label sits over a rack-unit figure on server sheets, and 'Rack mountable' (8 occurrences, values 'Yes...') already maps to mounting through a different rule. ANCHORED AT BOTH ENDS on purpose — 'Rack-mounting brackets' (13) carries the bracket PIDs (N540-RCKMT-19-ACA), which are a compat relation and not this field; it is mapped to __compat below.",
+   { "only": ["interfaces-modules", "meraki", "data-center-networking"] }
+  ],
+  [
+   "^rack[- ]?mount(ing)? brackets$",
+   "__compat",
+   "modules-misc 12 Sep 2026: 13 occurrences, and the values are PART NUMBERS of the kits that fit ('N540-RCKMT-19-ACA N540-RCKMT-23-ACA', 'Accessory kit with 19 inch Type 1 rack mount'). That is a compatibility RELATION (R3), not a spec field. Named rather than left unmapped so the next generic mounting rule cannot file a list of PIDs as this box's mounting method — the same defect as 'Network module' yielding a module list into module_slots.",
+   { "only": ["interfaces-modules", "meraki", "data-center-networking"] }
+  ],
+  [
+   "^cisco smart serial cabling \\[length\\]$",
+   "cable_length",
+   "modules-misc 12 Sep 2026: 10 occurrences, value '10 ft (3 m)'. `cable_length` is required of the 97 `cable`-kind parts in interfaces-modules and only 3 hold a value. The sibling columns of the same table ('[Cable type]' -> V.35 DTE, '[Connector type]' -> Male) are deliberately NOT mapped: one is a media type this profile does not require and the other has no cup. SCOPED to interfaces-modules, where the smart-serial cables live.",
+   { "only": ["interfaces-modules"] }
   ]
  ]
 }

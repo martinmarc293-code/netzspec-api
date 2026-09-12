@@ -198,5 +198,104 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
 }
 
 lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 2 sabotage cases)`);
+// --- modules-misc (12 Sep 2026) ----------------------------------------------------------------
+// SABOTAGE ON THE THREE NEW AXES. The block above drives `drift` through the transceiver profile
+// only, so a change to moduleKind's or merakiKind's cup lists could not have made it fail. Each
+// case below is the actual defect its kind split exists to prevent.
+{
+  const q = kindQuestionSet("interfaces-modules", "power");
+  const good: LedgerKind = { required: q.required.map((key) => ({ key })), pending_until_gate_answered: q.pending,
+    not_applicable_by_kind: q.not_applicable_by_kind, optional: q.optional };
+  check("control: interfaces-modules/power shows no drift", drift("power", good, q).length === 0, drift("power", good, q).join("; "));
+  const lost = { ...good, required: good.required.filter((r) => r.key !== "psu_rated_output") };
+  check("SABOTAGE a ledger that stops counting a PSU's rated output is caught",
+    drift("power", lost, q).some((m) => m.includes("psu_rated_output") && m.includes("does not count")));
+  // A PSU asked what it DRAWS instead of what it delivers is the split switches made on 11 Sep 2026.
+  const wrong = { ...good, required: [...good.required, { key: "power_max" }] };
+  check("SABOTAGE a ledger asking a PSU for power_max is caught",
+    drift("power", wrong, q).some((m) => m.includes("power_max") && m.includes("no longer asks")));
+}
+{
+  // A CABLE ASKED A PORT COUNT — the defect the whole axis exists for. `cable` must be asked its
+  // length and what it fits, and nothing else.
+  const q = kindQuestionSet("interfaces-modules", "cable");
+  const good: LedgerKind = { required: q.required.map((key) => ({ key })), pending_until_gate_answered: q.pending,
+    not_applicable_by_kind: q.not_applicable_by_kind, optional: q.optional };
+  check("interfaces-modules/cable is asked exactly cable_length and product_compatibility",
+    [...q.required].sort().join(",") === "cable_length,product_compatibility", q.required.join(","));
+  const wrong = { ...good, required: [...good.required, { key: "ports" }, { key: "temp_operating" }] };
+  const d = drift("cable", wrong, q);
+  check("SABOTAGE a ledger asking a cable for ports and an operating temperature is caught",
+    d.some((m) => m.includes("ports")) && d.some((m) => m.includes("temp_operating")));
+}
+{
+  // An MT sensor asked a PoE standard and a port count was the meraki defect. It runs on batteries.
+  const q = kindQuestionSet("meraki", "sensor");
+  check("meraki/sensor is asked a battery life", q.required.includes("battery_life"), q.required.join(","));
+  check("meraki/sensor is asked no ports, no PoE, no power draw",
+    !["ports", "poe_standard", "power_max"].some((k) => q.required.includes(k) || q.pending.some((p) => p.key === k)),
+    q.required.join(","));
+  const good: LedgerKind = { required: q.required.map((key) => ({ key })), pending_until_gate_answered: q.pending,
+    not_applicable_by_kind: q.not_applicable_by_kind, optional: q.optional };
+  const wrong = { ...good, required: [...good.required, { key: "poe_standard" }] };
+  check("SABOTAGE a ledger asking a sensor for a PoE standard is caught",
+    drift("sensor", wrong, q).some((m) => m.includes("poe_standard") && m.includes("no longer asks")));
+}
+// NO KIND THAT HOLDS PARTS MAY BE ASKED NOTHING. A part with required_total = 0 scores as complete,
+// so a kind list that closes every question of a real population reports it as finished — the
+// failure direction that is invisible in a coverage number. Read from the committed ledgers, which
+// carry the part counts, so this is a statement about the live corpus and not about the profile.
+//
+// A RATCHET, NOT A PASS. The check found one on the day it was written and it is NOT mine to fix:
+// `transceiver`/`accessory` holds 18 parts — CVR-BRKT-1 "Mounting bracket for one CVR-4SFP10G-QSFP",
+// CVR-TRAY-8, CWDM-MUX-4-SF1 — and is asked nothing at all, so all 18 report as complete. The cup
+// they are missing is `product_compatibility`, which is what a bracket is bought for and which
+// `interfaces-modules`/`accessory` does ask. It is one line in someone else's finished profile, so
+// it is recorded here and in docs/reports/schema-modules-misc-2026-09-12.md rather than changed.
+// The entry can only be removed, never added to without a reason: a new one fails the suite.
+// Each entry is a kind that is asked NOTHING while holding parts, recorded so the suite is honest about the
+// difference between clean and known-dirty. It can only shrink: fix one and the check fails until the entry goes.
+// 12 Sep 2026 — the wireless component kinds were here too; they now require product_compatibility (reviewer
+// §2.3) and the entries are gone. What remains is where asking nothing is the RIGHT answer: a bundle is a
+// relation to its members (R3), software and a licence are not hardware, and `other` is the fallback that must
+// ask less — its 1,192 wireless parts are the residue a reclassify run moves out of hardware altogether.
+const ASKED_NOTHING_TODAY = new Set(["cisco-transceiver.json:accessory"]);
+
+/**
+ * Kinds that are SUPPOSED to ask nothing, by rule rather than by a list that grows.
+ *
+ * Two different things were failing this census together. A component kind asking nothing is a defect — a mount,
+ * a plug-in card or a cable that owes no cup scores complete while nobody has ever read its datasheet, and that
+ * is what the check is for (it found the wireless, video and collaboration components on 12 Sep 2026). But a
+ * kind that names something which is NOT A PIECE OF HARDWARE has no physical cup to owe: software and an
+ * OS licence are not hardware, a bundle is a relation to its members (R3), a non-product is a datasheet cell
+ * enumerated as a part, and the two FALLBACK kinds must by design ask LESS than any named kind.
+ *
+ * The fallbacks are not let off the hook, they are checked by a different instrument: the own-fact census
+ * (docs/reports/cross-category-check-2026-09-12.md) asks whether any part in them holds three or more facts of
+ * its own, which is the only detector for a real product swallowed by a fallback. Counting them here would make
+ * this check red for ~6,000 parts that a reclassify run removes from hardware altogether.
+ */
+const NOT_HARDWARE_KINDS = new Set(["software", "os-license", "license", "licence", "non-product", "non_product",
+  "bundle", "non-hardware", "unknown", "other"]);
+for (const f of files) {
+  const led = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")) as Ledger & {
+    kinds: Record<string, LedgerKind & { parts: number; slots_per_part_at_nothing_known: number }> };
+  for (const [kind, v] of Object.entries(led.kinds)) {
+    if (!v.parts) continue;   // a kind with no part today is allowed an empty set; the drift check still pins it
+    if (NOT_HARDWARE_KINDS.has(kind)) continue;   // no physical cup to owe; see the note above
+    const known = ASKED_NOTHING_TODAY.has(`${f}:${kind}`);
+    const asked = v.slots_per_part_at_nothing_known > 0;
+    if (known) {
+      check(`${f}: ${kind} is the RECORDED asked-nothing case (${v.parts} parts) — fix it and remove the entry`,
+        !asked, "it is asked something now: delete it from ASKED_NOTHING_TODAY");
+    } else {
+      check(`${f}: ${kind} holds ${v.parts} parts and is asked something`, asked,
+        "required_total 0 makes every one of them score as complete");
+    }
+  }
+}
+
+lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 7 sabotage cases)`);
 console.log(lines.join("\n"));
 if (failed) process.exit(1);

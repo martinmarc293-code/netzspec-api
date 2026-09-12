@@ -126,7 +126,7 @@ check("and the collapse is severe enough to be worth a guard",
     "routers": "CAB-9K16A-AUS", "wireless": "AIR-PWR-CORD-SW", "video": "P2HD-FAN-ASSY=",
     "unified-communications": "CAB-9K16A-AUS", "collaboration-endpoints": "CP-3905-PWR-NA=",
     "optical-networking": "CAB-9K16A-AUS", "hyperconverged-systems": "CAB-9K16A-AUS",
-    "interfaces-modules": "SB-PWR-48V-EU", "storage-networking": "CAB-9K16A-AUS",
+    "storage-networking": "CAB-9K16A-AUS",
     "hyperconverged-infrastructure": "CAB-9K16A-AUS", "meraki": "CAB-9K16A-AUS",
     "switches": "CAB-9K16A-AUS", "servers-unified-computing": "CAB-C13-C14-AC=",
     // "Mounting bracket for one CVR-4SFP10G-QSFP" — until 11 Sep 2026 asked DDM, a fibre type and a power draw
@@ -139,13 +139,24 @@ check("and the collapse is severe enough to be worth a guard",
     // firewall_throughput / threat_throughput / concurrent_sessions, because its series is "4100
     // Firepower". It is the part that motivated the whole axis.
     "security": "FPR3K-PSU-BLANK",
+    // --- modules-misc (12 Sep 2026) -------------------------------------------------------------
+    // The probe was SB-PWR-48V-EU, a Small Business PoE injector. Since `interfaces-modules` gates
+    // on moduleKind that SKU is kind=power and IS asked seven questions of its own (its envelope,
+    // what it fits, and what it delivers) — 41 of the 77 power parts hold temp_operating, 50
+    // humidity_operating, 34 certifications. Allow-listing all seven would make this guard unable
+    // to see a leak among exactly the keys most likely to leak, so the probe moved to a part that
+    // is asked ONE thing: a blank faceplate for a 12008 chassis. tests/moduleKind.test.ts asserts
+    // the power case separately, key by key.
+    "interfaces-modules": "4OC3X/ATM-BLANK",
+    "data-center-networking": "CAB-9K16A-AUS",
   };
   // SWITCHES ASKS A COMPONENT ITS OWN QUESTIONS since 11 Sep 2026 (reviewer §1.1/§1.7): a cable its
   // length and what it fits. So the guard there is the leak it was written for — NO DEVICE QUESTION
   // reaches a component — asserted against an explicit allow-list of what a cable may be asked.
   const COMPONENT_OWN: Record<string, string[]> = { switches: ["cable_length", "product_compatibility"],
     // wireless (12 Sep 2026): the Swiss power cord is kind `cable` on wirelessKind's axis and is asked its length only
-    wireless: ["cable_length"],
+    // 12 Sep 2026: product_compatibility joined the wireless component set (reviewer 2.3), so a cord owes it too.
+    wireless: ["cable_length", "product_compatibility"],
     // servers (12 Sep 2026): a UCS component (the probe is a cable, kind accessory) is asked what it fits.
     "servers-unified-computing": ["product_compatibility"], "hyperconverged-systems": ["product_compatibility"],
     "hyperconverged-infrastructure": ["product_compatibility"],
@@ -164,6 +175,12 @@ check("and the collapse is severe enough to be worth a guard",
     // union, so a DEVICE question leaking onto a component still fails.
     security: ["product_compatibility", "psu_rated_output", "input_voltage", "airflow",
                "storage_capacity", "cable_length", "ports", "power_max"],
+    // modules-misc (12 Sep 2026): the same, for the same reason.
+    "data-center-networking": ["cable_length", "product_compatibility"],
+    // video (12 Sep 2026): a fan, a cable, a plug-in, a line card and an accessory owe what they FIT (and a cable its length).
+    video: ["cable_length", "product_compatibility"],
+    "interfaces-modules": ["product_compatibility"],
+    meraki: ["product_compatibility"],
   };
   for (const cat of declared) {
     const sku = COMPONENT_PROBE[cat];

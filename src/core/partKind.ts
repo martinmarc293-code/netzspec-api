@@ -34,6 +34,9 @@ import { sanKind } from "./sanKind.js";
 // end optical-storage
 // security (12 Sep 2026)
 import { securityKind } from "./securityKind.js";
+// modules-misc (12 Sep 2026)
+import { moduleKind } from "./moduleKind.js";
+import { merakiKind } from "./merakiKind.js";
 
 /**
  * Categories whose profile gates requirements on a derived `kind`. Checked against PROFILES by
@@ -58,6 +61,9 @@ export const KIND_CATEGORIES: readonly string[] = [
   // collab (12 Sep 2026)
   "conferencing",
   // end collab
+  // modules-misc (12 Sep 2026): data-center-networking joins the list because its profile now
+  // gates on a kind. It does NOT get an axis of its own — see the dispatch below.
+  "data-center-networking",
 ];
 
 /**
@@ -101,6 +107,25 @@ export function partKind(categorySlug: string, sku: string): string | undefined 
   // to matter, plus the two blade kinds that carry a firewall's own throughput figures — neither is
   // anything componentKind knows about (12 Sep 2026, reviewer §4a).
   if (categorySlug === "security") return securityKind(sku);
+  // --- modules-misc (12 Sep 2026) --------------------------------------------------------------
+  // interfaces-modules names the COMPONENT KINDS and defaults to `module`, the mirror image of
+  // switchKind: here everything in the category plugs into something else, so the default is a
+  // component and the nameable populations are the specific kinds. See moduleKind.ts.
+  if (categorySlug === "interfaces-modules") return moduleKind(sku);
+  // meraki names the PRODUCT LINE off the two-character SKU code, which is clean and total —
+  // MS switch, MR/CW access point, MX/Z appliance, MV camera, MT sensor, MG gateway. See merakiKind.ts.
+  if (categorySlug === "meraki") return merakiKind(sku);
+  // data-center-networking REUSES switchKind rather than getting an axis of its own. Its 33 Cisco
+  // hardware parts are 20 Nexus Hyperfabric switches plus their supplies, fans and rack kits, and
+  // every one of switchKind's markers lands correctly on them — checked part by part, all 33:
+  // C9K-PWR-1500WAC/DC and PSU3KW-HVPI and PSU1.4KW-ACPE/ACPI -> power, C9500X-FAN-1U-F/R and
+  // FAN-PI-V4 -> fan, 8K-2RU-KIT-SB / HF-ACC-RM2-4P19L / N9K-ACC-KIT-1RU-L/S / PWR-C6-BLANK ->
+  // accessory, the HF6100-* -> switch. The investigation pass asked for one check in particular:
+  // `PSU1.4KW` has no hyphen, so does the power rule reach it? It does, but NOT through the
+  // `\d(\.\d)?KW` kilowatt alternative — it matches `(?:^|-)PSU(?:-|=|\d|$)`, because the `1` of
+  // "1.4KW" is the digit that alternative allows after the token. Recorded because the mechanism
+  // that actually fires is the one a future edit can break.
+  if (categorySlug === "data-center-networking") return switchKind(sku);
   // The shared axis. Deliberately driven off KIND_CATEGORIES rather than a second list, so the
   // membership test and the dispatch cannot drift apart.
   if (KIND_CATEGORIES.includes(categorySlug)) return componentKind(sku);

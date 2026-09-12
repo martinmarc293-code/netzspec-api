@@ -53,6 +53,9 @@ import { RT_DEVICE, RT_PORTED, RT_COMPONENT, RT_CABLE } from "./routerKind.js"; 
 import { OPN_SHELF, OPN_PLUGGABLE, OPN_FIXED_WAVELENGTH, OPN_POWERED, OPN_WAVELENGTH_ROUTING, OPN_FITS } from "./opticalKind.js";
 import { SAN_BOX, SAN_MODULE, SAN_FITS } from "./sanKind.js";
 // end optical-storage
+// modules-misc (12 Sep 2026)
+import { MOD_COMPONENT, MOD_PORTED, MOD_SLOTTED, MOD_PHYSICAL } from "./moduleKind.js";
+import { MK_BOX, MK_PORTED, MK_POWERED } from "./merakiKind.js";
 
 export type Requirement =
   | { kind: "req" }
@@ -588,8 +591,39 @@ export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series"]);
 // optical-storage (12 Sep 2026): optical-networking and storage-networking left too, for opticalKind.ts and
 // sanKind.ts. What remains is the categories that still have no axis of their own.
 export const DEVICE_GATED_CATEGORIES = [
-  "interfaces-modules", "meraki",
+  // EMPTY as of 12 Sep 2026, and that is the end state, not an oversight: every category that was in this list
+  // now gates on an axis of its own, and each left for the same reason — kept here, the post-merge loop would
+  // re-gate its `req` keys onto a `device` kind that its axis never names, closing every one of them in silence.
+  // The last two out were interfaces-modules and meraki. AXIS_GATED_CATEGORIES below is the safety net they all
+  // still need: it catches a `req` that lives only in the GENERATED half, which is what this loop was for.
+  // (The merge re-added nine of them from one agent's copy of the list; a list is the one conflict shape where
+  // "keep both sides" is wrong, and this is why the resolution is read rather than trusted.)
+  // modules-misc (12 Sep 2026): `interfaces-modules` and `meraki` LEFT this list. Each now gates on
+  // an axis of its own (moduleKind, merakiKind) which names module and product-line kinds the
+  // generic device/component axis makes no claim about — the same reason `switches` and
+  // `servers-unified-computing` were never in it. AXIS_GATED_CATEGORIES below carries the
+  // post-merge safety net they still need.
 ] as const;
+
+/**
+ * Categories gated on a CATEGORY-SPECIFIC axis, with the kinds that are the whole product.
+ * modules-misc (12 Sep 2026).
+ *
+ * WHY THIS EXISTS AND IS NOT A COMMENT. A category that leaves DEVICE_GATED_CATEGORIES loses the
+ * post-merge re-gate at the foot of this file, and that re-gate is the thing that catches a `req`
+ * living only in the GENERATED half — which a hand edit cannot see and the next regeneration puts
+ * back. Measured before the loop below was written: `meraki` had six generated `req` fields
+ * (humidity_operating, mounting, psu_options, switching_capacity, temp_operating, weight) and
+ * `data-center-networking` one (certifications). All seven ARE declared conditional in the curated
+ * blocks above, and the curated half wins the merge — but a field that arrives in a FUTURE
+ * regeneration would be required of every camera, sensor and rack kit with nothing to notice it.
+ * The loop closes both halves at once, exactly as the generic one does.
+ */
+export const AXIS_GATED_CATEGORIES: Readonly<Record<string, readonly string[]>> = {
+  "interfaces-modules": ["interface", "voice", "cellular", "radio", "service", "device"],
+  meraki: ["unknown", "switch", "access-point", "appliance", "camera", "sensor", "gateway"],
+  "data-center-networking": ["switch", "fex"],
+};
 
 const deviceOnly = <T extends Record<string, Requirement>>(block: T): T => {
   const out: Record<string, Requirement> = {};
@@ -828,7 +862,10 @@ const collabBlock = (): Record<string, Requirement> => ({
   // --- what a part fits --------------------------------------------------------------------------------
   // A voice card, a server CPU, a PSU, a key expansion module: bought for its host. "Product compatibility" 92,
   // "Chassis compatibility" 36, "Chassis support" 23 map (switch and optical sheets — an upper bound here).
-  product_compatibility: cK(COLLAB_FITS),
+  // 12 Sep 2026 (reviewer §2.3): the ACCESSORY and the misfiled transceiver join COLLAB_FITS here. Both were asked
+  // nothing — 642 accessories in collaboration-endpoints, 42 in UC, 1 in conferencing, 8 optics — which scores
+  // every one of them complete. What a mount, a bracket, a stand or a cable fits is the one thing it is bought on.
+  product_compatibility: cK([...COLLAB_FITS, "accessory", "transceiver", ...COLLAB_CABLE]),
   psu_rated_output: cK(["power-supply"]),
   cable_length: cK(COLLAB_CABLE), plug_type: opt,
   // declared, not required — no label, or only another category's
@@ -1051,7 +1088,14 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     video_codecs: opt, max_resolution: opt, form_factor: opt,
     passband: opt, rf_output_level: opt, gain: opt, noise_figure: opt, connector: opt, itu_channel: opt,
     rf_input_level: opt, modulation_type: opt, laser_type: opt, tuning_range: opt, total_output_power: opt,
-    module_slots: opt, rack_units: opt, cable_length: opt, product_compatibility: opt, psu_rated_output: opt,
+    // 12 Sep 2026 (reviewer §2.3, and the asked-nothing census): a line card (95), a plug-in (177), a fan (10),
+    // a cable (56) and an accessory (85) were asked NOTHING, so all 423 scored complete. What each one fits is
+    // the question a cable-plant part is bought on — a GS7000 plug-in is ordered for a housing, a line card for
+    // a shelf — and a cable also owes its length. The values a plug-in and a line card carry (pad attenuation,
+    // equaliser value) have no cup yet and no label: that is in the report as an open question, not invented here.
+    product_compatibility: cond({ field: "kind", inList: ["line-card", "plug-in", "fan", "cable", "accessory", "power"] }),
+    cable_length: cond({ field: "kind", inList: ["cable"] }),
+    module_slots: opt, rack_units: opt, psu_rated_output: opt,
     temp_storage: opt, frequency_response: opt, test_point_level: opt, internal_tilt: opt, channel_spacing: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     aes_audio_encryption: opt, bluetooth_profiles: opt, bluetooth_version: opt, camera_aperture: opt, camera_focus_distance: opt, camera_pan_tilt_range: opt, camera_zoom: opt, color: opt, color_options: opt, country_of_origin: opt, mic_frequency_response: opt, mic_pickup_range: opt, mic_type: opt, packaging_dimensions: opt, phantom_power: opt, product_line: opt, rear_panel_ports: opt, series_release_date: opt, speaker_frequency_response: opt, speaker_impedance: opt, speaker_size: opt, supported_pc_resolutions: opt, video_interfaces: opt,
@@ -1120,8 +1164,49 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
+  // --- modules-misc (12 Sep 2026): SHAPED BY `switchKind`, REUSED RATHER THAN RE-DERIVED --------
+  // 33 Cisco hardware parts: 20 Nexus Hyperfabric switches (HF6100-32D / -60L4D / -64ED and their
+  // -D/-S hardware-only variants) and 13 of their supplies, fans and rack kits. It was a FLAT
+  // profile — no `deviceOnly` wrapper at all, so every one of the 33 was asked all nine fields,
+  // and a `PWR-C6-BLANK` power-supply blank cover was asked a switching capacity.
+  //
+  // WHY NO NEW AXIS. Every one of switchKind's markers lands correctly on all 33, checked part by
+  // part (the list is in partKind.ts, including the `PSU1.4KW` token the investigation pass asked
+  // about). Writing a second classifier for 33 parts would be a second place for the same rules to
+  // drift; the kinds it produces are switch 20, accessory 5, power 5, fan 3.
+  //
+  // THE ONE CUP THAT DID NOT SURVIVE THE CHECK IS NOT DEMOTED BUT NAMED: `certifications` is a
+  // generated `req` here and holds 0 facts of 33. It stays required of SW_BOX — a switch in a data
+  // centre has safety certifications and Cisco prints them; 55 parts in `interfaces-modules` and
+  // hundreds in `switches` hold the key — so this is coverage, not shape.
   "data-center-networking": {
-    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, ports: req, switching_capacity: req,
+    // true of every part in the catalogue (modules-misc, 12 Sep 2026)
+    vendor: req, series: req,
+    // SW_BOX = switch + fabric extender: the box you rack and power.
+    dimensions: cond({ field: "kind", inList: [...SW_BOX] }),
+    weight: cond({ field: "kind", inList: [...SW_BOX] }),
+    form_factor: cond({ field: "kind", inList: [...SW_BOX] }),
+    temp_operating: cond({ field: "kind", inList: [...SW_BOX] }),
+    humidity_operating: cond({ field: "kind", inList: [...SW_BOX] }),
+    certifications: cond({ field: "kind", inList: [...SW_BOX] }),
+    // + linecard, as in `switches`: a card in a chassis slot draws its own power. A PSU DELIVERS.
+    power_max: cond({ field: "kind", inList: [...SW_BOX, "linecard"] }),
+    ports: cond({ field: "kind", inList: [...SW_DEVICE, "fex", "linecard", "module"] }),
+    switching_capacity: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
+    // WHAT IT FITS — asked of the five rack kits, the five supplies and the three fans, and of
+    // nothing until today. HF-ACC-RM2-4P19L is a 19" 4-post kit and its only real question is
+    // which chassis it takes.
+    product_compatibility: cond({ field: "kind", inList: [...SW_COMPONENT] }),
+    // 1450 W and 1500 W and 3000 W, each stated in the supply's own name; `psu_output_rating`
+    // ("Main output: 12V 125A Standby output: 3.3V 4A") is a different quantity and stays optional.
+    psu_rated_output: cond({ field: "kind", inList: ["power"] }),
+    input_voltage: cond({ field: "kind", inList: [...SW_BOX, "power"] }),
+    psu_output_rating: opt, input_current: opt, holdup_time: opt, power_input_connector: opt,
+    // Airflow is how a fan and a data-centre supply are sold, and this category is the clearest
+    // case in the catalogue: C9500X-FAN-1U-F and -R are the same fan in opposite directions, and
+    // PSU1.4KW-ACPE / -ACPI the same supply. 137 label occurrences.
+    airflow: cond({ field: "kind", inList: ["fan", "power", "fex"] }),
+    cable_length: cond({ field: "kind", inList: [...SW_CABLE] }),
     // STRUCTURE 8 Sep 2026: 1 field(s) its documents already produce and no profile declared — invisible to completeness until now
     power_cord_rating: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
@@ -1131,13 +1216,89 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
   // product of this kind is BOUGHT ON, and merges over the generated one.
-  meraki: deviceOnly({
-    dimensions: req, weight: req, form_factor: req, power_max: req, temp_operating: req, humidity_operating: req, certifications: req, ports: req, poe_standard: req,
-    // STRUCTURE 8 Sep 2026: 30 field(s) its documents already produce and no profile declared — invisible to completeness until now
-    power_load_idle_max: opt, copper_ethernet_ports: opt, dedicated_mgmt_interface: opt, sfp_plus_ports: opt, stack_ports: opt, sfp_ports: opt, fan_hot_swap: opt, field_of_view: opt, video_quality_max: opt, image_sensor: opt, mgig_rj45_ports: opt, poe_per_port_max: opt, qsfp_plus_ports: opt, ir_illumination: opt, lens_aperture: opt, upoe_support: opt, focal_length: opt, shutter_speed: opt, battery_count: opt, external_power: opt, battery_life: opt, lens_adjustment_range: opt, min_illumination: opt, optical_zoom: opt, box_contents: opt, poe_budget_redundant: opt, antenna_type: opt, lan_interfaces: opt, wan_interfaces: opt, tdp: opt,
+  // --- modules-misc (12 Sep 2026): SHAPED BY `merakiKind` --------------------------------------
+  // It was `deviceOnly`, so all 283 hardware parts were asked the same nine fields: an MT11
+  // temperature probe a port count and a PoE standard, an MV camera a PoE standard, an MGKIT-1
+  // mounting kit all nine. The SKU letter is a clean and total axis and it partitions the
+  // QUESTIONS, not merely the SKUs — see merakiKind.ts for the per-line fact table.
+  //
+  // WHAT EACH KIND IS ASKED (facts held / parts):
+  //   switch       109  ports · switching_capacity 58 · poe_standard 9 -> poe_budget 37 · form_factor
+  //   camera        52  field_of_view 11 · video_quality_max 9 · image_sensor 9 · storage_capacity 10
+  //   gateway       38  cellular_bands · ports
+  //   access-point  36  wifi_generation 3 · ports
+  //   appliance     26  firewall_throughput 8 · ports
+  //   sensor        16  battery_life 6 — and NO ports, NO PoE, NO power figure
+  //   unknown        5  MCS1-MCS6: the envelope only (dimensions, weight, temps, mounting)
+  //   accessory      1  product_compatibility only
+  //
+  // THREE CUPS CHANGED SHAPE, WITH THEIR COUNTS:
+  //   certifications  DEMOTED to opt. 0 of 283, and the Meraki source does not publish it: its
+  //                   label inventory carries `safety_standards` and `emc_emissions` instead (both
+  //                   declared below). Required, it was 283 gaps no enabled source can close.
+  //   form_factor     required of `switch` ONLY. The enum domain is rack-19 / desktop / din-rail /
+  //                   modular-chassis; an MR access point, an MV camera and an MT sensor are none
+  //                   of those, and 0 of 283 hold a value. `mounting` is the cup that fits them —
+  //                   80 facts ("Desktop Integrated Wall mount"), and it IS one of the seven keys
+  //                   the Meraki inventory publishes — so it is required of every box instead.
+  //   ports           kept required of the four ported kinds although 0 of 283 hold it, because
+  //                   the Meraki source publishes the BREAKDOWN rather than the total:
+  //                   copper_ethernet_ports 48, sfp_plus_ports 33, sfp_ports 28, mgig_rj45_ports 9,
+  //                   qsfp_plus_ports 7. The report proposes the sum as a derivation; the per-media
+  //                   keys stay declared-optional because two of them are absent from
+  //                   data/schema/source-fields.json and requiring them would turn that check red
+  //                   until the parent regenerates it.
+  meraki: {
+    // true of every part in the catalogue, so requiring them is not an invention (modules-misc, 12 Sep 2026)
+    vendor: req, series: req,
+    dimensions: cond({ field: "kind", inList: [...MK_BOX] }),
+    weight: cond({ field: "kind", inList: [...MK_BOX] }),
+    temp_operating: cond({ field: "kind", inList: [...MK_BOX] }),
+    humidity_operating: cond({ field: "kind", inList: [...MK_BOX] }),
+    // 80 facts, and published by the Meraki source's own inventory — the cup form_factor cannot be.
+    mounting: cond({ field: "kind", inList: [...MK_BOX] }),
+    // "External RPS (optional)" / "External" — how the box is powered. 71 facts across every line.
+    psu_options: cond({ field: "kind", inList: [...MK_BOX] }),
+    form_factor: cond({ field: "kind", inList: ["switch"] }),
+    certifications: opt, safety_standards: opt, emc_emissions: opt,
+    power_max: cond({ field: "kind", inList: [...MK_POWERED] }),
+    ports: cond({ field: "kind", inList: [...MK_PORTED] }),
+    // A PoE STANDARD and a PoE BUDGET are the SUPPLIER's questions. An MR access point and an MV
+    // camera are PoE-powered rather than PoE-supplying, and 0 of the 88 hold either; all 9
+    // poe_standard and all 37 poe_budget facts sit on MS switches. Same `all`-clause shape as
+    // switches, so a switch whose poe_standard is "none" is not asked a budget.
+    poe_standard: cond({ field: "kind", inList: ["switch"] }),
+    poe_budget: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "poe_standard", ne: "none" }] }),
+    switching_capacity: cond({ field: "kind", inList: ["switch"] }),
+    // The camera questions: what it sees, at what quality, through what sensor. 11 / 9 / 9 of 52.
+    field_of_view: cond({ field: "kind", inList: ["camera"] }),
+    video_quality_max: cond({ field: "kind", inList: ["camera"] }),
+    image_sensor: cond({ field: "kind", inList: ["camera"] }),
+    storage_capacity: cond({ field: "kind", inList: ["camera"] }),
+    // An MX/Z appliance is a firewall: 8 of 26 hold a throughput figure and it is what one is bought on.
+    firewall_throughput: cond({ field: "kind", inList: ["appliance"] }),
+    // An MR/CW access point is bought on its Wi-Fi generation. 3 facts, and `wifi_generation` is
+    // one of the seven keys the Meraki inventory publishes.
+    wifi_generation: cond({ field: "kind", inList: ["access-point"] }),
+    // An MT sensor runs on batteries: all 16 hold battery_count, battery_life and external_power,
+    // and none holds a power draw. 6 hold a life figure.
+    battery_life: cond({ field: "kind", inList: ["sensor"] }),
+    battery_count: opt,
+    // A cellular gateway is bought on its bands. 0 of 38 hold one — a coverage gap, not a wrong
+    // cup: "Bands supported" / "Bands" occur 56 times in the Cisco datasheet vocabulary.
+    cellular_bands: cond({ field: "kind", inList: ["gateway"] }),
+    cellular_category: opt, cellular_max_speed: opt,
+    // A mounting kit is bought for what it fits, and that is all it is asked.
+    product_compatibility: cond({ field: "kind", inList: ["accessory"] }),
+    // STRUCTURE 8 Sep 2026: 30 field(s) its documents already produce and no profile declared — invisible to completeness until now.
+    // field_of_view, video_quality_max, image_sensor, battery_count and battery_life were REMOVED
+    // from this line on 12 Sep 2026: they are declared conditional above, and a later `opt` in the
+    // same object literal silently wins (the last key in a JS object). That is the shape the
+    // profileMerge test exists for, one level down — inside a single literal nothing checks it.
+    power_load_idle_max: opt, copper_ethernet_ports: opt, dedicated_mgmt_interface: opt, sfp_plus_ports: opt, stack_ports: opt, sfp_ports: opt, fan_hot_swap: opt, mgig_rj45_ports: opt, poe_per_port_max: opt, qsfp_plus_ports: opt, ir_illumination: opt, lens_aperture: opt, upoe_support: opt, focal_length: opt, shutter_speed: opt, external_power: opt, lens_adjustment_range: opt, min_illumination: opt, optical_zoom: opt, box_contents: opt, poe_budget_redundant: opt, antenna_type: opt, lan_interfaces: opt, wan_interfaces: opt, tdp: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     color: opt, color_options: opt, country_of_origin: opt, packaging_dimensions: opt, product_line: opt, series_release_date: opt,
-  }),
+  },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
   // which declares its fields but marks none required. A curated entry states what a
@@ -1636,7 +1797,15 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     weight: cond({ field: "kind", inList: [...WL_BOX] }),
     temp_operating: cond({ field: "kind", inList: [...WL_BOX] }),
     certifications: cond({ field: "kind", inList: [...WL_BOX] }),
-    mtbf: opt, humidity_operating: opt, ip_rating: opt, product_compatibility: opt,
+    // WHAT A COMPONENT FITS (12 Sep 2026, reviewer §2.3). This was demoted to `opt` here on R3 grounds — a
+    // partner is a relation, not a field — and four other categories require it of every component kind, so R3
+    // was being applied in one place and not the rest. The reviewer's answer, adopted: the datasheet ROW
+    // ("Compatible with: Catalyst 9800-40") is a fact about the part and is the fill path the relation is later
+    // derived FROM; R3 forbids asking for a partner PID as a SPEC, not storing the compatibility row. Without it
+    // the module (144), accessory (180) and power (70) kinds were asked NOTHING, which scores every one of them
+    // complete — the asked-nothing census in tests/cupLedger.test.ts is what found it.
+    product_compatibility: cond({ field: "kind", inList: ["module", "accessory", "power", "power-injector", "cable", "antenna"] }),
+    mtbf: opt, humidity_operating: opt, ip_rating: opt,
     // ONE CUP PER QUANTITY: the generated profile made `standard` REQUIRED here on 8 Sep (775 mined values);
     // those values are the 802.11 generation, which `wifi_generation` asks. Optional, so it is not a second
     // required cup; the 775 facts are listed as a rekey proposal in the report.
@@ -1842,17 +2011,107 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   },
   // end optical-storage
   // Line cards, network modules, interface cards.
-  "interfaces-modules": deviceOnly({
+  //
+  // --- modules-misc (12 Sep 2026): SHAPED BY `moduleKind` --------------------------------------
+  // It was `deviceOnly`, so all 1,364 hardware parts were `device` on the generic axis (which
+  // names only power/fan/cable/accessory/software and defaults to device) and every one was asked
+  // the same seven fields. A Panduit patch panel was asked a port count, a blank faceplate an
+  // operating temperature, a DSP card a form factor from the CHASSIS enum. See moduleKind.ts for
+  // the axis and the marker measurements; the per-cup evidence is in
+  // docs/reports/schema-modules-misc-2026-09-12.md.
+  //
+  // WHAT EACH KIND IS ASKED, and the facts that decided it (parts holding the key / parts):
+  //   interface 459  ports 43 · power_max 10 · certifications 55 · weight 8 · poe_standard 9
+  //   module    199  the DEFAULT — product_compatibility only, the one question every component answers
+  //   accessory 104  product_compatibility only
+  //   device     99  the envelope: a whole router or chassis filed here (a MOVE proposal)
+  //   cable      97  cable_length
+  //   optic      94  a transceiver filed here (a MOVE proposal) — form_factor, data_rate, connector
+  //   power      77  psu_rated_output · temp_operating 41 · humidity_operating 50 · certifications 34
+  //   service    63  power_max, and the envelope
+  //   cellular   60  cellular_bands 14
+  //   voice      51  ports (its names state them; see MOD_PORTED)
+  //   radio      46  ieee_standards 16
+  //   memory     11  storage_capacity
+  //   fan         4  airflow
+  //
+  // TWO CUPS WERE DEMOTED, EACH WITH ITS COUNT — see the report for the full argument:
+  //   form_factor   0 facts of 1,364, and it COULD NOT HAVE ONE: the enum domain is a chassis
+  //                 domain (rack-19 / desktop / din-rail / modular-chassis) and specNormalize maps
+  //                 a form-factor string through FORM_FACTOR_SWITCH for every category but
+  //                 `transceiver`, so "Single Wide HWIC form factor" — 42 of the key's 145 label
+  //                 occurrences, and the sample Cisco's own inventory carries for it — can only
+  //                 come back ENUM_VIOLATION. It stays required of `device` and `optic`, whose
+  //                 values the domain does fit, and is OPTIONAL for the eleven module kinds. The
+  //                 missing cup is `module_type` (the slot type: "Shared Port Adapter Interface
+  //                 Processor (SIP)", 5 facts) — an OPEN ITEM in the report, because requiring it
+  //                 needs data/schema/source-fields.json regenerated and that is the parent's run.
+  //   poe_standard  9 facts on the 459 interface parts, and a PoE standard is a property of the
+  //                 minority of port-bearing modules that SUPPLY power (WS-X4548-GB-RJ45V, the
+  //                 SM-ES2/ES3 EtherSwitch modules, ILPM-4/8). No derived signal separates them
+  //                 from a POS/ATM line card, which has none and never will, so requiring it of
+  //                 all 459 would open 450 gaps nothing can close.
+  "interfaces-modules": {
     itu_channel: opt, jacket_material: opt, jacket_color: opt, rx_wavelength: opt, supported_transceivers: opt, supported_modules: opt, // deep-spec fields 2026-09-02
-    vendor: req, series: req, form_factor: req,
-    ports: req, uplink_ports: opt, poe_standard: opt, module_slots: opt,
-    power_max: req, dimensions: req, weight: req, temp_operating: req, certifications: req,
+    vendor: req, series: req,
+    // WHAT IT FITS — the first question asked of anything that plugs in, and asked of nothing in
+    // this category until today. Fillable: "Product compatibility" (74), "Supervisor engines
+    // supported" (25), "Product Compatibility" (18), "Compatibility" (12) and nineteen more labels
+    // = 270 occurrences in the Cisco datasheet vocabulary; 9 parts hold a value already.
+    product_compatibility: cond({ field: "kind", inList: [...MOD_COMPONENT] }),
+    // The chassis enum fits a whole device and an optic's cage, not a module — see the header.
+    form_factor: cond({ field: "kind", inList: ["device", "optic"] }),
+    ports: cond({ field: "kind", inList: [...MOD_PORTED, "device"] }),
+    uplink_ports: opt, poe_standard: opt, module_slots: opt,
+    // A CARD DRAWS POWER AND CISCO PRINTS IT: 10 of the 13 power_max facts here sit on interface
+    // modules, [5 .. 80] W (WS-X4548-GB-RJ45 60 W, WS-X4506-GB-T 30 W). A service module runs a
+    // workload and draws its own too. A PSU DELIVERS rather than draws — psu_rated_output below,
+    // the same split switches made on 11 Sep 2026.
+    power_max: cond({ field: "kind", inList: ["interface", "service", "device"] }),
+    // The envelope, asked only of the kinds that have one (MOD_PHYSICAL).
+    dimensions: cond({ field: "kind", inList: [...MOD_PHYSICAL] }),
+    weight: cond({ field: "kind", inList: [...MOD_PHYSICAL] }),
+    temp_operating: cond({ field: "kind", inList: [...MOD_PHYSICAL] }),
+    humidity_operating: cond({ field: "kind", inList: [...MOD_PHYSICAL] }),
+    certifications: cond({ field: "kind", inList: [...MOD_PHYSICAL] }),
+    // A cellular module is bought on its bands: "Bands supported" (33) and "Bands" (23) = 56
+    // occurrences, 14 parts hold one. `radio_bands` is NOT this cup — its 51 facts here all sit on
+    // cellular ROUTER bundles that the report proposes moving to `routers`, and its dominant label
+    // "Frequency" (175) is an AC input frequency. R2 note in the report, for the routers agent.
+    cellular_bands: cond({ field: "kind", inList: ["cellular"] }),
+    cellular_category: opt, cellular_max_speed: opt, radio_bands: opt, antenna_gain: opt, antenna_type: opt,
+    // An 802.11 radio module is bought on the standards it speaks: 16 of the 46 already hold it
+    // ("802.11 B,G" on HWIC-AP-G-A).
+    ieee_standards: cond({ field: "kind", inList: ["radio"] }),
+    // A PSU's wattage is what it DELIVERS. 0 facts here and only 2 label occurrences, but the same
+    // key holds 277 in `switches` after the 11 Sep rekey, and the figure is stated in the NAME of
+    // 34 of these 77 ("Cisco Small Business Power over Ethernet Injector-30W", "Cisco ASR1000-X
+    // 1100W AC Power Supply") — a description_mining derivation, which is the third form of
+    // evidence the fillability rule accepts.
+    psu_rated_output: cond({ field: "kind", inList: ["power"] }),
+    input_voltage: opt, psu_options: opt, mounting: opt,
+    // Airflow direction is how a FAN is sold ("Airflow" 119 / "Air flow" 16 / "Air Flow" 2 = 137
+    // occurrences). Deliberately NOT asked of `power`: the 77 here are branch-router bricks and
+    // PoE injectors with no airflow spec, unlike a data-centre supply.
+    airflow: cond({ field: "kind", inList: ["fan"] }),
+    // A cable is bought by its length; "Length" (58) + "Cord length" (3) = 61 occurrences, 3 facts.
+    cable_length: cond({ field: "kind", inList: ["cable"] }),
+    // A memory or storage card is bought on capacity: 418 label occurrences, and the value is in
+    // the SKU of 9 of the 11 (SD-X45-2GB-E, USB-X45-4GB-E, MEM-2951-512U2.5GB).
+    storage_capacity: cond({ field: "kind", inList: ["memory"] }),
+    dram: opt, flash: opt, voice_lines: opt, fxs_ports: opt, fxo_ports: opt,
+    // The optical questions this profile can express, asked of the 94 transceivers filed here so
+    // that their MOVE to `transceiver` (where opticKind asks the full set) is visible rather than
+    // silent: 14 hold a data_rate, 6 a wavelength, 1 a connector.
+    data_rate: cond({ field: "kind", inList: ["optic"] }),
+    connector: cond({ field: "kind", inList: ["optic"] }),
+    wavelength: opt, standard: opt, media: opt, reach_max: opt,
     // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
     layer: opt, module_type: opt, compatible_platform: opt, installation_type: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     // cd_tolerance -> chromatic_dispersion_tolerance, 11 Sep 2026: one key per quantity (see `transceiver`).
     breakout_point_length: opt, chromatic_dispersion_tolerance: opt, channel_bandwidth: opt, color: opt, color_options: opt, country_of_origin: opt, input_wavelength: opt, modulation_type: opt, module_width_slots: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, product_line: opt, series_release_date: opt,
-  }),
+  },
 };
 
 // The transceiver profile overrides two dictionary entries whose canonical unit differs from the
@@ -2421,6 +2680,20 @@ export function gateSecurityGeneratedReq(p: Record<string, Requirement> | undefi
   return gated;
 }
 gateSecurityGeneratedReq(PROFILES.security);
+
+// modules-misc (12 Sep 2026): the same re-gate for the three categories that use an axis of their
+// own — see AXIS_GATED_CATEGORIES for why a comment would not have done. An unconditional `req`
+// that reached the merged profile from the generated half is gated on the kinds that ARE the whole
+// product, which is the conservative direction: it can only narrow who is asked.
+for (const [cat, productKinds] of Object.entries(AXIS_GATED_CATEGORIES)) {
+  const p = PROFILES[cat];
+  if (!p) continue;
+  for (const [key, r] of Object.entries(p)) {
+    if (r.kind === "req" && !COLUMN_BACKED.has(key)) {
+      p[key] = cond({ field: "kind", inList: [...productKinds] });
+    }
+  }
+}
 
 export const CATEGORIES = Object.keys(PROFILES);
 

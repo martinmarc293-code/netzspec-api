@@ -151,6 +151,18 @@ const RULES: [string, string, string, string, Reason?][] = [
   ["Physical Characteristics > Rack Height", "rack_units", "Physical Characteristics > Rack Depth", "19\"", "UNIT_UNKNOWN"],
   ["Technical Information > Processor Core", "cpu_cores", "Technical Information > CUDA Cores", "18176", "RANGE_VIOLATION"],
   ["Network & Communication > Layer Supported", "layer", "MS350-24 Models > Layer 3 Switching", "4", "ENUM_VIOLATION"],
+
+  // --- modules-misc (12 Sep 2026): the three rules added at the foot of attribute-aliases.en.json.
+  // Each near-miss is a REAL label from runs/vocab/cisco-datasheets/labels.json sitting one shade
+  // away, and in two of the three cases the near-miss is the label the rule was anchored against.
+  //
+  // "Rack-mounting brackets" (13 occurrences) is the near-miss for "Rack-mounting" (12): its values
+  // are the bracket PIDs (N540-RCKMT-19-ACA), so it must reach `mounting` for nobody. It is mapped
+  // to `__compat` instead, which mapLabel returns and this check treats as not-this-field.
+  ["Rack-mounting", "mounting", "Rack-mounting brackets", NO_SHAPE],
+  // And the other way round: the bracket label must reach the compat sentinel, not the field.
+  // `__compat` is not a spec key, so the shape half is the sentinel's own contract.
+  ["Cisco smart serial cabling [Length]", "cable_length", "Cisco smart serial cabling [Cable type]", "V.35 DTE", "UNIT_UNKNOWN"],
 ];
 
 /**
@@ -349,12 +361,25 @@ for (const l of MUST_NOT_IGNORE) check(`NOT ignored: "${l}"`, isIgnored(l), fals
 // exact defect the ignore list was added to fix. Checked against the REAL label inventories.
 const shadowed: string[] = [];
 let inventoried = 0;
-for (const slug of ["provantage", "meraki", "router-switch", "arista", "hpe-quickspecs", "itprice"]) {
+// modules-misc (12 Sep 2026): `cisco-datasheets` added. runs/ is gitignored, so a brand worktree
+// holds whichever inventories its session copied in — and in THIS one the six slugs below were all
+// absent while cisco-datasheets (9.7 MB, 20,600 unmapped labels) was present, so the check reported
+// "proved NOTHING" while the widest Cisco inventory sat unread beside it. The list is a
+// hand-maintained list of things that exist, which is the drift this repo keeps paying for; the
+// honest fix is to name every inventory the repo builds.
+for (const slug of ["cisco-datasheets", "provantage", "meraki", "router-switch", "arista", "hpe-quickspecs", "itprice"]) {
   const f = path.join(REPO_ROOT, "runs", "vocab", slug, "labels.json");
   if (!fs.existsSync(f)) continue;
   for (const row of JSON.parse(fs.readFileSync(f, "utf8")).labels as { label: string }[]) {
     inventoried++;
-    if (mapLabel(row.label) && isIgnored(row.label)) shadowed.push(`${slug}: ${row.label}`);
+    // modules-misc (12 Sep 2026): a SENTINEL is not a mapped fact. The predicate used to be
+    // `mapLabel(row.label) && isIgnored(...)`, and the moment the cisco-datasheets inventory was
+    // added above it reported "Product Name" and "Product name" as shadowed — both map to
+    // `__not_a_spec`, which says exactly what the ignore list says. Agreeing with the ignore list
+    // is not shadowing it. The defect this check exists for is an ignore rule swallowing a real
+    // FIELD KEY, so the predicate now asks for one.
+    const mapped = mapLabel(row.label);
+    if (mapped && !mapped.startsWith("__") && isIgnored(row.label)) shadowed.push(`${slug}: ${row.label}`);
   }
 }
 // An inventory that is absent must not read as "nothing is shadowed": say which happened.

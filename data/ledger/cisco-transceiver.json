@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "transceiver",
  "profile_hash": "fd563c9b4ee8cd1e",
- "built_on_commit": "3b77b1d",
+ "built_on_commit": "ab2f55a",
  "norm_version": "1.6.2",
  "declared_fields": 395,
  "gap_states": {

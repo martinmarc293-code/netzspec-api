@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "routers",
  "profile_hash": "4a0112e7b24c9e81",
- "built_on_commit": "3b77b1d",
+ "built_on_commit": "ab2f55a",
  "norm_version": "1.6.2",
  "declared_fields": 430,
  "gap_states": {

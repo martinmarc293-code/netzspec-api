@@ -36,7 +36,11 @@ const KNOWN_LEAKS: Record<string, string[]> = {
   // which names every one of these keys (emc_* as opt, clock_speed / cpu_cache as cond on kind cpu).
   // collab (12 Sep 2026): collaboration-endpoints' three leaks are CLOSED — its curated block now names all five
   // generated requirements, each kind-gated (fieldSchema.ts). The ratchet entry is removed.
-  meraki: ["mounting", "psu_options", "switching_capacity"],
+  // modules-misc (12 Sep 2026): `meraki: ["mounting", "psu_options", "switching_capacity"]` REMOVED
+  // — the ratchet fired and it was right. All three are now named in the curated block and scoped
+  // by `merakiKind`: mounting and psu_options of every Meraki box (80 and 71 facts), and
+  // switching_capacity of the MS switches alone, where all 58 of its facts are. Removing the entry
+  // rather than leaving it is what the ratchet demands, and re-adding it would now make the suite red.
 };
 
 let passed = 0, failed = 0;

@@ -24,6 +24,9 @@ import { SAN_KINDS } from "./sanKind.js";
 // end optical-storage
 // security (12 Sep 2026)
 import { SEC_BOX, SEC_COMPONENT } from "./securityKind.js";
+// modules-misc (12 Sep 2026)
+import type { ModuleKind } from "./moduleKind.js";
+import type { MerakiKind } from "./merakiKind.js";
 
 /** Every kind a category's axis can name — including kinds no part holds today, which still have a question set. */
 export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
@@ -52,6 +55,14 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   // — it has no question set to freeze, and once a reclassify run moves it out of `hardware`,
   // recompute-completeness gives it no_profile before it looks up a profile at all.
   security: [...SEC_BOX, ...SEC_COMPONENT],
+  // --- modules-misc (12 Sep 2026) -------------------------------------------------------------
+  "interfaces-modules": ["module", "interface", "voice", "cellular", "radio", "service", "memory",
+    "power", "fan", "cable", "accessory", "optic", "device"] satisfies ModuleKind[],
+  meraki: ["unknown", "switch", "access-point", "appliance", "camera", "sensor", "gateway",
+    "accessory"] satisfies MerakiKind[],
+  // data-center-networking reuses switchKind, so it reuses its kind list — every one gets a
+  // question set even though only four of the fifteen have a part today (partKind.ts says which).
+  "data-center-networking": [...SW_BOX, ...SW_PART],
 };
 
 export type KindQuestionSet = {

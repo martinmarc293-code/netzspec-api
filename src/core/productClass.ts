@@ -1110,6 +1110,85 @@ export const SKU_RULES: SkuRule[] = [
   // ISA-FTD7.0-K9 carries no name of its own ("Cisco ISA-FTD7.0-K9") and was left as hardware by it.
   { kind: "regex", token: "isa-ftd-image", re: /^ISA-FTD\d/, probe: "ISA-FTD6.6-K9",
     klass: "software", why: "'Cisco FTD unified software v6.6 for ISA3000'; 2, security only. ISA-3000-2C2F-K9 (the appliance) does not match" },
+
+  // ===== modules-misc (12 Sep 2026) =============================================================
+  // The class residue of `interfaces-modules` (1,364 hardware rows), `meraki` (283) and
+  // `data-center-networking` (33). EVERY rule below was gated across the whole catalogue — 91,682
+  // parts, 13 vendors — and refused unless it touched ZERO parts carrying an own PHYSICAL fact;
+  // the matches were then read in full. Counts are from that gate, not from my own category.
+  //
+  // CHECKED AGAINST THE OTHER AGENTS' ANNOUNCED RULES FIRST. Five of my rows are already reached,
+  // so no rule is written for them: SF-ASA-CSC-6.0-K9 by security's `SF-`; FL-29-SNA, FL-39-SNA,
+  // FL-29/39/39E-HSEC-K9, FL-C1921-WAASX and FL-GK-* (11 rows) by routers' `^FL-(?!8XX-)`;
+  // WAAS-ENT/TRN/VIDEO-SM-* (6) by routers' `WAAS-`; and UCS-FI-*-SW may be reached by the servers
+  // agent's UCS rules. Three COLLISIONS with those rules are in the report's proposals, because
+  // each would misclass a real part: `-SMS` would take 7300-1OC48POS-SMS (a 7304 OC-48 POS LINE
+  // CARD — SM-S is single-mode short reach); `^FL-` would take FL-1900-256U512MB (a CISCO1905 DRAM
+  // upgrade carrying its own `dram` fact); `WAAS-` would take WAAS-VB-NAM-5.1 (NAM SOFTWARE, so the
+  // class is right but the kind of non-hardware is wrong).
+  //
+  // --- license ---------------------------------------------------------------------------------
+  { kind: "regex", token: "c4500e-feature-license", re: /^C4500E-(?:IPB|IP-ES|LB|LB-ES)(?:-S)?$/, probe: "C4500E-IPB-S",
+    klass: "license", why: "Catalyst 4500E feature licence ('IP BASE software license', 'LAN BASE to Enterprise Services upgrade license (paper delivery)'); 6 parts, all Cisco, all interfaces-modules, 0 own facts. Two of them carry an INHERITED ipv6_routes 128000 — a retraction proposal in the report" },
+  { kind: "prefix", token: "ASA5500-SC-", klass: "license", why: "ASA 5500 security-CONTEXT licence ('ASA 5500 100 Security Contexts License'); 15 parts, 0 facts. Not the bare ASA5500- prefix: ASA5505/5510/5520/5540-* are appliance bundles with real facts" },
+  { kind: "prefix", token: "ASA-SC-", klass: "license", why: "the upgrade form of the same ('ASA 5500 50 to 100 Security Context License Upgrade'); 2 parts, 0 facts. Distinct from the existing ASA-CSC rule, which is the content-security user licence" },
+  { kind: "prefix", token: "ASA5500-GTP", klass: "license", why: "ASA GTP inspection licence; 2 parts, 0 facts, name is the SKU" },
+  { kind: "prefix", token: "SNAM-", klass: "license", why: "NAM voice-monitoring licence ('Voice Monitoring SW License, 100 RTP Streams'); 4 parts, 0 facts" },
+  { kind: "prefix", token: "SLFL-", klass: "license", why: "ISR feature Paper PAK ('Technology and Feature Paper PAKs for Cisco 2900'); 3 parts (2 interfaces-modules, 1 security), 0 facts. `SL-` is already a licence prefix and does not reach these — there is no hyphen" },
+  { kind: "prefix", token: "FR-SVC-WVPN-", klass: "license", why: "'Cisco Catalyst 6500 and Cisco 7600 WebVPN 5000 user license'; 2 parts, 0 own facts" },
+  // NARROWED DELIBERATELY. The natural pattern (/^M9\d{2,3}[A-Z0-9]*K9$/) reaches 80 MDS licence
+  // rows, 74 of them in `storage-networking` — another agent's category. Every one of the 80 was
+  // read and every name says "License" or "Package", so the wide rule would be CORRECT; it is
+  // still not mine to write. This covers the 13 rows in my category plus the two `storage-networking`
+  // siblings of L5-D-M97S-AXK9 (its 1-year twin), which the same rule cannot avoid and which are
+  // the same product. The other 65 are listed in the report for the optical-storage agent.
+  // REMOVED 12 Sep 2026: "mds-feature-license" decided ZERO of the 91,543 live parts. Its three target
+  // rows exist and are all reached first by mds-licence / mds-analytics-term, to the same class.
+  { kind: "prefix", token: "SWLIC-", klass: "license", why: "a licence that must be ordered with a named carrier card ('1 DS license: Must configure with SPA-UBR10-DS-HD only'); 17 parts — 1 interfaces-modules, 16 the RFGW QAM licences in `video` — 0 facts, every name reads 'LICENSE: MUST CONFIGURE WITH …'" },
+  { kind: "regex", token: "ace30-upgrade-entitlement", re: /^ACE30-(?:MOD-UPG\d|UPG-\d+)/, probe: "ACE30-MOD-UPG1",
+    klass: "license", why: "ACE30 throughput/feature upgrade entitlement ('Upgrade 4G 1GComp 1KSSL 5VC to 4G 4GComp 30KSSL 250VC', 'ACE10 or ACE20 to ACE30 Upgrade for 8 Gbps Throughput'); 6 parts, 0 facts. NOT ACE30-MOD-*-K9 or ACE30-BASE-*, which are the real modules" },
+  { kind: "regex", token: "meraki-term-license", re: /^MG\d+E?-ENT-\d+Y$/, probe: "MG21-ENT-5Y",
+    klass: "license", why: "Meraki MG Enterprise term licence (MG21/MG41/MG51/MG52 x 1/3/5/7/10 years); 20 parts, all meraki, 0 facts. Anchored on the YEAR TAIL: MG21-HW-NA and MG21E are the gateways and do not match" },
+  { kind: "regex", token: "hyperfabric-subscription", re: /^HF\d+-[A-Z0-9]+-SVC(?:-[DS])?$/, probe: "HF6100-32D-SVC",
+    klass: "license", why: "Nexus Hyperfabric subscription ('subscription only', 'subscription linked bundle'); 8 parts, all data-center-networking, 0 facts. The -D and -S rows WITHOUT -SVC are 'configurable/fixed hardware only' and are the refusals" },
+  { kind: "regex", token: "ucs-fi-mandatory-sw-license", re: /^UCSX?-FI-\d+-SW$/, probe: "UCS-FI-6652-SW",
+    klass: "license", why: "'Auto included mandatory perpetual software license' sold with a UCS fabric interconnect; 3 parts (2 interfaces-modules, 1 servers-unified-computing), 0 own physical facts. May overlap the servers agent's UCS rules — same class either way, and first match wins" },
+  // --- software --------------------------------------------------------------------------------
+  { kind: "regex", token: "nam-software-image", re: /^(?:NAM-APPL-SW|NME-NAM-SW|SM-NAM-SW|SC-SVC-NAM|N1K-C1\d+-?NAM)/, probe: "NAM-APPL-SW-5.1",
+    klass: "software", why: "Network Analysis Module software image ('Cisco NAM 5.1 for Appliances w/Recovery CD', 'NAM Virtual Service Blade Software 4.2 for C1010'); 27 parts, all Cisco, 0 facts, all 27 read. The NAM HARDWARE is NAM2420-K9 / WS-SVC-NAM3-6G-K9 / NME-NAM-120S and carries no -SW- token" },
+  { kind: "regex", token: "sc6k-service-module-software", re: /^(?:R-)?SC6K-/, probe: "SC6K-A41-ACE",
+    klass: "software", why: "Catalyst 6000 service-module software release ('ACE A4(1) Software Release', 'Catalyst 6000 NAM software release', 'EDelivery of 5.1 SW for ACE30 Module'); 8 parts, 0 facts" },
+  { kind: "regex", token: "wvpn-module-software", re: /^SC-SVC-WVPN-\d/, probe: "SC-SVC-WVPN-11-K9",
+    klass: "software", why: "'WebVPN Services Module Software 1.1'; 2 parts, 0 own physical facts. Distinct from security's FL-WEBVPN rule, which is the user entitlement" },
+  { kind: "regex", token: "hyperfabric-nos-image", re: /^HF\d+-[A-Z0-9]+-NOS$/, probe: "HF6100-32D-NOS",
+    klass: "software", why: "'Cisco Nexus Hyperfabric switch HF6100-32D software image'; 3 parts, 0 facts. switchKind calls them `switch`, so until now they were asked a switching capacity" },
+  // --- non_product -----------------------------------------------------------------------------
+  { kind: "regex", token: "ztd-cvo-config-option", re: /^(?:\d{4}-ZTD-CFG|CVO\d+-CFG)$/, probe: "2900-ZTD-CFG",
+    klass: "non_product", why: "an ordering CONFIG option that ships nothing ('Zero-touch deployment default config for 29xx ISR', 'CVO Config for Cisco1900 ISR'); 5 parts (3 interfaces-modules, 2 routers), 0 facts" },
+  { kind: "regex", token: "promo-bundle-not-orderable", re: /^CB-B\dG\d-|-CBW-BG\d$/, probe: "CB-B3G1-SG250-08HP",
+    klass: "non_product", why: "a buy-N-get-one promotion, not a product ('Discount restricted SKU. Buy 3 SG250-08HP, Get 1 Free', 'Buy 1 SG220 Switch, Get 1 Free Access Point.'); 2 parts, 0 facts" },
+  { kind: "exact", token: "AIR-RM3000L1-UXK9", klass: "non_product", why: "its entire name is 'DO NOT USE'; 1 part, 0 facts" },
+  { kind: "regex", token: "army-booking-code", re: /^PA-A3-OC3(?:MM|SMI)-U$/, probe: "PA-A3-OC3MM-U",
+    klass: "non_product", why: "'Product # to book US Army ATM Deluxe Order' — a booking code, not a port adapter; 2 parts, 0 facts. The real adapters are PA-A3-OC3MM / PA-A3-OC3SMI without the -U" },
+  { kind: "regex", token: "literal-placeholder-in-sku", re: /X{3}[MF]$|^EDGE8-XXU$/, probe: "53-BB96-ALXXXM",
+    klass: "non_product", why: "the SKU contains a literal placeholder for the length, so it cannot be ordered (53-BB96-ALxxxM, JE8E808GE8-NBxxxF, EDGE8-xxU); 9 parts, all interfaces-modules, 0 facts. REFUSED a wider /XXX[A-Z]$|-XXU$/: it reached 99 parts including ONS-SC-Z3-xxxx= and ONS-XC-10G-xxxx=, which carry OWN PHYSICAL facts — the existing `family-placeholder` rule handles the -xxx/-xxxx tail and this one only adds the glued-unit form" },
+  // A DATASHEET CELL IS NOT A PRODUCT — the `QSFP28` lesson, at scale. 57 rows whose `name` is
+  // "Cisco " + the SKU verbatim, each a value read out of a specification table: a standard
+  // (G.652, TIA-568, OC-3/STM-1, 1000BASE-BX10-D), a fibre grade (OM4/OM5), a modulation (PAM4), a
+  // FEC scheme (RS-FEC, CL91), a bit-error rate (1E-12), a connector (MPO-24), a reach code
+  // (IR-1, SM-SR), a coherent mode (400G-400ZR-OFEC-16QAM), a software release (S3_8.10.10) or a
+  // bare LENGTH (0.5M … 29.0M — 13 of these, and the 2.3M and 3.5M in servers are cable lengths).
+  // ALL 57 WERE READ, one by one, across all 13 vendors: 0 carry a fact, 0 carry a document, and
+  // every alternative is anchored to the WHOLE SKU, which is what keeps a real product out —
+  // `SFP-10G-SR` is not `SR-1`, `CAB-...-MMF10M` is not `10M`, `OC48E/POS-LR-FC-B` is not `OC48`.
+  { kind: "regex", token: "datasheet-cell-not-a-product",
+    re: /^(?:\d+-F|1E-\d+|\d+(?:\.\d+)?M|G\.\d+|TIA-\d+|PAM\d|MPO-?\d+|OM\d(?:\/(?:OM)?\d)?|CL\d+|(?:RS|FC)-FEC|(?:IR|LR|SR)-\d|SM-(?:IR|SR)|OC-?\d+C?(?:\/STM-?\d+C?)?|\d+G-(?:\d+ZR|FOIC\d)-[A-Z0-9-]+|FOIC\d-OFEC-DP-DQPSK|\d+BASE-BX\d*-[DU]|3DES\/AES|S3_[\d.]+)$/,
+    probe: "OC-3/STM-1", klass: "non_product",
+    why: "a value enumerated out of a datasheet table as a part; 57 parts (46 currently hardware, 11 already unknown), 0 facts, 0 documents, every one read. 5 of them serve INHERITED facts today — OC-3, OC-12, OC-3/STM-1 and OC-12/STM-4 carry 3 each — which the report lists as a retraction" },
+  // --- service ---------------------------------------------------------------------------------
+  { kind: "regex", token: "isr-customization-service", re: /^C\d{4}ISR-CICS-S[A-Z]$/, probe: "C2900ISR-CICS-SL",
+    klass: "service", why: "'Cisco Integrated Customization Services-2900 ISR (Silver)' — an engagement, not a product; 3 parts (2 interfaces-modules, 1 routers), 0 facts" },
+  // ===== end modules-misc =======================================================================
 ];
 
 /** The reason string a rule emits — the same slug runs/vocab/cisco-round2 uses. */
