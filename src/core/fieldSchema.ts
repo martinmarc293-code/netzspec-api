@@ -1132,6 +1132,15 @@ const collabBlock = (): Record<string, Requirement> => ({
   // Racked boxes only; a phone has no form factor in this domain (rack-19 / desktop / din-rail / chassis).
   form_factor: cK(["gateway", "server"]),
   rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
+  // round-6 B6, all five categories as the reviewer decided (12 Sep 2026). A UC or Meeting Server
+  // application server is a UCS C-series box, and the two sizing cups it is bought on are the same
+  // two a UCS server now owes. The named exceptions in tests/cupLedger.test.ts called whether these
+  // servers "should owe the UCS cups" an open question; this closes that question for these two cups
+  // and leaves the exception in place for the rest (cpu, drive_bays, memory_speed_max still differ).
+  // Document evidence, measured: unified-communications 77 servers with 6 spec-bearing, conferencing
+  // 22 with 4 — thin, and no thinner than servers-unified-computing itself (9.8%), where the same two
+  // cups are required. A gap that can be named beats a question nobody asks.
+  memory_max: cK(["server"]), cpu_sockets_max: cK(["server"]),
   // --- calling ------------------------------------------------------------------------------------------
   // supported_protocols: 347 facts (SIP, H.323 ... on phones). ui_languages: 323 facts (phone firmware).
   supported_protocols: cK([...COLLAB_CALLING, "dect-base"]),

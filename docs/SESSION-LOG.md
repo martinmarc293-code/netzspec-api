@@ -4,6 +4,18 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-12 (night 3) - Opus/PARENT. The reviewer's twelve round-6 decisions executed; four came out different, one of them because it would have repeated a mistake I had already shipped.**
+
+  **THE MISTAKE: a supersession documented "ZERO facts anywhere" held 231 JUNIPER facts.** `tx_max_output_power -> tx_power` (6c3bff2, synced #986) took the cup off Juniper's transceivers. The census is per vendor; a supersession is global. Reverted + restored (#989). The reviewer's decision 4 had the same blind spot: `rx_max_input_power` (Juniper 240) and `tx_wavelength` (Juniper 261), both caught BEFORE sync. **`syncDictionaryOn` now refuses a new supersession of a key holding facts, naming each vendor** — proven by sabotage (#990 failed as designed, file restored byte-identical, table unchanged). CLAUDE.md hard rule added. NOT covered by the guard: retypes. **Juniper's session may want to know its transceiver cup was missing for ~a day.**
+
+  Done: layer opt + `layerFromSku` (precision 1.000, 500/4,931); `memory_max` + `cpu_sockets_max` required of server in all five categories, `dimm_slots`/`pcie_slots` opt on 4/18 label occurrences, `cpu_sockets -> cpu_sockets_max` (reviewer's direction reversed: 246 facts vs 0); `breakout-cable` kind (51; 7 multi-lane optics refused) with `breakoutEnds` answering 51/51; `wavelength_range` + `lane_wavelengths` added but NOT merged (cross-lane); orphan keys deleted #991; `?contested=all` + sidecars, null-winner counting fixed, frozen conflicts 13 -> 26 over the full lists and re-keyed on label|wants; "seen" rule + `observed_filled` + `DERIVED_FILL_PATHS`; the 51 non-ledger rows planned (addendum, two classifier preconditions). Held: 7 (cross-category).
+
+  **Required cups with no fill path, catalogue-wide: 0** (was 1). Catalogue recompute ran; all 17 ledgers/censuses/traces rebuilt. Suites 56/56. Deployed 0629eee, then the UC/conferencing server cups (sync #994, recompute wrote exactly 77 + 22 = the server counts).
+
+  **TRAPS:** recompute-completeness did not filter retired rows and recreated the 139 completeness rows #988 deleted — caught from its printed part count (91,682 = with tombstones), source fixed, deleted again (#993). The new sidecars broke two globs (the route listing and mapperTrace.test). The frozen conflict table was index-keyed, so eight new alias rules renumbered it. My own ``-free rewrite rule held; the breakout SKU table's own sabotage case caught it giving an optic breakout ends.
+
+  **NEXT:** operator approvals (bundle plan + 51-row addendum + 352 dispositions); reviewer rulings on 9 conflicts and item 7; the wavelength / receiver-window merge needs the Juniper lane.
+
 - **2026-09-12 (night 2) - Opus/PARENT. The round-6 reviewer said NOT YET, and their two headline findings were one defect in OUR instrument.**
 
   Verdict accepted. 7 blockers; 4 fixed or measured this block, 3 open on decisions.

@@ -192,3 +192,64 @@ and asserts nothing about it.
 - **7 rows that no name-only rule can place**: real machines whose name omits the model —
   `HXAF2X0C-M5S` is named only "Cisco Hyperconverged System", and five `UCS-SP-B200M4-B*T` name only
   the CPU tier. They are inside group 1 by SKU prefix, which is why the prefix is the selector.
+
+---
+
+## Addendum — round-6 item 6: the 51 hardware rows filed in software categories (write, don't run)
+
+**Nothing has been run.** Added at the reviewer's decision 6, with the same guards as the 651-part move.
+
+These are the 51 Cisco `hardware` rows in `ios-nx-os-software` (28), `cloud-systems-management` (12),
+`data-center-analytics` (7) and `software` (4). Measured: **every one has a profile, and the profile
+asks it nothing** (`no_profile` 0, `required_total` 0). None is a misclassified licence. The evidence
+guards put them in `hardware` on purpose (`own-physical-fact`, `hardware-twin`,
+`vendor-consumption-model-phrase`). They are **real devices in the wrong category**, which is the
+only reason they are asked nothing. All 51 read, 0 unplaced.
+
+Every destination below is `class hardware` (unchanged). The kind is what the destination's own
+classifier returns **for the row's real name**, and the cup count is that kind's question set.
+
+| # | family | rows | from | → category | → kind (asks) | facts / rows with a spec-bearing doc | selector |
+| --- | --- | ---: | --- | --- | --- | --- | --- |
+| A | NCS 540/560/5500/5700 and Cisco 8000 fixed and modular **systems** | 17 | ios-nx-os-software | `routers` | `sp-core` (19) | 59 / 17 | `-SYS` systems listed by SKU |
+| B | NCS 5500 **modular port adapters** | 5 | ios-nx-os-software | `routers` | `module` (2) | 29 / 5 | `^NC55-MPA-` |
+| C | NCS 5504/5508/5516 **chassis** | 3 | ios-nx-os-software | `routers` | `chassis` (14) | 0 / 3 | exact SKUs |
+| D | **NCS 540 access systems** | 2 | ios-nx-os-software | `routers` | **`transceiver` (1) — WRONG, see precondition 1** | 15 / 2 | `N540-ACC-SYS`, `N540X-ACC-SYS` |
+| E | ASR 9000 **line card** | 1 | ios-nx-os-software | `routers` | `linecard` (4) | 7 / 1 | `A99-4T-FC` |
+| F | ISR 1100 **Terminal Services Gateways** | 3 | cloud-systems-management | `routers` | `enterprise` (26) | 75 / 3 | `^C1100TGX?-` |
+| G | **Catalyst 2960-X / 2960-XR** | 2 | cloud-systems-management | `switches` | `switch` (36) | 10 / 0 | exact SKUs |
+| H | Tetration **Nexus 9300** switches | 4 | data-center-analytics | `switches` | `switch` (36) | 4 / 0 | `^TA-C93180YC-FX` |
+| I | **Nexus 3550-F line cards** | 4 | software | `switches` | `linecard` (6) | 4 / 0 | `^N35-F-X` |
+| J | Catalyst **Wi-Fi access points** | 3 | cloud-systems-management | `wireless` | `ap` (12) | 11 / 3 | `^CW916` |
+| K | **Catalyst Center appliance** (UCS-based) | 2 | cloud-systems-management | `servers-unified-computing` | **`unknown` (0) — see precondition 2** | 9 / 1 | `^DN3-HW-APL-` |
+| L | Catalyst Center and APIC **PCIe / OCP NICs** | 5 | cloud-systems-management 2, data-center-analytics 3 | `servers-unified-computing` | **`unknown` (0) — see precondition 2** | 5 / 0 | `^DN3-P-`, `^APIC-[PO]-` |
+| | **total** | **51** | | | | | |
+
+### Two preconditions, both classifier rules, both inert until the move
+
+1. **`N540-ACC-SYS` and `N540X-ACC-SYS` are full NCS 540 access routers, and the routers axis calls them
+   transceivers.** Their names read "NCS540 24x1/10G SFP+, 8x1/10/25G SFP+/SFP28, 2x100G QSFP28", and the
+   cage tokens win. All 27 N540 parts already in `routers` classify `sp-core`, and **no `-ACC-SYS` part
+   is in `routers` today**, so a rule that sends `-SYS` systems to `sp-core` ahead of the cage-token
+   rule changes nothing until these two arrive. Without it, the move files two routers as optics asked
+   one cup.
+2. **`DN3-HW-APL-XL(=)` and the five NICs land in `unknown`, which would add 7 rows to the asked-nothing
+   count the plan is meant to shrink.** `ucsKind` knows neither prefix. The rules are
+   `^DN3-HW-APL-` → `server`, and `^(?:DN3|APIC)-[PO]-` → `nic` (the names say "PCIe NIC" / "OCP3.0 NIC").
+   **One DN/APIC-prefixed part is already in servers-unified-computing, and it is a drive.** So the NIC
+   rule must be checked against that row, not only against these five, before it is written.
+
+### What the numbers become
+
+| category | now | leaves | arrives | after |
+| --- | ---: | ---: | ---: | ---: |
+| `routers` (hardware) | 5,454 after the bundle plan's 15 | — | 31 | **5,485** |
+| `switches` | 7,418 | — | 10 | **7,428** |
+| `wireless` | 3,993 after the bundle plan | — | 3 | **3,996** |
+| `servers-unified-computing` | 9,582 after the bundle plan | — | 7 | **9,589** |
+| the four software categories (hardware rows) | 51 | 51 | — | **0** |
+
+After this addendum and the bundle plan both run, **the Cisco hardware total under ledgers equals
+`/v1/stats`' Cisco hardware count** (today 42,450 against 42,501). The 51-row gap was the last
+difference between the two, and it is this table. With both preconditions in place, none of the 51 is
+asked zero cups.
