@@ -4,6 +4,78 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-12 (night 2) - Opus/PARENT. The round-6 reviewer said NOT YET, and their two headline findings were one defect in OUR instrument.**
+
+  Verdict accepted. 7 blockers; 4 fixed or measured this block, 3 open on decisions.
+
+  **THE API SERVED 139 TOMBSTONES AS LIVE PARTS, AND SIXTEEN OF SEVENTEEN QUERY MODULES CAUSED IT.**
+  `parts.retired_at` (0009) takes a row out of the catalogue and 0010 enforces case-insensitive live
+  identity with a partial unique index. Only `seriesIndex.ts` honoured any of it. So `/health` said
+  91,682 for a catalogue of 91,543, `/v1/stats` 42,621 against the ledgers' 42,450, and
+  `/v1/parts/cisco/DS-C9222i-K9` served the RETIRED twin -- 10 cups asked, zero facts -- because
+  `resolvePart` ordered by the caller's exact spelling.
+  The reviewer read 112 case-collision groups off that surface, proposed a twelfth check term, and
+  proposed fixing it by making the LEDGER count the rows it was dropping and merging the 112.
+  **Measured: 0 of the 112 have more than one LIVE row**, `retired_reason` names all 139
+  (`case_duplicate:canonical_upper_case` 108, `:operator_reviewed` 19, `not_a_cisco_part` 12), and
+  0010's own header records the 127 pairs and the hygiene run that merged them. The ledger was the
+  only honest surface. Their acceptance test could never pass, because retiring is not deleting.
+  **A real finding, a real defect, the diagnosis inverted -- which is what an instrument that lies
+  to an auditor produces.** Term 12 adopted as a term; its residue is 10 facts still on retired
+  parts (4 of them LOST in a merge) and 139 completeness rows.
+
+  **R1 WAS A SENTENCE IN THREE REPORTS AND NOTHING ENFORCED IT.** `tests/gateR1.test.ts` now scans
+  every cond in every profile (427). It scans the CONDITION, not the resolved state, which is the
+  whole difference: the reviewer found two violations in `pending_until_gate_answered` and that list
+  can only show cups still deciding. The third had already left it -- `switches.airflow` was
+  NOT APPLICABLE to all 4,931 switches, a cup with 187 label occurrences and 225 facts, closed with
+  nobody deciding. The routers profile had already made the same call for the same reason, citing R1.
+
+  **THE PHASE NUMBER WAS TWO PROPERTIES IN ONE WORD** (reviewer 8.2, correct): asked-nothing is
+  3,071 (a PROFILE property) and unresolved-kind 2,929 (a CLASSIFIER property); 1,426 of the 2,929
+  ARE asked a cup and 1,568 asked nothing sat in kinds with good names. Both axes emitted, detectors
+  judged over the union, and the test asserts they must DISAGREE.
+
+  **THE DICTIONARY THE API SERVES IS NOT THE CODE'S, AND IT EXPLAINS A WHOLE CLUSTER.** 28 drift
+  items between `fieldSchema.ts` and `field_dictionary`: 14 supersessions invisible, 2 keys the code
+  dropped still serving (the term-9 EoL dates), **4 keys a fact CANNOT REFERENCE AT ALL** (including
+  item 7's `regulatory_domain`), and 8 type/domain diffs -- `wifi_generation` is still `s` in the
+  table, so the enum we reported as closed enforces nothing. `fields.ts`'s own header says it would
+  "faithfully expose any drift, which is the point". One sync run away, not run: it writes.
+
+  **TWO CUPS CLOSED BY VALUE** (B4): `drive_interface` was holding an interface, a lane count ("3X",
+  "1X") and an endurance ("1DWPD"); `radio_bands` was one axis in twelve spellings in wireless AND
+  cellular band text in routers while `cellular_bands` sat beside it. would-refuse 261 -> 352,
+  free-string candidates 75 -> 71. Wireless stayed at 12 refusals because all 145 of its values fold.
+
+  **TRAPS HIT, all four found by reading output rather than by reasoning:**
+  - **18 literal 0x08 BACKSPACE bytes** from a scripted regex edit. Compiled, typechecked, grep
+    printed it as correct. The tell: "U.3 NVMe" refused while "U.3" passed, which is only possible
+    if the rules were never consulted. `tests/source-scan.test.ts` then named file, line and column.
+    The house rule held because it is a CHECK, not resolve.
+  - **First-match loses a SET.** A closed list must union every matching rule; "2.4GHz/5GHz" (a real
+    stored value) returned ["5ghz"] alone. One band lost, in band, invisible.
+  - **My own new scan cried wolf** on the first module to use its own helper: `${LIVE_PART()}`
+    leaves no literal in the source. A scanner that knows one spelling is the same defect pointed
+    the other way.
+  - **The alias rule `^spee *d$` -> drive_interface is a wrong pour** and the free string had hidden
+    it: its own test case passed "12G", a SAS generation SPEED. Not repointed -- written down.
+
+  **REJECTED TWO REVIEWER PROPOSALS, each with the measurement:** `transceiver.form_factor`'s 37
+  refusals are a deliberate guard refusing to pick one end of a breakout cable (the real finding is
+  term 2, not term 4); and `tx_wavelength -> wavelength` would coerce RANGES ("1530-1565", per-lane
+  lists) into a scalar cup and destroy the only record of that span.
+
+  Commits: b7a373a (API live rows + scan), 7b23a09 (R1 check + two axes), 714c469 (kind on parts,
+  ?kind=, /summary), 6c3bff2 (the two cups). Deployed and verified from the PUBLIC /health at
+  6c3bff2 with `parts: 91543` -- and one deploy died with "Connection reset" and its log kept only
+  my own trailing echo, which read exactly like success. Read /health, never the last log line.
+
+  **NEXT:** five runs need the operator, in order -- sync-dictionary (top of the list; without it
+  four closed cups enforce nothing), promote-required+recompute for switches, the retired-row
+  residue, the `bundle` separation (it is a holding pen: subscriptions, drive packs, expired 2010
+  promo SKUs and one row named "^INVALID SKU - NOT TO BE USED"), and the enlarged retraction run.
+
 - **2026-09-12 (late) - Opus/PARENT. The round-6 audit brief, and five of my own claims corrected by checking them.**
 
   `docs/reports/cisco-arrangement-audit-brief-2026-09-12.md` (752 lines, served at
