@@ -33,7 +33,7 @@ import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
 import { mapLabel, unitFromLabel, mapFact, type RawFact } from "../src/core/deepSpecMap.js";
 import { normalizeField, type NormReason } from "../src/core/specNormalize.js";
-import { FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
+import { FIELD_DICTIONARY, SUPERSEDED_KEYS } from "../src/core/fieldSchema.js";
 
 let pass = 0;
 const misses: string[] = [];
@@ -585,6 +585,73 @@ check('REFUSED: the SHARED-PSN row, a second measurement of the same box',
 check('SCOPED: the dedicated-PSN row maps nothing in wireless',
   mapLabel("Concurrent active endpoints supported by a dedicated PSN (Cisco ISE node only has PSN persona)", "wireless") ?? "unmapped", "unmapped");
 
+// ---- round-7 ruling A (12 Sep 2026): the nine newly visible cup conflicts, ruled -----------------
+// Each ruling is pinned by OUTCOME — the cup the label reaches — and each has a near neighbour that
+// must NOT move, because every one of these was fixed by inserting a rule ABOVE a live one, and a rule
+// inserted above another is exactly the change that steals a label it was never meant to see.
+// (A1–A2) A combined operating/storage humidity row is TWO measurements in one cell; neither cup may
+// hold it until a split-by-value-position rule exists, so it parks in __backlog.
+check('A1 "Environmental: Operating/storage humidity" parks in __backlog, neither humidity cup',
+  mapLabel("Environmental: Operating/storage humidity", "servers-unified-computing"), "__backlog");
+check('A2 "Operating/storage humidity" parks in __backlog', mapLabel("Operating/storage humidity", "switches"), "__backlog");
+check('...and the "non-operating" spelling of the same combined row', mapLabel("Operating/non-operating humidity", "routers"), "__backlog");
+check('CONTROL: a plain "Operating humidity" still reaches its own cup', mapLabel("Operating humidity", "switches"), "humidity_operating");
+check('CONTROL: a plain "Storage humidity" still reaches its own cup', mapLabel("Storage humidity", "switches"), "humidity_storage");
+// (A3) VA and W are different units of different quantities; watts never go in the VA cup.
+check('A3 "Maximum Input at Nominal Input Voltage (W)" reaches power_max', mapLabel("Maximum Input at Nominal Input Voltage (W)", "servers-unified-computing"), "power_max");
+check('CONTROL: the (VA) form still reaches input_va_max', mapLabel("Maximum Input at Nominal Input Voltage (VA)", "servers-unified-computing"), "input_va_max");
+// (A4) the nominal current is input_current; input_current_nominal is superseded into it.
+check('A4 "Nominal Input Current (Arms)" reaches input_current', mapLabel("Nominal Input Current (Arms)", "servers-unified-computing"), "input_current");
+check('...and the retired key is superseded into it, not left as a second cup',
+  (SUPERSEDED_KEYS as Record<string, string>).input_current_nominal, "input_current");
+// (A5) Compliance with a parenthetical scope is a certification list; bare "Compliance" is unchanged.
+check('A5 "Compliance (EMC)" reaches certifications', mapLabel("Compliance (EMC)", "switches"), "certifications");
+check('...and its safety sibling', mapLabel("Compliance (safety)", "switches"), "certifications");
+check('...and its regulatory sibling', mapLabel("Compliance (regulatory)", "switches"), "certifications");
+check('CONTROL: bare "Compliance" is NOT moved by the scoped rule inserted above it', mapLabel("Compliance", "switches"), "ieee_standards");
+// (A6–A7) resolved by the existing rules; pinned so a later insertion cannot quietly move them.
+check('A6 "Maximum Rated Output (W) 1" reaches psu_rated_output', mapLabel("Maximum Rated Output (W) 1", "servers-unified-computing"), "psu_rated_output");
+check('A7 "Safety Approvals" reaches certifications', mapLabel("Safety Approvals", "switches"), "certifications");
+// (A8) a filter's pass window in nm goes in the nm cup.
+check('A8 "Passband Wavelengths" reaches filter_passband (nm)', mapLabel("Passband Wavelengths", "optical-networking"), "filter_passband");
+check('CONTROL: an RF "Pass band" still reaches passband (MHz)', mapLabel("Pass band", "video"), "passband");
+
+// A8's STANDING RULE, over the whole inventory rather than the one label that broke it: a label that
+// names a WAVELENGTH never reaches a cup measured in FREQUENCY. Asserted in every category the mapper
+// traces cover, plus unscoped, for every label in every local inventory (runs/vocab/*/labels.json).
+// The inventory is gitignored, so its absence is a recorded MISS, not a silent pass — the same shape
+// source-fields.test uses. Measured when written: 23,679 labels, 93 name a wavelength, and they reach
+// wavelength (27), ports (4, SFP descriptions), rx_wavelength (3) and filter_passband (1). None reach Hz.
+{
+  const FREQ_UNIT = /^(?:hz|khz|mhz|ghz|thz)$/i;
+  const vocab = path.join(REPO_ROOT, "runs", "vocab");
+  const mapperDir = path.join(REPO_ROOT, "data", "mapper");
+  const cats: (string | undefined)[] = [undefined, ...fs.readdirSync(mapperDir)
+    .filter((f) => f.endsWith(".json") && !f.endsWith(".contested.json"))
+    .map((f) => f.replace(/^cisco-/, "").replace(/\.json$/, ""))];
+  const labels = new Set<string>();
+  for (const slug of fs.existsSync(vocab) ? fs.readdirSync(vocab) : []) {
+    const p = path.join(vocab, slug, "labels.json");
+    if (!fs.existsSync(p)) continue;
+    for (const l of (JSON.parse(fs.readFileSync(p, "utf8")).labels ?? []) as { label: string }[]) labels.add(l.label);
+  }
+  const named = [...labels].filter((l) => /wavelength/i.test(l));
+  const wrong: string[] = [];
+  let pairs = 0;
+  for (const l of named) {
+    for (const c of cats) {
+      pairs++;
+      const k = mapLabel(l, c);
+      const unit = k ? (FIELD_DICTIONARY as Record<string, { unit?: string | null }>)[k]?.unit ?? "" : "";
+      if (k && FREQ_UNIT.test(unit)) wrong.push(`${JSON.stringify(l)} in ${c ?? "(unscoped)"} -> ${k} (${unit})`);
+    }
+  }
+  check(`the label inventory is present (${labels.size} labels, ${named.length} name a wavelength, ${pairs} label x category pairs)`,
+    labels.size > 1000 && named.length > 0 ? "present" : "absent", "present");
+  check(`no label naming a wavelength reaches a frequency-unit cup${wrong.length ? `: ${wrong.slice(0, 5).join("; ")}` : ""}`,
+    wrong.length, 0);
+}
+
 // ---- THE ONE SUMMARY AND THE ONE EXIT ---------------------------------------------------------
 // Arithmetic, like TOTAL, and for the same reason: a denominator derived from `pass` cannot notice
 // a dropped case. 9 fixed checks in the scoped block (Type-in-optical, Integrated antenna,
@@ -603,7 +670,11 @@ const SCOPED_TOTAL = SPEED_IS_A_DRIVE.length * 2 + SPEED_IS_NOT_A_DRIVE.length
   // round-6 B4b (12 Sep 2026): 1 check — the "Speed" column on a server now REFUSES "12G", a SAS
   // generation speed, instead of filing it as a drive interface. Counted here for the same reason
   // the line above is: a denominator derived from `pass` cannot notice a check that stopped running.
-  + 1;
+  + 1
+  // round-7 ruling A (12 Sep 2026): 19 checks — humidity 3 + 2 controls; VA/W 1 + 1 control; nominal
+  // current 1 + the supersession; Compliance 3 + 1 control; A6 and A7 one each; passband 1 + 1 control;
+  // and the inventory-wide wavelength guard, which is 2 (inventory present, no frequency cup reached).
+  + 19;
 const stated = RULES.filter(([, , , v]) => v !== NO_SHAPE).length;
 console.log(`${pass}/${TOTAL + SCOPED_TOTAL} passed (${TOTAL} rule-table, ${SCOPED_TOTAL} category-scoped)`);
 if (misses.length) {

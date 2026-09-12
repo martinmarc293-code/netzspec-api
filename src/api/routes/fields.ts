@@ -24,6 +24,9 @@ const FieldItem = Type.Object({
   /** a retired key names the key that holds its quantity now; null = not retired (migration 0015) */
   superseded_by: Nullable(Type.String()),
   requirement: Type.Optional(Type.Object({ kind: Type.String(), when: Type.Optional(AnyJson) })),
+  /** round-7 ask F: current facts under this key per vendor slug, live parts only. {} = none anywhere. A dictionary
+   *  change (a supersession, a retype, a closed domain) is measured across ALL vendors before it is made. */
+  facts_current_by_vendor: Type.Record(Type.String(), Type.Integer()),
 });
 
 const LinkEntry = Type.Object({

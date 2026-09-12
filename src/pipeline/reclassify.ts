@@ -42,16 +42,17 @@ import { getPool, closePool, withTx, withRun } from "../store/index.js";
 import { REPO_ROOT } from "../config.js";
 import { classify, RULE_NAMES, SKU_RULES, type ProductClass } from "../core/productClass.js";
 
-export type Args = { commit: boolean; vendor: string | null; examples: number; batch: number };
+export type Args = { commit: boolean; vendor: string | null; examples: number; batch: number; onlyRules: string[] };
 
 export function parseArgs(argv: string[]): Args {
-  const a: Args = { commit: false, vendor: null, examples: 20, batch: 5000 };
+  const a: Args = { commit: false, vendor: null, examples: 20, batch: 5000, onlyRules: [] };
   for (let i = 0; i < argv.length; i++) {
     const x = argv[i];
     if (x === "--commit") a.commit = true;
     else if (x === "--vendor") a.vendor = argv[++i];
     else if (x === "--examples") a.examples = Number(argv[++i]);
     else if (x === "--batch") a.batch = Number(argv[++i]);
+    else if (x === "--only-rule") a.onlyRules.push(argv[++i]);
     else throw new Error(`unexpected argument ${x}: usage is ingest reclassify [--commit] [--vendor V] [--examples N]`);
   }
   if (!Number.isFinite(a.examples) || a.examples < 1) throw new Error("--examples must be a positive number");
@@ -143,6 +144,31 @@ export function plan(rows: PartRow[], examples = 20): Plan {
   return p;
 }
 
+/**
+ * round-7 ruling C (12 Sep 2026): SCOPE A COMMIT TO THE RULES AN OPERATOR APPROVED. The bundle plan's dry run
+ * proposed 707 class changes for Cisco, of which 125 were the plan's; the other 582 were rules registered on
+ * earlier days whose rows were never re-run (name-ordering-artefact 281, name-marker-not-a-part 111, ...).
+ * An unscoped --commit would have applied all of them under an approval that named none of them. Pure; the
+ * held changes are counted per rule so the dry run shows exactly what was left for another decision.
+ * A named rule that matches ZERO changes is refused — a zero is a broken selector until proven otherwise.
+ */
+export function scopePlan(p: Plan, onlyRules: string[]): Plan & { held_by_rule: Record<string, number> } {
+  if (!onlyRules.length) return { ...p, held_by_rule: {} };
+  const want = new Set(onlyRules);
+  const kept = p.changes.filter((c) => want.has(ruleOf(c.reason_to)));
+  const held: Record<string, number> = {};
+  for (const c of p.changes) if (!want.has(ruleOf(c.reason_to))) held[ruleOf(c.reason_to)] = (held[ruleOf(c.reason_to)] ?? 0) + 1;
+  const dead = onlyRules.filter((r) => !kept.some((c) => ruleOf(c.reason_to) === r));
+  if (dead.length) throw new Error(`--only-rule ${dead.join(", ")} matches ZERO changes — refusing: an empty scope is a broken selector until proven otherwise`);
+  const by_transition: Record<string, number> = {};
+  for (const c of kept) by_transition[`${c.from}->${c.to}`] = (by_transition[`${c.from}->${c.to}`] ?? 0) + 1;
+  return {
+    ...p, changes: kept, by_transition, held_by_rule: held,
+    by_rule: Object.fromEntries(Object.entries(p.by_rule).filter(([k]) => want.has(k))),
+    reviewed_changes: p.reviewed_changes,
+  };
+}
+
 /** Group the changes into one UPDATE per (class, reason): 89,000 rows become a handful of statements. */
 export function updateGroups(changes: Change[]): { klass: ProductClass; reason: string; ids: number[] }[] {
   const byKey = new Map<string, { klass: ProductClass; reason: string; ids: number[] }>();
@@ -208,7 +234,7 @@ export function statsOf(p: Plan, written: number) {
 export async function main(argv: string[]): Promise<void> {
   const a = parseArgs(argv);
   const rows = await readParts(a.vendor);
-  const p = plan(rows, a.examples);
+  const p = scopePlan(plan(rows, a.examples), a.onlyRules);
   const now = new Date().toISOString();
   const day = now.slice(0, 10);
   let tag = `${a.commit ? "nochange" : "dry"}-${now.slice(11, 19).replaceAll(":", "")}`;
@@ -219,7 +245,7 @@ export async function main(argv: string[]): Promise<void> {
     // the writes span several transactions, so a throw half way through must still report how far
     // it got: `partial` hands withRun the counters that are otherwise lost with the exception
     let progress = 0;
-    const out = await withRun("reclassify", { vendor: a.vendor, rules: SKU_RULES.length, scanned: p.scanned, examples: a.examples }, async (id) => {
+    const out = await withRun("reclassify", { vendor: a.vendor, rules: SKU_RULES.length, scanned: p.scanned, examples: a.examples, only_rules: a.onlyRules, held_by_rule: p.held_by_rule }, async (id) => {
       tag = `run${id}`;
       const n = await applyPlan(p, a.batch, (w) => { progress = w; });
       const lines = Object.entries(p.by_rule).sort((x, y) => y[1].count - x[1].count)
@@ -247,6 +273,7 @@ export async function main(argv: string[]): Promise<void> {
   console.log(`${a.commit ? (runId ? `COMMITTED run ${runId}` : "COMMIT — nothing to change") : "DRY RUN"} — reclassify ${a.vendor ?? "all vendors"} over ${SKU_RULES.length} SKU rules`);
   console.log(`scanned ${p.scanned}, would change ${p.changes.length}, written ${written}, unchanged ${p.unchanged}, reason-only (not written) ${p.reason_only}, left alone because this table did not decide their class ${p.foreign_reason}`);
   console.log("by transition:", p.by_transition);
+  if (a.onlyRules.length) console.log(`SCOPED to --only-rule ${a.onlyRules.join(", ")}; HELD for another decision (not written): ${JSON.stringify(p.held_by_rule)}`);
   for (const [reason, v] of Object.entries(p.foreign_by_reason)) {
     console.log(`  LEFT ALONE  ${reason}: ${v.count} (${Object.entries(v.would_become).map(([t, c]) => `${t} ${c}`).join(", ")}) e.g. ${v.examples.slice(0, 6).join(", ")}`);
   }

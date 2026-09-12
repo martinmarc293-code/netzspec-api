@@ -67,6 +67,16 @@ export const RT_KINDS: readonly RouterKind[] = [...RT_DEVICE, ...RT_COMPONENT];
 //   linecard after power, fan, accessory, processor — `^NC5[57]-` means "whatever NC55/NC57 is left".
 //   module last                  — its markers are the least specific; NIM-SSD is a drive first, WIM-BLANK= a cover.
 export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
+  // round-7 addendum D (12 Sep 2026) — AN NCS 540 `-SYS` IS A WHOLE ROUTER, AHEAD OF EVERY COMPONENT TOKEN.
+  // N540-ACC-SYS and N540X-ACC-SYS ("NCS540 24x1/10G SFP+, 8x1/10/25G SFP+/SFP28, 2x100G QSFP28") are full
+  // access routers. Their `ACC` segment hit the accessory rule, and `accessory` is a fallback kind, so the NAME
+  // marker then read the cage tokens and filed both as transceivers asked one cup. First, so no component token
+  // can reach an N540 system.
+  // SCOPED TO N540, NOT TO `-SYS`. The operator's wording was "-SYS -> sp-core ahead of cage tokens"; measured,
+  // routers holds 29 live `-SYS` rows and 7 of them are line-card CHASSIS (8608/8804/8808/8812/8818-SYS,
+  // ASR-9006/9010-SYS) that a bare `-SYS` rule would turn into sp-core. Scoped, it changes 0 of the 27 N540 parts
+  // already in routers (all sp-core by `sp-ncs`) and 0 rows anywhere else in the category.
+  { id: "sp-n540-system", kind: "sp-core", re: /^N540X?-(?:[A-Z0-9]+-)*SYS(?:-[A-Z])?=?$/ },
   { id: "accessory-cable-mgmt", kind: "accessory",
     re: /CAB-MGMT|CBLMGMT|CBLMFMT|CABLETRAY|(?<![A-Z0-9])(?:FRONT|FRNT|REAR|BCK)-CM(?![A-Z0-9])|-CM-RETRO|-LCC-FRNT-E|^CAB-GUIDE|(?:CAB|CBL)-(?:BRKT|BRACKET|GUIDE)/ },
   // routers-r5 (12 Sep 2026) — SEVEN MISSES FOUND BY READING THE 423 PARTS THE DEVICE SUB-KIND

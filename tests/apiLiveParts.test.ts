@@ -193,6 +193,19 @@ check("an exemption note is honoured",
 // fails the second check above. Proven by asking the table directly.
 check("SABOTAGE an unrecorded exemption has no entry to justify it", EXPECTED_EXEMPT["invented.ts"] === undefined);
 
+// ---- the recompute, one layer down (round-7 ask F, 12 Sep 2026) ------------------------------------------------
+// Standing: after any recompute, completeness rows for retired parts == 0. The runtime half lives in
+// recompute-completeness (it fails the run with the count); this pins that both halves are still in the source,
+// because a filter deleted in a refactor would otherwise be noticed only by the next recompute that scored a tombstone.
+{
+  const src = fs.readFileSync(path.join(REPO_ROOT, "src", "pipeline", "recompute-completeness.ts"), "utf8");
+  // Plain substrings, not regexes: the first version of these two lines lost its backslashes on the way into the
+  // file and matched nothing, which a green run would never have shown.
+  check("recompute selects live parts only (where.unshift of the retired filter)", src.includes(`where.unshift("p.retired_at IS NULL")`));
+  check("recompute asserts, after writing, that no retired part holds a completeness row, and fails the run if one does",
+    src.includes("JOIN parts p ON p.id = cp.part_id WHERE p.retired_at IS NOT NULL") && src.includes("if (retired !== 0) {"));
+}
+
 console.log(`    api live parts: ${pass} passed, ${misses.length} missed (${readsParts.length} query modules read parts; ${exempt.length} exempt: ${exempt.join(", ")})`);
 if (misses.length) {
   for (const m of misses) console.log(`  MISS ${m}`);

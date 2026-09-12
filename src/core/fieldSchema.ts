@@ -436,6 +436,22 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // 800G OSFP to 8xSFP56 that will. A 1 is not a breakout, so the floor is 2.
   breakout_count: { key: "breakout_count", de: "Anzahl Abzweige", en: "Breakout count", type: "n", band: [2, 16], etim: [], icecat: null },
   // end round-6 B4c -----------------------------------------------------------------------------
+  // round-7 ruling C (12 Sep 2026) -- TWO CUPS THE BUNDLE PLAN NEEDS -----------------------------------
+  // Measured across ALL vendors before they were written: neither key exists, 0 facts anywhere.
+  //
+  // bundle_contents — what an orderable bundle IS MADE OF, one member per device line ("1x 5108 chassis",
+  // "4x B200 M4", "2x fabric interconnect 6248"). Term 10: the row a bundle's name prints is the field, and
+  // resolved edges to the contained parts are that field's fill path. Its fill path today is the name itself
+  // (src/core/bundleContents.ts, validated over the plan's 277 rows). NOT box_contents: that string (cisco 9
+  // facts, "Package Contents") is what ships in one product's carton — rails, cords, a quick-start guide —
+  // and a 5108 chassis still has box_contents of its own. One is a bill of materials, the other a packing list.
+  bundle_contents: { key: "bundle_contents", de: "Bundle-Inhalt", en: "Bundle contents", type: "ls", etim: [], icecat: null },
+  // pack_quantity — how many identical units ONE orderable SKU is ("4 TB ... 2 Pack" -> 2). THE CUP MEANS PER
+  // UNIT, EVERYWHERE, and this is where the multiplier lives instead: storage_capacity on UCS-SP-HD-4T-2
+  // stays 4096 GB (one drive), dram on UCS-EZ8-M16G-8 stays 16 GB (one DIMM). Never multiplied into the cup
+  // (operator ruling, round 7). A 1 is not a pack, so the floor is 2; 10 is the largest pack in the catalogue.
+  pack_quantity: { key: "pack_quantity", de: "Packungsinhalt (Stück)", en: "Pack quantity", type: "n", band: [2, 100], etim: [], icecat: null },
+  // end round-7 ruling C --------------------------------------------------------------------------
   // round-6 B5 (12 Sep 2026) -- WAVELENGTHS THAT ARE NOT ONE NUMBER ---------------------------------
   // `wavelength` is a scalar (738 facts: 1310, 850, 1550 ...). `tx_wavelength` was the transmit RANGE
   // under a free-string type -- its own alias note says "values are Tx-only windows (1530-1565)" -- and
@@ -1075,6 +1091,13 @@ const ucsCups = (): Record<string, Requirement> => ({
   storage_capacity: ucsK("drive"), drive_interface: ucsK("drive"),
   psu_rated_output: ucsK("psu"), input_voltage: ucsK("psu"),
   product_compatibility: ucsK(...UCS_PART_K),
+  // round-7 ruling C (12 Sep 2026): a bundle owes what it is made of. Zero cups is what put 1,568 rows outside
+  // every phase-1 number; one is the minimum that makes the kind visible, not a claim that one is enough.
+  // Approved ONLY with its fill path on the same commit: the name parser in src/core/bundleContents.ts,
+  // registered in scripts/build-cup-ledger.mts DERIVED_FILL_PATHS with its validation counts.
+  bundle_contents: ucsK("bundle"),
+  // PER UNIT: every capacity cup holds one unit; the pack multiplier lives here and is never multiplied in.
+  pack_quantity: opt,
   // Declared, never required. cpu_sockets: 0 facts anywhere, 0 labels (demoted 10 Sep 2026, unchanged).
   // storage_raw_capacity: a storage server's aggregate (S3260 "784 TB"), 29 facts, kind-unscoped.
   // cpu_sockets is now SUPERSEDED into cpu_sockets_max (see SUPERSEDED_KEYS) and must not be
@@ -1448,8 +1471,14 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   "hyperconverged-systems": {
     ...ucsCups(),
     cpu_sockets: opt,  // unreachable — see the note in servers-unified-computing
+    // round-7 ruling B (12 Sep 2026): a NAMED EXCEPTION to "one cup set per UCS kind". The promote bar found
+    // both of these on hyperconverged-systems servers (91% and 86%) and on no other UCS category's, so
+    // requiring them of all three would create gaps with no evidence in two. Required of `server` here
+    // alone, and listed in tests/cupLedger.test.ts EXCEPTIONS; the other two re-test at the promote bar
+    // after filling, and the exception is removed if they reach it.
+    emc_emissions: ucsK("server"),
     // STRUCTURE 8 Sep 2026: 3 field(s) its documents already produce and no profile declared — invisible to completeness until now
-    humidity_storage: opt, hypervisor: opt,
+    humidity_storage: ucsK("server"), hypervisor: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, bmc_management: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, drive_options: opt, expansion_slot_type: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, onboard_nics: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, psu_count: opt, random_read_iops_4k: opt, random_write_iops_4k: opt, read_latency: opt, rear_clearance: opt, rear_panel_ports: opt, riser_options: opt, security_features: opt, sequential_write_throughput: opt, series_release_date: opt, system_memory: opt, temp_operating_extended: opt, thermal_shock: opt, write_latency: opt,
   },
@@ -2321,6 +2350,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // The PoE class an AP DRAWS. Required of APs, and of an injector (the class it SUPPLIES).
     poe_standard: cond({ field: "kind", inList: [...WL_AP, "power-injector"] }),
     ports: cond({ field: "kind", inList: [...WL_PORTED] }),
+    // round-7 ruling C (12 Sep 2026): a controller+AP kit owes its contents ("WLC2504 w/ 10 AP Lic. and 10
+    // AP-702i"), filled from the name by src/core/bundleContents.ts. See the UCS block for the same cup.
+    bundle_contents: cond({ field: "kind", inList: ["bundle"] }),
     // --- controllers --------------------------------------------------------------------------------
     wlc_ap_capacity: cond({ field: "kind", inList: ["wlc"] }),
     wlc_client_capacity: cond({ field: "kind", inList: ["wlc"] }),
@@ -3412,6 +3444,14 @@ export const SUPERSEDED_KEYS: Readonly<Record<string, string>> = {
   // the tidier-looking name", and `random_read_iops_4k` is the recorded example of getting it
   // wrong. Merging the other way would move 246 facts to gain a shorter key.
   cpu_sockets: "cpu_sockets_max",
+  // round-7 ruling A4 (12 Sep 2026): "Nominal Input Current (Arms)" is the non-max input current, so it
+  // is input_current. Measured across EVERY vendor before this line was written, per the rule above:
+  // input_current_nominal holds 0 facts in any state, 0 conflicts, and 15 profile rows (all opt). Its
+  // only alias rule was repointed at input_current in the same change, so nothing can pour into it.
+  // The reviewer's companion rulings for psu_output_power, psu_output_rating and safety_standards were
+  // "supersede the EMPTY ones" — none of the three is empty (cisco 10 / cisco 26 / cisco 34 + arista 4),
+  // so they stay live and are reported, not merged.
+  input_current_nominal: "input_current",
   //   rx_max_input_power        0 facts, "Saturation optical power" 4 + "Maximum receiver input
   //                             power" · type n dBm · now carries a curated band   <- survivor
   //   max_optical_input_power   0 facts, "Maximum input power" 11 + "Receiver damage threshold" 10

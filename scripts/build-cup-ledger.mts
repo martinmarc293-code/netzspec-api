@@ -283,6 +283,9 @@ async function main(): Promise<void> {
     form_factor_a: { by: "src/core/breakoutEnds.ts breakoutEndsFor", validated: "51 of 51 breakout-cable parts; SKU table agrees with the text reading on all 32 that have text" },
     form_factor_b: { by: "src/core/breakoutEnds.ts breakoutEndsFor", validated: "51 of 51 breakout-cable parts; SKU table agrees with the text reading on all 32 that have text" },
     breakout_count: { by: "src/core/breakoutEnds.ts breakoutEndsFor", validated: "51 of 51 breakout-cable parts; SKU table agrees with the text reading on all 32 that have text" },
+    // round-7 ruling C (12 Sep 2026): the condition bundle_contents was approved under. Counts from the SKU control
+    // (an independent reading of the SKU checked against the name parse), over the plan's 277 rows.
+    bundle_contents: { by: "src/core/bundleContents.ts bundleContents (the bundle's own name)", validated: "277 plan rows (groups 4, 5, 6, 13): parsed 250, refused 27 with a reason (20 'required, not included', 4 no contents, 1 range, 1 unrecognised item, 1 drive with no unit); SKU control on the 250: agree 175, DISAGREE 2 (the vendor's name and SKU name different servers), SKU names nothing 73. +8 UCS-SPM-MDS rows: agree 8/8. The 101 'Cisco <sku>' rows are refused by rule (the name is only the SKU)" },
     layer: { by: "src/core/layerFromSku.ts", validated: "precision 1.000 over the 1,054 seeds (276 agree, 0 disagree); speaks for 500 of 4,931 switches (10.1%) — which is why the cup is optional" },
   };
   const ownNonSeed = new Set((await pool.query<{ k: string }>(`

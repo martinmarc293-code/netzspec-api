@@ -18,8 +18,11 @@ const SCHEMA_FILES = ["src/core/fieldSchema.ts", "src/core/fieldSchema.generated
 
 async function main(): Promise<void> {
   const files = SCHEMA_FILES.map((f) => hashFile(path.join(REPO_ROOT, f)));
-  const out = await withRun("sync-dictionary", { files }, async () => {
-    const r = await syncDictionary({ quiet: true });
+  // round-7 ask F: --allow-refusing <key>[,<key>] records a deliberate reshape that re-reads stored values as refused.
+  const ai = process.argv.indexOf("--allow-refusing");
+  const allowRefusing = ai >= 0 ? String(process.argv[ai + 1] ?? "").split(",").filter(Boolean) : [];
+  const out = await withRun("sync-dictionary", { files, allow_refusing: allowRefusing }, async () => {
+    const r = await syncDictionary({ quiet: true, allowRefusing });
     const notes = [
       r.orphaned.length ? `${r.orphaned.length} orphaned dictionary key(s) kept` : "",
       r.profiles_orphaned.length ? `${r.profiles_orphaned.length} orphaned profile row(s) kept` : "",
@@ -36,6 +39,7 @@ async function main(): Promise<void> {
   // The one DELETE this command makes must be visible in its own output, not only in the run row —
   // run #944 removed 13 rows and printed nothing about it.
   if (r.profiles_superseded_removed.length) console.log(`profile rows REMOVED for superseded keys (fieldSchema SUPERSEDED_KEYS): ${r.profiles_superseded_removed.length} — ${r.profiles_superseded_removed.slice(0, 20).join(", ")}`);
+  for (const x of r.reshaped) console.log(`reshaped ${x.key} (${x.changed.join(", ")}): ${x.facts} current facts re-read, would refuse ${JSON.stringify(x.would_refuse_by_vendor)}`);
   if (r.label_drift.length) console.log(`label drift (FIELD_LABELS vs FieldDef, FieldDef wins): ${r.label_drift.join(", ")}`);
 }
 

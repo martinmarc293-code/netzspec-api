@@ -1939,6 +1939,13 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["A99-4T-FC", "ASR 9000 4T Flexible Consumption Line Card", "ios-nx-os-software", "stray-device:linecard"],
     ["TA-C93180YC-FX", "Nexus 9300 with 48p 10/25G SFP+, 6p 100G QSFP", "data-center-analytics", "stray-device:switch"],
     ["CW9166D1", "Cisco CW9166D1", "cloud-systems-management", "stray-device:ap"],
+    // round-7 ruling C (12 Sep 2026): the bundle plan's leaving families, one real row each, from the frozen
+    // reference data/reference/cisco-bundle-rows-2026-09-12.json (bundleFamily.ts bundlePlanClass).
+    ["AVIZ-CA300-SW-MS", "Avizia CA300 Multisite Option", "collaboration-endpoints", "bundle-plan:software-subscription"],
+    ["EDU-C9800-BNDL", "EDU Bundle for Catalyst 9800 at 50 Percent Off", "wireless", "programme-or-solution-label"],
+    ["CESIUM-BM-C220AP", "(Internal Only) Cesium BareMetal 1x 8C, 24GB, 2x900GB", "servers-unified-computing", "not-sellable:self-declared"],
+    ["AIR-CT100-1140A30", "802.11a/g/n FCC Cfg5508-100 30AP WCS Demo Promo ends 8/1/10", "wireless", "expired-promotion"],
+    ["UCSW-SA-PALET", "UCSW Invicta Unracked Packing Pallet", "servers-unified-computing", "packaging-not-a-product"],
   ];
   for (const [sku, name, cat, reason] of witnesses) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: cat !== "ios-nx-os-software" && cat !== "data-center-analytics" && cat !== "cloud-systems-management" });

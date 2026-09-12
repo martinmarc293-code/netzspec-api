@@ -134,6 +134,8 @@ export const PartRecord = Type.Object({
   category: Type.Object({ slug: Type.String(), name_en: Type.String(), name_de: Type.String() }),
   series: Nullable(Type.String()), family: Nullable(Type.String()), product_class: Type.String(), name: Nullable(Type.String()), description: Nullable(Type.String()),
   datasheet_url: Nullable(Type.String()),
+  /** round-7 ask F (12 Sep 2026): the derived kind the profile gates on — the same value /v1/parts items carry. */
+  kind: Nullable(Type.String()),
   lifecycle: Nullable(LifecycleRecord),
   facts: Type.Array(FactItem),
   relations: Type.Array(Type.Object({

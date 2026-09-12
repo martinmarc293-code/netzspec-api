@@ -92,13 +92,22 @@ const POSITIVE: [string, RouterKind, string, string][] = [
   ["ASR-920-12SZ-A", "sp-core", "sp-asr9k", "Cisco ASR920 Series - 12 x 1/10GE SFP, Fixed AC Model"],
   ["A901-6CZ-F-A", "sp-core", "sp-asr900", "Cisco ASR 901 Series Aggregation Services Router Chassis"],
   ["NCS-55A1-36H-S", "sp-core", "sp-ncs", "NCS55A1 Fixed 36x100G Base chassis"],
-  ["N540-12Z20G-SYS", "sp-core", "sp-ncs", "Cisco N540-12Z20G-SYS, a FIXED N540"],
+  // round-7 addendum D (12 Sep 2026): an N540 -SYS is now decided by sp-n540-system, ahead of every component
+  // token. N540-12Z20G-SYS was the sp-ncs positive and is now decided here with the same kind — dropped from
+  // the positives, because the sabotage below requires a rule's positives to CHANGE kind when it is disabled,
+  // and a fixed N540 falls back to sp-ncs. NCS-55A1-36H-S remains sp-ncs's positive.
+  ["N540-ACC-SYS", "sp-core", "sp-n540-system", "NCS540 24x1/10G SFP+, 8x1/10/25G SFP+/SFP28, 2x100G QSFP28 (was accessory, then transceiver by name)"],
+  ["N540X-ACC-SYS", "sp-core", "sp-n540-system", "NCS540X access router (was accessory, then transceiver by name)"],
   ["8101-32FH-O", "sp-core", "sp-8000", "Cisco 8100 1 RU Chassis with 32x400GbE QSFP56-DD"],
   ["MWR-3941", "sp-core", "sp-legacy", "Muti-Service Cell Site router / Carrier Ethernet switch"],
 ];
 
 // sku, the kind it must KEEP, the wider rule that would have misfiled it
 const REFUSAL: [string, RouterKind, string][] = [
+  // round-7 addendum D: the operator's wording was "-SYS -> sp-core"; these are why the rule is scoped to N540.
+  ["8608-SYS", "chassis", "a bare -SYS -> sp-core rule — 'Cisco 8608 Chassis' (line-card chassis)"],
+  ["ASR-9006-SYS", "chassis", "a bare -SYS -> sp-core rule — 'ASR 9006 System'"],
+  ["NCS-5504-SYS", "chassis", "a bare -SYS -> sp-core rule — 'NCS 5504 chassis'"],
   ["ISR4321-PM20", "enterprise", "power on a bare PM token — 'Cisco ISR4321 Promitional Bundle'"],
   ["ASR-9006-AC=", "chassis", "power on an -AC suffix — 'ASR-9006 AC Chassis'"],
   ["ASR-9000V-DC-A", "sp-core", "power on a -DC token — '44-Port GE + 4-Port 10GE ASR 9000v, DC Power'"],

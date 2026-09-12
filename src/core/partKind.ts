@@ -42,6 +42,7 @@ import { nameMarker, nameIsJustTheSku, MARKER_TARGETS } from "./nameMarker.js";
 import { LEDGER_KINDS } from "./cupLedger.js";
 import { strayDevice } from "./strayDevice.js";
 // end fallback-kinds
+import { ucsBundleKind } from "./bundleFamily.js"; // round-7 ruling C (12 Sep 2026)
 
 /**
  * Categories whose profile gates requirements on a derived `kind`. Checked against PROFILES by
@@ -132,15 +133,27 @@ function reachThroughName(categorySlug: string, name: string): string | undefine
   return undefined;
 }
 
+/**
+ * round-7 ruling C (12 Sep 2026). The UCS SKU axis stops at `bundle` for an SP/EZ/SL programme number, and
+ * 1,474 such rows were asked nothing. Only for a row the axis ALREADY called `bundle` is the name read,
+ * by the ordered family rules in bundleFamily.ts: a configured node is a `server`, a 5108 is a `chassis`,
+ * a bare drive spec is a `drive`. Everything else stays `bundle`, which now asks `bundle_contents`.
+ * Without a name there is nothing to read and the axis answer stands.
+ */
+function ucsAxis(categorySlug: string, sku: string, name?: string): string {
+  const k = ucsKind(sku);
+  return k === "bundle" && name ? ucsBundleKind(sku, name, k, categorySlug) : k;
+}
+
 function axisKind(categorySlug: string, sku: string, name?: string): string | undefined {
-  if (categorySlug === "servers-unified-computing") return ucsKind(sku);
+  if (categorySlug === "servers-unified-computing") return ucsAxis(categorySlug, sku, name);
   // servers (12 Sep 2026): the two HyperFlex / Compute Hyperconverged categories hold the SAME kinds
   // as UCS — HX-CPU-*, HX-MR-*, HX-SD*, HCI-M-V5Q50GV2 (a VIC), HXAF220C-M5SX (a node) — and were on
   // the generic device/component axis, which called 1,599 of 1,673 and 960 of 997 hardware parts
   // `device` and asked every CPU, DIMM and SSD for a weight and a rack height. Measured with ucsKind
   // before the move: 1,104 of 1,673 and 641 of 997 already fell into a named UCS kind, and the
   // residue was converged-node and licence SKUs that the ucsKind additions of this date now name.
-  if (categorySlug === "hyperconverged-systems" || categorySlug === "hyperconverged-infrastructure") return ucsKind(sku);
+  if (categorySlug === "hyperconverged-systems" || categorySlug === "hyperconverged-infrastructure") return ucsAxis(categorySlug, sku, name);
   if (categorySlug === "switches") return switchKind(sku);
   // transceiver names OPTIC sub-kinds (single-fibre BiDi, tunable/coherent) plus the adapters and
   // accessories filed beside them — its own axis, see opticKind.ts (11 Sep 2026).

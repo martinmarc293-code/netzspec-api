@@ -272,6 +272,14 @@ export const PRE_RULES: { kind: UcsKind; re: RegExp }[] = [
   { kind: "io-module", re: /(?:^|-)IOM-?\d{4}|(?:^|-)IFM(?:-|$)|(?:^|-)I-?9108-|^X9108-IFM/ },
   { kind: "chassis", re: /^N20-C65\d\d/ },
   { kind: "server", re: /^HX(?:AF)?\d{3}C-M\d|^HX-E-\d{3}C?-?M\d|^HC[IO][A-Z]*\d{3}C(?:-|$)|^CSP-5\d{3}(?:-|$)/ },
+  // round-7 addendum K and L (12 Sep 2026): the Catalyst Center appliance (DN3-HW-APL-XL "Catalyst Center
+  // Appliance, 3rd Gen, XL", a UCS C-series box) and its PCIe/OCP NICs (DN3-P-* "PCIe NIC", APIC-P-* /
+  // APIC-O-* "OCP3.0 NIC"), filed in software categories and landing in `unknown` here. THE CHECK THE OPERATOR
+  // NAMED: one DN/APIC-prefixed part is already in servers-unified-computing and it is a DRIVE —
+  // APIC-SD100G0KA2-E "100G SATA 2.5 inch Enterprise Performance SSD". `-[PO]-` needs the letter as a whole
+  // segment, so `APIC-SD...` is not reached and stays a drive (asserted in tests/ucsKind.test.ts).
+  { kind: "server", re: /^DN3-HW-APL-/ },
+  { kind: "nic", re: /^(?:DN3|APIC)-[PO]-/ },
   { kind: "drive", re: /^E-(?:SSD|HDD)-|^A03-D\d/ },
   { kind: "accessory", re: /-BRIDGE/ },
 ];

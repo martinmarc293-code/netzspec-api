@@ -116,10 +116,15 @@ const POS12: [string, string][] = [
   ["UCSC-M-V100-04", "nic"], ["HX-M-V5Q50G", "nic"], ["UCSX-V5-BRIDGE-D=", "accessory"], ["UCS-S3260-HD8TB", "drive"],
   ["RC460-SLDRAIL-S", "accessory"], ["UCSX-S9108-100G", "fabric-interconnect"], ["HX-E-TOPO1", "non-product"],
   ["DDR5-4800", "non-product"], ["UCS-EZ-HANA-XL2", "bundle"], ["HX-STD-05", "bundle"],
+  // round-7 addendum K/L (12 Sep 2026)
+  ["DN3-HW-APL-XL", "server"], ["DN3-HW-APL-XL=", "server"], ["DN3-P-I8D25GF", "nic"], ["APIC-P-ID10GC", "nic"], ["APIC-O-ID10GC", "nic"],
 ];
 for (const [sku, kind] of POS12) eq(`12 Sep: ${sku}`, ucsKind(sku), kind);
 const REF12: [string, string, string][] = [
   // [sku, the kind it must NOT be, why]
+  // THE CHECK THE OPERATOR NAMED: the DN/APIC-prefixed part already in servers-unified-computing is a DRIVE.
+  ["APIC-SD100G0KA2-E", "nic", "'100G SATA 2.5 inch Enterprise Performance SSD' — -[PO]- must be a whole segment"],
+  ["APIC-SD100G0KA2-E", "server", "'100G SATA ... SSD' — only DN3-HW-APL- is a server"],
   ["N20-C6508", "bundle", "the 5108 chassis; its token C6508 is a bundle token"],
   ["N20-C6508", "software", "N20-FW\\d is anchored"],
   ["C890-M5-SIOM-B", "io-module", "a server's system I/O card — no dash before IOM"],
@@ -149,8 +154,11 @@ const REF12: [string, string, string][] = [
 for (const [sku, not, why] of REF12) eq(`12 Sep REFUSAL ${sku} is not ${not} — ${why.slice(0, 50)}`, ucsKind(sku) === not, false);
 // SABOTAGE: disable each rule family and its own positive must change kind.
 for (let i = 0; i < PRE_RULES.length; i++) {
-  const probe = { software: "N10-MGT016", "non-product": "HX-E-TOPO1", "io-module": "UCS-IOM-2408", chassis: "N20-C6508",
-    server: "HXAF220C-M5SX", drive: "E-SSD-SATA-4TB", accessory: "UCSX-V5-BRIDGE-D=" }[PRE_RULES[i].kind as string];
+  // round-7 addendum (12 Sep 2026): a probe per RULE, not per kind — two rules now return `server`, and the
+  // kind-keyed map handed DN3-HW-APL- the HyperFlex probe, which that rule never matches.
+  const PROBES = ["N10-MGT016", "HX-E-TOPO1", "UCS-IOM-2408", "N20-C6508", "HXAF220C-M5SX", "DN3-HW-APL-XL",
+    "DN3-P-I8D25GF", "E-SSD-SATA-4TB", "UCSX-V5-BRIDGE-D="];
+  const probe = PROBES.find((p) => PRE_RULES[i].re.test(p.toUpperCase().replace(/=+$/, "")));
   if (!probe) { eq(`a sabotage probe exists for PRE_RULES[${i}]`, false, true); continue; }
   const before = ucsKind(probe);
   const [rule] = PRE_RULES.splice(i, 1);

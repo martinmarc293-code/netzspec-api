@@ -59,6 +59,7 @@ import { ucsKind } from "./ucsKind.js";
 // path so one definition decides both. R8 below is a claim about a row with no description at all.
 import { nameIsJustTheSku } from "./nameMarker.js";
 import { strayDevice } from "./strayDevice.js";
+import { bundlePlanClass } from "./bundleFamily.js"; // round-7 ruling C (12 Sep 2026)
 
 /**
  * `non_product` (added 10 Sep 2026, migration 0014) is NOT a kind of product — it is the answer
@@ -1714,6 +1715,13 @@ export const RULE_NAMES = [
   "stray-device",
   // the parked-row re-examination (12 Sep 2026): `datasheet-cell:<shape>`, eight shapes
   "datasheet-cell",
+  // round-7 ruling C (12 Sep 2026): the bundle plan's leaving families (bundleFamily.ts BUNDLE_PLAN_REASONS).
+  // `bundle-plan` and `not-sellable` register as prefixes, the `<name>:` form ownedReason() accepts.
+  "bundle-plan",
+  "programme-or-solution-label",
+  "not-sellable",
+  "expired-promotion",
+  "packaging-not-a-product",
   "category-is_hardware=false",
   "category-is_hardware=true",
   "category-unknown",
@@ -1801,6 +1809,14 @@ export function classify(input: ClassifyInput): Classification {
   if (!sku) return { klass: "unknown", reason: "empty-sku" };
 
   for (const rule of SKU_RULES) if (ruleMatches(rule, sku)) return { klass: rule.klass, reason: ruleName(rule) };
+
+  // round-7 ruling C (12 Sep 2026): the 125 bundle-plan rows that leave `hardware` — 31 software subscriptions,
+  // 78 programme/solution labels, 7 self-declared unsellable SKUs, 7 expired promotions and 2 packing pallets.
+  // An EXPLICIT (category, sku) list read from the frozen approved reading, never a kind name or a name rule;
+  // see bundleFamily.ts for why each of those would have been wrong. After the SKU rules, so a SKU a rule
+  // already names keeps that answer.
+  const plan = bundlePlanClass(input.sku, input.categorySlug);
+  if (plan) return { klass: plan.klass, reason: plan.reason };
 
   // AFTER the SKU rules and BEFORE the category fallback. The SKU is the more authoritative
   // signal and keeps precedence; the name only gets a say where the SKU said nothing, which is

@@ -360,6 +360,7 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
         sources?: { source: string; basis: string }[]; labels?: { label: string; n: number }[];
         label_occurrences?: number; parts_holding_by_method?: Record<string, number>;
         observed_fill_path?: boolean; observed_filled?: boolean; seed_only?: boolean;
+        derived_by?: string; derivation_validated?: string;
       };
       evidence[c.key] = {
         sources: (e.sources ?? []).map((s) => `${s.source}=${s.basis}`).join("; ") || null,
@@ -370,6 +371,10 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
         // §8.2: a tap EXISTS (above) versus the tap has RUN (below) — at least one own, non-seed fact.
         observed_filled: e.observed_filled ?? false,
         ...(e.seed_only ? { seed_only: true } : {}),
+        // round-7 ask F (12 Sep 2026): a cup whose only tap is a DERIVATION (bundle_contents from the bundle's name,
+        // layer from the SKU, a breakout cable's two ends) showed observed_fill_path true with no source and no label
+        // to say why. The ledger always carried derived_by / derivation_validated; the summary dropped them.
+        ...(e.derived_by ? { derived_fill_path: { by: e.derived_by, validated: e.derivation_validated ?? null } } : {}),
       };
       return c.key;
     };

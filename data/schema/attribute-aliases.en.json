@@ -208,6 +208,11 @@
    "pdf-server: Unit W is stated in the label."
   ],
   [
+   "^maximum input at nominal input voltage \\(w\\)$",
+   "power_max",
+   "round-7 ruling A3 (12 Sep 2026): the unit in the label decides. The (W) row is a power in watts and was landing in input_va_max through the unanchored rule below, which is a VA cup. Never a watts figure in a VA cup."
+  ],
+  [
    "maximum input at nominal input voltage",
    "input_va_max",
    "pdf-server: Apparent power in VA, not watts."
@@ -229,8 +234,8 @@
   ],
   [
    "nominal input current",
-   "input_current_nominal",
-   "pdf-server: A rms; store the number in amps."
+   "input_current",
+   "round-7 ruling A4 (12 Sep 2026): the nominal input current IS input_current (the non-max value). Repointed from input_current_nominal, which held 0 facts in any state for any vendor and is superseded into input_current in fieldSchema."
   ],
   [
    "^l3 cache",
@@ -733,6 +738,11 @@
    "^intelligent fabric modules",
    "supported_modules",
    "pdf-server: Lists the 9108 IFMs a chassis SKU takes or ships with - the existing supported_modules field."
+  ],
+  [
+   "(?:^|[^a-z-])operating\\s*/\\s*(?:storage|non-?operating)\\b[\\s\\S]*humidit|humidit[\\s\\S]*(?:^|[^a-z-])operating\\s*/\\s*(?:storage|non-?operating)",
+   "__backlog",
+   "round-7 ruling A1-2 (12 Sep 2026): 'Environmental: Operating/storage humidity' x6 and 'Operating/storage humidity' x3 carry TWO quantities in one row, so neither humidity cup may take it -- the storage rule below was winning and the operating rule losing. Parked in __backlog until a two-cup split rule by value position (operating first, storage second) exists. Probed over the full inventory: catches exactly these two labels and none of 'Storage (relative humidity)', 'Operating humidity', 'Non-operating humidity', 'Humidity: nonoperating'."
   ],
   [
    "(non[- ]?operating|nonoperating|storage|shipping).*humidit|humidit.*(non[- ]?operating|nonoperating|storage|shipping)",
@@ -1696,6 +1706,11 @@
    "routers: Values are IEEE conformance statements (\"100-Gbps IEEE 802.3ba compliant\", \"IEEE 802.3ae\"), not a port count."
   ],
   [
+   "^compliance \\((?:emc|safety|regulatory)\\)$",
+   "certifications",
+   "round-7 ruling A5 (12 Sep 2026): 'Compliance (EMC)' x3 -> certifications, and ieee_standards/standard are out of scope for it. 'Compliance (safety)' x3 and 'Compliance (regulatory)' x3 are the same family, found by the same inventory probe, and follow the same ruling: a safety or regulatory list is a certification, not an IEEE standard. Before this rule all nine fell through the unit-strip retry to ^compliance$ and landed in ieee_standards."
+  ],
+  [
    "^compliance$",
    "ieee_standards",
    "routers: Values are IEEE optical Ethernet standards (IEEE 802.3ae 10GBASE-LR/ER)."
@@ -2460,8 +2475,8 @@
   ],
   [
    "^passband wavelengths$",
-   "wavelength",
-   "video: Values are nm bands (1548.5 - 1561.5) for WDM filter ports; wavelength already carries nm optical band values."
+   "filter_passband",
+   "round-7 ruling A8 (12 Sep 2026): 15 occurrences. A filter's pass WINDOW in nm ('1548.5 - 1561.5') was landing in the SCALAR wavelength cup. filter_passband is the nm cup; passband is MHz (RF) and a label naming a wavelength never routes there -- asserted over the whole inventory in tests/aliasRules.test.ts."
   ],
   [
    "^optical interfaces$",

@@ -15,6 +15,7 @@
 //     the shape equality the export contract promises holds by construction (and is tested).
 import { SPEC_BEARING, type DocClass } from "../../core/docClass.js";
 import { query } from "../../store/db.js";
+import { partKind } from "../../core/partKind.js";
 import { badRequest } from "../errors.js";
 import { ALL_STATES, RENDERED_STATES, factRunSucceeded, isoOf, type FactState, type PartIdentity } from "./shared.js";
 
@@ -93,6 +94,8 @@ export type PartRecord = {
   vendor: string; sku: string; slug: string;
   category: { slug: string; name_en: string; name_de: string };
   series: string | null; family: string | null; product_class: string; name: string | null; description: string | null; datasheet_url: string | null;
+  /** round-7 ask F (12 Sep 2026): the derived kind the category's profile gates on (partKind); null where the category derives none. */
+  kind: string | null;
   lifecycle: LifecycleFull | null;
   facts: FactItem[]; relations: RelationItem[]; images: ImageItem[];
   completeness: Completeness | null; sources: SourceItem[];
@@ -209,6 +212,9 @@ export async function partRecords(ids: number[], states: FactState[], publicBase
       vendor: h.vendor, sku: h.sku, slug: h.slug,
       category: { slug: h.cat_slug, name_en: h.name_en, name_de: h.name_de },
       series: h.series, family: h.family, product_class: h.product_class, name: h.name, description: h.description, datasheet_url: h.datasheet_url,
+      // The same call /v1/parts items and the ledger builder make, WITH the name: a UCS programme SKU's kind is read
+      // from its name (bundleFamily.ts), so a caller that dropped it would report a different kind here.
+      kind: partKind(h.cat_slug, h.sku, h.name ?? undefined) ?? null,
       lifecycle,
       facts: (factsBy.get(id) ?? []).map(toFact),
       relations: (relationsBy.get(id) ?? []).map((r) => ({ kind: r.kind, sku: r.sku, in_catalog: r.in_catalog, tier: r.tier, source_url: r.source_url, note: r.note })),

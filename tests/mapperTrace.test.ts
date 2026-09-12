@@ -110,7 +110,8 @@ const traces: Trace[] = files.map((f) => JSON.parse(fs.readFileSync(path.join(DI
  * a conflict that had existed all along, surfacing only because a cutoff moved.
  *
  * So the scan reads the UNCAPPED `.contested.json` sidecars, and this table is every conflict there is:
- * 26 over the full lists. A frozen list that changes when an unrelated count shifts is not frozen.
+ * 26 over the full lists when frozen; 22 after round 7 resolved four (see the note in the table).
+ * A frozen list that changes when an unrelated count shifts is not frozen.
  *
  *   THE ORIGINAL 13   with the reviewer's rulings in the round-6 report §5.
  *   4 CASE TWINS      the same rule and the same ruling as a lowercase entry above them; the label
@@ -137,19 +138,23 @@ const KNOWN_CUP_CONFLICTS: Record<string, { wins: string; occurrences: number }>
   "Data Rate|data_rate": { wins: "max_data_rate", occurrences: 6 },
   "Power and Cooling|psu_config": { wins: "psu_options", occurrences: 5 },
   "Integrated Interface|data_rate": { wins: "ports", occurrences: 1 },
-  // --- 9 newly visible, ruling pending ----------------------------------------------------------------
-  // A combined "operating/storage" row wins for storage; the operating rule matches too and loses. The
-  // reviewer called this winner correct and the loser fragile (§5).
-  "Environmental: Operating/storage humidity|humidity_operating": { wins: "humidity_storage", occurrences: 6 },
-  "Operating/storage humidity|humidity_operating": { wins: "humidity_storage", occurrences: 3 },
-  // A PSU's maximum input: VA and W both route to input_va_max, so the watts form loses its own cup.
+  // --- the 9 newly visible, RULED in round 7 (12 Sep 2026) ---------------------------------------------
+  // Four are RESOLVED and gone from this table, because a rule now wins the label outright and the
+  // losing rule no longer disagrees about the cup:
+  //   "Maximum Input at Nominal Input Voltage (W)"  -> power_max       (A3: watts never in the VA cup)
+  //   "Nominal Input Current (Arms)"                -> input_current   (A4: input_current_nominal superseded)
+  //   "Compliance (EMC)" x2 (certifications|standard wants) -> certifications   (A5)
+  // Five STAY, each with the winner the ruling chose, so the conflict is recorded as decided rather than
+  // pending — the losing rule still matches and still wants another cup, which is what this table counts.
+  // A1–A2: a combined operating/storage row is two measurements in one cell; it parks in __backlog until
+  // a split-by-value-position rule exists. Both humidity rules still match it and both lose.
+  "Environmental: Operating/storage humidity|humidity_operating": { wins: "__backlog", occurrences: 6 },
+  "Operating/storage humidity|humidity_operating": { wins: "__backlog", occurrences: 3 },
+  // A3: the (VA) form is input_va_max, as it was; the power_max rule matches it and loses, correctly.
   "Maximum Input at Nominal Input Voltage (VA)|power_max": { wins: "input_va_max", occurrences: 4 },
-  "Maximum Input at Nominal Input Voltage (W)|power_max": { wins: "input_va_max", occurrences: 4 },
-  "Nominal Input Current (Arms)|input_current": { wins: "input_current_nominal", occurrences: 4 },
-  // the Compliance family again, with an (EMC) suffix
-  "Compliance (EMC)|certifications": { wins: "ieee_standards", occurrences: 3 },
-  "Compliance (EMC)|standard": { wins: "ieee_standards", occurrences: 3 },
+  // A6: psu_rated_output is the winner. psu_output_power is NOT superseded — it holds 10 Cisco facts.
   "Maximum Rated Output (W) 1|psu_output_power": { wins: "psu_rated_output", occurrences: 2 },
+  // A7: certifications is the winner. safety_standards is NOT superseded — cisco 34 + arista 4 facts.
   "Safety Approvals|safety_standards": { wins: "certifications", occurrences: 1 },
 };
 {

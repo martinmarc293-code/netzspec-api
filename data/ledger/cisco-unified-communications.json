@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "unified-communications",
  "profile_hash": "691a36f87b89ac8b",
- "built_on_commit": "0629eee",
+ "built_on_commit": "20b1259",
  "norm_version": "1.6.2",
  "declared_fields": 157,
  "gap_states": {
@@ -166,7 +166,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -488,7 +488,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 860,
+     "label_occurrences": 864,
      "labels": [
       {
        "label": "Power consumption",
@@ -1012,7 +1012,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -1292,7 +1292,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 860,
+     "label_occurrences": 864,
      "labels": [
       {
        "label": "Power consumption",
@@ -1798,7 +1798,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -2120,7 +2120,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 860,
+     "label_occurrences": 864,
      "labels": [
       {
        "label": "Power consumption",
@@ -2694,7 +2694,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -2974,7 +2974,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 860,
+     "label_occurrences": 864,
      "labels": [
       {
        "label": "Power consumption",
@@ -3537,7 +3537,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -3781,7 +3781,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 860,
+     "label_occurrences": 864,
      "labels": [
       {
        "label": "Power consumption",
@@ -4186,7 +4186,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -4747,7 +4747,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -4927,7 +4927,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 860,
+     "label_occurrences": 864,
      "labels": [
       {
        "label": "Power consumption",
@@ -5335,7 +5335,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -5896,7 +5896,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -6186,7 +6186,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 860,
+     "label_occurrences": 864,
      "labels": [
       {
        "label": "Power consumption",
@@ -6591,7 +6591,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -6813,7 +6813,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 860,
+     "label_occurrences": 864,
      "labels": [
       {
        "label": "Power consumption",
@@ -7220,7 +7220,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -7843,7 +7843,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -8157,7 +8157,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 860,
+     "label_occurrences": 864,
      "labels": [
       {
        "label": "Power consumption",
@@ -8721,7 +8721,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -8994,7 +8994,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 860,
+     "label_occurrences": 864,
      "labels": [
       {
        "label": "Power consumption",
@@ -9686,7 +9686,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 751,
+     "label_occurrences": 760,
      "labels": [
       {
        "label": "Certifications",
@@ -9998,7 +9998,7 @@
        "facts_current": 0
       }
      ],
-     "label_occurrences": 860,
+     "label_occurrences": 864,
      "labels": [
       {
        "label": "Power consumption",

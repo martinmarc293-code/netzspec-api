@@ -27,6 +27,7 @@ import { FIELD_DICTIONARY, PROFILES, SUPERSEDED_KEYS, type FieldDef, type Requir
 import { GENERATED_FIELDS, GENERATED_PROFILES } from "../core/fieldSchema.generated.js";
 import { FIELD_LABELS } from "../core/fieldLabels.generated.js";
 import { withTx } from "./db.js";
+import { normalizeField } from "../core/specNormalize.js";
 import type { Queryable } from "./runs.js";
 
 export type DictionaryRow = {
@@ -61,6 +62,9 @@ export type DictionarySyncResult = {
   profiles_orphaned: string[];
   /** "category/field" profile rows REMOVED because the key is superseded (fieldSchema SUPERSEDED_KEYS) */
   profiles_superseded_removed: string[];
+  /** round-7 ask F: keys whose type, unit, domain or band changed in this sync, with the dry-run re-normalisation of
+   *  their current facts across ALL vendors. A key listed with would_refuse > 0 got here only by --allow-refusing. */
+  reshaped: { key: string; changed: string[]; facts: number; would_refuse_by_vendor: Record<string, number>; sample: string[] }[];
   /** keys where FIELD_LABELS disagrees with the FieldDef */
   label_drift: string[];
 };
@@ -153,7 +157,7 @@ const PROFILE_UPSERT = `
  * Sync on a caller-owned connection (a transaction, normally). Refuses — before writing anything —
  * when code is inconsistent with itself or with the categories table.
  */
-export async function syncDictionaryOn(db: Queryable, opts: { quiet?: boolean } = {}): Promise<DictionarySyncResult> {
+export async function syncDictionaryOn(db: Queryable, opts: { quiet?: boolean; allowRefusing?: string[] } = {}): Promise<DictionarySyncResult> {
   const rows = dictionaryRows();
   const profs = profileRows();
 
@@ -212,6 +216,55 @@ export async function syncDictionaryOn(db: Queryable, opts: { quiet?: boolean } 
     }
   }
 
+  // ---- preflight: a RETYPE, a new unit, a closed domain or a narrowed band must not strand stored values ------
+  // round-7 ask F (12 Sep 2026). The supersession guard above is written against one shape of damage; CLAUDE.md
+  // records that "a retype or a closed domain is not covered by that guard". The condition is the same one: a
+  // dictionary edit made in one lane changes what every lane's stored values MEAN, and a worktree measures its
+  // own vendor. So for every key whose type, unit, domain or band differs from the table, each current fact on a
+  // live part — every vendor — is re-read through the NEW definition, and the sync refuses if any would now be
+  // refused, naming the vendors. A deliberate reshape passes with --allow-refusing <key> and is recorded in the
+  // run's stats as `reshaped`, so the choice is visible rather than silent.
+  const reshaped: DictionarySyncResult["reshaped"] = [];
+  {
+    const inDb = await db.query<{ key: string; type: string; unit: string | null; domain: unknown; band: unknown }>(
+      "SELECT key, type, unit, domain, band FROM field_dictionary WHERE key = ANY($1::text[])", [rows.map((r) => r.key)]);
+    const was = new Map(inDb.rows.map((r) => [r.key, r]));
+    const allow = new Set(opts.allowRefusing ?? []);
+    const refused: string[] = [];
+    for (const r of rows) {
+      const d = was.get(r.key);
+      if (!d) continue;                                   // a new key holds no facts
+      const changed = [
+        d.type !== r.type ? `type ${d.type}->${r.type}` : "",
+        (d.unit ?? null) !== r.unit ? `unit ${d.unit}->${r.unit}` : "",
+        json(d.domain) !== json(r.domain) ? "domain" : "",
+        json(d.band) !== json(r.band) ? `band ${json(d.band)}->${json(r.band)}` : "",
+      ].filter(Boolean);
+      if (!changed.length) continue;
+      const facts = await db.query<{ vendor: string; category: string; raw: string; method: string }>(
+        `SELECT v.slug AS vendor, c.slug AS category, f.raw, f.method
+           FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
+          WHERE f.field_key = $1 AND f.superseded_by IS NULL AND f.method NOT LIKE 'retracted:%'
+            AND p.retired_at IS NULL AND f.value IS NOT NULL AND coalesce(f.raw, '') <> ''`, [r.key]);
+      const byVendor: Record<string, number> = {};
+      const sample: string[] = [];
+      for (const f of facts.rows) {
+        const n = normalizeField(f.category, r.key, f.raw, { locale: f.method === "hexcat_seed" ? "de" : "en" });
+        if (n.ok) continue;
+        byVendor[f.vendor] = (byVendor[f.vendor] ?? 0) + 1;
+        if (sample.length < 5) sample.push(`${f.vendor} ${JSON.stringify(f.raw.slice(0, 40))}: ${n.reason}`);
+      }
+      reshaped.push({ key: r.key, changed, facts: facts.rows.length, would_refuse_by_vendor: byVendor, sample });
+      if (Object.keys(byVendor).length && !allow.has(r.key)) {
+        refused.push(`${r.key} (${changed.join(", ")}): would refuse ${Object.entries(byVendor).map(([v, n]) => `${v} ${n}`).join(", ")} of ${facts.rows.length} current facts — e.g. ${sample.join("; ")}`);
+      }
+    }
+    if (refused.length) {
+      throw new Error(`dictionary sync: REFUSED — ${refused.length} reshaped key(s) would refuse values other lanes already store: ${refused.join(" | ")}. `
+        + "Re-read those values first (the lane that owns them), or pass --allow-refusing <key> to record the reshape deliberately.");
+    }
+  }
+
   // ---- dictionary ----------------------------------------------------------------------------
   const d = await db.query<{ key: string; inserted: boolean }>(DICT_UPSERT, [
     rows.map((r) => r.key), rows.map((r) => r.type), rows.map((r) => r.unit),
@@ -256,6 +309,7 @@ export async function syncDictionaryOn(db: Queryable, opts: { quiet?: boolean } 
     orphaned: orphanKeys.rows.map((r) => r.key),
     profiles_orphaned: orphanProfiles.rows.map((r) => r.id),
     profiles_superseded_removed: sup.rows.map((r) => r.id).sort(),
+    reshaped,
     label_drift: labelDrift(),
   };
   if (!opts.quiet) {
@@ -268,6 +322,6 @@ export async function syncDictionaryOn(db: Queryable, opts: { quiet?: boolean } 
 }
 
 /** Sync in one transaction on the pool. Idempotent; never deletes. */
-export async function syncDictionary(opts: { quiet?: boolean } = {}): Promise<DictionarySyncResult> {
+export async function syncDictionary(opts: { quiet?: boolean; allowRefusing?: string[] } = {}): Promise<DictionarySyncResult> {
   return withTx((client) => syncDictionaryOn(client, opts));
 }

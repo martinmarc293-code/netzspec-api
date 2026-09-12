@@ -343,6 +343,10 @@ for (const f of files) {
     "camera:meraki": "an MV is a storage-carrying sensor (image_sensor, storage_capacity, video_quality_max); a Webex camera is bought on zoom and field of view",
     "server:unified-communications": "a UC application server is ordered as a bundle; whether it should owe the UCS cups (cpu, drive_bays, memory_speed_max) is an open question in the round-3 reply",
     "server:conferencing": "the same, for Meeting Server appliances",
+    // round-7 ruling B (12 Sep 2026). The promote bar measured emc_emissions (91%) and humidity_storage (86%)
+    // on hyperconverged-systems servers and on neither other UCS category; requiring them of all three would
+    // create gaps with no evidence in two. Removed when the other two reach the bar after filling.
+    "server:hyperconverged-systems": "an HX node's sheet states its EMC emissions class and storage humidity (91% / 86% at the promote bar); the other two UCS categories' do not yet",
     "chassis:optical-networking": "an optical shelf is bought on its slot count; a UCS chassis on its envelope",
     "chassis:video": "a cable-plant housing is strand-mounted: no rack units, no form factor",
     // routers-r5 (12 Sep 2026). `chassis` now names five different things in five categories, and the
@@ -373,13 +377,13 @@ for (const f of files) {
     "pluggable:storage-networking": "the same, other side",
     "memory:interfaces-modules": "an SD/USB/CF card answers `flash` as well as `dram`; the memory kind elsewhere is DIMMs only",
   };
-  const sets = new Map<string, { cat: string; req: string }[]>();
+  const sets = new Map<string, { cat: string; req: string; parts: number }[]>();
   for (const f of files) {
     const led = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")) as Ledger & { kinds: Record<string, LedgerKind & { parts: number }> };
     for (const [kind, v] of Object.entries(led.kinds)) {
       if (!v.parts || NOT_HARDWARE_KINDS.has(kind)) continue;
       const req = [...v.required.map((r) => r.key), ...v.pending_until_gate_answered.map((p) => p.key)].sort().join(",");
-      sets.set(kind, [...(sets.get(kind) ?? []), { cat: led.category, req }]);
+      sets.set(kind, [...(sets.get(kind) ?? []), { cat: led.category, req, parts: v.parts }]);
     }
   }
   for (const [kind, list] of sets) {
@@ -388,7 +392,16 @@ for (const f of files) {
     for (const l of list) distinct.set(l.req, [...(distinct.get(l.req) ?? []), l.cat]);
     if (distinct.size === 1) { passed++; continue; }
     // The majority set is the contract; anything else must be a named exception.
-    const majority = [...distinct].sort((a, b) => b[1].length - a[1].length)[0][0];
+    // A TIE ON CATEGORY COUNT IS BROKEN BY THE NAMED EXCEPTIONS, never by file order. round-7 ruling B made
+    // hyperconverged-systems' `server` its own set, which left `server` two UCS categories against two
+    // collaboration ones; a stable sort crowned whichever file was read first (conferencing, 22 servers) the
+    // contract and reported 1,334 UCS servers as rebels. The first fix — "most parts wins" — flipped six
+    // long-standing single-category ties (switch, appliance, gateway, amplifier, pluggable, supervisor) whose
+    // exceptions were written against the OTHER side. The table of exceptions already says which set is the
+    // contract, so among the tied sets the one leaving the fewest UN-NAMED rebels is it; file order only if that ties.
+    const unnamed = (req: string) => list.filter((l) => l.req !== req && !EXCEPTIONS[`${kind}:${l.cat}`]).length;
+    const top = Math.max(...[...distinct.values()].map((c) => c.length));
+    const majority = [...distinct].filter(([, c]) => c.length === top).sort((a, b) => unnamed(a[0]) - unnamed(b[0]))[0][0];
     const rebels = list.filter((l) => l.req !== majority && !EXCEPTIONS[`${kind}:${l.cat}`]);
     if (rebels.length === 0) { passed++; continue; }
     failed++;
@@ -488,7 +501,10 @@ for (const f of files) {
    * are proposals in docs/reports/schema-fallback-kinds-2026-09-12.md.
    */
   const CEILING: Record<string, number> = {
-    "hyperconverged-systems": 16.3, "hyperconverged-infrastructure": 16.0, video: 13.2,
+    // round-7 bundle plan (12 Sep 2026): hyperconverged-systems 16.3 -> 16.5. Its 82 `unknown` parts did not
+    // change; 22 of its rows LEFT hardware (19 software subscriptions, 3 programme labels), so the denominator
+    // shrank and the same count reads as a larger share. Re-based rather than read as a regression.
+    "hyperconverged-systems": 16.5, "hyperconverged-infrastructure": 16.0, video: 13.2,
     "servers-unified-computing": 11.1, "collaboration-endpoints": 10.6, "unified-communications": 7.7,
     // RE-BASELINED AFTER THE CATEGORY-MOVE RUN (12 Sep 2026), and the reason matters more than the
     // numbers. The move run took 651 CORRECTLY-KINDED parts out of these four categories — 449
@@ -558,7 +574,9 @@ for (const f of files) {
   // The number the phase is actually judged on, and it is LARGER than the one this project has been
   // publishing: 3,071 against 2,929, because the two sets overlap without either containing the
   // other. The ceiling records today's measurement; the target is the same under-5%.
-  const ASKED_NOTHING_CEILING = 3100;
+  // round-7 bundle plan (12 Sep 2026): 3,071 -> 1,503, EXACTLY the fallback-kind-only figure the operator set as
+  // the acceptance condition. Ceiling lowered to hold the win.
+  const ASKED_NOTHING_CEILING = 1550;
   check(`parts asked NOTHING are at or under ${ASKED_NOTHING_CEILING} (measured ${askedNothing}; the unresolved-kind count is ${parts}, and neither contains the other)`,
     askedNothing <= ASKED_NOTHING_CEILING, `${askedNothing} of ${hardware}`);
   check(`the ceiling is still close to the measurement (${askedNothing} vs ${ASKED_NOTHING_CEILING})`,
@@ -566,9 +584,15 @@ for (const f of files) {
     `it fell — lower the ceiling to ${Math.ceil(askedNothing / 50) * 50} and record the win`);
   // THE TWO NUMBERS MUST DISAGREE, and the test says so out loud. If they ever became equal it
   // would mean one axis had been derived from the other, which is the conflation this exists to end.
-  check(`the axes are measured independently (${unresolvedAskedSomething} unresolved-kind parts ARE asked a cup; ${namedZero.length} named kinds are asked nothing)`,
-    unresolvedAskedSomething > 0 && namedZero.length > 0,
-    `unresolved-but-asked ${unresolvedAskedSomething}, named-but-empty ${namedZero.join(", ") || "none"}`);
+  // THIS USED TO REQUIRE a named kind asked nothing (namedZero > 0) as its proof of independence — which made the
+  // defect itself load-bearing: 1,568 bundle/software rows asked zero cups. The bundle plan removed them, and the
+  // operator's acceptance condition is the opposite assertion. Independence is still proved: the unresolved-kind
+  // set and the asked-nothing set differ in size, and a large share of the unresolved half IS asked a cup.
+  check(`the axes are measured independently (${unresolvedAskedSomething} unresolved-kind parts ARE asked a cup; asked-nothing ${askedNothing} != unresolved ${parts})`,
+    unresolvedAskedSomething > 0 && askedNothing !== parts,
+    `unresolved-but-asked ${unresolvedAskedSomething}, asked-nothing ${askedNothing}, unresolved ${parts}`);
+  check(`OPERATOR ACCEPTANCE (round 7): asked-nothing is the FALLBACK kinds only — no named kind is asked zero cups`,
+    namedZero.length === 0, `named kinds asked nothing: ${namedZero.join(", ")}`);
   lines.push(`    asked nothing: ${askedNothing} parts (${namedZero.length} NAMED kinds among them: ${namedZero.join(", ")}) · ${unresolvedAskedSomething} unresolved-kind parts are asked at least one cup`);
 
   /**

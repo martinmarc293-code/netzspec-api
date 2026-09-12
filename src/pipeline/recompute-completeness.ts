@@ -182,7 +182,18 @@ async function run(a: Args): Promise<Record<string, number>> {
     if ((i / a.batch) % 20 === 19) console.log(`  ${Math.min(i + a.batch, parts.length)}/${parts.length} written=${written} unchanged=${unchanged}`);
   }
   console.log(`done: written ${written}, unchanged ${unchanged}, hardware without a profile ${noProfile}, non-hardware ${nonHardware}`);
-  return { parts: parts.length, written, unchanged, no_profile: noProfile, non_hardware: nonHardware };
+  // THE STANDING CHECK (round-7 ask F, 12 Sep 2026): after ANY recompute, no retired part holds a completeness
+  // row. The filter above is the fix; this is what notices it coming back — a later edit that drops the filter,
+  // or a writer elsewhere that scores tombstones. It fails THE RUN (withRun records it failed with the count),
+  // so a regression cannot pass as a successful recompute. Whole table, not this run's scope: a row a previous
+  // run left behind is the same defect.
+  const retired = (await pool.query<{ n: number }>(
+    "SELECT count(*)::int AS n FROM completeness cp JOIN parts p ON p.id = cp.part_id WHERE p.retired_at IS NOT NULL")).rows[0].n;
+  if (retired !== 0) {
+    throw new Error(`recompute-completeness: ${retired} completeness row(s) belong to RETIRED parts — a tombstone is being scored. `
+      + "Recompute must select live parts only (p.retired_at IS NULL); delete those rows in a run once the writer is fixed.");
+  }
+  return { parts: parts.length, written, unchanged, no_profile: noProfile, non_hardware: nonHardware, retired_completeness_rows: retired };
 }
 
 if (process.argv[1] && /recompute-completeness\.(ts|js)$/.test(process.argv[1])) {
