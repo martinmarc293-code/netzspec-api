@@ -266,6 +266,9 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // of the four role axes; `aggregation`+`core` fold into `core-agg` and `datacenter-tor` into `datacenter` (spec v2 §I.4).
   // Measured across ALL vendors first: 5 facts anywhere, all Cisco html_table (3 access, 2 datacenter-tor); the 2
   // datacenter-tor facts become refused values and are recorded in the sync run, not admitted by widening the domain.
+  // REVIEWER C.1 (13 Sep 2026): whether a router PLATFORM takes modules — derived from the SKU by src/core/modularPlatform.ts
+  // (registered in DERIVED_FILL_PATHS), column-backed like deploy_role: never a slot, the gate of module_slots.
+  modular: { key: "modular", de: "Modulare Plattform", en: "Modular platform", type: "b", etim: [], icecat: null },
   deploy_role: { key: "deploy_role", de: "Einsatzbereich", en: "Deployment role", type: "e", domain: ["smb", "access", "core-agg", "datacenter", "industrial", "indoor", "outdoor", "mesh-extender", "branch", "edge", "industrial-iot", "desk", "wireless", "dect", "conference"], etim: [], icecat: null },
   // kind-layer (13 Sep 2026), spec v2 §I.4 DRIVE / GPU: created OPTIONAL (rule 8), promoted only when a label share on
   // held parts crosses the bar. `form_factor`'s domain is optical cages, so a drive's 2.5"/3.5"/M.2 needs its own key.
@@ -1053,7 +1056,7 @@ const cond = (when: Condition, opts?: { elseOpt?: boolean }): Requirement =>
 // kind-layer (13 Sep 2026): `deploy_role` joins them. It is derived per part (src/core/deployRole.ts) exactly like `kind`,
 // so it is a discriminator of the question set, not a question: a null role is reported as `role: unresolved` in the
 // ledger and the completeness report, never counted as a gap a source could fill.
-export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series", "deploy_role"]);
+export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series", "deploy_role", "modular"]);
 
 /**
  * Ask a flat block of requirements only of a DEVICE — never of a power supply, fan, cable, rack
@@ -1307,7 +1310,7 @@ const ucsCups = (): Record<string, Requirement> => ({
   // kind-layer (13 Sep 2026): DRIVE library adds drive_form_factor (a dictionary key since 0e22f85, 0 facts; III.0 item 1
   // would-map labels "Size" / "Form Factor" on 72.8% of servers-unified-computing drives). drive_endurance_dwpd is
   // proposed OPTIONAL by the library and is NOT created (no dictionary key; 17.2% would-map) — reported.
-  storage_capacity: ucsK("drive"), drive_interface: ucsK("drive", "storage-controller"), drive_form_factor: ucsK("drive"),
+  storage_capacity: ucsK("drive"), drive_interface: ucsK("drive", "storage-controller"), drive_form_factor: opt, // reviewer C.3 (13 Sep 2026): 0 label occurrences over held parts -> OPTIONAL, promote when measured (spec rule 8)
   // kind-layer (13 Sep 2026): STORAGE-CONTROLLER library: raid_level + drive_interface (above). raid_level is proposed
   // REQUIRED by the library but HELD OPTIONAL: its dictionary entry is a free string (type s, no domain) and the standing
   // rule in tests/freeStringCups.test.ts refuses a required free string without a recorded decision. Closing a domain is
@@ -1315,7 +1318,7 @@ const ucsCups = (): Record<string, Requirement> => ({
   raid_level: opt,
   // kind-layer (13 Sep 2026): NIC and MODULE libraries add data_rate; NIC and GPU add pcie_card_size (held optional, see
   // raid_level); GPU adds tdp (above) and gpu_memory (a dictionary key since 0e22f85, 0 facts, 0% would-map in III.0 item 1).
-  data_rate: ucsK("nic", "io-module"), pcie_card_size: opt, gpu_memory: ucsK("gpu"),
+  data_rate: ucsK("nic", "io-module"), pcie_card_size: opt, gpu_memory: opt, // reviewer C.3 (13 Sep 2026): 0 label occurrences over held parts -> OPTIONAL, promote when measured (spec rule 8)
   // kind-layer (13 Sep 2026): `psu` -> `power` (spec III.1). PSU library adds airflow (the contract every other category's
   // `power` asks); FAN library asks airflow too. The PDU library (PSU minus airflow) adds rated output, input voltage
   // and receptacles to the `pdu` kind (receptacles held optional: free string, see raid_level).
@@ -1424,7 +1427,7 @@ const collabBlock = (): Record<string, Requirement> => ({
   dram: cK(["memory"], true),
   // DRIVE (capacity, interface, drive_form_factor NEW), STORAGE-CONTROLLER (raid level, interface), NIC (ports below, data
   // rate, card size).
-  storage_capacity: cK(["drive"], true), drive_interface: cK(["drive", "storage-controller"], true), drive_form_factor: cK(["drive"], true),
+  storage_capacity: cK(["drive"], true), drive_interface: cK(["drive", "storage-controller"], true), drive_form_factor: opt, // reviewer C.3 (13 Sep 2026): 0 label occurrences over held parts -> OPTIONAL, promote when measured (spec rule 8)
   // raid_level and pcie_card_size are FREE STRINGS (type s) with no recorded decision, and tests/freeStringCups refuses a
   // required free string: proposed required by the archetypes, kept OPTIONAL here and listed for the parent.
   raid_level: opt,
@@ -2081,7 +2084,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     new_conn_per_sec: opt,
     // camera (CAMERA).
     max_resolution: cond({ field: "kind", inList: ["camera"] }),
-    camera_zoom: cond({ field: "kind", inList: ["camera"] }),
+    camera_zoom: opt, // reviewer C.3 (13 Sep 2026): 0 label occurrences over held parts -> OPTIONAL, promote when measured (spec rule 8)
   },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
@@ -2579,7 +2582,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // folded into MODULE, so they are not given MODULE's ports / data_rate — FPR9K-SM-36 has no front ports at all
     // (the refusal tests/securityShapes pins); the residual `compute` (risers, carriers) is not a SERVER (0 of 131 rows).
     new_conn_per_sec: secShape(["firewall"], SEC_FIREWALL, { elseOpt: true }),
-    managed_devices_max: secShape(["management"], SEC_MGMT, { elseOpt: true }),
+    managed_devices_max: opt, // reviewer C.3 (13 Sep 2026): 0 label occurrences over held parts -> OPTIONAL, promote when measured (spec rule 8)
     flows_per_second: secShape(["analytics"], SEC_ANALYTICS, { elseOpt: true }),
     max_endpoints: secShape(["identity"], SEC_IDENTITY, { elseOpt: true }),
     data_rate: cond({ field: "kind", inList: ["module", "nic"] satisfies SecurityKind[] }, { elseOpt: true }),
@@ -2592,7 +2595,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     cpu_cache: cond({ field: "kind", inList: ["cpu"] satisfies SecurityKind[] }, { elseOpt: true }),
     tdp: cond({ field: "kind", inList: ["cpu"] satisfies SecurityKind[] }, { elseOpt: true }),
     raid_level: opt, // proposed required (STORAGE-CONTROLLER) — a free string; see pcie_card_size
-    drive_form_factor: cond({ field: "kind", inList: ["drive"] satisfies SecurityKind[] }),
+    drive_form_factor: opt, // reviewer C.3 (13 Sep 2026): 0 label occurrences over held parts -> OPTIONAL, promote when measured (spec rule 8)
     connector: cond({ field: "kind", inList: ["cable"] satisfies SecurityKind[] }, { elseOpt: true }),
     media: cond({ field: "kind", inList: ["cable"] satisfies SecurityKind[] }, { elseOpt: true }),
     // --- end kind-layer archetype cups (the edits to ports / drive_interface / memory_speed_max are marked below) ----
@@ -3065,7 +3068,11 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // question, one cup — forwarding_rate stays declared, optional, for the rare "720 mpps" prose.
     // kind-layer: OPTIONAL for every kind — router 7.9% (branch 8.6, smb 0: "NAT throughput" is a feature throughput,
     // not the aggregate forwarding figure, and is not counted), sp-core 0, chassis 0.
-    router_throughput: opt, forwarding_rate: opt,
+    // REVIEWER C.1 (13 Sep 2026) REVERSES the line above for `router`: a primary buyer row is never demoted without the
+    // five-sheet hand read, and the step-2 rule is "required stays required unless printed < 50% over relevant held parts".
+    // The 7.9% was a MAPPED share; the printed share is the bar (current-generation sheets print it under labels the
+    // mapper does not map: state mapper-gap, variants attached by the measurement). Other kinds stay optional.
+    router_throughput: rtKinds(["router"]), forwarding_rate: opt,
     // --- routers-r5 (12 Sep 2026): THE BRANCH CUPS -----------------------------------------------
     // These five moved from every device to `enterprise` alone, and the measurement is the whole
     // argument. Over the live store, the device parts holding each of them:
@@ -3087,8 +3094,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // kind-layer: ROLE ADDITIONS. branch 18.6% / 20.2% (its big hints — "WAN diversity", "Wireless VLANs", "LAN
     // switch" — are feature bullets and are not counted); smb 53.4% each on the RV sheets' "Ethernet WAN" / "Ethernet
     // LAN" rows (unmapped today: filling work); industrial-iot 71.1% / 60.5% mapped.
-    wan_interfaces: rtRoleAdd(["smb", "industrial-iot"]),
-    lan_interfaces: rtRoleAdd(["smb", "industrial-iot"]),
+    // REVIEWER C.1: required of `router` in every role (a primary row; the branch share above is mapped, not printed).
+    wan_interfaces: rtKinds(["router"]),
+    lan_interfaces: rtKinds(["router"]),
     // DECLARED HERE FOR THE FIRST TIME (check 1, missing field): the store already holds 9
     // `acl_entries` (C1101 10,000 … C8500-20X6C 380,000), 9 `ipv6_routes` (C1101 260K …
     // C8500-20X6C 7M) and 15 `vlan_max` (RV130 5, RV132W/RV134W 6) facts in this category under
@@ -3112,7 +3120,13 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // slots" / "Fabric module slots" rows), router 3.2%, sp-core 0%. The 64 stored facts above come from names and
     // description mining, which is not a REGISTERED derivation, so under the cup bar the defining cup of a line-card
     // chassis is not required until a label maps it or the derivation is registered — an open decision in the report.
-    module_slots: opt,
+    // REVIEWER C.1 / ruling 4 (13 Sep 2026): PENDING on the derived, column-backed `modular` boolean (src/core/modularPlatform.ts,
+    // registered in DERIVED_FILL_PATHS): required of a modular router, not asked of a fixed one, pending while the platform
+    // table cannot say. LIMIT, recorded rather than hidden: one cond cannot resolve a fixed router to `na` while other kinds
+    // resolve `opt`, so a FIXED router resolves OPTIONAL (declared, never counted) — ruling 4's "fixed = na" in effect for
+    // the numbers, not in the label. Other kinds keep the optional above.
+    module_slots: cond({ all: [{ field: "kind", inList: ["router"] }, { field: "modular", eq: true }] }, { elseOpt: true }),
+    modular: cond({ field: "kind", inList: ["router"] }, { elseOpt: true }),
     // A processor carries the memory of a modular system (ASR1000-RP2 "8 GB DRAM", 8800-RP2 "64 GB DRAM").
     // A CHASSIS DOES NOT: it is sold empty and its RP holds the memory, which is why `chassis` is
     // absent from both lists (0 of 153 chassis parts hold either fact). Nor does a `forwarding`
@@ -3385,9 +3399,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     gain_flatness: opt,
     // --- wavelength routing and passives ------------------------------------------------------------------------
     insertion_loss_max: cond({ field: "kind", inList: [...OPN_WAVELENGTH_ROUTING, "dcu"] }),
-    channel_count: cond({ field: "kind", inList: [...OPN_WAVELENGTH_ROUTING] }, { elseOpt: true }),
+    channel_count: opt, // reviewer C.3 (13 Sep 2026): 0 label occurrences over held parts -> OPTIONAL, promote when measured (spec rule 8)
     channel_spacing: opt, // proposed required (MUX) — a free string; see modulation_format
-    dispersion_compensation: cond({ field: "kind", inList: ["dcu"] satisfies OpticalKind[] }, { elseOpt: true }),
+    dispersion_compensation: opt, // reviewer C.3 (13 Sep 2026): 0 label occurrences over held parts -> OPTIONAL, promote when measured (spec rule 8)
     // --- pluggables (the transceiver questions) ---------------------------------------------------------------
     // form_factor OPTIONAL: the normaliser reads optic form factors only in `transceiver` (by category), so
     // "SFP+" here is refused ENUM_VIOLATION — measured with the real normaliser, 12 Sep 2026. The fill path is
@@ -3399,7 +3413,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     reach_max: cond({ field: "kind", inList: [...OPN_PLUGGABLE] }),
     connector: cond({ field: "kind", inList: [...OPN_PLUGGABLE, "cable"] }),
     media: cond({ field: "kind", inList: ["cable"] satisfies OpticalKind[] }, { elseOpt: true }),
-    tuning_range: cond({ field: "kind", inList: ["transponder"] satisfies OpticalKind[] }, { elseOpt: true }),
+    tuning_range: opt, // reviewer C.3 (13 Sep 2026): 0 label occurrences over held parts -> OPTIONAL, promote when measured (spec rule 8)
     fec: opt, temp_class: opt, tx_power: opt, rx_sensitivity: opt, chromatic_dispersion_tolerance: opt,
     // --- components -------------------------------------------------------------------------------------------
     psu_rated_output: cond({ field: "kind", inList: ["power"] }),

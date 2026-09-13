@@ -1,0 +1,47 @@
+{
+  "_about": "Audit of every closed enum with more than 12 members (reviewer, 13 Sep 2026: 'list the members, mark the ones that are not values of that quantity'). Read by the parent from FIELD_DICTIONARY on db24763. A mark is a finding for a dictionary decision (term 4 field definition / term 6 duplicate cup), not a change: nothing is removed from a domain here, because removing a member refuses stored values and goes through syncDictionaryOn with the cross-vendor measurement.",
+  "enums": {
+    "ip_rating": {
+      "verdict": "all 80 members are IP codes",
+      "detail": "The IEC 60529 grid (first digit 0-6 or X, second 0-8 or X) plus ISO 20653 IP69K. 80 is the size of the standard's grid, not padding. Members that no network product carries in practice (ip00-ip08, ip0x, ip1x-ip3x) are legal codes and stay: a closed domain that refused a legal code would refuse a real rating. Missing: ipx9 / ip69 (IEC 60529:2013 amendment) — not added without a stored value asking for it.",
+      "not_values": []
+    },
+    "standard": {
+      "verdict": "mixed: 5 members are not transmission standards, 3 duplicate another cup, ~22 are MSA/vendor PMD names",
+      "not_values": [
+        { "member": "itu-t-g.694.1", "why": "the DWDM frequency grid, not a transmission standard" },
+        { "member": "itu-t-g.975", "why": "an FEC code, not a transmission standard" },
+        { "member": "itu-t-g.975.1", "why": "an FEC code, not a transmission standard" },
+        { "member": "itu-t-g.988", "why": "ONU management and control (OMCI), not a transmission standard" },
+        { "member": "sff-8431", "why": "the SFP+ electrical/mechanical MSA, not a transmission standard" }
+      ],
+      "duplicates_another_cup": [
+        { "member": "802.11n", "cup": "wifi_generation", "why": "term 6: one quantity (Wi-Fi generation), two cups" },
+        { "member": "802.11ac", "cup": "wifi_generation", "why": "term 6" },
+        { "member": "802.11ax", "cup": "wifi_generation", "why": "term 6" }
+      ],
+      "grid_families_not_standards": [
+        { "member": "cwdm", "why": "a wavelength-division technology family; the standard is the grid (G.694.2) or the PMD" },
+        { "member": "dwdm", "why": "same" },
+        { "member": "iwdm", "why": "same" }
+      ],
+      "msa_or_vendor_names": ["1000base-lx/lh", "1000base-cwdm", "1000base-dwdm", "10gbase-cu", "10gbase-cwdm", "10gbase-dwdm", "10gbase-erbd", "10gbase-erlbd", "10gbase-lrl", "10gbase-srl", "10gbase-csr", "25gbase-csr", "40gbase-csr", "40gbase-csr4", "40gbase-lr4-lite", "40gbase-xsr4", "40gbase-sr-bidi", "100gbase-cwdm4-lite", "100gbase-er4-lite", "100gbase-plrl4", "100gbase-xsr4", "100gbase-xcwdm4"],
+      "detail": "The msa_or_vendor_names members are real names a datasheet prints (Cisco 'lite', 'CSR', 'BiDi'), so they are values of the quantity as vendors write it; they are marked because they are not IEEE 802.3 clause names and two members can denote one PMD (40gbase-bidi / 40gbase-sr-bidi)."
+    },
+    "cellular_bands": {
+      "verdict": "generated as a numeric grid — NEEDS a check against 3GPP; not asserted member by member here",
+      "detail": "b1-b88 (LTE), n1-n106 + n257-n262 (NR), umts-b1-b32, gsm-850/900/1800/1900. A contiguous numeric range almost certainly contains band numbers 3GPP never assigned or has reserved (TS 36.101 for LTE, TS 38.101-1/-2 for NR, TS 25.101 for UMTS). Those members are not values of the quantity. The parent has not verified the assignment table and does not mark individual numbers from memory; the check is: every member present in the TS band tables, else removed (no stored Cisco value holds an unassigned number, measured before any change).",
+      "not_values": "unverified — see detail"
+    },
+    "regulatory_domain": {
+      "verdict": "1 ambiguous member",
+      "not_values": [ { "member": "na", "why": "ambiguous: Cisco's North America domain or the placeholder 'not applicable' — a placeholder token the halting rules forbid storing; the North America domain should be spelled so it cannot be read as NA" } ],
+      "detail": "The single letters are Cisco AP regulatory-domain suffix codes (-A, -B, -E, …); nam-lam, row and universal are Meraki/Catalyst region names."
+    },
+    "ui_languages": { "verdict": "all 34 members are languages", "not_values": [] },
+    "form_factor_a": { "verdict": "all 19 members are pluggable cage form factors", "not_values": [] },
+    "form_factor_b": { "verdict": "all 19 members are pluggable cage form factors", "not_values": [] },
+    "deploy_role": { "verdict": "15 = the union of four per-kind domains (switch 5, ap 5, router 4, phone 4 with smb/industrial shared)", "not_values": [], "detail": "a member is valid only for the kinds whose ROLE_DOMAINS contain it; deployRole.ts refuses a role outside the part's own kind domain" },
+    "vendor": { "verdict": "all 13 are brands (column-backed, never a slot)", "not_values": [] }
+  }
+}

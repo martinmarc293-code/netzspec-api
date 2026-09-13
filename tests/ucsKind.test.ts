@@ -317,8 +317,8 @@ eq("UCS_KINDS names power, cable, fan, tpm and pdu, and no longer psu",
     power: ["airflow", "input_voltage", "product_compatibility", "psu_rated_output"],
     fan: ["airflow", "product_compatibility"],
     cable: ["cable_length", "connector", "media", "product_compatibility"],
-    drive: ["drive_form_factor", "drive_interface", "product_compatibility", "storage_capacity"],
-    gpu: ["gpu_memory", "power_max", "product_compatibility", "tdp"],
+    drive: ["drive_interface", "product_compatibility", "storage_capacity"], // reviewer C.3: drive_form_factor optional (0 labels)
+    gpu: ["power_max", "product_compatibility", "tdp"], // reviewer C.3: gpu_memory optional (0 labels)
     nic: ["data_rate", "ports", "product_compatibility"],
     "storage-controller": ["drive_interface", "product_compatibility"],
     "io-module": ["data_rate", "ports", "product_compatibility"],

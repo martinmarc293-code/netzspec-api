@@ -48,6 +48,7 @@ import {
 // and the API make (deployRole with the derived kind and the name); a null role is `(unresolved)`, never the biggest role.
 import { deployRole, deployRoleRule, roleAxisOf, ROLE_DOMAINS } from "../src/core/deployRole.js";
 // kind layer 6b (13 Sep 2026): held by relevance, the mapper-gap state, the kind-issue plans.
+import { modularPlatform } from "../src/core/modularPlatform.js";
 import { SPEC_BEARING_DOC_TYPES, heldRowSql, underivedRowSql, docStateOf, underivedRefusal, missingColumnsRefusal } from "../src/core/heldEvidence.js";
 import { loadCupEvidence, cupStateIndex, inertMapperGapEntries } from "../src/core/cupEvidence.js";
 import { loadPlans, planStatusIndex, emptyBreakdown, addKindIssue, nullShareExcludingKindIssue, unresolvedDisplay,
@@ -309,6 +310,9 @@ async function main(): Promise<void> {
     return askedNothingCache.get(k)!;
   };
   const kindOf = new Map<string, { category: string; kind: string; held: boolean }>();
+  const partsOutFile = arg("--parts-out");
+  const partsOut: { id: string; sku: string; name: string | null; series: string | null; category: string; kind: string; role: string | null;
+    doc_state: string; legacy_held: boolean; asked_nothing: boolean; states: Record<string, string> }[] | null = partsOutFile ? [] : null;
 
   for (const p of partRows) {
     const kind = partKind(p.category, p.sku, p.name ?? undefined) ?? "(none)";
@@ -345,6 +349,11 @@ async function main(): Promise<void> {
     const nothing = askedNothing(p.category, kind);
     if (p.required_fields === null) noCompleteness.push(p.sku);
     const required = p.required_fields ?? [];
+    // --parts-out (arrangement site, 13 Sep 2026): the per-part verdicts THIS loop reaches, written as they are reached —
+    // the site shows them and never re-derives a slot state (a reconstructed check is a different check).
+    const partOut = partsOut ? { id: p.id, sku: p.sku, name: p.name, series: p.series, category: p.category, kind, role,
+      doc_state: docState, legacy_held: legacyHeld, asked_nothing: nothing, states: {} as Record<string, string> } : null;
+    if (partOut && partsOut) partsOut.push(partOut);
     for (const a of accs) {
       a.parts++;
       if (nothing) a.askedNothing++;
@@ -360,6 +369,7 @@ async function main(): Promise<void> {
     // THE GATE, AS RECOMPUTE SEES IT: a gate is answered by a verified or corroborated fact, or by a column
     // (vendor, series/family) or by the derived kind (recompute-completeness.ts builds `values` exactly so).
     const gateAnswered = (g: string): boolean => g === "vendor" || g === "kind" || (g === "series" && Boolean(p.series || p.family))
+      || (g === "modular" && p.category === "routers" && modularPlatform(p.sku) !== null)
       || (pf?.get(g) !== undefined && RENDERED.has(pf.get(g)!.state));
     const lk = ledgers[p.category]?.kinds[kind];
     const pendingGate = new Map((lk?.pending_until_gate_answered ?? []).map((c) => [c.key, c.gate ?? []]));
@@ -392,9 +402,11 @@ async function main(): Promise<void> {
         else if (state === "would_refuse") { cup.wr++; for (const a of accs) a.wr++; }
         // MAPPER-GAP (6b): the printed-bar measurement says the held datasheets print this cup and the mapper does not
         // map it — for this part's role when measured per role, else for its kind. Counted INSTEAD of not_parsed.
-        else if (cupStateOf(p.category, kind, role, key) === "mapper-gap") { cup.mapperGap++; for (const a of accs) a.mapperGap++; }
+        else if (cupStateOf(p.category, kind, role, key) === "mapper-gap") { cup.mapperGap++; for (const a of accs) a.mapperGap++; if (partOut) partOut.states[key] = "mapper_gap"; }
         else { cup.notParsed++; for (const a of accs) a.notParsed++; }
+        if (partOut && !partOut.states[key]) partOut.states[key] = state + (state === "filled" && inh ? ":inherited" : "");
       } else {
+        if (partOut) partOut.states[key] = state === "filled" ? "not_held:value_stored" : state === "would_refuse" ? "not_held:would_refuse" : "not_held";
         cup.notHeld++;
         if (state === "filled") { cup.notHeldFilled++; for (const a of accs) a.notHeldFilled++; }
         if (state === "would_refuse") { cup.notHeldWr++; for (const a of accs) a.wrNotHeld++; }
@@ -720,6 +732,11 @@ async function main(): Promise<void> {
     const sf = path.join(outDir, `${vendor}.since.json`);
     fs.writeFileSync(sf, JSON.stringify(sinceOut, null, 1) + "\n");
     console.log(`wrote ${path.relative(ROOT, sf)}`);
+  }
+  if (partsOut && partsOutFile) {
+    // written BEFORE the report's own refusal can stop the build: the rows behind a refused draft are what a reviewer reads
+    fs.writeFileSync(partsOutFile, partsOut.map((r) => JSON.stringify(r)).join("\n") + "\n");
+    console.log(`  parts-out: ${partsOut.length} part verdicts -> ${partsOutFile}`);
   }
   const failed = checks.filter((c) => !c.passed);
   const secs = ((Date.now() - t0) / 1000).toFixed(1);

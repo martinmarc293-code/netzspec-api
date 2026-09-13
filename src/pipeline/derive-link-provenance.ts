@@ -28,7 +28,7 @@ import { kindQuestionSet } from "../core/cupLedger.js";
 import { deployRole } from "../core/deployRole.js";
 import { linkBasisFor, normText, type LinkBasis } from "../core/linkBasis.js";
 import { partKind } from "../core/partKind.js";
-import { cupsPrinted, mappedCup } from "../core/printedCups.js";
+import { cupsPrinted } from "../core/printedCups.js";
 import { closePool, query, withTx } from "../store/db.js";
 import { hashFile, withRun } from "../store/runs.js";
 
@@ -48,6 +48,10 @@ export type LinkInput = {
   part: { sku: string; series: string | null; category: string };
   /** the cups the part is asked (required + pending of its kind and role); empty for a part asked nothing */
   cups: readonly string[];
+  /** the cups the category's HOST kinds are asked (every kind asking >= RELEVANCE_MIN_CUPS cups, their required + pending
+   * union). Reviewer C.2: "a host server's spec sheet is spec_for_kind for its component kinds" — a kind asked fewer than
+   * three cups can never print three of its own, so for it a document counts when it is a host's spec sheet. */
+  hostCups?: readonly string[];
   doc: { doc_type: string; title: string | null };
   labels: LabelRecord | undefined;
   headers: readonly HeaderCell[];
@@ -75,11 +79,12 @@ export function decideLink(x: LinkInput): LinkOutput {
     basis = null;
     basisWhy = `could not check: ${lab?.status ?? "no evidence record"}${lab?.error ? ` (${clip(lab.error, 80)})` : ""}`;
   } else {
-    const cupSet = new Set(x.cups);
+    const component = x.cups.length < RELEVANCE_MIN_CUPS;
     const d = linkBasisFor({ sku: x.part.sku, series: x.part.series }, {
       text: x.text ?? "", skuRecords: ok ? Object.keys(lab!.by_sku) : [], familyRecords: ok && lab!.family.length > 0,
       title: x.doc.title ?? "", headers: headerLabels, labels: allLabels,
-    }, (l) => { const k = mappedCup(x.part.category, l); return k !== null && cupSet.has(k); });
+    }, (labels) => Math.max(cupsPrinted(x.part.category, x.cups, labels).size, component ? cupsPrinted(x.part.category, x.hostCups ?? [], labels).size : 0),
+    x.text !== null);
     basis = d.basis;
     basisWhy = d.evidence;
   }
@@ -101,10 +106,36 @@ export function decideLink(x: LinkInput): LinkOutput {
     relWhy = "the part is asked no cups";
   } else {
     const printed = [...cupsPrinted(x.part.category, x.cups, allLabels)].sort();
-    relevance = printed.length >= RELEVANCE_MIN_CUPS ? "spec_for_kind" : "mention";
-    relWhy = `prints ${printed.length} of ${x.cups.length} kind cups${printed.length ? ": " + clip(printed.join(", "), 90) : ""}`;
+    if (printed.length >= RELEVANCE_MIN_CUPS) {
+      relevance = "spec_for_kind";
+      relWhy = `prints ${printed.length} of ${x.cups.length} kind cups: ${clip(printed.join(", "), 90)}`;
+    } else if (x.cups.length < RELEVANCE_MIN_CUPS && (x.hostCups?.length ?? 0) > 0) {
+      const host = [...cupsPrinted(x.part.category, x.hostCups!, allLabels)].sort();
+      relevance = host.length >= RELEVANCE_MIN_CUPS ? "spec_for_kind" : "mention";
+      relWhy = `component kind asked ${x.cups.length} cup(s): a host spec sheet counts — prints ${host.length} host cups${host.length ? ": " + clip(host.join(", "), 80) : ""}`;
+    } else {
+      relevance = "mention";
+      relWhy = `prints ${printed.length} of ${x.cups.length} kind cups${printed.length ? ": " + clip(printed.join(", "), 90) : ""}`;
+    }
   }
   return { basis, relevance, evidence: clip(`${basisWhy} | ${relWhy}`, 400) };
+}
+
+/** Per category: the union of required + pending cups over the HOST kinds (kinds asking >= RELEVANCE_MIN_CUPS cups in the
+ * kind core or any role) that live hardware parts of the dump actually hold. */
+export function hostCupsByCategory(parts: readonly DumpPart[]): Map<string, string[]> {
+  const out = new Map<string, Set<string>>();
+  const seen = new Set<string>();
+  for (const p of parts) {
+    if (p.product_class !== "hardware") continue;
+    const q = cupsAsked(p);
+    if (!q.kind) continue;
+    const k = `${p.category}|${q.kind}|${q.role}`;
+    if (seen.has(k)) continue;
+    seen.add(k);
+    if (q.cups.length >= RELEVANCE_MIN_CUPS) { const s = out.get(p.category) ?? new Set<string>(); for (const c of q.cups) s.add(c); out.set(p.category, s); }
+  }
+  return new Map([...out].map(([c, s]) => [c, [...s].sort()]));
 }
 
 /** The cups a part is asked: required + pending of its kind (and role). Empty for non-hardware or a part with no kind. */
@@ -122,7 +153,7 @@ export function cupsAsked(p: { sku: string; name: string | null; category: strin
 }
 
 function parseArgs(argv: string[]) {
-  const a = { vendor: null as string | null, dump: null as string | null, evidence: null as string | null, commit: false, batch: 5000 };
+  const a = { vendor: null as string | null, dump: null as string | null, evidence: null as string | null, commit: false, batch: 5000, linksOut: null as string | null };
   for (let i = 0; i < argv.length; i++) {
     const t = argv[i];
     if (t === "--vendor") a.vendor = argv[++i];
@@ -130,6 +161,7 @@ function parseArgs(argv: string[]) {
     else if (t === "--evidence") a.evidence = argv[++i];
     else if (t === "--commit") a.commit = true;
     else if (t === "--batch") a.batch = Number(argv[++i]);
+    else if (t === "--links-out") a.linksOut = argv[++i];
     else throw new Error(`unknown argument ${t}`);
   }
   if (!a.vendor) throw new Error("--vendor is required");
@@ -178,6 +210,7 @@ export async function main(argv: string[]): Promise<void> {
 
   const asked = new Map<string, ReturnType<typeof cupsAsked>>();
   for (const p of parts) asked.set(p.id, cupsAsked(p));
+  const hostCups = hostCupsByCategory(parts);
   const textCache = new Map<string, string | null>();
   const textOf = (docId: string): string | null => {
     if (!textCache.has(docId)) {
@@ -199,7 +232,7 @@ export async function main(argv: string[]): Promise<void> {
     const p = partById.get(partId); const d = docById.get(docId);
     if (!p || !d) throw new Error(`link ${docId}/${partId} names a part or document the dump does not hold`);
     const q = asked.get(partId)!;
-    const out = decideLink({ part: p, cups: q.cups, doc: d, labels: labels[docId], headers: headers[docId] ?? [], text: textOf(docId) });
+    const out = decideLink({ part: p, cups: q.cups, hostCups: hostCups.get(p.category) ?? [], doc: d, labels: labels[docId], headers: headers[docId] ?? [], text: textOf(docId) });
     decided.push({ doc_id: docId, part_id: partId, out });
     const b = out.basis ?? "could_not_check", r = out.relevance ?? "could_not_check";
     counts.basis[b] = (counts.basis[b] ?? 0) + 1;
@@ -286,6 +319,11 @@ export async function main(argv: string[]): Promise<void> {
     runId = out.runId;
   }
 
+  if (a.linksOut) {
+    // every decision, one JSON line each — the arrangement site's per-part and per-document provenance before (or beside) the store
+    fs.writeFileSync(a.linksOut, decided.map((x) => JSON.stringify({ doc_id: x.doc_id, part_id: x.part_id, basis: x.out.basis, relevance: x.out.relevance, evidence: x.out.evidence })).join(String.fromCharCode(10)) + String.fromCharCode(10));
+    console.log(`links-out: ${decided.length} decisions -> ${a.linksOut}`);
+  }
   const day = new Date().toISOString().slice(0, 10);
   const report = path.join(REPO_ROOT, "runs", "reports", `derive-link-provenance-${a.vendor}-${day}.json`);
   fs.mkdirSync(path.dirname(report), { recursive: true });

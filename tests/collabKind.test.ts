@@ -241,7 +241,7 @@ check("the collaboration axis does not reach routers", partKind("routers", "CP-8
     power: "airflow,input_voltage,product_compatibility,psu_rated_output",
     cpu: "clock_speed,cpu_cache,cpu_cores,memory_speed_max,product_compatibility,tdp",
     memory: "dram,memory_speed_max,product_compatibility",
-    drive: "drive_form_factor,drive_interface,product_compatibility,storage_capacity",
+    drive: "drive_interface,product_compatibility,storage_capacity", // reviewer C.3: drive_form_factor optional (0 labels)
     nic: "data_rate,ports,product_compatibility",
     "storage-controller": "drive_interface,product_compatibility",
     tpm: "product_compatibility",

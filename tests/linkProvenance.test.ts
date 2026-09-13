@@ -32,18 +32,18 @@ eq("model tokens: a token without a digit is never used", modelTokens("CISCO-ROU
 
 // ---- link basis ----
 const ev = (o: Partial<DocEvidence>): DocEvidence => ({ text: "", skuRecords: [], familyRecords: false, title: "", headers: [], labels: [], ...o });
-const noCup = () => false;
+const noCup = () => 0;
 eq("explicit: per-SKU extraction record", linkBasisFor({ sku: "ISR4331/K9" }, ev({ skuRecords: ["isr4331/k9="] }), noCup).basis, "explicit");
 eq("explicit: base PID record", linkBasisFor({ sku: "ISR4331/K9" }, ev({ skuRecords: ["ISR4331"] }), noCup).evidence, "sku record ISR4331 (base PID)");
 eq("explicit: SKU in the page text", linkBasisFor({ sku: "C1111-8P" }, ev({ text: normText("Ordering: c1111-8p\n router") }), noCup).basis, "explicit");
 eq("NOT explicit: only a longer SKU on the page", linkBasisFor({ sku: "C1111-8P" }, ev({ text: normText("C1111-8P-E") }), noCup).basis, "inferred");
 const famDoc = ev({ familyRecords: true, title: "Cisco 4000 Series Integrated Services Routers Data Sheet", labels: ["Weight", "Dimensions", "Certifications"] });
-const inCup = (l: string) => ["Weight", "Dimensions", "Certifications"].includes(l);
+const inCup = (labels: readonly string[]) => new Set(labels.filter((l) => ["Weight", "Dimensions", "Certifications"].includes(l))).size;
 eq("family: records + token in title + 3 kind-cup labels", linkBasisFor({ sku: "ISR4451-X/K9", series: "4000 Series ISR" }, famDoc, inCup).basis, "family");
 check("family REFUSED: no model token in title or header",
   linkBasisFor({ sku: "C8300-1N1S-4T2X", series: "Catalyst 8300" }, famDoc, inCup).evidence.startsWith("family records, no model/series token"));
 check("family REFUSED: token present but only 2 kind-cup labels",
-  linkBasisFor({ sku: "ISR4451-X/K9", series: "4000 Series ISR" }, { ...famDoc, labels: ["Weight", "Dimensions"] }, inCup).evidence.includes("only 2 kind-cup label"));
+  linkBasisFor({ sku: "ISR4451-X/K9", series: "4000 Series ISR" }, { ...famDoc, labels: ["Weight", "Dimensions"] }, inCup).evidence.includes("only 2 kind cup(s) printed"));
 check("family REFUSED: token in the page BODY does not count (title/header only)",
   linkBasisFor({ sku: "ISR4451-X/K9", series: "4000 Series ISR" }, { ...famDoc, title: "Secure Voice", text: "THE 4000 SERIES" }, inCup).basis === "inferred");
 eq("inferred: no SKU, no family records", linkBasisFor({ sku: "C8300-1N1S-4T2X" }, ev({ text: "NOTHING" }), noCup).evidence, "no SKU on the page, no family-scope records");
@@ -62,6 +62,15 @@ eq("ISR 4000 is modular", modularPlatform("ISR4331/K9"), true);
 eq("Catalyst 8300 is modular", modularPlatform("C8300-1N1S-4T2X"), true);
 eq("880 series is fixed", modularPlatform("CISCO888-K9"), false);
 eq("an unknown platform is null, never a default", modularPlatform("ZZZ-1"), null);
+// reviewer C.1 pass: the Cisco ONE prefix, bundles of the same chassis, bare 800 models, G2 suffixes; ISR 1100 null on purpose
+eq("C1-CISCO2911/K9 (Cisco ONE ISR 2911) is modular", modularPlatform("C1-CISCO2911/K9"), true);
+eq("C1-CISCO4221/K9 (Cisco ONE ISR 4221) is modular", modularPlatform("C1-CISCO4221/K9"), true);
+eq("SPIAD2921 is an ISR 2921 and modular", modularPlatform("SPIAD2921"), true);
+eq("887VA (bare 800 model) is fixed", modularPlatform("887VA"), false);
+eq("C8231-E-G2 (suffixed G2 Secure Router) is modular", modularPlatform("C8231-E-G2"), true);
+eq("ISR 1100 stays null (pending), not guessed", modularPlatform("C1111-8P"), null);
+eq("REFUSED: 8870 is not an 800-series router just because it starts with 8", modularPlatform("8870"), null);
+eq("REFUSED: C9200L is a switch token, not an ISR 900", modularPlatform("C9200L-24P-4G"), null);
 
 // ---- decideLink: basis + relevance together ----
 const base: LinkInput = {
@@ -96,6 +105,31 @@ const pdfNoRecords = decideLink({ ...base, doc: { doc_type: "vendor_datasheet_pd
 eq("a PDF with no extract records: could-not-check", [pdfNoRecords.basis, pdfNoRecords.relevance], [null, null]);
 const inferredSpec = decideLink({ ...base, part: { sku: "C8300-1N1S-4T2X", series: "Catalyst 8300", category: "routers" }, text: normText("ISR4331/K9") });
 eq("a 4000 sheet linked to a Catalyst 8300: inferred — out of held even though it is a spec sheet", [inferredSpec.basis, inferredSpec.relevance], ["inferred", "spec_for_kind"]);
+
+// ---- reviewer C.2 (13 Sep 2026) ----
+// 1. the family check counts PRINTED kind cups (families + header cells), not labels today's mapper maps
+const famPrinted = decideLink({ ...base, part: { sku: "ISR4461/K9", series: "4000 Series ISR", category: "routers" }, text: normText("THE ISR FAMILY"),
+  cups: ["router_throughput", "weight", "certifications"], labels: { status: "ok", method: "x", family: ["Router forwarding performance", "Weight", "Certifications"], by_sku: {} } });
+eq("C.2: family basis on printed cups — a synonym the mapper does not map counts", famPrinted.basis, "family");
+// 2. a PDF whose page text is not held: the PID not found in the records is COULD NOT CHECK, never inferred
+const pdfNoPid = decideLink({ ...base, part: { sku: "UCSC-C240-M7SX", series: "UCS C-Series", category: "servers-unified-computing" }, doc: { doc_type: "vendor_datasheet_pdf", title: "c240-m7-spec-sheet.pdf" },
+  labels: { status: "ok", method: "pdf-extract-records", family: ["Weight"], by_sku: { "UCSC-C220-M7S": ["Weight"] } }, text: null, cups: ["weight", "dimensions", "memory_max"] });
+eq("C.2: UCS spec-sheet PDF, PID not in the records, text not held -> could not check (basis null)", pdfNoPid.basis, null);
+check("…and says why", pdfNoPid.evidence.startsWith("could not check: page text not held"), pdfNoPid.evidence);
+const pdfWithPid = decideLink({ ...base, part: { sku: "UCSC-C220-M7S", series: "UCS C-Series", category: "servers-unified-computing" }, doc: { doc_type: "vendor_datasheet_pdf", title: "c220.pdf" },
+  labels: { status: "ok", method: "pdf-extract-records", family: [], by_sku: { "UCSC-C220-M7S": ["Weight"] } }, text: null, cups: ["weight"] });
+eq("C.2 control: the same PDF naming the PID in its records is explicit", pdfWithPid.basis, "explicit");
+// 3. a component kind (asked < 3 cups) linked to its HOST's spec sheet is spec_for_kind
+const hostSheet = decideLink({ ...base, part: { sku: "UCSC-PSU1-1050W", series: "UCS C-Series", category: "servers-unified-computing" }, cups: ["product_compatibility", "psu_rated_output"],
+  hostCups: ["weight", "dimensions", "certifications", "memory_max"], doc: { doc_type: "vendor_datasheet_html", title: "UCS C220 M7 Data Sheet" },
+  labels: { status: "ok", method: "x", family: ["Weight", "Dimensions (H x W x D)", "Certifications"], by_sku: {} }, text: normText("UCSC-PSU1-1050W") });
+eq("C.2: a power supply on its server's spec sheet (3 host cups printed) is spec_for_kind", hostSheet.relevance, "spec_for_kind");
+check("…and the evidence names the host rule", hostSheet.evidence.includes("host spec sheet counts"), hostSheet.evidence);
+const notHost = decideLink({ ...hostSheet ? { ...base } : base, part: { sku: "UCSC-PSU1-1050W", series: "UCS C-Series", category: "servers-unified-computing" }, cups: ["product_compatibility", "psu_rated_output"],
+  hostCups: ["weight", "dimensions", "certifications"], labels: { status: "ok", method: "x", family: ["Ordering information", "Weight"], by_sku: {} }, text: normText("UCSC-PSU1-1050W") });
+eq("C.2 control: an ordering sheet printing one host cup is still a mention", notHost.relevance, "mention");
+const deviceNotHost = decideLink({ ...base, hostCups: ["weight", "dimensions", "certifications", "flash", "router_throughput"], labels: { status: "ok", method: "x", family: ["Weight", "Ordering information"], by_sku: {} } });
+eq("C.2 control: the host rule is for component kinds only — a router (asked 5) printing 1 cup stays a mention", deviceNotHost.relevance, "mention");
 
 console.log(`    link provenance: ${pass} passed, ${misses.length} missed`);
 for (const m of misses) console.log(`    MISS ${m}`);

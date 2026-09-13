@@ -48,7 +48,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { getPool, closePool } from "../store/db.js";
 import { mapLabel } from "../core/deepSpecMap.js";
-import { FIELD_DICTIONARY, PROFILES } from "../core/fieldSchema.js";
+import { COLUMN_BACKED, FIELD_DICTIONARY, PROFILES } from "../core/fieldSchema.js";
+import { DERIVED_FILL_PATHS } from "../core/derivedFillPaths.js";
 import { GENERATED_FIELDS } from "../core/fieldSchema.generated.js";
 import { LOOKUP_TASK, SOURCE_FIELDS_FILE, type SourceFieldsConfig } from "./queue.js";
 import { REPO_ROOT } from "../config.js";
@@ -125,7 +126,9 @@ export const ANY_CATEGORY_SOURCES = ["cisco-datasheets", "cisco-datasheet-pdf"] 
 export function requiredKeysByCategory(profiles: Record<string, Record<string, { kind: string }>> = PROFILES): Record<string, string[]> {
   const out: Record<string, string[]> = {};
   for (const [cat, fields] of Object.entries(profiles)) {
-    const keys = Object.keys(fields).filter((k) => fields[k].kind === "req" || fields[k].kind === "cond").sort();
+    // reviewer C.1 (13 Sep 2026): a column-backed key a registered derivation answers (deploy_role, modular) is never a slot
+    // and no document source publishes it — requiring a source for it would name a derivation as a coverage gap.
+    const keys = Object.keys(fields).filter((k) => (fields[k].kind === "req" || fields[k].kind === "cond") && !(COLUMN_BACKED.has(k) && k in DERIVED_FILL_PATHS)).sort();
     if (keys.length) out[cat] = keys;
   }
   return out;

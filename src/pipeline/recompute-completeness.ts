@@ -17,6 +17,7 @@
 import { getPool, closePool, withTx } from "../store/index.js";
 import { withRun } from "../store/runs.js";
 import { completenessV2, requirementFor, PROFILES, COLUMN_BACKED } from "../core/fieldSchema.js";
+import { modularPlatform } from "../core/modularPlatform.js";
 import { partKind } from "../core/partKind.js";
 import { deployRole } from "../core/deployRole.js";
 
@@ -155,6 +156,10 @@ async function run(a: Args): Promise<Record<string, number>> {
           delete values.deploy_role;
           const role = deployRole(category, derivedKind, p.sku, p.name);
           if (role !== null) values.deploy_role = role;
+          // reviewer C.1 (13 Sep 2026): `modular` is DERIVED from the router platform table (src/core/modularPlatform.ts) and
+          // gates module_slots; null = the table cannot say, so the gate stays unanswered and the cup stays pending.
+          delete values.modular;
+          if (category === "routers") { const m = modularPlatform(p.sku); if (m !== null) values.modular = m; }
           const c = completenessV2(category, values);
           if (c.no_profile) noProfile++;
           row = { required_total: c.required_total, required_present: c.required_present, pct: c.pct, missing: c.missing,

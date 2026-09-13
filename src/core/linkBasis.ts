@@ -82,15 +82,18 @@ export type DocEvidence = {
 export type LinkDecision = { basis: LinkBasis; evidence: string };
 
 /**
- * Decide the basis of one (document, part) link. `mapsToKindCup(label)` answers whether a label maps (with today's
- * mapper, in the part's category) to one of the cups the part's kind is asked — the caller supplies it so this module
- * stays free of the mapper and the profiles.
+ * Decide the basis of one (document, part) link. `kindCupsPrinted(labels)` answers how many DISTINCT cups of the part's
+ * kind the labels PRINT (reviewer C.2, 13 Sep 2026: printed — families + header cells — not mapped by today's rules; the
+ * caller supplies src/core/printedCups.ts so this module stays free of the mapper and the profiles).
+ * `textHeld` false (a PDF whose page text is not extracted) turns "the SKU is not on the page" into COULD NOT CHECK:
+ * absence in a text we do not hold is not evidence of absence (reviewer C.2: UCS/HCI spec-sheet PDFs).
  */
 export function linkBasisFor(
   part: { sku: string; series?: string | null },
   doc: DocEvidence,
-  mapsToKindCup: (label: string) => boolean,
-): LinkDecision {
+  kindCupsPrinted: (labels: readonly string[]) => number,
+  textHeld = true,
+): LinkDecision | { basis: null; evidence: string } {
   const full = normSku(part.sku);
   const base = basePid(part.sku);
   const recs = doc.skuRecords.map(normSku);
@@ -104,11 +107,14 @@ export function linkBasisFor(
     const where = [doc.title, ...doc.headers].join(" | ").toUpperCase();
     const tok = modelTokens(part.sku, part.series).find((t) => containsToken(where, t));
     if (tok) {
-      const mapped = new Set(doc.labels.filter(mapsToKindCup));
-      if (mapped.size >= 3) return { basis: "family", evidence: `family records; token ${tok} in title/header; ${mapped.size} kind-cup labels` };
-      return { basis: "inferred", evidence: `family records and token ${tok}, but only ${mapped.size} kind-cup label(s)` };
+      const printed = kindCupsPrinted(doc.labels);
+      if (printed >= 3) return { basis: "family", evidence: `family records; token ${tok} in title/header; ${printed} kind cups printed` };
+      if (!textHeld) return { basis: null, evidence: `could not check: page text not held, PID not in the extract records; family token ${tok} but only ${printed} kind cup(s) printed` };
+      return { basis: "inferred", evidence: `family records and token ${tok}, but only ${printed} kind cup(s) printed` };
     }
+    if (!textHeld) return { basis: null, evidence: "could not check: page text not held (PDF), PID not in the extract records" };
     return { basis: "inferred", evidence: "family records, no model/series token in title or table header" };
   }
+  if (!textHeld) return { basis: null, evidence: "could not check: page text not held (PDF), PID not in the extract records" };
   return { basis: "inferred", evidence: "no SKU on the page, no family-scope records" };
 }

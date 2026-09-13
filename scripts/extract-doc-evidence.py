@@ -34,6 +34,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--docs", required=True)
 ap.add_argument("--out", required=True)
 ap.add_argument("--cache", default=os.path.join(REPO, "scraper", "cache"))
+ap.add_argument("--headers-only", action="store_true", help="re-read only the table headers (and page text); keep doc-labels.json as it is")
 args = ap.parse_args()
 os.makedirs(os.path.join(args.out, "text"), exist_ok=True)
 docs = json.load(open(args.docs, encoding="utf-8"))
@@ -57,6 +58,10 @@ def cache_file(d):
     return None
 
 
+# a cell that is a value, not a header: optional comparator, a number (with separators, ranges, "x"), at most a short unit
+VALUE_SHAPED = re.compile(r"^\s*[<>~≤≥+-]?\s*[0-9][0-9.,\s/x×-]*\s*(?:(?:to|–)\s*[+-]?[0-9][0-9.,]*\s*)?[A-Za-z%°µ/()]{0,6}(?:\s+(?:AC|DC))?\s*$")
+
+
 def clean(s):
     return re.sub(r"\s+", " ", H.unescape(re.sub(r"<[^>]+>", " ", s))).strip(" |:")
 
@@ -76,16 +81,25 @@ for i, d in enumerate(docs):
             open(os.path.join(args.out, "text", doc_id + ".txt"), "w", encoding="utf-8").write(re.sub(r"\s+", " ", clean(body)).upper())
             hdrs, seen = [], set()
             for ti, table in enumerate(re.findall(r"(?is)<table.*?</table>", body)):
+                # HEADER EXTRACTION FIX (reviewer C.2, 13 Sep 2026). A header cell is a <th>, or a cell of the table's first
+                # row ONLY when that row reads as a header: >= 2 cells, the table has more rows, and no cell is
+                # VALUE-SHAPED (a number with at most a short unit: "5.2 kg", "100 W", "48"). The first version took every
+                # first-row cell, so a 2-column spec table's first data row ("Weight | 5.2 kg") entered the header
+                # inventory as two "column headers". A digit alone does not disqualify: "IPv4 routes", "Layer 2 features".
                 cells = [(ci, clean(x)) for ci, x in enumerate(re.findall(r"(?is)<th[^>]*>(.*?)</th>", table))]
-                first = re.search(r"(?is)<tr[^>]*>(.*?)</tr>", table)
-                if first:
-                    cells += [(ci, clean(x)) for ci, x in enumerate(re.findall(r"(?is)<t[dh][^>]*>(.*?)</t[dh]>", first.group(1)))]
+                rows = re.findall(r"(?is)<tr[^>]*>(.*?)</tr>", table)
+                if len(rows) >= 2:
+                    first = [clean(x) for x in re.findall(r"(?is)<td[^>]*>(.*?)</td>", rows[0])]
+                    if len(first) >= 2 and all(c and not VALUE_SHAPED.match(c) for c in first):
+                        cells += list(enumerate(first))
                 for ci, c in cells:
-                    if 1 < len(c) <= 90 and not re.fullmatch(r"[0-9 .,/x%-]+", c) and (c, ti, ci) not in seen:
+                    if 1 < len(c) <= 90 and not VALUE_SHAPED.match(c) and (c, ti, ci) not in seen:
                         seen.add((c, ti, ci)); hdrs.append({"l": c, "t": ti, "c": ci, "axis": "column"})
             if hdrs:
                 headers_out[doc_id] = hdrs
-        if doc_type not in SPEC_BEARING:
+        if args.headers_only:
+            rec["status"] = "headers_only"
+        elif doc_type not in SPEC_BEARING:
             rec["status"] = "not_spec_bearing"
         elif is_pdf:
             rs = pdf_records.get(url, [])
@@ -137,6 +151,7 @@ for i, d in enumerate(docs):
     if i % 500 == 0:
         print(i, len(docs), dict(stats), flush=True)
 
-json.dump(labels_out, open(os.path.join(args.out, "doc-labels.json"), "w", encoding="utf-8"))
+if not args.headers_only:
+    json.dump(labels_out, open(os.path.join(args.out, "doc-labels.json"), "w", encoding="utf-8"))
 json.dump(headers_out, open(os.path.join(args.out, "doc-headers.json"), "w", encoding="utf-8"), ensure_ascii=False)
 print("DONE", dict(stats))

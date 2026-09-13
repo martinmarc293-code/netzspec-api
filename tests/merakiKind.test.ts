@@ -188,7 +188,7 @@ const ask = (sku: string) => completenessV2("meraki", { kind: partKind("meraki",
      L("certifications", "concurrent_sessions", "dimensions", "firewall_throughput", "form_factor", "humidity_operating", "ipsec_throughput",
        "mounting", "ports", "power_max", "psu_options", "temp_operating", "threat_throughput", "weight", "rack_units?"));
   eq("kind-layer: meraki/camera = CAMERA + MV deltas + today's", mkSet("camera"),
-     L("camera_zoom", "dimensions", "field_of_view", "humidity_operating", "image_sensor", "max_resolution", "mounting", "power_max",
+     L(/* reviewer C.3: camera_zoom optional (0 labels) */ "dimensions", "field_of_view", "humidity_operating", "image_sensor", "max_resolution", "mounting", "power_max",
        "product_compatibility", "psu_options", "storage_capacity", "temp_operating", "video_quality_max", "weight"));
   // sensors / cellular_category / cloud_management are proposed required by II.15 but are free strings: the standing rule in
   // tests/freeStringCups.test.ts keeps them optional until a type decision is recorded.

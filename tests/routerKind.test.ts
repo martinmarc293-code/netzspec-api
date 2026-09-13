@@ -362,11 +362,12 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
   const req = (kind: string, role?: string) => [...kindQuestionSet("routers", kind, role).required].sort().join(",");
   const pend = (kind: string, role?: string) => kindQuestionSet("routers", kind, role).pending.map((p) => p.key).sort().join(",");
   const EXPECT: [string, string | undefined, string][] = [
-    ["router", undefined, "certifications,dimensions,flash"],
-    ["router", "branch", "certifications,dimensions,flash"],
-    ["router", "edge", "certifications,dimensions,flash"],
-    ["router", "smb", "certifications,humidity_operating,lan_interfaces,temp_operating,temp_storage,wan_interfaces"],
-    ["router", "industrial-iot", "altitude_max,certifications,dimensions,dram,flash,lan_interfaces,power_max,temp_operating,wan_interfaces,weight"],
+    // reviewer C.1 (13 Sep 2026): router_throughput, wan_interfaces, lan_interfaces REQUIRED of router in every role
+    ["router", undefined, "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces"],
+    ["router", "branch", "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces"],
+    ["router", "edge", "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces"],
+    ["router", "smb", "certifications,humidity_operating,lan_interfaces,router_throughput,temp_operating,temp_storage,wan_interfaces"],
+    ["router", "industrial-iot", "altitude_max,certifications,dimensions,dram,flash,lan_interfaces,power_max,router_throughput,temp_operating,wan_interfaces,weight"],
     ["sp-core", undefined, "altitude_max,certifications,humidity_operating,input_voltage,ports,power_max,temp_operating,temp_storage"],
     ["chassis", undefined, "altitude_max,certifications,humidity_operating,temp_storage"],
     ["appliance", undefined, "certifications,dimensions,form_factor,humidity_operating,ports,power_max,temp_operating,weight"],
@@ -386,7 +387,9 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
     ["accessory", undefined, "product_compatibility"],
   ];
   for (const [kind, role, want] of EXPECT) check(`cup set routers.${kind}${role ? "·" + role : ""} = ${want}`, req(kind, role) === want, `got ${req(kind, role)}`);
-  check("the appliance's rack_units waits on its form factor (pending), nothing else is pending", pend("appliance") === "rack_units" && pend("router") === "" && pend("chassis") === "");
+  check("the appliance's rack_units waits on its form factor (pending), nothing else is pending", pend("appliance") === "rack_units" && pend("chassis") === "");
+  // reviewer C.1 / ruling 4: a router's module_slots waits on the derived `modular` boolean (pending), and only that
+  check("a router's module_slots is pending on `modular`, nothing else is pending", pend("router") === "module_slots");
   // ROLE WITNESSES: a real SKU per role, placed by the live deployRole on the live kind.
   check("witness: RV340-K9 is a router in role smb", routerKind("RV340-K9") === "router" && deployRole("routers", "router", "RV340-K9") === "smb");
   check("witness: IR1821-K9 is a router in role industrial-iot", routerKind("IR1821-K9") === "router" && deployRole("routers", "router", "IR1821-K9") === "industrial-iot");
@@ -394,8 +397,8 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
   check("witness: ASR1002-X is a router in role edge", deployRole("routers", "router", "ASR1002-X") === "edge");
   // operator ruling (13 Sep 2026): C8455-G2 is branch now; the unresolved shape is asserted on the kind core directly.
   check("witness: C8455-G2 is a router in role branch (operator ruling) and is asked the core",
-    deployRole("routers", "router", "C8455-G2") === "branch" && req("router", "branch") === "certifications,dimensions,flash");
-  check("a router with no role is asked the core", req("router") === "certifications,dimensions,flash");
+    deployRole("routers", "router", "C8455-G2") === "branch" && req("router", "branch") === "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces");
+  check("a router with no role is asked the core", req("router") === "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces");
   check("cup set routers.bundle = bundle_contents,product_compatibility (operator ruling)", req("bundle") === "bundle_contents,product_compatibility");
   // THE TWO ROLE SHAPES, read through requirementFor so the semantics (not just the lists) are pinned.
   const rf = (key: string, v: Record<string, string>) => requirementFor("routers", key, v as never);
