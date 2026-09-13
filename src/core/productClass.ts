@@ -1671,6 +1671,20 @@ export const SKU_RULES: SkuRule[] = [
   // form got the class wrong (software for a licence) AND took the only live witness `name-sw-bundle`
   // has, which turned the "every rule fired at least once" assertion red. The v15 sibling is taken
   // exactly, so the v14 row keeps its reason and the name rule keeps its witness.
+  // phase-1 close §5.5 (13 Sep 2026): software rows found by the device-noun read (their names say "server" or
+  // "controller" about the host, not about themselves). Each read; 0 own facts on all 12.
+  { kind: "exact", token: "DOCK-LNX-ADV-BC", klass: "software", why: "'Docker EE ... for Linux/Win Server with Bus ... Support' — a Docker Enterprise subscription sold under a UCS SKU; 0 facts" },
+  { kind: "exact", token: "DOCK-LNX-ADV-BD", klass: "software", why: "'Docker EE ... for Linux/Win Server with Bus ... Support' — a Docker Enterprise subscription sold under a UCS SKU; 0 facts" },
+  { kind: "exact", token: "DOCK-LNX-BSC-BC", klass: "software", why: "'Docker EE ... for Linux/Win Server with Bus ... Support' — a Docker Enterprise subscription sold under a UCS SKU; 0 facts" },
+  { kind: "exact", token: "DOCK-LNX-BSC-BD", klass: "software", why: "'Docker EE ... for Linux/Win Server with Bus ... Support' — a Docker Enterprise subscription sold under a UCS SKU; 0 facts" },
+  { kind: "exact", token: "DOCK-LNX-STD-BC", klass: "software", why: "'Docker EE ... for Linux/Win Server with Bus ... Support' — a Docker Enterprise subscription sold under a UCS SKU; 0 facts" },
+  { kind: "exact", token: "DOCK-LNX-STD-BD", klass: "software", why: "'Docker EE ... for Linux/Win Server with Bus ... Support' — a Docker Enterprise subscription sold under a UCS SKU; 0 facts" },
+  { kind: "exact", token: "DOCK-WIN-ADV-BC", klass: "software", why: "'Docker EE ... for Linux/Win Server with Bus ... Support' — a Docker Enterprise subscription sold under a UCS SKU; 0 facts" },
+  { kind: "exact", token: "DOCK-WIN-ADV-BD", klass: "software", why: "'Docker EE ... for Linux/Win Server with Bus ... Support' — a Docker Enterprise subscription sold under a UCS SKU; 0 facts" },
+  { kind: "exact", token: "DOCK-WIN-STD-BC", klass: "software", why: "'Docker EE ... for Linux/Win Server with Bus ... Support' — a Docker Enterprise subscription sold under a UCS SKU; 0 facts" },
+  { kind: "exact", token: "DOCK-WIN-STD-BD", klass: "software", why: "'Docker EE ... for Linux/Win Server with Bus ... Support' — a Docker Enterprise subscription sold under a UCS SKU; 0 facts" },
+  { kind: "exact", token: "UCSC-SWRST", klass: "software", why: "'RAID support for AHCI Capable SAS Controller in Intel RST' — a software-RAID option, not a controller; 0 facts" },
+  { kind: "exact", token: "C9800-CL-K9", klass: "software", why: "'Cisco Catalyst 9800-CL Wireless Controller for Cloud' — the VIRTUAL controller image; the physical 9800 appliances are separate SKUs; 1 fact" },
   { kind: "exact", token: "E3C-SW-15-K9", klass: "license", why: "'Cisco E3C-SW-15-K9' — the v15 of the Enterprise Agreement on-premises software bundle whose v14 sibling E3C-SW-14-K9 is named 'On-Premises SW Bundle v14 (1)' and is already a licence by name; 1 part, 0 facts" },
   // end wl-uc-class
 ];

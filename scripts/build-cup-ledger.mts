@@ -29,6 +29,7 @@ import { PROFILES } from "../src/core/fieldSchema.js";
 import { NORM_VERSION } from "../src/core/specNormalize.js";
 import { mapLabel } from "../src/core/deepSpecMap.js";
 import { listSources } from "../src/api/queries/sources.js";
+import { DERIVED_FILL_PATHS } from "../src/core/derivedFillPaths.js";
 
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
 
@@ -295,15 +296,8 @@ async function main(): Promise<void> {
   // COVERAGE DECIDES REQUIRED, and that is why `layer` is listed and still OPTIONAL: its derivation is
   // exact (precision 1.000 over the 1,054 seeds) but speaks for 10.1% of switches, and a cup required of
   // 4,931 parts on a path that reaches 500 is still mostly a gap nobody can close.
-  const DERIVED_FILL_PATHS: Record<string, { by: string; validated: string }> = {
-    form_factor_a: { by: "src/core/breakoutEnds.ts breakoutEndsFor", validated: "51 of 51 breakout-cable parts; SKU table agrees with the text reading on all 32 that have text" },
-    form_factor_b: { by: "src/core/breakoutEnds.ts breakoutEndsFor", validated: "51 of 51 breakout-cable parts; SKU table agrees with the text reading on all 32 that have text" },
-    breakout_count: { by: "src/core/breakoutEnds.ts breakoutEndsFor", validated: "51 of 51 breakout-cable parts; SKU table agrees with the text reading on all 32 that have text" },
-    // round-7 ruling C (12 Sep 2026): the condition bundle_contents was approved under. Counts from the SKU control
-    // (an independent reading of the SKU checked against the name parse), over the plan's 277 rows.
-    bundle_contents: { by: "src/core/bundleContents.ts bundleContents (the bundle's own name)", validated: "277 plan rows (groups 4, 5, 6, 13): parsed 250, refused 27 with a reason (20 'required, not included', 4 no contents, 1 range, 1 unrecognised item, 1 drive with no unit); SKU control on the 250: agree 175, DISAGREE 2 (the vendor's name and SKU name different servers), SKU names nothing 73. +8 UCS-SPM-MDS rows: agree 8/8. The 101 'Cisco <sku>' rows are refused by rule (the name is only the SKU)" },
-    layer: { by: "src/core/layerFromSku.ts", validated: "precision 1.000 over the 1,054 seeds (276 agree, 0 disagree); speaks for 500 of 4,931 switches (10.1%) — which is why the cup is optional" },
-  };
+  // The registered derivations live in ONE module since 13 Sep 2026 (the ledger, the completeness report and the
+  // phase-1 freeze all read them): src/core/derivedFillPaths.ts.
   const ownNonSeed = new Set((await pool.query<{ k: string }>(`
     SELECT DISTINCT f.field_key k FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id
      WHERE v.slug = $1 AND p.product_class = 'hardware' AND p.retired_at IS NULL

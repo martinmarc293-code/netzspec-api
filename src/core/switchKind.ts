@@ -230,6 +230,10 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   // (C9300-NM-8X, N9K-M6PQ "Uplink Module for Nexus 9300") and a port adapter have neither. N7K/N77 M
   // and F cards, WS-X / N9K-X / ME-X / NXM-X cards, -LC- cards, 6800/6880 port cards, 7600 ES cards,
   // WS-SVC service modules, SPA interface processors, and the N9400 switch card.
+  // phase-1 close §5.5 (13 Sep 2026): CTS-5K-LC-SWITCH is "Catalyst 2960C Switch 12 FE PoE, 2 x Dual Uplink" — a whole
+  // switch shipped with the CTS 5000 TelePresence room, where `LC` is the Left Column, not a line card. Its UI sibling
+  // is already `switch` by default. Exact, so no -LC- card anywhere else is reached.
+  { kind: "switch", re: /^CTS-5K-(?:LC|UI)-SWITCH=?$/ },
   {
     kind: "linecard",
     re: /^N9K-C9400-SW-|^N7K-[MF]\d|^N77-[MF]\d|-X\d|-LC(?:-|=|$)|^C6800-.*P10G|^7600-ES|^C6880-X-LE-|^WS-SVC-|(?:^|-)SIP-\d/,

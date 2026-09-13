@@ -1946,6 +1946,19 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["CESIUM-BM-C220AP", "(Internal Only) Cesium BareMetal 1x 8C, 24GB, 2x900GB", "servers-unified-computing", "not-sellable:self-declared"],
     ["AIR-CT100-1140A30", "802.11a/g/n FCC Cfg5508-100 30AP WCS Demo Promo ends 8/1/10", "wireless", "expired-promotion"],
     ["UCSW-SA-PALET", "UCSW Invicta Unracked Packing Pallet", "servers-unified-computing", "packaging-not-a-product"],
+    // phase-1 close §5.5 (13 Sep 2026): the software rows the device-noun read found, one witness per exact rule.
+    ["DOCK-LNX-ADV-BC", "Docker EE for Server with Support", "servers-unified-computing", "sku-exact:DOCK-LNX-ADV-BC"],
+    ["DOCK-LNX-ADV-BD", "Docker EE for Server with Support", "servers-unified-computing", "sku-exact:DOCK-LNX-ADV-BD"],
+    ["DOCK-LNX-BSC-BC", "Docker EE for Server with Support", "servers-unified-computing", "sku-exact:DOCK-LNX-BSC-BC"],
+    ["DOCK-LNX-BSC-BD", "Docker EE for Server with Support", "servers-unified-computing", "sku-exact:DOCK-LNX-BSC-BD"],
+    ["DOCK-LNX-STD-BC", "Docker EE for Server with Support", "servers-unified-computing", "sku-exact:DOCK-LNX-STD-BC"],
+    ["DOCK-LNX-STD-BD", "Docker EE for Server with Support", "servers-unified-computing", "sku-exact:DOCK-LNX-STD-BD"],
+    ["DOCK-WIN-ADV-BC", "Docker EE for Server with Support", "servers-unified-computing", "sku-exact:DOCK-WIN-ADV-BC"],
+    ["DOCK-WIN-ADV-BD", "Docker EE for Server with Support", "servers-unified-computing", "sku-exact:DOCK-WIN-ADV-BD"],
+    ["DOCK-WIN-STD-BC", "Docker EE for Server with Support", "servers-unified-computing", "sku-exact:DOCK-WIN-STD-BC"],
+    ["DOCK-WIN-STD-BD", "Docker EE for Server with Support", "servers-unified-computing", "sku-exact:DOCK-WIN-STD-BD"],
+    ["UCSC-SWRST", "RAID support for AHCI Capable SAS Controller in Intel RST", "servers-unified-computing", "sku-exact:UCSC-SWRST"],
+    ["C9800-CL-K9", "Cisco Catalyst 9800-CL Wireless Controller for Cloud", "wireless", "sku-exact:C9800-CL-K9"],
   ];
   for (const [sku, name, cat, reason] of witnesses) {
     const got = classify({ sku, name, categorySlug: cat, categoryIsHardware: cat !== "ios-nx-os-software" && cat !== "data-center-analytics" && cat !== "cloud-systems-management" });

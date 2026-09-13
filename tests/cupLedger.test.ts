@@ -645,15 +645,9 @@ for (const f of files) {
   // list shrinks to empty as the writes land. A STALE entry fails too — an allowance nobody needs is slack,
   // and slack is how a ratchet stops meaning anything: remove the line when the write has run.
   const DEVICE_NOUN_RESIDUE: Record<string, string> = {
-    // A virtual controller (no box): wirelessKind pins it `other` for that reason. The class is the defect.
-    "wireless|C9800-CL-K9": "class hardware -> software ('Catalyst 9800-CL Wireless Controller for Cloud', a VM image)",
-    // Real Catalyst switches shipped with Room Panorama / TelePresence IX5000 and filed in collaboration-endpoints,
-    // whose axis has no switch kind. CS-PANO-SWITCH+ ("Room Panorama Cisco Catalyst 3560-CX 12 Port PoE IP Base")
-    // belongs in the same move and is not listed only because its name carries no vocabulary noun.
-    "collaboration-endpoints|CS-PANO-SWITCH2+": "category collaboration-endpoints -> switches ('Cisco C1000 16 Port Switch')",
-    "collaboration-endpoints|CTS-5K-LC-SWITCH": "category collaboration-endpoints -> switches ('Catalyst 2960C Switch 12 FE PoE')",
-    "collaboration-endpoints|CTS-5K-UI-SWITCH": "category collaboration-endpoints -> switches ('Catalyst 2960C Switch 8 FE PoE')",
-    "collaboration-endpoints|C1200-8FP-2G-OPT": "category collaboration-endpoints -> switches ('Catalyst 1200 8-port GE Switch')",
+    // EMPTY since 13 Sep 2026: the five writes this list carried have run — C9800-CL-K9 hardware -> software
+    // (reclassify run #1023, sku-exact rule) and the Room Panorama / CTS 5000 Catalyst switches moved to
+    // switches (run #1024, CS-PANO-SWITCH+ with them). The hard zero is exact with no allowance.
   };
   const judgeNoun = (counted: string[], residue: Record<string, string>): { unexplained: string[]; stale: string[] } => ({
     unexplained: counted.filter((s) => !(s in residue)),

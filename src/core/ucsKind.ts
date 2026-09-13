@@ -270,7 +270,7 @@ export const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] 
  */
 export const PRE_RULES: { kind: UcsKind; re: RegExp }[] = [
   { kind: "software", re: /^N10-MGT\d|^(?:N20|UCSB)-FW\d|^CIMC-C\d|^UCSW-DDUP-|^UCSX-C-SW-LATEST$/ },
-  { kind: "non-product", re: /-TOPO\d+$|^DISK-MODE-|^UCSC-SW-C\d{3}M\d-P\d|^UCSC-CCARD-|-(?:IS|IMM)-MANAGED(?:-M\d)?$|^HX-DCPMM-|^DDR\d-\d{4}|^E5-\d{4}$/ },
+  { kind: "non-product", re: /-TOPO\d+$|^DISK-MODE-|^UCSC-SW-C\d{3}M\d-[PE]\d|^UCSC-CCARD-|-(?:IS|IMM)-MANAGED(?:-M\d)?$|^HX-DCPMM-|^DDR\d-\d{4}|^E5-\d{4}$/ },
   { kind: "io-module", re: /(?:^|-)IOM-?\d{4}|(?:^|-)IFM(?:-|$)|(?:^|-)I-?9108-|^X9108-IFM/ },
   { kind: "chassis", re: /^N20-C65\d\d/ },
   { kind: "server", re: /^HX(?:AF)?\d{3}C-M\d|^HX-E-\d{3}C?-?M\d|^HC[IO][A-Z]*\d{3}C(?:-|$)|^CSP-5\d{3}(?:-|$)/ },
