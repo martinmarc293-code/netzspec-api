@@ -166,17 +166,56 @@ export function readSource(file: string): string {
 }
 
 /** The text of one `export const NAME ... = {` ... `};` block, by brace depth. */
+/**
+ * The source with every COMMENT replaced by spaces of the same length (newlines kept), so the depth scanners below see
+ * only code and every index still points into the original text.
+ *
+ * WHY (13 Sep 2026): the scanners balance quotes, and a comment is prose. One apostrophe in a comment inside a value —
+ * "the parent's measurement decides" — opened a string that never closed, the scanner swallowed the rest of the file,
+ * and the parse failed with "PROFILES block ended inside a category". The first repair edited the comments to typographic
+ * apostrophes: a suite that passes on punctuation. The scanner must not read comments at all. Strings are tracked so a
+ * `//` inside a string ("https://…") is not taken for a comment.
+ */
+export function maskComments(source: string): string {
+  const out = source.split("");
+  let i = 0;
+  let quote: string | null = null;
+  while (i < source.length) {
+    const ch = source[i];
+    if (quote) {
+      if (ch === "\\") { i += 2; continue; }
+      if (ch === quote) quote = null;
+      i++;
+      continue;
+    }
+    if (ch === '"' || ch === "'" || ch === "`") { quote = ch; i++; continue; }
+    if (ch === "/" && source[i + 1] === "/") {
+      while (i < source.length && source[i] !== "\n") { out[i] = " "; i++; }
+      continue;
+    }
+    if (ch === "/" && source[i + 1] === "*") {
+      const e = source.indexOf("*/", i + 2);
+      const stop = e < 0 ? source.length : e + 2;
+      for (; i < stop; i++) if (source[i] !== "\n") out[i] = " ";
+      continue;
+    }
+    i++;
+  }
+  return out.join("");
+}
+
 export function blockOf(source: string, head: string): { start: number; end: number; text: string } {
   const start = source.indexOf(head);
   if (start < 0) throw new Error(`promote-required: "${head.slice(0, 40)}…" not found — the file changed shape, refusing to guess`);
   let depth = 0;
+  const code = maskComments(source); // braces inside comments are not structure; indices are unchanged
   for (let i = start + head.length - 1; i < source.length; i++) {
-    const ch = source[i];
+    const ch = code[i];
     if (ch === "{") depth++;
     else if (ch === "}") {
       depth--;
       if (depth === 0) {
-        const end = source.indexOf(";", i) + 1;
+        const end = code.indexOf(";", i) + 1;
         return { start, end, text: source.slice(start, end) };
       }
     }
@@ -204,6 +243,7 @@ function spreadKeys(source: string, name: string): Map<string, string> {
  *  Values contain nested objects (`cond({ any: [...] })`), so this is a depth scanner, not a
  *  line matcher; it is reconciled against the merged PROFILES by `handWritten()` below. */
 export function parseHandWritten(source: string): Map<string, Map<string, string>> {
+  source = maskComments(source); // the depth scanner reads code only — see maskComments
   const { text } = blockOf(source, PROFILES_HEAD);
   const body = text.slice(text.indexOf("{") + 1);
   const out = new Map<string, Map<string, string>>();

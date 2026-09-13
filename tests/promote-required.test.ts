@@ -13,7 +13,7 @@
 import fs from "node:fs";
 import {
   decide, decideAll, isUncheckableNumber, parseGeneratedBlock, emitGeneratedBlock, blockOf,
-  parseHandWritten, handWritten, verifyRewrite, parseArgs, readSource,
+  parseHandWritten, handWritten, verifyRewrite, parseArgs, readSource, maskComments, PROFILES_HEAD,
   BLOCK_HEAD, GENERATED_FILE, SCHEMA_FILE,
   type Coverage, type FieldFacts, type ProfileState, type Decision, type PromotionNotes,
 } from "../src/pipeline/promote-required.js";
@@ -249,6 +249,39 @@ throws("blockOf refuses a head it cannot find", () => blockOf("nothing here", BL
       .every(([k, r]) => !d(cov(0, 100, k, "switches"),
         { type: FIELD_DICTIONARY[k]?.type, unit: FIELD_DICTIONARY[k]?.unit, band: FIELD_DICTIONARY[k]?.band },
         { current: r.kind, handWritten: true, inGenerated: !!GENERATED_PROFILES.switches?.[k] }).promote));
+}
+
+// ---- COMMENTS ARE NOT CODE (13 Sep 2026) ----------------------------------------------------------------------------
+// An ASCII apostrophe in a comment INSIDE a value ("the parent's measurement decides") opened a string in the depth
+// scanner that never closed, and the parse failed "PROFILES block ended inside a category". The repair is in the scanner
+// (maskComments), not in the comments: these cases put apostrophes, a quote, a backtick, braces and a URL-in-a-string
+// where a real profile would, and must parse exactly.
+{
+  const snippet = [
+    PROFILES_HEAD,
+    "  routers: {",
+    "    // the parent's measurement decides; a \"quote\" and a `tick` and a { brace",
+    "    ports: cond({ any: [ // a NIC's ports, the gateway's LAN",
+    "      { field: \"kind\", inList: [\"router\"] }, /* it's a block comment } with a brace */",
+    "    ] }, { elseOpt: true }),",
+    "    url_note: opt, // see https://example.com/it's-fine",
+    "    label: req,",
+    "  },",
+    "  switches: { weight: req },",
+    "};",
+  ].join("\n");
+  let parsed: Map<string, Map<string, string>> | null = null;
+  try { parsed = parseHandWritten(snippet); } catch { parsed = null; }
+  check("a profile whose comments hold apostrophes, quotes, backticks and braces still parses", parsed !== null);
+  check("…and every key on either side of those comments is read with its kind",
+    parsed?.get("routers")?.get("ports") === "cond" && parsed?.get("routers")?.get("url_note") === "opt"
+    && parsed?.get("routers")?.get("label") === "req" && parsed?.get("switches")?.get("weight") === "req");
+  check("maskComments keeps the length, so every index still points into the original source",
+    maskComments(snippet).length === snippet.length);
+  check("maskComments does not mask a // inside a string", maskComments('const u = "https://x.test/a"; // c').startsWith('const u = "https://x.test/a";'));
+  // SABOTAGE (run by hand 13 Sep 2026): removing the maskComments line from parseHandWritten makes this file throw
+  // "PROFILES block ended inside a category" on the real fieldSchema.ts, whose comments carry ASCII apostrophes again.
+  check("CONTROL the snippet is the shape that broke the old scanner (it holds comment apostrophes)", /\/\/[^\n]*'/.test(snippet));
 }
 
 console.log(`\npromote-required tests: ${pass} passed, ${fail} failed`);
