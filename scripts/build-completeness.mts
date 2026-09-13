@@ -49,6 +49,15 @@ const t0 = Date.now();
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
 
+/** The freeze this report's numbers are measured against: the hash in the committed data/freeze/<vendor>.json. */
+function readFreezeHash(vendor: string): { freeze_hash: string | null; freeze_hash_reason?: string } {
+  const file = path.join(ROOT, "data", "freeze", `${vendor}.json`);
+  if (!fs.existsSync(file)) return { freeze_hash: null, freeze_hash_reason: `no committed freeze file (data/freeze/${vendor}.json)` };
+  const h = (JSON.parse(fs.readFileSync(file, "utf8")) as { freeze_hash?: unknown }).freeze_hash;
+  if (typeof h !== "string" || !h) throw new Error(`data/freeze/${vendor}.json carries no freeze_hash`);
+  return { freeze_hash: h };
+}
+
 /**
  * THE SPEC-BEARING LIST THE LEDGERS WERE BUILT WITH. scripts/build-cup-ledger.mts declares it as a local constant, so it
  * cannot be imported; it is restated here and PROVEN equal in effect by `held_matches_ledger`, which compares every
@@ -534,8 +543,9 @@ async function main(): Promise<void> {
       census_norm_versions: [...new Set(census.map((c) => c.norm_version))],
       norm_version_now: NORM_VERSION,
       spec_bearing_doc_types: LEDGER_SPEC_BEARING,
-      freeze_hash: null,
-      freeze_hash_reason: "the §4 freeze (tests/arrangementFreeze.test.ts) does not exist yet",
+      // Read from the committed freeze file, never computed here: the report states WHICH frozen table its numbers are
+      // over, and tests/completeness.test.ts fails when the two files name different hashes. A missing file is said.
+      ...readFreezeHash(vendor),
       worktree_dirty_paths: dirty,
       live_at_build: { hardware_parts: live.hardware_parts, parts_nothing_required: live.parts_nothing_required, required_total_held: live.required_total_held },
       census_replay_parity: parityRows,
