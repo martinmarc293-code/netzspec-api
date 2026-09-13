@@ -9,6 +9,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { kindQuestionSet, profileHash, LEDGER_KINDS, slotsAtNothingKnown as slotsOf, type KindQuestionSet } from "../src/core/cupLedger.js";
+// device-noun (13 Sep 2026): the REAL detector and classifier, never a copy of either.
+import { DEVICE_NOUN_EXEMPT_KINDS, deviceNounFinding, namesADeviceNoun, ownPhrase } from "../src/core/deviceNoun.js";
+import { partKind, FALLBACK_KINDS } from "../src/core/partKind.js";
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -524,11 +527,13 @@ for (const f of files) {
   // and the two detectors are judged over the UNION so a kind with a perfectly good name cannot
   // shelter a real product from them — `servers-unified-computing.bundle` held 1,432 parts asked
   // nothing, 95 of them with a device noun, and not one was visible in the old single-axis count.
-  type Axis = { kinds: string[]; parts: number; facts3: number; device_noun: number };
-  type Fallback = Axis & { hardware_parts: number; asked_nothing?: Axis;
+  type Axis = { kinds: string[]; parts: number; facts3: number; device_noun: number; device_noun_exempt?: number;
+    device_noun_skus?: string[] };
+  type Fallback = Axis & { hardware_parts: number; asked_nothing?: Axis; device_noun_exempt_kinds?: string[]; _about?: string;
     unresolved_kind?: Axis & { asked_at_least_one_cup: number }; either?: Axis };
   let parts = 0, hardware = 0, facts3 = 0, noun = 0, looked = 0;
-  let askedNothing = 0, unresolvedAskedSomething = 0, unionFacts3 = 0, unionNoun = 0;
+  let askedNothing = 0, unresolvedAskedSomething = 0, unionFacts3 = 0, unionNoun = 0, unionNounExempt = 0;
+  const unionNounSkus: string[] = [];
   const namedZero: string[] = [];
   const over: string[] = [];
   for (const f of files) {
@@ -549,6 +554,20 @@ for (const f of files) {
     askedNothing += fb.asked_nothing.parts;
     unresolvedAskedSomething += fb.unresolved_kind.asked_at_least_one_cup;
     unionFacts3 += fb.either.facts3; unionNoun += fb.either.device_noun;
+    // device-noun (13 Sep 2026): the kind-aware census must be PRESENT, and must say what it exempted.
+    // A ledger built before it existed carries neither field, and the hard zero below must not pass on
+    // a ledger that could not have counted.
+    check(`${f}: the ledger carries the kind-aware device-noun census (skus, exempt count, exempt kinds)`,
+      Array.isArray(fb.either.device_noun_skus) && typeof fb.either.device_noun_exempt === "number"
+        && Array.isArray(fb.device_noun_exempt_kinds),
+      "rebuild it: npx tsx scripts/build-cup-ledger.mts --category <slug>");
+    check(`${f}: its _about prints every exempt kind`,
+      DEVICE_NOUN_EXEMPT_KINDS.every((k) => (fb._about ?? "").includes(k)) && JSON.stringify(fb.device_noun_exempt_kinds) === JSON.stringify(DEVICE_NOUN_EXEMPT_KINDS),
+      `exempt kinds in code [${DEVICE_NOUN_EXEMPT_KINDS.join(", ")}], in ledger ${JSON.stringify(fb.device_noun_exempt_kinds)} — rebuild it`);
+    check(`${f}: the named device-noun SKUs agree with the count`, (fb.either.device_noun_skus ?? []).length === fb.either.device_noun,
+      `${(fb.either.device_noun_skus ?? []).length} named, ${fb.either.device_noun} counted`);
+    unionNounExempt += fb.either.device_noun_exempt ?? 0;
+    for (const s of fb.either.device_noun_skus ?? []) unionNounSkus.push(`${led.category}|${s}`);
     // A kind asked nothing whose name is NOT one of the shrugs is the B1 shape: named, so it fell
     // out of every previous count, and asked nothing, so every one of its cups closed in silence.
     for (const k of fb.asked_nothing.kinds)
@@ -608,27 +627,114 @@ for (const f of files) {
    *               Prisma II QAM transmitters named "1550HD DFB, 10dBm, ITU26" whose alternate part
    *               number is `P2-HD15TXQ`, with the hyphen missing that videoKind's SKU rule needs.
    *
-   *   device_noun a part whose NAME names a whole box (switch, router, server, chassis, gateway …).
-   *               **159, AND THIS CEILING CODIFIES A NUMBER THAT IS NOT ZERO.** Said plainly: the test
-   *               below does NOT prove the second half of the property. Most of the 159 are correct —
-   *               a mechanical accessory's name is mostly its host ("Nexus 5548 Chassis Accessory
-   *               Kit"), which is the detector's designed-in false positive — but they were read in
-   *               batches, not one at a time, so the honest statement is a ceiling and a note, not a
-   *               pass. It was 710 before this work.
+   *   device_noun a part whose OWN phrase names a whole box (switch, router, server, chassis …), in a
+   *               kind that is not exempt. **HARD ZERO over the union since 13 Sep 2026 (phase-1 close
+   *               guide §5.5)**, apart from a NAMED residue of SKUs each waiting on a parent write. It
+   *               was a ceiling of 260 over a measured 158; all 158 were read one at a time and each
+   *               got a kind (76), a class or category proposal (20), or a detector refusal backed by
+   *               rows (62) — the grouping is in the session report. It was 710 before the name path.
    */
   // OVER THE UNION of both axes: judging only the unresolved half is how 1,432 bundle parts, 95 of
   // them named after a whole box, stayed outside the detectors for the life of this census.
   check("ZERO parts in an unresolved OR empty kind hold three or more facts of their own", unionFacts3 === 0,
     `${unionFacts3} do — a kind asking nothing scores every one of its parts complete (see the UNITY-PIMG case)`);
-  // RE-BASELINED 12 Sep 2026 FROM 159 TO THE UNION, and upward, which is the honest direction: the
-  // old 159 counted only the unresolved axis, and the reviewer was right that a ceiling-with-a-note
-  // is a weak carrier for a known failure. It stays a ceiling for one round because the union adds
-  // 95 bundle rows that have never been read one at a time; the fix is the kind, not the number.
-  const DEVICE_NOUN_CEILING = 260;   // NOT a target: the target is 0. See the note above.
-  check(`parts in an unresolved OR empty kind whose NAME names a device are at or under ${DEVICE_NOUN_CEILING} (measured ${unionNoun}; unresolved half ${noun})`,
-    unionNoun <= DEVICE_NOUN_CEILING,
-    "this ceiling CODIFIES TODAY'S FAILURE: the property is zero and the measurement is not");
-  lines.push(`    fallback census: ${parts} of ${hardware} parts in a fallback kind (${catalogueShare.toFixed(2)}%, target <5%) · ${unionFacts3} hold 3+ own facts (asserted 0) · ${unionNoun} name a device over the union of both axes (${noun} in the unresolved half; ceiling ${DEVICE_NOUN_CEILING}, target 0)`);
+  // ---- THE DEVICE-NOUN HARD ZERO (13 Sep 2026) -------------------------------------------------
+  // Not a ceiling: every counted row must be in DEVICE_NOUN_RESIDUE, and every residue entry must still be
+  // counted. A real box that can only leave the union through a DATABASE write the parent runs (a class or a
+  // category change) is listed here by (category, SKU) with that write, so the zero is exact today and the
+  // list shrinks to empty as the writes land. A STALE entry fails too — an allowance nobody needs is slack,
+  // and slack is how a ratchet stops meaning anything: remove the line when the write has run.
+  const DEVICE_NOUN_RESIDUE: Record<string, string> = {
+    // A virtual controller (no box): wirelessKind pins it `other` for that reason. The class is the defect.
+    "wireless|C9800-CL-K9": "class hardware -> software ('Catalyst 9800-CL Wireless Controller for Cloud', a VM image)",
+    // Real Catalyst switches shipped with Room Panorama / TelePresence IX5000 and filed in collaboration-endpoints,
+    // whose axis has no switch kind. CS-PANO-SWITCH+ ("Room Panorama Cisco Catalyst 3560-CX 12 Port PoE IP Base")
+    // belongs in the same move and is not listed only because its name carries no vocabulary noun.
+    "collaboration-endpoints|CS-PANO-SWITCH2+": "category collaboration-endpoints -> switches ('Cisco C1000 16 Port Switch')",
+    "collaboration-endpoints|CTS-5K-LC-SWITCH": "category collaboration-endpoints -> switches ('Catalyst 2960C Switch 12 FE PoE')",
+    "collaboration-endpoints|CTS-5K-UI-SWITCH": "category collaboration-endpoints -> switches ('Catalyst 2960C Switch 8 FE PoE')",
+    "collaboration-endpoints|C1200-8FP-2G-OPT": "category collaboration-endpoints -> switches ('Catalyst 1200 8-port GE Switch')",
+  };
+  const judgeNoun = (counted: string[], residue: Record<string, string>): { unexplained: string[]; stale: string[] } => ({
+    unexplained: counted.filter((s) => !(s in residue)),
+    stale: Object.keys(residue).filter((s) => !counted.includes(s)),
+  });
+  const nounVerdict = judgeNoun(unionNounSkus, DEVICE_NOUN_RESIDUE);
+  check(`ZERO parts in an unresolved OR empty kind name a device, apart from the ${Object.keys(DEVICE_NOUN_RESIDUE).length} named residue rows (counted ${unionNoun}; exempt by kind ${unionNounExempt}; exempt kinds [${DEVICE_NOUN_EXEMPT_KINDS.join(", ")}])`,
+    // The length clause is load-bearing: a ledger that COUNTS rows without NAMING them would otherwise pass
+    // this check vacuously (measured: the pre-change ledgers, 158 counted, 0 named).
+    nounVerdict.unexplained.length === 0 && unionNounSkus.length === unionNoun,
+    `give each a kind or a class, or list the parent write it waits on: ${nounVerdict.unexplained.join(", ")} (${unionNounSkus.length} named of ${unionNoun} counted)`);
+  check("every device-noun residue entry is still counted (no stale allowance)", nounVerdict.stale.length === 0,
+    `the write has landed — remove from DEVICE_NOUN_RESIDUE: ${nounVerdict.stale.join(", ")}`);
+  check("the named residue and the count agree", unionNounSkus.length === unionNoun, `${unionNounSkus.length} named, ${unionNoun} counted`);
+  lines.push(`    fallback census: ${parts} of ${hardware} parts in a fallback kind (${catalogueShare.toFixed(2)}%, target <5%) · ${unionFacts3} hold 3+ own facts (asserted 0) · ${unionNoun} name a device over the union of both axes (${noun} in the unresolved half; asserted = the ${Object.keys(DEVICE_NOUN_RESIDUE).length}-row named residue; ${unionNounExempt} exempt by kind [${DEVICE_NOUN_EXEMPT_KINDS.join(", ")}])`);
+  for (const [s, why] of Object.entries(DEVICE_NOUN_RESIDUE)) lines.push(`      residue ${s}: ${why}`);
+
+  // SABOTAGE for the hard zero: one unexplained row and one stale allowance must each be caught for that reason.
+  check("SABOTAGE an unlisted device-noun row fails the hard zero",
+    judgeNoun([...Object.keys(DEVICE_NOUN_RESIDUE), "wireless|C9800-80-CAP-K9"], DEVICE_NOUN_RESIDUE).unexplained.join() === "wireless|C9800-80-CAP-K9");
+  check("SABOTAGE a residue entry whose write has landed is reported stale",
+    judgeNoun(Object.keys(DEVICE_NOUN_RESIDUE).slice(1), DEVICE_NOUN_RESIDUE).stale.length === 1);
+
+  // ---- THE EXEMPTION LIST, each kind justified by live rows run through the REAL partKind and detector ------
+  // [kind, category, sku, name]. mechanical and cable are rows the exemption actually excuses (a noun survives
+  // in the own phrase). power-cord and stack-cable are the guide's other two kinds, and MEASURED 13 Sep 2026 no
+  // live row of either kind carries a vocabulary noun at all — their names say "Catalyst 3K-X" and "StackWise",
+  // not "switch" — so for them the exemption changes no count today; the rows pin the naming pattern and the
+  // kind, and the test says so rather than implying they were load-bearing.
+  const DEVICE_NOUN_EXEMPT_JUSTIFICATION: [string, string, string, string, boolean][] = [
+    ["mechanical", "switches", "C9610-23-KIT-2", "Cisco 9610 Series 10 slot chassis 2 post 23-inch Rack Mount", true],
+    ["mechanical", "optical-networking", "NCS4KF-DOOR", "NCS 4000 Centralized Fabric Chassis Door", true],
+    ["cable", "wireless", "AIR-CT2504-CCBL", "2504 Wireless Controller Console Cable", true],
+    ["cable", "collaboration-endpoints", "CTS-5K-CBL-R2-SW", "CTS-IX5000 Cable kit, back row switches", true],
+    ["power-cord", "switches", "CAB-3KX-AC", "AC Power Cord for Catalyst 3K-X (North America)", false],
+    ["power-cord", "switches", "PWR-CAB-AC-IND", "India AC Power Cord for Cisco ASR 900, IS:1293", false],
+    ["stack-cable", "switches", "CAB-STACK-1M", "Cisco StackWise 1M Stacking Cable", false],
+    ["stack-cable", "switches", "CAB-STK-E-0.5M=", "Cisco Bladeswitch 0.5M stack cable", false],
+  ];
+  for (const kind of DEVICE_NOUN_EXEMPT_KINDS)
+    check(`exempt kind ${kind} is justified by two live rows`, DEVICE_NOUN_EXEMPT_JUSTIFICATION.filter((j) => j[0] === kind).length >= 2);
+  for (const [kind, cat, sku, name, carriesNoun] of DEVICE_NOUN_EXEMPT_JUSTIFICATION) {
+    check(`justification ${sku} is kind ${kind} (${cat})`, partKind(cat, sku, name) === kind, `partKind says ${partKind(cat, sku, name)}`);
+    check(`justification ${sku} ${carriesNoun ? "carries" : "carries no"} a device noun in its own phrase`, namesADeviceNoun(name) === carriesNoun);
+    if (carriesNoun) check(`justification ${sku} is excused by its kind, not by the name`, !deviceNounFinding(kind, name) && deviceNounFinding("accessory", name));
+  }
+  // THE EXEMPTION MUST NEVER COVER A FALLBACK KIND — the census exists to look inside those.
+  for (const k of FALLBACK_KINDS)
+    check(`fallback kind ${k} is not exemptable`, !DEVICE_NOUN_EXEMPT_KINDS.includes(k));
+  check("SABOTAGE a real controller filed `accessory` is a finding", deviceNounFinding("accessory", "Cisco Catalyst 9800-80 Wireless Controller -5YR-SNTC-8X5XNBD"));
+
+  // ---- THE DETECTOR'S REFUSALS: each refused on the row that earned it, and the NEAREST row it must still count ----
+  const NOUN_CASES: [string, boolean, string][] = [
+    // host clause
+    ["Internal SATA Cable for a base UCS C200 M1 Server", false, "R200-SATACBL-001 — the server is the host"],
+    ["Interior cable from MB to NVIDIA GPU card on C240 M3 server", false, "UCSC-CABLE-GPU — `on` is a host clause"],
+    ["4-Wavelength Add/Drop Mux for CWDM-CHASSIS-2=", false, "CWDM-MUX-4= — the chassis is a SKU in the host clause"],
+    ["Cisco 3504 Wireless Controller for US K12", true, "EDU-CT3504-K9 — the noun is in the head, before `for`"],
+    ["Base PID for Cisco 8500 Series Wireless Controller - DC", true, "AIR-CT85DC-K9 — a placeholder head is not the part"],
+    ["TAA PID for Cisco wireless gateway for LoRaWAN, operates on the frequency subset of 902 - 928 MHz", true, "IXM-LPWA-900-K9+"],
+    ["FOR YES blade bundles - Access./rail kit UCS 5108 chassis", true, "N20-CAK0 — a clause at the start is not a host clause"],
+    ["Cisco Catalyst 9800-CL Wireless Controller for Cloud", true, "C9800-CL-K9 — counted, and residue until its class changes"],
+    ["Nexus 7004 Bundle (Chassis,1xSUP2),No Power Supplies", true, "N7K-C7004-S2 — a parenthetical is NOT refused (74 real boxes)"],
+    // compounds
+    ["C240 M4 (2) RAID controller cables for 8 HD backplane", false, "UCS-240CBLMR8 — controller cable"],
+    ["C220 and C240 M6 Chassis Intrusion Switch", false, "HX-INT-SW02 — a lid sensor"],
+    ["Default switch processor (SP) bootflash on the Supervisor Engine 32 PISA baseboard", false, "MEM-C6K-CPTFL512M"],
+    ["SAS Extender (servers requiring 8 HDDs) for UCS C210 M1", false, "R210-SASXTDR"],
+    ["Prisma 2 18x9 Optical Switch", false, "P2-OPSW-18X9-MPO= — a fibre path switch module"],
+    ["Cisco CRS-1 Series Fabric Card Chassis Fiber Module LED", false, "CRS-FCC-LED — an indicator"],
+    ["6 service slot MSTP chassis LCD Display with backup Memory", false, "15454-M6-LCD — an indicator"],
+    ["Catalyst 2960C Switch 12 FE PoE, 2 x Dual Uplink, Lan Base", true, "CTS-5K-LC-SWITCH — a switch, no compound"],
+    ["Cisco Nexus 7000 Series 9-Slot chassis No Fan Trays, No Power Supply", true, "N7K-C7009= — the head-noun rule that was rejected would refuse it"],
+    ["RFGW-10 Chassis inc Fan Tray Spare", true, "CHAS-RFGW-10= — a chassis including a fan tray"],
+    ["Cisco FirePOWER LCD 10G Switch - 2U", true, "FP-NMSB-10G — LCD BEFORE the noun is not an indicator compound"],
+    ["UCS C480 Safety Intrusion Switch", false, "HX-C480-INT-SW — the compound without the chassis word"],
+  ];
+  for (const [name, want, why] of NOUN_CASES) check(`detector: "${name}" ${want ? "counts" : "is refused"} (${why})`, namesADeviceNoun(name) === want,
+    `ownPhrase -> "${ownPhrase(name).phrase}" refusals ${JSON.stringify(ownPhrase(name).refusals)}`);
+  check("SABOTAGE the refusal is recorded FOR ITS REASON (host clause)", ownPhrase("Fan Tray for UCS C210 Rack Server").refusals.join() === "host-clause");
+  check("SABOTAGE the refusal is recorded FOR ITS REASON (compound)", ownPhrase("C220 and C240 M6 Chassis Intrusion Switch").refusals.join() === "component-compound");
 
   // SABOTAGE, on a census nobody committed, so the two thresholds cannot be checks that never fail.
   const judge = (fb: Fallback, ceiling: number): string[] => {
@@ -647,6 +753,6 @@ for (const f of files) {
 }
 // end fallback-kinds ---------------------------------------------------------------------------
 
-lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 13 sabotage/control cases)`);
+lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers; sabotage/control cases include the device-noun hard zero, its exemption justification and its detector refusals)`);
 console.log(lines.join("\n"));
 if (failed) process.exit(1);

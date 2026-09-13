@@ -121,9 +121,12 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // in the report; the kind only stops them being asked a router's questions meanwhile.
   { id: "transceiver", kind: "transceiver", re: /^(?:ONS-(?:SE|SI|SC|XC)|SFP-|GLC-|XFP-|QSFP-|CFP-|CPAK-|DWDM-|CWDM-|SFP\d)/ },
   // (?<!AC|DC)KIT: CRS-16-ACKIT-M "CRS Modular AC Power Kit" is a power kit, not an accessory kit.
+  // device-noun (13 Sep 2026): and so is the HYPHENATED spelling — CRS-FCC-DC-KIT "CRS Fabric Chassis DC Power Kit",
+  // whose glued sibling CRS-FCC-DCKIT-M "CRS Modular DC Power Kit for FCC" is already `power`. `AC-|DC-` joins the
+  // lookbehind here and `(?:AC|DC)-KIT` the power rule below.
   // -ACS only at the END: LS-RV-ACS-25-1YR= "RV Router Anyconnect Server" is a licence, not an accessory.
   { id: "accessory", kind: "accessory",
-    re: /(?<![A-Z0-9])(?:BLANK\d*R?|BLNK|BLXANK\w*|COVER|CVR|FILR|FILLER|IMPEDANCE|HANDLE|HNDL|DCAP|DOORS?|DRS|DR-(?:FRNT|REAR)|DRKT|GRILLE?|GRL|LIFT|RAILS?|FILTER|FLTR|FANFLTR|FTF|\dXFILTER|AFLT|PLNMFLTR|PLENUM|SCREEN|AIRDEF(?:-\w+)?|TROUGH|DRILLTEMP|FLOORTEMP|PANEL|PNL|LABELS?|BRKT|BRACKET|RMBRKT|RCKMNT|RCKMT|RMT|RMK|RM|WM|WALLMT|MNT|PMK\d*|DINRAIL|ACC|ACSR|ACCKIT\d*R?|INSTKT|INSTKIT|INSTALL|RFID|IP67GLAND|GLAND|PILLBLK|PKG|WWA|4PT\d*R?|CRFT|LOAD)(?![A-Z0-9])|^ACS-|-ACS(?:=|$)|^NAL-|^RCKMT-|^CRS-INT-IM|(?<!AC|DC)KIT\d*(?![A-Z0-9])|-TRAY(?![A-Z0-9])|-BR-CM|^A1K-\dRU-REAR|-BCK-BF|^CRS-\d+-(?:\d+G|B)-UPG(?![A-Z0-9-])|^CRS-[A-Z0-9-]*(?:CONV|CVN)|^CRS-\d+-ALARM-|^CRS-FCC-LED/ },
+    re: /(?<![A-Z0-9])(?:BLANK\d*R?|BLNK|BLXANK\w*|COVER|CVR|FILR|FILLER|IMPEDANCE|HANDLE|HNDL|DCAP|DOORS?|DRS|DR-(?:FRNT|REAR)|DRKT|GRILLE?|GRL|LIFT|RAILS?|FILTER|FLTR|FANFLTR|FTF|\dXFILTER|AFLT|PLNMFLTR|PLENUM|SCREEN|AIRDEF(?:-\w+)?|TROUGH|DRILLTEMP|FLOORTEMP|PANEL|PNL|LABELS?|BRKT|BRACKET|RMBRKT|RCKMNT|RCKMT|RMT|RMK|RM|WM|WALLMT|MNT|PMK\d*|DINRAIL|ACC|ACSR|ACCKIT\d*R?|INSTKT|INSTKIT|INSTALL|RFID|IP67GLAND|GLAND|PILLBLK|PKG|WWA|4PT\d*R?|CRFT|LOAD)(?![A-Z0-9])|^ACS-|-ACS(?:=|$)|^NAL-|^RCKMT-|^CRS-INT-IM|(?<!AC|DC|AC-|DC-)KIT\d*(?![A-Z0-9])|-TRAY(?![A-Z0-9])|-BR-CM|^A1K-\dRU-REAR|-BCK-BF|^CRS-\d+-(?:\d+G|B)-UPG(?![A-Z0-9-])|^CRS-[A-Z0-9-]*(?:CONV|CVN)|^CRS-\d+-ALARM-|^CRS-FCC-LED/ },
   // ^ the four CRS shapes at the end came from the reverse control: "16 Slot Upgrade Kit 140G" (7), "Conversion Kit
   // for Multichassis-140G" (6), "Modular Power Alarm" / "Alarm Board" (4), "Fabric Card Chassis Fiber Module LED".
   // NOT the upgrade BUNDLES (CRS-3-UPGRADE-BUN, CRS-4-CH-UPG-BUN "4 slots to 8 slot chassis upgrade bundle"): a
@@ -132,7 +135,7 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // A wattage needs a lookbehind: RV160W "Cisco RV160W" is wireless. -AC/-DC alone is NOT power: ASR-9006-AC=
   // "ASR-9006 AC Chassis" and ASR-920-12SZ-A are routers.
   { id: "power", kind: "power",
-    re: /(?<![A-Z0-9])(?:PWR|PSU|PEM|PAC|PDC|PHV|PSH|PWRSH|PWRTRAY|PDU|ACKIT|DCKIT|PCM|PWRINJ|PWRJCK)\d*(?![A-Z])|(?<![A-Z0-9])POE-(?:\d|SPL)(?![A-Z0-9])|\dVPWR|(?<![A-Z0-9])PM(?![A-Z0-9])|^PS-SWITCH|^RPS-ADPTR|(?<![A-Z0-9])\d+W-?(?:AC|DC|HV)|(?<![A-Z0-9.])\d{3,4}W(?![A-Z0-9])|\d(?:\.\d)?KW|-(?:AC|DC)-PEM/ },
+    re: /(?<![A-Z0-9])(?:PWR|PSU|PEM|PAC|PDC|PHV|PSH|PWRSH|PWRTRAY|PDU|ACKIT|DCKIT|PCM|PWRINJ|PWRJCK)\d*(?![A-Z])|(?<![A-Z0-9])(?:AC|DC)-KIT(?![A-Z0-9])|(?<![A-Z0-9])POE-(?:\d|SPL)(?![A-Z0-9])|\dVPWR|(?<![A-Z0-9])PM(?![A-Z0-9])|^PS-SWITCH|^RPS-ADPTR|(?<![A-Z0-9])\d+W-?(?:AC|DC|HV)|(?<![A-Z0-9.])\d{3,4}W(?![A-Z0-9])|\d(?:\.\d)?KW|-(?:AC|DC)-PEM/ },
   // FLASH MEDIA ARE NOT DIMMs (12 Sep 2026). The memory bucket held both: 68 parts carry a `dram` fact and 19 a
   // `flash` fact, so one capacity cup would be the wrong cup for one of them. The SKU separates them cleanly — 36
   // parts: MEM-CF- (CompactFlash), MEM-FLASH- / MEM-FLSH- (bootflash upgrades), MEM-SD- (SD cards, incl. the

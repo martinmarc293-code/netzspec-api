@@ -97,7 +97,32 @@ const CASES: [string, NameMarker | undefined, string][] = [
   ["VOID; Not Used", undefined, "UCS-V340CBL-240M5"],
   ["SmartNet 8x5xNBD service for Catalyst 9300", undefined, "a support contract"],
   ["Cisco UCSC-RIS1C-225M8", undefined, "the name is the SKU: nothing to read (1,157 rows)"],
-];
+
+  // --- device-noun (13 Sep 2026): mechanical parts the device-noun census found in fallback kinds ------------
+  ["NCS 6008 Chassis Trough Spare", "mechanical", "NC6-TROUGH= — a cable trough"],
+  ["NCS 6008 & NCS Fabric Chassis Lift Dolly", "mechanical", "NCS-LIFT"],
+  ["CRS Lift upgrade to NCS 6008 & NCS Fabric Chassis Spare", "mechanical", "NCS-LIFT-BRKT"],
+  ["CRS-1 8 slots Chassis Air Opening protection Screen", "mechanical", "CRS-8-SCREEN"],
+  ["Kit, Chassis, Flange Green, PII", "mechanical", "741603 — a Prisma II flange kit"],
+  ["Tamper Proof for 80/18/28/38/72/73 Routers and ASA", "mechanical", "CISCO-FIPS-KIT= — FIPS tamper labels"],
+  ["Rackears for Ethernet Switch", "mechanical", "CS-SWCH-RACKEAR="],
+  ["SX80 rack ears - Spare", "mechanical", "CTS-SX80-RACKEARS="],
+  ["Reversible CMA for C125 rack server", "mechanical", "UCSC-CMAF-C4200 — a cable management arm"],
+  ["Set of spare Air Baffles for C220 Server", "mechanical", "UCSC-AIRBAF-C220 — the plural"],
+  ["Cisco C9610 Series Smart Switches 23\" 2 post", "mechanical", "C9610-23-KIT-2= — a 2-post rack kit"],
+  ["Cisco C9610 Series Smart Switches NEBS kit", "mechanical", "C9610-NEBS-KIT"],
+  ["MDS 9718 – Chassis Bottom Support Kit", "mechanical", "DS-C9718-BSK= — `support` vetoed nothing but a support KIT"],
+  ["CRS 16 slots chassis Enh. Upgrade Kit", "mechanical", "CRS-16-B-UPG"],
+  ["Cisco Catalyst 9600 Series 6-slot chassis Front to Back Kit", "mechanical", "C9606-FB-23-KIT="],
+  ["6 service slot MSTP chassis door", "mechanical", "15454-M6-DR — `service slot` is not a service contract"],
+  ["2-service-slot MSTP chassis fan tray filter", "mechanical", "15454-M2-FTF="],
+  ["FOR YES blade bundles - Access./rail kit UCS 5108 chassis", "mechanical", "N20-CAK0 — a clause at index 0 is not cut"],
+  // and the nearest rows each widening must NOT take
+  ["Cisco Webex Share wireless screen-sharing adapter.", undefined, "SPK-SHARE-K9 — a bare `screen` took this HDMI dongle"],
+  ["SolutionsPlus:Avizia ClinicalCart CA750 1 screen-PC cabinet", undefined, "AVIZ-CA750-2-K9 — `1 screen` is a configuration"],
+  ["Docker EE Basic for Linux Server with Bus Day Support", undefined, "DOCK-LNX-BSC-BD — `support` still vetoes a support contract"],
+  ["Cisco 5520 Wireless Controller w/rack mounting kit K12", undefined, "EDU-CT5520-K9 — a controller, the kit is in the inclusion clause"],
+  ["Cisco 2911 Front-to-Back Air Flow converter for NEBS use", undefined, "2911-AIRCVTR-NEBS — front-to-back WITHOUT `kit` is not the kit compound"],];
 
 for (const [name, want, why] of CASES) {
   eq(`${want === undefined ? "REFUSES" : `names ${want}`}: "${name.slice(0, 58)}" (${why.slice(0, 40)})`, nameMarker(name), want);
@@ -115,6 +140,10 @@ eq("ownHalf cuts back to the START of a negated clause, not to the word",
 eq("ownHalf drops a parenthetical that merely ships alongside",
   ownHalf("4000W AC PowerSupply, International (cable included)"), "4000W AC PowerSupply, International");
 eq("ownHalf leaves a name with no second half alone", ownHalf("Rack Mount Kit"), "Rack Mount Kit");
+// device-noun (13 Sep 2026): a clause at index 0 has nothing before it to be the part — the whole name is kept.
+eq("ownHalf does not cut a clause at the very start (N7K-C7004-RMK=)", ownHalf("Includes Nexus 7004 Front Mount and Center Mount Kits"),
+  "Includes Nexus 7004 Front Mount and Center Mount Kits");
+eq("SABOTAGE control: a clause after a head is still cut", ownHalf("Access. kit for 5108 Blade Chassis incl Railkit"), "Access. kit");
 eq("nameIsJustTheSku sees the store's placeholder", nameIsJustTheSku("FLMESH-HW-ACC-61", "Cisco FLMESH-HW-ACC-61"), true);
 eq("nameIsJustTheSku is false for a real description", nameIsJustTheSku("R200-BBLKD", "HDD slot blanking panel"), false);
 

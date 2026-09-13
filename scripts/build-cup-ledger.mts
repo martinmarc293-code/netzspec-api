@@ -42,9 +42,14 @@ const arg = (n: string): string | undefined => { const i = process.argv.indexOf(
  * Recorded per kind in the ledger, so tests/cupLedger.test.ts can assert it over the live corpus
  * rather than over a profile. Deliberately narrower than nameMarker's own device list: only nouns
  * that name a whole box, because a component noun in a component's name is correct and not a finding.
+ *
+ * device-noun (13 Sep 2026, phase-1 close guide §5.5): the detector now lives in src/core/deviceNoun.ts so the
+ * test runs the real function, it reads the part's OWN phrase (host clause and listed component compounds
+ * removed), and the census is KIND-AWARE — a part in DEVICE_NOUN_EXEMPT_KINDS is counted in
+ * `device_noun_exempt` beside the counted number, never silently dropped. The SKUs behind the counted union
+ * are written out (`either.device_noun_skus`) so the test can hold a hard zero against a NAMED residue.
  */
-const DEVICE_NOUN_IN_NAME =
-  /(^|[^a-z])(?:switch|router|firewall|gateway|access point|transmitter|receiver|amplifier|server|appliance|chassis|controller|transceiver)(?:es|s)?([^a-z]|$)/i;
+import { deviceNounFinding, namesADeviceNoun, DEVICE_NOUN_EXEMPT_KINDS, DEVICE_NOUN_RULE_ABOUT } from "../src/core/deviceNoun.js";
 /** Kinds that mean "this axis could not say" — mirrors FALLBACK_KINDS in src/core/partKind.ts. */
 const FALLBACK_KINDS = new Set(["unknown", "other", "component", "accessory", "non-hardware", "(none)"]);
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
@@ -119,10 +124,10 @@ async function main(): Promise<void> {
      WHERE v.slug = $1 AND ct.slug = $2 AND p.retired_at IS NULL AND p.product_class = 'hardware'`,
     [vendor, category, SPEC_BEARING_DOC_TYPES])).rows;
   const byKind = new Map<string, { n: number; stored: number; spec: number; eolOnly: number; noDoc: number;
-    facts3: number; noun: number }>();
+    facts3: number; noun: number; nounExempt: number; nounSkus: string[] }>();
   for (const p of parts) {
     const k = partKind(category, p.sku, p.name ?? undefined) ?? "(none)";
-    const b = byKind.get(k) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0 };
+    const b = byKind.get(k) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0, nounExempt: 0, nounSkus: [] as string[] };
     b.n++; b.stored += p.rt ?? 0;
     // THE OWN-FACT AND DEVICE-NOUN CENSUS (fallback-kinds agent): a part in a fallback kind holding
     // three or more of its own facts is the only detector for a real product swallowed by a fallback,
@@ -130,7 +135,9 @@ async function main(): Promise<void> {
     // facts, and its NAME is the only thing that says what it is. That is the shape that hid the
     // fourteen UNITY-PIMG media gateways a licence rule was about to delete.
     if (Number(p.own) >= 3) b.facts3++;
-    if (DEVICE_NOUN_IN_NAME.test(p.name ?? "")) b.noun++;
+    // KIND-AWARE (13 Sep 2026): an exempt kind's noun is the host's by rule and is counted apart, not dropped.
+    if (deviceNounFinding(k, p.name ?? "")) { b.noun++; b.nounSkus.push(p.sku); }
+    else if (namesADeviceNoun(p.name ?? "")) b.nounExempt++;
     // THE `not-held` STATE, COMPUTED AT LAST — reviewer round 4 §9(2), 12 Sep 2026.
     //
     // GAP_STATES below has defined `not-held` ("no spec-bearing document is linked to the part at
@@ -198,11 +205,15 @@ async function main(): Promise<void> {
       parts: rows.reduce((a, [, b]) => a + b.n, 0),
       facts3: rows.reduce((a, [, b]) => a + b.facts3, 0),
       device_noun: rows.reduce((a, [, b]) => a + b.noun, 0),
+      // device-noun (13 Sep 2026): the parts an exempt kind excused, counted rather than dropped.
+      device_noun_exempt: rows.reduce((a, [, b]) => a + b.nounExempt, 0),
     };
   };
   const isUnresolved = (k: string) => FALLBACK_KINDS.has(k);
+  const inUnion = (k: string) => askedNothing(k) || isUnresolved(k);
   const fallbackCensus = {
-    _about: "TWO AXES. `asked_nothing` = the kind's question set is empty (a profile property, and the phase-1 number). `unresolved_kind` = the kind name means the axis could not say (a classifier property). They are independent: a named kind can be asked nothing, and an unresolved kind can be asked a cup. `facts3` and `device_noun` are the two detectors for a real product swallowed by either: a part holding three or more facts of its own, and a part whose NAME names a whole box. tests/cupLedger.test.ts asserts both axes.",
+    _about: "TWO AXES. `asked_nothing` = the kind's question set is empty (a profile property, and the phase-1 number). `unresolved_kind` = the kind name means the axis could not say (a classifier property). They are independent: a named kind can be asked nothing, and an unresolved kind can be asked a cup. `facts3` and `device_noun` are the two detectors for a real product swallowed by either: a part holding three or more facts of its own, and a part whose NAME names a whole box. tests/cupLedger.test.ts asserts both axes. " + DEVICE_NOUN_RULE_ABOUT,
+    device_noun_exempt_kinds: [...DEVICE_NOUN_EXEMPT_KINDS],
     hardware_parts: parts.length,
     asked_nothing: census(askedNothing),
     unresolved_kind: {
@@ -210,7 +221,12 @@ async function main(): Promise<void> {
       asked_at_least_one_cup: [...byKind].filter(([k]) => isUnresolved(k) && !askedNothing(k)).reduce((a, [, b]) => a + b.n, 0),
     },
     // The union is what the two standing tests judge, so neither axis can shelter a part from them.
-    either: census((k) => askedNothing(k) || isUnresolved(k)),
+    either: {
+      ...census(inUnion),
+      // NAMED, so the hard zero in tests/cupLedger.test.ts can hold against an explicit residue list of SKUs
+      // awaiting a parent write (a class or category change) rather than against a number.
+      device_noun_skus: [...byKind].filter(([k]) => inUnion(k)).flatMap(([, b]) => b.nounSkus).sort(),
+    },
     // KEPT at the old names and the old meaning (the unresolved axis) so the ratchet in
     // tests/cupLedger.test.ts compares like with like across this change rather than re-baselining
     // silently. The new axis is asserted beside it, not instead of it.
@@ -330,7 +346,7 @@ async function main(): Promise<void> {
   let slotsNothing = 0, slotsStored = 0, partsTotal = 0;
   for (const kind of LEDGER_KINDS[category]) {
     const qs = kindQuestionSet(category, kind);
-    const b = byKind.get(kind) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0 };
+    const b = byKind.get(kind) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0, nounExempt: 0, nounSkus: [] };
     const per = slotsAtNothingKnown(qs);
     slotsNothing += b.n * per; slotsStored += b.stored; partsTotal += b.n;
     kinds[kind] = {
@@ -338,6 +354,8 @@ async function main(): Promise<void> {
       // fallback-kinds (12 Sep 2026): the own-fact and device-noun census, per kind.
       parts_with_3plus_own_facts: b.facts3,
       parts_with_a_device_noun_in_name: b.noun,
+      // device-noun (13 Sep 2026): nouns this kind excuses by rule (DEVICE_NOUN_EXEMPT_KINDS); 0 for every other kind.
+      parts_with_a_device_noun_exempt_by_kind: b.nounExempt,
       slots_per_part_at_nothing_known: per,
       required_slots_at_nothing_known: b.n * per,
       required_slots_stored: b.stored,
@@ -361,7 +379,8 @@ async function main(): Promise<void> {
   let commit = "unknown";
   try { commit = execSync("git rev-parse --short HEAD", { cwd: ROOT }).toString().trim(); } catch { /* not a checkout */ }
   const ledger = {
-    _about: "GENERATED by scripts/build-cup-ledger.mts — do not edit by hand. The denominator of the filling phase: what every part of each kind is asked. tests/cupLedger.test.ts fails when the profile no longer matches.",
+    _about: "GENERATED by scripts/build-cup-ledger.mts — do not edit by hand. The denominator of the filling phase: what every part of each kind is asked. tests/cupLedger.test.ts fails when the profile no longer matches. " +
+      `DEVICE-NOUN EXEMPT KINDS: [${DEVICE_NOUN_EXEMPT_KINDS.join(", ")}] — named after their host by rule; see totals.fallback._about.`,
     vendor, category,
     profile_hash: profileHash(category),
     built_on_commit: commit,

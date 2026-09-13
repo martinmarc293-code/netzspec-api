@@ -32,6 +32,9 @@ const CASES: [string, string][] = [
   ["AIRCT2504-702I-A10", "bundle"], ["AIR-CT100-1140E30", "bundle"], ["AIR-AP1702I-WLC", "bundle"], ["ASR5K-232216V3-K9", "bundle"],
   ["AIR-CT2504-SW-8.1", "software"], ["SWAP1560-LOCAL-K9", "software"], ["ASR5K-SW-R14-K9", "software"],
   ["MIXS-00-AA3IPS41=", "other"], ["AIR-MOD-AC-AR", "other"],
+  // device-noun (13 Sep 2026): rows of the 158 the census found asked nothing
+  ["C9800-80-CAP-K9", "wlc"], ["EDU-CT5520-K9", "wlc"], ["EDU-CT3504-K9", "wlc"], ["AIR-CT85DC-K9", "wlc"], ["AIR-CT85DC-SP-K9", "wlc"],
+  ["AIR-MRAID12G", "module"], ["MSE-MRAID12G", "module"], ["AIR-MRAID12G-1GB", "module"],
 ];
 for (const [sku, want] of CASES) eq(`${sku} is ${want}`, wirelessKind(sku), want);
 
@@ -48,6 +51,15 @@ const REFUSALS: [string, string, string][] = [
   ["AIR-CT5508FIPSKIT=", "accessory", "a FIPS kit glued onto the controller model"],
   ["C9800-10X10GE", "module", "a 9800-80 network module, not a controller"],
   ["C9800-CL-K9", "other", "the 9800-CL is a VIRTUAL controller: no box, so no box questions"],
+  // device-noun (13 Sep 2026): the nearest rows the three new rules must not take
+  ["EDU-CW9800H1", "other", "a bare-named EDU CW9800 form: only EDU-CT<4 digits> was read and widened"],
+  ["EDU-AP1832I-B-K9", "ap", "an EDU access point: the EDU-CT rule needs CT then four digits"],
+  ["PROMOCT8510-3-K9", "other", "'Migration to Cisco - 8510 300 licenses' — CT8510 glued to PROMO is not a controller"],
+  ["AIR-CT8510-SP-K9", "wlc", "the AC sibling of AIR-CT85DC-SP-K9, unchanged"],
+  ["AIR-ANT2524DB-R", "antenna", "an antenna: CAP is read as a controller only behind C9800-(40|80|L)-"],
+  ["C9800-BLANK", "accessory", "a 9800 blank: the CAP rule is whole-SKU anchored and takes no other C9800- accessory"],
+  ["CW9800L-RFID-1R", "accessory", "an RFID tag for a controller, still not the controller"],
+  ["AIR-RAID-9266NB", "module", "the RAID module the MRAID widening sits beside, unchanged"],
   ["CW9800L-RFID-1R", "accessory", "an RFID tag for a controller"],
   ["FM3500-30", "other", "'Enable Ethernet throughput up to 30 Mbit/s' — a plug-in licence, not a radio"],
   ["FM10000-GWY-1000", "other", "a gateway throughput upgrade, not the gateway"],

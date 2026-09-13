@@ -121,8 +121,17 @@ const w = (s: string, ...words: string[]): boolean =>
  * distinction the survey's §5.1 insists on: `\blicense\b` catches 220 parts carrying a physical fact,
  * so it is far too wide to move a row's CLASS and exactly right for declining to add a cup.
  */
+// device-noun (13 Sep 2026): `service` IS NOT A SERVICE WHEN A SLOT FOLLOWS IT. The ONS 15454 MSTP shelves are
+// sized in "service slots", so "6 service slot MSTP chassis door" (15454-M6-DR) and "2-service-slot MSTP chassis
+// fan tray filter" (15454-M2-FTF=) were vetoed as support contracts and kept `accessory` — eight doors and two
+// filters the device-noun census flagged for the word "chassis". `(?![- ]slots?)` refuses only that phrase:
+// "SmartNet 8x5xNBD service for Catalyst 9300" is still vetoed (tests/nameMarker.test.ts).
+//
+// AND `support` IS NOT SUPPORT WHEN IT IS A SUPPORT KIT. "MDS 9718 – Chassis Bottom Support Kit" (DS-C9718-BSK=)
+// is a rack shelf. `support(?![- ]kits?)` refuses that phrase alone; "Docker EE Basic ... with Bus Day Support"
+// stays vetoed.
 const NOT_A_PRODUCT_NAME =
-  /licen[sc]e|subscription|(^|[^a-z])lic([^a-z]|$)|(^|[^a-z])sw([^a-z]|$)|software|firmware|(^|[^a-z])image([^a-z]|$)|(^|[^a-z])svc([^a-z]|$)|(^|[^a-z])service([^a-z]|$)|support|warranty|smartnet|(^|[^a-z])training([^a-z]|$)|do not publish|obsolete pid|pid not used/i;
+  /licen[sc]e|subscription|(^|[^a-z])lic([^a-z]|$)|(^|[^a-z])sw([^a-z]|$)|software|firmware|(^|[^a-z])image([^a-z]|$)|(^|[^a-z])svc([^a-z]|$)|(^|[^a-z])service(?![- ]slots?(?:[^a-z]|$))([^a-z]|$)|support(?![- ]kits?(?:[^a-z]|$))|warranty|smartnet|(^|[^a-z])training([^a-z]|$)|do not publish|obsolete pid|pid not used/i;
 
 /**
  * The MARKER and ORDERING-ARTEFACT shapes the class table gains today (P-5 in the report), vetoed
@@ -202,7 +211,12 @@ const SELF_MOUNTED_DEVICE =
   /(^|[^a-z])(?:access point|phone|camera|speaker|display|sensor|endpoint|headset|touch ?panel)([^a-z]|$)/i;
 const MOUNT_WORDS = ["mount", "mounting", "mnt", "wallplate", "wall plate"];
 const FIXING_NOUNS = ["bracket", "brackets", "brkt", "rail", "rails", "railkit", "slide", "rackmount",
-  "rmk", "stand", "pedestal", "clamp", "strap"];
+  "rmk", "stand", "pedestal", "clamp", "strap",
+  // device-noun (13 Sep 2026): rack EARS (CS-SWCH-RACKEAR= "Rackears for Ethernet Switch", CTS-SX80-RACKEARS=
+  // "SX80 rack ears - Spare") and the cable management ARM (UCSC-CMAF-C4200 "Reversible CMA for C125 rack
+  // server", HX-CMAF-M4= "Reversible CMA for C220 & C240 M4 & M5 rack servers"). Fixing hardware, and none
+  // of these words occurs in a device's own name.
+  "rackear", "rackears", "ears", "cma"];
 
 /**
  * A NAME THAT LISTS THREE KINDS OF COMPONENT IS ENUMERATING A CONFIGURATION, not naming one part.
@@ -270,7 +284,11 @@ const listsAConfiguration = (head: string): boolean =>
 export function ownHalf(name: string): string {
   let s = String(name ?? "");
   const cut = /(^|[\s,;(])(?:for use (?:with|in|on)|compatible with|compatible for|supported on|for|with|incl|incl\.|includes|including|comes with|requires|required for)(?=[\s,:./]|$)/i.exec(s);
-  if (cut) s = s.slice(0, cut.index);
+  // device-noun (13 Sep 2026): A CLAUSE AT THE VERY START HAS NO PART BEFORE IT TO CUT BACK TO. N20-CAK0 is
+  // "FOR YES blade bundles - Access./rail kit UCS 5108 chassis": cutting at index 0 left the empty string, so
+  // the rail kit was read as saying nothing and stayed `unknown`. Keeping the whole name is what every other
+  // path does with an unreadable head.
+  if (cut && cut.index > 0) s = s.slice(0, cut.index);
   const wSlash = /(^|[\s,;(])w\/o?/i.exec(s);
   if (wSlash) s = s.slice(0, wSlash.index);
   const neg = /(?:^|[^a-z])(?:w\/o|without|no|not|non|excludes?|excl|included|attached)(?:[^a-z]|$)/i.exec(s);
@@ -436,7 +454,21 @@ const RULES: { marker: NameMarker; hit: (n: string) => boolean; despiteDeviceNou
       // module, 80 rows of the control. `tray` is, and its one cost is the fan tray — which the fan
       // rule above claims first, exactly as videoKind records for the SKU form.
       || w(n, "tray", "carrier", "cage", "enclosure", "housing", "crate", "packaging")
-      || w(n, "filter", "airflow", "baffle", "duct", "vent")
+      // `baffles`: "Set of spare Air Baffles for C220 Server" (UCSC-AIRBAF-C220) — the plural no singular matched.
+      || w(n, "filter", "airflow", "baffle", "baffles", "duct", "vent")
+      // device-noun (13 Sep 2026): the handling and cable-routing hardware of the big chassis, each read off a
+      // family the census flagged for its host's name. A TROUGH routes cables ("NCS 6008 Chassis Trough Spare",
+      // five rows), a LIFT and its DOLLY move a chassis ("NCS 6008 & NCS Fabric Chassis Lift Dolly", "CRS-1
+      // Transport Lift", "CRS Lift upgrade to NCS 6008 ..."), a SCREEN guards an air opening ("CRS-1 8 slots
+      // Chassis Air Opening protection Screen"), a FLANGE is sheet metal ("Kit, Chassis, Flange Green, PII"),
+      // and a TAMPER seal is a FIPS label set ("Tamper Proof for 80/18/28/38/72/73 Routers and ASA").
+      // SCREEN ONLY AS A GUARD: a bare `screen` was measured first and took SPK-SHARE-K9 "Cisco Webex Share
+      // wireless screen-sharing adapter" (an HDMI dongle) and the Avizia "1 screen-PC cabinet" carts.
+      || w(n, "trough", "troughs", "dolly", "lift", "flange", "tamper")
+      || /(?:^|[^a-z])(?:protection|inlet|air)\s+screens?(?:[^a-z]|$)/i.test(n)
+      // A 2- or 4-POST rack kit states its posts: "Cisco C9610 Series Smart Switches 23\" 2 post"
+      // (C9610-23-KIT-2=); its siblings say "10 slot chassis 2 post 23-inch Rack Mount".
+      || /(?:^|[^a-z0-9])[24][- ]post(?:[^a-z]|$)/i.test(n)
       // `clip` and `tie` are NOT here: "CLIP Chan 33, Long Range, Unprotected, SC Connector" is an
       // optical CLIP card family, and "tie" is three letters inside a dozen product words.
       || w(n, "handle", "screw", "screws", "nut", "bolt", "washer", "spacer", "shim", "gasket", "latch",
@@ -469,7 +501,12 @@ const RULES: { marker: NameMarker; hit: (n: string) => boolean; despiteDeviceNou
       //
       // The COMPOUND is what makes them safe: bare `kit` stays vetoed, because "2x 100G LR4 LH
       // Transponder - Starter Kit" is a transponder bundle and nothing about it is mechanical.
-      || /(?:^|[^a-z])(?:acc|accessory|accy|acy|install|instal|shelf|fips|cosmetic|rack|rail|hardware)\s*-?\s*kits?(?:[^a-z]|$)|(?:^|[^a-z])(?:cable|cbl)\s*(?:management|mgmt)(?:[^a-z]|$)|(?:^|[^a-z])labels?(?:[^a-z]|$)|(?:^|[^a-z])accessor(?:y|ies)(?:[^a-z]|$)/i.test(n)
+      // device-noun (13 Sep 2026) adds four compounds, each the kit form of a family whose siblings are already
+      // `mechanical`: NEBS ("Cisco C9610 Series Smart Switches NEBS kit"; C3650-NEBS-KIT= "Catalyst 3650 NEBS
+      // Kit"), SUPPORT ("MDS 9718 – Chassis Bottom Support Kit"), UPGRADE ("CRS 16 slots chassis Enh. Upgrade
+      // Kit"; CRS-16-140G-UPG "CRS Series 16 Slot Upgrade Kit 140G") and FRONT TO BACK ("Catalyst 9600 Series
+      // 6-slot chassis Front to Back Kit"). A bare `kit` stays vetoed by the device noun.
+      || /(?:^|[^a-z])(?:acc|accessory|accy|acy|install|instal|shelf|fips|cosmetic|rack|rail|hardware|nebs|support|upgrade|front to back)\s*-?\s*kits?(?:[^a-z]|$)|(?:^|[^a-z])(?:cable|cbl)\s*(?:management|mgmt)(?:[^a-z]|$)|(?:^|[^a-z])labels?(?:[^a-z]|$)|(?:^|[^a-z])accessor(?:y|ies)(?:[^a-z]|$)/i.test(n)
       || (w(n, "kit", "acc") && !namesADevice(n)),
   },
 ];

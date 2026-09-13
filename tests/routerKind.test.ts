@@ -27,6 +27,9 @@ const POSITIVE: [string, RouterKind, string, string][] = [
   ["CGR-PWRCORD-EU", "power-cord", "power-cord", "CGR1240 AC Power Cord for Europe, 10m"],
   ["CAB-C7-ACB", "power-cord", "power-cord", "AC Power Cord (Brazil), C7, INMETRO 60884-1, 1.8M"],
   ["CAB-V35MT", "cable", "cable", "V.35 Cable, DTE, Male, 10 Feet"],
+  // device-noun (13 Sep 2026): the hyphenated DC power kit, sibling of the glued CRS-FCC-DCKIT-M (already power)
+  ["CRS-FCC-DC-KIT", "power", "power", "CRS Fabric Chassis DC Power Kit"],
+  ["CRS-16-LCC-DC-KIT", "power", "power", "Cisco CRS-1 Series DC Power Kit for 16 Slots LCC"],
   ["LCC/M-FC-FBR-10", "cable", "cable", "Cisco CRS-1 Series Line Card Chass-Fabric Chass Fiber 10m"],
   ["ASR1000X-FAN=", "fan", "fan", "Cisco ASR1000-X Fan Module, Spare"],
   ["N560-4-PWR-FAN=", "fan", "fan", "NCS 560-4 Power High Speed Fan Tray, Spare"],
@@ -118,6 +121,10 @@ const REFUSAL: [string, RouterKind, string][] = [
   ["RV160W", "enterprise", "power on a wattage with no lookbehind — the W is wireless"],
   ["LS-RV-ACS-25-1YR=", "enterprise", "accessory on ACS anywhere — 'RV Router Anyconnect Server 25 Tunnels'"],
   ["CRS-16-ACKIT-M", "power", "accessory on KIT without (?<!AC|DC) — 'CRS Modular AC Power Kit'"],
+  // device-noun (13 Sep 2026): the nearest kits the `(?:AC|DC)-KIT` power alternative must NOT take
+  ["CRS-FCC-PWR-KIT", "accessory", "'CRS FCC Power Accessary kit for Internal use' — accessory's KIT runs first, and PWR-KIT is not (AC|DC)-KIT"],
+  ["CRS-FCC-SOUND-KIT", "accessory", "'CRS FCC Acoustic reduction kit' — a plain KIT stays accessory"],
+  ["CRS-FCC-SCRN-KIT", "accessory", "'CRS FCC Inlet Screen Kit'"],
   ["A9K-16X100GE-CM", "linecard", "accessory on -CM — 'Consumption Model Line card'"],
   ["2911-FANFLTR-NEBS", "accessory", "fan without the token edge — 'Cisco 2911 Fan Filter for NEBS environment'"],
   ["ASR-9901-FC", "sp-core", "fabric on a bare FC — 'ASR 9901 Flexible Consumption Compact Chassis'"],

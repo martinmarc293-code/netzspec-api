@@ -191,7 +191,9 @@ export const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[] }[] 
   { kind: "gpu", prefix: ["GPU"] },
   // servers (12 Sep 2026): BRAID = N20-BRAID-K1 "RAID upgrade", 9400 = "9400-8I 12G SAS HBA",
   // X10C = "UCS X10c Compute RAID Controller" / "Pass Through Controller".
-  { kind: "storage-controller", prefix: ["RAID", "SAS", "HBA", "9300", "MRAID", "BRAID", "9400", "X10C"] },
+  // device-noun (13 Sep 2026): NYTRO = UCSC-NYTRO-200GB "Cisco Nytro MegaRAID 200GB Controller" (and its spare) —
+  // an LSI MegaRAID card with on-board flash cache. The only two rows carrying the token.
+  { kind: "storage-controller", prefix: ["RAID", "SAS", "HBA", "9300", "MRAID", "BRAID", "9400", "X10C", "NYTRO"] },
   // `P` is the X-Series PCIe node adapter (UCSC-P-NC3220); N2XX/N20 are the first-generation
   // mezzanine adapters.
   // servers (12 Sep 2026): M = mLOM VIC (UCSC-M-V100-04 "VIC 1477 dual port 40/100G QSFP28 mLOM"),
@@ -282,6 +284,52 @@ export const PRE_RULES: { kind: UcsKind; re: RegExp }[] = [
   { kind: "nic", re: /^(?:DN3|APIC)-[PO]-/ },
   { kind: "drive", re: /^E-(?:SSD|HDD)-|^A03-D\d/ },
   { kind: "accessory", re: /-BRIDGE/ },
+  // ---- device-noun (13 Sep 2026): real machines and cards the device-noun census found asked NOTHING ------
+  // Every entry is a family read in full (all live Cisco rows carrying the shape), and each has a refusal in
+  // tests/ucsKind.test.ts. The kind diff over every live UCS-axis row is in the session report.
+  //
+  // MAJOR LINE BUNDLES OF ONE SERVER GENERATION. The M8 rows are ALREADY `server` through the `M8` token
+  // (UCSX-M8-MLB "Cisco UCS X-Series M8 modular server and UCS X9508 Chassis", UCS-M8-MLB "... This MLB
+  // consists of the server node (UCSC-C245-M8SX...)"); the M6 and M7 spellings of the same PID were `unknown`
+  // and asked nothing: UCSX-M7-MLB "UCSX M7 Modular Server and CHASSIS MLB", UCS-M6-MLB "UCS M6 rack, blade,
+  // chassis Major Line Bundle ... consists of the server node (UCSC-C245-M6SX6)", UCSXE-M8-MLB "Cisco UCS
+  // XE9305 M8 Modular Server and Chassis MLB", UCS-MGPUM8-MLB "Cisco UCS-845A M8 Rack Server chassis Major
+  // Line Bundle", HX-UCSCM6-MLB "Cisco Hyperflex HX Compute M6 Blade and Rack server MLB". Anchored on the
+  // GENERATION token, so UCS-C4200-MLB (a chassis), UCS-TEST-MLB "UCS Test MLB", UCS-VSAN-MLB, HX-EXPRESS-MLB
+  // and UCS-DGPUM8-MLB (a bare name, no document) are not reached.
+  { kind: "server", re: /^(?:UCSX?E?|HCIX?|HX)-(?:M[678]|UCSCM\d|MGPUM\d)-(?:[A-Z]+-)?MLB(?:-BR)?$/ },
+  // THE UCS XE (Unified Edge) LINE. `^UCS[CBXSE](?=[A-Z])` strips "UCSX" from "UCSXE-" and leaves the token
+  // "E", so the whole line fell to `unknown`. Only the machines are named here — the XE130c/XE150c compute
+  // nodes ("Cisco UCS XE130c M8 Compute Node with 20-core CPU ...", standalone -U forms included) and the
+  // XE9305 chassis ("Cisco UCS XE9305 Chassis Spare", "Chassis Configured", and the Nutanix build
+  // HCIXENX-9305-U "Cisco HCI XE9305 3RU Nutanix Chassis"). The 40 XE components (UCSXE-M2-240G, -GPU-L4,
+  // -PSU-2400W, -RAIL ...) are not touched by this change.
+  { kind: "server", re: /^UCSXE-1[35]0C-M\d/ },
+  { kind: "chassis", re: /^(?:UCSXE|HCIXENX)-9305(?:-U)?$/ },
+  // THE C3160 / C3260 STORAGE-SERVER CHASSIS and their System I/O Controllers. Whole-SKU anchors, because the
+  // `C3160` token also carries the platform's own drives and bezel (UCSC-C3160-400SSD, UCSC-C3160-BEZEL) and a
+  // token rule would file those as chassis. UCSC-C3X60 is already `chassis` in RULES; this is its older name.
+  //   UCSC-C3260 "Cisco UCS C3260 Base Chassis w/4x PSU, SSD, Railkit"
+  //   UCSC-C3160-SIOC "Cisco UCS C3160 System IO Controller with mLOM mez adapter" — the card the chassis's
+  //   network ports live on, the same job as an IOM (`io-module`: ports + which chassis takes it)
+  { kind: "chassis", re: /^UCSC-C3[12]60$/ },
+  { kind: "io-module", re: /^UCSC-C3[12]60-SIOC$/ },
+  // UCSX-FS-9516 "UCS X9516 X-Fabric PCIe Gen5 switch module for 9508 chassis" — the X-Fabric module is the
+  // PCIe counterpart of the X9108 IFM already named above. UCSX-FS-X9516 is the same PID spelled with its X.
+  { kind: "io-module", re: /^UCSX-FS-X?9516$/ },
+  // UCSC-BASE-M2-C460 "UCS C460 M2 Rack Server with DVD-RW and 1 PSU", and its spare "UCS C460 M2 Rack SVR
+  // w/o CPU, Mem HDD, PCIe": a base server. UCS-EPNM-C220M4S "UCS EPNM Server - C220M4S": the EPN Manager
+  // appliance, a C220 M4 (the DN3-HW-APL- rule above is the precedent). Every other EPNM row is a licence.
+  { kind: "server", re: /^UCSC-BASE-M2-C460$|^UCS-EPNM-C\d{3}M\d/ },
+  // CISCO+ (PLHC-) HARDWARE. The comment in RULES records why PLHC is not a token: the family is impure, so
+  // only whole-SKU shapes are named, one per row read, and PLHC-FI-D2-RES "Cisco+ Hybrid Cloud Reserve for HX
+  // Fabric Interconnect" (a reservation) is refused by construction.
+  //   PLHC-CI-5108-1A "Cisco+ UCS 5108 Blade Server AC2 Chassis"
+  //   PLHC-MLOM-40G-04 "Cisco+ UCS VIC 1440 modular LOM for Blade Servers" (PLHC-MLOM-PT-01, a port expander, is not reached)
+  //   PLHC-MRAID12G "Cisco+ FlexStorage 12G SAS RAID controller w/Drive bays"
+  { kind: "chassis", re: /^PLHC-CI-5108-/ },
+  { kind: "nic", re: /^PLHC-MLOM-\d/ },
+  { kind: "storage-controller", re: /^PLHC-MRAID\d/ },
 ];
 
 /**

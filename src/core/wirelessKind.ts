@@ -62,6 +62,10 @@ const RULES: { kind: WirelessKind; re: RegExp }[] = [
   // ASR 5000 chassis bundles (ASR5K-232216V3-K9 "Bundle, incl 2xSMC/3xPSC2", ASR5K-12-LABADV-K9 lab bundles).
   // AIR-VPN-WLC ends in -WLC and is a MODULE ("VPN/enhanced security module for 4100 Series WLAN controller").
   { kind: "bundle", re: /^AIRCT2504-|^AIR-CT\d+-\d{4}[AEN]\d+$|^(?!AIR-VPN-).*-WLC$|(?:^|-)BNDL(?:-|$)|BUNDLE(?:-|$)|^ASR5K-(?:\d{6}[A-Z0-9]*|\d{2}-LAB[A-Z0-9-]*)-K9$|^ASR5K-20-LAB-/ },
+  // device-noun (13 Sep 2026): C9800-80-CAP-K9 "Cisco Catalyst 9800-80 Wireless Controller -5YR-SNTC-8X5XNBD" is a
+  // 9800-80 ordered with five years of support; the accessory rule's antenna-CAP token below took it. Whole-SKU
+  // anchored, before accessory, so a real cap (any `-CAP-` part without the 9800 model in front) is not reached.
+  { kind: "wlc", re: /^C9800-(?:40|80|L)-CAP-K9$/ },
   // Mounts, brackets, kits, covers, blanks, glands, caps, clips, batteries, reels, tools, trays.
   // AIR-ACC*PMK/SMK/AMK/GMK are pole/strand/antenna/ground mount kits; AIR-MNT-, IOT-ACCPMK, FM-BRKT,
   // FLMESH-HW-BRK, AIR-CT3504-RMNT, C9800L-RMNT, C9800-BLANK, ASR5K-BLNK-FR; AIR-1520-BATT12AH.
@@ -86,12 +90,21 @@ const RULES: { kind: WirelessKind; re: RegExp }[] = [
   // module, the 7600 SAMI blade and its memory, fan trays, and appliance internals (CPU, DIMM, drive,
   // RAID, TPM, riser, heat sink): AIR-CPU-, CMX-MR-, AIR-SD-32G-S, MSE-A03-D600GA2, AIR-RAID-9266NB.
   // ASR 5000/5500 cards: line cards (ASR5K-0110G-MM-K9), SMC/PSC/RCC/SPIO/SPS3, ASR55 DPC/UDPC.
-  { kind: "module", re: /^AIR-RM\d|^AIR-RM-|^AIR-BLE-USB|-NIC-|^C9800-\d+X\d+GE|^AIR-VPN-|^WS-SVC-|-MR-[X\d]|(?:^|-)(?:MEM|FAN|FANT|CPU|SD|RAID|MRAID\d*|TPM\d*|PCI|HS|SRVR|A03|D\d{3,4}G[A-Z0-9]*|SD\d+G[A-Z0-9]*)(?:-|=|$)|^ASR5K-(?:\d{3,5}[A-Z0-9]*|SMC|PSC|RCC|SPIO|SPS3|C4OC3|4OC3C)-|^ASR55-(?:DPC|UDPC|MIO|UMIO|FSC|SSC)(?:-|=|$)/ },
+  // device-noun (13 Sep 2026): `MRAID\d*G?` — the MSE/CMX appliance RAID card carries its SAS speed glued on:
+  // AIR-MRAID12G and MSE-MRAID12G "Cisco 12G SAS Modular Raid Controller", AIR-MRAID12G-1GB "12Gbps SAS 1GB FBWC
+  // Cache module (Raid 0/1/5/6)". `MRAID\d*` alone stopped at the G and all four fell to `other`.
+  { kind: "module", re: /^AIR-RM\d|^AIR-RM-|^AIR-BLE-USB|-NIC-|^C9800-\d+X\d+GE|^AIR-VPN-|^WS-SVC-|-MR-[X\d]|(?:^|-)(?:MEM|FAN|FANT|CPU|SD|RAID|MRAID\d*G?|TPM\d*|PCI|HS|SRVR|A03|D\d{3,4}G[A-Z0-9]*|SD\d+G[A-Z0-9]*)(?:-|=|$)|^ASR5K-(?:\d{3,5}[A-Z0-9]*|SMC|PSC|RCC|SPIO|SPS3|C4OC3|4OC3C)-|^ASR55-(?:DPC|UDPC|MIO|UMIO|FSC|SSC)(?:-|=|$)/ },
   // Server-class appliances and platform chassis: MSE / CMX / DNAC-location appliances, Fluidmesh
   // gateways, the ASR 5000/5500 chassis (a mobile packet core platform filed in this category).
   { kind: "appliance", re: /^AIR-MSE-\d{4}|^AIR-CMX-\d{4}|^MSE-\d{4}|^CMX-\d{4}|^DN3-LOC-K9|^FM-?\d{4,5}-GWY$|^ASR5000-CHS|^ASR55-CHS/ },
   // WLAN controllers: appliance families AIR-CT<model>, AIR-WLC, Catalyst 9800-40/-80/-L and CW9800H/L/M,
   // Cisco ONE and EDU ordering forms of the same boxes.
+  // device-noun (13 Sep 2026): two spellings the AIR-CT<4 digits> anchor missed, both read in full —
+  //   EDU-CT<model>  the K12 ordering form WITHOUT the AIR- segment: EDU-CT5520-K9 "Cisco 5520 Wireless Controller
+  //                  w/rack mounting kit K12", EDU-CT5508-100-K9, EDU-CT3504-K9 (five rows, all controllers)
+  //   AIR-CT85DC-    the DC-powered 8510: AIR-CT85DC-K9 "Base PID for Cisco 8500 Series Wireless Controller - DC",
+  //                  AIR-CT85DC-SP-K9 "8500 Series Wireless Controller with 0 APs included, Dual DC PSU"
+  { kind: "wlc", re: /^EDU-CT\d{4}(?:-|$)|^AIR-CT85DC-/ },
   { kind: "wlc", re: /^(?:C1-|EDU-)?AIR-?CT\d{4}|^AIR-WLC|^(?:EDU-)?C9800-(?:40|80|L)(?:-|=|$)|^9800-(?:40|80|L)(?:-|=|$)|^CW9800[HLM]\d?(?:[-+=]|$)/ },
   // Access points, network sensors, mesh extenders, OfficeExtend and teleworker APs, industrial and
   // embedded APs, and packs of them: AIR-AP/CAP/LAP/OEAP, Catalyst C91xxAX and CW91xx, IW3702, IW-6300H,

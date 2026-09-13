@@ -152,12 +152,47 @@ const REF12: [string, string, string][] = [
   ["UCSC-C22-M3L", "accessory", "a rack server whose name says 'w/ rail kit' — the SKU carries no RAIL segment"],
 ];
 for (const [sku, not, why] of REF12) eq(`12 Sep REFUSAL ${sku} is not ${not} — ${why.slice(0, 50)}`, ucsKind(sku) === not, false);
+
+// --- device-noun (13 Sep 2026): the machines and cards the device-noun census found asked nothing ------------
+// Every positive is a row of the 158; every refusal is the NEAREST live row the new rule must not take, read out
+// of the same family (the full kind diff over every live UCS-axis row is in the session report).
+const POS13: [string, string][] = [
+  ["UCSX-M7-MLB", "server"], ["UCS-M6-MLB", "server"], ["UCSXE-M8-MLB", "server"], ["UCS-MGPUM8-MLB", "server"],
+  ["HX-UCSCM6-MLB", "server"], ["UCSX-M8-MLB", "server"],
+  ["UCSXE-130C-M8-20", "server"], ["UCSXE-150C-M8-32-U", "server"],
+  ["UCSXE-9305=", "chassis"], ["UCSXE-9305-U", "chassis"], ["HCIXENX-9305-U", "chassis"],
+  ["UCSC-C3260", "chassis"], ["UCSC-C3160", "chassis"], ["UCSC-C3160-SIOC=", "io-module"], ["UCSC-C3260-SIOC", "io-module"],
+  ["UCSX-FS-9516", "io-module"], ["UCSC-BASE-M2-C460", "server"], ["UCS-EPNM-C220M4S", "server"],
+  ["PLHC-CI-5108-1A", "chassis"], ["PLHC-MLOM-40G-04", "nic"], ["PLHC-MRAID12G", "storage-controller"],
+  ["UCSC-NYTRO-200GB=", "storage-controller"],
+];
+for (const [sku, kind] of POS13) eq(`13 Sep: ${sku}`, ucsKind(sku), kind);
+const REF13: [string, string, string][] = [
+  ["UCS-C4200-MLB", "server", "'UCS 4200 MLB' — a chassis line; the MLB rule is anchored on a GENERATION token"],
+  ["UCS-TEST-MLB", "server", "'UCS Test MLB' — no generation, a test PID"],
+  ["UCS-DGPUM8-MLB", "server", "a bare name and no document: DGPU is not read into a kind"],
+  ["HX-M6-AAS", "server", "'Cisco+ Hybrid Cloud - M6 HX Bundle' — M6 without -MLB"],
+  ["UCSXE-PSU-2400W", "server", "an XE supply: only the XE130c/XE150c nodes are named"],
+  ["UCSXE-GPU-L4", "chassis", "an XE GPU: only the bare XE9305 is the chassis"],
+  ["UCSC-C3160-400SSD", "chassis", "'UCS C3160 400GB ... SSD' — a whole-SKU anchor, not the C3160 token"],
+  ["UCSC-C3160-BEZEL", "chassis", "'Cisco UCS C3160 System Bezel'"],
+  ["UCSC-C3160-BEZEL", "io-module", "a bezel is not the SIOC"],
+  ["UCSC-BASE-C460-CH2", "server", "'Disti:C460,w/o CPU ...' — not read, not named"],
+  ["PLHC-FI-D2-RES", "fabric-interconnect", "'Cisco+ Hybrid Cloud Reserve for HX Fabric Interconnect' — a reservation"],
+  ["PLHC-MLOM-PT-01", "nic", "'Cisco+ UCS Port Expander Card (mezz) for VIC' — MLOM- then a digit only"],
+  ["PLHC-HXN-GW-5Y-RES", "chassis", "a Cisco+ reservation licence"],
+  ["UCSC-XPAND-C24", "storage-controller", "'SAS Expander' — NYTRO is its own token, SAS stays where it was"],
+];
+for (const [sku, not, why] of REF13) eq(`13 Sep REFUSAL ${sku} is not ${not} — ${why.slice(0, 50)}`, ucsKind(sku) === not, false);
 // SABOTAGE: disable each rule family and its own positive must change kind.
 for (let i = 0; i < PRE_RULES.length; i++) {
   // round-7 addendum (12 Sep 2026): a probe per RULE, not per kind — two rules now return `server`, and the
   // kind-keyed map handed DN3-HW-APL- the HyperFlex probe, which that rule never matches.
   const PROBES = ["N10-MGT016", "HX-E-TOPO1", "UCS-IOM-2408", "N20-C6508", "HXAF220C-M5SX", "DN3-HW-APL-XL",
-    "DN3-P-I8D25GF", "E-SSD-SATA-4TB", "UCSX-V5-BRIDGE-D="];
+    "DN3-P-I8D25GF", "E-SSD-SATA-4TB", "UCSX-V5-BRIDGE-D=",
+    // device-noun (13 Sep 2026): one probe per new rule
+    "UCSX-M7-MLB", "UCSXE-130C-M8-20", "UCSXE-9305=", "UCSC-C3260", "UCSC-C3160-SIOC", "UCSX-FS-9516",
+    "UCSC-BASE-M2-C460", "PLHC-CI-5108-1A", "PLHC-MLOM-40G-04", "PLHC-MRAID12G"];
   const probe = PROBES.find((p) => PRE_RULES[i].re.test(p.toUpperCase().replace(/=+$/, "")));
   if (!probe) { eq(`a sabotage probe exists for PRE_RULES[${i}]`, false, true); continue; }
   const before = ucsKind(probe);
@@ -176,6 +211,13 @@ for (let i = 0; i < PRE_RULES.length; i++) {
   eq("SABOTAGE drive prefix HY off: UCS-HY16T61X-EV is no longer a drive", ucsKind("UCS-HY16T61X-EV") === "drive", false);
   drive.prefix!.splice(i, 0, "HY");
   eq("control: restored, UCS-HY16T61X-EV is a drive again", ucsKind("UCS-HY16T61X-EV"), "drive");
+  // device-noun (13 Sep 2026): the NYTRO token is load-bearing
+  const sc = RULES.find((r) => r.kind === "storage-controller")!;
+  const j = sc.prefix!.indexOf("NYTRO");
+  sc.prefix!.splice(j, 1);
+  eq("SABOTAGE storage-controller prefix NYTRO off: UCSC-NYTRO-200GB is no longer a controller", ucsKind("UCSC-NYTRO-200GB") === "storage-controller", false);
+  sc.prefix!.splice(j, 0, "NYTRO");
+  eq("control: restored, UCSC-NYTRO-200GB is a storage-controller again", ucsKind("UCSC-NYTRO-200GB"), "storage-controller");
 }
 eq("UCS_KINDS lists every kind exactly once", new Set(UCS_KINDS).size === UCS_KINDS.length, true);
 
