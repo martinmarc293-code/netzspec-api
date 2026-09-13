@@ -66,6 +66,8 @@ import { REPO_ROOT } from "../config.js";
 export type RenormArgs = {
   commit: boolean;
   field: string | null;
+  /** phase-1 close (13 Sep 2026): one lane re-reads ITS vendor only; other lanes' values stay as they are and show as defects in their own reports. */
+  vendor: string | null;
   sinceVersion: string | null;
   limit: number | null;
   maxChangeShare: number;
@@ -76,13 +78,14 @@ export type RenormArgs = {
 
 export function parseArgs(argv: string[]): RenormArgs {
   const a: RenormArgs = {
-    commit: false, field: null, sinceVersion: null, limit: null,
+    commit: false, field: null, vendor: null, sinceVersion: null, limit: null,
     maxChangeShare: 0.25, allow: null, batch: 5000, examples: 10,
   };
   for (let i = 0; i < argv.length; i++) {
     const t = argv[i];
     if (t === "--commit") a.commit = true;
     else if (t === "--field") a.field = argv[++i] ?? "";
+    else if (t === "--vendor") a.vendor = argv[++i] ?? "";
     else if (t === "--since-version") a.sinceVersion = argv[++i] ?? "";
     else if (t === "--limit") a.limit = Number(argv[++i]);
     else if (t === "--max-change-share") a.maxChangeShare = Number(argv[++i]);
@@ -534,11 +537,12 @@ export async function oldVersions(db: Queryable, threshold: string): Promise<{ o
  */
 export async function selectPage(
   db: Queryable,
-  opts: { field: string | null; old: string[]; hasNull: boolean; typeKeys: string[]; typeTypes: string[]; typeShapes: string[]; afterId: number; batch: number },
+  opts: { field: string | null; vendor?: string | null; old: string[]; hasNull: boolean; typeKeys: string[]; typeTypes: string[]; typeShapes: string[]; afterId: number; batch: number },
 ): Promise<FactToCheck[]> {
   const params: unknown[] = [opts.afterId, opts.old, opts.typeKeys, opts.typeTypes];
   let fieldClause = "";
   if (opts.field) { params.push(opts.field); fieldClause = ` AND f.field_key = $${params.length}`; }
+  if (opts.vendor) { params.push(opts.vendor); fieldClause += ` AND p.vendor_id = (SELECT id FROM vendors WHERE slug = $${params.length})`; }
   // Two reasons a row is selected, OR'd: an old version stamp, or a value whose JSON shape cannot
   // be what its dictionary type says. The shape half is expressed in SQL only as far as jsonb_typeof
   // can carry it; `valueMatchesDictType` in decide() is the authority and re-checks every row.
@@ -745,7 +749,7 @@ const shorten = (s: unknown, n = 70): string => { const t = typeof s === "string
  */
 export async function runPass(
   db: Queryable, runId: number,
-  opts: { commit: boolean; field: string | null; limit: number | null; batch: number; examples: number; versionThreshold: string; recheckEvery: number },
+  opts: { commit: boolean; field: string | null; vendor?: string | null; limit: number | null; batch: number; examples: number; versionThreshold: string; recheckEvery: number },
   onProgress?: (n: number) => void,
 ): Promise<PassResult> {
   const keys = Object.keys(FIELD_DICTIONARY);
@@ -771,7 +775,7 @@ export async function runPass(
   for (;;) {
     const remaining = opts.limit === null ? opts.batch : Math.min(opts.batch, opts.limit - report.selected);
     if (remaining <= 0) break;
-    const rows = await selectPage(db, { field: opts.field, old, hasNull, typeKeys: keys, typeTypes, typeShapes, afterId, batch: remaining });
+    const rows = await selectPage(db, { field: opts.field, vendor: opts.vendor ?? null, old, hasNull, typeKeys: keys, typeTypes, typeShapes, afterId, batch: remaining });
     if (rows.length === 0) break;
     afterId = rows[rows.length - 1].id;
 
@@ -874,7 +878,7 @@ export async function main(argv: string[]): Promise<void> {
   // partially applied corpus, and a run that discovered its own refusal half way through would
   // already have rewritten the first half.
   const plan = await runPass(pool, 0, {
-    commit: false, field: a.field, limit: a.limit, batch: a.batch, examples: a.examples,
+    commit: false, field: a.field, vendor: a.vendor, limit: a.limit, batch: a.batch, examples: a.examples,
     versionThreshold: threshold, recheckEvery: 37,
   }, (n) => { if (n % 20000 === 0) console.log(`  … ${n} rows planned`); });
 
@@ -889,13 +893,13 @@ export async function main(argv: string[]): Promise<void> {
   let effects = plan.effects;
   if (a.commit) {
     const inputs = {
-      command: "renormalize", field: a.field, since_version: threshold, limit: a.limit,
+      command: "renormalize", field: a.field, vendor: a.vendor, since_version: threshold, limit: a.limit,
       norm_v: NORM_VERSION, max_change_share: a.maxChangeShare, allow: a.allow,
     };
     const out = await withRun("apply-renormalize", inputs, async (id) => {
       if (!gate.passed) throw new Error(`gate did not pass (${gate.verdict}): ${JSON.stringify(gate.misses.slice(0, 3))}`);
       const done = await runPass(pool, id, {
-        commit: true, field: a.field, limit: a.limit, batch: a.batch, examples: a.examples,
+        commit: true, field: a.field, vendor: a.vendor, limit: a.limit, batch: a.batch, examples: a.examples,
         versionThreshold: threshold, recheckEvery: 37,
       }, (n) => { if (n % 20000 === 0) console.log(`  … ${n} rows written`); });
       effects = done.effects;
