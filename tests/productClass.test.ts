@@ -604,6 +604,15 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["DISK-MODE-RAID1JBD", "Configure Two Hard Drives in RAID 1 Config and 3rd Non RAID", "routers", "non_product", "sku-exact:DISK-MODE-RAID1JBD"],
     ["CRS-8-NO-FC", "CRS 8 slots with no fabric card option", "routers", "non_product", "sku-exact:CRS-8-NO-FC"],
     ["ASR1000-SPA", "SPA for ASR1000; No Physical Part; For Tracking Only", "routers", "non_product", "sku-exact:ASR1000-SPA"],
+    // kind-layer operator rulings (13 Sep 2026): the NFR kit and the seven CRS non-products of routers.sp-core, verbatim.
+    ["CGR2010/NFR", "CGR 2010 Channel Kit", "routers", "non_product", "sku-exact:CGR2010/NFR"],
+    ["CRS-1-TEST-40G=", "CRS-1 TEST PID for 40G licensing", "routers", "non_product", "sku-exact:CRS-1-TEST-40G"],
+    ["CRS-REBATE-ATT", "CRS Dummy Rebate SKU for ATT", "routers", "non_product", "sku-exact:CRS-REBATE-ATT"],
+    ["CRS-DP-DLR", "CRS DP Dollar Adjustment", "routers", "non_product", "sku-exact:CRS-DP-DLR"],
+    ["CRS-3-UPGRADE-BUN", "CRS-3 Upgrade Bundle", "routers", "non_product", "sku-exact:CRS-3-UPGRADE-BUN"],
+    ["CRS-X-UPGRADE-BUN", "CRS-X Upgrade Bundle", "routers", "non_product", "sku-exact:CRS-X-UPGRADE-BUN"],
+    ["CRS-3-ANY-PK=", "CRS-3 Multipack Bundle", "routers", "non_product", "sku-exact:CRS-3-ANY-PK"],
+    ["CRS1-SPA", "SPA for Cisco CRS-1; No Physical Part; For Tracking Only", "routers", "non_product", "sku-exact:CRS1-SPA"],
     // end routers (12 Sep 2026)
     // ---- security (12 Sep 2026) ------------------------------------------------------------------
     // One witness per rule of the security class-residue block, chosen by running the worktree's own
@@ -895,6 +904,12 @@ for (const [rule, sku] of Object.entries(SHAPES_ONLY)) {
     ["ESS-9300-10X-E", "ESS9300 board, no cooling plate, Network Essentials software", "switches", "rtu-per-g widened to bare ESS- — a board with 3 physical facts"],
     ["CISCO2911-HSEC+/K9", "VPN ISM module HSEC bundles for 2911 ISR platform", "routers", "hsec widened past the +/ — an ISM module bundle"],
     ["CRS-FP140-C", "Cisco CRS Series Forwarding Processor 140G inc MC&TE license", "routers", "CRS-DDOS- widened to bare CRS- — a forwarding processor"],
+    // kind-layer operator rulings (13 Sep 2026): the neighbours of the eight exact non_product rules, each a product.
+    ["CRS-3-UPGRADE", "Cisco CRS-3-UPGRADE", "routers", "CRS-3-UPGRADE-BUN widened to a prefix — a sibling row that is not the -BUN programme PID"],
+    ["CRS-16/S", "Cisco CRS 16-Slot Single-Shelf System", "routers", "a CRS- programme rule widened to the family — the chassis"],
+    ["CRS1-SPA-CARD", "Cisco CRS1-SPA-CARD", "routers", "CRS1-SPA widened to a prefix (the shape only; the exact rule cannot reach it)"],
+    ["CGR2010/K9", "Cisco CGR 2010 Router", "routers", "CGR2010/NFR widened to the family — the router itself"],
+    ["CRS-4-CH-UPG-BUN", "4 slots to 8 slot chassis upgrade bundle", "routers", "an UPGRADE-BUN suffix rule — a bundle that ships a chassis stays hardware"],
     ["A9K-MPA-32X1GE", "ASR 9000 32-port 1-Gigabit Ethernet Modular Port Adapter with MACSec, requires cSFP or SFP optics", "routers", "a bare A9K- licence prefix — a port adapter with a physical fact"],
     ["A9K-36X10GE-SE", "Cisco ASR 9000 36-Port 10GE Service Edge Optimized Line Card, requires SFP+ optics", "routers", "a9k-lc-feature-licence not anchored to the whole tail — the CARD its -AIP-SE licence is for"],
     ["IXM-LPWA-900-K9+", "TAA PID for Cisco wireless gateway for LoRaWAN, operates on the frequency subset of 902 - 928 MHz ISM band, applicable to LoRaWAN regional profile for Americas, Asia (not for India and China) and Pacific", "routers", "IXM-LORAWAN-CPF widened to IXM- — the gateway"],

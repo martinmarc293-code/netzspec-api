@@ -48,7 +48,7 @@
 //                              opacity shields, an airflow converter, optic dust caps). It is listed in LEDGER_KINDS
 //                              through NAME_ONLY_KINDS, so it is deliberately NOT in RT_KINDS (no duplicate).
 export type RouterKind =
-  | "router" | "sp-core" | "chassis" | "appliance"
+  | "router" | "sp-core" | "chassis" | "appliance" | "bundle"
   | "linecard" | "module" | "processor" | "fabric" | "power" | "fan" | "memory" | "flash" | "drive"
   | "power-cord" | "cable" | "antenna" | "accessory" | "mechanical";
 
@@ -73,7 +73,8 @@ export const RT_COMPONENT: readonly RouterKind[] =
 /** Kinds that are a length of cable — asked their length. */
 export const RT_CABLE: readonly RouterKind[] = ["power-cord", "cable"];
 /** Every kind the axis can name, in the order the ledger lists them (`mechanical` arrives via NAME_ONLY_KINDS). */
-export const RT_KINDS: readonly RouterKind[] = [...RT_DEVICE, "appliance", ...RT_COMPONENT];
+// kind-layer operator ruling (13 Sep 2026): `bundle` joins — the CRS line-card bundles and the ASR 5000 card complements.
+export const RT_KINDS: readonly RouterKind[] = [...RT_DEVICE, "appliance", "bundle", ...RT_COMPONENT];
 
 // Ordered; the FIRST rule that matches wins. The order is load-bearing:
 //   cable-management accessory first — CRS-B2B-BCK-CM and 8404-CBLMGMT carry a CAB/CBL token and are not cables.
@@ -128,6 +129,41 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   { id: "power-inline-poe", kind: "power", re: /^IR800-IL-POE/ },
   // CABLE: OBD2-J1939Y1-MF4 / -Y2 / OBD2-J1962YA-MF4 — "OBD-II cables provide power and CAN bus connectivity" (IR1800 DS).
   { id: "cable-obd2", kind: "cable", re: /^OBD2-/ },
+  // ---- kind-layer operator rulings (13 Sep 2026): BUNDLES, and the kinds the planned moves land on ----------------
+  // BUNDLE: an orderable set of cards whose own NAME states the contents, asked `bundle_contents` (derived by
+  // src/core/bundleContents.ts, the same parser as the UCS and wireless packs) and what it fits.
+  //   the seven CRS line-card bundles item 3 marked rt.issue.linecard — 10GE-MSC400G-BUN= "Cisco CRS Series 40x10GE
+  //   MSC Bundle", 100GE-MSC400G-BUN=, 100GE-MSC-BNDL=, 10GE-EMSE-140G= / -400G= / -OS-140G=, 10GE-FP400G-BUN=;
+  //   the ten ASR 5000 card-complement bundles moving from wireless (agent 3 had them as sp-core) —
+  //   ASR5K-232216V3-K9 "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIO 3PN" and its nine siblings.
+  // REFUSED: the ASR 5000 partner-LAB bundles (ASR5K-12-LABADV-K9 "…Lab Bundle, Advanced Chassis" is a chassis system,
+  // ASR5K-20-LAB-PSC2 "…Lab Bundle, 3x PSC2" a card pack) keep the kinds the move plan names for them.
+  { id: "bundle-crs-asr5k", kind: "bundle", re: /^10{1,2}GE-(?:MSC|EMSE|FP)|^ASR5K-2322(?:16|32)(?:V|S)?(?:S3|SB|3|B)-K9/ },
+  // ASR 5000 / 5500 mobile packet core and the AT&T PAS cabinet line, moving from `wireless` (agent 3's move list,
+  // 113 rows, expected kinds checked row by row against the names). Anchored on the family prefix AND the card token, so
+  // the ASR5K licence and image blocks (productClass: ASR5K-00/-99, staros-*) and the memory/cable/blank rows that the
+  // generic rules below already name correctly (ASR5K-MEM-PSC2=, ASR5K-CBL-CON=, ASR5K-BLNK-FR) are not touched.
+  //   processor  ASR55-DPC(-K9)(=) "Data Processing Card", ASR55-UDPC-K9, ASR55-04-UDPCRX, ASR5K-PSC-32G/64G-K9
+  //              "Packet Services Card", ASR5K-12-PSC32GK9=, ASR5K-SMC-K9 "System Management Card 4GB",
+  //              ASR5K-20-LAB-PPC/-PSC2/-PSC3 (partner-lab card packs), ASR5K-0F-B00-2069= "Motorola PSC2 … bundle"
+  { id: "asr5k-processor", kind: "processor", re: /^ASR55-(?:04-)?U?DPC|^ASR5K-(?:12-)?PSC|^ASR5K-SMC-|^ASR5K-20-LAB-P(?:PC|SC\d)|^ASR5K-0F-B00-/ },
+  //   linecard   XGLC/GLC2/QGLC/FLC2/OLC2/CLC2 line cards and the SPIO / SPS3 switch processor I/O cards
+  { id: "asr5k-linecard", kind: "linecard", re: /^ASR5K-(?:0110G|011G2|041GE|042GE|08100E|4OC3C|C4OC3|SPIO|SPS3)-/ },
+  //   fabric     ASR5K-RCC-K9 "Redundancy Crossbar"; fan ASR5K-FANT-UP / -LW "Fan Tray"; power ASR5K-PFU "Power Filter
+  //   Unit"; mechanical ASR5K-ACCY-LUG= "Chassis Lug Accessory Kit"
+  { id: "asr5k-fabric", kind: "fabric", re: /^ASR5K-RCC-/ },
+  { id: "asr5k-fan", kind: "fan", re: /^ASR5K-FANT-/ },
+  { id: "asr5k-power", kind: "power", re: /^ASR5K-PFU/ },
+  //   the PAS line (names end "[ATT US PAS ONLY]"): cabinets and enclosures -> mechanical ("PAS AC ENCLOSURE",
+  //   "PAS DC SEISMIC CABINET"), the two enclosure switches -> module ("PAS 1G ENCLOSURE SWITCH"), and the spare blade
+  //   and the two MOMATs -> accessory (the move plan said `unknown`, which this axis does not have; accessory is the
+  //   kind that asks least), plus the ASR 5000 lug kit
+  { id: "mechanical-asr5k-pas", kind: "mechanical", re: /^ASR5K-ACCY-LUG|^MIXS-12-PA2(?:071|091|101|121|331|541|551)(?:AC|DC|CO)/ },
+  { id: "module-pas-switch", kind: "module", re: /^MIXS-12-PA21[34]1CO/ },
+  { id: "accessory-pas-spare", kind: "accessory", re: /^MIXS-12-PA2(?:211BL|261MM|531MM)/ },
+  // SVC-E180D-M3 "Cisco Internal. E180D-M3 Service Spare", SVC-E160S-M3 "UCS-E, SingleWide, 6 Core CPU", SVC-E1120D-M3 —
+  // UCS-E service-module spares moving from servers-unified-computing (agent 4's move list): a router module.
+  { id: "module-svc-e-spare", kind: "module", re: /^SVC-E1\d{2,3}[DS]-M\d/ },
   { id: "accessory-cable-mgmt", kind: "accessory",
     re: /CAB-MGMT|CBLMGMT|CBLMFMT|CABLETRAY|(?<![A-Z0-9])(?:FRONT|FRNT|REAR|BCK)-CM(?![A-Z0-9])|-CM-RETRO|-LCC-FRNT-E|^CAB-GUIDE|(?:CAB|CBL)-(?:BRKT|BRACKET|GUIDE)/ },
   // routers-r5 (12 Sep 2026) — SEVEN MISSES FOUND BY READING THE 423 PARTS THE DEVICE SUB-KIND
@@ -233,10 +269,9 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // Line cards that take a chassis slot: ASR 9000, NCS 5500/5700/6000, CRS MSC/FP/LSP, 8000-series LCs, ASR 1000
   // SIP/MIP carriers and the port-expansion cards (A9903-20HG-PEC).
   { id: "linecard", kind: "linecard",
-    re: /^A9[K9]-(?:\d|MOD\d|SIP-|ISM-|VSM-)|^NC5[57]-(?!MPA)|^NC-5[57]-|^NC6-\d|^CRS-(?:X-)?(?:MSC|FP|LSP|CGSE)|(?<![A-Z0-9])SIP-\d|^CRS-SIP(?:=|$)|^CGSE-|^CRS-100GE-|^\d+X\d+G-LSP|^100GE-(?:DWDM|FP)|^ASR1000-(?:SIP|MIP)\d*|^ASR1000-\d+(?:X|T)|^88-LC|^8800-LC|(?<![A-Z0-9])PEC(?![A-Z])|^10{1,2}GE-(?:MSC|EMSE|FP)/ },
-  // ^ kind-layer (13 Sep 2026) added `^10{1,2}GE-(?:MSC|EMSE|FP)`: the seven CRS line-card BUNDLES item 3 read in
-  // `enterprise` (10GE-MSC400G-BUN= "CRS Series 40x10GE MSC Bundle", 100GE-MSC-BNDL=, 10GE-EMSE-140G=, 10GE-FP400G-BUN=).
-  // `^100GE-(?:DWDM|FP)` already took the 100GE FP shapes; the MSC/EMSE bundles had no rule and defaulted to a router.
+    re: /^A9[K9]-(?:\d|MOD\d|SIP-|ISM-|VSM-)|^NC5[57]-(?!MPA)|^NC-5[57]-|^NC6-\d|^CRS-(?:X-)?(?:MSC|FP|LSP|CGSE)|(?<![A-Z0-9])SIP-\d|^CRS-SIP(?:=|$)|^CGSE-|^CRS-100GE-|^\d+X\d+G-LSP|^100GE-(?:DWDM|FP)|^ASR1000-(?:SIP|MIP)\d*|^ASR1000-\d+(?:X|T)|^88-LC|^8800-LC|(?<![A-Z0-9])PEC(?![A-Z])/ },
+  // ^ kind-layer (13 Sep 2026) briefly added `^10{1,2}GE-(?:MSC|EMSE|FP)` here for the seven CRS line-card BUNDLES; the
+  // operator ruling of the same day makes them `bundle` (rule `bundle-crs-asr5k` above), so the alternative is gone.
   // ^ routers-r5 added `^CRS-SIP(?:=|$)`: the existing `SIP-\d` needs a digit after the dash, and
   // `CRS-SIP` / `CRS-SIP=` ("Carrier Routing System SPA Interface Processor Card") have none, so
   // two line cards were reaching the device rules and being read as carrier ROUTERS.
@@ -298,7 +333,15 @@ export const DEVICE_RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // class-changes.json), and every component of an appliance family, which the RULES above claim first (ENCS54-BEZEL=,
   // ENCS-MRAID, ENCS5100-PWR…). First in this list, so no SP rule can reach them.
   { id: "appliance-nfv-console", kind: "appliance",
-    re: /^ENCS5\d{3}(?!-PF)|^C8[23]00-UCPE-(?!PF)|^C83UCPE|^(?:ASR-)?XRV9000-APLN|^C1100TGX?-|^C8220TG-/ },
+    re: /^ENCS5\d{3}(?!-PF)|^C8[23]00-UCPE-(?!PF)|^C83UCPE|^(?:ASR-)?XRV9000-APLN|^C1100TGX?-|^C8220TG-|^IC3000-/ },
+  // ^ kind-layer operator ruling (13 Sep 2026): `^IC3000-` — IC3000-2C2F-K9++ "Industrial Compute appliance (TAA)" and its
+  // spare, moving from switches (agent 1's move list): an IOx edge-compute appliance, no switching.
+  // ASR 5000 / 5500 systems and the spare chassis (moving from wireless; see the asr5k rules above):
+  //   sp-core   ASR5000-CHS-SYS-K9 / ASR5000-CHSSYS-K9= "Multimedia Core Platform Complete Chassis", ASR55-CHS-SYS-U-B …
+  //             U8BL "ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC", ASR5K-12-LABADV/LABBSE-K9 lab chassis
+  //   chassis   ASR5000-CHS-SP-K9= "ASR-5000 Spare Chassis" (sold empty)
+  { id: "chassis-asr5k", kind: "chassis", re: /^ASR5000-CHS-SP/ },
+  { id: "sp-asr5k", kind: "sp-core", re: /^ASR5000-CHS-?SYS|^ASR55-CHS-SYS|^ASR5K-12-LAB(?:ADV|BSE)/ },
   // CRS: the line-card chassis (4/8/16-slot, single- dual- and multi-shelf) and the 24-slot fabric
   // chassis. `CRS-16-140G-UPG` and `CRS-8-LCC-FR-BKT=` are accessories and never reach here.
   { id: "chassis-crs", kind: "chassis",

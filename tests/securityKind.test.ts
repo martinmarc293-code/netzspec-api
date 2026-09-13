@@ -48,6 +48,8 @@ const POSITIVES: [string, SecurityKind, string][] = [
   ["FP-8000-BEZEL=", "accessory", "'Cisco FirePOWER Bezel for 8000 Series'"],
   ["FP8200-STACK", "accessory", "'FirePOWER Stacking Kit for 8200, 1U, 2 Stacking Modules'"],
   ["ST-M6-AD-245", "accessory", "'C245M6 PCIe Air Duct for PCIe Cards'"],
+  // kind-layer operator ruling (13 Sep 2026): the Duo key fob pack moving in from servers-unified-computing
+  ["DUO-TOKEN-10PACK", "accessory", "'A hardware token used with a Cisco Duo subscription (10 pack)' — was the appliance default"],
   ["AMPPC-DM-2X-R", "accessory", "'Secure Endpoint Cloud Rear Drive Module - 2 Slot' — a cage, not a drive"],
   ["ASA5512-FP-UPG", "accessory", "'Upgrade Kit: ASA5512-X FW, IPS, CX to ASA5512-X FirePower'"],
   ["FP-NMSB-CABLE", "cable", "'Cisco FirePOWER Stacking Module Cables'"],
@@ -154,6 +156,8 @@ for (const [sku, want, why] of POSITIVES) kindIs(sku, want, why);
 // REFUSALS — the real product each slightly wider rule would have mis-shaped
 // =================================================================================================
 const REFUSALS: [string, SecurityKind, string][] = [
+  // kind-layer operator ruling (13 Sep 2026): the duo-hardware-token rule is the whole token, not the DUO- family
+  ["DUO-TOKEN-10PACKX", "appliance", "duo-hardware-token unanchored at the end — a shape, not a live PID: the rule must stop at the pack count"],
   // --- the drive marker against the APPLIANCE ORDERED WITH ITS SSD (survey §e, the pinned refusal)
   ["ASA5512-SSD120-K9", "firewall", "'NGFW ASA 5512-X w/ SW,6GE Data,1GE Mgmt,AC,3DES/AES,SSD 120G' — the BOX, not a drive"],
   ["ASA5512-SSD120-K8", "firewall", "the DES twin of the same box"],

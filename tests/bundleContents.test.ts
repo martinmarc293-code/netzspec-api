@@ -40,6 +40,13 @@ const POSITIVE: [string, string[]][] = [
   ["Bundle WLC2504 w/ 10 AP Lic. and 5 AP-1602i A Reg Domain", ["1x WLC2504", "10x AP licence", "5x AP1602I"]],
   ["Bundle 2 AP1700I and WLC2504 with 25 licenses", ["2x AP1700I", "1x WLC2504", "25x AP licence"]],
   ["Kaiser Bundle of WLC3504 and 10-pack AP3802I", ["1x WLC3504", "10x AP3802I"]],
+  // kind-layer operator ruling (13 Sep 2026): the routers bundles. CRS line-card bundles state a card and the port
+  // complement of the interface module it ships with; the ASR 5000 complements count their cards.
+  ["Cisco CRS Series 40x10GE MSC Bundle", ["1x CRS MSC line card", "1x 40x10GE interface module"]],
+  ["Cisco CRS Series 4x100GE FP Bundle", ["1x CRS FP line card", "1x 4x100GE interface module"]],
+  ["Cisco CRS Series 14x10GE Ethernet MSE Bundle", ["1x CRS MSE line card", "1x 14x10GE interface module"]],
+  ["ASR5000 Bundle, incl 2xSMC/3xPSC 16GB/2xRCC/2xSPIO Str3 3PN", ["2x SMC", "3x PSC 16GB", "2x RCC", "2x SPIO Str3 3PN"]],
+  ["ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIOStr3 BNC", ["2x SMC", "3x PSC2 32GB", "2x RCC", "2x SPIO Str3 BNC"]],   // glued variant
 ];
 for (const [name, want] of POSITIVE) check(`parses ${JSON.stringify(name.slice(0, 60))}`, items(name), want);
 
@@ -52,6 +59,12 @@ const REFUSED: [string, string, string?][] = [
   ["HX Standard Option 10", "the name states no contents"],
   ["Cisco UCS-SP-C220M5C-B", "the name is only the SKU", "UCS-SP-C220M5C-B"],
   ["", "no name"],
+  // kind-layer operator ruling (13 Sep 2026): the CRS and ASR 5000 refusals — a guess would read a capacity as ports
+  ["Cisco CRS Series 100GE MSC Bundle", "a CRS line-card bundle whose port count is not stated"],
+  ["Cisco CRS 100GE FP Bundle", "a CRS line-card bundle whose port count is not stated"],
+  ["CRS-3 Upgrade Bundle", "a CRS bundle name outside the '<n>x<rate>GE <card> Bundle' shape"],   // the non_product programme PID
+  ["CRS-3 Multipack Bundle", "a CRS bundle name outside the '<n>x<rate>GE <card> Bundle' shape"],
+  ["ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIO 3PN/4xGLC2", 'unrecognised counted item "4xGLC2"'],   // an unknown card still refuses
 ];
 for (const [name, reason, sku] of REFUSED) check(`refuses ${JSON.stringify(name.slice(0, 50))}`, items(name, sku), `REFUSED: ${reason}`);
 
@@ -75,7 +88,18 @@ check("SABOTAGE without the SKU the placeholder IS misread — the guard is load
   check("the ledger builder reads that registry rather than a copy of its own", /from\s+["'][./]*src\/core\/derivedFillPaths\.js["']/.test(builder), true);
 }
 
-const TOTAL = POSITIVE.length + REFUSED.length + 1 + 4;
+// SABOTAGE the CRS branch: without the strict shape, the general parser reads "40x10GE" as an unrecognised counted item —
+// so the branch, not the general path, is what produces the list. Evaluated by handing the name without its CRS word.
+check("SABOTAGE without the CRS branch the same name refuses (the branch is load-bearing)",
+  items("Cisco Series 40x10GE MSC Bundle"), 'REFUSED: unrecognised counted item "40x10GE"');
+// the routers population, against the counts DERIVED_FILL_PATHS registers for it
+{
+  const registry = fs.readFileSync(path.join(REPO_ROOT, "src", "core", "derivedFillPaths.ts"), "utf8");
+  check("DERIVED_FILL_PATHS registers the routers bundles (19 rows: parsed 17, refused 2, SKU control agree 16, disagree 1)",
+    /routers `bundle` 19 rows: parsed 17, refused 2 .*agree 16, DISAGREE 1/.test(registry), true);
+}
+
+const TOTAL = POSITIVE.length + REFUSED.length + 1 + 4 + 2;
 console.log(`    bundle contents: ${pass} passed, ${misses.length} missed (of ${TOTAL})`);
 for (const m of misses) console.log(`    MISS ${m}`);
 if (misses.length || pass !== TOTAL) process.exit(1);

@@ -73,6 +73,7 @@ import {
   type Queryable,
 } from "../store/index.js";
 import { mapFact, unitFromLabel, type RawFact } from "../core/deepSpecMap.js";
+import { isNatThroughputLabel, natThroughputDecision, NAT_AS_ROUTER_THROUGHPUT_LABEL } from "../core/natThroughput.js";
 import { FIELD_DICTIONARY } from "../core/fieldSchema.js";
 import { GENERATED_FIELDS } from "../core/fieldSchema.generated.js";
 import { NORM_VERSION } from "../core/specNormalize.js";
@@ -380,6 +381,8 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     // merge, never produced. Counted here so produced_per_doc's definition is visible in the stats.
     entries_refused_before_merge: 0,
     parts_offered: 0,
+    // operator ruling 13 Sep 2026 (src/core/natThroughput.ts): a printed "NAT throughput" row, per decision
+    nat_throughput_smb: 0, nat_throughput_superseded: 0, nat_throughput_outside_smb: 0,
   };
   const allFacts = files.flatMap((f) => f.facts);
   stats.facts_raw = allFacts.length;
@@ -554,6 +557,18 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     ...(d.revision_label ? { revision_label: d.revision_label } : {}),
   });
 
+  // operator ruling 13 Sep 2026: every label each DOCUMENT prints, whatever its scope — what a "NAT throughput" row may
+  // mean depends on whether the same document also prints a forwarding/aggregate row (src/core/natThroughput.ts).
+  const labelsOfDoc = new Map<string, string[]>();
+  for (const f of allFacts) {
+    const d = docByUrl.get(f.source_url);
+    if (!d) continue;
+    const a = labelsOfDoc.get(d.doc_id) ?? [];
+    a.push(f.label); labelsOfDoc.set(d.doc_id, a);
+  }
+  const natDecision = (part: PartRef, d: DocInfo) => natThroughputDecision({ category: part.category, sku: part.sku, docLabels: labelsOfDoc.get(d.doc_id) ?? [] });
+  const natStat = (why: string) => { const k = `nat_throughput_${why.replace(/-/g, "_")}`; stats[k] = (stats[k] ?? 0) + 1; };
+
   // pass 1: SKU-scoped facts, so the class-C exception (a per-SKU value in the same document) is
   // known before any family fact is offered — the legacy checked in file order and missed exceptions
   // that happened to come later in the file
@@ -565,7 +580,12 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     stats.facts_sku_scoped++;
     const part = resolvePart(f.sku);
     if (!part) { stats.sku_unknown_facts++; noteUnknown(f.sku, d.doc_id, "fact"); continue; }
-    const m = mapFact(f, part.category);
+    // operator ruling 13 Sep 2026: a NAT throughput row is router_throughput for an smb router only, and never where the
+    // document prints a forwarding/aggregate row; everything else is a named gap (__backlog).
+    const nat = isNatThroughputLabel(f.label) ? natDecision(part, d) : null;
+    if (nat) natStat(nat.why);
+    if (nat && !nat.use) { noteSentinel("__backlog", f.label, f.value, part.category); continue; }
+    const m = nat ? mapFact({ ...f, label: NAT_AS_ROUTER_THROUGHPUT_LABEL }, part.category) : mapFact(f, part.category);
     // The class-C exception is "the document STATES a per-SKU value for this key", which is true
     // the moment the label maps — whether the value survived the normaliser or not, and whether or
     // not it was the first cell for that field. Recording it only for values that were KEPT let a
@@ -579,14 +599,21 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     if (m.kind === "sentinel") { noteSentinel(m.sentinel, f.label, f.value, part.category); continue; }
     if (m.kind === "rejected") { stats.rejected++; quarantine.push({ sku: f.sku, label: f.label, value: f.value, key: m.key, reason: m.reason, detail: m.detail, locator: f.locator, doc_id: d.doc_id }); continue; }
     stats.mapped_ok++;
-    const e: SpecEntry = { k: m.key, raw: rawFor(f, m), value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
+    // the smb NAT row keeps its own label in the replayable raw ("Performance: NAT throughput | 1 Gbps"): the provenance
+    // must say it was a NAT row, not an aggregate one
+    const raw = nat ? `${f.label} | ${m.raw}` : rawFor(f, m);
+    const e: SpecEntry = { k: m.key, raw, value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
     addIncoming(part, e, f, f.label, d, false);
   }
 
   // pass 2: family-scoped facts, only through the scope check
   for (const { f, d } of familyFacts) {
     if (!d.category || d.parts.length === 0) { stats.family_no_listed_parts++; continue; }
-    const m = mapFact(f, d.category);
+    // operator ruling 13 Sep 2026: a family-scoped NAT row may reach only the listed parts that are smb routers; when
+    // none of them is (or the document prints a forwarding row), the row is a named gap, once.
+    const natOk = isNatThroughputLabel(f.label) ? new Set(d.parts.filter((p) => natDecision(p, d).use).map((p) => p.id)) : null;
+    if (natOk && natOk.size === 0) { natStat(natDecision(d.parts[0], d).why); noteSentinel("__backlog", f.label, f.value, d.category); continue; }
+    const m = natOk ? mapFact({ ...f, label: NAT_AS_ROUTER_THROUGHPUT_LABEL }, d.category) : mapFact(f, d.category);
     if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, f.value, d.category); continue; }
     if (m.kind === "sentinel") { noteSentinel(m.sentinel, f.label, f.value, d.category); continue; }
     if (m.kind === "rejected") { stats.rejected++; quarantine.push({ scope: f.family_scope, label: f.label, value: f.value, key: m.key, reason: m.reason, detail: m.detail, locator: f.locator, doc_id: d.doc_id }); continue; }
@@ -595,10 +622,12 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     const scope = resolveScope(f.family_scope, d.pid_list);
     if (scope.kind === "unresolved") { stats.inherit_scope_unresolved++; continue; }
     const scopePids = scope.kind === "pids" ? scope.pids : undefined;
-    const base: SpecEntry = { k: m.key, raw: rawFor(f, m), value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
+    const base: SpecEntry = { k: m.key, raw: natOk ? `${f.label} | ${m.raw}` : rawFor(f, m), value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
     for (const pid of d.pid_list) {
       const part = resolvePart(pid);
       if (!part) continue;                       // counted once above as pid_list_unknown
+      if (natOk && !natOk.has(part.id)) { natStat("outside-smb"); continue; }
+      if (natOk) natStat("smb");
       const chk = canInherit({
         fieldKey: m.key, sku: pid, docPidList: d.pid_list,
         hasPerSkuException: perSkuKeys.get(part.id)?.get(d.doc_id)?.has(m.key) === true,

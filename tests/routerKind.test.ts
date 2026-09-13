@@ -91,7 +91,29 @@ const POSITIVE: [string, RouterKind, string, string][] = [
   ["P-LPWA-800", "module", "module-cellular-modem", "Cisco 800MHz LoRaWAN PIM 8-Channels (was enterprise)"],
   ["IR800-IL-POE", "power", "power-inline-poe", "Cisco IR800-IL-POE (was enterprise)"],
   ["OBD2-J1939Y1-MF4", "cable", "cable-obd2", "OBD-II (J1939) Type 1 to IR1800 cable with y-splitting bypass harness (was enterprise)"],
-  ["10GE-MSC400G-BUN=", "linecard", "linecard", "Cisco CRS Series 40x10GE MSC Bundle (was enterprise)"],
+  // ---- operator rulings (13 Sep 2026): bundles and the kinds the planned moves land on ---------------------------
+  ["10GE-MSC400G-BUN=", "bundle", "bundle-crs-asr5k", "Cisco CRS Series 40x10GE MSC Bundle (was enterprise, then linecard)"],
+  ["100GE-FP400G-BUN=", "bundle", "bundle-crs-asr5k", "Cisco CRS Series 4x100GE FP Bundle (was linecard)"],
+  ["ASR5K-232216V3-K9", "bundle", "bundle-crs-asr5k", "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIO 3PN (moving from wireless)"],
+  ["ASR5K-232232VSB-K9", "bundle", "bundle-crs-asr5k", "ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIOStr3 BNC"],
+  ["ASR55-DPC-K9=", "processor", "asr5k-processor", "ASR5500 Data Processing Card (DPC)"],
+  ["ASR5K-PSC-64G-K9", "processor", "asr5k-processor", "Packet Services Card (PSC3) 64GB"],
+  ["ASR5K-SMC-K9", "processor", "asr5k-processor", "System Management Card 4GB"],
+  ["ASR5K-042GE-T-K9", "linecard", "asr5k-linecard", "QGLC Rev2 4-Port Ethernet 1000 Line Card w/Copper SFP"],
+  ["ASR5K-SPS3-BNC-K9=", "linecard", "asr5k-linecard", "Switch Processor I/O, BNC BITS with Stratum 3"],
+  ["ASR5K-RCC-K9", "fabric", "asr5k-fabric", "Redundancy Crossbar"],
+  ["ASR5K-FANT-UP=", "fan", "asr5k-fan", "ASR-5000 Fan Tray, Upper"],
+  ["ASR5K-PFU/2", "power", "asr5k-power", "ASR5000 Power Filter Unit, Dual Redundant 165A"],
+  ["ASR5K-ACCY-LUG=", "mechanical", "mechanical-asr5k-pas", "ASR-5000 Chassis Lug Accessory Kit"],
+  ["MIXS-12-PA2121AC=", "mechanical", "mechanical-asr5k-pas", "PAS AC ENCLOSURE [ATT US PAS Only]"],
+  ["MIXS-12-PA2141CO=", "module", "module-pas-switch", "PAS 10G ENCLOSURE SWITCH [ATT US PAS Only]"],
+  ["MIXS-12-PA2261MM=", "accessory", "accessory-pas-spare", "PAS DC MOMAT [ATT US PAS ONLY] (the move plan said unknown; this axis has none)"],
+  ["SVC-E180D-M3", "module", "module-svc-e-spare", "Cisco Internal. E180D-M3 Service Spare (moving from servers)"],
+  ["SVC-E1120D-M3", "module", "module-svc-e-spare", "Cisco Internal. E1120D-M3 Service Spare"],
+  ["ASR5000-CHS-SP-K9=", "chassis", "chassis-asr5k", "ASR-5000 Spare Chassis"],
+  ["ASR55-CHS-SYS-U8BL", "sp-core", "sp-asr5k", "ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC"],
+  ["ASR5K-12-LABADV-K9", "sp-core", "sp-asr5k", "ASR-5000 Platform Partner Lab Bundle, Advanced Chassis"],
+  ["IC3000-2C2F-K9++", "appliance", "appliance-nfv-console", "Industrial Compute appliance (TAA) (moving from switches)"],
   ["ENCS5412/K9", "appliance", "appliance-nfv-console", "Cisco ENCS 5412 (12-core Intel, 16G DRAM) (was enterprise)"],
   ["C8300-UCPE-1N20", "appliance", "appliance-nfv-console", "Catalyst 8300 Series Edge uCPE platform, 20-core Intel (was enterprise)"],
   ["XRV9000-APLN-ROUT=", "appliance", "appliance-nfv-console", "XRV 9000 Appliance with UCS-C220 M5 server (was enterprise)"],
@@ -208,6 +230,27 @@ const REFUSAL: [string, RouterKind, string][] = [
   ["C8500-20X6C", "router", "sp-8000 widened to /8[0-9]{3}/ anywhere — a Catalyst 8500L holds nat_sessions 32M"],
   ["C8211-G2", "router", "the same — a C8000-G2 secure router holds ipsec_tunnels 700"],
   ["C8455-G2", "router", "the same — ipsec_tunnels 3500"],
+  // operator rulings (13 Sep 2026): the traps of the ASR 5000 / bundle / move rules
+  ["ASR5K-MEM-PSC2=", "memory", "asr5k-processor unanchored — 'DIMM Replacement Kit for PSC2 - 32GB' is memory"],
+  ["ASR5K-CBL-CON=", "cable", "an ASR5K family rule ahead of the cable rule — 'ASR-5x00 Console Cable'"],
+  ["ASR5K-BLNK-FR", "accessory", "mechanical-asr5k-pas widened to ASR5K- — the blank is the accessory rule's (mechanical by name)"],
+  ["ASR5K-20-LAB-PSC2", "processor", "bundle-crs-asr5k widened to every ASR5K bundle — the lab card pack keeps the move plan's kind"],
+  ["ASR5K-12-LABBSE-K9", "sp-core", "the same — the lab chassis system"],
+  ["100GE-DWDM-FP", "linecard", "bundle-crs-asr5k widened to ^100GE- — an integrated DWDM line card, not a bundle"],
+  ["UCS-E160S-M3/K9", "module", "module-svc-e-spare needed for the product itself — the module rule already names UCS-E"],
+  ["MIXS-12-PA2101AC=", "mechanical", "module-pas-switch widened to every PAS PID — 'PAS AC STARTUP CABINET'"],
+  ["ASR5K-FLTR-AIR=", "accessory", "an ASR5K family rule ahead of the accessory FILTER token — 'ASR-5000 Air Filter Spare'"],
+  ["ASR5K-MEM-PSC3=", "memory", "asr5k-processor on PSC anywhere — 'DIMM Replacement Kit for PSC3 - 64GB'"],
+  ["ASR5K-BLNK-RR-HH=", "accessory", "asr5k-linecard on a rear slot token — 'ASR-5000 Blanking Panel, Half Height, Rear'"],
+  ["ASR55-04-UDPCRX", "processor", "bundle on 'Card and Initial System SW' — a card with its software, not a card complement"],
+  ["ASR5K-0F-B00-2069=", "processor", "bundle on the word 'bundle' — 'Motorola PSC2 LTE Hardware and Software bundle' is one card"],
+  ["ASR5K-20-LAB-PPC", "processor", "bundle on 'Lab Bundle, 3x PPC' — the move plan's processor, recorded as an open point"],
+  ["ASR5000-CHSSYS-K9=", "sp-core", "chassis-asr5k widened to ASR5000-CHS — the COMPLETE chassis system, not the empty spare"],
+  ["ASR55-CHS-SYS-U-B", "sp-core", "bundle on 'System w/chassis, 4 UDPC …' — a system, which the move plan keeps sp-core"],
+  ["CRS-MSC", "linecard", "bundle-crs-asr5k widened to MSC anywhere — the Modular Services Card itself"],
+  ["CRS-FP140", "linecard", "the same for FP — the Forwarding Processor card itself"],
+  ["14X10GBE-WL-XFP", "module", "bundle on a digit-led 10GbE token — the 14x10GbE PLIM, a module"],
+  ["IE-3400-8T2S-E", "router", "appliance-nfv-console widened to I?C3000 — an IE switch SKU is not the IC3000 appliance"],
   ["C1101-4P", "router", "any SP rule reaching the ISR 1100 — it holds nat_sessions 100K and acl_entries 10000"],
 
   // the ESP split must not swallow a router that names its ESP
@@ -349,8 +392,11 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
   check("witness: IR1821-K9 is a router in role industrial-iot", routerKind("IR1821-K9") === "router" && deployRole("routers", "router", "IR1821-K9") === "industrial-iot");
   check("witness: ISR4331/K9 is a router in role branch", deployRole("routers", "router", "ISR4331/K9") === "branch");
   check("witness: ASR1002-X is a router in role edge", deployRole("routers", "router", "ASR1002-X") === "edge");
-  check("witness: C8455-G2 is a router with no role (unresolved) and is asked the core",
-    deployRole("routers", "router", "C8455-G2") === null && req("router") === "certifications,dimensions,flash");
+  // operator ruling (13 Sep 2026): C8455-G2 is branch now; the unresolved shape is asserted on the kind core directly.
+  check("witness: C8455-G2 is a router in role branch (operator ruling) and is asked the core",
+    deployRole("routers", "router", "C8455-G2") === "branch" && req("router", "branch") === "certifications,dimensions,flash");
+  check("a router with no role is asked the core", req("router") === "certifications,dimensions,flash");
+  check("cup set routers.bundle = bundle_contents,product_compatibility (operator ruling)", req("bundle") === "bundle_contents,product_compatibility");
   // THE TWO ROLE SHAPES, read through requirementFor so the semantics (not just the lists) are pinned.
   const rf = (key: string, v: Record<string, string>) => requirementFor("routers", key, v as never);
   check("role DEMOTION: flash is required of the core and of branch, optional (never na) for smb",

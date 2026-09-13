@@ -111,6 +111,11 @@ const RULES: { kind: SecurityKind; id: string; re: RegExp }[] = [
   // throughput and session table of the chassis it upgrades, which is this repo's port-parser mistake
   // in another field.
   { kind: "accessory", id: "upgrade-kit", re: /-FP-UPG(?:-|=|$)/ },
+  // kind-layer operator ruling (13 Sep 2026), minimal and exact: DUO-TOKEN-10PACK "A hardware token used with a Cisco Duo
+  // subscription (10 pack)", moving from servers-unified-computing (agent 4's move list). A security ACCESSORY — the
+  // `appliance` default would ask a key fob for a rack envelope. Anchored on the whole token: DUO- subscriptions are
+  // licences by class and never reach this axis as hardware.
+  { kind: "accessory", id: "duo-hardware-token", re: /^DUO-TOKEN-\d+PACK(?:=|$)/ },
   { kind: "cable", id: "cable", re: /(?:^|-)(?:CAB|CBL|CABLE|BKVM)(?:-|=|$)/ },
   { kind: "power", id: "power", re: /(?:^|-)(?:PWR|PSU\d?|PS)(?:-|=|$)|-\d{3,4}W(?:-|=|$)|^[A-Z0-9]+-AC-\d{3,4}W?(?:-|=|$)|-PS-AC/ },
   { kind: "fan", id: "fan", re: /(?:^|-)S?FAN(?:TRAY)?\d*(?:-|=|$)/ },

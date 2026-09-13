@@ -5,6 +5,15 @@
 // `series`: the live series label is wrong often enough to invert roles (Business 350 is SMB, "ASR 9000" holds no
 // ASR 9000, "Catalyst Embedded Controller" holds outdoor APs). A part no rule places gets `null` — never a default.
 //
+// PARITY WITH III.0 ITEM 3 IS NO LONGER BYTE-FOR-BYTE (operator rulings, 13 Sep 2026). Over item 3's 9,783 rows
+// (D:\tmp\kindlayer-III0\B\classified.json) this table now agrees on 9,780 and differs on exactly 3 — the three rows
+// item 3 left null and the operator placed: WS-C4928-10GE -> datacenter (sw.dc.catalyst-tor), C8455-G2 and C8475-G2
+// -> branch (rt.branch.c8400). The other rulings of that day reach rows OUTSIDE item 3's population (it read
+// switches.switch, wireless.ap, routers.enterprise and collaboration-endpoints.phone only), 36 rows in the 3aff73b
+// dump: HF6100-* 9 (data-center-networking) -> datacenter; the bare Meraki family rows MS120…MS390 11 -> access and
+// MS410/MS425/MS450 3 -> core-agg, now that both Meraki rules are anchored with (-|$) (MS100 refused, MS15 never
+// matched); AP1572EAC/EC/IC 3 -> outdoor; SPA302D* 7 (unified-communications) desk -> dect; SLINK-8744-* 3 -> wireless.
+//
 // Shape of every rule: { id, kind, re (tested against the upper-cased SKU after prefix stripping, or the raw
 // SKU when `raw` is set), name (optional, tested against the name), role | issue, evidence }.
 // A rule with `issue` says the row is NOT a member of the kind at all (a licence, a line card, an AP filed as
@@ -57,11 +66,16 @@ export const RULES: Rule[] = [
   // ---- roles
   { id: "sw.smb.cbs-sb", kind: "switch", re: /^CBS(110|220|250|350)-|^S[FGX](95|110|112|200|220|250|300|302|350|352|355|500|550)[A-Z]{0,2}-|^C1[23]00X?-|^C130024MGP/, role: "smb", evidence: "CBS350-16P-E-2G 'CBS350 Managed 16-port GE', SG250-08 '8-Port Gigabit Smart Switch', C1300-48P-4X 'Catalyst-1300-Managed-Switch (L3)', C1200-8T-E-2G '(L2, Linux)'" },
   { id: "sw.access.catalyst", kind: "switch", re: /^(WS-?)?C?(2960|3560|3750|3650|3850)|^C9200|^C9300|^C9350|^C1000|^WS-2960|^CDB-|^CMICR-|^CATALYST-3[68]50|^CS-PANO-SWITCH|^CTS-5K-[A-Z]+-SWITCH|^C6800IA/, role: "access", evidence: "C9300-48H-A 'Catalyst 9300 48-port 1G copper', WS-C2960X-24PS-L, C1000-24P-4X-L '(L2, IOS)', CMICR-4PT 'Catalyst-Micro', C6800IA-48FPD 'Instant Access POE+ Switch', CS-PANO-SWITCH+ 'Room Panorama Cisco Catalyst 3560-CX'" },
-  { id: "sw.access.meraki", kind: "switch", re: /^MS(1[0-9]{2}|2[0-9]{2}|3[0-9]{2})R?-/, role: "access", evidence: "MS120-48-HW 'cloud-gemanagter Layer-2-Access-Switch', MS390-48-HW 'Layer-3-Access-Switch'" },
+  // kind-layer operator rulings (13 Sep 2026): the Meraki MS rules are anchored with (-|$), so the bare family rows the
+  // meraki category holds ("Cisco MS120", "Cisco MS425") are placed like their PIDs. MS100 is REFUSED by name: no MS100
+  // switch exists (the row is "Cisco MS100", no document) — and MS15 is two digits, which the rule never matched.
+  { id: "sw.access.meraki", kind: "switch", re: /^MS(1(?!00(-|$))[0-9]{2}|2[0-9]{2}|3[0-9]{2})R?(-|$)/, role: "access", evidence: "MS120-48-HW 'cloud-gemanagter Layer-2-Access-Switch', MS390-48-HW 'Layer-3-Access-Switch'" },
   { id: "sw.access.metro", kind: "switch", re: /^ME-?3400|^B-3400EG|^ME-3600X/, role: "access", evidence: "ME-3400E-24TS-M 'ME3400E Ethernet Access switches', ME-3600X (Ethernet Access) — metro access; too few rows to justify service-provider-access" },
-  { id: "sw.coreagg.meraki", kind: "switch", re: /^MS4[0-9]{2}-/, role: "core-agg", evidence: "MS410-32-HW 'Layer-3-Aggregations-Switch', MS425-16-HW, MS450-12-HW" },
+  { id: "sw.coreagg.meraki", kind: "switch", re: /^MS4[0-9]{2}(-|$)/, role: "core-agg", evidence: "MS410-32-HW 'Layer-3-Aggregations-Switch', MS425-16-HW, MS450-12-HW" },
   { id: "sw.coreagg.catalyst", kind: "switch", re: /^(WS-?)?C?45[0-9]{2}|^WS-?C?4500X|^ME-450[67]E|^WS-?450096V|^C94(04|07|10)R|^C96(06|10)R|^C9500|^C9550|^(WS-)?C65[0-9]{2}|^C6807|^6807-|^C68(16|24|32|40|80)-X|^ME-3800X|^ME-4924/, role: "core-agg", evidence: "C9500-48Y4C, C9407R 'Modularer Campus-Switch-Chassis', WS-C4510R+E chassis, C6880-X 'L3-Aggregations-Switch', C6832-X-LE 'L3-Backbone-Switch', ME-4924-10GE" },
-  { id: "sw.dc.catalyst-tor", kind: "switch", re: /^WS-C49(48|00M)/, role: "datacenter", evidence: "WS-C4948E 'Catalyst 4948E, 48-Port 10/100/1000+ 4 SFP+' — 4948/4948E/4900M are Cisco's top-of-rack server-access Catalysts" },
+  { id: "sw.dc.catalyst-tor", kind: "switch", re: /^WS-C49(48|00M|28)/, role: "datacenter", evidence: "WS-C4948E 'Catalyst 4948E, 48-Port 10/100/1000+ 4 SFP+' — 4948/4948E/4900M are Cisco's top-of-rack server-access Catalysts; WS-C4928-10GE 'Catalyst 4928, 28x 1GBase-X SFP, 2x 10GBase-X X2' joins by operator ruling 13 Sep 2026 (item 3 left it null)" },
+  // kind-layer operator ruling (13 Sep 2026): the Nexus Hyperfabric HF6100 switches (9 rows, filed in data-center-networking).
+  { id: "sw.dc.hyperfabric", kind: "switch", re: /^HF6100-/, role: "datacenter", evidence: "HF6100-32D 'Cisco Hyperfabric switch, 32x400Gbps QSFP-DD', HF6100-60L4D-S 'Cisco 6000 Hyperfabric switch, 60x50G SFP56 4x400G QSFP-DD'" },
   { id: "sw.dc.nexus", kind: "switch", re: /^N[2-9]K-|^N77-|^N[3-9][0-9]{3}|^N35-|^N9300-|^ACI-|^9364E|^N9KC|^C9[23][0-9]{3}[A-Z]{1,2}-/, role: "datacenter", evidence: "N9K-C93180YC-FX 'Data-Center-Switch (NX-OS, L3)', N5K-C5672UP, N77-C7706 'modulares Data-Center-Chassis', N9364E-SG2-Q 'N9300 64p 800G switch'" },
   { id: "sw.industrial", kind: "switch", re: /^IE-?[0-9]|^CGS-?2520|^ESS-/, role: "industrial", evidence: "IE-3400H-16T-E 'lüfterloser IP67 Layer-3-Industrie-Switch', CGS-2520-24TC, ESS-3300-CON-E 'mainboard, with cooling plate'" },
 
@@ -72,7 +86,7 @@ export const RULES: Rule[] = [
   { id: "ap.issue.starter-kit", kind: "ap", raw: /^CBW140MXS/, issue: "bundle of AP + mesh extenders (mixed roles)", evidence: "CBW140MXS-A-NA 'CBW140 Cisco Business Mesh Starter Kit'" },
   { id: "ap.industrial.aironet1552", kind: "ap", re: /^AIR-CAP1552(H|SA|SD|WU)/, role: "industrial", evidence: "AIR-CAP1552H-A-K9 'Outdoor Mesh Access Point, Haz. Loc.', AIR-CAP1552SD-K-K9 'ISA100, WiHART, DC', AIR-CAP1552WU-N-K9 'w/WiHartGateway, DC'" },
   { id: "ap.industrial.iw", kind: "ap", re: /^IW-?6300|^ESW-6300|^IW-?3702|^IW-?916[57]/, role: "industrial", evidence: "IW-6300H-DCW-D-K9 'Industrial Wireless AP 6300, DC Wide range, Hazloc', ESW-6300-CON-R-K9 'Embedded Wireless AP 6300, DC input', IW3702-2E-Q-K9" },
-  { id: "ap.outdoor.aironet", kind: "ap", re: /^AIR-CAP1552(E|EU|I|C|CU)|^AIR-AP15[4-7]2/, role: "outdoor", evidence: "AIR-AP1562I-A-K9 'Low-Profile Outdoor AP', AIR-AP1572EAC-D-K9 '802.11ac Outdoor AP', AIR-AP1542D 'Value Outdoor AP', AIR-CAP1552C-E-K9 'Outdoor Mesh Access Point Cable Modem'" },
+  { id: "ap.outdoor.aironet", kind: "ap", re: /^AIR-CAP1552(E|EU|I|C|CU)|^(AIR-)?AP15[4-7]2/, role: "outdoor", evidence: "AP1572EAC / AP1572EC / AP1572IC (bare family rows, operator ruling 13 Sep 2026),AIR-AP1562I-A-K9 'Low-Profile Outdoor AP', AIR-AP1572EAC-D-K9 '802.11ac Outdoor AP', AIR-AP1542D 'Value Outdoor AP', AIR-CAP1552C-E-K9 'Outdoor Mesh Access Point Cable Modem'" },
   { id: "ap.outdoor.catalyst", kind: "ap", re: /^C9124AX|^CW9163|^CW9177|^MR(76|78|86)(-|$)|^WAP571E/, role: "outdoor", evidence: "C9124AXD-EWC-R 'Wi-Fi 6 Outdoor AP w/EWC', CW9163E-x 'Catalyst 9163E Outdoor Access Point', WAP571E-N-K9 'Dual Radio Outdoor Wireless Access Point', MR76/MR86 (Meraki outdoor)" },
   { id: "ap.mesh.cbw", kind: "ap", re: /^([35]-)?CBW14[123]ACM|^CBW14[12][A-Z]-[A-Z]{2}-?D?MULTI/, role: "mesh-extender", evidence: "CBW141ACM-D-IN 'Mesh Extender Desktop', CBW142ACM-Z-AU 'Mesh Extender Wall Outlet', CBW142S-EU-MULTI 'BOM Level CBW142ACM Bulk PID', 3-CBW141ACM-F-EU 'Wireless Extender-Desktop-3 Packs'" },
   { id: "ap.smb.cbw-wap", kind: "ap", re: /^([35]-)?CBW(140|145|150|240)A|^WAP(121|125|150|361|371|571|581)(-|$)/, role: "smb", evidence: "CBW140AC-B 'CBW140AC 802.11ac 2x2 Wave 2 Access Point', CBW150AX 'Cisco Business 150AX Wi-Fi 6', WAP125 'Dual Band Desktop Access Point', WAP571 'Premium Dual Radio'" },
@@ -93,6 +107,8 @@ export const RULES: Rule[] = [
   { id: "rt.smb.rv", kind: "router", re: /^RV[0-9]{3}|^CVR328W|^R260P?-/, role: "smb", evidence: "RV340-K9 'Cisco RV340 Dual WAN Gigabit VPN Router', RV160W-A-K9 'Wireless-AC VPN Router', CVR328W-K9 'Wireless-N 3G VPN Router'" },
   { id: "rt.iot.ir-cgr", kind: "router", re: /^IR[0-9]{3,4}|^IXM-|^CGR-?[0-9]{4}|^CG(418|522)-|^CISCO59[0-9]{2}|^ESR-6300|^C819H/, role: "industrial-iot", evidence: "IR829GW-LTE-GA-EK9 '829 Industrial ISR', IR1821-K9 'Catalyst IR1821 Rugged', IR510-OFDM-FCC/K9 'WPAN router', CGR1240/K9, IXM-LPWA-800-K9+ 'wireless gateway for LoRaWAN', CISCO5940RC-K9 'ESR conduction-cooled card', ESR-6300-CON-K9, CG522-E 'Cellular Gateway, 5G Sub6', C819HG-4G-G-K9 'C819 Hardened 4G LTE'" },
   { id: "rt.edge.asr-8500", kind: "router", re: /^ASR1[0-9]{3}|^ASR1K|^CUBESP-AP|^C85[0-9]{2}|^C8650|^7206VXR|^76(0[3-9]|13)S?-/, role: "edge", evidence: "ASR1002X-36G-K9, ASR1001-HX 'Router Chassis (ESP integrated)', C8500-12X4QC 'Catalyst 8500 Series 12-port SFP+', C8650-G2 '8600 Secure Router with 20x10GE, 6x100GE', 7206VXRG2/2+VPNK9, 7609-VPN+-K9" },
+  // kind-layer operator ruling (13 Sep 2026): the two C8000-G2 rows item 3 left null ("branch or edge") are branch.
+  { id: "rt.branch.c8400", kind: "router", re: /^C84[57]5-G2/, role: "branch", evidence: "C8455-G2 'Cisco 8400 Secure Router with 8x1GE, 2x10GE, 2x25GE', C8475-G2 — operator ruling 13 Sep 2026: branch (item 3 left both unresolved)" },
   { id: "rt.branch.cg113", kind: "router", re: /^CG113-/, role: "branch", evidence: "CG113-4GW6E 'Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE' (remote-worker / small-branch desktop gateway; no rugged or IP-rated variant)" },
   { id: "rt.branch.isr", kind: "router", re: /^C8[0-9]{2}(?![0-9])|^CISCO8[0-9]{2}|^8[0-9]{2}[A-Z]*(-|$)|^IAD888|^C9[0-9]{2}J?(?![0-9])|^C11[0-9]{2}|^ISR1100|^C1[89][0-9]{2}|^CISCO1[89][0-9]{2}|^C2[89][0-9]{2}|^CISCO2[89][0-9]{2}|^2[89][0-9]{2}-|^SPIAD29|^C3[89][0-9]{2}|^CISCO3[89][0-9]{2}|^ISR4[0-9]{3}|^CISCO4[0-9]{3}|^C8200|^C8[23]L?-|^C8300-[12]N|^C81[3-6][0-9]|^C82[0-5][0-9]|^C83[57]5/, role: "branch", evidence: "C897VA-K9 'Cisco 897VA Gigabit Ethernet security router', C1111-8P 'ISR 1100 8 Ports', CISCO2911/K9, ISR4331/K9, C921-4P 'Cisco 900 Series ISR', C8300-1N1S-6T 'Catalyst 8300 Edge platform', C8211-G2 '8200 Secure Router with 6x1GE', C8355-G2 '8300 Secure Router'" },
 
@@ -101,8 +117,10 @@ export const RULES: Rule[] = [
   { id: "ph.issue.expansion", kind: "phone", raw: /^CP-791[456]/, issue: "expansion module", evidence: "CP-7914 '14-button key expansion module', CP-7916 'Color Expansion Module'" },
   { id: "ph.issue.subscription", kind: "phone", raw: /-MK9$/, issue: "subscription (licence)", evidence: "CP-8865-3PW-NA-MK9 'MLB Subscription - Phone 8865'" },
   { id: "ph.conference", kind: "phone", re: /^CP-793[5-7]|^CP-7832|^CP-883[12]|^CP-ROOM/, role: "conference", evidence: "CP-7832-K9 'IP Conference Phone 7832', CP-8832-K9 'IP Conference Phone 8832 base', CP-8831-K9 '8831 Base/Control Panel', CP-7935 'IP Conference Station 7935', CP-ROOM-C-K9 'Webex Room Phone'" },
-  { id: "ph.wireless", kind: "phone", re: /^CP-792[0-6]|^CP-8821|^CP-8[46]0S?-|^WP-9821/, role: "wireless", evidence: "CP-8821-K9 'Unified Wireless IP Phone 8821', CP-7925G-A-K9 'Cisco 7925G FCC; Battery', CP-860-K9 'Cisco 860 Worldwide Phone and Battery', WP-9821-K9" },
-  { id: "ph.dect", kind: "phone", re: /^CP-682[35]/, role: "dect", evidence: "CP-6825-3PC-UK-K9 'IP DECT 6825, Standard Handset, Battery, Cradle', CP-6823-3PC-BUN 'IP DECT 6823 Handset and Single-Cell Basestation'" },
+  { id: "ph.wireless", kind: "phone", re: /^CP-792[0-6]|^CP-8821|^CP-8[46]0S?-|^WP-9821|^SLINK-/, role: "wireless", evidence: "CP-8821-K9 'Unified Wireless IP Phone 8821', CP-7925G-A-K9 'Cisco 7925G FCC; Battery', CP-860-K9 'Cisco 860 Worldwide Phone and Battery', WP-9821-K9; SLINK-8744-NA= (Spectralink 8744 Wi-Fi handset, operator ruling 13 Sep 2026)" },
+  // kind-layer operator ruling (13 Sep 2026): SPA302D is the Small Business DECT handset ("Mobility Enhanced Cordless
+  // Handset", SPA302DKIT "Multi-Line DECT Handset with Base Station"), which ph.desk's ^SPA[35]nn used to take.
+  { id: "ph.dect", kind: "phone", re: /^CP-682[35]|^SPA302D/, role: "dect", evidence: "CP-6825-3PC-UK-K9 'IP DECT 6825, Standard Handset, Battery, Cradle', CP-6823-3PC-BUN 'IP DECT 6823 Handset and Single-Cell Basestation', SPA302DKIT-G1 'Multi-Line DECT Handset with Base Station'" },
   { id: "ph.desk", kind: "phone", re: /^CP-79[0-9]{2}|^CP-78[0-9]{2}|^CP-88[0-9]{2}|^CP-69[0-9]{2}|^CP-68[0-9]{2}|^CP-39[0-9]{2}|^DP-98[0-9]{2}|^SPA[35][0-9]{2}/, role: "desk", evidence: "CP-8865-K9 'Cisco IP Phone 8865, Charcoal', CP-7841-K9, DP-9861-K9 'Cisco Desk Phone 9861', CP-6851-3PCC-K9, SPA504G '4 Line IP Phone With Display, PoE'" },
 ];
 

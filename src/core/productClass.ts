@@ -751,6 +751,17 @@ export const SKU_RULES: SkuRule[] = [
   { kind: "exact", token: "DISK-MODE-RAID1JBD", klass: "non_product", why: "'Configure Two Hard Drives in RAID 1 Config and 3rd Non RAID' — a configuration option" },
   { kind: "exact", token: "CRS-8-NO-FC", klass: "non_product", why: "'CRS 8 slots with no fabric card option' — an ordering option that ships nothing" },
   { kind: "exact", token: "ASR1000-SPA", klass: "non_product", why: "'SPA for ASR1000; No Physical Part; For Tracking Only' — its own name says nothing ships" },
+  // kind-layer operator rulings (13 Sep 2026). EXACT SKUs, each read in routers (live dump, 3aff73b), each with its own
+  // reason. The seven CRS rows sat in routers.sp-core and were being asked a carrier router's cups; none is a product.
+  // Exact, not a CRS- prefix: CRS-FP140-C is a forwarding processor and CRS-16/S a chassis (tests/productClass refusals).
+  { kind: "exact", token: "CGR2010/NFR", klass: "non_product", why: "not-for-resale: 'CGR 2010 Channel Kit' — an NFR channel demo kit, not an orderable product (operator ruling, 13 Sep 2026)" },
+  { kind: "exact", token: "CRS-1-TEST-40G", klass: "non_product", why: "test PID: 'CRS-1 TEST PID for 40G licensing' — a licensing test identifier, nothing ships" },
+  { kind: "exact", token: "CRS-REBATE-ATT", klass: "non_product", why: "rebate: 'CRS Dummy Rebate SKU for ATT' — a commercial rebate line for one customer" },
+  { kind: "exact", token: "CRS-DP-DLR", klass: "non_product", why: "dollar adjustment: 'CRS DP Dollar Adjustment' — a price-adjustment line" },
+  { kind: "exact", token: "CRS-3-UPGRADE-BUN", klass: "non_product", why: "upgrade-bundle programme: 'CRS-3 Upgrade Bundle' — a programme PID whose contents the name does not state" },
+  { kind: "exact", token: "CRS-X-UPGRADE-BUN", klass: "non_product", why: "upgrade-bundle programme: 'CRS-X Upgrade Bundle' — a programme PID whose contents the name does not state" },
+  { kind: "exact", token: "CRS-3-ANY-PK", klass: "non_product", why: "multipack programme: 'CRS-3 Multipack Bundle' — an ordering programme, no stated contents" },
+  { kind: "exact", token: "CRS1-SPA", klass: "non_product", why: "tracking PID: 'SPA for Cisco CRS-1; No Physical Part; For Tracking Only' — the ASR1000-SPA shape" },
   // ---- end routers (12 Sep 2026)---------------------------------------------------------------------------------
   // ---- optical-storage (12 Sep 2026) — the residue in optical-networking and storage-networking ------------------
   // Every rule below was counted catalogue-wide (all 13 vendors, every category) before it was written: every

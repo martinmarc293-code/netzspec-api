@@ -3213,7 +3213,12 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // 35.9, drive 35.9, linecard 43.3; antenna 57.1, fabric 75): the decision record's component rule ("product_compatibility
     // first"), library COMPAT (its fill path is the relation), and tests/cupLedger's standing guard that no hardware
     // kind holding parts is asked nothing — without it `accessory` (165 parts) and `cable` (249) would ask nothing.
-    product_compatibility: cond({ field: "kind", inList: [...RT_COMPONENT] }),
+    // kind-layer operator ruling (13 Sep 2026): a `bundle` (the CRS line-card bundles, the ASR 5000 card complements) is
+    // asked what it fits as well as its contents.
+    product_compatibility: cond({ field: "kind", inList: [...RT_COMPONENT, "bundle"] }),
+    // ...and its contents, DERIVED from its own name by src/core/bundleContents.ts — the same registered derivation as the
+    // UCS and wireless packs (DERIVED_FILL_PATHS.bundle_contents carries the routers counts: 19 rows, 17 parsed).
+    bundle_contents: cond({ field: "kind", inList: ["bundle"] }),
     // kind-layer: drive 64.1% (kept); the appliance's storage is declared by APPLIANCE as optional.
     storage_capacity: rtKinds(["drive"]),
     // 12 Sep 2026, the cross-category test: a drive is bought on capacity AND interface everywhere else

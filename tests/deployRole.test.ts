@@ -32,7 +32,28 @@ const CASES: Case[] = [
   ["switch", "MS120-8-HW", "Layer-2-Access-Switch", "access"],
   ["switch", "IE-3400H-16T-E", "IP67 Industrie-Switch", "industrial"],
   ["switch", "C6800IA-48FPD", "Catalyst 6800 Instant Access POE+ Switch", "access"],
-  ["switch", "WS-C4928-10GE", "Catalyst 4928", "null"],
+  // ---- operator rulings (13 Sep 2026): a witness and a refusal per new or re-anchored rule ------------------------
+  ["switch", "WS-C4928-10GE", "Catalyst 4928, no p/s, 28x 1GBase-X SFP, 2x 10GBase-X X2", "datacenter"],   // was null in item 3
+  ["switch", "ME-4924-10GE", "Catalyst 4924 metro", "core-agg"],                                             // refusal: 49(28) is not 49xx
+  ["switch", "HF6100-32D", "Cisco Hyperfabric switch, 32x400Gbps QSFP-DD", "datacenter"],
+  ["switch", "HF6100-60L4D-S", "Cisco 6000 Hyperfabric switch, 60x50G SFP56 4x400G QSFP-DD, fixed hardware", "datacenter"],
+  ["switch", "HF-ACC-RM2-4P19L", "Hyperfabric rack mount kit", "null"],                                      // refusal: HF6100- only
+  ["switch", "MS120", "Cisco MS120", "access"],                                                             // the bare family row, (-|$)
+  ["switch", "MS390", "Cisco MS390", "access"],
+  ["switch", "MS425", "Cisco MS425", "core-agg"],
+  ["switch", "MS100", "Cisco MS100", "null"],                                                               // refusal: no MS100 switch exists
+  ["switch", "MS15", "Cisco MS15", "null"],                                                                 // refusal: two digits
+  ["switch", "MS1200-24P", "not a Meraki family", "null"],                                                  // refusal: the anchor, not a prefix
+  ["switch", "MS4500", "not a Meraki family", "null"],                                                      // refusal: MS4nn then a digit
+  ["ap", "AP1572EAC", "Cisco AP1572EAC", "outdoor"],                                                        // bare family row, no AIR-
+  ["ap", "AP1832I-E-K9", "Aironet 1832i", "indoor"],                                                        // refusal: AP15[4-7]2 only
+  ["phone", "SPA302DKIT-G1", "Multi-Line DECT Handset with Base Station", "dect"],                          // was desk by ^SPA[35]nn
+  ["phone", "SPA302D-G7", "Mobility Enhanced Cordless Handset", "dect"],
+  ["phone", "SPA504G", "4 Line IP Phone With Display, PoE", "desk"],                                        // refusal: the desk SPA shape
+  ["phone", "SLINK-8744-NA=", "Cisco SLINK-8744-NA=", "wireless"],
+  ["phone", "CP-8851-K9", "Cisco IP Phone 8851", "desk"],                                                   // refusal
+  ["router", "C8475-G2", "Cisco C8475-G2", "branch"],                                                       // was null in item 3
+  ["router", "C8500L-8S4X", "Catalyst 8500L 8x1GE 4x10GE", "edge"],                                         // refusal: C85nn stays edge
   ["ap", "C9124AXI-EWC-B1", "Cisco Embedded Wireless Controller on C9124AX Access Point", "outdoor"], // EWC series != indoor
   ["ap", "C9120AXE-EWC-G", "Cisco Embedded Wireless Controller on C9120AX", "indoor"],
   ["ap", "CW9166I-MR", "Catalyst 9162I Access Point", "indoor"],                                // "Catalyst 9163" series != outdoor
@@ -57,7 +78,7 @@ const CASES: Case[] = [
   ["router", "CG113-4GW6E", "Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE", "branch"],
   ["router", "CG113-4GW6x", "Cisco DNA On-Prem Lic for Remote-worker gateway", "issue:licence"],
   ["router", "MCS0", "Cisco MCS0", "issue:datasheet cell"],
-  ["router", "C8455-G2", "Cisco 8400 Secure Router", "null"],
+  ["router", "C8455-G2", "Cisco 8400 Secure Router", "branch"],                                              // operator ruling; item 3 null
   ["phone", "CP-8865-K9", "Cisco IP Phone 8865, Charcoal", "desk"],                             // spec said wireless
   ["phone", "CP-8821-K9", "Cisco Unified Wireless IP Phone 8821", "wireless"],
   ["phone", "CP-7925G-A-K9", "Cisco 7925G FCC", "wireless"],                                    // in "7900" series
@@ -93,6 +114,12 @@ const sabotage: [string, Rule[], string][] = [
   ["move ph.issue.component after ph.conference", (() => { const a = RULES.filter((r) => r.id !== "ph.issue.component"); const i = a.findIndex((r) => r.id === "ph.conference"); a.splice(i + 1, 0, RULES.find((r) => r.id === "ph.issue.component")!); return a; })(), "phone CP-8831-DCU-S: expected issue:phone accessory, got conference"],
   ["remove sw.issue.cabling", RULES.filter((r) => r.id !== "sw.issue.cabling"), "switch PUP6AV04BU-G: expected issue:cable, got null"],
   ["remove sw.smb.cbs-sb", RULES.filter((r) => r.id !== "sw.smb.cbs-sb"), "switch CBS350-24P-4G-EU: expected smb, got null"],
+  // operator rulings (13 Sep 2026): one per new rule family, each failing on its own witness for its own reason
+  ["remove sw.dc.hyperfabric", RULES.filter((r) => r.id !== "sw.dc.hyperfabric"), "switch HF6100-32D: expected datacenter, got null"],
+  ["remove rt.branch.c8400", RULES.filter((r) => r.id !== "rt.branch.c8400"), "router C8455-G2: expected branch, got null"],
+  ["un-anchor sw.access.meraki back to a trailing hyphen", RULES.map((r) => r.id === "sw.access.meraki" ? { ...r, re: /^MS(1[0-9]{2}|2[0-9]{2}|3[0-9]{2})R?-/ } : r), "switch MS120: expected access, got null"],
+  ["drop the MS100 refusal from sw.access.meraki", RULES.map((r) => r.id === "sw.access.meraki" ? { ...r, re: /^MS(1[0-9]{2}|2[0-9]{2}|3[0-9]{2})R?(-|$)/ } : r), "switch MS100: expected null, got access"],
+  ["move ph.dect after ph.desk", (() => { const a = RULES.filter((r) => r.id !== "ph.dect"); const i = a.findIndex((r) => r.id === "ph.desk"); a.splice(i + 1, 0, RULES.find((r) => r.id === "ph.dect")!); return a; })(), "phone SPA302DKIT-G1: expected dect, got desk"],
 ];
 for (const [label, rules, must] of sabotage) {
   const f = failures(rules);
@@ -114,7 +141,10 @@ check("routers.router and routers.enterprise both read the router rules", roleAx
 check("unified-communications.phone reads the phone rules", deployRole("unified-communications", "phone", "CP-8821-K9", "8821") === "wireless");
 check("a kind with no role axis gets null", deployRole("switches", "power", "PWR-C1-715WAC", "715W AC") === null);
 check("a kind issue gets null, not a role", deployRole("switches", "switch", "DS-C9148V-24EK9", "MDS 9148V") === null);
-check("an unplaced part gets null, not the biggest role", deployRole("routers", "router", "C8455-G2", "Cisco 8400 Secure Router") === null);
+// (C8455-G2 was this line's witness until the operator placed it, 13 Sep 2026; no live router row is unplaced now, so
+// the shape is a SKU no rule can reach.)
+check("an unplaced part gets null, not the biggest role", deployRole("routers", "router", "ZZ-NOSUCH-1", "no such router") === null);
+check("the operator's C8455-G2 is branch by its own rule", deployRoleRule("router", "C8455-G2", "Cisco 8400 Secure Router").rule === "rt.branch.c8400");
 check("a missing kind gets null", deployRole("switches", undefined, "C9300-48P-A", "Catalyst 9300") === null);
 
 console.log(`    deploy role: ${pass} passed, ${misses.length} missed (${CASES.length} witnesses, ${sabotage.length} sabotaged rule lists)`);

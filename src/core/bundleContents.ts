@@ -65,7 +65,30 @@ const DEVICE_PATTERNS: { re: RegExp; make: (m: RegExpExecArray) => Omit<Hit, "st
     make: (m) => ({ n: +m[1], item: `AP${m[2].toUpperCase()}`, cls: "other" }) },
   // AP licences: "10 AP Lic.", "with 25 licenses"
   { re: /(?<![0-9.])(\d{1,3})\s*(?:AP\s*Lic(?:\.|enses?)?|licenses)(?![a-z])/gi, make: (m) => ({ n: +m[1], item: "AP licence", cls: "other" }) },
+  // kind-layer operator ruling (13 Sep 2026): the ASR 5000 card complements, "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/
+  // 2xRCC/2xSPIOStr3 BNC". A counted card from an explicit vocabulary — SMC (System Management Card), PSC/PSC2 (Packet
+  // Services Card) with the memory the name states for it, RCC (Redundancy Crossbar Card), SPIO (Switch Processor I/O)
+  // with its Stratum 3 / BITS connector variant. The memory and the variant are part of the orderable card, so they stay
+  // in the item; any other counted token still refuses the row (ANY_COUNTED below).
+  { re: /(?<![0-9.])(\d{1,2})\s*x\s*(SMC|PSC2?|RCC|SPIO|PPC)(?:\s*(16|32|64)\s*GB)?(?:\s*(Str3))?(?:\s*(3PN|BNC))?(?![A-Za-z0-9])/g,
+    make: (m) => ({ n: +m[1], item: [m[2], m[3] ? `${m[3]}GB` : "", m[4] ?? "", m[5] ?? ""].filter(Boolean).join(" "), cls: "other" }) },
 ];
+
+/**
+ * kind-layer operator ruling (13 Sep 2026): a CRS line-card bundle, "Cisco CRS Series 40x10GE MSC Bundle". The name
+ * states a CARD (MSC / MSE / FP) and the port complement of the interface module (PLIM) it ships with; nothing else.
+ * STRICT: the whole name must be that shape. A bundle that does not count its ports ("Cisco CRS Series 100GE MSC
+ * Bundle", "Cisco CRS 100GE FP Bundle") is REFUSED — the SKU's capacity token (MSC-BNDL, FP140) does not say how many
+ * ports, and a port count read from a capacity would be a guess.
+ */
+const CRS_LINECARD_BUNDLE = /^(?:Cisco\s+)?CRS(?:-[13X])?\s+(?:Series\s+)?(?:(\d{1,2})\s*x\s*)?(10|40|100)GE\s+(?:Ethernet\s+)?(MSC|MSE|FP)\s+Bundle$/i;
+function crsLineCardBundle(s: string): BundleContents | null {
+  if (!/(?<![A-Za-z])CRS(?![A-Za-z])/.test(s) || !/bundle\s*$/i.test(s)) return null;
+  const m = CRS_LINECARD_BUNDLE.exec(s);
+  if (!m) return { ok: false, reason: "a CRS bundle name outside the '<n>x<rate>GE <card> Bundle' shape" };
+  if (!m[1]) return { ok: false, reason: "a CRS line-card bundle whose port count is not stated" };
+  return { ok: true, items: [`1x CRS ${m[3].toUpperCase()} line card`, `1x ${+m[1]}x${m[2]}GE interface module`], because: "CRS line-card bundle name" };
+}
 
 // Uncounted single devices — one unit each, taken only when nothing counted names the same class.
 const UNCOUNTED: { re: RegExp; make: (m: RegExpExecArray) => Omit<Hit, "start" | "end" | "n">; }[] = [
@@ -97,6 +120,9 @@ export function bundleContents(name: string | null | undefined, sku?: string): B
   const s = clean(raw);
   if (/\d+\s*to\s*\d+\s*(?:HX\s?)?nodes?/i.test(s)) return { ok: false, reason: "a count stated as a range" };
   if (/addnl|additional|reqd|required/i.test(s)) return { ok: false, reason: "names items that are required, not included" };
+
+  const crs = crsLineCardBundle(s);
+  if (crs) return crs;
 
   const pak = PAK_HDD.exec(s);
   if (pak) return { ok: true, items: [`${+pak[1]}x HDD`], because: "drive pack" };

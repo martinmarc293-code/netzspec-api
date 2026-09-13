@@ -56,6 +56,7 @@ import {
 } from "../store/index.js";
 import { candidatesFromPage } from "../core/imageCandidate.js";
 import { mapFact } from "../core/deepSpecMap.js";
+import { isNatThroughputLabel, natThroughputDecision, NAT_AS_ROUTER_THROUGHPUT_LABEL } from "../core/natThroughput.js";
 import { NORM_VERSION } from "../core/specNormalize.js";
 import type { SpecEntry } from "../core/specMerge.js";
 import { REPO_ROOT } from "../config.js";
@@ -367,7 +368,7 @@ export type WrittenFact = { raw: string; label: string; cache: string | null | u
 
 export type EntryMapping = {
   /** facts that mapped AND normalised, with the label kept for the provenance audit */
-  mapped: { label: string; entry: SpecEntry }[];
+  mapped: { label: string; entry: SpecEntry; cell?: string }[];
   unmapped: { label: string; value: string }[];
   rejected: { key: string; reason: string }[];
   sentinel: number;
@@ -384,16 +385,22 @@ export function mapEntryFacts(
   ctx: { category: string; src: SourceRow; docType: string; docId: string | null; pageUrl: string; sku: string; fetchedDay: string },
 ): EntryMapping {
   const out: EntryMapping = { mapped: [], unmapped: [], rejected: [], sentinel: 0 };
+  // operator ruling 13 Sep 2026 (src/core/natThroughput.ts): the entry's pairs are ONE page, so they are the document a
+  // "NAT throughput" row is judged against — router_throughput for an smb router only, never beside a forwarding row.
+  const pageLabels = facts.map((f) => f.label);
   for (const f of facts) {
-    const m = mapFact({ label: f.label, value: f.value, locator: f.locator || "", shape: "pair", source_url: ctx.pageUrl, sku: ctx.sku }, ctx.category);
+    const nat = isNatThroughputLabel(f.label) ? natThroughputDecision({ category: ctx.category, sku: ctx.sku, docLabels: pageLabels }) : null;
+    if (nat && !nat.use) { out.sentinel++; continue; }
+    const m = mapFact({ label: nat ? NAT_AS_ROUTER_THROUGHPUT_LABEL : f.label, value: f.value, locator: f.locator || "", shape: "pair", source_url: ctx.pageUrl, sku: ctx.sku }, ctx.category);
     if (m.kind === "ok") {
       out.mapped.push({
         label: f.label,
         entry: {
-          k: m.key, raw: f.value, value: m.value, unit: m.unit,
+          k: m.key, raw: nat ? `${f.label} | ${f.value}` : f.value, value: m.value, unit: m.unit,
           state: ctx.src.tier <= 2 ? "verified" : "unverified",
           prov: { tier: ctx.src.tier, method: `${ctx.docType}:${ctx.src.slug}`, doc_id: ctx.docId ?? undefined, locator: f.locator || m.locator, extracted_at: ctx.fetchedDay, norm_v: NORM_VERSION },
         },
+        ...(nat ? { cell: f.value } : {}),
       });
     } else if (m.kind === "unmapped") out.unmapped.push({ label: m.label, value: f.value });
     else if (m.kind === "rejected") out.rejected.push({ key: m.key, reason: m.reason });
@@ -826,7 +833,9 @@ export async function main(argv: string[]): Promise<void> {
           unmapped.set(u.label, row);
         }
         for (const r of m.rejected) rejected.set(`${r.key}:${r.reason}`, (rejected.get(`${r.key}:${r.reason}`) ?? 0) + 1);
-        for (const w of m.mapped) written.push({ raw: w.entry.raw, label: w.label, cache: doc.cache_path });
+        // the gate re-reads the CELL on the page; an smb NAT row's entry.raw carries "<label> | <cell>" (operator ruling
+        // 13 Sep 2026), which the page never prints verbatim, so the cell is handed over instead
+        for (const w of m.mapped) written.push({ raw: w.cell ?? w.entry.raw, label: w.label, cache: doc.cache_path });
         const mappedKeys = m.mapped.map((w) => w.entry.k);
         const specEntries = m.mapped.map((w) => w.entry);
 
