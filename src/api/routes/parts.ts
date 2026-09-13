@@ -12,6 +12,7 @@ const Query = Type.Object({
   family: Type.Optional(Type.String()),
   class: Type.Optional(Type.String({ description: "product_class: hardware | license | service | software | accessory | bundle | unknown" })),
   kind: Type.Optional(Type.String({ description: "the DERIVED cup set inside the category (switch, server, bundle, accessory, unknown, '(none)' ...). Requires category; the ledger at /v1/ledger/<vendor>/<category> lists a category's kinds." })),
+  deploy_role: Type.Optional(Type.String({ description: "layer 3: the DERIVED role inside the kind (switch: smb | access | core-agg | datacenter | industrial; ap: indoor | outdoor | industrial | smb | mesh-extender; router: branch | smb | edge | industrial-iot; phone: desk | wireless | dect | conference; '(unresolved)' = no rule places the part). Requires category and kind; 400 on a role outside the kind's domain or a kind with no role axis." })),
   sku: Type.Optional(Type.String({ description: "exact SKU, case-insensitive (sku_norm); returns 0 or 1 part per vendor" })),
   sku_prefix: Type.Optional(Type.String({ description: "SKU prefix, case-insensitive; % and _ are literal" })),
   q: Type.Optional(Type.String({ description: "substring / trigram match on sku and name" })),
@@ -33,7 +34,7 @@ export async function partsRoutes(app: FastifyInstance, opts: PartsRouteOptions)
   }, async (req) => {
     const q = req.query;
     const page = await listParts({
-      vendor: q.vendor, category: q.category, series: q.series, family: q.family, class: q.class, kind: q.kind,
+      vendor: q.vendor, category: q.category, series: q.series, family: q.family, class: q.class, kind: q.kind, deploy_role: q.deploy_role,
       sku: q.sku, sku_prefix: q.sku_prefix, q: q.q, has: q.has,
       updated_since: q.updated_since, filter: q.filter, limit: q.limit ?? 50, cursor: q.cursor,
     });

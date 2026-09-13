@@ -20,6 +20,8 @@ import { FIELD_DICTIONARY, SUPERSEDED_KEYS } from "./fieldSchema.js";
 import { SPEC_BEARING } from "./docClass.js";
 import { DERIVED_FILL_PATHS } from "./derivedFillPaths.js";
 import { partKind } from "./partKind.js";
+// kind-layer infra (13 Sep 2026): layer 3 joins the freeze — the role rule table and the role of every live part.
+import { RULES, STRIP, ROLE_DOMAINS, deployRole, roleAxisOf, type Rule } from "./deployRole.js";
 
 export const sha = (s: string): string => crypto.createHash("sha256").update(s).digest("hex");
 
@@ -32,17 +34,68 @@ export function stable(v: unknown): string {
   return JSON.stringify(v ?? null);
 }
 
-export type KindRow = { category: string; sku: string; name: string; kind: string };
+/**
+ * One live hardware part as frozen. `deploy_role` (kind-layer infra, 13 Sep 2026) is the fifth column: the derived role,
+ * `""` when the part has none (no role axis for its kind, or no rule places it). It is `undefined` only for a snapshot
+ * written before the column existed — a different state from "no role", and reported as such by the test.
+ */
+export type KindRow = { category: string; sku: string; name: string; kind: string; deploy_role?: string };
+
+const flatName = (name: string): string => name.replace(/[\t\r\n]+/g, " ");
 
 /** The snapshot's line format. Tabs and newlines inside a name are flattened to spaces, deliberately and visibly. */
 export const kindLine = (r: KindRow): string =>
-  [r.category, r.sku, r.name.replace(/[\t\r\n]+/g, " "), r.kind].join("\t");
+  [r.category, r.sku, flatName(r.name), r.kind, r.deploy_role ?? ""].join("\t");
+
+/**
+ * The KIND projection of a row — the four columns the kind unit has always hashed. Kept separate so adding the role
+ * column moves the role unit and not the kind unit: a mapping hash that changed for a reason unrelated to kinds would
+ * send a reader looking for a kind change that never happened.
+ */
+export const kindLineKindsOnly = (r: KindRow): string => [r.category, r.sku, flatName(r.name), r.kind].join("\t");
 
 export function parseKindSnapshot(text: string): KindRow[] {
   return text.split("\n").filter((l) => l.length > 0).map((l) => {
-    const [category, sku, name, kind] = l.split("\t");
-    return { category, sku, name, kind };
+    const [category, sku, name, kind, deploy_role] = l.split("\t");
+    return deploy_role === undefined ? { category, sku, name, kind } : { category, sku, name, kind, deploy_role };
   });
+}
+
+/** The role rule table as data: ids, patterns (source + flags), the role or the issue, and the SKU prefix strip. Evidence
+ *  prose is excluded — rewording a citation does not move the arrangement. */
+export function roleRuleTable(rules: readonly Rule[] = RULES): unknown {
+  const pat = (re: RegExp | undefined) => (re ? [re.source, re.flags] : null);
+  return {
+    strip: pat(STRIP),
+    rules: rules.map((r) => ({ id: r.id, kind: r.kind, re: pat(r.re), raw: pat(r.raw), name: pat(r.name), role: r.role ?? null, issue: r.issue ?? null })),
+    domains: ROLE_DOMAINS,
+  };
+}
+
+/** The (category|kind) -> axis table, derived from roleAxisOf over every kind a ledger can name. */
+export function roleAxes(): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const c of Object.keys(LEDGER_KINDS).sort()) for (const k of LEDGER_KINDS[c]) {
+    const axis = roleAxisOf(c, k);
+    if (axis) out[`${c}|${k}`] = axis;
+  }
+  return out;
+}
+
+/** The role the live derivation gives a snapshot row, with the row's FROZEN kind — so a role drift is reported apart
+ *  from a kind drift. `""` = no role. */
+export const liveRoleOf = (r: KindRow): string => deployRole(r.category, r.kind, r.sku, r.name || null) ?? "";
+
+/** Re-derive every role in a snapshot with the live deployRole; returns the rows whose role moved, and whether the
+ *  snapshot carries the column at all (a snapshot without it cannot be compared and says so). */
+export function roleDrift(rows: KindRow[]): { column: boolean; moved: { row: KindRow; now: string }[] } {
+  if (rows.some((r) => r.deploy_role === undefined)) return { column: false, moved: [] };
+  const moved: { row: KindRow; now: string }[] = [];
+  for (const r of rows) {
+    const now = liveRoleOf(r);
+    if (now !== r.deploy_role) moved.push({ row: r, now });
+  }
+  return { column: true, moved };
 }
 
 /** The conflict table as frozen in tests/mapperTrace.test.ts: the text of its object literal, whitespace-normalised. */
@@ -64,6 +117,10 @@ export type FreezeUnits = {
   derived_fill_paths: { keys: string[]; sha: string };
   spec_bearing_classes: { classes: string[]; sha: string };
   denominators: Record<string, { parts: number; required_slots_stored: number }>;
+  /** layer 3: the rule table (ids, patterns, roles, issues, domains), the (category|kind) -> axis table, and the role of
+   *  every snapshot row — counted per (category|kind|role) and hashed line by line. */
+  roles: { rules: number; rules_sha: string; axes: Record<string, string>; axes_sha: string;
+    parts_with_axis: number; unresolved: number; by_role: Record<string, number>; mapping_sha: string };
 };
 
 /** Every unit, from code + committed files + the kind snapshot rows. */
@@ -91,15 +148,37 @@ export function freezeUnits(vendor: string, repoRoot: string, kindRows: KindRow[
   }
 
   const classes = [...SPEC_BEARING].map(String).sort();
+  const axes = roleAxes();
+  const byRole: Record<string, number> = {};
+  let withAxis = 0, unresolved = 0;
+  for (const r of kindRows) {
+    if (!axes[`${r.category}|${r.kind}`]) continue;
+    withAxis++;
+    const role = r.deploy_role || "(unresolved)";
+    if (role === "(unresolved)") unresolved++;
+    const key = `${r.category}|${r.kind}|${role}`;
+    byRole[key] = (byRole[key] ?? 0) + 1;
+  }
   return {
     vendor,
     profiles,
     dictionary: { keys: dict.length, sha: sha(stable(dict)) },
-    kinds: { parts: kindRows.length, by_category: byCat, mapping_sha: sha(kindRows.map(kindLine).join("\n")) },
+    kinds: { parts: kindRows.length, by_category: byCat, mapping_sha: sha(kindRows.map(kindLineKindsOnly).join("\n")) },
     mapper: { alias_file_sha: sha(aliasText), conflicts: conflicts.split("\n").filter(Boolean).length, conflicts_sha: sha(conflicts) },
     derived_fill_paths: { keys: Object.keys(DERIVED_FILL_PATHS).sort(), sha: sha(stable(DERIVED_FILL_PATHS)) },
     spec_bearing_classes: { classes, sha: sha(classes.join(",")) },
     denominators,
+    roles: {
+      rules: RULES.length,
+      rules_sha: sha(stable(roleRuleTable())),
+      axes,
+      axes_sha: sha(stable(axes)),
+      parts_with_axis: withAxis,
+      unresolved,
+      by_role: byRole,
+      // A row with no column hashes as "?" — distinct from "" (no role), so an old snapshot cannot hash like a new one.
+      mapping_sha: sha(kindRows.map((r) => [r.category, r.sku, r.deploy_role ?? "?"].join("\t")).join("\n")),
+    },
   };
 }
 

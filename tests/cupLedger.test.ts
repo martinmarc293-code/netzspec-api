@@ -12,6 +12,12 @@ import { kindQuestionSet, profileHash, LEDGER_KINDS, slotsAtNothingKnown as slot
 // device-noun (13 Sep 2026): the REAL detector and classifier, never a copy of either.
 import { DEVICE_NOUN_EXEMPT_KINDS, deviceNounFinding, namesADeviceNoun, ownPhrase } from "../src/core/deviceNoun.js";
 import { partKind, FALLBACK_KINDS } from "../src/core/partKind.js";
+// kind-layer infra (13 Sep 2026): layer 3 per role, R1 per role, gateR1 over the committed ledgers, and term 13.
+import { ROLE_DOMAINS, roleAxisOf, type Rule } from "../src/core/deployRole.js";
+import { PROFILES, type Requirement } from "../src/core/fieldSchema.js";
+import {
+  GRANULARITY_BASES, judgeTerm13, loadGranularityReference, measuredFor, staleExceptions, type GranularityReference, type Term13Input, type Term13Verdict,
+} from "../src/core/kindGranularity.js";
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -753,6 +759,213 @@ for (const f of files) {
     judge({ ...clean, facts3: 1 }, 3.0).some((m) => m.includes("3+ own facts")));
 }
 // end fallback-kinds ---------------------------------------------------------------------------
+
+// ==== kind-layer infra (13 Sep 2026): LAYER 3 PER ROLE, R1 PER ROLE, gateR1 OVER THE LEDGERS, TERM 13 =========
+//
+// A role is a discriminator of the question set exactly like the kind (src/core/deployRole.ts, cupLedger.kindQuestionSet
+// with a role). The ledger therefore carries, under every kind with a role axis, one block per role of the domain plus
+// `(unresolved)` — and three things can go wrong that no check above can see: a role block frozen from the CORE set
+// (the builder forgot to pass the role, so an `smb` switch is still counted as asked `altitude_max`), a kind whose slot
+// total is `parts × core` instead of the sum over its roles, and a role whose gate the role itself no longer asks.
+{
+  type Cup = { key: string; gate?: string[] };
+  type RoleBlock = { parts: number; slots_per_part_at_nothing_known: number; required_slots_at_nothing_known: number;
+    required_slots_stored: number; required: Cup[]; pending_until_gate_answered: { key: string; gate: string[] }[]; not_applicable_by_kind: string[];
+    optional: string[]; column_backed?: string[] };
+  type L3Kind = RoleBlock & Term13Input & { roles?: Record<string, RoleBlock>;
+    label_jaccard?: number | null; granularity_exception?: { basis: string } | null };
+  type L3Ledger = { category: string; kinds: Record<string, L3Kind> };
+  const UNRESOLVED = "(unresolved)";
+  const regen = (c: string) => `run npx tsx scripts/build-cup-ledger.mts --category ${c}`;
+
+  /** Every way a kind's layer-3 blocks can disagree with the live profile or with themselves. `axis` is injectable only
+   *  so the sabotage below drives THIS loop over a synthetic profile whose role deltas are real. */
+  function roleDrift(category: string, kind: string, lk: L3Kind, axis: Rule["kind"] | null = roleAxisOf(category, kind)): string[] {
+    const out: string[] = [];
+    if (!axis) {
+      if (lk.roles) out.push(`${kind}: carries a roles block but ${category}.${kind} has no role axis`);
+      if (lk.role_axis !== "none") out.push(`${kind}: role_axis is ${JSON.stringify(lk.role_axis)}, expected "none"`);
+      return out;
+    }
+    if (lk.role_axis !== "deploy_role") out.push(`${kind}: role_axis is ${JSON.stringify(lk.role_axis)}, but ${category}.${kind} has the ${axis} role axis`);
+    if (!lk.roles) { out.push(`${kind}: has the ${axis} role axis and no roles block`); return out; }
+    const want = [...ROLE_DOMAINS[axis], UNRESOLVED];
+    const have = Object.keys(lk.roles);
+    const extra = have.filter((r) => !want.includes(r)), missing = want.filter((r) => !have.includes(r));
+    if (extra.length) out.push(`${kind}: roles block has ${extra.join(", ")}, outside the ${axis} domain`);
+    if (missing.length) out.push(`${kind}: roles block lacks ${missing.join(", ")}`);
+    let parts = 0, slots = 0, stored = 0;
+    for (const role of have) {
+      const b = lk.roles[role];
+      parts += b.parts; slots += b.required_slots_at_nothing_known; stored += b.required_slots_stored;
+      if (!want.includes(role)) continue;
+      const q = kindQuestionSet(category, kind, role === UNRESOLVED ? null : role);
+      out.push(...drift(`${kind}[${role}]`, b, q));
+      const cb = [...(b.column_backed ?? [])].sort().join(", "), qcb = [...q.column_backed].sort().join(", ");
+      if (cb !== qcb) out.push(`${kind}[${role}].column_backed: ledger [${cb}], profile [${qcb}]`);
+      if (b.slots_per_part_at_nothing_known !== slotsOf(q)) out.push(`${kind}[${role}]: slots_per_part_at_nothing_known ${b.slots_per_part_at_nothing_known}, the profile asks ${slotsOf(q)}`);
+      if (b.required_slots_at_nothing_known !== b.parts * b.slots_per_part_at_nothing_known) {
+        out.push(`${kind}[${role}]: required_slots_at_nothing_known ${b.required_slots_at_nothing_known} != parts ${b.parts} × ${b.slots_per_part_at_nothing_known}`);
+      }
+    }
+    if (parts !== lk.parts) out.push(`${kind}: Σ role parts ${parts} != kind parts ${lk.parts}`);
+    if (slots !== lk.required_slots_at_nothing_known) out.push(`${kind}: Σ role required_slots_at_nothing_known ${slots} != kind ${lk.required_slots_at_nothing_known} — the kind total must be the sum over its roles`);
+    if (stored !== lk.required_slots_stored) out.push(`${kind}: Σ role required_slots_stored ${stored} != kind ${lk.required_slots_stored}`);
+    return out;
+  }
+
+  const ledgersL3: L3Ledger[] = files.map((f) => JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")) as L3Ledger);
+  // A LEDGER BUILT BEFORE THIS LAYER carries no `role_axis` anywhere. That is one finding per ledger, named, and never a
+  // silent pass: the per-kind checks below cannot run on it, so it is listed rather than skipped.
+  const predates = ledgersL3.filter((l) => !Object.values(l.kinds).some((k) => k.role_axis !== undefined)).map((l) => l.category);
+  let roleKinds = 0, roleBlocks = 0;
+  ledgersL3.forEach((led, i) => {
+    if (predates.includes(led.category)) return;
+    for (const [kind, lk] of Object.entries(led.kinds)) {
+      if (lk.roles) { roleKinds++; roleBlocks += Object.keys(lk.roles).length; }
+      const d = roleDrift(led.category, kind, lk);
+      check(`${files[i]}: ${kind} layer 3 matches the profile per role and sums to the kind`, d.length === 0, `${d.join("; ")} — ${regen(led.category)}`);
+    }
+  });
+  check("every committed ledger carries layer 3 and term 13 (a role_axis on its kinds)", predates.length === 0,
+    `built before the kind-layer infra, rebuild: ${predates.join(", ")}`);
+  lines.push(`    layer 3: ${roleKinds} role-bearing kinds, ${roleBlocks} role blocks compared with kindQuestionSet(category, kind, role) across ${ledgersL3.length - predates.length} of ${ledgersL3.length} ledgers (${predates.length} predate the layer: ${predates.join(", ") || "none"})`);
+
+  // ---- SABOTAGE on a synthetic profile with REAL role deltas (the live profiles have none until the category work lands).
+  // A role demotion (`altitude_max` not asked of smb) and a role addition (`latency` asked of datacenter), written exactly
+  // as the category brief prescribes, injected into PROFILES for this block only and removed after.
+  {
+    const SYN = "__layer3_sabotage__";
+    const req: Requirement = { kind: "req" };
+    (PROFILES as Record<string, Record<string, Requirement>>)[SYN] = {
+      weight: req, form_factor: req, series: req,
+      altitude_max: { kind: "cond", when: { all: [{ field: "kind", inList: ["switch"] }, { field: "deploy_role", notInList: ["smb"] }] }, elseOpt: true },
+      latency: { kind: "cond", when: { all: [{ field: "kind", inList: ["switch"] }, { field: "deploy_role", inList: ["datacenter"] }] }, elseOpt: true },
+      rack_units: { kind: "cond", when: { field: "form_factor", eq: "rack-19" } },
+    };
+    try {
+      const blockFrom = (q: KindQuestionSet, parts: number): RoleBlock => ({
+        parts, slots_per_part_at_nothing_known: slotsOf(q), required_slots_at_nothing_known: parts * slotsOf(q), required_slots_stored: parts * slotsOf(q),
+        required: q.required.map((key) => ({ key })), pending_until_gate_answered: q.pending, not_applicable_by_kind: q.not_applicable_by_kind,
+        optional: q.optional, column_backed: q.column_backed });
+      const core = kindQuestionSet(SYN, "switch");
+      check("CONTROL the synthetic core (unresolved role) is asked altitude_max and not latency",
+        core.required.includes("altitude_max") && !core.required.includes("latency"), core.required.join(","));
+      check("CONTROL the role reaches the question set: smb is NOT asked altitude_max, datacenter IS asked latency",
+        !kindQuestionSet(SYN, "switch", "smb").required.includes("altitude_max") && kindQuestionSet(SYN, "switch", "datacenter").required.includes("latency"));
+      const partsBy: Record<string, number> = { smb: 2, access: 1, "core-agg": 0, datacenter: 3, industrial: 0, [UNRESOLVED]: 1 };
+      const roles: Record<string, RoleBlock> = Object.fromEntries(Object.entries(partsBy)
+        .map(([r, n]) => [r, blockFrom(kindQuestionSet(SYN, "switch", r === UNRESOLVED ? null : r), n)]));
+      const good: L3Kind = { ...blockFrom(core, 7), role_axis: "deploy_role", roles,
+        required_slots_at_nothing_known: Object.values(roles).reduce((a, b) => a + b.required_slots_at_nothing_known, 0),
+        required_slots_stored: Object.values(roles).reduce((a, b) => a + b.required_slots_stored, 0) };
+      const rd = (lk: L3Kind, axis: Rule["kind"] | null = "switch") => roleDrift(SYN, "switch", lk, axis);
+      const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x)) as T;
+      check("CONTROL a faithful synthetic layer 3 shows no drift", rd(good).length === 0, rd(good).join("; "));
+      const coreFrozen = clone(good); coreFrozen.roles!.smb = blockFrom(core, 2);
+      check("SABOTAGE an smb block frozen from the CORE set (the role never passed) is caught, naming smb and altitude_max",
+        rd(coreFrozen).some((m) => m.includes("[smb]") && m.includes("altitude_max") && m.includes("no longer asks")), rd(coreFrozen).join("; "));
+      const lostAdd = clone(good); lostAdd.roles!.datacenter.required = lostAdd.roles!.datacenter.required.filter((c) => c.key !== "latency");
+      check("SABOTAGE a datacenter block that lost its role addition (latency) is caught",
+        rd(lostAdd).some((m) => m.includes("[datacenter]") && m.includes("latency") && m.includes("does not count")), rd(lostAdd).join("; "));
+      const coreTotal = clone(good); coreTotal.required_slots_at_nothing_known = 7 * slotsOf(core);
+      check("SABOTAGE a kind total of parts × core (not the sum over roles) is caught",
+        rd(coreTotal).some((m) => m.includes("Σ role required_slots_at_nothing_known")), rd(coreTotal).join("; "));
+      const noUnres = clone(good); delete noUnres.roles![UNRESOLVED];
+      check("SABOTAGE a roles block without (unresolved) is caught", rd(noUnres).some((m) => m.includes("lacks (unresolved)")), rd(noUnres).join("; "));
+      const stray = clone(good); stray.roles!.tor = blockFrom(core, 0);
+      check("SABOTAGE a role outside the domain is caught", rd(stray).some((m) => m.includes("tor") && m.includes("outside")), rd(stray).join("; "));
+      const noRoles = clone(good); delete noRoles.roles;
+      check("SABOTAGE a role-axis kind with no roles block is caught", rd(noRoles).some((m) => m.includes("no roles block")));
+      check("SABOTAGE a roles block on a kind with no role axis is caught", rd(good, null).some((m) => m.includes("no role axis")));
+      check("SABOTAGE a missing role_axis field is caught", rd({ ...good, role_axis: undefined }).some((m) => m.includes("role_axis")));
+    } finally {
+      delete (PROFILES as Record<string, Record<string, Requirement>>)[SYN];
+    }
+  }
+
+  // ---- R1 PER ROLE and gateR1 OVER THE COMMITTED LEDGERS live in tests/gateR1.test.ts (parent, 13 Sep 2026: one home for
+  // the pending-gate rule), beside the profile-level R1 scan they restate on the artifact.
+
+  // ---- TERM 13: THE GRANULARITY TEST (spec v2 §I.3) ------------------------------------------------------------------
+  const gref: GranularityReference = loadGranularityReference(process.cwd());
+  for (const [key, ex] of Object.entries(gref.exceptions)) {
+    check(`term 13 reference: ${key} names a known basis`, GRANULARITY_BASES.includes(ex.basis), String(ex.basis));
+    check(`term 13 reference: ${key} carries a reason`, typeof ex.reason === "string" && ex.reason.trim().length > 0);
+  }
+  check("term 13 reference: the four role-bearing kinds carry BOTH the before- and the after-split Jaccard",
+    ["switches.switch", "wireless.ap", "routers.enterprise", "collaboration-endpoints.phone"]
+      .every((k) => typeof gref.measured[k]?.label_jaccard === "number" && typeof gref.measured[k]?.label_jaccard_before_split === "number"));
+  const verdicts = new Map<string, Term13Verdict>();
+  const judged = new Set<string>();
+  const tally: Record<string, string[]> = {};
+  ledgersL3.forEach((led, i) => {
+    if (predates.includes(led.category)) return;
+    judged.add(led.category);
+    for (const [kind, lk] of Object.entries(led.kinds)) {
+      const key = `${led.category}.${kind}`;
+      const v = judgeTerm13(gref, led.category, kind, lk);
+      verdicts.set(key, v);
+      (tally[v.verdict] ??= []).push(key);
+      check(`${files[i]}: ${kind} passes term 13 (granularity)`, v.verdict !== "FAIL" && v.verdict !== "NO-FIELDS", `${v.detail} — ${regen(led.category)}, or record a checkable exception in data/reference/kind-granularity-2026-09-13.json`);
+      // The ledger COPIES the reference for its readers; a copy that disagrees with the source is a stale ledger.
+      const wantJ = measuredFor(gref, led.category, kind)?.label_jaccard ?? null;
+      check(`${files[i]}: ${kind} carries the reference's label_jaccard and exception basis`,
+        (lk.label_jaccard ?? null) === wantJ && (lk.granularity_exception?.basis ?? null) === (gref.exceptions[key]?.basis ?? null),
+        `ledger ${lk.label_jaccard} / ${lk.granularity_exception?.basis ?? null}, reference ${wantJ} / ${gref.exceptions[key]?.basis ?? null} — ${regen(led.category)}`);
+    }
+  });
+  const { stale, unjudged } = staleExceptions(gref, verdicts, judged);
+  check("term 13: no recorded exception is stale (every one still lands on a tripping kind with no axis and no passing Jaccard)", stale.length === 0,
+    `remove from the reference: ${stale.join(", ")}`);
+  const tripping = Object.entries(tally).filter(([v]) => v !== "not-tripped").reduce((a, [, ks]) => a + ks.length, 0);
+  const byBasis = [...verdicts].filter(([, v]) => v.verdict === "exception").reduce<Record<string, number>>((m, [, v]) => { m[v.basis!] = (m[v.basis!] ?? 0) + 1; return m; }, {});
+  lines.push(`    term 13: ${tripping} kinds trip the thresholds over ${judged.size} judged ledgers — role axis ${tally["role-axis"]?.length ?? 0}, measured Jaccard ${tally.jaccard?.length ?? 0}, `
+    + `checked exception ${tally.exception?.length ?? 0} ${JSON.stringify(byBasis)}, UNMEASURED ${tally.unmeasured?.length ?? 0} [${(tally.unmeasured ?? []).join(", ")}], FAIL ${tally.FAIL?.length ?? 0} [${(tally.FAIL ?? []).join(", ")}]`
+    + ` · ${unjudged.length} reference exceptions not judged (their category's ledger predates term 13)`);
+
+  // SABOTAGE on the judge the builder and this suite share: drop one kind's axis / exception and the check names it.
+  {
+    const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x)) as T;
+    const base = (o: Partial<Term13Input>): Term13Input => ({ parts: 0, share_of_category: { num: 0, den: 1000, pct: 0 }, series_count: 1, role_axis: "none",
+      slots_per_part_at_nothing_known: 6, required: [], pending_until_gate_answered: [], ...o });
+    const cpu = base({ parts: 2169, share_of_category: { num: 2169, den: 9594, pct: 22.6 }, series_count: 5, slots_per_part_at_nothing_known: 6 });
+    check("CONTROL servers cpu passes on its checked exception (measured-empty-groups)", judgeTerm13(gref, "servers-unified-computing", "cpu", cpu).verdict === "exception",
+      judgeTerm13(gref, "servers-unified-computing", "cpu", cpu).detail);
+    const noEx = clone(gref); delete noEx.exceptions["servers-unified-computing.cpu"];
+    const v1 = judgeTerm13(noEx, "servers-unified-computing", "cpu", cpu);
+    check("SABOTAGE drop servers cpu's exception: the check names it (FAIL, no recorded exception)", v1.verdict === "FAIL" && v1.detail.includes("no recorded granularity_exception") && v1.detail.includes("0.394"), v1.detail);
+    const sw = base({ parts: 4942, share_of_category: { num: 4942, den: 7430, pct: 66.5 }, series_count: 176, role_axis: "deploy_role", slots_per_part_at_nothing_known: 36 });
+    check("CONTROL switches.switch passes on its role axis", judgeTerm13(gref, "switches", "switch", sw).verdict === "role-axis");
+    const v2 = judgeTerm13(gref, "switches", "switch", { ...sw, role_axis: "none" });
+    check("SABOTAGE drop switches.switch's role axis: FAIL — its AFTER-split 0.537 does not excuse it, the before-split 0.413 is judged",
+      v2.verdict === "FAIL" && v2.detail.includes("0.413"), v2.detail);
+    const mod = base({ parts: 660, share_of_category: { num: 660, den: 5470, pct: 12.1 }, series_count: 27, slots_per_part_at_nothing_known: 2 });
+    check("CONTROL routers.module passes on asks-at-most-3-cups", judgeTerm13(gref, "routers", "module", mod).verdict === "exception");
+    const v3 = judgeTerm13(gref, "routers", "module", { ...mod, slots_per_part_at_nothing_known: 4 });
+    check("SABOTAGE routers.module asked a 4th cup: its exception's basis no longer holds and the check says so", v3.verdict === "FAIL" && v3.detail.includes("no longer holds"), v3.detail);
+    const noReason = clone(gref); noReason.exceptions["routers.module"].reason = " ";
+    check("SABOTAGE an exception with an empty reason fails", judgeTerm13(noReason, "routers", "module", mod).verdict === "FAIL");
+    const badBasis = clone(gref); (badBasis.exceptions["routers.module"] as { basis: string }).basis = "because";
+    check("SABOTAGE an exception with an unknown basis fails", judgeTerm13(badBasis, "routers", "module", mod).detail.includes("unknown basis"));
+    const srv = base({ parts: 2119, share_of_category: { num: 2119, den: 9594, pct: 22.1 }, series_count: 14, slots_per_part_at_nothing_known: 15,
+      required: [{ key: "form_factor" }], pending_until_gate_answered: [{ key: "rack_units", gate: ["form_factor"] }] });
+    check("CONTROL servers.server passes on gated-within-kind (rack_units pending on the required form_factor)", judgeTerm13(gref, "servers-unified-computing", "server", srv).verdict === "exception");
+    check("SABOTAGE servers.server with the form_factor gate gone: the basis no longer holds",
+      judgeTerm13(gref, "servers-unified-computing", "server", { ...srv, pending_until_gate_answered: [] }).verdict === "FAIL");
+    const plug = base({ parts: 1873, share_of_category: { num: 1873, den: 2107, pct: 88.9 }, series_count: 64, slots_per_part_at_nothing_known: 15 });
+    check("CONTROL transceiver.pluggable passes on its measured 0.509", judgeTerm13(gref, "transceiver", "pluggable", plug).verdict === "jaccard");
+    check("CONTROL a kind under every threshold is not tripped", judgeTerm13(gref, "switches", "fan", base({ parts: 199, series_count: 99 })).verdict === "not-tripped");
+    check("SABOTAGE share alone trips the test: 42% of a small category with nothing recorded is FAIL",judgeTerm13(gref, "meraki", "sensor", base({ parts: 50, share_of_category: { num: 50, den: 120, pct: 41.7 } })).verdict === "FAIL");
+    check("SABOTAGE a ledger kind without the term-13 fields is NO-FIELDS, never a pass",
+      judgeTerm13(gref, "switches", "switch", { ...sw, series_count: undefined }).verdict === "NO-FIELDS");
+    const st = staleExceptions(gref, new Map([["servers-unified-computing.cpu", { ...judgeTerm13(gref, "servers-unified-computing", "cpu", cpu), verdict: "not-tripped" as const }]]),
+      new Set(["servers-unified-computing"]));
+    check("SABOTAGE an exception whose kind stopped tripping is reported stale", st.stale.some((s) => s.startsWith("servers-unified-computing.cpu")), st.stale.join(", "));
+    check("SABOTAGE an exception on a kind absent from a judged ledger is reported stale", st.stale.some((s) => s.startsWith("servers-unified-computing.server (no such kind")));
+    check("CONTROL an exception whose category was not judged is UNJUDGED, not stale and not silently passed", st.unjudged.includes("routers.module") && !st.stale.some((s) => s.startsWith("routers.module")));
+  }
+}
 
 lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers; sabotage/control cases include the device-noun hard zero, its exemption justification and its detector refusals)`);
 console.log(lines.join("\n"));

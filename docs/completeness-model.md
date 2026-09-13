@@ -108,10 +108,41 @@ count, the would-refuse count, the inherited share.
 | `pct_arithmetic` | every object with `pct` has numeric `num` and `den`, `num ≤ den`, and `pct` follows |
 | `sort_order` | the three orders above, and `weakest_category` is the first category with held slots |
 | `unresolved_kind` | brand == Σ categories == Σ ledgers |
+| `roles_present` | a kind carries `roles` exactly when `roleAxisOf(category, kind)` is non-null, with every role of its domain and `(unresolved)`, each block naming its own `deploy_role`; a report built before layer 3 fails here by name |
+| `roles_partition` | per role-bearing kind, Σ roles == the kind for `parts` and every counter of the block (arranged, held ×3, filled ×9, defects, inherited); role blocks are also scopes of `arranged_partition`, `held_partition`, `filled_partition` and `denominators` |
 | `census_replay_parity` (build only) | the copied replay reproduces every committed census total |
 | `completeness_row_per_part` (build only) | no live hardware part lacks a completeness row |
 
-`tests/completeness.test.ts` re-runs the first thirteen on the committed file and drives each with a sabotage copy.
+`tests/completeness.test.ts` re-runs the first fifteen on the committed file and drives each with a sabotage copy (the
+role ones on a copy that carries roles blocks; see §4a).
+
+## 4a. Per role (layer 3, kind-layer infra 13 Sep 2026)
+
+For a kind with a role axis — `roleAxisOf(category, kind)` in `src/core/deployRole.ts`: `switches|switch`,
+`data-center-networking|switch`, `meraki|switch`, `wireless|ap`, `meraki|access-point`, `routers|enterprise` (and
+`routers|router` after the III.1 rename), `collaboration-endpoints|phone`, `unified-communications|phone` — the kind
+block carries `role_axis` (the rule axis: `switch | ap | router | phone`, `null` for every other kind) and
+`roles: { <role>: RoleBlock, …, "(unresolved)": RoleBlock }`, in domain order with `(unresolved)` last.
+
+| term | definition | code |
+|---|---|---|
+| **role of a part** | `deployRole(category, kind, sku, name)` with the derived kind — the call `recompute-completeness` makes to set `values.deploy_role`, so the role a part is scored under and the role it is reported under are one value | `build-completeness.mts` per-part loop |
+| **(unresolved)** | the role is null: no rule of the axis places the part. It is asked the kind's core (`kindQuestionSet(category, kind)`), and is never folded into the biggest role. `kind_issue_parts` counts those of them that hit an ISSUE rule (the row is not this kind at all: a licence, a line card, an accessory) | same |
+| **RoleBlock** | `{ deploy_role, parts, kind_issue_parts? }` + the kind's own `Block`: `hardware_parts`, `arranged`, `held`, `filled`, `defects`, `inherited_share` | `RoleBlock` in `src/api/queries/completeness.ts` |
+
+**The same definitions, by construction.** The role accumulator is appended to the per-part list of accumulators that
+the brand, the category and the kind already share, so every counter lands in the role by the very statement that
+lands it in the kind, and the block is built by the same `block()`. So for a role: *held* = spec-bearing document
+linked; *filled* = (filled + not_published) over the required slots of held parts (`filled.pct`); *not parsed* =
+`filled.not_parsed`; *would refuse* = `filled.would_refuse` (= `defects.would_refuse`); *inherited* =
+`inherited_share` over the filled slots in that role. Cups are not split per role (a kind's cup rows stay per kind).
+
+**Cross-checked at build and in the suite:** `roles_present` and `roles_partition` (§5). The build refuses to write a
+report whose roles do not sum to their kinds exactly.
+
+The `/coverage` board shows one indented sub-row per role under such a kind (parts, held, filled, not parsed, would
+refuse, inherited), `(unresolved)` last and highlighted when it holds more than 3% of the kind — spec v2 §III.4's
+null-share bound.
 
 ---
 

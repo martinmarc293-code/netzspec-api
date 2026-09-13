@@ -10,10 +10,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import Fastify from "fastify";
+import os from "node:os";
 import {
-  CHECKS, checkReport, pctOf, completenessVendors, readCompleteness, readCompletenessSince,
-  type CheckContext, type CheckName, type CompletenessReport, type LedgerLike,
+  CHECKS, checkReport, pctOf, completenessVendors, readCompleteness, readCompletenessSince, UNRESOLVED_ROLE,
+  type Block, type CheckContext, type CheckName, type CompletenessReport, type KindBlock, type LedgerLike, type RoleBlock,
 } from "../src/api/queries/completeness.js";
+import { ROLE_DOMAINS, roleAxisOf } from "../src/core/deployRole.js";
 import { completenessRoutes } from "../src/api/routes/completeness.js";
 import { registerErrorHandling } from "../src/api/errors.js";
 
@@ -44,6 +46,54 @@ const ledgersFor = (vendor: string): Record<string, LedgerLike> => {
   }
   return out;
 };
+
+// ---- LAYER 3 FIXTURE (kind-layer infra, 13 Sep 2026) -------------------------------------------------------------------
+// A report built before layer 3 has no roles blocks, so the role invariants can only be driven by a copy that has them.
+// `withRoles` gives every role-axis kind lacking a block a CONSISTENT split: the first role of the domain holds the kind
+// minus one part, `(unresolved)` holds that one part (held with no slots when the kind has a held part, else not held),
+// every other role is an empty block. Consistent means every partition, denominator and percentage holds inside each
+// role and the roles sum to the kind — so the untouched fixture must fail nothing, and each sabotage below breaks one thing.
+type Counters = { parts: number; asked: number; nothing: number; spec: number; eol: number; none: number; slots: number; filled: number;
+  notPub: number; notParsed: number; wr: number; notRendered: number; nhParts: number; nhSlots: number; nhFilled: number; wrNH: number;
+  cnr: number; ph: number; inh: number };
+const countersOf = (b: Block): Counters => ({ parts: b.hardware_parts, asked: b.arranged.asked, nothing: b.arranged.asked_nothing_fallback,
+  spec: b.held.spec_bearing, eol: b.held.eol_only, none: b.held.no_document, slots: b.filled.required_slots_held, filled: b.filled.filled,
+  notPub: b.filled.not_published, notParsed: b.filled.not_parsed, wr: b.filled.would_refuse, notRendered: b.filled.filled_not_rendered,
+  nhParts: b.filled.not_held_parts, nhSlots: b.filled.not_held_slots, nhFilled: b.filled.not_held_filled, wrNH: b.defects.would_refuse_not_held,
+  cnr: b.defects.could_not_replay, ph: b.defects.placeholders_stored, inh: b.inherited_share.inherited });
+const blockOf = (c: Counters): Block => ({
+  hardware_parts: c.parts,
+  arranged: { asked: c.asked, asked_nothing_fallback: c.nothing, ...pctOf(c.asked, c.parts) },
+  held: { spec_bearing: c.spec, eol_only: c.eol, no_document: c.none, ...pctOf(c.spec, c.parts) },
+  filled: { required_slots_held: c.slots, filled: c.filled, not_published: c.notPub, not_parsed: c.notParsed, would_refuse: c.wr,
+    filled_not_rendered: c.notRendered, not_held_parts: c.nhParts, not_held_slots: c.nhSlots, not_held_filled: c.nhFilled, ...pctOf(c.filled + c.notPub, c.slots) },
+  defects: { would_refuse: c.wr, would_refuse_not_held: c.wrNH, could_not_replay: c.cnr, placeholders_stored: c.ph },
+  inherited_share: { inherited: c.inh, filled: c.filled, ...pctOf(c.inh, c.filled) },
+});
+const ZERO: Counters = { parts: 0, asked: 0, nothing: 0, spec: 0, eol: 0, none: 0, slots: 0, filled: 0, notPub: 0, notParsed: 0, wr: 0,
+  notRendered: 0, nhParts: 0, nhSlots: 0, nhFilled: 0, wrNH: 0, cnr: 0, ph: 0, inh: 0 };
+const roleBlockOf = (role: string, c: Counters, extra: Partial<RoleBlock> = {}): RoleBlock => ({ deploy_role: role, parts: c.parts, ...blockOf(c), ...extra });
+function withRoles(r: CompletenessReport): { report: CompletenessReport; synthesized: number } {
+  const out = JSON.parse(JSON.stringify(r)) as CompletenessReport;
+  let synthesized = 0;
+  for (const c of out.categories) for (const k of c.kinds as KindBlock[]) {
+    const axis = roleAxisOf(c.category, k.kind);
+    if (!axis || k.roles) continue;
+    synthesized++;
+    const kc = countersOf(k);
+    const d: Counters = { ...ZERO };
+    if (kc.parts >= 2) {
+      d.parts = 1;
+      if (kc.asked > 0) d.asked = 1; else d.nothing = 1;
+      if (kc.spec > 0) d.spec = 1; else { d.nhParts = 1; if (kc.eol > 0) d.eol = 1; else d.none = 1; }
+    }
+    const main = Object.fromEntries(Object.entries(kc).map(([f, v]) => [f, v - d[f as keyof Counters]])) as Counters;
+    k.role_axis = axis;
+    k.roles = Object.fromEntries([...ROLE_DOMAINS[axis], UNRESOLVED_ROLE].map((role, i) => [role,
+      role === UNRESOLVED_ROLE ? roleBlockOf(role, d, { kind_issue_parts: 0 }) : roleBlockOf(role, i === 0 ? main : ZERO)]));
+  }
+  return { report: out, synthesized };
+}
 
 const FILL_PATHS = new Set(["seen", "derived", "seed-only", "none"]);
 const BLOCK_KEYS = ["hardware_parts", "arranged", "held", "filled", "defects", "inherited_share"];
@@ -98,13 +148,17 @@ for (const vendor of vendors) {
   }
 
   // ---- SABOTAGE: one broken copy per invariant, each must fail FOR THAT INVARIANT --------------------------------
-  check(`${vendor}: control — an untouched copy fails nothing`, failing(clone(r), clone(ctx)).length === 0, failing(clone(r), clone(ctx)).join(","));
+  // The copies are taken from the layer-3 fixture (the committed file itself once it carries roles), so every existing
+  // sabotage keeps asserting "caught by that invariant ALONE" on a report the role invariants also accept.
+  const { report: base, synthesized } = withRoles(r);
+  lines.push(`    ${vendor}: layer-3 sabotage base = ${synthesized === 0 ? "the committed report (it carries its own roles blocks)" : `the committed report with ${synthesized} role-axis kind(s) given a synthesized consistent split`}`);
+  check(`${vendor}: control — an untouched copy fails nothing`, failing(clone(base), clone(ctx)).length === 0, failing(clone(base), clone(ctx)).join(","));
   const catWith = (rr: CompletenessReport, pred: (k: CompletenessReport["categories"][number]["kinds"][number]) => boolean) => {
     for (const c of rr.categories) for (const k of c.kinds) if (pred(k)) return { c, k };
     throw new Error("no kind matches the sabotage predicate");
   };
   const sabotage = (target: CheckName, label: string, mutate: (rr: CompletenessReport, cc: CheckContext) => void, clean = false) => {
-    const rr = clone(r), cc = clone(ctx);
+    const rr = clone(base), cc = clone(ctx);
     mutate(rr, cc);
     const f = failing(rr, cc);
     check(`${vendor}: SABOTAGE ${label} is caught by ${target}`, f.includes(target), `failing: ${f.join(", ") || "nothing"}`);
@@ -172,6 +226,44 @@ for (const vendor of vendors) {
     cc.ledgers![rr.categories[0].category].totals.fallback.unresolved_kind.parts++;
   }, true);
 
+  // ---- layer 3 (kind-layer infra, 13 Sep 2026) -------------------------------------------------------------------------
+  const roleKind = (rr: CompletenessReport, pred: (k: KindBlock) => boolean = () => true) => {
+    for (const c of rr.categories) for (const k of c.kinds as KindBlock[]) if (k.roles && pred(k)) return { c, k, axis: roleAxisOf(c.category, k.kind)! };
+    throw new Error("no role-bearing kind matches the sabotage predicate");
+  };
+  const plainKind = (rr: CompletenessReport) => {
+    for (const c of rr.categories) for (const k of c.kinds as KindBlock[]) if (!roleAxisOf(c.category, k.kind) && k.parts > 0) return { c, k };
+    throw new Error("no kind without a role axis");
+  };
+  check(`${vendor}: the report holds role-bearing kinds to test (switch / ap / router / phone)`, (() => { try { roleKind(base); return true; } catch { return false; } })());
+  sabotage("roles_present", "a role-axis kind whose roles block is gone (a report built before layer 3)", (rr) => {
+    const { k } = roleKind(rr); delete k.roles;
+  }, true);
+  sabotage("roles_present", "a roles block missing one role of the domain", (rr) => {
+    // An EMPTY role, so the parts still sum and only the domain check can see the hole.
+    const hasEmptyDomainRole = (x: KindBlock) => (ROLE_DOMAINS[roleAxisOf(rr.categories.find((c) => c.kinds.includes(x))!.category, x.kind)!] ?? [])
+      .some((role) => x.roles![role]?.parts === 0);
+    const { k, axis } = roleKind(rr, hasEmptyDomainRole);
+    const empty = ROLE_DOMAINS[axis].find((role) => k.roles![role]?.parts === 0)!;
+    delete k.roles![empty];
+  }, true);
+  sabotage("roles_present", "a roles block on a kind that has no role axis", (rr) => {
+    const { k } = plainKind(rr);
+    const kb = countersOf(k);
+    k.roles = { access: roleBlockOf("access", kb) };
+  }, true);
+  sabotage("roles_partition", "a part counted in two roles (the unresolved part duplicated)", (rr) => {
+    const { k } = roleKind(rr, (x) => x.roles![UNRESOLVED_ROLE].parts > 0);
+    const u = k.roles![UNRESOLVED_ROLE];
+    k.roles![UNRESOLVED_ROLE] = roleBlockOf(UNRESOLVED_ROLE, Object.fromEntries(Object.entries(countersOf(u)).map(([f, v]) => [f, 2 * v])) as Counters, { kind_issue_parts: 0 });
+  }, true);
+  sabotage("roles_partition", "a role whose filled slot the kind does not count (moved to not_parsed inside the role only)", (rr) => {
+    const { k } = roleKind(rr, (x) => Object.values(x.roles!).some((b) => b.filled.filled > b.inherited_share.inherited));
+    const [role, b] = Object.entries(k.roles!).find(([, x]) => x.filled.filled > x.inherited_share.inherited)!;
+    const c = countersOf(b); c.filled--; c.notParsed++;
+    k.roles![role] = roleBlockOf(role, c, role === UNRESOLVED_ROLE ? { kind_issue_parts: b.kind_issue_parts } : {});
+  }, true);
+
   // ---- the since-window sidecar ------------------------------------------------------------------------------------
   const s = readCompletenessSince(vendor);
   if (s) {
@@ -204,6 +296,26 @@ for (const vendor of vendors) {
     check("?since= for another window is a 404 naming the built one", miss.status === 404 && String(miss.body?.error?.message).includes(String(s.since)), JSON.stringify(miss.body).slice(0, 200));
   }
   await app.close();
+
+  // THE ROUTE SERVES LAYER 3 AS THE FILE HOLDS IT: the layer-3 base written to a scratch directory, through the real route.
+  {
+    const fx = fs.mkdtempSync(path.join(os.tmpdir(), "completeness-roles-"));
+    try {
+      fs.writeFileSync(path.join(fx, `${vendor}.json`), JSON.stringify(base));
+      const app2 = Fastify();
+      registerErrorHandling(app2);
+      await app2.register(completenessRoutes, { dir: fx });
+      await app2.ready();
+      const { c, k } = roleKind(base);
+      const x = await app2.inject({ method: "GET", url: `/completeness/${vendor}/${c.category}` });
+      const served = x.statusCode === 200 ? (JSON.parse(x.body) as { category: { kinds: KindBlock[] } }).category.kinds.find((y) => y.kind === k.kind) : undefined;
+      check(`GET /completeness/${vendor}/${c.category} serves ${k.kind}'s roles block (${Object.keys(k.roles!).join(", ")}) exactly as the file holds it`,
+        x.statusCode === 200 && served?.role_axis === k.role_axis && JSON.stringify(served?.roles) === JSON.stringify(k.roles), `${x.statusCode}`);
+      await app2.close();
+    } finally {
+      fs.rmSync(fx, { recursive: true, force: true });
+    }
+  }
 }
 
 // Every invariant name the checker knows has a sabotage case in this file — so a new check cannot land untested.

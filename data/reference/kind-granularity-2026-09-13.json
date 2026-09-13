@@ -1,0 +1,847 @@
+{
+ "_about": "Term 13 (spec v2 §I.3, the granularity test) as data. `measured` = the label-Jaccard from III.0 item 2, copied from the raw file named in `source` (hand-read role variant for the four role-bearing kinds, before-split for the five others). `exceptions` = kinds that trip the thresholds with no role axis and no measured Jaccard >= 0.5, each with a BASIS that src/core/kindGranularity.ts checks against the ledger or the measurement; `unmeasured` checks nothing and is counted on every run. Read by scripts/build-cup-ledger.mts (copied into each ledger kind) and judged by tests/cupLedger.test.ts.",
+ "source": {
+  "file": "D:/tmp/kindlayer-III0/A/raw/item2-jaccard.v2.json",
+  "measured_at_commit": "ea74e31 (III.0 agent kindlayer-A)",
+  "generated_at": "2026-09-13T08:17:35.027Z",
+  "evidence": "per-document labels: the pipeline's own extractors re-run on the laptop cache copy (cisco_specs_deep.extract_document for cisco.com HTML, sources.meraki.extract for documentation.meraki.com), PDF labels from the PDF extractor's recorded output runs/extract/cisco-pdf-*.json; labels mapped with mapLabel(label, part.category); a part is evidenced for a cup when ANY readable held document linked to it through doc_parts prints a label mapping to one of the cup's keys (document-level). `share_attr` = stricter: only labels in the document's family-scope records or in the record of the part's own SKU. `share_facts` = held parts holding a current doc-sourced or inherited value fact under the key (facts-based, NOT label presence).",
+  "coverage": {
+   "live_cisco_hardware": 42367,
+   "held": 9865,
+   "readable_held": 9796,
+   "held_spec_docs": 997,
+   "doc_status": {
+    "vendor_datasheet_html|ok": 912,
+    "vendor_datasheet_pdf|ok": 60,
+    "vendor_page|ok": 7,
+    "vendor_datasheet_html|no_cache": 14,
+    "vendor_datasheet_pdf|pdf_no_extract_records": 4
+   },
+   "readable_docs_with_zero_labels": 32
+  },
+  "formula": "groups = parts.series (null -> first name token after 'Cisco'), kept when >= 1 readable held part; S_g = K keys evidenced by a label on any readable held part of g; mean = sum_{a<b} n_a n_b J(S_a,S_b) / sum n_a n_b; pairs with both sets empty skipped; fails when mean < 0.5",
+  "report": "docs/reports/kind-layer-III0-2026-09-13.md (item 2) and D:/tmp/kindlayer-III0/A/III0-2-jaccard.md"
+ },
+ "thresholds": {
+  "parts": 200,
+  "share_of_category_pct": 40,
+  "series": 100,
+  "label_jaccard": 0.5
+ },
+ "bases": {
+  "role-axis": "not an exception: the kind carries deploy_role (roleAxisOf)",
+  "asks-at-most-3-cups": "valid while the ledger kind's slots_per_part_at_nothing_known <= 3",
+  "unresolved-kind": "valid while the kind is in FALLBACK_KINDS",
+  "single-series": "valid while the ledger kind's series_count <= 1",
+  "measured-empty-groups": "valid while the measurement's primary mean < 0.5 and its drop-empty-groups mean >= 0.5",
+  "no-measurable-pair": "valid while the measurement has 0 pairs",
+  "gated-within-kind": "valid while some pending cup of the kind is gated on `gate` and `gate` is required of the kind",
+  "unmeasured": "checks nothing; counted and printed on every run"
+ },
+ "measured": {
+  "switches.switch": {
+   "source_entry": "switches.switch [hand-read]",
+   "label_jaccard": 0.537,
+   "label_jaccard_basis": "AFTER the role split, pooled within role, K_now union over readable held parts (hand-read roles, III.0 addendum item 3)",
+   "label_jaccard_before_split": 0.413,
+   "before_split": {
+    "k_now_union_readable_held_weights": {
+     "mean": 0.413,
+     "groups": 134,
+     "pairs": 8896,
+     "skipped_both_empty": 15
+    },
+    "k_now_union_all_part_weights": {
+     "mean": 0.404,
+     "groups": 134,
+     "pairs": 8896,
+     "skipped_both_empty": 15
+    },
+    "k_now_union_drop_empty_groups": {
+     "mean": 0.435,
+     "groups": 128,
+     "pairs": 8128,
+     "skipped_both_empty": 0
+    },
+    "k_now_majority": {
+     "mean": 0.363,
+     "groups": 134,
+     "pairs": 8890,
+     "skipped_both_empty": 21
+    },
+    "label_strings": {
+     "mean": 0.082,
+     "groups": 134,
+     "pairs": 8896,
+     "skipped_both_empty": 15
+    },
+    "k_proposed_union": {
+     "mean": 0.407,
+     "groups": 134,
+     "pairs": 8890,
+     "skipped_both_empty": 21
+    }
+   },
+   "after_split": {
+    "pooled_within_role": {
+     "now_union": 0.537,
+     "now_majority": 0.529,
+     "now_label_strings": 0.164,
+     "proposed_union": 0.544
+    },
+    "per_role": {
+     "smb": {
+      "parts": 1803,
+      "readable_held": 242,
+      "mean": 0.868,
+      "groups": 14,
+      "pairs": 91,
+      "skipped_both_empty": 0
+     },
+     "access": {
+      "parts": 1381,
+      "readable_held": 716,
+      "mean": 0.516,
+      "groups": 31,
+      "pairs": 464,
+      "skipped_both_empty": 1
+     },
+     "core-agg": {
+      "parts": 255,
+      "readable_held": 63,
+      "mean": 0.33,
+      "groups": 12,
+      "pairs": 66,
+      "skipped_both_empty": 0
+     },
+     "datacenter": {
+      "parts": 850,
+      "readable_held": 191,
+      "mean": 0.297,
+      "groups": 37,
+      "pairs": 665,
+      "skipped_both_empty": 1
+     },
+     "industrial": {
+      "parts": 211,
+      "readable_held": 200,
+      "mean": 0.556,
+      "groups": 25,
+      "pairs": 300,
+      "skipped_both_empty": 0
+     },
+     "(unresolved)": {
+      "parts": 1,
+      "readable_held": 0,
+      "mean": null,
+      "groups": 0,
+      "pairs": 0,
+      "skipped_both_empty": 0
+     }
+    }
+   }
+  },
+  "wireless.ap": {
+   "source_entry": "wireless.ap [hand-read]",
+   "label_jaccard": 0.674,
+   "label_jaccard_basis": "AFTER the role split, pooled within role, K_now union over readable held parts (hand-read roles, III.0 addendum item 3)",
+   "label_jaccard_before_split": 0.46,
+   "before_split": {
+    "k_now_union_readable_held_weights": {
+     "mean": 0.46,
+     "groups": 12,
+     "pairs": 65,
+     "skipped_both_empty": 1
+    },
+    "k_now_union_all_part_weights": {
+     "mean": 0.184,
+     "groups": 12,
+     "pairs": 65,
+     "skipped_both_empty": 1
+    },
+    "k_now_union_drop_empty_groups": {
+     "mean": 0.501,
+     "groups": 10,
+     "pairs": 45,
+     "skipped_both_empty": 0
+    },
+    "k_now_majority": {
+     "mean": 0.48,
+     "groups": 12,
+     "pairs": 65,
+     "skipped_both_empty": 1
+    },
+    "label_strings": {
+     "mean": 0.18,
+     "groups": 12,
+     "pairs": 65,
+     "skipped_both_empty": 1
+    },
+    "k_proposed_union": {
+     "mean": 0.481,
+     "groups": 12,
+     "pairs": 65,
+     "skipped_both_empty": 1
+    }
+   },
+   "after_split": {
+    "pooled_within_role": {
+     "now_union": 0.674,
+     "now_majority": 0.736,
+     "now_label_strings": 0.329,
+     "proposed_union": 0.707
+    },
+    "per_role": {
+     "indoor": {
+      "parts": 1928,
+      "readable_held": 19,
+      "mean": 0.841,
+      "groups": 4,
+      "pairs": 6,
+      "skipped_both_empty": 0
+     },
+     "outdoor": {
+      "parts": 309,
+      "readable_held": 8,
+      "mean": 0.167,
+      "groups": 2,
+      "pairs": 1,
+      "skipped_both_empty": 0
+     },
+     "industrial": {
+      "parts": 148,
+      "readable_held": 4,
+      "mean": 0,
+      "groups": 2,
+      "pairs": 1,
+      "skipped_both_empty": 0
+     },
+     "smb": {
+      "parts": 211,
+      "readable_held": 78,
+      "mean": 0.668,
+      "groups": 5,
+      "pairs": 10,
+      "skipped_both_empty": 0
+     },
+     "mesh-extender": {
+      "parts": 121,
+      "readable_held": 3,
+      "mean": null,
+      "groups": 1,
+      "pairs": 0,
+      "skipped_both_empty": 0
+     },
+     "(unresolved)": {
+      "parts": 0,
+      "readable_held": 0,
+      "mean": null,
+      "groups": 0,
+      "pairs": 0,
+      "skipped_both_empty": 0
+     }
+    }
+   }
+  },
+  "routers.enterprise": {
+   "source_entry": "routers.enterprise [hand-read]",
+   "also_names": [
+    "routers.router"
+   ],
+   "also_names_reason": "spec III.1 rename enterprise -> router: the same population under its library name",
+   "label_jaccard": 0.5,
+   "label_jaccard_basis": "AFTER the role split, pooled within role, K_now union over readable held parts (hand-read roles, III.0 addendum item 3)",
+   "label_jaccard_before_split": 0.424,
+   "before_split": {
+    "k_now_union_readable_held_weights": {
+     "mean": 0.424,
+     "groups": 37,
+     "pairs": 666,
+     "skipped_both_empty": 0
+    },
+    "k_now_union_all_part_weights": {
+     "mean": 0.42,
+     "groups": 37,
+     "pairs": 666,
+     "skipped_both_empty": 0
+    },
+    "k_now_union_drop_empty_groups": {
+     "mean": 0.435,
+     "groups": 36,
+     "pairs": 630,
+     "skipped_both_empty": 0
+    },
+    "k_now_majority": {
+     "mean": 0.154,
+     "groups": 37,
+     "pairs": 665,
+     "skipped_both_empty": 1
+    },
+    "label_strings": {
+     "mean": 0.078,
+     "groups": 37,
+     "pairs": 666,
+     "skipped_both_empty": 0
+    },
+    "k_proposed_union": {
+     "mean": 0.514,
+     "groups": 37,
+     "pairs": 666,
+     "skipped_both_empty": 0
+    }
+   },
+   "after_split": {
+    "pooled_within_role": {
+     "now_union": 0.5,
+     "now_majority": 0.148,
+     "now_label_strings": 0.118,
+     "proposed_union": 0.524
+    },
+    "per_role": {
+     "branch": {
+      "parts": 863,
+      "readable_held": 361,
+      "mean": 0.501,
+      "groups": 15,
+      "pairs": 105,
+      "skipped_both_empty": 0
+     },
+     "smb": {
+      "parts": 155,
+      "readable_held": 58,
+      "mean": null,
+      "groups": 1,
+      "pairs": 0,
+      "skipped_both_empty": 0
+     },
+     "edge": {
+      "parts": 114,
+      "readable_held": 11,
+      "mean": 0.088,
+      "groups": 3,
+      "pairs": 3,
+      "skipped_both_empty": 0
+     },
+     "industrial-iot": {
+      "parts": 104,
+      "readable_held": 38,
+      "mean": 0.465,
+      "groups": 9,
+      "pairs": 36,
+      "skipped_both_empty": 0
+     },
+     "(unresolved)": {
+      "parts": 2,
+      "readable_held": 2,
+      "mean": 1,
+      "groups": 2,
+      "pairs": 1,
+      "skipped_both_empty": 0
+     }
+    }
+   }
+  },
+  "collaboration-endpoints.phone": {
+   "source_entry": "collaboration-endpoints.phone [hand-read]",
+   "label_jaccard": 0.51,
+   "label_jaccard_basis": "AFTER the role split, pooled within role, K_now union over readable held parts (hand-read roles, III.0 addendum item 3)",
+   "label_jaccard_before_split": 0.615,
+   "before_split": {
+    "k_now_union_readable_held_weights": {
+     "mean": 0.615,
+     "groups": 12,
+     "pairs": 66,
+     "skipped_both_empty": 0
+    },
+    "k_now_union_all_part_weights": {
+     "mean": 0.639,
+     "groups": 12,
+     "pairs": 66,
+     "skipped_both_empty": 0
+    },
+    "k_now_union_drop_empty_groups": {
+     "mean": 0.615,
+     "groups": 12,
+     "pairs": 66,
+     "skipped_both_empty": 0
+    },
+    "k_now_majority": {
+     "mean": 0.621,
+     "groups": 12,
+     "pairs": 66,
+     "skipped_both_empty": 0
+    },
+    "label_strings": {
+     "mean": 0.224,
+     "groups": 12,
+     "pairs": 66,
+     "skipped_both_empty": 0
+    },
+    "k_proposed_union": {
+     "mean": 0.588,
+     "groups": 12,
+     "pairs": 66,
+     "skipped_both_empty": 0
+    }
+   },
+   "after_split": {
+    "pooled_within_role": {
+     "now_union": 0.51,
+     "now_majority": 0.492,
+     "now_label_strings": 0.203,
+     "proposed_union": 0.485
+    },
+    "per_role": {
+     "desk": {
+      "parts": 275,
+      "readable_held": 130,
+      "mean": 0.491,
+      "groups": 9,
+      "pairs": 36,
+      "skipped_both_empty": 0
+     },
+     "wireless": {
+      "parts": 79,
+      "readable_held": 47,
+      "mean": 0.854,
+      "groups": 4,
+      "pairs": 6,
+      "skipped_both_empty": 0
+     },
+     "dect": {
+      "parts": 24,
+      "readable_held": 24,
+      "mean": null,
+      "groups": 1,
+      "pairs": 0,
+      "skipped_both_empty": 0
+     },
+     "conference": {
+      "parts": 50,
+      "readable_held": 33,
+      "mean": 0.352,
+      "groups": 5,
+      "pairs": 10,
+      "skipped_both_empty": 0
+     },
+     "(unresolved)": {
+      "parts": 0,
+      "readable_held": 0,
+      "mean": null,
+      "groups": 0,
+      "pairs": 0,
+      "skipped_both_empty": 0
+     }
+    }
+   }
+  },
+  "transceiver.pluggable": {
+   "source_entry": "transceiver.pluggable",
+   "label_jaccard": 0.509,
+   "label_jaccard_basis": "BEFORE any split (no role axis proposed), K_now union over readable held parts",
+   "before_split": {
+    "k_now_union_readable_held_weights": {
+     "mean": 0.509,
+     "groups": 48,
+     "pairs": 1092,
+     "skipped_both_empty": 36
+    },
+    "k_now_union_all_part_weights": {
+     "mean": 0.5,
+     "groups": 48,
+     "pairs": 1092,
+     "skipped_both_empty": 36
+    },
+    "k_now_union_drop_empty_groups": {
+     "mean": 0.546,
+     "groups": 39,
+     "pairs": 741,
+     "skipped_both_empty": 0
+    },
+    "k_now_majority": {
+     "mean": 0.306,
+     "groups": 48,
+     "pairs": 1073,
+     "skipped_both_empty": 55
+    },
+    "label_strings": {
+     "mean": 0.221,
+     "groups": 48,
+     "pairs": 1092,
+     "skipped_both_empty": 36
+    },
+    "k_proposed_union": {
+     "mean": 0.634,
+     "groups": 48,
+     "pairs": 1122,
+     "skipped_both_empty": 6
+    }
+   }
+  },
+  "servers-unified-computing.server": {
+   "source_entry": "servers-unified-computing.server",
+   "label_jaccard": 0.464,
+   "label_jaccard_basis": "BEFORE any split (no role axis proposed), K_now union over readable held parts",
+   "before_split": {
+    "k_now_union_readable_held_weights": {
+     "mean": 0.464,
+     "groups": 10,
+     "pairs": 45,
+     "skipped_both_empty": 0
+    },
+    "k_now_union_all_part_weights": {
+     "mean": 0.498,
+     "groups": 10,
+     "pairs": 45,
+     "skipped_both_empty": 0
+    },
+    "k_now_union_drop_empty_groups": {
+     "mean": 0.464,
+     "groups": 10,
+     "pairs": 45,
+     "skipped_both_empty": 0
+    },
+    "k_now_majority": {
+     "mean": 0.253,
+     "groups": 10,
+     "pairs": 45,
+     "skipped_both_empty": 0
+    },
+    "label_strings": {
+     "mean": 0.096,
+     "groups": 10,
+     "pairs": 45,
+     "skipped_both_empty": 0
+    },
+    "k_proposed_union": {
+     "mean": 0.328,
+     "groups": 10,
+     "pairs": 45,
+     "skipped_both_empty": 0
+    }
+   }
+  },
+  "servers-unified-computing.cpu": {
+   "source_entry": "servers-unified-computing.cpu",
+   "label_jaccard": 0.394,
+   "label_jaccard_basis": "BEFORE any split (no role axis proposed), K_now union over readable held parts",
+   "before_split": {
+    "k_now_union_readable_held_weights": {
+     "mean": 0.394,
+     "groups": 3,
+     "pairs": 3,
+     "skipped_both_empty": 0
+    },
+    "k_now_union_all_part_weights": {
+     "mean": 0.2,
+     "groups": 3,
+     "pairs": 3,
+     "skipped_both_empty": 0
+    },
+    "k_now_union_drop_empty_groups": {
+     "mean": 0.833,
+     "groups": 2,
+     "pairs": 1,
+     "skipped_both_empty": 0
+    },
+    "k_now_majority": {
+     "mean": 0.473,
+     "groups": 3,
+     "pairs": 3,
+     "skipped_both_empty": 0
+    },
+    "label_strings": {
+     "mean": 0.315,
+     "groups": 3,
+     "pairs": 3,
+     "skipped_both_empty": 0
+    },
+    "k_proposed_union": {
+     "mean": 0.394,
+     "groups": 3,
+     "pairs": 3,
+     "skipped_both_empty": 0
+    }
+   }
+  },
+  "servers-unified-computing.drive": {
+   "source_entry": "servers-unified-computing.drive",
+   "label_jaccard": 0.657,
+   "label_jaccard_basis": "BEFORE any split (no role axis proposed), K_now union over readable held parts",
+   "before_split": {
+    "k_now_union_readable_held_weights": {
+     "mean": 0.657,
+     "groups": 3,
+     "pairs": 3,
+     "skipped_both_empty": 0
+    },
+    "k_now_union_all_part_weights": {
+     "mean": 0.817,
+     "groups": 3,
+     "pairs": 3,
+     "skipped_both_empty": 0
+    },
+    "k_now_union_drop_empty_groups": {
+     "mean": 0.657,
+     "groups": 3,
+     "pairs": 3,
+     "skipped_both_empty": 0
+    },
+    "k_now_majority": {
+     "mean": 0.591,
+     "groups": 3,
+     "pairs": 3,
+     "skipped_both_empty": 0
+    },
+    "label_strings": {
+     "mean": 0.611,
+     "groups": 3,
+     "pairs": 3,
+     "skipped_both_empty": 0
+    },
+    "k_proposed_union": {
+     "mean": 0.657,
+     "groups": 3,
+     "pairs": 3,
+     "skipped_both_empty": 0
+    }
+   }
+  },
+  "video.transmitter": {
+   "source_entry": "video.transmitter",
+   "label_jaccard": null,
+   "label_jaccard_basis": "BEFORE any split (no role axis proposed), K_now union over readable held parts",
+   "before_split": {
+    "k_now_union_readable_held_weights": {
+     "mean": null,
+     "groups": 1,
+     "pairs": 0,
+     "skipped_both_empty": 0
+    },
+    "k_now_union_all_part_weights": {
+     "mean": null,
+     "groups": 1,
+     "pairs": 0,
+     "skipped_both_empty": 0
+    },
+    "k_now_union_drop_empty_groups": {
+     "mean": null,
+     "groups": 1,
+     "pairs": 0,
+     "skipped_both_empty": 0
+    },
+    "k_now_majority": {
+     "mean": null,
+     "groups": 1,
+     "pairs": 0,
+     "skipped_both_empty": 0
+    },
+    "label_strings": {
+     "mean": null,
+     "groups": 1,
+     "pairs": 0,
+     "skipped_both_empty": 0
+    },
+    "k_proposed_union": {
+     "mean": null,
+     "groups": 1,
+     "pairs": 0,
+     "skipped_both_empty": 0
+    }
+   }
+  }
+ },
+ "exceptions": {
+  "servers-unified-computing.cpu": {
+   "basis": "measured-empty-groups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "measured 0.394 over 3 series groups; with the group that holds no readable label in K dropped it is 0.833 — the failure is a series with no evidence (acquisition), not two row shapes"
+  },
+  "servers-unified-computing.server": {
+   "basis": "gated-within-kind",
+   "gate": "form_factor",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "measured 0.464 (0.498 all-part weights); spec I.3 names its form_factor gate as the split that already separates rack from blade rows — rack_units is pending on form_factor"
+  },
+  "video.transmitter": {
+   "basis": "no-measurable-pair",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "only 1 of its series groups holds readable held evidence (Prisma II Products, 89 readable of 497): the Jaccard has no pair and cannot fail or pass"
+  },
+  "servers-unified-computing.unknown": {
+   "basis": "unresolved-kind",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "a fallback kind is not a population; the fallback census (totals.fallback) governs it"
+  },
+  "servers-unified-computing.accessory": {
+   "basis": "unresolved-kind",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "a fallback kind is not a population; the fallback census (totals.fallback) governs it"
+  },
+  "video.unknown": {
+   "basis": "unresolved-kind",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "a fallback kind is not a population; the fallback census (totals.fallback) governs it"
+  },
+  "collaboration-endpoints.accessory": {
+   "basis": "unresolved-kind",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "a fallback kind is not a population; the fallback census (totals.fallback) governs it"
+  },
+  "hyperconverged-systems.cpu": {
+   "basis": "single-series",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "one series group: rule 2's test has no second group to compare"
+  },
+  "hyperconverged-systems.drive": {
+   "basis": "single-series",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "one series group: rule 2's test has no second group to compare"
+  },
+  "routers.module": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "routers.mechanical": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "interfaces-modules.interface": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 3 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "servers-unified-computing.memory": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 3 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "collaboration-endpoints.mechanical": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "switches.mechanical": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "servers-unified-computing.mechanical": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "servers-unified-computing.bundle": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 1 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "servers-unified-computing.nic": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "collaboration-endpoints.cable": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "optical-networking.mux": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "collaboration-endpoints.power-cord": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "routers.cable": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "hyperconverged-infrastructure.drive": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 3 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "security.mechanical": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "video.plug-in": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 1 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "switches.fan": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "conferencing.server-component": {
+   "basis": "asks-at-most-3-cups",
+   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
+   "reason": "asks 1 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially"
+  },
+  "video.node": {
+   "basis": "unmeasured",
+   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
+   "reason": "trips term 13 on parts alone (534 parts, 2 series groups, 6 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
+  },
+  "routers.linecard": {
+   "basis": "unmeasured",
+   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
+   "reason": "trips term 13 on parts alone (519 parts, 8 series groups, 4 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
+  },
+  "switches.power": {
+   "basis": "unmeasured",
+   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
+   "reason": "trips term 13 on parts alone (476 parts, 40 series groups, 4 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
+  },
+  "switches.linecard": {
+   "basis": "unmeasured",
+   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
+   "reason": "trips term 13 on parts alone (456 parts, 16 series groups, 6 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
+  },
+  "security.firewall": {
+   "basis": "unmeasured",
+   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
+   "reason": "trips term 13 on parts alone (450 parts, 12 series groups, 16 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
+  },
+  "routers.power": {
+   "basis": "unmeasured",
+   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
+   "reason": "trips term 13 on parts alone (360 parts, 25 series groups, 4 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
+  },
+  "video.system": {
+   "basis": "unmeasured",
+   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
+   "reason": "trips term 13 on parts alone (291 parts, 4 series groups, 6 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
+  },
+  "collaboration-endpoints.video-device": {
+   "basis": "unmeasured",
+   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
+   "reason": "trips term 13 on parts alone (288 parts, 5 series groups, 14 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
+  },
+  "routers.sp-core": {
+   "basis": "unmeasured",
+   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
+   "reason": "trips term 13 on parts alone (264 parts, 16 series groups, 19 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
+  },
+  "optical-networking.linecard": {
+   "basis": "unmeasured",
+   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
+   "reason": "trips term 13 on parts alone (256 parts, 7 series groups, 4 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
+  },
+  "collaboration-endpoints.video-codec": {
+   "basis": "unmeasured",
+   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
+   "reason": "trips term 13 on parts alone (242 parts, 8 series groups, 13 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
+  }
+ }
+}

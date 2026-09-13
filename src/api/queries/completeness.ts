@@ -15,6 +15,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../../config.js";
+import { ROLE_DOMAINS, roleAxisOf } from "../../core/deployRole.js";
+
+/** The role key for a part no deployRole rule places (spec v2 §III.2: "counted under role: unresolved"). */
+export const UNRESOLVED_ROLE = "(unresolved)";
 
 export const COMPLETENESS_DIR = path.join(REPO_ROOT, "data", "completeness");
 /** A vendor report is `<vendor>.json`; the since-window sidecar is `<vendor>.since.json` and is not a vendor. */
@@ -76,8 +80,22 @@ export type CupRow = {
   taps: string[];
 };
 
+/**
+ * LAYER 3 (kind-layer infra, 13 Sep 2026): one block per `deploy_role` of a kind that has a role axis, computed by the
+ * build with the SAME accumulator and the SAME `block()` as the kind itself, so every definition of the kind block is
+ * the role block's definition too: `held` (spec-bearing / eol-only / no-document), `filled` over the required slots of
+ * held parts (with `not_parsed`, `would_refuse`, `not_held_*` inside it), `defects`, `inherited_share`. The key
+ * `(unresolved)` holds the parts no deployRole rule places (asked the kind's core); `kind_issue_parts` of them hit a
+ * rule saying the row is not this kind at all. Cross-check `roles_partition` asserts the roles sum to the kind exactly.
+ */
+export type RoleBlock = Block & { deploy_role: string; parts: number; kind_issue_parts?: number };
+
 export type KindBlock = Block & {
   kind: string; parts: number; resolved: boolean; asked_nothing: boolean; cups: CupRow[];
+  /** the rule axis of deployRole.ts (switch | ap | router | phone), or null: a kind with no role axis */
+  role_axis?: string | null;
+  /** present exactly when role_axis is non-null: every role of the domain, then `(unresolved)` */
+  roles?: Record<string, RoleBlock>;
 };
 export type CategoryBlock = Block & {
   category: string; profile_hash: string | null; ledger_built_on_commit: string | null;
@@ -139,6 +157,9 @@ export const CHECKS = [
   "pct_arithmetic",
   "sort_order",
   "unresolved_kind",
+  // kind-layer infra (13 Sep 2026): layer 3 in the report.
+  "roles_present",
+  "roles_partition",
 ] as const;
 export type CheckName = (typeof CHECKS)[number];
 
@@ -153,7 +174,9 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
   const scopes: Scoped[] = [
     { label: "brand", b: r.brand },
     ...cats.flatMap((c) => [{ label: c.category, b: c as Block },
-      ...(c.kinds ?? []).map((k) => ({ label: `${c.category}.${k.kind}`, b: k as Block }))]),
+      ...(c.kinds ?? []).flatMap((k) => [{ label: `${c.category}.${k.kind}`, b: k as Block },
+        // A role block is a scope like any other: every partition and denominator below holds inside it too.
+        ...Object.entries(k.roles ?? {}).map(([role, rb]) => ({ label: `${c.category}.${k.kind}[${role}]`, b: rb as Block }))])]),
   ];
 
   // hardware_parts: brand == Σ categories == Σ kinds per category == ledgers == the live count
@@ -368,6 +391,56 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
     if (own !== c.unresolved_kind_parts) fail("unresolved_kind", `${c.category}: unresolved_kind_parts ${c.unresolved_kind_parts} != Σ unresolved kinds ${own}`);
     const led = ctx.ledgers?.[c.category];
     if (led && led.totals.fallback.unresolved_kind.parts !== c.unresolved_kind_parts) fail("unresolved_kind", `${c.category}: report ${c.unresolved_kind_parts} != ledger ${led.totals.fallback.unresolved_kind.parts}`);
+  }
+
+  // roles_present: a kind carries a roles block EXACTLY when deployRole.ts gives it a role axis, with every role of the
+  // domain and `(unresolved)`. A report built before layer 3 fails here by name: it cannot print per-role numbers, and
+  // spec v2 §III.4 requires them for the role-bearing kinds — a missing block is the defect, never a pass.
+  run("roles_present");
+  for (const c of cats) for (const k of c.kinds) {
+    const axis = roleAxisOf(c.category, k.kind);
+    const label = `${c.category}.${k.kind}`;
+    if (!axis) {
+      if (k.roles !== undefined) fail("roles_present", `${label}: a roles block on a kind with no role axis`);
+      if (k.role_axis !== undefined && k.role_axis !== null) fail("roles_present", `${label}: role_axis ${k.role_axis} on a kind with no role axis`);
+      continue;
+    }
+    if (!k.roles) { fail("roles_present", `${label}: has the ${axis} role axis and no roles block — rebuild the report`); continue; }
+    if (k.role_axis !== axis) fail("roles_present", `${label}: role_axis ${String(k.role_axis)} != ${axis}`);
+    const want = [...ROLE_DOMAINS[axis], UNRESOLVED_ROLE];
+    const have = Object.keys(k.roles);
+    const missing = want.filter((r) => !have.includes(r)), extra = have.filter((r) => !want.includes(r));
+    if (missing.length) fail("roles_present", `${label}: roles block lacks ${missing.join(", ")}`);
+    if (extra.length) fail("roles_present", `${label}: roles outside the ${axis} domain: ${extra.join(", ")}`);
+    for (const [role, rb] of Object.entries(k.roles)) if (rb.deploy_role !== role) fail("roles_present", `${label}[${role}]: block names deploy_role ${rb.deploy_role}`);
+  }
+
+  // roles_partition: the role blocks of a kind SUM to the kind block, counter by counter, so a part counted in no role or
+  // in two cannot hide. Every counter the kind block carries is summed; the percentages follow from them (pct_arithmetic).
+  run("roles_partition");
+  const ROLE_COUNTERS: [string, (b: Block) => number][] = [
+    ["hardware_parts", (b) => b.hardware_parts],
+    ["arranged.asked", (b) => b.arranged.asked], ["arranged.asked_nothing_fallback", (b) => b.arranged.asked_nothing_fallback],
+    ["held.spec_bearing", (b) => b.held.spec_bearing], ["held.eol_only", (b) => b.held.eol_only], ["held.no_document", (b) => b.held.no_document],
+    ["filled.required_slots_held", (b) => b.filled.required_slots_held], ["filled.filled", (b) => b.filled.filled],
+    ["filled.not_published", (b) => b.filled.not_published], ["filled.not_parsed", (b) => b.filled.not_parsed],
+    ["filled.would_refuse", (b) => b.filled.would_refuse], ["filled.filled_not_rendered", (b) => b.filled.filled_not_rendered],
+    ["filled.not_held_parts", (b) => b.filled.not_held_parts], ["filled.not_held_slots", (b) => b.filled.not_held_slots],
+    ["filled.not_held_filled", (b) => b.filled.not_held_filled],
+    ["defects.would_refuse_not_held", (b) => b.defects.would_refuse_not_held], ["defects.could_not_replay", (b) => b.defects.could_not_replay],
+    ["defects.placeholders_stored", (b) => b.defects.placeholders_stored],
+    ["inherited_share.inherited", (b) => b.inherited_share.inherited],
+  ];
+  for (const c of cats) for (const k of c.kinds) {
+    if (!k.roles) continue;
+    const rbs = Object.entries(k.roles);
+    for (const [role, rb] of rbs) if (rb.parts !== rb.hardware_parts) fail("roles_partition", `${c.category}.${k.kind}[${role}]: parts ${rb.parts} != hardware_parts ${rb.hardware_parts}`);
+    const parts = sum(rbs, ([, rb]) => rb.parts);
+    if (parts !== k.parts) fail("roles_partition", `${c.category}.${k.kind}: Σ role parts ${parts} != kind parts ${k.parts}`);
+    for (const [name, get] of ROLE_COUNTERS) {
+      const v = sum(rbs, ([, rb]) => get(rb));
+      if (v !== get(k)) fail("roles_partition", `${c.category}.${k.kind}: Σ roles ${name} ${v} != kind ${get(k)}`);
+    }
   }
 
   return CHECKS.map((name) => {

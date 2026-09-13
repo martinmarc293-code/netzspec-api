@@ -41,9 +41,12 @@ import { FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
 import { normalizeField, NORM_VERSION } from "../src/core/specNormalize.js";
 import { SPEC_BEARING } from "../src/core/docClass.js";
 import {
-  checkReport, pctOf, type Block, type CategoryBlock, type CheckContext, type CompletenessReport, type CrossCheck,
-  type CupRow, type KindBlock, type LedgerLike,
+  checkReport, pctOf, UNRESOLVED_ROLE, type Block, type CategoryBlock, type CheckContext, type CompletenessReport, type CrossCheck,
+  type CupRow, type KindBlock, type LedgerLike, type RoleBlock,
 } from "../src/api/queries/completeness.js";
+// kind-layer infra (13 Sep 2026): layer 3. The role of a part is the one call recompute-completeness, the ledger builder
+// and the API make (deployRole with the derived kind and the name); a null role is `(unresolved)`, never the biggest role.
+import { deployRole, deployRoleRule, roleAxisOf, ROLE_DOMAINS } from "../src/core/deployRole.js";
 
 const t0 = Date.now();
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
@@ -248,6 +251,8 @@ async function main(): Promise<void> {
   const brandAcc = newAcc();
   const catAcc = new Map<string, Acc>();
   const kindAcc = new Map<string, Acc>();               // `${category}|${kind}`
+  const roleAcc = new Map<string, Acc>();               // `${category}|${kind}|${role or (unresolved)}` — kinds with a role axis only
+  const roleIssue = new Map<string, number>();          // same key: parts whose rule says the row is not this kind
   const cupAcc = new Map<string, CupAcc>();             // `${category}|${kind}|${key}`
   const pendingReclass = new Map<string, number>();
   const notHeldByClass = new Map<string, number>();
@@ -277,6 +282,18 @@ async function main(): Promise<void> {
     kindOf.set(p.id, { category: p.category, kind, held });
     const accs = [brandAcc, catAcc.get(p.category) ?? newAcc(), kindAcc.get(`${p.category}|${kind}`) ?? newAcc()];
     catAcc.set(p.category, accs[1]); kindAcc.set(`${p.category}|${kind}`, accs[2]);
+    // LAYER 3: the role accumulator joins `accs`, so every counter below lands in it by the very statement that lands it
+    // in the kind — the same definitions by construction, not by a second implementation.
+    const axis = roleAxisOf(p.category, kind);
+    if (axis) {
+      const role = deployRole(p.category, kind, p.sku, p.name);
+      if (role !== null && !ROLE_DOMAINS[axis].includes(role)) throw new Error(`deployRole gave ${p.sku} role "${role}", outside the ${axis} domain`);
+      const rk = `${p.category}|${kind}|${role ?? UNRESOLVED_ROLE}`;
+      const ra = roleAcc.get(rk) ?? newAcc();
+      roleAcc.set(rk, ra);
+      accs.push(ra);
+      if (role === null && deployRoleRule(axis, p.sku, p.name).issue !== null) roleIssue.set(rk, (roleIssue.get(rk) ?? 0) + 1);
+    }
     const nothing = askedNothing(p.category, kind);
     if (p.required_fields === null) noCompleteness.push(p.sku);
     const required = p.required_fields ?? [];
@@ -369,7 +386,13 @@ async function main(): Promise<void> {
       }).sort((x, y) => y.not_parsed - x.not_parsed || y.asked - x.asked || x.key.localeCompare(y.key));
       const nothing = askedNothing(category, kind);
       if (nothing && !isUnresolved(kind)) askedNothingNamed.push(`${category}.${kind} (${ka.parts})`);
-      kinds.push({ kind, parts: ka.parts, resolved: !isUnresolved(kind), asked_nothing: nothing, ...block(ka), cups });
+      const axis = roleAxisOf(category, kind);
+      const roles: Record<string, RoleBlock> | undefined = axis ? Object.fromEntries([...ROLE_DOMAINS[axis], UNRESOLVED_ROLE].map((role) => {
+        const ra = roleAcc.get(`${category}|${kind}|${role}`) ?? newAcc();
+        return [role, { deploy_role: role, parts: ra.parts, ...(role === UNRESOLVED_ROLE ? { kind_issue_parts: roleIssue.get(`${category}|${kind}|${role}`) ?? 0 } : {}), ...block(ra) }];
+      })) : undefined;
+      kinds.push({ kind, parts: ka.parts, resolved: !isUnresolved(kind), asked_nothing: nothing, ...block(ka), cups,
+        role_axis: axis, ...(roles ? { roles } : {}) });
     }
     kinds.sort((x, y) => y.parts - x.parts || x.kind.localeCompare(y.kind));
     categories.push({

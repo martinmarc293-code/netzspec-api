@@ -37,7 +37,12 @@
 //                   12 Sep 2026: 0 of 42,450 live Cisco hardware rows have `series` NULL, so the
 //                   11 security `appliance` cups and wireless `wlc.router_throughput` gated on it
 //                   are answerable today. Asserted below so "fragile" cannot quietly become "dead".
+import fs from "node:fs";
+import path from "node:path";
 import { PROFILES, COLUMN_BACKED, requirementFor, gateFields } from "../src/core/fieldSchema.js";
+// kind-layer infra (13 Sep 2026): R1 per role and §8 gateR1 over the committed ledgers (bottom of this file).
+import { kindQuestionSet, LEDGER_KINDS } from "../src/core/cupLedger.js";
+import { ROLE_DOMAINS, roleAxisOf } from "../src/core/deployRole.js";
 
 let pass = 0;
 const misses: string[] = [];
@@ -145,23 +150,30 @@ const na: Req = { kind: "na" };
 
 check("CONTROL a cond gated on a REQUIRED cup passes",
   r1Violations(P({ rack_units: { kind: "cond", when: { field: "form_factor", eq: "rack-19" } }, form_factor: req }), "rack_units").length === 0);
+// kind-layer infra (13 Sep 2026): these sabotage cases used `deploy_role` as THE optional gate. Since 0e22f85 `deploy_role`
+// is column-backed (derived per part by src/core/deployRole.ts), so r1Violations exempts it and the three cases stopped
+// failing — two sabotages that could no longer fail, measured red on 0e22f85 ("gate R1: 19 passed, 2 missed"). The shape
+// is unchanged; the gate is now `uplink_modular`, the header's third real instance (an optional boolean, 0 facts, not
+// column-backed). The exemption of `deploy_role` itself is pinned as a CONTROL below.
 check("SABOTAGE a cond gated on an OPTIONAL cup is refused, naming the gate",
-  r1Violations(P({ ip_rating: { kind: "cond", when: { field: "deploy_role", eq: "industrial" } }, deploy_role: opt }), "ip_rating").join() === "deploy_role");
+  r1Violations(P({ ip_rating: { kind: "cond", when: { field: "uplink_modular", eq: true } }, uplink_modular: opt }), "ip_rating").join() === "uplink_modular");
 check("SABOTAGE a cond gated on a cup the profile marks `na` is refused",
   r1Violations(P({ x: { kind: "cond", when: { field: "g", eq: 1 } }, g: na }), "x").join() === "g");
 check("SABOTAGE a cond gated on a cup the profile does not mention at all is refused",
   r1Violations(P({ x: { kind: "cond", when: { field: "ghost", eq: 1 } } }), "x").join() === "ghost");
 check("SABOTAGE the AIRFLOW shape — one good branch beside an optional one — is still refused",
   r1Violations(P({
-    airflow: { kind: "cond", when: { any: [{ field: "kind", inList: ["fan"] }, { field: "deploy_role", inList: ["core"] }] } },
-    deploy_role: opt,
-  }), "airflow").join() === "deploy_role",
+    airflow: { kind: "cond", when: { any: [{ field: "kind", inList: ["fan"] }, { field: "uplink_modular", eq: true }] } },
+    uplink_modular: opt,
+  }), "airflow").join() === "uplink_modular",
   "an `any` with one answerable branch still closes for every part the answerable branch misses");
 check("elseOpt rescues exactly that shape, because the unmet case is `opt` and nothing closes",
   r1Violations(P({
-    airflow: { kind: "cond", when: { field: "deploy_role", inList: ["core"] }, elseOpt: true },
-    deploy_role: opt,
+    airflow: { kind: "cond", when: { field: "uplink_modular", eq: true }, elseOpt: true },
+    uplink_modular: opt,
   }), "airflow").length === 0);
+check("CONTROL a gate on the column-backed, derived `deploy_role` passes (kind-layer, 13 Sep 2026: a role delta is a gate on it)",
+  COLUMN_BACKED.has("deploy_role") && r1Violations(P({ x: { kind: "cond", when: { field: "deploy_role", inList: ["smb"] } }, deploy_role: opt }), "x").length === 0);
 check("CONTROL a gate on `kind` passes — derived for every part, never absent",
   r1Violations(P({ x: { kind: "cond", when: { field: "kind", inList: ["switch"] } } }), "x").length === 0);
 check("CONTROL a gate on the column-backed `series` passes",
@@ -174,7 +186,81 @@ check("SABOTAGE a nested all/any gate is walked to the bottom",
     deep: opt,
   }), "x").join() === "deep");
 
+// ==== R1 PER ROLE, and §8 gateR1 OVER THE COMMITTED LEDGERS (kind-layer infra, 13 Sep 2026) ========================
+//
+// The scan above judges a PROFILE cond. The same rule stated on what a part is actually ASKED: a cup listed as pending
+// must wait on a gate that the SAME kind — or, since layer 3, the same deploy_role — asks as required, pending or
+// column-backed. Otherwise the slot is counted and can only ever close in silence. It is checked twice, because the two
+// fail differently:
+//   the live question sets   kindQuestionSet(category, kind, role) for every kind and every role of its axis — a role
+//                            delta can demote a gate the core still asks;
+//   the committed ledgers    data/ledger/*.json, the kind core AND every `roles` block — the artifact every coverage
+//                            number is taken over, which can disagree with the profile (hand edit, stale build).
+// Measured by the parent on 13 Sep 2026 before layer 3 landed: 0 of 80 pending cups in the committed ledgers.
+type Cup = { key: string; gate?: string[] };
+type AskedSet = { required: Cup[]; pending_until_gate_answered: Cup[]; column_backed?: string[] };
+/** THE ARTIFACT RULE, one function for the repo scan and the sabotage cases below. */
+export function ledgerR1(label: string, b: AskedSet): string[] {
+  const answerable = new Set([...b.required.map((c) => c.key), ...b.pending_until_gate_answered.map((c) => c.key), ...(b.column_backed ?? [])]);
+  const out: string[] = [];
+  for (const p of b.pending_until_gate_answered) for (const g of p.gate ?? []) {
+    if (!answerable.has(g)) out.push(`${label}.${p.key} is pending on ${g}, which ${label} does not ask as required, pending or column-backed`);
+  }
+  return out;
+}
+let r1Sets = 0, r1Pending = 0;
+const r1Live: string[] = [];
+for (const [cat, kinds] of Object.entries(LEDGER_KINDS)) for (const kind of kinds) {
+  const axis = roleAxisOf(cat, kind);
+  for (const role of [null, ...(axis ? ROLE_DOMAINS[axis] : [])]) {
+    const q = kindQuestionSet(cat, kind, role);
+    r1Sets++; r1Pending += q.pending.length;
+    r1Live.push(...ledgerR1(`${cat}.${kind}${role ? `[${role}]` : ""}`, { required: q.required.map((key) => ({ key })), pending_until_gate_answered: q.pending, column_backed: q.column_backed }));
+  }
+}
+check(`R1 per role on the live profiles: no pending cup waits on a gate its kind/role does not ask (${r1Pending} pending cups over ${r1Sets} question sets)`,
+  r1Live.length === 0, r1Live.join("\n     "));
+check("the per-role scan looked at role question sets, not only kind cores", r1Sets > Object.values(LEDGER_KINDS).reduce((a, k) => a + k.length, 0),
+  `${r1Sets} sets for ${Object.values(LEDGER_KINDS).reduce((a, k) => a + k.length, 0)} kinds`);
+
+const LEDGER_DIR = path.resolve("data/ledger");
+const ledgerFiles = fs.existsSync(LEDGER_DIR) ? fs.readdirSync(LEDGER_DIR).filter((f) => f.endsWith(".json")).sort() : [];
+check("the committed ledgers were read", ledgerFiles.length > 0, `no data/ledger/*.json under ${LEDGER_DIR}`);
+let ledgerBlocks = 0, ledgerRoleBlocks = 0, ledgerPending = 0;
+const r1Ledger: string[] = [];
+for (const f of ledgerFiles) {
+  const led = JSON.parse(fs.readFileSync(path.join(LEDGER_DIR, f), "utf8")) as { kinds: Record<string, AskedSet & { roles?: Record<string, AskedSet> }> };
+  for (const [kind, lk] of Object.entries(led.kinds)) {
+    ledgerBlocks++; ledgerPending += lk.pending_until_gate_answered.length;
+    r1Ledger.push(...ledgerR1(`${f}:${kind}`, lk));
+    for (const [role, rb] of Object.entries(lk.roles ?? {})) {
+      ledgerBlocks++; ledgerRoleBlocks++; ledgerPending += rb.pending_until_gate_answered.length;
+      r1Ledger.push(...ledgerR1(`${f}:${kind}[${role}]`, rb));
+    }
+  }
+}
+check(`gateR1 over the committed ledgers: 0 pending cups gated outside required ∪ pending ∪ column_backed of the same kind/role (${ledgerPending} pending cups in ${ledgerBlocks} blocks, ${ledgerRoleBlocks} of them role blocks)`,
+  r1Ledger.length === 0, r1Ledger.join("\n     "));
+
+// SABOTAGE, on asked sets nobody committed, through the same ledgerR1.
+{
+  const kindBlock: AskedSet = { required: [{ key: "form_factor" }, { key: "weight" }], pending_until_gate_answered: [{ key: "rack_units", gate: ["form_factor"] }], column_backed: ["series"] };
+  check("CONTROL a pending cup gated on a required cup of the same kind passes", ledgerR1("k", kindBlock).length === 0);
+  check("CONTROL a pending cup gated on a column-backed key passes",
+    ledgerR1("k", { required: [], pending_until_gate_answered: [{ key: "x", gate: ["series"] }], column_backed: ["series"] }).length === 0);
+  check("CONTROL a pending cup gated on another PENDING cup passes",
+    ledgerR1("k", { required: [], pending_until_gate_answered: [{ key: "poe_ports", gate: ["poe_standard"] }, { key: "poe_standard", gate: [] }] }).length === 0);
+  const demoted: AskedSet = { ...kindBlock, required: [{ key: "weight" }] };
+  check("SABOTAGE a ROLE block whose role demoted the gate (form_factor) while rack_units still waits on it is refused, naming the role and the gate",
+    ledgerR1("switch[smb]", demoted).some((m) => m.includes("switch[smb].rack_units") && m.includes("form_factor")), ledgerR1("switch[smb]", demoted).join("; "));
+  check("SABOTAGE a KIND block gated on a cup it does not ask is refused, naming the gate",
+    ledgerR1("switch", { required: [], pending_until_gate_answered: [{ key: "ip_rating", gate: ["uplink_modular"] }] }).some((m) => m.includes("uplink_modular")));
+  check("SABOTAGE a gate that is column-backed in the CORE but absent from the role block is refused (column_backed is per block)",
+    ledgerR1("switch[smb]", { required: [], pending_until_gate_answered: [{ key: "x", gate: ["series"] }], column_backed: [] }).length === 1);
+}
+
 console.log(`    gate R1: ${pass} passed, ${misses.length} missed (${conds} conds, ${gated} gated; exempt: ${exemptElseOpt} elseOpt, ${exemptKind} kind, ${exemptColumn} column-backed)`);
+console.log(`    R1 per role: ${r1Live.length} of ${r1Pending} pending cups over ${r1Sets} live question sets · gateR1 (ledgers): ${r1Ledger.length} of ${ledgerPending} pending cups over ${ledgerBlocks} blocks (${ledgerRoleBlocks} role blocks) in ${ledgerFiles.length} ledgers`);
 if (misses.length) {
   for (const m of misses) console.log(`  MISS ${m}`);
   process.exit(1);

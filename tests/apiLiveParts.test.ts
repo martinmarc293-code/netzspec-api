@@ -37,7 +37,15 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { LIVE_PART, SUMMARY_FROM } from "../src/api/queries/shared.js";
+import { LIVE_PART, SUMMARY_FROM, kindAndRole, toSummary, type SummaryRow } from "../src/api/queries/shared.js";
+// kind-layer infra (13 Sep 2026): deploy_role next to kind
+import Fastify from "fastify";
+import { registerErrorHandling, ApiError } from "../src/api/errors.js";
+import { partsRoutes } from "../src/api/routes/parts.js";
+import { roleFilter } from "../src/api/queries/parts.js";
+import { PartRecord, PartSummary } from "../src/api/schemas.js";
+import { partKind } from "../src/core/partKind.js";
+import { deployRole } from "../src/core/deployRole.js";
 
 let pass = 0;
 const misses: string[] = [];
@@ -204,6 +212,80 @@ check("SABOTAGE an unrecorded exemption has no entry to justify it", EXPECTED_EX
   check("recompute selects live parts only (where.unshift of the retired filter)", src.includes(`where.unshift("p.retired_at IS NULL")`));
   check("recompute asserts, after writing, that no retired part holds a completeness row, and fails the run if one does",
     src.includes("JOIN parts p ON p.id = cp.part_id WHERE p.retired_at IS NOT NULL") && src.includes("if (retired !== 0) {"));
+}
+
+// ---- deploy_role NEXT TO kind (kind-layer infra, 13 Sep 2026) --------------------------------------------------------
+// Layer 3 is derived like the kind, so the API must carry it wherever it carries the kind, and filter on it the way it
+// filters on the kind. Three ways that goes wrong silently, each pinned: the value is computed with a different call than
+// recompute-completeness makes (a listing and a score disagree about what the part is); the response SCHEMA lacks the
+// property, so fast-json-stringify drops it on the wire while every unit test of toSummary passes; and the filter
+// accepts a role the kind cannot have, returning an empty page that reads as "no such parts" instead of a 400.
+{
+  const row = (category: string, sku: string, name: string): SummaryRow => ({ id: 1, vendor: "cisco", sku, slug: sku.toLowerCase(), category,
+    series: null, family: null, product_class: "hardware", name, lifecycle_status: "unknown", fact_count: 0, completeness_pct: null,
+    has_image: false, updated_at: new Date("2026-09-13T00:00:00Z"), updated_at_raw: "2026-09-13 00:00:00+00" });
+  const WITNESSES: [string, string, string, string | null, string | null][] = [
+    // [category, sku, name, kind, deploy_role] — deployRole.test.ts witnesses, through the listing projection
+    ["switches", "C9300-48H-A", "Catalyst 9300 48-port", "switch", "access"],
+    ["switches", "CBS350-24P-4G-EU", "CBS350 Managed 24-port GE, PoE, 4x1G SFP", "switch", "smb"],
+    ["switches", "N9K-C93180YC-FX", "Data-Center-Switch", "switch", "datacenter"],
+    ["collaboration-endpoints", "CP-8865-K9", "Cisco IP Phone 8865, Charcoal", "phone", "desk"],
+    ["switches", "WS-C4928-10GE", "Catalyst 4928", "switch", null],   // a switch no rule places: role null, kind kept
+  ];
+  for (const [category, sku, name, kind, role] of WITNESSES) {
+    const s = toSummary(row(category, sku, name));
+    check(`toSummary ${category}/${sku} carries kind ${kind} and deploy_role ${role}`, s.kind === kind && s.deploy_role === role, `kind ${s.kind}, deploy_role ${s.deploy_role}`);
+    check(`kindAndRole ${sku} is exactly partKind + deployRole with that kind (the recompute call)`,
+      JSON.stringify(kindAndRole(category, sku, name)) === JSON.stringify({ kind: partKind(category, sku, name) ?? null, deploy_role: deployRole(category, partKind(category, sku, name), sku, name) }));
+  }
+  const nonAxis = toSummary(row("switches", "PWR-C1-715WAC-P", "715W AC Config 1 Power Supply"));
+  check("a part whose kind has no role axis carries deploy_role null (never a default)", nonAxis.kind !== "switch" && nonAxis.deploy_role === null, `${nonAxis.kind}/${nonAxis.deploy_role}`);
+  const partSrc = fs.readFileSync(path.join(DIR, "part.ts"), "utf8");
+  check("the part record takes kind AND deploy_role from the same helper as the listing", partSrc.includes("...kindAndRole(h.cat_slug, h.sku, h.name)"));
+  check("PartSummary declares deploy_role (else the serializer drops it)", "deploy_role" in (PartSummary as unknown as { properties: object }).properties);
+  check("PartRecord declares deploy_role (else the serializer drops it)", "deploy_role" in (PartRecord as unknown as { properties: object }).properties);
+
+  // ON THE WIRE, through fast-json-stringify with the real schema — and the sabotage: the same route with a schema that
+  // lacks the property must lose it, or the assertion above is a check that cannot fail.
+  const serve = async (schema: object) => {
+    const app = Fastify();
+    app.get("/x", { schema: { response: { 200: schema } } }, async () => toSummary(row("switches", "C9300-48H-A", "Catalyst 9300 48-port")));
+    await app.ready();
+    const res = await app.inject({ method: "GET", url: "/x" });
+    await app.close();
+    return JSON.parse(res.body) as Record<string, unknown>;
+  };
+  const wire = await serve(PartSummary);
+  check("GET through the PartSummary schema emits deploy_role beside kind", wire.kind === "switch" && wire.deploy_role === "access", JSON.stringify(wire).slice(0, 200));
+  const stripped = { ...(PartSummary as unknown as { properties: Record<string, unknown> }), properties: Object.fromEntries(Object.entries((PartSummary as unknown as { properties: Record<string, unknown> }).properties).filter(([k]) => k !== "deploy_role")) };
+  check("SABOTAGE a schema without deploy_role drops it on the wire (the declaration is load-bearing)", !("deploy_role" in await serve(stripped)));
+
+  // ?deploy_role= — pure validation first, then the real route, which must answer 400 BEFORE touching the store.
+  const status = (f: () => unknown): string => { try { return `ok:${JSON.stringify(f())}`; } catch (e) { return e instanceof ApiError ? `${e.status}:${e.message}` : `throw:${String(e)}`; } };
+  check("CONTROL no deploy_role is no filter", status(() => roleFilter("switches", "switch", undefined)) === "ok:undefined");
+  check("CONTROL switches/switch/access filters on access", status(() => roleFilter("switches", "switch", "access")) === `ok:"access"`);
+  check("CONTROL (unresolved) filters on the parts no rule places (null)", status(() => roleFilter("wireless", "ap", "(unresolved)")) === "ok:null");
+  check("CONTROL a router role on routers/enterprise (the pre-rename name) is accepted", status(() => roleFilter("routers", "enterprise", "edge")) === `ok:"edge"`);
+  check("SABOTAGE a role outside the kind's domain (switch + indoor) is a 400 naming the domain",
+    /^400:unknown deploy_role "indoor".*smb, access, core-agg, datacenter, industrial/.test(status(() => roleFilter("switches", "switch", "indoor"))), status(() => roleFilter("switches", "switch", "indoor")));
+  check("SABOTAGE deploy_role on a kind with no role axis is a 400", status(() => roleFilter("switches", "power", "access")).startsWith("400:kind \"power\""), status(() => roleFilter("switches", "power", "access")));
+  check("SABOTAGE deploy_role without kind is a 400", status(() => roleFilter("switches", undefined, "access")).startsWith("400:"));
+  check("SABOTAGE deploy_role without category is a 400", status(() => roleFilter(undefined, "switch", "access")).startsWith("400:"));
+  {
+    const app = Fastify();
+    registerErrorHandling(app);
+    await app.register(partsRoutes, { publicBaseUrl: "http://localhost" });
+    await app.ready();
+    const res = await app.inject({ method: "GET", url: "/parts?category=switches&kind=switch&deploy_role=indoor" });
+    const body = JSON.parse(res.body) as { error?: { code: string; message: string } };
+    check("GET /parts?category=switches&kind=switch&deploy_role=indoor is a 400 bad_request from the real route", res.statusCode === 400 && body.error?.code === "bad_request" && String(body.error?.message).includes("indoor"), `${res.statusCode} ${res.body.slice(0, 160)}`);
+    const res2 = await app.inject({ method: "GET", url: "/parts?category=wireless&deploy_role=indoor" });
+    check("GET /parts?category=wireless&deploy_role=indoor (no kind) is a 400", res2.statusCode === 400, `${res2.statusCode}`);
+    await app.close();
+  }
+  const partsSrc = fs.readFileSync(path.join(DIR, "parts.ts"), "utf8");
+  check("the ?deploy_role= filter derives the role with the kind the row matched on (deployRole(cat, want, ...))", partsSrc.includes("deployRole(cat, want, r.sku, r.name ?? null) === wantRole"));
+  check("the ?deploy_role= validation runs before the kind population query", partsSrc.indexOf("roleFilter(params.category, params.kind, params.deploy_role)") < partsSrc.indexOf("const pop = await query"));
 }
 
 console.log(`    api live parts: ${pass} passed, ${misses.length} missed (${readsParts.length} query modules read parts; ${exempt.length} exempt: ${exempt.join(", ")})`);

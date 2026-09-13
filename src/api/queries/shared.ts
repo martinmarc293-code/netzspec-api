@@ -10,7 +10,19 @@
 //     cursors, which need the microseconds a Date discards.
 import { query } from "../../store/db.js";
 import { partKind } from "../../core/partKind.js";
+import { deployRole } from "../../core/deployRole.js";
 import type { PartSummaryT } from "../schemas.js";
+
+/**
+ * The derived kind AND role of one part — layers 2 and 3 of the kind model — by the exact calls recompute-completeness
+ * makes (`partKind` with the name, then `deployRole` with that kind and the name), so what a listing, a part page and
+ * the completeness score say a part is cannot disagree. `deploy_role` is null where the kind has no role axis or no
+ * rule places the part.
+ */
+export function kindAndRole(category: string, sku: string, name: string | null | undefined): { kind: string | null; deploy_role: string | null } {
+  const kind = partKind(category, sku, name ?? undefined) ?? null;
+  return { kind, deploy_role: kind === null ? null : deployRole(category, kind, sku, name ?? null) };
+}
 
 export const RENDERED_STATES = ["verified", "corroborated"] as const;
 
@@ -97,7 +109,8 @@ export function toSummary(r: SummaryRow): PartSummaryT {
     // builder, the completeness recompute and four test suites while being invisible on every
     // listing. Free here: partKind is pure, and it takes the NAME because three kinds are derived
     // from it (a builder that omits the name measures a system nobody runs).
-    kind: partKind(r.category, r.sku, r.name ?? undefined) ?? null,
+    // kind-layer infra (13 Sep 2026): `deploy_role` beside it — layer 3, which population of the kind (null = none).
+    ...kindAndRole(r.category, r.sku, r.name),
     product_class: r.product_class, name: r.name, lifecycle_status: r.lifecycle_status,
     fact_count: r.fact_count, completeness_pct: r.completeness_pct, has_image: r.has_image,
     updated_at: isoOf(r.updated_at) as string,

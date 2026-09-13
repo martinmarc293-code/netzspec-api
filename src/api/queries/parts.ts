@@ -10,6 +10,7 @@ import { compileFilter } from "../filter.js";
 import type { PartSummaryT } from "../schemas.js";
 import { partKind } from "../../core/partKind.js";
 import { LEDGER_KINDS } from "../../core/cupLedger.js";
+import { ROLE_DOMAINS, deployRole, roleAxisOf } from "../../core/deployRole.js";
 import { filterDictionary } from "./fields.js";
 import { LIVE_PART, SUMMARY_COLUMNS, SUMMARY_FROM, page, toSummary, type SummaryRow } from "./shared.js";
 
@@ -17,8 +18,36 @@ export type PartsListParams = {
   vendor?: string; category?: string; series?: string; family?: string; class?: string; sku?: string; sku_prefix?: string; q?: string;
   /** The derived cup set inside the category. Requires `category`, because partKind is per category. */
   kind?: string;
+  /** Layer 3: the derived deploy_role inside the kind. Requires `category` and `kind`; `(unresolved)` selects the parts
+   *  of a role-bearing kind that no rule places. */
+  deploy_role?: string;
   has?: string; updated_since?: string; filter?: string; limit: number; cursor?: string;
 };
+
+/** The role value that selects a role-bearing kind's parts with no role (spec v2 §III.2 "role: unresolved"). */
+export const UNRESOLVED_ROLE_FILTER = "(unresolved)";
+
+/**
+ * ?deploy_role= validation, pure and BEFORE any SQL, exactly like ?kind=: the role is derived per (category, kind), so
+ * both must be given, the kind must carry a role axis, and the role must be in that axis's domain (or `(unresolved)`).
+ * Returns the role to match (null for unresolved), or undefined when the filter is absent.
+ */
+export function roleFilter(category: string | undefined, kind: string | undefined, role: string | undefined): string | null | undefined {
+  if (role === undefined || role === "") return undefined;
+  if (category === undefined || kind === undefined || kind === "") {
+    throw badRequest('"deploy_role" is derived per category and kind — pass "category" and "kind" with it');
+  }
+  const axis = roleAxisOf(category, kind);
+  if (!axis) {
+    const bearing = Object.entries(LEDGER_KINDS).flatMap(([c, ks]) => ks.filter((k) => roleAxisOf(c, k)).map((k) => `${c}/${k}`));
+    throw badRequest(`kind "${kind}" in category "${category}" has no deploy_role axis — role-bearing kinds: ${bearing.join(", ")}`);
+  }
+  if (role === UNRESOLVED_ROLE_FILTER) return null;
+  if (!ROLE_DOMAINS[axis].includes(role)) {
+    throw badRequest(`unknown deploy_role "${role}" for kind "${kind}" in "${category}" — roles: ${[...ROLE_DOMAINS[axis], UNRESOLVED_ROLE_FILTER].join(", ")}`);
+  }
+  return role;
+}
 
 /** Escape the LIKE metacharacters so a caller's `%` or `_` is a literal, not a wildcard. */
 function likeLiteral(v: string): string {
@@ -88,6 +117,9 @@ export async function listParts(params: PartsListParams): Promise<{ items: PartS
   // the resolution would be the whole catalogue on every page. Doing it as an id list rather than
   // filtering after the query keeps SQL pagination honest — a post-filter would return three rows
   // for a page of two hundred and a cursor that means nothing.
+  // ?deploy_role= (kind-layer infra, 13 Sep 2026): validated before the kind block and before any SQL, so a bad role is a
+  // 400 and never a query. `wantRole` undefined = no role filter; null = the kind's unresolved parts.
+  const wantRole = roleFilter(params.category, params.kind, params.deploy_role);
   if (params.kind !== undefined && params.kind !== "") {
     if (params.category === undefined) throw badRequest('"kind" is derived per category — pass "category" with it');
     const kinds = LEDGER_KINDS[params.category];
@@ -105,8 +137,11 @@ export async function listParts(params: PartsListParams): Promise<{ items: PartS
         WHERE ${LIVE_PART()} AND c.slug = $1${params.vendor === undefined ? "" : " AND v.slug = $2"}`,
       params.vendor === undefined ? [params.category] : [params.category, params.vendor]);
     const want = params.kind;
+    const cat = params.category;
+    // The role is derived with the SAME kind the row just matched on, by the call recompute and the listing make.
     const ids = pop.rows
-      .filter((r) => (partKind(params.category as string, r.sku, r.name ?? undefined) ?? "(none)") === want)
+      .filter((r) => (partKind(cat, r.sku, r.name ?? undefined) ?? "(none)") === want)
+      .filter((r) => wantRole === undefined || deployRole(cat, want, r.sku, r.name ?? null) === wantRole)
       .map((r) => r.id);
     // An empty id list must produce an empty page, not an unfiltered one: `= ANY('{}')` is false
     // for every row, which is the behaviour wanted, but it is spelled out because a dropped clause

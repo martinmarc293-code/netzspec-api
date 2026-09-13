@@ -30,6 +30,10 @@ import { NORM_VERSION } from "../src/core/specNormalize.js";
 import { mapLabel } from "../src/core/deepSpecMap.js";
 import { listSources } from "../src/api/queries/sources.js";
 import { DERIVED_FILL_PATHS } from "../src/core/derivedFillPaths.js";
+// kind-layer infra (13 Sep 2026): layer 3 per kind, and term 13 (the granularity test) per kind. See the `roles` and
+// `term13` notes in the per-kind loop below.
+import { deployRole, deployRoleRule, roleAxisOf, ROLE_DOMAINS } from "../src/core/deployRole.js";
+import { loadGranularityReference, judgeTerm13, measuredFor, seriesGroupOf } from "../src/core/kindGranularity.js";
 
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
 
@@ -111,9 +115,9 @@ async function main(): Promise<void> {
   // where the category's own axis gave up. A builder that does not pass it measures a system nobody runs
   // — the three name-derived kinds would report zero parts — which is the structural gap the
   // asked-nothing survey identified (`recompute-completeness.ts` selected every column except p.name).
-  const parts = (await pool.query<{ id: string; sku: string; name: string | null; rt: number | null;
+  const parts = (await pool.query<{ id: string; sku: string; name: string | null; series: string | null; rt: number | null;
     own: string; spec_docs: number; any_docs: number }>(`
-    SELECT p.id::text, p.sku, p.name, cp.required_total AS rt,
+    SELECT p.id::text, p.sku, p.name, p.series, cp.required_total AS rt,
            (SELECT count(*) FROM facts f
              WHERE f.part_id = p.id AND f.superseded_by IS NULL AND f.inherited_from IS NULL
                AND f.method NOT LIKE 'retracted:%')::text AS own,
@@ -124,12 +128,33 @@ async function main(): Promise<void> {
       LEFT JOIN completeness cp ON cp.part_id = p.id
      WHERE v.slug = $1 AND ct.slug = $2 AND p.retired_at IS NULL AND p.product_class = 'hardware'`,
     [vendor, category, SPEC_BEARING_DOC_TYPES])).rows;
+  // kind-layer infra (13 Sep 2026): per role, the same three document states and the stored slots, so a role block
+  // carries exactly what its kind block carries and the kind's numbers are the SUM of its roles (checked below).
+  type RoleAcc = { n: number; stored: number; spec: number; eolOnly: number; noDoc: number; issue: number };
+  const newRoleAcc = (): RoleAcc => ({ n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, issue: 0 });
   const byKind = new Map<string, { n: number; stored: number; spec: number; eolOnly: number; noDoc: number;
-    facts3: number; noun: number; nounExempt: number; nounSkus: string[] }>();
+    facts3: number; noun: number; nounExempt: number; nounSkus: string[]; groups: Set<string>; roles: Map<string, RoleAcc> }>();
   for (const p of parts) {
     const k = partKind(category, p.sku, p.name ?? undefined) ?? "(none)";
-    const b = byKind.get(k) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0, nounExempt: 0, nounSkus: [] as string[] };
+    const b = byKind.get(k) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0, nounExempt: 0, nounSkus: [] as string[],
+      groups: new Set<string>(), roles: new Map<string, RoleAcc>() };
     b.n++; b.stored += p.rt ?? 0;
+    // TERM 13 INPUT: the series group, III.0 item 2's grouping exactly (series, or the first name token after "Cisco").
+    b.groups.add(seriesGroupOf(p.series, p.name, p.sku));
+    // LAYER 3: the role, by the one call recompute-completeness, the API and the completeness report make. A null role is
+    // `(unresolved)` — asked the kind's core, never folded into the biggest role. `issue` counts the rows the rule table
+    // says are NOT this kind at all (a licence filed as a switch), kept apart from "no rule places it".
+    const axis = roleAxisOf(category, k);
+    const role = axis ? deployRole(category, k, p.sku, p.name) : null;
+    if (axis) {
+      if (role !== null && !ROLE_DOMAINS[axis].includes(role)) throw new Error(`deployRole gave ${p.sku} role "${role}", outside the ${axis} domain [${ROLE_DOMAINS[axis].join(", ")}]`);
+      const rk = role ?? "(unresolved)";
+      const ra = b.roles.get(rk) ?? newRoleAcc();
+      ra.n++; ra.stored += p.rt ?? 0;
+      if (p.spec_docs > 0) ra.spec++; else if (p.any_docs > 0) ra.eolOnly++; else ra.noDoc++;
+      if (role === null && deployRoleRule(axis, p.sku, p.name).issue !== null) ra.issue++;
+      b.roles.set(rk, ra);
+    }
     // THE OWN-FACT AND DEVICE-NOUN CENSUS (fallback-kinds agent): a part in a fallback kind holding
     // three or more of its own facts is the only detector for a real product swallowed by a fallback,
     // and the device noun is the detector for one that holds none — an undocumented product has no
@@ -338,11 +363,62 @@ async function main(): Promise<void> {
   // ---- per kind ----------------------------------------------------------------------------------------
   const kinds: Record<string, unknown> = {};
   let slotsNothing = 0, slotsStored = 0, partsTotal = 0;
+  const granularity = loadGranularityReference(ROOT);
+  const blockedBy = (n: number, spec: number) => n === 0 ? "no parts" : spec >= n / 2 ? "schema-or-parsing" : "not-held (acquisition)";
   for (const kind of LEDGER_KINDS[category]) {
     const qs = kindQuestionSet(category, kind);
-    const b = byKind.get(kind) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0, nounExempt: 0, nounSkus: [] };
+    const b = byKind.get(kind) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0, nounExempt: 0, nounSkus: [],
+      groups: new Set<string>(), roles: new Map<string, RoleAcc>() };
     const per = slotsAtNothingKnown(qs);
-    slotsNothing += b.n * per; slotsStored += b.stored; partsTotal += b.n;
+    // ---- LAYER 3 (kind-layer infra, 13 Sep 2026) ---------------------------------------------------------------------
+    // A kind with a role axis gets one block per role of its domain plus `(unresolved)`, each with its OWN question set
+    // (kindQuestionSet(category, kind, role); unresolved = no role = the kind's core) and its own slots. The kind's
+    // `required` / `pending_until_gate_answered` / `optional` / `not_applicable_by_kind` stay the CORE (what an
+    // unresolved part is asked), so every existing reader of those lists reads what it always read. The kind's SLOT
+    // totals become the sum over its roles, because a role that asks fewer cups opens fewer slots — `parts × core`
+    // would overstate an `smb` switch that is not asked `altitude_max`.
+    const axis = roleAxisOf(category, kind);
+    let roles: Record<string, unknown> | undefined;
+    let kindSlotsNothing = b.n * per;
+    if (axis) {
+      const out: Record<string, unknown> = {};
+      roles = out;
+      kindSlotsNothing = 0;
+      let roleParts = 0, roleStored = 0;
+      for (const role of [...ROLE_DOMAINS[axis], "(unresolved)"]) {
+        const rq = kindQuestionSet(category, kind, role === "(unresolved)" ? null : role);
+        const rper = slotsAtNothingKnown(rq);
+        const ra = b.roles.get(role) ?? newRoleAcc();
+        kindSlotsNothing += ra.n * rper; roleParts += ra.n; roleStored += ra.stored;
+        out[role] = {
+          parts: ra.n,
+          ...(role === "(unresolved)" ? { parts_with_kind_issue: ra.issue, _unresolved_note: "no rule of deployRole.ts places these parts (null role): asked the kind's core. `parts_with_kind_issue` of them hit an ISSUE rule — the row is not this kind at all and belongs to a kind/class/category move." } : {}),
+          slots_per_part_at_nothing_known: rper,
+          required_slots_at_nothing_known: ra.n * rper,
+          required_slots_stored: ra.stored,
+          document_evidence: { spec_bearing: ra.spec, eol_only: ra.eolOnly, no_document: ra.noDoc, blocked_by: blockedBy(ra.n, ra.spec) },
+          required: rq.required.map(evidence),
+          pending_until_gate_answered: rq.pending.map((p) => ({ ...evidence(p.key), gate: p.gate })),
+          not_applicable_by_kind: rq.not_applicable_by_kind,
+          optional: rq.optional,
+          column_backed: rq.column_backed,
+        };
+      }
+      const strays = [...b.roles.keys()].filter((r) => !(r in out));
+      if (roleParts !== b.n || roleStored !== b.stored || strays.length) {
+        throw new Error(`${category}.${kind}: role blocks do not sum to the kind (parts ${roleParts}/${b.n}, stored ${roleStored}/${b.stored}${strays.length ? `, roles outside the domain: ${strays.join(", ")}` : ""})`);
+      }
+    }
+    // ---- TERM 13 (spec v2 §I.3) ----------------------------------------------------------------------------------------
+    // The three inputs, measured here; the label-Jaccard and any exception copied from the reference file; the verdict
+    // judged by the same function tests/cupLedger.test.ts calls. Denominator of the share: every hardware row this
+    // ledger read for the category (fallback.hardware_parts), including rows held out for reclassification.
+    const share = { num: b.n, den: parts.length, pct: parts.length === 0 ? null : Math.round((b.n / parts.length) * 1000) / 10 };
+    const term13Input = { parts: b.n, share_of_category: share, series_count: b.groups.size, role_axis: (axis ? "deploy_role" : "none") as "none" | "deploy_role",
+      slots_per_part_at_nothing_known: per, required: qs.required.map((key) => ({ key })), pending_until_gate_answered: qs.pending };
+    const verdict = judgeTerm13(granularity, category, kind, term13Input);
+    const exception = granularity.exceptions[`${category}.${kind}`];
+    slotsNothing += kindSlotsNothing; slotsStored += b.stored; partsTotal += b.n;
     kinds[kind] = {
       parts: b.n,
       // fallback-kinds (12 Sep 2026): the own-fact and device-noun census, per kind.
@@ -351,8 +427,16 @@ async function main(): Promise<void> {
       // device-noun (13 Sep 2026): nouns this kind excuses by rule (DEVICE_NOUN_EXEMPT_KINDS); 0 for every other kind.
       parts_with_a_device_noun_exempt_by_kind: b.nounExempt,
       slots_per_part_at_nothing_known: per,
-      required_slots_at_nothing_known: b.n * per,
+      // kind-layer infra (13 Sep 2026): Σ over the roles when the kind has a role axis (see `roles`), else parts × per.
+      required_slots_at_nothing_known: kindSlotsNothing,
       required_slots_stored: b.stored,
+      // TERM 13 inputs and verdict (spec v2 §I.3).
+      series_count: b.groups.size,
+      share_of_category: share,
+      role_axis: axis ? "deploy_role" : "none",
+      label_jaccard: measuredFor(granularity, category, kind)?.label_jaccard ?? null,
+      granularity_exception: exception ? { basis: exception.basis, reason: exception.reason, status: exception.status } : null,
+      term13: verdict,
       // WHY A REQUIRED CUP OF THIS KIND IS EMPTY — the difference between our problem and the
       // crawler's. `blocked_by` is the verdict a readiness report must print instead of a bare
       // "not ready": `schema-or-parsing` when most of the kind holds a datasheet, `not-held` when
@@ -367,6 +451,7 @@ async function main(): Promise<void> {
       not_applicable_by_kind: qs.not_applicable_by_kind,
       optional: qs.optional,
       column_backed: qs.column_backed,
+      ...(roles ? { roles } : {}),
     };
   }
 
@@ -385,7 +470,7 @@ async function main(): Promise<void> {
       parts: partsTotal,
       required_slots_at_nothing_known: slotsNothing,
       required_slots_stored: slotsStored,
-      _slots_note: "at_nothing_known = parts × (required + pending) with only the kind known; stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question",
+      _slots_note: "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
       by_kind: Object.fromEntries(LEDGER_KINDS[category].map((k) => [k, (kinds[k] as { parts: number }).parts])),
       // security (12 Sep 2026): rows the kind axis judged non-hardware from the class table while the parts
       // row still says `hardware`. Counted here, not inside a kind — see the note at byKind.delete().
@@ -403,12 +488,18 @@ async function main(): Promise<void> {
   console.log(`wrote ${path.relative(ROOT, out)}: ${partsTotal} parts, ${slotsNothing} slots at nothing-known, ${slotsStored} stored`);
   for (const k of LEDGER_KINDS[category]) {
     type Ev = { key: string; observed_fill_path: boolean; seed_only: boolean };
-    const x = kinds[k] as { parts: number; slots_per_part_at_nothing_known: number; required: Ev[]; pending_until_gate_answered: Ev[] };
-    const all = [...x.required, ...x.pending_until_gate_answered];
-    const seed = all.filter((f) => f.seed_only).map((f) => f.key);
-    const blind = all.filter((f) => !f.observed_fill_path && !f.seed_only).map((f) => f.key);
-    console.log(`  ${k.padEnd(12)} parts ${String(x.parts).padStart(5)}  asked ${String(x.slots_per_part_at_nothing_known).padStart(2)}` +
+    type RoleOut = { parts: number; slots_per_part_at_nothing_known: number; required: Ev[]; pending_until_gate_answered: Ev[] };
+    const x = kinds[k] as RoleOut & { term13: { verdict: string; basis: string | null }; roles?: Record<string, RoleOut> };
+    // Fill paths over the core AND every role's own cups: a role addition is a cup the core never asks.
+    const all = [x, ...Object.values(x.roles ?? {})].flatMap((r) => [...r.required, ...r.pending_until_gate_answered]);
+    const seed = [...new Set(all.filter((f) => f.seed_only).map((f) => f.key))];
+    const blind = [...new Set(all.filter((f) => !f.observed_fill_path && !f.seed_only).map((f) => f.key))];
+    const t13 = x.term13.verdict === "not-tripped" ? "" : `   term13 ${x.term13.verdict}${x.term13.basis ? ` (${x.term13.basis})` : ""}`;
+    console.log(`  ${k.padEnd(12)} parts ${String(x.parts).padStart(5)}  asked ${String(x.slots_per_part_at_nothing_known).padStart(2)}${t13}` +
       `${seed.length ? `   SEED-ONLY: ${seed.join(", ")}` : ""}${blind.length ? `   NO FILL PATH: ${blind.join(", ")}` : ""}`);
+    for (const [role, r] of Object.entries(x.roles ?? {})) {
+      console.log(`      role ${role.padEnd(14)} parts ${String(r.parts).padStart(5)}  asked ${String(r.slots_per_part_at_nothing_known).padStart(2)}`);
+    }
   }
   await closePool();
 }

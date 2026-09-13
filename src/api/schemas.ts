@@ -48,6 +48,12 @@ export const PartSummary = Type.Object({
   /** The derived kind: which cup set inside the category this part is asked. null when the
    *  category has no kind axis. Filter with ?kind= (requires ?category=). */
   kind: Nullable(Type.String()),
+  /** Layer 3 of the kind model (kind-layer, 13 Sep 2026): which population of the kind this part belongs to
+   *  (switch: smb | access | core-agg | datacenter | industrial; ap: indoor | outdoor | industrial | smb | mesh-extender;
+   *  router: branch | smb | edge | industrial-iot; phone: desk | wireless | dect | conference), derived by
+   *  src/core/deployRole.ts. null when the kind has no role axis or no rule places the part. Filter with ?deploy_role=
+   *  (requires ?category= and ?kind=). */
+  deploy_role: Nullable(Type.String()),
   name: Nullable(Type.String()),
   /** `unknown` when no lifecycle row exists yet; never guessed as `active` */
   lifecycle_status: Type.String(),
@@ -136,6 +142,8 @@ export const PartRecord = Type.Object({
   datasheet_url: Nullable(Type.String()),
   /** round-7 ask F (12 Sep 2026): the derived kind the profile gates on — the same value /v1/parts items carry. */
   kind: Nullable(Type.String()),
+  /** kind-layer infra (13 Sep 2026): layer 3, the derived deploy_role — the same value /v1/parts items carry. */
+  deploy_role: Nullable(Type.String()),
   lifecycle: Nullable(LifecycleRecord),
   facts: Type.Array(FactItem),
   relations: Type.Array(Type.Object({
