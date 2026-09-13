@@ -4,6 +4,33 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-13 (early) - Opus/PARENT. Cisco phase 1 CLOSED: guide §5.1–5.7 landed, final rebuild on one commit, freeze 31894723abf98ce5; kind-layer Part III.0 measured and returned as one report (Part II NOT implemented).** Report: `docs/reports/cisco-phase1-closed-2026-09-13.md` (§1 table, §8 acceptance, residue, brand block). III.0: `docs/reports/kind-layer-III0-2026-09-13.md`.
+  - **Numbers:** 42,367 hardware parts | arranged 96.6% (asked-nothing 1,427, all fallback kinds) | held 23.3% | filled 26,784/119,408 = 22.4% over held | inherited 29.8% | would_refuse 115 | device-noun union 0 | 0 refusable values among 3,541 facts written after the guard (control 405).
+  - **Runs:** re-read of the 7 retyped keys #1053–#1059, ON THE BOX from a `git archive` of ea74e31. 3,427 superseded, 48 retracted, 555 tier-0 protected.
+  - **Rolled back:** #1039, #1040, #1042–#1045, #1050–#1052. These tunnel-killed partials held 1,387 facts current under non-succeeded runs, hidden from part pages.
+  - **Recompute and rebuilds:** recompute-completeness --vendor cisco (229 written); 17 ledgers, censuses and traces plus the report and the freeze, all on the box.
+  - **Commits:** dfa4852 (artifacts), adcae72 (build-completeness names the freeze; it had hardcoded null), then the report and its test.
+  - **Closed:**
+    - the §5 work;
+    - the freeze and its change procedure (CLAUDE.md);
+    - `renormalize --vendor`, so a lane re-reads only its own vendor.
+  - **NEXT:**
+    - Reviewer v3 of the kind layer (six asks at the end of the III.0 report). Implement III.3 only after v3.
+    - Filling on the pilot (`transceiver`) under the halting rules.
+    - HPE arranging. III.0 item 5 shows HPE parts falling into Cisco default kinds, 234 of 447 "switches" not being switches, and series NULL on every non-Cisco part.
+  - **PARKED (operator):**
+    - the residue list;
+    - orphaned runs #842/#843 (1,482 facts hidden from part pages since 8 Sep) and #406 (160);
+    - 555 Cisco tier-0 `standard` facts in the old shape;
+    - `standard` refusing 1,055 other-vendor values.
+  - **TRAPS:**
+    - **Closing a tunnel-killed write run as `failed` is not enough.** Its facts stay current and hidden, their predecessors stay superseded, and the re-run skips them because they carry the new stamp. Always `rollbackRun`.
+    - **Heavy passes belong on the box.** A renormalize took 7 s there against ~30 rows/min and five drops here. The builders' `git rev-parse` was answered by a shim printing the archive's SHA; every artifact carries a real commit.
+    - **A builder written in parallel with the freeze hardcoded `freeze_hash: null`.** The test now ties the two, and was proven red first.
+    - **Two stale tests** (a moved registry; a sabotage case that sliced a now-empty list) failed only in the full suite.
+    - **Two deploys ran concurrently** (a nohup duplicate). Both were killed in the upload phase, and the live tree was verified untouched.
+    - **I once reported a §8 row as covered by a test that does not contain that check.** Caught by grepping the test before committing, then measured directly.
+
 - **2026-09-12 (night 4) - Opus/PARENT. Round-7 rulings executed: the bundle plan, the 51-row addendum, the nine conflicts, the instruments. Every operator assertion measured true.** Ledger total == store == **42,383** (operator 42,376 + 7 held), asked-nothing **1,503** fallback-only, 0 bundle kinds asked zero, 0 required cups without a fill path, 0 hardware in the software categories, 0 retired completeness rows. Runs #998 sync (input_current_nominal superseded; bundle_contents + pack_quantity added) · #999 reclassify SCOPED with the new `--only-rule` (118; the other 582 pending class changes HELD — they need their own decision) · #1000/#1001 failed+rolled back (tier-2 verified fact needs a doc_id; #1001 was my careless re-run with a placeholder --approved) · #1002 17 retractions + 8 pack_quantity · #1003–#1010 the 51 moves · #1011–#1022 recompute. **HELD, operator's call:** group 7 (15 ASR5K → routers resolve `enterprise`, failing the guard), 7 rows the plan contradicted itself on (`NAME_OMITS_MODEL`), UCS-SP-SD-1P6T-2's pack (SKU-only evidence), 582 reclassify changes, six round-6 alias rulings never implemented, 352 dispositions. **New code:** bundleFamily.ts (reproduces the frozen 1,568-row reading exactly; kind refinement only for rows the SKU axis called bundle), bundleContents.ts (strict name parser; SKU control agree 175 / disagree 2 / silent 73 / refused 27 over the 277), routerKind sp-n540-system (0 of 5,439 routers rows changed), ucsKind DN3/APIC rules, dictionary RESHAPE guard (sabotage: weight band refused cisco 466/hpe 66/aruba 17 — counts pre-existing refusals too, an upper bound), recompute fails its run on retired completeness rows, /v1/fields facts_current_by_vendor, kind on part detail, derived_fill_path in /summary. **Coverage dashboard** (parent board :8787, fixed by an opus subagent, 212k) was dead and mis-measured (all parts × max required); now hardware-only stored cups, 36,193/435,496 = 8.3%. **TRAPS HIT:** backslashes lost in node template-literal patches THREE times (a control regex, a test regex, an anchor) — use the Edit tool or plain substrings; a tie-break "most parts wins" flipped six named-exception ties; the name parser read "Cisco <sku>" placeholders as servers until the SKU guard; a ratchet that REQUIRED the defect (named kinds asked nothing) had to be rewritten as the acceptance condition. Operator: "sub agents are allowed till further notice" (12 Sep, late). Report: docs/reports/cisco-round8-response-2026-09-12.md.
 
 - **2026-09-12 (night 3) - Opus/PARENT. The reviewer's twelve round-6 decisions executed; four came out different, one of them because it would have repeated a mistake I had already shipped.**

@@ -55,6 +55,18 @@ for (const vendor of vendors) {
   const ctx: CheckContext = { ledgers, live };
   const regen = `npx tsx scripts/build-completeness.mts --vendor ${vendor}`;
 
+  // THE FREEZE IT IS MEASURED AGAINST (CLAUDE.md: the report prints the freeze hash; two reports over different
+  // freezes are not compared silently). A vendor with a committed freeze file must name that exact hash.
+  const freezeFile = path.resolve("data/freeze", `${vendor}.json`);
+  if (fs.existsSync(freezeFile)) {
+    const frozen = (JSON.parse(fs.readFileSync(freezeFile, "utf8")) as { freeze_hash: string }).freeze_hash;
+    const named = (r.inputs as { freeze_hash?: string | null }).freeze_hash;
+    const sameFreeze = (a: unknown, b: string) => typeof a === "string" && a === b;
+    check(`${vendor}: the report names the committed freeze hash`, sameFreeze(named, frozen), `report ${named} vs freeze ${frozen} — ${regen}`);
+    check(`${vendor}: SABOTAGE a report naming no freeze (null) is caught`, !sameFreeze(null, frozen));
+    check(`${vendor}: SABOTAGE a report naming another freeze is caught`, !sameFreeze(frozen.slice(1) + "0", frozen));
+  }
+
   // SHAPE
   check(`${vendor}: top-level shape`, ["_about", "vendor", "built_on_commit", "generated_at", "brand", "categories", "acquisition_queue", "residue", "cross_checks"]
     .every((k) => k in r), Object.keys(r).join(","));

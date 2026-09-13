@@ -9,6 +9,11 @@ full; the ones that bite hardest here are restated.
   records its inputs with hashes, and closes it with stats. A run that writes facts must
   carry a passing gate.
 - **Never overwrite a fact.** Supersede it. `facts` is append-only by design.
+- **A write run whose process died (tunnel drop, kill) is closed with `rollbackRun`, never with `closeRun` alone.**
+  `withRun` rolls back only on a throw it survives. On 13 Sep 2026 six tunnel-killed renormalize runs were closed
+  `failed` with their counts, leaving 1,387 facts current under non-succeeded runs. Part pages hide those, their
+  predecessors stayed superseded, and the re-run skipped them because they already carried the new stamp.
+  Heavy passes run faster and safer on the box, from a `git archive` of a named commit.
 - **Never resolve a disagreement by write order.** Hold it as a conflict.
 - **Never inherit a family value into a SKU the document does not list.**
 - **Never guess a value.** A normaliser or parser that cannot parse returns a reason; the
