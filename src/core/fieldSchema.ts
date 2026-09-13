@@ -123,6 +123,95 @@ const VENDORS = ["cisco", "hpe", "aruba", "juniper", "arista", "dell-emc", "leno
 
 const PORT_SHAPE = "list{ port_typ: e(rj45|sfp|sfp-plus|sfp28|sfp56|qsfp-plus|qsfp28|qsfp-dd|combo|other), speed: ls, anzahl: n }";
 
+// --- free-string cups, closed 13 Sep 2026 (phase-1 close guide §5.4) --------------------------------------
+// The decision per cup, its stored-value evidence across every vendor and its refusal counts live in
+// docs/decisions/2026-09-13-free-string-cups.md. The normaliser rules are in specNormalize.ts under the
+// same date. tests/freeStringCups.test.ts pins both halves and holds the FREE_TEXT_BY_DECISION list.
+
+/** IEC 60529 codes (first digit 0-6 or X, second 0-8 or X) plus ISO 20653's IP69K. The standard's own grid,
+ *  not the codes that happen to occur: a closed domain that refused IP65 tomorrow would refuse a real
+ *  rating, and nothing outside this grid is an IP code at all. IPXX states nothing and is left out. */
+export const IP_CODES: string[] = [
+  ...["0", "1", "2", "3", "4", "5", "6", "x"].flatMap((a) => ["0", "1", "2", "3", "4", "5", "6", "7", "8", "x"].map((b) => `ip${a}${b}`)),
+  "ip69k",
+].filter((c) => c !== "ipxx");
+
+/** 3GPP band numbers as the datasheets state them: E-UTRA (LTE) b1..b88, NR n1..n106 and the mmWave
+ *  n257..n262, UTRA (UMTS/HSPA) umts-b1..umts-b32, and the four GSM frequencies. Stored cells name LTE
+ *  bands 1..71 and UMTS bands 1..8; the numbering is the standard's, so a band nobody has stored yet is
+ *  still a band. A number outside it is refused by the parser, never dropped. */
+export const CELLULAR_BAND_DOMAIN: string[] = [
+  ...Array.from({ length: 88 }, (_, i) => `b${i + 1}`),
+  ...Array.from({ length: 106 }, (_, i) => `n${i + 1}`),
+  ...["257", "258", "259", "260", "261", "262"].map((n) => `n${n}`),
+  ...Array.from({ length: 32 }, (_, i) => `umts-b${i + 1}`),
+  "gsm-850", "gsm-900", "gsm-1800", "gsm-1900",
+];
+
+/** How a part is installed, as a SET — 1,049 current facts, 4 vendors. "Desktop, wall-mount or rack
+ *  mount" (7), "Desktop / Wall Mount" (12), "● DIN rail ● Panel mount" (35), "Wall, pole mount" (17)
+ *  name several, so the reviewer's single enum would have kept one and dropped the rest (the radio_bands
+ *  lesson). Every member is named by a stored value; `embedded` and `vesa` (proposed) are named by NONE
+ *  and are not added. rack-23 and rack-etsi: "19 in., 23 in., ETSI" (2 facts) and the C8300 options. */
+export const MOUNTING_DOMAIN: string[] = [
+  "rack-19", "rack-23", "rack-etsi", "desktop", "under-desk", "wall", "ceiling", "pole", "din-rail", "panel",
+];
+
+/** User-interface languages, folded to the LANGUAGE (region and script are not kept: "English (United
+ *  Kingdom)" and "English (American)" are both `english`, "Chinese (Taiwan)" is `chinese`). 323 of the 340
+ *  stored cells are cut at 160 characters mid-list ("… Czech (Czech R"), so the stored text stops at D;
+ *  the members after it are the rest of the same Cisco phone localisation list the cut cells begin. */
+export const UI_LANGUAGE_DOMAIN: string[] = [
+  "arabic", "bulgarian", "catalan", "chinese", "croatian", "czech", "danish", "dutch", "english", "estonian",
+  "finnish", "french", "german", "greek", "hebrew", "hungarian", "italian", "japanese", "korean", "latvian",
+  "lithuanian", "norwegian", "polish", "portuguese", "romanian", "russian", "serbian", "slovak", "slovenian",
+  "spanish", "swedish", "thai", "turkish", "ukrainian",
+];
+
+/** A microphone's PICKUP PATTERN. 0 stored facts; the six "Microphone type" label samples say
+ *  "Uni-directional ECM", "2 directional Electret Condenser Microphones", "Two MEMS beamforming
+ *  microphones". The reviewer's `cardioid` is folded into `unidirectional` (what the sheets say) and
+ *  `integrated` is left out: it says WHERE a microphone sits, not how it picks up. The element (MEMS, ECM)
+ *  is a different quantity with no cup, and a cell naming only the element is refused. */
+export const MIC_TYPE_DOMAIN: string[] = ["omnidirectional", "unidirectional", "array", "beamforming"];
+
+/** Transmission-standard DESIGNATION TOKENS, as specNormalize's standardTokens() writes them. Built from the
+ *  3,839 current `standard` facts of every vendor (13 Sep 2026) and read one by one: each member is a token some
+ *  stored cell states. A designation that is not here is refused by name and added deliberately, the way
+ *  FORM_FACTOR_OPTIC names SFP-DD rather than folding it. */
+export const STANDARD_DOMAIN: string[] = [
+  // Wi-Fi amendments (wireless), the WDM grid (video, optical-networking, transceiver), coherent MSAs,
+  // SONET/SDH (an STM-N is folded into its OC level), OTN, Fibre Channel, CPRI, SFF and ITU-T recommendations
+  "802.11n", "802.11ac", "802.11ax", "cwdm", "dwdm", "iwdm", "400zr", "openzr+",
+  "oc-3", "oc-12", "oc-48", "oc-192", "otu2", "otu2e", "otu3", "2gfc", "16gfc", "cpri", "sff-8431",
+  "itu-t-g.694.1", "itu-t-g.709", "itu-t-g.975", "itu-t-g.975.1", "itu-t-g.988", "itu-t-g.9807.1",
+  // IEEE rate + PMD, by rate
+  "10base-t", "100base-bx10", "100base-bx10-d", "100base-bx10-u", "100base-ex", "100base-fx", "100base-lx",
+  "100base-lx10", "100base-t", "100base-tx", "100base-x", "100base-zx", "1000base-bx10-d", "1000base-bx10-u",
+  "1000base-bx40", "1000base-bx40-d", "1000base-bx40-u", "1000base-bx80", "1000base-bx80-d", "1000base-bx80-u",
+  "1000base-cwdm", "1000base-dwdm", "1000base-ex", "1000base-lx", "1000base-lx/lh", "1000base-lx10",
+  "1000base-sx", "1000base-t", "1000base-x", "1000base-zx", "10gbase-br", "10gbase-bx10", "10gbase-cr",
+  "10gbase-csr", "10gbase-cu", "10gbase-cwdm", "10gbase-cx4", "10gbase-dwdm", "10gbase-er", "10gbase-erbd",
+  "10gbase-erlbd", "10gbase-ew", "10gbase-lr", "10gbase-lrl", "10gbase-lrm", "10gbase-lw", "10gbase-lx4",
+  "10gbase-sr", "10gbase-srl", "10gbase-sw", "10gbase-t", "10gbase-x", "10gbase-zr", "10gbase-zw",
+  "25gbase-br", "25gbase-br10", "25gbase-br40", "25gbase-cr", "25gbase-cr1", "25gbase-csr", "25gbase-er",
+  "25gbase-lr", "25gbase-mr", "25gbase-sl", "25gbase-sr", "40gbase-bidi", "40gbase-cr4", "40gbase-csr",
+  "40gbase-csr4", "40gbase-er4", "40gbase-fr", "40gbase-lr4", "40gbase-lr4-lite", "40gbase-sr", "40gbase-sr4",
+  "40gbase-sr-bidi", "40gbase-xsr4", "50gbase-br10", "50gbase-br40", "50gbase-cr", "50gbase-cr1", "50gbase-er",
+  "50gbase-lr", "50gbase-sr", "100gbase-bidi", "100gbase-cr2", "100gbase-cr4", "100gbase-cwdm4",
+  "100gbase-cwdm4-lite", "100gbase-dr", "100gbase-er", "100gbase-er4", "100gbase-er4-lite", "100gbase-erl4",
+  "100gbase-fr", "100gbase-fr1", "100gbase-lr", "100gbase-lr1", "100gbase-lr1-20", "100gbase-lr4",
+  "100gbase-lrl4", "100gbase-plrl4", "100gbase-psm4", "100gbase-sl4", "100gbase-sr", "100gbase-sr1",
+  "100gbase-sr1.2", "100gbase-sr10", "100gbase-sr4", "100gbase-swdm4", "100gbase-xcwdm4", "100gbase-xsr4",
+  "100gbase-zr4", "200gbase-cr4", "200gbase-fr4", "200gbase-sr4", "400gbase-2fr4", "400gbase-bidi",
+  "400gbase-dr4", "400gbase-fr4", "400gbase-lr4", "400gbase-lr8", "400gbase-sr4.2", "400gbase-sr8",
+  "400gbase-vr4", "400gbase-vsr4", "400gbase-zr", "800gbase-cr8", "800gbase-dr8", "800gbase-vr8",
+  "800gbase-vsr8", "800gbase-xdr8",
+];
+
+/** A pixel resolution as two numbers — the typed form of the reviewer's `^\d+x\d+$` pattern. */
+export const RESOLUTION_SHAPE = "{ w: n, h: n }";
+
 export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // --- identity -------------------------------------------------------------------------------
   vendor: { key: "vendor", de: "Hersteller", en: "Manufacturer", type: "e", domain: VENDORS, etim: [], icecat: null },
@@ -199,6 +288,12 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   latency: { key: "latency", de: "Latenz", en: "Latency", type: "n", unit: "µs", band: [0.01, 100], etim: [], icecat: null },
 
   // --- compute --------------------------------------------------------------------------------
+  // FREE TEXT BY DECISION (13 Sep 2026, docs/decisions/2026-09-13-free-string-cups.md). A processor
+  // model string ("AMD 9575F", "Intel I8480+", "Quad Core ARM Cortex A72 @ 1.8GHz"): 1,642 current
+  // facts, 392 distinct, no closed vocabulary to hold them. "Filled" means a model string was captured.
+  // KNOWN AMBIGUITY, recorded rather than resolved: on a server the cup names the processor it HOLDS;
+  // on a CPU part (servers kind `cpu`) the same key is the part's OWN model — two meanings on one key.
+  // A `cpu_model` normaliser is phase-2 work. Listed in FREE_TEXT_BY_DECISION (tests/freeStringCups).
   cpu: { key: "cpu", de: "CPU", en: "CPU", type: "s", etim: [], icecat: null },
   dram: { key: "dram", de: "Arbeitsspeicher", en: "DRAM", type: "n", unit: "GB", band: [0.06, 512], etim: [], icecat: null },
   flash: { key: "flash", de: "Flash-Speicher", en: "Flash memory", type: "n", unit: "GB", band: [0.03, 1024], etim: [], icecat: null },
@@ -227,7 +322,12 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   altitude_max: { key: "altitude_max", de: "Max. Betriebshöhe", en: "Max operating altitude", type: "n", unit: "m", band: [0, 10000], etim: [], icecat: null },
   acoustic_noise: { key: "acoustic_noise", de: "Geräuschpegel", en: "Acoustic noise", type: "n", unit: "dB(A)", band: [0, 120], etim: [], icecat: null },
   mtbf: { key: "mtbf", de: "MTBF", en: "MTBF", type: "n", unit: "h", band: [1000, 10000000], etim: [], icecat: null },
-  ip_rating: { key: "ip_rating", de: "Schutzart (IP)", en: "IP rating", type: "s", examples: ["IP30", "IP54", "IP67"], etim: ["EF005474"], icecat: null },
+  // CLOSED 13 Sep 2026 (phase-1 §5.4). The domain IS the IEC 60529 code grid — first digit 0-6 or X,
+  // second 0-8 or X, plus ISO 20653's IP69K — written as an enum because field_dictionary carries a
+  // domain and no pattern; nothing is admitted that the standard does not define. Stored: 9 facts, all
+  // "IP20" (cisco switches), all accepted. A cell naming TWO ratings ("IP40 rated, IP54 rated with
+  // additional IP54-KIT") is a capability statement and is refused (specNormalize ipRatingToken).
+  ip_rating: { key: "ip_rating", de: "Schutzart (IP)", en: "IP rating", type: "e", domain: IP_CODES, examples: ["IP30", "IP54", "IP67"], etim: ["EF005474"], icecat: null },
 
   // --- LICENSING AND SOFTWARE, added 8 Sep 2026 -------------------------------------------------
   // WHY THESE EXIST. Four categories held 3,704 parts and NO field definitions at all
@@ -294,7 +394,16 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   ieee_standards: { key: "ieee_standards", de: "IEEE-Standards", en: "IEEE standards", type: "ls", examples: ["802.3ab", "802.1q", "802.3az", "802.1x"], etim: [], icecat: null },
 
   // --- transceiver-only -----------------------------------------------------------------------
-  standard: { key: "standard", de: "Übertragungsstandard", en: "Transmission standard", type: "s", examples: ["1000base-sx", "10gbase-lr", "40gbase-sr4"], etim: [], icecat: null },
+  // CLOSED 13 Sep 2026 (phase-1 §5.4) to a list of DESIGNATION TOKENS. Measured across every vendor: 3,839
+  // current facts in six categories and four families — transceiver 2,107 (IEEE rate+PMD "10GBASE-SR", SONET,
+  // OTN, FC, SFF, WDM grid), wireless 768 (a Wi-Fi amendment, "802.11ac"), video 690 and optical-networking 12
+  // (the WDM grid, "DWDM"/"CWDM"/"iWDM"), switches 188 and interfaces-modules 74 (a PHY, "10GBase-T",
+  // "OC-3c/STM-1"). The ONE domain ADMITS all four families rather than scoping the cup per category: every
+  // category's stored family is a legitimate transmission standard, and a scoped override is invisible to
+  // field_dictionary. What it refuses is what is not a standard at all — media ("DAC Kabel" 319, "AOC
+  // Kabel" 256, "fest konfektioniert" 90), a bare reach code with no rate ("SR", "LR4", "BX" — the rate is
+  // data_rate's), form factors ("CPAK", "CXP") and a temperature. See the decision file for every count.
+  standard: { key: "standard", de: "Übertragungsstandard", en: "Transmission standard", type: "ls", domain: STANDARD_DOMAIN, examples: ["1000base-sx", "10gbase-lr", "40gbase-sr4"], etim: [], icecat: null },
   data_rate: { key: "data_rate", de: "Datenrate", en: "Data rate", type: "n", unit: "Gbit/s", band: [0.1, 1600], etim: [], icecat: null },
   media: { key: "media", de: "Übertragungsmedium", en: "Media", type: "e", domain: ["mmf", "smf", "dac-copper", "rj45-copper", "aoc"], etim: [], icecat: null },
   fiber_type: { key: "fiber_type", de: "Fasertyp", en: "Fiber type", type: "e", domain: ["om1", "om2", "om3", "om4", "om5", "os1", "os2"], etim: [], icecat: null },
@@ -687,7 +796,8 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   jacket_color: { key: "jacket_color", de: "Mantelfarbe", en: "Cable jacket color", type: "s", etim: [], icecat: null },
   jacket_material: { key: "jacket_material", de: "Mantelmaterial", en: "Cable jacket material", type: "s", etim: [], icecat: null },
   min_software_release: { key: "min_software_release", de: "Mindest-Systemsoftware", en: "Minimum system software release", type: "s", etim: [], icecat: null },
-  mounting: { key: "mounting", de: "Montage", en: "Mounting", type: "s", etim: [], icecat: null },
+  // CLOSED 13 Sep 2026 (phase-1 §5.4) — a closed LIST, not the proposed enum: see MOUNTING_DOMAIN.
+  mounting: { key: "mounting", de: "Montage", en: "Mounting", type: "ls", domain: MOUNTING_DOMAIN, etim: [], icecat: null },
   optical_pm: { key: "optical_pm", de: "Optische Leistungsüberwachung (Trunk)", en: "Trunk optical performance monitoring", type: "ls", etim: [], icecat: null },
   otn_pm: { key: "otn_pm", de: "OTN-Leistungsüberwachung", en: "OTN performance monitoring", type: "ls", etim: [], icecat: null },
   polarization: { key: "polarization", de: "Polarisation", en: "Polarization", type: "s", etim: [], icecat: null },
@@ -820,6 +930,68 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // ps/nm (15216-FBGDCU-1983=), written with either sign. DECLARED OPT: no label maps to it and no fact holds it.
   dispersion_compensation: { key: "dispersion_compensation", de: "Dispersionskompensation", en: "Dispersion compensation", type: "n", unit: "ps/nm", band: [-3000, 3000], etim: [], icecat: null },
   // end optical-storage
+
+  // --- free-string cups, 13 Sep 2026 (phase-1 close guide §5.4) --------------------------------------------
+  // CURATED OVERRIDES of generated entries that were type "s" with no domain while a profile REQUIRES them.
+  // Labels, keys and (where one existed) units are copied verbatim from fieldSchema.generated.ts; only the type,
+  // domain, band and shape change. Per-cup evidence: docs/decisions/2026-09-13-free-string-cups.md.
+  //
+  // cellular_bands — CLOSED: 65 facts (cisco routers 47, interfaces-modules 14, cloud-systems-management 4), every
+  // one a sentence ("LTE bands 1-5, 7, 8, 12 … FDD LTE 700 MHz (band 12)"). Read to the band numbers it states.
+  cellular_bands: { key: "cellular_bands", de: "Unterstützte Mobilfunkbänder", en: "Supported cellular bands", type: "ls", domain: CELLULAR_BAND_DOMAIN, etim: [], icecat: null },
+  // RETYPED to open lists: each cell is already a list held as one string ("● OPUS, G.722, G.722.2, iSAC …";
+  // "● H.264, H.265, AV1"; "1 port GE and 1 VADSL (Annex B/J)"). 80 / 0 / 14 / 14 current facts, all cisco.
+  audio_codecs: { key: "audio_codecs", de: "Audio-Codecs", en: "Audio codecs", type: "ls", etim: [], icecat: null },
+  video_codecs: { key: "video_codecs", de: "Video-Codecs", en: "Video codecs", type: "ls", etim: [], icecat: null },
+  lan_interfaces: { key: "lan_interfaces", de: "LAN-Schnittstellen", en: "LAN interfaces", type: "ls", etim: [], icecat: null },
+  wan_interfaces: { key: "wan_interfaces", de: "WAN-Schnittstellen", en: "WAN interfaces", type: "ls", etim: [], icecat: null },
+  // CLOSED, not merely retyped (the data overrode the recommendation): 51 of 340 stored cells are not a
+  // separable list — 34 run the languages together with no delimiter ("Arabic (Arabic Area) Bulgarian
+  // (Bulgaria) …"), 11 say "User interface support for English", 6 say "Support for more than 20 languages is
+  // built in". An open list would store the first as one member and the last as a language. See UI_LANGUAGE_DOMAIN.
+  ui_languages: { key: "ui_languages", de: "Sprachen der Benutzeroberfläche", en: "User interface languages", type: "ls", domain: UI_LANGUAGE_DOMAIN, etim: [], icecat: null },
+  // CLOSED to a pixel pair. A struct rather than an enum of the resolutions that occur: an enum would refuse a
+  // real 2560x1440 the first time it arrived. max_resolution 0 facts ("Resolution" label: "1280 x 800",
+  // "1920 x 1200"); video_quality_max 9 facts (meraki cameras, "Up to 1080p HD w/ H.264, up to 20fps") — the
+  // frame rate is a second quantity with no cup and is not kept.
+  max_resolution: { key: "max_resolution", de: "Maximale unterstützte Auflösung", en: "Maximum supported resolution", type: "struct", shape: RESOLUTION_SHAPE, etim: [], icecat: null },
+  video_quality_max: { key: "video_quality_max", de: "Maximale Videoqualität", en: "Maximum video quality", type: "struct", shape: RESOLUTION_SHAPE, etim: [], icecat: null },
+  // RETYPED to a number, unit unchanged. 0 facts. The label evidence ("4x digital zoom", "2.5x optical zoom (5x
+  // with digital*)") carries two quantities: the cup is the OPTICAL factor, and a digital-only cell is refused.
+  camera_zoom: { key: "camera_zoom", de: "Kamera-Zoom", en: "Camera zoom", type: "n", unit: "x", band: [1, 100], etim: [], icecat: null },
+  // RETYPED to a RANGE, not the proposed number: 11 facts (meraki cameras) of which 4 are varifocal spans
+  // ("Horizontal: 28° - 82° …", "43° to 94°") and a number would keep the first end. Unit kept as "deg", the
+  // house spelling of the angle dimension since 4 Sep 2026 ("°" is read as input). The HORIZONTAL figure is
+  // the cup when a cell labels its axes; a cell labelling only vertical or diagonal is refused.
+  field_of_view: { key: "field_of_view", de: "Sichtfeld", en: "Field of view", type: "nr", unit: "deg", band: [1, 360], etim: [], icecat: null },
+  // RETYPED to a number in YEARS, not the proposed hours: all 6 stored facts are years ("5 Years", "up to 5
+  // Years*", "2 Years", meraki MT sensors) and the generated unit already said years. `years` and `h` are
+  // different dimensions in the unit table, so an hours unit would have refused all six.
+  battery_life: { key: "battery_life", de: "Erwartete Batterielebensdauer", en: "Expected battery life", type: "n", unit: "years", band: [0.1, 30], etim: [], icecat: null },
+  mic_type: { key: "mic_type", de: "Mikrofontyp", en: "Microphone type", type: "e", domain: MIC_TYPE_DOMAIN, etim: [], icecat: null },
+  // SPLIT. `display` stays a free string and becomes OPTIONAL in the collab profiles; the two quantities a buyer
+  // compares are their own cups. 0 stored `display` facts; the 68 label occurrences ("● Capacitive touch LCD ●
+  // 10.1-inch diagonal", "480x128-pixel backlit 24-bit color LCD, 3.9-in. (9.9-cm) diagonal") state both in one
+  // cell, and each normaliser reads its own quantity from that same cell — so a mapper can write one display
+  // cell to both keys. A cell describing several models ("● 9811: 2.6-inch … ● 9841: 3.5-inch …") is refused.
+  display: { key: "display", de: "Display", en: "Display", type: "s", etim: [], icecat: null },
+  display_size: { key: "display_size", de: "Bildschirmdiagonale", en: "Screen diagonal", type: "n", unit: "in", band: [1, 120], etim: [], icecat: null },
+  display_resolution: { key: "display_resolution", de: "Bildschirmauflösung", en: "Screen resolution", type: "struct", shape: RESOLUTION_SHAPE, etim: [], icecat: null },
+  // FREE TEXT BY DECISION: a sensor part description ("1/3” 4MP (2688x1520) progressive CMOS"), 9 facts, all
+  // meraki cameras. "Filled" means a sensor description was captured. See FREE_TEXT_BY_DECISION.
+  image_sensor: { key: "image_sensor", de: "Bildsensor", en: "Image sensor", type: "s", etim: [], icecat: null },
+  // end free-string cups
+};
+
+/**
+ * REQUIRED CUPS THAT STAY FREE TEXT, BY RECORDED DECISION (13 Sep 2026). tests/freeStringCups.test.ts walks
+ * every profile and fails on a required or conditional cup of type `s` with no domain unless its key is here,
+ * and fails on an entry here that the decision file does not name. A free string makes "filled" mean "some
+ * string arrived", so each entry is a decision someone signed, not a default.
+ */
+export const FREE_TEXT_BY_DECISION: Readonly<Record<string, string>> = {
+  cpu: "docs/decisions/2026-09-13-free-string-cups.md#cpu",
+  image_sensor: "docs/decisions/2026-09-13-free-string-cups.md#image_sensor",
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -1175,7 +1347,9 @@ const collabBlock = (): Record<string, Requirement> => ({
   // --- screens ------------------------------------------------------------------------------------------
   // "Display" 39 + "Graphical display" 19 + "Hardware Features: Graphical display" 7 map; the samples are phone,
   // Room Navigator and Touch 10 sheets. A codec, a bar and a kit drive external screens and have none.
-  display: cK(COLLAB_SCREEN),
+  // SPLIT 13 Sep 2026 (phase-1 §5.4): the free-text `display` said only "some string arrived". The screen is
+  // asked its two comparable quantities, and `display` stays declared as optional text for the rest of the cell.
+  display_size: cK(COLLAB_SCREEN), display_resolution: cK(COLLAB_SCREEN), display: opt,
   // lines a phone registers — 6 facts, "Voice Lines" 6 mapped. Band in BAND_OVERRIDES.
   voice_lines: cK(["phone"]),
   // --- video --------------------------------------------------------------------------------------------

@@ -66,7 +66,12 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        string to a list on 4 Sep 2026 and the comma splitter then read 396 citation cells for the
 //        first time, cutting "MIL-STD-810, Method 514.4" into two standards that do not exist. The
 //        rule and every bound in it are read off the stored raws — see isCitationContinuation.
-export const NORM_VERSION = "1.7.0"; // 13 Sep 2026: phase-1 close §5.1 + §5.2 (below)
+export const NORM_VERSION = "1.8.0"; // 13 Sep 2026: phase-1 close §5.4 (below)
+// 1.8.0 — 13 Sep 2026, phase-1 close guide §5.4, docs/decisions/2026-09-13-free-string-cups.md. The 18 free-string
+//         required cups: standard / cellular_bands / mounting / ui_languages become closed lists, ip_rating and
+//         mic_type enums, the three resolution cups a {w,h} struct, camera_zoom / battery_life / display_size
+//         numbers, field_of_view a range, the codec and interface cups open lists. Each has a per-key reader
+//         (freeStringCupPreprocess, resolutionValue); stored values of those keys normalise differently.
 // 1.7.0 — 13 Sep 2026, docs/reports/phase1-close-guide-2026-09-13.md §5.1 and §5.2. Stored values
 //         normalise differently under this version, so a replay must compare norm_v:
 //           - A PLACEHOLDER IS REFUSED FOR EVERY TYPE, with its own reason `placeholder`, before any
@@ -1096,6 +1101,40 @@ const ENUM_RULES: Record<string, [RegExp, string][]> = {
     [/^\s*nam?\s*$/i, "na"],
   ],
   // end wireless-r7
+  // --- free-string cups, 13 Sep 2026 (phase-1 §5.4; docs/decisions/2026-09-13-free-string-cups.md) ---------------
+  // MOUNTING is a closed LIST, so every rule that matches is unioned (see the `ls` branch). Each rule was read
+  // against the 105 distinct stored cells of four vendors. No `\b` anywhere: "Pole-Mount", "Din-Rail/Wall" and
+  // "Wallplate" have no word boundary where one is expected, and "firewall" must not read as a wall.
+  //   A RACK WITH NO WIDTH IS A 19-INCH RACK (EIA-310, the rack every stored rack cell names when it names one) —
+  //   but only when the cell names no 23-inch or ETSI rack, or "23-in. rack" would also read as rack-19.
+  //   "DIN Rail Kit" is not a rack rail kit, and "Under Desk" is not a desktop.
+  //   No rule for "surface mountable" (15), "Cable Duct" (1), "Faceplate mount" (2) or a bare kit PID
+  //   ("Default: C84G2-ACCKIT-19"): none names a way of mounting the domain holds, so each is refused.
+  mounting: [
+    [/(?<![0-9.])23\s*-?\s*(?:in(?:ch(?:es)?)?(?![a-z])\.?|"|”|″)/i, "rack-23"],
+    [/(?<![a-z])etsi(?![a-z])/i, "rack-etsi"],
+    [/(?<![0-9.])19\s*-?\s*(?:in(?:ch(?:es)?)?(?![a-z])\.?|"|”|″)|(?<![a-z])eia[-\s]?310/i, "rack-19"],
+    [/^(?![\s\S]*(?:(?<![0-9.])23\s*-?\s*(?:in(?:ch(?:es)?)?(?![a-z])|"|”|″)|(?<![a-z])etsi(?![a-z])))[\s\S]*(?:(?<![a-z])rack|(?<!din[\s-]*)(?<![a-z])rail[\s-]+kit)/i, "rack-19"],
+    [/under[\s-]*desk/i, "under-desk"],
+    [/(?<!under[\s-]*)(?<![a-z])desk(?:top)?(?![a-z])|(?<![a-z])table[\s-]*top(?![a-z])/i, "desktop"],
+    [/(?<![a-z])wall/i, "wall"],
+    [/(?<![a-z])ceiling/i, "ceiling"],
+    [/(?<![a-z])pole(?![a-z])/i, "pole"],
+    [/(?<![a-z])din[\s-]*rail/i, "din-rail"],
+    [/(?<![a-z])panel(?![a-z])/i, "panel"],
+  ],
+  // UI LANGUAGES: one rule per language in the domain, whole word, case-free, unioned. A region or script in
+  // brackets folds into the language. Built from the domain so the two cannot drift.
+  ui_languages: (FIELD_DICTIONARY.ui_languages?.domain ?? []).map((l): [RegExp, string] => [new RegExp(`(?<![a-z])${l}(?![a-z])`, "i"), l]),
+  // MICROPHONE PICKUP PATTERN, first match wins. Beamforming before array (a beamforming array is named for
+  // what it does); omni before the directional rule, whose lookbehinds keep "omni-directional" and
+  // "bi-directional" out of `unidirectional`. An element-only cell ("Electret condenser/ECM") matches nothing.
+  mic_type: [
+    [/beam[\s-]*form/i, "beamforming"],
+    [/(?<![a-z])array(?![a-z])/i, "array"],
+    [/omni[\s-]*directional|(?<![a-z])omni(?![a-z])/i, "omnidirectional"],
+    [/(?<!bi[\s-]*)(?<!omni[\s-]*)(?<![a-z])(?:uni[\s-]*)?directional|cardioid/i, "unidirectional"],
+  ],
   mgmt_class: [[/unmanaged|unverwaltet/i, "unmanaged"], [/smart/i, "smart-managed"], [/managed|verwaltet/i, "managed"]],
   // A distributor states the switching layer as the bare NUMBER — provantage's "Layer Supported"
   // is "3" (81), "2" (33), "3.0" (2) and "4" (4) and nothing else — so 116 correct answers were
@@ -1154,6 +1193,288 @@ const ENUM_RULES: Record<string, [RegExp, string][]> = {
     [/^\s*ext\s*$|extended|erweitert|e-?temp/i, "extended"],
     [/^\s*com\s*$|commercial|kommerziell|standard/i, "commercial"]],
 };
+
+// ---------------------------------------------------------------------------------------------
+// free-string cups, closed or retyped — 13 Sep 2026 (phase-1 close guide §5.4)
+// ---------------------------------------------------------------------------------------------
+// Each function reduces a cell to what the cup's new type can read: designation tokens for a closed list, one
+// "<number> <unit>" for a number, one ordered span for a range — or to a REFUSAL SENTENCE, a string that holds
+// no member, no digit and no rule's trigger, so the typed branch refuses it and names the reason in its detail.
+// Nothing here picks one of two answers. Evidence and refusal counts per cup:
+// docs/decisions/2026-09-13-free-string-cups.md. Every regex below was written with the Edit tool.
+
+type At = { at: number; tok: string };
+
+/** Blank out a matched span so a later, looser pattern cannot read the same text twice. */
+const blank = (s: string, from: number, len: number): string => s.slice(0, from) + " ".repeat(len) + s.slice(from + len);
+
+// An IEEE rate + PMD designation: "10GBASE-SR", "1000Base-SX", "100Base TX", "10BaseT", "2.5GBASE-T", a rate list
+// "25/50GBASE-CR1", a suffix "-BX10-U" / "-SR-BiDi" / "-LR4-Lite", a second PMD "10GBASE-LR/-LW", and Cisco's
+// single designation "1000BASE-LX/LH". A continuation needs its dash: "10GBase-T/SFP" is a PHY and a cage.
+// Fortinet's "400G-Base-LR4" is the same designation with a hyphen before BASE.
+const STD_PMD = /(?<![A-Za-z0-9.\/])((?:\d+(?:\.\d+)?\/)*\d+(?:\.\d+)?)\s*([GM])?[\s-]?BASE[\s-]?([A-Za-z0-9]+(?:\.\d+)?)((?:-(?:Lite|BiDi|[UD](?![A-Za-z])))*)((?:\/-[A-Za-z]{2}(?![A-Za-z]))*)(\/LH(?![A-Za-z]))?/gi;
+// A rate and an MSA or PMD name with no "BASE": "100G CWDM4", "100G PSM4", "100G BiDi", "10G CWDM", "100G ZR4",
+// "100G ER4-Lite". Written as the BASE form it abbreviates, so Arista's "100GBASE-CWDM4" and Cisco's "100G CWDM4"
+// are one token. Case-sensitive on the name, so "40G QSFP+" (a cage) cannot be read as one.
+const STD_RATE_NAME = /(?<![A-Za-z0-9.\/])(\d+(?:\.\d+)?)G[\s-]+(CWDM4|PSM4|SWDM4|4WDM|BiDi|CWDM|DWDM|[A-Z]{2,3}\d(?:\.\d)?)(-Lite|-\d{2})?(?![A-Za-z0-9+])/g;
+const STD_GRID = /(?<![A-Za-z0-9-])(CWDM|DWDM|iWDM)(?![A-Za-z0-9-])/gi;
+// The coherent interoperability agreements, named without a BASE form: "OIF 400ZR (MSA)", "OpenZR+ (MSA)".
+const STD_COHERENT = /(?<![A-Za-z0-9])(400ZR|800ZR|OpenZR\+)(?![A-Za-z0-9])/gi;
+const STD_OC = /(?<![A-Za-z0-9])OC-?(\d{1,3})c?(?![0-9])/gi;
+const STD_STM = /(?<![A-Za-z0-9])STM-?(\d{1,3})(?![0-9])/gi;
+const STD_OTU = /(?<![A-Za-z0-9])OTU(\d)(e)?(?:\/(\d)?(e))?(?![A-Za-z0-9])/gi;
+const STD_CPRI = /(?<![A-Za-z])CPRI(?![A-Za-z])/gi;
+const STD_FC = /(?<![A-Za-z0-9.])(\d{1,3})G\s?FC(?![A-Za-z])/gi;
+const STD_WIFI = /802\.11\s?([a-z]{1,2})((?:\/[a-z]{1,2})*)(?![a-z])/gi;
+const STD_8023 = /802\.3([a-z]{1,3})(?![a-z])/gi;
+const STD_SFF = /(?<![A-Za-z])SFF-(\d{4})(?![0-9])/gi;
+// "ITU-T G.709/G.975/G.975.1/G.694.1" names four recommendations; "G.9807.1" has a four-digit number.
+const STD_ITU = /ITU-T\s*G\.(\d{3,4}(?:\.\d+)?)(?![0-9])((?:\s*\/\s*G\.\d{3,4}(?:\.\d+)?(?![0-9]))*)/gi;
+// A cage or a medium written where the PMD belongs ("40GBASE QSFP", "25GBASE-AOC") is not a designation.
+const NOT_A_PMD = new Set(["aoc", "qsfp", "sfp", "cfp", "xfp", "osfp", "cpak", "cxp"]);
+const OC_LEVELS = new Set([1, 3, 12, 24, 48, 192, 768]);
+const STM_TO_OC: Record<number, number> = { 0: 1, 1: 3, 4: 12, 16: 48, 64: 192, 256: 768 };
+
+/** `standard`: the designation tokens a cell states, in the order it states them. An IEEE 802.3 amendment
+ *  ("802.3ae") is kept only when the cell names no rate+PMD designation, so "IEEE 802.3ae 10GBASE-SR" and
+ *  "10GBASE-SR" are one value. A cell naming no designation — media ("DAC Kabel"), a bare reach code ("SR"),
+ *  a cage ("CPAK"), a temperature — is refused rather than guessed. */
+export function standardTokens(cell: string): string {
+  let s = cell;
+  const out: At[] = [];
+  for (const m of [...s.matchAll(STD_PMD)]) {
+    let pmd = m[3].toLowerCase();
+    if (NOT_A_PMD.has(pmd)) continue;
+    const suffix = (m[4] ?? "").toLowerCase();
+    for (const r of m[1].split("/")) {
+      // "1GBase-X" is 1000BASE-X: IEEE names the gigabit PHYs by megabits.
+      const [rate, unit] = r === "1" && (m[2] ?? "").toLowerCase() === "g" ? ["1000", ""] : [r, (m[2] ?? "").toLowerCase()];
+      // Cisco writes one gigabit long-haul designation three ways: "1000BASE-LX/LH", "1000BASE-LH", "1000BASE-LHLX".
+      if (rate === "1000" && (m[6] || pmd === "lh" || pmd === "lhlx")) pmd = "lx/lh";
+      out.push({ at: m.index!, tok: `${rate}${unit}base-${pmd}${suffix}` });
+      for (const c of (m[5] ?? "").split("/-").filter(Boolean)) out.push({ at: m.index! + 1, tok: `${rate}${unit}base-${c.toLowerCase()}` });
+    }
+    s = blank(s, m.index!, m[0].length);
+  }
+  // "40GBASE-SR-BiDi (40G BiDi)" restates its designation in brackets; a rate already designated is not re-read.
+  const designatedRates = new Set(out.map((x) => x.tok.split("base-")[0]));
+  for (const m of [...s.matchAll(STD_RATE_NAME)]) {
+    if (designatedRates.has(`${m[1]}g`)) { s = blank(s, m.index!, m[0].length); continue; }
+    out.push({ at: m.index!, tok: `${m[1]}gbase-${m[2].toLowerCase()}${(m[3] ?? "").toLowerCase()}` });
+    s = blank(s, m.index!, m[0].length);
+  }
+  const hasPmd = out.length > 0;
+  for (const m of s.matchAll(STD_GRID)) out.push({ at: m.index!, tok: m[1].toLowerCase() });
+  for (const m of s.matchAll(STD_OC)) { const n = Number(m[1]); if (OC_LEVELS.has(n)) out.push({ at: m.index!, tok: `oc-${n}` }); }
+  for (const m of s.matchAll(STD_STM)) { const n = STM_TO_OC[Number(m[1])]; if (n) out.push({ at: m.index!, tok: `oc-${n}` }); }
+  for (const m of s.matchAll(STD_OTU)) {
+    out.push({ at: m.index!, tok: `otu${m[1]}${m[2] ? "e" : ""}` });
+    if (m[4]) out.push({ at: m.index! + 1, tok: `otu${m[3] ?? m[1]}e` });
+  }
+  for (const m of s.matchAll(STD_COHERENT)) out.push({ at: m.index!, tok: m[1].toLowerCase() });
+  for (const m of s.matchAll(STD_CPRI)) out.push({ at: m.index!, tok: "cpri" });
+  for (const m of s.matchAll(STD_FC)) out.push({ at: m.index!, tok: `${m[1]}gfc` });
+  for (const m of s.matchAll(STD_WIFI)) {
+    for (const x of [m[1], ...(m[2] ?? "").split("/").filter(Boolean)]) out.push({ at: m.index!, tok: `802.11${x.toLowerCase()}` });
+  }
+  if (!hasPmd) for (const m of s.matchAll(STD_8023)) out.push({ at: m.index!, tok: `802.3${m[1].toLowerCase()}` });
+  for (const m of s.matchAll(STD_SFF)) out.push({ at: m.index!, tok: `sff-${m[1]}` });
+  for (const m of s.matchAll(STD_ITU)) {
+    for (const g of [m[1], ...[...(m[2] ?? "").matchAll(/G\.(\d{3,4}(?:\.\d+)?)/g)].map((x) => x[1])]) out.push({ at: m.index!, tok: `itu-t-g.${g}` });
+  }
+  const toks = [...new Set(out.sort((a, b) => a.at - b.at).map((x) => x.tok))];
+  return toks.length ? toks.join("; ") : "names no transmission-standard designation";
+}
+
+// Cellular technology headers. Every band number is read INSIDE the segment its technology header opens, so
+// "LTE: Bands 2, 4, 5 … UMTS: Bands 2, 4, and 5" is b2,b4,b5 and umts-b2,umts-b4,umts-b5, never a mixture.
+const CELL_TECH = /(?<![A-Za-z])(5G[\s-]*NR|NR|LTE|UMTS|HSPA\+?|WCDMA|EDGE|GSM|GPRS|EV-?DO|CDMA(?:2000)?|1xRTT)(?![A-Za-z])/gi;
+// A band list: numbers and ranges joined by commas, "and", "&" or "or". A number followed by MHz/GHz is a
+// frequency and ends the list; so does a number with no separator before it ("20 800 (band 20)").
+const BAND_ITEM = "\\d{1,3}(?![0-9])(?:\\s*[-–]\\s*\\d{1,3}(?![0-9]))?(?!\\s*[MG]Hz)";
+const BAND_LIST = `${BAND_ITEM}(?:\\s*(?:,\\s*(?:and\\s+)?|and\\s+|&\\s*|or\\s+)\\s*${BAND_ITEM})*`;
+const BAND_KEYWORD = new RegExp(`(?<![A-Za-z])bands?\\s*:?\\s*(${BAND_LIST})`, "gi");
+const BAND_HEADER_LED = new RegExp(`^(?:5G[\\s-]*NR|NR|LTE|UMTS|HSPA\\+?|WCDMA)\\s*[:/,]?\\s*(${BAND_LIST})`, "i");
+const BAND_GLUED_B = /(?<![A-Za-z0-9])B(\d{1,3})(?![0-9])/g;
+const BAND_GLUED_N = /(?<![A-Za-z0-9])n(\d{1,3})(?![0-9])/g;
+const BRACKETED = /\([^()]*\)|\[[^[\]]*\]/g;
+const GSM_FREQ = /(\d{3,4})\s*MHz/gi;
+
+function bandNumbers(list: string): number[] {
+  const out: number[] = [];
+  for (const item of list.split(/,|and|&|or/)) {
+    const r = /(\d{1,3})\s*[-–]\s*(\d{1,3})/.exec(item);
+    if (r) {
+      const lo = Number(r[1]), hi = Number(r[2]);
+      if (lo < hi && hi - lo <= 60) for (let n = lo; n <= hi; n++) out.push(n);
+      else out.push(NaN);                              // a reversed or absurd range is refused, not guessed
+      continue;
+    }
+    const n = /\d{1,3}/.exec(item);
+    if (n) out.push(Number(n[0]));
+  }
+  return out;
+}
+
+/** `cellular_bands`: the 3GPP bands a cell states, as b<N> (LTE), n<N> (NR), umts-b<N> and gsm-<MHz>. A cell
+ *  naming frequencies but no band numbers ("850, 900, 1900, and 2100 MHz") is refused: 850 MHz is band 5, 18,
+ *  19 or 26 depending on the region, and choosing is a guess. */
+export function cellularBandTokens(cell: string): string {
+  const heads = [...cell.matchAll(CELL_TECH)];
+  if (!heads.length) return "names no radio technology for its bands";
+  if (/band/i.test(cell.slice(0, heads[0].index)) && /[0-9]/.test(cell.slice(0, heads[0].index))) {
+    return "states bands before naming their radio technology";
+  }
+  const found = { b: new Set<number>(), n: new Set<number>(), u: new Set<number>(), g: new Set<number>() };
+  const family = (h: string) => /nr/i.test(h) ? "n" : /lte/i.test(h) ? "b" : /umts|hspa|wcdma/i.test(h) ? "u" : /edge|gsm|gprs/i.test(h) ? "g" : "cdma";
+  for (let i = 0; i < heads.length; i++) {
+    const seg = cell.slice(heads[i].index, i + 1 < heads.length ? heads[i + 1].index : cell.length);
+    const fam = family(heads[i][1]);
+    if (fam === "cdma") { if (/[0-9]/.test(seg)) return "states a CDMA or EV-DO band, which this cup does not read"; continue; }
+    if (fam === "g") {
+      for (const m of seg.matchAll(GSM_FREQ)) {
+        const f = Number(m[1]);
+        if (![850, 900, 1800, 1900].includes(f)) return "states a GSM frequency that is not a GSM band";
+        found.g.add(f);
+      }
+      continue;
+    }
+    const bare = seg.replace(BRACKETED, " ");
+    const nums: number[] = [];
+    for (const text of [bare, seg]) for (const m of text.matchAll(BAND_KEYWORD)) nums.push(...bandNumbers(m[1]));
+    const led = BAND_HEADER_LED.exec(bare);
+    if (led) nums.push(...bandNumbers(led[1]));
+    if (fam === "b") for (const m of seg.matchAll(BAND_GLUED_B)) nums.push(Number(m[1]));
+    if (fam === "n") for (const m of seg.matchAll(BAND_GLUED_N)) nums.push(Number(m[1]));
+    for (const n of nums) {
+      const valid = fam === "b" ? n >= 1 && n <= 88 : fam === "n" ? (n >= 1 && n <= 106) || (n >= 257 && n <= 262) : n >= 1 && n <= 32;
+      if (!valid) return "states a band number outside 3GPP numbering, or a reversed range";
+      found[fam as "b" | "n" | "u"].add(n);
+    }
+  }
+  const sort = (x: Set<number>) => [...x].sort((a, b) => a - b);
+  const toks = [...sort(found.b).map((n) => `b${n}`), ...sort(found.n).map((n) => `n${n}`),
+    ...sort(found.u).map((n) => `umts-b${n}`), ...sort(found.g).map((n) => `gsm-${n}`)];
+  return toks.length ? toks.join("; ") : "names no LTE, NR, UMTS or GSM band";
+}
+
+const IP_CODE = /(?<![A-Za-z0-9])IP\s?([0-6X])([0-9X])(K)?(?![0-9])/gi;
+/** `ip_rating`: exactly one IEC 60529 code, as "ipNN". Two codes in one cell ("IP40 rated, IP54 rated with
+ *  additional IP54-KIT") are a capability statement — which one the part has depends on a kit — and are refused. */
+export function ipRatingToken(cell: string): string {
+  const codes = new Set([...cell.matchAll(IP_CODE)].map((m) => `ip${m[1]}${m[2]}${m[3] ? "k" : ""}`.toLowerCase()));
+  if (codes.size > 1) return "names more than one IP rating, conditional on a kit or a variant";
+  return codes.size === 1 ? [...codes][0] : cell;
+}
+
+const FOV_H_BEFORE = /horizontal\s*:?\s*(\d+(?:\.\d+)?)\s*°?(?:\s*(?:-|–|to)\s*(\d+(?:\.\d+)?)\s*°?)?/i;
+const FOV_H_AFTER = /(\d+(?:\.\d+)?)\s*°?(?:\s*(?:-|–|to)\s*(\d+(?:\.\d+)?)\s*°?)?\s*\(\s*horizontal\s*\)/i;
+const FOV_SPAN = /^\s*(\d+(?:\.\d+)?)\s*°?\s*(?:(?:-|–|to)\s*(\d+(?:\.\d+)?)\s*°?)?\s*$/i;
+/** `field_of_view`: the HORIZONTAL angle or span, ends in ascending order ("96° to 41°" is the same varifocal
+ *  span as "41° to 96°"; a field of view has no sign). Unlabelled cells are read as stated; a cell labelling
+ *  only vertical or diagonal, or several unlabelled angles, is refused. "~" (approximately) is dropped. */
+export function fieldOfViewRange(cell: string): string {
+  const s = cell.replace(/~/g, "");
+  const span = (a: string, b?: string) => {
+    if (b === undefined) return `${Number(a)}°`;
+    const [lo, hi] = [Number(a), Number(b)].sort((x, y) => x - y);
+    return `${lo}° to ${hi}°`;
+  };
+  if (/horizontal/i.test(s)) {
+    const m = FOV_H_BEFORE.exec(s) ?? FOV_H_AFTER.exec(s);
+    return m ? span(m[1], m[2]) : "labels a horizontal field of view with no angle";
+  }
+  if (/vertical|diagonal/i.test(s)) return "labels only a vertical or diagonal field of view";
+  const m = FOV_SPAN.exec(s);
+  return m ? span(m[1], m[2]) : "states several unlabelled angles";
+}
+
+// Not the denominator of a fraction ("1/3”" is a sensor format), but "55-inch/75-inch" is two diagonals.
+const INCH_MENTION = /(?<![0-9.⁄])(?<!\d\/)(\d{1,3}(?:\.\d{1,2})?)\s*-?\s*(?:inch(?:es)?(?![a-z])|in\.|in(?=\s*[(,;●]|\s*$)|"|”|″)/gi;
+// "● 6821: … ● 6841 and 6851: …" — a cell that introduces two or more model numbers describes several screens.
+const MODEL_INTRO = /(?:^|●|\.)\s*\d{4}[A-Z]?(?:\s*(?:and|,)\s*\d{4}[A-Z]?)*\s*:/g;
+const SEVERAL_MODELS = (s: string) => [...s.matchAll(MODEL_INTRO)].length > 1;
+/** `display_size`: the one screen diagonal a display cell states, in inches. Several different diagonals ("●
+ *  9811: 2.6-inch … ● 9841: 3.5-inch …", "55-inch/75-inch LCD") describe several models and are refused. A cell
+ *  with no inch figure goes on to the ordinary number reader, so "25.6 cm" still converts. */
+export function displaySizeInches(cell: string): string | null {
+  const sizes = new Set([...cell.matchAll(INCH_MENTION)].map((m) => Number(m[1])));
+  if (sizes.size > 1 || SEVERAL_MODELS(cell)) return "states several screen sizes, one per model";
+  return sizes.size === 1 ? `${[...sizes][0]} in` : null;
+}
+
+/** `camera_zoom`: the OPTICAL zoom factor. "2.5x optical zoom (5x with digital*)" is 2.5; a cell stating only a
+ *  digital zoom ("4x digital zoom") is refused — a digital zoom is a crop of the image, not a property of the lens. */
+export function opticalZoom(cell: string): string {
+  if (/optical/i.test(cell)) {
+    const m = /(\d+(?:\.\d+)?)\s*[x×]\s*optical/i.exec(cell) ?? /optical\s*zoom\s*:?\s*(\d+(?:\.\d+)?)\s*[x×]/i.exec(cell);
+    return m ? `${m[1]}x` : cell;
+  }
+  if (/digital/i.test(cell)) return "states a digital zoom only, which is not the lens";
+  const m = /^\s*(?:up\s+to\s+)?(\d+(?:\.\d+)?)\s*[x×]\s*(?:zoom)?\s*$/i.exec(cell);
+  return m ? `${m[1]}x` : cell;
+}
+
+/** The cups whose value is a pixel resolution, typed { w, h }. */
+export const RESOLUTION_KEYS: ReadonlySet<string> = new Set(["max_resolution", "video_quality_max", "display_resolution"]);
+// A pixel pair, and never a dimension: three-to-five digits each side, and not followed by a third axis or a
+// length unit ("444 x 305 mm" is a box).
+const PIXEL_PAIR = /(?<![0-9.,])(\d{3,5})\s*[x×X]\s*(\d{3,5})(?![0-9])(?!\s*(?:[x×X]\s*\d|mm|cm|in(?![a-z])|m(?![a-z])|"|”|″))/g;
+const NAMED_RESOLUTION: [RegExp, string][] = [
+  [/(?<![0-9A-Za-z])2160[pi](?![A-Za-z])|4K\s*UHD|(?<![A-Za-z])UHD(?![A-Za-z])|ultra\s*hd/i, "3840x2160"],
+  [/(?<![0-9A-Za-z])1440p(?![A-Za-z])/i, "2560x1440"],
+  [/(?<![0-9A-Za-z])1080[pi](?![A-Za-z])|full\s*hd|(?<![A-Za-z])FHD(?![A-Za-z])/i, "1920x1080"],
+  [/(?<![0-9A-Za-z])720p(?![A-Za-z])/i, "1280x720"],
+];
+const BARE_4K = /(?<![0-9A-Za-z])4K(?![A-Za-z])/i;
+
+/** A resolution cup's value. One resolution, named ("1080p", "4K UHD") or in pixels ("3840x2160"), the two
+ *  forms agreeing where both appear. Refused: none, several different ones, and a bare "4K" with no pixels
+ *  (UHD 3840 or DCI 4096 — the cell does not say). The frame rate beside it is another quantity and is not kept. */
+function resolutionValue(key: string, s: string): NormResult {
+  // A display cell describing several models is refused as a whole, even when (cut at 160 characters) only one
+  // model's resolution survived: "● 6821: … 240 x 120-pixel display. ● 6841 and 6851: … 3.5-in. (9-cm) 396 x".
+  if (key === "display_resolution" && (SEVERAL_MODELS(s) || new Set([...s.matchAll(INCH_MENTION)].map((m) => Number(m[1]))).size > 1)) {
+    return bad("STRUCT_UNPARSED", `${key}: the cell describes several screens, one per model`);
+  }
+  const seen = new Set<string>();
+  for (const m of s.matchAll(PIXEL_PAIR)) seen.add(`${Number(m[1])}x${Number(m[2])}`);
+  for (const [re, v] of NAMED_RESOLUTION) if (re.test(s)) seen.add(v);
+  if (!seen.size) {
+    return bad("STRUCT_UNPARSED", BARE_4K.test(s)
+      ? `${key}: "4K" with no pixel dimensions is UHD 3840x2160 or DCI 4096x2160 — the cell does not say which`
+      : `${key}: no resolution in "${s}"`);
+  }
+  if (seen.size > 1) return bad("STRUCT_UNPARSED", `${key}: several resolutions (${[...seen].join(", ")}) in one cell`);
+  const [w, h] = [...seen][0].split("x").map(Number);
+  if (w < 16 || h < 16 || w > 16384 || h > 16384) return bad("RANGE_VIOLATION", `${key}: ${w}x${h} is not a plausible pixel resolution`);
+  return ok({ w, h });
+}
+
+/** Route a cell of one of these cups to its reader. null = not a cup this block owns. The prose cups are
+ *  returned untouched so the metric-restatement rewrite in preprocessValue cannot reach them: it turned
+ *  "Front and midchassis mountable in a 19 in. (480mm) EIA standard … rack" into the stored value "480mm". */
+function freeStringCupPreprocess(s: string, key: string): string | null {
+  switch (key) {
+    case "standard": return standardTokens(s);
+    case "cellular_bands": return cellularBandTokens(s);
+    case "ip_rating": return ipRatingToken(s);
+    case "field_of_view": return fieldOfViewRange(s);
+    case "display_size": return displaySizeInches(s);
+    case "camera_zoom": return opticalZoom(s);
+    // "G.711 a-law and mu-law" is ONE codec; the list splitter reads "and" as a boundary and would store "mu-law".
+    // And every comma in a codec list is a member boundary: the splitter's citation rule reads "G.722.2, iSAC" as
+    // a standard continued by a lower-case word and glued 61 stored cells' "G.722.2, iSAC" / "G.729ab, iLBC" into
+    // one member. A semicolon is never a continuation, so the commas become semicolons for these two keys.
+    // Bullets become semicolons too, so a bulleted cell's inner commas are still boundaries.
+    case "audio_codecs": return s.replace(/a-law\s+and\s+(?:mu|µ|μ|m)-law/gi, "a-law/µ-law").replace(/[,•●▪‣◦]/g, ";").trim();
+    case "video_codecs": return s.replace(/[,•●▪‣◦]/g, ";").trim();
+    case "mounting": case "ui_languages": case "mic_type": case "lan_interfaces":
+    case "wan_interfaces": case "battery_life": case "max_resolution": case "video_quality_max": case "display_resolution":
+      return s.trim();
+    default: return null;
+  }
+}
 
 const FORM_FACTOR_SWITCH: [RegExp, string][] = [
   [/din/i, "din-rail"], [/chassis|modular/i, "modular-chassis"],
@@ -1447,6 +1768,10 @@ export function preprocessValue(raw: string, key: string): string {
       .sort((a, b) => a.at - b.at).map((x) => x.v);
     return names.length ? names.join(", ") : s;
   }
+
+  // The free-string cups closed on 13 Sep 2026 (see freeStringCupPreprocess). Before the metric rewrite below.
+  const cup = freeStringCupPreprocess(s, key);
+  if (cup !== null) return cup;
 
   // Acoustic noise is quoted at more than one fan speed — "23.5 dBA @ 27°C 42.7 dBA @ maximum
   // fan speed". The meaningful figure for rack and office planning is the LOUDEST one, and
@@ -1975,6 +2300,7 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       // wrong port map still cannot be invented — but `ports` is REQUIRED for switches, and
       // leaving it unparsable meant every switch reported a permanent gap on the one
       // specification a switch is actually bought for. See lib/portParse.ts.
+      if (RESOLUTION_KEYS.has(key)) return resolutionValue(key, s);   // 13 Sep 2026, phase-1 §5.4
       if (key === "reach_max") {
         const rr = parseReach(s, locale);
         if (!rr.ok) return bad("STRUCT_UNPARSED", `${key}: ${rr.detail}`);

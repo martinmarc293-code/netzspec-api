@@ -40,9 +40,11 @@ const CASES = [
   ["switches", "mounting", "n.a.", "placeholder"],
   ["switches", "mounting", "TBD", "placeholder"],
   ["switches", "mounting", "not applicable", "placeholder"],
-  // KEEP: a placeholder INSIDE a sentence is part of a sentence that says something.
-  ["switches", "mounting", "Rack-mount; n/a for DC models", "Rack-mount; n/a for DC models"],
-  ["switches", "mounting", "19-inch rack", "19-inch rack"],
+  // KEEP: a placeholder INSIDE a sentence is part of a sentence that says something. `mounting` is a
+  // closed list since 13 Sep 2026 (docs/decisions/2026-09-13-free-string-cups.md), so what it keeps is
+  // the mounting the sentence names — not refused as a placeholder is the point of both cases.
+  ["switches", "mounting", "Rack-mount; n/a for DC models", ["rack-19"]],
+  ["switches", "mounting", "19-inch rack", ["rack-19"]],
   // KEEP: "Yes"/"No" are answers, not placeholders. fan_hot_swap is type "s" and ought to be a
   // boolean, but refusing its answer would delete data to fix a type.
   ["switches", "fan_hot_swap", "Yes", "Yes"],

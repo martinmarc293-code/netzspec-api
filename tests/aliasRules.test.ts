@@ -143,7 +143,9 @@ const RULES: [string, string, string, string, Reason?][] = [
   ["Product Features Comparison > Module Type", "module_type", "Specification > Interface Module Support", NO_SHAPE],
   // dictionary round 3 (12 Sep 2026): installation_type is retired into mounting (SUPERSEDED_KEYS) —
   // one question, how the part is installed, and the survivor holds 934 facts against 5.
-  ["Product Features Comparison > Installation Type", "mounting", "Installation Clearance", NO_SHAPE],
+  // mounting became a closed list on 13 Sep 2026 (docs/decisions/2026-09-13-free-string-cups.md), so the row
+  // states a value its shape refuses: a real stored cell that names no way of mounting.
+  ["Product Features Comparison > Installation Type", "mounting", "Installation Clearance", "Surface mountable", "ENUM_VIOLATION"],
 
   // --- 2026-09-04, the six labels normaliser 1.4.0 unblocked ------------------------------------
   // Every near-miss below is a real provantage label from runs/vocab/provantage/labels.json and
@@ -173,7 +175,7 @@ const RULES: [string, string, string, string, Reason?][] = [
   // "Rack-mounting brackets" (13 occurrences) is the near-miss for "Rack-mounting" (12): its values
   // are the bracket PIDs (N540-RCKMT-19-ACA), so it must reach `mounting` for nobody. It is mapped
   // to `__compat` instead, which mapLabel returns and this check treats as not-this-field.
-  ["Rack-mounting", "mounting", "Rack-mounting brackets", NO_SHAPE],
+  ["Rack-mounting", "mounting", "Rack-mounting brackets", "Default: C84G2-ACCKIT-19", "ENUM_VIOLATION"],
   // And the other way round: the bracket label must reach the compat sentinel, not the field.
   // `__compat` is not a spec key, so the shape half is the sentinel's own contract.
   ["Cisco smart serial cabling [Length]", "cable_length", "Cisco smart serial cabling [Cable type]", "V.35 DTE", "UNIT_UNKNOWN"],

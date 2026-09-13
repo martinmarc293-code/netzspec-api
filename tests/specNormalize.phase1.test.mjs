@@ -41,7 +41,9 @@ function check(label, cond, detail = "") {
   if (cond) pass++; else misses.push(`${label}${detail ? "\n      " + detail : ""}`);
 }
 
-check("NORM_VERSION moved past 1.6.2 with this change", NORM_VERSION === "1.7.0", `NORM_VERSION is ${NORM_VERSION}`);
+// At least 1.7.0: 1.8.0 (§5.4, the free-string cups) came after this change and must not turn it red.
+const [maj, min] = NORM_VERSION.split(".").map(Number);
+check("NORM_VERSION moved past 1.6.2 with this change", maj > 1 || (maj === 1 && min >= 7), `NORM_VERSION is ${NORM_VERSION}`);
 
 // =================================================================================================
 // A. THE PLACEHOLDER GUARD — every token the guide lists, under four keys of four different types.
@@ -69,8 +71,10 @@ for (const token of TOKENS) {
 // SABOTAGE — what the guard must NOT take. Each is a real value that merely looks like a non-answer.
 norm("A KEEP: a domain that DECLARES the token keeps it (NA = North America)", "wireless", "regulatory_domain", "NA", "na");
 norm("A KEEP: poe_standard 'none' is a legal domain member (464 parts)", "switches", "poe_standard", "none", "none");
-norm("A KEEP: the x of a zoom factor is not a bare x", "video", "camera_zoom", "10x", "10x");
-norm("A KEEP: a placeholder inside a sentence is part of the sentence", "switches", "mounting", "Rack-mount; n/a for DC models", "Rack-mount; n/a for DC models");
+// camera_zoom is a number (unit x) and mounting a closed list since 13 Sep 2026
+// (docs/decisions/2026-09-13-free-string-cups.md); what both KEEPs assert is that neither is refused as a placeholder.
+norm("A KEEP: the x of a zoom factor is not a bare x", "video", "camera_zoom", "10x", 10);
+norm("A KEEP: a placeholder inside a sentence is part of the sentence", "switches", "mounting", "Rack-mount; n/a for DC models", ["rack-19"]);
 norm("A KEEP: Yes is an answer", "switches", "fan_hot_swap", "Yes", "Yes");
 norm("A KEEP: a boolean still reads Yes", "switches", "stackable", "Yes", true);
 norm("A KEEP: a list with one real member is not all placeholders", "switches", "ieee_standards", "802.3af, NA", ["802.3af", "NA"]);

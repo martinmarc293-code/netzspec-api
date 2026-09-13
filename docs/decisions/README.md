@@ -11,3 +11,11 @@ censuses, traces, completeness report and freeze file.
 
 Cups that stay free text (type `s`, no domain) on purpose are listed here by decision, because the standing
 test allows a free-string required cup only with such a record.
+
+| free text by decision | record |
+|---|---|
+| `cpu` | [2026-09-13-free-string-cups.md#cpu](2026-09-13-free-string-cups.md#cpu) |
+| `image_sensor` | [2026-09-13-free-string-cups.md#image_sensor](2026-09-13-free-string-cups.md#image_sensor) |
+
+The standing test is `tests/freeStringCups.test.ts`; the list it enforces is `FREE_TEXT_BY_DECISION` in
+`src/core/fieldSchema.ts`.
