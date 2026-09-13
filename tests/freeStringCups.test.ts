@@ -89,7 +89,7 @@ const decision = fs.existsSync(DECISION_FILE) ? fs.readFileSync(DECISION_FILE, "
   const s2 = freeStringViolations(PROFILES, retyped, FREE_TEXT_BY_DECISION);
   check("SABOTAGE: ip_rating retyped back to a free string is named where it is required", s2.includes("switches/ip_rating"), s2);
   sabotages++;
-  const s3 = freeStringViolations(PROFILES, FIELD_DICTIONARY, { image_sensor: FREE_TEXT_BY_DECISION.image_sensor });
+  const s3 = freeStringViolations(PROFILES, FIELD_DICTIONARY, { image_sensor: FREE_TEXT_BY_DECISION.image_sensor, display: FREE_TEXT_BY_DECISION.display });
   check("SABOTAGE: dropping cpu from the allow-list names cpu in all three UCS categories",
     s3.join() === "hyperconverged-infrastructure/cpu,hyperconverged-systems/cpu,servers-unified-computing/cpu", s3);
   // CONTROL: column-backed `series` is type s, required everywhere, and must never be named.
@@ -121,16 +121,18 @@ const decision = fs.existsSync(DECISION_FILE) ? fs.readFileSync(DECISION_FILE, "
   pin("display_size", { type: "n", unit: "in", band: [1, 120] });
   pin("image_sensor", { type: "s", domain: undefined });
   pin("cpu", { type: "s", domain: undefined });
-  // The split: a screen kind is asked the two quantities, and `display` stays declared but optional.
+  // The split, AS AMENDED BY THE PARENT before the sync (decision file, section display): a screen kind keeps the
+  // required `display` (free text by decision) and is offered the two split quantities as OPTIONAL — no label can
+  // pour one display cell into two cups, and a new cup enters optional until its label share is measured (rule 8).
   for (const cat of ["collaboration-endpoints", "unified-communications", "conferencing"]) {
     for (const kind of ["phone", "touch-panel", "display"]) {
-      check(`${cat}/${kind} is asked display_size and display_resolution, display is optional`,
-        requirementFor(cat, "display_size", { kind }) === "req" && requirementFor(cat, "display_resolution", { kind }) === "req"
-          && requirementFor(cat, "display", { kind }) === "opt",
+      check(`${cat}/${kind} is asked display (required) with display_size and display_resolution optional`,
+        requirementFor(cat, "display_size", { kind }) === "opt" && requirementFor(cat, "display_resolution", { kind }) === "opt"
+          && requirementFor(cat, "display", { kind }) === "req",
         [requirementFor(cat, "display_size", { kind }), requirementFor(cat, "display_resolution", { kind }), requirementFor(cat, "display", { kind })]);
     }
   }
-  check("a headset is not asked a screen", requirementFor("collaboration-endpoints", "display_size", { kind: "headset" }) === "na");
+  check("a headset is not asked a screen (display is not required of it)", requirementFor("collaboration-endpoints", "display", { kind: "headset" }) !== "req");
 }
 
 // =================================================================================================

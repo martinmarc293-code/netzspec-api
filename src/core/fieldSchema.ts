@@ -992,6 +992,7 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
 export const FREE_TEXT_BY_DECISION: Readonly<Record<string, string>> = {
   cpu: "docs/decisions/2026-09-13-free-string-cups.md#cpu",
   image_sensor: "docs/decisions/2026-09-13-free-string-cups.md#image_sensor",
+  display: "docs/decisions/2026-09-13-free-string-cups.md#display",
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -1349,7 +1350,13 @@ const collabBlock = (): Record<string, Requirement> => ({
   // Room Navigator and Touch 10 sheets. A codec, a bar and a kit drive external screens and have none.
   // SPLIT 13 Sep 2026 (phase-1 §5.4): the free-text `display` said only "some string arrived". The screen is
   // asked its two comparable quantities, and `display` stays declared as optional text for the rest of the cell.
-  display_size: cK(COLLAB_SCREEN), display_resolution: cK(COLLAB_SCREEN), display: opt,
+  // PARENT, same day, BEFORE THE SYNC: the split keys have no label routed to them — "Display" 39 and "Graphical
+  // display" 19 print size AND resolution in ONE cell, and a label pours into one cup — so requiring them would make
+  // two required cups with no tap, breaking the phase-1 invariant. Kind-layer spec v2 rule 8: a NEW cup enters as
+  // OPTIONAL until measured over held parts. So the screen keeps its required `display` (free text by decision,
+  // docs/decisions/2026-09-13-free-string-cups.md#display) and the split keys wait, optional, for III.0's
+  // label-share table to promote them.
+  display: cK(COLLAB_SCREEN), display_size: opt, display_resolution: opt,
   // lines a phone registers — 6 facts, "Voice Lines" 6 mapped. Band in BAND_OVERRIDES.
   voice_lines: cK(["phone"]),
   // --- video --------------------------------------------------------------------------------------------

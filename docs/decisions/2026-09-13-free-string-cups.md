@@ -257,6 +257,15 @@ this change's scope), and `data/schema/source-fields.json` does not list them, s
 names them until the mapper routes the display labels to both keys and the file is rebuilt.
 **`--allow-refusing`: no** (0 stored facts; the keys are new).
 
+**AMENDED BY THE PARENT, 13 Sep 2026, before the sync — `display` stays required as free text by decision; the
+split keys enter OPTIONAL.** Two reasons, both measured. (1) A mapper label pours into ONE cup, so no alias rule can
+write one display cell to both keys; required, they would be two required cups with no tap, and the phase-1
+invariant "no required cup without a fill path" would fail on the day it closes. (2) The reviewer's kind-layer
+specification v2 (13 Sep, evening) rule 8: a NEW cup enters as optional and is promoted when its label share over
+held parts crosses 50% — its Part III.0 measurement pass produces exactly that table. So: `display` is required of
+`COLLAB_SCREEN` and is **free text by decision** (listed in `FREE_TEXT_BY_DECISION`) — "filled" means the display
+cell was captured; `display_size` and `display_resolution` are optional, their normalisers ready, promoted by v3.
+
 ## image_sensor
 
 **Free text by decision.** **Evidence.** 9 facts, cisco meraki cameras, 5 distinct: `1/3” 4MP (2688x1520) progressive
