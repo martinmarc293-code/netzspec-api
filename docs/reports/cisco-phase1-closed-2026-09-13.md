@@ -184,3 +184,17 @@ Nine recorded disagreements, unresolved and named, in `docs/completeness-model.m
   - The box ran a `git archive` of a named commit, so every artifact carries a real commit. The two git questions the builders ask were answered by a shim that prints the archive's SHA.
 - **A builder written in parallel with the thing it reports hardcoded "does not exist yet".** A test now ties the report's hash to the freeze file, and it went red on the committed report before the fix.
 - **Two deploys were running at once**, a foreground one and a `nohup` duplicate. Both were stopped in the upload phase, before anything touched the live tree.
+
+## 7. Live verification after deploy (13 Sep 2026, 02:42 UTC)
+
+- **Deploy.** `/health` returns `{"ok":true,"db":true,"version":"6b4407e7cec0cb3017f1a121987b51df4cf1fb25"}`.
+  - `6b4407e` is this report's commit plus the gzipped-deploy fix.
+  - This section was added afterwards in a docs-only commit.
+- **`/v1/completeness/cisco`:** 200. The `brand` block is identical to the committed file, the one printed in §5.
+  It names `built_on_commit adcae72` and `freeze_hash 31894723abf98ce5`.
+- **`/v1/stats`:** Cisco `hardware_parts` is **42,367**, equal to the ledgers and the report.
+- **`/v1/stats/gaps?vendor=cisco`:** `parts_nothing_required` summed over categories is **1,427**, equal to the report's
+  `asked_nothing_fallback`.
+
+Phase 1 is closed for Cisco on these numbers. Filling starts on the pilot (`transceiver`) under the halting rules
+in `CLAUDE.md`.
