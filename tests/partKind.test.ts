@@ -169,7 +169,9 @@ check("and the collapse is severe enough to be worth a guard",
     routers: ["cable_length", "product_compatibility"],
     // optical-storage (12 Sep 2026): both now ask a component its own questions (a cable its length), exactly as
     // switches does since 11 Sep — so the guard is again the leak itself: no DEVICE question reaches a cable.
-    "optical-networking": ["cable_length"], "storage-networking": ["cable_length"],
+    // kind-layer (13 Sep 2026): a SAN cable is proposed the CABLE archetype (connector, media) and what it fits (parent
+    // ruling: every component kind asks product_compatibility); the allow-list is widened by those cable keys, no device key.
+    "optical-networking": ["cable_length"], "storage-networking": ["cable_length", "product_compatibility", "connector", "media"],
     // security (12 Sep 2026), same reason: a component is asked WHAT IT FITS, and a PSU, a fan, a drive, a
     // cable and a netmod are each asked the one or two figures they are bought on. The allow-list is the whole
     // union, so a DEVICE question leaking onto a component still fails.

@@ -95,8 +95,8 @@ export function partKind(categorySlug: string, sku: string, name?: string): stri
  *
  * fallback-kinds (12 Sep 2026). The same set the asked-nothing survey counted its 6,301 rows with,
  * kept identical so the before and after figures are measured over one population. Four of the five
- * are live: `unknown` (ucsKind, videoKind, collabKind, merakiKind), `other` (wirelessKind,
- * opticalKind, sanKind), `accessory` (every axis) and `non-hardware` (securityKind, which returns it
+ * are live: `unknown` (ucsKind, videoKind, collabKind, merakiKind, and sanKind since the kind-layer rename of 13 Sep
+ * 2026), `other` (wirelessKind, opticalKind), `accessory` (every axis) and `non-hardware` (securityKind, which returns it
  * for a SKU the class table already calls a licence and which LEDGER_KINDS therefore omits).
  *
  * `component` IS HISTORICAL and no axis returns it — it was switchKind's generic before the

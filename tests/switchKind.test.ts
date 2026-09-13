@@ -14,7 +14,10 @@
 //
 // Every SKU here comes from the catalogue. None is invented — an invented SKU tests my guess
 // about the PID form rather than the rule.
-import { switchKind, SW_DEVICE, SW_BOX, SW_PART } from "../src/core/switchKind.js";
+import { switchKind, switchKindWith, SW_KIND_RULES, SW_DEVICE, SW_BOX, SW_PART } from "../src/core/switchKind.js";
+import { kindQuestionSet } from "../src/core/cupLedger.js";
+import { deployRole } from "../src/core/deployRole.js";
+import { PROFILES } from "../src/core/fieldSchema.js";
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -31,9 +34,12 @@ const CASES: [string, string][] = [
   ["IE-2000-8TC-G-L", "switch"],
   ["N5K-C56128P", "switch"],
   ["C9300-48UXM", "switch"],
-  // a modular CHASSIS is a device and carries no marker — it must fall through to `switch`
-  ["WS-C4507R-E", "switch"],
-  ["WS-C6509-V-E", "switch"],
+  // A modular CHASSIS was pinned here as `switch` until 13 Sep 2026 ("carries no marker"). III.0 item 4 read the 524
+  // chassis candidates row by row and the kind layer names the 82 bare chassis PIDs `chassis` by their exact PID shape.
+  ["WS-C4507R-E", "chassis"],          // "Cat4500 E-Series 7-Slot Chassis, fan, no ps, Red Sup Capable"
+  ["WS-C6509-V-E", "chassis"],         // "Catalyst-6500-E modulares Chassis (9 Steckplätze, 21 HE)"
+  // …but the plain 6004 (48 fixed 40G ports, not in the live corpus) keeps the safe default; only its spare `=` row,
+  // whose vendor name is "Nexus 6004 EF Chassis Bare", is a chassis.
   ["N6K-C6004", "switch"],
   // LINE CARDS (a chassis slot) split from modules on 11 Sep 2026: they have a fabric connection and
   // a power draw of their own, which an uplink module for a fixed switch does not.
@@ -244,6 +250,187 @@ eq("an N2K uplink-option transceiver set is an accessory, not a fabric extender"
 eq("a server DIMM misfiled here is an accessory, not a line card", switchKind("CSP-MR-X16G1RS-H"), "accessory");
 eq("a FEX's own PSU stays a power supply", switchKind("N2K-PAC-400W"), "power");
 eq("N5548UPM-4FEX (a 5548 switch bundled with four FEX) is a switch", switchKind("N5548UPM-4FEX"), "switch");
+
+// ============================== kind-layer (13 Sep 2026) ==============================
+// The default bucket read row by row (III.0 item 3 `issue` rows, item 4 chassis groups). One WITNESS per rule family from
+// the live corpus, the TRAPS those reads found as refusals, and a SABOTAGE per family: the family's rule removed from the
+// ordered table must change its witness's answer. switchKind exposes no rule table, so the sabotage is expressed on the
+// function's own contract instead — a copy of the family's regex is asserted to be the ONLY thing that names the witness
+// (the witness falls to `switch` when that regex is taken out of a local re-implementation of the tail).
+const KL_WITNESS: [string, string, string][] = [
+  // chassis — item 4 §1 bare chassis PIDs and LEM-slot chassis
+  ["N9K-C9508", "chassis", "Nexus 9508 Modularer Data-Center-Switch-Chassis – 8 Linecard-Slots"],
+  ["C9407R", "chassis", "Catalyst 9407R Modularer Campus-Switch-Chassis"],
+  ["C1-N7718", "chassis", "Cisco ONE Nexus 7718 slot chassis, NoPowSupp"],
+  ["2D-C6807-XL=", "chassis", "Catalyst 6807-XL 7-slot chassis, 10RU (spare) w/2D Barcode"],
+  ["N5K-C5696Q", "chassis", "Nexus 5696Q Chassis 6PSU, 4 FAN, No LEMs"],
+  ["N6K-C6004=", "chassis", "Nexus 6004 EF Chassis Bare"],
+  ["N3K-C3408-S", "chassis", "Nexus 3408 8-slot chassis"],
+  // mechanical — item 3 §mechanical
+  ["N77-C7710-FDK", "mechanical", "Nexus 7700 - 10 Slot Chassis Front Door Kit"],
+  ["N77-C7706-SHPPKG", "mechanical", "Nexus 7000 6 slot chassis Shipping Packaging"],
+  ["N7K-C7009-BSK=", "mechanical", "Nexus 7009 Bottom Support Kit"],
+  ["CMICR-BZL-S-C", "mechanical", "Catalyst Micro Switch Mounting Bezel, Short,Centered"],
+  ["C9500-ACCKITH-19I=", "mechanical", "Accessory Kit for Cisco Catalyst 9500 Series – High-End - 19\" rack mount"],
+  ["QPP24BL", "mechanical", "QuickNet 24-Port Patch Panel"],
+  ["C6807-XL-PW", "mechanical", "CETUSCR BACKPLANE, Power"],
+  // accessory — chassis FRUs and third-party cabling PNs
+  ["BF-S720-64MB-RP", "accessory", "Bootflash for SUP720-64MB-RP"],
+  ["WS-C6K-VTT-E=", "accessory", "Catalyst 6500 E-series VTT Modules"],
+  ["PUP6AV04BU-G", "accessory", "Cisco PUP6AV04BU-G (a Panduit cord number filed under Catalyst 9300)"],
+  // power — item 3 §power
+  ["C9K-80W-ADPT", "power", "AC-DC slim power adapter for the C9200CX-12T-2X2G compact switch (80W)"],
+  ["PEM-20A-AC+", "power", "PwrEntryMod use w/1400W AC P/S for CISCO7603, WS-C6503"],
+  ["N7K-AC-7.5-kW-INT", "power", "a Nexus 7000 7.5 kW supply, lower-case kW and a hyphen before it"],
+  ["715WAC", "power", "a bare wattage cell (also proposed as a class change)"],
+  // supervisor
+  ["RSP720-3C-10GE", "supervisor", "Route Switch Processor 720, no SUP token"],
+  ["C4500E-S7L/2", "supervisor", "Upgrade to Redundant Sup7L-E"],
+  // daughter
+  ["N55-D160L3-V2", "daughter", "Nexus 5548 Layer 3 Daughter Card, Version 2"],
+  // linecard
+  ["X9736C-FX", "linecard", "a Nexus 9500 line card filed without its N9K- prefix"],
+  ["C6800-48P-TX-XL", "linecard", "Catalyst 6800 48-port 1GE copper module with integrated DFC4XL"],
+  ["76-ES+XT-4TG3C", "linecard", "7600 Series ES Plus XT, 4x10GE"],
+  ["C4500E-7R-S8E-UPOE", "linecard", "SUP8-E AND WS-X4748-UPOE+E UPGRADE FOR 7 SLOT BUNDLE"],
+  ["WS-SSC-600", "linecard", "Catalyst 6500 Series Services SPA Carrier-600"],
+  // module
+  ["N5696-M20UP", "module", "Nexus 5696Q Chassis Module 20P 10GE Eth/FCoE"],
+  ["C9350-NIM-8Y", "module", "a C9350 network interface module"],
+  ["C3KX-SM-10G", "module", "Service Module with two 10GbE SFP+ ports"],
+];
+for (const [sku, kind, why] of KL_WITNESS) eq(`kind-layer witness ${sku} is ${kind} (${why})`, switchKind(sku), kind);
+
+// THE TRAPS: rows whose SKU shares a family token with a new rule and is NOT that kind.
+const KL_REFUSAL: [string, string, string][] = [
+  ["WS-C4510RE+96", "switch", "4510R+E Chassis, Two WS-X4748-RJ45-E, Sup8-E — a chassis BUNDLE, a working system (item 4: 165 bundles)"],
+  ["N77-C7710-B33S3E", "switch", "Nexus 7710 Bundle (Chassis,1xSUP3E,3xFAB3) — a bundle, not the bare chassis"],
+  ["C9410R-96U-BNDL-E", "switch", "a 9410R bundle"],
+  ["N9K-C9508-B2-R", "switch", "Nexus 9508 Chassis Bundle 1 SupB, 3 PS"],
+  ["N6K-C6004-96Q", "switch", "Nexus 6004 4RU 48 Fixed 40GE Ports — a fixed switch that also takes LEMs"],
+  ["N9K-C9508-FM", "fabric", "Fabric Module for Nexus 9508 chassis — the FM rule runs first"],
+  ["C6880-X-LE", "switch", "Catalyst 6800-X gemanagter L3-Aggregations-Switch — not the 16P10G port card"],
+  ["WS-C4500X-32SFP+", "switch", "Catalyst 4500-X fixed aggregation switch — not a C4500E- upgrade option"],
+  ["C4510+1S7ES-C", "switch", "45010R+E Chassis and Sup7-E — a chassis bundle, not a C4510RE- upgrade option"],
+  ["N5696-B-24Q", "switch", "Nexus 5696Q chassis 24x40GE bundle (includes 2 LEMs) — not the M expansion module"],
+  ["N5600-M-BLNK", "accessory", "Nexus 5624Q/5648Q Blank Module Cover — the module rule needs a digit after -M"],
+  ["N6004EF-8FEX-10G", "switch", "N6004 Chassis with 8 x 10G FEXes — a switch + FEX bundle"],
+  ["N5K-C5596UP-FA", "switch", "a fixed Nexus 5596UP whose name says 'Chassis includes 48 fixed unified ports'"],
+  ["WS-C3560V2-24TS-SD", "switch", "no power rule reads a trailing -SD or wattage-like digits in a switch PID"],
+  ["CGP-OLT-8T", "switch", "Catalyst PON OLT — left on the kind core, an open decision (REPORT §6)"],
+  ["DS-C9148T-24EK9", "switch", "an MDS switch filed in switches is a category MOVE, not a kind rule"],
+  ["7606S-S32-8G-B-P", "switch", "a Cisco 7600 router bundle filed in switches is a category MOVE"],
+];
+for (const [sku, kind, why] of KL_REFUSAL) eq(`kind-layer refusal ${sku} stays ${kind} (${why})`, switchKind(sku), kind);
+eq(`kind-layer: refusals (${KL_REFUSAL.length}) are at least half the witnesses (${KL_WITNESS.length})`, KL_REFUSAL.length * 2 >= KL_WITNESS.length, true);
+
+// SABOTAGE per rule of the kind-layer tail, on the LIVE table (SW_KIND_RULES, exported for this): the tail starts at the
+// only `mechanical` rule; each rule is removed in turn and every witness it decides must change answer. A rule that
+// decides no witness fails too — a rule nobody has seen work is not a rule.
+{
+  const start = SW_KIND_RULES.findIndex((r) => r.kind === "mechanical");
+  eq("kind-layer: the tail is the last 8 rules of the table (nothing older runs after it)", SW_KIND_RULES.length - start, 8);
+  const decidingRule = (sku: string): number => SW_KIND_RULES.findIndex((r) => r.re.test(sku.toUpperCase()));
+  for (let i = start; i < SW_KIND_RULES.length; i++) {
+    const rule = SW_KIND_RULES[i];
+    const witnesses = KL_WITNESS.filter(([sku]) => decidingRule(sku) === i);
+    eq(`kind-layer rule #${i} (${rule.kind}) decides at least one witness`, witnesses.length > 0, true);
+    const without = SW_KIND_RULES.filter((_, j) => j !== i);
+    const survived = witnesses.filter(([sku, want]) => switchKindWith(without, sku) === want);
+    eq(`SABOTAGE kind-layer rule #${i} (${rule.kind}) removed -> ${witnesses.length} witness(es) change answer`, survived.length, 0);
+  }
+  // …and no refusal is decided by a tail rule (a trap the tail reaches is a trap the tail fell into).
+  const trapped = KL_REFUSAL.filter(([sku]) => decidingRule(sku) >= start).map(([sku]) => sku);
+  eq("kind-layer: no refusal is decided by a kind-layer rule", trapped.join(","), "");
+}
+
+// --- kind-layer (13 Sep 2026): the cup sets, asserted where they are DERIVED ----------------------------------------
+// OPERATOR BAR (13 Sep 2026): no cup is demoted on a measurement; today's cups stay and the spec archetype's cups are added
+// as PROPOSED required, per kind and per switch role (layer 3, deploy_role), for the parent's printed-on-the-page
+// measurement. A change to the profile that moves one cup turns exactly one line red. `?` = pending on its gate.
+{
+  const set = (kind: string, role?: string) => {
+    const q = kindQuestionSet("switches", kind, role);
+    return [...q.required, ...q.pending.map((p) => `${p.key}?`)].sort().join(",");
+  };
+  const list = (...xs: string[]) => [...xs].sort().join(",");
+  // The switch core: every cup it asked on 0e22f85, with `ports` required outright (the chassis is its own kind now).
+  const CORE = ["altitude_max", "certifications", "cooling", "dimensions", "dram", "flash", "form_factor", "forwarding_rate",
+    "heat_dissipation", "humidity_operating", "ieee_standards", "input_voltage", "jumbo_mtu", "mac_table", "mgmt_class", "mtbf",
+    "packet_buffer", "poe_standard", "ports", "power_max", "power_typical", "psu_config", "stackable", "switching_capacity",
+    "temp_operating", "temp_storage", "vlan_max", "weight",
+    "ip_rating?", "module_slots?", "poe_budget?", "poe_ports?", "psu_redundant?", "rack_units?", "stacking_bandwidth?", "uplink_ports?"];
+  const swap = (base: string[], from: string, to: string) => base.map((x) => (x === from ? to : x));
+  const WANT: [string, string | undefined, string][] = [
+    ["switch", undefined, list(...CORE)],
+    ["switch", "smb", list(...CORE)],       // spec's smb demotions NOT applied: a demotion is the measurement's call
+    ["switch", "access", list(...CORE)],    // ENV+ already asked
+    ["switch", "core-agg", list(...swap(CORE, "psu_redundant?", "psu_redundant"), "fabric_bandwidth")],
+    ["switch", "datacenter", list(...CORE, "fabric_bandwidth", "latency")],
+    ["switch", "industrial", list(...swap(CORE, "ip_rating?", "ip_rating"), "mounting")],
+    ["fex", undefined, list("airflow", "altitude_max", "certifications", "cooling", "dimensions", "form_factor", "heat_dissipation",
+      "humidity_operating", "ieee_standards", "input_voltage", "mtbf", "ports", "power_max", "power_typical", "product_compatibility",
+      "psu_config", "temp_operating", "temp_storage", "uplink_ports", "weight", "ip_rating?", "module_slots?", "psu_redundant?", "rack_units?")],
+    ["chassis", undefined, list("dimensions", "form_factor", "module_slots", "psu_config", "rack_units", "weight")],
+    ["supervisor", undefined, list("dram", "fabric_bandwidth", "flash", "forwarding_rate", "mac_table", "product_compatibility", "switching_capacity", "uplink_ports")],
+    ["linecard", undefined, list("data_rate", "fabric_bandwidth", "poe_standard", "ports", "power_max", "product_compatibility", "poe_ports?")],
+    ["module", undefined, list("data_rate", "poe_standard", "ports", "product_compatibility", "poe_ports?")],
+    ["daughter", undefined, "product_compatibility"],
+    ["stack-module", undefined, "product_compatibility"],
+    ["fabric", undefined, list("fabric_bandwidth", "product_compatibility")],
+    ["power", undefined, list("airflow", "input_voltage", "product_compatibility", "psu_rated_output")],
+    ["fan", undefined, list("airflow", "product_compatibility")],
+    ["power-cord", undefined, list("cable_length", "product_compatibility")],
+    ["stack-cable", undefined, list("cable_length", "connector", "media", "product_compatibility")],
+    ["cable", undefined, list("cable_length", "connector", "media", "product_compatibility")],
+    ["accessory", undefined, "product_compatibility"],
+    ["mechanical", undefined, list("mounting", "product_compatibility")],
+  ];
+  for (const [kind, role, want] of WANT) eq(`kind-layer cup set switches/${kind}${role ? `/${role}` : " (no role = the kind core)"}`, set(kind, role), want);
+
+  // The spec's acceptance witnesses (§III.4), each through a REAL SKU's derived kind and role.
+  const partSet = (sku: string, name: string) => {
+    const kind = switchKind(sku);
+    const role = deployRole("switches", kind, sku, name);
+    return { kind, role, q: kindQuestionSet("switches", kind, role) };
+  };
+  const dc = partSet("N9K-C93180YC-FX", "Nexus 9300 with 48p 10/25G SFP+ and 6p 100G QSFP28");
+  eq("kind-layer witness: N9K-C93180YC-FX is a datacenter switch", `${dc.kind}/${dc.role}`, "switch/datacenter");
+  eq("§III.4: a datacenter switch is asked latency", dc.q.required.includes("latency"), true);
+  const ind = partSet("IE-3400H-16T-E", "IE3400 Heavy Duty Series");
+  eq("kind-layer witness: IE-3400H-16T-E is an industrial switch", `${ind.kind}/${ind.role}`, "switch/industrial");
+  eq("§III.4: an industrial switch is asked ip_rating unconditionally (required, not pending on form_factor)",
+     ind.q.required.includes("ip_rating") && !ind.q.pending.some((p) => p.key === "ip_rating"), true);
+  const smb = partSet("CBS350-16P-E-2G", "CBS350 Managed 16-port GE, PoE, Ext PS, 2x1G Combo");
+  eq("kind-layer witness: CBS350-16P-E-2G is an smb switch", `${smb.kind}/${smb.role}`, "switch/smb");
+  // §III.4 wants "smb not asked altitude_max"; under the operator bar that demotion waits for the printed measurement.
+  eq("operator bar: the spec's smb demotion of altitude_max is NOT applied before the measurement", smb.q.required.includes("altitude_max"), true);
+  const core = partSet("WS-C4928-10GE", "Catalyst 4928, no p/s, 28x 1GBase-X SFP, 2x 10GBase-X X2");
+  eq("an unresolved-role switch (WS-C4928-10GE) is asked the core and no role addition",
+     core.role === null && !core.q.required.includes("latency") && !core.q.required.includes("mounting"), true);
+  for (const [sku, name] of [["C9300-48H-A", "Catalyst 9300 48-port 1G copper"], ["N9K-C93180YC-FX", "Nexus 9300"], ["IE-3400H-16T-E", "IE3400"], ["C9500-48Y4C", "Catalyst 9500"]]) {
+    const p = partSet(sku, name);
+    eq(`§III.4: \`ports\` is REQUIRED (not pending) of every switch — ${sku} (${p.role})`, p.q.required.includes("ports"), true);
+  }
+  const ch = partSet("N9K-C9508", "Nexus 9508 chassis");
+  eq("kind-layer witness: N9K-C9508 is a chassis and carries no role", `${ch.kind}/${ch.role}`, "chassis/null");
+  eq("a chassis is asked its slots and NOT ports, NOT a switching capacity", ch.q.required.includes("module_slots") && !ch.q.required.includes("ports") && !ch.q.required.includes("switching_capacity"), true);
+  eq("rule 7: a role addition is optional, never na, outside its role (smb latency)", smb.q.optional.includes("latency"), true);
+
+  // SABOTAGE of a role addition: drop mounting's industrial clause and the industrial set must change; restore and re-check.
+  const savedM = PROFILES.switches.mounting;
+  try {
+    PROFILES.switches.mounting = { kind: "cond", when: { field: "kind", inList: ["mechanical"] }, elseOpt: true };
+    eq("SABOTAGE the industrial addition of mounting removed -> the industrial set no longer matches", set("switch", "industrial") === WANT[5][2], false);
+  } finally { PROFILES.switches.mounting = savedM; }
+  eq("…and the restore holds", set("switch", "industrial"), WANT[5][2]);
+  // SABOTAGE of the unconditional ports: put the modular-chassis clause back and an unresolved-role switch owes ports only pending.
+  const savedP = PROFILES.switches.ports;
+  try {
+    PROFILES.switches.ports = { kind: "cond", when: { any: [{ field: "kind", inList: ["module", "linecard", "fex"] }, { all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", ne: "modular-chassis" }] }] } };
+    eq("SABOTAGE ports gated on form_factor again -> the core set no longer matches", set("switch") === WANT[0][2], false);
+  } finally { PROFILES.switches.ports = savedP; }
+}
 
 // --- degenerate input defaults to the safe side ----------------------------------------------------
 // `switch` asks the most, so an unrecognisable SKU carries gaps rather than having them closed.

@@ -35,7 +35,8 @@ import { NAME_ONLY_KINDS as MECH, UCS_NAME_ONLY_KINDS as UCS_EXTRA } from "./nam
 
 /** Every kind a category's axis can name — including kinds no part holds today, which still have a question set. */
 export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
-  switches: [...SW_BOX, ...SW_PART, ...MECH],
+  // kind-layer (13 Sep 2026): switchKind now RETURNS `mechanical` (and `chassis`), so the list is de-duplicated.
+  switches: [...new Set([...SW_BOX, ...SW_PART, ...MECH])],
   transceiver: [...(["pluggable", "bidi", "tunable", "adapter", "accessory", "breakout-cable"] satisfies OpticKind[]), ...MECH],
   // wireless (12 Sep 2026)
   wireless: [...WL_KINDS, ...MECH],
@@ -72,7 +73,9 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
     "accessory"] satisfies MerakiKind[]), ...MECH],
   // data-center-networking reuses switchKind, so it reuses its kind list — every one gets a
   // question set even though only four of the fifteen have a part today (partKind.ts says which).
-  "data-center-networking": [...SW_BOX, ...SW_PART, ...MECH],
+  // kind-layer (13 Sep 2026): de-duplicated like `switches` (switchKind returns `mechanical` now). After the merge into
+  // switches this category holds no hardware; the list stays so its licence rows' profile keeps a question set per kind.
+  "data-center-networking": [...new Set([...SW_BOX, ...SW_PART, ...MECH])],
 };
 
 export type KindQuestionSet = {

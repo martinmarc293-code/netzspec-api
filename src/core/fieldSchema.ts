@@ -1444,6 +1444,27 @@ const rtRoleAdd = (roles: readonly string[], kinds: readonly string[] = []): Req
 /** Required of `kinds`, OPTIONAL of every other kind (the shape of a cup demoted for some kind that asked it). */
 const rtKinds = (kinds: readonly string[]): Requirement => cond({ field: "kind", inList: [...kinds] }, { elseOpt: true });
 // --- end kind-layer routers helpers ------------------------------------------------------------------------------
+// --- kind-layer (13 Sep 2026): switches role conditions ----------------------------------------------------------------
+// The switch cup set is the kind's core with per-ROLE deltas (`deploy_role`, derived by src/core/deployRole.ts). Two shapes,
+// exactly as docs/decisions/2026-09-13-kind-layer-cisco.md prescribes, both `elseOpt` because a role delta moves a cup to
+// OPTIONAL, never `na` (spec v2 rule 7):
+//   swExcept(roles, kinds)  required of these other kinds, and of a switch UNLESS its role is one of `roles`. `notInList` is
+//                           true for an absent role, so an unresolved role keeps the core — never the smallest role's set.
+//   swOnly(roles, kinds)    required of these other kinds, and of a switch ONLY when its role is one of `roles`; the core
+//                           (no role) does not get it.
+// OPERATOR, 13 Sep 2026 (supersedes the decision record's mapped-share bar): no cup is demoted on a measurement here. Every
+// cup required today stays required; the spec v2 archetype cups a kind or role does not ask today are ADDED as required
+// (proposed) and the parent's central PRINTED-ON-THE-PAGE measurement demotes what the pages refuse. So these helpers
+// carry role ADDITIONS only (swOnly); swExcept is kept for the day a measured role demotion lands.
+type SwRole = "smb" | "access" | "core-agg" | "datacenter" | "industrial";
+const swRole = (op: "inList" | "notInList", roles: readonly SwRole[], kinds: readonly string[]): Requirement => {
+  const sw: Condition = op === "inList"
+    ? { all: [{ field: "kind", inList: ["switch"] }, { field: "deploy_role", inList: [...roles] }] }
+    : { all: [{ field: "kind", inList: ["switch"] }, { field: "deploy_role", notInList: [...roles] }] };
+  return cond(kinds.length ? { any: [{ field: "kind", inList: [...kinds] }, sw] } : sw, { elseOpt: true });
+};
+const swExcept = (roles: readonly SwRole[], ...kinds: string[]): Requirement => swRole("notInList", roles, kinds);
+const swOnly = (roles: readonly SwRole[], ...kinds: string[]): Requirement => swRole("inList", roles, kinds);
 
 export const PROFILES: Record<string, Record<string, Requirement>> = {
   // --- SOFTWARE AND LICENCE CATEGORIES, added 8 Sep 2026 ---------------------------------------
@@ -1829,23 +1850,35 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   meraki: {
     // true of every part in the catalogue, so requiring them is not an invention (modules-misc, 12 Sep 2026)
     vendor: req, series: req,
-    dimensions: cond({ field: "kind", inList: [...MK_BOX] }),
-    weight: cond({ field: "kind", inList: [...MK_BOX] }),
-    temp_operating: cond({ field: "kind", inList: [...MK_BOX] }),
-    humidity_operating: cond({ field: "kind", inList: [...MK_BOX] }),
+    // ===== KIND LAYER (13 Sep 2026), spec v2 §II.15 =====================================================================
+    // OPERATOR BAR: nothing is demoted on a measurement; every kind = its library kind + the Meraki delta, with the library
+    // cups a kind does not ask today ADDED as proposed required (the block after the STRUCTURE lines below). Two exceptions,
+    // both from the spec itself: `unknown` (MCS1-MCS6, placeholder names, no document) asks NOTHING — spec II.15 "unknown
+    // asks <= 1 cup" and the brief's rule 4 — so MK_BOX / MK_POWERED are read without it here; and `cloud_management`,
+    // `sensors`, `cellular_category` stay optional although the spec proposes them required, because each is a free string
+    // (type s, no domain; cloud_management is `b, derived true` in the spec) and tests/freeStringCups.test.ts refuses a
+    // required free string without a recorded decision.
+    dimensions: cond({ field: "kind", inList: MK_BOX.filter((k) => k !== "unknown") }),
+    weight: cond({ field: "kind", inList: MK_BOX.filter((k) => k !== "unknown") }),
+    temp_operating: cond({ field: "kind", inList: MK_BOX.filter((k) => k !== "unknown") }),
+    humidity_operating: cond({ field: "kind", inList: MK_BOX.filter((k) => k !== "unknown") }),
     // 80 facts, and published by the Meraki source's own inventory — the cup form_factor cannot be.
-    mounting: cond({ field: "kind", inList: [...MK_BOX] }),
+    mounting: cond({ field: "kind", inList: MK_BOX.filter((k) => k !== "unknown") }),
     // "External RPS (optional)" / "External" — how the box is powered. 71 facts across every line.
-    psu_options: cond({ field: "kind", inList: [...MK_BOX] }),
-    form_factor: cond({ field: "kind", inList: ["switch"] }),
-    certifications: opt, safety_standards: opt, emc_emissions: opt,
-    power_max: cond({ field: "kind", inList: [...MK_POWERED] }),
+    psu_options: cond({ field: "kind", inList: MK_BOX.filter((k) => k !== "unknown") }),
+    // kind-layer: + appliance (APPLIANCE = ENV + ports; an MX is desktop or rack-19, both in the domain).
+    form_factor: cond({ field: "kind", inList: ["switch", "appliance"] }),
+    // DEMOTED 12 Sep 2026 (0 of 283; the Meraki source publishes safety_standards). kind-layer: proposed REQUIRED again of
+    // the switch (ENV), access point (AP) and appliance (ENV) — the parent's printed measurement decides.
+    certifications: cond({ field: "kind", inList: ["switch", "access-point", "appliance"] }), safety_standards: opt, emc_emissions: opt,
+    power_max: cond({ field: "kind", inList: MK_POWERED.filter((k) => k !== "unknown") }),
     ports: cond({ field: "kind", inList: [...MK_PORTED] }),
     // A PoE STANDARD and a PoE BUDGET are the SUPPLIER's questions. An MR access point and an MV
     // camera are PoE-powered rather than PoE-supplying, and 0 of the 88 hold either; all 9
     // poe_standard and all 37 poe_budget facts sit on MS switches. Same `all`-clause shape as
     // switches, so a switch whose poe_standard is "none" is not asked a budget.
-    poe_standard: cond({ field: "kind", inList: ["switch"] }),
+    // kind-layer: + access-point (the AP library asks its PoE standard — the one it consumes).
+    poe_standard: cond({ field: "kind", inList: ["switch", "access-point"] }),
     poe_budget: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "poe_standard", ne: "none" }] }),
     switching_capacity: cond({ field: "kind", inList: ["switch"] }),
     // The camera questions: what it sees, at what quality, through what sensor. 11 / 9 / 9 of 52.
@@ -1867,15 +1900,60 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     cellular_bands: cond({ field: "kind", inList: ["gateway"] }),
     cellular_category: opt, cellular_max_speed: opt,
     // A mounting kit is bought for what it fits, and that is all it is asked.
-    product_compatibility: cond({ field: "kind", inList: ["accessory"] }),
+    // kind-layer: + camera (CAMERA) and gateway (CELLULAR) — both library kinds ask what they attach to.
+    product_compatibility: cond({ field: "kind", inList: ["accessory", "camera", "gateway"] }),
     // STRUCTURE 8 Sep 2026: 30 field(s) its documents already produce and no profile declared — invisible to completeness until now.
     // field_of_view, video_quality_max, image_sensor, battery_count and battery_life were REMOVED
     // from this line on 12 Sep 2026: they are declared conditional above, and a later `opt` in the
     // same object literal silently wins (the last key in a JS object). That is the shape the
     // profileMerge test exists for, one level down — inside a single literal nothing checks it.
-    power_load_idle_max: opt, copper_ethernet_ports: opt, dedicated_mgmt_interface: opt, sfp_plus_ports: opt, stack_ports: opt, sfp_ports: opt, fan_hot_swap: opt, mgig_rj45_ports: opt, poe_per_port_max: opt, qsfp_plus_ports: opt, ir_illumination: opt, lens_aperture: opt, upoe_support: opt, focal_length: opt, shutter_speed: opt, external_power: opt, lens_adjustment_range: opt, min_illumination: opt, optical_zoom: opt, box_contents: opt, poe_budget_redundant: opt, antenna_type: opt, lan_interfaces: opt, wan_interfaces: opt, tdp: opt,
+    power_load_idle_max: opt, copper_ethernet_ports: opt, dedicated_mgmt_interface: opt, sfp_plus_ports: opt, stack_ports: opt, sfp_ports: opt, fan_hot_swap: opt, mgig_rj45_ports: opt, poe_per_port_max: opt, qsfp_plus_ports: opt, ir_illumination: opt, lens_aperture: opt, upoe_support: opt, focal_length: opt, shutter_speed: opt, external_power: opt, lens_adjustment_range: opt, min_illumination: opt, optical_zoom: opt, box_contents: opt, poe_budget_redundant: opt, lan_interfaces: opt, wan_interfaces: opt, tdp: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     color: opt, color_options: opt, country_of_origin: opt, packaging_dimensions: opt, product_line: opt, series_release_date: opt,
+    // --- kind-layer (13 Sep 2026): the library cups each Meraki kind did not ask, PROPOSED REQUIRED (operator bar) --------
+    // switch (II.15: "like II.1" = ETH-SWITCHING + ENV; roles access MS1xx-3xx, core-agg MS4xx via deployRole.ts).
+    uplink_ports: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", ne: "modular-chassis" }] }),
+    forwarding_rate: cond({ field: "kind", inList: ["switch"] }),
+    mac_table: cond({ field: "kind", inList: ["switch"] }),
+    vlan_max: cond({ field: "kind", inList: ["switch"] }),
+    jumbo_mtu: cond({ field: "kind", inList: ["switch"] }),
+    packet_buffer: cond({ field: "kind", inList: ["switch"] }),
+    mgmt_class: cond({ field: "kind", inList: ["switch"] }),
+    psu_config: cond({ field: "kind", inList: ["switch"] }),
+    cooling: cond({ field: "kind", inList: ["switch"] }),
+    ieee_standards: cond({ field: "kind", inList: ["switch"] }),
+    stackable: cond({ field: "kind", inList: ["switch"] }),
+    poe_ports: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "poe_standard", ne: "none" }] }),
+    stacking_bandwidth: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "stackable", eq: true }] }),
+    module_slots: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", eq: "modular-chassis" }] }),
+    rack_units: cond({ all: [{ field: "kind", inList: ["switch", "appliance"] }, { field: "form_factor", inList: ["rack-19", "modular-chassis"] }] }),
+    // ENV+ for the access and core-agg roles; + fabric_bandwidth and an ungated psu_redundant for core-agg (as in II.1).
+    altitude_max: swOnly(["access", "core-agg"]), temp_storage: swOnly(["access", "core-agg"]), mtbf: swOnly(["access", "core-agg"]),
+    heat_dissipation: swOnly(["access", "core-agg"]), power_typical: swOnly(["access", "core-agg"]), input_voltage: swOnly(["access", "core-agg"]),
+    fabric_bandwidth: swOnly(["core-agg"]),
+    psu_redundant: cond({ any: [
+      { all: [{ field: "kind", inList: ["switch"] }, { field: "deploy_role", inList: ["core-agg"] }] },
+      { all: [{ field: "kind", inList: ["switch"] }, { field: "psu_config", inList: ["modular-single", "modular-redundant"] }] },
+    ] }, { elseOpt: true }),
+    // access-point (AP library): radios, streams, antennas; an IP rating for the outdoor / industrial roles.
+    radio_bands: cond({ field: "kind", inList: ["access-point"] }),
+    radio_count: cond({ field: "kind", inList: ["access-point"] }),
+    spatial_streams: cond({ field: "kind", inList: ["access-point"] }),
+    antenna_type: cond({ field: "kind", inList: ["access-point"] }),
+    // An MV camera's spec gate (deploy_role = outdoor) is NOT written: a camera has no role axis (deployRole.ts), so that
+    // clause could never fire and would read as a rule nothing satisfies.
+    ip_rating: cond({ all: [{ field: "kind", inList: ["access-point"] }, { field: "deploy_role", inList: ["outdoor", "industrial"] }] }, { elseOpt: true }),
+    // security appliance (FIREWALL) — kept under the kind name `appliance` (no III.1 rename).
+    threat_throughput: cond({ field: "kind", inList: ["appliance"] }),
+    ipsec_throughput: cond({ field: "kind", inList: ["appliance"] }),
+    concurrent_sessions: cond({ field: "kind", inList: ["appliance"] }),
+    // new_conn_per_sec is FIREWALL-archetype required but HELD OPTIONAL, as in `security`: its unit `1/s` is not count-like,
+    // so every real value ("2700", "380K") is refused at normalise, zero facts exist in any category, and
+    // tests/source-fields.test.ts names it a required field no enabled source publishes.
+    new_conn_per_sec: opt,
+    // camera (CAMERA).
+    max_resolution: cond({ field: "kind", inList: ["camera"] }),
+    camera_zoom: cond({ field: "kind", inList: ["camera"] }),
   },
 
   // STRUCTURE, added 8 Sep 2026: this category lives in GENERATED_PROFILES,
@@ -1956,6 +2034,22 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   switches: {
     rfc_compliance: opt, emc_immunity: opt, emc_emissions: opt, power_full_load: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req,
+    // ===== KIND LAYER (13 Sep 2026) — docs/decisions/2026-09-13-kind-layer-cisco.md, spec v2 §II.1 ======================
+    // OPERATOR BAR: nothing below is demoted on a measurement. Every cup a kind asked on 0e22f85 is still asked; the spec's
+    // archetype cups a kind or a ROLE did not ask are added as required — PROPOSED, for the parent's printed-on-the-page
+    // measurement to confirm or demote. What changed, and why, per cup:
+    //   switch     `ports` required unconditionally (the chassis is its own kind, so the modular-chassis clause is gone).
+    //              Roles (`deploy_role`, swOnly): core-agg + fabric_bandwidth, psu_redundant (ungated); datacenter + latency,
+    //              fabric_bandwidth (gated on a modular form factor); industrial + ip_rating (ungated), mounting.
+    //              The spec's smb demotions are NOT applied (a demotion is the measurement's call).
+    //   chassis    NEW: the CHASSIS archetype — module_slots, form_factor, rack_units, dimensions, weight, psu_config;
+    //              psu_count, fan_tray_bays, fabric_bandwidth, power_max, airflow optional. A chassis is not asked the
+    //              switch set its rows carried as kind `switch` (layer 2 is membership, not a demotion).
+    //   fex        + product_compatibility (spec: "the parent").
+    //   linecard / module  + data_rate.   cable / stack-cable  + connector, media.
+    //   power-cord  plug_type and power_cord_rating are proposed required but are FREE STRINGS (type s): the standing
+    //              rule in tests/freeStringCups.test.ts refuses a required free string without a recorded decision, so they
+    //              stay optional here and are listed for the parent.
     // --- the device itself -----------------------------------------------------------------
     mgmt_class: cond({ field: "kind", inList: [...SW_DEVICE] }),
     // THE CHASSIS TRADE-OFF, recorded 11 Sep 2026 (reviewer §1.4). A modular chassis stays kind `switch`: no
@@ -1988,8 +2082,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     layer: opt,
     // SW_BOX = switch + fex (11 Sep 2026): a fabric extender is a box you rack and power, so it keeps
     // the physical envelope below; it is not asked what only a SWITCHING device has.
+    // kind-layer: SW_BOX now includes `chassis`, so a chassis is asked its form factor; its rack units are required outright.
     form_factor: cond({ field: "kind", inList: [...SW_BOX] }),
-    rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
+    rack_units: cond({ any: [{ field: "kind", inList: ["chassis"] }, { field: "form_factor", inList: ["rack-19", "modular-chassis"] }] }),
     stackable: cond({ field: "kind", inList: ["switch"] }), deploy_role: opt,
     // PORTS ARE NOT ASKED OF A MODULAR CHASSIS (11 Sep 2026, reviewer §1.8, reshaped by measurement).
     // The reviewer proposed "uplink_ports only for access families — Nexus, 4500-X and 9500 have
@@ -1997,10 +2092,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // Nexus 93180YC-FX and the 4x100G on a C9500-48Y4C "uplink ports". What has neither is a bare
     // CHASSIS (WS-C4507R-E, N9K-C9508): its ports arrive on line cards. So both fields are asked of
     // a switch until its form factor says modular-chassis, and of the kinds that carry ports themselves.
-    ports: cond({ any: [
-      { field: "kind", inList: ["module", "linecard", "fex"] },
-      { all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", ne: "modular-chassis" }] },
-    ] }),
+    // kind-layer (13 Sep 2026), spec v2 I.4: "ports becomes required unconditionally". The bare chassis is kind `chassis` now
+    // (switchKind.ts, 83 rows), so the modular-chassis clause has nothing left to protect and the most important row of a
+    // switch no longer waits on a less important one.
+    ports: cond({ field: "kind", inList: ["switch", "module", "linecard", "fex"] }),
     uplink_ports: cond({ any: [
       { field: "kind", inList: ["fex", "supervisor"] },
       { all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", ne: "modular-chassis" }] },
@@ -2011,7 +2106,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // silent `na`. Gated on `form_factor` alone (required, 145 occurrences) with elseOpt, so a
     // FIXED switch with a network-module slot can still hold the 234 facts this cup already has
     // ("NIM slots" x8, "Expansion Slot" x7) instead of being told the question does not apply.
-    module_slots: cond({ field: "form_factor", eq: "modular-chassis" }, { elseOpt: true }),
+    // kind-layer: + chassis, whose defining cup this is (63 of the 75 bare chassis PIDs already hold one — III.0 item 4).
+    module_slots: cond({ any: [{ field: "kind", inList: ["chassis"] }, { field: "form_factor", eq: "modular-chassis" }] }, { elseOpt: true }),
     // mgmt_ports holds ZERO facts across every Cisco category, not merely across this one —
     // measured 10 Sep 2026, and the four mentions in data/schema/source-fields.json are
     // added_by_profile entries (a field a profile CAN require), never evidence that anything
@@ -2052,7 +2148,14 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     forwarding_rate: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
     // + linecard (11 Sep 2026, reviewer §1.5): a card in a chassis slot has a fabric connection — the
     // 31 per-slot figures moved on 11 Sep all sit on line cards (WS-X47xx, WS-X68xx, C6800 port cards).
-    fabric_bandwidth: cond({ field: "kind", inList: ["supervisor", "fabric", "linecard"] }),
+    // kind-layer: + the core-agg and datacenter ROLES (spec v2 II.1: modular/core switches are bought on slots and fabric).
+    // The spec gates the datacenter one on form_factor; that gate cannot be written here without leaving the cup PENDING for
+    // every unresolved-role switch too (an absent deploy_role cannot settle an `inList` clause while another required gate
+    // is unanswered), so it is proposed ungated and the measurement decides. A chassis declares it optional (elseOpt).
+    fabric_bandwidth: cond({ any: [
+      { field: "kind", inList: ["supervisor", "fabric", "linecard"] },
+      { all: [{ field: "kind", inList: ["switch"] }, { field: "deploy_role", inList: ["core-agg", "datacenter"] }] },
+    ] }, { elseOpt: true }),
     stacking_bandwidth: cond({ field: "stackable", eq: true }),
     // Which stack it joins — OPTIONAL (reviewer §1.1). Asked of nothing yet: the "Stacking" row that names it
     // occurs 6 times in the inventory; the other 300+ values sit inside `stackable` raws and are coverage work.
@@ -2081,14 +2184,21 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     ipv4_routes: opt,
     ipv6_routes: opt,
     multicast_groups: opt, acl_entries: opt,
-    jumbo_mtu: cond({ field: "kind", inList: [...SW_DEVICE] }), latency: opt, cpu: opt,
+    // kind-layer: latency is proposed REQUIRED of the datacenter role (spec v2 II.1: "DC buyers compare on latency").
+    jumbo_mtu: cond({ field: "kind", inList: [...SW_DEVICE] }), latency: swOnly(["datacenter"]), cpu: opt,
     dram: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
     flash: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
+    // kind-layer: SW_BOX includes `chassis`; psu_config is in the CHASSIS archetype, so it stays SW_BOX.
     psu_config: cond({ field: "kind", inList: [...SW_BOX] }),
     // Redundancy is a question only where a PSU is MODULAR (11 Sep 2026, reviewer §1.8): a switch with
     // a fixed internal supply has nothing to be redundant, and no source prints "not redundant".
-    psu_redundant: cond({ field: "psu_config", inList: ["modular-single", "modular-redundant"] }), psu_options: opt,
-    cooling: cond({ field: "kind", inList: [...SW_BOX] }),
+    // kind-layer: + the core-agg role, UNGATED (spec v2 II.1: core switches are bought on redundancy). The modular branch is
+    // scoped to switch/fex so a chassis — whose psu_config is required — is not left pending a cup its archetype lacks.
+    psu_redundant: cond({ any: [
+      { all: [{ field: "kind", inList: ["switch"] }, { field: "deploy_role", inList: ["core-agg"] }] },
+      { all: [{ field: "kind", inList: ["switch", "fex"] }, { field: "psu_config", inList: ["modular-single", "modular-redundant"] }] },
+    ] }, { elseOpt: true }), psu_options: opt,
+    cooling: cond({ field: "kind", inList: ["switch", "fex"] }),
     // AIRFLOW IS HOW A FAN OR A PSU IS SOLD (11 Sep 2026, reviewer §1.3): NXA-PAC-1100W-PE2 and -PI2 are
     // the same supply with the air going opposite ways, and FEX packs come as "Standard" or "Reversed
     // airflow pack". Fillable — "Airflow" / "Airflow direction" / "Air flow" occur 185 times in the
@@ -2110,35 +2220,52 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // `na`) of everything else, so a value is accepted the day one is extracted.
     airflow: cond({ field: "kind", inList: ["fan", "power", "fex"] }, { elseOpt: true }),
     // --- physical: the box, and the parts that have their own -----------------------------------
-    power_typical: cond({ field: "kind", inList: [...SW_BOX] }),
+    // kind-layer: SW_BOX now includes `chassis`, so the envelope rows below that are NOT in the CHASSIS archetype name their
+    // kinds explicitly (switch, fex) — dimensions, weight, form_factor and psu_config keep SW_BOX because the archetype asks
+    // them; power_max is optional in the archetype, hence elseOpt.
+    power_typical: cond({ field: "kind", inList: ["switch", "fex"] }),
     // A PSU's wattage is what it DELIVERS (psu_rated_output), not what it draws (power_max): all 277
     // power_max facts on power-kind parts read "<n>W" off the supply's own name — "Cisco N9000 1400W AC
     // power supply" — and are moved to psu_rated_output by scripts/rekey-psu-and-compat.mts. A line
     // card DRAWS power of its own, and Cisco prints it (48 line cards hold one today).
-    power_max: cond({ field: "kind", inList: [...SW_BOX, "linecard"] }),
+    power_max: cond({ field: "kind", inList: ["switch", "fex", "linecard"] }, { elseOpt: true }),
     psu_rated_output: cond({ field: "kind", inList: ["power"] }),
-    input_voltage: cond({ field: "kind", inList: [...SW_BOX, "power"] }), input_freq: opt,
-    heat_dissipation: cond({ field: "kind", inList: [...SW_BOX] }),
-    temp_operating: cond({ field: "kind", inList: [...SW_BOX] }),
-    temp_storage: cond({ field: "kind", inList: [...SW_BOX] }),
-    humidity_operating: cond({ field: "kind", inList: [...SW_BOX] }),
-    altitude_max: cond({ field: "kind", inList: [...SW_BOX] }),
-    acoustic_noise: opt, mtbf: cond({ field: "kind", inList: [...SW_BOX] }),
+    input_voltage: cond({ field: "kind", inList: ["switch", "fex", "power"] }), input_freq: opt,
+    heat_dissipation: cond({ field: "kind", inList: ["switch", "fex"] }),
+    temp_operating: cond({ field: "kind", inList: ["switch", "fex"] }),
+    temp_storage: cond({ field: "kind", inList: ["switch", "fex"] }),
+    humidity_operating: cond({ field: "kind", inList: ["switch", "fex"] }),
+    altitude_max: cond({ field: "kind", inList: ["switch", "fex"] }),
+    acoustic_noise: opt, mtbf: cond({ field: "kind", inList: ["switch", "fex"] }),
     dimensions: cond({ field: "kind", inList: [...SW_BOX] }),
     weight: cond({ field: "kind", inList: [...SW_BOX] }),
-    certifications: cond({ field: "kind", inList: [...SW_BOX] }),
-    ieee_standards: cond({ field: "kind", inList: [...SW_BOX] }),
+    certifications: cond({ field: "kind", inList: ["switch", "fex"] }),
+    ieee_standards: cond({ field: "kind", inList: ["switch", "fex"] }),
+    // kind-layer: the industrial role is proposed MOUNTING (spec v2 II.1: rugged buyers compare on DIN/wall/panel mounting).
+    // A mechanical part is added to this cup by the fallback-kinds loop below.
+    mounting: swOnly(["industrial"]),
+    // kind-layer: CHASSIS archetype, optional.
+    psu_count: opt,
+    // kind-layer: LINECARD and MODULE archetypes ask the port speed (spec v2 I.4).
+    data_rate: cond({ field: "kind", inList: ["linecard", "module"] }),
+    // kind-layer: the CABLE / STACK-CABLE archetype asks connector and media beside the length.
+    connector: cond({ field: "kind", inList: ["cable", "stack-cable"] }),
+    media: cond({ field: "kind", inList: ["cable", "stack-cable"] }),
     // WHAT IT FITS (11 Sep 2026, reviewer §1.1): the first question asked of a line card, a PSU or a
     // fan, and asked of NONE of them until today. Fillable — "Product compatibility" (92),
     // "Chassis compatibility" (36) and "Chassis support" (23) occur in the datasheet inventory; only 5
     // components hold a value yet, which is coverage, not schema. chassis_compatibility, the same
     // quantity under a second key, is retired into this one (SUPERSEDED_KEYS).
-    product_compatibility: cond({ field: "kind", inList: [...SW_COMPONENT] }),
+    // kind-layer: + fex (spec v2 II.1: a FEX is bought for "the parent" it hangs off).
+    product_compatibility: cond({ field: "kind", inList: [...SW_COMPONENT, "fex"] }),
     // A cable is bought by its length ("3M Type 2 Stacking Cable", "Power Cord ... 2.5m"); "Length"
     // occurs 58 times in the inventory and already maps to cable_length. The plug of a power cord is
     // declared OPTIONAL: no label in any source inventory names it yet.
     // power cords, stack cables and other cables have a length; a stack MODULE or KIT does not (§1.2)
     cable_length: cond({ field: "kind", inList: [...SW_CABLE] }),
+    // kind-layer: the POWER-CORD archetype proposes plug_type and power_cord_rating REQUIRED. Both are free strings (type s,
+    // no domain), which tests/freeStringCups.test.ts refuses as a required cup without a recorded decision — optional here,
+    // listed for the parent (REPORT §3).
     plug_type: opt,
     // R1: the `deploy_role` branch is dropped for the reason above — it is `opt`, unfillable (2
     // facts, no label), and its presence made this cup`s only live branch an unanswerable one.
@@ -2146,7 +2273,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // sheets give the IE/IR line a din-rail form factor, so the surviving branch is the fillable
     // one. elseOpt: a switch whose form factor is rack-19 may still state an IP rating (9 facts,
     // 21 labels) and is no longer told it cannot have one.
-    ip_rating: cond({ field: "form_factor", eq: "din-rail" }, { elseOpt: true }),
+    // kind-layer: + the industrial ROLE, ungated (spec v2 II.1: "ip_rating (required, not gated on form_factor)"). The
+    // din-rail branch is scoped to switch/fex so a chassis (form_factor required) is not left pending it. ONE LINE on purpose:
+    // tests/promote-required.test.ts comments this line out as its S13 sabotage anchor.
+    ip_rating: cond({ any: [{ all: [{ field: "kind", inList: ["switch"] }, { field: "deploy_role", inList: ["industrial"] }] }, { all: [{ field: "kind", inList: ["switch", "fex"] }, { field: "form_factor", eq: "din-rail" }] }] }, { elseOpt: true }),
     // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
     psu_efficiency: opt, power_cord_rating: opt, box_contents: opt, qos_queues: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
@@ -2893,31 +3023,54 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   "storage-networking": {
     fabric_services: opt, serviceability: opt, supported_protocols: opt, programming_interfaces: opt, advanced_functions: opt, diagnostics: opt, redundancy: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req,
-    form_factor: opt,
+    // ===== KIND LAYER (13 Sep 2026), spec v2 §II.12 — `switch` is `fc-switch`, `other` is `unknown` (sanKind.ts) ========
+    // OPERATOR BAR: nothing is demoted on a measurement. Today's cups stay; the spec archetypes are ADDED as proposed
+    // required cups for the parent's printed-on-the-page measurement:
+    //   fc-switch   ETH-SWITCHING minus PoE / stacking / mac_table / vlan_max, + data_rate, + ENV: form_factor,
+    //               switching_capacity, forwarding_rate, jumbo_mtu, packet_buffer, mgmt_class, psu_config, cooling,
+    //               ieee_standards; uplink_ports and module_slots pending on form_factor, psu_redundant on psu_config.
+    //   director    CHASSIS + fabric_bandwidth: form_factor, psu_config, fabric_bandwidth.
+    //   supervisor  SUPERVISOR: switching_capacity, forwarding_rate, dram, flash.
+    //   cable       CABLE: connector, media; and product_compatibility (parent ruling 1: every component kind asks it).
+    form_factor: cond({ field: "kind", inList: [...SAN_BOX] }),
     rack_units: cond({ field: "kind", inList: [...SAN_BOX] }),
-    module_slots: cond({ field: "kind", inList: ["director"] }),
-    ports: cond({ field: "kind", inList: ["switch", "linecard"] }),
-    data_rate: cond({ field: "kind", inList: ["switch", "linecard", "pluggable"] }),
-    // OPTIONAL: an MDS datasheet quotes "aggregate bandwidth" per switch, but no label maps it here yet and 0 of
-    // the category's parts hold one; forwarding_rate and latency likewise. Declared, so a value is accepted.
-    switching_capacity: opt, forwarding_rate: opt, latency: opt,
-    fabric_bandwidth: cond({ field: "kind", inList: ["fabric"] }),
-    psu_config: opt, psu_redundant: opt, cooling: opt,
+    module_slots: cond({ any: [{ field: "kind", inList: ["director"] }, { all: [{ field: "kind", inList: ["fc-switch"] }, { field: "form_factor", eq: "modular-chassis" }] }] }),
+    ports: cond({ field: "kind", inList: ["fc-switch", "linecard"] }),
+    uplink_ports: cond({ all: [{ field: "kind", inList: ["fc-switch"] }, { field: "form_factor", ne: "modular-chassis" }] }),
+    data_rate: cond({ field: "kind", inList: ["fc-switch", "linecard", "pluggable"] }),
+    // OPTIONAL until 13 Sep 2026: an MDS datasheet quotes "aggregate bandwidth" per switch, but no label maps it here yet and
+    // 0 of the category's parts hold one; forwarding_rate and latency likewise. kind-layer: proposed REQUIRED of the
+    // fc-switch (ETH-SWITCHING) and the supervisor (SUPERVISOR); latency stays optional as the library has it.
+    switching_capacity: cond({ field: "kind", inList: ["fc-switch", "supervisor"] }),
+    forwarding_rate: cond({ field: "kind", inList: ["fc-switch", "supervisor"] }), latency: opt,
+    jumbo_mtu: cond({ field: "kind", inList: ["fc-switch"] }),
+    packet_buffer: cond({ field: "kind", inList: ["fc-switch"] }),
+    mgmt_class: cond({ field: "kind", inList: ["fc-switch"] }),
+    ieee_standards: cond({ field: "kind", inList: ["fc-switch"] }),
+    fabric_bandwidth: cond({ field: "kind", inList: ["fabric", "director"] }),
+    psu_config: cond({ field: "kind", inList: [...SAN_BOX] }),
+    psu_redundant: cond({ all: [{ field: "kind", inList: ["fc-switch"] }, { field: "psu_config", inList: ["modular-single", "modular-redundant"] }] }),
+    cooling: cond({ field: "kind", inList: ["fc-switch"] }),
+    dram: cond({ field: "kind", inList: ["supervisor"] }),
+    flash: cond({ field: "kind", inList: ["supervisor"] }),
+    psu_count: opt, fan_tray_bays: opt,
     power_max: cond({ field: "kind", inList: [...SAN_BOX, ...SAN_MODULE] }),
     psu_rated_output: cond({ field: "kind", inList: ["power"] }),
     input_voltage: cond({ field: "kind", inList: ["power"] }),
-    airflow: cond({ field: "kind", inList: ["switch", "power", "fan"] }),
+    // elseOpt: the CHASSIS archetype declares airflow optional for a director.
+    airflow: cond({ field: "kind", inList: ["fc-switch", "power", "fan"] }, { elseOpt: true }),
     temp_operating: cond({ field: "kind", inList: [...SAN_BOX] }),
     humidity_operating: cond({ field: "kind", inList: [...SAN_BOX] }),
     dimensions: cond({ field: "kind", inList: [...SAN_BOX] }),
     weight: cond({ field: "kind", inList: [...SAN_BOX] }),
     certifications: cond({ field: "kind", inList: [...SAN_BOX] }),
-    product_compatibility: cond({ field: "kind", inList: [...SAN_FITS] }),
+    product_compatibility: cond({ field: "kind", inList: [...SAN_FITS, "cable"] }),
     cable_length: cond({ field: "kind", inList: ["cable"] }),
-    connector: cond({ field: "kind", inList: ["pluggable"] }),
+    media: cond({ field: "kind", inList: ["cable"] }),
+    connector: cond({ field: "kind", inList: ["pluggable", "cable"] }),
     wavelength: cond({ field: "kind", inList: ["pluggable"] }),
     reach_max: cond({ field: "kind", inList: ["pluggable"] }),
-    mtbf: opt, altitude_max: opt, temp_storage: opt, power_typical: opt, dram: opt, flash: opt, power_cord_rating: opt, plug_type: opt,
+    mtbf: opt, altitude_max: opt, temp_storage: opt, power_typical: opt, power_cord_rating: opt, plug_type: opt,
     // STRUCTURE 8 Sep 2026: 7 field(s) its documents already produce and no profile declared — invisible to completeness until now
     temp_class: opt, segment_routing_features: opt, qos_features: opt, modulation_format: opt, safety_standards: opt, queues_per_port: opt, status_leds: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now

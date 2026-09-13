@@ -20,23 +20,27 @@
 // their ports. The 9216 / 9222i "1-slot modular" switches have fixed ports AND an expansion slot: they are
 // switches (their datasheet states the ports), and module_slots stays optional for them.
 //
-// THE DEFAULT IS `other`, AND IT ASKS NOTHING. Every family above is named; the residue is read in the
+// THE DEFAULT IS `unknown` (was `other` until 13 Sep 2026), AND IT ASKS NOTHING. Every family above is named; the residue is read in the
 // session report (an "EXPAND OPT", a promotional package, an IBM-rebadged row with no name).
 //
 // ORDER (first match wins): software before everything (M9148S-SP-12P8G is a licence that ships SFPs);
 // accessory before cable (DS-6SLOT-CAB= is "Rack Mount and Cable Mgmt Brackets"); fan before power.
 
+// KIND-LAYER RENAMES (13 Sep 2026, spec v2 §II.12 / §III.1). `switch` -> `fc-switch`: an MDS fabric switch is bought
+// on Fibre Channel rate and ports, not on Ethernet switching (no PoE, no stacking, no MAC table or VLANs), and giving it
+// the Catalyst noun made tests/cupLedger carry a named exception (`switch:storage-networking`) that the rename makes
+// unnecessary — rule 3 now holds by NAME. `other` -> `unknown`, the one word every axis uses for "could not say".
 export type SanKind =
-  | "switch" | "director" | "linecard" | "supervisor" | "fabric"
-  | "power" | "fan" | "cable" | "accessory" | "pluggable" | "software" | "other";
+  | "fc-switch" | "director" | "linecard" | "supervisor" | "fabric"
+  | "power" | "fan" | "cable" | "accessory" | "pluggable" | "software" | "unknown";
 
 /** Every kind the axis can name, in ledger order. */
 export const SAN_KINDS: readonly SanKind[] = [
-  "switch", "director", "linecard", "supervisor", "fabric",
-  "power", "fan", "cable", "accessory", "pluggable", "software", "other",
+  "fc-switch", "director", "linecard", "supervisor", "fabric",
+  "power", "fan", "cable", "accessory", "pluggable", "software", "unknown",
 ];
 /** Whole boxes you rack and power — the only kinds asked a physical envelope. */
-export const SAN_BOX: readonly SanKind[] = ["switch", "director"];
+export const SAN_BOX: readonly SanKind[] = ["fc-switch", "director"];
 /** Modules that plug into a director slot and draw their own power. */
 export const SAN_MODULE: readonly SanKind[] = ["linecard", "supervisor", "fabric"];
 /** Everything bought for WHAT IT FITS. Cables are bought by length. */
@@ -63,7 +67,11 @@ const RULES: { kind: SanKind; re: RegExp }[] = [
   // Supplies: AC / DC / HVDC supplies, the fixed-switch 300 W supplies, power entry modules, the 9216 PS kit.
   { kind: "power", re: /^DS-C(?:AC|DC|HV)|^DS-PEM-|^DS-C\d+[A-Z]?-\d{3,4}AC|^DS-C9216-PS|^PWR-/ },
   // Supervisors: DS-X9530-SF2AK9 "Supervisor/Fabric-2A", DS-X97-SF1E-K9, DS-X97-SF4-K9.
-  { kind: "supervisor", re: /-SF\d[A-Z]?(?:-|K9|=|$)/ },
+  // kind-layer (13 Sep 2026), III.0 item 6: the two 9509 UPGRADE BUNDLES (DS-9509-UPGR "MDS 9509 Upgrade Bundle: 2 sup-2,
+  // 2 3000W AC PS", DS-9509-A-UPGR "... 2 sup-2A ...") were `other`. No chassis in either; the part a buyer compares is
+  // the supervisor pair, so they are asked a supervisor's questions — as switches' 4500-E upgrade options are asked the
+  // questions of the card they carry.
+  { kind: "supervisor", re: /-SF\d[A-Z]?(?:-|K9|=|$)|^DS-9509-(?:A-)?UPGR(?:=|$)/ },
   // Crossbar fabric modules: DS-X9706-FAB1, DS-X9718-FAB3, DS-13SLT-FAB2.
   { kind: "fabric", re: /-FAB\d/ },
   // Switching and services modules for a director slot, and the 9220i expansion module.
@@ -72,13 +80,13 @@ const RULES: { kind: SanKind; re: RegExp }[] = [
   { kind: "director", re: /^DS-C9[57]\d\d/ },
   // Fixed fabric switches (9120, 9124, 9132T, 9134, 9148/S/T/V, 9216/i, 9222i, 9220i, 9250i, 9396S/T/V), the HP
   // blade-system FC switch, and the IBM-rebadged SAN50C-R.
-  { kind: "switch", re: /^DS-C9\d|^DS-9134G|^DS-HP-\d+GFC|^SAN\d+C-/ },
+  { kind: "fc-switch", re: /^DS-C9\d|^DS-9134G|^DS-HP-\d+GFC|^SAN\d+C-/ },
 ];
 
 /** The ordered rule table, exported so tests/sanKind.test.ts can disable one family and watch it go red. */
 export const SAN_KIND_RULES: readonly { kind: SanKind; re: RegExp }[] = RULES;
 
-/** Index of the rule that decides this SKU (-1 = the `other` default). Pure; drives the sabotage cases. */
+/** Index of the rule that decides this SKU (-1 = the `unknown` default). Pure; drives the sabotage cases. */
 export function sanKindRule(sku: string, rules: readonly { kind: SanKind; re: RegExp }[] = RULES): number {
   const s = String(sku ?? "").trim().toUpperCase().replace(/[=+]+$/, "");
   if (s === "") return -1;
@@ -87,7 +95,7 @@ export function sanKindRule(sku: string, rules: readonly { kind: SanKind; re: Re
 
 export function sanKindWith(rules: readonly { kind: SanKind; re: RegExp }[], sku: string): SanKind {
   const i = sanKindRule(sku, rules);
-  return i < 0 ? "other" : rules[i].kind;
+  return i < 0 ? "unknown" : rules[i].kind;
 }
 
 export function sanKind(sku: string): SanKind {

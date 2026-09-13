@@ -55,8 +55,9 @@
 // test was wrong, not the axis.
 
 export type SwitchKind =
-  | "switch" | "fex" | "linecard" | "module" | "supervisor" | "fabric" | "daughter"
-  | "power" | "fan" | "power-cord" | "stack-cable" | "stack-module" | "cable" | "accessory" | "software";
+  | "switch" | "fex" | "chassis" | "linecard" | "module" | "supervisor" | "fabric" | "daughter"
+  | "power" | "fan" | "power-cord" | "stack-cable" | "stack-module" | "cable" | "accessory" | "software"
+  | "mechanical";
 
 /** Kinds that are a whole networking device — the only ones a switching specification belongs to. */
 export const SW_DEVICE: readonly SwitchKind[] = ["switch"];
@@ -66,8 +67,12 @@ export const SW_DEVICE: readonly SwitchKind[] = ["switch"];
  * temperatures, power, PSU, cooling, certifications) whether or not they switch. A fabric extender is
  * the one box that does not switch: it forwards everything to its parent, so it is asked the envelope
  * and its ports, never a MAC table, VLANs, a layer, stacking, DRAM or flash (11 Sep 2026).
+ *
+ * kind-layer (13 Sep 2026): `chassis` joins — a bare modular chassis (WS-C4507R-E, N9K-C9508, C9407R) is a box
+ * with slots and no ports of its own. It was `switch` until today because no SKU marker separated it (see the
+ * header); III.0 item 4 read 524 candidate rows one by one and the chassis rule below is written from its 82.
  */
-export const SW_BOX: readonly SwitchKind[] = ["switch", "fex"];
+export const SW_BOX: readonly SwitchKind[] = ["switch", "fex", "chassis"];
 
 /**
  * Kinds that plug into one.
@@ -89,7 +94,7 @@ export const SW_BOX: readonly SwitchKind[] = ["switch", "fex"];
  */
 export const SW_PART: readonly SwitchKind[] =
   ["linecard", "module", "supervisor", "fabric", "daughter", "power", "fan",
-   "power-cord", "stack-cable", "stack-module", "cable", "accessory", "software"];
+   "power-cord", "stack-cable", "stack-module", "cable", "accessory", "software", "mechanical"];
 
 /** Kinds that plug into or attach to a switch — every one is bought for WHAT IT FITS (11 Sep 2026). */
 export const SW_COMPONENT: readonly SwitchKind[] =
@@ -245,11 +250,86 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
     kind: "module",
     re: /(?:^|-)N\d+K-[MF]\d|^IEM-|-NM(?:-|=|$)|^N5[56]-M\d|^SPA-/,
   },
+  // ============================== kind-layer (13 Sep 2026) ==============================
+  // THE DEFAULT BUCKET, READ ROW BY ROW. III.0 item 3 hand-read every live `switch` row and marked 441 that are NOT a
+  // switch (B/classified.json `issue`); item 4 read the 524 chassis candidates. Every rule below is written from those
+  // reads, and all of them sit AFTER every older rule, so they can only reach a row that used to fall through to
+  // `switch` — no previously named part changes kind (the diff against the parts dump shows only default rows moving).
+  // Rows in the WRONG CATEGORY (MDS, Cisco 7600, Aironet APs, optics, IC3000) and rows that are not hardware (licences,
+  // tracking PIDs, datasheet cells) get no rule here: they are a category move or a class change, planned in the
+  // kind-layer report, and until those run they keep the kind core rather than a guessed component kind.
+  //
+  // Mechanical, from item 3 §mechanical (63 rows): front-door / bottom-support kits, shipping packaging, LED kits, NEBS
+  // air dams, the 6500 23" centre rack kit, airflow sleeves, Catalyst Micro DIN clips and bezels, patch panels, a
+  // ferrite bead, an IE3000 panel, the 9400 shelf kit. N77-C7706-SHPPKG "Nexus 7000 6 slot chassis Shipping Packaging".
+  // C6807-XL-PW "CETUSCR BACKPLANE, Power" is here and NOT in the accessory rule below on purpose: as `accessory` the name
+  // path read BACKPLANE as a riser and filed it `daughter` (measured in the first diff run).
+  {
+    kind: "mechanical",
+    re: /-FDK(?:=|$)|-BSK(?:=|$)|^N7K-BSK|-SHPPKG(?:=|$)|-LEDS(?:=|$)|-FD-TOP(?:=|$)|^WS-C6597|-V-E-CM(?:=|$)|-ACCKIT|-SHELF-KIST|^NXA-AIRFLOW-|^CMICR-(?:CLIP|BZL)-|^STK-RACKMOUNT|^(?:QPP|CP|CPP)24|NEB-UPGRD|^FERRITE-|^LPNL-|-NEBS-PAK(?:=|$)|^C6807-XL-PW(?:=|$)/,
+  },
+  // Chassis FRUs with no ports and no mounting role: Sup720 bootflash (BF-S720-64MB-RP "Bootflash for SUP720-64MB-RP"),
+  // the 6500 VTT and clock modules, the 6800 "Vecapy/Base Board", the 6807-XL power backplane. And the third-party
+  // cabling part numbers item 3 found filed under Catalyst 9300 (PUP6AV04BU-G, STP28X1MBU, CJ6X88TGBU — Panduit cords
+  // and jacks named only "Cisco <sku>"), which are also proposed as a class change: until then they ask at most what
+  // they fit, never 36 switch cups.
+  {
+    kind: "accessory",
+    re: /^BF-S720-|^WS-C6K-(?:VTT|CL)(?:-|=|$)|^C6800-SVE-BB|^P[A-Z]{1,3}6[A-Z0-9]{3,}|^STP28|^UTP28|^CJS?6X88|^FPUD6|^FPS6X88/,
+  },
+  // Power, from item 3 §power (25 rows): C9K-ADPT-DC / C9K-80W-ADPT "power adapter for the C9200CX", PWRADPT-WM-18,
+  // PEM-20A-AC+ "PwrEntryMod", N7K-DC-PIU "DC Power Interface Unit", N7K-AC-7.5-kW-INT, the 6807-XL PSU converter, the UPoE
+  // pass-through splitter, and the bare-wattage cells (715WAC, 1100W-P) that are also proposed as a class change.
+  {
+    kind: "power",
+    re: /^C9K-(?:80W-)?ADPT|^PWRADPT-|^PEM-|^N7K-DC-PIU|^N7K-AC-|^C6800-XL-PS-CONV|^WS-UPOE-12VPSPL|^\d+WA?C?(?:-P)?=?$/,
+  },
+  // Supervisors: the Route Switch Processor 720 (RSP720-3C-10GE), which carries no SUP token, and the 4500-E
+  // "Upgrade to Redundant Sup7L-E" option PIDs (C4500E-S7L/2, /2-IPB, /2-SFP+E).
+  { kind: "supervisor", re: /^RSP720-|^C4500E-S7L\/2/ },
+  // Nexus 5548 daughter cards: N55-DL2 "Layer 2 Daughter Card", N55-D160L3-V2 "Layer 3 Daughter Card", N55-D160L3-IF=
+  // "Layer 3 Expansion Module" — the same board sold as a field upgrade.
+  { kind: "daughter", re: /^N55-D/ },
+  // Line cards, from item 3 §linecard/module/supervisor and §upgrade option: Nexus 9500 cards filed without their N9K-
+  // prefix (X9736C-FX, X97160YC-EX, X9432PQ — "Cisco X9736C-FX"), WS-6148-GE-TX, the 7600 ES+ XT cards, the Services
+  // SPA Carriers (7600-SSC-400, WS-SSC-600) and IPsec VSPA carrier bundles, the Catalyst 6800 port cards
+  // (C6800-8P40G "8-port 40GE with dual integrated DFC4", C6800-48P-TX "48-port 1GE copper module"), C6880-X-16P10G.
+  // And the 61 Catalyst 4500-E UPGRADE OPTIONS (C4500E-7R-S8E-UPOE "SUP8-E AND WS-X4748-UPOE+E UPGRADE FOR 7 SLOT
+  // BUNDLE", C4500E-S6-UPOE "WS-X4748-UPOE+E Upgrade for bundles"): no chassis in any of them, and every one but the
+  // three redundant-supervisor PIDs above carries a port line card — so they are asked a line card's questions.
+  {
+    kind: "linecard",
+    re: /^X9\d{3}|^WS-6148-|^76-ES\+|^7600-SSC-|^WS-SSC-|^WS-IPSEC-SSC|^C6800-(?:8P40G|48P-)|^C6880-X-16P10G|^C45(?:00|10)R?E-|^C4500-10R-/,
+  },
+  // Modules for a fixed switch: the Nexus 5696Q / 5624Q / 6004 line expansion modules (N5696-M20UP "Chassis Module 20P
+  // 10GE", N6004-M12Q, N6K-C6004-M12Q), the C9350 network interface modules, the 3750-X service module and its promo
+  // pack, the 6500 VPN services port adapter.
+  { kind: "module", re: /^N5696-M\d|^N5600-M\d|^N6004X?-M\d|^N6K-C6004-M\d|^C9350-NIM-|^C3KX-SM-|^CAT-3KX-10G-SM|^WS-IPSEC-3/ },
+  // BARE MODULAR CHASSIS — III.0 item 4 §1, 75 bare chassis PIDs + 7 LEM-slot chassis, every one read. The rule is the
+  // chassis PID itself and NOTHING after it but a spare `=`, a Cisco ONE `C1-` or 2D-barcode `2D-` prefix, and the
+  // chassis' own letter suffix (-E, R-E, R+E, -V-E, -XL, -S/-SZ, EF, -C): so a BUNDLE built on the same chassis
+  // (WS-C4510RE+96, N77-C7710-B33S3E, C9410R-96U-BNDL-E, N9K-C9508-B2-R — 165 of them, item 4 "chassis bundle") and a
+  // fixed switch that also takes LEMs (N6K-C6004-96Q "48 Fixed 40GE Ports") stay `switch`, and a kit named for its
+  // chassis (N77-C7710-FDK) was already taken by the mechanical rule above. The plain 6004 is a chassis ONLY as the spare
+  // `N6K-C6004=`, whose vendor name is "Nexus 6004 EF Chassis Bare"; a bare `N6K-C6004` (the 48-fixed-port 6004, not in
+  // the live corpus) keeps the safe default `switch` — hence the lookahead.
+  {
+    kind: "chassis",
+    re: /^(?:C1-|2D-)?(?:WS-C45(?:03|06|07R|10R)[-+]E|C45(?:03|06|07R|10R)[-+]E|WS-C65(?:03|04|06|09|13)-(?:V-)?E|C6807-XL|N77-C77(?:02|06|10|18)|N7K-C70(?:04|09|10|18)|N7(?:702|706|710|718|018)|N9K-C9(?:504|508|516|408|804|808)|C94(?:04|07|10)R|C96(?:06|10)R|N3K-C3408-SZ?|N5K-C5696Q(?:-C)?|N5696Q|N6K-C6004EF(?:-C)?|N6K-C6004(?==$))=?$/,
+  },
 ];
 
-export function switchKind(sku: string): SwitchKind {
+/** The ordered rule table, exported so tests/switchKind.test.ts can remove one family and watch its witnesses go red
+ *  (kind-layer, 13 Sep 2026 — the same sabotage shape sanKind and merakiKind already had). */
+export const SW_KIND_RULES: readonly { kind: SwitchKind; re: RegExp }[] = RULES;
+
+export function switchKindWith(rules: readonly { kind: SwitchKind; re: RegExp }[], sku: string): SwitchKind {
   const s = String(sku ?? "").toUpperCase();
   if (s === "") return "switch";
-  for (const r of RULES) if (r.re.test(s)) return r.kind;
+  for (const r of rules) if (r.re.test(s)) return r.kind;
   return "switch";
+}
+
+export function switchKind(sku: string): SwitchKind {
+  return switchKindWith(RULES, sku);
 }
