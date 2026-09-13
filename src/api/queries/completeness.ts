@@ -35,11 +35,23 @@ export function pctOf(num: number, den: number): Pct {
 }
 
 export type ArrangedBlock = { asked: number; asked_nothing_fallback: number } & Pct;
-export type HeldBlock = { spec_bearing: number; eol_only: number; no_document: number } & Pct;
+/**
+ * HELD (operator ruling, 13 Sep 2026; src/core/heldEvidence.ts): a doc_parts row with doc_relevance = spec_for_kind AND
+ * link_basis IN (explicit, family). `spec_bearing` keeps its name and now counts THAT held; `spec_linked_not_held` is the
+ * parts a spec-bearing document is linked to only as a mention or by inference — held before the ruling, not after.
+ * Partition: spec_bearing + spec_linked_not_held + eol_only + no_document = parts. `held_by_doc_type_legacy` is the old
+ * rule (any spec-bearing doc type linked) as its own percentage over the same parts: held BEFORE relevance, printed beside.
+ */
+export type HeldBlock = { spec_bearing: number; spec_linked_not_held: number; eol_only: number; no_document: number;
+  held_by_doc_type_legacy: Pct } & Pct;
 export type FilledBlock = {
   /** den: required slots (completeness.required_fields) of HELD parts only */
   required_slots_held: number;
   filled: number; not_published: number; not_parsed: number;
+  /** kind layer 6b: an unfilled slot of a held part whose cup the printed-bar measurement (data/reference/cup-evidence-
+   *  <vendor>.json) marks `mapper-gap` — the datasheet prints it and the mapper does not map it. Counted INSTEAD of
+   *  not_parsed; the fourth open state beside not_published, not_parsed and would_refuse. */
+  mapper_gap: number;
   /** stored values the normaliser would refuse today, on held parts: neither filled nor empty (§3.3) */
   would_refuse: number;
   /** of `filled`, how many are in a state the API does not render (conflict, unverified) */
@@ -69,7 +81,7 @@ export type CupRow = {
   requirement: "required" | "pending" | "other";
   gate: string[];
   asked: number; held_asked: number;
-  filled: number; not_published: number; not_parsed: number; would_refuse: number;
+  filled: number; not_published: number; not_parsed: number; mapper_gap: number; would_refuse: number;
   not_held: number; not_held_filled: number; not_held_would_refuse: number;
   could_not_replay: number; inherited: number; filled_not_rendered: number; placeholders_stored: number;
   filled_pct: Pct;
@@ -88,7 +100,17 @@ export type CupRow = {
  * `(unresolved)` holds the parts no deployRole rule places (asked the kind's core); `kind_issue_parts` of them hit a
  * rule saying the row is not this kind at all. Cross-check `roles_partition` asserts the roles sum to the kind exactly.
  */
-export type RoleBlock = Block & { deploy_role: string; parts: number; kind_issue_parts?: number };
+export type RoleBlock = Block & {
+  deploy_role: string; parts: number;
+  /** (unresolved) only: rows an ISSUE rule says are not this kind at all (src/core/kindLayerPlans.ts) */
+  kind_issue_parts?: number;
+  /** (unresolved) only: kind_issue_parts split by plan state; pending_plan + plan_ran + unplanned = kind_issue_parts */
+  kind_issue?: { pending_plan: number; plan_ran: number; unplanned: number };
+  /** (unresolved) only: the III.4 bar over (unresolved − kind_issue_parts) / (kind parts − kind_issue_parts) */
+  null_share_excluding_kind_issue?: { num: number; den: number; pct: number | null; over_3pct: boolean };
+  /** (unresolved) only: "(unresolved) N — K pending move/class" */
+  display?: string;
+};
 
 export type KindBlock = Block & {
   kind: string; parts: number; resolved: boolean; asked_nothing: boolean; cups: CupRow[];
@@ -133,7 +155,7 @@ export type LedgerLike = {
     fallback: { asked_nothing: { parts: number }; unresolved_kind: { parts: number; kinds: string[] } } };
   kinds: Record<string, {
     parts: number; required_slots_stored: number;
-    document_evidence: { spec_bearing: number; eol_only: number; no_document: number };
+    document_evidence: { spec_bearing: number; spec_linked_not_held?: number; eol_only: number; no_document: number };
     required: { key: string }[]; pending_until_gate_answered: { key: string }[];
   }>;
 };
@@ -160,6 +182,10 @@ export const CHECKS = [
   // kind-layer infra (13 Sep 2026): layer 3 in the report.
   "roles_present",
   "roles_partition",
+  // kind layer 6b (13 Sep 2026): held by relevance, the (unresolved) kind-issue split, and the plans that must have emptied it.
+  "held_within_legacy",
+  "unresolved_kind_issue",
+  "kind_issue_plans_ran",
 ] as const;
 export type CheckName = (typeof CHECKS)[number];
 
@@ -221,14 +247,29 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
   }
 
   // held_partition: spec_bearing + eol_only + no_document == hardware_parts at every level
+  // 6b: four states (held by relevance / spec-bearing linked but not held / eol-only / no document). A block without
+  // `spec_linked_not_held` predates the ruling and fails by name rather than by NaN.
   run("held_partition");
   for (const s of scopes) {
     const h = s.b.held;
-    if (h.spec_bearing + h.eol_only + h.no_document !== s.b.hardware_parts) {
-      fail("held_partition", `${s.label}: ${h.spec_bearing}+${h.eol_only}+${h.no_document} != ${s.b.hardware_parts}`);
+    if (typeof h.spec_linked_not_held !== "number") { fail("held_partition", `${s.label}: no held.spec_linked_not_held — the report predates the held-by-relevance ruling; rebuild it`); continue; }
+    if (h.spec_bearing + h.spec_linked_not_held + h.eol_only + h.no_document !== s.b.hardware_parts) {
+      fail("held_partition", `${s.label}: ${h.spec_bearing}+${h.spec_linked_not_held}+${h.eol_only}+${h.no_document} != ${s.b.hardware_parts}`);
     }
   }
-  // held_matches_ledger: per kind, the three counts equal the ledger's document_evidence
+  // held_within_legacy: held BEFORE relevance (any spec-bearing doc type linked) is exactly held-and-spec-typed plus
+  // spec_linked_not_held. It fails when a part is held through a row whose document is NOT a spec-bearing doc type —
+  // the derive run and this report would then be using two different spec-bearing lists.
+  run("held_within_legacy");
+  for (const s of scopes) {
+    const h = s.b.held, lg = h.held_by_doc_type_legacy;
+    if (!lg || typeof lg.num !== "number") { fail("held_within_legacy", `${s.label}: no held.held_by_doc_type_legacy — rebuild the report`); continue; }
+    if (lg.den !== s.b.hardware_parts) fail("held_within_legacy", `${s.label}: held_by_doc_type_legacy den ${lg.den} != parts ${s.b.hardware_parts}`);
+    if (lg.num !== h.spec_bearing + h.spec_linked_not_held) {
+      fail("held_within_legacy", `${s.label}: legacy held ${lg.num} != held ${h.spec_bearing} + spec_linked_not_held ${h.spec_linked_not_held} — a part is held through a document that is not a spec-bearing doc type`);
+    }
+  }
+  // held_matches_ledger: per kind, the four counts equal the ledger's document_evidence
   run("held_matches_ledger");
   for (const c of cats) {
     const led = ctx.ledgers?.[c.category];
@@ -237,22 +278,24 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
       const k = c.kinds.find((x) => x.kind === kind);
       const de = lk.document_evidence;
       if (!k) { if (lk.parts > 0) fail("held_matches_ledger", `${c.category}.${kind}: ledger has ${lk.parts} parts, report has no kind`); continue; }
-      if (k.held.spec_bearing !== de.spec_bearing || k.held.eol_only !== de.eol_only || k.held.no_document !== de.no_document) {
-        fail("held_matches_ledger", `${c.category}.${kind}: report ${k.held.spec_bearing}/${k.held.eol_only}/${k.held.no_document} != ledger ${de.spec_bearing}/${de.eol_only}/${de.no_document}`);
+      if (k.held.spec_bearing !== de.spec_bearing || k.held.spec_linked_not_held !== de.spec_linked_not_held || k.held.eol_only !== de.eol_only || k.held.no_document !== de.no_document) {
+        fail("held_matches_ledger", `${c.category}.${kind}: report ${k.held.spec_bearing}/${k.held.spec_linked_not_held}/${k.held.eol_only}/${k.held.no_document} != ledger ${de.spec_bearing}/${de.spec_linked_not_held}/${de.eol_only}/${de.no_document} (held/spec-linked-not-held/eol-only/no-document)`);
       }
     }
   }
 
-  // filled_partition: held slots = filled + not_published + not_parsed + would_refuse, and Σ cups == kind at every level
+  // filled_partition: held slots = filled + not_published + not_parsed + mapper_gap + would_refuse, and Σ cups == kind at
+  // every level (6b: mapper_gap is the fourth open state)
   run("filled_partition");
   for (const s of scopes) {
     const f = s.b.filled;
-    const parts = f.filled + f.not_published + f.not_parsed + f.would_refuse;
-    if (parts !== f.required_slots_held) fail("filled_partition", `${s.label}: ${f.filled}+${f.not_published}+${f.not_parsed}+${f.would_refuse} != required_slots_held ${f.required_slots_held}`);
+    if (typeof f.mapper_gap !== "number") { fail("filled_partition", `${s.label}: no filled.mapper_gap — the report predates the mapper-gap state; rebuild it`); continue; }
+    const parts = f.filled + f.not_published + f.not_parsed + f.mapper_gap + f.would_refuse;
+    if (parts !== f.required_slots_held) fail("filled_partition", `${s.label}: ${f.filled}+${f.not_published}+${f.not_parsed}+${f.mapper_gap}+${f.would_refuse} != required_slots_held ${f.required_slots_held}`);
     if (s.b.defects.would_refuse !== f.would_refuse) fail("filled_partition", `${s.label}: defects.would_refuse ${s.b.defects.would_refuse} != filled.would_refuse ${f.would_refuse}`);
   }
   const rollup = (label: string, parent: Block, children: Block[]) => {
-    const fields: (keyof FilledBlock)[] = ["required_slots_held", "filled", "not_published", "not_parsed", "would_refuse", "not_held_slots", "not_held_filled"];
+    const fields: (keyof FilledBlock)[] = ["required_slots_held", "filled", "not_published", "not_parsed", "mapper_gap", "would_refuse", "not_held_slots", "not_held_filled"];
     for (const fld of fields) {
       const v = sum(children, (x) => x.filled[fld] as number);
       if (v !== parent.filled[fld]) fail("filled_partition", `${label}: filled.${fld} ${parent.filled[fld]} != Σ children ${v}`);
@@ -268,12 +311,13 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
         ["filled", k.filled.filled, cupsum((x) => x.filled)],
         ["not_published", k.filled.not_published, cupsum((x) => x.not_published)],
         ["not_parsed", k.filled.not_parsed, cupsum((x) => x.not_parsed)],
+        ["mapper_gap", k.filled.mapper_gap, cupsum((x) => x.mapper_gap)],
         ["would_refuse", k.filled.would_refuse, cupsum((x) => x.would_refuse)],
         ["not_held_slots", k.filled.not_held_slots, cupsum((x) => x.not_held)],
       ];
       for (const [n, a, b] of pairs) if (a !== b) fail("filled_partition", `${c.category}.${k.kind}: filled.${n} ${a} != Σ cups ${b}`);
       for (const cup of k.cups) {
-        const hp = cup.filled + cup.not_published + cup.not_parsed + cup.would_refuse;
+        const hp = cup.filled + cup.not_published + cup.not_parsed + cup.mapper_gap + cup.would_refuse;
         if (hp !== cup.held_asked) fail("filled_partition", `${c.category}.${k.kind}.${cup.key}: ${hp} != held_asked ${cup.held_asked}`);
         if (cup.held_asked + cup.not_held !== cup.asked) fail("filled_partition", `${c.category}.${k.kind}.${cup.key}: held_asked ${cup.held_asked} + not_held ${cup.not_held} != asked ${cup.asked}`);
       }
@@ -333,8 +377,8 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
     if (b.filled.num !== b.filled.filled + b.filled.not_published) fail("denominators", `${s.label}.filled: num ${b.filled.num} != filled + not_published`);
     if (b.inherited_share.num !== b.inherited_share.inherited || b.inherited_share.filled !== b.filled.filled) fail("denominators", `${s.label}.inherited_share: num/filled disagree with the filled block`);
     // the parts printed beside the filled denominator as not-held are exactly the not-held parts of the held block
-    if (b.filled.not_held_parts !== b.held.eol_only + b.held.no_document) {
-      fail("denominators", `${s.label}: not_held_parts ${b.filled.not_held_parts} != eol_only + no_document ${b.held.eol_only + b.held.no_document}`);
+    if (b.filled.not_held_parts !== b.held.spec_linked_not_held + b.held.eol_only + b.held.no_document) {
+      fail("denominators", `${s.label}: not_held_parts ${b.filled.not_held_parts} != spec_linked_not_held + eol_only + no_document ${b.held.spec_linked_not_held + b.held.eol_only + b.held.no_document}`);
     }
   }
   // held + not-held slots is every stored slot, so the held denominator has taken out exactly the not-held ones
@@ -422,6 +466,9 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
     ["hardware_parts", (b) => b.hardware_parts],
     ["arranged.asked", (b) => b.arranged.asked], ["arranged.asked_nothing_fallback", (b) => b.arranged.asked_nothing_fallback],
     ["held.spec_bearing", (b) => b.held.spec_bearing], ["held.eol_only", (b) => b.held.eol_only], ["held.no_document", (b) => b.held.no_document],
+    // 6b
+    ["held.spec_linked_not_held", (b) => b.held.spec_linked_not_held], ["held.held_by_doc_type_legacy.num", (b) => b.held.held_by_doc_type_legacy?.num ?? Number.NaN],
+    ["filled.mapper_gap", (b) => b.filled.mapper_gap],
     ["filled.required_slots_held", (b) => b.filled.required_slots_held], ["filled.filled", (b) => b.filled.filled],
     ["filled.not_published", (b) => b.filled.not_published], ["filled.not_parsed", (b) => b.filled.not_parsed],
     ["filled.would_refuse", (b) => b.filled.would_refuse], ["filled.filled_not_rendered", (b) => b.filled.filled_not_rendered],
@@ -440,6 +487,49 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
     for (const [name, get] of ROLE_COUNTERS) {
       const v = sum(rbs, ([, rb]) => get(rb));
       if (v !== get(k)) fail("roles_partition", `${c.category}.${k.kind}: Σ roles ${name} ${v} != kind ${get(k)}`);
+    }
+  }
+
+  // unresolved_kind_issue (operator ruling, 13 Sep 2026): the (unresolved) block of every role-bearing kind PRINTS
+  // kind_issue_parts, splits it by plan state, applies the III.4 bar to what the role rules are responsible for, and says
+  // "(unresolved) N — K pending move/class". No other role block carries those fields.
+  run("unresolved_kind_issue");
+  for (const c of cats) for (const k of c.kinds) {
+    for (const [role, rb] of Object.entries(k.roles ?? {})) {
+      const label = `${c.category}.${k.kind}[${role}]`;
+      if (role !== UNRESOLVED_ROLE) {
+        if (rb.kind_issue_parts !== undefined || rb.kind_issue !== undefined || rb.null_share_excluding_kind_issue !== undefined) {
+          fail("unresolved_kind_issue", `${label}: kind-issue fields on a role that is not (unresolved)`);
+        }
+        continue;
+      }
+      const ki = rb.kind_issue_parts, split = rb.kind_issue, ns = rb.null_share_excluding_kind_issue;
+      if (typeof ki !== "number" || !split || !ns || typeof rb.display !== "string") {
+        fail("unresolved_kind_issue", `${label}: must print kind_issue_parts, kind_issue {pending_plan, plan_ran, unplanned}, null_share_excluding_kind_issue and display — rebuild the report`);
+        continue;
+      }
+      if (ki < 0 || ki > rb.parts) fail("unresolved_kind_issue", `${label}: kind_issue_parts ${ki} outside 0..${rb.parts}`);
+      if (split.pending_plan + split.plan_ran + split.unplanned !== ki) {
+        fail("unresolved_kind_issue", `${label}: pending_plan ${split.pending_plan} + plan_ran ${split.plan_ran} + unplanned ${split.unplanned} != kind_issue_parts ${ki}`);
+      }
+      const wantNum = rb.parts - ki, wantDen = k.parts - ki;
+      const wantPct = wantDen <= 0 ? null : Math.round((wantNum / wantDen) * 1000) / 10;
+      if (ns.num !== wantNum || ns.den !== wantDen || ns.pct !== wantPct || ns.over_3pct !== (wantPct !== null && wantPct > 3)) {
+        fail("unresolved_kind_issue", `${label}: null_share_excluding_kind_issue ${ns.num}/${ns.den} = ${ns.pct} (over ${ns.over_3pct}) != ${wantNum}/${wantDen} = ${wantPct}`);
+      }
+      if (!rb.display.startsWith(`(unresolved) ${rb.parts} — ${split.pending_plan} pending move/class`)) {
+        fail("unresolved_kind_issue", `${label}: display "${rb.display}" does not say "(unresolved) ${rb.parts} — ${split.pending_plan} pending move/class"`);
+      }
+    }
+  }
+
+  // kind_issue_plans_ran: a kind-issue row still inside its kind AFTER its move/class plan ran (run_id recorded in
+  // data/reference/kind-layer-plans-2026-09-13.json) is a plan that did not do what it said. Zero, everywhere.
+  run("kind_issue_plans_ran");
+  for (const c of cats) for (const k of c.kinds) {
+    const u = k.roles?.[UNRESOLVED_ROLE];
+    if (u?.kind_issue && u.kind_issue.plan_ran !== 0) {
+      fail("kind_issue_plans_ran", `${c.category}.${k.kind}: ${u.kind_issue.plan_ran} kind-issue row(s) still in the kind after their plan ran`);
     }
   }
 

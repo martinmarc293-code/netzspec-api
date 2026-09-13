@@ -14,6 +14,7 @@ import { DEVICE_NOUN_EXEMPT_KINDS, deviceNounFinding, namesADeviceNoun, ownPhras
 import { partKind, FALLBACK_KINDS } from "../src/core/partKind.js";
 // kind-layer infra (13 Sep 2026): layer 3 per role, R1 per role, gateR1 over the committed ledgers, and term 13.
 import { ROLE_DOMAINS, roleAxisOf, type Rule } from "../src/core/deployRole.js";
+import { emptyBreakdown, addKindIssue, nullShareExcludingKindIssue, unresolvedDisplay } from "../src/core/kindLayerPlans.js";
 import { PROFILES, type Requirement } from "../src/core/fieldSchema.js";
 import {
   GRANULARITY_BASES, judgeTerm13, loadGranularityReference, measuredFor, staleExceptions, type GranularityReference, type Term13Input, type Term13Verdict,
@@ -844,6 +845,93 @@ for (const f of files) {
   check("every committed ledger carries layer 3 and term 13 (a role_axis on its kinds)", predates.length === 0,
     `built before the kind-layer infra, rebuild: ${predates.join(", ")}`);
   lines.push(`    layer 3: ${roleKinds} role-bearing kinds, ${roleBlocks} role blocks compared with kindQuestionSet(category, kind, role) across ${ledgersL3.length - predates.length} of ${ledgersL3.length} ledgers (${predates.length} predate the layer: ${predates.join(", ") || "none"})`);
+
+  // ---- KIND LAYER 6b (13 Sep 2026): held by relevance and the (unresolved) kind-issue split, in the LEDGER ----------
+  // document_evidence has four states (spec_bearing = held by relevance, spec_linked_not_held, eol_only, no_document) and
+  // the legacy doc-type count beside them; every (unresolved) role block prints kind_issue_parts split by plan state, the
+  // III.4 share over (unresolved - kind_issue_parts) and "(unresolved) N — K pending move/class"; a row whose plan ran
+  // and is still here is refused by the builder, and asserted zero here.
+  type DocEv = { spec_bearing: number; spec_linked_not_held?: number; eol_only: number; no_document: number; spec_bearing_by_doc_type_legacy?: number };
+  type Unres = { kind_issue_parts?: number; kind_issue?: { pending_plan: number; plan_ran: number; unplanned: number };
+    null_share_excluding_kind_issue?: { num: number; den: number; pct: number | null; over_3pct: boolean }; display?: string };
+  type Ev6b = { parts: number; document_evidence: DocEv; roles?: Record<string, { parts: number; document_evidence: DocEv } & Unres> };
+  function ledger6bDrift(kind: string, lk: Ev6b): string[] {
+    const out: string[] = [];
+    const docParts = (label: string, parts: number, de: DocEv) => {
+      if (typeof de.spec_linked_not_held !== "number" || typeof de.spec_bearing_by_doc_type_legacy !== "number") {
+        out.push(`${label}: document_evidence has no spec_linked_not_held / spec_bearing_by_doc_type_legacy — built before held-by-relevance`); return;
+      }
+      if (de.spec_bearing + de.spec_linked_not_held + de.eol_only + de.no_document !== parts) {
+        out.push(`${label}: held ${de.spec_bearing} + spec_linked_not_held ${de.spec_linked_not_held} + eol_only ${de.eol_only} + no_document ${de.no_document} != parts ${parts}`);
+      }
+      if (de.spec_bearing_by_doc_type_legacy !== de.spec_bearing + de.spec_linked_not_held) {
+        out.push(`${label}: legacy held ${de.spec_bearing_by_doc_type_legacy} != held ${de.spec_bearing} + spec_linked_not_held ${de.spec_linked_not_held}`);
+      }
+    };
+    docParts(kind, lk.parts, lk.document_evidence);
+    if (!lk.roles) return out;
+    for (const f of ["spec_bearing", "spec_linked_not_held", "eol_only", "no_document", "spec_bearing_by_doc_type_legacy"] as const) {
+      const s = Object.values(lk.roles).reduce((a, r) => a + (r.document_evidence[f] ?? Number.NaN), 0);
+      if (s !== lk.document_evidence[f]) out.push(`${kind}: Σ roles document_evidence.${f} ${s} != kind ${lk.document_evidence[f]}`);
+    }
+    for (const [role, r] of Object.entries(lk.roles)) {
+      docParts(`${kind}[${role}]`, r.parts, r.document_evidence);
+      if (role !== "(unresolved)") {
+        if (r.kind_issue_parts !== undefined || r.kind_issue !== undefined) out.push(`${kind}[${role}]: kind-issue fields on a role that is not (unresolved)`);
+        continue;
+      }
+      if (typeof r.kind_issue_parts !== "number" || !r.kind_issue || !r.null_share_excluding_kind_issue || typeof r.display !== "string") {
+        out.push(`${kind}[(unresolved)]: does not print kind_issue_parts / kind_issue / null_share_excluding_kind_issue / display`); continue;
+      }
+      const b = { kind_issue_parts: r.kind_issue_parts, ...r.kind_issue };
+      if (b.pending_plan + b.plan_ran + b.unplanned !== b.kind_issue_parts || b.kind_issue_parts > r.parts) {
+        out.push(`${kind}[(unresolved)]: kind-issue split ${b.pending_plan}+${b.plan_ran}+${b.unplanned} != ${b.kind_issue_parts} (of ${r.parts} parts)`);
+      }
+      if (JSON.stringify(r.null_share_excluding_kind_issue) !== JSON.stringify(nullShareExcludingKindIssue(lk.parts, r.parts, b.kind_issue_parts))) {
+        out.push(`${kind}[(unresolved)]: null share ${JSON.stringify(r.null_share_excluding_kind_issue)} is not (unresolved - kind_issue) / (kind - kind_issue)`);
+      }
+      if (r.display !== unresolvedDisplay(r.parts, b)) out.push(`${kind}[(unresolved)]: display "${r.display}" != "${unresolvedDisplay(r.parts, b)}"`);
+      if (b.plan_ran !== 0) out.push(`${kind}[(unresolved)]: ${b.plan_ran} kind-issue row(s) still in the kind after their plan ran`);
+    }
+    return out;
+  }
+  const predates6b = ledgersL3.filter((l) => !("held_rule" in (l as object))).map((l) => l.category);
+  ledgersL3.forEach((led, i) => {
+    if (predates6b.includes(led.category)) return;
+    for (const [kind, lk] of Object.entries(led.kinds)) {
+      const d = ledger6bDrift(kind, lk as unknown as Ev6b);
+      check(`${files[i]}: ${kind} held-by-relevance states and the (unresolved) kind-issue split are consistent`, d.length === 0, `${d.join("; ")} — ${regen(led.category)}`);
+    }
+  });
+  check("every committed ledger was built with the held-by-relevance rule (held_rule present)", predates6b.length === 0, `rebuild: ${predates6b.join(", ")}`);
+  {
+    const de = (spec: number, sn: number, eol: number, none: number): DocEv => ({ spec_bearing: spec, spec_linked_not_held: sn, eol_only: eol, no_document: none, spec_bearing_by_doc_type_legacy: spec + sn });
+    const ki = emptyBreakdown(); addKindIssue(ki, "pending_plan"); addKindIssue(ki, "pending_plan");
+    const good: Ev6b = { parts: 10, document_evidence: de(4, 2, 3, 1), roles: {
+      access: { parts: 7, document_evidence: de(4, 1, 2, 0) },
+      "(unresolved)": { parts: 3, document_evidence: de(0, 1, 1, 1), kind_issue_parts: 2, kind_issue: { pending_plan: 2, plan_ran: 0, unplanned: 0 },
+        null_share_excluding_kind_issue: nullShareExcludingKindIssue(10, 3, 2), display: unresolvedDisplay(3, ki) } } };
+    const clone6 = (): Ev6b => JSON.parse(JSON.stringify(good)) as Ev6b;
+    check("CONTROL a consistent 6b ledger kind shows no drift", ledger6bDrift("switch", good).length === 0, ledger6bDrift("switch", good).join("; "));
+    check("CONTROL the display reads \"(unresolved) 3 — 2 pending move/class\"", good.roles!["(unresolved)"].display === "(unresolved) 3 — 2 pending move/class");
+    let s = clone6(); s.document_evidence.spec_bearing = 6; s.document_evidence.spec_linked_not_held = 0;
+    check("SABOTAGE held counted by doc type (spec_linked_not_held folded into held) breaks legacy = held + not-held and the role sums",
+      ledger6bDrift("switch", s).some((m) => m.includes("legacy held")) || ledger6bDrift("switch", s).some((m) => m.includes("Σ roles")), ledger6bDrift("switch", s).join("; "));
+    s = clone6(); delete s.document_evidence.spec_linked_not_held;
+    check("SABOTAGE a ledger built before the ruling (no spec_linked_not_held) is named", ledger6bDrift("switch", s).some((m) => m.includes("built before held-by-relevance")));
+    s = clone6(); delete s.roles!["(unresolved)"].kind_issue_parts;
+    check("SABOTAGE an (unresolved) block that does not print kind_issue_parts is caught", ledger6bDrift("switch", s).some((m) => m.includes("does not print")));
+    s = clone6(); s.roles!["(unresolved)"].null_share_excluding_kind_issue = nullShareExcludingKindIssue(10, 3, 0);
+    check("SABOTAGE the 3% bar over ALL unresolved parts (30%) instead of excluding kind-issue rows is caught", ledger6bDrift("switch", s).some((m) => m.includes("null share")));
+    s = clone6(); s.roles!["(unresolved)"].display = "(unresolved) 3";
+    check("SABOTAGE a display that hides the pending plans is caught", ledger6bDrift("switch", s).some((m) => m.includes("display")));
+    s = clone6(); s.roles!["(unresolved)"].kind_issue = { pending_plan: 1, plan_ran: 1, unplanned: 0 };
+    const ki2 = emptyBreakdown(); addKindIssue(ki2, "pending_plan"); addKindIssue(ki2, "plan_ran");
+    s.roles!["(unresolved)"].display = unresolvedDisplay(3, ki2);
+    check("SABOTAGE a kind-issue row still in its kind after its plan ran is caught", ledger6bDrift("switch", s).some((m) => m.includes("after their plan ran")), ledger6bDrift("switch", s).join("; "));
+    s = clone6(); (s.roles!.access as Unres).kind_issue_parts = 0;
+    check("SABOTAGE kind-issue fields on a non-unresolved role are caught", ledger6bDrift("switch", s).some((m) => m.includes("not (unresolved)")));
+  }
 
   // ---- SABOTAGE on a synthetic profile with REAL role deltas (the live profiles have none until the category work lands).
   // A role demotion (`altitude_max` not asked of smb) and a role addition (`latency` asked of datacenter), written exactly

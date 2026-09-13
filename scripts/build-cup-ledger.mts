@@ -90,13 +90,19 @@ const SOURCE_CLASS: Record<string, string> = {
  * A bulletin binds a part and tells it nothing; a datasheet, a Meraki page or a config tool answers
  * it. `vendor_guide` (76 docs, 2,412 part-links, 0.52) sits with the bulletins and is excluded
  * despite a healthy 16.5 facts/doc — the same cardinality illusion one line up.
+ *
+ * KIND LAYER 6b (operator ruling, 13 Sep 2026): the list moved to src/core/heldEvidence.ts (both builders import it) and
+ * no longer decides HELD on its own. Held = a doc_parts row with doc_relevance = spec_for_kind AND link_basis IN
+ * (explicit, family); the doc-type count survives as `spec_bearing_by_doc_type_legacy` beside it.
  */
-const SPEC_BEARING_DOC_TYPES = ["vendor_datasheet_html", "vendor_datasheet_pdf", "vendor_page", "vendor_tool"];
+import { SPEC_BEARING_DOC_TYPES, heldRowSql, underivedRowSql, docStateOf, underivedRefusal, missingColumnsRefusal } from "../src/core/heldEvidence.js";
+import { loadPlans, planStatusIndex, emptyBreakdown, addKindIssue, nullShareExcludingKindIssue, unresolvedDisplay,
+  plansRanButStillInKind, type KindIssueBreakdown, type KindLayerPlan, type PlanStatus } from "../src/core/kindLayerPlans.js";
 
 const GAP_STATES = {
   filled: "the part holds a current fact under the key (facts.superseded_by IS NULL, not retracted)",
   "not-parsed": "a spec-bearing document linked to the part (doc_parts) carries a label that maps to the key, and no fact was stored",
-  "not-held": "no spec-bearing document is linked to the part at all — an acquisition gap, not a parsing one",
+  "not-held": "no doc_parts row of the part passes the held rule (doc_relevance = spec_for_kind AND link_basis IN (explicit, family)) — an acquisition or linking gap, not a parsing one",
   "not-published": "a gap_confirmed fact: every capable source was checked and none states it",
 };
 
@@ -104,6 +110,25 @@ async function main(): Promise<void> {
   const category = arg("--category"), vendor = arg("--vendor") ?? "cisco";
   if (!category || !LEDGER_KINDS[category]) throw new Error(`--category must be one of: ${Object.keys(LEDGER_KINDS).join(", ")}`);
   const pool = getPool();
+
+  // ---- HELD BY RELEVANCE (6b): refuse before computing a single held number ----------------------------
+  const provCols = (await pool.query<{ column_name: string }>(`
+    SELECT column_name FROM information_schema.columns WHERE table_name = 'doc_parts' AND column_name = ANY($1::text[])`,
+    [["link_basis", "doc_relevance", "link_evidence"]])).rows.map((r) => r.column_name);
+  const noCols = missingColumnsRefusal(provCols);
+  if (noCols) throw new Error(noCols);
+  const underived = (await pool.query<{ rows: number; parts: number; in_category: number }>(`
+    SELECT count(*)::int AS rows, count(DISTINCT dp.part_id)::int AS parts,
+           count(DISTINCT dp.part_id) FILTER (WHERE ct.slug = $3)::int AS in_category
+      FROM doc_parts dp JOIN source_docs sd ON sd.doc_id = dp.doc_id
+      JOIN parts p ON p.id = dp.part_id JOIN vendors v ON v.id = p.vendor_id JOIN categories ct ON ct.id = p.category_id
+     WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware'
+       AND sd.doc_type = ANY($2::text[]) AND ${underivedRowSql("dp")}`, [vendor, SPEC_BEARING_DOC_TYPES, category])).rows[0];
+  const refusal = underivedRefusal(vendor, underived.rows, underived.parts);
+  if (refusal) throw new Error(`${refusal} (${underived.in_category} of those parts in ${category})`);
+  // The move/class plans for kind-issue rows (operator ruling on roles_partition): a required file, [] allowed.
+  const plans = loadPlans(ROOT);
+  const planOf = planStatusIndex(plans.plans);
 
   // ---- parts per kind ---------------------------------------------------------------------------------
   // MERGED 12 Sep 2026 — two additions to this query landed in the same hour and BOTH are load-bearing:
@@ -116,11 +141,12 @@ async function main(): Promise<void> {
   // — the three name-derived kinds would report zero parts — which is the structural gap the
   // asked-nothing survey identified (`recompute-completeness.ts` selected every column except p.name).
   const parts = (await pool.query<{ id: string; sku: string; name: string | null; series: string | null; rt: number | null;
-    own: string; spec_docs: number; any_docs: number }>(`
+    own: string; held_docs: number; spec_docs: number; any_docs: number }>(`
     SELECT p.id::text, p.sku, p.name, p.series, cp.required_total AS rt,
            (SELECT count(*) FROM facts f
              WHERE f.part_id = p.id AND f.superseded_by IS NULL AND f.inherited_from IS NULL
                AND f.method NOT LIKE 'retracted:%')::text AS own,
+           (SELECT count(*) FROM doc_parts dp WHERE dp.part_id = p.id AND ${heldRowSql("dp")})::int AS held_docs,
            (SELECT count(*) FROM doc_parts dp JOIN source_docs sd ON sd.doc_id = dp.doc_id
              WHERE dp.part_id = p.id AND sd.doc_type = ANY($3::text[]))::int AS spec_docs,
            (SELECT count(*) FROM doc_parts dp WHERE dp.part_id = p.id)::int AS any_docs
@@ -130,13 +156,22 @@ async function main(): Promise<void> {
     [vendor, category, SPEC_BEARING_DOC_TYPES])).rows;
   // kind-layer infra (13 Sep 2026): per role, the same three document states and the stored slots, so a role block
   // carries exactly what its kind block carries and the kind's numbers are the SUM of its roles (checked below).
-  type RoleAcc = { n: number; stored: number; spec: number; eolOnly: number; noDoc: number; issue: number };
-  const newRoleAcc = (): RoleAcc => ({ n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, issue: 0 });
-  const byKind = new Map<string, { n: number; stored: number; spec: number; eolOnly: number; noDoc: number;
+  // 6b: `spec` counts HELD by the relevance rule; `specNotHeld` the parts a spec-bearing document is linked to only as a
+  // mention or by inference; `legacy` the old doc-type held. `issue` is the kind-issue breakdown by plan state.
+  type DocAcc = { spec: number; specNotHeld: number; legacy: number; eolOnly: number; noDoc: number };
+  type RoleAcc = DocAcc & { n: number; stored: number; issue: KindIssueBreakdown };
+  const newRoleAcc = (): RoleAcc => ({ n: 0, stored: 0, spec: 0, specNotHeld: 0, legacy: 0, eolOnly: 0, noDoc: 0, issue: emptyBreakdown() });
+  const countDoc = (a: DocAcc, p: { held_docs: number; spec_docs: number; any_docs: number }) => {
+    const st = docStateOf({ held_rows: p.held_docs, spec_rows: p.spec_docs, any_rows: p.any_docs });
+    if (st === "held") a.spec++; else if (st === "spec_linked_not_held") a.specNotHeld++; else if (st === "eol_only") a.eolOnly++; else a.noDoc++;
+    if (p.spec_docs > 0) a.legacy++;
+  };
+  const kindIssueRows: { category: string; kind: string; sku: string; status: PlanStatus; plan: KindLayerPlan | null }[] = [];
+  const byKind = new Map<string, DocAcc & { n: number; stored: number;
     facts3: number; noun: number; nounExempt: number; nounSkus: string[]; groups: Set<string>; roles: Map<string, RoleAcc> }>();
   for (const p of parts) {
     const k = partKind(category, p.sku, p.name ?? undefined) ?? "(none)";
-    const b = byKind.get(k) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0, nounExempt: 0, nounSkus: [] as string[],
+    const b = byKind.get(k) ?? { n: 0, stored: 0, spec: 0, specNotHeld: 0, legacy: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0, nounExempt: 0, nounSkus: [] as string[],
       groups: new Set<string>(), roles: new Map<string, RoleAcc>() };
     b.n++; b.stored += p.rt ?? 0;
     // TERM 13 INPUT: the series group, III.0 item 2's grouping exactly (series, or the first name token after "Cisco").
@@ -151,8 +186,12 @@ async function main(): Promise<void> {
       const rk = role ?? "(unresolved)";
       const ra = b.roles.get(rk) ?? newRoleAcc();
       ra.n++; ra.stored += p.rt ?? 0;
-      if (p.spec_docs > 0) ra.spec++; else if (p.any_docs > 0) ra.eolOnly++; else ra.noDoc++;
-      if (role === null && deployRoleRule(axis, p.sku, p.name).issue !== null) ra.issue++;
+      countDoc(ra, p);
+      if (role === null && deployRoleRule(axis, p.sku, p.name).issue !== null) {
+        const { status, plan } = planOf(category, p.sku);
+        addKindIssue(ra.issue, status);
+        kindIssueRows.push({ category, kind: k, sku: p.sku, status, plan });
+      }
       b.roles.set(rk, ra);
     }
     // THE OWN-FACT AND DEVICE-NOUN CENSUS (fallback-kinds agent): a part in a fallback kind holding
@@ -182,7 +221,11 @@ async function main(): Promise<void> {
     //                 a SKU and carries no specification) — acquisition, and tractable: the
     //                 bulletin names the family and the archived collateral usually still exists
     //   no_document   nothing linked at all — acquisition, and the queue has to discover it first
-    if (p.spec_docs > 0) b.spec++; else if (p.any_docs > 0) b.eolOnly++; else b.noDoc++;
+    //
+    // KIND LAYER 6b (operator ruling, 13 Sep 2026): `spec_bearing` is now HELD BY RELEVANCE (a spec_for_kind row made
+    // explicitly or by family), and a fourth state sits beside it: spec_linked_not_held — a spec-bearing document is
+    // linked only as a mention or by inference. The old doc-type count is kept as spec_bearing_by_doc_type_legacy.
+    countDoc(b, p);
     byKind.set(k, b);
   }
   // ---- security (12 Sep 2026): the rows the class table has already judged non-hardware ----------------
@@ -367,7 +410,7 @@ async function main(): Promise<void> {
   const blockedBy = (n: number, spec: number) => n === 0 ? "no parts" : spec >= n / 2 ? "schema-or-parsing" : "not-held (acquisition)";
   for (const kind of LEDGER_KINDS[category]) {
     const qs = kindQuestionSet(category, kind);
-    const b = byKind.get(kind) ?? { n: 0, stored: 0, spec: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0, nounExempt: 0, nounSkus: [],
+    const b = byKind.get(kind) ?? { n: 0, stored: 0, spec: 0, specNotHeld: 0, legacy: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0, nounExempt: 0, nounSkus: [],
       groups: new Set<string>(), roles: new Map<string, RoleAcc>() };
     const per = slotsAtNothingKnown(qs);
     // ---- LAYER 3 (kind-layer infra, 13 Sep 2026) ---------------------------------------------------------------------
@@ -392,11 +435,20 @@ async function main(): Promise<void> {
         kindSlotsNothing += ra.n * rper; roleParts += ra.n; roleStored += ra.stored;
         out[role] = {
           parts: ra.n,
-          ...(role === "(unresolved)" ? { parts_with_kind_issue: ra.issue, _unresolved_note: "no rule of deployRole.ts places these parts (null role): asked the kind's core. `parts_with_kind_issue` of them hit an ISSUE rule — the row is not this kind at all and belongs to a kind/class/category move." } : {}),
+          // (unresolved), operator ruling 13 Sep 2026: kind-issue rows printed and split by plan state, the III.4 bar
+          // over what the role rules are responsible for, and "(unresolved) N — K pending move/class".
+          ...(role === "(unresolved)" ? {
+            kind_issue_parts: ra.issue.kind_issue_parts,
+            kind_issue: { pending_plan: ra.issue.pending_plan, plan_ran: ra.issue.plan_ran, unplanned: ra.issue.unplanned },
+            null_share_excluding_kind_issue: nullShareExcludingKindIssue(b.n, ra.n, ra.issue.kind_issue_parts),
+            display: unresolvedDisplay(ra.n, ra.issue),
+            _unresolved_note: "no rule of deployRole.ts places these parts (null role): asked the kind's core. `kind_issue_parts` of them hit an ISSUE rule — the row is not this kind at all and waits on a move/class plan (data/reference/kind-layer-plans-2026-09-13.json). The III.4 3% bar is applied to (unresolved - kind_issue_parts) / (kind parts - kind_issue_parts).",
+          } : {}),
           slots_per_part_at_nothing_known: rper,
           required_slots_at_nothing_known: ra.n * rper,
           required_slots_stored: ra.stored,
-          document_evidence: { spec_bearing: ra.spec, eol_only: ra.eolOnly, no_document: ra.noDoc, blocked_by: blockedBy(ra.n, ra.spec) },
+          document_evidence: { spec_bearing: ra.spec, spec_linked_not_held: ra.specNotHeld, eol_only: ra.eolOnly, no_document: ra.noDoc,
+            spec_bearing_by_doc_type_legacy: ra.legacy, blocked_by: blockedBy(ra.n, ra.spec) },
           required: rq.required.map(evidence),
           pending_until_gate_answered: rq.pending.map((p) => ({ ...evidence(p.key), gate: p.gate })),
           not_applicable_by_kind: rq.not_applicable_by_kind,
@@ -443,7 +495,8 @@ async function main(): Promise<void> {
       // most of it does not. The three counts are always emitted so the verdict can be re-derived
       // rather than trusted.
       document_evidence: {
-        spec_bearing: b.spec, eol_only: b.eolOnly, no_document: b.noDoc,
+        spec_bearing: b.spec, spec_linked_not_held: b.specNotHeld, eol_only: b.eolOnly, no_document: b.noDoc,
+        spec_bearing_by_doc_type_legacy: b.legacy,
         blocked_by: b.n === 0 ? "no parts" : b.spec >= b.n / 2 ? "schema-or-parsing" : "not-held (acquisition)",
       },
       required: qs.required.map(evidence),
@@ -466,6 +519,9 @@ async function main(): Promise<void> {
     norm_version: NORM_VERSION,
     declared_fields: Object.keys(PROFILES[category]).length,
     gap_states: GAP_STATES,
+    // kind layer 6b: which held rule and which plans file this ledger was built with.
+    held_rule: `held = >= 1 doc_parts row with ${heldRowSql("dp")}; document_evidence.spec_bearing_by_doc_type_legacy = any linked doc of type ${SPEC_BEARING_DOC_TYPES.join("|")}`,
+    kind_layer_plans: { file: plans.file, sha256: plans.sha256, plans: plans.plans.length, run: plans.plans.filter((p) => p.run_id !== null).length },
     totals: {
       parts: partsTotal,
       required_slots_at_nothing_known: slotsNothing,
@@ -482,6 +538,10 @@ async function main(): Promise<void> {
     },
     kinds,
   };
+  // THE PLAN LEASE (operator ruling): a kind-issue row still inside its kind after its move/class plan ran means the plan
+  // did not do what it said. Refuse to write a ledger that would count it as merely unresolved.
+  const ranButHere = plansRanButStillInKind(kindIssueRows);
+  if (ranButHere.length) throw new Error(`REFUSED: ${ranButHere.length} kind-issue row(s) still in their kind after the plan ran: ${ranButHere.slice(0, 10).join("; ")}`);
   const out = path.join(ROOT, "data/ledger", `${vendor}-${category}.json`);
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, JSON.stringify(ledger, null, 1) + "\n");
@@ -497,8 +557,11 @@ async function main(): Promise<void> {
     const t13 = x.term13.verdict === "not-tripped" ? "" : `   term13 ${x.term13.verdict}${x.term13.basis ? ` (${x.term13.basis})` : ""}`;
     console.log(`  ${k.padEnd(12)} parts ${String(x.parts).padStart(5)}  asked ${String(x.slots_per_part_at_nothing_known).padStart(2)}${t13}` +
       `${seed.length ? `   SEED-ONLY: ${seed.join(", ")}` : ""}${blind.length ? `   NO FILL PATH: ${blind.join(", ")}` : ""}`);
-    for (const [role, r] of Object.entries(x.roles ?? {})) {
-      console.log(`      role ${role.padEnd(14)} parts ${String(r.parts).padStart(5)}  asked ${String(r.slots_per_part_at_nothing_known).padStart(2)}`);
+    for (const [role, r] of Object.entries(x.roles ?? {}) as [string, RoleOut & { display?: string; null_share_excluding_kind_issue?: { pct: number | null; over_3pct: boolean } }][]) {
+      const shown = role === "(unresolved)" && r.display
+        ? `${r.display}; excluding them ${r.null_share_excluding_kind_issue?.pct ?? "—"}% of the kind${r.null_share_excluding_kind_issue?.over_3pct ? " (OVER the III.4 3% bar)" : ""}`
+        : `role ${role}`;
+      console.log(`      ${shown.padEnd(19)} parts ${String(r.parts).padStart(5)}  asked ${String(r.slots_per_part_at_nothing_known).padStart(2)}`);
     }
   }
   await closePool();

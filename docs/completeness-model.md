@@ -49,15 +49,37 @@ report's `filled.required_slots_held + filled.not_held_slots` equals it per cate
 
 ## 3. Fact states for a required (part, key)
 
-A part is **held** when at least one document linked through `doc_parts` has a spec-bearing `doc_type`. For a held
-part, each required slot is exactly one of the four below — the report asserts the partition at every level.
+**Held by relevance (operator ruling, 13 Sep 2026; kind layer 6b).** A part is **held** when at least one `doc_parts`
+row satisfies `doc_relevance = 'spec_for_kind' AND link_basis IN ('explicit', 'family')` (migration 0018; the columns are
+filled by the recorded run `derive-link-provenance`; `link_basis` is `src/core/linkBasis.ts`; `spec_for_kind` = the
+document is spec-bearing AND prints ≥ 3 distinct cups of the part's kind). The rule lives once, in
+`src/core/heldEvidence.ts` (`heldRowSql` for the builders, `rowCountsAsHeld` for the tests, generated from the same
+constants). Ordering guides, EoL bulletins and feature sheets stay linked and stop counting. Before the ruling, held was
+"any linked document of a spec-bearing `doc_type`"; that count is kept as **`held_by_doc_type_legacy`** (`{num, den,
+pct}` over the same parts) at every scope, so held is printed BEFORE and AFTER relevance per category and brand.
+
+The document state of a part is a partition of four: **held** (`held.spec_bearing`), **spec_linked_not_held** (a
+spec-bearing document is linked, but only as a `mention` or by an `inferred` link), **eol_only** (documents linked, none
+spec-bearing), **no_document**. `held_by_doc_type_legacy.num` = held + spec_linked_not_held.
+
+**Both builds REFUSE** when a live hardware part of the vendor has a spec-bearing `doc_parts` row with `link_basis` or
+`doc_relevance` NULL, naming the number of rows and parts (and they refuse when the columns do not exist). Measured on
+13 Sep 2026 against the store with 0018 applied and the derive run not yet run: **16,143 rows on 9,865 Cisco parts** —
+both builds refused, as designed.
+
+For a held part, each required slot is exactly one of the five below — the report asserts the partition at every level.
 
 | state | the report's rule (`build-completeness.mts`) |
 |---|---|
 | **filled** | a current fact (`superseded_by IS NULL`, `method NOT LIKE 'retracted:%'`) with a value, in a non-gap state, that the census replay does **not** refuse. A raw the replay cannot answer (`could_not_replay`) stays filled and is counted |
 | **not-published** | the current fact is `gap_confirmed` |
-| **not-parsed** | no such fact (or a `gap_unattempted` / `not_applicable` row) |
+| **not-parsed** | no such fact (or a `gap_unattempted` / `not_applicable` row), and the cup is not a measured mapper gap |
+| **mapper-gap** (6b) | no such fact, and `data/reference/cup-evidence-<vendor>.json` marks the cup `mapper-gap` for the part's (category, kind, role) — the part's own role first, else the kind level (`role: null`). The held datasheets print the cup and the mapper does not map the label: work in the mapper, not in extraction or acquisition. Counted **instead of** not-parsed |
 | **would-refuse** (defect) | a current fact with a value that the replay refuses under today's normaliser — neither filled nor empty (§3.3) |
+
+The evidence file is REQUIRED (`[]` is valid and stated in `inputs.cup_evidence`); a missing or malformed file refuses the
+build, and so does a `mapper-gap` entry that matches nothing (unknown kind, role outside the domain, or a cup the
+kind/role is not asked: build check `cup_evidence_applies`), because an inert entry reads as a measurement applied.
 
 A slot on a **not-held** part is `not_held`: never in a denominator, printed beside every filled %. The report also
 prints `not_held_filled` (a not-held part that already holds an accepted value — outside the denominator, but not
@@ -81,7 +103,8 @@ tokens or a lone punctuation mark. The §5.1 guard does not exist yet; this is a
 For any scope S (brand, category, kind; a cup carries `filled_pct`):
 
 - **Arranged(S)** = parts in S whose kind asks ≥ 1 cup ÷ parts in S. `asked_nothing_fallback` beside it.
-- **Held(S)** = parts in S with a spec-bearing document ÷ parts in S; `eol_only` and `no_document` beside it.
+- **Held(S)** = parts in S with a row passing the held rule ÷ parts in S; `spec_linked_not_held`, `eol_only`,
+  `no_document` and `held_by_doc_type_legacy` (held before relevance) beside it.
 - **Filled(S)** = (filled + not_published) ÷ required slots of **held** parts in S.
 
 "Category 100% complete" = Filled(category) = 100% over its held parts. Every percentage in the file is an object
@@ -98,23 +121,36 @@ count, the would-refuse count, the inherited share.
 | `hardware_parts` | brand == Σ categories == Σ kinds; each category == its ledger `totals.parts`; brand == the live count |
 | `arranged_partition` | asked + asked_nothing == hardware_parts at every level |
 | `asked_nothing_matches` | per category == ledger `fallback.asked_nothing.parts`; brand == `/v1/stats/gaps` `parts_nothing_required` (the same SQL predicate, summed) |
-| `held_partition` | spec_bearing + eol_only + no_document == hardware_parts at every level |
-| `held_matches_ledger` | per kind == the ledger's `document_evidence` |
-| `filled_partition` | held slots == filled + not_published + not_parsed + would_refuse at every level, cups roll up to kinds, kinds to categories, categories to brand |
+| `held_partition` | spec_bearing + spec_linked_not_held + eol_only + no_document == hardware_parts at every level (a block without `spec_linked_not_held` fails by name) |
+| `held_within_legacy` (6b) | `held_by_doc_type_legacy.num` == spec_bearing + spec_linked_not_held and its den == parts, at every level: fails when a part is held through a row whose document is not a spec-bearing doc type (the derive run and the report using two lists) |
+| `held_matches_ledger` | per kind, held / spec_linked_not_held / eol_only / no_document == the ledger's `document_evidence` |
+| `filled_partition` | held slots == filled + not_published + not_parsed + **mapper_gap** + would_refuse at every level (role blocks included), cups roll up to kinds, kinds to categories, categories to brand (a block without `mapper_gap` fails by name) |
 | `required_slots_held_live` | brand `required_slots_held` == Σ `completeness.required_total` over held parts, computed separately in SQL |
 | `cup_asked_matches_ledger` | Σ cups.asked per kind == the ledger kind's `required_slots_stored`; an unconditionally required cup is asked of every part of the kind |
 | `no_optional_cup_in_denominator` | every cup asked is required or pending in the kind's ledger |
-| `denominators` | what each pct is over; held + not-held slots == the ledger's `required_slots_stored` |
+| `denominators` | what each pct is over; not_held_parts == spec_linked_not_held + eol_only + no_document; held + not-held slots == the ledger's `required_slots_stored` |
 | `pct_arithmetic` | every object with `pct` has numeric `num` and `den`, `num ≤ den`, and `pct` follows |
 | `sort_order` | the three orders above, and `weakest_category` is the first category with held slots |
 | `unresolved_kind` | brand == Σ categories == Σ ledgers |
 | `roles_present` | a kind carries `roles` exactly when `roleAxisOf(category, kind)` is non-null, with every role of its domain and `(unresolved)`, each block naming its own `deploy_role`; a report built before layer 3 fails here by name |
-| `roles_partition` | per role-bearing kind, Σ roles == the kind for `parts` and every counter of the block (arranged, held ×3, filled ×9, defects, inherited); role blocks are also scopes of `arranged_partition`, `held_partition`, `filled_partition` and `denominators` |
+| `roles_partition` | per role-bearing kind, Σ roles == the kind for `parts` and every counter of the block (arranged, held ×5 incl. spec_linked_not_held and the legacy num, filled ×10 incl. mapper_gap, defects, inherited); role blocks are also scopes of `arranged_partition`, `held_partition`, `held_within_legacy`, `filled_partition` and `denominators` |
+| `unresolved_kind_issue` (6b) | every `(unresolved)` block prints `kind_issue_parts` (0..parts), `kind_issue` {pending_plan, plan_ran, unplanned} summing to it, `null_share_excluding_kind_issue` == (unresolved − kind_issue_parts) / (kind parts − kind_issue_parts) with `over_3pct`, and a `display` starting "(unresolved) N — K pending move/class"; no other role carries those fields |
+| `kind_issue_plans_ran` (6b) | every `(unresolved)` block has `kind_issue.plan_ran` == 0 |
 | `census_replay_parity` (build only) | the copied replay reproduces every committed census total |
 | `completeness_row_per_part` (build only) | no live hardware part lacks a completeness row |
+| `kind_issue_rows_after_plan_ran` (build only, 6b) | names every kind-issue row still in its kind although its plan in `data/reference/kind-layer-plans-2026-09-13.json` has a `run_id` (null run_id = not run, skipped) |
+| `cup_evidence_applies` (build only, 6b) | every `mapper-gap` entry of the evidence file matches a (category, kind, role) and a cup that kind/role is asked |
 
-`tests/completeness.test.ts` re-runs the first fifteen on the committed file and drives each with a sabotage copy (the
-role ones on a copy that carries roles blocks; see §4a).
+`tests/completeness.test.ts` re-runs the first eighteen on the committed file and drives each with a sabotage copy (on a
+fixture that carries roles blocks and the 6b fields, with one eol-only part shifted to spec_linked_not_held; see §4a).
+The build-only 6b rules and the held/refusal rule are driven in `tests/heldProvenance.test.ts`; the ledger's copy of the
+same states and the (unresolved) split in `tests/cupLedger.test.ts`.
+
+**Residue: `linking_defects` (6b).** The first residue item. Per document (`by_document`: doc_id, url, title, doc_type,
+`inferred_rows` = rows with `link_basis = 'inferred'`, `spec_mention_rows` = rows on a spec-bearing document with
+`doc_relevance = 'mention'`, `parts`), sorted by defect rows, over live hardware parts of the vendor; `brand_totals`
+{inferred_rows, spec_mention_rows, documents, parts}; `count` = inferred_rows + spec_mention_rows. The documents stay
+linked; they stop counting as held.
 
 ## 4a. Per role (layer 3, kind-layer infra 13 Sep 2026)
 
@@ -128,21 +164,24 @@ block carries `role_axis` (the rule axis: `switch | ap | router | phone`, `null`
 |---|---|---|
 | **role of a part** | `deployRole(category, kind, sku, name)` with the derived kind — the call `recompute-completeness` makes to set `values.deploy_role`, so the role a part is scored under and the role it is reported under are one value | `build-completeness.mts` per-part loop |
 | **(unresolved)** | the role is null: no rule of the axis places the part. It is asked the kind's core (`kindQuestionSet(category, kind)`), and is never folded into the biggest role. `kind_issue_parts` counts those of them that hit an ISSUE rule (the row is not this kind at all: a licence, a line card, an accessory) | same |
-| **RoleBlock** | `{ deploy_role, parts, kind_issue_parts? }` + the kind's own `Block`: `hardware_parts`, `arranged`, `held`, `filled`, `defects`, `inherited_share` | `RoleBlock` in `src/api/queries/completeness.ts` |
+| **kind-issue plan state** (6b) | each kind-issue row is `pending_plan` (a plan in `data/reference/kind-layer-plans-2026-09-13.json` with `run_id` null), `plan_ran` (a plan with a `run_id` — the row should be gone, and the build fails while it is not) or `unplanned` (no plan). Keyed by (category, SKU exactly as stored); a spare `X=` is its own row | `src/core/kindLayerPlans.ts` |
+| **III.4 null share** (6b) | `null_share_excluding_kind_issue` = (unresolved − kind_issue_parts) / (kind parts − kind_issue_parts), `over_3pct` when > 3%: the bar judges the rows the role rules are responsible for, not the rows waiting on a move/class plan | same |
+| **RoleBlock** | `{ deploy_role, parts }` + the kind's own `Block`: `hardware_parts`, `arranged`, `held`, `filled`, `defects`, `inherited_share`; `(unresolved)` adds `kind_issue_parts`, `kind_issue`, `null_share_excluding_kind_issue`, `display` ("(unresolved) N — K pending move/class") | `RoleBlock` in `src/api/queries/completeness.ts` |
 
 **The same definitions, by construction.** The role accumulator is appended to the per-part list of accumulators that
 the brand, the category and the kind already share, so every counter lands in the role by the very statement that
-lands it in the kind, and the block is built by the same `block()`. So for a role: *held* = spec-bearing document
-linked; *filled* = (filled + not_published) over the required slots of held parts (`filled.pct`); *not parsed* =
-`filled.not_parsed`; *would refuse* = `filled.would_refuse` (= `defects.would_refuse`); *inherited* =
+lands it in the kind, and the block is built by the same `block()`. So for a role: *held* = a row passing the held rule
+(legacy beside it); *filled* = (filled + not_published) over the required slots of held parts (`filled.pct`); *not
+parsed* = `filled.not_parsed`; *mapper gap* = `filled.mapper_gap`; *would refuse* = `filled.would_refuse` (= `defects.would_refuse`); *inherited* =
 `inherited_share` over the filled slots in that role. Cups are not split per role (a kind's cup rows stay per kind).
 
 **Cross-checked at build and in the suite:** `roles_present` and `roles_partition` (§5). The build refuses to write a
 report whose roles do not sum to their kinds exactly.
 
-The `/coverage` board shows one indented sub-row per role under such a kind (parts, held, filled, not parsed, would
-refuse, inherited), `(unresolved)` last and highlighted when it holds more than 3% of the kind — spec v2 §III.4's
-null-share bound.
+The `/coverage` board shows one indented sub-row per role under such a kind (parts, held, filled, not parsed, mapper
+gap, would refuse, inherited), `(unresolved)` last, labelled with its `display` ("(unresolved) N — K pending
+move/class") and highlighted when `null_share_excluding_kind_issue` is over 3% — spec v2 §III.4's null-share bound,
+applied to (unresolved − kind_issue_parts). The ledger builder prints the same line.
 
 ---
 

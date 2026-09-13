@@ -47,6 +47,11 @@ import {
 // kind-layer infra (13 Sep 2026): layer 3. The role of a part is the one call recompute-completeness, the ledger builder
 // and the API make (deployRole with the derived kind and the name); a null role is `(unresolved)`, never the biggest role.
 import { deployRole, deployRoleRule, roleAxisOf, ROLE_DOMAINS } from "../src/core/deployRole.js";
+// kind layer 6b (13 Sep 2026): held by relevance, the mapper-gap state, the kind-issue plans.
+import { SPEC_BEARING_DOC_TYPES, heldRowSql, underivedRowSql, docStateOf, underivedRefusal, missingColumnsRefusal } from "../src/core/heldEvidence.js";
+import { loadCupEvidence, cupStateIndex, inertMapperGapEntries } from "../src/core/cupEvidence.js";
+import { loadPlans, planStatusIndex, emptyBreakdown, addKindIssue, nullShareExcludingKindIssue, unresolvedDisplay,
+  plansRanButStillInKind, type KindIssueBreakdown, type KindLayerPlan, type PlanStatus } from "../src/core/kindLayerPlans.js";
 
 const t0 = Date.now();
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
@@ -62,12 +67,12 @@ function readFreezeHash(vendor: string): { freeze_hash: string | null; freeze_ha
 }
 
 /**
- * THE SPEC-BEARING LIST THE LEDGERS WERE BUILT WITH. scripts/build-cup-ledger.mts declares it as a local constant, so it
- * cannot be imported; it is restated here and PROVEN equal in effect by `held_matches_ledger`, which compares every
- * kind's spec_bearing / eol_only / no_document with the committed ledger. It is NOT docClass.SPEC_BEARING, which omits
- * `vendor_page` — the difference is measured and printed in `model_disagreements`, not resolved here.
+ * THE SPEC-BEARING LIST THE LEDGERS ARE BUILT WITH — imported since kind layer 6b (src/core/heldEvidence.ts), where both
+ * builders read it; it used to be restated here. It is NOT docClass.SPEC_BEARING, which omits `vendor_page` — the
+ * difference is measured and printed in `model_disagreements`, not resolved here. Since the held-by-relevance ruling it
+ * decides only the LEGACY held (`held_by_doc_type_legacy`), `spec_linked_not_held`, and which rows must be derived.
  */
-const LEDGER_SPEC_BEARING = ["vendor_datasheet_html", "vendor_datasheet_pdf", "vendor_page", "vendor_tool"];
+const LEDGER_SPEC_BEARING = SPEC_BEARING_DOC_TYPES;
 const GAP_STATES = new Set(["gap_confirmed", "gap_unattempted", "not_applicable"]);
 const RENDERED = new Set(["verified", "corroborated"]);
 /** §5.1's token list, exactly. The guard does not exist yet; this only COUNTS stored rows whose raw is one of them. */
@@ -112,19 +117,19 @@ type Census = { category: string; built_on_commit: string; norm_version: string;
   could_not_replay_total: number; cups: { key: string; would_refuse: { n: number } }[] };
 
 /** One slot's verdict. `held` decides which half of the report it lands in. */
-type SlotState = "filled" | "not_published" | "not_parsed" | "would_refuse";
+type SlotState = "filled" | "not_published" | "not_parsed" | "mapper_gap" | "would_refuse";
 
 type Acc = {
-  parts: number; askedNothing: number; spec: number; eol: number; none: number;
-  heldSlots: number; filled: number; notPub: number; notParsed: number; wr: number; notRendered: number;
+  parts: number; askedNothing: number; spec: number; specNotHeld: number; legacy: number; eol: number; none: number;
+  heldSlots: number; filled: number; notPub: number; notParsed: number; mapperGap: number; wr: number; notRendered: number;
   notHeldParts: number; notHeldSlots: number; notHeldFilled: number; wrNotHeld: number;
   cnr: number; placeholders: number; inherited: number;
 };
-const newAcc = (): Acc => ({ parts: 0, askedNothing: 0, spec: 0, eol: 0, none: 0, heldSlots: 0, filled: 0, notPub: 0,
-  notParsed: 0, wr: 0, notRendered: 0, notHeldParts: 0, notHeldSlots: 0, notHeldFilled: 0, wrNotHeld: 0, cnr: 0, placeholders: 0, inherited: 0 });
-type CupAcc = { asked: number; heldAsked: number; filled: number; notPub: number; notParsed: number; wr: number;
+const newAcc = (): Acc => ({ parts: 0, askedNothing: 0, spec: 0, specNotHeld: 0, legacy: 0, eol: 0, none: 0, heldSlots: 0, filled: 0, notPub: 0,
+  notParsed: 0, mapperGap: 0, wr: 0, notRendered: 0, notHeldParts: 0, notHeldSlots: 0, notHeldFilled: 0, wrNotHeld: 0, cnr: 0, placeholders: 0, inherited: 0 });
+type CupAcc = { asked: number; heldAsked: number; filled: number; notPub: number; notParsed: number; mapperGap: number; wr: number;
   notHeld: number; notHeldFilled: number; notHeldWr: number; cnr: number; inherited: number; notRendered: number; placeholders: number };
-const newCup = (): CupAcc => ({ asked: 0, heldAsked: 0, filled: 0, notPub: 0, notParsed: 0, wr: 0, notHeld: 0, notHeldFilled: 0,
+const newCup = (): CupAcc => ({ asked: 0, heldAsked: 0, filled: 0, notPub: 0, notParsed: 0, mapperGap: 0, wr: 0, notHeld: 0, notHeldFilled: 0,
   notHeldWr: 0, cnr: 0, inherited: 0, notRendered: 0, placeholders: 0 });
 
 function block(a: Acc): Block {
@@ -132,9 +137,10 @@ function block(a: Acc): Block {
   return {
     hardware_parts: a.parts,
     arranged: { asked, asked_nothing_fallback: a.askedNothing, ...pctOf(asked, a.parts) },
-    held: { spec_bearing: a.spec, eol_only: a.eol, no_document: a.none, ...pctOf(a.spec, a.parts) },
+    held: { spec_bearing: a.spec, spec_linked_not_held: a.specNotHeld, eol_only: a.eol, no_document: a.none,
+      held_by_doc_type_legacy: pctOf(a.legacy, a.parts), ...pctOf(a.spec, a.parts) },
     filled: {
-      required_slots_held: a.heldSlots, filled: a.filled, not_published: a.notPub, not_parsed: a.notParsed,
+      required_slots_held: a.heldSlots, filled: a.filled, not_published: a.notPub, not_parsed: a.notParsed, mapper_gap: a.mapperGap,
       would_refuse: a.wr, filled_not_rendered: a.notRendered,
       not_held_parts: a.notHeldParts, not_held_slots: a.notHeldSlots, not_held_filled: a.notHeldFilled,
       ...pctOf(a.filled + a.notPub, a.heldSlots),
@@ -162,6 +168,20 @@ async function main(): Promise<void> {
     const j = JSON.parse(fs.readFileSync(path.join(ROOT, "data/census", f), "utf8")) as Census & { vendor: string };
     if (j.vendor === vendor) censuses[j.category] = j;
   }
+  // kind layer 6b: the printed-bar measurement (mapper-gap) and the move/class plans. Both REQUIRED files — a missing one
+  // throws, because "no measurement" and "no plans" must be written down ([] is valid), never inferred from absence.
+  const cupEvidence = loadCupEvidence(ROOT, vendor);
+  const cupStateOf = cupStateIndex(cupEvidence.entries);
+  const plans = loadPlans(ROOT);
+  const planOf = planStatusIndex(plans.plans);
+  // A mapper-gap entry that matches no (kind, role, asked cup) would move nothing while reading as applied: refuse.
+  const inertEvidence = inertMapperGapEntries(cupEvidence.entries, (category, kind, role) => {
+    if (!LEDGER_KINDS[category]?.includes(kind)) return null;
+    const axis = roleAxisOf(category, kind);
+    if (role !== null && (!axis || !ROLE_DOMAINS[axis].includes(role))) return null;
+    const qs = kindQuestionSet(category, kind, role);
+    return new Set([...qs.required, ...qs.pending.map((p) => p.key)]);
+  });
 
   // ---- the store, read-only ---------------------------------------------------------------------------------------
   const client = new pg.Client({ connectionString: resolveDatabaseUrl(), application_name: "agent/completeness", statement_timeout: 300_000 });
@@ -176,6 +196,21 @@ async function main(): Promise<void> {
     return r.rows;
   };
 
+  // ---- HELD BY RELEVANCE: the contract must be in place before a single held number is computed ------------------
+  const provCols = (await q<{ column_name: string }>("doc_parts provenance columns", `
+    SELECT column_name FROM information_schema.columns WHERE table_name = 'doc_parts' AND column_name = ANY($1::text[])`,
+    [["link_basis", "doc_relevance", "link_evidence"]])).map((r) => r.column_name);
+  const noCols = missingColumnsRefusal(provCols);
+  if (noCols) throw new Error(noCols);
+  const underived = (await q<{ rows: number; parts: number }>("underived spec-bearing links", `
+    SELECT count(*)::int AS rows, count(DISTINCT dp.part_id)::int AS parts
+      FROM doc_parts dp JOIN source_docs sd ON sd.doc_id = dp.doc_id
+      JOIN parts p ON p.id = dp.part_id JOIN vendors v ON v.id = p.vendor_id
+     WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware'
+       AND sd.doc_type = ANY($2::text[]) AND ${underivedRowSql("dp")}`, [vendor, LEDGER_SPEC_BEARING]))[0];
+  const refusal = underivedRefusal(vendor, underived.rows, underived.parts);
+  if (refusal) throw new Error(refusal);
+
   const partRows = await q<{ id: string; sku: string; name: string | null; category: string; series: string | null; family: string | null;
     required_total: number | null; required_fields: string[] | null; required_present: number | null }>("parts", `
     SELECT p.id::text, p.sku, p.name, ct.slug AS category, p.series, p.family,
@@ -184,8 +219,10 @@ async function main(): Promise<void> {
       LEFT JOIN completeness cp ON cp.part_id = p.id
      WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware'`, [vendor]);
 
-  const docRows = await q<{ part_id: string; spec: boolean; spec_docclass: boolean; types: string[] }>("documents per part", `
+  // `held` = a row passing the operator's rule (heldRowSql); `spec` = any spec-bearing doc type (the LEGACY held).
+  const docRows = await q<{ part_id: string; held: boolean; spec: boolean; spec_docclass: boolean; types: string[] }>("documents per part", `
     SELECT dp.part_id::text,
+           bool_or(${heldRowSql("dp")}) AS held,
            bool_or(sd.doc_type = ANY($2::text[])) AS spec,
            bool_or(sd.doc_type = ANY($3::text[])) AS spec_docclass,
            array_agg(DISTINCT sd.doc_type) AS types
@@ -205,7 +242,7 @@ async function main(): Promise<void> {
 
   // Independent aggregates for the cross-checks — computed in SQL, not from the arrays above.
   const live = (await q<{ hardware_parts: number; parts_nothing_required: number; required_total_held: number; required_present_held: number }>("live aggregates", `
-    WITH held AS (SELECT DISTINCT dp.part_id FROM doc_parts dp JOIN source_docs sd ON sd.doc_id = dp.doc_id WHERE sd.doc_type = ANY($2::text[]))
+    WITH held AS (SELECT DISTINCT dp.part_id FROM doc_parts dp WHERE ${heldRowSql("dp")})
     SELECT count(*) FILTER (WHERE p.product_class = 'hardware')::int AS hardware_parts,
            -- exactly /v1/stats/gaps parts_nothing_required (src/api/queries/gaps.ts), summed over the vendor
            count(*) FILTER (WHERE NOT cp.no_profile AND cp.required_total = 0)::int AS parts_nothing_required,
@@ -214,7 +251,7 @@ async function main(): Promise<void> {
       FROM parts p JOIN vendors v ON v.id = p.vendor_id
       LEFT JOIN completeness cp ON cp.part_id = p.id
       LEFT JOIN held h ON h.part_id = p.id
-     WHERE v.slug = $1 AND p.retired_at IS NULL`, [vendor, LEDGER_SPEC_BEARING]))[0];
+     WHERE v.slug = $1 AND p.retired_at IS NULL`, [vendor]))[0];
   const classRows = await q<{ product_class: string; n: number }>("product classes", `
     SELECT p.product_class::text, count(*)::int AS n FROM parts p JOIN vendors v ON v.id = p.vendor_id
      WHERE v.slug = $1 AND p.retired_at IS NULL GROUP BY 1 ORDER BY 2 DESC`, [vendor]);
@@ -252,7 +289,9 @@ async function main(): Promise<void> {
   const catAcc = new Map<string, Acc>();
   const kindAcc = new Map<string, Acc>();               // `${category}|${kind}`
   const roleAcc = new Map<string, Acc>();               // `${category}|${kind}|${role or (unresolved)}` — kinds with a role axis only
-  const roleIssue = new Map<string, number>();          // same key: parts whose rule says the row is not this kind
+  // same key: parts whose rule says the row is not this kind, split by the state of their move/class plan (6b)
+  const roleIssue = new Map<string, KindIssueBreakdown>();
+  const kindIssueRows: { category: string; kind: string; sku: string; status: PlanStatus; plan: KindLayerPlan | null }[] = [];
   const cupAcc = new Map<string, CupAcc>();             // `${category}|${kind}|${key}`
   const pendingReclass = new Map<string, number>();
   const notHeldByClass = new Map<string, number>();
@@ -276,7 +315,10 @@ async function main(): Promise<void> {
     // The ledger's own rule (build-cup-ledger.mts): a `non-hardware` kind is counted beside the kinds, never in one.
     if (kind === "non-hardware") { pendingReclass.set(p.category, (pendingReclass.get(p.category) ?? 0) + 1); continue; }
     const d = docs.get(p.id);
-    const held = Boolean(d?.spec);
+    // HELD BY RELEVANCE (6b): the operator's rule; the doc-type test survives only as the legacy count beside it.
+    const docState = docStateOf({ held_rows: d?.held ? 1 : 0, spec_rows: d?.spec ? 1 : 0, any_rows: d ? 1 : 0 });
+    const held = docState === "held";
+    const legacyHeld = Boolean(d?.spec);
     if (d && d.spec !== d.spec_docclass) { if (d.spec) heldUnderLedgerOnly++; else heldUnderDocClassOnly++; }
     if (held && d!.types.includes("vendor_datasheet_pdf")) pdfLinkedHeld++;
     kindOf.set(p.id, { category: p.category, kind, held });
@@ -285,14 +327,20 @@ async function main(): Promise<void> {
     // LAYER 3: the role accumulator joins `accs`, so every counter below lands in it by the very statement that lands it
     // in the kind — the same definitions by construction, not by a second implementation.
     const axis = roleAxisOf(p.category, kind);
+    const role = axis ? deployRole(p.category, kind, p.sku, p.name) : null;
     if (axis) {
-      const role = deployRole(p.category, kind, p.sku, p.name);
       if (role !== null && !ROLE_DOMAINS[axis].includes(role)) throw new Error(`deployRole gave ${p.sku} role "${role}", outside the ${axis} domain`);
       const rk = `${p.category}|${kind}|${role ?? UNRESOLVED_ROLE}`;
       const ra = roleAcc.get(rk) ?? newAcc();
       roleAcc.set(rk, ra);
       accs.push(ra);
-      if (role === null && deployRoleRule(axis, p.sku, p.name).issue !== null) roleIssue.set(rk, (roleIssue.get(rk) ?? 0) + 1);
+      if (role === null && deployRoleRule(axis, p.sku, p.name).issue !== null) {
+        const { status, plan } = planOf(p.category, p.sku);
+        const b = roleIssue.get(rk) ?? emptyBreakdown();
+        addKindIssue(b, status);
+        roleIssue.set(rk, b);
+        kindIssueRows.push({ category: p.category, kind, sku: p.sku, status, plan });
+      }
     }
     const nothing = askedNothing(p.category, kind);
     if (p.required_fields === null) noCompleteness.push(p.sku);
@@ -300,7 +348,8 @@ async function main(): Promise<void> {
     for (const a of accs) {
       a.parts++;
       if (nothing) a.askedNothing++;
-      if (held) a.spec++; else if (d) a.eol++; else a.none++;
+      if (docState === "held") a.spec++; else if (docState === "spec_linked_not_held") a.specNotHeld++; else if (docState === "eol_only") a.eol++; else a.none++;
+      if (legacyHeld) a.legacy++;
       if (!held) { a.notHeldParts++; a.notHeldSlots += required.length; } else a.heldSlots += required.length;
     }
     if (!held) {
@@ -341,6 +390,9 @@ async function main(): Promise<void> {
           for (const a of accs) { a.filled++; if (inh) a.inherited++; if (notRendered) a.notRendered++; }
         } else if (state === "not_published") { cup.notPub++; for (const a of accs) a.notPub++; }
         else if (state === "would_refuse") { cup.wr++; for (const a of accs) a.wr++; }
+        // MAPPER-GAP (6b): the printed-bar measurement says the held datasheets print this cup and the mapper does not
+        // map it — for this part's role when measured per role, else for its kind. Counted INSTEAD of not_parsed.
+        else if (cupStateOf(p.category, kind, role, key) === "mapper-gap") { cup.mapperGap++; for (const a of accs) a.mapperGap++; }
         else { cup.notParsed++; for (const a of accs) a.notParsed++; }
       } else {
         cup.notHeld++;
@@ -374,7 +426,7 @@ async function main(): Promise<void> {
         return {
           key, requirement, gate: lc?.gate ?? [],
           asked: a.asked, held_asked: a.heldAsked,
-          filled: a.filled, not_published: a.notPub, not_parsed: a.notParsed, would_refuse: a.wr,
+          filled: a.filled, not_published: a.notPub, not_parsed: a.notParsed, mapper_gap: a.mapperGap, would_refuse: a.wr,
           not_held: a.notHeld, not_held_filled: a.notHeldFilled, not_held_would_refuse: a.notHeldWr,
           could_not_replay: a.cnr, inherited: a.inherited, filled_not_rendered: a.notRendered, placeholders_stored: a.placeholders,
           filled_pct: pctOf(a.filled + a.notPub, a.heldAsked),
@@ -389,7 +441,14 @@ async function main(): Promise<void> {
       const axis = roleAxisOf(category, kind);
       const roles: Record<string, RoleBlock> | undefined = axis ? Object.fromEntries([...ROLE_DOMAINS[axis], UNRESOLVED_ROLE].map((role) => {
         const ra = roleAcc.get(`${category}|${kind}|${role}`) ?? newAcc();
-        return [role, { deploy_role: role, parts: ra.parts, ...(role === UNRESOLVED_ROLE ? { kind_issue_parts: roleIssue.get(`${category}|${kind}|${role}`) ?? 0 } : {}), ...block(ra) }];
+        if (role !== UNRESOLVED_ROLE) return [role, { deploy_role: role, parts: ra.parts, ...block(ra) }];
+        // (unresolved), operator ruling 13 Sep 2026: kind-issue rows printed and split by plan state; the III.4 bar over
+        // what the role rules are responsible for; "(unresolved) N — K pending move/class".
+        const ki = roleIssue.get(`${category}|${kind}|${role}`) ?? emptyBreakdown();
+        return [role, { deploy_role: role, parts: ra.parts, kind_issue_parts: ki.kind_issue_parts,
+          kind_issue: { pending_plan: ki.pending_plan, plan_ran: ki.plan_ran, unplanned: ki.unplanned },
+          null_share_excluding_kind_issue: nullShareExcludingKindIssue(ka.parts, ra.parts, ki.kind_issue_parts),
+          display: unresolvedDisplay(ra.parts, ki), ...block(ra) }];
       })) : undefined;
       kinds.push({ kind, parts: ka.parts, resolved: !isUnresolved(kind), asked_nothing: nothing, ...block(ka), cups,
         role_axis: axis, ...(roles ? { roles } : {}) });
@@ -417,12 +476,15 @@ async function main(): Promise<void> {
 
   // ---- acquisition queue (outside every denominator) ----------------------------------------------------------------
   const acquisition_queue = {
-    _about: "The NOT-HELD parts: no spec-bearing document is linked, so they are acquisition work and in no filled "
-      + "denominator. `by_document_class_missing` says what a not-held part holds INSTEAD of a spec-bearing document "
-      + "(a part holding two such classes counts under both); `(no document linked)` is the no_document state.",
+    _about: "The NOT-HELD parts: no doc_parts row passes the held rule (spec_for_kind AND explicit|family), so they are "
+      + "acquisition or linking work and in no filled denominator. `spec_linked_not_held` = a spec-bearing document IS linked "
+      + "but only as a mention or by inference (held before the relevance ruling: `held_by_doc_type_legacy`). "
+      + "`by_document_class_missing` says what a not-held part holds instead (a part holding two such classes counts under "
+      + "both); `(no document linked)` is the no_document state.",
     spec_bearing_classes: LEDGER_SPEC_BEARING,
-    by_category: categories.map((c) => ({ category: c.category, not_held_parts: c.filled.not_held_parts, eol_only: c.held.eol_only,
-      no_document: c.held.no_document, not_held_slots: c.filled.not_held_slots, not_held_filled: c.filled.not_held_filled, held: pctOf(c.held.spec_bearing, c.hardware_parts) }))
+    by_category: categories.map((c) => ({ category: c.category, not_held_parts: c.filled.not_held_parts, spec_linked_not_held: c.held.spec_linked_not_held,
+      eol_only: c.held.eol_only, no_document: c.held.no_document, not_held_slots: c.filled.not_held_slots, not_held_filled: c.filled.not_held_filled,
+      held: pctOf(c.held.spec_bearing, c.hardware_parts), held_by_doc_type_legacy: c.held.held_by_doc_type_legacy }))
       .sort((x, y) => y.not_held_parts - x.not_held_parts),
     by_document_class_missing: [...notHeldByClass].map(([holds_instead, parts]) => ({ holds_instead, parts })).sort((x, y) => y.parts - x.parts),
   };
@@ -454,7 +516,43 @@ async function main(): Promise<void> {
   const wirelessSpatial = censuses.wireless?.cups.find((c) => c.key === "spatial_streams")?.would_refuse.n ?? null;
   const censusRefuseTotal = Object.values(censuses).reduce((s, c) => s + c.would_refuse_total, 0);
   const catParts = (c: string) => catAcc.get(c)?.parts ?? 0;
+  // LINKING DEFECTS (6b): per document, the links the held rule does not count — rows made by inference, and rows on a
+  // spec-bearing document that is only a mention for the part's kind. Live hardware parts of this vendor only.
+  const defectRows = await q<{ doc_id: string; url: string; title: string | null; doc_type: string; inferred_rows: number; spec_mention_rows: number; parts: number }>("residue: linking defects per document", `
+    SELECT sd.doc_id, sd.url, sd.title, sd.doc_type,
+           count(*) FILTER (WHERE dp.link_basis = 'inferred')::int AS inferred_rows,
+           count(*) FILTER (WHERE sd.doc_type = ANY($2::text[]) AND dp.doc_relevance = 'mention')::int AS spec_mention_rows,
+           count(DISTINCT dp.part_id)::int AS parts
+      FROM doc_parts dp JOIN source_docs sd ON sd.doc_id = dp.doc_id
+      JOIN parts p ON p.id = dp.part_id JOIN vendors v ON v.id = p.vendor_id
+     WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware'
+       AND (dp.link_basis = 'inferred' OR (sd.doc_type = ANY($2::text[]) AND dp.doc_relevance = 'mention'))
+     GROUP BY sd.doc_id, sd.url, sd.title, sd.doc_type`, [vendor, LEDGER_SPEC_BEARING]);
+  const defectParts = (await q<{ n: number }>("residue: parts with a linking defect", `
+    SELECT count(DISTINCT dp.part_id)::int AS n
+      FROM doc_parts dp JOIN source_docs sd ON sd.doc_id = dp.doc_id
+      JOIN parts p ON p.id = dp.part_id JOIN vendors v ON v.id = p.vendor_id
+     WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware'
+       AND (dp.link_basis = 'inferred' OR (sd.doc_type = ANY($2::text[]) AND dp.doc_relevance = 'mention'))`, [vendor, LEDGER_SPEC_BEARING]))[0].n;
+  const linkingTotals = {
+    inferred_rows: defectRows.reduce((s, r) => s + r.inferred_rows, 0),
+    spec_mention_rows: defectRows.reduce((s, r) => s + r.spec_mention_rows, 0),
+    documents: defectRows.length,
+    parts: defectParts,
+  };
+  const linking_defects = {
+    item: "linking defects (doc_parts rows the held rule does not count)",
+    count: linkingTotals.inferred_rows + linkingTotals.spec_mention_rows,
+    count_basis: "doc_parts rows on live hardware parts of this vendor with link_basis = 'inferred', plus rows on a spec-bearing document with doc_relevance = 'mention' (a row that is both counts once in each column, so `count` can exceed the distinct rows)",
+    brand_totals: linkingTotals,
+    by_document: defectRows.map((r) => ({ doc_id: r.doc_id, url: r.url, title: r.title, doc_type: r.doc_type,
+      inferred_rows: r.inferred_rows, spec_mention_rows: r.spec_mention_rows, parts: r.parts }))
+      .sort((x, y) => (y.inferred_rows + y.spec_mention_rows) - (x.inferred_rows + x.spec_mention_rows) || x.url.localeCompare(y.url)),
+    why_parked: "the documents stay linked (the relation is true); they stop counting as held — a defect of the link, not of the part",
+    trigger: "re-derive after an extractor emits per-SKU records for the document, or retire an inferred link with a recorded run",
+  };
   const residue = [
+    linking_defects,
     { item: "would-refuse dispositions (MOVE / RETRACT / KEEP-REFUSING / RESHAPE)", count: censusRefuseTotal,
       count_basis: "Σ census would_refuse_total over the committed censuses (every live part and key, not only required cups); the guide quotes 352, the committed censuses sum to this. The per-group split lives in the round-8 dispositions, not in the store.",
       why_parked: "cleanup; visible as `defects`; none changes which cups exist", trigger: "day one of filling, on the pilot first; group by group as approved in round 8" },
@@ -504,7 +602,7 @@ async function main(): Promise<void> {
         basis: "slots of a cup the kind's ledger lists as pending; answered = a verified/corroborated fact under a gate key, or a column (vendor, series/family) or the derived kind, which is how recompute builds `values`" } },
     { topic: "spec-bearing document classes",
       guide: "§2.3: spec-bearing is /v1/docs/classes.spec_bearing (docClass.SPEC_BEARING)",
-      code: "docClass.SPEC_BEARING = " + JSON.stringify([...SPEC_BEARING]) + "; the ledger builder uses its own list " + JSON.stringify(LEDGER_SPEC_BEARING) + " (adds vendor_page). The report uses the ledger's list so held matches document_evidence.",
+      code: "docClass.SPEC_BEARING = " + JSON.stringify([...SPEC_BEARING]) + "; both builders use heldEvidence.SPEC_BEARING_DOC_TYPES " + JSON.stringify(LEDGER_SPEC_BEARING) + " (adds vendor_page). Since the held-by-relevance ruling (13 Sep 2026) the list decides only the LEGACY held and which rows must be derived; held itself is doc_relevance = spec_for_kind AND link_basis IN (explicit, family).",
       measured: { parts_held_only_under_ledger_list: heldUnderLedgerOnly, parts_held_only_under_docclass_list: heldUnderDocClassOnly } },
     { topic: "what counts as filled",
       guide: "§2.3: a current fact (superseded_by IS NULL, not retracted) that the normaliser accepts",
@@ -551,8 +649,12 @@ async function main(): Promise<void> {
       + `spec-bearing document (${LEDGER_SPEC_BEARING.join(", ")}) is linked to it. For a held part each required slot `
       + "(completeness.required_fields — required plus pending) is exactly one of: filled (a current, non-retracted fact "
       + "with a value that the census replay does not refuse), not_published (a gap_confirmed fact), not_parsed (no such "
-      + "fact), or would_refuse (a defect: stored but refused by today's normaliser — neither filled nor empty). "
-      + "Arranged = parts asked >= 1 cup / parts; Held = parts with a spec-bearing document / parts; Filled = (filled + "
+      + "fact and the cup is not a measured mapper gap), mapper_gap (no such fact, and data/reference/cup-evidence-<vendor>.json "
+      + "says the held datasheets print the cup and the mapper does not map it), or would_refuse (a defect: stored but refused "
+      + "by today's normaliser — neither filled nor empty). "
+      + "Arranged = parts asked >= 1 cup / parts; Held = parts with a doc_parts row whose doc_relevance = spec_for_kind AND "
+      + "link_basis IN (explicit, family) / parts (operator ruling, 13 Sep 2026; held_by_doc_type_legacy beside it is the old "
+      + "any-spec-bearing-doc-type rule); Filled = (filled + "
       + "not_published) / required slots of HELD parts. Not-held parts, optional cups and non-hardware classes are in no "
       + "denominator; not-held counts, would-refuse counts and the inherited share are printed beside every filled %. "
       + `"100% complete" = Filled over held parts. Built on ${commit}${dirty ? ` with ${dirty} uncommitted path(s)` : ""}.`,
@@ -566,6 +668,13 @@ async function main(): Promise<void> {
       census_norm_versions: [...new Set(census.map((c) => c.norm_version))],
       norm_version_now: NORM_VERSION,
       spec_bearing_doc_types: LEDGER_SPEC_BEARING,
+      // kind layer 6b
+      held_rule: `a part is held when >= 1 doc_parts row satisfies ${heldRowSql("dp")}; held_by_doc_type_legacy = any linked document of a spec-bearing doc type`,
+      held_underived_spec_rows: underived,
+      cup_evidence: { file: cupEvidence.file, sha256: cupEvidence.sha256, entries: cupEvidence.entries.length,
+        mapper_gap_entries: cupEvidence.entries.filter((e) => e.state === "mapper-gap").length },
+      kind_layer_plans: { file: plans.file, sha256: plans.sha256, plans: plans.plans.length,
+        run: plans.plans.filter((p) => p.run_id !== null).length, pending: plans.plans.filter((p) => p.run_id === null).length },
       // Read from the committed freeze file, never computed here: the report states WHICH frozen table its numbers are
       // over, and tests/completeness.test.ts fails when the two files name different hashes. A missing file is said.
       ...readFreezeHash(vendor),
@@ -588,6 +697,15 @@ async function main(): Promise<void> {
     { name: "census_replay_parity", passed: parity.length === 0, detail: parity.length ? parity.join("; ") : `ok over ${parityRows.length} censuses` },
     { name: "completeness_row_per_part", passed: noCompleteness.length === 0,
       detail: noCompleteness.length ? `${noCompleteness.length} live hardware part(s) without a completeness row, e.g. ${noCompleteness.slice(0, 5).join(", ")}` : "ok" },
+    // kind layer 6b, build only (they need per-part rows the file does not carry): the SKUs behind kind_issue_plans_ran,
+    // and mapper-gap entries that would move nothing.
+    (() => {
+      const ran = plansRanButStillInKind(kindIssueRows);
+      return { name: "kind_issue_rows_after_plan_ran", passed: ran.length === 0,
+        detail: ran.length ? `${ran.length} row(s): ${ran.slice(0, 8).join("; ")}` : `ok over ${kindIssueRows.length} kind-issue rows (${kindIssueRows.filter((r) => r.status === "pending_plan").length} pending plan, ${kindIssueRows.filter((r) => r.status === "unplanned").length} unplanned; plans with run_id: ${plans.plans.filter((p) => p.run_id !== null).length})` };
+    })(),
+    { name: "cup_evidence_applies", passed: inertEvidence.length === 0,
+      detail: inertEvidence.length ? `${inertEvidence.length} mapper-gap entr(ies) match nothing: ${inertEvidence.slice(0, 8).join("; ")}` : `ok over ${cupEvidence.entries.filter((e) => e.state === "mapper-gap").length} mapper-gap entries` },
   ];
   report.cross_checks = checks;
 
@@ -720,6 +838,7 @@ async function sinceWindow(
       FROM doc_parts dp JOIN source_docs sd ON sd.doc_id = dp.doc_id AND sd.doc_type = ANY($3::text[])
       JOIN parts p ON p.id = dp.part_id JOIN vendors v ON v.id = p.vendor_id JOIN categories ct ON ct.id = p.category_id
      WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware'
+       AND ${heldRowSql("dp")}   -- 6b: only rows that make a part held count toward the held delta
      GROUP BY dp.part_id, ct.slug
     HAVING min(sd.created_at) >= $2::timestamptz`, [vendor, sinceIso, LEDGER_SPEC_BEARING]);
   const heldByClass: Record<string, number> = {}, heldByCat: Record<string, number> = {};

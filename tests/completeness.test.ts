@@ -16,6 +16,9 @@ import {
   type Block, type CheckContext, type CheckName, type CompletenessReport, type KindBlock, type LedgerLike, type RoleBlock,
 } from "../src/api/queries/completeness.js";
 import { ROLE_DOMAINS, roleAxisOf } from "../src/core/deployRole.js";
+import { nullShareExcludingKindIssue, unresolvedDisplay, type KindIssueBreakdown } from "../src/core/kindLayerPlans.js";
+// The layer-3 + 6b sabotage base: one implementation, shared with the board fixture (tests/fixtures/completenessFixture.ts).
+import { fixture6b, ctxFixture, countersOf, blockOf, roleBlockOf, unresolvedFields, type Counters } from "./fixtures/completenessFixture.js";
 import { completenessRoutes } from "../src/api/routes/completeness.js";
 import { registerErrorHandling } from "../src/api/errors.js";
 
@@ -46,54 +49,6 @@ const ledgersFor = (vendor: string): Record<string, LedgerLike> => {
   }
   return out;
 };
-
-// ---- LAYER 3 FIXTURE (kind-layer infra, 13 Sep 2026) -------------------------------------------------------------------
-// A report built before layer 3 has no roles blocks, so the role invariants can only be driven by a copy that has them.
-// `withRoles` gives every role-axis kind lacking a block a CONSISTENT split: the first role of the domain holds the kind
-// minus one part, `(unresolved)` holds that one part (held with no slots when the kind has a held part, else not held),
-// every other role is an empty block. Consistent means every partition, denominator and percentage holds inside each
-// role and the roles sum to the kind — so the untouched fixture must fail nothing, and each sabotage below breaks one thing.
-type Counters = { parts: number; asked: number; nothing: number; spec: number; eol: number; none: number; slots: number; filled: number;
-  notPub: number; notParsed: number; wr: number; notRendered: number; nhParts: number; nhSlots: number; nhFilled: number; wrNH: number;
-  cnr: number; ph: number; inh: number };
-const countersOf = (b: Block): Counters => ({ parts: b.hardware_parts, asked: b.arranged.asked, nothing: b.arranged.asked_nothing_fallback,
-  spec: b.held.spec_bearing, eol: b.held.eol_only, none: b.held.no_document, slots: b.filled.required_slots_held, filled: b.filled.filled,
-  notPub: b.filled.not_published, notParsed: b.filled.not_parsed, wr: b.filled.would_refuse, notRendered: b.filled.filled_not_rendered,
-  nhParts: b.filled.not_held_parts, nhSlots: b.filled.not_held_slots, nhFilled: b.filled.not_held_filled, wrNH: b.defects.would_refuse_not_held,
-  cnr: b.defects.could_not_replay, ph: b.defects.placeholders_stored, inh: b.inherited_share.inherited });
-const blockOf = (c: Counters): Block => ({
-  hardware_parts: c.parts,
-  arranged: { asked: c.asked, asked_nothing_fallback: c.nothing, ...pctOf(c.asked, c.parts) },
-  held: { spec_bearing: c.spec, eol_only: c.eol, no_document: c.none, ...pctOf(c.spec, c.parts) },
-  filled: { required_slots_held: c.slots, filled: c.filled, not_published: c.notPub, not_parsed: c.notParsed, would_refuse: c.wr,
-    filled_not_rendered: c.notRendered, not_held_parts: c.nhParts, not_held_slots: c.nhSlots, not_held_filled: c.nhFilled, ...pctOf(c.filled + c.notPub, c.slots) },
-  defects: { would_refuse: c.wr, would_refuse_not_held: c.wrNH, could_not_replay: c.cnr, placeholders_stored: c.ph },
-  inherited_share: { inherited: c.inh, filled: c.filled, ...pctOf(c.inh, c.filled) },
-});
-const ZERO: Counters = { parts: 0, asked: 0, nothing: 0, spec: 0, eol: 0, none: 0, slots: 0, filled: 0, notPub: 0, notParsed: 0, wr: 0,
-  notRendered: 0, nhParts: 0, nhSlots: 0, nhFilled: 0, wrNH: 0, cnr: 0, ph: 0, inh: 0 };
-const roleBlockOf = (role: string, c: Counters, extra: Partial<RoleBlock> = {}): RoleBlock => ({ deploy_role: role, parts: c.parts, ...blockOf(c), ...extra });
-function withRoles(r: CompletenessReport): { report: CompletenessReport; synthesized: number } {
-  const out = JSON.parse(JSON.stringify(r)) as CompletenessReport;
-  let synthesized = 0;
-  for (const c of out.categories) for (const k of c.kinds as KindBlock[]) {
-    const axis = roleAxisOf(c.category, k.kind);
-    if (!axis || k.roles) continue;
-    synthesized++;
-    const kc = countersOf(k);
-    const d: Counters = { ...ZERO };
-    if (kc.parts >= 2) {
-      d.parts = 1;
-      if (kc.asked > 0) d.asked = 1; else d.nothing = 1;
-      if (kc.spec > 0) d.spec = 1; else { d.nhParts = 1; if (kc.eol > 0) d.eol = 1; else d.none = 1; }
-    }
-    const main = Object.fromEntries(Object.entries(kc).map(([f, v]) => [f, v - d[f as keyof Counters]])) as Counters;
-    k.role_axis = axis;
-    k.roles = Object.fromEntries([...ROLE_DOMAINS[axis], UNRESOLVED_ROLE].map((role, i) => [role,
-      role === UNRESOLVED_ROLE ? roleBlockOf(role, d, { kind_issue_parts: 0 }) : roleBlockOf(role, i === 0 ? main : ZERO)]));
-  }
-  return { report: out, synthesized };
-}
 
 const FILL_PATHS = new Set(["seen", "derived", "seed-only", "none"]);
 const BLOCK_KEYS = ["hardware_parts", "arranged", "held", "filled", "defects", "inherited_share"];
@@ -150,15 +105,18 @@ for (const vendor of vendors) {
   // ---- SABOTAGE: one broken copy per invariant, each must fail FOR THAT INVARIANT --------------------------------
   // The copies are taken from the layer-3 fixture (the committed file itself once it carries roles), so every existing
   // sabotage keeps asserting "caught by that invariant ALONE" on a report the role invariants also accept.
-  const { report: base, synthesized } = withRoles(r);
-  lines.push(`    ${vendor}: layer-3 sabotage base = ${synthesized === 0 ? "the committed report (it carries its own roles blocks)" : `the committed report with ${synthesized} role-axis kind(s) given a synthesized consistent split`}`);
-  check(`${vendor}: control — an untouched copy fails nothing`, failing(clone(base), clone(ctx)).length === 0, failing(clone(base), clone(ctx)).join(","));
+  const { report: base, synthesized, upgraded, shifted, gapShifted } = fixture6b(r);
+  const baseCtx = ctxFixture(ctx, shifted);
+  lines.push(`    ${vendor}: sabotage base = the committed report with ${synthesized} role-axis kind(s) given a synthesized split, ${upgraded} block(s) given the 6b fields (zero mapper_gap / spec_linked_not_held), ${shifted ? `one eol-only part of ${shifted.category}.${shifted.kind} shifted to spec_linked_not_held` : "NO kind to shift (four-state held not exercised)"}, and ${gapShifted ? `one not-parsed slot of ${gapShifted.category}.${gapShifted.kind}.${gapShifted.cup} shifted to mapper_gap` : "NO slot shifted to mapper_gap"}`);
+  check(`${vendor}: the fixture exercises a non-zero spec_linked_not_held`, shifted !== null);
+  check(`${vendor}: the fixture exercises a non-zero mapper_gap (so the control proves mapper_gap is IN the partition)`, gapShifted !== null);
+  check(`${vendor}: control — an untouched copy fails nothing`, failing(clone(base), clone(baseCtx)).length === 0, failing(clone(base), clone(baseCtx)).join(","));
   const catWith = (rr: CompletenessReport, pred: (k: CompletenessReport["categories"][number]["kinds"][number]) => boolean) => {
     for (const c of rr.categories) for (const k of c.kinds) if (pred(k)) return { c, k };
     throw new Error("no kind matches the sabotage predicate");
   };
   const sabotage = (target: CheckName, label: string, mutate: (rr: CompletenessReport, cc: CheckContext) => void, clean = false) => {
-    const rr = clone(base), cc = clone(ctx);
+    const rr = clone(base), cc = clone(baseCtx);
     mutate(rr, cc);
     const f = failing(rr, cc);
     check(`${vendor}: SABOTAGE ${label} is caught by ${target}`, f.includes(target), `failing: ${f.join(", ") || "nothing"}`);
@@ -255,13 +213,82 @@ for (const vendor of vendors) {
   sabotage("roles_partition", "a part counted in two roles (the unresolved part duplicated)", (rr) => {
     const { k } = roleKind(rr, (x) => x.roles![UNRESOLVED_ROLE].parts > 0);
     const u = k.roles![UNRESOLVED_ROLE];
-    k.roles![UNRESOLVED_ROLE] = roleBlockOf(UNRESOLVED_ROLE, Object.fromEntries(Object.entries(countersOf(u)).map(([f, v]) => [f, 2 * v])) as Counters, { kind_issue_parts: 0 });
+    k.roles![UNRESOLVED_ROLE] = roleBlockOf(UNRESOLVED_ROLE, Object.fromEntries(Object.entries(countersOf(u)).map(([f, v]) => [f, 2 * v])) as Counters, unresolvedFields(k.parts, 2 * u.parts));
   }, true);
   sabotage("roles_partition", "a role whose filled slot the kind does not count (moved to not_parsed inside the role only)", (rr) => {
     const { k } = roleKind(rr, (x) => Object.values(x.roles!).some((b) => b.filled.filled > b.inherited_share.inherited));
     const [role, b] = Object.entries(k.roles!).find(([, x]) => x.filled.filled > x.inherited_share.inherited)!;
     const c = countersOf(b); c.filled--; c.notParsed++;
-    k.roles![role] = roleBlockOf(role, c, role === UNRESOLVED_ROLE ? { kind_issue_parts: b.kind_issue_parts } : {});
+    k.roles![role] = { ...b, ...blockOf(c) };
+  }, true);
+
+  // ---- kind layer 6b (13 Sep 2026): held by relevance, mapper-gap, the (unresolved) kind-issue split ----------------
+  sabotage("filled_partition", "a report with no mapper_gap (built before the mapper-gap state)", (rr) => {
+    delete (rr.brand.filled as Partial<typeof rr.brand.filled>).mapper_gap;
+  }, true);
+  sabotage("filled_partition", "a cup slot moved from not_parsed to mapper_gap in the cup but not in its kind", (rr) => {
+    const { k } = catWith(rr, (x) => !(x as KindBlock).roles && x.cups.some((cup) => cup.not_parsed > 0));
+    const cup = k.cups.find((x) => x.not_parsed > 0)!;
+    cup.not_parsed--; cup.mapper_gap++;
+  });
+  sabotage("filled_partition", "a kind whose mapper_gap slot is also counted as not_parsed (partition overshoots)", (rr) => {
+    const { k } = catWith(rr, (x) => !(x as KindBlock).roles && x.filled.required_slots_held > 0);
+    k.filled.mapper_gap++;
+  });
+  sabotage("held_partition", "a report with no spec_linked_not_held (built before the relevance ruling)", (rr) => {
+    const { k } = catWith(rr, (x) => !(x as KindBlock).roles);
+    delete (k.held as Partial<typeof k.held>).spec_linked_not_held;
+  });
+  sabotage("held_partition", "a spec-linked-not-held part counted beside held without leaving eol_only", (rr) => {
+    rr.brand.held.spec_linked_not_held++;
+  });
+  sabotage("held_within_legacy", "a legacy held that is not held + spec_linked_not_held (a part held through a non-spec doc type)", (rr) => {
+    const lg = rr.brand.held.held_by_doc_type_legacy;
+    rr.brand.held.held_by_doc_type_legacy = pctOf(lg.num - 1, lg.den);
+  }, true);
+  sabotage("held_within_legacy", "a block without held_by_doc_type_legacy (BEFORE-relevance held not printed)", (rr) => {
+    delete (rr.categories[0].held as Partial<typeof rr.brand.held>).held_by_doc_type_legacy;
+  }, true);
+  sabotage("held_matches_ledger", "a ledger kind with a different spec_linked_not_held", (_rr, cc) => {
+    const sh = shifted!; cc.ledgers![sh.category].kinds[sh.kind].document_evidence.spec_linked_not_held! += 1;
+  }, true);
+  sabotage("denominators", "not_held_parts computed the OLD way (eol_only + no_document, spec_linked_not_held forgotten)", (rr) => {
+    const sh = shifted!;
+    const k = rr.categories.find((c) => c.category === sh.category)!.kinds.find((x) => x.kind === sh.kind)!;
+    k.filled.not_held_parts = k.held.eol_only + k.held.no_document;
+  }, true);
+  sabotage("roles_partition", "a role whose slot moved to mapper_gap while the kind still counts it not_parsed", (rr) => {
+    const { k } = roleKind(rr, (x) => Object.values(x.roles!).some((b) => b.filled.not_parsed > 0));
+    const [role, b] = Object.entries(k.roles!).find(([, x]) => x.filled.not_parsed > 0)!;
+    const c = countersOf(b); c.notParsed--; c.mapperGap++;
+    k.roles![role] = { ...b, ...blockOf(c) };
+  }, true);
+  const unres = (rr: CompletenessReport) => { const { k } = roleKind(rr); return { k, u: k.roles![UNRESOLVED_ROLE] }; };
+  sabotage("unresolved_kind_issue", "an (unresolved) block that does not print kind_issue_parts", (rr) => {
+    const { u } = unres(rr); delete u.kind_issue_parts;
+  }, true);
+  sabotage("unresolved_kind_issue", "a kind-issue split that does not sum (pending 1 of 0)", (rr) => {
+    const { u } = unres(rr); u.kind_issue!.pending_plan = 1;
+  }, true);
+  sabotage("unresolved_kind_issue", "the 3% bar applied to ALL unresolved parts instead of unresolved minus kind-issue rows", (rr) => {
+    const { k } = roleKind(rr, (x) => x.roles![UNRESOLVED_ROLE].parts > 0);
+    const u = k.roles![UNRESOLVED_ROLE];
+    // one kind-issue row recorded, but the share still divides every unresolved part by every kind part
+    const ki: KindIssueBreakdown = { kind_issue_parts: 1, pending_plan: 1, plan_ran: 0, unplanned: 0 };
+    Object.assign(u, { kind_issue_parts: 1, kind_issue: { pending_plan: 1, plan_ran: 0, unplanned: 0 }, display: unresolvedDisplay(u.parts, ki),
+      null_share_excluding_kind_issue: nullShareExcludingKindIssue(k.parts, u.parts, 0) });
+  }, true);
+  sabotage("unresolved_kind_issue", "a display that hides the pending plans", (rr) => {
+    const { u } = unres(rr); u.display = `(unresolved) ${u.parts}`;
+  }, true);
+  sabotage("unresolved_kind_issue", "kind-issue fields on a role that is not (unresolved)", (rr) => {
+    const { k, axis } = roleKind(rr); (k.roles![ROLE_DOMAINS[axis][0]]).kind_issue_parts = 0;
+  }, true);
+  sabotage("kind_issue_plans_ran", "a kind-issue row still in its kind after its plan ran", (rr) => {
+    const r2 = roleKind(rr, (x) => x.roles![UNRESOLVED_ROLE].parts > 0);
+    const u = r2.k.roles![UNRESOLVED_ROLE];
+    const ki: KindIssueBreakdown = { kind_issue_parts: 1, pending_plan: 0, plan_ran: 1, unplanned: 0 };
+    Object.assign(u, unresolvedFields(r2.k.parts, u.parts, ki));
   }, true);
 
   // ---- the since-window sidecar ------------------------------------------------------------------------------------
