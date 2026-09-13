@@ -99,7 +99,8 @@ export function partKind(categorySlug: string, sku: string, name?: string): stri
  * 2026), `other` (wirelessKind, opticalKind), `accessory` (every axis) and `non-hardware` (securityKind, which returns it
  * for a SKU the class table already calls a licence and which LEDGER_KINDS therefore omits).
  *
- * `component` IS HISTORICAL and no axis returns it — it was switchKind's generic before the
+ * `component` and `other` ARE HISTORICAL and no axis returns them (`other` since the kind layer renamed every
+ * unresolved kind `unknown`, 13 Sep 2026); `component` — it was switchKind's generic before the
  * component axis was split out. It stays because removing it would change the population this work is
  * measured over, and a member that can never match cannot cause a wrong answer, only a dead branch.
  * tests/nameMarker.test.ts asserts the other four ARE returned by an axis, so a misspelling in this

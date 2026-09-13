@@ -53,7 +53,7 @@ export const NAME_MARKERS: readonly NameMarker[] = [
  * category's axis declares and otherwise leaves the fallback kind alone.
  *
  * WHY A LIST AND NOT ONE NAME. The eleven axes use different words for the same thing — a supply is
- * `power` in switchKind, `psu` in ucsKind and `power-supply` in collabKind — and a kind list that
+ * `power` in switchKind, `psu` in ucsKind and (until 13 Sep 2026) `power-supply` in collabKind — and a kind list that
  * named only one of them would silently reach one category in three. The names are checked against
  * the axes' own exported kind lists by tests/nameMarker.test.ts, in both directions, so a target
  * naming a kind no axis has is reported rather than being a line that can never fire.
@@ -75,10 +75,11 @@ export const MARKER_TARGETS: Readonly<Record<NameMarker, readonly string[]>> = {
   "passive-optical": ["mux", "passive"],
   // A rack power distribution unit. No axis claimed one before today; ucsKind names it now, and
   // elsewhere it falls to the supply kinds, which is where its input voltage and outlets belong.
-  pdu: ["pdu", "power", "psu", "power-supply"],
+  // kind-layer (13 Sep 2026): `power-supply` left both lists — collabKind renamed it `power` (spec III.1).
+  pdu: ["pdu", "power", "psu"],
   tpm: ["tpm", "security-module"],
   riser: ["io-module", "daughter", "module", "linecard"],
-  power: ["power", "psu", "power-supply", "power-injector"],
+  power: ["power", "psu", "power-injector"],
   server: ["server", "chassis"],
   mechanical: ["mechanical"],
 };
@@ -400,7 +401,11 @@ const RULES: { marker: NameMarker; hit: (n: string) => boolean; despiteDeviceNou
   {
     marker: "riser",
     hit: (n) => w(n, "riser", "risers", "mezzanine", "backplane", "midplane")
-      && !w(n, "blank", "blanking", "blnk", "filler", "cover", "cvr", "panel", "pnl"),
+      && !w(n, "blank", "blanking", "blnk", "filler", "cover", "cvr", "panel", "pnl")
+      // kind-layer (13 Sep 2026): nor the TOOL that works on one. video renamed `line-card` -> `linecard`, which put
+      // `linecard` (this marker's fourth target) into video's declared kinds for the first time, and the only video row
+      // that then moved was 741425 "Tool, Connector Removal, Backplane/Module" — a hand tool, filed as a line card.
+      && !w(n, "tool", "tools"),
   },
   // A SUPPLY, a power-entry module, a rectifier, a PoE injector, and the battery / cache-backup /
   // supercapacitor family, which is a power part on every axis that has one. AFTER the mechanical

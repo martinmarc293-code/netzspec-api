@@ -48,6 +48,9 @@ const CASES: [string, NameMarker | undefined, string][] = [
   ["10A Metered Input 1-Phase 8x C13, 2x C19 - 0U PDU", "pdu", "no kind on any axis claimed a PDU"],
   ["TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified, for M5 servers", "tpm", "the device noun is in the HOST's half"],
   ["8 Drive Backplane For C-Series", "riser", "UCSC-DBKP-08D"],
+  // kind-layer (13 Sep 2026): the riser marker refuses a TOOL. video's `line-card` -> `linecard` rename put the marker's
+  // `linecard` target into video's kinds, and 741425 was the one row that moved — to a line card. Now it is mechanical.
+  ["Tool, Connector Removal, Backplane/Module", "mechanical", "741425 — a hand tool for a backplane, not a riser (kind-layer)"],
   ["UCSW Whiptail Super Micro SC216E16-R1200UB Power Supply", "power", "UCSW-WTSM-PSU"],
   ["1520 Series Battery, 12 Amp Hour", "power", "AIR-1520-BATT12AH"],
   ["UCS Invicta C3124SN 12T Node Racked Add-on -K9", "server", "UCSW-C3124N-12TER"],
@@ -204,8 +207,9 @@ eq("a marker whose kind the category does NOT declare leaves the fallback kind a
     const dead = t.filter((k) => !declared.has(k));
     check(`MARKER_TARGETS.${m} names no kind that does not exist`, dead.length === 0, `dead targets: ${dead.join(", ")}`);
   }
-  // `component` is documented as historical in partKind.ts; the other four must be live.
-  for (const k of ["unknown", "other", "accessory"]) {
+  // `component` is documented as historical in partKind.ts, and so is `other` since the kind layer renamed every
+  // unresolved kind to `unknown` (13 Sep 2026); the remaining members must be live.
+  for (const k of ["unknown", "accessory"]) {
     check(`FALLBACK_KINDS member "${k}" is a kind some axis returns`, declared.has(k));
   }
   check("FALLBACK_KINDS contains the historical `component`, which no axis returns", FALLBACK_KINDS.has("component"));

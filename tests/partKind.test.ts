@@ -131,8 +131,9 @@ check("and the collapse is severe enough to be worth a guard",
     "switches": "CAB-9K16A-AUS", "servers-unified-computing": "CAB-C13-C14-AC=",
     // "Mounting bracket for one CVR-4SFP10G-QSFP" — until 11 Sep 2026 asked DDM, a fibre type and a power draw
     "transceiver": "CVR-BRKT-1",
-    // collab (12 Sep 2026): a Meeting Server CPU option
-    "conferencing": "CIT3-CPU-I6240",
+    // collab (12 Sep 2026): a Meeting Server CPU option. kind-layer (13 Sep 2026): that CPU is kind `cpu` now and asked the
+    // UCS cpu set on purpose (rule 3), so the leak probe is a cable, as in the other categories.
+    "conferencing": "CAB-9K16A-AUS",
     // end collab
     // security (12 Sep 2026): "Firepower 3000 Power Supply Blank Slot Cover" — until today asked a
     // weight, a rack height, an operating temperature, a power draw and a certification list, plus
@@ -162,16 +163,18 @@ check("and the collapse is severe enough to be worth a guard",
     "hyperconverged-infrastructure": ["product_compatibility"],
     // collab (12 Sep 2026): the collaboration axis asks a cable its length, a PSU its rated output and what it
     // fits, a server part what it fits (collabBlock in fieldSchema.ts) — and no device question.
-    "unified-communications": ["cable_length", "product_compatibility", "psu_rated_output"],
-    "collaboration-endpoints": ["cable_length", "product_compatibility", "psu_rated_output"],
-    conferencing: ["cable_length", "product_compatibility", "psu_rated_output"],
+    // kind-layer (13 Sep 2026): `power-supply` is `power` and asks the PSU archetype (rated output, input voltage, airflow).
+    "unified-communications": ["cable_length", "product_compatibility", "psu_rated_output", "input_voltage", "airflow"],
+    "collaboration-endpoints": ["cable_length", "product_compatibility", "psu_rated_output", "input_voltage", "airflow"],
+    conferencing: ["cable_length", "product_compatibility", "psu_rated_output", "input_voltage", "airflow"],
     // routers (12 Sep 2026): the same allow-list — its own axis asks a cord its length and what it fits, nothing else.
     routers: ["cable_length", "product_compatibility"],
     // optical-storage (12 Sep 2026): both now ask a component its own questions (a cable its length), exactly as
     // switches does since 11 Sep — so the guard is again the leak itself: no DEVICE question reaches a cable.
-    // kind-layer (13 Sep 2026): a SAN cable is proposed the CABLE archetype (connector, media) and what it fits (parent
-    // ruling: every component kind asks product_compatibility); the allow-list is widened by those cable keys, no device key.
-    "optical-networking": ["cable_length"], "storage-networking": ["cable_length", "product_compatibility", "connector", "media"],
+    // kind-layer (13 Sep 2026): a cable in optical-networking and storage-networking is proposed the CABLE archetype
+    // (connector, media) beside its length, and a SAN cable also what it fits (parent ruling: every component kind asks
+    // product_compatibility); the allow-lists are widened by those cable keys, no device key.
+    "optical-networking": ["cable_length", "connector", "media"], "storage-networking": ["cable_length", "product_compatibility", "connector", "media"],
     // security (12 Sep 2026), same reason: a component is asked WHAT IT FITS, and a PSU, a fan, a drive, a
     // cable and a netmod are each asked the one or two figures they are bought on. The allow-list is the whole
     // union, so a DEVICE question leaking onto a component still fails.

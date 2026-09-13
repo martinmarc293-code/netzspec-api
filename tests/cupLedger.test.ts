@@ -128,10 +128,14 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
 // optical-storage (12 Sep 2026): the two new axes. The fallback kind must ask LESS than any named kind (nothing at
 // all), a shelf must be asked its slots and an amplifier its gain, and a ledger that dropped the gain is caught.
 {
-  for (const cat of ["optical-networking", "storage-networking"]) {
+  // kind-layer (13 Sep 2026): optical-networking's fallback is named `unknown` now (spec v2 III.1); storage-networking's is
+  // still `other`. Asking the profile about a kind name the axis no longer returns would pass vacuously — every unlisted
+  // kind asks nothing — so the name is taken from the axis's own kind list, and its absence fails.
+  for (const [cat, fallback] of [["optical-networking", "unknown"], ["storage-networking", "other"]] as const) {
     check(`${cat}: has a committed ledger`, files.includes(`cisco-${cat}.json`), "run build-cup-ledger for it");
-    const other = kindQuestionSet(cat, "other");
-    check(`${cat}: the fallback kind "other" asks nothing`, other.required.length + other.pending.length === 0,
+    check(`${cat}: its fallback kind "${fallback}" is a kind the axis names`, LEDGER_KINDS[cat].includes(fallback));
+    const other = kindQuestionSet(cat, fallback);
+    check(`${cat}: the fallback kind "${fallback}" asks nothing`, other.required.length + other.pending.length === 0,
       `asks ${[...other.required, ...other.pending.map((p) => p.key)].join(", ")}`);
     const sw = kindQuestionSet(cat, "software");
     check(`${cat}: "software" asks nothing (the class rules take those parts)`, sw.required.length + sw.pending.length === 0);
@@ -204,7 +208,15 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
     const box = ["firewall", "ips", "email-gateway", "web-gateway", "management", "analytics", "identity"];
     // security-r6 (12 Sep 2026): `memory` and `nic` join the component list (two shapes split out of
     // `compute`, which was one kind of 224 parts carrying 39 facts in two cups it was never asked).
-    const comp = ["security-module", "ips-module", "module", "power", "fan", "drive", "compute", "memory", "nic", "cable", "accessory"];
+    // kind-layer (13 Sep 2026): + cpu / storage-controller / tpm, the library component kinds split out of `compute`.
+    const comp = ["security-module", "ips-module", "module", "power", "fan", "drive", "compute", "memory", "nic", "cable", "accessory",
+      "cpu", "storage-controller", "tpm"];
+    // kind-layer (13 Sep 2026): a kind the committed ledger does not list yet (the three split out of `compute`, before
+    // the rebuild) is REPORTED rather than crashing the file, which would hide every check after this one.
+    const missingKinds = [...box, ...comp].filter((k) => !led.kinds[k]);
+    check("security: the ledger lists every box and component kind this block bounds", missingKinds.length === 0,
+      `not in the ledger: ${missingKinds.join(", ")} — rebuild it: npx tsx scripts/build-cup-ledger.mts --category security`);
+    for (const k of missingKinds) led.kinds[k] = { required: [], pending_until_gate_answered: [] } as never;
     const n = (k: string) => led.kinds[k].required.length + led.kinds[k].pending_until_gate_answered.length;
     // AND `security-module` IS NAMED OUT OF THE BOUND, not the bound loosened — the same exemption
     // tests/securityShapes carries, for the same recorded reason: a Firepower 9300 SM blade is a
@@ -212,7 +224,9 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
     // (firewall_throughput, threat_throughput, ips_throughput, vpn_peers, concurrent_sessions and
     // the IPsec figure). Adding the r6 cups took it from 5 slots to 9, past `identity` at 8. The
     // exemption is asserted to be NECESSARY below, so it cannot quietly grow into the whole list.
-    const BOXLIKE_COMPONENT = ["security-module"];
+    // kind-layer (13 Sep 2026): EMPTY — the APPLIANCE archetype proposal gave every box shape `ports`, so the leanest box is
+    // 10 slots and the blade's 9 is inside the bound (tests/securityShapes carries the same change and the same note).
+    const BOXLIKE_COMPONENT: string[] = [];
     const strict = comp.filter((k) => !BOXLIKE_COMPONENT.includes(k));
     check("security: every component kind except the blade is asked fewer slots than the leanest box",
       Math.max(...strict.map(n)) < Math.min(...box.map(n)),

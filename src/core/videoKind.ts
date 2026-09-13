@@ -45,15 +45,18 @@
 //   `LA` IS A LAUNCH AMPLIFIER ONLY BEHIND A GS7K PREFIX: GS7K-LA-4052 "LNCH AMP", GS7KI-LA-1.2-0458 "iNode
 //        Launch Amp". The two-letter token alone is not read.
 
+// kind-layer (13 Sep 2026): `line-card` -> `linecard`, spec v2 III.1 ("one name, one cup set"). Every other axis
+// (routers, switches, optical-networking) spells the kind `linecard`, so the cross-category cup-set check could
+// never compare a cBR-8 line card with anything; the spelling was the only thing that made it unique.
 export type VideoKind =
   | "node" | "chassis" | "system"
   | "transmitter" | "optic" | "receiver" | "amplifier" | "rf-amplifier" | "passive"
-  | "line-card" | "plug-in" | "power" | "fan" | "cable" | "accessory" | "software" | "unknown";
+  | "linecard" | "plug-in" | "power" | "fan" | "cable" | "accessory" | "software" | "unknown";
 
 /** Every kind the axis can name, in declaration order (LEDGER_KINDS reads this). */
 export const VIDEO_KINDS: readonly VideoKind[] = [
   "node", "chassis", "system", "transmitter", "optic", "receiver", "amplifier", "rf-amplifier", "passive",
-  "line-card", "plug-in", "power", "fan", "cable", "accessory", "software", "unknown",
+  "linecard", "plug-in", "power", "fan", "cable", "accessory", "software", "unknown",
 ];
 
 /** Whole boxes you rack, strand-mount or wall-mount and power: they carry the physical envelope. */
@@ -63,7 +66,7 @@ export const VIDEO_EMITTER: readonly VideoKind[] = ["transmitter", "optic"];
 
 // Ordered; the FIRST rule that matches wins. The order is the refusal list above:
 //   software, node      first — both are exact families no other rule may take
-//   accessory           before cable, power, chassis and line-card (holders, blanks, lids, trays, packaging)
+//   accessory           before cable, power, chassis and linecard (holders, blanks, lids, trays, packaging)
 //   cable, fan, power   before the module rules, so a card's cord or blank never reads as the card
 //   plug-in             before transmitter (GS7K-OIB-4RX-2TX)
 const RULES: { kind: VideoKind; re: RegExp }[] = [
@@ -125,11 +128,25 @@ const RULES: { kind: VideoKind; re: RegExp }[] = [
   // Optical passives: OPLGX-MD16-2162-LA "16 CH-IWDM ... DTP-LC/APC", OPCAS-MD08-2027-SA, DCM-20-LL-SA
   // "Low Insertion Loss DCF, 20km", GS7000-OP-BWDM-NCBC8-BC18-NC2027FR-SAMPO, 1310/CWDM (a 1310/CWDM filter).
   { kind: "passive", re: /^OP(?:LGX|CAS)-|^DCM-\d|^GS7000-OP-|^1310\/CWDM$/ },
+  // kind-layer (13 Sep 2026): THREE NUMBERED PASSIVE SERIES WHOSE PLACEHOLDER-NAMED MEMBERS SIT IN `unknown`.
+  // The header above refuses digit RANGES as kinds, because 1,030 of 1,056 SA bases are singletons; these three
+  // are not ranges of unrelated bases, they are CONSECUTIVE ORDERING NUMBERS of one product run, and every named
+  // member of each run — checked over the whole video catalogue — is the same passive:
+  //   4003543..4003564  22 named "OADM,LGX-DWDM-ITU-16-SA" .. "-ITU-37-SA" (passive 22 of 22); 4003565..4003586
+  //                     are the 22 next numbers, every one named only "Cisco <sku>" — the run continues to ITU 59
+  //   4043801..4043820  20 named "OADM, Filter, DWDM-ITU-20-SA" .. "-ITU-39-SA" (20 of 20); 4043821..4043840 the
+  //                     20 next, placeholder-named
+  //   1030007..1030065  18 named "LGX-MXDX-4CH-iWDM ITU 21, 22, 24, 26 EXP-DTP", "8 CH-ITU 36—43 DTP-UG-EXP" (18
+  //                     of 18 passive); 29 placeholder numbers inside that interval
+  // The windows are the run's own interval (10300[0-6]x, 40035[4-8]x, 40438[0-4]x), NOT the base: 1030178..182 and
+  // 1030309..325 have no named neighbour and stay `unknown`, as do the 18 placeholders of 40301xx, whose named
+  // neighbours disagree (mechanical 2, passive 1). Never a series rule: the series label is not read here.
+  { kind: "passive", re: /^10300[0-6]\d$|^40035[4-8]\d$|^40438[0-4]\d$/ },
   // Line cards and slot modules: cBR-8 line cards, supervisors, PICs, DS/US PHY modules and digital PICs;
   // RF Gateway DS48/DS384 EQAM cards, supervisors, TCC and RF-switch cards; the RFGW-1 QAM and I/O modules;
   // the Remote PHY shelf line card and its RF-PIC. After accessory, so their blanks and covers are not cards.
   {
-    kind: "line-card",
+    kind: "linecard",
     re: /^CBR-(?:CCAP-)?(?:LC|SUP)|^CBR-\dD\d+-\d+U|^CBR-D3\d-(?:DS|US)-MOD|^CBR-(?:\d+X\d+G|DPIC|RF-(?:PIC|PROT)|PROT-PIC)|^RFGW-(?:DS|X45|X4516|TCC|10-RFSW)|^RFGW-1-(?:QAM-MOD|IO-MOD)|^HA-RPHY-(?:6X12-LC|PIC)/,
   },
 ];
@@ -165,9 +182,19 @@ const NONE: ReadonlySet<VideoKind> = new Set();
 const ALT_PN = /(?:^|[(\s])([A-Z0-9][A-Z0-9./]*(?:-[A-Z0-9.+/]+)+|\d{6,7}\.\d{2,4})(?=[)\s,]|$)/gi;
 
 const NAME_RULES: { kind: VideoKind; re: RegExp; not?: RegExp }[] = [
+  // kind-layer (13 Sep 2026): the III.0 item 6 read of `video.unknown` (421 rows by family) found 88 NAMED rows
+  // that say what they are in Cisco's HFC abbreviations and that no rule below reached. Each addition below names
+  // its family and its rows; every one is a name-only path, consulted after every SKU rule declined.
+  //
+  // An UNCONFIGURED NODE PLATFORM names its housing configuration the way a configured node's SKU does:
+  // "GS7000,40/52,TPs,8p,Unconfigured,Fwd/Rev,PS" (4040109, 4040110). FIRST, because the name also carries "PS".
+  { kind: "node", re: /(?:^|[^a-z])GS7000,\s?\d{2}\/\d{2},[^()]*unconfigured(?:[^a-z]|$)/i },
   // An erbium amplifier states its own name; a LAUNCH amp is the RF one, as GS7K-LA-* is above.
   { kind: "amplifier", re: /(?:^|[^a-z])EDFA(?:[^a-z]|$)/i },
-  { kind: "rf-amplifier", re: /(?:^|[^a-z])(?:launch|lnch)\s*amp/i },
+  // kind-layer (13 Sep 2026): + the REVERSE amplifier and the headend driver amplifier — "GS7000 Rev Amp,40/42MHz"
+  // (4011912/14/15), "ASSY,GS7000 REV AMP AUX TERM" (4011910), "(P2-HEDA-R w/CCB)Rev HEDA,5-200MHz,CCB" (4003776),
+  // "(P2-HEDA-F,1GHz w/CCB)Fwd HEDA,1GHz" (4010345). Both are RF amplifiers; neither is an EDFA.
+  { kind: "rf-amplifier", re: /(?:^|[^a-z])(?:launch|lnch)\s*amp|(?:^|[^a-z])rev\s+amp(?:[^a-z]|$)|(?:^|[^a-z])HEDA(?:[^a-z]|$)/i },
   // "…Fwd Tx", "…Rev Tx", "Opt Tx", "M-W Fwd Tx", "SuperQAM" (a Prisma II QAM transmitter), "1550Tx".
   // …and `DFB`, a distributed-feedback LASER, which is how the Prisma II QAM transmitters name
   // themselves: "(P2-HD15TXQ-10-GHZ-DM-QAM-SA-ITU26) 1550HD DFB, 10dBm, ITU26, SA". Twelve rows, and
@@ -175,19 +202,55 @@ const NAME_RULES: { kind: VideoKind; re: RegExp; not?: RegExp }[] = [
   // more facts of their own — the census's single finding. The alternate part number could not reach
   // them either: the vendor's own string is `P2-HD15TXQ`, with no hyphen between HD and 15TXQ, and the
   // SKU rule above is anchored on `P2-HD-15TX`. Adding the word is the smaller, name-side fix.
-  { kind: "transmitter", re: /(?:^|[^a-z])(?:fwd|rev|opt|hd|m-w|hg)\s+tx(?:[^a-z]|$)|(?:^|[^a-z])superqam(?:[^a-z]|$)|(?:^|[^a-z0-9])\d{4}\s?tx(?:[^a-z]|$)|(?:^|[^a-z])transmitter(?:[^a-z]|$)|(?:^|[^a-z])DFB(?:[^a-z]|$)/i },
-  { kind: "receiver", re: /(?:^|[^a-z])(?:fwd|rev|opt|hd|m-w|hg)\s+rx(?:[^a-z]|$)|(?:^|[^a-z])receiver(?:[^a-z]|$)/i },
+  // kind-layer (13 Sep 2026): + "EDR GS2185 Tx Module" / "EDR GS1185 Tx module" (4042877, 4042873) and the GS7000
+  // optical-switch-node CWDM modules "GS7K OS 1xR Rx,x1,CWDM P Tx" (4036730, 4036864..70) — a module carrying a
+  // receiver AND a channel-lettered CWDM transmitter, filed as the transmitter because the Tx channel is what
+  // distinguishes the eight SKUs (III.0 item 6 proposal; transmitter runs before receiver for that reason).
+  { kind: "transmitter", re: /(?:^|[^a-z])(?:fwd|rev|opt|hd|m-w|hg)\s+tx(?:[^a-z]|$)|(?:^|[^a-z])superqam(?:[^a-z]|$)|(?:^|[^a-z0-9])\d{4}\s?tx(?:[^a-z]|$)|(?:^|[^a-z])transmitter(?:[^a-z]|$)|(?:^|[^a-z])DFB(?:[^a-z]|$)|(?:^|[^a-z])tx\s+module(?:[^a-z]|$)|(?:^|[^a-z])[CD]WDM\s+[A-Z]\s+tx(?:[^a-z]|$)/i },
+  // kind-layer (13 Sep 2026): + "Prisma II HD, LN, RXR, SA" (4040565), "HDRX LOW GN REV OPTICAL RCVR MODULE, SC/A"
+  // (731512-001), "EDR Rx OPM XR" / "EDR Rx OPM SR" (4042751, 4042750).
+  // A SHELF THAT NAMES THE MODULES IT TAKES IS STILL THE SHELF: "HDRX CHASSIS, NO POWER SUPPLY" (731508DEM) and "Prisma II
+  // XD Chassis, F connector, with ICIM" (4023768) carry a receiver / plug-in / supply word and are chassis, so those three
+  // rules refuse a name that says chassis and the chassis rule at the foot of the table takes it.
+  { kind: "receiver", re: /(?:^|[^a-z])(?:fwd|rev|opt|hd|m-w|hg)\s+rx(?:[^a-z]|$)|(?:^|[^a-z])receiver(?:[^a-z]|$)|(?:^|[^a-z])(?:RXR|HDRX|RCVR)(?:[^a-z]|$)|(?:^|[^a-z])rx\s+OPM(?:[^a-z]|$)/i,
+    not: /(?:^|[^a-z])chassis(?:[^a-z]|$)/i },
   // Dispersion compensating fibre and the optical-plant passives, by their own words only.
-  { kind: "passive", re: /(?:^|[^a-z])DCF(?:[^a-z]|$)|(?:^|[^a-z])OADM(?:[^a-z]|$)|(?:^|[^a-z])(?:iWDM|CWDM|DWDM)\s*(?:mux|demux|filter)(?:[^a-z]|$)/i },
+  // kind-layer (13 Sep 2026): + the DTP expansion mux/demux ("8 CH-ITU 36—43 DTP-UG-EXP-LC/APC", 1030016/17/31/34..38/65),
+  // the LGX / CAS cassette muxes ("CAS-DWDM-100G-SQAM-4CH 2027 SA EXP-C", "LGX-DWDM SQAM 8Ch 100G SA EXP DTP-C"), a
+  // BWDM splitter ("BWDM 1x2, LGX, E2000, ITU25-32"), "1310/1550 Quad-filters with LC/UPC connectors", the GS7000
+  // optical passive "GS7000,OP,CWDM,1X10,1430,1610,SA,MPO" and the optical coupler "GS7000 Coupler, SA (10/Pkg)".
+  // A DIRECTIONAL coupler is an RF node plug-in, not an optical passive: refused by the lookbehind.
+  { kind: "passive", re: /(?:^|[^a-z])DCF(?:[^a-z]|$)|(?:^|[^a-z])OADM(?:[^a-z]|$)|(?:^|[^a-z])(?:iWDM|CWDM|DWDM)\s*(?:mux|demux|filter)(?:[^a-z]|$)|(?:^|[^a-z0-9])\d{1,2}\s?CH-ITU(?:[^a-z]|$)|(?:^|[^a-z])DTP(?:[^a-z]|$)|(?:^|[^a-z])(?:LGX|CAS)-(?:DWDM|MXDX|BWDM|CWDM)(?:[^a-z]|$)|(?:^|[^a-z])BWDM(?:[^a-z]|$)|(?:^|[^a-z])quad-filters(?:[^a-z]|$)|(?:^|,)OP,(?:CWDM|DWDM|BWDM)(?:[^a-z]|$)|(?:^|[^a-z])(?<!directional\s)coupler(?:[^a-z]|$)/i },
   // A SUPPLY, where "PS" is followed by its voltages: "DPON PS, 220VAC/50-60Hz, 12VDC/1A, Wall-mt LS,
   // KOR". Found by reading the moved rows — the bare "Wall-mt" token in those names had sent four
   // D-PON subscriber power supplies to `mechanical`. "PS" ALONE IS NOT READ, deliberately: a node's
   // own name states how many supplies it carries ("...,8p,SA,Rx,CWDM1510/1550,2PS,DOC"), which is the
   // same trap this file already records for the SKU form (`GS7K-SHO-LID-PS=` is a lid).
-  { kind: "power", re: /(?:^|[^a-z])P\.?S\.?[,;]?\s*\d+\s?-?\d*\s?V(?:AC|DC)|(?:^|[^a-z])power suppl/i },
+  // kind-layer (13 Sep 2026): + "GS7000 Node Pwr Supply" (4011930) and "DPON ONT PS, F-Conn, 12VDC/1A" (4028842), whose
+  // voltages do not follow the "PS" directly. The bare "PS" refusal above stands.
+  { kind: "power", re: /(?:^|[^a-z])P\.?S\.?[,;]?\s*\d+\s?-?\d*\s?V(?:AC|DC)|(?:^|[^a-z])power suppl|(?:^|[^a-z])pwr\s+supply(?:[^a-z]|$)|(?:^|[^a-z])ONT\s+PS(?:[^a-z]|$)/i,
+    not: /(?:^|[^a-z])chassis(?:[^a-z]|$)/i },
+  // kind-layer (13 Sep 2026): TOOLS AND LOOSE HARDWARE, before the plug-in rule so "ICIM Terminator,DB9 Female" (4013014)
+  // is the terminator and not the ICIM it terminates: "Tool, Connector Removal, Backplane/Module" (741425), "GS7000 and
+  // GainMaker RF Test Probe" (562580), "SA Bulkhead Opt Conn (Box/10)" (4006328), "Pwr Conn, -48VDC (12 ea)" (741982),
+  // "Node 2:1 bdr, 5-42MHz HG Multiplexing UPG Kit" (4003219.00), and an EMPTY housing, "GS7000 Optical Hub Hsg Assy,
+  // Fiber Mgt, 2PS" (4025879) — the header's `HSG` refusal (GS7K-HSG-1.2G is an accessory) in its name form.
+  // `accessory` is a fallback kind, so partKind still offers these names to nameMarker (a tool may become `mechanical`).
+  { kind: "accessory", re: /(?:^|[^a-z])(?:tool|test\s+probe|bulkhead|terminator|pwr\s+conn|upg\s+kit|hsg\s+assy)(?:[^a-z]|$)/i },
   // The node plug-ins the survey's c13 bucket holds: an optical interface board, a configuration
   // module, an equalizer, a diplexer, a directional coupler, a pad.
-  { kind: "plug-in", re: /(?:^|[^a-z])OIB(?:[^a-z]|$)|(?:^|[^a-z])config module(?:[^a-z]|$)|(?:^|[^a-z])equalizer(?:[^a-z]|$)|(?:^|[^a-z])diplexer(?:[^a-z]|$)|(?:^|[^a-z])directional coupler(?:[^a-z]|$)/i },
+  // kind-layer (13 Sep 2026): + the Prisma II / GS7000 / RF Gateway modules and boards of III.0 item 6 — "P2-ICIM2,
+  // COMMUNICATION INTERFACE", "Cisco Prisma XD ICIM", "(P2-HM)HD Host Module", "Cisco Prisma II EDR Host Module with 2:1
+  // Tx", "Local Control Module (LCM) no SM Transponder", "GS7000 Local Cntrl Module(LCM)", "ASSY,GS7000 TRANSPONDER MOD",
+  // "GS7000,Assy,Mod,4X DOCSIS Status Monitor", "ASSY, PCB, DLTX CONTROL BD 1GHZ", "ASSY, PCB, P2 MINI BACKPLANE BOARD",
+  // "I/O BOARD RFGW-1-D", "RFGW-1-D Spare I/O Module", "ASSY, QAM BOARD RFGW-1-D", "RFGW-1-D QAM Module (2x4QAM)",
+  // "Octal Upgrade" (an RFGW-1 QAM upgrade module), "ASSY,PCB,GS7000 FCM,1X2,RDNDT,INJ,RX 1" (a forward configuration
+  // module, the name form of GS7K-FCM), the signal-director jumper and splitter kits (the name form of GS7K-SD),
+  // "ASSY,GS7000 AUX REV INJ DIR", and the OPTICAL SWITCH modules — "GS7000 Optical Switch", "Prisma 2 18x9 Optical
+  // Switch", "(P2-OPSW-SA) Opt Sw, 1310/1550nm, SA" — which the library has no noun for; a Prisma II optical switch is a
+  // slot module of the shelf and a GS7000 one a node plug-in, so `plug-in` (III.0 item 6 proposal, recorded).
+  { kind: "plug-in", re: /(?:^|[^a-z])OIB(?:[^a-z]|$)|(?:^|[^a-z])config module(?:[^a-z]|$)|(?:^|[^a-z])equalizer(?:[^a-z]|$)|(?:^|[^a-z])diplexer(?:[^a-z]|$)|(?:^|[^a-z])directional coupler(?:[^a-z]|$)|(?:^|[^a-z])ICIM\d?(?:[^a-z]|$)|(?:^|[^a-z])host\s+module(?:[^a-z]|$)|(?:^|[^a-z])LCM(?:[^a-z]|$)|(?:^|[^a-z])transponder\s+mod(?:ule)?(?:[^a-z]|$)|(?:^|[^a-z])status\s+monitor(?:[^a-z]|$)|(?:^|[^a-z])control\s+bd(?:[^a-z]|$)|(?:^|[^a-z])backplane\s+board(?:[^a-z]|$)|(?:^|[^a-z])(?:I\/O|QAM)\s+(?:board|module)(?:[^a-z]|$)|(?:^|[^a-z])octal\s+upgrade(?:[^a-z]|$)|(?:^|[^a-z])FCM(?:[^a-z]|$)|(?:^|[^a-z])signal\s+director(?:[^a-z]|$)|(?:^|[^a-z])aux\s+rev\s+inj(?:[^a-z]|$)|(?:^|[^a-z])opt(?:ical)?\s+sw(?:itch)?(?:[^a-z]|$)/i,
+    not: /(?:^|[^a-z])chassis(?:[^a-z]|$)/i },
   // A PRISMA II SHELF THAT NAMES ITSELF: "Prisma II Chassis, Frt Acc, 28F Conn, Frt Fan Exh,
   // 2/-48VDC Pwr". The SKU is a bare ordered number with no `P2-CH-` token, so only the name says it.
   // LAST, and with the mechanical tokens vetoed, because the word "chassis" appears in more rack-kit

@@ -57,7 +57,7 @@ import { COLLAB_ENDPOINT, COLLAB_CALLING, COLLAB_VIDEO, COLLAB_SCREEN, COLLAB_FI
 // device cups are asked of the same kind list any more.
 import { RT_PORTED, RT_COMPONENT } from "./routerKind.js"; // routers (12 Sep 2026)
 // optical-storage (12 Sep 2026)
-import { OPN_SHELF, OPN_PLUGGABLE, OPN_FIXED_WAVELENGTH, OPN_POWERED, OPN_WAVELENGTH_ROUTING, OPN_FITS } from "./opticalKind.js";
+import { OPN_SHELF, OPN_PLUGGABLE, OPN_FIXED_WAVELENGTH, OPN_POWERED, OPN_WAVELENGTH_ROUTING, OPN_FITS, type OpticalKind } from "./opticalKind.js";
 import { SAN_BOX, SAN_MODULE, SAN_FITS } from "./sanKind.js";
 // end optical-storage
 // modules-misc (12 Sep 2026)
@@ -1228,11 +1228,12 @@ SEC_FIREWALL.push("Secure Firewall 200 Series");
 //
 // R1: both gates are answered by construction. `kind` is derived from the SKU for every part
 // (partKind.ts) and `series` is a required, column-backed field.
-const secShape = (kinds: readonly SecurityKind[], series: readonly string[]): Requirement =>
+// kind-layer (13 Sep 2026): `opts` passes elseOpt through, for the archetype cups that were declared `opt` before.
+const secShape = (kinds: readonly SecurityKind[], series: readonly string[], opts?: { elseOpt?: boolean }): Requirement =>
   cond({ any: [
     { field: "kind", inList: [...kinds] },
     { all: [{ field: "kind", inList: ["appliance"] }, { field: "series", inList: [...series] }] },
-  ] });
+  ] }, opts);
 
 // servers (12 Sep 2026) ------------------------------------------------------------------------------
 // ONE QUESTION SET PER UCS KIND, shared by servers-unified-computing, hyperconverged-systems and
@@ -1329,7 +1330,21 @@ export const UCS_PROFILE_CATEGORIES = ["servers-unified-computing", "hyperconver
 // cisco-datasheets inventory (mapLabel, current rules; an upper bound — the inventory is not per category) and
 // the store (Cisco hardware in the three categories, live facts): see runs/reports/schema-collab-2026-09-12.md.
 // A cup with no label and no fact is declared OPTIONAL with its counts beside it, never required.
-const cK = (kinds: readonly string[]): Requirement => cond({ field: "kind", inList: [...kinds] });
+// kind-layer (13 Sep 2026): `elseOpt` — a cup the spec archetype adds to a kind is required of that kind and OPTIONAL (not
+// n/a) for the rest; false keeps the exact shape every existing gate had.
+const cK = (kinds: readonly string[], elseOpt = false): Requirement => cond({ field: "kind", inList: [...kinds] }, { elseOpt });
+/** kind-layer (13 Sep 2026): a wireless AP ROLE addition — required of an access point whose derived `deploy_role` is one of
+ *  `roles`, optional for every other part (rule 7: a role delta never makes `na`; an unresolved role gets the core). */
+const apRole = (roles: string[]): Requirement =>
+  cond({ all: [{ field: "kind", inList: ["ap"] }, { field: "deploy_role", inList: roles }] }, { elseOpt: true });
+// kind-layer (13 Sep 2026) — THE SPEC v2 PROPOSAL, NOT YET MEASURED (operator, 13 Sep: the cup bar is "printed on the
+// page, per part", measured centrally by the parent after merge, which demotes what the page refuses). Nothing required
+// today is demoted here; the spec I.4 archetype cups of each collaboration kind that were not asked are ADDED as required
+// (`elseOpt`, so they stay optional for the kinds that do not own them), the PHONE role delta of spec II.10/I.4
+// (wifi_generation for the wireless role) is added, and archetype-optional cups stay optional. The (kind, role, cup,
+// proposed status) list the parent measures is in D:/tmp/kindlayer-impl/3-wireless-collab/REPORT.md.
+// NOT APPLIED, domain conflicts listed for the parent: CABLE `connector` / `media` (optical and RJ45 domains; these are
+// HDMI, USB, DisplayPort and headset cables).
 const collabBlock = (): Record<string, Requirement> => ({
   vendor: req, series: req,
   // --- the envelope of anything with its own specification sheet ----------------------------------------
@@ -1359,14 +1374,32 @@ const collabBlock = (): Record<string, Requirement> => ({
   // 22 with 4 — thin, and no thinner than servers-unified-computing itself (9.8%), where the same two
   // cups are required. A gap that can be named beats a question nobody asks.
   memory_max: cK(["server"]), cpu_sockets_max: cK(["server"]),
+  // kind-layer (13 Sep 2026): the rest of the SERVER archetype (dimm_slots, drive_bays, pcie_slots, memory_speed_max), the
+  // CPU archetype (cores, clock, cache, tdp, memory speed) and the MEMORY archetype (dram, speed) — the server parts split
+  // out of `server-component` ask the UCS component sets (rule 3).
+  dimm_slots: cK(["server"], true), drive_bays: cK(["server"], true), pcie_slots: cK(["server"], true),
+  memory_speed_max: cK(["server", "cpu", "memory"], true),
+  tdp: cK(["cpu"], true), clock_speed: cK(["cpu"], true), cpu_cores: cK(["cpu"], true), cpu_cache: cK(["cpu"], true),
+  dram: cK(["memory"], true),
+  // DRIVE (capacity, interface, drive_form_factor NEW), STORAGE-CONTROLLER (raid level, interface), NIC (ports below, data
+  // rate, card size).
+  storage_capacity: cK(["drive"], true), drive_interface: cK(["drive", "storage-controller"], true), drive_form_factor: cK(["drive"], true),
+  // raid_level and pcie_card_size are FREE STRINGS (type s) with no recorded decision, and tests/freeStringCups refuses a
+  // required free string: proposed required by the archetypes, kept OPTIONAL here and listed for the parent.
+  raid_level: opt,
+  data_rate: cK(["nic"], true), pcie_card_size: opt,
+  dimm_ranks: opt, dimm_voltage: opt, cpu_boost_clock: opt,
   // --- calling ------------------------------------------------------------------------------------------
   // supported_protocols: 347 facts (SIP, H.323 ... on phones). ui_languages: 323 facts (phone firmware).
   supported_protocols: cK([...COLLAB_CALLING, "dect-base"]),
   ui_languages: cK(["phone", ...COLLAB_VIDEO]),
   // audio codecs: 80 facts; "Audio codec support" 10 mapped, and "Codecs"/"Codec support" (13) aliased today.
   audio_codecs: cK([...COLLAB_CALLING]),
-  // the network ports a phone, a room device or a gateway carries (LAN + PC port, codec Ethernet)
-  ports: cK(["phone", "dect-base", ...COLLAB_VIDEO, "gateway", "ata"]),
+  // the network ports a phone, a room device or a gateway carries (LAN + PC port, codec Ethernet), and a NIC’s
+  ports: cK(["phone", "dect-base", ...COLLAB_VIDEO, "gateway", "ata", "nic"]),
+  // kind-layer (13 Sep 2026): the PHONE role delta — a WIRELESS phone is asked its Wi-Fi generation (spec I.4 PHONE:
+  // wifi_generation (g: deploy_role = wireless)). Optional for every other phone and kind, never n/a.
+  wifi_generation: cond({ all: [{ field: "kind", inList: ["phone"] }, { field: "deploy_role", inList: ["wireless"] }] }, { elseOpt: true }),
   // --- screens ------------------------------------------------------------------------------------------
   // "Display" 39 + "Graphical display" 19 + "Hardware Features: Graphical display" 7 map; the samples are phone,
   // Room Navigator and Touch 10 sheets. A codec, a bar and a kit drive external screens and have none.
@@ -1378,45 +1411,69 @@ const collabBlock = (): Record<string, Requirement> => ({
   // OPTIONAL until measured over held parts. So the screen keeps its required `display` (free text by decision,
   // docs/decisions/2026-09-13-free-string-cups.md#display) and the split keys wait, optional, for III.0's
   // label-share table to promote them.
+  // kind-layer (13 Sep 2026): the DISPLAY and TOUCH-PANEL archetypes name display_size and touchscreen — proposed
+  // required of those two kinds (the parent’s printed measurement decides); the phone’s screen size stays optional.
+  // NOT applied as required, both listed for the parent: display_size (the phase-1 display decision keeps the split keys
+  // optional until a label is routed to them — tests/freeStringCups pins it) and touchscreen (a free string, no decision).
   display: cK(COLLAB_SCREEN), display_size: opt, display_resolution: opt,
+  touchscreen: opt,
   // lines a phone registers — 6 facts, "Voice Lines" 6 mapped. Band in BAND_OVERRIDES.
   voice_lines: cK(["phone"]),
   // --- video --------------------------------------------------------------------------------------------
   // "Video standards" 27 mapped (CE software sheets), "Video standards supported" 6 aliased today.
   video_codecs: cK(COLLAB_VIDEO),
   // "Resolution" 5 mapped (Room Navigator / Touch 10), "Video resolution" 12 aliased today (collab-scoped).
-  max_resolution: cK([...COLLAB_VIDEO, "camera", "touch-panel"]),
+  // kind-layer (13 Sep 2026): + display (DISPLAY archetype: max_resolution).
+  max_resolution: cK([...COLLAB_VIDEO, "camera", "touch-panel", "display"]),
+  // kind-layer (13 Sep 2026): a codec’s video inputs and outputs (VIDEO-CODEC archetype).
+  // (free strings with no recorded decision: proposed required by VIDEO-CODEC, kept optional, listed for the parent)
+  video_inputs: opt, video_outputs: opt,
   // --- cameras --------------------------------------------------------------------------------------------
   // A camera is bought on resolution, zoom and field of view: "Field of view" 16 mapped, "Zoom" 8 aliased today.
-  camera_zoom: cK(["camera"]), field_of_view: cK(["camera"]),
+  // kind-layer (13 Sep 2026): + video-device (VIDEO-DEVICE archetype: an integrated room system’s camera).
+  camera_zoom: cK(["camera", "video-device"]), field_of_view: cK(["camera", "video-device"]),
   camera_pan_tilt_range: opt,            // 0 labels, 0 facts — a PTZ-only figure; declared, not required
+  // kind-layer (13 Sep 2026): how a room device, a camera and a display are mounted (their archetypes). `mechanical` is
+  // added by the fallback-kinds loop at the foot of this file.
+  mounting: cK(["video-device", "camera", "display"], true),
   // --- audio ----------------------------------------------------------------------------------------------
   // mic_type: "Microphone type" 6, aliased today; the samples are headset sheets (950 earbuds), so it is asked
   // of a headset. A table or ceiling microphone's type is not in the inventory at all:
   // Gated on microphones too: a cond that excludes a kind makes the cup `na` for it, and a microphone's type is
   // never not-applicable. The label evidence is headset sheets only (Table / Ceiling Mic Pro sheets not held).
   mic_type: cK(["headset", "microphone"]),
-  mic_pickup_range: opt,                 // 0 labels, 0 facts (Table Mic Pro / Ceiling Mic Pro sheets not held)
+  // kind-layer (13 Sep 2026): MICROPHONE archetype (was optional: 0 labels, 0 facts — the parent’s measurement decides).
+  // (a free string with no recorded decision: proposed required by MICROPHONE, kept optional, listed for the parent)
+  mic_pickup_range: opt,
   mic_frequency_response: opt,           // "Microphone frequency response" 6, headset sheets — aliased, optional
   speaker_frequency_response: opt,       // "Speaker bandwidth" 5, headset sheets — aliased, optional
   speaker_impedance: opt, speaker_size: opt, // "Speaker impedance" 6 / "Speaker size" 6 — aliased, optional
+  // kind-layer (13 Sep 2026): HEADSET (headset_support), DECT-BASE (handset) and EXPANSION-MODULE (keys_buttons) archetypes.
+  // (all three are free strings with no recorded decision: proposed required, kept optional, listed for the parent)
+  headset_support: opt, handset: opt, keys_buttons: opt,
   // --- voice gateways and adapters ----------------------------------------------------------------------
   // FXS is what an analog gateway or ATA is bought on: 10 facts (VG 2..144). FXO is NOT universal (VG350 is
   // FXS-only; 6 facts, one stores 0) and a gate on it would be a gate on an optional fact — it stays optional.
-  fxs_ports: cK(["gateway", "ata"]), fxo_ports: opt,
+  // kind-layer (13 Sep 2026): the GATEWAY archetype lists fxo_ports as required — proposed required of a gateway (a
+  // gateway with no FXO port states 0; the parent’s measurement decides).
+  fxs_ports: cK(["gateway", "ata"]), fxo_ports: cK(["gateway"], true),
   // --- what a part fits --------------------------------------------------------------------------------
   // A voice card, a server CPU, a PSU, a key expansion module: bought for its host. "Product compatibility" 92,
   // "Chassis compatibility" 36, "Chassis support" 23 map (switch and optical sheets — an upper bound here).
   // 12 Sep 2026 (reviewer §2.3): the ACCESSORY and the misfiled transceiver join COLLAB_FITS here. Both were asked
   // nothing — 642 accessories in collaboration-endpoints, 42 in UC, 1 in conferencing, 8 optics — which scores
   // every one of them complete. What a mount, a bracket, a stand or a cable fits is the one thing it is bought on.
-  product_compatibility: cK([...COLLAB_FITS, "accessory", "transceiver", ...COLLAB_CABLE]),
-  psu_rated_output: cK(["power-supply"]),
-  cable_length: cK(COLLAB_CABLE), plug_type: opt,
+  // kind-layer (13 Sep 2026): + camera, microphone, speaker, touch-panel and dect-base (their archetypes list COMPAT).
+  product_compatibility: cK([...COLLAB_FITS, "accessory", "transceiver", ...COLLAB_CABLE, "camera", "microphone", "speaker", "touch-panel", "dect-base"], true),
+  // kind-layer (13 Sep 2026): `power-supply` -> `power` (III.1) — the PSU archetype, one set across categories: rated
+  // output (today), input voltage and airflow (added; III.0 item 6 "psu -> power adds cups").
+  psu_rated_output: cK(["power"]), input_voltage: cK(["power"], true), airflow: cK(["power"], true),
+  // kind-layer (13 Sep 2026): POWER-CORD archetype — plug type and cord rating join the length.
+  // (plug_type and power_cord_rating are free strings with no recorded decision: proposed required, kept optional, listed)
+  cable_length: cK(COLLAB_CABLE), plug_type: opt, power_cord_rating: opt,
   // declared, not required — no label, or only another category's
-  video_inputs: opt, video_outputs: opt, keys_buttons: opt, headset_support: opt, handset: opt, touchscreen: opt,
-  bluetooth_version: opt, call_control: opt, cucm_versions: opt, mounting: opt, altitude_max: opt,
-  input_voltage: opt, cpu: opt, storage_raw_capacity: opt, psu_config: opt, content_share_resolution: opt,
+  bluetooth_version: opt, call_control: opt, cucm_versions: opt, altitude_max: opt,
+  cpu: opt, storage_raw_capacity: opt, psu_config: opt, content_share_resolution: opt,
   license_type: opt, license_for: opt,
 });
 // end collab --------------------------------------------------------------------------------------------------
@@ -1445,16 +1502,16 @@ const rtRoleAdd = (roles: readonly string[], kinds: readonly string[] = []): Req
 const rtKinds = (kinds: readonly string[]): Requirement => cond({ field: "kind", inList: [...kinds] }, { elseOpt: true });
 // --- end kind-layer routers helpers ------------------------------------------------------------------------------
 // --- kind-layer (13 Sep 2026): switches role conditions ----------------------------------------------------------------
-// The switch cup set is the kind's core with per-ROLE deltas (`deploy_role`, derived by src/core/deployRole.ts). Two shapes,
+// The switch cup set is the kind’s core with per-ROLE deltas (`deploy_role`, derived by src/core/deployRole.ts). Two shapes,
 // exactly as docs/decisions/2026-09-13-kind-layer-cisco.md prescribes, both `elseOpt` because a role delta moves a cup to
 // OPTIONAL, never `na` (spec v2 rule 7):
 //   swExcept(roles, kinds)  required of these other kinds, and of a switch UNLESS its role is one of `roles`. `notInList` is
-//                           true for an absent role, so an unresolved role keeps the core — never the smallest role's set.
+//                           true for an absent role, so an unresolved role keeps the core — never the smallest role’s set.
 //   swOnly(roles, kinds)    required of these other kinds, and of a switch ONLY when its role is one of `roles`; the core
 //                           (no role) does not get it.
-// OPERATOR, 13 Sep 2026 (supersedes the decision record's mapped-share bar): no cup is demoted on a measurement here. Every
+// OPERATOR, 13 Sep 2026 (supersedes the decision record’s mapped-share bar): no cup is demoted on a measurement here. Every
 // cup required today stays required; the spec v2 archetype cups a kind or role does not ask today are ADDED as required
-// (proposed) and the parent's central PRINTED-ON-THE-PAGE measurement demotes what the pages refuse. So these helpers
+// (proposed) and the parent’s central PRINTED-ON-THE-PAGE measurement demotes what the pages refuse. So these helpers
 // carry role ADDITIONS only (swOnly); swExcept is kept for the day a measured role demotion lands.
 type SwRole = "smb" | "access" | "core-agg" | "datacenter" | "industrial";
 const swRole = (op: "inList" | "notInList", roles: readonly SwRole[], kinds: readonly string[]): Requirement => {
@@ -1658,10 +1715,24 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   //       the wavelength. On a passive it is the channel LIST, which no numeric key can hold.
   //   module_slots, rack_units — 0 labels in the 88 video documents and 0 facts.
   //   cable_length, product_compatibility — 0 video labels, 0 video facts; the switches evidence is switch SKUs.
+  // --- kind-layer (13 Sep 2026): SPEC v2 ARCHETYPE CUPS ADDED AS REQUIRED — PROPOSALS FOR THE PARENT’S MEASUREMENT ------
+  // Operator instruction of 13 Sep 2026: no cup is demoted here on a mapped share; every cup required today stays, and
+  // each spec I.4 HFC-library cup a video kind is not asked today is added REQUIRED for the parent’s central PRINTED
+  // measurement to keep or demote. The (kind, cup) list with the III.0 mapped shares is in
+  // D:\tmp\kindlayer-impl\5-security-video-optical\REPORT.md. Additions:
+  //   TRANSMITTER + product_compatibility            RECEIVER + rf_output_level, product_compatibility
+  //   NODE + rf_output_level, input_power_range      RF-AMPLIFIER + rf_output_level, power_max (its `gain` is today’s rf_gain)
+  //   AMPLIFIER + gain, noise_figure, total_output_power
+  //   CHASSIS (chassis, system) + module_slots, form_factor, rack_units, psu_config
+  //   LINECARD (renamed from `line-card`) + ports, data_rate, power_max      CABLE + connector, media
+  // Declared-optional keys stay declared for every other kind (elseOpt). The paragraph above records why several of
+  // these were opt — rf_output_level / noise_figure / total_output_power are typed strings with no band, and form_factor’s
+  // domain has no strand-mount value — and those blockers go to the parent with the list. `optic` is unchanged: spec
+  // II.9 names no archetype for the fixed-optics modules it keeps (the pluggable RPHY optics move to transceiver).
   video: {
     vendor: req, series: req,
     rf_gain: cond({ field: "kind", inList: ["node", "rf-amplifier"] satisfies VideoKind[] }),
-    power_max: cond({ field: "kind", inList: [...VIDEO_BOX] }),
+    power_max: cond({ field: "kind", inList: [...VIDEO_BOX, "rf-amplifier", "linecard"] satisfies VideoKind[] }, { elseOpt: true }),
     temp_operating: cond({ field: "kind", inList: [...VIDEO_BOX] }),
     humidity_operating: cond({ field: "kind", inList: [...VIDEO_BOX] }),
     dimensions: cond({ field: "kind", inList: [...VIDEO_BOX] }),
@@ -1669,23 +1740,39 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     certifications: cond({ field: "kind", inList: ["chassis", "system"] satisfies VideoKind[] }),
     wavelength: cond({ field: "kind", inList: [...VIDEO_EMITTER] }),
     tx_power: cond({ field: "kind", inList: [...VIDEO_EMITTER, "amplifier"] }),
-    input_power_range: cond({ field: "kind", inList: ["receiver", "amplifier"] satisfies VideoKind[] }),
+    input_power_range: cond({ field: "kind", inList: ["receiver", "amplifier", "node"] satisfies VideoKind[] }),
     rx_wavelength: cond({ field: "kind", inList: ["amplifier"] satisfies VideoKind[] }),
     standard: cond({ field: "kind", inList: ["passive"] satisfies VideoKind[] }),
     insertion_loss_max: cond({ field: "kind", inList: ["passive"] satisfies VideoKind[] }),
     input_voltage: cond({ field: "kind", inList: ["power"] satisfies VideoKind[] }),
     // the conferencing and switch-shaped questions this category was asked, now optional (see above)
-    video_codecs: opt, max_resolution: opt, form_factor: opt,
-    passband: opt, rf_output_level: opt, gain: opt, noise_figure: opt, connector: opt, itu_channel: opt,
-    rf_input_level: opt, modulation_type: opt, laser_type: opt, tuning_range: opt, total_output_power: opt,
+    video_codecs: opt, max_resolution: opt,
+    form_factor: cond({ field: "kind", inList: ["chassis", "system"] satisfies VideoKind[] }, { elseOpt: true }),
+    passband: opt, itu_channel: opt,
+    // rf_output_level (NODE / RECEIVER / RF-AMPLIFIER), noise_figure and total_output_power (AMPLIFIER) are PROPOSED
+    // required and ENTERED OPTIONAL: each is type `s` with no domain, and tests/freeStringCups refuses a required
+    // free-string cup without a recorded decision (docs/decisions/2026-09-13-free-string-cups.md) — the retype this block’s
+    // header already asks for is the parent’s dictionary call. `gain` is `nr` in dB and is added required.
+    rf_output_level: opt,
+    gain: cond({ field: "kind", inList: ["amplifier"] satisfies VideoKind[] }, { elseOpt: true }),
+    noise_figure: opt,
+    total_output_power: opt,
+    connector: cond({ field: "kind", inList: ["cable"] satisfies VideoKind[] }, { elseOpt: true }),
+    media: cond({ field: "kind", inList: ["cable"] satisfies VideoKind[] }, { elseOpt: true }),
+    ports: cond({ field: "kind", inList: ["linecard"] satisfies VideoKind[] }, { elseOpt: true }),
+    data_rate: cond({ field: "kind", inList: ["linecard"] satisfies VideoKind[] }, { elseOpt: true }),
+    psu_config: cond({ field: "kind", inList: ["chassis", "system"] satisfies VideoKind[] }, { elseOpt: true }),
+    rf_input_level: opt, modulation_type: opt, laser_type: opt, tuning_range: opt,
     // 12 Sep 2026 (reviewer §2.3, and the asked-nothing census): a line card (95), a plug-in (177), a fan (10),
     // a cable (56) and an accessory (85) were asked NOTHING, so all 423 scored complete. What each one fits is
     // the question a cable-plant part is bought on — a GS7000 plug-in is ordered for a housing, a line card for
     // a shelf — and a cable also owes its length. The values a plug-in and a line card carry (pad attenuation,
     // equaliser value) have no cup yet and no label: that is in the report as an open question, not invented here.
-    product_compatibility: cond({ field: "kind", inList: ["line-card", "plug-in", "fan", "cable", "accessory", "power"] }),
+    // kind-layer (13 Sep 2026): `line-card` -> `linecard`; + transmitter, receiver (TRANSMITTER / RECEIVER archetypes).
+    product_compatibility: cond({ field: "kind", inList: ["linecard", "plug-in", "fan", "cable", "accessory", "power", "transmitter", "receiver"] satisfies VideoKind[] }),
     cable_length: cond({ field: "kind", inList: ["cable"] }),
-    module_slots: opt, rack_units: opt,
+    module_slots: cond({ field: "kind", inList: ["chassis", "system"] satisfies VideoKind[] }, { elseOpt: true }),
+    rack_units: cond({ field: "kind", inList: ["chassis", "system"] satisfies VideoKind[] }, { elseOpt: true }),
     // 12 Sep 2026: a video power supply owes what it delivers, like every other category power kind.
     psu_rated_output: cond({ field: "kind", inList: ["power"] satisfies VideoKind[] }),
     airflow: cond({ field: "kind", inList: ["power", "fan"] satisfies VideoKind[] }),
@@ -1854,7 +1941,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // OPERATOR BAR: nothing is demoted on a measurement; every kind = its library kind + the Meraki delta, with the library
     // cups a kind does not ask today ADDED as proposed required (the block after the STRUCTURE lines below). Two exceptions,
     // both from the spec itself: `unknown` (MCS1-MCS6, placeholder names, no document) asks NOTHING — spec II.15 "unknown
-    // asks <= 1 cup" and the brief's rule 4 — so MK_BOX / MK_POWERED are read without it here; and `cloud_management`,
+    // asks <= 1 cup" and the brief’s rule 4 — so MK_BOX / MK_POWERED are read without it here; and `cloud_management`,
     // `sensors`, `cellular_category` stay optional although the spec proposes them required, because each is a free string
     // (type s, no domain; cloud_management is `b, derived true` in the spec) and tests/freeStringCups.test.ts refuses a
     // required free string without a recorded decision.
@@ -1869,7 +1956,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // kind-layer: + appliance (APPLIANCE = ENV + ports; an MX is desktop or rack-19, both in the domain).
     form_factor: cond({ field: "kind", inList: ["switch", "appliance"] }),
     // DEMOTED 12 Sep 2026 (0 of 283; the Meraki source publishes safety_standards). kind-layer: proposed REQUIRED again of
-    // the switch (ENV), access point (AP) and appliance (ENV) — the parent's printed measurement decides.
+    // the switch (ENV), access point (AP) and appliance (ENV) — the parent’s printed measurement decides.
     certifications: cond({ field: "kind", inList: ["switch", "access-point", "appliance"] }), safety_standards: opt, emc_emissions: opt,
     power_max: cond({ field: "kind", inList: MK_POWERED.filter((k) => k !== "unknown") }),
     ports: cond({ field: "kind", inList: [...MK_PORTED] }),
@@ -1940,7 +2027,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     radio_count: cond({ field: "kind", inList: ["access-point"] }),
     spatial_streams: cond({ field: "kind", inList: ["access-point"] }),
     antenna_type: cond({ field: "kind", inList: ["access-point"] }),
-    // An MV camera's spec gate (deploy_role = outdoor) is NOT written: a camera has no role axis (deployRole.ts), so that
+    // An MV camera’s spec gate (deploy_role = outdoor) is NOT written: a camera has no role axis (deployRole.ts), so that
     // clause could never fire and would read as a rule nothing satisfies.
     ip_rating: cond({ all: [{ field: "kind", inList: ["access-point"] }, { field: "deploy_role", inList: ["outdoor", "industrial"] }] }, { elseOpt: true }),
     // security appliance (FIREWALL) — kept under the kind name `appliance` (no III.1 rename).
@@ -2035,13 +2122,13 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     rfc_compliance: opt, emc_immunity: opt, emc_emissions: opt, power_full_load: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req,
     // ===== KIND LAYER (13 Sep 2026) — docs/decisions/2026-09-13-kind-layer-cisco.md, spec v2 §II.1 ======================
-    // OPERATOR BAR: nothing below is demoted on a measurement. Every cup a kind asked on 0e22f85 is still asked; the spec's
-    // archetype cups a kind or a ROLE did not ask are added as required — PROPOSED, for the parent's printed-on-the-page
+    // OPERATOR BAR: nothing below is demoted on a measurement. Every cup a kind asked on 0e22f85 is still asked; the spec’s
+    // archetype cups a kind or a ROLE did not ask are added as required — PROPOSED, for the parent’s printed-on-the-page
     // measurement to confirm or demote. What changed, and why, per cup:
     //   switch     `ports` required unconditionally (the chassis is its own kind, so the modular-chassis clause is gone).
     //              Roles (`deploy_role`, swOnly): core-agg + fabric_bandwidth, psu_redundant (ungated); datacenter + latency,
     //              fabric_bandwidth (gated on a modular form factor); industrial + ip_rating (ungated), mounting.
-    //              The spec's smb demotions are NOT applied (a demotion is the measurement's call).
+    //              The spec’s smb demotions are NOT applied (a demotion is the measurement’s call).
     //   chassis    NEW: the CHASSIS archetype — module_slots, form_factor, rack_units, dimensions, weight, psu_config;
     //              psu_count, fan_tray_bays, fabric_bandwidth, power_max, airflow optional. A chassis is not asked the
     //              switch set its rows carried as kind `switch` (layer 2 is membership, not a demotion).
@@ -2411,6 +2498,38 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     certifications: cond({ field: "kind", inList: [...SEC_BOX] }),
     psu_config: opt, psu_redundant: opt, power_typical: opt, altitude_max: opt, mtbf: opt,
 
+    // --- kind-layer (13 Sep 2026): SPEC v2 ARCHETYPE CUPS ADDED AS REQUIRED — PROPOSALS FOR THE PARENT’S MEASUREMENT ---
+    // Operator instruction of 13 Sep 2026: no cup is demoted on a mapped share here. Every cup required today stays
+    // required, and each spec I.4 archetype cup a target kind is not asked today is added REQUIRED, so the parent’s
+    // central PRINTED-per-part measurement can keep or demote it. The (kind, cup) list is in
+    // D:\tmp\kindlayer-impl\5-security-video-optical\REPORT.md with the III.0 mapped shares beside each. Keys that were
+    // declared `opt` for the category keep being declared for every other kind (elseOpt).
+    //   APPLIANCE (every box shape) + ports;  FIREWALL + new_conn_per_sec;  MANAGEMENT + managed_devices_max;
+    //   ANALYTICS + flows_per_second;  IDENTITY + max_endpoints;  MODULE + data_rate;  NIC + data_rate, pcie_card_size;
+    //   CPU (split out of `compute`) + cpu_cores, clock_speed, cpu_cache, tdp, memory_speed_max;
+    //   STORAGE-CONTROLLER + raid_level, drive_interface;  DRIVE + drive_form_factor;  CABLE + connector, media.
+    // NOT added, each a recorded decision: the blades (`security-module`, `ips-module`) are kept named kinds rather than
+    // folded into MODULE, so they are not given MODULE’s ports / data_rate — FPR9K-SM-36 has no front ports at all
+    // (the refusal tests/securityShapes pins); the residual `compute` (risers, carriers) is not a SERVER (0 of 131 rows).
+    new_conn_per_sec: secShape(["firewall"], SEC_FIREWALL, { elseOpt: true }),
+    managed_devices_max: secShape(["management"], SEC_MGMT, { elseOpt: true }),
+    flows_per_second: secShape(["analytics"], SEC_ANALYTICS, { elseOpt: true }),
+    max_endpoints: secShape(["identity"], SEC_IDENTITY, { elseOpt: true }),
+    data_rate: cond({ field: "kind", inList: ["module", "nic"] satisfies SecurityKind[] }, { elseOpt: true }),
+    // pcie_card_size (NIC) and raid_level (STORAGE-CONTROLLER) are PROPOSED required and ENTERED OPTIONAL: both are type `s`
+    // with no domain, and tests/freeStringCups refuses a required free-string cup without a recorded decision
+    // (docs/decisions/2026-09-13-free-string-cups.md). Closing, retyping or allowing them is the parent’s dictionary call.
+    pcie_card_size: opt,
+    cpu_cores: cond({ field: "kind", inList: ["cpu"] satisfies SecurityKind[] }, { elseOpt: true }),
+    clock_speed: cond({ field: "kind", inList: ["cpu"] satisfies SecurityKind[] }, { elseOpt: true }),
+    cpu_cache: cond({ field: "kind", inList: ["cpu"] satisfies SecurityKind[] }, { elseOpt: true }),
+    tdp: cond({ field: "kind", inList: ["cpu"] satisfies SecurityKind[] }, { elseOpt: true }),
+    raid_level: opt, // proposed required (STORAGE-CONTROLLER) — a free string; see pcie_card_size
+    drive_form_factor: cond({ field: "kind", inList: ["drive"] satisfies SecurityKind[] }),
+    connector: cond({ field: "kind", inList: ["cable"] satisfies SecurityKind[] }, { elseOpt: true }),
+    media: cond({ field: "kind", inList: ["cable"] satisfies SecurityKind[] }, { elseOpt: true }),
+    // --- end kind-layer archetype cups (the edits to ports / drive_interface / memory_speed_max are marked below) ----
+
     // BY SHAPE — `secShape` above: the kind the SKU names, or the series where it names none. Each of
     // these was `req` for all 6,689 hardware parts until 8 Sep 2026 and series-gated until 12 Sep.
     firewall_throughput: secShape(SEC_FIREWALL_KIND, SEC_FIREWALL),
@@ -2490,7 +2609,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     ] }),
     // 12 Sep 2026, the cross-category test: servers and hyperconverged ask a drive its INTERFACE beside its
     // capacity, and a firewall's spare SSD is bought the same way. The same cup, the same meaning, everywhere.
-    drive_interface: cond({ field: "kind", inList: ["drive"] }),
+    // kind-layer (13 Sep 2026): + `storage-controller` (STORAGE-CONTROLLER archetype: the interface a RAID card drives).
+    drive_interface: cond({ field: "kind", inList: ["drive", "storage-controller"] satisfies SecurityKind[] }),
 
     // --- WHAT A COMPONENT IS BOUGHT ON (12 Sep 2026, reviewer §4b) --------------------------------
     // WHAT IT FITS is the first question asked of a power supply, a fan, a blade or a rail kit, and
@@ -2533,7 +2653,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // every one of these 61 names states it — "32GB DDR4-2933-MHz RDIMM/2Rx4/1.2v". Security holds
     // none yet, which is coverage, not schema — the psu_rated_output argument three cups above.
     dram: cond({ field: "kind", inList: ["memory"] }),
-    memory_speed_max: cond({ field: "kind", inList: ["memory"] }),
+    // kind-layer (13 Sep 2026): + `cpu` (CPU archetype: the highest DIMM speed a processor supports, as UCS asks it).
+    memory_speed_max: cond({ field: "kind", inList: ["memory", "cpu"] satisfies SecurityKind[] }),
     // A network module is bought on its ports and nothing else — FPR-NM-8X10G, ASA-IC-6GE-CU-A,
     // FPR4K-XNM-2X400G. 80 of the category's ports facts already sit on module-kind parts and the
     // struct parser is the switches one. NOT asked of the service blades: an FPR9K-SM-36 has no front
@@ -2556,7 +2677,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     ports: cond({ any: [
       // `nic` joins `module` (security-r6): a CCS-P-IQ10GC is "4x10 GbE RJ45 PCIe NIC" and six of
       // the 31 already hold the struct. Same cup, same parser, a card is a card.
-      { field: "kind", inList: ["module", "nic", "firewall"] },
+      // kind-layer (13 Sep 2026): + every APPLIANCE box shape — spec v2 I.4 puts `ports` in the APPLIANCE archetype, so it
+      // is proposed here for the parent’s printed measurement (the r6 caution above about the analytics model-number
+      // value stands and is repeated in the report). Still not the blades.
+      { field: "kind", inList: ["module", "nic", "firewall", "ips", "management", "analytics", "web-gateway", "email-gateway", "identity"] satisfies SecurityKind[] },
       { all: [{ field: "kind", inList: ["appliance"] }, { field: "series", inList: [...SEC_FIREWALL] }] },
     ] }),
 
@@ -2630,7 +2754,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // same: report, do not apply.
     license_type: opt, license_term: opt, license_seats: opt,
     license_for: opt, delivery_method: opt,
-    max_endpoints: opt, managed_devices_max: opt, flows_per_second: opt,
+    // kind-layer (13 Sep 2026): max_endpoints, managed_devices_max and flows_per_second are now declared ABOVE, as
+    // archetype proposals (IDENTITY / MANAGEMENT / ANALYTICS). The source-fields refusal this paragraph records is
+    // repeated in the report so the parent’s printed measurement weighs it; a key declared twice here would let the later
+    // `opt` silently override the proposal, so these three are not re-declared.
     ddos_mitigation_throughput: opt,
     // events_per_second JOINS THEM, 8 Sep 2026, and the correction is worth recording because it
     // was the same mistake in a different direction. I gated it on management + analytics because
@@ -2676,7 +2803,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // is one token in COUNT_LIKE, which changes what the normaliser accepts and therefore needs a
     // NORM_VERSION bump, so it is the parent's: PROPOSAL in the report, not done here. Requiring
     // the cup before that lands would create 450 gaps nothing could close.
-    new_conn_per_sec: opt,
+    // kind-layer (13 Sep 2026): now declared ABOVE as the FIREWALL archetype proposal; the COUNT_LIKE blocker in this
+    // paragraph is repeated in the report for the parent’s measurement. Not re-declared here (a later `opt` would win).
     vpn_throughput: opt, threat_defense_throughput: opt,
     nat_sessions: opt, ipsec_tunnels: opt,
     ssl_connections_per_sec: opt, attack_concurrent_sessions: opt, uc_proxy_sessions: opt,
@@ -2698,15 +2826,43 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // wifi_generation is THE cup for the 802.11 generation here. `standard` holds the same quantity in this
     // category (775 mined "802.11ac"/"802.11n" values, pattern wl-ieee-80211) and cannot be retired globally —
     // it is the transceiver's transmission standard. It is declared optional below and the rekey is a proposal.
-    wifi_generation: cond({ field: "kind", inList: [...WL_AP] }),
-    spatial_streams: cond({ field: "kind", inList: [...WL_AP] }),
-    ap_max_clients: cond({ field: "kind", inList: [...WL_AP] }),
+    // kind-layer (13 Sep 2026) — THE SPEC v2 PROPOSAL, NOT YET MEASURED (operator, 13 Sep: the cup bar is "printed on the
+    // page, per part", measured centrally by the parent after merge, which demotes what the page refuses). So nothing that
+    // is required today is demoted here, and the AP archetype’s required cups (spec I.4 AP) plus the role deltas of
+    // spec II.4 are ADDED as required:
+    //   ap + backhaul (AP + link_budget, max_roaming_speed) + sensor (the 15 AIR-AP1800S network sensors: not in the spec
+    //   library, they keep exactly what they were asked as `ap` until today): wifi_generation, radio_bands, spatial_streams,
+    //   antenna_type, poe_standard, power_max, ports, dimensions, weight, temp_operating, certifications;
+    //   radio_count NEW required of ap and backhaul; ap_max_clients stays required of ap / sensor (spec: optional).
+    //   roles: outdoor + ip_rating, + antenna_connector; industrial + ip_rating, + input_voltage (DC); smb and
+    //   mesh-extender deltas are demotions (regulatory_domain, ap_max_clients; ports) and are listed for the parent’s
+    //   measurement, not applied. wind_rating, max_mesh_extenders stay optional (generated half).
+    // The (kind, role, cup, proposed status) list is in D:/tmp/kindlayer-impl/3-wireless-collab/REPORT.md.
+    wifi_generation: cond({ field: "kind", inList: [...WL_AP, "sensor", "backhaul"] }),
+    spatial_streams: cond({ field: "kind", inList: [...WL_AP, "sensor", "backhaul"] }),
+    ap_max_clients: cond({ field: "kind", inList: [...WL_AP, "sensor"] }),
     // Band coverage is what an AP, a backhaul radio AND an antenna are matched on ("2.4 GHz 4dBi/5 GHz 7dBi").
-    radio_bands: cond({ field: "kind", inList: [...WL_AP, "antenna", "backhaul"] }),
-    radio_count: opt, max_data_rate: opt, tx_power: opt, rx_sensitivity: opt, max_ssids: opt,
+    radio_bands: cond({ field: "kind", inList: [...WL_AP, "sensor", "antenna", "backhaul"] }),
+    radio_count: cond({ field: "kind", inList: [...WL_AP, "backhaul"] }, { elseOpt: true }),
+    max_data_rate: opt, tx_power: opt, rx_sensitivity: opt, max_ssids: opt,
     // The PoE class an AP DRAWS. Required of APs, and of an injector (the class it SUPPLIES).
-    poe_standard: cond({ field: "kind", inList: [...WL_AP, "power-injector"] }),
+    poe_standard: cond({ field: "kind", inList: [...WL_AP, "sensor", "backhaul", "power-injector"] }),
     ports: cond({ field: "kind", inList: [...WL_PORTED] }),
+    // kind-layer (13 Sep 2026): the backhaul radio’s own additions (spec II.4: AP + link_budget, max_roaming_speed).
+    link_budget: cond({ field: "kind", inList: ["backhaul"] }, { elseOpt: true }),
+    // max_roaming_speed is a FREE STRING (type s, no recorded decision) — tests/freeStringCups refuses it as required, so it
+    // stays optional (generated half) and is listed for the parent as a proposed required cup.
+    // kind-layer (13 Sep 2026): the AP ROLE additions. `deploy_role` is column-backed and derived (src/core/deployRole.ts);
+    // an unmet condition is OPTIONAL, never n/a (rule 7), and an unresolved role gets the kind’s core.
+    // (built by apRole, not written as a literal `cond(`: tests/promote-required anchors its sabotage on the ONE switches line
+    // spelled that way, and asserts the anchor is unique)
+    ip_rating: apRole(["outdoor", "industrial"]),
+    // --- the controller and appliance envelope (spec I.4 WLC = WLC + ENV, APPLIANCE = ENV + ports) ------------------
+    humidity_operating: cond({ field: "kind", inList: ["wlc", "appliance"] }, { elseOpt: true }),
+    form_factor: cond({ field: "kind", inList: ["wlc", "appliance"] }),
+    rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
+    // --- a module’s rate (spec I.4 MODULE: ports, data_rate, product_compatibility) ---------------------------------
+    data_rate: cond({ field: "kind", inList: ["module"] }, { elseOpt: true }),
     // round-7 ruling C (12 Sep 2026): a controller+AP kit owes its contents ("WLC2504 w/ 10 AP Lic. and 10
     // AP-702i"), filled from the name by src/core/bundleContents.ts. See the UCS block for the same cup.
     bundle_contents: cond({ field: "kind", inList: ["bundle"] }),
@@ -2735,8 +2891,13 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     ] }),
     // end wireless-r7
     // --- antennas: gain, band (radio_bands above), connector; the pattern is declared, see the ledger --------
-    antenna_gain: cond({ field: "kind", inList: ["antenna"] }),
-    antenna_connector: cond({ field: "kind", inList: ["antenna"] }),
+    // kind-layer (13 Sep 2026): `elseOpt` — the AP archetype declares antenna_gain optional, so it is optional of an AP
+    // instead of n/a; the OUTDOOR AP role adds antenna_connector as required (spec II.4).
+    antenna_gain: cond({ field: "kind", inList: ["antenna"] }, { elseOpt: true }),
+    antenna_connector: cond({ any: [
+      { field: "kind", inList: ["antenna"] },
+      { all: [{ field: "kind", inList: [...WL_AP] }, { field: "deploy_role", inList: ["outdoor"] }] },
+    ] }, { elseOpt: true }),
     // wireless-r7 (12 Sep 2026) ------------------------------------------------------------------
     // INTERNAL OR EXTERNAL is an AP question, not an antenna one: it says whether the access point
     // has its antennas built in or takes separate ones, which decides what else must be ordered. It
@@ -2745,7 +2906,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // ambiguous), "Internal antennas" and "Antenna Type(s)" are mapped labels with 11 occurrences
     // between them, and cisco-datasheets is listed as a seen source for the key in this category.
     // Required of APs only: an ANTENNA's own type is its radiation pattern, a different cup.
-    antenna_type: cond({ field: "kind", inList: [...WL_AP] }),
+    // kind-layer (13 Sep 2026): the spec’s ANTENNA archetype lists `antenna_type` — NOT applied to kind `antenna`: this key’s
+    // domain is internal/external, which cannot hold an antenna’s pattern (omni / directional / patch). Listed for the parent
+    // as a one-cup-one-meaning conflict. The backhaul radio (AP + ...) and the sensor take it as the AP does.
+    antenna_type: cond({ field: "kind", inList: [...WL_AP, "sensor", "backhaul"] }),
     // DECLARED, NOT YET ASKED. The cup, its domain and its fill path are settled above; it stays
     // `opt` for one measurable reason: `requiredKeysByCategory` in build-source-fields counts `cond`
     // as required, and data/schema/source-fields.json — a GENERATED file — has no entry for a key
@@ -2761,12 +2925,20 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     beamwidth_azimuth: opt,
     // --- power: what a supply or injector DELIVERS (a PSU's wattage is not its draw — switches precedent) ---
     psu_rated_output: cond({ field: "kind", inList: ["power", "power-injector"] }),
-    input_voltage: cond({ field: "kind", inList: ["power"] }),
+    // kind-layer (13 Sep 2026): the POWER-INJECTOR archetype adds input_voltage, and so does the INDUSTRIAL AP role (DC
+    // input, spec II.4).
+    input_voltage: cond({ any: [
+      { field: "kind", inList: ["power", "power-injector"] },
+      { all: [{ field: "kind", inList: [...WL_AP] }, { field: "deploy_role", inList: ["industrial"] }] },
+    ] }, { elseOpt: true }),
     // 12 Sep 2026, the cross-category power contract (reviewer round 3, item 1): the same supply ships with the
     // air going either way, so the direction is part of what is ordered — asked of `power` in every category.
     airflow: cond({ field: "kind", inList: ["power"] }),
     // --- cables ---------------------------------------------------------------------------------------
     cable_length: cond({ field: "kind", inList: ["cable"] }),
+    // kind-layer (13 Sep 2026): the CABLE archetype’s `connector` and `media` are NOT applied here — their domains are the
+    // optical and RJ45 ones (lc-duplex … rj45; mmf/smf/dac-copper/rj45-copper/aoc) and a wireless cable is RF coax
+    // (RP-TNC, N-type, LMR-240). Listed for the parent as a domain conflict: required, they could never be filled.
     // --- the physical envelope of every box ----------------------------------------------------------
     power_max: cond({ field: "kind", inList: [...WL_BOX] }),
     dimensions: cond({ field: "kind", inList: [...WL_BOX] }),
@@ -2781,7 +2953,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // the module (144), accessory (180) and power (70) kinds were asked NOTHING, which scores every one of them
     // complete — the asked-nothing census in tests/cupLedger.test.ts is what found it.
     product_compatibility: cond({ field: "kind", inList: ["module", "accessory", "power", "power-injector", "cable", "antenna"] }),
-    mtbf: opt, humidity_operating: opt, ip_rating: opt,
+    mtbf: opt,
     // ONE CUP PER QUANTITY: the generated profile made `standard` REQUIRED here on 8 Sep (775 mined values);
     // those values are the 802.11 generation, which `wifi_generation` asks. Optional, so it is not a second
     // required cup; the 775 facts are listed as a rekey proposal in the report.
@@ -3024,8 +3196,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     fabric_services: opt, serviceability: opt, supported_protocols: opt, programming_interfaces: opt, advanced_functions: opt, diagnostics: opt, redundancy: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req,
     // ===== KIND LAYER (13 Sep 2026), spec v2 §II.12 — `switch` is `fc-switch`, `other` is `unknown` (sanKind.ts) ========
-    // OPERATOR BAR: nothing is demoted on a measurement. Today's cups stay; the spec archetypes are ADDED as proposed
-    // required cups for the parent's printed-on-the-page measurement:
+    // OPERATOR BAR: nothing is demoted on a measurement. Today’s cups stay; the spec archetypes are ADDED as proposed
+    // required cups for the parent’s printed-on-the-page measurement:
     //   fc-switch   ETH-SWITCHING minus PoE / stacking / mac_table / vlan_max, + data_rate, + ENV: form_factor,
     //               switching_capacity, forwarding_rate, jumbo_mtu, packet_buffer, mgmt_class, psu_config, cooling,
     //               ieee_standards; uplink_ports and module_slots pending on form_factor, psu_redundant on psu_config.
@@ -3039,7 +3211,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     uplink_ports: cond({ all: [{ field: "kind", inList: ["fc-switch"] }, { field: "form_factor", ne: "modular-chassis" }] }),
     data_rate: cond({ field: "kind", inList: ["fc-switch", "linecard", "pluggable"] }),
     // OPTIONAL until 13 Sep 2026: an MDS datasheet quotes "aggregate bandwidth" per switch, but no label maps it here yet and
-    // 0 of the category's parts hold one; forwarding_rate and latency likewise. kind-layer: proposed REQUIRED of the
+    // 0 of the category’s parts hold one; forwarding_rate and latency likewise. kind-layer: proposed REQUIRED of the
     // fc-switch (ETH-SWITCHING) and the supervisor (SUPERVISOR); latency stays optional as the library has it.
     switching_capacity: cond({ field: "kind", inList: ["fc-switch", "supervisor"] }),
     forwarding_rate: cond({ field: "kind", inList: ["fc-switch", "supervisor"] }), latency: opt,
@@ -3094,8 +3266,22 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   // gap): channel_count (0 labels map to it; only part NAMES state it), channel_spacing (a generated free string
   // shared by 12 categories — a numeric retype is the operator's call, see the report), total_output_power (same:
   // a string, 12 categories), dispersion_compensation (0 labels, 0 facts), tuning_range (as in `transceiver`).
+  // --- kind-layer (13 Sep 2026): SPEC v2 ARCHETYPE CUPS ADDED AS REQUIRED — PROPOSALS FOR THE PARENT’S MEASUREMENT ------
+  // Operator instruction of 13 Sep 2026: no cup is demoted here on a mapped share; every cup required today stays, and
+  // each spec I.4 / II.14 archetype cup a kind is not asked today is added REQUIRED for the parent’s central PRINTED
+  // measurement to keep or demote. The (kind, cup) list with the III.0 mapped shares is in
+  // D:\tmp\kindlayer-impl\5-security-video-optical\REPORT.md. Additions:
+  //   TRANSPONDER (new kind, split out of `linecard`; keeps the line-card set it is asked today) + modulation_format,
+  //     tuning_range (II.14 "must ask") and wavelength (I.4 "wavelength or tuning_range" — both proposed, the measurement
+  //     picks: mapped 73.9% / 0% over 46 readable held)
+  //   MUX (mux, and roadm, which II.14 files under MUX) + channel_count, channel_spacing     DCU + dispersion_compensation
+  //   AMPLIFIER + noise_figure, total_output_power, input_power_range     CHASSIS + form_factor, psu_config
+  //   CABLE + connector, media
+  // Blockers the paragraph above already records travel with the list: channel_spacing and total_output_power are typed
+  // strings shared by 12 categories, channel_count and dispersion_compensation have 0 labels, form_factor’s normaliser
+  // domain is the chassis one. `controller` and `fabric` have no II.14 archetype and are unchanged.
   "optical-networking": {
-    optical_pm: opt, input_power_range: opt, coherent_interop_standards: opt, shelf_assembly: opt, min_software_release: opt, cross_connect: opt, slot_compatibility: opt, otn_pm: opt, attenuation_dead_zone: opt, reflective_dead_zone: opt, // deep-spec fields 2026-09-02
+    optical_pm: opt, coherent_interop_standards: opt, shelf_assembly: opt, min_software_release: opt, cross_connect: opt, slot_compatibility: opt, otn_pm: opt, attenuation_dead_zone: opt, reflective_dead_zone: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req,
     // --- the shelf --------------------------------------------------------------------------------------------
     module_slots: cond({ field: "kind", inList: [...OPN_SHELF] }),
@@ -3106,29 +3292,43 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     humidity_operating: cond({ field: "kind", inList: [...OPN_SHELF] }),
     certifications: cond({ field: "kind", inList: [...OPN_SHELF] }),
     power_max: cond({ field: "kind", inList: [...OPN_POWERED] }),
+    psu_config: cond({ field: "kind", inList: [...OPN_SHELF] }, { elseOpt: true }),
     // --- cards ------------------------------------------------------------------------------------------------
-    ports: cond({ field: "kind", inList: ["linecard"] }),
-    data_rate: cond({ field: "kind", inList: ["linecard", ...OPN_PLUGGABLE] }),
+    ports: cond({ field: "kind", inList: ["linecard", "transponder"] satisfies OpticalKind[] }),
+    data_rate: cond({ field: "kind", inList: ["linecard", "transponder", ...OPN_PLUGGABLE] }),
     fabric_bandwidth: cond({ field: "kind", inList: ["fabric"] }),
+    // modulation_format (TRANSPONDER, II.14 "must ask"), channel_spacing (MUX), noise_figure and total_output_power (AMPLIFIER)
+    // are PROPOSED required and ENTERED OPTIONAL: each is type `s` with no domain, and tests/freeStringCups refuses a required
+    // free-string cup without a recorded decision (docs/decisions/2026-09-13-free-string-cups.md). The parent’s call.
+    modulation_format: opt,
     // --- amplifiers -------------------------------------------------------------------------------------------
     gain: cond({ field: "kind", inList: ["amplifier"] }),
     // The operating BAND of an amplifier is the wavelength window it accepts ("Input Wavelength 1530 - 1565 nm")
     // — rx_wavelength, into which the retired input_wavelength already folds. For a BiDi pluggable it is the
     // receive wavelength, exactly as in `transceiver`.
     rx_wavelength: cond({ field: "kind", inList: ["amplifier", "pluggable-bidi"] }),
-    total_output_power: opt, noise_figure: opt, gain_flatness: opt,
+    total_output_power: opt, // proposed required (AMPLIFIER) — a free string; see modulation_format
+    noise_figure: opt, // proposed required (AMPLIFIER) — a free string; see modulation_format
+    input_power_range: cond({ field: "kind", inList: ["amplifier"] satisfies OpticalKind[] }, { elseOpt: true }),
+    gain_flatness: opt,
     // --- wavelength routing and passives ------------------------------------------------------------------------
     insertion_loss_max: cond({ field: "kind", inList: [...OPN_WAVELENGTH_ROUTING, "dcu"] }),
-    channel_count: opt, channel_spacing: opt, dispersion_compensation: opt,
+    channel_count: cond({ field: "kind", inList: [...OPN_WAVELENGTH_ROUTING] }, { elseOpt: true }),
+    channel_spacing: opt, // proposed required (MUX) — a free string; see modulation_format
+    dispersion_compensation: cond({ field: "kind", inList: ["dcu"] satisfies OpticalKind[] }, { elseOpt: true }),
     // --- pluggables (the transceiver questions) ---------------------------------------------------------------
     // form_factor OPTIONAL: the normaliser reads optic form factors only in `transceiver` (by category), so
     // "SFP+" here is refused ENUM_VIOLATION — measured with the real normaliser, 12 Sep 2026. The fill path is
     // the proposed move of these 459 parts to `transceiver`, where the question is already asked.
-    form_factor: opt,
-    wavelength: cond({ field: "kind", inList: [...OPN_FIXED_WAVELENGTH] }),
+    // kind-layer (13 Sep 2026): REQUIRED of the shelf (CHASSIS archetype) — rack-19 / modular-chassis is the domain
+    // that fits a shelf; still optional for the pluggables the paragraph above is about.
+    form_factor: cond({ field: "kind", inList: [...OPN_SHELF] }, { elseOpt: true }),
+    wavelength: cond({ field: "kind", inList: [...OPN_FIXED_WAVELENGTH, "transponder"] }),
     reach_max: cond({ field: "kind", inList: [...OPN_PLUGGABLE] }),
-    connector: cond({ field: "kind", inList: [...OPN_PLUGGABLE] }),
-    tuning_range: opt, fec: opt, temp_class: opt, tx_power: opt, rx_sensitivity: opt, chromatic_dispersion_tolerance: opt,
+    connector: cond({ field: "kind", inList: [...OPN_PLUGGABLE, "cable"] }),
+    media: cond({ field: "kind", inList: ["cable"] satisfies OpticalKind[] }, { elseOpt: true }),
+    tuning_range: cond({ field: "kind", inList: ["transponder"] satisfies OpticalKind[] }, { elseOpt: true }),
+    fec: opt, temp_class: opt, tx_power: opt, rx_sensitivity: opt, chromatic_dispersion_tolerance: opt,
     // --- components -------------------------------------------------------------------------------------------
     psu_rated_output: cond({ field: "kind", inList: ["power"] }),
     input_voltage: cond({ field: "kind", inList: ["power"] }),

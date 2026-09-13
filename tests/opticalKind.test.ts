@@ -20,8 +20,15 @@ const eq = (name: string, got: unknown, want: unknown): void => {
 
 const CASES: [string, string][] = [
   ["15454-M6-SA", "chassis"], ["NCS4009-SA-DC", "chassis"], ["NCS1004=", "chassis"], ["NCS2015-SYS-AC", "chassis"],
-  ["15454-M-100G-LC-C", "linecard"], ["NCS2K-400G-XP=", "linecard"], ["NCS1K4-1.2T-L-K9=", "linecard"], ["NCS4200-48T1E1-CE=", "linecard"],
-  ["CH29/M/U/SC/15200", "linecard"],
+  // kind-layer (13 Sep 2026): the transponder split — these four were `linecard`.
+  ["15454-M-100G-LC-C", "transponder"], ["NCS2K-400G-XP=", "transponder"], ["NCS1K4-1.2T-L-K9=", "transponder"], ["NCS4200-48T1E1-CE=", "linecard"],
+  ["CH29/M/U/SC/15200", "transponder"],
+  ["15454-10E-L1-C=", "transponder"], ["15454-40E-MXP-C=", "transponder"], ["NCS1K4-QXP-K9=", "transponder"], ["CIM8-C-K9=", "transponder"],
+  ["NCS2K-100G-CK-C", "transponder"], ["CO-40TDL40-X1001=", "transponder"], ["NCS4K-2H-W", "transponder"], ["NCS1K14-2.4T-K9=", "transponder"],
+  ["15454-M-10X10G-LC=", "linecard"], ["NCS4K-20T-O-S", "linecard"],
+  // kind-layer (13 Sep 2026): the 14 CWDM mux / OADM plug-ins III.0 item 6 found in transceiver.accessory must land on `mux`
+  // if their row move runs; witnesses for the three SKU shapes (spaced, channel-glued, add/drop).
+  ["CWDM-MUX-4-SF2=", "mux"], ["DS-CWDM-MUX8A=", "mux"], ["CWDM-MUX8A=", "mux"], ["CWDM-MUX-AD-1510=", "mux"],
   ["NCS2K-TNCS-K9", "controller"], ["NCS4K-RP=", "controller"], ["NCS1K-OTDR=", "controller"],
   ["NCS4009-FC-S", "fabric"], ["NCS4KF-FC2-C=", "fabric"],
   ["15454-OPT-EDFA-24=", "amplifier"], ["NCS2K-EDRA1-35C", "amplifier"], ["NCS1K-ILA-C=", "amplifier"],
@@ -36,7 +43,7 @@ const CASES: [string, string][] = [
   ["15216-LC-LC-20", "cable"], ["ONS-16MPO-MPO-6=", "cable"], ["NCS4K-AC-CBL-IEC=", "cable"],
   ["NCS4009-DOOR=", "accessory"], ["15454-BLANK=", "accessory"], ["NCS4K-SSD-200G=", "accessory"],
   ["SF15454M-R1001K9", "software"], ["XR-NCS4K-612K9", "software"],
-  ["15454W-2X100G-SK", "other"],
+  ["15454W-2X100G-SK", "unknown"],
 ];
 for (const [sku, want] of CASES) eq(`${sku} is ${want}`, opticalKind(sku), want);
 
@@ -55,7 +62,7 @@ const REFUSALS: [string, string, string][] = [
   ["ONS-CCC-100G-10=", "cable", "'CXP-CFP MPO cable', not the ONS-CC CFP optic"],
   ["ONS-CXP2-MPO-30=", "cable", "a patch cord FOR a CXP2, not the CXP2 optic"],
   ["ONS-CXP2-SR25=", "pluggable", "'CXP2 Transceiver module' — the optic the patch cord above serves"],
-  ["NCS2K-MR-MXP-LIC=", "linecard", "'10/40/100G MR Muxponder' — NCS2K-MR is not the NCS2K-M-R media kit"],
+  ["NCS2K-MR-MXP-LIC=", "transponder", "'10/40/100G MR Muxponder' — NCS2K-MR is not the NCS2K-M-R media kit (kind-layer: a muxponder is a transponder)"],
   ["NCS2K-MF-UPG-4=", "mux", "'Mesh Interconnection MF Unit' — a passive unit, not the frame and not software"],
   ["NCS2K-MF10-6RU=", "accessory", "'Mechanical Frame for Passive Units' — the frame itself"],
   ["15216-DCU-SA=", "accessory", "'Mechanical shelf (housing 2 DCM)' — a shelf FOR DCUs, not a DCU"],
@@ -70,13 +77,30 @@ const REFUSALS: [string, string, string][] = [
   ["ONS-CFP2D-400G-C=", "pluggable-tunable", "'400G CFP2 DCO ... C Band Tuneable' — opticKind's coherent family, reused"],
   ["ONS-SE-100-BX10U=", "pluggable-bidi", "opticKind's BX token, reused"],
   ["ONS-SE-4G-MM=", "pluggable", "a fixed 850 nm FC optic stays the default pluggable"],
-  ["15454-GE-XPE++=", "linecard", "the TAA ++ and the spare = are packaging, not kind"],
-  ["15216-FLAMP44.5-SK", "other", "'1ea 15216-FLA-8-44.5 and 15216-EDFA2-A' — a bundle of a mux AND an amplifier"],
-  ["15454-OPTAMPC-LLP3", "other", "'BUNDLE 15454 OPT AMP C AND 3YRSNTNBD' — a service bundle, not an amplifier"],
-  ["ONS-CFP2WDM-BUN4", "other", "'4 x ONS-CFP2-WDM Bundle' — an N-pack"],
-  ["UAS-PM", "other", "a PM counter name read out of a datasheet table"],
-  ["CP-16QAM", "other", "a modulation name read out of a datasheet table"],
-  ["LC-LC", "other", "a connector-pair cell; the patch-cord rule needs a length"],
+  ["15454-GE-XPE++=", "transponder", "the TAA ++ and the spare = are packaging, not kind ('20 GBE ENHANCED CROSSPONDER')"],
+  ["15216-FLAMP44.5-SK", "unknown", "'1ea 15216-FLA-8-44.5 and 15216-EDFA2-A' — a bundle of a mux AND an amplifier"],
+  ["15454-OPTAMPC-LLP3", "unknown", "'BUNDLE 15454 OPT AMP C AND 3YRSNTNBD' — a service bundle, not an amplifier"],
+  ["ONS-CFP2WDM-BUN4", "unknown", "'4 x ONS-CFP2-WDM Bundle' — an N-pack"],
+  ["UAS-PM", "unknown", "a PM counter name read out of a datasheet table"],
+  ["CP-16QAM", "unknown", "a modulation name read out of a datasheet table"],
+  ["LC-LC", "unknown", "a connector-pair cell; the patch-cord rule needs a length"],
+  // kind-layer (13 Sep 2026) refusals: the transponder rule must not take a client or CEM line card, a licence bundle, or a
+  // shipping kit, and the pluggable family must not take a CFP2 bundle or licence.
+  ["15454-M-CFP-LC=", "linecard", "'Cisco ONS 15454 2-Port CFP Line Card' — a client card: CFP-LC is not the 100G-LC trunk token"],
+  ["NCS4K-2H-O-K=", "linecard", "'NCS 4000 2x 100G CPAK - OTN Line Card' — 2H-O is the OTN client card, 2H-W the WDM one"],
+  ["NCS1K4-2-QDD-C-K9=", "linecard", "'Network Convergence System 1004 2x QSFP-DD C-Band Line Card' — no transponder token"],
+  ["15454-M-WSE-K9=", "linecard", "'Full Feature Wire Speed Encryption Unit' — an encryption card, not a transponder"],
+  ["NCS4200-2H-PK", "linecard", "'NCS 4200 2-Port 100GE QSFP28 Interface Module' — 2H-PK is not 2H-W"],
+  ["15454-M-SHIPKIT=", "accessory", "'Shipkit, Cisco ONS 15454 M6 and M2' — the 15454-M- card prefix must not take it"],
+  ["15454-10GEXPE-LLP3", "unknown", "'BUNDLE 15454 10GE XPE AND 3YRSNTNBD' — a service bundle carrying XPE, not the crossponder"],
+  ["ONS-CFP2-ACO-BDL", "unknown", "'WDM CFP2 Pluggable Bundle - Licensed - No Feature' — a bundle, not a CFP2"],
+  ["ONS-CFP2-WDM-LIC", "software", "'CFP2 WDM - C-band Tunable - Lic. For 100G HD-FEC' — the licence, not the CFP2"],
+  ["15454-AR-XP-LIC=", "transponder", "'ONS15454 Any-Rate Xponder - SW License Upgradeable' — licence-UPGRADEABLE hardware stays the card"],
+  ["DS-CWDM-MUX8A", "mux", "the glued channel count; before kind-layer it fell to unknown"],
+  ["NCS2K-400G-BUN-SK", "unknown", "'400G XPonder + 1X CFP2-WDM - 1X LIC' — a starter kit OF a transponder is not the transponder"],
+  ["15454W-5X40GMXP-SK", "unknown", "'5x 4x10G Coherent Muxponder w/SR XFPs Starter Kit' — MXP inside a kit"],
+  ["NCS4K-24LR-O-S", "linecard", "'NCS 4000 24-port Low rate OTN LC - SFP' — a client OTN card"],
+  ["15216-OSC-PTP=", "linecard", "the optical service channel module stays a card, not a transponder"],
   ["NCS1K14-SA-D=", "accessory", "'Shelf Assembly Divider' — not a shelf assembly"],
   ["NCS4200-1T8S-10CS=", "linecard", "10CS is a line-card suffix, not the CS splitter segment"],
   ["NCS4K-DC-PSU-V1", "power", "V1 is a version, not the V (VOA) segment"],
@@ -110,8 +134,9 @@ eq("a tunable pluggable has no fixed wavelength", (OPN_FIXED_WAVELENGTH as reado
 eq("every pluggable kind is a pluggable", OPN_FIXED_WAVELENGTH.every((k) => OPN_PLUGGABLE.includes(k)), true);
 eq("a passive mux draws no power", (OPN_POWERED as readonly string[]).includes("mux"), false);
 eq("a ROADM does", (OPN_POWERED as readonly string[]).includes("roadm"), true);
-eq("the default asks less: `other` is in no powered or pluggable set", [...OPN_POWERED, ...OPN_PLUGGABLE].includes("other" as never), false);
-eq("empty SKU fails safe to other", opticalKind(""), "other");
+eq("the default asks less: `unknown` is in no powered or pluggable set", [...OPN_POWERED, ...OPN_PLUGGABLE].includes("unknown" as never), false);
+eq("empty SKU fails safe to unknown", opticalKind(""), "unknown");
+eq("kind-layer: the old fallback name `other` is gone from the axis", (OPTICAL_KINDS as readonly string[]).includes("other"), false);
 for (const k of OPTICAL_KINDS) eq(`kind "${k}" is reached by a catalogue SKU`, ALL.some(([, w]) => w === k), true);
 
 lines.unshift(`    optical kind: ${passed} passed, ${failed} missed (${CASES.length} positives, ${REFUSALS.length} refusals, ${OPTICAL_KIND_RULES.length} sabotaged families)`);

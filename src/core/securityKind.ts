@@ -38,7 +38,9 @@ export type SecurityKind =
   | "non-hardware"
   | "firewall" | "ips" | "email-gateway" | "web-gateway" | "management" | "analytics" | "identity" | "appliance"
   | "security-module" | "ips-module"
-  | "module" | "power" | "fan" | "drive" | "compute" | "memory" | "nic" | "cable" | "accessory";
+  | "module" | "power" | "fan" | "drive" | "compute" | "memory" | "nic" | "cable" | "accessory"
+  // kind-layer (13 Sep 2026): three library component kinds split out of `compute` — see the rules below.
+  | "cpu" | "storage-controller" | "tpm";
 
 /** Every kind that is a whole box you rack and power — asked the physical envelope. */
 export const SEC_BOX: readonly SecurityKind[] =
@@ -46,7 +48,8 @@ export const SEC_BOX: readonly SecurityKind[] =
 
 /** Kinds that plug into or attach to a box — every one is bought for WHAT IT FITS. */
 export const SEC_COMPONENT: readonly SecurityKind[] =
-  ["security-module", "ips-module", "module", "power", "fan", "drive", "compute", "memory", "nic", "cable", "accessory"];
+  ["security-module", "ips-module", "module", "power", "fan", "drive", "compute", "memory", "nic", "cable", "accessory",
+    "cpu", "storage-controller", "tpm"];
 
 /**
  * The SHAPE a SKU names, for the profile. A box whose SKU names no shape falls back to its SERIES
@@ -74,6 +77,16 @@ export const SEC_KINDS: readonly SecurityKind[] = [...SEC_BOX, ...SEC_COMPONENT,
 
 // Ordered; the FIRST rule that matches wins.
 const RULES: { kind: SecurityKind; id: string; re: RegExp }[] = [
+  // ---- kind-layer (13 Sep 2026): LICENCES STILL CLASSED HARDWARE, read out of `appliance` -----------
+  // III.0 item 4 §7k read all 30 `appliance` rows. Six are software on an appliance, not the appliance:
+  // CSACS-3415-K9 / CSACS-3495-K9 "ACS application & BASE license for SNS-3415-K9 appliance", the two
+  // CSACS-34x5-UP-K9 "Upgrade to ACS application on SNS-3495-K9", TB-ESS-100GB (Telemetry Broker
+  // essentials, a volume licence) and ISA-FP-541213-K9 "IDS / IPS for Industrial Security Appliances K9
+  // level". The class change is a run (D:\tmp\kindlayer-impl\5-security-video-optical\class-changes.json);
+  // until it lands they are asked NOTHING, exactly what the class table's `non-hardware` answer does.
+  // NOT CSACS-ACCYKIT (an accessory kit, taken by the mount-kit rule) and NOT a bare CSACS appliance:
+  // the pattern names the application/upgrade PIDs only.
+  { kind: "non-hardware", id: "licence-pending-class", re: /^CSACS-\d{4}(?:-UP)?-K9$|^TB-ESS-\d|^ISA-FP-\d{6}-K9$/ },
   // ---- components (survey §e markers) --------------------------------------------------------------
   // Blanks, SSD carriers and cable management FIRST: FPR3K-PSU-BLANK, FPR4K-SSD-BBLKD, FPR3K-NM-BLANK and
   // FPR3K-CBL-MGMT carry a power / drive / module / cable token and are none of those.
@@ -137,9 +150,35 @@ const RULES: { kind: SecurityKind; id: string; re: RegExp }[] = [
   // data ports and three stored facts of its own. The first draft of this rule dropped the anchor
   // and the corpus diff showed all six ASA-IC-6GE-CU-* moving out of `module` — the rule's own
   // documented refusal, re-broken and caught by reading the diff rather than by the suite.
+  // kind-layer (13 Sep 2026): + the two NIC spellings the `compute` read found (III.0 item 4 / spec II.8 check):
+  // SNS-PCIE-IQ10GF "Intel X710 quad-port 10G SFP+ NIC", CCS-M6-PCIE-IRJ45 "Intel i350 Quad Port 1Gb Adapter",
+  // CCS-M6-PCIE-ID10GF "X710-DA2 dual-port 10G SFP+ NIC" (a PCIE segment then the Intel code), and the UCS
+  // N2XX part numbers SNS-N2XX-ABPCI01 "Broadcom 5709 Dual Port 10/100/1Gb NIC" / LC-FC-N2XX-AIPCI01
+  // "Intel X520 Dual Port 10Gb SFP+ Adapter". Eight rows, every one a network card by its own name.
   { kind: "nic", id: "nic",
-    re: /(?:^|-)(?:NIC|MLOM)(?:-|=|$)|-\d{1,2}G-NIC|-\d{1,2}GE-FI|^(?:CCS|WSA)-\d{1,2}GE-CU|-[OP]-I\d?[A-Z0-9]*G[CF]|(?:^|-)PCIEI?D?\d|-\d{1,2}G-\dFI/ },
+    re: /(?:^|-)(?:NIC|MLOM)(?:-|=|$)|-\d{1,2}G-NIC|-\d{1,2}GE-FI|^(?:CCS|WSA)-\d{1,2}GE-CU|-[OP]-I\d?[A-Z0-9]*G[CF]|(?:^|-)PCIEI?D?\d|-\d{1,2}G-\dFI|(?:^|-)PCIE-I(?:[DQ]\d{1,3}G[FC]|RJ45)(?:-|=|$)|(?:^|-)N2XX-A[A-Z]PCI\d/ },
   // ---- end security-r6 (12 Sep 2026) --------------------------------------------------------------
+  // ---- kind-layer (13 Sep 2026): `compute` IS NOT A SERVER, AND IT IS NOT ONE NOUN -----------------------
+  // Spec v2 II.8 says `compute` 131 = "UCS-based security servers" and proposes the SERVER archetype. All
+  // 131 rows were read (D:\tmp\kindlayer-impl\5-security-video-optical\REPORT.md): ZERO are servers. They
+  // are the internal parts of the UCS boxes FMC / SNS / Stealthwatch / Threat Grid / CCS run on — CPUs
+  // ("CCS Intel 6326 2.9GHz/185W 16C/24MB DDR4 3200MHz"), RAID controllers and their FBWC cache modules,
+  // TPMs, PCIe risers — so the SERVER cups (sockets, DIMM slots, drive bays) would be unfillable by
+  // construction. They take the LIBRARY component names UCS already uses for the same parts, so one kind
+  // name means one cup set (rule 3): a UCS-CPU-I6326 and a CCS-CPU-I6326 are the same processor.
+  //
+  // THE NAMES MUST NOT FALL TO A FALLBACK KIND, and that is measured, not feared: nameMarker read over these
+  // 131 names returns `tpm` for 13 ("Trusted Platform Module 2.0"), `riser` for 5, `drive` for 3 FBWC cache
+  // modules ("12Gbps SAS 1GB FBWC Cache module") and `power` for 3 RAID parts with a battery. partKind reads
+  // the name only when the axis returns a fallback kind, and in `security` the tpm marker's second target is
+  // `security-module` and the riser marker's third is `module` — so a TPM filed as `accessory` would be asked a
+  // firewall throughput. Every shape below is therefore a NAMED kind, and the 17 residual internal boards
+  // (risers, the M.2 / SD carriers, the Cavium SSL card) stay the named `compute`, which asks what they fit.
+  { kind: "cpu", id: "cpu", re: /(?:^|-)CPU(?:-|=|$)/ },
+  // RAID controllers, their FBWC cache modules and battery, the embedded SW RAID: MRAID12G, RAID-9271, HWRAID,
+  // RAID9271CV-8I, BAT-RAID-710, RAID-ROM5. A drive CARRIER is not one (FMC-M5-MSTOR-SD stays `compute`).
+  { kind: "storage-controller", id: "storage-controller", re: /(?:^|-)(?:HW|M)?RAID(?:\d|-|=|$)/ },
+  { kind: "tpm", id: "tpm", re: /(?:^|-)TPM(?:\d|-|=|\.|$)/ },
   // CPUs, RAID controllers, TPMs and risers of the UCS-based appliances (FMC, SNS, TG, AMPPC, CCS, CV,
   // CSM, Stealthwatch). + four token shapes the default bucket showed: FPR9K-X32G2RW= / CV-MRX16G1RE5 (DIMMs),
   // FMC-M6-O-ID10GC (an OCP NIC), PRSM-RAID9271CV-8I (MegaRAID), CCS-10GE-FI (a fibre NIC).
@@ -175,6 +214,11 @@ const RULES: { kind: SecurityKind; id: string; re: RegExp }[] = [
   // + F4110/F4120/F4140/F4150-ASA-NGFW-BUN (the 4100 bundles are spelled F4nnn, not just F4150) and
   // FPR9KT-SM36-HA-BUN, whose HA token sits after the module size (12 Sep 2026).
   { kind: "firewall", id: "firewall", re: /^FPR-?\d{4}|^FPR-C?9300|^FPR-CH-9300|^FPR9KT?-(?:FTD|HA|SM\d+-HA)|^FPR\dK-ASA-(?:VPN|NGFW)-BUN|^F4\d{3}-|^CSF\d{3,4}|^ASA-?55\d\d|^55\d\d-X$|^ISA-?3000/ },
+  // kind-layer (13 Sep 2026), out of `appliance` (III.0 item 4 §7k): the Secure Firewall 1200 datasheet MODEL rows
+  // 1210CE / 1210CP / 1220CX — the three parts that hold 61 of the category's facts, firewall_throughput and
+  // ips_throughput among them — and ASA-VPN-15K-BUN "Cisco Recommended ASA VPN Bundle for 15K users", an ASA
+  // VPN-edition hardware bundle like the 18 "Secure Client" rows the firewall rule already takes (§7c).
+  { kind: "firewall", id: "firewall-1200-model-and-asa-vpn-bundle", re: /^12[1-5]0C[EPX]$|^ASA-VPN-\d+K?-BUN$/ },
   // Dedicated IPS: FirePOWER 7000/8000 (FP7010-K9, FP8250-BASE-K9), IPS 4300/4500 (IPS-4345-K9), AMP 7150/8150.
   { kind: "ips", id: "ips", re: /^FP[78]\d{3}(?:-|$)|^IPS-4\d{3}(?:-|$)|^AMP[78]\d{3}(?:-|$)/ },
   // Secure Email (ESA-C390-K9, ESA-X1070-K9) and Secure Web (WSA-S390-K9) appliances. The licences in the
@@ -200,6 +244,21 @@ const RULES: { kind: SecurityKind; id: string; re: RegExp }[] = [
   // + the Data Store and Data Node generation: ST-DS6200-K9 "Stealthwatch Data Store 6200", ST-DN6300-K9
   // "Secure Network Analytics Data Node 6300", ST-TB2400-K9 — 14 boxes that sat in the default bucket.
   { kind: "analytics", id: "analytics", re: /^ST-(?:FC|FS|UDP|SMC|FD|DS|DN|TB)\d{4}|^LC-(?:SMC|FCSF|FCNF|FC|FS|UDP|UD|REP|FR|SENS|COLLECT|CONSOLE|ID)[-\d]|^CV-CNTR-/ },
+  // kind-layer (13 Sep 2026), out of `appliance` (III.0 item 4 §7k). Two appliance families the library has no
+  // noun of their own for, filed as ANALYTICS rather than given a kind each (decision recorded in the report):
+  //   Secure Malware Analytics / Threat Grid — the sandbox appliance that detonates and ANALYSES samples:
+  //     TG5000-K9 "Threat Grid 5000 Model with software", TG5504-K9, TG-M5-K9 / TG-M6-K9 / TG-M7-K9 "Secure
+  //     Malware Analytics M6 Model Hardware", TG-AFA-K9, the hardware+subscription bundles TG5000-BUN /
+  //     TG5500-BUN, and the spare chassis TG5004-CHAS / TG5000-CHAS-AC "Threat Grid 5000/5500 Chasis".
+  //   Secure Workload (Tetration) clusters — TA-CL-8U-M6-K9 "Secure Workload Gen3 8RU Cluster", TA-CL-39U-M6-K9,
+  //     C1-TETRATION(-M) "bundle part number that includes the hardware" — a flow-telemetry analytics platform.
+  // ANALYTICS = APPLIANCE + flows_per_second (optional: zero labels anywhere), so filing a sandbox here asks it
+  // exactly the appliance envelope and nothing it cannot have. Their components (TG-PWR-*, TG-M5-HDD-*,
+  // TG-RAID-*, TG-M6-TPM-2.0) are taken by the component rules above, which run first.
+  { kind: "analytics", id: "analytics-sandbox-and-workload", re: /^TG\d{4}-(?:K9|BUN|CHAS)|^TG-(?:M\d|AFA)-K9$|^TA-CL-\d+U-|^C1-TETRATION(?:-M)?$/ },
+  // Secure Endpoint (AMP) Private Cloud appliances — SEPC4000-K9, AMPPC3000-K9, AMPPC-3000-K9 "AMP Private Cloud
+  // Appliance - 3000 Model" — the on-premises console and store that MANAGES endpoint connectors: `management`.
+  { kind: "management", id: "management-endpoint-private-cloud", re: /^SEPC\d{4}-K9$|^AMPPC-?\d{4}-K9$/ },
   // Identity: the Secure Network Server appliances ISE runs on (SNS-3655-K9, SNS-3495-M-ISE-K9 "Migration
   // Server: Loaded with ISE Software"). NOT CSACS-3415-K9 "ACS application & BASE license for SNS-3415-K9
   // appliance": licence or appliance SKU is undecided (class-residue §C), so it keeps the fallback.

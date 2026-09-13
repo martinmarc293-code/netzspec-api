@@ -38,8 +38,9 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   // kind-layer (13 Sep 2026): switchKind now RETURNS `mechanical` (and `chassis`), so the list is de-duplicated.
   switches: [...new Set([...SW_BOX, ...SW_PART, ...MECH])],
   transceiver: [...(["pluggable", "bidi", "tunable", "adapter", "accessory", "breakout-cable"] satisfies OpticKind[]), ...MECH],
-  // wireless (12 Sep 2026)
-  wireless: [...WL_KINDS, ...MECH],
+  // wireless (12 Sep 2026). kind-layer (13 Sep 2026): wirelessKind now returns `mechanical` from the SKU too, so the
+  // list is de-duplicated rather than naming the kind twice.
+  wireless: [...new Set([...WL_KINDS, ...MECH])],
   // servers (12 Sep 2026): all three categories derive their kind with ucsKind (partKind.ts).
   "servers-unified-computing": [...UCS_KINDS, ...MECH, ...UCS_EXTRA],
   "hyperconverged-systems": [...UCS_KINDS, ...MECH, ...UCS_EXTRA],
@@ -47,9 +48,10 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   // video (12 Sep 2026)
   video: [...VIDEO_KINDS, ...MECH],
   // collab (12 Sep 2026): one axis, three categories (collabKind.ts)
-  "unified-communications": [...COLLAB_KINDS, ...MECH],
-  "collaboration-endpoints": [...COLLAB_KINDS, ...MECH],
-  conferencing: [...COLLAB_KINDS, ...MECH],
+  // kind-layer (13 Sep 2026): collabKind returns `mechanical` from the SKU too — de-duplicated.
+  "unified-communications": [...new Set([...COLLAB_KINDS, ...MECH])],
+  "collaboration-endpoints": [...new Set([...COLLAB_KINDS, ...MECH])],
+  conferencing: [...new Set([...COLLAB_KINDS, ...MECH])],
   // routers (12 Sep 2026)
   routers: [...RT_KINDS, ...MECH],
   // optical-storage (12 Sep 2026) — derived from the axes' own exported kind lists, so a kind added there is listed here

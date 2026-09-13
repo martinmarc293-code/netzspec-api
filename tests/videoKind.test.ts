@@ -57,9 +57,14 @@ const POSITIVE: [string, VideoKind, string][] = [
   ["GS7KI-LA-1.2-0458", "rf-amplifier", "GS7K iNode Launch Amp 1.2 GHz 204/258 MHz"],
   ["OPLGX-MD16-2162-LA", "passive", "16 CH-IWDM 21—62 DTP-LC/APC"],
   ["DCM-20-LL-SA", "passive", "(DCM-20-LL-SA) Low Insertion Loss DCF, 20km, SA"],
-  ["CBR-LC-8D31-16U31", "line-card", "cBR CCAP line card includes 2 DS D3.1 modules as well as 1 US D3.1 Module"],
-  ["RFGW-DS384", "line-card", "RFGW DS384 Universal Downstream EQAM Card; Base HW"],
-  ["HA-RPHY-6X12-LC", "line-card", "RPD Line Card for Remote PHY Shelf 7200"],
+  // kind-layer (13 Sep 2026): `line-card` -> `linecard` (spec III.1).
+  ["CBR-LC-8D31-16U31", "linecard", "cBR CCAP line card includes 2 DS D3.1 modules as well as 1 US D3.1 Module"],
+  ["RFGW-DS384", "linecard", "RFGW DS384 Universal Downstream EQAM Card; Base HW"],
+  ["HA-RPHY-6X12-LC", "linecard", "RPD Line Card for Remote PHY Shelf 7200"],
+  // kind-layer (13 Sep 2026): the three numbered passive runs whose placeholder-named members sat in `unknown`.
+  ["4003565", "passive", "'Cisco 4003565' — the number after 4003564 'OADM,LGX-DWDM-ITU-37-SA' (22 of 22 named neighbours passive)"],
+  ["4043840", "passive", "'Cisco 4043840' — the run of 4043801 'OADM, Filter, DWDM-ITU-20-SA' (20 of 20 passive)"],
+  ["1030050", "passive", "'Cisco 1030050' — inside the 1030007..1030065 DTP expansion run (18 of 18 passive)"],
 ];
 
 // Each refusal is a real SKU whose token belongs to another kind's rule; the kind it must get instead.
@@ -95,7 +100,13 @@ const REFUSAL: [string, VideoKind, string][] = [
   ["CBR-4LC-BUN", "system", "'CBR System Bundle, 4 Line Cards, 2 Supervisors, Fan Assembly' — not a fan, not a card"],
   ["RFGW-10-108HA", "system", "'RFGW-10 System Bundle inc 2SUP, 2TCC, 2DCPEM, 10DS48' — not a chassis"],
   ["4008427", "unknown", "'(P2-HD-13TXF-10-SA) 1310HD Fwd Tx' — a Tx by NAME, but a bare singleton base: asked less"],
-  ["1030007", "unknown", "'LGX-MXDX-4CH-iWDM ...' — a passive by name, bare number"],
+  // kind-layer (13 Sep 2026): 1030007 WAS pinned `unknown` here ("a passive by name, bare number"). It is the first number
+  // of the 1030007..1030065 run whose 18 named members are all passives, so the SKU now says passive too. The refusal that
+  // replaces it is the same shape one step out: numbers of the same base with NO named neighbour stay unknown.
+  ["1030007", "passive", "'LGX-MXDX-4CH-iWDM ITU 21, 22, 24, 26 EXP-DTP-SC/APC' — first number of the named passive run"],
+  ["1030178", "unknown", "'Cisco 1030178' — 10301xx has no named neighbour: outside the run window, not guessed"],
+  ["1030325", "unknown", "'Cisco 1030325' — the same"],
+  ["4030103", "unknown", "'Cisco 4030103' — 40301xx has only 3 named members among 21 numbers (4030110/11 BWDM filters, 4030115 a coupler), not a consecutive single-product run: not taken"],
   ["INODEMGR-STD-NOD", "unknown", "'Intelligent Node Mgr - Standard RTU SW License' — not a node (a licence)"],
   ["GS7000", "unknown", "'Cisco GS7000' — the family name, not a configured node"],
   ["DB-9", "unknown", "'Cisco DB-9'"],
@@ -111,6 +122,66 @@ const REFUSAL: [string, VideoKind, string][] = [
   ["BUNDLE1-3G60-DS384", "unknown", "'Bundle: qty6 3G60(2G24) and qty7 DS384 7x64 QAM plus Commons'"],
   ["1545-1548", "unknown", "'Cisco 1545-1548' — a wavelength span, no evidence of what it is"],
 ];
+
+// kind-layer (13 Sep 2026): THE NAME PATH for the III.0 item 6 families (real SKU + its catalogue name; the SKU rules all
+// decline these, so the name decides). Refusals are the traps each new word rule was written against.
+const NAME_CASES: [string, string, VideoKind, string][] = [
+  ["4040109", "GS7000,40/52,TPs,8p,Unconfigured,Fwd/Rev,PS", "node", "an unconfigured node platform — before the supply rule, whose PS it carries"],
+  ["4011912", "GS7000 Rev Amp,40/42MHz", "rf-amplifier", "a reverse RF amplifier"],
+  ["4003776", "(P2-HEDA-R w/CCB)Rev HEDA,5-200MHz,CCB", "rf-amplifier", "a headend driver amplifier"],
+  ["4042877", "EDR GS2185 Tx Module", "transmitter", "'Tx Module'"],
+  ["4036866", "GS7K OS 1xR Rx,x1,CWDM P Tx", "transmitter", "a channel-lettered CWDM Tx that also carries an Rx"],
+  ["4040565", "Prisma II HD, LN, RXR, SA", "receiver", "RXR"],
+  ["731512-001", "HDRX LOW GN REV OPTICAL RCVR MODULE, SC/A", "receiver", "HDRX / RCVR"],
+  ["4042751", "EDR Rx OPM XR", "receiver", "'Rx OPM'"],
+  ["1030016", "20 CH-ITU 20—39 DTP-UG-EXP-LC/APC", "passive", "a DTP expansion mux (its SKU is inside the 10300xx run too)"],
+  ["4040817", "CAS-DWDM-100G-SQAM-4CH 2027 SA EXP-C", "passive", "a cassette DWDM mux"],
+  ["4015963", "BWDM 1x2, LGX, E2000, ITU25-32, 16-23/34-59", "passive", "a BWDM splitter"],
+  ["4030110", "BWDM4 Four Band Filter", "passive", "an OPTICAL band filter — was `mechanical` through the air-filter word"],
+  ["4027740", "GS7000 Coupler, SA (10/Pkg)", "passive", "an optical coupler"],
+  ["4042555", "GS7000,OP,CWDM,1X10,1430,1610,SA,MPO", "passive", "the ',OP,CWDM' optical-passive form"],
+  ["4011930", "GS7000 Node Pwr Supply", "power", "'Pwr Supply'"],
+  ["4028842", "DPON ONT PS, F-Conn, 12VDC/1A, 100-120VAC/50-60HZ", "power", "'ONT PS'"],
+  ["741982", "Pwr Conn, -48VDC (12 ea)", "accessory", "a power CONNECTOR pack, not a supply"],
+  ["4013014", "ICIM Terminator,DB9 Female", "accessory", "the terminator, not the ICIM — accessory runs before plug-in"],
+  ["4025879", "GS7000 Optical Hub Hsg Assy, Fiber Mgt, 2PS", "accessory", "an empty housing, the name form of the GS7K-HSG refusal"],
+  ["4011335.100.000.AA", "P2-ICIM2, COMMUNICATION INTERFACE", "plug-in", "ICIM"],
+  ["4008281", "(P2-HM)HD Host Module", "plug-in", "a host module"],
+  ["P2-HD-EDR-SA=", "Cisco Prisma II EDR Host Module with 2:1 Tx", "plug-in", "a host module that NAMES a Tx: the transmitter words do not reach '2:1 Tx'"],
+  ["4027113", "Local Control Module (LCM) no SM Transponder", "plug-in", "LCM"],
+  ["4036793", "GS7000,Assy,Mod,4X DOCSIS Status Monitor", "plug-in", "a status monitor"],
+  ["4019010", "RFGW-1-D QAM Module (2x4QAM)", "plug-in", "a QAM module"],
+  ["4017856", "ASSY,PCB,GS7000 FCM,1X2,RDNDT,INJ,RX 1", "plug-in", "FCM — its 'RX 1' is not a receiver"],
+  ["4011907", "GS7000 Node Signal Director Jmpr (Kit/10)", "plug-in", "the name form of GS7K-SD"],
+  ["714470", "(P2-OPSW-SA) Opt Sw, 1310/1550nm, SA", "plug-in", "an optical switch module (no library noun)"],
+  ["4027014", "GS7000 Optical Switch", "plug-in", "the same, GS7000"],
+  // refusals
+  ["4023768", "Prisma II XD Chassis, F connector, with ICIM", "chassis", "REFUSE plug-in: a shelf that names the ICIM it takes is the shelf"],
+  ["731508DEM", "HDRX CHASSIS, NO POWER SUPPLY", "chassis", "REFUSE receiver AND power: an HDRX chassis without a supply"],
+  ["4040562", "CAS-DWDM-SQAM 8Ch 100G 2035 900-NC EXP", "passive", "REFUSE: 'SQAM' is not the SuperQAM transmitter word"],
+  ["4029111", "Kit, 110V Powered, Gainmaker Node", "unknown", "REFUSE node / power: a powering kit, left unknown with its reason"],
+  ["750185", "Patch Enclosures, 72pos, SA, 20m Stub", "unknown", "REFUSE passive: a patch enclosure (no library noun; decision recorded)"],
+  ["4036797.1610", "ASSY, MOD, DPON EU ONT, 1610, 20, 60C", "unknown", "REFUSE transmitter: the D-PON ONT, the header's .1610 refusal in name form"],
+  ["9220F-DIFL", "9220 W/DIFL OPTIONS", "unknown", "REFUSE: nothing in the name says what it is"],
+];
+for (const [sku, name, kind, why] of NAME_CASES) check(`NAME ${sku} '${name}' -> ${kind} (${why})`, videoKind(sku, undefined, name) === kind, `got ${videoKind(sku, undefined, name)}`);
+check("the directional-coupler plug-in is still a plug-in, not the new optical-coupler passive",
+  videoKind("", undefined, "GS7000 12 dB Directional Coupler 2/6 1.2 GHz (QTY=10)") === "plug-in", `got ${videoKind("", undefined, "GS7000 12 dB Directional Coupler 2/6 1.2 GHz (QTY=10)")}`);
+// SABOTAGE for the name families: switching a family off must move its NAME cases off that kind.
+for (const fam of [...new Set(NAME_CASES.filter(([, , , w]) => !w.startsWith("REFUSE")).map(([, , k]) => k))]) {
+  const off = new Set<VideoKind>([fam]);
+  const own = NAME_CASES.filter(([, , k, w]) => k === fam && !w.startsWith("REFUSE"));
+  const still = own.filter(([sku, name]) => videoKind(sku, off, name) === fam);
+  check(`SABOTAGE name ${fam}: disabling the family moves all ${own.length} of its name cases`, still.length === 0, `still ${fam}: ${still.map(([s]) => s).join(", ")}`);
+}
+// The chassis veto is load-bearing: the shelf names above must be reached by the chassis rule, not merely missed by the others.
+check("SABOTAGE chassis veto: with chassis off, 'HDRX CHASSIS, NO POWER SUPPLY' is NOT a receiver or a supply",
+  !["receiver", "power"].includes(videoKind("731508DEM", new Set<VideoKind>(["chassis"]), "HDRX CHASSIS, NO POWER SUPPLY")));
+// And the run windows, at their edges (these numbers do not exist; they pin the window so a widening is a decision).
+check("WINDOW 4003589 is inside 40035[4-8]x", videoKind("4003589") === "passive");
+check("WINDOW 4003590 is outside it", videoKind("4003590") === "unknown");
+check("WINDOW 4043850 is outside 40438[0-4]x", videoKind("4043850") === "unknown");
+check("WINDOW 1030070 is outside 10300[0-6]x", videoKind("1030070") === "unknown");
 
 for (const [sku, kind, why] of POSITIVE) check(`${sku} is ${kind} (${why})`, videoKind(sku) === kind, `got ${videoKind(sku)}`);
 for (const [sku, kind, why] of REFUSAL) check(`REFUSE ${sku || "(empty)"} -> ${kind} (${why})`, videoKind(sku) === kind, `got ${videoKind(sku)}`);

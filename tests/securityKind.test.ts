@@ -16,6 +16,7 @@
 //     mis-shaped, and mis-shaping is not a cosmetic error: a component called a box carries gaps
 //     nothing can close, and a box called a component has its real questions CLOSED.
 import { securityKind, securityKindRule, SEC_RULE_IDS, SEC_BOX, SEC_COMPONENT, SEC_KINDS, type SecurityKind } from "../src/core/securityKind.js";
+import { partKind } from "../src/core/partKind.js";
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -61,7 +62,20 @@ const POSITIVES: [string, SecurityKind, string][] = [
   ["ST-M6-240GB-SATA", "drive", "'Cisco SNA 240GB SATA M.2'"],
   ["TG-M7-SDB3T8SA1VD", "drive", "a 3.8 TB SATA drive; the catalogue gives it no name of its own"],
   ["TG-MEM-32GB-M4", "memory", "'32GB DDR4-2400-MHz RDIMM'"],
-  ["CV-TPM2-002B-C", "compute", "'Trusted Platform Module2.0 UCS servers'"],
+  // kind-layer (13 Sep 2026): `compute` split into the library component kinds (spec II.8 said SERVER; 0 of 131 are).
+  ["CV-TPM2-002B-C", "tpm", "'Trusted Platform Module2.0 UCS servers' — kind-layer: was compute"],
+  ["SNS-TPM-002C", "tpm", "'TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified, for M6 servers'"],
+  ["SNS-CPU-4116", "cpu", "'2.1 GHz 4116/85W 12C/16.50MB Cache/DDR4 2400MHz'"],
+  ["ST-M6-CPU-A7443", "cpu", "'Cisco SNA AMD 2.85GHz 7443 200W 24C/128MB Cache DDR4 3200Mhz'"],
+  ["FS2K-RAID-9271", "storage-controller", "'Cisco FireSIGHT MegaRaid PCIe SAS Controller with Supercap'"],
+  ["ST-MRAID12G-4GB", "storage-controller", "'Cisco Stealthwatch 12Gbps SAS 4GB FBWC Cache module' — the controller's cache option"],
+  ["FMC-M6-HWRAID", "storage-controller", "'Cisco FMC M6 Boot optimized M.2 Raid controller'"],
+  ["CCS-BAT-RAID-710=", "storage-controller", "'Content Security Raid Battery for x70 Model'"],
+  ["SNS-PCIE-IQ10GF", "nic", "'Intel X710 quad-port 10G SFP+ NIC' — kind-layer: was compute"],
+  ["CCS-M6-PCIE-IRJ45", "nic", "'Cisco Content Security Intel i350 Quad Port 1Gb Adapter'"],
+  ["SNS-N2XX-ABPCI01", "nic", "'Broadcom 5709 Dual Port 10/100/1Gb NIC w/TOE iSCSI'"],
+  ["FMC-M5-MSTOR-SD", "compute", "'Cisco FMC Mini Storage Carrier Card for SD (holds up to 2)' — residual compute: a carrier, no library noun"],
+  ["CCS-RIS1A-240M6", "compute", "'CCS C240 M6 Riser1A' — residual compute: a riser"],
   ["SNS-4GBSR-1X041RY", "memory", "'4GB 1600 Mhz Memory Module'"],
   ["SNS-UCS-SSL-CATD", "compute", "'Cavium Card' — an SSL offload card"],
   ["ST-M6-M2EXT-240", "compute", "'C240 2U M6 M.2 Extended Board'"],
@@ -116,11 +130,23 @@ const POSITIVES: [string, SecurityKind, string][] = [
   ["ST-DS6200-K9", "analytics", "'Cisco Stealthwatch Data Store 6200'"],
   ["CV-CNTR-M8N", "analytics", "'Cyber Vision Center hardware appliance ( Cisco UCS C225 M8 Rack Server )'"],
   ["SNS-3415-K9", "identity", "'Small Secure Network Server for ISE, NAC, & ACS Applications'"],
-  // --- the fallback, which asks LESS: a box of no SKU-known shape
-  ["TG5504-K9", "appliance", "'Cisco Threat Grid 5504 Model Hardware'"],
-  ["AMPPC3000-K9", "appliance", "'Cisco Secure Endpoint Private Cloud Appliance - 3000 Model'"],
-  ["TA-CL-8U-M6-K9", "appliance", "'Cisco Secure Workload Gen3 8RU Cluster'"],
-  ["1210CE", "appliance", "the Secure Firewall 1210CE model row, which holds 20 of the category's facts"],
+  // --- kind-layer (13 Sep 2026): the 30 `appliance` rows dissolved (III.0 item 4 §7k) — appliance = 0 in the catalogue
+  ["TG5504-K9", "analytics", "'Cisco Threat Grid 5504 Model Hardware' — a Secure Malware Analytics sandbox (decision: analytics)"],
+  ["TG-M6-K9", "analytics", "'Cisco Secure Malware Analytics M6 Model Hardware'"],
+  ["TG5000-CHAS-AC", "analytics", "'Cisco Threat Grid 5000/5500 Chasis with AC' — the appliance body, not a power part"],
+  ["TG5500-BUN", "analytics", "'Cisco Threat Grid 5500 Model and Subscription Bundle'"],
+  ["TA-CL-8U-M6-K9", "analytics", "'Cisco Secure Workload Gen3 8RU Cluster'"],
+  ["AMPPC3000-K9", "management", "'Cisco Secure Endpoint Private Cloud Appliance - 3000 Model' (decision: management)"],
+  ["SEPC4000-K9", "management", "'Cisco Secure Endpoint Private Cloud Appliance - 4000 Model'"],
+  ["1210CE", "firewall", "the Secure Firewall 1210CE model row, which holds 20 of the category's facts"],
+  ["1220CX", "firewall", "the Secure Firewall 1220CX model row"],
+  ["ASA-VPN-15K-BUN", "firewall", "'Cisco Recommended ASA VPN Bundle for 15K users' — an ASA VPN-edition hardware bundle"],
+  ["CSACS-3415-K9", "non-hardware", "'ACS application & BASE license for SNS-3415-K9 appliance' — class change pending"],
+  ["TB-ESS-100GB", "non-hardware", "Telemetry Broker essentials volume licence — class change pending"],
+  ["ISA-FP-541213-K9", "non-hardware", "'IDS / IPS for Industrial Security Appliances K9 level' — class change pending"],
+  // --- the fallback, which asks LESS: a box of no SKU-known shape. After kind-layer NO catalogue row reaches it; the
+  //     default must still work for the next unknown SKU, so it is exercised with one that does not exist.
+  ["XYZ-9000-BOX", "appliance", "no rule names its shape — the fail-safe box default (not a catalogue SKU: none reaches it now)"],
 ];
 for (const [sku, want, why] of POSITIVES) kindIs(sku, want, why);
 
@@ -196,7 +222,35 @@ const REFUSALS: [string, SecurityKind, string][] = [
   ["ISE-SNS-ACCYKIT", "accessory", "'ISE SNS Accessory Kit' — the identity rule needs ^SNS-3\\d{3}"],
   // --- and three rows the CLASS table deliberately leaves hardware, so a kind rule has to answer
   ["FPR1010T-SBE", "firewall", "'Cisco Secure Firewall FPR1010 Small Business Edition' — bundle or licence is an open question, so it keeps a box's questions rather than being guessed away"],
-  ["C1-TETRATION", "appliance", "'Secure Workload bundle part number that includes the hardware and software subscription license' — the bare C1- class prefix is refused, so it is a box of no named shape"],
+  ["C1-TETRATION", "analytics", "'Secure Workload bundle part number that includes the hardware and software subscription license' — the bare C1- class prefix is refused, and kind-layer names the Secure Workload shape"],
+  // kind-layer (13 Sep 2026) refusals: the new appliance rules must not take the appliances' own components, and the
+  // licence rule must not take an appliance accessory.
+  ["CSACS-ACCYKIT", "accessory", "'Accessory Kit for Access Control System SW on 3415-appliance' — not the ACS licence"],
+  ["TG-M6-TPM-2.0", "tpm", "'Cisco Secure Malware Analytics TPM 2.0, for M6 servers' — not the TG appliance"],
+  ["TG-M5-RAID-12G", "storage-controller", "'Threat Grid 12G Modular RAID controller' — not the TG appliance"],
+  ["TG-PWR-AC-770W", "power", "a Threat Grid supply — not the appliance"],
+  ["AMPPC-CPU-6126", "cpu", "'Secure Endpoint Cloud 2.6 GHz 6126' — not the AMP private-cloud appliance"],
+  ["SEPC-RAID-12G", "storage-controller", "a Secure Endpoint Private Cloud RAID controller — not the appliance"],
+  ["AMPPC-PCIE", "compute", "'Cisco Secure Endpoint Cloud PCIe Card' — a PCIE segment with no NIC code is not a NIC"],
+  ["ST-M6-RAID-12G-SD", "storage-controller", "'SNA M6 12G SAS RAID Controller-4GB FBWC(28 Drives)' — the -SD tail is not a drive"],
+  // ...and every other component family of the three appliance lines the new ^TG / ^SEPC / ^AMPPC rules name, each kept
+  // off the appliance kind by the component rules that run first.
+  ["TG-M5-HDD-2.4TB", "drive", "'Cisco Secure Malware Analytics 2.4TB 12G SAS 10K RPM SFF HDD'"],
+  ["TG-M6-MEM-A-32GB", "memory", "'Cisco Secure Malware Analytics 32GB DDR4-3200-MHz RDIMM'"],
+  ["TG-M5-10G-NIC", "nic", "'Cisco Threat Grid X710 quad-port 10G SFP+ NIC'"],
+  ["TG-RAILF-M4", "accessory", "'Thread Grid Friction Rail Kit for C220 M4 rack servers'"],
+  ["TG-M7-PSU1-1200W-D", "power", "a Threat Grid M7 supply"],
+  ["TG-M6-CPU-I6330N", "cpu", "'Cisco Secure Malware Analytics I6330N 2.2GHz'"],
+  ["AMPPC-SSD-800GB", "drive", "'Cisco Secure Endpoint Cloud 800GB SSD'"],
+  ["AMPPC-HDD-1.2TB", "drive", "'Cisco Secure Endpoint Cloud 1.2TB Hard Drive'"],
+  ["AMPPC-MEM-A-64GB", "memory", "'Cisco Secure Endpoint 64GB DDR4 RAM (3200Mhz/PC4-19200/1.2v)'"],
+  ["AMPPC-10G-NIC", "nic", "'Cisco Secure Endpoint Cloud X710 quad-port 10G SFP+ NIC'"],
+  ["AMPPC-TPM-2.0", "tpm", "'Cisco Secure Endpoint Cloud Trusted Platform Module 2.0'"],
+  ["SEPC-10G-NIC", "nic", "a Secure Endpoint Private Cloud NIC"],
+  ["SEPC-AC-1050", "power", "a Secure Endpoint Private Cloud supply"],
+  ["SEPC-SD76TBM1X-EV", "drive", "a Secure Endpoint Private Cloud 7.6 TB SSD"],
+  ["SEPC-MEM-A-64GB", "memory", "a Secure Endpoint Private Cloud DIMM"],
+  ["SEPC-RIS1A-240M6", "compute", "a Secure Endpoint Private Cloud riser — residual compute, not the appliance"],
   ["FS1500-BASE-K9", "management", "'FireSIGHT Defense Center 1500, no FireSIGHT license' — a chassis whose name says it has NO licence"],
   // --- and one refusal per APPLIANCE PREFIX, so no box rule is left with an untested component.
   //     The firewall rule alone (^ASA-?55\d\d, ^FPR-?\d{4}, ^CSF\d{3,4}) would take all ten of these.
@@ -216,7 +270,7 @@ const REFUSALS: [string, SecurityKind, string][] = [
   ["AMPPC-MEM-X-64GB", "memory", "'Secure Endpoint 64GB DDR4 RAM'"],
   ["TG-SSD-120GB", "drive", "'Thread Grid 120 GB 2.5 inch Enterprise Value 6G SATA SSD' (sic)"],
   ["FMC-M5-SSD-800G", "drive", "'Cisco 800GB 2.5in Enterprise Value 6G SATA SSD' for an FMC — the management rule is ^FMC-?\\d{3,4}, so FMC-M5 is not a console"],
-  ["CV-CPU-A7443P", "compute", "'AMD 2.85GHz 7443P 200W 24C' — the analytics rule is anchored to ^CV-CNTR-, so a Cyber Vision CPU is not a Center"],
+  ["CV-CPU-A7443P", "cpu", "'AMD 2.85GHz 7443P 200W 24C' — the analytics rule is anchored to ^CV-CNTR-, so a Cyber Vision CPU is not a Center (kind-layer: cpu, was compute)"],
   ["FPR4200-FAN=", "fan", "the 4200's fan, spare"],
 ];
 for (const [sku, want, why] of REFUSALS) kindIs(sku, want, why);
@@ -255,6 +309,17 @@ const ORDER: [string, SecurityKind, string, string][] = [
   ["MEM-7100-CFL128M", "drive", "compact-flash", "memory — a MEM- prefix over 'Compact Flash Disk, 128 MB', which is storage"],
   ["ST-M6-240GB-SATA", "drive", "drive", "analytics"],
   ["TG-M7-SDB3T8SA1VD", "drive", "drive", "the fallback, which would have made it a box"],
+  // kind-layer (13 Sep 2026): the `compute` split is an ORDERING change — each library kind sits before the old
+  // catch-all, which still matches every one of these. Delete a rule, or move it after `compute`, and its case goes red.
+  ["SNS-CPU-4116", "cpu", "cpu", "compute — the catch-all's CPU token"],
+  ["FMC-MRAID12G", "storage-controller", "storage-controller", "compute — the catch-all's MRAID\\d* token"],
+  ["SNS-UCS-TPM", "tpm", "tpm", "compute — the catch-all's TPM token"],
+  ["CCS-PCIE-IQ10GF", "nic", "nic", "compute — the catch-all's PCIE token"],
+  ["TG-M6-TPM-2.0", "tpm", "tpm", "analytics-sandbox-and-workload would not take it, but the fallback name path would file a TPM as security-module"],
+  ["CSACS-3495-UP-K9", "non-hardware", "licence-pending-class", "the (default) appliance fallback"],
+  ["1210CP", "firewall", "firewall-1200-model-and-asa-vpn-bundle", "the (default) appliance fallback"],
+  ["TA-CL-39U-M6-K9", "analytics", "analytics-sandbox-and-workload", "the (default) appliance fallback"],
+  ["AMPPC-3000-K9", "management", "management-endpoint-private-cloud", "the (default) appliance fallback"],
 ];
 for (const [sku, want, ruleId, beats] of ORDER) {
   seen.add(securityKindRule(sku));
@@ -278,6 +343,21 @@ eq("SEC_KINDS covers the box kinds, the components and non-hardware, with no dup
   SEC_KINDS.length, new Set(SEC_KINDS).size);
 eq("SEC_KINDS is exactly SEC_BOX + SEC_COMPONENT + non-hardware",
   SEC_KINDS.length, SEC_BOX.length + SEC_COMPONENT.length + 1);
+
+// kind-layer (13 Sep 2026): THE NAME PATH, end to end. partKind reads the name only when the axis returns a fallback
+// kind, and in `security` the tpm marker would reach `security-module`, the riser marker `module`, a FBWC cache name
+// `drive`. The split kinds are NAMED so that path never opens — asserted on the catalogue names, and the sabotage is
+// what those names do when the axis says `accessory` (a fallback) instead.
+eq("name path: SNS-TPM-002C 'TPM 2.0, TCG, …' stays tpm", partKind("security", "SNS-TPM-002C", "TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified, for M6 servers"), "tpm");
+eq("name path: ST-MRAID12G-4GB '…FBWC Cache module' stays storage-controller", partKind("security", "ST-MRAID12G-4GB", "Cisco Stealthwatch 12Gbps SAS 4GB FBWC Cache module"), "storage-controller");
+eq("name path: ST-M6-R2R3-C220 '…Riser 2 and Riser 3 Kit' stays compute", partKind("security", "ST-M6-R2R3-C220", "Cisco SNA C220 Riser 2 and Riser 3 Kit"), "compute");
+// SABOTAGE: the same names behind a FALLBACK axis answer (an `-ACC-` SKU the mount-kit rule calls accessory). A riser
+// name becomes `module` (a netmod, asked ports) and a FBWC cache name becomes `drive` — which is exactly why the residual
+// risers stay the named `compute` and the cache modules are `storage-controller`. (A TPM name now reaches `tpm` even from a
+// fallback, because `tpm` is declared for security — the marker's first target — so that half of the trap is closed twice.)
+eq("SABOTAGE name path: a riser name behind a fallback kind is filed `module`", partKind("security", "X-ACC-RIS", "Right PCIe Riser Board (Riser 1) (3 x8) for 6 PCI slots"), "module");
+eq("SABOTAGE name path: a FBWC cache name behind a fallback kind is filed `drive`", partKind("security", "X-ACC-FBWC", "Cisco Stealthwatch 12Gbps SAS 4GB FBWC Cache module"), "drive");
+eq("name path: a TPM name behind a fallback kind reaches `tpm`, not security-module", partKind("security", "X-ACC-TPM", "Cisco FMC Trusted Platform Module 2.0"), "tpm");
 
 // Every kind the type names is reached by a real catalogue SKU in this file.
 for (const k of SEC_KINDS) {
