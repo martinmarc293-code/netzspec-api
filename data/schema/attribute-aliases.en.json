@@ -430,7 +430,7 @@
   [
    "^frequency range$",
    "radio_bands",
-   "wireless: 'Frequency range' on an antenna or AP sheet is the radio's operating span ('2.4 to 2.5 GHz', '5.150 to 5.925 GHz'). ADDED HERE, ABOVE THE GENERIC RULE, 12 Sep 2026 — the same shape as the transceiver rule directly above, and for the same reason. There was already a `^frequency range$` -> radio_bands rule in this file, 168 rules FURTHER DOWN, so it had never fired once: `^frequency range` -> input_freq comes first and takes all 32 occurrences as AC mains. Nothing was corrupted by that (input_freq is numeric in Hz with a mains band, so '2.4 to 2.5 GHz' was refused rather than stored) — the cost was a cup that could not be filled. Scoped to the three categories where a bare frequency span is a radio with near-certainty; interfaces-modules and routers are left to input_freq because both a cellular radio and a mains supply are plausible there, and a wrong reading is worse than a recorded gap.",
+   "wireless: 'Frequency range' on an antenna or AP sheet is the radio's operating span ('2.4 to 2.5 GHz', '5.150 to 5.925 GHz'). ADDED HERE, ABOVE THE GENERIC RULE, 12 Sep 2026 — the same shape as the transceiver rule directly above, and for the same reason. There was already a `^frequency range$` -> radio_bands rule in this file, 168 rules FURTHER DOWN (the round-6 'rule 223', unscoped, '[agent wireless]'; DELETED 13 Sep 2026 as provably redundant, phase-1 close guide 5.3 - this scoped rule is the only radio reading now), so it had never fired once: `^frequency range` -> input_freq comes first and takes all 32 occurrences as AC mains. Nothing was corrupted by that (input_freq is numeric in Hz with a mains band, so '2.4 to 2.5 GHz' was refused rather than stored) — the cost was a cup that could not be filled. Scoped to the three categories where a bare frequency span is a radio with near-certainty; interfaces-modules and routers are left to input_freq because both a cellular radio and a mains supply are plausible there, and a wrong reading is worse than a recorded gap.",
    {
     "only": [
      "wireless",
@@ -561,8 +561,8 @@
   ],
   [
    "^width( |$)",
-   "width",
-   "pdf-server: A single measured dimension. Deliberately NOT folded into the composite dimensions string, which expects H x W x D; the parenthetical qual"
+   "dimensions",
+   "REDIRECTED width -> dimensions, 13 Sep 2026 (round-6 ruling, accepted; phase-1 close guide 5.3). 'Width' and 'Height' are two axes of one datasheet row, and 'Height' already reached dimensions while this rule sent 'Width' to width, so one sheet's H and W landed in different cups. Measured before the change: `width` held 0 facts in any vendor, so nothing stored moves. The cost, stated: of 49 distinct local 'Width' values, 41 normalised as `width` and 0 parse as the H x W x D struct (STRUCT_UNPARSED) - exactly what 'Height' already does - so a single-axis width is now a recorded refusal until a single-axis dimensions reading exists. The provantage section-path twin `(^|> )Width$` -> width is left as its Height twin is. Was (pdf-server): 'A single measured dimension. Deliberately NOT folded into the composite dimensions string.'"
   ],
   [
    "maximum number of gpus per node",
@@ -1186,9 +1186,9 @@
    ""
   ],
   [
-   "maximum data rate|aggregate data rate|^data rate$|maximum aggregate",
+   "maximum data rate|aggregate data rate|maximum aggregate",
    "max_data_rate",
-   ""
+   "13 Sep 2026 (round-6 ruling, accepted; phase-1 close guide 5.3): the `^data rate$` alternative is REMOVED from this rule, so a bare 'Data rate' / 'Data Rate' reaches data_rate through the rule below instead of the maximum cup. A bare 'Data rate' is a link or PHY rate ('2.488 Gb/s' on a BiDi optic, '6/9/.../54 Mbps' ladders), not a stated maximum. Measured: 1 stored fact came from the label (cisco QSFP-100G-ZR4-S max_data_rate '100G'); it stays where it is until a move is run. 'Maximum data rate' and 'Aggregate data rate' are unchanged."
   ],
   [
    "clients per radio|maximum clients per|associated clients per",
@@ -1419,11 +1419,6 @@
    "^available transmit power settings$",
    "tx_power",
    "[agent wireless] Wireless AP transmit power settings, per band (e.g. '2.4 GHz Up to 20 dBm', '5 GHz Up to 20 dBm'); dimensionally TX powe"
-  ],
-  [
-   "^frequency range$",
-   "radio_bands",
-   "[agent wireless] Antenna/radio operating frequency range (e.g. '2.4 to 2.5 GHz 5.150 to 5.925 GHz'); same concept as existing radio_bands"
   ],
   [
    "^switching capability per fabric$",
@@ -2354,9 +2349,9 @@
    "optical-networking: Optical return loss in dB (40 dB, 45 dB)."
   ],
   [
-   "^(maximum total output power|signal output power range)$",
+   "^maximum total output power$",
    "total_output_power",
-   "optical-networking: Amplifier composite output power in dBm (23 dBm, 18.2 dBm) across the full channel load."
+   "optical-networking: Amplifier composite output power in dBm (23 dBm, 18.2 dBm) across the full channel load. 13 Sep 2026: the 'signal output power range' alternative was SPLIT OUT of this unscoped rule (round-6 ruling: that label is tx_power on a transmitter and total_output_power on an amplifier) - it now lives in the optical-networking-scoped `^Signal\\s+output\\s+power\\s+range$` rule further down, and `^signal output power range` -> tx_power wins it everywhere else. 'Maximum total output power' names a composite total on every sheet and stays unscoped."
   ],
   [
    "^overload$",
@@ -2445,8 +2440,8 @@
   ],
   [
    "^colou?r$",
-   "jacket_color",
-   "interfaces-modules: Single-word colour value (\"Red\") on cable/patch-cord parts, where the only colour a datasheet states is the jacket colour. Anchore"
+   "color",
+   "REDIRECTED jacket_color -> color, 13 Sep 2026 (round-6 ruling, accepted; phase-1 close guide 5.3: 'Color' is jacket_color on cable/cord KINDS and color elsewhere). The mapper scopes by CATEGORY, not kind, and the category fallback is 'jacket_color only in the categories whose Color labels come from cable sheets' - measured, that set is EMPTY: every local bare 'Color' occurrence is either a CWDM/DWDM optic's colour code (transceiver, kind pluggable: CWDM-SFP10G-*, CWDM-SFP-*, DS-CWDM*, 'Red'/'Yellow'/'Gray' - a latch colour, not a jacket) or a headset finish (collaboration-endpoints, 'Black Anthracite and Desert Gold'), and no category is cable-only (switches 303 cable/cord kinds of 7,438 hardware parts, collaboration-endpoints 552 of 2,840, transceiver 51 breakout cables of 2,107). Cable sheets write 'Jacket Color', which `^Jacket Color$` still sends to jacket_color (14 stored breakout-cable facts). So bare 'Color' reaches color in every category, and the cable/cord half of the ruling is a recorded limitation with 0 measured occurrences. STORED FACTS IN THE WRONG CUP: 40 cisco jacket_color facts from this label, all transceiver/pluggable CWDM optics; not moved here. Was (interfaces-modules): 'Single-word colour value (\"Red\") on cable/patch-cord parts, where the only colour a datasheet states is the jacket colour.'"
   ],
   [
    "^compliance$",
@@ -3020,8 +3015,8 @@
   ],
   [
    "^power and cooling$",
-   "psu_options",
-   "hyperconverged-infrastructure: Values enumerate the selectable PSUs ('Hot-pluggable, redundant platinum and titanium options', 'One or two hot-pluggab"
+   "psu_config",
+   "REDIRECTED psu_options -> psu_config, 13 Sep 2026 (round-6 ruling, accepted; phase-1 close guide 5.3), matching the hyperconverged-systems rule further down that had never fired. The label's cell states HOW MANY supplies and their redundancy ('One or two hot-pluggable power supplies / Second power supply provides 1+1 redundancy'), which is the configuration cup. Measured before the change: 0 stored facts in any vendor came from this label (of psu_options' 607 cisco table facts, 593 re-found under other labels - 'Power supplies', 'Product description' ordering rows - and the 14 not re-findable are power-cord ordering rows by their values; hpe/aruba 146 all other labels). THE COST, stated: psu_config is an ENUM, and of 20 distinct local 'Power and cooling' values 2 map ('2 hot-swappable power supplies provide 1+1 redundancy' -> modular-redundant) and 18 are refused ENUM_VIOLATION (bullet lists naming wattages and fans), where all 20 had normalised as psu_options lists. A recorded refusal, not a wrong value. 'Power and cooling features' (7 occurrences) is NOT matched (anchored) and stays unmapped. Was (hyperconverged-infrastructure): 'Values enumerate the selectable PSUs.'"
   ],
   [
    "^temperature: ?operating$",
@@ -3931,7 +3926,12 @@
   [
    "^Signal\\s+output\\s+power\\s+range$",
    "total_output_power",
-   "optical-networking: label cited as evidence for the field"
+   "optical-networking: label cited as evidence for the field. SCOPED 13 Sep 2026 (round-6 ruling, accepted; phase-1 close guide 5.3): total_output_power for AMPLIFIER kinds, tx_power for TRANSMITTER kinds. The mapper scopes by CATEGORY, not kind, so this is the category fallback: every local occurrence (9, one sheet: NCS 1014 coherent mux/demux with EDFA, 'Full channel load' / 'Single channel' conditions, 18.0/6.0/9.0/-3.0 dBm) is in optical-networking, which holds 70 amplifier-kind parts and no transmitter kind. Elsewhere `^signal output power range` -> tx_power wins; video holds both kinds (1,127 transmitter, 133 amplifier/rf-amplifier) and the label has 0 occurrences there, so it goes to tx_power by the majority kind. Recorded limitation: an optical-networking transmitter printing this label would land in total_output_power, and a video amplifier in tx_power; 0 occurrences of either today. Stored facts affected: total_output_power holds 0 facts in any vendor.",
+   {
+    "only": [
+     "optical-networking"
+    ]
+   }
   ],
   [
    "^Overload$",
@@ -5718,7 +5718,7 @@
   [
    "^signal output power range",
    "tx_power",
-   "optical-networking: Clean single dBm values (-11, -2, -15 dBm) describing optical output power."
+   "optical-networking: Clean single dBm values (-11, -2, -15 dBm) describing optical output power. 13 Sep 2026 (round-6 ruling): shadowed in all 17 categories until today; it now WINS the label everywhere except optical-networking, where the amplifier reading (total_output_power, scoped rule above) takes it. See the note on that rule for the category-for-kind fallback."
   ],
   [
    "^optical transmit power",

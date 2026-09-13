@@ -117,27 +117,52 @@ const traces: Trace[] = files.map((f) => JSON.parse(fs.readFileSync(path.join(DI
  *   4 CASE TWINS      the same rule and the same ruling as a lowercase entry above them; the label
  *                     inventory is case-sensitive and a datasheet capitalises as it likes.
  *   9 NEWLY VISIBLE   recorded, ruling pending — each named in the round-7 response for the reviewer.
+ *
+ * FIFTEEN, NOT TWENTY-TWO (13 Sep 2026, phase-1 close guide §5.3). The six round-6 rulings that were
+ * accepted and never implemented are now in the rules file, and the table is re-counted with the
+ * winners they chose: EIGHT entries resolve outright (the six rulings plus two case twins) and ONE
+ * appears — `Width|width`, which is the exact mirror of the long-standing `Height|height`: the bare
+ * label now reaches dimensions and the provantage section-path rule `(^|> )Width$` -> width still
+ * matches it and loses. Every entry now carries `ruling`, which must say `ruled …` or
+ * `pending 2026-09-13 …` — asserted below, so an entry with no decision recorded cannot be added.
  */
-const KNOWN_CUP_CONFLICTS: Record<string, { wins: string; occurrences: number }> = {
-  // --- the original 13 ------------------------------------------------------------------------------
-  "Compliance|certifications": { wins: "ieee_standards", occurrences: 121 },
-  "Compliance|standard": { wins: "ieee_standards", occurrences: 121 },
-  "Frequency range|radio_bands": { wins: "input_freq", occurrences: 32 },
-  "Output holdup time|output_holdup_time": { wins: "holdup_time", occurrences: 46 },
-  "Height|height": { wins: "dimensions", occurrences: 45 },
-  "Cabling type|standard": { wins: "media", occurrences: 38 },
-  "Width|dimensions": { wins: "width", occurrences: 35 },
-  "Integrated interface|data_rate": { wins: "ports", occurrences: 11 },
-  "Integrated interfaces|data_rate": { wins: "ports", occurrences: 9 },
-  "Power and cooling|psu_config": { wins: "psu_options", occurrences: 18 },
-  "Data rate|data_rate": { wins: "max_data_rate", occurrences: 10 },
-  "Color|color": { wins: "jacket_color", occurrences: 9 },
-  "Signal output power range|tx_power": { wins: "total_output_power", occurrences: 9 },
-  // --- 4 case twins: same rule, same ruling -----------------------------------------------------------
-  "Output Holdup Time|output_holdup_time": { wins: "holdup_time", occurrences: 7 },
-  "Data Rate|data_rate": { wins: "max_data_rate", occurrences: 6 },
-  "Power and Cooling|psu_config": { wins: "psu_options", occurrences: 5 },
-  "Integrated Interface|data_rate": { wins: "ports", occurrences: 1 },
+type KnownConflict = { wins: string; occurrences: number; ruling: string };
+/** The round-6 rulings on the original 13 were ACCEPTED in docs/reports/cisco-round6-response-2026-09-12.md
+ *  §4, and cisco-round8-response-2026-09-12.md §A names the six that were not implemented. The rulings'
+ *  own text is in the reviewer's round-6 report, which is not in this repo — so an entry not among the
+ *  six is recorded as "winner stands as ruled", with that provenance, rather than paraphrased. */
+const R6_STANDS = "ruled round 6 (accepted, round-6 response §4; not among the six round-8 §A lists as unimplemented): the winner stands";
+const KNOWN_CUP_CONFLICTS: Record<string, KnownConflict> = {
+  // --- the original 13, after §5.3 -----------------------------------------------------------------
+  // RESOLVED 13 Sep 2026 by the §5.3 implementation — gone from this table because the losing rule no
+  // longer disagrees about the cup (or no longer exists):
+  //   "Frequency range|radio_bands"          rule 223 (`^frequency range$` -> radio_bands, unscoped) DELETED;
+  //                                          the wireless/meraki-scoped copy above it is the radio reading
+  //   "Width|dimensions"                     ruling Width -> dimensions (`^width( |$)` redirected)
+  //   "Power and cooling|psu_config"         ruling -> psu_config (`^power and cooling$` psu_options rule redirected)
+  //   "Data rate|data_rate"                  ruling -> data_rate (`^data rate$` removed from the max_data_rate alternation)
+  //   "Color|color"                          ruling -> color outside cable/cord kinds; category scope cannot see a
+  //                                          kind and NO category's bare "Color" comes from a cable sheet, so
+  //                                          `^colou?r$` -> color everywhere (limitation recorded in the rule note)
+  //   "Signal output power range|tx_power"   ruling tx_power for transmitters, total_output_power for amplifiers;
+  //                                          category fallback: the total_output_power rule is scoped to
+  //                                          optical-networking (all 9 occurrences), tx_power wins elsewhere
+  //   "Data Rate|data_rate", "Power and Cooling|psu_config"   the case twins of two of the above
+  "Compliance|certifications": { wins: "ieee_standards", occurrences: 121,
+    ruling: "pending 2026-09-13: ruled round 6 that bare 'Compliance' needs a VALUE-AWARE rule, not a label decision; no such rule exists yet (only the parenthetical (EMC)/(safety)/(regulatory) forms were routed in round 7)" },
+  "Compliance|standard": { wins: "ieee_standards", occurrences: 121,
+    ruling: "pending 2026-09-13: same ruling as Compliance|certifications — a value-aware rule, not yet written" },
+  "Output holdup time|output_holdup_time": { wins: "holdup_time", occurrences: 46, ruling: R6_STANDS },
+  "Height|height": { wins: "dimensions", occurrences: 45,
+    ruling: "ruled round 6: Height and Width both go to dimensions (round-6 response §4); height/width/depth derived or retired later" },
+  "Width|width": { wins: "dimensions", occurrences: 35,
+    ruling: "ruled round 6, implemented 13 Sep 2026 (§5.3): the mirror of Height|height — the provantage `(^|> )Width$` -> width rule matches the bare label and loses, as its Height twin does" },
+  "Cabling type|standard": { wins: "media", occurrences: 38, ruling: R6_STANDS },
+  "Integrated interface|data_rate": { wins: "ports", occurrences: 11, ruling: R6_STANDS },
+  "Integrated interfaces|data_rate": { wins: "ports", occurrences: 9, ruling: R6_STANDS },
+  // --- case twins still standing: same rule, same ruling ----------------------------------------------
+  "Output Holdup Time|output_holdup_time": { wins: "holdup_time", occurrences: 7, ruling: R6_STANDS },
+  "Integrated Interface|data_rate": { wins: "ports", occurrences: 1, ruling: R6_STANDS },
   // --- the 9 newly visible, RULED in round 7 (12 Sep 2026) ---------------------------------------------
   // Four are RESOLVED and gone from this table, because a rule now wins the label outright and the
   // losing rule no longer disagrees about the cup:
@@ -148,15 +173,31 @@ const KNOWN_CUP_CONFLICTS: Record<string, { wins: string; occurrences: number }>
   // pending — the losing rule still matches and still wants another cup, which is what this table counts.
   // A1–A2: a combined operating/storage row is two measurements in one cell; it parks in __backlog until
   // a split-by-value-position rule exists. Both humidity rules still match it and both lose.
-  "Environmental: Operating/storage humidity|humidity_operating": { wins: "__backlog", occurrences: 6 },
-  "Operating/storage humidity|humidity_operating": { wins: "__backlog", occurrences: 3 },
+  "Environmental: Operating/storage humidity|humidity_operating": { wins: "__backlog", occurrences: 6,
+    ruling: "ruled round 7 (A1): two measurements in one cell park in __backlog until a split-by-value-position rule exists" },
+  "Operating/storage humidity|humidity_operating": { wins: "__backlog", occurrences: 3,
+    ruling: "ruled round 7 (A2): as A1" },
   // A3: the (VA) form is input_va_max, as it was; the power_max rule matches it and loses, correctly.
-  "Maximum Input at Nominal Input Voltage (VA)|power_max": { wins: "input_va_max", occurrences: 4 },
+  "Maximum Input at Nominal Input Voltage (VA)|power_max": { wins: "input_va_max", occurrences: 4,
+    ruling: "ruled round 7 (A3): watts never in the VA cup; the (VA) row stays input_va_max" },
   // A6: psu_rated_output is the winner. psu_output_power is NOT superseded — it holds 10 Cisco facts.
-  "Maximum Rated Output (W) 1|psu_output_power": { wins: "psu_rated_output", occurrences: 2 },
+  "Maximum Rated Output (W) 1|psu_output_power": { wins: "psu_rated_output", occurrences: 2,
+    ruling: "ruled round 7 (A6): psu_rated_output; psu_output_power kept (10 cisco facts)" },
   // A7: certifications is the winner. safety_standards is NOT superseded — cisco 34 + arista 4 facts.
-  "Safety Approvals|safety_standards": { wins: "certifications", occurrences: 1 },
+  "Safety Approvals|safety_standards": { wins: "certifications", occurrences: 1,
+    ruling: "ruled round 7 (A7): certifications; safety_standards kept (cisco 34 + arista 4 facts)" },
 };
+// EVERY ENTRY CARRIES A DECISION OR A DATED PENDING NOTE (§5.3 acceptance). Checked, not commented: an
+// entry with an empty or free-form `ruling` is the "frozen but undecided" state the reviewer objected to.
+{
+  const RULING_SHAPE = /^(ruled round \d|pending 20\d\d-\d\d-\d\d: )/;
+  const undecided = Object.entries(KNOWN_CUP_CONFLICTS).filter(([, v]) => !RULING_SHAPE.test(v.ruling)).map(([id]) => id);
+  check(`every one of the ${Object.keys(KNOWN_CUP_CONFLICTS).length} known conflicts records a ruling or a dated pending note`,
+    undecided.length === 0, undecided.join("; "));
+  // SABOTAGE of the shape check itself: a blank ruling and a dateless "pending" must both fail it.
+  check("SABOTAGE the ruling check refuses a blank ruling and an undated 'pending'",
+    !RULING_SHAPE.test("") && !RULING_SHAPE.test("pending: someone should look") && RULING_SHAPE.test("pending 2026-09-13: x"));
+}
 {
   // Shadowed in every category, computed from the artifacts rather than restated.
   let everywhere: Set<number> | null = null;

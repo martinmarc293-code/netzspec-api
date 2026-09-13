@@ -652,6 +652,77 @@ check('CONTROL: an RF "Pass band" still reaches passband (MHz)', mapLabel("Pass 
     wrong.length, 0);
 }
 
+// ==== BEGIN §5.3 (13 Sep 2026): THE SIX ROUND-6 ALIAS RULINGS, IMPLEMENTED =======================
+// docs/reports/phase1-close-guide-2026-09-13.md §5.3. Accepted in round 6, never implemented until now
+// (round-8 response §A). Each ruling is pinned by OUTCOME with a positive case AND a near-miss or scope
+// refusal, because each was done by redirecting, narrowing, scoping or deleting a live rule — and every
+// one of those can steal or drop a neighbouring label. The near-miss labels are real inventory labels
+// (runs/vocab/cisco-datasheets/labels.json). Where a ruling has a stated COST (a value the new cup refuses),
+// the cost is pinned too, so it cannot silently become a different cost. 30 checks; counted in SCOPED_TOTAL.
+{
+  const tracedCats = fs.readdirSync(path.join(REPO_ROOT, "data", "mapper"))
+    .filter((f) => f.endsWith(".json") && !f.endsWith(".contested.json"))
+    .map((f) => f.slice("cisco-".length, -".json".length));
+  const fact = (label: string, value: string, cat: string) => {
+    const m = mapFact({ label, value, shape: "A", locator: "t1:r1:c1", source_url: "https://www.cisco.com/x.html" }, cat);
+    return m.kind === "ok" ? `ok:${m.key}` : m.kind === "rejected" ? `rejected:${m.key}:${m.reason}` : m.kind;
+  };
+  // (1) Width -> dimensions: one datasheet row's H and W in one cup. 6 checks.
+  check(`§5.3-1 "Width" reaches dimensions in every traced category (${tracedCats.length})`,
+    tracedCats.length > 0 && tracedCats.every((c) => mapLabel("Width", c) === "dimensions"), true);
+  check('§5.3-1 CONTROL: "Height", the other axis of the same row, reaches the same cup', mapLabel("Height", "switches"), "dimensions");
+  check('§5.3-1 NEAR-MISS: "Channel width" is an RF channel width, not a chassis dimension', mapLabel("Channel width", "wireless"), "channel_width");
+  check('§5.3-1 NEAR-MISS: "Spectral width" is an optical quantity, not a chassis dimension', mapLabel("Spectral width", "interfaces-modules"), "spectral_width");
+  check('§5.3-1 SCOPE: the provantage section-path "… > Width" keeps width, exactly as its "… > Height" twin keeps height',
+    `${mapLabel("Physical Characteristics > Width", "switches")}|${mapLabel("Physical Characteristics > Height", "switches")}`, "width|height");
+  check('§5.3-1 COST, pinned: a single-axis width is REFUSED by the H x W x D struct (41 of 49 local values normalised as width before)',
+    fact("Width", "17.5 inches (44.45 cm)", "wireless"), "rejected:dimensions:STRUCT_UNPARSED");
+  // (2) Power and cooling -> psu_config. 5 checks.
+  check('§5.3-2 "Power and cooling" reaches psu_config', mapLabel("Power and cooling", "hyperconverged-infrastructure"), "psu_config");
+  check('§5.3-2 …and its case twin "Power and Cooling"', mapLabel("Power and Cooling", "storage-networking"), "psu_config");
+  check('§5.3-2 NEAR-MISS: "Power and cooling features" (7 occurrences) is NOT caught by the anchored rule',
+    mapLabel("Power and cooling features", "routers") ?? "unmapped", "unmapped");
+  check('§5.3-2 CONTROL: "Power supplies" (the ordering-table label psu_options actually holds) is not moved',
+    mapLabel("Power supplies", "switches"), "psu_options");
+  check('§5.3-2 COST, pinned: a bullet list of supplies and wattages is REFUSED by the psu_config enum (18 of 20 local values)',
+    fact("Power and cooling", "● One or two hot-pluggable power supplies ● Second power supply provides 1+1 redundancy ● 1050W DC, 1200W AC",
+      "hyperconverged-infrastructure"), "rejected:psu_config:ENUM_VIOLATION");
+  // (3) Data rate -> data_rate. 4 checks.
+  check('§5.3-3 "Data rate" reaches data_rate, not the maximum cup', mapLabel("Data rate", "transceiver"), "data_rate");
+  check('§5.3-3 …and its case twin "Data Rate"', mapLabel("Data Rate", "video"), "data_rate");
+  check('§5.3-3 NEAR-MISS: "Maximum data rate" still reaches max_data_rate', mapLabel("Maximum data rate", "meraki"), "max_data_rate");
+  check('§5.3-3 NEAR-MISS: "Aggregate data rate of 6120 Mbps" still reaches max_data_rate',
+    mapLabel("Aggregate data rate of 6120 Mbps", "wireless"), "max_data_rate");
+  // (4) Color -> color; jacket_color stays with the label cable sheets actually print. 6 checks.
+  check('§5.3-4 bare "Color" on a CWDM optic sheet reaches color (a latch colour code, not a jacket)', mapLabel("Color", "transceiver"), "color");
+  check('§5.3-4 …and on a headset sheet', mapLabel("Color", "collaboration-endpoints"), "color");
+  check('§5.3-4 SCOPE: "Jacket Color" — what cable sheets print — still reaches jacket_color', mapLabel("Jacket Color", "transceiver"), "jacket_color");
+  check(`§5.3-4 NEAR-MISS: "Colored TenGigabit Ethernet SFP's" is not a colour`, mapLabel("Colored TenGigabit Ethernet SFP's", "transceiver") ?? "unmapped", "unmapped");
+  check('§5.3-4 NEAR-MISS: "Colorless, contentionless, and omnidirectional add/drop" is not a colour',
+    mapLabel("Colorless, contentionless, and omnidirectional add/drop", "optical-networking") ?? "unmapped", "unmapped");
+  check('§5.3-4 LIMITATION, pinned: category scope cannot see a cable KIND, so bare "Color" in switches (303 cable/cord parts) is color',
+    mapLabel("Color", "switches"), "color");
+  // (5) Signal output power range: amplifier reading scoped to optical-networking, tx_power elsewhere. 5 checks.
+  check('§5.3-5 "Signal output power range" is a composite amplifier output in optical-networking',
+    mapLabel("Signal output power range", "optical-networking"), "total_output_power");
+  check('§5.3-5 SCOPE: …and a transmit power on a transceiver sheet', mapLabel("Signal output power range", "transceiver"), "tx_power");
+  check('§5.3-5 SCOPE: …and in video, whose majority kind is the transmitter', mapLabel("Signal output power range", "video"), "tx_power");
+  check('§5.3-5 NEAR-MISS: "Channel output power range" is caught by neither rule',
+    mapLabel("Channel output power range", "optical-networking") ?? "unmapped", "unmapped");
+  check('§5.3-5 CONTROL: splitting the alternation did not lose "Maximum total output power" outside optical-networking',
+    mapLabel("Maximum total output power", "transceiver"), "total_output_power");
+  // (6) Rule 223 deleted. Identified by PATTERN and KEY, never by index. 4 checks.
+  const freqRadio = (aliasDoc.rules as [string, string, string, { only?: string[] }?][])
+    .filter(([re, key]) => re === "^frequency range$" && key === "radio_bands");
+  check('§5.3-6 rule 223 is gone: no UNSCOPED `^frequency range$` -> radio_bands rule remains',
+    freqRadio.filter(([, , , s]) => !s?.only?.length).length, 0);
+  check('§5.3-6 …and exactly one SCOPED copy is left, the one that actually fires', freqRadio.length, 1);
+  check('§5.3-6 "Frequency range" is still a radio span on a Meraki sheet', mapLabel("Frequency range", "meraki"), "radio_bands");
+  check('§5.3-6 REFUSAL: deleting the copy did not widen the radio reading into interfaces-modules (left to input_freq on purpose)',
+    mapLabel("Frequency range", "interfaces-modules"), "input_freq");
+}
+// ==== END §5.3 ===================================================================================
+
 // ---- THE ONE SUMMARY AND THE ONE EXIT ---------------------------------------------------------
 // Arithmetic, like TOTAL, and for the same reason: a denominator derived from `pass` cannot notice
 // a dropped case. 9 fixed checks in the scoped block (Type-in-optical, Integrated antenna,
@@ -674,7 +745,14 @@ const SCOPED_TOTAL = SPEED_IS_A_DRIVE.length * 2 + SPEED_IS_NOT_A_DRIVE.length
   // round-7 ruling A (12 Sep 2026): 19 checks — humidity 3 + 2 controls; VA/W 1 + 1 control; nominal
   // current 1 + the supersession; Compliance 3 + 1 control; A6 and A7 one each; passband 1 + 1 control;
   // and the inventory-wide wavelength guard, which is 2 (inventory present, no frequency cup reached).
-  + 19;
+  + 19
+  // ==== §5.3 (13 Sep 2026): 30 checks — Width 6 (every category, Height control, 2 near-misses, the
+  // provantage scope pair, the STRUCT_UNPARSED cost); Power and cooling 5 (label, case twin, "features"
+  // near-miss, "Power supplies" control, the ENUM_VIOLATION cost); Data rate 4 (label, case twin, 2
+  // near-misses); Color 6 (2 labels, "Jacket Color" scope, 2 near-misses, the kind-scope limitation);
+  // Signal output power range 5 (3 categories, 1 near-miss, 1 split control); rule 223 4 (no unscoped
+  // copy, one scoped copy, meraki positive, interfaces-modules refusal). ==== END §5.3 ====
+  + 30;
 const stated = RULES.filter(([, , , v]) => v !== NO_SHAPE).length;
 console.log(`${pass}/${TOTAL + SCOPED_TOTAL} passed (${TOTAL} rule-table, ${SCOPED_TOTAL} category-scoped)`);
 if (misses.length) {
