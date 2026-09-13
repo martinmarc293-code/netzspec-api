@@ -60,8 +60,14 @@ export function modelTokens(sku: string, series: string | null | undefined): str
   return [...out];
 }
 
+/** Upper-case, whitespace collapsed: the form DocEvidence.text must arrive in. */
+export function normText(text: string): string {
+  return text.toUpperCase().replace(/\s+/g, " ");
+}
+
 export type DocEvidence = {
-  /** upper-cased visible text of the page (HTML) — empty for a document whose text is not held */
+  /** the page's visible text passed through normText() once by the caller (it is read once per link, and an EoL
+   * bulletin is linked to hundreds of parts) — empty for a document whose text is not held */
   text: string;
   /** SKUs the extractor emitted per-SKU records for */
   skuRecords: readonly string[];
@@ -90,7 +96,7 @@ export function linkBasisFor(
   const recs = doc.skuRecords.map(normSku);
   if (recs.includes(full)) return { basis: "explicit", evidence: `sku record ${full}` };
   if (base && recs.includes(base)) return { basis: "explicit", evidence: `sku record ${base} (base PID)` };
-  const text = doc.text.toUpperCase().replace(/\s+/g, " ");
+  const text = doc.text;
   if (containsToken(text, full)) return { basis: "explicit", evidence: `sku on page ${full}` };
   if (base && containsToken(text, base)) return { basis: "explicit", evidence: `sku on page ${base} (base PID)` };
 

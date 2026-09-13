@@ -1,0 +1,846 @@
+{
+  "_about": "Label SYNONYM families for the printed-on-the-page cup bar (operator rulings, 13 Sep 2026). A cup is PRINTED on a document when one of its labels (extractor row labels + table column headers) matches the mapper own alias pattern for the cup (seed, category-scoped), OR matches a synonym here (tested on the label LAST segment after the final \": \", so a section heading is not a row), OR is mapped to the cup by today mapper. An `exclude` hit refuses the synonym (never the mapper). Written from the per-part label listings and checked by reading matched labels; src/core/printedCups.ts is the only reader.",
+  "router_throughput": {
+    "include": [
+      "throughput",
+      "packets per second",
+      "forwarding performance",
+      "packet forwarding",
+      "(^|: )performance$",
+      "aggregate performance",
+      "maximum performance",
+      "platform performance"
+    ],
+    "exclude": [
+      "ipsec",
+      "vpn",
+      "encrypt",
+      "firewall",
+      "threat",
+      "(^|[^a-z])ips([^a-z]|$)",
+      "wireless",
+      "wlan",
+      "cellular",
+      "lte",
+      "3g",
+      "4g",
+      "5g",
+      "download",
+      "upload",
+      "dsp",
+      "technologies supported",
+      "increased performance",
+      "high-performance",
+      "application performance",
+      "requests",
+      "licensing",
+      "●",
+      "•"
+    ]
+  },
+  "ipsec_throughput": {
+    "include": [
+      "ipsec.*throughput",
+      "vpn throughput",
+      "encrypted throughput",
+      "encryption throughput",
+      "3des.*throughput",
+      "aes.*throughput"
+    ],
+    "exclude": []
+  },
+  "ipsec_tunnels": {
+    "include": [
+      "ipsec tunnels",
+      "vpn tunnels",
+      "vpn peers",
+      "ipsec sessions",
+      "number of tunnels",
+      "tunnels [(]",
+      "dmvpn.*(spokes|tunnels)",
+      "site-to-site.*(tunnels|peers)"
+    ],
+    "exclude": []
+  },
+  "nat_sessions": {
+    "include": [
+      "nat sessions",
+      "nat translations",
+      "nat entries",
+      "number of nat",
+      "nat table"
+    ],
+    "exclude": [
+      "throughput"
+    ]
+  },
+  "acl_entries": {
+    "include": [
+      "acl entries",
+      "access control entries",
+      "access[- ]list entries",
+      "(^|: )acls?$",
+      "number of acl",
+      "acl rules"
+    ],
+    "exclude": []
+  },
+  "ipv4_routes": {
+    "include": [
+      "ipv4 routes",
+      "routes [(]ipv4",
+      "ipv4 route",
+      "routing table",
+      "(^|: )routes$",
+      "route scale",
+      "maximum routes",
+      "(^|[^a-z])(rib|fib)([^a-z]|$)"
+    ],
+    "exclude": [
+      "ipv6",
+      "ribbon"
+    ]
+  },
+  "ipv6_routes": {
+    "include": [
+      "ipv6 routes",
+      "routes [(]ipv6",
+      "ipv6 route"
+    ],
+    "exclude": []
+  },
+  "vlan_max": {
+    "include": [
+      "(^|: )vlans?$",
+      "number of vlans",
+      "max(imum)? (number of )?vlans",
+      "vlan ids?$",
+      "active vlans",
+      "802.1q vlans"
+    ],
+    "exclude": [
+      "wireless",
+      "encrypted",
+      "wlan"
+    ]
+  },
+  "wan_interfaces": {
+    "include": [
+      "(^|: )wan( interfaces?| ports?| \\[| ethernet| connectivity| connection)?($| [(]|\\s*\\[)",
+      "ethernet wan",
+      "onboard wan",
+      "fixed wan",
+      "integrated wan",
+      "wan [(]",
+      "gigabit ethernet wan",
+      "sfp wan",
+      "wan interface",
+      "wan or lan",
+      "wan/lan",
+      "wan interface combination"
+    ],
+    "exclude": [
+      "diversity",
+      "redundan",
+      "multiple",
+      "technolog",
+      "optimi",
+      "automation",
+      "sd-wan",
+      "minimum supported",
+      "roaming",
+      "links"
+    ]
+  },
+  "lan_interfaces": {
+    "include": [
+      "(^|: )lan( interfaces?| ports?| switch| ethernet)?($| [(])",
+      "ethernet lan",
+      "onboard lan",
+      "integrated switch",
+      "lan switch",
+      "switch ports",
+      "port .*switch",
+      "managed switch",
+      "(^|: )lan [[]",
+      "wan or lan",
+      "wan/lan",
+      "lan interfaces?$"
+    ],
+    "exclude": [
+      "wlan",
+      "vlan",
+      "wireless",
+      "switch features"
+    ]
+  },
+  "ports": {
+    "include": [
+      "(^|: )(ports|interfaces)$",
+      "number of ports",
+      "port density",
+      "ethernet ports",
+      "gigabit ethernet ports",
+      "onboard (ports|interfaces)",
+      "fixed (ports|interfaces)",
+      "port configuration",
+      "(^|: )interfaces [(]",
+      "10/100/1000",
+      "(^|: )ge ports",
+      "network interfaces",
+      "interface support$",
+      "i/o ports",
+      "(^|: )ports [(]",
+      "front panel ports",
+      "uplink ports",
+      "downlink ports",
+      "port count",
+      "onboard .*ports",
+      "embedded .*ports",
+      "built-in .*ports",
+      "integrated gigabit ethernet ports"
+    ],
+    "exclude": [
+      "usb",
+      "console",
+      "aux",
+      "management port",
+      "poe",
+      "serial console",
+      "mini-usb"
+    ]
+  },
+  "module_slots": {
+    "include": [
+      "slots?$",
+      "slot density",
+      "slots [(]",
+      "nim slots",
+      "service-module slots",
+      "ehwic slots",
+      "hwic slots",
+      "expansion slots",
+      "module slots",
+      "pim slots",
+      "number of slots",
+      "(^|: )slots",
+      "line card slots",
+      "modular slots"
+    ],
+    "exclude": [
+      "usb",
+      "flash-memory",
+      "sfp",
+      "dimm",
+      "memory slot",
+      "sim",
+      "flash",
+      "compact"
+    ]
+  },
+  "dram": {
+    "include": [
+      "dram",
+      "system memory",
+      "(^|: )(memory|ram|default memory|installed memory|main memory)($| [(])",
+      "memory [(]dram"
+    ],
+    "exclude": [
+      "^(?!.*dram).*flash",
+      "usb",
+      "ip rating",
+      "memory slot"
+    ]
+  },
+  "flash": {
+    "include": [
+      "flash"
+    ],
+    "exclude": [
+      "usb flash",
+      "flash-memory slot",
+      "flash memory slots",
+      "slots"
+    ]
+  },
+  "dimensions": {
+    "include": [
+      "dimension",
+      "[(]h x w x d[)]",
+      "[(]w x l x h[)]",
+      "[(]w x d x h[)]",
+      "(^|: )(height|width|depth)( |$|[(])",
+      "(^|: )size$",
+      "sizes and weights"
+    ],
+    "exclude": [
+      "shipping",
+      "packag",
+      "box",
+      "external power supply dimensions",
+      "rack height",
+      "antenna"
+    ]
+  },
+  "weight": {
+    "include": [
+      "weight"
+    ],
+    "exclude": [
+      "shipping",
+      "packag",
+      "lightweight"
+    ]
+  },
+  "power_max": {
+    "include": [
+      "power consumption",
+      "maximum power",
+      "max power",
+      "power draw",
+      "power dissipation",
+      "wattage",
+      "(^|: )power [(]w",
+      "platform power",
+      "input power",
+      "power usage",
+      "maximum platform power"
+    ],
+    "exclude": [
+      "poe",
+      "transmit",
+      "endpoint",
+      "lightweight",
+      "low power",
+      "typical",
+      "idle",
+      "power supply dimensions"
+    ]
+  },
+  "power_typical": {
+    "include": [
+      "typical power",
+      "power consumption [(]typical",
+      "typical consumption",
+      "nominal power"
+    ],
+    "exclude": [
+      "poe"
+    ]
+  },
+  "temp_operating": {
+    "include": [
+      "operating temp",
+      "(^|: )temperature$",
+      "temperature range",
+      "environmental operating temperature",
+      "ambient temperature",
+      "operating conditions: temperature$"
+    ],
+    "exclude": [
+      "storage",
+      "non-operating",
+      "nonoperating",
+      "transport",
+      "short term",
+      "short-term",
+      "shipping",
+      "maximum altitude"
+    ]
+  },
+  "temp_storage": {
+    "include": [
+      "storage temp",
+      "non-operating temp",
+      "nonoperating temp",
+      "transport.*temp",
+      "storage.*temperature",
+      "shipping temp"
+    ],
+    "exclude": []
+  },
+  "humidity_operating": {
+    "include": [
+      "humidity"
+    ],
+    "exclude": [
+      "storage",
+      "non-operating",
+      "nonoperating",
+      "transport",
+      "short-term",
+      "short term",
+      "shipping"
+    ]
+  },
+  "altitude_max": {
+    "include": [
+      "altitude"
+    ],
+    "exclude": [
+      "storage",
+      "transport",
+      "non-operating",
+      "nonoperating",
+      "shipping",
+      "temperature:"
+    ]
+  },
+  "certifications": {
+    "include": [
+      "certif",
+      "safety",
+      "emc",
+      "emission",
+      "immunity",
+      "regulatory",
+      "compliance",
+      "approvals",
+      "(^|: )telecom",
+      "nebs",
+      "(^|: )standards$"
+    ],
+    "exclude": [
+      "vlan",
+      "ssid",
+      "environmental operating range",
+      "wireless",
+      "takeback",
+      "waste",
+      "material content",
+      "packag",
+      "certifications: [a-z ]*(features|software|management|hardware)"
+    ]
+  },
+  "form_factor": {
+    "include": [
+      "form factor",
+      "(^|: )mounting$",
+      "rack[- ]mount",
+      "desktop",
+      "din[- ]rail",
+      "wall[- ]mount",
+      "chassis type",
+      "enclosure",
+      "(^|: )mounting options"
+    ],
+    "exclude": [
+      "modem form factor",
+      "antenna",
+      "smallest cisco",
+      "kit",
+      "brackets"
+    ]
+  },
+  "rack_units": {
+    "include": [
+      "rack height",
+      "rack units?",
+      "(^|: )ru$",
+      "height [(]ru",
+      "size [(]ru",
+      "(^|: )rack size"
+    ],
+    "exclude": []
+  },
+  "input_voltage": {
+    "include": [
+      "input voltage",
+      "voltage range",
+      "(^|: )voltage$",
+      "dc input",
+      "ac input voltage",
+      "nominal voltage",
+      "operating voltage"
+    ],
+    "exclude": [
+      "surge",
+      "current",
+      "frequency",
+      "poe"
+    ]
+  },
+  "mtbf": {
+    "include": [
+      "mtbf",
+      "mean time between"
+    ],
+    "exclude": []
+  },
+  "heat_dissipation": {
+    "include": [
+      "heat dissipation",
+      "btu",
+      "thermal dissipation",
+      "heat output"
+    ],
+    "exclude": []
+  },
+  "console_ports": {
+    "include": [
+      "console",
+      "(^|: )aux",
+      "con/aux"
+    ],
+    "exclude": [
+      "common console",
+      "adapter",
+      "unified control"
+    ]
+  },
+  "mgmt_ports": {
+    "include": [
+      "management port",
+      "management interface",
+      "mgmt port",
+      "out-of-band",
+      "(^|: )management ethernet"
+    ],
+    "exclude": [
+      "features",
+      "software"
+    ]
+  },
+  "cellular_bands": {
+    "include": [
+      "(lte|umts|hspa|gsm|cellular|wwan|5g|4g|3g).*(band|frequenc)",
+      "band(s)? supported",
+      "supported bands",
+      "frequency bands",
+      "lte bands",
+      "(^|: )bands$"
+    ],
+    "exclude": [
+      "wi-?fi",
+      "802.11",
+      "wlan",
+      "radio frequency band"
+    ]
+  },
+  "poe_ports": {
+    "include": [
+      "poe.*(ports|interfaces)",
+      "(ports|interfaces).*poe",
+      "poe[+]? ports",
+      "inline poe"
+    ],
+    "exclude": [
+      "power capacity",
+      "power available",
+      "power supply"
+    ]
+  },
+  "psu_config": {
+    "include": [
+      "power supply",
+      "power supplies",
+      "(^|: )psu",
+      "redundant power",
+      "internal power",
+      "external power",
+      "power options",
+      "power redundancy"
+    ],
+    "exclude": [
+      "dimensions",
+      "mounting brackets",
+      "power supply for distribution",
+      "with poe power supply"
+    ]
+  },
+  "sdwan_capable": {
+    "include": [
+      "sd-wan",
+      "sdwan"
+    ],
+    "exclude": []
+  },
+  "redundancy": {
+    "include": [
+      "redundan",
+      "high[- ]availability",
+      "failover"
+    ],
+    "exclude": [
+      "wan links",
+      "power"
+    ]
+  },
+  "ip_rating": {
+    "include": [
+      "ip rating",
+      "ingress protection",
+      "(^|[^a-z0-9])ip ?[56][0-9]([^0-9]|$)",
+      "ip ?30",
+      "enclosure rating",
+      "nema"
+    ],
+    "exclude": []
+  },
+  "forwarding_rate": {
+    "include": [
+      "forwarding rate",
+      "packets per second",
+      "(^|[^a-z])[mk]?pps",
+      "packet forwarding"
+    ],
+    "exclude": []
+  },
+  "switching_capacity": {
+    "include": [
+      "switching capacity",
+      "switch fabric capacity",
+      "fabric capacity",
+      "system capacity",
+      "backplane capacity",
+      "switching bandwidth",
+      "total capacity"
+    ],
+    "exclude": []
+  },
+  "fabric_bandwidth": {
+    "include": [
+      "fabric (bandwidth|capacity|throughput)",
+      "switch fabric",
+      "backplane",
+      "fabric card"
+    ],
+    "exclude": []
+  },
+  "data_rate": {
+    "include": [
+      "data rate",
+      "(^|: )speed",
+      "line rate",
+      "interface speed",
+      "port speed",
+      "(^|: )bandwidth$",
+      "throughput per port"
+    ],
+    "exclude": [
+      "fan speed",
+      "memory speed",
+      "clock speed",
+      "processor speed",
+      "cpu speed"
+    ]
+  },
+  "connector": {
+    "include": [
+      "connector",
+      "interface type",
+      "port type",
+      "(^|: )optics",
+      "(^|: )media type",
+      "physical interface"
+    ],
+    "exclude": [
+      "power connector",
+      "antenna connector"
+    ]
+  },
+  "product_compatibility": {
+    "include": [
+      "compatib",
+      "supported (platforms|routers|switches|chassis|devices|systems|hardware|models|servers)",
+      "platform support",
+      "platforms supported",
+      "for use with",
+      "works with",
+      "supported on",
+      "(^|: )platforms?$",
+      "host (platform|router|switch)",
+      "applicable (platforms|models)",
+      "supported in",
+      "router support",
+      "switch support",
+      "chassis support"
+    ],
+    "exclude": [
+      "software compatibility",
+      "backward"
+    ]
+  },
+  "airflow": {
+    "include": [
+      "airflow",
+      "air flow",
+      "(^|: )cooling",
+      "front[- ]to[- ]back",
+      "back[- ]to[- ]front",
+      "port[- ]side (intake|exhaust)"
+    ],
+    "exclude": []
+  },
+  "psu_rated_output": {
+    "include": [
+      "output power",
+      "rated power",
+      "power rating",
+      "(^|: )wattage",
+      "max(imum)? output",
+      "output [(]w",
+      "(^|: )capacity [(]w",
+      "rated output",
+      "dc output"
+    ],
+    "exclude": [
+      "poe"
+    ]
+  },
+  "memory_speed_max": {
+    "include": [
+      "memory speed",
+      "(^|: )speed$",
+      "mhz",
+      "ddr[0-9]"
+    ],
+    "exclude": []
+  },
+  "storage_capacity": {
+    "include": [
+      "(^|: )capacity",
+      "storage capacity",
+      "(^|: )storage$",
+      "disk (size|capacity)",
+      "drive capacity",
+      "ssd capacity",
+      "flash storage",
+      "internal storage",
+      "(^|: )size$"
+    ],
+    "exclude": [
+      "power",
+      "battery",
+      "memory capacity"
+    ]
+  },
+  "drive_interface": {
+    "include": [
+      "(^|: )interface$",
+      "drive interface",
+      "(^|: )sata",
+      "(^|: )sas",
+      "nvme",
+      "host interface",
+      "bus interface"
+    ],
+    "exclude": []
+  },
+  "cable_length": {
+    "include": [
+      "length",
+      "(^|: )reach$",
+      "cable distance"
+    ],
+    "exclude": [
+      "wavelength",
+      "frame length",
+      "packet length",
+      "prefix length"
+    ]
+  },
+  "antenna_connector": {
+    "include": [
+      "antenna connector",
+      "(^|: )connectors?( type)?$",
+      "connector type"
+    ],
+    "exclude": [
+      "power"
+    ]
+  },
+  "antenna_gain": {
+    "include": [
+      "gain",
+      "dbi"
+    ],
+    "exclude": [
+      "gain range"
+    ]
+  },
+  "antenna_type": {
+    "include": [
+      "antenna type",
+      "(^|: )type$",
+      "omni",
+      "directional",
+      "polari[sz]ation",
+      "radiation pattern"
+    ],
+    "exclude": []
+  },
+  "radio_bands": {
+    "include": [
+      "frequency band",
+      "radio band",
+      "(^|: )frequency( range)?$",
+      "(^|: )bands?$",
+      "operating frequency",
+      "frequency range"
+    ],
+    "exclude": [
+      "cellular",
+      "lte",
+      "3g",
+      "4g",
+      "5g"
+    ]
+  },
+  "mounting": {
+    "include": [
+      "mount",
+      "bracket",
+      "installation"
+    ],
+    "exclude": [
+      "mounting brackets and power supplies"
+    ]
+  },
+  "plug_type": {
+    "include": [
+      "plug",
+      "(^|: )connector type",
+      "country",
+      "(^|: )region"
+    ],
+    "exclude": []
+  },
+  "power_cord_rating": {
+    "include": [
+      "(^|: )rating",
+      "amp(s|erage)?",
+      "(^|: )current rating",
+      "voltage rating"
+    ],
+    "exclude": []
+  },
+  "media": {
+    "include": [
+      "(^|: )media",
+      "fiber type",
+      "fibre type",
+      "cable type",
+      "copper",
+      "twinax"
+    ],
+    "exclude": []
+  },
+  "psu_count": {
+    "include": [
+      "number of power supplies",
+      "power supply bays",
+      "psu bays",
+      "power supply slots"
+    ],
+    "exclude": []
+  },
+  "fan_tray_bays": {
+    "include": [
+      "fan tray",
+      "fan bays",
+      "fan modules"
+    ],
+    "exclude": []
+  }
+}

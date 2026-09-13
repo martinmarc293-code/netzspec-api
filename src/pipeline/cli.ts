@@ -45,6 +45,10 @@ const COMMANDS: Record<string, { help: string; run: (argv: string[]) => Promise<
     help: "re-run the product-class rule table over every existing part; writes only rows whose class changes: [--commit] [--vendor V] [--examples N]",
     run: async (argv) => { const m = await import("./reclassify.js"); await m.main(argv); },
   },
+  "derive-link-provenance": {
+    help: "link_basis + doc_relevance on doc_parts (kind layer, 13 Sep 2026): --vendor V (--dump DIR | --evidence DIR [--commit])",
+    run: async (argv) => { const m = await import("./derive-link-provenance.js"); await m.main(argv); },
+  },
   "reclassify-docs": {
     help: "set each document's class FROM THE DOCUMENT (Cisco type code, filename, title, PDF page 1) instead of from the extractor that read it; refuses any change that would move a fact tier: [--vendor V] [--commit] [--examples N]",
     run: async (argv) => { const m = await import("./reclassify-docs.js"); await m.main(argv); },
