@@ -25,7 +25,7 @@ import { SAN_KINDS } from "./sanKind.js";
 // security (12 Sep 2026)
 import { SEC_BOX, SEC_COMPONENT } from "./securityKind.js";
 // modules-misc (12 Sep 2026)
-import type { ModuleKind } from "./moduleKind.js";
+import { MOD_KINDS } from "./moduleKind.js";
 import type { MerakiKind } from "./merakiKind.js";
 // fallback-kinds (12 Sep 2026): the kinds no SKU axis returns, only a name. See nameMarker.ts for why
 // they live in a shared list rather than inside eleven other agents' axis files, and partKind.ts for
@@ -65,8 +65,9 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   // cup set from the category that already uses the name — `fabric` from storage-networking and
   // optical-networking, `mux` from optical-networking — so the one-cup-set-per-kind check below has
   // something to compare and needs no exception for either.
-  "interfaces-modules": [...(["module", "interface", "fabric", "voice", "cellular", "radio", "service", "memory",
-    "power", "fan", "cable", "accessory", "mux", "optic", "device"] satisfies ModuleKind[]), ...MECH],
+  // kind-layer (13 Sep 2026): read from moduleKind's own MOD_KINDS (default `module` -> `unknown`, `service` -> `module`,
+  // `voice` folded into `interface` + `module`), so a kind added or renamed there is listed here without a second copy.
+  "interfaces-modules": [...MOD_KINDS, ...MECH],
   meraki: [...(["unknown", "switch", "access-point", "appliance", "camera", "sensor", "gateway",
     "accessory"] satisfies MerakiKind[]), ...MECH],
   // data-center-networking reuses switchKind, so it reuses its kind list — every one gets a

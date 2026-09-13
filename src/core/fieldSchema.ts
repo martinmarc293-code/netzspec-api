@@ -52,7 +52,10 @@ import { WL_AP, WL_BOX, WL_PORTED } from "./wirelessKind.js";
 import { VIDEO_BOX, VIDEO_EMITTER, type VideoKind } from "./videoKind.js"; // video (12 Sep 2026)
 // collab (12 Sep 2026)
 import { COLLAB_ENDPOINT, COLLAB_CALLING, COLLAB_VIDEO, COLLAB_SCREEN, COLLAB_FITS, COLLAB_CABLE } from "./collabKind.js";
-import { RT_DEVICE, RT_DEVICE_PORTED, RT_BRANCH, RT_PORTED, RT_COMPONENT, RT_CABLE } from "./routerKind.js"; // routers (12 Sep 2026)
+// kind-layer (13 Sep 2026): RT_DEVICE / RT_DEVICE_PORTED / RT_BRANCH / RT_CABLE came off this import — the routers block
+// now names each kind a measured cup is kept for (rtKinds / rtRoleAdd / rtCoreExcept), because after the cup bar no two
+// device cups are asked of the same kind list any more.
+import { RT_PORTED, RT_COMPONENT } from "./routerKind.js"; // routers (12 Sep 2026)
 // optical-storage (12 Sep 2026)
 import { OPN_SHELF, OPN_PLUGGABLE, OPN_FIXED_WAVELENGTH, OPN_POWERED, OPN_WAVELENGTH_ROUTING, OPN_FITS } from "./opticalKind.js";
 import { SAN_BOX, SAN_MODULE, SAN_FITS } from "./sanKind.js";
@@ -61,7 +64,9 @@ import { SAN_BOX, SAN_MODULE, SAN_FITS } from "./sanKind.js";
 // modules-r8 (12 Sep 2026): MOD_SLOTTED came off this import with the constant. It was imported and
 // never used — a kind list this file consulted for nothing — and MOD_PHYSICAL beside it was never
 // imported at all. Both are deleted in moduleKind.ts; the note there says why.
-import { MOD_COMPONENT, MOD_PORTED } from "./moduleKind.js";
+// kind-layer (13 Sep 2026): MOD_PORTED came off — `ports` is measured under the bar for `interface` (31.3%) and is
+// asked of `device` only; the constant stays exported for the axis's own test.
+import { MOD_COMPONENT } from "./moduleKind.js";
 import { MK_BOX, MK_PORTED, MK_POWERED } from "./merakiKind.js";
 
 export type Requirement =
@@ -1125,7 +1130,8 @@ export const AXIS_GATED_CATEGORIES: Readonly<Record<string, readonly string[]>> 
   // future regeneration should reach it. `mux` DELIBERATELY DOES NOT, for the same reason `optic`,
   // `cable` and `accessory` do not: a passive OADM has no electrical behaviour that a generated
   // switch-or-router field would describe, and its real profile is `optical-networking`'s.
-  "interfaces-modules": ["interface", "fabric", "voice", "cellular", "radio", "service", "device"],
+  // kind-layer (13 Sep 2026): `voice` folded into `interface` (+ DSP banks into `module`), `service` renamed `module`.
+  "interfaces-modules": ["interface", "fabric", "cellular", "radio", "module", "device"],
   meraki: ["unknown", "switch", "access-point", "appliance", "camera", "sensor", "gateway"],
   "data-center-networking": ["switch", "fex"],
 };
@@ -1414,6 +1420,30 @@ const collabBlock = (): Record<string, Requirement> => ({
   license_type: opt, license_for: opt,
 });
 // end collab --------------------------------------------------------------------------------------------------
+
+// --- kind-layer (13 Sep 2026): routers — the ROLE-AWARE conditions (spec v2 §II.3, decision record 2026-09-13) -----
+// `router` carries `deploy_role` (src/core/deployRole.ts): branch / smb / edge / industrial-iot, or none (unresolved,
+// asked the kind CORE). A cup is required of a (kind, role) population by the CUP BAR over its readable held parts
+// (III.0 item 1 v2 addendum, re-measured on the post-change membership: D:\tmp\kindlayer-impl\2-routers\decide.txt):
+//   the router CORE is the kind-level measurement (1,238 in-kind rows, 470 readable) — flash 54.5, dimensions 67.7,
+//   certifications 70.6 — and `edge` (11 readable) and the unresolved (2) take it, being under 30 readable;
+//   `branch` (361 readable) measures the same three and no fourth;
+//   `smb` (58) and `industrial-iot` (38) decide on their own shares, expressed as the two shapes below.
+// Every unmet branch resolves OPTIONAL (`elseOpt`), never `na` (rule 7): a demoted cup stays declared.
+const RT_ROUTER = ["router"] as const;
+/** Required of `router` in every role EXCEPT `roles` (an unresolved role keeps it: notInList is true when absent), and of `kinds`. */
+const rtCoreExcept = (roles: readonly string[], kinds: readonly string[] = []): Requirement => cond({ any: [
+  { all: [{ field: "kind", inList: [...RT_ROUTER] }, { field: "deploy_role", notInList: [...roles] }] },
+  ...(kinds.length ? [{ field: "kind", inList: [...kinds] }] : []),
+] }, { elseOpt: true });
+/** Required of `router` only in `roles` (a role ADDITION over the core), and of `kinds`. */
+const rtRoleAdd = (roles: readonly string[], kinds: readonly string[] = []): Requirement => cond({ any: [
+  { all: [{ field: "kind", inList: [...RT_ROUTER] }, { field: "deploy_role", inList: [...roles] }] },
+  ...(kinds.length ? [{ field: "kind", inList: [...kinds] }] : []),
+] }, { elseOpt: true });
+/** Required of `kinds`, OPTIONAL of every other kind (the shape of a cup demoted for some kind that asked it). */
+const rtKinds = (kinds: readonly string[]): Requirement => cond({ field: "kind", inList: [...kinds] }, { elseOpt: true });
+// --- end kind-layer routers helpers ------------------------------------------------------------------------------
 
 export const PROFILES: Record<string, Record<string, Requirement>> = {
   // --- SOFTWARE AND LICENCE CATEGORIES, added 8 Sep 2026 ---------------------------------------
@@ -2640,14 +2670,33 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
   routers: {
     supported_modules: opt, usb_console: opt, redundancy: opt, etsi_standards: opt, supported_protocols: opt, min_software_release: opt, emc_immunity: opt, emc_emissions: opt, // deep-spec fields 2026-09-02
     vendor: req, series: req,
+    // --- kind-layer (13 Sep 2026): WHAT EACH KIND AND ROLE IS ASKED AFTER THE CUP BAR ------------------------------
+    // Shares are mapped label share over READABLE HELD parts (+ printed-but-unmapped labels that ARE the quantity,
+    // read by hand, for cups required today). Full tables: D:\tmp\kindlayer-impl\2-routers\REPORT.md.
+    //   router CORE (branch, edge, unresolved)   flash 54.5 · dimensions 67.7 · certifications 70.6
+    //   router smb (58 readable)                 certifications 53.4 · temp_operating 53.4 · humidity 74.1 · temp_storage 74.1
+    //                                            · wan_interfaces 53.4 / lan_interfaces 53.4 ("Ethernet WAN"/"Ethernet LAN" rows)
+    //                                            — flash 0 and dimensions 32.8 demoted
+    //   router industrial-iot (38 readable)      CORE + wan 71.1 · lan 60.5 · dram 84.2 · weight 68.4 · temp_operating 89.5
+    //                                            · altitude_max 73.7 · power_max 65.8 ("Maximum platform power consumption")
+    //   sp-core (136)   power_max 60.3 · ports 62.5 · humidity 71.3 · input_voltage 62.5 · temp_storage 55.9
+    //                   · certifications 55.1 · altitude_max 58.8 · temp_operating 51.5
+    //   chassis (55)    humidity 63.6 · temp_storage 63.6 · altitude_max 63.6 · certifications 87.3 — module_slots 0
+    //                   mapped (a defining cup no held label states; not a registered derivation) is OPTIONAL
+    //   appliance (10 readable, low-n)  keeps what these rows were asked as `enterprise` that ENV + APPLIANCE names
+    //   components      product_compatibility + the one library cup that measures >= 50% (see each line)
     // --- the router itself (fixed or modular: no SKU marker separates a chassis, see routerKind.ts) ---------------
-    form_factor: cond({ field: "kind", inList: [...RT_DEVICE] }),
-    rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
+    // kind-layer: form_factor 2.8% router, 0 sp-core, 0 chassis (the "Rack-mount 19in." hints are kit rows, 16.1%);
+    // the appliance keeps it (low-n, 5 of 10 readable state it). rack_units follows its gate for the appliance only.
+    form_factor: rtKinds(["appliance"]),
+    rack_units: cond({ all: [{ field: "kind", inList: ["appliance"] }, { field: "form_factor", inList: ["rack-19", "modular-chassis"] }] }, { elseOpt: true }),
     // The aggregate forwarding figure Cisco prints per model ("Aggregate Throughput", "Forwarding (512B)", "IPv4
     // Forwarding Throughput (1400 bytes)"), in Gbit/s. `forwarding_rate` (Mpps) was ALSO required here and held 0
     // facts: the router "Throughput" column is Gbps and the normaliser refused every value as not a packet rate. One
     // question, one cup — forwarding_rate stays declared, optional, for the rare "720 mpps" prose.
-    router_throughput: cond({ field: "kind", inList: [...RT_DEVICE] }), forwarding_rate: opt,
+    // kind-layer: OPTIONAL for every kind — router 7.9% (branch 8.6, smb 0: "NAT throughput" is a feature throughput,
+    // not the aggregate forwarding figure, and is not counted), sp-core 0, chassis 0.
+    router_throughput: opt, forwarding_rate: opt,
     // --- routers-r5 (12 Sep 2026): THE BRANCH CUPS -----------------------------------------------
     // These five moved from every device to `enterprise` alone, and the measurement is the whole
     // argument. Over the live store, the device parts holding each of them:
@@ -2658,13 +2707,19 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // C8200-1N-4T, C8300, C1101-4P, Cisco 4331. NOT ONE is an ASR 9000, NCS, CRS or 8000: a
     // service-provider datasheet does not publish a VPN, NAT or ACL figure at all, so asking a
     // carrier router for one was 2,000-odd slots nothing could ever close.
-    ipsec_throughput: cond({ field: "kind", inList: [...RT_BRANCH] }),
-    ipsec_tunnels: cond({ field: "kind", inList: [...RT_BRANCH] }),
+    // kind-layer: the library ROUTER archetype declares ipsec_throughput OPTIONAL; measured router 10.6%, smb 48.3%
+    // (the IPsec "Network:" rows are feature bullets, not a throughput). ipsec_tunnels 4.7%, acl_entries 6.6%,
+    // nat_sessions 7.9%, vlan_max 2.6% over the 470 readable routers — all OPTIONAL.
+    ipsec_throughput: opt,
+    ipsec_tunnels: opt,
     // WAN and LAN ports as the datasheet's own cell ("2x 1/10 GE SFP+, 2x 2.5 GE mGig RJ-45"), type s. Retyping both
     // to the `ports` struct is an open question in the report: other categories hold the keys. Branch-only for the
     // same reason — all 24 stored values are C88x/C89x/C92x, and "WAN Ports" lists C8130-G2 … C8231-G2.
-    wan_interfaces: cond({ field: "kind", inList: [...RT_BRANCH] }),
-    lan_interfaces: cond({ field: "kind", inList: [...RT_BRANCH] }),
+    // kind-layer: ROLE ADDITIONS. branch 18.6% / 20.2% (its big hints — "WAN diversity", "Wireless VLANs", "LAN
+    // switch" — are feature bullets and are not counted); smb 53.4% each on the RV sheets' "Ethernet WAN" / "Ethernet
+    // LAN" rows (unmapped today: filling work); industrial-iot 71.1% / 60.5% mapped.
+    wan_interfaces: rtRoleAdd(["smb", "industrial-iot"]),
+    lan_interfaces: rtRoleAdd(["smb", "industrial-iot"]),
     // DECLARED HERE FOR THE FIRST TIME (check 1, missing field): the store already holds 9
     // `acl_entries` (C1101 10,000 … C8500-20X6C 380,000), 9 `ipv6_routes` (C1101 260K …
     // C8500-20X6C 7M) and 15 `vlan_max` (RV130 5, RV132W/RV134W 6) facts in this category under
@@ -2673,8 +2728,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // vlan_max is branch-only (a carrier router's VLAN scale is not published); the routing tables
     // are asked of sp-core too, where "Route scale" (5 occurrences, NCS-55A1/NCS-57B1 samples)
     // fills them.
-    acl_entries: cond({ field: "kind", inList: [...RT_BRANCH] }),
-    vlan_max: cond({ field: "kind", inList: [...RT_BRANCH] }),
+    acl_entries: opt,
+    vlan_max: opt,
     // MODULE SLOTS ARE A CHASSIS'S WHOLE POINT, and until today this cup was required of nothing.
     // All 64 device `module_slots` facts sit on the modular-chassis cohort and every one is right —
     // 8808-SYS 8, 8812-SYS 12, 8818-SYS 18, NCS-5516 16, CRS-16/S 16, ASR-9904 2. (The other 173
@@ -2684,15 +2739,24 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // required of every device and has 0 facts today, so an enterprise router resolves `pending`,
     // not `na`, and the "NIM slots" label (8 occurrences, Cisco 4221(X)…4451) still has somewhere
     // to land. R1-clean: form_factor is required, never optional.
-    module_slots: cond({ any: [{ field: "kind", inList: ["chassis"] }, { field: "form_factor", eq: "modular-chassis" }] }),
+    // kind-layer (13 Sep 2026): OPTIONAL. Measured over readable held parts: chassis 0% mapped (7.3% with the "Line card
+    // slots" / "Fabric module slots" rows), router 3.2%, sp-core 0%. The 64 stored facts above come from names and
+    // description mining, which is not a REGISTERED derivation, so under the cup bar the defining cup of a line-card
+    // chassis is not required until a label maps it or the derivation is registered — an open decision in the report.
+    module_slots: opt,
     // A processor carries the memory of a modular system (ASR1000-RP2 "8 GB DRAM", 8800-RP2 "64 GB DRAM").
     // A CHASSIS DOES NOT: it is sold empty and its RP holds the memory, which is why `chassis` is
     // absent from both lists (0 of 153 chassis parts hold either fact). Nor does a `forwarding`
     // engine — see the ESP note below.
-    dram: cond({ field: "kind", inList: [...RT_DEVICE_PORTED, "processor", "memory"] }),
-    flash: cond({ field: "kind", inList: [...RT_DEVICE_PORTED, "processor", "flash"] }),
-    ipv4_routes: cond({ field: "kind", inList: [...RT_DEVICE_PORTED] }),
-    ipv6_routes: cond({ field: "kind", inList: [...RT_DEVICE_PORTED] }),
+    // kind-layer: dram — router core 41.3% (33.6 mapped + the "Default memory DDR3 ECC DRAM" rows), industrial-iot 84.2%
+    // (role addition), sp-core 44.1%, processor 53.8% (35.9 + "ESP memory"/"RP CPU memory"), memory 59%.
+    // flash — router core 54.5% (branch 61.5, industrial-iot 78.9, smb 0 = role demotion), sp-core 0 (19.1 hints are
+    // USB options), processor 0 mapped / 10.3 bootflash rows, `flash` kind 1 readable part (low-n: kept as today).
+    dram: rtRoleAdd(["industrial-iot"], ["processor", "memory"]),
+    flash: rtCoreExcept(["smb"], ["flash"]),
+    // kind-layer: route scale 7.9% router / sp-core ipv4 24.3%, ipv6 0 — OPTIONAL.
+    ipv4_routes: opt,
+    ipv6_routes: opt,
     // nat_sessions is now a COUNT with a band (routers-r5). It was type `s` holding "100K"/"32M",
     // which is a number that cannot be compared or refused; the retype is global and safe because
     // all 9 facts under the key anywhere in the catalogue are in this category (measured 12 Sep
@@ -2702,7 +2766,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // as a gap: a coin flip is not a specification.
     // poe_standard: a PoE router (C1111-8P) has no SKU marker a kind could carry, and a cond on an optional fact
     // would be R1's silent-na defect.
-    nat_sessions: cond({ field: "kind", inList: [...RT_BRANCH] }), poe_standard: opt,
+    nat_sessions: opt, poe_standard: opt, poe_ports: opt,
     // UNREACHABLE BY CONSTRUCTION, measured 10 Sep 2026: ZERO facts across every vendor and state, ZERO sources,
     // ZERO labels. 5,758 slots in `routers` when it was required. Declared so a value is accepted.
     mgmt_ports: opt,
@@ -2713,20 +2777,39 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     psu_config: opt, psu_redundant: opt,
     // A PSU's wattage is what it DELIVERS (psu_rated_output), not what it draws — the switches rule. A line card
     // draws power of its own and Cisco prints it.
-    power_max: cond({ field: "kind", inList: [...RT_DEVICE, "linecard"] }),
-    power_typical: cond({ field: "kind", inList: [...RT_DEVICE] }),
-    input_voltage: cond({ field: "kind", inList: [...RT_DEVICE, "power"] }),
-    psu_rated_output: cond({ field: "kind", inList: ["power"] }),
+    // kind-layer: power_max — router core 11.9% (the "low power consumption" hints are marketing), industrial-iot 65.8%
+    // (26.3 + "Maximum platform power consumption"), sp-core 60.3%, chassis 36.4%, linecard 38.5% (demoted), appliance
+    // kept (low-n; 8 of 10 readable state it).
+    power_max: rtRoleAdd(["industrial-iot"], ["sp-core", "appliance"]),
+    // power_typical: router 13%, industrial-iot 21.1%, sp-core 0, chassis 7.3% — OPTIONAL.
+    power_typical: opt,
+    // input_voltage: sp-core 62.5%, power 58.8% (kept); router 13%, chassis 49.1% (demoted).
+    input_voltage: rtKinds(["sp-core", "power"]),
+    // psu_rated_output 21.6% of the 97 readable supplies — OPTIONAL (the wattage is in 34 names: a derivation to register).
+    psu_rated_output: opt,
     // Airflow is how a fan or PSU is SOLD (port-side intake vs exhaust twins). Of a router it is optional: the
     // reviewer's "data-centre deploy_role" gate would hang on an optional fact (R1).
-    airflow: cond({ field: "kind", inList: ["fan", "power"] }),
-    temp_operating: cond({ field: "kind", inList: [...RT_DEVICE] }),
-    temp_storage: cond({ field: "kind", inList: [...RT_DEVICE] }),
-    humidity_operating: cond({ field: "kind", inList: [...RT_DEVICE] }),
-    altitude_max: cond({ field: "kind", inList: [...RT_DEVICE] }),
-    dimensions: cond({ field: "kind", inList: [...RT_DEVICE] }),
-    weight: cond({ field: "kind", inList: [...RT_DEVICE] }),
-    certifications: cond({ field: "kind", inList: [...RT_DEVICE] }),
+    // kind-layer: fan 62% (kept), power 38.1% (demoted).
+    airflow: rtKinds(["fan"]),
+    // kind-layer: temp_operating — smb 53.4, industrial-iot 89.5 (role additions); router core 36.2 (branch 26.9);
+    // sp-core 51.5 (47.8 + "Normal operating temperature (at 1800 m)"); chassis 45.5 (demoted); appliance kept.
+    temp_operating: rtRoleAdd(["smb", "industrial-iot"], ["sp-core", "appliance"]),
+    // temp_storage — smb 74.1 (role addition: the spec's "smb drops ENV+" is refused, as it was for smb switches);
+    // router core 14.5; sp-core 55.9; chassis 63.6.
+    temp_storage: rtRoleAdd(["smb"], ["sp-core", "chassis"]),
+    // humidity_operating — smb 74.1 (37.9 + "Environmental: Operating humidity"); router core 23.8; industrial-iot 42.1;
+    // sp-core 71.3; chassis 63.6; appliance kept.
+    humidity_operating: rtRoleAdd(["smb"], ["sp-core", "chassis", "appliance"]),
+    // altitude_max — industrial-iot 73.7; router core 24; sp-core 58.8 / chassis 63.6 (with "Operational altitude" rows).
+    altitude_max: rtRoleAdd(["industrial-iot"], ["sp-core", "chassis"]),
+    // dimensions — router core 67.7 (branch 75.6, industrial-iot 89.5); smb 32.8 (role demotion); sp-core 31.6 and
+    // chassis 29.1 (demoted); appliance kept.
+    dimensions: rtCoreExcept(["smb"], ["appliance"]),
+    // weight — industrial-iot 68.4 (role addition); router core 34.7; sp-core 16.9, chassis 7.3 (demoted); appliance kept.
+    weight: rtRoleAdd(["industrial-iot"], ["appliance"]),
+    // certifications — router 70.6 (smb 53.4, industrial-iot 81.6), sp-core 55.1, chassis 87.3 (47.3 + "Safety" rows),
+    // appliance kept. The one envelope cup every device kind keeps.
+    certifications: cond({ field: "kind", inList: ["router", "sp-core", "chassis", "appliance"] }),
     // OPTIONAL, with the counts: mtbf has 600 label occurrences in the inventory and 0 whose stored sample SKU is a
     // router part, and 3 facts (CG418-E, CG522-E and an optic). ip_rating: 0 router facts, "IP rating" 17 labels
     // (IR1800 "IP54 with IP54-KIT") — industrial routers have no SKU marker a kind could carry.
@@ -2749,23 +2832,40 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // corpus showed and no tidy case could — a `\b` that could not see QSFP-DD800, a missing "&"
     // separator that merged two port groups into a device that exists in no configuration, and a
     // gigaBYTE read as a speed. Every refusal is tested as hard as every success there.
-    ports: cond({ field: "kind", inList: [...RT_DEVICE_PORTED, ...RT_PORTED] }),
+    // kind-layer (13 Sep 2026): ports — sp-core 62.5, linecard 77.5, module 77.5 (48.1 + "Flex ports" / "Integrated
+    // Gigabit Ethernet ports" / "1G port density"), appliance kept (low-n). ROUTER is DEMOTED: 8.3% mapped, 27.9% with
+    // every port-count row — the ROUTER archetype asks wan_interfaces / lan_interfaces for the same quantity instead.
+    ports: rtKinds(["sp-core", "appliance", ...RT_PORTED]),
     // Per-slot bandwidth of a line card / capacity a fabric card adds (A9K-MOD400 "400G", 8800-LC-48H 4.8 Tbit/s).
     // 40 line cards hold that figure under switching_capacity today (description mining) — a rekey proposal.
-    fabric_bandwidth: cond({ field: "kind", inList: ["linecard", "fabric"] }),
+    // kind-layer: linecard 0% mapped (3.2% with "fabric element" rows) — demoted, and LINECARD does not name it; the
+    // fabric kind keeps it (12 readable, low-n: kept as today).
+    fabric_bandwidth: rtKinds(["fabric"]),
+    // WHAT A COMPONENT FITS. kind-layer: kept required of EVERY component kind although the measured share is under
+    // 50% on most (power 3.1, mechanical 2.3, module 9.3, fan 10.1, processor 14.1, cable 27.8, accessory 36.9, memory
+    // 35.9, drive 35.9, linecard 43.3; antenna 57.1, fabric 75): the decision record's component rule ("product_compatibility
+    // first"), library COMPAT (its fill path is the relation), and tests/cupLedger's standing guard that no hardware
+    // kind holding parts is asked nothing — without it `accessory` (165 parts) and `cable` (249) would ask nothing.
     product_compatibility: cond({ field: "kind", inList: [...RT_COMPONENT] }),
-    storage_capacity: cond({ field: "kind", inList: ["drive"] }),
+    // kind-layer: drive 64.1% (kept); the appliance's storage is declared by APPLIANCE as optional.
+    storage_capacity: rtKinds(["drive"]),
     // 12 Sep 2026, the cross-category test: a drive is bought on capacity AND interface everywhere else
     // (servers, hyperconverged, security); routers asked only capacity. An LTE/SSD module's interface is the
     // thing that decides whether it fits.
-    drive_interface: cond({ field: "kind", inList: ["drive"] }),
-    memory_speed_max: cond({ field: "kind", inList: ["memory"] }),
+    // kind-layer: drive_interface 0% mapped of 39 readable drives ("HDD/SATA Storage" is an option heading) — OPTIONAL.
+    drive_interface: opt,
+    // kind-layer: memory_speed_max 0% of 39 readable DIMMs — OPTIONAL.
+    memory_speed_max: opt,
     // An antenna is bought on gain, band and connector — the wireless set, which routers' 91 antennas were not
     // asked (reviewer round 3 §2.4 and the audit's §3.1). Same three cups, same category-independent meaning.
-    antenna_gain: cond({ field: "kind", inList: ["antenna"] }),
-    antenna_connector: cond({ field: "kind", inList: ["antenna"] }),
+    // kind-layer (13 Sep 2026), over 35 readable antennas: antenna_gain 0%, antenna_connector 2.9% (its hints are LMR
+    // cable PRODUCT rows) — both OPTIONAL; radio_bands 51.4% (45.7 + "Frequency Support") — kept. cellular_bands 37.1%
+    // and antenna_type 22.9% stay optional (ANTENNA names them; neither reaches the bar).
+    antenna_gain: opt,
+    antenna_connector: opt,
     radio_bands: cond({ field: "kind", inList: ["antenna"] }),
-    cable_length: cond({ field: "kind", inList: [...RT_CABLE] }),
+    // kind-layer: power-cord keeps cable_length (19 readable, low-n: as today); cable 24.1% of 54 readable — demoted.
+    cable_length: rtKinds(["power-cord"]),
     plug_type: opt,
     // STRUCTURE 8 Sep 2026: 3 field(s) its documents already produce and no profile declared — invisible to completeness until now
     // (compatible_platform retired into product_compatibility, 12 Sep 2026)
@@ -2954,13 +3054,21 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     product_compatibility: cond({ field: "kind", inList: [...MOD_COMPONENT] }),
     // The chassis enum fits a whole device and an optic's cage, not a module — see the header.
     form_factor: cond({ field: "kind", inList: ["device", "optic"] }),
-    ports: cond({ field: "kind", inList: [...MOD_PORTED, "device"] }),
+    // kind-layer (13 Sep 2026) — THE CUP BAR over the post-change kinds (D:\tmp\kindlayer-impl\2-routers\REPORT.md).
+    // Only `interface` (150 readable held), `power` (48) and `cable` (70) reach 30 readable parts; every other kind here
+    // is low-n and keeps what it was asked. interface: ports 24% mapped, 31.3% with every printed port-count row
+    // ("4 or 9 10BASE-T/100BASE-TX Ports", "Integrated Gigabit Ethernet ports") — DEMOTED to optional; power_max 17.3%,
+    // connector 16.7%, data_rate 1.3% — optional. So the interface card asks what it fits, which is what 22.7% of its
+    // readable parts print and the relation fills; `ports` is the first promotion to measure after the mapper work.
+    // `device` (14 readable, low-n) keeps its port count.
+    ports: cond({ field: "kind", inList: ["device"] }, { elseOpt: true }),
     uplink_ports: opt, poe_standard: opt, module_slots: opt,
     // A CARD DRAWS POWER AND CISCO PRINTS IT: 10 of the 13 power_max facts here sit on interface
     // modules, [5 .. 80] W (WS-X4548-GB-RJ45 60 W, WS-X4506-GB-T 30 W). A service module runs a
     // workload and draws its own too. A PSU DELIVERS rather than draws — psu_rated_output below,
     // the same split switches made on 11 Sep 2026.
-    power_max: cond({ field: "kind", inList: ["interface", "service", "device", "fabric"] }),
+    // kind-layer: interface 17.3% — demoted; `module` (was `service`; 9 readable), device and fabric are low-n and keep it.
+    power_max: cond({ field: "kind", inList: ["module", "device", "fabric"] }, { elseOpt: true }),
     // A FABRIC CARD HAS NO PORTS AND IS BOUGHT ON PER-SLOT BANDWIDTH (12 Sep 2026, round 8). Three of
     // the eight MDS crossbar fabric modules here were reaching the `^DS-X\d` line-card marker and
     // being asked a port count. `fabric` is the kind name `optical-networking` (10 parts) and
@@ -3050,10 +3158,13 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // 34 of these 77 ("Cisco Small Business Power over Ethernet Injector-30W", "Cisco ASR1000-X
     // 1100W AC Power Supply") — a description_mining derivation, which is the third form of
     // evidence the fillability rule accepts.
-    psu_rated_output: cond({ field: "kind", inList: ["power"] }),
+    // kind-layer (13 Sep 2026): over the 48 readable supplies here — branch-router bricks and PoE injectors —
+    // psu_rated_output 0%, input_voltage 4.2%, airflow 4.2%: all three DEMOTED to optional (the PSU archetype's
+    // dimensions 100% and weight 95.8% are declared optional by the library and are listed as promotable in the report).
+    psu_rated_output: opt,
     // 12 Sep 2026: `input_voltage` was optional here while seven other categories require it of a power supply —
     // the cross-category contract (psu_rated_output, input_voltage, airflow, product_compatibility).
-    input_voltage: cond({ field: "kind", inList: ["power"] }),
+    input_voltage: opt,
     psu_options: opt, mounting: opt,
     // Airflow direction is how a FAN is sold ("Airflow" 119 / "Air flow" 16 / "Air Flow" 2 = 137
     // occurrences). Deliberately NOT asked of `power`: the 77 here are branch-router bricks and
@@ -3062,9 +3173,12 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // every category — what it delivers, what it takes, which way it blows, and what it fits. `airflow` was missing
     // here and in three other categories, which is the shape the new ledger test exists to catch: the same kind name
     // owing a different set because eight agents wrote eight profiles in parallel.
-    airflow: cond({ field: "kind", inList: ["fan", "power"] }),
+    // kind-layer: power 4.2% — demoted; the 3 fans (low-n) keep it.
+    airflow: cond({ field: "kind", inList: ["fan"] }, { elseOpt: true }),
     // A cable is bought by its length; "Length" (58) + "Cord length" (3) = 61 occurrences, 3 facts.
-    cable_length: cond({ field: "kind", inList: ["cable"] }),
+    // kind-layer: 7.1% of the 70 readable cables state a length — DEMOTED; their `connector` is stated by 88.6% and
+    // is the cable's required cup now (see `connector` below).
+    cable_length: opt,
     // A memory or storage card is bought on capacity: 418 label occurrences, and the value is in
     // the SKU of 9 of the 11 (SD-X45-2GB-E, USB-X45-4GB-E, MEM-2951-512U2.5GB).
     // 12 Sep 2026 (reviewer round 3 §3.1, and the new cross-category test): the cup was
@@ -3096,8 +3210,11 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // The optical questions this profile can express, asked of the 94 transceivers filed here so
     // that their MOVE to `transceiver` (where opticKind asks the full set) is visible rather than
     // silent: 14 hold a data_rate, 6 a wavelength, 1 a connector.
-    data_rate: cond({ field: "kind", inList: ["optic"] }),
-    connector: cond({ field: "kind", inList: ["optic"] }),
+    // kind-layer (13 Sep 2026): INTERFACE = MODULE + connector declares data_rate and connector; interface measures
+    // 1.3% / 16.7%, so both are optional there (elseOpt, not `na`). `cable` states its connector on 88.6% of 70 readable
+    // parts — a NEW requirement that clears the bar on its own mapped share (CABLE names `connector`).
+    data_rate: cond({ field: "kind", inList: ["optic"] }, { elseOpt: true }),
+    connector: cond({ field: "kind", inList: ["optic", "cable"] }, { elseOpt: true }),
     wavelength: opt, standard: opt, media: opt, reach_max: opt,
     // STRUCTURE 8 Sep 2026: 4 field(s) its documents already produce and no profile declared — invisible to completeness until now
     layer: opt, module_type: opt, compatible_platform: opt, installation_type: opt,

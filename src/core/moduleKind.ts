@@ -67,14 +67,29 @@
 // rather than leaving them in the default matters: the default would ask a Catalyst 4510 chassis
 // what it FITS, and a 400G coherent QSFP-DD a port count.
 
+// kind-layer (13 Sep 2026, spec v2 §II.11 + III.1; docs/decisions/2026-09-13-kind-layer-cisco.md). THREE RENAMES:
+//   default `module` -> `unknown`  the library's name for "the axis could not say" (III.1 `other` -> `unknown`); it is a
+//                                  FALLBACK kind now, so partKind consults the NAME for it like every other axis's.
+//   `service` -> `module`          II.11's target: `module` = service modules (UCS-E, SM-SRE, NAM/ASA/ACE blades).
+//   `voice` FOLDS                  the 51 rows are two nouns, read row by row: 42 are voice INTERFACE cards and port
+//                                  adapters with a stated port count (NM-HDV-2T1-48 "Dual-Port 48 Channel T1 Voice/Fax
+//                                  Network Module", PA-VXB-2TE1+, VIC-1J1, 3810 multiflex trunks) -> `interface`, the
+//                                  way item 4 §3 counted routers' voice interface cards (60 of its 406 interface rows);
+//                                  9 are DSP resources with no port (PVDM-12 "12-Channel Packet Voice/Fax DSP Module",
+//                                  NM-HDV-FARM-C36 "36 Port DSP Farm", 3810-VCM3 "Voice Compression Module, 3 DSPs")
+//                                  -> `module`, the service-module noun. NM-1VSAT-GILAT "IP VSAT Satellite WAN Network
+//                                  Module" was never voice (the `NM-\d*V` shape) and is an interface.
+// Kept, each a real noun with its own library cup set: interface, cellular, radio, power, fan, cable, accessory,
+// memory (MEMORY), fabric (FABRIC), mux (MUX — a move proposal to optical-networking), device (whole devices — moves).
+// `optic` holds 0 rows (III.0 item 4 §7h: 0 CPAK/CFP rows here — the II.11 premise does not hold) and stays as the
+// misfiling marker it was written as.
 export type ModuleKind =
-  | "module"     // the default: a component whose family nobody has named yet
-  | "interface"  // port-bearing: line cards, network/interface cards, port adapters, SPAs, NICs
+  | "unknown"    // the default: a component whose family nobody has named yet (a FALLBACK kind — see partKind.ts)
+  | "interface"  // port-bearing: line cards, network/interface cards, port adapters, SPAs, NICs, voice interface cards
   | "fabric"     // crossbar switching-fabric modules — a card with no ports at all
-  | "voice"      // voice and DSP cards
   | "cellular"   // cellular (3G/4G/LTE) modules
   | "radio"      // 802.11, WiMAX and WPAN radio and wireless-security modules
-  | "service"    // service, compute and security-service modules (SRE, NAM blades, SSM, ACE30)
+  | "module"     // service, compute, DSP and security-service modules (SRE, NAM blades, SSM, ACE30, PVDM, DSP farms)
   | "memory"     // DRAM, flash, SD, USB and disk
   | "power"      // power supplies, PoE injectors and inline-power modules
   | "fan"
@@ -90,12 +105,12 @@ export type ModuleKind =
  * `cellular` and `radio` are DELIBERATELY ABSENT, and the measurement is the reason: 0 of the 60
  * cellular and 0 of the 46 radio parts hold a `ports` fact, and neither is sold on one — an
  * EHWIC-4G-LTE-A is bought on its bands and its LTE category, an AIR-RM3000M on the 802.11
- * standards it monitors. Both have an antenna connector, not an Ethernet port. `voice` IS here
- * despite holding 0 too, because its names state the count outright ("One Port Digital Voice
- * Interface Card (J1)", "Dual-Port 48 Channel T1 Voice/Fax Network Module") — that is a coverage
- * gap, which is a cup that should exist, and the cellular case is a cup that should not.
+ * standards it monitors. Both have an antenna connector, not an Ethernet port. The voice interface
+ * cards (the old `voice` kind, folded into `interface` 13 Sep 2026) state the count outright ("One
+ * Port Digital Voice Interface Card (J1)", "Dual-Port 48 Channel T1 Voice/Fax Network Module") —
+ * a coverage gap, which is a cup that should exist; the cellular case is a cup that should not.
  */
-export const MOD_PORTED: readonly ModuleKind[] = ["interface", "voice"];
+export const MOD_PORTED: readonly ModuleKind[] = ["interface"];
 
 /**
  * Kinds that are a component of a Cisco device — everything except the three misfiling markers
@@ -104,8 +119,13 @@ export const MOD_PORTED: readonly ModuleKind[] = ["interface", "voice"];
  * asked of all of them — `mux` included, which is why it is listed here and not above.
  */
 export const MOD_COMPONENT: readonly ModuleKind[] =
-  ["module", "interface", "fabric", "voice", "cellular", "radio", "service", "memory",
+  ["unknown", "module", "interface", "fabric", "cellular", "radio", "memory",
    "power", "fan", "cable", "accessory", "mux"];
+
+/** Every kind the axis can name, in ledger order — read by cupLedger.ts LEDGER_KINDS so the two cannot drift. */
+export const MOD_KINDS: readonly ModuleKind[] =
+  ["unknown", "module", "interface", "fabric", "cellular", "radio", "memory",
+   "power", "fan", "cable", "accessory", "mux", "optic", "device"];
 
 // MOD_SLOTTED AND MOD_PHYSICAL WERE DELETED HERE ON 12 SEP 2026 (round 8), and the deletion is the
 // point. Both were exported, both were asserted by tests/moduleKind.test.ts, and NEITHER WAS READ BY
@@ -229,7 +249,12 @@ const RULES: { kind: ModuleKind; re: RegExp }[] = [
   // 8. VOICE AND DSP. PVDM- packet voice/fax DSP modules, VIC-/VWIC- voice interface cards, the
   // NM-HDV high-density voice NMs (30 rows, 28 part-evidence), PA-VXA/VXB/VXC voice port adapters,
   // the 3810 APM/DVM/VCM voice modules, and the -FXS/-FXO/-E&M analogue cards.
-  { kind: "voice", re: /^PVDM\d?-|^V?VIC\d?-|^VWIC\d?-|^NM-HD|^NM-\d*V|^PA-VX|^3810-|(?:^|-)\d*(?:FXS|FXO|E&M|BRI|DSP)[A-Z]?(?:[-=/\d]|$)|(?:^|-)HDV(?:-|=|\d|$)/ },
+  // kind-layer (13 Sep 2026): the old `voice` rule is split in two, in the same position. DSP RESOURCES FIRST -> `module`
+  // (PVDM-12(=), NM-HDV-FARM-C36/-C54/-C90(=), 3810-VCM3, and any `DSP` token): a DSP bank is sold on channels and has
+  // no port. EVERYTHING ELSE THE VOICE RULE READ -> `interface`: T1/E1/J1 voice network modules, voice port adapters,
+  // VICs/VWICs, the 3810 trunk and personality modules, FXS/FXO/E&M/BRI cards — each states a port count in its name.
+  { kind: "module", re: /^PVDM\d?-|^NM-HDV-FARM|^3810-VCM|(?:^|-)\d*DSP[A-Z]?(?:[-=/\d]|$)/ },
+  { kind: "interface", re: /^V?VIC\d?-|^VWIC\d?-|^NM-HD|^NM-\d*V|^PA-VX|^3810-|(?:^|-)\d*(?:FXS|FXO|E&M|BRI)[A-Z]?(?:[-=/\d]|$)|(?:^|-)HDV(?:-|=|\d|$)/ },
   // 9. CELLULAR — 3G/4G/LTE only, as of 12 Sep 2026 (round 8). The 3G/4G/LTE HWICs and NIMs (51
   // rows). `cellular_bands` is their cup: "Bands supported" (33) / "Bands" (23) = 56 occurrences
   // in the vocabulary, and after the `im-radio-bands-mhz` rekey of this date 51 of the 53 hold one.
@@ -258,7 +283,8 @@ const RULES: { kind: ModuleKind; re: RegExp }[] = [
   // and CSC-SSM blades (10, 6/0), ACE30 application-control modules, the IPSec SPAs and the
   // NAM appliances filed here. These run a workload, so they are asked DRAM and storage and
   // never a port count: 0 of them hold `ports`, 42 hold `dram`.
-  { kind: "service", re: /^SM-SRE|^NME-|^SC-SVC-|^WS-SVC-|^ASA-SS[MC]|^CSC-SSM|^ACE30-|^SPA-IPSEC|^NAM\d|^SM-NAM|^SM-\d?SRE/ },
+  // kind-layer (13 Sep 2026): named `module` (was `service`) — II.11's target name for service modules.
+  { kind: "module", re: /^SM-SRE|^NME-|^SC-SVC-|^WS-SVC-|^ASA-SS[MC]|^CSC-SSM|^ACE30-|^SPA-IPSEC|^NAM\d|^SM-NAM|^SM-\d?SRE/ },
   // 11b. CROSSBAR SWITCHING-FABRIC MODULES, BEFORE INTERFACE (8 rows), added 12 Sep 2026 (round 8,
   // reviewer §6). THREE OF THE EIGHT WERE `interface` AND BEING ASKED A PORT COUNT: DS-X9706-FAB1B=,
   // DS-X9710-FAB1B= and DS-X9710-FAB3= are MDS crossbar fabric modules caught by the `^DS-X\d`
@@ -297,9 +323,12 @@ const RULES: { kind: ModuleKind; re: RegExp }[] = [
   },
 ];
 
+/** The kind the axis falls back to — `unknown`, a FALLBACK kind (partKind.ts), asked at most what it fits. */
+export const MOD_FALLBACK: ModuleKind = "unknown";
+
 export function moduleKind(sku: string): ModuleKind {
   const s = String(sku ?? "").trim().toUpperCase();
-  if (s === "") return "module";
+  if (s === "") return MOD_FALLBACK;
   for (const r of RULES) if (r.re.test(s)) return r.kind;
-  return "module";
+  return MOD_FALLBACK;
 }

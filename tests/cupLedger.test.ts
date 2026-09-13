@@ -100,7 +100,10 @@ for (const f of files) {
 // dropped — a line card's per-slot bandwidth and a power supply's rated output.
 check("routers: a committed ledger exists (data/ledger/cisco-routers.json)", files.includes("cisco-routers.json"));
 {
-  for (const [kind, key] of [["linecard", "fabric_bandwidth"], ["power", "psu_rated_output"]] as const) {
+  // kind-layer (13 Sep 2026): the cup bar demoted linecard fabric_bandwidth (0% mapped of 187 readable) and power
+  // psu_rated_output (21.6% of 97); the cups each kind is now bought on, by measurement, are ports (77.5%) and
+  // input_voltage (58.8%) — the drift check is pinned to those instead.
+  for (const [kind, key] of [["linecard", "ports"], ["power", "input_voltage"]] as const) {
     const q = kindQuestionSet("routers", kind);
     const good: LedgerKind = { required: q.required.map((k) => ({ key: k })), pending_until_gate_answered: q.pending,
       not_applicable_by_kind: q.not_applicable_by_kind, optional: q.optional };
@@ -109,7 +112,10 @@ check("routers: a committed ledger exists (data/ledger/cisco-routers.json)", fil
     check(`SABOTAGE a routers ledger whose ${kind} lost ${key} is caught`, drift(kind, lost, q).some((m) => m.includes(key) && m.includes("does not count")));
   }
   // A DIMM must not be asked a router's throughput: the question closes BY KIND, not by an unanswered fact.
-  check("routers: memory has router_throughput not-applicable by kind", kindQuestionSet("routers", "memory").not_applicable_by_kind.includes("router_throughput"));
+  // kind-layer (13 Sep 2026): router_throughput is OPTIONAL for every routers kind now (router 7.9%, sp-core 0,
+  // chassis 0), so it is declared rather than closed by kind — the assertion that matters is that a DIMM is not ASKED it.
+  { const q = kindQuestionSet("routers", "memory");
+    check("routers: memory is not asked router_throughput", !q.required.includes("router_throughput") && !q.pending.some((p) => p.key === "router_throughput")); }
 }
 
 lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.length} ledgers, 4 sabotage cases)`);

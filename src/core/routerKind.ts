@@ -30,33 +30,50 @@
 // TOKEN EDGES are explicit lookarounds over the upper-cased SKU — (?<![A-Z0-9]) before, (?![A-Z0-9]) or (?![A-Z])
 // after. No word-boundary escape: Cisco tokens are not word-shaped (A9K-4T16GE, 1X100GE, 2XSFP).
 
+// kind-layer (13 Sep 2026, spec v2 §II.3 + the III.0 measurements; docs/decisions/2026-09-13-kind-layer-cisco.md).
+//   `enterprise` -> `router`   the spec's III.1 rename. deployRole.ts already reads both `routers|enterprise` and
+//                              `routers|router`, so roles survive the rename with no window. NOTE: the rename is by
+//                              name, so every non-Cisco part that fell to the old default follows it — HPE's 61
+//                              gateways in `routers` are `router` now exactly as they were `enterprise` (III.0 item 5).
+//   `forwarding` -> `processor` NOT `linecard` as III.1 proposed. All 22 are ASR 1000 Embedded Services Processors
+//                              (item 4 §7d): no ports, so LINECARD's `ports` cup could never be filled; the SUPERVISOR
+//                              archetype (dram, flash, forwarding_rate, switching_capacity) is the right shape.
+//   `transceiver` removed      its SKU rule matched 0 live rows; the 5 rows the kind held arrived through the NAME
+//                              marker and all 5 are dust caps and an SFP installation kit (item 4 §7e) — `mechanical`.
+//   `appliance` NEW            ENCS 5100/5400 NFV compute, Catalyst 8200/8300 uCPE, XRv 9000 appliances and the
+//                              C1100TG / C8220TG terminal-services gateways (item 3 `rt.issue.appliance`, 23 rows;
+//                              item 4 §7a read 14 of them) — ENV + APPLIANCE, not a router's WAN/LAN questions.
+//   `mechanical`               still a NAME kind everywhere else (nameMarker.ts NAME_ONLY_KINDS); this axis now also
+//                              returns it for the handful of SKU shapes the III.0 reads named (slot dividers, FIPS
+//                              opacity shields, an airflow converter, optic dust caps). It is listed in LEDGER_KINDS
+//                              through NAME_ONLY_KINDS, so it is deliberately NOT in RT_KINDS (no duplicate).
 export type RouterKind =
-  | "enterprise" | "sp-core" | "chassis"
-  | "linecard" | "module" | "processor" | "forwarding" | "fabric" | "power" | "fan" | "memory" | "flash" | "drive"
-  | "power-cord" | "cable" | "antenna" | "transceiver" | "accessory";
+  | "router" | "sp-core" | "chassis" | "appliance"
+  | "linecard" | "module" | "processor" | "fabric" | "power" | "fan" | "memory" | "flash" | "drive"
+  | "power-cord" | "cable" | "antenna" | "accessory" | "mechanical";
 
 /** Every whole device: the kinds a routing specification belongs to. */
-export const RT_DEVICE: readonly RouterKind[] = ["enterprise", "sp-core", "chassis"];
+export const RT_DEVICE: readonly RouterKind[] = ["router", "sp-core", "chassis"];
 /** The devices that carry FIXED PORTS OF THEIR OWN. A modular chassis is sold empty — its ports
  *  arrive on the line cards — so it is out, and the store agrees: 0 of the 150 chassis parts hold
  *  a `ports` fact, against 48 on the other two. Same reasoning for the CPU-side cups below. */
-export const RT_DEVICE_PORTED: readonly RouterKind[] = ["enterprise", "sp-core"];
+export const RT_DEVICE_PORTED: readonly RouterKind[] = ["router", "sp-core"];
 /** THE BRANCH-ROUTER CUPS. Measured 12 Sep 2026 and this is the whole basis of the split: every
  *  single stored `ipsec_throughput` (6), `ipsec_tunnels` (9), `nat_sessions` (9) and `acl_entries`
  *  (9) fact on a device part is a C1100 / C8200 / C8500L / C8xxx-G2, and every sample SKU behind
  *  the labels that fill them is a C1xxx, C8xxx or ISR 4xxx. Not one is an ASR 9000, NCS, CRS or
  *  8000-series box: a service-provider sheet does not publish a VPN or NAT figure at all. */
-export const RT_BRANCH: readonly RouterKind[] = ["enterprise"];
+export const RT_BRANCH: readonly RouterKind[] = ["router"];
 /** Kinds that carry their own ports: a line card in a chassis slot, an interface module or port adapter. */
 export const RT_PORTED: readonly RouterKind[] = ["linecard", "module"];
 /** Kinds that plug into or attach to a router — every one is bought for WHAT IT FITS (product_compatibility). */
 export const RT_COMPONENT: readonly RouterKind[] =
-  ["linecard", "module", "processor", "forwarding", "fabric", "power", "fan", "memory", "flash", "drive",
-   "power-cord", "cable", "antenna", "transceiver", "accessory"];
+  ["linecard", "module", "processor", "fabric", "power", "fan", "memory", "flash", "drive",
+   "power-cord", "cable", "antenna", "accessory"];
 /** Kinds that are a length of cable — asked their length. */
 export const RT_CABLE: readonly RouterKind[] = ["power-cord", "cable"];
-/** Every kind the axis can name, in the order the ledger lists them. */
-export const RT_KINDS: readonly RouterKind[] = [...RT_DEVICE, ...RT_COMPONENT];
+/** Every kind the axis can name, in the order the ledger lists them (`mechanical` arrives via NAME_ONLY_KINDS). */
+export const RT_KINDS: readonly RouterKind[] = [...RT_DEVICE, "appliance", ...RT_COMPONENT];
 
 // Ordered; the FIRST rule that matches wins. The order is load-bearing:
 //   cable-management accessory first — CRS-B2B-BCK-CM and 8404-CBLMGMT carry a CAB/CBL token and are not cables.
@@ -77,6 +94,40 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // ASR-9006/9010-SYS) that a bare `-SYS` rule would turn into sp-core. Scoped, it changes 0 of the 27 N540 parts
   // already in routers (all sp-core by `sp-ncs`) and 0 rows anywhere else in the category.
   { id: "sp-n540-system", kind: "sp-core", re: /^N540X?-(?:[A-Z0-9]+-)*SYS(?:-[A-Z])?=?$/ },
+  // ---- kind-layer (13 Sep 2026): COMPONENTS THE III.0 READS FOUND IN `enterprise` AND `module` ----------------
+  // Every rule below names SKUs item 3 (`rt.issue.component`) or item 4 §3/§7e read one by one; each id lists them.
+  // They run FIRST because the tokens that would otherwise claim them are the host's (HWIC-, SM-X-, IRMH-, PVDM),
+  // or no token at all (the default would ask a SIM card for a router's WAN ports).
+  //
+  // MECHANICAL: FIPS opacity shields (C1841-FIPS-SHIELD=, FIPS-SHIELD-1900=/-3900=), slot dividers (CGR-SLOT-DIVIDER,
+  // HWIC-SLOT-DIVIDER=, SM-SLOT-DIVIDER=), the 2911 front-to-back airflow converter (2911-AIRCVTR-NEBS), and the
+  // optic dust caps / cover / install kit that the name marker used to file as `transceiver` (8000-QSFP-DCAP,
+  // NC55-SFP-DCAP, 100GE-CFP-COVER(=), CW-SFP-KIT1). REFUSED: a bare `COVER`/`DCAP` — the accessory rule below already
+  // takes every other cover, and the name path turns them into `mechanical` there; only the optic-cage shapes that
+  // the name path misread are named here.
+  { id: "mechanical-shield-divider-cap", kind: "mechanical",
+    re: /FIPS-SHIELD|SLOT-DIVIDER|^2911-AIRCVTR|(?<![A-Z0-9])(?:Q?SFP|CFP)-(?:DCAP|COVER)(?![A-Z0-9])|^CW-SFP-KIT/ },
+  // ACCESSORY: parts that attach to a router and are bought only for what they fit — no library kind asks more of them.
+  //   batteries        CGR-BATT-4AH, IRMH-BATT-4AH (the PSU cups — rated output, airflow — are not what a 4 Ah backup
+  //                    battery prints; `module` was asking it for ports)
+  //   serial adapters  DB25-F-DCE, DB25-M-DTE, DB9-F-DCE, DB9-M-DTE, RJ45-DCE, RJ45-DTE (CGR 1000 serial adapters)
+  //   RF / connectors  AIR-ACC370-NF-NF ("N(f)-straight to N(f)-straight adapter", IR1800 data sheet),
+  //                    CGR-N-CONN-WIMAX, IOT-LA-NM-NF (N-type lightning arrestor)
+  //   dongles, SIMs    E100S-CON-DGL(=) "KVM Dongle", LTE-SIM-VZ, LPWA-GPS-PCB-US(=) "LoRaWAN Outdoor GPS Sensor PCB",
+  //                    IR-BAND (name is the SKU; the fallback that asks least)
+  //   slot adapters    C-SM-NIM-ADPT(=), SM-X-NIM-ADPTR= (NIM carriers), PVDM2-ADPTR(=) — a carrier has no ports of its
+  //                    own, so MODULE's `ports` cup could never be filled
+  { id: "accessory-battery-adapter", kind: "accessory",
+    re: /(?<![A-Z0-9])BATT(?![A-Z])|^DB(?:9|25)-[MF]-D[CT]E|^RJ45-D[CT]E=?$|^AIR-ACC370-|^CGR-N-CONN-|^IOT-LA-|^E100S-CON-DGL|^LTE-SIM-|^LPWA-GPS-|^IR-BAND=?$|-NIM-ADPTR?=?$|^PVDM2-ADPTR/ },
+  // MODULE: cellular modem cards and pluggables filed as routers — Sierra MiniCard modems (MC-3G-EVDO-B, MC7304-4G-LTE-GA,
+  // MC7430-LTE-LA …), the 800-series 3G ExpressCard modems (PCEX-3G-HSPA-G …), CAT4 LTE USB dongles (D-LTE-NA(=) …),
+  // and the LoRaWAN PIMs (P-LPWA-800(=), P-LPWA-900(=)) — the same thing as the P-LTE PIMs already in `module`.
+  // REFUSED: `^MC\d` alone would reach an MCS datasheet cell; the modem shapes carry a model number and a radio token.
+  { id: "module-cellular-modem", kind: "module", re: /^MC-3G-|^MC7\d{3}M?-(?:4G-)?LTE|^PCEX-3G-|^D-LTE-|^P-LPWA-/ },
+  // POWER: IR800-IL-POE, the IR 800 in-line PoE module (spec sheet lists it under power).
+  { id: "power-inline-poe", kind: "power", re: /^IR800-IL-POE/ },
+  // CABLE: OBD2-J1939Y1-MF4 / -Y2 / OBD2-J1962YA-MF4 — "OBD-II cables provide power and CAN bus connectivity" (IR1800 DS).
+  { id: "cable-obd2", kind: "cable", re: /^OBD2-/ },
   { id: "accessory-cable-mgmt", kind: "accessory",
     re: /CAB-MGMT|CBLMGMT|CBLMFMT|CABLETRAY|(?<![A-Z0-9])(?:FRONT|FRNT|REAR|BCK)-CM(?![A-Z0-9])|-CM-RETRO|-LCC-FRNT-E|^CAB-GUIDE|(?:CAB|CBL)-(?:BRKT|BRACKET|GUIDE)/ },
   // routers-r5 (12 Sep 2026) — SEVEN MISSES FOUND BY READING THE 423 PARTS THE DEVICE SUB-KIND
@@ -119,7 +170,11 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   { id: "antenna", kind: "antenna", re: /^ANT-|(?<![A-Z0-9])(?:ANT|ANTM|ANTENNA)(?![A-Z])|^ANTENNA|(?<![A-Z0-9])ACC-OUT-LA|^[34]G-AE0\d\d|^CGR-LA-|^LTE-(?:ADPT|AE)-/ },
   // Optics filed in routers (ONS-SE-Z1 "1000BASE-LX ... transceiver"). Their category is the defect — a proposal
   // in the report; the kind only stops them being asked a router's questions meanwhile.
-  { id: "transceiver", kind: "transceiver", re: /^(?:ONS-(?:SE|SI|SC|XC)|SFP-|GLC-|XFP-|QSFP-|CFP-|CPAK-|DWDM-|CWDM-|SFP\d)/ },
+  // kind-layer (13 Sep 2026): the `transceiver` kind is GONE from this axis — this rule matched 0 live rows, and the 5
+  // rows that kind held were caps and a kit (see the mechanical rule above). A misfiled optic now waits for its move
+  // as `accessory`, the kind that asks least (only what it fits). `ONS-C2-` joins: ONS-C2-WDM-DE-1HL(=) "200G, 100G,
+  // WDM Digital CFP2 pluggable" is in moves.json -> transceiver, and was being asked a router's 24 cups.
+  { id: "optic-misfiled", kind: "accessory", re: /^(?:ONS-(?:SE|SI|SC|XC|C2)-|SFP-|GLC-|XFP-|QSFP-|CFP-|CPAK-|DWDM-|CWDM-|SFP\d)/ },
   // (?<!AC|DC)KIT: CRS-16-ACKIT-M "CRS Modular AC Power Kit" is a power kit, not an accessory kit.
   // device-noun (13 Sep 2026): and so is the HYPHENATED spelling — CRS-FCC-DC-KIT "CRS Fabric Chassis DC Power Kit",
   // whose glued sibling CRS-FCC-DCKIT-M "CRS Modular DC Power Kit for FCC" is already `power`. `AC-|DC-` joins the
@@ -164,7 +219,10 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // and the part is "ASR1002 w/ ESP-5G, no IOS" — a router configured with an ESP, which must keep
   // a router's questions. Removing ESP from the processor rule is what lets it fall through to the
   // device rules and be read as the enterprise router it is; both directions are pinned.
-  { id: "forwarding", kind: "forwarding", re: /^ASR1000-ESP\d/ },
+  // kind-layer (13 Sep 2026): the ESPs keep their own rule and become `processor` (spec III.1 said `linecard`; item 4
+  // §7d read all 22 and an ESP has no ports — the SUPERVISOR archetype is the one that fits). The rule id stays, so the
+  // census and the history of this split still line up.
+  { id: "forwarding", kind: "processor", re: /^ASR1000-ESP\d/ },
   // Route processors, route-switch processors, ISR G2 performance engines (SPE), NCS 5500 and NCS
   // fabric-chassis system/shelf controllers, CPU boards.
   { id: "processor", kind: "processor",
@@ -175,7 +233,10 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // Line cards that take a chassis slot: ASR 9000, NCS 5500/5700/6000, CRS MSC/FP/LSP, 8000-series LCs, ASR 1000
   // SIP/MIP carriers and the port-expansion cards (A9903-20HG-PEC).
   { id: "linecard", kind: "linecard",
-    re: /^A9[K9]-(?:\d|MOD\d|SIP-|ISM-|VSM-)|^NC5[57]-(?!MPA)|^NC-5[57]-|^NC6-\d|^CRS-(?:X-)?(?:MSC|FP|LSP|CGSE)|(?<![A-Z0-9])SIP-\d|^CRS-SIP(?:=|$)|^CGSE-|^CRS-100GE-|^\d+X\d+G-LSP|^100GE-(?:DWDM|FP)|^ASR1000-(?:SIP|MIP)\d*|^ASR1000-\d+(?:X|T)|^88-LC|^8800-LC|(?<![A-Z0-9])PEC(?![A-Z])/ },
+    re: /^A9[K9]-(?:\d|MOD\d|SIP-|ISM-|VSM-)|^NC5[57]-(?!MPA)|^NC-5[57]-|^NC6-\d|^CRS-(?:X-)?(?:MSC|FP|LSP|CGSE)|(?<![A-Z0-9])SIP-\d|^CRS-SIP(?:=|$)|^CGSE-|^CRS-100GE-|^\d+X\d+G-LSP|^100GE-(?:DWDM|FP)|^ASR1000-(?:SIP|MIP)\d*|^ASR1000-\d+(?:X|T)|^88-LC|^8800-LC|(?<![A-Z0-9])PEC(?![A-Z])|^10{1,2}GE-(?:MSC|EMSE|FP)/ },
+  // ^ kind-layer (13 Sep 2026) added `^10{1,2}GE-(?:MSC|EMSE|FP)`: the seven CRS line-card BUNDLES item 3 read in
+  // `enterprise` (10GE-MSC400G-BUN= "CRS Series 40x10GE MSC Bundle", 100GE-MSC-BNDL=, 10GE-EMSE-140G=, 10GE-FP400G-BUN=).
+  // `^100GE-(?:DWDM|FP)` already took the 100GE FP shapes; the MSC/EMSE bundles had no rule and defaulted to a router.
   // ^ routers-r5 added `^CRS-SIP(?:=|$)`: the existing `SIP-\d` needs a digit after the dash, and
   // `CRS-SIP` / `CRS-SIP=` ("Carrier Routing System SPA Interface Processor Card") have none, so
   // two line cards were reaching the device rules and being read as carrier ROUTERS.
@@ -203,6 +264,8 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
 //   slots       all 64 device `module_slots` facts are on the chassis cohort (8808-SYS 8, 8818-SYS
 //               18, NCS-5516 16, CRS-16/S 16) plus one uCPE. That cup is a chassis's whole point.
 //
+// (kind-layer, 13 Sep 2026: the default is now named `router` — III.1 — and after the cup bar it no longer asks the
+// most; the argument below is about which CLOSURES a wrong kind causes, and it still holds.)
 // WHY THE DEFAULT IS `enterprise`, THE KIND THAT ASKS THE MOST. Same argument as the component
 // default above, one level in: an SP box wrongly left as enterprise carries gaps on two or three
 // cups its sheet does not publish, where an enterprise router wrongly called sp-core has its NAT,
@@ -224,6 +287,18 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
 // takes line cards. So the chassis kind is an ENUMERATION of the modular families, each read
 // against its own catalogue name, with the fixed lookalike of every family pinned as a refusal.
 export const DEVICE_RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
+  // kind-layer (13 Sep 2026) — APPLIANCES, a NEW kind (spec v2 §II.3 "appliance NEW kind here"). Enumerated from item 3's
+  // hand-read `rt.issue.appliance` (23 rows) and item 4 §7a's reading of the ENCS and XRv rows, every one a compute or
+  // console box whose datasheet prints the envelope and its cores/DRAM/SSD, not a WAN/LAN/throughput table:
+  //   ENCS5104-200/K9 … ENCS5412P/K9    "ENCS 5412 (12-core Intel, 16G DRAM)" — NFV compute
+  //   C8200-UCPE-1N8(=), C8300-UCPE-1N20(=), C83UCPE-20C   "8300-uCPE Edge Series (20-core Intel)"
+  //   ASR-XRV9000-APLN(=), XRV9000-APLN-ROUT(=)             "XRV 9000 Appliance with UCS-C220 M5 server"
+  //   C1100TG-1N32A, C1100TGX-1N24P32A, C8220TG-48A-O       "Terminal Services Gateway w/ 32 Async", "secure console server"
+  // REFUSED, pinned in the test: the `-PF` licence PIDs of the same families (ENCS5400-PF, C8200-UCPE-PF, C8300-UCPE-PF —
+  // class-changes.json), and every component of an appliance family, which the RULES above claim first (ENCS54-BEZEL=,
+  // ENCS-MRAID, ENCS5100-PWR…). First in this list, so no SP rule can reach them.
+  { id: "appliance-nfv-console", kind: "appliance",
+    re: /^ENCS5\d{3}(?!-PF)|^C8[23]00-UCPE-(?!PF)|^C83UCPE|^(?:ASR-)?XRV9000-APLN|^C1100TGX?-|^C8220TG-/ },
   // CRS: the line-card chassis (4/8/16-slot, single- dual- and multi-shelf) and the 24-slot fabric
   // chassis. `CRS-16-140G-UPG` and `CRS-8-LCC-FR-BKT=` are accessories and never reach here.
   { id: "chassis-crs", kind: "chassis",
@@ -263,7 +338,7 @@ export const DEVICE_RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
 
 /** The kind the axis falls back to. Named rather than repeated, because which kind is the fallback
  *  is the load-bearing decision above and it must be greppable. */
-export const RT_FALLBACK: RouterKind = "enterprise";
+export const RT_FALLBACK: RouterKind = "router";
 
 export function routerKind(sku: string): RouterKind {
   const s = String(sku ?? "").trim().toUpperCase();
