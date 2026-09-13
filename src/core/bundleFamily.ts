@@ -28,6 +28,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { MLB_GENERATION } from "./ucsKind.js"; // kind-layer (13 Sep 2026)
 
 export type BundleFamily =
   | "no-description" | "dead-or-internal-only" | "expired-promo" | "software-subscription"
@@ -146,6 +147,11 @@ const FLASH_CARD = /fusion|iomemory|iodrive|warpdrive/i;
 export function ucsBundleKind(sku: string, name: string, axisKind: string, category: string): string {
   const held = NAME_OMITS_MODEL[String(sku ?? "").trim().toUpperCase()];
   if (held) return held;
+  // kind-layer (13 Sep 2026): a Major Line Bundle of one server generation (UCSX-M8-MLB, UCS-M6-MLB, HCI-M7-MLB ...) IS
+  // a bundle — III.0 item 4 §7b. Its name describes the family it is the umbrella for ("This MLB consists of the server
+  // node ... with software"), so the family rules below would read it as a programme label or a software subscription.
+  // The SKU shape is the evidence here, exactly as for NAME_OMITS_MODEL above; it is not one of the frozen cohort rows.
+  if (MLB_GENERATION.test(String(sku ?? "").trim().toUpperCase().replace(/=+$/, ""))) return "bundle";
   const family = bundleFamily({ category, sku, name, axisKind });
   switch (family) {
     case "configured-node":

@@ -53,7 +53,7 @@ export const NAME_MARKERS: readonly NameMarker[] = [
  * category's axis declares and otherwise leaves the fallback kind alone.
  *
  * WHY A LIST AND NOT ONE NAME. The eleven axes use different words for the same thing — a supply is
- * `power` in switchKind, `psu` in ucsKind and (until 13 Sep 2026) `power-supply` in collabKind — and a kind list that
+ * `power` in switchKind, and (until the kind-layer renames of 13 Sep 2026) `psu` in ucsKind and `power-supply` in collabKind — and a kind list that
  * named only one of them would silently reach one category in three. The names are checked against
  * the axes' own exported kind lists by tests/nameMarker.test.ts, in both directions, so a target
  * naming a kind no axis has is reported rather than being a line that can never fire.
@@ -75,11 +75,12 @@ export const MARKER_TARGETS: Readonly<Record<NameMarker, readonly string[]>> = {
   "passive-optical": ["mux", "passive"],
   // A rack power distribution unit. No axis claimed one before today; ucsKind names it now, and
   // elsewhere it falls to the supply kinds, which is where its input voltage and outlets belong.
-  // kind-layer (13 Sep 2026): `power-supply` left both lists — collabKind renamed it `power` (spec III.1).
-  pdu: ["pdu", "power", "psu"],
+  // kind-layer (13 Sep 2026): `psu` and `power-supply` left both lists — ucsKind and collabKind both renamed their supply kind
+  // `power` (spec III.1), so no axis declares either name and the target would be dead (tests/nameMarker.test.ts refuses one).
+  pdu: ["pdu", "power"],
   tpm: ["tpm", "security-module"],
   riser: ["io-module", "daughter", "module", "linecard"],
-  power: ["power", "psu", "power-injector"],
+  power: ["power", "power-injector"],
   server: ["server", "chassis"],
   mechanical: ["mechanical"],
 };

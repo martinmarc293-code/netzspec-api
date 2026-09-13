@@ -241,8 +241,18 @@ for (const cat of KIND_CATEGORIES) {
 }
 eq("pdu is asked what it fits and its mounting, and nothing it cannot fill",
   ["product_compatibility", "mounting"].map((k) => requirementFor("servers-unified-computing", k, { kind: "pdu" })).join(","), "req,req");
-check("pdu is NOT asked an input voltage — 38 parts hold ONE fact between them and no source publishes the label",
-  requirementFor("servers-unified-computing", "input_voltage", { kind: "pdu" }) !== "req");
+// kind-layer (13 Sep 2026): REVERSED BY INSTRUCTION, not by new evidence. The operator's kind-layer pass sets every cup the
+// spec library proposes for a kind as required and has the parent keep or demote it on a central printed-on-the-page
+// measurement; the PDU library (PSU minus airflow) proposes psu_rated_output, input_voltage and receptacles. The refusal
+// that stood here — 38 parts holding ONE input-voltage fact and no source publishing the label — is carried into the
+// kind-layer report as the evidence that measurement is expected to confirm. Pinned both ways so neither drifts silently.
+// `receptacles` is proposed too but held OPTIONAL: a free-string dictionary entry (tests/freeStringCups.test.ts).
+check("kind-layer: pdu is asked the PDU library's input voltage and rated output (proposed for measurement)",
+  ["input_voltage", "psu_rated_output"].every((k) => requirementFor("servers-unified-computing", k, { kind: "pdu" }) === "req"));
+check("kind-layer: pdu is NOT asked receptacles while the key is a free string without a recorded decision",
+  requirementFor("servers-unified-computing", "receptacles", { kind: "pdu" }) === "opt");
+check("kind-layer: pdu is still NOT asked an airflow (the PDU library is the PSU library minus airflow)",
+  requirementFor("servers-unified-computing", "airflow", { kind: "pdu" }) !== "req");
 eq("tpm is asked only what it fits", requirementFor("servers-unified-computing", "product_compatibility", { kind: "tpm" }), "req");
 check("tpm is not asked a weight", requirementFor("servers-unified-computing", "weight", { kind: "tpm" }) !== "req");
 

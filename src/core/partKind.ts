@@ -158,7 +158,8 @@ function axisKind(categorySlug: string, sku: string, name?: string): string | un
   if (categorySlug === "switches") return switchKind(sku);
   // transceiver names OPTIC sub-kinds (single-fibre BiDi, tunable/coherent) plus the adapters and
   // accessories filed beside them — its own axis, see opticKind.ts (11 Sep 2026).
-  if (categorySlug === "transceiver") return opticKind(sku);
+  // kind-layer (13 Sep 2026): handed the name as well, for the other vendors' DAC/AOC cables — see opticKind.ts NAME_RULES.
+  if (categorySlug === "transceiver") return opticKind(sku, name);
   // wireless (12 Sep 2026): access points, controllers, antennas, backhaul radios and what plugs into them
   // — its own axis, see wirelessKind.ts. Before the shared axis, which would call all of them `device`.
   if (categorySlug === "wireless") return wirelessKind(sku);

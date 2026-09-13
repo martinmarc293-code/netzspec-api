@@ -7,7 +7,8 @@
 // C-band; `-BD` is duplex BiDi (two fibres), not single-fibre; `CVR328W` is a router, not a converter.
 //
 // Every SKU here comes from the catalogue, read by name in the 11 Sep census. None is invented.
-import { opticKind, OPT_MODULE, OPT_FIXED_WAVELENGTH } from "../src/core/opticKind.js";
+import { opticKind, OPT_MODULE, OPT_FIXED_WAVELENGTH, RULES, NAME_RULES } from "../src/core/opticKind.js";
+import { kindQuestionSet, LEDGER_KINDS } from "../src/core/cupLedger.js"; // kind-layer (13 Sep 2026)
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -37,8 +38,8 @@ const CASES: [string, string][] = [
   // brackets, trays, passive muxes
   ["CVR-BRKT-1", "accessory"], ["CVR-TRAY-8=", "accessory"], ["CWDM-MUX-4-SF1=", "accessory"],
   ["CWDM-MUX-AD-1470=", "accessory"], ["CWDM-MUX8A=", "accessory"], ["DS-CWDM-MUX8A=", "accessory"],
-  // the default: pluggable optics and cables
-  ["SFP-10G-SR", "pluggable"], ["GLC-TE", "pluggable"], ["QSFP-H40G-CU5M", "pluggable"], ["QSFP-100G-AOC", "pluggable"],
+  // the default: pluggable optics (kind-layer 13 Sep 2026: QSFP-H40G-CU5M and QSFP-100G-AOC are `cable` now — below)
+  ["SFP-10G-SR", "pluggable"], ["GLC-TE", "pluggable"], ["QSFP-H40G-CU5M", "cable"], ["QSFP-100G-AOC", "cable"],
   ["DWDM-SFP10G-30.33", "pluggable"], ["DWDM-GBIC-30.33", "pluggable"], ["CWDM-SFP-1490=", "pluggable"],
 ];
 for (const [sku, want] of CASES) eq(`${sku} is ${want}`, opticKind(sku), want);
@@ -94,8 +95,9 @@ for (const sku of [
   "QDD-4X100G-FR-S", "QDD-4X100G-LR-S", "QDD-8X100G-FR", "QDD-2X400G-FR4",
 ]) eq(`${sku} is a multi-lane OPTIC, not a breakout cable`, opticKind(sku), "pluggable");
 // SABOTAGE: a straight (non-breakout) DAC must not be taken either — it has a cable suffix and no fan-out.
-eq("SABOTAGE a straight QSFP DAC is not a breakout", opticKind("QSFP-H40G-CU3M"), "pluggable");
-eq("SABOTAGE a straight SFP DAC is not a breakout", opticKind("SFP-H10GB-CU3M"), "pluggable");
+// kind-layer (13 Sep 2026): it is a same-cage `cable` now, which is still "not a breakout".
+eq("SABOTAGE a straight QSFP DAC is not a breakout", opticKind("QSFP-H40G-CU3M"), "cable");
+eq("SABOTAGE a straight SFP DAC is not a breakout", opticKind("SFP-H10GB-CU3M"), "cable");
 // SABOTAGE: the CVR- reverse adapters carry fan-out words and are adapters, which run first.
 eq("SABOTAGE CVR-4SFP10G-QSFP stays an adapter", opticKind("CVR-4SFP10G-QSFP"), "adapter");
 eq("a breakout cable is not a module (it is asked two ends, not one form factor)",
@@ -107,6 +109,94 @@ for (const k of ["pluggable", "bidi", "tunable", "adapter", "accessory"]) {
   eq(`kind "${k}" is reached by a catalogue SKU`, CASES.some(([, w]) => w === k), true);
 }
 eq(`kind "breakout-cable" is reached by a catalogue SKU`, opticKind("QSFP-4SFP25G-CU1.5M"), "breakout-cable");
+
+// ---- kind-layer (13 Sep 2026): the `cable` kind, the three breakout families item 4 found, the MDS CWDM passives --------
+// Witnesses are real rows (III.0 item 4 §2 read all 191; the classifier agrees with that read on 191 of 191). The
+// refusals are the rows a slightly wider token rule takes.
+const CABLE13: [string, string, string?][] = [
+  // [sku, kind, name?] — SKU-only unless a name is given
+  ["SFP-H10GB-CU1M", "cable"], ["SFP-H10GB-CU1-5M=", "cable"], ["QSFP-H40G-CU0-5M", "cable"], ["QSFP-H40G-ACU10M=", "cable"],
+  ["SFP-H10GB-ACU-7M", "cable"], ["QDD-400-CU2.5M", "cable"], ["QSFP-200-CU1M", "cable"], ["SFP-50G-CU0.5M", "cable"],
+  ["QDD-400-AOC15M", "cable"], ["SFP-10G-AOC1M-10M", "cable"], ["QSFP-H40G-AOCXM=", "cable"], ["SFP-25G-AOCxM", "cable"],
+  ["SFP-H10GB-CUxx=", "cable"], ["ONS-SC+-10G-CU3=", "cable"], ["MA-CBL-100G-50CM", "cable"], ["MA-CBL-TA-1M", "cable"],
+  ["ONS-CCC-100G-10=", "cable"],
+  // the name path, for a SKU with no Cisco token (Cisco-filed and other vendors)
+  ["PQSF2PXA1MBL", "cable", "QSFP28 100G Direct Attach Copper Cable Assembly, 30 AWG, Black, 1m"],
+  ["00YL634", "cable", "Lenovo 00YL634 10G AOC SFP+ auf SFP+ – aktives optisches Kabel (AOC), Länge 1 m"],
+  ["J9281D", "cable", "HPE Aruba Networking J9281D 10G SFP+-zu-SFP+ DAC – fest konfektioniert, 1 m"],
+  ["QFX-QSFP-DAC-1M", "cable", "QSFP+ Cable Assy, 1m, 30AWG, Passive, Programmable ID"],
+  ["JNP-QSFP-AOCBO-10M", "breakout-cable", "40G active optical breakout cable for 10M"],
+  // breakout families the round-6 rule missed
+  ["QDD-4ZQ100-CU1M", "breakout-cable"], ["QDD4ZQ100-CU2M", "breakout-cable"], ["QDD-4ZQ100CU1M", "breakout-cable"],
+  ["QSFP-4S50-CU3M", "breakout-cable"], ["QDD-4X100G-AOC-10M", "breakout-cable"],
+  ["AOC-Q56DD-4Q28-100G-3M", "breakout-cable", "Dell AOC-Q56DD-4Q28-100G-3M 400G Breakout-AOC – QSFP-DD auf 4x QSFP28, Länge 3 m"],
+  ["845420-B21", "breakout-cable", "HPE Aruba Networking 845420-B21 Breakout-AOC zu 4x SFP28 – 7 m"],
+  // MDS CWDM passives, out of pluggable
+  ["DS-CWDMOADM4A=", "accessory"], ["DS-CWDMCHASSIS=", "accessory"], ["DS-CWDM-MUX8A=", "accessory"],
+];
+for (const [sku, kind, name] of CABLE13) eq(`kind-layer: ${sku}${name ? " (by name)" : ""} is ${kind}`, opticKind(sku, name), kind);
+const CABLE13_REFUSALS: [string, string, string, string?][] = [
+  // [sku, must stay, why, name?]
+  ["SFP-CU-RJ45=", "pluggable", "a copper SFP MODULE: a letter follows -CU-"],
+  ["SFP-RFGW1-CU-RJ45=", "pluggable", "RF Gateway copper SFP module"],
+  ["X2-10GB-CX4", "pluggable", "a CX4 module, 15 m twinax behind it but a module", "Cisco X2-10GB-CX4 10GBASE-CX4 X2 Modul — 15 m Twinax (CX4)"],
+  ["XENPAK-10GB-CX4", "pluggable", "same, XENPAK", "Cisco XENPAK-10GB-CX4 10GBASE-CX4 XENPAK — CX4 (Kupfer), CX4-Twinax-Kupfer, 15 m"],
+  ["DS-CWDM8G1610=", "pluggable", "an MDS CWDM SFP+ OPTIC, not the CWDM passive family", "1610 nm CWDM 2/4/8-Gbps Fibre Channel SFP+ , Spare"],
+  ["AOC-E10GSFPSR", "pluggable", "Supermicro's AOC = Add-On Card: a 10GBASE-SR transceiver", "Supermicro AOC-E10GSFPSR 10 Gbit/s SFP+-Transceiver – 10GBASE-SR, 850 nm, Multimode (MMF), Duplex LC"],
+  ["QSFP-4X10GE-LR-25", "pluggable", "a 4x10G LR optic whose name says breakout and carries no cable noun", "Juniper QSFP-4X10GE-LR-25 40 Gbit/s 4× 10GBASE-LR-Transceiver – Singlemode-Glasfaser (SMF), MPO-12 / breakout"],
+  ["SFP-1G-T-C", "pluggable", "a copper RJ45 module whose name mentions a Cat 5 cable", "Small Form Factor Pluggable 1000Base-T Gigabit Ethernet Module (uses Cat 5 cable)"],
+  ["MA-CBL-120G-1M", "cable", "3×40G stacking is a lane count, not a fan-out (the count rule takes 2/4/8)", "Cisco Meraki MA-CBL-120G-1M 120 Gbit/s (3×40G Stacking) Direktanschlusskabel 1 m"],
+  ["QSFP-100G-AOCxM", "cable", "the Cisco datasheet heading says 'breakout' on a same-cage range row; only a COUNTED fan-out overrides a SKU", "QSFP active optical breakout cables (length x - 1m to 30m)"],
+  ["QSFP-4X10G-LR-S", "pluggable", "a multi-lane optic with the fan-out token and no cable token"],
+];
+for (const [sku, want, why, name] of CABLE13_REFUSALS) eq(`kind-layer REFUSAL ${sku} stays ${want} — ${why}`, opticKind(sku, name), want);
+// SABOTAGE, one per rule family: switch the rule off and its witness must change kind.
+{
+  const i = RULES.findIndex((r) => r.kind === "cable");
+  const [rule] = RULES.splice(i, 1);
+  eq("SABOTAGE cable RULE off: SFP-H10GB-CU1M is no longer a cable", opticKind("SFP-H10GB-CU1M") === "cable", false);
+  RULES.splice(i, 0, rule);
+  eq("control: cable RULE restored", opticKind("SFP-H10GB-CU1M"), "cable");
+  const saved = { ...NAME_RULES };
+  NAME_RULES.CABLE_NOUN = /$^/;
+  eq("SABOTAGE CABLE_NOUN off: a Lenovo AOC named as one is no longer a cable", opticKind("00YL634", "Lenovo 00YL634 10G AOC SFP+ auf SFP+ – aktives optisches Kabel (AOC), Länge 1 m") === "cable", false);
+  Object.assign(NAME_RULES, saved);
+  NAME_RULES.COUNTED_FANOUT = /$^/;
+  eq("SABOTAGE COUNTED_FANOUT off: a Dell 4x breakout AOC falls to a same-cage cable", opticKind("AOC-Q56DD-4Q28-100G-3M", "Dell AOC-Q56DD-4Q28-100G-3M 400G Breakout-AOC – QSFP-DD auf 4x QSFP28, Länge 3 m"), "cable");
+  Object.assign(NAME_RULES, saved);
+  NAME_RULES.BREAKOUT_WORD = /$^/;
+  eq("SABOTAGE BREAKOUT_WORD off: Juniper's uncounted breakout AOC falls to a same-cage cable", opticKind("JNP-QSFP-AOCBO-10M", "40G active optical breakout cable for 10M"), "cable");
+  Object.assign(NAME_RULES, saved);
+  NAME_RULES.TRANSCEIVER_WORD = /$^/;
+  eq("SABOTAGE TRANSCEIVER_WORD off: Supermicro's AOC- transceiver is taken as a cable", opticKind("AOC-E10GSFPSR", "Supermicro AOC-E10GSFPSR 10 Gbit/s SFP+-Transceiver – 10GBASE-SR, 850 nm"), "cable");
+  Object.assign(NAME_RULES, saved);
+  eq("control: name rules restored", opticKind("AOC-E10GSFPSR", "Supermicro AOC-E10GSFPSR 10 Gbit/s SFP+-Transceiver – 10GBASE-SR, 850 nm"), "pluggable");
+  const b = RULES.findIndex((r) => r.kind === "breakout-cable");
+  const saveRe = RULES[b].re;
+  RULES[b] = { kind: "breakout-cable", re: /^(?=.*-(?:CU|AOC|ACU|AC|CI)(?:\d|X))(?:Q|QSFP|QDD|QSFP28)-(?:\d+(?:SFP|QSFP)|\d+X\d+G|\d+Q\d+)/ };
+  eq("SABOTAGE breakout rule back to its round-6 form: QDD-4ZQ100-CU1M is no longer a breakout", opticKind("QDD-4ZQ100-CU1M") === "breakout-cable", false);
+  RULES[b] = { kind: "breakout-cable", re: saveRe };
+  const a = RULES.findIndex((r) => r.kind === "accessory");
+  const saveA = RULES[a].re;
+  RULES[a] = { kind: "accessory", re: /(?:^|-)(?:BRKT|BRACKET|TRAY|MUX|DEMUX|MUXDEMUX)(?:-|=|\d|$)/ };
+  eq("SABOTAGE accessory rule without the MDS CWDM shapes: DS-CWDMOADM4A= is a pluggable again", opticKind("DS-CWDMOADM4A="), "pluggable");
+  RULES[a] = { kind: "accessory", re: saveA };
+}
+eq(`kind "cable" is not an optic module (it is asked a length, not a transmit power)`, (OPT_MODULE as readonly string[]).includes("cable"), false);
+// kind-layer (13 Sep 2026): the question sets as kindQuestionSet resolves them (today's required set + the library's
+// proposed required cups; the parent decides each on the printed measurement).
+{
+  const qs = (k: string) => { const q = kindQuestionSet("transceiver", k); return `${[...q.required].sort().join(",")} | ${q.pending.map((p) => p.key).sort().join(",")}`; };
+  const MEDIA_PENDING = "cable_length,fiber_type,reach_max,rx_sensitivity,tx_power,wavelength,wire_gauge";
+  eq("question set: pluggable (+ temp_operating)", qs("pluggable"), `connector,data_rate,ddm,form_factor,media,power_max,standard,temp_class,temp_operating | ${MEDIA_PENDING}`);
+  eq("question set: bidi (+ temp_operating)", qs("bidi"), `connector,data_rate,ddm,form_factor,media,power_max,rx_wavelength,standard,temp_class,temp_operating | ${MEDIA_PENDING}`);
+  eq("question set: tunable (+ temp_operating, tuning_range; no wavelength)", qs("tunable"), "connector,data_rate,ddm,form_factor,media,power_max,standard,temp_class,temp_operating,tuning_range | cable_length,fiber_type,reach_max,rx_sensitivity,tx_power,wire_gauge");
+  eq("question set: cable (no optic rows; + cable_length, product_compatibility)", qs("cable"), "cable_length,connector,data_rate,ddm,form_factor,media,power_max,product_compatibility,standard,temp_class | wire_gauge");
+  eq("question set: breakout-cable (+ product_compatibility)", qs("breakout-cable"), "breakout_count,cable_length,data_rate,form_factor_a,form_factor_b,media,product_compatibility | fiber_type,reach_max,rx_sensitivity,tx_power,wire_gauge");
+  eq("question set: adapter (+ both ends, product_compatibility)", qs("adapter"), "data_rate,form_factor,form_factor_a,form_factor_b,product_compatibility | ");
+  eq("question set: accessory (+ product_compatibility)", qs("accessory"), "product_compatibility | ");
+  eq("LEDGER_KINDS names the transceiver `cable` kind", LEDGER_KINDS.transceiver.includes("cable"), true);
+}
 
 lines.unshift(`    optic kind: ${passed} passed, ${failed} missed (${REFUSALS.length} refusals, 2 ordering cases)`);
 console.log(lines.join("\n"));

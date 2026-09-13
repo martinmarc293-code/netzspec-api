@@ -37,14 +37,17 @@ import { NAME_ONLY_KINDS as MECH, UCS_NAME_ONLY_KINDS as UCS_EXTRA } from "./nam
 export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   // kind-layer (13 Sep 2026): switchKind now RETURNS `mechanical` (and `chassis`), so the list is de-duplicated.
   switches: [...new Set([...SW_BOX, ...SW_PART, ...MECH])],
-  transceiver: [...(["pluggable", "bidi", "tunable", "adapter", "accessory", "breakout-cable"] satisfies OpticKind[]), ...MECH],
+  // kind-layer (13 Sep 2026): `cable` — same-cage DAC / AOC / passive MPO cables, out of `pluggable` (spec II.2).
+  transceiver: [...new Set([...(["pluggable", "bidi", "tunable", "adapter", "accessory", "breakout-cable", "cable"] satisfies OpticKind[]), ...MECH])],
   // wireless (12 Sep 2026). kind-layer (13 Sep 2026): wirelessKind now returns `mechanical` from the SKU too, so the
   // list is de-duplicated rather than naming the kind twice.
   wireless: [...new Set([...WL_KINDS, ...MECH])],
   // servers (12 Sep 2026): all three categories derive their kind with ucsKind (partKind.ts).
-  "servers-unified-computing": [...UCS_KINDS, ...MECH, ...UCS_EXTRA],
-  "hyperconverged-systems": [...UCS_KINDS, ...MECH, ...UCS_EXTRA],
-  "hyperconverged-infrastructure": [...UCS_KINDS, ...MECH, ...UCS_EXTRA],
+  // kind-layer (13 Sep 2026): DE-DUPLICATED. ucsKind names `tpm` and `pdu` itself now, and they are still in the
+  // name-only list; a kind listed twice would be counted twice by every ledger loop (slots, parts).
+  "servers-unified-computing": [...new Set([...UCS_KINDS, ...MECH, ...UCS_EXTRA])],
+  "hyperconverged-systems": [...new Set([...UCS_KINDS, ...MECH, ...UCS_EXTRA])],
+  "hyperconverged-infrastructure": [...new Set([...UCS_KINDS, ...MECH, ...UCS_EXTRA])],
   // video (12 Sep 2026)
   video: [...VIDEO_KINDS, ...MECH],
   // collab (12 Sep 2026): one axis, three categories (collabKind.ts)

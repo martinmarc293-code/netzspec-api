@@ -1255,10 +1255,18 @@ const secShape = (kinds: readonly SecurityKind[], series: readonly string[], opt
 //   drive — capacity (storage_capacity, 987 facts; NOT storage_raw_capacity, which was asked of drives
 //     until today while holding 0 drive facts — it is a storage SERVER's aggregate, 29 facts, all on
 //     S-Series servers) and interface (drive_interface).
-//   psu — rated output and input voltage, exactly the switches PSU set.
+//   psu — rated output and input voltage, exactly the switches PSU set. (kind-layer 13 Sep 2026: the kind is `power` now.)
 //   gpu — board power (power_max: a GPU draws it, "AMD Instinct MI210: 300W").
 //   every component — what it fits (product_compatibility), the switches rule (§1.1).
 //   bundle / os-license / software / non-product / unknown — asked nothing (R3 and the fallback).
+//
+// KIND-LAYER (13 Sep 2026). The operator's instruction for this pass: cup sets are NOT decided on the mapped label share
+// here. Every cup required today stays required, and the spec's cup-set LIBRARY (I.4) adds its proposed required cups for
+// each UCS kind (SERVER, CHASSIS + product_compatibility, FABRIC-INTERCONNECT, DRIVE, NIC, GPU, STORAGE-CONTROLLER,
+// MODULE, PSU, FAN, CABLE); the parent then keeps or demotes each one on a central PRINTED-on-the-page measurement.
+// The full (kind, cup, proposed status) list is the kind-layer report (D:/tmp/kindlayer-impl/4-servers-transceiver/).
+// One kind, one cup set across the three UCS-axis categories (rule 3); product_compatibility is asked of every component
+// kind (parent ruling 1: its fill path is the relation).
 const UCS_BOX_K = [...UCS_MACHINE] as string[];
 const UCS_PART_K = [...UCS_COMPONENT] as string[];
 const ucsK = (...kinds: string[]): Requirement => cond({ field: "kind", inList: kinds });
@@ -1278,15 +1286,47 @@ const ucsCups = (): Record<string, Requirement> => ({
   // dictionary comment -- four label occurrences and eighteen prose ones are not a basis for
   // 1,555 required gaps.
   memory_max: ucsK("server"), cpu_sockets_max: ucsK("server"),
-  dimm_slots: opt, pcie_slots: opt,
+  // kind-layer (13 Sep 2026): SERVER library cups, proposed required (the printed measurement decides).
+  dimm_slots: ucsK("server"), pcie_slots: ucsK("server"),
   memory_speed_max: ucsK("server", "cpu", "memory"),
+  // kind-layer (13 Sep 2026): FABRIC-INTERCONNECT = ETH-SWITCHING minus PoE/stacking + ENV. Proposed required: the
+  // forwarding, table and management rows; uplink ports while the form factor is a fixed box, module slots while it is
+  // a modular chassis (and always for a UCS chassis, CHASSIS library), PSU redundancy where the supply is modular —
+  // the same gates the switches profile uses.
   ports: ucsK("fabric-interconnect", "io-module", "nic"),
   switching_capacity: ucsK("fabric-interconnect"),
-  tdp: ucsK("cpu"), clock_speed: ucsK("cpu"), cpu_cores: ucsK("cpu"), cpu_cache: ucsK("cpu"),
+  uplink_ports: cond({ all: [{ field: "kind", inList: ["fabric-interconnect"] }, { field: "form_factor", inList: ["rack-19", "desktop", "din-rail"] }] }),
+  forwarding_rate: ucsK("fabric-interconnect"), mac_table: ucsK("fabric-interconnect"), vlan_max: ucsK("fabric-interconnect"),
+  jumbo_mtu: ucsK("fabric-interconnect"), packet_buffer: ucsK("fabric-interconnect"), mgmt_class: ucsK("fabric-interconnect"),
+  cooling: ucsK("fabric-interconnect"), ieee_standards: ucsK("fabric-interconnect"),
+  psu_config: ucsK("chassis", "fabric-interconnect"),
+  psu_redundant: cond({ all: [{ field: "kind", inList: ["fabric-interconnect"] }, { field: "psu_config", inList: ["modular-single", "modular-redundant"] }] }),
+  module_slots: cond({ any: [{ field: "kind", inList: ["chassis"] }, { all: [{ field: "kind", inList: ["fabric-interconnect"] }, { field: "form_factor", eq: "modular-chassis" }] }] }, { elseOpt: true }),
+  tdp: ucsK("cpu", "gpu"), clock_speed: ucsK("cpu"), cpu_cores: ucsK("cpu"), cpu_cache: ucsK("cpu"),
   dram: ucsK("memory"),
-  storage_capacity: ucsK("drive"), drive_interface: ucsK("drive"),
-  psu_rated_output: ucsK("psu"), input_voltage: ucsK("psu"),
-  product_compatibility: ucsK(...UCS_PART_K),
+  // kind-layer (13 Sep 2026): DRIVE library adds drive_form_factor (a dictionary key since 0e22f85, 0 facts; III.0 item 1
+  // would-map labels "Size" / "Form Factor" on 72.8% of servers-unified-computing drives). drive_endurance_dwpd is
+  // proposed OPTIONAL by the library and is NOT created (no dictionary key; 17.2% would-map) — reported.
+  storage_capacity: ucsK("drive"), drive_interface: ucsK("drive", "storage-controller"), drive_form_factor: ucsK("drive"),
+  // kind-layer (13 Sep 2026): STORAGE-CONTROLLER library: raid_level + drive_interface (above). raid_level is proposed
+  // REQUIRED by the library but HELD OPTIONAL: its dictionary entry is a free string (type s, no domain) and the standing
+  // rule in tests/freeStringCups.test.ts refuses a required free string without a recorded decision. Closing a domain is
+  // a dictionary change for all vendors (parent). Same for pcie_card_size (NIC, GPU) and receptacles (PDU) below.
+  raid_level: opt,
+  // kind-layer (13 Sep 2026): NIC and MODULE libraries add data_rate; NIC and GPU add pcie_card_size (held optional, see
+  // raid_level); GPU adds tdp (above) and gpu_memory (a dictionary key since 0e22f85, 0 facts, 0% would-map in III.0 item 1).
+  data_rate: ucsK("nic", "io-module"), pcie_card_size: opt, gpu_memory: ucsK("gpu"),
+  // kind-layer (13 Sep 2026): `psu` -> `power` (spec III.1). PSU library adds airflow (the contract every other category's
+  // `power` asks); FAN library asks airflow too. The PDU library (PSU minus airflow) adds rated output, input voltage
+  // and receptacles to the `pdu` kind (receptacles held optional: free string, see raid_level).
+  psu_rated_output: ucsK("power", "pdu"), input_voltage: ucsK("power", "pdu"), receptacles: opt,
+  airflow: ucsK("power", "fan"),
+  // kind-layer (13 Sep 2026): CABLE library, proposed required for the new UCS `cable` kind — internal SAS/NVMe/GPU-power
+  // cabling. NOTE for the measurement: `connector` and `media` carry the transceiver domains (LC/MPO, mmf/smf/dac), which
+  // no internal server cable can take; cable_length is stated by no UCS cable SKU.
+  cable_length: ucsK("cable"), connector: ucsK("cable"), media: ucsK("cable"),
+  // every component (parent ruling 1), and the chassis (spec II.5: CHASSIS + product_compatibility)
+  product_compatibility: ucsK(...UCS_PART_K, "chassis"),
   // round-7 ruling C (12 Sep 2026): a bundle owes what it is made of. Zero cups is what put 1,568 rows outside
   // every phase-1 number; one is the minimum that makes the kind visible, not a claim that one is enough.
   // Approved ONLY with its fill path on the same commit: the name parser in src/core/bundleContents.ts,
@@ -1299,10 +1339,11 @@ const ucsCups = (): Record<string, Requirement> => ({
   // cpu_sockets is now SUPERSEDED into cpu_sockets_max (see SUPERSEDED_KEYS) and must not be
   // declared by a profile -- tests/oneCupPerQuantity.test.ts refuses that.
   storage_raw_capacity: opt, cpu_boost_clock: opt,
-  dimm_ranks: opt, dimm_voltage: opt, data_rate: opt, gpu_max: opt, pcie_card_size: opt,
+  // kind-layer (13 Sep 2026): data_rate, pcie_card_size and module_slots are conditional above now.
+  dimm_ranks: opt, dimm_voltage: opt, gpu_max: opt,
   slot_compatibility: opt, psu_options: opt, psu_efficiency: opt, heat_dissipation: opt,
   humidity_storage: opt, altitude_storage: opt, hypervisor: opt, management_mode: opt,
-  module_slots: opt, cpu_interconnect_links: opt, workload_segment: opt,
+  cpu_interconnect_links: opt, workload_segment: opt,
   // DEMOTED in the two hyperconverged categories, where the generated profile made them `req` (and the
   // device loop gated them to `device`, i.e. every CPU and DIMM). Optional here as in switches, the READY
   // profile: 0 own facts in all three categories (every value is inherited from a series document), and
@@ -2378,21 +2419,33 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // parts row already knows. `kind` is derived from the SKU, so it is always answered: gating on it can
     // never collapse a question into `na` the way a condition on an unanswered optional fact does.
     vendor: req,
-    form_factor: cond({ field: "kind", inList: [...OPT_MODULE, "adapter"] }),
+    // KIND-LAYER (13 Sep 2026). The operator's instruction for this pass: no cup is demoted here on the mapped label share.
+    // Every cup required today stays required; the spec library (I.4: OPTIC, BIDI, TUNABLE, BREAKOUT, ADAPTER, CABLE,
+    // ACCESSORY) adds its proposed required cups for each kind; the parent keeps or demotes each one on a central
+    // PRINTED-on-the-page measurement. The (kind, cup, proposed status) list is the kind-layer report.
+    // THE NEW `cable` KIND (spec II.2) is a same-cage DAC/AOC/MPO cable. It keeps every cup its rows were asked as
+    // pluggables EXCEPT the four the spec names as the reason for the kind — wavelength, tx_power, rx_sensitivity and
+    // reach_max are not asked of a cable — and adds the CABLE library's cable_length, plus product_compatibility (parent
+    // ruling 1: a component kind asks what it fits).
+    form_factor: cond({ field: "kind", inList: [...OPT_MODULE, "adapter", "cable"] }),
     // breakout-cable (round-6 B4c) is asked data_rate and media like a module, and NOT form_factor --
     // form_factor above stays OPT_MODULE + adapter, so a breakout cable resolves it to na. It is asked
     // the two ends and the fan-out instead, below.
-    data_rate: cond({ field: "kind", inList: [...OPT_MODULE, "adapter", "breakout-cable"] }),
-    standard: cond({ field: "kind", inList: [...OPT_MODULE] }),
-    media: cond({ field: "kind", inList: [...OPT_MODULE, "breakout-cable"] }),
-    form_factor_a: cond({ field: "kind", inList: ["breakout-cable"] }),
-    form_factor_b: cond({ field: "kind", inList: ["breakout-cable"] }),
+    data_rate: cond({ field: "kind", inList: [...OPT_MODULE, "adapter", "breakout-cable", "cable"] }),
+    standard: cond({ field: "kind", inList: [...OPT_MODULE, "cable"] }),
+    media: cond({ field: "kind", inList: [...OPT_MODULE, "breakout-cable", "cable"] }),
+    // kind-layer (13 Sep 2026): the ADAPTER library asks both ends too (a QSA is QSFP to SFP). Proposed required; note for
+    // the measurement that breakoutEnds() is validated on breakout cables and reads no adapter today.
+    form_factor_a: cond({ field: "kind", inList: ["breakout-cable", "adapter"] }),
+    form_factor_b: cond({ field: "kind", inList: ["breakout-cable", "adapter"] }),
     breakout_count: cond({ field: "kind", inList: ["breakout-cable"] }),
-    fiber_type: cond({ field: "media", inList: ["mmf", "smf"] }),
+    fiber_type: cond({ all: [{ field: "kind", notInList: ["cable"] }, { field: "media", inList: ["mmf", "smf"] }] }),
     // `wavelength` IS THE TRANSMIT WAVELENGTH — for a duplex optic the one it emits and receives on, for a
     // single-fibre BiDi the Tx side. Every one of the 23 BiDi parts holding one already stores the Tx number
     // ("Tx 1490 nm / Rx 1310 nm" -> 1490), so the reviewer's `wavelength_tx` would have been a second cup
     // for the value this one holds. A TUNABLE part has no fixed wavelength and is asked `tuning_range`.
+    // kind-layer (13 Sep 2026): the TUNABLE library (OPTIC + tuning_range) would add wavelength to `tunable`; NOT added —
+    // this cup holds one fixed number and a tunable has a span (the 11 Sep ruling above). Listed for the parent.
     wavelength: cond({ all: [{ field: "media", inList: ["mmf", "smf", "aoc"] }, { field: "kind", inList: [...OPT_FIXED_WAVELENGTH] }] }),
     // The receive side of a single-fibre BiDi — the cup that did not exist. REQUIRED of `bidi`: the pair is
     // what a BiDi is bought on (a U and a D must be matched), and it is fillable — 23 of 23 BiDi wavelength
@@ -2405,15 +2458,17 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // but the "Frequency range ... THz" rows in the Cisco inventory come from video transmitter sheets, not
     // from transceiver datasheets, so fillability for this kind is unmeasured — and a required field
     // nothing can fill is a permanent gap. Promote it when a transceiver source is seen to publish it.
-    tuning_range: opt,
+    // kind-layer (13 Sep 2026): the TUNABLE library proposes it REQUIRED — set, for the printed measurement to decide.
+    tuning_range: cond({ field: "kind", inList: ["tunable"] }, { elseOpt: true }),
     // SHAPED 11 Sep 2026 (reviewer §2.2, measured). A DAC or AOC is a fixed-length CABLE: its reach
     // IS its cable_length (135 of 143 hold one; 0 hold a reach_max), so asking both asked one
     // question twice. Transmission mode (duplex vs BiDi) is a property of a fibre optic: 0 of 143
     // DAC/AOC hold one and no source states it for a cable. rj45-copper keeps reach (30 m over Cat6a).
-    reach_max: cond({ field: "media", inList: ["mmf", "smf", "rj45-copper"] }),
-    connector: cond({ field: "kind", inList: [...OPT_MODULE] }),
-    tx_power: cond({ field: "media", inList: ["mmf", "smf"] }),
-    rx_sensitivity: cond({ field: "media", inList: ["mmf", "smf"] }),
+    // kind-layer (13 Sep 2026): and the `cable` kind is not asked it at all (spec II.2).
+    reach_max: cond({ all: [{ field: "kind", notInList: ["cable"] }, { field: "media", inList: ["mmf", "smf", "rj45-copper"] }] }),
+    connector: cond({ field: "kind", inList: [...OPT_MODULE, "cable"] }),
+    tx_power: cond({ all: [{ field: "kind", notInList: ["cable"] }, { field: "media", inList: ["mmf", "smf"] }] }),
+    rx_sensitivity: cond({ all: [{ field: "kind", notInList: ["cable"] }, { field: "media", inList: ["mmf", "smf"] }] }),
     // OPTIONAL, not conditional-required, and the distinction is deliberate. The guaranteed minimum
     // launch power (tx_power) is what a link budget needs and every optical datasheet states it;
     // the compliance CEILING is published by some vendors and not others — Juniper's HCT gives it,
@@ -2437,7 +2492,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // value is accepted the day a source publishes one.
     // 1,760 slots in `transceiver`. (`bidi_wavelengths` stood here, declared optional with zero facts; it is
     // `wavelength` + `rx_wavelength` under a third name and is retired into the latter, 11 Sep 2026.)
-    ddm: cond({ field: "kind", inList: [...OPT_MODULE] }),
+    ddm: cond({ field: "kind", inList: [...OPT_MODULE, "cable"] }),
     // UNREACHABLE BY CONSTRUCTION, measured 10 Sep 2026 and demoted for the same reason as
     // switches' mgmt_ports and stack_max_members: ZERO facts hold it across every vendor and
     // every state (not merely zero live ones), ZERO sources publish it in any per-category
@@ -2446,15 +2501,25 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // value is accepted the day a source publishes one.
     // 1,390 slots in `transceiver`.
     fec: opt,
-    power_max: cond({ field: "kind", inList: [...OPT_MODULE] }), temp_class: cond({ field: "kind", inList: [...OPT_MODULE] }),
+    power_max: cond({ field: "kind", inList: [...OPT_MODULE, "cable"] }), temp_class: cond({ field: "kind", inList: [...OPT_MODULE, "cable"] }),
+    // kind-layer (13 Sep 2026): the OPTIC library proposes temp_operating REQUIRED (it was optional for every kind).
+    temp_operating: cond({ field: "kind", inList: [...OPT_MODULE] }, { elseOpt: true }),
     // A breakout cable is ALWAYS a cable, so it is asked its length by kind rather than waiting on
     // `media` -- gating a cup a part certainly owes on a second question is the long way round to the
     // same answer, and it leaves the cup pending until media is extracted.
-    cable_length: cond({ any: [{ field: "media", inList: ["dac-copper", "aoc"] }, { field: "kind", inList: ["breakout-cable"] }] }),
+    // kind-layer (13 Sep 2026): and so is the new `cable` kind. Its SKU states the length, and src/core/cableLength.ts
+    // derives it — registered in DERIVED_FILL_PATHS with its validation (Cisco cable 158 of 183 derived, 0 disagreements
+    // with 106 stored facts and 122 names; the rest refused with a reason). The medium branch keeps asking a DAC or AOC
+    // another vendor still files as a pluggable.
+    cable_length: cond({ any: [{ field: "media", inList: ["dac-copper", "aoc"] }, { field: "kind", inList: ["breakout-cable", "cable"] }] }),
     // wire_gauge REQUIRED OF A DAC, 11 Sep 2026: a passive copper cable's gauge (Cisco prints 30/26 AWG)
     // decides its reach. Fillable — "Gauge" occurs 30 times in the cisco-datasheets inventory and the
     // alias already writes wire_gauge — though 0 of the 94 Cisco DACs hold it yet: a coverage gap.
     wire_gauge: cond({ field: "media", inList: ["dac-copper"] }),
+    // kind-layer (13 Sep 2026): parent ruling 1 — a component kind asks what it fits (spec I.4: the fill path is the
+    // compatibility relation). `cable` and `breakout-cable` (cables), `adapter` (ADAPTER library) and `accessory`
+    // (ACCESSORY library; its 18 CWDM passives are planned to move to optical-networking).
+    product_compatibility: cond({ field: "kind", inList: ["cable", "breakout-cable", "adapter", "accessory"] }, { elseOpt: true }),
     msa: opt, dimensions: opt, weight: opt, certifications: opt, mtbf: opt,
     breakout: opt, tunable: opt, dac_type: opt,
     // STRUCTURE 8 Sep 2026: 1 field(s) its documents already produce and no profile declared — invisible to completeness until now

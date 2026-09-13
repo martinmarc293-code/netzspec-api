@@ -124,6 +124,17 @@ const SWITCH_CORE = ["switching_capacity", "forwarding_rate", "ports", "poe_budg
 check("switches profile still contains its historically required keys as req/cond",
   SWITCH_CORE.every((k) => stillRequired("switches", k)));
 const OPTIC_CORE = ["form_factor", "data_rate", "reach_max", "connector", "media", "wavelength"];
+// kind-layer (13 Sep 2026): the new `cable` kind (spec II.2) exists so that a DAC/AOC is NOT asked the optic rows — pinned
+// by outcome, for a cable whose medium nobody has answered yet (the case a media gate alone would leave pending).
+{
+  const cab = { vendor: "cisco", kind: "cable" };
+  check("kind-layer: a `cable` is not asked wavelength, tx_power, rx_sensitivity or reach_max, even with its medium unanswered",
+    ["wavelength", "tx_power", "rx_sensitivity", "reach_max"].every((k) => requirementFor("transceiver", k, cab) === "na"));
+  check("kind-layer: a `cable` IS asked its length and what it fits",
+    requirementFor("transceiver", "cable_length", cab) === "req" && requirementFor("transceiver", "product_compatibility", cab) === "req");
+  check("kind-layer: a pluggable is asked temp_operating (OPTIC library, proposed required)",
+    requirementFor("transceiver", "temp_operating", { vendor: "cisco", kind: "pluggable" }) === "req");
+}
 check("transceiver profile still contains its historically required keys as req/cond",
   OPTIC_CORE.every((k) => stillRequired("transceiver", k)));
 // The claim is "never the generated OPT", not "literally req": on 10 Sep 2026 `ports` and

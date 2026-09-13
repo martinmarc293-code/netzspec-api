@@ -159,8 +159,14 @@ check("and the collapse is severe enough to be worth a guard",
     // 12 Sep 2026: product_compatibility joined the wireless component set (reviewer 2.3), so a cord owes it too.
     wireless: ["cable_length", "product_compatibility"],
     // servers (12 Sep 2026): a UCS component (the probe is a cable, kind accessory) is asked what it fits.
-    "servers-unified-computing": ["product_compatibility"], "hyperconverged-systems": ["product_compatibility"],
-    "hyperconverged-infrastructure": ["product_compatibility"],
+    // kind-layer (13 Sep 2026): the probe is kind `cable` now (ucsKind names cables), and the CABLE library proposes its
+    // own three questions — its length, connector and medium — for the parent's printed measurement. Still no DEVICE question.
+    "servers-unified-computing": ["product_compatibility", "cable_length", "connector", "media"],
+    "hyperconverged-systems": ["product_compatibility", "cable_length", "connector", "media"],
+    "hyperconverged-infrastructure": ["product_compatibility", "cable_length", "connector", "media"],
+    // kind-layer (13 Sep 2026): the probe CVR-BRKT-1 is kind `accessory`, which the ACCESSORY library (and parent ruling 1)
+    // asks what it fits.
+    transceiver: ["product_compatibility"],
     // collab (12 Sep 2026): the collaboration axis asks a cable its length, a PSU its rated output and what it
     // fits, a server part what it fits (collabBlock in fieldSchema.ts) — and no device question.
     // kind-layer (13 Sep 2026): `power-supply` is `power` and asks the PSU archetype (rated output, input voltage, airflow).

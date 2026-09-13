@@ -10,7 +10,8 @@
 // filed 328 components as servers, and the tell was that the `server` bucket carried 328 COMPONENT
 // facts and zero physical ones — the wrong way round for a machine. Every HyperFlex form is pinned
 // below so that regression cannot come back silently.
-import { ucsKind, ucsToken, UCS_MACHINE, UCS_COMPONENT, UCS_KINDS, PRE_RULES, RULES, MACHINE_REFINE } from "../src/core/ucsKind.js";
+import { ucsKind, ucsToken, UCS_MACHINE, UCS_COMPONENT, UCS_KINDS, PRE_RULES, RULES, MACHINE_REFINE, MLB_GENERATION } from "../src/core/ucsKind.js";
+import { kindQuestionSet, LEDGER_KINDS } from "../src/core/cupLedger.js"; // kind-layer (13 Sep 2026)
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -37,12 +38,12 @@ const CASES: [string, string][] = [
   ["UCS-MR-2X041RY-B=", "memory"],
   ["UCS-SD38TK1X-EV=", "drive"],
   ["UCSC-M2RR-240M8", "drive"],
-  ["UCS-PSU-6248UP-AC", "psu"],
+  ["UCS-PSU-6248UP-AC", "power"], // kind-layer (13 Sep 2026): psu -> power
   ["UCSC-GPU-P100-16G=", "gpu"],
   ["UCS-RAID9286CV-8E", "storage-controller"],
   ["UCSC-PCIE-B3SFP=", "nic"],
   ["UCSX-RIS-B-440P", "accessory"],
-  ["CAB-C13-C14-AC=", "accessory"],
+  ["CAB-C13-C14-AC=", "cable"], // kind-layer (13 Sep 2026): CAB is a `cable` token now
   // licences and bundles
   ["VMW-VS5-ENTP-5A", "os-license"],
   ["SLES-SVR-4S-1G-3A", "os-license"],
@@ -109,7 +110,7 @@ eq("there are component kinds", UCS_COMPONENT.length > 0, true);
 // Every SKU is a live catalogue row. More refusals than positives, on purpose: each refusal is a real part a
 // widened rule would misfile, read out of the same families.
 const POS12: [string, string][] = [
-  ["N20-PAC5-2500W=", "psu"], ["N20-BBLKD=", "accessory"], ["N20-FW018", "software"], ["N10-MGT016", "software"],
+  ["N20-PAC5-2500W=", "power"], ["N20-BBLKD=", "accessory"], ["N20-FW018", "software"], ["N10-MGT016", "software"],
   ["UCS-IOM-2408", "io-module"], ["UCSX-I-9108-100G", "io-module"], ["X9108-IFM-100G", "io-module"],
   ["HXAF220C-M5SX", "server"], ["HX-E-240-M6SX", "server"], ["HCIAF220C-M7SN1", "server"], ["CSP-5444", "server"],
   ["CSP-CPU-5120", "cpu"], ["E-SSD-SATA-4TB", "drive"], ["UCS-HY16T61X-EV", "drive"], ["UCS-MP-128GS-A0", "memory"],
@@ -157,8 +158,9 @@ for (const [sku, not, why] of REF12) eq(`12 Sep REFUSAL ${sku} is not ${not} —
 // Every positive is a row of the 158; every refusal is the NEAREST live row the new rule must not take, read out
 // of the same family (the full kind diff over every live UCS-axis row is in the session report).
 const POS13: [string, string][] = [
-  ["UCSX-M7-MLB", "server"], ["UCS-M6-MLB", "server"], ["UCSXE-M8-MLB", "server"], ["UCS-MGPUM8-MLB", "server"],
-  ["HX-UCSCM6-MLB", "server"], ["UCSX-M8-MLB", "server"],
+  // kind-layer (13 Sep 2026): the generation MLBs are `bundle` (III.0 item 4 §7b) — see the PRE_RULE note in ucsKind.ts
+  ["UCSX-M7-MLB", "bundle"], ["UCS-M6-MLB", "bundle"], ["UCSXE-M8-MLB", "bundle"], ["UCS-MGPUM8-MLB", "bundle"],
+  ["HX-UCSCM6-MLB", "bundle"], ["UCSX-M8-MLB", "bundle"],
   ["UCSXE-130C-M8-20", "server"], ["UCSXE-150C-M8-32-U", "server"],
   ["UCSXE-9305=", "chassis"], ["UCSXE-9305-U", "chassis"], ["HCIXENX-9305-U", "chassis"],
   ["UCSC-C3260", "chassis"], ["UCSC-C3160", "chassis"], ["UCSC-C3160-SIOC=", "io-module"], ["UCSC-C3260-SIOC", "io-module"],
@@ -177,7 +179,8 @@ const REF13: [string, string, string][] = [
   ["UCSC-C3160-400SSD", "chassis", "'UCS C3160 400GB ... SSD' — a whole-SKU anchor, not the C3160 token"],
   ["UCSC-C3160-BEZEL", "chassis", "'Cisco UCS C3160 System Bezel'"],
   ["UCSC-C3160-BEZEL", "io-module", "a bezel is not the SIOC"],
-  ["UCSC-BASE-C460-CH2", "server", "'Disti:C460,w/o CPU ...' — not read, not named"],
+  // kind-layer (13 Sep 2026): UCSC-BASE-C460-CH2 "Disti:C460,w/o CPU, HSnk, Mem, HD, PCIe, PSU, w/Rls, Blnk" was READ in the
+  // III.0 item-6 family "PCIe node / configured servers" and is a base server — this refusal is withdrawn (positive below).
   ["PLHC-FI-D2-RES", "fabric-interconnect", "'Cisco+ Hybrid Cloud Reserve for HX Fabric Interconnect' — a reservation"],
   ["PLHC-MLOM-PT-01", "nic", "'Cisco+ UCS Port Expander Card (mezz) for VIC' — MLOM- then a digit only"],
   ["PLHC-HXN-GW-5Y-RES", "chassis", "a Cisco+ reservation licence"],
@@ -192,7 +195,11 @@ for (let i = 0; i < PRE_RULES.length; i++) {
     "DN3-P-I8D25GF", "E-SSD-SATA-4TB", "UCSX-V5-BRIDGE-D=",
     // device-noun (13 Sep 2026): one probe per new rule
     "UCSX-M7-MLB", "UCSXE-130C-M8-20", "UCSXE-9305=", "UCSC-C3260", "UCSC-C3160-SIOC", "UCSX-FS-9516",
-    "UCSC-BASE-M2-C460", "PLHC-CI-5108-1A", "PLHC-MLOM-40G-04", "PLHC-MRAID12G"];
+    "UCSC-BASE-M2-C460", "PLHC-CI-5108-1A", "PLHC-MLOM-40G-04", "PLHC-MRAID12G",
+    // kind-layer (13 Sep 2026): one probe per new rule
+    "CSP-5200=", "UCSX-M2-HWRAID", "R250-PL003", "UCSC-RC-1M-C260", "UCS-STM-C240M4-L2", "UCS-C3260-SA-D",
+    "HX-DH-FI6332-16UP", "A02-MEMKIT-008A", "UCSXS960G6I1XEV-D", "R200-DISTIPSU-650W", "RP208-30-2P-U-2",
+    "UCSW-WT-IM2P", "CR2032", "N1K-VSG-UCS-BUN"];
   const probe = PROBES.find((p) => PRE_RULES[i].re.test(p.toUpperCase().replace(/=+$/, "")));
   if (!probe) { eq(`a sabotage probe exists for PRE_RULES[${i}]`, false, true); continue; }
   const before = ucsKind(probe);
@@ -221,7 +228,120 @@ for (let i = 0; i < PRE_RULES.length; i++) {
 }
 eq("UCS_KINDS lists every kind exactly once", new Set(UCS_KINDS).size === UCS_KINDS.length, true);
 
+// --- kind-layer (13 Sep 2026): the III.0 item-6 read of `unknown`, the item-4 §7b read of `server`, the rename -------------
+// Every SKU is a live row of those reads (or of the rows the same rule family moved, listed in the kind-layer kind diff).
+const POS_KL: [string, string][] = [
+  // the rename, and the kinds the SKU axis names now
+  ["UCSC-PSU1-770W", "power"], ["UCSXE-PSU-2400W", "power"], ["UCSAI-PSU-3200W", "power"], ["PLHC-N01-UAC1", "power"],
+  ["R200-DISTIPSU-650W", "power"],
+  ["CBL-SAS24-C240M7", "cable"], ["UCS-240CBLMR8=", "cable"], ["UCSC-GPUCBL-88S", "cable"], ["XDACBL3M", "cable"],
+  ["CB-LC-LC-MMF1M=", "cable"], ["N20-BKVM-D", "cable"], ["UCSC-RC-P8M-C260=", "cable"], ["C880-J-SASCBL", "cable"],
+  ["UCSX-C-DEBUGCBL=", "cable"], ["SASCBLSHORT-003", "cable"],
+  ["UCSC-FAN-C240M6=", "fan"], ["N20-FAN5=", "fan"], ["UCSXE-TPM-002D", "tpm"], ["UCSX-TPM2-002D", "tpm"],
+  ["RP208-30-2P-U-2", "pdu"], ["RP208-30M1P-4-8=", "pdu"], ["C16-2PDU", "pdu"],
+  // NVE drives (46 spec-held rows were `unknown`) and the other drive shapes
+  ["UCSX-NVE17T6K2V9", "drive"], ["UCS-NVE112T8K1P", "drive"], ["UCSXE-NVE13T8K1V", "drive"], ["UCSAI-NVES3T8M1V", "drive"],
+  ["UCSXE-M2-240G", "drive"], ["UCSSD960GBM2NK9-D", "drive"], ["UCSXS960G6I1XEV-D", "drive"], ["CS-EZ-3TB-HDD", "drive"],
+  // the M.2 boot RAID controller family (was `drive`) and the LSI cards
+  ["UCSX-M2-HWRAID", "storage-controller"], ["UCS-M2-HWRAID-D=", "storage-controller"], ["UCSX-M2I-HWRD-FPS", "storage-controller"],
+  ["UCSXE-M2-HWRD2", "storage-controller"], ["R250-PL003", "storage-controller"], ["R2XX-PL003-CBL=", "storage-controller"],
+  ["R2X0-ML002=", "storage-controller"], ["R210-MEZZCBL003=", "storage-controller"], ["UCSC-PSAS12GHBA", "storage-controller"],
+  ["UCSC-9500-8E-D", "storage-controller"],
+  // components by their own token once the system prefix is stripped
+  ["UCSXE-GPU-L4", "gpu"], ["CAI-GPU-MI210", "gpu"], ["UCSXE-MRX16G1RE5", "memory"], ["UCS-MCX32G2RE11", "memory"],
+  ["A02-MEMKIT-016B", "memory"], ["UCSAI-CPU-I6776P", "cpu"], ["UCSXE-P-I8D25GF", "nic"], ["UCSAI-P-NC3220", "nic"],
+  ["UCSW-WT-IM2P", "nic"], ["UCSW-WT-IM4P", "nic"], ["N20-AI0102=", "nic"],
+  // machines the item-6 read placed, and the §7b corrections
+  ["UCS-STM-C240M4-L2", "server"], ["UCS-EM-B200M4-1S", "server"], ["UCSSPENVPB200M3-RL", "server"], ["KIN-UCSM5-2RU-K9=", "server"],
+  ["UCSC-BASE-C460-CH2", "server"], ["HXAF-E-220M6S", "server"], ["HXAF225-M6S", "server"], ["HX-DH-C240M5L-01", "server"],
+  ["UCSX-9508=", "chassis"], ["HCIX-9508=", "chassis"], ["CSP-5200=", "chassis"], ["CSP-5400=", "chassis"], ["UCS-C3260-SA-D", "chassis"],
+  ["HX-DH-FI6332-16UP", "fabric-interconnect"], ["HCIX-FS-9516-U", "io-module"],
+  ["HX-C480-CM=", "accessory"], ["C880-BAT-CR2032=", "accessory"], ["UCSAI-880A-HS", "accessory"], ["C885A-M8-H2SX-SLD", "accessory"],
+  ["CR2032", "accessory"], ["UCS-M5-CPU-CAR=", "accessory"], ["UCSX-580P-U", "accessory"], ["UCSX-M8A-HS-F", "accessory"],
+  ["PP-2RU-CHAS", "accessory"], ["UCSXE-SHLFMT-BKT", "accessory"], ["UCS-DDR5-BLK=", "accessory"], ["RC460-CBLARM=", "accessory"],
+  ["UCS-DCPMM-AD", "non-product"], ["N1K-VSG-UCS-BUN", "bundle"], ["UCSC-EPOD-C220E-S", "bundle"], ["UCS-DGPUM8-MLB", "bundle"],
+];
+for (const [sku, kind] of POS_KL) eq(`kind-layer: ${sku}`, ucsKind(sku), kind);
+const REF_KL: [string, string, string][] = [
+  // [sku, the kind it must NOT be, why]
+  ["UCSC-CBLKP", "cable", "'blanking panel' — CBLK is the blank family, the cable token is CBL(?!K)"],
+  ["RC-460-TIM=", "cable", "'C460 Thermal Interface Pad' — RC is not a cable token on its own"],
+  ["RC460-CBLARM=", "cable", "'CABLE MANAGEMENT ARM FOR C460 M1'"],
+  ["HX-RIS-CBL-M5SD", "cable", "a riser token first: RIS stays an accessory token"],
+  ["UCSXE-M2-240G", "storage-controller", "a real M.2 drive — no HWR segment"],
+  ["UCSAI-M2-960G", "storage-controller", "a real M.2 drive"],
+  ["UCSC-C220-M5SX", "accessory", "a server whose model segments carry no HS/SLD/CM/BAT segment"],
+  ["UCSC-880A-M8-B303", "accessory", "the C880A server itself (UCSAI- is its components, not the machine)"],
+  ["CSP-5228", "chassis", "'1RU NFV Platform 2 CPU-28 cores' — only 5200/5400 are the empty chassis"],
+  ["CBL-SAS24-C240M7", "server", "a C240M7 cable: a model token alone does not make a configured node"],
+  ["UCSC-HS-C240M7", "server", "a heat sink carrying the model token"],
+  ["UCS-MAH-B00R00-M6", "server", "'Microsoft Azure Stack MX HCI Bundle' — UCS-MA-<model> needs the dash"],
+  ["UCS-C4200-MLB", "bundle", "'UCS 4200 MLB' — a chassis token; only generation MLBs are named"],
+  ["UCSX-NVL2-H200", "gpu", "placeholder name: NVL2-H200 is the H200 NVL GPU or its 2-way NVLink bridge, and the SKU does not say"],
+  ["UCSC-E3S1T-F", "drive", "placeholder name: an E3.S 1T drive or a filler — not guessed"],
+  ["UCSC-LPC25-1485-D", "nic", "placeholder name: not guessed"],
+  ["DDR5-5600MT/s", "accessory", "a speed enumerated as a part (non-product PRE_RULE), not the DDR5 blank"],
+  ["CIUS-BATTERY=", "power", "an accessory by SKU (the name marker, not this axis, files named batteries with supplies)"],
+];
+for (const [sku, not, why] of REF_KL) eq(`kind-layer REFUSAL ${sku} is not ${not} — ${why.slice(0, 60)}`, ucsKind(sku) === not, false);
+// SABOTAGE on the token-level changes: the system-prefix strip, the spare `=`, the NVE prefix and the cable regex
+{
+  const drive = RULES.find((r) => r.kind === "drive")!;
+  const i = drive.prefix!.indexOf("NVE");
+  drive.prefix!.splice(i, 1);
+  eq("SABOTAGE drive prefix NVE off: UCSX-NVE17T6K2V9 is no longer a drive", ucsKind("UCSX-NVE17T6K2V9") === "drive", false);
+  drive.prefix!.splice(i, 0, "NVE");
+  const cable = RULES.find((r) => r.kind === "cable")!;
+  const re = cable.re;
+  cable.re = undefined;
+  eq("SABOTAGE cable token regex off: UCS-240CBLMR8 is no longer a cable", ucsKind("UCS-240CBLMR8") === "cable", false);
+  cable.re = re;
+  eq("control: cable regex restored", ucsKind("UCS-240CBLMR8"), "cable");
+}
+eq("the system-prefix strip: UCSXE-PSU-2400W tokenises to PSU", ucsToken("UCSXE-PSU-2400W"), "PSU");
+eq("the system-prefix strip: UCSAI-CPU-I6776P tokenises to CPU", ucsToken("UCSAI-CPU-I6776P"), "CPU");
+eq("the SD glue: UCSSD960GBM2NK9-D tokenises to SD960GBM2NK9", ucsToken("UCSSD960GBM2NK9-D"), "SD960GBM2NK9");
+eq("the kind is read without the spare `=`: UCSX-9508= is the chassis UCSX-9508 is", ucsKind("UCSX-9508="), ucsKind("UCSX-9508"));
+eq("MLB_GENERATION is the regex the bundle PRE_RULE uses", PRE_RULES.some((r) => r.re === MLB_GENERATION && r.kind === "bundle"), true);
+eq("UCS_KINDS names power, cable, fan, tpm and pdu, and no longer psu",
+  ["power", "cable", "fan", "tpm", "pdu"].every((k) => (UCS_KINDS as readonly string[]).includes(k)) && !(UCS_KINDS as readonly string[]).includes("psu"), true);
+
+// --- kind-layer (13 Sep 2026): the question sets, asserted where they are resolved (kindQuestionSet) ---------------------
+// Today's required set stays, and the spec library's proposed required cups are added (operator instruction; the parent
+// decides each on the printed measurement). One set per kind in all three UCS-axis categories, except the named
+// hyperconverged-systems `server` exception (emc_emissions, humidity_storage).
+{
+  const req = (cat: string, kind: string) => [...kindQuestionSet(cat, kind).required].sort().join(",");
+  const WANT: Record<string, string[]> = {
+    server: ["altitude_max", "certifications", "cpu", "cpu_sockets_max", "dimensions", "dimm_slots", "drive_bays", "form_factor", "humidity_operating", "memory_max", "memory_speed_max", "pcie_slots", "power_max", "temp_operating", "temp_storage", "weight"],
+    power: ["airflow", "input_voltage", "product_compatibility", "psu_rated_output"],
+    fan: ["airflow", "product_compatibility"],
+    cable: ["cable_length", "connector", "media", "product_compatibility"],
+    drive: ["drive_form_factor", "drive_interface", "product_compatibility", "storage_capacity"],
+    gpu: ["gpu_memory", "power_max", "product_compatibility", "tdp"],
+    nic: ["data_rate", "ports", "product_compatibility"],
+    "storage-controller": ["drive_interface", "product_compatibility"],
+    "io-module": ["data_rate", "ports", "product_compatibility"],
+    chassis: ["altitude_max", "certifications", "dimensions", "form_factor", "humidity_operating", "module_slots", "power_max", "product_compatibility", "psu_config", "temp_operating", "temp_storage", "weight"],
+    pdu: ["input_voltage", "mounting", "product_compatibility", "psu_rated_output"],
+    unknown: [], bundle: ["bundle_contents"],
+  };
+  for (const [kind, want] of Object.entries(WANT)) {
+    eq(`kind-layer question set: servers-unified-computing ${kind}`, req("servers-unified-computing", kind), want.join(","));
+    eq(`kind-layer question set: hyperconverged-infrastructure ${kind} is the same set`, req("hyperconverged-infrastructure", kind), want.join(","));
+  }
+  eq("kind-layer: the hyperconverged-systems server exception is exactly emc_emissions + humidity_storage",
+    req("hyperconverged-systems", "server"), [...WANT.server, "emc_emissions", "humidity_storage"].sort().join(","));
+  eq("kind-layer: fabric-interconnect's switching rows are asked, uplink ports and PSU redundancy wait on their gates",
+    kindQuestionSet("servers-unified-computing", "fabric-interconnect").pending.map((p) => p.key).sort().join(","),
+    "module_slots,psu_redundant,rack_units,uplink_ports");
+  eq("kind-layer: `psu` is no longer a kind of the UCS ledger", LEDGER_KINDS["servers-unified-computing"].includes("psu"), false);
+  eq("kind-layer: LEDGER_KINDS lists no UCS kind twice (tpm/pdu are SKU kinds AND name-only kinds)",
+    new Set(LEDGER_KINDS["servers-unified-computing"]).size === LEDGER_KINDS["servers-unified-computing"].length, true);
+}
+
 lines.unshift(`    ucs kind: ${passed} passed, ${failed} missed ` +
-              `(${HYPERFLEX.length} HyperFlex regressions, ${POS12.length} positives and ${REF12.length} refusals of 12 Sep, ${PRE_RULES.length + 2} sabotage cases)`);
+              `(${HYPERFLEX.length} HyperFlex regressions, ${POS12.length} positives and ${REF12.length} refusals of 12 Sep, ` +
+              `${POS_KL.length} witnesses and ${REF_KL.length} refusals of the kind layer, ${PRE_RULES.length + 6} sabotage cases)`);
 console.log(lines.join("\n"));
 if (failed) process.exit(1);
