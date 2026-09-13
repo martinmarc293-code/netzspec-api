@@ -42,6 +42,7 @@ const evidence = readJson<AnyObj[]>(opt("--evidence")) ?? null;
 const provenance = readJson<AnyObj>(opt("--provenance"));
 const spec = readText(opt("--spec"));
 const decision = readText(opt("--decision"));
+const questions = readText(opt("--questions"));
 
 // ------------------------------------------------------------------------------------------------------------- helpers
 const esc = (x: unknown): string => String(x ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -79,7 +80,7 @@ function page(title: string, rel: string, body: string, jsonHref: string | null)
   const up = rel === "" ? "" : "../";
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=robots content="noindex,nofollow"><title>${esc(title)}</title><style>${CSS}</style></head><body>
-<nav><a href="${up}index.html">${esc(vendor)} arrangement</a><a href="${up}findings.html">findings (what is wrong / missing)</a><a href="${up}plans.html">move &amp; class plans</a><a href="${up}provenance.html">link provenance</a><a href="${up}README.txt">README for machines</a>${jsonHref ? `<a href="${esc(jsonHref)}">this page as JSON</a>` : ""}</nav>
+<nav><a href="${up}index.html">${esc(vendor)} arrangement</a><a href="${up}questions.html">open questions for the reviewer</a><a href="${up}findings.html">findings (what is wrong / missing)</a><a href="${up}plans.html">move &amp; class plans</a><a href="${up}provenance.html">link provenance</a><a href="${up}README.txt">README for machines</a>${jsonHref ? `<a href="${esc(jsonHref)}">this page as JSON</a>` : ""}</nav>
 ${statusBanner()}
 ${body}
 <p class=muted style="margin-top:40px">Generated ${esc(generatedAt)} from commit ${esc(commit)} by scripts/build-arrangement-site.mts. Structure and counts only — no fact values, no keys.</p>
@@ -247,6 +248,7 @@ const sevTag = (s: string) => `<span class="tag ${s === "bad" ? "t-gap" : s === 
       `<td class=muted>${esc(l?.profile_hash ?? "no ledger")}</td></tr>`;
   }).join("");
   const body = `<h1>${esc(vendor)} — phase 1: arranging cups</h1>
+${questions ? `<div class="banner b-refused"><b>OPEN QUESTIONS FOR THE REVIEWER</b> — decisions the parent has not taken, each with its measurement: <a href="questions.html">questions.html</a> (raw: <a href="questions.md">questions.md</a>)</div>` : ""}
 <p>This site shows how every ${esc(vendor)} hardware part is ARRANGED before any value is filled: which <b>category</b> table it sits in (layer 1), which <b>kind</b> it is (layer 2, derived from the SKU by code), which <b>role</b> within the kind where the kind is too coarse (layer 3, <code>deploy_role</code>), and which <b>cups</b> — required, pending, optional, not applicable — that combination is asked (layer 4). Then, per cup, the state of every slot: filled, not published, not parsed, mapper gap, not held. Everything wrong or missing that a rule can detect is on the <a href="findings.html">findings</a> page.</p>
 <h2>Brand</h2><div class=wrap><table>${brandRows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join("")}</table></div>
 <h2>Findings at a glance</h2>${tableOf(findings.map((x) => ({ severity: x.severity, finding: x.title, count: x.count, over: x.denominator })), ["severity", "finding", "count", "over"])}
@@ -396,6 +398,7 @@ write("data/cup-evidence.json", JSON.stringify(evidence ?? null));
 write("data/provenance.json", JSON.stringify(provenance ?? null));
 for (const [cat, l] of ledgers) write(`data/ledgers/${slug(cat)}.json`, JSON.stringify(l));
 if (spec) write("spec-v2.md", spec);
+if (questions) { write("questions.md", questions); write("questions.html", page(`${vendor} open questions`, "", `<pre>${esc(questions)}</pre>`, null)); }
 if (decision) write("decision.md", decision);
 write("README.txt", `netzspec arrangement site — ${vendor}
 Generated ${generatedAt} from commit ${commit} (state: ${state}${refused || failedChecks.length ? `; report build failed ${failedChecks.length} cross-check(s): ${failedChecks.map((c) => c.name).join(", ")}` : ""}).
@@ -408,6 +411,7 @@ What this is: phase 1 ("arranging cups") of the ${vendor} catalogue — how ever
 and per cup the state of every slot: filled, not published, not parsed, mapper gap, not held, would refuse.
 
 Pages (HTML, no JavaScript needed):
+  questions.html / questions.md  OPEN QUESTIONS for the reviewer, each with its measurement (read first)
   index.html                     brand numbers, categories, findings summary
   findings.html                  every rule-detected problem with its rows and denominators
   categories/<category>.html     kinds, cup matrix, each kind's question set, roles, evidence, slot states, plans, spec v2 section
