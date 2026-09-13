@@ -1,0 +1,26 @@
+WITNESS (54 cases) on the proposal: all pass
+SABOTAGE "remove rt.iot.ir-cgr": 2 failure(s); expected failure PRESENT (check is alive)
+  router C819HG-4G-G-K9: expected industrial-iot, got branch
+  router IR829GW-LTE-GA-EK9: expected industrial-iot, got null
+SABOTAGE "remove ap.outdoor.catalyst": 3 failure(s); expected failure PRESENT (check is alive)
+  ap C9124AXI-EWC-B1: expected outdoor, got null
+  ap CW9163E-x: expected outdoor, got null
+  ap WAP571E-N-K9: expected outdoor, got null
+SABOTAGE "move ph.issue.component after ph.conference": 1 failure(s); expected failure PRESENT (check is alive)
+  phone CP-8831-DCU-S: expected issue:phone accessory, got conference
+SABOTAGE "remove sw.issue.cabling": 1 failure(s); expected failure PRESENT (check is alive)
+  switch PUP6AV04BU-G: expected issue:cable, got null
+
+NAME-TOKEN CONTROL (agree = name confirms role; disagree = name carries a contradicting token; silent = placeholder or no token)
+switch: {"access":{"parts":1381,"agree":1291,"disagree":3,"silent":87},"datacenter":{"parts":850,"agree":811,"disagree":0,"silent":39},"core-agg":{"parts":255,"agree":236,"disagree":0,"silent":19},"smb":{"parts":1803,"agree":1440,"disagree":0,"silent":363},"industrial":{"parts":211,"agree":183,"disagree":0,"silent":28}}
+ap: {"indoor":{"parts":1928,"agree":1826,"disagree":0,"silent":102},"outdoor":{"parts":309,"agree":270,"disagree":0,"silent":39},"mesh-extender":{"parts":121,"agree":90,"disagree":0,"silent":31},"smb":{"parts":211,"agree":206,"disagree":0,"silent":5},"industrial":{"parts":148,"agree":144,"disagree":0,"silent":4}}
+router: {"branch":{"parts":863,"agree":560,"disagree":0,"silent":303},"industrial-iot":{"parts":104,"agree":91,"disagree":0,"silent":13},"smb":{"parts":155,"agree":135,"disagree":1,"silent":19},"edge":{"parts":114,"agree":100,"disagree":0,"silent":14}}
+phone: {"conference":{"parts":50,"agree":41,"disagree":2,"silent":7},"desk":{"parts":275,"agree":252,"disagree":0,"silent":23},"dect":{"parts":24,"agree":24,"disagree":0,"silent":0},"wireless":{"parts":79,"agree":76,"disagree":0,"silent":3}}
+
+all 6 name-token disagreements:
+  switch/access WS-C3560E-12SD-S= «Catalyst 3560E 12SD Spare Chassis, IPB s/w, No Power Supplies» [3750]
+  switch/access WS-C3560E-12SD-E= «Catalyst 3560E 12SD Spare Chassis, IPS s/w, No Power Supplies» [3750]
+  switch/access ME-3400E-24TS-M= «Spare chassis for ME-3400E-24TS-M» [ME 3400E Ethernet Access]
+  router/smb RV340W-E-K9-G5 «EU, Vietnam, Saudi Arabia, UAE, Egypt, Qatar, Kuwait, Israel, Hong Kong, Indonesia, Malaysia, Philip» [RV Series]
+  phone/conference CP-8831-NR-K9= «Cisco 8831 Base/Control Panel With No DECT Radio» [IP Phone 8800 Series]
+  phone/conference CP-8832-3PC-NR-K9 «Cisco 8832, No DECT Radio, for worldwide, charcoal, with options for either a PoE or non-PoE connect» [IP Phone 8800 Series with Multiplatform Firmware]

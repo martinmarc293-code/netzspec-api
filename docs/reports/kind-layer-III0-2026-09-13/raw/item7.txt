@@ -1,0 +1,121 @@
+
+### item4
+32	0/0/32	10-1022xxx-01 part number, placeholder name, no document — cannot tell pluggable from fixed
+20	20/0/0	Remote PHY SFP+ 10G optic (20K reach) — pluggable
+20	10/10/0	Remote PHY SFP+ 10G optic (80K reach) — pluggable
+17	0/17/0	Remote PHY SFP+ 10G optic (40K reach) — pluggable
+
+### item5
+6	5/1/0	coherent tunable CFP2/CFP2-DCO pluggable -> transceiver.tunable
+5	5/0/0	fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) -> transceiver.pluggable
+1	1/0/0	typo PID of ONS-QSFP28-LR4= (placeholder name) -> duplicate
+1	0/1/0	pluggable bundle -> bundle
+1	0/1/0	licence PID (not a pluggable) -> class software
+  pluggable ONS-QSFP28-LR4= | fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) -> transceiver.pluggable | sib=ONS-QSFP28-LR4 (pluggable)
+  pluggable ONS-QSP28-LR4= | typo PID of ONS-QSFP28-LR4= (placeholder name) -> duplicate | sib=null
+  pluggable ONS-CXP2-SR25= | fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) -> transceiver.pluggable | sib=ONS-CXP2-SR25 (pluggable)
+  pluggable ONS-CPAK-SR10= | fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) -> transceiver.pluggable | sib=null
+  pluggable ONS-CPAK-LR4= | fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) -> transceiver.pluggable | sib=null
+  pluggable ONS-CXP-100G-SR10= | fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) -> transceiver.pluggable | sib=null
+  pluggable-tunable ONS-CFP2-WDM= | coherent tunable CFP2/CFP2-DCO pluggable -> transceiver.tunable | sib=ONS-CFP2-WDM (tunable)
+  pluggable-tunable ONS-CFP2-WDM-1KE | coherent tunable CFP2/CFP2-DCO pluggable -> transceiver.tunable | sib=null
+  pluggable-tunable ONS-CFP2-ACO-BDL | pluggable bundle -> bundle | sib=null
+  pluggable-tunable ONS-CFP2-WDM-LIC | licence PID (not a pluggable) -> class software | sib=null
+  pluggable-tunable ONS-CFP2-WDM2= | coherent tunable CFP2/CFP2-DCO pluggable -> transceiver.tunable | sib=ONS-CFP2-WDM2 (tunable)
+  pluggable-tunable ONS-CFP2-WDM-1KE= | coherent tunable CFP2/CFP2-DCO pluggable -> transceiver.tunable | sib=null
+  pluggable-tunable ONS-CFP2D-400G-C= | coherent tunable CFP2/CFP2-DCO pluggable -> transceiver.tunable | sib=ONS-CFP2D-400G-C (tunable)
+  pluggable-tunable ONS-CFP2-WDM-1KL= | coherent tunable CFP2/CFP2-DCO pluggable -> transceiver.tunable | sib=null
+also outside: 18
+
+### item7_enterprise
+[{"series":"6000","n":4,"is":{"software / licence / planning PID -> class software or non_product":4}},{"series":"8000","n":33,"is":{"placeholder token (Silicon One ASIC names etc.) -> non_product":4,"software / licence / planning PID -> class software or non_product":5,"Cisco 8100-8600 Secure Router (enterprise branch/edge) -> router (series label '8000' is wrong)":20,"Silicon One 48x100G switch -> switches category":4}},{"series":"5000 Enterprise Network Compute","n":10,"is":{"ENCS 5100/5400 NFV compute -> appliance":10}},{"series":"RV Series","n":155,"is":{"RV / CVR small-business router -> router (role smb)":155}},{"series":"5900 Embedded Services","n":16,"is":{"5900 embedded services router card -> router (embedded)":15,"software / licence / planning PID -> class software or non_product":1}},{"series":"High-Speed WAN Interface Cards","n":38,"is":{"ISR G1/G2 router bundle (with HWIC/EHWIC) -> router; NOT an interface card":38}},{"series":"Carrier Routing System","n":11,"is":{"CRS line-card (MSC/FP) bundle -> linecard / sp-core component":7,"software / licence / planning PID -> class software or non_product":4}},{"series":"Network Modules","n":6,"is":{"ISR + SRE WAAS bundle -> router bundle":5,"ASR 1001-HX router chassis -> router (series label wrong)":1}},{"series":"WAN Automation Engine (WAE)","n":17,"is":{"software / licence / planning PID -> class software or non_product":17}},{"series":"ASR 9000","n":35,"is":{"UCS server / TPM / NIC component -> servers category":4,"software / licence / planning PID -> class software or non_product":25,"placeholder token (Silicon One ASIC names etc.) -> non_product":2,"XRv 9000 appliance (UCS-based) -> appliance":4}},{"series":"Network Convergence System 5500 Series","n":2,"is":{"CFP2-DCO WDM pluggable -> transceiver category":2}},{"series":"Cloud Native Broadband Network Gateway (BNG)","n":2,"is":{"software / licence / planning PID -> class software or non_product":2}},{"series":"Port Adapters","n":1,"is":{"ISR 3845 voice bundle -> router":1}}]
+{"HWIC/EHWIC/WIC/VWIC SKU":0,"ASR 9000 SKU (ASR-9xxx, A9K-, A99-)":0,"NCS SKU":0,"CRS SKU":0,"Cisco 8000 SP SKU (8xxx-, 88-)":0,"C8xxx-G2 Secure Router":26,"RV/CVR SKU":153,"ENCS SKU":11,"WAE SKU":18}
+155	58/93/4	RV / CVR small-business router -> router (role smb)
+58	6/36/16	software / licence / planning PID -> class software or non_product
+38	12/20/6	ISR G1/G2 router bundle (with HWIC/EHWIC) -> router; NOT an interface card
+20	9/8/3	Cisco 8100-8600 Secure Router (enterprise branch/edge) -> router (series label '8000' is wrong)
+15	0/7/8	5900 embedded services router card -> router (embedded)
+10	4/6/0	ENCS 5100/5400 NFV compute -> appliance
+7	0/7/0	CRS line-card (MSC/FP) bundle -> linecard / sp-core component
+6	0/0/6	placeholder token (Silicon One ASIC names etc.) -> non_product
+5	5/0/0	ISR + SRE WAAS bundle -> router bundle
+4	0/4/0	Silicon One 48x100G switch -> switches category
+4	0/1/3	UCS server / TPM / NIC component -> servers category
+4	0/4/0	XRv 9000 appliance (UCS-based) -> appliance
+2	0/2/0	CFP2-DCO WDM pluggable -> transceiver category
+1	0/0/1	ISR 3845 voice bundle -> router
+1	1/0/0	ASR 1001-HX router chassis -> router (series label wrong)
+
+### item7_server
+28	23/5/0	real UCS server/node under a wrong series label -> server (kind right, series wrong)
+12	5/7/0	CSP 5000 NFV platform -> server
+6	6/0/0	UCS MLB bundle -> bundle
+2	0/2/0	C480 M5 CPU module -> accessory / io-module
+2	0/2/0	CSP 5200/5400 appliance chassis spare -> chassis
+2	0/2/0	coin-cell battery -> accessory
+2	1/1/0	Catalyst Center appliance (UCS-based) -> appliance [decision: category]
+
+### item7_firewall
+18	0/18/0	ASA 5505/5512-5555 VPN edition: firewall appliance bundled with SSL/AnyConnect user licences -> firewall (hardware; series label wrong)
+same shape in other series: 15
+
+### item7_forwarding
+22	12/9/1	ASR 1000 Embedded Services Processor (ESP) = forwarding engine card -> processor/SUPERVISOR-type, not a port-carrying line card
+
+### item7_rtransceiver
+4	2/2/0	dust cap / cover -> mechanical (NOT a transceiver)
+1	1/0/0	SFP installation kit -> mechanical
+
+### item7_collab_sc
+4	0/4/0	IX5000 host CPU (the system's compute unit) -> no UCS component kind fits; video-codec or server [decision]
+
+### item7_uc_sc
+21	0/21/0	drive / SD / M.2 storage -> drive
+21	0/21/0	memory -> memory
+18	0/18/0	RAID controller / cache -> storage-controller
+15	0/15/0	CPU -> cpu
+9	0/9/0	NIC -> nic
+7	0/7/0	TPM -> tpm
+6	0/6/0	ISR 4460 DRAM -> memory (routers memory, wrong category)
+5	0/5/0	tape drive -> drive
+4	0/4/0	voice DSP / voice interface card -> voice-module
+3	0/3/0	PCIe riser -> accessory
+2	0/2/0	SCSI card -> storage-controller
+2	0/2/0	VG350 motherboard -> no UCS kind (gateway spare) -> accessory
+1	0/1/0	UCS-E module bundled with ISR -> bundle
+
+### item7_conf_sc
+9	0/9/0	drive / SD / M.2 storage -> drive
+9	0/9/0	Meeting Server blade / chassis packaging -> server / mechanical
+5	0/5/0	RAID controller / cache -> storage-controller
+5	0/5/0	CPU -> cpu
+4	0/4/0	memory -> memory
+3	0/3/0	NIC -> nic
+2	0/2/0	TPM -> tpm
+1	0/1/0	blanking panel -> mechanical
+1	0/1/0	power module -> power
+1	0/1/0	in-chassis fabric interconnect -> fabric-interconnect
+
+### item7_wireless_appliance
+9	0/9/0	ASR 5000/5500 mobile packet-core chassis/system -> routers sp-core (wrong category)
+7	0/7/0	MSE / CMX / DNA Spaces location appliance -> appliance (analytics/location)
+4	0/0/4	Fluidmesh FM1000/FM10000 gateway -> appliance (URWB gateway)
+
+### item7_wireless_backhaul
+35	0/20/15	Fluidmesh / URWB radio unit (FM1200/3200/3500/4200/4500/4800) -> backhaul
+4	0/4/0	PONTE radio kit (pair) -> backhaul bundle
+2	0/1/1	embedded radio board -> backhaul
+
+### item7_security_appliance
+{"Identity Services Engine":4,"Secure Endpoint Private Cloud":2,"Secure Network Analytics":1,"Secure Malware Analytics":13,"Secure Workload":4,"3000 Series Industrial Security Appliances (ISA)":1,"Fireamp Endpoints":1,"Secure Firewall 1200 Series":3,"Firepower NGFW":1}
+8	0/6/2	Secure Malware Analytics (Threat Grid) appliance -> no library kind (sandbox) -> APPLIANCE; decision
+6	1/5/0	software licence on an appliance (ACS, ISA IDS, Telemetry Broker) -> class software
+4	2/2/0	Secure Workload cluster -> analytics
+3	1/2/0	Secure Endpoint private-cloud appliance -> management/analytics appliance [decision]
+3	0/3/0	Threat Grid chassis -> chassis
+3	3/0/0	Secure Firewall 1200 generic PIDs -> firewall
+2	0/2/0	Threat Grid appliance + subscription bundle -> bundle
+1	0/1/0	ASA VPN bundle -> firewall
+
+### item7_im_cpak
+{"cpak_cfp_rows":0,"other_optic_shaped_rows":[{"sku":"PHQ4SFP2A1MBL","name":"Cisco PHQ4SFP2A1MBL","series":"Transceiver Modules","held":"eol_only","own":0,"is":"QSFP-to-4xSFP breakout cable (Panduit PID, placeholder name) -> transceiver.breakout-cable","kind":"accessory"},{"sku":"PHQ4SFP2C4MBL","name":"Cisco PHQ4SFP2C4MBL","series":"Transceiver Modules","held":"eol_only","own":0,"is":"QSFP-to-4xSFP breakout cable (Panduit PID, placeholder name) -> transceiver.breakout-cable","kind":"accessory"},{"sku":"PHQ4SFP2A2MBL","name":"Cisco PHQ4SFP2A2MBL","series":"Transceiver Modules","held":"eol_only","own":0,"is":"QSFP-to-4xSFP breakout cable (Panduit PID, placeholder name) -> transceiver.breakout-cable","kind":"accessory"},{"sku":"PHQ4SFP2A3MBL","name":"Cisco PHQ4SFP2A3MBL","series":"Transceiver Modules","held":"eol_only","own":0,"is":"QSFP-to-4xSFP breakout cable (Panduit PID, placeholder name) -> transceiver.breakout-cable","kind":"accessory"},{"sku":"PHQ4SFP2C5MBL","name":"Cisco PHQ4SFP2C5MBL","series":"Transceiver Modules","held":"eol_only","own":0,"is":"QSFP-to-4xSFP breakout cable (Panduit PID, placeholder name) -> transceiver.breakout-cable","kind":"accessory"},{"sku":"WDM-SFP-2CH-CONV=","name":"Cisco 2-Channel SFP WDM Transponder","series":"Transceiver Modules","held":"no_doc","own":0,"is":"2-channel SFP WDM transponder -> no clear home","kind":"module"}]}

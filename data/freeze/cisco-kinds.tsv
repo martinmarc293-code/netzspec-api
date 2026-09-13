@@ -32,7 +32,6 @@ collaboration-endpoints	BRKT-SX10-WMK-	Not used	accessory
 collaboration-endpoints	BRKT-SX10-WMK=	SX10 Wall Mount	mechanical
 collaboration-endpoints	BRKT-SX20-MONITOR	Bracket for SX20 and HD monitor	mechanical
 collaboration-endpoints	BRKT-SX20-MONITOR=	PID not used	accessory
-collaboration-endpoints	C1200-8FP-2G-OPT	Catalyst 1200 8-port GE Switch, Full PoE, 2x1G Combo	unknown
 collaboration-endpoints	CAB-2DC-BRL-0.30M-	DC Power Cable w/Barrel Plug, 0.3 meters long	power-cord
 collaboration-endpoints	CAB-2DC-BRL-0.30M=	DC Power Cable w/Barrel Plug, 0.3 meters long	power-cord
 collaboration-endpoints	CAB-2DC-BRL-0.6M-	DC Power Cable w/Barrel Plug, 0.6 meters long for MXCAM-D	power-cord
@@ -1405,8 +1404,8 @@ collaboration-endpoints	CS-CODEC-EQ-K9	Cisco CS-CODEC-EQ-K9	video-codec
 collaboration-endpoints	CS-CODEC-EQ-K9++	Cisco CS-CODEC-EQ-K9++	video-codec
 collaboration-endpoints	CS-CODEC-EQ-NR++	Cisco CS-CODEC-EQ-NR++	video-codec
 collaboration-endpoints	CS-CODEC-EQ-NR=	Cisco Codec EQ Spare Unit Non-Radio SPARE	video-codec
-collaboration-endpoints	CS-CODEC-EQ-RCK	Rack ears for Cisco Codec EQ (for mounting rack)	accessory
-collaboration-endpoints	CS-CODEC-EQ-RCK=	Rack ears for Codec EQ SPARE	accessory
+collaboration-endpoints	CS-CODEC-EQ-RCK	Rack ears for Cisco Codec EQ (for mounting rack)	mechanical
+collaboration-endpoints	CS-CODEC-EQ-RCK=	Rack ears for Codec EQ SPARE	mechanical
 collaboration-endpoints	CS-CODEC-EQ-WMK	Wall-mount kit for Cisco Codec EQ	mechanical
 collaboration-endpoints	CS-CODEC-EQ-WMK=	Wall-mount kit for Codec EQ SPARE	mechanical
 collaboration-endpoints	CS-CODEC-EQ=	Cisco Codec EQ Spare Unit SPARE	video-codec
@@ -1460,9 +1459,9 @@ collaboration-endpoints	CS-CPRO-MNT+	Mounting Brackets for Codec Pro G2	mechanic
 collaboration-endpoints	CS-CPRO-MNT=	Mounting Brackets for Cisco Codec Pro G2 - SPARE	mechanical
 collaboration-endpoints	CS-CPRO-NR-K9	Cisco Codec Pro G2 – Non Radio	video-codec
 collaboration-endpoints	CS-CPRO-NR-K9++	Cisco Codec Pro G2 – Non Radio - TAA	video-codec
-collaboration-endpoints	CS-CPRO-RACKEARS	Rack ears for the Codec Pro - for mounting in rack	accessory
-collaboration-endpoints	CS-CPRO-RACKEARS-	Rackears for Cisco Spark Codec Pro	accessory
-collaboration-endpoints	CS-CPRO-RACKEARS=	Rack ears for the Codec Pro- for mounting in rack	accessory
+collaboration-endpoints	CS-CPRO-RACKEARS	Rack ears for the Codec Pro - for mounting in rack	mechanical
+collaboration-endpoints	CS-CPRO-RACKEARS-	Rackears for Cisco Spark Codec Pro	mechanical
+collaboration-endpoints	CS-CPRO-RACKEARS=	Rack ears for the Codec Pro- for mounting in rack	mechanical
 collaboration-endpoints	CS-CPRO-WMK	Wall-mount kit for Codec Pro	mechanical
 collaboration-endpoints	CS-CPRO-WMK=	Wall-mount kit for Codec Pro	mechanical
 collaboration-endpoints	CS-DESK-C-FG=	Fabric speaker grille for Cisco Desk – Carbon	mechanical
@@ -1740,8 +1739,6 @@ collaboration-endpoints	CS-PANO-PRES-TOP	Screen mount for Samsung 65" presentati
 collaboration-endpoints	CS-PANO-PRES-TOP=	^Screen mount for Samsung 65" presentation screen	mechanical
 collaboration-endpoints	CS-PANO-SPKR+	Top speaker for Room Panorama	speaker
 collaboration-endpoints	CS-PANO-SPKR=	Top speaker for Room Panorama and Room Kit EQX	speaker
-collaboration-endpoints	CS-PANO-SWITCH+	Room Panorama Cisco Catalyst 3560-CX 12 Port PoE IP Base	unknown
-collaboration-endpoints	CS-PANO-SWITCH2+	Room Panorama - Cisco C1000 16 Port Switch	unknown
 collaboration-endpoints	CS-PANO-VESA-	VESA bracket for 85", 82" and 65" Panorama screens	mechanical
 collaboration-endpoints	CS-PANO-VESA=	VESA bracket for 85", 82" and 65" Panorama screens	mechanical
 collaboration-endpoints	CS-PANO-WAL-LIGH2=	Oak wood finish for Panorama Wall structure -Low Ceiling ver	accessory
@@ -1891,8 +1888,8 @@ collaboration-endpoints	CS-ROOM70SG2-NR-K9	Cisco Webex Room 70 Single w/Codec Pr
 collaboration-endpoints	CS-RPQUADCAM	Fully automatic quadcamera for Room Panorama	camera
 collaboration-endpoints	CS-RPQUADCAM+	Fully automatic quadcamera for Room Panorama	camera
 collaboration-endpoints	CS-RPQUADCAM=	Quadcamera for Room Panorama (Spare)	camera
-collaboration-endpoints	CS-SWCH-RACKEAR-	Rackears for Ethernet Switch	accessory
-collaboration-endpoints	CS-SWCH-RACKEAR=	Rackears for Ethernet Switch	accessory
+collaboration-endpoints	CS-SWCH-RACKEAR-	Rackears for Ethernet Switch	mechanical
+collaboration-endpoints	CS-SWCH-RACKEAR=	Rackears for Ethernet Switch	mechanical
 collaboration-endpoints	CS-SX10N-MSRP-K9	SX10 w/ 5x Cam, mic, PSU and wall mount - SUBSCRIPTION ONLY	video-codec
 collaboration-endpoints	CS-T10-TS+	Cisco Room Navigator - Table stand version - Spare	touch-panel
 collaboration-endpoints	CS-T10-TS-C	Cisco Room Navigator-Table Stand, Carbon Black	touch-panel
@@ -2042,7 +2039,6 @@ collaboration-endpoints	CTS-5K-HW-BR-KIT	CTS-IX5000 Back Row Table Hardware Kit	
 collaboration-endpoints	CTS-5K-HW-BR-KIT=	CTS-IX5000 Back Row Table Hardware Kit	mechanical
 collaboration-endpoints	CTS-5K-HW-FR-KIT	CTS-IX5000 Front Row Table Hardware Kit	mechanical
 collaboration-endpoints	CTS-5K-HW-FR-KIT=	CTS-IX5000 Front Row Table Hardware Kit	mechanical
-collaboration-endpoints	CTS-5K-LC-SWITCH	Catalyst 2960C Switch 12 FE PoE, 2 x Dual Uplink, Lan Base	unknown
 collaboration-endpoints	CTS-5K-LED-KIT	CTS-IX5000 LED Light Fixtures Kit	mechanical
 collaboration-endpoints	CTS-5K-LED-KIT=	CTS-IX5000 LED Light Fixtures Kit	mechanical
 collaboration-endpoints	CTS-5K-LEGS-BACK	CTS-IX5000 Table Back Row Legs	accessory
@@ -2090,7 +2086,6 @@ collaboration-endpoints	CTS-5K-TDM	CTS-IX5000 Time Division Multiplex	accessory
 collaboration-endpoints	CTS-5K-TDM=	CTS-IX5000 Time Division Multiplex	accessory
 collaboration-endpoints	CTS-5K-THERM-PNLS	CTS-IX5000 Endpoint Thermoform Panels	mechanical
 collaboration-endpoints	CTS-5K-THERM-PNLS=	CTS-IX5000 Endpoint Thermoform Panels	mechanical
-collaboration-endpoints	CTS-5K-UI-SWITCH	Catalyst 2960C Switch 8 FE PoE, 2 x Dual Uplink, LAN Base	unknown
 collaboration-endpoints	CTS-5K-WHTBD-TOOL	CTS-IX5000 Whiteboard Alignment Tool, QTY 4	mechanical
 collaboration-endpoints	CTS-5K-WHTBD-TOOL=	CTS-IX5000 Whiteboard Alignment Tool, QTY 4	mechanical
 collaboration-endpoints	CTS-ATP-C60-K9	ATP Demo - Codec C60- NPP,Rackmt Kit,Rmt Cntrl, HDMI,Pwr Cbl	video-codec
@@ -2423,8 +2418,8 @@ collaboration-endpoints	CTS-SX80-IPQC-K9	Cisco SX80 Codec, Quad Camera, and Touc
 collaboration-endpoints	CTS-SX80-IPST60-K9	Cisco SX80 Codec, SpeakerTrack60 Microphone Array, and Touch 10	video-codec
 collaboration-endpoints	CTS-SX80-IPST80-K9	Cisco SX80 Codec, Speaker Track 60, Touch 10, Table Mic60	video-codec
 collaboration-endpoints	CTS-SX80-K9	Cisco SX80 Codec (comes with SX80 codec, rack ears, power cable)	video-codec
-collaboration-endpoints	CTS-SX80-RACKEARS-	SX80 rack ears - for auto expand only	accessory
-collaboration-endpoints	CTS-SX80-RACKEARS=	SX80 rack ears - Spare	accessory
+collaboration-endpoints	CTS-SX80-RACKEARS-	SX80 rack ears - for auto expand only	mechanical
+collaboration-endpoints	CTS-SX80-RACKEARS=	SX80 rack ears - Spare	mechanical
 collaboration-endpoints	CTS-SX80CODEC	Cisco SX80 Codec	video-codec
 collaboration-endpoints	CTS-SX80CODEC=	SX80 CODEC Spare	video-codec
 collaboration-endpoints	CTS-TPEB-PRM-K9	Cisco TelePresence Solution Enterprise Bundle Promo	unknown
@@ -2979,9 +2974,9 @@ hyperconverged-infrastructure	HCI-BZL-C220-M6	C220 M6 Security Bezel	mechanical
 hyperconverged-infrastructure	HCI-BZL-C220-M6=	C220 M6 Security Bezel	mechanical
 hyperconverged-infrastructure	HCI-BZL-C240-M6	C240 M6 Security Bezel	mechanical
 hyperconverged-infrastructure	HCI-BZL-C240-M6=	C240 M6 Security Bezel	mechanical
-hyperconverged-infrastructure	HCI-CMA-C220M6	Reversible CMA for C220 M6 ball bearing rail kit	accessory
+hyperconverged-infrastructure	HCI-CMA-C220M6	Reversible CMA for C220 M6 ball bearing rail kit	mechanical
 hyperconverged-infrastructure	HCI-CMA-C220M7	Cisco HCI-CMA-C220M7	accessory
-hyperconverged-infrastructure	HCI-CMA-C240M6	Reversible CMA for C240 M6 ball bearing rail kit	accessory
+hyperconverged-infrastructure	HCI-CMA-C240M6	Reversible CMA for C240 M6 ball bearing rail kit	mechanical
 hyperconverged-infrastructure	HCI-CMA-C240M7	Cisco HCI-CMA-C240M7	accessory
 hyperconverged-infrastructure	HCI-CPU-A9015	Cisco HCI-CPU-A9015	cpu
 hyperconverged-infrastructure	HCI-CPU-A9115	Cisco HCI-CPU-A9115	cpu
@@ -3146,8 +3141,8 @@ hyperconverged-infrastructure	HCI-M2480OA1V	Cisco HCI-M2480OA1V	drive
 hyperconverged-infrastructure	HCI-M2480OA1V=	Cisco HCI-M2480OA1V=	drive
 hyperconverged-infrastructure	HCI-M2480OA1VM6	480GB M.2 Boot Solidigm S4520 SATA 1X SSD	drive
 hyperconverged-infrastructure	HCI-M2480OA1VM6=	480GB M.2 Boot Solidigm S4520 SATA 1X SSD	drive
-hyperconverged-infrastructure	HCI-M6-MLB	Cisco Compute Hyperconverged M6 with Nutanix MLB	unknown
-hyperconverged-infrastructure	HCI-M7-MLB	Cisco Compute Hyperconverged and Compute-Only M7 with Nutanix MLB	unknown
+hyperconverged-infrastructure	HCI-M6-MLB	Cisco Compute Hyperconverged M6 with Nutanix MLB	server
+hyperconverged-infrastructure	HCI-M7-MLB	Cisco Compute Hyperconverged and Compute-Only M7 with Nutanix MLB	server
 hyperconverged-infrastructure	HCI-M8-NTNX-MLB	Cisco Compute Hyperconverged and Compute-Only Node C-Series M8 with Nutanix MLB	server
 hyperconverged-infrastructure	HCI-M8-VSAN-MLB	Cisco Compute Hyperconverged with VMware vSAN M8 Rack Server MLB	server
 hyperconverged-infrastructure	HCI-ML-128G4RW	Cisco HCI-ML-128G4RW	memory
@@ -3500,7 +3495,7 @@ hyperconverged-infrastructure	HCIX-M2240OA1V	Cisco HCIX-M2240OA1V	drive
 hyperconverged-infrastructure	HCIX-M2240OA1V=	Cisco HCIX-M2240OA1V=	drive
 hyperconverged-infrastructure	HCIX-M2480OA1V	Cisco HCIX-M2480OA1V	drive
 hyperconverged-infrastructure	HCIX-M2480OA1V=	Cisco HCIX-M2480OA1V=	drive
-hyperconverged-infrastructure	HCIX-M7-MLB	Cisco Compute Hyperconverged and Compute-Only Node X-Series M7 with Nutanix MLB	unknown
+hyperconverged-infrastructure	HCIX-M7-MLB	Cisco Compute Hyperconverged and Compute-Only Node X-Series M7 with Nutanix MLB	server
 hyperconverged-infrastructure	HCIX-M8-NTNX-MLB	Cisco Compute Hyperconverged and Compute-Only Node X-Series M8 with Nutanix MLB	server
 hyperconverged-infrastructure	HCIX-M8-VSAN-MLB	Cisco Compute Hyperconverged X-Series M8 with vSAN MLB	server
 hyperconverged-infrastructure	HCIX-ME-V5Q50G	Cisco HCIX-ME-V5Q50G	nic
@@ -3566,7 +3561,7 @@ hyperconverged-infrastructure	HCIX-X580P-U	Cisco HCIX-X580P-U	unknown
 hyperconverged-infrastructure	HCIX210C-M7SN	Cisco HCIX210C-M7SN	server
 hyperconverged-infrastructure	HCIX210C-M7SN-U	Cisco HCIX210C-M7SN-U	server
 hyperconverged-infrastructure	HCIXE-M8-NTNX-MLB	Cisco Compute Hyperconverged XE-Series M8 with Nutanix MLB	server
-hyperconverged-infrastructure	HCIXENX-9305-U	Cisco HCI XE9305 3RU Nutanix Chassis (includes fans)	unknown
+hyperconverged-infrastructure	HCIXENX-9305-U	Cisco HCI XE9305 3RU Nutanix Chassis (includes fans)	chassis
 hyperconverged-infrastructure	HCIXENX130C-M8-20	Cisco HCI XE130c M8 20-ore 1U Nutanix Compute Node	server
 hyperconverged-infrastructure	HCIXENX130C-M8-20U	Cisco HCI XE130c M8 20-Core 1U Nutanix Compute Node (ordered as standalone)	server
 hyperconverged-infrastructure	HCIXENX130C-M8-32	Cisco HCI XE130c M8 32-Core 1U Nutanix Compute Node	server
@@ -3841,14 +3836,14 @@ hyperconverged-systems	HX-C480-M5	Compute UCS C480 M5 Std base chassis w/oCPU,me
 hyperconverged-systems	HX-CMA-240M6=	Cisco HX-CMA-240M6=	accessory
 hyperconverged-systems	HX-CMA-4U-M5	Cable Management Arm for UCS C480 M4	mechanical
 hyperconverged-systems	HX-CMA-4U-M5=	Cable Management Arm for UCS C480 M4	mechanical
-hyperconverged-systems	HX-CMA-C220M6	Reversible CMA for C220 M6 ball bearing rail kit	accessory
-hyperconverged-systems	HX-CMA-C220M6=	Reversible CMA for C220 M6 ball bearing rail kit	accessory
-hyperconverged-systems	HX-CMA-C240M6	Reversible CMA for C240 M6 ball bearing rail kit	accessory
-hyperconverged-systems	HX-CMA-C240M6=	Reversible CMA for C240 M6 ball bearing rail kit	accessory
-hyperconverged-systems	HX-CMA-M4	Reversible CMA for C240 M4 ball bearing rail kit	accessory
-hyperconverged-systems	HX-CMA-M4=	Reversible CMA for C240 M4 ball bearing rail kit	accessory
-hyperconverged-systems	HX-CMAF-M4	Reversible CMA for C220 M4 friction & ball bearing rail kits	accessory
-hyperconverged-systems	HX-CMAF-M4=	Reversible CMA for C220 & C240 M4 & M5 rack servers	accessory
+hyperconverged-systems	HX-CMA-C220M6	Reversible CMA for C220 M6 ball bearing rail kit	mechanical
+hyperconverged-systems	HX-CMA-C220M6=	Reversible CMA for C220 M6 ball bearing rail kit	mechanical
+hyperconverged-systems	HX-CMA-C240M6	Reversible CMA for C240 M6 ball bearing rail kit	mechanical
+hyperconverged-systems	HX-CMA-C240M6=	Reversible CMA for C240 M6 ball bearing rail kit	mechanical
+hyperconverged-systems	HX-CMA-M4	Reversible CMA for C240 M4 ball bearing rail kit	mechanical
+hyperconverged-systems	HX-CMA-M4=	Reversible CMA for C240 M4 ball bearing rail kit	mechanical
+hyperconverged-systems	HX-CMAF-M4	Reversible CMA for C220 M4 friction & ball bearing rail kits	mechanical
+hyperconverged-systems	HX-CMAF-M4=	Reversible CMA for C220 & C240 M4 & M5 rack servers	mechanical
 hyperconverged-systems	HX-COLLAB-UC	UC on HX -TRC- bundle	unknown
 hyperconverged-systems	HX-CPU-3106	1.7 GHz 3106/85W 8C/11MB Cache/DDR4 2133MHz	cpu
 hyperconverged-systems	HX-CPU-4108	1.8 GHz 4108/85W 8C/11MB Cache/DDR4 2400MHz	cpu
@@ -4319,7 +4314,7 @@ hyperconverged-systems	HX-M5-CPU-CAR=	Cisco HX-M5-CPU-CAR=	unknown
 hyperconverged-systems	HX-M5S-HXDP	Cisco HX2X0C M5 Hyperflex System	server
 hyperconverged-systems	HX-M5S-HXDP-BR	Cisco HX2X0C M5 Hyperflex System	server
 hyperconverged-systems	HX-M6-AAS	Cisco+ Hybrid Cloud - M6 HX Bundle	unknown
-hyperconverged-systems	HX-M6-MLB	HX/HXAF/EDG M6 MLB	unknown
+hyperconverged-systems	HX-M6-MLB	HX/HXAF/EDG M6 MLB	server
 hyperconverged-systems	HX-ML-128G4RT-H	Cisco HX-ML-128G4RT-H	memory
 hyperconverged-systems	HX-ML-128G4RT-H1	Cisco HX-ML-128G4RT-H1	memory
 hyperconverged-systems	HX-ML-128G4RW	128GB LRDIMM QRx4 3200 (16Gb)	memory
@@ -4700,7 +4695,7 @@ hyperconverged-systems	HX-TPM2-002B	Trusted Platform Module2.0 M5 UCS svr (FIPS 
 hyperconverged-systems	HX-TPM2-002B-C	Trusted Platform Module2.0 UCS servers(FIPS 140-2 Compliant)	tpm
 hyperconverged-systems	HX-TPM2-002B-C=	Trusted Platform Module2.0 UCS servers(FIPS 140-2 Compliant)	tpm
 hyperconverged-systems	HX-TPM2-002B=	Trusted Platform Module2.0 M5 UCS svr (FIPS 140-2 Compliant)	tpm
-hyperconverged-systems	HX-UCSCM6-MLB	Cisco Hyperflex HX Compute M6 Blade and Rack server MLB	unknown
+hyperconverged-systems	HX-UCSCM6-MLB	Cisco Hyperflex HX Compute M6 Blade and Rack server MLB	server
 hyperconverged-systems	HX-USBFLSHB-16GB	UCS Servers 16GB Flash USB Drive	drive
 hyperconverged-systems	HX-USBFLSHB-16GB=	UCS Servers 16GB Flash USB Drive	drive
 hyperconverged-systems	HX-VB-B00R00	Veeam Data Protection on HX LFF	unknown
@@ -6619,16 +6614,16 @@ optical-networking	15454-M2-DC-E=	2 service slot MSTP chassis DC ETSI filter wit
 optical-networking	15454-M2-DC=	2 service slot MSTP chassis DC ANSI filter with memory	power
 optical-networking	15454-M2-DCCBL-LE=	DC power cable for ETSI left exit	cable
 optical-networking	15454-M2-DDR	Cisco 15454-M2-DDR	accessory
-optical-networking	15454-M2-DDR=	2 service slot MSTP chassis deep door	accessory
+optical-networking	15454-M2-DDR=	2 service slot MSTP chassis deep door	mechanical
 optical-networking	15454-M2-DEF21=	21” Air deflector, Cisco NCS2002	accessory
 optical-networking	15454-M2-DEF23=	23” Air deflector, Cisco NCS2002	accessory
-optical-networking	15454-M2-DR	2 service slot MSTP chassis door	accessory
-optical-networking	15454-M2-DR=	2 service slot MSTP chassis door	accessory
+optical-networking	15454-M2-DR	2 service slot MSTP chassis door	mechanical
+optical-networking	15454-M2-DR=	2 service slot MSTP chassis door	mechanical
 optical-networking	15454-M2-FTA	2 service slot MSTP chassis fan tray	fan
 optical-networking	15454-M2-FTA2	2 service slot MSTP chassis 2 nd gen fan tray	fan
 optical-networking	15454-M2-FTA2=	2 service slot MSTP chassis 2 nd gen fan tray	fan
 optical-networking	15454-M2-FTA=	2 service slot MSTP chassis fan tray	fan
-optical-networking	15454-M2-FTF=	2-service-slot MSTP chassis fan tray filter	accessory
+optical-networking	15454-M2-FTF=	2-service-slot MSTP chassis fan tray filter	mechanical
 optical-networking	15454-M2-SA	2 service slot MSTP shelf, includes M-SHIPKIT, M2‑FTF, BRKTS	chassis
 optical-networking	15454-M2-SA=	2 service slot MSTP shelf, includes M-SHIPKIT, M2‑FTF, BRKTS	chassis
 optical-networking	15454-M2-WM	Cisco 15454-M2-WM	accessory
@@ -6650,12 +6645,12 @@ optical-networking	15454-M6-DC40=	6 service slot MSTP chassis 40A DC power filte
 optical-networking	15454-M6-DC=	6 slot MSTP chassis 30A DC power filter	power
 optical-networking	15454-M6-DCCBL2-L=	DC power cable for DC40 ETSI Left exit	cable
 optical-networking	15454-M6-DCCBL2-R=	DC power cable for DC40 ETSI right exit	cable
-optical-networking	15454-M6-DDR	6 service slot MSTP chassis deep door	accessory
-optical-networking	15454-M6-DDR=	6 service slot MSTP chassis deep door	accessory
+optical-networking	15454-M6-DDR	6 service slot MSTP chassis deep door	mechanical
+optical-networking	15454-M6-DDR=	6 service slot MSTP chassis deep door	mechanical
 optical-networking	15454-M6-DEF21=	21-in. Air deflector, Cisco NCS 2006	accessory
 optical-networking	15454-M6-DEF23=	23-in. Air deflector, Cisco NCS 2006	accessory
-optical-networking	15454-M6-DR	6 service slot MSTP chassis door	accessory
-optical-networking	15454-M6-DR=	6 service slot MSTP chassis door	accessory
+optical-networking	15454-M6-DR	6 service slot MSTP chassis door	mechanical
+optical-networking	15454-M6-DR=	6 service slot MSTP chassis door	mechanical
 optical-networking	15454-M6-ECU-60=	6 slot MSTP external connection unit with TOD/PPS (60V)	accessory
 optical-networking	15454-M6-ECU2	6 service slot MSTP external connection unit with TOD/PPS	accessory
 optical-networking	15454-M6-ECU2=	External Connection Unit with PPS/ToD, Cisco ONS 15454 M6	accessory
@@ -6663,11 +6658,11 @@ optical-networking	15454-M6-FTA	6 service slot MSTP chassis fan tray	fan
 optical-networking	15454-M6-FTA2	6 service slot MSTP chassis 2nd gen fan tray	fan
 optical-networking	15454-M6-FTA2=	6 service slot MSTP chassis 2nd gen fan tray	fan
 optical-networking	15454-M6-FTA=	6 service slot MSTP chassis fan tray	fan
-optical-networking	15454-M6-FTF=	6-service-slot MSTP chassis fan tray filter	accessory
+optical-networking	15454-M6-FTF=	6-service-slot MSTP chassis fan tray filter	mechanical
 optical-networking	15454-M6-LCD	6 service slot MSTP chassis LCD Display with backup Memory	accessory
 optical-networking	15454-M6-LCD=	6 service slot MSTP chassis LCD Display with backup Memory	accessory
-optical-networking	15454-M6-PWRFLR	6 service slot MSTP power filter filler card	accessory
-optical-networking	15454-M6-PWRFLR=	6 service slot MSTP power filter filler card	accessory
+optical-networking	15454-M6-PWRFLR	6 service slot MSTP power filter filler card	mechanical
+optical-networking	15454-M6-PWRFLR=	6 service slot MSTP power filter filler card	mechanical
 optical-networking	15454-M6-SA	6 service slot MSTP shelf, includes M-SHIPKIT, M6-FTF, BRKTS	chassis
 optical-networking	15454-M6-SA=	6 service slot MSTP shelf, includes M-SHIPKIT, M6-FTF, BRKTS	chassis
 optical-networking	15454-MMU=	Mesh/Multiring upgrade unit, C band and L band, for use with ONS 15454 MSTP Reconfigurable Optical Addr/Drop Multiplexer (ROADM) nodes (32-WSS/32-DMX or 32-WSS-L/32-DMX-L), LC connectors, includes one 2-meter LC/LC fiber-optic cable	mux
@@ -9701,7 +9696,7 @@ routers	CGR1240-PWR-AC	Cisco CGR1240-PWR-AC	power
 routers	CGR1240/K9=	CGR1240 w/ 4 module slots,2 GE,2 serial,4 FE LAN,Wi-Fi,GPS	enterprise
 routers	CGR2010/NFR	CGR 2010 Channel Kit	enterprise
 routers	CGSE-PLUS-PK	Phantom PID for CRS Service Card for CGN, Anti DDoS and SDN	linecard
-routers	CISCO-FIPS-KIT=	Tamper Proof for 80/18/28/38/72/73 Routers and ASA	accessory
+routers	CISCO-FIPS-KIT=	Tamper Proof for 80/18/28/38/72/73 Routers and ASA	mechanical
 routers	CISCO-MATE-STE	Cisco MATE Suite	enterprise
 routers	CISCO1811/K9	Cisco CISCO1811/K9	enterprise
 routers	CISCO1811W-AG-A/K9	Cisco CISCO1811W-AG-A/K9	enterprise
@@ -9974,7 +9969,7 @@ routers	CRS-16-ALARM-B	CRS 16 Slots Alarm Board for CRS-16/S-B	accessory
 routers	CRS-16-ALARM-B=	CRS 16 Slots Alarm Board for CRS-16/S-B	accessory
 routers	CRS-16-ALARM-C	CRS Modular Power Alarm for 16 slots and FCC	accessory
 routers	CRS-16-ALARM-C=	CRS Modular Power Alarm for 16 slots and FCC	accessory
-routers	CRS-16-B-UPG	CRS 16 slots chassis Enh. Upgrade Kit	accessory
+routers	CRS-16-B-UPG	CRS 16 slots chassis Enh. Upgrade Kit	mechanical
 routers	CRS-16-B2B-BUNDLE	CRS-3 Back to Back System	chassis
 routers	CRS-16-BACK-GRILL	Cisco CRS-1 Series 16 slot Back Grill	mechanical
 routers	CRS-16-BACK-GRILL=	Cisco CRS-1 Series 16 slot Back Grill	mechanical
@@ -10032,7 +10027,7 @@ routers	CRS-16-LCC-BCK-BF	CRS-16 new grille/baffle kit non spare	accessory
 routers	CRS-16-LCC-BCK-BF=	CRS-16 new grille/baffle kit	mechanical
 routers	CRS-16-LCC-BCK-CM	Cisco CRS-1 Series Line Card Chassis Rear Cable Mgmt	mechanical
 routers	CRS-16-LCC-BCK-CM=	Cisco CRS-1 Series Line Card Chassis Rear Cable Mgmt	mechanical
-routers	CRS-16-LCC-DC-KIT	Cisco CRS-1 Series DC Power Kit for 16 Slots LCC	mechanical
+routers	CRS-16-LCC-DC-KIT	Cisco CRS-1 Series DC Power Kit for 16 Slots LCC	power
 routers	CRS-16-LCC-DRS-R	Cisco CRS-1 Series Line Card Chassis Rear Doors	mechanical
 routers	CRS-16-LCC-DRS-R=	Cisco CRS-1 Series Line Card Chassis Rear Doors	mechanical
 routers	CRS-16-LCC-F-CT-B	Cisco CRS-1 Fan Controller for 16 Slots LC Chassis Ver B	fan
@@ -10044,8 +10039,8 @@ routers	CRS-16-LCC/M-B	CRS 16 Slots Line Card Chassis/M-B	chassis
 routers	CRS-16-LCC/M-B=	CRS 16 Slots Line Card Chassis/M-B	chassis
 routers	CRS-16-LCC140/M-B	^CRS 16 Slots LCC for CRS-3 Multichassis-B	chassis
 routers	CRS-16-LCC140/M-B=	CRS 16 Slots LCC for CRS-3 Multichassis-B	chassis
-routers	CRS-16-LIFT/B	CRS-1 Transport Lift	accessory
-routers	CRS-16-LIFT/B=	CRS-1 Transport Lift	accessory
+routers	CRS-16-LIFT/B	CRS-1 Transport Lift	mechanical
+routers	CRS-16-LIFT/B=	CRS-1 Transport Lift	mechanical
 routers	CRS-16-MC	CRS 16 slots Multichassis system	chassis
 routers	CRS-16-MC-B	CRS 16 slots Multichassis system with Enhanced LCC	chassis
 routers	CRS-16-MC-B-BUNDLE	CRS 16 slots Multichassis system with Enhanced LCC	chassis
@@ -10136,7 +10131,7 @@ routers	CRS-8-ACKIT-M	CRS Modular AC Power Kit for 8 slots Chassis	power
 routers	CRS-8-ACKIT-M-B	CRS-1 Modular power AC kit for CRS-8/S-B	power
 routers	CRS-8-ACKIT-M-B=	CRS-1 Modular power AC kit for CRS-8/S-B	power
 routers	CRS-8-ACKIT-M=	CRS-1 Modular power AC kit for 8 slots Chassis, Spare	power
-routers	CRS-8-B-UPG	CRS 8 slots chassis Enh. Upgrade Kit	accessory
+routers	CRS-8-B-UPG	CRS 8 slots chassis Enh. Upgrade Kit	mechanical
 routers	CRS-8-B2B-BUNDLE	CRS-3 8 slots Back to Back System	chassis
 routers	CRS-8-BDG-PANEL	Cisco CRS-1 Series 8 Slot Front Badge Panel	mechanical
 routers	CRS-8-BDG-PANEL=	Cisco CRS-1 Series 8 Slot Front Badge Panel	mechanical
@@ -10192,8 +10187,8 @@ routers	CRS-8-LCC/D=	Cisco CRS-1 Series 8 Slots Line Card Chassis / Dual	chassis
 routers	CRS-8-LCC/M	^Cisco CRS-1 Series 8 Slots Line Card Chassis / Multi	chassis
 routers	CRS-8-LCC/M=	Cisco CRS-1 Series 8 Slots Line Card Chassis / Multi	chassis
 routers	CRS-8-LCC/S	Cisco CRS-1 Series 8 Slots Line Card Chassis / Single	chassis
-routers	CRS-8-LIFT-TUBE	Cisco CRS-1 Series 8 Slot Fork Lift Tube	accessory
-routers	CRS-8-LIFT-TUBE=	Cisco CRS-1 Series 8 Slot Fork Lift Tube	accessory
+routers	CRS-8-LIFT-TUBE	Cisco CRS-1 Series 8 Slot Fork Lift Tube	mechanical
+routers	CRS-8-LIFT-TUBE=	Cisco CRS-1 Series 8 Slot Fork Lift Tube	mechanical
 routers	CRS-8-PDU-DELTA	Red 3 Ph to 1 Ph Delta PDU for 8 slots, 2 input/6 output	power
 routers	CRS-8-PDU-DELTA=	Red 3 Ph to 1 Ph Delta PDU for 8 slots, 2 input/6 output	power
 routers	CRS-8-PDU-TRAY	PDU mounting tray for 19 in rack	mechanical
@@ -10226,8 +10221,8 @@ routers	CRS-8-RP-HANDLE	^Cisco CRS-1 Series 8 Slot Route Processor Handle	mechan
 routers	CRS-8-RP-HANDLE=	Cisco CRS-1 Series 8 Slot Route Processor Handle	mechanical
 routers	CRS-8-RP-PKG	Cisco CRS-8 RP Package Box 1 Unit	accessory
 routers	CRS-8-RP/R	Cisco CRS-1 8 Slot Line Card Chassis Redundant Route Processor	processor
-routers	CRS-8-SCREEN	CRS-1 8 slots Chassis Air Opening protection Screen	accessory
-routers	CRS-8-SCREEN=	CRS-1 8 slots Chassis Air Opening protection Screen	accessory
+routers	CRS-8-SCREEN	CRS-1 8 slots Chassis Air Opening protection Screen	mechanical
+routers	CRS-8-SCREEN=	CRS-1 8 slots Chassis Air Opening protection Screen	mechanical
 routers	CRS-8/D	Cisco CRS-1 Series 8 Slots Carrier Routing System/Dual	chassis
 routers	CRS-8/M1	Cisco CRS-1 Series 8 Slots Carrier Routing System/Multi-1	chassis
 routers	CRS-8/M2	Cisco CRS-1 Series 8 Slots Carrier Routing System/Multi-2	chassis
@@ -10335,7 +10330,7 @@ routers	CRS-FCC-ACKIT-M=	CRS-1 Modular power AC kit for Fabric Chassis, Spare	po
 routers	CRS-FCC-CM-COVER	CRS-1 FCC cable management cutout cover	mechanical
 routers	CRS-FCC-CM-COVER=	CRS-1 FCC cable management cutout cover	mechanical
 routers	CRS-FCC-CM-RETRO=	CRS-1 FCC Cable Management Retrofit Kit	mechanical
-routers	CRS-FCC-DC-KIT	CRS Fabric Chassis DC Power Kit	accessory
+routers	CRS-FCC-DC-KIT	CRS Fabric Chassis DC Power Kit	power
 routers	CRS-FCC-DCKIT-M	CRS Modular DC Power Kit for FCC	power
 routers	CRS-FCC-DCKIT-M=	CRS Modular power DC kit for Fabric Chassis, Spare	power
 routers	CRS-FCC-DRS-FR	CRS-1 Fabric Chassis Front Doors	mechanical
@@ -11754,8 +11749,8 @@ routers	NC6-REAR-CM	NCS 6008 Chassis Rear Cable Management	mechanical
 routers	NC6-REAR-CM=	NCS 6008 Chassis REAR Cable Management Spare	mechanical
 routers	NC6-RP	NCS 6008 Route Processor	processor
 routers	NC6-RP=	NCS 6008 Route Processor Spare	processor
-routers	NC6-TROUGH-W=	NCS 6008 Chassis Trough Wide Spare	accessory
-routers	NC6-TROUGH=	NCS 6008 Chassis Trough Spare	accessory
+routers	NC6-TROUGH-W=	NCS 6008 Chassis Trough Wide Spare	mechanical
+routers	NC6-TROUGH=	NCS 6008 Chassis Trough Spare	mechanical
 routers	NCS-1100W-ACFW	NCS 5500 AC 1100W Power Supply Port-S Intake / Front-to-back	power
 routers	NCS-1100W-ACRV	NCS 5500 AC 1100W Power Supply Port-S Exhaust/Back-to-Front	power
 routers	NCS-1100W-DCRV	NCS 5500 DC 1100W Power Supply Port-S Exhaust/Back-to-Front	power
@@ -11907,7 +11902,7 @@ routers	NCS-F-FRONT-CM	NCS Fabric Chassis Front Cable Management	mechanical
 routers	NCS-F-FRONT-CM=	NCS Fabric Chassis Front Cable Management Spare	mechanical
 routers	NCS-F-GRILLE-UF=	NCS Fabric Chassis Grille Upper Front Spare	mechanical
 routers	NCS-F-GRILLE-UR=	NCS Fabric Chassis Grille Upper Rear Spare	mechanical
-routers	NCS-F-H-TROUGH=	NCS Fabric Chassis Horizontal Trough Spare	accessory
+routers	NCS-F-H-TROUGH=	NCS Fabric Chassis Horizontal Trough Spare	mechanical
 routers	NCS-F-PCM	NCS Fabric Chassis PCM	power
 routers	NCS-F-PCM=	NCS Fabric Chassis PCM	power
 routers	NCS-F-PDU-DEL-CM=	NCS Fabric Chassis Delta Chassis Mount Assembly	power
@@ -11921,7 +11916,7 @@ routers	NCS-F-PDU-WYE-RM=	NCS Fabric Chassis WYE Rack Mount Assembly	mechanical
 routers	NCS-F-PDU-WYE-RMAS	NCS Fabric Chassis WYE Rear Management Assembly	power
 routers	NCS-F-PWR-SHELF	NCS Fabric Chassis Power Shelf	power
 routers	NCS-F-PWR-SHELF=	NCS Fabric Chassis Power Shelf Spare	power
-routers	NCS-F-R-TROUGH=	NCS Fabric Chassis Trough Spare	accessory
+routers	NCS-F-R-TROUGH=	NCS Fabric Chassis Trough Spare	mechanical
 routers	NCS-F-REAR-CM	NCS Fabric Chassis Rear Cable Management	mechanical
 routers	NCS-F-REAR-CM=	NCS FCC Rear Cable Management	mechanical
 routers	NCS-F-SC	NCS Fabric Chassis Shelf Controller	processor
@@ -11929,15 +11924,15 @@ routers	NCS-F-SC=	NCS Fabric Chassis Shelf Controller Spare	processor
 routers	NCS-F-SCSW	NCS Fabric Chassis Shelf Controller & Switch Card	processor
 routers	NCS-F-SCSW=	NCS Fabric Chassis Shelf Controller & Switch Card Spare	processor
 routers	NCS-F-SYS2	NCS 2T Fabric System (6 NCS-F-FC2, 2 FANs, Power)	chassis
-routers	NCS-F-V-TROUGH=	NCS Fabric Chassis Vertical Trough Spare	accessory
+routers	NCS-F-V-TROUGH=	NCS Fabric Chassis Vertical Trough Spare	mechanical
 routers	NCS-L-PDU-DEL-RM	NCS Line Chassis Delta 3 PDUs Rack Mount Assembly	mechanical
 routers	NCS-L-PDU-DEL-RM=	NCS Line Chassis Delta 3 PDUs Rack Mount Assembly	mechanical
 routers	NCS-L-PDU-WYE-RM	NCS Line Chassis WYE 3 PDUs Rack Mount Assembly	mechanical
 routers	NCS-L-PDU-WYE-RM=	NCS Line Chassis WYE 3 PDUs Rack Mount Assembly	mechanical
-routers	NCS-LIFT	NCS 6008 & NCS Fabric Chassis Lift Dolly	accessory
-routers	NCS-LIFT-BRKT	CRS Lift upgrade to NCS 6008 & NCS Fabric Chassis Spare	accessory
-routers	NCS-LIFT-BRKT=	CRS Lift upgrade to NCS 6008 & NCS Fabric Chassis Spare	accessory
-routers	NCS-LIFT=	NCS 6008 & NCS Fabric Chassis Lift Dolly Spare	accessory
+routers	NCS-LIFT	NCS 6008 & NCS Fabric Chassis Lift Dolly	mechanical
+routers	NCS-LIFT-BRKT	CRS Lift upgrade to NCS 6008 & NCS Fabric Chassis Spare	mechanical
+routers	NCS-LIFT-BRKT=	CRS Lift upgrade to NCS 6008 & NCS Fabric Chassis Spare	mechanical
+routers	NCS-LIFT=	NCS 6008 & NCS Fabric Chassis Lift Dolly Spare	mechanical
 routers	NCS-PDU-BRK-MNT	NCS Fabric Chassis PDU Bracket Mount	mechanical
 routers	NCS-PDU-BRK-MNT=	NSC 6000 Rack-mount PDU Bracket Spare	mechanical
 routers	NCS-PDU-BRKT	NCS PDU Bracket	mechanical
@@ -15632,16 +15627,6 @@ servers-unified-computing	DN3-HW-APL-XL	Cisco Catalyst Center Appliance (Gen 3) 
 servers-unified-computing	DN3-HW-APL-XL=	Spare Cisco Catalyst Center Appliance (Gen 3) - 80 Core	server
 servers-unified-computing	DN3-P-I8D25GF	Cisco-Intel E810XXVDA2 2x25/10 GbE SFP28 PCIe NIC	nic
 servers-unified-computing	DN3-P-I8Q25GF	Cisco-Intel E810XXVDA4L 4x25/10 GbE SFP28 PCIe NIC	nic
-servers-unified-computing	DOCK-LNX-ADV-BC	Docker EE Adv for Linux Server with Bus Critical Support	unknown
-servers-unified-computing	DOCK-LNX-ADV-BD	Docker EE Adv for Linux Server with Bus Day Support	unknown
-servers-unified-computing	DOCK-LNX-BSC-BC	Docker EE Basic for Linux Server with Bus Critical Support	unknown
-servers-unified-computing	DOCK-LNX-BSC-BD	Docker EE Basic for Linux Server with Bus Day Support	unknown
-servers-unified-computing	DOCK-LNX-STD-BC	Docker EE Std for Linux Server with Bus Critical Support	unknown
-servers-unified-computing	DOCK-LNX-STD-BD	Docker EE Std for Linux Server with Bus Day Support	unknown
-servers-unified-computing	DOCK-WIN-ADV-BC	Docker EE Adv Upg for Win Server with Bus Critical Support	unknown
-servers-unified-computing	DOCK-WIN-ADV-BD	Docker EE Adv Upg for Win Server with Bus Day Support	unknown
-servers-unified-computing	DOCK-WIN-STD-BC	Docker EE Std Upg for Win Server with Bus Critical Support	unknown
-servers-unified-computing	DOCK-WIN-STD-BD	Docker EE Std Upg for Win Server with Bus Day Support	unknown
 servers-unified-computing	DUO-ADV-FED	Cisco Duo Advantage edition for Federal Customers (Moderate-Class C)	unknown
 servers-unified-computing	DUO-ADV-FED-HI	Cisco Duo Advantage edition for Federal Customers (High-Class D)	unknown
 servers-unified-computing	DUO-ADVANTAGE	Standard Cisco Duo Advantage edition	unknown
@@ -16858,7 +16843,7 @@ servers-unified-computing	N20-C6508-CH2	^DISTI:UCS 5108 Blade Svr AC Chassis/0 P
 servers-unified-computing	N20-C6508-UPG	^UCS 5108 Blade Svr AC Chassis/0 PSU/8 fans/0 fabric extender	chassis
 servers-unified-computing	N20-C6508=	^UCS 5108 Blade Svr AC Chassis/0 PSU/8 fans/0 fabric extender	chassis
 servers-unified-computing	N20-CAK	Accessory kit for UCS 5108 Blade Server Chassis	mechanical
-servers-unified-computing	N20-CAK0	FOR YES blade bundles - Access./rail kit UCS 5108 chassis	unknown
+servers-unified-computing	N20-CAK0	FOR YES blade bundles - Access./rail kit UCS 5108 chassis	mechanical
 servers-unified-computing	N20-CAK=	Access. kit for 5108 Blade Chassis incl Railkit, KVM dongle	mechanical
 servers-unified-computing	N20-CBLKB1	Blade slot blanking panel for UCS 5108/single slot	mechanical
 servers-unified-computing	N20-CBLKB1=	Blade slot blanking panel for UCS 5108/single slot	mechanical
@@ -16922,13 +16907,13 @@ servers-unified-computing	PCIE-E16002-OPTOUT	Emulex Opt Out	nic
 servers-unified-computing	PLHC-5108-PKG-HW	Cisco+ UCS 5108 Packaging for chassis w/halfwidth blades	mechanical
 servers-unified-computing	PLHC-BMGPCI-M51A	Cisco+ B200 M5 for Bare Metal 1-CI	unknown
 servers-unified-computing	PLHC-BMPCI-M51	Cisco+ B200 M5 for Bare Metal 2-CI	unknown
-servers-unified-computing	PLHC-CI-5108-1A	Cisco+ UCS 5108 Blade Server AC2 Chassis	unknown
+servers-unified-computing	PLHC-CI-5108-1A	Cisco+ UCS 5108 Blade Server AC2 Chassis	chassis
 servers-unified-computing	PLHC-HS-M5-F	Cisco One CPU Heat Sink UCS B-Series M5 CPU socket (Front)	mechanical
 servers-unified-computing	PLHC-HS-M5-R	Cisco+ CPU Heat Sink UCS B-Series M5 CPU socket (Rear)	mechanical
 servers-unified-computing	PLHC-IOM-2408	UCS 2408 I/O Module (8 External 25Gb Ports, 32 Internal 10Gb	io-module
-servers-unified-computing	PLHC-MLOM-40G-04	Cisco+ UCS VIC 1440 modular LOM for Blade Servers	unknown
+servers-unified-computing	PLHC-MLOM-40G-04	Cisco+ UCS VIC 1440 modular LOM for Blade Servers	nic
 servers-unified-computing	PLHC-MLOM-PT-01	Cisco+ UCS Port Expander Card (mezz) for VIC	unknown
-servers-unified-computing	PLHC-MRAID12G	Cisco+ FlexStorage 12G SAS RAID controller w/Drive bays	unknown
+servers-unified-computing	PLHC-MRAID12G	Cisco+ FlexStorage 12G SAS RAID controller w/Drive bays	storage-controller
 servers-unified-computing	PLHC-N01-UAC1	Cisco+ Single phase AC power module for UCS 5108	unknown
 servers-unified-computing	PLHC-N20-CAK	Cisco+ Accessory kit for UCS 5108 Blade Server Chassis	mechanical
 servers-unified-computing	PLHC-N20-CBLKB1	Cisco+Blade slot blanking panel for UCS 5108/single slot	mechanical
@@ -18566,7 +18551,7 @@ servers-unified-computing	UCS-EN120SM2BUN/K9	Promotional UCS-EN120S-M2/K9 bundle
 servers-unified-computing	UCS-EN140N-M2/K9	UCS E-Series NCE, 4-core, 8GB RAM, 1 SSD, NIM	server
 servers-unified-computing	UCS-EN140N-M2/K9=	UCS E-Series NCE, 4-core, 8GB RAM, 1 SSD, NIM	server
 servers-unified-computing	UCS-EN140N-M2K9++=	UCS E-Series NCE, 4-core, 8GB RAM, 1 SSD, NIM TAA PID	server
-servers-unified-computing	UCS-EPNM-C220M4S	UCS EPNM Server - C220M4S	unknown
+servers-unified-computing	UCS-EPNM-C220M4S	UCS EPNM Server - C220M4S	server
 servers-unified-computing	UCS-EZ-1TB-HDD	1TB 6Gb SATA 7.2K RPM SFF HDD	drive
 servers-unified-computing	UCS-EZ-300GB-HDD	300GB 6Gb SAS 10K RPM SFF HDD (Only For SmartPlay)	drive
 servers-unified-computing	UCS-EZ-3TB-HDD	3TB SAS 7.2K RPM 3.5 inch HDD	drive
@@ -19114,10 +19099,10 @@ servers-unified-computing	UCS-M4-V4-LBL	Cisco M4 - v4 CPU asset tab ID label (Au
 servers-unified-computing	UCS-M4-V4-LBL=	Cisco M4 - v4 CPU asset tab ID label (Auto-Expand)	unknown
 servers-unified-computing	UCS-M5-CPU-CAR=	Cisco UCS-M5-CPU-CAR=	unknown
 servers-unified-computing	UCS-M6-CPU-CAR=	Cisco UCS-M6-CPU-CAR=	unknown
-servers-unified-computing	UCS-M6-MLB	UCS M6 rack, blade, chassis Major Line Bundle (MLB) This MLB consists of the server node (UCSC-C245-M6SX6) with software PIDs. Use this PID to begin a new configuration.	unknown
-servers-unified-computing	UCS-M6-MLB-BR	UCS M6 RACK, BLADE MLB Brazil	unknown
+servers-unified-computing	UCS-M6-MLB	UCS M6 rack, blade, chassis Major Line Bundle (MLB) This MLB consists of the server node (UCSC-C245-M6SX6) with software PIDs. Use this PID to begin a new configuration.	server
+servers-unified-computing	UCS-M6-MLB-BR	UCS M6 RACK, BLADE MLB Brazil	server
 servers-unified-computing	UCS-M6-MULTIPACK	MULTIPACK: UCS M6 RACK MLB	unknown
-servers-unified-computing	UCS-M7-MLB	Cisco UCS-M7-MLB	unknown
+servers-unified-computing	UCS-M7-MLB	Cisco UCS-M7-MLB	server
 servers-unified-computing	UCS-M8-MLB	Cisco UCS M8 rack, blade, chassis Major Line Bundle (MLB) This MLB consists of the server node (UCSC-C245-M8SX) with software and Cisco Intersight options. Use this PID to begin a new configuration.	server
 servers-unified-computing	UCS-MA-C220M4-HA	Cisco UCS-MA-C220M4-HA	unknown
 servers-unified-computing	UCS-MAFI-6332	Microsoft Azure Stack FI 6332/32 QSFP+/8p Lic included	unknown
@@ -19131,7 +19116,7 @@ servers-unified-computing	UCS-MAN-S72A2T0V0	MSFT AzureStack HCI Hyb CTO Node C22
 servers-unified-computing	UCS-MAN-S72A2T0V0=	Cisco UCS-MAN-S72A2T0V0=	bundle
 servers-unified-computing	UCS-MCX32G2RE11	Cisco UCS-MCX32G2RE11	unknown
 servers-unified-computing	UCS-MCX64G2RE11	Cisco UCS-MCX64G2RE11	unknown
-servers-unified-computing	UCS-MGPUM8-MLB	Cisco UCS-845A M8 Rack Server chassis Major Line Bundle (MLB) This MLB consists of the server node (UCSC-C845A-M8) with software and Cisco Intersight options. Use this PID to begin a new configuration.	unknown
+servers-unified-computing	UCS-MGPUM8-MLB	Cisco UCS-845A M8 Rack Server chassis Major Line Bundle (MLB) This MLB consists of the server node (UCSC-C845A-M8) with software and Cisco Intersight options. Use this PID to begin a new configuration.	server
 servers-unified-computing	UCS-MINI-SEED-5108	UCS 5108 Blade Server AC2 Chassis w/FI 6324, No Blades	chassis
 servers-unified-computing	UCS-MKIT-041RX-C	Mem kit for UCS-MR-2X041RX-C	memory
 servers-unified-computing	UCS-MKIT-041RY-B	Mem kit for UCS-MR-2X041RY-B	memory
@@ -21442,7 +21427,7 @@ servers-unified-computing	UCSB-B480-M5=	Cisco UCSB-B480-M5=	server
 servers-unified-computing	UCSB-BAFF-B200-M3=	Air Baffle Replacement Kit for B200 M3 Server (services spar)	mechanical
 servers-unified-computing	UCSB-BAFF-B200-M4=	Air Baffle Replacement Kit for B200 M4 Server.	mechanical
 servers-unified-computing	UCSB-BAFF-B22-M3=	Air Baffle Replacement Kit for B22 M3 Server (services spare	mechanical
-servers-unified-computing	UCSB-BAFF-B250-M3=	Air Baffles for B250 M3, Two baffles, left and right	accessory
+servers-unified-computing	UCSB-BAFF-B250-M3=	Air Baffles for B250 M3, Two baffles, left and right	mechanical
 servers-unified-computing	UCSB-BAFF-B420-M3=	Air Baffle Replacement Kit for B420 M3 Server (services spar	mechanical
 servers-unified-computing	UCSB-CBAF-B420-M4=	Air Baffle Replacement Kit for B420 M4 Server	mechanical
 servers-unified-computing	UCSB-DBUN-B200-301	^DISTI Only: UCS B200 M3 Blade, 2xE5-2680, 2x8GB	server
@@ -21732,10 +21717,10 @@ servers-unified-computing	UCSC-AD-C220M8=	PCIE AIR DUCT FOR C220M8	mechanical
 servers-unified-computing	UCSC-AD-C245M8	PCIE AIR DUCT FOR C245M8	mechanical
 servers-unified-computing	UCSC-AD-C245M8=	PCIE AIR DUCT FOR C245M8	mechanical
 servers-unified-computing	UCSC-ADCONFIG-01	MFG instruction SW for Adobe product configuration	unknown
-servers-unified-computing	UCSC-AIRBAF-C220	Set of spare Air Baffles for C220 Server	accessory
+servers-unified-computing	UCSC-AIRBAF-C220	Set of spare Air Baffles for C220 Server	mechanical
 servers-unified-computing	UCSC-AIRBAF-C220=	Air Baffle Replacement Kit for C220 M3 SFF Server	mechanical
 servers-unified-computing	UCSC-AIRBAF-C22=	Air baffle replacement kit for C22M3 server (services spare	mechanical
-servers-unified-computing	UCSC-AIRBAF-C240=	Set of spare Air Baffles for C240 Server	accessory
+servers-unified-computing	UCSC-AIRBAF-C240=	Set of spare Air Baffles for C240 Server	mechanical
 servers-unified-computing	UCSC-AIRBAF-C24=	Air baffle replacement kit for C24M3 server (services spare	mechanical
 servers-unified-computing	UCSC-AIRBAF-C420=	Air Bafle for C420 M3	accessory
 servers-unified-computing	UCSC-AUXCBL6-EX	PCIe auxilliary power cable kit with adapter cable and 8-pin	accessory
@@ -21748,8 +21733,8 @@ servers-unified-computing	UCSC-BAFF-C460-M4	Air Baffle for UCS C460 M4	mechanica
 servers-unified-computing	UCSC-BAFF-C460-M4=	Air Baffle for UCS C460 M4	mechanical
 servers-unified-computing	UCSC-BAFF-C480-M5=	UCS AUX Drive Baffle for C480 M5	drive
 servers-unified-computing	UCSC-BASE-C460-CH2	Disti:C460,w/o CPU, HSnk, Mem, HD, PCIe, PSU, w/Rls, Blnk	unknown
-servers-unified-computing	UCSC-BASE-M2-C460	UCS C460 M2 Rack Server with DVD-RW and 1 PSU. CPUs, memory, HDD, PCIe cards, Rail Kit and Redundant PSU must be ordered below.	unknown
-servers-unified-computing	UCSC-BASE-M2-C460=	UCS C460 M2 Rack SVR w/o CPU, Mem HDD, PCIe	unknown
+servers-unified-computing	UCSC-BASE-M2-C460	UCS C460 M2 Rack Server with DVD-RW and 1 PSU. CPUs, memory, HDD, PCIe cards, Rail Kit and Redundant PSU must be ordered below.	server
+servers-unified-computing	UCSC-BASE-M2-C460=	UCS C460 M2 Rack SVR w/o CPU, Mem HDD, PCIe	server
 servers-unified-computing	UCSC-BBLKD-L	3.5-inch HDD Blanking Panel	mechanical
 servers-unified-computing	UCSC-BBLKD-L2	C-Series M5 LFF drive blanking panel	mechanical
 servers-unified-computing	UCSC-BBLKD-L2=	C-Series M5 LFF drive blanking panel	mechanical
@@ -21911,16 +21896,16 @@ servers-unified-computing	UCSC-C245-M8S	Cisco UCSC-C245-M8S	server
 servers-unified-computing	UCSC-C245-M8SX	C245 M8 2RU standard server with up to 28x SFF drive bays	server
 servers-unified-computing	UCSC-C260M2-HANA	UCS C260 M2 Rack Server w/ CPU, PSU for HANA	server
 servers-unified-computing	UCSC-C260XS-HANA	UCS C260 M2 Rack Server w/ CPU, PSU for Extra Small HANA	server
-servers-unified-computing	UCSC-C3160	Cisco UCS C3160 Base Chassis w/ 4x PSU, RailKit, Bezel	unknown
+servers-unified-computing	UCSC-C3160	Cisco UCS C3160 Base Chassis w/ 4x PSU, RailKit, Bezel	chassis
 servers-unified-computing	UCSC-C3160-400SSD	UCS C3160 400GB Enterprise Performance 6G SAS SSD	drive
 servers-unified-computing	UCSC-C3160-400SSD=	UCS C3160 400GB Enterprise Performance 6G SAS SSD	drive
 servers-unified-computing	UCSC-C3160-BEZEL	Cisco UCS C3160 System Bezel	mechanical
 servers-unified-computing	UCSC-C3160-BEZEL=	Cisco UCS C3160 System Bezel (SPARE)	mechanical
-servers-unified-computing	UCSC-C3160-SIOC	Cisco UCS C3160 System IO Controller with mLOM mez adapter	unknown
-servers-unified-computing	UCSC-C3160-SIOC=	Cisco UCS C3160 System IO Controller with mLOM mez adpt (SP)	unknown
-servers-unified-computing	UCSC-C3260	Cisco UCS C3260 Base Chassis w/4x PSU, SSD, Railkit	unknown
-servers-unified-computing	UCSC-C3260-SIOC	Cisco UCS C3260 System IO Controller with VIC 1300 incl.	unknown
-servers-unified-computing	UCSC-C3260-SIOC=	Cisco UCS C3260 System IO Controller w VIC1300 incl (Spare)	unknown
+servers-unified-computing	UCSC-C3160-SIOC	Cisco UCS C3160 System IO Controller with mLOM mez adapter	io-module
+servers-unified-computing	UCSC-C3160-SIOC=	Cisco UCS C3160 System IO Controller with mLOM mez adpt (SP)	io-module
+servers-unified-computing	UCSC-C3260	Cisco UCS C3260 Base Chassis w/4x PSU, SSD, Railkit	chassis
+servers-unified-computing	UCSC-C3260-SIOC	Cisco UCS C3260 System IO Controller with VIC 1300 incl.	io-module
+servers-unified-computing	UCSC-C3260-SIOC=	Cisco UCS C3260 System IO Controller w VIC1300 incl (Spare)	io-module
 servers-unified-computing	UCSC-C3K-HD4TB	Cisco UCSC-C3K-HD4TB	drive
 servers-unified-computing	UCSC-C3K-HD4TB=	Cisco UCSC-C3K-HD4TB=	drive
 servers-unified-computing	UCSC-C3K-M4IO	Cisco UCS S3260 I/O Expander for M4/M5 Server Node	drive
@@ -22071,22 +22056,22 @@ servers-unified-computing	UCSC-CMA-4U	Cable Management Arm for UCS C460 M4	mecha
 servers-unified-computing	UCSC-CMA-4U=	Cable Management Arm for UCS C460 M4	mechanical
 servers-unified-computing	UCSC-CMA-C220-D	Cisco UCSC-CMA-C220-D	accessory
 servers-unified-computing	UCSC-CMA-C220-D=	Cisco UCSC-CMA-C220-D=	accessory
-servers-unified-computing	UCSC-CMA-C220M6	Reversible CMA for C220 M6 ball bearing rail kit	accessory
-servers-unified-computing	UCSC-CMA-C220M6=	Reversible CMA for C220 M6 ball bearing rail kit	accessory
+servers-unified-computing	UCSC-CMA-C220M6	Reversible CMA for C220 M6 ball bearing rail kit	mechanical
+servers-unified-computing	UCSC-CMA-C220M6=	Reversible CMA for C220 M6 ball bearing rail kit	mechanical
 servers-unified-computing	UCSC-CMA-C240-D	Cisco UCSC-CMA-C240-D	accessory
 servers-unified-computing	UCSC-CMA-C240-D=	Cisco UCSC-CMA-C240-D=	accessory
-servers-unified-computing	UCSC-CMA-C240M6	Reversible CMA for C240 M6 ball bearing rail kit	accessory
-servers-unified-computing	UCSC-CMA-C240M6=	Reversible CMA for C240 M6 ball bearing rail kit	accessory
-servers-unified-computing	UCSC-CMA-M4	Reversible CMA for C240 M4 ball bearing rail kit	accessory
-servers-unified-computing	UCSC-CMA-M4=	Reversible CMA for C240 M4 ball bearing rail kit	accessory
+servers-unified-computing	UCSC-CMA-C240M6	Reversible CMA for C240 M6 ball bearing rail kit	mechanical
+servers-unified-computing	UCSC-CMA-C240M6=	Reversible CMA for C240 M6 ball bearing rail kit	mechanical
+servers-unified-computing	UCSC-CMA-M4	Reversible CMA for C240 M4 ball bearing rail kit	mechanical
+servers-unified-computing	UCSC-CMA-M4=	Reversible CMA for C240 M4 ball bearing rail kit	mechanical
 servers-unified-computing	UCSC-CMA1	Reversible Cable Management Arm for C220, C22, C24 servers	mechanical
 servers-unified-computing	UCSC-CMA1=	Reversible Cable Management Arm for C220,C22,C24 servers	mechanical
 servers-unified-computing	UCSC-CMA2	Cable Management Arm for C240, C260rack servers	mechanical
 servers-unified-computing	UCSC-CMA2=	Cable Management Arm for C240, C260 rack servers	mechanical
 servers-unified-computing	UCSC-CMA2B	Reversible Cable Management Arm for C240 ball bearing rail k	mechanical
 servers-unified-computing	UCSC-CMA2B=	Reversible Cable Management Arm for C240 ball bearing rail k	mechanical
-servers-unified-computing	UCSC-CMAF-C4200	Reversible CMA for C125 rack server	accessory
-servers-unified-computing	UCSC-CMAF-C4200=	Reversible CMA for C125 rack server	accessory
+servers-unified-computing	UCSC-CMAF-C4200	Reversible CMA for C125 rack server	mechanical
+servers-unified-computing	UCSC-CMAF-C4200=	Reversible CMA for C125 rack server	mechanical
 servers-unified-computing	UCSC-CP-C220	Control Panel for C220 for Server	mechanical
 servers-unified-computing	UCSC-CP-C220=	UCS C220 Control Panel for 2.5-inch chassis	mechanical
 servers-unified-computing	UCSC-CP-C22=	UCS C22 Control Panel (services spare only)	mechanical
@@ -22503,8 +22488,8 @@ servers-unified-computing	UCSC-NVMEM4-H800	Cisco 2.5in U.2 800GB HGST SN200 NVMe
 servers-unified-computing	UCSC-NVMEM4-H800=	Cisco 2.5in U.2 800GB HGST SN200 NVMe. High Endurance SSD	drive
 servers-unified-computing	UCSC-NVMEXP-I375	375GB 2.5in Intel Optane NVMe Extreme Perf.	drive
 servers-unified-computing	UCSC-NVMEXP-I375=	375GB 2.5in Intel Optane NVMe Extreme Perf.	drive
-servers-unified-computing	UCSC-NYTRO-200GB	Cisco Nytro MegaRAID 200GB Controller	unknown
-servers-unified-computing	UCSC-NYTRO-200GB=	Cisco Nytro MegaRAID 200GB Controller	unknown
+servers-unified-computing	UCSC-NYTRO-200GB	Cisco Nytro MegaRAID 200GB Controller	storage-controller
+servers-unified-computing	UCSC-NYTRO-200GB=	Cisco Nytro MegaRAID 200GB Controller	storage-controller
 servers-unified-computing	UCSC-O-ID10GC-D	Cisco UCSC-O-ID10GC-D	nic
 servers-unified-computing	UCSC-O-ID10GC-D2	Cisco UCSC-O-ID10GC-D2	nic
 servers-unified-computing	UCSC-O-ID10GC-D=	Cisco UCSC-O-ID10GC-D=	nic
@@ -22935,11 +22920,6 @@ servers-unified-computing	UCSC-SD-RSR=	C460 M4 SD riser card	drive
 servers-unified-computing	UCSC-SDBKT-24XM7=	Cisco UCSC-SDBKT-24XM7=	drive
 servers-unified-computing	UCSC-SDMD-002=	Dual SD card module for C420 M3	drive
 servers-unified-computing	UCSC-SLM-KIT-C210	Slam latch upgrade kit for C210 server	mechanical
-servers-unified-computing	UCSC-SW-C220M4-E01	Energy Efficient setting for C220 M4 servers	unknown
-servers-unified-computing	UCSC-SW-C220M5-E01	Energy Efficient setting for C220 M5 servers	unknown
-servers-unified-computing	UCSC-SW-C240M4-E01	Energy Efficient setting for C240 M4 servers	unknown
-servers-unified-computing	UCSC-SW-C460M4-E01	Energy Efficient setting for C460 M4 servers	unknown
-servers-unified-computing	UCSC-SWRST	RAID support for AHCI Capable SAS Controller in Intel RST	unknown
 servers-unified-computing	UCSC-TPM-001-C460	TPM MODULE FOR C460 M2 SERVER ONLY	tpm
 servers-unified-computing	UCSC-TPM-001-C460=	TPM MODULE FOR C460 M2 SERVER ONLY	tpm
 servers-unified-computing	UCSC-VSPEX-M100	UCS EZ VSPEX M100 /w2x5548, 4xC220, 8x600GB	bundle
@@ -23785,8 +23765,8 @@ servers-unified-computing	UCSX-FI-6454-U	UCS Fabric Interconnect 6454	fabric-int
 servers-unified-computing	UCSX-FI-6454=	UCS Fabric Interconnect 6454	fabric-interconnect
 servers-unified-computing	UCSX-FI-6536-D-U	Cisco UCSX-FI-6536-D-U	fabric-interconnect
 servers-unified-computing	UCSX-FI-6536-U	1RU FI for Intersight (IMM), with no PSU, with 36 ports	fabric-interconnect
-servers-unified-computing	UCSX-FS-9516	● UCS X9516 X-Fabric PCIe Gen5 switch module for 9508 chassis	unknown
-servers-unified-computing	UCSX-FS-X9516	Cisco UCSX-FS-X9516	unknown
+servers-unified-computing	UCSX-FS-9516	● UCS X9516 X-Fabric PCIe Gen5 switch module for 9508 chassis	io-module
+servers-unified-computing	UCSX-FS-X9516	Cisco UCSX-FS-X9516	io-module
 servers-unified-computing	UCSX-GPU-A100-80	TESLA A100, PASSIVE, 300W, 80GB, wPWR CBL	gpu
 servers-unified-computing	UCSX-GPU-A100-80-D	Cisco UCSX-GPU-A100-80-D	gpu
 servers-unified-computing	UCSX-GPU-A100-80=	TESLA A100, PASSIVE, 300W, 80GB, wPWR CBL	gpu
@@ -23870,8 +23850,8 @@ servers-unified-computing	UCSX-M2480OA1V	Cisco UCSX-M2480OA1V	drive
 servers-unified-computing	UCSX-M2I-HWRD-FPS	Cisco UCSX-M2I-HWRD-FPS	drive
 servers-unified-computing	UCSX-M2I-HWRD-FPS=	Cisco UCSX-M2I-HWRD-FPS=	drive
 servers-unified-computing	UCSX-M6-AAS	Cisco+ Hybrid Cloud - UCSX M6 Node Bundle	unknown
-servers-unified-computing	UCSX-M6-MLB	UCSX M6 Modular Server and CHASSIS MLB	unknown
-servers-unified-computing	UCSX-M7-MLB	UCSX M7 Modular Server and CHASSIS MLB	unknown
+servers-unified-computing	UCSX-M6-MLB	UCSX M6 Modular Server and CHASSIS MLB	server
+servers-unified-computing	UCSX-M7-MLB	UCSX M7 Modular Server and CHASSIS MLB	server
 servers-unified-computing	UCSX-M8-MLB	Cisco UCS X-Series M8 modular server and UCS X9508 Chassis	server
 servers-unified-computing	UCSX-M8A-FMEZZBLK	Cisco UCSX-M8A-FMEZZBLK	unknown
 servers-unified-computing	UCSX-M8A-FMEZZBLK=	Cisco UCSX-M8A-FMEZZBLK=	unknown
@@ -24304,21 +24284,21 @@ servers-unified-computing	UCSX-X10C-RAIDF-D=	Cisco UCSX-X10C-RAIDF-D=	storage-co
 servers-unified-computing	UCSX-X10C-RAIDF=	UCS X10c Compute RAID Controller with LSI 3900 (Front)	storage-controller
 servers-unified-computing	UCSX-X210C-FMBK	UCS 210c Compute Node Front Mezz Blank	mechanical
 servers-unified-computing	UCSX-X210C-FMBK=	UCS 210c Compute Node Front Mezz Blank	mechanical
-servers-unified-computing	UCSXE-130C-M8-12	Cisco UCS XE130c M8 Compute Node with 12-core CPU and without storage or memory (ordered as a UCS XE9305 Chassis option)	unknown
-servers-unified-computing	UCSXE-130C-M8-12-U	Cisco UCS XE130c M8 Compute Node with 12-core CPU and without storage or memory (ordered as standalone)	unknown
-servers-unified-computing	UCSXE-130C-M8-20	Cisco UCS XE130c M8 Compute Node with 20-core CPU and without storage or memory (ordered as a UCS XE9305 Chassis option)	unknown
-servers-unified-computing	UCSXE-130C-M8-20-U	Cisco UCS XE130c M8 Compute Node with 20-core CPU and without storage or memory (ordered as standalone)	unknown
-servers-unified-computing	UCSXE-130C-M8-32	Cisco UCS XE130c M8 Compute Node with 32-core CPU and without storage or memory (ordered as a UCS XE9305 Chassis option)	unknown
-servers-unified-computing	UCSXE-130C-M8-32-U	Cisco UCS XE130c M8 Compute Node with 32-core CPU and without storage or memory (ordered as standalone)	unknown
-servers-unified-computing	UCSXE-150C-M8-20	Cisco UCS XE150c M8 Compute Node with 20-core CPU and without storage or memory (ordered as a UCS XE9305 Chassis option)	unknown
-servers-unified-computing	UCSXE-150C-M8-20-U	Cisco UCS XE150c M8 Compute Node with 20-core CPU and without storage or memory (ordered as standalone)	unknown
-servers-unified-computing	UCSXE-150C-M8-32	Cisco UCS XE150c M8 Compute Node with 32-core CPU and without storage or memory (ordered as a UCS XE9305 Chassis option)	unknown
-servers-unified-computing	UCSXE-150C-M8-32-U	Cisco UCS XE150c M8 Compute Node with 32-core CPU and without storage or memory (ordered as standalone)	unknown
+servers-unified-computing	UCSXE-130C-M8-12	Cisco UCS XE130c M8 Compute Node with 12-core CPU and without storage or memory (ordered as a UCS XE9305 Chassis option)	server
+servers-unified-computing	UCSXE-130C-M8-12-U	Cisco UCS XE130c M8 Compute Node with 12-core CPU and without storage or memory (ordered as standalone)	server
+servers-unified-computing	UCSXE-130C-M8-20	Cisco UCS XE130c M8 Compute Node with 20-core CPU and without storage or memory (ordered as a UCS XE9305 Chassis option)	server
+servers-unified-computing	UCSXE-130C-M8-20-U	Cisco UCS XE130c M8 Compute Node with 20-core CPU and without storage or memory (ordered as standalone)	server
+servers-unified-computing	UCSXE-130C-M8-32	Cisco UCS XE130c M8 Compute Node with 32-core CPU and without storage or memory (ordered as a UCS XE9305 Chassis option)	server
+servers-unified-computing	UCSXE-130C-M8-32-U	Cisco UCS XE130c M8 Compute Node with 32-core CPU and without storage or memory (ordered as standalone)	server
+servers-unified-computing	UCSXE-150C-M8-20	Cisco UCS XE150c M8 Compute Node with 20-core CPU and without storage or memory (ordered as a UCS XE9305 Chassis option)	server
+servers-unified-computing	UCSXE-150C-M8-20-U	Cisco UCS XE150c M8 Compute Node with 20-core CPU and without storage or memory (ordered as standalone)	server
+servers-unified-computing	UCSXE-150C-M8-32	Cisco UCS XE150c M8 Compute Node with 32-core CPU and without storage or memory (ordered as a UCS XE9305 Chassis option)	server
+servers-unified-computing	UCSXE-150C-M8-32-U	Cisco UCS XE150c M8 Compute Node with 32-core CPU and without storage or memory (ordered as standalone)	server
 servers-unified-computing	UCSXE-1U-E3S-1L	Cisco UCSXE-1U-E3S-1L	unknown
 servers-unified-computing	UCSXE-1U-E3S-2L	Cisco UCSXE-1U-E3S-2L	unknown
 servers-unified-computing	UCSXE-1U-PCI-L	Cisco UCSXE-1U-PCI-L	unknown
-servers-unified-computing	UCSXE-9305-U	Cisco UCS XE9305 Chassis Configured	unknown
-servers-unified-computing	UCSXE-9305=	Cisco UCS XE9305 Chassis Spare	unknown
+servers-unified-computing	UCSXE-9305-U	Cisco UCS XE9305 Chassis Configured	chassis
+servers-unified-computing	UCSXE-9305=	Cisco UCS XE9305 Chassis Spare	chassis
 servers-unified-computing	UCSXE-BEZ-3	Cisco UCSXE-BEZ-3	unknown
 servers-unified-computing	UCSXE-BEZ-FLTR	Cisco UCSXE-BEZ-FLTR	unknown
 servers-unified-computing	UCSXE-ECMC-G1	Cisco UCSXE-ECMC-G1	unknown
@@ -24333,7 +24313,7 @@ servers-unified-computing	UCSXE-M2-960G	Cisco UCSXE-M2-960G	unknown
 servers-unified-computing	UCSXE-M2-HWRD2	Cisco UCSXE-M2-HWRD2	unknown
 servers-unified-computing	UCSXE-M2240OA1V	Cisco UCSXE-M2240OA1V	unknown
 servers-unified-computing	UCSXE-M2480OA1V	Cisco UCSXE-M2480OA1V	unknown
-servers-unified-computing	UCSXE-M8-MLB	Cisco UCS XE9305 M8 Modular Server and Chassis MLB	unknown
+servers-unified-computing	UCSXE-M8-MLB	Cisco UCS XE9305 M8 Modular Server and Chassis MLB	server
 servers-unified-computing	UCSXE-MNT-KIT-NONE	Cisco UCSXE-MNT-KIT-NONE	unknown
 servers-unified-computing	UCSXE-MR128G2RG5	Cisco UCSXE-MR128G2RG5	unknown
 servers-unified-computing	UCSXE-MRX16G1RE5	Cisco UCSXE-MRX16G1RE5	unknown
@@ -24869,7 +24849,7 @@ storage-networking	DS-C9706-1EK9	MDS 9706 32G Enhanced Config w/ Fans 2 Sup-1 6 
 storage-networking	DS-C9706-1K9	MDS 9706 Base Config Chassis FANs 2 Sup-1 3 Fab-1 4 PS AC 3K	director
 storage-networking	DS-C9706-2B8K9	MDS 9706 Bundle 2 16G LC 8GSFP 2Sup1 3 Fab1 4PS Ent Lic	director
 storage-networking	DS-C9706-2BSK9	MDS 9706 Bundle 2 16G LC 16GSFP 2Sup1 3 Fab1 4PS Ent Lic	director
-storage-networking	DS-C9706-BSK=	MDS 9706 - Bottom Support Kit	accessory
+storage-networking	DS-C9706-BSK=	MDS 9706 - Bottom Support Kit	mechanical
 storage-networking	DS-C9706-CBTOP=	MDS 9706 - Cable Management and top LED kit	mechanical
 storage-networking	DS-C9706-FAN=	MDS 9706 FAN Tray	fan
 storage-networking	DS-C9706-FD-MB	MDS 9706 - Front Door Kit	mechanical
@@ -24890,7 +24870,7 @@ storage-networking	DS-C9710-V2K9	MDS 9710 V2 Base Config: Chassis, 2 Sup-4, 3 Fa
 storage-networking	DS-C9710-V3K9	MDS 9710 Config: Chassis, 2 Sup-4, 6 Fabric-3, 6 3K AC	director
 storage-networking	DS-C9710H-1K9	MDS 9710 Base Config HP Chassis FANs 2 Sup-1 3 Fab-1 6 PS 3K	director
 storage-networking	DS-C9718-1K9	MDS 9718 Base Config Chassis FAN 2 Sup1E 6 Fab-1 12 PS AC 3K	director
-storage-networking	DS-C9718-BSK=	MDS 9718 – Chassis Bottom Support Kit	accessory
+storage-networking	DS-C9718-BSK=	MDS 9718 – Chassis Bottom Support Kit	mechanical
 storage-networking	DS-C9718-CBTOP=	MDS 9718 – Cable Management and Top LED Kit	mechanical
 storage-networking	DS-C9718-FAN=	MDS 9718 FAN Tray	fan
 storage-networking	DS-C9718-FD-MB	MDS 9718 - Front Door Kit	mechanical
@@ -25495,6 +25475,7 @@ switches	C1200-48P-4X	Cisco C1200-48P-4X Catalyst-1200-Managed-Switch (L2, Linux
 switches	C1200-48T-4G	Cisco C1200-48T-4G Catalyst-1200-Managed-Switch (L2, Linux) – 48× 1G-RJ45 + 4× 1G-SFP	switch
 switches	C1200-48T-4X	Cisco C1200-48T-4X Catalyst-1200-Managed-Switch (L2, Linux) – 48× 1G-RJ45 + 4× 10G-SFP+	switch
 switches	C1200-8FP-2G	Cisco C1200-8FP-2G Catalyst-1200-Managed-Switch (L2, Linux) – 8× 1G-RJ45 (PoE+) + 2× 1G-Combo	switch
+switches	C1200-8FP-2G-OPT	Catalyst 1200 8-port GE Switch, Full PoE, 2x1G Combo	switch
 switches	C1200-8P-E-2G	Cisco C1200-8P-E-2G Catalyst-1200-Managed-Switch (L2, Linux) – 8× 1G-RJ45 (PoE+) + 2× 1G-Combo	switch
 switches	C1200-8T-D	Cisco C1200-8T-D Catalyst-1200-Managed-Switch (L2, Linux) – 8× 1G-RJ45	switch
 switches	C1200-8T-E-2G	Cisco C1200-8T-E-2G Catalyst-1200-Managed-Switch (L2, Linux) – 8× 1G-RJ45 + 2× 1G-Combo	switch
@@ -26479,20 +26460,20 @@ switches	C9600X-LC-56YL4C	Catalyst 9600 Series Switch combo line card 56 ports 5
 switches	C9600X-SUP-2	Cisco C9600X-SUP-2	supervisor
 switches	C9600X-SUP-2/2	Cisco Catalyst 9600 Series Redundant Supervisor 2 module	supervisor
 switches	C9606-ACC-KIT=	Cisco Catalyst 9600 Series 6-slot chassis Accessory Kit	mechanical
-switches	C9606-FB-23-KIT=	Cisco Catalyst 9600 Series 6-slot chassis Front to Back Kit	accessory
+switches	C9606-FB-23-KIT=	Cisco Catalyst 9600 Series 6-slot chassis Front to Back Kit	mechanical
 switches	C9606-RACK-KIT=	Cisco Catalyst 9600 Series 6-slot chassis Rack Mount	mechanical
 switches	C9606-SHELF-KIT=	Cisco Catalyst 9600 Series 6-slot chassis Shelf Install Kit	mechanical
 switches	C9606R	Cisco Catalyst 9606R Modularer Campus-Switch-Chassis – 4 Linecard-Slots, bis zu 25,6 tbit/s, 8 HE (Leermodul-Chassis)	switch
 switches	C9606R=	Cisco C9606R=	switch
 switches	C9610-19-KIT-4=	Cisco 9610 Series 10 slot chassis 4 post 19-inch Rack Mount	mechanical
 switches	C9610-23-KIT-2	Cisco 9610 Series 10 slot chassis 2 post 23-inch Rack Mount	mechanical
-switches	C9610-23-KIT-2=	Cisco C9610 Series Smart Switches 23" 2 post	accessory
+switches	C9610-23-KIT-2=	Cisco C9610 Series Smart Switches 23" 2 post	mechanical
 switches	C9610-FAN	Cisco C9610-FAN	fan
 switches	C9610-LC-32CD	Cisco C9610 Series Smart Switch combo line card 30 ports 100/40GE QSFP28 2 ports 400/100/40GE QSFP-DD	linecard
 switches	C9610-LC-40YL4CD	Cisco C9610 Series Smart Switch combo line card 40 ports 10/25GE SFP and 2 ports 40/100GE QSFP uplinks	linecard
 switches	C9610-LC-ADPT	Cisco C9610-LC-ADPT	linecard
 switches	C9610-LC-BLANK	Cisco C9610-LC-BLANK	accessory
-switches	C9610-NEBS-KIT	Cisco C9610 Series Smart Switches NEBS kit	accessory
+switches	C9610-NEBS-KIT	Cisco C9610 Series Smart Switches NEBS kit	mechanical
 switches	C9610-NEBSFILTER=	Cisco C9610 Series Smart Switches NEBS kit filter	mechanical
 switches	C9610-SSD-480G-V1	Cisco C9610-SSD-480G-V1	accessory
 switches	C9610-SSD-960G-V1	Cisco C9610-SSD-960G-V1	accessory
@@ -27658,9 +27639,13 @@ switches	CONNECTOR-KIT	Connector Kit	accessory
 switches	CONNECTOR-KIT=	Connector Kit	accessory
 switches	CP24BLY	24-Port Patch Panel	switch
 switches	CPP24FMWBLY	24-Port Patch Panel	switch
+switches	CS-PANO-SWITCH+	Room Panorama Cisco Catalyst 3560-CX 12 Port PoE IP Base	switch
+switches	CS-PANO-SWITCH2+	Room Panorama - Cisco C1000 16 Port Switch	switch
 switches	CSS5-CABLX-LCSC=	Cisco CSS 11500 Series Content Services Switch, 10m single-mode fiber, LX LC-to-SC connectors	cable
 switches	CSS5-CABSX-LC=	Cisco CSS 11500 10m multimode fiber, SX LC connectors	cable
 switches	CSS5-CABSX-LCSC=	Cisco CSS 11500 10m multimode fiber, SX LC-to-SC connectors	cable
+switches	CTS-5K-LC-SWITCH	Catalyst 2960C Switch 12 FE PoE, 2 x Dual Uplink, Lan Base	switch
+switches	CTS-5K-UI-SWITCH	Catalyst 2960C Switch 8 FE PoE, 2 x Dual Uplink, LAN Base	switch
 switches	CWWLSE-1130-19-K9	CiscoWorks WLSE (optional)	switch
 switches	DFC3C	Cisco DFC3C	daughter
 switches	DFC3CXL	Cisco DFC3CXL	daughter
@@ -29111,7 +29096,7 @@ switches	N7K-C7004-FAN	Nexus 7000 - 4 Slot Fan	fan
 switches	N7K-C7004-FAN=	Cisco Nexus 7000 Series 4-Slot Fan Tray Spare	fan
 switches	N7K-C7004-FD-MB	Cisco Nexus 7004 Front Door Kit	switch
 switches	N7K-C7004-FD-MB=	Nexus 7004 Front Door Kit	switch
-switches	N7K-C7004-RMK=	Includes Nexus 7004 Front Mount and Center Mount Kits	accessory
+switches	N7K-C7004-RMK=	Includes Nexus 7004 Front Mount and Center Mount Kits	mechanical
 switches	N7K-C7004-S2	Nexus 7004 Bundle (Chassis,1xSUP2),No Power Supplies	switch
 switches	N7K-C7004-S2-R	Nexus 7004 Bundle (Chassis,2xSUP2),No Power Supplies	switch
 switches	N7K-C7004-S2E	Nexus 7004 Bundle (Chassis,1xSUP2E),No Power Supplies	switch
@@ -36529,8 +36514,8 @@ video	741424	Kit, Pwr Inlet, Rear Acc, DC (ea)	mechanical
 video	741425	Tool, Connector Removal, Backplane/Module	unknown
 video	741428	Kit, RF Connectors, Front Or Rear Access, BNC (28 each)	mechanical
 video	741429	Kit, RF Conn, Frt or Rear Acc, F (28 ea)	mechanical
-video	741602	Kit, Chassis, Flange Black, PII	unknown
-video	741603	Kit, Chassis, Flange Green, PII	unknown
+video	741602	Kit, Chassis, Flange Black, PII	mechanical
+video	741603	Kit, Chassis, Flange Green, PII	mechanical
 video	741982	Pwr Conn, -48VDC (12 ea)	unknown
 video	744313	Tool, F Conn (Security Shield)	mechanical
 video	744430	Pwr Inlet, Frt Acc, DC, Std (ea)	mechanical
@@ -40293,8 +40278,8 @@ wireless	AIR-CT8540-CA-K9++	Cisco 8540 Wireless Controller for Service Depot TAA
 wireless	AIR-CT8540-K9	Cisco 8540 Wireless Controller with rack mouting kit	wlc
 wireless	AIR-CT8540-K9++	Cisco 8540 Wireless Controller with rack mouting kit (TAA)	wlc
 wireless	AIR-CT8540-K9-PM	Cisco 8540 Wireless Controller with rack mouting kit	wlc
-wireless	AIR-CT85DC-K9	Base PID for Cisco 8500 Series Wireless Controller - DC	other
-wireless	AIR-CT85DC-SP-K9	8500 Series Wireless Controller with 0 APs included, Dual DC PSU	other
+wireless	AIR-CT85DC-K9	Base PID for Cisco 8500 Series Wireless Controller - DC	wlc
+wireless	AIR-CT85DC-SP-K9	8500 Series Wireless Controller with 0 APs included, Dual DC PSU	wlc
 wireless	AIR-DC-950W	Cisco 9580 Modular Wireless Controller 950W DC Power Supply	power
 wireless	AIR-DC-950W=	Cisco 9580 Modular Wireless Controller 950W DC Power Supply	power
 wireless	AIR-FAN-5500	Redundant Fan Tray	module
@@ -40337,8 +40322,8 @@ wireless	AIR-MR-1X082RV-A	16GB DDR4-2400-MHz RDIMM/PC4-19200/double rank/x4/1.2v
 wireless	AIR-MR-1X161RV-A	16GB DDR4-2400-MHz RDIMM	module
 wireless	AIR-MR-1X161RV-A=	16GB DDR4-2400-MHz RDIMM	module
 wireless	AIR-MR-1X162RU-A	16GB DDR4-2133-MHz RDIMM/PC4-17000/dual rank/x4/1.2v	module
-wireless	AIR-MRAID12G	Cisco 12G SAS Modular Raid Controller	other
-wireless	AIR-MRAID12G-1GB	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	other
+wireless	AIR-MRAID12G	Cisco 12G SAS Modular Raid Controller	module
+wireless	AIR-MRAID12G-1GB	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	module
 wireless	AIR-MSE-3350-K9	MSE Hardware SKU	appliance
 wireless	AIR-MSE-3355-K9	MSE 3355 Hardware SKU (Please select L-MSE-PAK for MSE Lic)	appliance
 wireless	AIR-MSE-3355-K9Z	MSE 3355 Bundle PID; EQUIVALENT TO AIR-MSE-3355-K9	appliance
@@ -41402,7 +41387,7 @@ wireless	C9800-40-K9	Cisco Catalyst 9800-40 Wireless Controller	wlc
 wireless	C9800-40-SLR-K9	Cisco Catalyst 9800-40 SLR Wireless Controller	wlc
 wireless	C9800-40-SLRCA-K9	Cisco Catalyst 9800-40 SLR Controller (Service Only)	wlc
 wireless	C9800-80-CA-K9	Cisco Catalyst 9800-80 Wireless Controller (Service only)	wlc
-wireless	C9800-80-CAP-K9	Cisco Catalyst 9800-80 Wireless Controller -5YR-SNTC-8X5XNBD	accessory
+wireless	C9800-80-CAP-K9	Cisco Catalyst 9800-80 Wireless Controller -5YR-SNTC-8X5XNBD	wlc
 wireless	C9800-80-K9	Cisco Catalyst 9800-80 Wireless Controller	wlc
 wireless	C9800-80-SLR-K9	Cisco Catalyst 9800-80 Modular SLR Wireless Controller	wlc
 wireless	C9800-80-SLRCA-K9	Cisco Catalyst 9800-80 Modular SLR CA Wireless Controller	wlc
@@ -41415,7 +41400,6 @@ wireless	C9800-AC-750W-R=	Cisco Catalyst 9800-40 750W AC Power Supply, Reverse A
 wireless	C9800-AC-750W-RED	Cisco Catalyst 9800-40 750W AC Power Supply	power
 wireless	C9800-BLANK	Cisco 9800 Wireless Controller Module Blank	mechanical
 wireless	C9800-BLANK=	C9800 Module Blank Cover	mechanical
-wireless	C9800-CL-K9	Cisco Catalyst 9800-CL Wireless Controller for Cloud	other
 wireless	C9800-DC-950W	Cisco Catalyst Wireless Controller 950W DC Power Supply	power
 wireless	C9800-DC-950W=	Cisco Catalyst Wireless Controller 950W DC Power Supply	power
 wireless	C9800-L	Cisco C9800-L	wlc
@@ -41773,11 +41757,11 @@ wireless	EDU-AP4800-B-K9C	EDU_Cisco Aironet Mobility Express 4800 Series	ap
 wireless	EDU-C9800-40-K9	EDU SKU - Cisco Catalyst 9800-40 Wireless Controller	wlc
 wireless	EDU-C9800-80-K9	EDU SKU-Cisco Catalyst 9800-80 Wireless Controller	wlc
 wireless	EDU-C9800-80-S5-K9	NYC EDU SKU-Cisco Catalyst 9800-80 Wireless Controller	wlc
-wireless	EDU-CT3504-K9	Cisco 3504 Wireless Controller for US K12	other
-wireless	EDU-CT5508-100-K9	Cisco 5508 Series Wireless Controller for up to 100 APs K12	other
-wireless	EDU-CT5508-50-K9	5508 Series Controller for up to 50 APs K12	other
-wireless	EDU-CT5520-50-K9	Cisco 5520 Wireless Controller supporting 50 APs K12	other
-wireless	EDU-CT5520-K9	Cisco 5520 Wireless Controller w/rack mounting kit K12	other
+wireless	EDU-CT3504-K9	Cisco 3504 Wireless Controller for US K12	wlc
+wireless	EDU-CT5508-100-K9	Cisco 5508 Series Wireless Controller for up to 100 APs K12	wlc
+wireless	EDU-CT5508-50-K9	5508 Series Controller for up to 50 APs K12	wlc
+wireless	EDU-CT5520-50-K9	Cisco 5520 Wireless Controller supporting 50 APs K12	wlc
+wireless	EDU-CT5520-K9	Cisco 5520 Wireless Controller w/rack mounting kit K12	wlc
 wireless	EDU-CW9800H1	Cisco EDU-CW9800H1	other
 wireless	EDU-CW9800H2	Cisco EDU-CW9800H2	other
 wireless	EDU-CW9800M	Cisco EDU-CW9800M	other
@@ -42163,8 +42147,8 @@ wireless	MSE-HD600G10K12G	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled moun
 wireless	MSE-HD600G10K12G=	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	other
 wireless	MSE-MR-1X161RV-A	16GB DDR4-2400-MHz RDIMM/PC4-19200/single rank/x4/1.2v	module
 wireless	MSE-MR-1X162RU-A	16GB DDR4-2133-MHz RDIMM/PC4-17000/dual rank/x4/1.2v	module
-wireless	MSE-MRAID12G	Cisco 12G SAS Modular Raid Controller	other
-wireless	MSE-MRAID12G-1GB	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	other
+wireless	MSE-MRAID12G	Cisco 12G SAS Modular Raid Controller	module
+wireless	MSE-MRAID12G-1GB	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	module
 wireless	MSE-PSU1-770W	770W AC Hot-Plug Power Supply for 1U C-Series Rack Server	power
 wireless	MSE-PSU1-770W=	770W AC Hot-Plug Power Supply for 1U C-Series Rack Server	power
 wireless	MSE-RAILB-M4	Ball Bearing Rail Kit for C220 M4 and C240 M4 rack servers	mechanical

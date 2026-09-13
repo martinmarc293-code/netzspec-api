@@ -1,0 +1,664 @@
+# name-noun control vs partKind (cisco tree), non-Cisco live hardware
+
+## completeness computed_at per vendor (live hardware)
+- arista: n=344 min=2026-09-11T17:08:19.270Z max=2026-09-11T19:28:54.893Z
+- aruba: n=358 min=2026-09-11T19:28:54.893Z max=2026-09-12T19:45:48.898Z
+- cisco: n=42367 min=2026-09-09T21:32:55.658Z max=2026-09-12T22:23:00.545Z
+- dell-emc: n=151 min=2026-09-11T17:08:25.842Z max=2026-09-11T19:28:59.137Z
+- extreme: n=96 min=2026-09-11T17:08:25.842Z max=2026-09-11T19:28:59.137Z
+- fortinet: n=87 min=2026-09-11T17:08:27.356Z max=2026-09-11T19:28:59.137Z
+- hpe: n=1142 min=2026-09-11T17:08:27.356Z max=2026-09-12T19:50:14.001Z
+- juniper: n=974 min=2026-09-10T13:04:40.397Z max=2026-09-12T01:03:02.746Z
+- lenovo: n=100 min=2026-09-11T17:08:28.848Z max=2026-09-11T19:29:01.074Z
+- mikrotik: n=63 min=2026-09-11T17:08:28.848Z max=2026-09-12T19:45:57.946Z
+- nvidia: n=85 min=2026-09-11T17:08:28.848Z max=2026-09-11T19:29:01.074Z
+- supermicro: n=27 min=2026-09-11T17:08:30.104Z max=2026-09-11T19:29:01.074Z
+- ubiquiti: n=49 min=2026-09-11T17:08:30.104Z max=2026-09-11T19:29:01.074Z
+
+## last recompute-completeness runs
+- #1022 succeeded 2026-09-12T22:25:46.736Z null {"batch":500,"since":null,"vendor":"cisco","category":"software"}
+- #1021 succeeded 2026-09-12T22:25:08.675Z null {"batch":500,"since":null,"vendor":"cisco","category":"data-center-analytics"}
+- #1020 succeeded 2026-09-12T22:24:19.217Z null {"batch":500,"since":null,"vendor":"cisco","category":"cloud-systems-management"}
+- #1019 succeeded 2026-09-12T22:23:40.180Z null {"batch":500,"since":null,"vendor":"cisco","category":"ios-nx-os-software"}
+- #1018 succeeded 2026-09-12T22:22:32.978Z null {"batch":500,"since":null,"vendor":"cisco","category":"switches"}
+- #1017 succeeded 2026-09-12T22:21:15.011Z null {"batch":500,"since":null,"vendor":"cisco","category":"routers"}
+- #1016 succeeded 2026-09-12T22:20:27.819Z null {"batch":500,"since":null,"vendor":"cisco","category":"conferencing"}
+- #1015 succeeded 2026-09-12T22:19:38.776Z null {"batch":500,"since":null,"vendor":"cisco","category":"collaboration-endpoints"}
+- #1014 succeeded 2026-09-12T22:18:46.997Z null {"batch":500,"since":null,"vendor":"cisco","category":"wireless"}
+- #1013 succeeded 2026-09-12T22:18:07.434Z null {"batch":500,"since":null,"vendor":"cisco","category":"hyperconverged-infrastructure"}
+- #1012 succeeded 2026-09-12T22:17:25.089Z null {"batch":500,"since":null,"vendor":"cisco","category":"hyperconverged-systems"}
+- #1011 succeeded 2026-09-12T22:16:15.380Z null {"batch":500,"since":null,"vendor":"cisco","category":"servers-unified-computing"}
+- #997 succeeded 2026-09-12T20:34:35.802Z null {"batch":500,"since":null,"vendor":"cisco","category":"collaboration-endpoints"}
+- #996 succeeded 2026-09-12T20:33:46.087Z null {"batch":500,"since":null,"vendor":"cisco","category":"conferencing"}
+- #995 succeeded 2026-09-12T20:32:44.250Z null {"batch":500,"since":null,"vendor":"cisco","category":"unified-communications"}
+
+## stored completeness.required_fields == what the cisco-tree axis asks now (per vendor/category)
+- arista|transceiver: 344/344 match; mean stored required 10.9, mean now 10.9
+- aruba|switches: 354/354 match; mean stored required 32.7, mean now 32.7
+- aruba|transceiver: 4/4 match; mean stored required 13.0, mean now 13.0
+- dell-emc|transceiver: 151/151 match; mean stored required 11.0, mean now 11.0
+- extreme|transceiver: 96/96 match; mean stored required 11.4, mean now 11.4
+- fortinet|transceiver: 87/87 match; mean stored required 12.1, mean now 12.1
+- hpe|interfaces-modules: 347/347 match; mean stored required 1.0, mean now 1.0
+- hpe|routers: 61/61 match; mean stored required 26.0, mean now 26.0
+- hpe|switches: 447/447 match; mean stored required 34.7, mean now 34.7
+- hpe|transceiver: 285/285 match; mean stored required 13.3, mean now 13.3
+- hpe|wireless: 2/2 match; mean stored required 0.0, mean now 0.0
+- juniper|interfaces-modules: 119/119 match; mean stored required 1.0, mean now 1.0
+- juniper|power-cables: 185/185 match; mean stored required 0.0, mean now 0.0
+- juniper|power-supplies: 117/117 match; mean stored required 0.0, mean now 0.0
+- juniper|transceiver: 553/553 match; mean stored required 12.7, mean now 12.7
+- lenovo|transceiver: 100/100 match; mean stored required 11.0, mean now 11.0
+- mikrotik|switches: 39/39 match; mean stored required 27.0, mean now 27.0
+- mikrotik|transceiver: 24/24 match; mean stored required 12.2, mean now 12.2
+- nvidia|transceiver: 85/85 match; mean stored required 10.4, mean now 10.4
+- supermicro|transceiver: 27/27 match; mean stored required 11.2, mean now 11.2
+- ubiquiti|transceiver: 49/49 match; mean stored required 11.6, mean now 11.6
+
+## cross-tab (vendor / category / kind x name-noun) with rows
+
+### arista / transceiver
+- kind=pluggable noun=cable: 243
+    - A-O800-O800-3M | Arista A-O800-O800-3M AOC OSFP auf OSFP – aktives optisches Kabel (AOC), Länge 3 m
+    - A-O800-O800-5M | Arista A-O800-O800-5M AOC OSFP auf OSFP – aktives optisches Kabel (AOC), Länge 5 m
+    - A-O800-O800-30M | Arista A-O800-O800-30M AOC OSFP auf OSFP – aktives optisches Kabel (AOC), Länge 30 m
+    - A-D800-D800-15M | Arista A-D800-D800-15M AOC QSFP-DD auf QSFP-DD – aktives optisches Kabel (AOC), Länge 15 m
+    - A-D800-D800-20M | Arista A-D800-D800-20M AOC QSFP-DD auf QSFP-DD – aktives optisches Kabel (AOC), Länge 20 m
+    - A-D800-D800-25M | Arista A-D800-D800-25M AOC QSFP-DD auf QSFP-DD – aktives optisches Kabel (AOC), Länge 25 m
+    - A-D800-D800-30M | Arista A-D800-D800-30M AOC QSFP-DD auf QSFP-DD – aktives optisches Kabel (AOC), Länge 30 m
+    - CAB-O-4Q-400G-1M | Arista CAB-O-4Q-400G-1M 400G DAC OSFP auf 4x QSFP56 – passives Direct-Attach-Kupferkabel (DAC), 400GBASE-CR8, Länge 1 m
+- kind=pluggable noun=optic: 101
+    - SFP-10G-T-RP | Arista SFP-10G-T-RP 10G SFP+ Optik-Transceiver – Twisted-Pair-Kupfer (Cat6a), RJ45, bis zu 30 m
+    - SFP-10G-MRA-T | Arista SFP-10G-MRA-T 10G SFP+ Optik-Transceiver – Twisted-Pair-Kupfer (Cat6a), RJ45, bis zu 30 m
+    - SFP-10G-RA-1G-SX | Arista SFP-10G-RA-1G-SX 1G SFP+ 1000BASE-SX-Transceiver
+    - SFP-1G-LX | Arista SFP-1G-LX 1G SFP 1000BASE-LX-Transceiver
+    - SFP-10G-RA-1G-LX | Arista SFP-10G-RA-1G-LX 1G SFP+ 1000BASE-LX-Transceiver
+    - SFP-1G-T | Arista SFP-1G-T 1G SFP 1000BASE-T-Transceiver
+    - SFP-100M-FX | Arista SFP-100M-FX 100M SFP 100BASE-FX-Transceiver
+    - OSFP-800G-2VSR4 | Arista OSFP-800G-2VSR4 800G OSFP 400GBASE-VSR4-Transceiver – parallele Multimode-Glasfaser (MMF), MPO-12, bis zu 50 m
+
+### aruba / switches
+- kind=switch noun=chassis: 1
+    - JL375A | HPE Aruba Networking CX 8400 JL375A modulares Chassis (8 Steckplätze, 8 HE) – Chassis-Bundle mit Lüftertrays
+- kind=switch noun=linecard: 40
+    - J9986A | HPE Aruba Networking 5400R zl2 J9986A Linecard – 24× Gig-T PoE+ für 5406R/5412R
+    - J9987A | HPE Aruba Networking 5400R zl2 J9987A Linecard – 24× Gig-T für 5406R/5412R
+    - J9988A | HPE Aruba Networking 5400R zl2 J9988A Linecard – 24× SFP (1G) für 5406R/5412R
+    - J9989A | HPE Aruba Networking 5400R zl2 J9989A Linecard – 12× Gig-T PoE+ + 12× SFP für 5406R/5412R
+    - J9990A | HPE Aruba Networking 5400R zl2 J9990A Linecard – 20× Gig-T PoE+ + 4× SFP+ für 5406R/5412R
+    - J9991A | HPE Aruba Networking 5400R zl2 J9991A Linecard – 20× Gig-T PoE+ + 4× Smart Rate für 5406R/5412R
+    - J9992A | HPE Aruba Networking 5400R zl2 J9992A Linecard – 20× Gig-T PoE+ + 1× QSFP+ für 5406R/5412R
+    - J9995A | HPE Aruba Networking 5400R zl2 J9995A Linecard – 8× Smart Rate (10GBASE-T) PoE+ für 5406R/5412R
+- kind=switch noun=module: 24
+    - JL078A | HPE Aruba Networking JL078A Uplink-Modul – 1× QSFP+ (40G) für Aruba 2930M / Aruba 3810M
+    - JL079A | HPE Aruba Networking JL079A Uplink-Modul – 2× QSFP+ (40G) für Aruba 3810M
+    - JL081A | HPE Aruba Networking JL081A Uplink-Modul – 4× HPE Smart Rate (1/2.5/5/10GBASE-T, Class 4 PoE+) für Aruba 2930M / Aruba 3
+    - JL083A | HPE Aruba Networking JL083A Uplink-Modul – 4× SFP+ (10G, MACsec) für Aruba 2930M / Aruba 3810M
+    - JL084A | HPE Aruba Networking JL084A Stacking-Modul – 4× Stacking-Ports (Backplane-Stacking) für Aruba 3810M
+    - J9731A | HPE Aruba Networking J9731A Uplink-Modul – 2× SFP+ (10G) für Aruba 2920
+    - J9732A | HPE Aruba Networking J9732A Uplink-Modul – 2× 10GBASE-T (10 GbE, RJ45) für Aruba 2920
+    - J9733A | HPE Aruba Networking J9733A Stacking-Modul – 2× Stacking-Ports (Backplane-Stacking) für Aruba 2920
+- kind=switch noun=switch: 289
+    - JL817A | HPE Aruba Networking CX 4100i JL817A Industrie-Switch – 4× 100M/1G-RJ45 (Class 6 PoE, 60 W) + 8× 100M/1G-RJ45 (Class 4 P
+    - J9781A | HPE Aruba Networking 2530 J9781A Managed Switch (L2) – 48× 10/100BASE-T (ohne PoE) + 2× 10/100/1000BASE-T (RJ45) + 2× SF
+    - JL070A | HPE Aruba Networking 2530 JL070A Managed Switch (L2) – 8× 10/100BASE-T (Class 4 PoE+, 30 W) + 2× Dual-Personality-Ports 
+    - JL727B | HPE Aruba Networking CX 6200F JL727B Managed Switch (L2) – 48× 10/100/1000BASE-T (Class 4 PoE, 30 W) + 4× SFP+ (1/10G), 
+    - JL256A | Aruba 2930F JL256A Managed Switch (L3) – 48× Gigabit RJ45 (Class 4 PoE+, 30 W) + 4× SFP+ (1/10G)
+    - R8R47A | Aruba Instant On 1430 16G R8R47A Unmanaged Switch (L2) – 16× 10/100/1000 (RJ45), 19-Zoll-Rackmontage
+    - J9772A | HPE Aruba Networking 2530 J9772A Managed Switch (L2) – 48× 10/100/1000BASE-T (Class 4 PoE+, 30 W) + 4× SFP (1G), 19-Zoll
+    - J9773A | HPE Aruba Networking 2530 J9773A Managed Switch (L2) – 24× 10/100/1000BASE-T (Class 4 PoE+, 30 W) + 4× SFP (1G), 19-Zoll
+
+### aruba / transceiver
+- kind=pluggable noun=optic: 4
+    - J9151A | Aruba J9151A 10 GbE SFP+ LR Transceiver – Singlemode fiber (SMF), LC, 10 km
+    - J4858D | Aruba J4858D 1 GbE SFP SX Transceiver – Multimode fiber (MMF), LC, 500 m
+    - J9150D | Aruba J9150D 10 GbE SFP+ SR Transceiver – Multimode fiber (MMF), LC, 300 m
+    - J4859D | Aruba J4859D 1 GbE SFP LX Transceiver – Singlemode fiber (SMF), LC, 10 km
+
+### dell-emc / transceiver
+- kind=pluggable noun=cable: 102
+    - DAC-S56DD-Q56-SFF-100G-2M | Dell DAC-S56DD-Q56-SFF-100G-2M 100G DAC – SFP-DD auf QSFP56, Länge 2 m
+    - AOC-SFP-25G-7M | Dell AOC-SFP-25G-7M 25G AOC – SFP28 auf SFP28, Länge 7 m
+    - AOC-SFP-25G-10M | Dell AOC-SFP-25G-10M 25G AOC – SFP28 auf SFP28, Länge 10 m
+    - AOC-SFP-25G-20M | Dell AOC-SFP-25G-20M 25G AOC – SFP28 auf SFP28, Länge 20 m
+    - DAC-QSFP-40G-0.5M | Dell DAC-QSFP-40G-0.5M 40G DAC – QSFP+ auf QSFP+, Länge 0,5 m
+    - DAC-QSFP-40G-1M | Dell DAC-QSFP-40G-1M 40G DAC – QSFP+ auf QSFP+, Länge 1 m
+    - DAC-QSFP-40G-3M | Dell DAC-QSFP-40G-3M 40G DAC – QSFP+ auf QSFP+, Länge 3 m
+    - AOC-QSFP-4SFP-10G-30M | Dell AOC-QSFP-4SFP-10G-30M 40G Breakout-AOC – QSFP+ auf 4x SFP+, Länge 30 m
+- kind=pluggable noun=optic: 49
+    - Q28-100G-SR1.2 | Dell Q28-100G-SR1.2 100G QSFP28 SR1.2-Transceiver – Multimode, LC, bis 70 m
+    - Q28-100G-SR4 | Dell Q28-100G-SR4 100G QSFP28 SR4-Transceiver – Multimode, MPO-12, bis 70 m
+    - Q28-100G-ESR4 | Dell Q28-100G-ESR4 100G QSFP28 ESR4-Transceiver – Multimode, MPO-12, bis 170 m
+    - Q28-100G-LR1 | Dell Q28-100G-LR1 100G QSFP28 Optik-Transceiver – Singlemode, LC, bis 10 km
+    - Q28-100G-LR4-Gen3 | Dell Q28-100G-LR4-Gen3 100G QSFP28 LR4-Transceiver – Singlemode, LC, bis 10 km
+    - 400G-Q56DD-EDR4-Gen3 | Dell 400G-Q56DD-EDR4-Gen3 400G QSFP-DD EDR4-Transceiver – Singlemode, MPO-12, bis 2 km
+    - 400G-Q56DD-FR4-Gen2 | Dell 400G-Q56DD-FR4-Gen2 400G QSFP-DD FR4-Transceiver – Singlemode, LC, bis 2 km
+    - 400G-Q56DD-LR4 | Dell 400G-Q56DD-LR4 400G QSFP-DD LR4-Transceiver – Singlemode, LC, bis 10 km
+
+### extreme / transceiver
+- kind=bidi noun=optic: 3
+    - 10GB-BX10-D | Extreme 10GB-BX10-D 10G SFP+ BiDi-10-Transceiver – Singlemode, LC, bis 10 km
+    - 10GB-BX40-D | Extreme 10GB-BX40-D 10G SFP+ BiDi-40-Transceiver – Singlemode, LC, bis 40 km
+    - MGBIC-BX40-D | Extreme MGBIC-BX40-D 1G SFP+ BiDi-40-Transceiver – Singlemode, LC, bis 40 km
+- kind=pluggable noun=cable: 52
+    - 100G-DACP-QSFP4SFP3M | Extreme 100G-DACP-QSFP4SFP3M 100G Breakout-DAC QSFP28 auf 4x SFP28 – passives Direct-Attach-Kupferkabel (DAC), Länge 3 m
+    - 100G-DACP-QSFP4SFP5M | Extreme 100G-DACP-QSFP4SFP5M 100G Breakout-DAC QSFP28 auf 4x SFP28 – passives Direct-Attach-Kupferkabel (DAC), Länge 5 m
+    - 100G-AOC-QSFP10M-TA | Extreme 100G-AOC-QSFP10M-TA 100G AOC QSFP28 auf QSFP28 – aktives optisches Kabel (AOC), Länge 10 m
+    - 40G-DACP-QSFPZ5M | Extreme 40G-DACP-QSFPZ5M 40G DAC QSFP+ auf QSFP+ – passives Direct-Attach-Kupferkabel (DAC), Länge 0,5 m
+    - 40G-DACP-QSFP5M | Extreme 40G-DACP-QSFP5M 40G DAC QSFP+ auf QSFP+ – passives Direct-Attach-Kupferkabel (DAC), Länge 5 m
+    - 40G-DACP-QSFP4SFP1M | Extreme 40G-DACP-QSFP4SFP1M 40G Breakout-DAC QSFP+ auf 4x SFP+ – passives Direct-Attach-Kupferkabel (DAC), Länge 1 m
+    - 40G-DACA-QSFP4SFP3M | Extreme 40G-DACA-QSFP4SFP3M 40G Breakout-DAC QSFP+ auf 4x SFP+ – aktives Twinax-Kupferkabel, Länge 3 m
+    - 40G-DACA-QSFP4SFP5M | Extreme 40G-DACA-QSFP4SFP5M 40G Breakout-DAC QSFP+ auf 4x SFP+ – aktives Twinax-Kupferkabel, Länge 5 m
+- kind=pluggable noun=optic: 41
+    - 100G-SR4BD-QSFP100M | Extreme 100G-SR4BD-QSFP100M 100G QSFP28 BDSR-Transceiver – Multimode (OM4), LC, bis 100 m
+    - 100G-SWDM4-QSFP100M | Extreme 100G-SWDM4-QSFP100M 100G QSFP28 SWDM4-Transceiver – Multimode, LC, bis 100 m
+    - 100G-ESR4-QSFP300M | Extreme 100G-ESR4-QSFP300M 100G QSFP28 ESR4-Transceiver – Multimode (OM4), MPO, bis 300 m
+    - 100G-DR-QSFP500M | Extreme 100G-DR-QSFP500M 100G QSFP28 DR-Transceiver – Singlemode, LC, bis 500 m
+    - 100G-CWDM2-QSFP2KM | Extreme 100G-CWDM2-QSFP2KM 100G QSFP28 CWDM4-Transceiver – Singlemode, LC, bis 2 km
+    - 100G-LR4-QSFP2KM | Extreme 100G-LR4-QSFP2KM 100G QSFP28 LR4-2-Transceiver – Singlemode, LC, bis 2 km
+    - 100G-FR-QSFP2KM | Extreme 100G-FR-QSFP2KM 100G QSFP28 FR-Transceiver – Singlemode, LC, bis 2 km
+    - 100G-LR-QSFP10KM | Extreme 100G-LR-QSFP10KM 100G QSFP28 LR-Transceiver – Singlemode, LC, bis 10 km
+
+### fortinet / transceiver
+- kind=pluggable noun=breakout-cable: 4
+    - FG-TRAN-QSFP-4XSFP | Fortinet FG-TRAN-QSFP-4XSFP MPO-Breakout-Glasfaserkabel zu 4x SFP+/SFP28 – OM3
+    - FG-TRAN-QSFP-4SFP-5 | Fortinet FG-TRAN-QSFP-4SFP-5 MPO-Breakout-Glasfaserkabel zu 4x SFP+/SFP28 – OM3
+    - FG-CABLE-SR10-SFP+ | Fortinet FG-CABLE-SR10-SFP+ 100 GE MPO-Breakout-Glasfaserkabel zu 10x 10 GE SFP+ – OM3, 1 m
+    - FG-CABLE-SR10-SFP+5 | Fortinet FG-CABLE-SR10-SFP+5 100 GE MPO-Breakout-Glasfaserkabel zu 10x 10 GE SFP+ – OM3, 5 m
+- kind=pluggable noun=cable: 29
+    - FN-CABLE-SFP+3 | Fortinet FN-CABLE-SFP+3 10 GE DAC – fest konfektioniert, 3 m
+    - FN-CABLE-QSFP+7-4PACK | Fortinet FN-CABLE-QSFP+7-4PACK 40 GE DAC (4er-Pack) – fest konfektioniert, 7 m
+    - FN-CABLE-SFP56-DAC-LB5 | Fortinet FN-CABLE-SFP56-DAC-LB5 50 GE DAC – fest konfektioniert, 2.5 m
+    - FN-CABLE-QSFP28-1 | Fortinet FN-CABLE-QSFP28-1 100 GE DAC – fest konfektioniert, 1 m
+    - FN-CABLE-QSFP28-2 | Fortinet FN-CABLE-QSFP28-2 100 GE DAC – fest konfektioniert, 2 m
+    - FN-CABLE-QSFP28-3 | Fortinet FN-CABLE-QSFP28-3 100 GE DAC – fest konfektioniert, 3 m
+    - FN-CABLE-QSFPDD-DAC-B5 | Fortinet FN-CABLE-QSFPDD-DAC-B5 400 GE DAC – fest konfektioniert, 2.5 m
+    - FN-CABLE-QSFPDD-AOC-03 | Fortinet FN-CABLE-QSFPDD-AOC-03 400 GE AOC – fest konfektioniert, 3 m
+- kind=pluggable noun=optic: 54
+    - FN-TRAN-EX-4PACK | Fortinet FN-TRAN-EX-4PACK 1 GE SFP-Transceiver – Singlemode-Glasfaser, Duplex LC, 40 km
+    - FR-TRAN-ZX | Fortinet FR-TRAN-ZX 1 GE SFP-Transceiver – Singlemode-Glasfaser, Duplex LC, 90 km
+    - FN-TRAN-SFP2-LX | Fortinet FN-TRAN-SFP2-LX 2.5 GE SFP-Transceiver – Singlemode-Glasfaser, Duplex LC, 25 km
+    - FN-TRAN-SFP2-SX | Fortinet FN-TRAN-SFP2-SX 2.5 GE SFP-Transceiver – Multimode-Glasfaser, Duplex LC, 300 m
+    - FN-TRAN-SFP+SR | Fortinet FN-TRAN-SFP+SR 10 GE SFP+-Transceiver – Multimode-Glasfaser, Duplex LC, 550 m
+    - FN-TRAN-SFX | Fortinet FN-TRAN-SFX 100 M SFP-Transceiver – Multimode-Glasfaser, Duplex LC, 2 km
+    - FN-TRAN-FE-4PACK | Fortinet FN-TRAN-FE-4PACK 100M SFP-Transceiver – Kupfer (Twisted-Pair), RJ-45, 100 m
+    - FG-TRAN-CFP2-LR4 | Fortinet FG-TRAN-CFP2-LR4 100 GE CFP2-Transceiver – Singlemode-Glasfaser, Duplex LC, 10 km
+
+### hpe / interfaces-modules
+- kind=module noun=(none): 8
+    - Q5T66A | HPE KVM Console SFF USB Interface Adapter
+    - 845970-B21 | HPE QSFP28 to SFP28 Adapter
+    - Q5T67A | HPE KVM Console SFF USB 8-pack Interface Adapter
+    - AF629A | HPE KVM Console USB 2.0 Virtual Media CAC Interface Adapter
+    - AF654A | HPE KVM Console USB/Display Port Interface Adapter
+    - JM996A | HPE Aruba Networking EC-XS A1 Power Adapter
+    - R9Y46A | HPE Aruba Networking EdgeConnect 10104 Power Adapter
+    - S2D95A | HPE Aruba Networking EdgeConnect EC-10106/EC-10108 54V Power Adapter
+- kind=module noun=cable: 197
+    - R9J32A | HPE Aruba Networking USB-A reversible to USB-C PC-to-Switch 3m Cable
+    - R9J33A | HPE Aruba Networking USB-C to USB-C PC-to-Switch 3m Cable
+    - R9F83A | HPE Aruba Networking 10G SFP+ to SFP+ 1m Direct Attach Copper Cable
+    - R9F84A | HPE Aruba Networking 10G SFP+ to SFP+ 3m Direct Attach Copper Cable
+    - R9F92A | HPE Aruba Networking 25G SFP28 to SFP28 3m Direct Attach Copper Cable
+    - JD095C | HPE Networking X240 10G SFP+ SFP+ 0.65m DAC Cable
+    - JD096C | HPE Networking X240 10G SFP+ SFP+ 1.2m DAC Cable
+    - JD097C | HPE Networking X240 10G SFP+ SFP+ 3m DAC Cable
+- kind=module noun=fan: 28
+    - S0F93A | HPE Aruba Networking X761 Front-to-Back Fan
+    - S0F94A | HPE Aruba Networking X762 Back-to-Front Fan
+    - R8Z99A | HPE Aruba Networking 9300 Front-to-Back Fan
+    - R9A00A | HPE Aruba Networking 9300 Back-to-Front Fan
+    - JL669B | HPE Aruba Networking X751 Front to Back Fan Tray
+    - JL761A | HPE Aruba Networking CX 6300M Power-to-Port Fan Tray
+    - JL714A | HPE Aruba Networking X741 Port-to-Power Fan
+    - R9F62A | HPE Aruba Networking CX 6300M Power-to-Port Airflow Fan Tray
+- kind=module noun=mechanical: 16
+    - S3P32A | HPE Aruba Networking EdgeConnect 10020 4 Post Sliding Rail Kit
+    - R1B30A | HPE Aruba Networking 9004-MNT-19 9004 Series 19-inch Rack Mount Kit
+    - R3W17A | HPE Aruba Networking 9004-LTE-MNT-19 9004-LTE Series 19-inch Rack Mount Kit
+    - R4X13A | HPE Aruba Networking 9012-MNT-19 9012 Gateway Spare 19-inch Rack Mount Kit
+    - J9583B | HPE Aruba Networking X414 1U Universal 4-post Rack Mount Kit
+    - R9F57A | HPE Aruba Networking 1U Universal 4-post Rack Mount Kit
+    - R9F60A | HPE Aruba Networking Universal 4-post Duct Kit
+    - JQ059A | HPE Networking Comware 12900E Chassis Universal Rack Mount Kit
+- kind=module noun=module: 38
+    - JH957A | HPE Networking 5950 8-port QSFP28 MACsec Module
+    - R6Q99A | HPE Aruba Networking AP-MOD-SERU Micro-USB TTL3.3V to RJ45 RS232 AP Console Adapter Module
+    - R9Y49A | HPE Aruba Networking EdgeConnect 1000BASE-T Copper SFP Transceiver Module
+    - S0U61A | HPE Aruba Networking CX 5420 24p 10M/100M/1G Module
+    - S0U62A | HPE Aruba Networking CX 5420 24p 10M/100M/1G Class4 PoE Module
+    - S0U63A | HPE Aruba Networking CX 5420 20p 10M/100M/1G Class4 PoE 4p SFP+ 1G/10G LRM Module
+    - S0U75A | HPE Aruba Networking CX 5420 8p Smart Rate 1G/2.5G/5G/10G Class8 PoE TAA Module
+    - S0U76A | HPE Aruba Networking CX 5420 16p Smart Rate 1G/2.5G/5G Class6 PoE TAA Module
+- kind=module noun=power: 21
+    - JL757A | HPE Aruba Networking CX 6300M 250W 36-72VDC Input Non-PoE Power Supply
+    - JL760A | HPE Aruba Networking X371 12VDC 250W 100-240VAC Power-to-Port Power Supply
+    - JL086A | HPE Aruba Networking X372 54VDC 680W 100-240VAC Power Supply
+    - JL758A | HPE Aruba Networking CX 6300M 1050W 36-72VDC Input PoE Power Supply
+    - JD366B | HPE Networking X361 150W 48-60VDC to 12VDC Power Supply
+    - R8Z97A | HPE Aruba Networking 9300 1500W 100-240VAC Front-to-Back AC Power Supply
+    - R8Z98A | HPE Aruba Networking 9300 1500W 100-240VAC Back-to-Front AC Power Supply
+    - JL670A | HPE Aruba Networking X372 54VDC 1600W 110-240VAC Power Supply
+- kind=module noun=power-cord: 35
+    - Q0Q03A | HPE C13 - C14 WW 250V 10Amp 1.4m Black 6-pack Locking Power Cord
+    - Q0P69A | HPE C13 - C14 WW 250V 10Amp 2m Black Locking Power Cord
+    - Q0Q04A | HPE C13 - C14 WW 250V 10Amp 2m Black 6-pack Locking Power Cord
+    - JW116A | HPE Aruba Networking PC-AC-CHN 250V/10A 1.8m C13 to GB2099 (CH) AC Power Cord
+    - JW117A | HPE Aruba Networking PC-AC-DEN 250V/10A 1.8m C13 to AFSNIT 107-2-D1 (DK) AC Power Cord
+    - JW118A | HPE Aruba Networking PC-AC-EC 250V/10A 1.8m C13 to CEE7/7 (EU) AC Power Cord
+    - JW119A | HPE Aruba Networking PC-AC-IN 250V/6A 1.8m C13 to IS1293 (IN) AC Power Cord
+    - JW120A | HPE Aruba Networking PC-AC-IL 250V/10A 1.8m C13 to SI32 (IL) AC Power Cord
+- kind=module noun=supervisor: 3
+    - R0X31A | HPE Aruba Networking CX 6400 Management Module
+    - S0U55A | HPE Aruba Networking CX 5420 Management Module
+    - S0U58A | HPE Aruba Networking CX 5420 TAA Management Module
+- kind=module noun=switch: 1
+    - S1H23A | HPE Aruba Networking CX Switch Bluetooth Adapter
+
+### hpe / routers
+- kind=enterprise noun=gateway: 61
+    - R3V93A | HPE Aruba Networking 9004 (IL) 4-Port 10/100/1000BASE-T 2K Clients with LTE TAA Branch Gateway
+    - R1B31A | HPE Aruba Networking 9012 (US) 12xGbE 6xPoE+ Branch 2K Clients - 32 APs Gateway
+    - R9D72A | HPE Aruba Networking EdgeConnect 10104 4x RJ45 10/100/1000 Gateway
+    - S3N78A | HPE Aruba Networking EdgeConnect 10104 4x RJ45 TAA SD-WAN Gateway
+    - S0E22A | HPE Aruba Networking EdgeConnect 10106 1G 2x SFP 2x Combo 1G 2x RJ45 PoE+ SD-WAN Gateway
+    - S3N70A | HPE Aruba Networking EdgeConnect Extra Small 4x RJ45 NAL SD-WAN Gateway
+    - S3N73A | HPE Aruba Networking EdgeConnect Small-P 4x SFP+ 10x RJ45 AC PSU 2xSSD NAL SD-WAN Gateway
+    - S3N74A | HPE Aruba Networking EdgeConnect Small-P 4x SFP+ 10x RJ45 DC PSU 2xSSD NAL SD-WAN Gateway
+
+### hpe / switches
+- kind=switch noun=(none): 12
+    - JH107A | HPE FlexFabric 12900E LPU Adapter (JH107A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE Comware
+    - JC699A | HPE FlexNetwork 7500 384Gbps TAA-compliant Fabric/MPU with 2 10GbE XFP Ports (JC699A) – Modul für die modularen HPE-Flex
+    - JC666A | HPE 7503-S 144Gbps Fabric/MPU with PoE Upgradable 20-port Gig-T/4-port GbE Combo (JC666A) – Modul für die modularen HPE-
+    - S4P46A | HPE Aruba Networking CX 6300M 32p SmtRt 5G 8p SFP+ 10G LRM 2p SFP56 50G 2p SFP28 25G MACsec TAA Sw
+    - S7K42A | HPE Networking CX6300M 48p 1G Class8 PoE 2p SFP56 50G 2p SFP28 25G MACsec TAA Sw
+    - S7K43A | HPE Networking CX6300M 24p 1G Class8 PoE 2p SFP56 50G 2p SFP28 25G MACsec TAA Sw
+    - S0E92A | HPE Networking CX6300M 48p Smart Rate 10G PTP/AVB Class8 PoE 4320W 4p QSFP28 100G MACsec Sw
+    - S4P42A | HPE Aruba Networking CX 6300M 32p SmtRt 5G CL8 8p SFP+ 10G LRM 2p SFP56 50G 2p SFP28 25G MACsec Sw
+- kind=switch noun=chassis: 32
+    - JG608A | HPE FlexFabric 11908-V JG608A modulares Switch-Chassis – 8 I/O + 4 Switch-Fabric + 2 MPU-Steckplätze, 20 HE, HPE Comware
+    - JC654A | HPE FlexFabric 12504 AC JC654A modulares Switch-Chassis – 4 I/O + 4 Switch-Fabric + 2 MPU-Steckplätze, 10 HE, HPE Comwar
+    - JC655A | HPE FlexFabric 12504 DC JC655A modulares Switch-Chassis – 4 I/O + 4 Switch-Fabric + 2 MPU-Steckplätze, 10 HE, HPE Comwar
+    - JF431C | HPE FlexFabric 12508 AC JF431C modulares Switch-Chassis – 8 I/O + 9 Switch-Fabric + 2 MPU-Steckplätze, 22 HE, HPE Comwar
+    - JF430C | HPE FlexFabric 12518 AC JF430C modulares Switch-Chassis – 18 I/O + 9 Switch-Fabric + 2 MPU-Steckplätze, 38 HE, HPE Comwa
+    - JH345A | HPE FlexFabric 12902E JH345A modulares Switch-Chassis – 2 I/O-Steckplätze + 2 integrierte Fabric-Module + 2 MPU-Steckplä
+    - JH262A | HPE FlexFabric 12904E JH262A modulares Switch-Chassis – 4 I/O + 6 Switch-Fabric + 2 MPU-Steckplätze, 6 HE, HPE Comware v
+    - JH255A | HPE FlexFabric 12908E JH255A modulares Switch-Chassis – 8 I/O + 6 Switch-Fabric + 2 MPU-Steckplätze, 12 HE, HPE Comware 
+- kind=switch noun=fabric: 26
+    - JG610A | HPE FlexFabric 11908 1.92Tbps Type D Fabric Module (JG610A) – Modul für das HPE-FlexFabric-11908-V-Chassis (JG608A), HPE
+    - JH264A | HPE FlexFabric 12904E 2.5Tbps Type F Fabric Module (JH264A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE
+    - JH364A | HPE FlexFabric 12904E 7.2Tbps Type H Fabric Module (JH364A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE
+    - JL841A | HPE Networking 12904E Type X Fabric Module (JL841A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE Comware
+    - R9F14A | HPE Networking 12904E Type H2 Fabric Module (R9F14A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE Comwar
+    - JH257A | HPE FlexFabric 12908E 5.0Tbps Type F Fabric Module (JH257A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE
+    - JH362A | HPE FlexFabric 12908E 14.4Tbps Type H Fabric Module (JH362A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HP
+    - JL842A | HPE Networking 12908E Type X Fabric Module (JL842A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE Comware
+- kind=switch noun=fc-switch: 13
+    - R7R97A | HPE SN3600B 32Gb 24/8 8-port 32Gb Short Wave SFP28 Fibre Channel Switch
+    - S1V12A | HPE SN6720C 64 GB 48/24 64 GB Short Wave SFP+ Fibre Channel Switch
+    - S0W95A | HPE SN6720C 64 GB 48/48 64 GB Short Wave SFP+ Fibre Channel Switch
+    - R8U61A | HPE SN6750B 64 GB 48/128 48-port 64 GB Short Wave SFP56 Integrated Fibre Channel Switch
+    - Q9V96C | HPE SN6650B 32Gb 128/96 Power Pack+ 96-port 32Gb Short Wave SFP+ Integrated Fibre Channel Switch
+    - R4G55B | HPE SN3600B 32Gb 24/8 8-port 16Gb Short Wave SFP+ Fibre Channel Switch
+    - R8P28A | HPE SN3600B 32Gb 24/24 Power Pack+ 24-port 32Gb Short Wave SFP28 Fibre Channel Switch
+    - S1V07A | HPE SN6720C 64 GB 48/24 Fibre Channel Switch
+- kind=switch noun=linecard: 16
+    - J8706A | HP ProCurve zl J8706A Linecard (v1) – 24× SFP (1G) für 5400zl/8200zl
+    - J9535A | HP ProCurve zl J9535A Linecard (v2) – 20× Gig-T PoE+ + 4× SFP für 5400zl/8200zl
+    - J9536A | HP ProCurve zl J9536A Linecard (v2) – 20× Gig-T PoE+ + 2× SFP+ für 5400zl/8200zl
+    - J9537A | HP ProCurve zl J9537A Linecard (v2) – 24× SFP (1G) für 5400zl/8200zl
+    - J9538A | HP ProCurve zl J9538A Linecard (v2) – 8× 10-GbE SFP+ für 5400zl/8200zl
+    - J9547A | HP ProCurve zl J9547A Linecard (v2) – 24× 10/100 PoE+ für 5400zl/8200zl
+    - J9550A | HP ProCurve zl J9550A Linecard (v2) – 24× Gig-T für 5400zl/8200zl
+    - J8702A | HP ProCurve zl J8702A Linecard (v1) – 24× Gig-T PoE für 5400zl/8200zl
+- kind=switch noun=module: 125
+    - JC620A | HPE A10500 4-port 10-GbE XFP SE Module (JC620A) – Modul für die modularen HPE-FlexNetwork-10500-Chassis, HPE Comware
+    - JC621A | HPE 10500 16-port GbE SFP / 8-port GbE Combo / 2-port 10GbE XFP EA Module (JC621A) – Modul für die modularen HPE-FlexNet
+    - JC622A | HPE 10500 48-port GbE SFP EA Module (JC622A) – Modul für die modularen HPE-FlexNetwork-10500-Chassis, HPE Comware
+    - JC763A | HPE 10500 16-port GbE SFP / 8-port GbE Combo SE Module (JC763A) – Modul für die modularen HPE-FlexNetwork-10500-Chassis,
+    - JH192A | HPE FlexNetwork 10500 48-port 1000BASE-T SE Module (JH192A) – Modul für die modularen HPE-FlexNetwork-10500-Chassis, HPE
+    - JG394A | HPE 10500 24-port 1/10GBASE-T SF Module (JG394A) – Modul für die modularen HPE-FlexNetwork-10500-Chassis, HPE Comware
+    - JD221A | HPE FlexNetwork 7500 48-port GbE SFP Enhanced Module (JD221A) – Modul für die modularen HPE-FlexNetwork-7500-Chassis, HP
+    - JD237A | HPE FlexNetwork 7500 48-port GbE SFP SD Module (JD237A) – Modul für die modularen HPE-FlexNetwork-7500-Chassis, HPE Comw
+- kind=switch noun=supervisor: 19
+    - JH346A | HPE FlexFabric 12902E Main Processing Unit (JH346A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE Comware
+    - JH668A | HPE FlexFabric 12904E v2 Main Processing Unit (JH668A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE Comw
+    - R9F17A | HPE Networking 12904E Type H2 Main Processing Unit (R9F17A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE
+    - JH669A | HPE FlexFabric 12900E v2 Main Processing Unit (JH669A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE Comw
+    - JL844A | HPE Networking 12904E Type X Main Processing Unit (JL844A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE 
+    - JL845A | HPE Networking 12900E Type X Main Processing Unit (JL845A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE 
+    - R9F18A | HPE Networking 12900E Type H2 Main Processing Unit (R9F18A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE
+    - JG621A | HPE FlexFabric 12910 Main Processing Unit (JG621A) – Modul für die modularen HPE-FlexFabric-12900E-Chassis, HPE Comware
+- kind=switch noun=switch: 204
+    - JG933A | HPE FlexNetwork 5130-24G-SFP-4SFP+ EI JG933A Managed Switch (L2) – 16× 100/1000 (SFP) + 8× Dual-Personality (10/100/1000
+    - JG937A | HPE FlexNetwork 5130-48G-PoE+-4SFP+ EI JG937A Managed Switch (L2) – 48× 10/100/1000 (RJ45, PoE+) + 4× 1/10G SFP+, 19-Zol
+    - JG938A | HPE FlexNetwork 5130-24G-2SFP+-2XGT EI JG938A Managed Switch (L2) – 24× 10/100/1000 (RJ45) + 2× 1/10G SFP+ + 2× 1/10GBAS
+    - J9623A | HP ProCurve 2620-24 J9623A Managed Switch (L3) – 24× 10/100 (RJ45) + 2× 10/100/1000 (RJ45) + 2× SFP (1G), 19-Zoll-Rackmo
+    - J9470A | HP ProCurve 3500-24 J9470A Managed Switch (L3) – 20× 10/100 (RJ45) + 4× Dual-Personality-Ports (RJ45 10/100/1000 oder SF
+    - J9471A | HP ProCurve 3500-24-PoE J9471A Managed Switch (L3) – 20× 10/100 (RJ45, Class 3 PoE) + 4× Dual-Personality-Ports (RJ45 10
+    - J9019B | HP ProCurve 2510-24 J9019B Managed Switch (L2) – 24× 10/100 (RJ45) + 2× Dual-Personality-Ports (RJ45 10/100/1000 oder SF
+    - J9020A | HP ProCurve 2510-48 J9020A Managed Switch (L2) – 48× 10/100 (RJ45) + 2× 10/100/1000 (RJ45) + 2× SFP (1G), 19-Zoll-Rackmo
+
+### hpe / transceiver
+- kind=pluggable noun=(none): 2
+    - S4J85A | HPE NW CW 400G DR4 QDD MPO 500m XCVR
+    - S4J87A | HPE NW CW 400G LR4 WDM QDD LC 10km XCVR
+- kind=pluggable noun=cable: 69
+    - R9B59A | HPE Aruba Networking R9B59A 200G Breakout-AOC zu 2x QSFP28 – 50 m
+    - R6F24A | HPE Aruba Networking R6F24A 200G Breakout-AOC zu 2x QSFP56 – 3 m
+    - R6F25A | HPE Aruba Networking R6F25A 200G Breakout-AOC zu 2x QSFP56 – 5 m
+    - R6F26A | HPE Aruba Networking R6F26A 200G Breakout-AOC zu 2x QSFP56 – 15 m
+    - R6F27A | HPE Aruba Networking R6F27A 200G QSFP56-zu-QSFP56 DAC – fest konfektioniert, 2.5 m
+    - R0Z25A | HPE Aruba Networking R0Z25A 100G QSFP28-zu-QSFP28 DAC – fest konfektioniert, 1 m
+    - JL307A | HPE Aruba Networking JL307A 100G QSFP28-zu-QSFP28 DAC – fest konfektioniert, 3 m
+    - R0Z26A | HPE Aruba Networking R0Z26A 100G QSFP28-zu-QSFP28 DAC – fest konfektioniert, 5 m
+- kind=pluggable noun=optic: 214
+    - S1C96A | HPE Aruba Networking 25G BiDi 10km-Downstream 1330/1270 Transceiver
+    - S1C98A | HPE Aruba Networking 25G BiDi 10km-Upstream 1270/1330 Transceiver
+    - S0V66A | HPE Aruba Networking 50G ER 40km SMF Transceiver
+    - S1C93A | HPE Aruba Networking 100G SR2 MPO QSFP28 100m MMF Transceiver
+    - R9Q44A | HPE Aruba Networking 1G SFP LC LX 10km SMF TAA Transceiver
+    - R9Q46A | HPE Aruba Networking 10G SFP+ LC SR 300m MMF TAA Transceiver
+    - R9Q47A | HPE Aruba Networking 10G SFP+ LC LR 10km SMF TAA Transceiver
+    - JH672A | HPE Networking X150 100G QSFP28 eSR4 300m MM Transceiver
+
+### hpe / wireless
+- kind=other noun=ap: 2
+    - S3J35A | HPE Aruba Networking AP-635 (RW) Tri Radio 2x2 Wi-Fi 6E Internal Antennas 5-pack Campus Access Point
+    - S3J36A | HPE Aruba Networking AP-635 (US) Tri Radio 2x2 Wi-Fi 6E Internal Antennas 5-pack Campus Access Point
+
+### juniper / interfaces-modules
+- kind=module noun=(none): 50
+    - FPC-SFF-PTX-P1-A | First generation FPC
+    - FPC3-PTX-U2 | Third generation FPC
+    - FPC3-PTX-U3 | Third generation FPC
+    - FPC3-SFF-PTX-U0 | Third generation FPC
+    - MX2K-MPC8E | MPC8E
+    - MX2K-MPC9E | MPC9E
+    - DPCE-R-Q-20GE-2XGE | Multi-Rate Ethernet Enhanced Queuing IP Services DPC with SFP and XFP
+    - DPCE-X-4XGE-XFP | 10-Gigabit Ethernet Enhanced Ethernet Services DPC with XFP
+- kind=module noun=chassis: 2
+    - QFX5K-FPC-16C | 16X100G linecard for QFX5700 chassis
+    - QFX5K-FPC-4CD | 4X400G linecard for QFX700 chassis
+- kind=module noun=linecard: 8
+    - MPC-3D-16XGE-SFPP | 16x10GE MPC
+    - MPC10E-10C | MPC10E-10C-MRATE/MPC10E-10C-P-BASE, 10 x QSFP28/QSFP56-DD multirate port line card
+    - MPC10E-15C | MPC10E-15C-MRATE/MPC10E-15C-P-BASE, 15 x QSFP28/QSFP56-DD multirate port line card
+    - MS-MPC | Multiservices MPC
+    - MX2K-MPC11E | The MX2K-MPC11E is a fixed-configuration Module Port Concentrator (MPC) which delivers bandwidth up to 4-Tbps per MPC sl
+    - QFX5K-FPC-20Y | 20X50G linecard for QFX5700
+    - SRX5K-MPC | MPC with slots for two MICs
+    - SRX5K-MPC3-100G10G | Fixed-configuration MPC with two 100-Gigabit Ethernet ports and four 10-Gigabit Ethernet ports
+- kind=module noun=module: 59
+    - MIC-3D-20GE-SFP-EH | Gigabit Ethernet MIC with SFP (EH)
+    - P2-10G-40G-QSFPP | 10-Gigabit Ethernet/40-Gigabit Ethernet LAN/WAN OTN PIC with QSFP+ (PTX Series)
+    - EX9200-10XS-MIC | EX9200 MIC, 10-port 10GbaseX (Half-slot)
+    - EX9200-20F-MIC | EX9200 MIC, 20-port GbaseX (Half-slot)
+    - EX9200-40T-MIC | EX9200 MIC, 40x GbaseT (full-slot)
+    - JNP-MIC1 | 12x100G/12x40G/48x10G Universal MIC
+    - JNP-MIC1-MACSEC | 12x100G/12x40G/48x10G Universal MACSEC MIC
+    - MIC-3D-10GE-SFP-E | Gigabit Ethernet MIC with SFP (E)
+
+### juniper / power-cables
+- kind=(undefined) noun=(no name): 18
+    - CBL-JNP-SG4RA-C20 | 
+    - CBL-JNP-SGR4L-C20 | 
+    - CBL-JNP-SGR4LC20CH | 
+    - CBL-MX-PWR-C13-SZ | 
+    - CBL-PTX-AC-D-S | 
+    - CBL-PTX-AC-W-S | 
+    - CBL-PTX-LA-AU | 
+    - CBL-PTX-LA-CH | 
+- kind=(undefined) noun=(none): 1
+    - CBL-PWR-RA-JP15 | JIS 8303 15A/125V 2.5m length for Japan
+- kind=(undefined) noun=cable: 2
+    - CBL-MX-PWR-C19-C20 | AC Patch Cable - C20 PDU (16A/250V, 2.5m)
+    - CBL-JNP-PWR-DSUB4 | Power Cord, DC,D-Sub, 3-Wire cable assy,12AWG, 20A,48/60V, 80C, 3.98m, Single Ended, Straight
+- kind=(undefined) noun=power-cord: 164
+    - CBL-ACX-PWR-C19-UK | Power Cord, AC, UK, 13A/250V, 90C, 2.5m, Straight BS1363/A SS145 to EN 60320/C19
+    - CBL-ACX-PWR-C19-US | Power Cord, AC, North America, 20A/250V, 105C, 2.5m, Straight NEMA 6-20 to EN 60320/C19
+    - CBL-C13-C14-IN-2M | Power Cord, AC, India, C13, 10A, 250V, 2m, Straight, C14 to C13
+    - CBL-C13-C14-INT-2M | Power Cord, AC, International(except India) C13, 10A, 250V, 2m, Straight, C13 to C14
+    - CBL-C15-C14-CN-2M | Power Cord, AC, Brazil,China,South Korea C14,10A, 250V, 2m, Straight, C14 to C15
+    - CBL-C15-C14-EU-2M | Power Cord, AC, Europe,Israel,South Africa,10A, 250V, 2m, Straight, C14 to C15
+    - CBL-C15-C14-IN-2M | Power Cord, AC, India, C13, 10A, 250V, 2m, Straight, C14 to C15
+    - CBL-C15-C14-TW-2M | Power Cord, AC, Taiwan, C14, 10A, 250V, 2m, Straight, C14 to C15
+
+### juniper / power-supplies
+- kind=(undefined) noun=(no name): 32
+    - JNP-3000W-DCAFO2 | 
+    - JNP-PWR-3K-AC-BB | 
+    - JNP-PWR-3K-DC-BB | 
+    - JNP-PWR1100-DC-BB | 
+    - JNP-PWR1600-AC-BB | 
+    - JNP-PWR2200-AC-BB | 
+    - JNP-PWR2200-DC-BB | 
+    - JNP-PWR2200-HV-BB | 
+- kind=(undefined) noun=(none): 1
+    - MX960-PSM-HV-BB | MX960 Universal High Voltage AC/DC SUPPLY, BASE
+- kind=(undefined) noun=module: 6
+    - JPSU-850W-HV-AFI | QFX5K and other platforms HV 277VAC/380VDC POWER SUPPLY MODULE, Back to Front Airflow
+    - JPSU-850W-HV-AFO | QFX5K and other platforms HV 277VAC/380VDC POWER SUPPLY MODULE, Front to Back Airflow
+    - MX2000-PSM-AC-BB | MX2000 Power Supply Module, Base Bundle
+    - MX2000-PSM-DC-BB | MX2000 DC Power Supply Module, Base Bundle
+    - MX2K-PSM-HV-BB | MX2K HV 277VAC/380VDC POWER SUPPLY MODULE, BASE
+    - MX960-PSM-5K-AC-BB | MX960 5000W AC Power Supply Module, BASE
+- kind=(undefined) noun=power: 66
+    - ACX7300-2K-AC-BB | ACX7300 AC Power Supply Base Bundle , 2000W
+    - ACX7300-2K-DC-BB | ACX7300 DC Power Supply Base Bundle , 2000W
+    - JNP-2200W-AC2-BB | Juniper AC Power Supply, 2200W, front-to-back airflow, Base
+    - JNP-2200W-DC2-BB | Juniper DC Power Supply, 2200W, front-to-back airflow, Base
+    - JNP-2400W-DC-AFI | Juniper DC Power Supply, 2400W, back-to-front airflow
+    - JNP-2700W-AC-AFI | Juniper AC Power Supply, 2700W, back-to-front airflow
+    - JNP-3000W-AC-AFO | PTX10000 2700 W AC power supply
+    - JNP-3000W-DC-AFO | PTX10000 2700 W AC power supply
+- kind=(undefined) noun=power-cord: 8
+    - JPSU-150-AC-AFI | EX4100 and EX3400 150W AC Power Supply, Back-to-front airflow (power cord needs to be ordered separately)
+    - JPSU-150-AC-AFO | EX4100 and EX3400 150W AC Power Supply, Front-to-back airflow (power cord needs to be ordered separately)
+    - JPSU-150-DC-AFO | EX3400 150W DC Power Supply, front-to-back airflow (power cord needs to be ordered separately)
+    - JPSU-600-AC-AFO | EX3400 600W AC Power Supply, front-to-back airflow (power cord needs to be ordered separately)
+    - JPSU-920-AC-AFO | EX4100 and EX3400 920W AC Power Supply, Front-to-Back airflow (power cord needs to be ordered separately)
+    - PWR-MX480-2520-AC-BB | 2520W AC Power Supply, configurable option in base bundle (Note: AC power cords are sold separately)
+    - PWR-MX960-4100-AC-BB | 4100W AC Power Supply, configurable option in base bundle (Note: AC power cords are sold separately)
+    - PWR-MX960-4100-AC-S | 4100W AC Power Supply, Spare (Note: AC power cords are sold separately)
+- kind=(undefined) noun=switch: 4
+    - EX4100-F-PWR-280W | Power adapter(280W) for EX4100-F-12P switch
+    - EX4100-F-PWR-75W | Power adapter(75W) for EX4100-F-12T switch
+    - JPSU-H-340W-E-AC | AC external PSU for EX hardened switch EX4100-H-12MP-AC
+    - JPSU-H-340W-E-DC | DC external PSU for EX hardened switch EX4100-H-12MP-DC
+
+### juniper / transceiver
+- kind=bidi noun=optic: 35
+    - SFP-25G-BX10D-I | SFP28 25GE BX10D BiDi I-Temp Transceiver
+    - SFPP-10GE-OLT | SFP+ 10GE OLT PON Transceiver
+    - SFPP-10GE-OLT-IT | SFP+ 10G PON OLT I-Temp Transceiver
+    - JNP-SFP-10G-BX40U | Juniper JNP-SFP-10G-BX40U 10 Gbit/s 10GBASE-BX-Transceiver – Singlemode-Glasfaser (SMF), Simplex LC, bis 40 km
+    - SFPP-10GE-BX10U-IT | Juniper SFPP-10GE-BX10U-IT 10 Gbit/s 10GBASE-BX-Transceiver – Singlemode-Glasfaser (SMF), Simplex LC, bis 10 km
+    - EX-SFP-10GE-BX23-60 | Juniper EX-SFP-10GE-BX23-60 10 Gbit/s 10GBASE-BX-Transceiver – Singlemode-Glasfaser (SMF), Simplex LC, bis 23 km
+    - JNP-SFP-10G-BX20U | Juniper JNP-SFP-10G-BX20U 10 Gbit/s 10GBASE-BX-Transceiver – Singlemode-Glasfaser (SMF), Simplex LC, bis 20 km
+    - JNP-SFP-10G-BX40D | Juniper JNP-SFP-10G-BX40D 10 Gbit/s 10GBASE-BX-Transceiver – Singlemode-Glasfaser (SMF), Simplex LC, bis 40 km
+- kind=pluggable noun=(none): 171
+    - OSFP-2X400G-LR4-P | OSFP800, 2x400G-LR4-10, SMF 10 km, 0°C through 70°C, Dual Duplex LC UPC receptacle.
+    - OSFP-2X400G-VR4-P | OSFP800, 2x400GBASE-VR4, 20°C through 70°C, OM4 50 m, Dual MPO-12/APC receptacle.
+    - OSFP-800G-DR8-2-P | OSFP800, integrated heat sink, 800GBASE-DR8-2, 0°C through 70°C, SMF 2 km, Dual MPO-12/APC receptacle
+    - CFP2-DCO-100G-HG | CFP2 Digital Coherent Optic with HGFEC support operable at 100G rate only
+    - OSFP-8X100G-LR1 | OSFP800, 8x100GBASE-LR1/100G-LR1, 0°C through 70°C, SMF 10 km, MPO-16 APC receptacle
+    - CFP2-100G-LR4-D | CFP2, IEEE 100GBASE-LR4 and OTU-T 4I1-9D1F dual rate, SMF 10km, 0 to 70°C, Duplex LC connector
+    - CFP2-100G-SR10-D3 | CFP2 100G Short range optics for Ethernet and OTN dual rate, used for Single rate Ethernet
+    - EX-SFP-GE80KCW1490 | SFP, Gigabit Ethernet CWDM Optics, 1490nm for 80 km Transmission on SMF
+- kind=pluggable noun=breakout-cable: 15
+    - QDD-2X100G-1M | 200G DAC Breakout into 2x100G, 1M
+    - QDD-2X100G-3M | 200G DAC Breakout into 2x100G, 3M
+    - JNP-100G-2X50G-1M | 100G DAC Breakout into 2x50G 1M
+    - JNP-100G-2X50G-2M | 100G DAC Breakout into 2x50G 2M
+    - JNP-100G-2X50G-3M | 100G DAC Breakout into 2x50G 3M
+    - JNP-100G-2X50G-5M | 100G DAC Breakout into 2x50G 5M
+    - QDD-2X200G-1M | 400G DAC Breakout into 2X200G, 1m
+    - QDD-2X200G-2M | 400G DAC Breakout into 2X200G, 2m
+- kind=pluggable noun=cable: 135
+    - JNP-QSFP-DAC-10MA | QSFP+ 40GBase Direct Attach Copper Cable 10-meter,active
+    - OSFP-800G-AOC-10M | OSFP 800G AOC 10m
+    - OSFP-800G-AOC-30M | OSFP 800G AOC 30m
+    - OSFP-800G-AOC-3M | OSFP 800G AOC 3m
+    - OSFP-800G-AOC-5M | OSFP 800G AOC 5m
+    - OSFP-800G-AOC-7M | OSFP 800G AOC 7m
+    - EX-SFP-10GE-DAC-1M | SFP+ 10 Gigabit Ethernet Direct Attach Copper (Twinax Copper Cable), 1M
+    - EX-SFP-10GE-DAC-3M | SFP+ 10 Gigabit Ethernet Direct Attach Copper (Twinax Copper Cable), 3M
+- kind=pluggable noun=module: 29
+    - CFP2-DCO-T-WDM-1 | Coherent CFP2 module with 3 different modulation formats, 100G DP-QPSK, 200G DP-8QAM, 200G DP-16QAM; with EDFA and TOF; 
+    - CFP2-DCO-T-WDM-HG | Coherent CFP2 module with 3 different modulation formats, 100G DP-QPSK, 200G DP-8QAM, 200G DP-16QAM; with EDFA and TOF; 
+    - EX-XFP-10GE-ER | XFP 10GBase-ER 10 Gigabit Ethernet Optics module
+    - EX-XFP-10GE-SR | XFP 10GBase-SR 10 Gigabit Ethernet Optics Module
+    - EX-XFP-10GE-ZR | XFP 10GBase-ZR 10 Gigabit Ethernet Optics Module
+    - SRX-SFP-1GE-T-ET | Small Form Factor Pluggable 1000Base-T Gigabit Ethernet Module - Extended temperature
+    - CXP-100GBASE-SR10 | 100GE CXP Pluggable Optics Module Compliant to 100GBASE-SR10
+    - QFX-SFP-1GE-T | SFP 1000Base-T Copper Transceiver Module for up to 100m transmission
+- kind=pluggable noun=optic: 166
+    - JCO800-QDD-ZR-M-HP | OIF 800ZR IA compliant 800GE coherent optical module. NOTE: The use of 800ZR and 800G OpenZR+ coherent DWDM transceivers
+    - XFP-10G-Z-OC192-LR2 | Dual Rate 10G pluggable transceiver for 10GE and OC192, 1550nm for 80KM transmission.
+    - XFP-10G-S | Juniper XFP-10G-S 10 Gbit/s 10GBASE-SR-Transceiver – Multimode-Glasfaser (MMF), LC, bis 300 m
+    - QDD-2X400G-LR4-10 | Juniper QDD-2X400G-LR4-10 800 Gbit/s 2× 400GBASE-LR4-Transceiver – Singlemode-Glasfaser (SMF), Dual Duplex LC, bis 10 km
+    - QDD-2X400G-LR4-P | Juniper QDD-2X400G-LR4-P 800 Gbit/s 2× 400GBASE-LR4-Transceiver – Singlemode-Glasfaser (SMF), Dual Duplex LC, bis 10 km
+    - QDD-400G-LR4-10 | Juniper QDD-400G-LR4-10 400 Gbit/s 400GBASE-LR4-Transceiver – Singlemode-Glasfaser (SMF), Duplex LC, bis 10 km
+    - QDD-400G-ER4-30 | Juniper QDD-400G-ER4-30 400 Gbit/s 400GBASE-ER4-Transceiver – Singlemode-Glasfaser (SMF), Duplex LC/UPC, bis 30 km
+    - QSFP-100G-LRBD-U | QSFP28 100G LR BiDi-Upstream Transceiver
+- kind=tunable noun=optic: 2
+    - QDD-400G-ZR-M | Juniper QDD-400G-ZR-M 400 Gbit/s 400G ZR+ (kohärent)-Transceiver – Singlemode-Glasfaser (SMF), Duplex LC, bis ZR+ extend
+    - QDD-400G-ZR-M-HP | Juniper QDD-400G-ZR-M-HP 400 Gbit/s 400G ZR+ HP (kohärent)-Transceiver – Singlemode-Glasfaser (SMF), Duplex LC, bis ZR+ 
+
+### lenovo / transceiver
+- kind=pluggable noun=cable: 68
+    - 7Z57A03559 | Lenovo 7Z57A03559 25G DAC SFP28 auf SFP28 – passives Direct-Attach-Kupferkabel (DAC), Länge 5 m
+    - 4X97A94016 | Lenovo 4X97A94016 100G AOC QSFP28 auf QSFP28 – aktives optisches Kabel (AOC), Länge 10 m
+    - 7Z57A03546 | Lenovo 7Z57A03546 100G AOC QSFP28 auf QSFP28 – aktives optisches Kabel (AOC), Länge 3 m
+    - 7Z57A03547 | Lenovo 7Z57A03547 100G AOC QSFP28 auf QSFP28 – aktives optisches Kabel (AOC), Länge 5 m
+    - 7Z57A03548 | Lenovo 7Z57A03548 100G AOC QSFP28 auf QSFP28 – aktives optisches Kabel (AOC), Länge 10 m
+    - 7Z57A03549 | Lenovo 7Z57A03549 100G AOC QSFP28 auf QSFP28 – aktives optisches Kabel (AOC), Länge 15 m
+    - 7Z57A03550 | Lenovo 7Z57A03550 100G AOC QSFP28 auf QSFP28 – aktives optisches Kabel (AOC), Länge 20 m
+    - 7Z57A03561 | Lenovo 7Z57A03561 100G DAC QSFP28 auf QSFP28 – passives Direct-Attach-Kupferkabel (DAC), Länge 1 m
+- kind=pluggable noun=optic: 32
+    - 4TC7B13092 | Lenovo 4TC7B13092 10G SFP+ T-Transceiver – Kupfer, RJ45, bis 30 m
+    - 7G17A03130 | Lenovo 7G17A03130 10G SFP+ T-Transceiver – Kupfer, RJ45, bis 30 m
+    - 46C3447 | Lenovo 46C3447 10G SFP+ SR-Transceiver – Multimode, LC, bis 300 m
+    - 68Y6923 | Lenovo 68Y6923 10G SFP+ SR-Transceiver – Multimode, LC, bis 300 m
+    - 00FE333 | Lenovo 00FE333 1G SFP T-Transceiver – Kupfer, RJ45, bis 100 m
+    - 81Y1622 | Lenovo 81Y1622 1G SFP SX-Transceiver – Multimode, LC, bis 550 m
+    - 90Y9424 | Lenovo 90Y9424 1G SFP LX-Transceiver – Singlemode, LC, bis 10 km
+    - 4TC7B12410 | Lenovo 4TC7B12410 10G SFP+ LR-Transceiver – Singlemode, LC, bis 10 km
+
+### mikrotik / switches
+- kind=accessory noun=switch: 5
+    - CRS312-4C+8XG-RM | MikroTik CRS312-4C+8XG-RM Gemanagter Switch – 1× Fast-Ethernet-RJ45, 8× Multi-Gig-RJ45 (bis 10G), 4× Combo (RJ45/SFP+), 
+    - CRS418-8P-8G-2S+5axQ2axQ-RM | MikroTik CRS418-8P-8G-2S+5axQ2axQ-RM Gemanagter Switch – 17× Gigabit-RJ45, 2× SFP+ (10G), Desktop
+    - CRS518-16XS-2XQ-RM | MikroTik CRS518-16XS-2XQ-RM Gemanagter Switch – 1× Fast-Ethernet-RJ45, 16× SFP28 (25G), 2× QSFP28 (100G), Desktop
+    - CRS520-4XS-16XQ-RM | MikroTik CRS520-4XS-16XQ-RM Gemanagter Switch – 4× SFP28 (25G), 16× QSFP28 (100G), 2× Multi-Gig-RJ45 (bis 10G), Desktop
+    - CRS812-8DS-2DQ-2DDQ-RM | MikroTik CRS812-8DS-2DQ-2DDQ-RM Gemanagter Switch – 8× SFP56 (50G), 2× QSFP56 (200G), 2× QSFP-DD (400G), 2× Multi-Gig-RJ
+- kind=switch noun=switch: 34
+    - CSS106-1G-4P-1S | MikroTik CSS106-1G-4P-1S Smart-gemanagter Switch – 5× Gigabit-RJ45, 1× SFP (1G), Desktop
+    - CRS310-1G-5S-4S+OUT | MikroTik CRS310-1G-5S-4S+OUT Gemanagter Switch – 1× Gigabit-RJ45, 5× SFP (1G), 4× SFP+ (10G), Desktop
+    - CRS106-1C-5S | MikroTik CRS106-1C-5S Gemanagter Switch – 5× SFP (1G), 1× Combo (RJ45/SFP), Desktop
+    - CRS326-24G-2S+RM | MikroTik CRS326-24G-2S+RM Gemanagter Switch – 24× Gigabit-RJ45, 2× SFP+ (10G), 19-Zoll-Rackmontage
+    - CSS326-24G-2S+RM | MikroTik CSS326-24G-2S+RM Smart-gemanagter Switch – 24× Gigabit-RJ45, 2× SFP+ (10G), 19-Zoll-Rackmontage
+    - CSS106-5G-1S | MikroTik CSS106-5G-1S Smart-gemanagter Switch – 5× Gigabit-RJ45, 1× SFP (1G), Desktop
+    - CRS112-8P-4S-IN | MikroTik CRS112-8P-4S-IN Gemanagter Switch – 8× Gigabit-RJ45, 4× SFP (1G), Desktop
+    - CRS304-4XG-IN | MikroTik CRS304-4XG-IN Gemanagter Switch – 1× Gigabit-RJ45, 4× Multi-Gig-RJ45 (bis 10G), Hutschiene
+
+### mikrotik / transceiver
+- kind=pluggable noun=(none): 3
+    - S-4554LC80D | MikroTik S-4554LC80D 1,25G SFP BiDi – Singlemode, Single-LC, 80 km
+    - S-3553LC20D | MikroTik S-3553LC20D 1,25G SFP BiDi – Singlemode, Single-LC, 20 km
+    - XS+2733LC15D | MikroTik XS+2733LC15D 25G SFP28 BiDi – Singlemode, Single-LC, 15 km
+- kind=pluggable noun=cable: 8
+    - XQ+DA0003 | MikroTik XQ+DA0003 100G QSFP28 Direct-Attach-Kupferkabel (DAC) – 3 m
+    - DDQ+DA0001 | MikroTik DDQ+DA0001 400G QSFP-DD Direct-Attach-Kupferkabel (DAC) – 1 m
+    - DDQ+DA0003 | MikroTik DDQ+DA0003 400G QSFP-DD Direct-Attach-Kupferkabel (DAC) – 3 m
+    - DQ+BC0003-DS+ | MikroTik DQ+BC0003-DS+ QSFP56 Breakout-DAC – 200G zu 4×50G, 3 m
+    - XS+DA0001 | MikroTik XS+DA0001 25G SFP28 Direct-Attach-Kupferkabel (DAC) – 1 m
+    - XS+DA0003 | MikroTik XS+DA0003 25G SFP28 Direct-Attach-Kupferkabel (DAC) – 3 m
+    - XQ+DA0001 | MikroTik XQ+DA0001 100G QSFP28 Direct-Attach-Kupferkabel (DAC) – 1 m
+    - S+AO0005 | MikroTik S+AO0005 10G SFP+ Active Optical Cable (AOC) – 5 m
+- kind=pluggable noun=optic: 13
+    - XQ+85MP01D | MikroTik XQ+85MP01D 100G QSFP28 Transceiver – Multimode 850 nm, MPO, 100 m
+    - XQ+31LC10D | MikroTik XQ+31LC10D 100G QSFP28 Transceiver – Singlemode, Dual-LC, 10 km
+    - S+31DLC10D | MikroTik S+31DLC10D 10G SFP+ Transceiver – Singlemode 1310 nm, Dual-LC, 10 km
+    - S+85DLC03D | MikroTik S+85DLC03D 10G SFP+ Transceiver – Multimode 850 nm, Dual-LC, 300 m
+    - XS+85LC01D | MikroTik XS+85LC01D 25G SFP28 Transceiver – Multimode 850 nm, Dual-LC, 100 m
+    - S+RJ10 | MikroTik S+RJ10 10G SFP+ Transceiver – RJ45-Kupfer, Multi-Rate bis 10G, 30 m
+    - XS+31LC10D | MikroTik XS+31LC10D 25G SFP28 Transceiver – Singlemode 1310 nm, Dual-LC, 10 km
+    - DDQ+85MP01D | MikroTik DDQ+85MP01D 400G QSFP-DD Transceiver – Multimode, MPO
+
+### nvidia / transceiver
+- kind=pluggable noun=cable: 73
+    - MCP1660-W02AE26 | NVIDIA MCP1660-W02AE26 400G DAC QSFP-DD auf QSFP-DD – passives Direct-Attach-Kupferkabel (DAC), Länge 2.5 m
+    - MCP7H60-W001R30 | NVIDIA MCP7H60-W001R30 400G DAC QSFP-DD auf QSFP-DD – passives Direct-Attach-Kupferkabel (DAC), Länge 1 m
+    - MCP7H60-W002R26 | NVIDIA MCP7H60-W002R26 200G DAC QSFP-DD auf QSFP-DD – passives Direct-Attach-Kupferkabel (DAC), Länge 2 m
+    - MCP7H60-W02AR26 | NVIDIA MCP7H60-W02AR26 400G Breakout-DAC QSFP-DD auf 2x QSFP56 – passives Direct-Attach-Kupferkabel (DAC), Länge 2.5 m
+    - C-DQ8FNM003-H0-M | NVIDIA C-DQ8FNM003-H0-M 400G AOC QSFP-DD auf QSFP-DD – aktives optisches Kabel (AOC), Länge 3 m
+    - C-DQ8FNM005-H0-M | NVIDIA C-DQ8FNM005-H0-M 400G AOC QSFP-DD auf QSFP-DD – aktives optisches Kabel (AOC), Länge 5 m
+    - C-DQ8FNM010-H0-M | NVIDIA C-DQ8FNM010-H0-M 400G AOC QSFP-DD auf QSFP-DD – aktives optisches Kabel (AOC), Länge 10 m
+    - C-DQ8FNM020-H0-M | NVIDIA C-DQ8FNM020-H0-M 400G AOC QSFP-DD auf QSFP-DD – aktives optisches Kabel (AOC), Länge 20 m
+- kind=pluggable noun=optic: 12
+    - MMS1V90-WR | NVIDIA MMS1V90-WR 400G QSFP-DD LR4-Transceiver – Singlemode-Glasfaser (SMF), LC (Duplex), bis 10 km
+    - T-DQ8FNS-N00-M | NVIDIA T-DQ8FNS-N00-M 400G QSFP-DD SR8-Transceiver – Multimode-Glasfaser (MMF), MPO-16, bis 100 m
+    - MMS1V00-WM | NVIDIA MMS1V00-WM 400G QSFP-DD DR4-Transceiver – parallele Singlemode-Glasfaser (SMF), MPO-12, bis 500 m
+    - MMS1V50-WM | NVIDIA MMS1V50-WM 400G QSFP-DD FR4-Transceiver – Singlemode-Glasfaser (SMF), LC (Duplex), bis 2 km
+    - MMA1T00-VS | NVIDIA MMA1T00-VS 200G QSFP56 SR-Transceiver – Multimode-Glasfaser (MMF), LC (Duplex), bis 100 m
+    - MMA1L10-CR | NVIDIA MMA1L10-CR 100G QSFP28 LR4-Transceiver – Singlemode-Glasfaser (SMF), LC (Duplex), bis 10 km
+    - MMA1L30-CR | NVIDIA MMA1L30-CR 100G QSFP28 FR4-Transceiver – Singlemode-Glasfaser (SMF), LC (Duplex), bis 2 km
+    - MMA1B00-C100D | NVIDIA MMA1B00-C100D 100G QSFP28 SR-Transceiver – Multimode-Glasfaser (MMF), LC (Duplex), bis 100 m
+
+### supermicro / transceiver
+- kind=pluggable noun=cable: 17
+    - CBL-NTWK-0446-01 | Supermicro CBL-NTWK-0446-01 40 Gbit/s DAC-Kabel – QSFP+ auf QSFP+, 40GBASE-CR4, Länge 3 m
+    - CBL-NTWK-0422-01 | Supermicro CBL-NTWK-0422-01 40 Gbit/s DAC-Kabel – QSFP+ auf QSFP+, 40GBASE-CR4, Länge 5 m
+    - CBL-NTWK-0944-SS28C50M | Supermicro CBL-NTWK-0944-SS28C50M 25 Gbit/s DAC-Kabel – SFP28 auf SFP28, 25GBASE-CR, Länge 5 m
+    - CBL-NTWK-0943-SQ28C10M | Supermicro CBL-NTWK-0943-SQ28C10M 100 Gbit/s DAC-Kabel – QSFP28 auf QSFP28, 100GBASE-CR4, Länge 1 m
+    - CBL-NTWK-0942-MQ28C10M | Supermicro CBL-NTWK-0942-MQ28C10M 100 Gbit/s DAC-Kabel – QSFP28 auf QSFP28, 100GBASE-CR4, Länge 1 m
+    - CBL-SFP+AOC-3M | Supermicro CBL-SFP+AOC-3M 10 Gbit/s AOC-Kabel – SFP+ auf SFP+, 850 nm Multimode, Länge 3 m
+    - CBL-SFP+AOC-10M | Supermicro CBL-SFP+AOC-10M 10 Gbit/s AOC-Kabel – SFP+ auf SFP+, 850 nm Multimode, Länge 10 m
+    - CBL-NTWK-0417-01 | Supermicro CBL-NTWK-0417-01 40 Gbit/s DAC-Kabel – QSFP+ auf QSFP+, 40GBASE-CR4, Länge 1 m
+- kind=pluggable noun=optic: 10
+    - AOM-TSR-FS | Supermicro AOM-TSR-FS 10/1 Gbit/s SFP+-Transceiver – 10GBASE-SR/SW, 1000BASE-SX, 850 nm, Multimode (MMF), Duplex LC, bis
+    - AOM-SFP28-25GBE-SR-1-MLN | Supermicro AOM-SFP28-25GBE-SR-1-MLN 25 Gbit/s SFP28-Transceiver – 25GBASE-SR, 850 nm, Multimode (MMF), Duplex LC, bis 70
+    - AOC-E10GSFPSR | Supermicro AOC-E10GSFPSR 10 Gbit/s SFP+-Transceiver – 10GBASE-SR, 850 nm, Multimode (MMF), Duplex LC, bis 300 m (OM3) / 
+    - AOM-TSFP-709DMZ-AVG | Supermicro AOM-TSFP-709DMZ-AVG 10 Gbit/s SFP+-Transceiver – 10GBASE-SR, 850 nm, Multimode (MMF), Duplex LC, bis 300 m (O
+    - AOC-TSR-FS | Supermicro AOC-TSR-FS 10/1 Gbit/s SFP+-Transceiver – 10GBASE-SR/SW, 1000BASE-SX, 850 nm, Multimode (MMF), Duplex LC, bis
+    - AOM-TQSFP-79EQPZ-AVG | Supermicro AOM-TQSFP-79EQPZ-AVG 40 Gbit/s QSFP+-Transceiver – 40GBASE-SR4, 850 nm, Multimode (MMF), MPO/MTP, bis 100 m (
+    - AOM-TQSFP-79EQDZ-AVG | Supermicro AOM-TQSFP-79EQDZ-AVG 40 Gbit/s QSFP+-Transceiver – 40GBASE-SR4, 850 nm, Multimode (MMF), MPO/MTP, bis 100 m (
+    - AOM-TQSFP-79EIPZ-AVG | Supermicro AOM-TQSFP-79EIPZ-AVG 40 Gbit/s QSFP+-Transceiver – 40GBASE-SR4 (iSR4), 850 nm, Multimode (MMF), MPO/MTP, bis 
+
+### ubiquiti / transceiver
+- kind=pluggable noun=cable: 25
+    - UACC-DAC-SFP10-3M | Ubiquiti UACC-DAC-SFP10-3M 10G DAC SFP+ auf SFP+ – passives Direct-Attach-Kupferkabel (DAC), Länge 3 m
+    - UACC-DAC-SFP28-0.5M | Ubiquiti UACC-DAC-SFP28-0.5M 25G DAC SFP28 auf SFP28 – passives Direct-Attach-Kupferkabel (DAC), Länge 0,5 m
+    - UACC-DAC-SFP28-1M | Ubiquiti UACC-DAC-SFP28-1M 25G DAC SFP28 auf SFP28 – passives Direct-Attach-Kupferkabel (DAC), Länge 1 m
+    - UACC-DAC-SFP28-3M | Ubiquiti UACC-DAC-SFP28-3M 25G DAC SFP28 auf SFP28 – passives Direct-Attach-Kupferkabel (DAC), Länge 3 m
+    - UACC-DAC-QSFP28-0.5M | Ubiquiti UACC-DAC-QSFP28-0.5M 100G DAC QSFP28 auf QSFP28 – passives Direct-Attach-Kupferkabel (DAC), Länge 0,5 m
+    - UACC-DAC-QSFP28-1M | Ubiquiti UACC-DAC-QSFP28-1M 100G DAC QSFP28 auf QSFP28 – passives Direct-Attach-Kupferkabel (DAC), Länge 1 m
+    - UACC-AOC-SFP10-10M | Ubiquiti UACC-AOC-SFP10-10M 10G AOC SFP+ auf SFP+ – aktives optisches Kabel (AOC), Länge 10 m
+    - UACC-AOC-SFP10-20M | Ubiquiti UACC-AOC-SFP10-20M 10G AOC SFP+ auf SFP+ – aktives optisches Kabel (AOC), Länge 20 m
+- kind=pluggable noun=optic: 24
+    - UACC-CM-RJ45 | Ubiquiti UACC-CM-RJ45 1G SFP T-Transceiver – Kupfer, RJ45, bis 100 m
+    - UACC-OM-SM-10G-D | Ubiquiti UACC-OM-SM-10G-D 10G SFP+ LR-Transceiver – Singlemode, LC, bis 10 km
+    - UACC-OM-SFP10-1290 | Ubiquiti UACC-OM-SFP10-1290 10G SFP+ CWDM-Transceiver – Singlemode, LC, bis 20 km
+    - UACC-OM-SFP10-1310 | Ubiquiti UACC-OM-SFP10-1310 10G SFP+ CWDM-Transceiver – Singlemode, LC, bis 20 km
+    - UACC-OM-SFP10-1330 | Ubiquiti UACC-OM-SFP10-1330 10G SFP+ CWDM-Transceiver – Singlemode, LC, bis 20 km
+    - UACC-OM-SFP10-1450 | Ubiquiti UACC-OM-SFP10-1450 10G SFP+ CWDM-Transceiver – Singlemode, LC, bis 20 km
+    - UACC-OM-SFP10-1470 | Ubiquiti UACC-OM-SFP10-1470 10G SFP+ CWDM-Transceiver – Singlemode, LC, bis 20 km
+    - UACC-OM-QSFP28-PSM4 | Ubiquiti UACC-OM-QSFP28-PSM4 100G QSFP28 PSM4-Transceiver – Singlemode, MPO-12, bis 2 km
+
+## question sets referenced
+- interfaces-modules.module: required=[product_compatibility] pending=[]
+- interfaces-modules.interface: required=[ports, power_max, product_compatibility] pending=[]
+- switches.switch: required=[altitude_max, certifications, cooling, dimensions, dram, flash, form_factor, forwarding_rate, heat_dissipation, humidity_operating, ieee_standards, input_voltage, jumbo_mtu, mac_table, mgmt_class, mtbf, packet_buffer, poe_standard, power_max, power_typical, psu_config, stackable, switching_capacity, temp_operating, temp_storage, vlan_max, weight] pending=[ip_rating, module_slots, poe_budget, poe_ports, ports, psu_redundant, rack_units, stacking_bandwidth, uplink_ports]
+- switches.accessory: required=[product_compatibility] pending=[]
+- switches.fabric: required=[fabric_bandwidth, product_compatibility] pending=[]
+- switches.power: required=[airflow, input_voltage, product_compatibility, psu_rated_output] pending=[]
+- switches.linecard: required=[fabric_bandwidth, poe_standard, ports, power_max, product_compatibility] pending=[poe_ports]
+- switches.module: required=[poe_standard, ports, product_compatibility] pending=[poe_ports]
+- routers.enterprise: required=[acl_entries, altitude_max, certifications, dimensions, dram, flash, form_factor, humidity_operating, input_voltage, ipsec_throughput, ipsec_tunnels, ipv4_routes, ipv6_routes, lan_interfaces, nat_sessions, ports, power_max, power_typical, router_throughput, temp_operating, temp_storage, vlan_max, wan_interfaces, weight] pending=[module_slots, rack_units]
+- transceiver.pluggable: required=[connector, data_rate, ddm, form_factor, media, power_max, standard, temp_class] pending=[cable_length, fiber_type, reach_max, rx_sensitivity, tx_power, wavelength, wire_gauge]
+- wireless.other: required=[] pending=[]
+- wireless.ap: required=[antenna_type, ap_max_clients, certifications, dimensions, poe_standard, ports, power_max, radio_bands, spatial_streams, temp_operating, weight, wifi_generation] pending=[]
+- storage-networking.switch: required=[airflow, certifications, data_rate, dimensions, humidity_operating, ports, power_max, rack_units, temp_operating, weight] pending=[]

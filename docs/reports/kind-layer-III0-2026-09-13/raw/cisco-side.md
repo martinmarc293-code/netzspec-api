@@ -1,0 +1,223 @@
+# Cisco rows, same name-noun control, selected (category, kind)
+- interfaces-modules|interface|(none): 321
+    - 10000-SIP-600 | Cisco 10000-SIP-600
+    - 10000-SIP-600= | Cisco 10000-SIP-600=
+    - 12000-SIP-401 | Cisco XR 12000 and 12000 Series SPA Interface Processor-401
+    - 12000-SIP-401= | Cisco XR 12000 and 12000 Series SPA Interface Processor-401, spare
+- interfaces-modules|interface|cable: 2
+    - 15454-ML100T-12 | 10/100-Mbps Ethernet card, 12 ports, RJ-45, Layer 2 and Layer 3 switching, SONET (ANSI) system, includes conso
+    - 15454E-ML100T-12 | 10/100-Mbps Ethernet card, 12 ports, RJ-45, Layer 2 and Layer 3 switching, SDH (ETSI) system, includes console
+- interfaces-modules|interface|chassis: 7
+    - PA-2H-IPP= | 2 port HSSI PA for VXR chassis upgrade, IPP program
+    - PA-4E-IPP= | 4 port Ethernet PA for VXR chassis upgrade, IPP program
+    - PA-8E-IPP= | 8 port Ethernet PA for VXR chassis upggrade, IPP program
+    - PA-8T-232-IPP= | 8 port Serial 232 PA for VXR chassis upgrade, IPP program
+- interfaces-modules|interface|linecard: 46
+    - 1x10GE-ER-SC | Cisco 12000 Series 1-Port 10-Gigabit Ethernet Line Card with 40-km reach optics
+    - 1x10GE-LR-SC | Cisco 12000 Series 1-Port 10-Gigabit Ethernet Line Card with 10-km reach optics
+    - 4CHOC12/DS3-I-SCB | Cisco 12000 Series 4-Port Channelized OC-12/STM-4 (DS3/E3, OC-3c/STM-1c) POS/SDH ISE Line Card
+    - 4GE-SFP-LC | Cisco XR 12000 and 12000 Series 4-Port Gigabit Ethernet ISE Line Card
+- interfaces-modules|interface|module: 76
+    - DS-X9032-SSM | Cisco MDS 9000 Family 32-port Storage Services Module
+    - DS-X9032-SSM= | Cisco MDS 9000 Family 32-port Storage Services Module, Spare
+    - DS-X9112-H= | 12-port 1/2/4-Gbps FC Module for HP with Service, Spare
+    - DS-X9112-HV | 12-port 1/2/4-Gbps Fibre Channel Switching Module, 12 SFPs
+- interfaces-modules|interface|router: 4
+    - 7300-2OC3ATM-MM | 2-port OC-3 ATM line card for Cisco 7304 Router, MM
+    - 7300-2OC3ATM-MM= | 2-port OC-3 ATM line card for Cisco 7304 Router, MM, spare
+    - 7300-2OC3ATM-SMI | 2-port OC-3 ATM line card for Cisco 7304 Router, SM-IR
+    - 7300-2OC3ATM-SMI= | 2-port OC-3 ATM line card for Cisco 7304 Router, SM-IR, spare
+- interfaces-modules|interface|supervisor: 3
+    - DS-X7-SF4-K9= | MDS 9700 Series Supervisor-4
+    - DS-X9530-SF2-HK9= | MDS 9500 Series Supervisor-2 for HP with Service, Spare
+    - DS-X9530-SF2A-HK9= | MDS 9500 Series Supervisor-2A for HP with Service, Spare
+- interfaces-modules|interface|switch: 6
+    - HWIC-4ESW-POE | 4-port 10/100 Ethernet switch with 4-port inline power daughter card
+    - HWIC-4ESW-POE= | 4-port 10/100 Ethernet switch with 4-port inline power daughter card, spare
+    - HWIC-4ESW= | 4-port 10/100 Ethernet switch, spare
+    - HWIC-D-9ESW-POE | 9-port 10/100 Ethernet switch with 8-port inline power daughter card
+- interfaces-modules|module|(none): 20
+    - CGR-N-CONN-WPAN | Cisco CGR-N-CONN-WPAN
+    - DS-PAA-2 | MDS 9000 Port Analyzer Adapter
+    - EWDM-OA= | EWDM Optical Amplifier
+    - G100 | Cisco G100
+- interfaces-modules|module|mechanical: 1
+    - 15216-FL-SA= | Shelf assembly, 4 module slots, 1-rack unit high, 19- or 23-inch rack mounting, Cisco FlexLayer platform
+- routers|enterprise|(none): 1127
+    - 100GE-MSC-BNDL= | Cisco CRS Series 100GE MSC Bundle
+    - 100GE-MSC400G-BUN= | Cisco CRS Series 4x100GE MSC Bundle
+    - 10GE-EMSE-140G= | Cisco CRS Series 14x10GE Ethernet MSE Bundle
+    - 10GE-EMSE-400G= | Cisco CRS Series 40x10GE Ethernet MSE Bundle
+- routers|enterprise|ap: 8
+    - CW9177D | Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, internal directonal antennas, Wi-Fi 7, 4x4:4SS
+    - CW9177E | Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, external antenna connectors, Wi-Fi 7, 4x4:4SS
+    - CW9177I | Cisco Wireless 9177 Outdoor Access Point, internal omnicirectional antennas, Wi-Fi 7, 4x4:4SS
+    - CW9179F | Cisco Wireless 9179F Large Public Venue Access Point, internal directional antennas with software configurable
+- routers|enterprise|chassis: 11
+    - ASR1001-HX | Cisco ASR 1001-HX Router Chassis (ESP integrated; up to 60 Gbps through software-activated port licenses)
+    - ASR1001-X | Cisco ASR 1001-X Router Chassis (ESP integrated; upgradable from 2.5-Gbps to 20-Gbps via software activated li
+    - ASR1001-X-IWANPM | Cisco ASR1001-X Chassis, 6 built-in GE, Dual P/S, 8GB DRAM
+    - ASR1002 | Cisco ASR1002 Chassis, 4 built-in GE, Dual P/S, 4GB DRAM
+- routers|enterprise|gateway: 17
+    - C1100TG-1N32A | Cisco 1100 Terminal Services Gateway w/ 32 Async, 1 NIM (support for 2 GB DRAM)
+    - CG113-4GW6A | Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain A
+    - CG113-4GW6B | Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain B
+    - CG113-4GW6E | Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain E
+- routers|enterprise|mechanical: 1
+    - CGR2010/NFR | CGR 2010 Channel Kit
+- routers|enterprise|module: 16
+    - C8300-2N2S-4T2X | Cisco Catalyst 8300 Edge platform with 2 SM, 2 NIM, and 1 Pluggable Interface Module (PIM) slots 2x10GigE SFP+
+    - CGR1240/K9= | CGR1240 w/ 4 module slots,2 GE,2 serial,4 FE LAN,Wi-Fi,GPS
+    - CISCO1941-HSEC+/K9 | VPN ISM module HSEC bundles for 1941 ISR platform
+    - CISCO1941-HSEC/K9 | HSEC bundle (no ISM VPN module) for 1941 ISR platform
+- routers|enterprise|power: 7
+    - ASR1002-X= | Cisco ASR 1002-X System, Crypto, 6 built-in GE, dual power supply, spare
+    - C2951-ES24-UCSE/K9 | Cisco 2951 ES24 UCSE Bundle, SRE 900, SRE-V License, 24 port Layer 3 PoE EtherSwitch SM, PoE Power Supply, 4 G
+    - C3925-ES24-UCSE/K9 | Cisco 3925 ES24 UCSE Bundle, SRE 900, SRE-V License, 24 port Layer 2 PoE EtherSwitch SM, PoE Power Supply, 4 G
+    - C921J-4P | Cisco 921J Gigabit Ethernet security router with external power supply for Japan only
+- routers|enterprise|router: 381
+    - C1101-4P | ISR 1101 4 Ports GE Ethernet WAN Router
+    - C1101-4PLTEP | ISR 1101 4P GE Ethernet and LTE Secure Router with Pluggable
+    - C1111-4P | ISR 1100 4 Ports Dual GE WAN Ethernet Router
+    - C1111-4PJ | ISR 1100 4 Ports Dual GE WAN Ethernet Router Japan Config
+- routers|enterprise|switch: 7
+    - C1100TG-1N24P32A | Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 switch Port, 1 NIM with support for 4G DRAM
+    - C1100TGX-1N24P32A | Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 switch Port, 1 NIM with support for 8G DRAM
+    - C891-24X/K9 | Cisco 891 Gigabit Ethernet security router with SFP and 24-ports Ethernet Switch
+    - CQ211L01-48H8FH | Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability
+- switches|switch|(none): 2541
+    - 0.375K | Cisco 0.375K
+    - 0.6-1.2A | Cisco 0.6-1.2A
+    - 0.75K | Cisco 0.75K
+    - 0.875K | Cisco 0.875K
+- switches|switch|ap: 4
+    - AIR-AP1131AG | Cisco Aironet 1130AG Series access point
+    - AIR-AP1232AG | Cisco Aironet 1230AG Series access point
+    - AIR-AP1242AG | Cisco Aironet 1240AG Series access point
+    - AIR-BR1310G | Cisco Aironet 1300 Series outdoor access point/bridge (Supported in access point mode only)
+- switches|switch|cable: 6
+    - N5K-C56128P-B-LAB | Nexus 56128P LAB Bundle with SBUN/Optics/Twinax included
+    - N5K-C56128P-B-NFR | Nexus 56128P NFR Bundle with SBUN/Optics/Twinax included
+    - N5K-C5672UP-B-LAB | Nexus 5672UP LAB Bundle with SBUN/Optics/Twinax included
+    - N5K-C5672UP-B-NFR | Nexus 5672UP NFR Bundle with SBUN/Optics/Twinax included
+- switches|switch|chassis: 251
+    - 2D-C6807-XL= | Catalyst 6807-XL 7-slot chassis, 10RU (spare) w/2D Barcode
+    - 7603S-S32-10G-B-P | Cisco 7603S Chassis, 3-slot, SUP32-2X10GE-3B, PS
+    - 7603S-S32-10G-B-R | Cisco 7603S Chassis, 3-slot, Redundant SUP32-2X10GE-3B, PS
+    - 7603S-S32-8G-B-P | Cisco 7603S Chassis, 3-slot, SUP32-8GE-3B, PS
+- switches|switch|fan: 114
+    - C1-C4503-E | Cat4500 E-Series 3-Slot Chassis, fan, no ps
+    - C1-C4506-E | Cisco ONE Cat4500 E-Series 6-Slot Chassis, fan, no ps
+    - C1-C4507R+E | Cisco ONE Catalyst4500E 7 slot chassis 48Gbps/slot,fan,no ps
+    - C1-C4510R+E | Cisco ONE Catalyst 4500E 10 slot chs 48Gbps/slot,fan,no ps
+- switches|switch|gateway: 1
+    - IC3000-2C2F-K9= | Industrial Compute gateway Spare PID for TAC services
+- switches|switch|linecard: 10
+    - C1-N9K-C9504 | Cisco ONE Nexus 9504 Chassis with 4 linecard slots
+    - C1-N9K-C9508 | Cisco ONE Nexus 9508 Chassis with 8 linecard slots
+    - C1-N9K-C9516 | Cisco ONE Nexus 9516 Chassis with 16 linecard slots
+    - C4500E-S7L/2-SFP+E | Upgrade to Redundant Sup7LE and WS-X4712-SFP+E line card
+- switches|switch|mechanical: 42
+    - C9407-SHELF-KIST= | Cisco Catalyst 9400 Series 7-slot chassis Shelf Install Kit
+    - C9500-ACCKITH-19I= | Accessory Kit for Cisco Catalyst 9500 Series – High-End - 19" rack mount
+    - C9500-ACCKITH-23I= | Accessory Kit for Cisco Catalyst 9500 Series – High-End - 23" rack mount
+    - CGS2520-16S8PC/NFR | CGS-2520-16S-8PC Channel Kit
+- switches|switch|module: 72
+    - C1-N5548UP4N2232PF | Cisco One Nexus 5548UP/Expansion Module/4xN2232PP/64xFET
+    - C1-N5548UP6N2248TF | Cisco One Nexus 5548UP/Expansion Module/6xN2248TP/48xFET
+    - C1-N9K-C93128TX | Cisco ONE Nexus 9300 96p 1/10G-T and 1 uplink module slot
+    - C1-N9K-C9396PX | Cisco ONE Nexus 9300 48p 1/10G SFP+ and 1 uplink module slot
+- switches|switch|optic: 3
+    - C1-N5596UP-B-FC48 | ^Cisco ONE Nexus 5596UP, 48 FC transceiver
+    - N5596UP-B-FC48 | Nexus 5596UP, 48 FC transceiver, 48p storage license
+    - N5K-BUN-NFAS | Nexus 5548UP Chassis, 8p storage license, FC Transceiver
+- switches|switch|power: 81
+    - 6807-S6T-10G-40G | Chassis+Fan+ Sup6T+2xPower Supply; IP Services, 10G, 40G
+    - C1-C6807XL-S2T-BUN | Chassis+Fan Tray+ Sup2T+2xPower Supply; IP Services ONLY
+    - C1-N7004-S2E-R | Cisco ONE N7004 Bundle(Chassis,2xSUP2E),No Power Supplies
+    - C6800-XL-PS-CONV | Catalyst 6807-XL Power Supply Converter
+- switches|switch|supervisor: 1
+    - WS-C4510RE-S8+96V+ | 4510R+E Chassis, two WS-X4748-RJ-45V+E, Supervisor 8-E
+- switches|switch|switch: 1816
+    - C1-N3K-C3264Q | Cisco ONE Nexus 3264Q Switch with 64 ports of QSFP
+    - C1-N6K-C6001-64P | Cisco One Nexus 6001, 1RU switch, fixed 48P 10G SFP+, 4P QSFP+
+    - C1-N9K-C9332PQ | Cisco ONE Nexus 9332 ACI Leaf switch with 32p 40G QSFP
+    - C1-WS3850-12S/K9 | Cisco One Catalyst 3850 12 Port Fiber Switch
+- transceiver|breakout-cable|(none): 17
+    - QDD-2Q200-CI2M | Cisco QDD-2Q200-CI2M
+    - QSFP-4SFP10-CU0-5= | Cisco QSFP-4SFP10-CU0-5=
+    - QSFP-4SFP10G-CU10M | Cisco QSFP-4SFP10G-CU10M
+    - QSFP-4SFP10G-CU1M= | Cisco QSFP-4SFP10G-CU1M=
+- transceiver|breakout-cable|breakout-cable: 3
+    - QDD-2Q200-CU2.5M | Cisco QDD-2Q200-CU2.5M 2× 200 Gbit/s (Breakout) QSFP-DD Direktanschlusskabel 2,5 m
+    - QSFP-2Q200-CU3M | Cisco QSFP-2Q200-CU3M Passives DAC-Breakout — QSFP-DD auf 2× QSFP56 200GBASE-CR4, 3 m
+    - QSFP-4X10G-AOCxM | QSFP active optical breakout cables (length x - 1m to 10m)
+- transceiver|breakout-cable|cable: 31
+    - Q-4SFP25G-CU1.5M | Cisco Q-4SFP25G-CU1.5M 100G QSFP28 zu 4× 25G SFP28 Breakout Twinax DAC — passiv, 1,5 m
+    - Q-4SFP25G-CU2.5M | Cisco Q-4SFP25G-CU2.5M 100G QSFP28 zu 4× 25G SFP28 Breakout Twinax DAC — passiv, 2,5 m
+    - QDD-2Q200-CU1M | Cisco QDD-2Q200-CU1M 200G QSFP-DD auf 2×QSFP56 Breakout-Twinax-DAC — passiv, 1 m
+    - QDD-2Q200-CU2M | Cisco QDD-2Q200-CU2M 200G QSFP-DD auf 2×QSFP56 Breakout-Twinax-DAC — passiv, 2 m
+- transceiver|pluggable|(no name): 9
+    - QDD-400G-DR4 | 
+    - QDD-400G-LR8 | 
+    - QDD-400G-SR8 | 
+    - QSFP-100G-SR1.2 | 
+- transceiver|pluggable|(none): 1483
+    - 15327-SFP-LC-LX= | Cisco 15327-SFP-LC-LX=
+    - 15327-SFP-LC-LX=EOS | 1000BASE-LX LC, SFP
+    - 15327-SFP-LC-SX= | Cisco 15327-SFP-LC-SX=
+    - 15327-SFP-LC-SX=EOS | 1000BASE-SX LC, SFP
+- transceiver|pluggable|breakout-cable: 8
+    - CXP-100G-SR12= | CXP form factor, 100GBASE-SR10 compliant, no breakout
+    - QDD-4ZQ100-CU2.5M | Cisco QDD-4ZQ100-CU2.5M 4× 100 Gbit/s (Breakout) QSFP-DD Direktanschlusskabel 2,5 m
+    - QDD-8X100G-FR | Cisco QDD-8X100G-FR 8×100GBASE-FR1 QSFP-DD800 — 1310 nm Singlemode, Dual MPO-12, 2 km, Breakout
+    - QSFP-100G-AOCxM | QSFP active optical breakout cables (length x - 1m to 30m)
+- transceiver|pluggable|cable: 126
+    - ONS-CCC-100G-10= | CXP-CFP MPO cable, 10m long
+    - ONS-CCC-100G-20= | CXP-CFP MPO cable, 20m long
+    - ONS-CCC-100G-5= | CXP-CFP MPO cable, 5m long
+    - ONS-SC+-10-CU1= | 10G BASE-CU SFP+ Cable 1 Meter
+- transceiver|pluggable|chassis: 3
+    - DS-CWDMCHASSIS= | 2-slot chassis for Cisco OADM and multiplexer/demultiplexer
+    - DS-SFP-FC16G-LW | 16-Gbps Fibre Channel longwave SFP+, LC connector (16G Fibre Channel support only on last 24 ports (highlighte
+    - DS-SFP-FC16G-SW | 16-Gbps Fibre Channel shortwave SFP+, LC connector (16G Fibre Channel support only on last 24 ports (highlight
+- transceiver|pluggable|module: 216
+    - CE-10GSFP-SR | 10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics
+    - CE-10GSFP-SR= | 10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics
+    - CE-1GSFP-T | 1 Gigabit Ethernet SFP Module 1000BASE-T
+    - CE-1GSFP-T= | 1 Gigabit Ethernet SFP Module 1000BASE-T
+- transceiver|pluggable|optic: 26
+    - CFP-100G-SR10= | 100GBASE-SR10 CFP transceiver, 100m OM3 MMF
+    - DS-SFP-4X32G-SW | 128 Gbps Fibre Channel QSFP28 Optical Transceiver
+    - DS-X2-FC10G-CX4 | Cisco MDS 9000 Family 10-Gbps Fibre Channel-Copper CX4 X2 transceiver
+    - DS-X2-FC10G-CX4= | Cisco MDS 9000 Family 10-Gbps Fibre Channel - Copper CX4 X2 transceiver, spare
+- transceiver|pluggable|switch: 2
+    - 15216-GBIC-1510 | 1000 BASE-T GBIC, one port modules, for Catalyst 2950 Switch
+    - 15216-GBIC-1510= | 1000 BASE-T GBIC, one port modules, for Catalyst 2950 Switch
+- wireless|other|(none): 152
+    - AIR-330-EXP-BOX | MobileAccessVE Expansion Box
+    - AIR-330-EXP-BOX= | MobileAccessVE Expansion Box
+    - AIR-330-MB-1 | MobileAccessVE One-link Main Building Unit
+    - AIR-330-MB-1= | MobileAccessVE One-link Main Building Unit
+- wireless|other|mechanical: 5
+    - 2KI-FINAL-PKG-RU | Contains packing Kit For 2KI
+    - CTS-MX-FSK-SKI- | Cisco MX700, MX800 og Room70D Ski for Floor Stand Kit
+    - CTS-MX-FSK-SKI= | Cisco MX700, MX800 og Room70D Ski for Floor Stand Kit
+    - FINAL-PKG-RUSSIA | Contains Packing Kit for 2KE/3KI/3KE
+- wireless|other|module: 23
+    - AIR-MOD-AC-AR | AP1800 AC plug module for the AR
+    - AIR-MOD-AC-AR= | Spare AP1800 AC plug module for the Argentina
+    - AIR-MOD-AC-AU | AP1800 AC plug module for the AU
+    - AIR-MOD-AC-AU= | Spare AP1800 AC plug module for the Australia
+
+cisco transceiver.pluggable rows matching CU|AOC|DAC|Twinax in SKU or name: 192 of 1873
+    - ONS-SC+-10-CU1= | 10G BASE-CU SFP+ Cable 1 Meter
+    - ONS-SC+-10-CU3= | 10G BASE-CU SFP+ Cable 3 Meter
+    - ONS-SC+-10-CU5= | 10G BASE-CU SFP+ Cable 5 Meter
+    - ONS-SC+-10-CU7= | 10G BASE-CU SFP+ Cable 7 Meter
+    - ONS-SC+-10G-CU1= | 10GBASE-CU SFP+ Cable 1 Meter
+    - ONS-SC+-10G-CU3= | 10GBASE-CU SFP+ Cable 3 Meter
+    - ONS-SC+-10G-CU5= | 10GBASE-CU SFP+ Cable 5 Meter
+    - ONS-SC+-10G-CU7= | 10GBASE-CU SFP+ Cable 7 Meter
+    - ONS-SC+-10G-CUx= | Cisco ONS-SC+-10G-CUx=
+    - PQSF2PXA1MBL | QSFP28 100G Direct Attach Copper Cable Assembly, 30 AWG, Black, 1m

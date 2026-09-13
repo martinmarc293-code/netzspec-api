@@ -669,7 +669,8 @@ for (const f of files) {
   check("SABOTAGE an unlisted device-noun row fails the hard zero",
     judgeNoun([...Object.keys(DEVICE_NOUN_RESIDUE), "wireless|C9800-80-CAP-K9"], DEVICE_NOUN_RESIDUE).unexplained.join() === "wireless|C9800-80-CAP-K9");
   check("SABOTAGE a residue entry whose write has landed is reported stale",
-    judgeNoun(Object.keys(DEVICE_NOUN_RESIDUE).slice(1), DEVICE_NOUN_RESIDUE).stale.length === 1);
+    // Its own one-entry residue: slicing the live list stopped testing anything the day that list became empty.
+    judgeNoun([], { "wireless|C9800-80-CAP-K9": "a write that has since landed" }).stale.join() === "wireless|C9800-80-CAP-K9");
 
   // ---- THE EXEMPTION LIST, each kind justified by live rows run through the REAL partKind and detector ------
   // [kind, category, sku, name]. mechanical and cable are rows the exemption actually excuses (a noun survives

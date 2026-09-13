@@ -1,0 +1,972 @@
+
+######## switch: 4942 parts, members 4501, roles {"access":1381,"datacenter":850,"core-agg":255,"smb":1803,"industrial":211}, issues 441, unresolved 1
+
+## Business 350 | 434 | roles {"smb":433} issues {"datasheet cell / bare family name (not a PID)":1} null 0 | spec industrial (heuristic) | disagree 434
+  [sw.smb.cbs-sb] ×433: CBS350-8S-E-2G «● 8 Gigabit SFP ● 2 Gigabit copper/SFP combo ports ● Rack-mountable» | CBS350-48T-4G-UK «CBS350 Managed 48-port GE, 4x1G SFP» | CBS350-24FP-4G-JP «CBS350 Managed 24-port GE, Full PoE, 4x1G SFP» | CBS350-16XTS-CN «Cisco Business 350-16XTS Managed Switch» | CBS350-16T-E-2G-UK «CBS350 Managed 16-port GE, Ext PS, 2x1G SFP» | CBS350-8FP-E-2G-SP «CBS350 Managed 8-port GE, Full PoE, Ext PS, 2x1G Combo» … (+427)
+  [sw.issue.placeholder] ×1: IPv6 «Cisco IPv6»
+
+## 250 Smart | 234 | roles {"smb":234} issues {} null 0 | spec smb (heuristic) | disagree 0
+  [sw.smb.cbs-sb] ×234: SG250-50-K9-JP «Cisco SG250-50 50-Port Gigabit Smart Switch» | CBS250-48T-4G-AR «CBS250 Smart 48-port GE, 4x1G SFP» | CBS250-48T-4G-UK «CBS250 Smart 48-port GE, 4x1G SFP» | CBS250-24T-4G-AU «CBS250 Smart 24-port GE, 4x1G SFP» | SG250X-24-K9-AR «SG250X-24 24-Port Gigabit Smart Switch with 10G Uplinks» | SG250X-24-K9-BR «SG250X-24 24-Port Gigabit Smart Switch with 10G Uplinks» … (+228)
+
+## Nexus 9000 | 219 | roles {"datacenter":180} issues {"linecard/module/supervisor":21,"datasheet cell / bare family name (not a PID)":10,"licence/software":8} null 0 | spec datacenter (explicit) | disagree 39
+  [sw.dc.nexus] ×180: C1-N9K-C92160YC-X «Cisco ONE Nexus 9K Fixed with 48p10G SFP+ & 6p40G OR 4p100G» | N9336C-SE1 «Cisco N9300 36 x 40/100 Gbps QSFP28 ports» | C1-N9K-C9372TX-E «Cisco ONE Nexus 9300 with 48p 1/10G-T and 6p 40G QSFP+» | N9K-C9232C-ZZ-PI «Nexus 9K Fixed with 32p 100G QSFP28, Port side intake» | C1-N9K-C92304QC «Cisco ONE Nexus 9K Fixed with 56p 40G QSFP+ & 8p 100G QSFP28» | ACI-C9336-BL-EAL «ACI Lab Bun with 1 9336, 2 9396PX Leafs, 2/4 QSFP and 1 APIC» … (+174)
+  [sw.issue.component] ×21: X9736C-FX3 «Cisco X9736C-FX3» | X9624D-R2 «Cisco X9624D-R2» | X9636C-R «Cisco X9636C-R» | X9716D-GX «Cisco X9716D-GX» | X9636C-RX «Cisco X9636C-RX» | X96136YC-R «Cisco X96136YC-R» … (+15)
+  [sw.issue.placeholder] ×10: 9300-GX2A/B «Cisco 9300-GX2A/B» | B3220 «Cisco B3220» | LS6400GX «Cisco LS6400GX» | LS1800FX «Cisco LS1800FX» | S6400 «Cisco S6400» | B3240 «Cisco B3240» … (+4)
+  [sw.issue.licence] ×6: NDB-3.2 «Nexus Data Broker Version 3.2 (all sub-versions)» | NDB-3.4 «Nexus Data Broker Version 3.4 (all sub-versions)» | NDB-3.1 «Nexus Data Broker Version 3.1 (all sub-versions)» | NDB-3.0 «Nexus Data Broker Version 3.0 (all sub-versions)» | NDB-3.3 «Nexus Data Broker Version 3.3 (all sub-versions)» | NDB-3.5 «Nexus Data Broker Version 3.5 (all sub-versions)»
+  [sw.issue.upg-licence] ×2: N9K-FX-24P-UPG= «Cisco N9300 48-port upgrade license for FX switches» | N9K-EX-24P-UPG= «Cisco N9300 48-port upgrade license for EX switches»
+
+## Nexus 7000 | 216 | roles {"datacenter":164} issues {"licence/software":4,"mechanical":34,"tracking/option PID (not a product)":10,"datasheet cell / bare family name (not a PID)":1,"power":3} null 0 | spec datacenter (explicit) | disagree 52
+  [sw.dc.nexus] ×164: C1-N7009-B2S2-R «Cisco ONE Nexus 7009 Bundle (Chassis,2xSUP2,5xFAB2),NoPowSup» | C1-N9KC93108FX-B24 «C1 2x 93108TC-FX w/ 8x QSFP-100G-PSM4-S OR QSFP-100G-SR4-S» | C1-N3K-C3172PQ-XL «Cisco ONE Nexus 3172PQ,48xSFP+ & 6 QSFP+ ports, extended mem» | C1-N9K-C93180EXB24 «C1 2xN9K-C93180YC-EX w/ 8QSFP-100G-PSM4-S OR QSFP-100G-SR4-S» | C1-N3K-C3132Q-V «Cisco ONE Nexus 3132 VXLAN, 32x40G QSFP+ Ports» | C1-N9K-C93108EXB24 «C1 2xN9K-C93108TC-EX w/ 8QSFP-100G-PSM4-S OR QSFP-100G-SR4-S» … (+158)
+  [sw.issue.licence] ×4: C1-N7K-ADD «Cisco ONE for Nexus 7000 - CHOOSE ONLY QTY 1 HERE» | N7K-SERVICES1K9 «Nexus 7000 Network Services (includes ITD, RISE)» | C1-N7K-ADD-M «Cisco ONE for Nexus 7000» | N7K-SERVICES1K9= «Nexus 7000 Network Services (includes ITD, RISE)»
+  [sw.issue.mechanical] ×34: N77-C7702-FDK «Nexus 7700 - 2 Slot Chassis Front Door Kit» | N77-C7710-SHPPKG «Cisco N77-C7710-SHPPKG» | N77-C7718-SHPPKG «Cisco N77-C7718-SHPPKG» | N7K-C7009-SHPPKG= «Nexus 7009 Shipping Packaging» | N77-C7706-SHPPKG «Nexus 7000 6 slot chassis Shipping Packaging» | N77-C7710-FDK «Nexus 7700 - 10 Slot Chassis Front Door Kit» … (+28)
+  [sw.issue.tracking] ×10: N7K-DCI «N7K or N77 DC Interconnect Deployment; For Tracking Only» | N7K-OTHER-DEPL «N7K or N77 Other Deployment; For Tracking Only» | N7K-DP-CAMPUS «N7K or N77 Campus Deployment; For Tracking Only» | N7K-DP-NOTSURE «N7K or N77 Not Sure Deployment; For Tracking Only» | N7K-DC-AGG-SPINE «N7K or N77 DC Agg or Spine Deployment; For Tracking Only» | N7K-DP-CORE «N7K or N77 Core Deployment; For Tracking Only» … (+4)
+  [sw.issue.placeholder] ×1: G.652/- «Cisco G.652/-»
+  [sw.issue.power] ×3: N7K-AC-7.5-kW-INT «Cisco N7K-AC-7.5-kW-INT» | N7K-DC-PIU «Nexus 7000 - DC Power Interface Unit» | N7K-DC-PIU= «Nexus 7000 - DC Power Interface Unit»
+
+## 350 Managed | 205 | roles {"smb":205} issues {} null 0 | spec smb (heuristic) | disagree 0
+  [sw.smb.cbs-sb] ×205: SG350-8PD-K9-NA «Cisco SG350-8PD 8-Port 2.5G PoE Managed Switch» | SF350-24MP-K9-UK «Cisco SF350-24MP 24-port 10/100 Max PoE Managed Switch» | SG350-52P-K9-IN «Cisco SG350-52P 52-port Gigabit PoE Managed Switch» | SG350-10-K9-BR «Cisco SG350-10 10-port Gigabit Managed Switch» | SG350-28MP-K9-CN «Cisco SG350-28MP 28-port Gigabit POE Managed Switch» | SG350-52MP-K9-NA «Cisco SG350-52MP 52-port Gigabit Max-PoE Managed Switch» … (+199)
+
+## Nexus 5000 | 188 | roles {"datacenter":156} issues {"licence/software":17,"linecard/module/supervisor":13,"tracking/option PID (not a product)":1,"transceiver":1} null 0 | spec datacenter (explicit) | disagree 32
+  [sw.dc.nexus] ×156: N5K-C5696Q «Nexus 5696Q Chassis 6PSU, 4 FAN, No LEMs» | N5596UPM-8N2248TP «Nexus 5596UP/8xN2248TP/Expansion Module» | N5548UPM-4FEX «Nexus 5548UP/Expansion Module/4 x FEX» | N5548UPM-4N2232PF «Nexus 5548UP/Expansion Module/4xN2232PP/64xFET» | N5672UP-6FEX-10G «N5672UP Chassis with 6 x 10G FEXes with FETs» | C1-N5672UP-8FEX-1G «Cisco ONE N5672UP Chassis with 8 x 1G FEXes with FETs» … (+150)
+  [sw.issue.licence] ×17: N55-SERVICES1K9= «Nexus 5500 Network Services (includes ITD, RISE)» | C1-N6004-12Q-K9 «Cisco ONE 96 Ports 40G Storage - Qty 8 of N55-8P-SSK9» | C1-N55-SERVICES1K9 «Nexus 5500 Network Services (includes ITD, RISE)» | C1-N5K-ADD «Cisco ONE for Nexus 5000 - CHOOSE ONLY QTY 1 HERE» | C1-N56128-128PK9 «Cisco ONE Nexus 56128 Chassis Storage License» | C1-N5672-72P-K9 «Cisco ONE Nexus 5672 Chassis Storage License» … (+11)
+  [sw.issue.component] ×13: N5696-M4C «Nexus 5696Q Chassis Module 4 x 100GE Ethernet/FCoE» | N55-D160L3-IF= «Nexus 5548 Layer 3 Expansion Module» | N55-DL2 «Nexus 5548 Layer 2 Daughter Card» | N55-D160L3-V2-B «Nexus 5548 Layer 3 Daughter Card, Version 2 for Bundles» | N55-D160L3-V2 «Nexus 5548 Layer 3 Daughter Card, Version 2» | N55-DL2= «Nexus 5548 Layer 2 Daughter Card» … (+7)
+  [sw.issue.tracking] ×1: IBM-SN-POINTER «IBM SN for MT3722 (Internal)»
+  [sw.issue.optic] ×1: WSP-Q40G-LR4L «Cisco WSP-Q40G-LR4L»
+
+## Nexus 3000 | 183 | roles {"datacenter":178} issues {"licence/software":4,"mechanical":1} null 0 | spec datacenter (explicit) | disagree 5
+  [sw.dc.nexus] ×178: N3K-C3132Q-X-8BD «Nexus 3132Q-X and 8 Bidi bundle» | N3K-C3264Q-ZZ-PE «Nexus 3264Q, port side Exhaust airflow, AC P/S, LAN En» | N3K-C3172TQ-10PK «Nexus 3172TQ 10PK Bundle» | N3K-C3636C-R= «Nexus 36180YC-R, 48p 10/25G and 6p QSFP28, Spare» | N3K-C3132Q-FD-L3 «Nexus 3132Q, DC, Forward Airflow (port side exhaust), Base & LAN Ent L» | N3K-C3064TQ-10GT= «Nexus 3064-T, 48 x 10GBase-T and 4 QSFP+ ports» … (+172)
+  [sw.issue.upg-licence] ×3: N3K-16T-UPG= «16 Port Upgrade License for N3172TQ-32T.» | N3548-24P-UPG= «Nexus 3524 additional 24 port license» | N3064T-16T-UPG= «16 Port Upgrade License for N3064-32T»
+  [sw.issue.mechanical] ×1: QPP24BL «QuickNet 24-Port Patch Panel»
+  [sw.issue.licence] ×1: NDB-FX-SWT-K9 «NDB license for 1 Cisco Nexus fixed switch ● Cisco Nexus 9300 ● Cisco »
+
+## Catalyst 9300 | 182 | roles {"access":149} issues {"power":5,"cable/cabling accessory (third-party PNs)":26,"mechanical":2} null 0 | spec access (explicit) | disagree 33
+  [sw.access.catalyst] ×149: C9300L-48T-4G «Cisco C9300L-48T-4G Managed Switch (L3) – 48× Gigabit-RJ45 (Data) + 4×» | C9300LM-48T-4Y-A «C9300LM-48T-4Y-A – Catalyst 9300 mini 48-port 1G copper, data, 4x 25G » | C9300-48UB-E «C9300-48UB-E – Catalyst 9300 higher scale 48-port 1G copper with modul» | C9300L-24T-4G «Cisco C9300L-24T-4G Managed Switch (L3) – 24× Gigabit-RJ45 (Data) + 4×» | C9300-24S «Cisco C9300-24S Managed Switch (L3) – 24× 1G-SFP, 19-Zoll (1 HE)» | C9300L-48P-4G «Cisco C9300L-48P-4G Managed Switch (L3) – 48× Gigabit-RJ45 (PoE+, 30 W» … (+143)
+  [sw.issue.power] ×5: 715W-P «Cisco 715W-P» | 1100W-P «Cisco 1100W-P» | 350W-P «Cisco 350W-P» | 715WAC-P «Cisco 715WAC-P» | 1100WAC-P «Cisco 1100WAC-P»
+  [sw.issue.cabling] ×26: CJS6X88TGY «Cisco CJS6X88TGY» | PFL6004BU-G «Cisco PFL6004BU-G» | PFC6X04BU-CEG «Cisco PFC6X04BU-CEG» | PSY6C04WH-CED «Cisco PSY6C04WH-CED» | PUC6004BU-FE «Cisco PUC6004BU-FE» | PUY6004WH-HE «Cisco PUY6004WH-HE» … (+20)
+  [sw.issue.mechanical] ×2: CP24BLY «24-Port Patch Panel» | CPP24FMWBLY «24-Port Patch Panel»
+
+## Catalyst 3850 | 182 | roles {"access":179} issues {"power":3} null 0 | spec access (explicit) | disagree 3
+  [sw.access.catalyst] ×179: WS-C3850-48T WS-C3850- «WS-C3850-48T WS-C3850-48P WS-C3850-48F» | WS-C3850R-48T-S «Cisco Catalyst 3850 48 Port Data IP Base, Russia» | WS-C3850-24T-E-BR «Cisco Catalyst 3850 24 Port Data IP Services» | WS-C3850-24XU-SJ «Cisco Catalyst 3850 24 mGig Port UPoE IP Base-Japan» | C1-WSC3850-12X48UL «Cisco ONE Catalyst 3850 48Port (12mGig+36Gig) UPoE LAN Base» | C3850-48XS-F-S++ «Catalyst 3850 48 Port 10G Fiber Switch IP Base TAA» … (+173)
+  [sw.issue.power] ×3: 350WAC «Cisco 350WAC» | 1100WAC «Cisco 1100WAC» | 715WAC «Cisco 715WAC»
+
+## 350X Stackable Managed | 172 | roles {"smb":172} issues {} null 0 | spec smb (heuristic) | disagree 0
+  [sw.smb.cbs-sb] ×172: SX350X-52-K9-EU «52-Port 10GBase-T Stackable Managed Switch» | SG350X-48-K9-AU «Cisco SG350X-48 48-port Gigabit Stackable Switch» | SG350X-8PMD-K9-EU «Cisco SG350-8PMD 8-Port 2.5G PoE Stackable Managed Switch» | SG350X-24-K9-AR «Cisco SG350X-24 24-port Gigabit Stackable Switch» | SX350X-24-K9-IN «24-Port 10GBase-T Stackable Managed Switch» | SX350X-08-K9-EU «8 Port 10GBase-T Stackable Managed Switch» … (+166)
+
+## 550X Stackable Managed | 168 | roles {"smb":168} issues {} null 0 | spec smb (heuristic) | disagree 0
+  [sw.smb.cbs-sb] ×168: SG550XG-8F8T-K9-UK «Cisco SG550XG-8F8T 16-Port 10G Stackable Managed Switch» | SX550X-16FT-K9-BR «Cisco SX550X-16FT 16-Port 10G Stackable Managed Switch» | SG550X-48P-K9-EU «Cisco SG550X-48P 48-port Gigabit PoE Stackable Switch» | SF550X-48-K9-AU «Cisco SF550X-48 48-port 10/100 Stackable Switch» | SG550X-48-K9-IN «Cisco SG550X-48 48-port Gigabit Stackable Switch» | SX550X-24F-K9-IN «Cisco SX550X-24F 24-Port 10G SFP+ Stackable Managed Switch» … (+162)
+
+## 110 Unmanaged | 168 | roles {"smb":168} issues {} null 0 | spec smb (heuristic) | disagree 0
+  [sw.smb.cbs-sb] ×168: SG110D-08HP-AU «SG110D-08HP 8-Port PoE Gigabit Desktop Switch» | SF95-24-KR «SF95-24 24-Port 10/100 Switch» | SG95-24-IN «SG95-24 Compact 24-Port Gigabit Switch» | SF110D-08HP-EU «SF110D-08HP 8-Port 10/100 PoE Desktop Switch» | SF110D-16-AU «SF110D-16 16-Port 10/100 Desktop Switch» | SF110-24-UK «SF110-24 24-Port 10/100 Switch» … (+162)
+
+## Business 250 Smart | 148 | roles {"smb":144} issues {"datasheet cell / bare family name (not a PID)":4} null 0 | spec industrial (heuristic) | disagree 148
+  [sw.smb.cbs-sb] ×144: CBS250-8T-E-2G-EU «CBS250 Smart 8-port GE, Ext PS, 2x1G Combo» | CBS250-8T-E-2G-NA «CBS250 Smart 8-port GE, Ext PS, 2x1G Combo» | CBS250-8FP-E-2G-NA «CBS250 Smart 8-port GE, Full PoE, Ext PS, 2x1G Combo» | CBS250-8T-E-2G-IN «CBS250 Smart 8-port GE, Ext PS, 2x1G Combo» | CBS250-8T-E-2G-SP «CBS250 Smart 8-port GE, Ext PS, 2x1G Combo» | CBS250-48P-4X-TW «CBS250 Smart 48-port GE, PoE, 4x10G SFP+» … (+138)
+  [sw.issue.placeholder] ×4: CBS220 «Cisco CBS220» | CBS110 «Cisco CBS110» | CBS350 «Cisco CBS350» | CBS250 «Cisco CBS250»
+
+## Catalyst 4500 | 133 | roles {"core-agg":72} issues {"supervisor/linecard upgrade option (no chassis)":59,"power":2} null 0 | spec core-agg (explicit) | disagree 61
+  [sw.issue.upgrade-bundle] ×59: C4500E-S8E-SFP-DEF «Default WS-X45-SUP8E with dual ME-X4748-SFP-E Bundle» | C4500E-S8L-SFP+ «Default WS-X45-SUP8L-E with dual WS-X4712-SFP+E Bundle» | C4500E-S8L-RJ45 «Sup8L-E and WS-X4748-RJ45-E upgrade for data bundle» | C4500E-3NR-8E-UPOE «SUP8-E AND WS-X4748-UPOE+E UPGRADE FOR 3 SLOT BUNDLE» | C4500E-6NR-7E-MGIG «SUP7E and MGIG upgrade for 6 slot chassis bundle (96 ports)» | C4500E-S6L-S7 «Sup6L-E/4648 to Sup7-E/4748 Upgrade for Bundle» … (+53)
+  [sw.coreagg.catalyst] ×72: C1-C4503-E «Cat4500 E-Series 3-Slot Chassis, fan, no ps» | WS-C4510RE+96 «4510R+E Chassis, Two WS-X4748-RJ45-E, Sup8-E LAN Base» | ME-4506E-S7L+96SFP «C4506-E Chassis, two ME-X4748-SFP-E, Sup7L-E, LAN Base Bundl» | WS-C4507R-E «Cat4500 E-Series 7-Slot Chassis, fan, no ps, Red Sup Capable» | WS-C4506E+96V+ «4506-E Chassis, two WS-X4648-RJ45V+E, Sup8L-E, LAN Base» | C1-C4503E+48V+ «Cisco ONE 4503-E Chassis 1 WS-X4648-RJ45V+E Sup8L-E LAN Base» … (+66)
+  [sw.issue.power] ×2: WS-UPOE-12VPSPL «12V uPoE Pass-Through Splitter» | WS-UPOE-12VPSPL= «UPoE 12V Passthrough Splitter»
+
+## 3650 | 107 | roles {"access":107} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×107: C3650-12X48UR-S++ «Catalyst 3650 48 Port mGig, 8x10G Uplink, IP Base TAA» | C3650-8X24UQ-L++ «Catalyst 3650 24 Port mGig, 4x10G Uplink, LAN Base TAA» | EDU-C3650-48FS-S «Cisco Catalyst 3650 48 Port Full PoE 4x1G Uplink IP Base K12» | C3650-48FS-E++ «Catalyst 3650 48 Port Full PoE 4x1G Uplink IP Services TAA» | CATALYST-3850-CTD «Bundle Catalyst 3850, Lancope StealthWatch» | C3650-48FQ-S++ «Catalyst 3650 48 Port Full PoE 4x10G Uplink IP Base TAA» … (+101)
+
+## 220 Smart | 107 | roles {"smb":106} issues {"transceiver":1} null 0 | spec smb (heuristic) | disagree 1
+  [sw.smb.cbs-sb] ×106: SG220-52-K9-CN «SG220-52 52-Port Gigabit Smart Switch» | SG220-26-K9-UK «SG220-26 26-Port Gigabit Smart Switch» | CBS220-24T-4G-EU «Cisco CBS220-24T-4G-EU» | SF220-48-K9-NA «SF220-48 48-Port 10/100 Smart Switch» | SG220-28MP-K9-CN «SG220-28MP 28-Port Gigabit PoE Smart Switch» | SG220-26P-K9-IN «SG220-26P 26-Port Gigabit PoE Smart Switch» … (+100)
+  [sw.issue.optic] ×1: MGBBX1 «Cisco MGBBX1»
+
+## Catalyst 9200 | 104 | roles {"access":101} issues {"power":2,"datasheet cell / bare family name (not a PID)":1} null 0 | spec access (explicit) | disagree 3
+  [sw.access.catalyst] ×101: C9200L-48P- 4G «C9200L-48P- 4G» | C9200L-24P- 4G «C9200L-24P- 4G» | C9200L-48T-4G-E «C9200L-48T-4G-E – Catalyst 9200L 48-port Data 4x1G uplink Switch, Netw» | C9200-24T-A «C9200-24T-A – Catalyst 9200 24-port Data Switch, Network Advantage» | C9200L-48PXG-4X-A «C9200L-48PXG-4X-A – Catalyst 9200L 48-port 12xmGig, 36x1G, 4x10G PoE+,» | C9200-24PXG-E «C9200-24PXG-E – Catalyst 9200 24-port 8xmGig, 16x1G, PoE+, Network Ess» … (+95)
+  [sw.issue.power] ×2: C9K-ADPT-DC «DC-DC power adapter for the C9200CX-12T-2X2G compact switch (80W)» | C9K-80W-ADPT «AC-DC slim power adapter for the C9200CX-12T-2X2G compact switch (80W)»
+  [sw.issue.placeholder] ×1: SNMPv1 «Cisco SNMPv1»
+
+## Catalyst 3650 | 101 | roles {"access":101} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×101: WS-C3650-12X48UR «WS-C3650-12X48UR – 8 x 10 Gigabit Ethernet with SFP+ or 8 x Gigabit Et» | WS-C3650-48TS-E «Cisco Catalyst 3650 48-Port Data Switch IP Services (WS-C3650-48TS-E)» | WS-C3650-24PS-E «Cisco Catalyst 3650 24-Port PoE+ Switch 4× 1G IP Services (WS-C3650-24» | WS-C3650-24PWS-S «WS-C3650-24PWS-S – Cisco Catalyst 3650 24 Port PoE 4x1G Uplink w/5 AP » | WS-C3650-24PS «WS-C3650-24PS – 24 PoE+» | WS-C3650-24TD-S «Cisco Catalyst 3650 24-Port Data Switch IP Base (WS-C3650-24TD-S)» … (+95)
+
+## Catalyst 6500 | 100 | roles {"core-agg":33} issues {"mechanical":6,"linecard/module/supervisor":21,"router (Cisco 7600)":20,"access point / WLSE":8,"tracking/option PID (not a product)":5,"datasheet cell / bare family name (not a PID)":3,"power":2,"transceiver":2} null 0 | spec core-agg (explicit) | disagree 67
+  [sw.issue.mechanical] ×6: WS-6509-NEB-UPGRD= «Upgrade to NEB chassis to support Sup720» | WS-C6509-V-E-CM «Catalyst 6509-V-E Chassis Cable Management» | WS-C6597= «Catalyst C6506/9(E and Non-E) 23in Center Rack Mount Kit» | FERRITE-BEAD «Cisco FERRITE-BEAD» | FERRITE-BEAD= «Cisco FERRITE-BEAD=» | WS-C6509-V-E-CM= «Catalyst 6509-V-E Chassis Cable Management»
+  [sw.issue.component] ×21: WS-6148-GE-TX «Cisco WS-6148-GE-TX» | 76-ES+XT-4TG3C «Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 4x10GE, XFP, DFC» | 7600-SSC-400 «Cisco 7600 Series/Catalyst 6500 Series Services SPA Carrier-400» | WS-SSC-600 «Cisco Catalyst 6500 Series Services SPA Carrier-600» | WS-IPSEC-3 «Cisco Catalyst 6500 Series VPN Services Port Adapter» | BF-S720-64MB-RP «Bootflash for SUP720-64MB-RP» … (+15)
+  [sw.issue.router] ×20: 7606S-S32-10G-B-P «Cisco 7606S Chassis, 6-slot, SUP32-2X10GE-3B, PS» | 7606S-S32-8G-B-R «Cisco 7606S Chassis, 6-slot, Redundant SUP32-8GE-3B,PS» | 7609S-S32-8G-B-R «Cisco 7609S Chassis, 9-slot, Redundant SUP32-8GE-3B, PS» | 7603S-S32-10G-B-P «Cisco 7603S Chassis, 3-slot, SUP32-2X10GE-3B, PS» | 7603S-S32-8G-B-R «Cisco 7603S Chassis, 3-slot, Redundant SUP32-8GE-3B, PS» | 7606S-S32-8G-B-P «Cisco 7606S Chassis, 6-slot, SUP32-8GE-3B, PS» … (+14)
+  [sw.issue.wireless] ×8: AIR-AP1230A «Cisco AIR-AP1230A» | AIR-AP1230B «Cisco AIR-AP1230B» | AIR-AP1210 «Cisco AIR-AP1210» | AIR-AP1131AG «Cisco Aironet 1130AG Series access point» | AIR-AP1242AG «Cisco Aironet 1240AG Series access point» | AIR-AP1232AG «Cisco Aironet 1230AG Series access point» … (+2)
+  [sw.coreagg.catalyst] ×33: WS-C6513-VPN+-K9 «Cisco Catalyst 6513 IPSec VSPA Security System» | WS-C6513-S32-10GE «Cat6513 chassis, WS-SUP32-10GE-3B, Fan Tray (req. P/S)» | WS-C6503E-S32-10GE «Cat6503E chassis, WS-SUP32-10GE-3B, Fan Tray (req.P/S)» | VS-C6504E-S720-10G «Catalyst Chassis+Fan Tray+Sup720-10G; IP Base ONLY incl. VSS» | C6807-XL-S2T-BUN «Chassis+Fan Tray+ Sup2T+2xPower Supply; IP Services ONLY» | VS-C6506E-S2T-6904 «Catalyst Chassis+Fan Tray+ Sup2T+2x6904; IP Services ONLY» … (+27)
+  [sw.issue.tracking] ×5: C6-MFG-TEST-SW1 «Test Only-Not for Customer Use» | C6-MFG-TEST-SW2 «Test Only-Not for Customer Use» | C6-MFG-TEST-SW3 «Test Only-Not for Customer Use» | C6-MFG-TEST-SW4 «Test Only-Not for Customer Use» | C6-MFG-TEST-SW5 «Test Only-Not for Customer Use»
+  [sw.issue.placeholder] ×3: LAN-PHY «Cisco LAN-PHY» | VBR-rt «Cisco VBR-rt» | OTN/G.709 «Cisco OTN/G.709»
+  [sw.issue.power] ×2: PEM-20A-AC+= «PwrEntryMod use w/1400W AC P/S for CISCO7603, WS-C6503» | PEM-20A-AC+ «PwrEntryMod use w/1400W AC P/S for CISCO7603, WS-C6503»
+  [sw.issue.optic] ×2: WS-G5483= «1000BASE-T GBIC» | XR-10GB-LR «10GBASE-LR X2 (single-mode fiber)»
+
+## 2960-X | 86 | roles {"access":82} issues {"datasheet cell / bare family name (not a PID)":4} null 0 | spec access (explicit) | disagree 4
+  [sw.access.catalyst] ×82: C1-C2960X-24TS-L «Catalyst 2960-X 24 GigE, 4 x 1G SFP, LAN Base» | C1-C2960X-48TD-L «Catalyst 2960-X 48 GigE, 2 x 10G SFP+, LAN Base» | WS-C2960X-48TS-BR «Catalyst 2960-X 48 GigE, 4 x 1G SFP, LAN Base» | EDU-C2960X-24PD-L «Catalyst 2960-X 24 GigE PoE 370W, 2 x 10G SFP+, LAN Base K12» | WS-C2960X-48TD-L++ «Catalyst 2960-X 48 GigE, 2 x 10G SFP+, LAN Base» | WS-C2960RX-48TS-L «Catalyst 2960-X 48 GigE, 4 x 1G SFP, LAN Base, Russia» … (+76)
+  [sw.issue.placeholder] ×4: 0.75K «Cisco 0.75K» | 0.375K «Cisco 0.375K» | 2960-S/SF «Cisco 2960-S/SF» | 0.875K «Cisco 0.875K»
+
+## Catalyst 9500 | 75 | roles {"core-agg":68} issues {"mechanical":2,"tracking/option PID (not a product)":3,"licence/software":2} null 0 | spec core-agg (explicit) | disagree 7
+  [sw.issue.mechanical] ×2: C9500-ACCKITH-19I= «Accessory Kit for Cisco Catalyst 9500 Series – High-End - 19" rack mou» | C9500-ACCKITH-23I= «Accessory Kit for Cisco Catalyst 9500 Series – High-End - 23" rack mou»
+  [sw.issue.tracking] ×3: C9500-RFID «RFID Selected for C9500 high performance switches (C9500-24Y4C, C9500-» | C9500-RFID-NONE «No RFID Selected for C9500 high performance and C9500X switches» | C9500X-RFID «RFID Selected for C9500X switches»
+  [sw.coreagg.catalyst] ×68: C9500-40X-P «Catalyst 9500 40-port 10G only» | C9500-24Q-10E «9500 10Y DNA Essentials, HW» | C9500-24Q-1E «Fed Only, 9500 24P40G 1Y DNA Essentials, HW» | C9500-24X-E «Cisco Catalyst 9500 16-port 10G switch, 8 x 10GE Network Module, NW Es» | C9500X-28C8D-E «Catalyst 9500 28x100G + 8x400G switch, NW Essentials License» | C9500-24Y4C-E «C9500-24Y4C-E – Cisco Catalyst 9500 Series high performance 24-port 1/» … (+62)
+  [sw.issue.licence] ×2: S9500ULPEK9-165 «UNIVERSAL W/O DTLS» | S9500ULPEK9-1610 «Cisco Catalyst 9500 XE 16.10 UNIVERSAL W/O DTLS»
+
+## 1000 | 71 | roles {"access":71} issues {} null 0 | spec access (heuristic) | disagree 0
+  [sw.access.catalyst] ×71: WS-C2960R+24PC-L «Catalyst 2960Plus 24 10/100 PoE+2 T/SFP LAN Base, Russia» | WS-C2960R+48PST-L «Catalyst2960Plus 48 10/100 PoE+2 1000BT+2SFP LAN Base, Russia» | WS-C2960L-24TS-JPP «JPN Post 2960L 24 port GigE, 4 x 1G SFP, LAN Lite» | C1000-48PP-4G-L «Catalyst 1000 48port GE, partial POE, 4x1G SFP» | NAL-C1000-8PS-LL «NAL PID for Catalyst 1000 8 port GE PoE, 2x1G SFP, LAN Lite» | NAL-C1000-24P-4X «NAL PID Catalyst 1000 24 port GE, POE, 4 x 10G SFP» … (+65)
+
+## 3750-X | 65 | roles {"access":62} issues {"linecard/module/supervisor":3} null 0 | spec access (explicit) | disagree 3
+  [sw.access.catalyst] ×62: C3560X-48P-10G «Catalyst 3560X 48 port PoE and 10G Module Bundle» | C3750X-24P-10G «Catalyst 3750X 24 port PoE and 10G Module Bundle» | NAL-C3750X-48P-L «NAL PID for 3750X 48 PoE LB switch» | NAL-C3560X-48T-L «NAL PID for 3560X 48 Data LB switch» | NAL-C3750X-24T-L «NAL PID for 3750X 24 Data LB switch» | NAL-C3560X-48P-L «NAL PID for 3560X 48 PoE LB switch» … (+56)
+  [sw.issue.component] ×3: CAT-3KX-10G-SM-SR «Catalyst 3K-X 10Gig SM Promo: 10G SM + Two SR SFP+» | C3KX-SM-10G= «Catalyst 3K-X 10G Service Module Spare» | C3KX-SM-10G «Service Module with two 10GbE SFP+ ports network module for Netflow an»
+
+## 3750 | 63 | roles {"access":62} issues {"datasheet cell / bare family name (not a PID)":1} null 0 | spec access (explicit) | disagree 1
+  [sw.access.catalyst] ×62: WS-C3750G-24WS-S50 «Cisco WS-C3750G-24WS-S50» | WS-C3560E-48PD-E «Catalyst 3560E 48 10/100/1000 PoE+2*10GE(X2), 750W, IPS s/w» | WS-C3750-24FS-S «● 24 100BASE-FX ports ● 2 SFP-based Gigabit Ethernet ports ● 32-Gbps, » | WS-C3560E-24PD-S «Catalyst 3560E 24 10/100/1000 PoE+2*10GE(X2), 750W, IPB s/w» | 3750-24TS «Cisco 3750-24TS» | WS-C3560E-12SD-S «Catalyst 3560E 12 SFP+2*10GE(X2), IPB s/w» … (+56)
+  [sw.issue.placeholder] ×1: 0.6-1.2A «Cisco 0.6-1.2A»
+
+## Nexus 6000 | 62 | roles {"datacenter":57} issues {"linecard/module/supervisor":5} null 0 | spec datacenter (explicit) | disagree 5
+  [sw.issue.component] ×5: N6004X-M20UP «Nexus 6004EF Chassis Module 20P 10GE Eth/FCoE OR 8/4/2G FC» | N6K-C6004-M12Q= «Nexus 6004 Module 12Q 40GE Ethernet/FCoE, spare» | N6K-C6004-M12Q-B «N6004 Expansion Module for NFR bundle» | N6K-C6004-M12Q «Nexus 6004 Module 12Q 40GE Ethernet/FCoE (non‑EF)» | N6004X-M20UP= «Nexus 6004EF Chassis Module 20P 10GE Eth/FCoE OR 8/4/2G FC, Spare»
+  [sw.dc.nexus] ×57: N6K-C6004= «Nexus 6004 EF Chassis Bare» | N6004EF-8FEX-10G «N6004 Chassis with 8 x 10G FEXes with FETs» | N6004EF-4FEX-10GT «N6004 Chassis with 4 x 10GT FEXes with FETs» | N6001P-4FEX-10G «N6001P Chassis with 4 x 10G FEXes with FETs» | N6001P-4FEX-1G «N6001P Chassis with 4 x 1G FEXes with FETs» | C1-N6004-B-24Q «Cisco ONE Nexus 6004 EF, 24x40GE Ports/FCoE Bundle;6PS, 4 FAN» … (+51)
+
+## 6800 | 43 | roles {"core-agg":21,"access":5} issues {"linecard/module/supervisor":6,"datasheet cell / bare family name (not a PID)":1,"tracking/option PID (not a product)":5,"mechanical":3,"power":2} null 0 | spec core-agg (explicit) | disagree 22
+  [sw.coreagg.catalyst] ×21: 6807-S6T-10G-40G «Chassis+Fan+ Sup6T+2xPower Supply; IP Services, 10G, 40G» | C6807-3850-10G-BUN «2 of 6807XL, 20 to 40 of 3850, up to 80 of 10G Optics» | 2D-C6807-XL= «Catalyst 6807-XL 7-slot chassis, 10RU (spare) w/2D Barcode» | C6880-X-LE++ «Cisco Catalyst 6880-X-Chassis (Standard Tables)» | C9606R= «Cisco C9606R=» | C1-C6824-X-LE-40G «Cisco ONE Catalyst 6824-X-Chassis and 2x40G Standard Tables» … (+15)
+  [sw.issue.component] ×6: C6800-8P40G-XL «Catalyst 6800 8-port 40GE with dual integrated dual DFC4-EXL» | C6800-SVE-BB «Vecapy/Base Board» | C6800-8P40G= «Catalyst 6800 8-port 40GE with dual integrated dual DFC4-E spare» | C6880-X-16P10G= «Cisco Catalyst 6880-X Multi Rate Port Card (XL Tables)» | C6800-8P40G-XL= «Catalyst 6800 8-port 40GE with dual integrated dual DFC4-EXL spare» | C6800-8P40G «Catalyst 6800 8-port 40GE with dual integrated dual DFC4-E»
+  [sw.issue.placeholder] ×1: 10RU «Cisco 10RU»
+  [sw.issue.tracking] ×5: C6800-CAMPUS-CORE «Catalyst 6800 Campus Core Deployment; For Tracking Only» | C6800-CAMPUS-COLL «Catalyst 6800 Collapsed Campus Core and Distribution» | C6800-OTHER «Catalyst 6800 Other PIN; For Tracking Only» | C6800-CAMPUS-DIST «Catalyst 6800 Campus Distribution Deployment; For Tracking O» | C6800-DATA-CENTER «Catalyst 6800 Data Center Deployment; For Tracking Only»
+  [sw.issue.mechanical] ×3: C6880-X-NEBS-PAK «Mandatory Air Dam set for 6880-X to meet thermal requirement» | C6800-XL-NEBS-PAK «Catalyst 6800-XL air dam for NEBS» | C6807-XL-PW «CETUSCR BACKPLANE, Power»
+  [sw.access.catalyst] ×5: C6800IA-48TD «Catalyst 6800 Instant Access Data Switch» | C6800IA-48TD= «Catalyst 6800 Instant Access Data Switch» | C6800IA-48FPDR «C6800IA Instant Access POE+ Switch w Redundant PS capablity» | C6800IA-48FPD= «Catalyst 6800 Instant Access POE+ Switch» | C6800IA-48FPD «Catalyst 6800 Instant Access POE+ Switch»
+  [sw.issue.power] ×2: C6800-XL-PS-CONV= «Catalyst 6807-XL Power Supply Converter» | C6800-XL-PS-CONV «Catalyst 6807-XL Power Supply Converter»
+
+## 2960-XR | 40 | roles {"access":37} issues {"power":3} null 0 | spec access (explicit) | disagree 3
+  [sw.access.catalyst] ×37: 2D-C2960XR-24TD-I «Cat 2960-XR 24 GigE, 2 x 10G SFP+, IP Lite w/ 2D barcode» | WS-C2960XR-48TS-L «48 Ethernet 10/100/1000 ports, 4SFP LAN BASE» | WS-C2960XR-48TDI++ «Catalyst 2960-XR 48 GigE, 2 x 10G SFP+, IP Lite» | WS-C2960XR-24PSI++ «Catalyst 2960-XR 24 GigE PoE 370W, 4 x 1G SFP, IP Lite» | WS-C2960XR-24PDI++ «Catalyst 2960-XR 24 GigE PoE 370W, 2 x 10G SFP+, IP Lite» | NAL-2960XR-24TS-I «NAL PID for WS-C2960XR-24TS-I» … (+31)
+  [sw.issue.power] ×3: 1025WAC «Cisco 1025WAC» | 640WAC «Cisco 640WAC» | 250WAC «Cisco 250WAC»
+
+## Business 220 | 32 | roles {"smb":32} issues {} null 0 | spec industrial (heuristic) | disagree 32
+  [sw.smb.cbs-sb] ×32: CBS220-8FP-E-2G-xx «Cisco CBS220-8FP-E-2G-xx» | CBS220-24P-4X-xx «Cisco CBS220-24P-4X-xx» | CBS220-16T-2G-xx «Cisco CBS220-16T-2G-xx» | CBS220-48T-4G-xx «Cisco CBS220-48T-4G-xx» | CBS220-24T-4G-xx «Cisco CBS220-24T-4G-xx» | CBS220-24FP-4G-xx «Cisco CBS220-24FP-4G-xx» … (+26)
+
+## Catalyst IE9300 Rugged Series | 31 | roles {"industrial":24} issues {"transceiver":6,"datasheet cell / bare family name (not a PID)":1} null 0 | spec industrial (explicit) | disagree 7
+  [sw.issue.optic] ×6: ONS-SI+-10G-ZR= «SFP+-ZR- Industrial Temp» | ONS-SE-GE-BXU= «SFP – 1000BASE-BX U – GE Bidirectional Upstream – Ext Temp» | ONS-SI+-10G-ER= «SFP+ ER - Industrial Temp» | ONS-SI+-10G-SR= «SFP+ SR - Industrial Temp» | ONS-SI+-10G-LR= «SFP+ LR - Industrial Temp» | ONS-SE-GE-BXD= «SFP – 1000BASE BX D – GE Bidirectional Downstream Ext Temp»
+  [sw.industrial] ×24: IE-9320-22S2C4X-A «Catalyst IE9300 w/ 24 Ports GE SFP Downlinks and 4 Ports 10G SFP+ upli» | IE-9320-24P4X-E/-A «Cisco IE-9320-24P4X-E/-A» | IE-9320-24P4S-E/-A «Cisco IE-9320-24P4S-E/-A» | IE-9320-24T4X-E «Catalyst IE9300 w/ 24 Ports GE Cu Downlinks and 4 Ports 10G SFP+ uplin» | IE-9310-16P8S4X-E/-A «Cisco IE-9310-16P8S4X-E/-A» | IE-9310-26S2C-E «Catalyst IE9300 w/ 24 Ports GE SFP Downlinks and 4 Ports GE SFP uplink» … (+18)
+  [sw.issue.placeholder] ×1: IE9300 «Cisco IE9300»
+
+## 1300 | 28 | roles {"smb":28} issues {} null 0 | spec access (heuristic) | disagree 28
+  [sw.smb.cbs-sb] ×28: C1300-48P-4X «Cisco C1300-48P-4X Catalyst-1300-Managed-Switch (L3) – 48× 1G-RJ45 (Po» | C1300-8FP-2G «Cisco C1300-8FP-2G Catalyst-1300-Managed-Switch (L3) – 8× 1G-RJ45 (PoE» | C1300-48FP-4X «Cisco C1300-48FP-4X Catalyst-1300-Managed-Switch (L3) – 48× 1G-RJ45 (P» | C1300-8MGP-2X «Cisco C1300-8MGP-2X Catalyst-1300-Managed-Switch (L3) – 4× 1G-RJ45 (Po» | C1300-24P-4X «Cisco C1300-24P-4X Catalyst-1300-Managed-Switch (L3) – 24× 1G-RJ45 (Po» | C1300-12XT-2X «Cisco C1300-12XT-2X Catalyst-1300-Managed-Switch (L3) – 12× 10G-RJ45 +» … (+22)
+
+## Catalyst 1000 | 27 | roles {"access":27} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×27: C1000-8T-E-2G-L «Cisco C1000-8T-E-2G-L Catalyst-1000-Managed-Switch (L2, IOS) – 8× 1G-R» | C1000-24P-4G-L «Cisco C1000-24P-4G-L Catalyst-1000-Managed-Switch (L2, IOS) – 24× 1G-R» | C1000-16T-2G-L «Cisco C1000-16T-2G-L Catalyst-1000-Managed-Switch (L2, IOS) – 16× 1G-R» | C1000-48FP-4X-L «Cisco C1000-48FP-4X-L Catalyst-1000-Managed-Switch (L2, IOS) – 48× 1G-» | C1000-48FP-4G-L «Cisco C1000-48FP-4G-L Catalyst-1000-Managed-Switch (L2, IOS) – 48× 1G-» | C1000FE-48T-4G-L «Cisco C1000FE-48T-4G-L Catalyst-1000-Managed-Switch (L2, IOS) – 48× 10» … (+21)
+
+## IE2000 | 25 | roles {"industrial":25} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×25: IE-2000-16TC-G-E «Cisco IE-2000-16TC-G-E IE2000 lüfterloser Layer-2-Industrie-Switch (Ci» | IE-2000-8TC-G-L «Cisco IE-2000-8TC-G-L IE2000 lüfterloser Layer-2-Industrie-Switch (Cis» | IE-2000-8TC-G-B «Cisco IE-2000-8TC-G-B IE2000 lüfterloser Layer-2-Industrie-Switch (Cis» | IE-2000-4S-TS-G-B «Cisco IE-2000-4S-TS-G-B IE2000 lüfterloser Layer-2-Industrie-Switch (C» | IE-2000-4TS-B «Cisco IE-2000-4TS-B IE2000 lüfterloser Layer-2-Industrie-Switch (Cisco» | IE-2000-8TC-G-E «Cisco IE-2000-8TC-G-E IE2000 lüfterloser Layer-2-Industrie-Switch (Cis» … (+19)
+
+## Catalyst 3750-X | 25 | roles {"access":25} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×25: WS-C3750X-48T-E «Cisco WS-C3750X-48T-E Catalyst 3750-X stapelbarer Layer-3-Managed-Swit» | WS-C3750X-12S-S «Cisco WS-C3750X-12S-S Catalyst 3750-X stapelbarer Layer-3-Managed-Swit» | WS-C3750X-48P-E «Cisco WS-C3750X-48P-E Catalyst 3750-X stapelbarer Layer-3-Managed-Swit» | WS-C3750X-48PF-S «Cisco WS-C3750X-48PF-S Catalyst 3750-X stapelbarer Layer-3-Managed-Swi» | WS-C3750X-24S-E «Cisco WS-C3750X-24S-E Catalyst 3750-X stapelbarer Layer-3-Managed-Swit» | WS-C3750X-48U-E «Cisco WS-C3750X-48U-E Catalyst 3750-X stapelbarer Layer-3-Managed-Swit» … (+19)
+
+## 350 | 24 | roles {"smb":24} issues {} null 0 | spec smb (heuristic) | disagree 0
+  [sw.smb.cbs-sb] ×24: SG350-10 «Cisco SG350-10 350-Series Managed Switch (L2, SB-OS) – 8× 1G-RJ45 + 2×» | SG350-28P «Cisco SG350-28P 350-Series Managed Switch (L2, SB-OS) – 24× 1G-RJ45 (P» | SF352-08P «Cisco SF352-08P 350-Series Managed Switch (L2, SB-OS) – 8× FE-RJ45 (Po» | SF350-48P «Cisco SF350-48P 350-Series Managed Switch (L2, SB-OS) – 48× FE-RJ45 (P» | SF350-48MP «Cisco SF350-48MP 350-Series Managed Switch (L2, SB-OS) – 48× FE-RJ45 (» | SF350-48 «Cisco SF350-48 350-Series Managed Switch (L2, SB-OS) – 48× FE-RJ45 + 2» … (+18)
+
+## Catalyst 2960-L | 24 | roles {"access":24} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×24: WS-C2960L-16TS-LL «Cisco WS-C2960L-16TS-LL Catalyst 2960-L Managed-Switch (Cisco IOS, L2)» | WS-C2960L-SM-8TS «Cisco WS-C2960L-SM-8TS Catalyst 2960-L Smart Managed-Switch (Cisco IOS» | WS-C2960L-SM-16TS «Cisco WS-C2960L-SM-16TS Catalyst 2960-L Smart Managed-Switch (Cisco IO» | WS-C2960L-24PQ-LL «Cisco WS-C2960L-24PQ-LL Catalyst 2960-L Managed-Switch (Cisco IOS, L2)» | WS-C2960L-48TS-LL «Cisco WS-C2960L-48TS-LL Catalyst 2960-L Managed-Switch (Cisco IOS, L2)» | WS-C2960L-24TS-LL «Cisco WS-C2960L-24TS-LL Catalyst 2960-L Managed-Switch (Cisco IOS, L2)» … (+18)
+
+## Catalyst 2960-X | 23 | roles {"access":23} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×23: WS-C2960XR-24TD-I «Cisco WS-C2960XR-24TD-I Catalyst 2960-XR Layer-3-Managed-Switch (Cisco» | WS-C2960XR-24PS-I «Cisco WS-C2960XR-24PS-I Catalyst 2960-XR Layer-3-Managed-Switch (Cisco» | WS-C2960X-24PS-L «Cisco WS-C2960X-24PS-L Catalyst 2960-X Layer-2-Managed-Switch (Cisco I» | WS-C2960X-48TS-L «Cisco WS-C2960X-48TS-L Catalyst 2960-X Layer-2-Managed-Switch (Cisco I» | WS-C2960XR-48TD-I «Cisco WS-C2960XR-48TD-I Catalyst 2960-XR Layer-3-Managed-Switch (Cisco» | WS-C2960X-24TD-L «Cisco WS-C2960X-24TD-L Catalyst 2960-X Layer-2-Managed-Switch (Cisco I» … (+17)
+
+## 550X | 23 | roles {"smb":23} issues {} null 0 | spec smb (heuristic) | disagree 0
+  [sw.smb.cbs-sb] ×23: SG550X-24P «Cisco SG550X-24P 550X-Series stapelbarer Layer-3-Managed-Switch (SB-OS» | SG550X-48MP «Cisco SG550X-48MP 550X-Series stapelbarer Layer-3-Managed-Switch (SB-O» | SG550XG-8F8T «Cisco SG550XG-8F8T 550X-Series stapelbarer Layer-3-Managed-Switch (SB-» | SX550X-12F «Cisco SX550X-12F 550X-Series stapelbarer Layer-3-Managed-Switch (SB-OS» | SX550X-16FT «Cisco SX550X-16FT 550X-Series stapelbarer Layer-3-Managed-Switch (SB-O» | SX550X-24 «Cisco SX550X-24 550X-Series stapelbarer Layer-3-Managed-Switch (SB-OS)» … (+17)
+
+## 3560-CX | 22 | roles {"access":22} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×22: 2960CX-8PC-L «Cisco 2960CX-8PC-L» | WS-C3560CX-12TCS++ «Catalyst 3560-CX 12 Port Data IP Base TAA» | WS-C3560CX-8XPDS++ «Cisco Catalyst 3560-CX 2 x mGig, 6 x 1G PoE, IP Base» | 2960CX-8TC-L «Cisco 2960CX-8TC-L» | NAL-C3560CX-12TC-S «NAL PID for WS-C3560CX-12TC-S» | NAL-C3560CX-8TC-S «NAL PID for WS-C3560CX-8TC-S» … (+16)
+
+## Catalyst 3560-X | 21 | roles {"access":21} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×21: WS-C3560X-24T-L «Cisco WS-C3560X-24T-L Catalyst 3560-X Layer-2-Managed-Switch (Cisco IO» | WS-C3560X-48T-E «Cisco WS-C3560X-48T-E Catalyst 3560-X Layer-3-Managed-Switch (Cisco IO» | WS-C3560X-24P-E «Cisco WS-C3560X-24P-E Catalyst 3560-X Layer-3-Managed-Switch (Cisco IO» | WS-C3560X-24T-S «Cisco WS-C3560X-24T-S Catalyst 3560-X Layer-3-Managed-Switch (Cisco IO» | WS-C3560X-48PF-L «Cisco WS-C3560X-48PF-L Catalyst 3560-X Layer-2-Managed-Switch (Cisco I» | WS-C3560X-48U-E «Cisco WS-C3560X-48U-E Catalyst 3560-X Layer-3-Managed-Switch (Cisco IO» … (+15)
+
+## Catalyst 2960 | 20 | roles {"access":20} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×20: WS-C2960PD-8TT-L «Cisco WS-C2960PD-8TT-L Catalyst 2960 Managed Switch (Cisco IOS, LAN Ba» | WS-C2960-24PC-S «Cisco WS-C2960-24PC-S Catalyst 2960 Managed Switch (Cisco IOS, LAN Lit» | WS-C2960-8TC-S «Cisco WS-C2960-8TC-S Catalyst 2960 Managed Switch (Cisco IOS, LAN Lite» | WS-C2960G-8TC-L «Cisco WS-C2960G-8TC-L Catalyst 2960G Managed Switch (Cisco IOS, LAN Ba» | WS-C2960-24TC-S «Cisco WS-C2960-24TC-S Catalyst 2960 Managed Switch (Cisco IOS, LAN Lit» | WS-C2960G-48TC-L «Cisco WS-C2960G-48TC-L Catalyst 2960G Managed Switch (Cisco IOS, LAN B» … (+14)
+
+## 350X | 20 | roles {"smb":20} issues {} null 0 | spec smb (heuristic) | disagree 0
+  [sw.smb.cbs-sb] ×20: SG350XG-48T «Cisco SG350XG-48T 350X-Series stapelbarer Managed Switch (L2, SB-OS) –» | SG350X-8PMD «Cisco SG350X-8PMD 350X-Series stapelbarer Managed Switch (L2, SB-OS) –» | SG350X-12PMV «Cisco SG350X-12PMV 350X-Series stapelbarer Managed Switch (L2, SB-OS) » | SG350X-24P «Cisco SG350X-24P 350X-Series stapelbarer Managed Switch (L2, SB-OS) – » | SG350X-24PV «Cisco SG350X-24PV 350X-Series stapelbarer Managed Switch (L2, SB-OS) –» | SG350X-48P «Cisco SG350X-48P 350X-Series stapelbarer Managed Switch (L2, SB-OS) – » … (+14)
+
+## 4900 | 19 | roles {"datacenter":15,"access":1,"core-agg":2} issues {} null 1 | spec core-agg (explicit) | disagree 17
+  [sw.dc.catalyst-tor] ×15: WS-C4948-10GE-E «Cisco Catalyst 4948-10GE, Enterprise Services Image (OSPF, EIGRP, IS-I» | WS-C4948E-BDL-1 «Green Bundle WS-C4948E single» | WS-C4948E-F-BDL-1 «Green Bundle single WS-C4948E-F» | WS-C4948E-F «Cat 4948E-F, opt sw,48x 10/100/1000+ 4 SFP+, no PS, Fr Ext» | WS-C4900M «Base system with 8 X2 ports and 2 half slots» | WS-C4948E-F-BDL «Green Bundle 10x WS-C4948E-F» … (+9)
+  [sw.access.metro] ×1: ME-3600X-24FS-M «Cisco ME-3600X-24FS-M»
+  [sw.coreagg.catalyst] ×2: ME-3800X-24FS-M «Cisco ME-3800X-24FS-M» | ME-4924-10GE «ME4924 Switch - 24x 1GE SFP + 4x SFP or 2x 10GE X2, No PS»
+  [unmatched] ×1: WS-C4928-10GE «Catalyst 4928, no p/s, 28x 1GBase-X SFP, 2x 10GBase-X X2»
+
+## IE3500H | 16 | roles {"industrial":16} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×16: IE-3500H-16T-E «Cisco IE-3500H-16T-E Industrial-Ethernet-IE3500H lüfterloser IP67 Laye» | IE-3500H-20FT4T-A «Cisco IE-3500H-20FT4T-A Industrial-Ethernet-IE3500H lüfterloser IP67 L» | IE-3500H-20FT4T-E «Cisco IE-3500H-20FT4T-E Industrial-Ethernet-IE3500H lüfterloser IP67 L» | IE-3500H-14P2T-A «Cisco IE-3500H-14P2T-A Industrial-Ethernet-IE3500H lüfterloser IP67 La» | IE-3500H-12P2MU2XA «Cisco IE-3500H-12P2MU2XA Industrial-Ethernet-IE3500H lüfterloser IP67 » | IE-3500H-8T-E «Cisco IE-3500H-8T-E Industrial-Ethernet-IE3500H lüfterloser IP67 Layer» … (+10)
+
+## 3560 | 16 | roles {"access":16} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×16: WS-C3560-48PS-S «Cisco WS-C3560-48PS-S Catalyst 3560 gemanagter L3-Access-Switch (48× 1» | WS-C3560-24TS-S «Cisco WS-C3560-24TS-S Catalyst 3560 gemanagter L3-Access-Switch (24× 1» | WS-C3560G-48PS-E «Cisco WS-C3560G-48PS-E Catalyst 3560 gemanagter L3-Access-Switch (48× » | WS-C3560-48TS-S «Cisco WS-C3560-48TS-S Catalyst 3560 gemanagter L3-Access-Switch (48× 1» | WS-C3560G-24TS-S «Cisco WS-C3560G-24TS-S Catalyst 3560 gemanagter L3-Access-Switch (24× » | WS-C3560G-48TS-S «Cisco WS-C3560G-48TS-S Catalyst 3560 gemanagter L3-Access-Switch (48× » … (+10)
+
+## 1200 | 16 | roles {"smb":16} issues {} null 0 | spec access (heuristic) | disagree 16
+  [sw.smb.cbs-sb] ×16: C1200-8T-E-2G «Cisco C1200-8T-E-2G Catalyst-1200-Managed-Switch (L2, Linux) – 8× 1G-R» | C1200-24T-4G «Cisco C1200-24T-4G Catalyst-1200-Managed-Switch (L2, Linux) – 24× 1G-R» | C1200-16T-2G «Cisco C1200-16T-2G Catalyst-1200-Managed-Switch (L2, Linux) – 16× 1G-R» | C1200-24T-4X «Cisco C1200-24T-4X Catalyst-1200-Managed-Switch (L2, Linux) – 24× 1G-R» | C1200-48T-4X «Cisco C1200-48T-4X Catalyst-1200-Managed-Switch (L2, Linux) – 48× 1G-R» | C1200-8P-E-2G «Cisco C1200-8P-E-2G Catalyst-1200-Managed-Switch (L2, Linux) – 8× 1G-R» … (+10)
+
+## 2960-Plus | 15 | roles {"access":15} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×15: WS-C2960+24LC-S++ «Catalyst 2960 Plus 24 10/100 (8 PoE) + 2 T/SFP LAN Lite» | WS-C2960+24PC-S++ «Catalyst 2960 Plus 24 10/100 PoE + 2 T/SFP LAN Lite» | WS-C2960+24PC-L++ «Catalyst 2960 Plus 24 10/100 PoE + 2 T/SFP LAN Base» | WS-C2960+48PST-DWP «Catalyst 2960 Plus 48 10/100 PoE + 2 1000BT +2 SFP DWP Licen» | WS-C2960+24LC-L++ «Catalyst 2960 Plus 24 10/100 (8 PoE) + 2 T/SFP LAN Base» | WS-C2960+24PC-DWP «Catalyst 2960 Plus 24 10/100 PoE + 2 T/SFP DWP License» … (+9)
+
+## 9350 | 15 | roles {"access":15} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×15: C9350-48S «Cisco C9350-48S Managed Switch (L3) – 48× 1G-SFP, 19-Zoll (1 HE)» | C9350-48T «Cisco C9350-48T Managed Switch (L3) – 48× Gigabit-RJ45 (Data), 19-Zoll» | C9350-24Y «Cisco C9350-24Y Managed Switch (L3) – 24× 1/10/25G-SFP28, 19-Zoll (1 H» | C9350-48U «Cisco C9350-48U Managed Switch (L3) – 48× Gigabit-RJ45 (UPOE, 60 W), 1» | C9350-24S «Cisco C9350-24S Managed Switch (L3) – 24× 1G-SFP, 19-Zoll (1 HE)» | C9350-24T «Cisco C9350-24T Managed Switch (L3) – 24× Gigabit-RJ45 (Data), 19-Zoll» … (+9)
+
+## ME 3400E Ethernet Access | 14 | roles {"access":11} issues {"licence/software":2,"transceiver":1} null 0 | spec industrial (heuristic) | disagree 14
+  [sw.access.metro] ×11: ME-3400EG-2CS-A «● 2 dual-purpose (10/100/1000 and SFP) ports ● 2 SFP-based Gigabit Eth» | ME-3400EG12CS-MP «Cisco ME-3400EG12CS-MP» | B-3400EG12-T «ME3400 System, 10x1G RTU License and ANA» | ME3400-24A-2GL-XB «100 Pack of (ME-3400-24TS-A + 2 GLC-LH-SM=)» | ME-3400E-24TS-BUN «Bundle for ME3400-24TS» | ME-3400E-12CS-BUN «Bundle for ME3400-12CS» … (+5)
+  [sw.issue.licence] ×2: R-ME3400E-B2A= «Metro Base to Metro Access Image upgrade for ME3400E switch» | R-ME3400E-B2I= «Metro Base to Metro IPAccess Image Upgrade for ME3400E Switch»
+  [sw.issue.optic] ×1: GLE-GE-100FX= «100BASE-FX (multimode fiber) (works in “multispeed” Gigabit Ethernet S»
+
+## Business 110 Series Unmanaged | 14 | roles {"smb":14} issues {} null 0 | spec industrial (heuristic) | disagree 14
+  [sw.smb.cbs-sb] ×14: CBS110-24T-xx «Cisco CBS110-24T-xx» | CBS110-8PP-D-xx «Cisco CBS110-8PP-D-xx» | CBS110-5T-D-xx «Cisco CBS110-5T-D-xx» | CBS110-16PP-xx «Cisco CBS110-16PP-xx» | CBS110-16T-xx «Cisco CBS110-16T-xx» | CBS110-8T-D-xx «Cisco CBS110-8T-D-xx» … (+8)
+
+## Catalyst 2960 L | 13 | roles {"access":13} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×13: WS-C2960L-24PS-LL/ WS- «WS-C2960L-24PS-LL/ WS-C2960L-SM-24PS» | WS-C2960L-16PS-LL/ WS- «WS-C2960L-16PS-LL/ WS-C2960L-SM-16PS» | WS-C2960L-16PS-LL has  «WS-C2960L-16PS-LL has maximum operating temperature of 40°C (up to 5,0» | WS-C2960L-48TS-LL/ WS- «WS-C2960L-48TS-LL/ WS-C2960L-SM-48TS» | WS-C2960L-48PS-LL/ WS- «WS-C2960L-48PS-LL/ WS-C2960L-SM-48PS» | WS-C2960L-24TQ-LL/ WS- «WS-C2960L-24TQ-LL/ WS-C2960L-SM-24TQ» … (+7)
+
+## IE3500 Heavy Duty Series | 13 | roles {"industrial":8} issues {"transceiver":5} null 0 | spec industrial (explicit) | disagree 5
+  [sw.issue.optic] ×5: 10GBASE-ZR-I «Cisco 10GBASE-ZR-I» | 10GBASE-ER-I «Cisco 10GBASE-ER-I» | 10GBASE-LR-X «Cisco 10GBASE-LR-X» | 10GBASE-LR-S «Cisco 10GBASE-LR-S» | 10GBASE-SR-I «Cisco 10GBASE-SR-I»
+  [sw.industrial] ×8: IE-3500H-16T «Cisco IE-3500H-16T» | IE-3500H-24T «Cisco IE-3500H-24T» | IE-3500H-20FT4T «Cisco IE-3500H-20FT4T» | IE-3500H-12P2MU2X «Cisco IE-3500H-12P2MU2X» | IE-3500H-14P2T «Cisco IE-3500H-14P2T» | IE-3500H-8T «Cisco IE-3500H-8T» … (+2)
+
+## 9500 | 13 | roles {"core-agg":13} issues {} null 0 | spec core-agg (explicit) | disagree 0
+  [sw.coreagg.catalyst] ×13: C9500-48Y4C «Cisco C9500-48Y4C Managed Switch (L3) – 48× 1/10/25G-SFP28 + 4× 40/100» | C9500-32C «Cisco C9500-32C Managed Switch (L3) – 32× 40/100G-QSFP28, 19-Zoll (1 H» | C9500-24Y4C «Cisco C9500-24Y4C Managed Switch (L3) – 24× 1/10/25G-SFP28 + 4× 40/100» | C9500-16X-2Q «Cisco C9500-16X-2Q Catalyst-9500-Core-Switch (IOS XE, L3) – 16× 10G-SF» | C9500-48X «Cisco C9500-48X Catalyst-9500-Core-Switch (IOS XE, L3) – 48× 10G-SFP+,» | C9500-16X «Cisco C9500-16X Managed Switch (L3) – 16× 1/10G-SFP/SFP+, 19-Zoll (1 H» … (+7)
+
+## 3560-C | 13 | roles {"access":13} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×13: 3560CG-8PC-S «Cisco 3560CG-8PC-S» | 3560CPD-8PC-S «Cisco 3560CPD-8PC-S» | 2960CPD-8PT-L «Cisco 2960CPD-8PT-L» | 2960C-8TC-S «Cisco 2960C-8TC-S» | 3560CG-8TC-S «Cisco 3560CG-8TC-S» | 2960C-8TC-L «Cisco 2960C-8TC-L» … (+7)
+
+## IE3500 | 12 | roles {"industrial":12} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×12: IE-3505-8T3S-A «Cisco IE-3505-8T3S-A Catalyst IE3500 lüfterloser Layer-3-Industrie-Swi» | IE-3500-8P3S-E «Cisco IE-3500-8P3S-E Catalyst IE3500 lüfterloser Layer-3-Industrie-Swi» | IE-3505-8P3S-A «Cisco IE-3505-8P3S-A Catalyst IE3500 lüfterloser Layer-3-Industrie-Swi» | IE-3505-8P3S-E «Cisco IE-3505-8P3S-E Catalyst IE3500 lüfterloser Layer-3-Industrie-Swi» | IE-3500-8P3S-A «Cisco IE-3500-8P3S-A Catalyst IE3500 lüfterloser Layer-3-Industrie-Swi» | IE-3500-8T3X-A «Cisco IE-3500-8T3X-A Catalyst IE3500 lüfterloser Layer-3-Industrie-Swi» … (+6)
+
+## MS150 | 12 | roles {"access":12} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.meraki] ×12: MS150-48T-4G-HW «Cisco Meraki MS150-48T-4G-HW cloud-gemanagter stapelbarer Layer-2-Acce» | MS150-24P-4G-HW «Cisco Meraki MS150-24P-4G-HW cloud-gemanagter stapelbarer Layer-2-Acce» | MS150-48LP-4X-HW «Cisco Meraki MS150-48LP-4X-HW cloud-gemanagter stapelbarer Layer-2-Acc» | MS150-48FP-4G-HW «Cisco Meraki MS150-48FP-4G-HW cloud-gemanagter stapelbarer Layer-2-Acc» | MS150-48FP-4X-HW «Cisco Meraki MS150-48FP-4X-HW cloud-gemanagter stapelbarer Layer-2-Acc» | MS150-48MP-4X-HW «Cisco Meraki MS150-48MP-4X-HW cloud-gemanagter stapelbarer Layer-2-Acc» … (+6)
+
+## IE4000 | 12 | roles {"industrial":12} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×12: IE-4000-4GC4GP4G-E «Cisco IE-4000-4GC4GP4G-E IE4000 lüfterloser Layer-2-Industrie-Switch (» | IE-4000-16T4G-E «Cisco IE-4000-16T4G-E IE4000 lüfterloser Layer-2-Industrie-Switch (Cis» | IE-4000-4S8P4G-E «Cisco IE-4000-4S8P4G-E IE4000 lüfterloser Layer-2-Industrie-Switch (Ci» | IE-4000-8GT4G-E «Cisco IE-4000-8GT4G-E IE4000 lüfterloser Layer-2-Industrie-Switch (Cis» | IE-4000-8S4G-E «Cisco IE-4000-8S4G-E IE4000 lüfterloser Layer-2-Industrie-Switch (Cisc» | IE-4000-8T4G-E «Cisco IE-4000-8T4G-E IE4000 lüfterloser Layer-2-Industrie-Switch (Cisc» … (+6)
+
+## 3750G | 12 | roles {"access":12} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×12: WS-C3750G-48TS-S «Cisco WS-C3750G-48TS-S Catalyst 3750G gemanagter stapelbarer L3-Access» | WS-C3750G-24T-E «Cisco WS-C3750G-24T-E Catalyst 3750G gemanagter stapelbarer L3-Access-» | WS-C3750G-24PS-S «Cisco WS-C3750G-24PS-S Catalyst 3750G gemanagter stapelbarer L3-Access» | WS-C3750G-12S-S «Cisco WS-C3750G-12S-S Catalyst 3750G gemanagter stapelbarer L3-Access-» | WS-C3750G-24PS-E «Cisco WS-C3750G-24PS-E Catalyst 3750G gemanagter stapelbarer L3-Access» | WS-C3750G-48PS-E «Cisco WS-C3750G-48PS-E Catalyst 3750G gemanagter stapelbarer L3-Access» … (+6)
+
+## PON Series | 12 | roles {} issues {"PON ONT/OLT (PON equipment, not an Ethernet switch)":12} null 0 | spec access (heuristic) | disagree 12
+  [sw.issue.ont] ×12: CGP-OLT «Cisco CGP-OLT» | CGP-ONT-4TVCW-IN «Cisco GPON ONT Wireless-AC - India» | CGP-ONT «Cisco CGP-ONT» | CGP-ONT-4TVCW-NA «Cisco GPON ONT Wireless-AC-Americas (US, CAN, Mex, Columbia)» | CGP-ONT-4TVCW-EU «Cisco GPON ONT Wireless-AC - EMEAR (EU plug)» | CGP-OLT-8T «Catalyst PON 8-port GPON OLT,4 GE Combo ports (Copper RJ45 + SFP optic» … (+6)
+
+## 2960S | 12 | roles {"access":12} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×12: WS-C2960S-24TD-L «Cisco WS-C2960S-24TD-L Catalyst 2960-S Layer-2-Managed-Switch (Cisco I» | WS-C2960S-48LPD-L «Cisco WS-C2960S-48LPD-L Catalyst 2960-S Layer-2-Managed-Switch (Cisco » | WS-C2960S-48TD-L «Cisco WS-C2960S-48TD-L Catalyst 2960-S Layer-2-Managed-Switch (Cisco I» | WS-C2960S-24TS-S «Cisco WS-C2960S-24TS-S Catalyst 2960-S Layer-2-Managed-Switch (Cisco I» | WS-C2960S-48LPS-L «Cisco WS-C2960S-48LPS-L Catalyst 2960-S Layer-2-Managed-Switch (Cisco » | WS-C2960S-48FPD-L «Cisco WS-C2960S-48FPD-L Catalyst 2960-S Layer-2-Managed-Switch (Cisco » … (+6)
+
+## IE3400H | 12 | roles {"industrial":12} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×12: IE-3400H-16FT-A «Cisco IE-3400H-16FT-A Industrial-Ethernet-IE3400H lüfterloser IP67 Lay» | IE-3400H-8T-E «Cisco IE-3400H-8T-E Industrial-Ethernet-IE3400H lüfterloser IP67 Layer» | IE-3400H-8T-A «Cisco IE-3400H-8T-A Industrial-Ethernet-IE3400H lüfterloser IP67 Layer» | IE-3400H-8FT-E «Cisco IE-3400H-8FT-E Industrial-Ethernet-IE3400H lüfterloser IP67 Laye» | IE-3400H-16T-A «Cisco IE-3400H-16T-A Industrial-Ethernet-IE3400H lüfterloser IP67 Laye» | IE-3400H-8FT-A «Cisco IE-3400H-8FT-A Industrial-Ethernet-IE3400H lüfterloser IP67 Laye» … (+6)
+
+## IE3100 | 11 | roles {"industrial":11} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×11: IE-3100-3P1U2S-E «Cisco IE-3100-3P1U2S-E Catalyst IE3100 Rugged Industrie-Switch (L2, IO» | IE-3100-8T2C-E «Cisco IE-3100-8T2C-E Catalyst IE3100 Rugged Industrie-Switch (L2, IOS » | IE-3100-18T2C-CC-E «Cisco IE-3100-18T2C-CC-E Catalyst IE3100 Rugged Industrie-Switch (L2, » | IE-3100-6P2U2C-E «Cisco IE-3100-6P2U2C-E Catalyst IE3100 Rugged Industrie-Switch (L2, IO» | IE-3100-8T4S-E «Cisco IE-3100-8T4S-E Catalyst IE3100 Rugged Industrie-Switch (L2, IOS » | IE-3100-4P2S-E «Cisco IE-3100-4P2S-E Catalyst IE3100 Rugged Industrie-Switch (L2, IOS » … (+5)
+
+## Catalyst Micro | 11 | roles {"access":3} issues {"mechanical":8} null 0 | spec access (heuristic) | disagree 8
+  [sw.issue.mechanical] ×8: CMICR-CLIP-DIN «Catalyst Micro Switch DIN Rail Clip for CMICR-4PS &CMICR-4PC» | CMICR-BZL-L-OC «Cisco Catalyst Micro Switch Mounting Bezel, Long,OffCentered» | CMICR-BZL-S-C «Cisco Catalyst Micro Switch Mounting Bezel, Short,Centered» | CMICR-BZL-L-OC= «Cisco Catalyst Micro Switch Mounting Bezel, Long,OffCentered» | CMICR-BZL-S-C= «Cisco Catalyst Micro Switch Mounting Bezel, Short,Centered» | CMICR-BZL-S-OC= «Cisco Catalyst Micro Switch Mounting Bezel, Short,OfCentered» … (+2)
+  [sw.access.catalyst] ×3: CMICR-4PS= «Catalyst Micro Switch for Walljack Deployments, 2 x SFP Up S» | CMICR-4PC= «Catalyst Micro Switch, 1 x copper + 1 SFP Spare» | CMICR-4PT= «Catalyst Micro Switch for Desktop Deployments Spare»
+
+## 3750E | 10 | roles {"access":10} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×10: WS-C3750E-24PD-S «Cisco WS-C3750E-24PD-S Catalyst 3750-E gemanagter stapelbarer L3-Acces» | WS-C3750E-48TD-E «Cisco WS-C3750E-48TD-E Catalyst 3750-E gemanagter stapelbarer L3-Acces» | WS-C3750E-48PD-E «Cisco WS-C3750E-48PD-E Catalyst 3750-E gemanagter stapelbarer L3-Acces» | WS-C3750E-24PD-E «Cisco WS-C3750E-24PD-E Catalyst 3750-E gemanagter stapelbarer L3-Acces» | WS-C3750E-48PD-S «Cisco WS-C3750E-48PD-S Catalyst 3750-E gemanagter stapelbarer L3-Acces» | WS-C3750E-48PD-SF «Cisco WS-C3750E-48PD-SF Catalyst 3750-E gemanagter stapelbarer L3-Acce» … (+4)
+
+## 2960Plus | 10 | roles {"access":10} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×10: WS-C2960+24PC-S «Cisco WS-C2960+24PC-S Catalyst 2960-Plus Fast-Ethernet-Managed-Switch » | WS-C2960+24LC-S «Cisco WS-C2960+24LC-S Catalyst 2960-Plus Fast-Ethernet-Managed-Switch » | WS-C2960+48PST-L «Cisco WS-C2960+48PST-L Catalyst 2960-Plus Fast-Ethernet-Managed-Switch» | WS-C2960+24TC-L «Cisco WS-C2960+24TC-L Catalyst 2960-Plus Fast-Ethernet-Managed-Switch » | WS-C2960+24TC-S «Cisco WS-C2960+24TC-S Catalyst 2960-Plus Fast-Ethernet-Managed-Switch » | WS-C2960+48TC-S «Cisco WS-C2960+48TC-S Catalyst 2960-Plus Fast-Ethernet-Managed-Switch » … (+4)
+
+## Embedded Services 2020 | 10 | roles {"industrial":10} issues {} null 0 | spec industrial (heuristic) | disagree 0
+  [sw.industrial] ×10: ESS-2020-16TC-CON «Embedded Service 2020 Switch, Expansion board, Conduction cooled» | ESS-2020-24TC-NCP «Embedded Service 2020 Switch, Main/Expansion board bundle, No cooling » | ESS-2020-24TC-CON «Embedded Service 2020 Switch, Main/Expansion board bundle, Conduction » | ESS-2020-24TC-NCPB «Embedded Service 2020 Switch, Main/Expansion board bundle, No cooling » | ESS-2020-24TC-CONB «Embedded Service 2020 Switch, Main/Expansion board bundle, Conduction » | ESS-2020-NCP «Embedded Service 2020 Switch, Main board, No cooling plate, LAN Lite s» … (+4)
+
+## C9550 | 9 | roles {"core-agg":6} issues {"datasheet cell / bare family name (not a PID)":3} null 0 | spec core-agg (explicit) | disagree 3
+  [sw.coreagg.catalyst] ×6: C9550-24L4CD «Cisco C9550-24L4CD» | C9550 «Cisco C9550» | C9550-32C «Cisco C9550-32C» | C9550-48L4CD «Cisco C9550-48L4CD» | C9550-96L4D «Cisco C9550-96L4D» | C9550-64C-XL «Cisco C9550-64C-XL»
+  [sw.issue.placeholder] ×3: E104 «Cisco E104» | E100 «Cisco E100» | K100 «Cisco K100»
+
+## IE3500 Rugged Series | 9 | roles {"industrial":6} issues {"transceiver":3} null 0 | spec industrial (explicit) | disagree 3
+  [sw.issue.optic] ×3: 1000BASE-SX1000BASE-SX «Cisco 1000BASE-SX1000BASE-SX» | 1000BASE-EX1000BASE-EX «Cisco 1000BASE-EX1000BASE-EX» | 1000BASE-LX1000BASE-LX «Cisco 1000BASE-LX1000BASE-LX»
+  [sw.industrial] ×6: IE-3500-8T3S «Cisco IE-3500-8T3S» | IE-3505-8T3S «Cisco IE-3505-8T3S» | IE-3505-8P3S «Cisco IE-3505-8P3S» | IE-3500-8P3S «Cisco IE-3500-8P3S» | IE-3500-8U3X «Cisco IE-3500-8U3X» | IE-3500-8T3X «Cisco IE-3500-8T3X»
+
+## 2960-L | 9 | roles {"access":9} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×9: WS-C2960L-24PSLL++ «Catalyst 2960L 24 port GigE with PoE, 4 x 1G SFP, LAN Lite» | WS-C2960L-24TSLL++ «Catalyst 2960L 24 port GigE, 4 x 1G SFP, LAN Lite» | WS-C2960L-24PQLL++ «Catalyst 2960L 24 port GigE with PoE, 4 x 10G SFP+, LAN Lite» | WS-C2960L-48TQLL++ «Catalyst 2960L 48 port GigE, 4 x 10G SFP+, LAN Lite» | WS-C2960L-24TQLL++ «Catalyst 2960L 24 port GigE, 4 x 10G SFP+, LAN Lite» | WS-C2960L-16PSLL++ «Catalyst 2960L 16 port GigE with PoE, 2 x 1G SFP, LAN Lite» … (+3)
+
+## Catalyst 1300 | 8 | roles {"smb":8} issues {} null 0 | spec access (heuristic) | disagree 8
+  [sw.smb.cbs-sb] ×8: C1300X-24P-4X «C1300X-24P-4X – 24 x Gigabit Ethernet + 4 x 10G» | C1300X-24NGU-4X «C1300X-24NGU-4X – 16 x Gigabit Ethernet + 8 x 5G mGig + 4 x 10G» | C1300X-48NGU-4X «C1300X-48NGU-4X – 40 x Gigabit Ethernet + 8 x 5G mGig + 4 x 10G» | C1300X-48P-4X «C1300X-48P-4X – 48 x Gigabit Ethernet + 4 x 10G» | C1300X-24MU-4X «C1300X-24MU-4X – 24 x 2.5G mGig + 4x10G» | C1300X-10NU-2X «C1300X-10NU-2X – 10 x 5G mGig + 2x10G» … (+2)
+
+## Nexus9200 | 8 | roles {"datacenter":8} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×8: N9K-C92348GC-X «Cisco N9K-C92348GC-X Data-Center-Switch (NX-OS, L3) – 48× 100M/1G-RJ45» | N9K-C92304QC «Cisco N9K-C92304QC Data-Center-Switch (NX-OS, L3) – 56× 40G-QSFP+ + 8×» | N9K-C9272Q «Cisco N9K-C9272Q Data-Center-Switch (NX-OS, L3) – 72× 40G-QSFP+, 2 HE» | N9K-C9236C «Cisco N9K-C9236C Data-Center-Switch (NX-OS, L3) – 36× 40/100G-QSFP28, » | N9K-C9232C «Cisco N9K-C9232C Data-Center-Switch (NX-OS, L3) – 32× 40/100G-QSFP28, » | N9K-C92348GC-FX3 «Cisco N9K-C92348GC-FX3 Data-Center-Switch (NX-OS, L3) – 48× 10M/100M/1» … (+2)
+
+## IE3300 | 8 | roles {"industrial":8} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×8: IE-3300-8T2X-E «Cisco IE-3300-8T2X-E Catalyst IE3300 lüfterloser Layer-3-Industrie-Swi» | IE-3300-8T2S-E «Cisco IE-3300-8T2S-E Catalyst IE3300 lüfterloser Layer-3-Industrie-Swi» | IE-3300-8T2S-A «Cisco IE-3300-8T2S-A Catalyst IE3300 lüfterloser Layer-3-Industrie-Swi» | IE-3300-8P2S-A «Cisco IE-3300-8P2S-A Catalyst IE3300 lüfterloser Layer-3-Industrie-Swi» | IE-3300-8P2S-E «Cisco IE-3300-8P2S-E Catalyst IE3300 lüfterloser Layer-3-Industrie-Swi» | IE-3300-8U2X-E «Cisco IE-3300-8U2X-E Catalyst IE3300 lüfterloser Layer-3-Industrie-Swi» … (+2)
+
+## IE9300 | 8 | roles {"industrial":8} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×8: IE-9320-24P4X «Cisco IE-9320-24P4X Catalyst IE9300 Rugged Industrie-Switch (L3, IOS X» | IE-9310-16P8S4X «Cisco IE-9310-16P8S4X Catalyst IE9300 Rugged Industrie-Switch (L3, IOS» | IE-9310-26S2C «Cisco IE-9310-26S2C Catalyst IE9300 Rugged Industrie-Switch (L3, IOS X» | IE-9320-24T4X «Cisco IE-9320-24T4X Catalyst IE9300 Rugged Industrie-Switch (L3, IOS X» | IE-9320-24P4S «Cisco IE-9320-24P4S Catalyst IE9300 Rugged Industrie-Switch (L3, IOS X» | IE-9320-16P8U4X «Cisco IE-9320-16P8U4X Catalyst IE9300 Rugged Industrie-Switch (L3, IOS» … (+2)
+
+## MS120 | 8 | roles {"access":8} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.meraki] ×8: MS120-48-HW «Cisco Meraki MS120-48-HW cloud-gemanagter Layer-2-Access-Switch (48× 1» | MS120-24-HW «Cisco Meraki MS120-24-HW cloud-gemanagter Layer-2-Access-Switch (24× 1» | MS120-48LP-HW «Cisco Meraki MS120-48LP-HW cloud-gemanagter Layer-2-Access-Switch (48×» | MS120-8FP-HW «Cisco Meraki MS120-8FP-HW cloud-gemanagter Layer-2-Access-Switch (8× 1» | MS120-8-HW «Cisco Meraki MS120-8-HW cloud-gemanagter Layer-2-Access-Switch (8× 1G-» | MS120-24P-HW «Cisco Meraki MS120-24P-HW cloud-gemanagter Layer-2-Access-Switch (24× » … (+2)
+
+## Embedded Service 3000 | 8 | roles {"industrial":8} issues {} null 0 | spec industrial (heuristic) | disagree 0
+  [sw.industrial] ×8: ESS-3300-24T-CON-E «ESS 3300 mainboard + Expansion board, with cooling plate, Network Esse» | ESS-3300-24T-NCP-E «ESS 3300 mainboard + Expansion board, no cooling plate, Network Essent» | ESS-3300-24T-CON-A «ESS 3300 mainboard + Expansion board, with cooling plate, Network Adva» | ESS-3300-24T-NCP-A «ESS 3300 mainboard + Expansion board, no cooling plate, Network Advant» | ESS-3300-CON-E «ESS 3300 mainboard, with cooling plate, Network Essentials software» | ESS-3300-NCP-E «ESS 3300 mainboard, no cooling plate, Network Essentials software» … (+2)
+
+## Catalyst IE3400 Heavy Duty Series | 7 | roles {"industrial":6} issues {"datasheet cell / bare family name (not a PID)":1} null 0 | spec industrial (explicit) | disagree 1
+  [sw.industrial] ×6: IE-3400H-24T «Cisco IE-3400H-24T» | IE-3400H-16T «Cisco IE-3400H-16T» | IE-3400H-16FT «Cisco IE-3400H-16FT» | IE-3400H-24FT «Cisco IE-3400H-24FT» | IE-3400H-8T «Cisco IE-3400H-8T» | IE-3400H-8FT «Cisco IE-3400H-8FT»
+  [sw.issue.placeholder] ×1: IE3400 «Cisco IE3400»
+
+## 2960 | 7 | roles {"access":5} issues {"cable/cabling accessory (third-party PNs)":1,"mechanical":1} null 0 | spec access (explicit) | disagree 2
+  [sw.access.catalyst] ×5: WS-C3560-8PC-S «Catalyst 3560 Compact 8 10/100 PoE + 1 T/SFP; IP Base Image» | WS-C3560-12PC-S «Catalyst 3560 Compact 12 10/100 PoE + 1 T/SFP; IP Base Image» | WS-2960-24PC-S «● 24 Ethernet 10/100 ports and 2 dual-purpose uplinks (each dual-purpo» | WS-2960-24LC-S «● 24 Ethernet 10/100 ports and 2 dual-purpose uplinks (each dual-purpo» | WS-2960-48PST-S «● 48 Ethernet 10/100 ports and 2 10/100/1000 uplinks and 2 SFP uplinks»
+  [sw.issue.cabling] ×1: 16AWG «Cisco 16AWG»
+  [sw.issue.mechanical] ×1: STK-RACKMOUNT-1RU= «Rack Mount Kit for 1RU Catalyst 1900, 2900XL, 3500XL/FastHub»
+
+## 2960C | 7 | roles {"access":7} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×7: WS-C2960C-8TC-L «Cisco WS-C2960C-8TC-L Catalyst 2960-C kompakter Managed Switch (Cisco » | WS-C2960C-8PC-L «Cisco WS-C2960C-8PC-L Catalyst 2960-C kompakter Managed Switch (Cisco » | WS-C2960C-12PC-L «Cisco WS-C2960C-12PC-L Catalyst 2960-C kompakter Managed Switch (Cisco» | WS-C2960CPD-8TT-L «Cisco WS-C2960CPD-8TT-L Catalyst 2960-C kompakter Managed Switch (Cisc» | WS-C2960CPD-8PT-L «Cisco WS-C2960CPD-8PT-L Catalyst 2960-C kompakter Managed Switch (Cisc» | WS-C2960CG-8TC-L «Cisco WS-C2960CG-8TC-L Catalyst 2960-C kompakter Managed Switch (Cisco» … (+1)
+
+## Catalyst 4500-X | 7 | roles {"core-agg":7} issues {} null 0 | spec core-agg (explicit) | disagree 0
+  [sw.coreagg.catalyst] ×7: WS-C4500X-32SFP+ «Cisco WS-C4500X-32SFP+ Catalyst 4500-X gemanagter L3-10G-Aggregations-» | WS-C4500X-F-16SFP+ «Cisco WS-C4500X-F-16SFP+ Catalyst 4500-X gemanagter L3-10G-Aggregation» | WS-C4500X-16SFP+ «Cisco WS-C4500X-16SFP+ Catalyst 4500-X gemanagter L3-10G-Aggregations-» | WS-C4500X-24X-IPB «Cisco WS-C4500X-24X-IPB Catalyst 4500-X gemanagter L3-10G-Aggregations» | WS-C4500X-24X-ES «Cisco WS-C4500X-24X-ES Catalyst 4500-X gemanagter L3-10G-Aggregations-» | WS-C4500X-F-32SFP+ «Cisco WS-C4500X-F-32SFP+ Catalyst 4500-X gemanagter L3-10G-Aggregation» … (+1)
+
+## Catalyst 9600 | 7 | roles {"core-agg":1} issues {"datasheet cell / bare family name (not a PID)":6} null 0 | spec core-agg (explicit) | disagree 6
+  [sw.issue.placeholder] ×6: 97436 «Cisco 97436» | 97451 «Cisco 97451» | 97444 «Cisco 97444» | 97448 «Cisco 97448» | 97440 «Cisco 97440» | 97434 «Cisco 97434»
+  [sw.coreagg.catalyst] ×1: C9606R «Cisco Catalyst 9606R Modularer Campus-Switch-Chassis – 4 Linecard-Slot»
+
+## 2960SF | 7 | roles {"access":7} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×7: WS-C2960S-F24PS-L «Cisco WS-C2960S-F24PS-L Catalyst 2960-SF Fast-Ethernet-Managed-Switch » | WS-C2960S-F24TS-L «Cisco WS-C2960S-F24TS-L Catalyst 2960-SF Fast-Ethernet-Managed-Switch » | WS-C2960S-F48FPS-L «Cisco WS-C2960S-F48FPS-L Catalyst 2960-SF Fast-Ethernet-Managed-Switch» | WS-C2960S-F48TS-L «Cisco WS-C2960S-F48TS-L Catalyst 2960-SF Fast-Ethernet-Managed-Switch » | WS-C2960S-F48LPS-L «Cisco WS-C2960S-F48LPS-L Catalyst 2960-SF Fast-Ethernet-Managed-Switch» | WS-C2960S-F48TS-S «Cisco WS-C2960S-F48TS-S Catalyst 2960-SF Fast-Ethernet-Managed-Switch » … (+1)
+
+## Nexus 2000 Fabric Extenders | 7 | roles {"datacenter":3} issues {"mechanical":4} null 0 | spec datacenter (explicit) | disagree 4
+  [sw.issue.mechanical] ×4: NXA-AIRFLOW-SLV-E «Nexus Airflow Extension Sleeve for 23xx FEX» | NXA-AIRFLOW-SLV= «Nexus 2K/3K airflow extension sleeve» | NXA-AIRFLOW-SLV «Nexus Airflow Extension Sleeve» | NXA-AIRFLOW-SLV-E= «Nexus Airflow Extension Sleeve for 23xx FEX»
+  [sw.dc.nexus] ×3: N5596UP-6N2248TR «Nexus 5596UP/6xN2248TP/30xSFP-10G-SR» | N56128PM-4FEX-10G «Nexus 56128P, 1xN56-M24UP2Q, 4xNexus 2248PQ with FETs» | N56128PMM-6FEX-10G «Nexus 56128P, 2xN56-M24UP2Q, 6xNexus 2248PQ with FETs»
+
+## Catalyst 3560-CX | 7 | roles {"access":7} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×7: WS-C3560CX-12PD-S «Cisco WS-C3560CX-12PD-S Catalyst 3560-CX kompakter Layer-3-Managed-Swi» | WS-C3560CX-8PC-S «Cisco WS-C3560CX-8PC-S Catalyst 3560-CX kompakter Layer-3-Managed-Swit» | WS-C3560CX-8XPD-S «Cisco WS-C3560CX-8XPD-S Catalyst 3560-CX kompakter Layer-3-Managed-Swi» | WS-C3560CX-12PC-S «Cisco WS-C3560CX-12PC-S Catalyst 3560-CX kompakter Layer-3-Managed-Swi» | WS-C3560CX-8PT-S «Cisco WS-C3560CX-8PT-S Catalyst 3560-CX kompakter Layer-3-Managed-Swit» | WS-C3560CX-8TC-S «Cisco WS-C3560CX-8TC-S Catalyst 3560-CX kompakter Layer-3-Managed-Swit» … (+1)
+
+## 4500-X | 6 | roles {"core-agg":5} issues {"licence/software":1} null 0 | spec core-agg (explicit) | disagree 1
+  [sw.coreagg.catalyst] ×5: C1-C4500X-16SFP+ «Cisco ONE Catalyst 4500-X 16 Port 10G IP Base, Front-to-Back» | C1-C4500X-24X-IPB «Cisco ONE Catalyst 4500-X 24 Port 10G IP Base, Front-to-Back» | C1-C4500X-F-32SFP+ «Cisco ONE Catalyst 4500-X 32 Port 10G IP Base, Back-to-Front» | C1-C4500X-F-16SFP+ «Cisco ONE Catalyst 4500-X 16 Port 10G IP Base, Back-to-Front» | C1-C4500X-32SFP+ «Cisco ONE Catalyst 4500-X 32 Port 10G IP Base, Front-to-Back»
+  [sw.issue.licence] ×1: C4500X-IP-ES «Catalyst 4500-X IP BASE to Enterprise Services upgrade license (paper »
+
+## 6500E | 6 | roles {"core-agg":6} issues {} null 0 | spec core-agg (explicit) | disagree 0
+  [sw.coreagg.catalyst] ×6: WS-C6506-E «Cisco WS-C6506-E Catalyst-6500-E modulares Chassis (6 Steckplätze, 11 » | WS-C6509-V-E «Cisco WS-C6509-V-E Catalyst-6500-E modulares Chassis (9 Steckplätze, 2» | WS-C6509-E «Cisco WS-C6509-E Catalyst-6500-E modulares Chassis (9 Steckplätze, 14 » | WS-C6504-E «Cisco WS-C6504-E Catalyst-6500-E modulares Chassis (4 Steckplätze, 5 H» | WS-C6503-E «Cisco WS-C6503-E Catalyst-6500-E modulares Chassis (3 Steckplätze, 4 H» | WS-C6513-E «Cisco WS-C6513-E Catalyst-6500-E modulares Chassis (13 Steckplätze, 19»
+
+## MS130 | 6 | roles {"access":6} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.meraki] ×6: MS130-24P-HW «Cisco Meraki MS130-24P-HW cloud-gemanagter Layer-2-Access-Switch (24× » | MS130-24-HW «Cisco Meraki MS130-24-HW cloud-gemanagter Layer-2-Access-Switch (24× 1» | MS130-24X-HW «Cisco Meraki MS130-24X-HW cloud-gemanagter Layer-2-Access-Switch (18× » | MS130-48-HW «Cisco Meraki MS130-48-HW cloud-gemanagter Layer-2-Access-Switch (48× 1» | MS130-48X-HW «Cisco Meraki MS130-48X-HW cloud-gemanagter Layer-2-Access-Switch (40× » | MS130-48P-HW «Cisco Meraki MS130-48P-HW cloud-gemanagter Layer-2-Access-Switch (48× »
+
+## IE 2000U | 6 | roles {"industrial":6} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×6: IE-2000U-16TC-G «IE2000U with 16FE Copper ports, 2GE + 2FE Combo (Lan Base)» | IE-2000U-8TC-G «IE2000U with 8FE Copper ports and 2GE combo ports (Lan Base)» | IE-2000U-4S-G «IE2000U Switch with 2GE + 4 FE SFP Ports (Lan Base)» | IE-2000U-4TS-G «IE2000U with 4FE Copper ports and 2GE SFP ports (Lan Base)» | IE-2000U-16TC-GP «IE2000U with 16FE Copper ports and 2GE Combo (Lan Base)» | IE-2000U-4T-G «IE2000U Switch with 2 GE + 4 FE Copper Ports (Lan Base)»
+
+## MS350 | 6 | roles {"access":6} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.meraki] ×6: MS350-24X-HW «Cisco Meraki MS350-24X-HW cloud-gemanagter stapelbarer Layer-3-Access-» | MS350-48-HW «Cisco Meraki MS350-48-HW cloud-gemanagter stapelbarer Layer-3-Access-S» | MS350-24P-HW «Cisco Meraki MS350-24P-HW cloud-gemanagter stapelbarer Layer-3-Access-» | MS350-24-HW «Cisco Meraki MS350-24-HW cloud-gemanagter stapelbarer Layer-3-Access-S» | MS350-48LP-HW «Cisco Meraki MS350-48LP-HW cloud-gemanagter stapelbarer Layer-3-Access» | MS350-48FP-HW «Cisco Meraki MS350-48FP-HW cloud-gemanagter stapelbarer Layer-3-Access»
+
+## 6800X | 6 | roles {"core-agg":6} issues {} null 0 | spec core-agg (explicit) | disagree 0
+  [sw.coreagg.catalyst] ×6: C6840-X-LE-40G «Cisco C6840-X-LE-40G Catalyst 6800-X gemanagter L3-Backbone-Switch (40» | C6880-X-LE «Cisco C6880-X-LE Catalyst 6800-X gemanagter L3-Aggregations-Switch (16» | C6880-X «Cisco C6880-X Catalyst 6800-X gemanagter L3-Aggregations-Switch (16× 1» | C6824-X-LE-40G «Cisco C6824-X-LE-40G Catalyst 6800-X gemanagter L3-Backbone-Switch (24» | C6816-X-LE «Cisco C6816-X-LE Catalyst 6800-X gemanagter L3-Backbone-Switch (16× 10» | C6832-X-LE «Cisco C6832-X-LE Catalyst 6800-X gemanagter L3-Backbone-Switch (32× 10»
+
+## CGS 2500 Connected Grid | 6 | roles {"industrial":6} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×6: CGS-2520-24TC= «CGS2520 with 24FE Copper & 2 GE combo uplinks» | CGS2520-16S8PC/NFR «CGS-2520-16S-8PC Channel Kit» | CGS-2520-16S-8PC «CGS2520 16FE SFP, 8FE Copper PoE+ & 2GE combo uplinks» | CGS-2520-24TC «CGS2520 with 24FE Copper and 2 GE combo uplinks» | CGS2520-24TC/NFR «CGS-2520-24TC Channel Kit» | CGS-2520-16S-8PC= «CGS2520 16FE SFP, 8FE Copper PoE+ & 2GE combo uplinks»
+
+## Catalyst 9400 | 6 | roles {"core-agg":3} issues {"supervisor/linecard upgrade option (no chassis)":2,"mechanical":1} null 0 | spec core-agg (explicit) | disagree 3
+  [sw.issue.upgrade-bundle] ×2: C4510RE-S9-UPOE «WS-X45-SUP9-E and WS-X4748-UPOE+E Upgrade» | C4500E-7R-S9E-MGIG «SUP9E and MGIG upgrade for 7 slot chassis bundle (96 ports)»
+  [sw.issue.mechanical] ×1: C9407-SHELF-KIST= «Cisco Catalyst 9400 Series 7-slot chassis Shelf Install Kit»
+  [sw.coreagg.catalyst] ×3: C9407R «Cisco Catalyst 9407R Modularer Campus-Switch-Chassis – 5 Linecard-Slot» | C9404R «Cisco Catalyst 9404R Modularer Campus-Switch-Chassis – 2 Linecard-Slot» | C9410R «Cisco Catalyst 9410R Modularer Campus-Switch-Chassis – 8 Linecard-Slot»
+
+## Nexus9300 FX3 | 6 | roles {"datacenter":6} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×6: N9K-C93108TC-FX3P «Cisco N9K-C93108TC-FX3P Data-Center-Switch (NX-OS, L3) – 48× 100M/1/2.» | N9K-C93180YC-FX3 «Cisco N9K-C93180YC-FX3 Data-Center-Switch (NX-OS, L3) – 48× 1/10/25G-S» | N9K-C93180YC-FX3S «Cisco N9K-C93180YC-FX3S Data-Center-Switch (NX-OS, L3) – 48× 1/10/25G-» | N9K-C93108TC-FX3 «Cisco N9K-C93108TC-FX3 Data-Center-Switch (NX-OS, L3) – 48× 100M/1/10G» | N9K-C9348GC-FX3 «Cisco N9K-C9348GC-FX3 Data-Center-Switch (NX-OS, L3) – 48× 10M/100M/1G» | N9K-C9348GC-FX3PH «Cisco N9K-C9348GC-FX3PH Data-Center-Switch (NX-OS, L3) – 40× 10M/100M/»
+
+## MS390 | 6 | roles {"access":6} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.meraki] ×6: MS390-24U-HW «Cisco Meraki MS390-24U-HW cloud-gemanagter stapelbarer Layer-3-Access-» | MS390-48U-HW «Cisco Meraki MS390-48U-HW cloud-gemanagter stapelbarer Layer-3-Access-» | MS390-48P-HW «Cisco Meraki MS390-48P-HW cloud-gemanagter stapelbarer Layer-3-Access-» | MS390-24-HW «Cisco Meraki MS390-24-HW cloud-gemanagter stapelbarer Layer-3-Access-S» | MS390-24P-HW «Cisco Meraki MS390-24P-HW cloud-gemanagter stapelbarer Layer-3-Access-» | MS390-48-HW «Cisco Meraki MS390-48-HW cloud-gemanagter stapelbarer Layer-3-Access-S»
+
+## Digital Building Series | 6 | roles {"access":6} issues {} null 0 | spec access (heuristic) | disagree 0
+  [sw.access.catalyst] ×6: CDB-8P1 «Catalyst Digital Building 8 Port PoE+ bundle» | CDB-8P «Cisco Catalyst Digital Building Switch, 8 x FE, 240W PoE+, Uplinks: 2 » | CDB-8P++ «Catalyst Digital Building 8 Port PoE+» | CDB-8U++ «Catalyst Digital Building 8 Port UPoE» | CDB-8U1 «Catalyst Digital Building 8 Port UPoE Bundle» | CDB-8U «Cisco Catalyst Digital Building Switch, 8 x FE, 480W UPOE, Uplinks: 2 »
+
+## Catalyst 6800 | 6 | roles {} issues {"linecard/module/supervisor":6} null 0 | spec core-agg (explicit) | disagree 6
+  [sw.issue.component] ×6: C6800-48P-TX-XL= «C6800-48P-TX-XL= – Cisco Catalyst 6800 48-port 1GE copper module with » | C6800-48P-SFP= «C6800-48P-SFP= – Cisco Catalyst 6800 48-port 1GE fiber module with int» | C6800-48P-SFP-XL= «C6800-48P-SFP-XL= – Cisco Catalyst 6800 48-port 1GE fiber module with » | C6800-48P-TX= «C6800-48P-TX= – Cisco Catalyst 6800 48-port 1GE copper module with int» | C6800-48P-TX and C6800 «C6800-48P-TX and C6800-48P-TX-XL» | C6800-48P-SFP and C680 «C6800-48P-SFP and C6800-48P-SFP-XL»
+
+## Nexus9300 EX FX | 6 | roles {"datacenter":6} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×6: N9K-C93180LC-EX «Cisco N9K-C93180LC-EX Data-Center-Switch (NX-OS, L3) – 32× 40/50G-QSFP» | N9K-C93180YC-FX «Cisco N9K-C93180YC-FX Data-Center-Switch (NX-OS, L3) – 48× 1/10/25G-SF» | N9K-C93108TC-FX «Cisco N9K-C93108TC-FX Data-Center-Switch (NX-OS, L3) – 48× 100M/1/10G-» | N9K-C9348GC-FXP «Cisco N9K-C9348GC-FXP Data-Center-Switch (NX-OS, L3) – 48× 100M/1G-RJ4» | N9K-C93108TC-EX «Cisco N9K-C93108TC-EX Data-Center-Switch (NX-OS, L3) – 48× 100M/1/10G-» | N9K-C93180YC-EX «Cisco N9K-C93180YC-EX Data-Center-Switch (NX-OS, L3) – 48× 1/10/25G-SF»
+
+## MS125 | 5 | roles {"access":5} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.meraki] ×5: MS125-48FP-HW «Cisco Meraki MS125-48FP-HW cloud-gemanagter Layer-2-Access-Switch (48×» | MS125-24P-HW «Cisco Meraki MS125-24P-HW cloud-gemanagter Layer-2-Access-Switch (24× » | MS125-48LP-HW «Cisco Meraki MS125-48LP-HW cloud-gemanagter Layer-2-Access-Switch (48×» | MS125-48-HW «Cisco Meraki MS125-48-HW cloud-gemanagter Layer-2-Access-Switch (48× 1» | MS125-24-HW «Cisco Meraki MS125-24-HW cloud-gemanagter Layer-2-Access-Switch (24× 1»
+
+## MS225 | 5 | roles {"access":5} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.meraki] ×5: MS225-48-HW «Cisco Meraki MS225-48-HW cloud-gemanagter stapelbarer Layer-2-Access-S» | MS225-24-HW «Cisco Meraki MS225-24-HW cloud-gemanagter stapelbarer Layer-2-Access-S» | MS225-48FP-HW «Cisco Meraki MS225-48FP-HW cloud-gemanagter stapelbarer Layer-2-Access» | MS225-24P-HW «Cisco Meraki MS225-24P-HW cloud-gemanagter stapelbarer Layer-2-Access-» | MS225-48LP-HW «Cisco Meraki MS225-48LP-HW cloud-gemanagter stapelbarer Layer-2-Access»
+
+## Industrial Ethernet 4010 | 5 | roles {"industrial":4} issues {"licence/software":1} null 0 | spec industrial (explicit) | disagree 1
+  [sw.industrial] ×4: IE-4010-16S12P= «IE4010 w/ 12GE SFP, 12GE Copper PoE+ & 4GE SFP uplink ports» | IE-4010-4S24P= «IE4010 with 24GE Copper PoE+ ports and 4GE SFP uplink ports» | IE-4010-16S12P «IE4010 with 12GE SFP, 12GE Copper PoE+ and 4GE SFP uplink ports» | IE-4010-4S24P «IE4010 with 24GE Copper PoE+ ports and 4GE SFP uplink ports»
+  [sw.issue.licence] ×1: C1-IE-ADD «Cisco ONE for IE Switches - CHOOSE ONLY QTY 1 HERE»
+
+## MS210 | 5 | roles {"access":5} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.meraki] ×5: MS210-48-HW «Cisco Meraki MS210-48-HW cloud-gemanagter stapelbarer Layer-2-Access-S» | MS210-48LP-HW «Cisco Meraki MS210-48LP-HW cloud-gemanagter stapelbarer Layer-2-Access» | MS210-48FP-HW «Cisco Meraki MS210-48FP-HW cloud-gemanagter stapelbarer Layer-2-Access» | MS210-24-HW «Cisco Meraki MS210-24-HW cloud-gemanagter stapelbarer Layer-2-Access-S» | MS210-24P-HW «Cisco Meraki MS210-24P-HW cloud-gemanagter stapelbarer Layer-2-Access-»
+
+## MS250 | 5 | roles {"access":5} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.meraki] ×5: MS250-24P-HW «Cisco Meraki MS250-24P-HW cloud-gemanagter stapelbarer Layer-3-Access-» | MS250-48-HW «Cisco Meraki MS250-48-HW cloud-gemanagter stapelbarer Layer-3-Access-S» | MS250-48FP-HW «Cisco Meraki MS250-48FP-HW cloud-gemanagter stapelbarer Layer-3-Access» | MS250-48LP-HW «Cisco Meraki MS250-48LP-HW cloud-gemanagter stapelbarer Layer-3-Access» | MS250-24-HW «Cisco Meraki MS250-24-HW cloud-gemanagter stapelbarer Layer-3-Access-S»
+
+## MS130 Desktop | 5 | roles {"access":5} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.meraki] ×5: MS130-8P-I-HW «Cisco Meraki MS130-8P-I-HW cloud-gemanagter Layer-2-Access-Switch (8× » | MS130-8X-HW «Cisco Meraki MS130-8X-HW cloud-gemanagter Layer-2-Access-Switch (6× 1G» | MS130-12X-HW «Cisco Meraki MS130-12X-HW cloud-gemanagter Layer-2-Access-Switch (8× 1» | MS130-8-HW «Cisco Meraki MS130-8-HW cloud-gemanagter Layer-2-Access-Switch (8× 1G-» | MS130-8P-HW «Cisco Meraki MS130-8P-HW cloud-gemanagter Layer-2-Access-Switch (8× 1G»
+
+## 3560C | 5 | roles {"access":5} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×5: WS-C3560CG-8PC-S «Cisco WS-C3560CG-8PC-S Catalyst 3560-C kompakter Layer-3-Managed-Switc» | WS-C3560C-8PC-S «Cisco WS-C3560C-8PC-S Catalyst 3560-C kompakter Layer-3-Managed-Switch» | WS-C3560C-12PC-S «Cisco WS-C3560C-12PC-S Catalyst 3560-C kompakter Layer-3-Managed-Switc» | WS-C3560CG-8TC-S «Cisco WS-C3560CG-8TC-S Catalyst 3560-C kompakter Layer-3-Managed-Switc» | WS-C3560CPD-8PT-S «Cisco WS-C3560CPD-8PT-S Catalyst 3560-C kompakter Layer-3-Managed-Swit»
+
+## 95 Unmanaged | 5 | roles {"smb":5} issues {} null 0 | spec smb (heuristic) | disagree 0
+  [sw.smb.cbs-sb] ×5: SG95D-08-xx «Cisco SG95D-08 8-Port Gigabit Switch» | SF95D-05-xx «Cisco SF95D-05 - 5-Port 10/100 Desktop Switch» | SF95D-16-xx «Cisco SF95D-16 16-port 10/100 Desktop Switch» | SG95D-05-xx «Cisco SG95D-05 5-port Gigabit Desktop Switch» | SF95D-08-xx «Cisco SF95D-08 8-port 10/100 Desktop Switch»
+
+## IE 2000 | 5 | roles {"industrial":5} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×5: IE-2000-8T67-B «IE2000 IP67 Switch with 8 FE M12 ports (Lan Base)» | IE-2000-24T67-B «IE2000 IP67 Switch with 24 FE M12 ports (Lan Base)» | IE-2000-16T67-B «IE2000 IP67 Switch with 16 FE M12 ports (Lan Base)» | IE-2000-8T67P-G-E «IE2000 IP67 with 8 FE M12 ports (8 PoE+) and 2GE (Lan Base)» | IE-2000-16T67P-G-E «IE2000 IP67 with 16 FE M12 ports (8 PoE+) and 2GE (Lan Base)»
+
+## Nexus 3172 | 5 | roles {"datacenter":5} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×5: N3K-C3172PQ-XL «Cisco N3K-C3172PQ-XL Nexus 3172PQ-XL Data-Center-Switch (NX-OS, L3) – » | N3K-C3172TQ-10GT «Cisco N3K-C3172TQ-10GT Nexus 3172TQ Data-Center-Switch (NX-OS, L3) – 4» | N3K-C3172TQ-32T «Cisco N3K-C3172TQ-32T Nexus 3172TQ-32T Data-Center-Switch (NX-OS, L3) » | N3K-C3172PQ-10GE «Cisco N3K-C3172PQ-10GE Nexus 3172PQ Data-Center-Switch (NX-OS, L3) – 4» | N3K-C3172TQ-XL «Cisco N3K-C3172TQ-XL Nexus 3172TQ-XL Data-Center-Switch (NX-OS, L3) – »
+
+## Nexus9300 FX2 | 5 | roles {"datacenter":5} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×5: N9K-C93216TC-FX2 «Cisco N9K-C93216TC-FX2 Data-Center-Switch (NX-OS, L3) – 96× 100M/1/10G» | N9K-C93240YC-FX2 «Cisco N9K-C93240YC-FX2 Data-Center-Switch (NX-OS, L3) – 48× 1/10/25G-S» | N9K-C9336C-FX2 «Cisco N9K-C9336C-FX2 Data-Center-Switch (NX-OS, L3) – 36× 40/100G-QSFP» | N9K-C93360YC-FX2 «Cisco N9K-C93360YC-FX2 Data-Center-Switch (NX-OS, L3) – 96× 1/10/25G-S» | N9K-C9336C-FX2-E «Cisco N9K-C9336C-FX2-E Data-Center-Switch (NX-OS, L3) – 36× 40/100G-QS»
+
+## 4500E | 4 | roles {"core-agg":4} issues {} null 0 | spec core-agg (explicit) | disagree 0
+  [sw.coreagg.catalyst] ×4: WS-C4503-E «Cisco WS-C4503-E Catalyst-4500-E modulares Chassis (3 Steckplätze, 7 H» | WS-C4510R+E «Cisco WS-C4510R+E Catalyst-4500-E modulares Chassis (10 Steckplätze, 1» | WS-C4506-E «Cisco WS-C4506-E Catalyst-4500-E modulares Chassis (6 Steckplätze, 10 » | WS-C4507R+E «Cisco WS-C4507R+E Catalyst-4500-E modulares Chassis (7 Steckplätze, 11»
+
+## 2960-CX | 4 | roles {"access":4} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×4: WS-C2960CX-8TCL++ «Catalyst 2960-CX 8 Port Data Lan Base TAA» | NAL-C2960CX-8PC-L «NAL PID for WS-C2960CX-8PC-L» | NAL-C2960CX-8TC-L «NAL PID for WS-C2960CX-8TC-L» | WS-C2960CX-8PCL++ «Catalyst 2960-CX 8 Port PoE, LAN Base TAA»
+
+## Nexus 5500 | 4 | roles {"datacenter":4} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×4: N5K-C5596T «Cisco N5K-C5596T 5596T Data-Center-Switch (NX-OS, L2) – 32× 10GBASE-T » | N5K-C5548UP «Cisco N5K-C5548UP 5548UP Data-Center-Switch (NX-OS, L2) – 32× Unified-» | N5K-C5548P «Cisco N5K-C5548P 5548P Data-Center-Switch (NX-OS, L2) – 32× 1/10G-SFP+» | N5K-C5596UP «Cisco N5K-C5596UP 5596UP Data-Center-Switch (NX-OS, L2) – 48× Unified-»
+
+## C9350 | 4 | roles {} issues {"datasheet cell / bare family name (not a PID)":1,"linecard/module/supervisor":3} null 0 | spec access (explicit) | disagree 4
+  [sw.issue.placeholder] ×1: C9350 «Cisco C9350»
+  [sw.issue.component] ×3: C9350-NIM-8Y «Cisco C9350-NIM-8Y» | C9350-NIM-2C «Cisco C9350-NIM-2C» | C9350-NIM-4C «Cisco C9350-NIM-4C»
+
+## Nexus 7700 | 4 | roles {"datacenter":4} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×4: N77-C7718 «Cisco N77-C7718 Nexus 7700 modulares Data-Center-Chassis (18 Steckplät» | N77-C7710 «Cisco N77-C7710 Nexus 7700 modulares Data-Center-Chassis (10 Steckplät» | N77-C7702 «Cisco N77-C7702 Nexus 7700 modulares Data-Center-Chassis (2 Steckplätz» | N77-C7706 «Cisco N77-C7706 Nexus 7700 modulares Data-Center-Chassis (6 Steckplätz»
+
+## Tetration Analytics | 4 | roles {"datacenter":4} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.dc.nexus] ×4: TA-C93180YC-FX «Nexus 9300 with 48p 10/25G SFP+, 6p 100G QSFP, MACsec, UP» | TA-C93180YC-FX-NR «Nexus9300 with 48p 10/25G SFP+,6p 100G QSFP,MACsec,UP NoRack» | TA-C93180YC-FX3 «Workload M6 Nexus9300 48p10/25G SFP+,6p100G QSFP,MACsec,UP» | TA-C93180YC-FX= «Nexus 9300 with 48p 10/25G SFP+, 6p 100G QSFP, MACsec, UP»
+
+## IE3000 | 4 | roles {"industrial":4} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×4: IE-3000-8TC «Cisco IE-3000-8TC Industrial-Ethernet-IE3000 lüfterloser Layer-2-Indus» | IE-3000-4TC «Cisco IE-3000-4TC Industrial-Ethernet-IE3000 lüfterloser Layer-2-Indus» | IE-3000-8TC-E «Cisco IE-3000-8TC-E Industrial-Ethernet-IE3000 lüfterloser Layer-3-Ind» | IE-3000-4TC-E «Cisco IE-3000-4TC-E Industrial-Ethernet-IE3000 lüfterloser Layer-3-Ind»
+
+## IE3400 | 4 | roles {"industrial":4} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×4: IE-3400-8T2S-E «Cisco IE-3400-8T2S-E Catalyst IE3400 lüfterloser Layer-3-Industrie-Swi» | IE-3400-8P2S-E «Cisco IE-3400-8P2S-E Catalyst IE3400 lüfterloser Layer-3-Industrie-Swi» | IE-3400-8P2S-A «Cisco IE-3400-8P2S-A Catalyst IE3400 lüfterloser Layer-3-Industrie-Swi» | IE-3400-8T2S-A «Cisco IE-3400-8T2S-A Catalyst IE3400 lüfterloser Layer-3-Industrie-Swi»
+
+## IE 4000 | 4 | roles {"industrial":1} issues {"industrial compute":2,"licence/software":1} null 0 | spec industrial (explicit) | disagree 3
+  [sw.industrial] ×1: IE-2000U-16TC-G-X «IE2000U with 16FE Copper, 2GE + 2FE Combo (Lan Base) - CC»
+  [sw.issue.compute] ×2: IC3000-2C2F-K9= «Industrial Compute gateway Spare PID for TAC services» | IC3000-2C2F-K9++ «Industrial Compute appliance (TAA)»
+  [sw.issue.licence] ×1: C1-FLOW-IE4K «Cisco ONE Netflow IE4000»
+
+## MS355 | 4 | roles {"access":4} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.meraki] ×4: MS355-24X-HW «Cisco Meraki MS355-24X-HW cloud-gemanagter stapelbarer Layer-3-Access-» | MS355-24X2-HW «Cisco Meraki MS355-24X2-HW cloud-gemanagter stapelbarer Layer-3-Access» | MS355-48X-HW «Cisco Meraki MS355-48X-HW cloud-gemanagter stapelbarer Layer-3-Access-» | MS355-48X2-HW «Cisco Meraki MS355-48X2-HW cloud-gemanagter stapelbarer Layer-3-Access»
+
+## 4948E | 4 | roles {"datacenter":4} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.dc.catalyst-tor] ×4: WS-C4948E-S «Cisco WS-C4948E-S Catalyst-4948E gemanagter Layer-3-Switch (Cisco IOS)» | WS-C4948E-F-E «Cisco WS-C4948E-F-E Catalyst-4948E gemanagter Layer-3-Switch (Cisco IO» | WS-C4948E-F-S «Cisco WS-C4948E-F-S Catalyst-4948E gemanagter Layer-3-Switch (Cisco IO» | WS-C4948E-E «Cisco WS-C4948E-E Catalyst-4948E gemanagter Layer-3-Switch (Cisco IOS)»
+
+## Catalyst 1300X | 4 | roles {"smb":2} issues {"power":2} null 0 | spec access (heuristic) | disagree 4
+  [sw.smb.cbs-sb] ×2: C1300-12XT «Cisco C1300-12XT» | C130024MGP-4X «Cisco C130024MGP-4X»
+  [sw.issue.power] ×2: PWRADPT-WM-18-NA= «Cisco PWRADPT-WM-18-NA=» | PWRADPT-WM-18-xx «Cisco PWRADPT-WM-18-xx»
+
+## N9300 | 4 | roles {"datacenter":4} issues {} null 0 | spec access (explicit) | disagree 4
+  [sw.dc.nexus] ×4: N9324C-SE1U «Cisco 24p 100G DPU switch w/ 800G DPU service capacity» | N9324C-SE1U= «Cisco 24p 100G DPU switch w/ 800G DPU service capacity spare (excludes» | N9348Y2C6D-SE1U «48p 25G + 2p 100G + 6p 400G switch with 800G DPU service capacity» | N9348Y2C6D-SE1U= «48p 25G + 2p 100G + 6p 400G switch with 800G DPU service capacity spar»
+
+## Nexus9300 GX2 | 4 | roles {"datacenter":4} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×4: N9K-C9332D-GX2B «Cisco N9K-C9332D-GX2B Data-Center-Switch (NX-OS, L3) – 32× 400/100/40G» | N9K-C9348D-GX2A «Cisco N9K-C9348D-GX2A Data-Center-Switch (NX-OS, L3) – 48× 400/100/40G» | N9K-C9332D-GX2B-M «Cisco N9K-C9332D-GX2B-M Data-Center-Switch (NX-OS, L3) – 32× 400/100/4» | N9K-C9364D-GX2A «Cisco N9K-C9364D-GX2A Data-Center-Switch (NX-OS, L3) – 64× 400/100/40G»
+
+## IE1000 | 4 | roles {"industrial":4} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×4: IE-1000-8P2S-LM «Cisco IE-1000-8P2S-LM Industrial-Ethernet-IE1000 lüfterloser Layer-2-I» | IE-1000-4P2S-LM «Cisco IE-1000-4P2S-LM Industrial-Ethernet-IE1000 lüfterloser Layer-2-I» | IE-1000-4T1T-LM «Cisco IE-1000-4T1T-LM Industrial-Ethernet-IE1000 lüfterloser Layer-2-I» | IE-1000-6T2T-LM «Cisco IE-1000-6T2T-LM Industrial-Ethernet-IE1000 lüfterloser Layer-2-I»
+
+## Cat6500 Modules | 4 | roles {} issues {"linecard/module/supervisor":4} null 0 | spec core-agg (explicit) | disagree 4
+  [sw.issue.component] ×4: C6800-48P-TX-XL «Cisco C6800-48P-TX-XL Linecard für Catalyst 6807-XL / Catalyst 6500-E » | C6800-48P-SFP «Cisco C6800-48P-SFP Linecard für Catalyst 6807-XL / Catalyst 6500-E / » | C6800-48P-SFP-XL «Cisco C6800-48P-SFP-XL Linecard für Catalyst 6807-XL / Catalyst 6500-E» | C6800-48P-TX «Cisco C6800-48P-TX Linecard für Catalyst 6807-XL / Catalyst 6500-E / C»
+
+## Nexus 3500 | 4 | roles {"datacenter":4} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×4: N3K-C3548P-10GX «Cisco N3K-C3548P-10GX 3548P-10GX Data-Center-Switch (NX-OS, L3) – 48× » | N3K-C3548P-XL «Cisco N3K-C3548P-XL 3548P-XL Data-Center-Switch (NX-OS, L3) – 48× 1/10» | N3K-C3524P-10GX «Cisco N3K-C3524P-10GX 3524P-10GX Data-Center-Switch (NX-OS, L3) – 24× » | N3K-C3524P-XL «Cisco N3K-C3524P-XL 3524P-XL Data-Center-Switch (NX-OS, L3) – 24× 1/10»
+
+## Catalyst IE3100 Heavy Duty Series | 3 | roles {"industrial":2} issues {"datasheet cell / bare family name (not a PID)":1} null 0 | spec industrial (explicit) | disagree 1
+  [sw.issue.placeholder] ×1: IE3100 «Cisco IE3100»
+  [sw.industrial] ×2: IE-3100H-8T-E «IE3100 IP67 w/8GE M12 Ports, Fixed sys, NE» | IE-3100H-6FT2T-E «IE3100 IP67 w/6FE 2GE M12 Ports, Fixed sys, NE»
+
+## Industrial Ethernet 5000 | 3 | roles {"industrial":2} issues {"licence/software":1} null 0 | spec industrial (explicit) | disagree 1
+  [sw.industrial] ×2: IE-5000-12S12P10G= «IE5000 12x1G SFP+12GE + 4 1G/10G LAN BASE spare without PSU» | IE-5000-16S12P= «IE5000 with 12GE Copper PoE+, 12FE/GE SFP & 4 1G SFP uplinks»
+  [sw.issue.licence] ×1: C1-FLOW-IE5K «Cisco ONE Netflow IE 5000»
+
+## Nexus 9500 | 3 | roles {"datacenter":3} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×3: N9K-C9508 «Cisco Nexus 9508 Modularer Data-Center-Switch-Chassis – 8 Linecard-Slo» | N9K-C9516 «Cisco Nexus 9516 Modularer Data-Center-Switch-Chassis – 16 Linecard-Sl» | N9K-C9504 «Cisco Nexus 9504 Modularer Data-Center-Switch-Chassis – 4 Linecard-Slo»
+
+## Nexus 3132Q | 3 | roles {"datacenter":3} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×3: N3K-C3132Q-XL «Cisco N3K-C3132Q-XL Nexus 3132Q-XL Data-Center-Switch (NX-OS, L3) – 32» | N3K-C3132Q-40GX «Cisco N3K-C3132Q-40GX Nexus 3132Q-X Data-Center-Switch (NX-OS, L3) – 3» | N3K-C3132Q-40GE «Cisco N3K-C3132Q-40GE Nexus 3132Q Data-Center-Switch (NX-OS, L3) – 32×»
+
+## MDS T | 3 | roles {} issues {"Fibre Channel switch/director (storage-networking)":3} null 0 | spec datacenter (explicit) | disagree 3
+  [sw.issue.fc] ×3: DS-C9396T-48EK9 «Cisco MDS 9396T 32G Fibre-Channel-Switch (96 Ports, 2 HE)» | DS-C9148T-24EK9 «Cisco MDS 9148T 32G Fibre-Channel-Switch (48 Ports)» | DS-C9132T-MEK9 «Cisco MDS 9132T 32G Fibre-Channel-Switch (16-Port-Basis (auf 32 erweit»
+
+## Nexus 5600 | 3 | roles {"datacenter":3} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×3: N5K-C56128P «Cisco N5K-C56128P 56128P Data-Center-Switch (NX-OS, L3) – 48× 1/10G-SF» | N5K-C5672UP-16G «Cisco N5K-C5672UP-16G 5672UP-16G Data-Center-Switch (NX-OS, L3) – 48× » | N5K-C5672UP «Cisco N5K-C5672UP 5672UP Data-Center-Switch (NX-OS, L3) – 48× 1/10G-SF»
+
+## Room Series | 3 | roles {"access":2,"smb":1} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.catalyst] ×2: CS-PANO-SWITCH+ «Room Panorama Cisco Catalyst 3560-CX 12 Port PoE IP Base» | CS-PANO-SWITCH2+ «Room Panorama - Cisco C1000 16 Port Switch»
+  [sw.smb.cbs-sb] ×1: C1200-8FP-2G-OPT «Catalyst 1200 8-port GE Switch, Full PoE, 2x1G Combo»
+
+## Nexus 3064 | 3 | roles {"datacenter":3} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×3: N3K-C3064TQ-32T «Cisco N3K-C3064TQ-32T Nexus 3064-32T Data-Center-Switch (NX-OS, L3) – » | N3K-C3064TQ-10GT «Cisco N3K-C3064TQ-10GT Nexus 3064-T Data-Center-Switch (NX-OS, L3) – 4» | N3K-C3064PQ-10GX «Cisco N3K-C3064PQ-10GX Nexus 3064-X Data-Center-Switch (NX-OS, L3) – 4»
+
+## CMICR | 3 | roles {"access":3} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.catalyst] ×3: CMICR-4PT «Cisco CMICR-4PT Catalyst-Micro gemanagter Layer-2-Switch (Cisco IOS) –» | CMICR-4PC «Cisco CMICR-4PC Catalyst-Micro gemanagter Layer-2-Switch (Cisco IOS) –» | CMICR-4PS «Cisco CMICR-4PS Catalyst-Micro gemanagter Layer-2-Switch (Cisco IOS) –»
+
+## MDS V | 3 | roles {} issues {"Fibre Channel switch/director (storage-networking)":3} null 0 | spec datacenter (explicit) | disagree 3
+  [sw.issue.fc] ×3: DS-C9148V-24EK9 «Cisco MDS 9148V 64G Fibre-Channel-Switch (48 Ports)» | DS-C9124V-8EK9 «Cisco MDS 9124V 64G Fibre-Channel-Switch (24 Ports)» | DS-C9396V-48EK9 «Cisco MDS 9396V 64G Fibre-Channel-Switch (96 Ports, 2 HE)»
+
+## MDS 9700 | 3 | roles {} issues {"Fibre Channel switch/director (storage-networking)":3} null 0 | spec datacenter (explicit) | disagree 3
+  [sw.issue.fc] ×3: DS-C9706 «Cisco MDS 9706 Multilayer-Director-Chassis – 4 Slots, bis 12 Tbit/s FC» | DS-C9710 «Cisco MDS 9710 Multilayer-Director-Chassis – 8 Slots, bis 24 Tbit/s FC» | DS-C9718 «Cisco MDS 9718 Multilayer-Director-Chassis – 16 Slots, bis 48 Tbit/s F»
+
+## Nexus 31108 | 3 | roles {"datacenter":3} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×3: N3K-C31108PC-V «Cisco N3K-C31108PC-V Nexus 31108PC-V Data-Center-Switch (NX-OS, L3) – » | N3K-C31108TC-V «Cisco N3K-C31108TC-V Nexus 31108TC-V Data-Center-Switch (NX-OS, L3) – » | N3K-C31108TCV-32T «Cisco N3K-C31108TCV-32T Nexus 31108TCV-32T Data-Center-Switch (NX-OS, »
+
+## Nexus9300 GX | 3 | roles {"datacenter":3} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×3: N9K-C9364C-GX «Cisco N9K-C9364C-GX Data-Center-Switch (NX-OS, L3) – 64× 40/100G-QSFP2» | N9K-C9316D-GX «Cisco N9K-C9316D-GX Data-Center-Switch (NX-OS, L3) – 16× 400/100/40G-Q» | N9K-C93600CD-GX «Cisco N9K-C93600CD-GX Data-Center-Switch (NX-OS, L3) – 28× 40/100G-QSF»
+
+## MS410 | 2 | roles {"core-agg":2} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.coreagg.meraki] ×2: MS410-32-HW «Cisco Meraki MS410-32-HW cloud-gemanagter stapelbarer Layer-3-Aggregat» | MS410-16-HW «Cisco Meraki MS410-16-HW cloud-gemanagter stapelbarer Layer-3-Aggregat»
+
+## Catalyst 2960 C | 2 | roles {"access":2} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×2: WS-C2960C-8PT-L «WS-C2960C-8PT-L» | WS-C2960C-12PT-L «WS-C2960C-12PT-L»
+
+## TelePresence IX5000 Series | 2 | roles {"access":2} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.catalyst] ×2: CTS-5K-LC-SWITCH «Catalyst 2960C Switch 12 FE PoE, 2 x Dual Uplink, Lan Base» | CTS-5K-UI-SWITCH «Catalyst 2960C Switch 8 FE PoE, 2 x Dual Uplink, LAN Base»
+
+## Catalyst ESS9300 Embedded | 2 | roles {"industrial":1} issues {"transceiver":1} null 0 | spec industrial (heuristic) | disagree 1
+  [sw.issue.optic] ×1: 1000BASE-LX/LH «Cisco 1000BASE-LX/LH»
+  [sw.industrial] ×1: ESS-9300-10X-E «ESS9300 board, no cooling plate, Network Essentials software»
+
+## Catalyst 3560 Cx | 2 | roles {"access":2} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×2: C3560CX-8XPD-S «C3560CX-8XPD-S – 6 x 10/100/1000 Gigabit Ethernet plus 2 Multigigabit » | C3560CX-8PT-S «C3560CX-8PT-S – 8 x 10/100/1000 Gigabit Ethernet»
+
+## MS425 | 2 | roles {"core-agg":2} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.coreagg.meraki] ×2: MS425-16-HW «Cisco Meraki MS425-16-HW cloud-gemanagter stapelbarer Layer-3-Aggregat» | MS425-32-HW «Cisco Meraki MS425-32-HW cloud-gemanagter stapelbarer Layer-3-Aggregat»
+
+## C9610 | 2 | roles {"core-agg":1} issues {"power":1} null 0 | spec ? (hand-read) | disagree 0
+  [sw.issue.power] ×1: C14-C15 «Cisco C14-C15»
+  [sw.coreagg.catalyst] ×1: C9610R «Cisco C9610R Modularer Campus-Switch-Chassis – 8 Linecard-Slots, bis z»
+
+## MDS S | 2 | roles {} issues {"Fibre Channel switch/director (storage-networking)":2} null 0 | spec datacenter (explicit) | disagree 2
+  [sw.issue.fc] ×2: DS-C9148S-12PK9 «Cisco MDS 9148S 16G Fibre-Channel-Switch (48 Ports)» | DS-C9396S-48EK9 «Cisco MDS 9396S 16G Fibre-Channel-Switch (96 Ports, 2 HE)»
+
+## Configuration Professional for Catalyst | 2 | roles {} issues {"datasheet cell / bare family name (not a PID)":2} null 0 | spec industrial (heuristic) | disagree 2
+  [sw.issue.placeholder] ×2: 2960-X «Cisco 2960-X» | 2960-XR «Cisco 2960-XR»
+
+## IE5000 | 2 | roles {"industrial":2} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×2: IE-5000-16S12P «Cisco IE-5000-16S12P Industrial-Ethernet-IE5000 lüfterloser Layer-2-In» | IE-5000-12S12P-10G «Cisco IE-5000-12S12P-10G Industrial-Ethernet-IE5000 lüfterloser Layer-»
+
+## Nexus 9800 | 2 | roles {"datacenter":2} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×2: N9K-C9804 «Cisco Nexus 9804 Modularer Data-Center-Switch-Chassis – 4 Linecard-Slo» | N9K-C9808 «Cisco Nexus 9808 Modularer Data-Center-Switch-Chassis – 8 Linecard-Slo»
+
+## IE3200 | 2 | roles {"industrial":2} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×2: IE-3200-8P2S-E «Cisco IE-3200-8P2S-E Catalyst IE3200 Rugged Industrie-Switch (L2, IOS » | IE-3200-8T2S-E «Cisco IE-3200-8T2S-E Catalyst IE3200 Rugged Industrie-Switch (L2, IOS »
+
+## Catalyst 2960-CX | 2 | roles {"access":2} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×2: WS-C2960CX-8PC-L «Cisco WS-C2960CX-8PC-L Catalyst 2960-CX kompakter Managed Switch (Cisc» | WS-C2960CX-8TC-L «Cisco WS-C2960CX-8TC-L Catalyst 2960-CX kompakter Managed Switch (Cisc»
+
+## MDS MS | 2 | roles {} issues {"Fibre Channel switch/director (storage-networking)":2} null 0 | spec datacenter (explicit) | disagree 2
+  [sw.issue.fc] ×2: DS-C9250I-K9 «Cisco MDS 9250i Multiservice-Fabric-Switch – 40× 16G Fibre Channel + 8» | DS-C9220I-4PEK9 «Cisco MDS 9220i Multiservice-Fabric-Switch – 12× 32G Fibre Channel + F»
+
+## Nexus 3550 Series | 2 | roles {"datacenter":2} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×2: N35-F-48X «Nexus 3550-F Modular Layer 1 Matrix Switch» | N35-FM-48X «Nexus 3550-F Programmable Multiplexer Switch»
+
+## IE 3010 | 2 | roles {"industrial":2} issues {} null 0 | spec industrial (explicit) | disagree 0
+  [sw.industrial] ×2: IE-3010-24TC «Rugged Industrial Ethernet switch 24 10/100BASETX ports and two dual-p» | IE-3010-16S-8PC «Rugged Industrial Ethernet switch 16 Fast Ethernet SFP ports, 8 10/100»
+
+## Nexus 5600Q | 2 | roles {"datacenter":2} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×2: N5K-C5624Q «Cisco N5K-C5624Q 5624Q Data-Center-Switch (NX-OS, L3) – 12× 40G-QSFP+,» | N5K-C5648Q «Cisco N5K-C5648Q 5648Q Data-Center-Switch (NX-OS, L3) – 24× 40G-QSFP+,»
+
+## Nexus 3132C Z | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C3132C-Z «Cisco N3K-C3132C-Z Nexus 3132C-Z Data-Center-Switch (NX-OS, L3) – 32× »
+
+## MS450 | 1 | roles {"core-agg":1} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.coreagg.meraki] ×1: MS450-12-HW «Cisco Meraki MS450-12-HW cloud-gemanagter stapelbarer Layer-3-Aggregat»
+
+## Nexus 3264Q | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C3264Q «Cisco N3K-C3264Q Nexus 3264Q Data-Center-Switch (NX-OS, L3) – 64× 40G-»
+
+## MS130R | 1 | roles {"access":1} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.access.meraki] ×1: MS130R-8P-HW «Cisco Meraki MS130R-8P-HW cloud-gemanagter Layer-2-Access-Switch (8× 1»
+
+## 6807XL | 1 | roles {"core-agg":1} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.coreagg.catalyst] ×1: C6807-XL «Cisco C6807-XL Catalyst 6807-XL modulares Campus-Core-Chassis (7 Steck»
+
+## Nexus 3232C | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C3232C «Cisco N3K-C3232C Nexus 3232C Data-Center-Switch (NX-OS, L3) – 32× 100G»
+
+## Network Modules | 1 | roles {"core-agg":1} issues {} null 0 | spec ? (hand-read) | disagree 0
+  [sw.coreagg.catalyst] ×1: WS-C4510RE-S7+96V+ «4510R+E Chassis, Two WS-X4748-RJ-45V+E, Sup7-E»
+
+## Nexus 9400 | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N9K-C9408 «Cisco Nexus 9408 Modularer Data-Center-Switch-Chassis – 8 LEM-Slots, b»
+
+## Catalyst 4500 X | 1 | roles {} issues {"licence/software":1} null 0 | spec core-agg (explicit) | disagree 1
+  [sw.issue.licence] ×1: C4500X-16P-IP-ES «C4500X-16P-IP-ES – Catalyst 4500-X IP BASE to Enterprise Services upgr»
+
+## Nexus 3636C R | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C3636C-R «Cisco N3K-C3636C-R 3636C-R Data-Center-Switch (NX-OS, L3) – 36× 100G-Q»
+
+## Nexus 3432D S | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C3432D-S «Cisco N3K-C3432D-S 3432D-S Data-Center-Switch (NX-OS, L3) – 32× 400G-Q»
+
+## Nexus 3132Q V | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C3132Q-V «Cisco N3K-C3132Q-V Nexus 3132Q-V Data-Center-Switch (NX-OS, L3) – 32× »
+
+## Nexus 3048 | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C3048TP-1GE «Cisco N3K-C3048TP-1GE Nexus 3048 Data-Center-Switch (NX-OS, L3) – 48× »
+
+## 2960-S | 1 | roles {"access":1} issues {} null 0 | spec access (explicit) | disagree 0
+  [sw.access.catalyst] ×1: WS-C2960S-48TS-J1 «Catalyst 2960-S 48TS-L for Japan Post»
+
+## Nexus 3464C | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C3464C «Cisco N3K-C3464C 3464C Data-Center-Switch (NX-OS, L3) – 64× 100G-QSFP2»
+
+## Nexus 3016 | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C3016Q-40GE «Cisco N3K-C3016Q-40GE Nexus 3016 Data-Center-Switch (NX-OS, L3) – 16× »
+
+## Nexus 34180YC | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C34180YC «Cisco N3K-C34180YC 34180YC Data-Center-Switch (NX-OS, L3) – 48× 25G-SF»
+
+## IE 3000 | 1 | roles {} issues {"mechanical":1} null 0 | spec industrial (explicit) | disagree 1
+  [sw.issue.mechanical] ×1: LPNL-IE3000= «Cisco LPNL-IE3000=»
+
+## Cat6800X Modules | 1 | roles {} issues {"linecard/module/supervisor":1} null 0 | spec core-agg (explicit) | disagree 1
+  [sw.issue.component] ×1: C6880-X-16P10G «Cisco C6880-X-16P10G Port-Card für Catalyst 6800-X»
+
+## Nexus 31128PQ | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C31128PQ-10GE «Cisco N3K-C31128PQ-10GE Nexus 31128PQ Data-Center-Switch (NX-OS, L3) –»
+
+## Nexus 36180YC R | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C36180YC-R «Cisco N3K-C36180YC-R 36180YC-R Data-Center-Switch (NX-OS, L3) – 48× 25»
+
+## Nexus 3164Q | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C3164Q-40GE «Cisco N3K-C3164Q-40GE Nexus 3164Q Data-Center-Switch (NX-OS, L3) – 64×»
+
+## Nexus 3264C E | 1 | roles {"datacenter":1} issues {} null 0 | spec datacenter (explicit) | disagree 0
+  [sw.dc.nexus] ×1: N3K-C3264C-E «Cisco N3K-C3264C-E Nexus 3264C-E Data-Center-Switch (NX-OS, L3) – 64× »
+
+######## ap: 2753 parts, members 2717, roles {"indoor":1928,"outdoor":309,"mesh-extender":121,"smb":211,"industrial":148}, issues 36, unresolved 0
+
+## 3800 | 473 | roles {"indoor":473} issues {} null 0 | spec indoor | disagree 0
+  [ap.indoor.aironet] ×473: AIR-AP3802E-B-K9C «Cisco Aironet Mobility Express 3800 Series» | AIR-AP3802P-S-K9 «802.11ac W2 AP w/CA; 4x4:3; Mod; Pro Ext Ant; mGig S Domain» | AIR-AP3802P-UXK910 «802.11ac W2 10 AP w/CA; 4x4:3; Mod; Pro Ext Ant; mGig UX» | AIR-AP3802I-NK910 «802.11ac W2 10 AP w/CA; 4x4:3SS; Int Ant; mGig -N Domain» | AIR-3802I-G-K9C «Cisco Aironet Mobility Express 3800 Series» | AIR-AP3802E-UXK9C «Cisco Aironet Mobility Express 3800 Series» … (+467)
+
+## 2800 | 361 | roles {"indoor":361} issues {} null 0 | spec indoor | disagree 0
+  [ap.indoor.aironet] ×361: AIR-AP2802I-DBULKC «BOM Level AP2800i Bulk PID for D domain» | AIR-AP2802E-B-K9++ «802.11ac W2 AP w/CA; 4x4:3; Ext Ant; 2xGbE, (B - TAA)» | AIR-AP2802H-C-K9C «Cisco Aironet Mobility Express 2800 Series» | AIR-AP2802I-GBULKC «BOM Level AP2800i Bulk PID for G domain» | AIR-AP2802E-BBULK «BOM Level AP2800e Bulk PID for B Domain» | AIR-AP2802E-E-K9 «802.11ac W2 AP w/CA; 4x4:3; Ext Ant; 2xGbE, E Domain» … (+355)
+
+## Catalyst 9100 | 304 | roles {"indoor":303} issues {"mechanical":1} null 0 | spec indoor | disagree 1
+  [ap.indoor.catalyst] ×303: C9105AXW-E «Cisco Catalyst 9105AX Series-Wallplate» | C9115AXE-E++ «Cisco Catalyst 9115AX Series» | C9115AXE-H «Cisco Catalyst 9115AX Series» | C9115AXI-B++ «Cisco Catalyst 9115AX Series» | C9105AXW-G «Cisco Catalyst 9105AX Series-Wallplate» | C9120AXE-B++ «Cisco Catalyst 9120AX Series» … (+297)
+  [ap.issue.mechanical] ×1: C9105AXIT_COVER «Back cover»
+
+## Business 100 | 187 | roles {"smb":94,"mesh-extender":92} issues {"bundle of AP + mesh extenders (mixed roles)":1} null 0 | spec smb | disagree 93
+  [ap.smb.cbw-wap] ×94: 5-CBW140AC-F «Cisco Business 140AC Access Point, 802.11ac Wave 2-5 Packs» | CBW145AC-K «Cisco Business 802.11ac Wave 2 Access Point» | 5-CBW140AC-D «CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 5P» | 5-CBW140AC-B «CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 5P» | 5-CBW140AC-A-CA «CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 5P» | 3-CBW140AC-Z «CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P» … (+88)
+  [ap.mesh.cbw] ×92: 5-CBW141ACM-Q-JP «Cisco Business 141AC Wireless Extender-Desktop-5 Packs» | 5-CBW141ACM-E-UK «Cisco Business 141AC Wireless Extender-Desktop-5 Packs» | 3-CBW141ACM-F-EU «Cisco Business 141AC Wireless Extender-Desktop-3 Packs» | 3-CBW141ACM-Z-BR «Cisco Business 141AC Wireless Extender-Desktop-3 Packs» | CBW141ACM-D-IN «CBW141ACM 802.11ac 2x2 Wave 2 Mesh Extender Desktop» | 3-CBW141ACM-E-IN «Cisco Business 141AC Wireless Extender-Desktop-3 Packs» … (+86)
+  [ap.issue.starter-kit] ×1: CBW140MXS-H-CN «^CBW140 Cisco Business Mesh Starter Kit»
+
+## Catalyst Embedded Controller | 171 | roles {"indoor":134,"outdoor":37} issues {} null 0 | spec indoor | disagree 37
+  [ap.indoor.catalyst] ×134: C9130AXE-EWC-I «Cisco Embedded Wireless Controller on C9130AX Access Point» | C9115AXE-EWC-I «Cisco Embedded Wireless Controller on C9115AX Access Point» | C9105AXI-EWC-E1 «Cisco Embedded Wireless Controller on C9105AX Access Point» | C9120AXE-EWC-G «Cisco Embedded Wireless Controller on C9120AX Access Point» | C9120AXP-EWC-B-EDU «Cisco Embedded Wireless Controller on C9120AX Access Point» | C9115AXE-EWC-B-EDU «Cisco Embedded Wireless Controller on C9115AX Access Point» … (+128)
+  [ap.outdoor.catalyst] ×37: C9124AXI-EWC-B1 «Cisco Embedded Wireless Controller on C9124AX Access Point» | C9124AXD-EWC-R «Wi-Fi 6 Outdoor AP w/EWC,Directional Ant,-R Regulatory Dom» | C9124AXI-EWC-E1 «Cisco Embedded Wireless Controller on C9124AX Access Point» | C9124AXE-EWC-Z «Wi-Fi 6 Outdoor AP w/EWC, External Ant, -Z Regulatory Domain» | C9124AXE-EWC-R «Wi-Fi 6 Outdoor AP w/EWC, External Ant, -R Regulatory Domain» | C9124AXE-EWC-ROW «Wi-Fi 6 Outdoor AP w/EWC,External Ant, ROW Regulatory Domain» … (+31)
+
+## Aironet 1850 | 124 | roles {"indoor":124} issues {} null 0 | spec indoor | disagree 0
+  [ap.indoor.aironet] ×124: AIR-AP1852E-R-K9 «802.11ac Wave 2; 4x4:4SS; Ext Ant; R Reg Dom» | AIR-AP1852E-UXK910 «802.11ac Wave 2, 10 APs; 4x4:4SS; Ext Ant; Universal Domain» | AIR-AP1852E-UXK9C «Cisco Aironet Mobility Express 1850 Series» | AIR-AP1852I-N-K9C «Cisco Aironet Mobility Express 1850 Series» | AIR-AP1852E-T-K9C «Cisco Aironet Mobility Express 1850 Series» | AIRAP1852I-IK910C «Cisco Aironet Mobility Express 1850 Series» … (+118)
+
+## Aironet 1815 | 111 | roles {"indoor":111} issues {} null 0 | spec indoor | disagree 0
+  [ap.indoor.aironet] ×111: AIR-AP1815I-B-K9 «Cisco Aironet 1815i Series (for US)» | AIR-AP1815I-H-K9C «Cisco Aironet Mobility Express 1815i Series» | AIR-AP1815I-Z-K9 «Cisco Aironet 1815i Series» | AIR-AP1815W-I-K9C «Cisco Aironet Mobility Express 1815w Series» | AIR-AP1815W-K-K9C «Cisco Aironet Mobility Express 1815w Series» | AIR-OEAP1815-H-K9 «Cisco Aironet OEAP1815 Series» … (+105)
+
+## Aironet 1550 | 105 | roles {"industrial":46,"outdoor":56} issues {"mechanical":3} null 0 | spec outdoor | disagree 49
+  [ap.industrial.aironet1552] ×46: AIR-CAP1552WU-N-K9 «802.11n Outdoor Access Point w/WiHartGateway, DC, N Reg Dom» | AIR-CAP1552SD-K-K9 «802.11n Outdoor Access Point, ISA100, WiHART, DC, K Reg Dom» | AIR-CAP1552SD-A-K9 «802.11n Outdoor Access Point, ISA100, WiHART, DC, A Reg Dom» | AIR-CAP1552WU-D-K9 «802.11n Outdoor Access Point w/WiHartGateway, DC, D Reg Dom» | AIR-CAP1552H-x-K9 «Cisco AIR-CAP1552H-x-K9» | AIR-CAP1552SA-R-K9 «802.11n Outdoor Access Point, ISA100, WiHART, AC, R Reg Dom» … (+40)
+  [ap.outdoor.aironet] ×56: AIR-CAP1552C-E-K9 «802.11N Outdoor Mesh Access Point Cable Modem, E Reg. Domain» | AIR-CAP1552I-E-K9G «802.11N Outdoor Access Point, Int. Ant., E Reg. Domain, GPS» | AIR-CAP1552E-K-K9 «802.11N Outdoor Mesh Access Point, Ext. Ant., K Reg. Domain» | AIR-CAP1552E-Q1-K9 «802.11N Outdoor Access Point, Ext. Ant., Q Reg. Dom. w/cord» | AIR-CAP1552I-N-K9 «802.11N Outdoor Mesh Access Point, Int. Ant., N Reg. Domain» | AIR-CAP1552C-A-K9G «802.11N Outdoor Access Point Cable Modem, A Reg. Domain, GPS» … (+50)
+  [ap.issue.mechanical] ×3: AIR-AP1131-STAND= «AP 1130 Table Top Stand» | C9105AXWT_COVER «Back cover» | C9105AXWT_COVER= «C9105 Wall Plate teleworker Cradle Kit»
+
+## Aironet 1570 | 87 | roles {"outdoor":87} issues {} null 0 | spec outdoor | disagree 0
+  [ap.outdoor.aironet] ×87: AIR-AP1572EAC-D-K9 «802.11ac Outdoor AP, External-Ant, AC-power, Reg. Domain-D» | AIR-AP1572EAC-K-K9 «802.11ac Outdoor AP, External-Ant, AC-power, Reg. Domain-K» | AIR-AP1572EC2-N-K9 «802.11ac Outdoor AP, Ext-Ant, Cable NA-D3.0 85/108MHz, Reg-N» | AIR-AP1572EC3-T-K9 «802.11ac Outdoor AP, Ext-Ant, Cable EU-D3.0 65/108MHz, Reg-T» | AIR-AP1572EC4-Q-K9 «802.11ac Outdoor AP, Ext-Ant, Cable JP-D3.0 65/108MHz, Reg-Q» | AIR-AP1572IC2-N-K9 «802.11ac Outdoor AP, Int-Ant, Cable NA-D3.0 85/108MHz, Reg-N» … (+81)
+
+## Aironet 1830 | 75 | roles {"indoor":75} issues {} null 0 | spec indoor | disagree 0
+  [ap.indoor.aironet] ×75: AIR-AP1832I-Z-K9C «Cisco Aironet Mobility Express 1830 Series» | AIR-AP1832I-T-K9 «802.11ac Wave 2; 3x3:2SS; Int Ant; T Reg Domain» | AIR-AP1832I-I-K9C «Cisco Aironet Mobility Express 1830 Series» | EDU-AP1832I-B-K9 «802.11ac Wave 2;3x3:2SS;Int Ant; B Domain (EDU for US K12)» | AIRAP1832I-HBULKC «BOM Level AP1832i Bulk PID for H Domain» | AIRAP1832I-IBULKC «BOM Level AP1832i Bulk PID for I Domain» … (+69)
+
+## 4800 | 72 | roles {"indoor":72} issues {} null 0 | spec - | disagree 0
+  [ap.indoor.aironet] ×72: AIR-AP4800-G-K9C «Cisco Aironet Mobility Express 4800 Series» | AIR-AP4800-Z-K9 «.11ac W2 Analytics AP w/CA; 4x4:3; Location; mGig -Z Domain» | AIR-AP4800E1-K9C «Cisco Aironet Mobility Express 4800 Series» | AIR-AP4800-R-K9C «Cisco Aironet Mobility Express 4800 Series» | AIR-AP4800-Z-K9C «Cisco Aironet Mobility Express 4800 Series» | AIR-AP4800-D-K9C «Cisco Aironet Mobility Express 4800 Series» … (+66)
+
+## Aironet 1560 | 69 | roles {"outdoor":69} issues {} null 0 | spec outdoor | disagree 0
+  [ap.outdoor.aironet] ×69: AIR-AP1562E-H-K9 «802.11ac W2 Low-Profile Outdoor AP, External Ant, H Reg Dom.» | AIR-AP1562D-Q-K9 «802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, Q Reg Dom.» | AIR-AP1562E-B-K9 «802.11ac W2 Low-Profile Outdoor AP, External Ant, B Reg Dom.» | AIR-AP1562D-D-K9 «802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, D Reg Dom.» | AIR-AP1562D-S-K9 «802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, S Reg Dom.» | AIR-AP1562I-A-K9 «802.11ac W2 Low-Profile Outdoor AP, Internal Ant, A Reg Dom.» … (+63)
+
+## IW 6300 Catalyst Heavy Duty | 67 | roles {"industrial":67} issues {} null 0 | spec industrial | disagree 0
+  [ap.industrial.iw] ×67: IW-6300H-DCW-D-K9 «Industrial Wireless AP 6300, DC Wide range, Hazloc, D Domain» | IW-6300H-DC-S-K9 «Industrial Wireless AP 6300, DC input, Hazloc, S Domain» | IW-6300H-DCW-A-K9 «Industrial Wireless AP 6300, DC Wide range, Hazloc, A Domain» | IW-6300H-DCW-Q-K9 «Industrial Wireless AP 6300, DC Wide range, Hazloc, Q Domain» | IW-6300H-AC-Q-K9 «Industrial Wireless AP 6300, AC input, Hazloc, Q Domain» | IW-6300H-DCW-H-K9 «Industrial Wireless AP 6300, DC Wide range, Hazloc, H Domain» … (+61)
+
+## Catalyst 9117AX | 58 | roles {"indoor":58} issues {} null 0 | spec indoor | disagree 0
+  [ap.indoor.catalyst] ×58: C9117AXI-E++ «Cisco Catalyst 9117AX Series» | C9117AXI-EWC-A «Cisco Embedded Wireless Controller on C9117AX Access Point» | C9130AXI-EWC-R «Cisco Embedded Wireless Controller on C9130AX Access Point» | C9130AXI-EWC-F «Cisco Embedded Wireless Controller on C9130AX Access Point» | C9117AXI-F «Cisco Catalyst 9117AX Series» | C9117AXI-EWC-B1 «Cisco Embedded Wireless Controller on C9117AX Access Point» … (+52)
+
+## Business 200 | 56 | roles {"smb":56} issues {} null 0 | spec smb | disagree 0
+  [ap.smb.cbw-wap] ×56: 5-CBW240AC-G «CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 5P» | CBW240AC-K «Cisco Business 802.11ac Wave 2 Access Point» | 5-CBW240AC-B «CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 5P» | 5-CBW240AC-R «Cisco Business 240AC Access Point, 802.11ac Wave 2- 5 Packs» | 3-CBW240AC-K «Cisco Business 240AC Access Point, 802.11ac Wave 2» | 3-CBW240AC-I «Cisco Business 240AC Access Point, 802.11ac Wave 2» … (+50)
+
+## Aironet 1810w | 50 | roles {"indoor":50} issues {} null 0 | spec indoor | disagree 0
+  [ap.indoor.aironet] ×50: AIR-AP1815W-N-K9 «Cisco Aironet 1815w Series» | AIR-AP1815W-T-K9 «Cisco Aironet 1815w Series» | AIR-AP1815W-E-K9 «Cisco Aironet 1815w Series» | AIR-OEAP1810-K-K9 «802.11ac Wave 2 OfficeExtend AP, K Reg Domain» | AIR-AP1815W-K-K9 «Cisco Aironet 1815w Series» | AIR-OEAP1810-E-K9 «802.11ac Wave 2 OfficeExtend AP, E Reg Domain» … (+44)
+
+## Aironet 1800 | 45 | roles {"indoor":45} issues {} null 0 | spec - | disagree 0
+  [ap.indoor.aironet] ×30: AIR-AP1800I-Q-K9 «Cisco Aironet 1800i Series» | AIR-AP1800I-E-K9 «Cisco Aironet 1800i Series» | AIR-AP1800I-N-K9 «Cisco Aironet 1800i Series» | AIR-AP1800I-F-K9 «Cisco Aironet 1800i Series» | AIR-AP1800I-D-K9 «Cisco Aironet 1800i Series» | AIR-AP1800I-Z-K9C «Cisco Aironet Mobility Express 1800i Series» … (+24)
+  [ap.indoor.catalyst] ×15: C9105AXI-EWC-R «Cisco Embedded Wireless Controller on C9105AX Access Point» | C9105AXI-EWC-B «Cisco Embedded Wireless Controller on C9105AX Access Point» | C9105AXI-EWC-K «Cisco Embedded Wireless Controller on C9105AX Access Point» | C9105AXI-EWC-D «Cisco Embedded Wireless Controller on C9105AX Access Point» | C9105AXI-EWC-N «Cisco Embedded Wireless Controller on C9105AX Access Point» | C9105AXI-EWC-H «Cisco Embedded Wireless Controller on C9105AX Access Point» … (+9)
+
+## Catalyst 9105AX | 43 | roles {"indoor":43} issues {} null 0 | spec indoor | disagree 0
+  [ap.indoor.catalyst] ×43: C9105AXI «Cisco C9105AXI» | C9105AXIT-S «Cisco Catalyst 9105AXIT Teleworker Series» | C9105AXIT-C «Cisco Catalyst 9105AXIT Teleworker Series» | C9105 «Cisco C9105» | C9130AXE «Cisco C9130AXE» | C9105AXWT-H «Cisco Catalyst 9105AXWT Teleworker Series» … (+37)
+
+## Business 100 Series Mesh Extenders | 42 | roles {"mesh-extender":29} issues {"bundle of AP + mesh extenders (mixed roles)":13} null 0 | spec mesh-extender | disagree 13
+  [ap.mesh.cbw] ×29: CBW142A-NA-MULTI «BOM Level CBW142ACM Bulk PID for A Domain» | CBW142ACM-Z-AU «CBW142ACM 802.11ac 2x2 Wave 2 Mesh Extender Wall Outlet» | CBW142ACM-D-IN «CBW142ACM 802.11ac 2x2 Wave 2 Mesh Extender Wall Outlet» | CBW142ACM-R-EU «Cisco Business CBW142ACM Mesh Access Point» | CBW142E-UK-DMULTI «BOM Level CBW142ACM Bulk PID for E Domain» | CBW142K-UK-MULTI «BOM Level CBW142ACM Bulk PID for K Domain» … (+23)
+  [ap.issue.starter-kit] ×13: CBW140MXS-A-NA «CBW140 Cisco Business Mesh Starter Kit» | CBW140MXS-K-UK «CBW140 Cisco Business Mesh Starter Kit» | CBW140MXS-S-UK «CBW140 Cisco Business Mesh Starter Kit» | CBW140MXS-I-EU «CBW140 Cisco Business Mesh Starter Kit» | CBW140MXS-F-EU «CBW140 Cisco Business Mesh Starter Kit» | CBW140MXS-E-UK «CBW140 Cisco Business Mesh Starter Kit» … (+7)
+
+## Aironet 1540 | 40 | roles {"outdoor":40} issues {} null 0 | spec outdoor | disagree 0
+  [ap.outdoor.aironet] ×40: AIR-AP1542I-A-K9 «802.11ac W2 Value Outdoor AP, Internal Ant, A Reg Dom.» | AIR-AP1542D-N-K9 «802.11ac W2 Value Outdoor AP, Direct. Ant, N Reg Dom.» | AIR-AP1542D-E-K9 «802.11ac W2 low-profile outdoor AP, directional ant, E reg dom» | AIR-AP1542D-B-K9 «802.11ac W2 Value Outdoor AP, Direct. Ant, B Reg Dom.» | AIR-AP1542I-D-K9 «802.11ac W2 Value Outdoor AP, Internal Ant, D Reg Dom.» | AIR-AP1542D-C-K9 «802.11ac W2 Value Outdoor AP, Direct. Ant, C Reg Dom.» … (+34)
+
+## Aironet 1840 | 33 | roles {"indoor":33} issues {} null 0 | spec indoor | disagree 0
+  [ap.indoor.aironet] ×33: AIR-AP1840I-A-K9C «Cisco Aironet ME AP1840I Series access point - A domain» | AIR-AP1840I-S-K9C «Cisco Aironet ME AP1840I Series access point - S domain» | AIR-AP1840I-B-K9 «Cisco Aironet AP1840I Series access point - B domain» | AIR-AP1840I-D-K9C «Cisco Aironet ME AP1840I Series access point - D domain» | AIR-AP1840I-S-K9 «Cisco Aironet AP1840I Series access point - S domain» | AIR-AP1840I-Z-K9 «Cisco Aironet AP1840I Series access point - Z domain» … (+27)
+
+## Catalyst 9163 | 32 | roles {"indoor":27,"outdoor":5} issues {} null 0 | spec outdoor | disagree 27
+  [ap.indoor.catalyst] ×27: C9130AXE-STA-x «Cisco Catalyst 9130AXE Access Point, C-9104 Stadium Antenna; 802.11ax;» | CW9162I-MR «Cisco Catalyst 9162I Access Point, Wi-Fi 6E, internal antennas, 2x2+2x» | C9130AXE-x «Cisco Catalyst 9130AXE Access Point, external antennas; 802.11ax; 8x8:» | C9105AXI-x «Cisco Catalyst 9105AX Access Point, internal antenna; ceiling mount, W» | C9115AXI-x «Cisco Catalyst 9115AXI Access Point, internal antenna; Wi-Fi 6; 4x4:4 » | C9120AXP-x «Cisco Catalyst 9120AXP Access Point, external antennas; professional i» … (+21)
+  [ap.outdoor.catalyst] ×5: CW9163E-x «Cisco Catalyst 9163E Outdoor Access Point, N-type antenna connectors; » | C9124AXE-x «Cisco Catalyst 9124AX Outdoor Access Point, external antenna; Wi-Fi 6;» | C9124AXD-x «Cisco Catalyst 9124AX Outdoor Access Point, internal directional anten» | CW9163E-MR «Cisco Catalyst 9163E Outdoor Access Point, N-type antenna connectors; » | C9124AXI-x «Cisco Catalyst 9124AX Outdoor Access Point, internal omnidirectional a»
+
+## IW 3700 Industrial | 32 | roles {"industrial":32} issues {} null 0 | spec industrial | disagree 0
+  [ap.industrial.iw] ×32: IW3702-2E-Q-K9 «Industrial Wireless AP 3702, 4 RF ports on top/btm, Q dom.» | IW3702-4E-H-K9 «Industrial Wireless AP 3702, 4 RF ports on top, H reg domain» | IW3702-2E-S-K9 «Industrial Wireless AP 3702, 4 RF ports on top/btm, S dom.» | IW3702-2E-C-K9 «Industrial Wireless AP 3702, 4 RF ports on top/btm, R dom.» | IW3702-4E-Z-K9 «Industrial Wireless AP 3702, 4 RF ports on top, Z reg domain» | IW3702-4E-N-K9 «Industrial Wireless AP 3702, 4 RF ports on top, N reg domain» … (+26)
+
+## Small Business 100 | 29 | roles {"smb":29} issues {} null 0 | spec - | disagree 0
+  [ap.smb.cbw-wap] ×29: WAP150-E-K9-EU «Cisco WAP150 Wireless-AC/N Dual Radio Access Point with PoE (EU Region» | WAP121-E-K9-CN «Cisco WAP121 Wireless-N Access Point with Single Point Setup (China)» | WAP125-E-K9-UK «Cisco WAP125 Wireless-AC/N Dual Band Desktop Access Point with PoE (Un» | WAP121-A-K9-CA «Cisco WAP121 Wireless-N Access Point with Single Point Setup (Canada)» | WAP125-E-K9-IN «Cisco WAP125 Wireless-AC/N Dual Band Desktop Access Point with PoE (In» | WAP150-C-K9-IN «Cisco WAP150 Wireless-AC/N Dual Radio Access Point with PoE (India)» … (+23)
+
+## Small Business 500 | 29 | roles {"smb":21,"outdoor":8} issues {} null 0 | spec - | disagree 0
+  [ap.smb.cbw-wap] ×21: WAP581-K-K9 «Cisco WAP581 Wireless-AC Dual Radio Wave 2 Access Point with 2.5GbE LA» | WAP571-A-K9 «WAP571 Wireless-AC/N Premium Dual Radio Access Points (United States)» | WAP581-B-K9 «Cisco WAP581 Wireless-AC Dual Radio Wave 2 Access Point with 2.5GbE LA» | WAP571-I-K9 «WAP571 Wireless-AC/N Premium Dual Radio Access Points (India, Chile, S» | WAP125-C-K9-G5 «^Wireless-AC/N Dual Radio Access Point with PoE» | WAP150-A-K9-BR «^Wireless-AC/N Dual Radio Access Point with PoE» … (+15)
+  [ap.outdoor.catalyst] ×8: WAP571E-C-K9 «WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Point (China)» | WAP571E-R-K9 «Wireless-AC/N Dual Radio Outdoor Wireless Access Point» | WAP571E-A-K9 «WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Point (United» | WAP571E-K-K9 «WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Point (Korea)» | WAP571E-N-K9 «WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Point (Austra» | WAP571E-B-K9 «WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Point (Canada» … (+2)
+
+## Catalyst 9800 Series Wireless Controllers | 18 | roles {"outdoor":7,"indoor":11} issues {} null 0 | spec - | disagree 0
+  [ap.outdoor.catalyst] ×7: MR78 «Cisco MR78» | C9124AXI-EWC-X «Cisco Catalyst 9124AX Series Access point with Embedded wireless contr» | MR86 «Cisco MR86» | MR76 «Cisco MR76» | C9124AXD-EWC-X «Cisco Catalyst 9124AX Series Access point with Embedded wireless contr» | C9124AXE-EWC-X «Cisco Catalyst 9124AX Series Access point with Embedded wireless contr» … (+1)
+  [ap.indoor.catalyst] ×11: MR46 «Cisco MR46» | CW9162 «Cisco CW9162» | MR46E «Cisco MR46E» | MR36H «Cisco MR36H» | MR36 «Cisco MR36» | CW9164 «Cisco CW9164» … (+5)
+
+## Aironet 1800s Active Sensor | 15 | roles {} issues {"network sensor (not an AP)":15} null 0 | spec - | disagree 0
+  [ap.issue.sensor] ×15: AIR-AP1800S-R-K9 «Cisco Aironet 1800S Series Network Sensor» | AIR-AP1800S-B-K9 «Cisco Aironet 1800S Series Network Sensor (USA Only)» | AIR-AP1800S-D-K9 «Cisco Aironet 1800S Series Network Sensor» | AIR-AP1800S-A-K9 «Cisco Aironet 1800S Series Network Sensor» | AIR-AP1800S-G-K9 «Cisco Aironet 1800S Series Network Sensor» | AIR-AP1800S-K-K9 «Cisco Aironet 1800S Series Network Sensor» … (+9)
+
+## Small Business 300 | 11 | roles {"smb":11} issues {} null 0 | spec - | disagree 0
+  [ap.smb.cbw-wap] ×11: WAP371-K-K9 «Cisco WAP371 Wireless-AC/N Dual Radio Access Point with Single Point S» | WAP371-E-K9 «Cisco WAP371 Wireless-AC/N Dual Radio Access Point with Single Point S» | WAP361-K-K9 «WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with Po E (Kor» | WAP361-A-K9 «WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with PoE (Unit» | WAP361 «WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with PoE» | WAP371-A-K9 «Cisco WAP371 Wireless-AC/N Dual Radio Access Point with Single Point S» … (+5)
+
+## Antennas/Accessories | 6 | roles {"indoor":5} issues {"mechanical":1} null 0 | spec - | disagree 0
+  [ap.indoor.aironet] ×5: AIR-AP1802E-BULK «BOM Level AP1802e Bulk PID for Universal Domain» | AIR-AP852I-BULK «BOM Level AP852i Bulk PID for Universal Domain» | AIR-AP1802I-BULK «BOM Level AP1802i Bulk PID for Universal Domain» | AIR-CAP37IBO-EBULK «BOM Level AP3700i Bulk PID for E reg domain» | AIR-CAP27IBO-BBULK «BOM Level AP2700i Bulk PID for B reg domain»
+  [ap.issue.mechanical] ×1: AIR-AP1140RETROMT= «1040/1140/1260/3500/3600 Mount Kit Fits AP to 1130 Brackets»
+
+## Catalyst Center | 3 | roles {"indoor":3} issues {} null 0 | spec - | disagree 0
+  [ap.indoor.catalyst] ×3: CW9166D1 «Cisco CW9166D1» | CW9166I «Cisco CW9166I» | CW9162I «Cisco CW9162I»
+
+## Ultra-Reliable Wireless Backhaul | 3 | roles {"industrial":3} issues {} null 0 | spec - | disagree 0
+  [ap.industrial.iw] ×3: IW9165D «Cisco IW9165D» | IW9165E «Cisco IW9165E» | IW9167E «Cisco IW9167E»
+
+## 5500 | 2 | roles {} issues {"wireless LAN controller":2} null 0 | spec - | disagree 0
+  [ap.issue.wlc] ×2: AIR-5508H-HA-K9 «Cisco 5508 Series Wireless Ctlr for HA, Hospitality» | AIR-5508H-500-2PK «2x AIR-CT5508-500-K9, Hospitality»
+
+######## router: 1575 parts, members 1238, roles {"branch":863,"industrial-iot":104,"smb":155,"edge":114}, issues 337, unresolved 2
+
+## 800 | 323 | roles {"branch":246,"industrial-iot":18} issues {"datasheet cell / unidentifiable bundle (not a router PID)":17,"licence/software/planning PID":29,"module/modem/accessory":13} null 0 | spec branch | disagree 77
+  [rt.branch.isr] ×246: C897VAG-LTE-LA-K9 «C897 GE SFP VDSL2/ADSL2+ over POTS, FDD and TDD LTE, HSPA+» | C899G-LTE «Cisco C899G-LTE» | C819G-4G-NA-K9 «C819 M2M 4G LTE for North America, AWS/1900/1500/700, HSPA+» | C819G-4G-ST-K9 «C819 M2M 4G LTE for Sprint, 2500 MHz PCS Band 19» | C898EAG-LTE «Cisco C898EAG-LTE» | C819G-4G-VZ-K9 «C819 M2M 4G LTE for Verizon, 700 MHz Band 13, AWS Band 4» … (+240)
+  [rt.iot.ir-cgr] ×18: C819HG-V-K9 «C819 Secure Hardened Router, VERIZON EVDO Rev A w/ SMS/GPS» | C819HGW-V-A-K9 «C819 M2M Hardened for Verizon EV-DO Rev A w/ Dual Radio FCC» | C819HG-S-K9 «C819 Secure Hardened Router, SPRINT EVDO Rev A w/ SMS/GPS» | C819HG-U-K9 «C819 Secure Hardened M2M GW (non-US) 3.5G HSPA R6 w/ SMS/GPS» | C819HG-4G-V-K9 «C819 Hardened 4G LTE M2M GW for Verizon 700 MHz Band 13» | C819HG-4G-A-K9 «C819 Hardened 4G LTE M2M GW for ATT 700 MHz Band 17» … (+12)
+  [rt.issue.placeholder] ×17: ADSL2/2+ «Cisco ADSL2/2+» | ABLT-F «Cisco ABLT-F» | 2BRI «Cisco 2BRI» | CISCOUTM1100 «Unified Threat Management 1100 Bundle» | SOCRATES-4e «Cisco SOCRATES-4e» | SDFE-4 «Cisco SDFE-4» … (+11)
+  [rt.issue.licence] ×29: 3G-CDMA-BSNL-PR1.0 «Provisioning Package for BSNL HWIC» | 3G-CDMA-TATA-PR1.0 «Provisioning Package for TATA HWIC» | 3G-EVDO-BSNL-P1.0 «3G EVDO BSNL Provisioning 1.0» | A4_9.00.60 «Cisco A4_9.00.60» | FW-VA-39D «VDSL2/ADSL2+ Firmware for Multimode DSL products» | OEM-PRI-MC7455= «Cisco OEM PRI Load for MC7455» … (+23)
+  [rt.issue.component] ×13: MC7350-4G-LTE-VS «Sierra MC7350 Verizon and Sprint LTE, Band 13, AWS, Band 25» | MC7354-4G-LTE-NA «Sierra MC7354 North America LTE, Band 2, 5, 17, AWS» | MC-3G-HSPA-U «3.5G (non-US) HSPA MC8795V with SMS/GPS» | MC-3G-HSPA+7 «3.7G (non-US) HSPA+ Release 7 MC8705 with SMS/GPS» | MC-3G-EVDO-B «3G 1xEV-DO Rev A MC5728V with SMS/GPS for BSNL Networks» | PCEX-3G-HSPA-US «Cisco 3.5G HSPA/UMTS/EDGE/GPRS Modem-AT&T Network Only» … (+7)
+
+## 2900 ISR | 318 | roles {"branch":252,"edge":16} issues {"datasheet cell / unidentifiable bundle (not a router PID)":17,"licence/software/planning PID":10,"module/modem/accessory":5,"switch":18} null 0 | spec branch | disagree 66
+  [rt.branch.isr] ×252: ISR4351-AXV/K9 «Cisco ISR 4351 AXV Bundle,PVDM4-64 w/APP,SEC,UC License» | CISCO2921-V/K9 «Cisco 2921 Voice Bundle, PVDM3-32, UC License PAK, FL-CUBE10» | CISCO2921-IB/K9 «Cisco 2921 w/ IP Business, 3 GE, 4 EHWIC, 1 SM, 1GB DRAM» | CISCO2911-HSEC+/K9 «VPN ISM module HSEC bundles for 2911 ISR platform» | CISCO2911-HSEC/K9 «HSEC bundle (no ISM VPN module) for 2911 ISR platform» | ISR4351-SEC/K9 «Cisco ISR 4351 Sec bundle w/SEC license» … (+246)
+  [rt.edge.asr-8500] ×16: 7613-VPN+-K9 «Cisco 7613-VPN+-K9» | 7206VXRG2/2+VPNK9 «Cisco 7206VXRG2/2+VPNK9» | 7206VXR400/2+VPNK9 «Cisco 7206VXR400/2+VPNK9» | 7609-VPN+-K9 «Cisco 7609-VPN+-K9» | 7604-VPN+-K9 «Cisco 7604-VPN+-K9» | ASR1002-10G-SECK9 «Cisco ASR1002-10G-SECK9» … (+10)
+  [rt.issue.placeholder] ×17: 1MFT-G703 «Cisco 1MFT-G703» | 2BRI-NT/TE «Cisco 2BRI-NT/TE» | 3FXS/4FXO «Cisco 3FXS/4FXO» | CISCOUTM2100 «Unified Threat Management 2100 Bundle» | HDV2 «Cisco HDV2» | HD-1V/2V/2VE «Cisco HD-1V/2V/2VE» … (+11)
+  [rt.issue.licence] ×10: C1-ISR-UPG-M «Cisco ONE Upgrade for ISR» | ISR-CCP-CD-NOCONF «Cisco Config Pro on CD, CCP-Express on CF w/o default config» | ISR-CCP-EXP «Cisco Config Pro Express on Router Flash» | ISR-CCP-EXP-NOCONF «Cisco Config Pro Express on Router Flash w/o default config» | ISR-CCP-CD «Cisco Config Professional on CD, CCP-Express on Router Flash (Both sys» | FL-SRE-WLC-5A «5 Access Point Adder License for Cisco Wireless Controller on SRE (Pap» … (+4)
+  [rt.issue.component] ×5: 2911-AIRCVTR-NEBS «Cisco 2911 Front-to-Back Air Flow converter for NEBS use» | FIPS-SHIELD-3900= «FIPS opacity shield for Cisco 3925 - 3945EISR» | FIPS-SHIELD-1900= «FIPS opacity shield for Cisco 1905, Cisco 1921 ISR» | 2911-AIRCVTR-NEBS= «Cisco 2911 Front-to-Back Air Flow Converter for NEBS use (only as spar» | C1841-FIPS-SHIELD= «FIPS Opacity Shield for Cisco 1841»
+  [rt.issue.switch] ×18: WS-C6513-S32P-GEWS- «Cisco WS-C6513-S32P-GEWS-» | WS-C6506-E-FWM-K9WS- «Cisco WS-C6506-E-FWM-K9WS-» | WS-C6503-E-FWM-K9WS «Cisco WS-C6503-E-FWM-K9WS» | WS-C6504E-S32P-GEWS- «Cisco WS-C6504E-S32P-GEWS-» | WS-C6504E-S32P10GEWS «Cisco WS-C6504E-S32P10GEWS» | WS-C6503E-S32P-GEWS «Cisco WS-C6503E-S32P-GEWS» … (+12)
+
+## RV Series | 155 | roles {"smb":155} issues {} null 0 | spec smb | disagree 0
+  [rt.smb.rv] ×155: RV320-K9-AR «Cisco RV320 Dual Gigabit WAN VPN Router» | RV132W-A-K9-NA «Cisco RV132W Wireless-N VPN Router» | RV130W-E-K8-RU «Cisco RV130W Multifunction Wireless-N VPN Router» | RV325-K9-IN «^Cisco RV325 Dual Gigabit WAN VPN Router» | RV320-K8-RU «Cisco RV320 Dual Gigabit WAN VPN Router» | RV160-K9-BR «Cisco RV160 VPN Router» … (+149)
+
+## 1000 | 101 | roles {"branch":91} issues {"module/modem/accessory":6,"licence/software/planning PID":4} null 0 | spec branch | disagree 10
+  [rt.branch.isr] ×91: C1101-4P «ISR 1101 4 Ports GE Ethernet WAN Router» | C1111-8PJ «ISR 1100 8 Ports Dual GE WAN Ethernet Router Japan Config» | C1131-8PWS «ISR 1100 8P Dual GE SFP Router Pluggable SMS/GPS - S Wifi» | C1131-8PWQ «ISR 1100 8P Dual GE SFP Router Pluggable SMS/GPS - Q Wifi» | C1161X-8PLTEP++ «ISR 1100 8P Dual GE SFP Router Pluggable SMS/GPS EMEA & NA» | C1161-8PLTEP++ «ISR 1100 8P Dual GE SFP Higher Perf Router Pluggable SMS/GPS» … (+85)
+  [rt.issue.component] ×6: D-LTE-GB «CAT4 LTE Dongle for EMEAR (supported on Viptela OS 20.4 and above)» | D-LTE-NA «CAT4 LTE Dongle for North America (supported on Viptela OS 20.4 and ab» | D-LTE-AS «CAT4 LTE Dongle for ASEAN (supported on Viptela OS 20.4 and above)» | D-LTE-NA= «CAT4 LTE Dongle for North America» | D-LTE-GB= «CAT4 LTE Dongle for EMEA» | D-LTE-AS= «CAT4 LTE Dongle for ASEAN»
+  [rt.issue.licence] ×4: AIR-AP1815-K9-ME-8-5-1 «Cisco 111X Models AP delivers industry-leading wireless performance wi» | VIPTELA-OS-204 «Viptela OS versions 20.4 (ISR 1100 and ISR 1100X Series)» | AIR-AP1815-K9-ME-8-8-1 «Cisco 1101 and 1109 Models AP delivers industry-leading wireless perfo» | VIPTELA-OS-192 «Viptela OS version 19.2.0 (ISR1100 Series only)»
+
+## ASR 1000 | 101 | roles {"edge":88} issues {"licence/software/planning PID":13} null 0 | spec edge | disagree 13
+  [rt.edge.asr-8500] ×88: ASR1001-HX= «Cisco ASR1001-HX System,4x10GE+4x1GE,optional crypto+P/S» | ASR1002-5G-HA/K9 «ASR1002 HA Bundle w/ ESP-5G, AESK9, License, 4GB DRAM» | C1-ASR1004/K9 «Cisco ONE - ASR1004» | ASR1K4R2-40G-VPNK9 «ASR1004 VPN Bundle w/ ESP-40G,RP2,SIP40,AESK9,License» | ASR1002-10G/K9 «ASR1002 w/ESP-10G, AESK9, 4GB DRAM» | ASR1002X-20G-VPNK9 «ASR1002-X, 20G, VPN Bundle, K9, AES license» … (+82)
+  [rt.issue.licence] ×13: CDASR1000-AESK9= «Cisco CDASR1000-AESK9=» | CDASR1000-IPBK9= «Cisco CDASR1000-IPBK9=» | C1-ASR1K-UPG «Cisco ONE Upgrade for ASR 1000 Series» | C1-ASR1K-ADD «Cisco ONE for ASR 1000 Series» | CDASR1000-IPB= «Cisco CDASR1000-IPB=» | SA1KRPUNPNLK9173 «Cisco SA1KRPUNPNLK9173» … (+7)
+
+## 800 ISR | 44 | roles {"industrial-iot":36} issues {"module/modem/accessory":2,"datasheet cell / unidentifiable bundle (not a router PID)":1,"licence/software/planning PID":5} null 0 | spec branch | disagree 44
+  [rt.iot.ir-cgr] ×36: IR829B-LTE-LA-ZK9 «Cisco IR829B-LTE-LA-ZK9» | IR829GW-LTE-GA-EK9 «829 Industrial ISR, 4G/LTE multimode Global-EU, 802.11n ETSI» | IR829-LTE-LA-ZK9 «829 Industrial ISR, LTE, WiFi, SFP, ETSI» | IR829GW-LTE-LA-TK9 «829 Industrial ISR, 4G/LTE multimode Global, 802.11n ETSI» | IR829GW-LTE-LA-ZK9 «829 Industrial ISR, 4G/LTE multimode Global, 802.11n ETSI» | IR829B-LTE-EA-EK9 «Cisco IR829B-LTE-EA-EK9» … (+30)
+  [rt.issue.component] ×2: IR800-IL-POE «Cisco IR800-IL-POE» | LTE-SIM-VZ «Cisco LTE-SIM-VZ»
+  [rt.issue.placeholder] ×1: IP20 «Cisco IP20»
+  [rt.issue.licence] ×5: FW-7430-LTE-KD «Cisco FW-7430-LTE-KD» | FW-7455-LTE-VZ «Cisco FW-7455-LTE-VZ» | FW-7430-LTE-SB «Cisco FW-7430-LTE-SB» | FW-7455-LTE-GN «Cisco FW-7455-LTE-GN» | FW-7455-LTE-AT «Cisco FW-7455-LTE-AT»
+
+## 3900 Series Integrated Services Routers ISR | 44 | roles {"branch":41,"edge":2} issues {"licence/software/planning PID":1} null 0 | spec branch | disagree 3
+  [rt.branch.isr] ×41: C3945E-AX/K9 «Cisco 3945E AX Bundle w/ App, SEC Lic» | C3925E-AX/K9 «Cisco 3925E AX Bundle w/ App, SEC Lic» | C1-CISCO4221T-P/K9 «Cisco ONE ISR 4221 (2GE,2NIM,4G FLASH,8G DRAM,IPB)» | C1-CISCO4321T-P/K9 «Cisco ONE ISR 4321 (3GE,2NIM,1SM,4G FL,4G RAM,w/PERF)» | C2901-AX/K9 «Cisco 2901 AX Bundle w/ APP, SEC lic» | C3945-AXV/K9 «Cisco 3945 AXV Bundle, PVDM3-64, APP, SEC, UC Lic, CUBE-25» … (+35)
+  [rt.edge.asr-8500] ×2: C1-ASR1001-HX/K9 «Cisco ONE - ASR1001-HX, 4x10GE+4x1GE, 2x P/S» | C1-ASR1002-HX/K9 «Cisco ONE - ASR1002-HX»
+  [rt.issue.licence] ×1: C1-ISR-ADD «Cisco ONE for ISR - CHOOSE ONLY QTY 1 HERE»
+
+## 4000 ISR | 40 | roles {"branch":38} issues {"licence/software/planning PID":1,"datasheet cell / unidentifiable bundle (not a router PID)":1} null 0 | spec branch | disagree 2
+  [rt.branch.isr] ×38: ISR4321-SEC/K9 «Cisco ISR 4321 Sec bundle w/SEC license» | ISR4431-PM20 «Cisco ISR4431 Promotional Bundle» | ISR4331BR/K9 «Cisco ISR 4331 (3GE,2NIM,1SM,4G FLASH,4G DRAM,IPB)» | ISR4321-B/K9 «Cisco ISR 4321 (2GE, 2NIM, 4G FLASH, 4G DRAM, IPB)» | ISR4451-PM20 «Cisco ISR4451 Promotional Bundle» | ISR4351-PM20 «Cisco ISR4351 Promotional Bundle» … (+32)
+  [rt.issue.licence] ×1: SI-ISR4K-IWAN/K9 «ISR 4K SEED IT Program»
+  [rt.issue.placeholder] ×1: RS-232 «Cisco RS-232»
+
+## 1900 ISR | 39 | roles {"branch":36} issues {"datasheet cell / unidentifiable bundle (not a router PID)":3} null 0 | spec branch | disagree 3
+  [rt.branch.isr] ×36: CISCO1941-IB/K9 «Cisco 1941 w/ IP Business,2 GE,2 EHWIC slots,512MB DRAM» | CISCO1905BR/K9= «C1905 Brazil 2 GE, HWIC-1T, CAB-SS-V35MT, 256F/256D, IPBase» | CISCO1941-HSEC+/K9 «VPN ISM module HSEC bundles for 1941 ISR platform» | CISCO1905-SEC/K9 «Cisco 1905 Router, HWIC-1T, CAB-SS-V35MT, 256F/256D, SEC Lic» | CISCO1905/K9 «C1905 Router, 2 GE, HWIC-1T, CAB-SS-V35MT, 256F/256D, IPBase» | CISCO1941-2.5G/K9 «Cisco 1941 with 2.5G DRAM, 256MB Flash» … (+30)
+  [rt.issue.placeholder] ×3: V.35 «Cisco V.35» | RS-449 «Cisco RS-449» | X.21 «Cisco X.21»
+
+## 8100 Series Secure | 39 | roles {"branch":34} issues {"datasheet cell / unidentifiable bundle (not a router PID)":5} null 0 | spec - | disagree 0
+  [rt.branch.isr] ×34: C1111-4PLTELA «Cisco C1111-4PLTELA» | C8151-CVAP-G2/ «Cisco C8151-CVAP-G2/» | C8130-VAP-G2/ «Cisco C8130-VAP-G2/» | C8130-VAI-G2/ «Cisco C8130-VAI-G2/» | C8151-CVAI-G2/ «Cisco C8151-CVAI-G2/» | C921-4PLTEGB «ISR 900 Router (non-US) 4G LTE / HSPA+ for EU» … (+28)
+  [rt.issue.placeholder] ×5: CAT3 «Cisco CAT3» | CAT4 «Cisco CAT4» | CAT18 «Cisco CAT18» | CAT6 «Cisco CAT6» | CAT7 «Cisco CAT7»
+
+## High-Speed WAN Interface Cards | 38 | roles {"branch":38} issues {} null 0 | spec KIND:module | disagree 38
+  [rt.branch.isr] ×38: C1921-3G+7-A-K9 «C1921 3.7G HSPA+ (N. America) 850/900/1900/2100 MHz» | C2911-4G-V-SEC/K9 «C2911 4G LTE 700MHz (B13) For Verizon Networks with security» | C1921-3G-V-SEC/K9 «C1921 3G EHWIC EVDO Bundles with SEC for Verizon Networks» | C1921-4G-A-SEC/K9 «C1921 4G LTE 700MHz (B17) For ATT Networks with Security» | C1921-3G-G-K9 «C1921 w/3.5G HWIC (non-US) HSPA/UMTS 900/1900/2100MHz» | C1841-3G-V-SEC/K9 «CISCO1841, HWIC-3G-CDMA-V 64MB FL/256MB DRAM, Adv Security» … (+32)
+
+## ASR 9000 | 35 | roles {} issues {"module/modem/accessory":4,"licence/software/planning PID":13,"datasheet cell / unidentifiable bundle (not a router PID)":14,"appliance (uCPE compute / XRv appliance / terminal server)":4} null 0 | spec KIND:sp-core | disagree 35
+  [rt.issue.component] ×4: XRV-PCIE-C40Q-03 «Cisco VIC 1385 Dual Port 40Gb QSFP+ CNA w/RDMA» | UCSC-C220-M5SX= «Cisco UCSC-C220-M5SX=» | UCSX-TPM2-002= «Cisco UCSX-TPM2-002=» | XRV-PCIE-IQ10GF «Cisco XRV-PCIE-IQ10GF»
+  [rt.issue.licence] ×13: S-XR-BNG-PRO «Billing PID for SBP XRV9K - BNG PRO» | S-XR-BNG-ADV-8K «Billing PID for SBP XRV9K - BNG ADV 8K» | S-XR-BNG-8K «Billing PID for SBP XRV9K -BNG 8K» | S-XR-SESSION-8K «Billing PID for SBP XRV9K - BNG 8K Session» | S-XR-BNG-256K «Billing PID for SBP XRV9K - BNG 256K» | S-XR-BNG-1M «Billing PID for SBP XRV9K -BNG 1M» … (+7)
+  [rt.issue.placeholder] ×14: VTMS-PP-25G «Cisco VTMS-PP-25G» | VTMS-PP-50G-M «Cisco VTMS-PP-50G-M» | VTMS-PP-10G «Cisco VTMS-PP-10G» | VTMS-PP-25G-M «Cisco VTMS-PP-25G-M» | VSLN-PP-U25 «Cisco VSLN-PP-U25» | VSLN-PP-CORE «Cisco VSLN-PP-CORE» … (+8)
+  [rt.issue.appliance] ×4: XRV9000-APLN-ROUT «XRV 9000 Appliance with UCS-C220 M5 server, Qty 2 -8X10G NIC» | ASR-XRV9000-APLN «XRV 9000 Appliance with UCS-C220 M4 server, Qty 2 -8X10G NIC» | XRV9000-APLN-ROUT= «XRV 9000 Appliance with UCS-C220 M5 server, Qty 2 -8X10G NIC» | ASR-XRV9000-APLN= «XRV 9000 Appliance with UCS-C220 M4 server, Qty 2 -8X10G NIC»
+
+## 900 ISR | 34 | roles {"branch":30} issues {"datasheet cell / unidentifiable bundle (not a router PID)":4} null 0 | spec branch | disagree 4
+  [rt.issue.placeholder] ×4: ADSL2 «Cisco ADSL2» | ADSL2+M «Cisco ADSL2+M» | RE-ADSL2 «Cisco RE-ADSL2» | ADSL2+ «Cisco ADSL2+»
+  [rt.branch.isr] ×30: C921-4PLTEVZ «Cisco C921-4PLTEVZ» | C921 «Cisco C921» | C921-4PAS «ISR900 Bundle with APP and SEC License» | C1117-4PS «ISR 1100 4 Ports DSL Annex A/M and GE WAN Router (SEC Bun)» | C921-4PLTEASAS «ISR900 Bundle with APP and SEC License» | C1111-8PS «ISR 1100 8 Ports Dual GE WAN Ethernet Router (SEC Bun)» … (+24)
+
+## 3800 Series Integrated Services Routers ISR | 33 | roles {} issues {"datasheet cell / unidentifiable bundle (not a router PID)":15,"access point":18} null 0 | spec - | disagree 0
+  [rt.issue.placeholder] ×15: MCS4 «Cisco MCS4» | MCS23 «Cisco MCS23» | MCS31 «Cisco MCS31» | MCS0 «Cisco MCS0» | MCS9 «Cisco MCS9» | MCS16 «Cisco MCS16» … (+9)
+  [rt.issue.ap] ×18: IOTOD-IW-E «Cisco IOTOD-IW-E» | IOTOD-IW-A «Cisco IOTOD-IW-A» | IW9167EH-x-HZ «Industrial Wireless 9167EH-HZ, 11ax 6E AP, 8 RF ports, x domain, Hazar» | CW9177E «Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, external antenna co» | IW9165-URWB-NW-P «Cisco IW9165-URWB-NW-P» | IW9167-URWB-NW-P «Cisco IW9167-URWB-NW-P» … (+12)
+
+## 8000 | 33 | roles {"branch":16,"edge":3} issues {"datasheet cell / unidentifiable bundle (not a router PID)":4,"licence/software/planning PID":5,"switch":4} null 1 | spec KIND:sp-core | disagree 33
+  [rt.issue.placeholder] ×4: P100 «Cisco P100» | P200 «Cisco P200» | Q200 «Cisco Q200» | Q100 «Cisco Q100»
+  [rt.issue.licence] ×5: ADN-PRM-8KSW-400G «Advantage to Premium Right-to-Use 400G Cisco 8000 Series» | ESS-ADN-8KSW-400G «Essential to Advantage Right-to-Use 400G Cisco 8000 Series» | ESS-ADN-8KSW-100G «Essential to Advantage Right-to-Use 100G Cisco 8000 Series» | 8K-SW-FC «Standard SW ATO FCM 2.0 for Cisco 8000 Series» | ADN-PRM-8KSW-100G «Advantage to Premium Right-to-Use 100G Cisco 8000 Series»
+  [rt.branch.isr] ×16: C8130-VAP-G2 «Cisco C8130-VAP-G2» | C8211-G2 «Cisco 8200 Secure Router with 6x1GE» | C8231-E-G2 «Cisco C8231-E-G2» | C8375-E-G2 «Cisco C8375-E-G2» | C8130-VAI-G2 «Cisco C8130-VAI-G2» | C8151-CVAI-G2 «Cisco C8151-CVAI-G2» … (+10)
+  [rt.issue.switch] ×4: CQ211L01-48H8FH-O «Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability, Open SW» | CQ211L01-48H8FH «Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability» | CQ211L01-48H8FH-O= «Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability, Open SW» | CQ211L01-48H8FH= «Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability»
+  [rt.edge.asr-8500] ×3: C8550-G2 «Cisco C8550-G2» | C8650-G2 «Cisco 8600 Secure Router with 20x10GE, 6x100GE» | C8570-G2 «Cisco C8570-G2»
+  [unmatched] ×1: C8475-G2 «Cisco C8475-G2»
+
+## WAN Automation Engine (WAE) | 17 | roles {} issues {"licence/software/planning PID":17} null 0 | spec KIND:appliance | disagree 17
+  [rt.issue.licence] ×17: CISCO-MATE-STE «Cisco MATE Suite» | NRS-WAE-SWSUB «PF WAE NRS PID SWSUB» | SPOA-WAENET-D «Offer Attribution (Daily) for BAM WAENET» | SPNA-AUTO-WAE-F «SPNA Automation - WAE Advantage» | SPOA-WAE-D «Core & Aggr Essentials SIA per 100G 3 year term» | WAEPLANNINGUSBAY3 «Cisco WAEPLANNINGUSBAY3» … (+11)
+
+## 5900 Embedded Services | 16 | roles {"industrial-iot":15} issues {"licence/software/planning PID":1} null 0 | spec - | disagree 0
+  [rt.iot.ir-cgr] ×15: CISCO5940-SEC-C/K9 «Cisco 5940 Security Bundle - Conduction Cooled - AES» | CISCO5940RA-K9 «Cisco 5940 ESR air-cooled card with 4 Gigabit Ethernet ports and 1 con» | CISCO5940RA-K9/100 «Cisco 5940 ESR air-cooled card with Cisco 5940 Advanced Enterprise Cis» | CISCO5915RC-K9 «Cisco 5915 ESR conduction-cooled card with 2 Fast Ethernet routed port» | CISCO5940WSEC-C/K9 «Cisco 5940 ESR conduction-cooled card with Cisco 5940 Advanced Enterpr» | CISCO5940RC-K9/100 «Cisco 5940 ESR conduction-cooled card with Cisco 5940 Advanced Enterpr» … (+9)
+  [rt.issue.licence] ×1: CISCO5921-K9 «Cisco 5921 Embedded Services Router SW for x86 Processor»
+
+## Catalyst Wireless Gateway CG113 | 14 | roles {"branch":11} issues {"wireless LAN controller":2,"licence/software/planning PID":1} null 0 | spec industrial-iot | disagree 14
+  [rt.issue.wlc] ×2: 9800-40 «Cisco 9800-40» | 9800-80 «Cisco 9800-80»
+  [rt.branch.cg113] ×11: CG113-4GW6H «Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain H» | CG113-W6A «Cisco Catalyst Wireless Gateway, WiFi6, Domain A» | CG113-4GW6Z «Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain Z» | CG113-W6H «Cisco Catalyst Wireless Gateway, WiFi6, Domain H» | CG113-4GW6A «Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain A» | CG113-W6E «Cisco Catalyst Wireless Gateway, WiFi6, Domain E» … (+5)
+  [rt.issue.licence-name] ×1: CG113-4GW6x «Cisco DNA On-Prem Lic for Remote-worker gateway – 3Y Cisco DNA Cloud L»
+
+## Carrier Routing System | 11 | roles {} issues {"line card bundle (CRS)":7,"licence/software/planning PID":4} null 0 | spec KIND:sp-core | disagree 11
+  [rt.issue.linecard] ×7: 10GE-MSC400G-BUN= «Cisco CRS Series 40x10GE MSC Bundle» | 100GE-MSC-BNDL= «Cisco CRS Series 100GE MSC Bundle» | 10GE-EMSE-400G= «Cisco CRS Series 40x10GE Ethernet MSE Bundle» | 100GE-MSC400G-BUN= «Cisco CRS Series 4x100GE MSC Bundle» | 10GE-FP400G-BUN= «Cisco CRS Series 40x10GE FP Bundle» | 10GE-EMSE-140G= «Cisco CRS Series 14x10GE Ethernet MSE Bundle» … (+1)
+  [rt.issue.licence] ×4: PPN-CRS-8/S «material planning for product transition» | PPN-CRS-16-FC140/M «S13 Planning PID» | SPNA-S-CRS-L «SPNA Routing SW Licenses for CRS - Standard» | SPNA-R-CRS-S «SPNA Routing for CRS - Standard»
+
+## 1000 Connected Grid | 11 | roles {"industrial-iot":3} issues {"module/modem/accessory":8} null 0 | spec industrial-iot | disagree 8
+  [rt.issue.component] ×8: CGR-N-CONN-WIMAX «Cisco CGR-N-CONN-WIMAX» | RJ45-DTE «Cisco RJ45-DTE» | DB9-F-DCE «Cisco DB9-F-DCE» | DB25-F-DCE «Cisco DB25-F-DCE» | DB25-M-DTE «Cisco DB25-M-DTE» | RJ45-DCE «Cisco RJ45-DCE» … (+2)
+  [rt.iot.ir-cgr] ×3: IR8140H-K9= «Cisco IR8140H-K9=» | IR8140H-P-K9= «Cisco IR8140H-P-K9=» | CGR1240/K9= «CGR1240 w/ 4 module slots,2 GE,2 serial,4 FE LAN,Wi-Fi,GPS»
+
+## Wireless Gateway for LoRaWAN | 11 | roles {"industrial-iot":2} issues {"licence/software/planning PID":3,"module/modem/accessory":6} null 0 | spec industrial-iot | disagree 9
+  [rt.issue.licence] ×3: INDUSTRYOPTIOAPN7 «Industry Options» | SOLUTIONOPTIOAPN9 «Solution Options» | PNPOPTIONAZF8 «PNP Option»
+  [rt.issue.component] ×6: P-LPWA-800 «Cisco 800MHz LoRaWAN PIM 8-Channels» | P-LPWA-900 «Cisco 900MHz LoRaWAN PIM 8-Channels» | LPWA-GPS-PCB-US «Cisco 900MHz LoRaWAN Outdoor GPS Sensor PCB» | P-LPWA-900= «Cisco 900MHz LoRaWAN PIM 8-Channels» | LPWA-GPS-PCB-US= «Cisco 900MHz LoRaWAN Outdoor GPS Sensor PCB» | P-LPWA-800= «Cisco 800MHz LoRaWAN PIM 8-Channels»
+  [rt.iot.ir-cgr] ×2: IXM-LPWA-900-K9+ «TAA PID for Cisco wireless gateway for LoRaWAN, operates on the freque» | IXM-LPWA-800-K9+ «● TAA part number for Cisco wireless gateway for LoRaWAN, operates on »
+
+## 5000 Enterprise Network Compute | 10 | roles {} issues {"appliance (uCPE compute / XRv appliance / terminal server)":10} null 0 | spec KIND:appliance | disagree 10
+  [rt.issue.appliance] ×10: ENCS5104-400/K9 «Cisco ENCS 5104 (4-core AMD CPU, 16G DRAM, 400G SSD)» | ENCS5104-200/K9 «Cisco ENCS 5104 (4-core AMD CPU, 16G DRAM, 200G SSD)» | ENCS5406/K9 «Cisco ENCS 5406 (6-core Intel, 16G DRAM)» | ENCS5408/K9 «Cisco ENCS 5408 (8-core Intel, 16G DRAM)» | ENCS5104-64/K9 «Cisco ENCS 5104 (4-core AMD CPU, 16G DRAM, 64G SSD)» | ENCS5412/K9 «Cisco ENCS 5412 (12-core Intel, 16G DRAM)» … (+4)
+
+## 2000 Series Connected Grid | 10 | roles {"industrial-iot":6} issues {"module/modem/accessory":3,"datasheet cell / unidentifiable bundle (not a router PID)":1} null 0 | spec industrial-iot | disagree 4
+  [rt.iot.ir-cgr] ×6: CGR-2010-SEC/K9 «Cisco CGR2010 security bundle w/SEC license PAK» | CGR-2010-SEC/K9-C «For China Only - Cisco CGR2010 sec bundle w/SEC license PAK» | CGR-2010/K9-C «Cisco CGR2010 w/2GE, 4 GRWIC slots, 256MB CF, 1GB DRAM, IPB» | CGR-2010/K9 «Cisco CGR2010 w/2GE, 4 GRWIC slots, 256MB CF, 1GB DRAM, IPB» | CGR-2010/K9-C= «Cisco CGR2010 For China - Services Spare» | CGR-2010/K9= «Cisco CGR2010 w/2GE, 4 RWIC slots, 256MB CF, 1GB DRAM, IPB»
+  [rt.issue.component] ×3: CGR2010/NFR «CGR 2010 Channel Kit» | CGR-SLOT-DIVIDER «Slot Divider (Guide) for Cisco CGR 2010» | CGR-SLOT-DIVIDER= «Slot Divider (Guide) for Cisco CGR2010»
+  [rt.issue.placeholder] ×1: DNP3 «Cisco DNP3»
+
+## Catalyst IR1800 Rugged | 10 | roles {"industrial-iot":6} issues {"module/modem/accessory":4} null 0 | spec industrial-iot | disagree 4
+  [rt.iot.ir-cgr] ×6: IR1831-K9 «Cisco Catalyst IR1831 Rugged Series Router» | IR1821-K9++ «Cisco Catalyst IR1821 Rugged Series Router- TAA» | IR1831-K9++ «Cisco Catalyst IR1831 Rugged Series Router- TAA» | IR1821-K9 «Cisco Catalyst IR1821 Rugged Series Router» | IR1835-K9 «Cisco IR1835-K9» | IR1833-K9 «Cisco IR1833-K9»
+  [rt.issue.component] ×4: OBD2-J1939Y1-MF4 «Cisco OBD2-J1939Y1-MF4» | OBD2-J1939Y2-MF4 «Cisco OBD2-J1939Y2-MF4» | AIR-ACC370-NF-NF «Cisco AIR-ACC370-NF-NF» | OBD2-J1962YA-MF4 «Cisco OBD2-J1962YA-MF4»
+
+## Catalyst 8200 | 9 | roles {"branch":7} issues {"licence/software/planning PID":2} null 0 | spec branch | disagree 2
+  [rt.branch.isr] ×7: C82-1N-4T-CAP «Cisco C8200 Edge Platform,5Yr DNA-A,5Yr SNTC-8x5xNBD» | C8200-1N-4T «Cisco Catalyst 8200 Edge platform with 1 NIM and 1 PIM slots 2x1GigE S» | C83-2N2S-4T2X-CAP «Cisco C8300-2N2S-4T2X Router, 5Yr DNA-A,5Y SNTC-8x5xNBD» | C8300-2N2S-6T-V «Cisco Catalyst C8300-2N2S-6T Router Voice Bundle, NIM-PVDM-6» | C82L-1N-4T-CAP «Cisco C8200L Edge Platform,5Yr DNA-A,5Yr SNTC-8x5xNBD» | C8200-1N-4T= «Cisco Catalyst Edge C8200-1N-4T Chassis Spare» … (+1)
+  [rt.issue.licence] ×2: ROUT-P-C8300-E-7Y «Cisco ROUT-P-C8300-E-7Y» | ROUT-P-C8200-E-7Y «Cisco ROUT-P-C8200-E-7Y»
+
+## 500 WPAN | 7 | roles {"industrial-iot":7} issues {} null 0 | spec industrial-iot | disagree 0
+  [rt.iot.ir-cgr] ×7: IR529WP-915S/K9 «IR529 915Mhz WPAN IP67 Range Extender single antenna» | IR530SB-OFD-BRZ/K9 «IR530 with single antenna and battery, 915MHz-WPAN. For Brazil.» | IR510-OFDM-FCC/K9 «IR510 915Mhz WPAN router w/ 2 serial,1 FE LAN» | IR510-OFDM-ANZ/K9 «IR510 915Mhz WPAN router Australia New Zealand» | IR530SB-OFD-ANZ/K9 «IR530 with single antenna and battery, 915MHz-WPAN. For Australia and » | IR530SB-OFD-FCC/K9 «IR530 with single antenna and battery, 915MHz-WPAN. For North and Sout» … (+1)
+
+## 4000 | 7 | roles {"branch":7} issues {} null 0 | spec branch | disagree 0
+  [rt.branch.isr] ×7: ISR4351/K9 «Cisco ISR 4351 (3GE,3NIM,2SM,4G FLASH,4G DRAM,IPB)» | ISR4221/K9 «Cisco ISR 4221 (2GE,2NIM,8G FLASH,4G DRAM,IPB)» | ISR4331/K9 «Cisco ISR 4331 (3GE,2NIM,1SM,4G FLASH,4G DRAM,IPB)» | ISR4221X/K9 «Cisco ISR 4221 (2GE,2NIM,8G FLASH,8G DRAM,IPB)» | ISR4461/K9 «ISR4461/K9 – Cisco ISR 4461 with 4 onboard GE, 3 NIM slots, 1 ISC slot» | ISR4431/K9 «ISR4431/K9 – ISR 4431 with 4 onboard GE, 3 NIM slots, 1 ISC slot, 8GB » … (+1)
+
+## Catalyst 8300 | 6 | roles {"branch":6} issues {} null 0 | spec branch | disagree 0
+  [rt.branch.isr] ×6: C8300-2N2S-4T2X «Cisco Catalyst 8300 Edge platform with 2 SM, 2 NIM, and 1 Pluggable In» | C83-1N1S-6T-CAP «Cisco C8300-1N1S-6T Router, 5Yr DNA-A,5Yr SNTC-8x5xNBD» | C8300-1N1S-6T-V «Cisco Catalyst C8300-1N1S-6T Router Voice bundle, NIM-PVDM-3» | C8300-2N2S-6T «Cisco Catalyst 8300 Edge platform with 2 SM, 2 NIM, and 1 PIM slots 2x» | C8300-1N1S-6T «Cisco Catalyst 8300 Edge platform with 1 SM, 1 NIM, and 1 PIM slots 2x» | C8300-1N1S-4T2X «Cisco Catalyst 8300 Edge platform with 1 SM, 1 NIM, and 1 PIM slots 2x»
+
+## Network Modules | 6 | roles {"branch":5,"edge":1} issues {} null 0 | spec - | disagree 0
+  [rt.branch.isr] ×5: C3925-WAAS-SEC/K9 «Cisco 3925 WAAS SEC Bundle, SRE 900, WAAS Enterprise Large License, SE» | C3945-WAAS-SEC/K9 «Cisco 3945 WAAS SEC Bundle, SRE 900, WAAS Enterprise Large License, SE» | C2951-WAAS-SEC/K9 «Cisco 2951, SRE 900, Sec PAK, WAAS Enterprise License for Large branch» | C2921-WAAS-SEC/K9 «Cisco 2921, SRE 700, Sec PAK, WAAS Enterprise License for Medium branc» | C2911-WAAS-SEC/K9 «Cisco 2911, SRE 700, Sec PAK, WAAS Enterprise License for Small branch»
+  [rt.edge.asr-8500] ×1: ASR1001-HX «Cisco ASR 1001-HX Router Chassis (ESP integrated; up to 60 Gbps throug»
+
+## Catalyst 8300 Series Edge uCPE | 6 | roles {} issues {"appliance (uCPE compute / XRv appliance / terminal server)":3,"licence/software/planning PID":3} null 0 | spec branch | disagree 6
+  [rt.issue.appliance] ×3: C83UCPE-20C «C8300 UCPE 20 core» | C8300-UCPE-1N20= «Catalyst 8300-uCPE Edge Series (20-core Intel) Spare» | C8300-UCPE-1N20 «Catalyst 8300 Series Edge uCPE platform with 1 NIM and 1 PIM slot, 20-»
+  [rt.issue.licence] ×3: C8300-UCPE-PF «Cisco C8300-UCPE-PF» | ENCS5400-PF «Cisco ENCS5400-PF» | C8200-UCPE-PF «Cisco C8200-UCPE-PF»
+
+## ESR6300 Embedded | 6 | roles {"industrial-iot":2} issues {"datasheet cell / unidentifiable bundle (not a router PID)":4} null 0 | spec - | disagree 0
+  [rt.iot.ir-cgr] ×2: ESR-6300-NCP-K9 «Cisco ESR6300 no cooling plate card with 2x Gigabit Ethernet routed po» | ESR-6300-CON-K9 «Cisco ESR6300 conduction cooled card with 2x Gigabit Ethernet routed p»
+  [rt.issue.placeholder] ×4: NA/50M «Cisco NA/50M» | NE/50M «Cisco NE/50M» | NA/250M «Cisco NA/250M» | NE/250M «Cisco NE/250M»
+
+## 8200 Series Secure | 4 | roles {"branch":4} issues {} null 0 | spec - | disagree 0
+  [rt.branch.isr] ×4: C8255-G2-UCSXE «Cisco C8255-G2-UCSXE» | C8225-G2 «Cisco C8225-G2» | C8235-E-G2 «Cisco C8235-E-G2» | C8235-G2 «Cisco C8235-G2»
+
+## 6000 | 4 | roles {} issues {"licence/software/planning PID":4} null 0 | spec - | disagree 0
+  [rt.issue.licence] ×4: S-NC6-2T-PG-200-L= «NCS6000 2x100GE LSR PAYG Upgrade License Spare» | S-NC6-2T-PG-200-M= «NCS6000 2x100GE Multiservice PAYG Upgrade License Spare» | S-NC6-MS-UPG «NCS 6000 Smart License LSR to MS Upgrade Bundle» | S-NC6-MS-UPG= «NCS 6000 License LSR to MS Upgrade Bundle»
+
+## Catalyst 8200 Edge uCPE | 4 | roles {} issues {"module/modem/accessory":2,"appliance (uCPE compute / XRv appliance / terminal server)":2} null 0 | spec branch | disagree 4
+  [rt.issue.component] ×2: E100S-CON-DGL= «KVM Dongle» | E100S-CON-DGL «KVM Dongle»
+  [rt.issue.appliance] ×2: C8200-UCPE-1N8= «Catalyst 8200-uCPE Edge Series (8-core Intel) chassis spare» | C8200-UCPE-1N8 «Cisco Catalyst 8200 Edge uCPE with 1 NIM slot and 1 PIM slot, 6 x 1 Gi»
+
+## Catalyst IR8100 Heavy Duty | 4 | roles {"industrial-iot":2} issues {"module/modem/accessory":2} null 0 | spec - | disagree 0
+  [rt.issue.component] ×2: IR-BAND «Cisco IR-BAND» | IOT-LA-NM-NF «Cisco IOT-LA-NM-NF»
+  [rt.iot.ir-cgr] ×2: IR8140H-P-K9 «Cisco IR8140H-P-K9» | IR8140H-K9 «Cisco Catalyst IR8100 Series Industrial Router»
+
+## Catalyst Cellular Gateways | 4 | roles {"industrial-iot":4} issues {} null 0 | spec - | disagree 0
+  [rt.iot.ir-cgr] ×4: CG522-E= «Cisco CG522-E=» | CG418-E= «LTE Advanced Pro Cisco Cellular Gateway» | CG418-E «Cisco Catalyst Cellular Gateway, supporting LTE Advanced Pro, external» | CG522-E «Cisco Catalyst Cellular Gateway, supporting 5G Sub6, external antenna»
+
+## Catalyst 8500L | 4 | roles {"edge":4} issues {} null 0 | spec - | disagree 0
+  [rt.edge.asr-8500] ×4: C8500-12X4QC «Cisco Catalyst 8500 Series 12-port SFP+, 2-port QSFP+, 2-port QSPF28» | C8500-20X6C «Cisco Catalyst 8500 Series 20-port SFP+, 6-port QSFP+» | C8500-12X «Cisco Catalyst 8500 Series 12-port SFP+» | C8500L-8S4X «Cisco Catalyst 8500 Series 4 port SFP+, 8 port SFP -port SFP+, 8x1GE,4»
+
+## Terminal Services Gateways | 3 | roles {} issues {"appliance (uCPE compute / XRv appliance / terminal server)":3} null 0 | spec - | disagree 0
+  [rt.issue.appliance] ×3: C1100TG-1N32A «Cisco 1100 Terminal Services Gateway w/ 32 Async, 1 NIM (support for 2» | C1100TG-1N24P32A «Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 switch Por» | C1100TGX-1N24P32A «Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 switch Por»
+
+## Secure Console | 3 | roles {} issues {"licence/software/planning PID":2,"appliance (uCPE compute / XRv appliance / terminal server)":1} null 0 | spec - | disagree 0
+  [rt.issue.licence] ×2: SO-TG-TRK «Cisco SO-TG-TRK» | TG-OS-E-O «Cisco TG-OS-E-O»
+  [rt.issue.appliance] ×1: C8220TG-48A-O «Cisco C8220TG-48A-O»
+
+## Network Convergence System 5500 Series | 2 | roles {} issues {"transceiver":2} null 0 | spec KIND:sp-core | disagree 2
+  [rt.issue.optic] ×2: ONS-C2-WDM-DE-1HL= «200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only» | ONS-C2-WDM-DE-1HL «200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only»
+
+## Cloud Native Broadband Network Gateway (BNG) | 2 | roles {} issues {"licence/software/planning PID":2} null 0 | spec - | disagree 0
+  [rt.issue.licence] ×2: CN-BNG-BASE-L «Base PID for cnBNG Control Plane (Per Cluster)» | CN-BNG-100k-L «Session scale for 100K subscribers (Network Wide)»
+
+## Catalyst IR1100 Rugged | 2 | roles {"industrial-iot":2} issues {} null 0 | spec industrial-iot | disagree 0
+  [rt.iot.ir-cgr] ×2: IR1101-K9 «Cisco IR1101-K9» | IR1101-A-K9 «Cisco IR1101-A-K9»
+
+## Catalyst 8000V Edge Software | 1 | roles {} issues {"licence/software/planning PID":1} null 0 | spec - | disagree 0
+  [rt.issue.licence] ×1: C8000V-PF «Cisco C8000V-PF»
+
+## Port Adapters | 1 | roles {"branch":1} issues {} null 0 | spec - | disagree 0
+  [rt.branch.isr] ×1: CISCO3845-V/K9 «Cisco CISCO3845-V/K9»
+
+## Catalyst IR8300 Rugged Series Router | 1 | roles {"industrial-iot":1} issues {} null 0 | spec - | disagree 0
+  [rt.iot.ir-cgr] ×1: IR8340-K9 «Cisco Catalyst IR8340 Rugged Router - 67.5 base watts, 21 lb/9.52 kg»
+
+## 8400 Series Secure | 1 | roles {} issues {} null 1 | spec - | disagree 0
+  [unmatched] ×1: C8455-G2 «Cisco 8400 Secure Router with 8x1GE, 2x10GE, 2x25GE»
+
+## ASR 920 Series Aggregation Services Router | 1 | roles {} issues {"licence/software/planning PID":1} null 0 | spec - | disagree 0
+  [rt.issue.licence] ×1: S-ASR920-10G-2-B «Cisco ASR 920 Series - 2 ports 10GE license for ClassB ASR920 (Smart L»
+
+######## phone: 513 parts, members 428, roles {"conference":50,"desk":275,"dect":24,"wireless":79}, issues 85, unresolved 0
+
+## 7900 - Unified IP Phone | 139 | roles {"desk":67,"wireless":61,"conference":6} issues {"expansion module":5} null 0 | spec desk/token | disagree 72
+  [ph.desk] ×67: CP-7965 «^Touch Screen IPPhone7965» | CP-7975G-CCME «Cisco UC Phone 7975, Gig, Color, with 1 CCME RTU License» | CP-7931G-CH1 «Cisco IP Phone 7931G with 1 RTU License» | CP-7962G-CH1 «Cisco UC Phone 7962 with 1 RTU License» | CP-7962G-BULK «Cisco UC Phone 7962, BULK» | CP-7945G-CH1 «Cisco UC Phone 7945, Gig, Color, with 1 RTU License» … (+61)
+  [ph.wireless] ×61: CP-7921G-AC-CH1-K9 «Cisco Unified Wireless IP Phone 7921G FCC; Cisco Unified Communication» | CP-7921G-A-K9= «Cisco Unified Wireless IP Phone 7921G FCC; Battery/Power Supply Not In» | CP-7921G-AE-CH1-K9 «Cisco Unified Wireless IP Phone 7921G FCC; Cisco Unified Communication» | CP-7921G-E-K9 «Cisco Unified Wireless IP Phone 7921G ETSI; Cisco Unified Communicatio» | CP-7925G-PE-CH1-K9 «Cisco 7925G Japan; CME UL; Battery/PS Not Included» | CP-7925G-A-BE3K «Option SKU for 7925G in BE3K bundle - North America» … (+55)
+  [ph.conference] ×6: CP-7935-RF «Cisco IP Conference Station 7935, refurbished» | CP-7935-CCME «Cisco IP Conference Station 7935 with one Cisco CallManager Express st» | CP-7935 «Cisco IP Conference Station 7935» | CP-7935= «Cisco IP Conference Station 7935, spare» | CP-7935-CCME= «Cisco IP Conference Station 7935 with one Cisco CallManager Express st» | CP-7935-CH1 «Cisco IP Conference Station 7935 with one station user license»
+  [ph.issue.expansion] ×5: CP-7915= «7915 UC Phone Grayscale Expansion Module» | CP-7916 «7916 IP Phone Color Expansion Module» | CP-7916-CN= «7916 UC phone grayscale extension module» | CP-7916= «7916 UC Phone Color Expansion Module» | CP-7914= «14-button key expansion module»
+
+## IP Phone 8800 Series | 106 | roles {"conference":30,"desk":30,"wireless":6} issues {"subscription (licence)":1,"phone accessory / spare part":39} null 0 | spec desk/token | disagree 64
+  [ph.conference] ×30: CP-8831-3P-BR-K9= «Cisco 8831 Base/Control Panel for Brazil 3PCC» | CP-8831-3P-J-K9= «Cisco 8831 Base/Control Panel for Japan 3PCC» | CP-8831-3P-EU-K9= «Cisco 8831 Base/Control Panel for APAC, EMEA, Australia 3PCC» | CP-8831-K9= «Cisco 8831 Base/Control Panel for North America» | CP-8832-EU-W-K9= «8832 base SPARE in white color for APAC, EMEA, and Australia» | CP-8832-NR-K9++ «Cisco CP-8832-NR-K9++» … (+24)
+  [ph.desk] ×30: CP-8845-K9++= «Cisco IP Phone 8845 for TAA» | CP-8845-W-K9= «Cisco IP Phone 8845, White» | CP-8865-A-K9= «Cisco IP phone 8865 Arabic layout» | CP-8865-K9 «Cisco CP-8865-K9» | CP-8865-3PCC-K9++= «Cisco IP Video Phone 8865 with MPP firmware, TAA» | CP-8865NR-K9++= «Cisco IP Phone 8865 No Radio variant for TAA» … (+24)
+  [ph.issue.subscription] ×1: CP-8865-3PW-NA-MK9 «MLB Subscription - Phone 8865»
+  [ph.issue.component] ×39: CP-8831-BASE-S-LA «Spare Cisco 8831 Base for Latin America» | CP-8831-BASE-S-BR «Spare Cisco 8831 Base for Brazil» | CP-8831-BASE-S-JP «Spare Cisco 8831 Base for Japan» | CP-8831-BASE-S-EU «Spare Cisco 8831 base for APAC, EMEA, and Australia» | CP-8831-BASE-S-JP= «Spare Cisco 8831 Base for Japan» | CP-8831-DCU-S «Spare Cisco 8831 Display Control Unit (DCU)» … (+33)
+  [ph.wireless] ×6: CP-8821-K9-BUN «Cisco Unified Wireless IP Phone 8821, World Mode Bundle» | CP-8821-K9 «Cisco Unified Wireless IP Phone 8821, World Mode» | CP-8821-EX-K9 «Cisco Unified Wireless IP Phone 8821-EX, World Mode» | CP-8821-EX-K9-BUN «Cisco Unified Wireless IP Phone 8821 EX, World Mode Bundle» | CP-8821-EX-K9= «Cisco Unified Wireless IP Phone 8821-EX, World Mode» | CP-8821-K9= «Cisco Unified Wireless IP Phone 8821, World Mode Spare only»
+
+## IP Phone 8800 Series with Multiplatform Firmware | 46 | roles {"desk":27,"conference":6} issues {"phone accessory / spare part":13} null 0 | spec desk/token | disagree 15
+  [ph.issue.component] ×13: CP-8831-3PB-S-JP «Spare Cisco 8831 Base for Japan 3PCC» | CP-8831-3PB-S-BR «Spare Cisco 8831 Base for Brazil 3PCC» | CP-8831-3PB-S-EU «Spare Cisco 8831 Base for APAC, EMEA, and Australia 3PCC» | CP-8831-3PB-S-TW «Spare Cisco 8831 Base for Taiwan 3PCC» | CP-8831-3PB-S-LA «Spare Cisco 8831 Base for Latin America 3PCC» | CP-8831-3PB-S-BR= «Spare Cisco 8831 Base for Brazil 3PCC» … (+7)
+  [ph.desk] ×27: CP-8811-3PCC-K9= «Cisco IP Phone 8811 shipped with multiplatform phone firmware» | CP-8861-3PW-AU-K9= «Cisco IP Phone 8861 shipped with multiplatform phone firmware, and wit» | CP-8851-3PW-AU-K9= «Cisco IP Phone 8851 shipped with multiplatform phone firmware, and wit» | CP-8851-3PC-RC-K9= «Cisco IP Phone 8851 with Multiplatform FW for RC Server» | CP-7811-3PC-RC-K9= «Cisco IP Phone 7811 with Multiplatform FW for RC Server» | CP-7821-3PC-RC-K9= «Cisco IP Phone 7821with Multiplatform FW for RC Server» … (+21)
+  [ph.conference] ×6: CP-8832-3PC-NR-K9 «Cisco 8832, No DECT Radio, for worldwide, charcoal, with options for e» | CP-8832-3PC-LA-K9 «Cisco 8832 for Latin America, charcoal, with options for either a PoE » | CP-8832-3PC-J-K9 «Cisco 8832 for Japan, charcoal, with options for either a PoE or non-P» | CP-8832-3PCC-K9= «Cisco CP-8832-3PCC-K9=» | CP-8832-3PC-EU-K9 «Cisco 8832 for Europe, UK and Australia, charcoal, with options for ei» | CP-8832-3PCC-K9 «Cisco 8832 for North America, charcoal, with options for either a PoE »
+
+## Desk Phone 9800 Series | 37 | roles {"wireless":3,"desk":31} issues {"phone accessory / spare part":3} null 0 | spec desk/token | disagree 6
+  [ph.wireless] ×3: WP-9821-BUN-CN-K9 «Cisco WP-9821-BUN-CN-K9» | WP-9821-K9= «Cisco WP-9821-K9=» | WP-9821-BUN-K9 «Cisco WP-9821-BUN-K9»
+  [ph.desk] ×31: DP-9811-K9--= «Cisco Desk Phone 9811, NoNFC, Customized Model, Carbon Black» | DP-9861NR-K9++= «Cisco Desk Phone 9861, No Radio, TAA, Carbon Black» | DP-9871-K9++= «Cisco Desk Phone 9871, TAA, Carbon Black» | DP-9841-K9++= «Cisco Desk Phone 9841, with NFC, TAA, Carbon Black» | DP-9871-A-K9= «Cisco Desk Phone 9871, Arabic Layout, Carbon Black» | DP-9851NR-K9++= «Cisco Desk Phone 9851, No NFC, TAA, Carbon Black» … (+25)
+  [ph.issue.component] ×3: WP-9821-BATTDOOR= «Cisco WP-9821-BATTDOOR=» | DP-9800-HS-L= «Desk Phone 9800 Replacement Handset, First Light - SPARE» | DP-9800-HS= «Desk Phone 9800 Replacement Handset, Carbon Black - SPARE»
+
+## 6800 - IP Phone w/Multiplatform Firmware | 32 | roles {"desk":27} issues {"subscription (licence)":3,"phone accessory / spare part":2} null 0 | spec desk/token | disagree 5
+  [ph.desk] ×27: CP-6851-3PW-AU-K9= «Cisco IP Phone 6851 with power adapter for Australia/New Zealand» | CP-6841-3PW-CE-K9= «Cisco IP Phone 6841 with power adapter for Europe» | CP-6841-3PW-UK-K9= «Cisco IP Phone 6841 with power adapter for the United Kingdom» | CP-6821-3PW-UK-K9= «Cisco 6821 Phone for MPP, UK Power Adapter» | CP-6821-3PCC-XU= «Cisco IP Phone 6821 with MPP Firmware for Russia» | CP-6871-3PCC-K9 «Cisco 6871 Phone for MPP, Color» … (+21)
+  [ph.issue.subscription] ×3: CP-6871-3PW-NA-MK9 «MLB Subscription - Phone 6871» | CP-6861-3PW-NA-MK9 «MLB Subscription - Phone 6861» | CP-6841-3PW-NA-MK9 «MLB Subscription - 6841»
+  [ph.issue.component] ×2: CP-6821-HS= «Spare Narrowband Handset for Cisco IP Phone 6821» | CP-6800-HS-HOOK= «Cisco IP Phone 6800 Series Handset Hook Spare, 20 pieces»
+
+## Unified IP Phone 6900 Series | 32 | roles {"desk":26} issues {"phone accessory / spare part":6} null 0 | spec desk/token | disagree 6
+  [ph.desk] ×26: CP-6921-W-K9= «Cisco Unified IP Phone 6921, White, Standard Handset» | CP-6941-CL-K9= «Cisco Unified IP Phone 6941, Charcoal, Slimline Handset» | CP-6961-C-K9= «Cisco Unified IP Phone 6961, Charcoal, Standard Handset» | CP-6911-CL-K9= «Cisco Unified IP Phone 6911, Charcoal, Slimline Handset» | CP-6901-WL-K9 «Cisco Unified IP Phone 6901, White, Thin handset» | CP-6901-W-K9 «Cisco Unified IP Phone 6901, White, Thick handset» … (+20)
+  [ph.issue.component] ×6: CP-6900-LHS-AW-WB= «Cisco CP-6900-LHS-AW-WB=» | CP-6901-MHS-CG= «Charcoal Grey Standard Handset for 6901 IP Phone» | CP-6900-MHS-CG-WB= «Cisco CP-6900-MHS-CG-WB=» | CP-6900-LHS-CG-WB= «Cisco CP-6900-LHS-CG-WB=» | CP-6900-MHS-AW-WB= «Cisco CP-6900-MHS-AW-WB=» | CP-6901-HS-HOOK= «Spare Handset Hook for Cisco IP Phone 6901, 20 Pieces»
+
+## SPA500 IP Phones | 26 | roles {"desk":26} issues {} null 0 | spec desk/token | disagree 0
+  [ph.desk] ×26: SPA509G «12 Line IP Phone With Display, PoE and PC Port» | SPA509G-RC «12 Line IP Phone with Display, PoE and PC Port, RC» | SPA512G «1 Line IP Phone with Display, PoE and Gigabit PC Port» | SPA514G-RC «4 Line IP Phone with Display, PoE and Gigabit PC Port, RC» | SPA512G-RC «1 Line IP Phone with Display, PoE and Gigabit PC Port, RC» | SPA504G-RC «4 Line IP Phone with Display, PoE and PC Port, RC» … (+20)
+
+## IP Phone 7800 Series | 25 | roles {"desk":14,"conference":4} issues {"phone accessory / spare part":7} null 0 | spec desk/token | disagree 7
+  [ph.desk] ×14: CP-7811-NC-K9= «Cisco UC Phone 7811, Customized Model» | CP-7821-K9++= «Cisco UC Phone 7821, TAA» | CP-7841-K9= «● Cisco IP Phone 7841» | CP-7821-NC-K9= «Cisco UC Phone 7821, Customized Model» | CP-7811-K9 «Cisco UC Phone 7811» | CP-7821-W-K9 «Cisco UC Phone 7821 White» … (+8)
+  [ph.conference] ×4: CP-8832-K9= «Cisco CP-8832-K9=» | CP-7832-K9= «● Cisco IP Conference Phone 7832, Cisco Smoke» | CP-7832-W-K9= «● Cisco IP Conference Phone 7832, Cisco White» | CP-7832-K9++= «Cisco conference phone 7832 for TAA»
+  [ph.issue.component] ×7: CP-7800-HS-HOOK= «● Spare Handset Hook for Cisco IP Phone 7800 Series, 20 Pieces» | CP-7821-B-BEZEL= «● Spare Black Bezel for Cisco IP Phone 7821» | CP-7841-S-BEZEL= «● Spare Silver Bezel for Cisco IP Phone 7841» | CP-7861-S-BEZEL= «● Spare Silver Bezel for Cisco IP Phone 7861» | CP-7861-B-BEZEL= «● Spare Black Bezel for Cisco IP Phone 7861» | CP-7841-B-BEZEL= «● Spare Black Bezel for Cisco IP Phone 7841» … (+1)
+
+## IP DECT 6800 Series with Multiplatform Firmware | 24 | roles {"dect":24} issues {} null 0 | spec desk/token | disagree 0
+  [ph.dect] ×24: CP-6825-RGD-UK-K9= «Cisco IP DECT 6825, Standard Handset, Battery, Cradle, Multiplatform P» | CP-6823-3PC-BUN-CE «Cisco IP DECT Phone Bundle, Cisco IP DECT 6823 Handset and Single-Cell» | CP-6823-3PC-BUN-NA «Cisco IP DECT Phone Bundle, Cisco IP DECT 6823 Handset and Single-Cell» | CP-6823-3PC-K9= «Cisco IP DECT 6823, Standard Handset, Battery, Cradle, Multiplatform P» | CP-6823-3PC-AU-K9= «Cisco IP DECT 6823, Standard Handset, Battery, Cradle, Multiplatform P» | CP-6825-3PC-K9= «Cisco IP DECT 6825, Standard Handset, Battery, Cradle, Multiplatform P» … (+18)
+
+## IP Phone 7800 Series with Multiplatform Firmware | 19 | roles {"desk":16,"conference":3} issues {} null 0 | spec desk/token | disagree 0
+  [ph.desk] ×16: CP-7811-3PCC-K9= «Cisco IP Phone 7811 shipped with Multiplatform Phone firmware» | CP-7861-3PCC-K9++= «Cisco IP Phone 7861 with Multiplatform Phone firmware for Trade Agreem» | CP-7841-3PCC-K9= «Cisco IP Phone 7841 shipped with Multiplatform Phone firmware» | CP-7821-3PW-NA-K9= «Cisco IP Phone 7821 shipped with Multiplatform Phone firmware, and wit» | CP-7861-3PW-AU-K9= «Cisco IP Phone 7861 shipped with Multiplatform Phone firmware, and wit» | CP-7861-3PW-NA-K9= «Cisco IP Phone 7861 shipped with Multiplatform Phone firmware, and wit» … (+10)
+  [ph.conference] ×3: CP-7832-3PCC-K9++= «Cisco IP Conference Phone 7832 with Multiplatform Phone firmware for T» | CP-7832-3PW-NA-K9= «Cisco IP Conference Phone 7832 shipped with Multiplatform Phone firmwa» | CP-7832-3PCC-K9= «Cisco IP Conference Phone 7832 shipped with Multiplatform Phone firmwa»
+
+## Wireless Phone | 14 | roles {"wireless":9} issues {"phone accessory / spare part":5} null 0 | spec desk/token | disagree 5
+  [ph.wireless] ×9: CP-840-K9 «Cisco 840 WW Phone and Battery Only» | CP-860-BUN-K9 «Cisco 860 Worldwide Phone, Battery, Cable, Charger» | CP-840-K9= «Cisco 840 Worldwide Phone and Battery Only» | CP-860S-BUN-K9 «Cisco 860S Worldwide Phone with Scanner, Battery, Cable, Charger» | CP-840S-BUN-K9 «Cisco 840S Worldwide Phone with Scanner, Battery, Cable, Charger» | CP-840S-K9= «Cisco 840S Worldwide Phone with Scanner and Battery Only» … (+3)
+  [ph.issue.component] ×5: CP-800-USBCH= «Cisco 800 USB Cable with Worldwide Wall Charger» | CP-840S-HANDLE= «Cisco 840S Scanner Handle» | CP-860-MCHR-BN «Cisco 860 Multi-Charger Bundle for 4 Phones and 4 Batteries» | CP-860-MCHR= «Cisco 860 Multi-Charger Base with Power Supply» | CP-840-PH-MCHR= «Cisco 840 Multi-Charger for 6 Phones with PSU»
+
+## SPA300 IP Phones | 9 | roles {"desk":9} issues {} null 0 | spec desk/token | disagree 0
+  [ph.desk] ×9: SPA303-G1 «3 Line IP Phone w/Display, PC Port & NA Power Adapter» | SPA303-G2 «3 Line IP Phone w/ Display and PC Port, Europe Power Adapter» | SPA303-G4 «3 Line IP Phone w/Display, PC Port & Australia Power Adapter» | SPA303-R2 «3 Line IP Phone with Display and PC Port» | SPA303-G3 «3 Line IP Phone with Display and PC Port, UK Power Adapter» | SPA301-G4 «Cisco SPA 301G, Australia power adapter» … (+3)
+
+## Unified SIP Phone 3900 Series | 3 | roles {"desk":2} issues {"phone accessory / spare part":1} null 0 | spec desk/token | disagree 1
+  [ph.issue.component] ×1: CP-3905-HS= «Spare Handset for Cisco Unified SIP Phone 3905, Charcoal»
+  [ph.desk] ×2: CP-3905 «Cisco Unified SIP Phone 3905, Charcoal, Standard Handset» | CP-3905= «Cisco Unified SIP Phone 3905, Charcoal, Standard Handset»
+
+## Room Phone | 1 | roles {"conference":1} issues {} null 0 | spec desk/token | disagree 0
+  [ph.conference] ×1: CP-ROOM-C-K9= «Cisco Webex Room Phone in carbon black (includes 3m/8m HDMI cables and»

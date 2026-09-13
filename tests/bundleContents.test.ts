@@ -68,11 +68,14 @@ check("SABOTAGE without the SKU the placeholder IS misread — the guard is load
   check("the plan's 277 rows: 250 parsed, 27 refused (the figures DERIVED_FILL_PATHS states)", [plan.length, parsed, plan.length - parsed], [277, 250, 27]);
   const bare = ref.parts.filter((r) => r.family === "no-description");
   check("group 14: all 101 placeholder names refused", bare.filter((r) => !bundleContents(r.name, r.sku).ok).length, 101);
-  const ledger = fs.readFileSync(path.join(REPO_ROOT, "scripts", "build-cup-ledger.mts"), "utf8");
-  check("the ledger registers bundle_contents as a derived fill path with those counts", /bundle_contents:\s*\{\s*by:[^}]*parsed 250, refused 27/.test(ledger), true);
+  // DERIVED_FILL_PATHS moved out of the ledger builder into one module (13 Sep 2026); the builder imports it.
+  const registry = fs.readFileSync(path.join(REPO_ROOT, "src", "core", "derivedFillPaths.ts"), "utf8");
+  check("DERIVED_FILL_PATHS registers bundle_contents as a derived fill path with those counts", /bundle_contents:\s*\{\s*by:[^}]*parsed 250, refused 27/.test(registry), true);
+  const builder = fs.readFileSync(path.join(REPO_ROOT, "scripts", "build-cup-ledger.mts"), "utf8");
+  check("the ledger builder reads that registry rather than a copy of its own", /from\s+["'][./]*src\/core\/derivedFillPaths\.js["']/.test(builder), true);
 }
 
-const TOTAL = POSITIVE.length + REFUSED.length + 1 + 3;
+const TOTAL = POSITIVE.length + REFUSED.length + 1 + 4;
 console.log(`    bundle contents: ${pass} passed, ${misses.length} missed (of ${TOTAL})`);
 for (const m of misses) console.log(`    MISS ${m}`);
 if (misses.length || pass !== TOTAL) process.exit(1);
