@@ -53,8 +53,11 @@ GIT_SHORT="$(git rev-parse --short HEAD)"
 echo "→ deploying $GIT_SHORT to $SRV:$APP"
 
 echo "→ shipping HEAD to server…"
-git archive --format=tar HEAD | ssh -i "$KEY" "$SRV" \
-  "rm -rf $APP.new && mkdir -p $APP.new && tar -x -C $APP.new"
+# Compressed: the tree is ~113 MB of mostly JSON and ships as ~10 MB gzipped. Uncompressed, the upload took over ten
+# minutes on the operator's link and was reset by the ISP mid-stream (13 Sep 2026); the live tree is untouched when
+# that happens, but the deploy never arrives. pipefail (set above) fails the deploy if git archive or tar fails.
+git archive --format=tar.gz HEAD | ssh -i "$KEY" "$SRV" \
+  "rm -rf $APP.new && mkdir -p $APP.new && tar -xz -C $APP.new"
 
 echo "→ build → migrate → swap → restart → health check (keeps $APP.old for rollback)…"
 # GIT_SHA is expanded locally (double quotes) and handed to the remote shell as an env var;
