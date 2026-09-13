@@ -1,0 +1,406 @@
+// src/api/queries/completeness.ts — the ONE completeness report (phase-1 close guide §3), read from the committed
+// file, plus the cross-check that the build script and the test suite both run.
+//
+// WHY A FILE AND NOT A QUERY. The report is a full pass over every live hardware part, every current fact under a
+// required cup (replayed through the real normaliser) and every document link. Computing that per request would be a
+// minute-long statement against the pool the pipeline writes through — the shape that has already taken the board
+// down once. So it is built by scripts/build-completeness.mts on the same commit as the ledgers and served as
+// committed, exactly like /v1/ledger and /v1/census (routes/start.ts).
+//
+// WHY THE CHECKER LIVES HERE. The build script refuses to write a report whose invariants fail, and
+// tests/completeness.test.ts re-runs the same invariants on the committed file and drives each one with a sabotage
+// copy. One implementation, two callers: a checker written twice is two checkers that drift apart.
+//
+// This module holds no SQL. The definitions every number here uses are in docs/completeness-model.md.
+import fs from "node:fs";
+import path from "node:path";
+import { REPO_ROOT } from "../../config.js";
+
+export const COMPLETENESS_DIR = path.join(REPO_ROOT, "data", "completeness");
+/** A vendor report is `<vendor>.json`; the since-window sidecar is `<vendor>.since.json` and is not a vendor. */
+const VENDOR_FILE = /^([a-z0-9][a-z0-9-]*)\.json$/;
+const SLUG = /^[a-z0-9][a-z0-9-]*$/;
+
+// ---- shape --------------------------------------------------------------------------------------------------------
+
+/** Every percentage in the file is this object: the numerator and denominator travel with it (guide §3.2). */
+export type Pct = { num: number; den: number; pct: number | null };
+
+export function pctOf(num: number, den: number): Pct {
+  return { num, den, pct: den === 0 ? null : Math.round((num / den) * 1000) / 10 };
+}
+
+export type ArrangedBlock = { asked: number; asked_nothing_fallback: number } & Pct;
+export type HeldBlock = { spec_bearing: number; eol_only: number; no_document: number } & Pct;
+export type FilledBlock = {
+  /** den: required slots (completeness.required_fields) of HELD parts only */
+  required_slots_held: number;
+  filled: number; not_published: number; not_parsed: number;
+  /** stored values the normaliser would refuse today, on held parts: neither filled nor empty (§3.3) */
+  would_refuse: number;
+  /** of `filled`, how many are in a state the API does not render (conflict, unverified) */
+  filled_not_rendered: number;
+  /** printed beside, never inside, the denominator */
+  not_held_parts: number; not_held_slots: number;
+  /** slots on NOT-held parts that already hold an accepted value — outside every denominator, shown so it is not hidden */
+  not_held_filled: number;
+} & Pct;
+export type DefectsBlock = {
+  would_refuse: number; would_refuse_not_held: number; could_not_replay: number; placeholders_stored: number;
+};
+export type InheritedBlock = { inherited: number; filled: number } & Pct;
+
+export type Block = {
+  hardware_parts: number;
+  arranged: ArrangedBlock;
+  held: HeldBlock;
+  filled: FilledBlock;
+  defects: DefectsBlock;
+  inherited_share: InheritedBlock;
+};
+
+export type CupRow = {
+  key: string;
+  /** how the kind's ledger lists the cup at nothing-known: required, or pending behind a gate */
+  requirement: "required" | "pending" | "other";
+  gate: string[];
+  asked: number; held_asked: number;
+  filled: number; not_published: number; not_parsed: number; would_refuse: number;
+  not_held: number; not_held_filled: number; not_held_would_refuse: number;
+  could_not_replay: number; inherited: number; filled_not_rendered: number; placeholders_stored: number;
+  filled_pct: Pct;
+  fill_path: "seen" | "derived" | "seed-only" | "none";
+  observed_filled: boolean;
+  label_occurrences: number;
+  sources_enabled: string[];
+  taps: string[];
+};
+
+export type KindBlock = Block & {
+  kind: string; parts: number; resolved: boolean; asked_nothing: boolean; cups: CupRow[];
+};
+export type CategoryBlock = Block & {
+  category: string; profile_hash: string | null; ledger_built_on_commit: string | null;
+  unresolved_kind_parts: number; kinds: KindBlock[];
+};
+export type BrandBlock = Block & {
+  weakest_category: string | null;
+  unresolved_kind: { parts: number; kinds: string[]; device_noun_union: number; device_noun_unresolved: number };
+};
+export type CrossCheck = { name: string; passed: boolean; detail: string };
+
+export type CompletenessReport = {
+  _about: string;
+  definitions: string;
+  vendor: string;
+  built_on_commit: string;
+  generated_at: string;
+  inputs: Record<string, unknown>;
+  brand: BrandBlock;
+  categories: CategoryBlock[];
+  acquisition_queue: { _about: string; by_category: unknown[]; by_document_class_missing: unknown[] };
+  residue: unknown[];
+  model_disagreements: unknown[];
+  cross_checks: CrossCheck[];
+  [k: string]: unknown;
+};
+
+// ---- the checker (§3.4) -------------------------------------------------------------------------------------------
+
+/** What the checker can compare the file against when the caller has it. Ledgers are committed files, so the test
+ *  passes them; `live` needs the store, so only the build passes it. */
+export type LedgerLike = {
+  vendor: string; category: string;
+  totals: { parts: number; required_slots_stored: number;
+    fallback: { asked_nothing: { parts: number }; unresolved_kind: { parts: number; kinds: string[] } } };
+  kinds: Record<string, {
+    parts: number; required_slots_stored: number;
+    document_evidence: { spec_bearing: number; eol_only: number; no_document: number };
+    required: { key: string }[]; pending_until_gate_answered: { key: string }[];
+  }>;
+};
+export type CheckContext = {
+  ledgers?: Record<string, LedgerLike>;
+  live?: { hardware_parts: number; parts_nothing_required: number; required_total_held: number };
+};
+
+/** The invariant names. Stable: the test's sabotage cases assert on them. */
+export const CHECKS = [
+  "hardware_parts",
+  "arranged_partition",
+  "asked_nothing_matches",
+  "held_partition",
+  "held_matches_ledger",
+  "filled_partition",
+  "required_slots_held_live",
+  "cup_asked_matches_ledger",
+  "no_optional_cup_in_denominator",
+  "denominators",
+  "pct_arithmetic",
+  "sort_order",
+  "unresolved_kind",
+] as const;
+export type CheckName = (typeof CHECKS)[number];
+
+export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): CrossCheck[] {
+  const fails = new Map<CheckName, string[]>(CHECKS.map((c) => [c, []]));
+  const ran = new Set<CheckName>();
+  const fail = (c: CheckName, msg: string) => { fails.get(c)!.push(msg); };
+  const run = (c: CheckName) => ran.add(c);
+  const sum = <T>(xs: T[], f: (x: T) => number) => xs.reduce((a, x) => a + f(x), 0);
+  const cats = r.categories ?? [];
+  type Scoped = { label: string; b: Block };
+  const scopes: Scoped[] = [
+    { label: "brand", b: r.brand },
+    ...cats.flatMap((c) => [{ label: c.category, b: c as Block },
+      ...(c.kinds ?? []).map((k) => ({ label: `${c.category}.${k.kind}`, b: k as Block }))]),
+  ];
+
+  // hardware_parts: brand == Σ categories == Σ kinds per category == ledgers == the live count
+  run("hardware_parts");
+  if (r.brand.hardware_parts !== sum(cats, (c) => c.hardware_parts)) {
+    fail("hardware_parts", `brand ${r.brand.hardware_parts} != Σ categories ${sum(cats, (c) => c.hardware_parts)}`);
+  }
+  for (const c of cats) {
+    const kp = sum(c.kinds, (k) => k.hardware_parts);
+    if (kp !== c.hardware_parts) fail("hardware_parts", `${c.category}: ${c.hardware_parts} != Σ kinds ${kp}`);
+    for (const k of c.kinds) if (k.parts !== k.hardware_parts) fail("hardware_parts", `${c.category}.${k.kind}: parts ${k.parts} != hardware_parts ${k.hardware_parts}`);
+    const led = ctx.ledgers?.[c.category];
+    if (ctx.ledgers && !led) fail("hardware_parts", `${c.category}: no committed ledger`);
+    if (led && led.totals.parts !== c.hardware_parts) fail("hardware_parts", `${c.category}: report ${c.hardware_parts} != ledger totals.parts ${led.totals.parts}`);
+  }
+  if (ctx.ledgers) {
+    const missing = Object.keys(ctx.ledgers).filter((k) => !cats.some((c) => c.category === k));
+    if (missing.length) fail("hardware_parts", `ledgers with no category block: ${missing.join(", ")}`);
+  }
+  if (ctx.live && ctx.live.hardware_parts !== r.brand.hardware_parts) {
+    fail("hardware_parts", `brand ${r.brand.hardware_parts} != live count ${ctx.live.hardware_parts}`);
+  }
+
+  // arranged_partition: asked + asked_nothing_fallback == hardware_parts at every level
+  run("arranged_partition");
+  for (const s of scopes) {
+    const a = s.b.arranged;
+    if (a.asked + a.asked_nothing_fallback !== s.b.hardware_parts) {
+      fail("arranged_partition", `${s.label}: asked ${a.asked} + asked_nothing ${a.asked_nothing_fallback} != ${s.b.hardware_parts}`);
+    }
+  }
+  // asked_nothing_matches: == the ledger's asked_nothing, == /v1/stats/gaps parts_nothing_required
+  run("asked_nothing_matches");
+  for (const c of cats) {
+    const led = ctx.ledgers?.[c.category];
+    if (led && led.totals.fallback.asked_nothing.parts !== c.arranged.asked_nothing_fallback) {
+      fail("asked_nothing_matches", `${c.category}: report ${c.arranged.asked_nothing_fallback} != ledger ${led.totals.fallback.asked_nothing.parts}`);
+    }
+  }
+  if (ctx.live && ctx.live.parts_nothing_required !== r.brand.arranged.asked_nothing_fallback) {
+    fail("asked_nothing_matches", `brand asked_nothing ${r.brand.arranged.asked_nothing_fallback} != parts_nothing_required ${ctx.live.parts_nothing_required}`);
+  }
+
+  // held_partition: spec_bearing + eol_only + no_document == hardware_parts at every level
+  run("held_partition");
+  for (const s of scopes) {
+    const h = s.b.held;
+    if (h.spec_bearing + h.eol_only + h.no_document !== s.b.hardware_parts) {
+      fail("held_partition", `${s.label}: ${h.spec_bearing}+${h.eol_only}+${h.no_document} != ${s.b.hardware_parts}`);
+    }
+  }
+  // held_matches_ledger: per kind, the three counts equal the ledger's document_evidence
+  run("held_matches_ledger");
+  for (const c of cats) {
+    const led = ctx.ledgers?.[c.category];
+    if (!led) continue;
+    for (const [kind, lk] of Object.entries(led.kinds)) {
+      const k = c.kinds.find((x) => x.kind === kind);
+      const de = lk.document_evidence;
+      if (!k) { if (lk.parts > 0) fail("held_matches_ledger", `${c.category}.${kind}: ledger has ${lk.parts} parts, report has no kind`); continue; }
+      if (k.held.spec_bearing !== de.spec_bearing || k.held.eol_only !== de.eol_only || k.held.no_document !== de.no_document) {
+        fail("held_matches_ledger", `${c.category}.${kind}: report ${k.held.spec_bearing}/${k.held.eol_only}/${k.held.no_document} != ledger ${de.spec_bearing}/${de.eol_only}/${de.no_document}`);
+      }
+    }
+  }
+
+  // filled_partition: held slots = filled + not_published + not_parsed + would_refuse, and Σ cups == kind at every level
+  run("filled_partition");
+  for (const s of scopes) {
+    const f = s.b.filled;
+    const parts = f.filled + f.not_published + f.not_parsed + f.would_refuse;
+    if (parts !== f.required_slots_held) fail("filled_partition", `${s.label}: ${f.filled}+${f.not_published}+${f.not_parsed}+${f.would_refuse} != required_slots_held ${f.required_slots_held}`);
+    if (s.b.defects.would_refuse !== f.would_refuse) fail("filled_partition", `${s.label}: defects.would_refuse ${s.b.defects.would_refuse} != filled.would_refuse ${f.would_refuse}`);
+  }
+  const rollup = (label: string, parent: Block, children: Block[]) => {
+    const fields: (keyof FilledBlock)[] = ["required_slots_held", "filled", "not_published", "not_parsed", "would_refuse", "not_held_slots", "not_held_filled"];
+    for (const fld of fields) {
+      const v = sum(children, (x) => x.filled[fld] as number);
+      if (v !== parent.filled[fld]) fail("filled_partition", `${label}: filled.${fld} ${parent.filled[fld]} != Σ children ${v}`);
+    }
+  };
+  rollup("brand", r.brand, cats);
+  for (const c of cats) {
+    rollup(c.category, c, c.kinds);
+    for (const k of c.kinds) {
+      const cupsum = (f: (x: CupRow) => number) => sum(k.cups, f);
+      const pairs: [string, number, number][] = [
+        ["required_slots_held", k.filled.required_slots_held, cupsum((x) => x.held_asked)],
+        ["filled", k.filled.filled, cupsum((x) => x.filled)],
+        ["not_published", k.filled.not_published, cupsum((x) => x.not_published)],
+        ["not_parsed", k.filled.not_parsed, cupsum((x) => x.not_parsed)],
+        ["would_refuse", k.filled.would_refuse, cupsum((x) => x.would_refuse)],
+        ["not_held_slots", k.filled.not_held_slots, cupsum((x) => x.not_held)],
+      ];
+      for (const [n, a, b] of pairs) if (a !== b) fail("filled_partition", `${c.category}.${k.kind}: filled.${n} ${a} != Σ cups ${b}`);
+      for (const cup of k.cups) {
+        const hp = cup.filled + cup.not_published + cup.not_parsed + cup.would_refuse;
+        if (hp !== cup.held_asked) fail("filled_partition", `${c.category}.${k.kind}.${cup.key}: ${hp} != held_asked ${cup.held_asked}`);
+        if (cup.held_asked + cup.not_held !== cup.asked) fail("filled_partition", `${c.category}.${k.kind}.${cup.key}: held_asked ${cup.held_asked} + not_held ${cup.not_held} != asked ${cup.asked}`);
+      }
+    }
+  }
+
+  // required_slots_held_live: == Σ over held parts of completeness.required_total, computed independently in SQL
+  run("required_slots_held_live");
+  if (ctx.live && ctx.live.required_total_held !== r.brand.filled.required_slots_held) {
+    fail("required_slots_held_live", `brand required_slots_held ${r.brand.filled.required_slots_held} != Σ required_total over held parts ${ctx.live.required_total_held}`);
+  }
+
+  // cup_asked_matches_ledger: Σ cups.asked per kind == ledger required_slots_stored; an unconditional required cup is
+  // asked of every part of the kind
+  run("cup_asked_matches_ledger");
+  run("no_optional_cup_in_denominator");
+  for (const c of cats) {
+    const led = ctx.ledgers?.[c.category];
+    for (const k of c.kinds) {
+      const asked = sum(k.cups, (x) => x.asked);
+      const lk = led?.kinds[k.kind];
+      if (led && !lk) { fail("cup_asked_matches_ledger", `${c.category}.${k.kind}: kind not in the ledger`); continue; }
+      if (lk) {
+        if (lk.required_slots_stored !== asked) fail("cup_asked_matches_ledger", `${c.category}.${k.kind}: Σ cups.asked ${asked} != ledger required_slots_stored ${lk.required_slots_stored}`);
+        const req = new Set(lk.required.map((x) => x.key));
+        const pend = new Set(lk.pending_until_gate_answered.map((x) => x.key));
+        for (const key of req) {
+          const cup = k.cups.find((x) => x.key === key);
+          const n = cup?.asked ?? 0;
+          if (n !== k.parts) fail("cup_asked_matches_ledger", `${c.category}.${k.kind}.${key}: required of every part, asked of ${n} of ${k.parts}`);
+        }
+        for (const cup of k.cups) {
+          if (!req.has(cup.key) && !pend.has(cup.key)) {
+            fail("no_optional_cup_in_denominator", `${c.category}.${k.kind}.${cup.key}: asked of ${cup.asked} parts but the ledger lists it as neither required nor pending`);
+          }
+        }
+      }
+      for (const cup of k.cups) {
+        if (cup.requirement === "other") fail("no_optional_cup_in_denominator", `${c.category}.${k.kind}.${cup.key}: requirement "other" (optional or not-applicable at nothing-known) in a denominator`);
+      }
+    }
+  }
+
+  // denominators: what every pct is taken over
+  run("denominators");
+  for (const s of scopes) {
+    const b = s.b;
+    const want: [string, Pct, number][] = [
+      ["arranged", b.arranged, b.hardware_parts],
+      ["held", b.held, b.hardware_parts],
+      ["filled", b.filled, b.filled.required_slots_held],
+      ["inherited_share", b.inherited_share, b.filled.filled],
+    ];
+    for (const [n, p, den] of want) if (p.den !== den) fail("denominators", `${s.label}.${n}: den ${p.den} != ${den}`);
+    if (b.arranged.num !== b.arranged.asked) fail("denominators", `${s.label}.arranged: num ${b.arranged.num} != asked ${b.arranged.asked}`);
+    if (b.held.num !== b.held.spec_bearing) fail("denominators", `${s.label}.held: num ${b.held.num} != spec_bearing ${b.held.spec_bearing}`);
+    if (b.filled.num !== b.filled.filled + b.filled.not_published) fail("denominators", `${s.label}.filled: num ${b.filled.num} != filled + not_published`);
+    if (b.inherited_share.num !== b.inherited_share.inherited || b.inherited_share.filled !== b.filled.filled) fail("denominators", `${s.label}.inherited_share: num/filled disagree with the filled block`);
+    // the parts printed beside the filled denominator as not-held are exactly the not-held parts of the held block
+    if (b.filled.not_held_parts !== b.held.eol_only + b.held.no_document) {
+      fail("denominators", `${s.label}: not_held_parts ${b.filled.not_held_parts} != eol_only + no_document ${b.held.eol_only + b.held.no_document}`);
+    }
+  }
+  // held + not-held slots is every stored slot, so the held denominator has taken out exactly the not-held ones
+  for (const c of cats) {
+    const led = ctx.ledgers?.[c.category];
+    if (led && c.filled.required_slots_held + c.filled.not_held_slots !== led.totals.required_slots_stored) {
+      fail("denominators", `${c.category}: held slots ${c.filled.required_slots_held} + not-held slots ${c.filled.not_held_slots} != ledger required_slots_stored ${led.totals.required_slots_stored}`);
+    }
+  }
+  for (const c of cats) for (const k of c.kinds) for (const cup of k.cups) {
+    if (cup.filled_pct.den !== cup.held_asked) fail("denominators", `${c.category}.${k.kind}.${cup.key}: filled_pct den ${cup.filled_pct.den} != held_asked ${cup.held_asked}`);
+    if (cup.filled_pct.num !== cup.filled + cup.not_published) fail("denominators", `${c.category}.${k.kind}.${cup.key}: filled_pct num != filled + not_published`);
+  }
+
+  // pct_arithmetic: EVERY object in the file carrying `pct` carries num and den, and the arithmetic holds
+  run("pct_arithmetic");
+  const walk = (v: unknown, where: string) => {
+    if (Array.isArray(v)) { v.forEach((x, i) => walk(x, `${where}[${i}]`)); return; }
+    if (!v || typeof v !== "object") return;
+    const o = v as Record<string, unknown>;
+    if ("pct" in o) {
+      if (typeof o.num !== "number" || typeof o.den !== "number") fail("pct_arithmetic", `${where}: pct without a numeric num and den`);
+      else {
+        const expect = pctOf(o.num, o.den).pct;
+        if (o.pct !== expect) fail("pct_arithmetic", `${where}: pct ${String(o.pct)} != ${String(expect)} from ${o.num}/${o.den}`);
+        if (o.num > o.den) fail("pct_arithmetic", `${where}: num ${o.num} > den ${o.den}`);
+      }
+    }
+    for (const [k, x] of Object.entries(o)) if (k !== "cross_checks") walk(x, `${where}.${k}`);
+  };
+  walk(r, "$");
+
+  // sort_order: categories by filled.pct ascending (no held slots last), kinds by parts descending, cups by not_parsed descending
+  run("sort_order");
+  const pctKey = (p: Pct) => (p.pct === null ? Number.POSITIVE_INFINITY : p.pct);
+  for (let i = 1; i < cats.length; i++) {
+    if (pctKey(cats[i - 1].filled) > pctKey(cats[i].filled)) fail("sort_order", `categories: ${cats[i - 1].category} (${cats[i - 1].filled.pct}) before ${cats[i].category} (${cats[i].filled.pct})`);
+  }
+  for (const c of cats) {
+    for (let i = 1; i < c.kinds.length; i++) if (c.kinds[i - 1].parts < c.kinds[i].parts) fail("sort_order", `${c.category}: kind ${c.kinds[i - 1].kind} (${c.kinds[i - 1].parts}) before ${c.kinds[i].kind} (${c.kinds[i].parts})`);
+    for (const k of c.kinds) for (let i = 1; i < k.cups.length; i++) {
+      if (k.cups[i - 1].not_parsed < k.cups[i].not_parsed) fail("sort_order", `${c.category}.${k.kind}: cup ${k.cups[i - 1].key} (${k.cups[i - 1].not_parsed}) before ${k.cups[i].key} (${k.cups[i].not_parsed})`);
+    }
+  }
+  const weakest = cats.find((c) => c.filled.pct !== null)?.category ?? null;
+  if (r.brand.weakest_category !== weakest) fail("sort_order", `brand.weakest_category ${r.brand.weakest_category} != first category with held slots ${weakest}`);
+
+  // unresolved_kind: brand count == Σ categories == Σ ledgers
+  run("unresolved_kind");
+  const unres = sum(cats, (c) => c.unresolved_kind_parts);
+  if (unres !== r.brand.unresolved_kind.parts) fail("unresolved_kind", `brand ${r.brand.unresolved_kind.parts} != Σ categories ${unres}`);
+  for (const c of cats) {
+    const own = sum(c.kinds.filter((k) => !k.resolved), (k) => k.parts);
+    if (own !== c.unresolved_kind_parts) fail("unresolved_kind", `${c.category}: unresolved_kind_parts ${c.unresolved_kind_parts} != Σ unresolved kinds ${own}`);
+    const led = ctx.ledgers?.[c.category];
+    if (led && led.totals.fallback.unresolved_kind.parts !== c.unresolved_kind_parts) fail("unresolved_kind", `${c.category}: report ${c.unresolved_kind_parts} != ledger ${led.totals.fallback.unresolved_kind.parts}`);
+  }
+
+  return CHECKS.map((name) => {
+    const f = fails.get(name)!;
+    const skipped = !ran.has(name);
+    return { name, passed: !skipped && f.length === 0,
+      detail: skipped ? "not run" : f.length === 0 ? "ok" : `${f.length} failure(s): ${f.slice(0, 8).join("; ")}${f.length > 8 ? ` … and ${f.length - 8} more` : ""}` };
+  });
+}
+
+// ---- reading the committed files ----------------------------------------------------------------------------------
+
+export function completenessVendors(dir: string = COMPLETENESS_DIR): string[] {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir).map((f) => VENDOR_FILE.exec(f)?.[1]).filter((v): v is string => Boolean(v)).sort();
+}
+
+export function readCompleteness(vendor: string, dir: string = COMPLETENESS_DIR): CompletenessReport | null {
+  if (!SLUG.test(vendor)) return null;
+  const file = path.join(dir, `${vendor}.json`);
+  if (!fs.existsSync(file)) return null;
+  return JSON.parse(fs.readFileSync(file, "utf8")) as CompletenessReport;
+}
+
+export function readCompletenessSince(vendor: string, dir: string = COMPLETENESS_DIR): Record<string, unknown> | null {
+  if (!SLUG.test(vendor)) return null;
+  const file = path.join(dir, `${vendor}.since.json`);
+  if (!fs.existsSync(file)) return null;
+  return JSON.parse(fs.readFileSync(file, "utf8")) as Record<string, unknown>;
+}
+
+/** Two instants are the same window start when they parse to the same millisecond (so `Z` and `+00:00` agree). */
+export function sameInstant(a: string, b: string): boolean {
+  const x = Date.parse(a), y = Date.parse(b);
+  return Number.isFinite(x) && Number.isFinite(y) && x === y;
+}

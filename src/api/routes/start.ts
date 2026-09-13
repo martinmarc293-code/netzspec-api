@@ -19,6 +19,7 @@ import { REPO_ROOT } from "../../config.js";
 import { linkBase, followable, qs } from "../links.js";
 import { listCategories } from "../queries/categories.js";
 import { listVendors } from "../queries/vendors.js";
+import { completenessVendors } from "../queries/completeness.js";
 import { notFound } from "../errors.js";
 import { AnyJson, ERROR_RESPONSES, Nullable } from "../schemas.js";
 
@@ -187,6 +188,8 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
       summary_url: link("ledger", l.vendor, l.category, "summary"),
       profile_hash: l.profile_hash, parts: l.parts, required_slots: l.slots }));
     const other = [
+      // phase-1 close §3: the one report that answers "which cups are empty, and why" — linked only when built.
+      ...(completenessVendors().includes(vendor) ? [{ name: "completeness report (Arranged / Held / Filled)", url: link("completeness", vendor) }] : []),
       { name: "all categories with counts", url: link("categories") },
       { name: "the whole field dictionary", url: link("fields") },
       { name: "catalogue statistics", url: link("stats") },

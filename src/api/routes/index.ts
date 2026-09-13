@@ -15,6 +15,7 @@ import { registerStrictQuery } from "../strictQuery.js";
 import { categoriesRoutes } from "./categories.js";
 import { changesRoutes } from "./changes.js";
 import { compareRoutes } from "./compare.js";
+import { completenessRoutes } from "./completeness.js";
 import { docsRoutes } from "./docs.js";
 import { exportRoutes } from "./export.js";
 import { facetsRoutes } from "./facets.js";
@@ -60,6 +61,8 @@ export async function v1Routes(app: FastifyInstance, opts: V1Options): Promise<v
   await app.register(fieldsRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(linkIndexRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(startRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
+  // phase-1 close §3: the one completeness report, served as committed (like the ledgers above).
+  await app.register(completenessRoutes);
   await app.register(facetsRoutes);
   await app.register(partsRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(partRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
