@@ -55,8 +55,8 @@
 // test was wrong, not the axis.
 
 export type SwitchKind =
-  | "switch" | "fex" | "chassis" | "linecard" | "module" | "supervisor" | "fabric" | "daughter"
-  | "power" | "fan" | "power-cord" | "stack-cable" | "stack-module" | "cable" | "accessory" | "software"
+  | "switch" | "fex" | "chassis" | "linecard" | "module" | "supervisor" | "fabric"
+  | "power" | "fan" | "power-cord" | "stack-cable" | "cable" | "accessory" | "software"
   | "mechanical";
 
 /** Kinds that are a whole networking device — the only ones a switching specification belongs to. */
@@ -91,15 +91,22 @@ export const SW_BOX: readonly SwitchKind[] = ["switch", "fex", "chassis"];
  * sub-kinds are split out, each by its own markers, and `module` keeps the port-bearing majority.
  * Name evidence: 110 of 120 supervisors, 58 of 63 fabric modules and 42 of 50 daughter cards say
  * so in their name; every remaining one was read (C9400X-SUP-2, N9K-C9508-FM-G, "Dist Fwd Card").
+ *
+ * kind-layer B (reviewer, 13 Sep 2026; spec v2 III.1): `daughter` (57) and `stack-module` (28) FOLD INTO `module` — one
+ * noun a buyer uses. The rules that found them stay, in place and in order, and now name `module`. The 85 rows were read
+ * one by one; the ones that are something else are recorded for a ruling, not silently re-kinded: 8 stack KITS (two
+ * adapters + one cable: C9200-STACK-KIT, C9200L-STACK-KIT, C9300L-STACK-KIT, C9300L-STACK-KIT2, each with its spare),
+ * 2 DFC4 four-packs (WS-DFC4A-4PAK=, WS-DFC4AXL-4PAK=), C2960X-STACK-DWP ("... DWP License"), and ~45 6500 PFC/DFC/CFC/
+ * MSFC forwarding daughter cards that print no ports (MODULE asks ports and data_rate) — docs/reviewer/open-questions.
  */
 export const SW_PART: readonly SwitchKind[] =
-  ["linecard", "module", "supervisor", "fabric", "daughter", "power", "fan",
-   "power-cord", "stack-cable", "stack-module", "cable", "accessory", "software", "mechanical"];
+  ["linecard", "module", "supervisor", "fabric", "power", "fan",
+   "power-cord", "stack-cable", "cable", "accessory", "software", "mechanical"];
 
 /** Kinds that plug into or attach to a switch — every one is bought for WHAT IT FITS (11 Sep 2026). */
 export const SW_COMPONENT: readonly SwitchKind[] =
-  ["linecard", "module", "supervisor", "fabric", "daughter", "power", "fan",
-   "power-cord", "stack-cable", "stack-module", "cable", "accessory"];
+  ["linecard", "module", "supervisor", "fabric", "power", "fan",
+   "power-cord", "stack-cable", "cable", "accessory"];
 
 /**
  * Kinds that are a length of cable — asked its length. `cable` WAS FOUR THINGS until 11 Sep 2026 (reviewer
@@ -155,7 +162,7 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   //   Stack cables: STACK-T1-3M, STACK-CAB-50CM, CAB-STACK-1M-NH, CAB-STK-E-0.5M ("FlexStack stacking cable").
   { kind: "stack-cable", re: /^(?:CAB-)?STACK-|^CAB-STK-/ },
   //   Stack modules and kits: C2960X-STACK, C3650-STACK-KIT, C9300L-STACK-A, C2960X-HYBRID-STK.
-  { kind: "stack-module", re: /-STACK(?:-|=|$)|-STK(?:-|=|$)/ },
+  { kind: "module", re: /-STACK(?:-|=|$)|-STK(?:-|=|$)/ },
   //   Power cords, AC and DC: every CAB- that is not a console, fibre, CX4, RPS, StackPower/XPS, InfiniBand
   //   or category cable — read by name, including the 17 whose name never says "power" (CAB-7KACE=,
   //   CAB-C2316-C19-IT "CEI 23-16 to IEC-C19 14ft, Italy") — plus PWR-CAB- and the Nexus 7000 DC cables.
@@ -229,7 +236,7 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   // asked for a per-slot bandwidth, and it is a whole switch. It falls through to `switch`.
   { kind: "fabric", re: /^(?!N35-).*-(?:FM|FAB)(?:-|=|\d|$)/ },
   // Daughter cards: 6500 PFC / DFC / CFC / MSFC boards, and the DFC 4-packs.
-  { kind: "daughter", re: /^(?:WS|VS)-F6(?:K|700)|(?:^|-)DFC\d/ },
+  { kind: "module", re: /^(?:WS|VS)-F6(?:K|700)|(?:^|-)DFC\d/ },
   // LINE CARDS — split from `module` on 11 Sep 2026 (reviewer §1.5). A card that takes a CHASSIS SLOT
   // has a fabric connection and its own power draw; an uplink or expansion module for a fixed switch
   // (C9300-NM-8X, N9K-M6PQ "Uplink Module for Nexus 9300") and a port adapter have neither. N7K/N77 M
@@ -289,7 +296,7 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   { kind: "supervisor", re: /^RSP720-|^C4500E-S7L\/2/ },
   // Nexus 5548 daughter cards: N55-DL2 "Layer 2 Daughter Card", N55-D160L3-V2 "Layer 3 Daughter Card", N55-D160L3-IF=
   // "Layer 3 Expansion Module" — the same board sold as a field upgrade.
-  { kind: "daughter", re: /^N55-D/ },
+  { kind: "module", re: /^N55-D/ },
   // Line cards, from item 3 §linecard/module/supervisor and §upgrade option: Nexus 9500 cards filed without their N9K-
   // prefix (X9736C-FX, X97160YC-EX, X9432PQ — "Cisco X9736C-FX"), WS-6148-GE-TX, the 7600 ES+ XT cards, the Services
   // SPA Carriers (7600-SSC-400, WS-SSC-600) and IPsec VSPA carrier bundles, the Catalyst 6800 port cards

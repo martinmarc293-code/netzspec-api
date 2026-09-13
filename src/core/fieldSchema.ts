@@ -2235,7 +2235,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // FIXED switch with a network-module slot can still hold the 234 facts this cup already has
     // ("NIM slots" x8, "Expansion Slot" x7) instead of being told the question does not apply.
     // kind-layer: + chassis, whose defining cup this is (63 of the 75 bare chassis PIDs already hold one — III.0 item 4).
-    module_slots: cond({ any: [{ field: "kind", inList: ["chassis"] }, { field: "form_factor", eq: "modular-chassis" }] }, { elseOpt: true }),
+    // kind-layer B (reviewer, 13 Sep 2026): a fex is NOT ETH-SWITCHING and is never a modular chassis — it was left pending
+    // module_slots on an unanswered form_factor. The form_factor branch is scoped to `switch`; fex resolves optional.
+    module_slots: cond({ any: [{ field: "kind", inList: ["chassis"] }, { all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", eq: "modular-chassis" }] }] }, { elseOpt: true }),
     // mgmt_ports holds ZERO facts across every Cisco category, not merely across this one —
     // measured 10 Sep 2026, and the four mentions in data/schema/source-fields.json are
     // added_by_profile entries (a field a profile CAN require), never evidence that anything

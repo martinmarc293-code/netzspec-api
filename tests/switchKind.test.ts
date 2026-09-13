@@ -67,8 +67,8 @@ const CASES: [string, string][] = [
   ["N9K-C9508-FM-G", "fabric"],        // name is only the SKU; the FM token decides
   // Added 10 Sep 2026 from the reverse name control (parts filed `switch` whose NAME says
   // component). Each pattern measured on its own for part- against device-evidence.
-  ["WS-F6K-PFC3B", "daughter"],        // 6500 policy feature card
-  ["WS-F6700-DFC3C", "daughter"],      // 6700 distributed forwarding card
+  ["WS-F6K-PFC3B", "module"],        // 6500 policy feature card
+  ["WS-F6700-DFC3C", "module"],      // 6700 distributed forwarding card
   ["N55-M16P", "module"],              // Nexus 5500 expansion module
   ["N56-M24UP2Q", "module"],           // Nexus 5600 expansion module
   ["N77-F324FQ-25", "linecard"],       // 7700 I/O line card
@@ -82,9 +82,9 @@ const CASES: [string, string][] = [
   // otherwise). Every one from the catalogue.
   ["SPA-2X1GE", "module"],             // "Cisco 2-Port Gigabit Ethernet Shared Port Adapter"
   ["7600-SIP-400", "linecard"],        // "Cisco 7600 Series SPA Interface Processor-400" — takes a chassis slot
-  ["VS-F6K-PFC4", "daughter"],         // "Cat 6k 80G Sys Daughter Board Sup2T PFC4" — the WS- twin's kind
-  ["VS-F6K-MSFC3", "daughter"],        // "Catalyst 6500 Multilayer Switch Feature Card (MSFC) III"
-  ["WS-DFC4AXL-4PAK=", "daughter"],    // "DFC4-AXL 4 Pack Bundle"
+  ["VS-F6K-PFC4", "module"],         // "Cat 6k 80G Sys Daughter Board Sup2T PFC4" — the WS- twin's kind
+  ["VS-F6K-MSFC3", "module"],        // "Catalyst 6500 Multilayer Switch Feature Card (MSFC) III"
+  ["WS-DFC4AXL-4PAK=", "module"],    // "DFC4-AXL 4 Pack Bundle"
   ["WS-SVC-WISM-1-K9", "linecard"],    // Catalyst 6500 Wireless Services Module — takes a chassis slot
   ["C9400-SSD-240GB", "accessory"],    // was `module` by name; storage has no ports or switching capacity
   ["MEM-SUP2T-4GB", "accessory"],      // "4G DRAM Memory Total for Sup2T and Sup2TXL"
@@ -123,7 +123,7 @@ const CASES: [string, string][] = [
   ["CAT6A", "cable"],                  // "Copper cable for 10G"
   ["C4948-REAR-BKT=", "accessory"],    // "C49xx rear mount brackets"
   ["FQMAP66BL", "accessory"],          // "QuickNet Fiber Optic Migration Adapter Panel"
-  ["DFC3CXL", "daughter"],             // a bare Distributed Forwarding Card PID
+  ["DFC3CXL", "module"],             // a bare Distributed Forwarding Card PID
   ["XPS-2200", "power"],               // "eXpandable Power System 2200"
 
   // power
@@ -147,10 +147,10 @@ const CASES: [string, string][] = [
   ["CAB-STACK-1M-NH", "stack-cable"],  // "Cisco StackWise 1M Non-Halogen Lead Free Stacking Cable"
   ["CAB-STK-E-1M", "stack-cable"],     // "FlexStack stacking cable with a 1.0 m length"
   ["STACK-CAB-50CM", "stack-cable"],   // "Cisco 50CM Stacking Cable"
-  ["C2960X-STACK", "stack-module"],    // "Catalyst 2960-X FlexStack Plus Stacking Module" — no length
-  ["C3650-STACK-KIT", "stack-module"], // "Cisco Catalyst 3650 Stack Module"
-  ["C2960X-HYBRID-STK", "stack-module"], // "FlexStack-Extended Hybrid module, with one copper and one fiber port"
-  ["C9300L-STACK-KIT2=", "stack-module"], // "Stack Kit 2 ... includes 2 Stack Adaptors and 1 Stack Cable"
+  ["C2960X-STACK", "module"],    // "Catalyst 2960-X FlexStack Plus Stacking Module" — no length
+  ["C3650-STACK-KIT", "module"], // "Cisco Catalyst 3650 Stack Module"
+  ["C2960X-HYBRID-STK", "module"], // "FlexStack-Extended Hybrid module, with one copper and one fiber port"
+  ["C9300L-STACK-KIT2=", "module"], // "Stack Kit 2 ... includes 2 Stack Adaptors and 1 Stack Cable"
   ["CAB-SPWR-150CM", "cable"],         // StackPower shares POWER, not data: not a stack cable, not a cord
   ["CAB-RPS2300-E", "cable"],          // "RPS Cable for Cat 3K-E, 2960 PoE Switches"
   ["CAB-SM-LCSC-1M", "cable"],         // "1 m single-mode fiber, LC-to-SC connectors"
@@ -225,7 +225,7 @@ eq("a CX4 patch cable is not a power cord", switchKind("CAB-INF-28G-5="), "cable
 eq("an SFP interconnect cable is not a power cord", switchKind("CAB-SFP-50CM="), "cable");
 eq("an XPS StackPower cable is not a power cord", switchKind("CAB-XPS-58CM"), "cable");
 eq("a CAT5E/6E cable is not a power cord", switchKind("CAB-CAT5E/6E"), "cable");
-eq("a stack module has no length: it is not a stack cable", switchKind("C9300L-STACK"), "stack-module");
+eq("a stack module has no length: it is not a stack cable (a module since the III.1 fold)", switchKind("C9300L-STACK"), "module");
 eq("a LC-LC patch cord is a cable, not a line card (its -LC- reads as the module marker)", switchKind("CB-LC-LC-SMF"), "cable");
 eq("a fibre cable ending -LC= is a cable, not a line card", switchKind("CSS5-CABSX-LC="), "cable");
 eq("the XPS 2200 FAN module is a fan, not the power system it cools", switchKind("XPS-2200-FAN"), "fan");
@@ -287,7 +287,7 @@ const KL_WITNESS: [string, string, string][] = [
   ["RSP720-3C-10GE", "supervisor", "Route Switch Processor 720, no SUP token"],
   ["C4500E-S7L/2", "supervisor", "Upgrade to Redundant Sup7L-E"],
   // daughter
-  ["N55-D160L3-V2", "daughter", "Nexus 5548 Layer 3 Daughter Card, Version 2"],
+  ["N55-D160L3-V2", "module", "Nexus 5548 Layer 3 Daughter Card, Version 2"],
   // linecard
   ["X9736C-FX", "linecard", "a Nexus 9500 line card filed without its N9K- prefix"],
   ["C6800-48P-TX-XL", "linecard", "Catalyst 6800 48-port 1GE copper module with integrated DFC4XL"],
@@ -370,13 +370,11 @@ eq(`kind-layer: refusals (${KL_REFUSAL.length}) are at least half the witnesses 
     ["switch", "industrial", list(...swap(CORE, "ip_rating?", "ip_rating"), "mounting")],
     ["fex", undefined, list("airflow", "altitude_max", "certifications", "cooling", "dimensions", "form_factor", "heat_dissipation",
       "humidity_operating", "ieee_standards", "input_voltage", "mtbf", "ports", "power_max", "power_typical", "product_compatibility",
-      "psu_config", "temp_operating", "temp_storage", "uplink_ports", "weight", "ip_rating?", "module_slots?", "psu_redundant?", "rack_units?")],
+      "psu_config", "temp_operating", "temp_storage", "uplink_ports", "weight", "ip_rating?", "psu_redundant?", "rack_units?")],
     ["chassis", undefined, list("dimensions", "form_factor", "module_slots", "psu_config", "rack_units", "weight")],
     ["supervisor", undefined, list("dram", "fabric_bandwidth", "flash", "forwarding_rate", "mac_table", "product_compatibility", "switching_capacity", "uplink_ports")],
     ["linecard", undefined, list("data_rate", "fabric_bandwidth", "poe_standard", "ports", "power_max", "product_compatibility", "poe_ports?")],
     ["module", undefined, list("data_rate", "poe_standard", "ports", "product_compatibility", "poe_ports?")],
-    ["daughter", undefined, "product_compatibility"],
-    ["stack-module", undefined, "product_compatibility"],
     ["fabric", undefined, list("fabric_bandwidth", "product_compatibility")],
     ["power", undefined, list("airflow", "input_voltage", "product_compatibility", "psu_rated_output")],
     ["fan", undefined, list("airflow", "product_compatibility")],
@@ -405,8 +403,10 @@ eq(`kind-layer: refusals (${KL_REFUSAL.length}) are at least half the witnesses 
   eq("kind-layer witness: CBS350-16P-E-2G is an smb switch", `${smb.kind}/${smb.role}`, "switch/smb");
   // §III.4 wants "smb not asked altitude_max"; under the operator bar that demotion waits for the printed measurement.
   eq("operator bar: the spec's smb demotion of altitude_max is NOT applied before the measurement", smb.q.required.includes("altitude_max"), true);
-  const core = partSet("WS-C4928-10GE", "Catalyst 4928, no p/s, 28x 1GBase-X SFP, 2x 10GBase-X X2");
-  eq("an unresolved-role switch (WS-C4928-10GE) is asked the core and no role addition",
+  // WS-C4928-10GE was the live witness until the routers merge (24dcd41) placed it `datacenter`; no live switch is left
+  // without a role or a kind issue, so the witness is a SYNTHETIC series no rule names — stated as such.
+  const core = partSet("WS-C9999-24TS", "Catalyst 9999 (synthetic: a series no deploy_role rule names)");
+  eq("an unresolved-role switch (synthetic WS-C9999-24TS) is asked the core and no role addition",
      core.role === null && !core.q.required.includes("latency") && !core.q.required.includes("mounting"), true);
   for (const [sku, name] of [["C9300-48H-A", "Catalyst 9300 48-port 1G copper"], ["N9K-C93180YC-FX", "Nexus 9300"], ["IE-3400H-16T-E", "IE3400"], ["C9500-48Y4C", "Catalyst 9500"]]) {
     const p = partSet(sku, name);

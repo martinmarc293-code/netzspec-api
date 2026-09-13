@@ -79,7 +79,7 @@ export const MARKER_TARGETS: Readonly<Record<NameMarker, readonly string[]>> = {
   // `power` (spec III.1), so no axis declares either name and the target would be dead (tests/nameMarker.test.ts refuses one).
   pdu: ["pdu", "power"],
   tpm: ["tpm", "security-module"],
-  riser: ["io-module", "daughter", "module", "linecard"],
+  riser: ["io-module", "module", "linecard"],  // kind-layer B: `daughter` folded into switches `module`
   power: ["power", "power-injector"],
   server: ["server", "chassis"],
   mechanical: ["mechanical"],
