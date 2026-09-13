@@ -26,18 +26,20 @@ const misses = [];
 // stored value. Asserting the reason and not merely "it failed" is the rule: a case rejected for
 // the wrong reason counts as a miss.
 const CASES = [
-  // ---- 1. placeholders, on the free-text types ------------------------------------------------
-  // Every one of these is a real stored value, with the key it is stored under.
-  ["interfaces-modules", "mounting", "n/a", "PARSE_FAIL"],
-  ["interfaces-modules", "module_type", "n/a", "PARSE_FAIL"],
-  ["interfaces-modules", "min_software_release", "NA", "PARSE_FAIL"],
-  ["switches", "mounting", "-", "PARSE_FAIL"],
-  ["switches", "power_cord_rating", "–", "PARSE_FAIL"],          // en dash
-  ["switches", "mounting", "—", "PARSE_FAIL"],                   // em dash
-  ["switches", "mounting", "N/A", "PARSE_FAIL"],
-  ["switches", "mounting", "n.a.", "PARSE_FAIL"],
-  ["switches", "mounting", "TBD", "PARSE_FAIL"],
-  ["switches", "mounting", "not applicable", "PARSE_FAIL"],
+  // ---- 1. placeholders --------------------------------------------------------------------------
+  // Every one of these is a real stored value, with the key it is stored under. PARSE_FAIL until
+  // 13 Sep 2026; the write-time guard (§5.1) now refuses them for EVERY type with its own reason, and
+  // the every-type matrix lives in tests/specNormalize.phase1.test.mjs.
+  ["interfaces-modules", "mounting", "n/a", "placeholder"],
+  ["interfaces-modules", "module_type", "n/a", "placeholder"],
+  ["interfaces-modules", "min_software_release", "NA", "placeholder"],
+  ["switches", "mounting", "-", "placeholder"],
+  ["switches", "power_cord_rating", "–", "placeholder"],          // en dash
+  ["switches", "mounting", "—", "placeholder"],                   // em dash
+  ["switches", "mounting", "N/A", "placeholder"],
+  ["switches", "mounting", "n.a.", "placeholder"],
+  ["switches", "mounting", "TBD", "placeholder"],
+  ["switches", "mounting", "not applicable", "placeholder"],
   // KEEP: a placeholder INSIDE a sentence is part of a sentence that says something.
   ["switches", "mounting", "Rack-mount; n/a for DC models", "Rack-mount; n/a for DC models"],
   ["switches", "mounting", "19-inch rack", "19-inch rack"],
@@ -45,12 +47,13 @@ const CASES = [
   // boolean, but refusing its answer would delete data to fix a type.
   ["switches", "fan_hot_swap", "Yes", "Yes"],
   ["switches", "sensors", "No", "No"],
-  // KEEP: the guard is scoped to s/ls, so an enum with a negative member is untouched. 464 parts
-  // hold poe_standard = "none" correctly.
+  // KEEP: an enum whose DOMAIN declares the token keeps it. 464 parts hold poe_standard = "none"
+  // correctly; the exemption is the domain, not the type (it was the type until 13 Sep 2026).
   ["switches", "poe_standard", "None", "none"],
   ["switches", "poe_standard", "none", "none"],
-  // KEEP: a numeric field refuses a placeholder on its own terms, with its own reason.
-  ["switches", "rack_units", "n/a", "PARSE_FAIL"],
+  // A numeric field used to refuse a placeholder "on its own terms" (PARSE_FAIL, no number). Since
+  // §5.1 the guard answers first, so the refusal names what the cell IS rather than what it lacks.
+  ["switches", "rack_units", "n/a", "placeholder"],
 
   // ---- 2. radio_bands: bare Hz is mains, kHz/MHz/GHz/THz is a radio -----------------------------
   ["switches", "radio_bands", "47 to 63 Hz", "RANGE_VIOLATION"],
@@ -153,11 +156,12 @@ const CASES = [
   ["routers", "wifi_generation", "4", "ENUM_VIOLATION"],
   ["meraki", "wifi_generation", "Yes, 4 Stream MU-MIMO", "ENUM_VIOLATION"],
   ["meraki", "wifi_generation", "DL-OFDMA**, UL-OFDMA**, TWT support**, BSS coloring**", "ENUM_VIOLATION"],
-  // "NA" and a dash reach the placeholder guard first now that the type is an enum? No — the
-  // placeholder guard is scoped to s/ls, so these must be refused by the DOMAIN. Asserting the
-  // reason is what proves which guard fired.
-  ["routers", "wifi_generation", "NA", "ENUM_VIOLATION"],
-  ["routers", "wifi_generation", "–", "ENUM_VIOLATION"],
+  // "NA" and a dash: refused by the DOMAIN (ENUM_VIOLATION) until 13 Sep 2026, when the placeholder
+  // guard became a guard for every type (§5.1). 18 stored routers facts are exactly these two values,
+  // and they are now counted as placeholders rather than as a generation the domain did not know.
+  // Asserting the reason is still what proves which guard fired.
+  ["routers", "wifi_generation", "NA", "placeholder"],
+  ["routers", "wifi_generation", "–", "placeholder"],
   // NOT INVENTED: no product in the catalogue claims Wi-Fi 8, so it is not in the domain.
   ["wireless", "wifi_generation", "Wi-Fi 8", "ENUM_VIOLATION"],
 
@@ -224,11 +228,12 @@ const CASES = [
   // at the top of this file deletes the same string. Both halves are asserted, one line apart,
   // because the guard's own comment names this field as the reason it is scoped to s/ls.
   ["wireless", "regulatory_domain", "NA", "na"],
-  ["wireless", "mounting", "NA", "PARSE_FAIL"],
+  ["wireless", "mounting", "NA", "placeholder"],
   // REFUSED: "x" is the family-placeholder letter on 41 SKUs (3-CBW140AC-x), "O" is a letter no
   // Cisco part takes, and "EU" belongs to the market/plug-code axis (AIR-MOD-AC-IN "AC plug module
-  // for India"), not to the regulatory domain.
-  ["wireless", "regulatory_domain", "x", "ENUM_VIOLATION"],
+  // for India"), not to the regulatory domain. A bare "x" has been a placeholder for every type since
+  // 13 Sep 2026 (§5.1), so it is refused by that guard — the domain still excludes it, below.
+  ["wireless", "regulatory_domain", "x", "placeholder"],
   ["wireless", "regulatory_domain", "O", "ENUM_VIOLATION"],
   ["wireless", "regulatory_domain", "EU", "ENUM_VIOLATION"],
   // end wireless-r7
@@ -237,7 +242,9 @@ const CASES = [
   //    relabel can only ever fire where the band already refused, so the CONTROLS matter more than
   //    the case: a real decimal that is in band must still parse, and a value out of band BOTH ways
   //    must keep its plain RANGE_VIOLATION.
-  ["routers", "altitude_max", "● Maximum altitude: 13.800 ft per IEC 68-2-41", "RANGE_VIOLATION"],
+  // READ SINCE 13 Sep 2026 (§5.2 item 2): the two-sided test that only NAMED the ambiguity now takes
+  // the thousands reading — 13,800 ft is 4,206.24 m. The controls below are unchanged.
+  ["routers", "altitude_max", "● Maximum altitude: 13.800 ft per IEC 68-2-41", 4206.24],
   ["routers", "altitude_max", "0 to 10,000 feet (0 to 3050 meters)", 3050],
   ["routers", "altitude_max", "-60 to 4000m (up to 2000m conforms to IEC, EN, UL, and CSA 60950 requirements)", 4000],
   ["routers", "weight", "0.800 kg", 0.8],
@@ -264,7 +271,7 @@ const CASES = [
 
 for (const [category, key, raw, want] of CASES) {
   const r = normalizeField(category, key, raw, { locale: "en" });
-  const hit = typeof want === "string" && /^[A-Z_]+$/.test(want)
+  const hit = typeof want === "string" && /^(?:[A-Z_]+|placeholder)$/.test(want)
     ? (!r.ok && r.reason === want)
     : (r.ok && JSON.stringify(r.value) === JSON.stringify(want));
   if (hit) pass++;
@@ -326,18 +333,18 @@ for (const key of LIFECYCLE_GONE) {
 // left the suite at 69/69. A case that asserts a reason code cannot test a change that only alters
 // the DETAIL. Found by running the sabotage, which is the only thing that would have found it.
 // Both directions, because "it mentions the ambiguity" is only evidence if something does not.
+// 13 Sep 2026 (§5.2 item 2): the separator is now READ rather than named, so this block asserts the
+// reading AND its unit — a case that asserted only a reason code could not see the change, which is
+// exactly what this comment found the first time.
 let sepPass = 0;
 {
   const amb = normalizeField("routers", "altitude_max", "● Maximum altitude: 13.800 ft per IEC 68-2-41", { locale: "en" });
-  const ok1 = !amb.ok && /AMBIGUOUS DECIMAL SEPARATOR/.test(amb.detail) &&
-    amb.detail.includes("4206") === false && /13800|4206|4,206/.test(amb.detail.replace(/\s/g, ""));
-  if (!amb.ok && /AMBIGUOUS DECIMAL SEPARATOR/.test(amb.detail)) sepPass++;
-  else misses.push(`altitude_max "13.800 ft" must be refused AS AN AMBIGUOUS SEPARATOR, got: ${amb.ok ? JSON.stringify(amb.value) : amb.detail}`);
-  // the CONTROL: a value out of band by both readings gets the ordinary message and no ambiguity claim
+  if (amb.ok && amb.value === 4206.24 && amb.unit === "m") sepPass++;
+  else misses.push(`altitude_max "13.800 ft" must read as 13,800 ft = 4206.24 m, got: ${amb.ok ? JSON.stringify(amb.value) + " " + amb.unit : amb.detail}`);
+  // the CONTROL: a value out of band by both readings keeps its ordinary refusal
   const plain = normalizeField("routers", "altitude_max", "0.004 m", { locale: "en" });
-  if (!plain.ok && !/AMBIGUOUS/.test(plain.detail)) sepPass++;
+  if (!plain.ok && plain.reason === "RANGE_VIOLATION") sepPass++;
   else misses.push(`altitude_max "0.004 m" must be a PLAIN range violation, got: ${plain.ok ? JSON.stringify(plain.value) : plain.detail}`);
-  void ok1;
 }
 pass += sepPass;
 
@@ -345,7 +352,7 @@ pass += sepPass;
 // `2` is the separator block's own pair of checks; LIFECYCLE_GONE is the two retired lifecycle keys
 // (it was 1 when the routers agent branched, which is why its side of the conflict says `+ 1`).
 const TOTAL = CASES.length + DEFS.length + LIFECYCLE_GONE.length + 2;
-console.log(`    value refusals: ${pass}/${TOTAL} passed (${CASES.filter((c) => /^[A-Z_]+$/.test(String(c[3]))).length} refusal cases, ${DEFS.length + LIFECYCLE_GONE.length} definition assertions)`);
+console.log(`    value refusals: ${pass}/${TOTAL} passed (${CASES.filter((c) => /^(?:[A-Z_]+|placeholder)$/.test(String(c[3]))).length} refusal cases, ${DEFS.length + LIFECYCLE_GONE.length} definition assertions)`);
 if (misses.length) {
   for (const m of misses) console.log("  MISS  " + m);
   process.exit(1);

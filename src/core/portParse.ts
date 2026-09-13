@@ -73,11 +73,21 @@ const CONNECTORS: [RegExp, string][] = [
   [/\b\d+GT\b/i, "rj45"],
   [/\b\d*GBT\b/i, "rj45"],            // Cisco shorthand: 1GBT is 1000BASE-T, i.e. copper
   [/\bcopper\b/i, "rj45"],
+  // The German word, as the distributor names write it ("2× 1G-Kupfer"). Added 13 Sep 2026 with the
+  // PoE-lending restriction below: C9200CX-12P-2X2G's "2× 1G-Kupfer" uplinks were only ever filed as
+  // copper because the access clause's PoE was lent to them — right answer, wrong reason — and the
+  // restriction would otherwise have refused four correct layouts. Now the clause states it itself.
+  [/(?<![A-Za-z])Kupfer(?![a-z])/i, "rj45"],
 ];
 
 // PoE implies copper. This is the one inference in the file and it is a cabling standard, not a
 // guess about Cisco's habits.
-const POE = /\bU?PoE\+?\b|\bPOE\+?\b|\b802\.3(af|at|bt)\b/i;
+//
+// "4PPoE" (four-pair PoE, IE-9320's "8 ports 100/1000/2500M 4PPoE") has no word boundary between the
+// P and the PoE, so the \b form never saw it — the house trap again. It surfaced on 13 Sep 2026 when
+// PoE stopped being lent across clauses: that clause had been reading as copper only through the
+// PoE+ of its NEIGHBOUR. The 4P prefix is matched explicitly rather than by dropping the boundary.
+const POE = /(?<![A-Za-z0-9])(?:U|4P)?PoE\+?(?![A-Za-z])|\b802\.3(af|at|bt)\b/i;
 
 // Speeds, as written. Kept as source tokens rather than normalised to a number because `speed`
 // is a string list and "10/100/1000" is genuinely three speeds on one port.
@@ -123,8 +133,13 @@ function speedsOf(seg: string): string[] {
   const re = /(?<![0-9.])(\d+(?:\.\d+)?)\s*G(?![Hh]z)(?!B(?![A-Za-z]))/g;
   let m: RegExpExecArray | null;
   while ((m = re.exec(seg))) add(`${m[1]}G`);
-  // Only if nothing numeric was found: a bare "GigE"/"GE"/"Gigabit" is 1G by definition.
-  if (!out.length && /\bGigabit\b|\bGigE\b|\bGbE\b|\bGE\b/i.test(seg)) add("1G");
+  // Only if nothing numeric was found: a bare "GigE"/"GE"/"Gigabit" is 1G by definition, and a bare
+  // "FE"/"Fast Ethernet" is 100M by definition. Both are read, independently, so "12FE/GE SFP" — one
+  // group of dual-rate SFP ports — keeps both rates (§5.2 item 4, 13 Sep 2026; IE-5000-16S12P).
+  if (!out.length) {
+    if (/\bFE\b|\bFast\s*Ethernet\b/i.test(seg)) add("100M");
+    if (/\bGigabit\b|\bGigE\b|\bGbE\b|\bGE\b/i.test(seg)) add("1G");
+  }
   return out;
 }
 
@@ -154,8 +169,14 @@ function speedsOf(seg: string): string[] {
 //
 // The last alternative — a number followed by another number and a G — is what makes
 // "6 100 GE QSFP28" read as six 100G ports rather than one hundred 6G ones.
+//
+// "FE" JOINED THE SPEED WORDS on 13 Sep 2026 (§5.2 item 4). `CGS-2520-24TC=` "CGS2520 with 24FE Copper
+// & 2 GE combo uplinks" was refused as "a port token but no count" because "24FE" — twenty-four Fast
+// Ethernet ports — had no follower this list knew, and the stored fact that predates the refusal kept
+// only the 2 combo uplinks and lost the 24 access ports. FE is Fast Ethernet exactly as GE is Gigabit
+// Ethernet, and the trailing \b keeps "8 FEX" (a count of fabric extenders) out.
 const COUNT_FOLLOWER =
-  "(?:x|×|-?\\s*ports?\\b|p(?![a-z])|\\s*(?:GigE|GbE|GE|Gigabit|Ethernet)\\b|" +
+  "(?:x|×|-?\\s*ports?\\b|p(?![a-z])|\\s*(?:GigE|GbE|GE|FE|Gigabit|Ethernet)\\b|" +
   "\\s*\\d+(?:\\.\\d+)?\\s*G(?![Hh]z)|\\s*\\d+\\s*GBASE-?T|\\s*10/100)";
 // A COUNT MUST START A TOKEN. Not merely "not preceded by an alphanumeric" — that still allowed
 // the count to be read out of the middle of a hyphenated part number:
@@ -178,7 +199,21 @@ const COUNT = new RegExp(
 // when the strict one finds nothing.
 const COUNT_AT_START = new RegExp(
   "^(\\d{1,4})(?![0-9])\\s*(?=(?:x|×|-?\\s*ports?\\b|p(?![a-z])|" +
-  "\\s*(?:RJ-?45|SFP|QSFP|Combo|mGig|Multigigabit|copper|GigE|GbE|GE|Gigabit|Ethernet)))", "i");
+  "\\s*(?:RJ-?45|SFP|QSFP|Combo|mGig|Multigigabit|copper|GigE|GbE|GE|FE(?![A-Za-z])|Gigabit|Ethernet)))", "i");
+
+// A COUNT OF CABLES IS NOT A COUNT OF PORTS (§5.2 item 4, 13 Sep 2026).
+//
+//   UCS-SP-5108-AC and 8 more   "UCS SP Select 5108 AC2 Chassis w/2208 IO, 4x SFP cable 3m"
+//                               -> [{ port_typ: "sfp", anzahl: 4 }]
+//
+// Four SFP CABLES shipped in the bundle, stored as four SFP PORTS on a blade chassis; the nine facts
+// were retracted by scripts/bundle-plan-facts.mts and would have come straight back on the next
+// replay, because "4x SFP" is a perfect count-and-connector clause. What disqualifies it is the noun
+// the count is counting, so a clause whose text after the count names a cable is not a port clause
+// at all and is skipped like trailing prose — the chassis's real port clauses, if the string states
+// any, still stand. German compounds end in "kabel" (Direktanschlusskabel, Glasfaserkabel), so that
+// spelling is a suffix match; the English words need a letter boundary before them.
+const CABLE_NOUN = /(?<![A-Za-z])(?:cables?|cords?)(?![A-Za-z])|kabel(?![A-Za-z])/i;
 
 /** Split a port string into the segments that each describe one group of ports.
  *
@@ -317,14 +352,27 @@ export function parsePorts(raw: string): PortParse {
   // Widening the scope is safe in the direction that matters: a segment that DOES name its
   // connector keeps it, so the SFP+ uplinks above are unaffected and only the segment with no
   // connector of its own can pick up the copper implied by PoE.
-  const stringHasPoE = POE.test(s);
+  //
+  // BUT A PoE THAT A CLAUSE HAS ALREADY SPENT IS NOT LENT TO ANOTHER (13 Sep 2026, §5.2 item 4).
+  //
+  //   IE-2000-16PTC-G-L   "IE2000 w/ 16FE Copper (4 PoE+) & 2GE uplinks (Lan Lite Base)"
+  //
+  // The PoE sits inside the clause that names its connector outright ("Copper"), so it describes
+  // those access ports. Lent to "2GE uplinks" it would file the uplinks as copper — they are combo
+  // ports — and the string only escaped that because "16FE" had no count reading until FE was added
+  // above. The inference is therefore available only when some clause carrying the PoE token names
+  // no connector of its own ("48 GigE PoE 740W", "Full PoE"), which is every shape the rule was
+  // written for.
+  const stringHasPoE = segs.some((seg) => POE.test(seg) && !CONNECTORS.some(([re]) => re.test(seg)));
 
   const out: PortGroup[] = [];
   let poeInferredFor: string | null = null;
+  let cableClause: string | null = null;
   for (const seg of segs) {
     // Ignore trailing prose that carries no count at all ("LAN Base", "no PS"). A segment is
     // only REQUIRED to parse if it looks like it is describing ports.
     const cm = COUNT.exec(seg) || COUNT_AT_START.exec(seg);
+    if (cm && CABLE_NOUN.test(seg.slice(cm.index + cm[0].length))) { cableClause = seg; continue; }
     const mentionsPorts = /\bports?\b/i.test(seg) || CONNECTORS.some(([re]) => re.test(seg));
     if (!cm && !mentionsPorts) continue;
     if (!cm) return { ok: false, detail: `segment has a port token but no count: "${seg}"` };
@@ -370,7 +418,11 @@ export function parsePorts(raw: string): PortParse {
     out.push({ port_typ: typ, speed: speedsOf(after), anzahl });
   }
 
-  if (!out.length) return { ok: false, detail: `no port group found in "${s}"` };
+  if (!out.length) {
+    return { ok: false, detail: cableClause
+      ? `a count of cables is not a count of ports ("${cableClause}"), and nothing else in "${s}" states a port`
+      : `no port group found in "${s}"` };
+  }
 
   // Drop a group written twice IDENTICALLY (Cisco repeats "4 x 10G SFP+" across an uplink
   // sentence). Two groups sharing a connector and speed but differing in COUNT are not a

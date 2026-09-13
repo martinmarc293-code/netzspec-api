@@ -166,6 +166,46 @@ const cases = [
   // longest-name-first, so SFP+ beats the trailing "Copper" of a direct-attach description.)
   { in: "2port 10Gb SFP+ Copper", want: [g("sfp-plus", ["10G"], 2)] },
   { in: "32x400GbE QSFP56-DD", want: [g("qsfp-dd", ["400G"], 32)] },
+
+  // ---- phase-1 close §5.2 item 4 (13 Sep 2026): separators and truncation --------------------------
+  // Every input is a literal stored raw. Each was red against the 1.6.2 parser.
+  //
+  // D. "FE" counts Fast Ethernet ports. The stored fact kept only the 2 combo uplinks and lost the 24
+  //    access ports, because "24FE" had no count reading and the clause was refused.
+  { in: "CGS2520 with 24FE Copper & 2 GE combo uplinks",
+    want: [g("rj45", ["100M"], 24), g("combo", ["1G"], 2)] },
+  //    "12FE/GE SFP" is ONE group of dual-rate SFP ports: both rates, not the first one.
+  { in: "IE5000 with 12GE Copper PoE+, 12FE/GE SFP & 4 1G SFP uplinks",
+    want: [g("rj45", ["1G"], 12), g("sfp", ["100M", "1G"], 12), g("sfp", ["1G"], 4)] },
+  //    REFUSAL twin: FE is a SPEED word, never a connector. "48 FE" names no media and stays refused,
+  //    exactly as "24 GigE" alone is.
+  { in: "Catalyst 2960-SF 48 FE, 4 x SFP, LAN Base", refuse: "no connector stated" },
+  //    REFUSAL twin: the trailing boundary keeps a count of fabric extenders out.
+  { in: "N6004 Chassis with 8 FEX modules", refuse: "no port group" },
+  //
+  // E. A count of CABLES is not a count of ports. Nine UCS 5108 chassis stored 4 SFP ports from this
+  //    string (retracted by scripts/bundle-plan-facts.mts; the parser would have re-stored them).
+  { in: "UCS SP Select 5108 AC2 Chassis w/2208 IO, 4x SFP cable 3m", refuse: "a count of cables" },
+  { in: "UCS SP Select 5108 DC Chassis w/ 2208 IO, 4xSFP cable3m", refuse: "a count of cables" },
+  //    German compounds end in "kabel": the Fortinet MPO breakout stored ONE HUNDRED SFP+ ports.
+  { in: "Fortinet FG-CABLE-SR10-SFP+ 100 GE MPO-Breakout-Glasfaserkabel zu 10x 10 GE SFP+ – OM3, 1 m",
+    refuse: "a count of cables" },
+  //    CONTROL: a real port clause beside a cable clause survives — only the cable clause is skipped.
+  { in: "Blade chassis with 8 x 10G SFP+ ports, 4x SFP cable 3m", want: [g("sfp-plus", ["10G"], 8)] },
+  //
+  // F. PoE spent on a clause that names its own connector is not lent to the next clause. Before, the
+  //    3650's 4x10G uplinks (SFP+ on the hardware) were filed as copper through the access ports' PoE.
+  { in: "Standalone with Optional Stacking 48 10/100/1000 Ethernet PoE+ and 4x10G Uplink ports, with 640WAC power supply",
+    refuse: "no connector stated" },
+  { in: "IE2000 w/ 16FE Copper (4 PoE+) & 2GE uplinks (Lan Lite Base)", refuse: "no connector stated" },
+  //    CONTROLS: a PoE clause with no connector of its own still lends copper, once.
+  { in: "Catalyst 2960-SF 48 FE, PoE 740W, 4 x SFP, LAN Base",
+    want: [g("rj45", ["100M"], 48), g("sfp", [], 4)] },
+  //    ...and the two spellings the restriction exposed now state copper themselves.
+  { in: "Cisco C9200CX-8P-2X2G Managed Switch (L3) – 8× Gigabit-RJ45 (PoE+, 30 W) + 2× 10G-SFP+ (Uplink) + 2× 1G-Kupfer",
+    want: [g("rj45", ["1G"], 8), g("sfp-plus", ["10G"], 2), g("rj45", ["1G"], 2)] },
+  { in: "16 ports 10/100/1000M PoE+ and 8 ports 100/1000/2500M 4PPoE (up to 90W/port)",
+    parseOk: true },
 ];
 
 let pass = 0;

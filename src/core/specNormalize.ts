@@ -66,14 +66,41 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        string to a list on 4 Sep 2026 and the comma splitter then read 396 citation cells for the
 //        first time, cutting "MIL-STD-810, Method 514.4" into two standards that do not exist. The
 //        rule and every bound in it are read off the stored raws — see isCitationContinuation.
-export const NORM_VERSION = "1.6.2"; // 11 Sep 2026 (late): reach_max strict parser — until now every reach was STRUCT_UNPARSED
+export const NORM_VERSION = "1.7.0"; // 13 Sep 2026: phase-1 close §5.1 + §5.2 (below)
+// 1.7.0 — 13 Sep 2026, docs/reports/phase1-close-guide-2026-09-13.md §5.1 and §5.2. Stored values
+//         normalise differently under this version, so a replay must compare norm_v:
+//           - A PLACEHOLDER IS REFUSED FOR EVERY TYPE, with its own reason `placeholder`, before any
+//             type-specific parsing ("NA", "N/A", "-", "–", "—", "✓", "✓ *", "x", "none", "TBD",
+//             "n.a.", an empty cell, a cell of punctuation alone). Until 1.6.2 the guard covered
+//             `s`/`ls` only and said PARSE_FAIL, so a placeholder under an `n`, `e` or `b` key was
+//             refused for an accidental reason or — "✓"/"x" on a boolean — accepted as true. An
+//             enum or closed list whose DOMAIN holds the token keeps it ("NA" North America,
+//             poe_standard "none"). A list whose every member is a placeholder is refused.
+//           - "<label> (UNIT) | <cell>", apply-extract's replay form, is read as the cell with the
+//             parenthesised unit; the word in front of the pipe is never a unit ("Highest DDR5
+//             DIMM Clock (MT/s) | 6000" read DIMM as the unit).
+//           - "13.800 ft" is read as 13,800 ft ONLY when the decimal reading is out of band and the
+//             thousands reading is in band (1.6.2 named that case and still refused it).
+//           - a spaced sign after a range word ("+3 to - 10 dBm"), a tilde standing for the lost
+//             minus after a negative first endpoint ("-36 to ~72 VDC"), and a range whose two ends
+//             carry opposite EXPLICIT signs ("+3 to -10") is ordered low to high.
+//           - a range into an `n` cup named *_min stores the LOWER bound (*_max already took the upper).
+//           - ports: "FE" counts Fast Ethernet ports ("24FE Copper & 2 GE combo" is two groups), a
+//             count of CABLES is not a count of ports ("4x SFP cable 3m"), and PoE implies copper only
+//             for a clause that names no connector of its own.
+//           - "802.11a/g/n" in a list cell is three standards, not one member.
+// 1.6.2 — 11 Sep 2026 (late): reach_max strict parser — until now every reach was STRUCT_UNPARSED
 // 1.6.1 — Tx/Rx pairs for wavelength + rx_wavelength; stacking_technology names; chromatic dispersion as a
 //         ±range (ns/nm); SFP-DD / OSFP-XD named, not folded into sfp / osfp (runs 960-961 were stamped 1.6.1)
 // 1.6.0 — 11 Sep 2026: per-category bands; port-side airflow; duplex-bidi, mpo-24, cpak, osfp
 
 export type NormReason =
   | "PARSE_FAIL" | "UNIT_MISSING" | "UNIT_UNKNOWN" | "ENUM_VIOLATION"
-  | "RANGE_VIOLATION" | "UNMAPPED_HEADER" | "STRUCT_UNPARSED" | "VALUE_IS_PID";
+  | "RANGE_VIOLATION" | "UNMAPPED_HEADER" | "STRUCT_UNPARSED" | "VALUE_IS_PID"
+  // §5.1 (13 Sep 2026): lower-case ON PURPOSE, spelled exactly as the phase-1 close guide and the
+  // completeness report's `placeholders_stored` name it. Every other reason is a normaliser FAILURE;
+  // this one is the source stating no answer, and it is counted apart from them.
+  | "placeholder";
 
 export type NormOk = { ok: true; value: unknown; unit?: string; norm_v: string };
 export type NormFail = { ok: false; reason: NormReason; detail: string; norm_v: string };
@@ -681,10 +708,32 @@ function splitPidAlternatives(member: string, rule: SlashRule): string[] {
  *
  * A member with no letter and no digit is punctuation left over from the split, not a member.
  */
+/**
+ * "802.11a/g/n" IS THREE STANDARDS (§5.2 item 4, 13 Sep 2026). The slash is IEEE's own shorthand
+ * for several amendments of one standard, and neither of the two readings this file had was right:
+ * the list splitter never splits on "/" (so the cell was ONE member, "802.11a/g/n", naming no
+ * amendment that exists) and the wireless description pattern stopped at the first letter (so it
+ * stored "802.11a" and dropped /g/n — seven expired-promo rows, retracted by bundle-plan-facts).
+ *
+ * ANCHORED ON THE WHOLE MEMBER and on the 802.11 family alone. "802.11n/ac Wave 2" carries a
+ * qualifier that belongs to only one of the amendments, so it is left whole rather than having the
+ * qualifier dropped or copied; "IEEE/EN-61000-4-2" and "10/100/1000" never reach this because they
+ * are not 802.11. Each suffix is one or two lower-case letters, which is every amendment name the
+ * corpus holds (a, b, g, n, ac, ax, be).
+ */
+const IEEE_80211_SHORTHAND = /^((?:IEEE\s*)?802\.11)([a-z]{1,2})((?:\s*\/\s*[a-z]{1,2})+)$/i;
+export function expandIeee80211(member: string): string[] {
+  const m = IEEE_80211_SHORTHAND.exec(member.trim());
+  if (!m) return [member];
+  const rest = m[3].split("/").map((x) => x.trim()).filter(Boolean);
+  return [m[2], ...rest].map((suffix) => `${m[1]}${suffix}`);
+}
+
 export function splitListValue(raw: string, slashRule: SlashRule = "pid-alternatives"): string[] {
   const t = String(raw ?? "").replace(/\r\n?/g, "\n");
   const clean = (parts: string[]) => parts.map((p) => p.replace(TRIM_EDGES, "").trim()).filter((p) => /[A-Za-z0-9]/.test(p));
-  const alternatives = (parts: string[]) => clean(parts.flatMap((p) => splitPidAlternatives(p, slashRule)));
+  const alternatives = (parts: string[]) => clean(parts.flatMap((p) => splitPidAlternatives(p, slashRule)))
+    .flatMap(expandIeee80211);
   if (HAS_BULLET.test(t) || t.includes("\n")) {
     const bulleted = clean(t.split(BULLET_SPLIT));
     // The document's own delimiter wins only when it actually DELIMITS. A cell that opens with a
@@ -736,10 +785,18 @@ const MAX_RANGE = new RegExp(
   "i");
 
 const isMaxField = (key: string) => /_max$/.test(key) || key === "heat_dissipation";
+/** §5.2 (13 Sep 2026): the mirror rule. A range stated into an `n` cup named *_min stores its LOWER
+ *  bound; the cup stays a single number. Named keys only — the suffix is the whole licence for it,
+ *  so a key that merely means a minimum without saying so is not guessed at. Measured before the
+ *  change: one `n` key ends in _min today (psu_efficiency_min) and no stored raw of it is a range,
+ *  so this moves nothing already stored; it decides what the next range written there becomes,
+ *  which until now was whichever end the datasheet happened to write first. */
+const isMinField = (key: string) => /_min$/.test(key);
 
-/** The high end of `s` read as a range, or null when `s` is not one. Both ends are parsed with
- *  the caller's locale, because "10,000" is ten thousand in English and ten in German. */
-function highEndOfRange(s: string, locale: Locale): NumberHit | null {
+/** The high (or, for a *_min cup, the low) end of `s` read as a range, or null when `s` is not one.
+ *  Both ends are parsed with the caller's locale, because "10,000" is ten thousand in English and
+ *  ten in German. Math.max/min, never position: "-5 to -40" and "-40 to -5" are one range. */
+function endOfRange(s: string, locale: Locale, end: "high" | "low"): NumberHit | null {
   const m = MAX_RANGE.exec(s);
   if (!m) return null;
   const lo = parseNumber(m[1], locale), hi = parseNumber(m[3], locale);
@@ -747,7 +804,7 @@ function highEndOfRange(s: string, locale: Locale): NumberHit | null {
   const uLo = (m[2] || "").trim(), uHi = (m[4] || "").trim();
   if (uLo && uHi && uLo.toLowerCase() !== uHi.toLowerCase()) return null;   // two units: not one range
   const unit = uHi || uLo;
-  const n = Math.max(lo, hi);
+  const n = end === "high" ? Math.max(lo, hi) : Math.min(lo, hi);
   return { n, unit, glued: false, rest: "" };
 }
 
@@ -1504,62 +1561,173 @@ const VALUE_REFUSALS: Record<string, { re: RegExp; code: NormReason; why: string
  * was an ACCIDENT of the band's floor rather than a statement about the value, and the reason it
  * gave — "4.20624 outside plausible band" — sends the reader hunting a conversion bug.
  *
- * THIS FUNCTION CANNOT LOOSEN ANYTHING. It runs only after `inBand` has already refused, and it
- * only ever returns another refusal; a value that normalises today is never reached. What it adds
- * is a name for the defect, so the retraction population is greppable and a re-extraction knows the
- * figure is recoverable from the page rather than lost.
+ * 1.6.2 NAMED THE DEFECT AND STILL REFUSED IT ("neither reading is taken"). §5.2 item 2 of the
+ * phase-1 close guide (13 Sep 2026) rules that the two-sided test below IS the evidence, and this
+ * function now returns the thousands reading when — and only when — all three hold:
  *
- * The test is deliberately two-sided, which is what makes it evidence rather than a hunch: the
- * decimal reading must be OUT of band and the thousands reading IN it. "0.800 kg" stays a decimal —
- * 0.8 kg is in band, so this is never consulted — and a value that is out of band both ways (a
- * genuine typo) keeps its ordinary RANGE_VIOLATION.
+ *   1. the number that was READ is written `d.ddd`: one to three digits, a dot, EXACTLY three digits,
+ *      and no digit or separator on either side ("13.800", never "1.5", never "1.234.567"). It is
+ *      matched against the number the reader actually took, so a `d.ddd` elsewhere in the cell
+ *      cannot lend its shape to a different figure;
+ *   2. the decimal reading is OUT of the band — this runs only after `inBand` has refused;
+ *   3. the thousands reading, converted through the same unit, is IN the band.
+ *
+ * "0.800 kg" stays 0.8 (in band, never consulted); "1.5 m" has one decimal digit; a value out of band
+ * both ways (a genuine typo) keeps its ordinary RANGE_VIOLATION. THE BAND IS NEVER WIDENED: it is
+ * the only thing that can tell the two readings apart, and widening it is how 13.8 m would become a
+ * stored altitude. English sources only — "de" already reads a dot as the thousands separator.
  */
-function ambiguousSeparator(category: string, key: string, s: string, value: number): NormResult | null {
-  // Exactly three digits after the dot, and no digit or separator immediately before the integer
-  // part: "13.800", never "1.5" (a real decimal) and never "1.234.567" (already a grouped number).
-  if (!/(?<![0-9.,])[0-9]{1,3}\.[0-9]{3}(?![0-9])/.test(s)) return null;
+function thousandsReading(category: string, key: string, s: string, hit: NumberHit, canonical: string | undefined,
+  hint: string | undefined, locale: Locale): NormResult | null {
+  if (locale !== "en") return null;
   const band = bandFor(category, key);
   if (!band) return null;
-  const grouped = value * 1000;
-  if (grouped < band[0] || grouped > band[1]) return null;
-  return bad("RANGE_VIOLATION",
-    `${key}: "${s}" — an AMBIGUOUS DECIMAL SEPARATOR. Read as a decimal the value is ${value}, outside ` +
-    `[${band[0]}, ${band[1]}]; read as a European thousands group it is ${grouped}, inside it. The source ` +
-    `does not say which, so neither reading is taken`);
+  const token = [...s.matchAll(/(?<![0-9.,])([0-9]{1,3})\.([0-9]{3})(?![0-9.,])/g)]
+    .find((t) => Number(`${t[1]}.${t[2]}`) === hit.n);
+  if (!token) return null;
+  const conv = convert(Number(`${token[1]}${token[2]}`), hit.unit, canonical, key, hint, hit);
+  if (!conv.ok) return null;
+  const v = conv.value as number;
+  return v >= band[0] && v <= band[1] ? conv : null;
 }
 
-/** The free-text types, where nothing but this guard can refuse a "we do not state this" cell. */
-const PLACEHOLDER_TYPES = new Set<FieldType>(["s", "ls"]);
-/** The WHOLE value is the non-answer. Anchored end to end: "n/a" inside "n/a for DC models" is
- *  part of a sentence that says something, and only a cell that is nothing but the placeholder is
- *  nothing. The three dash characters are separate code points (hyphen, en dash, em dash) and all
- *  three occur in the corpus. */
-const PLACEHOLDER_VALUE = /^(?:n\s*[/.]?\s*a\.?|not\s+applicable|nicht\s+zutreffend|k\.?\s*a\.?|tbd|to\s+be\s+determined|[-–—]+|\?+)$/i;
+// ---------------------------------------------------------------------------------------------
+// §5.1 — THE WRITE-TIME PLACEHOLDER GUARD (13 Sep 2026)
+// ---------------------------------------------------------------------------------------------
+//
+// A datasheet cell that means "we do not state this" is not empty: it holds "NA", a dash, a tick or
+// "TBD". Stored, it is a gap wearing a value's clothes, strictly worse than the gap, because
+// completeness counts it as filled. 12 Sep 2026 added a guard for the free-text types only and
+// refused with PARSE_FAIL; the phase-1 close guide (§5.1) makes it a guard for EVERY type and
+// every vendor, with its own reason, because:
+//
+//   * the RETRACT groups of the 352 dispositions cannot be retracted safely while re-extraction can
+//     re-store them, and an `e` or `n` or `b` key was not covered at all — measured 13 Sep 2026
+//     across all vendors, 54 current facts on live parts hold a placeholder raw: 18 under
+//     `wifi_generation` (an enum, refused only by the accident of its domain), 3 `min_software_release`
+//     "X" ACCEPTED as a value, the rest refused as PARSE_FAIL or ENUM_VIOLATION;
+//   * on a boolean, "✓" and a bare "x" matched TRUE_RE and were stored as `true` — a tick in a
+//     comparison matrix whose column header nobody kept;
+//   * a refusal the census cannot tell apart from a parser failure cannot be counted as
+//     `placeholders_stored`, and the report needs that count.
+//
+// ONE EXEMPTION, AND IT IS A DECLARATION, NOT A GUESS: an enum or closed list whose DOMAIN holds the
+// token. `regulatory_domain` "NA" is North America and `poe_standard` "none" is a legal member that
+// 464 parts hold; the domain is the only place a field can say "this token is an answer here", and
+// a field that wants a placeholder-shaped value must declare it there.
+//
+// "Yes" and "No" are NOT placeholders: `fan_hot_swap` = "Yes" is a real answer to a field that ought
+// to be a boolean. A placeholder INSIDE a sentence ("Rack-mount; n/a for DC models") is part of a
+// sentence that says something: every rule is anchored on the whole cell.
+
+/** Words that are the non-answer when they are the WHOLE cell, optionally followed by footnote
+ *  marks ("NA*", "✓ *"). The three dashes are separate code points and all occur in the corpus. */
+const PLACEHOLDER_WORD =
+  /^(?:n\s*[/.]?\s*a\.?|none|tbd|x|not\s+applicable|nicht\s+zutreffend|k\.?\s*a\.?|to\s+be\s+determined)(?:\s*[*†‡]+)?$/i;
+/** A cell with no letter and no digit in it at all: "-", "–", "—", "✓", "✓ *", "?", "*", "--".
+ *  Letters and digits of every script are exempt, so "°C" alone is not refused here (it has a
+ *  letter) and is left to the type to reject. */
+const PLACEHOLDER_MARKS = /^[\p{P}\p{S}\s]+$/u;
+
+const NBSP_ANY = new RegExp("[\\u00a0\\u202f\\u2007]", "g");
+
+/** Is this whole cell a placeholder, whatever field it is offered to? Exported so a census or the
+ *  completeness report counts `placeholders_stored` with THIS rule, not a copy of it. */
+export function isPlaceholder(raw: string): boolean {
+  const t = String(raw ?? "").replace(NBSP_ANY, " ").trim();
+  return t === "" || PLACEHOLDER_MARKS.test(t) || PLACEHOLDER_WORD.test(t);
+}
+
+/** The refusal for a placeholder under `key`, or null. The domain exemption is per member. */
+function placeholderRefusal(category: string, key: string, type: FieldType, t: string): NormFail | null {
+  const domain = type === "e" || type === "ls" ? domainFor(category, key) : undefined;
+  const declared = (x: string) => !!domain && domain.includes(x.trim().toLowerCase().replace(/\s+/g, "-"));
+  if (isPlaceholder(t) && !declared(t)) {
+    return bad("placeholder", `${key}: ${t === "" ? "an empty cell" : `"${t}"`} is a placeholder, not a value — the source states no answer`);
+  }
+  if (type === "ls" && key !== "lane_wavelengths") {
+    // A LIST OF NOTHING IS NOTHING. "NA; NA", "-, –" and "✓ ; ✓" split into members that are each a
+    // placeholder, and a list cup would otherwise store ["NA", "NA"] as a two-member answer.
+    // `splitListValue` already drops a member with no letter or digit, so a cell of marks alone
+    // splits to no members and is refused here too — rather than as "empty list", a parser failure.
+    const members = splitListValue(t);
+    if (members.length === 0 || members.every((m) => isPlaceholder(m) && !declared(m))) {
+      return bad("placeholder", `${key}: every member of "${t}" is a placeholder — the source states no answer`);
+    }
+  }
+  return null;
+}
+
+/**
+ * "<label> (UNIT) | <cell>" — APPLY-EXTRACT'S REPLAY FORM (§5.2 item 1, 13 Sep 2026).
+ *
+ * apply-extract writes `raw` as "<label> | <cell>" whenever the unit lives in the label, so that a
+ * replay "has everything it had the first time" (rawFor, src/pipeline/apply-extract.ts). The writer
+ * read the cell with the label's unit as a hint; nothing on the READ side knew the form existed, so
+ * every replay of it parsed the whole string:
+ *
+ *     memory_speed_max  "Highest DDR5 DIMM Clock (MT/s) | 6000"  -> the 5 of DDR5, unit "DIMM"
+ *     power_max         "Maximum Power Consumption (W) | 1.05 to 1.3"
+ *     tdp               "Default TDP (W) | 390"                  -> UNIT_MISSING (the W is in the label)
+ *
+ * 49 memory_speed_max facts in four categories were would-refuse for it (dispositions #2, 17, 28,
+ * 37). The rule the guide states: the unit is the PARENTHESISED token, and the words before the pipe
+ * are never a unit. So the label is dropped and the cell is read with that token as its hint — the
+ * exact input the writer had. The token must be a unit this file recognises for the field's
+ * dimension (unitLookup); a parenthetical that is not one ("(C)" under a core count) is dropped with
+ * the label rather than applied, which is again what the writer's label table did.
+ *
+ * NARROW: exactly one pipe in the cell, and the parenthetical must END the label and hold no digit.
+ * "Weight: 15.87 oz (0.45 kg) | Weight: 26.07 oz (739 g)" is two cells joined, not a label, and the
+ * reach/dispersion "$|$" joiner never has a closing bracket before it.
+ */
+const LABEL_GLUE = /^([^|]*?)\(\s*([^()|0-9]{1,16}?)\s*\)\s*\|\s*([^|]*)$/;
+function labelGlue(t: string, canonical: string | undefined): { cell: string; unit?: string } | null {
+  const m = LABEL_GLUE.exec(t);
+  if (!m || !m[1].trim()) return null;
+  const token = m[2].replace(/\s+(?:rms|peak|dc|ac)$/i, "").trim();
+  return { cell: m[3].trim(), unit: unitLookup(token, canonical) ? token : undefined };
+}
+
+/**
+ * SIGNS INSIDE A RANGE (§5.2 item 3, 13 Sep 2026) — the PWR-CH1-950WDCR sign-loss family.
+ *
+ *     tx_power           "+3 to - 10 dBm in 0.01 - dBm increments"   a SPACE between sign and digit
+ *     input_power_range  "0 to - 12dBm"                              same part, CIM8-LE-K9
+ *     input_voltage      "-36 to ~72 VDC"                            PWR-C4-950WDC-R
+ *
+ * NUM only accepts a sign glued to its digit, so "- 10" was not a number; the range read failed and
+ * the fallback took "+3" with "to" as its unit. Two rewrites, both confined to the position right
+ * after a range word, so a spaced hyphen BETWEEN two numbers ("100 - 240 V") is untouched:
+ *
+ *   1. "to - 10" -> "to -10": a sign separated from its digit by spaces, after "to"/"bis".
+ *   2. "-36 to ~72" -> "-36 to -72": a tilde directly before the second endpoint, when the FIRST
+ *      endpoint is negative, is the lost minus. A DC feed is stated magnitude-first with both ends
+ *      sharing the sign (-36 to -72 VDC is the -48 V telecom window); read as "approximately 72"
+ *      the cell would describe a supply that accepts both polarities, which is the stored
+ *      {min: -40, max: +72} defect on PWR-CH1-950WDCR. A tilde after a non-negative first endpoint
+ *      is left alone — nothing in the corpus writes one, and it is not this rule's to guess.
+ */
+function closeRangeSigns(s: string): string {
+  return s
+    .replace(/((?<![A-Za-z])(?:to|bis)\s*)([-+−–])\s+(?=\d)/gi, "$1$2")
+    .replace(/((?:^|[\s(:])[-−–]\d[\d.,]*\s*[A-Za-z°]*\s*(?<![A-Za-z])(?:to|bis)\s*)~\s*(?=\d)/i, "$1-");
+}
 
 export function normalizeField(category: string, key: string, raw: string, opts: NormOpts = {}): NormResult {
   const def = FIELD_DICTIONARY[key];
   if (!def) return bad("UNMAPPED_HEADER", `no dictionary entry for "${key}"`);
-  const s = preprocessValue(String(raw ?? "").trim(), key);
-  if (!s) return bad("PARSE_FAIL", `${key}: empty value`);
-  // A PLACEHOLDER IS NOT A VALUE — 12 Sep 2026, reviewer round 3 §4 item 3.
-  //
-  // A free-text cup accepts whatever the cell held, and a datasheet cell that means "we do not
-  // state this" is not empty: it holds "n/a", a dash, or "TBD". Measured across the live store,
-  // 20 facts said exactly that — `installation_type` "n/a" 2, `min_software_release` "NA" 8,
-  // `module_type` "n/a" 2, `mounting` "-" 3, `power_cord_rating` "–" 1, `radio_bands` "–" 1,
-  // `compatible_platform` "n/a" 1, `sfp_ports` "-" 6 — each one a gap wearing a value's clothes,
-  // which is strictly worse than the gap: completeness counts it as filled.
-  //
-  // SCOPED TO THE FREE-TEXT TYPES, deliberately. A number already refuses a non-number and an enum
-  // already has a domain to decide with; `poe_standard` = "none" is a LEGAL member of its domain
-  // and 464 parts hold it correctly. So the corollary is worth writing down: any field where a
-  // placeholder-shaped token is a real value — `regulatory_domain` "NA" is North America, not "not
-  // applicable" — must be declared as an enum with that token in its domain, and then this guard
-  // never sees it. "Yes" and "No" are NOT placeholders: `fan_hot_swap` = "Yes" is a real answer to
-  // a field that ought to be a boolean, and refusing it would delete an answer to fix a type.
-  if (PLACEHOLDER_TYPES.has(def.type) && PLACEHOLDER_VALUE.test(s)) {
-    return bad("PARSE_FAIL", `${key}: "${s}" is a placeholder, not a value — the source states no answer`);
-  }
+  let text = String(raw ?? "").replace(NBSP_ANY, " ").trim();
+  let unitHint = opts.unitHint;
+  const glue = labelGlue(text, unitFor(category, key));
+  if (glue) { text = glue.cell; if (glue.unit) unitHint = glue.unit; }
+  // THE PLACEHOLDER GUARD RUNS HERE, before preprocessValue and before the type dispatch, so no
+  // key-specific rewrite and no type can turn a non-answer into a value first (see §5.1 above).
+  const placeholder = placeholderRefusal(category, key, def.type, text);
+  if (placeholder) return placeholder;
+  let s = preprocessValue(text, key);
+  if (!s) return bad("placeholder", `${key}: "${text}" holds nothing once its wrapping is removed`);
+  if (def.type === "n" || def.type === "nr") s = closeRangeSigns(s);
   // A VALUE THE FIELD CANNOT MEAN, checked for EVERY TYPE (routers-r5, 12 Sep 2026). This lookup
   // used to sit inside the `case "s"` branch alone, so a per-key refusal was silently tied to the
   // key's current type: retyping `radio_bands` or `nat_sessions` to a number would have switched
@@ -1577,7 +1745,7 @@ export function normalizeField(category: string, key: string, raw: string, opts:
   const pidValue = PID_CHECKED_TYPES.has(def.type) && /[A-Za-z]/.test(s) && isPartNumber(s).ok;
   const r = normalizeTyped(category, key, s, def.type, {
     locale: opts.locale ?? "de",
-    unitHint: pidValue ? undefined : opts.unitHint,
+    unitHint: pidValue ? undefined : unitHint,
   });
   if (r.ok || !pidValue) return r;
   return bad("VALUE_IS_PID", `${key}: "${s}" is a part number, not a measurement — the table is transposed`);
@@ -1621,12 +1789,13 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       return bad("ENUM_VIOLATION", `${key}: "${s}" not in domain [${domain.slice(0, 6).join("|")}...]`);
     }
     case "n": {
-      const hit = (isMaxField(key) ? highEndOfRange(s, locale) : null) ?? firstNumberUnit(s, locale);
+      const range = isMaxField(key) ? endOfRange(s, locale, "high") : isMinField(key) ? endOfRange(s, locale, "low") : null;
+      const hit = range ?? firstNumberUnit(s, locale);
       if (!hit) return bad("PARSE_FAIL", `${key}: no number in "${s}"`);
       const conv = convert(hit.n, hit.unit, canonical, key, hint, hit);
       if (!conv.ok) return conv;
       const viol = inBand(category, key, conv.value as number);
-      return viol ? (ambiguousSeparator(category, key, s, conv.value as number) ?? viol) : conv;
+      return viol ? (thousandsReading(category, key, s, hit, canonical, hint, locale) ?? viol) : conv;
     }
     case "nr": {
       const re = new RegExp(`(${NUM})\\s*${NOT_RANGE_WORD}(${UNIT_TOKEN})\\s*${RANGE_SEP}\\s*(${NUM})\\s*(${UNIT_TOKEN})`, "i");
@@ -1661,6 +1830,17 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       // is not a magnitude-first reading of anything; it is a broken cell, and it must keep failing.
       // Pinned in both directions in tests/specNormalize.refusals.
       if (min > max && min <= 0 && max <= 0) { const t = min; min = max; max = t; }
+      // OPPOSITE EXPLICIT SIGNS ARE THE WRITER STATING DIRECTION (§5.2 item 3, 13 Sep 2026).
+      //
+      //   CIM8-LE-K9   tx_power = "+3 to - 10 dBm in 0.01 - dBm increments"
+      //
+      // A tunable transmitter written from its top setting down. The fence above refuses a
+      // straddling, out-of-order range because "70 to -40 V" states no direction and is most likely
+      // a broken cell — and that stays refused. What separates this one is that BOTH ends carry a
+      // sign the writer typed, one "+" and one "-": nobody writes "+3" by accident, so the pair is
+      // one window stated high-first, and it is ordered low to high. An unsigned end keeps the fence.
+      const signOf = (x: string) => /^[+]/.test(x.trim()) ? "+" : /^[-−–]/.test(x.trim()) ? "-" : "";
+      if (min > max && signOf(m[1]) && signOf(m[3]) && signOf(m[1]) !== signOf(m[3])) { const t = min; min = max; max = t; }
       if (min > max) return bad("PARSE_FAIL", `${key}: range min ${min} > max ${max}`);
       return inBand(category, key, min) ?? inBand(category, key, max) ?? ok({ min, max }, canonical);
     }

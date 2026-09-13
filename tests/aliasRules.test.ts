@@ -56,14 +56,15 @@ const check = (name: string, got: unknown, want: unknown) => {
 //
 // THE FOURTH ELEMENT MAY NEVER BE THE EMPTY STRING (enforced below, with its own sabotage case).
 // Twenty-six of these rows used to say `""`, and `normalizeField` refuses `""` for EVERY field in
-// one line before it reaches any type at all (`if (!s) return bad("PARSE_FAIL", …)`). So those
+// one line before it reaches any type at all (then `bad("PARSE_FAIL", …)`; since 13 Sep 2026 the
+// placeholder guard, `bad("placeholder", …)`). So those
 // twenty-six cases were twenty-six copies of one generic assertion: none of them touched the
 // field's own shape, and every one of them would have stayed green if the field had been retyped,
 // unbanded or pointed at a different key (adversarial review, 4 Sep 2026). Six of them had a real
 // near-miss available and now carry it. The other twenty do not, and that is a PROPERTY OF THE
 // FIELD rather than laziness: their dictionary type is `s`, a plain string, which accepts every
 // non-empty value there is. Those rows say NO_SHAPE, and NO_SHAPE is CHECKED rather than taken on
-// trust — the field must really be a bare string, it must really refuse `""` as PARSE_FAIL, and it
+// trust — the field must really be a bare string, it must really refuse `""` (as `placeholder`), and it
 // must really accept an arbitrary non-empty one. Give any of those fields a type, a band or a
 // domain and its row goes red demanding the near-miss the new type can refuse.
 const NO_SHAPE = "<no shape: this field is a plain string>";
@@ -87,20 +88,27 @@ const RULES: [string, string, string, string, Reason?][] = [
   // rows away from the port count on the same page — a number that is plausible, in no band
   // (the field has none) and a different measurement entirely.
   ["Interfaces/Ports > Total Number of USB Ports", "usb_ports", "Interfaces/Ports > Number of USB 3.0 Ports", "480 Mbps", "UNIT_UNKNOWN"],
+  // 13 SEP 2026 (§5.1): EVERY "-" AND "n/a" ROW BELOW NOW NAMES `placeholder`, not PARSE_FAIL. The
+  // write-time placeholder guard refuses those tokens for every type before the type is read, which
+  // makes these rows what the `""` rows were before 4 Sep — copies of one generic assertion that no
+  // longer touch the field's own shape. They are kept, with the reason corrected, because they still
+  // pin that the label's field refuses the non-answer its source writes; a row that wants to prove the
+  // field's SHAPE needs a near-miss that is not a placeholder (a unit in the wrong dimension, a value
+  // out of band), and that is a change for whoever owns these alias rules.
   // A list field's shape rule is "a cell must contain at least one member". "-" is what these
   // sources actually write for "not stated" (10 such values are already STORED across four string
   // fields, session log 4 Sep 2026), and it must not become the one-member list ["-"].
-  ["Network & Communication > Networking Standards", "ieee_standards", "Network & Communication > Network Standard", "-", "PARSE_FAIL"],
-  ["Other Information > Certifications & Standards", "certifications", "Other Information > Safety Standards", "-", "PARSE_FAIL"],
+  ["Network & Communication > Networking Standards", "ieee_standards", "Network & Communication > Network Standard", "-", "placeholder"],
+  ["Other Information > Certifications & Standards", "certifications", "Other Information > Safety Standards", "-", "placeholder"],
   ["Miscellaneous > Package Contents", "box_contents", "General Information > Packaged Quantity", NO_SHAPE],
   ["Physical Characteristics > Jacket Material", "jacket_material", "Technical Information > Jacket Type", NO_SHAPE],
   ["Power Description > Thermal Design Power", "tdp", "Environmental Conditions > Thermal Dissipation", "no figure given", "PARSE_FAIL"],
-  ["Technical Information > L3 Cache", "cache_l3", "Technical Information > L2 Cache", "n/a", "PARSE_FAIL"],
-  ["Technical Information > Clock Speed", "clock_speed", "Technical Information > Overclocking Speed", "n/a", "PARSE_FAIL"],
-  ["Other Information > Processor Speed", "cpu_clock_frequency", "Other Information > Memory Speed Supported", "n/a", "PARSE_FAIL"],
-  ["Technical Information > Processor Threads", "cpu_threads", "Technical Information > Processor Core", "n/a", "PARSE_FAIL"],
+  ["Technical Information > L3 Cache", "cache_l3", "Technical Information > L2 Cache", "n/a", "placeholder"],
+  ["Technical Information > Clock Speed", "clock_speed", "Technical Information > Overclocking Speed", "n/a", "placeholder"],
+  ["Other Information > Processor Speed", "cpu_clock_frequency", "Other Information > Memory Speed Supported", "n/a", "placeholder"],
+  ["Technical Information > Processor Threads", "cpu_threads", "Technical Information > Processor Core", "n/a", "placeholder"],
   // the whole reason this rule is anchored: "Installed" is the populated count, not the maximum
-  ["Other Information > Number of Processors Supported", "cpu_sockets_max", "Other Information > Number of Processors Installed", "n/a", "PARSE_FAIL"],
+  ["Other Information > Number of Processors Supported", "cpu_sockets_max", "Other Information > Number of Processors Installed", "n/a", "placeholder"],
   ["Other Information > Processor Supported", "cpu_options", "Other Information > Operating System Supported", NO_SHAPE],
   ["Controllers > RAID Levels", "raid_level", "Controllers > RAID Supported", NO_SHAPE],
   // NO_SHAPE UNTIL 12 Sep 2026, when drive_interface was closed from a free string to an enum
@@ -109,29 +117,29 @@ const RULES: [string, string, string, string, Reason?][] = [
   // four facts of drive endurance sitting in the interface cup — not an invented one.
   ["Interfaces/Ports > Drive Interface", "drive_interface", "Interfaces/Ports > Host Interface", "1DWPD", "ENUM_VIOLATION"],
   ["Other Information > Flash Memory", "flash", "Other Information > Memory Technology", "5000 GB", "RANGE_VIOLATION"],
-  ["Technical Information > Storage Capacity", "storage_capacity", "Storage > Total Hard Drive Capacity", "n/a", "PARSE_FAIL"],
-  ["Environmental Conditions > Maximum Operating Elevation", "altitude_max", "Environmental Conditions > Maximum Operating Temperature", "n/a", "PARSE_FAIL"],
-  ["Environmental Conditions > Sound Emission (A-Weighted)", "acoustic_noise", "Technical Information > Sound Pressure Level (A-Weighted)", "n/a", "PARSE_FAIL"],
+  ["Technical Information > Storage Capacity", "storage_capacity", "Storage > Total Hard Drive Capacity", "n/a", "placeholder"],
+  ["Environmental Conditions > Maximum Operating Elevation", "altitude_max", "Environmental Conditions > Maximum Operating Temperature", "n/a", "placeholder"],
+  ["Environmental Conditions > Sound Emission (A-Weighted)", "acoustic_noise", "Technical Information > Sound Pressure Level (A-Weighted)", "n/a", "placeholder"],
   ["Technical Information > Firewall Throughput", "firewall_throughput", "Media & Performance > VPN Throughput", "640 MB/s", "UNIT_UNKNOWN"],
-  ["I/O Expansions > Number of SFP+ Slots", "sfp_plus_ports", "I/O Expansions > Shared SFP Slot", "n/a", "PARSE_FAIL"],
-  ["Other Information > Number of PoE (RJ-45) Ports", "poe_ports", "Power Description > PoE (RJ-45) Port", "n/a", "PARSE_FAIL"],
+  ["I/O Expansions > Number of SFP+ Slots", "sfp_plus_ports", "I/O Expansions > Shared SFP Slot", "n/a", "placeholder"],
+  ["Other Information > Number of PoE (RJ-45) Ports", "poe_ports", "Power Description > PoE (RJ-45) Port", "n/a", "placeholder"],
   ["Technical Information > Bluetooth Standard", "bluetooth_version", "Technical Information > Wireless LAN Standard", NO_SHAPE],
   // input_current DECLARES unit "A" and is typed `s`, so the normaliser never reads that unit and
   // the field would store "5 Gbps" verbatim as an AC input current. Reported, not repaired here:
   // the repair is a dictionary retype and this file may not edit the dictionary. When it is
   // retyped, this row goes red and must state a real out-of-dimension value.
   ["Power Description > Input Current", "input_current", "Power Description > Current Rating", NO_SHAPE],
-  ["Power Description > Maximum Power Supply Wattage", "psu_output_power", "Power Description > Load Capacity (Watt)", "n/a", "PARSE_FAIL"],
-  ["Hardware Breakdown > Dedicated Mgmt Interface", "dedicated_mgmt_interface", "Context and Comparisons > Dedicated Scanning Radio", "-", "PARSE_FAIL"],
-  ["Compliance and Standards > IEEE Standards", "ieee_standards", "Compliance and Standards > Radio Approvals", "-", "PARSE_FAIL"],
+  ["Power Description > Maximum Power Supply Wattage", "psu_output_power", "Power Description > Load Capacity (Watt)", "n/a", "placeholder"],
+  ["Hardware Breakdown > Dedicated Mgmt Interface", "dedicated_mgmt_interface", "Context and Comparisons > Dedicated Scanning Radio", "-", "placeholder"],
+  ["Compliance and Standards > IEEE Standards", "ieee_standards", "Compliance and Standards > Radio Approvals", "-", "placeholder"],
   ["Compliance and Standards > Safety Approvals", "safety_standards", "Compliance and Standards > Exposure Approvals", NO_SHAPE],
-  ["Compliance and Standards > EMI Approvals (Class B)", "emc_emissions", "Compliance and Standards > Exposure Approvals", "-", "PARSE_FAIL"],
-  ["Compliance and Standards > Certifications", "certifications", "Compliance and Standards > Certification", "-", "PARSE_FAIL"],
-  ["Hardware Breakdown > 40GbE QSFP+", "qsfp_plus_ports", "Context and Comparisons > 100GbE QSFP28", "-", "PARSE_FAIL"],
-  ["Context and Comparisons > UPoE Capable", "upoe_support", "Throughput and Capabilities > PoE/PoE+ Capable", "-", "PARSE_FAIL"],
+  ["Compliance and Standards > EMI Approvals (Class B)", "emc_emissions", "Compliance and Standards > Exposure Approvals", "-", "placeholder"],
+  ["Compliance and Standards > Certifications", "certifications", "Compliance and Standards > Certification", "-", "placeholder"],
+  ["Hardware Breakdown > 40GbE QSFP+", "qsfp_plus_ports", "Context and Comparisons > 100GbE QSFP28", "-", "placeholder"],
+  ["Context and Comparisons > UPoE Capable", "upoe_support", "Throughput and Capabilities > PoE/PoE+ Capable", "-", "placeholder"],
   ["Throughput and Capabilities > PoE/PoE+ Capable", "poe_budget", "Context and Comparisons > UPoE Capable", "Yes", "PARSE_FAIL"],
   // routers (12 Sep 2026): compatible_platform is retired into product_compatibility (SUPERSEDED_KEYS); its alias writes the latter.
-  ["Product Features Comparison > Compatible Platform", "product_compatibility", "Miscellaneous > Platform Supported", "-", "PARSE_FAIL"],
+  ["Product Features Comparison > Compatible Platform", "product_compatibility", "Miscellaneous > Platform Supported", "-", "placeholder"],
   ["Product Features Comparison > Module Type", "module_type", "Specification > Interface Module Support", NO_SHAPE],
   // dictionary round 3 (12 Sep 2026): installation_type is retired into mounting (SUPERSEDED_KEYS) —
   // one question, how the part is installed, and the survivor holds 934 facts against 5.
@@ -197,7 +205,9 @@ function refusalCase(label: string, key: string, badValue: string, wantReason?: 
     }
     const empty = normalizeField("switches", key, "", opts);
     if (empty.ok) return `${key} accepted the empty value as ${JSON.stringify(empty.value)}`;
-    if (empty.reason !== "PARSE_FAIL") return `${key} refused "" as ${empty.reason}, not PARSE_FAIL`;
+    // `placeholder` since 13 Sep 2026 (§5.1): an empty cell is the source stating no answer, refused
+    // by the write-time guard before any type is read. It was PARSE_FAIL ("empty value") before.
+    if (empty.reason !== "placeholder") return `${key} refused "" as ${empty.reason}, not placeholder`;
     const anything = normalizeField("switches", key, "any string at all", opts);
     if (!anything.ok) return `${key} is declared a plain string yet refused one: ${anything.reason}: ${anything.detail}`;
     return "";

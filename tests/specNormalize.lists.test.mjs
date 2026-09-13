@@ -56,7 +56,9 @@ function split(name, input, want) {
 }
 function norm(name, category, key, input, want, opts = {}) {
   const r = normalizeField(category, key, input, opts);
-  const hit = typeof want === "string" && /^[A-Z_]+$/.test(want) ? (!r.ok && r.reason === want) : (r.ok && eq(r.value, want));
+  // `placeholder` is the one lower-case reason (§5.1, 13 Sep 2026); without naming it here an expected
+  // placeholder refusal would be compared as a VALUE and could never pass.
+  const hit = typeof want === "string" && /^(?:[A-Z_]+|placeholder)$/.test(want) ? (!r.ok && r.reason === want) : (r.ok && eq(r.value, want));
   check(name, hit, `${key} ${JSON.stringify(input)}\n      want ${JSON.stringify(want)}\n      got  ${r.ok ? JSON.stringify(r.value) : r.reason + " — " + r.detail}`);
 }
 
@@ -219,7 +221,19 @@ norm("snmp_mibs is a list now", "switches", "snmp_mibs",
   "Generic MIBs ● SNMPv2-SMI ● CISCO-SMI", ["Generic MIBs", "SNMPv2-SMI", "CISCO-SMI"]);
 norm("crypto_algorithms keeps its bracketed qualifier whole", "routers", "crypto_algorithms",
   "AES-256 (in CBC and GCM modes), IKE", ["AES-256 (in CBC and GCM modes)", "IKE"]);
-norm("an empty list is refused, not stored as []", "switches", "ieee_standards", " ,, ; ", "PARSE_FAIL");
+// PARSE_FAIL ("empty list") until 13 Sep 2026: a cell of separators alone is now a placeholder, refused
+// by the write-time guard (§5.1) before the list branch runs. Still never stored as [].
+norm("an empty list is refused, not stored as []", "switches", "ieee_standards", " ,, ; ", "placeholder");
+// §5.2 item 4 — "802.11a/g/n" IS THREE STANDARDS. Before 1.7.0 the list kept it as ONE member naming no
+// amendment that exists. Literal strings; the stored Meraki raws are the second and third.
+norm("802.11a/g/n is three standards", "wireless", "ieee_standards", "802.11a/g/n", ["802.11a", "802.11g", "802.11n"]);
+norm("802.11a/b/g/n/ac is five (MV12WE)", "meraki", "ieee_standards", "802.11a/b/g/n/ac", ["802.11a", "802.11b", "802.11g", "802.11n", "802.11ac"]);
+norm("802.11a/n/ac is three (MV52)", "meraki", "ieee_standards", "802.11a/n/ac", ["802.11a", "802.11n", "802.11ac"]);
+// SABOTAGE: a qualifier that belongs to one amendment keeps the member whole rather than being copied
+// onto every amendment or dropped; and a slash that is not the 802.11 shorthand never splits.
+split("TWIN 802.11n/ac Wave 2 stays whole", "802.11n/ac Wave 2", ["802.11n/ac Wave 2"]);
+split("TWIN 802.3af/at is not 802.11 and stays whole", "802.3af/at", ["802.3af/at"]);
+split("TWIN 10/100/1000 is not a standard", "10/100/1000", ["10/100/1000"]);
 
 // =================================================================================================
 // 2. the sign

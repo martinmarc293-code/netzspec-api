@@ -235,7 +235,9 @@ check("fixture sources: provantage is a tier-4 distributor, meraki a tier-2 vend
       && dist.mapped[0].entry.prov.doc_id === "d0c" && dist.mapped[0].label === "PoE budget", dist.mapped);
   check("mapEntryFacts: the unmapped label is returned with its value, the refused value with its reason, the heading as a sentinel",
     dist.unmapped.length === 1 && dist.unmapped[0].label === "Interfaces/Ports > Total Number of Network Ports" && dist.unmapped[0].value === "24"
-      && dist.rejected.length === 1 && dist.rejected[0].key === "switching_capacity" && dist.rejected[0].reason === "PARSE_FAIL"
+      // `placeholder` since normaliser 1.7.0 (13 Sep 2026, §5.1): "n/a" is refused by the write-time
+      // placeholder guard for every type; it was PARSE_FAIL ("no number") before.
+      && dist.rejected.length === 1 && dist.rejected[0].key === "switching_capacity" && dist.rejected[0].reason === "placeholder"
       && dist.sentinel === 1, dist);
   const vend = mapEntryFacts([{ label: "Switching capacity", value: "56 Gbps" }], { ...ctx, src: sources.get("meraki")!, docType: "vendor_page" });
   check("mapEntryFacts (tier 2): a vendor fact is VERIFIED, tier 2, value in the canonical unit",

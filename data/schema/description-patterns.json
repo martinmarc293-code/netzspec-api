@@ -397,7 +397,7 @@
    "id": "wl-ieee-80211",
    "category": "wireless",
    "field_key": "standard",
-   "regex": "(^|[^0-9a-z.])(802\\.11[a-z]{0,2})(?![a-z0-9])",
+   "regex": "(^|[^0-9a-z.])(802\\.11[a-z]{0,2}(?:/[a-z]{1,2})*)(?![a-z0-9/])",
    "value_group": 2,
    "matched_at_accept": 775,
    "clean_rate_at_accept": 1,

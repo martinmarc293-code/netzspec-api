@@ -25,7 +25,7 @@ let pass = 0;
 const misses = [];
 
 const REASONS = new Set(["PARSE_FAIL", "UNIT_MISSING", "UNIT_UNKNOWN", "ENUM_VIOLATION",
-  "RANGE_VIOLATION", "UNMAPPED_HEADER", "STRUCT_UNPARSED", "VALUE_IS_PID"]);
+  "RANGE_VIOLATION", "UNMAPPED_HEADER", "STRUCT_UNPARSED", "VALUE_IS_PID", "placeholder"]);
 
 /** want: a NormReason for a refusal, otherwise the value that must be stored (a number, a string
  *  for a text field, or an object for a range / dimension triple). A refusal for the WRONG reason
@@ -268,7 +268,10 @@ const CASES = [
     'Catalyst 19" rack shelf', EN, "UNIT_UNKNOWN"],
   ["SABOTAGE a drive form factor is not a storage capacity", "servers-unified-computing",
     "storage_capacity", '2.5" 12G SAS 10K RPM', EN, "UNIT_UNKNOWN"],
-  ["SABOTAGE an inch mark with no number in front of it", "switches", "width", '"', EN, "PARSE_FAIL"],
+  // PARSE_FAIL until 13 Sep 2026. A cell that is one punctuation mark and nothing else is now refused
+  // by the write-time placeholder guard (§5.1) before any type reads it, which is the stronger answer:
+  // the width parser never gets the chance to find a unit and no number.
+  ["SABOTAGE an inch mark with no number in front of it", "switches", "width", '"', EN, "placeholder"],
   // SABOTAGE the locale, on the branch the symbol actually goes through: "1,5" is one and a half
   // inches in German and fifteen inches in English, a 10x difference on one comma. Both readings
   // are asserted so a fix that hardcodes either locale fails the other half. (The literal was
