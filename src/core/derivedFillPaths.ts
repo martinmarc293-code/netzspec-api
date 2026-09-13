@@ -20,5 +20,8 @@ export const DERIVED_FILL_PATHS: Readonly<Record<string, { by: string; validated
   // round-7 ruling C (12 Sep 2026): the condition bundle_contents was approved under. Counts from the SKU control
   // (an independent reading of the SKU checked against the name parse), over the plan's 277 rows.
   bundle_contents: { by: "src/core/bundleContents.ts bundleContents (the bundle's own name)", validated: "277 plan rows (groups 4, 5, 6, 13): parsed 250, refused 27 with a reason (20 'required, not included', 4 no contents, 1 range, 1 unrecognised item, 1 drive with no unit); SKU control on the 250: agree 175, DISAGREE 2 (the vendor's name and SKU name different servers), SKU names nothing 73. +8 UCS-SPM-MDS rows: agree 8/8. The 101 'Cisco <sku>' rows are refused by rule (the name is only the SKU)" },
+  // kind-layer (13 Sep 2026): layer 3. Hand-read rule table, reproduced exactly by the repo module (9,783 of 9,783 rows,
+  // same role and same rule as III.0 item 3), 54 witnesses and 5 sabotaged rule lists in tests/deployRole.test.ts.
+  deploy_role: { by: "src/core/deployRole.ts deployRole(category, kind, sku, name)", validated: "III.0 item 3 over 9,783 live switch/ap/router/phone rows: members placed 8,881, kind issues (not the kind) 899, null 3 (C8455-G2, C8475-G2, WS-C4928-10GE); name-token control over role-assigned rows found 6 contradictions, all 6 false positives of the control ('Spare Chassis', 'Israel' containing ISR, 'No DECT Radio')" },
   layer: { by: "src/core/layerFromSku.ts", validated: "precision 1.000 over the 1,054 seeds (276 agree, 0 disagree); speaks for 500 of 4,931 switches (10.1%) — which is why the cup is optional" },
 };

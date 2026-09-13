@@ -18,6 +18,7 @@ import { getPool, closePool, withTx } from "../store/index.js";
 import { withRun } from "../store/runs.js";
 import { completenessV2, requirementFor, PROFILES, COLUMN_BACKED } from "../core/fieldSchema.js";
 import { partKind } from "../core/partKind.js";
+import { deployRole } from "../core/deployRole.js";
 
 type Args = { vendor: string | null; category: string | null; since: string | null; batch: number };
 
@@ -148,6 +149,12 @@ async function run(a: Args): Promise<Record<string, number>> {
           // whole of the safety, and for the catalogue-wide control that measured its error rate.
           const derivedKind = partKind(category, p.sku, p.name ?? undefined);
           if (derivedKind !== undefined) values.kind = derivedKind;
+          // kind-layer (13 Sep 2026): layer 3 is DERIVED like the kind and always wins over a stored fact (5 legacy
+          // html_table facts hold a deploy_role). A part with no role axis, or one no rule places, carries none, and is
+          // asked the kind's core — never the biggest role's set.
+          delete values.deploy_role;
+          const role = deployRole(category, derivedKind, p.sku, p.name);
+          if (role !== null) values.deploy_role = role;
           const c = completenessV2(category, values);
           if (c.no_profile) noProfile++;
           row = { required_total: c.required_total, required_present: c.required_present, pct: c.pct, missing: c.missing,

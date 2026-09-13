@@ -27,6 +27,10 @@ export type Condition =
   | { field: string; eq: string | number | boolean }
   | { field: string; ne: string | number | boolean }
   | { field: string; inList: (string | number)[] }
+  // kind-layer (13 Sep 2026): true when the field is ABSENT or holds none of the values. Written for role demotions:
+  // "required of the switch core unless the role is smb" must stay required when the role is unresolved (null), because
+  // an unresolved role is asked the kind's core (spec v2 §III.2) — `ne` and a negated `inList` both read absent as false.
+  | { field: string; notInList: (string | number)[] }
   | { field: string; gte: number }
   | { field: string; truthy: true }
   | { any: Condition[] }
@@ -253,7 +257,16 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // 0 stays refused: a 0U PDU is mounted beside the rails and has no rack height.
   rack_units: { key: "rack_units", de: "Höheneinheiten", en: "Rack units", type: "n", unit: "HE", band: [1, 44], etim: [], icecat: null },
   stackable: { key: "stackable", de: "Stapelbar", en: "Stackable", type: "b", etim: [], icecat: null },
-  deploy_role: { key: "deploy_role", de: "Einsatzbereich", en: "Deployment role", type: "e", domain: ["access", "aggregation", "core", "datacenter-tor", "industrial"], etim: [], icecat: null },
+  // kind-layer (13 Sep 2026): layer 3, DERIVED by src/core/deployRole.ts (never read from a page). The domain is the union
+  // of the four role axes; `aggregation`+`core` fold into `core-agg` and `datacenter-tor` into `datacenter` (spec v2 §I.4).
+  // Measured across ALL vendors first: 5 facts anywhere, all Cisco html_table (3 access, 2 datacenter-tor); the 2
+  // datacenter-tor facts become refused values and are recorded in the sync run, not admitted by widening the domain.
+  deploy_role: { key: "deploy_role", de: "Einsatzbereich", en: "Deployment role", type: "e", domain: ["smb", "access", "core-agg", "datacenter", "industrial", "indoor", "outdoor", "mesh-extender", "branch", "edge", "industrial-iot", "desk", "wireless", "dect", "conference"], etim: [], icecat: null },
+  // kind-layer (13 Sep 2026), spec v2 §I.4 DRIVE / GPU: created OPTIONAL (rule 8), promoted only when a label share on
+  // held parts crosses the bar. `form_factor`'s domain is optical cages, so a drive's 2.5"/3.5"/M.2 needs its own key.
+  // Measured across all vendors before creation: 0 facts under either key.
+  drive_form_factor: { key: "drive_form_factor", de: "Laufwerks-Formfaktor", en: "Drive form factor", type: "e", domain: ["2.5", "3.5", "m.2", "e1.s", "e3.s", "u.2", "u.3"], etim: [], icecat: null },
+  gpu_memory: { key: "gpu_memory", de: "Grafikspeicher", en: "GPU memory", type: "n", unit: "GB", band: [1, 1024], etim: [], icecat: null },
 
   // --- ports ----------------------------------------------------------------------------------
   ports: {
@@ -1032,7 +1045,10 @@ const cond = (when: Condition, opts?: { elseOpt?: boolean }): Requirement =>
 
 // Declared here rather than beside completenessV2 because `deviceOnly` below runs at module
 // initialisation and must see it. Its documentation stays with the scorer that reads it.
-export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series"]);
+// kind-layer (13 Sep 2026): `deploy_role` joins them. It is derived per part (src/core/deployRole.ts) exactly like `kind`,
+// so it is a discriminator of the question set, not a question: a null role is reported as `role: unresolved` in the
+// ledger and the completeness report, never counted as a gap a source could fill.
+export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series", "deploy_role"]);
 
 /**
  * Ask a flat block of requirements only of a DEVICE — never of a power supply, fan, cable, rack
@@ -3327,6 +3343,7 @@ export function evalCondition(c: Condition, v: PartValues): boolean {
   if ("eq" in c) return actual === c.eq;
   if ("ne" in c) return actual !== undefined && actual !== c.ne;
   if ("inList" in c) return actual !== undefined && c.inList.includes(actual as string | number);
+  if ("notInList" in c) return actual === undefined || !c.notInList.includes(actual as string | number);
   if ("gte" in c) return typeof actual === "number" && actual >= c.gte;
   if ("truthy" in c) return Boolean(actual);
   return false;
@@ -3903,10 +3920,14 @@ export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string
     cpak: { de: "CPAK", en: "CPAK" }, osfp: { de: "OSFP", en: "OSFP" }, "sfp-dd": { de: "SFP-DD", en: "SFP-DD" },
   },
   deploy_role: {
-    access: { de: "Access", en: "Access" }, aggregation: { de: "Aggregation", en: "Aggregation" },
-    core: { de: "Core", en: "Core" },
-    "datacenter-tor": { de: "Rechenzentrum (Top-of-Rack)", en: "Data centre (top-of-rack)" },
-    industrial: { de: "Industrie", en: "Industrial" },
+    smb: { de: "Kleinunternehmen (SMB)", en: "Small business" }, access: { de: "Access", en: "Access" },
+    "core-agg": { de: "Core / Aggregation", en: "Core / aggregation" }, datacenter: { de: "Rechenzentrum", en: "Data centre" },
+    industrial: { de: "Industrie", en: "Industrial" }, indoor: { de: "Innenbereich", en: "Indoor" },
+    outdoor: { de: "Außenbereich", en: "Outdoor" }, "mesh-extender": { de: "Mesh-Extender", en: "Mesh extender" },
+    branch: { de: "Filiale (Branch)", en: "Branch" }, edge: { de: "WAN-Edge", en: "WAN edge" },
+    "industrial-iot": { de: "Industrie / IoT", en: "Industrial / IoT" }, desk: { de: "Tischtelefon", en: "Desk phone" },
+    wireless: { de: "WLAN-Telefon", en: "Wireless phone" }, dect: { de: "DECT", en: "DECT" },
+    conference: { de: "Konferenztelefon", en: "Conference phone" },
   },
   poe_standard: {
     none: { de: "Kein PoE", en: "No PoE" },

@@ -87,15 +87,16 @@ export type KindQuestionSet = {
   column_backed: string[];
 };
 
-export function kindQuestionSet(category: string, kind: string): KindQuestionSet {
+export function kindQuestionSet(category: string, kind: string, role?: string | null): KindQuestionSet {
   const profile = PROFILES[category] as Record<string, Requirement> | undefined;
   if (!profile) throw new Error(`no profile for category "${category}"`);
   const out: KindQuestionSet = { required: [], pending: [], not_applicable_by_kind: [], optional: [], column_backed: [] };
   for (const [key, r] of Object.entries(profile).sort(([a], [b]) => a.localeCompare(b))) {
-    const q = requirementFor(category, key, { kind });
+    // kind-layer (13 Sep 2026): the role is a discriminator like the kind. No role = the kind's core (unresolved role).
+    const q = requirementFor(category, key, role ? { kind, deploy_role: role } : { kind });
     if (COLUMN_BACKED.has(key)) { if (q === "req") out.column_backed.push(key); continue; }
     if (q === "req") out.required.push(key);
-    else if (q === "pending") out.pending.push({ key, gate: r.kind === "cond" ? gateFields(r.when).filter((g) => g !== "kind") : [] });
+    else if (q === "pending") out.pending.push({ key, gate: r.kind === "cond" ? gateFields(r.when).filter((g) => g !== "kind" && g !== "deploy_role") : [] });
     else if (q === "opt") out.optional.push(key);
     else if (r.kind === "cond") out.not_applicable_by_kind.push(key);
   }
