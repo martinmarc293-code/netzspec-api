@@ -4,6 +4,11 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-14 (late night) - Opus/PARENT. Closing items at aa1143f (switches + routers), all 11.** Record: layers round 2 decision file, round 2d.
+  - **Runs (operator yes, with the operator's corrections):** #1073 name-spare-packaging (16 fixed-unit base names; 21 modular chassis kept; 0 spares changed); #1074 move-category routers -> unified-communications 7 (VG224 / IAD2430 memory: DRAM memory, Flash flash by name); #1075–#1078 recompute unified-communications / routers / collaboration-endpoints / conferencing. Verified from a new connection.
+  - **Decisions taken here:** ISR 819 one series (every C819, industrial-iot); TDM CEM cables stay on NCS 4200 with a dual-platform note; collaboration kind `flash` with its `flash` cup (cup decision recorded).
+  - **Traps hit:** a supervisor rule appended after the line-card marker never fired (first match wins — move it up); "no fan" matched inside "no fan-tray" and left "switch-tray" (read the dry run, not only the assertion); regex through a shell `node -e` again (threw before writing — Edit tool); the reviewer's "existing" series-entry check did not exist (written). IAD2430 has no host row in the store.
+  - **Next:** transceiver + interfaces-modules round, then wireless, then servers + HCI.
 - **2026-09-14 (night) - Opus/PARENT. Re-audit at 2f3d17a, final open items (switches + routers): label check, ASR 900 / ISR 800 families, fixes, three recorded run sets.**
   - **Record:** `docs/decisions/2026-09-14-layers-review-round2-switches-routers.md` round 2c; `…-family-layer.md` "Answered after the re-audit".
   - **Label check (reviewer item 2):** `src/core/labelEvidence.ts`, applied by build-layers to family-assigned categories, standing checks `labelViolations` / `labelEvidenceDrift` + move-out strays (`tests/layersStanding.test.ts` 155/0). Over the reviewer's 935 label-placed rows at 2f3d17a: **490 fail**. This build: switches 381 label-placed / 208 moved to line shared parts, routers 465 / 206. Kept by a compatible relation: 0.
