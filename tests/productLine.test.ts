@@ -132,6 +132,21 @@ witness("wireless", [
   check("role table (meraki reads the wireless table): MR84 outdoor, MR33 indoor", deployRoleResult("meraki", "access-point", "MR84", "Cisco MR84").role === "outdoor" && deployRoleResult("meraki", "access-point", "MR33", "Cisco MR33").role === "indoor");
 }
 
+// ---- video / cable access (done 14 Sep 2026) ----
+witness("video", [
+  ["4022938.26", "GS7000 DWDM Tx, 1556.55nm, ITU26", "GS7000 Nodes", "GS7000 Nodes and Optical Hubs", "GS7000 optical transmitters and receivers (numeric PIDs)"], // a number, not a datasheet cell
+  ["4042880.39", "Cisco 4042880.39", "GS7000 Nodes", "GS7000 Nodes and Optical Hubs", "GS7000 optical transmitters and receivers (numeric PIDs)"],
+  ["G7A2AA101E2XXXXAXX", "GS7000,4x(HO),TPs,42/54,8p,SA,Rx,2:1/EDR", "GS7000 Optical Hub and Hub-Node", "GS7000 Nodes and Optical Hubs", "GS7000 configured nodes"],
+  ["4021915", "(P2-HD-13TXM-06-E2-D) HD M-W Fwd Tx, 1GHz", "Prisma II Products", "Prisma II Optical Transport", "Prisma II HD"],  // the name states the family
+  ["737400", "(P2-15TXR-08-DM-SA-ITU13) 1550 Rev Tx", "Prisma II Products", "Prisma II Optical Transport", "Prisma II"],
+  ["4034760", "GS7000 Optical Hub, 1x17EDFA, OPSW, LCM", "Prisma II Products", "GS7000 Nodes and Optical Hubs", "GS7000 Optical Hub"], // label says Prisma
+  ["CBR-LC-8D30-16U30", "cBR CCAP line card", "CBR Series Converged Broadband", "cBR-8 Converged Broadband Router", "cBR-8"],
+  ["RFGW-10-48HA-DS192", "RFGW-10 Bundle", "RF Gateway Series", "RF Gateway", "RFGW-10"],
+  ["4040030", "RFGW-1 AC Power Supply Module Spare", "RF Gateway Series", "RF Gateway", "RFGW-1"],
+  ["RPD-1X2=", "Smart PHY 120 RPD with SCTE 55-1 OOB", "CBR Series Converged Broadband", "Remote PHY", "Remote PHY devices (RPD / Smart PHY)"],
+  ["4003563", "OADM,LGX-DWDM-ITU-36-SA", "Optical Passive Components", "Optical Passive Components", "Mux / demux, OADM and WDM filters"],
+]);
+
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");

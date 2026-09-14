@@ -1,0 +1,262 @@
+{
+ "vendor": "cisco",
+ "category": "video",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco cable access (the 'video' category), 14 Sep 2026: GS7000 nodes and optical hubs, Prisma II optical transport, cBR-8, Remote PHY, RF Gateway, optical passives. Most legacy Scientific-Atlanta parts are bare 7-digit numbers whose NAME states the family ('(P2-HD-13TXF-15-SP) 1310HD Fwd Tx', 'GS7000 Fwd Config Module', 'RFGW-1 AC Power Supply'), so name rules place them; the 18-character G… / HA… / HB… SKUs are GS7000 node and optical-hub configuration codes. No role axis in this category.",
+ "lines": [
+  {
+   "line": "GS7000 Nodes and Optical Hubs",
+   "series": [
+    {
+     "series": "GS7000 configured nodes",
+     "sku": [
+      "^G[0-9][A-Z0-9]{16}$"
+     ]
+    },
+    {
+     "series": "GS7000 Optical Hub",
+     "sku": [
+      "^H[AB]X{0,6}[0-9X][0-9X]{8,}[A-Z]{2}$"
+     ],
+     "name": [
+      "Optical Hub",
+      "Opt Hub",
+      "^OH, "
+     ]
+    },
+    {
+     "series": "GS7000 iNode",
+     "sku": [
+      "^GS7KI",
+      "^IN-DPLX",
+      "^IRPD"
+     ],
+     "name": [
+      "iNode",
+      "GS7Ki"
+     ]
+    },
+    {
+     "series": "GS7000 optical transmitters and receivers (numeric PIDs)",
+     "sku": [
+      "^40(4286[89]|4287[0-9]|42880|4398[89]|1390[0-2]|22938)([.]|$)"
+     ],
+     "name": [
+      "TX OPM"
+     ],
+     "note": "bare Scientific-Atlanta part numbers (base.channel) of GS7000 EDR / DWDM / CWDM optical transmitters and receivers"
+    },
+    {
+     "series": "GS7000 node modules and housings",
+     "sku": [
+      "^GS7K",
+      "^GS7000"
+     ],
+     "name": [
+      "GS7000",
+      "GS7K"
+     ]
+    },
+    {
+     "series": "GainMaker plug-ins (pads, equalizers)",
+     "sku": [
+      "^GM-"
+     ],
+     "name": [
+      "GainMaker",
+      "Gainmaker",
+      "^GM "
+     ]
+    },
+    {
+     "series": "GS7000 Nodes and Optical Hubs shared parts",
+     "labels": [
+      "GS7000 Nodes",
+      "GS7000 Optical Hub and Hub-Node"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Prisma II Optical Transport",
+   "series": [
+    {
+     "series": "Prisma II HD",
+     "sku": [
+      "^P2-?HD"
+     ],
+     "name": [
+      "[(]P2-HD",
+      "Prisma HD",
+      "[0-9]{4}HD ",
+      "HD M-W",
+      "HDRX",
+      "EDR PRX"
+     ]
+    },
+    {
+     "series": "Prisma II XD",
+     "name": [
+      "Prisma II XD"
+     ]
+    },
+    {
+     "series": "Prisma D-PON",
+     "name": [
+      "DPON"
+     ],
+     "labels": [
+      "Prisma D-PON"
+     ]
+    },
+    {
+     "series": "Prisma II",
+     "sku": [
+      "^P2-"
+     ],
+     "name": [
+      "[(]P2-",
+      "^P2-",
+      "Prisma II",
+      "PRISMA 2",
+      "ICIM"
+     ]
+    },
+    {
+     "series": "Prisma II Optical Transport shared parts",
+     "labels": [
+      "Prisma II Products"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "cBR-8 Converged Broadband Router",
+   "series": [
+    {
+     "series": "cBR-8",
+     "sku": [
+      "^CBR"
+     ],
+     "labels": [
+      "CBR Series Converged Broadband"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Remote PHY",
+   "series": [
+    {
+     "series": "Remote PHY devices (RPD / Smart PHY)",
+     "sku": [
+      "^RPD-"
+     ],
+     "name": [
+      "Remote Phy Device",
+      "Smart PHY 1[0-9]{2} RPD",
+      "Remote PHY 2[0-9]{2} RPD"
+     ]
+    },
+    {
+     "series": "Remote PHY Shelf 7200",
+     "sku": [
+      "^HA-RPHY"
+     ]
+    },
+    {
+     "series": "Remote PHY shelves and cabling",
+     "sku": [
+      "^RPHY"
+     ],
+     "labels": [
+      "Remote PHY Shelves"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "RF Gateway",
+   "series": [
+    {
+     "series": "RFGW-10",
+     "sku": [
+      "^RFGW-10",
+      "^DS384",
+      "^CHAS-RFGW-10",
+      "^BUNDLE1-3G60"
+     ],
+     "name": [
+      "RFGW-10"
+     ]
+    },
+    {
+     "series": "RFGW-1",
+     "sku": [
+      "^RFGW-?1(?![0-9])",
+      "^CHAS-RFGW-1(?![0-9])"
+     ],
+     "name": [
+      "RFGW-1(?![0-9])"
+     ]
+    },
+    {
+     "series": "RF Gateway shared parts",
+     "sku": [
+      "^RFGW",
+      "^MEM-RFGW",
+      "^CAB-RFGW"
+     ],
+     "labels": [
+      "RF Gateway Series"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Optical Passive Components",
+   "series": [
+    {
+     "series": "Dispersion compensation modules",
+     "sku": [
+      "^DCM-"
+     ],
+     "name": [
+      "[(]DCM-",
+      "DCF"
+     ]
+    },
+    {
+     "series": "Mux / demux, OADM and WDM filters",
+     "sku": [
+      "^OP(LGX|CAS)"
+     ],
+     "name": [
+      "OADM",
+      "MXDX",
+      "Mux/Demux",
+      "filter",
+      "BWDM",
+      "CWDM",
+      "DWDM"
+     ]
+    },
+    {
+     "series": "Optical Passive Components shared parts",
+     "labels": [
+      "Optical Passive Components"
+     ]
+    }
+   ]
+  }
+ ],
+ "shared_accessories": [
+  "^CAB-",
+  "CABLE",
+  "CORD",
+  "BRACKET",
+  "BRKT",
+  "BLANK",
+  "JMPR",
+  "JUMPER"
+ ]
+}
