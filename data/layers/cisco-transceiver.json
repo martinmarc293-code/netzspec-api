@@ -1,0 +1,716 @@
+{
+ "vendor": "cisco",
+ "category": "transceiver",
+ "built_at": "2026-09-14T13:58:25.903Z",
+ "mapping_file": "data/reference/product-lines/cisco-transceiver.json",
+ "parts": 2107,
+ "lines": [
+  {
+   "line": "Direct-attach and active optical cables",
+   "parts": 242,
+   "series": [
+    {
+     "series": "DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)",
+     "role": null,
+     "note": "14 of these rows are glued cable SKUs (SFP-H25GCU1M, SFP-25GAOC1M, SFP-H10GBACU10M) that the kind classifier calls pluggable: a kind finding, not a layer one",
+     "parts": 242,
+     "kinds": {
+      "cable": 168,
+      "breakout-cable": 60,
+      "pluggable": 14
+     },
+     "roles": {},
+     "samples": [
+      "ONS-SC+-10-CU1= — 10G BASE-CU SFP+ Cable 1 Meter",
+      "ONS-SC+-10-CU3= — 10G BASE-CU SFP+ Cable 3 Meter",
+      "ONS-SC+-10-CU5= — 10G BASE-CU SFP+ Cable 5 Meter",
+      "ONS-SC+-10-CU7= — 10G BASE-CU SFP+ Cable 7 Meter",
+      "ONS-SC+-10G-CU1= — 10GBASE-CU SFP+ Cable 1 Meter",
+      "ONS-SC+-10G-CU3= — 10GBASE-CU SFP+ Cable 3 Meter"
+     ],
+     "rules": {
+      "sku": 242
+     }
+    }
+   ]
+  },
+  {
+   "line": "Meraki transceivers and cables",
+   "parts": 25,
+   "series": [
+    {
+     "series": "Meraki MA-SFP / MA-QSFP / MA-CBL",
+     "role": null,
+     "note": null,
+     "parts": 25,
+     "kinds": {
+      "cable": 11,
+      "pluggable": 14
+     },
+     "roles": {},
+     "samples": [
+      "MA-CBL-100G-1M — Cisco Meraki MA-CBL-100G-1M 100 Gbit/s Direktanschlusskabel ",
+      "MA-CBL-100G-3M — Cisco Meraki MA-CBL-100G-3M 100 Gbit/s Direktanschlusskabel ",
+      "MA-CBL-100G-50CM — Cisco Meraki MA-CBL-100G-50CM 100 Gbit/s Direktanschlusskabe",
+      "MA-CBL-120G-1M — Cisco Meraki MA-CBL-120G-1M 120 Gbit/s (3×40G Stacking) Dire",
+      "MA-CBL-120G-3M — Cisco Meraki MA-CBL-120G-3M 120 Gbit/s (3×40G Stacking) Dire",
+      "MA-CBL-120G-50CM — Cisco Meraki MA-CBL-120G-50CM 120 Gbit/s (3×40G Stacking) Di"
+     ],
+     "rules": {
+      "sku": 25
+     }
+    }
+   ]
+  },
+  {
+   "line": "Cable access and PON optics",
+   "parts": 128,
+   "series": [
+    {
+     "series": "Remote PHY SFP+ optics",
+     "role": null,
+     "note": null,
+     "parts": 63,
+     "kinds": {
+      "pluggable": 63
+     },
+     "roles": {},
+     "samples": [
+      "RPHY-S10G-20K-400= — Cisco RPHY-S10G-20K-400=",
+      "RPHY-S10G-20K-410= — Cisco RPHY-S10G-20K-410=",
+      "RPHY-S10G-20K-420= — Cisco RPHY-S10G-20K-420=",
+      "RPHY-S10G-20K-430= — Cisco RPHY-S10G-20K-430=",
+      "RPHY-S10G-20K-440= — Cisco RPHY-S10G-20K-440=",
+      "RPHY-S10G-20K-450= — Cisco RPHY-S10G-20K-450="
+     ],
+     "rules": {
+      "sku": 63
+     }
+    },
+    {
+     "series": "XFP-RF QAM transmitters (Prisma)",
+     "role": null,
+     "note": null,
+     "parts": 44,
+     "kinds": {
+      "pluggable": 43,
+      "tunable": 1
+     },
+     "roles": {},
+     "samples": [
+      "XFP-RF-ITU20= — XFP-RF QAM Transmitter APC ITU 20",
+      "XFP-RF-ITU23= — XFP-RF QAM Transmitter APC ITU 23",
+      "XFP-RF-ITU25= — XFP-RF QAM Transmitter APC ITU 25",
+      "XFP-RF-ITU27= — XFP-RF QAM Transmitter APC ITU 27",
+      "XFP-RF-ITU29= — XFP-RF QAM Transmitter APC ITU 29",
+      "XFP-RF-ITU30= — XFP-RF QAM Transmitter APC ITU 30"
+     ],
+     "rules": {
+      "sku": 44
+     }
+    },
+    {
+     "series": "GPON / RF Gateway SFPs",
+     "role": null,
+     "note": null,
+     "parts": 21,
+     "kinds": {
+      "bidi": 18,
+      "pluggable": 3
+     },
+     "roles": {},
+     "samples": [
+      "CGP-SFP-OC — Cisco GPON OLT Transceiver C+",
+      "CGP-SFP-OC= — GPON SFP type C, Sensitivity -30dBm, average output power 3~",
+      "SFP-GPON-B — Cisco SFP-GPON-B GPON OLT-Transceiver Klasse B+ — 1490Tx/131",
+      "SFP-GPON-B-16= — 16 units of SFP-GPON-B for ME4600-AMX-16GPON",
+      "SFP-GPON-B-8= — 8 units of SFP-GPON-B for ME4600-AMX-16GPON",
+      "SFP-GPON-B-I — Cisco SFP-GPON-B-I GPON OLT-Transceiver Klasse B+ Industrie "
+     ],
+     "rules": {
+      "sku": 21
+     }
+    }
+   ]
+  },
+  {
+   "line": "Fibre Channel transceivers (MDS)",
+   "parts": 104,
+   "series": [
+    {
+     "series": "MDS Fibre Channel SFP / X2 / CWDM",
+     "role": null,
+     "note": null,
+     "parts": 104,
+     "kinds": {
+      "pluggable": 104
+     },
+     "roles": {},
+     "samples": [
+      "DS-CWDM-1470= — Cisco CWDM 1470 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
+      "DS-CWDM-1490= — Cisco CWDM 1490 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
+      "DS-CWDM-1510= — Cisco CWDM 1510 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
+      "DS-CWDM-1530= — Cisco CWDM 1530 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
+      "DS-CWDM-1550= — Cisco CWDM 1550 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
+      "DS-CWDM-1570= — Cisco CWDM 1570 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann"
+     ],
+     "rules": {
+      "sku": 104
+     }
+    }
+   ]
+  },
+  {
+   "line": "Optical networking pluggables (ONS / NCS 2000)",
+   "parts": 669,
+   "series": [
+    {
+     "series": "ONS 15454 / NCS 2000 pluggables",
+     "role": null,
+     "note": null,
+     "parts": 669,
+     "kinds": {
+      "pluggable": 651,
+      "cable": 4,
+      "tunable": 5,
+      "bidi": 9
+     },
+     "roles": {},
+     "samples": [
+      "15216-GBIC-1510 — 1000 BASE-T GBIC, one port modules, for Catalyst 2950 Switch",
+      "15216-GBIC-1510= — 1000 BASE-T GBIC, one port modules, for Catalyst 2950 Switch",
+      "15327-SFP-LC-LX= — Cisco 15327-SFP-LC-LX=",
+      "15327-SFP-LC-LX=EOS — 1000BASE-LX LC, SFP",
+      "15327-SFP-LC-SX= — Cisco 15327-SFP-LC-SX=",
+      "15327-SFP-LC-SX=EOS — 1000BASE-SX LC, SFP"
+     ],
+     "rules": {
+      "sku": 669
+     }
+    }
+   ]
+  },
+  {
+   "line": "Coherent and digital-coherent pluggables",
+   "parts": 52,
+   "series": [
+    {
+     "series": "400G / 800G ZR, ZR+ and CFP2 DCO",
+     "role": null,
+     "note": null,
+     "parts": 52,
+     "kinds": {
+      "tunable": 51,
+      "pluggable": 1
+     },
+     "roles": {},
+     "samples": [
+      "CFP2-WDM-BDL-1HL= — 200G, 100G, WDM Digital CFP2 pluggable - Licensed 100G only",
+      "CFP2-WDM-D-1HL — Cisco CFP2-WDM-D-1HL 200G-fähiges Digital-Coherent CFP2 DWDM",
+      "CFP2-WDM-D-1HL= — 200G,100G,WDM Digital CFP2 pluggable Licensed 100only-nonTOF",
+      "CFP2-WDM-D-SK — Cisco CFP2-WDM-D-SK 200G/100G Digital-Coherent CFP2 DWDM-Mod",
+      "CFP2-WDM-DE-1HL= — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only",
+      "CFP2-WDM-DET-1HL — Cisco CFP2-WDM-DET-1HL Digital-Coherent CFP2 mit abstimmbare"
+     ],
+     "rules": {
+      "sku": 52
+     }
+    }
+   ]
+  },
+  {
+   "line": "WDM transceivers",
+   "parts": 413,
+   "series": [
+    {
+     "series": "DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC",
+     "role": null,
+     "note": null,
+     "parts": 362,
+     "kinds": {
+      "pluggable": 353,
+      "tunable": 9
+     },
+     "roles": {},
+     "samples": [
+      "DWDM-GBIC-30.33 — Cisco DWDM-GBIC-30.33 1000BASE-DWDM GBIC — ITU-Kanal 1530,33",
+      "DWDM-GBIC-31.12 — Cisco DWDM-GBIC-31.12 1000BASE-DWDM GBIC — ITU-Kanal 1531,12",
+      "DWDM-GBIC-31.90 — Cisco DWDM-GBIC-31.90 1000BASE-DWDM GBIC — ITU-Kanal 1531,90",
+      "DWDM-GBIC-32.68 — Cisco DWDM-GBIC-32.68 1000BASE-DWDM GBIC — ITU-Kanal 1532,68",
+      "DWDM-GBIC-34.25 — Cisco DWDM-GBIC-34.25 1000BASE-DWDM GBIC — ITU-Kanal 1534,25",
+      "DWDM-GBIC-35.04 — Cisco DWDM-GBIC-35.04 1000BASE-DWDM GBIC — ITU-Kanal 1535,04"
+     ],
+     "rules": {
+      "sku": 362
+     }
+    },
+    {
+     "series": "CWDM SFP / SFP+ / GBIC and OADM",
+     "role": null,
+     "note": null,
+     "parts": 51,
+     "kinds": {
+      "pluggable": 51
+     },
+     "roles": {},
+     "samples": [
+      "CWDM-GBIC-1470 — 1000BASE-CWDM GBIC 1470 nm (gray)",
+      "CWDM-GBIC-1490 — 1000BASE-CWDM GBIC 1490 nm (violet)",
+      "CWDM-GBIC-1510 — 1000BASE-CWDM GBIC 1510 nm (blue)",
+      "CWDM-GBIC-1530 — 1000BASE-CWDM GBIC 1530 nm (green)",
+      "CWDM-GBIC-1550 — 1000BASE-CWDM GBIC 1550 nm (yellow)",
+      "CWDM-GBIC-1570 — 1000BASE-CWDM GBIC 1570 nm (orange)"
+     ],
+     "rules": {
+      "sku": 51
+     }
+    }
+   ]
+  },
+  {
+   "line": "SONET/SDH and TDM SFPs",
+   "parts": 27,
+   "series": [
+    {
+     "series": "OC-3 / OC-12 / OC-48 and T1/E1/T3 SFPs",
+     "role": null,
+     "note": null,
+     "parts": 27,
+     "kinds": {
+      "pluggable": 27
+     },
+     "roles": {},
+     "samples": [
+      "SFP-CH-OC3STM1-I — Channelized OC-3/STM-1 Smart SFP",
+      "SFP-E1F-SATOP-I — E1F SAToP Smart SFP",
+      "SFP-OC12-IR1 — OC-12/STM-4, OC-12/STM-4 SFP, SM, IR-1",
+      "SFP-OC12-LR1 — OC-12/STM-4, OC-12/STM-4 SFP, SM, LR-1",
+      "SFP-OC12-LR1= — OC-12/ STM-4 SFP, Long Reach (40km)",
+      "SFP-OC12-LR2 — OC-12/STM-4, OC-12/STM-4 SFP, SM, LR-2"
+     ],
+     "rules": {
+      "sku": 27
+     }
+    }
+   ]
+  },
+  {
+   "line": "Ethernet transceivers",
+   "parts": 407,
+   "series": [
+    {
+     "series": "800G OSFP / QSFP-DD800",
+     "role": null,
+     "note": null,
+     "parts": 6,
+     "kinds": {
+      "pluggable": 6
+     },
+     "roles": {},
+     "samples": [
+      "OSFP-2X400G-FR4 — Cisco OSFP-2X400G-FR4 2×400GBASE-FR4 OSFP — CWDM Singlemode,",
+      "OSFP-800G-DR8 — Cisco OSFP-800G-DR8 800GBASE-DR8 OSFP — 1310 nm Singlemode, ",
+      "OSFP-800G-DR8P — Cisco OSFP-800G-DR8P 800GBASE-DR8 OSFP — 1310 nm Singlemode,",
+      "OSFP-800G-VR8 — Cisco OSFP-800G-VR8 800GBASE-VR8 OSFP — 850 nm Multimode, 2×",
+      "OSFP-800G-VR8P — Cisco OSFP-800G-VR8P 800GBASE-VR8 OSFP — 850 nm Multimode, M",
+      "OSFPR-800G-DR8 — Cisco OSFPR-800G-DR8 800GBASE-DR8 OSFP — 8×100G, Singlemode "
+     ],
+     "rules": {
+      "sku": 6
+     }
+    },
+    {
+     "series": "200G / 400G QSFP-DD, QSFP112 and QSFP56",
+     "role": null,
+     "note": null,
+     "parts": 30,
+     "kinds": {
+      "pluggable": 30
+     },
+     "roles": {},
+     "samples": [
+      "QDD-2X100-CWDM4-S — Cisco QDD-2X100-CWDM4-S 2×100G-CWDM4 QSFP-DD Modul — SMF, Du",
+      "QDD-2X100-CWDM4-S= — QSFP-DD Transceiver, 2X 100G CWDM4, 2X Duplex CS, 2km SMF",
+      "QDD-2X100-LR4-S — Cisco QDD-2X100-LR4-S 2×100GBASE-LR4 QSFP-DD Modul — SMF, Du",
+      "QDD-2X100-SR4-S — Cisco QDD-2X100-SR4-S 2×100GBASE-SR4 QSFP-DD Modul — MMF, MP",
+      "QDD-2X100-SR4-S= — QSFP-DD Transceiver, 2X 100GBASE-SR4, MPO-24, 100m MMF",
+      "QDD-2X400G-FR4 — Cisco QDD-2X400G-FR4 2×400GBASE-FR4 QSFP-DD800 — 1310-nm-Ban"
+     ],
+     "rules": {
+      "sku": 30
+     }
+    },
+    {
+     "series": "100G QSFP28",
+     "role": null,
+     "note": null,
+     "parts": 42,
+     "kinds": {
+      "pluggable": 38,
+      "bidi": 4
+     },
+     "roles": {},
+     "samples": [
+      "QSFP-100-FR-s — Cisco QSFP-100-FR-s",
+      "QSFP-100G-4W10-I — Cisco QSFP-100G-4W10-I",
+      "QSFP-100G-4W40-I — Cisco QSFP-100G-4W40-I 100G WDM-40 QSFP28 Modul — 1295–1309 ",
+      "QSFP-100G-B20D4-I — Cisco QSFP-100G-B20D4-I 100G BiDi QSFP28 Modul — O-Band SMF,",
+      "QSFP-100G-B20U4-I — Cisco QSFP-100G-B20U4-I 100G BiDi QSFP28 Modul — O-Band SMF,",
+      "QSFP-100G-B40D-I — Cisco QSFP-100G-B40D-I 100G QSFP28 BiDi Downstream — Singlem"
+     ],
+     "rules": {
+      "sku": 42
+     }
+    },
+    {
+     "series": "100G CFP / CFP2 / CPAK / CXP",
+     "role": null,
+     "note": null,
+     "parts": 36,
+     "kinds": {
+      "pluggable": 36
+     },
+     "roles": {},
+     "samples": [
+      "CFP-100G-ER4 — Cisco CFP-100G-ER4 100GBASE-ER4 CFP — LAN-WDM Singlemode, Du",
+      "CFP-100G-ER4= — 100GBASE-ER4 CFP Module",
+      "CFP-100G-LR4 — Cisco CFP-100G-LR4 100GBASE-LR4 CFP — LAN-WDM Singlemode, Du",
+      "CFP-100G-LR4= — 100GBASE-LR4 CFP Module",
+      "CFP-100G-SR10 — Cisco CFP-100G-SR10 100GBASE-SR10 CFP — 850 nm Multimode, MP",
+      "CFP-100G-SR10= — 100GBASE-SR10 CFP transceiver, 100m OM3 MMF"
+     ],
+     "rules": {
+      "sku": 36
+     }
+    },
+    {
+     "series": "50G SFP56",
+     "role": null,
+     "note": null,
+     "parts": 8,
+     "kinds": {
+      "bidi": 4,
+      "pluggable": 4
+     },
+     "roles": {},
+     "samples": [
+      "SFP-50G-BX40D-I — Cisco SFP-50G-BX40D-I 25/50GBASE-BR40 BiDi Industrie-SFP56 —",
+      "SFP-50G-BX40U-I — Cisco SFP-50G-BX40U-I 25/50GBASE-BR40 BiDi Industrie-SFP56 —",
+      "SFP-50G-BXD-I — Cisco SFP-50G-BXD-I 25/50GBASE-BR10 BiDi Industrie-SFP56 — T",
+      "SFP-50G-BXU-I — Cisco SFP-50G-BXU-I 25/50GBASE-BR10 BiDi Industrie-SFP56 — T",
+      "SFP-50G-ER-I — Cisco SFP-50G-ER-I 25/50GBASE-ER Industrie-SFP56 — 1310 nm S",
+      "SFP-50G-LR-S — Cisco SFP-50G-LR-S 25/50GBASE-LR SFP56 Modul — 1310 nm SMF, "
+     ],
+     "rules": {
+      "sku": 8
+     }
+    },
+    {
+     "series": "40G QSFP+",
+     "role": null,
+     "note": null,
+     "parts": 31,
+     "kinds": {
+      "pluggable": 31
+     },
+     "roles": {},
+     "samples": [
+      "FET-40G — Cisco FET-40G Fabric Extender QSFP+ Modul — 850 nm MMF, MPO-",
+      "QSFP-40-SR-BD — Cisco QSFP-40-SR-BD 40GBASE-SR-BiDi QSFP+ — Multimode, Duple",
+      "QSFP-40/100-SRBD — Cisco QSFP-40/100-SRBD 40/100G Dual-Rate BiDi QSFP28 Modul —",
+      "QSFP-40/100-SRBD1 — Cisco QSFP-40/100-SRBD1",
+      "QSFP-40/100-SRBD= — 100G and 40GBASE SR-BiDi QSFP transceiver, LC, 100m OM4 MMF,",
+      "QSFP-40G-BD-RX — Cisco QSFP-40G-BD-RX 40G BiDi Monitor QSFP+ — 832-918 nm MMF"
+     ],
+     "rules": {
+      "sku": 31
+     }
+    },
+    {
+     "series": "25G SFP28",
+     "role": null,
+     "note": null,
+     "parts": 21,
+     "kinds": {
+      "pluggable": 15,
+      "bidi": 6
+     },
+     "roles": {},
+     "samples": [
+      "SFP-10/25-LR-I — Cisco SFP-10/25-LR-I",
+      "SFP-10/25G-BXD-I — Cisco SFP-10/25G-BXD-I 10/25GBASE-BR BiDi Industrie-SFP28 — ",
+      "SFP-10/25G-BXD-I= — Cisco SFP-10/25G-BXD-I=",
+      "SFP-10/25G-BXU-I — Cisco SFP-10/25G-BXU-I 10/25GBASE-BR BiDi Industrie-SFP28 — ",
+      "SFP-10/25G-BXU-I= — Cisco SFP-10/25G-BXU-I=",
+      "SFP-10/25G-CSR-S — Cisco SFP-10/25G-CSR-S 10/25GBASE-CSR SFP28 Modul — 850 nm M"
+     ],
+     "rules": {
+      "sku": 21
+     }
+    },
+    {
+     "series": "10G SFP+",
+     "role": null,
+     "note": null,
+     "parts": 51,
+     "kinds": {
+      "pluggable": 40,
+      "bidi": 11
+     },
+     "roles": {},
+     "samples": [
+      "CE-10GSFP-SR — 10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics",
+      "CE-10GSFP-SR= — 10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics",
+      "FET-10G — Cisco FET-10G 10GBASE-SR (FET) SFP+-Modul — FET (Fabric Exte",
+      "S10G-B40D-PM-D-I — SFP-10GbE Performance Monitoring, ER-BiDi, SM, 1330/1270nm, ",
+      "S10G-B40U-PM-D-I — SFP-10GbE Performance Monitoring, ER-BiDi, SM, 1270/1330nm, ",
+      "S10G-BD-PM-D-I — SFP-10GbE Performance Monitoring, LR-BiDi, SM, 1330/1270nm, "
+     ],
+     "rules": {
+      "sku": 51
+     }
+    },
+    {
+     "series": "10G X2 / XENPAK / XFP (legacy)",
+     "role": null,
+     "note": null,
+     "parts": 58,
+     "kinds": {
+      "pluggable": 58
+     },
+     "roles": {},
+     "samples": [
+      "C3-XENPAK-10GB-LR= — 10GBASE-LR, up to 10 km single mode fiber",
+      "X2-10GB-CX4 — Cisco X2-10GB-CX4 10GBASE-CX4 X2 Modul — 15 m Twinax (CX4)",
+      "X2-10GB-CX4= — 10GBASE-CX4 X2 Module",
+      "X2-10GB-ER — Cisco X2-10GB-ER 10GBASE-ER X2 Modul — 40 km SMF, 1550 nm",
+      "X2-10GB-ER= — 10GBASE-ER X2 Module",
+      "X2-10GB-LR — Cisco X2-10GB-LR 10GBASE-LR X2 Modul — 10 km SMF, 1310 nm"
+     ],
+     "rules": {
+      "sku": 58
+     }
+    },
+    {
+     "series": "1G and 100M SFP",
+     "role": null,
+     "note": null,
+     "parts": 119,
+     "kinds": {
+      "pluggable": 90,
+      "bidi": 29
+     },
+     "roles": {},
+     "samples": [
+      "CE-1GSFP-T — 1 Gigabit Ethernet SFP Module 1000BASE-T",
+      "CE-1GSFP-T= — 1 Gigabit Ethernet SFP Module 1000BASE-T",
+      "CSP-SFP-1WLR — SFP+ for Intel X520, 10GE, LR Optical",
+      "CSP-SFP-1WSR — SFP+ for Intel X520 & XL710, 10GE, SR Optical",
+      "CSP-SFP-1WSR= — SFP+ for Intel X520 & XL710, 10GE, SR Optical",
+      "EXP-1GSFP-T — 1 Gigabit Ethernet SFP Module 10/100/1000BASE-T"
+     ],
+     "rules": {
+      "sku": 119
+     }
+    },
+    {
+     "series": "GBIC (legacy)",
+     "role": null,
+     "note": null,
+     "parts": 5,
+     "kinds": {
+      "pluggable": 5
+     },
+     "roles": {},
+     "samples": [
+      "WS-G5483 — Cisco WS-G5483 1000BASE-T GBIC — Kupfer, RJ-45, Cat5, 100 m",
+      "WS-G5484 — Cisco WS-G5484 1000BASE-SX GBIC — Multimode, 850 nm, 550 m, ",
+      "WS-G5486 — Cisco WS-G5486 1000BASE-LX/LH GBIC — Singlemode, 1310 nm, 10",
+      "WS-G5486= — Cisco 1000BASE-LX/LH GBIC transceiver module for SMF and MMF",
+      "WS-G5487 — Cisco WS-G5487 1000BASE-ZX GBIC — Singlemode, 1550 nm, bis 1"
+     ],
+     "rules": {
+      "sku": 5
+     }
+    }
+   ]
+  },
+  {
+   "line": "Converters and adapters",
+   "parts": 22,
+   "series": [
+    {
+     "series": "CVR converter modules, trays and brackets",
+     "role": null,
+     "note": null,
+     "parts": 22,
+     "kinds": {
+      "adapter": 18,
+      "mechanical": 4
+     },
+     "roles": {},
+     "samples": [
+      "CVR-2QSFP28-8SFP — 100G/40G 2xQSFP to 8xSFP Converter",
+      "CVR-2QSFP28-8SFP= — 100G/40G 2xQSFP to 8xSFP Converter",
+      "CVR-4SFP10G-QSFP — 4 x SFP10G to QSFP reverse adapter",
+      "CVR-4SFP10G-QSFP= — 4 x SFP10G to QSFP reverse adapter",
+      "CVR-BRKT-1 — Mounting bracket for one CVR-4SFP10G-QSFP",
+      "CVR-BRKT-1= — Mounting bracket for one CVR-4SFP10G-QSFP"
+     ],
+     "rules": {
+      "sku": 22
+     }
+    }
+   ]
+  }
+ ],
+ "not_this_category": [],
+ "pending_plans": [
+  {
+   "sku": "CWDM-MUX-4-SF1=",
+   "name": "Single Fiber 4-Channel Mux/Demux",
+   "series_label": "Transceiver Modules",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "CWDM-MUX-4-SF2=",
+   "name": "Single Fiber 4-Channel Mux/Demux",
+   "series_label": "Transceiver Modules",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "CWDM-MUX-4=",
+   "name": "4-Wavelength Add/Drop Mux for CWDM-CHASSIS-2=",
+   "series_label": "3750",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "CWDM-MUX-8=",
+   "name": "8-Wavelength Mux/Demux Plug-in Module for CWDM-CHASSIS-2=",
+   "series_label": "3750",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "CWDM-MUX-AD-1470=",
+   "name": "1470 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
+   "series_label": "3750",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "CWDM-MUX-AD-1490=",
+   "name": "1490 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
+   "series_label": "3750",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "CWDM-MUX-AD-1510=",
+   "name": "1510 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
+   "series_label": "3750",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "CWDM-MUX-AD-1530=",
+   "name": "1530 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
+   "series_label": "3750",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "CWDM-MUX-AD-1550=",
+   "name": "1550 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
+   "series_label": "3750",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "CWDM-MUX-AD-1570=",
+   "name": "1570 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
+   "series_label": "3750",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "CWDM-MUX-AD-1590=",
+   "name": "1590 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
+   "series_label": "3750",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "CWDM-MUX-AD-1610=",
+   "name": "1610 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
+   "series_label": "3750",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "CWDM-MUX8A=",
+   "name": "Cisco CWDM-MUX8A=",
+   "series_label": "3750",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "DS-CWDM-MUX8A=",
+   "name": "8-channel multiplexer/demultiplexer",
+   "series_label": "MDS 9500 Series Multilayer Directors",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "DS-CWDMCHASSIS=",
+   "name": "2-slot chassis for Cisco OADM and multiplexer/demultiplexer",
+   "series_label": "MDS 9500 Series Multilayer Directors",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "DS-CWDMOADM4A=",
+   "name": "4-channel (1470, 1490, 1510, and 1530 nm) optical add/drop multiplexer OADM",
+   "series_label": "MDS 9500 Series Multilayer Directors",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "DS-CWDMOADM4B=",
+   "name": "4-channel (1550, 1570, 1590, and 1610 nm) optical add/drop multiplexer OADM",
+   "series_label": "MDS 9500 Series Multilayer Directors",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  },
+  {
+   "sku": "DS-CWDMOADM4x=",
+   "name": "Cisco DS-CWDMOADM4x=",
+   "series_label": "MDS 9500 Series Multilayer Directors",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
+  }
+ ],
+ "unplaced": [],
+ "done": true
+}

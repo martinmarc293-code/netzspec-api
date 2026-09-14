@@ -168,6 +168,23 @@ witness("collaboration-endpoints", [
       && deployRoleResult("collaboration-endpoints", "phone", "CP-8832-K9=", "x").role === "conference" && deployRoleResult("unified-communications", "phone", "SPA302D-G1", "x").role === "dect");
 }
 
+// ---- transceiver (done 14 Sep 2026) — the label names the HOST platform; the series is the optic's family ----
+witness("transceiver", [
+  ["SFP-10G-AOC7M", "SFP active optical cable", "Network Convergence System 5000 Series", "Direct-attach and active optical cables", "DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)"], // a cable, not an SFP+
+  ["SFP-10G-SR", "10GBASE-SR SFP Module", "Catalyst 6500", "Ethernet transceivers", "10G SFP+"],
+  ["QSFP-4X10G-AC7M", "QSFP to 4 SFP+ active copper breakout", "Cisco", "Direct-attach and active optical cables", "DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)"],
+  ["QSFP-4X10G-LR-S=", "QSFP 4x10G transceiver module, SM", "Network Convergence System 2000 Series", "Ethernet transceivers", "40G QSFP+"],
+  ["DWDM-SFP10G-38.19=", "10GBASE-DWDM 1538.19 nm SFP10G", "Network Convergence System 500", "WDM transceivers", "DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC"],
+  ["DWDM-GBIC-40.56", "1000BASE-DWDM GBIC", "Cisco", "WDM transceivers", "DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC"],          // DWDM before GBIC
+  ["DS-CWDM8G1470=", "CWDM 8G FC SFP", "MDS 9000 Series Multilayer", "Fibre Channel transceivers (MDS)", "MDS Fibre Channel SFP / X2 / CWDM"], // FC before CWDM
+  ["ONS-SC-4G-31.9=", "SFP - 4G FC 1531.90", "MDS 9500 Series Multilayer Directors", "Optical networking pluggables (ONS / NCS 2000)", "ONS 15454 / NCS 2000 pluggables"],
+  ["QDD-400G-ZR-S", "400G QSFP-DD ZR", "Transceiver Modules", "Coherent and digital-coherent pluggables", "400G / 800G ZR, ZR+ and CFP2 DCO"],
+  ["QDD-400G-SR8", "", "Transceiver Modules", "Ethernet transceivers", "200G / 400G QSFP-DD, QSFP112 and QSFP56"],
+  ["RPHY-S10G-20K-480=", "Cisco RPHY-S10G-20K-480=", "Transceiver Modules", "Cable access and PON optics", "Remote PHY SFP+ optics"],
+  ["MA-SFP-10GB-ER", "Meraki MA-SFP-10GB-ER", "Meraki", "Meraki transceivers and cables", "Meraki MA-SFP / MA-QSFP / MA-CBL"],
+  ["GLC-TE", "1000BASE-T SFP", "1G SFP Modules", "Ethernet transceivers", "1G and 100M SFP"],
+]);
+
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");

@@ -1,0 +1,265 @@
+{
+ "vendor": "cisco",
+ "category": "transceiver",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco pluggable optics and cables, 14 Sep 2026. The stored series labels name the HOST platform ('Catalyst 6500', 'MDS 9500', 'Cisco') and say nothing about the optic, so every series is decided by the SKU's form-factor and speed family, in Cisco's own transceiver taxonomy. Order is load-bearing: direct-attach / active optical cables first (SFP-10G-AOC is a cable, not an SFP+), then Meraki, cable-access, Fibre Channel, ONS/NCS 2000, coherent, DWDM, CWDM, SONET, then Ethernet from the highest speed down. No role axis.",
+ "lines": [
+  {
+   "line": "Direct-attach and active optical cables",
+   "series": [
+    {
+     "series": "DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)",
+     "sku": [
+      "AOC",
+      "-?CU[0-9]",
+      "ACU",
+      "-CI[0-9]M",
+      "^SFP-H(10|25)G",
+      "^QSFP-H(10|40)G",
+      "^PQSF2P",
+      "-AC([0-9]+|X)M"
+     ],
+     "note": "14 of these rows are glued cable SKUs (SFP-H25GCU1M, SFP-25GAOC1M, SFP-H10GBACU10M) that the kind classifier calls pluggable: a kind finding, not a layer one"
+    }
+   ]
+  },
+  {
+   "line": "Meraki transceivers and cables",
+   "series": [
+    {
+     "series": "Meraki MA-SFP / MA-QSFP / MA-CBL",
+     "sku": [
+      "^MA-"
+     ],
+     "labels": [
+      "Meraki"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Cable access and PON optics",
+   "series": [
+    {
+     "series": "Remote PHY SFP+ optics",
+     "sku": [
+      "^RPHY-"
+     ]
+    },
+    {
+     "series": "XFP-RF QAM transmitters (Prisma)",
+     "sku": [
+      "^XFP-RF"
+     ]
+    },
+    {
+     "series": "GPON / RF Gateway SFPs",
+     "sku": [
+      "GPON",
+      "^CGP-SFP",
+      "^SFP-RFG"
+     ],
+     "labels": [
+      "PON Series"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Fibre Channel transceivers (MDS)",
+   "series": [
+    {
+     "series": "MDS Fibre Channel SFP / X2 / CWDM",
+     "sku": [
+      "^DS-(SFP|X2|CWDM)"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Optical networking pluggables (ONS / NCS 2000)",
+   "series": [
+    {
+     "series": "ONS 15454 / NCS 2000 pluggables",
+     "sku": [
+      "^ONS-",
+      "^15454E?-SFP",
+      "^15327-SFP",
+      "^15216-GBIC"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Coherent and digital-coherent pluggables",
+   "series": [
+    {
+     "series": "400G / 800G ZR, ZR+ and CFP2 DCO",
+     "sku": [
+      "^DP0[148]",
+      "^CFP2-WDM",
+      "^QDD-400G-ZR",
+      "^Q100-ZR"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "WDM transceivers",
+   "series": [
+    {
+     "series": "DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC",
+     "sku": [
+      "^DWDM-",
+      "DWDM",
+      "^WDM-XENPAK",
+      "^SFP-WDM"
+     ]
+    },
+    {
+     "series": "CWDM SFP / SFP+ / GBIC and OADM",
+     "sku": [
+      "^CWDM-"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "SONET/SDH and TDM SFPs",
+   "series": [
+    {
+     "series": "OC-3 / OC-12 / OC-48 and T1/E1/T3 SFPs",
+     "sku": [
+      "^SFP-(OC|CH-OC|TS-OC|T1F|E1F|T3F|VADSL)",
+      "^SMF(IR|LR)-622"
+     ],
+     "labels": [
+      "SFPs"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Ethernet transceivers",
+   "series": [
+    {
+     "series": "800G OSFP / QSFP-DD800",
+     "sku": [
+      "^OSFPR?-",
+      "800G"
+     ]
+    },
+    {
+     "series": "200G / 400G QSFP-DD, QSFP112 and QSFP56",
+     "sku": [
+      "^QDD",
+      "^QSFP-400G",
+      "^QSFP-200",
+      "^QSFP-2Q200"
+     ]
+    },
+    {
+     "series": "100G QSFP28",
+     "sku": [
+      "^QSFP-?100",
+      "^QSFP-40/100G",
+      "^QSFP-4SFP25G?",
+      "^Q-4SFP25G"
+     ]
+    },
+    {
+     "series": "100G CFP / CFP2 / CPAK / CXP",
+     "sku": [
+      "^CFP",
+      "^CPAK",
+      "^CXP"
+     ]
+    },
+    {
+     "series": "50G SFP56",
+     "sku": [
+      "^SFP-50G",
+      "^QSFP-4S50"
+     ]
+    },
+    {
+     "series": "40G QSFP+",
+     "sku": [
+      "^QSFP-40",
+      "^QSFP-4X10G",
+      "^QSFP-4SFP10",
+      "^WSP-Q40G",
+      "^FET-40G"
+     ],
+     "labels": [
+      "40G QSFP+ Modules"
+     ]
+    },
+    {
+     "series": "25G SFP28",
+     "sku": [
+      "^SFP-25G",
+      "^SFP-10/25"
+     ]
+    },
+    {
+     "series": "10G SFP+",
+     "sku": [
+      "^SFP-10G",
+      "^S10G-",
+      "^CE-10GSFP",
+      "^FET-10G"
+     ],
+     "labels": [
+      "10G SFP+ Modules"
+     ]
+    },
+    {
+     "series": "10G X2 / XENPAK / XFP (legacy)",
+     "sku": [
+      "^X2-",
+      "^C3-XENPAK",
+      "^XENPAK",
+      "^XFP"
+     ]
+    },
+    {
+     "series": "1G and 100M SFP",
+     "sku": [
+      "^GLC-",
+      "^SFP-GE",
+      "^SFP-1G",
+      "^S1G-",
+      "^CE-1GSFP",
+      "^EXP-1GSFP",
+      "^MGB",
+      "^CSP-SFP",
+      "^VIP-SFP",
+      "^SFP-CU"
+     ],
+     "labels": [
+      "1G SFP Modules"
+     ]
+    },
+    {
+     "series": "GBIC (legacy)",
+     "sku": [
+      "^WS-G548",
+      "GBIC"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Converters and adapters",
+   "series": [
+    {
+     "series": "CVR converter modules, trays and brackets",
+     "sku": [
+      "^CVR-"
+     ]
+    }
+   ]
+  }
+ ],
+ "shared_accessories": []
+}
