@@ -1,0 +1,1107 @@
+{
+ "vendor": "cisco",
+ "category": "switches",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco switches, operator's model 14 Sep 2026. SKU patterns first (a SKU family token wins over a wrong series label), then names, then the stored series labels for rows with no family token (cords, kits). SKUs are upper-cased with a trailing '=' removed before matching. A spare, a power supply or a fan of a series sits IN that series; its part type stays underneath.",
+ "not_this_category": [
+  {
+   "sku": "^DS-(C9|X9|SFP|CAC|CWDM|9)|^M9[0-9]{3}|^MDS",
+   "why": "MDS Fibre Channel storage switch or part",
+   "belongs": "storage-networking"
+  },
+  {
+   "sku": "^CTS-|^CS-(PANO|ROOM|KIT)|^TTC",
+   "why": "TelePresence / Room system part",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "^TA-|^C1-TAAS|^TETRATION",
+   "why": "Tetration Analytics appliance",
+   "belongs": "servers-unified-computing"
+  },
+  {
+   "sku": "^(ONS-SI|GLC-|SFP-|QSFP-|CVR-|X2-|XENPAK)",
+   "why": "pluggable optic",
+   "belongs": "transceiver"
+  },
+  {
+   "sku": "^(7600-ES|76-ES)|^RSP720",
+   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+   "belongs": "routers"
+  }
+ ],
+ "lines": [
+  {
+   "line": "Catalyst",
+   "series": [
+    {
+     "series": "Catalyst 9400",
+     "sku": [
+      "^(C1-|EDU-|NAL-)?C94[0-9]{2}",
+      "^C4500E-7R-S9E"
+     ],
+     "labels": [
+      "Catalyst 9400"
+     ]
+    },
+    {
+     "series": "Catalyst 9200",
+     "sku": [
+      "^(C1-|EDU-|NAL-)?C9200"
+     ],
+     "labels": [
+      "Catalyst 9200",
+      "9200"
+     ]
+    },
+    {
+     "series": "Catalyst 9300",
+     "sku": [
+      "^(C1-|EDU-|NAL-)?C9300"
+     ],
+     "labels": [
+      "Catalyst 9300"
+     ]
+    },
+    {
+     "series": "Catalyst 9350",
+     "sku": [
+      "^(C1-)?C9350"
+     ],
+     "labels": [
+      "C9350",
+      "9350"
+     ]
+    },
+    {
+     "series": "Catalyst 9500",
+     "sku": [
+      "^(C1-|EDU-|NAL-)?C9500"
+     ],
+     "labels": [
+      "Catalyst 9500",
+      "9500"
+     ]
+    },
+    {
+     "series": "Catalyst 9550",
+     "sku": [
+      "^C9550"
+     ],
+     "labels": [
+      "C9550"
+     ]
+    },
+    {
+     "series": "Catalyst 9600",
+     "sku": [
+      "^C960[0-9]"
+     ],
+     "labels": [
+      "Catalyst 9600"
+     ]
+    },
+    {
+     "series": "Catalyst 9610",
+     "sku": [
+      "^C9610"
+     ],
+     "labels": [
+      "C9610"
+     ]
+    },
+    {
+     "series": "Catalyst 9000 shared parts",
+     "sku": [
+      "^C9K-"
+     ]
+    },
+    {
+     "series": "Catalyst 6800",
+     "sku": [
+      "^(C1-)?C68[0-9]{2}",
+      "^(VS-)?C?6807",
+      "^C6800"
+     ],
+     "labels": [
+      "6800",
+      "Catalyst 6800",
+      "6800X",
+      "6807XL",
+      "Cat6800X Modules"
+     ]
+    },
+    {
+     "series": "Catalyst 6500",
+     "sku": [
+      "^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}",
+      "^(2D-)?WS-X6",
+      "^WS-F6",
+      "^VS-F6",
+      "^WS-SUP",
+      "^VS-S(720|2T)",
+      "^WS-SVC",
+      "^MEM-MSFC",
+      "^WS-DFC",
+      "^C6-",
+      "^WS-CAC-",
+      "^WS-6",
+      "^VS-SUP",
+      "^WS-S32",
+      "^WS-IPSEC",
+      "^WS-SSC",
+      "^X6[0-9]{3}"
+     ],
+     "labels": [
+      "Catalyst 6500",
+      "Cat6500 Modules",
+      "6500E"
+     ]
+    },
+    {
+     "series": "Catalyst 4500-X",
+     "sku": [
+      "^(C1-)?(WS-)?C4500X",
+      "^C4KX"
+     ],
+     "labels": [
+      "4500-X",
+      "Catalyst 4500-X",
+      "Catalyst 4500 X"
+     ]
+    },
+    {
+     "series": "Catalyst 4500-E",
+     "sku": [
+      "^(C1-)?(WS-)?C45[0-9]{2}",
+      "^C4500E",
+      "^WS-X45",
+      "^WS-X4[0-8][0-9]{2}",
+      "^MEM-X45",
+      "^PWR-C45",
+      "^(ME|WS)-?45[01][0-9]",
+      "^ME-X4",
+      "^WS-UA-SUP9E"
+     ],
+     "labels": [
+      "Catalyst 4500",
+      "Cat4500E Modules",
+      "4500E"
+     ]
+    },
+    {
+     "series": "Catalyst 4900",
+     "sku": [
+      "^(WS-)?C49[0-9]{2}",
+      "^4900M",
+      "^WS-X49",
+      "^PWR-C49",
+      "^C4948"
+     ],
+     "labels": [
+      "4900",
+      "4948E"
+     ]
+    },
+    {
+     "series": "Catalyst 3850",
+     "sku": [
+      "^(C1-|NAL-|EDU-)?(WS-)?C?3850",
+      "^NAL-3850",
+      "^CATALYST-3850"
+     ],
+     "labels": [
+      "Catalyst 3850"
+     ]
+    },
+    {
+     "series": "Catalyst 3650",
+     "sku": [
+      "^(C1-|NAL-|EDU-)?(WS-)?C?3650",
+      "^C1-WS3650",
+      "^CATALYST-3650"
+     ],
+     "labels": [
+      "3650",
+      "Catalyst 3650"
+     ]
+    },
+    {
+     "series": "Catalyst 3750-X",
+     "sku": [
+      "^(C1-|NAL-)?(WS-)?C?3750X",
+      "^C3KX",
+      "^CAB-3KX",
+      "^CAT-3KX"
+     ],
+     "labels": [
+      "3750-X",
+      "Catalyst 3750-X"
+     ]
+    },
+    {
+     "series": "Catalyst 3560-X",
+     "sku": [
+      "^(C1-|NAL-)?(WS-)?C?3560X"
+     ],
+     "labels": [
+      "Catalyst 3560-X"
+     ]
+    },
+    {
+     "series": "Catalyst 3750-E",
+     "sku": [
+      "^(WS-)?C?3750E"
+     ],
+     "labels": [
+      "3750E"
+     ]
+    },
+    {
+     "series": "Catalyst 3560-E",
+     "sku": [
+      "^(WS-)?C?3560E"
+     ]
+    },
+    {
+     "series": "Catalyst 3750",
+     "sku": [
+      "^(WS-)?C?3750(G|V2|-)"
+     ],
+     "labels": [
+      "3750",
+      "3750G"
+     ]
+    },
+    {
+     "series": "Catalyst 3560-C and 3560-CX",
+     "sku": [
+      "^(NAL-)?(WS-)?C?3560C"
+     ],
+     "labels": [
+      "3560-CX",
+      "3560-C",
+      "3560C",
+      "Catalyst 3560-CX",
+      "Catalyst 3560 Cx"
+     ]
+    },
+    {
+     "series": "Catalyst 3560",
+     "sku": [
+      "^(WS-)?C?3560(G|V2|-)",
+      "^CH-C3560"
+     ],
+     "labels": [
+      "3560"
+     ]
+    },
+    {
+     "series": "Catalyst 2960-C and 2960-CX",
+     "sku": [
+      "^(NAL-)?(WS-)?C?2960C"
+     ],
+     "labels": [
+      "2960C",
+      "2960-C",
+      "2960-CX",
+      "Catalyst 2960 C",
+      "Catalyst 2960-CX"
+     ]
+    },
+    {
+     "series": "Catalyst 2960-X and 2960-XR",
+     "sku": [
+      "^(C1-|NAL-|EDU-)?(WS-)?C?2960X",
+      "^(WS-)?C2960RX",
+      "^NAL-2960X",
+      "^C2KXR",
+      "^C2960X",
+      "^PKB-C2960RX",
+      "^2960-?XR?$"
+     ],
+     "labels": [
+      "2960-X",
+      "2960-XR",
+      "Catalyst 2960-X"
+     ]
+    },
+    {
+     "series": "Catalyst 2960-S",
+     "sku": [
+      "^(WS-)?C?2960S"
+     ],
+     "labels": [
+      "2960-S",
+      "2960S",
+      "2960SF"
+     ]
+    },
+    {
+     "series": "Catalyst 2960-Plus",
+     "sku": [
+      "^(WS-)?C2960R[+]",
+      "^(WS-)?C2960[+]",
+      "^(WS-)?C2960P(?!D)"
+     ],
+     "labels": [
+      "2960-Plus",
+      "2960Plus"
+     ]
+    },
+    {
+     "series": "Catalyst 2960-L",
+     "sku": [
+      "^(WS-)?C?2960L"
+     ],
+     "labels": [
+      "2960-L",
+      "Catalyst 2960-L",
+      "Catalyst 2960 L"
+     ]
+    },
+    {
+     "series": "Catalyst 2960",
+     "sku": [
+      "^(WS-)?C2960(G)?-",
+      "^WS-2960-"
+     ],
+     "labels": [
+      "2960",
+      "Catalyst 2960"
+     ]
+    },
+    {
+     "series": "Catalyst 1000",
+     "sku": [
+      "^(NAL-|EDU-)?C1000"
+     ],
+     "labels": [
+      "1000",
+      "Catalyst 1000"
+     ]
+    },
+    {
+     "series": "Catalyst 1200",
+     "sku": [
+      "^C1200"
+     ],
+     "labels": [
+      "1200",
+      "Catalyst 1200"
+     ]
+    },
+    {
+     "series": "Catalyst 1300",
+     "sku": [
+      "^C1300"
+     ],
+     "labels": [
+      "1300",
+      "Catalyst 1300",
+      "Catalyst 1300X"
+     ]
+    },
+    {
+     "series": "Catalyst Micro",
+     "sku": [
+      "^CMICR"
+     ],
+     "labels": [
+      "Catalyst Micro",
+      "CMICR"
+     ]
+    },
+    {
+     "series": "Catalyst Digital Building",
+     "sku": [
+      "^CDB-"
+     ],
+     "labels": [
+      "Digital Building Series"
+     ]
+    },
+    {
+     "series": "Catalyst PON",
+     "sku": [
+      "^CGP-",
+      "^CGP",
+      "^PON"
+     ],
+     "labels": [
+      "PON Series"
+     ]
+    },
+    {
+     "series": "Redundant Power System",
+     "sku": [
+      "^PWR-?RPS",
+      "^PWR675",
+      "^RPS",
+      "^ACC-RPS",
+      "^C3K-PWR-"
+     ],
+     "labels": [
+      "Redundant Power Systems",
+      "Power Supply"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Nexus",
+   "series": [
+    {
+     "series": "Nexus 2000 Fabric Extenders",
+     "sku": [
+      "^N2K-",
+      "^N2[0-9]{3}",
+      "^CN3248",
+      "^NXA-FAN-30CFM"
+     ],
+     "labels": [
+      "Nexus 2000 Fabric Extenders",
+      "Nexus 2000",
+      "Nexus B22",
+      "Nexus FDK"
+     ]
+    },
+    {
+     "series": "Nexus 3550",
+     "sku": [
+      "^N35-"
+     ],
+     "labels": [
+      "Nexus 3550 Series"
+     ]
+    },
+    {
+     "series": "Nexus 3500",
+     "sku": [
+      "^(C1-)?N3K-C35",
+      "^N3548"
+     ],
+     "labels": [
+      "Nexus 3500"
+     ]
+    },
+    {
+     "series": "Nexus 3600",
+     "sku": [
+      "^(C1-)?N3K-C36"
+     ],
+     "labels": [
+      "Nexus 36180YC R",
+      "Nexus 3636C R"
+     ]
+    },
+    {
+     "series": "Nexus 3000",
+     "sku": [
+      "^(C1-)?N3K-",
+      "^N3[0-4][0-9]{2}"
+     ],
+     "labels": [
+      "Nexus 3000",
+      "Nexus 3172",
+      "Nexus 3064",
+      "Nexus 31108",
+      "Nexus 3132Q",
+      "Nexus 3016",
+      "Nexus 3048",
+      "Nexus 31128PQ",
+      "Nexus 3132C Z",
+      "Nexus 3132Q V",
+      "Nexus 3164Q",
+      "Nexus 3232C",
+      "Nexus 3264C E",
+      "Nexus 3264Q",
+      "Nexus 34180YC",
+      "Nexus 3432D S",
+      "Nexus 3464C"
+     ]
+    },
+    {
+     "series": "Nexus 5500",
+     "sku": [
+      "^(C1-)?N55-",
+      "^(C1-)?N5K-C55",
+      "^N55[0-9]{2}",
+      "^VCE-N5K-55"
+     ],
+     "labels": [
+      "Nexus 5500"
+     ]
+    },
+    {
+     "series": "Nexus 5600",
+     "sku": [
+      "^(C1-)?N56-",
+      "^(C1-)?N5K-C56",
+      "^N56[0-9]{2}"
+     ],
+     "labels": [
+      "Nexus 5600",
+      "Nexus 5600Q"
+     ]
+    },
+    {
+     "series": "Nexus 5000",
+     "sku": [
+      "^(C1-)?N5K-",
+      "^N50[0-9]{2}"
+     ],
+     "labels": [
+      "Nexus 5000"
+     ]
+    },
+    {
+     "series": "Nexus 6000",
+     "sku": [
+      "^(C1-)?N6K-",
+      "^(C1-)?N600[0-9]"
+     ],
+     "labels": [
+      "Nexus 6000"
+     ]
+    },
+    {
+     "series": "Nexus 7700",
+     "sku": [
+      "^N77[0-9]{2}",
+      "^(C1-)?N77-"
+     ],
+     "labels": [
+      "Nexus 7700"
+     ]
+    },
+    {
+     "series": "Nexus 7000",
+     "sku": [
+      "^N70[0-9]{2}",
+      "^(C1-)?N7K-"
+     ],
+     "labels": [
+      "Nexus 7000",
+      "Nexus7000 Modules"
+     ]
+    },
+    {
+     "series": "Nexus 9200",
+     "sku": [
+      "^(C1-)?N9K-C92"
+     ],
+     "labels": [
+      "Nexus9200"
+     ]
+    },
+    {
+     "series": "Nexus 9300",
+     "sku": [
+      "^ACI-C93",
+      "^N?9364E",
+      "^N9KC93",
+      "^(C1-)?N9K-C93",
+      "^N9300",
+      "^N93[0-9]"
+     ],
+     "labels": [
+      "N9300",
+      "Nexus9300 EX FX",
+      "Nexus9300 FX3",
+      "Nexus9300 FX2",
+      "Nexus9300 GX2",
+      "Nexus9300 GX"
+     ]
+    },
+    {
+     "series": "Nexus 9400",
+     "sku": [
+      "^(C1-)?N9K-C94"
+     ],
+     "labels": [
+      "Nexus 9400"
+     ]
+    },
+    {
+     "series": "Nexus 9500",
+     "sku": [
+      "^(C1-)?N9K-C95",
+      "^N9K-X9[4-7]",
+      "^N9K-SUP",
+      "^X9[4-7][0-9]{2}",
+      "^X96[0-9]{2}",
+      "^X9788"
+     ],
+     "labels": [
+      "Nexus 9500"
+     ]
+    },
+    {
+     "series": "Nexus 9800",
+     "sku": [
+      "^(C1-)?N9K-C98",
+      "^N98"
+     ],
+     "labels": [
+      "Nexus 9800"
+     ]
+    },
+    {
+     "series": "Nexus 9100",
+     "sku": [
+      "^N91[0-9]{2}"
+     ]
+    },
+    {
+     "series": "Nexus 9000 shared parts",
+     "sku": [
+      "^(C1-)?N9K-",
+      "^NXA-"
+     ],
+     "labels": [
+      "Nexus 9000"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Industrial Ethernet",
+   "series": [
+    {
+     "series": "IE 1000",
+     "sku": [
+      "^IE-?1000"
+     ],
+     "labels": [
+      "IE1000"
+     ]
+    },
+    {
+     "series": "IE 2000U",
+     "sku": [
+      "^IE-?2000U"
+     ],
+     "labels": [
+      "IE 2000U"
+     ]
+    },
+    {
+     "series": "IE 2000",
+     "sku": [
+      "^IE-?2000"
+     ],
+     "labels": [
+      "IE2000",
+      "IE 2000"
+     ]
+    },
+    {
+     "series": "IE 3000",
+     "sku": [
+      "^IEM-3000",
+      "^IE-?3000"
+     ],
+     "labels": [
+      "IE 3000",
+      "IE3000"
+     ]
+    },
+    {
+     "series": "IE 3010",
+     "sku": [
+      "^IE-?3010"
+     ],
+     "labels": [
+      "IE 3010"
+     ]
+    },
+    {
+     "series": "IE 3100",
+     "sku": [
+      "^IE-?31[0-9]{2}"
+     ],
+     "labels": [
+      "IE3100",
+      "Catalyst IE3100 Rugged Series",
+      "Catalyst IE3100 Heavy Duty Series"
+     ]
+    },
+    {
+     "series": "IE 3200",
+     "sku": [
+      "^IE-?32[0-9]{2}"
+     ],
+     "labels": [
+      "IE3200",
+      "Catalyst IE3200 Rugged Series"
+     ]
+    },
+    {
+     "series": "IE 3300",
+     "sku": [
+      "^IEM-3300",
+      "^IE-?33[0-9]{2}"
+     ],
+     "labels": [
+      "IE3300"
+     ]
+    },
+    {
+     "series": "IE 3400H",
+     "sku": [
+      "^IE-?3400H"
+     ],
+     "labels": [
+      "IE3400H",
+      "Catalyst IE3400 Heavy Duty Series"
+     ]
+    },
+    {
+     "series": "IE 3400",
+     "sku": [
+      "^IEM-3400",
+      "^IE-?34[0-9]{2}"
+     ],
+     "labels": [
+      "IE3400",
+      "Catalyst IE3400 Rugged Series"
+     ]
+    },
+    {
+     "series": "IE 3500H",
+     "sku": [
+      "^IE-?3500H"
+     ],
+     "labels": [
+      "IE3500H",
+      "IE3500 Heavy Duty Series"
+     ]
+    },
+    {
+     "series": "IE 3500",
+     "sku": [
+      "^IEM-3500",
+      "^IE-?35[0-9]{2}"
+     ],
+     "labels": [
+      "IE3500",
+      "IE3500 Rugged Series"
+     ]
+    },
+    {
+     "series": "IE 4010",
+     "sku": [
+      "^IE-?4010"
+     ],
+     "labels": [
+      "Industrial Ethernet 4010"
+     ]
+    },
+    {
+     "series": "IE 4000",
+     "sku": [
+      "^IE-?4000"
+     ],
+     "labels": [
+      "IE4000",
+      "IE 4000"
+     ]
+    },
+    {
+     "series": "IE 5000",
+     "sku": [
+      "^IE-?5000"
+     ],
+     "labels": [
+      "IE5000",
+      "Industrial Ethernet 5000"
+     ]
+    },
+    {
+     "series": "IE 9300",
+     "sku": [
+      "^IE-?93[0-9]{2}"
+     ],
+     "labels": [
+      "IE9300",
+      "Catalyst IE9300 Rugged Series"
+     ]
+    },
+    {
+     "series": "CGS 2500 Connected Grid",
+     "sku": [
+      "^CGS-?25"
+     ],
+     "labels": [
+      "CGS 2500 Connected Grid"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Embedded Services",
+   "series": [
+    {
+     "series": "ESS 2020",
+     "sku": [
+      "^ESS-?2020"
+     ],
+     "labels": [
+      "Embedded Services 2020"
+     ]
+    },
+    {
+     "series": "ESS 3300",
+     "sku": [
+      "^ESS-?3300"
+     ],
+     "labels": [
+      "Embedded Service 3000"
+     ]
+    },
+    {
+     "series": "ESS 9300",
+     "sku": [
+      "^ESS-?93"
+     ],
+     "labels": [
+      "Catalyst ESS9300 Embedded"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Cisco Business",
+   "series": [
+    {
+     "series": "Business 95 Unmanaged",
+     "sku": [
+      "^S[FG]95"
+     ],
+     "labels": [
+      "95 Unmanaged"
+     ]
+    },
+    {
+     "series": "Business 110 Unmanaged",
+     "sku": [
+      "^CBS110",
+      "^S[FG]11[0-9]"
+     ],
+     "labels": [
+      "110 Unmanaged",
+      "Business 110 Series Unmanaged"
+     ]
+    },
+    {
+     "series": "Business 220 Smart",
+     "sku": [
+      "^CBS220",
+      "^S[FG]22[0-9]"
+     ],
+     "labels": [
+      "220 Smart",
+      "Business 220"
+     ]
+    },
+    {
+     "series": "Business 250 Smart",
+     "sku": [
+      "^CBS250",
+      "^S[FGX]25[0-9]"
+     ],
+     "labels": [
+      "250 Smart",
+      "Business 250 Smart"
+     ]
+    },
+    {
+     "series": "Business 350X Stackable",
+     "sku": [
+      "^S[FGX]350X"
+     ],
+     "labels": [
+      "350X Stackable Managed",
+      "350X"
+     ]
+    },
+    {
+     "series": "Business 350 Managed",
+     "sku": [
+      "^CBS350",
+      "^S[FG]35[0-9]"
+     ],
+     "labels": [
+      "Business 350",
+      "350 Managed",
+      "350"
+     ]
+    },
+    {
+     "series": "Business 550X Stackable",
+     "sku": [
+      "^S[FGX]550X",
+      "^CBS550"
+     ],
+     "labels": [
+      "550X Stackable Managed",
+      "550X"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Meraki MS",
+   "series": [
+    {
+     "series": "MS120",
+     "sku": [
+      "^MS120"
+     ],
+     "labels": [
+      "MS120"
+     ]
+    },
+    {
+     "series": "MS125",
+     "sku": [
+      "^MS125"
+     ],
+     "labels": [
+      "MS125"
+     ]
+    },
+    {
+     "series": "MS130",
+     "sku": [
+      "^MS130"
+     ],
+     "labels": [
+      "MS130",
+      "MS130 Desktop",
+      "MS130R"
+     ]
+    },
+    {
+     "series": "MS150",
+     "sku": [
+      "^MS150"
+     ],
+     "labels": [
+      "MS150"
+     ]
+    },
+    {
+     "series": "MS210",
+     "sku": [
+      "^MS210"
+     ],
+     "labels": [
+      "MS210"
+     ]
+    },
+    {
+     "series": "MS225",
+     "sku": [
+      "^MS225"
+     ],
+     "labels": [
+      "MS225"
+     ]
+    },
+    {
+     "series": "MS250",
+     "sku": [
+      "^MS250"
+     ],
+     "labels": [
+      "MS250"
+     ]
+    },
+    {
+     "series": "MS350",
+     "sku": [
+      "^MS350"
+     ],
+     "labels": [
+      "MS350"
+     ]
+    },
+    {
+     "series": "MS355",
+     "sku": [
+      "^MS355"
+     ],
+     "labels": [
+      "MS355"
+     ]
+    },
+    {
+     "series": "MS390",
+     "sku": [
+      "^MS390"
+     ],
+     "labels": [
+      "MS390"
+     ]
+    },
+    {
+     "series": "MS410",
+     "sku": [
+      "^MS410"
+     ],
+     "labels": [
+      "MS410"
+     ]
+    },
+    {
+     "series": "MS425",
+     "sku": [
+      "^MS425"
+     ],
+     "labels": [
+      "MS425"
+     ]
+    },
+    {
+     "series": "MS450",
+     "sku": [
+      "^MS450"
+     ],
+     "labels": [
+      "MS450"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Metro Ethernet",
+   "series": [
+    {
+     "series": "ME 3400",
+     "sku": [
+      "^ME-?3400",
+      "^ME34",
+      "^B-3400",
+      "^R-ME3400"
+     ],
+     "labels": [
+      "ME 3400E Ethernet Access"
+     ]
+    },
+    {
+     "series": "ME 3600X and 3800X",
+     "sku": [
+      "^ME-?3[68]00X"
+     ]
+    },
+    {
+     "series": "ME 4900",
+     "sku": [
+      "^ME-?49"
+     ]
+    }
+   ]
+  }
+ ]
+}
