@@ -1,13 +1,13 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-14T12:13:03.536Z",
+ "built_at": "2026-09-14T12:14:35.841Z",
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7433,
  "lines": [
   {
    "line": "Catalyst",
-   "parts": 3162,
+   "parts": 3163,
    "series": [
     {
      "series": "Catalyst 9400",
@@ -36,36 +36,35 @@
     },
     {
      "series": "Catalyst 9200",
-     "parts": 138,
+     "parts": 136,
      "kinds": {
-      "mechanical": 8,
+      "mechanical": 7,
       "switch": 101,
       "module": 8,
-      "power-cord": 2,
+      "power-cord": 1,
       "power": 13,
       "stack-cable": 6
      },
      "samples": [
       "4PT-KIT-T2= — 4 Point rack mount kit New",
-      "ACC-KIT-T1= — Accessory kit for Cisco Catalyst 3650 Series",
       "C9200-24P — Cisco C9200-24P Managed Switch (L3) – 24× Gigabit-RJ45 (PoE+",
       "C9200-24P-A — C9200-24P-A – Catalyst 9200 24-port PoE+ Switch, Network Adv",
       "C9200-24P-E — C9200-24P-E – Catalyst 9200 24-port PoE+ Switch. Network Ess",
-      "C9200-24PB — Cisco C9200-24PB Managed Switch (L3) – 24× Gigabit-RJ45 (PoE"
+      "C9200-24PB — Cisco C9200-24PB Managed Switch (L3) – 24× Gigabit-RJ45 (PoE",
+      "C9200-24PB-A — C9200-24PB-A – Catalyst 9200 24-port PoE+, enhanced VRF, Net"
      ],
      "rules": {
-      "label": 28,
+      "label": 26,
       "sku": 110
      }
     },
     {
      "series": "Catalyst 9300",
-     "parts": 263,
+     "parts": 247,
      "kinds": {
       "switch": 167,
       "module": 26,
-      "power-cord": 14,
-      "cable": 6,
+      "cable": 4,
       "mechanical": 3,
       "fan": 2,
       "power": 23,
@@ -82,7 +81,7 @@
      ],
      "rules": {
       "sku": 193,
-      "label": 70
+      "label": 54
      }
     },
     {
@@ -354,13 +353,13 @@
     },
     {
      "series": "Catalyst 3850",
-     "parts": 214,
+     "parts": 216,
      "kinds": {
       "switch": 165,
       "mechanical": 7,
       "fan": 7,
       "module": 10,
-      "power-cord": 1,
+      "power-cord": 3,
       "power": 24
      },
      "samples": [
@@ -372,16 +371,17 @@
       "C1-WS3850-24U/K9 — Cisco One Catalyst 3850 24 Port UPoE"
      ],
      "rules": {
-      "label": 46,
-      "sku": 168
+      "label": 45,
+      "sku": 168,
+      "name": 3
      }
     },
     {
      "series": "Catalyst 3650",
-     "parts": 229,
+     "parts": 230,
      "kinds": {
       "power": 8,
-      "mechanical": 6,
+      "mechanical": 7,
       "accessory": 1,
       "switch": 201,
       "module": 4,
@@ -394,17 +394,18 @@
       "2D-C2-250WAC= — 250W AC Config 2 Power Supply Spare with 2D Barcode",
       "2D-C2-640WAC= — 640W AC Config 2 Power Supply Spare with 2D Barcode",
       "4PT-KIT-T1= — Extension rails and brackets for four-point mounting for Cis",
-      "BLNK-RPS2300 — Bay Insert for Cisco Redundant Power System 2300",
-      "C1-WS3650-24PD/K9 — Cisco One Catalyst 3650 24 Port PoE 2x10G Uplink"
+      "ACC-KIT-T1= — Accessory kit for Cisco Catalyst 3650 Series",
+      "BLNK-RPS2300 — Bay Insert for Cisco Redundant Power System 2300"
      ],
      "rules": {
-      "label": 44,
+      "label": 43,
+      "name": 2,
       "sku": 185
      }
     },
     {
      "series": "Catalyst 3750-X",
-     "parts": 129,
+     "parts": 131,
      "kinds": {
       "switch": 60,
       "mechanical": 11,
@@ -412,8 +413,8 @@
       "module": 11,
       "power": 13,
       "power-cord": 26,
-      "stack-cable": 3,
-      "cable": 2
+      "cable": 4,
+      "stack-cable": 3
      },
      "samples": [
       "3750X-12S — Cisco 3750X-12S",
@@ -425,6 +426,7 @@
      ],
      "rules": {
       "sku": 122,
+      "name": 2,
       "label": 7
      }
     },
@@ -528,21 +530,23 @@
     },
     {
      "series": "Catalyst 3560",
-     "parts": 31,
+     "parts": 32,
      "kinds": {
       "mechanical": 1,
+      "cable": 1,
       "switch": 30
      },
      "samples": [
       "C3560-NEBS-KIT= — Cisco Catalyst 3650 NEBS Kit",
+      "CAB-SFP-50CM= — Cisco Catalyst 3560 SFP Interconnect Cable (50 cm)",
       "CH-C3560-24TS-S-24 — C3560V2 24 10/100 +2SFP Std 24-Unit Bundle",
       "CH-C3560-48TS-S-24 — C3560V2 48 10/100 +2SFP Std 24-unit bundle",
       "WS-C3560-12PC-S — Catalyst 3560 Compact 12 10/100 PoE + 1 T/SFP; IP Base Image",
-      "WS-C3560-24PS-E — Cisco WS-C3560-24PS-E Catalyst 3560 gemanagter L3-Access-Swi",
-      "WS-C3560-24PS-S — Cisco WS-C3560-24PS-S Catalyst 3560 gemanagter L3-Access-Swi"
+      "WS-C3560-24PS-E — Cisco WS-C3560-24PS-E Catalyst 3560 gemanagter L3-Access-Swi"
      ],
      "rules": {
-      "sku": 31
+      "sku": 31,
+      "name": 1
      }
     },
     {
@@ -567,13 +571,13 @@
     },
     {
      "series": "Catalyst 2960-X and 2960-XR",
-     "parts": 176,
+     "parts": 189,
      "kinds": {
       "switch": 142,
       "accessory": 1,
       "module": 8,
       "power": 15,
-      "power-cord": 5,
+      "power-cord": 18,
       "stack-cable": 3,
       "mechanical": 2
      },
@@ -587,7 +591,8 @@
      ],
      "rules": {
       "sku": 159,
-      "label": 17
+      "label": 17,
+      "name": 13
      }
     },
     {
@@ -1971,28 +1976,27 @@
   },
   {
    "line": "Metro Ethernet",
-   "parts": 26,
+   "parts": 25,
    "series": [
     {
      "series": "ME 3400",
-     "parts": 23,
+     "parts": 22,
      "kinds": {
       "switch": 11,
-      "cable": 1,
       "power": 6,
       "mechanical": 5
      },
      "samples": [
       "B-3400EG12-T — ME3400 System, 10x1G RTU License and ANA",
-      "CAB-SFP-50CM= — Cisco Catalyst 3560 SFP Interconnect Cable (50 cm)",
       "ME-3400E-12CS-BUN — Bundle for ME3400-12CS",
       "ME-3400E-24TS-BUN — Bundle for ME3400-24TS",
       "ME-3400E-24TS-M — ME3400E Ethernet Access switches 24 10/100 + 2 Combo",
-      "ME-3400E-24TS-M= — Spare chassis for ME-3400E-24TS-M"
+      "ME-3400E-24TS-M= — Spare chassis for ME-3400E-24TS-M",
+      "ME-3400E-2CS-BUN — Bundle for ME3400-2CS"
      ],
      "rules": {
       "sku": 19,
-      "label": 4
+      "label": 3
      }
     },
     {

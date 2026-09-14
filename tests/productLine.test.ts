@@ -42,6 +42,7 @@ witness("switches", [
   ["WS-C3750X-24T-S", "Catalyst 3750-X", "Catalyst 3750-X", "Catalyst", "Catalyst 3750-X"],                       // not 3750
   ["2D-C2960XR-24PD-I", "Cat 2960-XR w/2D barcode", "2960-XR", "Catalyst", "Catalyst 2960-X and 2960-XR"],        // 2D- prefix
   ["CAB-ACU", "AC Power Cord (UK)", "2960", "Catalyst", "Catalyst 2960"],                                          // no family token: label
+  ["CAB-TA-DN=", "AC power cord for Cisco Catalyst 2960-XR (Denmark)", "Catalyst 9300", "Catalyst", "Catalyst 2960-X and 2960-XR"], // name beats label
   ["CBS350-24P-4G-EU", "CBS350 Managed 24-port GE, PoE", "Business 350", "Cisco Business", "Business 350 Managed"],
   ["SG350X-24MP-K9-CN", "SG350X-24MP Stackable", "350X Stackable Managed", "Cisco Business", "Business 350X Stackable"],
   ["MS390-24", "Cisco MS390-24", "MS390", "Meraki MS", "MS390"],

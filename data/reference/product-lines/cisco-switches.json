@@ -211,6 +211,9 @@
      ],
      "labels": [
       "Catalyst 3850"
+     ],
+     "name": [
+      "for Cisco Catalyst 3850"
      ]
     },
     {
@@ -223,6 +226,9 @@
      "labels": [
       "3650",
       "Catalyst 3650"
+     ],
+     "name": [
+      "Catalyst 3650 Series"
      ]
     },
     {
@@ -236,6 +242,9 @@
      "labels": [
       "3750-X",
       "Catalyst 3750-X"
+     ],
+     "name": [
+      "Catalyst 3750-X StackPower"
      ]
     },
     {
@@ -293,6 +302,9 @@
      ],
      "labels": [
       "3560"
+     ],
+     "name": [
+      "Catalyst 3560 SFP Interconnect"
      ]
     },
     {
@@ -323,6 +335,9 @@
       "2960-X",
       "2960-XR",
       "Catalyst 2960-X"
+     ],
+     "name": [
+      "for Cisco Catalyst 2960-XR"
      ]
     },
     {
