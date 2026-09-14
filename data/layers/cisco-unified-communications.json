@@ -1,7 +1,21 @@
 {
  "vendor": "cisco",
  "category": "unified-communications",
- "built_at": "2026-09-14T15:55:04.725Z",
+ "built_at": "2026-09-14T16:48:21.215Z",
+ "commit": "4c24db4be871b1ce63fb2a295845d43c1af4d4a4",
+ "uncommitted_rule_files": [
+  "data/reference/kind-layer-plans-2026-09-13.json",
+  "data/reference/product-lines/cisco-interfaces-modules.json",
+  "data/reference/product-lines/cisco-optical-networking.json",
+  "data/reference/product-lines/cisco-routers.json",
+  "data/reference/product-lines/cisco-switches.json",
+  "data/reference/product-lines/cisco-wireless.json",
+  "scripts/build-layers.mts",
+  "src/core/routerKind.ts",
+  "src/core/switchKind.ts",
+  "data/reference/layers-cross-claims.json",
+  "src/core/layerChecks.ts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",
  "parts": 490,
  "lines": [

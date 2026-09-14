@@ -1,7 +1,21 @@
 {
  "vendor": "cisco",
  "category": "optical-networking",
- "built_at": "2026-09-14T14:06:03.166Z",
+ "built_at": "2026-09-14T16:48:12.723Z",
+ "commit": "4c24db4be871b1ce63fb2a295845d43c1af4d4a4",
+ "uncommitted_rule_files": [
+  "data/reference/kind-layer-plans-2026-09-13.json",
+  "data/reference/product-lines/cisco-interfaces-modules.json",
+  "data/reference/product-lines/cisco-optical-networking.json",
+  "data/reference/product-lines/cisco-routers.json",
+  "data/reference/product-lines/cisco-switches.json",
+  "data/reference/product-lines/cisco-wireless.json",
+  "scripts/build-layers.mts",
+  "src/core/routerKind.ts",
+  "src/core/switchKind.ts",
+  "data/reference/layers-cross-claims.json",
+  "src/core/layerChecks.ts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
  "parts": 1186,
  "lines": [
@@ -232,57 +246,6 @@
    ]
   },
   {
-   "line": "NCS 4200",
-   "parts": 67,
-   "series": [
-    {
-     "series": "NCS 4201 / 4202 / 4206 / 4216",
-     "role": null,
-     "note": "A900- power supplies, fillers and optical guides filed under the NCS 4200 label are shared ASR 900 / NCS 4206 parts; left here by label",
-     "parts": 66,
-     "kinds": {
-      "mechanical": 7,
-      "accessory": 3,
-      "power": 2,
-      "fan": 3,
-      "cable": 12,
-      "linecard": 25,
-      "chassis": 8,
-      "controller": 6
-     },
-     "roles": {},
-     "samples": [
-      "A900-IMA-FILLER= — ASR 900 Interface Module Filler Cover, Spare",
-      "A900-OPT-GUIDE-H= — ASR 900 optical guide for horizontal fiber routing support",
-      "A900-PWR900-D2 — ASR 900 900W DC power supply with dual feed",
-      "A900-PWR900-D2= — ASR 900 900W DC power supply with dual feed, spare",
-      "A900-ROPT-GUIDE-H= — ASR 900 RSP optical guide for horizontal fiber routing suppo",
-      "A903-F2B-AIR — Front-to-back airflow deflector"
-     ],
-     "rules": {
-      "label": 9,
-      "sku": 57
-     }
-    },
-    {
-     "series": "NCS 4200 shared parts",
-     "role": null,
-     "note": null,
-     "parts": 1,
-     "kinds": {
-      "mechanical": 1
-     },
-     "roles": {},
-     "samples": [
-      "A900-PWR-BLANK — ASR 900 power supply blank cover"
-     ],
-     "rules": {
-      "accessory": 1
-     }
-    }
-   ]
-  },
-  {
    "line": "Routed Optical Networking",
    "parts": 4,
    "series": [
@@ -346,6 +309,174 @@
    "reason": "'15454 QWEST LOCAL BUNDLE EXPANSION CLASS' — an ordering class"
   },
   {
+   "sku": "A900-IMA-FILLER=",
+   "name": "ASR 900 Interface Module Filler Cover, Spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "A900-OPT-GUIDE-H=",
+   "name": "ASR 900 optical guide for horizontal fiber routing support",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "A900-PWR-BLANK",
+   "name": "ASR 900 power supply blank cover",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "A900-PWR900-D2",
+   "name": "ASR 900 900W DC power supply with dual feed",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "A900-PWR900-D2=",
+   "name": "ASR 900 900W DC power supply with dual feed, spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "A900-ROPT-GUIDE-H=",
+   "name": "ASR 900 RSP optical guide for horizontal fiber routing support",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "A903-F2B-AIR",
+   "name": "Front-to-back airflow deflector",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "A903-FAN-H",
+   "name": "High-performance fan tray",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "A907-F2B-AIR",
+   "name": "Front-to-back airflow deflector",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "CABLE-16TDM-R1EL1",
+   "name": "Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Even Slot Numbers, 42\" / 3.5 ft / 1.1 m",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "CABLE-16TDM-R1EL2",
+   "name": "Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Even Slot Numbers, 62\" / 5.2 ft / 1.6 m",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "CABLE-16TDM-R1EL3",
+   "name": "Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Even Slot Numbers, 78\" / 6.5 ft / 2 m",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "CABLE-16TDM-R1OL1",
+   "name": "Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Odd Slot Numbers, 42\" / 3.5 ft / 1.1 m",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "CABLE-16TDM-R1OL2",
+   "name": "Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Odd Slot Numbers, 62\" / 5.2 ft / 1.6 m",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "CABLE-16TDM-R1OL3",
+   "name": "Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Odd Slot Numbers, 78\" / 6.5 ft / 2 m",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "CABLE-16TDM-R3EL1",
+   "name": "Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Even Slot Numbers, 42\" / 3.5 ft / 1.1 m",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "CABLE-16TDM-R3EL2",
+   "name": "Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Even Slot Numbers, 62\" / 5.2 ft / 1.6 m",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "CABLE-16TDM-R3EL3",
+   "name": "Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Even Slot Numbers, 78\" / 6.5 ft / 2 m",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "CABLE-16TDM-R3OL1",
+   "name": "Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd Slot Numbers, 42\" / 3.5 ft / 1.1 m",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "CABLE-16TDM-R3OL2",
+   "name": "Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd Slot Numbers, 62\" / 5.2 ft / 1.6 m",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "CABLE-16TDM-R3OL3",
+   "name": "Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd Slot Numbers, 78\" / 6.5 ft / 2 m",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
    "sku": "DS-X9124",
    "name": "24-port 1/2/4-Gbps Fibre Channel Switching Module",
    "series_label": "Network Convergence System 2000 Series",
@@ -360,6 +491,366 @@
    "action": "move",
    "to": "storage-networking",
    "reason": "MDS Fibre Channel switching module ('48-port 1/2/4-Gbps Fibre Channel Switching Module') filed under optical-networking"
+  },
+  {
+   "sku": "NCS4200-1H-PK",
+   "name": "NCS 4200 1-Port 100GE CPAK Interface Module",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-1H-PK=",
+   "name": "NCS 4200 1-Port 100GE CPAK Interface Module, spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-1RU-DOOR",
+   "name": "NCS 4200 1 RU Door and Ancillary",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-1T16G-PS",
+   "name": "NCS 4200 Combo 8/16 port GE SFP/C-SFP and 1 port 10GE SFP+ / 2 port 1GE C-SFP Interface Module",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-1T16G-PS=",
+   "name": "NCS 4200 Combo 8/16 port GE SFP/C-SFP and 1 port 10GE SFP+ / 2 port 1GE C-SFP Interface Module, Spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-1T8LR-PS",
+   "name": "NCS 4200 Combo 8 port SFP GE and 1 port 10GE SFP+ IM",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-1T8LR-PS=",
+   "name": "NCS 4200 Combo 8 port SFP GE and 1 port 10GE SFP+ IM, spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-1T8S-10CS",
+   "name": "NCS 4200 1x 10G MR + 8-port Low Rate - 10G CEM & OTN LC",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-1T8S-10CS=",
+   "name": "NCS 4200 1x 10G MR + 8-port Low Rate - 10G CEM & OTN LC",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-1T8S-20CS",
+   "name": "NCS 4200 8-port OC3/12/48/STM-1/-4/-16 SFP or 1-Port OC192/STM-64 SFP+ CEM/iMSG Interface Module",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-1T8S-20CS=",
+   "name": "NCS 4200 8-port OC3/12/48/STM-1/-4/-16 SFP or 1-Port OC192/STM-64 SFP+ CEM/iMSG Interface Module, Spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-2H-PK",
+   "name": "NCS 4200 2-Port 100GE QSFP28 Interface Module (Only one 100GE port supported with RSP3-400)",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-2H-PK=",
+   "name": "NCS 4200 2-Port 100GE QSFP28 Interface Module, spare (Only one 100GE port supported with RSP3-400)",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-2H-PQ",
+   "name": "NCS 4200 2 port 100GE QSFP28 Interface Module",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-2Q-P",
+   "name": "NCS 4200 2-Port 40GE QSFP Interface Module",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-2Q-P=",
+   "name": "NCS 4200 2-Port 40GE QSFP Interface Module, spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-3GMS",
+   "name": "ASR 900 12 port T1/E1 + 4 port DS3/E3 + 4 port OC3/STM-1 or 4 port OC12/STM-4 or 1 port OC48/STM16 CEM/iMSG Interface Module",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-3GMS=",
+   "name": "ASR 900 12 port T1/E1 + 4 port DS3/E3 + 4 port OC3/STM-1 or 4 port OC12/STM-4 or 1 port OC48/STM16 CEM/iMSG Interface Module, Spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-48T1E1-CE",
+   "name": "NCS 4200 48x T1/E1 CEM Line Card - Requires Patch Panel",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-48T1E1-CE=",
+   "name": "NCS 4200 48x T1/E1 CEM Line Card - Requires Patch Panel",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-48T3E3-CE",
+   "name": "NCS 4200 48x T3/E3 CEM Line Card - Requires Patch Panel",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-48T3E3-CE=",
+   "name": "NCS 4200 48x T3/E3 CEM Line Card - Requires Patch Panel",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-8E1T1-CE",
+   "name": "NCS 4200 8x T1/E1 CEM Line Card - RJ48C",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-8E1T1-CE=",
+   "name": "NCS 4200 8-Port T1/E1 Interface Module, Spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-8T-PS",
+   "name": "NCS 4200 8-Port 10GE SFP+ Interface Module",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4200-8T-PS=",
+   "name": "NCS 4200 8-Port 10GE SFP+ Interface Module, spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4201-SA",
+   "name": "NCS 4201 Shelf Assembly - 4x10GE + 24x GE/FE (1 RU)",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4202-SA",
+   "name": "NCS 4202 Shelf Assembly - 4x10GE + 12x GE/FE + 1 IM slot (1 RU)",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4206-DOOR",
+   "name": "NCS 4206 door and ancillary",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4206-SA",
+   "name": "NCS 4206 Shelf Assembly (6 slots - 3 RU)",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4206-SA=",
+   "name": "NCS 4206 shelf assembly (6 slots, 3 RU), spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS420X-RSP",
+   "name": "NCS 4206 Router and Switching Processor and Controller - 400G",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS420X-RSP-128",
+   "name": "NCS 4206 Router and Switching Processor and Controller - 128G",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS420X-RSP-128=",
+   "name": "NCS 4206 Router and Switching Processor and Controller - 128G, spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS420X-RSP=",
+   "name": "NCS 4206 Router and Switching Processor and Controller - 400G, spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4216-DOOR",
+   "name": "NCS 4216 door and ancillary",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4216-F2B-DOOR",
+   "name": "NCS 4216 F2B Door and Ancillary",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4216-F2B-FAN",
+   "name": "NCS 4216 F2B Top/Bottom Fan Tray Kit",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4216-F2B-SA",
+   "name": "NCS 4216 Front to Back Shelf Assembly (16 slots - 14 RU)",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4216-F2B-SA=",
+   "name": "NCS 4216 Front to Back Shelf Assembly (16 slots - 14 RU)",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4216-PWR-FAN",
+   "name": "NCS 4216 F2B Power Supply Fan Tray",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4216-RSP",
+   "name": "NCS 4216 Router and Switching Processor and Controller - 400G",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4216-RSP=",
+   "name": "NCS 4216 Router and Switching Processor and Controller - 400G, spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4216-SA",
+   "name": "NCS 4216 Shelf Assembly (16 slots - 7 RU)",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
+  },
+  {
+   "sku": "NCS4216-SA=",
+   "name": "NCS 4216 shelf assembly (16 slots, 7 RU), spare",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
   },
   {
    "sku": "ONS-CFP2-WDM-1KE",
@@ -464,6 +955,14 @@
    "action": "class",
    "to": "non_product",
    "reason": "typo twin of ONS-QSFP28-LR4= (placeholder name 'Cisco ONS-QSP28-LR4=')"
+  },
+  {
+   "sku": "PANEL-144-1-AMP64",
+   "name": "144 x 120 ohm E1/110 ohm DS1 termination, 12 x AMP 64-pin",
+   "series_label": "Network Convergence System 4200 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
   }
  ],
  "unplaced": [],

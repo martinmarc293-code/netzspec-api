@@ -15,12 +15,17 @@
   },
   {
    "sku": "^(WS-SVC-SAMI|MEM-SAMI)",
-   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
-   "belongs": "interfaces-modules"
+   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card — its home is switches, Catalyst 6500 (layers review round 2 decision (14 Sep 2026); was interfaces-modules)",
+   "belongs": "switches"
   },
   {
    "sku": "^C49[0-9]{2}E?-BKT",
    "why": "Catalyst 4948E switch mount brackets filed under a Catalyst 9163 label",
+   "belongs": "switches"
+  },
+  {
+   "sku": "^WS-SVC",
+   "why": "WS-SVC-WISM2 FIPS kit: a Catalyst 6500 service-module part, kept with the platform in switches (layers review round 2 decision (14 Sep 2026))",
    "belongs": "switches"
   }
  ],
@@ -580,12 +585,6 @@
      "sku": [
       "^WL(55|85)[0-9]{2}-",
       "^KAISER-WLC"
-     ]
-    },
-    {
-     "series": "WiSM2 (Catalyst 6500 wireless services module)",
-     "sku": [
-      "WISM"
      ]
     },
     {

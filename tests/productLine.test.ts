@@ -249,7 +249,8 @@ witness("interfaces-modules", [
   ["PA-MC-2T1=", "2 port multichannel T1 port adapter", "Port Adapters", "Router Interface Modules", "PA Port Adapters (7200 / 7500 VIP)"],
   ["12000-SIP-601=", "XR 12000 SPA Interface Processor", "Line cards", "Router and switch line cards (legacy)", "Cisco 12000 / XR 12000 SIP and line cards"],
   ["4GE-SFP-LC", "Cisco XR 12000 and 12000 Series 4-Port Gigabit Ethernet", "Line cards", "Router and switch line cards (legacy)", "Cisco 12000 / XR 12000 SIP and line cards"],
-  ["WS-SVC-NAM-3-K9", "Cisco Catalyst 6500 Series NAM-3", "Services Modules", "Router and switch line cards (legacy)", "Catalyst 6500 / 7600 service modules"],
+  ["WS-SVC-NAM-3-K9", "Cisco Catalyst 6500 Series NAM-3", "Services Modules", "(not this category)", "switches"],  // round-2 decision: service modules live with the platform
+  ["NAM2420-K9", "Cisco NAM2420-K9", "Services Modules", "Router and switch line cards (legacy)", "NAM 2400 appliances (Services Modules label)"],
   ["DS-X9248-96HPK9=", "48-port Performance 8Gb FC Module", "Storage Networking Modules", "(not this category)", "storage-networking"],
   ["WS-X4548-GB-RJ45V", "Catalyst 4500 PoE line card", "Line cards", "(not this category)", "switches"],
   ["AIR-RM3010L-N-K9=", "Hyperlocation Module", "Access Point Modules", "(not this category)", "wireless"],
@@ -362,7 +363,8 @@ check("every one of the 17 categories has a mapping file that validates", files.
     // layers review item 1: without the digit fence ASR 901's pattern takes the ASR-9010 chassis
     const rt = JSON.parse(fs.readFileSync(`${LINE_DIR}/cisco-routers.json`, "utf8")) as LineFile;
     const s901 = rt.lines.flatMap((l) => l.series).find((s) => s.series === "ASR 901")!;
-    s901.sku = (s901.sku ?? []).map((p) => p.replace("(?![0-9])", ""));
+    // round 2 (14 Sep 2026) removed the dead `^ASR-?901(?![0-9])`; the sabotage re-adds that family token WITHOUT its fence
+    s901.sku = [...(s901.sku ?? []).map((p) => p.replace("(?![0-9])", "")), "^ASR-?901"];
     const path3 = `${LINE_DIR}/cisco-zz-sabotage2.json`;
     fs.writeFileSync(path3, JSON.stringify({ ...rt, category: "zz-sabotage2" }));
     let got2: ReturnType<typeof placePart> = null;

@@ -1,7 +1,21 @@
 {
  "vendor": "cisco",
  "category": "transceiver",
- "built_at": "2026-09-14T13:58:25.903Z",
+ "built_at": "2026-09-14T16:48:29.650Z",
+ "commit": "4c24db4be871b1ce63fb2a295845d43c1af4d4a4",
+ "uncommitted_rule_files": [
+  "data/reference/kind-layer-plans-2026-09-13.json",
+  "data/reference/product-lines/cisco-interfaces-modules.json",
+  "data/reference/product-lines/cisco-optical-networking.json",
+  "data/reference/product-lines/cisco-routers.json",
+  "data/reference/product-lines/cisco-switches.json",
+  "data/reference/product-lines/cisco-wireless.json",
+  "scripts/build-layers.mts",
+  "src/core/routerKind.ts",
+  "src/core/switchKind.ts",
+  "data/reference/layers-cross-claims.json",
+  "src/core/layerChecks.ts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-transceiver.json",
  "parts": 2107,
  "lines": [
@@ -125,7 +139,7 @@
       "SFP-GPON-B — Cisco SFP-GPON-B GPON OLT-Transceiver Klasse B+ — 1490Tx/131",
       "SFP-GPON-B-16= — 16 units of SFP-GPON-B for ME4600-AMX-16GPON",
       "SFP-GPON-B-8= — 8 units of SFP-GPON-B for ME4600-AMX-16GPON",
-      "SFP-GPON-B-I — Cisco SFP-GPON-B-I GPON OLT-Transceiver Klasse B+ Industrie "
+      "SFP-GPON-B-I — GPON Class B+ SFP OLT Trcvr Module, 1490Tx, 1310Rx, I-Temp"
      ],
      "rules": {
       "sku": 21
@@ -206,11 +220,11 @@
      "roles": {},
      "samples": [
       "CFP2-WDM-BDL-1HL= — 200G, 100G, WDM Digital CFP2 pluggable - Licensed 100G only",
-      "CFP2-WDM-D-1HL — Cisco CFP2-WDM-D-1HL 200G-fähiges Digital-Coherent CFP2 DWDM",
+      "CFP2-WDM-D-1HL — 200G,100G,WDM Digital CFP2 pluggable Licensed 100only-nonTOF",
       "CFP2-WDM-D-1HL= — 200G,100G,WDM Digital CFP2 pluggable Licensed 100only-nonTOF",
       "CFP2-WDM-D-SK — Cisco CFP2-WDM-D-SK 200G/100G Digital-Coherent CFP2 DWDM-Mod",
       "CFP2-WDM-DE-1HL= — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only",
-      "CFP2-WDM-DET-1HL — Cisco CFP2-WDM-DET-1HL Digital-Coherent CFP2 mit abstimmbare"
+      "CFP2-WDM-DET-1HL — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only"
      ],
      "rules": {
       "sku": 52
@@ -329,10 +343,10 @@
      },
      "roles": {},
      "samples": [
-      "QDD-2X100-CWDM4-S — Cisco QDD-2X100-CWDM4-S 2×100G-CWDM4 QSFP-DD Modul — SMF, Du",
+      "QDD-2X100-CWDM4-S — QSFP-DD Transceiver, 2X 100G CWDM4, 2X Duplex CS, 2km SMF",
       "QDD-2X100-CWDM4-S= — QSFP-DD Transceiver, 2X 100G CWDM4, 2X Duplex CS, 2km SMF",
       "QDD-2X100-LR4-S — Cisco QDD-2X100-LR4-S 2×100GBASE-LR4 QSFP-DD Modul — SMF, Du",
-      "QDD-2X100-SR4-S — Cisco QDD-2X100-SR4-S 2×100GBASE-SR4 QSFP-DD Modul — MMF, MP",
+      "QDD-2X100-SR4-S — QSFP-DD Transceiver, 2X 100GBASE-SR4, MPO-24, 100m MMF",
       "QDD-2X100-SR4-S= — QSFP-DD Transceiver, 2X 100GBASE-SR4, MPO-24, 100m MMF",
       "QDD-2X400G-FR4 — Cisco QDD-2X400G-FR4 2×400GBASE-FR4 QSFP-DD800 — 1310-nm-Ban"
      ],
@@ -372,11 +386,11 @@
      },
      "roles": {},
      "samples": [
-      "CFP-100G-ER4 — Cisco CFP-100G-ER4 100GBASE-ER4 CFP — LAN-WDM Singlemode, Du",
+      "CFP-100G-ER4 — 100GBASE-ER4 CFP Module",
       "CFP-100G-ER4= — 100GBASE-ER4 CFP Module",
-      "CFP-100G-LR4 — Cisco CFP-100G-LR4 100GBASE-LR4 CFP — LAN-WDM Singlemode, Du",
+      "CFP-100G-LR4 — 100GBASE-LR4 CFP Module",
       "CFP-100G-LR4= — 100GBASE-LR4 CFP Module",
-      "CFP-100G-SR10 — Cisco CFP-100G-SR10 100GBASE-SR10 CFP — 850 nm Multimode, MP",
+      "CFP-100G-SR10 — 100GBASE-SR10 CFP transceiver, 100m OM3 MMF",
       "CFP-100G-SR10= — 100GBASE-SR10 CFP transceiver, 100m OM3 MMF"
      ],
      "rules": {
@@ -417,7 +431,7 @@
      "samples": [
       "FET-40G — Cisco FET-40G Fabric Extender QSFP+ Modul — 850 nm MMF, MPO-",
       "QSFP-40-SR-BD — Cisco QSFP-40-SR-BD 40GBASE-SR-BiDi QSFP+ — Multimode, Duple",
-      "QSFP-40/100-SRBD — Cisco QSFP-40/100-SRBD 40/100G Dual-Rate BiDi QSFP28 Modul —",
+      "QSFP-40/100-SRBD — 100G and 40GBASE SR-BiDi QSFP transceiver, LC, 100m OM4 MMF,",
       "QSFP-40/100-SRBD1 — Cisco QSFP-40/100-SRBD1",
       "QSFP-40/100-SRBD= — 100G and 40GBASE SR-BiDi QSFP transceiver, LC, 100m OM4 MMF,",
       "QSFP-40G-BD-RX — Cisco QSFP-40G-BD-RX 40G BiDi Monitor QSFP+ — 832-918 nm MMF"
@@ -481,11 +495,11 @@
      "roles": {},
      "samples": [
       "C3-XENPAK-10GB-LR= — 10GBASE-LR, up to 10 km single mode fiber",
-      "X2-10GB-CX4 — Cisco X2-10GB-CX4 10GBASE-CX4 X2 Modul — 15 m Twinax (CX4)",
+      "X2-10GB-CX4 — 10GBASE-CX4 X2 Module",
       "X2-10GB-CX4= — 10GBASE-CX4 X2 Module",
-      "X2-10GB-ER — Cisco X2-10GB-ER 10GBASE-ER X2 Modul — 40 km SMF, 1550 nm",
+      "X2-10GB-ER — 10GBASE-ER X2 Module",
       "X2-10GB-ER= — 10GBASE-ER X2 Module",
-      "X2-10GB-LR — Cisco X2-10GB-LR 10GBASE-LR X2 Modul — 10 km SMF, 1310 nm"
+      "X2-10GB-LR — 10GBASE-LR X2 Module"
      ],
      "rules": {
       "sku": 58
@@ -523,7 +537,7 @@
      },
      "roles": {},
      "samples": [
-      "WS-G5483 — Cisco WS-G5483 1000BASE-T GBIC — Kupfer, RJ-45, Cat5, 100 m",
+      "WS-G5483 — 1000BASE-T GBIC",
       "WS-G5484 — Cisco WS-G5484 1000BASE-SX GBIC — Multimode, 850 nm, 550 m, ",
       "WS-G5486 — Cisco WS-G5486 1000BASE-LX/LH GBIC — Singlemode, 1310 nm, 10",
       "WS-G5486= — Cisco 1000BASE-LX/LH GBIC transceiver module for SMF and MMF",

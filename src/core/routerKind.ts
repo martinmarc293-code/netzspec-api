@@ -188,7 +188,9 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // UCS-E service-module spares moving from servers-unified-computing (agent 4's move list): a router module.
   { id: "module-svc-e-spare", kind: "module", re: /^SVC-E1\d{2,3}[DS]-M\d/ },
   { id: "accessory-cable-mgmt", kind: "accessory",
-    re: /CAB-MGMT|CBLMGMT|CBLMFMT|CABLETRAY|(?<![A-Z0-9])(?:FRONT|FRNT|REAR|BCK)-CM(?![A-Z0-9])|-CM-RETRO|-LCC-FRNT-E|^CAB-GUIDE|(?:CAB|CBL)-(?:BRKT|BRACKET|GUIDE)/ },
+    // + A900-OPT-GUIDE-H= / A900-ROPT-GUIDE-H= "optical guide for horizontal fiber routing support" (round 2, arriving with NCS 4200):
+    // their A900- prefix otherwise reaches sp-asr900 and a fibre guide is asked a whole router's questions.
+    re: /CAB-MGMT|CBLMGMT|CBLMFMT|CABLETRAY|(?<![A-Z0-9])(?:FRONT|FRNT|REAR|BCK)-CM(?![A-Z0-9])|-CM-RETRO|-LCC-FRNT-E|^CAB-GUIDE|(?:CAB|CBL)-(?:BRKT|BRACKET|GUIDE)|-R?OPT-GUIDE(?:-[HV])?=?$/ },
   // routers-r5 (12 Sep 2026) — SEVEN MISSES FOUND BY READING THE 423 PARTS THE DEVICE SUB-KIND
   // RULES CLAIMED. Every one is a real Cisco part whose NAME says accessory and whose SKU carries a
   // token the accessory rule spells differently; each would otherwise have been asked a whole
@@ -374,7 +376,10 @@ export const DEVICE_RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // NCS 5500 / 6000 / 560 modular shelves and the NCS fabric chassis. The FIXED NCS boxes —
   // NCS-5501, NCS-5502, NCS-55A1-*, NCS-57*, N540-*-SYS — are deliberately NOT here.
   { id: "chassis-ncs", kind: "chassis",
-    re: /^NCS-5(?:504|508|516)(?![0-9])|^NCS-6(?:008|20\d-SYS)|^NCS-F-(?:CHASS|SYS)|^NCS560-\d|^N560-4-SYS/ },
+    // + the NCS 4206 / 4216 shelf assemblies (layers review round 2, 14 Sep 2026: NCS 4200 moves into routers). NCS4206-SA
+    // "Shelf Assembly (6 slots - 3 RU)", NCS4216-F2B-SA "(16 slots - 14 RU)", NCS4216-F2B-14RU "FNLASY,NCS4216-F2B-SA,14RU".
+    // NOT NCS4201-SA / NCS4202-SA "4x10GE + 24x GE/FE (1 RU)": fixed ports, so sp-router by sp-ncs below.
+    re: /^NCS-5(?:504|508|516)(?![0-9])|^NCS-6(?:008|20\d-SYS)|^NCS-F-(?:CHASS|SYS)|^NCS560-\d|^N560-4-SYS|^NCS42(?:06|16)-(?:F2B-)?(?:SA|14RU)=?$/ },
   // 8000-series centralized chassis: 8404 4-slot, 8608 8-slot, 8804/8808/8812/8818. The fixed 8000s
   // (8011, 810x, 820x, 8212, 8223, 871x) are not, and `-SYS` alone is no marker — N540-12Z20G-SYS
   // is a fixed router.

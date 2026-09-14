@@ -88,14 +88,14 @@ sku	name	series_label	kind	bucket	product_line	series	placed_by	deploy_role	role
 8OC3X/POS-IR-LC-B=	Cisco 8OC3X/POS-IR-LC-B=	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 12000 / XR 12000 SIP and line cards	sku ^[0-9]{1,2}OC(3|12|48)					
 8OC3X/POS-MM-MJ-B	Cisco 8OC3X/POS-MM-MJ-B	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 12000 / XR 12000 SIP and line cards	sku ^[0-9]{1,2}OC(3|12|48)					
 8OC3X/POS-MM-MJ-B=	Cisco 8OC3X/POS-MM-MJ-B=	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 12000 / XR 12000 SIP and line cards	sku ^[0-9]{1,2}OC(3|12|48)					
-ACE30-BASE-04-K9	ACE30 Module with 4G, 1G Comp, 1K SSL TPS and 5VC	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^ACE[0-9]					
-ACE30-MOD-04-K9	ACE30 Module with 4G, 4G Comp, 30K SSL TPS and 250VC	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^ACE[0-9]					
-ACE30-MOD-08-K9	ACE30 Module with 8G, 6G Comp, 30K SSL TPS and 250VC	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^ACE[0-9]					
-ACE30-MOD-16-K9	ACE30 Module with 16G, 6G Comp, 30K SSL TPS and 250VC	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^ACE[0-9]					
-ACE30-MOD-K9	Application Control Engine 30 Hardware	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^ACE[0-9]					
-ACE30-MOD-K9=	Application Control Engine 30 Hardware	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^ACE[0-9]					
-ACE30-SYS-AC-04-K9	ACE30 16G 6504-E 720-10G-3C 6716 AC System	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^ACE[0-9]					
-ACE30-SYS-DC-04-K9	ACE30 16G 6504-E 720-10G-3C 6716 DC System	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^ACE[0-9]					
+ACE30-BASE-04-K9	ACE30 Module with 4G, 1G Comp, 1K SSL TPS and 5VC	Services Modules	module	pending_plan							move switches	
+ACE30-MOD-04-K9	ACE30 Module with 4G, 4G Comp, 30K SSL TPS and 250VC	Services Modules	module	pending_plan							move switches	
+ACE30-MOD-08-K9	ACE30 Module with 8G, 6G Comp, 30K SSL TPS and 250VC	Services Modules	module	pending_plan							move switches	
+ACE30-MOD-16-K9	ACE30 Module with 16G, 6G Comp, 30K SSL TPS and 250VC	Services Modules	module	pending_plan							move switches	
+ACE30-MOD-K9	Application Control Engine 30 Hardware	Services Modules	module	pending_plan							move switches	
+ACE30-MOD-K9=	Application Control Engine 30 Hardware	Services Modules	module	pending_plan							move switches	
+ACE30-SYS-AC-04-K9	ACE30 16G 6504-E 720-10G-3C 6716 AC System	Services Modules	module	pending_plan							move switches	
+ACE30-SYS-DC-04-K9	ACE30 16G 6504-E 720-10G-3C 6716 DC System	Services Modules	module	pending_plan							move switches	
 ACS-2900-RM-23	23 inch rack mount kit for Cisco 2911/2921/2951 ISR	Network Modules	mechanical	pending_plan							move routers	
 ACS-2900-RM-23=	23 inch rack mount kit for Cisco 2911/2921/2951 ISR (only as spare)	Network Modules	mechanical	pending_plan							move routers	
 ACS-2900-RM-ETSI	ETSI rack mount kit for Cisco 2911/2921/2951 ISR	Network Modules	mechanical	pending_plan							move routers	
@@ -538,10 +538,10 @@ LDP7AA46.017	Cisco LDP7AA46.017	High-Speed WAN Interface Cards	unknown	layered	R
 LIM-SL-48	Cisco LIM-SL-48	High-Speed WAN Interface Cards	accessory	layered	Router Interface Modules	EHWIC / HWIC / VWIC / WIC	label High-Speed WAN Interface Cards					
 LIM-SL-72	Cisco LIM-SL-72	High-Speed WAN Interface Cards	accessory	layered	Router Interface Modules	EHWIC / HWIC / VWIC / WIC	label High-Speed WAN Interface Cards					
 MEM-2951-512U2.5GB	512MB to 2.5GB DRAM Upgrade (2GB+512MB) for Cisco 2951 ISR	Network Modules	memory	layered	Router Interface Modules	NM / NME Network Modules	label Network Modules					
-MEM-C6K-APP-24GB	Cat6500 24GB Service Module Memory	Services Modules	memory	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^MEM-C6K					
-MEM-C6K-APP-24GB=	Cat6500 24GB Service Module Memory	Services Modules	memory	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^MEM-C6K					
-MEM-C6K-VSE-24GB=	Cat6500 Service Module Memory 24GB	Services Modules	memory	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^MEM-C6K					
-MEM-C6KNAM-2GB=	2GB Memory for WS-SVC-NAM-1 and WS-SVC-NAM-2	Services Modules	memory	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^MEM-C6K					
+MEM-C6K-APP-24GB	Cat6500 24GB Service Module Memory	Services Modules	memory	pending_plan							move switches	
+MEM-C6K-APP-24GB=	Cat6500 24GB Service Module Memory	Services Modules	memory	pending_plan							move switches	
+MEM-C6K-VSE-24GB=	Cat6500 Service Module Memory 24GB	Services Modules	memory	pending_plan							move switches	
+MEM-C6KNAM-2GB=	2GB Memory for WS-SVC-NAM-1 and WS-SVC-NAM-2	Services Modules	memory	pending_plan							move switches	
 MEM-ISE-512A-2PK=	1-GB route memory upgrade option (two 512-MB DIMMs-spares orderable today)	Line cards	memory	layered	Router and switch line cards (legacy)	Router and switch line cards (legacy) shared parts	label Line cards					
 MEM-LC-ISE-512A=	512-MB route memory upgrade option (one 512-MB DIMM-spares orderable today)	Line cards	memory	layered	Router and switch line cards (legacy)	Router and switch line cards (legacy) shared parts	label Line cards					
 MGX-2GE	Half-height, 2-port Gigabit Ethernet backcard for Cisco MGX 8800/8900 Series RPM-XF	Route Processors and Route Switch Processors	interface	layered	Router and switch line cards (legacy)	Router and switch line cards (legacy) shared parts	label Route Processors and Route Switch Processors					
@@ -551,10 +551,10 @@ MGX-XF-UI/B	User interface card model B for Cisco MGX 8800/8900 Series RPM-XF	Ro
 NAL-FOC-2901	NAL Certification labels for Cisco 2901	Network Modules	accessory	layered	Router Interface Modules	NM / NME Network Modules	label Network Modules					
 NAL-FOC-2911	NAL Certification labels for Cisco 2911	Network Modules	accessory	layered	Router Interface Modules	NM / NME Network Modules	label Network Modules					
 NAL-FOC-2951	NAL Certification labels for Cisco 2951	Network Modules	accessory	layered	Router Interface Modules	NM / NME Network Modules	label Network Modules					
-NAM2420-K9	Cisco NAM2420-K9	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	label Services Modules					
-NAM2440-K9	Cisco NAM2440-K9	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	label Services Modules					
-NAM3-HDD-600G	Hard Drives - 600G - for NAM-3	Services Modules	memory	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^NAM3					
-NAM3-HDD-600G=	Hard Drives - 600G - for NAM-3	Services Modules	memory	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^NAM3					
+NAM2420-K9	Cisco NAM2420-K9	Services Modules	module	layered	Router and switch line cards (legacy)	NAM 2400 appliances (Services Modules label)	sku ^NAM24[0-9]{2}					
+NAM2440-K9	Cisco NAM2440-K9	Services Modules	module	layered	Router and switch line cards (legacy)	NAM 2400 appliances (Services Modules label)	sku ^NAM24[0-9]{2}					
+NAM3-HDD-600G	Hard Drives - 600G - for NAM-3	Services Modules	memory	pending_plan							move switches	
+NAM3-HDD-600G=	Hard Drives - 600G - for NAM-3	Services Modules	memory	pending_plan							move switches	
 NANT-A	Cisco NANT-A	High-Speed WAN Interface Cards	unknown	layered	Router Interface Modules	EHWIC / HWIC / VWIC / WIC	label High-Speed WAN Interface Cards					
 NCS-FAB-OPT	Bundle of 96 CXP-100G-SR12	Transceiver Modules	unknown	layered	Cables and accessories	Fiber and M12 cables (CB-)	label Transceiver Modules					
 NCS-FAB-OPT=	Bundle of 96 CXP-100G-SR12	Transceiver Modules	unknown	layered	Cables and accessories	Fiber and M12 cables (CB-)	label Transceiver Modules					
@@ -945,24 +945,24 @@ USB-X45-4GB-E	Cisco Catalyst 4500 4 GB USB device for Supervisor 8-E (Future Roa
 VIC-1J1	One Port Digital Voice Interface Card (J1) for Japan	Network Modules	interface	layered	Router Interface Modules	VIC Voice Interface Cards	sku ^VIC					
 VIC-1J1=	One Port Digital Voice Interface Card (J1) for Japan	Network Modules	interface	layered	Router Interface Modules	VIC Voice Interface Cards	sku ^VIC					
 WDM-SFP-2CH-CONV=	Cisco 2-Channel SFP WDM Transponder	Transceiver Modules	unknown	layered	Cables and accessories	Fiber and M12 cables (CB-)	label Transceiver Modules					
-WS-SVC-ASA-SM1	Base ASA Services Module PID for K8/K9	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-ASA-SM1-K7	ASA Services Module for Catalyst 6500-E, NPE	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-ASA-SM1-K7=	ASA K7 Service Module for the Catalyst 6500-E, DES (Spare)	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-ASA-SM1-K8	ASA Services Module for Catalyst 6500-E, DES	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-ASA-SM1-K8=	ASA Services Module for Catalyst 6500-E, DES (spare)	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-ASA-SM1-K9	ASA Services Module for Catalyst 6500-E, 3DES/AES	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-ASA-SM1-K9=	ASA Services Module for Catalyst 6500-E, 3DES/AES (spare)	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-ASA-SM1=	ASA Services Module for Catalyst 6500-E K8/K9 (Spare)	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-ASASM1B-K9	ASA Services Module for Catalyst 6500-E, 3DES/AES	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-IDS2-BUN-K9	600M IDSM-2 Mod for Cat	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-IDS2BUNK9=	600M IDSM-2 Mod Spare	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-NAM-3-K9	Cisco Catalyst 6500 Series NAM-3	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-NAM-3-K9=	Cisco Catalyst 6500 Series NAM-3	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-NAM3-6G-K9	Cisco Catalyst 6500 Series Network Analysis Module (NAM-3)	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-NAM3-6G-K9=	Cisco Catalyst 6500 Series Network Analysis Module (NAM-3)	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-NAM3KS2T-K9	NAM-3 for Keystone Sup2T bundles	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-WEBVPN-K9	WebVPN Services Module for Cisco Catalyst 6500 Series and Cisco 7600 Series	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
-WS-SVC-WEBVPN-K9=	WebVPN Services Module (spare)	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^WS-SVC					
+WS-SVC-ASA-SM1	Base ASA Services Module PID for K8/K9	Services Modules	module	pending_plan							move switches	
+WS-SVC-ASA-SM1-K7	ASA Services Module for Catalyst 6500-E, NPE	Services Modules	module	pending_plan							move switches	
+WS-SVC-ASA-SM1-K7=	ASA K7 Service Module for the Catalyst 6500-E, DES (Spare)	Services Modules	module	pending_plan							move switches	
+WS-SVC-ASA-SM1-K8	ASA Services Module for Catalyst 6500-E, DES	Services Modules	module	pending_plan							move switches	
+WS-SVC-ASA-SM1-K8=	ASA Services Module for Catalyst 6500-E, DES (spare)	Services Modules	module	pending_plan							move switches	
+WS-SVC-ASA-SM1-K9	ASA Services Module for Catalyst 6500-E, 3DES/AES	Services Modules	module	pending_plan							move switches	
+WS-SVC-ASA-SM1-K9=	ASA Services Module for Catalyst 6500-E, 3DES/AES (spare)	Services Modules	module	pending_plan							move switches	
+WS-SVC-ASA-SM1=	ASA Services Module for Catalyst 6500-E K8/K9 (Spare)	Services Modules	module	pending_plan							move switches	
+WS-SVC-ASASM1B-K9	ASA Services Module for Catalyst 6500-E, 3DES/AES	Services Modules	module	pending_plan							move switches	
+WS-SVC-IDS2-BUN-K9	600M IDSM-2 Mod for Cat	Services Modules	module	pending_plan							move switches	
+WS-SVC-IDS2BUNK9=	600M IDSM-2 Mod Spare	Services Modules	module	pending_plan							move switches	
+WS-SVC-NAM-3-K9	Cisco Catalyst 6500 Series NAM-3	Services Modules	module	pending_plan							move switches	
+WS-SVC-NAM-3-K9=	Cisco Catalyst 6500 Series NAM-3	Services Modules	module	pending_plan							move switches	
+WS-SVC-NAM3-6G-K9	Cisco Catalyst 6500 Series Network Analysis Module (NAM-3)	Services Modules	module	pending_plan							move switches	
+WS-SVC-NAM3-6G-K9=	Cisco Catalyst 6500 Series Network Analysis Module (NAM-3)	Services Modules	module	pending_plan							move switches	
+WS-SVC-NAM3KS2T-K9	NAM-3 for Keystone Sup2T bundles	Services Modules	module	pending_plan							move switches	
+WS-SVC-WEBVPN-K9	WebVPN Services Module for Cisco Catalyst 6500 Series and Cisco 7600 Series	Services Modules	module	pending_plan							move switches	
+WS-SVC-WEBVPN-K9=	WebVPN Services Module (spare)	Services Modules	module	pending_plan							move switches	
 WS-X4124-FX-MT=	Catalyst 4500 FE Switching Module, 24- 100FX (MTRJ)(Spare)	Line cards	interface	not_this_category			exclude ^WS-X4[0-9]{3}					switches
 WS-X4124-RJ45=	Catalyst 4500 10/100 Module, 24-Ports(RJ45)	Line cards	interface	not_this_category			exclude ^WS-X4[0-9]{3}					switches
 WS-X4148-FX-MT=	Catalyst 4500 FE Switching Module, 48‑100FX MMF(MTRJ)(Spare)	Line cards	interface	not_this_category			exclude ^WS-X4[0-9]{3}					switches

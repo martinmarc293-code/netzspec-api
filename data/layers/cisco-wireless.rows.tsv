@@ -2017,7 +2017,7 @@ AIR-PSU-930WDC	930W -48V DC Common Slot Power Supply for 8540 Controller	Antenna
 AIR-PSU-930WDC=	930W -48V DC Common Slot Power Supply for 8540 Controller	Antennas/Accessories	power	layered	Location and Spaces Appliances	CMX 3375 / MSE 3355 / 3365	sku ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-					
 AIR-PSU-BLKP1U	Power Supply Blanking Panel for C220 M4 servers	Antennas/Accessories	power	layered	Location and Spaces Appliances	CMX 3375 / MSE 3355 / 3365	sku ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-					
 AIR-PSU1-770W	770W AC Hot-Plug Power Supply for 5520 Controller	Antennas/Accessories	power	layered	Wireless Antennas and Accessories	Wireless Antennas and Accessories shared parts	label Antennas/Accessories					
-AIR-PSU1-770W=	770W AC Hot-Plug Power Supply for 5520 Controller	5500	power	layered	AireOS Wireless LAN Controllers	5500 (5508 / 5520 / 5540)	label 5500					
+AIR-PSU1-770W=	770W AC Hot-Plug Power Supply for 5520 Controller	5500	power	layered	Wireless Antennas and Accessories	Wireless Antennas and Accessories shared parts	label Antennas/Accessories					
 AIR-PSU2V2-1200W	1200W V2 AC Power Supply for 8540 Controller	Antennas/Accessories	power	layered	Wireless Antennas and Accessories	Wireless Antennas and Accessories shared parts	label Antennas/Accessories					
 AIR-PSU2V2-1200W=	1200W V2 AC Power Supply for 8540 Controller	Antennas/Accessories	power	layered	Wireless Antennas and Accessories	Wireless Antennas and Accessories shared parts	label Antennas/Accessories					
 AIR-PWR-4400-AC	4400 Series WLAN Controller AC Power Supply (redundant)	Aironet 1550	power	layered	Wireless Antennas and Accessories	Power injectors, supplies and cords	sku ^AIR-PWR					
@@ -2110,7 +2110,7 @@ AIR-RAID-ROM5	Embedded SW RAID 0/1/10, 8 ports SAS/SATA	Aironet 1550	module	laye
 AIR-RM-VBLE2-K9=	Cisco AIR-RM-VBLE2-K9=	Mobility Services Engine	module	layered	Location and Spaces Appliances	Exciters and BLE / VBLE radio modules	sku ^AIR-RM-VBLE					
 AIR-SD-32G-S	32GB SD Card for UCS servers	Antennas/Accessories	module	layered	Location and Spaces Appliances	CMX 3375 / MSE 3355 / 3365	sku ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-					
 AIR-SD240G0KS2-EV	240GB 2.5 inch Enterprise Value 6G SATA SSD	8500	module	layered	AireOS Wireless LAN Controllers	8500 (8510 / 8540 / 8580)	label 8500					
-AIR-SD240G0KS2-EV=	Spare SSD for Cisco Wireless Controller 5520 and 8540	5500	module	layered	AireOS Wireless LAN Controllers	5500 (5508 / 5520 / 5540)	label 5500					
+AIR-SD240G0KS2-EV=	Spare SSD for Cisco Wireless Controller 5520 and 8540	5500	module	layered	AireOS Wireless LAN Controllers	8500 (8510 / 8540 / 8580)	label 8500					
 AIR-SD240GBKS2-EV	240GB 2.5 inch Enterprise Value 6G SATA SSD	Antennas/Accessories	module	layered	Wireless Antennas and Accessories	Wireless Antennas and Accessories shared parts	label Antennas/Accessories					
 AIR-SD240GBKS2-EV=	Spare SSD for Cisco Wireless Controller 5520 and 8540	Antennas/Accessories	module	layered	Wireless Antennas and Accessories	Wireless Antennas and Accessories shared parts	label Antennas/Accessories					
 AIR-SD240GBKS4-EV	240GB 2.5 inch Enterprise Value 6G SATA SSD	Antennas/Accessories	module	layered	Wireless Antennas and Accessories	Wireless Antennas and Accessories shared parts	label Antennas/Accessories					
@@ -3748,10 +3748,10 @@ MA-PWR-30W-xx	Standard power adapter. Regional plugs per SKU.	Catalyst 9163	powe
 MA-PWR-50WAC	Cisco MA-PWR-50WAC	Catalyst 9163	power	layered	Meraki MR Access Points	Meraki MR Access Points shared parts	sku ^MA-					
 MA-UMNT-MR-A2	Meraki MR Adaptor for Cisco Universal Mounts	Catalyst 9100	mechanical	layered	Meraki MR Access Points	Meraki MR Access Points shared parts	sku ^MA-					
 MA-UMNT-MR-A3	Meraki MR Adaptor for Aruba Universal Mounts	Catalyst 9100	mechanical	layered	Meraki MR Access Points	Meraki MR Access Points shared parts	sku ^MA-					
-MEM-SAMI-6P-2GB	SAMI 6xPPCs with 2GB per PPC Memory Option	7600 Wireless Security Gateway	module	not_this_category			exclude ^(WS-SVC-SAMI|MEM-SAMI)					interfaces-modules
-MEM-SAMI-6P-2GB=	SAMI 6xPPCs with 2GB per PPC Memory Option	7600 Wireless Security Gateway	module	not_this_category			exclude ^(WS-SVC-SAMI|MEM-SAMI)					interfaces-modules
-MEM-SAMI-6P-4GB	SAMI 6xPPCs with 4GB per PPC Memory Option	7600 Wireless Security Gateway	module	not_this_category			exclude ^(WS-SVC-SAMI|MEM-SAMI)					interfaces-modules
-MEM-SAMI-6P-4GB=	SAMI 6xPPCs with 4GB per PPC Memory Option	7600 Wireless Security Gateway	module	not_this_category			exclude ^(WS-SVC-SAMI|MEM-SAMI)					interfaces-modules
+MEM-SAMI-6P-2GB	SAMI 6xPPCs with 2GB per PPC Memory Option	7600 Wireless Security Gateway	module	pending_plan							move switches	
+MEM-SAMI-6P-2GB=	SAMI 6xPPCs with 2GB per PPC Memory Option	7600 Wireless Security Gateway	module	pending_plan							move switches	
+MEM-SAMI-6P-4GB	SAMI 6xPPCs with 4GB per PPC Memory Option	7600 Wireless Security Gateway	module	pending_plan							move switches	
+MEM-SAMI-6P-4GB=	SAMI 6xPPCs with 4GB per PPC Memory Option	7600 Wireless Security Gateway	module	pending_plan							move switches	
 MIXS-12-PA2071DC=	PAS DC CABINET EXTENSION [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan							move routers	
 MIXS-12-PA2091DC=	PAS DC ENCLOSURE [ATT US PAS ONLY]	ASR 5000 Series	mechanical	pending_plan							move routers	
 MIXS-12-PA2101AC=	PAS AC STARTUP CABINET [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan							move routers	
@@ -4006,6 +4006,6 @@ WL5520-28-ADV-100	Cisco WL5520-28-ADV-100	2800	bundle	layered	AireOS Wireless LA
 WL5520-38-PLUS-100	Cisco WL5520-38-PLUS-100	3800	bundle	layered	AireOS Wireless LAN Controllers	WLC + access point bundles	sku ^WL(55|85)[0-9]{2}-					
 WL8540-28-ADV-300	Cisco WL8540-28-ADV-300	2800	bundle	layered	AireOS Wireless LAN Controllers	WLC + access point bundles	sku ^WL(55|85)[0-9]{2}-					
 WL8540-38-PLUS-300	Cisco WL8540-38-PLUS-300	3800	bundle	layered	AireOS Wireless LAN Controllers	WLC + access point bundles	sku ^WL(55|85)[0-9]{2}-					
-WS-SVC-SAMI-BB-K9	Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)	7600 Wireless Security Gateway	module	not_this_category			exclude ^(WS-SVC-SAMI|MEM-SAMI)					interfaces-modules
-WS-SVC-SAMI-BB-K9=	Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)	7600 Wireless Security Gateway	module	not_this_category			exclude ^(WS-SVC-SAMI|MEM-SAMI)					interfaces-modules
-WS-SVCWISM2FIPKIT=	WS-SVC-WISM2 FIPS Kit	Aironet 1550	mechanical	layered	AireOS Wireless LAN Controllers	WiSM2 (Catalyst 6500 wireless services module)	sku WISM					
+WS-SVC-SAMI-BB-K9	Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)	7600 Wireless Security Gateway	module	pending_plan							move switches	
+WS-SVC-SAMI-BB-K9=	Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)	7600 Wireless Security Gateway	module	pending_plan							move switches	
+WS-SVCWISM2FIPKIT=	WS-SVC-WISM2 FIPS Kit	Aironet 1550	mechanical	pending_plan							move switches	

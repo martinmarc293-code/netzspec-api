@@ -1,0 +1,405 @@
+{
+ "_about": "Cross-claims the layers standing check accepts (tests/layersStanding.test.ts): a layered row of <category> that <claimed_by>'s mapping also places by a SKU rule. Each group is recorded with its exact row count — a new group, a grown or shrunk count, or a stale entry fails the check. Statuses: claimant-rule-too-broad (fix in that category's round), decided-home (a decision placed the family here), pending-round (the home is decided in the named round).",
+ "entries": [
+  {
+   "category": "switches",
+   "claimed_by": "wireless",
+   "series": "Cables",
+   "rule": "sku ^CAB-",
+   "rows": 232,
+   "examples": [
+    "CAB-04X-07",
+    "CAB-04X-07=",
+    "CAB-16AWG-AC"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "wireless",
+   "series": "Power injectors, supplies and cords",
+   "rule": "sku ^PWR-",
+   "rows": 222,
+   "examples": [
+    "PWR-1400-AC",
+    "PWR-1400-AC=",
+    "PWR-2700-AC/4"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "meraki",
+   "series": "Meraki MS switches",
+   "rule": "sku ^MS[0-9]",
+   "rows": 180,
+   "examples": [
+    "MS120",
+    "MS120-24",
+    "MS120-24-HW"
+   ],
+   "status": "decided-home",
+   "reason": "Meraki MS switches live in switches: run #1061 (move-category meraki -> switches, 14 Sep 2026) executed the decision; the meraki mapping keeps its MS series for the rows that remain there"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS X9508 chassis",
+   "rule": "sku (?<!CPU-[A-Z]{0,2})9508(?![0-9])",
+   "rows": 25,
+   "examples": [
+    "C1-N9K-C9508",
+    "C1-N9K-C9508-B2",
+    "C1-N9K-C9508-B3-E"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers-unified-computing round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "storage-networking",
+   "series": "MDS 9300 fabric switches (9396S / 9396T / 9396V)",
+   "rule": "sku (?<![0-9])9396",
+   "rows": 20,
+   "examples": [
+    "C1-N9K-C9396PX",
+    "C1-N9K-C9396PX-BUN",
+    "C1-N9K-C9396PXB18Q"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the storage-networking round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "storage-networking",
+   "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
+   "rule": "sku (?<![0-9])92(16|20|22|50)",
+   "rows": 8,
+   "examples": [
+    "C1-N9K-C92160-B18Q",
+    "C1-N9K-C92160-BUN",
+    "C1-N9K-C92160YC-X"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the storage-networking round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "transceiver",
+   "series": "DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)",
+   "rule": "sku ACU",
+   "rows": 5,
+   "examples": [
+    "CAB-7513ACU=",
+    "CAB-7KACU=",
+    "CAB-ACU"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the transceiver round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "transceiver",
+   "series": "GBIC (legacy)",
+   "rule": "sku GBIC",
+   "rows": 5,
+   "examples": [
+    "WS-X6408A-GBIC",
+    "WS-X6416-GBIC",
+    "WS-X6516-GBIC"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the transceiver round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "interfaces-modules",
+   "series": "Fiber and M12 cables (CB-)",
+   "rule": "sku ^CB-",
+   "rows": 3,
+   "examples": [
+    "CB-LC-LC-SMF",
+    "CB-M12-4LC-SMF",
+    "CB-M12-M12-SMF"
+   ],
+   "status": "pending-round",
+   "reason": "CB- fibre patch and MPO cables filed under Nexus 9000 shared parts: generic optical cabling (interfaces-modules) or Nexus accessories — decided in the transceiver + interfaces-modules round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "collaboration-endpoints",
+   "series": "Room Panorama",
+   "rule": "sku ^CS-PANO",
+   "rows": 2,
+   "examples": [
+    "CS-PANO-SWITCH+",
+    "CS-PANO-SWITCH2+"
+   ],
+   "status": "decided-home",
+   "reason": "whole Catalyst switches sold as Room / IX5000 options stay in switches (layers review round 2, A.6; run #1024 moved them); the collab SKU rule is wider than its room parts — fix it in the collaboration-endpoints round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "collaboration-endpoints",
+   "series": "TelePresence IX5000",
+   "rule": "sku ^CTS-5K",
+   "rows": 2,
+   "examples": [
+    "CTS-5K-LC-SWITCH",
+    "CTS-5K-UI-SWITCH"
+   ],
+   "status": "decided-home",
+   "reason": "whole Catalyst switches sold as Room / IX5000 options stay in switches (layers review round 2, A.6; run #1024 moved them); the collab SKU rule is wider than its room parts — fix it in the collaboration-endpoints round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "servers-unified-computing",
+   "series": "R42610 / R42612 racks and PDUs",
+   "rule": "sku ^RACK",
+   "rows": 2,
+   "examples": [
+    "RACK-KIT-T1=",
+    "RACKMNT-19-CMPACT"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers-unified-computing round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS Mini (6324)",
+   "rule": "sku (?<!CPU-[A-Z]{0,2})6324(?![0-9])",
+   "rows": 2,
+   "examples": [
+    "WS-X6324-100FX-MM",
+    "WS-X6324-100FX-SM"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers-unified-computing round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "interfaces-modules",
+   "series": "NM / NME Network Modules",
+   "rule": "sku ^NMD?E?-",
+   "rows": 1,
+   "examples": [
+    "NM-BLANK-T1="
+   ],
+   "status": "pending-round",
+   "reason": "NM-BLANK-T1= filed under Catalyst shared parts: a router network-module blank — decided in the transceiver + interfaces-modules round"
+  },
+  {
+   "category": "switches",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS 6300 Fabric Interconnects",
+   "rule": "sku (?<!CPU-[A-Z]{0,2})6332",
+   "rows": 1,
+   "examples": [
+    "UCS-PSU-6332-DC="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers-unified-computing round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "wireless",
+   "series": "Power injectors, supplies and cords",
+   "rule": "sku ^PWR-",
+   "rows": 132,
+   "examples": [
+    "PWR-1.6KW-AC",
+    "PWR-1.6KW-DC",
+    "PWR-125W-AC"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "wireless",
+   "series": "Cables",
+   "rule": "sku ^CAB-",
+   "rows": 118,
+   "examples": [
+    "CAB-250V-10A-AR",
+    "CAB-250V-10A-CN",
+    "CAB-250V-10A-IS"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "wireless",
+   "series": "Antennas",
+   "rule": "sku ^ANT-",
+   "rows": 34,
+   "examples": [
+    "ANT-2-4G2-O",
+    "ANT-2-WLAN-D-O",
+    "ANT-2.3-PNL-OUT-N"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "transceiver",
+   "series": "DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC",
+   "rule": "sku DWDM",
+   "rows": 19,
+   "examples": [
+    "1-100GE-DWDM/C",
+    "1-100GE-DWDM/C++=",
+    "1-100GE-DWDM/C="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the transceiver round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "interfaces-modules",
+   "series": "Cisco 12000 / XR 12000 SIP and line cards",
+   "rule": "sku ^[0-9]{1,2}(GE|CHOC|X10GE)",
+   "rows": 7,
+   "examples": [
+    "10GE-EMSE-140G=",
+    "10GE-EMSE-400G=",
+    "10GE-EMSE-OS-140G="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the interfaces-modules round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "wireless",
+   "series": "Antennas",
+   "rule": "sku ^AIR-ANT",
+   "rows": 6,
+   "examples": [
+    "AIR-ANT2513P4M-N/NS",
+    "AIR-ANT2524DB-R",
+    "AIR-ANT2547V-N"
+   ],
+   "status": "pending-round",
+   "reason": "Aironet antennas filed under ISR shared parts: generic antennas (wireless) or ISR WLAN accessories (routers) — decided in the wireless round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS E-Series",
+   "rule": "sku ^E1[0-9]{2}[A-Z]?-",
+   "rows": 6,
+   "examples": [
+    "E100-FCPLT-BRKT",
+    "E100-FCPLT-BRKT=",
+    "E100S-CON-DGL"
+   ],
+   "status": "pending-round",
+   "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E-SSD-U2N-2TB, EM3-HDA-8FXS): servers or router module — decided in the servers-unified-computing round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS E-Series",
+   "rule": "sku ^E-SSD",
+   "rows": 4,
+   "examples": [
+    "E-SSD-U2N-2TB",
+    "E-SSD-U2N-2TB=",
+    "E-SSD-U2N-4TB"
+   ],
+   "status": "pending-round",
+   "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E-SSD-U2N-2TB, EM3-HDA-8FXS): servers or router module — decided in the servers-unified-computing round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "interfaces-modules",
+   "series": "Cisco 12000 / XR 12000 SIP and line cards",
+   "rule": "sku ^[0-9]{1,2}OC(3|12|48)",
+   "rows": 2,
+   "examples": [
+    "4OC48-POS",
+    "4OC48-POS="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the interfaces-modules round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "transceiver",
+   "series": "800G OSFP / QSFP-DD800",
+   "rule": "sku 800G",
+   "rows": 2,
+   "examples": [
+    "800G2-POE-2",
+    "800G2-POE-2="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the transceiver round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "wireless",
+   "series": "Aironet 1520 / 1530",
+   "rule": "sku 15[23]0",
+   "rows": 1,
+   "examples": [
+    "AIR-ACC1530-PMK1"
+   ],
+   "status": "pending-round",
+   "reason": "AIR-ACC1530-PMK1 AP1530/1560 pole mount kit filed under the LoRaWAN gateway in routers — decided in the wireless round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS E-Series",
+   "rule": "sku ^EM3-",
+   "rows": 1,
+   "examples": [
+    "EM3-HDA-8FXS"
+   ],
+   "status": "pending-round",
+   "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E-SSD-U2N-2TB, EM3-HDA-8FXS): servers or router module — decided in the servers-unified-computing round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "hyperconverged-infrastructure",
+   "series": "HCI C220 nodes",
+   "rule": "sku (?<![A-Z0-9])C220(?![0-9])",
+   "rows": 1,
+   "examples": [
+    "XRV-FAN-C220M4="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers + HCI round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "hyperconverged-systems",
+   "series": "HX220c",
+   "rule": "sku (?<![0-9])220-?M[4-7]",
+   "rows": 1,
+   "examples": [
+    "XRV-FAN-C220M4="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers + HCI round"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C220",
+   "rule": "sku (?<![A-Z0-9])C220(?![0-9])",
+   "rows": 1,
+   "examples": [
+    "XRV-FAN-C220M4="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers-unified-computing round"
+  }
+ ]
+}

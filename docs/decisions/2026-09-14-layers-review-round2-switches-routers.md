@@ -68,3 +68,37 @@ switchKind 366/0, routerKind 411/0, productLine 224/0, bundleContents 50/0, bund
 apiLiveParts 63/0 (a stale witness: WS-C4928-10GE is datacenter by the 13 Sep ruling), layersStanding 17/0, typecheck clean.
 `npm test` 63/69: red arrangementFreeze, cupLedger, completeness (the parked rebuild, now also covering this round's kinds
 and cups), source-fields and securityShapes (security / servers / UC keys; not touched by this change).
+
+## Round 2b — reviewer acceptance at 2a0068d, residuals and decisions (14 Sep 2026, evening)
+
+**Residuals**
+- 3900-FANASSY, 3900-FANASSY-NEBS and their spares → ISR 3900: SKU rule `^39[0-9]{2}(-[0-9]{2})?-` (and `^29[0-9]{2}(-[0-9]{2})?-` for
+  ISR 2900). The spare rule had tied label vs label and kept the base's "2900 ISR" label. Exactly 4 router rows changed series.
+- N2232PP-4FEX → bundle, and the rule widened to the FEX-count token `(?<![0-9])\d{1,2}FEX(?![A-Z])`: every live SKU with a count
+  glued to FEX is a set — 40 more rows (N2232PP-6FEX, N5672UP-*FEX*, N5696Q-*FEX*, N6001P-*FEX*, N6004-*FEX*, C1- twins).
+- layers/*.json carry `commit` (HEAD) and `uncommitted_rule_files` (src, scripts, data/reference at build time).
+
+**Decisions applied**
+- A.5 whitespace merge: run #1064 with migrations 0019 / 0020 — record `2026-09-14-whitespace-twins-plan.md`.
+- German names: run #1066 with migration 0021 — report `docs/reports/cisco-switches-german-names-2026-09-14.md`.
+- Cisco ONE "-ADD" selector rows → class non_product, reason "configurator-selector": **9 plans** (switches 7: C1-N5K-ADD,
+  C1-N6K-ADD, C1-N7K-ADD, C1-IE-ADD, C1-N5K-ADD-M, C1-N6K-ADD-M, C1-N7K-ADD-M; routers 2: C1-ASR1K-ADD, C1-ISR-ADD). The round-2
+  record said "six" — there are seven in switches; the two router selectors take the same rule.
+- Meraki MS in switches: decided home, run #1061 — recorded in `data/reference/layers-cross-claims.json`.
+- NCS 4200 → routers (sp-router, role sp-access): 67 optical-networking rows planned into routers (optical mapping excludes
+  `^(NCS42|CABLE-16TDM|A90[0-9]-|PANEL-144-1-AMP64)`); kinds on arrival: module 25, cable 12, chassis 6 (NCS 4206/4216 shelves —
+  new `chassis-ncs` extension; NCS4216-F2B-14RU already in routers moves sp-router → chassis with them), processor 6, mechanical 8,
+  fan 3, power 2, accessory 3 (A900 optical guides: `accessory-cable-mgmt` extension), sp-router 2 (NCS 4201 / 4202 SA).
+- Catalyst 6500 service modules → switches, kind module: switchKind `^WS-SVC-|^ACE\d{2}-(?:MOD|BASE)-` → module (the 8 WS-SVC rows
+  already in switches: linecard → module), their memory (MEM-C6K-APP/VSE, MEM-C6KNAM, MEM-SAMI) and NAM-3 disks; 39 plans (32 from
+  interfaces-modules, 7 from wireless). ACE30-SYS-AC/DC-04-K9 (a 6504-E system) keeps kind switch. NAM2420/2440-K9 appliances stay in
+  interfaces-modules for that round.
+- Runs since 20b1259: **66 runs, #998–#1063** — `docs/reports/cisco-runs-since-20b1259.md`. The earlier "none" was wrong.
+
+**Standing checks, now code** (`src/core/layerChecks.ts`, `tests/layersStanding.test.ts` 128/0): spare=base, plan coverage, twins,
+leakage against `data/reference/layers-cross-claims.json` (30 groups recorded with status, reason and exact count: 20
+claimant-rule-too-broad, 3 decided-home, 7 pending-round), rule shadowing (dead / redundant / cross-series), commit present.
+Rule shadowing fixed for switches (8 dead + 11 redundant rules removed; `^C1-WS3650` could never match — the prefix is stripped —
+so 21 Catalyst 3650 rows had been placed by label only) and routers (4 dead + 4 redundant removed; ISR 1900/2800/2900/3800/3900
+fenced to their model numbers — the family digits claimed Catalyst 2960-XR and 3850 rows; NCS 520/540/560 fenced; Cisco 7600
+fenced off 7600-SIP/SSC-400; switches RPS off the ISR RPS adapters). Series changes from the cleanup: 0.

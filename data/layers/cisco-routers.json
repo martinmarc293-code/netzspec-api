@@ -1,7 +1,21 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-14T15:54:48.070Z",
+ "built_at": "2026-09-14T16:47:40.187Z",
+ "commit": "4c24db4be871b1ce63fb2a295845d43c1af4d4a4",
+ "uncommitted_rule_files": [
+  "data/reference/kind-layer-plans-2026-09-13.json",
+  "data/reference/product-lines/cisco-interfaces-modules.json",
+  "data/reference/product-lines/cisco-optical-networking.json",
+  "data/reference/product-lines/cisco-routers.json",
+  "data/reference/product-lines/cisco-switches.json",
+  "data/reference/product-lines/cisco-wireless.json",
+  "scripts/build-layers.mts",
+  "src/core/routerKind.ts",
+  "src/core/switchKind.ts",
+  "data/reference/layers-cross-claims.json",
+  "src/core/layerChecks.ts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5470,
  "lines": [
@@ -550,9 +564,9 @@
      "series": "ISR 2900",
      "role": "branch",
      "note": null,
-     "parts": 189,
+     "parts": 185,
      "kinds": {
-      "fan": 9,
+      "fan": 5,
       "mechanical": 9,
       "module": 3,
       "router": 101,
@@ -573,8 +587,8 @@
       "2921-51-FANASSY-2 — Cisco 2921/2951 Fan Assembly and Bezel"
      ],
      "rules": {
-      "label": 84,
-      "sku": 105
+      "label": 73,
+      "sku": 112
      }
     },
     {
@@ -608,9 +622,9 @@
      "series": "ISR 3900",
      "role": "branch",
      "note": null,
-     "parts": 81,
+     "parts": 85,
      "kinds": {
-      "fan": 4,
+      "fan": 8,
       "mechanical": 1,
       "router": 57,
       "processor": 8,
@@ -622,16 +636,16 @@
       "branch": 57
      },
      "samples": [
+      "3900-FANASSY — Cisco 3925-3945E Fan Assembly (Both system & spare)",
       "3900-FANASSY-2 — Cisco 3925/3945 Fan Assembly (no Bezel included)",
       "3900-FANASSY-2= — Cisco 3925/3945 Fan Assembly (no Bezel included)",
       "3900-FANASSY-N-2 — Cisco 3925/3945 Fan Assembly for NEBS (w/3900-FANFLTR-NEBS)",
       "3900-FANASSY-N-2= — Cisco 3925/3945 Fan Assembly for NEBS (w/3900-FANFLTR-NEBS)",
-      "ACS-3900-RM-23= — 23 inch rack mount kit for Cisco 3925 - 3945EISR (only as sp",
-      "C1-CISCO3925/K9 — Cisco ONE - ISR 3925"
+      "3900-FANASSY-NEBS — Cisco 3925/3945 Fan Assembly for NEBS w/3900-FANFLTR-NEBS & "
      ],
      "rules": {
-      "label": 13,
-      "sku": 68
+      "sku": 76,
+      "label": 9
      }
     },
     {
@@ -664,7 +678,7 @@
   },
   {
    "line": "ASR (Aggregation Services Routers)",
-   "parts": 1089,
+   "parts": 1075,
    "series": [
     {
      "series": "ASR 901",
@@ -833,10 +847,10 @@
      "series": "ASR (Aggregation Services Routers) shared parts",
      "role": null,
      "note": null,
-     "parts": 44,
+     "parts": 30,
      "kinds": {
       "mechanical": 11,
-      "cable": 28,
+      "cable": 14,
       "accessory": 5
      },
      "roles": {},
@@ -849,7 +863,7 @@
       "CAB-9AS-M — 4-port EIA-232 DTE cable, 68-pin port, 10 ft. length, male D"
      ],
      "rules": {
-      "accessory": 44
+      "accessory": 30
      }
     }
    ]
@@ -922,7 +936,7 @@
   },
   {
    "line": "NCS (Network Convergence System)",
-   "parts": 668,
+   "parts": 682,
    "series": [
     {
      "series": "NCS 520, 540 and 560",
@@ -956,27 +970,29 @@
     {
      "series": "NCS 4200",
      "role": "sp-access",
-     "note": null,
-     "parts": 9,
+     "note": "arriving from optical-networking (layers review round 2 decision (14 Sep 2026)): 67 rows carry move plans; the TDM CEM cable kits (CABLE-16TDM-*) are placed here with them, not under ASR shared parts",
+     "parts": 23,
      "kinds": {
+      "cable": 14,
       "module": 1,
-      "sp-router": 4,
+      "sp-router": 3,
       "mechanical": 2,
+      "chassis": 1,
       "processor": 2
      },
      "roles": {
-      "sp-access": 4
+      "sp-access": 3
      },
      "samples": [
-      "NCS4200-2H-PQ= — NCS 4200 2 port 100GE QSFP28 Interface Module",
-      "NCS4201-SA= — NCS 4201 Shelf Assembly - 4x10GE + 24x GE/FE (1 RU)",
-      "NCS4202-1RU — FNLASY,NCS4202-SA,1RU",
-      "NCS4202-SA= — NCS 4202 Shelf Assembly - 4x10GE + 12x GE/FE + 1 IM (1 RU)",
-      "NCS4206-DOOR= — NCS 4206 Door and Ancillary",
-      "NCS4216-DOOR= — NCS 4216 Door and Ancillary"
+      "CABLE-16TDM-C — 16 port cable for TDM CEM IM, no red, 72” / 6 ft / 1.8 m",
+      "CABLE-16TDM-C-L1 — 16 port cable for TDM CEM IM, no red, 56\" / 4.7 ft / 1.4 m",
+      "CABLE-16TDM-C-L2 — 16 port cable for TDM CEM IM, no red, 63\" / 5.3 ft / 1.6 m",
+      "CABLE-16TDM-C-L3 — 16 port cable for TDM CEM IM, no red, 85\" / 7.1ft / 2.2 m",
+      "CABLE-16TDM-C-L4 — 16 port cable for TDM CEM IM, no red, 96\" / 8 ft / 2.4 m",
+      "CABLE-16TDM-C-R — 16 port cable for TDM CEM IM, red, 10 Feet"
      ],
      "rules": {
-      "sku": 9
+      "sku": 23
      }
     },
     {
@@ -2334,8 +2350,8 @@
    "name": "Cisco ONE for ASR 1000 Series",
    "series_label": "ASR 1000",
    "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
+   "to": "non_product",
+   "reason": "configurator-selector"
   },
   {
    "sku": "C1-ASR1K-UPG",
@@ -2350,8 +2366,8 @@
    "name": "Cisco ONE for ISR - CHOOSE ONLY QTY 1 HERE",
    "series_label": "3900 Series Integrated Services Routers ISR",
    "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
+   "to": "non_product",
+   "reason": "configurator-selector"
   },
   {
    "sku": "C1-ISR-UPG-M",

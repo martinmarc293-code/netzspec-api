@@ -640,7 +640,7 @@ export async function readWhitespaceGroups(vendor: string | null, db: Queryable)
       ORDER BY ve.slug, g.fold, p.sku`, vendor ? [vendor] : []);
   const byKey = new Map<string, CaseGroup>();
   for (const row of r.rows) {
-    const k = `${row.vendor} ${row.fold}`;
+    const k = `${row.vendor}|${row.fold}`;
     const g = byKey.get(k) ?? { vendor: row.vendor, fold: row.fold, rows: [] };
     g.rows.push({ id: row.id, sku: row.sku, vendor: row.vendor, facts: row.facts, review_tier: row.review_tier });
     byKey.set(k, g);

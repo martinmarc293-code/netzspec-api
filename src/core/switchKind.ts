@@ -186,7 +186,11 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   // single switches, N55-M16FP-B "Module, Bundle", C9400-SUP-1-B "SUP1 BUNDLE PID ONLY", and the single-card 4500-E
   // options C4500E-S3-UPOE "WS-X4748-UPOE+E Upgrade for Bundles" / C4500E-S3-MGIG "(48 UPOE + 12p mGig)".
   { kind: "bundle", re: /^N3K-C\d{4}[A-Z]*(?:-ZZ)?-\d{1,2}PK(?:BN|-BD|-L3)?=?$|^N9K-C9236C-2PK=?$|^N2K-B22DELL-P-5PK=?$|^(?:WS|VS)-DFC4AX?L?-4PAK=?$|^N7K-F312-P[12]=?$|^N77-F324-P[12]=?$|^C9400-LC-48UX-B=?$|^CH-C3560-(?:24|48)TS-S-24$|^WS-C3560V2-48PS-SM$/ },
-  { kind: "bundle", re: /^(?:C1-)?N5(?:548|596)UPM{0,2}-\d{1,2}FEX=?$|^N56128PM{0,2}-\d{1,2}FEX-|^N9300-\d{1,2}FEX-|^N5(?:6128|672|696)-N2300-BUN=?$|^N6004EF-\d{1,2}FEX-/ },
+  // + FEX, widened on the reviewer's residual (14 Sep 2026): the family list above had missed N2232PP-4FEX "4 x 2232PP Chassis
+  // Option with FETs" and, read in the same pass, 37 more — N5672UP-4FEX-10G, N5696Q-12FEX-1G, N6001P-2FEX-10G, N6004-8FEX-1G and
+  // their C1- twins (C1-N5672UP4FEX10GT glues the count). EVERY live SKU carrying a count glued to FEX is such a set (69 of 69
+  // read), so the rule is that token, not a list of parents.
+  { kind: "bundle", re: /(?<![0-9])\d{1,2}FEX(?![A-Z])|^N5(?:6128|672|696)-N2300-BUN=?$/ },
   { kind: "bundle", re: /^N7K-F312-4N2248-P1$|^N77-F324-4N2248-P1$|^N7[K7]-F3-N9372-P1$|^N7[K7]-F3-2N9396-16BD$|^N7(?:0|7)\d{2}-U-B\w+-P1$/ },
   { kind: "bundle", re: /^C4500E-(?:[367]N?R-S?[789][EL]?-(?:MGIG|UPOE|POE\+|4748)|S[678]L?-4748RJV|S[678]E?L?-(?:DEFAULT|SFP-DEF|SFP\+|RJ45|S7|S7-SFP|S8-SFP)|S7E-SFP-DEF|S6L-S7|8E-MGIG|S[67]-MGIG|S7L\/2-SFP\+E)$|^C4500-10R-S8E-MGIG$|^C4500RE-S7-MGIG$|^C4510RE-S8-(?:DEFAULT|MGIG)$|^C4510RE-S9-UPOE$/ },
   { kind: "bundle", re: /^N3K-C\d{4}[A-Z]*(?:-XL|-X)?-\d{1,2}BD$|^N3K-C3172(?:PQ|TQ)-ZZ$|^N3K-C3232C-B8C$|^N3K-C3408-(?:QSFP-)?B$|^(?:C1-)?N9K-?C9[23]\w+?-?B(?:18Q|24)$|^N9K-C92160YC-X-B1$|^C1-N9K-C93180LCB2$|^N2K-C22(?:32|48)[PT]R(?:-E)?(?:\+\+)?$|^N2K-C23(?:32|48)(?:TQ|UPQ)(?:8|12)F(?:-E)?$/ },
@@ -207,9 +211,17 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   //           SSD-240G "pluggable USB3.0 240G SSD storage", MEM-C6K-DRV-1G "Catalyst 6500 Microdrive, 1GB"
   // KEPT accessory: CF-ADAPTER "Compact Flash Adapter" (no card), MEM-SD-COVER-RGD= (mechanical), NXB-CPU-FRU "CPU, 128G SSD,
   // 32G DRAM" (a CPU board; no processor kind in switches — recorded).
-  { kind: "memory", re: /^MEM-(?:A-MSFC3|C4K-\d+-SDRAM|DFC|MSFC[23]|S3|SUP2T|SUP720-SP|X45|XCEF720)-|^C6880-X-LE-MEMKIT=?$|^N7K-SUP1-8GBUPG=?$/ },
+  // CATALYST 6500 SERVICE MODULES (layers review round 2 decision, 14 Sep 2026): FWSM, WiSM, ACE, NAM, ASA-SM, IDSM, SAMI, CMM
+  // live with the platform — kind `module` (they were `linecard` by the WS-SVC token), their memory and disks with them:
+  //   WS-SVC-ASA-SM1-K9 "ASA Services Module for Catalyst 6500-E", WS-SVC-NAM-3-K9, WS-SVC-WISM-1-K9, WS-SVC-SAMI-BB-K9,
+  //   WS-SVC-CMM-24FXS "24-port FXS Analog Port Adapter", ACE30-MOD-K9 "Application Control Engine 30 Hardware";
+  //   MEM-C6K-APP-24GB "Cat6500 24GB Service Module Memory", MEM-C6KNAM-2GB= "2GB Memory for WS-SVC-NAM-1", MEM-SAMI-6P-2GB;
+  //   NAM3-HDD-600G "Hard Drives - 600G - for NAM-3".
+  // KEPT: ACE30-SYS-AC-04-K9 "ACE30 16G 6504-E 720-10G-3C 6716 AC System" — one chassis with what it holds, a system (A.4).
+  { kind: "module", re: /^WS-SVC-|^ACE\d{2}-(?:MOD|BASE)-/ },
+  { kind: "memory", re: /^MEM-(?:A-MSFC3|C4K-\d+-SDRAM|DFC|MSFC[23]|S3|SUP2T|SUP720-SP|X45|XCEF720)-|^C6880-X-LE-MEMKIT=?$|^N7K-SUP1-8GBUPG=?$|^MEM-C6K-(?:APP|VSE)-|^MEM-C6KNAM-|^MEM-SAMI-/ },
   { kind: "flash", re: /^BF-S720-|^CDB-SD-\d|^CF-IE3000|^CMICR-MSD-\d|^MEM-C4K-FLD|^MEM-C6K-(?:CPTFL|INTFL)|^MEM-SD-\d|^N7[7K]-(?:USB|CPF)-\d+GB|^SD-IE-\d|^SD-X45-\d|^USB-X45-\d|^WS-CF-UPG(?:-\d+GB)?=?$/ },
-  { kind: "drive", re: /^C9400-SSD-|^C9610-SSD-|^C9K-F[13]-SSD-|^SSD-\d+G=?$|^MEM-C6K-DRV-/ },
+  { kind: "drive", re: /^C9400-SSD-|^C9610-SSD-|^C9K-F[13]-SSD-|^SSD-\d+G=?$|^MEM-C6K-DRV-|^NAM3-HDD-/ },
   // THE SPARE RULE (layers review 14 Sep 2026, A.1): X and X= are one part and carry one kind. These families split because
   // the spare's name ("Nexus 7700 - 10 Slot Chassis Rack Mount Kit") took the name path to `mechanical` while the base,
   // named only "Cisco N77-C7710-RMK", stayed `accessory` — so the SKU token decides for both, ahead of the cable split

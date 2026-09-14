@@ -108,6 +108,10 @@ const POSITIVE: [string, RouterKind, string, string][] = [
   ["ISR4330U-MEM-MSATA", "bundle", "bundle-packs-sets", "Upgrade to 16GB DRAM/16GB Flash, 200GB mSATA SSD bundle (was memory)"],
   ["NC6-20X100GE-L-C", "bundle", "bundle-packs-sets", "NCS6000 20x100GE LSR Linecard combo optics (was linecard)"],
   ["CRS-3-UPGRADE-BUN", "bundle", "bundle-packs-sets", "CRS-3 Upgrade Bundle — a set of parts, not a router (was sp-router)"],
+  // round-2 decision (14 Sep 2026): NCS 4200 moves into routers; its modular shelves are chassis, its fibre guides accessories
+  ["NCS4206-SA", "chassis", "chassis-ncs", "NCS 4206 Shelf Assembly (6 slots - 3 RU) (arriving from optical-networking)"],
+  ["NCS4216-F2B-14RU", "chassis", "chassis-ncs", "FNLASY,NCS4216-F2B-SA,14RU (was sp-router)"],
+  ["A900-OPT-GUIDE-H=", "accessory", "accessory-cable-mgmt", "ASR 900 optical guide for horizontal fiber routing support (would have been sp-router by sp-asr900)"],
   ["ASR55-DPC-K9=", "processor", "asr5k-processor", "ASR5500 Data Processing Card (DPC)"],
   ["ASR5K-PSC-64G-K9", "processor", "asr5k-processor", "Packet Services Card (PSC3) 64GB"],
   ["ASR5K-SMC-K9", "processor", "asr5k-processor", "System Management Card 4GB"],
@@ -248,6 +252,9 @@ const REFUSAL: [string, RouterKind, string][] = [
   ["CRS-FP140", "linecard", "the FP140 set rule without its -BUN/-M-PK fence — 'CRS-3 Forwarding Processor Card (140 Gbps)'"],
   ["CRS-PLIM-PKG", "accessory", "the package-box 4-pack rule without -4PK — 'CRS-1 PLIM Package Box 1 Unit'"],
   ["1OC768-POS-SR", "module", "the PLIM pack rule without -1PK-B/-4PK-B — 'CRS-1 Series 1xOC768/STM256 POS Interface Module/SR'"],
+  ["NCS4202-SA=", "sp-router", "chassis-ncs widened to every NCS42xx-SA — the NCS 4202 SA '4x10GE + 12x GE/FE + 1 IM (1 RU)' is a fixed router"],
+  ["NCS4206-DOOR=", "accessory", "chassis-ncs widened to NCS4206-* (mechanical by its name in partKind) — 'NCS 4206 Door and Ancillary' is a door"],
+  ["NCS4216-RSP-800", "processor", "chassis-ncs widened to NCS4216-* — 'NCS 4216 Router & Switching Processor' is a processor"],
 
   // enterprise must not be swallowed by the SP families: the C8000 branch platforms lead with a C,
   // and they are the ONLY device parts that hold an IPsec, NAT or ACL figure.

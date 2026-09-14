@@ -72,6 +72,11 @@
    "sku": "^(ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT|ANT-MP-INT-OUT|CGR-N-CONN)",
    "why": "Connected Grid (CGR 1000) WiMAX panel antenna / connector, filed under the Connected Grid Modules label: bound to the CGR, which lives in routers (A.3 rule 1)",
    "belongs": "routers"
+  },
+  {
+   "sku": "^(WS-SVC|ACE[0-9]{2}-|7600-S(IP|SC)-|MEM-C6K|NAM3-)",
+   "why": "Catalyst 6500 / 7600 service module (ASA-SM, NAM-3, IDSM-2, WebVPN, ACE30) or its memory / disk: a platform-bound card, kept with the platform in switches under Catalyst 6500 (layers review round 2 decision (14 Sep 2026); A.3 rule 1)",
+   "belongs": "switches"
   }
  ],
  "lines": [
@@ -193,17 +198,14 @@
      ]
     },
     {
-     "series": "Catalyst 6500 / 7600 service modules",
+     "series": "NAM 2400 appliances (Services Modules label)",
      "sku": [
-      "^WS-SVC",
-      "^ACE[0-9]",
-      "^7600-",
-      "^MEM-C6K",
-      "^NAM3"
+      "^NAM24[0-9]{2}"
      ],
      "labels": [
       "Services Modules"
-     ]
+     ],
+     "note": "what is left once the Catalyst 6500 / 7600 service modules moved to switches (layers review round 2 decision (14 Sep 2026)): NAM2420-K9 / NAM2440-K9 are standalone Network Analysis Module appliances filed under the \"Services Modules\" label — their category is a question for the interfaces-modules round"
     },
     {
      "series": "Router and switch line cards (legacy) shared parts",

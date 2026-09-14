@@ -1,7 +1,21 @@
 {
  "vendor": "cisco",
  "category": "interfaces-modules",
- "built_at": "2026-09-14T15:54:56.315Z",
+ "built_at": "2026-09-14T16:47:51.721Z",
+ "commit": "4c24db4be871b1ce63fb2a295845d43c1af4d4a4",
+ "uncommitted_rule_files": [
+  "data/reference/kind-layer-plans-2026-09-13.json",
+  "data/reference/product-lines/cisco-interfaces-modules.json",
+  "data/reference/product-lines/cisco-optical-networking.json",
+  "data/reference/product-lines/cisco-routers.json",
+  "data/reference/product-lines/cisco-switches.json",
+  "data/reference/product-lines/cisco-wireless.json",
+  "scripts/build-layers.mts",
+  "src/core/routerKind.ts",
+  "src/core/switchKind.ts",
+  "data/reference/layers-cross-claims.json",
+  "src/core/layerChecks.ts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-interfaces-modules.json",
  "parts": 1006,
  "lines": [
@@ -275,7 +289,7 @@
   },
   {
    "line": "Router and switch line cards (legacy)",
-   "parts": 84,
+   "parts": 52,
    "series": [
     {
      "series": "Cisco 12000 / XR 12000 SIP and line cards",
@@ -300,26 +314,20 @@
      }
     },
     {
-     "series": "Catalyst 6500 / 7600 service modules",
+     "series": "NAM 2400 appliances (Services Modules label)",
      "role": null,
-     "note": null,
-     "parts": 34,
+     "note": "what is left once the Catalyst 6500 / 7600 service modules moved to switches (layers review round 2 decision (14 Sep 2026)): NAM2420-K9 / NAM2440-K9 are standalone Network Analysis Module appliances filed under the \"Services Modules\" label — their category is a question for the interfaces-modules round",
+     "parts": 2,
      "kinds": {
-      "module": 28,
-      "memory": 6
+      "module": 2
      },
      "roles": {},
      "samples": [
-      "ACE30-BASE-04-K9 — ACE30 Module with 4G, 1G Comp, 1K SSL TPS and 5VC",
-      "ACE30-MOD-04-K9 — ACE30 Module with 4G, 4G Comp, 30K SSL TPS and 250VC",
-      "ACE30-MOD-08-K9 — ACE30 Module with 8G, 6G Comp, 30K SSL TPS and 250VC",
-      "ACE30-MOD-16-K9 — ACE30 Module with 16G, 6G Comp, 30K SSL TPS and 250VC",
-      "ACE30-MOD-K9 — Application Control Engine 30 Hardware",
-      "ACE30-MOD-K9= — Application Control Engine 30 Hardware"
+      "NAM2420-K9 — Cisco NAM2420-K9",
+      "NAM2440-K9 — Cisco NAM2440-K9"
      ],
      "rules": {
-      "sku": 32,
-      "label": 2
+      "sku": 2
      }
     },
     {
@@ -2014,6 +2022,70 @@
    "reason": "spare of 7600-SSC-400, which is in switches under Catalyst 6500 (layers review B.5: 7600-SIP-400 / SSC-400 stay under Catalyst 6500); X and X= carry one placement (A.1)"
   },
   {
+   "sku": "ACE30-BASE-04-K9",
+   "name": "ACE30 Module with 4G, 1G Comp, 1K SSL TPS and 5VC",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "ACE30-MOD-04-K9",
+   "name": "ACE30 Module with 4G, 4G Comp, 30K SSL TPS and 250VC",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "ACE30-MOD-08-K9",
+   "name": "ACE30 Module with 8G, 6G Comp, 30K SSL TPS and 250VC",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "ACE30-MOD-16-K9",
+   "name": "ACE30 Module with 16G, 6G Comp, 30K SSL TPS and 250VC",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "ACE30-MOD-K9",
+   "name": "Application Control Engine 30 Hardware",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "ACE30-MOD-K9=",
+   "name": "Application Control Engine 30 Hardware",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "ACE30-SYS-AC-04-K9",
+   "name": "ACE30 16G 6504-E 720-10G-3C 6716 AC System",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "ACE30-SYS-DC-04-K9",
+   "name": "ACE30 16G 6504-E 720-10G-3C 6716 DC System",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
    "sku": "ACS-2900-RM-23",
    "name": "23 inch rack mount kit for Cisco 2911/2921/2951 ISR",
    "series_label": "Network Modules",
@@ -2454,6 +2526,54 @@
    "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
   },
   {
+   "sku": "MEM-C6K-APP-24GB",
+   "name": "Cat6500 24GB Service Module Memory",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "MEM-C6K-APP-24GB=",
+   "name": "Cat6500 24GB Service Module Memory",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "MEM-C6K-VSE-24GB=",
+   "name": "Cat6500 Service Module Memory 24GB",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "MEM-C6KNAM-2GB=",
+   "name": "2GB Memory for WS-SVC-NAM-1 and WS-SVC-NAM-2",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "NAM3-HDD-600G",
+   "name": "Hard Drives - 600G - for NAM-3",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "NAM3-HDD-600G=",
+   "name": "Hard Drives - 600G - for NAM-3",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
    "sku": "NCS1K-MD-64-C=",
    "name": "NCS 1000 64 chs Odd Mux/Demux Patch Panel - C-band",
    "series_label": "Transceiver Modules",
@@ -2516,6 +2636,150 @@
    "action": "move",
    "to": "servers-unified-computing",
    "reason": "UCS fabric interconnect filed in interfaces-modules"
+  },
+  {
+   "sku": "WS-SVC-ASA-SM1",
+   "name": "Base ASA Services Module PID for K8/K9",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-ASA-SM1-K7",
+   "name": "ASA Services Module for Catalyst 6500-E, NPE",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-ASA-SM1-K7=",
+   "name": "ASA K7 Service Module for the Catalyst 6500-E, DES (Spare)",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-ASA-SM1-K8",
+   "name": "ASA Services Module for Catalyst 6500-E, DES",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-ASA-SM1-K8=",
+   "name": "ASA Services Module for Catalyst 6500-E, DES (spare)",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-ASA-SM1-K9",
+   "name": "ASA Services Module for Catalyst 6500-E, 3DES/AES",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-ASA-SM1-K9=",
+   "name": "ASA Services Module for Catalyst 6500-E, 3DES/AES (spare)",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-ASA-SM1=",
+   "name": "ASA Services Module for Catalyst 6500-E K8/K9 (Spare)",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-ASASM1B-K9",
+   "name": "ASA Services Module for Catalyst 6500-E, 3DES/AES",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-IDS2-BUN-K9",
+   "name": "600M IDSM-2 Mod for Cat",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-IDS2BUNK9=",
+   "name": "600M IDSM-2 Mod Spare",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-NAM-3-K9",
+   "name": "Cisco Catalyst 6500 Series NAM-3",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-NAM-3-K9=",
+   "name": "Cisco Catalyst 6500 Series NAM-3",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-NAM3-6G-K9",
+   "name": "Cisco Catalyst 6500 Series Network Analysis Module (NAM-3)",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-NAM3-6G-K9=",
+   "name": "Cisco Catalyst 6500 Series Network Analysis Module (NAM-3)",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-NAM3KS2T-K9",
+   "name": "NAM-3 for Keystone Sup2T bundles",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-WEBVPN-K9",
+   "name": "WebVPN Services Module for Cisco Catalyst 6500 Series and Cisco 7600 Series",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
+  },
+  {
+   "sku": "WS-SVC-WEBVPN-K9=",
+   "name": "WebVPN Services Module (spare)",
+   "series_label": "Services Modules",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
   }
  ],
  "unplaced": [],

@@ -1,7 +1,7 @@
 {
  "vendor": "cisco",
  "category": "optical-networking",
- "_about": "Layer 2 (product line) and layer 3 (series) of Cisco optical networking, 14 Sep 2026: ONS 15454 MSTP / NCS 2000, ONS 15216 / 15200 DWDM passives, NCS 1000, NCS 4000, NCS 4200, Routed Optical Networking, and optical cabling. The NCS 1000 In-Line Amplifier and OLT rows filed under the ONS 15454 label are NCS 1010 parts by SKU. No role axis.",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco optical networking, 14 Sep 2026: ONS 15454 MSTP / NCS 2000, ONS 15216 / 15200 DWDM passives, NCS 1000, NCS 4000, Routed Optical Networking, and optical cabling. The NCS 1000 In-Line Amplifier and OLT rows filed under the ONS 15454 label are NCS 1010 parts by SKU. No role axis.",
  "lines": [
   {
    "line": "NCS 1000",
@@ -86,22 +86,6 @@
    ]
   },
   {
-   "line": "NCS 4200",
-   "series": [
-    {
-     "series": "NCS 4201 / 4202 / 4206 / 4216",
-     "sku": [
-      "^NCS42",
-      "^CABLE-16TDM"
-     ],
-     "labels": [
-      "Network Convergence System 4200 Series"
-     ],
-     "note": "A900- power supplies, fillers and optical guides filed under the NCS 4200 label are shared ASR 900 / NCS 4206 parts; left here by label"
-    }
-   ]
-  },
-  {
    "line": "Routed Optical Networking",
    "series": [
     {
@@ -137,5 +121,12 @@
   "DOOR",
   "CVR",
   "COVER"
+ ],
+ "not_this_category": [
+  {
+   "sku": "^(NCS42|CABLE-16TDM|A90[0-9]-|PANEL-144-1-AMP64)",
+   "why": "NCS 4200 (and the ASR 900 / TDM CEM parts filed under its label): an SP access router platform, filed by Cisco under routers — kind sp-router, role sp-access (layers review round 2 decision (14 Sep 2026))",
+   "belongs": "routers"
+  }
  ]
 }

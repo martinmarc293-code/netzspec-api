@@ -557,29 +557,29 @@ sku	name	series_label	kind	bucket	product_line	series	placed_by	deploy_role	role
 800-103176-01	Cisco 800-103176-01	Network Convergence System 2000 Series	unknown	layered	ONS 15454 MSTP and NCS 2000	NCS 2000 (NCS 2002 / 2006 / 2015)	label Network Convergence System 2000 Series					
 800-39910-07	Cisco 800-39910-07	Network Convergence System 2000 Series	unknown	layered	ONS 15454 MSTP and NCS 2000	NCS 2000 (NCS 2002 / 2006 / 2015)	label Network Convergence System 2000 Series					
 800-41495-01	Cisco 800-41495-01	Network Convergence System 2000 Series	unknown	layered	ONS 15454 MSTP and NCS 2000	NCS 2000 (NCS 2002 / 2006 / 2015)	label Network Convergence System 2000 Series					
-A900-IMA-FILLER=	ASR 900 Interface Module Filler Cover, Spare	Network Convergence System 4200 Series	mechanical	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	label Network Convergence System 4200 Series					
-A900-OPT-GUIDE-H=	ASR 900 optical guide for horizontal fiber routing support	Network Convergence System 4200 Series	accessory	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	label Network Convergence System 4200 Series					
-A900-PWR-BLANK	ASR 900 power supply blank cover	Network Convergence System 4200 Series	mechanical	layered	NCS 4200	NCS 4200 shared parts	accessory BLANK (label Network Convergence System 4200 Series)					
-A900-PWR900-D2	ASR 900 900W DC power supply with dual feed	Network Convergence System 4200 Series	power	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	label Network Convergence System 4200 Series					
-A900-PWR900-D2=	ASR 900 900W DC power supply with dual feed, spare	Network Convergence System 4200 Series	power	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	label Network Convergence System 4200 Series					
-A900-ROPT-GUIDE-H=	ASR 900 RSP optical guide for horizontal fiber routing support	Network Convergence System 4200 Series	accessory	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	label Network Convergence System 4200 Series					
-A903-F2B-AIR	Front-to-back airflow deflector	Network Convergence System 4200 Series	mechanical	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	label Network Convergence System 4200 Series					
-A903-FAN-H	High-performance fan tray	Network Convergence System 4200 Series	fan	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	label Network Convergence System 4200 Series					
-A907-F2B-AIR	Front-to-back airflow deflector	Network Convergence System 4200 Series	mechanical	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	label Network Convergence System 4200 Series					
+A900-IMA-FILLER=	ASR 900 Interface Module Filler Cover, Spare	Network Convergence System 4200 Series	mechanical	pending_plan							move routers	
+A900-OPT-GUIDE-H=	ASR 900 optical guide for horizontal fiber routing support	Network Convergence System 4200 Series	accessory	pending_plan							move routers	
+A900-PWR-BLANK	ASR 900 power supply blank cover	Network Convergence System 4200 Series	mechanical	pending_plan							move routers	
+A900-PWR900-D2	ASR 900 900W DC power supply with dual feed	Network Convergence System 4200 Series	power	pending_plan							move routers	
+A900-PWR900-D2=	ASR 900 900W DC power supply with dual feed, spare	Network Convergence System 4200 Series	power	pending_plan							move routers	
+A900-ROPT-GUIDE-H=	ASR 900 RSP optical guide for horizontal fiber routing support	Network Convergence System 4200 Series	accessory	pending_plan							move routers	
+A903-F2B-AIR	Front-to-back airflow deflector	Network Convergence System 4200 Series	mechanical	pending_plan							move routers	
+A903-FAN-H	High-performance fan tray	Network Convergence System 4200 Series	fan	pending_plan							move routers	
+A907-F2B-AIR	Front-to-back airflow deflector	Network Convergence System 4200 Series	mechanical	pending_plan							move routers	
 AK/15201=	Accessory Kit, 15201 Single-Channel Unit (SCU)	ONS 15200 Series DWDM Systems	mechanical	layered	ONS 15216 / 15200 DWDM passives	ONS 15200 (15201 / 15252) CLIP and NAM modules	sku 15201					
 AK/15252=	Accessory Kit, 15252 Multi-Channel Unit (MCU)	ONS 15200 Series DWDM Systems	mechanical	layered	ONS 15216 / 15200 DWDM passives	ONS 15200 (15201 / 15252) CLIP and NAM modules	sku 15252					
-CABLE-16TDM-R1EL1	Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Even Slot Numbers, 42" / 3.5 ft / 1.1 m	Network Convergence System 4200 Series	cable	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^CABLE-16TDM					
-CABLE-16TDM-R1EL2	Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Even Slot Numbers, 62" / 5.2 ft / 1.6 m	Network Convergence System 4200 Series	cable	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^CABLE-16TDM					
-CABLE-16TDM-R1EL3	Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Even Slot Numbers, 78" / 6.5 ft / 2 m	Network Convergence System 4200 Series	cable	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^CABLE-16TDM					
-CABLE-16TDM-R1OL1	Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Odd Slot Numbers, 42" / 3.5 ft / 1.1 m	Network Convergence System 4200 Series	cable	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^CABLE-16TDM					
-CABLE-16TDM-R1OL2	Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Odd Slot Numbers, 62" / 5.2 ft / 1.6 m	Network Convergence System 4200 Series	cable	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^CABLE-16TDM					
-CABLE-16TDM-R1OL3	Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Odd Slot Numbers, 78" / 6.5 ft / 2 m	Network Convergence System 4200 Series	cable	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^CABLE-16TDM					
-CABLE-16TDM-R3EL1	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Even Slot Numbers, 42" / 3.5 ft / 1.1 m	Network Convergence System 4200 Series	cable	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^CABLE-16TDM					
-CABLE-16TDM-R3EL2	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Even Slot Numbers, 62" / 5.2 ft / 1.6 m	Network Convergence System 4200 Series	cable	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^CABLE-16TDM					
-CABLE-16TDM-R3EL3	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Even Slot Numbers, 78" / 6.5 ft / 2 m	Network Convergence System 4200 Series	cable	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^CABLE-16TDM					
-CABLE-16TDM-R3OL1	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd Slot Numbers, 42" / 3.5 ft / 1.1 m	Network Convergence System 4200 Series	cable	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^CABLE-16TDM					
-CABLE-16TDM-R3OL2	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd Slot Numbers, 62" / 5.2 ft / 1.6 m	Network Convergence System 4200 Series	cable	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^CABLE-16TDM					
-CABLE-16TDM-R3OL3	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd Slot Numbers, 78" / 6.5 ft / 2 m	Network Convergence System 4200 Series	cable	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^CABLE-16TDM					
+CABLE-16TDM-R1EL1	Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Even Slot Numbers, 42" / 3.5 ft / 1.1 m	Network Convergence System 4200 Series	cable	pending_plan							move routers	
+CABLE-16TDM-R1EL2	Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Even Slot Numbers, 62" / 5.2 ft / 1.6 m	Network Convergence System 4200 Series	cable	pending_plan							move routers	
+CABLE-16TDM-R1EL3	Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Even Slot Numbers, 78" / 6.5 ft / 2 m	Network Convergence System 4200 Series	cable	pending_plan							move routers	
+CABLE-16TDM-R1OL1	Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Odd Slot Numbers, 42" / 3.5 ft / 1.1 m	Network Convergence System 4200 Series	cable	pending_plan							move routers	
+CABLE-16TDM-R1OL2	Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Odd Slot Numbers, 62" / 5.2 ft / 1.6 m	Network Convergence System 4200 Series	cable	pending_plan							move routers	
+CABLE-16TDM-R1OL3	Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Odd Slot Numbers, 78" / 6.5 ft / 2 m	Network Convergence System 4200 Series	cable	pending_plan							move routers	
+CABLE-16TDM-R3EL1	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Even Slot Numbers, 42" / 3.5 ft / 1.1 m	Network Convergence System 4200 Series	cable	pending_plan							move routers	
+CABLE-16TDM-R3EL2	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Even Slot Numbers, 62" / 5.2 ft / 1.6 m	Network Convergence System 4200 Series	cable	pending_plan							move routers	
+CABLE-16TDM-R3EL3	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Even Slot Numbers, 78" / 6.5 ft / 2 m	Network Convergence System 4200 Series	cable	pending_plan							move routers	
+CABLE-16TDM-R3OL1	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd Slot Numbers, 42" / 3.5 ft / 1.1 m	Network Convergence System 4200 Series	cable	pending_plan							move routers	
+CABLE-16TDM-R3OL2	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd Slot Numbers, 62" / 5.2 ft / 1.6 m	Network Convergence System 4200 Series	cable	pending_plan							move routers	
+CABLE-16TDM-R3OL3	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd Slot Numbers, 78" / 6.5 ft / 2 m	Network Convergence System 4200 Series	cable	pending_plan							move routers	
 CH23/L/U/SC/15200	CLIP Chan 23, Long Range, Unprotected, SC Connector,15200	ONS 15200 Series DWDM Systems	transponder	layered	ONS 15216 / 15200 DWDM passives	ONS 15200 (15201 / 15252) CLIP and NAM modules	sku ^CH[0-9]{2}/					
 CH23/L/U/SC/15200=	CLIP Chan 23, Long Range, Unprotected, SC Connector,15200	ONS 15200 Series DWDM Systems	transponder	layered	ONS 15216 / 15200 DWDM passives	ONS 15200 (15201 / 15252) CLIP and NAM modules	sku ^CH[0-9]{2}/					
 CH23/M/P/SC/15200	CLIP Chan 23, Med Range, Protected, SC Connector,15200	ONS 15200 Series DWDM Systems	transponder	layered	ONS 15216 / 15200 DWDM passives	ONS 15200 (15201 / 15252) CLIP and NAM modules	sku ^CH[0-9]{2}/					
@@ -1007,51 +1007,51 @@ NCS4016-SA-AC=	NCS 4016 shelf assembly - AC Power	Network Convergence System 400
 NCS4016-SA-DC	NCS 4016 shelf assembly - DC Power	Network Convergence System 4000 Series	chassis	layered	NCS 4000	NCS 4009 / 4016	sku ^NCS4016					
 NCS4016-SA-DC=	NCS 4016 shelf assembly - DC Power	Network Convergence System 4000 Series	chassis	layered	NCS 4000	NCS 4009 / 4016	sku ^NCS4016					
 NCS4016-STRT-KIT2	NCS 4016 DC Starter Kit	Network Convergence System 4000 Series	mechanical	layered	NCS 4000	NCS 4009 / 4016	sku ^NCS4016					
-NCS4200-1H-PK	NCS 4200 1-Port 100GE CPAK Interface Module	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-1H-PK=	NCS 4200 1-Port 100GE CPAK Interface Module, spare	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-1RU-DOOR	NCS 4200 1 RU Door and Ancillary	Network Convergence System 4200 Series	mechanical	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-1T16G-PS	NCS 4200 Combo 8/16 port GE SFP/C-SFP and 1 port 10GE SFP+ / 2 port 1GE C-SFP Interface Module	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-1T16G-PS=	NCS 4200 Combo 8/16 port GE SFP/C-SFP and 1 port 10GE SFP+ / 2 port 1GE C-SFP Interface Module, Spare	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-1T8LR-PS	NCS 4200 Combo 8 port SFP GE and 1 port 10GE SFP+ IM	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-1T8LR-PS=	NCS 4200 Combo 8 port SFP GE and 1 port 10GE SFP+ IM, spare	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-1T8S-10CS	NCS 4200 1x 10G MR + 8-port Low Rate - 10G CEM & OTN LC	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-1T8S-10CS=	NCS 4200 1x 10G MR + 8-port Low Rate - 10G CEM & OTN LC	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-1T8S-20CS	NCS 4200 8-port OC3/12/48/STM-1/-4/-16 SFP or 1-Port OC192/STM-64 SFP+ CEM/iMSG Interface Module	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-1T8S-20CS=	NCS 4200 8-port OC3/12/48/STM-1/-4/-16 SFP or 1-Port OC192/STM-64 SFP+ CEM/iMSG Interface Module, Spare	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-2H-PK	NCS 4200 2-Port 100GE QSFP28 Interface Module (Only one 100GE port supported with RSP3-400)	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-2H-PK=	NCS 4200 2-Port 100GE QSFP28 Interface Module, spare (Only one 100GE port supported with RSP3-400)	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-2H-PQ	NCS 4200 2 port 100GE QSFP28 Interface Module	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-2Q-P	NCS 4200 2-Port 40GE QSFP Interface Module	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-2Q-P=	NCS 4200 2-Port 40GE QSFP Interface Module, spare	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-3GMS	ASR 900 12 port T1/E1 + 4 port DS3/E3 + 4 port OC3/STM-1 or 4 port OC12/STM-4 or 1 port OC48/STM16 CEM/iMSG Interface Module	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-3GMS=	ASR 900 12 port T1/E1 + 4 port DS3/E3 + 4 port OC3/STM-1 or 4 port OC12/STM-4 or 1 port OC48/STM16 CEM/iMSG Interface Module, Spare	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-48T1E1-CE	NCS 4200 48x T1/E1 CEM Line Card - Requires Patch Panel	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-48T1E1-CE=	NCS 4200 48x T1/E1 CEM Line Card - Requires Patch Panel	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-48T3E3-CE	NCS 4200 48x T3/E3 CEM Line Card - Requires Patch Panel	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-48T3E3-CE=	NCS 4200 48x T3/E3 CEM Line Card - Requires Patch Panel	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-8E1T1-CE	NCS 4200 8x T1/E1 CEM Line Card - RJ48C	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-8E1T1-CE=	NCS 4200 8-Port T1/E1 Interface Module, Spare	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-8T-PS	NCS 4200 8-Port 10GE SFP+ Interface Module	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4200-8T-PS=	NCS 4200 8-Port 10GE SFP+ Interface Module, spare	Network Convergence System 4200 Series	linecard	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4201-SA	NCS 4201 Shelf Assembly - 4x10GE + 24x GE/FE (1 RU)	Network Convergence System 4200 Series	chassis	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4202-SA	NCS 4202 Shelf Assembly - 4x10GE + 12x GE/FE + 1 IM slot (1 RU)	Network Convergence System 4200 Series	chassis	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4206-DOOR	NCS 4206 door and ancillary	Network Convergence System 4200 Series	mechanical	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4206-SA	NCS 4206 Shelf Assembly (6 slots - 3 RU)	Network Convergence System 4200 Series	chassis	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4206-SA=	NCS 4206 shelf assembly (6 slots, 3 RU), spare	Network Convergence System 4200 Series	chassis	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS420X-RSP	NCS 4206 Router and Switching Processor and Controller - 400G	Network Convergence System 4200 Series	controller	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS420X-RSP-128	NCS 4206 Router and Switching Processor and Controller - 128G	Network Convergence System 4200 Series	controller	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS420X-RSP-128=	NCS 4206 Router and Switching Processor and Controller - 128G, spare	Network Convergence System 4200 Series	controller	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS420X-RSP=	NCS 4206 Router and Switching Processor and Controller - 400G, spare	Network Convergence System 4200 Series	controller	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4216-DOOR	NCS 4216 door and ancillary	Network Convergence System 4200 Series	mechanical	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4216-F2B-DOOR	NCS 4216 F2B Door and Ancillary	Network Convergence System 4200 Series	mechanical	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4216-F2B-FAN	NCS 4216 F2B Top/Bottom Fan Tray Kit	Network Convergence System 4200 Series	fan	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4216-F2B-SA	NCS 4216 Front to Back Shelf Assembly (16 slots - 14 RU)	Network Convergence System 4200 Series	chassis	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4216-F2B-SA=	NCS 4216 Front to Back Shelf Assembly (16 slots - 14 RU)	Network Convergence System 4200 Series	chassis	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4216-PWR-FAN	NCS 4216 F2B Power Supply Fan Tray	Network Convergence System 4200 Series	fan	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4216-RSP	NCS 4216 Router and Switching Processor and Controller - 400G	Network Convergence System 4200 Series	controller	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4216-RSP=	NCS 4216 Router and Switching Processor and Controller - 400G, spare	Network Convergence System 4200 Series	controller	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4216-SA	NCS 4216 Shelf Assembly (16 slots - 7 RU)	Network Convergence System 4200 Series	chassis	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
-NCS4216-SA=	NCS 4216 shelf assembly (16 slots, 7 RU), spare	Network Convergence System 4200 Series	chassis	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	sku ^NCS42					
+NCS4200-1H-PK	NCS 4200 1-Port 100GE CPAK Interface Module	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-1H-PK=	NCS 4200 1-Port 100GE CPAK Interface Module, spare	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-1RU-DOOR	NCS 4200 1 RU Door and Ancillary	Network Convergence System 4200 Series	mechanical	pending_plan							move routers	
+NCS4200-1T16G-PS	NCS 4200 Combo 8/16 port GE SFP/C-SFP and 1 port 10GE SFP+ / 2 port 1GE C-SFP Interface Module	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-1T16G-PS=	NCS 4200 Combo 8/16 port GE SFP/C-SFP and 1 port 10GE SFP+ / 2 port 1GE C-SFP Interface Module, Spare	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-1T8LR-PS	NCS 4200 Combo 8 port SFP GE and 1 port 10GE SFP+ IM	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-1T8LR-PS=	NCS 4200 Combo 8 port SFP GE and 1 port 10GE SFP+ IM, spare	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-1T8S-10CS	NCS 4200 1x 10G MR + 8-port Low Rate - 10G CEM & OTN LC	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-1T8S-10CS=	NCS 4200 1x 10G MR + 8-port Low Rate - 10G CEM & OTN LC	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-1T8S-20CS	NCS 4200 8-port OC3/12/48/STM-1/-4/-16 SFP or 1-Port OC192/STM-64 SFP+ CEM/iMSG Interface Module	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-1T8S-20CS=	NCS 4200 8-port OC3/12/48/STM-1/-4/-16 SFP or 1-Port OC192/STM-64 SFP+ CEM/iMSG Interface Module, Spare	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-2H-PK	NCS 4200 2-Port 100GE QSFP28 Interface Module (Only one 100GE port supported with RSP3-400)	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-2H-PK=	NCS 4200 2-Port 100GE QSFP28 Interface Module, spare (Only one 100GE port supported with RSP3-400)	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-2H-PQ	NCS 4200 2 port 100GE QSFP28 Interface Module	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-2Q-P	NCS 4200 2-Port 40GE QSFP Interface Module	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-2Q-P=	NCS 4200 2-Port 40GE QSFP Interface Module, spare	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-3GMS	ASR 900 12 port T1/E1 + 4 port DS3/E3 + 4 port OC3/STM-1 or 4 port OC12/STM-4 or 1 port OC48/STM16 CEM/iMSG Interface Module	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-3GMS=	ASR 900 12 port T1/E1 + 4 port DS3/E3 + 4 port OC3/STM-1 or 4 port OC12/STM-4 or 1 port OC48/STM16 CEM/iMSG Interface Module, Spare	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-48T1E1-CE	NCS 4200 48x T1/E1 CEM Line Card - Requires Patch Panel	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-48T1E1-CE=	NCS 4200 48x T1/E1 CEM Line Card - Requires Patch Panel	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-48T3E3-CE	NCS 4200 48x T3/E3 CEM Line Card - Requires Patch Panel	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-48T3E3-CE=	NCS 4200 48x T3/E3 CEM Line Card - Requires Patch Panel	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-8E1T1-CE	NCS 4200 8x T1/E1 CEM Line Card - RJ48C	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-8E1T1-CE=	NCS 4200 8-Port T1/E1 Interface Module, Spare	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-8T-PS	NCS 4200 8-Port 10GE SFP+ Interface Module	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4200-8T-PS=	NCS 4200 8-Port 10GE SFP+ Interface Module, spare	Network Convergence System 4200 Series	linecard	pending_plan							move routers	
+NCS4201-SA	NCS 4201 Shelf Assembly - 4x10GE + 24x GE/FE (1 RU)	Network Convergence System 4200 Series	chassis	pending_plan							move routers	
+NCS4202-SA	NCS 4202 Shelf Assembly - 4x10GE + 12x GE/FE + 1 IM slot (1 RU)	Network Convergence System 4200 Series	chassis	pending_plan							move routers	
+NCS4206-DOOR	NCS 4206 door and ancillary	Network Convergence System 4200 Series	mechanical	pending_plan							move routers	
+NCS4206-SA	NCS 4206 Shelf Assembly (6 slots - 3 RU)	Network Convergence System 4200 Series	chassis	pending_plan							move routers	
+NCS4206-SA=	NCS 4206 shelf assembly (6 slots, 3 RU), spare	Network Convergence System 4200 Series	chassis	pending_plan							move routers	
+NCS420X-RSP	NCS 4206 Router and Switching Processor and Controller - 400G	Network Convergence System 4200 Series	controller	pending_plan							move routers	
+NCS420X-RSP-128	NCS 4206 Router and Switching Processor and Controller - 128G	Network Convergence System 4200 Series	controller	pending_plan							move routers	
+NCS420X-RSP-128=	NCS 4206 Router and Switching Processor and Controller - 128G, spare	Network Convergence System 4200 Series	controller	pending_plan							move routers	
+NCS420X-RSP=	NCS 4206 Router and Switching Processor and Controller - 400G, spare	Network Convergence System 4200 Series	controller	pending_plan							move routers	
+NCS4216-DOOR	NCS 4216 door and ancillary	Network Convergence System 4200 Series	mechanical	pending_plan							move routers	
+NCS4216-F2B-DOOR	NCS 4216 F2B Door and Ancillary	Network Convergence System 4200 Series	mechanical	pending_plan							move routers	
+NCS4216-F2B-FAN	NCS 4216 F2B Top/Bottom Fan Tray Kit	Network Convergence System 4200 Series	fan	pending_plan							move routers	
+NCS4216-F2B-SA	NCS 4216 Front to Back Shelf Assembly (16 slots - 14 RU)	Network Convergence System 4200 Series	chassis	pending_plan							move routers	
+NCS4216-F2B-SA=	NCS 4216 Front to Back Shelf Assembly (16 slots - 14 RU)	Network Convergence System 4200 Series	chassis	pending_plan							move routers	
+NCS4216-PWR-FAN	NCS 4216 F2B Power Supply Fan Tray	Network Convergence System 4200 Series	fan	pending_plan							move routers	
+NCS4216-RSP	NCS 4216 Router and Switching Processor and Controller - 400G	Network Convergence System 4200 Series	controller	pending_plan							move routers	
+NCS4216-RSP=	NCS 4216 Router and Switching Processor and Controller - 400G, spare	Network Convergence System 4200 Series	controller	pending_plan							move routers	
+NCS4216-SA	NCS 4216 Shelf Assembly (16 slots - 7 RU)	Network Convergence System 4200 Series	chassis	pending_plan							move routers	
+NCS4216-SA=	NCS 4216 shelf assembly (16 slots, 7 RU), spare	Network Convergence System 4200 Series	chassis	pending_plan							move routers	
 NCS4K-20T-O-S	NCS 4000 20x10G OTN Card - SFP+	Network Convergence System 4000 Series	linecard	layered	NCS 4000	NCS 4009 / 4016	sku ^NCS4K					
 NCS4K-20T-O-S++=	NCS 4000 20x10G OTN Card - SFP+	Network Convergence System 4000 Series	linecard	layered	NCS 4000	NCS 4009 / 4016	sku ^NCS4K					
 NCS4K-20T-O-S=	NCS 4000 20x10G OTN Card - SFP+	Network Convergence System 4000 Series	linecard	layered	NCS 4000	NCS 4009 / 4016	sku ^NCS4K					
@@ -1184,4 +1184,4 @@ ONS-SYNC-CBL-25=	NCS 4000 Multichassis synchronization cable - 25 meters	Network
 ONS-SYNC-CBL-50=	NCS 4000 Multichassis synchronization cable - 50 meters	Network Convergence System 4000 Series	cable	layered	NCS 4000	NCS 4009 / 4016	sku ^ONS-SYNC					
 ONS-SYNC-CBL-75=	NCS 4000 Multichassis synchronization cable - 75 meters	Network Convergence System 4000 Series	cable	layered	NCS 4000	NCS 4009 / 4016	sku ^ONS-SYNC					
 ONS15252	Multi-Channel Unit,Mechanics,Covers,Accessory Kit	ONS 15200 Series DWDM Systems	chassis	layered	ONS 15216 / 15200 DWDM passives	ONS 15200 (15201 / 15252) CLIP and NAM modules	sku 15252					
-PANEL-144-1-AMP64	144 x 120 ohm E1/110 ohm DS1 termination, 12 x AMP 64-pin	Network Convergence System 4200 Series	accessory	layered	NCS 4200	NCS 4201 / 4202 / 4206 / 4216	label Network Convergence System 4200 Series					
+PANEL-144-1-AMP64	144 x 120 ohm E1/110 ohm DS1 termination, 12 x AMP 64-pin	Network Convergence System 4200 Series	accessory	pending_plan							move routers	

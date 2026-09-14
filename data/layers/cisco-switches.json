@@ -1,13 +1,27 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-14T15:54:37.665Z",
+ "built_at": "2026-09-14T16:47:25.154Z",
+ "commit": "4c24db4be871b1ce63fb2a295845d43c1af4d4a4",
+ "uncommitted_rule_files": [
+  "data/reference/kind-layer-plans-2026-09-13.json",
+  "data/reference/product-lines/cisco-interfaces-modules.json",
+  "data/reference/product-lines/cisco-optical-networking.json",
+  "data/reference/product-lines/cisco-routers.json",
+  "data/reference/product-lines/cisco-switches.json",
+  "data/reference/product-lines/cisco-wireless.json",
+  "scripts/build-layers.mts",
+  "src/core/routerKind.ts",
+  "src/core/switchKind.ts",
+  "data/reference/layers-cross-claims.json",
+  "src/core/layerChecks.ts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
- "parts": 7541,
+ "parts": 7531,
  "lines": [
   {
    "line": "Catalyst",
-   "parts": 3141,
+   "parts": 3131,
    "series": [
     {
      "series": "Catalyst 9400",
@@ -44,16 +58,16 @@
      "series": "Catalyst 9200",
      "role": "access",
      "note": null,
-     "parts": 132,
+     "parts": 122,
      "kinds": {
-      "switch": 101,
+      "switch": 91,
       "module": 8,
       "mechanical": 2,
       "power": 15,
       "stack-cable": 6
      },
      "roles": {
-      "access": 101
+      "access": 91
      },
      "samples": [
       "C9200-24P — Cisco C9200-24P Managed Switch (L3) – 24× Gigabit-RJ45 (PoE+",
@@ -64,7 +78,7 @@
       "C9200-24PXG — Cisco C9200-24PXG Managed Switch (L3) – 8× 10G-Multigigabit-"
      ],
      "rules": {
-      "sku": 110,
+      "sku": 100,
       "label": 22
      }
     },
@@ -316,10 +330,10 @@
      "note": null,
      "parts": 368,
      "kinds": {
-      "linecard": 136,
+      "linecard": 128,
       "flash": 18,
       "accessory": 12,
-      "module": 47,
+      "module": 55,
       "fan": 20,
       "mechanical": 16,
       "memory": 24,
@@ -342,8 +356,8 @@
       "2D-X6904-40G-2TXL= — Cat 6900 Series 4P 40G/16P 10G Fiber Mod DFC4XL w/2D Barcode"
      ],
      "rules": {
-      "sku": 288,
-      "label": 80
+      "sku": 303,
+      "label": 65
      }
     },
     {
@@ -484,8 +498,8 @@
       "C1-WS3650-24PS/K9 — Cisco One Catalyst 3650 24 Port PoE 4x1G Uplink"
      ],
      "rules": {
-      "label": 36,
-      "sku": 185
+      "label": 15,
+      "sku": 206
      }
     },
     {
@@ -899,11 +913,11 @@
       "access": 6
      },
      "samples": [
-      "CMICR-4PC — Cisco CMICR-4PC Catalyst-Micro gemanagter Layer-2-Switch (Ci",
+      "CMICR-4PC — Catalyst Micro Switch, 1 x copper + 1 SFP Spare",
       "CMICR-4PC= — Catalyst Micro Switch, 1 x copper + 1 SFP Spare",
-      "CMICR-4PS — Cisco CMICR-4PS Catalyst-Micro gemanagter Layer-2-Switch (Ci",
+      "CMICR-4PS — Catalyst Micro Switch for Walljack Deployments, 2 x SFP Up S",
       "CMICR-4PS= — Catalyst Micro Switch for Walljack Deployments, 2 x SFP Up S",
-      "CMICR-4PT — Cisco CMICR-4PT Catalyst-Micro gemanagter Layer-2-Switch (Ci",
+      "CMICR-4PT — Catalyst Micro Switch for Desktop Deployments Spare",
       "CMICR-4PT= — Catalyst Micro Switch for Desktop Deployments Spare"
      ],
      "rules": {
@@ -1026,8 +1040,8 @@
       "fan": 23,
       "power": 15,
       "mechanical": 5,
-      "fex": 150,
-      "bundle": 13,
+      "bundle": 15,
+      "fex": 148,
       "accessory": 6
      },
      "roles": {},
@@ -1103,7 +1117,7 @@
      },
      "samples": [
       "N3K-C36180YC-R — Cisco N3K-C36180YC-R 36180YC-R Data-Center-Switch (NX-OS, L3",
-      "N3K-C3636C-R — Cisco N3K-C3636C-R 3636C-R Data-Center-Switch (NX-OS, L3) – ",
+      "N3K-C3636C-R — Nexus 36180YC-R, 48p 10/25G and 6p QSFP28, Spare",
       "N3K-C3636C-R= — Nexus 36180YC-R, 48p 10/25G and 6p QSFP28, Spare"
      ],
      "rules": {
@@ -1175,15 +1189,15 @@
      "note": null,
      "parts": 114,
      "kinds": {
-      "switch": 59,
+      "switch": 41,
+      "bundle": 32,
       "chassis": 4,
       "mechanical": 14,
       "module": 11,
-      "fan": 12,
-      "bundle": 14
+      "fan": 12
      },
      "roles": {
-      "datacenter": 59
+      "datacenter": 41
      },
      "samples": [
       "C1-N5624-B-24Q — Cisco ONE Nexus 5624Q Chassis 24x40GEPorts/FCoEBun,2PS,3 FAN",
@@ -1227,16 +1241,16 @@
      "note": null,
      "parts": 84,
      "kinds": {
-      "switch": 43,
+      "switch": 23,
+      "bundle": 30,
       "module": 8,
-      "bundle": 10,
       "mechanical": 10,
       "fan": 8,
       "chassis": 3,
       "power": 2
      },
      "roles": {
-      "datacenter": 43
+      "datacenter": 23
      },
      "samples": [
       "C1-N6001-64P — Cisco ONE Nexus 6001,1RUswitch,fixed48p 10G SFP+ and 4pQSFP+",
@@ -1876,7 +1890,7 @@
      "samples": [
       "IE-5000-12S12P-10G — Cisco IE-5000-12S12P-10G Industrial-Ethernet-IE5000 lüfterlo",
       "IE-5000-12S12P10G= — IE5000 12x1G SFP+12GE + 4 1G/10G LAN BASE spare without PSU",
-      "IE-5000-16S12P — Cisco IE-5000-16S12P Industrial-Ethernet-IE5000 lüfterloser ",
+      "IE-5000-16S12P — IE5000 with 12GE Copper PoE+, 12FE/GE SFP & 4 1G SFP uplinks",
       "IE-5000-16S12P= — IE5000 with 12GE Copper PoE+, 12FE/GE SFP & 4 1G SFP uplinks"
      ],
      "rules": {
@@ -3419,8 +3433,8 @@
    "name": "Cisco ONE for IE Switches - CHOOSE ONLY QTY 1 HERE",
    "series_label": "Industrial Ethernet 4010",
    "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
+   "to": "non_product",
+   "reason": "configurator-selector"
   },
   {
    "sku": "C1-N55-SERVICES1K9",
@@ -3459,16 +3473,16 @@
    "name": "Cisco ONE for Nexus 5000 - CHOOSE ONLY QTY 1 HERE",
    "series_label": "Nexus 5000",
    "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
+   "to": "non_product",
+   "reason": "configurator-selector"
   },
   {
    "sku": "C1-N5K-ADD-M",
    "name": "Cisco ONE for Nexus 5000",
    "series_label": "Nexus 5000",
    "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
+   "to": "non_product",
+   "reason": "configurator-selector"
   },
   {
    "sku": "C1-N6001-64P-K9",
@@ -3491,16 +3505,16 @@
    "name": "Cisco ONE for Nexus 6000 - CHOOSE ONLY QTY 1 HERE",
    "series_label": "Nexus 5000",
    "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
+   "to": "non_product",
+   "reason": "configurator-selector"
   },
   {
    "sku": "C1-N6K-ADD-M",
    "name": "Cisco ONE for Nexus 6000",
    "series_label": "Nexus 5000",
    "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
+   "to": "non_product",
+   "reason": "configurator-selector"
   },
   {
    "sku": "C1-N6K-SERVICES1K9",
@@ -3515,16 +3529,16 @@
    "name": "Cisco ONE for Nexus 7000 - CHOOSE ONLY QTY 1 HERE",
    "series_label": "Nexus 7000",
    "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
+   "to": "non_product",
+   "reason": "configurator-selector"
   },
   {
    "sku": "C1-N7K-ADD-M",
    "name": "Cisco ONE for Nexus 7000",
    "series_label": "Nexus 7000",
    "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
+   "to": "non_product",
+   "reason": "configurator-selector"
   },
   {
    "sku": "C14-C15",
@@ -3744,7 +3758,7 @@
   },
   {
    "sku": "DS-C9132T-MEK9",
-   "name": "Cisco MDS 9132T 32G Fibre-Channel-Switch (16-Port-Basis (auf 32 erweiterbar))",
+   "name": "MDS 9132 32G 1 RU FC switch, w/ 8 active FC ports, 2 Fans, 1 PSU, Port Side Exhaust, spare",
    "series_label": "MDS T",
    "action": "move",
    "to": "storage-networking",
@@ -3776,7 +3790,7 @@
   },
   {
    "sku": "DS-C9220I-4PEK9",
-   "name": "Cisco MDS 9220i Multiservice-Fabric-Switch – 12× 32G Fibre Channel + FCIP/IP-Storage (1 HE)",
+   "name": "MDS 9220i Multiprotocol Fixed Switch Base configuration (4xFC, 2 x IPS 1 Gbps), port side exhaust, (Spare)",
    "series_label": "MDS MS",
    "action": "move",
    "to": "storage-networking",
@@ -3784,7 +3798,7 @@
   },
   {
    "sku": "DS-C9250I-K9",
-   "name": "Cisco MDS 9250i Multiservice-Fabric-Switch – 40× 16G Fibre Channel + 8× FCoE + FCIP (2 HE, EoS)",
+   "name": "MDS 9250i 50 port switch base config (20xFC, 8xFCoE, 2xFCIP), spare",
    "series_label": "MDS MS",
    "action": "move",
    "to": "storage-networking",
@@ -3800,7 +3814,7 @@
   },
   {
    "sku": "DS-C9396T-48EK9",
-   "name": "Cisco MDS 9396T 32G Fibre-Channel-Switch (96 Ports, 2 HE)",
+   "name": "MDS 9396T 32G 2 RU Fibre Channel switch, with 48 active Fibre Channel ports, 2 fans, 2 PSU, port side exhaust, spare",
    "series_label": "MDS T",
    "action": "move",
    "to": "storage-networking",
@@ -3808,7 +3822,7 @@
   },
   {
    "sku": "DS-C9396V-48EK9",
-   "name": "Cisco MDS 9396V 64G Fibre-Channel-Switch (96 Ports, 2 HE)",
+   "name": "MDS 9396V 64G 2RU FC switch, w/ 48 active ports, 3 Fans, 2 PSUs, exhaust, spare",
    "series_label": "MDS V",
    "action": "move",
    "to": "storage-networking",
@@ -3816,7 +3830,7 @@
   },
   {
    "sku": "DS-C9706",
-   "name": "Cisco MDS 9706 Multilayer-Director-Chassis – 4 Slots, bis 12 Tbit/s FC, 9 HE (Leermodul-Chassis)",
+   "name": "MDS 9706 Chassis, Spare, No Power Supplies, Fans Included",
    "series_label": "MDS 9700",
    "action": "move",
    "to": "storage-networking",
@@ -3824,7 +3838,7 @@
   },
   {
    "sku": "DS-C9710",
-   "name": "Cisco MDS 9710 Multilayer-Director-Chassis – 8 Slots, bis 24 Tbit/s FC, 14 HE (Leermodul-Chassis)",
+   "name": "MDS 9710 Chassis, Spare, No Power Supplies, Fans Included",
    "series_label": "MDS 9700",
    "action": "move",
    "to": "storage-networking",
@@ -3832,7 +3846,7 @@
   },
   {
    "sku": "DS-C9718",
-   "name": "Cisco MDS 9718 Multilayer-Director-Chassis – 16 Slots, bis 48 Tbit/s FC, 26 HE (Leermodul-Chassis)",
+   "name": "MDS 9718 Chassis, Spare, No Power Supplies, Fans Included",
    "series_label": "MDS 9700",
    "action": "move",
    "to": "storage-networking",

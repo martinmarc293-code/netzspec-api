@@ -22,55 +22,55 @@ CE-10GSFP-SR	10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics	TelePresen
 CE-10GSFP-SR=	10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics	TelePresence Video Communication Server (VCS)	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^CE-10GSFP					
 CE-1GSFP-T	1 Gigabit Ethernet SFP Module 1000BASE-T	TelePresence Video Communication Server (VCS)	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^CE-1GSFP					
 CE-1GSFP-T=	1 Gigabit Ethernet SFP Module 1000BASE-T	TelePresence Video Communication Server (VCS)	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^CE-1GSFP					
-CFP-100G-ER4	Cisco CFP-100G-ER4 100GBASE-ER4 CFP — LAN-WDM Singlemode, Duplex SC, bis 40 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
+CFP-100G-ER4	100GBASE-ER4 CFP Module	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
 CFP-100G-ER4=	100GBASE-ER4 CFP Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
-CFP-100G-LR4	Cisco CFP-100G-LR4 100GBASE-LR4 CFP — LAN-WDM Singlemode, Duplex SC, bis 10 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
+CFP-100G-LR4	100GBASE-LR4 CFP Module	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
 CFP-100G-LR4=	100GBASE-LR4 CFP Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
-CFP-100G-SR10	Cisco CFP-100G-SR10 100GBASE-SR10 CFP — 850 nm Multimode, MPO/MTP-24, bis 150 m OM4	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
+CFP-100G-SR10	100GBASE-SR10 CFP transceiver, 100m OM3 MMF	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
 CFP-100G-SR10=	100GBASE-SR10 CFP transceiver, 100m OM3 MMF	Transceiver Modules	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
-CFP-40G-FR	Cisco CFP-40G-FR 40GBASE-FR/OTU3 CFP — 1550 nm Singlemode seriell, Duplex SC, bis 2 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
+CFP-40G-FR	CFP 40GBASE-FR optical transceiver module	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
 CFP-40G-FR=	CFP 40GBASE-FR optical transceiver module	Transceiver Modules	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
-CFP-40G-LR4	Cisco CFP-40G-LR4 40GBASE-LR4/OTU3 CFP — 1310 nm Singlemode, Duplex SC, bis 10 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
+CFP-40G-LR4	40GBASE-LR4 CFP Module	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
 CFP-40G-LR4=	40GBASE-LR4 CFP Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
-CFP-40G-SR4	Cisco CFP-40G-SR4 40GBASE-SR4 CFP — 850 nm Multimode, MPO/MTP-12, bis 150 m OM4, DOM	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
+CFP-40G-SR4	40-Gbps Multirate CFP – SR – Commercial temp	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
 CFP-40G-SR4=	40-Gbps Multirate CFP – SR – Commercial temp	ONS 15454 Series Multiservice Transport Platforms	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
 CFP2-100G-ER4	Cisco CFP2-100G-ER4 100GBASE-ER4 CFP2 — LAN-WDM Singlemode, Duplex LC, bis 40 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CFP					
 CFP2-WDM-BDL-1HL=	200G, 100G, WDM Digital CFP2 pluggable - Licensed 100G only	Network Convergence System 5500 Series	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
-CFP2-WDM-D-1HL	Cisco CFP2-WDM-D-1HL 200G-fähiges Digital-Coherent CFP2 DWDM-Modul — ab Werk 100G-lizenziert, Non-TOF	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
+CFP2-WDM-D-1HL	200G,100G,WDM Digital CFP2 pluggable Licensed 100only-nonTOF	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
 CFP2-WDM-D-1HL=	200G,100G,WDM Digital CFP2 pluggable Licensed 100only-nonTOF	Network Convergence System 5500 Series	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
 CFP2-WDM-D-SK	Cisco CFP2-WDM-D-SK 200G/100G Digital-Coherent CFP2 DWDM-Modul — volle Rate, Non-TOF, Ersatzeinheit	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
 CFP2-WDM-DE-1HL=	200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only	Network Convergence System 5500 Series	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
-CFP2-WDM-DET-1HL	Cisco CFP2-WDM-DET-1HL Digital-Coherent CFP2 mit abstimmbarem Filter (TOF) — 100G-lizenziert	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
+CFP2-WDM-DET-1HL	200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
 CFP2-WDM-DET-1HL=	200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only	Network Convergence System 5500 Series	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
 CFP2-WDM-DET-SK	Cisco CFP2-WDM-DET-SK Digital-Coherent CFP2 mit abstimmbarem Filter (TOF) — volle Rate, Ersatzeinheit	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
-CFP2-WDM-DETS-1HL	Cisco CFP2-WDM-DETS-1HL CFP2-DCO mit TOF und 100G-SC-FEC — 100G-lizenziert	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
+CFP2-WDM-DETS-1HL	200G, 100G, WDM Digital CFP2 pluggable Licensed for 100G only – TOF	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
 CFP2-WDM-DETS-1HL=	200G, 100G, WDM Digital CFP2 pluggable Licensed for 100G only – TOF	Transceiver Modules	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
 CFP2-WDM-DETS-SK	Cisco CFP2-WDM-DETS-SK	Network Convergence System 5500 Series	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
-CFP2-WDM-DS-1HL	Cisco CFP2-WDM-DS-1HL CFP2-DCO mit 100G-SC-FEC (ohne TOF) — 100G-lizenziert	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
+CFP2-WDM-DS-1HL	200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only - NON TOF version	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
 CFP2-WDM-DS-1HL=	200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only - NON TOF version	Transceiver Modules	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
 CFP2-WDM-DS-SK	Cisco CFP2-WDM-DS-SK	Network Convergence System 5500 Series	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
-CFP2-WDM-DS100-HL	Cisco CFP2-WDM-DS100-HL reines 100G CFP2-DCO mit SC-FEC — Non-TOF	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
+CFP2-WDM-DS100-HL	100G, WDM CFP2 pluggable, w/ SC-FEC, Non-TOF	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
 CFP2-WDM-DS100-HL=	100G, WDM CFP2 pluggable, w/ SC-FEC, Non-TOF	Network Convergence System 5500 Series	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^CFP2-WDM					
 CGP-SFP-OC	Cisco GPON OLT Transceiver C+	PON Series	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku ^CGP-SFP					
 CGP-SFP-OC=	GPON SFP type C, Sensitivity -30dBm, average output power 3~7dBm	PON Series	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku ^CGP-SFP					
 CPAK-100G-CWDM4	Cisco CPAK-100G-CWDM4 CPAK Modul — 100G CWDM4, 2 km SMF, LC	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
-CPAK-100G-ER4F	Cisco CPAK-100G-ER4F 100GBASE-ER4 Lite CPAK Modul — 40 km SMF (FEC), LC	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
+CPAK-100G-ER4F	CPAK module, 100G for applications 40km	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-100G-ER4F=	CPAK module, 100G for applications 40km	Transceiver Modules	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-100G-ER4L	Cisco CPAK-100G-ER4L 100GBASE-ER4 Lite CPAK Modul — 25 km SMF, SC	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-100G-FR	Cisco CPAK-100G-FR CPAK Modul — 100G FR PAM4, 2 km SMF, LC	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
-CPAK-100G-LR4	Cisco CPAK-100G-LR4 100GBASE-LR4 CPAK Modul — 10 km SMF, 1310 nm	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
+CPAK-100G-LR4	CPAK-100G-LR4 Transceiver module, 10km SMF	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-100G-LR4-	Cisco CPAK-100G-LR4-	Network Convergence System 2000 Series	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-100G-LR4-2K	Cisco CPAK-100G-LR4-2K 100GBASE-LR4 CPAK Modul — SMF, 1310 nm, SC	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-100G-LR4=	CPAK-100G-LR4 Transceiver module, 10km SMF	Network Convergence System 4000 Series	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-100G-LR=	Cisco CPAK-100G-LR=	Network Convergence System 4000 Series	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-100G-PSM4	Cisco CPAK-100G-PSM4 CPAK Modul — 100G PSM4, 500 m SMF, MPO-12	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
-CPAK-100G-SR10	Cisco CPAK-100G-SR10 100GBASE-SR10 CPAK Modul — 850 nm MMF, MPO-24	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
+CPAK-100G-SR10	CPAK-100G-SR10 Transceiver module, 100m OM3 MMF	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-100G-SR10=	CPAK-100G-SR10 Transceiver module, 100m OM3 MMF	Network Convergence System 4000 Series	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
-CPAK-100G-SR4	Cisco CPAK-100G-SR4 100GBASE-SR4 CPAK Modul — 850 nm MMF, MPO-12	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
+CPAK-100G-SR4	100GBASE-SR4 Cisco CPAK Module for MMF	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-100G-SR4=	100GBASE-SR4 Cisco CPAK Module for MMF	Network Convergence System 2000 Series	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-100GE-LR4	Cisco CPAK-100GE-LR4 100GBASE-LR4 CPAK Modul — 10 km SMF, LC	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-10X10G-ERL	Cisco CPAK-10X10G-ERL CPAK Modul — 10×10GBASE-ER, 25 km SMF, MPO-24	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
-CPAK-10X10G-LR	Cisco CPAK-10X10G-LR CPAK Modul — 10×10GBASE-LR, 10 km SMF, MPO-24	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
+CPAK-10X10G-LR	CPAK-10X10GLR, Transceiver module, 10 x 10Gb/s 10km SMF	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CPAK-10X10G-LR=	CPAK-10X10GLR, Transceiver module, 10 x 10Gb/s 10km SMF	Network Convergence System 4000 Series	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CPAK					
 CSP-SFP-1WLR	SFP+ for Intel X520, 10GE, LR Optical	Cloud Services Platform 5000	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^CSP-SFP					
 CSP-SFP-1WSR	SFP+ for Intel X520 & XL710, 10GE, SR Optical	Cloud Services Platform 5000	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^CSP-SFP					
@@ -145,25 +145,25 @@ CWDM-SFP-1590=	Cisco CWDM SFP, 1590 nm; Gigabit Ethernet and 1-/2-GB Fibre Chann
 CWDM-SFP-1610	Cisco CWDM-SFP-1610 1000BASE-CWDM SFP — 1610 nm, Singlemode, Gigabit Ethernet & 1/2G FC	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
 CWDM-SFP-1610=	Cisco CWDM SFP, 1610 nm; Gigabit Ethernet and 1-/2-GB Fibre Channel (brown)	Catalyst IE3400 Rugged Series	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
 CWDM-SFP-1xxx=	Cisco CWDM-SFP-1xxx=	Nexus 7000	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
-CWDM-SFP10G-1470	Cisco CWDM-SFP10G-1470 10G CWDM SFP+ — 1470 nm, Singlemode, bis 40 km	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
+CWDM-SFP10G-1470	CWDM 1470 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
 CWDM-SFP10G-1470=	CWDM 1470 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Transceiver Modules	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
-CWDM-SFP10G-1490	Cisco CWDM-SFP10G-1490 10G CWDM SFP+ — 1490 nm, Singlemode, bis 40 km	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
+CWDM-SFP10G-1490	CWDM 1490 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
 CWDM-SFP10G-1490=	CWDM 1490 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Transceiver Modules	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
-CWDM-SFP10G-1510	Cisco CWDM-SFP10G-1510 10G CWDM SFP+ — 1510 nm, Singlemode, bis 40 km	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
+CWDM-SFP10G-1510	CWDM 1510 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
 CWDM-SFP10G-1510=	CWDM 1510 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Transceiver Modules	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
-CWDM-SFP10G-1530	Cisco CWDM-SFP10G-1530 10G CWDM SFP+ — 1530 nm, Singlemode, bis 40 km	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
+CWDM-SFP10G-1530	CWDM 1530 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
 CWDM-SFP10G-1530=	CWDM 1530 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Transceiver Modules	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
-CWDM-SFP10G-1550	Cisco CWDM-SFP10G-1550 10G CWDM SFP+ — 1550 nm, Singlemode, bis 40 km	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
+CWDM-SFP10G-1550	CWDM 1550 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
 CWDM-SFP10G-1550=	CWDM 1550 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Transceiver Modules	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
-CWDM-SFP10G-1570	Cisco CWDM-SFP10G-1570 10G CWDM SFP+ — 1570 nm, Singlemode, bis 40 km	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
+CWDM-SFP10G-1570	CWDM 1570 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
 CWDM-SFP10G-1570=	CWDM 1570 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Transceiver Modules	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
-CWDM-SFP10G-1590	Cisco CWDM-SFP10G-1590 10G CWDM SFP+ — 1590 nm, Singlemode, bis 40 km	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
+CWDM-SFP10G-1590	CWDM 1590 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
 CWDM-SFP10G-1590=	CWDM 1590 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Transceiver Modules	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
-CWDM-SFP10G-1610	Cisco CWDM-SFP10G-1610 10G CWDM SFP+ — 1610 nm, Singlemode, bis 40 km	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
+CWDM-SFP10G-1610	CWDM 1610 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Cisco	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
 CWDM-SFP10G-1610=	CWDM 1610 nm SFP+ 10 Gigabit Ethernet Transceiver Module	Transceiver Modules	pluggable	layered	WDM transceivers	CWDM SFP / SFP+ / GBIC and OADM	sku ^CWDM-					
-CXP-100G-SR10	Cisco CXP-100G-SR10 100GBASE-SR10 CXP — 850 nm Multimode, MPO/MTP-24, bis 150 m OM4, DOM	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CXP					
+CXP-100G-SR10	CXP-100G-SR10 Transceiver module Spare	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CXP					
 CXP-100G-SR10=	CXP-100G-SR10 Transceiver module Spare	Transceiver Modules	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CXP					
-CXP-100G-SR12	Cisco CXP-100G-SR12 100GBASE-SR10 CXP — 850 nm Multimode, MPO/MTP-24, bis 150 m OM4, DOM	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CXP					
+CXP-100G-SR12	CXP form factor, 100GBASE-SR10 compliant, no breakout	Cisco	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CXP					
 CXP-100G-SR12=	CXP form factor, 100GBASE-SR10 compliant, no breakout	Transceiver Modules	pluggable	layered	Ethernet transceivers	100G CFP / CFP2 / CPAK / CXP	sku ^CXP					
 DP01QS28-E20	Cisco DP01QS28-E20 100G QSFP28 Digital-Coherent (DCO) DWDM — C-Band, E20	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
 DP01QS28-E25	Cisco DP01QS28-E25 100G QSFP28 Digital-Coherent (DCO) DWDM — C-Band, E25	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
@@ -176,12 +176,12 @@ DP01QSDD-LK9=	QSFP-DD 400G ZR+ - High Tx Power - OTN - 100G BW	Transceiver Modul
 DP01QSDD-ZF1	Cisco DP01QSDD-ZF1 100G ZR QSFP-DD — kohärentes DWDM (DCO), C-Band, bis 80 km	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
 DP01QSDD-ZT5-A1=	100 GBPS COHERENT QSFP-DD, OpenZR+, C-band Tunable	Network Convergence System 1000 Series	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
 DP04CFP2-D15	Cisco DP04CFP2-D15 400G BiDi CFP2 — kohärentes DWDM (DCO), Einzelfaser-bidirektional, C-Band	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
-DP04CFP2-M25-K9	Cisco DP04CFP2-M25-K9 400G CFP2-DCO Multi-Rate DWDM-Modul mit Hardware-Verschlüsselung	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
+DP04CFP2-M25-K9	400G CFP2 DCO Multi-rate WDM C Band Tuneable with Encryption	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
 DP04CFP2-M25-K9=	400G CFP2 DCO Multi-rate WDM C Band Tuneable with Encryption	Network Convergence System 2000 Series	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
 DP04QSDD-E26-A1	400GBPS COHERENT QSFP-DD, 400ZR OIF, Low Power	Transceiver Modules	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
 DP04QSDD-E36-A1	400GBPS COHERENT QSFP-DD, 400ZR+, OpenZR+, Low Power	Transceiver Modules	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
 DP04QSDD-ER1	Cisco DP04QSDD-ER1 400G Coherent QSFP-DD — Coherent ER1 (400G ZR), Singlemode	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
-DP04QSDD-HE0	Cisco DP04QSDD-HE0 400G ZR+ QSFP-DD High-Power — kohärentes DWDM (DCO), +1 dBm Tx, multiraten	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
+DP04QSDD-HE0	QSFP-DD 400G ZR+ - High Tx Power	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
 DP04QSDD-HE0-A1	Cisco DP04QSDD-HE0-A1 400G Coherent QSFP-DD — Coherent ZR+ (High Tx Power), Singlemode	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
 DP04QSDD-HE0=	QSFP-DD 400G ZR+ - High Tx Power	Transceiver Modules	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
 DP04QSDD-HK9	Cisco DP04QSDD-HK9 400G Coherent QSFP-DD — Coherent ZR+ (OTN, High Tx Power), Singlemode	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^DP0[148]					
@@ -278,11 +278,11 @@ DS-SFP-FC8G-LW=	Cisco MDS 9000 Family 2/4/8-Gbps Fibre Channel-Longwave, SFP+, L
 DS-SFP-FC8G-SW	8 Gbps Fibre Channel SW SFP+, LC connector (Fibre Channel support only on last 24 ports (highlighted ) of the Cisco Nexus 5672UP-16G, on last 16 ports (highlighted ) of Cisco Nexus 5672UP and UP GEM module on 56128P)	Storage Networking Modules	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
 DS-SFP-FC8G-SW-4=	Cisco MDS 9000 Family 2/4/8-Gbps Fibre Channel-Shortwave, SFP+, LC, 4 pack, Spare	MDS 9500 Series Multilayer Directors	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
 DS-SFP-FC8G-SW=	Cisco MDS 9000 Family 2/4/8-Gbps Fibre Channel-Shortwave, SFP+, LC, Spare (Supported only with 1/2/4/8-Gbps FC ports)	Storage Networking Modules	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
-DS-SFP-FCGE-LW	Cisco DS-SFP-FCGE-LW 2GFC / 1000BASE-X SFP-Modul — Long Wave (Multiprotokoll FC/GbE), Singlemode, 10 km (Singlemode)	Cisco	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
+DS-SFP-FCGE-LW	Cisco MDS 9000 Family 1-Gbps Ethernet, 1/2-Gbps Fibre Channel-Longwave, SFP, LC, spare (Supported only with 1/2-Gbps FC ports and IP Services ports)	Cisco	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
 DS-SFP-FCGE-LW=	Cisco MDS 9000 Family 1-Gbps Ethernet, 1/2-Gbps Fibre Channel-Longwave, SFP, LC, spare (Supported only with 1/2-Gbps FC ports and IP Services ports)	MDS 9000 Series Multilayer	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
-DS-SFP-FCGE-SW	Cisco DS-SFP-FCGE-SW 2GFC / 1000BASE-X SFP-Modul — Short Wave (Multiprotokoll FC/GbE), Multimode (OM1/OM2), Kurzstrecke (Multimode)	Cisco	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
+DS-SFP-FCGE-SW	Cisco MDS 9000 Family 1-Gbps Ethernet, 1/2-Gbps Fibre Channel-Shortwave, SFP, LC, spare (Supported only with 1/2-Gbps FC ports and IP Services ports)	Cisco	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
 DS-SFP-FCGE-SW=	Cisco MDS 9000 Family 1-Gbps Ethernet, 1/2-Gbps Fibre Channel-Shortwave, SFP, LC, spare (Supported only with 1/2-Gbps FC ports and IP Services ports)	MDS 9000 Series Multilayer	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
-DS-SFP-GE-T	Cisco DS-SFP-GE-T 1000BASE-T SFP-Modul — 1000BASE-T, Kupfer (Cat-5 UTP), 100 m (Cat-5 Kupfer)	Cisco	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
+DS-SFP-GE-T	Gigabit Ethernet Copper SFP, RJ-45, spare (Supported only with Gigabit Ethernet ports)	Cisco	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
 DS-SFP-GE-T=	Gigabit Ethernet Copper SFP, RJ-45, spare (Supported only with Gigabit Ethernet ports)	Storage Networking Modules	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
 DS-SFP-GET	Gigabit Ethernet Copper SFP, RJ45 (Supported only with IP Services ports)	MDS 9200 Series Multiservice	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
 DS-X2-E10G-ER	10 Gbps Ethernet-ER X2 (For DS-X9704)	Storage Networking Modules	pluggable	layered	Fibre Channel transceivers (MDS)	MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2|CWDM)					
@@ -340,13 +340,13 @@ DWDM-GBIC-60.61	Cisco DWDM-GBIC-60.61 1000BASE-DWDM GBIC — ITU-Kanal 1560,61 n
 DWDM-SFP	Cisco DWDM-SFP	Catalyst 8200	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP+	Cisco DWDM-SFP+	ASR 901	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP-1xxx=	Cisco DWDM-SFP-1xxx=	Nexus 7000	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-SFP-3033	Cisco DWDM-SFP-3033 1000BASE-DWDM SFP — ITU-Kanal 59, 1530,33 nm, Singlemode	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-SFP-3033	Cisco 1530.33 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP, Spare	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP-3033=	Cisco 1530.33 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP, Spare	Catalyst IE3400 Rugged Series	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-SFP-3112	Cisco DWDM-SFP-3112 1000BASE-DWDM SFP — ITU-Kanal 58, 1531,12 nm, Singlemode	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-SFP-3112	Cisco 1531.12 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP, Spare	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP-3112=	Cisco 1531.12 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP, Spare	Catalyst IE3400 Rugged Series	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-SFP-3190	Cisco DWDM-SFP-3190 1000BASE-DWDM SFP — ITU-Kanal 57, 1531,90 nm, Singlemode	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-SFP-3190	Cisco 1531.90 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP, Spare	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP-3190=	Cisco 1531.90 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP, Spare	MDS 9500 Series Multilayer Directors	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-SFP-3268	Cisco DWDM-SFP-3268 1000BASE-DWDM SFP — ITU-Kanal 56, 1532,68 nm, Singlemode	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-SFP-3268	Cisco 1532.68 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP, Spare	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP-3268=	Cisco 1532.68 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP, Spare	MDS 9500 Series Multilayer Directors	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP-3346=	1000BASE-DWDM 1533.47 nm SFP (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP-3425	Cisco DWDM-SFP-3425	1000	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
@@ -411,13 +411,13 @@ DWDM-SFP-5979	Cisco DWDM-SFP-5979	1000	pluggable	layered	WDM transceivers	DWDM S
 DWDM-SFP-5979=	Cisco 1559.79 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP, Spare	MDS 9500 Series Multilayer Directors	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP-6061	Cisco DWDM-SFP-6061	1000	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP-6061=	Cisco 1560.61 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP, Spare	MDS 9500 Series Multilayer Directors	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-SFP-6141	Cisco DWDM-SFP-6141 1000BASE-DWDM SFP — feste Wellenlänge 1561,42 nm (ITU-Kanal 20), Duplex LC	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-SFP-6141	DWDM SFP 1561.42 nm SFP (100 GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP-6141=	DWDM SFP 1561.42 nm SFP (100 GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G	Cisco DWDM-SFP10G	Catalyst 8200	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-SFP10G-30.33	Cisco DWDM-SFP10G-30.33 10GBASE-DWDM SFP+ — 1530,33 nm, Singlemode, bis 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-SFP10G-30.33	10GBASE-DWDM 1530.33 nm SFP10G (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-30.33=	10GBASE-DWDM 1530.33 nm SFP10G (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-3033	Cisco DWDM-SFP10G-3033	Catalyst IE3300 Rugged Series	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-SFP10G-31.12	Cisco DWDM-SFP10G-31.12 10GBASE-DWDM SFP+ — 1531,12 nm, Singlemode, bis 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-SFP10G-31.12	10GBASE-DWDM 1531.12 nm SFP+ (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-31.12=	10GBASE-DWDM 1531.12 nm SFP+ (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-31.90=	10GBASE-DWDM 1531.90 nm SFP+ (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-32.68=	10GBASE-DWDM 1532.68 nm SFP+ (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
@@ -456,212 +456,212 @@ DWDM-SFP10G-58.17=	10GBASE-DWDM 1558.17 nm SFP10G (100-GHz ITU grid)	Transceiver
 DWDM-SFP10G-58.98=	10GBASE-DWDM 1558.98 nm SFP+ (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-59.79=	10GBASE-DWDM 1559.79 nm SFP+ (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-60.61=	10GBASE-DWDM 1560.61 nm SFP10G (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-SFP10G-61.41	Cisco DWDM-SFP10G-61.41 10GBASE-DWDM SFP+ — 1561,41 nm, Singlemode, bis 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-SFP10G-61.41	10GBASE-DWDM 1561.41 nm SFP10G (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-61.41=	10GBASE-DWDM 1561.41 nm SFP10G (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-SFP10G-C	Cisco DWDM-SFP10G-C 10GBASE-DWDM SFP+ — C-Band durchstimmbar, Singlemode	Cisco	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-SFP10G-C	10GBASE-DWDM tunable SFP+, Linear Interface (50-GHz ITU grid)	Cisco	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-C-I	Cisco DWDM-SFP10G-C-I 10GBASE-DWDM SFP+ — C-Band durchstimmbar, Singlemode	Cisco	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-SFP10G-C-S	Cisco DWDM-SFP10G-C-S 10GBASE-DWDM SFP+ — C-Band durchstimmbar, Singlemode	Cisco	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-SFP10G-C-S	10GBASE-DWDM tunable SFP+, Limiting Interface (50-GHz ITU grid)	Cisco	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-C-S=	10GBASE-DWDM tunable SFP+, Limiting Interface (50-GHz ITU grid)	Transceiver Modules	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-C=	10GBASE-DWDM tunable SFP+, Linear Interface (50-GHz ITU grid)	Transceiver Modules	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-SFP10G-E-I	Cisco DWDM-SFP10G-E-I 10GBASE-DWDM SFP+ — C-Band durchstimmbar, Singlemode	Cisco	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-SFP10G-E-I	10GBASE-DWDM tunable SFP+, Limiting Interface 50Ghz ITU grid)	Cisco	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-E-I=	10GBASE-DWDM tunable SFP+, Limiting Interface 50Ghz ITU grid)	Transceiver Modules	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-xx.xx	Cisco multirate (LAN/WAN/OTU2/OTU2E) 10GBASE-DWDM single wavelength SFP+ module (100-GHz ITU grid) – 40 individual wavelength pluggable modules	ASR 920 Series Aggregation Services Router	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-SFP10G-xx.xx=	Cisco multi-rate (LAN/WAN/OTU2/OTU2E) 10GBASE-DWDM single wavelength SFP+ module (100-GHz ITU grid) – 40 individual wavelength pluggable modules	ASR 900	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2	10GB DWDM X2 module with DOM support	4900	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-30.33	Cisco DWDM-X2-30.33 10GBASE-DWDM X2 — ITU-Kanal 1530,33 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-30.33	10GBASE-DWDM 1530.33 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-30.33=	10GBASE-DWDM 1530.33 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-31.12	Cisco DWDM-X2-31.12 10GBASE-DWDM X2 — ITU-Kanal 1531,12 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-31.12	10GBASE-DWDM 1531.12 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-31.12=	10GBASE-DWDM 1531.12 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-31.90	Cisco DWDM-X2-31.90 10GBASE-DWDM X2 — ITU-Kanal 1531,90 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-31.90	10GBASE-DWDM 1531.90 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-31.90=	10GBASE-DWDM 1531.90 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-32.68	Cisco DWDM-X2-32.68 10GBASE-DWDM X2 — ITU-Kanal 1532,68 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-32.68	10GBASE-DWDM 1532.68 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-32.68=	10GBASE-DWDM 1532.68 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-34.25	Cisco DWDM-X2-34.25 10GBASE-DWDM X2 — ITU-Kanal 1534,25 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-34.25	10GBASE-DWDM 1534.25 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-34.25=	10GBASE-DWDM 1534.25 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-35.04	Cisco DWDM-X2-35.04 10GBASE-DWDM X2 — ITU-Kanal 1535,04 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-35.04	10GBASE-DWDM 1535.04 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-35.04=	10GBASE-DWDM 1535.04 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-35.82	Cisco DWDM-X2-35.82 10GBASE-DWDM X2 — ITU-Kanal 1535,82 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-35.82	10GBASE-DWDM 1535.82 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-35.82=	10GBASE-DWDM 1535.82 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-36.61	Cisco DWDM-X2-36.61 10GBASE-DWDM X2 — ITU-Kanal 1536,61 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-36.61	10GBASE-DWDM 1536.61 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-36.61=	10GBASE-DWDM 1536.61 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-38.19	Cisco DWDM-X2-38.19 10GBASE-DWDM X2 — ITU-Kanal 1538,19 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-38.19	10GBASE-DWDM 1538.19 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-38.19=	10GBASE-DWDM 1538.19 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-38.98	Cisco DWDM-X2-38.98 10GBASE-DWDM X2 — ITU-Kanal 1538,98 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-38.98	10GBASE-DWDM 1538.98 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-38.98=	10GBASE-DWDM 1538.98 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-39.77	Cisco DWDM-X2-39.77 10GBASE-DWDM X2 — ITU-Kanal 1539,77 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-39.77	10GBASE-DWDM 1539.77 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-39.77=	10GBASE-DWDM 1539.77 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-40.56	Cisco DWDM-X2-40.56 10GBASE-DWDM X2 — ITU-Kanal 1540,56 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-40.56	10GBASE-DWDM 1540.56 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-40.56=	10GBASE-DWDM 1540.56 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-42.14	Cisco DWDM-X2-42.14 10GBASE-DWDM X2 — ITU-Kanal 1542,14 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-42.14	10GBASE-DWDM 1542.14 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-42.14=	10GBASE-DWDM 1542.14 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-42.94	Cisco DWDM-X2-42.94 10GBASE-DWDM X2 — ITU-Kanal 1542,94 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-42.94	10GBASE-DWDM 1542.94 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-42.94=	10GBASE-DWDM 1542.94 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-43.73	Cisco DWDM-X2-43.73 10GBASE-DWDM X2 — ITU-Kanal 1543,73 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-43.73	10GBASE-DWDM 1543.73 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-43.73=	10GBASE-DWDM 1543.73 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-44.53	Cisco DWDM-X2-44.53 10GBASE-DWDM X2 — ITU-Kanal 1544,53 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-44.53	10GBASE-DWDM 1544.53 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-44.53=	10GBASE-DWDM 1544.53 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-46.12	Cisco DWDM-X2-46.12 10GBASE-DWDM X2 — ITU-Kanal 1546,12 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-46.12	10GBASE-DWDM 1546.12 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-46.12=	10GBASE-DWDM 1546.12 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-46.92	Cisco DWDM-X2-46.92 10GBASE-DWDM X2 — ITU-Kanal 1546,92 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-46.92	10GBASE-DWDM 1546.92 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-46.92=	10GBASE-DWDM 1546.92 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-47.72	Cisco DWDM-X2-47.72 10GBASE-DWDM X2 — ITU-Kanal 1547,72 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-47.72	10GBASE-DWDM 1547.72 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-47.72=	10GBASE-DWDM 1547.72 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-48.51	Cisco DWDM-X2-48.51 10GBASE-DWDM X2 — ITU-Kanal 1548,51 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-48.51	10GBASE-DWDM 1548.51 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-48.51=	10GBASE-DWDM 1548.51 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-50.12	Cisco DWDM-X2-50.12 10GBASE-DWDM X2 — ITU-Kanal 1550,12 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-50.12	10GBASE-DWDM 1550.12 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-50.12=	10GBASE-DWDM 1550.12 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-50.92	Cisco DWDM-X2-50.92 10GBASE-DWDM X2 — ITU-Kanal 1550,92 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-50.92	10GBASE-DWDM 1550.92 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-50.92=	10GBASE-DWDM 1550.92 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-51.72	Cisco DWDM-X2-51.72 10GBASE-DWDM X2 — ITU-Kanal 1551,72 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-51.72	10GBASE-DWDM 1551.72 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-51.72=	10GBASE-DWDM 1551.72 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-52.52	Cisco DWDM-X2-52.52 10GBASE-DWDM X2 — ITU-Kanal 1552,52 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-52.52	10GBASE-DWDM 1552.52 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-52.52=	10GBASE-DWDM 1552.52 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-54.13	Cisco DWDM-X2-54.13 10GBASE-DWDM X2 — ITU-Kanal 1554,13 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-54.13	10GBASE-DWDM 1554.13 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-54.13=	10GBASE-DWDM 1554.13 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-54.94	Cisco DWDM-X2-54.94 10GBASE-DWDM X2 — ITU-Kanal 1554,94 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-54.94	10GBASE-DWDM 1554.94 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-54.94=	10GBASE-DWDM 1554.94 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-55.75	Cisco DWDM-X2-55.75 10GBASE-DWDM X2 — ITU-Kanal 1555,75 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-55.75	10GBASE-DWDM 1555.75 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-55.75=	10GBASE-DWDM 1555.75 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-56.55	Cisco DWDM-X2-56.55 10GBASE-DWDM X2 — ITU-Kanal 1556,55 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-56.55	10GBASE-DWDM 1556.55 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-56.55=	10GBASE-DWDM 1556.55 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-58.17	Cisco DWDM-X2-58.17 10GBASE-DWDM X2 — ITU-Kanal 1558,17 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-58.17	10GBASE-DWDM 1558.17 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-58.17=	10GBASE-DWDM 1558.17 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-58.98	Cisco DWDM-X2-58.98 10GBASE-DWDM X2 — ITU-Kanal 1558,98 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-58.98	10GBASE-DWDM 1558.98 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-58.98=	10GBASE-DWDM 1558.98 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-59.79	Cisco DWDM-X2-59.79 10GBASE-DWDM X2 — ITU-Kanal 1559,79 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-59.79	10GBASE-DWDM 1559.79 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-59.79=	10GBASE-DWDM 1559.79 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-X2-60.61	Cisco DWDM-X2-60.61 10GBASE-DWDM X2 — ITU-Kanal 1560,61 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-X2-60.61	10GBASE-DWDM 1560.61 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-60.61=	10GBASE-DWDM 1560.61 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-X2-YY.YY=	10GBASE-DWDM 15YY.YY nm X2, spare (100-GHz ITU grid) (where YYYY=6061, 5979, 5898, 5817, 5655, 5575, 5494, 5413, 5252, 5172, 5092, 5012, 4851, 4772, 4692, 4612, 4453, 4373, 4294, 4214, 4056, 3977, 3898, 3819, 3661, 3582, 3504, 3425, 3268, 3190, 3112, 3033)	MDS 9000 Series Multilayer	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-30.33	Cisco DWDM-XENPAK-30.33 10GBASE-DWDM XENPAK — ITU-Kanal 1530,33 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-30.33	10GBASE-DWDM 1530.33nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-30.33=	10GBASE-DWDM 1530.33nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-31.12	Cisco DWDM-XENPAK-31.12 10GBASE-DWDM XENPAK — ITU-Kanal 1531,12 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-31.12	10GBASE-DWDM 1531.12nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-31.12=	10GBASE-DWDM 1531.12nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-31.90	Cisco DWDM-XENPAK-31.90 10GBASE-DWDM XENPAK — ITU-Kanal 1531,90 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-31.90	10GBASE-DWDM 1531.90nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-31.90=	10GBASE-DWDM 1531.90nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-32.68	Cisco DWDM-XENPAK-32.68 10GBASE-DWDM XENPAK — ITU-Kanal 1532,68 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-32.68	10GBASE-DWDM 1532.68nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-32.68=	10GBASE-DWDM 1532.68nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-34.25	Cisco DWDM-XENPAK-34.25 10GBASE-DWDM XENPAK — ITU-Kanal 1534,25 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-34.25	10GBASE-DWDM 1534.25nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-34.25=	10GBASE-DWDM 1534.25nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-35.04	Cisco DWDM-XENPAK-35.04 10GBASE-DWDM XENPAK — ITU-Kanal 1535,04 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-35.04	10GBASE-DWDM 1535.04nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-35.04=	10GBASE-DWDM 1535.04nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-35.82	Cisco DWDM-XENPAK-35.82 10GBASE-DWDM XENPAK — ITU-Kanal 1535,82 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-35.82	10GBASE-DWDM 1535.82nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-35.82=	10GBASE-DWDM 1535.82nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-36.61	Cisco DWDM-XENPAK-36.61 10GBASE-DWDM XENPAK — ITU-Kanal 1536,61 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-36.61	10GBASE-DWDM 1536.61nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-36.61=	10GBASE-DWDM 1536.61nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-38.19	Cisco DWDM-XENPAK-38.19 10GBASE-DWDM XENPAK — ITU-Kanal 1538,19 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-38.19	10GBASE-DWDM 1538.19nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-38.19=	10GBASE-DWDM 1538.19nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-38.98	Cisco DWDM-XENPAK-38.98 10GBASE-DWDM XENPAK — ITU-Kanal 1538,98 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-38.98	10GBASE-DWDM 1538.98nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-38.98=	10GBASE-DWDM 1538.98nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-39.77	Cisco DWDM-XENPAK-39.77 10GBASE-DWDM XENPAK — ITU-Kanal 1539,77 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-39.77	10GBASE-DWDM 1539.77nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-39.77=	10GBASE-DWDM 1539.77nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-40.56	Cisco DWDM-XENPAK-40.56 10GBASE-DWDM XENPAK — ITU-Kanal 1540,56 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-40.56	10GBASE-DWDM 1540.56nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-40.56=	10GBASE-DWDM 1540.56nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-42.14	Cisco DWDM-XENPAK-42.14 10GBASE-DWDM XENPAK — ITU-Kanal 1542,14 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-42.14	10GBASE-DWDM 1542.14nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-42.14=	10GBASE-DWDM 1542.14nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-42.94	Cisco DWDM-XENPAK-42.94 10GBASE-DWDM XENPAK — ITU-Kanal 1542,94 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-42.94	10GBASE-DWDM 1542.94nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-42.94=	10GBASE-DWDM 1542.94nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-43.73	Cisco DWDM-XENPAK-43.73 10GBASE-DWDM XENPAK — ITU-Kanal 1543,73 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-43.73	10GBASE-DWDM 1543.73nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-43.73=	10GBASE-DWDM 1543.73nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-44.53	Cisco DWDM-XENPAK-44.53 10GBASE-DWDM XENPAK — ITU-Kanal 1544,53 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-44.53	10GBASE-DWDM 1544.53nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-44.53=	10GBASE-DWDM 1544.53nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-46.12	Cisco DWDM-XENPAK-46.12 10GBASE-DWDM XENPAK — ITU-Kanal 1546,12 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-46.12	10GBASE-DWDM 1546.12nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-46.12=	10GBASE-DWDM 1546.12nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-46.92	Cisco DWDM-XENPAK-46.92 10GBASE-DWDM XENPAK — ITU-Kanal 1546,92 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-46.92	10GBASE-DWDM 1546.92nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-46.92=	10GBASE-DWDM 1546.92nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-47.72	Cisco DWDM-XENPAK-47.72 10GBASE-DWDM XENPAK — ITU-Kanal 1547,72 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-47.72	10GBASE-DWDM 1547.72nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-47.72=	10GBASE-DWDM 1547.72nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-48.51	Cisco DWDM-XENPAK-48.51 10GBASE-DWDM XENPAK — ITU-Kanal 1548,51 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-48.51	10GBASE-DWDM 1548.51nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-48.51=	10GBASE-DWDM 1548.51nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-50.12	Cisco DWDM-XENPAK-50.12 10GBASE-DWDM XENPAK — ITU-Kanal 1550,12 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-50.12	10GBASE-DWDM 1550.12nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-50.12=	10GBASE-DWDM 1550.12nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-50.92	Cisco DWDM-XENPAK-50.92 10GBASE-DWDM XENPAK — ITU-Kanal 1550,92 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-50.92	10GBASE-DWDM 1550.92nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-50.92=	10GBASE-DWDM 1550.92nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-51.72	Cisco DWDM-XENPAK-51.72 10GBASE-DWDM XENPAK — ITU-Kanal 1551,72 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-51.72	10GBASE-DWDM 1551.72nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-51.72=	10GBASE-DWDM 1551.72nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-52.52	Cisco DWDM-XENPAK-52.52 10GBASE-DWDM XENPAK — ITU-Kanal 1552,52 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-52.52	10GBASE-DWDM 1552.52nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-52.52=	10GBASE-DWDM 1552.52nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-54.13	Cisco DWDM-XENPAK-54.13 10GBASE-DWDM XENPAK — ITU-Kanal 1554,13 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-54.13	10GBASE-DWDM 1554.13nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-54.13=	10GBASE-DWDM 1554.13nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-54.94	Cisco DWDM-XENPAK-54.94 10GBASE-DWDM XENPAK — ITU-Kanal 1554,94 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-54.94	10GBASE-DWDM 1554.94nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-54.94=	10GBASE-DWDM 1554.94nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-55.75	Cisco DWDM-XENPAK-55.75 10GBASE-DWDM XENPAK — ITU-Kanal 1555,75 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-55.75	10GBASE-DWDM 1555.75nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-55.75=	10GBASE-DWDM 1555.75nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-56.55	Cisco DWDM-XENPAK-56.55 10GBASE-DWDM XENPAK — ITU-Kanal 1556,55 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-56.55	10GBASE-DWDM 1556.55nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-56.55=	10GBASE-DWDM 1556.55nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-58.17	Cisco DWDM-XENPAK-58.17 10GBASE-DWDM XENPAK — ITU-Kanal 1558,17 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-58.17	10GBASE-DWDM 1558.17nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-58.17=	10GBASE-DWDM 1558.17nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-58.98	Cisco DWDM-XENPAK-58.98 10GBASE-DWDM XENPAK — ITU-Kanal 1558,98 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-58.98	10GBASE-DWDM 1558.98nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-58.98=	10GBASE-DWDM 1558.98nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-59.79	Cisco DWDM-XENPAK-59.79 10GBASE-DWDM XENPAK — ITU-Kanal 1559,79 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-59.79	10GBASE-DWDM 1559.79nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-59.79=	10GBASE-DWDM 1559.79nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XENPAK-60.61	Cisco DWDM-XENPAK-60.61 10GBASE-DWDM XENPAK — ITU-Kanal 1560,61 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XENPAK-60.61	10GBASE-DWDM 1560.61nm XENPAK (100GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XENPAK-60.61=	10GBASE-DWDM 1560.61nm XENPAK (100GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-30.33	Cisco DWDM-XFP-30.33 10GBASE-DWDM XFP — ITU-Kanal 1530,33 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-30.33	10GBASE-DWDM 1530.33 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-30.33=	10GBASE-DWDM 1530.33 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-31.12	Cisco DWDM-XFP-31.12 10GBASE-DWDM XFP — ITU-Kanal 1531,12 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-31.12	10GBASE-DWDM 1531.12 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-31.12=	10GBASE-DWDM 1531.12 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-31.90	Cisco DWDM-XFP-31.90 10GBASE-DWDM XFP — ITU-Kanal 1531,90 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-31.90	10GBASE-DWDM 1531.90 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-31.90=	10GBASE-DWDM 1531.90 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-32.68	Cisco DWDM-XFP-32.68 10GBASE-DWDM XFP — ITU-Kanal 1532,68 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-32.68	10GBASE-DWDM 1532.68 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-32.68=	10GBASE-DWDM 1532.68 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-34.25	Cisco DWDM-XFP-34.25 10GBASE-DWDM XFP — ITU-Kanal 1534,25 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-34.25	10GBASE-DWDM 1534.25 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-34.25=	10GBASE-DWDM 1534.25 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-35.04	Cisco DWDM-XFP-35.04 10GBASE-DWDM XFP — ITU-Kanal 1535,04 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-35.04	10GBASE-DWDM 1535.04 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-35.04=	10GBASE-DWDM 1535.04 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-35.82	Cisco DWDM-XFP-35.82 10GBASE-DWDM XFP — ITU-Kanal 1535,82 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-35.82	10GBASE-DWDM 1535.82 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-35.82=	10GBASE-DWDM 1535.82 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-36.61	Cisco DWDM-XFP-36.61 10GBASE-DWDM XFP — ITU-Kanal 1536,61 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-36.61	10GBASE-DWDM 1536.61 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-36.61=	10GBASE-DWDM 1536.61 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-38.19	Cisco DWDM-XFP-38.19 10GBASE-DWDM XFP — ITU-Kanal 1538,19 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-38.19	10GBASE-DWDM 1538.19 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-38.19=	10GBASE-DWDM 1538.19 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-38.98	Cisco DWDM-XFP-38.98 10GBASE-DWDM XFP — ITU-Kanal 1538,98 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-38.98	10GBASE-DWDM 1538.98 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-38.98=	10GBASE-DWDM 1538.98 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-39.77	Cisco DWDM-XFP-39.77 10GBASE-DWDM XFP — ITU-Kanal 1539,77 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-39.77	10GBASE-DWDM 1539.77 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-39.77=	10GBASE-DWDM 1539.77 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-40.56	Cisco DWDM-XFP-40.56 10GBASE-DWDM XFP — ITU-Kanal 1540,56 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-40.56	10GBASE-DWDM 1540.56 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-40.56=	10GBASE-DWDM 1540.56 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-42.14	Cisco DWDM-XFP-42.14 10GBASE-DWDM XFP — ITU-Kanal 1542,14 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-42.14	10GBASE-DWDM 1542.14 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-42.14=	10GBASE-DWDM 1542.14 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-42.94	Cisco DWDM-XFP-42.94 10GBASE-DWDM XFP — ITU-Kanal 1542,94 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-42.94	10GBASE-DWDM 1542.94 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-42.94=	10GBASE-DWDM 1542.94 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-43.73	Cisco DWDM-XFP-43.73 10GBASE-DWDM XFP — ITU-Kanal 1543,73 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-43.73	10GBASE-DWDM 1543.73 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-43.73=	10GBASE-DWDM 1543.73 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-44.53	Cisco DWDM-XFP-44.53 10GBASE-DWDM XFP — ITU-Kanal 1544,53 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-44.53	10GBASE-DWDM 1544.53 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-44.53=	10GBASE-DWDM 1544.53 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-46.12	Cisco DWDM-XFP-46.12 10GBASE-DWDM XFP — ITU-Kanal 1546,12 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-46.12	10GBASE-DWDM 1546.12 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-46.12=	10GBASE-DWDM 1546.12 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-46.92	Cisco DWDM-XFP-46.92 10GBASE-DWDM XFP — ITU-Kanal 1546,92 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-46.92	10GBASE-DWDM 1546.92 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-46.92=	10GBASE-DWDM 1546.92 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-47.72	Cisco DWDM-XFP-47.72 10GBASE-DWDM XFP — ITU-Kanal 1547,72 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-47.72	10GBASE-DWDM 1547.72 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-47.72=	10GBASE-DWDM 1547.72 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-48.51	Cisco DWDM-XFP-48.51 10GBASE-DWDM XFP — ITU-Kanal 1548,51 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-48.51	10GBASE-DWDM 1548.51 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-48.51=	10GBASE-DWDM 1548.51 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-50.12	Cisco DWDM-XFP-50.12 10GBASE-DWDM XFP — ITU-Kanal 1550,12 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-50.12	10GBASE-DWDM 1550.12 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-50.12=	10GBASE-DWDM 1550.12 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-50.92	Cisco DWDM-XFP-50.92 10GBASE-DWDM XFP — ITU-Kanal 1550,92 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-50.92	10GBASE-DWDM 1550.92 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-50.92=	10GBASE-DWDM 1550.92 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-51.72	Cisco DWDM-XFP-51.72 10GBASE-DWDM XFP — ITU-Kanal 1551,72 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-51.72	10GBASE-DWDM 1551.72 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-51.72=	10GBASE-DWDM 1551.72 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-52.52	Cisco DWDM-XFP-52.52 10GBASE-DWDM XFP — ITU-Kanal 1552,52 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-52.52	10GBASE-DWDM 1552.52 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-52.52=	10GBASE-DWDM 1552.52 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-54.13	Cisco DWDM-XFP-54.13 10GBASE-DWDM XFP — ITU-Kanal 1554,13 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-54.13	10GBASE-DWDM 1554.13 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-54.13=	10GBASE-DWDM 1554.13 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-54.94	Cisco DWDM-XFP-54.94 10GBASE-DWDM XFP — ITU-Kanal 1554,94 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-54.94	10GBASE-DWDM 1554.94 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-54.94=	10GBASE-DWDM 1554.94 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-55.75	Cisco DWDM-XFP-55.75 10GBASE-DWDM XFP — ITU-Kanal 1555,75 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-55.75	10GBASE-DWDM 1555.75 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-55.75=	10GBASE-DWDM 1555.75 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-56.55	Cisco DWDM-XFP-56.55 10GBASE-DWDM XFP — ITU-Kanal 1556,55 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-56.55	10GBASE-DWDM 1556.55 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-56.55=	10GBASE-DWDM 1556.55 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-58.17	Cisco DWDM-XFP-58.17 10GBASE-DWDM XFP — ITU-Kanal 1558,17 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-58.17	10GBASE-DWDM 1558.17 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-58.17=	10GBASE-DWDM 1558.17 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-58.98	Cisco DWDM-XFP-58.98 10GBASE-DWDM XFP — ITU-Kanal 1558,98 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-58.98	10GBASE-DWDM 1558.98 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-58.98=	10GBASE-DWDM 1558.98 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-59.79	Cisco DWDM-XFP-59.79 10GBASE-DWDM XFP — ITU-Kanal 1559,79 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-59.79	10GBASE-DWDM 1559.79 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-59.79=	10GBASE-DWDM 1559.79 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-60.61	Cisco DWDM-XFP-60.61 10GBASE-DWDM XFP — ITU-Kanal 1560,61 nm, Singlemode, 80 km	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-60.61	10GBASE-DWDM 1560.61 nm XFP (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-60.61=	10GBASE-DWDM 1560.61 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
-DWDM-XFP-C	Cisco DWDM-XFP-C 10GBASE-DWDM XFP — abstimmbar, 80 Kanäle ITU 50-GHz-Raster, C-Band, DOM	Cisco	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
+DWDM-XFP-C	10G MultiRate C Band Tunable DWDM XFP	Cisco	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 DWDM-XFP-C=	10G MultiRate C Band Tunable DWDM XFP	Transceiver Modules	tunable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^DWDM-					
 EXP-1GSFP-T	1 Gigabit Ethernet SFP Module 10/100/1000BASE-T	Expressway Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^EXP-1GSFP					
 EXP-1GSFP-T=	Spare 1 Gigabit Ethernet SFP Module 10/100/1000BASE-T	Expressway Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^EXP-1GSFP					
@@ -669,11 +669,11 @@ FET-10G	Cisco FET-10G 10GBASE-SR (FET) SFP+-Modul — FET (Fabric Extender), Mul
 FET-40G	Cisco FET-40G Fabric Extender QSFP+ Modul — 850 nm MMF, MPO-12, 150 m OM4, 4×10G, DOM	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^FET-40G					
 GLC-2BX-D	Cisco GLC-2BX-D 2-Kanal 1000BASE-BX10-D Compact SFP — BiDi, 10 km, DOM	Cisco	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-2BX-D-I	Cisco GLC-2BX-D-I 2-Kanal 1000BASE-BX10-D Compact SFP — BiDi, 10 km, industriell	Cisco	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-BX-D	Cisco GLC-BX-D 1000BASE-BX10-D SFP Modul — BiDi, Single LC, 10 km, DOM	Cisco	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-BX-D	1000BASE-BX10-D downstream bidirectional single fiber; with digital optical monitoring (DOM)	Cisco	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-BX-D-I	Cisco GLC-BX-D-I 1000BASE-BX10-D SFP Modul — BiDi, Single LC, 10 km, industriell	Cisco	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-BX-D-I=	Cisco GLC-BX-D-I=	Catalyst IE9300 Rugged Series	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-BX-D=	1000BASE-BX10-D downstream bidirectional single fiber; with digital optical monitoring (DOM)	Catalyst ESS9300 Embedded	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-BX-U	Cisco GLC-BX-U 1000BASE-BX10-U SFP Modul — BiDi, Single LC, 10 km, DOM	Cisco	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-BX-U	1000BASE-BX10 SFP module for single-strand SMF, 1310-nm TX/1490-nm RX wavelength	Cisco	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-BX-U-I	Cisco GLC-BX-U-I 1000BASE-BX10-U SFP Modul — BiDi, Single LC, 10 km, industriell	Cisco	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-BX-U-I=	Cisco GLC-BX-U-I=	Catalyst IE9300 Rugged Series	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-BX-U=	1000BASE-BX10 SFP module for single-strand SMF, 1310-nm TX/1490-nm RX wavelength	Catalyst ESS9300 Embedded	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
@@ -689,7 +689,7 @@ GLC-BX80-U-I	Cisco GLC-BX80-U-I 1000BASE-BX80-U SFP Modul — BiDi, Single LC, 8
 GLC-BX80-U-I=	Cisco GLC-BX80-U-I=	Catalyst IE9300 Rugged Series	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-BXD-I	Cisco GLC-BXD-I	Transceiver Modules	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-BXU-I	Cisco GLC-BXU-I	Transceiver Modules	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-EX-SMD	Cisco GLC-EX-SMD 1000BASE-EX SFP Modul — 1310 nm SMF, 40 km, Dual LC, DOM	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-EX-SMD	1000BASE-EX SFP	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-EX-SMD=	1000BASE-EX SFP	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-100BX-D	Cisco GLC-FE-100BX-D 100BASE-BX10-D BiDi-SFP — Tx 1550/Rx 1310 nm, Einzelfaser, 10 km	Cisco	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-100BX-D48	48 units of GLC-FE-100BX-D	ME 3400E Ethernet Access	bidi	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
@@ -701,13 +701,13 @@ GLC-FE-100BX-URGD=	100BASE-BX10-U Rugged SFP and Fiber Reel	Antennas/Accessories
 GLC-FE-100EX	Cisco GLC-FE-100EX 100BASE-EX SFP — 1310 nm Singlemode, Duplex LC, 40 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-100EX=	100BASE-EX SFP for Fast Ethernet port	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-100FX	Cisco GLC-FE-100FX 100BASE-FX SFP — 1300 nm Multimode, Duplex LC, 2 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-FE-100FX-RGD	Cisco GLC-FE-100FX-RGD 100BASE-FX Rugged SFP — 1300 nm MMF, Duplex LC, 2 km, Industrie	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-FE-100FX-RGD	Rugged Fast Ethernet SFP, LC connector, multimode fiber, 2 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-100FX-RGD=	Rugged Fast Ethernet SFP, LC connector, multimode fiber, 2 km	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-100FX24	24 units of GLC-FE-100FX	ME 3400E Ethernet Access	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-100FX48	48 units of GLC-FE-100FX	ME 3400E Ethernet Access	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-100FX=	100BASE-FX SFP module for 100-Mb ports, 1310-nm wavelength, 2 km over MMF	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-100LX	Cisco GLC-FE-100LX 100BASE-LX10 SFP — 1310 nm Singlemode, Duplex LC, 10 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-FE-100LX-RGD	Cisco GLC-FE-100LX-RGD 100BASE-LX10 Rugged SFP — 1310 nm SMF, Duplex LC, 10 km, Industrie	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-FE-100LX-RGD	Rugged Fast Ethernet SFP, LC connector, single mode fiber, 10 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-100LX-RGD=	Rugged Fast Ethernet SFP, LC connector, single mode fiber, 10 km	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-100LX48	48 units of GLC-FE-100LX	ME 3400E Ethernet Access	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-100LX=	100BASE-LX SFP for Fast Ethernet port	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
@@ -715,29 +715,29 @@ GLC-FE-100ZX	Cisco GLC-FE-100ZX 100BASE-ZX SFP — 1550 nm Singlemode, Duplex LC
 GLC-FE-100ZX=	100BASE-ZX SFP for Fast Ethernet port	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-T-I	Cisco GLC-FE-T-I 100BASE-T Kupfer-SFP — RJ-45, Cat-5 UTP, 100 m, Industrie	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-FE-T-I=	Cisco GLC-FE-T-I=	CGS 2500 Connected Grid	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-GE-100FX	Cisco GLC-GE-100FX 100BASE-FX SFP für GigE-Ports — 1300 nm MMF, Duplex LC, 2 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-GE-100FX	100BASE-FX SFP module for Gigabit Ethernet ports, 1310-nm wavelength, 2 km over MMF	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-GE-100FX=	100BASE-FX SFP module for Gigabit Ethernet ports, 1310-nm wavelength, 2 km over MMF	High-Speed WAN Interface Cards	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-GE-DR-LX	Cisco GLC-GE-DR-LX 100/1000BASE-LX SFP Modul — Dual-Rate, 1310 nm SMF, 10 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-LH-LMM-T1	1000BASE-LX/LH SFP trn mod, M/SMF, 1310nm, DOM, smrt LMM, TI	Network Convergence System 4200 Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-LH-LMM-TI	Cisco GLC-LH-LMM-TI 1000BASE-LX/LH SFP-Modul — LX/LH (industriell, TI), Singlemode/Multimode, 10 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-LH-LMM-TI	1000BASE-LX/LH SFP trn mod, M/SMF, 1310nm, DOM, smrt LMM, TI	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-LH-LMM-TI=	1000BASE-LX/LH SFP trn mod, M/SMF, 1310nm, DOM, smrt LMM, TI	Transceiver Modules	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-LH-MM	1000BASE-LHLX, SFP single-mode	Route Processors and Route Switch Processors	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-LH-MMD	Cisco GLC-LH-MMD	Catalyst IR1800 Rugged	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-LH-SM	Cisco GLC-LH-SM 1000BASE-LX/LH SFP-Modul — LX/LH (Langstrecke), Singlemode/Multimode, 10 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-LH-SM	Cisco 1000BASE-LX/LH SFP transceiver module for SMF and MMF, 1300-nm wavelength, commercial operating temperature range, 32°F to 158°F (0°C to 70°C)	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-LH-SM=	Cisco 1000BASE-LX/LH SFP transceiver module for SMF and MMF, 1300-nm wavelength, commercial operating temperature range, 32°F to 158°F (0°C to 70°C)	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-LH-SMD	Cisco GLC-LH-SMD 1000BASE-LX/LH SFP Modul - 1310 nm, LC, bis 10 km	1G SFP Modules	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-LH-SMD	Gigabit Ethernet optical SFP connector, 1000BASE-LX/LH long-wavelength/long-haul transceiver, DOM	1G SFP Modules	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-LH-SMD=	Gigabit Ethernet optical SFP connector, 1000BASE-LX/LH long-wavelength/long-haul transceiver, DOM	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-LX-SM-RGD	Cisco GLC-LX-SM-RGD 1000BASE-LX/LH SFP Modul — 1310 nm SMF, 10 km, industriell	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-LX-SM-RGD	Cisco 1000BASE-LX/LH SFP transceiver module for SMF and MMF, 1300-nm wavelength, industrial operating temperature range, -40°F to 185°F (-40°C to 85°C)	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-LX-SM-RGD=	Cisco 1000BASE-LX/LH SFP transceiver module for SMF and MMF, 1300-nm wavelength, industrial operating temperature range, -40°F to 185°F (-40°C to 85°C)	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-LX-SMD	1000BASE-LX/LH SFP transceiver module, MMF/SMF, 1310nm, DOM	Network Convergence System 500	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-SX-MM	Cisco GLC-SX-MM 1000BASE-SX SFP-Modul — SX (Kurzstrecke), Multimode, bis 550 m (OM3)	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-SX-MM-RGD	Cisco GLC-SX-MM-RGD 1000BASE-SX SFP Modul — 850 nm MMF, industriell, DOM	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-SX-MM	Gigabit Ethernet optical SFP connector, 1000BASE-SX short-wavelength transceiver	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-SX-MM-RGD	Rugged Gigabit Ethernet SFP, LC connector, multimode fiber, 220-550 m	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-SX-MM-RGD=	Rugged Gigabit Ethernet SFP, LC connector, multimode fiber, 220-550 m	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-SX-MM=	Gigabit Ethernet optical SFP connector, 1000BASE-SX short-wavelength transceiver	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-SX-MMD	Cisco GLC-SX-MMD 1000BASE-SX SFP Modul — 850 nm MMF, Dual LC, DOM	1G SFP Modules	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-SX-MMD	Gigabit Ethernet optical SFP connector, 1000BASE-SX short-wavelength transceiver, DOM	1G SFP Modules	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-SX-MMD=	Gigabit Ethernet optical SFP connector, 1000BASE-SX short-wavelength transceiver, DOM	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-T	Cisco GLC-T 1000BASE-T SFP Modul — RJ-45, Cat 5, 100 m Kupfer	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-T++	Cisco GLC-T++ 1000BASE-T SFP-Modul — T (Kupfer), Kupfer (Cat-5), 100 m	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-T	Gigabit Ethernet SFP, RJ-45 connector, and 10/100/1000BASE-T transceiver	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-T++	1000BASE-T SFP, TAA compliant	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-T++=	1000BASE-T SFP, TAA compliant	Transceiver Modules	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-T-RGD	Cisco GLC-T-RGD 1000BASE-T SFP Modul — RJ-45, Cat 5, 100 m, industriell	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-T-RGD=	Cisco GLC-T-RGD=	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
@@ -746,10 +746,10 @@ GLC-TE	Cisco GLC-TE 1000BASE-T SFP Modul — RJ-45, Cat 5, 100 m, EXT	1G SFP Mod
 GLC-TE++	Cisco GLC-TE++ 1000BASE-T SFP-Modul — T (Kupfer, erweitert), Kupfer (Cat-5), 100 m	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-TE++=	Cisco GLC-TE++=	Transceiver Modules	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-TE=	Cisco GLC-TE=	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-ZX-LMM-TI	Cisco GLC-ZX-LMM-TI 1000BASE-ZX SFP-Modul — ZX (industriell, TI), Singlemode, bis 70 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-ZX-LMM-TI	1000BASE-ZX SFP trn mod, SMF, 1550nm, DOM, smrt LMM TI	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-ZX-LMM-TI=	1000BASE-ZX SFP trn mod, SMF, 1550nm, DOM, smrt LMM TI	Transceiver Modules	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-ZX-SM	Cisco GLC-ZX-SM 1000BASE-ZX SFP-Modul — ZX (Weitverkehr), Singlemode, bis 70 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
-GLC-ZX-SM-RGD	Cisco GLC-ZX-SM-RGD 1000BASE-ZX SFP Modul — 1550 nm SMF, ~70 km, industriell	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-ZX-SM	Gigabit Ethernet SFP, LC connector, and ZX transceiver	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
+GLC-ZX-SM-RGD	Rugged Gigabit Ethernet SFP, LC connector, single mode fiber, 70 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-ZX-SM-RGD=	Rugged Gigabit Ethernet SFP, LC connector, single mode fiber, 70 km	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-ZX-SM=	Gigabit Ethernet SFP, LC connector, and ZX transceiver	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
 GLC-ZX-SMD	Cisco GLC-ZX-SMD 1000BASE-ZX SFP Modul — 1550 nm SMF, ~70 km, Dual LC, DOM	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^GLC-					
@@ -791,9 +791,9 @@ ONS-CC-40G-LR4=	40-Gbps Multirate CFP – LR4 – Commercial temp	Network Conver
 ONS-CCC-100G-10=	CXP-CFP MPO cable, 10m long	Network Convergence System 2000 Series	cable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-CCC-100G-20=	CXP-CFP MPO cable, 20m long	Network Convergence System 2000 Series	cable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-CCC-100G-5=	CXP-CFP MPO cable, 5m long	Network Convergence System 2000 Series	cable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
-ONS-CFP2-WDM	Cisco ONS-CFP2-WDM Analog-Coherent CFP2 — 100G/200G, 96 Kanäle @ 50 GHz, SD-FEC, NCS 2000	Cisco	tunable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
+ONS-CFP2-WDM	100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable	Cisco	tunable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-CFP2-WDM2	Cisco ONS-CFP2-WDM2 Analog-Coherent CFP2 der zweiten Generation — 100G/200G, NCS 2000	Cisco	tunable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
-ONS-CFP2D-400G-C	Cisco ONS-CFP2D-400G-C Digital-Coherent CFP2 bis 400G für die NCS 2000 — voll C-Band tunable	Cisco	tunable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
+ONS-CFP2D-400G-C	400G CFP2 DCO Multi-rate WDM C Band Tuneable	Cisco	tunable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-CXP2-SR25	Cisco ONS-CXP2-SR25 CXP — 300G (12×25G) SR, Multimode, 24-Faser-MPO	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-GC-GE-LX	GBIC- 1000Base-LX, SC, SM	ONS 15454 Series Multiservice Transport Platforms	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-GC-GE-LX=	1000BASE-LX, SC, SM, or MM	Network Convergence System 2000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
@@ -895,7 +895,7 @@ ONS-SC+-10G-60.6=	10G MR, SFP+ 1560.61, 100 GHz, LC	ONS 15454 Series Multiservic
 ONS-SC+-10G-61.0=	10G MR, SFP+ 1561.01, 100 GHz, LC	ONS 15454 Series Multiservice Transport Platforms	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SC+-10G-61.4=	10G MR, SFP+ 1561.43, 100 GHz, LC	ONS 15454 Series Multiservice Transport Platforms	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SC+-10G-61.8=	10G MR, SFP+ 1561.82, 100 GHz, LC	ONS 15454 Series Multiservice Transport Platforms	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
-ONS-SC+-10G-C	Cisco ONS-SC+-10G-C 10GBASE-DWDM (C-Band tunable) SFP+ — C-Band durchstimmbar, C-Band (durchstimmbar), bis 80 km	Cisco	tunable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
+ONS-SC+-10G-C	SFP+ -10G MR, Full C Band Tuneable DWDM SFP+, 50 Ghz, LC	Cisco	tunable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SC+-10G-C=	SFP+ -10G MR, Full C Band Tuneable DWDM SFP+, 50 Ghz, LC	ASR 900	tunable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SC+-10G-CU1=	10GBASE-CU SFP+ Cable 1 Meter	Network Convergence System 2000 Series	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 ONS-SC+-10G-CU3=	10GBASE-CU SFP+ Cable 3 Meter	Network Convergence System 2000 Series	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
@@ -908,9 +908,9 @@ ONS-SC+-10G-ER=	SFP+ ER - Commercial Temp	Network Convergence System 4000 Series
 ONS-SC+-10G-LR	Cisco ONS-SC+-10G-LR 10GBASE-LR SFP+ — LR (Long Reach), 1310 nm, 10 km	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SC+-10G-LR=	SFP+ LR - Commercial Temp	Network Convergence System 4000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SC+-10G-LRM=	SFP+ LRM - Commercial Temp	ONS 15454 Series Multiservice Transport Platforms	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
-ONS-SC+-10G-SR	Cisco ONS-SC+-10G-SR 10GBASE-SR SFP+ — SR (Short Reach), 850 nm, bis 300 m (OM3)	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
+ONS-SC+-10G-SR	SFP+ SR - Commercial Temp	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SC+-10G-SR=	SFP+ SR - Commercial Temp	Network Convergence System 4000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
-ONS-SC+-10G-ZR	Cisco ONS-SC+-10G-ZR 10GBASE-ZR SFP+ — ZR (Weitverkehr), 1550 nm, 80 km	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
+ONS-SC+-10G-ZR	SFP+ ZR - Commercial Temp	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SC+-10G-ZR=	SFP+ ZR - Commercial Temp	Network Convergence System 4000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SC+-10G-xx.x	Cisco multi-rate 10G BASE DWDM SFP+ with different wavelengths ranging from 1530-nm to 1561-nm, 100 GHz, LC	ASR 900	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SC+-10G-xx.x=	Cisco ONS-SC+-10G-xx.x=	Network Convergence System 2000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
@@ -1301,8 +1301,8 @@ ONS-SE-ZE-EL	10/100/1000BASE-T SFP transceiver module for Category 5 copper wire
 ONS-SE-ZE-EL=	SFP – 10/100/1000 Ethernet BASE-T Multirate Copper RJ-45	Network Convergence System 4200 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SI+-10G-ER	Cisco ONS-SI+-10G-ER 10GBASE-ER SFP+ — ER (Extended Reach, industriell), 1550 nm, 40 km	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SI+-10G-LR	Cisco ONS-SI+-10G-LR 10GBASE-LR SFP+ — LR (Long Reach, industriell), 1310 nm, 10 km	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
-ONS-SI+-10G-SR	Cisco ONS-SI+-10G-SR 10GBASE-SR SFP+ — SR (Short Reach, industriell), 850 nm, bis 300 m (OM3)	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
-ONS-SI+-10G-ZR	Cisco ONS-SI+-10G-ZR 10GBASE-ZR SFP+ — ZR (Weitverkehr, industriell), 1550 nm, 80 km	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
+ONS-SI+-10G-SR	SFP+ SR - Industrial Temp	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
+ONS-SI+-10G-ZR	SFP+-ZR- Industrial Temp	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SI-100-BXD=	Cisco ONS-SI-100-BXD=	Network Convergence System 2000 Series	bidi	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SI-100-BXU=	Cisco ONS-SI-100-BXU=	Network Convergence System 2000 Series	bidi	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SI-100-FX=	SFP - 100 Mbps Short Reach - 1310 nm - MM - LC, I‑TEMP	Network Convergence System 4200 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
@@ -1336,7 +1336,7 @@ ONS-SI-GE-EX	Cisco ONS-SI-GE-EX 1000BASE-EX SFP — 1550 nm, Singlemode, 40 km	C
 ONS-SI-GE-EX=	SFP - 1000Base EX - I-Temp	Catalyst IE9300 Rugged Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SI-GE-LX	Cisco ONS-SI-GE-LX 1000BASE-LX SFP — 1310 nm, Singlemode, 10 km	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SI-GE-LX=	SFP - 1000BASE-LX Gigabit Ethernet, 1310 nm, SM, I‑TEMP	Catalyst IE9300 Rugged Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
-ONS-SI-GE-SX	Cisco ONS-SI-GE-SX 1000BASE-SX SFP — 850 nm, Multimode, bis 500 m (50 µm) / 300 m (62,5 µm)	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
+ONS-SI-GE-SX	SFP - 1000BASE-SX Gigabit Ethernet, 850 nm, MM, I‑TEMP	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SI-GE-SX=	SFP - 1000BASE-SX Gigabit Ethernet, 850 nm, MM, I‑TEMP	Catalyst IE9300 Rugged Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SI-GE-ZX	Cisco ONS-SI-GE-ZX 1000BASE-ZX SFP — 1550 nm, Singlemode, 80 km	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
 ONS-SI-GE-ZX=	SFP – 1000BASE-ZX Gigabit Ethernet, 1550 nm, SM, I-Temp	Catalyst IE9300 Rugged Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)	ONS 15454 / NCS 2000 pluggables	sku ^ONS-					
@@ -1459,10 +1459,10 @@ QDD-2Q200-CU1M	Cisco QDD-2Q200-CU1M 200G QSFP-DD auf 2×QSFP56 Breakout-Twinax-D
 QDD-2Q200-CU2.5M	Cisco QDD-2Q200-CU2.5M 2× 200 Gbit/s (Breakout) QSFP-DD Direktanschlusskabel 2,5 m	Cisco	breakout-cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 QDD-2Q200-CU2M	Cisco QDD-2Q200-CU2M 200G QSFP-DD auf 2×QSFP56 Breakout-Twinax-DAC — passiv, 2 m	Cisco	breakout-cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 QDD-2Q200-CU3M	Cisco QDD-2Q200-CU3M QSFP-DD auf 2× QSFP56 200GBASE-CR4 Breakout-DAC — passiv, 3 m	Cisco	breakout-cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
-QDD-2X100-CWDM4-S	Cisco QDD-2X100-CWDM4-S 2×100G-CWDM4 QSFP-DD Modul — SMF, Dual Duplex CS, 2 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
+QDD-2X100-CWDM4-S	QSFP-DD Transceiver, 2X 100G CWDM4, 2X Duplex CS, 2km SMF	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-2X100-CWDM4-S=	QSFP-DD Transceiver, 2X 100G CWDM4, 2X Duplex CS, 2km SMF	Transceiver Modules	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-2X100-LR4-S	Cisco QDD-2X100-LR4-S 2×100GBASE-LR4 QSFP-DD Modul — SMF, Dual Duplex CS, 10 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
-QDD-2X100-SR4-S	Cisco QDD-2X100-SR4-S 2×100GBASE-SR4 QSFP-DD Modul — MMF, MPO-24 UPC, 100 m OM4, DOM	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
+QDD-2X100-SR4-S	QSFP-DD Transceiver, 2X 100GBASE-SR4, MPO-24, 100m MMF	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-2X100-SR4-S=	QSFP-DD Transceiver, 2X 100GBASE-SR4, MPO-24, 100m MMF	Transceiver Modules	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-2X400G-FR4	Cisco QDD-2X400G-FR4 2×400GBASE-FR4 QSFP-DD800 — 1310-nm-Band CWDM, Dual Duplex LC, 2 km	Juniper	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-400-AOC10M	Cisco QDD-400-AOC10M 400G QSFP-DD Active Optical Cable (AOC) — 10 m, rackübergreifend	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku AOC					
@@ -1488,15 +1488,15 @@ QDD-400G-FR4-S	Cisco QDD-400G-FR4-S 400GBASE-FR4 QSFP-DD Modul — Duplex SMF, L
 QDD-400G-LR4-S	Cisco QDD-400G-LR4-S 400GBASE-LR4 QSFP-DD Modul — Duplex SMF, LC, 10 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-400G-LR4-S=	Cisco QDD-400G-LR4-S=	Transceiver Modules	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-400G-LR8		Network Convergence System 1000 Series	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
-QDD-400G-LR8-S	Cisco QDD-400G-LR8-S 400GBASE-LR8 QSFP-DD Modul — Duplex SMF, LC, 10 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
+QDD-400G-LR8-S	400G QSFP-DD Transceiver,400GBASE-LR8,Duplex LC,10km Duple	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-400G-LR8-S=	400G QSFP-DD Transceiver,400GBASE-LR8,Duplex LC,10km Duple	Transceiver Modules	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-400G-SR4.2-BD	Cisco QDD-400G-SR4.2-BD 400GBASE-SR4.2 BiDi QSFP-DD — MMF, MPO-12 UPC, 100 m OM4, DOM	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-400G-SR8		Transceiver Modules	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-400G-SR8-S	Cisco QDD-400G-SR8-S 400GBASE-SR8 QSFP-DD Modul — MMF, MPO-16 APC, 100 m OM4, DOM	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-400G-VR4	Cisco QDD-400G-VR4 400GBASE-VR4 QSFP-DD Modul — MMF, MPO-12 APC, 50 m OM4/OM5, DOM	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
-QDD-400G-ZR-S	Cisco QDD-400G-ZR-S 400G ZR QSFP-DD — kohärentes DWDM (DCO), C-Band volltunbar, bis 120 km	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^QDD-400G-ZR					
+QDD-400G-ZR-S	QSFP-DD transceiver module, coherent DCO, 400G-ZR	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^QDD-400G-ZR					
 QDD-400G-ZR-S=	QSFP-DD transceiver module, coherent DCO, 400G-ZR	Transceiver Modules	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^QDD-400G-ZR					
-QDD-400G-ZRP-S	Cisco QDD-400G-ZRP-S 400G ZR+ QSFP-DD — kohärentes DWDM (DCO), OpenZR+, multiraten, Long-Haul	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^QDD-400G-ZR					
+QDD-400G-ZRP-S	QSFP-DD transceiver module, coherent DCO, 400G-ZR+	Cisco	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^QDD-400G-ZR					
 QDD-400G-ZRP-S=	QSFP-DD transceiver module, coherent DCO, 400G-ZR+	Transceiver Modules	tunable	layered	Coherent and digital-coherent pluggables	400G / 800G ZR, ZR+ and CFP2 DCO	sku ^QDD-400G-ZR					
 QDD-4X100G-FR-S	Cisco QDD-4X100G-FR-S 4×100GBASE-FR1 QSFP-DD Modul — SMF, MPO-12 APC, 2 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
 QDD-4X100G-LR-S	Cisco QDD-4X100G-LR-S 4×100GBASE-LR1 QSFP-DD Modul — SMF, MPO-12 APC, 10 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QDD					
@@ -1543,22 +1543,22 @@ QSFP-100G-CWDM4-S	Cisco QSFP-100G-CWDM4-S 100G CWDM4 QSFP28 Modul — 1271–133
 QSFP-100G-CWDM4-S=	Cisco QSFP-100G-CWDM4-S=	Network Convergence System 2000 Series	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-DR-S	Cisco QSFP-100G-DR-S 100GBASE-DR QSFP28 Modul — 1310 nm SMF, Duplex LC, 500 m, PAM4	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-ER4	Cisco QSFP-100G-ER4 100GBASE-ER4 QSFP28 — 4× LAN-WDM, Singlemode, bis 40 km	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
-QSFP-100G-ER4L-S	Cisco QSFP-100G-ER4L-S 100G ER4-Lite QSFP28 Modul — 1295–1309 nm SMF, Duplex LC, 40 km	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
+QSFP-100G-ER4L-S	100GBASE QSFP Transceiver, 25-40KM reach over SMF, Duplex LC	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-ER4L-S=	100GBASE QSFP Transceiver, 25-40KM reach over SMF, Duplex LC	Network Convergence System 4000 Series	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-ERL-S	Cisco QSFP-100G-ERL-S 100G ER-Lite QSFP28 Modul — 1310 nm SMF, Duplex LC, 25 km, PAM4	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-FR-S	Cisco QSFP-100G-FR-S 100GBASE-FR1 QSFP28 Modul — 1310 nm SMF, Duplex LC, 2 km, PAM4	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-LR-S	Cisco QSFP-100G-LR-S 100GBASE-LR1 QSFP28 Modul — 1310 nm SMF, Duplex LC, 10 km, PAM4	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-LR4-I	Cisco QSFP-100G-LR4-I 100GBASE-LR4 QSFP28 Modul — 1295–1309 nm SMF, 10 km, industriell	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
-QSFP-100G-LR4-S	Cisco QSFP-100G-LR4-S 100GBASE-LR4 QSFP28 Modul — 1295–1309 nm SMF, Duplex LC, 10 km	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
+QSFP-100G-LR4-S	100GBASE LR4 QSFP Transceiver, LC, 10km over SMF	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-LR4-S=	100GBASE LR4 QSFP Transceiver, LC, 10km over SMF	Network Convergence System 4000 Series	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-PSM4-S	Cisco QSFP-100G-PSM4-S 100G QSFP28 Modul — 1310 nm SMF, MPO-12 APC, 500 m, DOM	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-PSM4-S=	Cisco QSFP-100G-PSM4-S=	Network Convergence System 2000 Series	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-SL4	Cisco QSFP-100G-SL4 100GBASE-SL4 Short Link QSFP28 Modul — 850 nm MMF, MPO-12, 30 m OM4	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
-QSFP-100G-SM-SR	Cisco QSFP-100G-SM-SR 100G CWDM4-Lite QSFP28 Modul — 1271–1331 nm SMF, Duplex LC, 2 km	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
+QSFP-100G-SM-SR	100GBASE CWDM4 Lite QSFP Transceiver, 2km over SMF, 10 - 60C	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-SM-SR=	100GBASE CWDM4 Lite QSFP Transceiver, 2km over SMF, 10 - 60C	Network Convergence System 4000 Series	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-SR-S	Cisco QSFP-100G-SR-S 100GBASE-SR1 QSFP28 Modul — 850 nm MMF, Duplex LC, PAM4, DOM	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-SR1.2		Transceiver Modules	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
-QSFP-100G-SR4-S	Cisco QSFP-100G-SR4-S 100GBASE-SR4 QSFP28 Modul — 850 nm MMF, MPO-12, 100 m OM4, DOM	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
+QSFP-100G-SR4-S	100GBASE SR4 QSFP transceiver, MPO, 100m over OM4 MMF	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-SR4-S=	100GBASE SR4 QSFP transceiver, MPO, 100m over OM4 MMF	Network Convergence System 2000 Series	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-ZR4-I	Cisco QSFP-100G-ZR4-I 100G ZR4 QSFP28 — Singlemode, 80 km, LC, Industrietemperatur	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
 QSFP-100G-ZR4-S	Cisco QSFP-100G-ZR4-S 100G ZR4 QSFP28 Modul — 1295–1309 nm SMF, Duplex LC, 80 km	Cisco	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-?100					
@@ -1577,7 +1577,7 @@ QSFP-200G-SL4	Cisco QSFP-200G-SL4 200GBASE-SR4 Short-Link QSFP56 — 850 nm Mult
 QSFP-200G-SR4-S	Cisco QSFP-200G-SR4-S 200GBASE-SR4 QSFP56 — 850 nm Multimode, MPO-12 UPC, bis 100 m OM4	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QSFP-200					
 QSFP-2Q200-CU3M	Cisco QSFP-2Q200-CU3M Passives DAC-Breakout — QSFP-DD auf 2× QSFP56 200GBASE-CR4, 3 m	Cisco	breakout-cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 QSFP-40-SR-BD	Cisco QSFP-40-SR-BD 40GBASE-SR-BiDi QSFP+ — Multimode, Duplex-LC, OM3/OM4	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
-QSFP-40/100-SRBD	Cisco QSFP-40/100-SRBD 40/100G Dual-Rate BiDi QSFP28 Modul — 855/908 nm MMF, Duplex LC	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
+QSFP-40/100-SRBD	100G and 40GBASE SR-BiDi QSFP transceiver, LC, 100m OM4 MMF, Spare	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40/100-SRBD1	Cisco QSFP-40/100-SRBD1	UCS X-Series	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40/100-SRBD=	100G and 40GBASE SR-BiDi QSFP transceiver, LC, 100m OM4 MMF, Spare	Storage Networking Modules	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40/100G-SRBD	Cisco QSFP-40/100G-SRBD	MDS 9500 Series Multilayer Directors	pluggable	layered	Ethernet transceivers	100G QSFP28	sku ^QSFP-40/100G					
@@ -1588,19 +1588,19 @@ QSFP-400G-SR4-S	Cisco QSFP-400G-SR4-S	Transceiver Modules	pluggable	layered	Ethe
 QSFP-400G-VR4	Cisco QSFP-400G-VR4 400GBASE-VR4 QSFP112 — 850 nm Multimode, MPO-12, bis 50 m, Breakout	Cisco	pluggable	layered	Ethernet transceivers	200G / 400G QSFP-DD, QSFP112 and QSFP56	sku ^QSFP-400G					
 QSFP-40G-BD-RX	Cisco QSFP-40G-BD-RX 40G BiDi Monitor QSFP+ — 832-918 nm MMF, Duplex LC, nur Empfang	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40G-CSR-S	Cisco QSFP-40G-CSR-S 40GBASE-CSR QSFP+ Modul — 850 nm MMF, Duplex LC, 440 m OM5, DOM	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
-QSFP-40G-CSR4	Cisco QSFP-40G-CSR4 40GBASE-CSR4 QSFP+ Modul — 850 nm MMF, MPO-12, 400 m OM4, 4×10G, DOM	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
+QSFP-40G-CSR4	QSFP 4x10GBASE-SR transceiver module, MPO, 300M, Spare	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40G-CSR4=	QSFP 4x10GBASE-SR transceiver module, MPO, 300M, Spare	Storage Networking Modules	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40G-ER4		5100 Blade Series	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40G-ER4=	QSFP 40GBASE-ER4 Transceiver Module, LC, 40KM	Network Convergence System 4000 Series	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40G-LR4		5100 Blade Series	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
-QSFP-40G-LR4-S	Cisco QSFP-40G-LR4-S 40GBASE-LR4 QSFP+ Modul — 1310 nm SMF, Duplex LC, 10 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
+QSFP-40G-LR4-S	QSFP 40GBASE-LR4 Trnscvr Mod, LC, 10km, Enterprise-Class, Spare	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40G-LR4-S=	QSFP 40GBASE-LR4 Trnscvr Mod, LC, 10km, Enterprise-Class, Spare	MDS 9200 Series Multiservice	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40G-LR4=	QSFP 40GBASE-LR4 Transceiver Module, LC, 10KM	Network Convergence System 4000 Series	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
-QSFP-40G-SR-BD	Cisco QSFP-40G-SR-BD 40G BiDi QSFP+ Modul — 832-918 nm MMF, Duplex LC, 150 m OM4, DOM	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
+QSFP-40G-SR-BD	40GBASE-SR BiDi Module, spare	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40G-SR-BD=	40GBASE-SR BiDi Module, spare	MDS 9700 Series Multilayer Directors	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40G-SR-S	Cisco QSFP-40G-SR-S	Nexus 7000	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
-QSFP-40G-SR4	Cisco QSFP-40G-SR4 40GBASE-SR4 QSFP+ Modul — 850 nm MMF, MPO-12, 150 m OM4, 4×10G, DOM	40G QSFP+ Modules	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
-QSFP-40G-SR4-S	Cisco QSFP-40G-SR4-S 40GBASE-SR4 QSFP+ Modul — 850 nm MMF, MPO-12, 150 m OM4, DOM	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
+QSFP-40G-SR4	40GBASE-SR4 QSFP Transceiver Module with MPO Connector, Spare	40G QSFP+ Modules	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
+QSFP-40G-SR4-S	40GBASE-SR4 (IEEE 802.3ba Spec.) QSFP+ transceiver module for MMF, MPO/MTP connector	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40G-SR4-S=	40GBASE-SR4 (IEEE 802.3ba Spec.) QSFP+ transceiver module for MMF, MPO/MTP connector	Nexus 3000	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40G-SR4=	40GBASE-SR4 QSFP Transceiver Module with MPO Connector, Spare	Storage Networking Modules	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
 QSFP-40GE-ER4	Cisco 40GBASE-ER4 Transceiver Module, LC, 40km	Nexus 6000	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-40					
@@ -1653,7 +1653,7 @@ QSFP-4X10G-AOC5M=	Cisco QSFP-4X10G-AOC5M=	Transceiver Modules	breakout-cable	lay
 QSFP-4X10G-AOC7M	Cisco QSFP-4X10G-AOC7M 40G QSFP+ zu 4× 10G SFP+ Breakout Active Optical Cable (AOC) — 7 m	Cisco	breakout-cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku AOC					
 QSFP-4X10G-AOC7M=	Cisco QSFP-4X10G-AOC7M=	Transceiver Modules	breakout-cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku AOC					
 QSFP-4X10G-AOCxM	QSFP active optical breakout cables (length x - 1m to 10m)	Network Convergence System 5000 Series	breakout-cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku AOC					
-QSFP-4X10G-LR-S	Cisco QSFP-4X10G-LR-S 4×10GBASE-LR QSFP+ Modul — 1310 nm SMF, MPO-12 APC, 10 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-4X10G					
+QSFP-4X10G-LR-S	QSFP 4x10G transceiver module, SM MPO, 10KM, enterprise class	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-4X10G					
 QSFP-4X10G-LR-S=	QSFP 4x10G transceiver module, SM MPO, 10KM, enterprise class	Network Convergence System 2000 Series	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-4X10G					
 QSFP-4X10G-LR=	Cisco QSFP-4X10G-LR=	Network Convergence System 2000 Series	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^QSFP-4X10G					
 QSFP-H10G-ACUxM	QSFP to QSFP copper direct-attach cables (length x- 7m, 10m)	Network Convergence System 5000 Series	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku ACU					
@@ -1805,24 +1805,24 @@ SFP-10G-BXU-I=	Cisco SFP-10G-BXU-I=	Catalyst ESS9300 Embedded	bidi	layered	Ether
 SFP-10G-ER		Catalyst 1300X	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-ER-I	Cisco SFP-10G-ER-I 10GBASE-ER/EW Multirate SFP+ Modul — 1550 nm SMF, 40 km, industriell	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-ER-I=	Cisco SFP-10G-ER-I=	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
-SFP-10G-ER-S	Cisco SFP-10G-ER-S 10GBASE-ER SFP+ Modul (S-Class) — 1550 nm SMF, 40 km, Dual LC	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
+SFP-10G-ER-S	10GBASE-ER SFP Module, (40km) Enterprise-Class (Supported only with 10 Gigabit Ethernet ports)	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-ER-S=	10GBASE-ER SFP Module, (40km) Enterprise-Class (Supported only with 10 Gigabit Ethernet ports)	Storage Networking Modules	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-ER=	10 Gigabit Ethernet ER SFP, spare (Supported only with 10 Gigabit Ethernet ports)	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
-SFP-10G-LR	Cisco SFP-10G-LR 10GBASE-LR SFP+ Modul — 1310 nm SMF, 10 km, Dual LC, DOM	10G SFP+ Modules	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
-SFP-10G-LR-S	Cisco SFP-10G-LR-S 10GBASE-LR SFP+ Modul (S-Class) — 1310 nm SMF, 10 km, Dual LC	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
+SFP-10G-LR	10GBASE-LR SFP+ Module, Spare (supported only with DS-X9708-K9)	10G SFP+ Modules	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
+SFP-10G-LR-S	10GBASE-LR SFP Module, (10km) Enterprise-Class (Supported only with 10 Gigabit Ethernet ports)	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-LR-S=	10GBASE-LR SFP Module, (10km) Enterprise-Class (Supported only with 10 Gigabit Ethernet ports)	IE3500 Heavy Duty Series	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-LR-X	Cisco SFP-10G-LR-X 10GBASE-LR/LW Multirate SFP+ Modul — 1310 nm SMF, OTU2e, Dual LC	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-LR-X=	Cisco SFP-10G-LR-X=	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-LR10-I	Cisco SFP-10G-LR10-I 10GBASE-LR SFP+ Modul — 1310 nm SMF, 10 km, CPRI, industriell	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-LR10-I=	Cisco SFP-10G-LR10-I=	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-LR=	10GBASE-LR SFP+ Module, Spare (supported only with DS-X9708-K9)	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
-SFP-10G-LRM	Cisco SFP-10G-LRM 10GBASE-LRM SFP+ Modul — 1310 nm MMF/SMF, 220 m, Dual LC, DOM	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
+SFP-10G-LRM	Cisco 10GBASE-LRM SFP+Module for MMF, 1300-nm wavelength, commercial temperature range, 32°F to 158°F	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-LRM=	Cisco 10GBASE-LRM SFP+Module for MMF, 1300-nm wavelength, commercial temperature range, 32°F to 158°F	IE3500 Heavy Duty Series	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-OLT20-X	Cisco SFP-10G-OLT20-X XGS-PON OLT SFP+ — 10G symmetrisch, SC/UPC, bis 20 km, Split 1:128	Cisco	bidi	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
-SFP-10G-SR	Cisco SFP-10G-SR 10GBASE-SR SFP+ Modul — 850 nm MMF, Dual LC, DOM	10G SFP+ Modules	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
+SFP-10G-SR	10GBASE-SR SFP+ Module, Spare (supported only with DS-X9708-K9)	10G SFP+ Modules	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-SR-I	Cisco SFP-10G-SR-I 10GBASE-SR/SW Multirate SFP+ Modul — 850 nm MMF, CPRI, industriell	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-SR-I=	Cisco SFP-10G-SR-I=	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
-SFP-10G-SR-S	Cisco SFP-10G-SR-S 10GBASE-SR SFP+ Modul (S-Class) — 850 nm MMF, Dual LC, DOM	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
+SFP-10G-SR-S	10GBASE-SR SFP Module, (300m) Enterprise-Class (Supported only with 10 Gigabit Ethernet ports)	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-SR-S=	10GBASE-SR SFP Module, (300m) Enterprise-Class (Supported only with 10 Gigabit Ethernet ports)	IE3500 Heavy Duty Series	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-SR-X	Cisco SFP-10G-SR-X 10GBASE-SR/SW Multirate SFP+ Modul — 850 nm MMF, OTU2e, Dual LC	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-SR-X=	Cisco SFP-10G-SR-X=	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
@@ -1832,7 +1832,7 @@ SFP-10G-T-X=	Cisco SFP-10G-T-X=	Catalyst IE9300 Rugged Series	pluggable	layered	
 SFP-10G-ZR		5100 Blade Series	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-ZR-I	Cisco SFP-10G-ZR-I 10GBASE-ZR/ZW Multirate SFP+ Modul — 1550 nm SMF, 70 km, industriell	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-ZR-I=	Cisco SFP-10G-ZR-I=	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
-SFP-10G-ZR-S	Cisco SFP-10G-ZR-S 10GBASE-ZR SFP+ Modul (S-Class) — 1550 nm SMF, ~80 km, Dual LC	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
+SFP-10G-ZR-S	10GBASE-ZR SFP Module, Enterprise-Class	Cisco	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-ZR-S=	10GBASE-ZR SFP Module, Enterprise-Class	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-10G-ZR=	Cisco 10GBASE-ZR SFP10G Module for SMF	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	10G SFP+	sku ^SFP-10G					
 SFP-1G-LH	Cisco SFP-1G-LH 1000BASE-LX/LH SFP Modul für 10G-Ports — 1310 nm SMF, 10 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-1G					
@@ -1880,18 +1880,18 @@ SFP-50G-SR-S	Cisco SFP-50G-SR-S 25/50GBASE-SR SFP56 Modul — 850 nm MMF, Duplex
 SFP-CH-OC3STM1-I	Channelized OC-3/STM-1 Smart SFP	Transceiver Modules	pluggable	layered	SONET/SDH and TDM SFPs	OC-3 / OC-12 / OC-48 and T1/E1/T3 SFPs	sku ^SFP-(OC|CH-OC|TS-OC|T1F|E1F|T3F|VADSL)					
 SFP-CU-RJ45=	Cisco SFP-CU-RJ45=	RF Gateway Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-CU					
 SFP-E1F-SATOP-I	E1F SAToP Smart SFP	Transceiver Modules	pluggable	layered	SONET/SDH and TDM SFPs	OC-3 / OC-12 / OC-48 and T1/E1/T3 SFPs	sku ^SFP-(OC|CH-OC|TS-OC|T1F|E1F|T3F|VADSL)					
-SFP-GE-L	Cisco SFP-GE-L 1000BASE-LX/LH SFP-Modul — LX/LH (Langstrecke), Singlemode/Multimode, 10 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-GE					
+SFP-GE-L	Cisco 1000BASE-LX/LH SFP transceiver module for SMF and MMF, 1300-nm wavelength, extended operating temperature range, 23°F to 185°F (-5°C to 85°C)	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-GE					
 SFP-GE-L=	Cisco 1000BASE-LX/LH SFP transceiver module for SMF and MMF, 1300-nm wavelength, extended operating temperature range, 23°F to 185°F (-5°C to 85°C)	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-GE					
-SFP-GE-S	Cisco SFP-GE-S 1000BASE-SX SFP-Modul — SX (Kurzstrecke), Multimode, bis 550 m (OM3)	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-GE					
+SFP-GE-S	Cisco Extended Temperature SX SFP, Spare	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-GE					
 SFP-GE-S=	Cisco Extended Temperature SX SFP, Spare	Catalyst ESS9300 Embedded	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-GE					
-SFP-GE-T	Cisco SFP-GE-T 1000BASE-T SFP Modul — RJ-45, Cat 5, 100 m, NEBS 3	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-GE					
+SFP-GE-T	1000BASE-T SFP (NEBS 3 ESD)	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-GE					
 SFP-GE-T=	1000BASE-T SFP (NEBS 3 ESD)	Shared Port Adapters/SPA Interface Processors	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-GE					
-SFP-GE-Z	Cisco SFP-GE-Z 1000BASE-ZX SFP-Modul — ZX (Weitverkehr), Singlemode, bis 70 km	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-GE					
+SFP-GE-Z	Cisco Extended Temperature ZX SFP, Spare	Cisco	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-GE					
 SFP-GE-Z=	Cisco Extended Temperature ZX SFP, Spare	Catalyst IE9300 Rugged Series	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^SFP-GE					
 SFP-GPON-B	Cisco SFP-GPON-B GPON OLT-Transceiver Klasse B+ — 1490Tx/1310Rx, Singlemode SC, DOM	Cisco	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
 SFP-GPON-B-16=	16 units of SFP-GPON-B for ME4600-AMX-16GPON	Transceiver Modules	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
 SFP-GPON-B-8=	8 units of SFP-GPON-B for ME4600-AMX-16GPON	Transceiver Modules	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
-SFP-GPON-B-I	Cisco SFP-GPON-B-I GPON OLT-Transceiver Klasse B+ Industrie — 1490Tx/1310Rx, SC, DOM	Cisco	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
+SFP-GPON-B-I	GPON Class B+ SFP OLT Trcvr Module, 1490Tx, 1310Rx, I-Temp	Cisco	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
 SFP-GPON-B-I-16=	16 units of SFP-GPON-B-I for ME4600-AMX-16GPON	Transceiver Modules	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
 SFP-GPON-B-I-8=	8 units of SFP-GPON-B-I for ME4600-AMX-16GPON	Transceiver Modules	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
 SFP-GPON-B-I=	GPON Class B+ SFP OLT Trcvr Module, 1490Tx, 1310Rx, I-Temp	Transceiver Modules	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
@@ -1899,7 +1899,7 @@ SFP-GPON-B=	GPON Class B+ SFP OLT Trcvr Module, 1490Tx, 1310Rx	Transceiver Modul
 SFP-GPON-C	Cisco SFP-GPON-C GPON OLT-Transceiver Klasse C+ — 1490Tx/1310Rx, Singlemode SC, DOM	Cisco	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
 SFP-GPON-C-16=	16 units of SFP-GPON-C for ME4600-AMX-16GPON	Transceiver Modules	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
 SFP-GPON-C-8=	8 units of SFP-GPON-C for ME4600-AMX-16GPON	Transceiver Modules	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
-SFP-GPON-C-I	Cisco SFP-GPON-C-I GPON OLT-Transceiver Klasse C+ Industrie — 1490Tx/1310Rx, SC, DOM	Cisco	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
+SFP-GPON-C-I	GPON Class C+ SFP OLT Trcvr Module, 1490Tx, 1310Rx, I-Temp	Cisco	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
 SFP-GPON-C-I-16=	16 units of SFP-GPON-C-I for ME4600-AMX-16GPON	Transceiver Modules	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
 SFP-GPON-C-I-8=	8 units of SFP-GPON-C-I for ME4600-AMX-16GPON	Transceiver Modules	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
 SFP-GPON-C-I=	GPON Class C+ SFP OLT Trcvr Module, 1490Tx, 1310Rx, I-Temp	Transceiver Modules	bidi	layered	Cable access and PON optics	GPON / RF Gateway SFPs	sku GPON					
@@ -1910,31 +1910,31 @@ SFP-H10G-CU5M=	Cisco SFP-H10G-CU5M=	IE3500 Heavy Duty Series	cable	layered	Direc
 SFP-H10GB-ACU	10G SFP+ Twinax cable assembly, active (Length - 7M, 10M)	Network Convergence System 5000 Series	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku ACU					
 SFP-H10GB-ACU-10M	Cisco SFP-H10GB-ACU-10M	Catalyst 8200	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku ACU					
 SFP-H10GB-ACU-7M	Cisco SFP-H10GB-ACU-7M	Catalyst 8200	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku ACU					
-SFP-H10GB-ACU10M	Cisco SFP-H10GB-ACU10M SFP+ Twinax DAC Kabel — aktiv, 28 AWG, 10 m, 10GbE Kupfer	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
+SFP-H10GB-ACU10M	10GBASE-CU SFP+ Active Copper Cable 10 Meter, Spare (supported only with DS-X9708-K9)	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-ACU10M=	10GBASE-CU SFP+ Active Copper Cable 10 Meter, Spare (supported only with DS-X9708-K9)	MDS 9700 Series Multilayer Directors	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
-SFP-H10GB-ACU7M	Cisco SFP-H10GB-ACU7M SFP+ Twinax DAC Kabel — aktiv, 30 AWG, 7 m, 10GbE Kupfer	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
+SFP-H10GB-ACU7M	10GBASE-CU SFP+ Active Copper Cable 7 Meter, Spare (supported only with DS-X9708-K9)	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-ACU7M=	10GBASE-CU SFP+ Active Copper Cable 7 Meter, Spare (supported only with DS-X9708-K9)	MDS 9700 Series Multilayer Directors	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-ACUxM=	Cisco SFP-H10GB-ACUxM=	Catalyst ESS9300 Embedded	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku ACU					
 SFP-H10GB-ACUxx=	Active Twinax cable assembly	Storage Networking Modules	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku ACU					
 SFP-H10GB-CU	10G SFP+ Twinax cable assembly, passive (Length - 1M to 5M)	Network Convergence System 5000 Series	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku ^SFP-H(10|25)G					
-SFP-H10GB-CU1-5M	Cisco SFP-H10GB-CU1-5M SFP+ Twinax DAC Kabel — passiv, 30 AWG, 1,5 m, 10GbE Kupfer	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
+SFP-H10GB-CU1-5M	10GBASE-CU SFP+ Cable 1.5 Meter (V02 and above)	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU1-5M=	10GBASE-CU SFP+ Cable 1.5 Meter (V02 and above)	MDS 9200 Series Multiservice	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU1.5M	10GBASE CU SFP+ cable, 1.5m (passive Twinax cable)	Catalyst 9800 Series Wireless Controllers	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU15M	Cisco SFP-H10GB-CU15M	Catalyst 1300X	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
-SFP-H10GB-CU1M	Cisco SFP-H10GB-CU1M SFP+ Twinax DAC Kabel — passiv, 30 AWG, 1 m, 10GbE Kupfer	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
+SFP-H10GB-CU1M	10GBASE-CU SFP+ Cable 1 Meter, passive, spare (supported only with DS-X9708-K9)	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU1M1	1-m 10G SFP+ Twinax cable assembly, passive	Catalyst 6500	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU1M=	10GBASE-CU SFP+ Cable 1 Meter, passive, spare (supported only with DS-X9708-K9)	MDS 9700 Series Multilayer Directors	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
-SFP-H10GB-CU2-5M	Cisco SFP-H10GB-CU2-5M SFP+ Twinax DAC Kabel — passiv, 30 AWG, 2,5 m, 10GbE Kupfer	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
+SFP-H10GB-CU2-5M	10GBASE-CU SFP+ Cable 2.5 Meter (V02 and above)	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU2-5M=	10GBASE-CU SFP+ Cable 2.5 Meter (V02 and above)	MDS 9200 Series Multiservice	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU2.5M	10GBASE CU SFP+ cable, 2.5m (passive Twinax cable)	Catalyst 9800 Series Wireless Controllers	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU25M	Cisco SFP-H10GB-CU25M	Catalyst 1300X	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
-SFP-H10GB-CU2M	Cisco SFP-H10GB-CU2M SFP+ Twinax DAC Kabel — passiv, 30 AWG, 2 m, 10GbE Kupfer	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
+SFP-H10GB-CU2M	10GBASE-CU SFP+ Cable 2 Meter (V02 and above)	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU2M=	10GBASE-CU SFP+ Cable 2 Meter (V02 and above)	MDS 9200 Series Multiservice	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
-SFP-H10GB-CU3M	Cisco SFP-H10GB-CU3M SFP+ Twinax DAC Kabel — passiv, 30 AWG, 3 m, 10GbE Kupfer	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
+SFP-H10GB-CU3M	10GBASE-CU SFP+ Cable 3 Meter, passive, spare (supported only with DS-X9708-K9)	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU3M1	3-m 10G SFP+ Twinax cable assembly, passive	Catalyst 6500	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU3M=	10GBASE-CU SFP+ Cable 3 Meter, passive, spare (supported only with DS-X9708-K9)	MDS 9700 Series Multilayer Directors	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU4M	Cisco SFP-H10GB-CU4M SFP+ Twinax DAC Kabel — passiv, 24 AWG oder 26 AWG, 4 m, 10GbE Kupfer	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
-SFP-H10GB-CU5M	Cisco SFP-H10GB-CU5M SFP+ Twinax DAC Kabel — passiv, 24 AWG oder 26 AWG, 5 m, 10GbE Kupfer	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
+SFP-H10GB-CU5M	10GBASE-CU SFP+ Cable 5 Meter, passive, spare (supported only with DS-X9708-K9)	Cisco	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU5M1	5-m 10G SFP+ Twinax cable assembly, passive	Catalyst 6500	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CU5M=	10GBASE-CU SFP+ Cable 5 Meter, passive, spare (supported only with DS-X9708-K9)	MDS 9700 Series Multilayer Directors	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku -?CU[0-9]					
 SFP-H10GB-CUxx=	10GBASE-CU SFP+ cable	Storage Networking Modules	cable	layered	Direct-attach and active optical cables	DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)	sku ^SFP-H(10|25)G					
@@ -1997,7 +1997,7 @@ VIP-SFP-1GE-LX=	Small form-factor pluggable transceiver - 1GE LX	1000	pluggable	
 VIP-SFP-1GE-SX	Small form-factor pluggable transceiver - 1GE SX	1000	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^VIP-SFP					
 VIP-SFP-1GE-SX=	Small form-factor pluggable transceiver - 1GE SX	1000	pluggable	layered	Ethernet transceivers	1G and 100M SFP	sku ^VIP-SFP					
 WDM-XENPAK-REC	Cisco WDM-XENPAK-REC Receive-Only WDM XENPAK — DWDM-Empfangsmodul, Singlemode	Cisco	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku ^WDM-XENPAK					
-WS-G5483	Cisco WS-G5483 1000BASE-T GBIC — Kupfer, RJ-45, Cat5, 100 m	Cisco	pluggable	layered	Ethernet transceivers	GBIC (legacy)	sku ^WS-G548					
+WS-G5483	1000BASE-T GBIC	Cisco	pluggable	layered	Ethernet transceivers	GBIC (legacy)	sku ^WS-G548					
 WS-G5484	Cisco WS-G5484 1000BASE-SX GBIC — Multimode, 850 nm, 550 m, SC	Cisco	pluggable	layered	Ethernet transceivers	GBIC (legacy)	sku ^WS-G548					
 WS-G5486	Cisco WS-G5486 1000BASE-LX/LH GBIC — Singlemode, 1310 nm, 10 km, SC	Cisco	pluggable	layered	Ethernet transceivers	GBIC (legacy)	sku ^WS-G548					
 WS-G5486=	Cisco 1000BASE-LX/LH GBIC transceiver module for SMF and MMF, 1300-nm wavelength, commercial operating temperature range, 32°F to 158°F (0°C to 70°C)	Transceiver Modules	pluggable	layered	Ethernet transceivers	GBIC (legacy)	sku ^WS-G548					
@@ -2005,46 +2005,46 @@ WS-G5487	Cisco WS-G5487 1000BASE-ZX GBIC — Singlemode, 1550 nm, bis 100 km, SC
 WSP-Q40GLR4L	Cisco WSP-Q40GLR4L 40GBASE-LR4-Lite QSFP+ Modul — 1310 nm SMF, Duplex LC, 2 km, DOM	Cisco	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^WSP-Q40G					
 WSP-Q40GLRL	Cisco WSP-Q40GLRL	Transceiver Modules	pluggable	layered	Ethernet transceivers	40G QSFP+	sku ^WSP-Q40G					
 X2-10G-DWDM	32 wavelengths over single strand of single-mode fiber; 80 km	Catalyst 6500	pluggable	layered	WDM transceivers	DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC	sku DWDM					
-X2-10GB-CX4	Cisco X2-10GB-CX4 10GBASE-CX4 X2 Modul — 15 m Twinax (CX4)	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
+X2-10GB-CX4	10GBASE-CX4 X2 Module	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
 X2-10GB-CX4=	10GBASE-CX4 X2 Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
-X2-10GB-ER	Cisco X2-10GB-ER 10GBASE-ER X2 Modul — 40 km SMF, 1550 nm	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
+X2-10GB-ER	10GBASE-ER X2 Module	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
 X2-10GB-ER=	10GBASE-ER X2 Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
-X2-10GB-LR	Cisco X2-10GB-LR 10GBASE-LR X2 Modul — 10 km SMF, 1310 nm	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
-X2-10GB-LR++	Cisco X2-10GB-LR++ 10GBASE-LR X2 — LR (Langstrecke), Singlemode, 10 km, erweiterte Temperatur	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
+X2-10GB-LR	10GBASE-LR X2 Module	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
+X2-10GB-LR++	10GBASE-LR X2 Module	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
 X2-10GB-LR++=	10GBASE-LR X2 Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
 X2-10GB-LR=	10GBASE-LR X2 Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
-X2-10GB-LRM	Cisco X2-10GB-LRM 10GBASE-LRM X2 Modul — 1310 nm, 220 m MMF / 300 m SMF	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
-X2-10GB-LRM++	Cisco X2-10GB-LRM++ 10GBASE-LRM X2 — LRM (Multimode lang), Multimode, 220 m, erweiterte Temperatur	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
+X2-10GB-LRM	Cisco 10GBASE-LRM X2 Module for MMF, 1300-nm wavelength, commercial operating temperature range, 32°F to 158°F (0°C to 70°C)	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
+X2-10GB-LRM++	10GBASE-LRM X2 Module	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
 X2-10GB-LRM++=	10GBASE-LRM X2 Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
 X2-10GB-LRM=	Cisco 10GBASE-LRM X2 Module for MMF, 1300-nm wavelength, commercial operating temperature range, 32°F to 158°F (0°C to 70°C)	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
-X2-10GB-LX4	Cisco X2-10GB-LX4 10GBASE-LX4 X2 Modul — WWDM 1310 nm, 300 m MMF	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
+X2-10GB-LX4	Cisco 10GBASE-LX4 X2 Module for MMF, 1300-nm WWDM wavelength, commercial operating temperature range, 32°F to 158°F (0°C to 70°C)	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
 X2-10GB-LX4=	Cisco 10GBASE-LX4 X2 Module for MMF, 1300-nm WWDM wavelength, commercial operating temperature range, 32°F to 158°F (0°C to 70°C)	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
-X2-10GB-SR	Cisco X2-10GB-SR 10GBASE-SR X2 Modul — 850 nm MMF, bis 400 m	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
-X2-10GB-SR++	Cisco X2-10GB-SR++ 10GBASE-SR X2 — SR (Kurzstrecke), Multimode, 300 m, erweiterte Temperatur	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
+X2-10GB-SR	10GBASE-SR X2 Module	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
+X2-10GB-SR++	10GBASE-SR X2 Module	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
 X2-10GB-SR++=	10GBASE-SR X2 Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
 X2-10GB-SR=	10GBASE-SR X2 Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
-X2-10GB-T	Cisco X2-10GB-T 10GBASE-T X2 Modul — RJ-45, 100 m CAT6A/CAT7	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
+X2-10GB-T	X2 10GBASE-T pluggable transceiver	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
 X2-10GB-T=	X2 10GBASE-T pluggable transceiver	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
-X2-10GB-ZR	Cisco X2-10GB-ZR 10GBASE-ZR X2 Modul — 80 km SMF, 1550 nm	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
+X2-10GB-ZR	10GBASE-ZR X2 Module	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
 X2-10GB-ZR=	10GBASE-ZR X2 Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^X2-					
 XENPAK-10GB-CX4	Cisco XENPAK-10GB-CX4 10GBASE-CX4 XENPAK — CX4 (Kupfer), CX4-Twinax-Kupfer, 15 m	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
 XENPAK-10GB-ER	10GBASE-ER, up to 40 km single-mode fiber	3750	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
-XENPAK-10GB-ER+	Cisco XENPAK-10GB-ER+ 10GBASE-ER XENPAK — ER (Weitverkehr, erw. Temp.), Singlemode, 40 km	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
+XENPAK-10GB-ER+	10GBASE-ER XENPAK Module with DOM support	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
 XENPAK-10GB-ER+=	10GBASE-ER XENPAK Module with DOM support	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
-XENPAK-10GB-LR+	Cisco XENPAK-10GB-LR+ 10GBASE-LR XENPAK — LR (Langstrecke, erw. Temp.), Singlemode, 10 km	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
+XENPAK-10GB-LR+	10GBASE-LR XENPAK Module with DOM support	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
 XENPAK-10GB-LR+=	10GBASE-LR XENPAK Module with DOM support	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
 XENPAK-10GB-LRM	Cisco XENPAK-10GB-LRM 10GBASE-LRM XENPAK — LRM (Multimode lang), Multimode, 220 m	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
 XENPAK-10GB-LRM=	Cisco 10GBASE-LRM XENPAK Module for MMF, 1300-nm wavelength, commercial operating temperature range, 32°F to 158°F (0°C to 70°C)	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
 XENPAK-10GB-LW	Cisco XENPAK-10GB-LW 10GBASE-LW XENPAK — LW (WAN-PHY / OC-192), Singlemode, 10 km	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
 XENPAK-10GB-LX4	Cisco XENPAK-10GB-LX4 10GBASE-LX4 XENPAK — LX4 (WWDM), Multimode, 300 m	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
 XENPAK-10GB-LX4=	Cisco 10GBASE-LX4 XENPAK Module for MMF, 1300-nm WWDM wavelength, commercial operating temperature range, 32°F to 158°F (0°C to 70°C)	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
-XENPAK-10GB-SR	Cisco XENPAK-10GB-SR 10GBASE-SR XENPAK — SR (Kurzstrecke), Multimode, 300 m	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
+XENPAK-10GB-SR	10GBASE-SR XENPAK Module	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
 XENPAK-10GB-SR=	10GBASE-SR XENPAK Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
-XENPAK-10GB-ZR	Cisco XENPAK-10GB-ZR 10GBASE-ZR XENPAK — ZR (Weitverkehr, Cisco-Spezifikation), Singlemode, 80 km	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
+XENPAK-10GB-ZR	10GBASE-ZR XENPAK Module	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
 XENPAK-10GB-ZR=	10GBASE-ZR XENPAK Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XENPAK					
-XFP-10G-MM-SR	Cisco XFP-10G-MM-SR 10GBASE-SR XFP — 850 nm Multimode, Duplex LC, bis 400 m OM4, DOM	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
+XFP-10G-MM-SR	10GBASE-SR XFP Module	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
 XFP-10G-MM-SR=	10GBASE-SR XFP Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
-XFP-10GER-192IR+	Cisco XFP-10GER-192IR+ 10G ER / OC-192 IR XFP — 1550 nm, Singlemode, erweiterte Temperatur	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
+XFP-10GER-192IR+	Cisco Multirate 10GBASE-ER and OC-192/STM-64 IR-2 XFP Module	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
 XFP-10GER-192IR+=	Cisco Multirate 10GBASE-ER and OC-192/STM-64 IR-2 XFP Module	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
 XFP-10GER-OC192IR	Cisco XFP-10GER-OC192IR 10G ER / OC-192 IR XFP — 1550 nm, Singlemode, ~40 km	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
 XFP-10GER-OC192IR+	Cisco XFP-10GER-OC192IR+	Catalyst 6500	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
@@ -2099,10 +2099,10 @@ XFP-RF-IWDM-ITU62=	XFP-RF QAM Transmitter APC iWDM ITU 62	Prisma II Products	plu
 XFP-RF-T=	XFP-RF QAM Transmitter APC Tunable ITU 20 - ITU 62	Prisma II Products	tunable	layered	Cable access and PON optics	XFP-RF QAM transmitters (Prisma)	sku ^XFP-RF					
 XFP10GER-192IR-L	Cisco XFP10GER-192IR-L Multirate 10GBASE-ER/-EW + OC-192 IR-2 XFP — 1550 nm SMF, 40 km, Low Power	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
 XFP10GER-192IR-L=	Low Power multirate XFP supporting 10GBASE-ER and OC-192 IR	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
-XFP10GER192IR-RGD	Cisco XFP10GER192IR-RGD Multirate 10GBASE-ER/-EW + OC-192 IR-2 XFP — 1550 nm SMF, 40 km, Industrie	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
+XFP10GER192IR-RGD	Multirate XFP module for 10GBASE-ER and OC192 IR2, I-TEMP	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
 XFP10GER192IR-RGD=	Multirate XFP module for 10GBASE-ER and OC192 IR2, I-TEMP	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
 XFP10GLR-192SR-L	Cisco XFP10GLR-192SR-L Multirate 10GBASE-LR/-LW + OC-192 SR-1 XFP — 1310 nm SMF, 10 km, Low Power	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
 XFP10GLR-192SR-L=	Low Power multirate XFP supporting 10GBASE-LR and OC-192 SR	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
-XFP10GLR192SR-RGD	Cisco XFP10GLR192SR-RGD Multirate 10GBASE-LR/-LW + OC-192 SR-1 XFP — 1310 nm SMF, 10 km, Industrie	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
+XFP10GLR192SR-RGD	Multirate XFP module for 10GBASE-LR and OC192 SR1, I-TEMP	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
 XFP10GLR192SR-RGD=	Multirate XFP module for 10GBASE-LR and OC192 SR1, I-TEMP	Transceiver Modules	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					
 XFP10GZR192LR-RGD	Cisco XFP10GZR192LR-RGD Multirate 10GBASE-ZR/-ZW + OC-192 LR-2 XFP — 1550 nm SMF, 80 km, Industrie	Cisco	pluggable	layered	Ethernet transceivers	10G X2 / XENPAK / XFP (legacy)	sku ^XFP					

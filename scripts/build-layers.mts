@@ -14,6 +14,20 @@ import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult } from "../src/core/deployRole.js";
 import { lineFilePath, loadLineFile, placeWithSpareRule } from "../src/core/productLine.js";
 import { closePool, query } from "../src/store/db.js";
+import { execFileSync } from "node:child_process";
+
+// layers review (14 Sep 2026): every page names the commit its rules came from, and the rule files that were NOT committed when it
+// was built — "built from HEAD" is only true when that list is empty (CLAUDE.md: a deploy that syncs a working tree ships
+// uncommitted code). Could-not-read git is recorded as such, never as a clean tree.
+function buildProvenance(): { commit: string | null; uncommitted_rule_files: string[] | null } {
+  try {
+    const commit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8" }).trim();
+    const dirty = execFileSync("git", ["status", "--porcelain", "--", "src", "scripts", "data/reference"], { cwd: REPO_ROOT, encoding: "utf8" })
+      .split("\n").map((l) => l.slice(3).trim()).filter(Boolean);
+    return { commit, uncommitted_rule_files: dirty };
+  } catch { return { commit: null, uncommitted_rule_files: null }; }
+}
+const PROVENANCE = buildProvenance();
 
 const arg = (k: string): string | null => { const i = process.argv.indexOf(k); return i >= 0 ? process.argv[i + 1] ?? null : null; };
 const vendor = arg("--vendor") ?? "cisco";
@@ -52,7 +66,7 @@ const planOf = new Map<string, Plan>((fs.existsSync(planFile) ? JSON.parse(fs.re
 
 type SeriesNode = { series: string; role: string | null; note: string | null; parts: number; kinds: Record<string, number>; roles: Record<string, number>; samples: string[]; rules: Record<string, number> };
 type Tree = {
-  vendor: string; category: string; built_at: string; mapping_file: string | null; parts: number;
+  vendor: string; category: string; built_at: string; commit: string | null; uncommitted_rule_files: string[] | null; mapping_file: string | null; parts: number;
   lines: { line: string; parts: number; series: SeriesNode[] }[];
   not_this_category: { sku: string; name: string | null; series_label: string | null; why: string; belongs: string | null }[];
   /** rows the committed kind-layer plans move to another category or re-class (not a product / licence): shown, not layered */
@@ -76,7 +90,7 @@ function build(cat: string): Tree {
   const mine = rows.filter((r) => r.category === cat);
   const loaded = loadLineFile(vendor, cat);
   const lines = new Map<string, Map<string, SeriesNode>>();
-  const tree: Tree = { vendor, category: cat, built_at: new Date().toISOString(), mapping_file: loaded ? path.relative(REPO_ROOT, lineFilePath(vendor, cat)).replace(/\\/g, "/") : null,
+  const tree: Tree = { vendor, category: cat, built_at: new Date().toISOString(), commit: PROVENANCE.commit, uncommitted_rule_files: PROVENANCE.uncommitted_rule_files, mapping_file: loaded ? path.relative(REPO_ROOT, lineFilePath(vendor, cat)).replace(/\\/g, "/") : null,
     parts: mine.length, lines: [], not_this_category: [], pending_plans: [], unplaced: [], done: false, rows: [] };
   // lines appear in the mapping file's order, series too (a reader's order, not a count order)
   if (loaded) for (const l of loaded.file.lines) { const m = new Map<string, SeriesNode>(); for (const s of l.series) m.set(s.series, { series: s.series, role: s.role ?? null, note: s.note ?? null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {} }); lines.set(l.line, m); }
@@ -134,7 +148,7 @@ function categoryPage(t: Tree): string {
     : t.done ? `<div class="banner b-ok"><b>DONE</b> — every one of ${t.parts.toLocaleString("en-US")} parts has a product line and a series (${t.not_this_category.length} listed as not belonging to this category).</div>`
       : `<div class="banner b-bad"><b>IN PROGRESS</b> — ${t.unplaced.length} of ${t.parts} parts not placed yet.</div>`;
   let body = `<p><a href="index.html">all categories</a></p><h1>${esc(t.vendor)} · ${esc(t.category)} — layer 2 product lines, layer 3 series</h1>${status}
-<p class=m>Built ${esc(t.built_at)} from the live store · mapping ${esc(t.mapping_file ?? "none")} · part type (switch / power / linecard…) shown beside each series, unchanged · <a href="${esc(t.category)}.json">every row as JSON</a> (${t.rows.length.toLocaleString("en-US")} rows).</p>`;
+<p class=m>Built ${esc(t.built_at)} from the live store at commit ${t.commit ? esc(t.commit.slice(0, 10)) : "<span class=bad>unknown (git not readable)</span>"}${t.uncommitted_rule_files === null ? "" : t.uncommitted_rule_files.length ? ` <span class=bad>plus ${t.uncommitted_rule_files.length} uncommitted rule file(s): ${esc(t.uncommitted_rule_files.join(", "))}</span>` : " (rule files clean)"} · mapping ${esc(t.mapping_file ?? "none")} · part type (switch / power / linecard…) shown beside each series, unchanged · <a href="${esc(t.category)}.json">every row as JSON</a> (${t.rows.length.toLocaleString("en-US")} rows).</p>`;
   const roleTotals = (l: Tree["lines"][number]) => { const m: Record<string, number> = {}; for (const s of l.series) for (const [r, n] of Object.entries(s.roles)) m[r] = (m[r] ?? 0) + n; return Object.entries(m).sort((a, b) => b[1] - a[1]).map(([r, n]) => `${esc(r)} ${n}`).join(", ") || "<span class=m>—</span>"; };
   body += `<h2>Summary</h2><table><tr><th>layer 2 — product line</th><th>layer 3 — series</th><th>parts</th><th>deploy_role totals (parts whose type carries a role)</th></tr>` +
     t.lines.map((l) => `<tr><td><b>${esc(l.line)}</b></td><td>${l.series.length} series</td><td class=r>${l.parts.toLocaleString("en-US")}</td><td>${roleTotals(l)}</td></tr>`).join("") +

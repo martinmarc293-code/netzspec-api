@@ -1,7 +1,23 @@
 # German shop titles in Cisco `parts.name` (layers review round 2, B.6) — 14 Sep 2026
 
-**Status: measured and planned. Nothing written to the database.** These rows are tier-0 operator seeds, so the
-supersede is the operator's call.
+**Status: DONE — run #1066** (`ingest name-language --vendor cisco --commit`, commit 4c24db4, after migration
+`0021_parts_name_language`). Operator decision: the German text is kept in `name_de` for every row; `name` is English.
+
+| category | German rows | English from the twin (`name_lang` en, `name_source` "twin: ‹sku›") | kept German, flagged `name_lang` de |
+|---|---|---|---|
+| switches | 613 | 174 | 439 |
+| transceiver | 461 | 222 | 239 |
+| **total** | **1,074** | **396** (predicted 396) | **678** (predicted 678) |
+
+Read back from a new connection: 0 German rows unhandled, 0 handled rows without `name_de`.
+
+**Residual for the reviewer:** 81 base rows (switches 59, transceiver 22) took an English name that is the SPARE's and says so,
+e.g. C6800-48P-SFP → "C6800-48P-SFP= – Cisco Catalyst 6800 48-port 1GE fiber module with integrated DFC4 spare". Taken verbatim
+as decided; stripping the spare wording is a name transformation and waits for a ruling. The 678 flagged rows go on the
+coverage board as a store-quality item with the parked completeness rebuild (D items); phase 2 fills `name` from the datasheet
+title or ordering table.
+
+The measurement that led to the decision follows unchanged.
 
 ## How it was measured
 

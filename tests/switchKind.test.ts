@@ -85,7 +85,7 @@ const CASES: [string, string][] = [
   ["VS-F6K-PFC4", "module"],         // "Cat 6k 80G Sys Daughter Board Sup2T PFC4" — the WS- twin's kind
   ["VS-F6K-MSFC3", "module"],        // "Catalyst 6500 Multilayer Switch Feature Card (MSFC) III"
   ["WS-DFC4AXL-4PAK=", "bundle"],    // "DFC4-AXL 4 Pack Bundle" — layers review A.4: a pack is a bundle (was module)
-  ["WS-SVC-WISM-1-K9", "linecard"],    // Catalyst 6500 Wireless Services Module — takes a chassis slot
+  ["WS-SVC-WISM-1-K9", "module"],      // Catalyst 6500 Wireless Services Module — kind module by the round-2 decision (was linecard)
   ["C9400-SSD-240GB", "drive"],        // was `module` by name, then accessory; layers review B.1: an SSD is a drive
   ["MEM-SUP2T-4GB", "memory"],         // "4G DRAM Memory Total for Sup2T and Sup2TXL" — layers review B.1 (was accessory)
   ["C9K-F1-SSD-480G", "drive"],        // "Cisco pluggable SSD storage – 480 GB" (B.1; was accessory)
@@ -364,6 +364,9 @@ eq(`kind-layer: refusals (${KL_REFUSAL.length}) are at least half the witnesses 
     ["N2K-C2232PR", "Nexus 2232PP Bundle with 2x QSFP-40G-SR4 8x SFP-10G-SR"], ["N2K-C2348TQ12F", "Nexus 2348TQ with 12 Bidi or (6 FET-40G & 24 FET-10G)"],
     ["ACI-C9336-B3-EAL", "ACI Bundle with 2 9336, 2 9396PX Leafs, 4/8QSFP and APIC Clu"], ["N7009RISENAM-BUNP1", "RISE NAM Bundles with Nexus 7009"],
     ["C6807-3850-10G-BUN", "2 of 6807XL, 20 to 40 of 3850, up to 80 of 10G Optics"],
+    // reviewer residual (14 Sep 2026): the FEX-count token, not a parent list
+    ["N2232PP-4FEX", "4 x 2232PP Chassis Option with FETs"], ["N5672UP-4FEX-10G", "N5672UP Chassis with 4 x 10G FEXes with FETs"],
+    ["C1-N5672UP4FEX10GT", "Cisco ONE N5672UP Chassis with 4 x 10GT FEXes with FETs"], ["N6001P-2FEX-10G", "N6001P Chassis with 2 x 10G FEXes with FETs"],
   ];
   const BUNDLE_REFUSAL: [string, string, string][] = [
     ["C1-N7009-B2S2-R", "switch", "Cisco ONE Nexus 7009 Bundle (Chassis,2xSUP2,5xFAB2) — one enclosure: a system"],
@@ -376,7 +379,14 @@ eq(`kind-layer: refusals (${KL_REFUSAL.length}) are at least half the witnesses 
     ["C4500E-S3-MGIG", "linecard", "MGIG Upgrade for 3 slot chassis bundle (48 UPOE + 12p mGig) — one card"],
     ["N3K-C3132Q-FD-L3", "switch", "Nexus 3132Q, DC, Forward Airflow, Base & LAN Ent L3 — a switch with its licence"],
     ["N7706-EN-B22S2E", "switch", "Nexus 7706 Bundle for Campus Core — a chassis system"],
+    ["N2K-C2232PP-10GE", "fex", "2232PP 10GE Fabric Extender — no count glued to FEX, so the FEX-count token does not take it"],
+    ["ACE30-SYS-AC-04-K9", "switch", "ACE30 16G 6504-E 720-10G-3C 6716 AC System — one chassis with what it holds (round-2 service-module decision)"],
   ];
+  // round-2 decision (14 Sep 2026): Catalyst 6500 service modules are kind module, their memory and disks with them
+  for (const [sku, want, name] of [["ACE30-MOD-K9", "module", "Application Control Engine 30 Hardware"], ["WS-SVC-ASA-SM1-K9", "module", "ASA Services Module for Catalyst 6500-E"],
+    ["WS-SVC-CMM-24FXS", "module", "24-port FXS Analog Port Adapter"], ["MEM-C6K-APP-24GB", "memory", "Cat6500 24GB Service Module Memory"],
+    ["MEM-SAMI-6P-2GB", "memory", "SAMI 6xPPCs with 2GB per PPC Memory Option"], ["NAM3-HDD-600G", "drive", "Hard Drives - 600G - for NAM-3"]] as const)
+    eq(`service-module decision: ${sku} is ${want} (${name})`, switchKind(sku), want);
   for (const [sku, name] of BUNDLE_WITNESS) eq(`bundle rule: ${sku} is bundle (${name})`, switchKind(sku), "bundle");
   for (const [sku, want, why] of BUNDLE_REFUSAL) eq(`bundle rule refusal: ${sku} stays ${want} (${why})`, switchKind(sku), want);
   const heads = SW_KIND_RULES.map((r, i) => [r, i] as const).filter(([r]) => r.kind === "bundle");

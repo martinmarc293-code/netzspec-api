@@ -1,7 +1,21 @@
 {
  "vendor": "cisco",
  "category": "wireless",
- "built_at": "2026-09-14T13:48:08.959Z",
+ "built_at": "2026-09-14T16:48:03.021Z",
+ "commit": "4c24db4be871b1ce63fb2a295845d43c1af4d4a4",
+ "uncommitted_rule_files": [
+  "data/reference/kind-layer-plans-2026-09-13.json",
+  "data/reference/product-lines/cisco-interfaces-modules.json",
+  "data/reference/product-lines/cisco-optical-networking.json",
+  "data/reference/product-lines/cisco-routers.json",
+  "data/reference/product-lines/cisco-switches.json",
+  "data/reference/product-lines/cisco-wireless.json",
+  "scripts/build-layers.mts",
+  "src/core/routerKind.ts",
+  "src/core/switchKind.ts",
+  "data/reference/layers-cross-claims.json",
+  "src/core/layerChecks.ts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-wireless.json",
  "parts": 4010,
  "lines": [
@@ -1288,7 +1302,7 @@
   },
   {
    "line": "AireOS Wireless LAN Controllers",
-   "parts": 213,
+   "parts": 211,
    "series": [
     {
      "series": "2500 (2504)",
@@ -1340,12 +1354,12 @@
      "series": "5500 (5508 / 5520 / 5540)",
      "role": null,
      "note": null,
-     "parts": 66,
+     "parts": 64,
      "kinds": {
       "wlc": 54,
-      "power": 4,
+      "power": 3,
       "mechanical": 2,
-      "module": 4,
+      "module": 3,
       "unknown": 2
      },
      "roles": {},
@@ -1359,18 +1373,18 @@
      ],
      "rules": {
       "sku": 59,
-      "label": 7
+      "label": 5
      }
     },
     {
      "series": "8500 (8510 / 8540 / 8580)",
      "role": null,
      "note": null,
-     "parts": 40,
+     "parts": 41,
      "kinds": {
       "power": 5,
       "wlc": 32,
-      "module": 3
+      "module": 4
      },
      "roles": {},
      "samples": [
@@ -1383,7 +1397,7 @@
      ],
      "rules": {
       "sku": 36,
-      "label": 4
+      "label": 5
      }
     },
     {
@@ -1404,22 +1418,6 @@
      ],
      "rules": {
       "sku": 5
-     }
-    },
-    {
-     "series": "WiSM2 (Catalyst 6500 wireless services module)",
-     "role": null,
-     "note": null,
-     "parts": 1,
-     "kinds": {
-      "mechanical": 1
-     },
-     "roles": {},
-     "samples": [
-      "WS-SVCWISM2FIPKIT= — WS-SVC-WISM2 FIPS Kit"
-     ],
-     "rules": {
-      "sku": 1
      }
     },
     {
@@ -1541,7 +1539,7 @@
   },
   {
    "line": "Wireless Antennas and Accessories",
-   "parts": 302,
+   "parts": 303,
    "series": [
     {
      "series": "Antennas",
@@ -1614,11 +1612,11 @@
      "series": "Wireless Antennas and Accessories shared parts",
      "role": null,
      "note": null,
-     "parts": 20,
+     "parts": 21,
      "kinds": {
       "module": 9,
       "unknown": 1,
-      "power": 3,
+      "power": 4,
       "mechanical": 3,
       "antenna": 4
      },
@@ -1628,11 +1626,11 @@
       "AIR-MRAID12G-1GB — Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)",
       "AIR-N-3006-DTA-K9 — ^NECJ AS3504 DTA",
       "AIR-PSU1-770W — 770W AC Hot-Plug Power Supply for 5520 Controller",
-      "AIR-PSU2V2-1200W — 1200W V2 AC Power Supply for 8540 Controller",
-      "AIR-PSU2V2-1200W= — 1200W V2 AC Power Supply for 8540 Controller"
+      "AIR-PSU1-770W= — 770W AC Hot-Plug Power Supply for 5520 Controller",
+      "AIR-PSU2V2-1200W — 1200W V2 AC Power Supply for 8540 Controller"
      ],
      "rules": {
-      "label": 20
+      "label": 21
      }
     }
    ]
@@ -1946,48 +1944,6 @@
    "series_label": "Policy Suite for Mobile",
    "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
    "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "MEM-SAMI-6P-2GB",
-   "name": "SAMI 6xPPCs with 2GB per PPC Memory Option",
-   "series_label": "7600 Wireless Security Gateway",
-   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
-   "belongs": "interfaces-modules"
-  },
-  {
-   "sku": "MEM-SAMI-6P-2GB=",
-   "name": "SAMI 6xPPCs with 2GB per PPC Memory Option",
-   "series_label": "7600 Wireless Security Gateway",
-   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
-   "belongs": "interfaces-modules"
-  },
-  {
-   "sku": "MEM-SAMI-6P-4GB",
-   "name": "SAMI 6xPPCs with 4GB per PPC Memory Option",
-   "series_label": "7600 Wireless Security Gateway",
-   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
-   "belongs": "interfaces-modules"
-  },
-  {
-   "sku": "MEM-SAMI-6P-4GB=",
-   "name": "SAMI 6xPPCs with 4GB per PPC Memory Option",
-   "series_label": "7600 Wireless Security Gateway",
-   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
-   "belongs": "interfaces-modules"
-  },
-  {
-   "sku": "WS-SVC-SAMI-BB-K9",
-   "name": "Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)",
-   "series_label": "7600 Wireless Security Gateway",
-   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
-   "belongs": "interfaces-modules"
-  },
-  {
-   "sku": "WS-SVC-SAMI-BB-K9=",
-   "name": "Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)",
-   "series_label": "7600 Wireless Security Gateway",
-   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
-   "belongs": "interfaces-modules"
   }
  ],
  "pending_plans": [
@@ -2936,6 +2892,38 @@
    "reason": "TelePresence room-system part filed in wireless"
   },
   {
+   "sku": "MEM-SAMI-6P-2GB",
+   "name": "SAMI 6xPPCs with 2GB per PPC Memory Option",
+   "series_label": "7600 Wireless Security Gateway",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
+  },
+  {
+   "sku": "MEM-SAMI-6P-2GB=",
+   "name": "SAMI 6xPPCs with 2GB per PPC Memory Option",
+   "series_label": "7600 Wireless Security Gateway",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
+  },
+  {
+   "sku": "MEM-SAMI-6P-4GB",
+   "name": "SAMI 6xPPCs with 4GB per PPC Memory Option",
+   "series_label": "7600 Wireless Security Gateway",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
+  },
+  {
+   "sku": "MEM-SAMI-6P-4GB=",
+   "name": "SAMI 6xPPCs with 4GB per PPC Memory Option",
+   "series_label": "7600 Wireless Security Gateway",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
+  },
+  {
    "sku": "MIXS-12-PA2071DC=",
    "name": "PAS DC CABINET EXTENSION [ATT US PAS ONLY]",
    "series_label": "ASR 5000 Series",
@@ -3094,6 +3082,30 @@
    "action": "class",
    "to": "non_product",
    "reason": "placeholder / packout insert"
+  },
+  {
+   "sku": "WS-SVC-SAMI-BB-K9",
+   "name": "Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)",
+   "series_label": "7600 Wireless Security Gateway",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
+  },
+  {
+   "sku": "WS-SVC-SAMI-BB-K9=",
+   "name": "Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)",
+   "series_label": "7600 Wireless Security Gateway",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
+  },
+  {
+   "sku": "WS-SVCWISM2FIPKIT=",
+   "name": "WS-SVC-WISM2 FIPS Kit",
+   "series_label": "Aironet 1550",
+   "action": "move",
+   "to": "switches",
+   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
   }
  ],
  "unplaced": [],
