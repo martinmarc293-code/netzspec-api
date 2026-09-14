@@ -1,0 +1,585 @@
+{
+ "vendor": "cisco",
+ "category": "servers-unified-computing",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco UCS, 14 Sep 2026. Lines are Cisco's server families. A part whose SKU names a MODEL (C240, B200, X210c, 6454) sits in that model's series; a part whose SKU names only the FAMILY prefix (UCSC-, UCSB-, UCSX-, UCSXE-, CSP-) sits in '<line> shared parts' (the reviewer's shared-parts rule); a generic UCS- component that fits several families sits in the 'UCS Server Components' line by component type. Order is load-bearing: bundles and fabric interconnects first (their SKUs carry server model tokens), model series before family shared parts.",
+ "not_this_category": [
+  {
+   "sku": "^(HX(AF|C)?-|HX[0-9]|UCS-HX|UCS-SEED-HX)",
+   "why": "Cisco HyperFlex (HX) node or component filed under a UCS label",
+   "belongs": "hyperconverged-systems"
+  },
+  {
+   "sku": "^HCIX?E?-",
+   "why": "Cisco Compute Hyperconverged with Nutanix (HCI / HCIX) node or component filed under a UCS label",
+   "belongs": "hyperconverged-infrastructure"
+  }
+ ],
+ "lines": [
+  {
+   "line": "UCS Solution Bundles",
+   "series": [
+    {
+     "series": "Smart Play and SP Select bundles",
+     "sku": [
+      "^UCS-SP[A-Z0-9]{0,3}-",
+      "^UCSSP[A-Z]"
+     ]
+    },
+    {
+     "series": "UCS EZ bundles",
+     "sku": [
+      "^(UCS|UCSB|UCSC|UCUCS|WMS)-EZ",
+      "^UCSEZ[A-Z]"
+     ]
+    },
+    {
+     "series": "Solution, reference and promotion bundles",
+     "sku": [
+      "^UCS-(SA|SL|SM|SR|SB|SF|CX|STM|SHRPT|ASR[0-9]*|FSA[0-9]*|BD|BDMRES|NFVI|VSAN|VXI|YES|BR)-"
+     ]
+    },
+    {
+     "series": "FlexPod bundles",
+     "sku": [
+      "FPOD"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Cisco Appliances on UCS",
+   "series": [
+    {
+     "series": "Catalyst Center appliance",
+     "sku": [
+      "^DN[0-9]-"
+     ],
+     "labels": [
+      "Catalyst Center"
+     ]
+    },
+    {
+     "series": "APIC / Nexus Dashboard appliance",
+     "sku": [
+      "^APIC-"
+     ],
+     "labels": [
+      "Nexus Dashboard"
+     ]
+    },
+    {
+     "series": "Kinetic appliance",
+     "sku": [
+      "^KIN-"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "UCS Invicta Flash Storage",
+   "series": [
+    {
+     "series": "UCS Invicta (Whiptail)",
+     "sku": [
+      "^UCSW-"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "UCS Unified Edge (XE)",
+   "series": [
+    {
+     "series": "UCS XE150c",
+     "sku": [
+      "^UCSXE-150C",
+      "^XE150"
+     ]
+    },
+    {
+     "series": "UCS Unified Edge (XE) shared parts",
+     "sku": [
+      "^UCSXE-"
+     ],
+     "labels": [
+      "Unified Edge"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Cloud Services Platform",
+   "series": [
+    {
+     "series": "CSP 5000",
+     "sku": [
+      "^CSP-5[0-9]{3}"
+     ]
+    },
+    {
+     "series": "Cloud Services Platform shared parts",
+     "sku": [
+      "^CSP-"
+     ],
+     "labels": [
+      "Cloud Services Platform 5000"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "UCS E-Series Server Modules",
+   "series": [
+    {
+     "series": "UCS E-Series",
+     "sku": [
+      "^UCS-EN?[0-9]",
+      "^E1[0-9]{2}[A-Z]?-",
+      "^E-SSD",
+      "^EM3-",
+      "^FL-UCSE",
+      "^SVC-E",
+      "^SM-MEM"
+     ],
+     "labels": [
+      "UCS E-Series"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "UCS Fabric Interconnects",
+   "series": [
+    {
+     "series": "UCS Mini (6324)",
+     "sku": [
+      "(?<!CPU-[A-Z]{0,2})6324(?![0-9])",
+      "^UCS-MINI"
+     ],
+     "labels": [
+      "Mini Series"
+     ]
+    },
+    {
+     "series": "UCS Fabric Interconnect 9108 100G",
+     "sku": [
+      "S9108"
+     ]
+    },
+    {
+     "series": "UCS 6200 Fabric Interconnects",
+     "sku": [
+      "(?<!CPU-[A-Z]{0,2})62[49]6(?![0-9])",
+      "(?<!CPU-[A-Z]{0,2})6248",
+      "(?<!CPU-[A-Z]{0,2})6296"
+     ],
+     "labels": [
+      "6200 Fabric Interconnects"
+     ]
+    },
+    {
+     "series": "UCS 6300 Fabric Interconnects",
+     "sku": [
+      "(?<!CPU-[A-Z]{0,2})6332"
+     ],
+     "labels": [
+      "UCS 6300 Series Fabric Interconnects"
+     ]
+    },
+    {
+     "series": "UCS 6400 Fabric Interconnects",
+     "sku": [
+      "(?<!CPU-[A-Z]{0,2})6454",
+      "(?<!CPU-[A-Z]{0,2})64108"
+     ],
+     "labels": [
+      "UCS 6400 Series Fabric Interconnects"
+     ]
+    },
+    {
+     "series": "UCS 6500 Fabric Interconnects",
+     "sku": [
+      "(?<!CPU-[A-Z]{0,2})6536"
+     ],
+     "labels": [
+      "Unified Computing System Adapters"
+     ]
+    },
+    {
+     "series": "UCS Fabric Interconnects shared parts",
+     "sku": [
+      "^UCSX?-FI-"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "UCS S-Series Storage Servers",
+   "series": [
+    {
+     "series": "UCS S3260",
+     "sku": [
+      "S3260",
+      "C3X60",
+      "^UCS-C3K-",
+      "C3[12]60(?![0-9])"
+     ],
+     "labels": [
+      "S-Series Storage"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "UCS X-Series Modular System",
+   "series": [
+    {
+     "series": "UCS X9508 chassis",
+     "sku": [
+      "X9508",
+      "^UCSX-9508",
+      "(?<!CPU-[A-Z]{0,2})9508(?![0-9])"
+     ]
+    },
+    {
+     "series": "UCS X210c compute node",
+     "sku": [
+      "^UCSX.*210C(?![0-9])",
+      "X210C?(?![0-9])"
+     ]
+    },
+    {
+     "series": "UCS X215c compute node",
+     "sku": [
+      "^UCSX.*215C(?![0-9])"
+     ]
+    },
+    {
+     "series": "UCS X410c compute node",
+     "sku": [
+      "^UCSX.*410C(?![0-9])"
+     ]
+    },
+    {
+     "series": "UCS X440p PCIe node",
+     "sku": [
+      "^UCSX.*440P(?![0-9])"
+     ]
+    },
+    {
+     "series": "UCS X580p PCIe node",
+     "sku": [
+      "^UCSX.*580P(?![0-9])",
+      "X580P?(?![0-9])"
+     ]
+    },
+    {
+     "series": "UCS X-Series fabric modules",
+     "sku": [
+      "^UCSX-I-9",
+      "^UCSX-F-9",
+      "9416(?![0-9])"
+     ]
+    },
+    {
+     "series": "UCS X-Series Modular System shared parts",
+     "sku": [
+      "^UCSX-",
+      "^UCSX[A-Z]{2}"
+     ],
+     "labels": [
+      "UCS X-Series",
+      "9100 Fabric Interconnects"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "UCS B-Series Blade Servers",
+   "series": [
+    {
+     "series": "UCS B200",
+     "sku": [
+      "(?<![A-Z0-9])B200(?![0-9])"
+     ]
+    },
+    {
+     "series": "UCS B22 M3",
+     "sku": [
+      "(?<![A-Z0-9])B22-?M3",
+      "^UCSB-B22-"
+     ]
+    },
+    {
+     "series": "UCS B230",
+     "sku": [
+      "(?<![A-Z0-9])B230(?![0-9])"
+     ]
+    },
+    {
+     "series": "UCS B250",
+     "sku": [
+      "(?<![A-Z0-9])B250(?![0-9])"
+     ]
+    },
+    {
+     "series": "UCS B420 / B440 / B460 / B480",
+     "sku": [
+      "(?<![A-Z0-9])B4[2468]0(?![0-9])"
+     ]
+    },
+    {
+     "series": "UCS 5108 blade chassis",
+     "sku": [
+      "(?<!CPU-[A-Z]{0,2})5108(?![0-9])",
+      "^N20-C6508",
+      "^C6508",
+      "^N20-CAK",
+      "^N20-CRMK",
+      "^N20-CBLK",
+      "^N20-PAC5",
+      "^N20-FAN5",
+      "^UCSB-PSU"
+     ],
+     "labels": [
+      "5100 Blade Series"
+     ]
+    },
+    {
+     "series": "UCS 2000 fabric extenders (IOM)",
+     "sku": [
+      "^UCS-IOM",
+      "2[1-4]0[48]XP"
+     ]
+    },
+    {
+     "series": "UCS B-Series Blade Servers shared parts",
+     "sku": [
+      "^UCSB-",
+      "^N20-B",
+      "^N20-MBLI",
+      "^A01-X"
+     ],
+     "labels": [
+      "UCS B-Series"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "UCS C-Series Rack Servers",
+   "series": [
+    {
+     "series": "UCS C880A M8 (AI)",
+     "sku": [
+      "880A(?![0-9])"
+     ]
+    },
+    {
+     "series": "UCS C885A M8 (AI)",
+     "sku": [
+      "885A(?![0-9])"
+     ],
+     "labels": [
+      "Nexus 9000"
+     ]
+    },
+    {
+     "series": "UCS C880 M4 / M5",
+     "sku": [
+      "^C880-",
+      "^C880(?![0-9A])"
+     ]
+    },
+    {
+     "series": "UCS C890 M5",
+     "sku": [
+      "^C890"
+     ]
+    },
+    {
+     "series": "UCS C125 / C4200",
+     "sku": [
+      "(?<![A-Z0-9])C125(?![0-9])",
+      "(?<![A-Z0-9])C4200(?![0-9])"
+     ],
+     "labels": [
+      "UCS C4200 Series Rack Server Chassis"
+     ]
+    },
+    {
+     "series": "UCS C220",
+     "sku": [
+      "(?<![A-Z0-9])C220(?![0-9])",
+      "(?<![0-9])220-?M[1-8]",
+      "^UCS-220CBL",
+      "^UCS-COPC-220"
+     ]
+    },
+    {
+     "series": "UCS C225",
+     "sku": [
+      "(?<![A-Z0-9])C225(?![0-9])",
+      "(?<![0-9])225-?M[1-8]"
+     ]
+    },
+    {
+     "series": "UCS C240",
+     "sku": [
+      "(?<![A-Z0-9])C240(?![0-9])",
+      "(?<![0-9])240-?M[1-8]",
+      "^UCS-240CBL",
+      "^UCS-300WK-240",
+      "^UCS-COPC-240"
+     ]
+    },
+    {
+     "series": "UCS C245",
+     "sku": [
+      "(?<![A-Z0-9])C245(?![0-9])",
+      "(?<![0-9])245-?M[1-8]"
+     ]
+    },
+    {
+     "series": "UCS C460 / C480",
+     "sku": [
+      "(?<![A-Z0-9])C4[68]0(?![0-9])",
+      "(?<![0-9])4[68]0-?M[1-8]",
+      "^RC460"
+     ]
+    },
+    {
+     "series": "UCS C22 / C24 M3",
+     "sku": [
+      "(?<![A-Z0-9])C2[24]-?M3"
+     ]
+    },
+    {
+     "series": "UCS C200 / C210 / C250 / C260 (M1/M2)",
+     "sku": [
+      "^(UCSC-)?C2[0156]0(?![0-9])",
+      "^C260-",
+      "^R2XX-",
+      "^R2[015]0-"
+     ]
+    },
+    {
+     "series": "UCS C-Series Rack Servers shared parts",
+     "sku": [
+      "^UCSC-",
+      "^UCSAI-"
+     ],
+     "labels": [
+      "UCS C-Series",
+      "Transceiver Modules"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Racks and PDUs",
+   "series": [
+    {
+     "series": "R42610 / R42612 racks and PDUs",
+     "sku": [
+      "^RACK",
+      "^RP[0-9]{3}-",
+      "^RP-",
+      "^R426",
+      "^[0-9]{3}P[0-9]$"
+     ],
+     "labels": [
+      "R-Series Racks"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "UCS Server Components",
+   "series": [
+    {
+     "series": "Processors",
+     "sku": [
+      "^UCS-CPU"
+     ]
+    },
+    {
+     "series": "Memory",
+     "sku": [
+      "^UCS-M(R|L|RX|KIT|P)",
+      "^A02-MEMKIT",
+      "^N01-M"
+     ]
+    },
+    {
+     "series": "Drives and storage",
+     "sku": [
+      "^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)",
+      "^A03-D"
+     ]
+    },
+    {
+     "series": "GPUs",
+     "sku": [
+      "^CAI-GPU"
+     ]
+    },
+    {
+     "series": "Network and storage adapters",
+     "sku": [
+      "^N2XX-A",
+      "^UCS-PCI",
+      "^UCS-VIC",
+      "^UCS-SDHPCIE",
+      "^UCS-RAID"
+     ]
+    },
+    {
+     "series": "Power supplies and fans",
+     "sku": [
+      "^UCS-PSU",
+      "^UCS-FAN"
+     ]
+    },
+    {
+     "series": "TPM",
+     "sku": [
+      "^UCS-TPM"
+     ]
+    },
+    {
+     "series": "UCS Server Components shared parts",
+     "sku": [
+      "^UCS-ACC",
+      "^UCS-"
+     ],
+     "labels": [
+      "Unified Computing System",
+      "UCS Virtual Interface Cards"
+     ]
+    }
+   ]
+  }
+ ],
+ "shared_accessories": [
+  "^CAB-",
+  "^CBL-",
+  "^CB-",
+  "CABLE",
+  "RAIL",
+  "CMA",
+  "BLANK",
+  "BLNK",
+  "BBLKD",
+  "BRKT",
+  "BRACKET",
+  "BEZ",
+  "BAFF",
+  "BATT",
+  "^CR[0-9]{4}",
+  "RCKMT",
+  "RACKMOUNT",
+  "FILLER",
+  "SCREW"
+ ]
+}

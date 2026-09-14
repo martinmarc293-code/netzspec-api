@@ -88,6 +88,25 @@ witness("routers", [
   ["NC55A2-MOD-SE-H-S", "NCS 55A2 Fixed 24X10G + 16X25G and MPA Scale Chassis", "Network Convergence System 5500 Series", "NCS (Network Convergence System)", "NCS 5500"],
 ]);
 
+// ---- servers-unified-computing (done 14 Sep 2026) ----
+witness("servers-unified-computing", [
+  ["UCSC-C220-M5SX", "Cisco UCSC-C220-M5SX", "Transceiver Modules", "UCS C-Series Rack Servers", "UCS C220"],
+  ["CBL-FNVME-C240M7", "Cisco CBL-FNVME-C240M7", "UCS C-Series", "UCS C-Series Rack Servers", "UCS C240"],        // component, SKU names the model
+  ["UCSB-B200-M6", "Cisco UCS B200 M6 Blade w/o CPU, memory", "Mini Series", "UCS B-Series Blade Servers", "UCS B200"], // label says Mini
+  ["UCSX-210C-M6", "UCS X210c M6 Compute Node", "UCS X-Series", "UCS X-Series Modular System", "UCS X210c compute node"],
+  ["UCS-FI-6454", "Configured model: UCS 6454 1RU FI", "5100 Blade Series", "UCS Fabric Interconnects", "UCS 6400 Fabric Interconnects"],
+  ["UCS-S3260-3KSD8", "Cisco UCS S3620 Top Load 3X 800G SSD", "S-Series Storage", "UCS S-Series Storage Servers", "UCS S3260"],
+  ["UCS-SP-B200M4-BA4", "UCS SPSelect B200M4 Adv4", "UCS B-Series", "UCS Solution Bundles", "Smart Play and SP Select bundles"], // bundle before B200
+  ["UCSX-CPU-I6418H", "Intel 6418H", "UCS X-Series", "UCS X-Series Modular System", "UCS X-Series Modular System shared parts"], // family prefix only
+  // number collisions the audit found: Xeon model numbers are FI and X-node numbers
+  ["UCS-CPU-6140", "2.3 GHz 6140/140W 18C", "UCS C-Series", "UCS Server Components", "Processors"],                  // not a 6140 FI
+  ["UCS-CPU-I6248R", "Intel 6248R", "UCS C-Series", "UCS Server Components", "Processors"],                           // not a 6248 FI
+  ["UCS-CPU-I5215C=", "DISTI: Intel 5215", "UCS C-Series", "UCS Server Components", "Processors"],                     // not X215c
+  ["UCS-SDB480OA1V", "Cisco UCS-SDB480OA1V", "UCS B-Series", "UCS Server Components", "Drives and storage"],           // not B480
+  ["HX-SD800G12TX-EP", "800GB 2.5in Enterprise performance 12G SAS SSD", "UCS C-Series", "(not this category)", "hyperconverged-systems"],
+  ["HCI-CPU-I8480+", "Intel 8480+", "UCS C-Series", "(not this category)", "hyperconverged-infrastructure"],
+]);
+
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");
