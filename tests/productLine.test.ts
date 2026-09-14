@@ -147,6 +147,27 @@ witness("video", [
   ["4003563", "OADM,LGX-DWDM-ITU-36-SA", "Optical Passive Components", "Optical Passive Components", "Mux / demux, OADM and WDM filters"],
 ]);
 
+// ---- collaboration-endpoints (done 14 Sep 2026) ----
+witness("collaboration-endpoints", [
+  ["CP-7925G-A-K9", "Unified Wireless IP Phone 7925G", "7900 - Unified IP Phone", "IP Phones", "Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926"], // not the 7900 desk series
+  ["CP-7942G", "Cisco UC Phone 7942", "7900 - Unified IP Phone", "IP Phones", "Unified IP Phone 7900"],
+  ["CP-8832-K9=", "8832 base", "IP Phone 8800 Series", "IP Phones", "IP Conference Phone 8831 / 8832"],
+  ["CP-6825-3PC-K9=", "Cisco IP DECT 6825", "IP DECT 6800 Series with Multiplatform Firmware", "IP Phones", "IP DECT 6823 / 6825 handsets"],
+  ["CP-6851-3PW-UK-K9=", "Cisco IP Phone 6851", "6800 - IP Phone w/Multiplatform Firmware", "IP Phones", "IP Phone 6800 (6821 / 6841 / 6851 / 6861 / 6871)"],
+  ["CP-HS-WL-MUSB-C", "Cisco Micro-USB to USB-C Spare Cable", "Headset 500 Series", "Headsets", "Headsets shared parts"],  // CP- but a headset part; the SKU names no series
+  ["CP-DX80-K9=", "Cisco Webex DX80", "Desk Series", "Webex Desk Series", "DX70 / DX80"],                                  // CP- but a Desk device
+  ["CS-ROOM55D-K9", "Cisco Webex Room 55D", "TelePresence MX Series", "Webex Room Series", "Room 55 / 55D"],               // label says MX
+  ["CTS-SX20N-C-12X-K9", "SX20 Quick Set w/ 12X cam", "TelePresence Precision Cameras (P60)", "TelePresence (legacy)", "TelePresence SX (SX10 / SX20 / SX80)"],
+  ["CS-BRDP75-K9++", "Cisco Board Pro 75 G2, TAA", "Spark Board", "Webex Board Series", "Board Pro G2 (55 / 75)"],
+  ["CS-TOUCH10=", "Cisco Touch 10 for MX, SX, Board, and Room Series", "Touch", "Webex Room Series", "Room Navigator and Touch 10"],
+]);
+{
+  const { deployRoleResult } = await import("../src/core/deployRole.js");
+  check("role table (phones): 7925G wireless, 7942G desk, 8832 conference — from the series; SPA302D in unified-communications dect",
+    deployRoleResult("collaboration-endpoints", "phone", "CP-7925G-A-K9", "x").role === "wireless" && deployRoleResult("collaboration-endpoints", "phone", "CP-7942G", "x").rule === "series:Unified IP Phone 7900"
+      && deployRoleResult("collaboration-endpoints", "phone", "CP-8832-K9=", "x").role === "conference" && deployRoleResult("unified-communications", "phone", "SPA302D-G1", "x").role === "dect");
+}
+
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");
