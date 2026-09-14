@@ -262,6 +262,9 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // 0 stays refused: a 0U PDU is mounted beside the rails and has no rack height.
   rack_units: { key: "rack_units", de: "Höheneinheiten", en: "Rack units", type: "n", unit: "HE", band: [1, 44], etim: [], icecat: null },
   stackable: { key: "stackable", de: "Stapelbar", en: "Stackable", type: "b", etim: [], icecat: null },
+  // layers review (14 Sep 2026, item 6; docs/decisions/2026-09-14-sp-router-roles.md): sp-access / sp-edge / sp-core join
+  // the union for the `sp-router` axis. A widening of a DERIVED, column-backed key: measured across all vendors, 5
+  // deploy_role facts exist anywhere (all Cisco, none of the new values), so nothing that was admitted is now refused.
   // kind-layer (13 Sep 2026): layer 3, DERIVED by src/core/deployRole.ts (never read from a page). The domain is the union
   // of the four role axes; `aggregation`+`core` fold into `core-agg` and `datacenter-tor` into `datacenter` (spec v2 §I.4).
   // Measured across ALL vendors first: 5 facts anywhere, all Cisco html_table (3 access, 2 datacenter-tor); the 2
@@ -269,7 +272,7 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // REVIEWER C.1 (13 Sep 2026): whether a router PLATFORM takes modules — derived from the SKU by src/core/modularPlatform.ts
   // (registered in DERIVED_FILL_PATHS), column-backed like deploy_role: never a slot, the gate of module_slots.
   modular: { key: "modular", de: "Modulare Plattform", en: "Modular platform", type: "b", etim: [], icecat: null },
-  deploy_role: { key: "deploy_role", de: "Einsatzbereich", en: "Deployment role", type: "e", domain: ["smb", "access", "core-agg", "datacenter", "industrial", "indoor", "outdoor", "mesh-extender", "branch", "edge", "industrial-iot", "desk", "wireless", "dect", "conference"], etim: [], icecat: null },
+  deploy_role: { key: "deploy_role", de: "Einsatzbereich", en: "Deployment role", type: "e", domain: ["smb", "access", "core-agg", "datacenter", "industrial", "indoor", "outdoor", "mesh-extender", "branch", "edge", "industrial-iot", "sp-access", "sp-edge", "sp-core", "desk", "wireless", "dect", "conference"], etim: [], icecat: null },
   // kind-layer (13 Sep 2026), spec v2 §I.4 DRIVE / GPU: created OPTIONAL (rule 8), promoted only when a label share on
   // held parts crosses the bar. `form_factor`'s domain is optical cages, so a drive's 2.5"/3.5"/M.2 needs its own key.
   // Measured across all vendors before creation: 0 facts under either key.
@@ -3163,11 +3166,11 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // kind-layer: power_max — router core 11.9% (the "low power consumption" hints are marketing), industrial-iot 65.8%
     // (26.3 + "Maximum platform power consumption"), sp-core 60.3%, chassis 36.4%, linecard 38.5% (demoted), appliance
     // kept (low-n; 8 of 10 readable state it).
-    power_max: rtRoleAdd(["industrial-iot"], ["sp-core", "appliance"]),
+    power_max: rtRoleAdd(["industrial-iot"], ["sp-router", "appliance"]),
     // power_typical: router 13%, industrial-iot 21.1%, sp-core 0, chassis 7.3% — OPTIONAL.
     power_typical: opt,
     // input_voltage: sp-core 62.5%, power 58.8% (kept); router 13%, chassis 49.1% (demoted).
-    input_voltage: rtKinds(["sp-core", "power"]),
+    input_voltage: rtKinds(["sp-router", "power"]),
     // psu_rated_output 21.6% of the 97 readable supplies — OPTIONAL (the wattage is in 34 names: a derivation to register).
     psu_rated_output: opt,
     // Airflow is how a fan or PSU is SOLD (port-side intake vs exhaust twins). Of a router it is optional: the
@@ -3176,15 +3179,15 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     airflow: rtKinds(["fan"]),
     // kind-layer: temp_operating — smb 53.4, industrial-iot 89.5 (role additions); router core 36.2 (branch 26.9);
     // sp-core 51.5 (47.8 + "Normal operating temperature (at 1800 m)"); chassis 45.5 (demoted); appliance kept.
-    temp_operating: rtRoleAdd(["smb", "industrial-iot"], ["sp-core", "appliance"]),
+    temp_operating: rtRoleAdd(["smb", "industrial-iot"], ["sp-router", "appliance"]),
     // temp_storage — smb 74.1 (role addition: the spec's "smb drops ENV+" is refused, as it was for smb switches);
     // router core 14.5; sp-core 55.9; chassis 63.6.
-    temp_storage: rtRoleAdd(["smb"], ["sp-core", "chassis"]),
+    temp_storage: rtRoleAdd(["smb"], ["sp-router", "chassis"]),
     // humidity_operating — smb 74.1 (37.9 + "Environmental: Operating humidity"); router core 23.8; industrial-iot 42.1;
     // sp-core 71.3; chassis 63.6; appliance kept.
-    humidity_operating: rtRoleAdd(["smb"], ["sp-core", "chassis", "appliance"]),
+    humidity_operating: rtRoleAdd(["smb"], ["sp-router", "chassis", "appliance"]),
     // altitude_max — industrial-iot 73.7; router core 24; sp-core 58.8 / chassis 63.6 (with "Operational altitude" rows).
-    altitude_max: rtRoleAdd(["industrial-iot"], ["sp-core", "chassis"]),
+    altitude_max: rtRoleAdd(["industrial-iot"], ["sp-router", "chassis"]),
     // dimensions — router core 67.7 (branch 75.6, industrial-iot 89.5); smb 32.8 (role demotion); sp-core 31.6 and
     // chassis 29.1 (demoted); appliance kept.
     dimensions: rtCoreExcept(["smb"], ["appliance"]),
@@ -3192,7 +3195,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     weight: rtRoleAdd(["industrial-iot"], ["appliance"]),
     // certifications — router 70.6 (smb 53.4, industrial-iot 81.6), sp-core 55.1, chassis 87.3 (47.3 + "Safety" rows),
     // appliance kept. The one envelope cup every device kind keeps.
-    certifications: cond({ field: "kind", inList: ["router", "sp-core", "chassis", "appliance"] }),
+    certifications: cond({ field: "kind", inList: ["router", "sp-router", "chassis", "appliance"] }),
     // OPTIONAL, with the counts: mtbf has 600 label occurrences in the inventory and 0 whose stored sample SKU is a
     // router part, and 3 facts (CG418-E, CG522-E and an optic). ip_rating: 0 router facts, "IP rating" 17 labels
     // (IR1800 "IP54 with IP54-KIT") — industrial routers have no SKU marker a kind could carry.
@@ -3218,7 +3221,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // kind-layer (13 Sep 2026): ports — sp-core 62.5, linecard 77.5, module 77.5 (48.1 + "Flex ports" / "Integrated
     // Gigabit Ethernet ports" / "1G port density"), appliance kept (low-n). ROUTER is DEMOTED: 8.3% mapped, 27.9% with
     // every port-count row — the ROUTER archetype asks wan_interfaces / lan_interfaces for the same quantity instead.
-    ports: rtKinds(["sp-core", "appliance", ...RT_PORTED]),
+    ports: rtKinds(["sp-router", "appliance", ...RT_PORTED]),
     // Per-slot bandwidth of a line card / capacity a fabric card adds (A9K-MOD400 "400G", 8800-LC-48H 4.8 Tbit/s).
     // 40 line cards hold that figure under switching_capacity today (description mining) — a rekey proposal.
     // kind-layer: linecard 0% mapped (3.2% with "fabric element" rows) — demoted, and LINECARD does not name it; the

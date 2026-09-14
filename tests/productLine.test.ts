@@ -73,6 +73,19 @@ witness("routers", [
   ["3G-CAB-ULL-20", "20-ft (6M) Ultra Low Loss LMR 400 Cable with TNC Connector", "800", "ISR (Integrated Services Routers)", "ISR (Integrated Services Routers) shared parts"],
   ["AIR-AP1815-K9-ME-8-5-110-0.tar", "Cisco 111X Models AP", "1000", "(not this category)", "wireless"],
   ["9800-40", "Cisco Catalyst 9800-40 Wireless Controller", "Catalyst Wireless Gateway", "(not this category)", "wireless"],
+  // layers review (14 Sep 2026), routers items 1-5 and 8
+  ["ASR-9010-AC", "ASR-9010 AC Chassis", "ASR 9000", "ASR (Aggregation Services Routers)", "ASR 9000"],            // item 1: was ASR 901 (no digit fence)
+  ["15454-M-CBL-L-JPN", "AC power cable - Japan", "Network Convergence System 5500 Series", "(not this category)", "optical-networking"], // item 2
+  ["A9XX-RSPB-BLANK=", "Cisco A9XX-RSPB-BLANK=", "Network Convergence System 500", "ASR (Aggregation Services Routers)", "ASR 900"], // item 3
+  ["C1100TG-1N32A", "Terminal Services Gateway w/ 32 Async", "Terminal Services Gateways", "Console and Terminal Servers", "Terminal Services Gateways"], // item 4: not ISR 1100
+  ["C8220TG-48A-O", "Cisco Secure Console Server", "Secure Console", "Console and Terminal Servers", "Secure Console"],
+  ["C8000V-PF", "Catalyst 8000V Edge Software", "Catalyst 8000V Edge Software", "(not this category)", "software"],   // item 5
+  ["CN-BNG-BASE-L", "Base PID for cnBNG Control Plane", "Cloud Native Broadband Network Gateway (BNG)", "(not this category)", "software"],
+  ["RSP720-3C-10GE", "Cisco RSP720-3C-10GE", "", "Legacy Service Routers", "Cisco 7600"],                            // item 8: arriving from switches
+  ["76-ES+XT-4TG3C", "Cisco 7600 Series ES Plus XT", "", "Legacy Service Routers", "Cisco 7600"],
+  ["CISCO7301/2+VPNK9", "Cisco CISCO7301/2+VPNK9", "2900 ISR", "Legacy Service Routers", "Cisco 7300"],             // label says 2900
+  ["FLS-A901-4S", "Cisco ASR 901 4 Port SFP GE Upgrade - Physical", "ASR 901", "ASR (Aggregation Services Routers)", "ASR 901"], // SKU, so the role engine sees it
+  ["NC55A2-MOD-SE-H-S", "NCS 55A2 Fixed 24X10G + 16X25G and MPA Scale Chassis", "Network Convergence System 5500 Series", "NCS (Network Convergence System)", "NCS 5500"],
 ]);
 
 // ---- item 8: ONE series -> role table, read by the cup engine ----
@@ -129,6 +142,17 @@ witness("routers", [
     check("SABOTAGE: a series role outside the kind's domain is refused by the cup engine", refused.includes("outside the switch domain"), refused.slice(0, 200));
   }
   check("SABOTAGE: listing Catalyst 4500-E before 4500-X misplaces a 4500-X SKU (rule order is load-bearing)", got?.series === "Catalyst 4500-E", `got ${got?.series}`);
+  {
+    // layers review item 1: without the digit fence ASR 901's pattern takes the ASR-9010 chassis
+    const rt = JSON.parse(fs.readFileSync(`${LINE_DIR}/cisco-routers.json`, "utf8")) as LineFile;
+    const s901 = rt.lines.flatMap((l) => l.series).find((s) => s.series === "ASR 901")!;
+    s901.sku = (s901.sku ?? []).map((p) => p.replace("(?![0-9])", ""));
+    const path3 = `${LINE_DIR}/cisco-zz-sabotage2.json`;
+    fs.writeFileSync(path3, JSON.stringify({ ...rt, category: "zz-sabotage2" }));
+    let got2: ReturnType<typeof placePart> = null;
+    try { got2 = placePart("cisco", "zz-sabotage2", { sku: "ASR-9010-AC", name: "ASR-9010 AC Chassis", series: "" }); } finally { fs.unlinkSync(path3); }
+    check("SABOTAGE: removing the ASR 901 digit fence files the ASR-9010 chassis under ASR 901 again", got2?.series === "ASR 901", `got ${got2?.series}`);
+  }
 }
 
 console.log(`    product lines: ${pass} passed, ${misses.length} missed (${files.length} mapping files)`);

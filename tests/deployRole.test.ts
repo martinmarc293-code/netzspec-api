@@ -6,7 +6,7 @@
 // industrial, a C9124AX filed under "Catalyst Embedded Controller" is outdoor, an 8865 is a desk phone, a C1921 bundle
 // filed under "High-Speed WAN Interface Cards" is a branch router. Every sabotaged rule list must fail on the witness
 // that the removed or reordered rule protects, FOR THAT REASON, or the witness list is a check that has never failed.
-import { RULES, ROLE_DOMAINS, deployRole, deployRoleRule, roleAxisOf, type Rule } from "../src/core/deployRole.js";
+import { RULES, ROLE_DOMAINS, deployRole, deployRoleResult, deployRoleRule, roleAxisOf, type Rule } from "../src/core/deployRole.js";
 
 let pass = 0;
 const misses: string[] = [];
@@ -128,8 +128,19 @@ for (const [label, rules, must] of sabotage) {
 
 // every role a rule can emit is in its kind's domain, and every domain value is emitted by at least one rule
 for (const r of RULES) if (r.role) check(`${r.id}: role "${r.role}" is in the ${r.kind} domain`, ROLE_DOMAINS[r.kind].includes(r.role));
+// (layers review 14 Sep 2026: `sp-router` has no SKU rules — its roles come only from the routers series table, so for
+// that axis "emitted" means a series in data/reference/product-lines/cisco-routers.json carries the role.)
+const { loadLineFile } = await import("../src/core/productLine.js");
+const seriesRoles = new Set((loadLineFile("cisco", "routers")?.file.lines ?? []).flatMap((l) => l.series.map((s) => s.role).filter(Boolean)));
 for (const [kind, dom] of Object.entries(ROLE_DOMAINS)) for (const role of dom)
-  check(`${kind}.${role} is emitted by a rule`, RULES.some((r) => r.kind === kind && r.role === role));
+  check(`${kind}.${role} is emitted by a rule`, RULES.some((r) => r.kind === kind && r.role === role) || (kind === "sp-router" && seriesRoles.has(role)));
+check("routers.sp-router reads the sp-router axis; a series role of the sibling axis is a kind issue, not a role",
+  roleAxisOf("routers", "sp-router") === "sp-router"
+    && deployRole("routers", "sp-router", "ASR-9901", "ASR 9901 Compact Chassis") === "sp-edge"
+    && deployRole("routers", "sp-router", "A901-6CZ-F-A", "Cisco ASR 901") === "sp-access"
+    && deployRole("routers", "sp-router", "8201-32FH", "Cisco 8201") === "sp-core"
+    && deployRoleResult("routers", "router", "ASR-9901", "forced enterprise kind").issue !== null
+    && deployRole("routers", "router", "ASR-9901", "forced enterprise kind") === null);
 check("no rule carries both a role and an issue", RULES.every((r) => !(r.role && r.issue)));
 check("rule ids are unique", new Set(RULES.map((r) => r.id)).size === RULES.length);
 

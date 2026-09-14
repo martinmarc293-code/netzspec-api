@@ -76,7 +76,7 @@
     "sensor": { "definition": "An environmental/wireless sensor (Meraki MT, Catalyst wireless sensor).", "archetypes": [], "in_library": false, "note": "no library archetype" },
     "server": { "definition": "A server (rack, blade, modular node, edge, storage).", "archetypes": ["SERVER"], "in_library": true },
     "software": { "definition": "A software image or licence filed as hardware — belongs in class software/license.", "archetypes": [], "in_library": false, "note": "III.4: software rows in any hardware kind = 0; pending class change" },
-    "sp-core": { "definition": "A service-provider core/edge routing system (ASR 9000, CRS, NCS 5500/540, 8000).", "archetypes": ["SP-CORE"], "in_library": true },
+    "sp-router": { "definition": "A fixed service-provider router (ASR 901/920, ASR 9000 fixed, NCS 520/540/560/5500/5700, CRS, 8000); its deploy_role is sp-access, sp-edge or sp-core from the series table (renamed from sp-core, layers review 14 Sep 2026).", "archetypes": ["SP-CORE"], "in_library": true },
     "speaker": { "definition": "A loudspeaker for room systems.", "archetypes": ["SPEAKER"], "in_library": true },
     "stack-cable": { "definition": "A stacking cable between stackable switches.", "archetypes": ["STACK-CABLE"], "in_library": true },
     "storage-controller": { "definition": "A RAID / storage controller card for a server.", "archetypes": ["STORAGE-CONTROLLER"], "in_library": true },

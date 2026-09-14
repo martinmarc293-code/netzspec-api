@@ -1,17 +1,18 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-14T12:34:13.477Z",
+ "built_at": "2026-09-14T13:22:19.259Z",
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7541,
  "lines": [
   {
    "line": "Catalyst",
-   "parts": 3160,
+   "parts": 3136,
    "series": [
     {
      "series": "Catalyst 9400",
      "role": "core-agg",
+     "note": null,
      "parts": 83,
      "kinds": {
       "linecard": 28,
@@ -41,6 +42,7 @@
     {
      "series": "Catalyst 9200",
      "role": "access",
+     "note": null,
      "parts": 130,
      "kinds": {
       "switch": 101,
@@ -68,6 +70,7 @@
     {
      "series": "Catalyst 9300",
      "role": "access",
+     "note": null,
      "parts": 242,
      "kinds": {
       "switch": 167,
@@ -97,6 +100,7 @@
     {
      "series": "Catalyst 9350",
      "role": "access",
+     "note": null,
      "parts": 46,
      "kinds": {
       "switch": 15,
@@ -124,6 +128,7 @@
     {
      "series": "Catalyst 9500",
      "role": "core-agg",
+     "note": null,
      "parts": 104,
      "kinds": {
       "switch": 81,
@@ -151,6 +156,7 @@
     {
      "series": "Catalyst 9550",
      "role": "core-agg",
+     "note": null,
      "parts": 10,
      "kinds": {
       "switch": 6,
@@ -174,6 +180,7 @@
     {
      "series": "Catalyst 9600",
      "role": "core-agg",
+     "note": null,
      "parts": 28,
      "kinds": {
       "linecard": 13,
@@ -199,6 +206,7 @@
     {
      "series": "Catalyst 9610",
      "role": "core-agg",
+     "note": null,
      "parts": 16,
      "kinds": {
       "mechanical": 5,
@@ -224,6 +232,7 @@
     {
      "series": "Catalyst 9000 shared parts",
      "role": null,
+     "note": null,
      "parts": 38,
      "kinds": {
       "power": 16,
@@ -247,6 +256,7 @@
     {
      "series": "Catalyst 6800 Instant Access",
      "role": "access",
+     "note": null,
      "parts": 5,
      "kinds": {
       "switch": 5
@@ -268,6 +278,7 @@
     {
      "series": "Catalyst 6800",
      "role": "core-agg",
+     "note": null,
      "parts": 111,
      "kinds": {
       "power": 19,
@@ -297,11 +308,12 @@
     {
      "series": "Catalyst 6500",
      "role": "core-agg",
-     "parts": 392,
+     "note": null,
+     "parts": 368,
      "kinds": {
       "linecard": 136,
       "accessory": 56,
-      "module": 73,
+      "module": 49,
       "fan": 20,
       "mechanical": 16,
       "power": 25,
@@ -322,12 +334,13 @@
      ],
      "rules": {
       "sku": 285,
-      "label": 107
+      "label": 83
      }
     },
     {
      "series": "Catalyst 4500-X",
      "role": "core-agg",
+     "note": null,
      "parts": 34,
      "kinds": {
       "switch": 12,
@@ -354,6 +367,7 @@
     {
      "series": "Catalyst 4500-E",
      "role": "core-agg",
+     "note": null,
      "parts": 295,
      "kinds": {
       "chassis": 16,
@@ -383,6 +397,7 @@
     {
      "series": "Catalyst 4900",
      "role": "datacenter",
+     "note": null,
      "parts": 82,
      "kinds": {
       "mechanical": 16,
@@ -408,6 +423,7 @@
     {
      "series": "Catalyst 3850",
      "role": "access",
+     "note": null,
      "parts": 212,
      "kinds": {
       "switch": 165,
@@ -435,6 +451,7 @@
     {
      "series": "Catalyst 3650",
      "role": "access",
+     "note": null,
      "parts": 221,
      "kinds": {
       "power": 8,
@@ -463,6 +480,7 @@
     {
      "series": "Catalyst 3750-X",
      "role": "access",
+     "note": null,
      "parts": 98,
      "kinds": {
       "switch": 60,
@@ -490,6 +508,7 @@
     {
      "series": "Catalyst 3560-X",
      "role": "access",
+     "note": null,
      "parts": 49,
      "kinds": {
       "switch": 49
@@ -512,6 +531,7 @@
     {
      "series": "Catalyst 3750-E",
      "role": "access",
+     "note": null,
      "parts": 12,
      "kinds": {
       "switch": 12
@@ -534,6 +554,7 @@
     {
      "series": "Catalyst 3560-E",
      "role": "access",
+     "note": null,
      "parts": 16,
      "kinds": {
       "switch": 16
@@ -556,6 +577,7 @@
     {
      "series": "Catalyst 3750",
      "role": "access",
+     "note": null,
      "parts": 47,
      "kinds": {
       "switch": 44,
@@ -580,6 +602,7 @@
     {
      "series": "Catalyst 3560-C and 3560-CX",
      "role": "access",
+     "note": null,
      "parts": 49,
      "kinds": {
       "switch": 40,
@@ -605,6 +628,7 @@
     {
      "series": "Catalyst 3560",
      "role": "access",
+     "note": null,
      "parts": 31,
      "kinds": {
       "mechanical": 1,
@@ -628,6 +652,7 @@
     {
      "series": "Catalyst 2960-C and 2960-CX",
      "role": "access",
+     "note": null,
      "parts": 28,
      "kinds": {
       "switch": 24,
@@ -652,6 +677,7 @@
     {
      "series": "Catalyst 2960-X and 2960-XR",
      "role": "access",
+     "note": null,
      "parts": 166,
      "kinds": {
       "switch": 142,
@@ -678,6 +704,7 @@
     {
      "series": "Catalyst 2960-S",
      "role": "access",
+     "note": null,
      "parts": 24,
      "kinds": {
       "module": 4,
@@ -701,6 +728,7 @@
     {
      "series": "Catalyst 2960-Plus",
      "role": "access",
+     "note": null,
      "parts": 35,
      "kinds": {
       "switch": 35
@@ -723,6 +751,7 @@
     {
      "series": "Catalyst 2960-L",
      "role": "access",
+     "note": null,
      "parts": 64,
      "kinds": {
       "mechanical": 2,
@@ -747,6 +776,7 @@
     {
      "series": "Catalyst 2960",
      "role": "access",
+     "note": null,
      "parts": 33,
      "kinds": {
       "stack-cable": 10,
@@ -771,6 +801,7 @@
     {
      "series": "Catalyst 1000",
      "role": "access",
+     "note": null,
      "parts": 78,
      "kinds": {
       "switch": 72,
@@ -795,6 +826,7 @@
     {
      "series": "Catalyst 1200",
      "role": "smb",
+     "note": null,
      "parts": 18,
      "kinds": {
       "switch": 17,
@@ -819,6 +851,7 @@
     {
      "series": "Catalyst 1300",
      "role": "smb",
+     "note": null,
      "parts": 40,
      "kinds": {
       "switch": 38,
@@ -843,6 +876,7 @@
     {
      "series": "Catalyst Micro",
      "role": "access",
+     "note": null,
      "parts": 27,
      "kinds": {
       "switch": 6,
@@ -869,6 +903,7 @@
     {
      "series": "Catalyst Digital Building",
      "role": "access",
+     "note": null,
      "parts": 16,
      "kinds": {
       "switch": 8,
@@ -893,12 +928,15 @@
     {
      "series": "Catalyst PON",
      "role": "access",
+     "note": null,
      "parts": 20,
      "kinds": {
       "switch": 12,
       "power": 8
      },
-     "roles": {},
+     "roles": {
+      "(kind issue)": 12
+     },
      "samples": [
       "CGP-OLT — Cisco CGP-OLT",
       "CGP-OLT-16T — Catalyst PON 16-port GPON OLT, 4 GE Combo ports (Copper RJ45",
@@ -915,6 +953,7 @@
     {
      "series": "Redundant Power System",
      "role": null,
+     "note": null,
      "parts": 20,
      "kinds": {
       "mechanical": 2,
@@ -939,6 +978,7 @@
     {
      "series": "Catalyst shared parts",
      "role": null,
+     "note": null,
      "parts": 240,
      "kinds": {
       "mechanical": 38,
@@ -968,6 +1008,7 @@
     {
      "series": "Nexus 2000 Fabric Extenders",
      "role": "datacenter",
+     "note": null,
      "parts": 212,
      "kinds": {
       "fan": 23,
@@ -992,6 +1033,7 @@
     {
      "series": "Nexus 3550",
      "role": "datacenter",
+     "note": null,
      "parts": 6,
      "kinds": {
       "switch": 2,
@@ -1015,6 +1057,7 @@
     {
      "series": "Nexus 3500",
      "role": "datacenter",
+     "note": null,
      "parts": 21,
      "kinds": {
       "switch": 21
@@ -1037,6 +1080,7 @@
     {
      "series": "Nexus 3600",
      "role": "datacenter",
+     "note": null,
      "parts": 3,
      "kinds": {
       "switch": 3
@@ -1056,6 +1100,7 @@
     {
      "series": "Nexus 3000",
      "role": "datacenter",
+     "note": null,
      "parts": 221,
      "kinds": {
       "switch": 192,
@@ -1085,6 +1130,7 @@
     {
      "series": "Nexus 5500",
      "role": "datacenter",
+     "note": null,
      "parts": 151,
      "kinds": {
       "switch": 80,
@@ -1111,6 +1157,7 @@
     {
      "series": "Nexus 5600",
      "role": "datacenter",
+     "note": null,
      "parts": 114,
      "kinds": {
       "switch": 73,
@@ -1137,6 +1184,7 @@
     {
      "series": "Nexus 5000",
      "role": "datacenter",
+     "note": null,
      "parts": 6,
      "kinds": {
       "switch": 4,
@@ -1160,6 +1208,7 @@
     {
      "series": "Nexus 6000",
      "role": "datacenter",
+     "note": null,
      "parts": 84,
      "kinds": {
       "switch": 53,
@@ -1187,6 +1236,7 @@
     {
      "series": "Nexus 7700",
      "role": "datacenter",
+     "note": null,
      "parts": 193,
      "kinds": {
       "chassis": 10,
@@ -1217,6 +1267,7 @@
     {
      "series": "Nexus 7000",
      "role": "datacenter",
+     "note": null,
      "parts": 223,
      "kinds": {
       "switch": 55,
@@ -1248,6 +1299,7 @@
     {
      "series": "Nexus 9200",
      "role": "datacenter",
+     "note": null,
      "parts": 31,
      "kinds": {
       "switch": 31
@@ -1270,6 +1322,7 @@
     {
      "series": "Nexus 9300",
      "role": "datacenter",
+     "note": null,
      "parts": 202,
      "kinds": {
       "switch": 187,
@@ -1294,6 +1347,7 @@
     {
      "series": "Nexus 9400",
      "role": "datacenter",
+     "note": null,
      "parts": 6,
      "kinds": {
       "mechanical": 2,
@@ -1318,6 +1372,7 @@
     {
      "series": "Nexus 9500",
      "role": "datacenter",
+     "note": null,
      "parts": 157,
      "kinds": {
       "chassis": 9,
@@ -1346,6 +1401,7 @@
     {
      "series": "Nexus 9800",
      "role": "datacenter",
+     "note": null,
      "parts": 25,
      "kinds": {
       "mechanical": 12,
@@ -1370,6 +1426,7 @@
     {
      "series": "Nexus 9100",
      "role": "datacenter",
+     "note": null,
      "parts": 2,
      "kinds": {
       "switch": 2
@@ -1388,6 +1445,7 @@
     {
      "series": "Nexus 9000 shared parts",
      "role": null,
+     "note": null,
      "parts": 171,
      "kinds": {
       "cable": 5,
@@ -1418,6 +1476,7 @@
     {
      "series": "Nexus shared parts",
      "role": null,
+     "note": null,
      "parts": 39,
      "kinds": {
       "cable": 3,
@@ -1447,6 +1506,7 @@
     {
      "series": "IE 1000",
      "role": "industrial",
+     "note": null,
      "parts": 4,
      "kinds": {
       "switch": 4
@@ -1467,6 +1527,7 @@
     {
      "series": "IE 2000U",
      "role": "industrial",
+     "note": null,
      "parts": 8,
      "kinds": {
       "switch": 7,
@@ -1491,6 +1552,7 @@
     {
      "series": "IE 2000",
      "role": "industrial",
+     "note": null,
      "parts": 33,
      "kinds": {
       "switch": 30,
@@ -1516,6 +1578,7 @@
     {
      "series": "IE 3000",
      "role": "industrial",
+     "note": null,
      "parts": 19,
      "kinds": {
       "accessory": 3,
@@ -1543,6 +1606,7 @@
     {
      "series": "IE 3010",
      "role": "industrial",
+     "note": null,
      "parts": 10,
      "kinds": {
       "switch": 2,
@@ -1568,6 +1632,7 @@
     {
      "series": "IE 3100",
      "role": "industrial",
+     "note": null,
      "parts": 21,
      "kinds": {
       "switch": 13,
@@ -1593,6 +1658,7 @@
     {
      "series": "IE 3200",
      "role": "industrial",
+     "note": null,
      "parts": 2,
      "kinds": {
       "switch": 2
@@ -1611,6 +1677,7 @@
     {
      "series": "IE 3300",
      "role": "industrial",
+     "note": null,
      "parts": 24,
      "kinds": {
       "switch": 8,
@@ -1634,6 +1701,7 @@
     {
      "series": "IE 3400H",
      "role": "industrial",
+     "note": null,
      "parts": 20,
      "kinds": {
       "switch": 18,
@@ -1659,6 +1727,7 @@
     {
      "series": "IE 3400",
      "role": "industrial",
+     "note": null,
      "parts": 17,
      "kinds": {
       "switch": 4,
@@ -1685,6 +1754,7 @@
     {
      "series": "IE 3500H",
      "role": "industrial",
+     "note": null,
      "parts": 21,
      "kinds": {
       "switch": 21
@@ -1707,6 +1777,7 @@
     {
      "series": "IE 3500",
      "role": "industrial",
+     "note": null,
      "parts": 37,
      "kinds": {
       "switch": 21,
@@ -1730,6 +1801,7 @@
     {
      "series": "IE 4010",
      "role": "industrial",
+     "note": null,
      "parts": 4,
      "kinds": {
       "switch": 4
@@ -1750,6 +1822,7 @@
     {
      "series": "IE 4000",
      "role": "industrial",
+     "note": null,
      "parts": 12,
      "kinds": {
       "switch": 12
@@ -1772,6 +1845,7 @@
     {
      "series": "IE 5000",
      "role": "industrial",
+     "note": null,
      "parts": 4,
      "kinds": {
       "switch": 4
@@ -1792,6 +1866,7 @@
     {
      "series": "IE 9300",
      "role": "industrial",
+     "note": null,
      "parts": 44,
      "kinds": {
       "switch": 32,
@@ -1818,6 +1893,7 @@
     {
      "series": "CGS 2500 Connected Grid",
      "role": "industrial",
+     "note": null,
      "parts": 9,
      "kinds": {
       "switch": 6,
@@ -1843,6 +1919,7 @@
     {
      "series": "Industrial Ethernet shared parts",
      "role": null,
+     "note": null,
      "parts": 6,
      "kinds": {
       "cable": 2,
@@ -1872,6 +1949,7 @@
     {
      "series": "ESS 2020",
      "role": "industrial",
+     "note": null,
      "parts": 10,
      "kinds": {
       "switch": 10
@@ -1894,6 +1972,7 @@
     {
      "series": "ESS 3300",
      "role": "industrial",
+     "note": null,
      "parts": 8,
      "kinds": {
       "switch": 8
@@ -1916,6 +1995,7 @@
     {
      "series": "ESS 9300",
      "role": "industrial",
+     "note": null,
      "parts": 1,
      "kinds": {
       "switch": 1
@@ -1939,6 +2019,7 @@
     {
      "series": "Small Business 95 Unmanaged (SF95/SG95)",
      "role": "smb",
+     "note": null,
      "parts": 43,
      "kinds": {
       "switch": 43
@@ -1961,6 +2042,7 @@
     {
      "series": "Small Business 110 Unmanaged (SF110/SG110)",
      "role": "smb",
+     "note": null,
      "parts": 89,
      "kinds": {
       "switch": 89
@@ -1983,6 +2065,7 @@
     {
      "series": "Small Business 220 Smart (SF220/SG220)",
      "role": "smb",
+     "note": null,
      "parts": 69,
      "kinds": {
       "switch": 69
@@ -2005,6 +2088,7 @@
     {
      "series": "Small Business 250 Smart (SF250/SG250)",
      "role": "smb",
+     "note": null,
      "parts": 146,
      "kinds": {
       "switch": 146
@@ -2027,6 +2111,7 @@
     {
      "series": "Small Business 350X Stackable (SG350X/SX350X)",
      "role": "smb",
+     "note": null,
      "parts": 194,
      "kinds": {
       "switch": 194
@@ -2049,6 +2134,7 @@
     {
      "series": "Small Business 350 Managed (SF350/SG350)",
      "role": "smb",
+     "note": null,
      "parts": 225,
      "kinds": {
       "switch": 225
@@ -2071,6 +2157,7 @@
     {
      "series": "Small Business 550X Stackable (SF550X/SG550X/SX550X)",
      "role": "smb",
+     "note": null,
      "parts": 196,
      "kinds": {
       "switch": 196
@@ -2099,6 +2186,7 @@
     {
      "series": "Business 110 Unmanaged (CBS110)",
      "role": "smb",
+     "note": null,
      "parts": 55,
      "kinds": {
       "switch": 55
@@ -2121,6 +2209,7 @@
     {
      "series": "Business 220 Smart (CBS220)",
      "role": "smb",
+     "note": null,
      "parts": 69,
      "kinds": {
       "switch": 69
@@ -2143,6 +2232,7 @@
     {
      "series": "Business 250 Smart (CBS250)",
      "role": "smb",
+     "note": null,
      "parts": 229,
      "kinds": {
       "switch": 229
@@ -2165,6 +2255,7 @@
     {
      "series": "Business 350 Managed (CBS350)",
      "role": "smb",
+     "note": null,
      "parts": 433,
      "kinds": {
       "switch": 433
@@ -2193,6 +2284,7 @@
     {
      "series": "MS120",
      "role": "access",
+     "note": null,
      "parts": 17,
      "kinds": {
       "switch": 17
@@ -2215,6 +2307,7 @@
     {
      "series": "MS125",
      "role": "access",
+     "note": null,
      "parts": 11,
      "kinds": {
       "switch": 11
@@ -2237,6 +2330,7 @@
     {
      "series": "MS130",
      "role": "access",
+     "note": null,
      "parts": 30,
      "kinds": {
       "switch": 30
@@ -2259,6 +2353,7 @@
     {
      "series": "MS150",
      "role": "access",
+     "note": null,
      "parts": 29,
      "kinds": {
       "switch": 29
@@ -2281,6 +2376,7 @@
     {
      "series": "MS210",
      "role": "access",
+     "note": null,
      "parts": 11,
      "kinds": {
       "switch": 11
@@ -2303,6 +2399,7 @@
     {
      "series": "MS225",
      "role": "access",
+     "note": null,
      "parts": 11,
      "kinds": {
       "switch": 11
@@ -2325,6 +2422,7 @@
     {
      "series": "MS250",
      "role": "access",
+     "note": null,
      "parts": 11,
      "kinds": {
       "switch": 11
@@ -2347,6 +2445,7 @@
     {
      "series": "MS320",
      "role": "access",
+     "note": null,
      "parts": 2,
      "kinds": {
       "power": 1,
@@ -2366,6 +2465,7 @@
     {
      "series": "MS350",
      "role": "access",
+     "note": null,
      "parts": 13,
      "kinds": {
       "switch": 13
@@ -2388,6 +2488,7 @@
     {
      "series": "MS355",
      "role": "access",
+     "note": null,
      "parts": 9,
      "kinds": {
       "switch": 9
@@ -2410,6 +2511,7 @@
     {
      "series": "MS390",
      "role": "core-agg",
+     "note": null,
      "parts": 23,
      "kinds": {
       "switch": 23
@@ -2432,6 +2534,7 @@
     {
      "series": "MS410",
      "role": "core-agg",
+     "note": null,
      "parts": 5,
      "kinds": {
       "switch": 5
@@ -2453,6 +2556,7 @@
     {
      "series": "MS425",
      "role": "core-agg",
+     "note": null,
      "parts": 5,
      "kinds": {
       "switch": 5
@@ -2474,6 +2578,7 @@
     {
      "series": "MS450",
      "role": "core-agg",
+     "note": null,
      "parts": 3,
      "kinds": {
       "switch": 3
@@ -2499,6 +2604,7 @@
     {
      "series": "ME 3400",
      "role": "access",
+     "note": null,
      "parts": 19,
      "kinds": {
       "switch": 11,
@@ -2523,6 +2629,7 @@
     {
      "series": "ME 3600X",
      "role": "access",
+     "note": null,
      "parts": 1,
      "kinds": {
       "switch": 1
@@ -2540,6 +2647,7 @@
     {
      "series": "ME 3800X",
      "role": "core-agg",
+     "note": null,
      "parts": 1,
      "kinds": {
       "switch": 1
@@ -2557,6 +2665,7 @@
     {
      "series": "ME 4900",
      "role": "core-agg",
+     "note": null,
      "parts": 1,
      "kinds": {
       "switch": 1
@@ -2574,6 +2683,7 @@
     {
      "series": "Metro Ethernet shared parts",
      "role": null,
+     "note": null,
      "parts": 3,
      "kinds": {
       "mechanical": 3
@@ -4496,6 +4606,198 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell or bare family name enumerated as a part"
+  },
+  {
+   "sku": "SPA-1X10GE-V2",
+   "name": "Cisco SPA-1X10GE-V2",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-1XCHOC48/DS3",
+   "name": "Cisco 1-port Channelized OC48/STM-16 SPA",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-1XCHSTM1/OC3-V2",
+   "name": "Cisco SPA-1XCHSTM1/OC3-V2",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-1XOC12-ATM",
+   "name": "Cisco 1-Port OC12c/STM4c ATM Shared Port Adapter",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-1XOC12-POS",
+   "name": "Cisco 1-Port OC-12c/STM-4c POS Shared Port Adapter",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-1XOC3-CE",
+   "name": "Cisco SPA-1XOC3-CE",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-1XOC48-ATM",
+   "name": "Cisco 1-Port OC-48c/STM-16 ATM Shared Port Adapter",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-1XOC48-POS",
+   "name": "Cisco SPA-1XOC48-POS",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-24XT1E1-CE",
+   "name": "Cisco SPA-24XT1E1-CE",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-2X1GE",
+   "name": "Cisco 2-Port Gigabit Ethernet Shared Port Adapter",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-2XCT3",
+   "name": "Cisco SPA-2XCT3",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-2XOC3-ATM",
+   "name": "Cisco 2-Port OC3c/STM1c ATM Shared Port Adapter",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-2XOC3-POS",
+   "name": "Cisco 2-Port OC-3c/STM-1c POS Shared Port Adapter",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-2XT3E3",
+   "name": "Cisco SPA-2XT3E3",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-2XT3E3-CE",
+   "name": "Cisco SPA-2XT3E3-CE",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-4XCT3",
+   "name": "Cisco SPA-4XCT3",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-4XOC3-ATM",
+   "name": "Cisco 4-Port OC3c/STM1c ATM Shared Port Adapter",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-4XT3E3",
+   "name": "Cisco SPA-4XT3E3",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-8XCHTE1",
+   "name": "Cisco SPA-8XCHTE1",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-CHOC12-STM4",
+   "name": "Cisco SPA-CHOC12-STM4",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-CHOC3-STM1",
+   "name": "Cisco SPA-CHOC3-STM1",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-IPSEC-2G",
+   "name": "Cisco 7600 Series/Catalyst 6500 Series IPSec VPN Shared Port Adapter",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-IPSEC-SSC400-1",
+   "name": "Cisco 7600 Series/Catalyst 6500 Series Introductory Bundle: Includes 1 Cisco IPSec VPN SPA and 1 Cisco Services SPA Carrier-400",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SPA-IPSEC-SSC400-2",
+   "name": "Cisco 7600 Series/Catalyst 6500 Series Dual Bundle: Includes 2 Cisco IPSec VPN SPAs and 1 Cisco Services SPA Carrier-400",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
   },
   {
    "sku": "STP28X1MBU",

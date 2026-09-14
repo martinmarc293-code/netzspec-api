@@ -47,17 +47,21 @@
 //                              returns it for the handful of SKU shapes the III.0 reads named (slot dividers, FIPS
 //                              opacity shields, an airflow converter, optic dust caps). It is listed in LEDGER_KINDS
 //                              through NAME_ONLY_KINDS, so it is deliberately NOT in RT_KINDS (no duplicate).
+//   `sp-core` -> `sp-router`   layers review 14 Sep 2026 (item 6; docs/decisions/2026-09-14-sp-router-roles.md). `sp-core`
+//                              named one ROLE of the kind; the kind is the fixed service-provider router, and its role
+//                              (sp-access / sp-edge / sp-core) now comes from the series table (deployRole.ts axis
+//                              `sp-router`). Rule ids (sp-crs, sp-asr9k …) keep their names so the census history lines up.
 export type RouterKind =
-  | "router" | "sp-core" | "chassis" | "appliance" | "bundle"
+  | "router" | "sp-router" | "chassis" | "appliance" | "bundle"
   | "linecard" | "module" | "processor" | "fabric" | "power" | "fan" | "memory" | "flash" | "drive"
   | "power-cord" | "cable" | "antenna" | "accessory" | "mechanical";
 
 /** Every whole device: the kinds a routing specification belongs to. */
-export const RT_DEVICE: readonly RouterKind[] = ["router", "sp-core", "chassis"];
+export const RT_DEVICE: readonly RouterKind[] = ["router", "sp-router", "chassis"];
 /** The devices that carry FIXED PORTS OF THEIR OWN. A modular chassis is sold empty — its ports
  *  arrive on the line cards — so it is out, and the store agrees: 0 of the 150 chassis parts hold
  *  a `ports` fact, against 48 on the other two. Same reasoning for the CPU-side cups below. */
-export const RT_DEVICE_PORTED: readonly RouterKind[] = ["router", "sp-core"];
+export const RT_DEVICE_PORTED: readonly RouterKind[] = ["router", "sp-router"];
 /** THE BRANCH-ROUTER CUPS. Measured 12 Sep 2026 and this is the whole basis of the split: every
  *  single stored `ipsec_throughput` (6), `ipsec_tunnels` (9), `nat_sessions` (9) and `acl_entries`
  *  (9) fact on a device part is a C1100 / C8200 / C8500L / C8xxx-G2, and every sample SKU behind
@@ -94,7 +98,7 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // routers holds 29 live `-SYS` rows and 7 of them are line-card CHASSIS (8608/8804/8808/8812/8818-SYS,
   // ASR-9006/9010-SYS) that a bare `-SYS` rule would turn into sp-core. Scoped, it changes 0 of the 27 N540 parts
   // already in routers (all sp-core by `sp-ncs`) and 0 rows anywhere else in the category.
-  { id: "sp-n540-system", kind: "sp-core", re: /^N540X?-(?:[A-Z0-9]+-)*SYS(?:-[A-Z])?=?$/ },
+  { id: "sp-n540-system", kind: "sp-router", re: /^N540X?-(?:[A-Z0-9]+-)*SYS(?:-[A-Z])?=?$/ },
   // ---- kind-layer (13 Sep 2026): COMPONENTS THE III.0 READS FOUND IN `enterprise` AND `module` ----------------
   // Every rule below names SKUs item 3 (`rt.issue.component`) or item 4 §3/§7e read one by one; each id lists them.
   // They run FIRST because the tokens that would otherwise claim them are the host's (HWIC-, SM-X-, IRMH-, PVDM),
@@ -341,7 +345,7 @@ export const DEVICE_RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   //             U8BL "ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC", ASR5K-12-LABADV/LABBSE-K9 lab chassis
   //   chassis   ASR5000-CHS-SP-K9= "ASR-5000 Spare Chassis" (sold empty)
   { id: "chassis-asr5k", kind: "chassis", re: /^ASR5000-CHS-SP/ },
-  { id: "sp-asr5k", kind: "sp-core", re: /^ASR5000-CHS-?SYS|^ASR55-CHS-SYS|^ASR5K-12-LAB(?:ADV|BSE)/ },
+  { id: "sp-asr5k", kind: "sp-router", re: /^ASR5000-CHS-?SYS|^ASR55-CHS-SYS|^ASR5K-12-LAB(?:ADV|BSE)/ },
   // CRS: the line-card chassis (4/8/16-slot, single- dual- and multi-shelf) and the 24-slot fabric
   // chassis. `CRS-16-140G-UPG` and `CRS-8-LCC-FR-BKT=` are accessories and never reach here.
   { id: "chassis-crs", kind: "chassis",
@@ -365,18 +369,18 @@ export const DEVICE_RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // ISR G2 modular chassis sold without their performance engine.
   { id: "chassis-isrg2", kind: "chassis", re: /^CISCO39[24]5-CHASSIS/ },
   // ---- fixed service-provider / carrier routers -------------------------------------------------
-  { id: "sp-crs", kind: "sp-core", re: /^CRS/ },
-  { id: "sp-asr9k", kind: "sp-core", re: /^(?:ASR-9|A9K|A99|A9KV)/ },
+  { id: "sp-crs", kind: "sp-router", re: /^CRS/ },
+  { id: "sp-asr9k", kind: "sp-router", re: /^(?:ASR-9|A9K|A99|A9KV)/ },
   // `^ASR-9\d\d` was drafted here and DELETED: sp-asr9k's `^ASR-9` already subsumes it, and the
   // sabotage proved it — disabling sp-asr9k left ASR-9901 and ASR-920-12SZ-A unchanged, i.e. two
   // rules were deciding the same parts and neither could be seen to work. What is left is the
   // shapes that carry no dash after ASR9 and the A901 / A920 aggregation PIDs.
-  { id: "sp-asr900", kind: "sp-core", re: /^(?:ASR9\d\d|A90\d-|A92\d-|FLS-A90)/ },
-  { id: "sp-ncs", kind: "sp-core", re: /^(?:NCS|NC5|NC6|N5[2456]0)/ },
+  { id: "sp-asr900", kind: "sp-router", re: /^(?:ASR9\d\d|A90\d-|A92\d-|FLS-A90)/ },
+  { id: "sp-ncs", kind: "sp-router", re: /^(?:NCS|NC5|NC6|N5[2456]0)/ },
   // The 8000 series. Bounded at 8[0-7]\d\d so it cannot reach the C8xxx enterprise PIDs (they lead
   // with a C) or a four-plus-digit token, and the modular 8000s are already taken above.
-  { id: "sp-8000", kind: "sp-core", re: /^8[0-7]\d\d(?![0-9])/ },
-  { id: "sp-legacy", kind: "sp-core", re: /^(?:MWR-|CISCO7[36]|12[0-9]{3})/ },
+  { id: "sp-8000", kind: "sp-router", re: /^8[0-7]\d\d(?![0-9])/ },
+  { id: "sp-legacy", kind: "sp-router", re: /^(?:MWR-|CISCO7[36]|12[0-9]{3})/ },
 ];
 
 /** The kind the axis falls back to. Named rather than repeated, because which kind is the fallback

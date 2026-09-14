@@ -24,7 +24,7 @@ import { placePart } from "./productLine.js";
 
 export type Rule = {
   id: string;
-  kind: "switch" | "ap" | "router" | "phone";
+  kind: "switch" | "ap" | "router" | "sp-router" | "phone";
   re?: RegExp;         // tested against the normalised SKU (upper case, leading bundle prefixes removed)
   raw?: RegExp;        // tested against the upper-cased SKU exactly as stored
   name?: RegExp;       // tested against the part name
@@ -134,6 +134,10 @@ export const ROLE_DOMAINS: Readonly<Record<Rule["kind"], readonly string[]>> = {
   switch: ["smb", "access", "core-agg", "datacenter", "industrial"],
   ap: ["indoor", "outdoor", "industrial", "smb", "mesh-extender"],
   router: ["branch", "smb", "edge", "industrial-iot"],
+  // layers review 14 Sep 2026 (item 6): the service-provider router kind (was `sp-core`) carries its own axis. It has NO
+  // SKU rules in RULES: every role comes from the series table in data/reference/product-lines/cisco-routers.json —
+  // sp-access ASR 901/903/907/920, NCS 520/540/560, NCS 4200; sp-edge ASR 9000, NCS 5500/5700; sp-core CRS, 8000, NCS 6000.
+  "sp-router": ["sp-access", "sp-edge", "sp-core"],
   phone: ["desk", "wireless", "dect", "conference"],
 };
 
@@ -145,7 +149,7 @@ export const ROLE_DOMAINS: Readonly<Record<Rule["kind"], readonly string[]>> = {
 const AXIS: Readonly<Record<string, Rule["kind"]>> = {
   "switches|switch": "switch", "data-center-networking|switch": "switch", "meraki|switch": "switch",
   "wireless|ap": "ap", "meraki|access-point": "ap",
-  "routers|enterprise": "router", "routers|router": "router",
+  "routers|enterprise": "router", "routers|router": "router", "routers|sp-router": "sp-router",
   "collaboration-endpoints|phone": "phone", "unified-communications|phone": "phone",
 };
 
@@ -171,7 +175,7 @@ export function deployRoleRule(axis: Rule["kind"], sku: string, name: string | n
 }
 
 /** The product-line file that holds each axis's SERIES -> ROLE table (data/reference/product-lines/cisco-<category>.json). */
-const SERIES_TABLE_OF_AXIS: Readonly<Record<Rule["kind"], string>> = { switch: "switches", ap: "wireless", router: "routers", phone: "collaboration-endpoints" };
+const SERIES_TABLE_OF_AXIS: Readonly<Record<Rule["kind"], string>> = { switch: "switches", ap: "wireless", router: "routers", "sp-router": "routers", phone: "collaboration-endpoints" };
 
 /**
  * The derived `deploy_role` of one part, or null (no role axis for its kind, a kind issue, or no rule places it).
@@ -194,7 +198,16 @@ export function deployRoleResult(category: string, kind: string | null | undefin
   const placed = placePart("cisco", table, { sku, name });
   const seriesRole = placed && placed.line !== "(not this category)" && "role" in placed ? placed.role ?? null : null;
   if (placed && seriesRole) {
-    if (!ROLE_DOMAINS[axis].includes(seriesRole)) throw new Error(`series "${placed.series}" in ${table} carries role "${seriesRole}", outside the ${axis} domain`);
+    if (!ROLE_DOMAINS[axis].includes(seriesRole)) {
+      // One file holds the series of two axes (routers: `router` and `sp-router`). A role in NO axis of this table is a
+      // mapping-file error and stops the engine. A role of the SIBLING axis is a disagreement between the part's kind and
+      // the series its SKU names (an enterprise-kind row in an SP series): it is reported as a kind issue with no role,
+      // never silently given a role its kind cannot carry.
+      const siblings = (Object.keys(SERIES_TABLE_OF_AXIS) as Rule["kind"][]).filter((a) => SERIES_TABLE_OF_AXIS[a] === table);
+      if (!siblings.some((a) => ROLE_DOMAINS[a].includes(seriesRole)))
+        throw new Error(`series "${placed.series}" in ${table} carries role "${seriesRole}", outside the ${siblings.join("/")} domain`);
+      return { role: null, rule: `series:${placed.series}`, issue: `kind ${kind} in series "${placed.series}", whose role ${seriesRole} belongs to another kind` };
+    }
     return { role: seriesRole, rule: `series:${placed.series}`, issue: null };
   }
   return legacy;

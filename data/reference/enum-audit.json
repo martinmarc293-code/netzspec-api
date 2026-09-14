@@ -41,7 +41,7 @@
     "ui_languages": { "verdict": "all 34 members are languages", "not_values": [] },
     "form_factor_a": { "verdict": "all 19 members are pluggable cage form factors", "not_values": [] },
     "form_factor_b": { "verdict": "all 19 members are pluggable cage form factors", "not_values": [] },
-    "deploy_role": { "verdict": "15 = the union of four per-kind domains (switch 5, ap 5, router 4, phone 4 with smb/industrial shared)", "not_values": [], "detail": "a member is valid only for the kinds whose ROLE_DOMAINS contain it; deployRole.ts refuses a role outside the part's own kind domain" },
+    "deploy_role": { "verdict": "18 = the union of five per-kind domains (switch 5, ap 5, router 4, sp-router 3, phone 4 with smb/industrial shared)", "not_values": [], "detail": "a member is valid only for the kinds whose ROLE_DOMAINS contain it; deployRole.ts refuses a role outside the part's own kind domain" },
     "vendor": { "verdict": "all 13 are brands (column-backed, never a slot)", "not_values": [] }
   }
 }

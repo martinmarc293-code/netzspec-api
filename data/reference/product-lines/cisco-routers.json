@@ -9,6 +9,16 @@
    "belongs": "software"
   },
   {
+   "sku": "^(C8000V|CN-BNG-)",
+   "why": "virtual router / cloud-native BNG software (Catalyst 8000V, cnBNG): not hardware, no series in the hardware layering (layers review 14 Sep 2026, item 5)",
+   "belongs": "software"
+  },
+  {
+   "sku": "^15454-M-CBL-[LR]-JPN$",
+   "why": "ONS 15454 / NCS 2000 MSTP chassis AC power cable (Japan), filed under the NCS 5500 label (layers review 14 Sep 2026, item 2)",
+   "belongs": "optical-networking"
+  },
+  {
    "sku": "^AIR-AP[0-9]{4}.*[.]TAR$",
    "why": "an access point software image (.tar) filed under the ISR 1100 label; not router hardware",
    "belongs": "wireless"
@@ -177,15 +187,6 @@
      ]
     },
     {
-     "series": "Catalyst 8000V",
-     "sku": [
-      "^C8000V"
-     ],
-     "labels": [
-      "Catalyst 8000V Edge Software"
-     ]
-    },
-    {
      "series": "Catalyst 8000 Edge shared parts",
      "name": [
       "Catalyst 8000 Edge"
@@ -200,7 +201,7 @@
      "series": "ISR 1100",
      "role": "branch",
      "sku": [
-      "^C11[0-9]{2}",
+      "^C11[0-9]{2}(?!TG)",
       "^ISR11"
      ],
      "labels": [
@@ -321,9 +322,13 @@
    "series": [
     {
      "series": "ASR 901",
+     "role": "sp-access",
+     "note": "ASR-9010 chassis used to land here: the patterns had no digit fence (layers review 14 Sep 2026, item 1)",
      "sku": [
-      "^A901",
-      "^ASR-?901"
+      "^A901(?![0-9])",
+      "^ASR-?901(?![0-9])",
+      "^FLS-A901",
+      "^MWR-"
      ],
      "labels": [
       "ASR 901",
@@ -332,6 +337,7 @@
     },
     {
      "series": "ASR 920",
+     "role": "sp-access",
      "sku": [
       "^A920",
       "^ASR-?920"
@@ -342,10 +348,12 @@
     },
     {
      "series": "ASR 900",
+     "role": "sp-access",
      "sku": [
       "^A90[0-9]-",
-      "^ASR-?90[237]",
-      "^A900"
+      "^ASR-?90[237](?![0-9])",
+      "^A900",
+      "^A9XX-"
      ],
      "labels": [
       "ASR 900"
@@ -365,6 +373,7 @@
     },
     {
      "series": "ASR 5000 and 5500",
+     "note": "PENDING ARRIVAL: 115 hardware rows sit in wireless today (113 carry a move plan to routers); this series is empty until the move runs. Mobile packet core: no SP router role assigned.",
      "sku": [
       "^ASR5K",
       "^ASR-?5[05]00",
@@ -373,9 +382,10 @@
     },
     {
      "series": "ASR 9000",
+     "role": "sp-edge",
      "sku": [
       "^ASR-?9[0-9]{3}",
-      "^A9K-",
+      "^A9KV?-",
       "^A99-",
       "^A9903"
      ],
@@ -401,7 +411,15 @@
      "sku": [
       "^(CISCO)?76[0-9]{2}(-|S|$)",
       "^7600-",
-      "^76-"
+      "^76-",
+      "^RSP720"
+     ]
+    },
+    {
+     "series": "Cisco 7300",
+     "note": "one live row (CISCO7301/2+VPNK9, kind sp-router by the sp-legacy rule); no role assigned — the review's SP role table does not name the 7300 (layers review 14 Sep 2026, item 8)",
+     "sku": [
+      "^(CISCO)?730[0-9](?![0-9])"
      ]
     }
    ]
@@ -411,6 +429,7 @@
    "series": [
     {
      "series": "NCS 520, 540 and 560",
+     "role": "sp-access",
      "sku": [
       "^N5[246]0",
       "^NCS-?5[246]0"
@@ -422,15 +441,18 @@
     },
     {
      "series": "NCS 4200",
+     "role": "sp-access",
      "sku": [
       "^NCS-?42"
      ]
     },
     {
      "series": "NCS 5500",
+     "role": "sp-edge",
      "sku": [
       "^NCS-?55",
-      "^NC-?55-"
+      "^NC-?55-",
+      "^NC55A[12]-"
      ],
      "labels": [
       "Network Convergence System 5500 Series",
@@ -439,6 +461,7 @@
     },
     {
      "series": "NCS 5700",
+     "role": "sp-edge",
      "sku": [
       "^NCS-?57",
       "^NC-?57-"
@@ -449,6 +472,7 @@
     },
     {
      "series": "NCS 5000",
+     "note": "no role assigned: the review's SP role table does not name the NCS 5000 (5001/5002/5011) — open for the reviewer",
      "sku": [
       "^NCS-?50[0-9]{2}"
      ],
@@ -458,6 +482,7 @@
     },
     {
      "series": "NCS 6000",
+     "role": "sp-core",
      "sku": [
       "^NC6-",
       "^NCS-?6",
@@ -474,6 +499,7 @@
    "series": [
     {
      "series": "Cisco 8000",
+     "role": "sp-core",
      "sku": [
       "^8[0-9]{3}(-|$)",
       "^88-",
@@ -491,6 +517,7 @@
    "series": [
     {
      "series": "CRS",
+     "role": "sp-core",
      "sku": [
       "^CRS",
       "^1-100GE-DWDM",
@@ -686,25 +713,11 @@
     },
     {
      "series": "Terminal Services Gateways",
+     "sku": [
+      "^C1100TGX?-"
+     ],
      "labels": [
       "Terminal Services Gateways"
-     ]
-    }
-   ]
-  },
-  {
-   "line": "Service Provider Software Platforms",
-   "series": [
-    {
-     "series": "Cloud Native BNG",
-     "labels": [
-      "Cloud Native Broadband Network Gateway (BNG)"
-     ]
-    },
-    {
-     "series": "XE SD-WAN",
-     "labels": [
-      "XE SD-WAN"
      ]
     }
    ]
@@ -717,7 +730,8 @@
      "sku": [
       "^NIM-",
       "^C-NIM-"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     },
     {
      "series": "SM-X and SM Service Modules",
@@ -726,63 +740,73 @@
       "^SM-(?!X)",
       "^C-SM-",
       "^UCS-E"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     },
     {
      "series": "ISM / EM Internal Service Modules",
      "sku": [
       "^ISM-",
       "^EM-"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     },
     {
      "series": "EHWIC / HWIC / VWIC / WIC",
      "sku": [
       "^E?HWIC",
       "^V?WIC"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     },
     {
      "series": "NM / NME Network Modules",
      "sku": [
       "^NME?-"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     },
     {
      "series": "PVDM Voice DSP Modules",
      "sku": [
       "^PVDM"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     },
     {
      "series": "VIC Voice Interface Cards",
      "sku": [
       "^VIC"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     },
     {
      "series": "SPA Shared Port Adapters",
      "sku": [
       "^SPA-"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     },
     {
      "series": "EPA Ethernet Port Adapters",
      "sku": [
       "^EPA-"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     },
     {
      "series": "GRWIC Grid Router Interface Cards",
      "sku": [
       "^GRWIC"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     },
     {
      "series": "Pluggable Interface Modules (LTE / 5G)",
      "sku": [
       "^P-(LTE|5G|LTEA|LTEAP)"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     },
     {
      "series": "IR Expansion and Pluggable Modules",
@@ -790,7 +814,8 @@
       "^IRMH?-",
       "^IRM-",
       "^WP-"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     },
     {
      "series": "Cellular Cards (MC / PCEX / WIM)",
@@ -798,7 +823,8 @@
       "^MC7[0-9]{3}",
       "^PCEX",
       "^WIM-"
-     ]
+     ],
+     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
     }
    ]
   }
