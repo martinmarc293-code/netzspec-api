@@ -49,7 +49,7 @@ import { isPartNumber } from "./partNumber.js";
 // arguments
 // =================================================================================================
 
-export const CHECKS = ["case-duplicates", "fabricated-pids", "foreign-pids", "value-pids", "cross-brand-family", "hw-variants"] as const;
+export const CHECKS = ["case-duplicates", "whitespace-duplicates", "fabricated-pids", "foreign-pids", "value-pids", "cross-brand-family", "hw-variants"] as const;
 export type CheckName = (typeof CHECKS)[number];
 /** report only: these checks have no --commit effect, and asking for one is refused rather than ignored */
 export const REPORT_ONLY: ReadonlySet<string> = new Set<CheckName>(["cross-brand-family"]);
@@ -129,6 +129,34 @@ export function decideCaseGroup(g: CaseGroup): CaseDecision {
   }
   return { ok: true, survivor, losers: g.rows.filter((r) => r.id !== survivor.id), rule };
 }
+
+/**
+ * Which row of a WHITESPACE group survives (layers review round 2, A.5, 14 Sep 2026).
+ *
+ * A vendor PID carries no whitespace — not one of the 69,487 in the enumerated Cisco universe — so the row spelled WITHOUT it is
+ * the vendor's and `C9200L-48P- 4G` is an enumeration's typing of `C9200L-48P-4G`. The fold is case- and whitespace-insensitive
+ * (`sku_ws_fold`), which is also why a group can hold a case twin; the case rule then decides among the unspaced rows. Refused by
+ * name, never guessed: no unspaced row, two unspaced rows the case rule cannot separate, or an operator-reviewed (tier 0) SPACED
+ * row — a person looked at that spelling, and retiring it is the operator's call.
+ */
+export function decideWhitespaceGroup(g: CaseGroup): CaseDecision {
+  if (g.rows.length < 2) return { ok: false, reason: "not_a_group", rows: g.rows };
+  const spaced = (r: PartFacts) => /\s/.test(r.sku);
+  if (g.rows.some((r) => spaced(r) && r.review_tier === 0)) return { ok: false, reason: "operator_reviewed_spaced_row", rows: g.rows };
+  const unspaced = g.rows.filter((r) => !spaced(r));
+  if (unspaced.length === 0) return { ok: false, reason: "no_unspaced_row", rows: g.rows };
+  let survivor: PartFacts, rule: string;
+  if (unspaced.length === 1) { survivor = unspaced[0]; rule = "no_whitespace"; }
+  else {
+    const d = decideCaseGroup({ ...g, rows: unspaced });
+    if (!d.ok) return { ok: false, reason: `unspaced_rows_undecided:${d.reason}`, rows: g.rows };
+    survivor = d.survivor; rule = `no_whitespace+${d.rule}`;
+  }
+  return { ok: true, survivor, losers: g.rows.filter((r) => r.id !== survivor.id), rule };
+}
+
+/** The identity fold of 0020: lower-case, every whitespace character removed. POSIX class, so no backslash reaches the SQL. */
+export const SKU_WS_FOLD_SQL = (col: string) => `lower(regexp_replace(${col}, '[[:space:]]', '', 'g'))`;
 
 /**
  * A Cisco PID never begins with the digit `0`. MEASURED, not asserted: of the 69,487 PIDs in
@@ -597,6 +625,29 @@ export async function mergePartInto(
 
 const vendorFilter = (v: string | null) => (v ? "AND ve.slug = $1" : "");
 
+/** Live groups that fold together only once whitespace is removed (at least one member carries whitespace). */
+export async function readWhitespaceGroups(vendor: string | null, db: Queryable): Promise<CaseGroup[]> {
+  const fold = SKU_WS_FOLD_SQL("p.sku");
+  const r = await db.query<{ vendor: string; fold: string; id: number; sku: string; facts: number; review_tier: number | null }>(
+    `WITH g AS (
+       SELECT p.vendor_id, ${fold} AS fold FROM parts p WHERE p.retired_at IS NULL
+        GROUP BY 1, 2 HAVING count(*) > 1 AND bool_or(p.sku ~ '[[:space:]]'))
+     SELECT ve.slug AS vendor, g.fold, p.id, p.sku, p.review_tier,
+            (SELECT count(*)::int FROM facts f WHERE f.part_id = p.id AND f.superseded_by IS NULL) AS facts
+       FROM parts p JOIN g ON g.vendor_id = p.vendor_id AND g.fold = ${fold}
+       JOIN vendors ve ON ve.id = p.vendor_id
+      WHERE p.retired_at IS NULL ${vendorFilter(vendor)}
+      ORDER BY ve.slug, g.fold, p.sku`, vendor ? [vendor] : []);
+  const byKey = new Map<string, CaseGroup>();
+  for (const row of r.rows) {
+    const k = `${row.vendor} ${row.fold}`;
+    const g = byKey.get(k) ?? { vendor: row.vendor, fold: row.fold, rows: [] };
+    g.rows.push({ id: row.id, sku: row.sku, vendor: row.vendor, facts: row.facts, review_tier: row.review_tier });
+    byKey.set(k, g);
+  }
+  return [...byKey.values()];
+}
+
 export async function readCaseGroups(vendor: string | null, db: Queryable): Promise<CaseGroup[]> {
   const r = await db.query<{ vendor: string; fold: string; id: number; sku: string; facts: number; review_tier: number | null }>(
     `WITH g AS (
@@ -818,6 +869,45 @@ export async function checkCaseDuplicates(a: Args, db: Queryable): Promise<{ res
   result.notes.push("run `npm run migrate` afterwards: 0010 adds the unique index that stops the duplicates coming back");
   result.notes.push("completeness rows of the merged losers are dropped — run `ingest recompute-completeness` after this");
   return { result, work };
+}
+
+/**
+ * The dry run of A.5, and what the commit merges. It counts the dependents the merge will move per table (facts current on the
+ * spaced rows, relations, conflicts, doc links, images) so the run can compare PREDICTED against ACTUAL, as the reviewer's approval
+ * requires; a commit whose actual counts differ from the prediction printed here is reported, never silently accepted.
+ */
+export async function checkWhitespaceDuplicates(a: Args, db: Queryable): Promise<{ result: CheckResult; work: { loser: number; survivor: number; rule: string }[]; predicted: Record<string, number> }> {
+  const groups = await readWhitespaceGroups(a.vendor, db);
+  const result: CheckResult = { check: "whitespace-duplicates", scanned: groups.length, counts: {}, refusals: {}, examples: [], listing: [], notes: [] };
+  const work: { loser: number; survivor: number; rule: string }[] = [];
+  for (const g of groups) {
+    const d = decideWhitespaceGroup(g);
+    if (!d.ok) {
+      inc(result.refusals, d.reason);
+      result.examples.push({ subject: `${g.vendor} ${g.fold}`, decision: `REFUSED ${d.reason}`, detail: { skus: g.rows.map((r) => r.sku) } });
+      continue;
+    }
+    inc(result.counts, `survivor:${d.rule}`);
+    for (const l of d.losers) { work.push({ loser: l.id, survivor: d.survivor.id, rule: d.rule }); inc(result.counts, "merge"); }
+    result.listing.push({ subject: `${g.vendor} ${d.survivor.sku}`, decision: `keep ${d.survivor.sku}, retire ${d.losers.map((l) => JSON.stringify(l.sku)).join(", ")}`,
+      detail: { survivor_facts: d.survivor.facts, loser_facts: d.losers.map((l) => l.facts) } });
+  }
+  const losers = work.map((w) => w.loser);
+  const predicted: Record<string, number> = { groups: groups.length, merges: work.length };
+  if (losers.length) {
+    const q = async (sql: string) => Number((await db.query<{ n: string }>(sql, [losers])).rows[0].n);
+    predicted.loser_current_facts = await q("SELECT count(*)::text AS n FROM facts WHERE part_id = ANY($1) AND superseded_by IS NULL");
+    predicted.loser_history_facts = await q("SELECT count(*)::text AS n FROM facts WHERE part_id = ANY($1) AND superseded_by IS NOT NULL");
+    predicted.loser_relations = await q("SELECT count(*)::text AS n FROM relations WHERE from_part_id = ANY($1) OR to_part_id = ANY($1)");
+    predicted.loser_conflicts = await q("SELECT count(*)::text AS n FROM conflicts WHERE part_id = ANY($1)");
+    predicted.loser_doc_links = await q("SELECT count(*)::text AS n FROM doc_parts WHERE part_id = ANY($1)");
+    predicted.loser_images = await q("SELECT count(*)::text AS n FROM images WHERE part_id = ANY($1)");
+    predicted.loser_lifecycle = await q("SELECT count(*)::text AS n FROM lifecycle WHERE part_id = ANY($1)");
+  }
+  result.notes.push(`predicted: ${JSON.stringify(predicted)}`);
+  result.notes.push("a merged pair leaves the spaced row RETIRED, not deleted; its spelling becomes a whitespace_variant alias on the survivor");
+  result.notes.push("after the commit: npm run migrate applies 0020 (the whitespace-folded unique index, guarded), then ingest recompute-completeness");
+  return { result, work, predicted };
 }
 
 export async function checkFabricatedPids(a: Args, db: Queryable): Promise<{ result: CheckResult; work: { loser: number; survivor: number; rule: string }[] }> {
@@ -1042,6 +1132,18 @@ export async function main(argv: string[]): Promise<void> {
       if (a.commit && work.length) {
         const out = await commitMerges("hygiene-case-duplicates", "case_duplicate", "case_variant", work, r, { vendor: a.vendor });
         runId = out.runId; stats = out.stats;
+      }
+    } else if (check === "whitespace-duplicates") {
+      const { result: r, work, predicted } = await checkWhitespaceDuplicates(a, pool);
+      result = r;
+      if (a.commit && work.length) {
+        const out = await commitMerges("hygiene-whitespace-duplicates", "whitespace_duplicate", "whitespace_variant", work, r,
+          { vendor: a.vendor, predicted, migrations: { before: "0019_parts_whitespace_fold", after: "0020_parts_whitespace_unique" } });
+        runId = out.runId; stats = out.stats;
+        // the reviewer's post-condition, read back from a NEW query rather than trusted from the counters
+        const left = await readWhitespaceGroups(a.vendor, pool);
+        stats = { ...stats, predicted, twins_after: left.length };
+        if (left.length) console.error(`whitespace-duplicates: ${left.length} group(s) still live after the commit — ${left.slice(0, 5).map((g) => g.rows.map((x) => x.sku).join(" / ")).join("; ")}`);
       }
     } else if (check === "fabricated-pids") {
       const { result: r, work } = await checkFabricatedPids(a, pool);

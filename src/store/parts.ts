@@ -103,16 +103,19 @@ export async function findPart(vendorSlug: string, sku: string, db: Queryable = 
     [vendorSlug, sku],
   );
   if (exact.rows[0]) return exact.rows[0].retired_at ? await survivorOf(exact.rows[0], db) : exact.rows[0];
+  // the case-and-whitespace fold of migration 0019 (layers review round 2, A.5): `c9200l-48p- 4g` finds `C9200L-48P-4G`
   const ci = await db.query<PartRow>(
-    `SELECT ${PART_COLUMNS} FROM parts WHERE vendor_id = (SELECT id FROM vendors WHERE slug = $1) AND sku_norm = upper($2)
+    `SELECT ${PART_COLUMNS} FROM parts WHERE vendor_id = (SELECT id FROM vendors WHERE slug = $1)
+        AND lower(regexp_replace(sku, '[[:space:]]', '', 'g')) = lower(regexp_replace($2, '[[:space:]]', '', 'g'))
         AND retired_at IS NULL
-      ORDER BY sku LIMIT 1`,
+      ORDER BY (sku ~ '[[:space:]]'), sku LIMIT 1`,
     [vendorSlug, sku],
   );
   if (ci.rows[0]) return ci.rows[0];
   // nothing live folds to it: the only rows left are retired ones, and one of them may point home
   const dead = await db.query<PartRow>(
-    `SELECT ${PART_COLUMNS} FROM parts WHERE vendor_id = (SELECT id FROM vendors WHERE slug = $1) AND sku_norm = upper($2)
+    `SELECT ${PART_COLUMNS} FROM parts WHERE vendor_id = (SELECT id FROM vendors WHERE slug = $1)
+        AND lower(regexp_replace(sku, '[[:space:]]', '', 'g')) = lower(regexp_replace($2, '[[:space:]]', '', 'g'))
         AND retired_into IS NOT NULL
       ORDER BY sku LIMIT 1`,
     [vendorSlug, sku],
@@ -269,10 +272,13 @@ export async function upsertPart(
   type Resolved = { id: number; sku: string; slug: string; retired_at: Date | null; retired_into: number | null; retired_reason: string | null };
   // live before retired, the exact spelling before a case neighbour, then `sku` so the choice is
   // deterministic while duplicates still exist (they do, until the hygiene merge has run)
+  // layers review round 2 (A.5, 14 Sep 2026): the identity fold is case AND whitespace — `C9200L-48P- 4G` lands on `C9200L-48P-4G`
+  // instead of creating the twin migration 0020's unique index would refuse. The expression matches 0019's index exactly, so the
+  // OR is answered from indexes; a POSIX class keeps any backslash out of the SQL.
   const found = await db.query<Resolved>(
     `SELECT id, sku, slug, retired_at, retired_into, retired_reason FROM parts
-      WHERE vendor_id = $1 AND (sku = $2 OR sku_norm = upper($2))
-      ORDER BY (retired_at IS NOT NULL), (sku <> $2), sku LIMIT 1`,
+      WHERE vendor_id = $1 AND (sku = $2 OR lower(regexp_replace(sku, '[[:space:]]', '', 'g')) = lower(regexp_replace($2, '[[:space:]]', '', 'g')))
+      ORDER BY (retired_at IS NOT NULL), (sku <> $2), (sku ~ '[[:space:]]'), sku LIMIT 1`,
     [vendorId, input.sku]);
   let existing: Resolved | null = found.rows[0] ?? null;
   if (existing?.retired_at) {
@@ -346,10 +352,12 @@ export async function upsertPart(
  *                 orderable PIDs and are never merged; the link is what lets apply-acquired reach
  *                 either from either — 179 meraki entries matched 0 parts because the pages say
  *                 `MR44` and the catalogue holds `MR44-HW`.
- * The DB CHECK on part_aliases.kind (migration 0009) is the enforcement; this list is the code's
+ *   whitespace_variant  the exact spelling of a merged whitespace duplicate (`C9200L-48P- 4G`), for the same reason
+ *                 as case_variant (layers review round 2, A.5; migration 0019 adds it to the CHECK).
+ * The DB CHECK on part_aliases.kind (migrations 0009, 0019) is the enforcement; this list is the code's
  * copy of it and tests/db/hygiene.test.ts compares the two so they cannot drift.
  */
-export const HYGIENE_ALIAS_KINDS = ["case_variant", "hw_variant"] as const;
+export const HYGIENE_ALIAS_KINDS = ["case_variant", "hw_variant", "whitespace_variant"] as const;
 export type HygieneAliasKind = (typeof HYGIENE_ALIAS_KINDS)[number];
 
 /**
