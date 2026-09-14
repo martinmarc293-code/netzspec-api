@@ -774,7 +774,7 @@
       "^NIM-",
       "^C-NIM-"
      ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
     },
     {
      "series": "SM-X and SM Service Modules",
@@ -784,7 +784,7 @@
       "^C-SM-",
       "^UCS-E"
      ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
     },
     {
      "series": "ISM / EM Internal Service Modules",
@@ -792,7 +792,7 @@
       "^ISM-",
       "^EM-"
      ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
     },
     {
      "series": "EHWIC / HWIC / VWIC / WIC",
@@ -800,49 +800,49 @@
       "^E?HWIC",
       "^V?WIC"
      ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
     },
     {
      "series": "NM / NME Network Modules",
      "sku": [
       "^NME?-"
      ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
     },
     {
      "series": "PVDM Voice DSP Modules",
      "sku": [
       "^PVDM"
      ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
     },
     {
      "series": "VIC Voice Interface Cards",
      "sku": [
       "^VIC"
      ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
     },
     {
      "series": "SPA Shared Port Adapters",
      "sku": [
       "^SPA-"
      ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
     },
     {
      "series": "Pluggable Interface Modules (LTE / 5G)",
      "sku": [
       "^P-(LTE|5G|LTEA|LTEAP)"
      ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
     },
     {
      "series": "WP pluggable modules (IoT routers)",
      "sku": [
       "^WP-"
      ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
     },
     {
      "series": "Cellular Cards (MC / PCEX / WIM)",
@@ -851,7 +851,7 @@
       "^PCEX",
       "^WIM-"
      ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
     }
    ],
    "no_family_reason": "move-out series: every row carries a plan to interfaces-modules (A.3 rule 1)"

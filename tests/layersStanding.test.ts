@@ -17,6 +17,9 @@ const PAIR_EXCEPTIONS: Record<string, string> = {
   "switches|N5K-C5696Q-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan; its base is the live 'Nexus 5696Q Chassis with license and SW image'",
 };
 
+/** rows layered in a series whose every row must carry a move plan */
+const moveOutStrays = (rows: LayerRow[], moveOut: ReadonlySet<string>) => rows.filter((r) => r.bucket === "layered" && moveOut.has(r.series));
+
 let passed = 0; const misses: string[] = [];
 const check = (name: string, ok: boolean, detail = "") => { if (ok) passed++; else misses.push(`    MISS ${name}${detail ? " — " + detail : ""}`); };
 
@@ -38,6 +41,15 @@ for (const cat of REVIEWED) {
   const ntc = rows.filter((r) => r.bucket === "not_this_category"), unplaced = rows.filter((r) => r.bucket === "unplaced");
   check(`plan coverage ${cat}: every not-this-category row carries a plan (0 left in the bucket)`, ntc.length === 0, ntc.slice(0, 8).map((r) => r.sku).join(", "));
   check(`plan coverage ${cat}: 0 unplaced rows`, unplaced.length === 0, unplaced.slice(0, 8).map((r) => r.sku).join(", "));
+
+  // a move-out series (its note: "every row carries a move plan") holds no layered row: the rule-shadowing scan skips such a
+  // series, so a row landing there without a plan would otherwise pass unseen (after run #1068 the routers ones hold 0)
+  {
+    const { loadLineFile } = await import("../src/core/productLine.js");
+    const moveOut = new Set(loadLineFile("cisco", cat)!.file.lines.flatMap((l) => l.series.filter((s) => /every row carries a move plan/.test(s.note ?? "")).map((s) => s.series)));
+    const stray = moveOutStrays(rows, moveOut);
+    check(`move-out series ${cat}: 0 layered rows in the ${moveOut.size} series whose every row must carry a move plan`, stray.length === 0, stray.slice(0, 6).map((r) => `${r.sku} ${r.series}`).join("; "));
+  }
 
   const twins = twinGroups(rows);
   check(`twins ${cat}: no two rows fold (case, whitespace) to one SKU`, twins.length === 0, twins.slice(0, 5).map((g) => g.join(" / ")).join("; "));
@@ -117,6 +129,9 @@ for (const cat of REVIEWED) {
   check("SABOTAGE a Meraki MS row is seen as claimed by the meraki mapping (the leakage scan is live)", planted.some((g) => g.claimed_by === "meraki"), JSON.stringify(planted));
   const noRow = classifyRules(ruleUse("switches", [], []));
   check("SABOTAGE with no rows every SKU rule is dead (the dead-rule count is live)", noRow.dead.length > 100, `${noRow.dead.length}`);
+
+  const strays = moveOutStrays([row("NIM-2T", { series: "NIM (Network Interface Modules)" }), row("NIM-4T", { series: "NIM (Network Interface Modules)", bucket: "pending_plan" })], new Set(["NIM (Network Interface Modules)"]));
+  check("SABOTAGE move-out: a layered row in a move-out series is a stray, a pending-plan row there is not", strays.length === 1 && strays[0].sku === "NIM-2T", JSON.stringify(strays));
 
   // the label check on built rows: a bare label in a series, and a moved row left in its series, are each refused
   const lv = labelViolations([

@@ -154,3 +154,8 @@ Kept by a compatible relation: 0 in both categories (the relations exist, none l
 Sabotage: 10 checks (planted built rows, and labelEvidence cases each for its reason); disabling labelEvidence turns 11 checks red.
 
 **Families (reviewer item 3)** — `2026-09-14-family-layer.md`, "Answered after the re-audit".
+
+**Runs (operator yes, 14 Sep 2026)** — each verified from a new connection:
+- #1067 name-spare-wording: 81 of 396 borrowed names stripped (switches 59, transceiver 22), 0 refused, 0 still carrying "spare" or "="; name_source "twin: <sku>, spare wording removed". Hand-checked mid-name forms: ", Spare,", "(Spare. …)", " spare;", " Spare (…)", a leading "^". 13 names keep Cisco's "(no PS/Fans)" wording — for the reviewer: it may describe the spare's packaging, not the base.
+- #1068 move-category routers -> interfaces-modules 370, #1069 switches -> interfaces-modules 24 (`scripts/move-category.mts --plans`; the 394 plans carry run_id 1068 / 1069). The routers Router Interface Modules series keep their rules to catch a later arrival (0 rows; a standing check fails if one lands there without a plan).
+- #1070–#1072 recompute-completeness interfaces-modules (1,068 written), routers (3,690), switches (0 — its 24 moved rows are scored under interfaces-modules).
