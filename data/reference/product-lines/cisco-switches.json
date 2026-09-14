@@ -708,7 +708,8 @@
       "^(C1-)?N9K-C93",
       "^N9K-93[0-9]",
       "^N9300",
-      "^N93[0-9]"
+      "^N93[0-9]",
+      "^(C1-)?N9K-M(6PQ|4PC|12PQ)"
      ],
      "labels": [
       "N9300",
@@ -750,7 +751,8 @@
      "role": "datacenter",
      "sku": [
       "^(C1-)?N9K-C98",
-      "^N98"
+      "^N98",
+      "^(C1-)?N9K-X98"
      ],
      "labels": [
       "Nexus 9800"
@@ -962,14 +964,15 @@
      "series": "CGS 2500 Connected Grid",
      "role": "industrial",
      "sku": [
-      "^CGS-?25"
+      "^CGS-?25",
+      "^MEM-SD-(1GB|COVER)-RGD"
      ],
      "labels": [
       "CGS 2500 Connected Grid"
      ]
     }
    ],
-   "no_family_reason": "Cisco names each Industrial Ethernet model line (IE 1000 … IE 9300) and the CGS 2500 as its own series; no family name groups them"
+   "no_family_reason": "Cisco names each Industrial Ethernet model line (IE 1000 … IE 9300) and the CGS 2500 as its own series; checked for 'IE3x00' as a family: 0 document titles in the index contain it (14 Sep 2026)"
   },
   {
    "line": "Embedded Services",
@@ -1315,6 +1318,31 @@
     }
    ],
    "no_family_reason": "Cisco names ME 3400, ME 3600X, ME 3800X and ME 4900 as separate series"
+  },
+  {
+   "line": "Content Services Switches (legacy)",
+   "series": [
+    {
+     "series": "CSS 11500",
+     "sku": [
+      "^CSS5-"
+     ],
+     "note": "CSS 11500 Series Content Services Switch fibre cables (CSS5-CABLX-LCSC= \"…10m single-mode fiber, LX LC-to-SC\"), which a \"3750\" label had filed under Catalyst 3750 (re-audit at 2f3d17a (14 Sep 2026)); the CSS appliances themselves are not in the catalogue"
+    }
+   ]
+  },
+  {
+   "line": "Silicon One switches (open software)",
+   "series": [
+    {
+     "series": "CQ211L01",
+     "role": "datacenter",
+     "sku": [
+      "^CQ211L01"
+     ],
+     "note": "CQ211L01-48H8FH \"Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability\" (and -O \"Open SW\") with its accessory kit: arriving from routers, where no switches series could place them (re-audit at 2f3d17a (14 Sep 2026))"
+    }
+   ]
   }
  ],
  "shared_accessories": [

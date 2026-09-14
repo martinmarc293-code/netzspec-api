@@ -6,14 +6,14 @@
    "claimed_by": "wireless",
    "series": "Cables",
    "rule": "sku ^CAB-",
-   "rows": 232,
+   "rows": 231,
    "examples": [
     "CAB-04X-07",
     "CAB-04X-07=",
     "CAB-16AWG-AC"
    ],
    "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round"
+   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round (232 -> 231 on 14 Sep 2026: CAB-CAT5E/6E is a datasheet cell, class non_product plan)"
   },
   {
    "category": "switches",
@@ -112,20 +112,6 @@
    ],
    "status": "claimant-rule-too-broad",
    "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the transceiver round"
-  },
-  {
-   "category": "switches",
-   "claimed_by": "interfaces-modules",
-   "series": "Fiber and M12 cables (CB-)",
-   "rule": "sku ^CB-",
-   "rows": 3,
-   "examples": [
-    "CB-LC-LC-SMF",
-    "CB-M12-4LC-SMF",
-    "CB-M12-M12-SMF"
-   ],
-   "status": "pending-round",
-   "reason": "CB- fibre patch and MPO cables filed under Nexus 9000 shared parts: generic optical cabling (interfaces-modules) or Nexus accessories — decided in the transceiver + interfaces-modules round"
   },
   {
    "category": "switches",

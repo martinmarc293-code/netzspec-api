@@ -102,3 +102,55 @@ Rule shadowing fixed for switches (8 dead + 11 redundant rules removed; `^C1-WS3
 so 21 Catalyst 3650 rows had been placed by label only) and routers (4 dead + 4 redundant removed; ISR 1900/2800/2900/3800/3900
 fenced to their model numbers — the family digits claimed Catalyst 2960-XR and 3850 rows; NCS 520/540/560 fenced; Cisco 7600
 fenced off 7600-SIP/SSC-400; switches RPS off the ISR RPS adapters). Series changes from the cleanup: 0.
+
+## Round 2c — final open items after the re-audit at 2f3d17a (14 Sep 2026, night)
+
+**Fixes (reviewer item 1)**
+- MEM-C6K* / MEM-SAMI*: the 15 switch rows were already right (12 CPTFL / INTFL flash, DRV drive); the DRAM ones
+  (MEM-C6K-APP / VSE, MEM-C6KNAM, MEM-SAMI) arrive as memory with the service-module plans of round 2b.
+- N9K-X98* → Nexus 9800 (`^(C1-)?N9K-X98`, N9K-X9836DM-A "N9800 36-port 400G line card"); N9K-M6PQ / M4PC / M12PQ uplink modules →
+  Nexus 9300; MEM-SD-1GB-RGD(=) / MEM-SD-COVER-RGD= → CGS 2500 ("SD Flash for Cisco CGS2520"); CLK-7600= → routers Cisco 7600 (plan +
+  `^CLK-7600`); CQ211L01-48H8FH(-O)(=) and CQ211L01-ACC-KIT(=) → switches, new line "Silicon One switches (open software)", series
+  CQ211L01, role datacenter (no switches series could place them).
+- CSS5-CAB* (decided): CSS 11500 Content Services Switch fibre cables → new line "Content Services Switches (legacy)", series
+  CSS 11500 (3 rows). A "3750" label had filed them under Catalyst 3750; the CSS appliances are not in the catalogue.
+- Datasheet cells → class non_product: CAT5E, CAT6A, CAB-CAT5E/6E, CB-LC-LC-SMF, CB-M12-4LC-SMF, CB-M12-M12-SMF (6; CAB-CAT5E/6E found
+  beside the reviewer's list). Third-party → non_product: CP24BLY, CPP24FMWBLY, FQ9N-12-10U, FQMAP66BL, QPP24BL (5; QPP24BL found beside
+  the list). The Panduit rows in interfaces-modules (CMPH1, FQ3ZO-08-10B, FQMAP46CG, FQMAP66CG, XG74222BS0001) wait for that round.
+- **Promo / migration bundles, one rule (decided):** a region-restricted, time-limited migration ordering PID ("<region> Only -
+  Bundle <model> for N months Migration") is class non_product "promo-bundle"; its hardware is the base PID, which stays.
+  Applied to A1C899G-LTE-GA-K9, C881G-4G-GA-BUN-K9, FRC887VA-K9. A PID whose name merely says "Promo" but orders distinct hardware
+  (MEM4300-4GU8G-P) is not covered by the rule and stays a part.
+- Cross-claims record: switches / wireless `^CAB-` 232 → 231 (CAB-CAT5E/6E); the interfaces-modules `^CB-` group is gone (all 3 rows
+  now non_product plans) and its entry removed — 29 groups.
+
+**The label check (reviewer item 2)** — `src/core/labelEvidence.ts`, applied by `scripts/build-layers.mts` to every category whose
+families are assigned (switches, routers), checked in `tests/layersStanding.test.ts` (`labelViolations`, `labelEvidenceDrift`).
+A row placed only by a stored series label keeps its series when its SKU carries the series' platform token, its name names the
+series / a platform number / an alias / a distinctive series word, it carries its family's token, or a `compatible` relation links
+it to a part the SKU or name rules placed in the series — and nothing names another series of the line as specifically (a part
+naming two series equally is shared). Otherwise it goes to its line's shared parts, `placed_by` "label-unsupported (…; was <series>):
+<why>", listed on the page. X and X= share one verdict. Tokens: "N000" = the Nxxx models (ISR 4000 = 4221 … 4461), "NN00" = NNxx,
+"N00" = Nxx; wattages, memory sizes, speed lists and DIMM grades are not platforms.
+
+| over | label-placed | fails | kept: sku-token / name / family / compatible |
+|---|---|---|---|
+| the reviewer's rows at 2f3d17a — switches | 398 | 225 | 27 / 145 / 1 / 0 |
+| the reviewer's rows at 2f3d17a — routers | 537 | 265 | 133 / 136 / 3 / 0 |
+| **2f3d17a total** | **935** | **490** | 445 |
+| this build — switches | 381 | 208 moved | 27 / 145 / 1 / 0 |
+| this build — routers | 465 | 206 moved | 102 / 137 / 20 / 0 |
+
+935 → 846: 17 switch and 72 router rows stopped being label-placed this round — the fixes above, 11 Catalyst Wireless accessories
+(CW-ACC / CW-ANT / CW-MNT, a label had filed them under ISR 3800) planned to wireless, and SKU / name rules the read surfaced: ISR 1900
+`^(MEM|PWR|FIPS-SHIELD)-19(00|41)-`, ISR 2800 `^MEM28[1-5]1-` `^PWR-28[1-5]1-`, ISR 2900 `^PWR-29(11|21)-`, ISR 3900
+`^(MEM|PWR|FIPS-SHIELD)-3900-`, ISR 1800 `^MEM18[01]X-`, ISR 819 name `(?<![0-9A-Z])C?819(?![0-9])` (these had been filed under ISR 2900
+and ISR 4000 by labels). Moved rows land in: Catalyst shared parts 149, Industrial Ethernet 32, Nexus 27; ISR 63, Industrial and IoT
+32, Catalyst 8000 Edge 30, Cisco 8000 25, ASR 18, NCS 18, CRS 14, Small Business 3, Console and Terminal Servers 3. What they are:
+"Config 1/2/4/5/6" power supplies and stacking cables shared across Catalyst 3650 / 3850 / 9200 / 9300 / 9350 / 9500; IE and rugged
+power supplies; Cisco 8000 / Nexus fans and supplies that name no platform; the compact-switch mounts naming 2960-C and 3560-C; the
+ISR G2 compact-flash naming 1900, 2900 and 3900; VG224 / IAD2430 memory under ISR 800; NCS 6000 PDUs and power trays; CRS PDUs.
+Kept by a compatible relation: 0 in both categories (the relations exist, none links a label row into its series).
+Sabotage: 10 checks (planted built rows, and labelEvidence cases each for its reason); disabling labelEvidence turns 11 checks red.
+
+**Families (reviewer item 3)** — `2026-09-14-family-layer.md`, "Answered after the re-audit".

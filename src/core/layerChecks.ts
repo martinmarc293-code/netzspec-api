@@ -8,12 +8,51 @@
 //                    group must be recorded with its reason and exact row count — a new or grown group fails, a stale entry fails.
 //   rule shadowing   a SKU rule of the category's own mapping that matches nothing (dead), or whose every match another rule of
 //                    the SAME series decides (redundant), or that loses its matches to ANOTHER series (shadowed; recorded or failed).
+//   label check      a row still in a series by a stored label carries evidence (SKU token, name, family token, compatible link);
+//                    a row the check moved sits in its line's shared parts; the recorded evidence agrees with labelEvidence today.
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../config.js";
-import { placePart, loadLineFile, type Placement } from "./productLine.js";
+import { placePart, loadLineFile, familyOf, type Placement } from "./productLine.js";
+import { labelEvidence } from "./labelEvidence.js";
 
 export type LayerRow = Record<string, string>;
+
+/** Built rows that break the label check: in a series by a label without evidence, or moved by the check but not in shared parts. */
+export function labelViolations(rows: LayerRow[]): { sku: string; why: string }[] {
+  const out: { sku: string; why: string }[] = [];
+  for (const r of rows) {
+    if (r.bucket !== "layered") continue;
+    const pb = r.placed_by ?? "", ev = r.label_evidence ?? "";
+    if (pb.startsWith("label ")) {
+      if (!ev) out.push({ sku: r.sku, why: "placed by a label, no label_evidence recorded" });
+      else if (ev.startsWith("none")) out.push({ sku: r.sku, why: `placed in ${r.series} by a label the evidence does not support (${ev})` });
+    } else if (pb.startsWith("label-unsupported")) {
+      if (r.series !== `${r.product_line} shared parts`) out.push({ sku: r.sku, why: `moved by the label check but sits in ${r.series}` });
+      if (!ev.startsWith("none")) out.push({ sku: r.sku, why: `moved by the label check with evidence "${ev}"` });
+    }
+  }
+  return out;
+}
+
+/** Kept label rows whose recorded evidence today's labelEvidence no longer gives (a code change the build has not caught up with).
+ * Rows kept by a compatible link are counted apart: the built rows do not carry the relations, so they are not recomputed here. */
+export function labelEvidenceDrift(category: string, rows: LayerRow[], vendor = "cisco"): { drift: { sku: string; recorded: string; now: string }[]; compatible: number } {
+  const loaded = loadLineFile(vendor, category);
+  const drift: { sku: string; recorded: string; now: string }[] = [];
+  let compatible = 0;
+  if (!loaded) return { drift, compatible };
+  for (const r of rows) {
+    if (r.bucket !== "layered" || !(r.placed_by ?? "").startsWith("label ") || !r.label_evidence) continue;
+    if (r.label_evidence.startsWith("compatible") || r.label_evidence.includes("twin ")) { if (r.label_evidence.startsWith("compatible")) compatible++; continue; }
+    const ln = loaded.file.lines.find((l) => l.line === r.product_line);
+    if (!ln) { drift.push({ sku: r.sku, recorded: r.label_evidence, now: `line ${r.product_line} is not in the mapping` }); continue; }
+    const ev = labelEvidence(r, r.series, { family: familyOf(loaded, r.series), siblings: ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null })) });
+    const now = `${ev.kind}: ${ev.detail}`;
+    if (now !== r.label_evidence) drift.push({ sku: r.sku, recorded: r.label_evidence, now });
+  }
+  return { drift, compatible };
+}
 
 export function readLayerRows(category: string, vendor = "cisco"): LayerRow[] {
   const p = path.join(REPO_ROOT, "data", "layers", `${vendor}-${category}.rows.tsv`);

@@ -91,7 +91,7 @@ witness("routers", [
   // layers review (14 Sep 2026), routers items 1-5 and 8
   ["ASR-9010-AC", "ASR-9010 AC Chassis", "ASR 9000", "ASR (Aggregation Services Routers)", "ASR 9000"],            // item 1: was ASR 901 (no digit fence)
   ["15454-M-CBL-L-JPN", "AC power cable - Japan", "Network Convergence System 5500 Series", "(not this category)", "optical-networking"], // item 2
-  ["A9XX-RSPB-BLANK=", "Cisco A9XX-RSPB-BLANK=", "Network Convergence System 500", "ASR (Aggregation Services Routers)", "ASR 900"], // item 3
+  ["A9XX-RSPB-BLANK=", "Cisco A9XX-RSPB-BLANK=", "Network Convergence System 500", "ASR (Aggregation Services Routers)", "ASR 902 / 903 / 907 / 914"], // item 3 (series renamed with the ASR 900 family)
   ["C1100TG-1N32A", "Terminal Services Gateway w/ 32 Async", "Terminal Services Gateways", "Console and Terminal Servers", "Terminal Services Gateways"], // item 4: not ISR 1100
   ["C8220TG-48A-O", "Cisco Secure Console Server", "Secure Console", "Console and Terminal Servers", "Secure Console"],
   ["C8000V-PF", "Catalyst 8000V Edge Software", "Catalyst 8000V Edge Software", "(not this category)", "software"],   // item 5

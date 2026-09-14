@@ -8,7 +8,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, type LayerRow } from "../src/core/layerChecks.js";
+import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, type LayerRow } from "../src/core/layerChecks.js";
+import { labelEvidence } from "../src/core/labelEvidence.js";
 
 export const REVIEWED = ["switches", "routers"];
 // spare = base exceptions, each read against the built row
@@ -58,7 +59,17 @@ for (const cat of REVIEWED) {
   check(`rule shadowing ${cat}: 0 redundant SKU rules (every match decided by another rule of the same series)`, redundant.length === 0, redundant.map((u) => `${u.series} :: ${u.rule}`).join("; "));
   check(`rule shadowing ${cat}: 0 SKU rules losing their matches to another series`, shadowed.length === 0, shadowed.map((u) => `${u.series} :: ${u.rule} ${JSON.stringify(u.lost_to)}`).join("; "));
 
+  // THE LABEL CHECK (re-audit at 2f3d17a): no row sits in a series on a bare label; moved rows sit in shared parts; the evidence
+  // recorded at build time is what labelEvidence gives today
+  const lv = labelViolations(rows);
+  check(`label check ${cat}: 0 rows in a series on a label without evidence, 0 moved rows outside shared parts`, lv.length === 0, lv.slice(0, 6).map((v) => `${v.sku}: ${v.why}`).join("; "));
+  const { drift } = labelEvidenceDrift(cat, rows);
+  check(`label check ${cat}: the recorded evidence of every kept label row is what labelEvidence gives today`, drift.length === 0, drift.slice(0, 5).map((d) => `${d.sku}: recorded "${d.recorded}", now "${d.now}"`).join("; "));
   const summary = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "layers", `cisco-${cat}.json`), "utf8"));
+  const withEv = rows.filter((r) => r.label_evidence).length, moved = rows.filter((r) => (r.placed_by ?? "").startsWith("label-unsupported")).length;
+  check(`label check ${cat}: applied, and the page's counts are the rows' (label-placed ${withEv}, moved ${moved})`,
+    summary.label_check?.applied === true && summary.label_check.label_placed === withEv && summary.label_check.moved.length === moved && withEv > 100,
+    JSON.stringify({ applied: summary.label_check?.applied, label_placed: summary.label_check?.label_placed, moved: summary.label_check?.moved?.length }));
   check(`provenance ${cat}: the built page names its commit`, typeof summary.commit === "string" && /^[0-9a-f]{40}$/.test(summary.commit), `commit ${summary.commit}`);
   check(`provenance ${cat}: the page lists its uncommitted rule files (an array, possibly empty)`, Array.isArray(summary.uncommitted_rule_files));
 }
@@ -106,6 +117,39 @@ for (const cat of REVIEWED) {
   check("SABOTAGE a Meraki MS row is seen as claimed by the meraki mapping (the leakage scan is live)", planted.some((g) => g.claimed_by === "meraki"), JSON.stringify(planted));
   const noRow = classifyRules(ruleUse("switches", [], []));
   check("SABOTAGE with no rows every SKU rule is dead (the dead-rule count is live)", noRow.dead.length > 100, `${noRow.dead.length}`);
+
+  // the label check on built rows: a bare label in a series, and a moved row left in its series, are each refused
+  const lv = labelViolations([
+    row("MEM-224-1X128D-U", { product_line: "ISR", series: "ISR 810", placed_by: "label 800", label_evidence: "none: no platform token" }),
+    row("PWR-60W-AC", { product_line: "ISR", series: "ISR 810", placed_by: "label 800" }),
+    row("PS-SWITCH-AC-2P", { product_line: "ISR", series: "ISR 810", placed_by: "label-unsupported (label 800; was ISR 810): none", label_evidence: "none: x" }),
+    row("MEM8XX-256U512D", { product_line: "ISR", series: "ISR 810", placed_by: "label 800", label_evidence: "name: 880" })]);
+  check("SABOTAGE label check: an unsupported label, a label with no evidence and a moved row outside shared parts are 3 violations, the evidenced row none",
+    lv.length === 3 && lv.map((v) => v.sku).join() === "MEM-224-1X128D-U,PWR-60W-AC,PS-SWITCH-AC-2P", JSON.stringify(lv));
+
+  // labelEvidence itself, each case for its stated reason
+  const isr = { family: null, siblings: ["ISR 1900", "ISR 2900", "ISR 3900", "ISR 4000", "ISR 1100"].map((s) => ({ series: s, family: null })) };
+  const cat = { family: "Catalyst 2960", siblings: ["Catalyst 2960-C and 2960-CX", "Catalyst 3560-C and 3560-CX", "Catalyst 1000", "Catalyst 9300"].map((s) => ({ series: s, family: null })) };
+  const ie = { family: null, siblings: ["IE 3400", "IE 3400H", "IE 3000"].map((s) => ({ series: s, family: null })) };
+  const v = (sku: string, name: string, series: string, ctx: Parameters<typeof labelEvidence>[2], comp: string[] = []) => labelEvidence({ sku, name }, series, ctx, new Set(comp));
+  let e = v("MEM-1900-1GB=", "1GB DRAM for Cisco 1941/1941W ISR (only as spare)", "ISR 2900", isr);
+  check("SABOTAGE label: 1941 memory labelled ISR 2900 is none, naming ISR 1900", e.kind === "none" && /ISR 1900/.test(e.detail), JSON.stringify(e));
+  e = v("MEM-4300-2G=", "2G DRAM (1 DIMM) for Cisco ISR 4330, 4350, Spare", "ISR 4000", isr);
+  check("SABOTAGE label: ISR 4330 memory in ISR 4000 is a SKU token (N000 = the Nxxx models)", e.kind === "sku-token" && e.detail === "4000", JSON.stringify(e));
+  e = v("MEM-224-1X128D-U", "128MB DRAM Memory for VG224", "ISR 1100", isr);
+  check("SABOTAGE label: VG224 memory labelled ISR 1100 is none", e.kind === "none", JSON.stringify(e));
+  e = v("PWR-C1-1900WHV-T=", "1900W HVAC/HVDC Titanium-certified power supply spare", "Catalyst 9300", cat);
+  check("SABOTAGE label: a 1900W supply is none without naming Catalyst 1000 (a wattage is not a platform)", e.kind === "none" && !/Catalyst 1000/.test(e.detail), JSON.stringify(e));
+  e = v("CMP-CBLE-GRD", "Cable Guard For The 3560-C and 2960-C Compact Switches", "Catalyst 2960-C and 2960-CX", cat);
+  check("SABOTAGE label: a part naming 2960-C and 3560-C equally is none (shared)", e.kind === "none" && /equally/.test(e.detail), JSON.stringify(e));
+  e = v("SD-IE-16GB", "IE 3400H 16GB SD card", "IE 3400H", ie);
+  check("SABOTAGE label: 'IE 3400H' in the name keeps IE 3400H (the IE 3400 sibling name is fenced)", e.kind === "name" && e.detail === "IE 3400H", JSON.stringify(e));
+  e = v("ZZ-PLAIN-PART", "Cisco ZZ-PLAIN-PART", "ISR 2900", isr, ["ISR 2900"]);
+  check("SABOTAGE label: no token but a compatible link into the series keeps it as compatible", e.kind === "compatible", JSON.stringify(e));
+  e = v("ZZ-PLAIN-PART", "Cisco ZZ-PLAIN-PART", "ISR 2900", isr, ["ISR 3900"]);
+  check("SABOTAGE label: a compatible link into ANOTHER series does not", e.kind === "none", JSON.stringify(e));
+  e = v("PWR-ADPT-18W", "Power adaptor, 18W, for Catalyst 1000 switches", "Catalyst 1000", { ...cat, family: null });
+  check("SABOTAGE label: the whole series name in the name keeps it", e.kind === "name" && e.detail === "Catalyst 1000", JSON.stringify(e));
 }
 
 console.log(`    layers standing: ${passed} passed, ${misses.length} missed (${REVIEWED.join(", ")})`);

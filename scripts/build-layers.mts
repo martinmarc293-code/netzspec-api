@@ -12,7 +12,8 @@ import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
 import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult } from "../src/core/deployRole.js";
-import { lineFilePath, loadLineFile, placeWithSpareRule, familyOf, SHARED_PARTS } from "../src/core/productLine.js";
+import { lineFilePath, loadLineFile, placeWithSpareRule, familyOf, SHARED_PARTS, type Placement } from "../src/core/productLine.js";
+import { labelEvidence, type LabelEvidence } from "../src/core/labelEvidence.js";
 
 // layer 3 of a line-level shared-parts row (operator, 14 Sep 2026): explicit, never blank — the part fits several families of the
 // line or none of them. A family-scoped shared series ("Catalyst 9000 shared parts") carries its family instead.
@@ -43,9 +44,11 @@ const dump = process.argv.includes("--dump");
 const siteDir = arg("--site");
 if (!one && !all) throw new Error("--category <slug> or --all");
 
-type Row = { sku: string; name: string | null; series: string | null; category: string };
-const rows = (await query<Row>(`SELECT p.sku, p.name, p.series, c.slug AS category FROM parts p JOIN vendors v ON v.id = p.vendor_id
+type Row = { id: number; sku: string; name: string | null; series: string | null; category: string };
+const rows = (await query<Row>(`SELECT p.id, p.sku, p.name, p.series, c.slug AS category FROM parts p JOIN vendors v ON v.id = p.vendor_id
   JOIN categories c ON c.id = p.category_id WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware' ORDER BY p.sku`, [vendor])).rows;
+// the label check reads compatible relations (a part linked to parts placed by SKU or name in the series evidences that series)
+const compatible = (await query<{ a: number; b: number }>(`SELECT from_part_id AS a, to_part_id AS b FROM relations WHERE kind = 'compatible' AND to_part_id IS NOT NULL`)).rows;
 await closePool();
 const categories = [...new Set(rows.map((r) => r.category))].sort((a, b) => rows.filter((r) => r.category === b).length - rows.filter((r) => r.category === a).length);
 
@@ -78,6 +81,10 @@ type Tree = {
   /** rows the committed kind-layer plans move to another category or re-class (not a product / licence): shown, not layered */
   pending_plans: { sku: string; name: string | null; series_label: string | null; action: string; to: string; reason: string | null }[];
   unplaced: { sku: string; name: string | null; series_label: string | null; kind: string }[];
+  /** THE LABEL CHECK (re-audit at 2f3d17a, 14 Sep 2026), applied once a category's families are reviewed (family_layer
+   *  "assigned"): a row a stored series label placed keeps its series only with a SKU token, a name, a family token or a
+   *  compatible link to the series (src/core/labelEvidence.ts); otherwise it goes to its line's shared parts and is listed. */
+  label_check: { applied: boolean; label_placed: number; by_kind: Record<string, number>; moved: { sku: string; name: string | null; series_label: string | null; from_series: string; to_series: string; why: string }[] };
   done: boolean;
   /** EVERY row (layers review 14 Sep 2026): what the page summarises, one record per live hardware part, so a mapping can be
    *  certified by row. bucket says which table the row is in; product_line/series are null outside "layered". */
@@ -90,30 +97,75 @@ type LayerRow = {
   deploy_role: string | null; role_rule: string | null; role_issue: string | null;
   plan: { action: string; to: string; reason: string | null } | null;
   belongs: string | null;
+  /** label-placed rows of a label-checked category: "<kind>: <detail>" (sku-token / name / family / compatible / none) */
+  label_evidence: string | null;
 };
+
+/** Series each part is placed in by a SKU or name rule (not a label, not shared parts), then the series its compatible partners sit in. */
+function compatibleSeries(mine: readonly Row[], placed: Map<string, Placement | null>): Map<number, Set<string>> {
+  const seriesOfId = new Map<number, string>();
+  for (const r of mine) {
+    const p = placed.get(r.sku);
+    if (p && p.line !== "(not this category)" && !p.rule.startsWith("label") && !p.rule.startsWith("accessory") && !/shared parts$/.test(p.series)) seriesOfId.set(r.id, p.series);
+  }
+  const out = new Map<number, Set<string>>();
+  for (const { a, b } of compatible) for (const [x, y] of [[a, b], [b, a]]) {
+    const s = seriesOfId.get(y);
+    if (s) { if (!out.has(x)) out.set(x, new Set()); out.get(x)!.add(s); }
+  }
+  return out;
+}
 
 function build(cat: string): Tree {
   const mine = rows.filter((r) => r.category === cat);
   const loaded = loadLineFile(vendor, cat);
   const lines = new Map<string, Map<string, SeriesNode>>();
   const tree: Tree = { vendor, category: cat, built_at: new Date().toISOString(), commit: PROVENANCE.commit, uncommitted_rule_files: PROVENANCE.uncommitted_rule_files, mapping_file: loaded ? path.relative(REPO_ROOT, lineFilePath(vendor, cat)).replace(/\\/g, "/") : null,
-    parts: mine.length, lines: [], not_this_category: [], pending_plans: [], unplaced: [], done: false, rows: [] };
+    parts: mine.length, lines: [], not_this_category: [], pending_plans: [], unplaced: [], label_check: { applied: false, label_placed: 0, by_kind: {}, moved: [] }, done: false, rows: [] };
   // lines appear in the mapping file's order, series too (a reader's order, not a count order)
   if (loaded) for (const l of loaded.file.lines) { const m = new Map<string, SeriesNode>(); for (const s of l.series) m.set(s.series, { series: s.series, family: s.family?.trim() || null, role: s.role ?? null, note: s.note ?? null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {} }); lines.set(l.line, m); }
   // the spare rule (review A.1): X and X= share one placement, the better-evidenced member's
   const placed = placeWithSpareRule(vendor, cat, mine, loaded);
+  // the label check, once the category's families are reviewed; planned rows are not layered, so not judged
+  const evidence = new Map<string, LabelEvidence>();
+  if (loaded?.file.family_layer === "assigned") {
+    tree.label_check.applied = true;
+    const partners = compatibleSeries(mine, placed);
+    for (const r of mine) {
+      const p = placed.get(r.sku);
+      if (!p || p.line === "(not this category)" || !p.rule.startsWith("label") || planOf.has(`${cat}|${r.sku.trim().toUpperCase()}`)) continue;
+      const ln = loaded.file.lines.find((l) => l.line === p.line)!;
+      evidence.set(r.sku, labelEvidence(r, p.series, { family: familyOf(loaded, p.series), siblings: ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null })) }, partners.get(r.id)));
+    }
+    // the spare rule holds here too: X and X= share one placement, so a pair keeps its series when EITHER member is evidenced
+    const byBase = new Map<string, string[]>();
+    for (const sku of evidence.keys()) { const k = sku.toUpperCase().trim().replace(/=+$/, ""); byBase.set(k, [...(byBase.get(k) ?? []), sku]); }
+    for (const members of byBase.values()) {
+      const good = members.find((m) => evidence.get(m)!.kind !== "none");
+      if (!good) continue;
+      for (const m of members) if (evidence.get(m)!.kind === "none") evidence.set(m, { kind: evidence.get(good)!.kind, detail: `twin ${good}: ${evidence.get(good)!.detail}` });
+    }
+    for (const ev of evidence.values()) tree.label_check.by_kind[ev.kind] = (tree.label_check.by_kind[ev.kind] ?? 0) + 1;
+    tree.label_check.label_placed = evidence.size;
+  }
   for (const r of mine) {
     const kind = partKind(cat, r.sku, r.name ?? undefined) ?? "(none)";
     const plan = planOf.get(`${cat}|${r.sku.trim().toUpperCase()}`);
     // the role the CUP ENGINE gives this part (deployRoleResult, which reads the series table first) — recorded on every row
     const rr = deployRoleResult(cat, kind, r.sku, r.name);
-    const base = { sku: r.sku, name: r.name, series_label: r.series, kind, deploy_role: rr.role, role_rule: rr.rule, role_issue: rr.issue };
+    const ev = evidence.get(r.sku);
+    const base = { sku: r.sku, name: r.name, series_label: r.series, kind, deploy_role: rr.role, role_rule: rr.rule, role_issue: rr.issue, label_evidence: ev ? `${ev.kind}: ${ev.detail}` : null };
     if (plan) {
       tree.pending_plans.push({ sku: r.sku, name: r.name, series_label: r.series, action: plan.action, to: plan.to, reason: plan.reason ?? null });
       tree.rows.push({ ...base, bucket: "pending_plan", product_line: null, product_family: null, series: null, placed_by: null, plan: { action: plan.action, to: plan.to, reason: plan.reason ?? null }, belongs: null });
       continue;
     }
-    const p = placed.get(r.sku) ?? null;
+    let p = placed.get(r.sku) ?? null;
+    if (p && p.line !== "(not this category)" && ev?.kind === "none") {
+      // a label with nothing behind it: the line's shared parts, never silently the series
+      tree.label_check.moved.push({ sku: r.sku, name: r.name, series_label: r.series, from_series: p.series, to_series: SHARED_PARTS(p.line), why: ev.detail });
+      p = { line: p.line, series: SHARED_PARTS(p.line), rule: `label-unsupported (${p.rule}; was ${p.series}): ${ev.detail}`, role: null };
+    }
     if (!p) { tree.unplaced.push({ sku: r.sku, name: r.name, series_label: r.series, kind }); tree.rows.push({ ...base, bucket: "unplaced", product_line: null, product_family: null, series: null, placed_by: null, plan: null, belongs: null }); continue; }
     if (p.line === "(not this category)") {
       const why = (p as { why: string }).why, belongs = (p as { belongs: string | null }).belongs;
@@ -165,6 +217,13 @@ function categoryPage(t: Tree): string {
     body += `<h2>${esc(l.line)} — ${l.parts.toLocaleString("en-US")} parts</h2><p class=m>deploy_role totals: ${roleTotals(l)}</p><table><tr><th>family</th><th>series</th><th>deploy_role (series table)</th><th>parts</th><th>part types</th><th>role as the cup engine assigns it</th><th>examples</th></tr>` +
       [...l.series].sort((a, b) => (famRank(a.family) - famRank(b.family)) || (a.family ?? "").localeCompare(b.family ?? "")).map((s) => `<tr><td>${s.family ? esc(s.family) : "<span class=m>—</span>"}</td><td><b>${esc(s.series)}</b>${s.note ? `<br><span class=warn>${esc(s.note)}</span>` : ""}</td><td>${s.role ? esc(s.role) : "<span class=m>none (no role)</span>"}</td><td class=r>${s.parts}</td><td>${Object.entries(s.kinds).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${esc(k)} ${n}`).join(", ")}</td><td>${Object.entries(s.roles).map(([r, n]) => `${esc(r)} ${n}`).join(", ") || "<span class=m>—</span>"}</td><td class=m>${s.samples.map(esc).join("<br>")}</td></tr>`).join("") + `</table>`;
   }
+  if (t.label_check.applied) {
+    const kept = t.label_check.label_placed - t.label_check.moved.length;
+    body += `<h2 class=warn>Label check — ${t.label_check.label_placed} rows placed only by a stored series label: ${kept} evidenced, ${t.label_check.moved.length} moved to shared parts</h2>
+<p class=m>A label is whatever an enumeration typed into the series column. A label-placed row keeps its series only when its SKU carries the series' platform token, its name names the series (or a platform number, alias or distinctive word of it), it carries its family's token, or a compatible relation links it to a part the SKU or name rules placed in that series, and when nothing names another series of the line as specifically. By kind: ${Object.entries(t.label_check.by_kind).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${esc(k)} ${n}`).join(", ") || "—"} (pairs X / X= share one verdict).</p>` +
+      (t.label_check.moved.length ? `<table><tr><th>SKU</th><th>name</th><th>label said</th><th>now</th><th>why</th></tr>` +
+        t.label_check.moved.map((x) => `<tr><td>${esc(x.sku)}</td><td>${esc(x.name)}</td><td>${esc(x.from_series)}</td><td>${esc(x.to_series)}</td><td class=m>${esc(x.why)}</td></tr>`).join("") + `</table>` : "");
+  }
   if (t.not_this_category.length) body += `<h2 class=warn>Not this category — ${t.not_this_category.length}</h2><table><tr><th>SKU</th><th>name</th><th>why</th><th>belongs</th></tr>` +
     t.not_this_category.map((x) => `<tr><td>${esc(x.sku)}</td><td>${esc(x.name)}</td><td>${esc(x.why)}</td><td>${esc(x.belongs ?? "")}</td></tr>`).join("") + `</table>`;
   if (t.pending_plans.length) body += `<h2 class=warn>Pending move or class change — ${t.pending_plans.length}</h2><p class=m>Rows the committed plans move to another category or re-class (datasheet cells, licences, parts of another product family). They leave this category when the plans run.</p><table><tr><th>SKU</th><th>name</th><th>plan</th><th>reason</th></tr>` +
@@ -187,12 +246,12 @@ for (const cat of targets) {
     const { rows: tRows, ...summary } = t;
     fs.writeFileSync(path.join(REPO_ROOT, "data", "layers", `${vendor}-${cat}.json`), JSON.stringify(summary, null, 1) + "\n");
     const cell = (x: unknown) => String(x ?? "").replace(/[\t\r\n]+/g, " ");
-    const head = ["sku", "name", "series_label", "kind", "bucket", "product_line", "product_family", "series", "placed_by", "deploy_role", "role_rule", "role_issue", "plan", "belongs"];
+    const head = ["sku", "name", "series_label", "kind", "bucket", "product_line", "product_family", "series", "placed_by", "deploy_role", "role_rule", "role_issue", "plan", "belongs", "label_evidence"];
     const lines = tRows.map((r) => [r.sku, r.name, r.series_label, r.kind, r.bucket, r.product_line, r.product_family, r.series, r.placed_by, r.deploy_role, r.role_rule, r.role_issue,
-      r.plan ? `${r.plan.action} ${r.plan.to}` : "", r.belongs].map(cell).join("\t"));
+      r.plan ? `${r.plan.action} ${r.plan.to}` : "", r.belongs, r.label_evidence].map(cell).join("\t"));
     fs.writeFileSync(path.join(REPO_ROOT, "data", "layers", `${vendor}-${cat}.rows.tsv`), [head.join("\t"), ...lines].join("\n") + "\n");
   }
-  console.log(`${cat.padEnd(30)} parts ${String(t.parts).padStart(5)}  lines ${String(t.lines.length).padStart(2)}  series ${String(t.lines.reduce((a, l) => a + l.series.length, 0)).padStart(3)}  not-this-category ${String(t.not_this_category.length).padStart(4)}  planned ${String(t.pending_plans.length).padStart(4)}  unplaced ${String(t.unplaced.length).padStart(5)}  ${!t.mapping_file ? "NOT STARTED" : t.done ? "DONE" : "IN PROGRESS"}`);
+  console.log(`${cat.padEnd(30)} parts ${String(t.parts).padStart(5)}  lines ${String(t.lines.length).padStart(2)}  series ${String(t.lines.reduce((a, l) => a + l.series.length, 0)).padStart(3)}  not-this-category ${String(t.not_this_category.length).padStart(4)}  planned ${String(t.pending_plans.length).padStart(4)}  unplaced ${String(t.unplaced.length).padStart(5)}  ${t.label_check.applied ? `label-placed ${t.label_check.label_placed} moved ${t.label_check.moved.length} ${JSON.stringify(t.label_check.by_kind)}  ` : ""}${!t.mapping_file ? "NOT STARTED" : t.done ? "DONE" : "IN PROGRESS"}`);
   if (!all && t.unplaced.length) {
     const by = new Map<string, number>();
     for (const u of t.unplaced) by.set(u.series_label ?? "(null)", (by.get(u.series_label ?? "(null)") ?? 0) + 1);

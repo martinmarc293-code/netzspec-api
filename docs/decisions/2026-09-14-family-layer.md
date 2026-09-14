@@ -53,3 +53,19 @@ the other IoT series; the move-out Router Interface Modules. Lines of 1–2 seri
 Not assigned yet (and so not validated for reasons): the other 15 categories — each gets its families in its own round.
 Open for the reviewer: whether Cisco's "ASR 900 Series" family is meant to include the ASR 901 and ASR 920 (left separate: not
 confirmed), and "Catalyst IE3x00 Rugged" as a family over IE 3100–3500H (left separate: not confirmed as a Cisco family name).
+
+### Answered after the re-audit at 2f3d17a (14 Sep 2026, evening) — CLOSED
+
+- **ASR 900** (reviewer): a family over ASR 901, ASR 920 and the chassis series, renamed "ASR 902 / 903 / 907 / 914" (was "ASR 900",
+  so the family no longer restates a series). 235 layered rows after the label check.
+- **ISR 800** (operator's call, "Family ISR 800"): a family over "ISR 810 / 840 / 860 / 870 / 880 / 890" (was "ISR 800") and
+  "ISR 819 Hardened (M2M)". 340 layered rows.
+- **IE3x00** (reviewer: a family only if document titles carry it): 0 document titles in the index contain "IE3x00", so no family;
+  the Industrial Ethernet line's no_family_reason says so.
+- **2960 / 3560 / 3750** confirmed by the reviewer; the renamed series strings are exactly "Catalyst 3750 / 3750G / 3750v2",
+  "Catalyst 3560 / 3560G / 3560v2", "Catalyst 2960 / 2960G" (the reviewer's search had used abbreviated strings).
+
+Routers after the round: ISR 800 340, ISR G2 310, ASR 900 235, Connected Grid Routers 96, ISR G1 89; shared across the line 518.
+Switches: Catalyst 9000 614, Nexus 9000 570, Nexus 7000 416, Catalyst 2960 335, Catalyst 4500 326, Nexus 5000 271, Nexus 3000 240,
+Catalyst 3750 152, Catalyst 3560 139, Catalyst 6800 116; shared across the line 495. (Family counts fell where the label check
+moved unevidenced rows to the line's shared parts — see the layers round 2 record, round 2c.)
