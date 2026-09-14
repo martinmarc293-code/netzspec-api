@@ -47,7 +47,7 @@ export function labelEvidenceDrift(category: string, rows: LayerRow[], vendor = 
     if (r.label_evidence.startsWith("compatible") || r.label_evidence.includes("twin ")) { if (r.label_evidence.startsWith("compatible")) compatible++; continue; }
     const ln = loaded.file.lines.find((l) => l.line === r.product_line);
     if (!ln) { drift.push({ sku: r.sku, recorded: r.label_evidence, now: `line ${r.product_line} is not in the mapping` }); continue; }
-    const ev = labelEvidence(r, r.series, { family: familyOf(loaded, r.series), siblings: ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null })) });
+    const ev = labelEvidence({ sku: r.sku ?? "", name: r.name ?? null }, r.series, { family: familyOf(loaded, r.series), siblings: ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null })) });
     const now = `${ev.kind}: ${ev.detail}`;
     if (now !== r.label_evidence) drift.push({ sku: r.sku, recorded: r.label_evidence, now });
   }

@@ -46,6 +46,43 @@ export function lendableEnglishName(sku: string, name: string | null | undefined
   return !!n && n !== `Cisco ${sku}` && n !== sku && !n.startsWith(`Cisco ${sku} `) && !GERMAN.test(n);
 }
 
+/** A spare's name lent to its base drops what makes it the spare's (layers re-audit at 2f3d17a, 14 Sep 2026): a leading
+ * "<SKU>= – ", and the word "spare" wherever it stands — trailing ("…DFC4 spare", ", Spare", "(spare)") or mid-name, where the
+ * surrounding punctuation is kept once ("MDS 9706 Chassis, Spare, No Power Supplies" -> "MDS 9706 Chassis, No Power Supplies",
+ * "(Spare. No Fans/PS)" -> "(No Fans/PS)", "2348TQ spare; 48x1/10T" -> "2348TQ; 48x1/10T", "QSFP28 Spare (no PS/Fans)" ->
+ * "QSFP28 (no PS/Fans)"). A leading "^" scrape artifact goes with it. Every other word stays: "(no PS/Fans)" is what Cisco says. */
+export function stripSpareWording(name: string): string {
+  const W = "(?<![A-Za-z])spare(?![A-Za-z])";
+  let s = name.trim()
+    .replace(/^\^+\s*/, "")
+    .replace(/^[A-Z0-9][A-Z0-9/+._-]*=\s*[–—-]\s+/, "")
+    .replace(new RegExp(`^${W}[\\s,:;–—-]+`, "i"), "")                // leading "Spare FRU power supply…"
+    .replace(new RegExp(`\\(\\s*${W}\\s*\\)`, "gi"), "")          // "(spare)"
+    .replace(new RegExp(`\\(\\s*${W}\\s*[.;,]\\s*`, "gi"), "(")     // "(Spare. No Fans/PS)"
+    .replace(new RegExp(`\\s*[,;]?\\s*${W}\\s*(?=[,;])`, "gi"), "")  // ", Spare, No …" / " spare; 48x…"
+    .replace(new RegExp(`\\s*[,;]?\\s*${W}\\s*(?=\\()`, "gi"), " ")  // ", Spare (supported …)" / ",Spare(No Acc kit…)"
+    .replace(new RegExp(`\\s*[,;]?\\s*${W}\\s*$`, "gi"), "");         // trailing "… spare" / ", Spare"
+  s = s.replace(/\s{2,}/g, " ").replace(/\s+([,;])/g, "$1").replace(/[\s,;]+$/, "").trim();
+  return s;
+}
+
+/** A borrowed name may not carry the spare's marks; one that still does after the strip is refused, for a hand check. */
+export const SPARE_LEFT = /(?<![A-Za-z])spare(?![A-Za-z])|=/i;
+export const SPARE_REMOVED = "spare wording removed";
+
+export type SparePlan = { id: number; sku: string; name: string; name_source: string; stripped: string; source: string };
+/** The spare-wording plan over borrowed names (name_source "twin: …"), pure: what changes, and what the strip cannot clear. */
+export function planSpareWording(rows: { id: number; sku: string; name: string; name_source: string }[]): { plans: SparePlan[]; refused: SparePlan[] } {
+  const plans: SparePlan[] = [], refused: SparePlan[] = [];
+  for (const r of rows) {
+    if (!r.name_source.startsWith("twin:") || !SPARE_LEFT.test(r.name)) continue;
+    const stripped = stripSpareWording(r.name);
+    const p = { ...r, stripped, source: r.name_source.includes(SPARE_REMOVED) ? r.name_source : `${r.name_source}, ${SPARE_REMOVED}` };
+    (stripped && !SPARE_LEFT.test(stripped) ? plans : refused).push(p);
+  }
+  return { plans, refused };
+}
+
 export type NameRow = { id: number; sku: string; name: string | null; name_de: string | null; name_lang: string | null };
 export type NamePlan =
   | { id: number; sku: string; action: "english_from_twin"; name_de: string; name: string; source: string }
@@ -59,7 +96,8 @@ export function planGermanNames(rows: NameRow[]): { plans: NamePlan[]; skipped_d
     if (!isGermanName(r.name)) continue;
     if (r.name_lang) { skipped++; continue; }
     const twin = bySku.get(r.sku.endsWith("=") ? r.sku.slice(0, -1) : `${r.sku}=`);
-    if (twin && lendableEnglishName(twin.sku, twin.name)) plans.push({ id: r.id, sku: r.sku, action: "english_from_twin", name_de: r.name!, name: twin.name!.trim(), source: `twin: ${twin.sku}` });
+    const lent = twin && lendableEnglishName(twin.sku, twin.name) ? stripSpareWording(twin.name!) : "";
+    if (twin && lent && !SPARE_LEFT.test(lent)) plans.push({ id: r.id, sku: r.sku, action: "english_from_twin", name_de: r.name!, name: lent, source: lent === twin.name!.trim() ? `twin: ${twin.sku}` : `twin: ${twin.sku}, ${SPARE_REMOVED}` });
     else plans.push({ id: r.id, sku: r.sku, action: "flag_german", name_de: r.name! });
   }
   return { plans, skipped_done: skipped };

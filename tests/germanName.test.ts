@@ -2,7 +2,7 @@
 // round 2, B.6). No database.
 //
 //   npx tsx tests/germanName.test.ts
-import { isGermanName, assertDetector, planGermanNames, lendableEnglishName, ENGLISH_CONTROLS, GERMAN_MARKERS, type NameRow } from "../src/core/germanName.js";
+import { isGermanName, assertDetector, planGermanNames, lendableEnglishName, stripSpareWording, planSpareWording, SPARE_LEFT, ENGLISH_CONTROLS, GERMAN_MARKERS, type NameRow } from "../src/core/germanName.js";
 
 let passed = 0; const misses: string[] = [];
 const check = (name: string, ok: boolean, detail = "") => { if (ok) passed++; else misses.push(`    MISS ${name}${detail ? " — " + detail : ""}`); };
@@ -49,6 +49,34 @@ check("the placeholder 'Cisco <sku>' and the shop template are not lendable", !l
 // SABOTAGE: with the marker list emptied of its noun family, the X2 Kurzstrecke title (German only by its nouns) is missed
 const withoutNoun = new RegExp(GERMAN_MARKERS.filter(([k]) => k !== "noun" && k !== "function-word").map(([, v]) => v).join("|"));
 check("SABOTAGE removing the noun and function-word markers loses 'SR (Kurzstrecke), Multimode'", !withoutNoun.test("Cisco X2-10GB-SR 10GBASE-SR X2 — SR (Kurzstrecke), Multimode, 300 m"));
+
+// SPARE WORDING (layers re-audit at 2f3d17a, 3(d)): a base's borrowed name drops the spare's marks, every form read off the 81 live rows
+const STRIP: [string, string][] = [
+  ["C6800-16P10G= – Catalyst 6800 16-port 10GE with integrated DFC4 spare", "Catalyst 6800 16-port 10GE with integrated DFC4"],
+  ["Catalyst 6807-XL 7-slot chassis, 10RU (spare)", "Catalyst 6807-XL 7-slot chassis, 10RU"],
+  ["40GBASE-SR BiDi Module, spare", "40GBASE-SR BiDi Module"],
+  ["MDS 9220i Multiprotocol Fixed Switch Base configuration (4xFC, 2 x IPS 1 Gbps), port side exhaust, (Spare)", "MDS 9220i Multiprotocol Fixed Switch Base configuration (4xFC, 2 x IPS 1 Gbps), port side exhaust"],
+  ["MDS 9706 Chassis, Spare, No Power Supplies, Fans Included", "MDS 9706 Chassis, No Power Supplies, Fans Included"],
+  ["N2K 10GE, 48x1/10GE SFP+ + 4x40G QSFP (Spare. No Fans/PS)", "N2K 10GE, 48x1/10GE SFP+ + 4x40G QSFP (No Fans/PS)"],
+  ["Nexus 2348TQ spare; 48x1/10T; 6x40G QSFP (no PS/fan)", "Nexus 2348TQ; 48x1/10T; 6x40G QSFP (no PS/fan)"],
+  ["Nexus 9K,48p 10G SFP+&6p 40G QSFP+,Spare(No Acc kit,PS&fan)", "Nexus 9K,48p 10G SFP+&6p 40G QSFP+ (No Acc kit,PS&fan)"],
+  ["10GBASE-LR SFP+ Module, Spare (supported only with DS-X9708-K9)", "10GBASE-LR SFP+ Module (supported only with DS-X9708-K9)"],
+  ["^5596UP 2RU Chassis SPARE, No PS, No Fans", "5596UP 2RU Chassis, No PS, No Fans"],
+  ["Spare FRU power supply and fan for all 740W PoE+ 2960-XR switches", "FRU power supply and fan for all 740W PoE+ 2960-XR switches"],
+];
+for (const [a, b] of STRIP) { const got = stripSpareWording(a); check(`spare wording: "${a.slice(0, 50)}"`, got === b, `got "${got}"`); }
+check("spare wording: a name with no spare mark is unchanged, 'spares'-like words are not the mark", stripSpareWording("Spares kit adapter, Sparepart holder") === "Spares kit adapter, Sparepart holder");
+const sp = planSpareWording([
+  { id: 1, sku: "C9407R", name: "Cisco Catalyst 9400 Series 7 slot chassis Spare", name_source: "twin: C9407R=" },
+  { id: 2, sku: "N7K-X", name: "Nexus 7700 spare fan tray", name_source: "twin: N7K-X=" },
+  { id: 3, sku: "C9300-48P", name: "Catalyst 9300 48-port PoE+, spare", name_source: "vendor datasheet" }]);
+check("spare plan: a borrowed name is stripped with source 'twin: <sku>, spare wording removed'", sp.plans.length === 1 && sp.plans[0].stripped === "Cisco Catalyst 9400 Series 7 slot chassis" && sp.plans[0].source === "twin: C9407R=, spare wording removed", JSON.stringify(sp.plans));
+check("SABOTAGE spare plan: a mid-name 'spare' with no punctuation is REFUSED for a hand check, never guessed", sp.refused.length === 1 && sp.refused[0].sku === "N7K-X" && SPARE_LEFT.test(sp.refused[0].stripped), JSON.stringify(sp.refused));
+check("spare plan: a name not borrowed from a twin is not touched", !sp.plans.some((p) => p.id === 3) && !sp.refused.some((p) => p.id === 3));
+const lend = planGermanNames([
+  { id: 11, sku: "C9407R", name: "Cisco C9407R Catalyst-9400-Chassis mit 7 Steckplätzen", name_de: null, name_lang: null },
+  { id: 12, sku: "C9407R=", name: "Cisco Catalyst 9400 Series 7 slot chassis Spare", name_de: null, name_lang: null }]).plans[0];
+check("a German base borrowing from its spare now takes the name without the spare's wording, and says so", lend?.action === "english_from_twin" && lend.name === "Cisco Catalyst 9400 Series 7 slot chassis" && lend.source === "twin: C9407R=, spare wording removed", JSON.stringify(lend));
 
 console.log(`    german names: ${passed} passed, ${misses.length} missed`);
 if (misses.length) { console.log(misses.join("\n")); process.exit(1); }
