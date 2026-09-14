@@ -247,6 +247,16 @@ check("item 7: a router card places in the same product line and series in route
     return a !== null && b !== null && a.line === b.line && a.series === b.series;
   }));
 
+// ---- storage-networking (done 14 Sep 2026) ----
+witness("storage-networking", [
+  ["DS-X9148-H=", "48-port 1/2/4-Gbps FC Module for HP", "MDS 9500 Series Multilayer Directors", "MDS 9000 Multilayer SAN Switches", "MDS 9500 / 9200 switching modules"], // a module, not an MDS 9148
+  ["DS-C9148S-12PK9=", "MDS 9148S 16G FC switch", "MDS 9100 Series Multilayer Fabric", "MDS 9000 Multilayer SAN Switches", "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)"],
+  ["DS-X9748-3072-VK9", "MDS 9700 48-Port 64-Gbps", "Storage Networking Modules", "MDS 9000 Multilayer SAN Switches", "MDS 9700 directors (9706 / 9710 / 9718) and modules"],
+  ["DS-C9513-3AK9", "MDS 9513 Base Config", "MDS 9500 Series Multilayer Directors", "MDS 9000 Multilayer SAN Switches", "MDS 9500 directors (9506 / 9509 / 9513)"],
+  ["DS-9134-KIT-HDS", "MDS 9134 Accessory Kit for HDS", "MDS 9100 Series Multilayer Fabric", "MDS 9000 Multilayer SAN Switches", "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)"],
+  ["DS-C9250I-K9=", "MDS 9250i 50 port switch", "MDS 9200 Series Multiservice", "MDS 9000 Multilayer SAN Switches", "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)"],
+]);
+
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");

@@ -1,0 +1,99 @@
+{
+ "vendor": "cisco",
+ "category": "storage-networking",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco storage networking (MDS 9000), 14 Sep 2026. Series by platform: 9100 / 9200 / 9300 fabric switches, 9500 / 9700 directors, and the switching modules. Order is load-bearing: module SKUs carry fabric-switch numbers (DS-X9148 is a 48-port module for the 9500, not an MDS 9148), so the module series come first; 9700 modules (DS-X97, X9448/X9648/X9748, X9824) before the 9500/9200 ones. Accessory kits and power supplies whose SKU names a platform sit with it. No role axis.",
+ "lines": [
+  {
+   "line": "MDS 9000 Multilayer SAN Switches",
+   "series": [
+    {
+     "series": "MDS 9700 directors (9706 / 9710 / 9718) and modules",
+     "sku": [
+      "^DS-X97",
+      "^DS-X9[4678]48",
+      "^DS-X9824",
+      "^DS-X9(706|710|718)",
+      "(?<![0-9])97(06|10|18)(?![0-9])"
+     ],
+     "labels": [
+      "MDS 9700 Series Multilayer Directors"
+     ]
+    },
+    {
+     "series": "MDS 9500 / 9200 switching modules",
+     "sku": [
+      "^DS-X9[0-3][0-9]{2}"
+     ],
+     "labels": [
+      "Storage Networking Modules"
+     ]
+    },
+    {
+     "series": "MDS 9500 directors (9506 / 9509 / 9513)",
+     "sku": [
+      "^DS-X95",
+      "(?<![0-9])95(06|09|13)(?![0-9])",
+      "^DS-13SLT",
+      "^DS-9SLOT"
+     ],
+     "labels": [
+      "MDS 9500 Series Multilayer Directors"
+     ]
+    },
+    {
+     "series": "MDS 9300 fabric switches (9396S / 9396T / 9396V)",
+     "sku": [
+      "(?<![0-9])9396"
+     ],
+     "labels": [
+      "MDS 9300 Series Multilayer Fabric"
+     ]
+    },
+    {
+     "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
+     "sku": [
+      "(?<![0-9])92(16|20|22|50)",
+      "^DS-C50I"
+     ],
+     "labels": [
+      "MDS 9200 Series Multiservice"
+     ]
+    },
+    {
+     "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+     "sku": [
+      "(?<![0-9])91(20|24|32|34|40|48)"
+     ],
+     "labels": [
+      "MDS 9100 Series Multilayer Fabric"
+     ]
+    },
+    {
+     "series": "MDS blade-server FC switches (HP / IBM / Dell)",
+     "sku": [
+      "^DS-(HP|IBM|DELL|FUJ)-"
+     ]
+    },
+    {
+     "series": "MDS 9000 Multilayer SAN Switches shared parts",
+     "sku": [
+      "^DS-"
+     ],
+     "labels": [
+      "MDS 9000 Series Multilayer",
+      "Network Convergence System 2000 Series"
+     ]
+    }
+   ]
+  }
+ ],
+ "shared_accessories": [
+  "^CAB-",
+  "CABLE",
+  "RMK",
+  "RACK",
+  "BLANK",
+  "BRKT",
+  "BRACKET"
+ ]
+}

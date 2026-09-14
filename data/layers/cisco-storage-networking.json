@@ -1,0 +1,230 @@
+{
+ "vendor": "cisco",
+ "category": "storage-networking",
+ "built_at": "2026-09-14T14:10:35.013Z",
+ "mapping_file": "data/reference/product-lines/cisco-storage-networking.json",
+ "parts": 598,
+ "lines": [
+  {
+   "line": "MDS 9000 Multilayer SAN Switches",
+   "parts": 596,
+   "series": [
+    {
+     "series": "MDS 9700 directors (9706 / 9710 / 9718) and modules",
+     "role": null,
+     "note": null,
+     "parts": 91,
+     "kinds": {
+      "accessory": 13,
+      "director": 17,
+      "mechanical": 13,
+      "fan": 4,
+      "linecard": 18,
+      "supervisor": 6,
+      "fabric": 20
+     },
+     "roles": {},
+     "samples": [
+      "DS-9706-KIT-CCO — Cisco DS-9706-KIT-CCO",
+      "DS-9706-KIT-CCO= — Cisco DS-9706-KIT-CCO=",
+      "DS-9706-KIT-EMC — Cisco DS-9706-KIT-EMC",
+      "DS-9706-KIT-HDS — Cisco DS-9706-KIT-HDS",
+      "DS-9706-KIT-HP — Cisco DS-9706-KIT-HP",
+      "DS-9706-KIT-IBM — Cisco DS-9706-KIT-IBM"
+     ],
+     "rules": {
+      "sku": 91
+     }
+    },
+    {
+     "series": "MDS 9500 / 9200 switching modules",
+     "role": null,
+     "note": null,
+     "parts": 21,
+     "kinds": {
+      "linecard": 21
+     },
+     "roles": {},
+     "samples": [
+      "DS-X9112 — 12-port 1/2/4-Gbps Fibre Channel Switching Module",
+      "DS-X9222I-K9 — 18-port FC and 4-port GE Module for MDS 9222i",
+      "DS-X9224-96K9 — Cisco MDS 9000 Family 1/2/4/8-Gbps 24-Port Fibre Channel Mod",
+      "DS-X9224-96K9= — Cisco MDS 9000 Family 1/2/4/8-Gbps 24-Port Fibre Channel Mod",
+      "DS-X9232-256K9 — Cisco MDS 9000 Family 32-Port 8-Gbps Advanced Fibre Channel ",
+      "DS-X9232-256K9= — Cisco MDS 9000 Family 32-Port 8-Gbps Advanced Fibre Channel "
+     ],
+     "rules": {
+      "sku": 21
+     }
+    },
+    {
+     "series": "MDS 9500 directors (9506 / 9509 / 9513)",
+     "role": null,
+     "note": null,
+     "parts": 80,
+     "kinds": {
+      "fabric": 4,
+      "fan": 5,
+      "mechanical": 25,
+      "supervisor": 8,
+      "director": 34,
+      "linecard": 2,
+      "accessory": 2
+     },
+     "roles": {},
+     "samples": [
+      "DS-13SLT-FAB2 — MDS 9513 Crossbar Switching Fabric Module 2",
+      "DS-13SLT-FAB2= — Cisco MDS 9513 Crossbar Switching Fabric2 Module, Spare (req",
+      "DS-13SLT-FAB3 — MDS 9513 Crossbar Switching Fabric3 Module",
+      "DS-13SLT-FAB3= — MDS 9513 Crossbar Switching Fabric3 Module, Spare",
+      "DS-13SLT-FAN-F — MDS 9513 front installed fan tray",
+      "DS-13SLT-FAN-F= — MDS 9513 front installed fan tray, Spare"
+     ],
+     "rules": {
+      "sku": 80
+     }
+    },
+    {
+     "series": "MDS 9300 fabric switches (9396S / 9396T / 9396V)",
+     "role": null,
+     "note": null,
+     "parts": 45,
+     "kinds": {
+      "mechanical": 9,
+      "fc-switch": 36
+     },
+     "roles": {},
+     "samples": [
+      "DS-9396S-KIT-CSCO — Cisco MDS 9396S Accessory Kit for Cisco",
+      "DS-9396S-KIT-CSCO= — Cisco MDS 9396S Accessory Kit for Cisco, spare",
+      "DS-9396S-KIT-EM — Cisco MDS 9396S Accessory Kit for EMC",
+      "DS-9396S-KIT-HDS — Cisco MDS 9396S Accessory Kit for HDS",
+      "DS-9396S-KIT-IBM — Cisco DS 9396S Accessory Kit for IBM",
+      "DS-9396T-KIT-CSCO — MDS 9396T Accessory Kit for Cisco"
+     ],
+     "rules": {
+      "sku": 45
+     }
+    },
+    {
+     "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
+     "role": null,
+     "note": null,
+     "parts": 38,
+     "kinds": {
+      "mechanical": 6,
+      "power": 3,
+      "fan": 2,
+      "fc-switch": 26,
+      "unknown": 1
+     },
+     "roles": {},
+     "samples": [
+      "DS-9250I-KITCCO — MDS 9250i Accessory Kit for Cisco",
+      "DS-9250I-KITCCO= — MDS 9200 Accessory Kit for Cisco, spare",
+      "DS-9250I-KITEMC — MDS 9250i Accessory Kit for EMC",
+      "DS-9250I-KITHDS — MDS 9250i Accessory Kit for HDS",
+      "DS-9250I-KITHP — MDS 9250i Accessory Kit for HP",
+      "DS-9250I-KITIBM — MDS 9250i Accessory Kit for IBM"
+     ],
+     "rules": {
+      "sku": 37,
+      "label": 1
+     }
+    },
+    {
+     "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+     "role": null,
+     "note": null,
+     "parts": 166,
+     "kinds": {
+      "mechanical": 44,
+      "fc-switch": 119,
+      "accessory": 1,
+      "linecard": 2
+     },
+     "roles": {},
+     "samples": [
+      "DS-9124-KIT-CSCO — MDS 9124 Accessory kit for Cisco",
+      "DS-9124-KIT-CSCO= — Accessory Kit for MDS 9124 Cisco, spare",
+      "DS-9124-KIT-EMC — MDS 9124 Accessory kit for EMC",
+      "DS-9124-KIT-HDS — MDS 9124 Accessory Kit for HDS",
+      "DS-9124-KIT-HP — MDS 9124 Accessory Kit for HP",
+      "DS-9124-KIT-IBM — MDS 9124 Accessory Kit for IBM"
+     ],
+     "rules": {
+      "sku": 164,
+      "label": 2
+     }
+    },
+    {
+     "series": "MDS blade-server FC switches (HP / IBM / Dell)",
+     "role": null,
+     "note": null,
+     "parts": 4,
+     "kinds": {
+      "fc-switch": 4
+     },
+     "roles": {},
+     "samples": [
+      "DS-HP-8GFC-K9 — 8Gbps FC Switch for HP Blade System",
+      "DS-HP-8GFC-K9= — 8Gbps FC Switch for HP Blade System",
+      "DS-HP-8GFC-L-K9 — 8Gbps FC Switch for HP Blade System with Port Licensing",
+      "DS-HP-8GFC-L-K9= — 8Gbps FC Switch for HP Blade System with Port Licensing"
+     ],
+     "rules": {
+      "sku": 4
+     }
+    },
+    {
+     "series": "MDS 9000 Multilayer SAN Switches shared parts",
+     "role": null,
+     "note": null,
+     "parts": 151,
+     "kinds": {
+      "cable": 74,
+      "fan": 15,
+      "mechanical": 10,
+      "power": 46,
+      "accessory": 6
+     },
+     "roles": {},
+     "samples": [
+      "CAB-1900W-CH — Power Cord, 250VAC, 16A GB1002 Plug, China",
+      "CAB-1900W-CH= — Power Cord, 250VAC, 16A GB1002 Plug, China, Spare",
+      "CAB-1900W-EU — Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7",
+      "CAB-1900W-EU= — Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7, Spare",
+      "CAB-1900W-INT — Power Cord 250VAC 16A, International, Src Plug IEC 309",
+      "CAB-1900W-INT= — Power Cord 250VAC 16A, International, Src Plug IEC 309, Spar"
+     ],
+     "rules": {
+      "accessory": 72,
+      "sku": 77,
+      "label": 2
+     }
+    }
+   ]
+  }
+ ],
+ "not_this_category": [],
+ "pending_plans": [
+  {
+   "sku": "C97-743576-00",
+   "name": "Cisco C97-743576-00",
+   "series_label": "MDS 9700 Series Multilayer Directors",
+   "action": "class",
+   "to": "non_product",
+   "reason": "a Cisco collateral document number (C97-) enumerated as a part (III.0 item 6)"
+  },
+  {
+   "sku": "DS-FC-SW-4PK=",
+   "name": "1/2-Gbps Fibre Channel-Shortwave, SFP, LC, 4 pack, Spare",
+   "series_label": "MDS 9500 Series Multilayer Directors",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "Fibre Channel SFP 4-pack: an optic (spec II.12)"
+  }
+ ],
+ "unplaced": [],
+ "done": true
+}
