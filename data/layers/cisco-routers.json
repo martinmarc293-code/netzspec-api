@@ -1,0 +1,4088 @@
+{
+ "vendor": "cisco",
+ "category": "routers",
+ "built_at": "2026-09-14T12:49:59.658Z",
+ "mapping_file": "data/reference/product-lines/cisco-routers.json",
+ "parts": 5470,
+ "lines": [
+  {
+   "line": "Secure Routers",
+   "parts": 31,
+   "series": [
+    {
+     "series": "8100 Secure Router",
+     "role": "branch",
+     "parts": 15,
+     "kinds": {
+      "router": 15
+     },
+     "roles": {
+      "branch": 15
+     },
+     "samples": [
+      "C8130-G2 — Cisco 8100 Secure Router with 6x1GE *",
+      "C8130-VAI-G2 — Cisco C8130-VAI-G2",
+      "C8130-VAI-G2/ — Cisco C8130-VAI-G2/",
+      "C8130-VAP-G2 — Cisco C8130-VAP-G2",
+      "C8130-VAP-G2/ — Cisco C8130-VAP-G2/",
+      "C8130H-G2 — Cisco C8130H-G2"
+     ],
+     "rules": {
+      "sku": 15
+     }
+    },
+    {
+     "series": "8200 Secure Router",
+     "role": "branch",
+     "parts": 9,
+     "kinds": {
+      "router": 9
+     },
+     "roles": {
+      "branch": 9
+     },
+     "samples": [
+      "C8211-G2 — Cisco 8200 Secure Router with 6x1GE",
+      "C8221-G2 — Cisco C8221-G2",
+      "C8221L-G2 — Cisco C8221L-G2",
+      "C8225-G2 — Cisco C8225-G2",
+      "C8231-E-G2 — Cisco C8231-E-G2",
+      "C8231-G2 — Cisco C8231-G2"
+     ],
+     "rules": {
+      "sku": 9
+     }
+    },
+    {
+     "series": "8300 Secure Router",
+     "role": "branch",
+     "parts": 2,
+     "kinds": {
+      "router": 2
+     },
+     "roles": {
+      "branch": 2
+     },
+     "samples": [
+      "C8355-G2 — Cisco 8300 Secure Router with 4x10GE, 4x5GE, 2x1GE, and 1xPI",
+      "C8375-E-G2 — Cisco C8375-E-G2"
+     ],
+     "rules": {
+      "sku": 2
+     }
+    },
+    {
+     "series": "8400 Secure Router",
+     "role": "branch",
+     "parts": 2,
+     "kinds": {
+      "router": 2
+     },
+     "roles": {
+      "branch": 2
+     },
+     "samples": [
+      "C8455-G2 — Cisco 8400 Secure Router with 8x1GE, 2x10GE, 2x25GE",
+      "C8475-G2 — Cisco C8475-G2"
+     ],
+     "rules": {
+      "sku": 2
+     }
+    },
+    {
+     "series": "8500 Secure Router",
+     "role": "edge",
+     "parts": 2,
+     "kinds": {
+      "router": 2
+     },
+     "roles": {
+      "edge": 2
+     },
+     "samples": [
+      "C8550-G2 — Cisco C8550-G2",
+      "C8570-G2 — Cisco C8570-G2"
+     ],
+     "rules": {
+      "sku": 2
+     }
+    },
+    {
+     "series": "8600 Secure Router",
+     "role": "edge",
+     "parts": 1,
+     "kinds": {
+      "router": 1
+     },
+     "roles": {
+      "edge": 1
+     },
+     "samples": [
+      "C8650-G2 — Cisco 8600 Secure Router with 20x10GE, 6x100GE"
+     ],
+     "rules": {
+      "sku": 1
+     }
+    }
+   ]
+  },
+  {
+   "line": "Catalyst 8000 Edge",
+   "parts": 224,
+   "series": [
+    {
+     "series": "Catalyst 8200 Edge uCPE",
+     "role": null,
+     "parts": 18,
+     "kinds": {
+      "appliance": 2,
+      "accessory": 2,
+      "memory": 2,
+      "drive": 12
+     },
+     "roles": {},
+     "samples": [
+      "C8200-UCPE-1N8 — Cisco Catalyst 8200 Edge uCPE with 1 NIM slot and 1 PIM slot",
+      "C8200-UCPE-1N8= — Catalyst 8200-uCPE Edge Series (8-core Intel) chassis spare",
+      "E100S-CON-DGL — KVM Dongle",
+      "E100S-CON-DGL= — KVM Dongle",
+      "E100S-MEM-UDIMM8G — 8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E",
+      "E100S-MEM-UDIMM8G= — 8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E"
+     ],
+     "rules": {
+      "sku": 2,
+      "label": 6,
+      "name": 10
+     }
+    },
+    {
+     "series": "Catalyst 8300 Edge uCPE",
+     "role": null,
+     "parts": 15,
+     "kinds": {
+      "appliance": 3,
+      "mechanical": 1,
+      "fan": 1,
+      "drive": 10
+     },
+     "roles": {},
+     "samples": [
+      "C8300-UCPE-1N20 — Catalyst 8300 Series Edge uCPE platform with 1 NIM and 1 PIM",
+      "C8300-UCPE-1N20= — Catalyst 8300-uCPE Edge Series (20-core Intel) Spare",
+      "C8300-UCPE-4PT= — Cisco Catalyst 8300 uCPE Rack Mount Kit 4 Post – 1RU Spare",
+      "C8300-UCPE-FAN= — Cisco Catalyst 8300 Fan Tray Spare",
+      "C83UCPE-20C — C8300 UCPE 20 core",
+      "E-SSD-U2N-2TB — 2 TB, NVME SSD drive for UCS-E M6"
+     ],
+     "rules": {
+      "sku": 5,
+      "label": 10
+     }
+    },
+    {
+     "series": "Catalyst 8200",
+     "role": "branch",
+     "parts": 39,
+     "kinds": {
+      "module": 1,
+      "router": 5,
+      "accessory": 10,
+      "mechanical": 7,
+      "memory": 10,
+      "power": 6
+     },
+     "roles": {
+      "branch": 5
+     },
+     "samples": [
+      "C-NM-8M — Cisco C-NM-8M",
+      "C82-1N-4T-CAP — Cisco C8200 Edge Platform,5Yr DNA-A,5Yr SNTC-8x5xNBD",
+      "C8200-1N-4T — Cisco Catalyst 8200 Edge platform with 1 NIM and 1 PIM slots",
+      "C8200-1N-4T= — Cisco Catalyst Edge C8200-1N-4T Chassis Spare",
+      "C8200-NIM-BLANK — Cisco C8200 NIM Blank",
+      "C8200-NIM-BLANK= — Cisco C8200-NIM-BLANK="
+     ],
+     "rules": {
+      "label": 10,
+      "sku": 26,
+      "name": 3
+     }
+    },
+    {
+     "series": "Catalyst 8300",
+     "role": "branch",
+     "parts": 72,
+     "kinds": {
+      "accessory": 7,
+      "router": 8,
+      "mechanical": 23,
+      "fan": 5,
+      "drive": 3,
+      "memory": 6,
+      "power": 20
+     },
+     "roles": {
+      "branch": 8
+     },
+     "samples": [
+      "C-RFID-1R — Cisco C8300 1RU Edge Platform - RFID",
+      "C-RFID-2R — Cisco C8300 2RU Edge Platform - RFID",
+      "C83-1N1S-6T-CAP — Cisco C8300-1N1S-6T Router, 5Yr DNA-A,5Yr SNTC-8x5xNBD",
+      "C83-2N2S-4T2X-CAP — Cisco C8300-2N2S-4T2X Router, 5Yr DNA-A,5Y SNTC-8x5xNBD",
+      "C8300-1N1S-4T2X — Cisco Catalyst 8300 Edge platform with 1 SM, 1 NIM, and 1 PI",
+      "C8300-1N1S-6T — Cisco Catalyst 8300 Edge platform with 1 SM, 1 NIM, and 1 PI"
+     ],
+     "rules": {
+      "name": 22,
+      "sku": 45,
+      "label": 5
+     }
+    },
+    {
+     "series": "Catalyst 8500L",
+     "role": "edge",
+     "parts": 22,
+     "kinds": {
+      "mechanical": 6,
+      "router": 1,
+      "fan": 1,
+      "memory": 6,
+      "accessory": 1,
+      "power": 6,
+      "drive": 1
+     },
+     "roles": {
+      "edge": 1
+     },
+     "samples": [
+      "C8500L-4PT-KIT — Cisco C8500L extension rails and brackets for 4P mounting",
+      "C8500L-4PT-KIT= — Cisco C8500L extension rails and brackets for 4P mounting",
+      "C8500L-8S4X — Cisco Catalyst 8500 Series 4 port SFP+, 8 port SFP -port SFP",
+      "C8500L-FAN-1R= — Cisco Catalyst 8500L Edge Fan Tray, 1RU, Spare",
+      "C8500L-RM-19-1R — Cisco Catalyst 8500L Edge accessory kit - 19 inches",
+      "C8500L-RM-19-1R= — Cisco Catalyst 8500L Rack mount kit - 19\" 1R"
+     ],
+     "rules": {
+      "sku": 14,
+      "name": 7,
+      "label": 1
+     }
+    },
+    {
+     "series": "Catalyst 8500",
+     "role": "edge",
+     "parts": 39,
+     "kinds": {
+      "accessory": 6,
+      "router": 5,
+      "mechanical": 10,
+      "fan": 2,
+      "drive": 6,
+      "memory": 6,
+      "power": 4
+     },
+     "roles": {
+      "edge": 5
+     },
+     "samples": [
+      "C-RFID-NONE — Cisco C-RFID-NONE",
+      "C8500-12X — Cisco Catalyst 8500 Series 12-port SFP+",
+      "C8500-12X4QC — Cisco Catalyst 8500 Series 12-port SFP+, 2-port QSFP+, 2-por",
+      "C8500-12X4QC= — Cisco C8500-12X4QC=",
+      "C8500-12X= — Cisco C8500-12X=",
+      "C8500-20X6C — Cisco Catalyst 8500 Series 20-port SFP+, 6-port QSFP+"
+     ],
+     "rules": {
+      "label": 4,
+      "sku": 25,
+      "name": 10
+     }
+    },
+    {
+     "series": "Catalyst 8000V",
+     "role": null,
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
+    },
+    {
+     "series": "Catalyst 8000 Edge shared parts",
+     "role": null,
+     "parts": 19,
+     "kinds": {
+      "mechanical": 10,
+      "cable": 4,
+      "drive": 5
+     },
+     "roles": {},
+     "samples": [
+      "C-E1S-BLANK — Cisco Catalyst E1.S Disk Blank",
+      "C-E1S-BLANK= — Cisco Catalyst E1.S Disk Blank Spare",
+      "C-HDD-BLANK — Cisco Catalyst 8200 Edge 2.5\" HDD Blank",
+      "C-HDD-BLANK= — Cisco Catalyst 8200 Edge 2.5\" HDD Blank",
+      "C-M2-BLANK — Cisco Catalyst M.2 Disk Blank",
+      "C-M2-BLANK= — Cisco Catalyst M.2 Disk Blank Spare"
+     ],
+     "rules": {
+      "accessory": 14,
+      "name": 5
+     }
+    }
+   ]
+  },
+  {
+   "line": "ISR (Integrated Services Routers)",
+   "parts": 1302,
+   "series": [
+    {
+     "series": "ISR 1100",
+     "role": "branch",
+     "parts": 131,
+     "kinds": {
+      "appliance": 3,
+      "router": 120,
+      "module": 6,
+      "memory": 2
+     },
+     "roles": {
+      "branch": 120
+     },
+     "samples": [
+      "C1100TG-1N24P32A — Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 ",
+      "C1100TG-1N32A — Cisco 1100 Terminal Services Gateway w/ 32 Async, 1 NIM (sup",
+      "C1100TGX-1N24P32A — Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 ",
+      "C1101-4P — ISR 1101 4 Ports GE Ethernet WAN Router",
+      "C1101-4PLTEP — ISR 1101 4P GE Ethernet and LTE Secure Router with Pluggable",
+      "C1109-2PLTEGB — ISR 1109 M2M 2 Ports GE Ethernet and LTE Europe"
+     ],
+     "rules": {
+      "sku": 123,
+      "label": 8
+     }
+    },
+    {
+     "series": "ISR 4000",
+     "role": "branch",
+     "parts": 196,
+     "kinds": {
+      "mechanical": 21,
+      "fan": 10,
+      "accessory": 2,
+      "router": 85,
+      "memory": 24,
+      "flash": 14,
+      "power": 36,
+      "drive": 4
+     },
+     "roles": {
+      "branch": 85
+     },
+     "samples": [
+      "ACS-4220-RM-19 — 19 inch rack mount kit for Cisco ISR 4220 & VG400",
+      "ACS-4220-RM-19= — 19 inch rack mount kit for Cisco ISR 4220 & VG400",
+      "ACS-4320-BEZEL= — Cisco ISR 4320 Series Front Bezel",
+      "ACS-4320-FANASSY= — Cisco ISR 4330 Fan Assembly, Spare",
+      "ACS-4320-RM-19= — 19 inch rack mount kit for Cisco ISR 4320",
+      "ACS-4330-BEZEL= — Cisco ISR 4330 Series Front Bezel"
+     ],
+     "rules": {
+      "sku": 122,
+      "label": 74
+     }
+    },
+    {
+     "series": "ISR 900",
+     "role": "branch",
+     "parts": 37,
+     "kinds": {
+      "mechanical": 4,
+      "router": 33
+     },
+     "roles": {
+      "branch": 33
+     },
+     "samples": [
+      "ACS-900-DM — ISR 900 Series Under Desk Mounting Kit",
+      "ACS-900-DM= — ISR 900 Series Under Desk Mounting Kit",
+      "ACS-900-RM-19 — 19 inch Rackmount Kit for ISR 900 Series Routers",
+      "ACS-900-RM-19= — 19 inch Rackmount Kit for ISR 900 Series Routers",
+      "C921 — Cisco C921",
+      "C921-4P — Cisco 900 Series Integrated Services Routers"
+     ],
+     "rules": {
+      "sku": 37
+     }
+    },
+    {
+     "series": "ISR 819 Hardened (M2M)",
+     "role": "industrial-iot",
+     "parts": 18,
+     "kinds": {
+      "router": 18
+     },
+     "roles": {
+      "industrial-iot": 18
+     },
+     "samples": [
+      "C819H-K9 — C819 M2M Hardened Secure Router with Smart Serial",
+      "C819HG+7-K9 — C819 Secure Hardened M2M GW (non-US) 3.7G HSPA + R7, SMS/GPS",
+      "C819HG-4G-A-K9 — C819 Hardened 4G LTE M2M GW for ATT 700 MHz Band 17",
+      "C819HG-4G-G-K9 — C819 Hardened 4G LTE for Global, 800/900/1800/2100/2600 MHz",
+      "C819HG-4G-V-K9 — C819 Hardened 4G LTE M2M GW for Verizon 700 MHz Band 13",
+      "C819HG-B-K9 — Cisco C819HG-B-K9"
+     ],
+     "rules": {
+      "sku": 18
+     }
+    },
+    {
+     "series": "ISR 800",
+     "role": "branch",
+     "parts": 356,
+     "kinds": {
+      "power": 44,
+      "router": 277,
+      "accessory": 7,
+      "mechanical": 10,
+      "memory": 12,
+      "module": 3,
+      "flash": 3
+     },
+     "roles": {
+      "branch": 277
+     },
+     "samples": [
+      "800-IL-PM-2 — 2 Port 802.3af compatible pwr module for 800 Series",
+      "800-IL-PM-2= — 2 Port 802.3af compatible pwr module for 800 Series",
+      "800-IL-PM-4 — 4 Port 802.3af capable pwr module for 890 Series Router",
+      "800-IL-PM-4= — 4 Port 802.3af capable pwr module for 890 Series Router",
+      "800-IL-PM=2 — 2 port 802.3af capable inline power module for 880 routers",
+      "800G2-POE-2 — 2 Port PoE Module for 880 Series Router"
+     ],
+     "rules": {
+      "label": 66,
+      "sku": 290
+     }
+    },
+    {
+     "series": "ISR 1800",
+     "role": "branch",
+     "parts": 16,
+     "kinds": {
+      "router": 15,
+      "mechanical": 1
+     },
+     "roles": {
+      "branch": 15
+     },
+     "samples": [
+      "C1841-3G-S — CISCO1841 bundle w/HWIC-3G-CDMA-S, IP Base, 64FL/128DR",
+      "C1841-3G-S-SEC/K9 — CISCO1841, HWIC-3G-CDMA-S, 64MB FL/256MB DRAM, Adv Security",
+      "C1841-3G-V — CISCO1841 bundle w/HWIC-3G-CDMA-V, IP Base, 64FL/128DR",
+      "C1841-3G-V-SEC/K9 — CISCO1841, HWIC-3G-CDMA-V 64MB FL/256MB DRAM, Adv Security",
+      "C1841-FIPS-SHIELD= — FIPS Opacity Shield for Cisco 1841",
+      "C1861-2B-VSEC/K9 — Cisco C1861-2B-VSEC/K9"
+     ],
+     "rules": {
+      "sku": 16
+     }
+    },
+    {
+     "series": "ISR 1900",
+     "role": "branch",
+     "parts": 66,
+     "kinds": {
+      "mechanical": 1,
+      "router": 64,
+      "power": 1
+     },
+     "roles": {
+      "branch": 64
+     },
+     "samples": [
+      "ACS-1941-RM-19= — 19 inch rack mount kit for Cisco 1941 &1941W ISR",
+      "C1-CISCO1921/K9 — Cisco ONE - ISR 1921",
+      "C1-CISCO1941/K9 — Cisco ONE - ISR 1941",
+      "C1905BR-SEC/K9= — CE Brazil Cisco 1905 SEC Bundle",
+      "C1921-3G+7-A-K9 — C1921 3.7G HSPA+ (N. America) 850/900/1900/2100 MHz",
+      "C1921-3G+7-K9 — C1921 3.7G HSPA+ (non-US) 850/900/1900/2100 MHz"
+     ],
+     "rules": {
+      "sku": 65,
+      "label": 1
+     }
+    },
+    {
+     "series": "ISR 2800",
+     "role": "branch",
+     "parts": 42,
+     "kinds": {
+      "router": 42
+     },
+     "roles": {
+      "branch": 42
+     },
+     "samples": [
+      "C2801-10UC-VSEC/K9 — Cisco C2801-10UC-VSEC/K9",
+      "C2801-2SHDSL/K9 — 2801 2-pair G.SHDSL bundle, HWIC-2SHDSL, SP Services, 64F/19",
+      "C2801-4SHDSL/K9 — 2801 4-pair G.SHDSL bundle, HWIC-4SHDSL, SP Services, 64F/19",
+      "C2801-H-VSEC/K9 — Cisco C2801-H-VSEC/K9",
+      "C2801-VSEC-CCME/K9 — Cisco C2801-VSEC-CCME/K9",
+      "C2801-VSEC-SRST/K9 — Cisco C2801-VSEC-SRST/K9"
+     ],
+     "rules": {
+      "sku": 42
+     }
+    },
+    {
+     "series": "ISR 2900",
+     "role": "branch",
+     "parts": 192,
+     "kinds": {
+      "fan": 7,
+      "mechanical": 9,
+      "module": 3,
+      "router": 101,
+      "sp-core": 1,
+      "memory": 35,
+      "flash": 11,
+      "drive": 2,
+      "power": 23
+     },
+     "roles": {
+      "branch": 101
+     },
+     "samples": [
+      "1941-2901-FANBLWR= — Cisco 1941/2901 Fan Blower Assembly (only as spare)",
+      "2911-AIRCVTR-NEBS — Cisco 2911 Front-to-Back Air Flow converter for NEBS use",
+      "2911-AIRCVTR-NEBS= — Cisco 2911 Front-to-Back Air Flow Converter for NEBS use (on",
+      "2911-FANASSY= — Cisco 2911 Fan Assembly (no Bezel included) (only as spare)",
+      "2911-FANFLTR-NEBS — Cisco 2911 Fan Filter for NEBS environment (Both system & sp",
+      "2921-51-FANASSY-2 — Cisco 2921/2951 Fan Assembly and Bezel"
+     ],
+     "rules": {
+      "label": 87,
+      "sku": 105
+     }
+    },
+    {
+     "series": "ISR 3800",
+     "role": "branch",
+     "parts": 30,
+     "kinds": {
+      "router": 19,
+      "accessory": 3,
+      "mechanical": 2,
+      "antenna": 6
+     },
+     "roles": {
+      "branch": 19
+     },
+     "samples": [
+      "C3825-35UC-VSEC/K9 — Cisco C3825-35UC-VSEC/K9",
+      "C3825-H-VSEC/K9 — Cisco C3825-H-VSEC/K9",
+      "C3825-VSEC-CCME/K9 — Cisco C3825-VSEC-CCME/K9",
+      "C3825-VSEC-SRST/K9 — Cisco C3825-VSEC-SRST/K9",
+      "C3825-VSEC/K9 — Cisco C3825-VSEC/K9",
+      "C3845-35UC-VSEC/K9 — Cisco C3845-35UC-VSEC/K9"
+     ],
+     "rules": {
+      "sku": 19,
+      "label": 11
+     }
+    },
+    {
+     "series": "ISR 3900",
+     "role": "branch",
+     "parts": 79,
+     "kinds": {
+      "fan": 6,
+      "mechanical": 1,
+      "router": 57,
+      "processor": 8,
+      "chassis": 2,
+      "memory": 1,
+      "flash": 4
+     },
+     "roles": {
+      "branch": 57
+     },
+     "samples": [
+      "3900-FANASSY-2 — Cisco 3925/3945 Fan Assembly (no Bezel included)",
+      "3900-FANASSY-2= — Cisco 3925/3945 Fan Assembly (no Bezel included)",
+      "3900-FANASSY-N-2 — Cisco 3925/3945 Fan Assembly for NEBS (w/3900-FANFLTR-NEBS)",
+      "3900-FANASSY-N-2= — Cisco 3925/3945 Fan Assembly for NEBS (w/3900-FANFLTR-NEBS)",
+      "3900-FANASSY-NEBS= — Cisco 3900-FANASSY-NEBS=",
+      "3900-FANASSY= — Cisco 3900-FANASSY="
+     ],
+     "rules": {
+      "label": 11,
+      "sku": 68
+     }
+    },
+    {
+     "series": "ISR (Integrated Services Routers) shared parts",
+     "role": null,
+     "parts": 139,
+     "kinds": {
+      "antenna": 42,
+      "cable": 76,
+      "mechanical": 11,
+      "power-cord": 9,
+      "accessory": 1
+     },
+     "roles": {},
+     "samples": [
+      "3G-ACC-OUT-LA — 3G Outdoor Antenna Lightning Arrestor",
+      "3G-ACC-OUT-LA= — 3G Outdoor Antenna Lighting Protector",
+      "3G-AE010-R — Single Unit antenna Extension Base (10 foot cable included)",
+      "3G-AE010-R= — Single Unit antenna Extension Base (10 foot cable included)",
+      "3G-AE015-R — Single Unit antenna Extension Base (15 foot cable included)",
+      "3G-AE015-R= — Single Unit antenna Extension Base (15 foot cable included)"
+     ],
+     "rules": {
+      "accessory": 139
+     }
+    }
+   ]
+  },
+  {
+   "line": "ASR (Aggregation Services Routers)",
+   "parts": 1078,
+   "series": [
+    {
+     "series": "ASR 901",
+     "role": null,
+     "parts": 53,
+     "kinds": {
+      "sp-core": 19,
+      "mechanical": 21,
+      "chassis": 9,
+      "fan": 4
+     },
+     "roles": {},
+     "samples": [
+      "A901-12C-F-D — Cisco ASR 901 Series Aggregation Services Router Chassis, Et",
+      "A901-12C-FT-D — Cisco ASR 901 Series Aggregation Services Router Chassis, Et",
+      "A901-4C-F-D — Cisco ASR 901 Series Aggregation Services Router Chassis, PA",
+      "A901-4C-FT-D — Cisco ASR 901 Series Aggregation Services Router Chassis, PA",
+      "A901-6CZ-F-A — Cisco ASR 901 Series Aggregation Services Router Chassis, Et",
+      "A901-6CZ-F-D — Cisco ASR 901 Series Aggregation Services Router Chassis, Et"
+     ],
+     "rules": {
+      "sku": 44,
+      "label": 9
+     }
+    },
+    {
+     "series": "ASR 920",
+     "role": null,
+     "parts": 69,
+     "kinds": {
+      "mechanical": 21,
+      "accessory": 2,
+      "fan": 4,
+      "power-cord": 2,
+      "power": 4,
+      "sp-core": 36
+     },
+     "roles": {},
+     "samples": [
+      "A920-CBL-BRKT — Cable Bracket (Non-ETSI)",
+      "A920-CBL-BRKT-E — Cable Bracket (ETSI)",
+      "A920-CBL-BRKT-H — Cable Bracket for non ETSI rackmounts for ClassB ASR 920",
+      "A920-CBL-GUIDE — Cable Guide",
+      "A920-CBL-GUIDE-PC — ASR 920 Cable Guide for passively cooled variant",
+      "A920-FAN-TRAY-CC — Cisco ASR 920 Fan Tray Conformal Coated"
+     ],
+     "rules": {
+      "sku": 69
+     }
+    },
+    {
+     "series": "ASR 900",
+     "role": null,
+     "parts": 136,
+     "kinds": {
+      "module": 52,
+      "mechanical": 25,
+      "power": 10,
+      "processor": 19,
+      "accessory": 2,
+      "fan": 16,
+      "sp-core": 4,
+      "chassis": 8
+     },
+     "roles": {},
+     "samples": [
+      "A900-CM-GNSS — ASR 900 Global Navigation Satellite System Module",
+      "A900-CM-GNSS= — ASR 900 Global Navigation Satellite System Module, spare",
+      "A900-CONS-KIT-S — ASR 900 Serial Console Cabling Kit",
+      "A900-CONS-KIT-U — ASR 900 USB Console Cabling Kit",
+      "A900-IMA-8CS1Z — NCS 560 Combo 8/16 port GE SFP/C-SFP and 1 port 10GE SFP+ / ",
+      "A900-IMA-8CS1Z= — NCS 560 Combo 8/16 port GE SFP/C-SFP and 1 port 10GE SFP+ / "
+     ],
+     "rules": {
+      "sku": 128,
+      "label": 8
+     }
+    },
+    {
+     "series": "ASR 1000",
+     "role": "edge",
+     "parts": 325,
+     "kinds": {
+      "mechanical": 38,
+      "linecard": 24,
+      "processor": 35,
+      "power": 35,
+      "fan": 6,
+      "router": 97,
+      "module": 4,
+      "chassis": 34,
+      "drive": 20,
+      "memory": 32
+     },
+     "roles": {
+      "edge": 97
+     },
+     "samples": [
+      "A1K-1RU-REAR= — ASR1001-X and ASR1001-HX Rear Mount Brackets, Spare",
+      "A1K-2RU-REAR= — ASR1002-X and ASR1002-HX Rear Mount Brackets, Spare",
+      "ASR1000-2T+20GE-C — ASR1000 2-port 10GE, 20-port GE Line Card, China Special",
+      "ASR1000-2T+20GE-C= — ASR1000 2-port 10GE, 20-port GE Line Card, China Special",
+      "ASR1000-2T+20X1GE — Cisco ASR 1000 Fixed Ethernet Line Card (20x1GE + 2x10GE)",
+      "ASR1000-2T+20X1GE= — Cisco ASR 1000 Fixed Ethernet Line Card, 2X10GE + 20X1GE, Sp"
+     ],
+     "rules": {
+      "label": 10,
+      "sku": 315
+     }
+    },
+    {
+     "series": "ASR 5000 and 5500",
+     "role": null,
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
+    },
+    {
+     "series": "ASR 9000",
+     "role": null,
+     "parts": 452,
+     "kinds": {
+      "linecard": 220,
+      "processor": 65,
+      "fabric": 18,
+      "power": 26,
+      "fan": 23,
+      "mechanical": 24,
+      "accessory": 2,
+      "module": 20,
+      "sp-core": 28,
+      "chassis": 14,
+      "appliance": 4,
+      "drive": 5,
+      "memory": 3
+     },
+     "roles": {},
+     "samples": [
+      "A99-10X400GE-X-SE — ASR 9000 4T Service Edge Line Card - 5 th Generation",
+      "A99-10X400GE-X-TR — ASR 9000 4T Packet Transport Line Card - 5 th Generation",
+      "A99-1200G-ADVRTNG — ASR 9900 Standard Advanced routing license for route scales ",
+      "A99-1200G-AIP — ASR 9900 Standard Advanced IP License to turn on full-scale ",
+      "A99-1200G-IVRF — ASR 9900 Standard License to activate up to 8 VRFs on 12x100",
+      "A99-12X100GE — ASR 9900 12-port 100GE Line Card"
+     ],
+     "rules": {
+      "sku": 423,
+      "label": 29
+     }
+    },
+    {
+     "series": "ASR (Aggregation Services Routers) shared parts",
+     "role": null,
+     "parts": 43,
+     "kinds": {
+      "mechanical": 10,
+      "accessory": 6,
+      "cable": 27
+     },
+     "roles": {},
+     "samples": [
+      "100GE-CFP-COVER — 100GE CFP Dust Cover",
+      "100GE-CFP-COVER= — 100GE CFP Dust Cover",
+      "A90X-RSPA-BLANK — Cisco A90X-RSPA-BLANK",
+      "A90X-RSPA-BLANK= — ASR 90X Route Switch Processor Type-A Blank Cover, spare",
+      "A90X-RSPB-BLANK= — ASR 90X Route Switch Processor Type-B Blank Cover, spare",
+      "CAB-9AS-M — 4-port EIA-232 DTE cable, 68-pin port, 10 ft. length, male D"
+     ],
+     "rules": {
+      "accessory": 43
+     }
+    }
+   ]
+  },
+  {
+   "line": "Legacy Service Routers",
+   "parts": 8,
+   "series": [
+    {
+     "series": "Cisco 7200",
+     "role": "edge",
+     "parts": 4,
+     "kinds": {
+      "router": 4
+     },
+     "roles": {
+      "edge": 4
+     },
+     "samples": [
+      "7206VXR400/2+VPNK9 — Cisco 7206VXR400/2+VPNK9",
+      "7206VXRG1/2+VPNK9 — Cisco 7206VXRG1/2+VPNK9",
+      "7206VXRG2/2+VPNK9 — Cisco 7206VXRG2/2+VPNK9",
+      "7206VXRG2/VSAVPNK9 — Cisco 7206VXRG2/VSAVPNK9"
+     ],
+     "rules": {
+      "sku": 4
+     }
+    },
+    {
+     "series": "Cisco 7600",
+     "role": "edge",
+     "parts": 4,
+     "kinds": {
+      "router": 4
+     },
+     "roles": {
+      "edge": 4
+     },
+     "samples": [
+      "7604-VPN+-K9 — Cisco 7604-VPN+-K9",
+      "7606-VPN+-K9 — Cisco 7606-VPN+-K9",
+      "7609-VPN+-K9 — Cisco 7609-VPN+-K9",
+      "7613-VPN+-K9 — Cisco 7613-VPN+-K9"
+     ],
+     "rules": {
+      "sku": 4
+     }
+    }
+   ]
+  },
+  {
+   "line": "NCS (Network Convergence System)",
+   "parts": 674,
+   "series": [
+    {
+     "series": "NCS 520, 540 and 560",
+     "role": null,
+     "parts": 131,
+     "kinds": {
+      "sp-core": 52,
+      "mechanical": 46,
+      "fan": 8,
+      "processor": 11,
+      "chassis": 4,
+      "module": 8,
+      "power": 2
+     },
+     "roles": {},
+     "samples": [
+      "N520-10G-2 — Cisco NCS 520 Series 2-Port 10G Upgrade License",
+      "N520-1G-8 — Cisco NCS 520 Series 8 Ports GE Upgrade License",
+      "N520-20G4Z-A — Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp, AC power",
+      "N520-20G4Z-A= — Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp",
+      "N520-20G4Z-D — Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp, DC power",
+      "N520-20G4Z-D= — Cisco NCS 520 - 20xGE + 4x10GE, Industrial Temp"
+     ],
+     "rules": {
+      "sku": 131
+     }
+    },
+    {
+     "series": "NCS 4200",
+     "role": null,
+     "parts": 9,
+     "kinds": {
+      "module": 1,
+      "sp-core": 4,
+      "mechanical": 2,
+      "processor": 2
+     },
+     "roles": {},
+     "samples": [
+      "NCS4200-2H-PQ= — NCS 4200 2 port 100GE QSFP28 Interface Module",
+      "NCS4201-SA= — NCS 4201 Shelf Assembly - 4x10GE + 24x GE/FE (1 RU)",
+      "NCS4202-1RU — FNLASY,NCS4202-SA,1RU",
+      "NCS4202-SA= — NCS 4202 Shelf Assembly - 4x10GE + 12x GE/FE + 1 IM (1 RU)",
+      "NCS4206-DOOR= — NCS 4206 Door and Ancillary",
+      "NCS4216-DOOR= — NCS 4216 Door and Ancillary"
+     ],
+     "rules": {
+      "sku": 9
+     }
+    },
+    {
+     "series": "NCS 5500",
+     "role": null,
+     "parts": 235,
+     "kinds": {
+      "power-cord": 2,
+      "linecard": 90,
+      "power": 18,
+      "accessory": 14,
+      "mechanical": 17,
+      "fan": 20,
+      "module": 14,
+      "fabric": 1,
+      "processor": 8,
+      "sp-core": 42,
+      "chassis": 9
+     },
+     "roles": {},
+     "samples": [
+      "15454-M-CBL-L-JPN — AC power cable - Japan left exit",
+      "15454-M-CBL-R-JPN — AC power cable - Japan right exit",
+      "NC-55-18H18F — NC55-18x100G + 18x40G Base Line Card HW for Flexible Consump",
+      "NC-55-18H18F= — NCS 5500 18X100G and 18X40G Line Card",
+      "NC-55-24H12F-SE — NC55-24x100G + 12x40G SE Line Card HW for Flexible Consumpti",
+      "NC-55-24H12F-SE= — NCS 5500 24X100G and 12X40GE Line Card"
+     ],
+     "rules": {
+      "label": 10,
+      "sku": 225
+     }
+    },
+    {
+     "series": "NCS 5700",
+     "role": null,
+     "parts": 89,
+     "kinds": {
+      "linecard": 39,
+      "power": 4,
+      "mechanical": 9,
+      "fan": 5,
+      "processor": 1,
+      "module": 12,
+      "sp-core": 19
+     },
+     "roles": {},
+     "samples": [
+      "NC-57-18DD-SE — NCS 5700 Series 18 ports of 400 GE or 30 ports of 200 GE / 1",
+      "NC-57-18DD-SE= — NCS 5700 Series 18 ports of 400 GE or 30 ports of 200 GE / 1",
+      "NC-57-24DD — NCS 5700 Series 24 ports of 400 GE base line card with Flexi",
+      "NC-57-24DD= — NCS 5700 Series 24 ports of 400 GE base line card with Flexi",
+      "NC-57-36H-SE — NCS 5700 Series 36 ports of 100 GE line card with Flexible C",
+      "NC-57-36H-SE= — NCS 5700 Series 36 ports of 100 GE line card spare with Flex"
+     ],
+     "rules": {
+      "sku": 87,
+      "label": 2
+     }
+    },
+    {
+     "series": "NCS 5000",
+     "role": null,
+     "parts": 38,
+     "kinds": {
+      "sp-core": 15,
+      "mechanical": 13,
+      "fan": 10
+     },
+     "roles": {},
+     "samples": [
+      "NCS-5001 — Cisco NCS 5001 Series Router",
+      "NCS-5001-BUN — Cisco NCS 5001 Series Routing System Bundle",
+      "NCS-5001= — Cisco NCS 5001 Series Router",
+      "NCS-5002 — Cisco NCS 5002 Series Router",
+      "NCS-5002-ACSR — Cisco NCS 5002 Router Accessory Kit",
+      "NCS-5002-ACSR= — Cisco NCS 5002 Router Accessory Kit Spare"
+     ],
+     "rules": {
+      "sku": 38
+     }
+    },
+    {
+     "series": "NCS 6000",
+     "role": null,
+     "parts": 155,
+     "kinds": {
+      "linecard": 40,
+      "mechanical": 58,
+      "fan": 6,
+      "fabric": 12,
+      "power": 21,
+      "sp-core": 1,
+      "processor": 6,
+      "chassis": 11
+     },
+     "roles": {},
+     "samples": [
+      "NC6-100G-LSR-BN= — NCS 6000 100GE LSR Bundle",
+      "NC6-10X100G-L-K — Cisco NCS 6000 10 Port 100 Gigabit Ethernet LSR Line Card CP",
+      "NC6-10X100G-L-K-G — ^NCS 6000 6x100G LSR CPAK PAYG (To 10-Port)",
+      "NC6-10X100G-L-K-G= — NCS 6000 6x100G LSR CPAK PAYG (To 10-Port) Spare",
+      "NC6-10X100G-L-K= — NCS 6000 10x100G LSR CPAK Spare",
+      "NC6-10X100G-L-P — Cisco NCS 6000 10 Port 100 Gigabit Ethernet LSR Line Card CX"
+     ],
+     "rules": {
+      "sku": 136,
+      "label": 19
+     }
+    },
+    {
+     "series": "NCS (Network Convergence System) shared parts",
+     "role": null,
+     "parts": 17,
+     "kinds": {
+      "mechanical": 5,
+      "power-cord": 12
+     },
+     "roles": {},
+     "samples": [
+      "A9XX-RSPB-BLANK= — ASR 900 Route Switch Processor Type-B Blank Cover, Spare",
+      "CAB-250V-10A-AR — AC Power Cord – 250V, 10A – Argentina (2.5 meters)",
+      "CAB-250V-10A-CN — AC Power Cord – 250V, 10A – PRC (2.5 meters)",
+      "CAB-250V-10A-IS — AC Power Cord – 250V, 10A – Israel (2.5 meters)",
+      "CAB-3P-JPN — AC Power Cord (Japan), C13, 3 Prong Plug, 2.3M",
+      "CAB-AC-L620-C13 — North America, NEMA L6-20-C13 (2.0 meters)"
+     ],
+     "rules": {
+      "accessory": 17
+     }
+    }
+   ]
+  },
+  {
+   "line": "Cisco 8000",
+   "parts": 195,
+   "series": [
+    {
+     "series": "Cisco 8000",
+     "role": null,
+     "parts": 161,
+     "kinds": {
+      "accessory": 20,
+      "mechanical": 15,
+      "sp-core": 36,
+      "module": 9,
+      "power": 17,
+      "fan": 21,
+      "processor": 4,
+      "chassis": 10,
+      "fabric": 12,
+      "linecard": 16,
+      "power-cord": 1
+     },
+     "roles": {},
+     "samples": [
+      "8000-OSFP-DCAP — Cisco 8000-OSFP-DCAP",
+      "8000-QSFP-DCAP — QSFP Dust CAP",
+      "8010-FC-SW — Standard SW ATO FCM 2.0 for Cisco 8010 Series",
+      "8011-12G12X4Y-A — Cisco 8011-12G12X4Y-A",
+      "8011-12G12X4Y-A/D — Cisco 8011-12G12X4Y-A/D",
+      "8011-12G12X4Y-A= — Cisco 8011-12G12X4Y-A="
+     ],
+     "rules": {
+      "sku": 130,
+      "label": 31
+     }
+    },
+    {
+     "series": "Cisco 8000 shared parts",
+     "role": null,
+     "parts": 34,
+     "kinds": {
+      "power-cord": 15,
+      "accessory": 12,
+      "mechanical": 7
+     },
+     "roles": {},
+     "samples": [
+      "CAB-48DC-40A-8AWG — C-Series -48VDC PSU Power Cord, 3.5M, 3 Wire, 8AWG, 40A",
+      "CAB-AC-ARG — Power Cord - Argentina, 10A, 250V, 2500 mm, –40C to +85C",
+      "CAB-AC-AUS — Power Cord - Australia, 10A, 250V, 2500 mm, –40C to +85C",
+      "CAB-AC-BRA — Power Cord - Brazil, 10A, 250V, 2500 mm, –40C to +85C",
+      "CAB-AC-CHI — Power Cord - China, 10A, 250V, 2500 mm, –40C to +85C",
+      "CAB-AC-EUR — Power Cord - Europe, 16/10A, 250V, 2500 mm, –40C to +85C"
+     ],
+     "rules": {
+      "accessory": 34
+     }
+    }
+   ]
+  },
+  {
+   "line": "CRS (Carrier Routing System)",
+   "parts": 721,
+   "series": [
+    {
+     "series": "CRS",
+     "role": null,
+     "parts": 721,
+     "kinds": {
+      "module": 61,
+      "linecard": 88,
+      "bundle": 9,
+      "sp-core": 7,
+      "mechanical": 150,
+      "power": 66,
+      "power-cord": 18,
+      "accessory": 32,
+      "chassis": 55,
+      "fan": 20,
+      "fabric": 58,
+      "drive": 7,
+      "processor": 29,
+      "cable": 118,
+      "memory": 3
+     },
+     "roles": {},
+     "samples": [
+      "1-100GE-DWDM/C — Cisco CRS Series 1x100GE Integrated DWDM Interface Module",
+      "1-100GE-DWDM/C++= — Cisco CRS Series 1x100GE Integrated DWDM Interface Module",
+      "1-100GE-DWDM/C= — Cisco CRS Series 1x100GE Integrated DWDM Interface Module",
+      "100GE-DWDM-FP-PK — 1-100GE Integrated DWDM Interface Module and FP Bundle",
+      "100GE-DWDM-FP-PK= — 1-100GE Integrated DWDM Interface Module and FP Bundle",
+      "100GE-DWDM-LSP-PK — ^1x100GE Integrated DWDM Interface Module and LSP Bundle"
+     ],
+     "rules": {
+      "sku": 640,
+      "label": 81
+     }
+    }
+   ]
+  },
+  {
+   "line": "Industrial and IoT Routers",
+   "parts": 270,
+   "series": [
+    {
+     "series": "IR 1101",
+     "role": "industrial-iot",
+     "parts": 2,
+     "kinds": {
+      "router": 2
+     },
+     "roles": {
+      "industrial-iot": 2
+     },
+     "samples": [
+      "IR1101-A-K9 — Cisco IR1101-A-K9",
+      "IR1101-K9 — Cisco IR1101-K9"
+     ],
+     "rules": {
+      "sku": 2
+     }
+    },
+    {
+     "series": "IR 1800",
+     "role": "industrial-iot",
+     "parts": 11,
+     "kinds": {
+      "accessory": 1,
+      "router": 6,
+      "cable": 3,
+      "antenna": 1
+     },
+     "roles": {
+      "industrial-iot": 6
+     },
+     "samples": [
+      "AIR-ACC370-NF-NF — Cisco AIR-ACC370-NF-NF",
+      "IR1821-K9 — Cisco Catalyst IR1821 Rugged Series Router",
+      "IR1821-K9++ — Cisco Catalyst IR1821 Rugged Series Router- TAA",
+      "IR1831-K9 — Cisco Catalyst IR1831 Rugged Series Router",
+      "IR1831-K9++ — Cisco Catalyst IR1831 Rugged Series Router- TAA",
+      "IR1833-K9 — Cisco IR1833-K9"
+     ],
+     "rules": {
+      "label": 5,
+      "sku": 6
+     }
+    },
+    {
+     "series": "IR 8100",
+     "role": "industrial-iot",
+     "parts": 9,
+     "kinds": {
+      "accessory": 4,
+      "antenna": 1,
+      "router": 4
+     },
+     "roles": {
+      "industrial-iot": 4
+     },
+     "samples": [
+      "IOT-LA-NM-NF — Cisco IOT-LA-NM-NF",
+      "IR-ANT-PLUG — Cisco IR-ANT-PLUG",
+      "IR-BAND — Cisco IR-BAND",
+      "IR-IP67GLAND — Cisco IR-IP67GLAND",
+      "IR-PMK — Cisco IR-PMK",
+      "IR8140H-K9 — Cisco Catalyst IR8100 Series Industrial Router"
+     ],
+     "rules": {
+      "label": 5,
+      "sku": 4
+     }
+    },
+    {
+     "series": "IR 8300",
+     "role": "industrial-iot",
+     "parts": 3,
+     "kinds": {
+      "router": 1,
+      "power": 2
+     },
+     "roles": {
+      "industrial-iot": 1
+     },
+     "samples": [
+      "IR8340-K9 — Cisco Catalyst IR8340 Rugged Router - 67.5 base watts, 21 lb",
+      "PWR-RGD-AC-DC — High AC/DC (100-250 VDC/100-240 VAC) - 2.5 lb/1.13 kg",
+      "PWR-RGD-LOW-DC — Low DC (24-60 VDC) - 2.5 lb/1.13 kg"
+     ],
+     "rules": {
+      "sku": 1,
+      "label": 2
+     }
+    },
+    {
+     "series": "IR 800",
+     "role": "industrial-iot",
+     "parts": 40,
+     "kinds": {
+      "power": 2,
+      "router": 36,
+      "power-cord": 1,
+      "accessory": 1
+     },
+     "roles": {
+      "industrial-iot": 36
+     },
+     "samples": [
+      "IR800-IL-POE — Cisco IR800-IL-POE",
+      "IR809G-LTE-GA-K9 — 809 Industrial ISR, 4G/LTE multimode Global",
+      "IR809G-LTE-LA-K9 — 809 Industrial ISR, 4G/LTE(FDD/TDD) multimode for APJC",
+      "IR829-DC-PWRCORD — Cisco IR829-DC-PWRCORD",
+      "IR829-DINRAIL — Cisco IR829-DINRAIL",
+      "IR829-LTE-EA-BK9 — 829 Industrial ISR, LTE US,WiFi,FCC"
+     ],
+     "rules": {
+      "sku": 40
+     }
+    },
+    {
+     "series": "IR 500 WPAN",
+     "role": "industrial-iot",
+     "parts": 13,
+     "kinds": {
+      "mechanical": 6,
+      "router": 7
+     },
+     "roles": {
+      "industrial-iot": 7
+     },
+     "samples": [
+      "IR500-H-BRKT — Horizontal Mounting Bracket for IR500",
+      "IR500-H-BRKT= — Horizontal Mounting Bracket for IR500",
+      "IR500-V-BRKT — Vertical mounting bracket for IR500",
+      "IR500-V-BRKT= — Vertical mounting bracket for IR500",
+      "IR509UWP-915/K9 — IR509 915Mhz WPAN router w/ 2 serial,1 FE LAN",
+      "IR510-DINRAIL — Din rail kit forIR510 915Mhz WPAN router"
+     ],
+     "rules": {
+      "sku": 13
+     }
+    },
+    {
+     "series": "CGR 1000 Connected Grid",
+     "role": "industrial-iot",
+     "parts": 67,
+     "kinds": {
+      "module": 37,
+      "accessory": 12,
+      "mechanical": 8,
+      "power": 1,
+      "router": 1,
+      "memory": 2,
+      "flash": 6
+     },
+     "roles": {
+      "industrial-iot": 1
+     },
+     "samples": [
+      "CGM-3G-EVDO-G — Connected Grid Module - 3G Generic EVDO Rev A/0/1xRTT",
+      "CGM-3G-EVDO-G= — Connected Grid Module - 3G Generic EVDO Rev A/0/1xRTT",
+      "CGM-3G-EVDO-S — Connected Grid Module - 3G Sprint EV-DO Rev A/0/1xRTT",
+      "CGM-3G-EVDO-S= — Connected Grid Module - 3G Sprint EV-DO Rev A/0/1xRTT",
+      "CGM-3G-EVDO-V — Connected Grid Module - 3G Verizon EV-DO Rev A/0/1xRTT",
+      "CGM-3G-EVDO-V= — Connected Grid Module - 3G Verizon EV-DO Rev A/0/1xRTT"
+     ],
+     "rules": {
+      "sku": 41,
+      "label": 26
+     }
+    },
+    {
+     "series": "CGR 2010 Connected Grid",
+     "role": "industrial-iot",
+     "parts": 16,
+     "kinds": {
+      "mechanical": 4,
+      "router": 7,
+      "power": 3,
+      "flash": 2
+     },
+     "roles": {
+      "industrial-iot": 6
+     },
+     "samples": [
+      "ACS-2000-RMRGD-19= — Rack Mount Kit Spare 19",
+      "ACS-2000-RMRGD-23= — Rack Mount Kit Spare 23",
+      "CGR-2010-SEC/K9 — Cisco CGR2010 security bundle w/SEC license PAK",
+      "CGR-2010-SEC/K9-C — For China Only - Cisco CGR2010 sec bundle w/SEC license PAK",
+      "CGR-2010/K9 — Cisco CGR2010 w/2GE, 4 GRWIC slots, 256MB CF, 1GB DRAM, IPB",
+      "CGR-2010/K9-C — Cisco CGR2010 w/2GE, 4 GRWIC slots, 256MB CF, 1GB DRAM, IPB"
+     ],
+     "rules": {
+      "sku": 9,
+      "label": 7
+     }
+    },
+    {
+     "series": "Wireless Gateway for LoRaWAN",
+     "role": "industrial-iot",
+     "parts": 20,
+     "kinds": {
+      "mechanical": 5,
+      "accessory": 4,
+      "antenna": 1,
+      "router": 2,
+      "module": 4,
+      "power": 4
+     },
+     "roles": {
+      "industrial-iot": 2
+     },
+     "samples": [
+      "ACC-LORA-SOLR-CVR — Cisco v2 LoRa interface solar shielding cover",
+      "ACC-LORA-SOLR-CVR= — Cisco v2 LoRa interface solar shielding cover",
+      "ACC-LPWA-HDWR-KIT — The cable gland and ground lugs for Cisco LoRaWAN Interface",
+      "ACC-LPWA-HDWR-KIT= — The cable gland and ground lugs for Cisco LoRaWAN Interface",
+      "ACC-SP-POE-GE — PoE surge protector",
+      "ACC-SP-POE-GE= — PoE surge protector"
+     ],
+     "rules": {
+      "label": 18,
+      "sku": 2
+     }
+    },
+    {
+     "series": "Catalyst Wireless Gateway CG113",
+     "role": "branch",
+     "parts": 11,
+     "kinds": {
+      "router": 11
+     },
+     "roles": {
+      "branch": 11
+     },
+     "samples": [
+      "CG113-4GW6A — Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain A",
+      "CG113-4GW6B — Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain B",
+      "CG113-4GW6E — Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain E",
+      "CG113-4GW6H — Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain H",
+      "CG113-4GW6Z — Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain Z",
+      "CG113-W6A — Cisco Catalyst Wireless Gateway, WiFi6, Domain A"
+     ],
+     "rules": {
+      "sku": 11
+     }
+    },
+    {
+     "series": "Catalyst Cellular Gateway CG418 and CG522",
+     "role": "industrial-iot",
+     "parts": 4,
+     "kinds": {
+      "router": 4
+     },
+     "roles": {
+      "industrial-iot": 4
+     },
+     "samples": [
+      "CG418-E — Cisco Catalyst Cellular Gateway, supporting LTE Advanced Pro",
+      "CG418-E= — LTE Advanced Pro Cisco Cellular Gateway",
+      "CG522-E — Cisco Catalyst Cellular Gateway, supporting 5G Sub6, externa",
+      "CG522-E= — Cisco CG522-E="
+     ],
+     "rules": {
+      "sku": 4
+     }
+    },
+    {
+     "series": "Industrial and IoT Routers shared parts",
+     "role": null,
+     "parts": 74,
+     "kinds": {
+      "antenna": 40,
+      "accessory": 2,
+      "mechanical": 3,
+      "cable": 20,
+      "power-cord": 9
+     },
+     "roles": {},
+     "samples": [
+      "4G-ACC-OUT-LA — Lightning Arrestor",
+      "4G-LTE-ANTM-O-3-B — Cisco 4G-LTE-ANTM-O-3-B",
+      "5G-ANTM-O-4-B — Cisco 5G-ANTM-O-4-B",
+      "5G-ANTM-SMA-D — Cisco 5G-ANTM-SMA-D",
+      "ACC-LA-G-SM-SF — Cisco ACC-LA-G-SM-SF",
+      "ACC-LA-G-TM-TF — Cisco ACC-LA-G-TM-TF"
+     ],
+     "rules": {
+      "accessory": 74
+     }
+    }
+   ]
+  },
+  {
+   "line": "Small Business Routers",
+   "parts": 155,
+   "series": [
+    {
+     "series": "RV Series",
+     "role": "smb",
+     "parts": 155,
+     "kinds": {
+      "router": 155
+     },
+     "roles": {
+      "smb": 155
+     },
+     "samples": [
+      "CVR328W-K9-CN — Wireless-N 3G VPN Router",
+      "R260-K9-KR — Cisco R260-K9-KR",
+      "R260P-K9-KR — Cisco R260P-K9-KR",
+      "RV042 — RV042 Dual WAN Router for US/Canada and LATAM",
+      "RV042-AR — RV042 Dual WAN Router for Argentina",
+      "RV042-AU — RV042 Dual WAN Router for Australia and NZ"
+     ],
+     "rules": {
+      "label": 3,
+      "sku": 152
+     }
+    }
+   ]
+  },
+  {
+   "line": "Embedded Services Routers",
+   "parts": 18,
+   "series": [
+    {
+     "series": "5900 Embedded Services",
+     "role": "industrial-iot",
+     "parts": 16,
+     "kinds": {
+      "router": 15,
+      "module": 1
+     },
+     "roles": {
+      "industrial-iot": 15
+     },
+     "samples": [
+      "CISCO5915RA-K9 — Cisco 5915 ESR air-cooled card with 2 Fast Ethernet routed p",
+      "CISCO5915RC-K9 — Cisco 5915 ESR conduction-cooled card with 2 Fast Ethernet r",
+      "CISCO5930-K9 — Cisco 5930 Embedded Services Router",
+      "CISCO5940-A/K9 — Cisco 5940 ESR air-cooled card with RTM and Cisco 5940 Advan",
+      "CISCO5940-C/K9 — Cisco 5940 ESR conduction-cooled card with RTM and Cisco 594",
+      "CISCO5940-RTM — Cisco 5940 Rear Transition Module (RTM) card with 4 Gigabit "
+     ],
+     "rules": {
+      "sku": 16
+     }
+    },
+    {
+     "series": "ESR 6300",
+     "role": "industrial-iot",
+     "parts": 2,
+     "kinds": {
+      "router": 2
+     },
+     "roles": {
+      "industrial-iot": 2
+     },
+     "samples": [
+      "ESR-6300-CON-K9 — Cisco ESR6300 conduction cooled card with 2x Gigabit Etherne",
+      "ESR-6300-NCP-K9 — Cisco ESR6300 no cooling plate card with 2x Gigabit Ethernet"
+     ],
+     "rules": {
+      "sku": 2
+     }
+    }
+   ]
+  },
+  {
+   "line": "ENCS (Enterprise Network Compute)",
+   "parts": 67,
+   "series": [
+    {
+     "series": "ENCS 5000",
+     "role": null,
+     "parts": 66,
+     "kinds": {
+      "mechanical": 15,
+      "drive": 22,
+      "module": 2,
+      "appliance": 10,
+      "memory": 13,
+      "power": 4
+     },
+     "roles": {},
+     "samples": [
+      "ACS-5100-RM-19 — 19 inch rack mount kit for Cisco 5100 ENCS",
+      "ACS-5100-RM-19= — 19 inch rack mount kit for Cisco 5100 ENCS",
+      "ACS-5100-RM-23 — 23 inch rack mount kit for Cisco 5100 ENCS",
+      "ACS-5100-RM-23= — 23 inch rack mount kit for Cisco 5100 ENCS",
+      "ACS-5100-WM — Wall mount kit for Cisco 5100 ENCS",
+      "ACS-5100-WM= — Wall mount kit for Cisco 5100 ENCS"
+     ],
+     "rules": {
+      "sku": 48,
+      "label": 18
+     }
+    },
+    {
+     "series": "ENCS (Enterprise Network Compute) shared parts",
+     "role": null,
+     "parts": 1,
+     "kinds": {
+      "cable": 1
+     },
+     "roles": {},
+     "samples": [
+      "CAB-E1-RJ45BNC= — E1 Cable RJ45 to dual BNC (unbalanced), Spare"
+     ],
+     "rules": {
+      "accessory": 1
+     }
+    }
+   ]
+  },
+  {
+   "line": "Console and Terminal Servers",
+   "parts": 4,
+   "series": [
+    {
+     "series": "Secure Console",
+     "role": null,
+     "parts": 4,
+     "kinds": {
+      "appliance": 1,
+      "accessory": 1,
+      "power": 2
+     },
+     "roles": {},
+     "samples": [
+      "C8220TG-48A-O — Cisco C8220TG-48A-O",
+      "C8220TG-ACCKIT-19 — Cisco C8220TG-ACCKIT-19",
+      "PWR-CC1-250WAC — Cisco PWR-CC1-250WAC",
+      "PWR-CC1-250WAC/2 — Cisco PWR-CC1-250WAC/2"
+     ],
+     "rules": {
+      "sku": 2,
+      "label": 2
+     }
+    },
+    {
+     "series": "Terminal Services Gateways",
+     "role": null,
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
+    }
+   ]
+  },
+  {
+   "line": "Service Provider Software Platforms",
+   "parts": 0,
+   "series": [
+    {
+     "series": "Cloud Native BNG",
+     "role": null,
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
+    },
+    {
+     "series": "XE SD-WAN",
+     "role": null,
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
+    }
+   ]
+  },
+  {
+   "line": "Router Interface Modules",
+   "parts": 452,
+   "series": [
+    {
+     "series": "NIM (Network Interface Modules)",
+     "role": null,
+     "parts": 89,
+     "kinds": {
+      "module": 87,
+      "drive": 2
+     },
+     "roles": {},
+     "samples": [
+      "C-NIM-1M — 1-port 2.5/1Gbps RJ-45 WAN, 90W Poe 802.3 af/at/bt NIM",
+      "C-NIM-1X — 1-port 10Gbps SFP/SFP+ NIM with WAN MACSec",
+      "C-NIM-2T — 2-port 100Mbps/1Gbps dual-mode RJ45/SFP, NIM with WAN MACSec",
+      "C-NIM-2T= — Cisco C-NIM-2T=",
+      "C-NIM-4X — 4-port 1/10 Gbps SFP/SFP+ switch NIM, LAN/WAN MACsec and Opt",
+      "C-NIM-4X= — Cisco C-NIM-4X="
+     ],
+     "rules": {
+      "sku": 89
+     }
+    },
+    {
+     "series": "SM-X and SM Service Modules",
+     "role": null,
+     "parts": 40,
+     "kinds": {
+      "module": 32,
+      "mechanical": 5,
+      "accessory": 2,
+      "drive": 1
+     },
+     "roles": {},
+     "samples": [
+      "C-SM-16P4M2X — Cisco 22-port Catalyst L2 switch module with UADP ASIC",
+      "C-SM-16P4M2X= — Cisco C-SM-16P4M2X=",
+      "C-SM-40P8M2X — Cisco 50-port Catalyst L2 switch module with UADP ASIC",
+      "C-SM-40P8M2X= — Cisco C-SM-40P8M2X=",
+      "C-SM-NIM-ADPT — Single-wide 2x NIM carrier module in SM-X form factor",
+      "C-SM-NIM-ADPT= — Cisco C-SM-NIM-ADPT="
+     ],
+     "rules": {
+      "sku": 40
+     }
+    },
+    {
+     "series": "ISM / EM Internal Service Modules",
+     "role": null,
+     "parts": 12,
+     "kinds": {
+      "module": 12
+     },
+     "roles": {},
+     "samples": [
+      "EM-4BRI-NT/TE — 4-port voice/fax expansion module - BRI (NT and TE)",
+      "EM-4BRI-NT/TE= — 4-port voice/fax expansion module - BRI",
+      "EM-HDA-3FXS/4FXO — 7-port voice/fax expansion module - 3FXS/4FXO",
+      "EM-HDA-3FXS/4FXO= — 7-port voice/fax expansion module - 3FXS/4FXO",
+      "EM-HDA-8FXS — Cisco EM-HDA-8FXS",
+      "ISM-SRE-300-K9 — Internal Services Module (ISM) with Services Ready Engine"
+     ],
+     "rules": {
+      "sku": 12
+     }
+    },
+    {
+     "series": "EHWIC / HWIC / VWIC / WIC",
+     "role": null,
+     "parts": 27,
+     "kinds": {
+      "module": 24,
+      "mechanical": 3
+     },
+     "roles": {},
+     "samples": [
+      "EHWIC-4G-LTE-AT-T — 4G LTE EHWIC for ATT, AWS/700 MHz, HSPA+",
+      "EHWIC-4G-LTE-AT-T= — 4G LTE EHWIC for ATT, AWS/700 MHz, HSPA+",
+      "EHWIC-VA-DSL-A — Multi Mode VDSL2/ADSL/2/2+ EHWIC Annex A",
+      "EHWIC-VA-DSL-B — Multi Mode VDSL2/ADSL/2/2+ EHWIC Annex B",
+      "EHWIC-VA-DSL-M — Multi Mode VDSL2/ADSL/2/2+ EHWIC Annex M",
+      "HWIC-16A-T — 16-Port Async Temperature Tolerant HWIC"
+     ],
+     "rules": {
+      "sku": 27
+     }
+    },
+    {
+     "series": "NM / NME Network Modules",
+     "role": null,
+     "parts": 14,
+     "kinds": {
+      "module": 14
+     },
+     "roles": {},
+     "samples": [
+      "NM-1A-OC3-POM= — ATM OC3 module with single POM (SFP) slot",
+      "NM-1A-T3/E3 — 1-Port T3/E3 ATM network Module",
+      "NM-1A-T3/E3= — 1-Port T3/E3 ATM network Module",
+      "NM-1T3/E3= — One port T3/E3 network module",
+      "NM-1V/2V — Cisco NM-1V/2V",
+      "NM-8CE1T1-PRI= — 8 port channelized T1/E1 and PRI network module"
+     ],
+     "rules": {
+      "sku": 14
+     }
+    },
+    {
+     "series": "PVDM Voice DSP Modules",
+     "role": null,
+     "parts": 35,
+     "kinds": {
+      "module": 33,
+      "accessory": 2
+     },
+     "roles": {},
+     "samples": [
+      "PVDM2-12DM — 12 Port Digital Modem Module",
+      "PVDM2-12DM= — 12 Port Digital Modem Module",
+      "PVDM2-16 — Cisco PVDM2-16",
+      "PVDM2-24DM — 24 Port Digital Modem Module",
+      "PVDM2-24DM= — 24 Port Digital Modem Module",
+      "PVDM2-32 — Cisco PVDM2-32"
+     ],
+     "rules": {
+      "sku": 35
+     }
+    },
+    {
+     "series": "VIC Voice Interface Cards",
+     "role": null,
+     "parts": 17,
+     "kinds": {
+      "module": 17
+     },
+     "roles": {},
+     "samples": [
+      "VIC-4FXS/DID — Cisco VIC-4FXS/DID",
+      "VIC2-2BRI — Cisco VIC2-2BRI",
+      "VIC2-2BRI-NT/TE — Two-port Voice Interface Card - BRI (NT and TE)",
+      "VIC2-2BRI-NT/TE= — Two-port Voice Interface Card - BRI (NT and TE)",
+      "VIC2-2FXO — Two-port Voice Interface Card - FXO (Universal)",
+      "VIC2-2FXO= — Two-port Voice Interface Card - FXO (Universal)"
+     ],
+     "rules": {
+      "sku": 17
+     }
+    },
+    {
+     "series": "SPA Shared Port Adapters",
+     "role": null,
+     "parts": 55,
+     "kinds": {
+      "module": 55
+     },
+     "roles": {},
+     "samples": [
+      "SPA-10X1GE-V2 — Cisco 10-Port Gigabit Ethernet Shared Port Adapter, Version ",
+      "SPA-1CHOC3-CE-ATM — Cisco 1 Port Channelized OC3/STM-1 ATM and Circuit Emulation",
+      "SPA-1CHOC3-CE-ATM= — 1 Port Channelized OC3/STM-1 ATM and Circuit Emulation SPA",
+      "SPA-1CHOC3-CE-ATMW — 1 Port OC3 SPA with CeOPS and ATM",
+      "SPA-1CHSTM1/OC3V2 — Cisco 1-port Channelized STM-1/OC-3c to DS0 Shared Port Adap",
+      "SPA-1X10GE-L-V2 — Cisco 1-Port 10 Gigabit Ethernet Shared Port Adapter, Versio"
+     ],
+     "rules": {
+      "sku": 55
+     }
+    },
+    {
+     "series": "EPA Ethernet Port Adapters",
+     "role": null,
+     "parts": 21,
+     "kinds": {
+      "module": 19,
+      "mechanical": 2
+     },
+     "roles": {},
+     "samples": [
+      "EPA-10X10GE — Cisco ASR 1000 10x10GE Ethernet Port Adapter",
+      "EPA-10X10GE++= — ASR1000 10X10GE Ethernet Port Adapter, TAA, Spare",
+      "EPA-10X10GE= — Cisco ASR 1000 10x10GE Ethernet Port Adapter, spare",
+      "EPA-18X1GE — Cisco ASR 1000 18x1GE Ethernet Port Adapter",
+      "EPA-18X1GE++= — ASR1000 18X1GE Ethernet Port Adapter, TAA, Spare",
+      "EPA-18X1GE-PR — ASR1000 18X1GE EPA Promotion"
+     ],
+     "rules": {
+      "sku": 21
+     }
+    },
+    {
+     "series": "GRWIC Grid Router Interface Cards",
+     "role": null,
+     "parts": 24,
+     "kinds": {
+      "module": 22,
+      "accessory": 2
+     },
+     "roles": {},
+     "samples": [
+      "GRWIC-1CE1T1-PRI — 1 port channelized T1/E1 and PRI GRWIC",
+      "GRWIC-1CE1T1-PRI= — 1 port channelized T1/E1 and PRI GRWIC (data only)",
+      "GRWIC-2CE1T1-PRI — 2 port channelized T1/E1 and PRI GRWIC",
+      "GRWIC-2CE1T1-PRI= — 2 port channelized T1/E1 and PRI GRWIC (data only)",
+      "GRWIC-4G-LTE-A — Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for ATT",
+      "GRWIC-4G-LTE-A= — Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for ATT"
+     ],
+     "rules": {
+      "sku": 24
+     }
+    },
+    {
+     "series": "Pluggable Interface Modules (LTE / 5G)",
+     "role": null,
+     "parts": 25,
+     "kinds": {
+      "module": 25
+     },
+     "roles": {},
+     "samples": [
+      "P-5GS6-GL — 5G Sub-6 pluggable interface module (PIM)",
+      "P-5GS6-GL= — 5G Sub-6 pluggable interface module (PIM)",
+      "P-5GS6-R16-SA — Cisco P-5GS6-R16-SA",
+      "P-5GS6-R16SA-GL — 5G Sub-6 GHz Pluggable – 5G SA Global",
+      "P-5GS6-R16SA-GL= — Cisco P-5GS6-R16SA-GL=",
+      "P-LTE-GB — Cisco P-LTE-GB"
+     ],
+     "rules": {
+      "sku": 25
+     }
+    },
+    {
+     "series": "IR Expansion and Pluggable Modules",
+     "role": null,
+     "parts": 73,
+     "kinds": {
+      "mechanical": 4,
+      "module": 65,
+      "drive": 1,
+      "accessory": 3
+     },
+     "roles": {},
+     "samples": [
+      "IRM-1800-M12KIT — M12 Conversion Kit for IR1800",
+      "IRM-1800-M12KIT= — M12 Conversion Kit for IR1800 - Spare",
+      "IRM-NIM-2T1E1 — IR Series 2-port T1/E1 Network Interface Module - 6.5 Watts,",
+      "IRM-NIM-BLNK — Blank for NIM slot",
+      "IRM-NIM-RS232 — IR Series RS232 8-port Serial Network Interface Module - 5.5",
+      "IRM-SSD-100G — mSATA storage – 100 GB, Spare"
+     ],
+     "rules": {
+      "sku": 73
+     }
+    },
+    {
+     "series": "Cellular Cards (MC / PCEX / WIM)",
+     "role": null,
+     "parts": 20,
+     "kinds": {
+      "module": 18,
+      "mechanical": 2
+     },
+     "roles": {},
+     "samples": [
+      "MC7304-4G-LTE-GA — Sierra MC7304 Global LTE, Band 1, 3, 7, 8, 20",
+      "MC7350-4G-LTE-VS — Sierra MC7350 Verizon and Sprint LTE, Band 13, AWS, Band 25",
+      "MC7354-4G-LTE-MNA — Sierra MC7354 Multi-Carriers NA LTE, 2, 5, 13, 17, 25, AWS",
+      "MC7354-4G-LTE-NA — Sierra MC7354 North America LTE, Band 2, 5, 17, AWS",
+      "MC7430-LTE-LA — Sierra MC7430 LATAM and APAC",
+      "PCEX-3G-CDMA-B — Cisco 3G EVDO Rev A/0/1xRTT Modem-BSNL Networks"
+     ],
+     "rules": {
+      "sku": 20
+     }
+    }
+   ]
+  }
+ ],
+ "not_this_category": [
+  {
+   "sku": "CW-SFP-KIT1",
+   "name": "SFP Installation Kit for IE-3500H-12P2MU2X",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "why": "SFP installation kit for the IE-3500H industrial switch",
+   "belongs": "switches"
+  }
+ ],
+ "pending_plans": [
+  {
+   "sku": "14X10GBE-PK",
+   "name": "Phantom PID for 14x10GbE LAN/WAN-PHY Interface Module",
+   "series_label": "Carrier Routing System",
+   "action": "class",
+   "to": "non_product",
+   "reason": "Cisco 'Phantom PID' — an ordering construct, not a shipped part"
+  },
+  {
+   "sku": "1FXO",
+   "name": "Cisco 1FXO",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "1ISDN",
+   "name": "Cisco 1ISDN",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "1MFT-G703",
+   "name": "Cisco 1MFT-G703",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "1V/2V/2VE",
+   "name": "Cisco 1V/2V/2VE",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "1X100GBE-PK",
+   "name": "Phantom PID for Cisco CRS Series 1x100GbE Interface Module",
+   "series_label": "Carrier Routing System",
+   "action": "class",
+   "to": "non_product",
+   "reason": "Cisco 'Phantom PID' — an ordering construct, not a shipped part"
+  },
+  {
+   "sku": "20X10GBE-PK",
+   "name": "Phantom PID for 20x10GbE LAN/WAN-PHY Interface Module",
+   "series_label": "Carrier Routing System",
+   "action": "class",
+   "to": "non_product",
+   "reason": "Cisco 'Phantom PID' — an ordering construct, not a shipped part"
+  },
+  {
+   "sku": "2BRI",
+   "name": "Cisco 2BRI",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "2BRI-NT/TE",
+   "name": "Cisco 2BRI-NT/TE",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "2FXS-E/DID",
+   "name": "Cisco 2FXS-E/DID",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "2MFT-T1/E1",
+   "name": "Cisco 2MFT-T1/E1",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "3FXS/4FXO",
+   "name": "Cisco 3FXS/4FXO",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "3G-CDMA-BSNL-PR1.0",
+   "name": "Provisioning Package for BSNL HWIC",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "3G-CDMA-TATA-PR1.0",
+   "name": "Provisioning Package for TATA HWIC",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "3G-EVDO-BSNL-P1.0",
+   "name": "3G EVDO BSNL Provisioning 1.0",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "4-40GE-PK",
+   "name": "Phantom PID for 4x40GE LAN/OTN Interface Module",
+   "series_label": "Carrier Routing System",
+   "action": "class",
+   "to": "non_product",
+   "reason": "Cisco 'Phantom PID' — an ordering construct, not a shipped part"
+  },
+  {
+   "sku": "4FXO",
+   "name": "Cisco 4FXO",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "4FXS/DID",
+   "name": "Cisco 4FXS/DID",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "6-10GE-PK",
+   "name": "Phantom PID for 6X10GE WAN/LAN/OTN Flexible PLIM",
+   "series_label": "Carrier Routing System",
+   "action": "class",
+   "to": "non_product",
+   "reason": "Cisco 'Phantom PID' — an ordering construct, not a shipped part"
+  },
+  {
+   "sku": "6FXO",
+   "name": "Cisco 6FXO",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "8FXS",
+   "name": "Cisco 8FXS",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "8K-SW-FC",
+   "name": "Standard SW ATO FCM 2.0 for Cisco 8000 Series",
+   "series_label": "8000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "9800-40",
+   "name": "Cisco 9800-40",
+   "series_label": "Catalyst Wireless Gateway CG113",
+   "action": "class",
+   "to": "non_product",
+   "reason": "bare model name, not an orderable PID (the controllers are C9800-40-K9 / C9800-80-K9 in wireless)"
+  },
+  {
+   "sku": "9800-80",
+   "name": "Cisco 9800-80",
+   "series_label": "Catalyst Wireless Gateway CG113",
+   "action": "class",
+   "to": "non_product",
+   "reason": "bare model name, not an orderable PID (the controllers are C9800-40-K9 / C9800-80-K9 in wireless)"
+  },
+  {
+   "sku": "A4_9.00.60",
+   "name": "Cisco A4_9.00.60",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "ABLT-D",
+   "name": "Cisco ABLT-D",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "ABLT-F",
+   "name": "Cisco ABLT-F",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "ADN-PRM-8KSW-100G",
+   "name": "Advantage to Premium Right-to-Use 100G Cisco 8000 Series",
+   "series_label": "8000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "ADN-PRM-8KSW-400G",
+   "name": "Advantage to Premium Right-to-Use 400G Cisco 8000 Series",
+   "series_label": "8000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "ADSL2",
+   "name": "Cisco ADSL2",
+   "series_label": "900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "ADSL2+",
+   "name": "Cisco ADSL2+",
+   "series_label": "900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "ADSL2+M",
+   "name": "Cisco ADSL2+M",
+   "series_label": "900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "ADSL2/2+",
+   "name": "Cisco ADSL2/2+",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "AIR-AP1815-K9-ME-8-5-110-0.tar",
+   "name": "Cisco 111X Models AP delivers industry-leading wireless performance with support for the latest Wi-Fi standard, IEEE’s 802.11ac Wave 2 and Mobility Express.",
+   "series_label": "1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "AIR-AP1815-K9-ME-8-8-110-0.tar",
+   "name": "Cisco 1101 and 1109 Models AP delivers industry-leading wireless performance with support for the latest Wi-Fi standard, IEEE’s 802.11ac Wave 2 and Mobility Express.",
+   "series_label": "1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "ATU-32C",
+   "name": "Cisco ATU-32C",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "ATU-C",
+   "name": "Cisco ATU-C",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "C1-ASR1K-ADD",
+   "name": "Cisco ONE for ASR 1000 Series",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "C1-ASR1K-UPG",
+   "name": "Cisco ONE Upgrade for ASR 1000 Series",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "C1-ISR-ADD",
+   "name": "Cisco ONE for ISR - CHOOSE ONLY QTY 1 HERE",
+   "series_label": "3900 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "C1-ISR-UPG-M",
+   "name": "Cisco ONE Upgrade for ISR",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "C8000V-PF",
+   "name": "Cisco C8000V-PF",
+   "series_label": "Catalyst 8000V Edge Software",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "C8200-UCPE-PF",
+   "name": "Cisco C8200-UCPE-PF",
+   "series_label": "Catalyst 8300 Series Edge uCPE",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "C8300-UCPE-PF",
+   "name": "Cisco C8300-UCPE-PF",
+   "series_label": "Catalyst 8300 Series Edge uCPE",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "CAT18",
+   "name": "Cisco CAT18",
+   "series_label": "8100 Series Secure",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "CAT3",
+   "name": "Cisco CAT3",
+   "series_label": "8100 Series Secure",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "CAT4",
+   "name": "Cisco CAT4",
+   "series_label": "8100 Series Secure",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "CAT6",
+   "name": "Cisco CAT6",
+   "series_label": "8100 Series Secure",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "CAT7",
+   "name": "Cisco CAT7",
+   "series_label": "8100 Series Secure",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "CDASR1000-AESK9=",
+   "name": "Cisco CDASR1000-AESK9=",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "CDASR1000-AISK9=",
+   "name": "Cisco CDASR1000-AISK9=",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "CDASR1000-IPB=",
+   "name": "Cisco CDASR1000-IPB=",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "CDASR1000-IPBK9=",
+   "name": "Cisco CDASR1000-IPBK9=",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "CG113-4GW6x",
+   "name": "Cisco DNA On-Prem Lic for Remote-worker gateway – 3Y Cisco DNA Cloud Lic for Remote-worker gateway – 3Y Cisco DNA On-Prem Lic for Remote-worker gateway – 5Y Cisco DNA Cloud Lic for Remote-worker gateway – 5Y Cisco DNA On-Prem Lic for Remote-worker gateway – 7Y Cisco DNA Cloud Lic for Remote-worker gateway – 7Y",
+   "series_label": "Catalyst Wireless Gateway CG113",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "CISCO-MATE-STE",
+   "name": "Cisco MATE Suite",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "CISCO5921-K9",
+   "name": "Cisco 5921 Embedded Services Router SW for x86 Processor",
+   "series_label": "5900 Embedded Services",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "CISCOUTM1100",
+   "name": "Unified Threat Management 1100 Bundle",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "CISCOUTM2100",
+   "name": "Unified Threat Management 2100 Bundle",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "CN-BNG-100k-L",
+   "name": "Session scale for 100K subscribers (Network Wide)",
+   "series_label": "Cloud Native Broadband Network Gateway (BNG)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "CN-BNG-BASE-L",
+   "name": "Base PID for cnBNG Control Plane (Per Cluster)",
+   "series_label": "Cloud Native Broadband Network Gateway (BNG)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "CP-DQPSK",
+   "name": "Cisco CP-DQPSK",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "CP-SW-SBP-K9",
+   "name": "Cisco CP-SW-SBP-K9",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "CQ211L01-48H8FH",
+   "name": "Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability",
+   "series_label": "8000",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "CQ211L01-48H8FH-O",
+   "name": "Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability, Open SW",
+   "series_label": "8000",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "CQ211L01-48H8FH-O=",
+   "name": "Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability, Open SW",
+   "series_label": "8000",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "CQ211L01-48H8FH=",
+   "name": "Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability",
+   "series_label": "8000",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "CVO860VAE-CFG",
+   "name": "Cisco Virtual Office config for Cisco 860VAE Series",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "CVO860VAEW-CFG",
+   "name": "CVO Configuration for 860VAE-W Products",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "CVO890VA-CFG",
+   "name": "CVO Configuration for 890VA Products",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "CW9177D",
+   "name": "Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, internal directonal antennas, Wi-Fi 7, 4x4:4SS",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "CW9177E",
+   "name": "Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, external antenna connectors, Wi-Fi 7, 4x4:4SS",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "CW9177I",
+   "name": "Cisco Wireless 9177 Outdoor Access Point, internal omnicirectional antennas, Wi-Fi 7, 4x4:4SS",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "CW9179F",
+   "name": "Cisco Wireless 9179F Large Public Venue Access Point, internal directional antennas with software configurable patterns, N-type antenna connectors; Wi-Fi 7, 4x4:4SS",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "DNP3",
+   "name": "Cisco DNP3",
+   "series_label": "2000 Series Connected Grid",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "E.67.15.1",
+   "name": "Cisco E.67.15.1",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "EDN312xi",
+   "name": "Cisco EDN312xi",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "EDN312xp",
+   "name": "Cisco EDN312xp",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "EM-HDA-",
+   "name": "Cisco EM-HDA-",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
+  },
+  {
+   "sku": "EM3-HDA-",
+   "name": "Cisco EM3-HDA-",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
+  },
+  {
+   "sku": "ENCS5400-PF",
+   "name": "Cisco ENCS5400-PF",
+   "series_label": "Catalyst 8300 Series Edge uCPE",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "ESS-ADN-8KSW-100G",
+   "name": "Essential to Advantage Right-to-Use 100G Cisco 8000 Series",
+   "series_label": "8000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "ESS-ADN-8KSW-400G",
+   "name": "Essential to Advantage Right-to-Use 400G Cisco 8000 Series",
+   "series_label": "8000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "FL-SRE-WLC-25",
+   "name": "25 access point license for Cisco Wireless Controller on SRE (when sold with ISR G2 system)",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "FL-SRE-WLC-25A",
+   "name": "25 Access Point Adder License for Cisco Wireless Controller on SRE (Paper Certificate)",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "FL-SRE-WLC-5",
+   "name": "5 access point license for Cisco Wireless Controller on SRE (when sold with ISR G2 system)",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "FL-SRE-WLC-5A",
+   "name": "5 Access Point Adder License for Cisco Wireless Controller on SRE (Paper Certificate)",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "FW-7430-LTE-AU",
+   "name": "Cisco FW-7430-LTE-AU",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-7430-LTE-GN",
+   "name": "Cisco FW-7430-LTE-GN",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-7430-LTE-JP",
+   "name": "Cisco FW-7430-LTE-JP",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-7430-LTE-KD",
+   "name": "Cisco FW-7430-LTE-KD",
+   "series_label": "800 ISR",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-7430-LTE-SB",
+   "name": "Cisco FW-7430-LTE-SB",
+   "series_label": "800 ISR",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-7455-LTE-AT",
+   "name": "Cisco FW-7455-LTE-AT",
+   "series_label": "800 ISR",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-7455-LTE-GN",
+   "name": "Cisco FW-7455-LTE-GN",
+   "series_label": "800 ISR",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-7455-LTE-VZ",
+   "name": "Cisco FW-7455-LTE-VZ",
+   "series_label": "800 ISR",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-MC7304-LTE-AU",
+   "name": "Cisco FW-MC7304-LTE-AU",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-MC7304-LTE-GB",
+   "name": "Cisco FW-MC7304-LTE-GB",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-MC7350-LTE-ST",
+   "name": "Cisco FW-MC7350-LTE-ST",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-MC7350-LTE-VZ",
+   "name": "Cisco FW-MC7350-LTE-VZ",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-MC7354-LTE-AT",
+   "name": "Cisco FW-MC7354-LTE-AT",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-MC7354-LTE-CA",
+   "name": "Cisco FW-MC7354-LTE-CA",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-MC7354M-LTE-AT",
+   "name": "Cisco FW-MC7354M-LTE-AT",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-MC7354M-LTE-VZ",
+   "name": "Cisco FW-MC7354M-LTE-VZ",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "FW-VA-39D",
+   "name": "VDSL2/ADSL2+ Firmware for Multimode DSL products",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "G703",
+   "name": "Cisco G703",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "H.323",
+   "name": "Cisco H.323",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "H561SHEA",
+   "name": "Cisco H561SHEA",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "HD-1V/2V/2VE",
+   "name": "Cisco HD-1V/2V/2VE",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "HDV2",
+   "name": "Cisco HDV2",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "INDUSTRYOPTIOAPN7",
+   "name": "Industry Options",
+   "series_label": "Wireless Gateway for LoRaWAN",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "IOTOD-IW-A",
+   "name": "Cisco IOTOD-IW-A",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "license",
+   "reason": "URWB licence PID, not an access point (item 3 read it as an AP from its IW prefix)"
+  },
+  {
+   "sku": "IOTOD-IW-E",
+   "name": "Cisco IOTOD-IW-E",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "license",
+   "reason": "URWB licence PID, not an access point (item 3 read it as an AP from its IW prefix)"
+  },
+  {
+   "sku": "IP20",
+   "name": "Cisco IP20",
+   "series_label": "800 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "ISR-CCP-CD",
+   "name": "Cisco Config Professional on CD, CCP-Express on Router Flash (Both system and spare)",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "ISR-CCP-CD-NOCONF",
+   "name": "Cisco Config Pro on CD, CCP-Express on CF w/o default config",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "ISR-CCP-EXP",
+   "name": "Cisco Config Pro Express on Router Flash",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "ISR-CCP-EXP-NOCONF",
+   "name": "Cisco Config Pro Express on Router Flash w/o default config",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "IW9165-URWB-NW-P",
+   "name": "Cisco IW9165-URWB-NW-P",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "license",
+   "reason": "URWB licence PID, not an access point (item 3 read it as an AP from its IW prefix)"
+  },
+  {
+   "sku": "IW9165DH-x-AP",
+   "name": "Industrial Wireless 9165D, 11ax 6E, 2 RF ports, x domain, Wi-Fi AP software",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "IW9165DH-x-URWB",
+   "name": "Industrial Wireless 9165D, 11ax 6E, 2 RF ports, x domain, URWB software",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "IW9165E-x-AP",
+   "name": "Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, Wi-Fi AP software",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "IW9165E-x-URWB",
+   "name": "Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, URWB software",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "IW9165E-x-WGB",
+   "name": "Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, WGB software",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "IW9167-URWB-NW-P",
+   "name": "Cisco IW9167-URWB-NW-P",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "license",
+   "reason": "URWB licence PID, not an access point (item 3 read it as an AP from its IW prefix)"
+  },
+  {
+   "sku": "IW9167EH-x-AP",
+   "name": "Industrial Wireless 9167E, 11ax 6E AP, 8 RF ports, x domain, Wi-Fi software",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "IW9167EH-x-HZ",
+   "name": "Industrial Wireless 9167EH-HZ, 11ax 6E AP, 8 RF ports, x domain, Hazardous Locations",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "IW9167EH-x-URWB",
+   "name": "Industrial Wireless 9167E, 11ax 6E AP, 8 RF ports, x domain, URWB software",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "IW9167EH-x-WGB",
+   "name": "Industrial Wireless 9167E, 11ax 6E AP, 8 RF ports, x domain, WGB software",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "IW9167IH-x-AP",
+   "name": "Industrial Wireless 9167I, 11ax 6E AP, internal antenna, x domain, Wi-Fi software",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "access point filed in routers"
+  },
+  {
+   "sku": "L7D6AA47.174",
+   "name": "Cisco L7D6AA47.174",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "MCS0",
+   "name": "Cisco MCS0",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS10",
+   "name": "Cisco MCS10",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS11",
+   "name": "Cisco MCS11",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS12",
+   "name": "Cisco MCS12",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS15",
+   "name": "Cisco MCS15",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS16",
+   "name": "Cisco MCS16",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS20",
+   "name": "Cisco MCS20",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS23",
+   "name": "Cisco MCS23",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS24",
+   "name": "Cisco MCS24",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS28",
+   "name": "Cisco MCS28",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS31",
+   "name": "Cisco MCS31",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS4",
+   "name": "Cisco MCS4",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS7",
+   "name": "Cisco MCS7",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS8",
+   "name": "Cisco MCS8",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "MCS9",
+   "name": "Cisco MCS9",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "NA/250M",
+   "name": "Cisco NA/250M",
+   "series_label": "ESR6300 Embedded",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "NA/50M",
+   "name": "Cisco NA/50M",
+   "series_label": "ESR6300 Embedded",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "NE/250M",
+   "name": "Cisco NE/250M",
+   "series_label": "ESR6300 Embedded",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "NE/50M",
+   "name": "Cisco NE/50M",
+   "series_label": "ESR6300 Embedded",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "NM-HD-",
+   "name": "Cisco NM-HD-",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
+  },
+  {
+   "sku": "NRS-WAE-SWSUB",
+   "name": "PF WAE NRS PID SWSUB",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "OEM-PRI-MC7430",
+   "name": "Cisco OEM PRI Load for MC7430",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "OEM-PRI-MC7430=",
+   "name": "Cisco OEM PRI Load for MC7430",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "OEM-PRI-MC7455",
+   "name": "Cisco OEM PRI Load for MC7455",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "OEM-PRI-MC7455=",
+   "name": "Cisco OEM PRI Load for MC7455",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "ONS-C2-WDM-DE-1HL",
+   "name": "200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only",
+   "series_label": "Network Convergence System 5500 Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "CFP2 DCO WDM pluggable filed in routers (kind `accessory` meanwhile, rule optic-misfiled)"
+  },
+  {
+   "sku": "ONS-C2-WDM-DE-1HL=",
+   "name": "200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only",
+   "series_label": "Network Convergence System 5500 Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "CFP2 DCO WDM pluggable filed in routers (kind `accessory` meanwhile, rule optic-misfiled)"
+  },
+  {
+   "sku": "P100",
+   "name": "Cisco P100",
+   "series_label": "8000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "P200",
+   "name": "Cisco P200",
+   "series_label": "8000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "PACK-800",
+   "name": "Packaging PIDs for 800 with no 3G and POE",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "PACK-800-3G-POE",
+   "name": "Packaging PIDs for 800 with 3G and POE",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "PNPOPTIONAZF8",
+   "name": "PNP Option",
+   "series_label": "Wireless Gateway for LoRaWAN",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "PPN-CRS-16-FC140/M",
+   "name": "S13 Planning PID",
+   "series_label": "Carrier Routing System",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "PPN-CRS-8/S",
+   "name": "material planning for product transition",
+   "series_label": "Carrier Routing System",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "Q100",
+   "name": "Cisco Q100",
+   "series_label": "8000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "Q200",
+   "name": "Cisco Q200",
+   "series_label": "8000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "QW-E-PLATFORM",
+   "name": "Quantum WAVE Platform Base",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "R4.2.1",
+   "name": "Cisco R4.2.1",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "R4.3.1",
+   "name": "Cisco R4.3.1",
+   "series_label": "800",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "RE-ADSL2",
+   "name": "Cisco RE-ADSL2",
+   "series_label": "900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "ROUT-P-C8200-E-7Y",
+   "name": "Cisco ROUT-P-C8200-E-7Y",
+   "series_label": "Catalyst 8200",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "ROUT-P-C8300-E-7Y",
+   "name": "Cisco ROUT-P-C8300-E-7Y",
+   "series_label": "Catalyst 8200",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "RS-232",
+   "name": "Cisco RS-232",
+   "series_label": "4000 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "RS-449",
+   "name": "Cisco RS-449",
+   "series_label": "1900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "S-ASR920-10G-2-B",
+   "name": "Cisco ASR 920 Series - 2 ports 10GE license for ClassB ASR920 (Smart License)",
+   "series_label": "ASR 920 Series Aggregation Services Router",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-NC6-2T-PG-200-L=",
+   "name": "NCS6000 2x100GE LSR PAYG Upgrade License Spare",
+   "series_label": "6000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-NC6-2T-PG-200-M=",
+   "name": "NCS6000 2x100GE Multiservice PAYG Upgrade License Spare",
+   "series_label": "6000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-NC6-MS-UPG",
+   "name": "NCS 6000 Smart License LSR to MS Upgrade Bundle",
+   "series_label": "6000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-NC6-MS-UPG=",
+   "name": "NCS 6000 License LSR to MS Upgrade Bundle",
+   "series_label": "6000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-XR-BNG-1M",
+   "name": "Billing PID for SBP XRV9K -BNG 1M",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-XR-BNG-256K",
+   "name": "Billing PID for SBP XRV9K - BNG 256K",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-XR-BNG-512K",
+   "name": "Billing PID for SBP XRV9K - BNG 512K",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-XR-BNG-8K",
+   "name": "Billing PID for SBP XRV9K -BNG 8K",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-XR-BNG-ADV-1M",
+   "name": "Billing PID for SBP XRV9K - BNG ADV 1M",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-XR-BNG-ADV-256K",
+   "name": "Billing PID for SBP XRV9K -BNG ADV 256K",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-XR-BNG-ADV-512K",
+   "name": "Billing PID for SBP XRV9K -BNG ADV 512K",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-XR-BNG-ADV-8K",
+   "name": "Billing PID for SBP XRV9K - BNG ADV 8K",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-XR-BNG-PRO",
+   "name": "Billing PID for SBP XRV9K - BNG PRO",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "S-XR-SESSION-8K",
+   "name": "Billing PID for SBP XRV9K - BNG 8K Session",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "SA1KHXK9-173",
+   "name": "Cisco SA1KHXK9-173",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "SA1KHXNLIK9-173",
+   "name": "Cisco SA1KHXNLIK9-173",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "SA1KHXNPEK9-173",
+   "name": "Cisco SA1KHXNPEK9-173",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "SA1KHXNPNLK9173",
+   "name": "Cisco SA1KHXNPNLK9173",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "SA1KRPUNLIK9-173",
+   "name": "Cisco SA1KRPUNLIK9-173",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "SA1KRPUNPEK9173",
+   "name": "Cisco SA1KRPUNPEK9173",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "SA1KRPUNPNLK9173",
+   "name": "Cisco SA1KRPUNPNLK9173",
+   "series_label": "ASR 1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "SDFE-2",
+   "name": "Cisco SDFE-2",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "SDFE-4",
+   "name": "Cisco SDFE-4",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "SI-ISR4K-IWAN/K9",
+   "name": "ISR 4K SEED IT Program",
+   "series_label": "4000 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "SO-TG-TRK",
+   "name": "Cisco SO-TG-TRK",
+   "series_label": "Secure Console",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "SOCRATES-4e",
+   "name": "Cisco SOCRATES-4e",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "SOLUTIONOPTIOAPN9",
+   "name": "Solution Options",
+   "series_label": "Wireless Gateway for LoRaWAN",
+   "action": "class",
+   "to": "non_product",
+   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "SPAOA-WAE-I",
+   "name": "Core & Aggregation Essentials SW Right-to-Use v1.0 per 100G",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "SPAOA-WAENET-I",
+   "name": "Offer Attribution (Immediate) for BAM WAENET",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "SPAUTO-CP",
+   "name": "Cisco SPAUTO-CP",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "SPAUTO-CP-PS",
+   "name": "Cisco SPAUTO-CP-PS",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "SPNA-AUTO-WAE-EN",
+   "name": "SPNA Automation - WAE Premier",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "SPNA-AUTO-WAE-ES",
+   "name": "SPNA Automation - WAE Essentials",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "SPNA-AUTO-WAE-F",
+   "name": "SPNA Automation - WAE Advantage",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "SPNA-R-CRS-S",
+   "name": "SPNA Routing for CRS - Standard",
+   "series_label": "Carrier Routing System",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "SPNA-S-CRS-L",
+   "name": "SPNA Routing SW Licenses for CRS - Standard",
+   "series_label": "Carrier Routing System",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "SPOA-WAE-D",
+   "name": "Core & Aggr Essentials SIA per 100G 3 year term",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "SPOA-WAENET-D",
+   "name": "Offer Attribution (Daily) for BAM WAENET",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "SRE-WLC",
+   "name": "Wireless Controller on SRE option when sold with ISR G2 system",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "T1/E1",
+   "name": "Cisco T1/E1",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "T1/E1-DI",
+   "name": "Cisco T1/E1-DI",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "TG-OS-E-O",
+   "name": "Cisco TG-OS-E-O",
+   "series_label": "Secure Console",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "UCSC-C220-M5SX=",
+   "name": "Cisco UCSC-C220-M5SX=",
+   "series_label": "ASR 9000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS server / TPM / NIC filed under 'ASR 9000'"
+  },
+  {
+   "sku": "UCSX-TPM2-002=",
+   "name": "Cisco UCSX-TPM2-002=",
+   "series_label": "ASR 9000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS server / TPM / NIC filed under 'ASR 9000'"
+  },
+  {
+   "sku": "V.35",
+   "name": "Cisco V.35",
+   "series_label": "1900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "V/ADSL2",
+   "name": "Cisco V/ADSL2",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "V6-INLN",
+   "name": "Cisco V6-INLN",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VDSL2",
+   "name": "Cisco VDSL2",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VIC2-",
+   "name": "Cisco VIC2-",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
+  },
+  {
+   "sku": "VIC3-",
+   "name": "Cisco VIC3-",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
+  },
+  {
+   "sku": "VIPTELA-OS-192",
+   "name": "Viptela OS version 19.2.0 (ISR1100 Series only)",
+   "series_label": "1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "VIPTELA-OS-204",
+   "name": "Viptela OS versions 20.4 (ISR 1100 and ISR 1100X Series)",
+   "series_label": "1000",
+   "action": "class",
+   "to": "software",
+   "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "VSLN-PP-CORE",
+   "name": "Cisco VSLN-PP-CORE",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VSLN-PP-EDGE",
+   "name": "Cisco VSLN-PP-EDGE",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VSLN-PP-MO500",
+   "name": "Cisco VSLN-PP-MO500",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VSLN-PP-U25",
+   "name": "Cisco VSLN-PP-U25",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VTMS-PP-100G",
+   "name": "Cisco VTMS-PP-100G",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VTMS-PP-100G-M",
+   "name": "Cisco VTMS-PP-100G-M",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VTMS-PP-10G",
+   "name": "Cisco VTMS-PP-10G",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VTMS-PP-10G-M",
+   "name": "Cisco VTMS-PP-10G-M",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VTMS-PP-25G",
+   "name": "Cisco VTMS-PP-25G",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VTMS-PP-25G-M",
+   "name": "Cisco VTMS-PP-25G-M",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VTMS-PP-50G",
+   "name": "Cisco VTMS-PP-50G",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VTMS-PP-50G-M",
+   "name": "Cisco VTMS-PP-50G-M",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "VWIC-",
+   "name": "Cisco VWIC-",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
+  },
+  {
+   "sku": "VWIC-1MFT-",
+   "name": "Cisco VWIC-1MFT-",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
+  },
+  {
+   "sku": "VWIC-2MFT-",
+   "name": "Cisco VWIC-2MFT-",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
+  },
+  {
+   "sku": "VWIC2-2MFT-",
+   "name": "Cisco VWIC2-2MFT-",
+   "series_label": "2900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
+  },
+  {
+   "sku": "WAEFEATURESSUBBDQ7",
+   "name": "Cisco WAEFEATURESSUBBDQ7",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "WAEPLANNINGUSBAY3",
+   "name": "Cisco WAEPLANNINGUSBAY3",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "WAEPLANNINGUSBAY5",
+   "name": "Cisco WAEPLANNINGUSBAY5",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "WAEPLANNINGUSBAY7",
+   "name": "Cisco WAEPLANNINGUSBAY7",
+   "series_label": "WAN Automation Engine (WAE)",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "WS-C6503-E-FWM-K9WS",
+   "name": "Cisco WS-C6503-E-FWM-K9WS",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6503E-S32P-GEWS",
+   "name": "Cisco WS-C6503E-S32P-GEWS",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6503E-S32P10GEWS-",
+   "name": "Cisco WS-C6503E-S32P10GEWS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6504-E-VPN+-K9WS-",
+   "name": "Cisco WS-C6504-E-VPN+-K9WS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6504E-S32P-GEWS-",
+   "name": "Cisco WS-C6504E-S32P-GEWS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6504E-S32P10GEWS",
+   "name": "Cisco WS-C6504E-S32P10GEWS",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6506-E-FWM-K9WS-",
+   "name": "Cisco WS-C6506-E-FWM-K9WS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6506-E-VPN+-K9WS-",
+   "name": "Cisco WS-C6506-E-VPN+-K9WS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6506E-S32P-GEWS-",
+   "name": "Cisco WS-C6506E-S32P-GEWS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6506E-S32P10GEWS-",
+   "name": "Cisco WS-C6506E-S32P10GEWS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6509-E-FWM-K9WS-",
+   "name": "Cisco WS-C6509-E-FWM-K9WS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6509-E-VPN+-K9WS-",
+   "name": "Cisco WS-C6509-E-VPN+-K9WS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6509E-S32P-GEWS-",
+   "name": "Cisco WS-C6509E-S32P-GEWS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6509E-S32P10GEWS-",
+   "name": "Cisco WS-C6509E-S32P10GEWS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6513-FWM-K9",
+   "name": "Cisco WS-C6513-FWM-K9",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6513-S32P-GEWS-",
+   "name": "Cisco WS-C6513-S32P-GEWS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6513-S32P10GEWS-",
+   "name": "Cisco WS-C6513-S32P10GEWS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "WS-C6513-VPN+-K9WS-",
+   "name": "Cisco WS-C6513-VPN+-K9WS-",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
+  },
+  {
+   "sku": "X.21",
+   "name": "Cisco X.21",
+   "series_label": "1900 ISR",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "XRD-VR-CP-DP-ADN",
+   "name": "XRd vRouter Advantage offer",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "XRD-VR-CP-DP-ADV",
+   "name": "XRd vRouter Advanced offer",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "XRD-VR-CP-DP-ESS",
+   "name": "XRd vRouter Essentials offer",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "XRV-PCIE-C40Q-03",
+   "name": "Cisco VIC 1385 Dual Port 40Gb QSFP+ CNA w/RDMA",
+   "series_label": "ASR 9000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS server / TPM / NIC filed under 'ASR 9000'"
+  },
+  {
+   "sku": "XRV-PCIE-IQ10GF",
+   "name": "Cisco XRV-PCIE-IQ10GF",
+   "series_label": "ASR 9000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS server / TPM / NIC filed under 'ASR 9000'"
+  }
+ ],
+ "unplaced": [],
+ "done": true
+}

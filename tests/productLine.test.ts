@@ -53,6 +53,28 @@ witness("switches", [
   ["7600-ES+2TG3C", "Cisco 7600 Series ES+ Line Card", "Catalyst 6500", "(not this category)", "routers"],
 ]);
 
+// ---- routers (done 14 Sep 2026) ----
+witness("routers", [
+  ["C819HG-4G-A-K9", "C819 Hardened 4G LTE M2M GW for ATT 700 MHz Band 17", "800", "ISR (Integrated Services Routers)", "ISR 819 Hardened (M2M)"], // not ISR 800
+  ["MEM-C8300-8GB=", "Cisco Catalyst 8300 Edge 8GB memory", "Catalyst 8200", "Catalyst 8000 Edge", "Catalyst 8300"],       // label says 8200
+  ["MEM-C8500-32GB", "Cisco C8500 32 GB memory", "Catalyst 8500L", "Catalyst 8000 Edge", "Catalyst 8500"],                  // label says 8500L
+  ["PWR-CC1-1000WAC", "Cisco C8300 2RU AC 1KW Power supply", "Catalyst 8200", "Catalyst 8000 Edge", "Catalyst 8300"],       // the name decides over the label
+  ["SSD-STAT-480GB", "480GB SATA Solid disk drive for Cisco uCPE 8200", "5000 Enterprise Network Compute", "Catalyst 8000 Edge", "Catalyst 8200 Edge uCPE"],
+  ["C8355-G2", "Cisco 8300 Secure Router with 4x10GE, 4x5GE, 2x1GE, and 1xPIM", "8000", "Secure Routers", "8300 Secure Router"],
+  ["C8300-1N1S-6T", "Cisco Catalyst 8300 Edge platform", "Catalyst 8300", "Catalyst 8000 Edge", "Catalyst 8300"],
+  ["C-NIM-1X", "1-port 10Gbps SFP/SFP+ NIM with WAN MACSec", "Catalyst 8300", "Router Interface Modules", "NIM (Network Interface Modules)"],
+  ["7206VXRG2/2+VPNK9", "Cisco 7206VXRG2/2+VPNK9", "2900 ISR", "Legacy Service Routers", "Cisco 7200"],                   // label says 2900
+  ["CG522-E", "Cisco Catalyst Cellular Gateway, supporting 5G Sub6", "Catalyst Cellular Gateways", "Industrial and IoT Routers", "Catalyst Cellular Gateway CG418 and CG522"],
+  ["IR8340-K9", "Cisco Catalyst IR8340 Rugged Router", "Catalyst IR8300 Rugged Series Router", "Industrial and IoT Routers", "IR 8300"], // IR8340, not IR8300
+  ["NC-55-36X100G", "NC55-36X100G Base Line Card", "Network Convergence System 5500 Series", "NCS (Network Convergence System)", "NCS 5500"],
+  ["N520-20G4Z-A=", "Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp", "Network Convergence System 500", "NCS (Network Convergence System)", "NCS 520, 540 and 560"],
+  ["SI-ISR4331-IWAN/K9", "ISR 4331 SEED IT Program Offering", "1000", "ISR (Integrated Services Routers)", "ISR 4000"],   // label says 1000
+  ["ACS-1941-RM-19=", "19 inch rack mount kit for Cisco 1941 &1941W ISR", "2900 ISR", "ISR (Integrated Services Routers)", "ISR 1900"], // the SKU names the series
+  ["3G-CAB-ULL-20", "20-ft (6M) Ultra Low Loss LMR 400 Cable with TNC Connector", "800", "ISR (Integrated Services Routers)", "ISR (Integrated Services Routers) shared parts"],
+  ["AIR-AP1815-K9-ME-8-5-110-0.tar", "Cisco 111X Models AP", "1000", "(not this category)", "wireless"],
+  ["9800-40", "Cisco Catalyst 9800-40 Wireless Controller", "Catalyst Wireless Gateway", "(not this category)", "wireless"],
+]);
+
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");
@@ -60,6 +82,10 @@ witness("switches", [
   check("role table: the rule that decided is the series", deployRoleResult("switches", "switch", "N9K-C93180YC-FX", "Nexus 9300").rule === "series:Nexus 9300");
   check("role table: a kind ISSUE still wins over the series role (DS-C9148V is not a switch)", deployRole("switches", "switch", "DS-C9148V-24EK9", "MDS 9148V") === null);
   check("role table: C6800IA Instant Access is access, the 6800 chassis series core-agg", deployRole("switches", "switch", "C6800IA-48FPD", "Instant Access") === "access" && deployRole("switches", "switch", "C6816-X-LE", "Catalyst 6816-X") === "core-agg");
+  check("role table (routers): ISR 4331 branch, ASR 1001-X edge, C819 hardened industrial-iot, all from the series",
+    deployRole("routers", "router", "ISR4331/K9", "Cisco ISR 4331") === "branch" && deployRole("routers", "router", "ASR1001-X", "Cisco ASR 1001-X") === "edge"
+      && deployRoleResult("routers", "router", "C819HG-4G-A-K9", "C819 Hardened 4G LTE M2M GW").rule === "series:ISR 819 Hardened (M2M)"
+      && deployRole("routers", "router", "C819HG-4G-A-K9", "C819 Hardened 4G LTE M2M GW") === "industrial-iot");
 }
 
 // ---- sabotage ----
