@@ -1,0 +1,23 @@
+{
+ "vendor": "cisco",
+ "category": "hyperconverged-systems",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco HyperFlex, 14 Sep 2026. Nodes by model (HX220c, HX225c, HX240c, HX245c; hybrid, All Flash HXAF and All NVMe variants of one model sit together), Edge and Express, compute-only nodes, fabric interconnects and bundles; a component whose SKU names a node platform (HX-RIS-2A-240M5, CBL-SATA-C220M6) sits with that node, any other HX- component in 'HyperFlex shared parts'. Compute-only nodes (HX-C220 / HX-C240 / HX-C480 / HX-B200) come first: their SKUs carry the same platform tokens. No role axis.",
+ "lines": [
+  {
+   "line": "HyperFlex",
+   "series": [
+    { "series": "HyperFlex compute-only nodes (C220 / C240 / C480 / B200)", "sku": ["^HX-(C220|C240|C480|B200)"] },
+    { "series": "HyperFlex Edge", "sku": ["^HX(AF)?-E-"] },
+    { "series": "HyperFlex Express", "sku": ["^HXE-"] },
+    { "series": "HyperFlex Fabric Interconnects", "sku": ["^HX-FI"] },
+    { "series": "HyperFlex bundles and starter packs", "sku": ["^HX-(SP|STD|16)-"] },
+    { "series": "HX220c", "sku": ["^HX(AF)?220C", "(?<![0-9])220-?M[4-7]", "(?<![A-Z0-9])C220(?![0-9])"] },
+    { "series": "HX225c", "sku": ["^HX(AF)?225C", "(?<![0-9])225-?M[6-7]", "(?<![A-Z0-9])C225(?![0-9])"] },
+    { "series": "HX240c", "sku": ["^HX(AF)?240C", "(?<![0-9])240-?M[4-7]", "(?<![A-Z0-9])C240(?![0-9])"] },
+    { "series": "HX245c", "sku": ["^HX(AF)?245C", "(?<![0-9])245-?M[6-7]", "(?<![A-Z0-9])C245(?![0-9])"] },
+    { "series": "HyperFlex shared parts", "sku": ["^HX"], "labels": ["HyperFlex HX Series"] }
+   ]
+  }
+ ],
+ "shared_accessories": ["^CAB-", "^CBL-", "CABLE", "RAIL", "CMA", "BLANK", "BBLKD", "BZL", "BEZEL"]
+}

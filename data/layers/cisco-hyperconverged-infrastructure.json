@@ -1,0 +1,633 @@
+{
+ "vendor": "cisco",
+ "category": "hyperconverged-infrastructure",
+ "built_at": "2026-09-14T14:04:06.590Z",
+ "mapping_file": "data/reference/product-lines/cisco-hyperconverged-infrastructure.json",
+ "parts": 786,
+ "lines": [
+  {
+   "line": "Compute Hyperconverged with VMware vSAN",
+   "parts": 13,
+   "series": [
+    {
+     "series": "vSAN nodes (C220 / C225 / C240 / C245 / X210c / X215c)",
+     "role": null,
+     "note": null,
+     "parts": 13,
+     "kinds": {
+      "bundle": 2,
+      "server": 11
+     },
+     "roles": {},
+     "samples": [
+      "HCI-M8-VSAN-MLB — Cisco Compute Hyperconverged with VMware vSAN M8 Rack Server",
+      "HCIVS220C-M8E3S — Cisco Compute Hyperconverged C220 M8 1RU standard rack serve",
+      "HCIVS220C-M8SN — Cisco Compute Hyperconverged C220 M8 1RU standard rack serve",
+      "HCIVS225C-M8SN — Cisco Compute Hyperconverged C225 M8 1RU standard rack serve",
+      "HCIVS240C-M8E3S — Cisco Compute Hyperconverged C240 M8 2RU standard rack serve",
+      "HCIVS240C-M8SN — Cisco Compute Hyperconverged C240 M8 2RU standard rack serve"
+     ],
+     "rules": {
+      "sku": 13
+     }
+    }
+   ]
+  },
+  {
+   "line": "Compute Hyperconverged with Nutanix",
+   "parts": 722,
+   "series": [
+    {
+     "series": "HCI XE-Series (XE130c / XE9305)",
+     "role": null,
+     "note": null,
+     "parts": 6,
+     "kinds": {
+      "server": 5,
+      "chassis": 1
+     },
+     "roles": {},
+     "samples": [
+      "HCIXE-M8-NTNX-MLB — Cisco Compute Hyperconverged XE-Series M8 with Nutanix MLB",
+      "HCIXENX-9305-U — Cisco HCI XE9305 3RU Nutanix Chassis (includes fans)",
+      "HCIXENX130C-M8-20 — Cisco HCI XE130c M8 20-ore 1U Nutanix Compute Node",
+      "HCIXENX130C-M8-20U — Cisco HCI XE130c M8 20-Core 1U Nutanix Compute Node (ordered",
+      "HCIXENX130C-M8-32 — Cisco HCI XE130c M8 32-Core 1U Nutanix Compute Node",
+      "HCIXENX130C-M8-32U — Cisco HCI XE130c M8 32-Core 1U Nutanix Compute Node (ordered"
+     ],
+     "rules": {
+      "sku": 6
+     }
+    },
+    {
+     "series": "HCIX X-Series (X210c / X215c / X9508)",
+     "role": null,
+     "note": null,
+     "parts": 16,
+     "kinds": {
+      "server": 13,
+      "chassis": 3
+     },
+     "roles": {},
+     "samples": [
+      "HCIX-210C-M7 — Cisco Compute Hyperconverged X210c M7 Node w/o CPU, memory, ",
+      "HCIX-210C-M7-U — Cisco Compute Hyperconverged X210c M7 Node UPG w/o CPU, memo",
+      "HCIX-9508-CH — DISTI: Cisco UCS X9508 Chassis",
+      "HCIX-9508-U — Cisco Compute Hyperconverged X9508 Server Chassis configured",
+      "HCIX-9508= — Cisco HCIX-9508=",
+      "HCIX210C-M7SN — Cisco HCIX210C-M7SN"
+     ],
+     "rules": {
+      "sku": 16
+     }
+    },
+    {
+     "series": "HCI fabric interconnects and X-Fabric",
+     "role": null,
+     "note": null,
+     "parts": 12,
+     "kinds": {
+      "fabric-interconnect": 5,
+      "power": 4,
+      "io-module": 3
+     },
+     "roles": {},
+     "samples": [
+      "HCI-FI-64108-M6 — Cisco Compute Hyperconverged Fabric Interconnect 64108",
+      "HCI-FI-6454-M6 — Cisco Compute Hyperconverged Fabric Interconnect 6454",
+      "HCI-FI-6536-M6 — Cisco Compute Hyperconverged Fabric Interconnect 6536",
+      "HCI-FI-MANAGED — Cisco HCI-FI-MANAGED",
+      "HCI-FI-MANAGED-M6 — Deployment mode for Server Managed by FI",
+      "HCI-PSU-6332-ACM6 — UCS 6332/ 6454 Power Supply/100-240VAC"
+     ],
+     "rules": {
+      "sku": 12
+     }
+    },
+    {
+     "series": "HCI C220 nodes",
+     "role": null,
+     "note": null,
+     "parts": 21,
+     "kinds": {
+      "server": 13,
+      "mechanical": 3,
+      "accessory": 2,
+      "gpu": 2,
+      "storage-controller": 1
+     },
+     "roles": {},
+     "samples": [
+      "C220/C240/B200 — Cisco C220/C240/B200",
+      "HCI-BZL-C220-M6 — C220 M6 Security Bezel",
+      "HCI-BZL-C220-M6= — C220 M6 Security Bezel",
+      "HCI-CMA-C220M6 — Reversible CMA for C220 M6 ball bearing rail kit",
+      "HCI-CMA-C220M7 — Cisco HCI-CMA-C220M7",
+      "HCI-GPURKIT-C220 — GPU Riser Bracket assy kit C220 / C225 1U"
+     ],
+     "rules": {
+      "sku": 21
+     }
+    },
+    {
+     "series": "HCI C225 nodes",
+     "role": null,
+     "note": null,
+     "parts": 9,
+     "kinds": {
+      "accessory": 7,
+      "server": 2
+     },
+     "roles": {},
+     "samples": [
+      "HCI-RIS1A-225M8 — Cisco HCI-RIS1A-225M8",
+      "HCI-RIS1B-225M8 — Cisco HCI-RIS1B-225M8",
+      "HCI-RIS1C-225M8 — Cisco HCI-RIS1C-225M8",
+      "HCI-RIS2A-225M8 — Cisco HCI-RIS2A-225M8",
+      "HCI-RIS2B-225M8 — Cisco HCI-RIS2B-225M8",
+      "HCI-RIS3A-225M8 — Cisco HCI-RIS3A-225M8"
+     ],
+     "rules": {
+      "sku": 9
+     }
+    },
+    {
+     "series": "HCI C240 nodes",
+     "role": null,
+     "note": null,
+     "parts": 29,
+     "kinds": {
+      "drive": 2,
+      "mechanical": 3,
+      "accessory": 11,
+      "storage-controller": 2,
+      "server": 11
+     },
+     "roles": {},
+     "samples": [
+      "HCI-ADGPU-240M6 — C240M6 GPU Air Duct 2USFF/NVMe (for DW/FL only)",
+      "HCI-ADGPU-240M6= — C240M6 GPU Air Duct 2USFF/NVMe (for DW/FL only)",
+      "HCI-BZL-C240-M6 — C240 M6 Security Bezel",
+      "HCI-BZL-C240-M6= — C240 M6 Security Bezel",
+      "HCI-CMA-C240M6 — Reversible CMA for C240 M6 ball bearing rail kit",
+      "HCI-CMA-C240M7 — Cisco HCI-CMA-C240M7"
+     ],
+     "rules": {
+      "sku": 29
+     }
+    },
+    {
+     "series": "Compute Hyperconverged with Nutanix shared parts",
+     "role": null,
+     "note": null,
+     "parts": 629,
+     "kinds": {
+      "cable": 16,
+      "cpu": 168,
+      "gpu": 27,
+      "storage-controller": 8,
+      "drive": 238,
+      "accessory": 20,
+      "nic": 65,
+      "bundle": 5,
+      "memory": 42,
+      "power": 14,
+      "mechanical": 2,
+      "tpm": 11,
+      "server": 5,
+      "io-module": 4,
+      "unknown": 2,
+      "fabric-interconnect": 2
+     },
+     "roles": {},
+     "samples": [
+      "CAB-48DC-40A-AS — Cisco CAB-48DC-40A-AS",
+      "CAB-48DC-40A-ASD — Cisco CAB-48DC-40A-ASD",
+      "CAB-48DC-40A-INT — Cisco CAB-48DC-40A-INT",
+      "CAB-48DC40A-INT — Cisco CAB-48DC40A-INT",
+      "CAB-48DC40A8AWG — Cisco CAB-48DC40A8AWG",
+      "CAB-BS1363-C19-UK — BS-1363 to IEC-C19 14ft UK"
+     ],
+     "rules": {
+      "accessory": 14,
+      "sku": 518,
+      "label": 97
+     }
+    }
+   ]
+  }
+ ],
+ "not_this_category": [],
+ "pending_plans": [
+  {
+   "sku": "1.256GB",
+   "name": "Cisco 1.256GB",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "1.DDR4-3200MHz",
+   "name": "Cisco 1.DDR4-3200MHz",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "10/25/50G",
+   "name": "Cisco 10/25/50G",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "10/25G",
+   "name": "Cisco 10/25G",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "1440+",
+   "name": "Cisco 1440+",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "14425",
+   "name": "Cisco 14425",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "15422",
+   "name": "Cisco 15422",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "2.SKU",
+   "name": "Cisco 2.SKU",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "225C",
+   "name": "Cisco 225C",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "240C",
+   "name": "Cisco 240C",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "24GB",
+   "name": "Cisco 24GB",
+   "series_label": "Compute Hyperconverged with Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "250V",
+   "name": "Cisco 250V",
+   "series_label": "Compute Hyperconverged with Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "2x25/10GBE",
+   "name": "Cisco 2x25/10GBE",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "3.SKU",
+   "name": "Cisco 3.SKU",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "3200-MHz",
+   "name": "Cisco 3200-MHz",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "40/100/200G",
+   "name": "Cisco 40/100/200G",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "48GB",
+   "name": "Cisco 48GB",
+   "series_label": "Compute Hyperconverged with Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "4X16GB",
+   "name": "Cisco 4X16GB",
+   "series_label": "Compute Hyperconverged with Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "4x25/10GBE",
+   "name": "Cisco 4x25/10GBE",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "80GB",
+   "name": "Cisco 80GB",
+   "series_label": "Compute Hyperconverged with Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "850603",
+   "name": "Cisco 850603",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "BS1363",
+   "name": "Cisco BS1363",
+   "series_label": "Compute Hyperconverged with Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "CX6Lx",
+   "name": "Cisco CX6Lx",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "HCI-AOSAHV-73-SWK9",
+   "name": "Cisco HCI-AOSAHV-73-SWK9",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "software",
+   "reason": "software, a subscription or a software option"
+  },
+  {
+   "sku": "HCI-AOSAHV-73SWK9",
+   "name": "Cisco HCI-AOSAHV-73SWK9",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "software",
+   "reason": "software, a subscription or a software option"
+  },
+  {
+   "sku": "HCI-AOSAHV-75-SWK9",
+   "name": "Cisco HCI-AOSAHV-75-SWK9",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "software",
+   "reason": "software, a subscription or a software option"
+  },
+  {
+   "sku": "HCI-AOSAHV-NO-OS",
+   "name": "Cisco HCI-AOSAHV-NO-OS",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering setting, option, test or programme label that ships nothing"
+  },
+  {
+   "sku": "HCI-AOSAHV-SWK9M6",
+   "name": "HCI AOS AHV SW",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "software",
+   "reason": "software, a subscription or a software option"
+  },
+  {
+   "sku": "HCI-AOSESXI-SWK9M6",
+   "name": "HCI AOS ESXI SW",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "software",
+   "reason": "software, a subscription or a software option"
+  },
+  {
+   "sku": "HCI-TPM-OPT-OUT",
+   "name": "Cisco HCI-TPM-OPT-OUT",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering opt-out option that ships nothing (precedent: NO-POWER-CORD in productClass.ts)"
+  },
+  {
+   "sku": "HCI-TPM-OPT-OUT-M6",
+   "name": "OPT OUT, TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering opt-out option that ships nothing (precedent: NO-POWER-CORD in productClass.ts)"
+  },
+  {
+   "sku": "HCI-TPM-OPT-OUT1",
+   "name": "Cisco HCI-TPM-OPT-OUT1",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering opt-out option that ships nothing (precedent: NO-POWER-CORD in productClass.ts)"
+  },
+  {
+   "sku": "HCI-UCSM-MODE-M6",
+   "name": "UCSM Deployment mode for FI",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering setting, option, test or programme label that ships nothing"
+  },
+  {
+   "sku": "HCIX-AOSAHV-73SWK9",
+   "name": "Cisco HCIX-AOSAHV-73SWK9",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "software",
+   "reason": "software, a subscription or a software option"
+  },
+  {
+   "sku": "HCO-EXTSTG-IMM",
+   "name": "Cisco HCO-EXTSTG-IMM",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "HCO-HCI-IMM",
+   "name": "Cisco HCO-HCI-IMM",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "NCP-C",
+   "name": "Cisco NCP-C",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "NTNX-HCI",
+   "name": "Cisco NTNX-HCI",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "NTNX-NUS",
+   "name": "Cisco NTNX-NUS",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "NTX-NCI-USE-CASE1",
+   "name": "Cisco NTX-NCI-USE-CASE1",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "software",
+   "reason": "software, a subscription or a software option"
+  },
+  {
+   "sku": "NTX-SW",
+   "name": "Cisco NTX-SW",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "software",
+   "reason": "software, a subscription or a software option"
+  },
+  {
+   "sku": "NTX-SW-1Y",
+   "name": "Cisco NTX-SW-1Y",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "software",
+   "reason": "software, a subscription or a software option"
+  },
+  {
+   "sku": "NTX-SW-LO",
+   "name": "Cisco NTX-SW-LO",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "software",
+   "reason": "software, a subscription or a software option"
+  },
+  {
+   "sku": "NTX-SW-PS",
+   "name": "Cisco NTX-SW-PS",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "software",
+   "reason": "software, a subscription or a software option"
+  },
+  {
+   "sku": "P5620",
+   "name": "Cisco P5620",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "PRO-",
+   "name": "Cisco PRO-",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "RJ45",
+   "name": "Cisco RJ45",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "S132",
+   "name": "Cisco S132",
+   "series_label": "Compute Hyperconverged with Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "TOOL-LESS",
+   "name": "Cisco TOOL-LESS",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "UPI1",
+   "name": "Cisco UPI1",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "X-FABRIC",
+   "name": "Cisco X-FABRIC",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  }
+ ],
+ "unplaced": [],
+ "done": true
+}

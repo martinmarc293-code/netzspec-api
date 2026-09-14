@@ -1,0 +1,541 @@
+{
+ "vendor": "cisco",
+ "category": "hyperconverged-systems",
+ "built_at": "2026-09-14T14:03:57.735Z",
+ "mapping_file": "data/reference/product-lines/cisco-hyperconverged-systems.json",
+ "parts": 1204,
+ "lines": [
+  {
+   "line": "HyperFlex",
+   "parts": 1170,
+   "series": [
+    {
+     "series": "HyperFlex compute-only nodes (C220 / C240 / C480 / B200)",
+     "role": null,
+     "note": null,
+     "parts": 35,
+     "kinds": {
+      "server": 35
+     },
+     "roles": {},
+     "samples": [
+      "HX-B200-M5-U — Compute UCS B200 M5 Blade w/o CPU, mem, HDD, mezz (UPG)",
+      "HX-B200-M5-U-BR — Compute UCS B200 M5 w/o CPU, mem, drive bays, HDD,mezz (UPG)",
+      "HX-B200-M6-U — Compute UCS B200 M6 Blade w/o CPU, mem, HDD, mezz (UPG)",
+      "HX-C220-M5L — Compute UCS C220 M5 LFF w/o CPU, mem, HD, PCIe, PSU",
+      "HX-C220-M5L-BR — Compute UCS C220 M5 LFF w/o CPU, mem, HD, PCIe, PSU",
+      "HX-C220-M5SN — Compute UCS C220 M5 SFF 10 NVMe w/o CPU, mem, HD, PCIe, PSU"
+     ],
+     "rules": {
+      "sku": 35
+     }
+    },
+    {
+     "series": "HyperFlex Edge",
+     "role": null,
+     "note": null,
+     "parts": 23,
+     "kinds": {
+      "mechanical": 2,
+      "server": 21
+     },
+     "roles": {},
+     "samples": [
+      "HX-E-220C-BZL-M5 — HX220C M5 EdgeSecurity Bezel",
+      "HX-E-220C-BZL-M5= — HX220C M5 EdgeSecurity Bezel",
+      "HX-E-220M5SX — Cisco HyperFlex Hybrid Edge 220 M5 system",
+      "HX-E-220M5SX-BR — Cisco HyperFlex Hybrid Edge 220 M5 system",
+      "HX-E-220M5SX1 — Cisco HX-E-220M5SX1",
+      "HX-E-220M6S — Cisco HyperFlex Hybrid Edge 220 M6 system"
+     ],
+     "rules": {
+      "sku": 23
+     }
+    },
+    {
+     "series": "HyperFlex Express",
+     "role": null,
+     "note": null,
+     "parts": 25,
+     "kinds": {
+      "cpu": 9,
+      "drive": 10,
+      "memory": 1,
+      "power": 5
+     },
+     "roles": {},
+     "samples": [
+      "HXE-CPU-A7413 — Cisco HXE-CPU-A7413",
+      "HXE-CPU-A7543 — Cisco HXE-CPU-A7543",
+      "HXE-CPU-A7763 — Cisco HXE-CPU-A7763",
+      "HXE-CPU-I4314 — Cisco HX Express Intel4314 2.4GHz/135W 16C/24MB DDR4 2667MHz",
+      "HXE-CPU-I5320 — Cisco HX Express Intel5320 2.2GHz/185W 26C/39MB DDR4 2933MHz",
+      "HXE-CPU-I6326 — Cisco HX Express Intel6326 2.9GHz/185W 16C/24MB DDR4 3200MHz"
+     ],
+     "rules": {
+      "sku": 25
+     }
+    },
+    {
+     "series": "HyperFlex Fabric Interconnects",
+     "role": null,
+     "note": null,
+     "parts": 4,
+     "kinds": {
+      "fabric-interconnect": 4
+     },
+     "roles": {},
+     "samples": [
+      "HX-FI-6332 — UCS 6332 1RU Fabric Interconnect/No PSU/32 QSFP+ports/8p Lic",
+      "HX-FI-6332-BR — UCS 6332 IRU Fabric Interconnect/No PSU/32 QSFP+ports/8p Lic",
+      "HX-FI-64108 — UCS Fabric Interconnect 64108",
+      "HX-FI-6454-BR — UCS Fabric Interconnect 6454"
+     ],
+     "rules": {
+      "sku": 4
+     }
+    },
+    {
+     "series": "HyperFlex bundles and starter packs",
+     "role": null,
+     "note": null,
+     "parts": 28,
+     "kinds": {
+      "unknown": 12,
+      "drive": 1,
+      "server": 1,
+      "bundle": 14
+     },
+     "roles": {},
+     "samples": [
+      "HX-16-DC16C — Cisco HX-16-DC16C",
+      "HX-16-DC16C-NS — Cisco HX-16-DC16C-NS",
+      "HX-16-DC16C-RM — Cisco HX-16-DC16C-RM",
+      "HX-16-DC24C — Cisco HX-16-DC24C",
+      "HX-16-DC24C-NS — Cisco HX-16-DC24C-NS",
+      "HX-16-DC24C-RM — Cisco HX-16-DC24C-RM"
+     ],
+     "rules": {
+      "sku": 28
+     }
+    },
+    {
+     "series": "HX220c",
+     "role": null,
+     "note": null,
+     "parts": 55,
+     "kinds": {
+      "cable": 3,
+      "mechanical": 11,
+      "gpu": 2,
+      "storage-controller": 4,
+      "server": 24,
+      "accessory": 8,
+      "fan": 2,
+      "unknown": 1
+     },
+     "roles": {},
+     "samples": [
+      "CBL-NVME-C220FF= — Cisco CBL-NVME-C220FF=",
+      "CBL-SAS-C220M6= — Cisco CBL-SAS-C220M6=",
+      "CBL-SATA-C220M6= — Cisco CBL-SATA-C220M6=",
+      "HX-CMA-C220M6 — Reversible CMA for C220 M6 ball bearing rail kit",
+      "HX-CMA-C220M6= — Reversible CMA for C220 M6 ball bearing rail kit",
+      "HX-GPURKIT-C220 — GPU Riser Bracket assy kit C220 / C225 1U"
+     ],
+     "rules": {
+      "sku": 55
+     }
+    },
+    {
+     "series": "HX225c",
+     "role": null,
+     "note": null,
+     "parts": 10,
+     "kinds": {
+      "cable": 1,
+      "server": 8,
+      "accessory": 1
+     },
+     "roles": {},
+     "samples": [
+      "CBL-SAS-C225M6= — Cisco CBL-SAS-C225M6=",
+      "HX-C225-M6S — Compute UCS C225M6 Rack w/o CPU,mem,drv,1UwSFF10HDDbackplane",
+      "HX-HSHP-225M6= — Cisco HX-HSHP-225M6=",
+      "HX225-M6S — Cisco HX225-M6S",
+      "HX225C-M6S-EXP — Cisco HX225C-M6S-EXP",
+      "HX225C-M6S-EXP2 — Cisco HX225C-M6S-EXP2"
+     ],
+     "rules": {
+      "sku": 10
+     }
+    },
+    {
+     "series": "HX240c",
+     "role": null,
+     "note": null,
+     "parts": 118,
+     "kinds": {
+      "server": 28,
+      "cable": 16,
+      "drive": 5,
+      "accessory": 30,
+      "mechanical": 10,
+      "fan": 3,
+      "nic": 14,
+      "io-module": 10,
+      "storage-controller": 2
+     },
+     "roles": {},
+     "samples": [
+      "C240M5SD — Cisco C240M5SD",
+      "CBL-FNVME-240M6 — Cisco CBL-FNVME-240M6",
+      "CBL-FNVME-240M6= — Cisco CBL-FNVME-240M6=",
+      "CBL-GPU-C240M6 — Cisco CBL-GPU-C240M6",
+      "CBL-GPU-C240M6= — Cisco CBL-GPU-C240M6=",
+      "CBL-R3BS3-C240M6L= — Cisco CBL-R3BS3-C240M6L="
+     ],
+     "rules": {
+      "sku": 118
+     }
+    },
+    {
+     "series": "HX245c",
+     "role": null,
+     "note": null,
+     "parts": 9,
+     "kinds": {
+      "server": 7,
+      "accessory": 2
+     },
+     "roles": {},
+     "samples": [
+      "HX245C-M6SX — Cisco HyperFlex HX245C M6 Node",
+      "HX245C-M6SX-EXP — Cisco HX245C-M6SX-EXP",
+      "HX245C-M6SX-EXP2 — Cisco HX245C-M6SX-EXP2",
+      "HXAF245C-M6SX — Cisco HyperFlex HX245C M6 All Flash Node",
+      "HXAF245C-M6SX-EXP — Cisco HXAF245C-M6SX-EXP",
+      "HXAF245C-M6SX-EXP1 — Cisco HXAF245C-M6SX-EXP1"
+     ],
+     "rules": {
+      "sku": 9
+     }
+    },
+    {
+     "series": "HyperFlex shared parts",
+     "role": null,
+     "note": null,
+     "parts": 863,
+     "kinds": {
+      "cable": 21,
+      "server": 19,
+      "gpu": 28,
+      "storage-controller": 24,
+      "accessory": 36,
+      "memory": 72,
+      "drive": 207,
+      "nic": 61,
+      "mechanical": 23,
+      "cpu": 331,
+      "fabric-interconnect": 1,
+      "bundle": 4,
+      "power": 24,
+      "tpm": 11,
+      "pdu": 1
+     },
+     "roles": {},
+     "samples": [
+      "CAB-48DC-40A — Cisco CAB-48DC-40A",
+      "CAB-48DC-40A-AS= — Cisco CAB-48DC-40A-AS=",
+      "CAB-48DC-40A-INT= — Cisco CAB-48DC-40A-INT=",
+      "CAB-9K10A-KOR1= — Cisco CAB-9K10A-KOR1=",
+      "CAB-9K12A-NA2= — Cisco CAB-9K12A-NA2=",
+      "CAB-9K12A-NA4= — Cisco CAB-9K12A-NA4="
+     ],
+     "rules": {
+      "accessory": 21,
+      "label": 39,
+      "sku": 803
+     }
+    }
+   ]
+  }
+ ],
+ "not_this_category": [],
+ "pending_plans": [
+  {
+   "sku": "2xHDD",
+   "name": "Cisco 2xHDD",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "2xHDD/SSD",
+   "name": "Cisco 2xHDD/SSD",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "4.NVIDIA",
+   "name": "Cisco 4.NVIDIA",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "40GB",
+   "name": "Cisco 40GB",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "A100",
+   "name": "Cisco A100",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "AS-DCN-CNSLT",
+   "name": "Cisco AS-DCN-CNSLT",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "service",
+   "reason": "a service, training or professional-services PID"
+  },
+  {
+   "sku": "CPHC-HX",
+   "name": "Cisco+ Hybrid Cloud for Hyperconverged Infrastructure",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "service",
+   "reason": "a service, training or professional-services PID"
+  },
+  {
+   "sku": "CRS-DG",
+   "name": "Cisco CRS-DG",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "DATA-DG",
+   "name": "Cisco DATA-DG",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "E3-A-HXDP",
+   "name": "Cisco E3-A-HXDP",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "software",
+   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
+  },
+  {
+   "sku": "FRA-DG",
+   "name": "Cisco FRA-DG",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "HX-AAS",
+   "name": "Cisco+ Hybrid Cloud - HyperFlex bundle",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering setting, option, test or programme label that ships nothing"
+  },
+  {
+   "sku": "HX-AMD-JUMPSTART",
+   "name": "HX-AMD JumpStart Offer.Pre-Approval needed before quote/ord",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering setting, option, test or programme label that ships nothing"
+  },
+  {
+   "sku": "HX-COLLAB-UC",
+   "name": "UC on HX -TRC- bundle",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering setting, option, test or programme label that ships nothing"
+  },
+  {
+   "sku": "HX-E-M5S-HXDP",
+   "name": "Cisco HyperFlex M5 Edge Hybrid & All Flash (w/o FI)",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "software",
+   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
+  },
+  {
+   "sku": "HX-E-M5S-HXDP-BR",
+   "name": "Cisco HyperFlex M5 Edge Hybrid & All Flash (w/o FI)",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "software",
+   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
+  },
+  {
+   "sku": "HX-EXPRESS-MLB",
+   "name": "Cisco Hyperflex Express MLB",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering setting, option, test or programme label that ships nothing"
+  },
+  {
+   "sku": "HX-M4S-HXDP",
+   "name": "Cisco HX-M4S-HXDP",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "software",
+   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
+  },
+  {
+   "sku": "HX-M6-AAS",
+   "name": "Cisco+ Hybrid Cloud - M6 HX Bundle",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering setting, option, test or programme label that ships nothing"
+  },
+  {
+   "sku": "HX-NIC-MODE",
+   "name": "Hyperflex NIC Connectivity Mode",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering setting, option, test or programme label that ships nothing"
+  },
+  {
+   "sku": "HX-RES-OND-HX",
+   "name": "Full Stack Usage based ATO for Hyperflex",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "service",
+   "reason": "a service, training or professional-services PID"
+  },
+  {
+   "sku": "HX-SYSTEMDRIVE",
+   "name": "Hyperflex Express SYSLOG",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering setting, option, test or programme label that ships nothing"
+  },
+  {
+   "sku": "HX-VB-B00R00",
+   "name": "Veeam Data Protection on HX LFF",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "software",
+   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
+  },
+  {
+   "sku": "HX-VSE2VSP-3A=",
+   "name": "Upgrade PAC vSphere: Ent to EntPlus 1-CPU, 3 yr Supp Req",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "license",
+   "reason": "a licence or subscription entitlement"
+  },
+  {
+   "sku": "HXAF-E-240-M5SX=",
+   "name": "VOID; Not Used",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "self-declared VOID PID"
+  },
+  {
+   "sku": "HXAF-FSS-3YR",
+   "name": "Hyperconverged System Full Stack Subscription Bundle - 3YR",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "software",
+   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
+  },
+  {
+   "sku": "HXAF-FSS-5YR",
+   "name": "Hyperconverged System Full Stack Subscription Bundle - 5YR",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "software",
+   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
+  },
+  {
+   "sku": "PLHC-FI-D2-RES",
+   "name": "Cisco+ Hybrid Cloud Reserve for HX Fabric Interconnect",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "a capacity reservation, not a part"
+  },
+  {
+   "sku": "REDO-DG",
+   "name": "Cisco REDO-DG",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "Two-CPU",
+   "name": "Cisco Two-CPU",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "UCS-DCPMM-AD=",
+   "name": "Cisco UCS-DCPMM-AD=",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an Optane operating-mode SETTING (like HX-DCPMM-AD, already non-product in ucsKind)"
+  },
+  {
+   "sku": "UCSD5",
+   "name": "Cisco UCSD5",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "UCSD8",
+   "name": "Cisco UCSD8",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "UTP/RJ45",
+   "name": "Cisco UTP/RJ45",
+   "series_label": "HyperFlex HX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  }
+ ],
+ "unplaced": [],
+ "done": true
+}

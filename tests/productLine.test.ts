@@ -201,6 +201,22 @@ witness("security", [
   ["SM-EC-3DES", "Service Module for 168-bit DES Encryption", "FirePOWER 7000 Appliances", "(not this category)", "interfaces-modules"],
 ]);
 
+// ---- hyperconverged-systems (HyperFlex) and hyperconverged-infrastructure (Nutanix / vSAN), done 14 Sep 2026 ----
+witness("hyperconverged-systems", [
+  ["HX-C240-M6SX", "Compute UCS C240 M6 Rack", "HyperFlex HX Series", "HyperFlex", "HyperFlex compute-only nodes (C220 / C240 / C480 / B200)"], // not the HX240c node
+  ["HXAF240C-M6SX-EXP", "HXAF240c M6 All Flash Express", "HyperFlex HX Series", "HyperFlex", "HX240c"],
+  ["HX-RIS-2A-240M5", "Riser 2A 3PCIe slots", "HyperFlex HX Series", "HyperFlex", "HX240c"],
+  ["HX-E-220M6S", "HyperFlex Hybrid Edge 220 M6", "HyperFlex HX Series", "HyperFlex", "HyperFlex Edge"],
+  ["HX-CPU-6140", "2.3 GHz 6140/140W", "HyperFlex HX Series", "HyperFlex", "HyperFlex shared parts"],
+]);
+witness("hyperconverged-infrastructure", [
+  ["HCIVS240C-M8SN", "Compute Hyperconverged C240 M8 2RU", "Compute Hyperconverged with VMware vSAN", "Compute Hyperconverged with VMware vSAN", "vSAN nodes (C220 / C225 / C240 / C245 / X210c / X215c)"], // vSAN before C240
+  ["HCINX240C-M8L", "Compute Hyperconverged C240 M8 2RU", "Compute Hyperconverged Nutanix", "Compute Hyperconverged with Nutanix", "HCI C240 nodes"],
+  ["HCIX-210C-M7", "Compute Hyperconverged X210c M7", "Compute Hyperconverged with Nutanix", "Compute Hyperconverged with Nutanix", "HCIX X-Series (X210c / X215c / X9508)"],
+  ["HCIXENX130C-M8-32", "HCI XE130c M8 32-Core", "Compute Hyperconverged with Nutanix", "Compute Hyperconverged with Nutanix", "HCI XE-Series (XE130c / XE9305)"],
+  ["HCI-CPU-A9115", "Cisco HCI-CPU-A9115", "Compute Hyperconverged Nutanix", "Compute Hyperconverged with Nutanix", "Compute Hyperconverged with Nutanix shared parts"],
+]);
+
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");

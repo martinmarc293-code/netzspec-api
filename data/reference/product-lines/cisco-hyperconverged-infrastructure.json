@@ -1,0 +1,92 @@
+{
+ "vendor": "cisco",
+ "category": "hyperconverged-infrastructure",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco Compute Hyperconverged, 14 Sep 2026: with Nutanix (HCI / HCO nodes by rack model, HCIX X-Series, HCIXE Unified Edge, fabric) and with VMware vSAN (HCIVS / HCIXVS). The vSAN line comes first because its node SKUs carry the same platform tokens (HCIVS240C). A component whose SKU names a node platform (HCI-CMA-C240M7, HCI-RIS3A-225M8) sits with that node; any other HCI- / UCS- component in the line's shared parts. No role axis.",
+ "lines": [
+  {
+   "line": "Compute Hyperconverged with VMware vSAN",
+   "series": [
+    {
+     "series": "vSAN nodes (C220 / C225 / C240 / C245 / X210c / X215c)",
+     "sku": [
+      "^HC[IO]X?VS",
+      "VSAN"
+     ],
+     "labels": [
+      "Compute Hyperconverged with VMware vSAN"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Compute Hyperconverged with Nutanix",
+   "series": [
+    {
+     "series": "HCI XE-Series (XE130c / XE9305)",
+     "sku": [
+      "^HC[IO]XE"
+     ]
+    },
+    {
+     "series": "HCIX X-Series (X210c / X215c / X9508)",
+     "sku": [
+      "^HC[IO]X(NX|AF|F)?-?21[05]C",
+      "^HC[IO]X-?9508",
+      "^HCIX-(210|215)"
+     ]
+    },
+    {
+     "series": "HCI fabric interconnects and X-Fabric",
+     "sku": [
+      "^HC[IO]X?-F[IS]",
+      "^HCI-PSU-6"
+     ]
+    },
+    {
+     "series": "HCI C220 nodes",
+     "sku": [
+      "^HC[IO](AF|NX|F|HY)?220C",
+      "(?<![0-9])220-?M[6-8]",
+      "(?<![A-Z0-9])C220(?![0-9])"
+     ]
+    },
+    {
+     "series": "HCI C225 nodes",
+     "sku": [
+      "^HC[IO](AF|NX|F|HY)?225C",
+      "(?<![0-9])225-?M[6-8]"
+     ]
+    },
+    {
+     "series": "HCI C240 nodes",
+     "sku": [
+      "^HC[IO](AF|NX|F|HY)?240C",
+      "(?<![0-9])240-?M[6-8]",
+      "(?<![A-Z0-9])C240(?![0-9])"
+     ]
+    },
+    {
+     "series": "Compute Hyperconverged with Nutanix shared parts",
+     "sku": [
+      "^HC[IO]"
+     ],
+     "labels": [
+      "Compute Hyperconverged Nutanix",
+      "Compute Hyperconverged with Nutanix"
+     ]
+    }
+   ]
+  }
+ ],
+ "shared_accessories": [
+  "^CAB-",
+  "^CBL-",
+  "CABLE",
+  "RAIL",
+  "CMA",
+  "BLANK",
+  "BBLKD",
+  "BZL",
+  "BEZEL"
+ ]
+}
