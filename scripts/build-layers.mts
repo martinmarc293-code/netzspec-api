@@ -12,7 +12,11 @@ import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
 import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult } from "../src/core/deployRole.js";
-import { lineFilePath, loadLineFile, placeWithSpareRule } from "../src/core/productLine.js";
+import { lineFilePath, loadLineFile, placeWithSpareRule, familyOf, SHARED_PARTS } from "../src/core/productLine.js";
+
+// layer 3 of a line-level shared-parts row (operator, 14 Sep 2026): explicit, never blank — the part fits several families of the
+// line or none of them. A family-scoped shared series ("Catalyst 9000 shared parts") carries its family instead.
+const SHARED_ACROSS_LINE = "(shared across the line)";
 import { closePool, query } from "../src/store/db.js";
 import { execFileSync } from "node:child_process";
 
@@ -64,7 +68,7 @@ type Plan = { sku: string; category: string; action: string; to: string; reason?
 const planFile = path.join(REPO_ROOT, "data", "reference", "kind-layer-plans-2026-09-13.json");
 const planOf = new Map<string, Plan>((fs.existsSync(planFile) ? JSON.parse(fs.readFileSync(planFile, "utf8")) as Plan[] : []).map((x) => [`${x.category}|${x.sku.trim().toUpperCase()}`, x]));
 
-type SeriesNode = { series: string; role: string | null; note: string | null; parts: number; kinds: Record<string, number>; roles: Record<string, number>; samples: string[]; rules: Record<string, number> };
+type SeriesNode = { series: string; family: string | null; role: string | null; note: string | null; parts: number; kinds: Record<string, number>; roles: Record<string, number>; samples: string[]; rules: Record<string, number> };
 type Tree = {
   vendor: string; category: string; built_at: string; commit: string | null; uncommitted_rule_files: string[] | null; mapping_file: string | null; parts: number;
   lines: { line: string; parts: number; series: SeriesNode[] }[];
@@ -80,7 +84,7 @@ type Tree = {
 type LayerRow = {
   sku: string; name: string | null; series_label: string | null; kind: string;
   bucket: "layered" | "not_this_category" | "pending_plan" | "unplaced";
-  product_line: string | null; series: string | null; placed_by: string | null;
+  product_line: string | null; product_family: string | null; series: string | null; placed_by: string | null;
   deploy_role: string | null; role_rule: string | null; role_issue: string | null;
   plan: { action: string; to: string; reason: string | null } | null;
   belongs: string | null;
@@ -93,7 +97,7 @@ function build(cat: string): Tree {
   const tree: Tree = { vendor, category: cat, built_at: new Date().toISOString(), commit: PROVENANCE.commit, uncommitted_rule_files: PROVENANCE.uncommitted_rule_files, mapping_file: loaded ? path.relative(REPO_ROOT, lineFilePath(vendor, cat)).replace(/\\/g, "/") : null,
     parts: mine.length, lines: [], not_this_category: [], pending_plans: [], unplaced: [], done: false, rows: [] };
   // lines appear in the mapping file's order, series too (a reader's order, not a count order)
-  if (loaded) for (const l of loaded.file.lines) { const m = new Map<string, SeriesNode>(); for (const s of l.series) m.set(s.series, { series: s.series, role: s.role ?? null, note: s.note ?? null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {} }); lines.set(l.line, m); }
+  if (loaded) for (const l of loaded.file.lines) { const m = new Map<string, SeriesNode>(); for (const s of l.series) m.set(s.series, { series: s.series, family: s.family?.trim() || null, role: s.role ?? null, note: s.note ?? null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {} }); lines.set(l.line, m); }
   // the spare rule (review A.1): X and X= share one placement, the better-evidenced member's
   const placed = placeWithSpareRule(vendor, cat, mine, loaded);
   for (const r of mine) {
@@ -104,20 +108,20 @@ function build(cat: string): Tree {
     const base = { sku: r.sku, name: r.name, series_label: r.series, kind, deploy_role: rr.role, role_rule: rr.rule, role_issue: rr.issue };
     if (plan) {
       tree.pending_plans.push({ sku: r.sku, name: r.name, series_label: r.series, action: plan.action, to: plan.to, reason: plan.reason ?? null });
-      tree.rows.push({ ...base, bucket: "pending_plan", product_line: null, series: null, placed_by: null, plan: { action: plan.action, to: plan.to, reason: plan.reason ?? null }, belongs: null });
+      tree.rows.push({ ...base, bucket: "pending_plan", product_line: null, product_family: null, series: null, placed_by: null, plan: { action: plan.action, to: plan.to, reason: plan.reason ?? null }, belongs: null });
       continue;
     }
     const p = placed.get(r.sku) ?? null;
-    if (!p) { tree.unplaced.push({ sku: r.sku, name: r.name, series_label: r.series, kind }); tree.rows.push({ ...base, bucket: "unplaced", product_line: null, series: null, placed_by: null, plan: null, belongs: null }); continue; }
+    if (!p) { tree.unplaced.push({ sku: r.sku, name: r.name, series_label: r.series, kind }); tree.rows.push({ ...base, bucket: "unplaced", product_line: null, product_family: null, series: null, placed_by: null, plan: null, belongs: null }); continue; }
     if (p.line === "(not this category)") {
       const why = (p as { why: string }).why, belongs = (p as { belongs: string | null }).belongs;
       tree.not_this_category.push({ sku: r.sku, name: r.name, series_label: r.series, why, belongs });
-      tree.rows.push({ ...base, bucket: "not_this_category", product_line: null, series: null, placed_by: p.rule, plan: null, belongs });
+      tree.rows.push({ ...base, bucket: "not_this_category", product_line: null, product_family: null, series: null, placed_by: p.rule, plan: null, belongs });
       continue;
     }
-    tree.rows.push({ ...base, bucket: "layered", product_line: p.line, series: p.series, placed_by: p.rule, plan: null, belongs: null });
+    tree.rows.push({ ...base, bucket: "layered", product_line: p.line, product_family: p.series === SHARED_PARTS(p.line) ? SHARED_ACROSS_LINE : familyOf(loaded, p.series), series: p.series, placed_by: p.rule, plan: null, belongs: null });
     const lm = lines.get(p.line)!;
-    if (!lm.has(p.series)) lm.set(p.series, { series: p.series, role: null, note: null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {} }); // "<line> shared parts"
+    if (!lm.has(p.series)) lm.set(p.series, { series: p.series, family: p.series === SHARED_PARTS(p.line) ? SHARED_ACROSS_LINE : null, role: null, note: null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {} }); // "<line> shared parts"
     const node = lm.get(p.series)!;
     node.parts++;
     const role = rr.role;
@@ -147,17 +151,17 @@ function categoryPage(t: Tree): string {
   const status = !t.mapping_file ? `<div class="banner b-bad"><b>NOT STARTED</b> — no mapping file yet.</div>`
     : t.done ? `<div class="banner b-ok"><b>DONE</b> — every one of ${t.parts.toLocaleString("en-US")} parts has a product line and a series (${t.not_this_category.length} listed as not belonging to this category).</div>`
       : `<div class="banner b-bad"><b>IN PROGRESS</b> — ${t.unplaced.length} of ${t.parts} parts not placed yet.</div>`;
-  let body = `<p><a href="index.html">all categories</a></p><h1>${esc(t.vendor)} · ${esc(t.category)} — layer 2 product lines, layer 3 series</h1>${status}
+  let body = `<p><a href="index.html">all categories</a></p><h1>${esc(t.vendor)} · ${esc(t.category)} — layer 2 product lines, layer 3 families (where Cisco names one), layer 4 series</h1>${status}
 <p class=m>Built ${esc(t.built_at)} from the live store at commit ${t.commit ? esc(t.commit.slice(0, 10)) : "<span class=bad>unknown (git not readable)</span>"}${t.uncommitted_rule_files === null ? "" : t.uncommitted_rule_files.length ? ` <span class=bad>plus ${t.uncommitted_rule_files.length} uncommitted rule file(s): ${esc(t.uncommitted_rule_files.join(", "))}</span>` : " (rule files clean)"} · mapping ${esc(t.mapping_file ?? "none")} · part type (switch / power / linecard…) shown beside each series, unchanged · <a href="${esc(t.category)}.json">every row as JSON</a> (${t.rows.length.toLocaleString("en-US")} rows).</p>`;
   const roleTotals = (l: Tree["lines"][number]) => { const m: Record<string, number> = {}; for (const s of l.series) for (const [r, n] of Object.entries(s.roles)) m[r] = (m[r] ?? 0) + n; return Object.entries(m).sort((a, b) => b[1] - a[1]).map(([r, n]) => `${esc(r)} ${n}`).join(", ") || "<span class=m>—</span>"; };
-  body += `<h2>Summary</h2><table><tr><th>layer 2 — product line</th><th>layer 3 — series</th><th>parts</th><th>deploy_role totals (parts whose type carries a role)</th></tr>` +
-    t.lines.map((l) => `<tr><td><b>${esc(l.line)}</b></td><td>${l.series.length} series</td><td class=r>${l.parts.toLocaleString("en-US")}</td><td>${roleTotals(l)}</td></tr>`).join("") +
+  body += `<h2>Summary</h2><table><tr><th>layer 2 — product line</th><th>layer 3 — families</th><th>layer 4 — series</th><th>parts</th><th>deploy_role totals (parts whose type carries a role)</th></tr>` +
+    t.lines.map((l) => `<tr><td><b>${esc(l.line)}</b></td><td>${[...new Set(l.series.map((s) => s.family).filter((x) => x && x !== SHARED_ACROSS_LINE))].map((f) => esc(f!)).join(", ") || "<span class=m>— (Cisco names none)</span>"}</td><td>${l.series.length} series</td><td class=r>${l.parts.toLocaleString("en-US")}</td><td>${roleTotals(l)}</td></tr>`).join("") +
     `<tr><td class=warn>(not this category)</td><td>listed below with reasons</td><td class=r>${t.not_this_category.length}</td></tr>` +
     `<tr><td class=warn>(pending move / class change)</td><td>planned, listed below</td><td class=r>${t.pending_plans.length}</td></tr>` +
     `<tr><td class=bad>(unplaced)</td><td></td><td class=r>${t.unplaced.length}</td></tr></table>`;
   for (const l of t.lines) {
-    body += `<h2>${esc(l.line)} — ${l.parts.toLocaleString("en-US")} parts</h2><p class=m>deploy_role totals: ${roleTotals(l)}</p><table><tr><th>series</th><th>deploy_role (series table)</th><th>parts</th><th>part types</th><th>role as the cup engine assigns it</th><th>examples</th></tr>` +
-      l.series.map((s) => `<tr><td><b>${esc(s.series)}</b>${s.note ? `<br><span class=warn>${esc(s.note)}</span>` : ""}</td><td>${s.role ? esc(s.role) : "<span class=m>none (no role)</span>"}</td><td class=r>${s.parts}</td><td>${Object.entries(s.kinds).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${esc(k)} ${n}`).join(", ")}</td><td>${Object.entries(s.roles).map(([r, n]) => `${esc(r)} ${n}`).join(", ") || "<span class=m>—</span>"}</td><td class=m>${s.samples.map(esc).join("<br>")}</td></tr>`).join("") + `</table>`;
+    body += `<h2>${esc(l.line)} — ${l.parts.toLocaleString("en-US")} parts</h2><p class=m>deploy_role totals: ${roleTotals(l)}</p><table><tr><th>family</th><th>series</th><th>deploy_role (series table)</th><th>parts</th><th>part types</th><th>role as the cup engine assigns it</th><th>examples</th></tr>` +
+      [...l.series].sort((a, b) => (a.family === SHARED_ACROSS_LINE ? "~~" : a.family ?? "~").localeCompare(b.family === SHARED_ACROSS_LINE ? "~~" : b.family ?? "~")).map((s) => `<tr><td>${s.family ? esc(s.family) : "<span class=m>—</span>"}</td><td><b>${esc(s.series)}</b>${s.note ? `<br><span class=warn>${esc(s.note)}</span>` : ""}</td><td>${s.role ? esc(s.role) : "<span class=m>none (no role)</span>"}</td><td class=r>${s.parts}</td><td>${Object.entries(s.kinds).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${esc(k)} ${n}`).join(", ")}</td><td>${Object.entries(s.roles).map(([r, n]) => `${esc(r)} ${n}`).join(", ") || "<span class=m>—</span>"}</td><td class=m>${s.samples.map(esc).join("<br>")}</td></tr>`).join("") + `</table>`;
   }
   if (t.not_this_category.length) body += `<h2 class=warn>Not this category — ${t.not_this_category.length}</h2><table><tr><th>SKU</th><th>name</th><th>why</th><th>belongs</th></tr>` +
     t.not_this_category.map((x) => `<tr><td>${esc(x.sku)}</td><td>${esc(x.name)}</td><td>${esc(x.why)}</td><td>${esc(x.belongs ?? "")}</td></tr>`).join("") + `</table>`;
@@ -181,8 +185,8 @@ for (const cat of targets) {
     const { rows: tRows, ...summary } = t;
     fs.writeFileSync(path.join(REPO_ROOT, "data", "layers", `${vendor}-${cat}.json`), JSON.stringify(summary, null, 1) + "\n");
     const cell = (x: unknown) => String(x ?? "").replace(/[\t\r\n]+/g, " ");
-    const head = ["sku", "name", "series_label", "kind", "bucket", "product_line", "series", "placed_by", "deploy_role", "role_rule", "role_issue", "plan", "belongs"];
-    const lines = tRows.map((r) => [r.sku, r.name, r.series_label, r.kind, r.bucket, r.product_line, r.series, r.placed_by, r.deploy_role, r.role_rule, r.role_issue,
+    const head = ["sku", "name", "series_label", "kind", "bucket", "product_line", "product_family", "series", "placed_by", "deploy_role", "role_rule", "role_issue", "plan", "belongs"];
+    const lines = tRows.map((r) => [r.sku, r.name, r.series_label, r.kind, r.bucket, r.product_line, r.product_family, r.series, r.placed_by, r.deploy_role, r.role_rule, r.role_issue,
       r.plan ? `${r.plan.action} ${r.plan.to}` : "", r.belongs].map(cell).join("\t"));
     fs.writeFileSync(path.join(REPO_ROOT, "data", "layers", `${vendor}-${cat}.rows.tsv`), [head.join("\t"), ...lines].join("\n") + "\n");
   }

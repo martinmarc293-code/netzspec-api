@@ -17,13 +17,20 @@ import { REPO_ROOT } from "../config.js";
 
 /** `role` = the deploy_role of every part of this series whose kind carries a role axis (switch / ap / router / phone): ONE
  * table read by this page AND the cup engine (src/core/deployRole.ts consults it before its own rules). */
-export type SeriesRule = { series: string; role?: string; sku?: string[]; name?: string[]; labels?: string[]; note?: string };
-export type LineRule = { line: string; series: SeriesRule[] };
+export type SeriesRule = { series: string; role?: string; sku?: string[]; name?: string[]; labels?: string[]; note?: string;
+  /** THE FAMILY LAYER (operator, 14 Sep 2026): layer 3 between the product line and the series, ONLY where Cisco names a family
+   * that groups series ("Catalyst 9000", "Nexus 7000 Series" = 7000 + 7700, "ISR G2" = 1900 / 2900 / 3900). Never invented to
+   * fill the depth: a series with no Cisco family sits directly under its line. */
+  family?: string };
+/** `no_family_reason`: required on a line of 3+ series where any series has no family — says why (Cisco names none). */
+export type LineRule = { line: string; series: SeriesRule[]; no_family_reason?: string };
 export type ExcludeRule = { sku: string; why: string; belongs?: string };
 /** `shared_accessories`: SKU patterns of GENERIC accessories (power cords, generic cables, rack kits, blanks, console cables).
  * Reviewer rule, 14 Sep 2026: such a row goes to "<product line> shared parts" unless its SKU names the series — so the
  * series SKU rules run first and win; a row only a label or a name places is filed under its line's shared parts. */
-export type LineFile = { vendor: string; category: string; _about?: string; lines: LineRule[]; not_this_category?: ExcludeRule[]; shared_accessories?: string[] };
+/** `family_layer: "assigned"`: the category's families have been read against Cisco's naming (its review round). Until then a
+ * file may carry no families; once assigned, every line of 3+ series with a series outside a family must say why. */
+export type LineFile = { vendor: string; category: string; _about?: string; family_layer?: "assigned"; lines: LineRule[]; not_this_category?: ExcludeRule[]; shared_accessories?: string[] };
 export type Placement =
   | { line: string; series: string; rule: string; role?: string | null }
   | { line: "(not this category)"; series: string; rule: string; why: string; belongs: string | null };
@@ -68,6 +75,29 @@ export function validateLineFile(f: LineFile): string[] {
         seenLabel.set(k, s.series);
       }
     }
+  }
+  // THE FAMILY LAYER'S SHAPE: a family groups at least two series of ONE line and restates neither the line nor a series name
+  // (a family "Nexus 7000" over a series "Nexus 7000" is the level-restating-the-level mistake; the series takes its platform
+  // names instead). A line of 3+ series with any series left outside a family says why.
+  const allSeries = new Set((f.lines ?? []).flatMap((l) => (l.series ?? []).map((s) => s.series.trim().toLowerCase())));
+  const familyLine = new Map<string, string>();
+  for (const l of f.lines ?? []) {
+    const members = new Map<string, number>();
+    for (const s of l.series ?? []) {
+      if (s.family === undefined) continue;
+      const fam = s.family.trim();
+      if (!fam) { errs.push(`${l.line} / ${s.series}: an empty family`); continue; }
+      if (fam.toLowerCase() === l.line.trim().toLowerCase()) errs.push(`${l.line} / ${s.series}: family "${fam}" restates its product line`);
+      if (allSeries.has(fam.toLowerCase())) errs.push(`${l.line} / ${s.series}: family "${fam}" restates a series name`);
+      const was = familyLine.get(fam);
+      if (was !== undefined && was !== l.line) errs.push(`family "${fam}" appears in two lines (${was}, ${l.line})`);
+      familyLine.set(fam, l.line);
+      members.set(fam, (members.get(fam) ?? 0) + 1);
+    }
+    for (const [fam, n] of members) if (n < 2) errs.push(`${l.line}: family "${fam}" groups only one series — a family is a grouping`);
+    const real = (l.series ?? []).filter((s) => !/shared parts$/.test(s.series));
+    if (f.family_layer === "assigned" && real.length >= 3 && real.some((s) => !s.family) && !(l.no_family_reason ?? "").trim())
+      errs.push(`${l.line}: ${real.filter((s) => !s.family).length} series have no family and the line records no no_family_reason`);
   }
   for (const x of f.not_this_category ?? []) {
     if (!x.why) errs.push(`not_this_category ${x.sku}: a reason is required`);
@@ -126,6 +156,13 @@ export function placePart(vendor: string, category: string, part: { sku: string;
   const acc = c.accessory.find((a) => a.re.test(sku));
   if (acc) return { line: soft.line, series: SHARED_PARTS(soft.line), rule: `accessory ${acc.src} (${soft.rule})`, role: null };
   return { ...soft, role: c.role.get(soft.series) ?? null };
+}
+
+/** Layer 3, the Cisco-named family of a placed series, or null (no family above it, shared parts, not this category). */
+export function familyOf(loaded: ReturnType<typeof loadLineFile>, series: string | null | undefined): string | null {
+  if (!loaded || !series) return null;
+  for (const l of loaded.file.lines) for (const s of l.series) if (s.series === series) return s.family?.trim() || null;
+  return null;
 }
 
 /** How strong the evidence behind a placement is: an exclusion or a SKU rule beats a name, a name beats a stored label. */

@@ -2,6 +2,7 @@
  "vendor": "cisco",
  "category": "routers",
  "_about": "Layer 2 (product line) and layer 3 (series) of Cisco routers, operator's model 14 Sep 2026. SKU family tokens first, then names, then the stored series labels (cords, kits, modules with no family token). More specific series are listed before broader ones that would also match (Secure Router G2 before Catalyst 8200/8300; ISR 800 bare model numbers before Cisco 8000).",
+ "family_layer": "assigned",
  "not_this_category": [
   {
    "sku": "^(WAE|SPNA-|SPOA-|SPAOA-|NRS-WAE|CISCO-MATE|QW-E)",
@@ -94,7 +95,8 @@
       "^C86[0-9]{2}"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "the line is Cisco's family (8000 Series Secure Routers); each model is its own series"
   },
   {
    "line": "Catalyst 8000 Edge",
@@ -191,7 +193,8 @@
       "Catalyst 8000 Edge"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "the line is Cisco's family (Catalyst 8000 Edge Platforms); each platform is its own series"
   },
   {
    "line": "ISR (Integrated Services Routers)",
@@ -258,7 +261,8 @@
      "role": "branch",
      "sku": [
       "^(CISCO|C)18[0-9]{2}(?![0-9])"
-     ]
+     ],
+     "family": "ISR G1"
     },
     {
      "series": "ISR 1900",
@@ -269,14 +273,16 @@
      ],
      "labels": [
       "1900 ISR"
-     ]
+     ],
+     "family": "ISR G2"
     },
     {
      "series": "ISR 2800",
      "role": "branch",
      "sku": [
       "^(CISCO|C)28[0-5]1(?![0-9])"
-     ]
+     ],
+     "family": "ISR G1"
     },
     {
      "series": "ISR 2900",
@@ -288,7 +294,8 @@
      ],
      "labels": [
       "2900 ISR"
-     ]
+     ],
+     "family": "ISR G2"
     },
     {
      "series": "ISR 3800",
@@ -299,7 +306,8 @@
      "labels": [
       "3800 Series Integrated Services Routers ISR",
       "Port Adapters"
-     ]
+     ],
+     "family": "ISR G1"
     },
     {
      "series": "ISR 3900",
@@ -313,9 +321,11 @@
       "3900 Series Integrated Services Routers ISR",
       "High-Speed WAN Interface Cards",
       "Network Modules"
-     ]
+     ],
+     "family": "ISR G2"
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names ISR 800, 819 Hardened, 900, 1000 (ISR 1100) and 4000 as series with no family above them"
   },
   {
    "line": "ASR (Aggregation Services Routers)",
@@ -391,7 +401,8 @@
       "ASR 9000"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names ASR 901, 920, 900, 1000, 5000/5500 and 9000 as separate series"
   },
   {
    "line": "Legacy Service Routers",
@@ -420,7 +431,8 @@
       "^(CISCO)?730[0-9](?![0-9])"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the 7200, 7300 and 7600 as separate series"
   },
   {
    "line": "NCS (Network Convergence System)",
@@ -497,7 +509,8 @@
       "6000"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names NCS 500 (520/540/560), 4200, 5000, 5500, 5700 and 6000 as separate series"
   },
   {
    "line": "Cisco 8000",
@@ -608,7 +621,8 @@
      ],
      "labels": [
       "1000 Connected Grid"
-     ]
+     ],
+     "family": "Connected Grid Routers"
     },
     {
      "series": "CGR 2010 Connected Grid",
@@ -620,7 +634,8 @@
      ],
      "labels": [
       "2000 Series Connected Grid"
-     ]
+     ],
+     "family": "Connected Grid Routers"
     },
     {
      "series": "Wireless Gateway for LoRaWAN",
@@ -652,7 +667,8 @@
       "Catalyst Cellular Gateways"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names IR 1101, 1800, 8100, 8300, 800, IR 500 WPAN and the Catalyst / LoRaWAN gateways as separate series"
   },
   {
    "line": "Small Business Routers",
@@ -820,7 +836,8 @@
      ],
      "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
     }
-   ]
+   ],
+   "no_family_reason": "move-out series: every row carries a plan to interfaces-modules (A.3 rule 1)"
   }
  ],
  "shared_accessories": [

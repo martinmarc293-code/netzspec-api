@@ -1,20 +1,13 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-14T16:47:40.187Z",
- "commit": "4c24db4be871b1ce63fb2a295845d43c1af4d4a4",
+ "built_at": "2026-09-14T17:01:42.327Z",
+ "commit": "45a23eb88717838f4baa7352eaa2a53c81fe06dc",
  "uncommitted_rule_files": [
-  "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/product-lines/cisco-interfaces-modules.json",
-  "data/reference/product-lines/cisco-optical-networking.json",
   "data/reference/product-lines/cisco-routers.json",
   "data/reference/product-lines/cisco-switches.json",
-  "data/reference/product-lines/cisco-wireless.json",
   "scripts/build-layers.mts",
-  "src/core/routerKind.ts",
-  "src/core/switchKind.ts",
-  "data/reference/layers-cross-claims.json",
-  "src/core/layerChecks.ts"
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5470,
@@ -25,6 +18,7 @@
    "series": [
     {
      "series": "8100 Secure Router",
+     "family": null,
      "role": "branch",
      "note": null,
      "parts": 15,
@@ -48,6 +42,7 @@
     },
     {
      "series": "8200 Secure Router",
+     "family": null,
      "role": "branch",
      "note": null,
      "parts": 9,
@@ -71,6 +66,7 @@
     },
     {
      "series": "8300 Secure Router",
+     "family": null,
      "role": "branch",
      "note": null,
      "parts": 2,
@@ -90,6 +86,7 @@
     },
     {
      "series": "8400 Secure Router",
+     "family": null,
      "role": "branch",
      "note": null,
      "parts": 2,
@@ -109,6 +106,7 @@
     },
     {
      "series": "8500 Secure Router",
+     "family": null,
      "role": "edge",
      "note": null,
      "parts": 2,
@@ -128,6 +126,7 @@
     },
     {
      "series": "8600 Secure Router",
+     "family": null,
      "role": "edge",
      "note": null,
      "parts": 1,
@@ -152,6 +151,7 @@
    "series": [
     {
      "series": "Catalyst 8200 Edge uCPE",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 17,
@@ -178,6 +178,7 @@
     },
     {
      "series": "Catalyst 8300 Edge uCPE",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 13,
@@ -203,6 +204,7 @@
     },
     {
      "series": "Catalyst 8200",
+     "family": null,
      "role": "branch",
      "note": null,
      "parts": 37,
@@ -233,6 +235,7 @@
     },
     {
      "series": "Catalyst 8300",
+     "family": null,
      "role": "branch",
      "note": null,
      "parts": 74,
@@ -264,6 +267,7 @@
     },
     {
      "series": "Catalyst 8500L",
+     "family": null,
      "role": "edge",
      "note": null,
      "parts": 21,
@@ -293,6 +297,7 @@
     },
     {
      "series": "Catalyst 8500",
+     "family": null,
      "role": "edge",
      "note": null,
      "parts": 38,
@@ -324,6 +329,7 @@
     },
     {
      "series": "Catalyst 8000 Edge shared parts",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 22,
@@ -354,6 +360,7 @@
    "series": [
     {
      "series": "ISR 1100",
+     "family": null,
      "role": "branch",
      "note": null,
      "parts": 128,
@@ -380,6 +387,7 @@
     },
     {
      "series": "ISR 4000",
+     "family": null,
      "role": "branch",
      "note": null,
      "parts": 196,
@@ -412,6 +420,7 @@
     },
     {
      "series": "ISR 900",
+     "family": null,
      "role": "branch",
      "note": null,
      "parts": 37,
@@ -436,6 +445,7 @@
     },
     {
      "series": "ISR 819 Hardened (M2M)",
+     "family": null,
      "role": "industrial-iot",
      "note": null,
      "parts": 18,
@@ -459,6 +469,7 @@
     },
     {
      "series": "ISR 800",
+     "family": null,
      "role": "branch",
      "note": null,
      "parts": 354,
@@ -489,6 +500,7 @@
     },
     {
      "series": "ISR 1800",
+     "family": "ISR G1",
      "role": "branch",
      "note": null,
      "parts": 16,
@@ -513,6 +525,7 @@
     },
     {
      "series": "ISR 1900",
+     "family": "ISR G2",
      "role": "branch",
      "note": null,
      "parts": 66,
@@ -539,6 +552,7 @@
     },
     {
      "series": "ISR 2800",
+     "family": "ISR G1",
      "role": "branch",
      "note": null,
      "parts": 42,
@@ -562,6 +576,7 @@
     },
     {
      "series": "ISR 2900",
+     "family": "ISR G2",
      "role": "branch",
      "note": null,
      "parts": 185,
@@ -593,6 +608,7 @@
     },
     {
      "series": "ISR 3800",
+     "family": "ISR G1",
      "role": "branch",
      "note": null,
      "parts": 30,
@@ -620,6 +636,7 @@
     },
     {
      "series": "ISR 3900",
+     "family": "ISR G2",
      "role": "branch",
      "note": null,
      "parts": 85,
@@ -650,6 +667,7 @@
     },
     {
      "series": "ISR (Integrated Services Routers) shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 139,
@@ -682,6 +700,7 @@
    "series": [
     {
      "series": "ASR 901",
+     "family": null,
      "role": "sp-access",
      "note": "ASR-9010 chassis used to land here: the patterns had no digit fence (layers review 14 Sep 2026, item 1)",
      "parts": 35,
@@ -706,6 +725,7 @@
     },
     {
      "series": "ASR 920",
+     "family": null,
      "role": "sp-access",
      "note": null,
      "parts": 69,
@@ -734,6 +754,7 @@
     },
     {
      "series": "ASR 900",
+     "family": null,
      "role": "sp-access",
      "note": null,
      "parts": 137,
@@ -765,6 +786,7 @@
     },
     {
      "series": "ASR 1000",
+     "family": null,
      "role": "edge",
      "note": null,
      "parts": 346,
@@ -799,6 +821,7 @@
     },
     {
      "series": "ASR 5000 and 5500",
+     "family": null,
      "role": null,
      "note": "PENDING ARRIVAL: 115 hardware rows sit in wireless today (113 carry a move plan to routers); this series is empty until the move runs. Mobile packet core: no SP router role assigned.",
      "parts": 0,
@@ -809,6 +832,7 @@
     },
     {
      "series": "ASR 9000",
+     "family": null,
      "role": "sp-edge",
      "note": null,
      "parts": 458,
@@ -845,6 +869,7 @@
     },
     {
      "series": "ASR (Aggregation Services Routers) shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 30,
@@ -874,6 +899,7 @@
    "series": [
     {
      "series": "Cisco 7200",
+     "family": null,
      "role": "edge",
      "note": null,
      "parts": 4,
@@ -895,6 +921,7 @@
     },
     {
      "series": "Cisco 7600",
+     "family": null,
      "role": "edge",
      "note": null,
      "parts": 4,
@@ -916,6 +943,7 @@
     },
     {
      "series": "Cisco 7300",
+     "family": null,
      "role": "edge",
      "note": "layers review C.4 (14 Sep 2026): the legacy 7200 / 7300 / 7600 follow one rule — kind router, role edge; CISCO7301/2+VPNK9 was sp-router by the sp-legacy token with no role",
      "parts": 1,
@@ -940,6 +968,7 @@
    "series": [
     {
      "series": "NCS 520, 540 and 560",
+     "family": null,
      "role": "sp-access",
      "note": null,
      "parts": 128,
@@ -969,6 +998,7 @@
     },
     {
      "series": "NCS 4200",
+     "family": null,
      "role": "sp-access",
      "note": "arriving from optical-networking (layers review round 2 decision (14 Sep 2026)): 67 rows carry move plans; the TDM CEM cable kits (CABLE-16TDM-*) are placed here with them, not under ASR shared parts",
      "parts": 23,
@@ -997,6 +1027,7 @@
     },
     {
      "series": "NCS 5500",
+     "family": null,
      "role": "sp-edge",
      "note": null,
      "parts": 233,
@@ -1030,6 +1061,7 @@
     },
     {
      "series": "NCS 5700",
+     "family": null,
      "role": "sp-edge",
      "note": null,
      "parts": 89,
@@ -1060,6 +1092,7 @@
     },
     {
      "series": "NCS 5000",
+     "family": null,
      "role": "sp-edge",
      "note": "layers review C.3 (14 Sep 2026): NCS 5001 / 5002 / 5011 are sp-edge",
      "parts": 38,
@@ -1085,6 +1118,7 @@
     },
     {
      "series": "NCS 6000",
+     "family": null,
      "role": "sp-core",
      "note": null,
      "parts": 155,
@@ -1117,6 +1151,7 @@
     },
     {
      "series": "NCS (Network Convergence System) shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 16,
@@ -1145,6 +1180,7 @@
    "series": [
     {
      "series": "Cisco 8000",
+     "family": null,
      "role": "sp-core",
      "note": null,
      "parts": 160,
@@ -1179,6 +1215,7 @@
     },
     {
      "series": "Cisco 8000 shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 34,
@@ -1208,6 +1245,7 @@
    "series": [
     {
      "series": "CRS",
+     "family": null,
      "role": "sp-core",
      "note": null,
      "parts": 721,
@@ -1253,6 +1291,7 @@
    "series": [
     {
      "series": "IR 1101",
+     "family": null,
      "role": "industrial-iot",
      "note": null,
      "parts": 2,
@@ -1272,6 +1311,7 @@
     },
     {
      "series": "IR 1800",
+     "family": null,
      "role": "industrial-iot",
      "note": null,
      "parts": 13,
@@ -1300,6 +1340,7 @@
     },
     {
      "series": "IR 8100",
+     "family": null,
      "role": "industrial-iot",
      "note": null,
      "parts": 40,
@@ -1327,6 +1368,7 @@
     },
     {
      "series": "IR 8300",
+     "family": null,
      "role": "industrial-iot",
      "note": null,
      "parts": 11,
@@ -1355,6 +1397,7 @@
     },
     {
      "series": "IR 800",
+     "family": null,
      "role": "industrial-iot",
      "note": null,
      "parts": 40,
@@ -1381,6 +1424,7 @@
     },
     {
      "series": "IR 500 WPAN",
+     "family": null,
      "role": "industrial-iot",
      "note": null,
      "parts": 13,
@@ -1405,6 +1449,7 @@
     },
     {
      "series": "CGR 1000 Connected Grid",
+     "family": "Connected Grid Routers",
      "role": "industrial-iot",
      "note": null,
      "parts": 69,
@@ -1436,6 +1481,7 @@
     },
     {
      "series": "CGR 2010 Connected Grid",
+     "family": "Connected Grid Routers",
      "role": "industrial-iot",
      "note": null,
      "parts": 37,
@@ -1465,6 +1511,7 @@
     },
     {
      "series": "Wireless Gateway for LoRaWAN",
+     "family": null,
      "role": "industrial-iot",
      "note": null,
      "parts": 20,
@@ -1494,6 +1541,7 @@
     },
     {
      "series": "Catalyst Wireless Gateway CG113",
+     "family": null,
      "role": "branch",
      "note": null,
      "parts": 11,
@@ -1517,6 +1565,7 @@
     },
     {
      "series": "Catalyst Cellular Gateway CG418 and CG522",
+     "family": null,
      "role": "industrial-iot",
      "note": null,
      "parts": 4,
@@ -1538,6 +1587,7 @@
     },
     {
      "series": "Industrial and IoT Routers shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 70,
@@ -1569,6 +1619,7 @@
    "series": [
     {
      "series": "RV Series",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 155,
@@ -1599,6 +1650,7 @@
    "series": [
     {
      "series": "5900 Embedded Services",
+     "family": null,
      "role": "industrial-iot",
      "note": null,
      "parts": 16,
@@ -1623,6 +1675,7 @@
     },
     {
      "series": "ESR 6300",
+     "family": null,
      "role": "industrial-iot",
      "note": null,
      "parts": 2,
@@ -1648,6 +1701,7 @@
    "series": [
     {
      "series": "ENCS 5000",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 66,
@@ -1675,6 +1729,7 @@
     },
     {
      "series": "ENCS (Enterprise Network Compute) shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -1697,6 +1752,7 @@
    "series": [
     {
      "series": "Secure Console",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 5,
@@ -1720,6 +1776,7 @@
     },
     {
      "series": "Terminal Services Gateways",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 3,
@@ -1744,6 +1801,7 @@
    "series": [
     {
      "series": "NIM (Network Interface Modules)",
+     "family": null,
      "role": null,
      "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
@@ -1754,6 +1812,7 @@
     },
     {
      "series": "SM-X and SM Service Modules",
+     "family": null,
      "role": null,
      "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
@@ -1764,6 +1823,7 @@
     },
     {
      "series": "ISM / EM Internal Service Modules",
+     "family": null,
      "role": null,
      "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
@@ -1774,6 +1834,7 @@
     },
     {
      "series": "EHWIC / HWIC / VWIC / WIC",
+     "family": null,
      "role": null,
      "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
@@ -1784,6 +1845,7 @@
     },
     {
      "series": "NM / NME Network Modules",
+     "family": null,
      "role": null,
      "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
@@ -1794,6 +1856,7 @@
     },
     {
      "series": "PVDM Voice DSP Modules",
+     "family": null,
      "role": null,
      "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
@@ -1804,6 +1867,7 @@
     },
     {
      "series": "VIC Voice Interface Cards",
+     "family": null,
      "role": null,
      "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
@@ -1814,6 +1878,7 @@
     },
     {
      "series": "SPA Shared Port Adapters",
+     "family": null,
      "role": null,
      "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
@@ -1824,6 +1889,7 @@
     },
     {
      "series": "Pluggable Interface Modules (LTE / 5G)",
+     "family": null,
      "role": null,
      "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
@@ -1834,6 +1900,7 @@
     },
     {
      "series": "WP pluggable modules (IoT routers)",
+     "family": null,
      "role": null,
      "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
@@ -1844,6 +1911,7 @@
     },
     {
      "series": "Cellular Cards (MC / PCEX / WIM)",
+     "family": null,
      "role": null,
      "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,

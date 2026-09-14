@@ -1,20 +1,13 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-14T16:47:25.154Z",
- "commit": "4c24db4be871b1ce63fb2a295845d43c1af4d4a4",
+ "built_at": "2026-09-14T17:01:32.515Z",
+ "commit": "45a23eb88717838f4baa7352eaa2a53c81fe06dc",
  "uncommitted_rule_files": [
-  "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/product-lines/cisco-interfaces-modules.json",
-  "data/reference/product-lines/cisco-optical-networking.json",
   "data/reference/product-lines/cisco-routers.json",
   "data/reference/product-lines/cisco-switches.json",
-  "data/reference/product-lines/cisco-wireless.json",
   "scripts/build-layers.mts",
-  "src/core/routerKind.ts",
-  "src/core/switchKind.ts",
-  "data/reference/layers-cross-claims.json",
-  "src/core/layerChecks.ts"
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7531,
@@ -25,6 +18,7 @@
    "series": [
     {
      "series": "Catalyst 9400",
+     "family": "Catalyst 9000",
      "role": "core-agg",
      "note": null,
      "parts": 83,
@@ -56,6 +50,7 @@
     },
     {
      "series": "Catalyst 9200",
+     "family": "Catalyst 9000",
      "role": "access",
      "note": null,
      "parts": 122,
@@ -84,6 +79,7 @@
     },
     {
      "series": "Catalyst 9300",
+     "family": "Catalyst 9000",
      "role": "access",
      "note": null,
      "parts": 238,
@@ -114,6 +110,7 @@
     },
     {
      "series": "Catalyst 9350",
+     "family": "Catalyst 9000",
      "role": "access",
      "note": null,
      "parts": 46,
@@ -142,6 +139,7 @@
     },
     {
      "series": "Catalyst 9500",
+     "family": "Catalyst 9000",
      "role": "core-agg",
      "note": null,
      "parts": 104,
@@ -170,6 +168,7 @@
     },
     {
      "series": "Catalyst 9550",
+     "family": "Catalyst 9000",
      "role": "core-agg",
      "note": null,
      "parts": 10,
@@ -194,6 +193,7 @@
     },
     {
      "series": "Catalyst 9600",
+     "family": "Catalyst 9000",
      "role": "core-agg",
      "note": null,
      "parts": 28,
@@ -220,6 +220,7 @@
     },
     {
      "series": "Catalyst 9610",
+     "family": "Catalyst 9000",
      "role": "core-agg",
      "note": null,
      "parts": 16,
@@ -247,6 +248,7 @@
     },
     {
      "series": "Catalyst 9000 shared parts",
+     "family": "Catalyst 9000",
      "role": null,
      "note": null,
      "parts": 38,
@@ -272,6 +274,7 @@
     },
     {
      "series": "Catalyst 6800 Instant Access",
+     "family": "Catalyst 6800",
      "role": "access",
      "note": null,
      "parts": 5,
@@ -293,9 +296,10 @@
      }
     },
     {
-     "series": "Catalyst 6800",
+     "series": "Catalyst 6807-XL / 6880-X / 6840-X",
+     "family": "Catalyst 6800",
      "role": "core-agg",
-     "note": null,
+     "note": "was \"Catalyst 6800\" until the family layer (14 Sep 2026): the Catalyst 6800 family holds it and the 6800 Instant Access series",
      "parts": 111,
      "kinds": {
       "power": 19,
@@ -326,6 +330,7 @@
     },
     {
      "series": "Catalyst 6500",
+     "family": null,
      "role": "core-agg",
      "note": null,
      "parts": 368,
@@ -362,6 +367,7 @@
     },
     {
      "series": "Catalyst 4500-X",
+     "family": "Catalyst 4500",
      "role": "core-agg",
      "note": null,
      "parts": 34,
@@ -389,6 +395,7 @@
     },
     {
      "series": "Catalyst 4500-E",
+     "family": "Catalyst 4500",
      "role": "core-agg",
      "note": null,
      "parts": 295,
@@ -421,6 +428,7 @@
     },
     {
      "series": "Catalyst 4900",
+     "family": null,
      "role": "datacenter",
      "note": null,
      "parts": 82,
@@ -447,6 +455,7 @@
     },
     {
      "series": "Catalyst 3850",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 216,
@@ -475,6 +484,7 @@
     },
     {
      "series": "Catalyst 3650",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 221,
@@ -504,6 +514,7 @@
     },
     {
      "series": "Catalyst 3750-X",
+     "family": "Catalyst 3750",
      "role": "access",
      "note": null,
      "parts": 97,
@@ -532,6 +543,7 @@
     },
     {
      "series": "Catalyst 3560-X",
+     "family": "Catalyst 3560",
      "role": "access",
      "note": null,
      "parts": 49,
@@ -555,6 +567,7 @@
     },
     {
      "series": "Catalyst 3750-E",
+     "family": "Catalyst 3750",
      "role": "access",
      "note": null,
      "parts": 12,
@@ -578,6 +591,7 @@
     },
     {
      "series": "Catalyst 3560-E",
+     "family": "Catalyst 3560",
      "role": "access",
      "note": null,
      "parts": 16,
@@ -600,9 +614,10 @@
      }
     },
     {
-     "series": "Catalyst 3750",
+     "series": "Catalyst 3750 / 3750G / 3750v2",
+     "family": "Catalyst 3750",
      "role": "access",
-     "note": null,
+     "note": "was \"Catalyst 3750\" until the family layer (14 Sep 2026): the Catalyst 3750 family holds it, 3750-E and 3750-X",
      "parts": 47,
      "kinds": {
       "switch": 44,
@@ -626,6 +641,7 @@
     },
     {
      "series": "Catalyst 3560-C and 3560-CX",
+     "family": "Catalyst 3560",
      "role": "access",
      "note": null,
      "parts": 43,
@@ -650,9 +666,10 @@
      }
     },
     {
-     "series": "Catalyst 3560",
+     "series": "Catalyst 3560 / 3560G / 3560v2",
+     "family": "Catalyst 3560",
      "role": "access",
-     "note": null,
+     "note": "was \"Catalyst 3560\" until the family layer (14 Sep 2026): the Catalyst 3560 family holds it, 3560-E, 3560-X and 3560-C/CX",
      "parts": 31,
      "kinds": {
       "mechanical": 1,
@@ -676,6 +693,7 @@
     },
     {
      "series": "Catalyst 2960-C and 2960-CX",
+     "family": "Catalyst 2960",
      "role": "access",
      "note": null,
      "parts": 32,
@@ -701,6 +719,7 @@
     },
     {
      "series": "Catalyst 2960-X and 2960-XR",
+     "family": "Catalyst 2960",
      "role": "access",
      "note": null,
      "parts": 166,
@@ -728,6 +747,7 @@
     },
     {
      "series": "Catalyst 2960-S",
+     "family": "Catalyst 2960",
      "role": "access",
      "note": null,
      "parts": 24,
@@ -752,6 +772,7 @@
     },
     {
      "series": "Catalyst 2960-Plus",
+     "family": "Catalyst 2960",
      "role": "access",
      "note": null,
      "parts": 35,
@@ -775,6 +796,7 @@
     },
     {
      "series": "Catalyst 2960-L",
+     "family": "Catalyst 2960",
      "role": "access",
      "note": null,
      "parts": 66,
@@ -799,9 +821,10 @@
      }
     },
     {
-     "series": "Catalyst 2960",
+     "series": "Catalyst 2960 / 2960G",
+     "family": "Catalyst 2960",
      "role": "access",
-     "note": null,
+     "note": "was \"Catalyst 2960\" until the family layer (14 Sep 2026): the Catalyst 2960 family holds it and the 2960-C/CX, -X/XR, -S, -Plus and -L series",
      "parts": 33,
      "kinds": {
       "stack-cable": 10,
@@ -825,6 +848,7 @@
     },
     {
      "series": "Catalyst 1000",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 79,
@@ -850,6 +874,7 @@
     },
     {
      "series": "Catalyst 1200",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 19,
@@ -875,6 +900,7 @@
     },
     {
      "series": "Catalyst 1300",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 40,
@@ -900,6 +926,7 @@
     },
     {
      "series": "Catalyst Micro",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 28,
@@ -927,6 +954,7 @@
     },
     {
      "series": "Catalyst Digital Building",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 16,
@@ -953,6 +981,7 @@
     },
     {
      "series": "Catalyst PON",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 20,
@@ -978,6 +1007,7 @@
     },
     {
      "series": "Redundant Power System",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 20,
@@ -1003,6 +1033,7 @@
     },
     {
      "series": "Catalyst shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 241,
@@ -1033,6 +1064,7 @@
    "series": [
     {
      "series": "Nexus 2000 Fabric Extenders",
+     "family": null,
      "role": "datacenter",
      "note": null,
      "parts": 212,
@@ -1059,6 +1091,7 @@
     },
     {
      "series": "Nexus 3550",
+     "family": "Nexus 3000",
      "role": "datacenter",
      "note": null,
      "parts": 6,
@@ -1083,6 +1116,7 @@
     },
     {
      "series": "Nexus 3500",
+     "family": "Nexus 3000",
      "role": "datacenter",
      "note": null,
      "parts": 21,
@@ -1106,6 +1140,7 @@
     },
     {
      "series": "Nexus 3600",
+     "family": "Nexus 3000",
      "role": "datacenter",
      "note": null,
      "parts": 3,
@@ -1125,9 +1160,10 @@
      }
     },
     {
-     "series": "Nexus 3000",
+     "series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
+     "family": "Nexus 3000",
      "role": "datacenter",
-     "note": null,
+     "note": "was \"Nexus 3000\" until the family layer (14 Sep 2026): the Nexus 3000 family holds these and the Nexus 3500, 3550 and 3600",
      "parts": 220,
      "kinds": {
       "switch": 169,
@@ -1157,6 +1193,7 @@
     },
     {
      "series": "Nexus 5500",
+     "family": "Nexus 5000",
      "role": "datacenter",
      "note": null,
      "parts": 151,
@@ -1185,6 +1222,7 @@
     },
     {
      "series": "Nexus 5600",
+     "family": "Nexus 5000",
      "role": "datacenter",
      "note": null,
      "parts": 114,
@@ -1212,9 +1250,10 @@
      }
     },
     {
-     "series": "Nexus 5000",
+     "series": "Nexus 5010 / 5020",
+     "family": "Nexus 5000",
      "role": "datacenter",
-     "note": null,
+     "note": "was \"Nexus 5000\" until the family layer (14 Sep 2026): the Nexus 5000 family holds these and the Nexus 5500 and 5600",
      "parts": 6,
      "kinds": {
       "switch": 4,
@@ -1237,6 +1276,7 @@
     },
     {
      "series": "Nexus 6000",
+     "family": null,
      "role": "datacenter",
      "note": null,
      "parts": 84,
@@ -1266,6 +1306,7 @@
     },
     {
      "series": "Nexus 7700",
+     "family": "Nexus 7000",
      "role": "datacenter",
      "note": null,
      "parts": 193,
@@ -1297,9 +1338,10 @@
      }
     },
     {
-     "series": "Nexus 7000",
+     "series": "Nexus 7004 / 7009 / 7010 / 7018",
+     "family": "Nexus 7000",
      "role": "datacenter",
-     "note": null,
+     "note": "was \"Nexus 7000\" until the family layer (14 Sep 2026): the Nexus 7000 family holds these chassis and the Nexus 7700",
      "parts": 223,
      "kinds": {
       "switch": 48,
@@ -1333,6 +1375,7 @@
     },
     {
      "series": "Nexus 9200",
+     "family": "Nexus 9000",
      "role": "datacenter",
      "note": null,
      "parts": 31,
@@ -1357,6 +1400,7 @@
     },
     {
      "series": "Nexus 9300",
+     "family": "Nexus 9000",
      "role": "datacenter",
      "note": null,
      "parts": 203,
@@ -1383,6 +1427,7 @@
     },
     {
      "series": "Nexus 9400",
+     "family": "Nexus 9000",
      "role": "datacenter",
      "note": null,
      "parts": 6,
@@ -1408,6 +1453,7 @@
     },
     {
      "series": "Nexus 9500",
+     "family": "Nexus 9000",
      "role": "datacenter",
      "note": null,
      "parts": 157,
@@ -1437,6 +1483,7 @@
     },
     {
      "series": "Nexus 9800",
+     "family": "Nexus 9000",
      "role": "datacenter",
      "note": null,
      "parts": 25,
@@ -1462,6 +1509,7 @@
     },
     {
      "series": "Nexus 9100",
+     "family": "Nexus 9000",
      "role": "datacenter",
      "note": null,
      "parts": 2,
@@ -1481,6 +1529,7 @@
     },
     {
      "series": "Nexus 9000 shared parts",
+     "family": "Nexus 9000",
      "role": null,
      "note": null,
      "parts": 171,
@@ -1508,6 +1557,7 @@
     },
     {
      "series": "Nexus shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 39,
@@ -1538,6 +1588,7 @@
    "series": [
     {
      "series": "IE 1000",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 4,
@@ -1559,6 +1610,7 @@
     },
     {
      "series": "IE 2000U",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 9,
@@ -1584,6 +1636,7 @@
     },
     {
      "series": "IE 2000",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 33,
@@ -1610,6 +1663,7 @@
     },
     {
      "series": "IE 3000",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 19,
@@ -1639,6 +1693,7 @@
     },
     {
      "series": "IE 3010",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 10,
@@ -1665,6 +1720,7 @@
     },
     {
      "series": "IE 3100",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 20,
@@ -1691,6 +1747,7 @@
     },
     {
      "series": "IE 3200",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 2,
@@ -1710,6 +1767,7 @@
     },
     {
      "series": "IE 3300",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 24,
@@ -1734,6 +1792,7 @@
     },
     {
      "series": "IE 3400H",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 22,
@@ -1760,6 +1819,7 @@
     },
     {
      "series": "IE 3400",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 17,
@@ -1787,6 +1847,7 @@
     },
     {
      "series": "IE 3500H",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 21,
@@ -1810,6 +1871,7 @@
     },
     {
      "series": "IE 3500",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 37,
@@ -1834,6 +1896,7 @@
     },
     {
      "series": "IE 4010",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 4,
@@ -1855,6 +1918,7 @@
     },
     {
      "series": "IE 4000",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 12,
@@ -1878,6 +1942,7 @@
     },
     {
      "series": "IE 5000",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 4,
@@ -1899,6 +1964,7 @@
     },
     {
      "series": "IE 9300",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 43,
@@ -1925,6 +1991,7 @@
     },
     {
      "series": "CGS 2500 Connected Grid",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 8,
@@ -1949,6 +2016,7 @@
     },
     {
      "series": "Industrial Ethernet shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 5,
@@ -1977,6 +2045,7 @@
    "series": [
     {
      "series": "ESS 2020",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 10,
@@ -2000,6 +2069,7 @@
     },
     {
      "series": "ESS 3300",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 8,
@@ -2023,6 +2093,7 @@
     },
     {
      "series": "ESS 9300",
+     "family": null,
      "role": "industrial",
      "note": null,
      "parts": 1,
@@ -2047,6 +2118,7 @@
    "series": [
     {
      "series": "Small Business 95 Unmanaged (SF95/SG95)",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 43,
@@ -2070,6 +2142,7 @@
     },
     {
      "series": "Small Business 110 Unmanaged (SF110/SG110)",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 89,
@@ -2093,6 +2166,7 @@
     },
     {
      "series": "Small Business 220 Smart (SF220/SG220)",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 69,
@@ -2116,6 +2190,7 @@
     },
     {
      "series": "Small Business 250 Smart (SF250/SG250)",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 146,
@@ -2139,6 +2214,7 @@
     },
     {
      "series": "Small Business 350X Stackable (SG350X/SX350X)",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 194,
@@ -2162,6 +2238,7 @@
     },
     {
      "series": "Small Business 350 Managed (SF350/SG350)",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 225,
@@ -2185,6 +2262,7 @@
     },
     {
      "series": "Small Business 550X Stackable (SF550X/SG550X/SX550X)",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 196,
@@ -2214,6 +2292,7 @@
    "series": [
     {
      "series": "Business 110 Unmanaged (CBS110)",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 55,
@@ -2237,6 +2316,7 @@
     },
     {
      "series": "Business 220 Smart (CBS220)",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 69,
@@ -2260,6 +2340,7 @@
     },
     {
      "series": "Business 250 Smart (CBS250)",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 229,
@@ -2283,6 +2364,7 @@
     },
     {
      "series": "Business 350 Managed (CBS350)",
+     "family": null,
      "role": "smb",
      "note": null,
      "parts": 433,
@@ -2312,6 +2394,7 @@
    "series": [
     {
      "series": "MS120",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 17,
@@ -2335,6 +2418,7 @@
     },
     {
      "series": "MS125",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 11,
@@ -2358,6 +2442,7 @@
     },
     {
      "series": "MS130",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 30,
@@ -2381,6 +2466,7 @@
     },
     {
      "series": "MS150",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 29,
@@ -2404,6 +2490,7 @@
     },
     {
      "series": "MS210",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 11,
@@ -2427,6 +2514,7 @@
     },
     {
      "series": "MS225",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 11,
@@ -2450,6 +2538,7 @@
     },
     {
      "series": "MS250",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 11,
@@ -2473,6 +2562,7 @@
     },
     {
      "series": "MS320",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 2,
@@ -2493,6 +2583,7 @@
     },
     {
      "series": "MS350",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 13,
@@ -2516,6 +2607,7 @@
     },
     {
      "series": "MS355",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 9,
@@ -2539,6 +2631,7 @@
     },
     {
      "series": "MS390",
+     "family": null,
      "role": "core-agg",
      "note": null,
      "parts": 23,
@@ -2562,6 +2655,7 @@
     },
     {
      "series": "MS410",
+     "family": null,
      "role": "core-agg",
      "note": null,
      "parts": 5,
@@ -2584,6 +2678,7 @@
     },
     {
      "series": "MS425",
+     "family": null,
      "role": "core-agg",
      "note": null,
      "parts": 5,
@@ -2606,6 +2701,7 @@
     },
     {
      "series": "MS450",
+     "family": null,
      "role": "core-agg",
      "note": null,
      "parts": 3,
@@ -2632,6 +2728,7 @@
    "series": [
     {
      "series": "ME 3400",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 19,
@@ -2657,6 +2754,7 @@
     },
     {
      "series": "ME 3600X",
+     "family": null,
      "role": "access",
      "note": null,
      "parts": 1,
@@ -2675,6 +2773,7 @@
     },
     {
      "series": "ME 3800X",
+     "family": null,
      "role": "core-agg",
      "note": null,
      "parts": 1,
@@ -2693,6 +2792,7 @@
     },
     {
      "series": "ME 4900",
+     "family": null,
      "role": "core-agg",
      "note": null,
      "parts": 1,
@@ -2711,6 +2811,7 @@
     },
     {
      "series": "Metro Ethernet shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 3,

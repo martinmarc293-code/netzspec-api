@@ -63,6 +63,29 @@ for (const cat of REVIEWED) {
   check(`provenance ${cat}: the page lists its uncommitted rule files (an array, possibly empty)`, Array.isArray(summary.uncommitted_rule_files));
 }
 
+// THE FAMILY LAYER (operator, 14 Sep 2026): layer 3 where Cisco names a family, the explicit shared-across marker for line shared
+// parts, "—" (empty) otherwise — and the file says the category's families were assigned.
+{
+  const { loadLineFile, validateLineFile, SHARED_PARTS } = await import("../src/core/productLine.js");
+  for (const cat of REVIEWED) {
+    const loaded = loadLineFile("cisco", cat)!;
+    check(`family layer ${cat}: the mapping file declares family_layer "assigned"`, loaded.file.family_layer === "assigned");
+    const famOf = new Map(loaded.file.lines.flatMap((l) => l.series.map((s) => [s.series, s.family ?? ""] as const)));
+    const wrong = readLayerRows(cat).filter((r) => r.bucket === "layered").filter((r) =>
+      r.product_family !== (r.series === SHARED_PARTS(r.product_line) ? "(shared across the line)" : famOf.get(r.series) ?? ""));
+    check(`family layer ${cat}: every layered row carries its series' family (or the shared-across marker)`, wrong.length === 0, wrong.slice(0, 5).map((r) => `${r.sku} ${r.series} [${r.product_family}]`).join("; "));
+    check(`family layer ${cat}: at least one family is in use (the column is live)`, readLayerRows(cat).some((r) => r.product_family && !r.product_family.startsWith("(")));
+  }
+  const base = (): Parameters<typeof validateLineFile>[0] => ({ vendor: "cisco", category: "zz", family_layer: "assigned", lines: [{ line: "Nexus", series: [
+    { series: "Nexus 7004 / 7009", sku: ["^N7K"], family: "Nexus 7000" }, { series: "Nexus 7700", sku: ["^N77"], family: "Nexus 7000" }, { series: "Nexus 6000", sku: ["^N6K"] }] }] });
+  const errsOf = (mut: (f: ReturnType<typeof base>) => void) => { const f = base(); mut(f); return validateLineFile(f).join(" | "); };
+  check("SABOTAGE family: the valid shape without a reason on the 3-series line is refused for the missing reason", /no no_family_reason/.test(errsOf(() => {})));
+  check("SABOTAGE family: with the reason it validates", errsOf((f) => { f.lines[0].no_family_reason = "Cisco names the Nexus 6000 alone"; }) === "");
+  check("SABOTAGE family: a family that restates a series name is refused", /restates a series name/.test(errsOf((f) => { f.lines[0].no_family_reason = "x"; f.lines[0].series[0].series = "Nexus 7000"; })));
+  check("SABOTAGE family: a family that restates its product line is refused", /restates its product line/.test(errsOf((f) => { f.lines[0].no_family_reason = "x"; f.lines[0].series[0].family = "Nexus"; f.lines[0].series[1].family = "Nexus"; })));
+  check("SABOTAGE family: a family of one series is refused (a family is a grouping)", /groups only one series/.test(errsOf((f) => { f.lines[0].no_family_reason = "x"; f.lines[0].series[1].family = undefined; })));
+}
+
 // A.4 on the built rows: the bundle rule's witnesses are `bundle` on the page, not only in the function.
 {
   const sw = new Map(readLayerRows("switches").map((r) => [r.sku, r]));
