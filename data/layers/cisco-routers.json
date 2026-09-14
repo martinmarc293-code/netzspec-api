@@ -1,14 +1,9 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-14T17:01:42.327Z",
- "commit": "45a23eb88717838f4baa7352eaa2a53c81fe06dc",
- "uncommitted_rule_files": [
-  "data/reference/product-lines/cisco-routers.json",
-  "data/reference/product-lines/cisco-switches.json",
-  "scripts/build-layers.mts",
-  "src/core/productLine.ts"
- ],
+ "built_at": "2026-09-14T17:48:46.031Z",
+ "commit": "69e48754d3d0d0863dcac0ce703cfdb74022dbff",
+ "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5470,
  "lines": [
@@ -154,25 +149,22 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 17,
+     "parts": 12,
      "kinds": {
       "appliance": 2,
-      "accessory": 2,
-      "memory": 2,
-      "drive": 11
+      "drive": 10
      },
      "roles": {},
      "samples": [
       "C8200-UCPE-1N8 — Cisco Catalyst 8200 Edge uCPE with 1 NIM slot and 1 PIM slot",
       "C8200-UCPE-1N8= — Catalyst 8200-uCPE Edge Series (8-core Intel) chassis spare",
-      "E100S-CON-DGL — KVM Dongle",
-      "E100S-CON-DGL= — KVM Dongle",
-      "E100S-MEM-UDIMM8G — 8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E",
-      "E100S-MEM-UDIMM8G= — 8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E"
+      "HDD-SATA-1TB — 1 TB, SATA hard disk drive for Cisco uCPE 8200",
+      "HDD-SATA-1TB= — 1 TB, SATA hard disk drive for Cisco uCPE 8200 spare",
+      "SSD-SATA-480G — 480GB SATA Solid disk drive for Cisco uCPE 8200",
+      "SSD-SATA-480G= — 480GB SATA Solid disk drive for Cisco uCPE 8200"
      ],
      "rules": {
       "sku": 2,
-      "label": 5,
       "name": 10
      }
     },
@@ -181,12 +173,11 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 13,
+     "parts": 5,
      "kinds": {
       "appliance": 3,
       "mechanical": 1,
-      "fan": 1,
-      "drive": 8
+      "fan": 1
      },
      "roles": {},
      "samples": [
@@ -194,12 +185,10 @@
       "C8300-UCPE-1N20= — Catalyst 8300-uCPE Edge Series (20-core Intel) Spare",
       "C8300-UCPE-4PT= — Cisco Catalyst 8300 uCPE Rack Mount Kit 4 Post – 1RU Spare",
       "C8300-UCPE-FAN= — Cisco Catalyst 8300 Fan Tray Spare",
-      "C83UCPE-20C — C8300 UCPE 20 core",
-      "E-SSD-U2N-2TB — 2 TB, NVME SSD drive for UCS-E M6"
+      "C83UCPE-20C — C8300 UCPE 20 core"
      ],
      "rules": {
-      "sku": 5,
-      "label": 8
+      "sku": 5
      }
     },
     {
@@ -207,28 +196,25 @@
      "family": null,
      "role": "branch",
      "note": null,
-     "parts": 37,
+     "parts": 29,
      "kinds": {
-      "module": 1,
       "router": 5,
-      "accessory": 10,
-      "mechanical": 7,
-      "memory": 10,
-      "power": 4
+      "accessory": 8,
+      "mechanical": 6,
+      "memory": 10
      },
      "roles": {
       "branch": 5
      },
      "samples": [
-      "C-NM-8M — Cisco C-NM-8M",
       "C82-1N-4T-CAP — Cisco C8200 Edge Platform,5Yr DNA-A,5Yr SNTC-8x5xNBD",
       "C8200-1N-4T — Cisco Catalyst 8200 Edge platform with 1 NIM and 1 PIM slots",
       "C8200-1N-4T= — Cisco Catalyst Edge C8200-1N-4T Chassis Spare",
       "C8200-NIM-BLANK — Cisco C8200 NIM Blank",
-      "C8200-NIM-BLANK= — Cisco C8200-NIM-BLANK="
+      "C8200-NIM-BLANK= — Cisco C8200-NIM-BLANK=",
+      "C8200-PIM-BLANK — Cisco C8200 PIM Blank"
      ],
      "rules": {
-      "label": 8,
       "sku": 26,
       "name": 3
      }
@@ -238,13 +224,12 @@
      "family": null,
      "role": "branch",
      "note": null,
-     "parts": 74,
+     "parts": 68,
      "kinds": {
-      "accessory": 7,
+      "accessory": 5,
       "router": 8,
       "mechanical": 23,
       "fan": 5,
-      "drive": 4,
       "memory": 6,
       "power": 21
      },
@@ -261,8 +246,7 @@
      ],
      "rules": {
       "name": 23,
-      "sku": 45,
-      "label": 6
+      "sku": 45
      }
     },
     {
@@ -300,29 +284,28 @@
      "family": null,
      "role": "edge",
      "note": null,
-     "parts": 38,
+     "parts": 35,
      "kinds": {
-      "accessory": 6,
       "router": 5,
       "mechanical": 10,
       "fan": 2,
+      "accessory": 5,
       "memory": 6,
-      "drive": 5,
-      "power": 4
+      "power": 4,
+      "drive": 3
      },
      "roles": {
       "edge": 5
      },
      "samples": [
-      "C-RFID-NONE — Cisco C-RFID-NONE",
       "C8500-12X — Cisco Catalyst 8500 Series 12-port SFP+",
       "C8500-12X4QC — Cisco Catalyst 8500 Series 12-port SFP+, 2-port QSFP+, 2-por",
       "C8500-12X4QC= — Cisco C8500-12X4QC=",
       "C8500-12X= — Cisco C8500-12X=",
-      "C8500-20X6C — Cisco Catalyst 8500 Series 20-port SFP+, 6-port QSFP+"
+      "C8500-20X6C — Cisco Catalyst 8500 Series 20-port SFP+, 6-port QSFP+",
+      "C8500-4PT-KIT — Cisco Catalyst 8500 Edge accessory kit – 4-post kit"
      ],
      "rules": {
-      "label": 3,
       "sku": 25,
       "name": 10
      }
@@ -332,11 +315,15 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 22,
+     "parts": 52,
      "kinds": {
-      "mechanical": 10,
+      "mechanical": 11,
+      "module": 1,
+      "accessory": 7,
       "cable": 3,
-      "drive": 9
+      "drive": 24,
+      "memory": 2,
+      "power": 4
      },
      "roles": {},
      "samples": [
@@ -349,6 +336,7 @@
      ],
      "rules": {
       "accessory": 13,
+      "label-unsupported": 30,
       "name": 9
      }
     }
@@ -356,18 +344,16 @@
   },
   {
    "line": "ISR (Integrated Services Routers)",
-   "parts": 1296,
+   "parts": 1282,
    "series": [
     {
      "series": "ISR 1100",
      "family": null,
      "role": "branch",
      "note": null,
-     "parts": 128,
+     "parts": 120,
      "kinds": {
-      "router": 120,
-      "module": 6,
-      "memory": 2
+      "router": 120
      },
      "roles": {
       "branch": 120
@@ -381,8 +367,7 @@
       "C1109-4PLTE2P — Cisco C1109-4PLTE2P"
      ],
      "rules": {
-      "sku": 120,
-      "label": 8
+      "sku": 120
      }
     },
     {
@@ -390,17 +375,16 @@
      "family": null,
      "role": "branch",
      "note": null,
-     "parts": 196,
+     "parts": 184,
      "kinds": {
       "mechanical": 21,
       "fan": 10,
       "accessory": 2,
       "router": 85,
       "bundle": 4,
-      "memory": 20,
+      "memory": 18,
       "flash": 14,
-      "power": 36,
-      "drive": 4
+      "power": 30
      },
      "roles": {
       "branch": 85
@@ -415,7 +399,7 @@
      ],
      "rules": {
       "sku": 122,
-      "label": 74
+      "label": 62
      }
     },
     {
@@ -445,12 +429,13 @@
     },
     {
      "series": "ISR 819 Hardened (M2M)",
-     "family": null,
+     "family": "ISR 800",
      "role": "industrial-iot",
      "note": null,
-     "parts": 18,
+     "parts": 28,
      "kinds": {
-      "router": 18
+      "router": 18,
+      "power": 10
      },
      "roles": {
       "industrial-iot": 18
@@ -464,26 +449,25 @@
       "C819HG-B-K9 — Cisco C819HG-B-K9"
      ],
      "rules": {
-      "sku": 18
+      "sku": 18,
+      "name": 10
      }
     },
     {
-     "series": "ISR 800",
-     "family": null,
+     "series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+     "family": "ISR 800",
      "role": "branch",
-     "note": null,
-     "parts": 354,
+     "note": "was \"ISR 800\" until the ISR 800 family (operator, 14 Sep 2026): Cisco's \"800 Series Routers\" family holds these platforms, their shared 800-series parts and the ISR 819 Hardened (M2M) series",
+     "parts": 312,
      "kinds": {
-      "power": 44,
-      "router": 277,
+      "power": 15,
+      "router": 274,
       "accessory": 7,
       "mechanical": 10,
-      "module": 3,
-      "memory": 10,
-      "flash": 3
+      "memory": 6
      },
      "roles": {
-      "branch": 277
+      "branch": 274
      },
      "samples": [
       "800-IL-PM-2 — 2 Port 802.3af compatible pwr module for 800 Series",
@@ -494,8 +478,8 @@
       "800G2-POE-2 — 2 Port PoE Module for 880 Series Router"
      ],
      "rules": {
-      "label": 64,
-      "sku": 290
+      "label": 23,
+      "sku": 289
      }
     },
     {
@@ -503,10 +487,11 @@
      "family": "ISR G1",
      "role": "branch",
      "note": null,
-     "parts": 16,
+     "parts": 20,
      "kinds": {
       "router": 15,
-      "mechanical": 1
+      "mechanical": 1,
+      "memory": 4
      },
      "roles": {
       "branch": 15
@@ -520,7 +505,7 @@
       "C1861-2B-VSEC/K9 — Cisco C1861-2B-VSEC/K9"
      ],
      "rules": {
-      "sku": 16
+      "sku": 20
      }
     },
     {
@@ -528,11 +513,12 @@
      "family": "ISR G2",
      "role": "branch",
      "note": null,
-     "parts": 66,
+     "parts": 75,
      "kinds": {
       "mechanical": 1,
       "router": 64,
-      "power": 1
+      "memory": 7,
+      "power": 3
      },
      "roles": {
       "branch": 64
@@ -546,8 +532,7 @@
       "C1921-3G+7-K9 — C1921 3.7G HSPA+ (non-US) 850/900/1900/2100 MHz"
      ],
      "rules": {
-      "sku": 65,
-      "label": 1
+      "sku": 75
      }
     },
     {
@@ -555,9 +540,11 @@
      "family": "ISR G1",
      "role": "branch",
      "note": null,
-     "parts": 42,
+     "parts": 50,
      "kinds": {
-      "router": 42
+      "router": 42,
+      "memory": 7,
+      "power": 1
      },
      "roles": {
       "branch": 42
@@ -571,7 +558,7 @@
       "C2801-VSEC-SRST/K9 — Cisco C2801-VSEC-SRST/K9"
      ],
      "rules": {
-      "sku": 42
+      "sku": 50
      }
     },
     {
@@ -579,31 +566,28 @@
      "family": "ISR G2",
      "role": "branch",
      "note": null,
-     "parts": 185,
+     "parts": 148,
      "kinds": {
-      "fan": 5,
-      "mechanical": 9,
-      "module": 3,
+      "mechanical": 7,
+      "fan": 4,
       "router": 101,
-      "memory": 35,
-      "flash": 7,
-      "drive": 2,
-      "power": 23
+      "memory": 15,
+      "power": 21
      },
      "roles": {
       "branch": 101
      },
      "samples": [
-      "1941-2901-FANBLWR= — Cisco 1941/2901 Fan Blower Assembly (only as spare)",
       "2911-AIRCVTR-NEBS — Cisco 2911 Front-to-Back Air Flow converter for NEBS use",
       "2911-AIRCVTR-NEBS= — Cisco 2911 Front-to-Back Air Flow Converter for NEBS use (on",
       "2911-FANASSY= — Cisco 2911 Fan Assembly (no Bezel included) (only as spare)",
       "2911-FANFLTR-NEBS — Cisco 2911 Fan Filter for NEBS environment (Both system & sp",
-      "2921-51-FANASSY-2 — Cisco 2921/2951 Fan Assembly and Bezel"
+      "2921-51-FANASSY-2 — Cisco 2921/2951 Fan Assembly and Bezel",
+      "2921-51-FANASSY-2= — Cisco 2921/2951 Fan Assembly and Bezel"
      ],
      "rules": {
-      "label": 73,
-      "sku": 112
+      "sku": 126,
+      "label": 22
      }
     },
     {
@@ -611,12 +595,9 @@
      "family": "ISR G1",
      "role": "branch",
      "note": null,
-     "parts": 30,
+     "parts": 19,
      "kinds": {
-      "router": 19,
-      "accessory": 3,
-      "mechanical": 2,
-      "antenna": 6
+      "router": 19
      },
      "roles": {
       "branch": 19
@@ -630,8 +611,7 @@
       "C3845-35UC-VSEC/K9 — Cisco C3845-35UC-VSEC/K9"
      ],
      "rules": {
-      "sku": 19,
-      "label": 11
+      "sku": 19
      }
     },
     {
@@ -639,15 +619,15 @@
      "family": "ISR G2",
      "role": "branch",
      "note": null,
-     "parts": 85,
+     "parts": 87,
      "kinds": {
       "fan": 8,
       "mechanical": 1,
       "router": 57,
       "processor": 8,
       "chassis": 2,
-      "memory": 1,
-      "flash": 8
+      "memory": 6,
+      "power": 5
      },
      "roles": {
       "branch": 57
@@ -661,8 +641,7 @@
       "3900-FANASSY-NEBS — Cisco 3925/3945 Fan Assembly for NEBS w/3900-FANFLTR-NEBS & "
      ],
      "rules": {
-      "sku": 76,
-      "label": 9
+      "sku": 87
      }
     },
     {
@@ -670,25 +649,32 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 139,
+     "parts": 202,
      "kinds": {
+      "fan": 1,
       "antenna": 42,
       "cable": 75,
-      "mechanical": 11,
+      "mechanical": 13,
+      "module": 12,
       "power-cord": 9,
       "bundle": 1,
-      "accessory": 1
+      "accessory": 1,
+      "memory": 5,
+      "flash": 18,
+      "drive": 6,
+      "power": 19
      },
      "roles": {},
      "samples": [
+      "1941-2901-FANBLWR= — Cisco 1941/2901 Fan Blower Assembly (only as spare)",
       "3G-ACC-OUT-LA — 3G Outdoor Antenna Lightning Arrestor",
       "3G-ACC-OUT-LA= — 3G Outdoor Antenna Lighting Protector",
       "3G-AE010-R — Single Unit antenna Extension Base (10 foot cable included)",
       "3G-AE010-R= — Single Unit antenna Extension Base (10 foot cable included)",
-      "3G-AE015-R — Single Unit antenna Extension Base (15 foot cable included)",
-      "3G-AE015-R= — Single Unit antenna Extension Base (15 foot cable included)"
+      "3G-AE015-R — Single Unit antenna Extension Base (15 foot cable included)"
      ],
      "rules": {
+      "label-unsupported": 63,
       "accessory": 139
      }
     }
@@ -700,7 +686,7 @@
    "series": [
     {
      "series": "ASR 901",
-     "family": null,
+     "family": "ASR 900",
      "role": "sp-access",
      "note": "ASR-9010 chassis used to land here: the patterns had no digit fence (layers review 14 Sep 2026, item 1)",
      "parts": 35,
@@ -725,7 +711,7 @@
     },
     {
      "series": "ASR 920",
-     "family": null,
+     "family": "ASR 900",
      "role": "sp-access",
      "note": null,
      "parts": 69,
@@ -753,14 +739,14 @@
      }
     },
     {
-     "series": "ASR 900",
-     "family": null,
+     "series": "ASR 902 / 903 / 907 / 914",
+     "family": "ASR 900",
      "role": "sp-access",
-     "note": null,
-     "parts": 137,
+     "note": "was \"ASR 900\" until the ASR 900 family (re-audit at 2f3d17a, 14 Sep 2026): Cisco's \"ASR 900 Series Aggregation Services Routers\" family holds these chassis and the ASR 901 and ASR 920 series",
+     "parts": 131,
      "kinds": {
       "module": 52,
-      "mechanical": 26,
+      "mechanical": 20,
       "power": 10,
       "processor": 19,
       "accessory": 2,
@@ -781,7 +767,7 @@
      ],
      "rules": {
       "sku": 129,
-      "label": 8
+      "label": 2
      }
     },
     {
@@ -789,7 +775,7 @@
      "family": null,
      "role": "edge",
      "note": null,
-     "parts": 346,
+     "parts": 344,
      "kinds": {
       "mechanical": 40,
       "linecard": 24,
@@ -797,14 +783,14 @@
       "bundle": 2,
       "power": 35,
       "fan": 6,
-      "router": 97,
+      "router": 95,
       "module": 23,
       "chassis": 34,
       "drive": 20,
       "memory": 32
      },
      "roles": {
-      "edge": 97
+      "edge": 95
      },
      "samples": [
       "A1K-1RU-REAR= — ASR1001-X and ASR1001-HX Rear Mount Brackets, Spare",
@@ -815,7 +801,7 @@
       "ASR1000-2T+20X1GE= — Cisco ASR 1000 Fixed Ethernet Line Card, 2X10GE + 20X1GE, Sp"
      ],
      "rules": {
-      "label": 10,
+      "label": 8,
       "sku": 336
      }
     },
@@ -835,21 +821,19 @@
      "family": null,
      "role": "sp-edge",
      "note": null,
-     "parts": 458,
+     "parts": 448,
      "kinds": {
       "linecard": 215,
-      "processor": 64,
+      "processor": 62,
       "fabric": 18,
       "power": 26,
-      "fan": 27,
-      "mechanical": 25,
+      "fan": 26,
+      "mechanical": 24,
       "accessory": 2,
       "module": 20,
       "sp-router": 28,
       "chassis": 23,
-      "appliance": 4,
-      "drive": 4,
-      "memory": 2
+      "appliance": 4
      },
      "roles": {
       "sp-edge": 28
@@ -864,7 +848,7 @@
      ],
      "rules": {
       "sku": 436,
-      "label": 22
+      "label": 12
      }
     },
     {
@@ -872,13 +856,20 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 30,
+     "parts": 48,
      "kinds": {
-      "mechanical": 11,
+      "mechanical": 18,
       "cable": 14,
-      "accessory": 5
+      "router": 2,
+      "accessory": 5,
+      "drive": 4,
+      "processor": 2,
+      "fan": 1,
+      "memory": 2
      },
-     "roles": {},
+     "roles": {
+      "edge": 2
+     },
      "samples": [
       "100GE-CFP-COVER — 100GE CFP Dust Cover",
       "100GE-CFP-COVER= — 100GE CFP Dust Cover",
@@ -888,7 +879,8 @@
       "CAB-9AS-M — 4-port EIA-232 DTE cable, 68-pin port, 10 ft. length, male D"
      ],
      "rules": {
-      "accessory": 30
+      "accessory": 30,
+      "label-unsupported": 18
      }
     }
    ]
@@ -1030,11 +1022,11 @@
      "family": null,
      "role": "sp-edge",
      "note": null,
-     "parts": 233,
+     "parts": 232,
      "kinds": {
       "linecard": 90,
       "power": 18,
-      "accessory": 14,
+      "accessory": 13,
       "mechanical": 17,
       "fan": 20,
       "module": 14,
@@ -1056,7 +1048,7 @@
      ],
      "rules": {
       "sku": 226,
-      "label": 7
+      "label": 6
      }
     },
     {
@@ -1064,10 +1056,10 @@
      "family": null,
      "role": "sp-edge",
      "note": null,
-     "parts": 89,
+     "parts": 87,
      "kinds": {
       "linecard": 39,
-      "power": 4,
+      "power": 2,
       "mechanical": 9,
       "fan": 5,
       "processor": 1,
@@ -1086,8 +1078,7 @@
       "NC-57-36H-SE= — NCS 5700 Series 36 ports of 100 GE line card spare with Flex"
      ],
      "rules": {
-      "sku": 87,
-      "label": 2
+      "sku": 87
      }
     },
     {
@@ -1121,14 +1112,14 @@
      "family": null,
      "role": "sp-core",
      "note": null,
-     "parts": 155,
+     "parts": 140,
      "kinds": {
       "linecard": 31,
       "bundle": 9,
-      "mechanical": 58,
+      "mechanical": 53,
       "fan": 6,
       "fabric": 12,
-      "power": 21,
+      "power": 11,
       "sp-router": 1,
       "processor": 6,
       "chassis": 11
@@ -1146,7 +1137,7 @@
      ],
      "rules": {
       "sku": 136,
-      "label": 19
+      "label": 4
      }
     },
     {
@@ -1154,10 +1145,12 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 16,
+     "parts": 34,
      "kinds": {
       "power-cord": 12,
-      "mechanical": 4
+      "power": 12,
+      "accessory": 1,
+      "mechanical": 9
      },
      "roles": {},
      "samples": [
@@ -1169,33 +1162,33 @@
       "CAB-ACTW — AC Power Cord (Taiwan), C13, EL 302, 2.3M"
      ],
      "rules": {
-      "accessory": 16
+      "accessory": 16,
+      "label-unsupported": 18
      }
     }
    ]
   },
   {
    "line": "Cisco 8000",
-   "parts": 194,
+   "parts": 192,
    "series": [
     {
      "series": "Cisco 8000",
      "family": null,
      "role": "sp-core",
      "note": null,
-     "parts": 160,
+     "parts": 133,
      "kinds": {
       "accessory": 20,
-      "mechanical": 15,
+      "mechanical": 13,
       "sp-router": 35,
       "module": 9,
-      "power": 17,
-      "fan": 21,
+      "power": 1,
+      "fan": 13,
       "processor": 4,
       "chassis": 10,
       "fabric": 12,
-      "linecard": 16,
-      "power-cord": 1
+      "linecard": 16
      },
      "roles": {
       "sp-core": 35
@@ -1210,7 +1203,7 @@
      ],
      "rules": {
       "sku": 129,
-      "label": 31
+      "label": 4
      }
     },
     {
@@ -1218,11 +1211,13 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 34,
+     "parts": 59,
      "kinds": {
-      "power-cord": 15,
+      "power-cord": 16,
       "accessory": 12,
-      "mechanical": 7
+      "mechanical": 7,
+      "fan": 8,
+      "power": 16
      },
      "roles": {},
      "samples": [
@@ -1234,7 +1229,8 @@
       "CAB-AC-EUR — Power Cord - Europe, 16/10A, 250V, 2500 mm, –40C to +85C"
      ],
      "rules": {
-      "accessory": 34
+      "accessory": 34,
+      "label-unsupported": 25
      }
     }
    ]
@@ -1248,14 +1244,14 @@
      "family": null,
      "role": "sp-core",
      "note": null,
-     "parts": 721,
+     "parts": 707,
      "kinds": {
       "module": 54,
-      "bundle": 64,
+      "bundle": 58,
       "linecard": 79,
       "sp-router": 5,
       "mechanical": 148,
-      "power": 66,
+      "power": 58,
       "power-cord": 18,
       "accessory": 27,
       "chassis": 52,
@@ -1274,13 +1270,36 @@
       "1-100GE-DWDM/C — Cisco CRS Series 1x100GE Integrated DWDM Interface Module",
       "1-100GE-DWDM/C++= — Cisco CRS Series 1x100GE Integrated DWDM Interface Module",
       "1-100GE-DWDM/C= — Cisco CRS Series 1x100GE Integrated DWDM Interface Module",
-      "100GE-DWDM-FP-PK — 1-100GE Integrated DWDM Interface Module and FP Bundle",
-      "100GE-DWDM-FP-PK= — 1-100GE Integrated DWDM Interface Module and FP Bundle",
-      "100GE-DWDM-LSP-PK — ^1x100GE Integrated DWDM Interface Module and LSP Bundle"
+      "100GE-FP140-BNDL= — Cisco CRS 100GE FP Bundle",
+      "100GE-FP400G-BUN= — Cisco CRS Series 4x100GE FP Bundle",
+      "100GE-MSC-BNDL= — Cisco CRS Series 100GE MSC Bundle"
      ],
      "rules": {
       "sku": 640,
-      "label": 81
+      "label": 67
+     }
+    },
+    {
+     "series": "CRS (Carrier Routing System) shared parts",
+     "family": "(shared across the line)",
+     "role": null,
+     "note": null,
+     "parts": 14,
+     "kinds": {
+      "bundle": 6,
+      "power": 8
+     },
+     "roles": {},
+     "samples": [
+      "100GE-DWDM-FP-PK — 1-100GE Integrated DWDM Interface Module and FP Bundle",
+      "100GE-DWDM-FP-PK= — 1-100GE Integrated DWDM Interface Module and FP Bundle",
+      "100GE-DWDM-LSP-PK — ^1x100GE Integrated DWDM Interface Module and LSP Bundle",
+      "100GE-DWDM-LSP-PK= — 1x100GE Integrated DWDM Interface Module and LSP bundle",
+      "100GE-DWDM-MSC-PK — 1-100GE Integrated DWDM Interface Module and MSC Bundle",
+      "100GE-DWDM-MSC-PK= — 1-100GE Integrated DWDM Interface Module and MSC Bundle"
+     ],
+     "rules": {
+      "label-unsupported": 14
      }
     }
    ]
@@ -1314,27 +1333,23 @@
      "family": null,
      "role": "industrial-iot",
      "note": null,
-     "parts": 13,
+     "parts": 8,
      "kinds": {
-      "accessory": 1,
       "router": 6,
-      "mechanical": 2,
-      "cable": 3,
-      "antenna": 1
+      "mechanical": 2
      },
      "roles": {
       "industrial-iot": 6
      },
      "samples": [
-      "AIR-ACC370-NF-NF — Cisco AIR-ACC370-NF-NF",
       "IR1821-K9 — Cisco Catalyst IR1821 Rugged Series Router",
       "IR1821-K9++ — Cisco Catalyst IR1821 Rugged Series Router- TAA",
       "IR1831-K9 — Cisco Catalyst IR1831 Rugged Series Router",
       "IR1831-K9++ — Cisco Catalyst IR1831 Rugged Series Router- TAA",
-      "IR1833-K9 — Cisco IR1833-K9"
+      "IR1833-K9 — Cisco IR1833-K9",
+      "IR1835-K9 — Cisco IR1835-K9"
      ],
      "rules": {
-      "label": 5,
       "sku": 8
      }
     },
@@ -1343,26 +1358,24 @@
      "family": null,
      "role": "industrial-iot",
      "note": null,
-     "parts": 40,
+     "parts": 33,
      "kinds": {
-      "accessory": 9,
-      "antenna": 1,
       "router": 4,
-      "module": 26
+      "module": 26,
+      "accessory": 3
      },
      "roles": {
       "industrial-iot": 4
      },
      "samples": [
-      "IOT-LA-NM-NF — Cisco IOT-LA-NM-NF",
-      "IR-ANT-PLUG — Cisco IR-ANT-PLUG",
-      "IR-BAND — Cisco IR-BAND",
-      "IR-IP67GLAND — Cisco IR-IP67GLAND",
-      "IR-IP67GLAND= — Cisco IR-IP67GLAND=",
-      "IR-PMK — Cisco IR-PMK"
+      "IR8140H-K9 — Cisco Catalyst IR8100 Series Industrial Router",
+      "IR8140H-K9= — Cisco IR8140H-K9=",
+      "IR8140H-P-K9 — Cisco IR8140H-P-K9",
+      "IR8140H-P-K9= — Cisco IR8140H-P-K9=",
+      "IRMH-5GR16SA — Cisco IRMH-5GR16SA",
+      "IRMH-5GR16SA= — Cisco IRMH-5GR16SA="
      ],
      "rules": {
-      "label": 7,
       "sku": 33
      }
     },
@@ -1371,13 +1384,12 @@
      "family": null,
      "role": "industrial-iot",
      "note": null,
-     "parts": 11,
+     "parts": 7,
      "kinds": {
       "router": 1,
       "module": 3,
       "mechanical": 2,
-      "drive": 1,
-      "power": 4
+      "drive": 1
      },
      "roles": {
       "industrial-iot": 1
@@ -1391,8 +1403,7 @@
       "IRM-SSD-Blank — Blank for SSD"
      ],
      "rules": {
-      "sku": 7,
-      "label": 4
+      "sku": 7
      }
     },
     {
@@ -1452,15 +1463,14 @@
      "family": "Connected Grid Routers",
      "role": "industrial-iot",
      "note": null,
-     "parts": 69,
+     "parts": 59,
      "kinds": {
       "module": 37,
-      "accessory": 10,
+      "accessory": 2,
       "mechanical": 8,
       "power-cord": 4,
       "power": 1,
       "router": 1,
-      "memory": 2,
       "flash": 6
      },
      "roles": {
@@ -1476,7 +1486,7 @@
      ],
      "rules": {
       "sku": 45,
-      "label": 24
+      "label": 14
      }
     },
     {
@@ -1514,14 +1524,13 @@
      "family": null,
      "role": "industrial-iot",
      "note": null,
-     "parts": 20,
+     "parts": 14,
      "kinds": {
-      "mechanical": 5,
-      "accessory": 4,
-      "antenna": 1,
+      "mechanical": 4,
       "router": 2,
+      "accessory": 2,
       "module": 4,
-      "power": 4
+      "power": 2
      },
      "roles": {
       "industrial-iot": 2
@@ -1531,11 +1540,11 @@
       "ACC-LORA-SOLR-CVR= — Cisco v2 LoRa interface solar shielding cover",
       "ACC-LPWA-HDWR-KIT — The cable gland and ground lugs for Cisco LoRaWAN Interface",
       "ACC-LPWA-HDWR-KIT= — The cable gland and ground lugs for Cisco LoRaWAN Interface",
-      "ACC-SP-POE-GE — PoE surge protector",
-      "ACC-SP-POE-GE= — PoE surge protector"
+      "IXM-LPWA-800-K9+ — ● TAA part number for Cisco wireless gateway for LoRaWAN, op",
+      "IXM-LPWA-900-K9+ — TAA PID for Cisco wireless gateway for LoRaWAN, operates on "
      ],
      "rules": {
-      "label": 18,
+      "label": 12,
       "sku": 2
      }
     },
@@ -1590,13 +1599,15 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 70,
+     "parts": 102,
      "kinds": {
-      "antenna": 40,
-      "accessory": 2,
-      "mechanical": 3,
-      "cable": 20,
-      "power-cord": 5
+      "antenna": 43,
+      "accessory": 19,
+      "mechanical": 4,
+      "cable": 23,
+      "power-cord": 5,
+      "memory": 2,
+      "power": 6
      },
      "roles": {},
      "samples": [
@@ -1608,7 +1619,8 @@
       "ACC-LA-G-SM-SF — Cisco ACC-LA-G-SM-SF"
      ],
      "rules": {
-      "accessory": 70
+      "accessory": 70,
+      "label-unsupported": 32
      }
     }
    ]
@@ -1622,24 +1634,44 @@
      "family": null,
      "role": "smb",
      "note": null,
-     "parts": 155,
+     "parts": 152,
      "kinds": {
-      "router": 155
+      "router": 152
      },
      "roles": {
-      "smb": 155
+      "smb": 152
+     },
+     "samples": [
+      "RV042 — RV042 Dual WAN Router for US/Canada and LATAM",
+      "RV042-AR — RV042 Dual WAN Router for Argentina",
+      "RV042-AU — RV042 Dual WAN Router for Australia and NZ",
+      "RV042-BR — 10/100 4-Port VPN Router",
+      "RV042-CN — RV042 Dual WAN Router for China",
+      "RV042-EU — RV042 Dual WAN Router for Europe, Asia, Brazil"
+     ],
+     "rules": {
+      "sku": 152
+     }
+    },
+    {
+     "series": "Small Business Routers shared parts",
+     "family": "(shared across the line)",
+     "role": null,
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "router": 3
+     },
+     "roles": {
+      "smb": 3
      },
      "samples": [
       "CVR328W-K9-CN — Wireless-N 3G VPN Router",
       "R260-K9-KR — Cisco R260-K9-KR",
-      "R260P-K9-KR — Cisco R260P-K9-KR",
-      "RV042 — RV042 Dual WAN Router for US/Canada and LATAM",
-      "RV042-AR — RV042 Dual WAN Router for Argentina",
-      "RV042-AU — RV042 Dual WAN Router for Australia and NZ"
+      "R260P-K9-KR — Cisco R260P-K9-KR"
      ],
      "rules": {
-      "label": 3,
-      "sku": 152
+      "label-unsupported": 3
      }
     }
    ]
@@ -1755,23 +1787,18 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 5,
+     "parts": 2,
      "kinds": {
       "appliance": 1,
-      "accessory": 1,
-      "power": 3
+      "accessory": 1
      },
      "roles": {},
      "samples": [
       "C8220TG-48A-O — Cisco C8220TG-48A-O",
-      "C8220TG-ACCKIT-19 — Cisco C8220TG-ACCKIT-19",
-      "PWR-CC1-250WAC — Cisco PWR-CC1-250WAC",
-      "PWR-CC1-250WAC/2 — Cisco PWR-CC1-250WAC/2",
-      "PWR-CC1-250WAC= — Cisco PWR-CC1-250WAC="
+      "C8220TG-ACCKIT-19 — Cisco C8220TG-ACCKIT-19"
      ],
      "rules": {
-      "sku": 2,
-      "label": 3
+      "sku": 2
      }
     },
     {
@@ -1791,6 +1818,25 @@
      ],
      "rules": {
       "sku": 3
+     }
+    },
+    {
+     "series": "Console and Terminal Servers shared parts",
+     "family": "(shared across the line)",
+     "role": null,
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "power": 3
+     },
+     "roles": {},
+     "samples": [
+      "PWR-CC1-250WAC — Cisco PWR-CC1-250WAC",
+      "PWR-CC1-250WAC/2 — Cisco PWR-CC1-250WAC/2",
+      "PWR-CC1-250WAC= — Cisco PWR-CC1-250WAC="
+     ],
+     "rules": {
+      "label-unsupported": 3
      }
     }
    ]
@@ -2142,6 +2188,14 @@
    "reason": "bare model name, not an orderable PID (the controllers are C9800-40-K9 / C9800-80-K9 in wireless)"
   },
   {
+   "sku": "A1C899G-LTE-GA-K9",
+   "name": "Austria Only - Bundle C899G LTE -GA for 18 months Migration",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "promo-bundle: a region-restricted, time-limited migration ordering PID ('<region> Only - Bundle <model> for N months Migration'); the hardware is its base PID (C899G-LTE-GA-K9 / C881G-4G-GA-K9 / C887VA-K9), which stays a router"
+  },
+  {
    "sku": "A4_9.00.60",
    "name": "Cisco A4_9.00.60",
    "series_label": "800",
@@ -2470,6 +2524,14 @@
    "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
   },
   {
+   "sku": "C881G-4G-GA-BUN-K9",
+   "name": "Austria Only - Bundle C881G 4G for 18 months Migration",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "promo-bundle: a region-restricted, time-limited migration ordering PID ('<region> Only - Bundle <model> for N months Migration'); the hardware is its base PID (C899G-LTE-GA-K9 / C881G-4G-GA-K9 / C887VA-K9), which stays a router"
+  },
+  {
    "sku": "CAT18",
    "name": "Cisco CAT18",
    "series_label": "8100 Series Secure",
@@ -2654,6 +2716,22 @@
    "reason": "switch / Catalyst 6500 chassis bundle filed in routers"
   },
   {
+   "sku": "CQ211L01-ACC-KIT",
+   "name": "CQ211L01-48 Fixed Accessory Kit, 1RU front and rear removal",
+   "series_label": "8000",
+   "action": "move",
+   "to": "switches",
+   "reason": "accessory kit of the CQ211L01 switches, which move to switches"
+  },
+  {
+   "sku": "CQ211L01-ACC-KIT=",
+   "name": "CQ211L01-48 Fixed Accessory Kit, 1RU front and rear removal",
+   "series_label": "8000",
+   "action": "move",
+   "to": "switches",
+   "reason": "accessory kit of the CQ211L01 switches, which move to switches"
+  },
+  {
    "sku": "CVO860VAE-CFG",
    "name": "Cisco Virtual Office config for Cisco 860VAE Series",
    "series_label": "800",
@@ -2676,6 +2754,94 @@
    "action": "class",
    "to": "non_product",
    "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "CW-ACC-9179-B-00",
+   "name": "CW9179F environment pack for outdoor deployment",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless (CW91xx access point) accessory: antenna, mount or environment pack, which a series label had filed under ISR 3800"
+  },
+  {
+   "sku": "CW-ACC-ADPT1",
+   "name": "Antenna mount adapter for CW-ANT-T-D2-D8 with C-ANT9103 mount",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless (CW91xx access point) accessory: antenna, mount or environment pack, which a series label had filed under ISR 3800"
+  },
+  {
+   "sku": "CW-ACC-CVR2",
+   "name": "Cisco CW-ACC-CVR2",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless (CW91xx access point) accessory: antenna, mount or environment pack, which a series label had filed under ISR 3800"
+  },
+  {
+   "sku": "CW-ACC-KIT2",
+   "name": "Cisco CW-ACC-KIT2",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless (CW91xx access point) accessory: antenna, mount or environment pack, which a series label had filed under ISR 3800"
+  },
+  {
+   "sku": "CW-ANT-T-D2-D8",
+   "name": "6/6/6 dBi 75x75 Tri-band directional antenna, 8-port, DART",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless (CW91xx access point) accessory: antenna, mount or environment pack, which a series label had filed under ISR 3800"
+  },
+  {
+   "sku": "CW-ANT-T-D3-N",
+   "name": "6/6/6 dBi Directional Mini Patch, N connector for CW9179F AP",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless (CW91xx access point) accessory: antenna, mount or environment pack, which a series label had filed under ISR 3800"
+  },
+  {
+   "sku": "CW-ANT-T-D4-N",
+   "name": "Cisco 8/8/8dBi, Tri band, dir. ant, 8xN-Type",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless (CW91xx access point) accessory: antenna, mount or environment pack, which a series label had filed under ISR 3800"
+  },
+  {
+   "sku": "CW-ANT-T-O2-D8",
+   "name": "2/5/5 dBi Tri-band ceiling mount omni antenna, 8-port, DART",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless (CW91xx access point) accessory: antenna, mount or environment pack, which a series label had filed under ISR 3800"
+  },
+  {
+   "sku": "CW-ANT-T-O3-N",
+   "name": "Cisco 5/6/5dBi, Tri band, Omni dir. ant, 8xN-Type",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless (CW91xx access point) accessory: antenna, mount or environment pack, which a series label had filed under ISR 3800"
+  },
+  {
+   "sku": "CW-ANT-T-O4-R",
+   "name": "3/5/5 dBi Tri-band dipole antennas, RP-TNC",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless (CW91xx access point) accessory: antenna, mount or environment pack, which a series label had filed under ISR 3800"
+  },
+  {
+   "sku": "CW-MNT-9",
+   "name": "CW9174E Integrated AP/antenna mounting bracket",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless (CW91xx access point) accessory: antenna, mount or environment pack, which a series label had filed under ISR 3800"
   },
   {
    "sku": "CW-SFP-KIT1",
@@ -2948,6 +3114,14 @@
    "action": "class",
    "to": "license",
    "reason": "licence / right-to-use PID: the name states a licence, not hardware"
+  },
+  {
+   "sku": "FRC887VA-K9",
+   "name": "EMEA Only - Bundle C887VA-K9 for 12 months Migration",
+   "series_label": "800",
+   "action": "class",
+   "to": "non_product",
+   "reason": "promo-bundle: a region-restricted, time-limited migration ordering PID ('<region> Only - Bundle <model> for N months Migration'); the hardware is its base PID (C899G-LTE-GA-K9 / C881G-4G-GA-K9 / C887VA-K9), which stays a router"
   },
   {
    "sku": "FW-7430-LTE-AU",
@@ -7223,5 +7397,1665 @@
   }
  ],
  "unplaced": [],
+ "label_check": {
+  "applied": true,
+  "label_placed": 465,
+  "by_kind": {
+   "none": 206,
+   "name": 137,
+   "family": 20,
+   "sku-token": 102
+  },
+  "moved": [
+   {
+    "sku": "100GE-DWDM-FP-PK",
+    "name": "1-100GE Integrated DWDM Interface Module and FP Bundle",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "100GE-DWDM-FP-PK=",
+    "name": "1-100GE Integrated DWDM Interface Module and FP Bundle",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "100GE-DWDM-LSP-PK",
+    "name": "^1x100GE Integrated DWDM Interface Module and LSP Bundle",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "100GE-DWDM-LSP-PK=",
+    "name": "1x100GE Integrated DWDM Interface Module and LSP bundle",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "100GE-DWDM-MSC-PK",
+    "name": "1-100GE Integrated DWDM Interface Module and MSC Bundle",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "100GE-DWDM-MSC-PK=",
+    "name": "1-100GE Integrated DWDM Interface Module and MSC Bundle",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "1941-2901-FANBLWR=",
+    "name": "Cisco 1941/2901 Fan Blower Assembly (only as spare)",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 2900 and another series of the line equally: ISR 1900 (sku 1900)"
+   },
+   {
+    "sku": "ACC-SP-POE-GE",
+    "name": "PoE surge protector",
+    "series_label": "Wireless Gateway for LoRaWAN",
+    "from_series": "Wireless Gateway for LoRaWAN",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "ACC-SP-POE-GE=",
+    "name": "PoE surge protector",
+    "series_label": "Wireless Gateway for LoRaWAN",
+    "from_series": "Wireless Gateway for LoRaWAN",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "AIM-VOICE-30",
+    "name": "Cisco AIM-VOICE-30",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (2900) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "AIR-ACC1530-PMK1",
+    "name": "Standard pole/wall mount kit for AP1530/1560 Series",
+    "series_label": "Wireless Gateway for LoRaWAN",
+    "from_series": "Wireless Gateway for LoRaWAN",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "AIR-ACC370-NF-NF",
+    "name": "Cisco AIR-ACC370-NF-NF",
+    "series_label": "Catalyst IR1800 Rugged",
+    "from_series": "IR 1800",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1800) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "ANTENNASBF3O",
+    "name": "Cisco ANTENNASBF3O",
+    "series_label": "Wireless Gateway for LoRaWAN",
+    "from_series": "Wireless Gateway for LoRaWAN",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "C-NM-8M",
+    "name": "Cisco C-NM-8M",
+    "series_label": "Catalyst 8200",
+    "from_series": "Catalyst 8200",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "C-RFID-NONE",
+    "name": "Cisco C-RFID-NONE",
+    "series_label": "Catalyst 8500",
+    "from_series": "Catalyst 8500",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CISCO-FIPS-KIT=",
+    "name": "Tamper Proof for 80/18/28/38/72/73 Routers and ASA",
+    "series_label": "Catalyst 8200",
+    "from_series": "Catalyst 8200",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CPT-50-FTF=",
+    "name": "CPT-50 Fan Tray Filter",
+    "series_label": "ASR 9000",
+    "from_series": "ASR 9000",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CUBESP-AP-H250B/K9",
+    "name": "CUBE(SP) appliance,250 Session,10G Engine,2xSIP10,16xGE,HA",
+    "series_label": "ASR 1000",
+    "from_series": "ASR 1000",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CUBESP-AP-H500B/K9",
+    "name": "CUBE(SP) appliance,500 Session,10G Engine,2xSIP10,16xGE,HA",
+    "series_label": "ASR 1000",
+    "from_series": "ASR 1000",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CVR328W-K9-CN",
+    "name": "Wireless-N 3G VPN Router",
+    "series_label": "RV Series",
+    "from_series": "RV Series",
+    "to_series": "Small Business Routers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "D-LTE-AS",
+    "name": "CAT4 LTE Dongle for ASEAN (supported on Viptela OS 20.4 and above)",
+    "series_label": "1000",
+    "from_series": "ISR 1100",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (1100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "D-LTE-AS=",
+    "name": "CAT4 LTE Dongle for ASEAN",
+    "series_label": "1000",
+    "from_series": "ISR 1100",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (1100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "D-LTE-GB",
+    "name": "CAT4 LTE Dongle for EMEAR (supported on Viptela OS 20.4 and above)",
+    "series_label": "1000",
+    "from_series": "ISR 1100",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (1100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "D-LTE-GB=",
+    "name": "CAT4 LTE Dongle for EMEA",
+    "series_label": "1000",
+    "from_series": "ISR 1100",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (1100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "D-LTE-NA",
+    "name": "CAT4 LTE Dongle for North America (supported on Viptela OS 20.4 and above)",
+    "series_label": "1000",
+    "from_series": "ISR 1100",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (1100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "D-LTE-NA=",
+    "name": "CAT4 LTE Dongle for North America",
+    "series_label": "1000",
+    "from_series": "ISR 1100",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (1100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "DB25-F-DCE",
+    "name": "Cisco DB25-F-DCE",
+    "series_label": "1000 Connected Grid",
+    "from_series": "CGR 1000 Connected Grid",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "DB25-M-DTE",
+    "name": "Cisco DB25-M-DTE",
+    "series_label": "1000 Connected Grid",
+    "from_series": "CGR 1000 Connected Grid",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "DB9-F-DCE",
+    "name": "Cisco DB9-F-DCE",
+    "series_label": "1000 Connected Grid",
+    "from_series": "CGR 1000 Connected Grid",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "DB9-M-DTE",
+    "name": "Cisco DB9-M-DTE",
+    "series_label": "1000 Connected Grid",
+    "from_series": "CGR 1000 Connected Grid",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "E-SSD-U2N-2TB",
+    "name": "2 TB, NVME SSD drive for UCS-E M6",
+    "series_label": "Catalyst 8300 Series Edge uCPE",
+    "from_series": "Catalyst 8300 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "E-SSD-U2N-2TB=",
+    "name": "2 TB, U.2 NVME SSD drive for UCS-E M6 Spare",
+    "series_label": "Catalyst 8300 Series Edge uCPE",
+    "from_series": "Catalyst 8300 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "E-SSD-U2N-4TB",
+    "name": "4 TB, U.2 NVME SSD drive for UCS-E M6",
+    "series_label": "Catalyst 8300 Series Edge uCPE",
+    "from_series": "Catalyst 8300 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "E-SSD-U2N-4TB=",
+    "name": "4 TB, U.2 NVME SSD drive for UCS-E M6 Spare",
+    "series_label": "Catalyst 8300 Series Edge uCPE",
+    "from_series": "Catalyst 8300 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "E100S-CON-DGL",
+    "name": "KVM Dongle",
+    "series_label": "Catalyst 8200 Edge uCPE",
+    "from_series": "Catalyst 8200 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "E100S-CON-DGL=",
+    "name": "KVM Dongle",
+    "series_label": "Catalyst 8200 Edge uCPE",
+    "from_series": "Catalyst 8200 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "E100S-MEM-UDIMM8G",
+    "name": "8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E",
+    "series_label": "Catalyst 8200 Edge uCPE",
+    "from_series": "Catalyst 8200 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "E100S-MEM-UDIMM8G=",
+    "name": "8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E",
+    "series_label": "Catalyst 8200 Edge uCPE",
+    "from_series": "Catalyst 8200 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "EM3-HDA-8FXS",
+    "name": "Cisco EM3-HDA-8FXS",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (2900) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "EVM-HD-8FXS/DID",
+    "name": "Cisco EVM-HD-8FXS/DID",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (2900) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-1RU-PE",
+    "name": "1RU Fan with Port-side Exhaust",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-1RU-PE-V2",
+    "name": "1RU Fan with Port-side Air Exhaust",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-1RU-PE=",
+    "name": "1RU Fan with Port-side Exhaust",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-1RU-PI",
+    "name": "1RU Fan with Port-side Air Intake",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-1RU-PI-V2",
+    "name": "Cisco aux fan tray, port-side intake airflow",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-1RU-PI=",
+    "name": "1RU Fan with Port-side Air Intake",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-2RU-PI",
+    "name": "2RU Fan with Port-side Air Intake",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-2RU-PI=",
+    "name": "2RU Fan with Port-side Air Intake",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FIPS-SHIELD-1900=",
+    "name": "FIPS opacity shield for Cisco 1905, Cisco 1921 ISR",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names another series of the line: ISR 1900 (sku 1900)"
+   },
+   {
+    "sku": "FIPS-SHIELD-3900=",
+    "name": "FIPS opacity shield for Cisco 3925 - 3945EISR",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names another series of the line: ISR 3900 (sku 3900)"
+   },
+   {
+    "sku": "HDD-SATA-2TB",
+    "name": "Cisco HDD SATA drive 2 TB",
+    "series_label": "Catalyst 8200 Edge uCPE",
+    "from_series": "Catalyst 8200 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "IOT-LA-NM-NF",
+    "name": "Cisco IOT-LA-NM-NF",
+    "series_label": "Catalyst IR8100 Heavy Duty",
+    "from_series": "IR 8100",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (8100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "IR-ANT-PLUG",
+    "name": "Cisco IR-ANT-PLUG",
+    "series_label": "Catalyst IR8100 Heavy Duty",
+    "from_series": "IR 8100",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (8100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "IR-BAND",
+    "name": "Cisco IR-BAND",
+    "series_label": "Catalyst IR8100 Heavy Duty",
+    "from_series": "IR 8100",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (8100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "IR-IP67GLAND",
+    "name": "Cisco IR-IP67GLAND",
+    "series_label": "Catalyst IR8100 Heavy Duty",
+    "from_series": "IR 8100",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (8100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "IR-IP67GLAND=",
+    "name": "Cisco IR-IP67GLAND=",
+    "series_label": "1000 Connected Grid",
+    "from_series": "IR 8100",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (8100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "IR-PMK",
+    "name": "Cisco IR-PMK",
+    "series_label": "Catalyst IR8100 Heavy Duty",
+    "from_series": "IR 8100",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (8100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "IR-PMK-BAND",
+    "name": "Cisco IR-PMK-BAND",
+    "series_label": "1000 Connected Grid",
+    "from_series": "CGR 1000 Connected Grid",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "IR-PMK-BAND=",
+    "name": "Cisco IR-PMK-BAND=",
+    "series_label": "1000 Connected Grid",
+    "from_series": "CGR 1000 Connected Grid",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "IR-PMK=",
+    "name": "Cisco IR-PMK=",
+    "series_label": "1000 Connected Grid",
+    "from_series": "IR 8100",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (8100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "M2USB-32G",
+    "name": "Cisco C8000 Edge Platform – 32 GB M.2 USB SSD Storage",
+    "series_label": "Catalyst 8300",
+    "from_series": "Catalyst 8300",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "M2USB-32G=",
+    "name": "Cisco M2USB-32G=",
+    "series_label": "Catalyst 8500",
+    "from_series": "Catalyst 8300",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MC-3G-EVDO-B",
+    "name": "3G 1xEV-DO Rev A MC5728V with SMS/GPS for BSNL Networks",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MC-3G-HSPA+7",
+    "name": "3.7G (non-US) HSPA+ Release 7 MC8705 with SMS/GPS",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MC-3G-HSPA-U",
+    "name": "3.5G (non-US) HSPA MC8795V with SMS/GPS",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEM-224-1X128D-U",
+    "name": "128MB DRAM Memory for VG224 (Factory Upgrade)",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEM-224-1X64F-U",
+    "name": "64MB Flash Memory for VG224 (Factory Upgrade)",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEM-243-1X128D",
+    "name": "128MB DRAM Memory for IAD2430 series",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (2900) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEM-243-1X128F",
+    "name": "128MB Flash Memory for IAD2430 series",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (2900) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEM-243-1X128F-U",
+    "name": "128MB Flash Memory for IAD2430 (Factory Upgrade)",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEM-243-1X64F",
+    "name": "64MB Flash Memory for IAD2430 series",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEM-243-2X128D-U",
+    "name": "256 (2x128)MB DRAM Memory for IAD2430 ser (Factory Upgrade)",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEM-CF-1GB",
+    "name": "1GB Compact Flash for Cisco 1900, 2900, 3900 ISR",
+    "series_label": "3900 Series Integrated Services Routers ISR",
+    "from_series": "ISR 3900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 3900 and another series of the line equally: ISR 1900 (name 1900), ISR 2900 (name 2900)"
+   },
+   {
+    "sku": "MEM-CF-1GB=",
+    "name": "1GB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 3900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 3900 and another series of the line equally: ISR 1900 (name 1900), ISR 2900 (name 2900)"
+   },
+   {
+    "sku": "MEM-CF-256MB",
+    "name": "256MB Compact Flash for Cisco 1900, 2900, 3900 ISR (Default)",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 2900 and another series of the line equally: ISR 1900 (name 1900), ISR 3900 (name 3900)"
+   },
+   {
+    "sku": "MEM-CF-256MB=",
+    "name": "256MB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 2900 and another series of the line equally: ISR 1900 (name 1900), ISR 3900 (name 3900)"
+   },
+   {
+    "sku": "MEM-CF-256U1GB",
+    "name": "256MB to 1GB Compact Flash Upgrade for Cisco 1900, 2900, 3900 ISR",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 2900 and another series of the line equally: ISR 1900 (name 1900), ISR 3900 (name 3900)"
+   },
+   {
+    "sku": "MEM-CF-256U2GB",
+    "name": "256MB to 2GB Compact Flash Upgrade for Cisco 1900, 2900, 3900 ISR",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 2900 and another series of the line equally: ISR 1900 (name 1900), ISR 3900 (name 3900)"
+   },
+   {
+    "sku": "MEM-CF-256U4GB",
+    "name": "256MB to 4GB Compact Flash Upgrade for Cisco 1900, 2900, 3900 ISR",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 2900 and another series of the line equally: ISR 1900 (name 1900), ISR 3900 (name 3900)"
+   },
+   {
+    "sku": "MEM-CF-256U512MB",
+    "name": "256MB to 512MB CF Upgrade for Cisco 1900, 2900, 3900 ISR",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 2900 and another series of the line equally: ISR 1900 (name 1900), ISR 3900 (name 3900)"
+   },
+   {
+    "sku": "MEM-CF-2GB",
+    "name": "2GB Compact Flash for Cisco 1900, 2900, 3900 ISR",
+    "series_label": "3900 Series Integrated Services Routers ISR",
+    "from_series": "ISR 3900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 3900 and another series of the line equally: ISR 1900 (name 1900), ISR 2900 (name 2900)"
+   },
+   {
+    "sku": "MEM-CF-2GB=",
+    "name": "2GB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 3900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 3900 and another series of the line equally: ISR 1900 (name 1900), ISR 2900 (name 2900)"
+   },
+   {
+    "sku": "MEM-CF-4GB",
+    "name": "4GB Compact Flash for Cisco 1900, 2900, 3900 ISR",
+    "series_label": "3900 Series Integrated Services Routers ISR",
+    "from_series": "ISR 3900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 3900 and another series of the line equally: ISR 1900 (name 1900), ISR 2900 (name 2900)"
+   },
+   {
+    "sku": "MEM-CF-4GB=",
+    "name": "4GB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 3900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 3900 and another series of the line equally: ISR 1900 (name 1900), ISR 2900 (name 2900)"
+   },
+   {
+    "sku": "MEM-CF-512MB",
+    "name": "512MB Compact Flash for Cisco 1900, 2900, 3900 ISR",
+    "series_label": "3900 Series Integrated Services Routers ISR",
+    "from_series": "ISR 3900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 3900 and another series of the line equally: ISR 1900 (name 1900), ISR 2900 (name 2900)"
+   },
+   {
+    "sku": "MEM-CF-512MB=",
+    "name": "512MB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 3900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names ISR 3900 and another series of the line equally: ISR 1900 (name 1900), ISR 2900 (name 2900)"
+   },
+   {
+    "sku": "MEM-CGMSRV-128=",
+    "name": "Cisco MEM-CGMSRV-128=",
+    "series_label": "1000 Connected Grid",
+    "from_series": "CGR 1000 Connected Grid",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEM-CGMSRV-64=",
+    "name": "Cisco MEM-CGMSRV-64=",
+    "series_label": "1000 Connected Grid",
+    "from_series": "CGR 1000 Connected Grid",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEM4300-4GU8G-P",
+    "name": "4G to 8G DRAM Upgrade (Promo) for Cisco ISR 4330,4350",
+    "series_label": "1000",
+    "from_series": "ISR 1100",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (1100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEM4320-4GU8G-P",
+    "name": "4G to 8G DRAM Upgrade (Promo) for ISR4320",
+    "series_label": "1000",
+    "from_series": "ISR 1100",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (1100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEMUSB-128FT",
+    "name": "128MB USB Flash Token for Cisco 1800/2800/3800 series",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names another series of the line: ISR 1800 (name 1800), ISR 2800 (name 2800), ISR 3800 (name 3800)"
+   },
+   {
+    "sku": "MEMUSB-128FT=",
+    "name": "128MB USB Flash Token for Cisco 1800/2800/3800 series",
+    "series_label": "2900 ISR",
+    "from_series": "ISR 2900",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "names another series of the line: ISR 1800 (name 1800), ISR 2800 (name 2800), ISR 3800 (name 3800)"
+   },
+   {
+    "sku": "MEMUSB-8GB",
+    "name": "8GB USB Flash Token",
+    "series_label": "Catalyst 8500",
+    "from_series": "Catalyst 8500",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "MEMUSB-8GB=",
+    "name": "8GB USB Flash Token",
+    "series_label": "Catalyst 8500",
+    "from_series": "Catalyst 8500",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NAL-FDO-C8K-1N2X",
+    "name": "NAL Certification labels for China",
+    "series_label": "Catalyst 8300",
+    "from_series": "Catalyst 8300",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NAL-FDO-C8K-1N6T",
+    "name": "NAL Certification labels for China",
+    "series_label": "Catalyst 8300",
+    "from_series": "Catalyst 8300",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NAL-FDO-C8K-2N2X",
+    "name": "NAL Certification labels for China",
+    "series_label": "Catalyst 8200",
+    "from_series": "Catalyst 8200",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NAL-FDO-C8K-2N6T",
+    "name": "NAL Certification labels for China",
+    "series_label": "Catalyst 8200",
+    "from_series": "Catalyst 8200",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-1100W-ACFW",
+    "name": "NCS 5500 AC 1100W Power Supply Port-S Intake / Front-to-back",
+    "series_label": "Network Convergence System 5700 Series",
+    "from_series": "NCS 5700",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "names another series of the line: NCS 5500 (name NCS 5500)"
+   },
+   {
+    "sku": "NCS-1RU-NEBS-KIT",
+    "name": "Cisco NCS-1RU-NEBS-KIT",
+    "series_label": "Network Convergence System 5500 Series",
+    "from_series": "NCS 5500",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (5500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-950W-DCFW",
+    "name": "NCS 5500 DC 950W Power Supply Port-S Intake / Front-to-Kack",
+    "series_label": "Network Convergence System 5700 Series",
+    "from_series": "NCS 5700",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "names another series of the line: NCS 5500 (name NCS 5500)"
+   },
+   {
+    "sku": "NCS-AC-PWRTRAY",
+    "name": "NCS AC Power Tray",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-AC-PWRTRAY=",
+    "name": "NCS AC Power Tray Spare",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-CRFT=",
+    "name": "NCS Craft Panel Display Kit Spare",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-DC-PWRTRAY",
+    "name": "NCS DC Power Tray",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-DC-PWRTRAY=",
+    "name": "NCS DC Power Tray Spare",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-PDU-DELTA",
+    "name": "Redundant 3-to-1 Phase DELTA PDU",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-PDU-DELTA-ASY",
+    "name": "NCS 3 Delta PUDs Assembly",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-PDU-DELTA=",
+    "name": "Redundant 3-to-1 Phase DELTA PDU",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-PDU-WYE",
+    "name": "Redundant 3-to-1 Phase WYE PDU",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-PDU-WYE-ASY",
+    "name": "NCS WYE 3 PDUs Assembly",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-PDU-WYE=",
+    "name": "Redundant 3-to-1 Phase WYE PDU",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-PP-100X10-LR",
+    "name": "NCS 100x10GE Patch Panel Long Reach",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-PP-100X10-LR=",
+    "name": "NCS 100x10GE B r ea k -o u t Panel Long Reach",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-PP-100X10-SR",
+    "name": "NCS 100x10GE Break-out Panel Short Reach",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NCS-PP-100X10-SR=",
+    "name": "NC S 100 x 10GE B r ea k -o u t Panel Sho r t R e a ch",
+    "series_label": "6000",
+    "from_series": "NCS 6000",
+    "to_series": "NCS (Network Convergence System) shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "OBD2-J1939Y1-MF4",
+    "name": "Cisco OBD2-J1939Y1-MF4",
+    "series_label": "Catalyst IR1800 Rugged",
+    "from_series": "IR 1800",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1800) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "OBD2-J1939Y2-MF4",
+    "name": "Cisco OBD2-J1939Y2-MF4",
+    "series_label": "Catalyst IR1800 Rugged",
+    "from_series": "IR 1800",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1800) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "OBD2-J1962YA-MF4",
+    "name": "Cisco OBD2-J1962YA-MF4",
+    "series_label": "Catalyst IR1800 Rugged",
+    "from_series": "IR 1800",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1800) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "P3G1-RCKMNT-19IN",
+    "name": "EIA 19 Inch mounting brackets for single 3G CEM/IMSG IM patch panel",
+    "series_label": "ASR 900",
+    "from_series": "ASR 902 / 903 / 907 / 914",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "P3G1-RCKMNT-23IN",
+    "name": "EIA 23 Inch mounting brackets for single 3G CEM/IMSG IM patch panel",
+    "series_label": "ASR 900",
+    "from_series": "ASR 902 / 903 / 907 / 914",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "P3G1-RCKMNT-ETSI",
+    "name": "ETSI 21 Inch mounting brackets for single 3G CEM/IMSG IM patch panel",
+    "series_label": "ASR 900",
+    "from_series": "ASR 902 / 903 / 907 / 914",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "P3G2-RCKMNT-19IN",
+    "name": "EIA 19 Inch mounting brackets for double 3G CEM/IMSG IM patch panel",
+    "series_label": "ASR 900",
+    "from_series": "ASR 902 / 903 / 907 / 914",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "P3G2-RCKMNT-23IN",
+    "name": "EIA 23 Inch mounting brackets for double 3G CEM/IMSG IM patch panel",
+    "series_label": "ASR 900",
+    "from_series": "ASR 902 / 903 / 907 / 914",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "P3G2-RCKMNT-ETSI",
+    "name": "ETSI 21 Inch mounting brackets for double 3G CEM/IMSG IM patch panel",
+    "series_label": "ASR 900",
+    "from_series": "ASR 902 / 903 / 907 / 914",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PDU-321-3-DELTA",
+    "name": "3 phase to 1 phase AC Delta PDU,1 input/3 output",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PDU-321-3-DELTA=",
+    "name": "3 phase to 1 phase AC Delta power distribution box,1 input/3",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PDU-321-3-WYE",
+    "name": "3 phase to 1 phase AC Wye PDU,1 input/3 output",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PDU-321-3-WYE=",
+    "name": "3 phase to 1 phase AC Wye power distribution box,1 input/3 o",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PDU-321-6-DELTA",
+    "name": "3 phase to 1 phase AC Delta PDU,2 input/6 output",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PDU-321-6-DELTA=",
+    "name": "3 phase to 1 phase AC Delta power distribution box,2 input/6",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PDU-321-6-WYE",
+    "name": "3 phase to 1 phase AC Wye PDU, 1 input/6 output",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PDU-321-6-WYE=",
+    "name": "3 phase to 1 phase AC Wye power distribution box, 1 input/6",
+    "series_label": "Carrier Routing System",
+    "from_series": "CRS",
+    "to_series": "CRS (Carrier Routing System) shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PS-SWITCH-AC-2P",
+    "name": "2 Prong C7/C8 On-Off AC Power Supply Switch",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PS-SWITCH-AC-2P=",
+    "name": "2 Prong C7/C8 On-Off AC Power Supply Switch",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PS-SWITCH-AC-3P",
+    "name": "3 Prong C13/C14 On-Off AC Power Supply Switch",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PS-SWITCH-AC-3P=",
+    "name": "3 Prong C13/C14 On-Off AC Power Supply Switch",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU1.1KW-ACPI",
+    "name": "1100W AC Port Side Intake",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU1.1KW-ACPI=",
+    "name": "1100W AC Port Side Intake",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU1.2KW-DCPE",
+    "name": "1200W DC Power Module with Port-side Exhaust",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU1.2KW-DCPI",
+    "name": "1200W DC Power Module with Port-side Intake",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU1100W-ACPE",
+    "name": "1100W AC Power Module with Port-side Exhaust",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU1100W-ACPI",
+    "name": "1100W AC Power Module with Port-side Intake",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU2KW-ACPE",
+    "name": "2000W AC Power Module with Port-side Air Exhaust",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU2KW-ACPI",
+    "name": "2000W AC Power Module with Port-side Air Intake",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU2KW-DCPE",
+    "name": "2000W DC Power Module with Port-side Air Exhaust",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU2KW-DCPI",
+    "name": "2000W 48V DC Power Module with Port-side Air Intake",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU3.2KW-ACPI",
+    "name": "Cisco 3.2-kW AC Power Supply Unit",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU3.2KW-DCPI",
+    "name": "Cisco 3.2-kW DC Power Supply Unit",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU4.3KW-HVPI",
+    "name": "Cisco 4.3KW HV AC/DC Power Supply Unit",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU4.8KW-DC100",
+    "name": "Cisco PSU4.8KW-DC100",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU6.3KW-20A-HV",
+    "name": "Cisco PSU6.3KW-20A-HV",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU6.3KW-HV",
+    "name": "Cisco PSU6.3KW-HV",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-125W-AC",
+    "name": "Power Supply 125 Watt AC",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-125W-AC=",
+    "name": "Power Supply 125 Watt AC for POE4 Module",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-2KW-DC-CBL",
+    "name": "2000W DC Power Cable",
+    "series_label": "8000",
+    "from_series": "Cisco 8000",
+    "to_series": "Cisco 8000 shared parts",
+    "why": "no platform token (8000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-60W-AC",
+    "name": "Power Supply 60 Watt AC",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-60W-AC-V2",
+    "name": "Power Supply 60 Watt AC version 2 for some platforms",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-60W-AC-V2=",
+    "name": "Power Supply 60 Watt AC version 2 for some platforms",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-60W-AC=",
+    "name": "Power Supply 60 Watt AC",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-66W-AC",
+    "name": "Power Supply 66 Watt AC",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-66W-AC-V2",
+    "name": "Cisco PWR-66W-AC-V2",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-66W-AC-V2=",
+    "name": "Cisco PWR-66W-AC-V2=",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-66W-AC=",
+    "name": "Power Supply 66 Watt AC",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-80W-AC",
+    "name": "Power Supply 80 Watt AC",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-80W-AC=",
+    "name": "Power Supply 80 Watt AC",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-CC1-100WAC",
+    "name": "Cisco PWR-CC1-100WAC",
+    "series_label": "Catalyst 8200",
+    "from_series": "Catalyst 8200",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-CC1-150WAC",
+    "name": "Cisco PWR-CC1-150WAC",
+    "series_label": "Catalyst 8200",
+    "from_series": "Catalyst 8200",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-CC1-150WAC=",
+    "name": "Cisco PWR-CC1-150WAC=",
+    "series_label": "Catalyst 8200",
+    "from_series": "Catalyst 8200",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-CC1-250WAC",
+    "name": "Cisco PWR-CC1-250WAC",
+    "series_label": "Secure Console",
+    "from_series": "Secure Console",
+    "to_series": "Console and Terminal Servers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-CC1-250WAC/2",
+    "name": "Cisco PWR-CC1-250WAC/2",
+    "series_label": "Secure Console",
+    "from_series": "Secure Console",
+    "to_series": "Console and Terminal Servers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-CC1-250WAC=",
+    "name": "Cisco PWR-CC1-250WAC=",
+    "series_label": "Catalyst 8200",
+    "from_series": "Secure Console",
+    "to_series": "Console and Terminal Servers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-CC1-MOD-POE",
+    "name": "Cisco Catalyst Edge POE Power Supply",
+    "series_label": "Catalyst 8200",
+    "from_series": "Catalyst 8200",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-INJDC-30",
+    "name": "DC PoE power injector, 30W output",
+    "series_label": "Wireless Gateway for LoRaWAN",
+    "from_series": "Wireless Gateway for LoRaWAN",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-INJDC-30=",
+    "name": "DC PoE Injector, 30W output",
+    "series_label": "Wireless Gateway for LoRaWAN",
+    "from_series": "Wireless Gateway for LoRaWAN",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-RGD-AC-DC",
+    "name": "High AC/DC (100-250 VDC/100-240 VAC) - 2.5 lb/1.13 kg",
+    "series_label": "Catalyst IR8300 Rugged Series Router",
+    "from_series": "IR 8300",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-RGD-AC-DC=",
+    "name": "Cisco PWR-RGD-AC-DC=",
+    "series_label": "2000 Series Connected Grid",
+    "from_series": "IR 8300",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-RGD-LOW-DC",
+    "name": "Low DC (24-60 VDC) - 2.5 lb/1.13 kg",
+    "series_label": "Catalyst IR8300 Rugged Series Router",
+    "from_series": "IR 8300",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-RGD-LOW-DC=",
+    "name": "Cisco PWR-RGD-LOW-DC=",
+    "series_label": "2000 Series Connected Grid",
+    "from_series": "IR 8300",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR1-20W-12VDC",
+    "name": "Cisco PWR1-20W-12VDC",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR1-20W-AC",
+    "name": "Cisco PWR1-20W-AC",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR2-22W-20-60VDC",
+    "name": "Cisco PWR2-22W-20-60VDC",
+    "series_label": "800",
+    "from_series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "R260-K9-KR",
+    "name": "Cisco R260-K9-KR",
+    "series_label": "RV Series",
+    "from_series": "RV Series",
+    "to_series": "Small Business Routers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "R260P-K9-KR",
+    "name": "Cisco R260P-K9-KR",
+    "series_label": "RV Series",
+    "from_series": "RV Series",
+    "to_series": "Small Business Routers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "RJ45-DCE",
+    "name": "Cisco RJ45-DCE",
+    "series_label": "1000 Connected Grid",
+    "from_series": "CGR 1000 Connected Grid",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "RJ45-DTE",
+    "name": "Cisco RJ45-DTE",
+    "series_label": "1000 Connected Grid",
+    "from_series": "CGR 1000 Connected Grid",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-E1SSED-2T",
+    "name": "E1.S NVMe 2 TB Self-Encrypted-Disk (SED) Storage ● SED functionality not supported. Disk will be enabled only in non-SED mode",
+    "series_label": "Catalyst 8300 Series Edge uCPE",
+    "from_series": "Catalyst 8300 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-E1SSED-2T=",
+    "name": "E1.S NVMe 2 TB Self-Encrypted-Disk (SED) Storage Spare ● SED functionality not supported. Disk will be enabled only in non-SED mode",
+    "series_label": "Catalyst 8300 Series Edge uCPE",
+    "from_series": "Catalyst 8300 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-M2SED-2T",
+    "name": "M.2 NVMe 2 TB Self-Encrypted-Disk (SED) Storage ● SED functionality not supported. Disk will be enabled only in non-SED mode",
+    "series_label": "Catalyst 8300 Series Edge uCPE",
+    "from_series": "Catalyst 8300 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-M2SED-2T=",
+    "name": "M.2 NVMe 2 TB Self-Encrypted-Disk (SED) Storage Spare ● SED functionality not supported. Disk will be enabled only in non-SED mode",
+    "series_label": "Catalyst 8300 Series Edge uCPE",
+    "from_series": "Catalyst 8300 Edge uCPE",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-M2SED-600G",
+    "name": "M.2 NVMe 600 GB Self-Encrypted-Disk (SED) Storage ● SED functionality not supported. Disk will be enabled only in non-SED mode",
+    "series_label": "Catalyst 8300",
+    "from_series": "Catalyst 8300",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-M2SED-600G=",
+    "name": "M.2 NVMe 600 GB Self-Encrypted-Disk (SED) Storage Spare ● SED functionality not supported. Disk will be enabled only in non-SED mode",
+    "series_label": "Catalyst 8300 Series Edge uCPE",
+    "from_series": "Catalyst 8300",
+    "to_series": "Catalyst 8000 Edge shared parts",
+    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-SATA-200G",
+    "name": "200 GB, SATA Solid State Disk",
+    "series_label": "4000 ISR",
+    "from_series": "ISR 4000",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (4000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-SATA-200G=",
+    "name": "200 GB, SATA Solid State Disk",
+    "series_label": "4000 ISR",
+    "from_series": "ISR 4000",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (4000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-SATA-400G",
+    "name": "Cisco SSD-SATA-400G",
+    "series_label": "4000 ISR",
+    "from_series": "ISR 4000",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (4000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-SATA-400G=",
+    "name": "Cisco SSD-SATA-400G=",
+    "series_label": "4000 ISR",
+    "from_series": "ISR 4000",
+    "to_series": "ISR (Integrated Services Routers) shared parts",
+    "why": "no platform token (4000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "W-ANTM2050D-RPSMA",
+    "name": "Cisco W-ANTM2050D-RPSMA",
+    "series_label": "Catalyst IR1800 Rugged",
+    "from_series": "IR 1800",
+    "to_series": "Industrial and IoT Routers shared parts",
+    "why": "no platform token (1800) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XRV-240GB-M2",
+    "name": "Cisco XRV-240GB-M2",
+    "series_label": "ASR 9000",
+    "from_series": "ASR 9000",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XRV-CPU-5120",
+    "name": "Cisco XRV-CPU-5120",
+    "series_label": "ASR 9000",
+    "from_series": "ASR 9000",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XRV-CPU-E52667E",
+    "name": "3.20 GHz E5-2667 v4/135W 8C/25MB Cache/DDR4 2400MHz",
+    "series_label": "ASR 9000",
+    "from_series": "ASR 9000",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XRV-FAN-C220M4=",
+    "name": "C220 M4 Fan Module (one) for XRv9K Appliance",
+    "series_label": "ASR 9000",
+    "from_series": "ASR 9000",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XRV-MR-1X322RV-A",
+    "name": "32GB DDR4-2400-MHz RDIMM/PC4-19200/dual rank/x4/1.2v",
+    "series_label": "ASR 9000",
+    "from_series": "ASR 9000",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XRV-MR-X16G1RS-H",
+    "name": "Cisco XRV-MR-X16G1RS-H",
+    "series_label": "ASR 9000",
+    "from_series": "ASR 9000",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XRV-SD120GBKS4-EV",
+    "name": "120 GB 2.5 inch Enterprise Value 6G SATA SSD",
+    "series_label": "ASR 9000",
+    "from_series": "ASR 9000",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XRV-SD240GBKS4-EV",
+    "name": "240 GB 2.5 inch Enterprise Value 6G SATA SSD",
+    "series_label": "ASR 9000",
+    "from_series": "ASR 9000",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XRV-SD240GM1X-EV",
+    "name": "240 GB 2.5 inch Enterprise Value 6G SATA SSD",
+    "series_label": "ASR 9000",
+    "from_series": "ASR 9000",
+    "to_series": "ASR (Aggregation Services Routers) shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   }
+  ]
+ },
  "done": true
 }

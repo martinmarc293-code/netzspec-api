@@ -1,20 +1,15 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-14T17:01:32.515Z",
- "commit": "45a23eb88717838f4baa7352eaa2a53c81fe06dc",
- "uncommitted_rule_files": [
-  "data/reference/product-lines/cisco-routers.json",
-  "data/reference/product-lines/cisco-switches.json",
-  "scripts/build-layers.mts",
-  "src/core/productLine.ts"
- ],
+ "built_at": "2026-09-14T17:48:32.223Z",
+ "commit": "69e48754d3d0d0863dcac0ce703cfdb74022dbff",
+ "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7531,
  "lines": [
   {
    "line": "Catalyst",
-   "parts": 3131,
+   "parts": 3125,
    "series": [
     {
      "series": "Catalyst 9400",
@@ -53,13 +48,12 @@
      "family": "Catalyst 9000",
      "role": "access",
      "note": null,
-     "parts": 122,
+     "parts": 103,
      "kinds": {
       "switch": 91,
       "module": 8,
       "mechanical": 2,
-      "power": 15,
-      "stack-cable": 6
+      "power": 2
      },
      "roles": {
       "access": 91
@@ -74,7 +68,7 @@
      ],
      "rules": {
       "sku": 100,
-      "label": 22
+      "label": 3
      }
     },
     {
@@ -82,14 +76,10 @@
      "family": "Catalyst 9000",
      "role": "access",
      "note": null,
-     "parts": 238,
+     "parts": 211,
      "kinds": {
       "switch": 167,
       "module": 26,
-      "mechanical": 2,
-      "fan": 2,
-      "power": 19,
-      "drive": 4,
       "stack-cable": 18
      },
      "roles": {
@@ -105,7 +95,7 @@
      ],
      "rules": {
       "sku": 193,
-      "label": 45
+      "label": 18
      }
     },
     {
@@ -113,13 +103,11 @@
      "family": "Catalyst 9000",
      "role": "access",
      "note": null,
-     "parts": 46,
+     "parts": 27,
      "kinds": {
       "switch": 15,
       "fan": 1,
-      "module": 11,
-      "power": 14,
-      "stack-cable": 5
+      "module": 11
      },
      "roles": {
       "access": 15
@@ -133,8 +121,7 @@
       "C9350-24U — Cisco C9350-24U Managed Switch (L3) – 24× Gigabit-RJ45 (UPOE"
      ],
      "rules": {
-      "sku": 27,
-      "label": 19
+      "sku": 27
      }
     },
     {
@@ -142,13 +129,12 @@
      "family": "Catalyst 9000",
      "role": "core-agg",
      "note": null,
-     "parts": 104,
+     "parts": 98,
      "kinds": {
       "switch": 81,
       "mechanical": 11,
       "module": 4,
-      "fan": 2,
-      "power": 6
+      "fan": 2
      },
      "roles": {
       "core-agg": 81
@@ -163,7 +149,7 @@
      ],
      "rules": {
       "sku": 96,
-      "label": 8
+      "label": 2
      }
     },
     {
@@ -333,19 +319,19 @@
      "family": null,
      "role": "core-agg",
      "note": null,
-     "parts": 368,
+     "parts": 362,
      "kinds": {
       "linecard": 128,
       "flash": 18,
-      "accessory": 12,
+      "accessory": 9,
       "module": 55,
       "fan": 20,
-      "mechanical": 16,
       "memory": 24,
       "drive": 2,
       "power": 25,
       "supervisor": 29,
       "switch": 25,
+      "mechanical": 13,
       "chassis": 12,
       "bundle": 2
      },
@@ -362,7 +348,7 @@
      ],
      "rules": {
       "sku": 303,
-      "label": 65
+      "label": 59
      }
     },
     {
@@ -398,17 +384,17 @@
      "family": "Catalyst 4500",
      "role": "core-agg",
      "note": null,
-     "parts": 295,
+     "parts": 292,
      "kinds": {
       "chassis": 16,
       "switch": 52,
       "supervisor": 32,
       "bundle": 52,
       "linecard": 90,
-      "mechanical": 14,
+      "mechanical": 13,
       "memory": 6,
       "flash": 4,
-      "power": 29
+      "power": 27
      },
      "roles": {
       "core-agg": 52
@@ -423,7 +409,7 @@
      ],
      "rules": {
       "sku": 273,
-      "label": 22
+      "label": 19
      }
     },
     {
@@ -458,13 +444,12 @@
      "family": null,
      "role": "access",
      "note": null,
-     "parts": 216,
+     "parts": 187,
      "kinds": {
       "switch": 165,
       "mechanical": 6,
-      "fan": 8,
-      "module": 10,
-      "power": 27
+      "fan": 6,
+      "module": 10
      },
      "roles": {
       "access": 165
@@ -478,7 +463,7 @@
       "C1-WS3850-24U/K9 — Cisco One Catalyst 3850 24 Port UPoE"
      ],
      "rules": {
-      "label": 48,
+      "label": 19,
       "sku": 168
      }
     },
@@ -487,28 +472,24 @@
      "family": null,
      "role": "access",
      "note": null,
-     "parts": 221,
+     "parts": 206,
      "kinds": {
-      "power": 8,
       "switch": 201,
       "mechanical": 1,
-      "module": 4,
-      "fan": 1,
-      "stack-cable": 6
+      "module": 4
      },
      "roles": {
       "access": 201
      },
      "samples": [
-      "2D-C2-1025WAC= — 1025W AC Config 2 Power Supply Spare with 2D Barcode",
-      "2D-C2-250WAC= — 250W AC Config 2 Power Supply Spare with 2D Barcode",
-      "2D-C2-640WAC= — 640W AC Config 2 Power Supply Spare with 2D Barcode",
       "C1-WS3650-24PD/K9 — Cisco One Catalyst 3650 24 Port PoE 2x10G Uplink",
       "C1-WS3650-24PDM/K9 — Cisco ONE Cat 3650 24Port Mini,2x1G 2x10G Uplink,LANBase",
-      "C1-WS3650-24PS/K9 — Cisco One Catalyst 3650 24 Port PoE 4x1G Uplink"
+      "C1-WS3650-24PS/K9 — Cisco One Catalyst 3650 24 Port PoE 4x1G Uplink",
+      "C1-WS3650-24TD/K9 — Cisco One Catalyst 3650 24 Port Data 2x10G Uplink",
+      "C1-WS3650-24TS/K9 — Cisco One Catalyst 3650 24 Port Data 4x1G Uplink",
+      "C1-WS3650-24UQ/K9 — Cisco ONE Catalyst 3650 24 Port mGig, 4x10G Uplink, LAN Base"
      ],
      "rules": {
-      "label": 15,
       "sku": 206
      }
     },
@@ -517,13 +498,13 @@
      "family": "Catalyst 3750",
      "role": "access",
      "note": null,
-     "parts": 97,
+     "parts": 96,
      "kinds": {
       "switch": 60,
       "mechanical": 11,
       "fan": 2,
       "module": 11,
-      "power": 13
+      "power": 12
      },
      "roles": {
       "access": 60
@@ -537,8 +518,7 @@
       "3750X-48P — Cisco 3750X-48P"
      ],
      "rules": {
-      "sku": 96,
-      "label": 1
+      "sku": 96
      }
     },
     {
@@ -618,10 +598,9 @@
      "family": "Catalyst 3750",
      "role": "access",
      "note": "was \"Catalyst 3750\" until the family layer (14 Sep 2026): the Catalyst 3750 family holds it, 3750-E and 3750-X",
-     "parts": 47,
+     "parts": 44,
      "kinds": {
-      "switch": 44,
-      "cable": 3
+      "switch": 44
      },
      "roles": {
       "access": 44
@@ -635,8 +614,7 @@
       "3750G-12S-SD — Cisco 3750G-12S-SD"
      ],
      "rules": {
-      "sku": 44,
-      "label": 3
+      "sku": 44
      }
     },
     {
@@ -696,10 +674,9 @@
      "family": "Catalyst 2960",
      "role": "access",
      "note": null,
-     "parts": 32,
+     "parts": 26,
      "kinds": {
-      "switch": 26,
-      "mechanical": 6
+      "switch": 26
      },
      "roles": {
       "access": 26
@@ -713,8 +690,7 @@
       "2960CPD-8PT-L — Cisco 2960CPD-8PT-L"
      ],
      "rules": {
-      "sku": 26,
-      "label": 6
+      "sku": 26
      }
     },
     {
@@ -722,12 +698,12 @@
      "family": "Catalyst 2960",
      "role": "access",
      "note": null,
-     "parts": 166,
+     "parts": 165,
      "kinds": {
       "switch": 142,
       "accessory": 1,
       "module": 8,
-      "power": 15
+      "power": 14
      },
      "roles": {
       "access": 142
@@ -742,7 +718,7 @@
      ],
      "rules": {
       "sku": 159,
-      "label": 7
+      "label": 6
      }
     },
     {
@@ -799,24 +775,22 @@
      "family": "Catalyst 2960",
      "role": "access",
      "note": null,
-     "parts": 66,
+     "parts": 62,
      "kinds": {
-      "mechanical": 4,
       "switch": 62
      },
      "roles": {
       "access": 62
      },
      "samples": [
-      "CMPCT-DIN-MNT — DIN Rail Mount for 3560-CX, 2960-CX, and 2960-L Compact Swit",
-      "CMPCT-DIN-MNT= — DIN Rail Mount for 3560-CX and 2960-CX compact switches",
-      "CMPCT-MGNT-TRAY — Magnetic Mounting Tray for 3560-CX, 2960-CX, and 2960-L Comp",
-      "CMPCT-MGNT-TRAY= — MAGNETIC MOUNTING TRAY FOR 3560-CX & 2960-CX COMPACT SWITCH",
       "WS-C2960L-16PS-JP — Catalyst 2960L 16 port GigE with PoE, 2 x 1G SFP, LAN Lite",
-      "WS-C2960L-16PS-LL — Cisco WS-C2960L-16PS-LL Catalyst 2960-L Managed-Switch (Cisc"
+      "WS-C2960L-16PS-LL — Cisco WS-C2960L-16PS-LL Catalyst 2960-L Managed-Switch (Cisc",
+      "WS-C2960L-16PS-LL has maximum operating temperature of 40°C (up to 5,000 ft) and 35°C (up to 10,000 ft) — WS-C2960L-16PS-LL has maximum operating temperature of 40°C ",
+      "WS-C2960L-16PS-LL/ WS-C2960L-SM-16PS — WS-C2960L-16PS-LL/ WS-C2960L-SM-16PS",
+      "WS-C2960L-16PSLL++ — Catalyst 2960L 16 port GigE with PoE, 2 x 1G SFP, LAN Lite",
+      "WS-C2960L-16TS-JP — Catalyst 2960L 16 port GigE, 2 x 1G SFP, LAN Lite"
      ],
      "rules": {
-      "label": 4,
       "sku": 62
      }
     },
@@ -825,25 +799,24 @@
      "family": "Catalyst 2960",
      "role": "access",
      "note": "was \"Catalyst 2960\" until the family layer (14 Sep 2026): the Catalyst 2960 family holds it and the 2960-C/CX, -X/XR, -S, -Plus and -L series",
-     "parts": 33,
+     "parts": 23,
      "kinds": {
-      "stack-cable": 10,
       "switch": 23
      },
      "roles": {
       "access": 23
      },
      "samples": [
-      "STACK-CAB-1M — Cisco 1M Stacking Cable",
-      "STACK-CAB-1M= — Cisco 1M Stacking Cable",
-      "STACK-CAB-3M — Cisco 3M Stacking Cable",
-      "STACK-CAB-3M-NH — Cisco 3M Non-Halogen Lead Free Stacking Cable",
-      "STACK-CAB-3M-NH= — Cisco 3M Non-Halogen Lead Free Stacking Cable",
-      "STACK-CAB-3M= — Cisco 3M Stacking Cable"
+      "WS-2960-24LC-S — ● 24 Ethernet 10/100 ports and 2 dual-purpose uplinks (each ",
+      "WS-2960-24PC-S — ● 24 Ethernet 10/100 ports and 2 dual-purpose uplinks (each ",
+      "WS-2960-48PST-S — ● 48 Ethernet 10/100 ports and 2 10/100/1000 uplinks and 2 S",
+      "WS-C2960-24-S — Cisco WS-C2960-24-S Catalyst 2960 Managed Switch (Cisco IOS,",
+      "WS-C2960-24LC-S — Cisco WS-C2960-24LC-S Catalyst 2960 Managed Switch (Cisco IO",
+      "WS-C2960-24LT-L — Cisco WS-C2960-24LT-L Catalyst 2960 Managed Switch (Cisco IO"
      ],
      "rules": {
-      "label": 11,
-      "sku": 22
+      "sku": 22,
+      "label": 1
      }
     },
     {
@@ -877,10 +850,9 @@
      "family": null,
      "role": "smb",
      "note": null,
-     "parts": 19,
+     "parts": 17,
      "kinds": {
-      "switch": 17,
-      "power": 2
+      "switch": 17
      },
      "roles": {
       "smb": 17
@@ -894,8 +866,7 @@
       "C1200-24P-4X — Cisco C1200-24P-4X Catalyst-1200-Managed-Switch (L2, Linux) "
      ],
      "rules": {
-      "sku": 17,
-      "label": 2
+      "sku": 17
      }
     },
     {
@@ -903,10 +874,9 @@
      "family": null,
      "role": "smb",
      "note": null,
-     "parts": 40,
+     "parts": 38,
      "kinds": {
-      "switch": 38,
-      "power": 2
+      "switch": 38
      },
      "roles": {
       "smb": 38
@@ -920,8 +890,7 @@
       "C1300-16P-4X — Cisco C1300-16P-4X Catalyst-1300-Managed-Switch (L3) – 16× 1"
      ],
      "rules": {
-      "sku": 38,
-      "label": 2
+      "sku": 38
      }
     },
     {
@@ -929,12 +898,12 @@
      "family": null,
      "role": "access",
      "note": null,
-     "parts": 28,
+     "parts": 26,
      "kinds": {
       "switch": 6,
       "mechanical": 12,
       "flash": 2,
-      "power": 8
+      "power": 6
      },
      "roles": {
       "access": 6
@@ -949,7 +918,7 @@
      ],
      "rules": {
       "sku": 22,
-      "label": 6
+      "label": 4
      }
     },
     {
@@ -1036,23 +1005,28 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 241,
+     "parts": 390,
      "kinds": {
-      "mechanical": 38,
+      "power": 97,
+      "mechanical": 52,
       "power-cord": 155,
       "cable": 30,
-      "stack-cable": 18
+      "stack-cable": 45,
+      "accessory": 2,
+      "fan": 5,
+      "drive": 4
      },
      "roles": {},
      "samples": [
+      "2D-C2-1025WAC= — 1025W AC Config 2 Power Supply Spare with 2D Barcode",
+      "2D-C2-250WAC= — 250W AC Config 2 Power Supply Spare with 2D Barcode",
+      "2D-C2-640WAC= — 640W AC Config 2 Power Supply Spare with 2D Barcode",
       "4PT-KIT-T1= — Extension rails and brackets for four-point mounting for Cis",
       "4PT-KIT-T2= — 4 Point rack mount kit New",
-      "ACC-KIT-T1= — Accessory kit for Cisco Catalyst 3650 Series",
-      "CAB-16AWG-AC — AC Power Cord (US, Canada), C13, NEMA 5-15P, 2.5m",
-      "CAB-3KX-250VAC-JP — Japan 250V AC Power Cord",
-      "CAB-3KX-250VAC-JP= — Japan 250V AC Power Cord for Cisco Catalyst 3K-X (Japan)"
+      "ACC-KIT-T1= — Accessory kit for Cisco Catalyst 3650 Series"
      ],
      "rules": {
+      "label-unsupported": 149,
       "accessory": 241
      }
     }
@@ -1060,7 +1034,7 @@
   },
   {
    "line": "Nexus",
-   "parts": 1867,
+   "parts": 1858,
    "series": [
     {
      "series": "Nexus 2000 Fabric Extenders",
@@ -1164,16 +1138,14 @@
      "family": "Nexus 3000",
      "role": "datacenter",
      "note": "was \"Nexus 3000\" until the family layer (14 Sep 2026): the Nexus 3000 family holds these and the Nexus 3500, 3550 and 3600",
-     "parts": 220,
+     "parts": 210,
      "kinds": {
       "switch": 169,
-      "accessory": 3,
-      "mechanical": 7,
       "fan": 8,
       "bundle": 23,
+      "mechanical": 5,
       "chassis": 3,
-      "power": 3,
-      "linecard": 4
+      "power": 2
      },
      "roles": {
       "datacenter": 169
@@ -1188,7 +1160,7 @@
      ],
      "rules": {
       "sku": 209,
-      "label": 11
+      "label": 1
      }
     },
     {
@@ -1403,12 +1375,13 @@
      "family": "Nexus 9000",
      "role": "datacenter",
      "note": null,
-     "parts": 203,
+     "parts": 211,
      "kinds": {
       "switch": 157,
       "bundle": 31,
       "mechanical": 3,
-      "fan": 12
+      "fan": 12,
+      "module": 8
      },
      "roles": {
       "datacenter": 157
@@ -1422,7 +1395,7 @@
       "C1-N9K-C93108-B18Q — Cisco ONE 2 Nexus 93108TC-EX with 8 QSFP-40G-SR-BD"
      ],
      "rules": {
-      "sku": 203
+      "sku": 211
      }
     },
     {
@@ -1486,13 +1459,14 @@
      "family": "Nexus 9000",
      "role": "datacenter",
      "note": null,
-     "parts": 25,
+     "parts": 29,
      "kinds": {
       "mechanical": 12,
       "supervisor": 3,
       "chassis": 2,
       "fan": 3,
-      "fabric": 5
+      "fabric": 5,
+      "linecard": 4
      },
      "roles": {},
      "samples": [
@@ -1504,7 +1478,7 @@
       "N9K-C9800-SUP-B — Cisco N9800 supervisor (2 nd Generation)"
      ],
      "rules": {
-      "sku": 25
+      "sku": 29
      }
     },
     {
@@ -1532,27 +1506,24 @@
      "family": "Nexus 9000",
      "role": null,
      "note": null,
-     "parts": 171,
+     "parts": 134,
      "kinds": {
-      "cable": 5,
-      "fan": 34,
-      "module": 8,
-      "power": 100,
-      "linecard": 4,
-      "mechanical": 20
+      "power": 99,
+      "mechanical": 10,
+      "fan": 25
      },
      "roles": {},
      "samples": [
-      "CAT5E — Copper cable for 1G",
-      "CAT6A — Copper cable for 10G",
-      "CB-LC-LC-SMF — Cable, duplex LC-LC patch cord, SMF, various lengths",
-      "CB-M12-4LC-SMF — Cable, MPO12-4X duplex LC, breakout cable, SMF, various leng",
-      "CB-M12-M12-SMF — Cable, MPO12-MPO12, trunk cable, TYPE B, SMF, various length",
-      "FAN-1RU-PI-V2= — Cisco aux fan tray, port-side intake airflow, spare"
+      "N9K-PAC-1200W — Nexus 3164 1200W AC Power Supply, Port side intake",
+      "N9K-PAC-1200W-B — Nexus 9300 1200W AC PS, Port-side Exhaust",
+      "N9K-PAC-1200W-B= — Nexus 9300 1200W AC PS, Port-side Exhaust",
+      "N9K-PAC-1200W= — Nexus 3164 1200W AC Power Supply, Port side intake",
+      "N9K-PAC-650W — N9K 650W AC Power Supply, Reversed airflow (port side intake",
+      "N9K-PAC-650W-B — N9K 650W AC Power Supply, Forward airflow (port side exhaust"
      ],
      "rules": {
-      "label": 34,
-      "sku": 137
+      "sku": 125,
+      "label": 9
      }
     },
     {
@@ -1560,12 +1531,15 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 39,
+     "parts": 65,
      "kinds": {
-      "cable": 3,
+      "cable": 2,
       "power-cord": 32,
-      "mechanical": 3,
-      "power": 1
+      "fan": 9,
+      "accessory": 2,
+      "mechanical": 13,
+      "linecard": 4,
+      "power": 3
      },
      "roles": {},
      "samples": [
@@ -1577,7 +1551,8 @@
       "CAB-AC-16A-SG-AZ — Cisco CAB-AC-16A-SG-AZ"
      ],
      "rules": {
-      "accessory": 39
+      "accessory": 38,
+      "label-unsupported": 27
      }
     }
    ]
@@ -1613,10 +1588,9 @@
      "family": null,
      "role": "industrial",
      "note": null,
-     "parts": 9,
+     "parts": 7,
      "kinds": {
-      "switch": 7,
-      "flash": 2
+      "switch": 7
      },
      "roles": {
       "industrial": 7
@@ -1630,8 +1604,7 @@
       "IE-2000U-4TS-G — IE2000U with 4FE Copper ports and 2GE SFP ports (Lan Base)"
      ],
      "rules": {
-      "sku": 7,
-      "label": 2
+      "sku": 7
      }
     },
     {
@@ -1639,11 +1612,9 @@
      "family": null,
      "role": "industrial",
      "note": null,
-     "parts": 33,
+     "parts": 30,
      "kinds": {
-      "switch": 30,
-      "power": 1,
-      "flash": 2
+      "switch": 30
      },
      "roles": {
       "industrial": 30
@@ -1657,8 +1628,7 @@
       "IE-2000-16TC-B — Cisco IE-2000-16TC-B IE2000 lüfterloser Layer-2-Industrie-Sw"
      ],
      "rules": {
-      "sku": 30,
-      "label": 3
+      "sku": 30
      }
     },
     {
@@ -1696,10 +1666,9 @@
      "family": null,
      "role": "industrial",
      "note": null,
-     "parts": 10,
+     "parts": 9,
      "kinds": {
       "switch": 2,
-      "mechanical": 1,
       "power": 7
      },
      "roles": {
@@ -1708,14 +1677,14 @@
      "samples": [
       "IE-3010-16S-8PC — Rugged Industrial Ethernet switch 16 Fast Ethernet SFP ports",
       "IE-3010-24TC — Rugged Industrial Ethernet switch 24 10/100BASETX ports and ",
-      "MEM-SD-COVER-RGD= — SD Flash cover for Cisco CGS2520",
       "PWR-RGD-AC-DC-U= — IE 3010 Power Supply",
       "PWR-RGD-AC-DC/IA — High AC/DC (88-300VDC/85-264VAC) power supply module for the",
-      "PWR-RGD-AC-DC/IA= — IE 3010 Power Supply"
+      "PWR-RGD-AC-DC/IA= — IE 3010 Power Supply",
+      "PWR-RGD-AC-DC/IAR — Redundant high AC/DC (88-300VDC/85-264VAC) power supply modu"
      ],
      "rules": {
       "sku": 2,
-      "label": 8
+      "label": 7
      }
     },
     {
@@ -1723,11 +1692,9 @@
      "family": null,
      "role": "industrial",
      "note": null,
-     "parts": 20,
+     "parts": 13,
      "kinds": {
-      "switch": 13,
-      "power": 5,
-      "flash": 2
+      "switch": 13
      },
      "roles": {
       "industrial": 13
@@ -1741,8 +1708,7 @@
       "IE-3100-6P2U2C-E — Cisco IE-3100-6P2U2C-E Catalyst IE3100 Rugged Industrie-Swit"
      ],
      "rules": {
-      "sku": 13,
-      "label": 7
+      "sku": 13
      }
     },
     {
@@ -1795,11 +1761,9 @@
      "family": null,
      "role": "industrial",
      "note": null,
-     "parts": 22,
+     "parts": 18,
      "kinds": {
-      "switch": 18,
-      "power": 2,
-      "flash": 2
+      "switch": 18
      },
      "roles": {
       "industrial": 18
@@ -1813,8 +1777,7 @@
       "IE-3400H-16T-E — Cisco IE-3400H-16T-E Industrial-Ethernet-IE3400H lüfterloser"
      ],
      "rules": {
-      "sku": 18,
-      "label": 4
+      "sku": 18
      }
     },
     {
@@ -1822,12 +1785,10 @@
      "family": null,
      "role": "industrial",
      "note": null,
-     "parts": 17,
+     "parts": 10,
      "kinds": {
       "switch": 4,
-      "module": 6,
-      "power": 6,
-      "mechanical": 1
+      "module": 6
      },
      "roles": {
       "industrial": 4
@@ -1841,8 +1802,7 @@
       "IEM-3400-8P= — Catalyst IE3400 with 8 GE Copper PoE/PoE+, Expansion Module"
      ],
      "rules": {
-      "sku": 10,
-      "label": 7
+      "sku": 10
      }
     },
     {
@@ -1967,11 +1927,9 @@
      "family": null,
      "role": "industrial",
      "note": null,
-     "parts": 43,
+     "parts": 32,
      "kinds": {
-      "switch": 32,
-      "power": 8,
-      "mechanical": 3
+      "switch": 32
      },
      "roles": {
       "industrial": 32
@@ -1985,8 +1943,7 @@
       "IE-9310-26S2C-A — Catalyst IE9300 w/ 24 Ports GE SFP Downlinks and 4 Ports GE "
      ],
      "rules": {
-      "sku": 32,
-      "label": 11
+      "sku": 32
      }
     },
     {
@@ -1994,10 +1951,11 @@
      "family": null,
      "role": "industrial",
      "note": null,
-     "parts": 8,
+     "parts": 11,
      "kinds": {
       "switch": 6,
-      "mechanical": 2
+      "mechanical": 3,
+      "flash": 2
      },
      "roles": {
       "industrial": 6
@@ -2011,7 +1969,7 @@
       "CGS-2520-IP30KIT= — IP30 accessory kit for CGS 2520"
      ],
      "rules": {
-      "sku": 8
+      "sku": 11
      }
     },
     {
@@ -2019,22 +1977,26 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 5,
+     "parts": 37,
      "kinds": {
       "cable": 1,
       "stack-cable": 2,
-      "mechanical": 2
+      "power": 22,
+      "mechanical": 6,
+      "flash": 6
      },
      "roles": {},
      "samples": [
       "CAB-CONSOLE-M12= — Console Cable 6ft with M12 and DB9F for Cisco Catalyst IE340",
       "CAB-STK-0.5M= — Cisco 0.5M stack cable",
       "CAB-STK-1M= — Cisco 1M stack cable",
-      "STK-RACKMNT-2955 — 19 in. DIN rail mount kit",
-      "STK-RACKMNT-2955= — Cisco STK-RACKMNT-2955="
+      "PWR-IE160W-67-DC — Cisco PWR-IE160W-67-DC",
+      "PWR-IE160W-67-DC= — IP67-rated PoE DC-DC power supply, Input:18V-60V Output: 54V",
+      "PWR-IE170W-PC-AC= — 170W AC to DC or High DC to DC Power Supply"
      ],
      "rules": {
-      "accessory": 5
+      "accessory": 5,
+      "label-unsupported": 32
      }
     }
    ]
@@ -2827,6 +2789,48 @@
      "rules": {
       "accessory": 3
      }
+    }
+   ]
+  },
+  {
+   "line": "Content Services Switches (legacy)",
+   "parts": 3,
+   "series": [
+    {
+     "series": "CSS 11500",
+     "family": null,
+     "role": null,
+     "note": "CSS 11500 Series Content Services Switch fibre cables (CSS5-CABLX-LCSC= \"…10m single-mode fiber, LX LC-to-SC\"), which a \"3750\" label had filed under Catalyst 3750 (re-audit at 2f3d17a (14 Sep 2026)); the CSS appliances themselves are not in the catalogue",
+     "parts": 3,
+     "kinds": {
+      "cable": 3
+     },
+     "roles": {},
+     "samples": [
+      "CSS5-CABLX-LCSC= — Cisco CSS 11500 Series Content Services Switch, 10m single-m",
+      "CSS5-CABSX-LC= — Cisco CSS 11500 10m multimode fiber, SX LC connectors",
+      "CSS5-CABSX-LCSC= — Cisco CSS 11500 10m multimode fiber, SX LC-to-SC connectors"
+     ],
+     "rules": {
+      "sku": 3
+     }
+    }
+   ]
+  },
+  {
+   "line": "Silicon One switches (open software)",
+   "parts": 0,
+   "series": [
+    {
+     "series": "CQ211L01",
+     "family": null,
+     "role": "datacenter",
+     "note": "CQ211L01-48H8FH \"Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability\" (and -O \"Open SW\") with its accessory kit: arriving from routers, where no switches series could place them (re-audit at 2f3d17a (14 Sep 2026))",
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
     }
    ]
   }
@@ -3794,6 +3798,54 @@
    "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
   },
   {
+   "sku": "CAB-CAT5E/6E",
+   "name": "CAT5E cables, various lengths",
+   "series_label": "Nexus 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell (a cable type 'various lengths' / 'Copper cable for 1G' cited in a datasheet, not an orderable PID; same rule as 1025WAC)"
+  },
+  {
+   "sku": "CAT5E",
+   "name": "Copper cable for 1G",
+   "series_label": "Nexus 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell (a cable type 'various lengths' / 'Copper cable for 1G' cited in a datasheet, not an orderable PID; same rule as 1025WAC)"
+  },
+  {
+   "sku": "CAT6A",
+   "name": "Copper cable for 10G",
+   "series_label": "Nexus 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell (a cable type 'various lengths' / 'Copper cable for 1G' cited in a datasheet, not an orderable PID; same rule as 1025WAC)"
+  },
+  {
+   "sku": "CB-LC-LC-SMF",
+   "name": "Cable, duplex LC-LC patch cord, SMF, various lengths",
+   "series_label": "Nexus 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell (a cable type 'various lengths' / 'Copper cable for 1G' cited in a datasheet, not an orderable PID; same rule as 1025WAC)"
+  },
+  {
+   "sku": "CB-M12-4LC-SMF",
+   "name": "Cable, MPO12-4X duplex LC, breakout cable, SMF, various lengths",
+   "series_label": "Nexus 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell (a cable type 'various lengths' / 'Copper cable for 1G' cited in a datasheet, not an orderable PID; same rule as 1025WAC)"
+  },
+  {
+   "sku": "CB-M12-M12-SMF",
+   "name": "Cable, MPO12-MPO12, trunk cable, TYPE B, SMF, various lengths",
+   "series_label": "Nexus 9000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell (a cable type 'various lengths' / 'Copper cable for 1G' cited in a datasheet, not an orderable PID; same rule as 1025WAC)"
+  },
+  {
    "sku": "CBS110",
    "name": "Cisco CBS110",
    "series_label": "Business 250 Smart",
@@ -3840,6 +3892,30 @@
    "action": "class",
    "to": "non_product",
    "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
+  },
+  {
+   "sku": "CLK-7600=",
+   "name": "Spare Clock card for CISCO7603, CISCO7606 or CISCO7609 (FRU)",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 clock card (CISCO7603 / 7606 / 7609 FRU), filed under Catalyst 6500"
+  },
+  {
+   "sku": "CP24BLY",
+   "name": "24-Port Patch Panel",
+   "series_label": "Catalyst 9300",
+   "action": "class",
+   "to": "non_product",
+   "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
+  },
+  {
+   "sku": "CPP24FMWBLY",
+   "name": "24-Port Patch Panel",
+   "series_label": "Catalyst 9300",
+   "action": "class",
+   "to": "non_product",
+   "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
   },
   {
    "sku": "CWWLSE-1130-19-K9",
@@ -3984,6 +4060,22 @@
    "action": "class",
    "to": "non_product",
    "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
+  },
+  {
+   "sku": "FQ9N-12-10U",
+   "name": "QuickNet SFQ Universal Cassette, six LC Duplex Adapters to PanMPO",
+   "series_label": "Nexus 3000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
+  },
+  {
+   "sku": "FQMAP66BL",
+   "name": "QuickNet Fiber Optic Migration Adapter Panel",
+   "series_label": "Nexus 3000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
   },
   {
    "sku": "G.652/-",
@@ -4578,6 +4670,14 @@
    "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
   },
   {
+   "sku": "QPP24BL",
+   "name": "QuickNet 24-Port Patch Panel",
+   "series_label": "Nexus 3000",
+   "action": "class",
+   "to": "non_product",
+   "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
+  },
+  {
    "sku": "R-ME3400E-B2A=",
    "name": "Metro Base to Metro Access Image upgrade for ME3400E switch",
    "series_label": "ME 3400E Ethernet Access",
@@ -4971,5 +5071,1681 @@
   }
  ],
  "unplaced": [],
+ "label_check": {
+  "applied": true,
+  "label_placed": 381,
+  "by_kind": {
+   "none": 208,
+   "sku-token": 27,
+   "name": 145,
+   "family": 1
+  },
+  "moved": [
+   {
+    "sku": "2D-C2-1025WAC=",
+    "name": "1025W AC Config 2 Power Supply Spare with 2D Barcode",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "2D-C2-250WAC=",
+    "name": "250W AC Config 2 Power Supply Spare with 2D Barcode",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "2D-C2-640WAC=",
+    "name": "640W AC Config 2 Power Supply Spare with 2D Barcode",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CMP-CBLE-GRD",
+    "name": "Cable Guard For The 3560-C and 2960-C Compact Switches",
+    "series_label": "2960-C",
+    "from_series": "Catalyst 2960-C and 2960-CX",
+    "to_series": "Catalyst shared parts",
+    "why": "names Catalyst 2960-C and 2960-CX and another series of the line equally: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +1"
+   },
+   {
+    "sku": "CMP-CBLE-GRD=",
+    "name": "Cable guard for the 3560-C and 2960-C compact switches",
+    "series_label": "3560-C",
+    "from_series": "Catalyst 2960-C and 2960-CX",
+    "to_series": "Catalyst shared parts",
+    "why": "names Catalyst 2960-C and 2960-CX and another series of the line equally: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +1"
+   },
+   {
+    "sku": "CMP-DIN-MNT",
+    "name": "DIN Rail Mount For Compact Switch",
+    "series_label": "2960-C",
+    "from_series": "Catalyst 2960-C and 2960-CX",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (2960) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CMP-DIN-MNT=",
+    "name": "DIN Rail Mount for 3560-C and 2960-C compact switches",
+    "series_label": "3560-C",
+    "from_series": "Catalyst 2960-C and 2960-CX",
+    "to_series": "Catalyst shared parts",
+    "why": "names Catalyst 2960-C and 2960-CX and another series of the line equally: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +1"
+   },
+   {
+    "sku": "CMP-MGNT-TRAY",
+    "name": "MAGNET AND MOUNTING TRAY FOR 3560-C AND 2960-C COMPACT SWITC",
+    "series_label": "2960-C",
+    "from_series": "Catalyst 2960-C and 2960-CX",
+    "to_series": "Catalyst shared parts",
+    "why": "names Catalyst 2960-C and 2960-CX and another series of the line equally: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +1"
+   },
+   {
+    "sku": "CMP-MGNT-TRAY=",
+    "name": "MAGNET AND MOUNTING TRAY FOR 3560-C AND 2960-C COMPACT SWITC",
+    "series_label": "2960-C",
+    "from_series": "Catalyst 2960-C and 2960-CX",
+    "to_series": "Catalyst shared parts",
+    "why": "names Catalyst 2960-C and 2960-CX and another series of the line equally: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +1"
+   },
+   {
+    "sku": "CMPCT-DIN-MNT",
+    "name": "DIN Rail Mount for 3560-CX, 2960-CX, and 2960-L Compact Switches",
+    "series_label": "2960-L",
+    "from_series": "Catalyst 2960-L",
+    "to_series": "Catalyst shared parts",
+    "why": "names Catalyst 2960-L and another series of the line equally: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +1"
+   },
+   {
+    "sku": "CMPCT-DIN-MNT=",
+    "name": "DIN Rail Mount for 3560-CX and 2960-CX compact switches",
+    "series_label": "3560-CX",
+    "from_series": "Catalyst 2960-L",
+    "to_series": "Catalyst shared parts",
+    "why": "names Catalyst 2960-L and another series of the line equally: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +1"
+   },
+   {
+    "sku": "CMPCT-MGNT-TRAY",
+    "name": "Magnetic Mounting Tray for 3560-CX, 2960-CX, and 2960-L Compact Switches",
+    "series_label": "2960-L",
+    "from_series": "Catalyst 2960-L",
+    "to_series": "Catalyst shared parts",
+    "why": "names Catalyst 2960-L and another series of the line equally: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +1"
+   },
+   {
+    "sku": "CMPCT-MGNT-TRAY=",
+    "name": "MAGNETIC MOUNTING TRAY FOR 3560-CX & 2960-CX COMPACT SWITCH",
+    "series_label": "3560-CX",
+    "from_series": "Catalyst 2960-L",
+    "to_series": "Catalyst shared parts",
+    "why": "names Catalyst 2960-L and another series of the line equally: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +1"
+   },
+   {
+    "sku": "CONNECTOR-KIT",
+    "name": "Connector Kit",
+    "series_label": "Catalyst 6500",
+    "from_series": "Catalyst 6500",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (6500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CONNECTOR-KIT=",
+    "name": "Connector Kit",
+    "series_label": "Catalyst 6500",
+    "from_series": "Catalyst 6500",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (6500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-1RU-PI-V2=",
+    "name": "Cisco aux fan tray, port-side intake airflow, spare",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-PI-V4=",
+    "name": "Cisco fan tray, port-side intake airflow, spare",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-T1=",
+    "name": "Cisco Type 1 Fan Module",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-T2",
+    "name": "Cisco FAN-T2",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FAN-T2=",
+    "name": "Fan module",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FERRITE-BEAD",
+    "name": "Cisco FERRITE-BEAD",
+    "series_label": "Catalyst 6500",
+    "from_series": "Catalyst 6500",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (6500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "FERRITE-BEAD=",
+    "name": "Cisco FERRITE-BEAD=",
+    "series_label": "Catalyst 6500",
+    "from_series": "Catalyst 6500",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (6500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "GROUND-LUG-KIT=",
+    "name": "Ground Lug Kit for Chassis",
+    "series_label": "Catalyst 6500",
+    "from_series": "Catalyst 6500",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (6500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXASFAN-160CFM2PE",
+    "name": "Cisco Nexus fan, 160CFM, port-side exhaust airflow /w EEPROM",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXASFAN-160CFM2PE=",
+    "name": "Cisco Nexus fan, 160CFM, port-side exhaust airflow /w EEPROM, spare",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXASFAN-160CFM2PI",
+    "name": "Cisco Nexus fan, 160CFM, port-side intake airflow /w EEPROM",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXASFAN-160CFM2PI=",
+    "name": "Cisco Nexus fan, 160CFM, port-side intake airflow /w EEPROM, spare",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXASFAN-190CFMPI",
+    "name": "Cisco fan tray, port-side intake airflow",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXASFAN-190CFMPI=",
+    "name": "Cisco fan tray, port-side intake airflow, spare",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXASFAN-190CFPMI",
+    "name": "Cisco NXASFAN-190CFPMI",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXB-CPU-FRU",
+    "name": "1.9Ghz, 6Core Broadwell DE CPU, 128G SSD, 32G DRAM",
+    "series_label": "Nexus 3000",
+    "from_series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXB-CPU-FRU=",
+    "name": "1.9Ghz, 6Core Broadwell DE CPU, 128G SSD, 32G DRAM",
+    "series_label": "Nexus 3000",
+    "from_series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXK-ACC-KIT-1RU",
+    "name": "Nexus 3K/9K Fixed Accessory Kit, 1RU front and rear removal",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXK-ACC-KIT-1RU=",
+    "name": "Nexus 3K/9K Fixed Accessory Kit, 1RU front and rear removal, spare",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXK-ACC-KIT2-2RU",
+    "name": "Cisco rack mount kit",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXK-ACC-KIT2-2RU=",
+    "name": "Cisco rack mount kit, spare",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXK-ACC-KIT3-L",
+    "name": "Cisco 2RU fixed system installation kit long",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXK-ACC-KIT3-L=",
+    "name": "Cisco 2RU fixed system installation kit long, spare",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXK-ACC-KIT3-S",
+    "name": "Cisco 2RU fixed system installation kit short",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXK-ACC-KIT3-S=",
+    "name": "Cisco 2RU fixed system installation kit short, spare",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXK-ACC-RMK2-2RU",
+    "name": "N3K/9K Fixed Rack Mount Kit, 2RU front and rear removal",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXK-ACC-RMK2-2RU=",
+    "name": "N3K/9K Fixed Rack Mount Kit, 2RU front and rear removal, spare",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXM-X16C",
+    "name": "Nexus 100G Line Expansion Module",
+    "series_label": "Nexus 3000",
+    "from_series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXM-X16C=",
+    "name": "Nexus 100G Line Expansion Module spare",
+    "series_label": "Nexus 3000",
+    "from_series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXM-X4D",
+    "name": "Nexus 400G Line Expansion Module",
+    "series_label": "Nexus 3000",
+    "from_series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "NXM-X4D=",
+    "name": "Nexus 400G Line Expansion Module spare",
+    "series_label": "Nexus 3000",
+    "from_series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU-L-80W-ADPT",
+    "name": "Slim 80W power adaptor for micro and compact switches",
+    "series_label": "Catalyst Micro",
+    "from_series": "Catalyst Micro",
+    "to_series": "Catalyst shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PSU-L-80W-ADPT=",
+    "name": "AC-DC 80W slim power adapter for the WS-C3560CX-8PT-S compact switch (53V/1.5A)",
+    "series_label": "3560-CX",
+    "from_series": "Catalyst Micro",
+    "to_series": "Catalyst shared parts",
+    "why": "names another series of the line: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +1"
+   },
+   {
+    "sku": "PSU3KW-HVPI=",
+    "name": "Cisco 3000W HV power module with port-side intake, spare",
+    "series_label": "Nexus 9000",
+    "from_series": "Nexus 9000 shared parts",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1100WAC",
+    "name": "1100W AC Config 1 Power Supply",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1100WAC-P",
+    "name": "1100W AC power supply (Platinum rated)",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1100WAC-P/2",
+    "name": "Cisco PWR-C1-1100WAC-P/2",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1100WAC-P=",
+    "name": "1100WAC Platinum-rated power supply spare",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1100WAC-UP",
+    "name": "Upgrade to 1100WAC Platinum-rated power supply",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1100WAC/2",
+    "name": "1100W AC Config 1 Secondary Power Supply",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1100WAC=",
+    "name": "1100W AC Config 1 Power Supply",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1900WAC-P",
+    "name": "Cisco PWR-C1-1900WAC-P",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1900WAC-UP",
+    "name": "Upgrade to 1900WAC Platinum-rated power supply",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1900WAC=",
+    "name": "1900WAC power supply spare",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1900WHV-T",
+    "name": "Cisco PWR-C1-1900WHV-T",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1900WHV-T=",
+    "name": "1900W HVAC/HVDC Titanium-certified power supply spare",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-1900WHV-UP",
+    "name": "Upgrade to 1900W HVAC/HVDC Titanium-certified power supply",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-350WAC",
+    "name": "350W AC Config 1 Power Supply",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-350WAC-P",
+    "name": "350W AC power supply (Platinum rated)",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-350WAC-P/2",
+    "name": "Cisco PWR-C1-350WAC-P/2",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-350WAC-P=",
+    "name": "350WAC Platinum-rated power supply spare",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-350WAC/2",
+    "name": "350W AC Config 1 SecondaryPower Supply",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-350WAC=",
+    "name": "350W AC Config 1 Power Supply",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-440WDC",
+    "name": "440W DC Config 1 Power Supply",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-440WDC/2",
+    "name": "440W DC Config 1 secondary Power Supply",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-440WDC=",
+    "name": "440W DC Config 1 Power Supply",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-715WAC",
+    "name": "715W AC Config 1 Power Supply",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-715WAC-P",
+    "name": "715W DC Power supply (Platinum rated)",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-715WAC-P/2",
+    "name": "Cisco PWR-C1-715WAC-P/2",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-715WAC-P=",
+    "name": "715WAC Platinum-rated power supply spare",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-715WAC-UP",
+    "name": "Upgrade to 715WAC Platinum-rated power supply",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-715WAC/2",
+    "name": "715W AC Config 1 Secondary Power Supply",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-715WAC=",
+    "name": "715W AC Config 1 Power Supply",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-715WDC",
+    "name": "715W DC Power supply",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C1-715WDC=",
+    "name": "715WDC power supply spare",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-1025WAC/2",
+    "name": "1025W AC Config 2 Secondary Power Supply",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-1600WAC",
+    "name": "Cisco PWR-C2-1600WAC",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-1600WAC-I",
+    "name": "1600W AC 80+ Titanium Config 2 Port-Inlet Power Supply",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-1600WAC-I/2",
+    "name": "1600W AC 80+ platinum Config 2 Power Supply, Port Intake redundant",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-1600WAC-I=",
+    "name": "1600W AC 80+ Titanium Config 2 Port-Inlet Power Supply, spare",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-1600WAC-IUP",
+    "name": "1600W AC 80+ Titanium Config 2 Port-Inlet Power Supply, primary upgrade",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-250WAC/2",
+    "name": "^250W AC Config 2 Secondary Power Supply",
+    "series_label": "2960-XR",
+    "from_series": "Catalyst 2960-X and 2960-XR",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (2960) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-500WAC",
+    "name": "Cisco PWR-C2-500WAC",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-500WAC-I",
+    "name": "500W AC 80+ Platinum Config 2 Port-Inlet Power Supply",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-500WAC-I/2",
+    "name": "500W AC 80+ platinum Config 2 Power Supply, Port Intake redundant",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-500WAC-I=",
+    "name": "500W AC 80+ Platinum Config 2 Port-Inlet Power Supply, spare",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-640WAC/2",
+    "name": "640W AC Config 2 Secondary Power Supply",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-640WDC",
+    "name": "640W DC Config 2 Power Supply",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-640WDC/2",
+    "name": "640W DC Config 2 Secondary Power Supply",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-640WDC=",
+    "name": "640W DC Config 2 Power Supply Spare",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-850WAC",
+    "name": "Cisco PWR-C2-850WAC",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-850WAC-I",
+    "name": "850W AC 80+ Platinum Config 2 Port-Inlet Power Supply",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-850WAC-I/2",
+    "name": "850W AC 80+ platinum Config 2 Power Supply, Port Intake redundant",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-850WAC-I=",
+    "name": "850W AC 80+ Platinum Config 2 Port-Inlet Power Supply, spare",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C2-850WAC-IUP",
+    "name": "850W AC 80+ Platinum Config 2 Port-Inlet Power Supply, primary upgrade",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C3-750WAC-F",
+    "name": "750W AC Config 3 Power Supply back to front cooling",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C3-750WAC-F/2",
+    "name": "750W AC Config 3 redundant Power Supply back to front cool",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C3-750WAC-F=",
+    "name": "750W AC Config 3 Power Supply back to front cooling spare",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C3-750WAC-R",
+    "name": "750W AC Config 3 Power Supply front to back cooling",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C3-750WAC-R/2",
+    "name": "750W AC Config 3 Redundant Power Supply front to back cool",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C3-750WAC-R=",
+    "name": "750W AC Config 3 Power Supply front to back cooling spare",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C3-750WDC-F",
+    "name": "750W DC Config 3 Power Supply back to front cooling",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C3-750WDC-F/2",
+    "name": "750W DC Config 3 Redundant Power Supply back to front cool",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C3-750WDC-F=",
+    "name": "750W DC Config 3 Power Supply back to front cooling spare",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C3-750WDC-R",
+    "name": "750W DC Config 3 Power Supply front to back cooling",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C3-750WDC-R/2",
+    "name": "750W DC Config 3 Redundant Power Supply front to back cool",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C3-750WDC-R=",
+    "name": "750W DC Config 3 Power Supply front to back cooling spare",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C4-950WAC-R",
+    "name": "950W AC Config 4 Power Supply front to back cooling",
+    "series_label": "Catalyst 9500",
+    "from_series": "Catalyst 9500",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C4-950WAC-R/2",
+    "name": "950W AC Config 4 Power Supply front to back cooling, Redundant",
+    "series_label": "Catalyst 9500",
+    "from_series": "Catalyst 9500",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C4-950WAC-R=",
+    "name": "950W AC Config 4 Power Supply front to back cooling",
+    "series_label": "Catalyst 9500",
+    "from_series": "Catalyst 9500",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C4-950WDC-R",
+    "name": "950W DC Config 4 Power Supply front to back cooling",
+    "series_label": "Catalyst 9500",
+    "from_series": "Catalyst 9500",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C4-950WDC-R/2",
+    "name": "950W DC Config 4 Power Supply front to back cooling",
+    "series_label": "Catalyst 9500",
+    "from_series": "Catalyst 9500",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C4-950WDC-R=",
+    "name": "950W DC Config 4 Power Supply front to back cooling",
+    "series_label": "Catalyst 9500",
+    "from_series": "Catalyst 9500",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C5-125WAC",
+    "name": "Cisco PWR-C5-125WAC",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C5-125WAC/2",
+    "name": "125W AC Config 5 Power Supply - Secondary Power Supply",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C5-1KWAC",
+    "name": "Cisco PWR-C5-1KWAC",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C5-1KWAC/2",
+    "name": "1KW AC Config 5 Power Supply - Secondary Power Supply",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C5-600WAC",
+    "name": "Cisco PWR-C5-600WAC",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C5-600WAC/2",
+    "name": "600W AC Config 5 Power Supply - Secondary Power Supply",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C5-715WDC=",
+    "name": "715W DC Config 5 Power Supply",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C6-1000WAC",
+    "name": "Cisco PWR-C6-1000WAC",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C6-125WAC",
+    "name": "Cisco PWR-C6-125WAC",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C6-125WAC/2",
+    "name": "125W AC Config 6 Power Supply - Secondary Power Supply",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C6-1KWAC",
+    "name": "Cisco PWR-C6-1KWAC",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C6-1KWAC/2",
+    "name": "1KW AC Config 6 Power Supply - Secondary Power Supply",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C6-600WAC",
+    "name": "Cisco PWR-C6-600WAC",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C6-600WAC/2",
+    "name": "600W AC Config 6 Power Supply - Secondary Power Supply",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C6-715WDC",
+    "name": "Cisco PWR-C6-715WDC",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-C6-715WDC=",
+    "name": "715W DC Config 6 Power Supply",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-CLP",
+    "name": "Power Retainer Clip For 3560-C, 2960-L & C1000 Switches",
+    "series_label": "Catalyst 1200",
+    "from_series": "Catalyst 1200",
+    "to_series": "Catalyst shared parts",
+    "why": "names another series of the line: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +7"
+   },
+   {
+    "sku": "PWR-CLP=",
+    "name": "Power Retainer Clip For 3560-C, 2960-L & C1000 Switches",
+    "series_label": "3560-CX",
+    "from_series": "Catalyst 1200",
+    "to_series": "Catalyst shared parts",
+    "why": "names another series of the line: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +7"
+   },
+   {
+    "sku": "PWR-IE160W-67-DC",
+    "name": "Cisco PWR-IE160W-67-DC",
+    "series_label": "IE 2000",
+    "from_series": "IE 3400H",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE160W-67-DC=",
+    "name": "IP67-rated PoE DC-DC power supply, Input:18V-60V Output: 54V, 3.1A max 160W",
+    "series_label": "Catalyst IE3400 Heavy Duty Series",
+    "from_series": "IE 3400H",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE170W-PC-AC=",
+    "name": "170W AC to DC or High DC to DC Power Supply",
+    "series_label": "Catalyst IE3400 Rugged Series",
+    "from_series": "IE 3400",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE170W-PC-DC=",
+    "name": "170W AC to DC or High DC to DC Power Supply",
+    "series_label": "Catalyst IE3400 Rugged Series",
+    "from_series": "IE 3400",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE180W-67-AC=",
+    "name": "IP67-rated AC-DC (180W) power supply",
+    "series_label": "IE 2000",
+    "from_series": "IE 2000",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (2000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE240W-AC-IEC=",
+    "name": "240W AC to DC Power Supply with IEC connector (IEC 60320 C16)",
+    "series_label": "Catalyst IE3100 Rugged Series",
+    "from_series": "IE 3100",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE240W-PCAC-L=",
+    "name": "240W AC to DC Power Supply",
+    "series_label": "Catalyst IE3100 Rugged Series",
+    "from_series": "IE 3100",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE400W-AC-IEC=",
+    "name": "400W AC to DC Power Supply with IEC connector (IEC 60320 C16)",
+    "series_label": "Catalyst IE3100 Rugged Series",
+    "from_series": "IE 3100",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE480W-PCAC-L=",
+    "name": "480W AC to DC Power Supply",
+    "series_label": "Catalyst IE3100 Rugged Series",
+    "from_series": "IE 3100",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE50W-AC-IEC=",
+    "name": "50W AC to DC Power Supply with IEC connector (IEC 60320 C14)",
+    "series_label": "Catalyst IE3400 Rugged Series",
+    "from_series": "IE 3400",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE50W-AC-L=",
+    "name": "50W AC to DC Power Supply",
+    "series_label": "Catalyst IE3100 Rugged Series",
+    "from_series": "IE 3100",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE50W-AC=",
+    "name": "50W AC to DC or High DC to DC Power Supply",
+    "series_label": "Catalyst IE3400 Rugged Series",
+    "from_series": "IE 3400",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE65W-PC-AC=",
+    "name": "65W AC to DC or High DC to DC Power Supply",
+    "series_label": "Catalyst IE3400 Rugged Series",
+    "from_series": "IE 3400",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE65W-PC-DC=",
+    "name": "65W Low DC to DC Power Supply",
+    "series_label": "Catalyst IE3400 Rugged Series",
+    "from_series": "IE 3400",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-RGD-AC-DC-250",
+    "name": "High AC/DC (100-250 VDC/100-240 VAC) 250 W – 2.55 lb/1.15 kg",
+    "series_label": "Catalyst IE9300 Rugged Series",
+    "from_series": "IE 9300",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-RGD-AC-DC-250=",
+    "name": "Spare Hazloc Power Supply 100-240VAC/100-250VDC",
+    "series_label": "Catalyst IE9300 Rugged Series",
+    "from_series": "IE 9300",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-RGD-AC-DC-400",
+    "name": "Hazloc Power Supply 100-240VAC/100-250VDC, 400W",
+    "series_label": "Catalyst IE9300 Rugged Series",
+    "from_series": "IE 9300",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-RGD-AC-DC-400=",
+    "name": "Spare Hazloc Power Supply 100-240VAC/100-250VDC, 400W",
+    "series_label": "Catalyst IE9300 Rugged Series",
+    "from_series": "IE 9300",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-RGD-AC-DC-H",
+    "name": "Hazloc Power Supply High AC/DC 85-264VAC/88-300VDC",
+    "series_label": "Catalyst IE9300 Rugged Series",
+    "from_series": "IE 9300",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-RGD-AC-DC-H=",
+    "name": "Spare Hazloc Power Supply High AC/DC 85-264VAC/88-300VDC",
+    "series_label": "Catalyst IE9300 Rugged Series",
+    "from_series": "IE 9300",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-RGD-LOW-DC-H",
+    "name": "Hazloc Power Supply Low DC 24-60V/10A",
+    "series_label": "Catalyst IE9300 Rugged Series",
+    "from_series": "IE 9300",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-RGD-LOW-DC-H=",
+    "name": "Spare Hazloc Power Supply Low DC 24-60V/10A",
+    "series_label": "Catalyst IE9300 Rugged Series",
+    "from_series": "IE 9300",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWRADPT-WM-18-NA=",
+    "name": "Cisco PWRADPT-WM-18-NA=",
+    "series_label": "Catalyst 1300X",
+    "from_series": "Catalyst 1300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (1300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWRADPT-WM-18-xx",
+    "name": "Cisco PWRADPT-WM-18-xx",
+    "series_label": "Catalyst 1300X",
+    "from_series": "Catalyst 1300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (1300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "RM-RGD-19IN=",
+    "name": "Spare 19IN rack-mount kit",
+    "series_label": "Catalyst IE9300 Rugged Series",
+    "from_series": "IE 9300",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "RM-RGD-23IN=",
+    "name": "23IN NEBS rack-mount kit",
+    "series_label": "Catalyst IE9300 Rugged Series",
+    "from_series": "IE 9300",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "RM-RGD-ETSI=",
+    "name": "ETSI rack-mount kit",
+    "series_label": "Catalyst IE9300 Rugged Series",
+    "from_series": "IE 9300",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SD-IE-16GB",
+    "name": "IE 16GB SD Memory card",
+    "series_label": "Catalyst IE3400 Heavy Duty Series",
+    "from_series": "IE 3400H",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SD-IE-16GB=",
+    "name": "Industrial Ethernet (IE) 16GB SD memory card for IE",
+    "series_label": "Catalyst IE9300 Rugged Series",
+    "from_series": "IE 3400H",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SD-IE-1GB",
+    "name": "IE 1GB SD Memory Card for IE2000, IE3010",
+    "series_label": "IE 2000",
+    "from_series": "IE 2000",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "names another series of the line: IE 3010 (name 3010)"
+   },
+   {
+    "sku": "SD-IE-1GB=",
+    "name": "1 GB Ruggedized SD memory card (must be ordered, not included by default)",
+    "series_label": "Catalyst IE3100 Rugged Series",
+    "from_series": "IE 2000",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (2000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SD-IE-4GB",
+    "name": "IE 4GB SD Memory Card for IE",
+    "series_label": "Catalyst IE3100 Rugged Series",
+    "from_series": "IE 3100",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SD-IE-4GB=",
+    "name": "IE 4GB SD Memory Card",
+    "series_label": "Catalyst IE3100 Rugged Series",
+    "from_series": "IE 3100",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-120G",
+    "name": "Cisco pluggable USB3.0 120G SSD storage",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-120G=",
+    "name": "Cisco pluggable USB3.0 120G SSD storage, spare",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-240G",
+    "name": "Cisco pluggable USB3.0 240G SSD storage",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "SSD-240G=",
+    "name": "Cisco pluggable USB3.0 240G SSD storage, spare",
+    "series_label": "Catalyst 9300",
+    "from_series": "Catalyst 9300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-CAB-1M",
+    "name": "Cisco 1M Stacking Cable",
+    "series_label": "2960",
+    "from_series": "Catalyst 2960 / 2960G",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (2960) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-CAB-1M=",
+    "name": "Cisco 1M Stacking Cable",
+    "series_label": "2960",
+    "from_series": "Catalyst 2960 / 2960G",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (2960) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-CAB-3M",
+    "name": "Cisco 3M Stacking Cable",
+    "series_label": "2960",
+    "from_series": "Catalyst 2960 / 2960G",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (2960) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-CAB-3M-NH",
+    "name": "Cisco 3M Non-Halogen Lead Free Stacking Cable",
+    "series_label": "2960",
+    "from_series": "Catalyst 2960 / 2960G",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (2960) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-CAB-3M-NH=",
+    "name": "Cisco 3M Non-Halogen Lead Free Stacking Cable",
+    "series_label": "2960",
+    "from_series": "Catalyst 2960 / 2960G",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (2960) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-CAB-3M=",
+    "name": "Cisco 3M Stacking Cable",
+    "series_label": "2960",
+    "from_series": "Catalyst 2960 / 2960G",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (2960) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-CAB-50CM",
+    "name": "Cisco 50CM Stacking Cable",
+    "series_label": "2960",
+    "from_series": "Catalyst 2960 / 2960G",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (2960) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-CAB-50CM-NH",
+    "name": "Cisco 50CM Non-halogen Lead Free stacking cable",
+    "series_label": "2960",
+    "from_series": "Catalyst 2960 / 2960G",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (2960) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-CAB-50CM-NH=",
+    "name": "Cisco 50CM Non-halogen Lead Free stacking cable",
+    "series_label": "2960",
+    "from_series": "Catalyst 2960 / 2960G",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (2960) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-CAB-50CM=",
+    "name": "Cisco 50CM Stacking Cable",
+    "series_label": "2960",
+    "from_series": "Catalyst 2960 / 2960G",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (2960) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T1A-1M",
+    "name": "1m Type 1A Stacking cable",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T1A-1M=",
+    "name": "1m Type 1A Stacking cable, spare",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T1A-3M=",
+    "name": "3m Type 1A Stacking cable, spare",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T1A-50CM",
+    "name": "50cm Type 1A Stacking cable",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T1A-50CM=",
+    "name": "50cm Type 1A Stacking cable, spare",
+    "series_label": "C9350",
+    "from_series": "Catalyst 9350",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9350) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T2-1M",
+    "name": "1M Type 2 Stacking Cable",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T2-1M=",
+    "name": "Cisco StackWise-160 1M Stacking Cable Spare",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T2-3M",
+    "name": "3M Type 2 Stacking Cable",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T2-3M=",
+    "name": "Cisco StackWise-160 3M Stacking Cable Spare",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T2-50CM",
+    "name": "50CM Type 2 Stacking Cable",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T2-50CM=",
+    "name": "Cisco StackWise-160 50CM Stacking Cable Spare",
+    "series_label": "3650",
+    "from_series": "Catalyst 3650",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3650) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T4-1M",
+    "name": "1M Type 3 Stacking Cable",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T4-1M=",
+    "name": "1M Type 3 Stacking Cable, spare",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T4-3M",
+    "name": "3M Type 3 Stacking Cable",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T4-3M=",
+    "name": "3M Type 3 Stacking Cable, spare",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T4-50CM",
+    "name": "Data stack 50 cm cable (default cable with Stack Kit)",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STACK-T4-50CM=",
+    "name": "50CM Type 3 Stacking Cable, spare",
+    "series_label": "Catalyst 9200",
+    "from_series": "Catalyst 9200",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "STK-RACK-DINRAIL=",
+    "name": "19 in. DIN Rail mount kit",
+    "series_label": "Catalyst IE3400 Rugged Series",
+    "from_series": "IE 3400",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "UCS-PSU-6332-DC=",
+    "name": "N9K 930W DC Power Supply, Reversed airflow (port side exhaust), Spare",
+    "series_label": "Nexus 3000",
+    "from_series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
+    "to_series": "Nexus shared parts",
+    "why": "no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "WS-UPOE-12VPSPL",
+    "name": "12V uPoE Pass-Through Splitter",
+    "series_label": "Catalyst 4500",
+    "from_series": "Catalyst 4500-E",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (4500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "WS-UPOE-12VPSPL=",
+    "name": "UPoE 12V Passthrough Splitter",
+    "series_label": "Catalyst 4500",
+    "from_series": "Catalyst 4500-E",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (4500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XC-SLOT-CVR-E",
+    "name": "X-Series Family Slot Cover",
+    "series_label": "Catalyst 4500",
+    "from_series": "Catalyst 4500-E",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (4500) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XPS-2200",
+    "name": "eXpandable Power System 2200",
+    "series_label": "3750-X",
+    "from_series": "Catalyst 3750-X",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3750) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XPS-2200-FAN",
+    "name": "XPS 2200 FAN Module",
+    "series_label": "Catalyst 3850",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "XPS-2200-FAN=",
+    "name": "XPS 2200 FAN Module Spare",
+    "series_label": "3750-X",
+    "from_series": "Catalyst 3850",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
+   }
+  ]
+ },
  "done": true
 }
