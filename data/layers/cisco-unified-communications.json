@@ -1,52 +1,45 @@
 {
  "vendor": "cisco",
  "category": "unified-communications",
- "built_at": "2026-09-14T16:48:21.215Z",
- "commit": "4c24db4be871b1ce63fb2a295845d43c1af4d4a4",
- "uncommitted_rule_files": [
-  "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/product-lines/cisco-interfaces-modules.json",
-  "data/reference/product-lines/cisco-optical-networking.json",
-  "data/reference/product-lines/cisco-routers.json",
-  "data/reference/product-lines/cisco-switches.json",
-  "data/reference/product-lines/cisco-wireless.json",
-  "scripts/build-layers.mts",
-  "src/core/routerKind.ts",
-  "src/core/switchKind.ts",
-  "data/reference/layers-cross-claims.json",
-  "src/core/layerChecks.ts"
- ],
+ "built_at": "2026-09-14T18:52:21.013Z",
+ "commit": "772e13a7a448849218d73dce174d4dae2df8cba1",
+ "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",
- "parts": 490,
+ "parts": 497,
  "lines": [
   {
    "line": "Voice Gateways",
-   "parts": 82,
+   "parts": 89,
    "series": [
     {
      "series": "VG200 / VG202 / VG204 / VG224",
+     "family": null,
      "role": null,
-     "note": null,
-     "parts": 12,
+     "note": "MEM-224-* (VG224 DRAM and flash, moved in from routers by run #1074, closing items at aa1143f item 4): a component follows its host",
+     "parts": 14,
      "kinds": {
+      "memory": 1,
+      "flash": 1,
       "gateway": 11,
       "mechanical": 1
      },
      "roles": {},
      "samples": [
+      "MEM-224-1X128D-U — 128MB DRAM Memory for VG224 (Factory Upgrade)",
+      "MEM-224-1X64F-U — 64MB Flash Memory for VG224 (Factory Upgrade)",
       "VG202 — Cisco VG202 Analog Voice Gateway",
       "VG202XM — Cisco VG202XM Analog Voice Gateway",
       "VG204 — Cisco VG204 Analog Voice Gateway",
-      "VG204XM — Cisco VG204XM Analog Voice Gateway",
-      "VG224 — 24 Port Voice over IP analog phone gateway",
-      "VG224-4PACK — 4 Pack of VG224 High Density Analog Gateway"
+      "VG204XM — Cisco VG204XM Analog Voice Gateway"
      ],
      "rules": {
-      "sku": 12
-     }
+      "sku": 14
+     },
+     "pending_in": {}
     },
     {
      "series": "VG300 / VG310 / VG320 / VG350",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 18,
@@ -65,10 +58,12 @@
      ],
      "rules": {
       "sku": 18
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "VG400 / VG410 / VG420 / VG450",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 44,
@@ -90,31 +85,37 @@
      ],
      "rules": {
       "sku": 44
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Voice Gateways shared parts",
+     "family": "(shared across the line)",
      "role": null,
-     "note": null,
-     "parts": 8,
+     "note": "MEM-243-* (IAD2430 integrated access device DRAM and flash, moved in from routers by run #1074): the IAD2430 itself is not in the catalogue, so its memory sits with the line's shared parts",
+     "parts": 13,
      "kinds": {
+      "memory": 2,
+      "flash": 3,
       "power": 3,
       "mechanical": 3,
       "gateway": 2
      },
      "roles": {},
      "samples": [
-      "PWR-30W-AC — Power Supply 30 Watt AC",
-      "PWR-30W-AC-BR — Power Supply 30 Watt AC for Brazil",
-      "PWR-30W-AC= — Power Supply 30 Watt AC",
-      "PWR-COVER-4430 — Cover for empty 2nd Power Supply slot on Cisco ISR 4430",
-      "SM-DW-BLANK — Double Wide Service Module Blank Cover",
-      "SM-DW-BLANK= — Double Wide Service Module Blank Cover"
+      "MEM-243-1X128D — 128MB DRAM Memory for IAD2430 series",
+      "MEM-243-1X128F — 128MB Flash Memory for IAD2430 series",
+      "MEM-243-1X128F-U — 128MB Flash Memory for IAD2430 (Factory Upgrade)",
+      "MEM-243-1X64F — 64MB Flash Memory for IAD2430 series",
+      "MEM-243-2X128D-U — 256 (2x128)MB DRAM Memory for IAD2430 ser (Factory Upgrade)",
+      "PWR-30W-AC — Power Supply 30 Watt AC"
      ],
      "rules": {
+      "sku": 5,
       "label": 6,
       "accessory": 2
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -124,6 +125,7 @@
    "series": [
     {
      "series": "ATA 190 / 191 / 192",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 6,
@@ -142,10 +144,12 @@
      ],
      "rules": {
       "sku": 6
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "SPA100 / SPA2100 adapters (SPA112 / SPA122 / SPA2102)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 12,
@@ -163,10 +167,12 @@
      ],
      "rules": {
       "sku": 12
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "SPA302D DECT handset",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 7,
@@ -186,10 +192,12 @@
      ],
      "rules": {
       "sku": 7
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Analog Telephone Adapters and SPA shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 24,
@@ -208,7 +216,8 @@
      ],
      "rules": {
       "label": 24
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -218,6 +227,7 @@
    "series": [
     {
      "series": "Business Edition 7000 (BE7K / BE7M / BE7H)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 56,
@@ -243,10 +253,12 @@
      ],
      "rules": {
       "sku": 56
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 68,
@@ -275,7 +287,8 @@
      "rules": {
       "sku": 61,
       "label": 7
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -285,6 +298,7 @@
    "series": [
     {
      "series": "Expressway appliances (CE1100 / CE1200)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 45,
@@ -311,10 +325,12 @@
      ],
      "rules": {
       "sku": 45
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "TelePresence VCS appliances",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 28,
@@ -342,7 +358,8 @@
      "rules": {
       "sku": 20,
       "label": 8
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -352,6 +369,7 @@
    "series": [
     {
      "series": "Unity Connection PIMG gateways and MCS servers",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 38,
@@ -375,7 +393,8 @@
      "rules": {
       "label": 2,
       "sku": 36
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -385,6 +404,7 @@
    "series": [
     {
      "series": "Atlas IP paging speakers and enclosures",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 55,
@@ -403,7 +423,8 @@
      ],
      "rules": {
       "sku": 55
-     }
+     },
+     "pending_in": {}
     }
    ]
   }
@@ -954,5 +975,13 @@
   }
  ],
  "unplaced": [],
+ "label_check": {
+  "applied": false,
+  "label_placed": 0,
+  "by_kind": {},
+  "moved": []
+ },
+ "pending_review": [],
+ "inbound_unplaced": {},
  "done": true
 }

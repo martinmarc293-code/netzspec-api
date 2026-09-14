@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-14T18:04:15.549Z",
- "commit": "70caa675f16ebfe5fe7dcba4c312c2a63ca3607c",
+ "built_at": "2026-09-14T18:51:52.391Z",
+ "commit": "772e13a7a448849218d73dce174d4dae2df8cba1",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7507,
@@ -41,7 +41,8 @@
      ],
      "rules": {
       "sku": 83
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 9200",
@@ -69,7 +70,8 @@
      "rules": {
       "sku": 100,
       "label": 3
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 9300",
@@ -96,7 +98,8 @@
      "rules": {
       "sku": 193,
       "label": 18
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 9350",
@@ -122,7 +125,8 @@
      ],
      "rules": {
       "sku": 27
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 9500",
@@ -150,6 +154,9 @@
      "rules": {
       "sku": 96,
       "label": 2
+     },
+     "pending_in": {
+      "data-center-networking": 2
      }
     },
     {
@@ -175,7 +182,8 @@
      ],
      "rules": {
       "sku": 10
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 9600",
@@ -202,7 +210,8 @@
      ],
      "rules": {
       "sku": 28
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 9610",
@@ -230,7 +239,8 @@
      ],
      "rules": {
       "sku": 16
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 9000 shared parts",
@@ -256,6 +266,9 @@
      ],
      "rules": {
       "sku": 38
+     },
+     "pending_in": {
+      "data-center-networking": 2
      }
     },
     {
@@ -279,7 +292,8 @@
      ],
      "rules": {
       "sku": 5
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 6807-XL / 6880-X / 6840-X",
@@ -312,7 +326,8 @@
      ],
      "rules": {
       "sku": 111
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 6500",
@@ -349,6 +364,11 @@
      "rules": {
       "sku": 303,
       "label": 59
+     },
+     "pending_in": {
+      "interfaces-modules": 35,
+      "wireless": 7,
+      "routers": 18
      }
     },
     {
@@ -377,7 +397,8 @@
      ],
      "rules": {
       "sku": 34
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 4500-E",
@@ -388,9 +409,9 @@
      "kinds": {
       "chassis": 16,
       "switch": 52,
-      "supervisor": 32,
+      "supervisor": 36,
       "bundle": 52,
-      "linecard": 90,
+      "linecard": 86,
       "mechanical": 13,
       "memory": 6,
       "flash": 4,
@@ -410,7 +431,8 @@
      "rules": {
       "sku": 273,
       "label": 19
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 4900",
@@ -437,7 +459,8 @@
      ],
      "rules": {
       "sku": 82
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 3850",
@@ -465,7 +488,8 @@
      "rules": {
       "label": 19,
       "sku": 168
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 3650",
@@ -491,7 +515,8 @@
      ],
      "rules": {
       "sku": 206
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 3750-X",
@@ -519,7 +544,8 @@
      ],
      "rules": {
       "sku": 96
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 3560-X",
@@ -543,7 +569,8 @@
      ],
      "rules": {
       "sku": 49
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 3750-E",
@@ -567,7 +594,8 @@
      ],
      "rules": {
       "sku": 12
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 3560-E",
@@ -591,7 +619,8 @@
      ],
      "rules": {
       "sku": 16
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 3750 / 3750G / 3750v2",
@@ -615,7 +644,8 @@
      ],
      "rules": {
       "sku": 44
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 3560-C and 3560-CX",
@@ -641,7 +671,8 @@
      "rules": {
       "sku": 41,
       "label": 2
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 3560 / 3560G / 3560v2",
@@ -667,7 +698,8 @@
      ],
      "rules": {
       "sku": 31
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 2960-C and 2960-CX",
@@ -691,7 +723,8 @@
      ],
      "rules": {
       "sku": 26
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 2960-X and 2960-XR",
@@ -719,7 +752,8 @@
      "rules": {
       "sku": 159,
       "label": 6
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 2960-S",
@@ -744,7 +778,8 @@
      ],
      "rules": {
       "sku": 24
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 2960-Plus",
@@ -768,7 +803,8 @@
      ],
      "rules": {
       "sku": 35
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 2960-L",
@@ -792,7 +828,8 @@
      ],
      "rules": {
       "sku": 62
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 2960 / 2960G",
@@ -817,7 +854,8 @@
      "rules": {
       "sku": 22,
       "label": 1
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 1000",
@@ -843,7 +881,8 @@
      "rules": {
       "sku": 73,
       "label": 6
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 1200",
@@ -867,7 +906,8 @@
      ],
      "rules": {
       "sku": 17
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst 1300",
@@ -891,7 +931,8 @@
      ],
      "rules": {
       "sku": 38
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst Micro",
@@ -919,7 +960,8 @@
      "rules": {
       "sku": 22,
       "label": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst Digital Building",
@@ -946,7 +988,8 @@
      ],
      "rules": {
       "sku": 16
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst PON",
@@ -972,7 +1015,8 @@
      "rules": {
       "sku": 12,
       "label": 8
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Redundant Power System",
@@ -998,7 +1042,8 @@
      ],
      "rules": {
       "sku": 20
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst shared parts",
@@ -1028,7 +1073,8 @@
      "rules": {
       "label-unsupported": 149,
       "accessory": 241
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -1061,7 +1107,8 @@
      ],
      "rules": {
       "sku": 212
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 3550",
@@ -1086,7 +1133,8 @@
      ],
      "rules": {
       "sku": 6
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 3500",
@@ -1110,7 +1158,8 @@
      ],
      "rules": {
       "sku": 21
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 3600",
@@ -1131,7 +1180,8 @@
      ],
      "rules": {
       "sku": 3
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
@@ -1161,7 +1211,8 @@
      "rules": {
       "sku": 209,
       "label": 1
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 5500",
@@ -1190,19 +1241,20 @@
      ],
      "rules": {
       "sku": 151
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 5600",
      "family": "Nexus 5000",
      "role": "datacenter",
-     "note": null,
-     "parts": 114,
+     "note": "N6K-C5696Q-M-BLNK(=) \"Nexus 5696Q Blank Module Cover\": Cisco files the 5696Q under Nexus 5000; the N6K prefix is history (closing items at aa1143f (14 Sep 2026), item 7)",
+     "parts": 116,
      "kinds": {
       "switch": 41,
       "bundle": 32,
       "chassis": 4,
-      "mechanical": 14,
+      "mechanical": 16,
       "module": 11,
       "fan": 12
      },
@@ -1218,8 +1270,9 @@
       "C1-N5672UP4FEX10GT — Cisco ONE N5672UP Chassis with 4 x 10GT FEXes with FETs"
      ],
      "rules": {
-      "sku": 114
-     }
+      "sku": 116
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 5010 / 5020",
@@ -1244,19 +1297,20 @@
      ],
      "rules": {
       "sku": 6
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 6000",
      "family": null,
      "role": "datacenter",
      "note": null,
-     "parts": 84,
+     "parts": 82,
      "kinds": {
       "switch": 23,
       "bundle": 30,
       "module": 8,
-      "mechanical": 10,
+      "mechanical": 8,
       "fan": 8,
       "chassis": 3,
       "power": 2
@@ -1273,8 +1327,9 @@
       "C1-N6004EF4FEX10G — Cisco One N6004 Chassis with 4 x 10G FEXes with FETs"
      ],
      "rules": {
-      "sku": 84
-     }
+      "sku": 82
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 7700",
@@ -1307,7 +1362,8 @@
      ],
      "rules": {
       "sku": 193
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 7004 / 7009 / 7010 / 7018",
@@ -1343,7 +1399,8 @@
      ],
      "rules": {
       "sku": 223
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 9200",
@@ -1368,7 +1425,8 @@
      ],
      "rules": {
       "sku": 31
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 9300",
@@ -1396,7 +1454,8 @@
      ],
      "rules": {
       "sku": 211
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 9400",
@@ -1422,7 +1481,8 @@
      ],
      "rules": {
       "sku": 6
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 9500",
@@ -1452,7 +1512,8 @@
      ],
      "rules": {
       "sku": 157
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 9800",
@@ -1479,7 +1540,8 @@
      ],
      "rules": {
       "sku": 29
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 9100",
@@ -1499,7 +1561,8 @@
      ],
      "rules": {
       "sku": 2
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Nexus 9000 shared parts",
@@ -1524,6 +1587,9 @@
      "rules": {
       "sku": 125,
       "label": 9
+     },
+     "pending_in": {
+      "data-center-networking": 2
      }
     },
     {
@@ -1553,7 +1619,8 @@
      "rules": {
       "accessory": 38,
       "label-unsupported": 27
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -1581,7 +1648,8 @@
      ],
      "rules": {
       "sku": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 2000U",
@@ -1605,7 +1673,8 @@
      ],
      "rules": {
       "sku": 7
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 2000",
@@ -1629,7 +1698,8 @@
      ],
      "rules": {
       "sku": 30
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 3000",
@@ -1659,7 +1729,8 @@
      "rules": {
       "label": 9,
       "sku": 10
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 3010",
@@ -1685,7 +1756,8 @@
      "rules": {
       "sku": 2,
       "label": 7
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 3100",
@@ -1709,7 +1781,8 @@
      ],
      "rules": {
       "sku": 13
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 3200",
@@ -1729,7 +1802,8 @@
      ],
      "rules": {
       "sku": 2
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 3300",
@@ -1754,7 +1828,8 @@
      ],
      "rules": {
       "sku": 24
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 3400H",
@@ -1778,7 +1853,8 @@
      ],
      "rules": {
       "sku": 18
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 3400",
@@ -1803,7 +1879,8 @@
      ],
      "rules": {
       "sku": 10
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 3500H",
@@ -1827,7 +1904,8 @@
      ],
      "rules": {
       "sku": 21
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 3500",
@@ -1852,7 +1930,8 @@
      ],
      "rules": {
       "sku": 37
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 4010",
@@ -1874,7 +1953,8 @@
      ],
      "rules": {
       "sku": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 4000",
@@ -1898,7 +1978,8 @@
      ],
      "rules": {
       "sku": 12
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 5000",
@@ -1920,7 +2001,8 @@
      ],
      "rules": {
       "sku": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "IE 9300",
@@ -1944,7 +2026,8 @@
      ],
      "rules": {
       "sku": 32
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "CGS 2500 Connected Grid",
@@ -1970,7 +2053,8 @@
      ],
      "rules": {
       "sku": 11
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Industrial Ethernet shared parts",
@@ -1997,7 +2081,8 @@
      "rules": {
       "accessory": 5,
       "label-unsupported": 32
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -2027,7 +2112,8 @@
      ],
      "rules": {
       "sku": 10
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "ESS 3300",
@@ -2051,7 +2137,8 @@
      ],
      "rules": {
       "sku": 8
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "ESS 9300",
@@ -2070,7 +2157,8 @@
      ],
      "rules": {
       "sku": 1
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -2100,7 +2188,8 @@
      ],
      "rules": {
       "sku": 43
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Small Business 110 Unmanaged (SF110/SG110)",
@@ -2124,7 +2213,8 @@
      ],
      "rules": {
       "sku": 89
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Small Business 220 Smart (SF220/SG220)",
@@ -2148,7 +2238,8 @@
      ],
      "rules": {
       "sku": 69
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Small Business 250 Smart (SF250/SG250)",
@@ -2172,7 +2263,8 @@
      ],
      "rules": {
       "sku": 146
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Small Business 350X Stackable (SG350X/SX350X)",
@@ -2196,7 +2288,8 @@
      ],
      "rules": {
       "sku": 194
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Small Business 350 Managed (SF350/SG350)",
@@ -2220,7 +2313,8 @@
      ],
      "rules": {
       "sku": 225
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Small Business 550X Stackable (SF550X/SG550X/SX550X)",
@@ -2244,7 +2338,8 @@
      ],
      "rules": {
       "sku": 196
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -2274,7 +2369,8 @@
      ],
      "rules": {
       "sku": 55
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Business 220 Smart (CBS220)",
@@ -2298,7 +2394,8 @@
      ],
      "rules": {
       "sku": 69
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Business 250 Smart (CBS250)",
@@ -2322,7 +2419,8 @@
      ],
      "rules": {
       "sku": 229
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Business 350 Managed (CBS350)",
@@ -2346,7 +2444,8 @@
      ],
      "rules": {
       "sku": 433
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -2376,7 +2475,8 @@
      ],
      "rules": {
       "sku": 17
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS125",
@@ -2400,7 +2500,8 @@
      ],
      "rules": {
       "sku": 11
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS130",
@@ -2424,7 +2525,8 @@
      ],
      "rules": {
       "sku": 30
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS150",
@@ -2448,7 +2550,8 @@
      ],
      "rules": {
       "sku": 29
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS210",
@@ -2472,7 +2575,8 @@
      ],
      "rules": {
       "sku": 11
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS225",
@@ -2496,7 +2600,8 @@
      ],
      "rules": {
       "sku": 11
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS250",
@@ -2520,7 +2625,8 @@
      ],
      "rules": {
       "sku": 11
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS320",
@@ -2541,7 +2647,8 @@
      ],
      "rules": {
       "sku": 2
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS350",
@@ -2565,7 +2672,8 @@
      ],
      "rules": {
       "sku": 13
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS355",
@@ -2589,19 +2697,20 @@
      ],
      "rules": {
       "sku": 9
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS390",
      "family": null,
-     "role": "core-agg",
-     "note": null,
+     "role": "access",
+     "note": "role access (reviewer's correction of the spec, closing items at aa1143f (14 Sep 2026), item 9): Cisco positions the MS390 as a cloud-managed access switch on Catalyst 9300 hardware; MS410 / MS425 / MS450 stay core-agg",
      "parts": 23,
      "kinds": {
       "switch": 23
      },
      "roles": {
-      "core-agg": 23
+      "access": 23
      },
      "samples": [
       "MS390 — Cisco MS390",
@@ -2613,7 +2722,8 @@
      ],
      "rules": {
       "sku": 23
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS410",
@@ -2636,7 +2746,8 @@
      ],
      "rules": {
       "sku": 5
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS425",
@@ -2659,7 +2770,8 @@
      ],
      "rules": {
       "sku": 5
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MS450",
@@ -2680,7 +2792,8 @@
      ],
      "rules": {
       "sku": 3
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -2712,7 +2825,8 @@
      ],
      "rules": {
       "sku": 19
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "ME 3600X",
@@ -2731,7 +2845,8 @@
      ],
      "rules": {
       "sku": 1
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "ME 3800X",
@@ -2750,7 +2865,8 @@
      ],
      "rules": {
       "sku": 1
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "ME 4900",
@@ -2769,7 +2885,8 @@
      ],
      "rules": {
       "sku": 1
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Metro Ethernet shared parts",
@@ -2788,7 +2905,8 @@
      ],
      "rules": {
       "accessory": 3
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -2813,7 +2931,8 @@
      ],
      "rules": {
       "sku": 3
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -2830,7 +2949,10 @@
      "kinds": {},
      "roles": {},
      "samples": [],
-     "rules": {}
+     "rules": {},
+     "pending_in": {
+      "routers": 6
+     }
     }
    ]
   }
@@ -6554,6 +6676,11 @@
     "why": "no platform token (3850) in the SKU or name, no compatible part placed in the series"
    }
   ]
+ },
+ "pending_review": [],
+ "inbound_unplaced": {
+  "data-center-networking": 16,
+  "routers": 1
  },
  "done": true
 }

@@ -3189,29 +3189,29 @@ MS355-48X	Cisco MS355-48X	Meraki	switch	layered	Meraki MS		MS355	sku ^MS355	acce
 MS355-48X-HW	Cisco Meraki MS355-48X-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (32× 1G-RJ45 + 16× mGig-RJ45 (100M–10G) (PoE), 4× SFP+ (10G) + 2× QSFP+ (40G), 1 HE)	MS355	switch	layered	Meraki MS		MS355	sku ^MS355	access	series:MS355				
 MS355-48X2	Cisco MS355-48X2	Meraki	switch	layered	Meraki MS		MS355	sku ^MS355	access	series:MS355				
 MS355-48X2-HW	Cisco Meraki MS355-48X2-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (24× 1G-RJ45 + 24× mGig-RJ45 (100M–10G) (PoE), 4× SFP+ (10G) + 2× QSFP+ (40G), 1 HE)	MS355	switch	layered	Meraki MS		MS355	sku ^MS355	access	series:MS355				
-MS390	Cisco MS390	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-24	Cisco MS390-24	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-24-HW	Cisco Meraki MS390-24-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (24× 1G-RJ45 + modularer Uplink-Slot (Netzwerkmodul separat))	MS390	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-24A	Cisco MS390-24A	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-24E	Cisco MS390-24E	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-24P	Cisco MS390-24P	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-24P-HW	Cisco Meraki MS390-24P-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (24× 1G-RJ45 (PoE) + modularer Uplink-Slot (Netzwerkmodul separat))	MS390	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-24U	Cisco MS390-24U	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-24U-HW	Cisco Meraki MS390-24U-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (24× 1G-RJ45 (PoE) + modularer Uplink-Slot (Netzwerkmodul separat))	MS390	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-24UX	Cisco MS390-24UX	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-24UX-HW	Cisco MS390-24UX-HW	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-48	Cisco MS390-48	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-48-HW	Cisco Meraki MS390-48-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (48× 1G-RJ45 + modularer Uplink-Slot (Netzwerkmodul separat))	MS390	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-48A	Cisco MS390-48A	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-48E	Cisco MS390-48E	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-48P	Cisco MS390-48P	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-48P-HW	Cisco Meraki MS390-48P-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (48× 1G-RJ45 (PoE) + modularer Uplink-Slot (Netzwerkmodul separat))	MS390	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-48U	Cisco MS390-48U	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-48U-HW	Cisco Meraki MS390-48U-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (48× 1G-RJ45 (PoE) + modularer Uplink-Slot (Netzwerkmodul separat))	MS390	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-48UX	Cisco MS390-48UX	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-48UX-HW	Cisco MS390-48UX-HW	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-48UX2	Cisco MS390-48UX2	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
-MS390-48UX2-HW	Cisco MS390-48UX2-HW	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	core-agg	series:MS390				
+MS390	Cisco MS390	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-24	Cisco MS390-24	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-24-HW	Cisco Meraki MS390-24-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (24× 1G-RJ45 + modularer Uplink-Slot (Netzwerkmodul separat))	MS390	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-24A	Cisco MS390-24A	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-24E	Cisco MS390-24E	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-24P	Cisco MS390-24P	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-24P-HW	Cisco Meraki MS390-24P-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (24× 1G-RJ45 (PoE) + modularer Uplink-Slot (Netzwerkmodul separat))	MS390	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-24U	Cisco MS390-24U	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-24U-HW	Cisco Meraki MS390-24U-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (24× 1G-RJ45 (PoE) + modularer Uplink-Slot (Netzwerkmodul separat))	MS390	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-24UX	Cisco MS390-24UX	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-24UX-HW	Cisco MS390-24UX-HW	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-48	Cisco MS390-48	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-48-HW	Cisco Meraki MS390-48-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (48× 1G-RJ45 + modularer Uplink-Slot (Netzwerkmodul separat))	MS390	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-48A	Cisco MS390-48A	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-48E	Cisco MS390-48E	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-48P	Cisco MS390-48P	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-48P-HW	Cisco Meraki MS390-48P-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (48× 1G-RJ45 (PoE) + modularer Uplink-Slot (Netzwerkmodul separat))	MS390	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-48U	Cisco MS390-48U	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-48U-HW	Cisco Meraki MS390-48U-HW cloud-gemanagter stapelbarer Layer-3-Access-Switch (48× 1G-RJ45 (PoE) + modularer Uplink-Slot (Netzwerkmodul separat))	MS390	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-48UX	Cisco MS390-48UX	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-48UX-HW	Cisco MS390-48UX-HW	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-48UX2	Cisco MS390-48UX2	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
+MS390-48UX2-HW	Cisco MS390-48UX2-HW	Meraki	switch	layered	Meraki MS		MS390	sku ^MS390	access	series:MS390				
 MS410	Cisco MS410	Meraki	switch	layered	Meraki MS		MS410	sku ^MS410	core-agg	series:MS410				
 MS410-16	Cisco MS410-16	Meraki	switch	layered	Meraki MS		MS410	sku ^MS410	core-agg	series:MS410				
 MS410-16-HW	Cisco Meraki MS410-16-HW cloud-gemanagter stapelbarer Layer-3-Aggregations-Switch (16× SFP (1G), 2× SFP+ (10G))	MS410	switch	layered	Meraki MS		MS410	sku ^MS410	core-agg	series:MS410				
@@ -3344,7 +3344,7 @@ N2K-C2232TF-E	Cisco Nexus 2232TM-E Series 10GBASE-T Fabric Extender, 2PS, 1 Fan 
 N2K-C2232TF-E++	Nexus 2232TM-E++ TAA PID	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2232TM	Cisco Nexus 2232TM Series 10GBASE-T Fabric Extender, 2PS, 1 Fan Module, 32x1/10GBase-T + 8x10GE Module (req SFP+), choice of airflow and power supply	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2232TM++	N2K-C2232TM++ TAA PID	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
-N2K-C2232TM-10GE	N2K 10GE, 32x1/10GT+Uplink Module (no FAN/PS)	Nexus 2000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
+N2K-C2232TM-10GE	N2K 10GE, 32x1/10GT+Uplink Module	Nexus 2000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2232TM-10GE=	N2K 10GE, 32x1/10GT+Uplink Module, Spare (no FAN/PS)	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2232TM-E	Cisco Nexus 2232TM-E Series 10GBASE-T Fabric Extender, 2PS, 1 Fan Module, 32x 100M, 1/10GBase-T + 8x10GE Module (req SFP+), choice of airflow and power supply	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2232TM-E++	N2K-C2232TM-E++ TAA PID	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
@@ -3361,7 +3361,7 @@ N2K-C2248-FAN-SN	N2K-C2248-FAN- Service Specific	Nexus 2000 Fabric Extenders	fan
 N2K-C2248-FAN=	Cisco Nexus 2224TP, 2248TP, and 2248TP-E FEX Fan Module (Std airflow, port side exhaust), spare	Nexus 2000 Fabric Extenders	fan	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2248PQ	Cisco Nexus 2248PQ 10GE Fabric Extender, 2PS, 4 Fan Module, 48x1/10GE (req SFP/SFP+) + 4x40G QSFP+(req QSFP+), choice of airflow and power supply	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2248PQ++	N2K-C2248PQ++ TAA PID	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
-N2K-C2248PQ-10GE	N2K 10GE, 48x1/10GE SFP+ + 4x40G QSFP (No Fans/PS)	Nexus 2000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
+N2K-C2248PQ-10GE	N2K 10GE, 48x1/10GE SFP+ + 4x40G QSFP	Nexus 2000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2248PQ-10GE=	N2K 10GE, 48x1/10GE SFP+ + 4x40G QSFP (Spare. No Fans/PS)	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2248PQF	Cisco Nexus 2248PQ 10GE Fabric Extender, 2PS, 4 Fan Module, 48x1/10GE (req SFP/SFP+) + 4x40G QSFP+(includes “8 FET-40G” or “4 FET-40G and 16 FET-10G”), choice of airflow and power supply	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2248PQF++	Nexus 2248PQ with (8 FET-40G) or (4 FET-40G and 16 FET-10G)	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
@@ -3377,7 +3377,7 @@ N2K-C2248TP++	N2K-C2248TP-1GE (48x100/1000-T+4x10GE), airflow/power option	Nexus
 N2K-C2248TP-1GE	Cisco N2K-C2248TP-1GE 2248TP Fabric Extender (Cisco Nexus-2000) – 48 Host-Ports, 1-HE-Gehäuse	Nexus 2000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2248TP-E	Cisco Nexus 2248TP-E Series 1GE Fabric Extender, 2PS, 1 Fan Module, 48x100/1000Base-T + 4x10GE (req SFP+), 32MB buffer, choice of airflow and power supply	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2248TP-E++	N2K-C2248TP-E ++TAA PID	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
-N2K-C2248TP-E-1GE	N2K GE, 48x100/1000-T+4x10GE (req SFP+) (No Fans/PS)	Nexus 2000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
+N2K-C2248TP-E-1GE	N2K GE, 48x100/1000-T+4x10GE (req SFP+)	Nexus 2000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2248TP-E-1GE=	N2K GE, 48x100/1000-T+4x10GE (req SFP+) (Spare. No Fans/PS)	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2248TP-LLP3	N2K base, 48xRJ45+4x10GE (req SFP+), 3YRSNTNBD if SKU bought	Nexus 5000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2248TP-LLP5	N2K base, 48xRJ45+4x10GE (req SFP+), 5YRSNTNBD if SKU bought	Nexus 5000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
@@ -3396,7 +3396,7 @@ N2K-C2348TQ	Cisco Nexus 2348TQ 10G BASE T Fabric Extender, 2PS, 3 Fan Module, 48
 N2K-C2348TQ++	N2K-C2348TQ TAA PID	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2348TQ-10G-E	Nexus 2300 Series 10GT FEX; 48x100M/1/10GT; 6x40G QSFP	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2348TQ-10G-E=	Nexus 2348TQ-E spare; 48x1/10T; 6x40G QSFP (no PS/fan)	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
-N2K-C2348TQ-10GE	Nexus 2348TQ; 48x1/10T; 6x40G QSFP (no PS/fan)	Nexus 2000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
+N2K-C2348TQ-10GE	Nexus 2348TQ; 48x1/10T; 6x40G QSFP	Nexus 2000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2348TQ-10GE=	Nexus 2348TQ spare; 48x1/10T; 6x40G QSFP (no PS/fan)	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2348TQ-E	Cisco Nexus 2348TQ-E 10G BASE T Fabric Extender, 2PS, 3 Fan Module, 48x100M/1/10GT (RJ45) + 6x40G QSFP+(req QSFP+), choice of airflow and power supply	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2348TQ-E++	Nexus 2348TQ-E TAA PID	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
@@ -3411,7 +3411,7 @@ N2K-C2348TQ8F-E	Nexus 2348TQ-E with 8 Bidi or 4FET-40G and 16FET-10G	Nexus 2000 
 N2K-C2348TQF-QSA	Nexus 2348TQ with 12 FET-10G and 6 QSA	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2348UPQ	Cisco Nexus 2348UPQ 10GE Fabric Extender, 2PS, 3 Fan Module, 48x1/10GE (req SFP/SFP+) + 6x40G QSFP+(req QSFP+), choice of airflow and power supply	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2348UPQ++	N2K-C2348UPQ++ TAA PID	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
-N2K-C2348UPQ-10GE	Nexus 2348UPQ; 48x1/10GE SFP+; 6x40G QSFP(no PS/fan)	Nexus 2000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
+N2K-C2348UPQ-10GE	Nexus 2348UPQ; 48x1/10GE SFP+; 6x40G QSFP	Nexus 2000	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2348UPQ-10GE=	Nexus 2348UPQ spare; 48x1/10GE SFP+; 6x40G QSFP(no PS/fan)	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2348UPQ12F	Nexus 2348UPQ with 12 Bidi or (6FET-40G & 24FET-10G))	Nexus 2000 Fabric Extenders	bundle	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
 N2K-C2348UPQ4F	Cisco Nexus 2348UPQ 10GE Fabric Extender, 2PS, 3 Fan Module, 48x1/10GE (req SFP/SFP+) + 6x40G QSFP+(req QSFP+), choice of airflow and power supply includes 4/8/12 x Fabric extender transceivers (FET 10G-FET 40G) or QSFP-Bidi	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-						
@@ -3441,7 +3441,7 @@ N3K-C3016-BA-L3	Nexus 3016, AC, Reversed Airflow (port side intake), Base and LA
 N3K-C3016-BD-L3	Nexus 3016, DC, Reversed Airflow (port side intake), Base and LAN Ent Lic Bundle	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
 N3K-C3016-FA-L3	Nexus 3016, AC, Forward Airflow (port side exhaust), Base and LAN Ent Lic Bundle	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
 N3K-C3016-FD-L3	Nexus 3016, DC, Forward Airflow (port side exhaust), Base and LAN Ent Lic Bundle	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
-N3K-C3016Q-40GE	Nexus 3016Q-40GE 1RU 16p 40GE switch, no p/s, no fan-tray	Nexus 3016	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
+N3K-C3016Q-40GE	Nexus 3016Q-40GE 1RU 16p 40GE switch	Nexus 3016	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
 N3K-C3016Q-40GE=	Nexus 3016Q-40GE 1RU 16p 40GE switch, no p/s, no fan-tray	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
 N3K-C3048-1PS	Nexus 3048TP-1GE 1RU 48 1GE and 4 10GE ports, 1 PSU	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
 N3K-C3048-BA-L3	Nexus 3048, Reversed Airflow (port side intake), AC P/S, Base & LAN Ent Lic Bundle	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
@@ -3466,7 +3466,7 @@ N3K-C3048-ZM-B	Nexus 3048 Rev Airflow (port side intake) with L3, ZM Spl Bu	Nexu
 N3K-C3048-ZM-F	Nexus 3048 Std Airflow (port side exhaust) with L3, ZM Spl B	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
 N3K-C3048TP-10PK	Nexus 3048TP-E 10PK Bundle	Nexus 3000	bundle	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-						
 N3K-C3048TP-10PKBN	Nexus 3048TP-1GE 10Pack Bundle PID	Nexus 3000	bundle	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-						
-N3K-C3048TP-1GE	Nexus 3048TP-1GE 1RU 48 1GE and 4 10GE ports, no p/s,no fan	Nexus 3048	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
+N3K-C3048TP-1GE	Nexus 3048TP-1GE 1RU 48 1GE and 4 10GE ports	Nexus 3048	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
 N3K-C3048TP-1GE++	Nexus 3048TP-1GE 1RU 48 x 10/100/1000 and 4x10GE ports (TAA)	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
 N3K-C3048TP-1GE=	Nexus 3048TP-1GE 1RU 48 1GE and 4 10GE ports, no p/s,no fan	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400				
 N3K-C3064-ACC-KIT	Cisco Nexus 1RU Switch Accessory Kit	Nexus 9000	mechanical	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-						
@@ -3836,11 +3836,11 @@ N5K-C5548UP-OSM	Nexus 5548UP Storage Solns Bundle, Full Stor Serv Lic, OSM	Nexus
 N5K-C5548UP-OSM-IF	Nexus 5548UP Storage Solns Bundle, Full Stor Serv Lic, IBM F	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
 N5K-C5548UPM-B-F16	Nexus 5548UP with one Fibre Channel Module	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
 N5K-C5548UPM-B-S48	N5548UP Storage Solutions Bundle, 48 port storage serv Licen	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
-N5K-C5596T	Nexus 5596T 2RU, No PS, No Fans, For Service Only	Nexus 5500	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
+N5K-C5596T	Nexus 5596T 2RU	Nexus 5500	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
 N5K-C5596T-FA	Chassis includes 32 10G BASE-T fixed ports and 16 1/10G SFP+ fixed ports, Back-to-Front Airflow, 2 1100W AC Power Supplies, Fan Trays, 3 Expansion Slots	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
 N5K-C5596T-NFA	Nexus 5596T Chassis(Port Side Exhaust), 2 PS and 4 Fans	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
 N5K-C5596T=	Nexus 5596T 2RU, No PS, No Fans, For Service Only	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
-N5K-C5596UP	5596UP 2RU Chassis, No PS, No Fans	Nexus 5500	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
+N5K-C5596UP	5596UP 2RU Chassis	Nexus 5500	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
 N5K-C5596UP-B-S48	N5596UP Storage Solutions Bundle, 48 port storage serv Licen	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
 N5K-C5596UP-DEMO	Nexus 5596UP Chassis Demo Bundle, Not for Resale	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
 N5K-C5596UP-FA	Chassis includes 48 fixed unified ports, Front-to-Back Airflow, 2 1100W AC Power Supplies, Fan Trays, 3 Expansion Slots	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N5K-C55	datacenter	series:Nexus 5500				
@@ -3939,8 +3939,8 @@ N6004EF-8FEX-1G	N6004 Chassis EF with 8 x 1G FEXe with FETs	Nexus 6000	bundle	la
 N6004EF-96Q-BUN	2K-6K Bundles- 6004 EF 24 x 40GE Ports; 6PS, 4 FAN	Nexus 6000	switch	layered	Nexus		Nexus 6000	sku ^(C1-)?N600[0-9]	datacenter	series:Nexus 6000				
 N6004X-M20UP	Nexus 6004EF Chassis Module 20P 10GE Eth/FCoE OR 8/4/2G FC	Nexus 6000	module	layered	Nexus		Nexus 6000	sku ^(C1-)?N600[0-9]						
 N6004X-M20UP=	Nexus 6004EF Chassis Module 20P 10GE Eth/FCoE OR 8/4/2G FC, Spare	Nexus 6000	module	layered	Nexus		Nexus 6000	sku ^(C1-)?N600[0-9]						
-N6K-C5696Q-M-BLNK	Nexus 5696Q Blank Module Cover	Nexus 5000	mechanical	layered	Nexus		Nexus 6000	sku ^(C1-)?N6K-						
-N6K-C5696Q-M-BLNK=	Nexus 5696Q Blank Module Cover, spare	Nexus 5000	mechanical	layered	Nexus		Nexus 6000	sku ^(C1-)?N6K-						
+N6K-C5696Q-M-BLNK	Nexus 5696Q Blank Module Cover	Nexus 5000	mechanical	layered	Nexus	Nexus 5000	Nexus 5600	sku ^N6K-C5696Q-						
+N6K-C5696Q-M-BLNK=	Nexus 5696Q Blank Module Cover, spare	Nexus 5000	mechanical	layered	Nexus	Nexus 5000	Nexus 5600	sku ^N6K-C5696Q-						
 N6K-C6001-64P	Cisco Nexus 6001 1 RU Switch, Fixed 48P of 10G SFP+ and 4P QSFP; 2 PS, 3 Fans	Nexus 6000	switch	layered	Nexus		Nexus 6000	sku ^(C1-)?N6K-	datacenter	series:Nexus 6000				
 N6K-C6001-64P-BUN	N6K-C6001-64P Chassis used in N6K-N2K Bundles	Nexus 6000	switch	layered	Nexus		Nexus 6000	sku ^(C1-)?N6K-	datacenter	series:Nexus 6000				
 N6K-C6001-64P-NFR	Nexus 6001 Chassis Demo bundle, not for resale	Nexus 6000	switch	layered	Nexus		Nexus 6000	sku ^(C1-)?N6K-	datacenter	series:Nexus 6000				
@@ -4406,18 +4406,18 @@ N9800-ADJ-RAIL	Cisco N9800 adjustable-rail kit	Nexus 9000	mechanical	layered	Nex
 N9800-DC-TRAY	Cisco N9800 power tray for 48V 60A DC power supply	Nexus 9000	mechanical	layered	Nexus	Nexus 9000	Nexus 9800	sku ^N98						
 N9800-HV-TRAY	Cisco N9800 power-supply tray for AC and HV power supplies	Nexus 9000	mechanical	layered	Nexus	Nexus 9000	Nexus 9800	sku ^N98						
 N9K-93108TC-FX3	Cisco Nexus switch, 48 1/10G BASE-T 6 QSFP28	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^N9K-93[0-9]	datacenter	series:Nexus 9300				
-N9K-C92160YC-X	Nexus 9K,48p 10G SFP+&6p 40G QSFP+ (No Acc kit,PS&fan)	Nexus9200	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
+N9K-C92160YC-X	Nexus 9K,48p 10G SFP+&6p 40G QSFP+	Nexus9200	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C92160YC-X-B1	2 Nexus 92160YC-X with 8 QSFP-40G-SR-BD	Nexus 9000	bundle	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92						
 N9K-C92160YC-X=	Nexus 9K,48p 10G SFP+&6p 40G QSFP+,Spare(No Acc kit,PS&fan)	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C92160YCX-B18Q	2 Nexus 92160YC-X with 8 QSFP-40G-SR-BD	Nexus 9000	bundle	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92						
 N9K-C92160YCX-BUN	Nexus 92160 bundle PID	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C92300YC	Nexus 9200 with 48p 10/25G SFP+ and 18p 100G QSFP28	Nexus9200	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C92300YC=	Nexus 9200 with 48p 10/25G SFP+ and 18p 100G QSFP28	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
-N9K-C92304QC	Nexus 9K Fixed with 56p 40G QSFP+ and 8p (no PS/Fans)	Nexus9200	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
+N9K-C92304QC	Nexus 9K Fixed with 56p 40G QSFP+ and 8p	Nexus9200	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C92304QC-ZZ-PE	Nexus 92304QC, Port side exhaust airflow with L3 License	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C92304QC-ZZ-PI	Nexus 92304QC, Port side Intake airflow with L3 License	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C92304QC=	Nexus 9K Fixed with 56p 40G QSFP+ and 8p Spare (no PS/Fans)	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
-N9K-C9232C	Nexus 9K Fixed with 32p 100G QSFP28 (no PS/Fans)	Nexus9200	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
+N9K-C9232C	Nexus 9K Fixed with 32p 100G QSFP28	Nexus9200	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C9232C-ZZ-PE	Nexus 9K Fixed with 32p 100G QSFP28, Port side exhaust	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C9232C-ZZ-PI	Nexus 9K Fixed with 32p 100G QSFP28, Port side intake	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C9232C=	Nexus 9K Fixed with 32p 100G QSFP28 Spare (no PS/Fans)	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
@@ -4425,11 +4425,11 @@ N9K-C92348GC-FX3	Cisco N9K-C92348GC-FX3 Data-Center-Switch (NX-OS, L3) – 48× 
 N9K-C92348GC-FX3=	Cisco N9K-C92348GC-FX3=	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C92348GC-X	Nexus 9200 with 48p 100M/1GT, 4p 10/25G & 2p 40/100G QSFP28	Nexus9200	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C92348GC-X=	Nexus 9200 with 48p 100M/1GT, 4p 10/25G & 2p 40/100G QSFP28	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
-N9K-C9236C	Nexus 9K Fixed with 36p 100G QSFP28 (no PS/Fans)	Nexus9200	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
+N9K-C9236C	Nexus 9K Fixed with 36p 100G QSFP28	Nexus9200	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C9236C-2PK	Limited promotion, 2x N9K-C9236C-2PK	Nexus 9000	bundle	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92						
 N9K-C9236C-BUN	Nexus 9236C bundle PID	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C9236C=	Nexus 9K Fixed with 36p 100G QSFP28 Spare (no PS/Fans)	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
-N9K-C9272Q	Nexus 9K Fixed with 72p 40G QSFP+ (no PS/Fans)	Nexus9200	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
+N9K-C9272Q	Nexus 9K Fixed with 72p 40G QSFP+	Nexus9200	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C9272Q=	Nexus 9K Fixed with 72p 40G QSFP+ Spare (no PS/Fans)	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9200	sku ^(C1-)?N9K-C92	datacenter	series:Nexus 9200				
 N9K-C9300-ACK	Nexus 9K Fixed Accessory Kit	Nexus 9000	mechanical	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93						
 N9K-C9300-ACK=	Nexus 9300 accessory kit	Nexus 3000	mechanical	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93						
@@ -4476,13 +4476,13 @@ N9K-C93128TX2=	Nexus 9300 (2 RU) with 96p 1/10G-T and 8p 40G QSFP+	Nexus 9000	sw
 N9K-C93128TX=	Nexus 9K,96p 1/10G-T,Spare (No Uplink mod, Acc kit, PS & fan)	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
 N9K-C9316D-GX	Cisco N9K-C9316D-GX Data-Center-Switch (NX-OS, L3) – 16× 400/100/40G-QSFP-DD, 1 HE	Nexus9300 GX	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
 N9K-C93180-FX-B24C	2xNexus 93180YC-FX w/ 8x 100G Optics	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
-N9K-C93180LC-EX	Nexus 9K,Upto 32x 40/50G OR 18x100G (No Acc kit,PS&fan)	Nexus9300 EX FX	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
+N9K-C93180LC-EX	Nexus 9K,Upto 32x 40/50G OR 18x100G	Nexus9300 EX FX	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
 N9K-C93180LC-EX-B	Nexus 93180LC-EX bundle PID	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
 N9K-C93180LC-EX-B2	2xNexus 93180LC-EX w/ 8x 100G Optics	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
 N9K-C93180LC-EX=	Nexus 9K,Upto 32x 40/50G OR 18x100G,Spare(No Acc kit,PS&fan)	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
 N9K-C93180YC-EX	Cisco N9K-C93180YC-EX Data-Center-Switch (NX-OS, L3) – 48× 1/10/25G-SFP28 + 6× 40/100G-QSFP28, 1 HE	Nexus9300 EX FX	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
 N9K-C93180YC-EX-24	Cisco N9000 fixed with 24p 1/10G/25G SFP and 6p 40G/100G QSFP28	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
-N9K-C93180YC-FX	Nexus 9K w/ 48p 1/10/25G, 6p 40/100G (No Acc/PSU/fan)	Nexus9300 EX FX	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
+N9K-C93180YC-FX	Nexus 9K w/ 48p 1/10/25G, 6p 40/100G	Nexus9300 EX FX	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
 N9K-C93180YC-FX-24	Cisco N9000 fixed with 24p 1/10G/25G SFP and 6p 40G/100G QSFP28	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
 N9K-C93180YC-FX-A	Nexus 9300 w/ 48p 1/10/25G, 6p 40/100G for Archforce	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
 N9K-C93180YC-FX-B	Nexus 93180YC-FX bundle PID	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-C93	datacenter	series:Nexus 9300				
@@ -7230,7 +7230,7 @@ WS-SVC-WLAN-1-K9	Cisco Catalyst 6500 Series WLSM	Catalyst 6500	module	layered	Ca
 WS-UA-SUP9E	Wireless Card for WS-X45-SUP9-E	Catalyst 4500	supervisor	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-UA-SUP9E						
 WS-UPOE-12VPSPL	12V uPoE Pass-Through Splitter	Catalyst 4500	power	layered	Catalyst	(shared across the line)	Catalyst shared parts	label-unsupported (label Catalyst 4500; was Catalyst 4500-E): no platform token (4500) in the SKU or name, no compatible part placed in the series						none: no platform token (4500) in the SKU or name, no compatible part placed in the series
 WS-UPOE-12VPSPL=	UPoE 12V Passthrough Splitter	Catalyst 4500	power	layered	Catalyst	(shared across the line)	Catalyst shared parts	label-unsupported (label Catalyst 4500; was Catalyst 4500-E): no platform token (4500) in the SKU or name, no compatible part placed in the series						none: no platform token (4500) in the SKU or name, no compatible part placed in the series
-WS-X4013+/2	Cisco Catalyst 4500 Redundant Supervisor Engine II-Plus, 2 Gigabit Ethernet, console RJ-45 (Cisco IOS Software based)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}						
+WS-X4013+/2	Cisco Catalyst 4500 Redundant Supervisor Engine II-Plus, 2 Gigabit Ethernet, console RJ-45 (Cisco IOS Software based)	Catalyst 4500	supervisor	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}						
 WS-X4124-FX-MT	Cisco Catalyst 4000 Fast Ethernet Switching Module, 24-port 100BASE-FX (MT-RJ)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}						
 WS-X4124-RJ45	Cisco Catalyst 4500 10/100 Module, 24-port (RJ-45)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}						
 WS-X4148-FE-BD-LC	Cisco Catalyst 4500 Fast Ethernet Switching Module, 48-port 100BASE-BX-D SMF (LC)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}						
@@ -7282,9 +7282,9 @@ WS-X4510-FILTER=	C4510R Center Mount 23 Inch Filter (1 Set)	Catalyst 4500	mechan
 WS-X4510E-19CNTR=	C4510RE Front Mount 19 Inch Rack Kit L/R	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45						
 WS-X4510E-23CNTR=	C4510R E Center Mount 23 Inch Rack Kit L/R C	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45						
 WS-X4510E-ACC-KIT=	Catalyst C4510-E spare accessory kit	Catalyst 4500	mechanical	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45						
-WS-X4516-10GE	Catalyst 4500 Supervisor V-10GE, 2x10GE (X2) and 4x1GE (SFP)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45						
-WS-X4516-10GE/2	Cisco Catalyst 4500 Redundant Supervisor Engine V-10GE, (2X10GE (X2) or 4X1GE (SFP), Console RJ-45	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45						
-WS-X4516-10GE=	Catalyst 4500 Supervisor V-10GE, 2x10GE (X2) and 4x1GE (SFP)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45						
+WS-X4516-10GE	Catalyst 4500 Supervisor V-10GE, 2x10GE (X2) and 4x1GE (SFP)	Catalyst 4500	supervisor	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45						
+WS-X4516-10GE/2	Cisco Catalyst 4500 Redundant Supervisor Engine V-10GE, (2X10GE (X2) or 4X1GE (SFP), Console RJ-45	Catalyst 4500	supervisor	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45						
+WS-X4516-10GE=	Catalyst 4500 Supervisor V-10GE, 2x10GE (X2) and 4x1GE (SFP)	Catalyst 4500	supervisor	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45						
 WS-X4548-GB-RJ45V+	Cisco Catalyst 4500 PoEP ready 10/100/1000, 48-port (RJ-45)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45						
 WS-X4548-GB-RJ45V=	Catalyst 4500 PoE 802.3af 10/100/1000, 48-Ports (RJ45)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45						
 WS-X4582+E=	Catalyst 4510R+E Fan Tray (Spare)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45						

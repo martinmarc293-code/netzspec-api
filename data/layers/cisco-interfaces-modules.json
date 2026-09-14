@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "interfaces-modules",
- "built_at": "2026-09-14T18:04:28.368Z",
- "commit": "70caa675f16ebfe5fe7dcba4c312c2a63ca3607c",
+ "built_at": "2026-09-14T18:52:35.423Z",
+ "commit": "772e13a7a448849218d73dce174d4dae2df8cba1",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-interfaces-modules.json",
  "parts": 1400,
@@ -33,6 +33,9 @@
      ],
      "rules": {
       "sku": 94
+     },
+     "pending_in": {
+      "unified-communications": 1
      }
     },
     {
@@ -59,6 +62,9 @@
      ],
      "rules": {
       "sku": 76
+     },
+     "pending_in": {
+      "unified-communications": 5
      }
     },
     {
@@ -82,6 +88,10 @@
      ],
      "rules": {
       "sku": 12
+     },
+     "pending_in": {
+      "unified-communications": 1,
+      "servers-unified-computing": 2
      }
     },
     {
@@ -112,6 +122,9 @@
      "rules": {
       "label": 30,
       "sku": 154
+     },
+     "pending_in": {
+      "unified-communications": 6
      }
     },
     {
@@ -139,7 +152,8 @@
      "rules": {
       "label": 23,
       "sku": 68
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "PVDM Voice DSP Modules",
@@ -162,6 +176,9 @@
      ],
      "rules": {
       "sku": 37
+     },
+     "pending_in": {
+      "unified-communications": 9
      }
     },
     {
@@ -184,6 +201,9 @@
      ],
      "rules": {
       "sku": 19
+     },
+     "pending_in": {
+      "unified-communications": 3
      }
     },
     {
@@ -209,7 +229,8 @@
      "rules": {
       "label": 4,
       "sku": 141
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "PA Port Adapters (7200 / 7500 VIP)",
@@ -232,7 +253,8 @@
      "rules": {
       "sku": 114,
       "label": 2
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Pluggable Interface Modules (LTE / 5G)",
@@ -255,7 +277,8 @@
      ],
      "rules": {
       "sku": 25
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "WP pluggable modules (IoT routers)",
@@ -277,7 +300,8 @@
      ],
      "rules": {
       "sku": 36
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Cellular Cards (MC / PCEX / WIM)",
@@ -301,7 +325,8 @@
      ],
      "rules": {
       "sku": 20
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MC3810 modules (legacy)",
@@ -324,7 +349,8 @@
      ],
      "rules": {
       "sku": 7
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Router Interface Modules shared parts",
@@ -347,7 +373,8 @@
      ],
      "rules": {
       "accessory": 37
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -376,7 +403,8 @@
      ],
      "rules": {
       "sku": 36
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "NAM 2400 appliances (Services Modules label)",
@@ -394,11 +422,12 @@
      ],
      "rules": {
       "sku": 2
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Router and switch line cards (legacy) shared parts",
-     "family": null,
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 14,
@@ -418,7 +447,8 @@
      ],
      "rules": {
       "label": 14
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -450,11 +480,12 @@
      "rules": {
       "label": 57,
       "sku": 55
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Cables and accessories shared parts",
-     "family": null,
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 18,
@@ -480,7 +511,8 @@
      "rules": {
       "label": 16,
       "accessory": 2
-     }
+     },
+     "pending_in": {}
     }
    ]
   }
@@ -2857,6 +2889,10 @@
   "label_placed": 0,
   "by_kind": {},
   "moved": []
+ },
+ "pending_review": [],
+ "inbound_unplaced": {
+  "servers-unified-computing": 3
  },
  "done": true
 }
