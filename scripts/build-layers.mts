@@ -17,6 +17,8 @@ import { lineFilePath, loadLineFile, placeWithSpareRule, familyOf, SHARED_PARTS 
 // layer 3 of a line-level shared-parts row (operator, 14 Sep 2026): explicit, never blank — the part fits several families of the
 // line or none of them. A family-scoped shared series ("Catalyst 9000 shared parts") carries its family instead.
 const SHARED_ACROSS_LINE = "(shared across the line)";
+/** page order inside a line: the Cisco families first (alphabetical, series in mapping order within), then series with no family, then shared parts */
+const famRank = (f: string | null): number => (f === SHARED_ACROSS_LINE ? 2 : f ? 0 : 1);
 import { closePool, query } from "../src/store/db.js";
 import { execFileSync } from "node:child_process";
 
@@ -161,7 +163,7 @@ function categoryPage(t: Tree): string {
     `<tr><td class=bad>(unplaced)</td><td></td><td class=r>${t.unplaced.length}</td></tr></table>`;
   for (const l of t.lines) {
     body += `<h2>${esc(l.line)} — ${l.parts.toLocaleString("en-US")} parts</h2><p class=m>deploy_role totals: ${roleTotals(l)}</p><table><tr><th>family</th><th>series</th><th>deploy_role (series table)</th><th>parts</th><th>part types</th><th>role as the cup engine assigns it</th><th>examples</th></tr>` +
-      [...l.series].sort((a, b) => (a.family === SHARED_ACROSS_LINE ? "~~" : a.family ?? "~").localeCompare(b.family === SHARED_ACROSS_LINE ? "~~" : b.family ?? "~")).map((s) => `<tr><td>${s.family ? esc(s.family) : "<span class=m>—</span>"}</td><td><b>${esc(s.series)}</b>${s.note ? `<br><span class=warn>${esc(s.note)}</span>` : ""}</td><td>${s.role ? esc(s.role) : "<span class=m>none (no role)</span>"}</td><td class=r>${s.parts}</td><td>${Object.entries(s.kinds).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${esc(k)} ${n}`).join(", ")}</td><td>${Object.entries(s.roles).map(([r, n]) => `${esc(r)} ${n}`).join(", ") || "<span class=m>—</span>"}</td><td class=m>${s.samples.map(esc).join("<br>")}</td></tr>`).join("") + `</table>`;
+      [...l.series].sort((a, b) => (famRank(a.family) - famRank(b.family)) || (a.family ?? "").localeCompare(b.family ?? "")).map((s) => `<tr><td>${s.family ? esc(s.family) : "<span class=m>—</span>"}</td><td><b>${esc(s.series)}</b>${s.note ? `<br><span class=warn>${esc(s.note)}</span>` : ""}</td><td>${s.role ? esc(s.role) : "<span class=m>none (no role)</span>"}</td><td class=r>${s.parts}</td><td>${Object.entries(s.kinds).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${esc(k)} ${n}`).join(", ")}</td><td>${Object.entries(s.roles).map(([r, n]) => `${esc(r)} ${n}`).join(", ") || "<span class=m>—</span>"}</td><td class=m>${s.samples.map(esc).join("<br>")}</td></tr>`).join("") + `</table>`;
   }
   if (t.not_this_category.length) body += `<h2 class=warn>Not this category — ${t.not_this_category.length}</h2><table><tr><th>SKU</th><th>name</th><th>why</th><th>belongs</th></tr>` +
     t.not_this_category.map((x) => `<tr><td>${esc(x.sku)}</td><td>${esc(x.name)}</td><td>${esc(x.why)}</td><td>${esc(x.belongs ?? "")}</td></tr>`).join("") + `</table>`;
