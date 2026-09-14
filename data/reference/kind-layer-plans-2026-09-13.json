@@ -14661,5 +14661,16 @@
   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label",
   "evidence": "reviewer, switches layers review 14 Sep 2026, item 3 (named 8K-2RU-2P-KIT, 8K-2RU-2P-KIT=, 8K-2RU-KIT-L; the -KIT-L= and -KIT-S / -KIT-S= rows are the same family)",
   "planned_by": "reviewer 14 Sep 2026 (switches layers review)"
+ },
+ {
+  "sku": "MS100",
+  "category": "switches",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "no Meraki MS100 switch exists; the row is 'Cisco MS100' with no document (operator ruling on the routers pass, 13 Sep 2026: MS100 refused)",
+  "evidence": "moved from meraki with the MS family, 14 Sep 2026",
+  "planned_by": "parent 14 Sep 2026 (switches layers review, item 7 follow-up)"
  }
 ]

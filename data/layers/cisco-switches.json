@@ -1,7 +1,7 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-14T12:33:29.705Z",
+ "built_at": "2026-09-14T12:34:13.477Z",
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7541,
  "lines": [
@@ -2188,7 +2188,7 @@
   },
   {
    "line": "Meraki MS",
-   "parts": 178,
+   "parts": 180,
    "series": [
     {
      "series": "MS120",
@@ -2342,6 +2342,25 @@
      ],
      "rules": {
       "sku": 11
+     }
+    },
+    {
+     "series": "MS320",
+     "role": "access",
+     "parts": 2,
+     "kinds": {
+      "power": 1,
+      "switch": 1
+     },
+     "roles": {
+      "access": 1
+     },
+     "samples": [
+      "MS320-1025WAC — Cisco MS320-1025WAC",
+      "MS320-48 — Cisco MS320-48"
+     ],
+     "rules": {
+      "sku": 2
      }
     },
     {
@@ -3959,6 +3978,14 @@
    "reason": "pluggable optic filed as a switch"
   },
   {
+   "sku": "MS100",
+   "name": "Cisco MS100",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "no Meraki MS100 switch exists; the row is 'Cisco MS100' with no document (operator ruling on the routers pass, 13 Sep 2026: MS100 refused)"
+  },
+  {
    "sku": "N3064T-16T-UPG=",
    "name": "16 Port Upgrade License for N3064-32T",
    "series_label": "Nexus 3000",
@@ -4519,25 +4546,6 @@
    "reason": "pluggable optic filed as a switch"
   }
  ],
- "unplaced": [
-  {
-   "sku": "MS100",
-   "name": "Cisco MS100",
-   "series_label": "Meraki",
-   "kind": "switch"
-  },
-  {
-   "sku": "MS320-1025WAC",
-   "name": "Cisco MS320-1025WAC",
-   "series_label": "Meraki",
-   "kind": "power"
-  },
-  {
-   "sku": "MS320-48",
-   "name": "Cisco MS320-48",
-   "series_label": "Meraki",
-   "kind": "switch"
-  }
- ],
- "done": false
+ "unplaced": [],
+ "done": true
 }

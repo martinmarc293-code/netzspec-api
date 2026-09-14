@@ -1161,6 +1161,13 @@
      ]
     },
     {
+     "series": "MS320",
+     "role": "access",
+     "sku": [
+      "^MS320"
+     ]
+    },
+    {
      "series": "MS350",
      "role": "access",
      "sku": [
