@@ -1,0 +1,400 @@
+{
+ "vendor": "cisco",
+ "category": "security",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco security hardware, 14 Sep 2026: Secure Firewall / Firepower by model family, ASA and ISA, legacy IPS, Firewall Management Center, ISE appliances, Secure Network Analytics (Stealthwatch), Secure Email and Web, Malware Analytics, Endpoint private cloud, Cyber Vision, Security Manager. Most SKUs glue the model to the prefix (FPR1010-NGFW-K9, ASA5516-FPWR-K9), so patterns take an optional dash. Order: Firewall 4200 (FPR42xx, FPR4K-XNM) before Firepower 4100 (FPR41xx, FPR4K). No role axis.",
+ "lines": [
+  {
+   "line": "Secure Firewall and Firepower",
+   "series": [
+    {
+     "series": "Secure Firewall 200",
+     "sku": [
+      "^CSF-?2[0-9]{2}(?![0-9])"
+     ],
+     "labels": [
+      "200 Secure"
+     ]
+    },
+    {
+     "series": "Secure Firewall 1200",
+     "sku": [
+      "^CSF-?12",
+      "^12[0-9]0C[EPX]"
+     ],
+     "labels": [
+      "Secure Firewall 1200 Series"
+     ]
+    },
+    {
+     "series": "Secure Firewall 6100",
+     "sku": [
+      "^CSF-?6"
+     ],
+     "labels": [
+      "Secure Firewall 6100 Series"
+     ]
+    },
+    {
+     "series": "Firepower 1000",
+     "sku": [
+      "^FPR-?1(0[0-9]{2}|1[0-9]{2}|K)"
+     ],
+     "labels": [
+      "Firepower 1000 Series"
+     ]
+    },
+    {
+     "series": "Firepower 2100",
+     "sku": [
+      "^FPR-?2(1[0-9]{2}|K)"
+     ],
+     "labels": [
+      "2100 Firepower"
+     ]
+    },
+    {
+     "series": "Secure Firewall 3100",
+     "sku": [
+      "^FPR-?3(1[0-9]{2}|K)"
+     ]
+    },
+    {
+     "series": "Secure Firewall 4200",
+     "sku": [
+      "^FPR-?42[0-9]{2}",
+      "^FPR4K-XNM"
+     ]
+    },
+    {
+     "series": "Firepower 4100",
+     "sku": [
+      "^FPR-?41[0-9]{2}",
+      "^FPR4K",
+      "^F41[0-9]{2}"
+     ],
+     "labels": [
+      "4100 Firepower"
+     ]
+    },
+    {
+     "series": "Firepower 9300",
+     "sku": [
+      "^FPR-?9",
+      "^FPR-C9300",
+      "^FPR-CH-9300",
+      "^FPR-?DNM"
+     ],
+     "labels": [
+      "Firepower 9300 Series"
+     ]
+    },
+    {
+     "series": "FirePOWER 7000 / 8000 (legacy)",
+     "sku": [
+      "^FP-?[78][0-9]{3}",
+      "^FPNM",
+      "^FP-NMSB",
+      "^FP-PWR",
+      "^AMP[78][0-9]{3}"
+     ],
+     "labels": [
+      "FirePOWER 8000 Appliances",
+      "FirePOWER 7000 Appliances"
+     ]
+    },
+    {
+     "series": "Secure Firewall and Firepower shared parts",
+     "sku": [
+      "^FPR-"
+     ],
+     "labels": [
+      "Firepower NGFW"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "ASA and ISA",
+   "series": [
+    {
+     "series": "ASA 5585-X",
+     "sku": [
+      "^ASA-?5585",
+      "^ASA-SSP",
+      "^ASA-IPS"
+     ]
+    },
+    {
+     "series": "ASA 5580",
+     "sku": [
+      "^ASA-?5580"
+     ]
+    },
+    {
+     "series": "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)",
+     "sku": [
+      "^ASA-?55(0[68]|1[256]|25|45|55)"
+     ],
+     "labels": [
+      "5500-X ASA with Firepower"
+     ]
+    },
+    {
+     "series": "ASA 5500 (5505 / 5510 / 5520 / 5540 / 5550)",
+     "sku": [
+      "^ASA-?55(05|10|20|40|50)"
+     ]
+    },
+    {
+     "series": "ISA 3000",
+     "sku": [
+      "^ISA-?3000"
+     ],
+     "labels": [
+      "3000 Series Industrial Security Appliances (ISA)"
+     ]
+    },
+    {
+     "series": "ASA and ISA shared parts",
+     "sku": [
+      "^ASA"
+     ],
+     "labels": [
+      "ASA 5500 Series Next Generation",
+      "ASA"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "IPS (legacy)",
+   "series": [
+    {
+     "series": "IPS 4300 / 4500",
+     "sku": [
+      "^IPS-"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Secure Firewall Management Center",
+   "series": [
+    {
+     "series": "Management Center / FireSIGHT appliances",
+     "sku": [
+      "^FMC",
+      "^FS-?[0-9]",
+      "^FS-PWR"
+     ],
+     "labels": [
+      "Defense Center",
+      "Firesight Management Center"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Identity Services Engine",
+   "series": [
+    {
+     "series": "Secure Network Server (SNS) appliances",
+     "sku": [
+      "^SNS-"
+     ],
+     "labels": [
+      "Identity Services Engine"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Secure Network Analytics (Stealthwatch)",
+   "series": [
+    {
+     "series": "Flow Sensor",
+     "sku": [
+      "^LC-(FS|SENS|FCSF)",
+      "^ST-FS"
+     ],
+     "labels": [
+      "Flow Sensor"
+     ]
+    },
+    {
+     "series": "Flow Collector",
+     "sku": [
+      "^LC-(FC|COLLECT|FCNF)",
+      "^ST-FC"
+     ]
+    },
+    {
+     "series": "Management Console",
+     "sku": [
+      "^LC-(SMC|CONSO)",
+      "^ST-SMC"
+     ]
+    },
+    {
+     "series": "UDP Director / Flow Replicator",
+     "sku": [
+      "^LC-(UDP|UD[0-9]|FR|REP|ID)",
+      "^ST-UD"
+     ],
+     "labels": [
+      "UDP Director"
+     ]
+    },
+    {
+     "series": "Data Store",
+     "sku": [
+      "^ST-DS"
+     ]
+    },
+    {
+     "series": "Secure Network Analytics (Stealthwatch) shared parts",
+     "sku": [
+      "^LC-",
+      "^ST-"
+     ],
+     "labels": [
+      "Secure Network Analytics"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Secure Email and Web",
+   "series": [
+    {
+     "series": "Email Security Appliance (ESA)",
+     "sku": [
+      "^ESA-"
+     ],
+     "labels": [
+      "Email Security Appliance"
+     ]
+    },
+    {
+     "series": "Secure Web Appliance (WSA)",
+     "sku": [
+      "^WSA-",
+      "^S[0-9]{3}(?![0-9])"
+     ],
+     "labels": [
+      "Secure Web Appliance"
+     ]
+    },
+    {
+     "series": "Security Management Appliance (SMA)",
+     "sku": [
+      "^SMA-"
+     ],
+     "labels": [
+      "Secure Email and Web Manager"
+     ]
+    },
+    {
+     "series": "Secure Email and Web shared parts",
+     "sku": [
+      "^CCS-"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Secure Malware Analytics",
+   "series": [
+    {
+     "series": "Malware Analytics (Threat Grid) appliances",
+     "sku": [
+      "^TG"
+     ],
+     "labels": [
+      "Secure Malware Analytics"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Secure Endpoint Private Cloud",
+   "series": [
+    {
+     "series": "Secure Endpoint (AMP) private cloud appliances",
+     "sku": [
+      "^AMPPC",
+      "^AMP-S",
+      "^SEPC"
+     ],
+     "labels": [
+      "Fireamp Endpoints",
+      "Secure Endpoint Private Cloud"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Cyber Vision",
+   "series": [
+    {
+     "series": "Cyber Vision Center appliances",
+     "sku": [
+      "^CV-"
+     ],
+     "labels": [
+      "Cyber Vision"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Security Manager and Secure Workload",
+   "series": [
+    {
+     "series": "Security Manager (CSM) appliances",
+     "sku": [
+      "^CSM"
+     ],
+     "labels": [
+      "Security Manager"
+     ]
+    },
+    {
+     "series": "Secure Workload (Tetration)",
+     "sku": [
+      "TETRA",
+      "^TA-"
+     ],
+     "labels": [
+      "Secure Workload"
+     ]
+    },
+    {
+     "series": "Secure Client (AnyConnect)",
+     "labels": [
+      "Secure Client (including AnyConnect)"
+     ]
+    }
+   ]
+  }
+ ],
+ "shared_accessories": [
+  "CABLE",
+  "CBL-MGMT",
+  "RAIL",
+  "RCKMNT",
+  "RACK-MNT",
+  "BRKT",
+  "BRACKET",
+  "BLANK",
+  "BLNK",
+  "BBLKD"
+ ],
+ "not_this_category": [
+  {
+   "sku": "^(SM-EC-|AIM-DES)",
+   "why": "router crypto service modules (SM-EC-DES/3DES for ISR, AIM-DES for 2600) filed under a FirePOWER label",
+   "belongs": "interfaces-modules"
+  }
+ ]
+}

@@ -185,6 +185,22 @@ witness("transceiver", [
   ["GLC-TE", "1000BASE-T SFP", "1G SFP Modules", "Ethernet transceivers", "1G and 100M SFP"],
 ]);
 
+// ---- security (done 14 Sep 2026) ----
+witness("security", [
+  ["FPR4215-NGFW-K9", "Secure Firewall 4215", "4100 Firepower", "Secure Firewall and Firepower", "Secure Firewall 4200"],   // label says 4100
+  ["FPR4K-XNM-4X40G", "Cisco Secure Firewall 4200 4X40G", "4100 Firepower", "Secure Firewall and Firepower", "Secure Firewall 4200"], // 4K-XNM before 4K
+  ["FPR4K-NM-8X10G", "Cisco Firepower 8-port SFP+ Network Module", "4100 Firepower", "Secure Firewall and Firepower", "Firepower 4100"],
+  ["FPR3K-XNM-8X25G", "3100 Series 8-port 1/10/25G", "4100 Firepower", "Secure Firewall and Firepower", "Secure Firewall 3100"],
+  ["CSF6K-XNM-2X100G", "Cisco Secure Firewall 6100 2X100G", "4100 Firepower", "Secure Firewall and Firepower", "Secure Firewall 6100"],
+  ["ASA5516-FPWR-K9", "ASA 5516-X with FirePOWER", "5500-X ASA with Firepower", "ASA and ISA", "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)"],
+  ["ASA5520-K8", "ASA 5520 Appliance", "ASA 5500 Series Next Generation", "ASA and ISA", "ASA 5500 (5505 / 5510 / 5520 / 5540 / 5550)"],
+  ["ASA-SSP-60-INC1", "ASA 5585-X Security Services Processor", "ASA 5500 Series Next Generation", "ASA and ISA", "ASA 5585-X"],
+  ["LC-FC-HDD-1.2TB", "1.2 TB 12G SAS 10K rpm SFF HDD", "Secure Network Analytics", "Secure Network Analytics (Stealthwatch)", "Flow Collector"],
+  ["TG5004-CHAS", "Cisco Threat Grid 5004/5504 Chasis", "Secure Malware Analytics", "Secure Malware Analytics", "Malware Analytics (Threat Grid) appliances"],
+  ["S696", "Cisco S696", "Secure Web Appliance", "Secure Email and Web", "Secure Web Appliance (WSA)"],
+  ["SM-EC-3DES", "Service Module for 168-bit DES Encryption", "FirePOWER 7000 Appliances", "(not this category)", "interfaces-modules"],
+]);
+
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");

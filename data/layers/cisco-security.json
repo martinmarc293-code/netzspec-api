@@ -1,0 +1,1116 @@
+{
+ "vendor": "cisco",
+ "category": "security",
+ "built_at": "2026-09-14T14:00:56.843Z",
+ "mapping_file": "data/reference/product-lines/cisco-security.json",
+ "parts": 1990,
+ "lines": [
+  {
+   "line": "Secure Firewall and Firepower",
+   "parts": 659,
+   "series": [
+    {
+     "series": "Secure Firewall 200",
+     "role": null,
+     "note": null,
+     "parts": 7,
+     "kinds": {
+      "mechanical": 4,
+      "firewall": 3
+     },
+     "roles": {},
+     "samples": [
+      "CSF200-CBL-MGMT= — Cisco Secure Firewall 200 Series cable management",
+      "CSF200-ENC-K9 — Cisco Firewall 200 Series ASA Strong Encryption (3DES/AES)",
+      "CSF200-RCKMNT-FX= — Cisco Secure Firewall Rackmount Kit, w/Fixed Brackets for CS",
+      "CSF200-RCKMNT-SR= — Cisco Secure Firewall Rackmount Kit, w/Slide Rails for CSF22",
+      "CSF200-WALL-MNT= — Cisco Secure Firewall 200 Series Wall-Mount kit",
+      "CSF220-ASA-K9 — Cisco Secure Firewall 220 Appliance, ASA"
+     ],
+     "rules": {
+      "sku": 7
+     }
+    },
+    {
+     "series": "Secure Firewall 1200",
+     "role": null,
+     "note": null,
+     "parts": 25,
+     "kinds": {
+      "firewall": 16,
+      "cable": 1,
+      "mechanical": 3,
+      "drive": 1,
+      "power": 4
+     },
+     "roles": {},
+     "samples": [
+      "1210CE — Cisco 1210CE",
+      "1210CP — Cisco 1210CP",
+      "1220CX — Cisco 1220CX",
+      "CAB-CONS-USB-C= — Console cable, USB-C to USB-C, 6ft, compatible with 1200 Ser",
+      "CSF1200-CBL-MGMT= — Secure Firewall 1200 Series cable management accessory",
+      "CSF1200-SSD960= — Secure Firewall 1200 Series SSD, 960GB (1U models)"
+     ],
+     "rules": {
+      "sku": 24,
+      "label": 1
+     }
+    },
+    {
+     "series": "Secure Firewall 6100",
+     "role": null,
+     "note": null,
+     "parts": 29,
+     "kinds": {
+      "mechanical": 5,
+      "firewall": 6,
+      "fan": 1,
+      "memory": 2,
+      "power": 1,
+      "drive": 4,
+      "module": 10
+     },
+     "roles": {},
+     "samples": [
+      "CSF6100-ACC-KIT — Cisco Secure Firewall 6100 HW Acc Kit (Rack Mounts, Cables)",
+      "CSF6100-CBL-MGMT — Cisco Secure Firewall 6100 Cable Management Brackets",
+      "CSF6100-ENC-K9 — Cisco Secure Firewall 6100 Strong Encryption (3DES/AES)",
+      "CSF6100-FAN — Cisco Secure Firewall 6100 Series Fan",
+      "CSF6100-FTD-HA-BUN — Cisco Secure Firewall 6100 series Two Unit High Availability",
+      "CSF6100-MEM-C1X64- — Memory DIMM for Cisco Secure Firewall 6160 CPU - 1x64GB"
+     ],
+     "rules": {
+      "sku": 29
+     }
+    },
+    {
+     "series": "Firepower 1000",
+     "role": null,
+     "note": null,
+     "parts": 35,
+     "kinds": {
+      "firewall": 24,
+      "mechanical": 9,
+      "power": 1,
+      "accessory": 1
+     },
+     "roles": {},
+     "samples": [
+      "FPR-1010 — Cisco FPR-1010",
+      "FPR-1120 — Cisco FPR-1120",
+      "FPR-1140 — Cisco FPR-1140",
+      "FPR-1150 — Cisco FPR-1150",
+      "FPR1010-ASA-K9 — Cisco Firepower 1010 NGFW Appliance, Desktop, PoE (run ASA S",
+      "FPR1010-BUN — Cisco Firepower 1010 Master Bundle (allows selection of ASA "
+     ],
+     "rules": {
+      "sku": 35
+     }
+    },
+    {
+     "series": "Firepower 2100",
+     "role": null,
+     "note": null,
+     "parts": 88,
+     "kinds": {
+      "mechanical": 26,
+      "firewall": 35,
+      "fan": 2,
+      "memory": 5,
+      "module": 12,
+      "power": 4,
+      "drive": 4
+     },
+     "roles": {},
+     "samples": [
+      "FPR-2100-FIPS-KIT — ^Firepower 2000 FIPS Kit",
+      "FPR-2100-FIPS-KIT= — Firepower 2000 FIPS Kit",
+      "FPR-2110 — Firepower 2110 Appliance, 1RU, 12 GE, 4 xSFP, 1 MGMT",
+      "FPR-2110-K9 — ^Firepower 2110 Appliance, 1U",
+      "FPR-2120 — Firepower 2120 Appliance, 1RU, 12 GE, 4 xSFP, 1 MGMT",
+      "FPR-2120-K9 — ^Firepower 2120 Appliance, 1U"
+     ],
+     "rules": {
+      "sku": 88
+     }
+    },
+    {
+     "series": "Secure Firewall 3100",
+     "role": null,
+     "note": null,
+     "parts": 40,
+     "kinds": {
+      "firewall": 11,
+      "mechanical": 9,
+      "fan": 1,
+      "power": 2,
+      "drive": 1,
+      "module": 16
+     },
+     "roles": {},
+     "samples": [
+      "FPR3100-FTD-HA-BUN — Cisco Secure Firewall 3100 series Two Unit High Availability",
+      "FPR3105-ASA-K9 — Cisco Secure Firewall 3105 ASA Appliance, 1RU (runs ASA soft",
+      "FPR3105-NGFW-K9 — Cisco Secure Firewall 3105 Appliance with Threat Defense sof",
+      "FPR3110-ASA-K9 — Cisco Secure Firewall 3110 ASA Appliance, 1RU (runs ASA soft",
+      "FPR3110-NGFW-K9 — Cisco Secure Firewall 3110 Appliance with Threat Defense sof",
+      "FPR3120-ASA-K9 — Cisco Secure Firewall 3120 ASA Appliance, 1RU (runs ASA soft"
+     ],
+     "rules": {
+      "sku": 40
+     }
+    },
+    {
+     "series": "Secure Firewall 4200",
+     "role": null,
+     "note": null,
+     "parts": 46,
+     "kinds": {
+      "mechanical": 12,
+      "fan": 2,
+      "firewall": 13,
+      "power": 2,
+      "drive": 2,
+      "module": 15
+     },
+     "roles": {},
+     "samples": [
+      "FPR4200-ACC-KIT — Cisco Secure Firewall 4200 HW Acc Kit (Rack Mounts, Cables)",
+      "FPR4200-ACC-KIT= — Cisco Secure Firewall 4200 HW Acc Kit (Rack Mounts, Cables)",
+      "FPR4200-CBL-MGMT — Cisco Secure Firewall 4200 Series Cable Management Brackets",
+      "FPR4200-CBL-MGMT= — Cisco Secure Firewall 4200 Series Cable Management Brackets",
+      "FPR4200-FAN — Cisco Secure Firewall 4200 Series Fan",
+      "FPR4200-FAN= — Cisco Secure Firewall 4200 Series Fan"
+     ],
+     "rules": {
+      "sku": 46
+     }
+    },
+    {
+     "series": "Firepower 4100",
+     "role": null,
+     "note": null,
+     "parts": 125,
+     "kinds": {
+      "firewall": 72,
+      "mechanical": 16,
+      "fan": 5,
+      "module": 18,
+      "power": 6,
+      "drive": 8
+     },
+     "roles": {},
+     "samples": [
+      "F4110-ASA-NGFW-BUN — Firepower 4110 ASA + NGFW Bundle",
+      "F4120-ASA-NGFW-BUN — Firepower 4120 ASA + NGFW Bundle",
+      "F4140-ASA-NGFW-BUN — Firepower 4140 ASA + NGFW Bundle",
+      "F4150-ASA-NGFW-BUN — Firepower 4150 ASA + NGFW Bundle",
+      "FPR-4100-FIPS-KIT — Firepower 4000 FIPS Kit",
+      "FPR-4100-FIPS-KIT= — Firepower 4000 FIPS Kit"
+     ],
+     "rules": {
+      "sku": 123,
+      "label": 2
+     }
+    },
+    {
+     "series": "Firepower 9300",
+     "role": null,
+     "note": null,
+     "parts": 113,
+     "kinds": {
+      "firewall": 21,
+      "mechanical": 16,
+      "module": 29,
+      "fan": 2,
+      "accessory": 2,
+      "power": 8,
+      "security-module": 29,
+      "drive": 5,
+      "memory": 1
+     },
+     "roles": {},
+     "samples": [
+      "FPR-9300-E-K9 — Firepower 9300 Enterprise Edition",
+      "FPR-9300-N-K9 — Firepower 9300 NEBS Edition",
+      "FPR-9300-X-K9 — Firepower 9300 Extreme Edition",
+      "FPR-C9300 — ^Firepower 9300 Chassis, 0 PSU/4 fans",
+      "FPR-C9300-AC — Cisco Firepower 9300 AC Chassis - includes 2 power supply un",
+      "FPR-C9300-AC= — Cisco Firepower 9300 AC Chassis Spare – without power supply"
+     ],
+     "rules": {
+      "sku": 110,
+      "label": 3
+     }
+    },
+    {
+     "series": "FirePOWER 7000 / 8000 (legacy)",
+     "role": null,
+     "note": null,
+     "parts": 123,
+     "kinds": {
+      "ips": 48,
+      "mechanical": 18,
+      "module": 27,
+      "cable": 2,
+      "power": 19,
+      "accessory": 3,
+      "drive": 3,
+      "memory": 3
+     },
+     "roles": {},
+     "samples": [
+      "AMP7150-K9 — Cisco FirePOWER AMP7150, 1U, 4 Port Copper and 8 SFP Ports",
+      "AMP8300-STK40G-K9 — Cisco 40G Stacking Kit for AMP 8300 Series",
+      "AMP8300-STK40G-K9= — Cisco 40G Stacking Kit for AMP 8300 Series",
+      "AMP8350-K9 — Cisco FirePOWER AMP8350 Chassis, 2U, 7 Slots",
+      "AMP8360-K9 — Cisco FirePOWER AMP8360 Chassis, 4U, 6 Slots (40Gbps Ready)",
+      "AMP8370-K9 — Cisco FirePOWER AMP8370 Chassis, 6U, 5 Slots (40Gbps Ready)"
+     ],
+     "rules": {
+      "sku": 116,
+      "label": 7
+     }
+    },
+    {
+     "series": "Secure Firewall and Firepower shared parts",
+     "role": null,
+     "note": null,
+     "parts": 28,
+     "kinds": {
+      "accessory": 2,
+      "drive": 3,
+      "module": 21,
+      "mechanical": 2
+     },
+     "roles": {},
+     "samples": [
+      "71XX-PA-SM-BLANK — Cisco 7160 Port Adapter and Service Module blank face plate",
+      "FPR-MSP-SSD — Cisco Firepower Malware Storage Pack, SSD",
+      "FPR-MSP-SSD= — Cisco Firepower Malware Storage Pack, SSD",
+      "FPR-NM-2X100G — Cisco FirePower 2 port 100G Network Module",
+      "FPR-NM-2X100G= — Cisco FirePower 2 port 100G Network Module - For RMA Only",
+      "FPR-NM-2X40G-F — Cisco FirePower 2 port 40G SR FTW Network Module"
+     ],
+     "rules": {
+      "accessory": 3,
+      "sku": 25
+     }
+    }
+   ]
+  },
+  {
+   "line": "ASA and ISA",
+   "parts": 441,
+   "series": [
+    {
+     "series": "ASA 5585-X",
+     "role": null,
+     "note": null,
+     "parts": 146,
+     "kinds": {
+      "ips-module": 12,
+      "accessory": 2,
+      "security-module": 50,
+      "mechanical": 11,
+      "firewall": 54,
+      "power": 6,
+      "fan": 2,
+      "drive": 3,
+      "module": 6
+     },
+     "roles": {},
+     "samples": [
+      "ASA-IPS-10-INC-K9 — ASA 5585-X IPS Security Services Processor-10 with 8GE",
+      "ASA-IPS-20-INC-K9 — ASA 5585-X IPS Security Services Processor-20 with 8GE",
+      "ASA-IPS-40-INC-K9 — ASA 5585-X IPS Security Services Processor-40 with 6GE, 4SFP",
+      "ASA-IPS-60-INC-K9 — ASA 5585-X IPS Security Services Processor-60 with 6GE, 4SFP",
+      "ASA-IPS-BLANK — ^ASA IPS Part Number with which PCB Serial is associated",
+      "ASA-SSP-10-INC — ASA 5585-X SSP-10 with 8GE,2SFP, incl with bundle"
+     ],
+     "rules": {
+      "sku": 146
+     }
+    },
+    {
+     "series": "ASA 5580",
+     "role": null,
+     "note": null,
+     "parts": 9,
+     "kinds": {
+      "firewall": 9
+     },
+     "roles": {},
+     "samples": [
+      "ASA5580-20-10K-K9 — ASA 5580-20 VPN Edition w/10K SSL, Dual AC,HA, 3DES/AES",
+      "ASA5580-20-4GE-K9 — ASA 5580-20 Appliance with 4 GE, Dual AC, 3DES/AES",
+      "ASA5580-20-8GE-K9 — ASA 5580-20 Appliance with 8 GE, Dual AC, 3DES/AES",
+      "ASA5580-20-BUN-K8 — ASA 5580-20 Appliance with 2 GE Mgmt, Single AC, DES",
+      "ASA5580-20-BUN-K9 — ASA 5580-20 Appliance with 2 GE Mgmt, Single AC, 3DES/AES",
+      "ASA5580-40-10GE-K9 — ASA 5580-40 Appliance with 4 10GE, Dual AC, 3DES/AES"
+     ],
+     "rules": {
+      "sku": 9
+     }
+    },
+    {
+     "series": "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)",
+     "role": null,
+     "note": null,
+     "parts": 147,
+     "kinds": {
+      "firewall": 124,
+      "mechanical": 13,
+      "power": 4,
+      "drive": 6
+     },
+     "roles": {},
+     "samples": [
+      "ASA-5506 — Cisco ASA-5506",
+      "ASA-5508 — Cisco ASA-5508",
+      "ASA-5516 — Cisco ASA-5516",
+      "ASA-5525 — Cisco ASA-5525",
+      "ASA-5545 — Cisco ASA-5545",
+      "ASA-5555 — Cisco ASA-5555"
+     ],
+     "rules": {
+      "sku": 147
+     }
+    },
+    {
+     "series": "ASA 5500 (5505 / 5510 / 5520 / 5540 / 5550)",
+     "role": null,
+     "note": null,
+     "parts": 65,
+     "kinds": {
+      "firewall": 58,
+      "accessory": 2,
+      "memory": 1,
+      "power": 2,
+      "mechanical": 2
+     },
+     "roles": {},
+     "samples": [
+      "ASA5505-50-BUN-K8 — ASA 5505 Appliance with SW, 50 Users, 8 ports, DES",
+      "ASA5505-50-BUN-K9 — Cisco ASA 5505 50-User Bundle; includes 8-port Fast Ethernet",
+      "ASA5505-BUN-K9 — Cisco ASA 5505 10-User Bundle; includes 8-port Fast Ethernet",
+      "ASA5505-DISTI-512= — 512MB Memory for Cisco ASA 5505",
+      "ASA5505-FIPS-KIT — ^Cisco ASA 5505 Fips Kit",
+      "ASA5505-FIPS-KIT= — ASA 5505 FIPS Kit"
+     ],
+     "rules": {
+      "sku": 65
+     }
+    },
+    {
+     "series": "ISA 3000",
+     "role": null,
+     "note": null,
+     "parts": 6,
+     "kinds": {
+      "firewall": 4,
+      "power": 2
+     },
+     "roles": {},
+     "samples": [
+      "ISA-3000-2C2F-FTD — Cisco ISA-3000-2C2F-FTD",
+      "ISA-3000-2C2F-K9 — Cisco ISA-3000-2C2F-K9",
+      "ISA-3000-4C-FTD — Cisco ISA-3000-4C-FTD",
+      "ISA-3000-4C-K9 — Cisco ISA-3000-4C-K9",
+      "PWR-IE50W-AC — Cisco PWR-IE50W-AC",
+      "PWR-IE50W-AC-IEC — Cisco PWR-IE50W-AC-IEC"
+     ],
+     "rules": {
+      "sku": 4,
+      "label": 2
+     }
+    },
+    {
+     "series": "ASA and ISA shared parts",
+     "role": null,
+     "note": null,
+     "parts": 68,
+     "kinds": {
+      "firewall": 4,
+      "power": 7,
+      "mechanical": 14,
+      "security-module": 9,
+      "module": 16,
+      "drive": 7,
+      "management": 6,
+      "cpu": 1,
+      "memory": 2,
+      "storage-controller": 2
+     },
+     "roles": {},
+     "samples": [
+      "5515-X — Cisco 5515-X",
+      "5525-X — Cisco 5525-X",
+      "5545-X — Cisco 5545-X",
+      "ASA-180W-PWR-AC= — Cisco ASA 180W AC power supply",
+      "ASA-BRACKETS= — Cisco ASA 5512-X, 5515-X, 5525-X brackets for rack mounting",
+      "ASA-CX10-INC-K8 — ASA 5585-X CX SSP-10 with 8GE, DES"
+     ],
+     "rules": {
+      "label": 23,
+      "sku": 45
+     }
+    }
+   ]
+  },
+  {
+   "line": "IPS (legacy)",
+   "parts": 26,
+   "series": [
+    {
+     "series": "IPS 4300 / 4500",
+     "role": null,
+     "note": null,
+     "parts": 26,
+     "kinds": {
+      "mechanical": 8,
+      "ips": 12,
+      "power": 4,
+      "ips-module": 2
+     },
+     "roles": {},
+     "samples": [
+      "IPS-4300-HD-BLK-M — IPS 4345 or 4360 hard drive blank",
+      "IPS-4300-HD-BLK-M= — IPS 4345 or 4360 hard drive blank",
+      "IPS-4300-RAILS — IPS 4345 and 4360 tool-less sliding rail kit",
+      "IPS-4300-RAILS= — IPS 4345 and 4360 tool-less sliding rail kit",
+      "IPS-4345-DC-K9 — IPS 4345 with SW, 8 GE data + 1 GE mgmt, DC Power",
+      "IPS-4345-K9 — IPS 4345 with SW, 8 GE data + 1 GE mgmt, AC Power"
+     ],
+     "rules": {
+      "sku": 26
+     }
+    }
+   ]
+  },
+  {
+   "line": "Secure Firewall Management Center",
+   "parts": 120,
+   "series": [
+    {
+     "series": "Management Center / FireSIGHT appliances",
+     "role": null,
+     "note": null,
+     "parts": 120,
+     "kinds": {
+      "cpu": 11,
+      "drive": 27,
+      "memory": 11,
+      "storage-controller": 7,
+      "compute": 2,
+      "nic": 7,
+      "power": 15,
+      "tpm": 2,
+      "management": 36,
+      "accessory": 1,
+      "mechanical": 1
+     },
+     "roles": {},
+     "samples": [
+      "FMC-CPU-E52620E — Cisco 2.10 GHz E5-2620 v4/85W 8C/20MB Cache/DDR4 2133MHz",
+      "FMC-M5-CPU-4110 — Cisco FMC 2.1 GHz 4110 Processor, 11MB Cache, 8 Core",
+      "FMC-M5-CPU-4116 — Cisco FMC 2.1 GHz 4116 Processor, 16.50MB Cache, 12 Core",
+      "FMC-M5-CPU-I4214 — Cisco FMC 2.4 GHz 4214 Processor, 12MB Cache, 12 Core",
+      "FMC-M5-CPU-I4215 — Cisco FMC 2.4 GHz 4215 Processor, 13.75MB Cache, 8 Core",
+      "FMC-M5-HDD-1.2TB — Cisco FMC 1.2TB 12G SAS 10K RPM SFF HDD"
+     ],
+     "rules": {
+      "sku": 120
+     }
+    }
+   ]
+  },
+  {
+   "line": "Identity Services Engine",
+   "parts": 91,
+   "series": [
+    {
+     "series": "Secure Network Server (SNS) appliances",
+     "role": null,
+     "note": null,
+     "parts": 89,
+     "kinds": {
+      "accessory": 1,
+      "mechanical": 1,
+      "cable": 1,
+      "identity": 32,
+      "memory": 10,
+      "drive": 13,
+      "power": 10,
+      "cpu": 7,
+      "nic": 4,
+      "storage-controller": 6,
+      "tpm": 2,
+      "compute": 1,
+      "fan": 1
+     },
+     "roles": {},
+     "samples": [
+      "CSACS-ACCYKIT — Accessory Kit for Access Control System SW on 3415-appliance",
+      "ISE-SNS-ACCYKIT — ISE SNS Accessory Kit",
+      "N20-BKVM= — KVM local IO cable for UCS servers console port",
+      "SNS-3415-K9 — Small Secure Network Server for ISE, NAC, & ACS Applications",
+      "SNS-3415-K9-CHAS — Service Chassis for SNS-3415-K9: No PS or HDD",
+      "SNS-3415-M-ISE-K9 — SNS 3415 Migration Server: Loaded with ISE Software"
+     ],
+     "rules": {
+      "label": 11,
+      "sku": 78
+     }
+    },
+    {
+     "series": "Identity Services Engine shared parts",
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "mechanical": 2
+     },
+     "roles": {},
+     "samples": [
+      "UCSC-RAIL-D= — Rail kit",
+      "UCSC-RAIL-M6= — Ball Bearing Rail Kit for C220 & C240 M6 rack servers"
+     ],
+     "rules": {
+      "accessory": 2
+     }
+    }
+   ]
+  },
+  {
+   "line": "Secure Network Analytics (Stealthwatch)",
+   "parts": 288,
+   "series": [
+    {
+     "series": "Flow Sensor",
+     "role": null,
+     "note": null,
+     "parts": 68,
+     "kinds": {
+      "analytics": 68
+     },
+     "roles": {},
+     "samples": [
+      "LC-FCSF1010 — Cisco Stealthwatch FlowCollector for sFlow 1010",
+      "LC-FCSF1010-RMA — Cisco Stealthwatch FC SF 1010 for Install Base Migration",
+      "LC-FCSF2010 — Cisco Stealthwatch FlowCollector for sFlow 2010",
+      "LC-FCSF2010-RMA — Cisco Stealthwatch FC SF 2010 for Install Base Migration",
+      "LC-FCSF4010 — Cisco Stealthwatch FlowCollector for sFlow 4010",
+      "LC-FCSF4010-RMA — Cisco Stealthwatch FC SF 4010 for Install Base Migration"
+     ],
+     "rules": {
+      "sku": 68
+     }
+    },
+    {
+     "series": "Flow Collector",
+     "role": null,
+     "note": null,
+     "parts": 77,
+     "kinds": {
+      "analytics": 56,
+      "cpu": 2,
+      "drive": 4,
+      "memory": 2,
+      "storage-controller": 3,
+      "mechanical": 2,
+      "nic": 1,
+      "compute": 2,
+      "power": 5
+     },
+     "roles": {},
+     "samples": [
+      "LC-COLLECT-1000 — FlowCollector 1000; 1 TB storage; 30K fps; 500 sources",
+      "LC-COLLECT-2000 — FlowCollector 2000; 2 TB storage; 60K fps; 1000 sources",
+      "LC-COLLECT-4000 — FlowCollector 4000; 4 TB storage; 120K fps; 2000 sources",
+      "LC-FC-1010-NF-K9 — StealthWatch FlowCollector for NetFlow 1010",
+      "LC-FC-1010-SF-K9 — StealthWatch sFlow Collector for 1010",
+      "LC-FC-1K-R-K9 — StealthWatch FlowCollector 10XX Hardware Refresh to 13G"
+     ],
+     "rules": {
+      "sku": 77
+     }
+    },
+    {
+     "series": "Management Console",
+     "role": null,
+     "note": null,
+     "parts": 24,
+     "kinds": {
+      "analytics": 24
+     },
+     "roles": {},
+     "samples": [
+      "LC-CONSOLE-1000 — Management Console 1000; 1 TB storage; monitors 5 Collectors",
+      "LC-CONSOLE-2000 — Management Console 2000; 2 TB storage; monitor 25 Collectors",
+      "LC-CONSOLE-500 — Management Console 500; 1 TB storage; monitors 1 Collector",
+      "LC-SMC-1010-K9 — Stealthwatch Management Console 1010",
+      "LC-SMC-1010-RED-K9 — Stealthwatch Management Console 1010 redundant",
+      "LC-SMC-1K-K9 — StealthWatch Management Console 1K appliance"
+     ],
+     "rules": {
+      "sku": 24
+     }
+    },
+    {
+     "series": "UDP Director / Flow Replicator",
+     "role": null,
+     "note": null,
+     "parts": 27,
+     "kinds": {
+      "analytics": 27
+     },
+     "roles": {},
+     "samples": [
+      "LC-FR-1K-C-K9 — StealthWatch FlowReplicator 1K appliance",
+      "LC-FR-2K-C-K9 — StealthWatch FlowReplicator 2K appliance, copper interfaces",
+      "LC-FR-2K-F-K9 — StealthWatch FlowReplicator 2K appliance, fiber interfaces",
+      "LC-ID-1000-K9 — Identity Appliance",
+      "LC-ID-1100-K9 — Identity 1100 appliance",
+      "LC-ID1100-RMA — Cisco Stealthwatch Identity 1100 for Install Base Migration"
+     ],
+     "rules": {
+      "sku": 27
+     }
+    },
+    {
+     "series": "Data Store",
+     "role": null,
+     "note": null,
+     "parts": 5,
+     "kinds": {
+      "analytics": 5
+     },
+     "roles": {},
+     "samples": [
+      "ST-DS6200 — Cisco ST-DS6200",
+      "ST-DS6200-1D-CH-K9 — Cisco Stealthwatch Data Store 6210 - RMA",
+      "ST-DS6200-1D-K9= — Cisco Stealthwatch Data Store 6200 - Single Database Node",
+      "ST-DS6200-D1-K9 — Cisco ST-DS6200-D1-K9",
+      "ST-DS6200-K9 — Cisco Stealthwatch Data Store 6200"
+     ],
+     "rules": {
+      "sku": 5
+     }
+    },
+    {
+     "series": "Secure Network Analytics (Stealthwatch) shared parts",
+     "role": null,
+     "note": null,
+     "parts": 87,
+     "kinds": {
+      "drive": 24,
+      "power": 15,
+      "accessory": 1,
+      "nic": 7,
+      "cpu": 10,
+      "analytics": 9,
+      "mechanical": 3,
+      "storage-controller": 6,
+      "compute": 6,
+      "memory": 5,
+      "tpm": 1
+     },
+     "roles": {},
+     "samples": [
+      "LC-12G-HDD-1.2TB= — Cisco 1.2TB 10K RPM SAS 6Gbps 2.5in Hot-plug Hard Drive, 12G",
+      "LC-12G-HDD-300GB= — Cisco 300GB 15K RPM SAS 6Gbps 2.5in Hot-plug Hard Drive, 12G",
+      "LC-12G-HDD-600GB= — Cisco 600GB 10K RPM SAS 6Gbps 2.5in Hot-plug Hard Drive, 12G",
+      "LC-13-PWR-AC-750W- — Cisco Stealthwatch 13G 750W AC Power Supply, Hot-plug",
+      "LC-13-PWR-AC-750W= — Cisco Stealthwatch 13G 750W AC Power Supply, Hot-plug",
+      "LC-13G-HDD-1.2TB- — Cisco 1.2TB 10K RPM SAS 6Gbps 2.5in Hot-plug Hard Drive, 13G"
+     ],
+     "rules": {
+      "sku": 82,
+      "label": 4,
+      "accessory": 1
+     }
+    }
+   ]
+  },
+  {
+   "line": "Secure Email and Web",
+   "parts": 199,
+   "series": [
+    {
+     "series": "Email Security Appliance (ESA)",
+     "role": null,
+     "note": null,
+     "parts": 37,
+     "kinds": {
+      "email-gateway": 35,
+      "mechanical": 2
+     },
+     "roles": {},
+     "samples": [
+      "ESA-C170-K9 — ESA C170 Email Security Appliance with Software",
+      "ESA-C190-K9 — ESA C190 Email Security Appliance",
+      "ESA-C190-PR-K9 — ESA C190 Multi Year AMP Attach Promo",
+      "ESA-C195-K9 — ESA C195 Email Security Appliance",
+      "ESA-C195-PR-K9 — ESA C195 Promotional Price with EMAIL Security Inb/Prem Plus",
+      "ESA-C370-K9 — ESA C370 Email Security Appliance with Software"
+     ],
+     "rules": {
+      "sku": 37
+     }
+    },
+    {
+     "series": "Secure Web Appliance (WSA)",
+     "role": null,
+     "note": null,
+     "parts": 40,
+     "kinds": {
+      "web-gateway": 37,
+      "nic": 1,
+      "drive": 2
+     },
+     "roles": {},
+     "samples": [
+      "S170 — Cisco S170",
+      "S196 — Cisco S196",
+      "S380 — Cisco S380",
+      "S396 — Cisco S396",
+      "S680 — Cisco S680",
+      "S696 — Cisco S696"
+     ],
+     "rules": {
+      "sku": 40
+     }
+    },
+    {
+     "series": "Security Management Appliance (SMA)",
+     "role": null,
+     "note": null,
+     "parts": 37,
+     "kinds": {
+      "drive": 2,
+      "management": 32,
+      "mechanical": 3
+     },
+     "roles": {},
+     "samples": [
+      "SMA-HD-600GB- — SMA 600 GB HD for M1070",
+      "SMA-HD-600GB= — SMA 600 GB HD for M1070",
+      "SMA-M1070-FI-K9 — SMA M1070 Security Management Appliance with 2GE Fiber",
+      "SMA-M1070-FPLT — SMA Locking Faceplate for M1070",
+      "SMA-M1070-FPLT= — SMA Locking Faceplate for M1070",
+      "SMA-M1070-K9 — SMA M1070 Security Management Appliance with Software"
+     ],
+     "rules": {
+      "sku": 37
+     }
+    },
+    {
+     "series": "Secure Email and Web shared parts",
+     "role": null,
+     "note": null,
+     "parts": 85,
+     "kinds": {
+      "nic": 13,
+      "mechanical": 22,
+      "storage-controller": 5,
+      "cpu": 7,
+      "drive": 15,
+      "power": 13,
+      "tpm": 1,
+      "memory": 6,
+      "compute": 3
+     },
+     "roles": {},
+     "samples": [
+      "CCS-10GE-FI — Cisco Content Sec 2-Port 10-Gigabit Fiber Ethernet Card",
+      "CCS-10GE-FI-V2 — Cisco Content Sec 2-Port 10-Gigabit Fiber Ethernet Card v2",
+      "CCS-170-BRACKETS= — Cisco Content Security x170 Bracket for Two Post Racks",
+      "CCS-1GE-CU — Cisco Content Sec 1-Port 10/100/1000 Interface Card, RJ-45",
+      "CCS-1GE-FI — Cisco Content Sec 2-Port Gigabit Fiber Ethernet Card",
+      "CCS-1GE-FI-V2 — Cisco Content Sec 2-Port Gigabit Fiber Ethernet Card v2"
+     ],
+     "rules": {
+      "sku": 85
+     }
+    }
+   ]
+  },
+  {
+   "line": "Secure Malware Analytics",
+   "parts": 71,
+   "series": [
+    {
+     "series": "Malware Analytics (Threat Grid) appliances",
+     "role": null,
+     "note": null,
+     "parts": 70,
+     "kinds": {
+      "nic": 4,
+      "analytics": 13,
+      "cpu": 5,
+      "drive": 20,
+      "memory": 6,
+      "power": 12,
+      "storage-controller": 5,
+      "tpm": 3,
+      "mechanical": 2
+     },
+     "roles": {},
+     "samples": [
+      "TG-10G-NIC — Thread Grid X520 Dual Port 10Gb SFP+ Adapter",
+      "TG-AFA-K9 — Cisco TG-AFA-K9",
+      "TG-CPU-E52697B — 2.70 GHz E5-2697 v2/130W 12C/30MB Cache/DDR3 1866MHz",
+      "TG-CPU-E52697E — 2.30 GHz, E5-2697 v4, 45MB Cache, 18 Core, 28 thread",
+      "TG-HDD-1.2TB — 1.2TB SATA 10K RPM 12G SAS",
+      "TG-HDD-1.2TB= — 1.2TB SATA 10K RPM 12G SAS"
+     ],
+     "rules": {
+      "sku": 70
+     }
+    },
+    {
+     "series": "Secure Malware Analytics shared parts",
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "accessory": 1
+     },
+     "roles": {},
+     "samples": [
+      "UCSC-RAILF-M4 — Cisco UCSC-RAILF-M4"
+     ],
+     "rules": {
+      "accessory": 1
+     }
+    }
+   ]
+  },
+  {
+   "line": "Secure Endpoint Private Cloud",
+   "parts": 36,
+   "series": [
+    {
+     "series": "Secure Endpoint (AMP) private cloud appliances",
+     "role": null,
+     "note": null,
+     "parts": 36,
+     "kinds": {
+      "drive": 13,
+      "nic": 2,
+      "management": 3,
+      "power": 3,
+      "cpu": 3,
+      "accessory": 1,
+      "memory": 4,
+      "compute": 3,
+      "storage-controller": 2,
+      "tpm": 2
+     },
+     "roles": {},
+     "samples": [
+      "AMP-S800GK3X-EP — Cisco Secure Endpoint Cloud 800GB SSD",
+      "AMP-S800GK3X-EP= — Cisco AMP Cloud 800GB SSD",
+      "AMP-S800GS3X-EP — Cisco Secure Endpoint Cloud 800GB SSD",
+      "AMP-S800GS3X-EP= — Cisco Secure Endpoint Cloud 800GB SSD",
+      "AMPPC-10G-NIC — Cisco Secure Endpoint Cloud X710 quad-port 10G SFP+ NIC",
+      "AMPPC-3000-K9 — Cisco AMP Private Cloud Appliance - 3000 Model"
+     ],
+     "rules": {
+      "sku": 36
+     }
+    }
+   ]
+  },
+  {
+   "line": "Cyber Vision",
+   "parts": 27,
+   "series": [
+    {
+     "series": "Cyber Vision Center appliances",
+     "role": null,
+     "note": null,
+     "parts": 27,
+     "kinds": {
+      "accessory": 1,
+      "mechanical": 1,
+      "analytics": 8,
+      "cpu": 4,
+      "memory": 3,
+      "drive": 4,
+      "power": 3,
+      "storage-controller": 1,
+      "tpm": 2
+     },
+     "roles": {},
+     "samples": [
+      "CV-BBLKD-M8 — Cisco CV-BBLKD-M8",
+      "CV-BBLKD-S2 — Cyber Vision Center UCS C-Series M5 SFF drive blanking panel",
+      "CV-CNTR-M5S3 — Cyber Vision Center Appliance M5S3",
+      "CV-CNTR-M5S3= — Cyber Vision Center Appliance M5S3 Spare",
+      "CV-CNTR-M5S5 — Cyber Vision Center Appliance M5S5",
+      "CV-CNTR-M5S5= — Cyber Vision Center Appliance M5S5 Spare"
+     ],
+     "rules": {
+      "sku": 27
+     }
+    }
+   ]
+  },
+  {
+   "line": "Security Manager and Secure Workload",
+   "parts": 21,
+   "series": [
+    {
+     "series": "Security Manager (CSM) appliances",
+     "role": null,
+     "note": null,
+     "parts": 17,
+     "kinds": {
+      "cpu": 3,
+      "drive": 3,
+      "memory": 2,
+      "power": 2,
+      "storage-controller": 2,
+      "management": 4,
+      "accessory": 1
+     },
+     "roles": {},
+     "samples": [
+      "CSM-CPU-E5-22640 — 2.50 GHz E5-2640/95W 6C/15MB Cache/DDR3 1333MHz",
+      "CSM-CPU-E5-2630B — 2.60 GHz E5-2630 v2/80W 6C/15MB Cache/DDR3 1600MHz",
+      "CSM-CPU-E5-2640 — 2.50 GHz E5-2640/95W 6C/15MB Cache/DDR3 1333MHz",
+      "CSM-DVD-RW — DVD-RW Drive for UCS C210 M1 Rack Servers",
+      "CSM-HDD-500GBGC3 — 500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted",
+      "CSM-HDD-500GBGC3= — 500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted"
+     ],
+     "rules": {
+      "sku": 16,
+      "label": 1
+     }
+    },
+    {
+     "series": "Secure Workload (Tetration)",
+     "role": null,
+     "note": null,
+     "parts": 4,
+     "kinds": {
+      "analytics": 4
+     },
+     "roles": {},
+     "samples": [
+      "C1-TETRATION — Cisco Secure Workload bundle part number that includes the h",
+      "C1-TETRATION-M — Cisco Secure Workload bundle part number that includes the h",
+      "TA-CL-39U-M6-K9 — Cisco Secure Workload Gen3 39RU Cluster",
+      "TA-CL-8U-M6-K9 — Cisco Secure Workload Gen3 8RU Cluster"
+     ],
+     "rules": {
+      "sku": 4
+     }
+    },
+    {
+     "series": "Secure Client (AnyConnect)",
+     "role": null,
+     "note": null,
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
+    }
+   ]
+  }
+ ],
+ "not_this_category": [
+  {
+   "sku": "AIM-DES/BP",
+   "name": "DES Crypto AIM for Cisco 2600 - Base Performance",
+   "series_label": "FirePOWER 7000 Appliances",
+   "why": "router crypto service modules (SM-EC-DES/3DES for ISR, AIM-DES for 2600) filed under a FirePOWER label",
+   "belongs": "interfaces-modules"
+  },
+  {
+   "sku": "SM-EC-3DES",
+   "name": "Service Module for 168-bit DES Encryption",
+   "series_label": "FirePOWER 7000 Appliances",
+   "why": "router crypto service modules (SM-EC-DES/3DES for ISR, AIM-DES for 2600) filed under a FirePOWER label",
+   "belongs": "interfaces-modules"
+  },
+  {
+   "sku": "SM-EC-3DES=",
+   "name": "^Service Module for 168-bit DES Encryption, Spare",
+   "series_label": "FirePOWER 7000 Appliances",
+   "why": "router crypto service modules (SM-EC-DES/3DES for ISR, AIM-DES for 2600) filed under a FirePOWER label",
+   "belongs": "interfaces-modules"
+  },
+  {
+   "sku": "SM-EC-DES",
+   "name": "Service Module for 56-bit DES Encryption",
+   "series_label": "FirePOWER 7000 Appliances",
+   "why": "router crypto service modules (SM-EC-DES/3DES for ISR, AIM-DES for 2600) filed under a FirePOWER label",
+   "belongs": "interfaces-modules"
+  }
+ ],
+ "pending_plans": [
+  {
+   "sku": "CSACS-3415-K9",
+   "name": "ACS application & BASE license for SNS-3415-K9 appliance",
+   "series_label": "Identity Services Engine",
+   "action": "class",
+   "to": "license",
+   "reason": "Cisco ACS application licence / upgrade for an SNS appliance, not the appliance"
+  },
+  {
+   "sku": "CSACS-3415-UP-K9",
+   "name": "Upgrade to ACS application on SNS-3415-K9 appl. w/ BASE lic.",
+   "series_label": "Identity Services Engine",
+   "action": "class",
+   "to": "license",
+   "reason": "Cisco ACS application licence / upgrade for an SNS appliance, not the appliance"
+  },
+  {
+   "sku": "CSACS-3495-K9",
+   "name": "ACS SW application & BASE license for SNS-3495-K9 appliance",
+   "series_label": "Identity Services Engine",
+   "action": "class",
+   "to": "license",
+   "reason": "Cisco ACS application licence / upgrade for an SNS appliance, not the appliance"
+  },
+  {
+   "sku": "CSACS-3495-UP-K9",
+   "name": "Upgrade to ACS application on SNS-3495-K9 appl. w/ BASE lic.",
+   "series_label": "Identity Services Engine",
+   "action": "class",
+   "to": "license",
+   "reason": "Cisco ACS application licence / upgrade for an SNS appliance, not the appliance"
+  },
+  {
+   "sku": "FS4K-RAID5",
+   "name": "Cisco FireSIGHT RAID 5 Pre-Configuration",
+   "series_label": "Defense Center",
+   "action": "class",
+   "to": "non_product",
+   "reason": "'Cisco FireSIGHT RAID 5 Pre-Configuration' — a factory configuration option PID, no part ships"
+  },
+  {
+   "sku": "ISA-FP-541213-K9",
+   "name": "IDS / IPS for Industrial Security Appliances K9 level",
+   "series_label": "3000 Series Industrial Security Appliances (ISA)",
+   "action": "class",
+   "to": "license",
+   "reason": "'IDS / IPS for Industrial Security Appliances K9 level' — a FirePOWER subscription/licence for ISA 3000"
+  },
+  {
+   "sku": "TB-ESS-100GB",
+   "name": "Cisco TB-ESS-100GB",
+   "series_label": "Secure Network Analytics",
+   "action": "class",
+   "to": "license",
+   "reason": "Telemetry Broker Essentials volume licence (100 GB)"
+  }
+ ],
+ "unplaced": [],
+ "done": true
+}
