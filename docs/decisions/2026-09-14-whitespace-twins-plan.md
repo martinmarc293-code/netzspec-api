@@ -1,43 +1,51 @@
-# Whitespace twins (layers review round 2, A.5) — DRY RUN, awaiting the operator's yes — 14 Sep 2026
+# Whitespace twins (layers review round 2, A.5) — DONE — 14 Sep 2026
 
-**Reviewer item.** "Whitespace twins: fold whitespace in the unique index; merge the 10 switch groups."
+**Approved** by the reviewer and by the operator ("Yes, both", 14 Sep 2026), under these conditions: one recorded run with the
+two migrations; dry-run counts predicted vs actual; facts deduped so a fact present on both twins is kept once; the spaced twin
+retired, not deleted; the canonical row keeps facts, relations and links; the partial unique index extended to the
+whitespace-folded SKU; 0 twins asserted afterwards; the run id recorded here.
 
-Nothing below has been written to the database. The counts come from read-only queries (D:\tmp\a5-twins.mts, application
-name `cisco/a5-twins-dryrun`) over live, unretired Cisco parts.
+## What ran
 
-## The 10 groups (all `switches`, all Catalyst 9200L, all created 2026-09-03)
+| step | id | commit |
+|---|---|---|
+| migration `0019_parts_whitespace_fold` — alias kind `whitespace_variant`, non-unique fold index `parts_sku_ws_fold_idx` | schema_migrations | 8137c7b |
+| **run #1064** `hygiene-whitespace-duplicates --vendor cisco --commit` (succeeded) | runs.id 1064 | 8137c7b (the runs row carries no git_sha column value) |
+| migration `0020_parts_whitespace_unique` — guarded `parts_vendor_sku_ws_uq` on `(vendor_id, lower(regexp_replace(sku,'[[:space:]]','','g'))) WHERE retired_at IS NULL` | schema_migrations | this commit |
+| run #1065 `recompute-completeness --vendor cisco --category switches` (succeeded: 9,976 parts, 344 written) | runs.id 1065 | |
 
-| survivor (no whitespace) | id | facts | conflicts | refs | twin (spaced) | id | facts | conflicts | refs |
-|---|---|---|---|---|---|---|---|---|---|
-| C9200L-24P-4G | 2001 | 29 | 13 | img 1, rel-to 9, rel-from 34 | `C9200L-24P- 4G` | 5787 | 12 | 4 | rel-from 34 |
-| C9200L-24P-4X | 3101 | 29 | 14 | img 1, rel-to 7, rel-from 34 | `C9200L-24P- 4X` | 5789 | 12 | 4 | rel-from 34 |
-| C9200L-24T-4G | 3097 | 26 | 11 | img 1, rel-to 9, rel-from 34 | `C9200L-24T- 4G` | 5786 | 12 | 4 | rel-from 34 |
-| C9200L-24T-4X | 3100 | 26 | 11 | img 1, rel-to 5, rel-from 34 | `C9200L-24T- 4X` | 5788 | 12 | 4 | rel-from 34 |
-| C9200L-48P-4G | 2006 | 29 | 14 | img 1, rel-to 8, rel-from 34 | `C9200L-48P- 4G` | 5791 | 12 | 4 | rel-from 34 |
-| C9200L-48P-4X | 3103 | 27 | 11 | img 1, rel-to 10, rel-from 34 | `C9200L-48P- 4X` | 5794 | 12 | 4 | rel-from 34 |
-| C9200L-48PL-4G | 3099 | 29 | 14 | img 1, rel-from 34 | `C9200L-48PL- 4G` | 5792 | 12 | 4 | rel-from 34 |
-| C9200L-48PL-4X | 3104 | 29 | 14 | img 1, rel-from 34 | `C9200L-48PL- 4X` | 5795 | 12 | 4 | rel-from 34 |
-| C9200L-48T-4G | 3098 | 26 | 11 | img 1, rel-to 9, rel-from 34 | `C9200L-48T- 4G` | 5790 | 12 | 4 | rel-from 34 |
-| C9200L-48T-4X | 3102 | 26 | 11 | img 1, rel-to 5, rel-from 34 | `C9200L-48T- 4X` | 5793 | 12 | 4 | rel-from 34 |
+Measured across ALL vendors before 0019: cisco 10 groups / 20 rows, every other vendor 0.
 
-Every member also holds 1 completeness row, 1 doc_parts row and 1 lifecycle row. Across all Cisco parts there are exactly
-these 10 whitespace groups (the 127 case groups were merged earlier and are retired).
+## Predicted (dry run) vs actual (run #1064)
 
-## Proposed mechanics (the existing case-duplicate machinery, one new fold)
+| | predicted | actual |
+|---|---|---|
+| groups / merges | 10 / 10 | 10 merged, 0 refused |
+| current facts on the spaced rows | 80 | 80 parked as history under the survivor's current row: 20 `agree_same_doc` (the same value from the same document — kept once) + 60 `refused_inherit` (a family value the inheritance gate does not let reach the survivor, which holds its own) |
+| history facts | 40 | 40 moved |
+| relations | 340 | 340 already on the survivor (same to_sku + kind) — dropped as duplicates, the survivor's 340 kept |
+| conflicts | 40 | 40 moved to the survivor |
+| document links | 10 | 10 already on the survivor — dropped as duplicates |
+| images | 0 | 0 |
+| lifecycle rows | 10 | 10 identical — dropped |
+| aliases | — | 10 `whitespace_variant` created |
+| parts retired | — | 10, each `retired_into` its survivor, reason `whitespace_duplicate:no_whitespace` |
+| twins after | 0 | **0** (read back by a new query in the same command; 0 again from a new connection, all vendors) |
 
-1. **Code (no database):** a `whitespace-duplicates` hygiene check beside `case-duplicates`. Survivor = the one live row
-   whose SKU has no whitespace (Cisco writes none); refuse a group with zero or two such rows, or an operator-reviewed
-   (review_tier 0) spaced row. Merge via `mergePartInto` / `mergeFactsInto` (facts moved, a disagreement HELD as a conflict,
-   never resolved by write order), loser RETIRED with `retired_into`, its exact spelling kept as an alias. A pure decision
-   test and a sabotage case.
-2. **Migration A:** allow the alias kind `whitespace_variant` on `part_aliases` (drop/re-add the check, as 0009 did).
-3. **Lookups:** `findPart` / `upsertPart` fold whitespace as well as case, with an expression index, so the enumeration
-   that produced `C9200L-48P- 4G` lands on the survivor instead of failing on step 5's index.
-4. **Run (database write, needs the yes):** `npm run ingest -- hygiene whitespace-duplicates --vendor cisco --commit` —
-   one run row, 10 merges, then `ingest recompute-completeness --category switches`.
-5. **Migration B (the guard):** `CREATE UNIQUE INDEX parts_vendor_sku_ws_uq ON parts (vendor_id, lower(regexp_replace(sku,
-   '\s', '', 'g'))) WHERE retired_at IS NULL`, preceded by a count guard that names the command, as 0010 does. It
-   supersedes `parts_vendor_sku_ci_uq` (every case duplicate is also a whitespace-fold duplicate).
+The reviewer's 120 facts are 80 current + 40 history; the 340 relations match.
 
-Order: code + migration A → migrate → run (step 4) → migration B → migrate. The index cannot be created while the 10 pairs
-are live, which is why B waits.
+## Reversible
+
+The ten spaced rows are retired, not deleted, and keep their exact SKU, their history facts on the survivor carry their original
+ids and provenance, and each spelling resolves through its alias.
+
+## Code
+
+- `src/pipeline/hygiene.ts`: `decideWhitespaceGroup` (the unspaced row survives; refuses a tier-0 spaced row, a group with no
+  unspaced row, or unspaced rows the case rule cannot separate), `readWhitespaceGroups`, `checkWhitespaceDuplicates` (prints the
+  prediction), the commit through the existing `mergePartInto`.
+- `src/store/parts.ts`: `upsertPart` and `findPart` look parts up by the same fold, so the enumeration that wrote
+  `C9200L-48P- 4G` now lands on the survivor instead of hitting the new index.
+- `tests/hygieneWhitespace.test.ts` 14/0 (refusals and a sabotage); `tests/layersStanding.test.ts` asserts 0 twins on the pages.
+- Kept `parts_vendor_sku_ci_uq` (0010) beside the new index: it adds no restriction, but `tests/db/hygiene.test.ts` replays 0010
+  by name on the shared test databases.

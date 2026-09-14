@@ -331,6 +331,9 @@ export async function upsertPart(
     // the case-fold resolution above should make this unreachable; a concurrent writer can still
     // lose the race, and "duplicate key value violates unique constraint" names no SKU
     const err = e as { code?: string; constraint?: string };
+    if (err.code === "23505" && err.constraint === "parts_vendor_sku_ws_uq") {
+      throw new Error(`upsertPart: "${input.sku}" collides with a live part of vendor "${input.vendor}" once case and whitespace are folded (parts_vendor_sku_ws_uq); resolve it with \`ingest hygiene whitespace-duplicates\``);
+    }
     if (err.code === "23505" && err.constraint === "parts_vendor_sku_ci_uq") {
       throw new Error(`upsertPart: "${input.sku}" collides case-insensitively with a live part of vendor "${input.vendor}" (parts_vendor_sku_ci_uq); resolve it with \`ingest hygiene case-duplicates\``);
     }
