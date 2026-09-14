@@ -1,0 +1,141 @@
+{
+ "vendor": "cisco",
+ "category": "optical-networking",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco optical networking, 14 Sep 2026: ONS 15454 MSTP / NCS 2000, ONS 15216 / 15200 DWDM passives, NCS 1000, NCS 4000, NCS 4200, Routed Optical Networking, and optical cabling. The NCS 1000 In-Line Amplifier and OLT rows filed under the ONS 15454 label are NCS 1010 parts by SKU. No role axis.",
+ "lines": [
+  {
+   "line": "NCS 1000",
+   "series": [
+    {
+     "series": "NCS 1001 / 1002 / 1004 / 1010 / 1014",
+     "sku": [
+      "^NCS1K",
+      "^NCS10[0-9]{2}",
+      "^CIM8"
+     ],
+     "labels": [
+      "Network Convergence System 1000 Series",
+      "Optical Network Planner"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "ONS 15454 MSTP and NCS 2000",
+   "series": [
+    {
+     "series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+     "sku": [
+      "^NCS2K",
+      "^NCS20[0-9]{2}"
+     ],
+     "labels": [
+      "Network Convergence System 2000 Series"
+     ]
+    },
+    {
+     "series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+     "sku": [
+      "^15454"
+     ],
+     "labels": [
+      "ONS 15454 Series Multiservice Transport Platforms"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "ONS 15216 / 15200 DWDM passives",
+   "series": [
+    {
+     "series": "ONS 15200 (15201 / 15252) CLIP and NAM modules",
+     "sku": [
+      "^CH[0-9]{2}/",
+      "^N[PU]/",
+      "15252",
+      "15201"
+     ]
+    },
+    {
+     "series": "ONS 15216 filters, OADM, mux/demux and DCU",
+     "sku": [
+      "^15216",
+      "^DCU-"
+     ],
+     "labels": [
+      "ONS 15200 Series DWDM Systems"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "NCS 4000",
+   "series": [
+    {
+     "series": "NCS 4009 / 4016",
+     "sku": [
+      "^NCS4K",
+      "^NCS400[0-9]",
+      "^NCS4016",
+      "^ONS-SYNC"
+     ],
+     "labels": [
+      "Network Convergence System 4000 Series"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "NCS 4200",
+   "series": [
+    {
+     "series": "NCS 4201 / 4202 / 4206 / 4216",
+     "sku": [
+      "^NCS42",
+      "^CABLE-16TDM"
+     ],
+     "labels": [
+      "Network Convergence System 4200 Series"
+     ],
+     "note": "A900- power supplies, fillers and optical guides filed under the NCS 4200 label are shared ASR 900 / NCS 4206 parts; left here by label"
+    }
+   ]
+  },
+  {
+   "line": "Routed Optical Networking",
+   "series": [
+    {
+     "series": "NCS 5500 OTN interface processors",
+     "sku": [
+      "^NC55-OIP"
+     ],
+     "labels": [
+      "Routed Optical Networking"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Optical cabling and patch panels",
+   "series": [
+    {
+     "series": "MPO / LC patchcords, attenuators and patch panels",
+     "sku": [
+      "^ONS-(FMPO|12MPO|CXP2)",
+      "MPO-MPO"
+     ]
+    }
+   ]
+  }
+ ],
+ "shared_accessories": [
+  "CABLE",
+  "CBL",
+  "BLANK",
+  "BRKT",
+  "BRACKET",
+  "DOOR",
+  "CVR",
+  "COVER"
+ ]
+}

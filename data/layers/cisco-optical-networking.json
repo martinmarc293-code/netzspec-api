@@ -1,0 +1,471 @@
+{
+ "vendor": "cisco",
+ "category": "optical-networking",
+ "built_at": "2026-09-14T14:06:03.166Z",
+ "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
+ "parts": 1186,
+ "lines": [
+  {
+   "line": "NCS 1000",
+   "parts": 133,
+   "series": [
+    {
+     "series": "NCS 1001 / 1002 / 1004 / 1010 / 1014",
+     "role": null,
+     "note": null,
+     "parts": 130,
+     "kinds": {
+      "unknown": 1,
+      "transponder": 18,
+      "chassis": 16,
+      "mechanical": 15,
+      "power": 11,
+      "controller": 9,
+      "cable": 10,
+      "fan": 7,
+      "mux": 10,
+      "amplifier": 25,
+      "accessory": 7,
+      "linecard": 1
+     },
+     "roles": {},
+     "samples": [
+      "4X100G-LR-S — Cisco 4X100G-LR-S",
+      "CIM8-C-K9= — Coherent Interface Module 8 C-Band",
+      "CIM8-CE-K9= — Coherent Interface Module 8 enhanced C-Band",
+      "CIM8-LE-K9 — Coherent Interface Module 8 enhanced L-Band",
+      "NCS1001-K9= — Network Convergence System 1001 line system 3 slots",
+      "NCS1002++= — Network Convergence System 1002 20 QSFP28/QSFP+ slots, TAA"
+     ],
+     "rules": {
+      "label": 1,
+      "sku": 129
+     }
+    },
+    {
+     "series": "NCS 1000 shared parts",
+     "role": null,
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "cable": 3
+     },
+     "roles": {},
+     "samples": [
+      "ONS-4X10-MMCBL-10= — 4x10G Foldable MPO to LC cable - Multimode - 10 meter",
+      "ONS-4X10-MMCBL-20= — 4x10G Foldable MPO to LC cable - Multimode - 20 meter",
+      "ONS-4X10-MMCBL-5= — 4x 10G Foldable MPO to LC cable - Multimode - 5 meter"
+     ],
+     "rules": {
+      "accessory": 3
+     }
+    }
+   ]
+  },
+  {
+   "line": "ONS 15454 MSTP and NCS 2000",
+   "parts": 422,
+   "series": [
+    {
+     "series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+     "role": null,
+     "note": null,
+     "parts": 147,
+     "kinds": {
+      "unknown": 9,
+      "power": 7,
+      "mechanical": 16,
+      "fan": 3,
+      "chassis": 8,
+      "accessory": 8,
+      "cable": 8,
+      "transponder": 21,
+      "mux": 23,
+      "roadm": 20,
+      "amplifier": 13,
+      "controller": 11
+     },
+     "roles": {},
+     "samples": [
+      "800-103176-01 — Cisco 800-103176-01",
+      "800-39910-07 — Cisco 800-39910-07",
+      "800-41495-01 — Cisco 800-41495-01",
+      "NCS2002-AC= — AC Power Supply Module, Cisco NCS2002",
+      "NCS2002-DC-E= — DC ETSI Power Supply Module, Cisco NCS2002",
+      "NCS2002-DC= — DC Power Supply Module, Cisco NCS2002"
+     ],
+     "rules": {
+      "label": 5,
+      "sku": 142
+     }
+    },
+    {
+     "series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+     "role": null,
+     "note": null,
+     "parts": 275,
+     "kinds": {
+      "transponder": 44,
+      "unknown": 28,
+      "cable": 45,
+      "mux": 11,
+      "roadm": 20,
+      "chassis": 8,
+      "linecard": 17,
+      "mechanical": 28,
+      "amplifier": 26,
+      "accessory": 12,
+      "controller": 10,
+      "power": 16,
+      "fan": 8,
+      "dcu": 2
+     },
+     "roles": {},
+     "samples": [
+      "15454-10DME-C= — 8-port EFEC data muxponder card, 8 SFP-based client interfac",
+      "15454-10DME-L= — 8-port EFEC data muxponder card, 8 SFP-based client interfac",
+      "15454-10DMEX-C++= — 15454 Extd Perf 10Gbps DataMxp EFEC Full C-Band Tunable, TAA",
+      "15454-10DMEX-C= — 15454 Extd Perf 10Gbps Data Mxp EFEC Full C-Band Tunable",
+      "15454-10E-L1-C++= — 15454 10G Multi-Rate Transpondr-EFEC-Full C-Band Tunable, TA",
+      "15454-10E-L1-C= — 15454 10G Multi-Rate Transponder- EFEC- Full C-Band Tunable"
+     ],
+     "rules": {
+      "sku": 260,
+      "label": 15
+     }
+    }
+   ]
+  },
+  {
+   "line": "ONS 15216 / 15200 DWDM passives",
+   "parts": 429,
+   "series": [
+    {
+     "series": "ONS 15200 (15201 / 15252) CLIP and NAM modules",
+     "role": null,
+     "note": null,
+     "parts": 121,
+     "kinds": {
+      "mechanical": 4,
+      "transponder": 104,
+      "chassis": 2,
+      "accessory": 1,
+      "mux": 10
+     },
+     "roles": {},
+     "samples": [
+      "15252-N3/UPGRADE= — Upgrade kit from MCU with Plenum to MCU FAN",
+      "AK/15201= — Accessory Kit, 15201 Single-Channel Unit (SCU)",
+      "AK/15252= — Accessory Kit, 15252 Multi-Channel Unit (MCU)",
+      "CH23/L/U/SC/15200 — CLIP Chan 23, Long Range, Unprotected, SC Connector,15200",
+      "CH23/L/U/SC/15200= — CLIP Chan 23, Long Range, Unprotected, SC Connector,15200",
+      "CH23/M/P/SC/15200 — CLIP Chan 23, Med Range, Protected, SC Connector,15200"
+     ],
+     "rules": {
+      "sku": 121
+     }
+    },
+    {
+     "series": "ONS 15216 filters, OADM, mux/demux and DCU",
+     "role": null,
+     "note": null,
+     "parts": 308,
+     "kinds": {
+      "mux": 229,
+      "cable": 15,
+      "unknown": 5,
+      "dcu": 48,
+      "mechanical": 2,
+      "amplifier": 6,
+      "controller": 1,
+      "linecard": 2
+     },
+     "roles": {},
+     "samples": [
+      "15216-AD1-2-1510 — 1510nm OADM Add Drop Multiplexer",
+      "15216-AD1-2-1510= — 1510 OADM Add Drop Multiplexer",
+      "15216-AD1-2-30.3 — ITU-200 GHz 1-channel, 2 path OADM ch. 1530.33nm",
+      "15216-AD1-2-30.3= — ITU-200 GHz 1-channel, 2 path OADM ch. 1530.33nm",
+      "15216-AD1-2-31.9 — ITU-200 GHz 1-channel, 2 path OADM ch. 1531.90nm",
+      "15216-AD1-2-31.9= — ITU-200 GHz 1-channel, 2 path OADM ch. 1531.90nm"
+     ],
+     "rules": {
+      "sku": 308
+     }
+    }
+   ]
+  },
+  {
+   "line": "NCS 4000",
+   "parts": 84,
+   "series": [
+    {
+     "series": "NCS 4009 / 4016",
+     "role": null,
+     "note": null,
+     "parts": 84,
+     "kinds": {
+      "accessory": 13,
+      "fabric": 10,
+      "chassis": 8,
+      "mechanical": 15,
+      "linecard": 11,
+      "transponder": 6,
+      "cable": 8,
+      "power": 6,
+      "fan": 4,
+      "controller": 3
+     },
+     "roles": {},
+     "samples": [
+      "NCS4009-DOOR= — NCS 4009 Door",
+      "NCS4009-FC-S — NCS 4009 Agnostic Cross connect - Single-chassis",
+      "NCS4009-FC-S= — NCS 4009 Agnostic Cross connect - Single-chassis",
+      "NCS4009-FC2-S — Cisco NCS4009-FC2-S",
+      "NCS4009-FC2-S-KIT — NCS 4009 Fabric – Single-chassis – V2 with Fan - kit",
+      "NCS4009-FC2-S= — NCS 4009 Agnostic Cross connect - Single-chassis - 400G"
+     ],
+     "rules": {
+      "sku": 84
+     }
+    }
+   ]
+  },
+  {
+   "line": "NCS 4200",
+   "parts": 67,
+   "series": [
+    {
+     "series": "NCS 4201 / 4202 / 4206 / 4216",
+     "role": null,
+     "note": "A900- power supplies, fillers and optical guides filed under the NCS 4200 label are shared ASR 900 / NCS 4206 parts; left here by label",
+     "parts": 66,
+     "kinds": {
+      "mechanical": 7,
+      "accessory": 3,
+      "power": 2,
+      "fan": 3,
+      "cable": 12,
+      "linecard": 25,
+      "chassis": 8,
+      "controller": 6
+     },
+     "roles": {},
+     "samples": [
+      "A900-IMA-FILLER= — ASR 900 Interface Module Filler Cover, Spare",
+      "A900-OPT-GUIDE-H= — ASR 900 optical guide for horizontal fiber routing support",
+      "A900-PWR900-D2 — ASR 900 900W DC power supply with dual feed",
+      "A900-PWR900-D2= — ASR 900 900W DC power supply with dual feed, spare",
+      "A900-ROPT-GUIDE-H= — ASR 900 RSP optical guide for horizontal fiber routing suppo",
+      "A903-F2B-AIR — Front-to-back airflow deflector"
+     ],
+     "rules": {
+      "label": 9,
+      "sku": 57
+     }
+    },
+    {
+     "series": "NCS 4200 shared parts",
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "mechanical": 1
+     },
+     "roles": {},
+     "samples": [
+      "A900-PWR-BLANK — ASR 900 power supply blank cover"
+     ],
+     "rules": {
+      "accessory": 1
+     }
+    }
+   ]
+  },
+  {
+   "line": "Routed Optical Networking",
+   "parts": 4,
+   "series": [
+    {
+     "series": "NCS 5500 OTN interface processors",
+     "role": null,
+     "note": null,
+     "parts": 4,
+     "kinds": {
+      "linecard": 4
+     },
+     "roles": {},
+     "samples": [
+      "NC55-OIP-02 — NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
+      "NC55-OIP-02-FC — NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
+      "NC55-OIP-02-FC= — NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
+      "NC55-OIP-02= — NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA"
+     ],
+     "rules": {
+      "sku": 4
+     }
+    }
+   ]
+  },
+  {
+   "line": "Optical cabling and patch panels",
+   "parts": 31,
+   "series": [
+    {
+     "series": "MPO / LC patchcords, attenuators and patch panels",
+     "role": null,
+     "note": null,
+     "parts": 31,
+     "kinds": {
+      "cable": 31
+     },
+     "roles": {},
+     "samples": [
+      "ONS-12MPO-MPO-2= — Multi-fiber patchcord - MPO to MPO 12 fibers - 2m",
+      "ONS-12MPO-MPO-4= — Multi-fiber patchcord - MPO to MPO 12 fibers - 4m",
+      "ONS-12MPO-MPO-6= — Multi-fiber patchcord - MPO to MPO 12 fibers - 6m",
+      "ONS-12MPO-MPO-8= — Multi-fiber patchcord - MPO to MPO 12 fibers - 8m",
+      "ONS-12MPO-XMPO-2= — Multi-fiber patchcord - MPO to MPO Xrossed - 2m",
+      "ONS-12MPO-XMPO-4= — Multi-fiber patchcord - MPO to MPO Xrossed - 4m"
+     ],
+     "rules": {
+      "sku": 31
+     }
+    }
+   ]
+  }
+ ],
+ "not_this_category": [],
+ "pending_plans": [
+  {
+   "sku": "15454-QWEST-EXPAND",
+   "name": "15454 QWEST LOCAL BUNDLE EXPANSION CLASS",
+   "series_label": "ONS 15200 Series DWDM Systems",
+   "action": "class",
+   "to": "non_product",
+   "reason": "'15454 QWEST LOCAL BUNDLE EXPANSION CLASS' — an ordering class"
+  },
+  {
+   "sku": "DS-X9124",
+   "name": "24-port 1/2/4-Gbps Fibre Channel Switching Module",
+   "series_label": "Network Convergence System 2000 Series",
+   "action": "move",
+   "to": "storage-networking",
+   "reason": "MDS Fibre Channel switching module ('24-port 1/2/4-Gbps Fibre Channel Switching Module') filed under optical-networking"
+  },
+  {
+   "sku": "DS-X9148",
+   "name": "48-port 1/2/4-Gbps Fibre Channel Switching Module",
+   "series_label": "Network Convergence System 2000 Series",
+   "action": "move",
+   "to": "storage-networking",
+   "reason": "MDS Fibre Channel switching module ('48-port 1/2/4-Gbps Fibre Channel Switching Module') filed under optical-networking"
+  },
+  {
+   "sku": "ONS-CFP2-WDM-1KE",
+   "name": "100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, Enhanced",
+   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, Enhanced')"
+  },
+  {
+   "sku": "ONS-CFP2-WDM-1KE=",
+   "name": "100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, Enhanced",
+   "series_label": "Network Convergence System 2000 Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, Enhanced')"
+  },
+  {
+   "sku": "ONS-CFP2-WDM-1KL=",
+   "name": "100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, C temp",
+   "series_label": "Network Convergence System 2000 Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, C temp')"
+  },
+  {
+   "sku": "ONS-CFP2-WDM-LIC",
+   "name": "CFP2 WDM - C-band Tunable - Lic. For 100G HD-FEC- ATO",
+   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+   "action": "class",
+   "to": "license",
+   "reason": "'CFP2 WDM - C-band Tunable - Lic. For 100G HD-FEC- ATO' — a licence"
+  },
+  {
+   "sku": "ONS-CFP2-WDM2=",
+   "name": "100G QPSK/200G 16-QAM - WDM CFP2 Pluggable",
+   "series_label": "Network Convergence System 2000 Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('100G QPSK/200G 16-QAM - WDM CFP2 Pluggable')"
+  },
+  {
+   "sku": "ONS-CFP2-WDM=",
+   "name": "100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable",
+   "series_label": "Network Convergence System 4000 Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable')"
+  },
+  {
+   "sku": "ONS-CFP2D-400G-C=",
+   "name": "400G CFP2 DCO Multi-rate WDM C Band Tuneable",
+   "series_label": "Network Convergence System 2000 Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('400G CFP2 DCO Multi-rate WDM C Band Tuneable')"
+  },
+  {
+   "sku": "ONS-CPAK-LR4=",
+   "name": "100GE/OTU4 Multi-Rate CPAK Pluggable - LR4",
+   "series_label": "Network Convergence System 4000 Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) filed under optical-networking ('100GE/OTU4 Multi-Rate CPAK Pluggable - LR4')"
+  },
+  {
+   "sku": "ONS-CPAK-SR10=",
+   "name": "100GE/OTU4 Multi-Rate CPAK Pluggable - SR10",
+   "series_label": "Network Convergence System 4000 Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) filed under optical-networking ('100GE/OTU4 Multi-Rate CPAK Pluggable - SR10')"
+  },
+  {
+   "sku": "ONS-CXP-100G-SR10=",
+   "name": "CXP - 100GBASE-SR - Commercial Temp",
+   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) filed under optical-networking ('CXP - 100GBASE-SR - Commercial Temp')"
+  },
+  {
+   "sku": "ONS-CXP2-SR25=",
+   "name": "CXP2 Transceiver module - 12x25G - Fabric Interconnect",
+   "series_label": "Network Convergence System 4000 Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) filed under optical-networking ('CXP2 Transceiver module - 12x25G - Fabric Interconnect')"
+  },
+  {
+   "sku": "ONS-QSFP28-LR4=",
+   "name": "100Gbps Multi-rate QSFP28, LR",
+   "series_label": "Network Convergence System 4000 Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) filed under optical-networking ('100Gbps Multi-rate QSFP28, LR')"
+  },
+  {
+   "sku": "ONS-QSP28-LR4=",
+   "name": "Cisco ONS-QSP28-LR4=",
+   "series_label": "Network Convergence System 2000 Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "typo twin of ONS-QSFP28-LR4= (placeholder name 'Cisco ONS-QSP28-LR4=')"
+  }
+ ],
+ "unplaced": [],
+ "done": true
+}

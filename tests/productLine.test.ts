@@ -217,6 +217,17 @@ witness("hyperconverged-infrastructure", [
   ["HCI-CPU-A9115", "Cisco HCI-CPU-A9115", "Compute Hyperconverged Nutanix", "Compute Hyperconverged with Nutanix", "Compute Hyperconverged with Nutanix shared parts"],
 ]);
 
+// ---- optical-networking (done 14 Sep 2026) ----
+witness("optical-networking", [
+  ["NCS1K-E-ILA-2R-C", "Cisco NCS1K-E-ILA-2R-C", "ONS 15454 Series Multiservice Transport Platforms", "NCS 1000", "NCS 1001 / 1002 / 1004 / 1010 / 1014"], // label says 15454
+  ["NCS2K-9-SMR17FS-L=", "9-port Single Module ROADM", "Network Convergence System 2000 Series", "ONS 15454 MSTP and NCS 2000", "NCS 2000 (NCS 2002 / 2006 / 2015)"],
+  ["15454-M6-SA", "6 service slot MSTP shelf", "ONS 15454 Series Multiservice Transport Platforms", "ONS 15454 MSTP and NCS 2000", "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)"],
+  ["CH43/L/P/SC/15200", "CLIP Chan 43, Long Range, Protected", "ONS 15200 Series DWDM Systems", "ONS 15216 / 15200 DWDM passives", "ONS 15200 (15201 / 15252) CLIP and NAM modules"],
+  ["15216-AD1-2-39.7", "ITU-200 GHz 1-channel, 2 path OADM", "ONS 15200 Series DWDM Systems", "ONS 15216 / 15200 DWDM passives", "ONS 15216 filters, OADM, mux/demux and DCU"],
+  ["NCS4K-2H-W++=", "NCS 4000 2x 100G CP-DQPSK WDM", "Network Convergence System 4000 Series", "NCS 4000", "NCS 4009 / 4016"],
+  ["CIM8-CE-K9=", "Coherent Interface Module 8 enhanced C-Band", "Network Convergence System 1000 Series", "NCS 1000", "NCS 1001 / 1002 / 1004 / 1010 / 1014"],
+]);
+
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");
