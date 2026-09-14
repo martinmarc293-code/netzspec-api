@@ -175,3 +175,13 @@ Sabotage: 10 checks (planted built rows, and labelEvidence cases each for its re
 | 9 | Meraki MS390 | series role access (reviewer's correction of the spec), 23 rows; MS410 / MS425 / MS450 stay core-agg. |
 | 10 | "=" in switch base names | logged: `docs/reports/cisco-switches-base-names-with-spare-sku-2026-09-14.md`, 27 rows (daughter-card part numbers in WS-X6148/6348/6548 names, APN=, "x=Region Prefix", a GLC pack). |
 | 11 | shared-parts entry family | an explicit "<line> shared parts" series entry carries "(shared across the line)" like its rows (Catalyst 8000 Edge shared parts, 52). **No standing check compared series entries with their rows before** — added: parts, kinds, roles and family of every series entry against its rows, with sabotage. |
+
+**Refinement to item 3 (reviewer, at 74847cd, 14 Sep 2026) — CLOSED.** The criterion is PROVENANCE, not form factor: a "no PS /
+no fans / For Service Only" note that a base BORROWED from its spare (name_source "twin: <sku>=") is the spare's statement and false
+on the base — removed from 16 rows by run #1073. A note in Cisco's OWN base description (name_source empty) is Cisco's statement about
+that orderable base and stays: WS-C4948E "…no p/s", WS-C4948E-F "…no PS, Fr Ext", WS-C4928-10GE "Catalyst 4928, no p/s…",
+ME-4924-10GE "…No PS", N5K-C5548UP-DIS "…Disti only, No PS,NO FAN", N2K-UCS2232PP "Nexus 2232PP(no PS, no Fan)" — none touched
+(run #1073 only reads borrowed names). Read against the store at recording: the 21 modular chassis (Catalyst 6500 / 4500-E, Nexus
+7000 / 7700, MDS 97xx) are NOT own descriptions — every one is borrowed ("twin: WS-C6509-E=" …) — so they keep the note on its
+TRUTH, not its provenance: a modular chassis base also ships without power supplies. The rule as applied: a borrowed note is removed
+unless it is also true of the base (modular chassis); an own note always stays.

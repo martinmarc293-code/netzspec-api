@@ -87,7 +87,9 @@ export function planSpareWording(rows: { id: number; sku: string; name: string; 
 // unit for service replacement) and of a MODULAR CHASSIS base (Catalyst 6500 / 4500-E, Nexus 7000 / 7700, MDS 97xx ship bare; power
 // supplies are ordered separately). It is false of a FIXED unit's base: a 1–2RU fixed switch or FEX ships with its power supplies and
 // fans. So a base that borrowed its spare's name drops the note when it is a fixed unit — bracketed or not — and keeps it when it is a
-// modular chassis. "For Service Only" is the spare's too.
+// modular chassis. "For Service Only" is the spare's too. The criterion is PROVENANCE first (reviewer, 14 Sep 2026): only BORROWED names
+// (name_source "twin: …") are read; a note in Cisco's own base description (WS-C4948E "…no p/s", N5K-C5548UP-DIS "…No PS,NO FAN")
+// is Cisco's statement about that base and is never touched. The modular chassis keep a borrowed note because it is also true.
 export const FIXED_UNIT_SKU = /^(?:N9K-C9[23]|N2K-|N3K-|N5K-C5[56])/;
 export const MODULAR_CHASSIS_SKU = /^(?:WS-C65|WS-C45|N7K-C70|N77-C77|DS-C97)/;
 export const PACKAGING_NOTE = /no\s*(?:ps|p\/s|psu|power\s+suppl|fans?(?![a-z])|fan[- ]?trays?)|ps&fan|psu\/fan|for\s+service\s+only/i;
