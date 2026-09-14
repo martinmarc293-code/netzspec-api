@@ -9,36 +9,9 @@
 // starts reading English ("passive" once looked like "passiv") stops the audit instead of inflating the count.
 import fs from "node:fs";
 import { query, closePool } from "../src/store/db.js";
+import { GERMAN, assertDetector } from "../src/core/germanName.js";
 
-const L = "(?<![A-Za-zÄÖÜäöüß])", R = "(?![A-Za-zÄÖÜäöüß])";
-export const GERMAN_MARKERS: readonly [string, string][] = [
-  ["umlaut", "[äöüÄÖÜß]"],
-  ["gemanagt", `${L}(?:cloud-)?gemanagte?[rs]?${R}`],
-  ["steckplatz", "Steckpl[aä]tz"],
-  ["modular-inflected", `${L}[Mm]odulare[rs]?${R}`],
-  ["hoeheneinheit", "(?<![A-Za-z0-9])\\d{1,2}\\s?HE(?![A-Za-z])"],
-  ["compound-noun", "(?:Data-Center|Campus|Access|Aggregations|Core|Industrie)-Switch(?![A-Za-z])|Switch-Chassis|Rechenzentrum|Netzteil|Stromversorgung|Erweiterungsmodul|Glasfaser|Kupfer|Einschub|Halterung|Montage|Lizenz|Geh[aä]use|Zubeh[oö]r"],
-  ["function-word", `${L}(?:mit|und|bis zu|f[uü]r|oder|inkl\\.|ohne|davon|auf|zu|kompakter|durchstimmbar|Weitverkehr|Kurzstrecke|erw\\.|erweiterte)${R}`],
-  ["bis-number", `${L}bis\\s\\d`],
-  ["noun", `${L}(?:Modul|Kabel|Zoll|Rackmontage|Ersatzeinheit|Kanal|Kan[aä]le|Industrie|Stecker|Buchse)${R}|Zoll-|Industrie-|-Modul${R}|[a-z]kabel${R}|lizenziert|abstimmbar|${L}(?:aktiv|passiv|erweitert|reines|volle)${R}`],
-  ["decimal-comma", "(?<![0-9])\\d{4},\\d{1,2}\\s?nm|(?<![0-9])\\d,\\d\\s?G(?![A-Za-z])"],
-];
-export const GERMAN = new RegExp(GERMAN_MARKERS.map(([, p]) => p).join("|"));
-export const ENGLISH_CONTROLS = [
-  "Cisco Catalyst 9300 48-port data only, Network Essentials",
-  "Nexus 7700 - 18 Slot Chassis Power Cable Management",
-  "10G SFP+ Twinax cable assembly, passive",
-  "Upgrade to 16GB DRAM/16GB Flash, 200GB mSATA SSD bundle",
-  "ASR 9000 20-port 1-Gigabit Ethernet Modular Port Adapter",
-  "MX - Pwr cable United States 4,5m",   // English with a decimal comma: the first run matched it, so the comma alone no longer counts
-];
-export const GERMAN_CONTROL = "Cisco C9500-48X Catalyst-9500-Core-Switch (IOS XE, L3) – 48× 10G-SFP+, 1 HE";
-
-export function assertDetector(): void {
-  for (const s of ENGLISH_CONTROLS) if (GERMAN.test(s)) throw new Error(`detector reads an English control as German: ${s}`);
-  if (!GERMAN.test(GERMAN_CONTROL)) throw new Error("detector misses its German control row");
-}
-
+// the detector lives in src/core/germanName.ts (shared with `ingest name-language`)
 async function main(): Promise<void> {
   process.env.NETZSPEC_APP ??= "cisco/audit-german-names";
   assertDetector();

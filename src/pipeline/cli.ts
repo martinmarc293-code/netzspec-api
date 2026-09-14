@@ -57,6 +57,10 @@ const COMMANDS: Record<string, { help: string; run: (argv: string[]) => Promise<
     help: "catalogue hygiene, one check at a time, dry by default: <case-duplicates|fabricated-pids|foreign-pids|cross-brand-family|hw-variants|all> [--commit] [--examples N] [--vendor V]",
     run: async (argv) => { const m = await import("./hygiene.js"); await m.main(argv); },
   },
+  "name-language": {
+    help: "German shop titles in parts.name: keep them in name_de, take a twin's English name or flag name_lang=de, as one run: [--vendor cisco] [--commit]",
+    run: async (argv) => { const m = await import("./name-language.js"); await m.main(argv); },
+  },
   "recompute-completeness": {
     help: "per-part required/missing fields from current verified facts (the gap ledger's input): [--vendor V] [--category C] [--since ISO]",
     run: async (argv) => { const m = await import("./recompute-completeness.js"); await m.main(argv); },
