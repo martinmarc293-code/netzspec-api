@@ -1411,26 +1411,10 @@ C-HDD-BLANK	Cisco Catalyst 8200 Edge 2.5" HDD Blank	Catalyst 8200 Edge uCPE	mech
 C-HDD-BLANK=	Cisco Catalyst 8200 Edge 2.5" HDD Blank	Catalyst 8200 Edge uCPE	mechanical	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	accessory BLANK (name Catalyst 8200)						
 C-M2-BLANK	Cisco Catalyst M.2 Disk Blank	Catalyst 8300 Series Edge uCPE	mechanical	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	accessory BLANK (label Catalyst 8300 Series Edge uCPE)						
 C-M2-BLANK=	Cisco Catalyst M.2 Disk Blank Spare	Catalyst 8300 Series Edge uCPE	mechanical	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	accessory BLANK (label Catalyst 8300 Series Edge uCPE)						
-C-NIM-1M	1-port 2.5/1Gbps RJ-45 WAN, 90W Poe 802.3 af/at/bt NIM	Catalyst 8300	module	pending_plan								move interfaces-modules		
-C-NIM-1X	1-port 10Gbps SFP/SFP+ NIM with WAN MACSec	Catalyst 8300	module	pending_plan								move interfaces-modules		
-C-NIM-2T	2-port 100Mbps/1Gbps dual-mode RJ45/SFP, NIM with WAN MACSec	Catalyst 8300	module	pending_plan								move interfaces-modules		
-C-NIM-2T=	Cisco C-NIM-2T=	4000 ISR	module	pending_plan								move interfaces-modules		
-C-NIM-4X	4-port 1/10 Gbps SFP/SFP+ switch NIM, LAN/WAN MACsec and Optional L3	Catalyst 8300	module	pending_plan								move interfaces-modules		
-C-NIM-4X=	Cisco C-NIM-4X=	4000 ISR	module	pending_plan								move interfaces-modules		
-C-NIM-8M	Switch module L2/L3 capable, MACsec, 8-port 4x 2.5m Gbps copper, 4x PoE capable	Catalyst 8300 Series Edge uCPE	module	pending_plan								move interfaces-modules		
-C-NIM-8T	8-port 100 Mbps/1 Gbps switch NIM, LAN/WAN MACsec and Optional L3	Catalyst 8300	module	pending_plan								move interfaces-modules		
-C-NIM-WAN-2X	2-port 1/10 Gbps SFP/SFP+ WAN Module, NIM with WAN MACsec	XE SD-WAN	module	pending_plan								move interfaces-modules		
-C-NIM-WAN-4S	4-port 1 Gbps SFP WAN Module, NIM with WAN MACsec	XE SD-WAN	module	pending_plan								move interfaces-modules		
 C-NM-8M	Cisco C-NM-8M	Catalyst 8200	module	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8200; was Catalyst 8200): no platform token (8200) in the SKU or name, no compatible part placed in the series						none: no platform token (8200) in the SKU or name, no compatible part placed in the series
 C-RFID-1R	Cisco C8300 1RU Edge Platform - RFID	Catalyst 8500L	accessory	layered	Catalyst 8000 Edge		Catalyst 8300	name C8300						
 C-RFID-2R	Cisco C8300 2RU Edge Platform - RFID	Catalyst 8300	accessory	layered	Catalyst 8000 Edge		Catalyst 8300	name C8300						
 C-RFID-NONE	Cisco C-RFID-NONE	Catalyst 8500	accessory	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8500; was Catalyst 8500): no platform token (8500) in the SKU or name, no compatible part placed in the series						none: no platform token (8500) in the SKU or name, no compatible part placed in the series
-C-SM-16P4M2X	Cisco 22-port Catalyst L2 switch module with UADP ASIC	Catalyst 8300	module	pending_plan								move interfaces-modules		
-C-SM-16P4M2X=	Cisco C-SM-16P4M2X=	4000 ISR	module	pending_plan								move interfaces-modules		
-C-SM-40P8M2X	Cisco 50-port Catalyst L2 switch module with UADP ASIC	Catalyst 8300	module	pending_plan								move interfaces-modules		
-C-SM-40P8M2X=	Cisco C-SM-40P8M2X=	4000 ISR	module	pending_plan								move interfaces-modules		
-C-SM-NIM-ADPT	Single-wide 2x NIM carrier module in SM-X form factor	Catalyst 8300	mechanical	pending_plan								move interfaces-modules		
-C-SM-NIM-ADPT=	Cisco C-SM-NIM-ADPT=	4000 ISR	mechanical	pending_plan								move interfaces-modules		
 C-U2-BLANK	Cisco Catalyst U.2 2.5" Disk Blank	Catalyst 8300 Series Edge uCPE	mechanical	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	accessory BLANK (label Catalyst 8300 Series Edge uCPE)						
 C-U2-BLANK=	Cisco Catalyst U.2 2.5" Disk Blank Spare	Catalyst 8300 Series Edge uCPE	mechanical	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	accessory BLANK (label Catalyst 8300 Series Edge uCPE)						
 C1-ASR1001-HX/K9	Cisco ONE - ASR1001-HX, 4x10GE+4x1GE, 2x P/S	3900 Series Integrated Services Routers ISR	router	layered	ASR (Aggregation Services Routers)		ASR 1000	sku ^(M-)?ASR1[0-9]{3}	edge	series:ASR 1000				
@@ -3198,17 +3182,7 @@ E100S-MEM-UDIMM8G	8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E	Catalys
 E100S-MEM-UDIMM8G=	8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E	Catalyst 8200 Edge uCPE	memory	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8200 Edge uCPE; was Catalyst 8200 Edge uCPE): no platform token (8200) in the SKU or name, no compatible part placed in the series						none: no platform token (8200) in the SKU or name, no compatible part placed in the series
 EDN312xi	Cisco EDN312xi	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 EDN312xp	Cisco EDN312xp	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
-EHWIC-4G-LTE-AT-T	4G LTE EHWIC for ATT, AWS/700 MHz, HSPA+	2900 ISR	module	pending_plan								move interfaces-modules		
-EHWIC-4G-LTE-AT-T=	4G LTE EHWIC for ATT, AWS/700 MHz, HSPA+	2900 ISR	module	pending_plan								move interfaces-modules		
-EHWIC-VA-DSL-A	Multi Mode VDSL2/ADSL/2/2+ EHWIC Annex A	800	module	pending_plan								move interfaces-modules		
-EHWIC-VA-DSL-B	Multi Mode VDSL2/ADSL/2/2+ EHWIC Annex B	800	module	pending_plan								move interfaces-modules		
-EHWIC-VA-DSL-M	Multi Mode VDSL2/ADSL/2/2+ EHWIC Annex M	800	module	pending_plan								move interfaces-modules		
-EM-4BRI-NT/TE	4-port voice/fax expansion module - BRI (NT and TE)	2900 ISR	module	pending_plan								move interfaces-modules		
-EM-4BRI-NT/TE=	4-port voice/fax expansion module - BRI	2900 ISR	module	pending_plan								move interfaces-modules		
 EM-HDA-	Cisco EM-HDA-	2900 ISR	module	pending_plan								class non_product		
-EM-HDA-3FXS/4FXO	7-port voice/fax expansion module - 3FXS/4FXO	2900 ISR	module	pending_plan								move interfaces-modules		
-EM-HDA-3FXS/4FXO=	7-port voice/fax expansion module - 3FXS/4FXO	2900 ISR	module	pending_plan								move interfaces-modules		
-EM-HDA-8FXS	Cisco EM-HDA-8FXS	2900 ISR	module	pending_plan								move interfaces-modules		
 EM3-HDA-	Cisco EM3-HDA-	2900 ISR	module	pending_plan								class non_product		
 EM3-HDA-8FXS	Cisco EM3-HDA-8FXS	2900 ISR	module	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 2900 ISR; was ISR 2900): no platform token (2900) in the SKU or name, no compatible part placed in the series						none: no platform token (2900) in the SKU or name, no compatible part placed in the series
 ENCS-DISK-COVER	Hard Disk Drive Blank Face Plate Cover for Cisco ENCS 5400	5000 Enterprise Network Compute	mechanical	layered	ENCS (Enterprise Network Compute)		ENCS 5000	sku ^ENCS						
@@ -3352,15 +3326,6 @@ HDD-SATA-1TB	1 TB, SATA hard disk drive for Cisco uCPE 8200	Catalyst 8200 Edge u
 HDD-SATA-1TB=	1 TB, SATA hard disk drive for Cisco uCPE 8200 spare	Catalyst 8200 Edge uCPE	drive	layered	Catalyst 8000 Edge		Catalyst 8200 Edge uCPE	name uCPE 8200						
 HDD-SATA-2TB	Cisco HDD SATA drive 2 TB	Catalyst 8200 Edge uCPE	drive	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8200 Edge uCPE; was Catalyst 8200 Edge uCPE): no platform token (8200) in the SKU or name, no compatible part placed in the series						none: no platform token (8200) in the SKU or name, no compatible part placed in the series
 HDV2	Cisco HDV2	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
-HWIC-16A-T	16-Port Async Temperature Tolerant HWIC	2900 ISR	module	pending_plan								move interfaces-modules		
-HWIC-16A-T=	16-Port Async Temperature Tolerant HWIC	2900 ISR	module	pending_plan								move interfaces-modules		
-HWIC-1B-U=	1-port ISDN BRI NT1 HWIC	2900 ISR	module	pending_plan								move interfaces-modules		
-HWIC-2A/S=	2-Port Async/Sync Serial WAN Interface Card	2900 ISR	module	pending_plan								move interfaces-modules		
-HWIC-4T1/E1=	4 port clear channel T1/E1 HWIC	2900 ISR	module	pending_plan								move interfaces-modules		
-HWIC-4T=	4-Port Serial HWIC	2900 ISR	module	pending_plan								move interfaces-modules		
-HWIC-BLANK-KIT=	Blank faceplate for HWIC slot with divider for Cisco1941 ISR (only as spare)	2900 ISR	mechanical	pending_plan								move interfaces-modules		
-HWIC-BLANK=	Blank faceplate for HWIC/EHWIC slot on Cisco ISR (only as spare)	2900 ISR	mechanical	pending_plan								move interfaces-modules		
-HWIC-SLOT-DIVIDER=	HWIC/EHWIC Slot Divider (Guide) for Cisco 1900, 2900, 3900 ISR (only as spare)	2900 ISR	mechanical	pending_plan								move interfaces-modules		
 IAD888B-K9	Cisco IAD888 G.SHDSL BRI Sec Router w/ ISDN B/U	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^IAD88	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890				
 IAD888BW-GN-A-K9	Cisco IAD888 G.SHDSL BRI Sec ISDN B/U 802.11n FCC Comp	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^IAD88	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890				
 IAD888BW-GN-E-K9	Cisco IAD888 G.SHDSL BRI Sec ISDN B/U 802.11n ETSI Comp	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^IAD88	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890				
@@ -3489,13 +3454,6 @@ IRMH-WPAN-BRZ	Cisco IRMH-WPAN-BRZ	Catalyst IR8100 Heavy Duty	module	layered	Indu
 IRMH-WPAN-BRZ=	Cisco IRMH-WPAN-BRZ=	1000 Connected Grid	module	layered	Industrial and IoT Routers		IR 8100	sku ^IRMH-						
 IRMH-WPAN-NA	Cisco IRMH-WPAN-NA	Catalyst IR8100 Heavy Duty	module	layered	Industrial and IoT Routers		IR 8100	sku ^IRMH-						
 IRMH-WPAN-NA=	Cisco IRMH-WPAN-NA=	1000 Connected Grid	module	layered	Industrial and IoT Routers		IR 8100	sku ^IRMH-						
-ISM-SRE-300-K9	Internal Services Module (ISM) with Services Ready Engine	2900 ISR	module	pending_plan								move interfaces-modules		
-ISM-SRE-300-K9++=	Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)	4000 ISR	module	pending_plan								move interfaces-modules		
-ISM-SRE-300-RS-K9=	ISM 300 module for VPN software	4000 ISR	module	pending_plan								move interfaces-modules		
-ISM-VPN-29	3DES/AES/SUITE-B VPN Encryption module	2900 ISR	module	pending_plan								move interfaces-modules		
-ISM-VPN-29=	3DES/AES/SUITE-B VPN Encryption module	2900 ISR	module	pending_plan								move interfaces-modules		
-ISM-VPN-39	3DES/AES/SUITE-B VPN Encryption module	2900 ISR	module	pending_plan								move interfaces-modules		
-ISM-VPN-39=	3DES/AES/SUITE-B VPN Encryption module	2900 ISR	module	pending_plan								move interfaces-modules		
 ISR-CCP-CD	Cisco Config Professional on CD, CCP-Express on Router Flash (Both system and spare)	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software		
 ISR-CCP-CD-NOCONF	Cisco Config Pro on CD, CCP-Express on CF w/o default config	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software		
 ISR-CCP-EXP	Cisco Config Pro Express on Router Flash	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software		
@@ -3732,11 +3690,6 @@ MASR1002X-HD-320G=	Cisco ASR1002-X 320GB HDD	ASR 1000	drive	layered	ASR (Aggrega
 MC-3G-EVDO-B	3G 1xEV-DO Rev A MC5728V with SMS/GPS for BSNL Networks	800	module	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 800; was ISR 810 / 840 / 860 / 870 / 880 / 890): no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series						none: no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series
 MC-3G-HSPA+7	3.7G (non-US) HSPA+ Release 7 MC8705 with SMS/GPS	800	module	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 800; was ISR 810 / 840 / 860 / 870 / 880 / 890): no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series						none: no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series
 MC-3G-HSPA-U	3.5G (non-US) HSPA MC8795V with SMS/GPS	800	module	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 800; was ISR 810 / 840 / 860 / 870 / 880 / 890): no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series						none: no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series
-MC7304-4G-LTE-GA	Sierra MC7304 Global LTE, Band 1, 3, 7, 8, 20	800	module	pending_plan								move interfaces-modules		
-MC7350-4G-LTE-VS	Sierra MC7350 Verizon and Sprint LTE, Band 13, AWS, Band 25	800	module	pending_plan								move interfaces-modules		
-MC7354-4G-LTE-MNA	Sierra MC7354 Multi-Carriers NA LTE, 2, 5, 13, 17, 25, AWS	800	module	pending_plan								move interfaces-modules		
-MC7354-4G-LTE-NA	Sierra MC7354 North America LTE, Band 2, 5, 17, AWS	800	module	pending_plan								move interfaces-modules		
-MC7430-LTE-LA	Sierra MC7430 LATAM and APAC	800	module	pending_plan								move interfaces-modules		
 MCS0	Cisco MCS0	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 MCS10	Cisco MCS10	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 MCS11	Cisco MCS11	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
@@ -4590,100 +4543,7 @@ NCS560-4	NCS 560-4 Router Chassis	Network Convergence System 500	chassis	layered
 NCS560-4=	NCS 560-4 Router Chassis, Spare	Network Convergence System 500	chassis	layered	NCS (Network Convergence System)		NCS 520, 540 and 560	sku ^NCS-?5[246]0						
 NE/250M	Cisco NE/250M	ESR6300 Embedded	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 NE/50M	Cisco NE/50M	ESR6300 Embedded	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
-NIM-16A	16-port Asynchronous Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-16A=	Cisco NIM-16A=	2900 ISR	module	pending_plan								move interfaces-modules		
-NIM-1CE1T1-PRI	1-port Multiflex trunk voice/channelized data T1/E1 module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-1GE-CU-SFP=	1-port GE WAN NIM, dual-mode RJ45 & SFP	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-1MFT-T1/E1	1-port Multi-flex Trunk Voice/Clear-channel Data T1/E1 Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-1T	1-port serial high-speed WAN interface card	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-24A	24-port Cisco Asynchronous Serial network interface module (NIM)	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-2BRI-NT/TE	2-Port BRI Network Interface Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-2BRI-NT/TE=	Cisco NIM-2BRI-NT/TE=	2900 ISR	module	pending_plan								move interfaces-modules		
-NIM-2BRI-S/T	2-port ISDN BRI WAN interface card for data	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-2CE1T1-PRI	2-port Multiflex trunk voice/channelized data T1/E1 module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-2FXO	2-port Network Interface Module - FXO (Universal)	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-2FXO=	Cisco NIM-2FXO=	2900 ISR	module	pending_plan								move interfaces-modules		
-NIM-2FXS	2-Port Network Interface Module - FXS, FXS-E and DID	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-2FXS/4FXO	2-Port FXS/FXS-E/DID and 4-Port FXO Network Interface Module	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-2FXS/4FXO=	2-Port FXS/FXS-E/DID and 4-Port FXO Network Interface Module	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-2FXS/4FXOP	2-Port FXS/FXS-E/DID and 4-Port FXO Network Interface Module	Catalyst 8200	module	pending_plan								move interfaces-modules		
-NIM-2FXS=	2-Port Network Interface Module - FXS, FXS-E and DID	2900 ISR	module	pending_plan								move interfaces-modules		
-NIM-2FXSP	2-Port Network Interface Module - FXS, FXS-E and DID	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-2FXSP/4FXOP	2-port FXS and 4-port FXO NIM	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-2GE-CU-SFP	2-port GE WAN NIM, dual-mode RJ45 & SFP	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-2GE-CU-SFP=	2-port GE WAN NIM, dual-mode RJ45 & SFP	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-2MFT-T1/E1	2-port Multi-flex Trunk Voice/Clear-channel Data T1/E1 Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-2T	2-port serial high-speed WAN interface card	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-2T=	Cisco NIM-2T=	2900 ISR	module	pending_plan								move interfaces-modules		
-NIM-4BRI-NT/TE	4-Port BRI Network Interface Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-4BRI-NT/TE=	Cisco NIM-4BRI-NT/TE=	2900 ISR	module	pending_plan								move interfaces-modules		
-NIM-4BRI-S/T	4-port ISDN BRI WAN interface card for data	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-4E/M	4-Port E/M Network Interface Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-4E/M=	Cisco NIM-4E/M=	2900 ISR	module	pending_plan								move interfaces-modules		
-NIM-4FXO	4-port Network Interface Module - FXO (Universal)	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-4FXS	4-Port Network Interface Module - FXS, FXS-E and DID	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4FXS=	4-Port Network Interface Module - FXS, FXS-E and DID	2900 ISR	module	pending_plan								move interfaces-modules		
-NIM-4FXSP	4-Port Network Interface Module - FXS, FXS-E and DID	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-GA	4G LTE NIM for Global (Europe, Australia & New Zealand)	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-GA=	4G LTE NIM for Global (Europe, Australia & New Zealand)	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-LA	4G LTE NIM for LATAM and APAC	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-LA=	4G LTE NIM for LATAM and APAC	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-NA	4G LTE NIM for North America AT&T and Canada	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-NA++=	4G LTE NIM for North America AT&T and Canada TAA compliant	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-NA=	4G LTE NIM for North America AT&T and Canada	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-NAPRM	4G LTE NIM for North America AT&T and Canada	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-ST	4G LTE NIM for Sprint	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-ST++=	4G LTE NIM for Sprint TAA compliant	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-ST=	4G LTE NIM for Sprint	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-STPRM	4G LTE NIM for Sprint	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-VZ	4G LTE NIM for Verizon	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-VZ++=	4G LTE NIM for Verizon TAA compliant	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-VZ=	4G LTE NIM for Verizon	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4G-LTE-VZPRM	4G LTE NIM for Verizon	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-4MFT-T1/E1	4-port Multi-flex Trunk Voice/Clear-channel Data T1/E1 Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-4MFT-T1/E1=	Cisco NIM-4MFT-T1/E1=	2900 ISR	module	pending_plan								move interfaces-modules		
-NIM-4SHDSL-EA	NIM with multimode 4 pair G.SHDSL EFM and ATM	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-4T	4-port serial high-speed WAN interface card	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-4T=	Cisco NIM-4T=	2900 ISR	module	pending_plan								move interfaces-modules		
-NIM-8CE1T1-PRI	8-port Multiflex trunk voice/channelized data T1/E1 module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-8CE1T1-PRI=	Cisco NIM-8CE1T1-PRI=	2900 ISR	module	pending_plan								move interfaces-modules		
-NIM-8MFT-T1/E1	8-port Multi-flex Trunk Voice/Clear-channel Data T1/E1 Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-ES2-4	4-port Layer 2 GE Switch Network Interface Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-ES2-4=	4-port Layer 2 GE Switch Network Interface Module	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-ES2-8	8-port Layer 2 GE Switch Network Interface Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-ES2-8-P	Cisco 8-port Gigabit Ethernet LAN switch NIM with PoE support	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-ES2-8-P=	8-port POE/POE+ Layer 2 GE Switch Network Interface Module	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-ES2-8=	8-port Layer 2 GE Switch Network Interface Module	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-LTEA-EA	CAT6 LTE Advanced NIM for Europe and North America	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-LTEA-EA-PM20	CAT6 LTE Advanced NIM for EU & North America Promotional SKU	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-LTEA-LA	LTE Advanced for Asia Pacific, Australia, and LATAM	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-PVDM-128	128-channel Voice DSP NIM Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-PVDM-256	256-channel Voice DSP NIM Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-PVDM-32	32-channel Voice DSP NIM Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-PVDM-64	64-channel Voice DSP NIM Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-SSD	NIM Carrier Card for SSD Drives	4000 ISR	drive	pending_plan								move interfaces-modules		
-NIM-SSD=	NIM Carrier Card for SSD Drives, Spare	4000 ISR	drive	pending_plan								move interfaces-modules		
-NIM-VA-B	1-port VDSL2/ADSL2+ NIM over ISDN with Annex B/J	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-VA-B=	1-port VDSL2/ADSL2+ NIM over ISDN with Annex B/J spare	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-VAB-A	1-port VDSL2/ADSL2+ NIM over POTS with Annex A	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-VAB-A=	1-port VDSL2/ADSL2+ NIM over POTS with Annex A spare	4000 ISR	module	pending_plan								move interfaces-modules		
-NIM-VAB-M	1-port VDSL2/ADSL2+ NIM over POTS with Annex M	Catalyst 8300	module	pending_plan								move interfaces-modules		
-NIM-VAB-M=	1-port VDSL2/ADSL2+ NIM over POTS with Annex M spare	4000 ISR	module	pending_plan								move interfaces-modules		
-NM-1A-OC3-POM=	ATM OC3 module with single POM (SFP) slot	800	module	pending_plan								move interfaces-modules		
-NM-1A-T3/E3	1-Port T3/E3 ATM network Module	800	module	pending_plan								move interfaces-modules		
-NM-1A-T3/E3=	1-Port T3/E3 ATM network Module	800	module	pending_plan								move interfaces-modules		
-NM-1T3/E3=	One port T3/E3 network module	3900 Series Integrated Services Routers ISR	module	pending_plan								move interfaces-modules		
-NM-1V/2V	Cisco NM-1V/2V	2900 ISR	module	pending_plan								move interfaces-modules		
-NM-8CE1T1-PRI=	8 port channelized T1/E1 and PRI network module	2900 ISR	module	pending_plan								move interfaces-modules		
 NM-HD-	Cisco NM-HD-	2900 ISR	module	pending_plan								class non_product		
-NM-HDA	Cisco NM-HDA	2900 ISR	module	pending_plan								move interfaces-modules		
-NM-HDV	High Density Voice/Fax Network Module	2900 ISR	module	pending_plan								move interfaces-modules		
-NM-HDV2	Cisco NM-HDV2	2900 ISR	module	pending_plan								move interfaces-modules		
-NM-HDV2-1T1/E1	Cisco NM-HDV2-1T1/E1	2900 ISR	module	pending_plan								move interfaces-modules		
-NM-HDV2-2T1/E1	Cisco NM-HDV2-2T1/E1	2900 ISR	module	pending_plan								move interfaces-modules		
-NME-RVPN-G2=	ISR G2 Bundle for Russian VPN and NM-SM-ADPTR	800	module	pending_plan								move interfaces-modules		
-NME-RVPN-SEC1-G2=	Module for loading Russian VPN sofware security level 1	2900 ISR	module	pending_plan								move interfaces-modules		
-NME-RVPN-SEC2-G2=	Module for loading Russian VPN sofware security level 2	2900 ISR	module	pending_plan								move interfaces-modules		
 NRS-WAE-SWSUB	PF WAE NRS PID SWSUB	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license		
 OBD2-J1939Y1-MF4	Cisco OBD2-J1939Y1-MF4	Catalyst IR1800 Rugged	cable	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series
 OBD2-J1939Y2-MF4	Cisco OBD2-J1939Y2-MF4	Catalyst IR1800 Rugged	cable	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series
@@ -4694,35 +4554,10 @@ OEM-PRI-MC7455	Cisco OEM PRI Load for MC7455	800	router	pending_plan						rt.iss
 OEM-PRI-MC7455=	Cisco OEM PRI Load for MC7455	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software		
 ONS-C2-WDM-DE-1HL	200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only	Network Convergence System 5500 Series	accessory	pending_plan								move transceiver		
 ONS-C2-WDM-DE-1HL=	200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only	Network Convergence System 5500 Series	accessory	pending_plan								move transceiver		
-P-5GS6-GL	5G Sub-6 pluggable interface module (PIM)	1000	module	pending_plan								move interfaces-modules		
-P-5GS6-GL=	5G Sub-6 pluggable interface module (PIM)	1000	module	pending_plan								move interfaces-modules		
-P-5GS6-R16-SA	Cisco P-5GS6-R16-SA	1000	module	pending_plan								move interfaces-modules		
-P-5GS6-R16SA-GL	5G Sub-6 GHz Pluggable – 5G SA Global	Catalyst 8300 Series Edge uCPE	module	pending_plan								move interfaces-modules		
-P-5GS6-R16SA-GL=	Cisco P-5GS6-R16SA-GL=	1000	module	pending_plan								move interfaces-modules		
 P-LPWA-800	Cisco 800MHz LoRaWAN PIM 8-Channels	Wireless Gateway for LoRaWAN	module	layered	Industrial and IoT Routers		Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN						name: LoRaWAN
 P-LPWA-800=	Cisco 800MHz LoRaWAN PIM 8-Channels	Wireless Gateway for LoRaWAN	module	layered	Industrial and IoT Routers		Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN						name: LoRaWAN
 P-LPWA-900	Cisco 900MHz LoRaWAN PIM 8-Channels	Wireless Gateway for LoRaWAN	module	layered	Industrial and IoT Routers		Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN						name: LoRaWAN
 P-LPWA-900=	Cisco 900MHz LoRaWAN PIM 8-Channels	Wireless Gateway for LoRaWAN	module	layered	Industrial and IoT Routers		Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN						name: LoRaWAN
-P-LTE-GB	Cisco P-LTE-GB	1000	module	pending_plan								move interfaces-modules		
-P-LTE-IN	CAT4 LTE Pluggable India & China	1000	module	pending_plan								move interfaces-modules		
-P-LTE-IN=	CAT4 LTE Pluggable India & China	1000	module	pending_plan								move interfaces-modules		
-P-LTE-JN	CAT4 LTE Pluggable Japan	8100 Series Secure	module	pending_plan								move interfaces-modules		
-P-LTE-JN=	CAT4 LTE Pluggable Japan	1000	module	pending_plan								move interfaces-modules		
-P-LTE-MNA	Multi-carrier band-14 CAT4 LTE Pluggable for North America	1000	module	pending_plan								move interfaces-modules		
-P-LTE-MNA=	Multi-carrier band-14 CAT4 LTE Pluggable for North America	1000	module	pending_plan								move interfaces-modules		
-P-LTE-US	CAT4 LTE Pluggable United States	1000	module	pending_plan								move interfaces-modules		
-P-LTE-US=	CAT4 LTE Pluggable United States	1000	module	pending_plan								move interfaces-modules		
-P-LTE-VZ	CAT4 LTE Pluggable Verizon	1000	module	pending_plan								move interfaces-modules		
-P-LTE-VZ=	CAT4 LTE Pluggable Verizon	1000	module	pending_plan								move interfaces-modules		
-P-LTEA-EA	System and spare CAT6 LTE Advanced Pluggable for North America and Europe	1000	module	pending_plan								move interfaces-modules		
-P-LTEA-LA	System and spare CAT6 LTE Advanced Pluggable for APAC, ANZ, and LATAM	1000	module	pending_plan								move interfaces-modules		
-P-LTEA7-EAL	System and spare CAT7 LTE advanced pluggable for EMEA, APAC and Latin America	1000	module	pending_plan								move interfaces-modules		
-P-LTEA7-EAL=	Cisco P-LTEA7-EAL=	1000	module	pending_plan								move interfaces-modules		
-P-LTEA7-IN	CAT 7 LTE PIM for India	Catalyst 8300 Series Edge uCPE	module	pending_plan								move interfaces-modules		
-P-LTEA7-JP	System and spare CAT7 LTE advanced pluggable for Japan	1000	module	pending_plan								move interfaces-modules		
-P-LTEA7-JP=	Cisco P-LTEA7-JP=	1000	module	pending_plan								move interfaces-modules		
-P-LTEA7-NA	System and spare CAT7 LTE advanced pluggable for North America	1000	module	pending_plan								move interfaces-modules		
-P-LTEAP18-GL	System and spare CAT18 LTE Advanced Pluggable Global	1000	module	pending_plan								move interfaces-modules		
 P100	Cisco P100	8000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 P200	Cisco P200	8000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 P3G1-RCKMNT-19IN	EIA 19 Inch mounting brackets for single 3G CEM/IMSG IM patch panel	ASR 900	mechanical	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 900; was ASR 902 / 903 / 907 / 914): no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series						none: no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series
@@ -4744,11 +4579,6 @@ PANEL-48-1-DIN	48 x 75 ohm E1/DS1 termination, through DIN 1.0/2.3 connectors	AS
 PANEL-48-1-RJ48	48 x 120 ohm E1/110 ohm DS1 termination, through RJ 48C connectors	ASR 900	accessory	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	accessory ^PANEL- (label ASR 900)						
 PANEL-48-3-DIN	48 x 75 ohm E3/DS3 termination, through DIN 1.0/2.3 connectors 1	ASR 900	accessory	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	accessory ^PANEL- (label ASR 900)						
 PANEL-48-3-HDBNC	48 x 75 ohm E1/110 ohm DS1 termination, HD BNC connectors 1	ASR 900	accessory	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	accessory ^PANEL- (label ASR 900)						
-PCEX-3G-CDMA-B	Cisco 3G EVDO Rev A/0/1xRTT Modem-BSNL Networks	800	module	pending_plan								move interfaces-modules		
-PCEX-3G-CDMA-S	Cisco 3G EVDO Rev A/0/1xRTT Modem-Sprint Networks	800	module	pending_plan								move interfaces-modules		
-PCEX-3G-CDMA-V	Cisco 3G EVDO Rev A/0/1xRTT Modem-Verizon Networks	800	module	pending_plan								move interfaces-modules		
-PCEX-3G-HSPA-G	Cisco 3.5G HSPA/UMTS/EDGE/GPRS Modem-Global Networks (Global SKU, excluding USA)	800	module	pending_plan								move interfaces-modules		
-PCEX-3G-HSPA-US	Cisco 3.5G HSPA/UMTS/EDGE/GPRS Modem-AT&T Network Only	800	module	pending_plan								move interfaces-modules		
 PDU-321-3-DELTA	3 phase to 1 phase AC Delta PDU,1 input/3 output	Carrier Routing System	power	layered	CRS (Carrier Routing System)	(shared across the line)	CRS (Carrier Routing System) shared parts	label-unsupported (label Carrier Routing System; was CRS): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series
 PDU-321-3-DELTA=	3 phase to 1 phase AC Delta power distribution box,1 input/3	Carrier Routing System	power	layered	CRS (Carrier Routing System)	(shared across the line)	CRS (Carrier Routing System) shared parts	label-unsupported (label Carrier Routing System; was CRS): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series
 PDU-321-3-WYE	3 phase to 1 phase AC Wye PDU,1 input/3 output	Carrier Routing System	power	layered	CRS (Carrier Routing System)	(shared across the line)	CRS (Carrier Routing System) shared parts	label-unsupported (label Carrier Routing System; was CRS): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series
@@ -4787,41 +4617,6 @@ PSU4.3KW-HVPI	Cisco 4.3KW HV AC/DC Power Supply Unit	8000	power	layered	Cisco 80
 PSU4.8KW-DC100	Cisco PSU4.8KW-DC100	8000	power	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	label-unsupported (label 8000; was Cisco 8000): no platform token (8000) in the SKU or name, no compatible part placed in the series						none: no platform token (8000) in the SKU or name, no compatible part placed in the series
 PSU6.3KW-20A-HV	Cisco PSU6.3KW-20A-HV	8000	power	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	label-unsupported (label 8000; was Cisco 8000): no platform token (8000) in the SKU or name, no compatible part placed in the series						none: no platform token (8000) in the SKU or name, no compatible part placed in the series
 PSU6.3KW-HV	Cisco PSU6.3KW-HV	8000	power	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	label-unsupported (label 8000; was Cisco 8000): no platform token (8000) in the SKU or name, no compatible part placed in the series						none: no platform token (8000) in the SKU or name, no compatible part placed in the series
-PVDM2-12DM	12 Port Digital Modem Module	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM2-12DM=	12 Port Digital Modem Module	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM2-16	Cisco PVDM2-16	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM2-24DM	24 Port Digital Modem Module	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM2-24DM=	24 Port Digital Modem Module	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM2-32	Cisco PVDM2-32	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM2-36DM	36 Port Digital Modem Module	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM2-36DM=	36 Port Digital Modem Module	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM2-48	Cisco PVDM2-48	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM2-64	Cisco PVDM2-64	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM2-8	Cisco PVDM2-8	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM2-ADPTR	PVDM2 Adapter for PVDM Slot on Cisco 2900, 3900 Series ISR (Both system & spare)	2900 ISR	accessory	pending_plan								move interfaces-modules		
-PVDM2-ADPTR=	PVDM2 Adapter for PVDM Slot on Cisco 2900, 3900 Series ISR	2900 ISR	accessory	pending_plan								move interfaces-modules		
-PVDM3	Cisco PVDM3	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-128U192	PVDM3 128-channel to 192-channel factory upgrade	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-16	16-channel high-density voice DSP module	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-16=	16-channel high-density voice DSP module SPARE	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-16U128	PVDM3 16-channel to 128-channel factory upgrade	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-16U192	PVDM3 16-channel to 192-channel factory upgrade	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-16U256	PVDM3 16-channel to 256-channel factory upgrade	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-16U32	PVDM3 16-channel to 32-channel factory upgrade	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-16U64	PVDM3 16-channel to 64-channel factory upgrade	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-192	192-channel high-density voice DSP module	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-192=	192-channel high-density voice DSP module SPARE	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-32	32-channel high-density voice DSP module	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-32=	32-channel high-density voice DSP module SPARE	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-32U128	PVDM3 32-channel to 128-channel factory upgrade	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-32U192	PVDM3 32-channel to 192-channel factory upgrade	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-32U256	PVDM3 32-channel to 256-channel factory upgrade	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-32U64	PVDM3 32-channel to 64-channel factory upgrade	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM3-64U192	PVDM3 64-channel to 192-channel factory upgrade	2900 ISR	module	pending_plan								move interfaces-modules		
-PVDM4-128	Cisco PVDM4-128	4000 ISR	module	pending_plan								move interfaces-modules		
-PVDM4-256	Cisco PVDM4-256	4000 ISR	module	pending_plan								move interfaces-modules		
-PVDM4-32	Cisco PVDM4-32	4000 ISR	module	pending_plan								move interfaces-modules		
-PVDM4-64	Cisco PVDM4-64	4000 ISR	module	pending_plan								move interfaces-modules		
 PWR-1.6KW-AC	ASR 9900 Fixed Chassis AC Power Supply	ASR 9000	power	layered	ASR (Aggregation Services Routers)		ASR 9000	label ASR 9000						name: re:(?<![0-9])99[0-9]{2}(?![0-9])
 PWR-1.6KW-DC	ASR 9900 Fixed Chassis DC Power Supply	ASR 9000	power	layered	ASR (Aggregation Services Routers)		ASR 9000	label ASR 9000						name: re:(?<![0-9])99[0-9]{2}(?![0-9])
 PWR-125W-AC	Power Supply 125 Watt AC	800	power	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 800; was ISR 810 / 840 / 860 / 870 / 880 / 890): no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series						none: no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series
@@ -5183,94 +4978,9 @@ SI-ISR4351-IWAN/K9	ISR 4351 SEED IT Program Offering	4000 ISR	router	layered	ISR
 SI-ISR4431-IWAN/K9	ISR 4431 SEED IT Program Offering	4000 ISR	router	layered	ISR (Integrated Services Routers)		ISR 4000	sku ^SI-ISR4	branch	series:ISR 4000				
 SI-ISR4451-IWAN/K9	ISR 4451 SEED IT Program Offering	4000 ISR	router	layered	ISR (Integrated Services Routers)		ISR 4000	sku ^SI-ISR4	branch	series:ISR 4000				
 SI-ISR4K-IWAN/K9	ISR 4K SEED IT Program	4000 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product		
-SM-2GE-SFP-CU	2 port GE SFP service module	2900 ISR	module	pending_plan								move interfaces-modules		
-SM-2GE-SFP-CU=	2 port GE SFP service module	2900 ISR	module	pending_plan								move interfaces-modules		
-SM-32A=	32 port Asynchronous Module	2900 ISR	module	pending_plan								move interfaces-modules		
-SM-BLANK-KIT=	Blank faceplate for SM slot with divider on Cisco 2951 & 3925 (only as spare)	2900 ISR	mechanical	pending_plan								move interfaces-modules		
-SM-DSK-SATA-500GB=	Spare 50-GB hard disk for SM-SRE-900-K9	2900 ISR	drive	pending_plan								move interfaces-modules		
-SM-S-BLANK	Removable faceplate for SM slot on Cisco 2900,3900,4400 ISR	4000 ISR	mechanical	pending_plan								move interfaces-modules		
-SM-S-BLANK=	Removable faceplate for SM slot on Cisco 2900, 3900 ISR (only as spare)	2900 ISR	mechanical	pending_plan								move interfaces-modules		
-SM-SLOT-DIVIDER=	SM Slot Divider (Guide) for Cisco 2900, 3900 ISR (only as spare)	2900 ISR	mechanical	pending_plan								move interfaces-modules		
-SM-X-16FXS/2FXO	Single-Wide High Density Analog Voice Service Module with 16 FXS and 2 FXO	Catalyst 8300	module	pending_plan								move interfaces-modules		
-SM-X-16G4M2X	Cisco SM 16-port 1G, 4-port 2.5 mGig & 2-port 10G SFP/SFP+	4000 ISR	module	pending_plan								move interfaces-modules		
-SM-X-1T3/E3	One-port clear-channel T3/E3 Service Module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-SM-X-24FXS/4FXO	Single-Wide High Density Analog Voice Service Module with 24 FXS and 4 FXO	Catalyst 8300	module	pending_plan								move interfaces-modules		
-SM-X-40G8M2X	Cisco SM 40-port 1G, 8-port 2.5 mGig & 2-port 10G SFP/SFP+	4000 ISR	module	pending_plan								move interfaces-modules		
-SM-X-4X1G-1X10G	SM-X module with 4-port dual-mode GE/SFP or 1-port 10G SFP+	4000 ISR	module	pending_plan								move interfaces-modules		
-SM-X-4X1G-1X10G=	SM-X module with 4-port dual-mode GE/SFP or 1-port 10G SFP+	4000 ISR	module	pending_plan								move interfaces-modules		
-SM-X-64A	64-port Asynchronous Module	XE SD-WAN	module	pending_plan								move interfaces-modules		
-SM-X-6X1G	SM-X module with 6-port dual-mode GE / SFP	4000 ISR	module	pending_plan								move interfaces-modules		
-SM-X-6X1G=	SM-X module with 6-port dual-mode GE / SFP	4000 ISR	module	pending_plan								move interfaces-modules		
-SM-X-72FXS	Double-Wide High Density Analog Voice Service Module with 72 FXS	Catalyst 8300	module	pending_plan								move interfaces-modules		
-SM-X-8FXS/12FXO	Single-Wide High Density Analog Voice Service Module with 8 FXS and 12 FXO	Catalyst 8300	module	pending_plan								move interfaces-modules		
-SM-X-ES3-16-P	SM-X EtherSwitch SM, Layer 2/3 switching, 16 ports GE, POE+ capable	4000 ISR	module	pending_plan								move interfaces-modules		
-SM-X-ES3-24-P	SM-X EtherSwitch SM, Layer 2/3 switching, 24 ports Gigabit GE, POE+ capable	4000 ISR	module	pending_plan								move interfaces-modules		
-SM-X-ES3-24-P-T	SM-X EtherSwitch, L2/L3, SM, 24 GE, POE+ TT	2900 ISR	module	pending_plan								move interfaces-modules		
-SM-X-ES3-24-P-T=	SM-X EtherSwitch, L2/L3, SM, 24 GE, POE+ TT	2900 ISR	module	pending_plan								move interfaces-modules		
-SM-X-ES3D-48-P	SM-X EtherSwitch SM, Layer 2/3 switching, 48 ports Gigabit GE, 2 ports Small Form factor Pluggable (SFP), POE+ capable	4000 ISR	module	pending_plan								move interfaces-modules		
-SM-X-NIM-ADPTR=	SM-X Adapter for one NIM module for Cisco 4000 Series ISR	4000 ISR	mechanical	pending_plan								move interfaces-modules		
-SM-X-PVDM-1000	1024-channel high-density voice DSP module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-SM-X-PVDM-2000	2048-channel high-density voice DSP module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-SM-X-PVDM-3000	3080-channel high-density voice DSP module	Catalyst 8300	module	pending_plan								move interfaces-modules		
-SM-X-PVDM-500	768-channel high-density voice DSP module	Catalyst 8300	module	pending_plan								move interfaces-modules		
 SO-TG-TRK	Cisco SO-TG-TRK	Secure Console	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product		
 SOCRATES-4e	Cisco SOCRATES-4e	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 SOLUTIONOPTIOAPN9	Solution Options	Wireless Gateway for LoRaWAN	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product		
-SPA-10X1GE-V2	Cisco 10-Port Gigabit Ethernet Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-1CHOC3-CE-ATM	Cisco 1 Port Channelized OC3/STM-1 ATM and Circuit Emulation SPA	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-1CHOC3-CE-ATM=	1 Port Channelized OC3/STM-1 ATM and Circuit Emulation SPA	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-1CHOC3-CE-ATMW	1 Port OC3 SPA with CeOPS and ATM	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-1CHSTM1/OC3V2	Cisco 1-port Channelized STM-1/OC-3c to DS0 Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-1X10GE-L-V2	Cisco 1-Port 10 Gigabit Ethernet Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-1X10GE-WL-V2	Cisco 10 GE WAN PHY Shared Port Adapter introduces 10-GE connectivity based on IEEE 802.3ae in configurable WAN and LAN modes in a single-height, modular I/O form factor	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-1XCHOC12/DS0	1-port Channelized OC12 to DS0 SPA ( End-of-Sale )	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-1XCHSTM1/OC3	Cisco 1-port Channelized STM-1/OC-3c to DS-0 Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-1XOC12-ATM-V2	Cisco 1-Port OC12 STM Shared Port Adapter ( End-of-Sale )	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-1XOC12-POS-V2	Cisco 1-Port OC12/STM4 POS Shared Port Adapter	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-1XOC12-POS-V2=	SPA-2XOC12-POS spare with a license to use 1 port	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-1XOC3-ATM-V2	Cisco 1-Port Clear Channel OC3 ATM Shared Port Adapter ( End-of-Sale )	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-1XOC48-POS/RPR	Cisco 1-port OC48/STM16 POS/RPR Shared Port Adapter	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-24CHT1-CE-ATM	Cisco 24-Port T1/E1 Circuit Emulation over Packet Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-2CHT3-CE-ATM	Cisco 2-Port T3/E3 Circuit Emulation over Packet Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-2X1GE-SYNCE	Cisco 2-Port SyncE Gigabit Ethernet Shared Port Adapter	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-2X1GE-V2	Cisco 2-Port Gigabit Ethernet Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-2XCHOC12/DS0	2 Port Channelized OC12/DS0 Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-2XCT3/DS0-V2	Cisco 2-Port Channelized T3 (DS0) Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-2XOC12-POS	Cisco 2-Port OC-12c/STM-4 POS Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-2XOC12-POS=	2-port OC12/STM4 POS Shared Port Adapters	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-2XOC3-POS-V2	Cisco 2-Port OC3c/STM-1c POS Shared Port Adapter	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-2XOC3-POS-V2=	SPA-4XOC3-POS-V2 spare with a license to use 2 ports	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-2XOC48POS/RPR	Cisco 2-Port OC-48c/STM-16c POS/RPR Shared Port Adapter (POS mode only)	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-2XT3/E3	Cisco 2-Port Clear Channel T3/E3 Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-2XT3/E3-V2	Cisco 2-Port Clear Channel T3/E3 Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-3XOC3-ATM-V2	Cisco 3-Port Clear Channel OC3 ATM Shared Port Adapter ( End-of-Sale )	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-4X1FE-TX-V2	Cisco 4-Port 10BASE-T/100BASE Fast Ethernet Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-4XCT3/DS0	Cisco 4-Port Channelized T3 (DS-0) Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-4XCT3/DS0-V2	Cisco 4-Port Channelized T3 (DS0) Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-4XOC12-POS	Cisco 4-Port OC-12c/STM-4 POS Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-4XOC12-POS=	4-port OC-12/STM-4 POS Shared Port Adapters	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-4XOC3-POS	Cisco 4-Port OC-3c/STM-1c POS Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-4XOC3-POS-C2	4-port OC3/STM1 POS SPA VERSION 2, China Special	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-4XOC3-POS-C2=	4-port OC3/STM1 POS SPA VERSION 2, China Special	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-4XOC3-POS-V2	Cisco 4-Port OC3c/STM-1c POS Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-4XOC3-POS-V2=	4-port OC-3/STM-1 POS Shared Port Adapters	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-4XOC48POS/RPR	Cisco 4-Port OC-48c/STM-16c POS/RPR Shared Port Adapter (POS mode only)	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-4XT-SERIAL	Cisco 4-Port Serial Interface Shared Port Adapter	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-4XT3/E3	Cisco 4-Port Clear Channel T3/E3 Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-4XT3/E3-V2	Cisco 4-Port Clear Channel T3/E3 Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-5X1GE-V2	Cisco 5-Port Gigabit Ethernet Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-8X1FE-TX-V2	Cisco 8-Port 10BASE-T/100BASE Fast Ethernet Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-8X1GE-V2	Cisco 8-Port Gigabit Ethernet Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-8XCHT1/E1	8-port Channelized T1/E1 to DS0 Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-8XCHT1/E1-V2	Cisco 8-Port Channelized T1/E1 Shared Port Adapter, Version 2	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-8XOC12-POS	Cisco 8-port OC12/STM4 POS SPA Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-8XOC3-POS	Cisco 8-Port OC-3c/STM-1c POS Shared Port Adapter	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-8XT3/E3	Cisco 8-Port Clear Channel T3/E3 Shared Port Adapter	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-CHOC3-CE-2PK=	2 Pack ChOC3 CEoP SPA Bundle	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-DSP	Cisco ASR 1000 Series Digital Signal Processor SPA	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-DSP=	Digital Signal Processor SPA	ASR 1000	module	pending_plan								move interfaces-modules		
-SPA-OC192POS-XFP	Cisco 1-Port OC-192c/STM-64c POS/RPR Shared Port Adapter with XFP Optics	ASR 9000	module	pending_plan								move interfaces-modules		
-SPA-WMA-K9	Cisco WebEx Node SPA for ASR 1000 Series ( End-of-Sale )	ASR 1000	module	pending_plan								move interfaces-modules		
 SPAOA-WAE-I	Core & Aggregation Essentials SW Right-to-Use v1.0 per 100G	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license		
 SPAOA-WAENET-I	Offer Attribution (Immediate) for BAM WAENET	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license		
 SPAUTO-CP	Cisco SPAUTO-CP	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software		
@@ -5321,10 +5031,6 @@ T1/E1	Cisco T1/E1	2900 ISR	router	pending_plan						rt.issue.placeholder	datashe
 T1/E1-DI	Cisco T1/E1-DI	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 TG-OS-E-O	Cisco TG-OS-E-O	Secure Console	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software		
 UCS-CPU-5120=	2.2 GHz 5120/105W 14C/19.25MB Cache/DDR4 2400MHz	ASR 9000	processor	pending_plan								move servers-unified-computing		
-UCS-E1100D-M6/K9	UCS-E, double-wide, Intel Icelake 10-core CPU; up to 128 GB RAM, 1-4 SSD	Catalyst 8300	module	pending_plan								move interfaces-modules		
-UCS-E1120D-M3/K9	UCS-E, double-wide, Intel Broadwell 12-core CPU; up to 128 GB RAM, 1-4 HDD	Catalyst 8300	module	pending_plan								move interfaces-modules		
-UCS-E160S-M3/K9	UCS-E, single-wide, Intel Broadwell 6-core CPU; up to 64 GB RAM, 1-2 HDD	Catalyst 8300	module	pending_plan								move interfaces-modules		
-UCS-E180D-M3/K9	UCS-E, double-wide, Intel Broadwell 8-core CPU; up to 128 GB RAM, 1-4 HDD	Catalyst 8300	module	pending_plan								move interfaces-modules		
 UCS-M2-240GB=	Cisco UCS-M2-240GB=	ASR 9000	drive	pending_plan								move servers-unified-computing		
 UCS-MR-X16G1RS-H=	Cisco UCS-MR-X16G1RS-H=	ASR 9000	memory	pending_plan								move servers-unified-computing		
 UCSC-C220-M5SX=	Cisco UCSC-C220-M5SX=	ASR 9000	router	pending_plan						rt.issue.component	module/modem/accessory	move servers-unified-computing		
@@ -5333,25 +5039,8 @@ V.35	Cisco V.35	1900 ISR	router	pending_plan						rt.issue.placeholder	datasheet
 V/ADSL2	Cisco V/ADSL2	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 V6-INLN	Cisco V6-INLN	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 VDSL2	Cisco VDSL2	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
-VIC-4FXS/DID	Cisco VIC-4FXS/DID	2900 ISR	module	pending_plan								move interfaces-modules		
 VIC2-	Cisco VIC2-	2900 ISR	module	pending_plan								class non_product		
-VIC2-2BRI	Cisco VIC2-2BRI	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC2-2BRI-NT/TE	Two-port Voice Interface Card - BRI (NT and TE)	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC2-2BRI-NT/TE=	Two-port Voice Interface Card - BRI (NT and TE)	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC2-2FXO	Two-port Voice Interface Card - FXO (Universal)	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC2-2FXO=	Two-port Voice Interface Card - FXO (Universal)	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC2-2FXS	Cisco VIC2-2FXS	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC2-4FXO	Four-port Voice Interface Card - FXO (Universal)	2900 ISR	module	pending_plan								move interfaces-modules		
 VIC3-	Cisco VIC3-	2900 ISR	module	pending_plan								class non_product		
-VIC3-2E/M	Two-port Voice Interface Card - E and M	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC3-2E/M=	Two-port Voice Interface Card - E and M	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC3-2FXS-E/DID	Two-Port Voice Interface Card - FXS and DID (OPX Lite FXS)	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC3-2FXS-E/DID=	Two-Port Voice Interface Card - FXS and DID (OPX Lite FXS)	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC3-2FXS/DID	Two-Port Voice Interface Card- FXS and DID	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC3-2FXS/DID=	Two-Port Voice Interface Card- FXS and DID	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC3-4FXS/DID	Four-Port Voice Interface Card - FXS and DID	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC3-4FXS/DID-S	Four-Port Voice Interface Card - FXS and DID	2900 ISR	module	pending_plan								move interfaces-modules		
-VIC3-4FXS/DID=	Four-Port Voice Interface Card - FXS and DID	2900 ISR	module	pending_plan								move interfaces-modules		
 VIPTELA-OS-192	Viptela OS version 19.2.0 (ISR1100 Series only)	1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software		
 VIPTELA-OS-204	Viptela OS versions 20.4 (ISR 1100 and ISR 1100X Series)	1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software		
 VSLN-PP-CORE	Cisco VSLN-PP-CORE	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
@@ -5368,72 +5057,13 @@ VTMS-PP-50G	Cisco VTMS-PP-50G	ASR 9000	router	pending_plan						rt.issue.placeho
 VTMS-PP-50G-M	Cisco VTMS-PP-50G-M	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 VWIC-	Cisco VWIC-	2900 ISR	module	pending_plan								class non_product		
 VWIC-1MFT-	Cisco VWIC-1MFT-	2900 ISR	module	pending_plan								class non_product		
-VWIC-1MFT-T1/E1	Cisco VWIC-1MFT-T1/E1	2900 ISR	module	pending_plan								move interfaces-modules		
 VWIC-2MFT-	Cisco VWIC-2MFT-	2900 ISR	module	pending_plan								class non_product		
-VWIC-2MFT-T1/E1-DI	Cisco VWIC-2MFT-T1/E1-DI	2900 ISR	module	pending_plan								move interfaces-modules		
-VWIC2-1MFT-G703	1-Port G.703 Multiflex Trunk Voice/WAN Interface Card	2900 ISR	module	pending_plan								move interfaces-modules		
-VWIC2-1MFT-T1/E1	1-Port T1/E1 Multiflex Trunk Voice/WAN Interface Card	2900 ISR	module	pending_plan								move interfaces-modules		
 VWIC2-2MFT-	Cisco VWIC2-2MFT-	2900 ISR	module	pending_plan								class non_product		
-VWIC2-2MFT-G703	2-Port G.703 Multiflex Trunk Voice/WAN Interface Card	2900 ISR	module	pending_plan								move interfaces-modules		
-VWIC2-2MFT-T1/E1	2-Port T1/E1 Multiflex Trunk Voice/WAN Interface Card	2900 ISR	module	pending_plan								move interfaces-modules		
-VWIC3-2MFT-G703	Cisco VWIC3-2MFT-G703	2900 ISR	module	pending_plan								move interfaces-modules		
-VWIC3-4MFT-T1/E1=	4-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	2900 ISR	module	pending_plan								move interfaces-modules		
 W-ANTM2050D-RPSMA	Cisco W-ANTM2050D-RPSMA	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series
 WAEFEATURESSUBBDQ7	Cisco WAEFEATURESSUBBDQ7	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license		
 WAEPLANNINGUSBAY3	Cisco WAEPLANNINGUSBAY3	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license		
 WAEPLANNINGUSBAY5	Cisco WAEPLANNINGUSBAY5	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license		
 WAEPLANNINGUSBAY7	Cisco WAEPLANNINGUSBAY7	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license		
-WIC-1AM-V2	one-port Analog Modem Interface card	2900 ISR	module	pending_plan								move interfaces-modules		
-WIC-1AM-V2=	one-port Analog Modem Interface card	2900 ISR	module	pending_plan								move interfaces-modules		
-WIC-1SHDSL-V3	Cisco WIC-1SHDSL-V3	800	module	pending_plan								move interfaces-modules		
-WIC-2AM-V2	Two-port Analog Modem Interface Card	2900 ISR	module	pending_plan								move interfaces-modules		
-WIC-2AM-V2=	Two-port Analog Modem Interface Card	2900 ISR	module	pending_plan								move interfaces-modules		
-WIM-1T	Cisco 800M Router 1-Port Serial WAN Interface Module	800	module	pending_plan								move interfaces-modules		
-WIM-1T=	Cisco 800M Router 1-Port Serial WAN Interface Module	800	module	pending_plan								move interfaces-modules		
-WIM-3G	Cisco 800M ISR Dual SIM-multimode 3G WAN Interface Module	800	module	pending_plan								move interfaces-modules		
-WIM-3G=	Cisco 800M Router Dual SIM HSPA+ CDMA 3G WIM	4000 ISR	module	pending_plan								move interfaces-modules		
-WIM-BLANK	Blank faceplate for WIM slot on Cisco ISR 800M	800	mechanical	pending_plan								move interfaces-modules		
-WIM-BLANK=	Blank faceplate for WIM slot on Cisco ISR 800M	800	mechanical	pending_plan								move interfaces-modules		
-WIM-LTE-AL	Cisco WIM-LTE-AL	8100 Series Secure	module	pending_plan								move interfaces-modules		
-WIM-LTE-AS	Cisco 800M ISR Single SIM 4G LTE WAN Interface Module (Bands Supported: B1, B3, B5, B8, B40, B41)	8100 Series Secure	module	pending_plan								move interfaces-modules		
-WIM-LTE-AS=	Cisco 800M Router Single SIM LTE WIM	800	module	pending_plan								move interfaces-modules		
-WIM-LTE-LT	Cisco WIM-LTE-LT	8100 Series Secure	module	pending_plan								move interfaces-modules		
-WP-WIFI6-A	WiFi6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-A=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-B	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-B=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-C	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-C=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-D	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-D=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-E	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-E=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-F	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-F=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-G	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-G=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-H	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-H=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-I	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-I=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-K	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-K=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-L	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-L=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-M	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-M=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-N	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-N=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-Q	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-Q=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-R	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-R=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-S	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-S=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-T	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-T=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-Z	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
-WP-WIFI6-Z=	WiFI6 Pluggable Module for IoT Routers	Catalyst IR1800 Rugged	module	pending_plan								move interfaces-modules		
 WS-C6503-E-FWM-K9WS	Cisco WS-C6503-E-FWM-K9WS	2900 ISR	router	pending_plan						rt.issue.switch	switch	move switches		
 WS-C6503E-S32P-GEWS	Cisco WS-C6503E-S32P-GEWS	2900 ISR	router	pending_plan						rt.issue.switch	switch	move switches		
 WS-C6503E-S32P10GEWS-	Cisco WS-C6503E-S32P10GEWS-	2900 ISR	router	pending_plan						rt.issue.switch	switch	move switches		

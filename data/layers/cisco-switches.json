@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-14T17:48:32.223Z",
- "commit": "69e48754d3d0d0863dcac0ce703cfdb74022dbff",
+ "built_at": "2026-09-14T18:04:15.549Z",
+ "commit": "70caa675f16ebfe5fe7dcba4c312c2a63ca3607c",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
- "parts": 7531,
+ "parts": 7507,
  "lines": [
   {
    "line": "Catalyst",
@@ -909,11 +909,11 @@
       "access": 6
      },
      "samples": [
-      "CMICR-4PC — Catalyst Micro Switch, 1 x copper + 1 SFP Spare",
+      "CMICR-4PC — Catalyst Micro Switch, 1 x copper + 1 SFP",
       "CMICR-4PC= — Catalyst Micro Switch, 1 x copper + 1 SFP Spare",
       "CMICR-4PS — Catalyst Micro Switch for Walljack Deployments, 2 x SFP Up S",
       "CMICR-4PS= — Catalyst Micro Switch for Walljack Deployments, 2 x SFP Up S",
-      "CMICR-4PT — Catalyst Micro Switch for Desktop Deployments Spare",
+      "CMICR-4PT — Catalyst Micro Switch for Desktop Deployments",
       "CMICR-4PT= — Catalyst Micro Switch for Desktop Deployments Spare"
      ],
      "rules": {
@@ -1126,7 +1126,7 @@
      },
      "samples": [
       "N3K-C36180YC-R — Cisco N3K-C36180YC-R 36180YC-R Data-Center-Switch (NX-OS, L3",
-      "N3K-C3636C-R — Nexus 36180YC-R, 48p 10/25G and 6p QSFP28, Spare",
+      "N3K-C3636C-R — Nexus 36180YC-R, 48p 10/25G and 6p QSFP28",
       "N3K-C3636C-R= — Nexus 36180YC-R, 48p 10/25G and 6p QSFP28, Spare"
      ],
      "rules": {
@@ -3935,7 +3935,7 @@
   },
   {
    "sku": "DS-C9132T-MEK9",
-   "name": "MDS 9132 32G 1 RU FC switch, w/ 8 active FC ports, 2 Fans, 1 PSU, Port Side Exhaust, spare",
+   "name": "MDS 9132 32G 1 RU FC switch, w/ 8 active FC ports, 2 Fans, 1 PSU, Port Side Exhaust",
    "series_label": "MDS T",
    "action": "move",
    "to": "storage-networking",
@@ -3967,7 +3967,7 @@
   },
   {
    "sku": "DS-C9220I-4PEK9",
-   "name": "MDS 9220i Multiprotocol Fixed Switch Base configuration (4xFC, 2 x IPS 1 Gbps), port side exhaust, (Spare)",
+   "name": "MDS 9220i Multiprotocol Fixed Switch Base configuration (4xFC, 2 x IPS 1 Gbps), port side exhaust",
    "series_label": "MDS MS",
    "action": "move",
    "to": "storage-networking",
@@ -3975,7 +3975,7 @@
   },
   {
    "sku": "DS-C9250I-K9",
-   "name": "MDS 9250i 50 port switch base config (20xFC, 8xFCoE, 2xFCIP), spare",
+   "name": "MDS 9250i 50 port switch base config (20xFC, 8xFCoE, 2xFCIP)",
    "series_label": "MDS MS",
    "action": "move",
    "to": "storage-networking",
@@ -3991,7 +3991,7 @@
   },
   {
    "sku": "DS-C9396T-48EK9",
-   "name": "MDS 9396T 32G 2 RU Fibre Channel switch, with 48 active Fibre Channel ports, 2 fans, 2 PSU, port side exhaust, spare",
+   "name": "MDS 9396T 32G 2 RU Fibre Channel switch, with 48 active Fibre Channel ports, 2 fans, 2 PSU, port side exhaust",
    "series_label": "MDS T",
    "action": "move",
    "to": "storage-networking",
@@ -3999,7 +3999,7 @@
   },
   {
    "sku": "DS-C9396V-48EK9",
-   "name": "MDS 9396V 64G 2RU FC switch, w/ 48 active ports, 3 Fans, 2 PSUs, exhaust, spare",
+   "name": "MDS 9396V 64G 2RU FC switch, w/ 48 active ports, 3 Fans, 2 PSUs, exhaust",
    "series_label": "MDS V",
    "action": "move",
    "to": "storage-networking",
@@ -4007,7 +4007,7 @@
   },
   {
    "sku": "DS-C9706",
-   "name": "MDS 9706 Chassis, Spare, No Power Supplies, Fans Included",
+   "name": "MDS 9706 Chassis, No Power Supplies, Fans Included",
    "series_label": "MDS 9700",
    "action": "move",
    "to": "storage-networking",
@@ -4015,7 +4015,7 @@
   },
   {
    "sku": "DS-C9710",
-   "name": "MDS 9710 Chassis, Spare, No Power Supplies, Fans Included",
+   "name": "MDS 9710 Chassis, No Power Supplies, Fans Included",
    "series_label": "MDS 9700",
    "action": "move",
    "to": "storage-networking",
@@ -4023,7 +4023,7 @@
   },
   {
    "sku": "DS-C9718",
-   "name": "MDS 9718 Chassis, Spare, No Power Supplies, Fans Included",
+   "name": "MDS 9718 Chassis, No Power Supplies, Fans Included",
    "series_label": "MDS 9700",
    "action": "move",
    "to": "storage-networking",
@@ -4756,198 +4756,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "SPA-1X10GE-V2",
-   "name": "Cisco SPA-1X10GE-V2",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-1XCHOC48/DS3",
-   "name": "Cisco 1-port Channelized OC48/STM-16 SPA",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-1XCHSTM1/OC3-V2",
-   "name": "Cisco SPA-1XCHSTM1/OC3-V2",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-1XOC12-ATM",
-   "name": "Cisco 1-Port OC12c/STM4c ATM Shared Port Adapter",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-1XOC12-POS",
-   "name": "Cisco 1-Port OC-12c/STM-4c POS Shared Port Adapter",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-1XOC3-CE",
-   "name": "Cisco SPA-1XOC3-CE",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-1XOC48-ATM",
-   "name": "Cisco 1-Port OC-48c/STM-16 ATM Shared Port Adapter",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-1XOC48-POS",
-   "name": "Cisco SPA-1XOC48-POS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-24XT1E1-CE",
-   "name": "Cisco SPA-24XT1E1-CE",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-2X1GE",
-   "name": "Cisco 2-Port Gigabit Ethernet Shared Port Adapter",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-2XCT3",
-   "name": "Cisco SPA-2XCT3",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-2XOC3-ATM",
-   "name": "Cisco 2-Port OC3c/STM1c ATM Shared Port Adapter",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-2XOC3-POS",
-   "name": "Cisco 2-Port OC-3c/STM-1c POS Shared Port Adapter",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-2XT3E3",
-   "name": "Cisco SPA-2XT3E3",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-2XT3E3-CE",
-   "name": "Cisco SPA-2XT3E3-CE",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-4XCT3",
-   "name": "Cisco SPA-4XCT3",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-4XOC3-ATM",
-   "name": "Cisco 4-Port OC3c/STM1c ATM Shared Port Adapter",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-4XT3E3",
-   "name": "Cisco SPA-4XT3E3",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-8XCHTE1",
-   "name": "Cisco SPA-8XCHTE1",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-CHOC12-STM4",
-   "name": "Cisco SPA-CHOC12-STM4",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-CHOC3-STM1",
-   "name": "Cisco SPA-CHOC3-STM1",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-IPSEC-2G",
-   "name": "Cisco 7600 Series/Catalyst 6500 Series IPSec VPN Shared Port Adapter",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-IPSEC-SSC400-1",
-   "name": "Cisco 7600 Series/Catalyst 6500 Series Introductory Bundle: Includes 1 Cisco IPSec VPN SPA and 1 Cisco Services SPA Carrier-400",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "SPA-IPSEC-SSC400-2",
-   "name": "Cisco 7600 Series/Catalyst 6500 Series Dual Bundle: Includes 2 Cisco IPSec VPN SPAs and 1 Cisco Services SPA Carrier-400",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
   },
   {
    "sku": "STP28X1MBU",
