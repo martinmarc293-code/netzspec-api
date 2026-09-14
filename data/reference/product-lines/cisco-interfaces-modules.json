@@ -1,0 +1,261 @@
+{
+ "vendor": "cisco",
+ "category": "interfaces-modules",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco interfaces and modules, 14 Sep 2026. This category is the single home for router interface cards (layers review 14 Sep 2026, item 7; docs/decisions/2026-09-14-sp-router-roles.md §3): the 'Router Interface Modules' series carry the SAME names as the routers mapping, so the 500 planned arrivals land in the series they already had. Catalyst 4500 line cards, MDS modules, AP and ASA modules, the XGS-PON ONTs and Small Business power adapters belong to other categories (not this category, with reasons). No role axis.",
+ "not_this_category": [
+  {
+   "sku": "^DS-(X9|13SLT|C9)",
+   "why": "MDS 9000 Fibre Channel line card, fabric or supervisor module",
+   "belongs": "storage-networking"
+  },
+  {
+   "sku": "^WS-X4[0-9]{3}",
+   "why": "Catalyst 4500 switching line card",
+   "belongs": "switches"
+  },
+  {
+   "sku": "^(AIR-RM30|AIR-ANT-LOC)",
+   "why": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its antenna",
+   "belongs": "wireless"
+  },
+  {
+   "sku": "^ASA-SS[MC]",
+   "why": "ASA 5500 Security Services Module / carrier",
+   "belongs": "security"
+  },
+  {
+   "sku": "^ENC-10G-ONT",
+   "why": "Catalyst PON XGS-PON ONT (an endpoint device, not a module)",
+   "belongs": "switches"
+  },
+  {
+   "sku": "^SB-PWR",
+   "why": "Small Business switch / WAP power adapter",
+   "belongs": "switches"
+  },
+  {
+   "sku": "^ASR1013",
+   "why": "ASR 1000 power supply",
+   "belongs": "routers"
+  },
+  {
+   "sku": "^88-LC",
+   "why": "Cisco 8800 line card",
+   "belongs": "routers"
+  },
+  {
+   "sku": "^15454-",
+   "why": "ONS 15454 MSTP card",
+   "belongs": "optical-networking"
+  }
+ ],
+ "lines": [
+  {
+   "line": "Router Interface Modules",
+   "series": [
+    {
+     "series": "NIM (Network Interface Modules)",
+     "sku": [
+      "^NIM-",
+      "^C-NIM-"
+     ],
+     "note": "the routers-named patterns that match no row here yet (C-NIM, C-SM, UCS-E, ISM/EM, WIC, P-LTE/5G, IRM/WP, MC/PCEX/WIM) are for the 500 rows planned to move in from routers, switches and unified-communications"
+    },
+    {
+     "series": "SM-X and SM Service Modules",
+     "sku": [
+      "^SM-X",
+      "^SM-(?!X)",
+      "^C-SM-",
+      "^UCS-E"
+     ]
+    },
+    {
+     "series": "ISM / EM Internal Service Modules",
+     "sku": [
+      "^ISM-",
+      "^EM-"
+     ]
+    },
+    {
+     "series": "EHWIC / HWIC / VWIC / WIC",
+     "sku": [
+      "^E?HWIC",
+      "^V?WIC"
+     ],
+     "labels": [
+      "High-Speed WAN Interface Cards"
+     ]
+    },
+    {
+     "series": "NM / NME Network Modules",
+     "sku": [
+      "^NMD?E?-"
+     ],
+     "labels": [
+      "Network Modules"
+     ]
+    },
+    {
+     "series": "PVDM Voice DSP Modules",
+     "sku": [
+      "^PVDM"
+     ]
+    },
+    {
+     "series": "VIC Voice Interface Cards",
+     "sku": [
+      "^VIC"
+     ]
+    },
+    {
+     "series": "SPA Shared Port Adapters",
+     "sku": [
+      "^SPA-"
+     ],
+     "labels": [
+      "Shared Port Adapters/SPA Interface Processors"
+     ]
+    },
+    {
+     "series": "EPA Ethernet Port Adapters",
+     "sku": [
+      "^EPA-"
+     ]
+    },
+    {
+     "series": "PA Port Adapters (7200 / 7500 VIP)",
+     "sku": [
+      "^PA-"
+     ],
+     "labels": [
+      "Port Adapters"
+     ]
+    },
+    {
+     "series": "GRWIC Grid Router Interface Cards",
+     "sku": [
+      "^GRWIC"
+     ]
+    },
+    {
+     "series": "CGM Connected Grid Modules",
+     "sku": [
+      "^CGM-"
+     ],
+     "labels": [
+      "Connected Grid Modules"
+     ]
+    },
+    {
+     "series": "Pluggable Interface Modules (LTE / 5G)",
+     "sku": [
+      "^P-(LTE|5G|LTEA|LTEAP)"
+     ]
+    },
+    {
+     "series": "IR Expansion and Pluggable Modules",
+     "sku": [
+      "^IRMH?-",
+      "^IRM-",
+      "^WP-"
+     ]
+    },
+    {
+     "series": "Cellular Cards (MC / PCEX / WIM)",
+     "sku": [
+      "^MC7[0-9]{3}",
+      "^PCEX",
+      "^WIM-"
+     ]
+    },
+    {
+     "series": "MC3810 modules (legacy)",
+     "sku": [
+      "^3810-"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Router and switch line cards (legacy)",
+   "series": [
+    {
+     "series": "Cisco 12000 / XR 12000 SIP and line cards",
+     "sku": [
+      "^12000-",
+      "^[0-9]{1,2}OC(3|12|48)",
+      "^OC48E",
+      "^4OC-3",
+      "^[0-9]{1,2}(GE|CHOC|X10GE)"
+     ]
+    },
+    {
+     "series": "Cisco 7300 line cards",
+     "sku": [
+      "^7300-"
+     ]
+    },
+    {
+     "series": "Catalyst 6500 / 7600 service modules",
+     "sku": [
+      "^WS-SVC",
+      "^ACE[0-9]",
+      "^7600-",
+      "^MEM-C6K",
+      "^NAM3"
+     ],
+     "labels": [
+      "Services Modules"
+     ]
+    },
+    {
+     "series": "Router and switch line cards (legacy) shared parts",
+     "labels": [
+      "Line cards",
+      "Route Processors and Route Switch Processors"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Cables and accessories",
+   "series": [
+    {
+     "series": "Fiber and M12 cables (CB-)",
+     "sku": [
+      "^CB-"
+     ],
+     "labels": [
+      "Transceiver Modules"
+     ]
+    },
+    {
+     "series": "Cables and accessories shared parts",
+     "labels": [
+      "Access Point Modules",
+      "Security Modules for Security Appliances",
+      "Storage Networking Modules",
+      "Small Business Network Accessories",
+      "Unified Computing System Adapters",
+      "WDM Transmission Modules",
+      "Optical Transponders"
+     ]
+    }
+   ]
+  }
+ ],
+ "shared_accessories": [
+  "^CAB-",
+  "^CBL-",
+  "CABLE",
+  "RACK",
+  "-RM-",
+  "BLANK",
+  "COVER",
+  "SHIELD",
+  "BRKT",
+  "BRACKET",
+  "PANEL"
+ ]
+}

@@ -228,6 +228,25 @@ witness("optical-networking", [
   ["CIM8-CE-K9=", "Coherent Interface Module 8 enhanced C-Band", "Network Convergence System 1000 Series", "NCS 1000", "NCS 1001 / 1002 / 1004 / 1010 / 1014"],
 ]);
 
+// ---- interfaces-modules (done 14 Sep 2026): the single home for router cards; series named as in the routers file ----
+witness("interfaces-modules", [
+  ["EHWIC-4G-LTE-A=", "4G LTE EHWIC for ATT", "High-Speed WAN Interface Cards", "Router Interface Modules", "EHWIC / HWIC / VWIC / WIC"],
+  ["PA-MC-2T1=", "2 port multichannel T1 port adapter", "Port Adapters", "Router Interface Modules", "PA Port Adapters (7200 / 7500 VIP)"],
+  ["12000-SIP-601=", "XR 12000 SPA Interface Processor", "Line cards", "Router and switch line cards (legacy)", "Cisco 12000 / XR 12000 SIP and line cards"],
+  ["4GE-SFP-LC", "Cisco XR 12000 and 12000 Series 4-Port Gigabit Ethernet", "Line cards", "Router and switch line cards (legacy)", "Cisco 12000 / XR 12000 SIP and line cards"],
+  ["WS-SVC-NAM-3-K9", "Cisco Catalyst 6500 Series NAM-3", "Services Modules", "Router and switch line cards (legacy)", "Catalyst 6500 / 7600 service modules"],
+  ["DS-X9248-96HPK9=", "48-port Performance 8Gb FC Module", "Storage Networking Modules", "(not this category)", "storage-networking"],
+  ["WS-X4548-GB-RJ45V", "Catalyst 4500 PoE line card", "Line cards", "(not this category)", "switches"],
+  ["AIR-RM3010L-N-K9=", "Hyperlocation Module", "Access Point Modules", "(not this category)", "wireless"],
+  // the same SKU places the same series in both files — the planned move cannot change a card's series
+  ["NIM-2T", "2-port serial WAN interface card", "Network Modules", "Router Interface Modules", "NIM (Network Interface Modules)"],
+]);
+check("item 7: a router card places in the same product line and series in routers and in interfaces-modules",
+  ["NIM-2T", "SPA-1X10GE-L-V2", "EHWIC-VA-DSL-A", "PVDM4-32", "C-NIM-1X", "P-LTEA-EA", "IRM-1100-SP"].every((s) => {
+    const a = placePart("cisco", "routers", { sku: s, name: "", series: "" }), b = placePart("cisco", "interfaces-modules", { sku: s, name: "", series: "" });
+    return a !== null && b !== null && a.line === b.line && a.series === b.series;
+  }));
+
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");
