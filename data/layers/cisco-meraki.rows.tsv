@@ -1,0 +1,156 @@
+sku	name	series_label	kind	bucket	product_line	series	placed_by	deploy_role	role_rule	role_issue	plan	belongs
+CW9163E	Cisco CW9163E	Meraki	access-point	layered	Meraki	Catalyst Wireless in Meraki mode (CW)	sku ^CW9	outdoor	series:Catalyst CW9163E (outdoor, Wi-Fi 6E)			
+CW9166ID1	Cisco CW9166ID1	Meraki	access-point	layered	Meraki	Catalyst Wireless in Meraki mode (CW)	sku ^CW9	indoor	series:Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)			
+CW9172	Cisco CW9172	Meraki	access-point	layered	Meraki	Catalyst Wireless in Meraki mode (CW)	sku ^CW9	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)			
+CW9176	Cisco CW9176	Meraki	access-point	layered	Meraki	Catalyst Wireless in Meraki mode (CW)	sku ^CW9	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)			
+CW9178	Cisco CW9178	Meraki	access-point	layered	Meraki	Catalyst Wireless in Meraki mode (CW)	sku ^CW9	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)			
+CW917H	Cisco CW917H	Meraki	access-point	layered	Meraki	Catalyst Wireless in Meraki mode (CW)	sku ^CW9					
+MCS1	Cisco MCS1	Meraki	unknown	layered	Meraki	Meraki shared parts	label Meraki					
+MCS2	Cisco MCS2	Meraki	unknown	layered	Meraki	Meraki shared parts	label Meraki					
+MCS3	Cisco MCS3	Meraki	unknown	layered	Meraki	Meraki shared parts	label Meraki					
+MCS5	Cisco MCS5	Meraki	unknown	layered	Meraki	Meraki shared parts	label Meraki					
+MCS6	Cisco MCS6	Meraki	unknown	layered	Meraki	Meraki shared parts	label Meraki					
+MG21	Cisco MG21	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG21-HW-NA	Meraki MG21 Cellular Gateway – North America	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG21-HW-WW	Meraki MG21 Cellular Gateway – Worldwide	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG21E	Cisco MG21E	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG21E-HW-NA	Meraki MG21E Cellular Gateway External Antennas – North America	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG21E-HW-WW	Meraki MG21E Cellular Gateway External Antennas – Worldwide	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG41	Cisco MG41	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG41-HW	Meraki MG41 Cellular Gateway	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG41E	Cisco MG41E	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG41E-HW	Meraki MG41 Cellular Gateway – External Antennas	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG51	Cisco MG51	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG51-HW	Cisco MG51-HW	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG51E	Cisco MG51E	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG51E-HW	Cisco MG51E-HW	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG52	Cisco MG52	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG52-HW	Cisco MG52-HW	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG52E	Cisco MG52E	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MG52E-HW	Cisco MG52E-HW	Meraki	gateway	layered	Meraki	Meraki MG cellular gateways	sku ^MG[0-9]					
+MGKIT-1	Cisco MGKIT-1	Meraki	accessory	layered	Meraki	Meraki shared parts	label Meraki					
+MR11	Cisco MR11	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR12	Cisco MR12	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR14	Cisco MR14	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR16	Cisco MR16	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR20	Cisco MR20	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR24	Cisco MR24	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR28	Cisco MR28	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR28-HW	Cisco MR28-HW	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR30	Cisco MR30	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR30H	Cisco MR30H	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR33	Cisco MR33	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR4	Cisco MR4	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]					
+MR42	Cisco MR42	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR42E	Cisco MR42E	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR45	Cisco MR45	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR52	Cisco MR52	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR53	Cisco MR53	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR53E	Cisco MR53E	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR55	Cisco MR55	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR56-HW	Cisco MR56-HW	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR57-HW	Cisco MR57-HW	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR58	Cisco MR58	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)			
+MR62	Cisco MR62	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	indoor	series:Meraki MR indoor			
+MR66	Cisco MR66	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)			
+MR70	Cisco MR70	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)			
+MR74	Cisco MR74	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)			
+MR76-HW	Cisco MR76-HW	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)			
+MR78-HW	Cisco MR78-HW	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)			
+MR84	Cisco MR84	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)			
+MR86-HW	Cisco MR86-HW	Meraki	access-point	layered	Meraki	Meraki MR access points	sku ^MR[0-9]	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)			
+MS15	Cisco MS15	Meraki	switch	layered	Meraki	Meraki MS switches	sku ^MS[0-9]					
+MT10	Cisco MT10	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT10-HW	Cisco MT10-HW	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT11	Cisco MT11	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT11-HW	Cisco MT11-HW	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT12	Cisco MT12	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT12-HW	Cisco MT12-HW	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT14	Cisco MT14	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT14-HW	Cisco MT14-HW	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT15	Cisco MT15	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT15-HW	Cisco MT15-HW	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT20	Cisco MT20	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT20-HW	Cisco MT20-HW	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT30	Cisco MT30	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT30-HW	Cisco MT30-HW	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT40	Cisco MT40	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MT40-HW	Cisco MT40-HW	Meraki	sensor	layered	Meraki	Meraki MT sensors	sku ^MT[0-9]					
+MV10	Cisco MV10	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV12	Cisco MV12	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV12N	Cisco MV12N	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV12W	Cisco MV12W	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV12WE	Cisco MV12WE	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV13	Cisco MV13	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV13-HW	Cisco MV13-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV13M	Cisco MV13M	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV13M-HW	Cisco MV13M-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV2	Cisco MV2	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV21	Cisco MV21	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV22	Cisco MV22	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV22X	Cisco MV22X	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV23	Cisco MV23	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV23M	Cisco MV23M	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV23M-HW	Cisco MV23M-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV23X	Cisco MV23X	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV23X-HW	Cisco MV23X-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV32	Cisco MV32	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV33	Cisco MV33	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV33-HW	Cisco MV33-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV33M	Cisco MV33M	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV33M-HW	Cisco MV33M-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV4	Cisco MV4	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV44X	Cisco MV44X	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV44X-HW	Cisco MV44X-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV5	Cisco MV5	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV52	Cisco MV52	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV53X	Cisco MV53X	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV53X-HW	Cisco MV53X-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV63	Cisco MV63	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV63-HW	Cisco MV63-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV63M	Cisco MV63M	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV63M-HW	Cisco MV63M-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV63X	Cisco MV63X	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV63X-HW	Cisco MV63X-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV71	Cisco MV71	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV72	Cisco MV72	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV72X	Cisco MV72X	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV73	Cisco MV73	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV73M	Cisco MV73M	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV73M-HW	Cisco MV73M-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV73X	Cisco MV73X	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV73X-HW	Cisco MV73X-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV84X	Cisco MV84X	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV84X-HW	Cisco MV84X-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV93	Cisco MV93	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV93-HW	Cisco MV93-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV93M	Cisco MV93M	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV93M-HW	Cisco MV93M-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV93X	Cisco MV93X	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MV93X-HW	Cisco MV93X-HW	Meraki	camera	layered	Meraki	Meraki MV smart cameras	sku ^MV[0-9]					
+MX100	Cisco MX100	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX105	Cisco MX105	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX16	Cisco MX16	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX18	Cisco MX18	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX250	Cisco MX250	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX26	Cisco MX26	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX450	Cisco MX450	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX64	Cisco MX64	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX64W	Cisco MX64W	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX65	Cisco MX65	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX650	Cisco MX650	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX65W	Cisco MX65W	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX67	Cisco MX67	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX67C	Cisco MX67C	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX67W	Cisco MX67W	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX68	Cisco MX68	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX68CW	Cisco MX68CW	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX68W	Cisco MX68W	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX75	Cisco MX75	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX84	Cisco MX84	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX85	Cisco MX85	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+MX95	Cisco MX95	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^MX[0-9]					
+Z4	Cisco Z4	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^Z[0-9]					
+Z4-HW	Meraki Z4 Cloud Managed Teleworker Gateway	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^Z[0-9]					
+Z4C	Cisco Z4C	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^Z[0-9]					
+Z4C-HW	Meraki Z4C Cloud Managed Teleworker Gateway	Meraki	appliance	layered	Meraki	Meraki MX and Z security appliances	sku ^Z[0-9]					

@@ -257,6 +257,24 @@ witness("storage-networking", [
   ["DS-C9250I-K9=", "MDS 9250i 50 port switch", "MDS 9200 Series Multiservice", "MDS 9000 Multilayer SAN Switches", "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)"],
 ]);
 
+// ---- unified-communications, meraki, conferencing, data-center-networking (done 14 Sep 2026) ----
+witness("unified-communications", [
+  ["VG450-144FXS/K9", "Cisco VG450 144 FXS", "VG Series Gateways", "Voice Gateways", "VG400 / VG410 / VG420 / VG450"],
+  ["BE7M-M6-K9", "Cisco Business Edition 7000M", "Business Edition 7000", "Business Edition", "Business Edition 7000 (BE7K / BE7M / BE7H)"],
+  ["CIT-MR-1X162RU-A", "16GB DIMM", "Business Edition 6000", "Business Edition", "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)"], // CIT- before CIT2-? no: CIT2 is BE7K and listed first
+  ["CIT2-MR-1X161RV-A", "16GB DDR4 RDIMM", "Business Edition 7000", "Business Edition", "Business Edition 7000 (BE7K / BE7M / BE7H)"],
+  ["EXPWY-E-BDL-K9", "Cisco Expressway-E CE1100 Appliance", "Expressway Series", "Expressway and VCS", "Expressway appliances (CE1100 / CE1200)"],
+  ["SP-ATLAS-I128SYS=", "Atlas I128SYS Ceiling Tile IP speaker", "Paging Server", "Paging", "Atlas IP paging speakers and enclosures"],
+  ["CP-6921-C-K9-APACP", "Cisco UC Phone 6921", "Unified Communications Manager (CallManager)", "(not this category)", "collaboration-endpoints"],
+]);
+witness("meraki", [
+  ["MV63-HW", "Cisco MV63-HW", "Meraki", "Meraki", "Meraki MV smart cameras"],
+  ["MX95", "Cisco MX95", "Meraki", "Meraki", "Meraki MX and Z security appliances"],
+  ["MR84", "Cisco MR84", "Meraki", "Meraki", "Meraki MR access points"],
+]);
+witness("data-center-networking", [["HF6100-32D", "Cisco Hyperfabric switch", "Nexus Hyperfabric", "Nexus Hyperfabric", "Nexus Hyperfabric HF6100"]]);
+check("every one of the 17 categories has a mapping file that validates", files.filter((f) => f.startsWith("cisco-") && !f.includes("zz-")).length === 17);
+
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");

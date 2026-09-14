@@ -1,0 +1,13 @@
+{
+ "vendor": "cisco",
+ "category": "data-center-networking",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco data-center networking, 14 Sep 2026. All 22 live hardware rows (Nexus Hyperfabric HF6100 switches and their parts) carry a committed move plan to switches, so no row is layered here until the plan runs; the series places them if it does not.",
+ "lines": [
+  {
+   "line": "Nexus Hyperfabric",
+   "series": [
+    { "series": "Nexus Hyperfabric HF6100", "sku": ["^HF[0-9]"], "labels": ["Nexus Hyperfabric"] }
+   ]
+  }
+ ]
+}

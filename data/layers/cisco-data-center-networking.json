@@ -1,0 +1,206 @@
+{
+ "vendor": "cisco",
+ "category": "data-center-networking",
+ "built_at": "2026-09-14T14:14:17.706Z",
+ "mapping_file": "data/reference/product-lines/cisco-data-center-networking.json",
+ "parts": 22,
+ "lines": [
+  {
+   "line": "Nexus Hyperfabric",
+   "parts": 0,
+   "series": [
+    {
+     "series": "Nexus Hyperfabric HF6100",
+     "role": null,
+     "note": null,
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
+    }
+   ]
+  }
+ ],
+ "not_this_category": [],
+ "pending_plans": [
+  {
+   "sku": "8K-2RU-KIT-SB",
+   "name": "19\" rackmount 4-post kit",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "C9500X-FAN-1U-F",
+   "name": "Catalyst 9500X back to front cooling fan (maximum 6 per switch)",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "C9500X-FAN-1U-R",
+   "name": "Catalyst 9500X front to back cooling fan (maximum 6 per switch)",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "C9K-PWR-1500WAC",
+   "name": "Catalyst 9500X 1500W AC Power Supply",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "C9K-PWR-1500WDC",
+   "name": "Catalyst 9500X 1500W DC Power Supply",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "FAN-PI-V4",
+   "name": "Cisco fan tray, port-side intake airflow",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "HF-ACC-RM2-4P19L",
+   "name": "19\" rackmount 4-post kit",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "HF6100-32D",
+   "name": "Cisco Hyperfabric switch, 32x400Gbps QSFP-DD",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "HF6100-32D-D",
+   "name": "Cisco 6000 Hyperfabric switch, 32x400Gbps QSFP-DD, configurable hardware only",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "HF6100-32D-S",
+   "name": "Cisco 6000 Hyperfabric switch, 32x400Gbps QSFP-DD, fixed hardware only Port exhaust airflow, AC power supply",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "HF6100-60L4D",
+   "name": "Cisco Hyperfabric switch 60x50G SFP28 4x400G QSFP-DD",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "HF6100-60L4D-D",
+   "name": "Cisco 6000 Hyperfabric switch, 60x50G SFP56 4x400G QSFP-DD, configurable hardware only",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "HF6100-60L4D-S",
+   "name": "Cisco 6000 Hyperfabric switch, 60x50G SFP56 4x400G QSFP-DD, fixed hardware only Port exhaust airflow, AC power supply",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "HF6100-64ED",
+   "name": "Cisco HF6100-64ED",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "HF6100-64ED-D",
+   "name": "Cisco 6000 Hyperfabric switch, 64x800Gbps OSFP, configurable hardware only",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "HF6100-64ED-S",
+   "name": "Cisco 6000 Hyperfabric switch, 64x800Gbps OSFP, fixed hardware only",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "N9K-ACC-KIT-1RU-L",
+   "name": "19\" rackmount 4-post kit, long",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "N9K-ACC-KIT-1RU-S",
+   "name": "19\" rackmount 4-post kit, short",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "PSU1.4KW-ACPE",
+   "name": "1450 Watt AC power supply, port exhaust airflow",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "PSU1.4KW-ACPI",
+   "name": "1450 Watt AC power supply, port intake airflow",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "PSU3KW-HVPI",
+   "name": "Cisco ® 3000W HV power module with port-side intake",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  },
+  {
+   "sku": "PWR-C6-BLANK",
+   "name": "Catalyst 9500X power supply blank cover",
+   "series_label": "Nexus Hyperfabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "category merge data-center-networking -> switches (hardware only)"
+  }
+ ],
+ "unplaced": [],
+ "done": true
+}

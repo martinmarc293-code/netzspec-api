@@ -1,0 +1,20 @@
+{
+ "vendor": "cisco",
+ "category": "meraki",
+ "_about": "Layer 2 (product line) and layer 3 (series) of the Meraki rows still in the meraki category, 14 Sep 2026 (the MS switches moved to switches on 14 Sep). One line per Meraki product family. Most rows are bare family names ('Cisco MV63'). The access-point and switch roles are NOT set here: deployRole reads the wireless series table for meraki access points and the switches table for meraki switches, so the roles stay one table per noun.",
+ "lines": [
+  {
+   "line": "Meraki",
+   "series": [
+    { "series": "Meraki MR access points", "sku": ["^MR[0-9]"] },
+    { "series": "Catalyst Wireless in Meraki mode (CW)", "sku": ["^CW9"] },
+    { "series": "Meraki MV smart cameras", "sku": ["^MV[0-9]"] },
+    { "series": "Meraki MX and Z security appliances", "sku": ["^MX[0-9]", "^Z[0-9]"] },
+    { "series": "Meraki MG cellular gateways", "sku": ["^MG[0-9]"] },
+    { "series": "Meraki MT sensors", "sku": ["^MT[0-9]"] },
+    { "series": "Meraki MS switches", "sku": ["^MS[0-9]"] },
+    { "series": "Meraki shared parts", "labels": ["Meraki"] }
+   ]
+  }
+ ]
+}

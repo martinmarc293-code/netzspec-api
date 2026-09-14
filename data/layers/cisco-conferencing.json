@@ -1,0 +1,602 @@
+{
+ "vendor": "cisco",
+ "category": "conferencing",
+ "built_at": "2026-09-14T14:14:08.871Z",
+ "mapping_file": "data/reference/product-lines/cisco-conferencing.json",
+ "parts": 69,
+ "lines": [
+  {
+   "line": "Meeting Server and TelePresence Management",
+   "parts": 0,
+   "series": [
+    {
+     "series": "Meeting Server appliances",
+     "role": null,
+     "note": null,
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
+    },
+    {
+     "series": "TelePresence Management Suite (TMS)",
+     "role": null,
+     "note": null,
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
+    },
+    {
+     "series": "AI PODs for Collaboration",
+     "role": null,
+     "note": null,
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
+    }
+   ]
+  }
+ ],
+ "not_this_category": [],
+ "pending_plans": [
+  {
+   "sku": "AIPOD-COLLAB",
+   "name": "Cisco AI PODs for Collaboration (Hardware)",
+   "series_label": "AI PODs for Collaboration",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "C-CPM",
+   "name": "Cisco C-CPM",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-5108-PKG-HW",
+   "name": "UCS 5108 Packaging for chassis with half width blades.",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-B200-M4",
+   "name": "UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-B200-M4-CON",
+   "name": "UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-B200-M5",
+   "name": "Cisco Meeting Server 2000 M5 Media Blade",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-B200-M5-CON",
+   "name": "Cisco Meeting Server 2000 M5 Control Blade",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-B200-M5V2",
+   "name": "Cisco Meeting Server 2000 M5v2 Media Blade",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-B200-M5V2-CON",
+   "name": "Cisco Meeting Server 2000 M5v2 Control Blade",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-B200-M6",
+   "name": "Cisco Meeting Server 2000 M6 Media Blade",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-B200-M6-CON",
+   "name": "Cisco Meeting Server 2000 M6 Control Blade",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-CPU-6140",
+   "name": "2.3 GHz 6140/140W 18C/24.75MB Cache/DDR4 2666MHz",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-CPU-E52695E",
+   "name": "2.10 GHz E5-2695 v4/120W 18C/45MB Cache/DDR4 2400MHz",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-CPU-I6240",
+   "name": "Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-CPU-I6240=",
+   "name": "^Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-CPU-I6336Y",
+   "name": "Intel 6336Y 2.4GHz/185W 24C/36MB DDR4 3200MHz",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-FAN5",
+   "name": "Fan module for UCS 5108",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-FI-M-6324",
+   "name": "UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-HD300G10K12G",
+   "name": "300GB 12G SAS 10K RPM SFF HDD",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-HD300G10K12N",
+   "name": "300GB 12G SAS 10K RPM SFF HDD",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-LSTOR-BK",
+   "name": "FlexStorage blanking panels w/o controller, w/o drive bays",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-MLOM-40G-03",
+   "name": "Cisco UCS VIC 1340 modular LOM for blade servers",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-MLOM-40G-04",
+   "name": "Cisco UCS VIC 1440 modular LOM for Blade Servers",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-MLOM-PT-01",
+   "name": "Cisco UCS Port Expander Card (mezz) for VIC",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-MR-1X081RV-A",
+   "name": "8GB DDR4-2400-MHz RDIMM/PC4-19200/single rank/x4/1.2v",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-MR-X16G1RS-H",
+   "name": "16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-MR-X16G1RT-H",
+   "name": "16GB DDR4-2933-MHz RDIMM/1Rx4/1.2v",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-MR-X16G1RW",
+   "name": "16GB RDIMM SRx4 3200 (8Gb)",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-MRAID12G",
+   "name": "Cisco 12G SAS Modular Raid Controller",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-PSU-2500ACDV",
+   "name": "2500W Platinum AC Hot Plug Power Supply - DV",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-PSU1-1050W",
+   "name": "Cisco UCS 1050W AC Power Supply for Rack Server",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-PSU1-1200W",
+   "name": "1200W Titanium power supply for C-Series Servers",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-PSU1-770W",
+   "name": "770W AC Hot-Plug Power Supply for 1U C-Series Rack Server",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-PSUT2500ACDV",
+   "name": "2500W Titanium AC Hot Plug Power Supply - DV",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-RAID-220M6",
+   "name": "Cisco 12G SAS RAID Controller w/4GB FBWC (16 Drv) w/1U Brkt",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-RAID-M5",
+   "name": "Cisco 12G Modular RAID controller with 2GB cache",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-RAID12G-M6",
+   "name": "Cisco M6 FlexStorage 12G SAS RAID Controller",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-SD960G61X-EV",
+   "name": "960GB 2.5 inch Enterprise Value 6G SATA SSD",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-SD960G6S1X-EV",
+   "name": "960GB 2.5 inch Enterprise Value 6G SATA SSD",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-SD960G6SB-EV",
+   "name": "960GB 2.5 inch Enterprise Value 6G SATA SSD",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-SD960GBKS4-EV",
+   "name": "960GB 2.5 inch Enterprise Value 6G SATA SSD",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-SD960GS26-EV",
+   "name": "960GB 2.5 inch Enterprise Value 6G SATA SSD",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-SDB960SA1V",
+   "name": "960GB 2.5in 6G SATA Enter Value 1X Samsung G1PM893A SSD",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-SDC960SA1V",
+   "name": "960GB 2.5in 6G SATA Enter Value 1X Samsung G1PM893A SSD",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-TPM-002C",
+   "name": "TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified, for M6 servers",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-TPM2-002",
+   "name": "Trusted Platform Module 2.0 for UCS servers",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-UAC1",
+   "name": "Single phase AC power module for UCS 5108",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CIT3-UCSB-MRAID12G",
+   "name": "Cisco FlexStorage 12G SAS RAID controller with Drive bays",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CMS-M-M8-K9",
+   "name": "Cisco CMS-M-M8-K9",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CMS-S-M7-K9",
+   "name": "Cisco CMS-S-M7-K9",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-ATP-TMS-APL-K9",
+   "name": "ATP Demo -TMS Server Appliance Incl TMS and Scheduler-25 lic",
+   "series_label": "TelePresence Management Suite (TMS)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS-1000-K9",
+   "name": "Cisco Meeting Server 1000",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS-1000-M5-K9",
+   "name": "CMS 1000 M5 Server",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS-1K-BUN-K9",
+   "name": "Cisco Meeting Server 1000 Bundle",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS-1K-M5V2-K9",
+   "name": "CMS 1000 M5v2 Server",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS-1K-M6-K9",
+   "name": "CMS 1000 M6 Server",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS-2000-K9",
+   "name": "Cisco Meeting Server 2000",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS-2000-M5-K9",
+   "name": "Cisco Meeting Server 2000 M5",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS-2K-BUN-K9",
+   "name": "Cisco Meeting Server 2000 Bundle",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS-2K-M5V2-K9",
+   "name": "Cisco Meeting Server 2000 M5v2",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS-2K-M6-K9",
+   "name": "Cisco Meeting Server 2000 M6",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS1KM5-BUN-K9",
+   "name": "Cisco Meeting Server 1000 M5 Bundle",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS1KM52BUN-K9",
+   "name": "CMS 1000 M5v2 Server bundle",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS2KM5-BUN-K9",
+   "name": "Cisco Meeting Server 2000 M5 Bundle",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-CMS2KM52BUN-K9",
+   "name": "Cisco Meeting Server 2000 M5v2 bundle",
+   "series_label": "Meeting Server",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-TMS-APL-K9",
+   "name": "Cisco TelePresence Management Server",
+   "series_label": "TelePresence Management Suite (TMS)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "CTI-TMS-APL-K9=",
+   "name": "Cisco TelePresence Management Server - Spare",
+   "series_label": "TelePresence Management Suite (TMS)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "UCSC-C240-M8-CL",
+   "name": "UCS C240 M8 2U Rack Server for Collaboration AI",
+   "series_label": "AI PODs for Collaboration",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  },
+  {
+   "sku": "UCSC-C240-M8-CL-G",
+   "name": "UCS C240 M8 2U Rack Server for Collaboration AI (GPU)",
+   "series_label": "AI PODs for Collaboration",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+  }
+ ],
+ "unplaced": [],
+ "done": true
+}

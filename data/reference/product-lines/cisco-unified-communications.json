@@ -1,0 +1,55 @@
+{
+ "vendor": "cisco",
+ "category": "unified-communications",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco unified communications hardware, 14 Sep 2026: VG voice gateways, analog telephone adapters, Business Edition 6000 / 7000 appliances, Expressway and VCS appliances, Unity Connection / MCS servers, Atlas paging. IP desk phones filed under UC labels belong to collaboration-endpoints (not this category); their deploy_role still comes from the collaboration-endpoints series table. No role axis of its own.",
+ "not_this_category": [
+  { "sku": "^CP-[0-9]{4}", "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)", "belongs": "collaboration-endpoints" }
+ ],
+ "lines": [
+  {
+   "line": "Voice Gateways",
+   "series": [
+    { "series": "VG200 / VG202 / VG204 / VG224", "sku": ["^VG2[0-9]{2}"] },
+    { "series": "VG300 / VG310 / VG320 / VG350", "sku": ["^VG3[0-9]{2}"] },
+    { "series": "VG400 / VG410 / VG420 / VG450", "sku": ["^VG4[0-9]{2}", "^PWR-VG4", "^MEM-4460", "^PWR-4460"] },
+    { "series": "Voice Gateways shared parts", "labels": ["VG Series Gateways", "TDM Gateways"] }
+   ]
+  },
+  {
+   "line": "Analog Telephone Adapters and SPA",
+   "series": [
+    { "series": "ATA 190 / 191 / 192", "sku": ["^ATA19"], "labels": ["ATA 190 Series Analog Telephone Adapters"] },
+    { "series": "SPA100 / SPA2100 adapters (SPA112 / SPA122 / SPA2102)", "sku": ["^SPA(1[0-9]{2}|2[0-9]{3})"] },
+    { "series": "SPA302D DECT handset", "sku": ["^SPA302D"] },
+    { "series": "Analog Telephone Adapters and SPA shared parts", "labels": ["Small Business Voice Gateways and ATAs"] }
+   ]
+  },
+  {
+   "line": "Business Edition",
+   "series": [
+    { "series": "Business Edition 7000 (BE7K / BE7M / BE7H)", "sku": ["^BE7", "^CIT2-"], "labels": ["Business Edition 7000"] },
+    { "series": "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)", "sku": ["^BE6", "^CIT-"], "labels": ["Business Edition 6000"] }
+   ]
+  },
+  {
+   "line": "Expressway and VCS",
+   "series": [
+    { "series": "Expressway appliances (CE1100 / CE1200)", "sku": ["^EXPWY", "^EXP-"], "labels": ["Expressway Series"] },
+    { "series": "TelePresence VCS appliances", "sku": ["^CTI-VCS", "^CTI-ATP", "^CE-"], "labels": ["TelePresence Video Communication Server (VCS)"] }
+   ]
+  },
+  {
+   "line": "Unity Connection and MCS servers",
+   "series": [
+    { "series": "Unity Connection PIMG gateways and MCS servers", "sku": ["^UNITY", "^MCS"], "labels": ["Unity Connection", "Unified Communications Manager IM & Presence Service", "Unified Communications Manager Session Management Edition", "Unified Communications Manager (CallManager)", "Unified Communications Licensing", "Spark Flex Plan"] }
+   ]
+  },
+  {
+   "line": "Paging",
+   "series": [
+    { "series": "Atlas IP paging speakers and enclosures", "sku": ["^SP-ATLAS"], "labels": ["Paging Server"] }
+   ]
+  }
+ ],
+ "shared_accessories": ["^CAB-", "CABLE", "-RM-", "RACK", "BRKT", "BRACKET", "BLANK"]
+}

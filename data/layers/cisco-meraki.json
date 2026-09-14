@@ -1,0 +1,189 @@
+{
+ "vendor": "cisco",
+ "category": "meraki",
+ "built_at": "2026-09-14T14:13:57.838Z",
+ "mapping_file": "data/reference/product-lines/cisco-meraki.json",
+ "parts": 155,
+ "lines": [
+  {
+   "line": "Meraki",
+   "parts": 155,
+   "series": [
+    {
+     "series": "Meraki MR access points",
+     "role": null,
+     "note": null,
+     "parts": 30,
+     "kinds": {
+      "access-point": 30
+     },
+     "roles": {
+      "indoor": 21,
+      "outdoor": 8
+     },
+     "samples": [
+      "MR11 — Cisco MR11",
+      "MR12 — Cisco MR12",
+      "MR14 — Cisco MR14",
+      "MR16 — Cisco MR16",
+      "MR20 — Cisco MR20",
+      "MR24 — Cisco MR24"
+     ],
+     "rules": {
+      "sku": 30
+     }
+    },
+    {
+     "series": "Catalyst Wireless in Meraki mode (CW)",
+     "role": null,
+     "note": null,
+     "parts": 6,
+     "kinds": {
+      "access-point": 6
+     },
+     "roles": {
+      "outdoor": 1,
+      "indoor": 4
+     },
+     "samples": [
+      "CW9163E — Cisco CW9163E",
+      "CW9166ID1 — Cisco CW9166ID1",
+      "CW9172 — Cisco CW9172",
+      "CW9176 — Cisco CW9176",
+      "CW9178 — Cisco CW9178",
+      "CW917H — Cisco CW917H"
+     ],
+     "rules": {
+      "sku": 6
+     }
+    },
+    {
+     "series": "Meraki MV smart cameras",
+     "role": null,
+     "note": null,
+     "parts": 52,
+     "kinds": {
+      "camera": 52
+     },
+     "roles": {},
+     "samples": [
+      "MV10 — Cisco MV10",
+      "MV12 — Cisco MV12",
+      "MV12N — Cisco MV12N",
+      "MV12W — Cisco MV12W",
+      "MV12WE — Cisco MV12WE",
+      "MV13 — Cisco MV13"
+     ],
+     "rules": {
+      "sku": 52
+     }
+    },
+    {
+     "series": "Meraki MX and Z security appliances",
+     "role": null,
+     "note": null,
+     "parts": 26,
+     "kinds": {
+      "appliance": 26
+     },
+     "roles": {},
+     "samples": [
+      "MX100 — Cisco MX100",
+      "MX105 — Cisco MX105",
+      "MX16 — Cisco MX16",
+      "MX18 — Cisco MX18",
+      "MX250 — Cisco MX250",
+      "MX26 — Cisco MX26"
+     ],
+     "rules": {
+      "sku": 26
+     }
+    },
+    {
+     "series": "Meraki MG cellular gateways",
+     "role": null,
+     "note": null,
+     "parts": 18,
+     "kinds": {
+      "gateway": 18
+     },
+     "roles": {},
+     "samples": [
+      "MG21 — Cisco MG21",
+      "MG21-HW-NA — Meraki MG21 Cellular Gateway – North America",
+      "MG21-HW-WW — Meraki MG21 Cellular Gateway – Worldwide",
+      "MG21E — Cisco MG21E",
+      "MG21E-HW-NA — Meraki MG21E Cellular Gateway External Antennas – North Amer",
+      "MG21E-HW-WW — Meraki MG21E Cellular Gateway External Antennas – Worldwide"
+     ],
+     "rules": {
+      "sku": 18
+     }
+    },
+    {
+     "series": "Meraki MT sensors",
+     "role": null,
+     "note": null,
+     "parts": 16,
+     "kinds": {
+      "sensor": 16
+     },
+     "roles": {},
+     "samples": [
+      "MT10 — Cisco MT10",
+      "MT10-HW — Cisco MT10-HW",
+      "MT11 — Cisco MT11",
+      "MT11-HW — Cisco MT11-HW",
+      "MT12 — Cisco MT12",
+      "MT12-HW — Cisco MT12-HW"
+     ],
+     "rules": {
+      "sku": 16
+     }
+    },
+    {
+     "series": "Meraki MS switches",
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "switch": 1
+     },
+     "roles": {},
+     "samples": [
+      "MS15 — Cisco MS15"
+     ],
+     "rules": {
+      "sku": 1
+     }
+    },
+    {
+     "series": "Meraki shared parts",
+     "role": null,
+     "note": null,
+     "parts": 6,
+     "kinds": {
+      "unknown": 5,
+      "accessory": 1
+     },
+     "roles": {},
+     "samples": [
+      "MCS1 — Cisco MCS1",
+      "MCS2 — Cisco MCS2",
+      "MCS3 — Cisco MCS3",
+      "MCS5 — Cisco MCS5",
+      "MCS6 — Cisco MCS6",
+      "MGKIT-1 — Cisco MGKIT-1"
+     ],
+     "rules": {
+      "label": 6
+     }
+    }
+   ]
+  }
+ ],
+ "not_this_category": [],
+ "pending_plans": [],
+ "unplaced": [],
+ "done": true
+}

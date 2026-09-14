@@ -1,0 +1,15 @@
+{
+ "vendor": "cisco",
+ "category": "conferencing",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco conferencing, 14 Sep 2026. Every one of the 69 live hardware rows carries a committed kind-layer plan (move or class change), so no row is layered here until the plans run; the series below are the labels the rows hold, so a refused or unrun plan still places.",
+ "lines": [
+  {
+   "line": "Meeting Server and TelePresence Management",
+   "series": [
+    { "series": "Meeting Server appliances", "sku": ["^CMS", "^MS-"], "labels": ["Meeting Server"] },
+    { "series": "TelePresence Management Suite (TMS)", "sku": ["^TMS"], "labels": ["TelePresence Management Suite (TMS)"] },
+    { "series": "AI PODs for Collaboration", "labels": ["AI PODs for Collaboration"] }
+   ]
+  }
+ ]
+}

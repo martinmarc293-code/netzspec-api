@@ -1,0 +1,921 @@
+{
+ "vendor": "cisco",
+ "category": "unified-communications",
+ "built_at": "2026-09-14T14:13:50.230Z",
+ "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",
+ "parts": 490,
+ "lines": [
+  {
+   "line": "Voice Gateways",
+   "parts": 85,
+   "series": [
+    {
+     "series": "VG200 / VG202 / VG204 / VG224",
+     "role": null,
+     "note": null,
+     "parts": 12,
+     "kinds": {
+      "gateway": 11,
+      "mechanical": 1
+     },
+     "roles": {},
+     "samples": [
+      "VG202 — Cisco VG202 Analog Voice Gateway",
+      "VG202XM — Cisco VG202XM Analog Voice Gateway",
+      "VG204 — Cisco VG204 Analog Voice Gateway",
+      "VG204XM — Cisco VG204XM Analog Voice Gateway",
+      "VG224 — 24 Port Voice over IP analog phone gateway",
+      "VG224-4PACK — 4 Pack of VG224 High Density Analog Gateway"
+     ],
+     "rules": {
+      "sku": 12
+     }
+    },
+    {
+     "series": "VG300 / VG310 / VG320 / VG350",
+     "role": null,
+     "note": null,
+     "parts": 18,
+     "kinds": {
+      "gateway": 14,
+      "accessory": 4
+     },
+     "roles": {},
+     "samples": [
+      "VG310 — Modular 24 FXS Port VoIP Gateway with PVDM3-64",
+      "VG310++ — Modular 24 FXS Port VoIP Gateway with PVDM3-64-TAA(CX)",
+      "VG310-EM — 24-port FXS VoIP Gateway w/PVDM3-64 for Emerging Markets",
+      "VG320 — Modular 48 FXS Port VoIP Gateway with PVDM3-128",
+      "VG320++ — Modular 48 FXS Port VoIP Gateway with PVDM3-128-TAA(CX)",
+      "VG320-EM — 48-port FXS VoIP Gateway w/PVDM3-128 for Emerging Markets"
+     ],
+     "rules": {
+      "sku": 18
+     }
+    },
+    {
+     "series": "VG400 / VG410 / VG420 / VG450",
+     "role": null,
+     "note": null,
+     "parts": 44,
+     "kinds": {
+      "memory": 7,
+      "power": 15,
+      "gateway": 13,
+      "mechanical": 7,
+      "accessory": 2
+     },
+     "roles": {},
+     "samples": [
+      "MEM-4460-16G — 16G DRAM (1 DIMM) for Cisco ISR 4461",
+      "MEM-4460-16G= — 16G DRAM (1 DIMM) for Cisco ISR 4461",
+      "MEM-4460-32G — 32G DRAM (1 DIMM) for Cisco ISR 4460",
+      "MEM-4460-32G= — 32G DRAM (1 DIMM) for Cisco ISR 4460",
+      "MEM-4460-8G — 8G DRAM (1 DIMM) for Cisco ISR 4460",
+      "MEM-4460-8G= — 8G DRAM (1 DIMM) for Cisco ISR 4460"
+     ],
+     "rules": {
+      "sku": 44
+     }
+    },
+    {
+     "series": "Voice Gateways shared parts",
+     "role": null,
+     "note": null,
+     "parts": 11,
+     "kinds": {
+      "accessory": 2,
+      "gateway": 3,
+      "power": 3,
+      "mechanical": 3
+     },
+     "roles": {},
+     "samples": [
+      "ACS-4460-FANASSY — Cisco ISR 4460 Fan Assembly",
+      "ACS-4460-FANASSY= — Cisco ISR 4460 Fan Assembly",
+      "C3945-112FXS/K9 — High Density Analog Voice Gateway",
+      "PWR-30W-AC — Power Supply 30 Watt AC",
+      "PWR-30W-AC-BR — Power Supply 30 Watt AC for Brazil",
+      "PWR-30W-AC= — Power Supply 30 Watt AC"
+     ],
+     "rules": {
+      "label": 9,
+      "accessory": 2
+     }
+    }
+   ]
+  },
+  {
+   "line": "Analog Telephone Adapters and SPA",
+   "parts": 49,
+   "series": [
+    {
+     "series": "ATA 190 / 191 / 192",
+     "role": null,
+     "note": null,
+     "parts": 6,
+     "kinds": {
+      "ata": 5,
+      "power": 1
+     },
+     "roles": {},
+     "samples": [
+      "ATA190 — UC 2 Port Analog Telephone Adapter",
+      "ATA190-SC-K9 — Spark Call 1 Port Analog Telephone Adapter",
+      "ATA191-3PW-K9 — 2-port analog telephone adapter for multiplatform",
+      "ATA191-K9 — 2-Port Analog Telephone Adapter",
+      "ATA191-PWR — Spare Power Adapter for ATA 191 and ATA 192",
+      "ATA192-3PW-K9 — 2-port analog telephone adapter with router for multiplatfor"
+     ],
+     "rules": {
+      "sku": 6
+     }
+    },
+    {
+     "series": "SPA100 / SPA2100 adapters (SPA112 / SPA122 / SPA2102)",
+     "role": null,
+     "note": null,
+     "parts": 12,
+     "kinds": {
+      "ata": 12
+     },
+     "roles": {},
+     "samples": [
+      "SPA112 — 2 Port Phone Adapter",
+      "SPA112-BR — 2 Port Phone Adapter",
+      "SPA112-RC — Cisco SPA112 ATA with Remote Configuration",
+      "SPA112-XU — 2 Port Phone Adapter, SRTP Removed",
+      "SPA122 — ATA with Router",
+      "SPA122-BR — ATA with Router"
+     ],
+     "rules": {
+      "sku": 12
+     }
+    },
+    {
+     "series": "SPA302D DECT handset",
+     "role": null,
+     "note": null,
+     "parts": 7,
+     "kinds": {
+      "phone": 7
+     },
+     "roles": {
+      "dect": 7
+     },
+     "samples": [
+      "SPA302D-G1 — Mobility Enhanced Cordless Handset",
+      "SPA302D-G1-1 — Mobility Enhanced Cordless Handset",
+      "SPA302D-G7 — Mobility Enhanced Cordless Handset",
+      "SPA302D-G7-1 — Mobility Enhanced Cordless Handset",
+      "SPA302DKIT-G1 — Multi-Line DECT Handset with Base Station",
+      "SPA302DKIT-G7 — Multi-Line DECT Handset with Base Station"
+     ],
+     "rules": {
+      "sku": 7
+     }
+    },
+    {
+     "series": "Analog Telephone Adapters and SPA shared parts",
+     "role": null,
+     "note": null,
+     "parts": 24,
+     "kinds": {
+      "ata": 17,
+      "gateway": 7
+     },
+     "roles": {},
+     "samples": [
+      "SPA232D — Analog Telephone Adapter with DECT Base Station",
+      "SPA232D-G1 — Multi-Line DECT ATA",
+      "SPA232D-G1-1 — Multi-Line DECT ATA",
+      "SPA232D-G7 — Multi-Line DECT ATA",
+      "SPA232D-G7-1 — Multi-Line DECT ATA",
+      "SPA232D-R1 — Multi-Line DECT ATA"
+     ],
+     "rules": {
+      "label": 24
+     }
+    }
+   ]
+  },
+  {
+   "line": "Business Edition",
+   "parts": 124,
+   "series": [
+    {
+     "series": "Business Edition 7000 (BE7K / BE7M / BE7H)",
+     "role": null,
+     "note": null,
+     "parts": 56,
+     "kinds": {
+      "cpu": 6,
+      "server": 18,
+      "drive": 6,
+      "nic": 4,
+      "accessory": 3,
+      "power": 5,
+      "storage-controller": 6,
+      "memory": 7,
+      "tpm": 1
+     },
+     "roles": {},
+     "samples": [
+      "BE7H-CPU-M6 — Intel 6348 2.6GHz/235W 28C/42MB DDR4 3200MHz",
+      "BE7H-M4-K9 — Cisco Business Edition 7000H Svr (M4), Export Restrict. SW",
+      "BE7H-M4-XU — Cisco Business Edition 7000H Svr (M4), Export Unrestrict SW",
+      "BE7H-M5-K9 — Cisco Business Edition 7000H (M5) Appliance, Export Restr SW",
+      "BE7H-M5-XU — Cisco Business Edition 7000H (M5) Appliance, Exp Unrestr SW",
+      "BE7H-M6-K9 — Cisco Business Edition 7000H (M6) Appliance, Export Restr SW"
+     ],
+     "rules": {
+      "sku": 56
+     }
+    },
+    {
+     "series": "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)",
+     "role": null,
+     "note": null,
+     "parts": 68,
+     "kinds": {
+      "server": 24,
+      "nic": 2,
+      "cpu": 5,
+      "drive": 9,
+      "power": 5,
+      "storage-controller": 6,
+      "memory": 10,
+      "tpm": 1,
+      "unknown": 1,
+      "mechanical": 1,
+      "voice-module": 4
+     },
+     "roles": {},
+     "samples": [
+      "BE6H-M4-K9= — Cisco BE6H-M4-K9=",
+      "BE6H-M4-XU= — Cisco BE6H-M4-XU=",
+      "BE6H-M5-K9 — Cisco Business Edition 6000H (M5) Appliance, Export Restr SW",
+      "BE6H-M5-XU — Cisco Business Edition 6000H (M5), Exp Unrestr SW",
+      "BE6H-NIC1 — Intel i350 Quad Port 1Gb Adapter",
+      "BE6K-CPU — 2.2 GHz 4114/85W 10C/13.75MB Cache/DDR4 2400MHz"
+     ],
+     "rules": {
+      "sku": 61,
+      "label": 7
+     }
+    }
+   ]
+  },
+  {
+   "line": "Expressway and VCS",
+   "parts": 73,
+   "series": [
+    {
+     "series": "Expressway appliances (CE1100 / CE1200)",
+     "role": null,
+     "note": null,
+     "parts": 45,
+     "kinds": {
+      "mechanical": 3,
+      "cpu": 4,
+      "drive": 5,
+      "storage-controller": 6,
+      "memory": 4,
+      "nic": 1,
+      "power": 4,
+      "tpm": 4,
+      "server": 12,
+      "unknown": 2
+     },
+     "roles": {},
+     "samples": [
+      "EXP-BZL-C220M5 — C220 M5 Security Bezel",
+      "EXP-CPU-6134 — 3.2 GHz 6134/130W 8C/24.75MB Cache/DDR4 2666MHz",
+      "EXP-CPU-E5-2643 — 3.30 GHz E5-2643/130W 4C/10MB Cache/DDR3 1600MHz",
+      "EXP-CPU-E52637D — 3.50 GHz E5-2637 v3/135W 4C/15MB Cache/DDR4 2133MHz",
+      "EXP-CPU-I6334 — Intel 6334 3.6GHz/165W 8C/18MB DDR4 3200MHz",
+      "EXP-HD12T10NK9 — 1.2TB 12G SAS 10K RPM SFF HDD (SED)"
+     ],
+     "rules": {
+      "sku": 45
+     }
+    },
+    {
+     "series": "TelePresence VCS appliances",
+     "role": null,
+     "note": null,
+     "parts": 28,
+     "kinds": {
+      "cpu": 1,
+      "drive": 1,
+      "memory": 1,
+      "nic": 2,
+      "storage-controller": 2,
+      "power": 1,
+      "tpm": 1,
+      "unknown": 10,
+      "server": 8,
+      "mechanical": 1
+     },
+     "roles": {},
+     "samples": [
+      "CE-CPU-E5-2643 — 3.30 GHz E5-2643/130W 4C/10MB Cache/DDR3 1600MHz",
+      "CE-HDD1TI2F212 — 1TB SAS 7.2K RPM 3.5 inch HDD/hot plug/drive sled mounted",
+      "CE-MR-1X082RY-A — 8GB DDR3-1600-MHz RDIMM/PC3-12800/dual rank/1.35v",
+      "CE-N2XX-ABPCI01 — Broadcom 5709 Dual Port 1Gb w/TOE iSCSI for M3 Servers",
+      "CE-N2XX-AIPCI01 — Intel X520 Dual Port 10Gb SFP+ Adapter",
+      "CE-RAID9271-8I — MegaRAID 9271 w/Supercap, 2X4 internal SAS connector"
+     ],
+     "rules": {
+      "sku": 20,
+      "label": 8
+     }
+    }
+   ]
+  },
+  {
+   "line": "Unity Connection and MCS servers",
+   "parts": 38,
+   "series": [
+    {
+     "series": "Unity Connection PIMG gateways and MCS servers",
+     "role": null,
+     "note": null,
+     "parts": 38,
+     "kinds": {
+      "accessory": 2,
+      "server": 15,
+      "drive": 4,
+      "storage-controller": 2,
+      "gateway": 14,
+      "unknown": 1
+     },
+     "roles": {},
+     "samples": [
+      "KEY-CCM-ADMIN-K9= — CUCM Admin Security Token, 4.3, 6.0, or Newer, CoO USA",
+      "KEY-UCM-ADMIN2-K9= — CUCM Admin Security Token, 7.1 or Newer",
+      "MCS-7825-I5-IPC1 — Cisco MCS-7825-I5-IPC1",
+      "MCS-7825H-3.0-ECSP — MCS 7825 Unity; 512MB; RAID 1; Win2K",
+      "MCS-7835-I3-IPC1 — Cisco MCS-7835-I3-IPC1",
+      "MCS-EXT-DAT — External DAT tape drive for MCS servers"
+     ],
+     "rules": {
+      "label": 2,
+      "sku": 36
+     }
+    }
+   ]
+  },
+  {
+   "line": "Paging",
+   "parts": 55,
+   "series": [
+    {
+     "series": "Atlas IP paging speakers and enclosures",
+     "role": null,
+     "note": null,
+     "parts": 55,
+     "kinds": {
+      "mechanical": 17,
+      "speaker": 38
+     },
+     "roles": {},
+     "samples": [
+      "SP-ATLAS-180-2= — Rail PR for Ceiling Mounting of FEST-I8S / FEST-IH Enclosure",
+      "SP-ATLAS-DSSE-DC= — Double Sided Surface Mount Clock, PoE+",
+      "SP-ATLAS-FST-DC= — Flush Mount Straight Enclosure for IPDC Only, White",
+      "SP-ATLAS-FST-I8S= — Flush Mount Straight Enclosure for I8S+, I8SM+",
+      "SP-ATLAS-FST-I8SC= — Flsh Mount Strt Enc for I8SC+, I8SCM+, I8SCF+, I8SCMF+, I8SC",
+      "SP-ATLAS-FST-IH= — Flush Mount Straight Enclosure for IHVP Only Stainless Steel"
+     ],
+     "rules": {
+      "sku": 55
+     }
+    }
+   ]
+  }
+ ],
+ "not_this_category": [
+  {
+   "sku": "CP-6921-C-K9-APACP",
+   "name": "Cisco UC Phone 6921, Charcoal, Std handset, APAC",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CP-6921-C-K9-LATAM",
+   "name": "Cisco UC Phone 6921, Charcoal, Std Handset, LATAM",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CP-6921-CL-K9-APAC",
+   "name": "Cisco Unified IP Phone 6921, Charcoal, light handset, APAC",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CP-6921-CLK9-APACP",
+   "name": "Cisco UC Phone 6921, Charcoal, light handset, APAC",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CP-6921-CLK9-LATAM",
+   "name": "Cisco UC Phone 6921, Charcoal, Slimline Hdst, LATAM",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CP-6921-W-K9-APACP",
+   "name": "Cisco UC Phone 6921, White, Std handset, APAC",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CP-6921-WLK9-APACP",
+   "name": "Cisco UC Phone 6921, White, light handset, APAC",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CP-6941-C-K9-LATAM",
+   "name": "Cisco UC Phone 6941, Charcoal, Std Handset, LATAM",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CP-6941-CLK9-LATAM",
+   "name": "Cisco UC Phone 6941, Charcoal, Slimline Hdst, LATAM",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CP-7941G-PROMO",
+   "name": "Cisco Unified IP Phone 7941G With License - Special Bundle",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CP-7942G-APACSP",
+   "name": "Cisco UC phone 7942G AsiaPac Bundle",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
+   "belongs": "collaboration-endpoints"
+  }
+ ],
+ "pending_plans": [
+  {
+   "sku": "CP-6821-3PW-NA-MK9",
+   "name": "MLB Subscription - 6821",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-6825-3PC-NA-MK9",
+   "name": "MLB Subscription - IP Phone 6825",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-6851-3PW-NA-MK9",
+   "name": "MLB Subscription - Phone 8851",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-7811-3PW-NA-MK9",
+   "name": "MLB Subscription - Phone 7811",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-7821-3PW-NA-MK9",
+   "name": "MLB Subscription - Phone 7821",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-7832-3PW-NA-MK9",
+   "name": "MLB Subscription - Phone 7832",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-7841-3PW-NA-MK9",
+   "name": "MLB Subscription - Phone 7841",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-7861-3PW-NA-MK9",
+   "name": "MLB Subscription - Phone 7861",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-8800-A-KEM-M3PC",
+   "name": "MLB Subscription- CP8000 A-KEM",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-8811-3PW-NA-MK9",
+   "name": "MLB Subscription - 8811",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-8841-3PW-NA-MK9",
+   "name": "MLB Subscription - Phone 8841",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-8845-3PW-NA-MK9",
+   "name": "MLB Subscription - Phone 8845",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-8851-3PW-NA-MK9",
+   "name": "MLB Subscription- Phone 8851",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-8861-3PW-NA-MK9",
+   "name": "MLB Subscription - Phone 8861",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-ROOMPH-NA-MK9",
+   "name": "MLB Subscription Room Phone",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CS-DESKPRO-SUB-K9",
+   "name": "MLB for Subscription - DeskPro",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CS-KIT-SUB-K9",
+   "name": "MLB for Subscription Room Kit",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CS-KITPLUS-SUB-K9",
+   "name": "MLB Subscription - KIT Plus",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CS-KITPRO-SUB-K9",
+   "name": "MLB for Subscription - KIT Pro",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CS-ROOM-USB-SUB-K9",
+   "name": "MLB Subscription - Room USB",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "DBS-210-3PC-NA-MK9",
+   "name": "MLB Subscription - Phone 210",
+   "series_label": "Spark Flex Plan",
+   "action": "class",
+   "to": "license",
+   "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "DOC-CCM-3.3=",
+   "name": "1500 pg hardcopy of docs shipping on CD with CCM 3.3",
+   "series_label": "Unified Communications Licensing",
+   "action": "class",
+   "to": "non_product",
+   "reason": "documentation hardcopy"
+  },
+  {
+   "sku": "EM-HDA-6FXO",
+   "name": "Cisco EM-HDA-6FXO",
+   "series_label": "TDM Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (ISM/EM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "EXP-10GSFP-SR-MP",
+   "name": "10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics",
+   "series_label": "Expressway Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "pluggable optic filed in unified-communications"
+  },
+  {
+   "sku": "EXP-10GSFP-SR-MP=",
+   "name": "10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics",
+   "series_label": "Expressway Series",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "pluggable optic filed in unified-communications"
+  },
+  {
+   "sku": "IPT-RM-1S250P",
+   "name": "UC Remote Mgmt Svc 1site, 250 Phones",
+   "series_label": "Unified Communications Licensing",
+   "action": "class",
+   "to": "service",
+   "reason": "remote management service"
+  },
+  {
+   "sku": "IPT-RM-1S500P",
+   "name": "UC Remote Mgmt Svc 1Site, 500 Phones",
+   "series_label": "Unified Communications Licensing",
+   "action": "class",
+   "to": "service",
+   "reason": "remote management service"
+  },
+  {
+   "sku": "IPT-RM-20S1000P",
+   "name": "UC Remote Mgmt Svc up to 20 Sites, 1k Phones",
+   "series_label": "Unified Communications Licensing",
+   "action": "class",
+   "to": "service",
+   "reason": "remote management service"
+  },
+  {
+   "sku": "IPT-RM-30S1500P",
+   "name": "UC Remote Mgmt Svc up to 30 Sites, 1500 Phones",
+   "series_label": "Unified Communications Licensing",
+   "action": "class",
+   "to": "service",
+   "reason": "remote management service"
+  },
+  {
+   "sku": "IPT-RM-3S250P",
+   "name": "UC Remote Mgmt Svc up to 3 Sites, 250 Phones",
+   "series_label": "Unified Communications Licensing",
+   "action": "class",
+   "to": "service",
+   "reason": "remote management service"
+  },
+  {
+   "sku": "IPT-RM-50ADDPHONES",
+   "name": "UC Remote Mgmt Svc 50 Phones-Add on to IPT-RM Svc",
+   "series_label": "Unified Communications Licensing",
+   "action": "class",
+   "to": "service",
+   "reason": "remote management service"
+  },
+  {
+   "sku": "NIM-4FXSP=",
+   "name": "Cisco NIM-4FXSP=",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (NIM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "PVDM3-128",
+   "name": "128-channel high-density voice DSP module",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (PVDM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "PVDM3-128=",
+   "name": "128-channel high-density voice DSP module SPARE",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (PVDM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "PVDM3-128U256",
+   "name": "PVDM3 128-channel to 256-channel factory upgrade",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (PVDM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "PVDM3-256",
+   "name": "256-channel high-density voice DSP module",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (PVDM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "PVDM3-256=",
+   "name": "256-channel high-density voice DSP module SPARE",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (PVDM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "PVDM3-64",
+   "name": "64-channel high-density voice DSP module",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (PVDM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "PVDM3-64=",
+   "name": "64-channel high-density voice DSP module SPARE",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (PVDM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "PVDM3-64U128",
+   "name": "PVDM3 64-channel to 128-channel factory upgrade",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (PVDM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "PVDM3-64U256",
+   "name": "PVDM3 64-channel to 256-channel factory upgrade",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (PVDM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SM-D-48FXS-E",
+   "name": "Cisco 48 Port FXS OPX-Lite Double Wide Service Module",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SM-X / SM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SM-D-48FXS-E=",
+   "name": "Cisco 48 Port FXS OPX-Lite Double Wide Service Module",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SM-X / SM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SM-D-72FXS",
+   "name": "Cisco 72 Port FXS Double Wide Service Module",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SM-X / SM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SM-D-72FXS=",
+   "name": "Cisco 72 Port FXS Double Wide Service Module",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (SM-X / SM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "SM-X-NIM-ADPTR",
+   "name": "SM-X Adapter for one NIM module for Cisco 4000 Series ISR",
+   "series_label": "TDM Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "ISR 4000 SM-X to NIM adapter filed in unified-communications"
+  },
+  {
+   "sku": "VIC2-4FXO=",
+   "name": "Four-port Voice Interface Card - FXO (Universal)",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (VIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "VIC3-4FXS/DID-X",
+   "name": "Four-Port Voice Interface Card - FXS and DID",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (VIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "VIC3-4FXS/DID-X=",
+   "name": "Four-Port Voice Interface Card - FXS and DID",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (VIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "VWIC3-1MFT-G703",
+   "name": "Cisco VWIC3-1MFT-G703",
+   "series_label": "TDM Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (HWIC/EHWIC/VWIC/WIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "VWIC3-1MFT-T1/E1",
+   "name": "1-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1",
+   "series_label": "TDM Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (HWIC/EHWIC/VWIC/WIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "VWIC3-1MFT-T1/E1=",
+   "name": "1-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (HWIC/EHWIC/VWIC/WIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "VWIC3-2MFT-T1/E1",
+   "name": "2-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1",
+   "series_label": "TDM Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (HWIC/EHWIC/VWIC/WIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "VWIC3-2MFT-T1/E1=",
+   "name": "2-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (HWIC/EHWIC/VWIC/WIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  },
+  {
+   "sku": "VWIC3-4MFT-T1/E1",
+   "name": "4-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1",
+   "series_label": "TDM Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router interface card (HWIC/EHWIC/VWIC/WIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
+  }
+ ],
+ "unplaced": [],
+ "done": true
+}
