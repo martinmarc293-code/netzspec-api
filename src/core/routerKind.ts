@@ -110,8 +110,12 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // NC55-SFP-DCAP, 100GE-CFP-COVER(=), CW-SFP-KIT1). REFUSED: a bare `COVER`/`DCAP` — the accessory rule below already
   // takes every other cover, and the name path turns them into `mechanical` there; only the optic-cage shapes that
   // the name path misread are named here.
+  // + layers review 14 Sep 2026 (A.1, the spare rule): pairs whose spare's name took the name path to `mechanical` while the
+  // base, named only by its SKU, stayed `accessory` (or the reverse for the NIM carrier) — the SKU decides for both:
+  // CRS-16-LCC-BCK-BF "CRS-16 new grille/baffle kit", A90X-RSPA-BLANK "ASR 90X Route Switch Processor Type-A Blank",
+  // C-SM-NIM-ADPT / SM-X-NIM-ADPTR "2x NIM carrier module in SM-X slot".
   { id: "mechanical-shield-divider-cap", kind: "mechanical",
-    re: /FIPS-SHIELD|SLOT-DIVIDER|^2911-AIRCVTR|(?<![A-Z0-9])(?:Q?SFP|CFP)-(?:DCAP|COVER)(?![A-Z0-9])|^CW-SFP-KIT/ },
+    re: /FIPS-SHIELD|SLOT-DIVIDER|^2911-AIRCVTR|(?<![A-Z0-9])(?:Q?SFP|CFP)-(?:DCAP|COVER)(?![A-Z0-9])|^CW-SFP-KIT|^CRS-16-LCC-BCK-BF|^A90X-RSP[AB]-BLANK|-NIM-ADPTR?=?$/ },
   // ACCESSORY: parts that attach to a router and are bought only for what they fit — no library kind asks more of them.
   //   batteries        CGR-BATT-4AH, IRMH-BATT-4AH (the PSU cups — rated output, airflow — are not what a 4 Ah backup
   //                    battery prints; `module` was asking it for ports)
@@ -143,6 +147,21 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // REFUSED: the ASR 5000 partner-LAB bundles (ASR5K-12-LABADV-K9 "…Lab Bundle, Advanced Chassis" is a chassis system,
   // ASR5K-20-LAB-PSC2 "…Lab Bundle, 3x PSC2" a card pack) keep the kinds the move plan names for them.
   { id: "bundle-crs-asr5k", kind: "bundle", re: /^10{1,2}GE-(?:MSC|EMSE|FP)|^ASR5K-2322(?:16|32)(?:V|S)?(?:S3|SB|3|B)-K9/ },
+  // THE BUNDLE RULE, widened (layers review 14 Sep 2026, A.4; the same rule as switchKind's head): N of one orderable, several
+  // cards with no enclosure, or a card plus its optics. Read row by row from the names:
+  //   packs      CRS-16-FC140/M-8P "Fabric Card-140G/M-8 Pack bundle", CRS-8-FC400/M-4P "Multi-4 pack", CRS-FCC-SFC400-BN=
+  //              "Fabric Cards 400G and OIM 8 Pack bundle", NC6-10X100G-LK-4PK "LSR LC, Bundle 4 Pack", ASR1000-RP3-32G-2P
+  //              "RP3 w/ 32 GB, 2 Pack", CRS-FD-16G-10PK= "16G Flash Disk 10PK", CRS-4-FILTER= "LCC Air Filter 5-Pack",
+  //              CRS-MSC-PKG-4PK "MSC/FP40 Package Box 4 Units", CAB-ADPT4P-75-120 "4 pack 75-120 Ohm adapter cables"
+  //   card sets  100GE-DWDM-FP-PK "Interface Module and FP Bundle", CRS-FP140-BUN "14x10GE, CRS-FP-140G Bundle",
+  //              1OC768-POS-1PK-B= "1 pack of 1OC768-POS PLIM with MSC-B" (PLIM + MSC: two cards), 4OC192-SPA-4PK "SIP-800 and
+  //              OC192 SPAs", CRS-X-UPGRADE-BUN, CRS-4-CH-UPG-BUN, CRS-16/S-CNSK "Special Upgrade Bundle", CRS-16-MC400-BUN
+  //              "Multiple chassis Bundle", ISR4330U-MEM-MSATA "Upgrade to 16GB DRAM/16GB Flash, 200GB mSATA SSD bundle"
+  //   + optics   NC6-20X100GE-L-C "LSR Linecard combo optics", NC6-2T-PAYG-M-BUN
+  // KEPT (systems / one card): A903-BUN-R1A-8S-1 "ASR903 Bundle with 2xRSP1A, … and Chassis", NCS-6008-SYS-B, ASR1004-40G-NB,
+  // CRS-16/S-B-140-BUN "16 slots 140G Chassis Bundle", NC55-36X100G-SB "line card bundle", ASR1000-SIP10-BUN "Bundle
+  // Component", CRS-MSC-40G-BDL= "MSC 1 Pack", CRS-16-SFC400-BUN "CRS 400G FCC Bundle" (the name does not say what it holds).
+  { id: "bundle-packs-sets", kind: "bundle", re: /^CRS-16-FC(?:140|400)\/M-(?:8P|BN)=?$|^CRS-8-FC(?:140|400)\/M-4P=?$|^CRS-FCC-SFC(?:140|400)-(?:8P|BN|U|U-B)=?$|^CRS-SFC400-B-(?:8P|U)=?$|^NC6-(?:10X100G-LK|20X100GE-L)-[24]PK=?$|^ASR1000-RP3-(?:32|64)G-2P=?$|^CRS-FD(?:ISK)?-\d{1,2}G-10PK=?$|^CRS-(?:4|8-LCC|16-LCC)-FILTER=?$|^CRS-(?:MSC|PLIM|RP)-PKG-4PK=?$|^CAB-ADPT4P-75-120=?$|^100GE-DWDM-(?:FP|LSP|MSC)-PK=?$|^CRS-FP140-(?:BUN|M-PK)=?$|^1OC768(?:-POS|DPS\/CO|ITU\/C)-[14]PK-B=?$|^4OC192-SPA-4PK(?:-B)?=?$|^CRS-[3X]-UPGRADE-BUN=?$|^CRS-4-CH-UPG-BUN=?$|^CRS-16\/S-CNSK=?$|^CRS-16-MC400-BUN=?$|^ISR4[34][2-5]0U-MEM-(?:MSATA|SSD)=?$|^NC6-20X100GE-[LM]-C=?$|^NC6-2T-PAYG-[LM]-BUN=?$/ },
   // ASR 5000 / 5500 mobile packet core and the AT&T PAS cabinet line, moving from `wireless` (agent 3's move list,
   // 113 rows, expected kinds checked row by row against the names). Anchored on the family prefix AND the card token, so
   // the ASR5K licence and image blocks (productClass: ASR5K-00/-99, staros-*) and the memory/cable/blank rows that the
@@ -236,7 +255,9 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // parts: MEM-CF- (CompactFlash), MEM-FLASH- / MEM-FLSH- (bootflash upgrades), MEM-SD- (SD cards, incl. the
   // IOS-preloaded MEM-SD-CGR-IOS=), and the VG224/IAD2430 suffix F against D: MEM-243-1X128F "128MB Flash Memory"
   // beside MEM-243-1X128D-U, a DIMM. A flash part is asked `flash`, a DIMM `dram`, a drive `storage_capacity`.
-  { id: "flash", kind: "flash", re: /^MEM-(?:CF|FLASH|FLSH|SD)-|^MEM-\d+-\d+X\d+F(?![A-Z0-9])/ },
+  // layers review C.6 (14 Sep 2026): + CRS-FLASHDISK-16G(=) "CRS 16GB flash disk" (was drive). The three CRS flash-disk
+  // 10-PACKS (CRS-FD-16G-10PK=, CRS-FDISK-2G/4G-10PK=) are `bundle` by bundle-packs-sets above, the A.4 pack rule.
+  { id: "flash", kind: "flash", re: /^MEM-(?:CF|FLASH|FLSH|SD)-|^MEM-\d+-\d+X\d+F(?![A-Z0-9])|^CRS-FLASHDISK-/ },
   // (?!USB) on MEM-: MEM-USB is a drive-class stick. (?!CISCO\d): the one device-only hit of this rule, CISCO892-
   // DRAM-K9 "Router Bundle - C892, WAASX Feature License, Max Mem", is a ROUTER configured with maximum memory — a
   // CISCO<model> PID names the router itself, and Cisco sells memory as MEM-* / M-*. The fence sits on this rule
@@ -380,7 +401,10 @@ export const DEVICE_RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // The 8000 series. Bounded at 8[0-7]\d\d so it cannot reach the C8xxx enterprise PIDs (they lead
   // with a C) or a four-plus-digit token, and the modular 8000s are already taken above.
   { id: "sp-8000", kind: "sp-router", re: /^8[0-7]\d\d(?![0-9])/ },
-  { id: "sp-legacy", kind: "sp-router", re: /^(?:MWR-|CISCO7[36]|12[0-9]{3})/ },
+  // layers review C.4 (14 Sep 2026): CISCO7[36] is OUT. The legacy 7200 / 7300 / 7600 follow ONE rule — kind `router`, role
+  // `edge` from the series table — and the only row this token still decided was CISCO7301/2+VPNK9 (sp-router, no role),
+  // while its 7200 and 7600 siblings were already router/edge.
+  { id: "sp-legacy", kind: "sp-router", re: /^(?:MWR-|12[0-9]{3})/ },
 ];
 
 /** The kind the axis falls back to. Named rather than repeated, because which kind is the fallback

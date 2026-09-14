@@ -365,7 +365,8 @@
      "sku": [
       "^(M-)?ASR1[0-9]{3}",
       "^(M-)?ASR1K",
-      "^CDASR1000"
+      "^CDASR1000",
+      "^EPA-(?!3GE|GE/FE)"
      ],
      "labels": [
       "ASR 1000"
@@ -417,9 +418,11 @@
     },
     {
      "series": "Cisco 7300",
-     "note": "one live row (CISCO7301/2+VPNK9, kind sp-router by the sp-legacy rule); no role assigned — the review's SP role table does not name the 7300 (layers review 14 Sep 2026, item 8)",
+     "role": "edge",
+     "note": "layers review C.4 (14 Sep 2026): the legacy 7200 / 7300 / 7600 follow one rule — kind router, role edge; CISCO7301/2+VPNK9 was sp-router by the sp-legacy token with no role",
      "sku": [
-      "^(CISCO)?730[0-9](?![0-9])"
+      "^(CISCO)?730[0-9](?![0-9])",
+      "^7300-"
      ]
     }
    ]
@@ -472,7 +475,8 @@
     },
     {
      "series": "NCS 5000",
-     "note": "no role assigned: the review's SP role table does not name the NCS 5000 (5001/5002/5011) — open for the reviewer",
+     "role": "sp-edge",
+     "note": "layers review C.3 (14 Sep 2026): NCS 5001 / 5002 / 5011 are sp-edge",
      "sku": [
       "^NCS-?50[0-9]{2}"
      ],
@@ -537,7 +541,8 @@
      "series": "IR 1101",
      "role": "industrial-iot",
      "sku": [
-      "^IR1101"
+      "^IR1101",
+      "^IRM-1100"
      ],
      "labels": [
       "Catalyst IR1100 Rugged"
@@ -547,7 +552,8 @@
      "series": "IR 1800",
      "role": "industrial-iot",
      "sku": [
-      "^IR18[0-9]{2}"
+      "^IR18[0-9]{2}",
+      "^IRM-1800"
      ],
      "labels": [
       "Catalyst IR1800 Rugged"
@@ -557,7 +563,8 @@
      "series": "IR 8100",
      "role": "industrial-iot",
      "sku": [
-      "^IR81[0-9]{2}"
+      "^IR81[0-9]{2}",
+      "^IRMH-"
      ],
      "labels": [
       "Catalyst IR8100 Heavy Duty"
@@ -567,7 +574,8 @@
      "series": "IR 8300",
      "role": "industrial-iot",
      "sku": [
-      "^IR83[0-9]{2}"
+      "^IR83[0-9]{2}",
+      "^IRM-(NIM|SSD|TIMING)"
      ],
      "labels": [
       "Catalyst IR8300 Rugged Series Router"
@@ -595,7 +603,8 @@
      "role": "industrial-iot",
      "sku": [
       "^CGR-?1[0-9]{3}",
-      "^CGM-"
+      "^CGM-",
+      "^CGR-PWRCORD-"
      ],
      "labels": [
       "1000 Connected Grid"
@@ -606,7 +615,8 @@
      "role": "industrial-iot",
      "sku": [
       "^CGR-?2010",
-      "^ACS-2000-RMRGD"
+      "^ACS-2000-RMRGD",
+      "^GRWIC"
      ],
      "labels": [
       "2000 Series Connected Grid"
@@ -731,7 +741,7 @@
       "^NIM-",
       "^C-NIM-"
      ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
     },
     {
      "series": "SM-X and SM Service Modules",
@@ -741,7 +751,7 @@
       "^C-SM-",
       "^UCS-E"
      ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
     },
     {
      "series": "ISM / EM Internal Service Modules",
@@ -749,7 +759,7 @@
       "^ISM-",
       "^EM-"
      ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
     },
     {
      "series": "EHWIC / HWIC / VWIC / WIC",
@@ -757,65 +767,49 @@
       "^E?HWIC",
       "^V?WIC"
      ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
     },
     {
      "series": "NM / NME Network Modules",
      "sku": [
       "^NME?-"
      ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
     },
     {
      "series": "PVDM Voice DSP Modules",
      "sku": [
       "^PVDM"
      ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
     },
     {
      "series": "VIC Voice Interface Cards",
      "sku": [
       "^VIC"
      ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
     },
     {
      "series": "SPA Shared Port Adapters",
      "sku": [
       "^SPA-"
      ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
-    },
-    {
-     "series": "EPA Ethernet Port Adapters",
-     "sku": [
-      "^EPA-"
-     ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
-    },
-    {
-     "series": "GRWIC Grid Router Interface Cards",
-     "sku": [
-      "^GRWIC"
-     ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
     },
     {
      "series": "Pluggable Interface Modules (LTE / 5G)",
      "sku": [
       "^P-(LTE|5G|LTEA|LTEAP)"
      ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
     },
     {
-     "series": "IR Expansion and Pluggable Modules",
+     "series": "WP pluggable modules (IoT routers)",
      "sku": [
-      "^IRMH?-",
-      "^IRM-",
       "^WP-"
      ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
     },
     {
      "series": "Cellular Cards (MC / PCEX / WIM)",
@@ -824,7 +818,7 @@
       "^PCEX",
       "^WIM-"
      ],
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed"
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)"
     }
    ]
   }

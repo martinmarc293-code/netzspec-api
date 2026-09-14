@@ -65,6 +65,12 @@ const REFUSED: [string, string, string?][] = [
   ["CRS-3 Upgrade Bundle", "a CRS bundle name outside the '<n>x<rate>GE <card> Bundle' shape"],   // the non_product programme PID
   ["CRS-3 Multipack Bundle", "a CRS bundle name outside the '<n>x<rate>GE <card> Bundle' shape"],
   ["ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIO 3PN/4xGLC2", 'unrecognised counted item "4xGLC2"'],   // an unknown card still refuses
+  // layers review A.4 (14 Sep 2026): switch and router bundles that had parsed to a WRONG list before these refusals
+  ["SUP8E and MGIG upgrade for 7 slot chassis bundle (96 ports)", "the name states no contents"],   // was ["1x chassis"]: the chassis it fits
+  ["CRS 16 slot Line Card Chassis Filter - 5 Pack", "the name states no contents"],                 // was ["1x chassis"]
+  ["N7K-F312-40G 2-pack Bundle for Chassis Config", "the name states no contents"],                 // was ["1x chassis"]
+  ["Cisco One Nexus 5596UP/4 x FEX", 'names a device with no line in the vocabulary: "Nexus 5596UP"'],  // was ["4x Nexus 2232 fabric extender"]
+  ["N6004 Chassis with 8 x 10G FEXes with FETs", 'names a device with no line in the vocabulary: "FEXes"'], // was ["1x chassis"]
 ];
 for (const [name, reason, sku] of REFUSED) check(`refuses ${JSON.stringify(name.slice(0, 50))}`, items(name, sku), `REFUSED: ${reason}`);
 

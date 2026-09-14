@@ -82,7 +82,7 @@ const POSITIVE: [string, RouterKind, string, string][] = [
   ["DB9-M-DTE", "accessory", "accessory-battery-adapter", "Cisco DB9-M-DTE — CGR serial adapter (was enterprise)"],
   ["AIR-ACC370-NF-NF", "accessory", "accessory-battery-adapter", "N(f)-straight to N(f)-straight adapter (IR1800 data sheet; was enterprise)"],
   ["LTE-SIM-VZ", "accessory", "accessory-battery-adapter", "Cisco LTE-SIM-VZ (was enterprise)"],
-  ["C-SM-NIM-ADPT", "accessory", "accessory-battery-adapter", "Single-wide 2x NIM carrier module in SM-X form factor (was module)"],
+  ["C-SM-NIM-ADPT", "mechanical", "mechanical-shield-divider-cap", "Single-wide 2x NIM carrier module in SM-X form factor (was module, then accessory; mechanical with its spare since the layers review 14 Sep 2026, A.1)"],
   ["PVDM2-ADPTR=", "accessory", "accessory-battery-adapter", "PVDM2 Adapter for PVDM Slot on Cisco 2900, 3900 Series ISR (was module)"],
   ["MC7304-4G-LTE-GA", "module", "module-cellular-modem", "Sierra MC7304 Global LTE, Band 1, 3, 7, 8, 20 (was enterprise)"],
   ["MC-3G-HSPA-U", "module", "module-cellular-modem", "3.5G (non-US) HSPA MC8795V with SMS/GPS (was enterprise)"],
@@ -96,6 +96,18 @@ const POSITIVE: [string, RouterKind, string, string][] = [
   ["100GE-FP400G-BUN=", "bundle", "bundle-crs-asr5k", "Cisco CRS Series 4x100GE FP Bundle (was linecard)"],
   ["ASR5K-232216V3-K9", "bundle", "bundle-crs-asr5k", "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIO 3PN (moving from wireless)"],
   ["ASR5K-232232VSB-K9", "bundle", "bundle-crs-asr5k", "ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIOStr3 BNC"],
+  // ---- layers review A.4 (14 Sep 2026): the bundle rule widened — packs, card sets, a card plus its optics ----------
+  ["CRS-16-FC140/M-8P", "bundle", "bundle-packs-sets", "CRS Series 16 Slots Fabric Card-140G/M-8 Pack bundle (was fabric)"],
+  ["NC6-10X100G-LK-4PK", "bundle", "bundle-packs-sets", "NCS6000 10X100G LSR LC, Bundle 4 Pack (was linecard)"],
+  ["ASR1000-RP3-32G-2P", "bundle", "bundle-packs-sets", "Cisco ASR1000 Series RP3 w/ 32 GB, 2 Pack (was processor)"],
+  ["CRS-FD-16G-10PK=", "bundle", "bundle-packs-sets", "CRS 16G Flash Disk 10PK (was drive)"],
+  ["CRS-FLASHDISK-16G", "flash", "flash", "CRS 16GB flash disk (layers review C.6; was drive)"],
+  ["CRS-4-FILTER=", "bundle", "bundle-packs-sets", "CRS-4 LCC Air Filter 5-Pack (was mechanical)"],
+  ["100GE-DWDM-FP-PK", "bundle", "bundle-packs-sets", "1-100GE Integrated DWDM Interface Module and FP Bundle (was linecard)"],
+  ["1OC768-POS-1PK-B=", "bundle", "bundle-packs-sets", "1 pack of 1OC768-POS PLIM with MSC-B — a PLIM and an MSC (was module)"],
+  ["ISR4330U-MEM-MSATA", "bundle", "bundle-packs-sets", "Upgrade to 16GB DRAM/16GB Flash, 200GB mSATA SSD bundle (was memory)"],
+  ["NC6-20X100GE-L-C", "bundle", "bundle-packs-sets", "NCS6000 20x100GE LSR Linecard combo optics (was linecard)"],
+  ["CRS-3-UPGRADE-BUN", "bundle", "bundle-packs-sets", "CRS-3 Upgrade Bundle — a set of parts, not a router (was sp-router)"],
   ["ASR55-DPC-K9=", "processor", "asr5k-processor", "ASR5500 Data Processing Card (DPC)"],
   ["ASR5K-PSC-64G-K9", "processor", "asr5k-processor", "Packet Services Card (PSC3) 64GB"],
   ["ASR5K-SMC-K9", "processor", "asr5k-processor", "System Management Card 4GB"],
@@ -223,7 +235,19 @@ const REFUSAL: [string, RouterKind, string][] = [
   ["ASR1001-X", "router", "chassis-asr1k widened to ^ASR100 — 'ASR 1001-X Router Chassis (ESP integrated)'"],
   ["ASR1002-X=", "router", "the same — 'ASR 1002-X Router Chassis (ESP integrated)'"],
   ["C8200-1N-4T=", "router", "a chassis kind on 'Chassis' — 'Catalyst Edge C8200-1N-4T Chassis Spare' is fixed"],
-  ["CRS-3-UPGRADE-BUN", "sp-router", "the CRS upgrade-kit accessory rule widened to bundles — a bundle can ship a chassis"],
+  // (CRS-3-UPGRADE-BUN was pinned here as sp-router; layers review A.4 makes it a bundle — see POSITIVE.)
+  ["A903-BUN-R1A-8S-1", "sp-router", "bundle-packs-sets widened to -BUN — 'ASR903 Bundle with 1 - PS, RSP, IM-8S' is one enclosure: a system"],
+  ["CRS-16/S-B-140-BUN", "chassis", "the same — 'Cisco CRS 16 slots 140G enhacned Chassis Bundle' is a chassis system"],
+  ["CRS-16-SFC400-BUN", "fabric", "the same — 'CRS 400G FCC Bundle' does not say what it holds"],
+  ["CRS-MSC-40G-BDL=", "linecard", "the pack rule widened to 'Pack' — 'Modular Services Card 1 Pack' is one card"],
+  ["ASR1000-SIP10-BUN", "linecard", "the same — 'SPA Interface Processor 10, Bundle Component' is one card"],
+  ["CRS-16-HRDDSK", "drive", "the CRS flash-disk rule widened to every CRS disk — 'CRS-1 Series Removable Hard disk for RPs' is a hard disk"],
+  ["NCS-6008-SYS-B", "chassis", "a -B suffix read as a bundle — 'NCS 6008 System (2RPs, 6FCs, 2 FANs, Power) - Bundle' is one enclosure"],
+  ["ASR1000-RP1-BUN", "processor", "the RP3 2-pack rule widened to every ASR1000-RP — 'Route Processor 1, 4GB DRAM, Bundle Component' is one card"],
+  ["CRS-16-FC140/M", "fabric", "the fabric 8-pack rule without its -8P/-BN fence — 'CRS-3 Series 16 Slots Fabric Card/Multi (140G)' is one card"],
+  ["CRS-FP140", "linecard", "the FP140 set rule without its -BUN/-M-PK fence — 'CRS-3 Forwarding Processor Card (140 Gbps)'"],
+  ["CRS-PLIM-PKG", "accessory", "the package-box 4-pack rule without -4PK — 'CRS-1 PLIM Package Box 1 Unit'"],
+  ["1OC768-POS-SR", "module", "the PLIM pack rule without -1PK-B/-4PK-B — 'CRS-1 Series 1xOC768/STM256 POS Interface Module/SR'"],
 
   // enterprise must not be swallowed by the SP families: the C8000 branch platforms lead with a C,
   // and they are the ONLY device parts that hold an IPsec, NAT or ACL figure.
@@ -296,7 +320,7 @@ const REFUSAL: [string, RouterKind, string][] = [
   ["IRMH-LTEA-LA", "module", "the battery rule widened to IRMH- — 'CAT6 LTEA Module for APAC, LATAM and ANZ'"],
   ["CISCO5940-RTM", "module", "the CISCO<n> memory fence widened to every rule — a Rear Transition Module card"],
   ["MEM-224-1X128D-U", "memory", "the flash suffix widened to any letter — 1X128D is a DRAM DIMM, 1X128F the flash"],
-  ["ISR4350U-MEM-MSATA", "memory", "flash on a 'Flash' NAME — 'Upgrade to 16GB DRAM/16GB Flash, 200GB mSATA SSD bundle' holds dram"],
+  ["ISR4350U-MEM-MSATA", "bundle", "flash on a 'Flash' NAME — 'Upgrade to 16GB DRAM/16GB Flash, 200GB mSATA SSD bundle' is DRAM + flash + SSD: a bundle since layers review A.4, and never flash"],
 ];
 
 for (const [sku, want, rule, name] of POSITIVE) {

@@ -1,7 +1,7 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-14T13:22:28.499Z",
+ "built_at": "2026-09-14T15:54:48.070Z",
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5470,
  "lines": [
@@ -134,18 +134,18 @@
   },
   {
    "line": "Catalyst 8000 Edge",
-   "parts": 224,
+   "parts": 222,
    "series": [
     {
      "series": "Catalyst 8200 Edge uCPE",
      "role": null,
      "note": null,
-     "parts": 18,
+     "parts": 17,
      "kinds": {
       "appliance": 2,
       "accessory": 2,
       "memory": 2,
-      "drive": 12
+      "drive": 11
      },
      "roles": {},
      "samples": [
@@ -158,7 +158,7 @@
      ],
      "rules": {
       "sku": 2,
-      "label": 6,
+      "label": 5,
       "name": 10
      }
     },
@@ -166,12 +166,12 @@
      "series": "Catalyst 8300 Edge uCPE",
      "role": null,
      "note": null,
-     "parts": 15,
+     "parts": 13,
      "kinds": {
       "appliance": 3,
       "mechanical": 1,
       "fan": 1,
-      "drive": 10
+      "drive": 8
      },
      "roles": {},
      "samples": [
@@ -184,21 +184,21 @@
      ],
      "rules": {
       "sku": 5,
-      "label": 10
+      "label": 8
      }
     },
     {
      "series": "Catalyst 8200",
      "role": "branch",
      "note": null,
-     "parts": 39,
+     "parts": 37,
      "kinds": {
       "module": 1,
       "router": 5,
       "accessory": 10,
       "mechanical": 7,
       "memory": 10,
-      "power": 6
+      "power": 4
      },
      "roles": {
       "branch": 5
@@ -212,7 +212,7 @@
       "C8200-NIM-BLANK= — Cisco C8200-NIM-BLANK="
      ],
      "rules": {
-      "label": 10,
+      "label": 8,
       "sku": 26,
       "name": 3
      }
@@ -221,15 +221,15 @@
      "series": "Catalyst 8300",
      "role": "branch",
      "note": null,
-     "parts": 72,
+     "parts": 74,
      "kinds": {
       "accessory": 7,
       "router": 8,
       "mechanical": 23,
       "fan": 5,
-      "drive": 3,
+      "drive": 4,
       "memory": 6,
-      "power": 20
+      "power": 21
      },
      "roles": {
       "branch": 8
@@ -243,24 +243,23 @@
       "C8300-1N1S-6T — Cisco Catalyst 8300 Edge platform with 1 SM, 1 NIM, and 1 PI"
      ],
      "rules": {
-      "name": 22,
+      "name": 23,
       "sku": 45,
-      "label": 5
+      "label": 6
      }
     },
     {
      "series": "Catalyst 8500L",
      "role": "edge",
      "note": null,
-     "parts": 22,
+     "parts": 21,
      "kinds": {
       "mechanical": 6,
       "router": 1,
       "fan": 1,
       "memory": 6,
       "accessory": 1,
-      "power": 6,
-      "drive": 1
+      "power": 6
      },
      "roles": {
       "edge": 1
@@ -275,22 +274,21 @@
      ],
      "rules": {
       "sku": 14,
-      "name": 7,
-      "label": 1
+      "name": 7
      }
     },
     {
      "series": "Catalyst 8500",
      "role": "edge",
      "note": null,
-     "parts": 39,
+     "parts": 38,
      "kinds": {
       "accessory": 6,
       "router": 5,
       "mechanical": 10,
       "fan": 2,
-      "drive": 6,
       "memory": 6,
+      "drive": 5,
       "power": 4
      },
      "roles": {
@@ -305,7 +303,7 @@
       "C8500-20X6C — Cisco Catalyst 8500 Series 20-port SFP+, 6-port QSFP+"
      ],
      "rules": {
-      "label": 4,
+      "label": 3,
       "sku": 25,
       "name": 10
      }
@@ -314,11 +312,11 @@
      "series": "Catalyst 8000 Edge shared parts",
      "role": null,
      "note": null,
-     "parts": 19,
+     "parts": 22,
      "kinds": {
       "mechanical": 10,
-      "cable": 4,
-      "drive": 5
+      "cable": 3,
+      "drive": 9
      },
      "roles": {},
      "samples": [
@@ -330,15 +328,15 @@
       "C-M2-BLANK= — Cisco Catalyst M.2 Disk Blank Spare"
      ],
      "rules": {
-      "accessory": 14,
-      "name": 5
+      "accessory": 13,
+      "name": 9
      }
     }
    ]
   },
   {
    "line": "ISR (Integrated Services Routers)",
-   "parts": 1298,
+   "parts": 1296,
    "series": [
     {
      "series": "ISR 1100",
@@ -376,7 +374,8 @@
       "fan": 10,
       "accessory": 2,
       "router": 85,
-      "memory": 24,
+      "bundle": 4,
+      "memory": 20,
       "flash": 14,
       "power": 36,
       "drive": 4
@@ -448,14 +447,14 @@
      "series": "ISR 800",
      "role": "branch",
      "note": null,
-     "parts": 356,
+     "parts": 354,
      "kinds": {
       "power": 44,
       "router": 277,
       "accessory": 7,
       "mechanical": 10,
-      "memory": 12,
       "module": 3,
+      "memory": 10,
       "flash": 3
      },
      "roles": {
@@ -470,7 +469,7 @@
       "800G2-POE-2 — 2 Port PoE Module for 880 Series Router"
      ],
      "rules": {
-      "label": 66,
+      "label": 64,
       "sku": 290
      }
     },
@@ -551,14 +550,14 @@
      "series": "ISR 2900",
      "role": "branch",
      "note": null,
-     "parts": 191,
+     "parts": 189,
      "kinds": {
-      "fan": 7,
+      "fan": 9,
       "mechanical": 9,
       "module": 3,
       "router": 101,
       "memory": 35,
-      "flash": 11,
+      "flash": 7,
       "drive": 2,
       "power": 23
      },
@@ -574,7 +573,7 @@
       "2921-51-FANASSY-2 — Cisco 2921/2951 Fan Assembly and Bezel"
      ],
      "rules": {
-      "label": 86,
+      "label": 84,
       "sku": 105
      }
     },
@@ -609,15 +608,15 @@
      "series": "ISR 3900",
      "role": "branch",
      "note": null,
-     "parts": 79,
+     "parts": 81,
      "kinds": {
-      "fan": 6,
+      "fan": 4,
       "mechanical": 1,
       "router": 57,
       "processor": 8,
       "chassis": 2,
       "memory": 1,
-      "flash": 4
+      "flash": 8
      },
      "roles": {
       "branch": 57
@@ -627,11 +626,11 @@
       "3900-FANASSY-2= — Cisco 3925/3945 Fan Assembly (no Bezel included)",
       "3900-FANASSY-N-2 — Cisco 3925/3945 Fan Assembly for NEBS (w/3900-FANFLTR-NEBS)",
       "3900-FANASSY-N-2= — Cisco 3925/3945 Fan Assembly for NEBS (w/3900-FANFLTR-NEBS)",
-      "3900-FANASSY-NEBS= — Cisco 3900-FANASSY-NEBS=",
-      "3900-FANASSY= — Cisco 3900-FANASSY="
+      "ACS-3900-RM-23= — 23 inch rack mount kit for Cisco 3925 - 3945EISR (only as sp",
+      "C1-CISCO3925/K9 — Cisco ONE - ISR 3925"
      ],
      "rules": {
-      "label": 11,
+      "label": 13,
       "sku": 68
      }
     },
@@ -642,9 +641,10 @@
      "parts": 139,
      "kinds": {
       "antenna": 42,
-      "cable": 76,
+      "cable": 75,
       "mechanical": 11,
       "power-cord": 9,
+      "bundle": 1,
       "accessory": 1
      },
      "roles": {},
@@ -664,19 +664,19 @@
   },
   {
    "line": "ASR (Aggregation Services Routers)",
-   "parts": 1079,
+   "parts": 1089,
    "series": [
     {
      "series": "ASR 901",
      "role": "sp-access",
      "note": "ASR-9010 chassis used to land here: the patterns had no digit fence (layers review 14 Sep 2026, item 1)",
-     "parts": 39,
+     "parts": 35,
      "kinds": {
-      "sp-router": 19,
+      "sp-router": 15,
       "mechanical": 20
      },
      "roles": {
-      "sp-access": 19
+      "sp-access": 15
      },
      "samples": [
       "A901-12C-F-D — Cisco ASR 901 Series Aggregation Services Router Chassis, Et",
@@ -687,7 +687,7 @@
       "A901-6CZ-F-D — Cisco ASR 901 Series Aggregation Services Router Chassis, Et"
      ],
      "rules": {
-      "sku": 39
+      "sku": 35
      }
     },
     {
@@ -753,15 +753,16 @@
      "series": "ASR 1000",
      "role": "edge",
      "note": null,
-     "parts": 325,
+     "parts": 346,
      "kinds": {
-      "mechanical": 38,
+      "mechanical": 40,
       "linecard": 24,
-      "processor": 35,
+      "processor": 33,
+      "bundle": 2,
       "power": 35,
       "fan": 6,
       "router": 97,
-      "module": 4,
+      "module": 23,
       "chassis": 34,
       "drive": 20,
       "memory": 32
@@ -779,7 +780,7 @@
      ],
      "rules": {
       "label": 10,
-      "sku": 315
+      "sku": 336
      }
     },
     {
@@ -796,10 +797,10 @@
      "series": "ASR 9000",
      "role": "sp-edge",
      "note": null,
-     "parts": 466,
+     "parts": 458,
      "kinds": {
-      "linecard": 220,
-      "processor": 65,
+      "linecard": 215,
+      "processor": 64,
       "fabric": 18,
       "power": 26,
       "fan": 27,
@@ -809,8 +810,8 @@
       "sp-router": 28,
       "chassis": 23,
       "appliance": 4,
-      "drive": 5,
-      "memory": 3
+      "drive": 4,
+      "memory": 2
      },
      "roles": {
       "sp-edge": 28
@@ -818,25 +819,25 @@
      "samples": [
       "A99-10X400GE-X-SE — ASR 9000 4T Service Edge Line Card - 5 th Generation",
       "A99-10X400GE-X-TR — ASR 9000 4T Packet Transport Line Card - 5 th Generation",
-      "A99-1200G-ADVRTNG — ASR 9900 Standard Advanced routing license for route scales ",
-      "A99-1200G-AIP — ASR 9900 Standard Advanced IP License to turn on full-scale ",
-      "A99-1200G-IVRF — ASR 9900 Standard License to activate up to 8 VRFs on 12x100",
-      "A99-12X100GE — ASR 9900 12-port 100GE Line Card"
+      "A99-12X100GE — ASR 9900 12-port 100GE Line Card",
+      "A99-12X100GE-CM — ASR 9900 12-port 100GE Consumption Model Line Card",
+      "A99-12X100GE-CM= — ASR 9900 12-port 100GE Consumption Model Line Card, Spare",
+      "A99-12X100GE-FC — ASR 9900 12x100GE Flexible Consumption Line Card"
      ],
      "rules": {
-      "sku": 441,
-      "label": 25
+      "sku": 436,
+      "label": 22
      }
     },
     {
      "series": "ASR (Aggregation Services Routers) shared parts",
      "role": null,
      "note": null,
-     "parts": 43,
+     "parts": 44,
      "kinds": {
-      "mechanical": 10,
-      "accessory": 6,
-      "cable": 27
+      "mechanical": 11,
+      "cable": 28,
+      "accessory": 5
      },
      "roles": {},
      "samples": [
@@ -848,7 +849,7 @@
       "CAB-9AS-M — 4-port EIA-232 DTE cable, 68-pin port, 10 ft. length, male D"
      ],
      "rules": {
-      "accessory": 43
+      "accessory": 44
      }
     }
    ]
@@ -901,13 +902,15 @@
     },
     {
      "series": "Cisco 7300",
-     "role": null,
-     "note": "one live row (CISCO7301/2+VPNK9, kind sp-router by the sp-legacy rule); no role assigned — the review's SP role table does not name the 7300 (layers review 14 Sep 2026, item 8)",
+     "role": "edge",
+     "note": "layers review C.4 (14 Sep 2026): the legacy 7200 / 7300 / 7600 follow one rule — kind router, role edge; CISCO7301/2+VPNK9 was sp-router by the sp-legacy token with no role",
      "parts": 1,
      "kinds": {
-      "sp-router": 1
+      "router": 1
      },
-     "roles": {},
+     "roles": {
+      "edge": 1
+     },
      "samples": [
       "CISCO7301/2+VPNK9 — Cisco CISCO7301/2+VPNK9"
      ],
@@ -919,15 +922,15 @@
   },
   {
    "line": "NCS (Network Convergence System)",
-   "parts": 671,
+   "parts": 668,
    "series": [
     {
      "series": "NCS 520, 540 and 560",
      "role": "sp-access",
      "note": null,
-     "parts": 131,
+     "parts": 128,
      "kinds": {
-      "sp-router": 52,
+      "sp-router": 49,
       "mechanical": 46,
       "fan": 8,
       "processor": 11,
@@ -936,18 +939,18 @@
       "power": 2
      },
      "roles": {
-      "sp-access": 52
+      "sp-access": 49
      },
      "samples": [
-      "N520-10G-2 — Cisco NCS 520 Series 2-Port 10G Upgrade License",
-      "N520-1G-8 — Cisco NCS 520 Series 8 Ports GE Upgrade License",
       "N520-20G4Z-A — Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp, AC power",
       "N520-20G4Z-A= — Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp",
       "N520-20G4Z-D — Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp, DC power",
-      "N520-20G4Z-D= — Cisco NCS 520 - 20xGE + 4x10GE, Industrial Temp"
+      "N520-20G4Z-D= — Cisco NCS 520 - 20xGE + 4x10GE, Industrial Temp",
+      "N520-4G4Z-A — Cisco NCS 520 - 4xGE + 4x10GE, Commercial Temp, AC power sup",
+      "N520-4G4Z-A-BUN — NCS 520 8-port, Commercial Temp, Promo Bundle"
      ],
      "rules": {
-      "sku": 131
+      "sku": 128
      }
     },
     {
@@ -1041,15 +1044,17 @@
     },
     {
      "series": "NCS 5000",
-     "role": null,
-     "note": "no role assigned: the review's SP role table does not name the NCS 5000 (5001/5002/5011) — open for the reviewer",
+     "role": "sp-edge",
+     "note": "layers review C.3 (14 Sep 2026): NCS 5001 / 5002 / 5011 are sp-edge",
      "parts": 38,
      "kinds": {
       "sp-router": 15,
       "mechanical": 13,
       "fan": 10
      },
-     "roles": {},
+     "roles": {
+      "sp-edge": 15
+     },
      "samples": [
       "NCS-5001 — Cisco NCS 5001 Series Router",
       "NCS-5001-BUN — Cisco NCS 5001 Series Routing System Bundle",
@@ -1068,7 +1073,8 @@
      "note": null,
      "parts": 155,
      "kinds": {
-      "linecard": 40,
+      "linecard": 31,
+      "bundle": 9,
       "mechanical": 58,
       "fan": 6,
       "fabric": 12,
@@ -1119,17 +1125,17 @@
   },
   {
    "line": "Cisco 8000",
-   "parts": 195,
+   "parts": 194,
    "series": [
     {
      "series": "Cisco 8000",
      "role": "sp-core",
      "note": null,
-     "parts": 161,
+     "parts": 160,
      "kinds": {
       "accessory": 20,
       "mechanical": 15,
-      "sp-router": 36,
+      "sp-router": 35,
       "module": 9,
       "power": 17,
       "fan": 21,
@@ -1140,18 +1146,18 @@
       "power-cord": 1
      },
      "roles": {
-      "sp-core": 36
+      "sp-core": 35
      },
      "samples": [
       "8000-OSFP-DCAP — Cisco 8000-OSFP-DCAP",
       "8000-QSFP-DCAP — QSFP Dust CAP",
-      "8010-FC-SW — Standard SW ATO FCM 2.0 for Cisco 8010 Series",
       "8011-12G12X4Y-A — Cisco 8011-12G12X4Y-A",
       "8011-12G12X4Y-A/D — Cisco 8011-12G12X4Y-A/D",
-      "8011-12G12X4Y-A= — Cisco 8011-12G12X4Y-A="
+      "8011-12G12X4Y-A= — Cisco 8011-12G12X4Y-A=",
+      "8011-12G12X4Y-D — Cisco 8010 12x1G + 12x10G + 4x25G fixed DC system"
      ],
      "rules": {
-      "sku": 130,
+      "sku": 129,
       "label": 31
      }
     },
@@ -1190,24 +1196,25 @@
      "note": null,
      "parts": 721,
      "kinds": {
-      "module": 61,
-      "linecard": 88,
-      "bundle": 9,
-      "sp-router": 7,
-      "mechanical": 150,
+      "module": 54,
+      "bundle": 64,
+      "linecard": 79,
+      "sp-router": 5,
+      "mechanical": 148,
       "power": 66,
       "power-cord": 18,
-      "accessory": 32,
-      "chassis": 55,
-      "fan": 20,
-      "fabric": 58,
-      "drive": 7,
+      "accessory": 27,
+      "chassis": 52,
+      "fan": 18,
+      "fabric": 36,
+      "drive": 2,
       "processor": 29,
       "cable": 118,
-      "memory": 3
+      "memory": 3,
+      "flash": 2
      },
      "roles": {
-      "sp-core": 7
+      "sp-core": 5
      },
      "samples": [
       "1-100GE-DWDM/C — Cisco CRS Series 1x100GE Integrated DWDM Interface Module",
@@ -1226,7 +1233,7 @@
   },
   {
    "line": "Industrial and IoT Routers",
-   "parts": 270,
+   "parts": 330,
    "series": [
     {
      "series": "IR 1101",
@@ -1251,10 +1258,11 @@
      "series": "IR 1800",
      "role": "industrial-iot",
      "note": null,
-     "parts": 11,
+     "parts": 13,
      "kinds": {
       "accessory": 1,
       "router": 6,
+      "mechanical": 2,
       "cable": 3,
       "antenna": 1
      },
@@ -1271,18 +1279,19 @@
      ],
      "rules": {
       "label": 5,
-      "sku": 6
+      "sku": 8
      }
     },
     {
      "series": "IR 8100",
      "role": "industrial-iot",
      "note": null,
-     "parts": 9,
+     "parts": 40,
      "kinds": {
-      "accessory": 4,
+      "accessory": 9,
       "antenna": 1,
-      "router": 4
+      "router": 4,
+      "module": 26
      },
      "roles": {
       "industrial-iot": 4
@@ -1292,34 +1301,40 @@
       "IR-ANT-PLUG — Cisco IR-ANT-PLUG",
       "IR-BAND — Cisco IR-BAND",
       "IR-IP67GLAND — Cisco IR-IP67GLAND",
-      "IR-PMK — Cisco IR-PMK",
-      "IR8140H-K9 — Cisco Catalyst IR8100 Series Industrial Router"
+      "IR-IP67GLAND= — Cisco IR-IP67GLAND=",
+      "IR-PMK — Cisco IR-PMK"
      ],
      "rules": {
-      "label": 5,
-      "sku": 4
+      "label": 7,
+      "sku": 33
      }
     },
     {
      "series": "IR 8300",
      "role": "industrial-iot",
      "note": null,
-     "parts": 3,
+     "parts": 11,
      "kinds": {
       "router": 1,
-      "power": 2
+      "module": 3,
+      "mechanical": 2,
+      "drive": 1,
+      "power": 4
      },
      "roles": {
       "industrial-iot": 1
      },
      "samples": [
       "IR8340-K9 — Cisco Catalyst IR8340 Rugged Router - 67.5 base watts, 21 lb",
-      "PWR-RGD-AC-DC — High AC/DC (100-250 VDC/100-240 VAC) - 2.5 lb/1.13 kg",
-      "PWR-RGD-LOW-DC — Low DC (24-60 VDC) - 2.5 lb/1.13 kg"
+      "IRM-NIM-2T1E1 — IR Series 2-port T1/E1 Network Interface Module - 6.5 Watts,",
+      "IRM-NIM-BLNK — Blank for NIM slot",
+      "IRM-NIM-RS232 — IR Series RS232 8-port Serial Network Interface Module - 5.5",
+      "IRM-SSD-100G — mSATA storage – 100 GB, Spare",
+      "IRM-SSD-Blank — Blank for SSD"
      ],
      "rules": {
-      "sku": 1,
-      "label": 2
+      "sku": 7,
+      "label": 4
      }
     },
     {
@@ -1376,11 +1391,12 @@
      "series": "CGR 1000 Connected Grid",
      "role": "industrial-iot",
      "note": null,
-     "parts": 67,
+     "parts": 69,
      "kinds": {
       "module": 37,
-      "accessory": 12,
+      "accessory": 10,
       "mechanical": 8,
+      "power-cord": 4,
       "power": 1,
       "router": 1,
       "memory": 2,
@@ -1398,24 +1414,25 @@
       "CGM-3G-EVDO-V= — Connected Grid Module - 3G Verizon EV-DO Rev A/0/1xRTT"
      ],
      "rules": {
-      "sku": 41,
-      "label": 26
+      "sku": 45,
+      "label": 24
      }
     },
     {
      "series": "CGR 2010 Connected Grid",
      "role": "industrial-iot",
      "note": null,
-     "parts": 16,
+     "parts": 37,
      "kinds": {
       "mechanical": 4,
-      "router": 7,
-      "power": 3,
+      "router": 6,
+      "power": 1,
+      "module": 22,
+      "accessory": 2,
       "flash": 2
      },
      "roles": {
-      "industrial-iot": 6,
-      "(kind issue)": 1
+      "industrial-iot": 6
      },
      "samples": [
       "ACS-2000-RMRGD-19= — Rack Mount Kit Spare 19",
@@ -1426,8 +1443,8 @@
       "CGR-2010/K9-C — Cisco CGR2010 w/2GE, 4 GRWIC slots, 256MB CF, 1GB DRAM, IPB"
      ],
      "rules": {
-      "sku": 9,
-      "label": 7
+      "sku": 32,
+      "label": 5
      }
     },
     {
@@ -1507,25 +1524,25 @@
      "series": "Industrial and IoT Routers shared parts",
      "role": null,
      "note": null,
-     "parts": 74,
+     "parts": 70,
      "kinds": {
       "antenna": 40,
       "accessory": 2,
       "mechanical": 3,
       "cable": 20,
-      "power-cord": 9
+      "power-cord": 5
      },
      "roles": {},
      "samples": [
       "4G-ACC-OUT-LA — Lightning Arrestor",
+      "4G-ACC-OUT-LA= — Cisco 4G-ACC-OUT-LA=",
       "4G-LTE-ANTM-O-3-B — Cisco 4G-LTE-ANTM-O-3-B",
       "5G-ANTM-O-4-B — Cisco 5G-ANTM-O-4-B",
       "5G-ANTM-SMA-D — Cisco 5G-ANTM-SMA-D",
-      "ACC-LA-G-SM-SF — Cisco ACC-LA-G-SM-SF",
-      "ACC-LA-G-TM-TF — Cisco ACC-LA-G-TM-TF"
+      "ACC-LA-G-SM-SF — Cisco ACC-LA-G-SM-SF"
      ],
      "rules": {
-      "accessory": 74
+      "accessory": 70
      }
     }
    ]
@@ -1660,28 +1677,29 @@
   },
   {
    "line": "Console and Terminal Servers",
-   "parts": 7,
+   "parts": 8,
    "series": [
     {
      "series": "Secure Console",
      "role": null,
      "note": null,
-     "parts": 4,
+     "parts": 5,
      "kinds": {
       "appliance": 1,
       "accessory": 1,
-      "power": 2
+      "power": 3
      },
      "roles": {},
      "samples": [
       "C8220TG-48A-O — Cisco C8220TG-48A-O",
       "C8220TG-ACCKIT-19 — Cisco C8220TG-ACCKIT-19",
       "PWR-CC1-250WAC — Cisco PWR-CC1-250WAC",
-      "PWR-CC1-250WAC/2 — Cisco PWR-CC1-250WAC/2"
+      "PWR-CC1-250WAC/2 — Cisco PWR-CC1-250WAC/2",
+      "PWR-CC1-250WAC= — Cisco PWR-CC1-250WAC="
      ],
      "rules": {
       "sku": 2,
-      "label": 2
+      "label": 3
      }
     },
     {
@@ -1711,7 +1729,7 @@
     {
      "series": "NIM (Network Interface Modules)",
      "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
      "kinds": {},
      "roles": {},
@@ -1721,7 +1739,7 @@
     {
      "series": "SM-X and SM Service Modules",
      "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
      "kinds": {},
      "roles": {},
@@ -1731,7 +1749,7 @@
     {
      "series": "ISM / EM Internal Service Modules",
      "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
      "kinds": {},
      "roles": {},
@@ -1741,7 +1759,7 @@
     {
      "series": "EHWIC / HWIC / VWIC / WIC",
      "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
      "kinds": {},
      "roles": {},
@@ -1751,7 +1769,7 @@
     {
      "series": "NM / NME Network Modules",
      "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
      "kinds": {},
      "roles": {},
@@ -1761,7 +1779,7 @@
     {
      "series": "PVDM Voice DSP Modules",
      "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
      "kinds": {},
      "roles": {},
@@ -1771,7 +1789,7 @@
     {
      "series": "VIC Voice Interface Cards",
      "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
      "kinds": {},
      "roles": {},
@@ -1781,27 +1799,7 @@
     {
      "series": "SPA Shared Port Adapters",
      "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
-     "parts": 0,
-     "kinds": {},
-     "roles": {},
-     "samples": [],
-     "rules": {}
-    },
-    {
-     "series": "EPA Ethernet Port Adapters",
-     "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
-     "parts": 0,
-     "kinds": {},
-     "roles": {},
-     "samples": [],
-     "rules": {}
-    },
-    {
-     "series": "GRWIC Grid Router Interface Cards",
-     "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
      "kinds": {},
      "roles": {},
@@ -1811,7 +1809,7 @@
     {
      "series": "Pluggable Interface Modules (LTE / 5G)",
      "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
      "kinds": {},
      "roles": {},
@@ -1819,9 +1817,9 @@
      "rules": {}
     },
     {
-     "series": "IR Expansion and Pluggable Modules",
+     "series": "WP pluggable modules (IoT routers)",
      "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
      "kinds": {},
      "roles": {},
@@ -1831,7 +1829,7 @@
     {
      "series": "Cellular Cards (MC / PCEX / WIM)",
      "role": null,
-     "note": "every row of this line carries a move plan to interfaces-modules, the single home decided in the layers review (14 Sep 2026, item 7); the series stays so an unrun or refused move is still placed",
+     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series)",
      "parts": 0,
      "kinds": {},
      "roles": {},
@@ -1841,29 +1839,7 @@
    ]
   }
  ],
- "not_this_category": [
-  {
-   "sku": "15454-M-CBL-L-JPN",
-   "name": "AC power cable - Japan left exit",
-   "series_label": "Network Convergence System 5500 Series",
-   "why": "ONS 15454 / NCS 2000 MSTP chassis AC power cable (Japan), filed under the NCS 5500 label (layers review 14 Sep 2026, item 2)",
-   "belongs": "optical-networking"
-  },
-  {
-   "sku": "15454-M-CBL-R-JPN",
-   "name": "AC power cable - Japan right exit",
-   "series_label": "Network Convergence System 5500 Series",
-   "why": "ONS 15454 / NCS 2000 MSTP chassis AC power cable (Japan), filed under the NCS 5500 label (layers review 14 Sep 2026, item 2)",
-   "belongs": "optical-networking"
-  },
-  {
-   "sku": "CW-SFP-KIT1",
-   "name": "SFP Installation Kit for IE-3500H-12P2MU2X",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "why": "SFP installation kit for the IE-3500H industrial switch",
-   "belongs": "switches"
-  }
- ],
+ "not_this_category": [],
  "pending_plans": [
   {
    "sku": "14X10GBE-PK",
@@ -1872,6 +1848,22 @@
    "action": "class",
    "to": "non_product",
    "reason": "Cisco 'Phantom PID' — an ordering construct, not a shipped part"
+  },
+  {
+   "sku": "15454-M-CBL-L-JPN",
+   "name": "AC power cable - Japan left exit",
+   "series_label": "Network Convergence System 5500 Series",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "ONS 15454 / NCS 2000 MSTP chassis AC power cable (Japan), filed under the NCS 5500 label (layers review 14 Sep 2026, item 2)"
+  },
+  {
+   "sku": "15454-M-CBL-R-JPN",
+   "name": "AC power cable - Japan right exit",
+   "series_label": "Network Convergence System 5500 Series",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "ONS 15454 / NCS 2000 MSTP chassis AC power cable (Japan), filed under the NCS 5500 label (layers review 14 Sep 2026, item 2)"
   },
   {
    "sku": "1FXO",
@@ -2026,6 +2018,14 @@
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
   },
   {
+   "sku": "8010-FC-SW",
+   "name": "Standard SW ATO FCM 2.0 for Cisco 8010 Series",
+   "series_label": "8000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware (the 8010 twin of 8K-SW-FC 'Standard SW ATO FCM 2.0', already planned license)"
+  },
+  {
    "sku": "8FXS",
    "name": "Cisco 8FXS",
    "series_label": "2900 ISR",
@@ -2064,6 +2064,46 @@
    "action": "class",
    "to": "software",
    "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "A99-1200G-ADVRTNG",
+   "name": "ASR 9900 Standard Advanced routing license for route scales exceeding 128K for IPv4 and 64K for IPv6 per 12-port 100GE line card",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
+  },
+  {
+   "sku": "A99-1200G-AIP",
+   "name": "ASR 9900 Standard Advanced IP License to turn on full-scale VRF instances per 12-port 100-GE line card",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
+  },
+  {
+   "sku": "A99-1200G-IVRF",
+   "name": "ASR 9900 Standard License to activate up to 8 VRFs on 12x100GE Line Card",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
+  },
+  {
+   "sku": "A9K-400G-L-AIP",
+   "name": "ASR 9K Standard License Advanced IP for 4-port 100GE LAN Line Card",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware (layers review C.7, named)"
+  },
+  {
+   "sku": "A9K-4HG-200G-DWDM=",
+   "name": "PAYG for 200Gbs use in 400G IPoDWDM cards",
+   "series_label": "ASR 9000",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware (pay-as-you-grow bandwidth for the IPoDWDM card)"
   },
   {
    "sku": "ABLT-D",
@@ -2426,6 +2466,14 @@
    "reason": "licence / right-to-use / subscription PID"
   },
   {
+   "sku": "CGR2010/NFR",
+   "name": "CGR 2010 Channel Kit",
+   "series_label": "2000 Series Connected Grid",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not-for-resale channel kit of the CGR 2010 (layers review C.5)"
+  },
+  {
    "sku": "CISCO-MATE-STE",
    "name": "Cisco MATE Suite",
    "series_label": "WAN Automation Engine (WAE)",
@@ -2544,6 +2592,14 @@
    "action": "class",
    "to": "non_product",
    "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
+  },
+  {
+   "sku": "CW-SFP-KIT1",
+   "name": "SFP Installation Kit for IE-3500H-12P2MU2X",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "SFP installation kit for the IE-3500H industrial switch"
   },
   {
    "sku": "CW9177D",
@@ -2714,174 +2770,6 @@
    "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
   },
   {
-   "sku": "EPA-10X10GE",
-   "name": "Cisco ASR 1000 10x10GE Ethernet Port Adapter",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-10X10GE++=",
-   "name": "ASR1000 10X10GE Ethernet Port Adapter, TAA, Spare",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-10X10GE=",
-   "name": "Cisco ASR 1000 10x10GE Ethernet Port Adapter, spare",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-18X1GE",
-   "name": "Cisco ASR 1000 18x1GE Ethernet Port Adapter",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-18X1GE++=",
-   "name": "ASR1000 18X1GE Ethernet Port Adapter, TAA, Spare",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-18X1GE-PR",
-   "name": "ASR1000 18X1GE EPA Promotion",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-18X1GE-PR=",
-   "name": "ASR1000 18X1GE EPA Spare Promotion",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-18X1GE=",
-   "name": "Cisco ASR 1000 18x1GE Ethernet Port Adapter, spare",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-1X100GE",
-   "name": "Cisco ASR 1000 1x100GE Ethernet Port Adapter",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-1X100GE++=",
-   "name": "ASR1000 1X100GE Ethernet Port Adapter, TAA, Spare",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-1X100GE=",
-   "name": "Cisco ASR 1000 1x100GE Ethernet Port Adapter, spare",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-1X40GE",
-   "name": "Cisco ASR 1000 1x40GE Ethernet Port Adapter (2 physical QSFP ports – optional license to enable 2 nd port)",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-1X40GE=",
-   "name": "Cisco ASR 1000 1x40GE Ethernet Port Adapter (2 physical QSFP ports – optional license to enable 2 nd port), spare",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-2X40GE",
-   "name": "Cisco ASR 1000 2x40GE Ethernet Port Adapter (Native QSFP)",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-2X40GE=",
-   "name": "Cisco ASR 1000 2x40GE Ethernet Port Adapter (Native QSFP), spare",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-BLANK",
-   "name": "Ethernet Port Adapter (EPA) Blank Cover",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-BLANK=",
-   "name": "Ethernet Port Adapter (EPA) Blank Cover, spare",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-CPAK-2X40GE",
-   "name": "Cisco ASR 1000 2x40GE Ethernet Port Adapter (breakout cable)",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-CPAK-2X40GE=",
-   "name": "Cisco ASR 1000 2x40GE Ethernet Port Adapter (breakout cable), spare",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-QSFP-1X100GE",
-   "name": "Cisco ASR 1000 1x100GE Ethernet Port Adapter (QSFP)",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "EPA-QSFP-1X100GE=",
-   "name": "Cisco ASR 1000 1x100GE QSFP Ethernet Port Adapter, spare",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
    "sku": "ESS-ADN-8KSW-100G",
    "name": "Essential to Advantage Right-to-Use 100G Cisco 8000 Series",
    "series_label": "8000",
@@ -2896,6 +2784,22 @@
    "action": "class",
    "to": "license",
    "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "FL-8XX-512U1GB",
+   "name": "512 MB DRAM upgrade to 1 GB for Cisco 892FSP, 896VA, 897VA, 897VAB, 898EA, 891F model (Feature License)",
+   "series_label": "800",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware ('DRAM upgrade … (Feature License)': an FL- feature licence, kind memory until now)"
+  },
+  {
+   "sku": "FL-8XX-512U1GB=",
+   "name": "CISCO800 DRAM Upgrade from 512MB to 1GB",
+   "series_label": "800",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware (the spare of the feature licence; A.1 one class for X and X=)"
   },
   {
    "sku": "FL-SRE-WLC-25",
@@ -2928,6 +2832,38 @@
    "action": "class",
    "to": "license",
    "reason": "licence / right-to-use / subscription PID"
+  },
+  {
+   "sku": "FLS-A901-4S",
+   "name": "Cisco ASR 901 4 Port SFP GE Upgrade - Physical",
+   "series_label": "ASR 901",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware ('Upgrade - Physical' is the physical delivery of the licence its spare names)"
+  },
+  {
+   "sku": "FLS-A901-4S=",
+   "name": "ASR 901 4 Port SFP GE Upgrade License: Paper License",
+   "series_label": "ASR 901",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
+  },
+  {
+   "sku": "FLS-A901-4T",
+   "name": "Cisco ASR 901 4 Port Copper GE Upgrade - Physical",
+   "series_label": "ASR 901",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware (the same)"
+  },
+  {
+   "sku": "FLS-A901-4T=",
+   "name": "ASR 901 4 Port Copper GE Upgrade License: Paper License",
+   "series_label": "ASR 901",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
   },
   {
    "sku": "FW-7430-LTE-AU",
@@ -3074,198 +3010,6 @@
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
   },
   {
-   "sku": "GRWIC-1CE1T1-PRI",
-   "name": "1 port channelized T1/E1 and PRI GRWIC",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-1CE1T1-PRI=",
-   "name": "1 port channelized T1/E1 and PRI GRWIC (data only)",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-2CE1T1-PRI",
-   "name": "2 port channelized T1/E1 and PRI GRWIC",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-2CE1T1-PRI=",
-   "name": "2 port channelized T1/E1 and PRI GRWIC (data only)",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-4G-LTE-A",
-   "name": "Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for ATT",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-4G-LTE-A=",
-   "name": "Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for ATT",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-4G-LTE-EA",
-   "name": "Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for EMEA, N America regions",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-4G-LTE-EA=",
-   "name": "Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for EMEA, N America regions, spare",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-4G-LTE-G",
-   "name": "Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC - Global",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-4G-LTE-G=",
-   "name": "Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC - Global",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-4G-LTE-LA",
-   "name": "Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for L America, APJC regions",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-4G-LTE-LA=",
-   "name": "Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for L America, APJC regions, spare",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-4G-LTE-V",
-   "name": "Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for VZW",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-4G-LTE-V=",
-   "name": "Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for VZW",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-4T",
-   "name": "4-Port Serial GRWIC",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-4T=",
-   "name": "4-Port Serial GRWIC",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-8A/S-232",
-   "name": "8-Port Async/Sync Serial GRWIC, EIA-232",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-8A/S-232=",
-   "name": "8-Port Async/Sync Serial GRWIC, EIA-232",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-BLANK",
-   "name": "GRWIC Blank",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-BLANK=",
-   "name": "GRWIC Blank",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-D-ES-2S-8PC=",
-   "name": "EtherSwitch 8x 10/100T (4 PoE) ports + 2 100/1000 SFP",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-D-ES-6S=",
-   "name": "EtherSwitch 4 100FX SFP ports + 2 100/1000 SFP",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-ISDN-1B-S/T",
-   "name": "Cisco Connected Grid ISDN BRI S/T GRWIC",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "GRWIC-ISDN-1B-S/T=",
-   "name": "Cisco Connected Grid ISDN BRI S/T GRWIC",
-   "series_label": "2000 Series Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
    "sku": "H.323",
    "name": "Cisco H.323",
    "series_label": "2900 ISR",
@@ -3400,302 +3144,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "IRM-1800-M12KIT",
-   "name": "M12 Conversion Kit for IR1800",
-   "series_label": "Catalyst IR1800 Rugged",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRM-1800-M12KIT=",
-   "name": "M12 Conversion Kit for IR1800 - Spare",
-   "series_label": "Catalyst IR1800 Rugged",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRM-NIM-2T1E1",
-   "name": "IR Series 2-port T1/E1 Network Interface Module - 6.5 Watts, 0.6 lb/0.27 kg",
-   "series_label": "Catalyst IR8300 Rugged Series Router",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRM-NIM-BLNK",
-   "name": "Blank for NIM slot",
-   "series_label": "Catalyst IR8300 Rugged Series Router",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRM-NIM-RS232",
-   "name": "IR Series RS232 8-port Serial Network Interface Module - 5.5 Watts, 0.55 lb/0.24 kg Cable options: CAB-HD4-232MT – 4 port EIA 232-DTE, 10ft, Male DB-25 CAB-HD4-232FC – 4 port EIA 232 DCE, 10ft, Female DB-25 CAB-QUAD-ASYNC-M - 4 port EIA-232 DTE, 10ft, Male RJ-45 CAB-QUAD-ASYNC-F – 4 port EIA232 DTE, 10ft, Female RJ-45 CAB-9AS-M - 4 port EIA-232 DTE, 10ft, Male DB-9",
-   "series_label": "Catalyst IR8300 Rugged Series Router",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRM-SSD-100G",
-   "name": "mSATA storage – 100 GB, Spare",
-   "series_label": "Catalyst IR8300 Rugged Series Router",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRM-SSD-Blank",
-   "name": "Blank for SSD",
-   "series_label": "Catalyst IR8300 Rugged Series Router",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRM-TIMING-MOD",
-   "name": "IR Series Timing Module: PTP IEEE 1588 v2, 8275.1, 8265.1, GNSS (SMA Connector) 25db CNR threshold, Constellation (BeiDou, Galileo, GLONASS, GPS) IRIG-B (Mini BNC), SyncE, TOD/1PPS (G.703), Stratum 3E OCXO - 6 Watts, 0.45lb/0.2 kg",
-   "series_label": "Catalyst IR8300 Rugged Series Router",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-5GR16SA",
-   "name": "Cisco IRMH-5GR16SA",
-   "series_label": "Catalyst IR8100 Heavy Duty",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-5GR16SA=",
-   "name": "Cisco IRMH-5GR16SA=",
-   "series_label": "Catalyst IR8100 Heavy Duty",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-5GS6-GL",
-   "name": "5G Sub-6 GHz Pluggable Interface Module (UIM) for IR8140",
-   "series_label": "Catalyst IR8100 Heavy Duty",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-5GS6-GL=",
-   "name": "5G Sub-6 GHz Pluggable Interface Module (UIM) for IR8140",
-   "series_label": "Catalyst IR8100 Heavy Duty",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-BATT-4AH",
-   "name": "Cisco IRMH-BATT-4AH",
-   "series_label": "Catalyst IR8100 Heavy Duty",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-BATT-BRKT",
-   "name": "Cisco IRMH-BATT-BRKT",
-   "series_label": "Catalyst IR8100 Heavy Duty",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRMH-LTE-MNA",
-   "name": "Multi-carrier band-14 CAT4 LTE Module for North America",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRMH-LTE-MNA-900",
-   "name": "Multi-carrier band-14 CAT4 LTE Module for NA w/900Mhz filter",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRMH-LTE-MNA-900=",
-   "name": "Multi-carrier band-14 CAT4 LTE Module for NA w/900Mhz filter",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRMH-LTE-MNA=",
-   "name": "Multi-carrier band-14 CAT4 LTE Module for North America",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRMH-LTE7-EAL-900",
-   "name": "Cisco IRMH-LTE7-EAL-900",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-LTE7-EAL-900=",
-   "name": "Cisco IRMH-LTE7-EAL-900=",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-LTE7-NA-900",
-   "name": "Cisco IRMH-LTE7-NA-900",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-LTE7-NA-900=",
-   "name": "Cisco IRMH-LTE7-NA-900=",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-LTEA-EA",
-   "name": "CAT6 LTEA Module for Europe and North America",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRMH-LTEA-EA-900",
-   "name": "CAT6 LTEA Module for North America w/900Mhz filter",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRMH-LTEA-EA-900=",
-   "name": "CAT6 LTEA Module for North America w/900Mhz filter",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRMH-LTEA-EA=",
-   "name": "CAT6 LTEA Module for Europe and North America",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRMH-LTEA-LA",
-   "name": "CAT6 LTEA Module for APAC, LATAM and ANZ",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRMH-LTEA-LA=",
-   "name": "CAT6 LTEA Module for APAC, LATAM and ANZ",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRMH-LTEAP18-GL",
-   "name": "CAT18 LTEA PRO Module for ALL Global Regions",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-LTEAP18-GL=",
-   "name": "CAT18 LTEA PRO Module for ALL Global Regions",
-   "series_label": "1000",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-SEC-BRKT",
-   "name": "Cisco IRMH-SEC-BRKT",
-   "series_label": "Catalyst IR8100 Heavy Duty",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
-  },
-  {
-   "sku": "IRMH-WPAN-ANZ",
-   "name": "Cisco IRMH-WPAN-ANZ",
-   "series_label": "1000 Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-WPAN-ANZ=",
-   "name": "Cisco IRMH-WPAN-ANZ=",
-   "series_label": "1000 Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-WPAN-BRZ",
-   "name": "Cisco IRMH-WPAN-BRZ",
-   "series_label": "Catalyst IR8100 Heavy Duty",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-WPAN-BRZ=",
-   "name": "Cisco IRMH-WPAN-BRZ=",
-   "series_label": "1000 Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-WPAN-NA",
-   "name": "Cisco IRMH-WPAN-NA",
-   "series_label": "Catalyst IR8100 Heavy Duty",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
-  },
-  {
-   "sku": "IRMH-WPAN-NA=",
-   "name": "Cisco IRMH-WPAN-NA=",
-   "series_label": "1000 Connected Grid",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
   },
   {
    "sku": "ISM-SRE-300-K9",
@@ -4048,6 +3496,30 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "N520-10G-2",
+   "name": "Cisco NCS 520 Series 2-Port 10G Upgrade License",
+   "series_label": "Network Convergence System 500",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
+  },
+  {
+   "sku": "N520-1G-8",
+   "name": "Cisco NCS 520 Series 8 Ports GE Upgrade License",
+   "series_label": "Network Convergence System 500",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
+  },
+  {
+   "sku": "N520-S-M",
+   "name": "Metro Access License (base software)",
+   "series_label": "Network Convergence System 500",
+   "action": "class",
+   "to": "license",
+   "reason": "licence / right-to-use PID: the name states a licence, not hardware (base software)"
   },
   {
    "sku": "NA/250M",
@@ -6570,6 +6042,14 @@
    "reason": "software image / firmware / software product PID"
   },
   {
+   "sku": "UCS-CPU-5120=",
+   "name": "2.2 GHz 5120/105W 14C/19.25MB Cache/DDR4 2400MHz",
+   "series_label": "ASR 9000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a UCS server CPU spare (Intel Xeon Gold 5120), filed under the ASR 9000 label: a generic UCS part (the XRv 9000 appliance is a UCS C220; its platform-bound XRV-FAN-C220M4= stays in routers)"
+  },
+  {
    "sku": "UCS-E1100D-M6/K9",
    "name": "UCS-E, double-wide, Intel Icelake 10-core CPU; up to 128 GB RAM, 1-4 SSD",
    "series_label": "Catalyst 8300",
@@ -6600,6 +6080,22 @@
    "action": "move",
    "to": "interfaces-modules",
    "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs"
+  },
+  {
+   "sku": "UCS-M2-240GB=",
+   "name": "Cisco UCS-M2-240GB=",
+   "series_label": "ASR 9000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a UCS server M.2 boot drive spare, filed under the ASR 9000 label: a generic UCS part (the XRv 9000 appliance is a UCS C220; its platform-bound XRV-FAN-C220M4= stays in routers)"
+  },
+  {
+   "sku": "UCS-MR-X16G1RS-H=",
+   "name": "Cisco UCS-MR-X16G1RS-H=",
+   "series_label": "ASR 9000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a UCS server DIMM spare (16GB RDIMM), filed under the ASR 9000 label: a generic UCS part (the XRv 9000 appliance is a UCS C220; its platform-bound XRV-FAN-C220M4= stays in routers)"
   },
   {
    "sku": "UCSC-C220-M5SX=",

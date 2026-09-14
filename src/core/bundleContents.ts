@@ -148,6 +148,9 @@ export function bundleContents(name: string | null | undefined, sku?: string): B
       if (made.cls === "server" && /for\s*$/i.test(s.slice(Math.max(0, m.index - 5), m.index))) continue;
       // "UCS C3260 Base Chassis" is ONE device: a chassis word right after a server model is its noun.
       if (made.cls === "chassis" && hits.some((h) => h.cls === "server" && h.end <= m!.index && m!.index - h.end <= 8)) continue;
+      // layers review A.4 (14 Sep 2026): "SUP8E and MGIG upgrade for 7 slot chassis bundle", "CRS 16 slot Line Card Chassis
+      // Filter - 5 Pack" name the chassis the parts are FOR. Read as a line they gave "1x chassis" to a bundle with no chassis.
+      if (made.cls === "chassis" && /(?:slots?|line\s*card|for)\s*$/i.test(s.slice(Math.max(0, m.index - 14), m.index))) continue;
       if (hits.some((h) => h.item === made.item)) continue;
       hits.push({ start: m.index, end: m.index + m[0].length, n: 1, ...made });
     }
@@ -173,6 +176,17 @@ export function bundleContents(name: string | null | undefined, sku?: string): B
     return { ok: false, reason: `unrecognised counted item "${m[0].trim()}"` };
   }
   if (!hits.length) return { ok: false, reason: "the name states no contents" };
+  // layers review A.4 (14 Sep 2026): a switch model the vocabulary has no line for. "Cisco One Nexus 5596UP/4 x FEX" parsed
+  // as ["4x Nexus 2232 fabric extender"] — the parent switch silently absent, and a FEX model the name never states. A named
+  // Nexus / Catalyst model outside every hit refuses the row: an unread device makes the list incomplete while looking complete.
+  // The same for a FEX word no hit consumed: "N6004 Chassis with 8 x 10G FEXes" parsed as ["1x chassis"], because "8 x 10G"
+  // is a build token to the UCS reading and the eight fabric extenders were never a line.
+  const NAMED_SWITCH = /(?<![A-Za-z])(?:(?:Nexus|Catalyst)\s?(\d{3,5}[A-Z]{0,3})(?![0-9])|FEX(?:es|e)?(?![A-Za-z]))/gi;
+  for (let m = NAMED_SWITCH.exec(s); m; m = NAMED_SWITCH.exec(s)) {
+    const model = m[1]?.toUpperCase();
+    if (!hits.some((h) => m!.index < h.end && m!.index + m![0].length > h.start) && !(model && hits.some((h) => h.item.includes(model))))
+      return { ok: false, reason: `names a device with no line in the vocabulary: "${m[0].trim()}"` };
+  }
   hits.sort((a, b) => a.start - b.start);
   return { ok: true, items: hits.map((h) => `${h.n}x ${h.item}`), because: "name" };
 }

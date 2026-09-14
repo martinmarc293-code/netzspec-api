@@ -12,7 +12,7 @@ import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
 import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult } from "../src/core/deployRole.js";
-import { lineFilePath, loadLineFile, placePart } from "../src/core/productLine.js";
+import { lineFilePath, loadLineFile, placeWithSpareRule } from "../src/core/productLine.js";
 import { closePool, query } from "../src/store/db.js";
 
 const arg = (k: string): string | null => { const i = process.argv.indexOf(k); return i >= 0 ? process.argv[i + 1] ?? null : null; };
@@ -80,6 +80,8 @@ function build(cat: string): Tree {
     parts: mine.length, lines: [], not_this_category: [], pending_plans: [], unplaced: [], done: false, rows: [] };
   // lines appear in the mapping file's order, series too (a reader's order, not a count order)
   if (loaded) for (const l of loaded.file.lines) { const m = new Map<string, SeriesNode>(); for (const s of l.series) m.set(s.series, { series: s.series, role: s.role ?? null, note: s.note ?? null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {} }); lines.set(l.line, m); }
+  // the spare rule (review A.1): X and X= share one placement, the better-evidenced member's
+  const placed = placeWithSpareRule(vendor, cat, mine, loaded);
   for (const r of mine) {
     const kind = partKind(cat, r.sku, r.name ?? undefined) ?? "(none)";
     const plan = planOf.get(`${cat}|${r.sku.trim().toUpperCase()}`);
@@ -91,7 +93,7 @@ function build(cat: string): Tree {
       tree.rows.push({ ...base, bucket: "pending_plan", product_line: null, series: null, placed_by: null, plan: { action: plan.action, to: plan.to, reason: plan.reason ?? null }, belongs: null });
       continue;
     }
-    const p = placePart(vendor, cat, r, loaded);
+    const p = placed.get(r.sku) ?? null;
     if (!p) { tree.unplaced.push({ sku: r.sku, name: r.name, series_label: r.series, kind }); tree.rows.push({ ...base, bucket: "unplaced", product_line: null, series: null, placed_by: null, plan: null, belongs: null }); continue; }
     if (p.line === "(not this category)") {
       const why = (p as { why: string }).why, belongs = (p as { belongs: string | null }).belongs;

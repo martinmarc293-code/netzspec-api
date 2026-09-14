@@ -127,3 +127,48 @@ export function placePart(vendor: string, category: string, part: { sku: string;
   if (acc) return { line: soft.line, series: SHARED_PARTS(soft.line), rule: `accessory ${acc.src} (${soft.rule})`, role: null };
   return { ...soft, role: c.role.get(soft.series) ?? null };
 }
+
+/** How strong the evidence behind a placement is: an exclusion or a SKU rule beats a name, a name beats a stored label. */
+export function placementStrength(p: Placement | null): number {
+  if (!p) return 0;
+  const r = p.rule;
+  if (r.startsWith("exclude") || r.startsWith("sku")) return 4;
+  if (r.startsWith("name") || /[(]name /.test(r)) return 3;
+  return 2; // label, or an accessory placed through its label
+}
+
+const PLACEHOLDER_NAME = /^\s*(\^?invalid sku|do not (use|publish))\s*$/i;
+/** A name that says something about the part: not empty, not "Cisco <sku>" / "<sku>", not a vendor placeholder. */
+export function informativeName(sku: string, name: string | null | undefined): boolean {
+  const n = String(name ?? "").trim();
+  if (!n || PLACEHOLDER_NAME.test(n)) return false;
+  const bare = n.replace(/^cisco\s+/i, "").replace(/=+$/, "").toUpperCase();
+  return bare !== sku.toUpperCase().replace(/=+$/, "");
+}
+
+/**
+ * THE SPARE RULE (layers review, 14 Sep 2026, A.1): `X=` is the spare orderable of `X` — the same hardware — so the two sit in
+ * one product line and series. Each member is placed on its own evidence first; the pair then takes the placement with the
+ * stronger evidence (placementStrength), ties going to the member whose name is informative, then to the base. Rows without
+ * a partner are returned as placed. Keyed by the stored SKU.
+ */
+export function placeWithSpareRule(vendor: string, category: string, rows: readonly { sku: string; name?: string | null; series?: string | null }[], loaded = loadLineFile(vendor, category)): Map<string, Placement | null> {
+  const own = new Map(rows.map((r) => [r.sku, placePart(vendor, category, r, loaded)] as const));
+  const bySku = new Map(rows.map((r) => [r.sku.toUpperCase().trim(), r] as const));
+  const out = new Map(own);
+  for (const spare of rows) {
+    const s = spare.sku.toUpperCase().trim();
+    if (!s.endsWith("=")) continue;
+    const base = bySku.get(s.replace(/=+$/, ""));
+    if (!base) continue;
+    const ps = own.get(spare.sku) ?? null, pb = own.get(base.sku) ?? null;
+    const ss = placementStrength(ps), sb = placementStrength(pb);
+    let win: Placement | null;
+    if (ss !== sb) win = ss > sb ? ps : pb;
+    else if (informativeName(base.sku, base.name) !== informativeName(spare.sku, spare.name)) win = informativeName(spare.sku, spare.name) ? ps : pb;
+    else win = pb ?? ps;
+    out.set(spare.sku, win);
+    out.set(base.sku, win);
+  }
+  return out;
+}

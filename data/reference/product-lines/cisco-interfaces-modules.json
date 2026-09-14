@@ -47,6 +47,31 @@
    "sku": "^15454-",
    "why": "ONS 15454 MSTP card",
    "belongs": "optical-networking"
+  },
+  {
+   "sku": "^EPA-(?!3GE|GE/FE)",
+   "why": "ASR 1000 Ethernet Port Adapter: bound to one platform, which lives in routers (layers review A.3, rule 1)",
+   "belongs": "routers"
+  },
+  {
+   "sku": "^GRWIC",
+   "why": "Grid Router Interface Card: CGR 2010 only (A.3, rule 1)",
+   "belongs": "routers"
+  },
+  {
+   "sku": "^CGM-",
+   "why": "Connected Grid Module: CGR 1000 only (A.3, rule 1)",
+   "belongs": "routers"
+  },
+  {
+   "sku": "^7300-",
+   "why": "Cisco 7300 line card: bound to the 7300, which lives in routers (A.3, rule 1)",
+   "belongs": "routers"
+  },
+  {
+   "sku": "^(ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT|ANT-MP-INT-OUT|CGR-N-CONN)",
+   "why": "Connected Grid (CGR 1000) WiMAX panel antenna / connector, filed under the Connected Grid Modules label: bound to the CGR, which lives in routers (A.3 rule 1)",
+   "belongs": "routers"
   }
  ],
  "lines": [
@@ -59,7 +84,7 @@
       "^NIM-",
       "^C-NIM-"
      ],
-     "note": "the routers-named patterns that match no row here yet (C-NIM, C-SM, UCS-E, ISM/EM, WIC, P-LTE/5G, IRM/WP, MC/PCEX/WIM) are for the 500 rows planned to move in from routers, switches and unified-communications"
+     "note": "multi-platform router cards (A.3 rule 1). Patterns that match no row here yet (C-NIM, C-SM, UCS-E, ISM/EM, WIC, P-LTE/5G, WP, MC/PCEX/WIM) are for the rows planned to move in from routers, switches and unified-communications"
     },
     {
      "series": "SM-X and SM Service Modules",
@@ -118,12 +143,6 @@
      ]
     },
     {
-     "series": "EPA Ethernet Port Adapters",
-     "sku": [
-      "^EPA-"
-     ]
-    },
-    {
      "series": "PA Port Adapters (7200 / 7500 VIP)",
      "sku": [
       "^PA-"
@@ -133,31 +152,14 @@
      ]
     },
     {
-     "series": "GRWIC Grid Router Interface Cards",
-     "sku": [
-      "^GRWIC"
-     ]
-    },
-    {
-     "series": "CGM Connected Grid Modules",
-     "sku": [
-      "^CGM-"
-     ],
-     "labels": [
-      "Connected Grid Modules"
-     ]
-    },
-    {
      "series": "Pluggable Interface Modules (LTE / 5G)",
      "sku": [
       "^P-(LTE|5G|LTEA|LTEAP)"
      ]
     },
     {
-     "series": "IR Expansion and Pluggable Modules",
+     "series": "WP pluggable modules (IoT routers)",
      "sku": [
-      "^IRMH?-",
-      "^IRM-",
       "^WP-"
      ]
     },
@@ -188,12 +190,6 @@
       "^OC48E",
       "^4OC-3",
       "^[0-9]{1,2}(GE|CHOC|X10GE)"
-     ]
-    },
-    {
-     "series": "Cisco 7300 line cards",
-     "sku": [
-      "^7300-"
      ]
     },
     {

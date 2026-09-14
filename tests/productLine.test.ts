@@ -51,7 +51,22 @@ witness("switches", [
   ["MS390-24", "Cisco MS390-24", "MS390", "Meraki MS", "MS390"],
   ["DS-C9148V-24EK9", "Cisco MDS 9148V 64G Fibre-Channel-Switch", "MDS V", "(not this category)", "storage-networking"],
   ["7600-ES+2TG3C", "Cisco 7600 Series ES+ Line Card", "Catalyst 6500", "(not this category)", "routers"],
+  // layers review round 2 (14 Sep 2026)
+  ["N9K-93108TC-FX3", "Cisco Nexus switch, 48 1/10G BASE-T 6 QSFP28", "Nexus 9000", "Nexus", "Nexus 9300"],     // B.2: was Nexus 9000 shared parts
+  ["7600-SSC-400", "Cisco 7600 Series/Catalyst 6500 Series Services SPA Carrier-400", "", "Catalyst", "Catalyst 6500"], // B.5: by SKU, not the label
+  ["CTS-5K-LC-SWITCH", "Catalyst 2960C Switch 12 FE PoE", "TelePresence IX5000 Series", "Catalyst", "Catalyst 2960-C and 2960-CX"], // A.6
+  ["CS-PANO-SWITCH2+", "Room Panorama - Cisco C1000 16 Port Switch", "Room Series", "Catalyst", "Catalyst 1000"],         // A.6
+  ["C1200-8FP-2G-OPT", "Catalyst 1200 8-port GE Switch, Full PoE, 2x1G Combo", "Room Series", "Catalyst", "Catalyst 1200"], // A.6 decided: switches
+  ["CS-PANO-CAM", "Room Panorama camera", "Room Series", "(not this category)", "collaboration-endpoints"],    // the exclusion still takes the room parts
 ]);
+{
+  const p = placePart("cisco", "switches", { sku: "RPS-COVER-2911=", name: "Cover for empty RPS Adapter slot on Cisco 2911", series: "" });
+  check("A.6: the switches RPS rule no longer takes an ISR 2911 RPS-slot cover", !p || p.series !== "Redundant Power System", `got ${p ? p.series : "unplaced"}`);
+  const r = placePart("cisco", "routers", { sku: "EPA-3GE-SX/LH-LC", name: "Cisco 12000 Series 3-Port Gigabit Ethernet Port Adapter", series: "" });
+  check("A.6: the routers ASR 1000 EPA rule no longer takes a Cisco 12000 port adapter", !r || r.series !== "ASR 1000", `got ${r ? r.series : "unplaced"}`);
+  const g = placePart("cisco", "routers", { sku: "CGR-PWRCORD-EU", name: "CGR1240 AC Power Cord for Europe, 10m", series: "" });
+  check("C.8: the CGR1240 power cord places under CGR 1000 Connected Grid", g?.series === "CGR 1000 Connected Grid", `got ${g ? g.series : "unplaced"}`);
+}
 
 // ---- routers (done 14 Sep 2026) ----
 witness("routers", [
@@ -241,8 +256,22 @@ witness("interfaces-modules", [
   // the same SKU places the same series in both files — the planned move cannot change a card's series
   ["NIM-2T", "2-port serial WAN interface card", "Network Modules", "Router Interface Modules", "NIM (Network Interface Modules)"],
 ]);
+// A.3 rule 1 (layers review 14 Sep 2026): a card bound to ONE platform stays with that platform's series in routers
+witness("routers", [
+  ["EPA-18X1GE", "Cisco ASR 1000 18x1GE Ethernet Port Adapter", "ASR 1000", "ASR (Aggregation Services Routers)", "ASR 1000"],
+  ["IRMH-LTEA-EA", "CAT6 LTEA Module for Europe and North America", "1000", "Industrial and IoT Routers", "IR 8100"],
+  ["IRM-NIM-RS232", "IR Series RS232 8-port Serial NIM", "Catalyst IR8300 Rugged Series Router", "Industrial and IoT Routers", "IR 8300"],
+  ["GRWIC-1CE1T1-PRI", "1 port channelized T1/E1 and PRI GRWIC", "", "Industrial and IoT Routers", "CGR 2010 Connected Grid"],
+  ["CGM-4G-LTE-MNA", "Connected Grid Module - 4G LTE", "1000 Connected Grid", "Industrial and IoT Routers", "CGR 1000 Connected Grid"],
+  ["7300-1OC12POS-SMI", "1-port OC-12c/STM-4 POS, Cisco 7304", "Line cards", "Legacy Service Routers", "Cisco 7300"],
+]);
+witness("interfaces-modules", [
+  ["GRWIC-2SHDSL", "Cisco Connected Grid G.SHDSL GRWIC", "Connected Grid Modules", "(not this category)", "routers"],
+  ["7300-1OC12POS-SMI", "1-port OC-12c/STM-4 POS, Cisco 7304", "Line cards", "(not this category)", "routers"],
+  ["EPA-3GE-SX/LH-LC", "Cisco 12000 Series 3-Port Gigabit Ethernet Port Adapter", "Line cards", "Router and switch line cards (legacy)", "Router and switch line cards (legacy) shared parts"], // 12000: no platform in routers
+]);
 check("item 7: a router card places in the same product line and series in routers and in interfaces-modules",
-  ["NIM-2T", "SPA-1X10GE-L-V2", "EHWIC-VA-DSL-A", "PVDM4-32", "C-NIM-1X", "P-LTEA-EA", "IRM-1100-SP"].every((s) => {
+  ["NIM-2T", "SPA-1X10GE-L-V2", "EHWIC-VA-DSL-A", "PVDM4-32", "C-NIM-1X", "P-LTEA-EA", "WP-WIFI6-A"].every((s) => {
     const a = placePart("cisco", "routers", { sku: s, name: "", series: "" }), b = placePart("cisco", "interfaces-modules", { sku: s, name: "", series: "" });
     return a !== null && b !== null && a.line === b.line && a.series === b.series;
   }));
@@ -339,6 +368,17 @@ check("every one of the 17 categories has a mapping file that validates", files.
     let got2: ReturnType<typeof placePart> = null;
     try { got2 = placePart("cisco", "zz-sabotage2", { sku: "ASR-9010-AC", name: "ASR-9010 AC Chassis", series: "" }); } finally { fs.unlinkSync(path3); }
     check("SABOTAGE: removing the ASR 901 digit fence files the ASR-9010 chassis under ASR 901 again", got2?.series === "ASR 901", `got ${got2?.series}`);
+  }
+}
+
+// ---- layers review round 2 (14 Sep 2026): C.3 NCS 5000 sp-edge; C.4 legacy 7200 / 7300 / 7600 one rule (router + edge) ----
+{
+  const { deployRoleResult } = await import("../src/core/deployRole.js");
+  const { partKind } = await import("../src/core/partKind.js");
+  check("C.3: NCS-5001 is sp-edge from the NCS 5000 series", deployRoleResult("routers", "sp-router", "NCS-5001", "Cisco NCS 5001").role === "sp-edge");
+  for (const sku of ["CISCO7301/2+VPNK9", "CISCO7206VXR", "CISCO7606-S"]) {
+    const kind = partKind("routers", sku, `Cisco ${sku}`);
+    check(`C.4: ${sku} is kind router, role edge (one rule for the legacy 7200/7300/7600)`, kind === "router" && deployRoleResult("routers", "router", sku, `Cisco ${sku}`).role === "edge", `got ${kind} / ${deployRoleResult("routers", kind ?? "router", sku, "x").role}`);
   }
 }
 

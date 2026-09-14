@@ -14,7 +14,7 @@
 //
 // Every SKU here comes from the catalogue. None is invented — an invented SKU tests my guess
 // about the PID form rather than the rule.
-import { switchKind, switchKindWith, SW_KIND_RULES, SW_DEVICE, SW_BOX, SW_PART } from "../src/core/switchKind.js";
+import { switchKind, switchKindWith, SW_KIND_RULES, SW_DEVICE, SW_BOX, SW_PART, SW_SET } from "../src/core/switchKind.js";
 import { kindQuestionSet } from "../src/core/cupLedger.js";
 import { deployRole } from "../src/core/deployRole.js";
 import { PROFILES } from "../src/core/fieldSchema.js";
@@ -84,15 +84,18 @@ const CASES: [string, string][] = [
   ["7600-SIP-400", "linecard"],        // "Cisco 7600 Series SPA Interface Processor-400" — takes a chassis slot
   ["VS-F6K-PFC4", "module"],         // "Cat 6k 80G Sys Daughter Board Sup2T PFC4" — the WS- twin's kind
   ["VS-F6K-MSFC3", "module"],        // "Catalyst 6500 Multilayer Switch Feature Card (MSFC) III"
-  ["WS-DFC4AXL-4PAK=", "module"],    // "DFC4-AXL 4 Pack Bundle"
+  ["WS-DFC4AXL-4PAK=", "bundle"],    // "DFC4-AXL 4 Pack Bundle" — layers review A.4: a pack is a bundle (was module)
   ["WS-SVC-WISM-1-K9", "linecard"],    // Catalyst 6500 Wireless Services Module — takes a chassis slot
-  ["C9400-SSD-240GB", "accessory"],    // was `module` by name; storage has no ports or switching capacity
-  ["MEM-SUP2T-4GB", "accessory"],      // "4G DRAM Memory Total for Sup2T and Sup2TXL"
-  ["C9K-F1-SSD-480G", "accessory"],    // "Cisco pluggable SSD storage – 480 GB"
-  ["SD-IE-4GB", "accessory"],          // "IE 4GB SD Memory Card for IE"
-  ["CMICR-MSD-1G", "accessory"],       // "CMICR 1GB MicroSD Memory Card"
-  ["N7K-USB-8GB", "accessory"],        // "Nexus 7K USB Flash Memory - 8GB (Log Flash)"
-  ["N7K-CPF-2GB", "accessory"],        // "Nexus Compact Flash Memory 2GB"
+  ["C9400-SSD-240GB", "drive"],        // was `module` by name, then accessory; layers review B.1: an SSD is a drive
+  ["MEM-SUP2T-4GB", "memory"],         // "4G DRAM Memory Total for Sup2T and Sup2TXL" — layers review B.1 (was accessory)
+  ["C9K-F1-SSD-480G", "drive"],        // "Cisco pluggable SSD storage – 480 GB" (B.1; was accessory)
+  ["SD-IE-4GB", "flash"],              // "IE 4GB SD Memory Card for IE" (B.1; was accessory)
+  ["CMICR-MSD-1G", "flash"],           // "CMICR 1GB MicroSD Memory Card" (B.1; was accessory)
+  ["N7K-USB-8GB", "flash"],            // "Nexus 7K USB Flash Memory - 8GB (Log Flash)" (B.1; was accessory)
+  ["N7K-CPF-2GB", "flash"],            // "Nexus Compact Flash Memory 2GB" (B.1; was accessory)
+  ["MEM-C6K-DRV-1G", "drive"],         // "Catalyst 6500 Microdrive, 1GB" — a disk in CompactFlash form, not flash (B.1)
+  ["N7K-SUP1-8GBUPG", "memory"],       // "Nexus 7000 Supervisor 1 8GB Memory Upgrade Kit" — its SUP1 token made it a supervisor (B.1)
+  ["BF-S720-64MB-RP", "flash"],        // "Bootflash for SUP720-64MB-RP" (B.1)
   ["CF-ADAPTER", "accessory"],         // "Compact Flash Adapter for Sup720/3B/3BXL"
   ["N9K-C9300-RMK", "accessory"],      // "Nexus 9K Rack Fixed Mount Kit"
   ["N9K-C9804-RMB", "accessory"],      // "Cisco N9800 4-slot chassis rear-mounting brackets"
@@ -100,7 +103,8 @@ const CASES: [string, string][] = [
   ["N9K-C9300-ACK", "accessory"],      // "Nexus 9K Fixed Accessory Kit"
   ["STK-RACK-DINRAIL=", "accessory"],  // "19 in. DIN Rail mount kit"
   ["CMPCT-CBLE-GRD", "accessory"],     // "Cable Guard for 3560-CX, 2960-CX, and 2960-L Compact Switches"
-  ["N77-C7718-PCM", "accessory"],      // "Nexus 7700 - 18 Slot Chassis Power Cable Management"
+  ["N77-C7718-PCM", "mechanical"],     // "Nexus 7700 - 18 Slot Chassis Power Cable Management" (layers review B.3; was accessory by SKU)
+  ["N7K-C7718-PCM=", "mechanical"],    // "Cisco Nexus 7718 Power Cable Management Spare" (B.3; the cord rule had made it a power-cord)
   ["NXB-CPU-FRU", "accessory"],        // "1.9Ghz, 6Core Broadwell DE CPU, 128G SSD, 32G DRAM"
   ["CLK-7600=", "accessory"],          // "Spare Clock card for CISCO7603, CISCO7606 or CISCO7609 (FRU)"
   ["BMP-IE3000=", "accessory"],        // "Spare Bumper Pack, IE 3000"
@@ -212,7 +216,7 @@ eq("NXA- is an accessory prefix, not a power one", switchKind("NXA-FAN-35CFM-PE"
 // The 11 Sep 2026 markers, where order decides. Accessory runs BEFORE module, so memory and filters
 // whose PIDs carry an -X4 no longer read as line cards; cable runs BEFORE power and accessory, so a
 // 2500W power CORD and a USB console CABLE stay cables.
-eq("MEM-X45 is memory, not a line card (its -X45 reads as the -X module marker)", switchKind("MEM-X45-1GB-LE"), "accessory");
+eq("MEM-X45 is memory, not a line card (its -X45 reads as the -X module marker)", switchKind("MEM-X45-1GB-LE"), "memory");
 eq("WS-X4507-FILTER= is an air filter, not a line card", switchKind("WS-X4507-FILTER="), "accessory");
 eq("a 2500W power CORD is a power cord, not a power supply", switchKind("CAB-AC-2500W-EU"), "power-cord");
 eq("a USB console CABLE is a cable, not USB flash", switchKind("CAB-CONSOLE-USB-C"), "cable");
@@ -245,11 +249,11 @@ eq("a switch whose PID ends -SD is not an SD card", switchKind("WS-C3560V2-24TS-
 eq("a Swiss power cord ending -SW is a power cord, not software", switchKind("CAB-9K16A-SW"), "power-cord");
 eq("CAB-TA-SW (Switzerland Type A) is a power cord", switchKind("CAB-TA-SW"), "power-cord");
 eq("SABOTAGE a real NX-OS image is still software", switchKind("N5KUK9-503N1.1"), "software");
-eq("an SD card with a platform token is an accessory, not a line card", switchKind("SD-X45-2GB-E="), "accessory");
+eq("an SD card with a platform token is flash, not a line card (layers review B.1; was accessory)", switchKind("SD-X45-2GB-E="), "flash");
 eq("an N2K uplink-option transceiver set is an accessory, not a fabric extender", switchKind("N2K-QSFPBD-QSFPBD"), "accessory");
 eq("a server DIMM misfiled here is an accessory, not a line card", switchKind("CSP-MR-X16G1RS-H"), "accessory");
 eq("a FEX's own PSU stays a power supply", switchKind("N2K-PAC-400W"), "power");
-eq("N5548UPM-4FEX (a 5548 switch bundled with four FEX) is a switch", switchKind("N5548UPM-4FEX"), "switch");
+eq("N5548UPM-4FEX (a 5548 switch bundled with four FEX) is a bundle — five enclosures (layers review A.4; was switch)", switchKind("N5548UPM-4FEX"), "bundle");
 
 // ============================== kind-layer (13 Sep 2026) ==============================
 // The default bucket read row by row (III.0 item 3 `issue` rows, item 4 chassis groups). One WITNESS per rule family from
@@ -275,7 +279,7 @@ const KL_WITNESS: [string, string, string][] = [
   ["QPP24BL", "mechanical", "QuickNet 24-Port Patch Panel"],
   ["C6807-XL-PW", "mechanical", "CETUSCR BACKPLANE, Power"],
   // accessory — chassis FRUs and third-party cabling PNs
-  ["BF-S720-64MB-RP", "accessory", "Bootflash for SUP720-64MB-RP"],
+  ["BF-S720-64MB-RP", "flash", "Bootflash for SUP720-64MB-RP (layers review B.1; was accessory)"],
   ["WS-C6K-VTT-E=", "accessory", "Catalyst 6500 E-series VTT Modules"],
   ["PUP6AV04BU-G", "accessory", "Cisco PUP6AV04BU-G (a Panduit cord number filed under Catalyst 9300)"],
   // power — item 3 §power
@@ -292,7 +296,8 @@ const KL_WITNESS: [string, string, string][] = [
   ["X9736C-FX", "linecard", "a Nexus 9500 line card filed without its N9K- prefix"],
   ["C6800-48P-TX-XL", "linecard", "Catalyst 6800 48-port 1GE copper module with integrated DFC4XL"],
   ["76-ES+XT-4TG3C", "linecard", "7600 Series ES Plus XT, 4x10GE"],
-  ["C4500E-7R-S8E-UPOE", "linecard", "SUP8-E AND WS-X4748-UPOE+E UPGRADE FOR 7 SLOT BUNDLE"],
+  ["C4500E-7R-S8E-UPOE", "bundle", "SUP8-E AND WS-X4748-UPOE+E UPGRADE FOR 7 SLOT BUNDLE — a supervisor and a line card with no chassis (layers review A.4; was linecard)"],
+  ["C4500E-S3-UPOE", "linecard", "WS-X4748-UPOE+E Upgrade for Bundles — ONE card, so the A.4 bundle rule does not take it"],
   ["WS-SSC-600", "linecard", "Catalyst 6500 Series Services SPA Carrier-600"],
   // module
   ["N5696-M20UP", "module", "Nexus 5696Q Chassis Module 20P 10GE Eth/FCoE"],
@@ -314,7 +319,7 @@ const KL_REFUSAL: [string, string, string][] = [
   ["C4510+1S7ES-C", "switch", "45010R+E Chassis and Sup7-E — a chassis bundle, not a C4510RE- upgrade option"],
   ["N5696-B-24Q", "switch", "Nexus 5696Q chassis 24x40GE bundle (includes 2 LEMs) — not the M expansion module"],
   ["N5600-M-BLNK", "accessory", "Nexus 5624Q/5648Q Blank Module Cover — the module rule needs a digit after -M"],
-  ["N6004EF-8FEX-10G", "switch", "N6004 Chassis with 8 x 10G FEXes — a switch + FEX bundle"],
+  ["N6004EF-8FEX-10G", "bundle", "N6004 Chassis with 8 x 10G FEXes — a switch + FEX set is a bundle (layers review A.4; was switch)"],
   ["N5K-C5596UP-FA", "switch", "a fixed Nexus 5596UP whose name says 'Chassis includes 48 fixed unified ports'"],
   ["WS-C3560V2-24TS-SD", "switch", "no power rule reads a trailing -SD or wattage-like digits in a switch PID"],
   ["CGP-OLT-8T", "switch", "Catalyst PON OLT — left on the kind core, an open decision (REPORT §6)"],
@@ -324,11 +329,90 @@ const KL_REFUSAL: [string, string, string][] = [
 for (const [sku, kind, why] of KL_REFUSAL) eq(`kind-layer refusal ${sku} stays ${kind} (${why})`, switchKind(sku), kind);
 eq(`kind-layer: refusals (${KL_REFUSAL.length}) are at least half the witnesses (${KL_WITNESS.length})`, KL_REFUSAL.length * 2 >= KL_WITNESS.length, true);
 
+// THE SPARE RULE (layers review 14 Sep 2026, A.1): the base and its spare carry one kind whatever their names say.
+{
+  const { partKind } = await import("../src/core/partKind.js");
+  const PAIRS: [string, string, string][] = [
+    ["N77-C7710-RMK", "Cisco N77-C7710-RMK", "Nexus 7700 - 10 Slot Chassis Rack Mount Kit"],
+    ["N77-C7706-CAB-TOP", "Cisco N77-C7706-CAB-TOP", "Nexus 7700 6 Slot Chassis Cable Management"],
+    ["N77-C7718-ACC-KIT", "Cisco N77-C7718-ACC-KIT", "Nexus 7700 - 18 Slot Chassis Accessory Kit"],
+    ["NXK-ACC-KIT-2P", "Nexus Fixed Accessory Kit with 2-post rack mount", "Nexus Fixed Acc Kit w/ 2-post rack mount"],
+    ["STK-RACKMNT-2955", "19 in. DIN rail mount kit", "Cisco STK-RACKMNT-2955="],
+  ];
+  for (const [sku, baseName, spareName] of PAIRS) {
+    const kb = partKind("switches", sku, baseName), ks = partKind("switches", `${sku}=`, spareName);
+    eq(`spare rule: ${sku} and ${sku}= carry one kind (mechanical)`, `${kb}|${ks}`, "mechanical|mechanical");
+  }
+  const head = SW_KIND_RULES.findIndex((r) => r.re.source.includes("NXK-ACC-KIT"));
+  const without = SW_KIND_RULES.filter((_, j) => j !== head);
+  eq("SABOTAGE removing the spare-rule mechanical rule splits N77-C7710-RMK from its named spare again",
+    switchKindWith(without, "N77-C7710-RMK") !== "mechanical", true);
+}
+
+// THE BUNDLE RULE (layers review 14 Sep 2026, A.4): a pack, several enclosures, cards with no enclosure, or a device plus its
+// optics is `bundle`; a SYSTEM (one enclosure and what it holds) keeps its kind. A witness per head rule, the systems and
+// single cards that share their tokens as refusals, and a sabotage per rule: removing it must change its witnesses' answer.
+{
+  const BUNDLE_WITNESS: [string, string][] = [
+    ["N3K-C3172TQ-10PK", "Nexus 3172TQ 10PK Bundle"], ["N7K-F312-P1", "Nexus 7000 12-port 40G F3 module, 2-pack"],
+    ["C9400-LC-48UX-B", "Catalyst 9400 2xC9400-LC-48UX BUNDLE PID ONLY-NOT ACTUAL HW"], ["WS-DFC4A-4PAK=", "DFC4-A 4 Pack Bundle"],
+    ["N5596UPM-6FEX", "Nexus 5596UP/Expansion Module/6 x FEX"], ["N56128PM-8FEX-10G", "Nexus 56128P, 1xN56-M24UP2Q, 8xNexus 2232PP with FETs"],
+    ["N5672-N2300-BUN", "Nexus 5672 and Nexus 2300 FEX Bundle"], ["N9300-4FEX-1G", "Nexus 9396PX bundle w/ 4 x Nexus 2248TP-E with FETs"],
+    ["N7K-F312-4N2248-P1", "Nexus 7000 F3 + FEX Bundle (1xF312,4x2248PQ,32xFET-40G)"], ["N7010-U-B2S2ER-P1", "Nexus 7010 Promotional Upgrade Bundle (2xSUP2E,5xFAB2)"],
+    ["C4500E-S8L-SFP-DEF", "Default WS-X45-SUP8L-E with dual ME-X4748-SFP-E Bundle"], ["C4510RE-S9-UPOE", "WS-X45-SUP9-E and WS-X4748-UPOE+E Upgrade"],
+    ["N3K-C3172PQ-4BD", "Nexus 3172PQ and 4 Bidi bundle"], ["N9K-C9372PX-B18Q", "2 Nexus 9372PX with 8 QSFP-40G-SR-BD"],
+    ["N2K-C2232PR", "Nexus 2232PP Bundle with 2x QSFP-40G-SR4 8x SFP-10G-SR"], ["N2K-C2348TQ12F", "Nexus 2348TQ with 12 Bidi or (6 FET-40G & 24 FET-10G)"],
+    ["ACI-C9336-B3-EAL", "ACI Bundle with 2 9336, 2 9396PX Leafs, 4/8QSFP and APIC Clu"], ["N7009RISENAM-BUNP1", "RISE NAM Bundles with Nexus 7009"],
+    ["C6807-3850-10G-BUN", "2 of 6807XL, 20 to 40 of 3850, up to 80 of 10G Optics"],
+  ];
+  const BUNDLE_REFUSAL: [string, string, string][] = [
+    ["C1-N7009-B2S2-R", "switch", "Cisco ONE Nexus 7009 Bundle (Chassis,2xSUP2,5xFAB2) — one enclosure: a system"],
+    ["N9K-C9516-B1", "switch", "Nexus 9516 Chassis Bundle with 1 Sup, 3 PS, 2 SC, 3 FM, 3 FT — a system, not the B18Q optics set"],
+    ["N2232PP-FA-BUN", "fex", "Standard airflow pack: N2K-C2232PP-10GE, 2AC PS, 1Fan — a FEX with its own PSUs"],
+    ["N2K-C2348TQ4F", "fex", "Nexus 2348TQ Fabric Extender, 2PS, 3 Fan Module — names no optics, unlike its 8F/12F siblings"],
+    ["C9400-LC-48UX-B1", "linecard", "Catalyst 9400 1xC9400-LC-48UX BUNDLE PID ONLY — one card"],
+    ["C9400-SUP-1-B", "supervisor", "Catalyst 9400 Series SUP1 BUNDLE PID ONLY — one card"],
+    ["N55-M16FP-B", "module", "N5500 16-Port Fibre Channel Module, Bundle — a bundle component PID naming one module"],
+    ["C4500E-S3-MGIG", "linecard", "MGIG Upgrade for 3 slot chassis bundle (48 UPOE + 12p mGig) — one card"],
+    ["N3K-C3132Q-FD-L3", "switch", "Nexus 3132Q, DC, Forward Airflow, Base & LAN Ent L3 — a switch with its licence"],
+    ["N7706-EN-B22S2E", "switch", "Nexus 7706 Bundle for Campus Core — a chassis system"],
+  ];
+  for (const [sku, name] of BUNDLE_WITNESS) eq(`bundle rule: ${sku} is bundle (${name})`, switchKind(sku), "bundle");
+  for (const [sku, want, why] of BUNDLE_REFUSAL) eq(`bundle rule refusal: ${sku} stays ${want} (${why})`, switchKind(sku), want);
+  const heads = SW_KIND_RULES.map((r, i) => [r, i] as const).filter(([r]) => r.kind === "bundle");
+  eq("the bundle rules are the head of the table (six, ahead of every component token)", heads.map(([, i]) => i).join(","), "0,1,2,3,4,5");
+  for (const [r, i] of heads) {
+    const mine = BUNDLE_WITNESS.filter(([sku]) => r.re.test(sku)).map(([sku]) => sku);
+    eq(`bundle rule #${i} decides at least one witness`, mine.length > 0, true);
+    const without = SW_KIND_RULES.filter((_, j) => j !== i);
+    eq(`SABOTAGE removing bundle rule #${i} turns its witnesses (${mine.join(", ")}) away from bundle`,
+      mine.every((sku) => switchKindWith(without, sku) !== "bundle"), true);
+  }
+}
+
+// MEMORY / FLASH / DRIVE (layers review 14 Sep 2026, B.1): one sabotage per rule — removing it must turn its witnesses away.
+{
+  const W: Record<string, string[]> = {
+    memory: ["MEM-SUP2T-4GB", "MEM-XCEF720-1GB", "MEM-DFC-512MB", "C6880-X-LE-MEMKIT=", "N7K-SUP1-8GBUPG"],
+    flash: ["BF-S720-64MB-SP=", "MEM-C6K-CPTFL1GB", "N77-USB-2GB", "SD-IE-16GB", "USB-X45-4GB-E=", "WS-CF-UPG-1GB="],
+    drive: ["C9400-SSD-960GB", "C9K-F3-SSD-240GB=", "C9610-SSD-480G-V1", "SSD-120G", "MEM-C6K-DRV-1G="],
+  };
+  eq("B.1 refusal: MEM-SD-COVER-RGD= 'SD Flash cover for Cisco CGS2520' is not flash", switchKind("MEM-SD-COVER-RGD=") !== "flash", true);
+  eq("B.1 refusal: CF-ADAPTER 'Compact Flash Adapter' (no card) is not flash", switchKind("CF-ADAPTER"), "accessory");
+  eq("B.1 refusal: WS-C3560E-12SD-E is a switch, not an SD card", switchKind("WS-C3560E-12SD-E"), "switch");
+  for (const kind of ["memory", "flash", "drive"]) {
+    const i = SW_KIND_RULES.findIndex((r) => r.kind === kind);
+    for (const sku of W[kind]) eq(`B.1 witness ${sku} is ${kind}`, switchKind(sku), kind);
+    const without = SW_KIND_RULES.filter((_, j) => j !== i);
+    eq(`SABOTAGE removing the ${kind} rule turns every ${kind} witness away`, W[kind].every((sku) => switchKindWith(without, sku) !== kind), true);
+  }
+}
+
 // SABOTAGE per rule of the kind-layer tail, on the LIVE table (SW_KIND_RULES, exported for this): the tail starts at the
 // only `mechanical` rule; each rule is removed in turn and every witness it decides must change answer. A rule that
 // decides no witness fails too — a rule nobody has seen work is not a rule.
 {
-  const start = SW_KIND_RULES.findIndex((r) => r.kind === "mechanical");
+  const start = SW_KIND_RULES.findIndex((r) => r.kind === "mechanical" && r.re.source.includes("FDK")); // the kind-layer tail; the spare-rule mechanical rule (14 Sep) sits at the head
   eq("kind-layer: the tail is the last 8 rules of the table (nothing older runs after it)", SW_KIND_RULES.length - start, 8);
   const decidingRule = (sku: string): number => SW_KIND_RULES.findIndex((r) => r.re.test(sku.toUpperCase()));
   for (let i = start; i < SW_KIND_RULES.length; i++) {
@@ -451,9 +535,11 @@ eq("there are part kinds", SW_PART.length > 0, true);
 // device: `fex` is a box that does not switch, added 11 Sep 2026.)
 const REACHABLE = new Set(CASES.map(([, k]) => k));
 for (const k of REACHABLE) {
-  eq(`kind "${k}" is classified as box or part`,
-     (SW_BOX as readonly string[]).includes(k) || (SW_PART as readonly string[]).includes(k), true);
+  eq(`kind "${k}" is classified as box, part or set`,
+     (SW_BOX as readonly string[]).includes(k) || (SW_PART as readonly string[]).includes(k) || (SW_SET as readonly string[]).includes(k), true);
 }
+eq("set kinds overlap neither boxes nor parts (a bundle is not asked a box's envelope)",
+   SW_SET.filter((k) => (SW_BOX as readonly string[]).includes(k) || (SW_PART as readonly string[]).includes(k)).length, 0);
 
 lines.unshift(`    switch kind: ${passed} passed, ${failed} missed ` +
               `(${SINGLE_LETTER.length} single-letter refusals, 3 FAB refusals, 3 ordering refusals)`);

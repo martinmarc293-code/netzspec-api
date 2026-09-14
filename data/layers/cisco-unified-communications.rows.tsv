@@ -1,6 +1,6 @@
 sku	name	series_label	kind	bucket	product_line	series	placed_by	deploy_role	role_rule	role_issue	plan	belongs
-ACS-4460-FANASSY	Cisco ISR 4460 Fan Assembly	VG Series Gateways	accessory	layered	Voice Gateways	Voice Gateways shared parts	label VG Series Gateways					
-ACS-4460-FANASSY=	Cisco ISR 4460 Fan Assembly	VG Series Gateways	accessory	layered	Voice Gateways	Voice Gateways shared parts	label VG Series Gateways					
+ACS-4460-FANASSY	Cisco ISR 4460 Fan Assembly	VG Series Gateways	accessory	pending_plan							move routers	
+ACS-4460-FANASSY=	Cisco ISR 4460 Fan Assembly	VG Series Gateways	accessory	pending_plan							move routers	
 ATA190	UC 2 Port Analog Telephone Adapter	ATA 190 Series Analog Telephone Adapters	ata	layered	Analog Telephone Adapters and SPA	ATA 190 / 191 / 192	sku ^ATA19					
 ATA190-SC-K9	Spark Call 1 Port Analog Telephone Adapter	ATA 190 Series Analog Telephone Adapters	ata	layered	Analog Telephone Adapters and SPA	ATA 190 / 191 / 192	sku ^ATA19					
 ATA191-3PW-K9	2-port analog telephone adapter for multiplatform	ATA 190 Series Analog Telephone Adapters	ata	layered	Analog Telephone Adapters and SPA	ATA 190 / 191 / 192	sku ^ATA19					
@@ -80,7 +80,7 @@ BE7M-M6-K9	Cisco Business Edition 7000M (M6) Appliance, Export Restr SW	Business
 BE7M-M6-XU	Cisco Business Edition 7000M (M6) Appliance, Exp Unrestr SW	Business Edition 7000	server	layered	Business Edition	Business Edition 7000 (BE7K / BE7M / BE7H)	sku ^BE7					
 BE7M-M7-K9	Cisco Business Edition 7000M Svr (M7), Export Restricted SW	Business Edition 7000	server	layered	Business Edition	Business Edition 7000 (BE7K / BE7M / BE7H)	sku ^BE7					
 BE7M-M7-XU	Cisco Business Edition 7000M Svr (M7), Export Unrestricted SW	Business Edition 7000	server	layered	Business Edition	Business Edition 7000 (BE7K / BE7M / BE7H)	sku ^BE7					
-C3945-112FXS/K9	High Density Analog Voice Gateway	VG Series Gateways	gateway	layered	Voice Gateways	Voice Gateways shared parts	label VG Series Gateways					
+C3945-112FXS/K9	High Density Analog Voice Gateway	VG Series Gateways	gateway	pending_plan							move routers	
 CE-CPU-E5-2643	3.30 GHz E5-2643/130W 4C/10MB Cache/DDR3 1600MHz	TelePresence Video Communication Server (VCS)	cpu	layered	Expressway and VCS	TelePresence VCS appliances	sku ^CE-					
 CE-HDD1TI2F212	1TB SAS 7.2K RPM 3.5 inch HDD/hot plug/drive sled mounted	TelePresence Video Communication Server (VCS)	drive	layered	Expressway and VCS	TelePresence VCS appliances	sku ^CE-					
 CE-MR-1X082RY-A	8GB DDR3-1600-MHz RDIMM/PC3-12800/dual rank/1.35v	TelePresence Video Communication Server (VCS)	memory	layered	Expressway and VCS	TelePresence VCS appliances	sku ^CE-					

@@ -57,7 +57,7 @@
 export type SwitchKind =
   | "switch" | "fex" | "chassis" | "linecard" | "module" | "supervisor" | "fabric"
   | "power" | "fan" | "power-cord" | "stack-cable" | "cable" | "accessory" | "software"
-  | "mechanical";
+  | "mechanical" | "bundle" | "memory" | "flash" | "drive";
 
 /** Kinds that are a whole networking device — the only ones a switching specification belongs to. */
 export const SW_DEVICE: readonly SwitchKind[] = ["switch"];
@@ -73,6 +73,10 @@ export const SW_DEVICE: readonly SwitchKind[] = ["switch"];
  * header); III.0 item 4 read 524 candidate rows one by one and the chassis rule below is written from its 82.
  */
 export const SW_BOX: readonly SwitchKind[] = ["switch", "fex", "chassis"];
+
+/** layers review A.4 (14 Sep 2026): an orderable SET — a pack, several enclosures, cards with no enclosure, a device plus its
+ *  optics. Neither a box nor a part: it is asked its contents and what it fits (fieldSchema.ts, the routers cup set). */
+export const SW_SET: readonly SwitchKind[] = ["bundle"];
 
 /**
  * Kinds that plug into one.
@@ -99,13 +103,14 @@ export const SW_BOX: readonly SwitchKind[] = ["switch", "fex", "chassis"];
  * 2 DFC4 four-packs (WS-DFC4A-4PAK=, WS-DFC4AXL-4PAK=), C2960X-STACK-DWP ("... DWP License"), and ~45 6500 PFC/DFC/CFC/
  * MSFC forwarding daughter cards that print no ports (MODULE asks ports and data_rate) — docs/reviewer/open-questions.
  */
+// layers review B.1 (14 Sep 2026): `memory`, `flash`, `drive` — the routers component kinds, out of `accessory`.
 export const SW_PART: readonly SwitchKind[] =
-  ["linecard", "module", "supervisor", "fabric", "power", "fan",
+  ["linecard", "module", "supervisor", "fabric", "power", "fan", "memory", "flash", "drive",
    "power-cord", "stack-cable", "cable", "accessory", "software", "mechanical"];
 
 /** Kinds that plug into or attach to a switch — every one is bought for WHAT IT FITS (11 Sep 2026). */
 export const SW_COMPONENT: readonly SwitchKind[] =
-  ["linecard", "module", "supervisor", "fabric", "power", "fan",
+  ["linecard", "module", "supervisor", "fabric", "power", "fan", "memory", "flash", "drive",
    "power-cord", "stack-cable", "cable", "accessory"];
 
 /**
@@ -155,6 +160,64 @@ export const SW_CABLE: readonly SwitchKind[] = ["power-cord", "stack-cable", "ca
 // filed in `switches`. The CPU and SD markers give some of them a truer kind, but the defect is their
 // category, which is a row-membership decision held for the operator.
 const RULES: { kind: SwitchKind; re: RegExp }[] = [
+  // THE BUNDLE RULE (layers review 14 Sep 2026, A.4). One orderable number that is MORE THAN ONE ENCLOSURE, N of one
+  // orderable, several cards with no enclosure, or a device plus the optics it ships with, is kind `bundle` and is asked
+  // its contents. A SYSTEM keeps its system kind: one enclosure with what it holds (chassis + sups + fabrics, a FEX with its
+  // PSUs and fan, a switch with its licence or uplink module), and a "bundle component" PID naming one card. Every family
+  // below was read row by row from its own name (docs/decisions/2026-09-14-bundle-rule-switches-routers.md):
+  //   packs        N3K-C3048TP-10PK "10PK Bundle", N3K-C3264Q-2PK-BD, N9K-C9236C-2PK, N2K-B22DELL-P-5PK "5 Pack",
+  //                WS-DFC4A-4PAK= "DFC4-A 4 Pack Bundle", N7K-F312-P1 "12-port 40G F3 module, 2-pack",
+  //                C9400-LC-48UX-B "2xC9400-LC-48UX" (NOT -B1, "1x"), CH-C3560-24TS-S-24 "24-Unit Bundle",
+  //                WS-C3560V2-48PS-SM "3-Pack"
+  //   + FEX        N5596UPM-6FEX "Nexus 5596UP/Expansion Module/6 x FEX", N56128P-4FEX-10G, N9300-4FEX-10G,
+  //                N5672-N2300-BUN "Nexus 5672 and Nexus 2300 FEX Bundle", N6004EF-8FEX-10G
+  //   card sets    N7K-F312-4N2248-P1 "(1xF312,4x2248PQ,32xFET-40G)", N77-F3-N9372-P1 "2 … F3 40G + 2 N9372PX + 16 QSFP
+  //                Bidi", N7010-U-B2S2ER-P1 "Promotional Upgrade Bundle (2xSUP2E,5xFAB2)" (no chassis: -U-), and the
+  //                Catalyst 4500-E supervisor + line-card option PIDs ("SUP8E and MGIG upgrade for 7 slot chassis bundle
+  //                (96 ports)", "Default WS-X45-SUP7-E with WS-X4748-RJ45V+E Bundle", "2x WS-4748-RJ45V+E upgrade")
+  //   + optics     N3K-C3172PQ-4BD "Nexus 3172PQ and 4 Bidi bundle", N3K-C3172TQ-ZZ "and 6 QSFP ZZ bundle",
+  //                N3K-C3232C-B8C, N3K-C3408-B "2 Nexus 3408C switch + 8 NXM-X16C +12 QSFP optics",
+  //                N9K-C9372PX-B18Q "2 Nexus 9372PX with 8 QSFP-40G-SR-BD", N2K-C2232PR "Bundle with 2x QSFP-40G-SR4
+  //                8x SFP-10G-SR", N2K-C2348TQ12F "with 12 Bidi or (6 FET-40G & 24 FET-10G)"
+  //   sets         ACI-C9336-B3-EAL "2 9336, 2 9396PX Leafs, 4/8QSFP and APIC", C6807-3850-10G-BUN "2 of 6807XL, 20 to 40 of
+  //                3850", N7009RISENAM-BUNP1 "RISE NAM Bundles with Nexus 7009", N7K-C7009-N5672-P1 (the SKU names both)
+  // KEPT (systems): C1-N7009-B2S2-R "(Chassis,2xSUP2,5xFAB2)", N9K-C9508-B1-R "Chassis Bundle with 1 Sup, 3 PS…",
+  // C9404R-48U-BNDL-A, N2232PP-FA-BUN "pack: N2K-C2232PP-10GE, 2AC PS, 1Fan", N3K-C3132Q-FD-L3, the "bundle PID"
+  // single switches, N55-M16FP-B "Module, Bundle", C9400-SUP-1-B "SUP1 BUNDLE PID ONLY", and the single-card 4500-E
+  // options C4500E-S3-UPOE "WS-X4748-UPOE+E Upgrade for Bundles" / C4500E-S3-MGIG "(48 UPOE + 12p mGig)".
+  { kind: "bundle", re: /^N3K-C\d{4}[A-Z]*(?:-ZZ)?-\d{1,2}PK(?:BN|-BD|-L3)?=?$|^N9K-C9236C-2PK=?$|^N2K-B22DELL-P-5PK=?$|^(?:WS|VS)-DFC4AX?L?-4PAK=?$|^N7K-F312-P[12]=?$|^N77-F324-P[12]=?$|^C9400-LC-48UX-B=?$|^CH-C3560-(?:24|48)TS-S-24$|^WS-C3560V2-48PS-SM$/ },
+  { kind: "bundle", re: /^(?:C1-)?N5(?:548|596)UPM{0,2}-\d{1,2}FEX=?$|^N56128PM{0,2}-\d{1,2}FEX-|^N9300-\d{1,2}FEX-|^N5(?:6128|672|696)-N2300-BUN=?$|^N6004EF-\d{1,2}FEX-/ },
+  { kind: "bundle", re: /^N7K-F312-4N2248-P1$|^N77-F324-4N2248-P1$|^N7[K7]-F3-N9372-P1$|^N7[K7]-F3-2N9396-16BD$|^N7(?:0|7)\d{2}-U-B\w+-P1$/ },
+  { kind: "bundle", re: /^C4500E-(?:[367]N?R-S?[789][EL]?-(?:MGIG|UPOE|POE\+|4748)|S[678]L?-4748RJV|S[678]E?L?-(?:DEFAULT|SFP-DEF|SFP\+|RJ45|S7|S7-SFP|S8-SFP)|S7E-SFP-DEF|S6L-S7|8E-MGIG|S[67]-MGIG|S7L\/2-SFP\+E)$|^C4500-10R-S8E-MGIG$|^C4500RE-S7-MGIG$|^C4510RE-S8-(?:DEFAULT|MGIG)$|^C4510RE-S9-UPOE$/ },
+  { kind: "bundle", re: /^N3K-C\d{4}[A-Z]*(?:-XL|-X)?-\d{1,2}BD$|^N3K-C3172(?:PQ|TQ)-ZZ$|^N3K-C3232C-B8C$|^N3K-C3408-(?:QSFP-)?B$|^(?:C1-)?N9K-?C9[23]\w+?-?B(?:18Q|24)$|^N9K-C92160YC-X-B1$|^C1-N9K-C93180LCB2$|^N2K-C22(?:32|48)[PT]R(?:-E)?(?:\+\+)?$|^N2K-C23(?:32|48)(?:TQ|UPQ)(?:8|12)F(?:-E)?$/ },
+  // (NOT the N9K-C95xx-B1/-B2 "Chassis Bundle with 1 Sup, 3 PS, 2 SC, 3 FM, 3 FT" systems, and NOT N2K-C2348TQ4F "Fabric Extender,
+  // 2PS, 3 Fan Module": the 4F FEX names no optics, its 8F/12F siblings name "8 Bidi or (4 FET-40G & 16 FET-10G)".)
+  { kind: "bundle", re: /^ACI-C9336-|^C6807-3850-10G-BUN$|^N7[07]\d{2}RISENAM-BUNP\d$|^N7(?:K-C7009|7-C7710)-N5672-P1$/ },
+  // MEMORY, FLASH, DRIVE (layers review 14 Sep 2026, B.1): the routers component kinds. These rows were `accessory`, asked
+  // only what they fit; a DIMM is bought on its DRAM, a CompactFlash / SD / USB stick on its flash size, an SSD on its capacity.
+  // Explicit families, each read from its names (D:\tmp\b1 listing over data/layers/cisco-switches.rows.tsv):
+  //   memory  MEM-SUP2T-4GB "4G DRAM Memory Total for Sup2T", MEM-XCEF720-1GB "1GB DDR, xCEF720", MEM-DFC-512MB "512MB DRAM for
+  //           DFC", MEM-X45-1GB-LE "1GB SDRAM Upgrade for Sup6-LE", MEM-C4K-256-SDRAM, C6880-X-LE-MEMKIT= "Memory Upgrade Kit",
+  //           N7K-SUP1-8GBUPG "Supervisor 1 8GB Memory Upgrade Kit" (was supervisor)
+  //   flash   BF-S720-64MB-RP "Bootflash for SUP720", MEM-C6K-CPTFL1GB "Compact Flash Memory 1GB", N7K-USB-8GB "USB Flash Memory",
+  //           N7K-CPF-2GB, SD-IE-4GB "IE 4GB SD Memory Card", SD-X45-2GB-E=, CMICR-MSD-1G "1GB MicroSD", CDB-SD-1GB, CF-IE3000=,
+  //           MEM-SD-1GB-RGD "SD Flash for CGS2520", USB-X45-4GB-E= "4GB USB device for Sup7-E", WS-CF-UPG-1GB= "Compact Flash
+  //           Adapter with 1GB CF"
+  //   drive   C9400-SSD-240GB "240GB M2 SATA memory (Supervisor)", C9K-F1-SSD-480G "pluggable SSD storage", C9610-SSD-960G-V1,
+  //           SSD-240G "pluggable USB3.0 240G SSD storage", MEM-C6K-DRV-1G "Catalyst 6500 Microdrive, 1GB"
+  // KEPT accessory: CF-ADAPTER "Compact Flash Adapter" (no card), MEM-SD-COVER-RGD= (mechanical), NXB-CPU-FRU "CPU, 128G SSD,
+  // 32G DRAM" (a CPU board; no processor kind in switches — recorded).
+  { kind: "memory", re: /^MEM-(?:A-MSFC3|C4K-\d+-SDRAM|DFC|MSFC[23]|S3|SUP2T|SUP720-SP|X45|XCEF720)-|^C6880-X-LE-MEMKIT=?$|^N7K-SUP1-8GBUPG=?$/ },
+  { kind: "flash", re: /^BF-S720-|^CDB-SD-\d|^CF-IE3000|^CMICR-MSD-\d|^MEM-C4K-FLD|^MEM-C6K-(?:CPTFL|INTFL)|^MEM-SD-\d|^N7[7K]-(?:USB|CPF)-\d+GB|^SD-IE-\d|^SD-X45-\d|^USB-X45-\d|^WS-CF-UPG(?:-\d+GB)?=?$/ },
+  { kind: "drive", re: /^C9400-SSD-|^C9610-SSD-|^C9K-F[13]-SSD-|^SSD-\d+G=?$|^MEM-C6K-DRV-/ },
+  // THE SPARE RULE (layers review 14 Sep 2026, A.1): X and X= are one part and carry one kind. These families split because
+  // the spare's name ("Nexus 7700 - 10 Slot Chassis Rack Mount Kit") took the name path to `mechanical` while the base,
+  // named only "Cisco N77-C7710-RMK", stayed `accessory` — so the SKU token decides for both, ahead of the cable split
+  // below that used to take -CAB-TOP: N77-C77xx-ACC-KIT / -CAB-TOP / -RMK, NXK-ACC-KIT-2P, STK-RACKMNT-2955.
+  // layers review B.3 (14 Sep 2026): + the power CABLE MANAGEMENT kits, N77-C7718-PCM "Nexus 7700 - 18 Slot Chassis Power Cable
+  // Management" (mechanical by its name) and N7K-C7718-PCM "Cisco Nexus 7718 Power Cable Management", which the cord rule had
+  // made a `power-cord` — a tray for cords is not a cord.
+  { kind: "mechanical", re: /^N7[7K]-C77\d{2}-(?:ACC-KIT|CAB-TOP|RMK|PCM)(?:=|$)|^NXK-ACC-KIT|^STK-RACKMNT-/ },
   // THE CABLE SPLIT, 11 Sep 2026 (reviewer §1.2; see SW_CABLE). These run first of all, for the reason the
   // cable rule below always has: a Swiss cord ends in "-SW" and must not reach the software rule.
   //   Cable-MANAGEMENT kits and stack blanks carry a CAB/STACK token and are not cables.

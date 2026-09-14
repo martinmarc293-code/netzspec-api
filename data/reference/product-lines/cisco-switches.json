@@ -9,8 +9,8 @@
    "belongs": "storage-networking"
   },
   {
-   "sku": "^CTS-|^CS-(PANO|ROOM|KIT)|^TTC",
-   "why": "TelePresence / Room system part",
+   "sku": "^CTS-(?!5K-(?:LC|UI)-SWITCH)|^CS-(?:PANO(?!-SWITCH)|ROOM|KIT)|^TTC",
+   "why": "TelePresence / Room system part (layers review A.6, 14 Sep 2026: NOT the four whole Catalyst switches sold as Room / IX5000 options — CTS-5K-LC-SWITCH, CTS-5K-UI-SWITCH 'Catalyst 2960C Switch', CS-PANO-SWITCH+ 'Catalyst 3560-CX', CS-PANO-SWITCH2+ 'C1000 16 Port Switch' — which run #1024 moved into switches and which place under their Catalyst series, like C1200-8FP-2G-OPT)",
    "belongs": "collaboration-endpoints"
   },
   {
@@ -156,6 +156,7 @@
       "^WS-SUP",
       "^VS-S(720|2T)",
       "^WS-SVC",
+      "^7600-S(IP|SC)-400",
       "^MEM-MSFC",
       "^WS-DFC",
       "^C6-",
@@ -310,7 +311,8 @@
      "series": "Catalyst 3560-C and 3560-CX",
      "role": "access",
      "sku": [
-      "^(NAL-)?(WS-)?C?3560C"
+      "^(NAL-)?(WS-)?C?3560C",
+      "^CS-PANO-SWITCH\\+$"
      ],
      "labels": [
       "3560-CX",
@@ -338,7 +340,8 @@
      "series": "Catalyst 2960-C and 2960-CX",
      "role": "access",
      "sku": [
-      "^(NAL-)?(WS-)?C?2960C"
+      "^(NAL-)?(WS-)?C?2960C",
+      "^CTS-5K-(LC|UI)-SWITCH$"
      ],
      "labels": [
       "2960C",
@@ -422,7 +425,8 @@
      "series": "Catalyst 1000",
      "role": "access",
      "sku": [
-      "^(NAL-|EDU-)?C1000"
+      "^(NAL-|EDU-)?C1000",
+      "^CS-PANO-SWITCH2\\+$"
      ],
      "labels": [
       "1000",
@@ -491,7 +495,7 @@
       "RPS2300",
       "^PWR-?RPS",
       "^PWR675",
-      "^RPS",
+      "^RPS(?!-COVER)",
       "^ACC-RPS",
       "^C3K-PWR-"
      ],
@@ -669,6 +673,7 @@
       "^N?9364E",
       "^N9KC93",
       "^(C1-)?N9K-C93",
+      "^N9K-93[0-9]",
       "^N9300",
       "^N93[0-9]"
      ],

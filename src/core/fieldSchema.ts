@@ -2322,8 +2322,11 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     multicast_groups: opt, acl_entries: opt,
     // kind-layer: latency is proposed REQUIRED of the datacenter role (spec v2 II.1: "DC buyers compare on latency").
     jumbo_mtu: cond({ field: "kind", inList: [...SW_DEVICE] }), latency: swOnly(["datacenter"]), cpu: opt,
-    dram: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
-    flash: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor"] }),
+    // layers review B.1 (14 Sep 2026): the routers component cup sets — `memory` is asked its DRAM, `flash` its flash size,
+    // `drive` its capacity (below), each beside product_compatibility (SW_COMPONENT). 31 / 46 / 21 rows out of `accessory`.
+    dram: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor", "memory"] }),
+    flash: cond({ field: "kind", inList: [...SW_DEVICE, "supervisor", "flash"] }),
+    storage_capacity: cond({ field: "kind", inList: ["drive"] }),
     // kind-layer: SW_BOX includes `chassis`; psu_config is in the CHASSIS archetype, so it stays SW_BOX.
     psu_config: cond({ field: "kind", inList: [...SW_BOX] }),
     // Redundancy is a question only where a PSU is MODULAR (11 Sep 2026, reviewer §1.8): a switch with
@@ -2393,7 +2396,14 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // components hold a value yet, which is coverage, not schema. chassis_compatibility, the same
     // quantity under a second key, is retired into this one (SUPERSEDED_KEYS).
     // kind-layer: + fex (spec v2 II.1: a FEX is bought for "the parent" it hangs off).
-    product_compatibility: cond({ field: "kind", inList: [...SW_COMPONENT, "fex"] }),
+    // layers review A.4 (14 Sep 2026): + `bundle`, the routers bundle cup set (what it fits, and its contents below).
+    product_compatibility: cond({ field: "kind", inList: [...SW_COMPONENT, "fex", "bundle"] }),
+    // layers review A.4: a pack or a heterogeneous set (switchKind.ts's head rules) owes its contents, from the registered
+    // derivation src/core/bundleContents.ts. MEASURED ON THE SAME COMMIT: 183 switch bundle rows, parsed 0 — every row is
+    // REFUSED with its reason (128 "the name states no contents", the rest counted tokens or named devices outside the
+    // vocabulary: "4xNexus 2232PP", "1xF312", "2xSUP2E", "Nexus 5596UP"). The cup is asked and cannot be filled from the
+    // name until the vocabulary learns those shapes — a recorded gap with its reasons, not a guessed bill of materials.
+    bundle_contents: cond({ field: "kind", inList: ["bundle"] }),
     // A cable is bought by its length ("3M Type 2 Stacking Cable", "Power Cord ... 2.5m"); "Length"
     // occurs 58 times in the inventory and already maps to cable_length. The plug of a power cord is
     // declared OPTIONAL: no label in any source inventory names it yet.

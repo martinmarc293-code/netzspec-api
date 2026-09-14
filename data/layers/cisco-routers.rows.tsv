@@ -4,12 +4,12 @@ sku	name	series_label	kind	bucket	product_line	series	placed_by	deploy_role	role
 1-100GE-DWDM/C=	Cisco CRS Series 1x100GE Integrated DWDM Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	sku ^1-100GE-DWDM					
 100GE-CFP-COVER	100GE CFP Dust Cover	ASR 9000	mechanical	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory -COVER (label ASR 9000)					
 100GE-CFP-COVER=	100GE CFP Dust Cover	ASR 9000	mechanical	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory -COVER (label ASR 9000)					
-100GE-DWDM-FP-PK	1-100GE Integrated DWDM Interface Module and FP Bundle	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
-100GE-DWDM-FP-PK=	1-100GE Integrated DWDM Interface Module and FP Bundle	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
-100GE-DWDM-LSP-PK	^1x100GE Integrated DWDM Interface Module and LSP Bundle	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
-100GE-DWDM-LSP-PK=	1x100GE Integrated DWDM Interface Module and LSP bundle	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
-100GE-DWDM-MSC-PK	1-100GE Integrated DWDM Interface Module and MSC Bundle	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
-100GE-DWDM-MSC-PK=	1-100GE Integrated DWDM Interface Module and MSC Bundle	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+100GE-DWDM-FP-PK	1-100GE Integrated DWDM Interface Module and FP Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+100GE-DWDM-FP-PK=	1-100GE Integrated DWDM Interface Module and FP Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+100GE-DWDM-LSP-PK	^1x100GE Integrated DWDM Interface Module and LSP Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+100GE-DWDM-LSP-PK=	1x100GE Integrated DWDM Interface Module and LSP bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+100GE-DWDM-MSC-PK	1-100GE Integrated DWDM Interface Module and MSC Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+100GE-DWDM-MSC-PK=	1-100GE Integrated DWDM Interface Module and MSC Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 100GE-FP140-BNDL=	Cisco CRS 100GE FP Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 100GE-FP400G-BUN=	Cisco CRS Series 4x100GE FP Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 100GE-MSC-BNDL=	Cisco CRS Series 100GE MSC Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
@@ -24,8 +24,8 @@ sku	name	series_label	kind	bucket	product_line	series	placed_by	deploy_role	role
 14X10GBE-WL-XFP	Cisco CRS Series 14x10GbE LAN/WAN-PHY Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 14X10GBE-WL-XFP++=	Cisco CRS Series 14x10GbE LAN/WAN-PHY Interface Module TAA	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 14X10GBE-WL-XFP=	Cisco CRS Series 14x10GbE LAN/WAN-PHY Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
-15454-M-CBL-L-JPN	AC power cable - Japan left exit	Network Convergence System 5500 Series	power-cord	not_this_category			exclude ^15454-M-CBL-[LR]-JPN$					optical-networking
-15454-M-CBL-R-JPN	AC power cable - Japan right exit	Network Convergence System 5500 Series	power-cord	not_this_category			exclude ^15454-M-CBL-[LR]-JPN$					optical-networking
+15454-M-CBL-L-JPN	AC power cable - Japan left exit	Network Convergence System 5500 Series	power-cord	pending_plan							move optical-networking	
+15454-M-CBL-R-JPN	AC power cable - Japan right exit	Network Convergence System 5500 Series	power-cord	pending_plan							move optical-networking	
 1941-2901-FANBLWR=	Cisco 1941/2901 Fan Blower Assembly (only as spare)	2900 ISR	fan	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
 1FXO	Cisco 1FXO	800	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
 1ISDN	Cisco 1ISDN	800	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
@@ -33,13 +33,13 @@ sku	name	series_label	kind	bucket	product_line	series	placed_by	deploy_role	role
 1OC768-DPSK/C	Cisco CRS-1 1-Port OC-768/STM-256c DPSK+ (C-band) DWDM PLIM	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 1OC768-DPSK/C-O=	Cisco CRS-1 1xOC768 (C-band) DPSK+ DWDM PLIM (Offset TDC)	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 1OC768-ITU/C	Cisco CRS-1 1-Port OC-768c/STM-256c (C-band) DWDM PLIM	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
-1OC768-POS-1PK-B=	1 pack of 1OC768-POS PLIM with MSC-B for the Cisco CRS-1	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
-1OC768-POS-4PK-B=	4 pack of 1OC768-POS-SR PLIM with MSC-B for the Cisco CRS-1	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+1OC768-POS-1PK-B=	1 pack of 1OC768-POS PLIM with MSC-B for the Cisco CRS-1	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+1OC768-POS-4PK-B=	4 pack of 1OC768-POS-SR PLIM with MSC-B for the Cisco CRS-1	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 1OC768-POS-SR	Cisco CRS-1 Series 1xOC768/STM256 POS Interface Module/SR	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 1OC768-POS-SR=	Cisco CRS-1 Series 1xOC768/STM256 POS Interface Module/SR	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
-1OC768DPS/CO-4PK-B	4 pack of 1OC768-DPSK/C-O PLIM with MSC-B for Cisco CRS-1	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
-1OC768ITU/C-1PK-B=	1 pack of 1OC768-ITU/C PLIM with MSC-B for the Cisco CRS-1	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
-1OC768ITU/C-4PK-B=	4 pack of 1OC768-ITU/C PLIM with MSC-B for the Cisco CRS-1	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+1OC768DPS/CO-4PK-B	4 pack of 1OC768-DPSK/C-O PLIM with MSC-B for Cisco CRS-1	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+1OC768ITU/C-1PK-B=	1 pack of 1OC768-ITU/C PLIM with MSC-B for the Cisco CRS-1	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+1OC768ITU/C-4PK-B=	4 pack of 1OC768-ITU/C PLIM with MSC-B for the Cisco CRS-1	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 1V/2V/2VE	Cisco 1V/2V/2VE	2900 ISR	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
 1X100GBE++=	Cisco CRS Series 1x100GbE Interface Module TAA	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 1X100GBE-PK	Phantom PID for Cisco CRS Series 1x100GbE Interface Module	Carrier Routing System	module	pending_plan							class non_product	
@@ -77,8 +77,8 @@ sku	name	series_label	kind	bucket	product_line	series	placed_by	deploy_role	role
 3900-FANASSY-N-2	Cisco 3925/3945 Fan Assembly for NEBS (w/3900-FANFLTR-NEBS)	3900 Series Integrated Services Routers ISR	fan	layered	ISR (Integrated Services Routers)	ISR 3900	label 3900 Series Integrated Services Routers ISR					
 3900-FANASSY-N-2=	Cisco 3925/3945 Fan Assembly for NEBS (w/3900-FANFLTR-NEBS)	3900 Series Integrated Services Routers ISR	fan	layered	ISR (Integrated Services Routers)	ISR 3900	label 3900 Series Integrated Services Routers ISR					
 3900-FANASSY-NEBS	Cisco 3925/3945 Fan Assembly for NEBS w/3900-FANFLTR-NEBS & Bezel (Both system & spare)	2900 ISR	fan	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
-3900-FANASSY-NEBS=	Cisco 3900-FANASSY-NEBS=	3900 Series Integrated Services Routers ISR	fan	layered	ISR (Integrated Services Routers)	ISR 3900	label 3900 Series Integrated Services Routers ISR					
-3900-FANASSY=	Cisco 3900-FANASSY=	3900 Series Integrated Services Routers ISR	fan	layered	ISR (Integrated Services Routers)	ISR 3900	label 3900 Series Integrated Services Routers ISR					
+3900-FANASSY-NEBS=	Cisco 3900-FANASSY-NEBS=	3900 Series Integrated Services Routers ISR	fan	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
+3900-FANASSY=	Cisco 3900-FANASSY=	3900 Series Integrated Services Routers ISR	fan	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
 3FXS/4FXO	Cisco 3FXS/4FXO	2900 ISR	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
 3G-ACC-OUT-LA	3G Outdoor Antenna Lightning Arrestor	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
 3G-ACC-OUT-LA=	3G Outdoor Antenna Lighting Protector	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
@@ -130,13 +130,13 @@ sku	name	series_label	kind	bucket	product_line	series	placed_by	deploy_role	role
 4FXO	Cisco 4FXO	2900 ISR	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
 4FXS/DID	Cisco 4FXS/DID	2900 ISR	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
 4G-ACC-OUT-LA	Lightning Arrestor	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label Catalyst IR1800 Rugged)					
-4G-ACC-OUT-LA=	Cisco 4G-ACC-OUT-LA=	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
+4G-ACC-OUT-LA=	Cisco 4G-ACC-OUT-LA=	800	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label Catalyst IR1800 Rugged)					
 4G-AE010-R	Cisco 4G-AE010-R	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
 4G-AE010-R=	Cisco 4G-AE010-R=	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
 4G-AE015-R	Cisco 4G-AE015-R	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
 4G-AE015-R=	Cisco 4G-AE015-R=	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
 4G-ANTM-OM-CM	Cisco 4G-ANTM-OM-CM	800 ISR	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800 ISR)					
-4G-ANTM-OM-CM=	Cisco 4G-ANTM-OM-CM=	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
+4G-ANTM-OM-CM=	Cisco 4G-ANTM-OM-CM=	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800 ISR)					
 4G-CAB-LMR240-25	Cisco 4G-CAB-LMR240-25	800	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
 4G-CAB-LMR240-25=	Cisco 4G-CAB-LMR240-25=	800	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
 4G-CAB-LMR240-50	Cisco 4G-CAB-LMR240-50	800	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
@@ -152,8 +152,8 @@ sku	name	series_label	kind	bucket	product_line	series	placed_by	deploy_role	role
 4G-LTE-ANTM-O-3-B	Cisco 4G-LTE-ANTM-O-3-B	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label Catalyst IR1800 Rugged)					
 4G-LTE-ANTM-O-3-X	Cisco 4G-LTE-ANTM-O-3-X	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
 4G-LTE-ANTM-O-3-X=	Cisco 4G-LTE-ANTM-O-3-X=	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
-4OC192-SPA-4PK-B=	4 Pack of SIP-800, OC192 SPA and MSC-B for CRS-1	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
-4OC192-SPA-4PK=	4 Pack of SIP-800 and OC192 SPAs for CRS-1	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+4OC192-SPA-4PK-B=	4 Pack of SIP-800, OC192 SPA and MSC-B for CRS-1	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
+4OC192-SPA-4PK=	4 Pack of SIP-800 and OC192 SPAs for CRS-1	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 4OC48-POS	CRS-1 Series 4xOC48/STM16 POS Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 4OC48-POS=	^CRS-1 Series 4xOC48/STM16 POS Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 4X100GE-LO	Cisco CRS Series 4x100GbE LAN/OTN Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
@@ -186,7 +186,7 @@ sku	name	series_label	kind	bucket	product_line	series	placed_by	deploy_role	role
 8000-QSFP-DCAP	QSFP Dust CAP	8000	mechanical	layered	Cisco 8000	Cisco 8000	sku ^8[0-9]{3}(-|$)					
 800G2-POE-2	2 Port PoE Module for 880 Series Router	800	power	layered	ISR (Integrated Services Routers)	ISR 800	sku ^8[0-9]{2}(VA|EA|W|G|M|H)					
 800G2-POE-2=	2 Port 802.3af compatible PoE module for 880 Series	800	power	layered	ISR (Integrated Services Routers)	ISR 800	sku ^8[0-9]{2}(VA|EA|W|G|M|H)					
-8010-FC-SW	Standard SW ATO FCM 2.0 for Cisco 8010 Series	8000	sp-router	layered	Cisco 8000	Cisco 8000	sku ^8[0-9]{3}(-|$)	sp-core	series:Cisco 8000			
+8010-FC-SW	Standard SW ATO FCM 2.0 for Cisco 8010 Series	8000	sp-router	pending_plan				sp-core	series:Cisco 8000		class license	
 8011-12G12X4Y-A	Cisco 8011-12G12X4Y-A	ASR 920 Series Aggregation Services Router	sp-router	layered	Cisco 8000	Cisco 8000	sku ^8[0-9]{3}(-|$)	sp-core	series:Cisco 8000			
 8011-12G12X4Y-A/D	Cisco 8011-12G12X4Y-A/D	8000	sp-router	layered	Cisco 8000	Cisco 8000	sku ^8[0-9]{3}(-|$)	sp-core	series:Cisco 8000			
 8011-12G12X4Y-A=	Cisco 8011-12G12X4Y-A=	ASR 920 Series Aggregation Services Router	sp-router	layered	Cisco 8000	Cisco 8000	sku ^8[0-9]{3}(-|$)	sp-core	series:Cisco 8000			
@@ -483,7 +483,7 @@ A907-FAN-F-B=	ASR 907 FAN Tray Filter Blank Panel, Spare	ASR 900	fan	layered	ASR
 A907-FAN-F=	ASR 907 FAN Tray Filter, Spare	ASR 900	fan	layered	ASR (Aggregation Services Routers)	ASR 900	sku ^A90[0-9]-					
 A907-RCKMNT-19IN=	EIA 19in Rack Mount Option for the Cisco ASR 907, Spare	Network Convergence System 500	mechanical	layered	ASR (Aggregation Services Routers)	ASR 900	sku ^A90[0-9]-					
 A907-RCKMNT-ETSI=	ETSI Rack Mount Option for the Cisco ASR 907, Spare	Network Convergence System 500	mechanical	layered	ASR (Aggregation Services Routers)	ASR 900	sku ^A90[0-9]-					
-A90X-RSPA-BLANK	Cisco A90X-RSPA-BLANK	ASR 900	accessory	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory BLANK (label ASR 900)					
+A90X-RSPA-BLANK	Cisco A90X-RSPA-BLANK	ASR 900	mechanical	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory BLANK (label ASR 900)					
 A90X-RSPA-BLANK=	ASR 90X Route Switch Processor Type-A Blank Cover, spare	ASR 900	mechanical	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory BLANK (label ASR 900)					
 A90X-RSPB-BLANK=	ASR 90X Route Switch Processor Type-B Blank Cover, spare	ASR 900	mechanical	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory BLANK (label ASR 900)					
 A920-CBL-BRKT	Cable Bracket (Non-ETSI)	ASR 920 Series Aggregation Services Router	mechanical	layered	ASR (Aggregation Services Routers)	ASR 920	sku ^A920					
@@ -514,9 +514,9 @@ A920-RCKMT-ETSI-HD	ETSI Rack mount Option for ClassB Cisco ASR 920, DC	ASR 920 S
 A920-WALLMT-H	Wall Mount Option for ClassB Cisco ASR 920	ASR 920 Series Aggregation Services Router	mechanical	layered	ASR (Aggregation Services Routers)	ASR 920	sku ^A920					
 A99-10X400GE-X-SE	ASR 9000 4T Service Edge Line Card - 5 th Generation	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A99-					
 A99-10X400GE-X-TR	ASR 9000 4T Packet Transport Line Card - 5 th Generation	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A99-					
-A99-1200G-ADVRTNG	ASR 9900 Standard Advanced routing license for route scales exceeding 128K for IPv4 and 64K for IPv6 per 12-port 100GE line card	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A99-					
-A99-1200G-AIP	ASR 9900 Standard Advanced IP License to turn on full-scale VRF instances per 12-port 100-GE line card	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A99-					
-A99-1200G-IVRF	ASR 9900 Standard License to activate up to 8 VRFs on 12x100GE Line Card	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A99-					
+A99-1200G-ADVRTNG	ASR 9900 Standard Advanced routing license for route scales exceeding 128K for IPv4 and 64K for IPv6 per 12-port 100GE line card	ASR 9000	linecard	pending_plan							class license	
+A99-1200G-AIP	ASR 9900 Standard Advanced IP License to turn on full-scale VRF instances per 12-port 100-GE line card	ASR 9000	linecard	pending_plan							class license	
+A99-1200G-IVRF	ASR 9900 Standard License to activate up to 8 VRFs on 12x100GE Line Card	ASR 9000	linecard	pending_plan							class license	
 A99-12X100GE	ASR 9900 12-port 100GE Line Card	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A99-					
 A99-12X100GE-CM	ASR 9900 12-port 100GE Consumption Model Line Card	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A99-					
 A99-12X100GE-CM=	ASR 9900 12-port 100GE Consumption Model Line Card, Spare	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A99-					
@@ -665,7 +665,7 @@ A9K-3KW-AC	3kW AC Power Module	ASR 9000	power	layered	ASR (Aggregation Services 
 A9K-3KW-AC=	3kW AC Power Module	ASR 9000	power	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
 A9K-400G-DWDM-TR	ASR9000 400G IPoDWDM Packet Transport Optimized LC	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
 A9K-400G-DWDM-TR=	ASR9000 400G IPoDWDM Packet Transport Optimized LC	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
-A9K-400G-L-AIP	ASR 9K Standard License Advanced IP for 4-port 100GE LAN Line Card	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
+A9K-400G-L-AIP	ASR 9K Standard License Advanced IP for 4-port 100GE LAN Line Card	ASR 9000	linecard	pending_plan							class license	
 A9K-400GE-LAN-FC	ASR 9000 4-port 100GE QSFP28 Flexible Consumption Model LAN Line Card	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
 A9K-400GE-LAN-FC=	ASR 9000 4-port 100GE QSFP28 Flexible Consumption Model LC	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
 A9K-40GE-B	40-Port GE Medium Queue Line Card, requires SFPs	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
@@ -686,7 +686,7 @@ A9K-48X10GE-1G-SE	ASR 9000 48-port dual-rate 10G/1G service edge–optimized lin
 A9K-48X10GE-1G-SE=	ASR 9000 48-port 10GE & 1GE dual rate SE LC	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
 A9K-48X10GE-1G-TR	ASR 9000 48-port dual-rate 10G/1G packet transport–optimized line card	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
 A9K-48X10GE-1G-TR=	ASR 9000 48-port 10GE & 1GE dual rate -TR LC	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
-A9K-4HG-200G-DWDM=	PAYG for 200Gbs use in 400G IPoDWDM cards	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
+A9K-4HG-200G-DWDM=	PAYG for 200Gbs use in 400G IPoDWDM cards	ASR 9000	linecard	pending_plan							class license	
 A9K-4HG-FLEX-FC	ASR 9000 400GB Flexible Consumption Line Card - 5 th Generation	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
 A9K-4HG-FLEX-FC=	Cisco A9K-4HG-FLEX-FC=	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
 A9K-4HG-FLEX-SE	ASR 9000 400GE Combo Service Edge Line Card - 5 th Generation	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^A9KV?-					
@@ -864,7 +864,7 @@ ACS-1941-RM-19=	19 inch rack mount kit for Cisco 1941 &1941W ISR	2900 ISR	mechan
 ACS-2000-RMRGD-19=	Rack Mount Kit Spare 19	2000 Series Connected Grid	mechanical	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^ACS-2000-RMRGD					
 ACS-2000-RMRGD-23=	Rack Mount Kit Spare 23	2000 Series Connected Grid	mechanical	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^ACS-2000-RMRGD					
 ACS-2500ASYN	Auxiliary/Console Port Cable Kit	800	mechanical	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ASYN (label 800)					
-ACS-2500ASYN=	AUX/Console Part Cable Kit	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ASYN (label 2900 ISR)					
+ACS-2500ASYN=	AUX/Console Part Cable Kit	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ASYN (label 800)					
 ACS-2900-RM-19	19 inch rack mount kit for Cisco 2911/2921/2951 ISR	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	ISR 2900	sku ^ACS-29[0-9]{2}-					
 ACS-2900-RM-19=	19 inch rack mount kit for Cisco 2911/2921/2951 ISR	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	ISR 2900	sku ^ACS-29[0-9]{2}-					
 ACS-2901-RM-19	19 inch rack mount kit for ISR Cisco 2901 and Cisco 891-24X	800	mechanical	layered	ISR (Integrated Services Routers)	ISR 2900	sku ^ACS-29[0-9]{2}-					
@@ -930,7 +930,7 @@ ACS-900-RM-19=	19 inch Rackmount Kit for ISR 900 Series Routers	900 ISR	mechanic
 ACS-CF-COVER=	Compact Flash Cover (Guard) for Cisco 1900, 2900, 3900 ISR (only as spare)	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory -COVER (label 2900 ISR)					
 ACS-IAD2400RM-19=	19 inch Rack Mount Bracket for Cisco IAD24xx	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory RM-?(19|23) (label 2900 ISR)					
 ACS-IAD2435RM-19	IAD2435 19 Rack Bracket	800	mechanical	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory RM-?(19|23) (label 800)					
-ACS-IAD2435RM-19=	IAD2435 19 Rack Bracket	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory RM-?(19|23) (label 2900 ISR)					
+ACS-IAD2435RM-19=	IAD2435 19 Rack Bracket	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory RM-?(19|23) (label 800)					
 ADN-PRM-8KSW-100G	Advantage to Premium Right-to-Use 100G Cisco 8000 Series	8000	router	pending_plan					rt.issue.licence	licence/software/planning PID	class license	
 ADN-PRM-8KSW-400G	Advantage to Premium Right-to-Use 400G Cisco 8000 Series	8000	router	pending_plan					rt.issue.licence	licence/software/planning PID	class license	
 ADSL2	Cisco ADSL2	900 ISR	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
@@ -956,9 +956,9 @@ ANT-3.X-PNL-OUT-N	Outdoor Panel Antenna for WIMAX 3.x GHz	1000 Connected Grid	an
 ANT-3.X-PNL-OUT-N=	Outdoor Panel Antenna for WIMAX 3.x GHz	1000 Connected Grid	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label 1000 Connected Grid)					
 ANT-4-5G4-O	Cisco ANT-4-5G4-O	Catalyst IR8100 Heavy Duty	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label Catalyst IR8100 Heavy Duty)					
 ANT-4G-CM-IN-TNC	Multiband Volcano Ceiling Mount Indoor 4G Antenna	1000 Connected Grid	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label 1000 Connected Grid)					
-ANT-4G-CM-IN-TNC=	Multiband Volcano Ceiling Mount Indoor 4G Antenna	2000 Series Connected Grid	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label 2000 Series Connected Grid)					
+ANT-4G-CM-IN-TNC=	Multiband Volcano Ceiling Mount Indoor 4G Antenna	2000 Series Connected Grid	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label 1000 Connected Grid)					
 ANT-4G-DP-IN-TNC	Multiband Swivel Mount Dipole Indoor 4G Antenna	800 ISR	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^ANT- (label 800 ISR)					
-ANT-4G-DP-IN-TNC=	Multiband Swivel Mount Dipole Indoor 4G Antenna	2000 Series Connected Grid	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label 2000 Series Connected Grid)					
+ANT-4G-DP-IN-TNC=	Multiband Swivel Mount Dipole Indoor 4G Antenna	2000 Series Connected Grid	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^ANT- (label 800 ISR)					
 ANT-4G-OMNI-OUT-N	Multiband Omni-Directional Stick Outdoor 4G Antenna	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label Catalyst IR1800 Rugged)					
 ANT-4G-SR-OUT-TNC=	Multiband Low-Profile Saucer Outdoor 4G Antenna	2000 Series Connected Grid	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label 2000 Series Connected Grid)					
 ANT-5-4G2WL2G1-O	Cisco ANT-5-4G2WL2G1-O	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label Catalyst IR1800 Rugged)					
@@ -970,7 +970,7 @@ ANT-LORA-O-N	Cisco v2 LoRa interface omni-directional antenn	Wireless Gateway fo
 ANT-LORA-O-N=	Cisco v2 LoRa interface omni-directional antenn	Wireless Gateway for LoRaWAN	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label Wireless Gateway for LoRaWAN)					
 ANT-LPWA-DB-O-N	Outdoor omni-antenna, 863-928 MHz, 6 dBi, type N connector	Wireless Gateway for LoRaWAN	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label Wireless Gateway for LoRaWAN)					
 ANT-LPWA-DB-O-N-5	Outdoor omni-antenna, operates on 863-928 MHz, 5 dBi, type N female connector	Catalyst IR8100 Heavy Duty	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label Catalyst IR8100 Heavy Duty)					
-ANT-LPWA-DB-O-N-5=	Cisco ANT-LPWA-DB-O-N-5=	Wireless Gateway for LoRaWAN	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label Wireless Gateway for LoRaWAN)					
+ANT-LPWA-DB-O-N-5=	Cisco ANT-LPWA-DB-O-N-5=	Wireless Gateway for LoRaWAN	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label Catalyst IR8100 Heavy Duty)					
 ANT-LPWA-DB-O-N=	Outdoor omni-antenna, 863-928 MHz, 6 dBi, type N connector	Wireless Gateway for LoRaWAN	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label Wireless Gateway for LoRaWAN)					
 ANT-LPWA-SMA-D	Cisco omni-directional antenna for 863-928 MHz LoRaWAN, SMA	Wireless Gateway for LoRaWAN	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label Wireless Gateway for LoRaWAN)					
 ANT-LPWA-SMA-D=	Cisco omni-directional antenna for 863-928 MHz LoRaWAN, SMA	Wireless Gateway for LoRaWAN	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label Wireless Gateway for LoRaWAN)					
@@ -980,7 +980,7 @@ ANT-WPAN-OD-OUT-N	Outdoor/indoor omni-antenna, operates on 863-928 MHz, 1.5 dBi,
 ANT-WPAN-OM-N	Cisco ANT-WPAN-OM-N	1000 Connected Grid	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label 1000 Connected Grid)					
 ANT-WPAN-OM-OUT-N	Outdoor omni-antenna, 902-928 MHz, 4 dBi	500 WPAN	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label 500 WPAN)					
 ANT-WPAN-OM-OUT-N-5	Cisco ANT-WPAN-OM-OUT-N-5	1000 Connected Grid	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label 1000 Connected Grid)					
-ANT-WPAN-OM-OUT-N=	Outdoor Omni Antenna for 900 MHz WPAN	Wireless Gateway for LoRaWAN	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label Wireless Gateway for LoRaWAN)					
+ANT-WPAN-OM-OUT-N=	Outdoor Omni Antenna for 900 MHz WPAN	Wireless Gateway for LoRaWAN	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label 500 WPAN)					
 ANT-WPAN-Y-OUT-N	Cisco ANT-WPAN-Y-OUT-N	1000 Connected Grid	antenna	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^ANT- (label 1000 Connected Grid)					
 ANTENNASBF3O	Cisco ANTENNASBF3O	Wireless Gateway for LoRaWAN	antenna	layered	Industrial and IoT Routers	Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN					
 ASR-9000V-24-A	44-Port GE + 4-Port 10GE ASR 9000v, +24DC Power ANSI Chassis	ASR 9000	sp-router	layered	ASR (Aggregation Services Routers)	ASR 9000	sku ^ASR-?9[0-9]{3}	sp-edge	series:ASR 9000			
@@ -1180,8 +1180,8 @@ ASR1000-RP2	Cisco ASR 1000 Route Processor 2, 8 GB DRAM	ASR 1000	processor	layer
 ASR1000-RP2=	Cisco ASR 1000 Route Processor 2, 8 GB DRAM, spare	ASR 1000	processor	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}					
 ASR1000-RP3	Cisco ASR1000 Series Route Processor 3	ASR 1000	processor	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}					
 ASR1000-RP3++=	Cisco ASR1000 Route Processor 3, spare (TAA)	ASR 1000	processor	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}					
-ASR1000-RP3-32G-2P	Cisco ASR1000 Series RP3 w/ 32 GB, 2 Pack	ASR 1000	processor	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}					
-ASR1000-RP3-64G-2P	Cisco ASR1000 Series RP3 w/ 64 GB, 2 Pack	ASR 1000	processor	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}					
+ASR1000-RP3-32G-2P	Cisco ASR1000 Series RP3 w/ 32 GB, 2 Pack	ASR 1000	bundle	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}					
+ASR1000-RP3-64G-2P	Cisco ASR1000 Series RP3 w/ 64 GB, 2 Pack	ASR 1000	bundle	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}					
 ASR1000-RP3-PR	Cisco ASR1000 Route Processor 3 Promotion	ASR 1000	processor	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}					
 ASR1000-RP3-PR=	Cisco ASR1000 Route Processor 3 Promotion	ASR 1000	processor	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}					
 ASR1000-RP3=	Cisco ASR1000 Series Route Processor 3, Spare	ASR 1000	processor	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}					
@@ -1430,7 +1430,7 @@ C-SM-16P4M2X=	Cisco C-SM-16P4M2X=	4000 ISR	module	pending_plan							move interf
 C-SM-40P8M2X	Cisco 50-port Catalyst L2 switch module with UADP ASIC	Catalyst 8300	module	pending_plan							move interfaces-modules	
 C-SM-40P8M2X=	Cisco C-SM-40P8M2X=	4000 ISR	module	pending_plan							move interfaces-modules	
 C-SM-NIM-ADPT	Single-wide 2x NIM carrier module in SM-X form factor	Catalyst 8300	mechanical	pending_plan							move interfaces-modules	
-C-SM-NIM-ADPT=	Cisco C-SM-NIM-ADPT=	4000 ISR	accessory	pending_plan							move interfaces-modules	
+C-SM-NIM-ADPT=	Cisco C-SM-NIM-ADPT=	4000 ISR	mechanical	pending_plan							move interfaces-modules	
 C-U2-BLANK	Cisco Catalyst U.2 2.5" Disk Blank	Catalyst 8300 Series Edge uCPE	mechanical	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	accessory BLANK (label Catalyst 8300 Series Edge uCPE)					
 C-U2-BLANK=	Cisco Catalyst U.2 2.5" Disk Blank Spare	Catalyst 8300 Series Edge uCPE	mechanical	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	accessory BLANK (label Catalyst 8300 Series Edge uCPE)					
 C1-ASR1001-HX/K9	Cisco ONE - ASR1001-HX, 4x10GE+4x1GE, 2x P/S	3900 Series Integrated Services Routers ISR	router	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}	edge	series:ASR 1000			
@@ -2127,7 +2127,7 @@ CAB-AC2UK	AC Power cord UK	800	power-cord	layered	ISR (Integrated Services Route
 CAB-ACSA=	^AC Power Cord (South Africa), C13, BS 546, 1.8m	2900 ISR	power-cord	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 2900 ISR)					
 CAB-ACSAF=	AC Power Cord (South Africa), C13, BS 546, 1.8m	2900 ISR	power-cord	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 2900 ISR)					
 CAB-ACTW	AC Power Cord (Taiwan), C13, EL 302, 2.3M	Network Convergence System 5500 Series	power-cord	layered	NCS (Network Convergence System)	NCS (Network Convergence System) shared parts	accessory ^CAB- (label Network Convergence System 5500 Series)					
-CAB-ADPT4P-75-120	4 pack 75-120 Ohm adapter cables	800	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 800)					
+CAB-ADPT4P-75-120	4 pack 75-120 Ohm adapter cables	800	bundle	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 800)					
 CAB-ASYNC-8	New generation; same connector and pin-out as CAB-HD8-ASYNC, but with slimmer housing	4000 ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 4000 ISR)					
 CAB-ATM-DS3/E3	ATM Cable, DS-3 and E3, 10	3900 Series Integrated Services Routers ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 3900 Series Integrated Services Routers ISR)					
 CAB-ATM-DS3/E3-E	Cisco CAB-ATM-DS3/E3-E	3900 Series Integrated Services Routers ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 3900 Series Integrated Services Routers ISR)					
@@ -2141,7 +2141,7 @@ CAB-C7-ACB	AC Power Cord (Brazil), C7, INMETRO 60884-1, 1.8M	800	power-cord	laye
 CAB-C7-ACB=	AC Power Cord (Brazil), C7, INMETRO 60884-1, 1.8M	800	power-cord	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 800)					
 CAB-CON-USBRJ45	Cisco Micro USB to RJ-45 Console Adapter	Catalyst 8300 Series Edge uCPE	cable	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	accessory ^CAB- (label Catalyst 8300 Series Edge uCPE)					
 CAB-CONAUX	Straight serial cable - RJ45 to DB25 male	1000	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
-CAB-CONAUX=	Straight serial cable - RJ45 to DB25 male	800	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 800)					
+CAB-CONAUX=	Straight serial cable - RJ45 to DB25 male	800	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
 CAB-CONSOLE-RJ45=	Console cable: 6 ft with RJ-45 and DB9F (spare)	ASR 901	cable	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory ^CAB- (label ASR 901)					
 CAB-DSU-RJ45=	Blue Color Cable for DSU/CSU, RJ-45, 6 feet	4000 ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 4000 ISR)					
 CAB-E1-RJ45BNC=	E1 Cable RJ45 to dual BNC (unbalanced), Spare	5000 Enterprise Network Compute	cable	layered	ENCS (Enterprise Network Compute)	ENCS (Enterprise Network Compute) shared parts	accessory ^CAB- (label 5000 Enterprise Network Compute)					
@@ -2155,7 +2155,7 @@ CAB-E1-RJ45TWIN=	E1 Cable RJ45 to Twinax (balanced), Spare	800	cable	layered	ISR
 CAB-ETH-S-RJ45	Ethernet cable, RJ45	Catalyst IR1800 Rugged	cable	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^CAB- (label Catalyst IR1800 Rugged)					
 CAB-HD4-232FC	4-port EIA-232 DCE cable, 68-pin port, 10 ft. length, female DB-25 connector	ASR 900	cable	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory ^CAB- (label ASR 900)					
 CAB-HD4-232MT	4-port EIA-232 DTE cable, 68-pin port, 10 ft. length, male DB-25 connector	ASR 900	cable	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory ^CAB- (label ASR 900)					
-CAB-HD4-232MT=	High Density 4-port EIA-232 Cable, Male, DTE	Catalyst 8200	cable	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	accessory ^CAB- (label Catalyst 8200)					
+CAB-HD4-232MT=	High Density 4-port EIA-232 Cable, Male, DTE	Catalyst 8200	cable	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory ^CAB- (label ASR 900)					
 CAB-HD8-ASYNC=	High Density 8-port EIA-232 Async Cable	Catalyst 8200	cable	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	accessory ^CAB- (label Catalyst 8200)					
 CAB-HD8-KIT=	High Density 8-port Async Cable w/ 8 DB-25 Modem Connectors	Catalyst 8200	cable	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	accessory ^CAB- (label Catalyst 8200)					
 CAB-IND-10A	AC Power Cord (India), C13, IS1293, 2.5m	Network Convergence System 5500 Series	power-cord	layered	NCS (Network Convergence System)	NCS (Network Convergence System) shared parts	accessory ^CAB- (label Network Convergence System 5500 Series)					
@@ -2194,9 +2194,9 @@ CAB-SERVICE-3P	3 Prong AC Power Supply Cable for C7/C8 AC Adaptors	800	power-cor
 CAB-SS-232FC	4-port EIA-232 DCE cable, 12-in-1 port, 10 ft. length, female DB-25 connector	1000	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
 CAB-SS-232MT	4-port EIA-232 DTE cable, 12-in-1 port, 10 ft. length, male DB-25 connector	1000	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
 CAB-SS-449FC	RS-449 Cable, DCE Female to Smart Serial, 10 Feet	1000	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
-CAB-SS-449FC=	RS-449 Cable, DCE Female to Smart Serial, 10 Feet	4000 ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 4000 ISR)					
+CAB-SS-449FC=	RS-449 Cable, DCE Female to Smart Serial, 10 Feet	4000 ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
 CAB-SS-449MT	RS-449 Cable, DTE Male to Smart Serial, 10 Feet	1000	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
-CAB-SS-449MT=	RS-449 Cable, DTE Male to Smart Serial, 10 Feet	800 ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 800 ISR)					
+CAB-SS-449MT=	RS-449 Cable, DTE Male to Smart Serial, 10 Feet	800 ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
 CAB-SS-530AMT	RS-530A Cable, DTE Male to Smart Serial	1000	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
 CAB-SS-530MT	RS-530 Cable, DTE Male to Smart Serial	1000	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
 CAB-SS-RJ45	RJ45 Cable to Smart Serial, 10 Feet	800	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 800)					
@@ -2204,9 +2204,9 @@ CAB-SS-RJ45=	RJ45 Cable to Smart Serial, 10 Feet	800	cable	layered	ISR (Integrat
 CAB-SS-V35FC	V.35 Cable, DCE Female to Smart Serial	1000	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
 CAB-SS-V35MT	V.35 Cable, DTE Male to Smart Serial	1000	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
 CAB-SS-X21FC	X.21 Cable, DCE Female to Smart Serial, 10 Feet	1000	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
-CAB-SS-X21FC=	X.21 Cable, DCE Female to Smart Serial, 10 Feet	4000 ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 4000 ISR)					
+CAB-SS-X21FC=	X.21 Cable, DCE Female to Smart Serial, 10 Feet	4000 ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
 CAB-SS-X21MT	X.21 Cable, DTE Male to Smart Serial, 10 Feet	1000	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
-CAB-SS-X21MT=	X.21 Cable, DTE Male to Smart Serial, 10 Feet	4000 ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 4000 ISR)					
+CAB-SS-X21MT=	X.21 Cable, DTE Male to Smart Serial, 10 Feet	4000 ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 1000)					
 CAB-T1-RJ45BARE	T1 Cable RJ45 to RJ45 Bare	800	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 800)					
 CAB-T1-RJ45BARE=	T1 Cable RJ45 to RJ45 Bare, Spare	800	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^CAB- (label 800)					
 CAB-USB-UB	Cisco CAB-USB-UB	Catalyst IR1800 Rugged	cable	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^CAB- (label Catalyst IR1800 Rugged)					
@@ -2230,7 +2230,7 @@ CABLE-16TDM-L2	16 port cable for TDM CEM IM, no red, 63" / 5.3 ft / 1.6 m	ASR 90
 CABLE-16TDM-L3	16 port cable for TDM CEM IM, no red, 85" / 7.1ft / 2.2 m	ASR 900	cable	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory ^CABLE (label ASR 900)					
 CABLE-16TDM-L4	16 port cable for TDM CEM IM, no red, 96" / 8 ft / 2.4 m	ASR 900	cable	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory ^CABLE (label ASR 900)					
 CABLE-32T1E1	Cable for 32 Port T1/E1 Interface Module	ASR 920 Series Aggregation Services Router	cable	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory ^CABLE (label ASR 920 Series Aggregation Services Router)					
-CABLE-32T1E1=	Cable for 32 Port T1/E1 Interface Module	ASR 900	cable	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory ^CABLE (label ASR 900)					
+CABLE-32T1E1=	Cable for 32 Port T1/E1 Interface Module	ASR 900	cable	layered	ASR (Aggregation Services Routers)	ASR (Aggregation Services Routers) shared parts	accessory ^CABLE (label ASR 920 Series Aggregation Services Router)					
 CABLESBIB4	Cisco CABLESBIB4	Wireless Gateway for LoRaWAN	cable	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory ^CABLE (label Wireless Gateway for LoRaWAN)					
 CAT18	Cisco CAT18	8100 Series Secure	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
 CAT3	Cisco CAT3	8100 Series Secure	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
@@ -2313,10 +2313,10 @@ CGR-PMK-BAND=	Band strap for CGR1000 series, Set of Two (2)	1000 Connected Grid	
 CGR-PMK1000	Pole mount kit for Cisco 1000 Series Connected Grid Router	1000 Connected Grid	mechanical	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	label 1000 Connected Grid					
 CGR-PMK1000=	Pole mount kit for Cisco 1000 Series Connected Grid Router	1000 Connected Grid	mechanical	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	label 1000 Connected Grid					
 CGR-PWR-RETRO=	CGR 2010 Power Terminal Cover Retrofit	2000 Series Connected Grid	power	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	label 2000 Series Connected Grid					
-CGR-PWRCORD-EU	CGR1240 AC Power Cord for Europe, 10m	1000 Connected Grid	power-cord	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory PWRCORD (label 1000 Connected Grid)					
-CGR-PWRCORD-EU=	CGR1240 AC Power Cord for Europe, 10m	1000 Connected Grid	power-cord	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory PWRCORD (label 1000 Connected Grid)					
-CGR-PWRCORD-NA	CGR1240 AC Power Cord for North America, 10m	1000 Connected Grid	power-cord	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory PWRCORD (label 1000 Connected Grid)					
-CGR-PWRCORD-NA=	CGR1240 AC Power Cord for North America, 10m	1000 Connected Grid	power-cord	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory PWRCORD (label 1000 Connected Grid)					
+CGR-PWRCORD-EU	CGR1240 AC Power Cord for Europe, 10m	1000 Connected Grid	power-cord	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	sku ^CGR-PWRCORD-					
+CGR-PWRCORD-EU=	CGR1240 AC Power Cord for Europe, 10m	1000 Connected Grid	power-cord	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	sku ^CGR-PWRCORD-					
+CGR-PWRCORD-NA	CGR1240 AC Power Cord for North America, 10m	1000 Connected Grid	power-cord	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	sku ^CGR-PWRCORD-					
+CGR-PWRCORD-NA=	CGR1240 AC Power Cord for North America, 10m	1000 Connected Grid	power-cord	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	sku ^CGR-PWRCORD-					
 CGR-SLOT-DIVIDER	Slot Divider (Guide) for Cisco CGR 2010	2000 Series Connected Grid	mechanical	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	label 2000 Series Connected Grid					
 CGR-SLOT-DIVIDER=	Slot Divider (Guide) for Cisco CGR2010	2000 Series Connected Grid	mechanical	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	label 2000 Series Connected Grid					
 CGR-TERM-COVER=	CGR 2010 Power Terminal Cover	2000 Series Connected Grid	mechanical	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory -COVER (label 2000 Series Connected Grid)					
@@ -2324,7 +2324,7 @@ CGR1120-DINRAIL	Din rail mount kit for CGR1120	1000 Connected Grid	mechanical	la
 CGR1120-DINRAIL=	Din rail mount kit for CGR1120	1000 Connected Grid	mechanical	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	sku ^CGR-?1[0-9]{3}					
 CGR1240-PWR-AC	Cisco CGR1240-PWR-AC	1000 Connected Grid	power	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	sku ^CGR-?1[0-9]{3}					
 CGR1240/K9=	CGR1240 w/ 4 module slots,2 GE,2 serial,4 FE LAN,Wi-Fi,GPS	1000 Connected Grid	router	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	sku ^CGR-?1[0-9]{3}	industrial-iot	series:CGR 1000 Connected Grid			
-CGR2010/NFR	CGR 2010 Channel Kit	2000 Series Connected Grid	router	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^CGR-?2010		rt.issue.component	module/modem/accessory		
+CGR2010/NFR	CGR 2010 Channel Kit	2000 Series Connected Grid	router	pending_plan					rt.issue.component	module/modem/accessory	class non_product	
 CGSE-PLUS-PK	Phantom PID for CRS Service Card for CGN, Anti DDoS and SDN	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	label Carrier Routing System					
 CISCO-FIPS-KIT=	Tamper Proof for 80/18/28/38/72/73 Routers and ASA	Catalyst 8200	mechanical	layered	Catalyst 8000 Edge	Catalyst 8200	label Catalyst 8200					
 CISCO-MATE-STE	Cisco MATE Suite	WAN Automation Engine (WAE)	router	pending_plan					rt.issue.licence	licence/software/planning PID	class software	
@@ -2454,7 +2454,7 @@ CISCO5940RC-K9/100	Cisco 5940 ESR conduction-cooled card with Cisco 5940 Advance
 CISCO5940RC-K9/500	Cisco 5940 ESR conduction-cooled card with Cisco 5940 Advanced Enterprise Cisco IOS Software image–500+ Units	5900 Embedded Services	router	layered	Embedded Services Routers	5900 Embedded Services	sku ^(CISCO)?59[0-9]{2}	industrial-iot	series:5900 Embedded Services			
 CISCO5940WSEC-A/K9	Cisco 5940 ESR air-cooled card with Cisco 5940 Advanced Enterprise Cisco IOS Software image and WAAS Express license	5900 Embedded Services	router	layered	Embedded Services Routers	5900 Embedded Services	sku ^(CISCO)?59[0-9]{2}	industrial-iot	series:5900 Embedded Services			
 CISCO5940WSEC-C/K9	Cisco 5940 ESR conduction-cooled card with Cisco 5940 Advanced Enterprise Cisco IOS Software image and WAAS Express license	5900 Embedded Services	router	layered	Embedded Services Routers	5900 Embedded Services	sku ^(CISCO)?59[0-9]{2}	industrial-iot	series:5900 Embedded Services			
-CISCO7301/2+VPNK9	Cisco CISCO7301/2+VPNK9	2900 ISR	sp-router	layered	Legacy Service Routers	Cisco 7300	sku ^(CISCO)?730[0-9](?![0-9])					
+CISCO7301/2+VPNK9	Cisco CISCO7301/2+VPNK9	2900 ISR	router	layered	Legacy Service Routers	Cisco 7300	sku ^(CISCO)?730[0-9](?![0-9])	edge	series:Cisco 7300			
 CISCO851-K9	Cisco CISCO851-K9	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 800	sku ^(CISCO|C)8[0-9]{2}(?![0-9])	branch	series:ISR 800			
 CISCO851W-G-A-K9	Cisco CISCO851W-G-A-K9	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 800	sku ^(CISCO|C)8[0-9]{2}(?![0-9])	branch	series:ISR 800			
 CISCO851W-G-E-K9	Cisco CISCO851W-G-E-K9	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 800	sku ^(CISCO|C)8[0-9]{2}(?![0-9])	branch	series:ISR 800			
@@ -2622,17 +2622,17 @@ CRS-16-FANTRAY=	CRS 16 Slot Fan Tray for CRS-16/S-B	Carrier Routing System	fan	l
 CRS-16-FC-BLANK	Cisco CRS-1 Series 16 Slots Fabric Card Cover	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-FC-HANDLE	Cisco CRS-1 Series 16 Slot Switch Fabric Card Handle	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-FC140/M	Cisco CRS-3 Series 16 Slots Fabric Card/Multi (140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-16-FC140/M-8P	CRS Series 16 Slots Fabric Card-140G/M-8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-16-FC140/M-8P=	CRS Series 16 Slots Fabric Card-140G/M-8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-16-FC140/M-BN	CRS Series 16 Slots Fabric Card-140G/M-8 Pack	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-16-FC140/M-BN=	CRS Series 16 Slots Fabric Card-140G/M-8 Pack	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-16-FC140/M-8P	CRS Series 16 Slots Fabric Card-140G/M-8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-16-FC140/M-8P=	CRS Series 16 Slots Fabric Card-140G/M-8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-16-FC140/M-BN	CRS Series 16 Slots Fabric Card-140G/M-8 Pack	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-16-FC140/M-BN=	CRS Series 16 Slots Fabric Card-140G/M-8 Pack	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-FC140/M=	Cisco CRS-3 Series 16 Slots Fabric Card/Multi (140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-FC140/S	Cisco CRS Series 16 Slots Fabric Card/Single (40G/140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-FC140/S++=	Cisco CRS Series 16 Slots Fabric Card / Single (140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-FC140/S=	Cisco CRS Series 16 Slots Fabric Card/Single (140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-FC400/M	Cisco CRS-X 16 Slots Fabric Card / Multi (400G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-16-FC400/M-8P=	CRS Series 16 Slots Fabric Card-400G/M-8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-16-FC400/M-BN=	CRS Series 16 Slots Fabric Card-400G/M-8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-16-FC400/M-8P=	CRS Series 16 Slots Fabric Card-400G/M-8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-16-FC400/M-BN=	CRS Series 16 Slots Fabric Card-400G/M-8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-FC400/M=	Cisco CRS-X 16 Slots Fabric Card / Multi (400G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-FC400/S	Cisco CRS Series 16 Slots Fabric Card / Single (400G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-FC400/S=	Cisco CRS Series 16 Slots Fabric Card / Single (400G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -2653,7 +2653,7 @@ CRS-16-KP-REAR	CRS 16 Rear Kick-Panel for CRS-16/B	Carrier Routing System	mechan
 CRS-16-KP-REAR=	CRS 16 Rear Kick-Panel for CRS-16/B	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-LCC-B	CRS 16 Slots Line Card Chassis for CRS-16/S-B	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-LCC-B=	CRS 16 Slots Line Card Chassis for CRS-16/S-B	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-16-LCC-BCK-BF	CRS-16 new grille/baffle kit non spare	Carrier Routing System	accessory	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-16-LCC-BCK-BF	CRS-16 new grille/baffle kit non spare	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-LCC-BCK-BF=	CRS-16 new grille/baffle kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-LCC-BCK-CM	Cisco CRS-1 Series Line Card Chassis Rear Cable Mgmt	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-LCC-BCK-CM=	Cisco CRS-1 Series Line Card Chassis Rear Cable Mgmt	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -2662,7 +2662,7 @@ CRS-16-LCC-DRS-R	Cisco CRS-1 Series Line Card Chassis Rear Doors	Carrier Routing
 CRS-16-LCC-DRS-R=	Cisco CRS-1 Series Line Card Chassis Rear Doors	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-LCC-F-CT-B	Cisco CRS-1 Fan Controller for 16 Slots LC Chassis Ver B	Carrier Routing System	fan	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-LCC-F-CT-B=	Cisco CRS-1 Fan Controller for 16 Slots LC Chassis Ver B	Carrier Routing System	fan	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-16-LCC-FILTER=	CRS 16 slot Line Card Chassis Filter - 5 Pack	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-16-LCC-FILTER=	CRS 16 slot Line Card Chassis Filter - 5 Pack	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-LCC-FRNT-E	Cisco CRS-1 Series LCC Expanded Front Cable Mgmt	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-LCC-FRNT-E=	Cisco CRS-1 Series LCC Expanded Front Cable Mgmt	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-LCC/M-B	CRS 16 Slots Line Card Chassis/M-B	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -2677,7 +2677,7 @@ CRS-16-MC-B-BUNDLE	CRS 16 slots Multichassis system with Enhanced LCC	Carrier Ro
 CRS-16-MC140-CONV	CRS-16/S Conversion Kit for Multichassis-140G	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-MC140-CONV=	CRS-16/S Conversion Kit for Multichassis-140G	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-MC140-CVN=	CRS-16/S Conversion Kit for Multichassis-140G	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-16-MC400-BUN	CRS 400G Multiple chassis Bundle	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-16-MC400-BUN	CRS 400G Multiple chassis Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-MC400-CONV=	CRS-16/S Conversion Kit for Multichassis-400G	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-PDU-DELTA	Red 3 Ph to 1 Ph Delta PDU for 16 slots, 4 input/12 output	Carrier Routing System	power	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16-PDU-DELTA=	Red 3 Ph to 1 Ph Delta PDU for 16 slots, 4 input/12 output	Carrier Routing System	power	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -2715,7 +2715,7 @@ CRS-16/S-B	Cisco CRS 16-Slot Single-Shelf System Enhanced	Carrier Routing System
 CRS-16/S-B-140-BUN	Cisco CRS 16 slots 140G enhacned Chassis Bundle	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16/S-B-400-BUN	Cisco CRS 16 slots 400G Enhacned Chassis Bundle	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16/S-B-NF	CRS 16 slots system without Fabric Cards	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-16/S-CNSK	CRS-1 16 Slot LCC Special Upgrade Bundle for China	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-16/S-CNSK	CRS-1 16 Slot LCC Special Upgrade Bundle for China	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16/S-LAB-BUN	Includes 2xCRS-FP140, 2x14p10GE, 16-Slot Chassis	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16FCC-PSH-AC	CRS Modular AC Power Shelf for FCC	Carrier Routing System	power	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16FCC-PSH-AC=	CRS Modular AC Power Shelf for FCC	Carrier Routing System	power	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -2732,9 +2732,9 @@ CRS-16LCC140-B=	CRS 16 Slots Line Card Chassis-140G/M-Enhanced	Carrier Routing S
 CRS-16LCC400-B-BN=	CRS 16 Slots Line Card Chassis-400G/M-Enhanced	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-16LCC400-B=	CRS 16 Slots Line Card Chassis-400G/M-Enhanced	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-3-ANY-PK=	CRS-3 Multipack Bundle	Carrier Routing System	sp-router	layered	CRS (Carrier Routing System)	CRS	sku ^CRS	sp-core	series:CRS			
-CRS-3-UPGRADE-BUN	CRS-3 Upgrade Bundle	Carrier Routing System	sp-router	layered	CRS (Carrier Routing System)	CRS	sku ^CRS	sp-core	series:CRS			
+CRS-3-UPGRADE-BUN	CRS-3 Upgrade Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-4-140G-UPG	Cisco CRS Series 4 Slot Upgrade Kit 140G	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-4-CH-UPG-BUN	CRS 4 slots to 8 slot chassis upgrade bundle	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-4-CH-UPG-BUN	CRS 4 slots to 8 slot chassis upgrade bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-4-DOOR-FUJI=	CRS-1 4 Slot System Fujitsu Door Kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-4-DOOR-KIT	CRS-1 4 Slot System Door Kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-4-DOOR-KIT=	CRS-1 4 Slot System Door Kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -2743,7 +2743,7 @@ CRS-4-FC-BLANK=	Cisco CRS-1 blank impedence cover for CRS-1/4 fabric card	Carrie
 CRS-4-FC140/S	Cisco CRS 4 Slot Fabric Card/Single (140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-4-FC140/S++=	Cisco CRS 4 Slot Fabric Card / Single (140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-4-FC140/S=	Cisco CRS 4 Slot Fabric Card/Single (140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-4-FILTER=	CRS-4 LCC Air Filter 5-Pack	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-4-FILTER=	CRS-4 LCC Air Filter 5-Pack	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-4-HRZ-RAILS	Horizontal Mounting Rails for CRS-4/S	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-4-HRZ-RAILS=	Horizontal Mounting Rails for CRS-4/S	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-4-LABELS-FUJI=	CRS-1 4 Slot System Fujitsu Chassis Labels	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -2780,14 +2780,14 @@ CRS-8-FC/D=	Cisco CRS-1 Series 8 Slots Fabric Card / Dual	Carrier Routing System
 CRS-8-FC/M	Cisco CRS-1 Series 8 Slots Fabric Card / Multi	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-FC/M=	Cisco CRS-1 Series 8 Slots Fabric Card / Multi	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-FC140/M	Cisco CRS-3 Series 8 Slots Fabric Card/Multi (140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-8-FC140/M-4P	CRS-3 8 Slots Fabric Card /Multi-4 pack	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-8-FC140/M-4P=	CRS-3 8 Slots Fabric Card /Multi-4 pack	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-8-FC140/M-4P	CRS-3 8 Slots Fabric Card /Multi-4 pack	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-8-FC140/M-4P=	CRS-3 8 Slots Fabric Card /Multi-4 pack	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-FC140/M=	Cisco CRS-3 Series 8 Slots Fabric Card/Multi (140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-FC140/S	Cisco CRS Series 8 Slot Fabric Card / Single (140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-FC140/S++=	Cisco CRS Series 8 Slot Fabric Card / Single (140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-FC140/S=	Cisco CRS Series 8 Slot Fabric Card/Single (140G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-FC400/M	Cisco CRS-X Series 8 Slots Fabric Card / Multi (400G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-8-FC400/M-4P=	Cisco CRS-X 8 Slots Fabric Card / Multi-4 pack	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-8-FC400/M-4P=	Cisco CRS-X 8 Slots Fabric Card / Multi-4 pack	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-FC400/M=	Cisco CRS-X Series 8 Slots Fabric Card / Multi (400G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-FC400/S	Cisco CRS Series 8 Slots Fabric Card / Single (400G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-FC400/S=	Cisco CRS Series 8 Slots Fabric Card / Single (400G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -2810,7 +2810,7 @@ CRS-8-LCC-DR-REAR	Cisco CRS-1 8 Slot Line Card Chassis Rear Door Kit	Carrier Rou
 CRS-8-LCC-DR-REAR=	Cisco CRS-1 8 Slot Line Card Chassis Rear Door Kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-LCC-FAN-TR	Cisco CRS-1 Series Fan Tray for 8 slots Line Card Chassis	Carrier Routing System	fan	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-LCC-FAN-TR=	Cisco CRS-1 Series Fan Tray for 8 slots Line Card Chassis	Carrier Routing System	fan	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-8-LCC-FILTER=	Cisco CRS-1 Series Line Card Chassis Filter- 5 Pack	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-8-LCC-FILTER=	Cisco CRS-1 Series Line Card Chassis Filter- 5 Pack	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-LCC-FR-BKT=	Cisco CRS-1 Series 8 Slot Linecard Chassis Front Door Brkt	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-LCC/D	^Cisco CRS-1 Series 8 Slots Line Card Chassis / Dual	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-8-LCC/D=	Cisco CRS-1 Series 8 Slots Line Card Chassis / Dual	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -3007,26 +3007,26 @@ CRS-FCC-SFC-400-B=	Cisco CRS-X Fabric Card Chassis Switch Fabric Card (400G)-B	C
 CRS-FCC-SFC-400=	Cisco CRS-X Fabric Card Chassis Switch Fabric Card (400G)	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FCC-SFC/ED	^Cisco CRS-1 Series FC Chassis Switch FC/ Enh Density	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FCC-SFC/ED=	Cisco CRS-1 Series FC Chassis Switch FC/ Enh Density	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FCC-SFC140-8P	CRS Fabric Chassis Fabric Cards 140G and OIM 8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FCC-SFC140-8P=	CRS Fabric Chassis Fabric Cards 140G and OIM 8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FCC-SFC140-BN	CRS Fabric Chassis Fabric Cards 140G and OIM 8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FCC-SFC140-BN=	CRS Fabric Chassis Fabric Cards 140G and OIM 8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FCC-SFC140-U-B	CRS Fabric Chassis Fabric Cards 140G 8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FCC-SFC140-U=	CRS Fabric Chassis Fabric Cards 140G 8 Pack upgrade bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FCC-SFC400-8P=	CRS Fabric Chassis Fabric Cards 400G and OIM 8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FCC-SFC400-BN=	CRS Fabric Chassis Fabric Cards 400G and OIM 8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FCC-SFC400-U-B	CRS Fabric Chassis Fabric Cards 400G 8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FCC-SFC400-U=	CRS Fabric Chassis Fabric Cards 400G 8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FCC-SFC140-8P	CRS Fabric Chassis Fabric Cards 140G and OIM 8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FCC-SFC140-8P=	CRS Fabric Chassis Fabric Cards 140G and OIM 8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FCC-SFC140-BN	CRS Fabric Chassis Fabric Cards 140G and OIM 8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FCC-SFC140-BN=	CRS Fabric Chassis Fabric Cards 140G and OIM 8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FCC-SFC140-U-B	CRS Fabric Chassis Fabric Cards 140G 8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FCC-SFC140-U=	CRS Fabric Chassis Fabric Cards 140G 8 Pack upgrade bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FCC-SFC400-8P=	CRS Fabric Chassis Fabric Cards 400G and OIM 8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FCC-SFC400-BN=	CRS Fabric Chassis Fabric Cards 400G and OIM 8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FCC-SFC400-U-B	CRS Fabric Chassis Fabric Cards 400G 8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FCC-SFC400-U=	CRS Fabric Chassis Fabric Cards 400G 8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FCC-SOUND-KIT	CRS FCC Acoustic reduction kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FCC-SOUND-KIT=	CRS FCC Acoustic reduction kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FCC-SPR3=	Spare Fabric Chassis Bundle-No S2s, No cables	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FCC=	Cisco CRS-1 Series Fabric Card Chassis Only	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FD-16G-10PK=	CRS 16G Flash Disk 10PK	Carrier Routing System	drive	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FDISK-2G-10PK=	CRS-1 2GB FD 10 units bundl	Carrier Routing System	drive	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FDISK-4G-10PK=	CRS-1 4GB FD 10 units bundl	Carrier Routing System	drive	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FD-16G-10PK=	CRS 16G Flash Disk 10PK	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FDISK-2G-10PK=	CRS-1 2GB FD 10 units bundl	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FDISK-4G-10PK=	CRS-1 4GB FD 10 units bundl	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FIBER-CLN-KIT=	Cisco CRS-1 Mutichassis Fiber Cleaning Kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FLASHDISK-16G	CRS 16GB flash disk	Carrier Routing System	drive	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FLASHDISK-16G=	CRS 16GB flash disk	Carrier Routing System	drive	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FLASHDISK-16G	CRS 16GB flash disk	Carrier Routing System	flash	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FLASHDISK-16G=	CRS 16GB flash disk	Carrier Routing System	flash	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FM-IMPEDANCE	Cisco CRS-1 Series Line Card impedence cover for fm	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FM-IMPEDANCE=	Cisco CRS-1 Series Line Card impedence cover for fm	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FP-80G=	Cisco CRS 140G base bundle PID (80G)	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -3036,12 +3036,12 @@ CRS-FP-X-L=	Cisco CRS-X Series Forwarding Processor Lite	Carrier Routing System	
 CRS-FP-X=	Cisco CRS Series Forwarding Processor 400G	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FP140	Cisco CRS-3 Forwarding Processor Card (140 Gbps)	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FP140++=	Cisco CRS Series Forwarding Processor 140G	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FP140-BUN	Cisco CRS Series 14x10GE, CRS-FP-140G Bundle	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FP140-BUN=	Cisco CRS Series 14x10GE, CRS-FP-140G Line Rate Bundle	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FP140-BUN	Cisco CRS Series 14x10GE, CRS-FP-140G Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FP140-BUN=	Cisco CRS Series 14x10GE, CRS-FP-140G Line Rate Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FP140-C	Cisco CRS Series Forwarding Processor 140G inc MC&TE license	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FP140-C=	Cisco CRS Series Forwarding Processor 140G inc MC&TE license	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FP140-E=	Cisco CRS Series Forwarding Processor 140G inc RT license	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-FP140-M-PK=	CRS Series 4-pack 14x10GE, CRS-FP-140G Line Rate Bundle	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-FP140-M-PK=	CRS Series 4-pack 14x10GE, CRS-FP-140G Line Rate Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FP140-MC=	Cisco CRS Series Forwarding Processor 140G inc MC license	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FP140-OS-BUN=	Cisco CRS Series 20x10GE, CRS-FP-140G Oversubscribed Bundle	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-FP140-PK	Phantom PID for Forwarding Processor 140G	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -3101,8 +3101,8 @@ CRS-MSC-IM=	CRS MSC Impedance card with MSC packaging	Carrier Routing System	lin
 CRS-MSC-IMPEDANCE	Cisco CRS-1 Series Impedence cover for MSC Slot	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-MSC-IMPEDANCE=	Cisco CRS-1 Series Impedence cover for MSC Slot	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-MSC-PKG	Cisco CRS-1 MSC/FP40 Package Box 1 Unit	Carrier Routing System	accessory	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-MSC-PKG-4PK	Cisco CRS-1 MSC/FP40 Package Box 4 Units	Carrier Routing System	accessory	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-MSC-PKG-4PK=	Cisco CRS-1 MSC/FP40 Package Box 4 Units	Carrier Routing System	accessory	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-MSC-PKG-4PK	Cisco CRS-1 MSC/FP40 Package Box 4 Units	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-MSC-PKG-4PK=	Cisco CRS-1 MSC/FP40 Package Box 4 Units	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-MSC-X	Cisco CRS-X Series Modular Services Card	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-MSC-X-L	Cisco CRS-X Series Modular Services Card Lite	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-MSC-X-L=	Cisco CRS-X Series Modular Services Card Lite	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -3118,8 +3118,8 @@ CRS-PDU-BRACKET=	CRS PDU side mouting bracket for CRS 16 lots/FCC	Carrier Routin
 CRS-PILLBLK=	CRS16/CRS8 contains 2 Pillow Blocks	Carrier Routing System	accessory	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-PLIM-HANDLE=	Cisco CRS-1 Handle for PLIM	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-PLIM-PKG	Cisco CRS-1 PLIM Package Box 1 Unit	Carrier Routing System	accessory	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-PLIM-PKG-4PK	Cisco CRS-1 PLIM Package Box 4 Units	Carrier Routing System	accessory	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-PLIM-PKG-4PK=	Cisco CRS-1 PLIM Package Box 4 Units	Carrier Routing System	accessory	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-PLIM-PKG-4PK	Cisco CRS-1 PLIM Package Box 4 Units	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-PLIM-PKG-4PK=	Cisco CRS-1 PLIM Package Box 4 Units	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-PM-AC	CRS Modular AC Power Module	Carrier Routing System	power	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-PM-AC=	CRS Modular AC Power Module	Carrier Routing System	power	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-PM-DC	CRS Modular DC Power Module	Carrier Routing System	power	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -3129,20 +3129,20 @@ CRS-PRP-UPG-CAB=	CRS PRP Upgrade Cable	Carrier Routing System	cable	layered	CRS 
 CRS-PWR-INST-KIT	CRS Modular Power Installation Kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-PWR-INST-KIT=	CRS Modular Power Installation Kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-REBATE-ATT	CRS Dummy Rebate SKU for ATT	Carrier Routing System	sp-router	layered	CRS (Carrier Routing System)	CRS	sku ^CRS	sp-core	series:CRS			
-CRS-RP-PKG-4PK	Cisco CRS-1 RP/FAN-CT Package Box 4 Units	Carrier Routing System	fan	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-RP-PKG-4PK=	Cisco CRS-1 RP/FAN-CT Package Box 4 Units	Carrier Routing System	fan	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-RP-PKG-4PK	Cisco CRS-1 RP/FAN-CT Package Box 4 Units	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-RP-PKG-4PK=	Cisco CRS-1 RP/FAN-CT Package Box 4 Units	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-S123-HANDLE=	Cisco CRS-1 for S123 Fabric board	Carrier Routing System	accessory	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-S2-HANDLE=	Cisco CRS-1 for S2 board	Carrier Routing System	accessory	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-SFC-IMPEDANCE	Cisco CRS-1 Series impedence cover for switch fabric slot	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-SFC-IMPEDANCE=	Cisco CRS-1 Series impedence cover for switch fabric slot	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-SFC400-B-8P	CRS Fabric Chassis Fabric Cards 400G -B 8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-SFC400-B-8P=	CRS Fabric Chassis Fabric Cards 400G -B 8 Pack bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-SFC400-B-U=	CRS Fabric Chassis Fabric Cards 400G-B upgrade bundle	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-SFC400-B-8P	CRS Fabric Chassis Fabric Cards 400G -B 8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-SFC400-B-8P=	CRS Fabric Chassis Fabric Cards 400G -B 8 Pack bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
+CRS-SFC400-B-U=	CRS Fabric Chassis Fabric Cards 400G-B upgrade bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-SIP	Cisco Carrier Routing System SPA Interface Processor Card	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-SIP=	Cisco Carrier Routing System SPA Interface Processor Card	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-X-FP	Cisco CRS-X-FP	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS-X-PLIM	Cisco CRS-X-PLIM	Carrier Routing System	module	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
-CRS-X-UPGRADE-BUN	CRS-X Upgrade Bundle	Carrier Routing System	sp-router	layered	CRS (Carrier Routing System)	CRS	sku ^CRS	sp-core	series:CRS			
+CRS-X-UPGRADE-BUN	CRS-X Upgrade Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS1-SIP-800	Cisco Carrier Routing System SPA Interface Processor Card	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS1-SIP-800-SK	CRS Jacket card for starter kit	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
 CRS1-SIP-800=	Cisco Carrier Routing System SPA Interface Processor Card	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	CRS	sku ^CRS					
@@ -3169,7 +3169,7 @@ CW-ANT-T-O4-R	3/5/5 dBi Tri-band dipole antennas, RP-TNC	3800 Series Integrated 
 CW-CAB-001-D8-R4	8-Port Smart antenna connector to 4-port RP-TNC connectors, 1ft	3800 Series Integrated Services Routers ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory -CAB- (label 3800 Series Integrated Services Routers ISR)					
 CW-CAB-004-N4-N4	Cisco CW-CAB-004-N4-N4	3800 Series Integrated Services Routers ISR	cable	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory -CAB- (label 3800 Series Integrated Services Routers ISR)					
 CW-MNT-9	CW9174E Integrated AP/antenna mounting bracket	3800 Series Integrated Services Routers ISR	mechanical	layered	ISR (Integrated Services Routers)	ISR 3800	label 3800 Series Integrated Services Routers ISR					
-CW-SFP-KIT1	SFP Installation Kit for IE-3500H-12P2MU2X	3800 Series Integrated Services Routers ISR	mechanical	not_this_category			exclude ^CW-SFP-KIT					switches
+CW-SFP-KIT1	SFP Installation Kit for IE-3500H-12P2MU2X	3800 Series Integrated Services Routers ISR	mechanical	pending_plan							move switches	
 CW9177D	Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, internal directonal antennas, Wi-Fi 7, 4x4:4SS	3800 Series Integrated Services Routers ISR	router	pending_plan					rt.issue.ap	access point	move wireless	
 CW9177E	Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, external antenna connectors, Wi-Fi 7, 4x4:4SS	3800 Series Integrated Services Routers ISR	router	pending_plan					rt.issue.ap	access point	move wireless	
 CW9177I	Cisco Wireless 9177 Outdoor Access Point, internal omnicirectional antennas, Wi-Fi 7, 4x4:4SS	3800 Series Integrated Services Routers ISR	router	pending_plan					rt.issue.ap	access point	move wireless	
@@ -3248,27 +3248,27 @@ ENCS5408/K9	Cisco ENCS 5408 (8-core Intel, 16G DRAM)	5000 Enterprise Network Com
 ENCS5408P/K9	ENCS 5408 service spare (8-core Intel, No RAM, No Disk)	5000 Enterprise Network Compute	appliance	layered	ENCS (Enterprise Network Compute)	ENCS 5000	sku ^ENCS					
 ENCS5412/K9	Cisco ENCS 5412 (12-core Intel, 16G DRAM)	5000 Enterprise Network Compute	appliance	layered	ENCS (Enterprise Network Compute)	ENCS 5000	sku ^ENCS					
 ENCS5412P/K9	ENCS 5412 service spare (12-core Intel, No RAM, No Disk)	5000 Enterprise Network Compute	appliance	layered	ENCS (Enterprise Network Compute)	ENCS 5000	sku ^ENCS					
-EPA-10X10GE	Cisco ASR 1000 10x10GE Ethernet Port Adapter	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-10X10GE++=	ASR1000 10X10GE Ethernet Port Adapter, TAA, Spare	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-10X10GE=	Cisco ASR 1000 10x10GE Ethernet Port Adapter, spare	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-18X1GE	Cisco ASR 1000 18x1GE Ethernet Port Adapter	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-18X1GE++=	ASR1000 18X1GE Ethernet Port Adapter, TAA, Spare	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-18X1GE-PR	ASR1000 18X1GE EPA Promotion	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-18X1GE-PR=	ASR1000 18X1GE EPA Spare Promotion	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-18X1GE=	Cisco ASR 1000 18x1GE Ethernet Port Adapter, spare	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-1X100GE	Cisco ASR 1000 1x100GE Ethernet Port Adapter	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-1X100GE++=	ASR1000 1X100GE Ethernet Port Adapter, TAA, Spare	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-1X100GE=	Cisco ASR 1000 1x100GE Ethernet Port Adapter, spare	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-1X40GE	Cisco ASR 1000 1x40GE Ethernet Port Adapter (2 physical QSFP ports – optional license to enable 2 nd port)	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-1X40GE=	Cisco ASR 1000 1x40GE Ethernet Port Adapter (2 physical QSFP ports – optional license to enable 2 nd port), spare	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-2X40GE	Cisco ASR 1000 2x40GE Ethernet Port Adapter (Native QSFP)	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-2X40GE=	Cisco ASR 1000 2x40GE Ethernet Port Adapter (Native QSFP), spare	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-BLANK	Ethernet Port Adapter (EPA) Blank Cover	ASR 1000	mechanical	pending_plan							move interfaces-modules	
-EPA-BLANK=	Ethernet Port Adapter (EPA) Blank Cover, spare	ASR 1000	mechanical	pending_plan							move interfaces-modules	
-EPA-CPAK-2X40GE	Cisco ASR 1000 2x40GE Ethernet Port Adapter (breakout cable)	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-CPAK-2X40GE=	Cisco ASR 1000 2x40GE Ethernet Port Adapter (breakout cable), spare	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-QSFP-1X100GE	Cisco ASR 1000 1x100GE Ethernet Port Adapter (QSFP)	ASR 1000	module	pending_plan							move interfaces-modules	
-EPA-QSFP-1X100GE=	Cisco ASR 1000 1x100GE QSFP Ethernet Port Adapter, spare	ASR 1000	module	pending_plan							move interfaces-modules	
+EPA-10X10GE	Cisco ASR 1000 10x10GE Ethernet Port Adapter	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-10X10GE++=	ASR1000 10X10GE Ethernet Port Adapter, TAA, Spare	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-10X10GE=	Cisco ASR 1000 10x10GE Ethernet Port Adapter, spare	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-18X1GE	Cisco ASR 1000 18x1GE Ethernet Port Adapter	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-18X1GE++=	ASR1000 18X1GE Ethernet Port Adapter, TAA, Spare	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-18X1GE-PR	ASR1000 18X1GE EPA Promotion	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-18X1GE-PR=	ASR1000 18X1GE EPA Spare Promotion	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-18X1GE=	Cisco ASR 1000 18x1GE Ethernet Port Adapter, spare	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-1X100GE	Cisco ASR 1000 1x100GE Ethernet Port Adapter	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-1X100GE++=	ASR1000 1X100GE Ethernet Port Adapter, TAA, Spare	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-1X100GE=	Cisco ASR 1000 1x100GE Ethernet Port Adapter, spare	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-1X40GE	Cisco ASR 1000 1x40GE Ethernet Port Adapter (2 physical QSFP ports – optional license to enable 2 nd port)	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-1X40GE=	Cisco ASR 1000 1x40GE Ethernet Port Adapter (2 physical QSFP ports – optional license to enable 2 nd port), spare	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-2X40GE	Cisco ASR 1000 2x40GE Ethernet Port Adapter (Native QSFP)	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-2X40GE=	Cisco ASR 1000 2x40GE Ethernet Port Adapter (Native QSFP), spare	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-BLANK	Ethernet Port Adapter (EPA) Blank Cover	ASR 1000	mechanical	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-BLANK=	Ethernet Port Adapter (EPA) Blank Cover, spare	ASR 1000	mechanical	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-CPAK-2X40GE	Cisco ASR 1000 2x40GE Ethernet Port Adapter (breakout cable)	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-CPAK-2X40GE=	Cisco ASR 1000 2x40GE Ethernet Port Adapter (breakout cable), spare	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-QSFP-1X100GE	Cisco ASR 1000 1x100GE Ethernet Port Adapter (QSFP)	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
+EPA-QSFP-1X100GE=	Cisco ASR 1000 1x100GE QSFP Ethernet Port Adapter, spare	ASR 1000	module	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^EPA-(?!3GE|GE/FE)					
 ESR-6300-CON-K9	Cisco ESR6300 conduction cooled card with 2x Gigabit Ethernet routed ports and 4x Gigabit Ethernet switched ports	ESR6300 Embedded	router	layered	Embedded Services Routers	ESR 6300	sku ^ESR-?6300	industrial-iot	series:ESR 6300			
 ESR-6300-NCP-K9	Cisco ESR6300 no cooling plate card with 2x Gigabit Ethernet routed ports and 4x Gigabit Ethernet switched ports	ESR6300 Embedded	router	layered	Embedded Services Routers	ESR 6300	sku ^ESR-?6300	industrial-iot	series:ESR 6300			
 ESS-ADN-8KSW-100G	Essential to Advantage Right-to-Use 100G Cisco 8000 Series	8000	router	pending_plan					rt.issue.licence	licence/software/planning PID	class license	
@@ -3286,8 +3286,8 @@ FAN-PE-V3	Cisco 8000 FAN - port-side Exhaust	8000	fan	layered	Cisco 8000	Cisco 8
 FAN-PI-V3	Cisco 8000 FAN - port-side intake	8000	fan	layered	Cisco 8000	Cisco 8000	label 8000					
 FIPS-SHIELD-1900=	FIPS opacity shield for Cisco 1905, Cisco 1921 ISR	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
 FIPS-SHIELD-3900=	FIPS opacity shield for Cisco 3925 - 3945EISR	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
-FL-8XX-512U1GB	512 MB DRAM upgrade to 1 GB for Cisco 892FSP, 896VA, 897VA, 897VAB, 898EA, 891F model (Feature License)	800	memory	layered	ISR (Integrated Services Routers)	ISR 800	label 800					
-FL-8XX-512U1GB=	CISCO800 DRAM Upgrade from 512MB to 1GB	800	memory	layered	ISR (Integrated Services Routers)	ISR 800	label 800					
+FL-8XX-512U1GB	512 MB DRAM upgrade to 1 GB for Cisco 892FSP, 896VA, 897VA, 897VAB, 898EA, 891F model (Feature License)	800	memory	pending_plan							class license	
+FL-8XX-512U1GB=	CISCO800 DRAM Upgrade from 512MB to 1GB	800	memory	pending_plan							class license	
 FL-SRE-WLC-25	25 access point license for Cisco Wireless Controller on SRE (when sold with ISR G2 system)	2900 ISR	router	pending_plan					rt.issue.licence	licence/software/planning PID	class license	
 FL-SRE-WLC-25A	25 Access Point Adder License for Cisco Wireless Controller on SRE (Paper Certificate)	2900 ISR	router	pending_plan					rt.issue.licence	licence/software/planning PID	class license	
 FL-SRE-WLC-5	5 access point license for Cisco Wireless Controller on SRE (when sold with ISR G2 system)	2900 ISR	router	pending_plan					rt.issue.licence	licence/software/planning PID	class license	
@@ -3296,10 +3296,10 @@ FLS-A901-2Z	Cisco ASR 901 10G Router - 2x10GE Port Upgrade - Physical	ASR 901	sp
 FLS-A901-2Z=	Cisco ASR 901 10G Router - 2x10GE Port Upgrade - Physical	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901			
 FLS-A901-4	Cisco ASR 901 10G Router - 4 Flex Port GE Upgrade - Physical	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901			
 FLS-A901-4=	Cisco ASR 901 10G Router - 4 Flex Port GE Upgrade - Physical	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901			
-FLS-A901-4S	Cisco ASR 901 4 Port SFP GE Upgrade - Physical	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901			
-FLS-A901-4S=	ASR 901 4 Port SFP GE Upgrade License: Paper License	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901			
-FLS-A901-4T	Cisco ASR 901 4 Port Copper GE Upgrade - Physical	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901			
-FLS-A901-4T=	ASR 901 4 Port Copper GE Upgrade License: Paper License	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901			
+FLS-A901-4S	Cisco ASR 901 4 Port SFP GE Upgrade - Physical	ASR 901	sp-router	pending_plan				sp-access	series:ASR 901		class license	
+FLS-A901-4S=	ASR 901 4 Port SFP GE Upgrade License: Paper License	ASR 901	sp-router	pending_plan				sp-access	series:ASR 901		class license	
+FLS-A901-4T	Cisco ASR 901 4 Port Copper GE Upgrade - Physical	ASR 901	sp-router	pending_plan				sp-access	series:ASR 901		class license	
+FLS-A901-4T=	ASR 901 4 Port Copper GE Upgrade License: Paper License	ASR 901	sp-router	pending_plan				sp-access	series:ASR 901		class license	
 FRC887VA-K9	EMEA Only - Bundle C887VA-K9 for 12 months Migration	800	router	layered	ISR (Integrated Services Routers)	ISR 800	label 800	branch	rt.branch.isr			
 FW-7430-LTE-AU	Cisco FW-7430-LTE-AU	800	router	pending_plan					rt.issue.licence	licence/software/planning PID	class software	
 FW-7430-LTE-GN	Cisco FW-7430-LTE-GN	800	router	pending_plan					rt.issue.licence	licence/software/planning PID	class software	
@@ -3320,31 +3320,31 @@ FW-MC7354M-LTE-VZ	Cisco FW-MC7354M-LTE-VZ	800	router	pending_plan					rt.issue.l
 FW-VA-39D	VDSL2/ADSL2+ Firmware for Multimode DSL products	800	router	pending_plan					rt.issue.licence	licence/software/planning PID	class software	
 G703	Cisco G703	2900 ISR	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
 GPS-ACT-ANTM-SMA	Cisco GPS-ACT-ANTM-SMA	800 ISR	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800 ISR)					
-GPS-ACT-ANTM-SMA=	Cisco GPS-ACT-ANTM-SMA=	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)					
-GRWIC-1CE1T1-PRI	1 port channelized T1/E1 and PRI GRWIC	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-1CE1T1-PRI=	1 port channelized T1/E1 and PRI GRWIC (data only)	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-2CE1T1-PRI	2 port channelized T1/E1 and PRI GRWIC	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-2CE1T1-PRI=	2 port channelized T1/E1 and PRI GRWIC (data only)	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-4G-LTE-A	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for ATT	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-4G-LTE-A=	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for ATT	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-4G-LTE-EA	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for EMEA, N America regions	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-4G-LTE-EA=	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for EMEA, N America regions, spare	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-4G-LTE-G	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC - Global	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-4G-LTE-G=	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC - Global	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-4G-LTE-LA	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for L America, APJC regions	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-4G-LTE-LA=	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for L America, APJC regions, spare	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-4G-LTE-V	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for VZW	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-4G-LTE-V=	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for VZW	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-4T	4-Port Serial GRWIC	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-4T=	4-Port Serial GRWIC	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-8A/S-232	8-Port Async/Sync Serial GRWIC, EIA-232	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-8A/S-232=	8-Port Async/Sync Serial GRWIC, EIA-232	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-BLANK	GRWIC Blank	2000 Series Connected Grid	accessory	pending_plan							move interfaces-modules	
-GRWIC-BLANK=	GRWIC Blank	2000 Series Connected Grid	accessory	pending_plan							move interfaces-modules	
-GRWIC-D-ES-2S-8PC=	EtherSwitch 8x 10/100T (4 PoE) ports + 2 100/1000 SFP	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-D-ES-6S=	EtherSwitch 4 100FX SFP ports + 2 100/1000 SFP	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-ISDN-1B-S/T	Cisco Connected Grid ISDN BRI S/T GRWIC	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
-GRWIC-ISDN-1B-S/T=	Cisco Connected Grid ISDN BRI S/T GRWIC	2000 Series Connected Grid	module	pending_plan							move interfaces-modules	
+GPS-ACT-ANTM-SMA=	Cisco GPS-ACT-ANTM-SMA=	800	antenna	layered	ISR (Integrated Services Routers)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800 ISR)					
+GRWIC-1CE1T1-PRI	1 port channelized T1/E1 and PRI GRWIC	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-1CE1T1-PRI=	1 port channelized T1/E1 and PRI GRWIC (data only)	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-2CE1T1-PRI	2 port channelized T1/E1 and PRI GRWIC	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-2CE1T1-PRI=	2 port channelized T1/E1 and PRI GRWIC (data only)	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-4G-LTE-A	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for ATT	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-4G-LTE-A=	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for ATT	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-4G-LTE-EA	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for EMEA, N America regions	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-4G-LTE-EA=	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for EMEA, N America regions, spare	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-4G-LTE-G	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC - Global	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-4G-LTE-G=	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC - Global	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-4G-LTE-LA	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for L America, APJC regions	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-4G-LTE-LA=	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for L America, APJC regions, spare	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-4G-LTE-V	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for VZW	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-4G-LTE-V=	Cisco Connected Grid 2G/3G/4G Multimode LTE GRWIC for VZW	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-4T	4-Port Serial GRWIC	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-4T=	4-Port Serial GRWIC	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-8A/S-232	8-Port Async/Sync Serial GRWIC, EIA-232	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-8A/S-232=	8-Port Async/Sync Serial GRWIC, EIA-232	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-BLANK	GRWIC Blank	2000 Series Connected Grid	accessory	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-BLANK=	GRWIC Blank	2000 Series Connected Grid	accessory	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-D-ES-2S-8PC=	EtherSwitch 8x 10/100T (4 PoE) ports + 2 100/1000 SFP	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-D-ES-6S=	EtherSwitch 4 100FX SFP ports + 2 100/1000 SFP	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-ISDN-1B-S/T	Cisco Connected Grid ISDN BRI S/T GRWIC	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
+GRWIC-ISDN-1B-S/T=	Cisco Connected Grid ISDN BRI S/T GRWIC	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	sku ^GRWIC					
 H.323	Cisco H.323	2900 ISR	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
 H561SHEA	Cisco H561SHEA	800	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
 HD-1V/2V/2VE	Cisco HD-1V/2V/2VE	2900 ISR	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
@@ -3377,15 +3377,15 @@ IP20	Cisco IP20	800 ISR	router	pending_plan					rt.issue.placeholder	datasheet c
 IR-ANT-PLUG	Cisco IR-ANT-PLUG	Catalyst IR8100 Heavy Duty	antenna	layered	Industrial and IoT Routers	IR 8100	label Catalyst IR8100 Heavy Duty					
 IR-BAND	Cisco IR-BAND	Catalyst IR8100 Heavy Duty	accessory	layered	Industrial and IoT Routers	IR 8100	label Catalyst IR8100 Heavy Duty					
 IR-IP67GLAND	Cisco IR-IP67GLAND	Catalyst IR8100 Heavy Duty	accessory	layered	Industrial and IoT Routers	IR 8100	label Catalyst IR8100 Heavy Duty					
-IR-IP67GLAND=	Cisco IR-IP67GLAND=	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	label 1000 Connected Grid					
+IR-IP67GLAND=	Cisco IR-IP67GLAND=	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	IR 8100	label Catalyst IR8100 Heavy Duty					
 IR-PMK	Cisco IR-PMK	Catalyst IR8100 Heavy Duty	accessory	layered	Industrial and IoT Routers	IR 8100	label Catalyst IR8100 Heavy Duty					
 IR-PMK-BAND	Cisco IR-PMK-BAND	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	label 1000 Connected Grid					
 IR-PMK-BAND=	Cisco IR-PMK-BAND=	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	label 1000 Connected Grid					
-IR-PMK=	Cisco IR-PMK=	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	label 1000 Connected Grid					
+IR-PMK=	Cisco IR-PMK=	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	IR 8100	label Catalyst IR8100 Heavy Duty					
 IR-PWRCORD-EU	Cisco IR-PWRCORD-EU	Catalyst IR8100 Heavy Duty	power-cord	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory PWRCORD (label Catalyst IR8100 Heavy Duty)					
-IR-PWRCORD-EU=	Cisco IR-PWRCORD-EU=	1000 Connected Grid	power-cord	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory PWRCORD (label 1000 Connected Grid)					
+IR-PWRCORD-EU=	Cisco IR-PWRCORD-EU=	1000 Connected Grid	power-cord	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory PWRCORD (label Catalyst IR8100 Heavy Duty)					
 IR-PWRCORD-NA	Cisco IR-PWRCORD-NA	Catalyst IR8100 Heavy Duty	power-cord	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory PWRCORD (label Catalyst IR8100 Heavy Duty)					
-IR-PWRCORD-NA=	Cisco IR-PWRCORD-NA=	1000 Connected Grid	power-cord	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory PWRCORD (label 1000 Connected Grid)					
+IR-PWRCORD-NA=	Cisco IR-PWRCORD-NA=	1000 Connected Grid	power-cord	layered	Industrial and IoT Routers	Industrial and IoT Routers shared parts	accessory PWRCORD (label Catalyst IR8100 Heavy Duty)					
 IR1101-A-K9	Cisco IR1101-A-K9	Catalyst IR1100 Rugged	router	layered	Industrial and IoT Routers	IR 1101	sku ^IR1101	industrial-iot	series:IR 1101			
 IR1101-K9	Cisco IR1101-K9	Catalyst IR1100 Rugged	router	layered	Industrial and IoT Routers	IR 1101	sku ^IR1101	industrial-iot	series:IR 1101			
 IR1821-K9	Cisco Catalyst IR1821 Rugged Series Router	Catalyst IR1800 Rugged	router	layered	Industrial and IoT Routers	IR 1800	sku ^IR18[0-9]{2}	industrial-iot	series:IR 1800			
@@ -3452,43 +3452,43 @@ IR829M-LTE-EA-EK9	829 Industrial ISR, LTE, WiFi, POE, SSD connector, ETSI	800 IS
 IR829M-LTE-EA-RK9	829 Industrial ISR, LTE, WiFi, POE, SSD slot, ETSI	800 ISR	router	layered	Industrial and IoT Routers	IR 800	sku ^IR8[0-9]{2}(?![0-9])	industrial-iot	series:IR 800			
 IR829M-LTE-LA-ZK9	829 Industrial ISR, LTE, POE, SSD connector, WiFi, SFP, ETSI	800 ISR	router	layered	Industrial and IoT Routers	IR 800	sku ^IR8[0-9]{2}(?![0-9])	industrial-iot	series:IR 800			
 IR8340-K9	Cisco Catalyst IR8340 Rugged Router - 67.5 base watts, 21 lb/9.52 kg	Catalyst IR8300 Rugged Series Router	router	layered	Industrial and IoT Routers	IR 8300	sku ^IR83[0-9]{2}	industrial-iot	series:IR 8300			
-IRM-1800-M12KIT	M12 Conversion Kit for IR1800	Catalyst IR1800 Rugged	mechanical	pending_plan							move interfaces-modules	
-IRM-1800-M12KIT=	M12 Conversion Kit for IR1800 - Spare	Catalyst IR1800 Rugged	mechanical	pending_plan							move interfaces-modules	
-IRM-NIM-2T1E1	IR Series 2-port T1/E1 Network Interface Module - 6.5 Watts, 0.6 lb/0.27 kg	Catalyst IR8300 Rugged Series Router	module	pending_plan							move interfaces-modules	
-IRM-NIM-BLNK	Blank for NIM slot	Catalyst IR8300 Rugged Series Router	mechanical	pending_plan							move interfaces-modules	
-IRM-NIM-RS232	IR Series RS232 8-port Serial Network Interface Module - 5.5 Watts, 0.55 lb/0.24 kg Cable options: CAB-HD4-232MT – 4 port EIA 232-DTE, 10ft, Male DB-25 CAB-HD4-232FC – 4 port EIA 232 DCE, 10ft, Female DB-25 CAB-QUAD-ASYNC-M - 4 port EIA-232 DTE, 10ft, Male RJ-45 CAB-QUAD-ASYNC-F – 4 port EIA232 DTE, 10ft, Female RJ-45 CAB-9AS-M - 4 port EIA-232 DTE, 10ft, Male DB-9	Catalyst IR8300 Rugged Series Router	module	pending_plan							move interfaces-modules	
-IRM-SSD-100G	mSATA storage – 100 GB, Spare	Catalyst IR8300 Rugged Series Router	drive	pending_plan							move interfaces-modules	
-IRM-SSD-Blank	Blank for SSD	Catalyst IR8300 Rugged Series Router	mechanical	pending_plan							move interfaces-modules	
-IRM-TIMING-MOD	IR Series Timing Module: PTP IEEE 1588 v2, 8275.1, 8265.1, GNSS (SMA Connector) 25db CNR threshold, Constellation (BeiDou, Galileo, GLONASS, GPS) IRIG-B (Mini BNC), SyncE, TOD/1PPS (G.703), Stratum 3E OCXO - 6 Watts, 0.45lb/0.2 kg	Catalyst IR8300 Rugged Series Router	module	pending_plan							move interfaces-modules	
-IRMH-5GR16SA	Cisco IRMH-5GR16SA	Catalyst IR8100 Heavy Duty	module	pending_plan							move interfaces-modules	
-IRMH-5GR16SA=	Cisco IRMH-5GR16SA=	Catalyst IR8100 Heavy Duty	module	pending_plan							move interfaces-modules	
-IRMH-5GS6-GL	5G Sub-6 GHz Pluggable Interface Module (UIM) for IR8140	Catalyst IR8100 Heavy Duty	module	pending_plan							move interfaces-modules	
-IRMH-5GS6-GL=	5G Sub-6 GHz Pluggable Interface Module (UIM) for IR8140	Catalyst IR8100 Heavy Duty	module	pending_plan							move interfaces-modules	
-IRMH-BATT-4AH	Cisco IRMH-BATT-4AH	Catalyst IR8100 Heavy Duty	accessory	pending_plan							move interfaces-modules	
-IRMH-BATT-BRKT	Cisco IRMH-BATT-BRKT	Catalyst IR8100 Heavy Duty	accessory	pending_plan							move interfaces-modules	
-IRMH-LTE-MNA	Multi-carrier band-14 CAT4 LTE Module for North America	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTE-MNA-900	Multi-carrier band-14 CAT4 LTE Module for NA w/900Mhz filter	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTE-MNA-900=	Multi-carrier band-14 CAT4 LTE Module for NA w/900Mhz filter	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTE-MNA=	Multi-carrier band-14 CAT4 LTE Module for North America	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTE7-EAL-900	Cisco IRMH-LTE7-EAL-900	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTE7-EAL-900=	Cisco IRMH-LTE7-EAL-900=	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTE7-NA-900	Cisco IRMH-LTE7-NA-900	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTE7-NA-900=	Cisco IRMH-LTE7-NA-900=	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTEA-EA	CAT6 LTEA Module for Europe and North America	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTEA-EA-900	CAT6 LTEA Module for North America w/900Mhz filter	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTEA-EA-900=	CAT6 LTEA Module for North America w/900Mhz filter	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTEA-EA=	CAT6 LTEA Module for Europe and North America	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTEA-LA	CAT6 LTEA Module for APAC, LATAM and ANZ	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTEA-LA=	CAT6 LTEA Module for APAC, LATAM and ANZ	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTEAP18-GL	CAT18 LTEA PRO Module for ALL Global Regions	1000	module	pending_plan							move interfaces-modules	
-IRMH-LTEAP18-GL=	CAT18 LTEA PRO Module for ALL Global Regions	1000	module	pending_plan							move interfaces-modules	
-IRMH-SEC-BRKT	Cisco IRMH-SEC-BRKT	Catalyst IR8100 Heavy Duty	accessory	pending_plan							move interfaces-modules	
-IRMH-WPAN-ANZ	Cisco IRMH-WPAN-ANZ	1000 Connected Grid	module	pending_plan							move interfaces-modules	
-IRMH-WPAN-ANZ=	Cisco IRMH-WPAN-ANZ=	1000 Connected Grid	module	pending_plan							move interfaces-modules	
-IRMH-WPAN-BRZ	Cisco IRMH-WPAN-BRZ	Catalyst IR8100 Heavy Duty	module	pending_plan							move interfaces-modules	
-IRMH-WPAN-BRZ=	Cisco IRMH-WPAN-BRZ=	1000 Connected Grid	module	pending_plan							move interfaces-modules	
-IRMH-WPAN-NA	Cisco IRMH-WPAN-NA	Catalyst IR8100 Heavy Duty	module	pending_plan							move interfaces-modules	
-IRMH-WPAN-NA=	Cisco IRMH-WPAN-NA=	1000 Connected Grid	module	pending_plan							move interfaces-modules	
+IRM-1800-M12KIT	M12 Conversion Kit for IR1800	Catalyst IR1800 Rugged	mechanical	layered	Industrial and IoT Routers	IR 1800	sku ^IRM-1800					
+IRM-1800-M12KIT=	M12 Conversion Kit for IR1800 - Spare	Catalyst IR1800 Rugged	mechanical	layered	Industrial and IoT Routers	IR 1800	sku ^IRM-1800					
+IRM-NIM-2T1E1	IR Series 2-port T1/E1 Network Interface Module - 6.5 Watts, 0.6 lb/0.27 kg	Catalyst IR8300 Rugged Series Router	module	layered	Industrial and IoT Routers	IR 8300	sku ^IRM-(NIM|SSD|TIMING)					
+IRM-NIM-BLNK	Blank for NIM slot	Catalyst IR8300 Rugged Series Router	mechanical	layered	Industrial and IoT Routers	IR 8300	sku ^IRM-(NIM|SSD|TIMING)					
+IRM-NIM-RS232	IR Series RS232 8-port Serial Network Interface Module - 5.5 Watts, 0.55 lb/0.24 kg Cable options: CAB-HD4-232MT – 4 port EIA 232-DTE, 10ft, Male DB-25 CAB-HD4-232FC – 4 port EIA 232 DCE, 10ft, Female DB-25 CAB-QUAD-ASYNC-M - 4 port EIA-232 DTE, 10ft, Male RJ-45 CAB-QUAD-ASYNC-F – 4 port EIA232 DTE, 10ft, Female RJ-45 CAB-9AS-M - 4 port EIA-232 DTE, 10ft, Male DB-9	Catalyst IR8300 Rugged Series Router	module	layered	Industrial and IoT Routers	IR 8300	sku ^IRM-(NIM|SSD|TIMING)					
+IRM-SSD-100G	mSATA storage – 100 GB, Spare	Catalyst IR8300 Rugged Series Router	drive	layered	Industrial and IoT Routers	IR 8300	sku ^IRM-(NIM|SSD|TIMING)					
+IRM-SSD-Blank	Blank for SSD	Catalyst IR8300 Rugged Series Router	mechanical	layered	Industrial and IoT Routers	IR 8300	sku ^IRM-(NIM|SSD|TIMING)					
+IRM-TIMING-MOD	IR Series Timing Module: PTP IEEE 1588 v2, 8275.1, 8265.1, GNSS (SMA Connector) 25db CNR threshold, Constellation (BeiDou, Galileo, GLONASS, GPS) IRIG-B (Mini BNC), SyncE, TOD/1PPS (G.703), Stratum 3E OCXO - 6 Watts, 0.45lb/0.2 kg	Catalyst IR8300 Rugged Series Router	module	layered	Industrial and IoT Routers	IR 8300	sku ^IRM-(NIM|SSD|TIMING)					
+IRMH-5GR16SA	Cisco IRMH-5GR16SA	Catalyst IR8100 Heavy Duty	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-5GR16SA=	Cisco IRMH-5GR16SA=	Catalyst IR8100 Heavy Duty	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-5GS6-GL	5G Sub-6 GHz Pluggable Interface Module (UIM) for IR8140	Catalyst IR8100 Heavy Duty	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-5GS6-GL=	5G Sub-6 GHz Pluggable Interface Module (UIM) for IR8140	Catalyst IR8100 Heavy Duty	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-BATT-4AH	Cisco IRMH-BATT-4AH	Catalyst IR8100 Heavy Duty	accessory	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-BATT-BRKT	Cisco IRMH-BATT-BRKT	Catalyst IR8100 Heavy Duty	accessory	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTE-MNA	Multi-carrier band-14 CAT4 LTE Module for North America	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTE-MNA-900	Multi-carrier band-14 CAT4 LTE Module for NA w/900Mhz filter	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTE-MNA-900=	Multi-carrier band-14 CAT4 LTE Module for NA w/900Mhz filter	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTE-MNA=	Multi-carrier band-14 CAT4 LTE Module for North America	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTE7-EAL-900	Cisco IRMH-LTE7-EAL-900	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTE7-EAL-900=	Cisco IRMH-LTE7-EAL-900=	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTE7-NA-900	Cisco IRMH-LTE7-NA-900	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTE7-NA-900=	Cisco IRMH-LTE7-NA-900=	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTEA-EA	CAT6 LTEA Module for Europe and North America	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTEA-EA-900	CAT6 LTEA Module for North America w/900Mhz filter	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTEA-EA-900=	CAT6 LTEA Module for North America w/900Mhz filter	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTEA-EA=	CAT6 LTEA Module for Europe and North America	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTEA-LA	CAT6 LTEA Module for APAC, LATAM and ANZ	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTEA-LA=	CAT6 LTEA Module for APAC, LATAM and ANZ	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTEAP18-GL	CAT18 LTEA PRO Module for ALL Global Regions	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-LTEAP18-GL=	CAT18 LTEA PRO Module for ALL Global Regions	1000	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-SEC-BRKT	Cisco IRMH-SEC-BRKT	Catalyst IR8100 Heavy Duty	accessory	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-WPAN-ANZ	Cisco IRMH-WPAN-ANZ	1000 Connected Grid	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-WPAN-ANZ=	Cisco IRMH-WPAN-ANZ=	1000 Connected Grid	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-WPAN-BRZ	Cisco IRMH-WPAN-BRZ	Catalyst IR8100 Heavy Duty	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-WPAN-BRZ=	Cisco IRMH-WPAN-BRZ=	1000 Connected Grid	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-WPAN-NA	Cisco IRMH-WPAN-NA	Catalyst IR8100 Heavy Duty	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
+IRMH-WPAN-NA=	Cisco IRMH-WPAN-NA=	1000 Connected Grid	module	layered	Industrial and IoT Routers	IR 8100	sku ^IRMH-					
 ISM-SRE-300-K9	Internal Services Module (ISM) with Services Ready Engine	2900 ISR	module	pending_plan							move interfaces-modules	
 ISM-SRE-300-K9++=	Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)	4000 ISR	module	pending_plan							move interfaces-modules	
 ISM-SRE-300-RS-K9=	ISM 300 module for VPN software	4000 ISR	module	pending_plan							move interfaces-modules	
@@ -3512,7 +3512,7 @@ ISR4221-B/K9	Cisco ISR 4221 High BW (2GE, 2NIM, 4G FLASH, 4G DRAM, IPB)	4000 ISR
 ISR4221-SEC/K9	Cisco ISR 4221 SEC Bundle with SEC lic	1900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4221/K9	Cisco ISR 4221 (2GE,2NIM,8G FLASH,4G DRAM,IPB)	4000	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4221X/K9	Cisco ISR 4221 (2GE,2NIM,8G FLASH,8G DRAM,IPB)	4000	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
-ISR4320U-MEM-MSATA	Upgrade to 8GB DRAM/8GB Flash, 200GB mSATA SSD bundle	4000 ISR	memory	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}					
+ISR4320U-MEM-MSATA	Upgrade to 8GB DRAM/8GB Flash, 200GB mSATA SSD bundle	4000 ISR	bundle	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}					
 ISR4321	Cisco ISR4321	4000 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4321-AX/K9	Cisco ISR 4321 AX Bundle w/APP, SEC lic	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4321-AXV/K9	Cisco ISR 4321 AXV Bundle, w/APP, SEC, UC License	4000 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
@@ -3529,7 +3529,7 @@ ISR4321-V/K9	Cisco ISR 4321 Bundle, w/UC License	2900 ISR	router	layered	ISR (In
 ISR4321-VSEC/K9	Cisco ISR 4321 Bundle w/UC & SEC License	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4321/K9	Cisco ISR 4321 (2GE,2NIM,4G FLASH,4G DRAM,IPB)	4000	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4321BR/K9	Cisco ISR 4321 (2GE,2NIM,4G FLASH,4G DRAM,IPB)	4000 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
-ISR4330U-MEM-MSATA	Upgrade to 16GB DRAM/16GB Flash, 200GB mSATA SSD bundle	4000 ISR	memory	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}					
+ISR4330U-MEM-MSATA	Upgrade to 16GB DRAM/16GB Flash, 200GB mSATA SSD bundle	4000 ISR	bundle	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}					
 ISR4331	Cisco ISR4331	4000 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4331-AX/K9	Cisco ISR 4331 AX Bundle w/ APP,SEC lic	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4331-AXV/K9	Cisco ISR 4331 AXV Bundle,PVDM4-32 w/APP,SEC,UC License	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
@@ -3543,7 +3543,7 @@ ISR4331-V/K9	Cisco ISR 4331 UC Bundle, PVDM4-32, UC License	2900 ISR	router	laye
 ISR4331-VSEC/K9	Cisco ISR 4331 Bundle w/UC & Sec Lic, PVDM4-32	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4331/K9	Cisco ISR 4331 (3GE,2NIM,1SM,4G FLASH,4G DRAM,IPB)	4000	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4331BR/K9	Cisco ISR 4331 (3GE,2NIM,1SM,4G FLASH,4G DRAM,IPB)	4000 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
-ISR4350U-MEM-MSATA	Upgrade to 16GB DRAM/16GB Flash, 200GB mSATA SSD bundle	4000 ISR	memory	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}					
+ISR4350U-MEM-MSATA	Upgrade to 16GB DRAM/16GB Flash, 200GB mSATA SSD bundle	4000 ISR	bundle	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}					
 ISR4351	Cisco ISR4351	4000 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4351-AX/K9	Cisco ISR 4351 AX Bundle w/ APP,SEC lic	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4351-AXV/K9	Cisco ISR 4351 AXV Bundle,PVDM4-64 w/APP,SEC,UC License	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
@@ -3552,7 +3552,7 @@ ISR4351-SEC/K9	Cisco ISR 4351 Sec bundle w/SEC license	2900 ISR	router	layered	I
 ISR4351-V/K9	Cisco ISR 4351 UC Bundle, PVDM4-64, UC License	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4351-VSEC/K9	Cisco ISR 4351 Bundle with UC & Sec Lic, PVDM4-64	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4351/K9	Cisco ISR 4351 (3GE,3NIM,2SM,4G FLASH,4G DRAM,IPB)	4000	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
-ISR4430U-MEM-SSD	Upgrade to 16GB DRAM/16GB Flash, 200GB SSD+NIM bundle	4000 ISR	memory	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}					
+ISR4430U-MEM-SSD	Upgrade to 16GB DRAM/16GB Flash, 200GB SSD+NIM bundle	4000 ISR	bundle	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}					
 ISR4431	Cisco ISR4431	4000 ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4431-AX/K9	Cisco ISR 4431 AX Bundle with APP and SEC license	3900 Series Integrated Services Routers ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
 ISR4431-AXV/K9	Cisco ISR 4431 AXV Bundle,PVDM4-64 w/APP,SEC,UC Lic	3900 Series Integrated Services Routers ISR	router	layered	ISR (Integrated Services Routers)	ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000			
@@ -3718,12 +3718,12 @@ M-ASR1K-SSD-200GB	Cisco ASR1000 Series RP3 200 GB SSD	ASR 1000	drive	layered	ASR
 M-ASR1K-SSD-200GB=	Cisco ASR1000 Series RP3 200 GB SSD, Spare	ASR 1000	drive	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1K					
 M-ASR1K-SSD-400GB	Cisco ASR1000 Series RP3 400 GB SSD	ASR 1000	drive	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1K					
 M-ASR1K-SSD-400GB=	Cisco ASR1000 Series RP3 400 GB SSD, Spare	ASR 1000	drive	layered	ASR (Aggregation Services Routers)	ASR 1000	sku ^(M-)?ASR1K					
-M2USB-16G	Cisco C8000 Edge Platform – 16 GB M.2 USB SSD Storage	Catalyst 8300	drive	layered	Catalyst 8000 Edge	Catalyst 8300	label Catalyst 8300					
+M2USB-16G	Cisco C8000 Edge Platform – 16 GB M.2 USB SSD Storage	Catalyst 8300	drive	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	name Catalyst 8000 Edge					
 M2USB-16G-C82L	Cisco Catalyst 8000 Edge M.2 USB 16GB	Catalyst 8200	drive	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	name Catalyst 8000 Edge					
 M2USB-16G=	Cisco Catalyst 8000 Edge M.2 USB 16GB spare	Catalyst 8500	drive	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	name Catalyst 8000 Edge					
 M2USB-32G	Cisco C8000 Edge Platform – 32 GB M.2 USB SSD Storage	Catalyst 8300	drive	layered	Catalyst 8000 Edge	Catalyst 8300	label Catalyst 8300					
-M2USB-32G=	Cisco M2USB-32G=	Catalyst 8500	drive	layered	Catalyst 8000 Edge	Catalyst 8500	label Catalyst 8500					
-M2USB-75G	Cisco C8000 Edge uCPE – 75 GB M.2 USB SSD storage	Catalyst 8300 Series Edge uCPE	drive	layered	Catalyst 8000 Edge	Catalyst 8300 Edge uCPE	label Catalyst 8300 Series Edge uCPE					
+M2USB-32G=	Cisco M2USB-32G=	Catalyst 8500	drive	layered	Catalyst 8000 Edge	Catalyst 8300	label Catalyst 8300					
+M2USB-75G	Cisco C8000 Edge uCPE – 75 GB M.2 USB SSD storage	Catalyst 8300 Series Edge uCPE	drive	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	name Catalyst 8000 Edge					
 M2USB-75G=	Cisco Catalyst 8000 Edge M.2 USB 75GB (Spare)	Catalyst 8300 Series Edge uCPE	drive	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	name Catalyst 8000 Edge					
 MASR1002X-HD-160G	Cisco ASR1002-X 160GB HDD	ASR 1000	drive	layered	ASR (Aggregation Services Routers)	ASR 1000	label ASR 1000					
 MASR1002X-HD-160G=	Cisco ASR1002-X 160GB HDD	ASR 1000	drive	layered	ASR (Aggregation Services Routers)	ASR 1000	label ASR 1000					
@@ -3847,7 +3847,7 @@ MEM-C8500L-32GB=	Cisco C8500L 32GB Memory, Spare	Catalyst 8500L	memory	layered	C
 MEM-C8500L-64GB	Cisco C8500L 64 GB memory	Catalyst 8500L	memory	layered	Catalyst 8000 Edge	Catalyst 8500L	sku ^MEM-C8500L					
 MEM-C8500L-64GB=	Cisco C8500L 64GB Memory, Spare	Catalyst 8500L	memory	layered	Catalyst 8000 Edge	Catalyst 8500L	sku ^MEM-C8500L					
 MEM-CF-1GB	1GB Compact Flash for Cisco 1900, 2900, 3900 ISR	3900 Series Integrated Services Routers ISR	flash	layered	ISR (Integrated Services Routers)	ISR 3900	label 3900 Series Integrated Services Routers ISR					
-MEM-CF-1GB=	1GB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)	2900 ISR	flash	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
+MEM-CF-1GB=	1GB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)	2900 ISR	flash	layered	ISR (Integrated Services Routers)	ISR 3900	label 3900 Series Integrated Services Routers ISR					
 MEM-CF-256MB	256MB Compact Flash for Cisco 1900, 2900, 3900 ISR (Default)	2900 ISR	flash	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
 MEM-CF-256MB-RGD	Compact Flash for Cisco CGR2010	2000 Series Connected Grid	flash	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	label 2000 Series Connected Grid					
 MEM-CF-256MB-RGD=	Compact Flash for Cisco CGR2010	2000 Series Connected Grid	flash	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	label 2000 Series Connected Grid					
@@ -3857,11 +3857,11 @@ MEM-CF-256U2GB	256MB to 2GB Compact Flash Upgrade for Cisco 1900, 2900, 3900 ISR
 MEM-CF-256U4GB	256MB to 4GB Compact Flash Upgrade for Cisco 1900, 2900, 3900 ISR	2900 ISR	flash	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
 MEM-CF-256U512MB	256MB to 512MB CF Upgrade for Cisco 1900, 2900, 3900 ISR	2900 ISR	flash	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
 MEM-CF-2GB	2GB Compact Flash for Cisco 1900, 2900, 3900 ISR	3900 Series Integrated Services Routers ISR	flash	layered	ISR (Integrated Services Routers)	ISR 3900	label 3900 Series Integrated Services Routers ISR					
-MEM-CF-2GB=	2GB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)	2900 ISR	flash	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
+MEM-CF-2GB=	2GB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)	2900 ISR	flash	layered	ISR (Integrated Services Routers)	ISR 3900	label 3900 Series Integrated Services Routers ISR					
 MEM-CF-4GB	4GB Compact Flash for Cisco 1900, 2900, 3900 ISR	3900 Series Integrated Services Routers ISR	flash	layered	ISR (Integrated Services Routers)	ISR 3900	label 3900 Series Integrated Services Routers ISR					
-MEM-CF-4GB=	4GB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)	2900 ISR	flash	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
+MEM-CF-4GB=	4GB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)	2900 ISR	flash	layered	ISR (Integrated Services Routers)	ISR 3900	label 3900 Series Integrated Services Routers ISR					
 MEM-CF-512MB	512MB Compact Flash for Cisco 1900, 2900, 3900 ISR	3900 Series Integrated Services Routers ISR	flash	layered	ISR (Integrated Services Routers)	ISR 3900	label 3900 Series Integrated Services Routers ISR					
-MEM-CF-512MB=	512MB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)	2900 ISR	flash	layered	ISR (Integrated Services Routers)	ISR 2900	label 2900 ISR					
+MEM-CF-512MB=	512MB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)	2900 ISR	flash	layered	ISR (Integrated Services Routers)	ISR 3900	label 3900 Series Integrated Services Routers ISR					
 MEM-CGMSRV-128=	Cisco MEM-CGMSRV-128=	1000 Connected Grid	memory	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	label 1000 Connected Grid					
 MEM-CGMSRV-64=	Cisco MEM-CGMSRV-64=	1000 Connected Grid	memory	layered	Industrial and IoT Routers	CGR 1000 Connected Grid	label 1000 Connected Grid					
 MEM-FLASH-16G=	16G Compact Flash Memory for Cisco ISR 4450 Spare	4000 ISR	flash	layered	ISR (Integrated Services Routers)	ISR 4000	label 4000 ISR					
@@ -3910,8 +3910,8 @@ MEMUSB-128FT=	128MB USB Flash Token for Cisco 1800/2800/3800 series	2900 ISR	dri
 MEMUSB-8GB	8GB USB Flash Token	Catalyst 8500	drive	layered	Catalyst 8000 Edge	Catalyst 8500	label Catalyst 8500					
 MEMUSB-8GB=	8GB USB Flash Token	Catalyst 8500	drive	layered	Catalyst 8000 Edge	Catalyst 8500	label Catalyst 8500					
 MWR-3941	Muti-Service Cell Site router/ Career Ethernet switch	ASR 901 10G	sp-router	layered	ASR (Aggregation Services Routers)	ASR 901	sku ^MWR-	sp-access	series:ASR 901			
-N520-10G-2	Cisco NCS 520 Series 2-Port 10G Upgrade License	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)	NCS 520, 540 and 560	sku ^N5[246]0	sp-access	series:NCS 520, 540 and 560			
-N520-1G-8	Cisco NCS 520 Series 8 Ports GE Upgrade License	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)	NCS 520, 540 and 560	sku ^N5[246]0	sp-access	series:NCS 520, 540 and 560			
+N520-10G-2	Cisco NCS 520 Series 2-Port 10G Upgrade License	Network Convergence System 500	sp-router	pending_plan				sp-access	series:NCS 520, 540 and 560		class license	
+N520-1G-8	Cisco NCS 520 Series 8 Ports GE Upgrade License	Network Convergence System 500	sp-router	pending_plan				sp-access	series:NCS 520, 540 and 560		class license	
 N520-20G4Z-A	Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp, AC power	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)	NCS 520, 540 and 560	sku ^N5[246]0	sp-access	series:NCS 520, 540 and 560			
 N520-20G4Z-A=	Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)	NCS 520, 540 and 560	sku ^N5[246]0	sp-access	series:NCS 520, 540 and 560			
 N520-20G4Z-D	Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp, DC power	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)	NCS 520, 540 and 560	sku ^N5[246]0	sp-access	series:NCS 520, 540 and 560			
@@ -3947,7 +3947,7 @@ N520-RMT-ETSI-D3A	NCS 520 ETSI Rackmount for 24 Port, AC	Network Convergence Sys
 N520-RMT-ETSI-D3A=	NCS 520 ETSI Rackmount for 24 Port, AC	Network Convergence System 500	mechanical	layered	NCS (Network Convergence System)	NCS 520, 540 and 560	sku ^N5[246]0					
 N520-RMT-ETSI-D3D	NCS 520 ETSI Rackmount for 24 Port, DC	Network Convergence System 500	mechanical	layered	NCS (Network Convergence System)	NCS 520, 540 and 560	sku ^N5[246]0					
 N520-RMT-ETSI-D3D=	NCS 520 ETSI Rackmount for 24 Port, DC	Network Convergence System 500	mechanical	layered	NCS (Network Convergence System)	NCS 520, 540 and 560	sku ^N5[246]0					
-N520-S-M	Metro Access License (base software)	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)	NCS 520, 540 and 560	sku ^N5[246]0	sp-access	series:NCS 520, 540 and 560			
+N520-S-M	Metro Access License (base software)	Network Convergence System 500	sp-router	pending_plan				sp-access	series:NCS 520, 540 and 560		class license	
 N520-WALLMT	NCS 520 Wall Mount	Network Convergence System 500	mechanical	layered	NCS (Network Convergence System)	NCS 520, 540 and 560	sku ^N5[246]0					
 N520-WALLMT=	NCS 520 Wall Mount	Network Convergence System 500	mechanical	layered	NCS (Network Convergence System)	NCS 520, 540 and 560	sku ^N5[246]0					
 N520-X-20G4Z-A	Cisco NCS 520 - 20xGE + 4x10GE, Industrial Temp, AC power	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)	NCS 520, 540 and 560	sku ^N5[246]0	sp-access	series:NCS 520, 540 and 560			
@@ -4305,8 +4305,8 @@ NC6-10X100G-L-K-G	^NCS 6000 6x100G LSR CPAK PAYG (To 10-Port)	6000	linecard	laye
 NC6-10X100G-L-K-G=	NCS 6000 6x100G LSR CPAK PAYG (To 10-Port) Spare	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-10X100G-L-K=	NCS 6000 10x100G LSR CPAK Spare	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-10X100G-L-P	Cisco NCS 6000 10 Port 100 Gigabit Ethernet LSR Line Card CXP Optics	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
-NC6-10X100G-LK-2PK	NCS6000 10X100G LSR LC, Bundle 2 Pack	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
-NC6-10X100G-LK-4PK	NCS6000 10X100G LSR LC, Bundle 4 Pack	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
+NC6-10X100G-LK-2PK	NCS6000 10X100G LSR LC, Bundle 2 Pack	6000	bundle	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
+NC6-10X100G-LK-4PK	NCS6000 10X100G LSR LC, Bundle 4 Pack	6000	bundle	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-10X100G-M-K	NCS 6000 10x100G Multi-Service CPAK	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-10X100G-M-K-G	^NCS 6000 4x100G Multi-Service CPAK PAYG (To 10-Port)	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-10X100G-M-K-G=	NCS 6000 4x100G Multi-Service CPAK PAYG (To 10-Port) Spare	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
@@ -4316,16 +4316,16 @@ NC6-2/10X100G-L-K	NCS 6000 2x100G LSR CPAK PAYG (Up To 10-Ports)	6000	linecard	l
 NC6-2/10X100G-L-K=	NCS 6000 2x100G LSR CPAK PAYG (Up To 10-Ports) Spare	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-2/10X100G-M-K	NCS 6000 2x100G Multi-Service CPAK PAYG (Up To 10-Ports)	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-2/10X100G-M-K=	NCS6000 2x100G Multi-Service CPAK PAYG (UpTo 10-Ports) Spare	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
-NC6-20X100GE-L-2PK	NCS6000 20X100G LSR LC, Bundle 2 Pack	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
-NC6-20X100GE-L-C	NCS6000 20x100GE LSR Linecard combo optics	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
-NC6-20X100GE-L-C=	C isco NC S 6 0 00 2 0 Po r t 1 00 Gigab i t Ethern e t LSR L i ne C ard with combo o p ti c s	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
+NC6-20X100GE-L-2PK	NCS6000 20X100G LSR LC, Bundle 2 Pack	6000	bundle	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
+NC6-20X100GE-L-C	NCS6000 20x100GE LSR Linecard combo optics	6000	bundle	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
+NC6-20X100GE-L-C=	C isco NC S 6 0 00 2 0 Po r t 1 00 Gigab i t Ethern e t LSR L i ne C ard with combo o p ti c s	6000	bundle	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-20X100GE-L-VZ1	NCS6000 20X100G LSR LC bundle for MSE	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
-NC6-20X100GE-M-C	NCS6000 20x100GE MS Linecard Combo Optics	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
-NC6-20X100GE-M-C=	C isco NC S 6 0 00 2 0 Po r t 1 00 Gigab i t Ethern e t MS L i ne C ard with combo o p ti c s	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
+NC6-20X100GE-M-C	NCS6000 20x100GE MS Linecard Combo Optics	6000	bundle	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
+NC6-20X100GE-M-C=	C isco NC S 6 0 00 2 0 Po r t 1 00 Gigab i t Ethern e t MS L i ne C ard with combo o p ti c s	6000	bundle	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-20X100GE-M-VZ1	NCS6000 20X100G Multiservices LC bundle for MSE	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-20X100GE-M-VZ2	NCS6000 20X100G Multiservices LC bundle2 for MSE	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
-NC6-2T-PAYG-L-BUN	NCS6000 20x100G LSR Linecard Combo Optics PAYG Bundle	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
-NC6-2T-PAYG-M-BUN	NCS6000 20x100G Multi-Services Linecard Combo Optics PAYGBUN	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
+NC6-2T-PAYG-L-BUN	NCS6000 20x100G LSR Linecard Combo Optics PAYG Bundle	6000	bundle	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
+NC6-2T-PAYG-M-BUN	NCS6000 20x100G Multi-Services Linecard Combo Optics PAYGBUN	6000	bundle	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-2T-UPGR	NCS 6008 to 6208 upgrade kit - 2T upgrade kit. Includes all items needed for upgrade to 2T	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-30/60X10G-L-S	NCS 6000 30x10G LSR SFPP PAYG (Up To 60-Ports)	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
 NC6-30/60X10G-L-S=	NCS 6000 30x10G LSR SFPP PAYG (Up To 60-Ports)	6000	linecard	layered	NCS (Network Convergence System)	NCS 6000	sku ^NC6-					
@@ -4389,13 +4389,13 @@ NCS-1RU-FAN-FW	NCS 5500 1RU Chassis Fan Tray Port-S Intake / Front-to-Back	Netwo
 NCS-1RU-FAN-RV	NCS 5500 1RU Chassis Fan Tray Port-S Exhaust / Back-to-Front	Network Convergence System 5500 Series	fan	layered	NCS (Network Convergence System)	NCS 5500	label Network Convergence System 5500 Series					
 NCS-1RU-NEBS-KIT	Cisco NCS-1RU-NEBS-KIT	Network Convergence System 5500 Series	accessory	layered	NCS (Network Convergence System)	NCS 5500	label Network Convergence System 5500 Series					
 NCS-2RU-ACC-KIT	NCS 5500 Accessory Kit for 2RU Chassis	Network Convergence System 5500 Series	mechanical	layered	NCS (Network Convergence System)	NCS 5500	label Network Convergence System 5500 Series					
-NCS-5001	Cisco NCS 5001 Series Router	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5001-BUN	Cisco NCS 5001 Series Routing System Bundle	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5001=	Cisco NCS 5001 Series Router	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5002	Cisco NCS 5002 Series Router	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
+NCS-5001	Cisco NCS 5001 Series Router	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
+NCS-5001-BUN	Cisco NCS 5001 Series Routing System Bundle	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
+NCS-5001=	Cisco NCS 5001 Series Router	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
+NCS-5002	Cisco NCS 5002 Series Router	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
 NCS-5002-ACSR	Cisco NCS 5002 Router Accessory Kit	Network Convergence System 5000 Series	mechanical	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
 NCS-5002-ACSR=	Cisco NCS 5002 Router Accessory Kit Spare	Network Convergence System 5000 Series	mechanical	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5002-BUN	Cisco NCS 5002 Series Routing System Bundle	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
+NCS-5002-BUN	Cisco NCS 5002 Series Routing System Bundle	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
 NCS-5002-FLT-BK	Cisco NCS 5002 Air Filter Back to Front Airflow	Network Convergence System 5000 Series	mechanical	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
 NCS-5002-FLT-BK=	Cisco NCS 5002 Air Filter Back to Front Airflow	Network Convergence System 5000 Series	mechanical	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
 NCS-5002-FLT-FR	Cisco NCS 5002 Air Filter Front to Back Airflow	Network Convergence System 5000 Series	mechanical	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
@@ -4408,17 +4408,17 @@ NCS-5002-FN-FR	Cisco NCS 5002 Fan Front to Back Airflow	Network Convergence Syst
 NCS-5002-FN-FR=	Cisco NCS 5002 Fan Front to Back Airflow	Network Convergence System 5000 Series	fan	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
 NCS-5002-FN-FRNT	Cisco NCS 5002 Router Fan Front	Network Convergence System 5000 Series	fan	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
 NCS-5002-FN-FRNT=	Cisco NCS 5002 Router Fan Front	Network Convergence System 5000 Series	fan	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5002-SAT-BUN	Cisco NCS 5002 Series Routing System Bundle	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5002-SAT1G-BUN	Cisco NCS 5002 Series Routing System Bundle	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5002=	Cisco NCS 5002 Series Router	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5011	Cisco NCS 5011 Routing System	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5011-12F20H	Cisco NCS 5000 Series Router 12x40GE and 20x100GE Mode	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5011-24F8H	Cisco NCS 5000 Series Router 24x40GE and 8x100GE Mode	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5011-32F	Cisco NCS 5000 Series Router 32x40GE Mode	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5011-32H	Cisco NCS 5000 Series Router 32x100GE Mode	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
+NCS-5002-SAT-BUN	Cisco NCS 5002 Series Routing System Bundle	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
+NCS-5002-SAT1G-BUN	Cisco NCS 5002 Series Routing System Bundle	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
+NCS-5002=	Cisco NCS 5002 Series Router	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
+NCS-5011	Cisco NCS 5011 Routing System	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
+NCS-5011-12F20H	Cisco NCS 5000 Series Router 12x40GE and 20x100GE Mode	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
+NCS-5011-24F8H	Cisco NCS 5000 Series Router 24x40GE and 8x100GE Mode	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
+NCS-5011-32F	Cisco NCS 5000 Series Router 32x40GE Mode	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
+NCS-5011-32H	Cisco NCS 5000 Series Router 32x100GE Mode	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
 NCS-5011-ACSR	Cisco NCS 5011 Router Accessory Kit	Network Convergence System 5000 Series	mechanical	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
 NCS-5011-ACSR=	Cisco NCS 5011 Router Accessory Kit	Network Convergence System 5000 Series	mechanical	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5011-BUN	Cisco NCS 5011 Bundle 40GE Only	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
+NCS-5011-BUN	Cisco NCS 5011 Bundle 40GE Only	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
 NCS-5011-FLT-BK	Cisco NCS 5011 Router Air Filter Back to Front Airflow	Network Convergence System 5000 Series	mechanical	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
 NCS-5011-FLT-BK=	Cisco NCS 5011 Router Air Filter Back to Front Airflow	Network Convergence System 5000 Series	mechanical	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
 NCS-5011-FLT-FR	Cisco NCS 5011 Router Air Filter Front to Back Airflow	Network Convergence System 5000 Series	mechanical	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
@@ -4426,7 +4426,7 @@ NCS-5011-FN-BK	Cisco NCS 5011 Router Fan Back to Front Airflow	Network Convergen
 NCS-5011-FN-BK=	Cisco NCS 5011 Router Fan Back to Front Airflow	Network Convergence System 5000 Series	fan	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
 NCS-5011-FN-FR	Cisco NCS 5011 Router Fan Front to Back Airflow	Network Convergence System 5000 Series	fan	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
 NCS-5011-FN-FR=	Cisco NCS 5011 Router Fan Front to Back Airflow	Network Convergence System 5000 Series	fan	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
-NCS-5011=	Cisco NCS 5011 Routing System	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}					
+NCS-5011=	Cisco NCS 5011 Routing System	Network Convergence System 5000 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5000	sku ^NCS-?50[0-9]{2}	sp-edge	series:NCS 5000			
 NCS-5501	NCS5501 Fixed 48x10G and 6x100G chassis	Network Convergence System 5500 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5500	sku ^NCS-?55	sp-edge	series:NCS 5500			
 NCS-5501-SE	NCS5501 - 40x10G and 4x100G Scale Chassis	Network Convergence System 5500 Series	sp-router	layered	NCS (Network Convergence System)	NCS 5500	sku ^NCS-?55	sp-edge	series:NCS 5500			
 NCS-5501-SE-SYS	NCS-5501 SE System HW for Flexible Consumption	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	NCS 5500	sku ^NCS-?55	sp-edge	series:NCS 5500			
@@ -4906,7 +4906,7 @@ PWR-66W-AC=	Power Supply 66 Watt AC	800	power	layered	ISR (Integrated Services R
 PWR-80W-AC	Power Supply 80 Watt AC	800	power	layered	ISR (Integrated Services Routers)	ISR 800	label 800					
 PWR-80W-AC=	Power Supply 80 Watt AC	800	power	layered	ISR (Integrated Services Routers)	ISR 800	label 800					
 PWR-CC1-1000WAC	Cisco C8300 2RU AC 1KW Power supply	Catalyst 8200	power	layered	Catalyst 8000 Edge	Catalyst 8300	name C8300					
-PWR-CC1-1000WAC-P	Cisco Catalyst Edge AC 1000WAC POE Power Supply	Catalyst 8200	power	layered	Catalyst 8000 Edge	Catalyst 8200	label Catalyst 8200					
+PWR-CC1-1000WAC-P	Cisco Catalyst Edge AC 1000WAC POE Power Supply	Catalyst 8200	power	layered	Catalyst 8000 Edge	Catalyst 8300	name Edge 8300					
 PWR-CC1-1000WAC-P=	Cisco Catalyst Edge 8300 1000WAC POE Power Supply SPARE	Catalyst 8200	power	layered	Catalyst 8000 Edge	Catalyst 8300	name Edge 8300					
 PWR-CC1-1000WAC/2	Cisco C8300 2RU AC 1000W Power supply - Secondary	Catalyst 8200	power	layered	Catalyst 8000 Edge	Catalyst 8300	name C8300					
 PWR-CC1-1000WAC=	Cisco C8300 2RU AC 1KW Power supply	Catalyst 8200	power	layered	Catalyst 8000 Edge	Catalyst 8300	name C8300					
@@ -4915,7 +4915,7 @@ PWR-CC1-150WAC	Cisco PWR-CC1-150WAC	Catalyst 8200	power	layered	Catalyst 8000 Ed
 PWR-CC1-150WAC=	Cisco PWR-CC1-150WAC=	Catalyst 8200	power	layered	Catalyst 8000 Edge	Catalyst 8200	label Catalyst 8200					
 PWR-CC1-250WAC	Cisco PWR-CC1-250WAC	Secure Console	power	layered	Console and Terminal Servers	Secure Console	label Secure Console					
 PWR-CC1-250WAC/2	Cisco PWR-CC1-250WAC/2	Secure Console	power	layered	Console and Terminal Servers	Secure Console	label Secure Console					
-PWR-CC1-250WAC=	Cisco PWR-CC1-250WAC=	Catalyst 8200	power	layered	Catalyst 8000 Edge	Catalyst 8200	label Catalyst 8200					
+PWR-CC1-250WAC=	Cisco PWR-CC1-250WAC=	Catalyst 8200	power	layered	Console and Terminal Servers	Secure Console	label Secure Console					
 PWR-CC1-400WAC	Cisco Catalyst 8300 400W AC PSU	Catalyst 8300 Series Edge uCPE	power	layered	Catalyst 8000 Edge	Catalyst 8300	name Catalyst 8300					
 PWR-CC1-400WAC/2	Cisco C8300 1RU 400W AC Power supply - Secondary	Catalyst 8300	power	layered	Catalyst 8000 Edge	Catalyst 8300	name C8300					
 PWR-CC1-400WAC=	Cisco Catalyst 8300 400W AC PSU Spare	Catalyst 8300 Series Edge uCPE	power	layered	Catalyst 8000 Edge	Catalyst 8300	name Catalyst 8300					
@@ -4951,9 +4951,9 @@ PWR-GE-POE-4400=	POE Module for On Board GE for Cisco ISR 4400 & 4350	4000 ISR	p
 PWR-INJDC-30	DC PoE power injector, 30W output	Wireless Gateway for LoRaWAN	power	layered	Industrial and IoT Routers	Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN					
 PWR-INJDC-30=	DC PoE Injector, 30W output	Wireless Gateway for LoRaWAN	power	layered	Industrial and IoT Routers	Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN					
 PWR-RGD-AC-DC	High AC/DC (100-250 VDC/100-240 VAC) - 2.5 lb/1.13 kg	Catalyst IR8300 Rugged Series Router	power	layered	Industrial and IoT Routers	IR 8300	label Catalyst IR8300 Rugged Series Router					
-PWR-RGD-AC-DC=	Cisco PWR-RGD-AC-DC=	2000 Series Connected Grid	power	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	label 2000 Series Connected Grid					
+PWR-RGD-AC-DC=	Cisco PWR-RGD-AC-DC=	2000 Series Connected Grid	power	layered	Industrial and IoT Routers	IR 8300	label Catalyst IR8300 Rugged Series Router					
 PWR-RGD-LOW-DC	Low DC (24-60 VDC) - 2.5 lb/1.13 kg	Catalyst IR8300 Rugged Series Router	power	layered	Industrial and IoT Routers	IR 8300	label Catalyst IR8300 Rugged Series Router					
-PWR-RGD-LOW-DC=	Cisco PWR-RGD-LOW-DC=	2000 Series Connected Grid	power	layered	Industrial and IoT Routers	CGR 2010 Connected Grid	label 2000 Series Connected Grid					
+PWR-RGD-LOW-DC=	Cisco PWR-RGD-LOW-DC=	2000 Series Connected Grid	power	layered	Industrial and IoT Routers	IR 8300	label Catalyst IR8300 Rugged Series Router					
 PWR1-20W-12VDC	Cisco PWR1-20W-12VDC	800	power	layered	ISR (Integrated Services Routers)	ISR 800	label 800					
 PWR1-20W-24VDC	C819(H)G 24V DC power supply	800	power	layered	ISR (Integrated Services Routers)	ISR 800	label 800					
 PWR1-20W-24VDC=	C819(H)G 24V DC power supply	800	power	layered	ISR (Integrated Services Routers)	ISR 800	label 800					
@@ -5208,7 +5208,7 @@ SM-X-ES3-24-P	SM-X EtherSwitch SM, Layer 2/3 switching, 24 ports Gigabit GE, POE
 SM-X-ES3-24-P-T	SM-X EtherSwitch, L2/L3, SM, 24 GE, POE+ TT	2900 ISR	module	pending_plan							move interfaces-modules	
 SM-X-ES3-24-P-T=	SM-X EtherSwitch, L2/L3, SM, 24 GE, POE+ TT	2900 ISR	module	pending_plan							move interfaces-modules	
 SM-X-ES3D-48-P	SM-X EtherSwitch SM, Layer 2/3 switching, 48 ports Gigabit GE, 2 ports Small Form factor Pluggable (SFP), POE+ capable	4000 ISR	module	pending_plan							move interfaces-modules	
-SM-X-NIM-ADPTR=	SM-X Adapter for one NIM module for Cisco 4000 Series ISR	4000 ISR	accessory	pending_plan							move interfaces-modules	
+SM-X-NIM-ADPTR=	SM-X Adapter for one NIM module for Cisco 4000 Series ISR	4000 ISR	mechanical	pending_plan							move interfaces-modules	
 SM-X-PVDM-1000	1024-channel high-density voice DSP module	Catalyst 8300	module	pending_plan							move interfaces-modules	
 SM-X-PVDM-2000	2048-channel high-density voice DSP module	Catalyst 8300	module	pending_plan							move interfaces-modules	
 SM-X-PVDM-3000	3080-channel high-density voice DSP module	Catalyst 8300	module	pending_plan							move interfaces-modules	
@@ -5293,9 +5293,9 @@ SPOA-WAENET-D	Offer Attribution (Daily) for BAM WAENET	WAN Automation Engine (WA
 SRE-WLC	Wireless Controller on SRE option when sold with ISR G2 system	2900 ISR	router	pending_plan					rt.issue.licence	licence/software/planning PID	class license	
 SSD-E1SSED-2T	E1.S NVMe 2 TB Self-Encrypted-Disk (SED) Storage ● SED functionality not supported. Disk will be enabled only in non-SED mode	Catalyst 8300 Series Edge uCPE	drive	layered	Catalyst 8000 Edge	Catalyst 8300 Edge uCPE	label Catalyst 8300 Series Edge uCPE					
 SSD-E1SSED-2T=	E1.S NVMe 2 TB Self-Encrypted-Disk (SED) Storage Spare ● SED functionality not supported. Disk will be enabled only in non-SED mode	Catalyst 8300 Series Edge uCPE	drive	layered	Catalyst 8000 Edge	Catalyst 8300 Edge uCPE	label Catalyst 8300 Series Edge uCPE					
-SSD-M2NVME-2T	Cisco C8000 Edge Platform – 2TB M.2 NVMe Self-Encrypted Drive (SED) Storage	Catalyst 8500L	drive	layered	Catalyst 8000 Edge	Catalyst 8500L	label Catalyst 8500L					
+SSD-M2NVME-2T	Cisco C8000 Edge Platform – 2TB M.2 NVMe Self-Encrypted Drive (SED) Storage	Catalyst 8500L	drive	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	name Catalyst 8000 Edge					
 SSD-M2NVME-2T=	Cisco Catalyst 8000 Edge SSD M.2 NVMe 2TB	Catalyst 8500L	drive	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	name Catalyst 8000 Edge					
-SSD-M2NVME-600G	Cisco C8000 Edge uCPE – 600 GB M.2 NVMe SSD storage	Catalyst 8200 Edge uCPE	drive	layered	Catalyst 8000 Edge	Catalyst 8200 Edge uCPE	label Catalyst 8200 Edge uCPE					
+SSD-M2NVME-600G	Cisco C8000 Edge uCPE – 600 GB M.2 NVMe SSD storage	Catalyst 8200 Edge uCPE	drive	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	name Catalyst 8000 Edge					
 SSD-M2NVME-600G=	Cisco Catalyst 8000 Edge SSD M.2 NVMe 600GB spare	Catalyst 8200	drive	layered	Catalyst 8000 Edge	Catalyst 8000 Edge shared parts	name Catalyst 8000 Edge					
 SSD-M2SATA-480G	Cisco C8500 SSD M.2 SATA 480 GB	Catalyst 8500L	drive	layered	Catalyst 8000 Edge	Catalyst 8500	name C8500(?!L)					
 SSD-M2SATA-480G-D	C8500 480 GB, M2 SATA SSD Default	Catalyst 8500	drive	layered	Catalyst 8000 Edge	Catalyst 8500	name C8500(?!L)					
@@ -5303,7 +5303,7 @@ SSD-M2SATA-480G=	Cisco C8500 SSD M.2 SATA 480GB, Spare	Catalyst 8500L	drive	laye
 SSD-M2SED-2T	M.2 NVMe 2 TB Self-Encrypted-Disk (SED) Storage ● SED functionality not supported. Disk will be enabled only in non-SED mode	Catalyst 8300 Series Edge uCPE	drive	layered	Catalyst 8000 Edge	Catalyst 8300 Edge uCPE	label Catalyst 8300 Series Edge uCPE					
 SSD-M2SED-2T=	M.2 NVMe 2 TB Self-Encrypted-Disk (SED) Storage Spare ● SED functionality not supported. Disk will be enabled only in non-SED mode	Catalyst 8300 Series Edge uCPE	drive	layered	Catalyst 8000 Edge	Catalyst 8300 Edge uCPE	label Catalyst 8300 Series Edge uCPE					
 SSD-M2SED-600G	M.2 NVMe 600 GB Self-Encrypted-Disk (SED) Storage ● SED functionality not supported. Disk will be enabled only in non-SED mode	Catalyst 8300	drive	layered	Catalyst 8000 Edge	Catalyst 8300	label Catalyst 8300					
-SSD-M2SED-600G=	M.2 NVMe 600 GB Self-Encrypted-Disk (SED) Storage Spare ● SED functionality not supported. Disk will be enabled only in non-SED mode	Catalyst 8300 Series Edge uCPE	drive	layered	Catalyst 8000 Edge	Catalyst 8300 Edge uCPE	label Catalyst 8300 Series Edge uCPE					
+SSD-M2SED-600G=	M.2 NVMe 600 GB Self-Encrypted-Disk (SED) Storage Spare ● SED functionality not supported. Disk will be enabled only in non-SED mode	Catalyst 8300 Series Edge uCPE	drive	layered	Catalyst 8000 Edge	Catalyst 8300	label Catalyst 8300					
 SSD-SATA-200G	200 GB, SATA Solid State Disk	4000 ISR	drive	layered	ISR (Integrated Services Routers)	ISR 4000	label 4000 ISR					
 SSD-SATA-200G=	200 GB, SATA Solid State Disk	4000 ISR	drive	layered	ISR (Integrated Services Routers)	ISR 4000	label 4000 ISR					
 SSD-SATA-400G	Cisco SSD-SATA-400G	4000 ISR	drive	layered	ISR (Integrated Services Routers)	ISR 4000	label 4000 ISR					
@@ -5320,13 +5320,13 @@ SSD-STAT-960GB	960 GB eMLC SSD for Cisco ENCS 5400	5000 Enterprise Network Compu
 T1/E1	Cisco T1/E1	2900 ISR	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
 T1/E1-DI	Cisco T1/E1-DI	2900 ISR	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	
 TG-OS-E-O	Cisco TG-OS-E-O	Secure Console	router	pending_plan					rt.issue.licence	licence/software/planning PID	class software	
-UCS-CPU-5120=	2.2 GHz 5120/105W 14C/19.25MB Cache/DDR4 2400MHz	ASR 9000	processor	layered	ASR (Aggregation Services Routers)	ASR 9000	label ASR 9000					
+UCS-CPU-5120=	2.2 GHz 5120/105W 14C/19.25MB Cache/DDR4 2400MHz	ASR 9000	processor	pending_plan							move servers-unified-computing	
 UCS-E1100D-M6/K9	UCS-E, double-wide, Intel Icelake 10-core CPU; up to 128 GB RAM, 1-4 SSD	Catalyst 8300	module	pending_plan							move interfaces-modules	
 UCS-E1120D-M3/K9	UCS-E, double-wide, Intel Broadwell 12-core CPU; up to 128 GB RAM, 1-4 HDD	Catalyst 8300	module	pending_plan							move interfaces-modules	
 UCS-E160S-M3/K9	UCS-E, single-wide, Intel Broadwell 6-core CPU; up to 64 GB RAM, 1-2 HDD	Catalyst 8300	module	pending_plan							move interfaces-modules	
 UCS-E180D-M3/K9	UCS-E, double-wide, Intel Broadwell 8-core CPU; up to 128 GB RAM, 1-4 HDD	Catalyst 8300	module	pending_plan							move interfaces-modules	
-UCS-M2-240GB=	Cisco UCS-M2-240GB=	ASR 9000	drive	layered	ASR (Aggregation Services Routers)	ASR 9000	label ASR 9000					
-UCS-MR-X16G1RS-H=	Cisco UCS-MR-X16G1RS-H=	ASR 9000	memory	layered	ASR (Aggregation Services Routers)	ASR 9000	label ASR 9000					
+UCS-M2-240GB=	Cisco UCS-M2-240GB=	ASR 9000	drive	pending_plan							move servers-unified-computing	
+UCS-MR-X16G1RS-H=	Cisco UCS-MR-X16G1RS-H=	ASR 9000	memory	pending_plan							move servers-unified-computing	
 UCSC-C220-M5SX=	Cisco UCSC-C220-M5SX=	ASR 9000	router	pending_plan					rt.issue.component	module/modem/accessory	move servers-unified-computing	
 UCSX-TPM2-002=	Cisco UCSX-TPM2-002=	ASR 9000	router	pending_plan					rt.issue.component	module/modem/accessory	move servers-unified-computing	
 V.35	Cisco V.35	1900 ISR	router	pending_plan					rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product	

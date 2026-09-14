@@ -1,18 +1,18 @@
 {
  "vendor": "cisco",
  "category": "interfaces-modules",
- "built_at": "2026-09-14T14:08:28.673Z",
+ "built_at": "2026-09-14T15:54:56.315Z",
  "mapping_file": "data/reference/product-lines/cisco-interfaces-modules.json",
  "parts": 1006,
  "lines": [
   {
    "line": "Router Interface Modules",
-   "parts": 549,
+   "parts": 505,
    "series": [
     {
      "series": "NIM (Network Interface Modules)",
      "role": null,
-     "note": "the routers-named patterns that match no row here yet (C-NIM, C-SM, UCS-E, ISM/EM, WIC, P-LTE/5G, IRM/WP, MC/PCEX/WIM) are for the 500 rows planned to move in from routers, switches and unified-communications",
+     "note": "multi-platform router cards (A.3 rule 1). Patterns that match no row here yet (C-NIM, C-SM, UCS-E, ISM/EM, WIC, P-LTE/5G, WP, MC/PCEX/WIM) are for the rows planned to move in from routers, switches and unified-communications",
      "parts": 5,
      "kinds": {
       "interface": 3,
@@ -95,10 +95,9 @@
      "series": "NM / NME Network Modules",
      "role": null,
      "note": null,
-     "parts": 79,
+     "parts": 77,
      "kinds": {
       "mechanical": 3,
-      "power": 2,
       "memory": 5,
       "interface": 60,
       "accessory": 3,
@@ -109,12 +108,12 @@
       "2911-BEZEL= — Cisco 2911 Front Bezel (Replacement Plastic Bezel)",
       "AIC-DBL-PNL — Patch panel for terminating up to two AIC or 128 alarm point",
       "AIC-SGL-PNL — Patch panel with power monitoring terminals, for terminating",
-      "ASR1000X-AC-1100W — Cisco ASR1000-X 1100W AC Power Supply",
-      "ASR1000X-DC-950W — Cisco ASR1000-X 950W DC Power Supply",
-      "FL-1900-256U512MB — CISCO1905 DRAM Upgrade from 256MB to 512MB"
+      "FL-1900-256U512MB — CISCO1905 DRAM Upgrade from 256MB to 512MB",
+      "FL-1900-256U512MB= — CISCO1905 DRAM Upgrade from 256MB to 512MB",
+      "GE-DCARD-ESW — 1 GE (1000BaseT) daughtercard for Etherswitch Modules"
      ],
      "rules": {
-      "label": 25,
+      "label": 23,
       "sku": 54
      }
     },
@@ -177,24 +176,6 @@
      }
     },
     {
-     "series": "EPA Ethernet Port Adapters",
-     "role": null,
-     "note": null,
-     "parts": 3,
-     "kinds": {
-      "interface": 3
-     },
-     "roles": {},
-     "samples": [
-      "EPA-10X1GE — Cisco ASR 1000 10x10GE Ethernet Port Adapter",
-      "EPA-3GE-SX/LH-LC — Cisco 12000 Series 3-Port Gigabit Ethernet Port Adapter",
-      "EPA-GE/FE-BBRD — Cisco 12000 Series Gigabit Ethernet Modular Baseboard"
-     ],
-     "rules": {
-      "sku": 3
-     }
-    },
-    {
      "series": "PA Port Adapters (7200 / 7500 VIP)",
      "role": null,
      "note": null,
@@ -217,52 +198,6 @@
      }
     },
     {
-     "series": "GRWIC Grid Router Interface Cards",
-     "role": null,
-     "note": null,
-     "parts": 14,
-     "kinds": {
-      "interface": 14
-     },
-     "roles": {},
-     "samples": [
-      "GRWIC-2SHDSL — Cisco Connected Grid G.SHDSL GRWIC",
-      "GRWIC-2SHDSL= — Cisco Connected Grid G.SHDSL GRWIC",
-      "GRWIC-D-ES-2S-8PC — ● 8xFE RJ45 ports (Power over Ethernet [PoE] * support on fi",
-      "GRWIC-D-ES-6S — ● 4xFE fiber SFP port ● 1xGE combo port ● 1xGE fiber SFP por",
-      "GRWIC-ISDN-1B-U — Cisco Connected Grid ISDN BRI U GRWIC",
-      "GRWIC-ISDN-1B-U= — Cisco Connected Grid ISDN BRI U GRWIC"
-     ],
-     "rules": {
-      "sku": 14
-     }
-    },
-    {
-     "series": "CGM Connected Grid Modules",
-     "role": null,
-     "note": null,
-     "parts": 15,
-     "kinds": {
-      "mechanical": 6,
-      "accessory": 1,
-      "radio": 7,
-      "unknown": 1
-     },
-     "roles": {},
-     "samples": [
-      "ANT-1.4-PNL-OUT-N — Outdoor Panel Antenna for WIMAX 1.4 GHz",
-      "ANT-1.4-PNL-OUT-N= — Outdoor Panel Antenna for WIMAX 1.4 GHz",
-      "ANT-1.8-PNL-OUT-N — Outdoor Panel Antenna for WIMAX 1.8 GHz",
-      "ANT-1.8-PNL-OUT-N= — Outdoor Panel Antenna for WIMAX 1.8 GHz",
-      "ANT-2.X-PNL-OUT-N — Outdoor Panel Antenna for WIMAX 2.x GHz",
-      "ANT-2.X-PNL-OUT-N= — Outdoor Panel Antenna for WIMAX 2.x GHz"
-     ],
-     "rules": {
-      "label": 8,
-      "sku": 7
-     }
-    },
-    {
      "series": "Pluggable Interface Modules (LTE / 5G)",
      "role": null,
      "note": null,
@@ -273,7 +208,7 @@
      "rules": {}
     },
     {
-     "series": "IR Expansion and Pluggable Modules",
+     "series": "WP pluggable modules (IoT routers)",
      "role": null,
      "note": null,
      "parts": 0,
@@ -318,29 +253,29 @@
      "series": "Router Interface Modules shared parts",
      "role": null,
      "note": null,
-     "parts": 47,
+     "parts": 37,
      "kinds": {
-      "mechanical": 14,
-      "cable": 33
+      "cable": 33,
+      "mechanical": 4
      },
      "roles": {},
      "samples": [
-      "ACS-2900-RM-23 — 23 inch rack mount kit for Cisco 2911/2921/2951 ISR",
-      "ACS-2900-RM-23= — 23 inch rack mount kit for Cisco 2911/2921/2951 ISR (only as",
-      "ACS-2900-RM-ETSI — ETSI rack mount kit for Cisco 2911/2921/2951 ISR",
-      "ACS-2900-RM-ETSI= — ETSI rack mount kit for Cisco 2911/2921/2951 ISR",
-      "ACS-2901-RM-23 — 23 inch rack mount kit for Cisco 2901 ISR",
-      "ACS-2901-RM-23= — 23 inch rack mount kit for Cisco 2901 ISR (only as spare)"
+      "CAB-25AS-FDTE — Cisco CAB-25AS-FDTE",
+      "CAB-25AS-MMOD — Cisco CAB-25AS-MMOD",
+      "CAB-ADPT-75-120 — Adapter Cable - converts 75 ohms to 120 ohms",
+      "CAB-AIC-008 — Set of four eight-foot-long male-to-male SCSI II interface c",
+      "CAB-E1-D15M-PRI — Male DB15 to RJ45",
+      "CAB-E1-RJ45BNC — E1 Cable RJ-45 to Dual BNC (Unbalanced)"
      ],
      "rules": {
-      "accessory": 47
+      "accessory": 37
      }
     }
    ]
   },
   {
    "line": "Router and switch line cards (legacy)",
-   "parts": 103,
+   "parts": 84,
    "series": [
     {
      "series": "Cisco 12000 / XR 12000 SIP and line cards",
@@ -365,47 +300,25 @@
      }
     },
     {
-     "series": "Cisco 7300 line cards",
-     "role": null,
-     "note": null,
-     "parts": 20,
-     "kinds": {
-      "interface": 20
-     },
-     "roles": {},
-     "samples": [
-      "7300-1OC12POS-SMI — 1-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line C",
-      "7300-1OC12POS-SMI= — 1-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line C",
-      "7300-1OC12POS-X — Cisco 7300-1OC12POS-X",
-      "7300-1OC48POS-SMI — Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line C",
-      "7300-1OC48POS-SMI= — Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH (SM-IR",
-      "7300-1OC48POS-SMS — Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line C"
-     ],
-     "rules": {
-      "sku": 20
-     }
-    },
-    {
      "series": "Catalyst 6500 / 7600 service modules",
      "role": null,
      "note": null,
-     "parts": 35,
+     "parts": 34,
      "kinds": {
-      "interface": 1,
       "module": 28,
       "memory": 6
      },
      "roles": {},
      "samples": [
-      "7600-SSC-400= — Cisco 7600/Catalyst 6500 Services SPA Carrier Card",
       "ACE30-BASE-04-K9 — ACE30 Module with 4G, 1G Comp, 1K SSL TPS and 5VC",
       "ACE30-MOD-04-K9 — ACE30 Module with 4G, 4G Comp, 30K SSL TPS and 250VC",
       "ACE30-MOD-08-K9 — ACE30 Module with 8G, 6G Comp, 30K SSL TPS and 250VC",
       "ACE30-MOD-16-K9 — ACE30 Module with 16G, 6G Comp, 30K SSL TPS and 250VC",
-      "ACE30-MOD-K9 — Application Control Engine 30 Hardware"
+      "ACE30-MOD-K9 — Application Control Engine 30 Hardware",
+      "ACE30-MOD-K9= — Application Control Engine 30 Hardware"
      ],
      "rules": {
-      "sku": 33,
+      "sku": 32,
       "label": 2
      }
     },
@@ -413,10 +326,10 @@
      "series": "Router and switch line cards (legacy) shared parts",
      "role": null,
      "note": null,
-     "parts": 12,
+     "parts": 14,
      "kinds": {
       "cable": 1,
-      "interface": 9,
+      "interface": 11,
       "memory": 2
      },
      "roles": {},
@@ -429,7 +342,7 @@
       "8FE-TX-RJ45-B — 8-port Fast Ethernet 100BASE-TX interface, RJ-45 connectors,"
      ],
      "rules": {
-      "label": 12
+      "label": 14
      }
     }
    ]
@@ -756,6 +669,55 @@
    "belongs": "wireless"
   },
   {
+   "sku": "ANT-1.4-PNL-OUT-N",
+   "name": "Outdoor Panel Antenna for WIMAX 1.4 GHz",
+   "series_label": "Connected Grid Modules",
+   "why": "Connected Grid (CGR 1000) WiMAX panel antenna / connector, filed under the Connected Grid Modules label: bound to the CGR, which lives in routers (A.3 rule 1)",
+   "belongs": "routers"
+  },
+  {
+   "sku": "ANT-1.4-PNL-OUT-N=",
+   "name": "Outdoor Panel Antenna for WIMAX 1.4 GHz",
+   "series_label": "Connected Grid Modules",
+   "why": "Connected Grid (CGR 1000) WiMAX panel antenna / connector, filed under the Connected Grid Modules label: bound to the CGR, which lives in routers (A.3 rule 1)",
+   "belongs": "routers"
+  },
+  {
+   "sku": "ANT-1.8-PNL-OUT-N",
+   "name": "Outdoor Panel Antenna for WIMAX 1.8 GHz",
+   "series_label": "Connected Grid Modules",
+   "why": "Connected Grid (CGR 1000) WiMAX panel antenna / connector, filed under the Connected Grid Modules label: bound to the CGR, which lives in routers (A.3 rule 1)",
+   "belongs": "routers"
+  },
+  {
+   "sku": "ANT-1.8-PNL-OUT-N=",
+   "name": "Outdoor Panel Antenna for WIMAX 1.8 GHz",
+   "series_label": "Connected Grid Modules",
+   "why": "Connected Grid (CGR 1000) WiMAX panel antenna / connector, filed under the Connected Grid Modules label: bound to the CGR, which lives in routers (A.3 rule 1)",
+   "belongs": "routers"
+  },
+  {
+   "sku": "ANT-2.X-PNL-OUT-N",
+   "name": "Outdoor Panel Antenna for WIMAX 2.x GHz",
+   "series_label": "Connected Grid Modules",
+   "why": "Connected Grid (CGR 1000) WiMAX panel antenna / connector, filed under the Connected Grid Modules label: bound to the CGR, which lives in routers (A.3 rule 1)",
+   "belongs": "routers"
+  },
+  {
+   "sku": "ANT-2.X-PNL-OUT-N=",
+   "name": "Outdoor Panel Antenna for WIMAX 2.x GHz",
+   "series_label": "Connected Grid Modules",
+   "why": "Connected Grid (CGR 1000) WiMAX panel antenna / connector, filed under the Connected Grid Modules label: bound to the CGR, which lives in routers (A.3 rule 1)",
+   "belongs": "routers"
+  },
+  {
+   "sku": "ANT-MP-INT-OUT-M",
+   "name": "Cisco ANT-MP-INT-OUT-M",
+   "series_label": "Connected Grid Modules",
+   "why": "Connected Grid (CGR 1000) WiMAX panel antenna / connector, filed under the Connected Grid Modules label: bound to the CGR, which lives in routers (A.3 rule 1)",
+   "belongs": "routers"
+  },
+  {
    "sku": "ASA-SSC-AIP-5-K9=",
    "name": "Cisco ASA 5500 Series Advanced Inspection and Prevention Security Services Card 5 (AIP-SSC-5)",
    "series_label": "Security Modules for Security Appliances",
@@ -812,17 +774,10 @@
    "belongs": "security"
   },
   {
-   "sku": "ASR1013/06-PWR-AC",
-   "name": "Cisco ASR1000 1600w AC Power Supply",
-   "series_label": "Network Modules",
-   "why": "ASR 1000 power supply",
-   "belongs": "routers"
-  },
-  {
-   "sku": "ASR1013/06-PWR-DC",
-   "name": "Cisco ASR1000 1600w DC Power Supply",
-   "series_label": "Network Modules",
-   "why": "ASR 1000 power supply",
+   "sku": "CGR-N-CONN-WPAN",
+   "name": "Cisco CGR-N-CONN-WPAN",
+   "series_label": "Connected Grid Modules",
+   "why": "Connected Grid (CGR 1000) WiMAX panel antenna / connector, filed under the Connected Grid Modules label: bound to the CGR, which lives in routers (A.3 rule 1)",
    "belongs": "routers"
   },
   {
@@ -1891,6 +1846,238 @@
    "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
   },
   {
+   "sku": "7300-1OC12POS-SMI",
+   "name": "1-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-1OC12POS-SMI=",
+   "name": "1-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach, SPARE",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-1OC12POS-X",
+   "name": "Cisco 7300-1OC12POS-X",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-1OC48POS-SMI",
+   "name": "Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line Card, single mode-intermediate reach (SM-IR)",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-1OC48POS-SMI=",
+   "name": "Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH (SM-IR), spare",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-1OC48POS-SMS",
+   "name": "Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line Card, single mode-short reach (SM-SR)",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-1OC48POS-SMS=",
+   "name": "Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line Card (SM-SR), spare",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-2OC12POS-SMI",
+   "name": "2-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-2OC12POS-SMI=",
+   "name": "2-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach, SPARE",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-2OC12POS-X",
+   "name": "Cisco 7300-2OC12POS-X",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-2OC3ATM-MM",
+   "name": "2-port OC-3 ATM line card for Cisco 7304 Router, MM",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-2OC3ATM-MM=",
+   "name": "2-port OC-3 ATM line card for Cisco 7304 Router, MM, spare",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-2OC3ATM-SMI",
+   "name": "2-port OC-3 ATM line card for Cisco 7304 Router, SM-IR",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-2OC3ATM-SMI=",
+   "name": "2-port OC-3 ATM line card for Cisco 7304 Router, SM-IR, spare",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-2OC3POS-MM",
+   "name": "2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card,Multi-mode (MM )",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-2OC3POS-MM=",
+   "name": "2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, MM, spare",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-2OC3POS-SMI",
+   "name": "2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, SM-IR",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-2OC3POS-SMI=",
+   "name": "2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, SM-IR, spare",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-4OC3POS-SMI",
+   "name": "4-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, Single-mode-Intermediate Reach (SM-IR)",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7300-4OC3POS-SMI=",
+   "name": "4-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, SM-IR, spare",
+   "series_label": "Line cards",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "7600-SSC-400=",
+   "name": "Cisco 7600/Catalyst 6500 Services SPA Carrier Card",
+   "series_label": "Shared Port Adapters/SPA Interface Processors",
+   "action": "move",
+   "to": "switches",
+   "reason": "spare of 7600-SSC-400, which is in switches under Catalyst 6500 (layers review B.5: 7600-SIP-400 / SSC-400 stay under Catalyst 6500); X and X= carry one placement (A.1)"
+  },
+  {
+   "sku": "ACS-2900-RM-23",
+   "name": "23 inch rack mount kit for Cisco 2911/2921/2951 ISR",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
+  },
+  {
+   "sku": "ACS-2900-RM-23=",
+   "name": "23 inch rack mount kit for Cisco 2911/2921/2951 ISR (only as spare)",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
+  },
+  {
+   "sku": "ACS-2900-RM-ETSI",
+   "name": "ETSI rack mount kit for Cisco 2911/2921/2951 ISR",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
+  },
+  {
+   "sku": "ACS-2900-RM-ETSI=",
+   "name": "ETSI rack mount kit for Cisco 2911/2921/2951 ISR",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
+  },
+  {
+   "sku": "ACS-2901-RM-23",
+   "name": "23 inch rack mount kit for Cisco 2901 ISR",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
+  },
+  {
+   "sku": "ACS-2901-RM-23=",
+   "name": "23 inch rack mount kit for Cisco 2901 ISR (only as spare)",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
+  },
+  {
+   "sku": "ACS-2901-RM-ETSI",
+   "name": "ETSI rack mount kit for Cisco 2901 ISR",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
+  },
+  {
+   "sku": "ACS-2901-RM-ETSI=",
+   "name": "ETSI rack mount kit for Cisco 2901 ISR",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
+  },
+  {
    "sku": "ASA5505-50-AIP5-K9",
    "name": "Cisco ASA 5505 50-User Adaptive Security Appliance with AIP-SSC-5 (chassis, software, 8 Fast Ethernet interfaces,10 IPsec VPN peers, 2 SSL VPN peers, 3DES/AES license)",
    "series_label": "Security Modules for Security Appliances",
@@ -2003,6 +2190,38 @@
    "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
   },
   {
+   "sku": "ASR1000X-AC-1100W",
+   "name": "Cisco ASR1000-X 1100W AC Power Supply",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 1000 power supply filed under interfaces-modules; its spare (=) is already in routers under ASR 1000"
+  },
+  {
+   "sku": "ASR1000X-DC-950W",
+   "name": "Cisco ASR1000-X 950W DC Power Supply",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 1000 power supply filed under interfaces-modules; its spare (=) is already in routers under ASR 1000"
+  },
+  {
+   "sku": "ASR1013/06-PWR-AC",
+   "name": "Cisco ASR1000 1600w AC Power Supply",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 1000 power supply filed under interfaces-modules; its spare (=) is already in routers under ASR 1000"
+  },
+  {
+   "sku": "ASR1013/06-PWR-DC",
+   "name": "Cisco ASR1000 1600w DC Power Supply",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 1000 power supply filed under interfaces-modules; its spare (=) is already in routers under ASR 1000"
+  },
+  {
    "sku": "C6504E-ACE30-4-K9",
    "name": "ACE30 4G 6504-E 720-10G-3C Bundle",
    "series_label": "Services Modules",
@@ -2019,6 +2238,62 @@
    "reason": "Catalyst 6500-E chassis bundle with an ACE30 blade"
   },
   {
+   "sku": "CGM-WIMAX-1.4GHZ",
+   "name": "Connected Grid Module - IEEE 802.16e WiMAX 1.4 GHz",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "CGM-WIMAX-1.4GHZ=",
+   "name": "Connected Grid Module- IEEE 802.16e WIMAX 1.4 GHz",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "CGM-WIMAX-1.8GHZ",
+   "name": "Connected Grid Module - IEEE 802.16e WiMAX 1.8-1.830 GHz",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "CGM-WIMAX-1.8GHZ=",
+   "name": "Connected Grid Module- IEEE 802.16e WIMAX 1.8-1.830 GHz",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "CGM-WIMAX-2.3GHZ",
+   "name": "Connected Grid Module - IEEE 802.16e WiMAX 2.3-2.4 GHz",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "CGM-WIMAX-2.3GHZ=",
+   "name": "Connected Grid Module- IEEE 802.16e WIMAX 2.3-2.4 GHz",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "CGM-WPAN-FSK-NA",
+   "name": "Connected Grid Module - IEEE 802.15.4e/g WPAN 900 MHz (2FSK modulation)",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
    "sku": "CISCO2811-AC-IP",
    "name": "Cisco 2811 with AC+PoE, 2 Fast Ethernet ports , 4 HWICs, 2 packet voice DSP modules (PVDMs), 1enhanced network module [ (NME), 2 advanced integration modules (AIMs), IP BASE, 64F/256D",
    "series_label": "High-Speed WAN Interface Cards",
@@ -2033,6 +2308,14 @@
    "action": "move",
    "to": "storage-networking",
    "reason": "MDS 9710 chassis filed in interfaces-modules"
+  },
+  {
+   "sku": "EPA-10X1GE",
+   "name": "Cisco ASR 1000 10x10GE Ethernet Port Adapter",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
   },
   {
    "sku": "EWDM-OA=",
@@ -2057,6 +2340,118 @@
    "action": "move",
    "to": "optical-networking",
    "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
+  },
+  {
+   "sku": "GRWIC-2SHDSL",
+   "name": "Cisco Connected Grid G.SHDSL GRWIC",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-2SHDSL=",
+   "name": "Cisco Connected Grid G.SHDSL GRWIC",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-D-ES-2S-8PC",
+   "name": "● 8xFE RJ45 ports (Power over Ethernet [PoE] * support on first 4 ports) ● 1xGE combo port ● 1xGE fiber Small Form-Factor Pluggable (SFP) port",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-D-ES-6S",
+   "name": "● 4xFE fiber SFP port ● 1xGE combo port ● 1xGE fiber SFP port",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-ISDN-1B-U",
+   "name": "Cisco Connected Grid ISDN BRI U GRWIC",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-ISDN-1B-U=",
+   "name": "Cisco Connected Grid ISDN BRI U GRWIC",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-ISDN-B-S/T",
+   "name": "Cisco GRWIC-ISDN-B-S/T",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-ISDN-B-S/T=",
+   "name": "Cisco GRWIC-ISDN-B-S/T=",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-VA-DSL-A",
+   "name": "Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex A",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-VA-DSL-A=",
+   "name": "Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex A",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-VA-DSL-B",
+   "name": "Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex B",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-VA-DSL-B=",
+   "name": "Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex B",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-VA-DSL-M",
+   "name": "Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex M",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
+  },
+  {
+   "sku": "GRWIC-VA-DSL-M=",
+   "name": "Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex M",
+   "series_label": "Connected Grid Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
   },
   {
    "sku": "NCS1K-MD-64-C=",
@@ -2089,6 +2484,22 @@
    "action": "move",
    "to": "optical-networking",
    "reason": "optical amplifier (EDFA)"
+  },
+  {
+   "sku": "RPS-COVER-2911=",
+   "name": "Cover for empty RPS Adapter slot on Cisco 2911 (only as spare)",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "cover for the empty RPS adapter slot on a Cisco 2911 / 2921 / 2951: bound to ISR 2900 (A.3 rule 1)"
+  },
+  {
+   "sku": "RPS-COVER-2921-51=",
+   "name": "Cover for empty RPS Adapter slot on Cisco 2921/2951 (only as spare)",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "routers",
+   "reason": "cover for the empty RPS adapter slot on a Cisco 2911 / 2921 / 2951: bound to ISR 2900 (A.3 rule 1)"
   },
   {
    "sku": "UCS-FI-6652-U",

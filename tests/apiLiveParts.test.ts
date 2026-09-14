@@ -230,7 +230,10 @@ check("SABOTAGE an unrecorded exemption has no entry to justify it", EXPECTED_EX
     ["switches", "CBS350-24P-4G-EU", "CBS350 Managed 24-port GE, PoE, 4x1G SFP", "switch", "smb"],
     ["switches", "N9K-C93180YC-FX", "Data-Center-Switch", "switch", "datacenter"],
     ["collaboration-endpoints", "CP-8865-K9", "Cisco IP Phone 8865, Charcoal", "phone", "desk"],
-    ["switches", "WS-C4928-10GE", "Catalyst 4928", "switch", null],   // a switch no rule places: role null, kind kept
+    // was pinned null ("a switch no rule places"); the operator ruling of 13 Sep 2026 placed WS-C4928-10GE datacenter and the
+    // series table (Catalyst 4900) now carries it — the witness had not followed (layers review round 2, 14 Sep 2026)
+    ["switches", "WS-C4928-10GE", "Catalyst 4928", "switch", "datacenter"],
+    ["switches", "MEM-SUP2T-4GB", "4G DRAM Memory Total for Sup2T and Sup2TXL", "memory", null],   // a component: kind kept, no role axis
   ];
   for (const [category, sku, name, kind, role] of WITNESSES) {
     const s = toSummary(row(category, sku, name));

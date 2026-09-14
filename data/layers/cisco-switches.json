@@ -1,13 +1,13 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-14T13:22:19.259Z",
+ "built_at": "2026-09-14T15:54:37.665Z",
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7541,
  "lines": [
   {
    "line": "Catalyst",
-   "parts": 3136,
+   "parts": 3141,
    "series": [
     {
      "series": "Catalyst 9400",
@@ -15,9 +15,10 @@
      "note": null,
      "parts": 83,
      "kinds": {
-      "linecard": 28,
+      "linecard": 27,
+      "bundle": 1,
       "power": 6,
-      "accessory": 4,
+      "drive": 4,
       "supervisor": 21,
       "mechanical": 9,
       "fan": 3,
@@ -43,12 +44,12 @@
      "series": "Catalyst 9200",
      "role": "access",
      "note": null,
-     "parts": 130,
+     "parts": 132,
      "kinds": {
       "switch": 101,
       "module": 8,
       "mechanical": 2,
-      "power": 13,
+      "power": 15,
       "stack-cable": 6
      },
      "roles": {
@@ -64,21 +65,21 @@
      ],
      "rules": {
       "sku": 110,
-      "label": 20
+      "label": 22
      }
     },
     {
      "series": "Catalyst 9300",
      "role": "access",
      "note": null,
-     "parts": 242,
+     "parts": 238,
      "kinds": {
       "switch": 167,
       "module": 26,
       "mechanical": 2,
       "fan": 2,
-      "power": 23,
-      "accessory": 4,
+      "power": 19,
+      "drive": 4,
       "stack-cable": 18
      },
      "roles": {
@@ -94,7 +95,7 @@
      ],
      "rules": {
       "sku": 193,
-      "label": 49
+      "label": 45
      }
     },
     {
@@ -212,7 +213,8 @@
       "mechanical": 5,
       "fan": 1,
       "linecard": 3,
-      "accessory": 4,
+      "accessory": 2,
+      "drive": 2,
       "supervisor": 2,
       "chassis": 1
      },
@@ -236,8 +238,9 @@
      "parts": 38,
      "kinds": {
       "power": 16,
-      "accessory": 10,
+      "accessory": 1,
       "mechanical": 10,
+      "drive": 9,
       "fan": 2
      },
      "roles": {},
@@ -284,14 +287,16 @@
       "power": 19,
       "fan": 5,
       "chassis": 3,
-      "switch": 26,
+      "switch": 25,
       "linecard": 34,
       "mechanical": 14,
       "supervisor": 8,
-      "accessory": 2
+      "accessory": 1,
+      "bundle": 1,
+      "memory": 1
      },
      "roles": {
-      "core-agg": 26
+      "core-agg": 25
      },
      "samples": [
       "2D-C6800XL-3KW-AC= — Catalyst 6807-XL 3000W Power Supply w/2D Barcode",
@@ -312,14 +317,18 @@
      "parts": 368,
      "kinds": {
       "linecard": 136,
-      "accessory": 56,
-      "module": 49,
+      "flash": 18,
+      "accessory": 12,
+      "module": 47,
       "fan": 20,
       "mechanical": 16,
+      "memory": 24,
+      "drive": 2,
       "power": 25,
       "supervisor": 29,
       "switch": 25,
-      "chassis": 12
+      "chassis": 12,
+      "bundle": 2
      },
      "roles": {
       "core-agg": 25
@@ -333,8 +342,8 @@
       "2D-X6904-40G-2TXL= — Cat 6900 Series 4P 40G/16P 10G Fiber Mod DFC4XL w/2D Barcode"
      ],
      "rules": {
-      "sku": 285,
-      "label": 83
+      "sku": 288,
+      "label": 80
      }
     },
     {
@@ -372,10 +381,12 @@
      "kinds": {
       "chassis": 16,
       "switch": 52,
-      "supervisor": 33,
-      "linecard": 141,
+      "supervisor": 32,
+      "bundle": 52,
+      "linecard": 90,
       "mechanical": 14,
-      "accessory": 10,
+      "memory": 6,
+      "flash": 4,
       "power": 29
      },
      "roles": {
@@ -424,13 +435,13 @@
      "series": "Catalyst 3850",
      "role": "access",
      "note": null,
-     "parts": 212,
+     "parts": 216,
      "kinds": {
       "switch": 165,
       "mechanical": 6,
-      "fan": 7,
+      "fan": 8,
       "module": 10,
-      "power": 24
+      "power": 27
      },
      "roles": {
       "access": 165
@@ -444,7 +455,7 @@
       "C1-WS3850-24U/K9 — Cisco One Catalyst 3850 24 Port UPoE"
      ],
      "rules": {
-      "label": 44,
+      "label": 48,
       "sku": 168
      }
     },
@@ -481,11 +492,11 @@
      "series": "Catalyst 3750-X",
      "role": "access",
      "note": null,
-     "parts": 98,
+     "parts": 97,
      "kinds": {
       "switch": 60,
       "mechanical": 11,
-      "fan": 3,
+      "fan": 2,
       "module": 11,
       "power": 13
      },
@@ -502,7 +513,7 @@
      ],
      "rules": {
       "sku": 96,
-      "label": 2
+      "label": 1
      }
     },
     {
@@ -603,14 +614,13 @@
      "series": "Catalyst 3560-C and 3560-CX",
      "role": "access",
      "note": null,
-     "parts": 49,
+     "parts": 43,
      "kinds": {
-      "switch": 40,
-      "mechanical": 4,
-      "power": 5
+      "switch": 41,
+      "power": 2
      },
      "roles": {
-      "access": 40
+      "access": 41
      },
      "samples": [
       "3560C-12PC-S — Cisco 3560C-12PC-S",
@@ -621,8 +631,8 @@
       "3560CPD-8PT-S — Cisco 3560CPD-8PT-S"
      ],
      "rules": {
-      "sku": 40,
-      "label": 9
+      "sku": 41,
+      "label": 2
      }
     },
     {
@@ -632,10 +642,11 @@
      "parts": 31,
      "kinds": {
       "mechanical": 1,
-      "switch": 30
+      "bundle": 3,
+      "switch": 27
      },
      "roles": {
-      "access": 30
+      "access": 27
      },
      "samples": [
       "C3560-NEBS-KIT= — Cisco Catalyst 3650 NEBS Kit",
@@ -653,13 +664,13 @@
      "series": "Catalyst 2960-C and 2960-CX",
      "role": "access",
      "note": null,
-     "parts": 28,
+     "parts": 32,
      "kinds": {
-      "switch": 24,
-      "mechanical": 4
+      "switch": 26,
+      "mechanical": 6
      },
      "roles": {
-      "access": 24
+      "access": 26
      },
      "samples": [
       "2960C-12PC-L — Cisco 2960C-12PC-L",
@@ -670,8 +681,8 @@
       "2960CPD-8PT-L — Cisco 2960CPD-8PT-L"
      ],
      "rules": {
-      "sku": 24,
-      "label": 4
+      "sku": 26,
+      "label": 6
      }
     },
     {
@@ -752,9 +763,9 @@
      "series": "Catalyst 2960-L",
      "role": "access",
      "note": null,
-     "parts": 64,
+     "parts": 66,
      "kinds": {
-      "mechanical": 2,
+      "mechanical": 4,
       "switch": 62
      },
      "roles": {
@@ -762,14 +773,14 @@
      },
      "samples": [
       "CMPCT-DIN-MNT — DIN Rail Mount for 3560-CX, 2960-CX, and 2960-L Compact Swit",
+      "CMPCT-DIN-MNT= — DIN Rail Mount for 3560-CX and 2960-CX compact switches",
       "CMPCT-MGNT-TRAY — Magnetic Mounting Tray for 3560-CX, 2960-CX, and 2960-L Comp",
+      "CMPCT-MGNT-TRAY= — MAGNETIC MOUNTING TRAY FOR 3560-CX & 2960-CX COMPACT SWITCH",
       "WS-C2960L-16PS-JP — Catalyst 2960L 16 port GigE with PoE, 2 x 1G SFP, LAN Lite",
-      "WS-C2960L-16PS-LL — Cisco WS-C2960L-16PS-LL Catalyst 2960-L Managed-Switch (Cisc",
-      "WS-C2960L-16PS-LL has maximum operating temperature of 40°C (up to 5,000 ft) and 35°C (up to 10,000 ft) — WS-C2960L-16PS-LL has maximum operating temperature of 40°C ",
-      "WS-C2960L-16PS-LL/ WS-C2960L-SM-16PS — WS-C2960L-16PS-LL/ WS-C2960L-SM-16PS"
+      "WS-C2960L-16PS-LL — Cisco WS-C2960L-16PS-LL Catalyst 2960-L Managed-Switch (Cisc"
      ],
      "rules": {
-      "label": 2,
+      "label": 4,
       "sku": 62
      }
     },
@@ -802,13 +813,13 @@
      "series": "Catalyst 1000",
      "role": "access",
      "note": null,
-     "parts": 78,
+     "parts": 79,
      "kinds": {
-      "switch": 72,
+      "switch": 73,
       "power": 6
      },
      "roles": {
-      "access": 72
+      "access": 73
      },
      "samples": [
       "C1000-16FP-2G-IN — Catalyst 1000 16port GE, Full POE, 2x1G SFP",
@@ -819,7 +830,7 @@
       "C1000-16T-2G-IN — Catalyst 1000 16port GE, 2x1G SFP"
      ],
      "rules": {
-      "sku": 72,
+      "sku": 73,
       "label": 6
      }
     },
@@ -827,10 +838,10 @@
      "series": "Catalyst 1200",
      "role": "smb",
      "note": null,
-     "parts": 18,
+     "parts": 19,
      "kinds": {
       "switch": 17,
-      "power": 1
+      "power": 2
      },
      "roles": {
       "smb": 17
@@ -845,7 +856,7 @@
      ],
      "rules": {
       "sku": 17,
-      "label": 1
+      "label": 2
      }
     },
     {
@@ -877,12 +888,12 @@
      "series": "Catalyst Micro",
      "role": "access",
      "note": null,
-     "parts": 27,
+     "parts": 28,
      "kinds": {
       "switch": 6,
       "mechanical": 12,
-      "accessory": 2,
-      "power": 7
+      "flash": 2,
+      "power": 8
      },
      "roles": {
       "access": 6
@@ -897,7 +908,7 @@
      ],
      "rules": {
       "sku": 22,
-      "label": 5
+      "label": 6
      }
     },
     {
@@ -908,7 +919,8 @@
      "kinds": {
       "switch": 8,
       "mechanical": 5,
-      "accessory": 3
+      "accessory": 1,
+      "flash": 2
      },
      "roles": {
       "access": 8
@@ -979,11 +991,11 @@
      "series": "Catalyst shared parts",
      "role": null,
      "note": null,
-     "parts": 240,
+     "parts": 241,
      "kinds": {
       "mechanical": 38,
       "power-cord": 155,
-      "cable": 29,
+      "cable": 30,
       "stack-cable": 18
      },
      "roles": {},
@@ -996,7 +1008,7 @@
       "CAB-3KX-250VAC-JP= — Japan 250V AC Power Cord for Cisco Catalyst 3K-X (Japan)"
      ],
      "rules": {
-      "accessory": 240
+      "accessory": 241
      }
     }
    ]
@@ -1014,7 +1026,8 @@
       "fan": 23,
       "power": 15,
       "mechanical": 5,
-      "fex": 163,
+      "fex": 150,
+      "bundle": 13,
       "accessory": 6
      },
      "roles": {},
@@ -1101,18 +1114,19 @@
      "series": "Nexus 3000",
      "role": "datacenter",
      "note": null,
-     "parts": 221,
+     "parts": 220,
      "kinds": {
-      "switch": 192,
+      "switch": 169,
       "accessory": 3,
       "mechanical": 7,
       "fan": 8,
+      "bundle": 23,
       "chassis": 3,
-      "power": 4,
+      "power": 3,
       "linecard": 4
      },
      "roles": {
-      "datacenter": 192
+      "datacenter": 169
      },
      "samples": [
       "C1-N3K-C3048TP — Cisco ONE Nexus 3048TP-1GE 1RU 48x10/100/1K and 4x10GE ports",
@@ -1124,7 +1138,7 @@
      ],
      "rules": {
       "sku": 209,
-      "label": 12
+      "label": 11
      }
     },
     {
@@ -1133,14 +1147,15 @@
      "note": null,
      "parts": 151,
      "kinds": {
-      "switch": 80,
+      "switch": 75,
+      "bundle": 5,
       "module": 34,
       "mechanical": 13,
       "power": 14,
       "fan": 10
      },
      "roles": {
-      "datacenter": 80
+      "datacenter": 75
      },
      "samples": [
       "C1-N5548UP-B-S32 — Cisco ONE N5548UP Storage Sol Bun,32 port storage serv lic",
@@ -1160,14 +1175,15 @@
      "note": null,
      "parts": 114,
      "kinds": {
-      "switch": 73,
+      "switch": 59,
       "chassis": 4,
       "mechanical": 14,
       "module": 11,
-      "fan": 12
+      "fan": 12,
+      "bundle": 14
      },
      "roles": {
-      "datacenter": 73
+      "datacenter": 59
      },
      "samples": [
       "C1-N5624-B-24Q — Cisco ONE Nexus 5624Q Chassis 24x40GEPorts/FCoEBun,2PS,3 FAN",
@@ -1211,15 +1227,16 @@
      "note": null,
      "parts": 84,
      "kinds": {
-      "switch": 53,
+      "switch": 43,
       "module": 8,
+      "bundle": 10,
       "mechanical": 10,
       "fan": 8,
       "chassis": 3,
       "power": 2
      },
      "roles": {
-      "datacenter": 53
+      "datacenter": 43
      },
      "samples": [
       "C1-N6001-64P — Cisco ONE Nexus 6001,1RUswitch,fixed48p 10G SFP+ and 4pQSFP+",
@@ -1240,17 +1257,18 @@
      "parts": 193,
      "kinds": {
       "chassis": 10,
-      "switch": 53,
-      "mechanical": 49,
+      "switch": 46,
+      "mechanical": 58,
       "power": 6,
       "fan": 14,
-      "accessory": 11,
       "fabric": 14,
-      "linecard": 32,
-      "supervisor": 4
+      "bundle": 12,
+      "linecard": 27,
+      "supervisor": 4,
+      "flash": 2
      },
      "roles": {
-      "datacenter": 53
+      "datacenter": 46
      },
      "samples": [
       "C1-N7702 — Cisco ONE Nexus 7700 2 Slot Chassis NoPwrSupplies Fans incl",
@@ -1270,19 +1288,22 @@
      "note": null,
      "parts": 223,
      "kinds": {
-      "switch": 55,
+      "switch": 48,
       "chassis": 10,
-      "mechanical": 50,
+      "bundle": 12,
+      "mechanical": 52,
       "power": 17,
       "fan": 10,
       "fabric": 10,
-      "power-cord": 5,
-      "accessory": 9,
-      "linecard": 48,
-      "supervisor": 9
+      "flash": 8,
+      "accessory": 1,
+      "power-cord": 3,
+      "linecard": 43,
+      "supervisor": 7,
+      "memory": 2
      },
      "roles": {
-      "datacenter": 55
+      "datacenter": 48
      },
      "samples": [
       "C1-N7004-S2 — Cisco ONE Nexus 7004 Bundle (Chassis,1xSUP2),NoPowSup",
@@ -1302,10 +1323,11 @@
      "note": null,
      "parts": 31,
      "kinds": {
-      "switch": 31
+      "bundle": 4,
+      "switch": 27
      },
      "roles": {
-      "datacenter": 31
+      "datacenter": 27
      },
      "samples": [
       "C1-N9K-C92160-B18Q — Cisco ONE 2 Nexus 92160YC-X with 8 QSFP-40G-SR-BD",
@@ -1323,14 +1345,15 @@
      "series": "Nexus 9300",
      "role": "datacenter",
      "note": null,
-     "parts": 202,
+     "parts": 203,
      "kinds": {
-      "switch": 187,
+      "switch": 157,
+      "bundle": 31,
       "mechanical": 3,
       "fan": 12
      },
      "roles": {
-      "datacenter": 187
+      "datacenter": 157
      },
      "samples": [
       "9364E-SG2 — Cisco 9364E-SG2",
@@ -1341,7 +1364,7 @@
       "C1-N9K-C93108-B18Q — Cisco ONE 2 Nexus 93108TC-EX with 8 QSFP-40G-SR-BD"
      ],
      "rules": {
-      "sku": 202
+      "sku": 203
      }
     },
     {
@@ -1450,16 +1473,12 @@
      "kinds": {
       "cable": 5,
       "fan": 34,
-      "switch": 1,
       "module": 8,
-      "power": 99,
+      "power": 100,
       "linecard": 4,
-      "mechanical": 19,
-      "accessory": 1
+      "mechanical": 20
      },
-     "roles": {
-      "datacenter": 1
-     },
+     "roles": {},
      "samples": [
       "CAT5E — Copper cable for 1G",
       "CAT6A — Copper cable for 10G",
@@ -1469,8 +1488,8 @@
       "FAN-1RU-PI-V2= — Cisco aux fan tray, port-side intake airflow, spare"
      ],
      "rules": {
-      "label": 33,
-      "sku": 138
+      "label": 34,
+      "sku": 137
      }
     },
     {
@@ -1501,7 +1520,7 @@
   },
   {
    "line": "Industrial Ethernet",
-   "parts": 295,
+   "parts": 294,
    "series": [
     {
      "series": "IE 1000",
@@ -1528,10 +1547,10 @@
      "series": "IE 2000U",
      "role": "industrial",
      "note": null,
-     "parts": 8,
+     "parts": 9,
      "kinds": {
       "switch": 7,
-      "accessory": 1
+      "flash": 2
      },
      "roles": {
       "industrial": 7
@@ -1546,7 +1565,7 @@
      ],
      "rules": {
       "sku": 7,
-      "label": 1
+      "label": 2
      }
     },
     {
@@ -1556,8 +1575,8 @@
      "parts": 33,
      "kinds": {
       "switch": 30,
-      "power": 2,
-      "accessory": 1
+      "power": 1,
+      "flash": 2
      },
      "roles": {
       "industrial": 30
@@ -1581,7 +1600,8 @@
      "note": null,
      "parts": 19,
      "kinds": {
-      "accessory": 3,
+      "accessory": 1,
+      "flash": 2,
       "mechanical": 3,
       "switch": 4,
       "module": 6,
@@ -1633,11 +1653,11 @@
      "series": "IE 3100",
      "role": "industrial",
      "note": null,
-     "parts": 21,
+     "parts": 20,
      "kinds": {
       "switch": 13,
       "power": 5,
-      "accessory": 3
+      "flash": 2
      },
      "roles": {
       "industrial": 13
@@ -1652,7 +1672,7 @@
      ],
      "rules": {
       "sku": 13,
-      "label": 8
+      "label": 7
      }
     },
     {
@@ -1702,11 +1722,11 @@
      "series": "IE 3400H",
      "role": "industrial",
      "note": null,
-     "parts": 20,
+     "parts": 22,
      "kinds": {
       "switch": 18,
-      "power": 1,
-      "accessory": 1
+      "power": 2,
+      "flash": 2
      },
      "roles": {
       "industrial": 18
@@ -1721,7 +1741,7 @@
      ],
      "rules": {
       "sku": 18,
-      "label": 2
+      "label": 4
      }
     },
     {
@@ -1867,12 +1887,11 @@
      "series": "IE 9300",
      "role": "industrial",
      "note": null,
-     "parts": 44,
+     "parts": 43,
      "kinds": {
       "switch": 32,
       "power": 8,
-      "mechanical": 3,
-      "accessory": 1
+      "mechanical": 3
      },
      "roles": {
       "industrial": 32
@@ -1887,18 +1906,17 @@
      ],
      "rules": {
       "sku": 32,
-      "label": 12
+      "label": 11
      }
     },
     {
      "series": "CGS 2500 Connected Grid",
      "role": "industrial",
      "note": null,
-     "parts": 9,
+     "parts": 8,
      "kinds": {
       "switch": 6,
-      "mechanical": 2,
-      "accessory": 1
+      "mechanical": 2
      },
      "roles": {
       "industrial": 6
@@ -1912,32 +1930,29 @@
       "CGS-2520-IP30KIT= — IP30 accessory kit for CGS 2520"
      ],
      "rules": {
-      "sku": 8,
-      "label": 1
+      "sku": 8
      }
     },
     {
      "series": "Industrial Ethernet shared parts",
      "role": null,
      "note": null,
-     "parts": 6,
+     "parts": 5,
      "kinds": {
-      "cable": 2,
+      "cable": 1,
       "stack-cable": 2,
-      "mechanical": 1,
-      "accessory": 1
+      "mechanical": 2
      },
      "roles": {},
      "samples": [
       "CAB-CONSOLE-M12= — Console Cable 6ft with M12 and DB9F for Cisco Catalyst IE340",
-      "CAB-CONSOLE-USB= — Spare console cable 6 ft with USB Type A and mini-B",
       "CAB-STK-0.5M= — Cisco 0.5M stack cable",
       "CAB-STK-1M= — Cisco 1M stack cable",
       "STK-RACKMNT-2955 — 19 in. DIN rail mount kit",
       "STK-RACKMNT-2955= — Cisco STK-RACKMNT-2955="
      ],
      "rules": {
-      "accessory": 6
+      "accessory": 5
      }
     }
    ]
@@ -2701,183 +2716,7 @@
    ]
   }
  ],
- "not_this_category": [
-  {
-   "sku": "76-ES+XT-2TG3C",
-   "name": "Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 2x10GE, XFP, DFC3C",
-   "series_label": "Catalyst 6500",
-   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
-   "belongs": "routers"
-  },
-  {
-   "sku": "76-ES+XT-2TG3CXL",
-   "name": "Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 2x10GE, XFP, DFC3CXL",
-   "series_label": "Catalyst 6500",
-   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
-   "belongs": "routers"
-  },
-  {
-   "sku": "76-ES+XT-4TG3C",
-   "name": "Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 4x10GE, XFP, DFC3C",
-   "series_label": "Catalyst 6500",
-   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
-   "belongs": "routers"
-  },
-  {
-   "sku": "76-ES+XT-4TG3CXL",
-   "name": "Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 4x10GE, XFP, DFC3CXL",
-   "series_label": "Catalyst 6500",
-   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
-   "belongs": "routers"
-  },
-  {
-   "sku": "7600-ES+2TG3C",
-   "name": "Cisco 7600 Series Ethernet Services Plus 20G Line Card, 2-port 10 GE XFP and DFC-3C",
-   "series_label": "Catalyst 6500",
-   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
-   "belongs": "routers"
-  },
-  {
-   "sku": "7600-ES+2TG3CXL",
-   "name": "Cisco 7600 Series Ethernet Services Plus 20G Line Card, 2-port 10 GE XFP and DFC-3CXL",
-   "series_label": "Catalyst 6500",
-   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
-   "belongs": "routers"
-  },
-  {
-   "sku": "7600-ES+4TG3C",
-   "name": "Cisco 7600 Series Ethernet Services Plus 40G Line Card, 4-port 10 GE XFP and DFC-3C",
-   "series_label": "Catalyst 6500",
-   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
-   "belongs": "routers"
-  },
-  {
-   "sku": "7600-ES+4TG3CXL",
-   "name": "Cisco 7600 Series Ethernet Services Plus 40G Line Card, 4-port 10 GE XFP and DFC-3CXL",
-   "series_label": "Catalyst 6500",
-   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
-   "belongs": "routers"
-  },
-  {
-   "sku": "CS-PANO-SWITCH+",
-   "name": "Room Panorama Cisco Catalyst 3560-CX 12 Port PoE IP Base",
-   "series_label": "Room Series",
-   "why": "TelePresence / Room system part",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CS-PANO-SWITCH2+",
-   "name": "Room Panorama - Cisco C1000 16 Port Switch",
-   "series_label": "Room Series",
-   "why": "TelePresence / Room system part",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CTS-5K-LC-SWITCH",
-   "name": "Catalyst 2960C Switch 12 FE PoE, 2 x Dual Uplink, Lan Base",
-   "series_label": "TelePresence IX5000 Series",
-   "why": "TelePresence / Room system part",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CTS-5K-UI-SWITCH",
-   "name": "Catalyst 2960C Switch 8 FE PoE, 2 x Dual Uplink, LAN Base",
-   "series_label": "TelePresence IX5000 Series",
-   "why": "TelePresence / Room system part",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "RSP720-3C-10GE",
-   "name": "Cisco RSP720-3C-10GE",
-   "series_label": "Catalyst 6500",
-   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
-   "belongs": "routers"
-  },
-  {
-   "sku": "RSP720-3C-10GE=",
-   "name": "Cisco RSP720-3C-10GE=",
-   "series_label": "Catalyst 6500",
-   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
-   "belongs": "routers"
-  },
-  {
-   "sku": "RSP720-3C-GE",
-   "name": "Cisco RSP720-3C-GE",
-   "series_label": "Catalyst 6500",
-   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
-   "belongs": "routers"
-  },
-  {
-   "sku": "RSP720-3C-GE=",
-   "name": "Cisco RSP720-3C-GE=",
-   "series_label": "Catalyst 6500",
-   "why": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
-   "belongs": "routers"
-  },
-  {
-   "sku": "TA-C93180YC-FX",
-   "name": "Nexus 9300 with 48p 10/25G SFP+, 6p 100G QSFP, MACsec, UP",
-   "series_label": "Tetration Analytics",
-   "why": "Tetration Analytics appliance",
-   "belongs": "servers-unified-computing"
-  },
-  {
-   "sku": "TA-C93180YC-FX-NR",
-   "name": "Nexus9300 with 48p 10/25G SFP+,6p 100G QSFP,MACsec,UP NoRack",
-   "series_label": "Tetration Analytics",
-   "why": "Tetration Analytics appliance",
-   "belongs": "servers-unified-computing"
-  },
-  {
-   "sku": "TA-C93180YC-FX3",
-   "name": "Workload M6 Nexus9300 48p10/25G SFP+,6p100G QSFP,MACsec,UP",
-   "series_label": "Tetration Analytics",
-   "why": "Tetration Analytics appliance",
-   "belongs": "servers-unified-computing"
-  },
-  {
-   "sku": "TA-C93180YC-FX=",
-   "name": "Nexus 9300 with 48p 10/25G SFP+, 6p 100G QSFP, MACsec, UP",
-   "series_label": "Tetration Analytics",
-   "why": "Tetration Analytics appliance",
-   "belongs": "servers-unified-computing"
-  },
-  {
-   "sku": "TA-N9K-C9236C",
-   "name": "Nexus 9K Fixed with 36p 100G QSFP28",
-   "series_label": "Nexus 9000",
-   "why": "Tetration Analytics appliance",
-   "belongs": "servers-unified-computing"
-  },
-  {
-   "sku": "TA-N9K-C9372PX-E",
-   "name": "Nexus 9372PX-E with 48p 10G SFP+ and 6p 40G QSFP+",
-   "series_label": "Nexus 9000",
-   "why": "Tetration Analytics appliance",
-   "belongs": "servers-unified-computing"
-  },
-  {
-   "sku": "TA-N9K-C9372PX-E=",
-   "name": "Nexus 9372PX-E with 48p 10G SFP+ and 6p 40G QSFP+",
-   "series_label": "Nexus 9000",
-   "why": "Tetration Analytics appliance",
-   "belongs": "servers-unified-computing"
-  },
-  {
-   "sku": "TA-N9K-C9372TX-E",
-   "name": "Nexus 9372TX-E with 48p 1/10G-T and 6p 40G QSFP+",
-   "series_label": "Nexus 9000",
-   "why": "Tetration Analytics appliance",
-   "belongs": "servers-unified-computing"
-  },
-  {
-   "sku": "TA-N9K-C9372TX-E=",
-   "name": "Nexus 9372TX-E with 48p 1/10G-T and 6p 40G QSFP+",
-   "series_label": "Nexus 9000",
-   "why": "Tetration Analytics appliance",
-   "belongs": "servers-unified-computing"
-  }
- ],
+ "not_this_category": [],
  "pending_plans": [
   {
    "sku": "0.375K",
@@ -3134,6 +2973,70 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
+  },
+  {
+   "sku": "76-ES+XT-2TG3C",
+   "name": "Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 2x10GE, XFP, DFC3C",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
+  },
+  {
+   "sku": "76-ES+XT-2TG3CXL",
+   "name": "Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 2x10GE, XFP, DFC3CXL",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
+  },
+  {
+   "sku": "76-ES+XT-4TG3C",
+   "name": "Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 4x10GE, XFP, DFC3C",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
+  },
+  {
+   "sku": "76-ES+XT-4TG3CXL",
+   "name": "Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 4x10GE, XFP, DFC3CXL",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
+  },
+  {
+   "sku": "7600-ES+2TG3C",
+   "name": "Cisco 7600 Series Ethernet Services Plus 20G Line Card, 2-port 10 GE XFP and DFC-3C",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
+  },
+  {
+   "sku": "7600-ES+2TG3CXL",
+   "name": "Cisco 7600 Series Ethernet Services Plus 20G Line Card, 2-port 10 GE XFP and DFC-3CXL",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
+  },
+  {
+   "sku": "7600-ES+4TG3C",
+   "name": "Cisco 7600 Series Ethernet Services Plus 40G Line Card, 4-port 10 GE XFP and DFC-3C",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
+  },
+  {
+   "sku": "7600-ES+4TG3CXL",
+   "name": "Cisco 7600 Series Ethernet Services Plus 40G Line Card, 4-port 10 GE XFP and DFC-3CXL",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
   },
   {
    "sku": "7603S-S32-10G-B-P",
@@ -4576,6 +4479,38 @@
    "reason": "software image / release PID"
   },
   {
+   "sku": "RSP720-3C-10GE",
+   "name": "Cisco RSP720-3C-10GE",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
+  },
+  {
+   "sku": "RSP720-3C-10GE=",
+   "name": "Cisco RSP720-3C-10GE=",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
+  },
+  {
+   "sku": "RSP720-3C-GE",
+   "name": "Cisco RSP720-3C-GE",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
+  },
+  {
+   "sku": "RSP720-3C-GE=",
+   "name": "Cisco RSP720-3C-GE=",
+   "series_label": "Catalyst 6500",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
+  },
+  {
    "sku": "S6400",
    "name": "Cisco S6400",
    "series_label": "Nexus 9000",
@@ -4806,6 +4741,78 @@
    "action": "class",
    "to": "non_product",
    "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
+  },
+  {
+   "sku": "TA-C93180YC-FX",
+   "name": "Nexus 9300 with 48p 10/25G SFP+, 6p 100G QSFP, MACsec, UP",
+   "series_label": "Tetration Analytics",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Tetration Analytics appliance"
+  },
+  {
+   "sku": "TA-C93180YC-FX-NR",
+   "name": "Nexus9300 with 48p 10/25G SFP+,6p 100G QSFP,MACsec,UP NoRack",
+   "series_label": "Tetration Analytics",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Tetration Analytics appliance"
+  },
+  {
+   "sku": "TA-C93180YC-FX3",
+   "name": "Workload M6 Nexus9300 48p10/25G SFP+,6p100G QSFP,MACsec,UP",
+   "series_label": "Tetration Analytics",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Tetration Analytics appliance"
+  },
+  {
+   "sku": "TA-C93180YC-FX=",
+   "name": "Nexus 9300 with 48p 10/25G SFP+, 6p 100G QSFP, MACsec, UP",
+   "series_label": "Tetration Analytics",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Tetration Analytics appliance"
+  },
+  {
+   "sku": "TA-N9K-C9236C",
+   "name": "Nexus 9K Fixed with 36p 100G QSFP28",
+   "series_label": "Nexus 9000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Tetration Analytics appliance"
+  },
+  {
+   "sku": "TA-N9K-C9372PX-E",
+   "name": "Nexus 9372PX-E with 48p 10G SFP+ and 6p 40G QSFP+",
+   "series_label": "Nexus 9000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Tetration Analytics appliance"
+  },
+  {
+   "sku": "TA-N9K-C9372PX-E=",
+   "name": "Nexus 9372PX-E with 48p 10G SFP+ and 6p 40G QSFP+",
+   "series_label": "Nexus 9000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Tetration Analytics appliance"
+  },
+  {
+   "sku": "TA-N9K-C9372TX-E",
+   "name": "Nexus 9372TX-E with 48p 1/10G-T and 6p 40G QSFP+",
+   "series_label": "Nexus 9000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Tetration Analytics appliance"
+  },
+  {
+   "sku": "TA-N9K-C9372TX-E=",
+   "name": "Nexus 9372TX-E with 48p 1/10G-T and 6p 40G QSFP+",
+   "series_label": "Nexus 9000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Tetration Analytics appliance"
   },
   {
    "sku": "UTP28X3BU",

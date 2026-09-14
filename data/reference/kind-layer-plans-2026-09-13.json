@@ -14696,17 +14696,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRMH-LTEA-LA",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "VIC3-4FXS/DID-X",
   "category": "unified-communications",
   "action": "move",
@@ -14828,17 +14817,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRMH-LTEAP18-GL",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "SM-X-PVDM-1000",
   "category": "routers",
   "action": "move",
@@ -14883,17 +14861,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "GRWIC-1CE1T1-PRI=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "WIM-1T",
   "category": "routers",
   "action": "move",
@@ -14924,17 +14891,6 @@
   "expected_kind_after": "unknown",
   "reason": "router interface card (SM-X / SM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst 8300\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-2CE1T1-PRI",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -15037,39 +14993,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "EPA-10X10GE++=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-BLANK",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "mechanical",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-4G-LTE-A",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "NIM-4G-LTE-VZ++=",
   "category": "routers",
   "action": "move",
@@ -15078,28 +15001,6 @@
   "expected_kind_after": "cellular",
   "reason": "router interface card (NIM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"4000 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-4G-LTE-V",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRM-TIMING-MOD",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8300 Rugged Series Router\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -15144,17 +15045,6 @@
   "expected_kind_after": "cellular",
   "reason": "router interface card (NIM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"4000 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-LTE7-EAL-900",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -15774,17 +15664,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRMH-LTE-MNA-900",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "P-LTE-US",
   "category": "routers",
   "action": "move",
@@ -15807,17 +15686,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRMH-LTEA-EA-900",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "SM-D-72FXS",
   "category": "unified-communications",
   "action": "move",
@@ -15826,50 +15694,6 @@
   "expected_kind_after": "interface",
   "reason": "router interface card (SM-X / SM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "family SM-X / SM in unified-communications · series label \"VG Series Gateways\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-1X100GE++=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-ISDN-1B-S/T",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-SEC-BRKT",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "accessory",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8100 Heavy Duty\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-BATT-BRKT",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "accessory",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8100 Heavy Duty\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -16049,17 +15873,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRM-NIM-BLNK",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "mechanical",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8300 Rugged Series Router\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "WIM-LTE-AS",
   "category": "routers",
   "action": "move",
@@ -16090,39 +15903,6 @@
   "expected_kind_after": "mechanical",
   "reason": "router interface card (HWIC/EHWIC/VWIC/WIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"2900 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-4G-LTE-G",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRM-SSD-Blank",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "mechanical",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8300 Rugged Series Router\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-BATT-4AH",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8100 Heavy Duty\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -16210,28 +15990,6 @@
   "run_id": null,
   "expected_kind_after": "cellular",
   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-LTEA-EA=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-LTEAP18-GL=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
@@ -16434,17 +16192,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "EPA-18X1GE-PR",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "EHWIC-VA-DSL-M",
   "category": "routers",
   "action": "move",
@@ -16475,17 +16222,6 @@
   "expected_kind_after": "interface",
   "reason": "router interface card (ISM/EM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"2900 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-18X1GE++=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -16555,28 +16291,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "GRWIC-BLANK",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "accessory",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-4T",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "P-LTEA7-EAL",
   "category": "routers",
   "action": "move",
@@ -16618,28 +16332,6 @@
   "expected_kind_after": "unknown",
   "reason": "router interface card (PVDM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"2900 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-WPAN-BRZ",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8100 Heavy Duty\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-WPAN-NA",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8100 Heavy Duty\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -16742,28 +16434,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRMH-WPAN-ANZ=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000 Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-BLANK=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "mechanical",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "PVDM2-12DM",
   "category": "routers",
   "action": "move",
@@ -16783,17 +16453,6 @@
   "expected_kind_after": "module",
   "reason": "router interface card (PVDM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "family PVDM in unified-communications · series label \"VG Series Gateways\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-WPAN-NA=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000 Connected Grid\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -16995,28 +16654,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRMH-WPAN-BRZ=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000 Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-LTE7-EAL-900=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "SPA-IPSEC-SSC400-2",
   "category": "switches",
   "action": "move",
@@ -17149,17 +16786,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRMH-LTE7-NA-900=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "VIC2-2BRI",
   "category": "routers",
   "action": "move",
@@ -17212,17 +16838,6 @@
   "expected_kind_after": "interface",
   "reason": "router interface card (HWIC/EHWIC/VWIC/WIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"2900 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-5GS6-GL",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8100 Heavy Duty\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -17391,17 +17006,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRMH-LTEA-EA",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "PVDM2-12DM=",
   "category": "routers",
   "action": "move",
@@ -17446,17 +17050,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "GRWIC-4G-LTE-A=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "SPA-2XOC12-POS=",
   "category": "routers",
   "action": "move",
@@ -17465,17 +17058,6 @@
   "expected_kind_after": "interface",
   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-2CE1T1-PRI=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -17644,40 +17226,7 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "GRWIC-4G-LTE-LA=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "P-LTE-IN=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-LTEA-LA=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-LTEA-EA-900=",
   "category": "routers",
   "action": "move",
   "to": "interfaces-modules",
@@ -17787,17 +17336,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "GRWIC-BLANK=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "accessory",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "C-SM-NIM-ADPT=",
   "category": "routers",
   "action": "move",
@@ -17806,17 +17344,6 @@
   "expected_kind_after": "unknown",
   "reason": "router interface card (SM-X / SM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"4000 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-4G-LTE-EA=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -17919,17 +17446,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "EPA-18X1GE-PR=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "NIM-2FXO=",
   "category": "routers",
   "action": "move",
@@ -18018,17 +17534,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRMH-LTE-MNA=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "P-LTEA7-JP=",
   "category": "routers",
   "action": "move",
@@ -18048,17 +17553,6 @@
   "expected_kind_after": "interface",
   "reason": "router interface card (NIM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"4000 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-5GR16SA=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8100 Heavy Duty\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -18180,28 +17674,6 @@
   "expected_kind_after": "cellular",
   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"800\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-5GS6-GL=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8100 Heavy Duty\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-LTE-MNA-900=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -18381,50 +17853,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "EPA-2X40GE",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-1X100GE=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-18X1GE=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-WPAN-ANZ",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000 Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "PCEX-3G-HSPA-US",
   "category": "routers",
   "action": "move",
@@ -18477,17 +17905,6 @@
   "expected_kind_after": "interface",
   "reason": "router interface card (NM/NME): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"2900 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-D-ES-2S-8PC=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -18678,17 +18095,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRM-NIM-RS232",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cable",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8300 Rugged Series Router\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "SM-X-72FXS",
   "category": "routers",
   "action": "move",
@@ -18744,17 +18150,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "GRWIC-4G-LTE-G=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "C-NIM-2T",
   "category": "routers",
   "action": "move",
@@ -18766,39 +18161,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "EPA-QSFP-1X100GE",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-1X100GE",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-8A/S-232=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "NM-HDV2-1T1/E1",
   "category": "routers",
   "action": "move",
@@ -18807,17 +18169,6 @@
   "expected_kind_after": "interface",
   "reason": "router interface card (NM/NME): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"2900 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-D-ES-6S=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -18884,28 +18235,6 @@
   "expected_kind_after": "interface",
   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "family SPA in switches · series label \"Catalyst 6500\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRM-1800-M12KIT",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "mechanical",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR1800 Rugged\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRM-1800-M12KIT=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "mechanical",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR1800 Rugged\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -19239,17 +18568,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "GRWIC-4G-LTE-EA",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "SM-X-ES3-24-P",
   "category": "routers",
   "action": "move",
@@ -19280,83 +18598,6 @@
   "expected_kind_after": "cellular",
   "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"800\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-10X10GE",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-2X40GE=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-1X40GE",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-1X40GE=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-CPAK-2X40GE=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-10X10GE=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-18X1GE",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -19445,17 +18686,6 @@
   "expected_kind_after": "interface",
   "reason": "router interface card (HWIC/EHWIC/VWIC/WIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"2900 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-4G-LTE-LA",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -19569,28 +18799,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "EPA-QSFP-1X100GE=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "EPA-CPAK-2X40GE",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (EPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "SPA-8XCHT1/E1",
   "category": "routers",
   "action": "move",
@@ -19635,17 +18843,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRM-NIM-2T1E1",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8300 Rugged Series Router\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "SPA-2XT3/E3",
   "category": "routers",
   "action": "move",
@@ -19665,17 +18862,6 @@
   "expected_kind_after": "interface",
   "reason": "router interface card (NIM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"4000 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "IRMH-5GR16SA",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8100 Heavy Duty\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -19731,28 +18917,6 @@
   "expected_kind_after": "module",
   "reason": "router interface card (SPA): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"ASR 1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-4G-LTE-V=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-4T=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -19819,28 +18983,6 @@
   "expected_kind_after": "interface",
   "reason": "router interface card (NIM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"4000 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-ISDN-1B-S/T=",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-8A/S-232",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -19932,17 +19074,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRM-SSD-100G",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"Catalyst IR8300 Rugged Series Router\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "SM-X-6X1G=",
   "category": "routers",
   "action": "move",
@@ -20009,17 +19140,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRMH-LTE7-NA-900",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "unknown",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7) — interfaces-modules has no kind rule for this SKU shape yet; add one before the move runs",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "PVDM2-64",
   "category": "routers",
   "action": "move",
@@ -20039,17 +19159,6 @@
   "expected_kind_after": "module",
   "reason": "router interface card (PVDM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"4000 ISR\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
-  "sku": "GRWIC-1CE1T1-PRI",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "interface",
-  "reason": "router interface card (GRWIC): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"2000 Series Connected Grid\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
@@ -20130,17 +19239,6 @@
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
  },
  {
-  "sku": "IRMH-LTE-MNA",
-  "category": "routers",
-  "action": "move",
-  "to": "interfaces-modules",
-  "run_id": null,
-  "expected_kind_after": "cellular",
-  "reason": "router interface card (other router-module families): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
-  "evidence": "routers mapping line 'Router Interface Modules' · series label \"1000\"",
-  "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
- },
- {
   "sku": "VIC3-2FXS-E/DID",
   "category": "routers",
   "action": "move",
@@ -20172,5 +19270,1138 @@
   "reason": "router interface card (SM-X / SM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)",
   "evidence": "routers mapping line 'Router Interface Modules' · series label \"4000 ISR\"",
   "planned_by": "parent 14 Sep 2026 (layers review item 7 — decision: interfaces-modules)"
+ },
+ {
+  "sku": "GRWIC-D-ES-6S",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "CGM-WPAN-FSK-NA",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family CGM · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-2OC3ATM-MM",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-VA-DSL-M",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-VA-DSL-A",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-VA-DSL-B",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "EPA-10X1GE",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family EPA · series label \"Network Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-ISDN-B-S/T",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-VA-DSL-A=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-VA-DSL-B=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-ISDN-1B-U=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "CGM-WIMAX-1.4GHZ=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family CGM · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "CGM-WIMAX-2.3GHZ=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family CGM · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "CGM-WIMAX-1.8GHZ=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family CGM · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-VA-DSL-M=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-ISDN-1B-U",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-4OC3POS-SMI",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-2OC3POS-MM",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-1OC12POS-X",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-2OC3POS-MM=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "CGM-WIMAX-1.8GHZ",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family CGM · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "CGM-WIMAX-2.3GHZ",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family CGM · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-2OC3ATM-SMI",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-2SHDSL=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-1OC12POS-SMI",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-2OC12POS-X",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-1OC48POS-SMS",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-2OC12POS-SMI=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-1OC48POS-SMI",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-1OC12POS-SMI=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-2OC12POS-SMI",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-1OC48POS-SMI=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-2OC3POS-SMI=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-2SHDSL",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-2OC3POS-SMI",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-4OC3POS-SMI=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-1OC48POS-SMS=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-ISDN-B-S/T=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-2OC3ATM-SMI=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "GRWIC-D-ES-2S-8PC",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family GRWIC · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "CGM-WIMAX-1.4GHZ",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family CGM · series label \"Connected Grid Modules\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "7300-2OC3ATM-MM=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)",
+  "evidence": "family 7300 · series label \"Line cards\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.3)"
+ },
+ {
+  "sku": "76-ES+XT-4TG3C",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+  "evidence": "layers mapping exclude ^(7600-ES|76-ES)|^RSP720 · series label \"Catalyst 6500\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "7600-ES+2TG3C",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+  "evidence": "layers mapping exclude ^(7600-ES|76-ES)|^RSP720 · series label \"Catalyst 6500\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "7600-ES+4TG3C",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+  "evidence": "layers mapping exclude ^(7600-ES|76-ES)|^RSP720 · series label \"Catalyst 6500\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "TA-C93180YC-FX",
+  "category": "switches",
+  "action": "move",
+  "to": "servers-unified-computing",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Tetration Analytics appliance",
+  "evidence": "layers mapping exclude ^TA-|^C1-TAAS|^TETRATION · series label \"Tetration Analytics\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "RSP720-3C-10GE",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+  "evidence": "layers mapping exclude ^(7600-ES|76-ES)|^RSP720 · series label \"Catalyst 6500\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "TA-N9K-C9236C",
+  "category": "switches",
+  "action": "move",
+  "to": "servers-unified-computing",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Tetration Analytics appliance",
+  "evidence": "layers mapping exclude ^TA-|^C1-TAAS|^TETRATION · series label \"Nexus 9000\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "TA-N9K-C9372TX-E",
+  "category": "switches",
+  "action": "move",
+  "to": "servers-unified-computing",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Tetration Analytics appliance",
+  "evidence": "layers mapping exclude ^TA-|^C1-TAAS|^TETRATION · series label \"Nexus 9000\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "TA-C93180YC-FX-NR",
+  "category": "switches",
+  "action": "move",
+  "to": "servers-unified-computing",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Tetration Analytics appliance",
+  "evidence": "layers mapping exclude ^TA-|^C1-TAAS|^TETRATION · series label \"Tetration Analytics\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "TA-C93180YC-FX3",
+  "category": "switches",
+  "action": "move",
+  "to": "servers-unified-computing",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Tetration Analytics appliance",
+  "evidence": "layers mapping exclude ^TA-|^C1-TAAS|^TETRATION · series label \"Tetration Analytics\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "76-ES+XT-4TG3CXL",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+  "evidence": "layers mapping exclude ^(7600-ES|76-ES)|^RSP720 · series label \"Catalyst 6500\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "RSP720-3C-GE",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+  "evidence": "layers mapping exclude ^(7600-ES|76-ES)|^RSP720 · series label \"Catalyst 6500\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "TA-N9K-C9372TX-E=",
+  "category": "switches",
+  "action": "move",
+  "to": "servers-unified-computing",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Tetration Analytics appliance",
+  "evidence": "layers mapping exclude ^TA-|^C1-TAAS|^TETRATION · series label \"Nexus 9000\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "RSP720-3C-GE=",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+  "evidence": "layers mapping exclude ^(7600-ES|76-ES)|^RSP720 · series label \"Catalyst 6500\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "TA-C93180YC-FX=",
+  "category": "switches",
+  "action": "move",
+  "to": "servers-unified-computing",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Tetration Analytics appliance",
+  "evidence": "layers mapping exclude ^TA-|^C1-TAAS|^TETRATION · series label \"Tetration Analytics\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "TA-N9K-C9372PX-E=",
+  "category": "switches",
+  "action": "move",
+  "to": "servers-unified-computing",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Tetration Analytics appliance",
+  "evidence": "layers mapping exclude ^TA-|^C1-TAAS|^TETRATION · series label \"Nexus 9000\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "RSP720-3C-10GE=",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+  "evidence": "layers mapping exclude ^(7600-ES|76-ES)|^RSP720 · series label \"Catalyst 6500\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "7600-ES+4TG3CXL",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+  "evidence": "layers mapping exclude ^(7600-ES|76-ES)|^RSP720 · series label \"Catalyst 6500\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "76-ES+XT-2TG3CXL",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+  "evidence": "layers mapping exclude ^(7600-ES|76-ES)|^RSP720 · series label \"Catalyst 6500\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "TA-N9K-C9372PX-E",
+  "category": "switches",
+  "action": "move",
+  "to": "servers-unified-computing",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Tetration Analytics appliance",
+  "evidence": "layers mapping exclude ^TA-|^C1-TAAS|^TETRATION · series label \"Nexus 9000\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "7600-ES+2TG3CXL",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+  "evidence": "layers mapping exclude ^(7600-ES|76-ES)|^RSP720 · series label \"Catalyst 6500\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "76-ES+XT-2TG3C",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label",
+  "evidence": "layers mapping exclude ^(7600-ES|76-ES)|^RSP720 · series label \"Catalyst 6500\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "15454-M-CBL-L-JPN",
+  "category": "routers",
+  "action": "move",
+  "to": "optical-networking",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "ONS 15454 / NCS 2000 MSTP chassis AC power cable (Japan), filed under the NCS 5500 label (layers review 14 Sep 2026, item 2)",
+  "evidence": "layers mapping exclude ^15454-M-CBL-[LR]-JPN$ · series label \"Network Convergence System 5500 Series\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "CW-SFP-KIT1",
+  "category": "routers",
+  "action": "move",
+  "to": "switches",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "SFP installation kit for the IE-3500H industrial switch",
+  "evidence": "layers mapping exclude ^CW-SFP-KIT · series label \"3800 Series Integrated Services Routers ISR\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "15454-M-CBL-R-JPN",
+  "category": "routers",
+  "action": "move",
+  "to": "optical-networking",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "ONS 15454 / NCS 2000 MSTP chassis AC power cable (Japan), filed under the NCS 5500 label (layers review 14 Sep 2026, item 2)",
+  "evidence": "layers mapping exclude ^15454-M-CBL-[LR]-JPN$ · series label \"Network Convergence System 5500 Series\"",
+  "planned_by": "parent 14 Sep 2026 (layers review A.2: every not-this-category row carries a plan)"
+ },
+ {
+  "sku": "ASR1013/06-PWR-DC",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "ASR 1000 power supply filed under interfaces-modules; its spare (=) is already in routers under ASR 1000",
+  "evidence": "routers mapping ASR 1000 sku ^(M-)?ASR1[0-9]{3}; spare rule A.1 (X and X= carry one placement)",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ASR1013/06-PWR-AC",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "ASR 1000 power supply filed under interfaces-modules; its spare (=) is already in routers under ASR 1000",
+  "evidence": "routers mapping ASR 1000 sku ^(M-)?ASR1[0-9]{3}; spare rule A.1 (X and X= carry one placement)",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ASR1000X-AC-1100W",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "ASR 1000 power supply filed under interfaces-modules; its spare (=) is already in routers under ASR 1000",
+  "evidence": "routers mapping ASR 1000 sku ^(M-)?ASR1[0-9]{3}; spare rule A.1 (X and X= carry one placement)",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ASR1000X-DC-950W",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "ASR 1000 power supply filed under interfaces-modules; its spare (=) is already in routers under ASR 1000",
+  "evidence": "routers mapping ASR 1000 sku ^(M-)?ASR1[0-9]{3}; spare rule A.1 (X and X= carry one placement)",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ACS-2900-RM-ETSI",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)",
+  "evidence": "routers mapping ISR 2900 sku ^ACS-29[0-9]{2}-; name '… rack mount kit for Cisco 2911/2921/2951 ISR'",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ACS-2901-RM-23",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)",
+  "evidence": "routers mapping ISR 2900 sku ^ACS-29[0-9]{2}-; name '… rack mount kit for Cisco 2911/2921/2951 ISR'",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ACS-2901-RM-ETSI",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)",
+  "evidence": "routers mapping ISR 2900 sku ^ACS-29[0-9]{2}-; name '… rack mount kit for Cisco 2911/2921/2951 ISR'",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ACS-2900-RM-ETSI=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)",
+  "evidence": "routers mapping ISR 2900 sku ^ACS-29[0-9]{2}-; name '… rack mount kit for Cisco 2911/2921/2951 ISR'",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ACS-2900-RM-23=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)",
+  "evidence": "routers mapping ISR 2900 sku ^ACS-29[0-9]{2}-; name '… rack mount kit for Cisco 2911/2921/2951 ISR'",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ACS-2901-RM-ETSI=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)",
+  "evidence": "routers mapping ISR 2900 sku ^ACS-29[0-9]{2}-; name '… rack mount kit for Cisco 2911/2921/2951 ISR'",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ACS-2901-RM-23=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)",
+  "evidence": "routers mapping ISR 2900 sku ^ACS-29[0-9]{2}-; name '… rack mount kit for Cisco 2911/2921/2951 ISR'",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ACS-2900-RM-23",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)",
+  "evidence": "routers mapping ISR 2900 sku ^ACS-29[0-9]{2}-; name '… rack mount kit for Cisco 2911/2921/2951 ISR'",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "RPS-COVER-2921-51=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "cover for the empty RPS adapter slot on a Cisco 2911 / 2921 / 2951: bound to ISR 2900 (A.3 rule 1)",
+  "evidence": "name 'Cover for empty RPS Adapter slot on Cisco 2911'; the switches RPS rule matched it on ^RPS only",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "RPS-COVER-2911=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "cover for the empty RPS adapter slot on a Cisco 2911 / 2921 / 2951: bound to ISR 2900 (A.3 rule 1)",
+  "evidence": "name 'Cover for empty RPS Adapter slot on Cisco 2911'; the switches RPS rule matched it on ^RPS only",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ACS-4460-FANASSY",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "ISR 4460 fan assembly: bound to ISR 4000 (A.3 rule 1)",
+  "evidence": "routers mapping ISR 4000 sku ^ACS-4[2-4][0-9]{2}-; name 'Cisco ISR 4460 Fan Assembly'",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "ACS-4460-FANASSY=",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "ISR 4460 fan assembly: bound to ISR 4000 (A.3 rule 1)",
+  "evidence": "routers mapping ISR 4000 sku ^ACS-4[2-4][0-9]{2}-; name 'Cisco ISR 4460 Fan Assembly'",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "C3945-112FXS/K9",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Cisco 3945 ISR chassis configured as an analog voice gateway: a router",
+  "evidence": "routers mapping ISR 3900 sku ^(CISCO|C|CONE-|SPIAD)39[0-9]{2}; name 'High Density Analog Voice Gateway'",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage into routers)"
+ },
+ {
+  "sku": "UCS-CPU-5120=",
+  "category": "routers",
+  "action": "move",
+  "to": "servers-unified-computing",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a UCS server CPU spare (Intel Xeon Gold 5120), filed under the ASR 9000 label: a generic UCS part (the XRv 9000 appliance is a UCS C220; its platform-bound XRV-FAN-C220M4= stays in routers)",
+  "evidence": "servers mapping Processors ^UCS-CPU / Drives and storage ^UCS-(…|M2…) / Memory ^UCS-M(R|…); routers placement was the series label only",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage out of routers)"
+ },
+ {
+  "sku": "UCS-M2-240GB=",
+  "category": "routers",
+  "action": "move",
+  "to": "servers-unified-computing",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a UCS server M.2 boot drive spare, filed under the ASR 9000 label: a generic UCS part (the XRv 9000 appliance is a UCS C220; its platform-bound XRV-FAN-C220M4= stays in routers)",
+  "evidence": "servers mapping Processors ^UCS-CPU / Drives and storage ^UCS-(…|M2…) / Memory ^UCS-M(R|…); routers placement was the series label only",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage out of routers)"
+ },
+ {
+  "sku": "UCS-MR-X16G1RS-H=",
+  "category": "routers",
+  "action": "move",
+  "to": "servers-unified-computing",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a UCS server DIMM spare (16GB RDIMM), filed under the ASR 9000 label: a generic UCS part (the XRv 9000 appliance is a UCS C220; its platform-bound XRV-FAN-C220M4= stays in routers)",
+  "evidence": "servers mapping Processors ^UCS-CPU / Drives and storage ^UCS-(…|M2…) / Memory ^UCS-M(R|…); routers placement was the series label only",
+  "planned_by": "parent 14 Sep 2026 (layers review A.6: cross-category leakage out of routers)"
+ },
+ {
+  "sku": "7600-SSC-400=",
+  "category": "interfaces-modules",
+  "action": "move",
+  "to": "switches",
+  "run_id": null,
+  "expected_kind_after": "linecard",
+  "reason": "spare of 7600-SSC-400, which is in switches under Catalyst 6500 (layers review B.5: 7600-SIP-400 / SSC-400 stay under Catalyst 6500); X and X= carry one placement (A.1)",
+  "evidence": "name 'Cisco 7600/Catalyst 6500 Services SPA Carrier Card'; switches mapping Catalyst 6500 sku ^7600-S(IP|SC)-400",
+  "planned_by": "parent 14 Sep 2026 (layers review B.5)"
+ },
+ {
+  "sku": "CGR2010/NFR",
+  "category": "routers",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "not-for-resale channel kit of the CGR 2010 (layers review C.5)",
+  "evidence": "name: CGR 2010 Channel Kit",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "A9K-400G-L-AIP",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware (layers review C.7, named)",
+  "evidence": "name: ASR 9K Standard License Advanced IP for 4-port 100GE LAN Line Card",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "A99-1200G-AIP",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware",
+  "evidence": "name: ASR 9900 Standard Advanced IP License to turn on full-scale VRF instances per 12-port 100-GE line card",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "A99-1200G-ADVRTNG",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware",
+  "evidence": "name: ASR 9900 Standard Advanced routing license for route scales exceeding 128K for IPv4 and 64K for IPv6 per 12-port 100GE line card",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "A99-1200G-IVRF",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware",
+  "evidence": "name: ASR 9900 Standard License to activate up to 8 VRFs on 12x100GE Line Card",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "A9K-4HG-200G-DWDM=",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware (pay-as-you-grow bandwidth for the IPoDWDM card)",
+  "evidence": "name: PAYG for 200Gbs use in 400G IPoDWDM cards",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "N520-10G-2",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware",
+  "evidence": "name: Cisco NCS 520 Series 2-Port 10G Upgrade License",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "N520-1G-8",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware",
+  "evidence": "name: Cisco NCS 520 Series 8 Ports GE Upgrade License",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "N520-S-M",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware (base software)",
+  "evidence": "name: Metro Access License (base software)",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "FLS-A901-4S",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware ('Upgrade - Physical' is the physical delivery of the licence its spare names)",
+  "evidence": "name: Cisco ASR 901 4 Port SFP GE Upgrade - Physical",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "FLS-A901-4S=",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware",
+  "evidence": "name: ASR 901 4 Port SFP GE Upgrade License: Paper License",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "FLS-A901-4T",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware (the same)",
+  "evidence": "name: Cisco ASR 901 4 Port Copper GE Upgrade - Physical",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "FLS-A901-4T=",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware",
+  "evidence": "name: ASR 901 4 Port Copper GE Upgrade License: Paper License",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "FL-8XX-512U1GB",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware ('DRAM upgrade … (Feature License)': an FL- feature licence, kind memory until now)",
+  "evidence": "name: 512 MB DRAM upgrade to 1 GB for Cisco 892FSP, 896VA, 897VA, 897VAB, 898EA, 891F model (Feature License)",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "FL-8XX-512U1GB=",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware (the spare of the feature licence; A.1 one class for X and X=)",
+  "evidence": "name: CISCO800 DRAM Upgrade from 512MB to 1GB",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
+ },
+ {
+  "sku": "8010-FC-SW",
+  "category": "routers",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "licence / right-to-use PID: the name states a licence, not hardware (the 8010 twin of 8K-SW-FC 'Standard SW ATO FCM 2.0', already planned license)",
+  "evidence": "name: Standard SW ATO FCM 2.0 for Cisco 8010 Series",
+  "planned_by": "parent 14 Sep 2026 (layers review C.5 / C.7, hand-checked row by row)"
  }
 ]

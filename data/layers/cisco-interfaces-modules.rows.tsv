@@ -54,27 +54,27 @@ sku	name	series_label	kind	bucket	product_line	series	placed_by	deploy_role	role
 4OC3X/ATM-BLANK	Blank faceplate for Cisco 12008 and 12012 chassis	Line cards	mechanical	layered	Router and switch line cards (legacy)	Cisco 12000 / XR 12000 SIP and line cards	sku ^[0-9]{1,2}OC(3|12|48)					
 4OC3X/ATM-IR-SC	Cisco 12000 Series 4-Port OC-3c/STM-1c ATM ISE Line Card, single-mode	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 12000 / XR 12000 SIP and line cards	sku ^[0-9]{1,2}OC(3|12|48)					
 4OC3X/ATM-MM-SC	Cisco 12000 Series 4-Port OC-3c/STM-1c ATM ISE Line Card, multimode	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 12000 / XR 12000 SIP and line cards	sku ^[0-9]{1,2}OC(3|12|48)					
-7300-1OC12POS-SMI	1-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-1OC12POS-SMI=	1-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach, SPARE	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-1OC12POS-X	Cisco 7300-1OC12POS-X	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-1OC48POS-SMI	Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line Card, single mode-intermediate reach (SM-IR)	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-1OC48POS-SMI=	Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH (SM-IR), spare	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-1OC48POS-SMS	Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line Card, single mode-short reach (SM-SR)	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-1OC48POS-SMS=	Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line Card (SM-SR), spare	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-2OC12POS-SMI	2-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-2OC12POS-SMI=	2-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach, SPARE	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-2OC12POS-X	Cisco 7300-2OC12POS-X	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-2OC3ATM-MM	2-port OC-3 ATM line card for Cisco 7304 Router, MM	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-2OC3ATM-MM=	2-port OC-3 ATM line card for Cisco 7304 Router, MM, spare	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-2OC3ATM-SMI	2-port OC-3 ATM line card for Cisco 7304 Router, SM-IR	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-2OC3ATM-SMI=	2-port OC-3 ATM line card for Cisco 7304 Router, SM-IR, spare	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-2OC3POS-MM	2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card,Multi-mode (MM )	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-2OC3POS-MM=	2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, MM, spare	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-2OC3POS-SMI	2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, SM-IR	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-2OC3POS-SMI=	2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, SM-IR, spare	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-4OC3POS-SMI	4-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, Single-mode-Intermediate Reach (SM-IR)	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7300-4OC3POS-SMI=	4-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, SM-IR, spare	Line cards	interface	layered	Router and switch line cards (legacy)	Cisco 7300 line cards	sku ^7300-					
-7600-SSC-400=	Cisco 7600/Catalyst 6500 Services SPA Carrier Card	Shared Port Adapters/SPA Interface Processors	interface	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^7600-					
+7300-1OC12POS-SMI	1-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach	Line cards	interface	pending_plan							move routers	
+7300-1OC12POS-SMI=	1-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach, SPARE	Line cards	interface	pending_plan							move routers	
+7300-1OC12POS-X	Cisco 7300-1OC12POS-X	Line cards	interface	pending_plan							move routers	
+7300-1OC48POS-SMI	Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line Card, single mode-intermediate reach (SM-IR)	Line cards	interface	pending_plan							move routers	
+7300-1OC48POS-SMI=	Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH (SM-IR), spare	Line cards	interface	pending_plan							move routers	
+7300-1OC48POS-SMS	Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line Card, single mode-short reach (SM-SR)	Line cards	interface	pending_plan							move routers	
+7300-1OC48POS-SMS=	Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line Card (SM-SR), spare	Line cards	interface	pending_plan							move routers	
+7300-2OC12POS-SMI	2-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach	Line cards	interface	pending_plan							move routers	
+7300-2OC12POS-SMI=	2-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach, SPARE	Line cards	interface	pending_plan							move routers	
+7300-2OC12POS-X	Cisco 7300-2OC12POS-X	Line cards	interface	pending_plan							move routers	
+7300-2OC3ATM-MM	2-port OC-3 ATM line card for Cisco 7304 Router, MM	Line cards	interface	pending_plan							move routers	
+7300-2OC3ATM-MM=	2-port OC-3 ATM line card for Cisco 7304 Router, MM, spare	Line cards	interface	pending_plan							move routers	
+7300-2OC3ATM-SMI	2-port OC-3 ATM line card for Cisco 7304 Router, SM-IR	Line cards	interface	pending_plan							move routers	
+7300-2OC3ATM-SMI=	2-port OC-3 ATM line card for Cisco 7304 Router, SM-IR, spare	Line cards	interface	pending_plan							move routers	
+7300-2OC3POS-MM	2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card,Multi-mode (MM )	Line cards	interface	pending_plan							move routers	
+7300-2OC3POS-MM=	2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, MM, spare	Line cards	interface	pending_plan							move routers	
+7300-2OC3POS-SMI	2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, SM-IR	Line cards	interface	pending_plan							move routers	
+7300-2OC3POS-SMI=	2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, SM-IR, spare	Line cards	interface	pending_plan							move routers	
+7300-4OC3POS-SMI	4-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, Single-mode-Intermediate Reach (SM-IR)	Line cards	interface	pending_plan							move routers	
+7300-4OC3POS-SMI=	4-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, SM-IR, spare	Line cards	interface	pending_plan							move routers	
+7600-SSC-400=	Cisco 7600/Catalyst 6500 Services SPA Carrier Card	Shared Port Adapters/SPA Interface Processors	interface	pending_plan							move switches	
 88-LCO-34H14FH	Cisco 88-LCO-34H14FH	Transceiver Modules	interface	not_this_category			exclude ^88-LC					routers
 88-LCO-36FH	Cisco 88-LCO-36FH	Transceiver Modules	interface	not_this_category			exclude ^88-LC					routers
 88-LCO-36FH-M	Cisco 88-LCO-36FH-M	Transceiver Modules	interface	not_this_category			exclude ^88-LC					routers
@@ -96,14 +96,14 @@ ACE30-MOD-K9	Application Control Engine 30 Hardware	Services Modules	module	laye
 ACE30-MOD-K9=	Application Control Engine 30 Hardware	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^ACE[0-9]					
 ACE30-SYS-AC-04-K9	ACE30 16G 6504-E 720-10G-3C 6716 AC System	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^ACE[0-9]					
 ACE30-SYS-DC-04-K9	ACE30 16G 6504-E 720-10G-3C 6716 DC System	Services Modules	module	layered	Router and switch line cards (legacy)	Catalyst 6500 / 7600 service modules	sku ^ACE[0-9]					
-ACS-2900-RM-23	23 inch rack mount kit for Cisco 2911/2921/2951 ISR	Network Modules	mechanical	layered	Router Interface Modules	Router Interface Modules shared parts	accessory -RM- (label Network Modules)					
-ACS-2900-RM-23=	23 inch rack mount kit for Cisco 2911/2921/2951 ISR (only as spare)	Network Modules	mechanical	layered	Router Interface Modules	Router Interface Modules shared parts	accessory -RM- (label Network Modules)					
-ACS-2900-RM-ETSI	ETSI rack mount kit for Cisco 2911/2921/2951 ISR	Network Modules	mechanical	layered	Router Interface Modules	Router Interface Modules shared parts	accessory -RM- (label Network Modules)					
-ACS-2900-RM-ETSI=	ETSI rack mount kit for Cisco 2911/2921/2951 ISR	Network Modules	mechanical	layered	Router Interface Modules	Router Interface Modules shared parts	accessory -RM- (label Network Modules)					
-ACS-2901-RM-23	23 inch rack mount kit for Cisco 2901 ISR	Network Modules	mechanical	layered	Router Interface Modules	Router Interface Modules shared parts	accessory -RM- (label Network Modules)					
-ACS-2901-RM-23=	23 inch rack mount kit for Cisco 2901 ISR (only as spare)	Network Modules	mechanical	layered	Router Interface Modules	Router Interface Modules shared parts	accessory -RM- (label Network Modules)					
-ACS-2901-RM-ETSI	ETSI rack mount kit for Cisco 2901 ISR	Network Modules	mechanical	layered	Router Interface Modules	Router Interface Modules shared parts	accessory -RM- (label Network Modules)					
-ACS-2901-RM-ETSI=	ETSI rack mount kit for Cisco 2901 ISR	Network Modules	mechanical	layered	Router Interface Modules	Router Interface Modules shared parts	accessory -RM- (label Network Modules)					
+ACS-2900-RM-23	23 inch rack mount kit for Cisco 2911/2921/2951 ISR	Network Modules	mechanical	pending_plan							move routers	
+ACS-2900-RM-23=	23 inch rack mount kit for Cisco 2911/2921/2951 ISR (only as spare)	Network Modules	mechanical	pending_plan							move routers	
+ACS-2900-RM-ETSI	ETSI rack mount kit for Cisco 2911/2921/2951 ISR	Network Modules	mechanical	pending_plan							move routers	
+ACS-2900-RM-ETSI=	ETSI rack mount kit for Cisco 2911/2921/2951 ISR	Network Modules	mechanical	pending_plan							move routers	
+ACS-2901-RM-23	23 inch rack mount kit for Cisco 2901 ISR	Network Modules	mechanical	pending_plan							move routers	
+ACS-2901-RM-23=	23 inch rack mount kit for Cisco 2901 ISR (only as spare)	Network Modules	mechanical	pending_plan							move routers	
+ACS-2901-RM-ETSI	ETSI rack mount kit for Cisco 2901 ISR	Network Modules	mechanical	pending_plan							move routers	
+ACS-2901-RM-ETSI=	ETSI rack mount kit for Cisco 2901 ISR	Network Modules	mechanical	pending_plan							move routers	
 AIC-DBL-PNL	Patch panel for terminating up to two AIC or 128 alarm points	Network Modules	mechanical	layered	Router Interface Modules	NM / NME Network Modules	label Network Modules					
 AIC-SGL-PNL	Patch panel with power monitoring terminals, for terminating one AIC with eight lugs and fuses for power monitoring	Network Modules	mechanical	layered	Router Interface Modules	NM / NME Network Modules	label Network Modules					
 AIR-ANT-LOC-01=	Hyperlocation Antenna, Model 1, Attached Omni	Access Point Modules	accessory	not_this_category			exclude ^(AIR-RM30|AIR-ANT-LOC)					wireless
@@ -137,15 +137,15 @@ AIR-RM3010L-T-K9=	Hyperlocation Module with Advance Security; Reg. Domain -T	Acc
 AIR-RM3010L-UXK9=	Wireless Security & Location Module; Universal SKU	Access Point Modules	radio	not_this_category			exclude ^(AIR-RM30|AIR-ANT-LOC)					wireless
 AIR-RM3010L-Z-K9=	Hyperlocation Module with Advance Security; Reg. Domain -Z	Access Point Modules	radio	not_this_category			exclude ^(AIR-RM30|AIR-ANT-LOC)					wireless
 AIR-RM3010LA-UXK9=	Wireless Security & Location Module+ Omni Antenna; Univ. SKU	Access Point Modules	radio	not_this_category			exclude ^(AIR-RM30|AIR-ANT-LOC)					wireless
-ANT-1.4-PNL-OUT-N	Outdoor Panel Antenna for WIMAX 1.4 GHz	Connected Grid Modules	mechanical	layered	Router Interface Modules	CGM Connected Grid Modules	label Connected Grid Modules					
-ANT-1.4-PNL-OUT-N=	Outdoor Panel Antenna for WIMAX 1.4 GHz	Connected Grid Modules	mechanical	layered	Router Interface Modules	CGM Connected Grid Modules	label Connected Grid Modules					
-ANT-1.8-PNL-OUT-N	Outdoor Panel Antenna for WIMAX 1.8 GHz	Connected Grid Modules	mechanical	layered	Router Interface Modules	CGM Connected Grid Modules	label Connected Grid Modules					
-ANT-1.8-PNL-OUT-N=	Outdoor Panel Antenna for WIMAX 1.8 GHz	Connected Grid Modules	mechanical	layered	Router Interface Modules	CGM Connected Grid Modules	label Connected Grid Modules					
-ANT-2.X-PNL-OUT-N	Outdoor Panel Antenna for WIMAX 2.x GHz	Connected Grid Modules	mechanical	layered	Router Interface Modules	CGM Connected Grid Modules	label Connected Grid Modules					
-ANT-2.X-PNL-OUT-N=	Outdoor Panel Antenna for WIMAX 2.x GHz	Connected Grid Modules	mechanical	layered	Router Interface Modules	CGM Connected Grid Modules	label Connected Grid Modules					
+ANT-1.4-PNL-OUT-N	Outdoor Panel Antenna for WIMAX 1.4 GHz	Connected Grid Modules	mechanical	not_this_category			exclude ^(ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT|ANT-MP-INT-OUT|CGR-N-CONN)					routers
+ANT-1.4-PNL-OUT-N=	Outdoor Panel Antenna for WIMAX 1.4 GHz	Connected Grid Modules	mechanical	not_this_category			exclude ^(ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT|ANT-MP-INT-OUT|CGR-N-CONN)					routers
+ANT-1.8-PNL-OUT-N	Outdoor Panel Antenna for WIMAX 1.8 GHz	Connected Grid Modules	mechanical	not_this_category			exclude ^(ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT|ANT-MP-INT-OUT|CGR-N-CONN)					routers
+ANT-1.8-PNL-OUT-N=	Outdoor Panel Antenna for WIMAX 1.8 GHz	Connected Grid Modules	mechanical	not_this_category			exclude ^(ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT|ANT-MP-INT-OUT|CGR-N-CONN)					routers
+ANT-2.X-PNL-OUT-N	Outdoor Panel Antenna for WIMAX 2.x GHz	Connected Grid Modules	mechanical	not_this_category			exclude ^(ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT|ANT-MP-INT-OUT|CGR-N-CONN)					routers
+ANT-2.X-PNL-OUT-N=	Outdoor Panel Antenna for WIMAX 2.x GHz	Connected Grid Modules	mechanical	not_this_category			exclude ^(ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT|ANT-MP-INT-OUT|CGR-N-CONN)					routers
 ANT-4G-PNL-OUT-N	50-ft (15 m) Ultra-Low-Loss LMR 400 Cable TNC-N Connector	High-Speed WAN Interface Cards	cable	layered	Router Interface Modules	EHWIC / HWIC / VWIC / WIC	label High-Speed WAN Interface Cards					
 ANT-4G-SR-OUT-TNC	Multiband Low-Profile Saucer Outdoor 4G Antenna	High-Speed WAN Interface Cards	accessory	layered	Router Interface Modules	EHWIC / HWIC / VWIC / WIC	label High-Speed WAN Interface Cards					
-ANT-MP-INT-OUT-M	Cisco ANT-MP-INT-OUT-M	Connected Grid Modules	accessory	layered	Router Interface Modules	CGM Connected Grid Modules	label Connected Grid Modules					
+ANT-MP-INT-OUT-M	Cisco ANT-MP-INT-OUT-M	Connected Grid Modules	accessory	not_this_category			exclude ^(ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT|ANT-MP-INT-OUT|CGR-N-CONN)					routers
 ASA-SSC-AIP-5-K9=	Cisco ASA 5500 Series Advanced Inspection and Prevention Security Services Card 5 (AIP-SSC-5)	Security Modules for Security Appliances	module	not_this_category			exclude ^ASA-SS[MC]					security
 ASA-SSM-AIP-10-K9=	Cisco ASA 5500 Series Advanced Inspection and Prevention Security Services Module 10 (AIP-SSM-10)	Security Modules for Security Appliances	module	not_this_category			exclude ^ASA-SS[MC]					security
 ASA-SSM-AIP-20-K9=	Cisco ASA 5500 Series Advanced Inspection and Prevention Security Services Module 20 (AIP-SSM-20)	Security Modules for Security Appliances	module	not_this_category			exclude ^ASA-SS[MC]					security
@@ -168,10 +168,10 @@ ASA5520-CSC10-K9	• SMARTnet 8x5xNBD • SMARTnet 8x5x4 • SMARTnet 24x7x4 •
 ASA5520-CSC20-K9	• SMARTnet 8x5xNBD • SMARTnet 8x5x4 • SMARTnet 24x7x4 • SMARTnet 24x7x2 • SMARTnet onsite 8x5xNBD • SMARTnet onsite 8x5x4 • SMARTnet onsite 24x7x4 • SMARTnet onsite 24x7x2	Security Modules for Security Appliances	device	pending_plan							move security	
 ASA5540-AIP20-K9	Cisco ASA 5540 IPS Edition; includes AIP-SSM-20, firewall services, 5000 IPsec VPN peers, 2 Premium VPN peers, 4 Gigabit Ethernet interfaces, 1 Fast Ethernet interface	Security Modules for Security Appliances	device	pending_plan							move security	
 ASA5540-AIP40-K9	Cisco ASA 5540 IPS Edition; includes AIP-SSM-40, firewall services, 5000 IPsec VPN peers, 2 Premium VPN peers, 4 Gigabit Ethernet interfaces, 1 Fast Ethernet interface	Security Modules for Security Appliances	device	pending_plan							move security	
-ASR1000X-AC-1100W	Cisco ASR1000-X 1100W AC Power Supply	Network Modules	power	layered	Router Interface Modules	NM / NME Network Modules	label Network Modules					
-ASR1000X-DC-950W	Cisco ASR1000-X 950W DC Power Supply	Network Modules	power	layered	Router Interface Modules	NM / NME Network Modules	label Network Modules					
-ASR1013/06-PWR-AC	Cisco ASR1000 1600w AC Power Supply	Network Modules	power	not_this_category			exclude ^ASR1013					routers
-ASR1013/06-PWR-DC	Cisco ASR1000 1600w DC Power Supply	Network Modules	power	not_this_category			exclude ^ASR1013					routers
+ASR1000X-AC-1100W	Cisco ASR1000-X 1100W AC Power Supply	Network Modules	power	pending_plan							move routers	
+ASR1000X-DC-950W	Cisco ASR1000-X 950W DC Power Supply	Network Modules	power	pending_plan							move routers	
+ASR1013/06-PWR-AC	Cisco ASR1000 1600w AC Power Supply	Network Modules	power	pending_plan							move routers	
+ASR1013/06-PWR-DC	Cisco ASR1000 1600w DC Power Supply	Network Modules	power	pending_plan							move routers	
 AZ83NQ2S2AQM001	Cisco AZ83NQ2S2AQM001	Transceiver Modules	accessory	layered	Cables and accessories	Fiber and M12 cables (CB-)	label Transceiver Modules					
 AZ83NQ2S2AQM002	Cisco AZ83NQ2S2AQM002	Transceiver Modules	accessory	layered	Cables and accessories	Fiber and M12 cables (CB-)	label Transceiver Modules					
 AZ83NQ2S2AQM003	Cisco AZ83NQ2S2AQM003	Transceiver Modules	accessory	layered	Cables and accessories	Fiber and M12 cables (CB-)	label Transceiver Modules					
@@ -269,14 +269,14 @@ CBL-RPR-OC192-L	Long length RPR mate cable for single port RPR SPAs	Shared Port 
 CBL-RPR-OC192-L=	Long length RPR mate cable for single port RPR SPAs	Shared Port Adapters/SPA Interface Processors	cable	layered	Router Interface Modules	Router Interface Modules shared parts	accessory ^CBL- (label Shared Port Adapters/SPA Interface Processors)					
 CBL-RPR-OC192-S	Standard length RPR mate cable for single port RPR SPAs	Shared Port Adapters/SPA Interface Processors	cable	layered	Router Interface Modules	Router Interface Modules shared parts	accessory ^CBL- (label Shared Port Adapters/SPA Interface Processors)					
 CBL-RPR-OC192-S=	Standard length RPR mate cable for single port RPR SPAs	Shared Port Adapters/SPA Interface Processors	cable	layered	Router Interface Modules	Router Interface Modules shared parts	accessory ^CBL- (label Shared Port Adapters/SPA Interface Processors)					
-CGM-WIMAX-1.4GHZ	Connected Grid Module - IEEE 802.16e WiMAX 1.4 GHz	Connected Grid Modules	radio	layered	Router Interface Modules	CGM Connected Grid Modules	sku ^CGM-					
-CGM-WIMAX-1.4GHZ=	Connected Grid Module- IEEE 802.16e WIMAX 1.4 GHz	Connected Grid Modules	radio	layered	Router Interface Modules	CGM Connected Grid Modules	sku ^CGM-					
-CGM-WIMAX-1.8GHZ	Connected Grid Module - IEEE 802.16e WiMAX 1.8-1.830 GHz	Connected Grid Modules	radio	layered	Router Interface Modules	CGM Connected Grid Modules	sku ^CGM-					
-CGM-WIMAX-1.8GHZ=	Connected Grid Module- IEEE 802.16e WIMAX 1.8-1.830 GHz	Connected Grid Modules	radio	layered	Router Interface Modules	CGM Connected Grid Modules	sku ^CGM-					
-CGM-WIMAX-2.3GHZ	Connected Grid Module - IEEE 802.16e WiMAX 2.3-2.4 GHz	Connected Grid Modules	radio	layered	Router Interface Modules	CGM Connected Grid Modules	sku ^CGM-					
-CGM-WIMAX-2.3GHZ=	Connected Grid Module- IEEE 802.16e WIMAX 2.3-2.4 GHz	Connected Grid Modules	radio	layered	Router Interface Modules	CGM Connected Grid Modules	sku ^CGM-					
-CGM-WPAN-FSK-NA	Connected Grid Module - IEEE 802.15.4e/g WPAN 900 MHz (2FSK modulation)	Connected Grid Modules	radio	layered	Router Interface Modules	CGM Connected Grid Modules	sku ^CGM-					
-CGR-N-CONN-WPAN	Cisco CGR-N-CONN-WPAN	Connected Grid Modules	unknown	layered	Router Interface Modules	CGM Connected Grid Modules	label Connected Grid Modules					
+CGM-WIMAX-1.4GHZ	Connected Grid Module - IEEE 802.16e WiMAX 1.4 GHz	Connected Grid Modules	radio	pending_plan							move routers	
+CGM-WIMAX-1.4GHZ=	Connected Grid Module- IEEE 802.16e WIMAX 1.4 GHz	Connected Grid Modules	radio	pending_plan							move routers	
+CGM-WIMAX-1.8GHZ	Connected Grid Module - IEEE 802.16e WiMAX 1.8-1.830 GHz	Connected Grid Modules	radio	pending_plan							move routers	
+CGM-WIMAX-1.8GHZ=	Connected Grid Module- IEEE 802.16e WIMAX 1.8-1.830 GHz	Connected Grid Modules	radio	pending_plan							move routers	
+CGM-WIMAX-2.3GHZ	Connected Grid Module - IEEE 802.16e WiMAX 2.3-2.4 GHz	Connected Grid Modules	radio	pending_plan							move routers	
+CGM-WIMAX-2.3GHZ=	Connected Grid Module- IEEE 802.16e WIMAX 2.3-2.4 GHz	Connected Grid Modules	radio	pending_plan							move routers	
+CGM-WPAN-FSK-NA	Connected Grid Module - IEEE 802.15.4e/g WPAN 900 MHz (2FSK modulation)	Connected Grid Modules	radio	pending_plan							move routers	
+CGR-N-CONN-WPAN	Cisco CGR-N-CONN-WPAN	Connected Grid Modules	unknown	not_this_category			exclude ^(ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT|ANT-MP-INT-OUT|CGR-N-CONN)					routers
 CISCO2811-AC-IP	Cisco 2811 with AC+PoE, 2 Fast Ethernet ports , 4 HWICs, 2 packet voice DSP modules (PVDMs), 1enhanced network module [ (NME), 2 advanced integration modules (AIMs), IP BASE, 64F/256D	High-Speed WAN Interface Cards	device	pending_plan							move routers	
 CM8-UM08-04-E7G-ULL	Cisco CM8-UM08-04-E7G-ULL	Transceiver Modules	accessory	layered	Cables and accessories	Fiber and M12 cables (CB-)	label Transceiver Modules					
 CM8-UM08-05-E5Q-ULL	Cisco CM8-UM08-05-E5Q-ULL	Transceiver Modules	accessory	layered	Cables and accessories	Fiber and M12 cables (CB-)	label Transceiver Modules					
@@ -425,9 +425,9 @@ ENC-10G-ONT-10	Cisco ENC-10G-ONT-10	Transceiver Modules	device	not_this_category
 ENC-10G-ONT-10=	XGS-PON ONT	Transceiver Modules	device	not_this_category			exclude ^ENC-10G-ONT					switches
 ENC-10G-ONT-14A	Cisco ENC-10G-ONT-14A	Transceiver Modules	device	not_this_category			exclude ^ENC-10G-ONT					switches
 ENC-10G-ONT-14A=	Multiport and ATA XGS-PON ONT	Transceiver Modules	device	not_this_category			exclude ^ENC-10G-ONT					switches
-EPA-10X1GE	Cisco ASR 1000 10x10GE Ethernet Port Adapter	Network Modules	interface	layered	Router Interface Modules	EPA Ethernet Port Adapters	sku ^EPA-					
-EPA-3GE-SX/LH-LC	Cisco 12000 Series 3-Port Gigabit Ethernet Port Adapter	Line cards	interface	layered	Router Interface Modules	EPA Ethernet Port Adapters	sku ^EPA-					
-EPA-GE/FE-BBRD	Cisco 12000 Series Gigabit Ethernet Modular Baseboard	Line cards	interface	layered	Router Interface Modules	EPA Ethernet Port Adapters	sku ^EPA-					
+EPA-10X1GE	Cisco ASR 1000 10x10GE Ethernet Port Adapter	Network Modules	interface	pending_plan							move routers	
+EPA-3GE-SX/LH-LC	Cisco 12000 Series 3-Port Gigabit Ethernet Port Adapter	Line cards	interface	layered	Router and switch line cards (legacy)	Router and switch line cards (legacy) shared parts	label Line cards					
+EPA-GE/FE-BBRD	Cisco 12000 Series Gigabit Ethernet Modular Baseboard	Line cards	interface	layered	Router and switch line cards (legacy)	Router and switch line cards (legacy) shared parts	label Line cards					
 EWDM-OA=	EWDM Optical Amplifier	Transceiver Modules	unknown	pending_plan							move optical-networking	
 EWDM-OADM2=	2-channels EWDM OADM Module	Transceiver Modules	mux	pending_plan							move optical-networking	
 EWDM-OADM4=	4-channels EWDM OADM Module	Transceiver Modules	mux	pending_plan							move optical-networking	
@@ -456,20 +456,20 @@ FZTRR7N7NYNF001	OM4 12 fiber PanMPO Interconnect, Female to Female, Method B, 1f
 G100	Cisco G100	High-Speed WAN Interface Cards	unknown	layered	Router Interface Modules	EHWIC / HWIC / VWIC / WIC	label High-Speed WAN Interface Cards					
 GE-DCARD-ESW	1 GE (1000BaseT) daughtercard for Etherswitch Modules	Network Modules	interface	layered	Router Interface Modules	NM / NME Network Modules	label Network Modules					
 GE-DCARD-ESW=	1 1000BaseT daughtercard for Etherswitch NM	Network Modules	interface	layered	Router Interface Modules	NM / NME Network Modules	label Network Modules					
-GRWIC-2SHDSL	Cisco Connected Grid G.SHDSL GRWIC	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-2SHDSL=	Cisco Connected Grid G.SHDSL GRWIC	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-D-ES-2S-8PC	● 8xFE RJ45 ports (Power over Ethernet [PoE] * support on first 4 ports) ● 1xGE combo port ● 1xGE fiber Small Form-Factor Pluggable (SFP) port	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-D-ES-6S	● 4xFE fiber SFP port ● 1xGE combo port ● 1xGE fiber SFP port	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-ISDN-1B-U	Cisco Connected Grid ISDN BRI U GRWIC	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-ISDN-1B-U=	Cisco Connected Grid ISDN BRI U GRWIC	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-ISDN-B-S/T	Cisco GRWIC-ISDN-B-S/T	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-ISDN-B-S/T=	Cisco GRWIC-ISDN-B-S/T=	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-VA-DSL-A	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex A	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-VA-DSL-A=	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex A	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-VA-DSL-B	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex B	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-VA-DSL-B=	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex B	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-VA-DSL-M	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex M	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
-GRWIC-VA-DSL-M=	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex M	Connected Grid Modules	interface	layered	Router Interface Modules	GRWIC Grid Router Interface Cards	sku ^GRWIC					
+GRWIC-2SHDSL	Cisco Connected Grid G.SHDSL GRWIC	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-2SHDSL=	Cisco Connected Grid G.SHDSL GRWIC	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-D-ES-2S-8PC	● 8xFE RJ45 ports (Power over Ethernet [PoE] * support on first 4 ports) ● 1xGE combo port ● 1xGE fiber Small Form-Factor Pluggable (SFP) port	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-D-ES-6S	● 4xFE fiber SFP port ● 1xGE combo port ● 1xGE fiber SFP port	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-ISDN-1B-U	Cisco Connected Grid ISDN BRI U GRWIC	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-ISDN-1B-U=	Cisco Connected Grid ISDN BRI U GRWIC	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-ISDN-B-S/T	Cisco GRWIC-ISDN-B-S/T	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-ISDN-B-S/T=	Cisco GRWIC-ISDN-B-S/T=	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-VA-DSL-A	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex A	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-VA-DSL-A=	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex A	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-VA-DSL-B	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex B	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-VA-DSL-B=	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex B	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-VA-DSL-M	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex M	Connected Grid Modules	interface	pending_plan							move routers	
+GRWIC-VA-DSL-M=	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex M	Connected Grid Modules	interface	pending_plan							move routers	
 HN4000e	Cisco HN4000e	High-Speed WAN Interface Cards	unknown	layered	Router Interface Modules	EHWIC / HWIC / VWIC / WIC	label High-Speed WAN Interface Cards					
 HWIC-16A	16-Port Async HWIC	High-Speed WAN Interface Cards	interface	layered	Router Interface Modules	EHWIC / HWIC / VWIC / WIC	sku ^E?HWIC					
 HWIC-16A=	16-Port Async HWIC	Network Modules	interface	layered	Router Interface Modules	EHWIC / HWIC / VWIC / WIC	sku ^E?HWIC					
@@ -766,8 +766,8 @@ PWR-2921-51-POE=	Cisco 2921/2951 AC Power Supply with Power Over Ethernet	High-S
 PWR-3825-AC-IP=	Cisco 3825 AC-IP power supply	High-Speed WAN Interface Cards	power	layered	Router Interface Modules	EHWIC / HWIC / VWIC / WIC	label High-Speed WAN Interface Cards					
 PWR-3845-AC-IP=	Cisco 3845 AC-IP power supply	High-Speed WAN Interface Cards	power	layered	Router Interface Modules	EHWIC / HWIC / VWIC / WIC	label High-Speed WAN Interface Cards					
 PWR-3900-POE=	Cisco 3925/3945 AC Power Supply with Power Over Ethernet	High-Speed WAN Interface Cards	power	layered	Router Interface Modules	EHWIC / HWIC / VWIC / WIC	label High-Speed WAN Interface Cards					
-RPS-COVER-2911=	Cover for empty RPS Adapter slot on Cisco 2911 (only as spare)	Network Modules	mechanical	layered	Router Interface Modules	Router Interface Modules shared parts	accessory COVER (label Network Modules)					
-RPS-COVER-2921-51=	Cover for empty RPS Adapter slot on Cisco 2921/2951 (only as spare)	Network Modules	mechanical	layered	Router Interface Modules	Router Interface Modules shared parts	accessory COVER (label Network Modules)					
+RPS-COVER-2911=	Cover for empty RPS Adapter slot on Cisco 2911 (only as spare)	Network Modules	mechanical	pending_plan							move routers	
+RPS-COVER-2921-51=	Cover for empty RPS Adapter slot on Cisco 2921/2951 (only as spare)	Network Modules	mechanical	pending_plan							move routers	
 RPS1000	380W Redundant Power Supply Unit	Small Business Network Accessories	power	layered	Cables and accessories	Cables and accessories shared parts	label Small Business Network Accessories					
 RPS1000-AU	380W Redundant Power Supply Unit	Small Business Network Accessories	power	layered	Cables and accessories	Cables and accessories shared parts	label Small Business Network Accessories					
 RPS1000-EU	380W Redundant Power Supply Unit	Small Business Network Accessories	power	layered	Cables and accessories	Cables and accessories shared parts	label Small Business Network Accessories					

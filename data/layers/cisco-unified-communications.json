@@ -1,13 +1,13 @@
 {
  "vendor": "cisco",
  "category": "unified-communications",
- "built_at": "2026-09-14T14:13:50.230Z",
+ "built_at": "2026-09-14T15:55:04.725Z",
  "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",
  "parts": 490,
  "lines": [
   {
    "line": "Voice Gateways",
-   "parts": 85,
+   "parts": 82,
    "series": [
     {
      "series": "VG200 / VG202 / VG204 / VG224",
@@ -82,24 +82,23 @@
      "series": "Voice Gateways shared parts",
      "role": null,
      "note": null,
-     "parts": 11,
+     "parts": 8,
      "kinds": {
-      "accessory": 2,
-      "gateway": 3,
       "power": 3,
-      "mechanical": 3
+      "mechanical": 3,
+      "gateway": 2
      },
      "roles": {},
      "samples": [
-      "ACS-4460-FANASSY — Cisco ISR 4460 Fan Assembly",
-      "ACS-4460-FANASSY= — Cisco ISR 4460 Fan Assembly",
-      "C3945-112FXS/K9 — High Density Analog Voice Gateway",
       "PWR-30W-AC — Power Supply 30 Watt AC",
       "PWR-30W-AC-BR — Power Supply 30 Watt AC for Brazil",
-      "PWR-30W-AC= — Power Supply 30 Watt AC"
+      "PWR-30W-AC= — Power Supply 30 Watt AC",
+      "PWR-COVER-4430 — Cover for empty 2nd Power Supply slot on Cisco ISR 4430",
+      "SM-DW-BLANK — Double Wide Service Module Blank Cover",
+      "SM-DW-BLANK= — Double Wide Service Module Blank Cover"
      ],
      "rules": {
-      "label": 9,
+      "label": 6,
       "accessory": 2
      }
     }
@@ -475,6 +474,30 @@
   }
  ],
  "pending_plans": [
+  {
+   "sku": "ACS-4460-FANASSY",
+   "name": "Cisco ISR 4460 Fan Assembly",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "routers",
+   "reason": "ISR 4460 fan assembly: bound to ISR 4000 (A.3 rule 1)"
+  },
+  {
+   "sku": "ACS-4460-FANASSY=",
+   "name": "Cisco ISR 4460 Fan Assembly",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "routers",
+   "reason": "ISR 4460 fan assembly: bound to ISR 4000 (A.3 rule 1)"
+  },
+  {
+   "sku": "C3945-112FXS/K9",
+   "name": "High Density Analog Voice Gateway",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "routers",
+   "reason": "a Cisco 3945 ISR chassis configured as an analog voice gateway: a router"
+  },
   {
    "sku": "CP-6821-3PW-NA-MK9",
    "name": "MLB Subscription - 6821",
