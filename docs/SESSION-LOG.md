@@ -4,6 +4,12 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-14 (late evening) - Opus/PARENT. Reviewer acceptance of switches+routers at 2a0068d; residuals, decisions, DB runs, family layer.**
+  - **Runs (operator yes "Yes, both"):** #1064 hygiene-whitespace-duplicates (10 pairs, predicted = actual, 0 twins all vendors) with migrations 0019 / 0020; #1065 recompute switches; #1066 name-language (396 English from twin, 678 flagged de, German kept in name_de) with 0021. Runs since 20b1259 listed: 66 (#998–#1063).
+  - **Standing checks are code:** `src/core/layerChecks.ts`, `tests/layersStanding.test.ts` 139/0, allow-list `data/reference/layers-cross-claims.json` (30 groups).
+  - **Family layer (operator):** layer 3 only where Cisco names a family; `family_layer: "assigned"` on switches and routers; record `docs/decisions/2026-09-14-family-layer.md`. 7 switch series renamed to their platforms so no family restates a series.
+  - **Traps hit:** raw NUL bytes written as key separators (source-scan caught them — use `|`); a family validator would have broken the 15 unassigned mapping files (gated on the file flag); the page sorted "—" above the families because `~` precedes letters in localeCompare.
+  - **Next:** transceiver + interfaces-modules round (layers only), then wireless, then servers + HCI; the 81 "spare"-worded borrowed names and ASR 900 / IE3x00 family questions for the reviewer.
 - **2026-09-14 (evening) - Opus/PARENT. Layers review ROUND 2 (switches + routers) applied: A.1–A.4, A.6, B.1–B.7, C.1–C.8; A.5 dry run only; B.6 German names measured in-session. No database write.**
   - **Record:** `docs/decisions/2026-09-14-layers-review-round2-switches-routers.md` (item by item, counts), `…-bundle-rule-switches-routers.md`, `…-whitespace-twins-plan.md` (awaits the yes), `docs/reports/cisco-switches-german-names-2026-09-14.md` (awaits the operator).
   - **New:** kind `bundle` in switches (183) and widened in routers (+71); kinds memory/flash/drive in switches (98); spare rule `placeWithSpareRule`; `tests/layersStanding.test.ts` (A.1 pairs, A.2 bucket, A.4 on the built rows); `scripts/audit-german-names.mts` (read-only, English controls guard the detector).
