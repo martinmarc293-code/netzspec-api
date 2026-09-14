@@ -1,0 +1,3101 @@
+{
+ "vendor": "cisco",
+ "category": "wireless",
+ "built_at": "2026-09-14T13:48:08.959Z",
+ "mapping_file": "data/reference/product-lines/cisco-wireless.json",
+ "parts": 4010,
+ "lines": [
+  {
+   "line": "Catalyst Wireless Access Points",
+   "parts": 47,
+   "series": [
+    {
+     "series": "Catalyst CW9163E (outdoor, Wi-Fi 6E)",
+     "role": "outdoor",
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "ap": 3
+     },
+     "roles": {
+      "outdoor": 3
+     },
+     "samples": [
+      "CW9163 — Cisco CW9163",
+      "CW9163E-MR — Cisco Catalyst 9163E Outdoor Access Point, N-type antenna co",
+      "CW9163E-x — Cisco Catalyst 9163E Outdoor Access Point, N-type antenna co"
+     ],
+     "rules": {
+      "sku": 3
+     }
+    },
+    {
+     "series": "Catalyst CW9177 (outdoor, Wi-Fi 7)",
+     "role": "outdoor",
+     "note": "no CW9177 row in wireless today: the series carries the outdoor role for the CW9177 rows planned to move here from routers",
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
+    },
+    {
+     "series": "Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)",
+     "role": "indoor",
+     "note": null,
+     "parts": 14,
+     "kinds": {
+      "ap": 14
+     },
+     "roles": {
+      "indoor": 14
+     },
+     "samples": [
+      "CW9162 — Cisco CW9162",
+      "CW9162I — Cisco CW9162I",
+      "CW9162I-MR — Cisco Catalyst 9162I Access Point, Wi-Fi 6E, internal antenn",
+      "CW9162I-x — Cisco Catalyst 9162I Access Point, Wi-Fi 6E, internal antenn",
+      "CW9164 — Cisco CW9164",
+      "CW9164I-MR — Cisco Catalyst 9164I Access Point, Wi-Fi 6E, internal antenn"
+     ],
+     "rules": {
+      "sku": 14
+     }
+    },
+    {
+     "series": "Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)",
+     "role": "indoor",
+     "note": null,
+     "parts": 8,
+     "kinds": {
+      "ap": 8
+     },
+     "roles": {
+      "indoor": 8
+     },
+     "samples": [
+      "CW9171I — Cisco Wireless 9171I Access Point, Wi-Fi 7, internal omni di",
+      "CW9172H — Cisco Wireless 9172H Access Point, Wi-Fi 7, internal omni-di",
+      "CW9172I — Cisco Wireless 9172I Access Point, Wi-Fi 7, internal omni-di",
+      "CW9174E — Cisco Wireless 9174E Access Point, Wi-Fi 7, DART8 antenna co",
+      "CW9174I — Cisco Wireless 9174I Access Point, Wi-Fi 7, internal omni di",
+      "CW9176D1 — Cisco Wireless 9176D1 Access Point, Wi-Fi 7, internal direct"
+     ],
+     "rules": {
+      "sku": 8
+     }
+    },
+    {
+     "series": "Catalyst Wireless Access Points shared parts",
+     "role": null,
+     "note": null,
+     "parts": 22,
+     "kinds": {
+      "mechanical": 14,
+      "accessory": 2,
+      "module": 1,
+      "cable": 1,
+      "antenna": 3,
+      "power-injector": 1
+     },
+     "roles": {},
+     "samples": [
+      "AIR-MNT-ART1= — Articulating mounting bracket for Cisco Catalyst 9124AXD acc",
+      "AIR-MNT-HORZ1= — Horizontal mounting bracket for Cisco Catalyst 9124AXI/AXD a",
+      "AIR-MNT-STRAND1= — Strand mounting bracket for Cisco Catalyst 9124AXI/AXD acces",
+      "AIR-MNT-VERT1 — Vertical mounting bracket for Cisco Catalyst 9124AXD/AXE acc",
+      "AIR-MNT-VERT1= — Vertical mounting bracket for Cisco Catalyst 9124AXD/AXE acc",
+      "AIR-MNT-VERT2= — Vertical mounting bracket for Cisco Catalyst 9124AXD/AXE acc"
+     ],
+     "rules": {
+      "accessory": 6,
+      "sku": 16
+     }
+    }
+   ]
+  },
+  {
+   "line": "Catalyst 9100 Access Points",
+   "parts": 610,
+   "series": [
+    {
+     "series": "Catalyst 9124AX (outdoor)",
+     "role": "outdoor",
+     "note": null,
+     "parts": 44,
+     "kinds": {
+      "mechanical": 1,
+      "ap": 43
+     },
+     "roles": {
+      "outdoor": 43
+     },
+     "samples": [
+      "C9124-CVR1= — Paintable cover for Catalyst 9124AX",
+      "C9124AXD-EWC-A — Wi-Fi 6 Outdoor AP w/EWC,Directional Ant,-A Regulatory Dom",
+      "C9124AXD-EWC-B — Wi-Fi 6 Outdoor AP w/EWC,Directional Ant,-B Regulatory Dom",
+      "C9124AXD-EWC-B-EDU — Cisco Catalyst 9124AX Series - EDU",
+      "C9124AXD-EWC-B1 — Cisco Embedded Wireless Controller on C9124AX Access Point",
+      "C9124AXD-EWC-E — Wi-Fi 6 Outdoor AP w/EWC,Directional Ant,-E Regulatory Dom"
+     ],
+     "rules": {
+      "sku": 44
+     }
+    },
+    {
+     "series": "Catalyst 9105AX",
+     "role": "indoor",
+     "note": null,
+     "parts": 114,
+     "kinds": {
+      "ap": 110,
+      "mechanical": 4
+     },
+     "roles": {
+      "indoor": 110
+     },
+     "samples": [
+      "C9105 — Cisco C9105",
+      "C9105AXI — Cisco C9105AXI",
+      "C9105AXI-A — Cisco Catalyst 9105AX Series",
+      "C9105AXI-B — Cisco Catalyst 9105AX Series",
+      "C9105AXI-B++ — Cisco Catalyst 9105AX Series",
+      "C9105AXI-B-EDU — Cisco Catalyst 9105AX Series - EDU"
+     ],
+     "rules": {
+      "sku": 114
+     }
+    },
+    {
+     "series": "Catalyst 9115AX",
+     "role": "indoor",
+     "note": null,
+     "parts": 114,
+     "kinds": {
+      "ap": 114
+     },
+     "roles": {
+      "indoor": 114
+     },
+     "samples": [
+      "C9115AXE-A — Cisco Catalyst 9115AX Series",
+      "C9115AXE-B — Cisco Catalyst 9115AX Series",
+      "C9115AXE-B++ — Cisco Catalyst 9115AX Series",
+      "C9115AXE-B-EDU — Cisco Catalyst 9115AX Series",
+      "C9115AXE-B1 — Cisco Catalyst 9115AX Series",
+      "C9115AXE-C — Cisco Catalyst 9115AX Series"
+     ],
+     "rules": {
+      "sku": 114
+     }
+    },
+    {
+     "series": "Catalyst 9117AX",
+     "role": "indoor",
+     "note": null,
+     "parts": 42,
+     "kinds": {
+      "ap": 42
+     },
+     "roles": {
+      "indoor": 42
+     },
+     "samples": [
+      "C9117AXI-A — Cisco Catalyst 9117AX Series",
+      "C9117AXI-B — Cisco Catalyst 9117AX Series",
+      "C9117AXI-B++ — Cisco Catalyst 9117AX Series",
+      "C9117AXI-B-EDU — Cisco Catalyst 9117AX Series",
+      "C9117AXI-B1 — Cisco Catalyst 9117AX Series",
+      "C9117AXI-C — Cisco Catalyst 9117AX Series"
+     ],
+     "rules": {
+      "sku": 42
+     }
+    },
+    {
+     "series": "Catalyst 9120AX",
+     "role": "indoor",
+     "note": null,
+     "parts": 175,
+     "kinds": {
+      "ap": 175
+     },
+     "roles": {
+      "indoor": 175
+     },
+     "samples": [
+      "C9120AXE-A — C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig;USB;RHL",
+      "C9120AXE-B — C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig;USB;RHL",
+      "C9120AXE-B++ — Cisco Catalyst 9120AX Series",
+      "C9120AXE-B-EDU — Cisco Catalyst 9120AX Series for EDU",
+      "C9120AXE-B1 — Cisco Catalyst 9120AX Series",
+      "C9120AXE-C — C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig;USB;RHL"
+     ],
+     "rules": {
+      "sku": 175
+     }
+    },
+    {
+     "series": "Catalyst 9130AX",
+     "role": "indoor",
+     "note": null,
+     "parts": 120,
+     "kinds": {
+      "ap": 120
+     },
+     "roles": {
+      "indoor": 120
+     },
+     "samples": [
+      "C9130AXE — Cisco C9130AXE",
+      "C9130AXE-A — Cisco Catalyst 9130AX Series",
+      "C9130AXE-B — Cisco Catalyst 9130AX Series",
+      "C9130AXE-B++ — Cisco Catalyst 9130AX Series",
+      "C9130AXE-B-EDU — Cisco Catalyst 9130AX Series - EDU",
+      "C9130AXE-B1 — Cisco Catalyst 9130AX Series"
+     ],
+     "rules": {
+      "sku": 120
+     }
+    },
+    {
+     "series": "Catalyst 9136",
+     "role": "indoor",
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "ap": 1
+     },
+     "roles": {
+      "indoor": 1
+     },
+     "samples": [
+      "C9136I-x — Cisco Catalyst 9136I Access Point, Wi-Fi 6E, internal antenn"
+     ],
+     "rules": {
+      "sku": 1
+     }
+    },
+    {
+     "series": "Catalyst 9100 Access Points shared parts",
+     "role": null,
+     "note": null,
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {}
+    }
+   ]
+  },
+  {
+   "line": "Aironet Access Points",
+   "parts": 1798,
+   "series": [
+    {
+     "series": "Aironet 1800s Active Sensor",
+     "role": null,
+     "note": null,
+     "parts": 15,
+     "kinds": {
+      "sensor": 15
+     },
+     "roles": {},
+     "samples": [
+      "AIR-AP1800S-A-K9 — Cisco Aironet 1800S Series Network Sensor",
+      "AIR-AP1800S-B-K9 — Cisco Aironet 1800S Series Network Sensor (USA Only)",
+      "AIR-AP1800S-D-K9 — Cisco Aironet 1800S Series Network Sensor",
+      "AIR-AP1800S-E-K9 — Cisco Aironet 1800S Series Network Sensor",
+      "AIR-AP1800S-F-K9 — Cisco Aironet 1800S Series Network Sensor",
+      "AIR-AP1800S-G-K9 — Cisco Aironet 1800S Series Network Sensor"
+     ],
+     "rules": {
+      "sku": 15
+     }
+    },
+    {
+     "series": "Aironet 1800",
+     "role": "indoor",
+     "note": null,
+     "parts": 32,
+     "kinds": {
+      "ap": 32
+     },
+     "roles": {
+      "indoor": 32
+     },
+     "samples": [
+      "AIR-AP1800I-A-K9 — Cisco Aironet 1800i Series (not for US)",
+      "AIR-AP1800I-A-K9C — Cisco Aironet Mobility Express 1800i Series",
+      "AIR-AP1800I-B-K9 — Cisco Aironet 1800i Series (USA Only)",
+      "AIR-AP1800I-B-K9C — Cisco Aironet Mobility Express 1800i Series",
+      "AIR-AP1800I-D-K9 — Cisco Aironet 1800i Series",
+      "AIR-AP1800I-D-K9C — Cisco Aironet Mobility Express 1800i Series"
+     ],
+     "rules": {
+      "sku": 32
+     }
+    },
+    {
+     "series": "Aironet 1810 / 1810W",
+     "role": "indoor",
+     "note": null,
+     "parts": 32,
+     "kinds": {
+      "ap": 32
+     },
+     "roles": {
+      "indoor": 32
+     },
+     "samples": [
+      "AIR-AP1810W-A-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; A Domain (not for US)",
+      "AIR-AP1810W-B-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; B Domain (for US)",
+      "AIR-AP1810W-C-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; C Domain",
+      "AIR-AP1810W-D-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; D Domain",
+      "AIR-AP1810W-E-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; E Domain",
+      "AIR-AP1810W-F-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; F Domain"
+     ],
+     "rules": {
+      "sku": 32
+     }
+    },
+    {
+     "series": "Aironet 1815",
+     "role": "indoor",
+     "note": null,
+     "parts": 130,
+     "kinds": {
+      "ap": 129,
+      "mechanical": 1
+     },
+     "roles": {
+      "indoor": 129
+     },
+     "samples": [
+      "AIR-AP1815I-A-K9 — Cisco Aironet 1815i Series (not for US)",
+      "AIR-AP1815I-A-K9C — Cisco Aironet Mobility Express 1815i Series",
+      "AIR-AP1815I-B-K9 — Cisco Aironet 1815i Series (for US)",
+      "AIR-AP1815I-B-K9C — Cisco Aironet Mobility Express 1815i Series",
+      "AIR-AP1815I-C-K9 — Cisco Aironet 1815i Series",
+      "AIR-AP1815I-C-K9C — Cisco Aironet Mobility Express 1815i Series"
+     ],
+     "rules": {
+      "sku": 130
+     }
+    },
+    {
+     "series": "Aironet 1830",
+     "role": "indoor",
+     "note": null,
+     "parts": 78,
+     "kinds": {
+      "bundle": 1,
+      "ap": 77
+     },
+     "roles": {
+      "indoor": 77
+     },
+     "samples": [
+      "AIR-AP1830I-E-WLC — Mobility Express Bundle AP1832i-E with Mobility Express",
+      "AIR-AP1830I-EZBLK — BOM Level AP1830i Bulk PID for E reg domain",
+      "AIR-AP1832I-A-K9 — 802.11ac Wave 2; 3x3:2SS; Int Ant; A Reg Domain",
+      "AIR-AP1832I-A-K9C — Cisco Aironet Mobility Express 1830 Series",
+      "AIR-AP1832I-B-K9 — 802.11ac Wave 2; 3x3:2SS; Int Ant; B Reg Domain (for US)",
+      "AIR-AP1832I-B-K9++ — 802.11ac Wave 2; 3x3:2SS; Int Ant; B Reg Domain (TAA)"
+     ],
+     "rules": {
+      "sku": 78
+     }
+    },
+    {
+     "series": "Aironet 1840",
+     "role": "indoor",
+     "note": null,
+     "parts": 33,
+     "kinds": {
+      "ap": 33
+     },
+     "roles": {
+      "indoor": 33
+     },
+     "samples": [
+      "AIR-AP1840I-A-K9 — Cisco Aironet AP1840I Series access point - A domain",
+      "AIR-AP1840I-A-K9C — Cisco Aironet ME AP1840I Series access point - A domain",
+      "AIR-AP1840I-B-K9 — Cisco Aironet AP1840I Series access point - B domain",
+      "AIR-AP1840I-B-K9C — Cisco Aironet ME AP1840I Series access point - B domain",
+      "AIR-AP1840I-C-K9 — Cisco Aironet AP1840I Series access point - C domain",
+      "AIR-AP1840I-C-K9C — Cisco Aironet ME AP1840I Series access point - C domain"
+     ],
+     "rules": {
+      "sku": 33
+     }
+    },
+    {
+     "series": "Aironet 1850",
+     "role": "indoor",
+     "note": null,
+     "parts": 124,
+     "kinds": {
+      "ap": 124
+     },
+     "roles": {
+      "indoor": 124
+     },
+     "samples": [
+      "AIR-AP1852E-A-K9 — 802.11ac Wave 2; 4x4:4SS; Ext Ant; A Reg Dom",
+      "AIR-AP1852E-A-K9C — Cisco Aironet Mobility Express 1850 Series",
+      "AIR-AP1852E-B-K9 — 802.11ac Wave 2; 4x4:4SS; Ext Ant; B Reg Dom",
+      "AIR-AP1852E-B-K9++ — 802.11ac Wave 2; 4x4:4SS; Ext Ant; B Reg Dom (TAA)",
+      "AIR-AP1852E-B-K9C — Cisco Aironet Mobility Express 1850 Series",
+      "AIR-AP1852E-BBULK — BOM Level AP1852e Bulk PID for B Domain (for United States)"
+     ],
+     "rules": {
+      "sku": 124
+     }
+    },
+    {
+     "series": "Aironet 2800",
+     "role": "indoor",
+     "note": null,
+     "parts": 363,
+     "kinds": {
+      "unknown": 1,
+      "mechanical": 1,
+      "ap": 361
+     },
+     "roles": {
+      "indoor": 361
+     },
+     "samples": [
+      "2KI-FINAL-PKG-RU — Contains packing Kit For 2KI",
+      "ACCESSORY-KIT-RU — Contains Compliance and Auto test Blank Labels",
+      "AIR-AP2802E-A-K9 — 802.11ac W2 AP w/CA; 4x4:3; Ext Ant; 2xGbE, A Domain",
+      "AIR-AP2802E-A-K9C — Cisco Aironet Mobility Express 2800 Series",
+      "AIR-AP2802E-ABULK — BOM Level AP2800e Bulk PID for A Domain",
+      "AIR-AP2802E-ABULKC — BOM Level AP2800E Bulk PID for A Domain (CFG)"
+     ],
+     "rules": {
+      "label": 2,
+      "sku": 361
+     }
+    },
+    {
+     "series": "Aironet 3800",
+     "role": "indoor",
+     "note": null,
+     "parts": 474,
+     "kinds": {
+      "ap": 473,
+      "unknown": 1
+     },
+     "roles": {
+      "indoor": 473
+     },
+     "samples": [
+      "AIR-3802I-G-K9C — Cisco Aironet Mobility Express 3800 Series",
+      "AIR-AP3802E-A-K9 — 802.11ac W2 AP w/CA; 4x4:3; Mod; Ext Ant; mGig A Domain",
+      "AIR-AP3802E-A-K9C — Cisco Aironet Mobility Express 3800 Series",
+      "AIR-AP3802E-ABULK — BOM Level AP3800e Bulk PID for A Domain",
+      "AIR-AP3802E-ABULKC — BOM Level AP3800e Bulk PID for A Domain (CFG)",
+      "AIR-AP3802E-AK910 — 802.11ac W2 10 AP w/CleanAir; 4x4:3; Mod; Ext Ant; -A Domain"
+     ],
+     "rules": {
+      "sku": 473,
+      "label": 1
+     }
+    },
+    {
+     "series": "Aironet 4800",
+     "role": "indoor",
+     "note": null,
+     "parts": 72,
+     "kinds": {
+      "ap": 72
+     },
+     "roles": {
+      "indoor": 72
+     },
+     "samples": [
+      "AIR-AP4800-A-K9 — .11ac W2 Analytics AP w/CA; 4x4:3; Location; mGig -A Domain",
+      "AIR-AP4800-A-K9C — Cisco Aironet Mobility Express 4800 Series",
+      "AIR-AP4800-B-K9 — .11ac W2 Analytics AP w/CA; 4x4:3; Location; mGig -B Domain",
+      "AIR-AP4800-B-K9++ — .11ac W2 Analytics AP w/CA; 4x4:3; Location; mGig -B Domain",
+      "AIR-AP4800-B-K9C — Cisco Aironet Mobility Express 4800 Series",
+      "AIR-AP4800-B-K9C++ — Cisco Aironet Mobility Express 4800 Series"
+     ],
+     "rules": {
+      "sku": 72
+     }
+    },
+    {
+     "series": "Aironet 700 / 802 / 852 / 2700 / 3700 (legacy indoor)",
+     "role": "indoor",
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "ap": 3
+     },
+     "roles": {
+      "indoor": 3
+     },
+     "samples": [
+      "AIR-AP852I-BULK — BOM Level AP852i Bulk PID for Universal Domain",
+      "AIR-CAP27IBO-BBULK — BOM Level AP2700i Bulk PID for B reg domain",
+      "AIR-CAP37IBO-EBULK — BOM Level AP3700i Bulk PID for E reg domain"
+     ],
+     "rules": {
+      "sku": 3
+     }
+    },
+    {
+     "series": "Aironet 1540",
+     "role": "outdoor",
+     "note": null,
+     "parts": 40,
+     "kinds": {
+      "ap": 40
+     },
+     "roles": {
+      "outdoor": 40
+     },
+     "samples": [
+      "AIR-AP1542D-A-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, A Reg Dom.",
+      "AIR-AP1542D-B-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, B Reg Dom.",
+      "AIR-AP1542D-C-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, C Reg Dom.",
+      "AIR-AP1542D-D-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, D Reg Dom.",
+      "AIR-AP1542D-E-K9 — 802.11ac W2 low-profile outdoor AP, directional ant, E reg d",
+      "AIR-AP1542D-F-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, F Reg Dom."
+     ],
+     "rules": {
+      "sku": 40
+     }
+    },
+    {
+     "series": "Aironet 1560",
+     "role": "outdoor",
+     "note": null,
+     "parts": 69,
+     "kinds": {
+      "ap": 69
+     },
+     "roles": {
+      "outdoor": 69
+     },
+     "samples": [
+      "AIR-AP1562D-A-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, A Reg Dom.",
+      "AIR-AP1562D-B-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, B Reg Dom.",
+      "AIR-AP1562D-B-K9++ — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, (B - TAA)",
+      "AIR-AP1562D-C-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, C Reg Dom.",
+      "AIR-AP1562D-D-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, D Reg Dom.",
+      "AIR-AP1562D-E-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, E Reg Dom."
+     ],
+     "rules": {
+      "sku": 69
+     }
+    },
+    {
+     "series": "Aironet 1570",
+     "role": "outdoor",
+     "note": null,
+     "parts": 101,
+     "kinds": {
+      "mechanical": 11,
+      "ap": 90
+     },
+     "roles": {
+      "outdoor": 90
+     },
+     "samples": [
+      "AIR-ACCPMK1570-1 — Vertical pole only (2 to 6 inches in diameter). Does not req",
+      "AIR-ACCPMK1570-1= — 1570 Series Pole-Mount Kit (Type-1)",
+      "AIR-ACCPMK1570-2= — Wall or pole (2 to 16 inches in diameter) with tilt adjustme",
+      "AIR-ACCPMK1570-3 — 1570 Series Pole-Mount Kit (Type-3)",
+      "AIR-ACCPMK1570-3= — Wall or pole (2 to16 inches in diameter) with tilt adjustmen",
+      "AIR-ACCSMK1570-1 — Default SMK. Does not offer any allowance for data cable und"
+     ],
+     "rules": {
+      "sku": 101
+     }
+    },
+    {
+     "series": "Aironet 1550 hazardous-location (H / SA / SD / WU)",
+     "role": "industrial",
+     "note": null,
+     "parts": 46,
+     "kinds": {
+      "ap": 46
+     },
+     "roles": {
+      "industrial": 46
+     },
+     "samples": [
+      "AIR-CAP1552H-A-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., A Reg. Domain",
+      "AIR-CAP1552H-B-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., B Reg. Domain",
+      "AIR-CAP1552H-C-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., C Reg. Domain",
+      "AIR-CAP1552H-E-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., E Reg. Domain",
+      "AIR-CAP1552H-M-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., M Reg. Domain",
+      "AIR-CAP1552H-N-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., N Reg. Domain"
+     ],
+     "rules": {
+      "sku": 46
+     }
+    },
+    {
+     "series": "Aironet 1550",
+     "role": "outdoor",
+     "note": null,
+     "parts": 72,
+     "kinds": {
+      "power": 3,
+      "mechanical": 6,
+      "module": 2,
+      "ap": 56,
+      "accessory": 2,
+      "bundle": 1,
+      "unknown": 2
+     },
+     "roles": {
+      "outdoor": 56
+     },
+     "samples": [
+      "AIR-1550-HAZBBU — 1550 Series Hazardous Location Battery Backup Unit",
+      "AIR-1550S-FIB-KIT= — 1550S Fiber Cable Take-up Reel Kit",
+      "AIR-A03-D500GC3 — 500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted",
+      "AIR-AC-750W-R — Cisco 9540 750W AC Power Supply, Reverse Air",
+      "AIR-AC-750W-R-BLK — Power Supply Blanking Panel for 9540 Controller",
+      "AIR-ACCPMK1550= — Cisco AIR-ACCPMK1550="
+     ],
+     "rules": {
+      "sku": 62,
+      "label": 10
+     }
+    },
+    {
+     "series": "Aironet 1520 / 1530",
+     "role": null,
+     "note": null,
+     "parts": 14,
+     "kinds": {
+      "power": 3,
+      "accessory": 1,
+      "mechanical": 10
+     },
+     "roles": {},
+     "samples": [
+      "AIR-1520-BATT12AH — 1520 Series Battery, 12 Amp Hour",
+      "AIR-1520-FIB-REEL — 1520 Series Take-up Reel for Fiber Cable",
+      "AIR-1520-FIB-REEL= — 1520/1550 Series Fiber-Cable Take-up Reel KIT",
+      "AIR-ACC1530-CVR= — Cover and Solar Shield for AP1530 Series",
+      "AIR-ACC1530-KIT1= — Spare accessory kit for AP1530/1560 Series",
+      "AIR-ACC1530-PMK1= — Standard Pole/Wall Mount Kit for AP1530/1560 Series"
+     ],
+     "rules": {
+      "sku": 14
+     }
+    },
+    {
+     "series": "Aironet Access Points shared parts",
+     "role": null,
+     "note": null,
+     "parts": 100,
+     "kinds": {
+      "mechanical": 57,
+      "accessory": 7,
+      "cable": 1,
+      "bundle": 3,
+      "unknown": 4,
+      "module": 8,
+      "power": 20
+     },
+     "roles": {},
+     "samples": [
+      "AIR-ACC-CAT6= — CAT 6/6A Ethernet Cable Gland Assembly kit*",
+      "AIR-ACC-CLIP-20= — Converter Clips:Small grid ceilings. For 10 APs or Antennas",
+      "AIR-ACC-KIT1= — Accessory kit for Catalyst 9124AX (5x ethernet, 2 dust cap, ",
+      "AIR-ACC-PS-MNT1= — AC/DC adapter mount bracket for AIR-MNT-HORZ1=",
+      "AIR-ACC-WCM1000 — 1000 Series Wall/Ceiling Mount Kit",
+      "AIR-ACC15-AC-CAP= — Accessory, Cover-cap for AC-Power connector, bag of 10 units"
+     ],
+     "rules": {
+      "sku": 100
+     }
+    }
+   ]
+  },
+  {
+   "line": "Industrial Wireless",
+   "parts": 300,
+   "series": [
+    {
+     "series": "IW3700 (IW3702)",
+     "role": "industrial",
+     "note": null,
+     "parts": 32,
+     "kinds": {
+      "ap": 32
+     },
+     "roles": {
+      "industrial": 32
+     },
+     "samples": [
+      "IW3702-2E-A-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, A dom.",
+      "IW3702-2E-B-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, B dom.",
+      "IW3702-2E-C-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, R dom.",
+      "IW3702-2E-E-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, E dom.",
+      "IW3702-2E-F-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, F dom.",
+      "IW3702-2E-H-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, H dom."
+     ],
+     "rules": {
+      "sku": 32
+     }
+    },
+    {
+     "series": "IW6300 / ESW6300",
+     "role": "industrial",
+     "note": null,
+     "parts": 73,
+     "kinds": {
+      "ap": 67,
+      "mechanical": 6
+     },
+     "roles": {
+      "industrial": 67
+     },
+     "samples": [
+      "ESW-6300-CON-A-K9 — Embedded Wireless AP 6300, DC input, A Domain",
+      "ESW-6300-CON-B-K9 — Embedded Wireless AP 6300, DC input, B Domain",
+      "ESW-6300-CON-C-K9 — Embedded Wireless AP 6300, DC input, A Domain",
+      "ESW-6300-CON-D-K9 — Embedded Wireless AP 6300, DC input, D Domain",
+      "ESW-6300-CON-E-K9 — Embedded Wireless AP 6300, DC input, E Domain",
+      "ESW-6300-CON-F-K9 — Embedded Wireless AP 6300, DC input, A Domain"
+     ],
+     "rules": {
+      "sku": 67,
+      "label": 6
+     }
+    },
+    {
+     "series": "Catalyst IW9165 / IW9167",
+     "role": "industrial",
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "ap": 3
+     },
+     "roles": {
+      "industrial": 3
+     },
+     "samples": [
+      "IW9165D — Cisco IW9165D",
+      "IW9165E — Cisco IW9165E",
+      "IW9167E — Cisco IW9167E"
+     ],
+     "rules": {
+      "sku": 3
+     }
+    },
+    {
+     "series": "Ultra-Reliable Wireless Backhaul (Fluidmesh)",
+     "role": null,
+     "note": null,
+     "parts": 184,
+     "kinds": {
+      "appliance": 6,
+      "backhaul": 41,
+      "unknown": 45,
+      "antenna": 42,
+      "mechanical": 8,
+      "power": 2,
+      "accessory": 5,
+      "cable": 32,
+      "power-injector": 3
+     },
+     "roles": {},
+     "samples": [
+      "FLMESH-HW-1000-1 — Cisco FLMESH-HW-1000-1",
+      "FLMESH-HW-10000-1 — Cisco FLMESH-HW-10000-1",
+      "FLMESH-HW-3200-1 — Cisco FLMESH-HW-3200-1",
+      "FLMESH-HW-3200-1NA — FM3200B-HW, NAM/LAM Version",
+      "FLMESH-HW-3200-1UK — FM3200B-HW, UK Version",
+      "FLMESH-HW-3200-3 — Cisco FLMESH-HW-3200-3"
+     ],
+     "rules": {
+      "sku": 184
+     }
+    },
+    {
+     "series": "IEC6400 edge compute (URWB)",
+     "role": null,
+     "note": null,
+     "parts": 8,
+     "kinds": {
+      "module": 7,
+      "power": 1
+     },
+     "roles": {},
+     "samples": [
+      "IWA-CPU-I4310 — Intel 4310 2.1GHz/120W 12C/18MB DDR4 2667MHz",
+      "IWA-MR-X16G1RW — 16GB RDIMM SRx4 3200 (8Gb)",
+      "IWA-PCIE-C25Q-04 — Cisco UCS VIC 1455 Quad Port 10/25G SFP28 CNA PCIE (optional",
+      "IWA-PCIE-C25Q-04= — ^IEC6400 VIC 1455 Quad Port 10/25G SFP28 CNA PCIE",
+      "IWA-PSU1-1050W — Cisco UCS 1050W AC Power Supply for Rack Server",
+      "IWA-SATAIN-220M6 — C220M6 SATA Interposer board (1U)"
+     ],
+     "rules": {
+      "sku": 8
+     }
+    }
+   ]
+  },
+  {
+   "line": "Cisco Business Wireless",
+   "parts": 295,
+   "series": [
+    {
+     "series": "Cisco Business 141 / 142 / 143 mesh extenders",
+     "role": "mesh-extender",
+     "note": null,
+     "parts": 121,
+     "kinds": {
+      "ap": 121
+     },
+     "roles": {
+      "mesh-extender": 121
+     },
+     "samples": [
+      "3-CBW141ACM-A-AR — ^Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
+      "3-CBW141ACM-A-NA — ^Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
+      "3-CBW141ACM-B-NA — Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
+      "3-CBW141ACM-E-EU — Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
+      "3-CBW141ACM-E-IN — Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
+      "3-CBW141ACM-E-UK — Cisco Business 141AC Wireless Extender-Desktop-3 Packs"
+     ],
+     "rules": {
+      "sku": 121
+     }
+    },
+    {
+     "series": "Cisco Business 140AC / 145AC / 150AX",
+     "role": "smb",
+     "note": null,
+     "parts": 91,
+     "kinds": {
+      "ap": 91
+     },
+     "roles": {
+      "smb": 91
+     },
+     "samples": [
+      "3-CBW140AC-A — Cisco Business 140AC Access Point, 802.11ac Wave-3 Packs",
+      "3-CBW140AC-A-CA — CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P",
+      "3-CBW140AC-B — CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P",
+      "3-CBW140AC-D — CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P",
+      "3-CBW140AC-E — CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P",
+      "3-CBW140AC-F — Cisco Business 140AC Access Point, 802.11ac Wave 2"
+     ],
+     "rules": {
+      "sku": 91
+     }
+    },
+    {
+     "series": "Cisco Business 240AC",
+     "role": "smb",
+     "note": null,
+     "parts": 59,
+     "kinds": {
+      "ap": 59
+     },
+     "roles": {
+      "smb": 59
+     },
+     "samples": [
+      "3-CBW240AC-A — Cisco Business 240AC Access Point, 802.11ac Wave 2-3 Packs",
+      "3-CBW240AC-A-CA — CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 3P",
+      "3-CBW240AC-B — CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 3P",
+      "3-CBW240AC-D — CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 3P",
+      "3-CBW240AC-E — CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 3P",
+      "3-CBW240AC-F — Cisco Business 240AC Access Point, 802.11ac Wave 2"
+     ],
+     "rules": {
+      "sku": 59
+     }
+    },
+    {
+     "series": "Cisco Business Mesh starter kits",
+     "role": null,
+     "note": null,
+     "parts": 14,
+     "kinds": {
+      "bundle": 14
+     },
+     "roles": {},
+     "samples": [
+      "CBW140MXS-A-CA — CBW140 Cisco Business Mesh Starter Kit",
+      "CBW140MXS-A-NA — CBW140 Cisco Business Mesh Starter Kit",
+      "CBW140MXS-B-NA — CBW140 Cisco Business Mesh Starter Kit",
+      "CBW140MXS-D-IN — CBW140 Cisco Business Mesh Starter Kit",
+      "CBW140MXS-E-EU — CBW140 Cisco Business Mesh Starter Kit",
+      "CBW140MXS-E-UK — CBW140 Cisco Business Mesh Starter Kit"
+     ],
+     "rules": {
+      "sku": 14
+     }
+    },
+    {
+     "series": "Cisco Business Wireless shared parts",
+     "role": null,
+     "note": null,
+     "parts": 10,
+     "kinds": {
+      "power-injector": 10
+     },
+     "roles": {},
+     "samples": [
+      "CB-PWRINJ-AR — Cisco Business Power Over Ethernet Injector",
+      "CB-PWRINJ-AU — Cisco Business Power Over Ethernet Injector",
+      "CB-PWRINJ-BR — Cisco Business Power Over Ethernet Injector",
+      "CB-PWRINJ-CN — Cisco Business Power Over Ethernet Injector",
+      "CB-PWRINJ-EU — Cisco Business Power Over Ethernet Injector",
+      "CB-PWRINJ-IN — Cisco Business Power Over Ethernet Injector"
+     ],
+     "rules": {
+      "sku": 10
+     }
+    }
+   ]
+  },
+  {
+   "line": "Small Business Wireless (WAP)",
+   "parts": 73,
+   "series": [
+    {
+     "series": "WAP571E (outdoor)",
+     "role": "outdoor",
+     "note": null,
+     "parts": 8,
+     "kinds": {
+      "ap": 8
+     },
+     "roles": {
+      "outdoor": 8
+     },
+     "samples": [
+      "WAP571E-A-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
+      "WAP571E-B-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
+      "WAP571E-C-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
+      "WAP571E-E-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
+      "WAP571E-H-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
+      "WAP571E-K-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi"
+     ],
+     "rules": {
+      "sku": 8
+     }
+    },
+    {
+     "series": "WAP100 series (WAP121 / WAP125 / WAP150)",
+     "role": "smb",
+     "note": null,
+     "parts": 33,
+     "kinds": {
+      "ap": 33
+     },
+     "roles": {
+      "smb": 33
+     },
+     "samples": [
+      "WAP121-A-K9-AR — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
+      "WAP121-A-K9-AU — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
+      "WAP121-A-K9-CA — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
+      "WAP121-A-K9-NA — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
+      "WAP121-E-K9-CN — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
+      "WAP121-E-K9-G5 — Cisco WAP121 Wireless-N Access Point with Single Point Setup"
+     ],
+     "rules": {
+      "sku": 33
+     }
+    },
+    {
+     "series": "WAP300 series (WAP361 / WAP371)",
+     "role": "smb",
+     "note": null,
+     "parts": 11,
+     "kinds": {
+      "ap": 11
+     },
+     "roles": {
+      "smb": 11
+     },
+     "samples": [
+      "WAP361 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
+      "WAP361-A-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
+      "WAP361-C-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
+      "WAP361-E-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
+      "WAP361-J-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
+      "WAP361-K-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with"
+     ],
+     "rules": {
+      "sku": 11
+     }
+    },
+    {
+     "series": "WAP500 series (WAP571 / WAP581)",
+     "role": "smb",
+     "note": null,
+     "parts": 17,
+     "kinds": {
+      "ap": 17
+     },
+     "roles": {
+      "smb": 17
+     },
+     "samples": [
+      "WAP571-A-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (Unite",
+      "WAP571-B-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (Canad",
+      "WAP571-C-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (China",
+      "WAP571-E-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (Europ",
+      "WAP571-I-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (India",
+      "WAP571-J-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (Japan"
+     ],
+     "rules": {
+      "sku": 17
+     }
+    },
+    {
+     "series": "Small Business Wireless (WAP) shared parts",
+     "role": null,
+     "note": null,
+     "parts": 4,
+     "kinds": {
+      "power": 2,
+      "power-injector": 2
+     },
+     "roles": {},
+     "samples": [
+      "SB-PWR-48V — Cisco Small Business 48V Power Adapter",
+      "SB-PWR-48V-xx — 48-Volt Power Adapter",
+      "SB-PWR-INJ1-xx — Cisco Small Business Gigabit Power over Ethernet Injector",
+      "SB-PWR-INJ2-xx — Gigabit Power over Ethernet Injector - 30 Watts"
+     ],
+     "rules": {
+      "sku": 4
+     }
+    }
+   ]
+  },
+  {
+   "line": "Meraki MR Access Points",
+   "parts": 45,
+   "series": [
+    {
+     "series": "Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)",
+     "role": "outdoor",
+     "note": "MR58/66/70/72/74/84 extend the III.0 rule (MR76/78/86) to the older outdoor models held as bare family rows in meraki (14 Sep 2026)",
+     "parts": 3,
+     "kinds": {
+      "ap": 3
+     },
+     "roles": {
+      "outdoor": 3
+     },
+     "samples": [
+      "MR76 — Cisco MR76",
+      "MR78 — Cisco MR78",
+      "MR86 — Cisco MR86"
+     ],
+     "rules": {
+      "sku": 3
+     }
+    },
+    {
+     "series": "Meraki MR indoor",
+     "role": "indoor",
+     "note": "MR11-MR62 older indoor models extend the III.0 rule (MR36/44/46/56/57) (14 Sep 2026)",
+     "parts": 12,
+     "kinds": {
+      "ap": 12
+     },
+     "roles": {
+      "indoor": 12
+     },
+     "samples": [
+      "MR36 — Cisco MR36",
+      "MR36-HW — Meraki MR36 Wi-Fi 6 Indoor AP",
+      "MR36H — Cisco MR36H",
+      "MR36H-HW — Meraki MR36H Wi-Fi 6 Cloud Managed AP",
+      "MR44 — Cisco MR44",
+      "MR44-HW — Meraki MR44 WiFi 6 Indoor AP"
+     ],
+     "rules": {
+      "sku": 12
+     }
+    },
+    {
+     "series": "Meraki MR Access Points shared parts",
+     "role": null,
+     "note": null,
+     "parts": 30,
+     "kinds": {
+      "antenna": 14,
+      "mechanical": 14,
+      "power": 2
+     },
+     "roles": {},
+     "samples": [
+      "MA-ANT-3-A1 — Meraki Indoor Dual-band Dipole Antenna",
+      "MA-ANT-3-A5 — Meraki Indoor Dual-band Dipole Antennas, 5-pack for MR42E",
+      "MA-ANT-3-A6 — Meraki Indoor Dual-band Dipole Ant, 6-pack for MR46E/MR53E",
+      "MA-ANT-3-B1 — Meraki Indoor Bendable Dual-band Dipole Antenna",
+      "MA-ANT-3-B5 — Meraki Indoor Bendable Dual-band Dipole Ant 5pk for MR42E",
+      "MA-ANT-3-B6 — Meraki Indoor Bendable Dual-band Dipole Ant 6pk MR46E/MR53E"
+     ],
+     "rules": {
+      "sku": 30
+     }
+    }
+   ]
+  },
+  {
+   "line": "Catalyst 9800 Wireless Controllers",
+   "parts": 55,
+   "series": [
+    {
+     "series": "Catalyst 9800-80",
+     "role": null,
+     "note": null,
+     "parts": 7,
+     "kinds": {
+      "wlc": 7
+     },
+     "roles": {},
+     "samples": [
+      "C9800-80-CA-K9 — Cisco Catalyst 9800-80 Wireless Controller (Service only)",
+      "C9800-80-CAP-K9 — Cisco Catalyst 9800-80 Wireless Controller -5YR-SNTC-8X5XNBD",
+      "C9800-80-K9 — Cisco Catalyst 9800-80 Wireless Controller",
+      "C9800-80-SLR-K9 — Cisco Catalyst 9800-80 Modular SLR Wireless Controller",
+      "C9800-80-SLRCA-K9 — Cisco Catalyst 9800-80 Modular SLR CA Wireless Controller",
+      "EDU-C9800-80-K9 — EDU SKU-Cisco Catalyst 9800-80 Wireless Controller"
+     ],
+     "rules": {
+      "sku": 7
+     }
+    },
+    {
+     "series": "Catalyst 9800-40",
+     "role": null,
+     "note": null,
+     "parts": 6,
+     "kinds": {
+      "wlc": 6
+     },
+     "roles": {},
+     "samples": [
+      "C9800-40-2K-SLR-K9 — Cisco Catalyst 9800-40 SLR Wireless Controller",
+      "C9800-40-CA-K9 — Cisco Catalyst 9800-40 Wireless Controller (Service Only)",
+      "C9800-40-K9 — Cisco Catalyst 9800-40 Wireless Controller",
+      "C9800-40-SLR-K9 — Cisco Catalyst 9800-40 SLR Wireless Controller",
+      "C9800-40-SLRCA-K9 — Cisco Catalyst 9800-40 SLR Controller (Service Only)",
+      "EDU-C9800-40-K9 — EDU SKU - Cisco Catalyst 9800-40 Wireless Controller"
+     ],
+     "rules": {
+      "sku": 6
+     }
+    },
+    {
+     "series": "Catalyst 9800-L",
+     "role": null,
+     "note": null,
+     "parts": 12,
+     "kinds": {
+      "wlc": 8,
+      "accessory": 1,
+      "mechanical": 2,
+      "power": 1
+     },
+     "roles": {},
+     "samples": [
+      "9800-L — Cisco 9800-L",
+      "C9800-L — Cisco C9800-L",
+      "C9800-L-C-CA-K9 — Cisco 9800-L Wireless Controller copper service",
+      "C9800-L-C-K9 — Cisco Catalyst 9800-L-C Wireless Controller Copper Uplink (s",
+      "C9800-L-F-CA-K9 — Cisco 9800-L Wireless Controller fiber service",
+      "C9800-L-F-K9 — Cisco Catalyst 9800-L-F Wireless Controller_Fiber Uplink (sh"
+     ],
+     "rules": {
+      "sku": 12
+     }
+    },
+    {
+     "series": "Catalyst CW9800M",
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "wlc": 2
+     },
+     "roles": {},
+     "samples": [
+      "CW9800M — Cisco Catalyst CW9800M Wireless Controller (ships with one A",
+      "EDU-CW9800M — Cisco EDU-CW9800M"
+     ],
+     "rules": {
+      "sku": 2
+     }
+    },
+    {
+     "series": "Catalyst CW9800H1 / CW9800H2",
+     "role": null,
+     "note": null,
+     "parts": 5,
+     "kinds": {
+      "wlc": 5
+     },
+     "roles": {},
+     "samples": [
+      "CW9800H1 — Cisco Catalyst CW9800H1 Wireless Controller",
+      "CW9800H1-MCG — Campus Gateway",
+      "CW9800H2 — Cisco Catalyst CW9800H2 Wireless Controller",
+      "EDU-CW9800H1 — Cisco EDU-CW9800H1",
+      "EDU-CW9800H2 — Cisco EDU-CW9800H2"
+     ],
+     "rules": {
+      "sku": 5
+     }
+    },
+    {
+     "series": "Catalyst 9800 Wireless Controllers shared parts",
+     "role": null,
+     "note": null,
+     "parts": 23,
+     "kinds": {
+      "module": 10,
+      "power": 9,
+      "mechanical": 4
+     },
+     "roles": {},
+     "samples": [
+      "C9800-10X10GE — Cisco Catalyst 9800-80 10GE Module",
+      "C9800-10X10GE= — Cisco Catalyst 9800-80 10GE Module",
+      "C9800-18X1GE — Cisco Catalyst 9800-80 1GE Module",
+      "C9800-18X1GE= — Cisco Catalyst 9800-80 1GE Module",
+      "C9800-1X100GE — Cisco Catalyst 9800-80 1 Port 100GE Module",
+      "C9800-1X100GE= — Cisco Catalyst 9800-80 1 Port 100GE Module"
+     ],
+     "rules": {
+      "sku": 23
+     }
+    }
+   ]
+  },
+  {
+   "line": "AireOS Wireless LAN Controllers",
+   "parts": 213,
+   "series": [
+    {
+     "series": "2500 (2504)",
+     "role": null,
+     "note": null,
+     "parts": 78,
+     "kinds": {
+      "wlc": 22,
+      "cable": 1,
+      "mechanical": 2,
+      "bundle": 53
+     },
+     "roles": {},
+     "samples": [
+      "AIR-CT2504-15-K9 — 2500 Series Wireless Controller for up to 15 Cisco access po",
+      "AIR-CT2504-15-K9++ — 2504 Wireless Controller with 15 AP Licenses (TAA)",
+      "AIR-CT2504-15PROM — 2504 Wireless Controller w/ 15 AP Lic. and Promo 15 IOS Lic.",
+      "AIR-CT2504-25-K9 — 2500 Series Wireless Controller for up to 25 Cisco access po",
+      "AIR-CT2504-25-K9++ — 2504 Wireless Controller with 25 AP Licenses (TAA)",
+      "AIR-CT2504-25-K9Z — 2504 Wireless Controller in a bundle with 25 AP licenses"
+     ],
+     "rules": {
+      "sku": 78
+     }
+    },
+    {
+     "series": "3500 (3504)",
+     "role": null,
+     "note": null,
+     "parts": 10,
+     "kinds": {
+      "mechanical": 3,
+      "wlc": 7
+     },
+     "roles": {},
+     "samples": [
+      "AIR-3504-RMNT= — Cisco 3504 Wireless Controller Rack Mount Bracket",
+      "AIR-CT3504-CA-K9 — Cisco 3504 Wireless Controller for Service Depot",
+      "AIR-CT3504-CA-K9++ — Cisco 3504 Wireless Controller for Service Depot TAA",
+      "AIR-CT3504-K9 — Cisco 3504 Wireless Controller",
+      "AIR-CT3504-K9++ — Cisco 3504 Wireless Controller (TAA)",
+      "AIR-CT3504-RMNT — 3504 Wireless Controller Rack Mount Tray"
+     ],
+     "rules": {
+      "sku": 10
+     }
+    },
+    {
+     "series": "5500 (5508 / 5520 / 5540)",
+     "role": null,
+     "note": null,
+     "parts": 66,
+     "kinds": {
+      "wlc": 54,
+      "power": 4,
+      "mechanical": 2,
+      "module": 4,
+      "unknown": 2
+     },
+     "roles": {},
+     "samples": [
+      "AIR-5508H-500-2PK — 2x AIR-CT5508-500-K9, Hospitality",
+      "AIR-5508H-HA-K9 — Cisco 5508 Series Wireless Ctlr for HA, Hospitality",
+      "AIR-5540-AC-750W — Cisco 5540 750W AC Power Supply, Reverse Air",
+      "AIR-5540-AC-750W= — Cisco 5540 750W AC Power Supply, Reverse Air",
+      "AIR-CT5500-RK-MNT — Rack Mounting Kit for the Cisco 5500 Wireless Controller",
+      "AIR-CT5508-100-K9 — 5500 Series Wireless Controller for up to 100 Cisco access p"
+     ],
+     "rules": {
+      "sku": 59,
+      "label": 7
+     }
+    },
+    {
+     "series": "8500 (8510 / 8540 / 8580)",
+     "role": null,
+     "note": null,
+     "parts": 40,
+     "kinds": {
+      "power": 5,
+      "wlc": 32,
+      "module": 3
+     },
+     "roles": {},
+     "samples": [
+      "AIR-8580-AC-750W — Cisco 8580 750W AC Power Supply",
+      "AIR-8580-AC-750W= — Cisco 8580 750W AC Power Supply",
+      "AIR-8580-DC-950W — Cisco 8580 950W DC Power Supply",
+      "AIR-8580-DC-950W= — Cisco 8580 950W DC Power Supply",
+      "AIR-CT8510-100-K9 — 8500 Series Controller for up to 100 Cisco access points",
+      "AIR-CT8510-100-K9Z — Cisco 8500 Series Wireless Controller Supporting 100 APs"
+     ],
+     "rules": {
+      "sku": 36,
+      "label": 4
+     }
+    },
+    {
+     "series": "WLC + access point bundles",
+     "role": null,
+     "note": null,
+     "parts": 5,
+     "kinds": {
+      "bundle": 5
+     },
+     "roles": {},
+     "samples": [
+      "KAISER-WLC-AP-BNDL — Kaiser Bundle of WLC3504 and 10-pack AP3802I",
+      "WL5520-28-ADV-100 — Cisco WL5520-28-ADV-100",
+      "WL5520-38-PLUS-100 — Cisco WL5520-38-PLUS-100",
+      "WL8540-28-ADV-300 — Cisco WL8540-28-ADV-300",
+      "WL8540-38-PLUS-300 — Cisco WL8540-38-PLUS-300"
+     ],
+     "rules": {
+      "sku": 5
+     }
+    },
+    {
+     "series": "WiSM2 (Catalyst 6500 wireless services module)",
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "mechanical": 1
+     },
+     "roles": {},
+     "samples": [
+      "WS-SVCWISM2FIPKIT= — WS-SVC-WISM2 FIPS Kit"
+     ],
+     "rules": {
+      "sku": 1
+     }
+    },
+    {
+     "series": "AireOS Wireless LAN Controllers shared parts",
+     "role": null,
+     "note": null,
+     "parts": 13,
+     "kinds": {
+      "unknown": 8,
+      "module": 3,
+      "wlc": 2
+     },
+     "roles": {},
+     "samples": [
+      "AIR-330-EXP-BOX — MobileAccessVE Expansion Box",
+      "AIR-330-EXP-BOX= — MobileAccessVE Expansion Box",
+      "AIR-330-MB-1 — MobileAccessVE One-link Main Building Unit",
+      "AIR-330-MB-1= — MobileAccessVE One-link Main Building Unit",
+      "AIR-330-MB-2 — MobileAccessVE Two-link Main Building Unit",
+      "AIR-330-MB-2= — MobileAccessVE Two-link Main Building Unit"
+     ],
+     "rules": {
+      "sku": 13
+     }
+    }
+   ]
+  },
+  {
+   "line": "Location and Spaces Appliances",
+   "parts": 84,
+   "series": [
+    {
+     "series": "CMX 3375 / MSE 3355 / 3365",
+     "role": null,
+     "note": null,
+     "parts": 71,
+     "kinds": {
+      "mechanical": 10,
+      "appliance": 6,
+      "module": 38,
+      "power": 12,
+      "bundle": 4,
+      "unknown": 1
+     },
+     "roles": {},
+     "samples": [
+      "AIR-BZL-C220M4 — Cisco 5520 Wireless Controller Security Bezel",
+      "AIR-BZL-C220M4= — Cisco 5520 Wireless Controller Security Bezel",
+      "AIR-BZL-C240M4 — Cisco 8540 Wireless Controller Security Bezel",
+      "AIR-BZL-C240M4= — Cisco 8540 Wireless Controller Security Bezel",
+      "AIR-CMX-3375-K9 — CMX 3375 Appliance",
+      "AIR-CMX-3375-K9= — CMX 3375 SFF 10 HD w/o CPU, mem, HD, PCIe, PSU"
+     ],
+     "rules": {
+      "sku": 70,
+      "label": 1
+     }
+    },
+    {
+     "series": "Catalyst Center location appliance (DN3-LOC)",
+     "role": null,
+     "note": null,
+     "parts": 9,
+     "kinds": {
+      "module": 5,
+      "mechanical": 2,
+      "appliance": 1,
+      "power": 1
+     },
+     "roles": {},
+     "samples": [
+      "DN3-L-MR-X16G1RS-H — 16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v",
+      "DN3-L-SD960GM1X-EV — 960GB 2.5 inch Enterprise Value 6G SATA SSD",
+      "DN3-LOC-BZL-C220M5 — C220 M5 Security Bezel",
+      "DN3-LOC-CPU-5118 — 2.3 GHz 5118/105W 12C/16.50MB Cache/DDR4 2400MHz",
+      "DN3-LOC-K9 — DNAC Location Appliance",
+      "DN3-LOC-PSU1-770W — Cisco UCS 770W AC Power Supply for Rack Server"
+     ],
+     "rules": {
+      "sku": 9
+     }
+    },
+    {
+     "series": "Exciters and BLE / VBLE radio modules",
+     "role": null,
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "module": 1,
+      "unknown": 2
+     },
+     "roles": {},
+     "samples": [
+      "AIR-RM-VBLE2-K9= — Cisco AIR-RM-VBLE2-K9=",
+      "ASCT-EX2000 — Cisco ASCT-EX2000",
+      "ASCT-EX3200 — Compact exciter"
+     ],
+     "rules": {
+      "sku": 3
+     }
+    },
+    {
+     "series": "Spectrum Expert",
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "module": 1
+     },
+     "roles": {},
+     "samples": [
+      "COGNIO-SEWIFI-CB — Cognio Spectrum Expert cardbus adapter and software"
+     ],
+     "rules": {
+      "sku": 1
+     }
+    }
+   ]
+  },
+  {
+   "line": "Wireless Antennas and Accessories",
+   "parts": 302,
+   "series": [
+    {
+     "series": "Antennas",
+     "role": null,
+     "note": null,
+     "parts": 143,
+     "kinds": {
+      "cable": 1,
+      "antenna": 141,
+      "mechanical": 1
+     },
+     "roles": {},
+     "samples": [
+      "AIR-420-1625-0500 — 5 in. (12.7 cm) MMCX to RP-TNC Antenna Converter Cable",
+      "AIR-ANT-GPS-1 — GPS Antenna for AP1570",
+      "AIR-ANT-GPS-1= — GPS Antenna for AP1570",
+      "AIR-ANT-SE-WIFI-D= — 2.4-2.5 and 4.9-5.9 GHz Directional Antenna, Spare",
+      "AIR-ANT-SE-WIFI-O= — 2.4-2.5 and 4.9-5.9 GHz Omni Antenna, Spare",
+      "AIR-ANT1728 — 2.4 GHz, 5.2 dBi Ceiling Omni Ant. w/RP-TNC Connector"
+     ],
+     "rules": {
+      "sku": 143
+     }
+    },
+    {
+     "series": "Power injectors, supplies and cords",
+     "role": null,
+     "note": null,
+     "parts": 99,
+     "kinds": {
+      "cable": 65,
+      "power": 21,
+      "power-injector": 13
+     },
+     "roles": {},
+     "samples": [
+      "AIR-CORD-R3P-40NA= — AC power cord, 40 ft (12m); North American plug; 1520/1550/1",
+      "AIR-CORD-R3P-40UE= — AC power cord, 40 ft (12m); EU unterminated end; 1520/1550/1",
+      "AIR-CORD1500-40UE= — Aironet 1500 AC Power Cord, 40 ft. unterm, EU",
+      "AIR-PWR-4400-AC — 4400 Series WLAN Controller AC Power Supply (redundant)",
+      "AIR-PWR-50= — PwrSpply:100-240VAC,48VDC 50w",
+      "AIR-PWR-5500-AC — Cisco 5500 Series Wireless Controller Redundant Power Supply"
+     ],
+     "rules": {
+      "sku": 99
+     }
+    },
+    {
+     "series": "Cables",
+     "role": null,
+     "note": null,
+     "parts": 40,
+     "kinds": {
+      "cable": 40
+     },
+     "roles": {},
+     "samples": [
+      "AIR-420-003346-020 — 20 ft. cable with RP-TNC connectors",
+      "AIR-420-003346-050 — 50 ft. cable with RP-TNC connectors",
+      "AIR-420-003346-075 — 75 ft. cable with RP-TNC connectors",
+      "AIR-420-003346-100 — 100 ft. cable with RP-TNC connectors",
+      "AIR-CAB-003-D8-D8= — 3-ft (36-in.) jumper cable with DART-8 connectors (one end s",
+      "AIR-CAB-003-D8-N= — 3-ft (36-in.) breakout cable with DART-8 connector and eight"
+     ],
+     "rules": {
+      "sku": 40
+     }
+    },
+    {
+     "series": "Wireless Antennas and Accessories shared parts",
+     "role": null,
+     "note": null,
+     "parts": 20,
+     "kinds": {
+      "module": 9,
+      "unknown": 1,
+      "power": 3,
+      "mechanical": 3,
+      "antenna": 4
+     },
+     "roles": {},
+     "samples": [
+      "AIR-MRAID12G — Cisco 12G SAS Modular Raid Controller",
+      "AIR-MRAID12G-1GB — Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)",
+      "AIR-N-3006-DTA-K9 — ^NECJ AS3504 DTA",
+      "AIR-PSU1-770W — 770W AC Hot-Plug Power Supply for 5520 Controller",
+      "AIR-PSU2V2-1200W — 1200W V2 AC Power Supply for 8540 Controller",
+      "AIR-PSU2V2-1200W= — 1200W V2 AC Power Supply for 8540 Controller"
+     ],
+     "rules": {
+      "label": 20
+     }
+    }
+   ]
+  }
+ ],
+ "not_this_category": [
+  {
+   "sku": "ANT-ROOM70-KIT-",
+   "name": "Antenna kit for ROOM 70 with brackets.",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "ANT-ROOM70-KIT=",
+   "name": "Antenna kit for ROOM 70 with brackets.",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "C4948E-BKT-KIT=",
+   "name": "C49xxE front and rear mount brackets",
+   "series_label": "Catalyst 9163",
+   "why": "Catalyst 4948E switch mount brackets filed under a Catalyst 9163 label",
+   "belongs": "switches"
+  },
+  {
+   "sku": "CAB-2DC-BRL-0.93M-",
+   "name": "DC Power Cable w/Barrel Plus, 0.93 meters long for ROOM 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-2DC-BRL-0.93M=",
+   "name": "DC Power Cable w/Barrel Plus, 0.93 meters long for ROOM 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-2HDMILK-1.15M-",
+   "name": "HDMI to HDMI Cable, 1.15 meters long for ROOM 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-2HDMILK-1.15M=",
+   "name": "HDMI to HDMI Cable, 1.15 meters long for ROOM 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-2HDMILK-2.78M-",
+   "name": "HDMI to HDMI Cable, 2.78 meters long for ROOM 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-2HDMILK-2.78M=",
+   "name": "HDMI to HDMI Cable, 2.78 meters long for ROOM 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-PWR-C7-DNK-A=",
+   "name": "Power Cord, C7-Right Angled, Grey, 4.5m, Denmark",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-PWR-C7-ISR-A=",
+   "name": "Power Cord, C7-Right Angled, Grey, 4.5m, Israel",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-PWR-C7-ITA-A=",
+   "name": "Power Cord, C7-Right Angled, Grey, 4.5m, Italy",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-PWR-C7-TWN-A=",
+   "name": "Power Cord, C7-Right Angled, Grey, 4.5m, Taiwan",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-ROOM70-L-SPKR-",
+   "name": "Left Speaker Cable for ROOM 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-ROOM70-L-SPKR=",
+   "name": "Left Speaker Cable for ROOM 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-ROOM70-L3-SPK-",
+   "name": "Left Speaker Cable for ROOM 70 - 3 speakers",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-ROOM70-L3-SPK=",
+   "name": "Left Speaker Cable for ROOM 70 - 3 speakers",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-ROOM70-R-SPKR-",
+   "name": "Right Speaker Cable for ROOM 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-ROOM70-R-SPKR=",
+   "name": "Right Speaker Cable for ROOM 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-ROOM70-R3-SPK-",
+   "name": "Right Speaker Cable for ROOM 70 - 3 speakers",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-ROOM70-R3-SPK=",
+   "name": "Right Speaker Cable for ROOM 70 - 3 speakers",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-USB-A-B-1.35M-",
+   "name": "USB A - USB B Cable, 1.35 meters long for ROOM 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-USB-A-B-1.35M=",
+   "name": "USB A - USB B Cable, 1.35 meters long for ROOM70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-USB-A-B-1.7M-",
+   "name": "USB A to USB B Cable, 1.7 meters long for MX800 Dual",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CAB-USB-A-B-1.7M=",
+   "name": "USB A to USB B Cable, 1.7 meters long for Room 70D, MX800D",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-R70-PRES-BTM=",
+   "name": "Below Screen mount for 70 Panorama - Samsung 55\"",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-R70-PRES-TOP=",
+   "name": "Above Screen mount for 70 Panorama - Samsung 65\"",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-R70P-SCREENKIT",
+   "name": "Panorama Presentation Screen Kit for Room 70D G2",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM55-70-CFBC=",
+   "name": "Cisco Webex Room 55 and 70 Center Floor Bottom Cover",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM55-70-WSB=",
+   "name": "Cisco Webex Room 55 and 70 Wall Secure Bracket",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70-CFBB-",
+   "name": "Center Frame Bottom Bracket Room 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70-CFBB=",
+   "name": "Center Frame Bottom Bracket Room 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70-SCRWKIT=",
+   "name": "Screws and Part Kit for Room 70",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70D-CAMCV-",
+   "name": "Dual cam top rear cover, Center Top profile and.....",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70D-CAMCV=",
+   "name": "Dual cam top rear cover, Center Top profile and.....",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70D-FS-GRK-",
+   "name": "Room 70D Floorstand Grill Kit",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70D-FS-GRK=",
+   "name": "Room 70D Floorstand Grill Kit",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70D-MB=",
+   "name": "Cisco Webex Room 70 Upper Joining Bracket for Monitors",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70D-WM-GRK-",
+   "name": "Room 70D Wallmount Grill Kit",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70D-WM-GRK=",
+   "name": "Room 70D Wallmount Grill Kit",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70P-FSK=",
+   "name": "Cisco Room 70 Panorama Floor Stand Kit",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70P-SFSK",
+   "name": "Cisco Room 70 Panorama Floor Stand Kit (SHORT)",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70P-SFSK=",
+   "name": "Cisco Room 70 Panorama Floor Stand Kit (SHORT)",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "CS-ROOM70P-WMK=",
+   "name": "Cisco Room 70 Panorama Wall Mount Kit - hangs on wall",
+   "series_label": "Policy Suite for Mobile",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "MEM-SAMI-6P-2GB",
+   "name": "SAMI 6xPPCs with 2GB per PPC Memory Option",
+   "series_label": "7600 Wireless Security Gateway",
+   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
+   "belongs": "interfaces-modules"
+  },
+  {
+   "sku": "MEM-SAMI-6P-2GB=",
+   "name": "SAMI 6xPPCs with 2GB per PPC Memory Option",
+   "series_label": "7600 Wireless Security Gateway",
+   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
+   "belongs": "interfaces-modules"
+  },
+  {
+   "sku": "MEM-SAMI-6P-4GB",
+   "name": "SAMI 6xPPCs with 4GB per PPC Memory Option",
+   "series_label": "7600 Wireless Security Gateway",
+   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
+   "belongs": "interfaces-modules"
+  },
+  {
+   "sku": "MEM-SAMI-6P-4GB=",
+   "name": "SAMI 6xPPCs with 4GB per PPC Memory Option",
+   "series_label": "7600 Wireless Security Gateway",
+   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
+   "belongs": "interfaces-modules"
+  },
+  {
+   "sku": "WS-SVC-SAMI-BB-K9",
+   "name": "Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)",
+   "series_label": "7600 Wireless Security Gateway",
+   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
+   "belongs": "interfaces-modules"
+  },
+  {
+   "sku": "WS-SVC-SAMI-BB-K9=",
+   "name": "Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)",
+   "series_label": "7600 Wireless Security Gateway",
+   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
+   "belongs": "interfaces-modules"
+  }
+ ],
+ "pending_plans": [
+  {
+   "sku": "AIR-AP-NO-BRACKET",
+   "name": "Select this option if no bracket is required",
+   "series_label": "Catalyst 9163",
+   "action": "class",
+   "to": "non_product",
+   "reason": "ordering option / unused PID"
+  },
+  {
+   "sku": "AIR-PROMO-2-2011",
+   "name": "Mobility Services Package (Promo Valid Until July 29 2011)",
+   "series_label": "Mobility Services Engine",
+   "action": "class",
+   "to": "license",
+   "reason": "licence promotion"
+  },
+  {
+   "sku": "ASR5000-CHS-SP-K9=",
+   "name": "ASR-5000 Spare Chassis",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (empty spare chassis)"
+  },
+  {
+   "sku": "ASR5000-CHS-SYS-K9",
+   "name": "ASR-5000 Multimedia Core Platform Complete Chassis",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
+  },
+  {
+   "sku": "ASR5000-CHSSYS-K9=",
+   "name": "ASR-5000 Multimedia Core Platform Complete Chassis",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
+  },
+  {
+   "sku": "ASR55-04-UDPCRX",
+   "name": "ASR5500 UDPC Card and Initial System SW, KDDI Only",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR55-04-UDPCRX=",
+   "name": "ASR5500 UDPC Card and Initial System SW, KDDI Only",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR55-CHS-SYS-U-B",
+   "name": "ASR5500-U System w/chassis, 4 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
+  },
+  {
+   "sku": "ASR55-CHS-SYS-U-BL",
+   "name": "ASR5500-U System w/chassis, 4 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
+  },
+  {
+   "sku": "ASR55-CHS-SYS-U6B",
+   "name": "ASR5500-U System w/chassis, 6 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
+  },
+  {
+   "sku": "ASR55-CHS-SYS-U6BL",
+   "name": "ASR5500-U System w/chassis, 6 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
+  },
+  {
+   "sku": "ASR55-CHS-SYS-U8B",
+   "name": "ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
+  },
+  {
+   "sku": "ASR55-CHS-SYS-U8BL",
+   "name": "ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
+  },
+  {
+   "sku": "ASR55-DPC",
+   "name": "ASR5500 Data Processing Card (DPC)",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR55-DPC-K9",
+   "name": "ASR5500 Data Processing Card (DPC)",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR55-DPC-K9=",
+   "name": "ASR5500 Data Processing Card (DPC)",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR55-DPC=",
+   "name": "ASR5500 Data Processing Card (DPC)",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR55-UDPC-K9",
+   "name": "ASR5500 Universal Data Processing Card (UDPC)",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR55-UDPC-K9=",
+   "name": "ASR5500 Universal Data Processing Card (UDPC)",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR5K-0110G-MM-K9",
+   "name": "XGLC 1-Port 10 Gigabit Ethernet Line Card w/MM SFP+",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-0110G-MM-K9=",
+   "name": "XGLC 1-Port 10 Gigabit Ethernet Line Card w/MM SFP+",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-0110G-SM-K9",
+   "name": "XGLC 1-Port 10 Gigabit Ethernet Line Card w/SM SFP+",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-0110G-SM-K9=",
+   "name": "XGLC 1-Port 10 Gigabit Ethernet Line Card w/SM SFP+",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-011G2-LX-K9",
+   "name": "GLC2 1-Port 1xGbE Line Card - 2nd Gen w/LX SM SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-011G2-LX-K9=",
+   "name": "GLC2 1-Port 1xGbE Line Card - 2nd Gen w/LX SM SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-011G2-SX-K9",
+   "name": "GLC2 1-Port 1xGbE Line Card - 2nd Gen w/SX MM SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-011G2-SX-K9=",
+   "name": "GLC2 1-Port 1xGbE Line Card - 2nd Gen w/SX MM SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-011G2-T-K9",
+   "name": "GLC2 1-Port 1xGbE Line Card - 2nd Gen w/Copper SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-011G2-T-K9=",
+   "name": "GLC2 1-Port 1xGbE Line Card - 2nd Gen w/Copper SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-041GE-LX-K9",
+   "name": "QGLC 4-Port Ethernet 1000 Line Card w/LX SM Long Haul SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-041GE-LX-K9=",
+   "name": "QGLC 4-Port Ethernet 1000 Line Card w/LX SM Long Haul SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-041GE-SX-K9",
+   "name": "QGLC 4-Port Ethernet 1000 Line Card w/SX MM Short Haul SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-041GE-SX-K9=",
+   "name": "QGLC 4-Port Ethernet 1000 Line Card w/SX MM Short Haul SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-041GE-T-K9",
+   "name": "QGLC 4-Port Ethernet 1000 Line Card w/Copper SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-041GE-T-K9=",
+   "name": "QGLC 4-Port Ethernet 1000 Line Card w/Copper SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-042GE-LX-K9",
+   "name": "QGLC Rev2 4-Port Ethernet 1000 Card w/LX SM Long Haul SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-042GE-LX-K9=",
+   "name": "QGLC Rev2 4-Port Ethernet 1000 Card w/LX SM Long Haul SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-042GE-SX-K9",
+   "name": "QGLC Rev2 4-Port Ethernet 1000 Card w/SX MM Short Haul SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-042GE-SX-K9=",
+   "name": "QGLC Rev2 4-Port Ethernet 1000 Card w/SX MM Short Haul SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-042GE-T-K9",
+   "name": "QGLC Rev2 4-Port Ethernet 1000 Line Card w/Copper SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-042GE-T-K9=",
+   "name": "QGLC Rev2 4-Port Ethernet 1000 Line Card w/Copper SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-08100E-K9",
+   "name": "FLC2 8-Port Ethernet 10/100, 2nd Generation",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-08100E-K9=",
+   "name": "FLC2 8-Port Ethernet 10/100, 2nd Generation",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-0F-B00-2069=",
+   "name": "Motorola PSC2 LTE Hardware and Software bundle",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR5K-12-LABADV-K9",
+   "name": "ASR-5000 Platform Partner Lab Bundle, Advanced Chassis",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (partner-lab system bundle with chassis)"
+  },
+  {
+   "sku": "ASR5K-12-LABBSE-K9",
+   "name": "ASR-5000 Platform Partner Lab Bundle, Base Chassis",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (partner-lab system bundle with chassis)"
+  },
+  {
+   "sku": "ASR5K-12-PSC32GK9=",
+   "name": "Packet Services Card (PSC2) 32GB, ATT Femto only",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR5K-20-LAB-PPC",
+   "name": "ASR 5000 Platform Partner Lab Bundle, 3x PPC",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (partner-lab pack of 3 PPC/PSC cards)"
+  },
+  {
+   "sku": "ASR5K-20-LAB-PSC2",
+   "name": "ASR 5000 Platform Partner Lab Bundle, 3x PSC2",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (partner-lab pack of 3 PPC/PSC cards)"
+  },
+  {
+   "sku": "ASR5K-20-LAB-PSC3",
+   "name": "ASR 5000 Platform Partner Lab Bundle, 3x PSC3",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (partner-lab pack of 3 PPC/PSC cards)"
+  },
+  {
+   "sku": "ASR5K-232216S3-K9",
+   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC 16GB/2xRCC/2xSPIO Str3 3PN",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
+  },
+  {
+   "sku": "ASR5K-232216SB-K9",
+   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC 16GB/2xRCC/2xSPIO Str3 BNC",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
+  },
+  {
+   "sku": "ASR5K-232216V3-K9",
+   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIO 3PN",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
+  },
+  {
+   "sku": "ASR5K-232216VB-K9",
+   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIO BNC",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
+  },
+  {
+   "sku": "ASR5K-232216VS3-K9",
+   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIOStr3 3PN",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
+  },
+  {
+   "sku": "ASR5K-232216VSB-K9",
+   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIOStr3 BNC",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
+  },
+  {
+   "sku": "ASR5K-232232V3-K9",
+   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIO 3PN",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
+  },
+  {
+   "sku": "ASR5K-232232VB-K9",
+   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIO BNC",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
+  },
+  {
+   "sku": "ASR5K-232232VS3-K9",
+   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIOStr3 3PN",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
+  },
+  {
+   "sku": "ASR5K-232232VSB-K9",
+   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIOStr3 BNC",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
+  },
+  {
+   "sku": "ASR5K-4OC3C-MM-K9",
+   "name": "OLC2 4 Port ATM STM-1c/OC-3c Line Card w/Multi-Mode SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-4OC3C-MM-K9=",
+   "name": "OLC2 4 Port ATM STM-1c/OC-3c Line Card w/Multi-Mode SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-4OC3C-SM-K9",
+   "name": "OLC2 4 Port ATM STM-1c/OC-3c Line Card w/Single Mode SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-4OC3C-SM-K9=",
+   "name": "OLC2 4 Port ATM STM-1c/OC-3c Line Card w/Single Mode SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-ACCY-LUG=",
+   "name": "ASR-5000 Chassis Lug Accessory Kit",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
+  },
+  {
+   "sku": "ASR5K-BLNK-FR",
+   "name": "ASR-5000 Blanking Panel, Front",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
+  },
+  {
+   "sku": "ASR5K-BLNK-FR=",
+   "name": "ASR-5000 Blanking Panel, Front",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
+  },
+  {
+   "sku": "ASR5K-BLNK-RR-FH",
+   "name": "ASR-5000 Blanking Panel, Full Height, Rear (XGLC only)",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
+  },
+  {
+   "sku": "ASR5K-BLNK-RR-FH=",
+   "name": "ASR-5000 Blanking Panel, Full Height, Rear (XGLC only)",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
+  },
+  {
+   "sku": "ASR5K-BLNK-RR-HH",
+   "name": "ASR-5000 Blanking Panel, Half Height, Rear",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
+  },
+  {
+   "sku": "ASR5K-BLNK-RR-HH=",
+   "name": "ASR-5000 Blanking Panel, Half Height, Rear",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
+  },
+  {
+   "sku": "ASR5K-C4OC3-MM-K9",
+   "name": "CLC2 Channelized 4-Port STM-1/OC-3 Line Card w/MM SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-C4OC3-MM-K9=",
+   "name": "CLC2 Channelized 4-Port STM-1/OC-3 Line Card w/MM SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-C4OC3-SM-K9",
+   "name": "CLC2 Channelized 4-Port STM-1/OC-3 Line Card w/SM SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-C4OC3-SM-K9=",
+   "name": "CLC2 Channelized 4-Port STM-1/OC-3 Line Card w/SM SFP",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
+  },
+  {
+   "sku": "ASR5K-CBL-CON=",
+   "name": "ASR-5x00 Console Cable",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (console cable)"
+  },
+  {
+   "sku": "ASR5K-FANT-LW",
+   "name": "ASR-5000 Fan Tray, Lower",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (fan tray)"
+  },
+  {
+   "sku": "ASR5K-FANT-LW=",
+   "name": "ASR-5000 Fan Tray, Lower",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (fan tray)"
+  },
+  {
+   "sku": "ASR5K-FANT-UP",
+   "name": "ASR-5000 Fan Tray, Upper",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (fan tray)"
+  },
+  {
+   "sku": "ASR5K-FANT-UP=",
+   "name": "ASR-5000 Fan Tray, Upper",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (fan tray)"
+  },
+  {
+   "sku": "ASR5K-FLTR-AIR=",
+   "name": "ASR-5000 Air Filter Spare",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
+  },
+  {
+   "sku": "ASR5K-MEM-PSC2=",
+   "name": "DIMM Replacement Kit for PSC2 - 32GB",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (DIMM replacement kit)"
+  },
+  {
+   "sku": "ASR5K-MEM-PSC3=",
+   "name": "DIMM Replacement Kit for PSC3 - 64GB",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (DIMM replacement kit)"
+  },
+  {
+   "sku": "ASR5K-PFU",
+   "name": "ASR5000 Power Filter Unit, Non-Redundant, Single 165A",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (power filter unit)"
+  },
+  {
+   "sku": "ASR5K-PFU/2",
+   "name": "ASR5000 Power Filter Unit, Dual Redundant 165A",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (power filter unit)"
+  },
+  {
+   "sku": "ASR5K-PFU=",
+   "name": "ASR5000 Power Filter Unit, Non-Redundant, Single 165A",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (power filter unit)"
+  },
+  {
+   "sku": "ASR5K-PSC-32G-K9",
+   "name": "Packet Services Card (PSC2) 32GB",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR5K-PSC-32G-K9=",
+   "name": "Packet Services Card (PSC2) 32GB",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR5K-PSC-64G-B4=",
+   "name": "Packet Services Card (PSC3) 64GB, 4 for 2 w/4-PSC2 Trade-in",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR5K-PSC-64G-K9",
+   "name": "Packet Services Card (PSC3) 64GB",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR5K-PSC-64G-K9=",
+   "name": "Packet Services Card (PSC3) 64GB",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR5K-RCC-K9",
+   "name": "Redundancy Crossbar",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (redundancy crossbar card)"
+  },
+  {
+   "sku": "ASR5K-RCC-K9=",
+   "name": "Redundancy Crossbar",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (redundancy crossbar card)"
+  },
+  {
+   "sku": "ASR5K-SMC-K9",
+   "name": "System Management Card 4GB",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR5K-SMC-K9=",
+   "name": "System Management Card 4GB",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
+  },
+  {
+   "sku": "ASR5K-SPIO-3PN-K9",
+   "name": "Switch Processor I/O, 3-Pin BITS",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
+  },
+  {
+   "sku": "ASR5K-SPIO-3PN-K9=",
+   "name": "Switch Processor I/O, 3-Pin BITS",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
+  },
+  {
+   "sku": "ASR5K-SPIO-BNC-K9",
+   "name": "Switch Processor I/O, BNC BITS",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
+  },
+  {
+   "sku": "ASR5K-SPIO-BNC-K9=",
+   "name": "Switch Processor I/O, BNC BITS",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
+  },
+  {
+   "sku": "ASR5K-SPS3-3PN-K9",
+   "name": "Switch Processor I/O, 3-Pin BITS with Stratum 3",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
+  },
+  {
+   "sku": "ASR5K-SPS3-3PN-K9=",
+   "name": "Switch Processor I/O, 3-Pin BITS with Stratum 3",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
+  },
+  {
+   "sku": "ASR5K-SPS3-BNC-K9",
+   "name": "Switch Processor I/O, BNC BITS with Stratum 3",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
+  },
+  {
+   "sku": "ASR5K-SPS3-BNC-K9=",
+   "name": "Switch Processor I/O, BNC BITS with Stratum 3",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
+  },
+  {
+   "sku": "C9105AXW-KIT",
+   "name": "Do not use",
+   "series_label": "Catalyst 9100",
+   "action": "class",
+   "to": "non_product",
+   "reason": "ordering option / unused PID"
+  },
+  {
+   "sku": "C9105AXW-NO-KIT",
+   "name": "No C9105AX Series Spacer Kit",
+   "series_label": "Catalyst 9100",
+   "action": "class",
+   "to": "non_product",
+   "reason": "ordering option / unused PID"
+  },
+  {
+   "sku": "COUNTRYPOWERCAAV3",
+   "name": "Cisco COUNTRYPOWERCAAV3",
+   "series_label": "Mobility Services Engine",
+   "action": "class",
+   "to": "non_product",
+   "reason": "placeholder / packout insert"
+  },
+  {
+   "sku": "CS-KIT-EQX-K9",
+   "name": "Cisco CS-KIT-EQX-K9",
+   "series_label": "Policy Suite for Mobile",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "TelePresence room-system part filed in wireless"
+  },
+  {
+   "sku": "CS-R70-R55D-SPKR-",
+   "name": "Top speaker for Room 55d and Room 70",
+   "series_label": "Policy Suite for Mobile",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "TelePresence room-system part filed in wireless"
+  },
+  {
+   "sku": "CS-R70-R55D-SPKR=",
+   "name": "Top speaker for Room 70 and Room 55D",
+   "series_label": "Policy Suite for Mobile",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "TelePresence room-system part filed in wireless"
+  },
+  {
+   "sku": "CS-ROOM70-MON-SCV-",
+   "name": "Sidecover for Room 70 monitor ( left and right included)",
+   "series_label": "Policy Suite for Mobile",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "TelePresence room-system part filed in wireless"
+  },
+  {
+   "sku": "CS-ROOM70-MON-SCV=",
+   "name": "Sidecover for Room 70 monitor ( left and right included)",
+   "series_label": "Policy Suite for Mobile",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "TelePresence room-system part filed in wireless"
+  },
+  {
+   "sku": "CS-ROOM70D-MON-L-",
+   "name": "Left Monitor for Room 70 Dual",
+   "series_label": "Policy Suite for Mobile",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "TelePresence room-system part filed in wireless"
+  },
+  {
+   "sku": "CS-ROOM70D-MON-L=",
+   "name": "Left Monitor for Room 70 Dual",
+   "series_label": "Policy Suite for Mobile",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "TelePresence room-system part filed in wireless"
+  },
+  {
+   "sku": "CS-ROOM70D-MON-R-",
+   "name": "Right Monitor for Room 70 Dual",
+   "series_label": "Policy Suite for Mobile",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "TelePresence room-system part filed in wireless"
+  },
+  {
+   "sku": "CS-ROOM70D-MON-R=",
+   "name": "Right Monitor for Room 70 Dual",
+   "series_label": "Policy Suite for Mobile",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "TelePresence room-system part filed in wireless"
+  },
+  {
+   "sku": "CTS-MX-FSK-SKI-",
+   "name": "Cisco MX700, MX800 og Room70D Ski for Floor Stand Kit",
+   "series_label": "Policy Suite for Mobile",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "TelePresence room-system part filed in wireless"
+  },
+  {
+   "sku": "CTS-MX-FSK-SKI=",
+   "name": "Cisco MX700, MX800 og Room70D Ski for Floor Stand Kit",
+   "series_label": "Policy Suite for Mobile",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "TelePresence room-system part filed in wireless"
+  },
+  {
+   "sku": "CTS-MX700800-SPKR=",
+   "name": "Top speaker for MX700/800 and ROOM 70",
+   "series_label": "Policy Suite for Mobile",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "TelePresence room-system part filed in wireless"
+  },
+  {
+   "sku": "MIXS-12-PA2071DC=",
+   "name": "PAS DC CABINET EXTENSION [ATT US PAS ONLY]",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
+  },
+  {
+   "sku": "MIXS-12-PA2091DC=",
+   "name": "PAS DC ENCLOSURE [ATT US PAS ONLY]",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
+  },
+  {
+   "sku": "MIXS-12-PA2101AC=",
+   "name": "PAS AC STARTUP CABINET [ATT US PAS ONLY]",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
+  },
+  {
+   "sku": "MIXS-12-PA2121AC=",
+   "name": "PAS AC ENCLOSURE [ATT US PAS Only]",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
+  },
+  {
+   "sku": "MIXS-12-PA2131CO=",
+   "name": "PAS 1G ENCLOSURE SWITCH [ATT US PAS Only]",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS 1G/10G enclosure switch (ATT) — a blade-enclosure switch module)"
+  },
+  {
+   "sku": "MIXS-12-PA2141CO=",
+   "name": "PAS 10G ENCLOSURE SWITCH [ATT US PAS Only]",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS 1G/10G enclosure switch (ATT) — a blade-enclosure switch module)"
+  },
+  {
+   "sku": "MIXS-12-PA2211BL=",
+   "name": "PAS SPARE BLADE [ATT US PAS Only]",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS spare blade / 'MOMAT' (ATT) — unreadable, the routers lane reads it)"
+  },
+  {
+   "sku": "MIXS-12-PA2221CO=",
+   "name": "PAS SPARE COMPONENTS [ATT US PAS Only]",
+   "series_label": "ASR 5000 Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "PAS documentation / spare-components placeholder"
+  },
+  {
+   "sku": "MIXS-12-PA2261MM=",
+   "name": "PAS DC MOMAT [ATT US PAS ONLY]",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS spare blade / 'MOMAT' (ATT) — unreadable, the routers lane reads it)"
+  },
+  {
+   "sku": "MIXS-12-PA2291CO=",
+   "name": "PAS DOCUMENTATION [ATT US PAS ONLY]",
+   "series_label": "ASR 5000 Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "PAS documentation / spare-components placeholder"
+  },
+  {
+   "sku": "MIXS-12-PA2331CO=",
+   "name": "PAS DC SEISMIC CABINET (no encl) [ATT US PAS ONLY]",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
+  },
+  {
+   "sku": "MIXS-12-PA2531MM=",
+   "name": "PAS AC MOMAT [ATT US PAS ONLY]",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS spare blade / 'MOMAT' (ATT) — unreadable, the routers lane reads it)"
+  },
+  {
+   "sku": "MIXS-12-PA2541AC=",
+   "name": "PAS AC RMS CABINET (no Encl) [ATT US PAS ONLY]",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
+  },
+  {
+   "sku": "MIXS-12-PA2551AC=",
+   "name": "PAS AC CABINET EXTENSION [ATT US PAS ONLY]",
+   "series_label": "ASR 5000 Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
+  },
+  {
+   "sku": "PI-MSE-PRMO-INSRT",
+   "name": "Insert, Packout - PI-MSE",
+   "series_label": "Aironet 1550",
+   "action": "class",
+   "to": "non_product",
+   "reason": "placeholder / packout insert"
+  },
+  {
+   "sku": "PRODUCTEXPANSAAV4",
+   "name": "Cisco PRODUCTEXPANSAAV4",
+   "series_label": "Mobility Services Engine",
+   "action": "class",
+   "to": "non_product",
+   "reason": "placeholder / packout insert"
+  },
+  {
+   "sku": "PROMOCT5508-1-K9",
+   "name": "Migration to Cisco - 5508 100 licenses",
+   "series_label": "5500",
+   "action": "class",
+   "to": "license",
+   "reason": "licence promotion"
+  },
+  {
+   "sku": "PROMOCT5520-100-K9",
+   "name": "Migration to Cisco - 5520 100 licenses",
+   "series_label": "5500",
+   "action": "class",
+   "to": "license",
+   "reason": "licence promotion"
+  },
+  {
+   "sku": "PROMOCT8510-3-K9",
+   "name": "Migration to Cisco - 8510 300 licenses",
+   "series_label": "8500",
+   "action": "class",
+   "to": "license",
+   "reason": "licence promotion"
+  },
+  {
+   "sku": "SOFTWAREAAV1",
+   "name": "Cisco SOFTWAREAAV1",
+   "series_label": "Mobility Services Engine",
+   "action": "class",
+   "to": "non_product",
+   "reason": "placeholder / packout insert"
+  }
+ ],
+ "unplaced": [],
+ "done": true
+}

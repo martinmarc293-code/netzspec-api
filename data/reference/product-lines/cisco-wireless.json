@@ -1,0 +1,695 @@
+{
+ "vendor": "cisco",
+ "category": "wireless",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco wireless, 14 Sep 2026. Access points by Cisco family and model; controllers by platform; Meraki MR bare family rows in their own line. The series ROLE is the access-point deploy_role the cup engine reads (deployRole.ts, axis ap): every role here reproduces the III.0 SKU rules row for row (checked when written: 0 changes). The Aironet 1552 is split because its models carry two roles (E/I/C outdoor, H/SA/SD/WU hazardous-location industrial). SKU prefixes AIR-, PROMO-, PPN-, KAISER- and the glued AIRAP are matched explicitly (placePart strips only 2D-/C1-/EDU-/NAL-).",
+ "not_this_category": [
+  {
+   "sku": "^(ASR5K|ASR55|ASR-?5[05]00|MIXS)",
+   "why": "ASR 5000 / 5500 mobile packet core (routers; 113 carry a move plan)",
+   "belongs": "routers"
+  },
+  {
+   "sku": "^(CS-ROOM|CS-R70|CAB-ROOM|CAB-2HDMI|CAB-2DC-BRL|CAB-USB-A-B|ANT-ROOM|CAB-PWR-C7)",
+   "why": "Webex Room 70 accessories filed under the 'Policy Suite for Mobile' label",
+   "belongs": "collaboration-endpoints"
+  },
+  {
+   "sku": "^(WS-SVC-SAMI|MEM-SAMI)",
+   "why": "Catalyst 6500 / 7600 Service Application Module (SAMI) and its memory: a service-module card",
+   "belongs": "interfaces-modules"
+  },
+  {
+   "sku": "^C49[0-9]{2}E?-BKT",
+   "why": "Catalyst 4948E switch mount brackets filed under a Catalyst 9163 label",
+   "belongs": "switches"
+  }
+ ],
+ "lines": [
+  {
+   "line": "Catalyst Wireless Access Points",
+   "series": [
+    {
+     "series": "Catalyst CW9163E (outdoor, Wi-Fi 6E)",
+     "role": "outdoor",
+     "sku": [
+      "^CW9163"
+     ]
+    },
+    {
+     "series": "Catalyst CW9177 (outdoor, Wi-Fi 7)",
+     "role": "outdoor",
+     "sku": [
+      "^CW9177"
+     ],
+     "note": "no CW9177 row in wireless today: the series carries the outdoor role for the CW9177 rows planned to move here from routers"
+    },
+    {
+     "series": "Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)",
+     "role": "indoor",
+     "sku": [
+      "^CW916[246]"
+     ]
+    },
+    {
+     "series": "Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)",
+     "role": "indoor",
+     "sku": [
+      "^CW91(7[12468]|79)"
+     ],
+     "labels": [
+      "Catalyst 9163"
+     ]
+    },
+    {
+     "series": "Catalyst Wireless Access Points shared parts",
+     "sku": [
+      "^CW-"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Catalyst 9100 Access Points",
+   "series": [
+    {
+     "series": "Catalyst 9124AX (outdoor)",
+     "role": "outdoor",
+     "sku": [
+      "^C9124"
+     ]
+    },
+    {
+     "series": "Catalyst 9105AX",
+     "role": "indoor",
+     "sku": [
+      "^C9105"
+     ],
+     "labels": [
+      "Catalyst 9105AX"
+     ]
+    },
+    {
+     "series": "Catalyst 9115AX",
+     "role": "indoor",
+     "sku": [
+      "^C9115"
+     ]
+    },
+    {
+     "series": "Catalyst 9117AX",
+     "role": "indoor",
+     "sku": [
+      "^C9117"
+     ],
+     "labels": [
+      "Catalyst 9117AX"
+     ]
+    },
+    {
+     "series": "Catalyst 9120AX",
+     "role": "indoor",
+     "sku": [
+      "^C9120"
+     ]
+    },
+    {
+     "series": "Catalyst 9130AX",
+     "role": "indoor",
+     "sku": [
+      "^C9130"
+     ],
+     "labels": [
+      "9130AX"
+     ]
+    },
+    {
+     "series": "Catalyst 9136",
+     "role": "indoor",
+     "sku": [
+      "^C9136"
+     ]
+    },
+    {
+     "series": "Catalyst 9100 Access Points shared parts",
+     "labels": [
+      "Catalyst 9100",
+      "Catalyst Embedded Controller"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Aironet Access Points",
+   "series": [
+    {
+     "series": "Aironet 1800s Active Sensor",
+     "sku": [
+      "^(AIR-)?AP1800S"
+     ],
+     "labels": [
+      "Aironet 1800s Active Sensor"
+     ]
+    },
+    {
+     "series": "Aironet 1800",
+     "role": "indoor",
+     "sku": [
+      "^(AIR-|PROMO-|PPN-|PULS-)?AP180[02](?![0-9S])"
+     ],
+     "labels": [
+      "Aironet 1800"
+     ]
+    },
+    {
+     "series": "Aironet 1810 / 1810W",
+     "role": "indoor",
+     "sku": [
+      "^(AIR-|PROMO-|PPN-|PULS-)?(AP|OEAP)1810"
+     ],
+     "labels": [
+      "Aironet 1810w"
+     ]
+    },
+    {
+     "series": "Aironet 1815",
+     "role": "indoor",
+     "sku": [
+      "^(AIR-|PROMO-|PPN-|PULS-)?(AP|OEAP)1815"
+     ],
+     "labels": [
+      "Aironet 1815"
+     ]
+    },
+    {
+     "series": "Aironet 1830",
+     "role": "indoor",
+     "sku": [
+      "^(AIR-?|PROMO-|PPN-|PULS-)?AP183[02]"
+     ],
+     "labels": [
+      "Aironet 1830"
+     ]
+    },
+    {
+     "series": "Aironet 1840",
+     "role": "indoor",
+     "sku": [
+      "^(AIR-|PROMO-|PPN-|PULS-)?AP1840"
+     ],
+     "labels": [
+      "Aironet 1840"
+     ]
+    },
+    {
+     "series": "Aironet 1850",
+     "role": "indoor",
+     "sku": [
+      "^(AIR-?|PROMO-|PPN-|PULS-)?AP185[02]"
+     ],
+     "labels": [
+      "Aironet 1850"
+     ]
+    },
+    {
+     "series": "Aironet 2800",
+     "role": "indoor",
+     "sku": [
+      "^(AIR-?|PROMO-|PPN-|PULS-)?AP280[02]"
+     ],
+     "labels": [
+      "2800"
+     ]
+    },
+    {
+     "series": "Aironet 3800",
+     "role": "indoor",
+     "sku": [
+      "^(AIR-?|PROMO-|PPN-|PULS-)?(AP)?380[02]",
+      "^KAISER-12PACK"
+     ],
+     "labels": [
+      "3800"
+     ]
+    },
+    {
+     "series": "Aironet 4800",
+     "role": "indoor",
+     "sku": [
+      "^(AIR-|PROMO-|PPN-|PULS-)?AP4800"
+     ],
+     "labels": [
+      "4800"
+     ]
+    },
+    {
+     "series": "Aironet 700 / 802 / 852 / 2700 / 3700 (legacy indoor)",
+     "role": "indoor",
+     "sku": [
+      "^(AIR-)?AP852I",
+      "^(AIR-)?CAP[23]7IBO"
+     ]
+    },
+    {
+     "series": "Aironet 1540",
+     "role": "outdoor",
+     "sku": [
+      "^(AIR-)?AP154[02]"
+     ],
+     "labels": [
+      "Aironet 1540"
+     ]
+    },
+    {
+     "series": "Aironet 1560",
+     "role": "outdoor",
+     "sku": [
+      "^(AIR-)?AP156[02]"
+     ],
+     "labels": [
+      "Aironet 1560"
+     ]
+    },
+    {
+     "series": "Aironet 1570",
+     "role": "outdoor",
+     "sku": [
+      "^(AIR-)?AP157[02]",
+      "1570"
+     ],
+     "labels": [
+      "Aironet 1570"
+     ]
+    },
+    {
+     "series": "Aironet 1550 hazardous-location (H / SA / SD / WU)",
+     "role": "industrial",
+     "sku": [
+      "^(AIR-)?CAP1552(H|SA|SD|WU)"
+     ]
+    },
+    {
+     "series": "Aironet 1550",
+     "role": "outdoor",
+     "sku": [
+      "^(AIR-)?CAP1552",
+      "1550"
+     ],
+     "labels": [
+      "Aironet 1550"
+     ]
+    },
+    {
+     "series": "Aironet 1520 / 1530",
+     "sku": [
+      "15[23]0"
+     ]
+    },
+    {
+     "series": "Aironet Access Points shared parts",
+     "sku": [
+      "^AIR-(AP|VAP|ACC|MOD|BLE|BAND|CHNL|SFP)"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Industrial Wireless",
+   "series": [
+    {
+     "series": "IW3700 (IW3702)",
+     "role": "industrial",
+     "sku": [
+      "^IW-?3702"
+     ],
+     "labels": [
+      "IW 3700 Industrial"
+     ]
+    },
+    {
+     "series": "IW6300 / ESW6300",
+     "role": "industrial",
+     "sku": [
+      "^IW-?6300",
+      "^ESW-6300"
+     ],
+     "labels": [
+      "IW 6300 Catalyst Heavy Duty"
+     ]
+    },
+    {
+     "series": "Catalyst IW9165 / IW9167",
+     "role": "industrial",
+     "sku": [
+      "^IW-?916[57]"
+     ],
+     "labels": [
+      "Catalyst IW9167 Heavy Duty Series"
+     ]
+    },
+    {
+     "series": "Ultra-Reliable Wireless Backhaul (Fluidmesh)",
+     "sku": [
+      "^FM-?[0-9A-Z]",
+      "^FLMESH-"
+     ],
+     "labels": [
+      "Ultra-Reliable Wireless Backhaul"
+     ]
+    },
+    {
+     "series": "IEC6400 edge compute (URWB)",
+     "sku": [
+      "^IWA-"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Cisco Business Wireless",
+   "series": [
+    {
+     "series": "Cisco Business 141 / 142 / 143 mesh extenders",
+     "role": "mesh-extender",
+     "sku": [
+      "^([35]-)?CBW14[123]"
+     ],
+     "labels": [
+      "Business 100 Series Mesh Extenders"
+     ]
+    },
+    {
+     "series": "Cisco Business 140AC / 145AC / 150AX",
+     "role": "smb",
+     "sku": [
+      "^([35]-)?CBW1(40|45|50)A"
+     ],
+     "labels": [
+      "Business 100"
+     ]
+    },
+    {
+     "series": "Cisco Business 240AC",
+     "role": "smb",
+     "sku": [
+      "^([35]-)?CBW240"
+     ],
+     "labels": [
+      "Business 200"
+     ]
+    },
+    {
+     "series": "Cisco Business Mesh starter kits",
+     "sku": [
+      "^CBW140MXS"
+     ]
+    },
+    {
+     "series": "Cisco Business Wireless shared parts",
+     "sku": [
+      "^CB-PWRINJ"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Small Business Wireless (WAP)",
+   "series": [
+    {
+     "series": "WAP571E (outdoor)",
+     "role": "outdoor",
+     "sku": [
+      "^WAP571E"
+     ]
+    },
+    {
+     "series": "WAP100 series (WAP121 / WAP125 / WAP150)",
+     "role": "smb",
+     "sku": [
+      "^WAP1[0-9]{2}"
+     ],
+     "labels": [
+      "Small Business 100"
+     ]
+    },
+    {
+     "series": "WAP300 series (WAP361 / WAP371)",
+     "role": "smb",
+     "sku": [
+      "^WAP3[0-9]{2}"
+     ],
+     "labels": [
+      "Small Business 300"
+     ]
+    },
+    {
+     "series": "WAP500 series (WAP571 / WAP581)",
+     "role": "smb",
+     "sku": [
+      "^WAP5[0-9]{2}"
+     ],
+     "labels": [
+      "Small Business 500"
+     ]
+    },
+    {
+     "series": "Small Business Wireless (WAP) shared parts",
+     "sku": [
+      "^SB-PWR"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Meraki MR Access Points",
+   "series": [
+    {
+     "series": "Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)",
+     "role": "outdoor",
+     "sku": [
+      "^MR(58|66|70|72|74|76|78|84|86)(-|$)"
+     ],
+     "note": "MR58/66/70/72/74/84 extend the III.0 rule (MR76/78/86) to the older outdoor models held as bare family rows in meraki (14 Sep 2026)"
+    },
+    {
+     "series": "Meraki MR indoor",
+     "role": "indoor",
+     "sku": [
+      "^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)"
+     ],
+     "note": "MR11-MR62 older indoor models extend the III.0 rule (MR36/44/46/56/57) (14 Sep 2026)"
+    },
+    {
+     "series": "Meraki MR Access Points shared parts",
+     "sku": [
+      "^MA-"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Catalyst 9800 Wireless Controllers",
+   "series": [
+    {
+     "series": "Catalyst 9800-80",
+     "sku": [
+      "^C?9800-80"
+     ]
+    },
+    {
+     "series": "Catalyst 9800-40",
+     "sku": [
+      "^C?9800-40"
+     ]
+    },
+    {
+     "series": "Catalyst 9800-L",
+     "sku": [
+      "^C?9800-L",
+      "^CW9800L"
+     ]
+    },
+    {
+     "series": "Catalyst CW9800M",
+     "sku": [
+      "^CW9800M"
+     ]
+    },
+    {
+     "series": "Catalyst CW9800H1 / CW9800H2",
+     "sku": [
+      "^CW9800H"
+     ]
+    },
+    {
+     "series": "Catalyst 9800 Wireless Controllers shared parts",
+     "sku": [
+      "^C9800"
+     ],
+     "labels": [
+      "Catalyst 9800 Series Wireless Controllers"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "AireOS Wireless LAN Controllers",
+   "series": [
+    {
+     "series": "2500 (2504)",
+     "sku": [
+      "CT25[0-9]{2}",
+      "^AIRCT2504"
+     ],
+     "labels": [
+      "2500"
+     ]
+    },
+    {
+     "series": "3500 (3504)",
+     "sku": [
+      "CT35[0-9]{2}",
+      "^AIR-3504"
+     ],
+     "labels": [
+      "3500"
+     ]
+    },
+    {
+     "series": "5500 (5508 / 5520 / 5540)",
+     "sku": [
+      "CT55[0-9]{2}",
+      "^AIR-5540",
+      "^AIR-5508"
+     ],
+     "labels": [
+      "5500"
+     ]
+    },
+    {
+     "series": "8500 (8510 / 8540 / 8580)",
+     "sku": [
+      "CT85[0-9]{2}",
+      "^AIR-85[48]0"
+     ],
+     "labels": [
+      "8500"
+     ]
+    },
+    {
+     "series": "WLC + access point bundles",
+     "sku": [
+      "^WL(55|85)[0-9]{2}-",
+      "^KAISER-WLC"
+     ]
+    },
+    {
+     "series": "WiSM2 (Catalyst 6500 wireless services module)",
+     "sku": [
+      "WISM"
+     ]
+    },
+    {
+     "series": "AireOS Wireless LAN Controllers shared parts",
+     "sku": [
+      "^AIR-(CT|WLC|VPN)",
+      "^AIR-330-"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Location and Spaces Appliances",
+   "series": [
+    {
+     "series": "CMX 3375 / MSE 3355 / 3365",
+     "sku": [
+      "^AIR-MSE",
+      "^AIR-CMX",
+      "^CMX-",
+      "^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-",
+      "^MSE-"
+     ],
+     "labels": [
+      "Mobility Services Engine"
+     ]
+    },
+    {
+     "series": "Catalyst Center location appliance (DN3-LOC)",
+     "sku": [
+      "^DN3-L"
+     ]
+    },
+    {
+     "series": "Exciters and BLE / VBLE radio modules",
+     "sku": [
+      "^ASCT-",
+      "^AIR-RM-VBLE",
+      "^AIR-AP-VBLE"
+     ]
+    },
+    {
+     "series": "Spectrum Expert",
+     "sku": [
+      "^COGNIO"
+     ],
+     "labels": [
+      "Spectrum Expert"
+     ]
+    }
+   ]
+  },
+  {
+   "line": "Wireless Antennas and Accessories",
+   "series": [
+    {
+     "series": "Antennas",
+     "sku": [
+      "^AIR-ANT",
+      "^ANT-",
+      "^AIR-420-1625",
+      "^IW-ANT"
+     ]
+    },
+    {
+     "series": "Power injectors, supplies and cords",
+     "sku": [
+      "^AIR-PWR",
+      "^AIR-CORD",
+      "^PWR-"
+     ]
+    },
+    {
+     "series": "Cables",
+     "sku": [
+      "^AIR-CAB",
+      "^AIR-420-",
+      "^CAB-"
+     ]
+    },
+    {
+     "series": "Wireless Antennas and Accessories shared parts",
+     "labels": [
+      "Antennas/Accessories",
+      "Policy Suite for Mobile",
+      "7600 Wireless Security Gateway",
+      "Catalyst Center",
+      "ASR 5000 Series"
+     ]
+    }
+   ]
+  }
+ ],
+ "shared_accessories": [
+  "^CAB-",
+  "CABLE",
+  "RAIL",
+  "BRKT",
+  "BRACKET",
+  "BLANK",
+  "MNT",
+  "MOUNT",
+  "RMNT",
+  "RFID",
+  "CORD"
+ ]
+}

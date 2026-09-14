@@ -107,6 +107,31 @@ witness("servers-unified-computing", [
   ["HCI-CPU-I8480+", "Intel 8480+", "UCS C-Series", "(not this category)", "hyperconverged-infrastructure"],
 ]);
 
+// ---- wireless (done 14 Sep 2026) ----
+witness("wireless", [
+  ["AIR-AP3802I-B-K9C", "802.11ac W2 AP", "3800", "Aironet Access Points", "Aironet 3800"],
+  ["AIRAP1852I-NBULKC", "BOM Level AP1852i Bulk PID", "Aironet 1850", "Aironet Access Points", "Aironet 1850"],          // glued AIRAP prefix
+  ["PULS-AP2802I-R-K9", "Aironet 2800", "2800", "Aironet Access Points", "Aironet 2800"],                                // PULS- prefix
+  ["AIR-CAP1552H-C-K9", "Outdoor Mesh AP, Haz. Loc.", "Aironet 1550", "Aironet Access Points", "Aironet 1550 hazardous-location (H / SA / SD / WU)"],
+  ["AIR-CAP1552E-M-K9", "Outdoor Mesh AP", "Aironet 1550", "Aironet Access Points", "Aironet 1550"],
+  ["C9130AXE-EWC-I", "C9130AX with EWC", "Catalyst Embedded Controller", "Catalyst 9100 Access Points", "Catalyst 9130AX"], // label is the controller
+  ["C9124AXD-EWC-R", "Wi-Fi 6 Outdoor AP w/EWC", "Catalyst 9800 Series Wireless Controllers", "Catalyst 9100 Access Points", "Catalyst 9124AX (outdoor)"],
+  ["5-CBW141ACM-E-UK", "Mesh Extender 5-pack", "Business 100", "Cisco Business Wireless", "Cisco Business 141 / 142 / 143 mesh extenders"],
+  ["WAP571E-A-K9", "Dual Radio Outdoor AP", "Small Business 500", "Small Business Wireless (WAP)", "WAP571E (outdoor)"],
+  ["EDU-CT5520-K9", "5520 Wireless Controller", "5500", "AireOS Wireless LAN Controllers", "5500 (5508 / 5520 / 5540)"],
+  ["CW9800H2", "Cisco Catalyst CW9800H2 Wireless Controller", "Catalyst 9800 Series Wireless Controllers", "Catalyst 9800 Wireless Controllers", "Catalyst CW9800H1 / CW9800H2"],
+  ["MR84", "Cisco MR84", "", "Meraki MR Access Points", "Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)"],
+  ["CS-ROOM70P-FSK=", "Cisco Room 70 Panorama Floor Stand Kit", "Policy Suite for Mobile", "(not this category)", "collaboration-endpoints"],
+  ["ASR5K-SMC-K9", "System Management Card", "ASR 5000 Series", "(not this category)", "routers"],
+]);
+{
+  const { deployRoleResult } = await import("../src/core/deployRole.js");
+  check("role table (wireless): the AP role comes from the series — 1552H industrial, 1552E outdoor, 3802I indoor",
+    deployRoleResult("wireless", "ap", "AIR-CAP1552H-C-K9", "x").role === "industrial" && deployRoleResult("wireless", "ap", "AIR-CAP1552E-M-K9", "x").role === "outdoor"
+      && deployRoleResult("wireless", "ap", "AIR-AP3802I-B-K9C", "x").rule === "series:Aironet 3800");
+  check("role table (meraki reads the wireless table): MR84 outdoor, MR33 indoor", deployRoleResult("meraki", "access-point", "MR84", "Cisco MR84").role === "outdoor" && deployRoleResult("meraki", "access-point", "MR33", "Cisco MR33").role === "indoor");
+}
+
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");
