@@ -61,6 +61,8 @@ const CASES: [string, string][] = [
   // Split out of `module` on 11 Sep 2026 — a supervisor is asked the system switching capacity and
   // its per-slot bandwidth, a fabric module only the latter, a daughter card neither.
   ["WS-X45-SUP7-E", "supervisor"],     // carries "-X4" too: supervisor runs before the line-card marker
+  ["WS-X4013+/2", "supervisor"],       // "Redundant Supervisor Engine II-Plus" (closing items at aa1143f, item 5; was linecard)
+  ["WS-X4516-10GE=", "supervisor"],    // "Supervisor V-10GE"; WS-X4748-RJ45-E above stays a line card
   ["N77-C7718-FAB-3", "fabric"],
   ["C9400X-SUP-2", "supervisor"],      // name is only the SKU; the SUP token decides
   ["C6800-SUP6T", "supervisor"],       // "6 Tbit/s Crossbar-Fabric"

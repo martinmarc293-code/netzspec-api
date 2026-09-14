@@ -69,11 +69,16 @@ if (dump) {
 }
 
 // the committed move / class plans (data/reference/kind-layer-plans-2026-09-13.json): planned rows are not layered here
-type Plan = { sku: string; category: string; action: string; to: string; reason?: string | null };
+type Plan = { sku: string; category: string; action: string; to: string; reason?: string | null; run_id?: number | string | null };
 const planFile = path.join(REPO_ROOT, "data", "reference", "kind-layer-plans-2026-09-13.json");
-const planOf = new Map<string, Plan>((fs.existsSync(planFile) ? JSON.parse(fs.readFileSync(planFile, "utf8")) as Plan[] : []).map((x) => [`${x.category}|${x.sku.trim().toUpperCase()}`, x]));
+const allPlans: Plan[] = fs.existsSync(planFile) ? JSON.parse(fs.readFileSync(planFile, "utf8")) as Plan[] : [];
+const planOf = new Map<string, Plan>(allPlans.map((x) => [`${x.category}|${x.sku.trim().toUpperCase()}`, x]));
+// closing items at aa1143f, item 1: a DEVICE never sits in shared parts — a device the label evidence does not support is held for review
+const DEVICE_KINDS = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance"]);
 
-type SeriesNode = { series: string; family: string | null; role: string | null; note: string | null; parts: number; kinds: Record<string, number>; roles: Record<string, number>; samples: string[]; rules: Record<string, number> };
+/** pending_in (closing items at aa1143f, item 2): rows other categories plan to move INTO this category that this mapping places in the
+ *  series, by source category — so a placeholder series (0 parts today) says what it is waiting for, in the JSON and on the page */
+type SeriesNode = { series: string; family: string | null; role: string | null; note: string | null; parts: number; kinds: Record<string, number>; roles: Record<string, number>; samples: string[]; rules: Record<string, number>; pending_in: Record<string, number> };
 type Tree = {
   vendor: string; category: string; built_at: string; commit: string | null; uncommitted_rule_files: string[] | null; mapping_file: string | null; parts: number;
   lines: { line: string; parts: number; series: SeriesNode[] }[];
@@ -85,6 +90,10 @@ type Tree = {
    *  "assigned"): a row a stored series label placed keeps its series only with a SKU token, a name, a family token or a
    *  compatible link to the series (src/core/labelEvidence.ts); otherwise it goes to its line's shared parts and is listed. */
   label_check: { applied: boolean; label_placed: number; by_kind: Record<string, number>; moved: { sku: string; name: string | null; series_label: string | null; from_series: string; to_series: string; why: string }[] };
+  /** device kinds (router, sp-router, switch, fex, chassis, appliance) the label check would have sent to shared parts: held, not placed */
+  pending_review: { sku: string; name: string | null; series_label: string | null; kind: string; from_series: string; why: string }[];
+  /** rows planned INTO this category that its mapping would not place, by source category */
+  inbound_unplaced: Record<string, number>;
   done: boolean;
   /** EVERY row (layers review 14 Sep 2026): what the page summarises, one record per live hardware part, so a mapping can be
    *  certified by row. bucket says which table the row is in; product_line/series are null outside "layered". */
@@ -92,7 +101,7 @@ type Tree = {
 };
 type LayerRow = {
   sku: string; name: string | null; series_label: string | null; kind: string;
-  bucket: "layered" | "not_this_category" | "pending_plan" | "unplaced";
+  bucket: "layered" | "not_this_category" | "pending_plan" | "pending_review" | "unplaced";
   product_line: string | null; product_family: string | null; series: string | null; placed_by: string | null;
   deploy_role: string | null; role_rule: string | null; role_issue: string | null;
   plan: { action: string; to: string; reason: string | null } | null;
@@ -121,9 +130,9 @@ function build(cat: string): Tree {
   const loaded = loadLineFile(vendor, cat);
   const lines = new Map<string, Map<string, SeriesNode>>();
   const tree: Tree = { vendor, category: cat, built_at: new Date().toISOString(), commit: PROVENANCE.commit, uncommitted_rule_files: PROVENANCE.uncommitted_rule_files, mapping_file: loaded ? path.relative(REPO_ROOT, lineFilePath(vendor, cat)).replace(/\\/g, "/") : null,
-    parts: mine.length, lines: [], not_this_category: [], pending_plans: [], unplaced: [], label_check: { applied: false, label_placed: 0, by_kind: {}, moved: [] }, done: false, rows: [] };
+    parts: mine.length, lines: [], not_this_category: [], pending_plans: [], unplaced: [], label_check: { applied: false, label_placed: 0, by_kind: {}, moved: [] }, pending_review: [], inbound_unplaced: {}, done: false, rows: [] };
   // lines appear in the mapping file's order, series too (a reader's order, not a count order)
-  if (loaded) for (const l of loaded.file.lines) { const m = new Map<string, SeriesNode>(); for (const s of l.series) m.set(s.series, { series: s.series, family: s.family?.trim() || null, role: s.role ?? null, note: s.note ?? null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {} }); lines.set(l.line, m); }
+  if (loaded) for (const l of loaded.file.lines) { const m = new Map<string, SeriesNode>(); for (const s of l.series) m.set(s.series, { series: s.series, family: s.series === SHARED_PARTS(l.line) ? SHARED_ACROSS_LINE : s.family?.trim() || null, role: s.role ?? null, note: s.note ?? null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {}, pending_in: {} }); lines.set(l.line, m); }
   // the spare rule (review A.1): X and X= share one placement, the better-evidenced member's
   const placed = placeWithSpareRule(vendor, cat, mine, loaded);
   // the label check, once the category's families are reviewed; planned rows are not layered, so not judged
@@ -161,6 +170,12 @@ function build(cat: string): Tree {
       continue;
     }
     let p = placed.get(r.sku) ?? null;
+    if (p && p.line !== "(not this category)" && ev?.kind === "none" && DEVICE_KINDS.has(kind)) {
+      // a device is never a shared part: held for review with the reason, not placed
+      tree.pending_review.push({ sku: r.sku, name: r.name, series_label: r.series, kind, from_series: p.series, why: ev.detail });
+      tree.rows.push({ ...base, bucket: "pending_review", product_line: null, product_family: null, series: null, placed_by: `label-unsupported device (${p.rule}; was ${p.series}): ${ev.detail}`, plan: null, belongs: null });
+      continue;
+    }
     if (p && p.line !== "(not this category)" && ev?.kind === "none") {
       // a label with nothing behind it: the line's shared parts, never silently the series
       tree.label_check.moved.push({ sku: r.sku, name: r.name, series_label: r.series, from_series: p.series, to_series: SHARED_PARTS(p.line), why: ev.detail });
@@ -175,7 +190,7 @@ function build(cat: string): Tree {
     }
     tree.rows.push({ ...base, bucket: "layered", product_line: p.line, product_family: p.series === SHARED_PARTS(p.line) ? SHARED_ACROSS_LINE : familyOf(loaded, p.series), series: p.series, placed_by: p.rule, plan: null, belongs: null });
     const lm = lines.get(p.line)!;
-    if (!lm.has(p.series)) lm.set(p.series, { series: p.series, family: p.series === SHARED_PARTS(p.line) ? SHARED_ACROSS_LINE : null, role: null, note: null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {} }); // "<line> shared parts"
+    if (!lm.has(p.series)) lm.set(p.series, { series: p.series, family: p.series === SHARED_PARTS(p.line) ? SHARED_ACROSS_LINE : null, role: null, note: null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {}, pending_in: {} }); // "<line> shared parts"
     const node = lm.get(p.series)!;
     node.parts++;
     const role = rr.role;
@@ -186,11 +201,26 @@ function build(cat: string): Tree {
     node.rules[ruleKind] = (node.rules[ruleKind] ?? 0) + 1;
     if (node.samples.length < 6) node.samples.push(`${r.sku} — ${String(r.name ?? "").slice(0, 60)}`);
   }
+  // what other categories plan to move in, placed by THIS mapping: counted on the series it would land in
+  if (loaded) {
+    const inbound = allPlans.filter((x) => x.action === "move" && x.to === cat && x.category !== cat && (x.run_id ?? null) === null);
+    const fromOf = new Map(inbound.map((x) => [`${x.category}|${x.sku.trim().toUpperCase()}`, x.category]));
+    const inRows = rows.filter((r) => r.category !== cat && fromOf.has(`${r.category}|${r.sku.trim().toUpperCase()}`));
+    const inPlaced = placeWithSpareRule(vendor, cat, inRows, loaded);
+    for (const r of inRows) {
+      const from = fromOf.get(`${r.category}|${r.sku.trim().toUpperCase()}`)!, q = inPlaced.get(r.sku) ?? null;
+      if (!q || q.line === "(not this category)") { tree.inbound_unplaced[from] = (tree.inbound_unplaced[from] ?? 0) + 1; continue; }
+      const lm = lines.get(q.line)!;
+      if (!lm.has(q.series)) lm.set(q.series, { series: q.series, family: q.series === SHARED_PARTS(q.line) ? SHARED_ACROSS_LINE : null, role: null, note: null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {}, pending_in: {} });
+      const node = lm.get(q.series)!;
+      node.pending_in[from] = (node.pending_in[from] ?? 0) + 1;
+    }
+  }
   for (const [line, m] of lines) {
     const series = [...m.values()];
     tree.lines.push({ line, parts: series.reduce((a, s) => a + s.parts, 0), series });
   }
-  tree.done = loaded !== null && tree.unplaced.length === 0;
+  tree.done = loaded !== null && tree.unplaced.length === 0 && tree.pending_review.length === 0;
   return tree;
 }
 
@@ -212,11 +242,15 @@ function categoryPage(t: Tree): string {
     t.lines.map((l) => `<tr><td><b>${esc(l.line)}</b></td><td>${[...new Set(l.series.map((s) => s.family).filter((x) => x && x !== SHARED_ACROSS_LINE))].map((f) => esc(f!)).join(", ") || "<span class=m>— (Cisco names none)</span>"}</td><td>${l.series.length} series</td><td class=r>${l.parts.toLocaleString("en-US")}</td><td>${roleTotals(l)}</td></tr>`).join("") +
     `<tr><td class=warn>(not this category)</td><td>listed below with reasons</td><td class=r>${t.not_this_category.length}</td></tr>` +
     `<tr><td class=warn>(pending move / class change)</td><td>planned, listed below</td><td class=r>${t.pending_plans.length}</td></tr>` +
+    `<tr><td class=bad>(pending review — devices the label does not support)</td><td>listed below</td><td class=r>${t.pending_review.length}</td></tr>` +
     `<tr><td class=bad>(unplaced)</td><td></td><td class=r>${t.unplaced.length}</td></tr></table>`;
   for (const l of t.lines) {
     body += `<h2>${esc(l.line)} — ${l.parts.toLocaleString("en-US")} parts</h2><p class=m>deploy_role totals: ${roleTotals(l)}</p><table><tr><th>family</th><th>series</th><th>deploy_role (series table)</th><th>parts</th><th>part types</th><th>role as the cup engine assigns it</th><th>examples</th></tr>` +
-      [...l.series].sort((a, b) => (famRank(a.family) - famRank(b.family)) || (a.family ?? "").localeCompare(b.family ?? "")).map((s) => `<tr><td>${s.family ? esc(s.family) : "<span class=m>—</span>"}</td><td><b>${esc(s.series)}</b>${s.note ? `<br><span class=warn>${esc(s.note)}</span>` : ""}</td><td>${s.role ? esc(s.role) : "<span class=m>none (no role)</span>"}</td><td class=r>${s.parts}</td><td>${Object.entries(s.kinds).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${esc(k)} ${n}`).join(", ")}</td><td>${Object.entries(s.roles).map(([r, n]) => `${esc(r)} ${n}`).join(", ") || "<span class=m>—</span>"}</td><td class=m>${s.samples.map(esc).join("<br>")}</td></tr>`).join("") + `</table>`;
+      [...l.series].sort((a, b) => (famRank(a.family) - famRank(b.family)) || (a.family ?? "").localeCompare(b.family ?? "")).map((s) => `<tr><td>${s.family ? esc(s.family) : "<span class=m>—</span>"}</td><td><b>${esc(s.series)}</b>${s.note ? `<br><span class=warn>${esc(s.note)}</span>` : ""}${Object.entries(s.pending_in).map(([from, n]) => `<br><span class=warn>pending ${n} from ${esc(from)}</span>`).join("")}</td><td>${s.role ? esc(s.role) : "<span class=m>none (no role)</span>"}</td><td class=r>${s.parts}</td><td>${Object.entries(s.kinds).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${esc(k)} ${n}`).join(", ")}</td><td>${Object.entries(s.roles).map(([r, n]) => `${esc(r)} ${n}`).join(", ") || "<span class=m>—</span>"}</td><td class=m>${s.samples.map(esc).join("<br>")}</td></tr>`).join("") + `</table>`;
   }
+  if (t.pending_review.length) body += `<h2 class=bad>Pending review — ${t.pending_review.length} devices</h2><p class=m>A router, switch, FEX, chassis or appliance whose stored label the evidence does not support: a device is never a shared part, so it waits here for a SKU rule or a decision.</p><table><tr><th>SKU</th><th>name</th><th>kind</th><th>label said</th><th>why</th></tr>` +
+    t.pending_review.map((x) => `<tr><td>${esc(x.sku)}</td><td>${esc(x.name)}</td><td>${esc(x.kind)}</td><td>${esc(x.from_series)}</td><td class=m>${esc(x.why)}</td></tr>`).join("") + `</table>`;
+  if (Object.keys(t.inbound_unplaced).length) body += `<p class=warn>Planned to move INTO this category but not placed by its mapping yet: ${Object.entries(t.inbound_unplaced).map(([f, n]) => `${n} from ${esc(f)}`).join(", ")}.</p>`;
   if (t.label_check.applied) {
     const kept = t.label_check.label_placed - t.label_check.moved.length;
     body += `<h2 class=warn>Label check — ${t.label_check.label_placed} rows placed only by a stored series label: ${kept} evidenced, ${t.label_check.moved.length} moved to shared parts</h2>
@@ -251,7 +285,7 @@ for (const cat of targets) {
       r.plan ? `${r.plan.action} ${r.plan.to}` : "", r.belongs, r.label_evidence].map(cell).join("\t"));
     fs.writeFileSync(path.join(REPO_ROOT, "data", "layers", `${vendor}-${cat}.rows.tsv`), [head.join("\t"), ...lines].join("\n") + "\n");
   }
-  console.log(`${cat.padEnd(30)} parts ${String(t.parts).padStart(5)}  lines ${String(t.lines.length).padStart(2)}  series ${String(t.lines.reduce((a, l) => a + l.series.length, 0)).padStart(3)}  not-this-category ${String(t.not_this_category.length).padStart(4)}  planned ${String(t.pending_plans.length).padStart(4)}  unplaced ${String(t.unplaced.length).padStart(5)}  ${t.label_check.applied ? `label-placed ${t.label_check.label_placed} moved ${t.label_check.moved.length} ${JSON.stringify(t.label_check.by_kind)}  ` : ""}${!t.mapping_file ? "NOT STARTED" : t.done ? "DONE" : "IN PROGRESS"}`);
+  console.log(`${cat.padEnd(30)} parts ${String(t.parts).padStart(5)}  lines ${String(t.lines.length).padStart(2)}  series ${String(t.lines.reduce((a, l) => a + l.series.length, 0)).padStart(3)}  not-this-category ${String(t.not_this_category.length).padStart(4)}  planned ${String(t.pending_plans.length).padStart(4)}  unplaced ${String(t.unplaced.length).padStart(5)}  ${t.pending_review.length ? `pending-review ${t.pending_review.length}  ` : ""}${t.label_check.applied ? `label-placed ${t.label_check.label_placed} moved ${t.label_check.moved.length} ${JSON.stringify(t.label_check.by_kind)}  ` : ""}${!t.mapping_file ? "NOT STARTED" : t.done ? "DONE" : "IN PROGRESS"}`);
   if (!all && t.unplaced.length) {
     const by = new Map<string, number>();
     for (const u of t.unplaced) by.set(u.series_label ?? "(null)", (by.get(u.series_label ?? "(null)") ?? 0) + 1);

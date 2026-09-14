@@ -1428,6 +1428,9 @@ const collabBlock = (): Record<string, Requirement> => ({
   memory_speed_max: cK(["server", "cpu", "memory"], true),
   tdp: cK(["cpu"], true), clock_speed: cK(["cpu"], true), cpu_cores: cK(["cpu"], true), cpu_cache: cK(["cpu"], true),
   dram: cK(["memory"], true),
+  // FLASH (closing items at aa1143f, item 4; operator 14 Sep 2026): the VG224 / IAD2430 flash cards are kind flash, asked their
+  // capacity; no other collaboration kind is asked it.
+  flash: cK(["flash"]),
   // DRIVE (capacity, interface, drive_form_factor NEW), STORAGE-CONTROLLER (raid level, interface), NIC (ports below, data
   // rate, card size).
   storage_capacity: cK(["drive"], true), drive_interface: cK(["drive", "storage-controller"], true), drive_form_factor: opt, // reviewer C.3 (13 Sep 2026): 0 label occurrences over held parts -> OPTIONAL, promote when measured (spec rule 8)

@@ -8,12 +8,13 @@
 // counts in its stats, reads the result back from a new query and fails the run if they differ.
 import { execFileSync } from "node:child_process";
 import { getPool, closePool, withRun, withTx } from "../store/index.js";
-import { assertDetector, planGermanNames, isGermanName, planSpareWording, SPARE_LEFT, SPARE_REMOVED, type NameRow } from "../core/germanName.js";
+import { assertDetector, planGermanNames, isGermanName, planSpareWording, planPackagingNotes, SPARE_LEFT, SPARE_REMOVED, FIXED_UNIT_SKU, PACKAGING_NOTE, type NameRow } from "../core/germanName.js";
 import { REPO_ROOT } from "../config.js";
 
 export async function main(argv: string[]): Promise<void> {
   const commit = argv.includes("--commit");
   const vendor = argv.includes("--vendor") ? argv[argv.indexOf("--vendor") + 1] : "cisco";
+  if (argv.includes("--strip-packaging")) return stripPackaging(vendor, commit);
   if (argv.includes("--strip-spare")) return stripSpare(vendor, commit);
   assertDetector();
   const pool = getPool();
@@ -63,6 +64,53 @@ export async function main(argv: string[]): Promise<void> {
     if (german_unhandled || lost_german || english < predicted.english_from_twin || flagged < predicted.flag_german)
       throw new Error(`name-language: actual ${JSON.stringify(actual)} does not match predicted ${JSON.stringify(predicted)}`);
     return { stats: { ...actual, predicted_english: predicted.english_from_twin, predicted_flagged: predicted.flag_german }, notes: `German titles kept in name_de: ${english + flagged}; English from a twin: ${english}; flagged de: ${flagged}` };
+  }, { gitSha });
+  console.log(`COMMITTED run ${out.runId}: ${JSON.stringify(out.stats)}`);
+  await closePool();
+}
+
+// `ingest name-language --strip-packaging [--commit]` (closing items at aa1143f, item 3; operator 14 Sep 2026): a FIXED unit's base
+// that borrowed its spare's name drops the spare's "no PS / no fans / For Service Only" note (planPackagingNotes); modular chassis keep
+// it and are listed in the run record; spares are untouched. Asserts after: no borrowed fixed-unit base name carries the note, "spare"
+// or "="; every spare name is unchanged; the 21 chassis names are unchanged.
+async function stripPackaging(vendor: string, commit: boolean): Promise<void> {
+  const pool = getPool();
+  const read = async () => (await pool.query<{ id: number; sku: string; name: string; name_source: string | null }>(
+    `SELECT p.id, p.sku, p.name, p.name_source FROM parts p JOIN vendors v ON v.id = p.vendor_id WHERE v.slug = $1`, [vendor])).rows;
+  const all = await read();
+  const borrowed = all.filter((r) => (r.name_source ?? "").startsWith("twin:")) as { id: number; sku: string; name: string; name_source: string }[];
+  const { plans, kept_chassis, refused } = planPackagingNotes(borrowed);
+  const predicted = { borrowed_names: borrowed.length, to_strip: plans.length, kept_chassis: kept_chassis.length, refused: refused.length };
+  console.log(`name-language --strip-packaging ${vendor}: predicted ${JSON.stringify(predicted)}`);
+  for (const p of plans) console.log(`  ${p.sku}: "${p.name}" -> "${p.stripped}"  [${p.source}]`);
+  for (const k of kept_chassis) console.log(`  KEPT ${k.sku}: "${k.name}" (${k.reason})`);
+  if (refused.length) { for (const x of refused) console.log(`  REFUSED ${x.sku}: "${x.name}" — ${x.why}`); await closePool(); throw new Error(`strip-packaging: ${refused.length} row(s) need a hand check first`); }
+  if (!commit) { console.log("DRY RUN — nothing written. Add --commit."); await closePool(); return; }
+  if (!plans.length) { console.log("nothing to do"); await closePool(); return; }
+
+  const spareBefore = new Map(all.filter((r) => r.sku.trim().endsWith("=")).map((r) => [r.id, r.name]));
+  const chassisBefore = new Map(kept_chassis.map((k) => [k.sku, k.name]));
+  let gitSha: string | undefined;
+  try { gitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8" }).trim(); } catch { gitSha = undefined; }
+  const out = await withRun("name-spare-packaging", { vendor, decision: "closing items at aa1143f item 3, operator 14 Sep 2026: strip on all fixed units, keep on modular chassis and spares", predicted,
+    kept_chassis, planned: plans.map((p) => ({ sku: p.sku, before: p.name, after: p.stripped, removed: p.removed })) }, async () => {
+    await withTx(async (client) => {
+      const a = await client.query(
+        `UPDATE parts p SET name = u.stripped, name_source = u.source, updated_at = now()
+           FROM unnest($1::bigint[], $2::text[], $3::text[], $4::text[], $5::text[]) AS u(id, old, old_source, stripped, source)
+          WHERE p.id = u.id AND p.name = u.old AND p.name_source = u.old_source`,
+        [plans.map((p) => p.id), plans.map((p) => p.name), plans.map((p) => p.name_source), plans.map((p) => p.stripped), plans.map((p) => p.source)]);
+      if (a.rowCount !== plans.length) throw new Error(`strip-packaging: wrote ${a.rowCount}/${plans.length} — a row changed between plan and write; nothing committed`);
+    });
+    const after = await read();
+    const fixedLeft = after.filter((r) => (r.name_source ?? "").startsWith("twin:") && !r.sku.trim().endsWith("=") && FIXED_UNIT_SKU.test(r.sku.trim().toUpperCase())
+      && (PACKAGING_NOTE.test(r.name) || SPARE_LEFT.test(r.name)));
+    const sparesChanged = after.filter((r) => spareBefore.has(r.id) && spareBefore.get(r.id) !== r.name).length;
+    const chassisChanged = after.filter((r) => chassisBefore.has(r.sku) && chassisBefore.get(r.sku) !== r.name).length;
+    const marked = after.filter((r) => plans.some((p) => p.id === r.id) && r.name_source === plans.find((p) => p.id === r.id)!.source).length;
+    const actual = { stripped: marked, fixed_base_names_still_carrying: fixedLeft.length, spares_changed: sparesChanged, chassis_changed: chassisChanged };
+    if (fixedLeft.length || sparesChanged || chassisChanged || marked !== plans.length) throw new Error(`strip-packaging: actual ${JSON.stringify(actual)} does not match predicted ${JSON.stringify(predicted)}`);
+    return { stats: { ...actual, kept_chassis: kept_chassis.length, predicted_to_strip: plans.length }, notes: `packaging note removed from ${plans.length} fixed-unit base names; ${kept_chassis.length} modular chassis kept (base ships without power supplies); spares unchanged` };
   }, { gitSha });
   console.log(`COMMITTED run ${out.runId}: ${JSON.stringify(out.stats)}`);
   await closePool();

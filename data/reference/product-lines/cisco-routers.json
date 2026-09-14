@@ -236,15 +236,16 @@
      ]
     },
     {
-     "series": "ISR 819 Hardened (M2M)",
+     "series": "ISR 819 (M2M)",
      "role": "industrial-iot",
      "sku": [
-      "^C819H"
+      "^C819(?![0-9])"
      ],
      "family": "ISR 800",
      "name": [
       "(?<![0-9A-Z])C?819(?![0-9])"
-     ]
+     ],
+     "note": "was \"ISR 819 Hardened (M2M)\" with ^C819H; every C819 (C819G, C819GW, C819H…) is Cisco's 819 M2M Integrated Services Router — one series, role industrial-iot (closing items at aa1143f (14 Sep 2026), item 6, decided)"
     },
     {
      "series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
@@ -389,11 +390,13 @@
      "sku": [
       "^(M-)?ASR1[0-9]{3}",
       "^(M-)?ASR1K",
-      "^EPA-(?!3GE|GE/FE)"
+      "^EPA-(?!3GE|GE/FE)",
+      "^CUBESP-"
      ],
      "labels": [
       "ASR 1000"
-     ]
+     ],
+     "note": "CUBESP-AP-* (CUBE(SP) appliances, SIP-10 slots) placed by SKU (closing items at aa1143f (14 Sep 2026), item 1)"
     },
     {
      "series": "ASR 5000 and 5500",
@@ -477,7 +480,7 @@
      "labels": [
       "Network Convergence System 4200 Series"
      ],
-     "note": "arriving from optical-networking (layers review round 2 decision (14 Sep 2026)): 67 rows carry move plans; the TDM CEM cable kits (CABLE-16TDM-*) are placed here with them, not under ASR shared parts"
+     "note": "arriving from optical-networking (layers review round 2 decision, 14 Sep 2026): 67 rows carry move plans. DUAL-PLATFORM (closing items at aa1143f (14 Sep 2026), item 8, decided): the CABLE-16TDM-* cables and kits cable the 16-port TDM CEM interface modules of BOTH the NCS 4200 and the ASR 902 / 903 (A900-IMA16D); they stay here by SKU, the way 7600-SIP-400 (a Cisco 7600 card) stays under Catalyst 6500 — ASR shared parts would misfile the NCS half"
     },
     {
      "series": "NCS 5500",
@@ -694,11 +697,14 @@
      "series": "RV Series",
      "role": "smb",
      "sku": [
-      "^RV[0-9]"
+      "^RV[0-9]",
+      "^R260P?-",
+      "^CVR[0-9]{3}"
      ],
      "labels": [
       "RV Series"
-     ]
+     ],
+     "note": "R260 / R260P (Korea) and CVR328W are Small Business routers placed by SKU (closing items at aa1143f (14 Sep 2026), item 1)"
     }
    ]
   },
@@ -764,97 +770,6 @@
      ]
     }
    ]
-  },
-  {
-   "line": "Router Interface Modules",
-   "series": [
-    {
-     "series": "NIM (Network Interface Modules)",
-     "sku": [
-      "^NIM-",
-      "^C-NIM-"
-     ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
-    },
-    {
-     "series": "SM-X and SM Service Modules",
-     "sku": [
-      "^SM-X",
-      "^SM-(?!X)",
-      "^C-SM-",
-      "^UCS-E"
-     ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
-    },
-    {
-     "series": "ISM / EM Internal Service Modules",
-     "sku": [
-      "^ISM-",
-      "^EM-"
-     ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
-    },
-    {
-     "series": "EHWIC / HWIC / VWIC / WIC",
-     "sku": [
-      "^E?HWIC",
-      "^V?WIC"
-     ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
-    },
-    {
-     "series": "NM / NME Network Modules",
-     "sku": [
-      "^NME?-"
-     ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
-    },
-    {
-     "series": "PVDM Voice DSP Modules",
-     "sku": [
-      "^PVDM"
-     ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
-    },
-    {
-     "series": "VIC Voice Interface Cards",
-     "sku": [
-      "^VIC"
-     ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
-    },
-    {
-     "series": "SPA Shared Port Adapters",
-     "sku": [
-      "^SPA-"
-     ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
-    },
-    {
-     "series": "Pluggable Interface Modules (LTE / 5G)",
-     "sku": [
-      "^P-(LTE|5G|LTEA|LTEAP)"
-     ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
-    },
-    {
-     "series": "WP pluggable modules (IoT routers)",
-     "sku": [
-      "^WP-"
-     ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
-    },
-    {
-     "series": "Cellular Cards (MC / PCEX / WIM)",
-     "sku": [
-      "^MC7[0-9]{3}",
-      "^PCEX",
-      "^WIM-"
-     ],
-     "note": "multi-platform router card: every row carries a move plan to interfaces-modules (layers review A.3, rule 1 — multi-platform cards move, a card bound to one platform stays with that platform's series) · carried out by run #1068 (370 rows to interfaces-modules, 14 Sep 2026); the series stays to catch a router module that arrives in routers later, which then needs its own move plan"
-    }
-   ],
-   "no_family_reason": "move-out series: every row carries a plan to interfaces-modules (A.3 rule 1)"
   }
  ],
  "shared_accessories": [

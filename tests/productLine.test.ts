@@ -70,14 +70,16 @@ witness("switches", [
 
 // ---- routers (done 14 Sep 2026) ----
 witness("routers", [
-  ["C819HG-4G-A-K9", "C819 Hardened 4G LTE M2M GW for ATT 700 MHz Band 17", "800", "ISR (Integrated Services Routers)", "ISR 819 Hardened (M2M)"], // not ISR 800
+  ["C819HG-4G-A-K9", "C819 Hardened 4G LTE M2M GW for ATT 700 MHz Band 17", "800", "ISR (Integrated Services Routers)", "ISR 819 (M2M)"], // not ISR 810…890
+  ["C819G-4G-A-K9", "C819 M2M 4G LTE for ATT, 700 MHz Band 17, HSPA+", "800", "ISR (Integrated Services Routers)", "ISR 819 (M2M)"], // every C819, hardened or not (closing items at aa1143f, item 6)
+  ["CUBESP-AP-H250B/K9", "CUBE(SP) appliance,250 Session,10G Engine,2xSIP10,16xGE,HA", "ASR 1000", "ASR (Aggregation Services Routers)", "ASR 1000"], // item 1: by SKU
+  ["R260-K9-KR", "Cisco R260-K9-KR", "RV Series", "Small Business Routers", "RV Series"],                                    // item 1: by SKU
   ["MEM-C8300-8GB=", "Cisco Catalyst 8300 Edge 8GB memory", "Catalyst 8200", "Catalyst 8000 Edge", "Catalyst 8300"],       // label says 8200
   ["MEM-C8500-32GB", "Cisco C8500 32 GB memory", "Catalyst 8500L", "Catalyst 8000 Edge", "Catalyst 8500"],                  // label says 8500L
   ["PWR-CC1-1000WAC", "Cisco C8300 2RU AC 1KW Power supply", "Catalyst 8200", "Catalyst 8000 Edge", "Catalyst 8300"],       // the name decides over the label
   ["SSD-STAT-480GB", "480GB SATA Solid disk drive for Cisco uCPE 8200", "5000 Enterprise Network Compute", "Catalyst 8000 Edge", "Catalyst 8200 Edge uCPE"],
   ["C8355-G2", "Cisco 8300 Secure Router with 4x10GE, 4x5GE, 2x1GE, and 1xPIM", "8000", "Secure Routers", "8300 Secure Router"],
   ["C8300-1N1S-6T", "Cisco Catalyst 8300 Edge platform", "Catalyst 8300", "Catalyst 8000 Edge", "Catalyst 8300"],
-  ["C-NIM-1X", "1-port 10Gbps SFP/SFP+ NIM with WAN MACSec", "Catalyst 8300", "Router Interface Modules", "NIM (Network Interface Modules)"],
   ["7206VXRG2/2+VPNK9", "Cisco 7206VXRG2/2+VPNK9", "2900 ISR", "Legacy Service Routers", "Cisco 7200"],                   // label says 2900
   ["CG522-E", "Cisco Catalyst Cellular Gateway, supporting 5G Sub6", "Catalyst Cellular Gateways", "Industrial and IoT Routers", "Catalyst Cellular Gateway CG418 and CG522"],
   ["IR8340-K9", "Cisco Catalyst IR8340 Rugged Router", "Catalyst IR8300 Rugged Series Router", "Industrial and IoT Routers", "IR 8300"], // IR8340, not IR8300
@@ -271,11 +273,15 @@ witness("interfaces-modules", [
   ["7300-1OC12POS-SMI", "1-port OC-12c/STM-4 POS, Cisco 7304", "Line cards", "(not this category)", "routers"],
   ["EPA-3GE-SX/LH-LC", "Cisco 12000 Series 3-Port Gigabit Ethernet Port Adapter", "Line cards", "Router and switch line cards (legacy)", "Router and switch line cards (legacy) shared parts"], // 12000: no platform in routers
 ]);
-check("item 7: a router card places in the same product line and series in routers and in interfaces-modules",
-  ["NIM-2T", "SPA-1X10GE-L-V2", "EHWIC-VA-DSL-A", "PVDM4-32", "C-NIM-1X", "P-LTEA-EA", "WP-WIFI6-A"].every((s) => {
-    const a = placePart("cisco", "routers", { sku: s, name: "", series: "" }), b = placePart("cisco", "interfaces-modules", { sku: s, name: "", series: "" });
-    return a !== null && b !== null && a.line === b.line && a.series === b.series;
-  }));
+// item 7 carried out (runs #1068 / #1069; closing items at aa1143f, item 2): the multi-platform router cards place in interfaces-modules'
+// Router Interface Modules line, and no routers SKU rule claims them any more (a card arriving in routers is unplaced, a visible decision)
+{
+  const cards = ["NIM-2T", "SPA-1X10GE-L-V2", "EHWIC-VA-DSL-A", "PVDM4-32", "C-NIM-1X", "P-LTEA-EA", "WP-WIFI6-A"];
+  const im = cards.map((s) => [s, placePart("cisco", "interfaces-modules", { sku: s, name: "", series: "" })] as const);
+  check("item 7: every router card places under interfaces-modules / Router Interface Modules", im.every(([, p]) => p?.line === "Router Interface Modules"), im.filter(([, p]) => p?.line !== "Router Interface Modules").map(([s, p]) => `${s} -> ${p?.line}`).join("; "));
+  const rt = cards.map((s) => [s, placePart("cisco", "routers", { sku: s, name: "", series: "" })] as const).filter(([, p]) => p !== null);
+  check("item 7: no routers rule claims a router card any more", rt.length === 0, rt.map(([s, p]) => `${s} -> ${p!.series} (${p!.rule})`).join("; "));
+}
 
 // ---- storage-networking (done 14 Sep 2026) ----
 witness("storage-networking", [
@@ -308,14 +314,17 @@ check("every one of the 17 categories has a mapping file that validates", files.
 // ---- item 8: ONE series -> role table, read by the cup engine ----
 {
   const { deployRole, deployRoleResult } = await import("../src/core/deployRole.js");
-  check("role table: MS390-24 is core-agg through deployRole (the series table, reviewer C.6), not the old access rule", deployRole("switches", "switch", "MS390-24", "Cisco MS390-24") === "core-agg");
+  check("role table: MS390-24 is access through the series table (reviewer's correction at aa1143f, item 9), MS410-16 stays core-agg", deployRole("switches", "switch", "MS390-24", "Cisco MS390-24") === "access" && deployRole("switches", "switch", "MS410-16", "Cisco MS410-16") === "core-agg");
+  { const { loadLineFile } = await import("../src/core/productLine.js");
+    check("routers: the emptied Router Interface Modules line is gone (its cards live in interfaces-modules, runs #1068 / #1069)", !loadLineFile("cisco", "routers")!.file.lines.some((l) => l.line === "Router Interface Modules")); }
   check("role table: the rule that decided is the series", deployRoleResult("switches", "switch", "N9K-C93180YC-FX", "Nexus 9300").rule === "series:Nexus 9300");
   check("role table: a kind ISSUE still wins over the series role (DS-C9148V is not a switch)", deployRole("switches", "switch", "DS-C9148V-24EK9", "MDS 9148V") === null);
   check("role table: C6800IA Instant Access is access, the 6800 chassis series core-agg", deployRole("switches", "switch", "C6800IA-48FPD", "Instant Access") === "access" && deployRole("switches", "switch", "C6816-X-LE", "Catalyst 6816-X") === "core-agg");
   check("role table (routers): ISR 4331 branch, ASR 1001-X edge, C819 hardened industrial-iot, all from the series",
     deployRole("routers", "router", "ISR4331/K9", "Cisco ISR 4331") === "branch" && deployRole("routers", "router", "ASR1001-X", "Cisco ASR 1001-X") === "edge"
-      && deployRoleResult("routers", "router", "C819HG-4G-A-K9", "C819 Hardened 4G LTE M2M GW").rule === "series:ISR 819 Hardened (M2M)"
-      && deployRole("routers", "router", "C819HG-4G-A-K9", "C819 Hardened 4G LTE M2M GW") === "industrial-iot");
+      && deployRoleResult("routers", "router", "C819HG-4G-A-K9", "C819 Hardened 4G LTE M2M GW").rule === "series:ISR 819 (M2M)"
+      && deployRole("routers", "router", "C819HG-4G-A-K9", "C819 Hardened 4G LTE M2M GW") === "industrial-iot"
+      && deployRole("routers", "router", "C819G-4G-A-K9", "C819 M2M 4G LTE for ATT") === "industrial-iot");
 }
 
 // ---- sabotage ----

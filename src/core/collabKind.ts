@@ -51,7 +51,7 @@
 export type CollabKind =
   | "phone" | "dect-base" | "video-device" | "video-codec" | "camera" | "microphone" | "speaker" | "headset"
   | "touch-panel" | "display" | "expansion-module" | "gateway" | "ata" | "voice-module" | "server"
-  | "cpu" | "memory" | "drive" | "nic" | "storage-controller" | "tpm"
+  | "cpu" | "memory" | "drive" | "nic" | "storage-controller" | "tpm" | "flash"
   | "power" | "power-cord" | "cable" | "mechanical" | "accessory" | "transceiver" | "software"
   | "unknown";
 
@@ -59,7 +59,7 @@ export type CollabKind =
 export const COLLAB_KINDS: readonly CollabKind[] = [
   "phone", "dect-base", "video-device", "video-codec", "camera", "microphone", "speaker", "headset",
   "touch-panel", "display", "expansion-module", "gateway", "ata", "voice-module", "server",
-  "cpu", "memory", "drive", "nic", "storage-controller", "tpm",
+  "cpu", "memory", "drive", "nic", "storage-controller", "tpm", "flash",
   "power", "power-cord", "cable", "mechanical", "accessory", "transceiver", "software", "unknown",
 ];
 
@@ -78,7 +78,7 @@ export const COLLAB_VIDEO: readonly CollabKind[] = ["video-device", "video-codec
 /** Things with a screen of their own — asked `display`. A codec, a bar and a kit are not. */
 export const COLLAB_SCREEN: readonly CollabKind[] = ["phone", "video-device", "touch-panel", "display"];
 /** Parts bought for what they fit: a DSP or voice card, a server CPU or drive, a PSU, an expansion module. */
-export const COLLAB_FITS: readonly CollabKind[] = ["voice-module", ...COLLAB_SERVER_PART, "power", "expansion-module"];
+export const COLLAB_FITS: readonly CollabKind[] = ["voice-module", ...COLLAB_SERVER_PART, "flash", "power", "expansion-module"];
 /** A length of cable — asked its length. */
 export const COLLAB_CABLE: readonly CollabKind[] = ["power-cord", "cable"];
 
@@ -151,6 +151,11 @@ const RULES: { kind: CollabKind; re: RegExp }[] = [
   { kind: "tpm", re: new RegExp(`^${PART_FAM}(?:UCSX-)?TPM`) },
   { kind: "storage-controller", re: new RegExp(`^${PART_FAM}[A-Z0-9-]*RAID|^MCS-EXT-SCSI`) },
   { kind: "cpu", re: new RegExp(`^${PART_FAM}CPU(?:-|$)`) },
+  // The VG224 / IAD2430 gateway memory, planned in from routers — a component follows its host (closing items at aa1143f, item 4).
+  // Typed by what each NAME says (operator, 14 Sep 2026), which the size suffix mirrors on all 7 rows: "…D" = "128MB DRAM Memory
+  // for VG224" -> memory; "…F" = "64MB Flash Memory for IAD2430 series" -> flash (a new collaboration kind; its cup is `flash`).
+  { kind: "flash", re: /^MEM-2(?:24|43)-\d+X\d+F(?:-U)?$/ },
+  { kind: "memory", re: /^MEM-2(?:24|43)-\d+X\d+D(?:-U)?$/ },
   { kind: "memory", re: new RegExp(`^${PART_FAM}(?:RAM|MR-|MEM-)|^CIT\\d?-\\d+-\\d+-MEM-UPG|^MEM-\\d{4}-`) },
   { kind: "drive", re: new RegExp(`^${PART_FAM}(?:DISK|HDD?|SDB?\\d|SDC\\d|SD-|A03-D|M2-\\d)|^MCS-EXT-(?:DAT|SDLT)`) },
   { kind: "nic", re: new RegExp(`^${PART_FAM}(?:NIC|PCIE-I|N2XX-A|MLOM-)`) },

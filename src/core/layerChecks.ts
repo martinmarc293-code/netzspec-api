@@ -18,6 +18,32 @@ import { labelEvidence } from "./labelEvidence.js";
 
 export type LayerRow = Record<string, string>;
 
+/** closing items at aa1143f, item 1: a device is never a shared part */
+export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance"]);
+export function deviceInSharedParts(rows: LayerRow[]): LayerRow[] {
+  return rows.filter((r) => /shared parts$/.test(r.series ?? "") && DEVICE_KINDS.has(r.kind ?? ""));
+}
+
+type SeriesEntry = { series: string; family: string | null; parts: number; kinds: Record<string, number>; roles: Record<string, number> };
+/** A series entry of the page JSON that does not agree with its own rows (closing items at aa1143f, item 11): parts, the kind and
+ * role tallies, and the family — every layered row of the series carries the entry's family ("" on a row = null on the entry). */
+export function seriesEntryDisagreements(summary: { lines: { line: string; series: SeriesEntry[] }[] }, rows: LayerRow[]): { line: string; series: string; fields: string[]; detail: string }[] {
+  const out: { line: string; series: string; fields: string[]; detail: string }[] = [];
+  const tally = (xs: string[]) => { const m: Record<string, number> = {}; for (const x of xs) m[x] = (m[x] ?? 0) + 1; return JSON.stringify(Object.entries(m).sort()); };
+  for (const l of summary.lines) for (const s of l.series) {
+    const mine = rows.filter((r) => r.bucket === "layered" && r.product_line === l.line && r.series === s.series);
+    const fields: string[] = [], detail: string[] = [];
+    if (mine.length !== s.parts) { fields.push("parts"); detail.push(`entry ${s.parts}, rows ${mine.length}`); }
+    if (tally(mine.map((r) => r.kind)) !== JSON.stringify(Object.entries(s.kinds).sort())) { fields.push("kinds"); detail.push(`entry ${JSON.stringify(s.kinds)}`); }
+    const roleOf = (r: LayerRow) => (r.deploy_role ? r.deploy_role : r.role_issue ? "(kind issue)" : null);
+    if (tally(mine.map(roleOf).filter((x): x is string => x !== null)) !== JSON.stringify(Object.entries(s.roles).sort())) { fields.push("roles"); detail.push(`entry ${JSON.stringify(s.roles)}`); }
+    const fams = [...new Set(mine.map((r) => r.product_family ?? ""))];
+    if (fams.some((f) => f !== (s.family ?? ""))) { fields.push("family"); detail.push(`entry ${JSON.stringify(s.family)}, rows ${JSON.stringify(fams)}`); }
+    if (fields.length) out.push({ line: l.line, series: s.series, fields, detail: detail.join("; ") });
+  }
+  return out;
+}
+
 /** Built rows that break the label check: in a series by a label without evidence, or moved by the check but not in shared parts. */
 export function labelViolations(rows: LayerRow[]): { sku: string; why: string }[] {
   const out: { sku: string; why: string }[] = [];

@@ -40,6 +40,9 @@ const POSITIVE: [string, CollabKind][] = [
   ["BE6K-RAIDCTRLR-M6", "storage-controller"], ["CIT2-MRAID12G-1GB", "storage-controller"], ["MCS-EXT-SCSI=", "storage-controller"],
   ["BE6K-CPU-M6", "cpu"], ["CIT3-CPU-I6240=", "cpu"], ["UC-CPU-E5-2609", "cpu"],
   ["BE7K-RAM", "memory"], ["CIT-8-16-MEM-UPG", "memory"], ["MEM-4460-8G=", "memory"], ["EXP-MR-X16G1RW", "memory"],
+  // VG224 / IAD2430, planned in from routers (item 4): typed by the name — "DRAM Memory" -> memory, "Flash Memory" -> flash
+  ["MEM-224-1X128D-U", "memory"], ["MEM-243-2X128D-U", "memory"], ["MEM-243-1X128D", "memory"],
+  ["MEM-224-1X64F-U", "flash"], ["MEM-243-1X64F", "flash"], ["MEM-243-1X128F", "flash"], ["MEM-243-1X128F-U=", "flash"],
   ["BE6K-DISK-M6", "drive"], ["CE-HDD1TI2F212", "drive"], ["CIT3-SD960G6SB-EV", "drive"], ["EXP-M2-240G", "drive"], ["EXP-SD-32G-S", "drive"], ["MCS-EXT-DAT=", "drive"], ["CIT-A03-D300GA2", "drive"],
   ["BE7K-NIC-M6", "nic"], ["EXP-PCIE-ID10GF", "nic"], ["CE-N2XX-AIPCI01", "nic"], ["CIT3-MLOM-40G-04", "nic"],
   ["CIT-PVDM3-32", "voice-module"], ["EM-HDA-6FXO", "voice-module"], ["CIT3-B200-M5", "server"],

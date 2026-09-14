@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, type LayerRow } from "../src/core/layerChecks.js";
+import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence } from "../src/core/labelEvidence.js";
 
 export const REVIEWED = ["switches", "routers"];
@@ -17,6 +17,9 @@ const PAIR_EXCEPTIONS: Record<string, string> = {
   "switches|N5K-C5696Q-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan; its base is the live 'Nexus 5696Q Chassis with license and SW image'",
 };
 
+/** series with 0 parts that say nothing about what they wait for */
+const deadPlaceholders = (summary: { lines: { line: string; series: { series: string; parts: number; pending_in?: Record<string, number> }[] }[] }) =>
+  summary.lines.flatMap((l) => l.series.filter((x) => x.parts === 0 && Object.keys(x.pending_in ?? {}).length === 0).map((x) => `${l.line} / ${x.series}`));
 /** rows layered in a series whose every row must carry a move plan */
 const moveOutStrays = (rows: LayerRow[], moveOut: ReadonlySet<string>) => rows.filter((r) => r.bucket === "layered" && moveOut.has(r.series));
 
@@ -78,7 +81,16 @@ for (const cat of REVIEWED) {
   const { drift } = labelEvidenceDrift(cat, rows);
   check(`label check ${cat}: the recorded evidence of every kept label row is what labelEvidence gives today`, drift.length === 0, drift.slice(0, 5).map((d) => `${d.sku}: recorded "${d.recorded}", now "${d.now}"`).join("; "));
   const summary = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "layers", `cisco-${cat}.json`), "utf8"));
-  const withEv = rows.filter((r) => r.label_evidence).length, moved = rows.filter((r) => (r.placed_by ?? "").startsWith("label-unsupported")).length;
+  const sed = seriesEntryDisagreements(summary, rows);
+  check(`series entries ${cat}: every series entry of the JSON agrees with its rows on parts, kinds, roles and family`, sed.length === 0, sed.slice(0, 5).map((d) => `${d.series} [${d.fields.join(",")}] ${d.detail}`).join("; "));
+  // a series with 0 parts is a placeholder only while rows are planned into it, and it says so (closing items at aa1143f, item 2)
+  const empty = summary.lines.flatMap((l: any) => l.series.filter((x: any) => x.parts === 0).map((x: any) => ({ line: l.line, ...x })));
+  const deadEmpty = deadPlaceholders(summary);
+  check(`placeholders ${cat}: every series with 0 parts carries "pending N from <category>" (${empty.length} placeholder(s))`, deadEmpty.length === 0, deadEmpty.join("; "));
+  const dev = deviceInSharedParts(rows);
+  check(`devices ${cat}: 0 router / sp-router / switch / fex / chassis / appliance rows in any shared parts series`, dev.length === 0, dev.slice(0, 6).map((r) => `${r.sku} (${r.kind}) ${r.series}`).join("; "));
+  check(`devices ${cat}: 0 rows pending review, and the page lists exactly the rows in that bucket`, rows.filter((r) => r.bucket === "pending_review").length === (summary.pending_review?.length ?? -1) && (summary.pending_review?.length ?? -1) === 0, `rows ${rows.filter((r) => r.bucket === "pending_review").length}, page ${summary.pending_review?.length}`);
+  const withEv = rows.filter((r) => r.label_evidence).length, moved = rows.filter((r) => r.bucket === "layered" && (r.placed_by ?? "").startsWith("label-unsupported")).length;
   check(`label check ${cat}: applied, and the page's counts are the rows' (label-placed ${withEv}, moved ${moved})`,
     summary.label_check?.applied === true && summary.label_check.label_placed === withEv && summary.label_check.moved.length === moved && withEv > 100,
     JSON.stringify({ applied: summary.label_check?.applied, label_placed: summary.label_check?.label_placed, moved: summary.label_check?.moved?.length }));
@@ -132,6 +144,20 @@ for (const cat of REVIEWED) {
 
   const strays = moveOutStrays([row("NIM-2T", { series: "NIM (Network Interface Modules)" }), row("NIM-4T", { series: "NIM (Network Interface Modules)", bucket: "pending_plan" })], new Set(["NIM (Network Interface Modules)"]));
   check("SABOTAGE move-out: a layered row in a move-out series is a stray, a pending-plan row there is not", strays.length === 1 && strays[0].sku === "NIM-2T", JSON.stringify(strays));
+
+  // series entries against their rows: a family that disagrees (the Catalyst 8000 Edge shared parts defect), and a parts count
+  const entry = { lines: [{ line: "L", series: [{ series: "L shared parts", family: null, parts: 2, kinds: { mechanical: 2 }, roles: {} }] }] };
+  const plantedRows = [row("C-E1S-BLANK", { product_line: "L", series: "L shared parts", kind: "mechanical", product_family: "(shared across the line)", deploy_role: "", role_issue: "" }),
+    row("C-HDD-BLANK", { product_line: "L", series: "L shared parts", kind: "mechanical", product_family: "(shared across the line)", deploy_role: "", role_issue: "" })];
+  const d1 = seriesEntryDisagreements(entry, plantedRows);
+  check("SABOTAGE series entries: an entry whose family is null while its rows say shared-across is reported on family alone", d1.length === 1 && d1[0].fields.join() === "family", JSON.stringify(d1));
+  entry.lines[0].series[0].family = "(shared across the line)" as any; entry.lines[0].series[0].parts = 3;
+  const d2 = seriesEntryDisagreements(entry, plantedRows);
+  check("SABOTAGE series entries: a parts count the rows do not carry is reported on parts alone", d2.length === 1 && d2[0].fields.join() === "parts", JSON.stringify(d2));
+  const dp = deadPlaceholders({ lines: [{ line: "Nexus", series: [{ series: "Nexus 9800", parts: 0 }, { series: "CQ211L01", parts: 0, pending_in: { routers: 6 } }, { series: "Nexus 9300", parts: 5 }] }] });
+  check("SABOTAGE placeholders: an empty series with nothing pending is reported, one pending rows from routers is not", dp.join() === "Nexus / Nexus 9800", JSON.stringify(dp));
+  const dv = deviceInSharedParts([row("CVR328W-K9-CN", { kind: "router", product_line: "Small Business Routers", series: "Small Business Routers shared parts" }), row("PWR-60W-AC", { kind: "power", series: "ISR shared parts" })]);
+  check("SABOTAGE devices: a router in shared parts is caught, a power supply there is not", dv.length === 1 && dv[0].sku === "CVR328W-K9-CN", JSON.stringify(dv));
 
   // the label check on built rows: a bare label in a series, and a moved row left in its series, are each refused
   const lv = labelViolations([

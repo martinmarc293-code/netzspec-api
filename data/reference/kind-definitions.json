@@ -35,7 +35,7 @@
     "fc-switch": { "definition": "A fixed Fibre Channel storage switch (MDS 9100/9200/9300).", "archetypes": ["ETH-SWITCHING (FC deltas)"], "in_library": true },
     "fex": { "definition": "A fabric extender (Nexus 2000): a port box that forwards everything to its parent switch.", "archetypes": ["ENV", "COMPAT"], "in_library": true, "note": "spec II.1: ports, uplink_ports, power_max, psu_config, airflow, product_compatibility + ENV; NOT ETH-SWITCHING" },
     "firewall": { "definition": "A firewall / next-generation firewall appliance.", "archetypes": ["FIREWALL"], "in_library": true },
-    "flash": { "definition": "A flash memory card or module for a router.", "archetypes": ["MEMORY"], "in_library": false, "note": "routers' own name; the library folds flash cards into MEMORY" },
+    "flash": { "definition": "A flash memory card or module for a router, a switch or a voice gateway.", "archetypes": ["MEMORY"], "in_library": false, "note": "routers' own name (switches too, and the VG224 / IAD2430 flash in unified-communications since 14 Sep 2026); the library folds flash cards into MEMORY" },
     "gateway": { "definition": "A voice gateway (analog/digital trunks to IP) or a Meraki cellular gateway.", "archetypes": ["GATEWAY"], "in_library": true },
     "gpu": { "definition": "A GPU accelerator card option for a server.", "archetypes": ["GPU"], "in_library": true },
     "headset": { "definition": "A headset for phones and soft clients.", "archetypes": ["HEADSET"], "in_library": true },

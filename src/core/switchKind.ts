@@ -304,8 +304,10 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   // SPLIT 11 Sep 2026 into four kinds (see SW_PART). The three named ones run FIRST, because the
   // port-bearing markers are broader: WS-X45-SUP7-E carries both "-X4" (a line-card marker) and
   // "SUP7" (a supervisor), and it is a supervisor.
-  // Supervisors: the SUP token, and the three families whose PID has none.
-  { kind: "supervisor", re: /(?:^|-)SUP(?:-|=|\d|$)|^VS-S(?:720|2T)|^WS-S\d/ },
+  // Supervisors: the SUP token, and the families whose PID has none — among them the classic Catalyst 4500 supervisors named
+  // by number (closing items at aa1143f, item 5; were linecard through "-X4"): WS-X4013+/2 "Redundant Supervisor Engine
+  // II-Plus", WS-X4516-10GE(=)(/2) "Supervisor V-10GE"; WS-X4013+ / WS-X4515 / WS-X4516 are the same family.
+  { kind: "supervisor", re: /(?:^|-)SUP(?:-|=|\d|$)|^VS-S(?:720|2T)|^WS-S\d|^WS-X4013\+|^WS-X451[56](?:-|\/|=|$)/ },
   // Fabric modules. N35- is excluded: N35-FM-48X is "Nexus 3550-F Programmable Multiplexer Switch",
   // the one genuine miss the header has recorded since 10 Sep — as a fabric module it would be
   // asked for a per-slot bandwidth, and it is a whole switch. It falls through to `switch`.

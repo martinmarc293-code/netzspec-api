@@ -2,7 +2,7 @@
 // round 2, B.6). No database.
 //
 //   npx tsx tests/germanName.test.ts
-import { isGermanName, assertDetector, planGermanNames, lendableEnglishName, stripSpareWording, planSpareWording, SPARE_LEFT, ENGLISH_CONTROLS, GERMAN_MARKERS, type NameRow } from "../src/core/germanName.js";
+import { isGermanName, assertDetector, planGermanNames, lendableEnglishName, stripSpareWording, planSpareWording, SPARE_LEFT, stripPackagingNote, planPackagingNotes, ENGLISH_CONTROLS, GERMAN_MARKERS, type NameRow } from "../src/core/germanName.js";
 
 let passed = 0; const misses: string[] = [];
 const check = (name: string, ok: boolean, detail = "") => { if (ok) passed++; else misses.push(`    MISS ${name}${detail ? " — " + detail : ""}`); };
@@ -77,6 +77,26 @@ const lend = planGermanNames([
   { id: 11, sku: "C9407R", name: "Cisco C9407R Catalyst-9400-Chassis mit 7 Steckplätzen", name_de: null, name_lang: null },
   { id: 12, sku: "C9407R=", name: "Cisco Catalyst 9400 Series 7 slot chassis Spare", name_de: null, name_lang: null }]).plans[0];
 check("a German base borrowing from its spare now takes the name without the spare's wording, and says so", lend?.action === "english_from_twin" && lend.name === "Cisco Catalyst 9400 Series 7 slot chassis" && lend.source === "twin: C9407R=, spare wording removed", JSON.stringify(lend));
+
+// THE SPARE'S PACKAGING NOTE (closing items at aa1143f, item 3): fixed units drop it, modular chassis keep it, the rest is refused
+const PKG: [string, string][] = [
+  ["Nexus 9K Fixed with 32p 100G QSFP28 (no PS/Fans)", "Nexus 9K Fixed with 32p 100G QSFP28"],
+  ["Nexus 9K,Upto 32x 40/50G OR 18x100G (No Acc kit,PS&fan)", "Nexus 9K,Upto 32x 40/50G OR 18x100G"],
+  ["N2K GE, 48x100/1000-T+4x10GE (req SFP+) (No Fans/PS)", "N2K GE, 48x100/1000-T+4x10GE (req SFP+)"],
+  ["Nexus 2348UPQ; 48x1/10GE SFP+; 6x40G QSFP(no PS/fan)", "Nexus 2348UPQ; 48x1/10GE SFP+; 6x40G QSFP"],
+  ["Nexus 3048TP-1GE 1RU 48 1GE and 4 10GE ports, no p/s,no fan", "Nexus 3048TP-1GE 1RU 48 1GE and 4 10GE ports"],
+  ["Nexus 3016Q-40GE 1RU 16p 40GE switch, no p/s, no fan-tray", "Nexus 3016Q-40GE 1RU 16p 40GE switch"],   // once "switch-tray"
+  ["Nexus 5596T 2RU, No PS, No Fans, For Service Only", "Nexus 5596T 2RU"],
+];
+for (const [a, b] of PKG) { const got = stripPackagingNote(a).name; check(`packaging note: "${a.slice(0, 50)}"`, got === b, `got "${got}"`); }
+const pk = planPackagingNotes([
+  { id: 1, sku: "N9K-C9232C", name: "Nexus 9K Fixed with 32p 100G QSFP28 (no PS/Fans)", name_source: "twin: N9K-C9232C=, spare wording removed" },
+  { id: 2, sku: "WS-C6509-E", name: "Catalyst 6500 Enhanced 9-slot chassis,14RU,no PS,no Fan Tray", name_source: "twin: WS-C6509-E=" },
+  { id: 3, sku: "N9K-C9232C=", name: "Nexus 9K Fixed with 32p 100G QSFP28 Spare (no PS/Fans)", name_source: "twin: N9K-C9232C" },
+  { id: 4, sku: "ZZ-C1234", name: "Some chassis, no PS", name_source: "twin: ZZ-C1234=" }]);
+check("packaging plan: a fixed Nexus 9000 base is stripped, source 'twin: <sku>, spare wording removed: (no PS/Fans)'", pk.plans.length === 1 && pk.plans[0].stripped === "Nexus 9K Fixed with 32p 100G QSFP28" && pk.plans[0].source === "twin: N9K-C9232C=, spare wording removed: (no PS/Fans)", JSON.stringify(pk.plans));
+check("packaging plan: a modular chassis base keeps its note (base ships without power supplies); a spare is never touched", pk.kept_chassis.map((k) => k.sku).join() === "WS-C6509-E" && !pk.plans.some((p) => p.id === 3));
+check("SABOTAGE packaging plan: a base that is neither a known fixed unit nor a modular chassis is REFUSED for a hand check", pk.refused.length === 1 && pk.refused[0].sku === "ZZ-C1234", JSON.stringify(pk.refused));
 
 console.log(`    german names: ${passed} passed, ${misses.length} missed`);
 if (misses.length) { console.log(misses.join("\n")); process.exit(1); }

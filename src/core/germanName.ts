@@ -83,6 +83,43 @@ export function planSpareWording(rows: { id: number; sku: string; name: string; 
   return { plans, refused };
 }
 
+// THE SPARE'S PACKAGING NOTE (closing items at aa1143f, item 3; operator 14 Sep 2026). "No PS, No Fans" is true of a SPARE (a bare
+// unit for service replacement) and of a MODULAR CHASSIS base (Catalyst 6500 / 4500-E, Nexus 7000 / 7700, MDS 97xx ship bare; power
+// supplies are ordered separately). It is false of a FIXED unit's base: a 1–2RU fixed switch or FEX ships with its power supplies and
+// fans. So a base that borrowed its spare's name drops the note when it is a fixed unit — bracketed or not — and keeps it when it is a
+// modular chassis. "For Service Only" is the spare's too.
+export const FIXED_UNIT_SKU = /^(?:N9K-C9[23]|N2K-|N3K-|N5K-C5[56])/;
+export const MODULAR_CHASSIS_SKU = /^(?:WS-C65|WS-C45|N7K-C70|N77-C77|DS-C97)/;
+export const PACKAGING_NOTE = /no\s*(?:ps|p\/s|psu|power\s+suppl|fans?(?![a-z])|fan[- ]?trays?)|ps&fan|psu\/fan|for\s+service\s+only/i;
+
+/** The name without the packaging note, and the phrases removed. */
+export function stripPackagingNote(name: string): { name: string; removed: string[] } {
+  const removed: string[] = [];
+  let s = name.replace(/\s*\(\s*no(?![a-z])[^)]*\)/gi, (m) => { removed.push(m.trim()); return ""; });
+  // "fan-tray" before "fan": "no p/s, no fan-tray" once left "switch-tray" (read in the dry run); the clause may not end mid-word
+  const clause = /\s*,\s*(?:no\s*(?:ps|p\/s|psu|power\s+suppl(?:y|ies)|fan[- ]?trays?|fans?)|for\s+service\s+only)(?![a-z-])/i;
+  for (let m = s.match(clause); m; m = s.match(clause)) { removed.push(m[0].replace(/^\s*,\s*/, "")); s = s.replace(clause, ""); }
+  s = s.replace(/\s{2,}/g, " ").replace(/\s+([,;])/g, "$1").replace(/[\s,;]+$/, "").trim();
+  return { name: s, removed };
+}
+
+export type PackagingPlan = { id: number; sku: string; name: string; name_source: string; stripped: string; removed: string[]; source: string };
+/** Over borrowed BASE names carrying a packaging note: fixed units are stripped, modular chassis kept (listed), anything else refused. */
+export function planPackagingNotes(rows: { id: number; sku: string; name: string; name_source: string }[]): { plans: PackagingPlan[]; kept_chassis: { sku: string; name: string; reason: string }[]; refused: { sku: string; name: string; why: string }[] } {
+  const plans: PackagingPlan[] = [], kept_chassis: { sku: string; name: string; reason: string }[] = [], refused: { sku: string; name: string; why: string }[] = [];
+  for (const r of rows) {
+    const sku = r.sku.trim().toUpperCase();
+    if (!r.name_source.startsWith("twin:") || sku.endsWith("=") || !PACKAGING_NOTE.test(r.name)) continue;
+    if (MODULAR_CHASSIS_SKU.test(sku)) { kept_chassis.push({ sku: r.sku, name: r.name, reason: "base ships without power supplies" }); continue; }
+    if (!FIXED_UNIT_SKU.test(sku)) { refused.push({ sku: r.sku, name: r.name, why: "neither a known fixed unit nor a modular chassis — hand check" }); continue; }
+    const { name: stripped, removed } = stripPackagingNote(r.name);
+    if (!removed.length || !stripped || PACKAGING_NOTE.test(stripped) || SPARE_LEFT.test(stripped)) { refused.push({ sku: r.sku, name: r.name, why: `the strip leaves "${stripped}"` }); continue; }
+    const base = r.name_source.replace(/, spare wording removed(?::.*)?$/, "");
+    plans.push({ ...r, stripped, removed, source: `${base}, ${SPARE_REMOVED}: ${removed.join(" + ")}` });
+  }
+  return { plans, kept_chassis, refused };
+}
+
 export type NameRow = { id: number; sku: string; name: string | null; name_de: string | null; name_lang: string | null };
 export type NamePlan =
   | { id: number; sku: string; action: "english_from_twin"; name_de: string; name: string; source: string }

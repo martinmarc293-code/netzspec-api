@@ -630,13 +630,15 @@
      "sku": [
       "^(C1-)?N56-",
       "^(C1-)?N5K-C56",
-      "^N56[0-9]{2}"
+      "^N56[0-9]{2}",
+      "^N6K-C5696Q-"
      ],
      "labels": [
       "Nexus 5600",
       "Nexus 5600Q"
      ],
-     "family": "Nexus 5000"
+     "family": "Nexus 5000",
+     "note": "N6K-C5696Q-M-BLNK(=) \"Nexus 5696Q Blank Module Cover\": Cisco files the 5696Q under Nexus 5000; the N6K prefix is history (closing items at aa1143f (14 Sep 2026), item 7)"
     },
     {
      "series": "Nexus 5010 / 5020",
@@ -1239,13 +1241,14 @@
     },
     {
      "series": "MS390",
-     "role": "core-agg",
+     "role": "access",
      "sku": [
       "^MS390"
      ],
      "labels": [
       "MS390"
-     ]
+     ],
+     "note": "role access (reviewer's correction of the spec, closing items at aa1143f (14 Sep 2026), item 9): Cisco positions the MS390 as a cloud-managed access switch on Catalyst 9300 hardware; MS410 / MS425 / MS450 stay core-agg"
     },
     {
      "series": "MS410",
