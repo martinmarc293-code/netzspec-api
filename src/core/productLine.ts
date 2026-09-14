@@ -15,12 +15,17 @@ import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../config.js";
 
-export type SeriesRule = { series: string; sku?: string[]; name?: string[]; labels?: string[]; note?: string };
+/** `role` = the deploy_role of every part of this series whose kind carries a role axis (switch / ap / router / phone): ONE
+ * table read by this page AND the cup engine (src/core/deployRole.ts consults it before its own rules). */
+export type SeriesRule = { series: string; role?: string; sku?: string[]; name?: string[]; labels?: string[]; note?: string };
 export type LineRule = { line: string; series: SeriesRule[] };
 export type ExcludeRule = { sku: string; why: string; belongs?: string };
-export type LineFile = { vendor: string; category: string; _about?: string; lines: LineRule[]; not_this_category?: ExcludeRule[] };
+/** `shared_accessories`: SKU patterns of GENERIC accessories (power cords, generic cables, rack kits, blanks, console cables).
+ * Reviewer rule, 14 Sep 2026: such a row goes to "<product line> shared parts" unless its SKU names the series — so the
+ * series SKU rules run first and win; a row only a label or a name places is filed under its line's shared parts. */
+export type LineFile = { vendor: string; category: string; _about?: string; lines: LineRule[]; not_this_category?: ExcludeRule[]; shared_accessories?: string[] };
 export type Placement =
-  | { line: string; series: string; rule: string }
+  | { line: string; series: string; rule: string; role?: string | null }
   | { line: "(not this category)"; series: string; rule: string; why: string; belongs: string | null };
 
 export const LINE_DIR = path.join(REPO_ROOT, "data", "reference", "product-lines");
@@ -31,7 +36,11 @@ type Compiled = {
   sku: { re: RegExp; line: string; series: string; src: string }[];
   name: { re: RegExp; line: string; series: string; src: string }[];
   label: Map<string, { line: string; series: string }>;
+  accessory: { re: RegExp; src: string }[];
+  role: Map<string, string | null>;
 };
+
+export const SHARED_PARTS = (line: string) => `${line} shared parts`;
 
 /** Shape and consistency errors of a line file, one line each (the test and the builder refuse on any). */
 export function validateLineFile(f: LineFile): string[] {
@@ -68,9 +77,10 @@ export function validateLineFile(f: LineFile): string[] {
 }
 
 function compile(f: LineFile): Compiled {
-  const c: Compiled = { exclude: [], sku: [], name: [], label: new Map() };
+  const c: Compiled = { exclude: [], sku: [], name: [], label: new Map(), accessory: (f.shared_accessories ?? []).map((p) => ({ re: new RegExp(p), src: p })), role: new Map() };
   for (const x of f.not_this_category ?? []) c.exclude.push({ re: new RegExp(x.sku), why: x.why, belongs: x.belongs ?? null, src: x.sku });
   for (const l of f.lines) for (const s of l.series) {
+    c.role.set(s.series, s.role ?? null);
     for (const p of s.sku ?? []) c.sku.push({ re: new RegExp(p), line: l.line, series: s.series, src: p });
     for (const p of s.name ?? []) c.name.push({ re: new RegExp(p, "i"), line: l.line, series: s.series, src: p });
     for (const lab of s.labels ?? []) c.label.set(lab.trim().toLowerCase(), { line: l.line, series: s.series });
@@ -105,10 +115,15 @@ export function placePart(vendor: string, category: string, part: { sku: string;
   // (not-for-resale lab). Patterns see the SKU WITHOUT them; the stored SKU is untouched.
   const sku = raw.replace(/^(2D-|C1-|EDU-|NAL-)/, "");
   for (const x of c.exclude) if (x.re.test(sku)) return { line: "(not this category)", series: x.belongs ?? "(elsewhere)", rule: `exclude ${x.src}`, why: x.why, belongs: x.belongs };
-  for (const r of c.sku) if (r.re.test(sku)) return { line: r.line, series: r.series, rule: `sku ${r.src}` };
+  for (const r of c.sku) if (r.re.test(sku)) return { line: r.line, series: r.series, rule: `sku ${r.src}`, role: c.role.get(r.series) ?? null };
   const name = (part.name ?? "").trim();
-  if (name) for (const r of c.name) if (r.re.test(name)) return { line: r.line, series: r.series, rule: `name ${r.src}` };
+  let soft: { line: string; series: string; rule: string } | null = null;
+  if (name) for (const r of c.name) if (r.re.test(name)) { soft = { line: r.line, series: r.series, rule: `name ${r.src}` }; break; }
   const lab = (part.series ?? "").trim().toLowerCase();
-  if (lab && c.label.has(lab)) { const m = c.label.get(lab)!; return { line: m.line, series: m.series, rule: `label ${part.series}` }; }
-  return null;
+  if (!soft && lab && c.label.has(lab)) { const m = c.label.get(lab)!; soft = { line: m.line, series: m.series, rule: `label ${part.series}` }; }
+  if (!soft) return null;
+  // a generic accessory the SKU does not tie to a series: its line's shared parts, never a series it merely sits beside
+  const acc = c.accessory.find((a) => a.re.test(sku));
+  if (acc) return { line: soft.line, series: SHARED_PARTS(soft.line), rule: `accessory ${acc.src} (${soft.rule})`, role: null };
+  return { ...soft, role: c.role.get(soft.series) ?? null };
 }

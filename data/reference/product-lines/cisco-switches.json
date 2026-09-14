@@ -1,7 +1,7 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "_about": "Layer 2 (product line) and layer 3 (series) of Cisco switches, operator's model 14 Sep 2026. SKU patterns first (a SKU family token wins over a wrong series label), then names, then the stored series labels for rows with no family token (cords, kits). SKUs are upper-cased with a trailing '=' removed before matching. A spare, a power supply or a fan of a series sits IN that series; its part type stays underneath.",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco switches, operator's model 14 Sep 2026. SKU patterns first (a SKU family token wins over a wrong series label), then names, then the stored series labels for rows with no family token (cords, kits). SKUs are upper-cased with a trailing '=' removed before matching. A spare, a power supply or a fan of a series sits IN that series; its part type stays underneath. Reviewer review 14 Sep 2026 applied: series carry `role` (the one series->deploy_role table, read by src/core/deployRole.ts); generic accessories (cords, generic cables, rack kits, blanks, console cables) whose SKU does not name a series go to '<line> shared parts' (shared_accessories); Small Business (SF/SG/SX) and Cisco Business (CBS) are separate lines by generation.",
  "not_this_category": [
   {
    "sku": "^DS-(C9|X9|SFP|CAC|CWDM|9)|^M9[0-9]{3}|^MDS",
@@ -35,9 +35,9 @@
    "series": [
     {
      "series": "Catalyst 9400",
+     "role": "core-agg",
      "sku": [
-      "^(C1-|EDU-|NAL-)?C94[0-9]{2}",
-      "^C4500E-7R-S9E"
+      "^(C1-|EDU-|NAL-)?C94[0-9]{2}"
      ],
      "labels": [
       "Catalyst 9400"
@@ -45,6 +45,7 @@
     },
     {
      "series": "Catalyst 9200",
+     "role": "access",
      "sku": [
       "^(C1-|EDU-|NAL-)?C9200"
      ],
@@ -55,6 +56,7 @@
     },
     {
      "series": "Catalyst 9300",
+     "role": "access",
      "sku": [
       "^(C1-|EDU-|NAL-)?C9300"
      ],
@@ -64,6 +66,7 @@
     },
     {
      "series": "Catalyst 9350",
+     "role": "access",
      "sku": [
       "^(C1-)?C9350"
      ],
@@ -74,6 +77,7 @@
     },
     {
      "series": "Catalyst 9500",
+     "role": "core-agg",
      "sku": [
       "^(C1-|EDU-|NAL-)?C9500"
      ],
@@ -84,6 +88,7 @@
     },
     {
      "series": "Catalyst 9550",
+     "role": "core-agg",
      "sku": [
       "^C9550"
      ],
@@ -93,6 +98,7 @@
     },
     {
      "series": "Catalyst 9600",
+     "role": "core-agg",
      "sku": [
       "^C960[0-9]"
      ],
@@ -102,6 +108,7 @@
     },
     {
      "series": "Catalyst 9610",
+     "role": "core-agg",
      "sku": [
       "^C9610"
      ],
@@ -116,7 +123,15 @@
      ]
     },
     {
+     "series": "Catalyst 6800 Instant Access",
+     "role": "access",
+     "sku": [
+      "^C6800IA"
+     ]
+    },
+    {
      "series": "Catalyst 6800",
+     "role": "core-agg",
      "sku": [
       "^(C1-)?C68[0-9]{2}",
       "^(VS-)?C?6807",
@@ -132,6 +147,7 @@
     },
     {
      "series": "Catalyst 6500",
+     "role": "core-agg",
      "sku": [
       "^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}",
       "^(2D-)?WS-X6",
@@ -159,6 +175,7 @@
     },
     {
      "series": "Catalyst 4500-X",
+     "role": "core-agg",
      "sku": [
       "^(C1-)?(WS-)?C4500X",
       "^C4KX"
@@ -171,6 +188,7 @@
     },
     {
      "series": "Catalyst 4500-E",
+     "role": "core-agg",
      "sku": [
       "^(C1-)?(WS-)?C45[0-9]{2}",
       "^C4500E",
@@ -190,6 +208,7 @@
     },
     {
      "series": "Catalyst 4900",
+     "role": "datacenter",
      "sku": [
       "^(WS-)?C49[0-9]{2}",
       "^4900M",
@@ -204,51 +223,54 @@
     },
     {
      "series": "Catalyst 3850",
+     "role": "access",
      "sku": [
       "^(C1-|NAL-|EDU-)?(WS-)?C?3850",
       "^NAL-3850",
       "^CATALYST-3850"
      ],
-     "labels": [
-      "Catalyst 3850"
-     ],
      "name": [
       "for Cisco Catalyst 3850"
+     ],
+     "labels": [
+      "Catalyst 3850"
      ]
     },
     {
      "series": "Catalyst 3650",
+     "role": "access",
      "sku": [
       "^(C1-|NAL-|EDU-)?(WS-)?C?3650",
       "^C1-WS3650",
       "^CATALYST-3650"
      ],
+     "name": [
+      "Catalyst 3650 Series"
+     ],
      "labels": [
       "3650",
       "Catalyst 3650"
-     ],
-     "name": [
-      "Catalyst 3650 Series"
      ]
     },
     {
      "series": "Catalyst 3750-X",
+     "role": "access",
      "sku": [
       "^(C1-|NAL-)?(WS-)?C?3750X",
       "^C3KX",
-      "^CAB-3KX",
       "^CAT-3KX"
+     ],
+     "name": [
+      "Catalyst 3750-X StackPower"
      ],
      "labels": [
       "3750-X",
       "Catalyst 3750-X"
-     ],
-     "name": [
-      "Catalyst 3750-X StackPower"
      ]
     },
     {
      "series": "Catalyst 3560-X",
+     "role": "access",
      "sku": [
       "^(C1-|NAL-)?(WS-)?C?3560X"
      ],
@@ -258,6 +280,7 @@
     },
     {
      "series": "Catalyst 3750-E",
+     "role": "access",
      "sku": [
       "^(WS-)?C?3750E"
      ],
@@ -267,12 +290,14 @@
     },
     {
      "series": "Catalyst 3560-E",
+     "role": "access",
      "sku": [
       "^(WS-)?C?3560E"
      ]
     },
     {
      "series": "Catalyst 3750",
+     "role": "access",
      "sku": [
       "^(WS-)?C?3750(G|V2|-)"
      ],
@@ -283,6 +308,7 @@
     },
     {
      "series": "Catalyst 3560-C and 3560-CX",
+     "role": "access",
      "sku": [
       "^(NAL-)?(WS-)?C?3560C"
      ],
@@ -296,19 +322,21 @@
     },
     {
      "series": "Catalyst 3560",
+     "role": "access",
      "sku": [
       "^(WS-)?C?3560(G|V2|-)",
       "^CH-C3560"
      ],
-     "labels": [
-      "3560"
-     ],
      "name": [
       "Catalyst 3560 SFP Interconnect"
+     ],
+     "labels": [
+      "3560"
      ]
     },
     {
      "series": "Catalyst 2960-C and 2960-CX",
+     "role": "access",
      "sku": [
       "^(NAL-)?(WS-)?C?2960C"
      ],
@@ -322,6 +350,7 @@
     },
     {
      "series": "Catalyst 2960-X and 2960-XR",
+     "role": "access",
      "sku": [
       "^(C1-|NAL-|EDU-)?(WS-)?C?2960X",
       "^(WS-)?C2960RX",
@@ -331,17 +360,18 @@
       "^PKB-C2960RX",
       "^2960-?XR?$"
      ],
+     "name": [
+      "for Cisco Catalyst 2960-XR"
+     ],
      "labels": [
       "2960-X",
       "2960-XR",
       "Catalyst 2960-X"
-     ],
-     "name": [
-      "for Cisco Catalyst 2960-XR"
      ]
     },
     {
      "series": "Catalyst 2960-S",
+     "role": "access",
      "sku": [
       "^(WS-)?C?2960S"
      ],
@@ -353,6 +383,7 @@
     },
     {
      "series": "Catalyst 2960-Plus",
+     "role": "access",
      "sku": [
       "^(WS-)?C2960R[+]",
       "^(WS-)?C2960[+]",
@@ -365,6 +396,7 @@
     },
     {
      "series": "Catalyst 2960-L",
+     "role": "access",
      "sku": [
       "^(WS-)?C?2960L"
      ],
@@ -376,6 +408,7 @@
     },
     {
      "series": "Catalyst 2960",
+     "role": "access",
      "sku": [
       "^(WS-)?C2960(G)?-",
       "^WS-2960-"
@@ -387,6 +420,7 @@
     },
     {
      "series": "Catalyst 1000",
+     "role": "access",
      "sku": [
       "^(NAL-|EDU-)?C1000"
      ],
@@ -397,6 +431,7 @@
     },
     {
      "series": "Catalyst 1200",
+     "role": "smb",
      "sku": [
       "^C1200"
      ],
@@ -407,6 +442,7 @@
     },
     {
      "series": "Catalyst 1300",
+     "role": "smb",
      "sku": [
       "^C1300"
      ],
@@ -418,6 +454,7 @@
     },
     {
      "series": "Catalyst Micro",
+     "role": "access",
      "sku": [
       "^CMICR"
      ],
@@ -428,6 +465,7 @@
     },
     {
      "series": "Catalyst Digital Building",
+     "role": "access",
      "sku": [
       "^CDB-"
      ],
@@ -437,6 +475,7 @@
     },
     {
      "series": "Catalyst PON",
+     "role": "access",
      "sku": [
       "^CGP-",
       "^CGP",
@@ -449,6 +488,7 @@
     {
      "series": "Redundant Power System",
      "sku": [
+      "RPS2300",
       "^PWR-?RPS",
       "^PWR675",
       "^RPS",
@@ -467,6 +507,7 @@
    "series": [
     {
      "series": "Nexus 2000 Fabric Extenders",
+     "role": "datacenter",
      "sku": [
       "^N2K-",
       "^N2[0-9]{3}",
@@ -482,6 +523,7 @@
     },
     {
      "series": "Nexus 3550",
+     "role": "datacenter",
      "sku": [
       "^N35-"
      ],
@@ -491,6 +533,7 @@
     },
     {
      "series": "Nexus 3500",
+     "role": "datacenter",
      "sku": [
       "^(C1-)?N3K-C35",
       "^N3548"
@@ -501,6 +544,7 @@
     },
     {
      "series": "Nexus 3600",
+     "role": "datacenter",
      "sku": [
       "^(C1-)?N3K-C36"
      ],
@@ -511,6 +555,7 @@
     },
     {
      "series": "Nexus 3000",
+     "role": "datacenter",
      "sku": [
       "^(C1-)?N3K-",
       "^N3[0-4][0-9]{2}"
@@ -537,6 +582,7 @@
     },
     {
      "series": "Nexus 5500",
+     "role": "datacenter",
      "sku": [
       "^(C1-)?N55-",
       "^(C1-)?N5K-C55",
@@ -549,6 +595,7 @@
     },
     {
      "series": "Nexus 5600",
+     "role": "datacenter",
      "sku": [
       "^(C1-)?N56-",
       "^(C1-)?N5K-C56",
@@ -561,6 +608,7 @@
     },
     {
      "series": "Nexus 5000",
+     "role": "datacenter",
      "sku": [
       "^(C1-)?N5K-",
       "^N50[0-9]{2}"
@@ -571,6 +619,7 @@
     },
     {
      "series": "Nexus 6000",
+     "role": "datacenter",
      "sku": [
       "^(C1-)?N6K-",
       "^(C1-)?N600[0-9]"
@@ -581,6 +630,7 @@
     },
     {
      "series": "Nexus 7700",
+     "role": "datacenter",
      "sku": [
       "^N77[0-9]{2}",
       "^(C1-)?N77-"
@@ -591,6 +641,7 @@
     },
     {
      "series": "Nexus 7000",
+     "role": "datacenter",
      "sku": [
       "^N70[0-9]{2}",
       "^(C1-)?N7K-"
@@ -602,6 +653,7 @@
     },
     {
      "series": "Nexus 9200",
+     "role": "datacenter",
      "sku": [
       "^(C1-)?N9K-C92"
      ],
@@ -611,6 +663,7 @@
     },
     {
      "series": "Nexus 9300",
+     "role": "datacenter",
      "sku": [
       "^ACI-C93",
       "^N?9364E",
@@ -630,6 +683,7 @@
     },
     {
      "series": "Nexus 9400",
+     "role": "datacenter",
      "sku": [
       "^(C1-)?N9K-C94"
      ],
@@ -639,6 +693,7 @@
     },
     {
      "series": "Nexus 9500",
+     "role": "datacenter",
      "sku": [
       "^(C1-)?N9K-C95",
       "^N9K-X9[4-7]",
@@ -653,6 +708,7 @@
     },
     {
      "series": "Nexus 9800",
+     "role": "datacenter",
      "sku": [
       "^(C1-)?N9K-C98",
       "^N98"
@@ -663,6 +719,7 @@
     },
     {
      "series": "Nexus 9100",
+     "role": "datacenter",
      "sku": [
       "^N91[0-9]{2}"
      ]
@@ -684,6 +741,7 @@
    "series": [
     {
      "series": "IE 1000",
+     "role": "industrial",
      "sku": [
       "^IE-?1000"
      ],
@@ -693,6 +751,7 @@
     },
     {
      "series": "IE 2000U",
+     "role": "industrial",
      "sku": [
       "^IE-?2000U"
      ],
@@ -702,6 +761,7 @@
     },
     {
      "series": "IE 2000",
+     "role": "industrial",
      "sku": [
       "^IE-?2000"
      ],
@@ -712,6 +772,7 @@
     },
     {
      "series": "IE 3000",
+     "role": "industrial",
      "sku": [
       "^IEM-3000",
       "^IE-?3000"
@@ -723,6 +784,7 @@
     },
     {
      "series": "IE 3010",
+     "role": "industrial",
      "sku": [
       "^IE-?3010"
      ],
@@ -732,6 +794,7 @@
     },
     {
      "series": "IE 3100",
+     "role": "industrial",
      "sku": [
       "^IE-?31[0-9]{2}"
      ],
@@ -743,6 +806,7 @@
     },
     {
      "series": "IE 3200",
+     "role": "industrial",
      "sku": [
       "^IE-?32[0-9]{2}"
      ],
@@ -753,6 +817,7 @@
     },
     {
      "series": "IE 3300",
+     "role": "industrial",
      "sku": [
       "^IEM-3300",
       "^IE-?33[0-9]{2}"
@@ -763,6 +828,7 @@
     },
     {
      "series": "IE 3400H",
+     "role": "industrial",
      "sku": [
       "^IE-?3400H"
      ],
@@ -773,6 +839,7 @@
     },
     {
      "series": "IE 3400",
+     "role": "industrial",
      "sku": [
       "^IEM-3400",
       "^IE-?34[0-9]{2}"
@@ -784,6 +851,7 @@
     },
     {
      "series": "IE 3500H",
+     "role": "industrial",
      "sku": [
       "^IE-?3500H"
      ],
@@ -794,6 +862,7 @@
     },
     {
      "series": "IE 3500",
+     "role": "industrial",
      "sku": [
       "^IEM-3500",
       "^IE-?35[0-9]{2}"
@@ -805,6 +874,7 @@
     },
     {
      "series": "IE 4010",
+     "role": "industrial",
      "sku": [
       "^IE-?4010"
      ],
@@ -814,6 +884,7 @@
     },
     {
      "series": "IE 4000",
+     "role": "industrial",
      "sku": [
       "^IE-?4000"
      ],
@@ -824,6 +895,7 @@
     },
     {
      "series": "IE 5000",
+     "role": "industrial",
      "sku": [
       "^IE-?5000"
      ],
@@ -834,6 +906,7 @@
     },
     {
      "series": "IE 9300",
+     "role": "industrial",
      "sku": [
       "^IE-?93[0-9]{2}"
      ],
@@ -844,6 +917,7 @@
     },
     {
      "series": "CGS 2500 Connected Grid",
+     "role": "industrial",
      "sku": [
       "^CGS-?25"
      ],
@@ -858,6 +932,7 @@
    "series": [
     {
      "series": "ESS 2020",
+     "role": "industrial",
      "sku": [
       "^ESS-?2020"
      ],
@@ -867,6 +942,7 @@
     },
     {
      "series": "ESS 3300",
+     "role": "industrial",
      "sku": [
       "^ESS-?3300"
      ],
@@ -876,6 +952,7 @@
     },
     {
      "series": "ESS 9300",
+     "role": "industrial",
      "sku": [
       "^ESS-?93"
      ],
@@ -886,10 +963,11 @@
    ]
   },
   {
-   "line": "Cisco Business",
+   "line": "Small Business",
    "series": [
     {
-     "series": "Business 95 Unmanaged",
+     "series": "Small Business 95 Unmanaged (SF95/SG95)",
+     "role": "smb",
      "sku": [
       "^S[FG]95"
      ],
@@ -898,40 +976,38 @@
      ]
     },
     {
-     "series": "Business 110 Unmanaged",
+     "series": "Small Business 110 Unmanaged (SF110/SG110)",
+     "role": "smb",
      "sku": [
-      "^CBS110",
       "^S[FG]11[0-9]"
      ],
      "labels": [
-      "110 Unmanaged",
-      "Business 110 Series Unmanaged"
+      "110 Unmanaged"
      ]
     },
     {
-     "series": "Business 220 Smart",
+     "series": "Small Business 220 Smart (SF220/SG220)",
+     "role": "smb",
      "sku": [
-      "^CBS220",
       "^S[FG]22[0-9]"
      ],
      "labels": [
-      "220 Smart",
-      "Business 220"
+      "220 Smart"
      ]
     },
     {
-     "series": "Business 250 Smart",
+     "series": "Small Business 250 Smart (SF250/SG250)",
+     "role": "smb",
      "sku": [
-      "^CBS250",
       "^S[FGX]25[0-9]"
      ],
      "labels": [
-      "250 Smart",
-      "Business 250 Smart"
+      "250 Smart"
      ]
     },
     {
-     "series": "Business 350X Stackable",
+     "series": "Small Business 350X Stackable (SG350X/SX350X)",
+     "role": "smb",
      "sku": [
       "^S[FGX]350X"
      ],
@@ -941,22 +1017,21 @@
      ]
     },
     {
-     "series": "Business 350 Managed",
+     "series": "Small Business 350 Managed (SF350/SG350)",
+     "role": "smb",
      "sku": [
-      "^CBS350",
       "^S[FG]35[0-9]"
      ],
      "labels": [
-      "Business 350",
       "350 Managed",
       "350"
      ]
     },
     {
-     "series": "Business 550X Stackable",
+     "series": "Small Business 550X Stackable (SF550X/SG550X/SX550X)",
+     "role": "smb",
      "sku": [
-      "^S[FGX]550X",
-      "^CBS550"
+      "^S[FGX]550X"
      ],
      "labels": [
       "550X Stackable Managed",
@@ -966,10 +1041,56 @@
    ]
   },
   {
+   "line": "Cisco Business",
+   "series": [
+    {
+     "series": "Business 110 Unmanaged (CBS110)",
+     "role": "smb",
+     "sku": [
+      "^CBS110"
+     ],
+     "labels": [
+      "Business 110 Series Unmanaged"
+     ]
+    },
+    {
+     "series": "Business 220 Smart (CBS220)",
+     "role": "smb",
+     "sku": [
+      "^CBS220"
+     ],
+     "labels": [
+      "Business 220"
+     ]
+    },
+    {
+     "series": "Business 250 Smart (CBS250)",
+     "role": "smb",
+     "sku": [
+      "^CBS250"
+     ],
+     "labels": [
+      "Business 250 Smart"
+     ]
+    },
+    {
+     "series": "Business 350 Managed (CBS350)",
+     "role": "smb",
+     "sku": [
+      "^CBS350"
+     ],
+     "labels": [
+      "Business 350"
+     ]
+    }
+   ]
+  },
+  {
    "line": "Meraki MS",
    "series": [
     {
      "series": "MS120",
+     "role": "access",
      "sku": [
       "^MS120"
      ],
@@ -979,6 +1100,7 @@
     },
     {
      "series": "MS125",
+     "role": "access",
      "sku": [
       "^MS125"
      ],
@@ -988,6 +1110,7 @@
     },
     {
      "series": "MS130",
+     "role": "access",
      "sku": [
       "^MS130"
      ],
@@ -999,6 +1122,7 @@
     },
     {
      "series": "MS150",
+     "role": "access",
      "sku": [
       "^MS150"
      ],
@@ -1008,6 +1132,7 @@
     },
     {
      "series": "MS210",
+     "role": "access",
      "sku": [
       "^MS210"
      ],
@@ -1017,6 +1142,7 @@
     },
     {
      "series": "MS225",
+     "role": "access",
      "sku": [
       "^MS225"
      ],
@@ -1026,6 +1152,7 @@
     },
     {
      "series": "MS250",
+     "role": "access",
      "sku": [
       "^MS250"
      ],
@@ -1035,6 +1162,7 @@
     },
     {
      "series": "MS350",
+     "role": "access",
      "sku": [
       "^MS350"
      ],
@@ -1044,6 +1172,7 @@
     },
     {
      "series": "MS355",
+     "role": "access",
      "sku": [
       "^MS355"
      ],
@@ -1053,6 +1182,7 @@
     },
     {
      "series": "MS390",
+     "role": "core-agg",
      "sku": [
       "^MS390"
      ],
@@ -1062,6 +1192,7 @@
     },
     {
      "series": "MS410",
+     "role": "core-agg",
      "sku": [
       "^MS410"
      ],
@@ -1071,6 +1202,7 @@
     },
     {
      "series": "MS425",
+     "role": "core-agg",
      "sku": [
       "^MS425"
      ],
@@ -1080,6 +1212,7 @@
     },
     {
      "series": "MS450",
+     "role": "core-agg",
      "sku": [
       "^MS450"
      ],
@@ -1094,6 +1227,7 @@
    "series": [
     {
      "series": "ME 3400",
+     "role": "access",
      "sku": [
       "^ME-?3400",
       "^ME34",
@@ -1105,18 +1239,47 @@
      ]
     },
     {
-     "series": "ME 3600X and 3800X",
+     "series": "ME 3600X",
+     "role": "access",
      "sku": [
-      "^ME-?3[68]00X"
+      "^ME-?3600X"
+     ]
+    },
+    {
+     "series": "ME 3800X",
+     "role": "core-agg",
+     "sku": [
+      "^ME-?3800X"
      ]
     },
     {
      "series": "ME 4900",
+     "role": "core-agg",
      "sku": [
       "^ME-?49"
      ]
     }
    ]
   }
+ ],
+ "shared_accessories": [
+  "^CAB-",
+  "^CBL-",
+  "^CORD-",
+  "^PWR-CORD",
+  "^PWR-CAB",
+  "RACK-?(MOUNT|MNT|KIT)",
+  "^RCKMNT",
+  "^STK-RACKMOUNT",
+  "^4PT-KIT",
+  "^ACC-KIT",
+  "^KIT-",
+  "BLANK",
+  "BLNK",
+  "^BLK-",
+  "BRKT",
+  "BRACKET",
+  "CONSOLE",
+  "^CMPCT-CBLE"
  ]
 }

@@ -14562,5 +14562,104 @@
   "reason": "typo twin of ONS-QSFP28-LR4= (placeholder name 'Cisco ONS-QSP28-LR4=')",
   "evidence": "III.0 item 4 §5 — it holds 1 fact: the parent must decide between retiring it and merging its fact into ONS-QSFP28-LR4= (moves.json) before any class change",
   "planned_by": "agent 5-security-video-optical"
+ },
+ {
+  "sku": "2KWAC",
+  "category": "switches",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "datasheet cell (a PSU wattage string, no document, no fact) — same rule as 1025WAC",
+  "evidence": "reviewer, switches layers review 14 Sep 2026, item 2",
+  "planned_by": "reviewer 14 Sep 2026 (switches layers review)"
+ },
+ {
+  "sku": "2KWDC",
+  "category": "switches",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "datasheet cell (a PSU wattage string, no document, no fact) — same rule as 1025WAC",
+  "evidence": "reviewer, switches layers review 14 Sep 2026, item 2",
+  "planned_by": "reviewer 14 Sep 2026 (switches layers review)"
+ },
+ {
+  "sku": "3KWAC",
+  "category": "switches",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "datasheet cell (a PSU wattage string, no document, no fact) — same rule as 1025WAC",
+  "evidence": "reviewer, switches layers review 14 Sep 2026, item 2",
+  "planned_by": "reviewer 14 Sep 2026 (switches layers review)"
+ },
+ {
+  "sku": "8K-2RU-2P-KIT",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "mechanical",
+  "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label",
+  "evidence": "reviewer, switches layers review 14 Sep 2026, item 3 (named 8K-2RU-2P-KIT, 8K-2RU-2P-KIT=, 8K-2RU-KIT-L; the -KIT-L= and -KIT-S / -KIT-S= rows are the same family)",
+  "planned_by": "reviewer 14 Sep 2026 (switches layers review)"
+ },
+ {
+  "sku": "8K-2RU-2P-KIT=",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "mechanical",
+  "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label",
+  "evidence": "reviewer, switches layers review 14 Sep 2026, item 3 (named 8K-2RU-2P-KIT, 8K-2RU-2P-KIT=, 8K-2RU-KIT-L; the -KIT-L= and -KIT-S / -KIT-S= rows are the same family)",
+  "planned_by": "reviewer 14 Sep 2026 (switches layers review)"
+ },
+ {
+  "sku": "8K-2RU-KIT-L",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "mechanical",
+  "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label",
+  "evidence": "reviewer, switches layers review 14 Sep 2026, item 3 (named 8K-2RU-2P-KIT, 8K-2RU-2P-KIT=, 8K-2RU-KIT-L; the -KIT-L= and -KIT-S / -KIT-S= rows are the same family)",
+  "planned_by": "reviewer 14 Sep 2026 (switches layers review)"
+ },
+ {
+  "sku": "8K-2RU-KIT-L=",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "mechanical",
+  "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label",
+  "evidence": "reviewer, switches layers review 14 Sep 2026, item 3 (named 8K-2RU-2P-KIT, 8K-2RU-2P-KIT=, 8K-2RU-KIT-L; the -KIT-L= and -KIT-S / -KIT-S= rows are the same family)",
+  "planned_by": "reviewer 14 Sep 2026 (switches layers review)"
+ },
+ {
+  "sku": "8K-2RU-KIT-S",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "mechanical",
+  "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label",
+  "evidence": "reviewer, switches layers review 14 Sep 2026, item 3 (named 8K-2RU-2P-KIT, 8K-2RU-2P-KIT=, 8K-2RU-KIT-L; the -KIT-L= and -KIT-S / -KIT-S= rows are the same family)",
+  "planned_by": "reviewer 14 Sep 2026 (switches layers review)"
+ },
+ {
+  "sku": "8K-2RU-KIT-S=",
+  "category": "switches",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "mechanical",
+  "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label",
+  "evidence": "reviewer, switches layers review 14 Sep 2026, item 3 (named 8K-2RU-2P-KIT, 8K-2RU-2P-KIT=, 8K-2RU-KIT-L; the -KIT-L= and -KIT-S / -KIT-S= rows are the same family)",
+  "planned_by": "reviewer 14 Sep 2026 (switches layers review)"
  }
 ]

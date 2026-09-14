@@ -1,19 +1,20 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-14T12:14:35.841Z",
+ "built_at": "2026-09-14T12:33:29.705Z",
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
- "parts": 7433,
+ "parts": 7541,
  "lines": [
   {
    "line": "Catalyst",
-   "parts": 3163,
+   "parts": 3160,
    "series": [
     {
      "series": "Catalyst 9400",
-     "parts": 84,
+     "role": "core-agg",
+     "parts": 83,
      "kinds": {
-      "linecard": 29,
+      "linecard": 28,
       "power": 6,
       "accessory": 4,
       "supervisor": 21,
@@ -22,54 +23,63 @@
       "chassis": 6,
       "switch": 6
      },
+     "roles": {
+      "core-agg": 6
+     },
      "samples": [
-      "C4500E-7R-S9E-MGIG — SUP9E and MGIG upgrade for 7 slot chassis bundle (96 ports)",
       "C9400-LC-12QC — Cisco Catalyst 9400 Series 12-Port 40G (QSFP+) or 4-Port 100",
       "C9400-LC-24S — Cisco C9400-LC-24S",
       "C9400-LC-24S= — Cisco C9400-LC-24S=",
       "C9400-LC-24XS — Cisco C9400-LC-24XS",
-      "C9400-LC-24XS= — Cisco C9400-LC-24XS="
+      "C9400-LC-24XS= — Cisco C9400-LC-24XS=",
+      "C9400-LC-24XY — Cisco Catalyst 9400 Series 20-Port 25G (SFP28), 4-Port 10G ("
      ],
      "rules": {
-      "sku": 84
+      "sku": 83
      }
     },
     {
      "series": "Catalyst 9200",
-     "parts": 136,
+     "role": "access",
+     "parts": 130,
      "kinds": {
-      "mechanical": 7,
       "switch": 101,
       "module": 8,
-      "power-cord": 1,
+      "mechanical": 2,
       "power": 13,
       "stack-cable": 6
      },
+     "roles": {
+      "access": 101
+     },
      "samples": [
-      "4PT-KIT-T2= — 4 Point rack mount kit New",
       "C9200-24P — Cisco C9200-24P Managed Switch (L3) – 24× Gigabit-RJ45 (PoE+",
       "C9200-24P-A — C9200-24P-A – Catalyst 9200 24-port PoE+ Switch, Network Adv",
       "C9200-24P-E — C9200-24P-E – Catalyst 9200 24-port PoE+ Switch. Network Ess",
       "C9200-24PB — Cisco C9200-24PB Managed Switch (L3) – 24× Gigabit-RJ45 (PoE",
-      "C9200-24PB-A — C9200-24PB-A – Catalyst 9200 24-port PoE+, enhanced VRF, Net"
+      "C9200-24PB-A — C9200-24PB-A – Catalyst 9200 24-port PoE+, enhanced VRF, Net",
+      "C9200-24PXG — Cisco C9200-24PXG Managed Switch (L3) – 8× 10G-Multigigabit-"
      ],
      "rules": {
-      "label": 26,
-      "sku": 110
+      "sku": 110,
+      "label": 20
      }
     },
     {
      "series": "Catalyst 9300",
-     "parts": 247,
+     "role": "access",
+     "parts": 242,
      "kinds": {
       "switch": 167,
       "module": 26,
-      "cable": 4,
-      "mechanical": 3,
+      "mechanical": 2,
       "fan": 2,
       "power": 23,
       "accessory": 4,
       "stack-cable": 18
+     },
+     "roles": {
+      "access": 167
      },
      "samples": [
       "C9300-24H — Cisco C9300-24H Managed Switch (L3) – 24× Gigabit-RJ45 (UPOE",
@@ -81,19 +91,22 @@
      ],
      "rules": {
       "sku": 193,
-      "label": 54
+      "label": 49
      }
     },
     {
      "series": "Catalyst 9350",
-     "parts": 50,
+     "role": "access",
+     "parts": 46,
      "kinds": {
       "switch": 15,
       "fan": 1,
       "module": 11,
-      "cable": 4,
       "power": 14,
       "stack-cable": 5
+     },
+     "roles": {
+      "access": 15
      },
      "samples": [
       "C9350-12Y — Cisco C9350-12Y Managed Switch (L3) – 12× 1/10/25G-SFP28, 19",
@@ -105,19 +118,22 @@
      ],
      "rules": {
       "sku": 27,
-      "label": 23
+      "label": 19
      }
     },
     {
      "series": "Catalyst 9500",
-     "parts": 120,
+     "role": "core-agg",
+     "parts": 104,
      "kinds": {
       "switch": 81,
-      "mechanical": 13,
+      "mechanical": 11,
       "module": 4,
       "fan": 2,
-      "power": 6,
-      "power-cord": 14
+      "power": 6
+     },
+     "roles": {
+      "core-agg": 81
      },
      "samples": [
       "C9500-12Q — Cisco C9500-12Q Catalyst-9500-Core-Switch (IOS XE, L3) – 12×",
@@ -129,15 +145,19 @@
      ],
      "rules": {
       "sku": 96,
-      "label": 24
+      "label": 8
      }
     },
     {
      "series": "Catalyst 9550",
+     "role": "core-agg",
      "parts": 10,
      "kinds": {
       "switch": 6,
       "fan": 4
+     },
+     "roles": {
+      "core-agg": 6
      },
      "samples": [
       "C9550 — Cisco C9550",
@@ -153,6 +173,7 @@
     },
     {
      "series": "Catalyst 9600",
+     "role": "core-agg",
      "parts": 28,
      "kinds": {
       "linecard": 13,
@@ -162,6 +183,7 @@
       "mechanical": 4,
       "chassis": 2
      },
+     "roles": {},
      "samples": [
       "C9600-LC-24C — Cisco Catalyst 9600 Series 24-port 40GE/12-Port 100GE",
       "C9600-LC-40YL4CD — C9600-LC-40YL4CD Cisco Catalyst 9600 Series Combo line card ",
@@ -176,33 +198,32 @@
     },
     {
      "series": "Catalyst 9610",
-     "parts": 45,
+     "role": "core-agg",
+     "parts": 16,
      "kinds": {
-      "power": 3,
       "mechanical": 5,
       "fan": 1,
       "linecard": 3,
       "accessory": 4,
       "supervisor": 2,
-      "chassis": 1,
-      "power-cord": 24,
-      "cable": 2
+      "chassis": 1
      },
+     "roles": {},
      "samples": [
-      "2KWAC — Cisco 2KWAC",
-      "2KWDC — Cisco 2KWDC",
-      "3KWAC — Cisco 3KWAC",
       "C9610-19-KIT-4= — Cisco 9610 Series 10 slot chassis 4 post 19-inch Rack Mount",
       "C9610-23-KIT-2 — Cisco 9610 Series 10 slot chassis 2 post 23-inch Rack Mount",
-      "C9610-23-KIT-2= — Cisco C9610 Series Smart Switches 23\" 2 post"
+      "C9610-23-KIT-2= — Cisco C9610 Series Smart Switches 23\" 2 post",
+      "C9610-FAN — Cisco C9610-FAN",
+      "C9610-LC-32CD — Cisco C9610 Series Smart Switch combo line card 30 ports 100",
+      "C9610-LC-40YL4CD — Cisco C9610 Series Smart Switch combo line card 40 ports 10/"
      ],
      "rules": {
-      "label": 29,
       "sku": 16
      }
     },
     {
      "series": "Catalyst 9000 shared parts",
+     "role": null,
      "parts": 38,
      "kinds": {
       "power": 16,
@@ -210,6 +231,7 @@
       "mechanical": 10,
       "fan": 2
      },
+     "roles": {},
      "samples": [
       "C9K-150W-ADPT — AC-DC slim power adapter for the C9200CX-8PT-2G compact swit",
       "C9K-80W-ADPT — AC-DC slim power adapter for the C9200CX-12T-2X2G compact sw",
@@ -223,18 +245,42 @@
      }
     },
     {
+     "series": "Catalyst 6800 Instant Access",
+     "role": "access",
+     "parts": 5,
+     "kinds": {
+      "switch": 5
+     },
+     "roles": {
+      "access": 5
+     },
+     "samples": [
+      "C6800IA-48FPD — Catalyst 6800 Instant Access POE+ Switch",
+      "C6800IA-48FPD= — Catalyst 6800 Instant Access POE+ Switch",
+      "C6800IA-48FPDR — C6800IA Instant Access POE+ Switch w Redundant PS capablity",
+      "C6800IA-48TD — Catalyst 6800 Instant Access Data Switch",
+      "C6800IA-48TD= — Catalyst 6800 Instant Access Data Switch"
+     ],
+     "rules": {
+      "sku": 5
+     }
+    },
+    {
      "series": "Catalyst 6800",
-     "parts": 118,
+     "role": "core-agg",
+     "parts": 111,
      "kinds": {
       "power": 19,
       "fan": 5,
       "chassis": 3,
-      "switch": 31,
+      "switch": 26,
       "linecard": 34,
       "mechanical": 14,
       "supervisor": 8,
-      "accessory": 2,
-      "cable": 2
+      "accessory": 2
+     },
+     "roles": {
+      "core-agg": 26
      },
      "samples": [
       "2D-C6800XL-3KW-AC= — Catalyst 6807-XL 3000W Power Supply w/2D Barcode",
@@ -245,24 +291,26 @@
       "C1-C6816-X-LE — Cisco ONE Catalyst 6816-X-Chassis (Standard Tables)"
      ],
      "rules": {
-      "sku": 116,
-      "label": 2
+      "sku": 111
      }
     },
     {
      "series": "Catalyst 6500",
-     "parts": 400,
+     "role": "core-agg",
+     "parts": 392,
      "kinds": {
       "linecard": 136,
       "accessory": 56,
-      "cable": 4,
       "module": 73,
       "fan": 20,
-      "mechanical": 20,
+      "mechanical": 16,
       "power": 25,
       "supervisor": 29,
       "switch": 25,
       "chassis": 12
+     },
+     "roles": {
+      "core-agg": 25
      },
      "samples": [
       "2D-X6816-10G-2T= — 16 Port 10G with DFC4 with 2D barcode",
@@ -274,19 +322,22 @@
      ],
      "rules": {
       "sku": 285,
-      "label": 115
+      "label": 107
      }
     },
     {
      "series": "Catalyst 4500-X",
-     "parts": 35,
+     "role": "core-agg",
+     "parts": 34,
      "kinds": {
       "switch": 12,
       "fan": 4,
       "module": 2,
       "mechanical": 4,
-      "power": 12,
-      "cable": 1
+      "power": 12
+     },
+     "roles": {
+      "core-agg": 12
      },
      "samples": [
       "C1-C4500X-16SFP+ — Cisco ONE Catalyst 4500-X 16 Port 10G IP Base, Front-to-Back",
@@ -297,23 +348,24 @@
       "C4KX-FAN-F — Catalyst 4500-X Back-to-Front Cooling Fan"
      ],
      "rules": {
-      "sku": 34,
-      "label": 1
+      "sku": 34
      }
     },
     {
      "series": "Catalyst 4500-E",
-     "parts": 312,
+     "role": "core-agg",
+     "parts": 295,
      "kinds": {
       "chassis": 16,
       "switch": 52,
       "supervisor": 33,
-      "linecard": 140,
+      "linecard": 141,
       "mechanical": 14,
-      "power-cord": 17,
-      "cable": 1,
       "accessory": 10,
       "power": 29
+     },
+     "roles": {
+      "core-agg": 52
      },
      "samples": [
       "C1-C4503-E — Cat4500 E-Series 3-Slot Chassis, fan, no ps",
@@ -324,19 +376,22 @@
       "C1-C4506E-S7L+96V+ — Cisco ONE4506-E Chassis 2x WS-X4648-RJ45V+E Sup7L-E LAN Base"
      ],
      "rules": {
-      "sku": 272,
-      "label": 40
+      "sku": 273,
+      "label": 22
      }
     },
     {
      "series": "Catalyst 4900",
-     "parts": 90,
+     "role": "datacenter",
+     "parts": 82,
      "kinds": {
       "mechanical": 16,
-      "power-cord": 8,
       "power": 21,
       "switch": 20,
       "linecard": 25
+     },
+     "roles": {
+      "datacenter": 20
      },
      "samples": [
       "4900M-BLK-CVR — Blank for port card slots",
@@ -347,20 +402,22 @@
       "4900M-X2-CVR= — Spare X2 cover for 4900M"
      ],
      "rules": {
-      "sku": 82,
-      "label": 8
+      "sku": 82
      }
     },
     {
      "series": "Catalyst 3850",
-     "parts": 216,
+     "role": "access",
+     "parts": 212,
      "kinds": {
       "switch": 165,
-      "mechanical": 7,
+      "mechanical": 6,
       "fan": 7,
       "module": 10,
-      "power-cord": 3,
       "power": 24
+     },
+     "roles": {
+      "access": 165
      },
      "samples": [
       "C1-WS3850-12S/K9 — Cisco One Catalyst 3850 12 Port Fiber Switch",
@@ -371,50 +428,51 @@
       "C1-WS3850-24U/K9 — Cisco One Catalyst 3850 24 Port UPoE"
      ],
      "rules": {
-      "label": 45,
-      "sku": 168,
-      "name": 3
+      "label": 44,
+      "sku": 168
      }
     },
     {
      "series": "Catalyst 3650",
-     "parts": 230,
+     "role": "access",
+     "parts": 221,
      "kinds": {
       "power": 8,
-      "mechanical": 7,
-      "accessory": 1,
       "switch": 201,
+      "mechanical": 1,
       "module": 4,
-      "cable": 2,
       "fan": 1,
       "stack-cable": 6
+     },
+     "roles": {
+      "access": 201
      },
      "samples": [
       "2D-C2-1025WAC= — 1025W AC Config 2 Power Supply Spare with 2D Barcode",
       "2D-C2-250WAC= — 250W AC Config 2 Power Supply Spare with 2D Barcode",
       "2D-C2-640WAC= — 640W AC Config 2 Power Supply Spare with 2D Barcode",
-      "4PT-KIT-T1= — Extension rails and brackets for four-point mounting for Cis",
-      "ACC-KIT-T1= — Accessory kit for Cisco Catalyst 3650 Series",
-      "BLNK-RPS2300 — Bay Insert for Cisco Redundant Power System 2300"
+      "C1-WS3650-24PD/K9 — Cisco One Catalyst 3650 24 Port PoE 2x10G Uplink",
+      "C1-WS3650-24PDM/K9 — Cisco ONE Cat 3650 24Port Mini,2x1G 2x10G Uplink,LANBase",
+      "C1-WS3650-24PS/K9 — Cisco One Catalyst 3650 24 Port PoE 4x1G Uplink"
      ],
      "rules": {
-      "label": 43,
-      "name": 2,
+      "label": 36,
       "sku": 185
      }
     },
     {
      "series": "Catalyst 3750-X",
-     "parts": 131,
+     "role": "access",
+     "parts": 98,
      "kinds": {
       "switch": 60,
       "mechanical": 11,
       "fan": 3,
       "module": 11,
-      "power": 13,
-      "power-cord": 26,
-      "cable": 4,
-      "stack-cable": 3
+      "power": 13
+     },
+     "roles": {
+      "access": 60
      },
      "samples": [
       "3750X-12S — Cisco 3750X-12S",
@@ -425,16 +483,19 @@
       "3750X-48P — Cisco 3750X-48P"
      ],
      "rules": {
-      "sku": 122,
-      "name": 2,
-      "label": 7
+      "sku": 96,
+      "label": 2
      }
     },
     {
      "series": "Catalyst 3560-X",
+     "role": "access",
      "parts": 49,
      "kinds": {
       "switch": 49
+     },
+     "roles": {
+      "access": 49
      },
      "samples": [
       "3560X-24P — Cisco 3560X-24P",
@@ -450,9 +511,13 @@
     },
     {
      "series": "Catalyst 3750-E",
+     "role": "access",
      "parts": 12,
      "kinds": {
       "switch": 12
+     },
+     "roles": {
+      "access": 12
      },
      "samples": [
       "WS-C3750E-24PD-E — Cisco WS-C3750E-24PD-E Catalyst 3750-E gemanagter stapelbare",
@@ -468,9 +533,13 @@
     },
     {
      "series": "Catalyst 3560-E",
+     "role": "access",
      "parts": 16,
      "kinds": {
       "switch": 16
+     },
+     "roles": {
+      "access": 16
      },
      "samples": [
       "WS-C3560E-12SD-E — Catalyst 3560E 12 SFP+2*10GE(X2), IPS s/w",
@@ -486,12 +555,14 @@
     },
     {
      "series": "Catalyst 3750",
-     "parts": 55,
+     "role": "access",
+     "parts": 47,
      "kinds": {
       "switch": 44,
-      "cable": 5,
-      "stack-cable": 3,
-      "mechanical": 3
+      "cable": 3
+     },
+     "roles": {
+      "access": 44
      },
      "samples": [
       "3750-24FS — Cisco 3750-24FS",
@@ -503,17 +574,20 @@
      ],
      "rules": {
       "sku": 44,
-      "label": 11
+      "label": 3
      }
     },
     {
      "series": "Catalyst 3560-C and 3560-CX",
-     "parts": 65,
+     "role": "access",
+     "parts": 49,
      "kinds": {
       "switch": 40,
-      "power-cord": 12,
-      "mechanical": 8,
+      "mechanical": 4,
       "power": 5
+     },
+     "roles": {
+      "access": 40
      },
      "samples": [
       "3560C-12PC-S — Cisco 3560C-12PC-S",
@@ -525,36 +599,42 @@
      ],
      "rules": {
       "sku": 40,
-      "label": 25
+      "label": 9
      }
     },
     {
      "series": "Catalyst 3560",
-     "parts": 32,
+     "role": "access",
+     "parts": 31,
      "kinds": {
       "mechanical": 1,
-      "cable": 1,
       "switch": 30
+     },
+     "roles": {
+      "access": 30
      },
      "samples": [
       "C3560-NEBS-KIT= — Cisco Catalyst 3650 NEBS Kit",
-      "CAB-SFP-50CM= — Cisco Catalyst 3560 SFP Interconnect Cable (50 cm)",
       "CH-C3560-24TS-S-24 — C3560V2 24 10/100 +2SFP Std 24-Unit Bundle",
       "CH-C3560-48TS-S-24 — C3560V2 48 10/100 +2SFP Std 24-unit bundle",
       "WS-C3560-12PC-S — Catalyst 3560 Compact 12 10/100 PoE + 1 T/SFP; IP Base Image",
-      "WS-C3560-24PS-E — Cisco WS-C3560-24PS-E Catalyst 3560 gemanagter L3-Access-Swi"
+      "WS-C3560-24PS-E — Cisco WS-C3560-24PS-E Catalyst 3560 gemanagter L3-Access-Swi",
+      "WS-C3560-24PS-S — Cisco WS-C3560-24PS-S Catalyst 3560 gemanagter L3-Access-Swi"
      ],
      "rules": {
-      "sku": 31,
-      "name": 1
+      "sku": 31
      }
     },
     {
      "series": "Catalyst 2960-C and 2960-CX",
+     "role": "access",
      "parts": 28,
      "kinds": {
       "switch": 24,
       "mechanical": 4
+     },
+     "roles": {
+      "access": 24
      },
      "samples": [
       "2960C-12PC-L — Cisco 2960C-12PC-L",
@@ -571,15 +651,16 @@
     },
     {
      "series": "Catalyst 2960-X and 2960-XR",
-     "parts": 189,
+     "role": "access",
+     "parts": 166,
      "kinds": {
       "switch": 142,
       "accessory": 1,
       "module": 8,
-      "power": 15,
-      "power-cord": 18,
-      "stack-cable": 3,
-      "mechanical": 2
+      "power": 15
+     },
+     "roles": {
+      "access": 142
      },
      "samples": [
       "2D-C2960XR-24PD-I — Cat 2960-XR 24G E PoE 370W,2 x10G SFP+,IP Lite w/2D barcode",
@@ -591,107 +672,112 @@
      ],
      "rules": {
       "sku": 159,
-      "label": 17,
-      "name": 13
+      "label": 7
      }
     },
     {
      "series": "Catalyst 2960-S",
-     "parts": 30,
+     "role": "access",
+     "parts": 24,
      "kinds": {
       "module": 4,
-      "power-cord": 2,
-      "cable": 1,
-      "stack-cable": 3,
       "switch": 20
+     },
+     "roles": {
+      "access": 20
      },
      "samples": [
       "C2960S-F-STACK — Catalyst 2960S Flexstack Stack Module (FE)",
       "C2960S-F-STACK= — Catalyst 2960S Flexstack Stack Module (FE)",
       "C2960S-STACK — Catalyst 2960S FlexStack Stack Module optional for LAN Base",
       "C2960S-STACK= — Catalyst 2960S Flexstack Stack Module",
-      "CAB-ACB10A-RA — AC Power Cord, Brazil, Right Angle, 10A (all except FPS mode",
-      "CAB-JPN-12A — AC Power Cord (Japan), C13, Japan 2-prong, 1.8m"
+      "WS-C2960S-24PD-L — Cisco WS-C2960S-24PD-L Catalyst 2960-S Layer-2-Managed-Switc",
+      "WS-C2960S-24PS-L — Cisco WS-C2960S-24PS-L Catalyst 2960-S Layer-2-Managed-Switc"
      ],
      "rules": {
-      "sku": 24,
-      "label": 6
+      "sku": 24
      }
     },
     {
      "series": "Catalyst 2960-Plus",
-     "parts": 42,
+     "role": "access",
+     "parts": 35,
      "kinds": {
-      "accessory": 1,
-      "fan": 1,
-      "power-cord": 4,
-      "cable": 1,
       "switch": 35
      },
+     "roles": {
+      "access": 35
+     },
      "samples": [
-      "BLNK-RPS2300= — Spare bay insert for Cisco Redundant Power System 2300 for C",
-      "BLWR-RPS2300= — Spare 45CFM Blower for Cisco Redundant Power System 2300",
-      "CAB-AC — AC Power Cord (US, Canada), C13, NEMA 5-15P, 2.5m",
-      "CAB-ACBZ-10A — AC Power Cord (Brazil), C13, BR-3-20, 10A (all except FPS mo",
-      "CAB-ACSA — AC Power Cord (South Africa), C15, SABS 164-1, 1.8m",
-      "CAB-JPN — AC Power Cord (Japan), C13, Japan 2-prong, 1.8m"
+      "WS-C2960+24LC-L — Cisco WS-C2960+24LC-L Catalyst 2960-Plus Fast-Ethernet-Manag",
+      "WS-C2960+24LC-L++ — Catalyst 2960 Plus 24 10/100 (8 PoE) + 2 T/SFP LAN Base",
+      "WS-C2960+24LC-S — Cisco WS-C2960+24LC-S Catalyst 2960-Plus Fast-Ethernet-Manag",
+      "WS-C2960+24LC-S++ — Catalyst 2960 Plus 24 10/100 (8 PoE) + 2 T/SFP LAN Lite",
+      "WS-C2960+24PC-BR — CE Brazil Catalyst 2960 24 10/100 PoE + 2 T/SFP LAN Base",
+      "WS-C2960+24PC-BR= — CE Brazil Catalyst 2960 24 10/100 PoE + 2 T/SFP LAN Base"
      ],
      "rules": {
-      "label": 7,
       "sku": 35
      }
     },
     {
      "series": "Catalyst 2960-L",
-     "parts": 67,
+     "role": "access",
+     "parts": 64,
      "kinds": {
-      "mechanical": 5,
+      "mechanical": 2,
       "switch": 62
      },
+     "roles": {
+      "access": 62
+     },
      "samples": [
-      "CMPCT-CBLE-GRD — Cable Guard for 3560-CX, 2960-CX, and 2960-L Compact Switche",
       "CMPCT-DIN-MNT — DIN Rail Mount for 3560-CX, 2960-CX, and 2960-L Compact Swit",
       "CMPCT-MGNT-TRAY — Magnetic Mounting Tray for 3560-CX, 2960-CX, and 2960-L Comp",
-      "RCKMNT-1RU-2KX — 1RU Rack Mount Kit for 2960-X, 2960-XR, and 2960-L",
-      "RCKMNT-REC-2KX — Recessed 1RU rack mount for 2960X, 2960-XR, and 2960-L",
-      "WS-C2960L-16PS-JP — Catalyst 2960L 16 port GigE with PoE, 2 x 1G SFP, LAN Lite"
+      "WS-C2960L-16PS-JP — Catalyst 2960L 16 port GigE with PoE, 2 x 1G SFP, LAN Lite",
+      "WS-C2960L-16PS-LL — Cisco WS-C2960L-16PS-LL Catalyst 2960-L Managed-Switch (Cisc",
+      "WS-C2960L-16PS-LL has maximum operating temperature of 40°C (up to 5,000 ft) and 35°C (up to 10,000 ft) — WS-C2960L-16PS-LL has maximum operating temperature of 40°C ",
+      "WS-C2960L-16PS-LL/ WS-C2960L-SM-16PS — WS-C2960L-16PS-LL/ WS-C2960L-SM-16PS"
      ],
      "rules": {
-      "label": 5,
+      "label": 2,
       "sku": 62
      }
     },
     {
      "series": "Catalyst 2960",
-     "parts": 63,
+     "role": "access",
+     "parts": 33,
      "kinds": {
-      "power-cord": 19,
-      "cable": 2,
-      "stack-cable": 16,
-      "mechanical": 3,
+      "stack-cable": 10,
       "switch": 23
      },
+     "roles": {
+      "access": 23
+     },
      "samples": [
-      "CAB-16AWG-AC — AC Power Cord (US, Canada), C13, NEMA 5-15P, 2.5m",
-      "CAB-AC15A-90L-US — 15A AC Pwr Cord, left-angle (United States)",
-      "CAB-ACA — AC Power Cord (China/Australia), C13, AS 3112, 2.5m",
-      "CAB-ACA-RA — AC Power Cord, Australian, Right Angle",
-      "CAB-ACC — CORD, PWR, CHINA, 10A, IEC 320, C13 (APN=CS-PWR-CH)",
-      "CAB-ACC-RA — AC Power Cord China, Right Angle"
+      "STACK-CAB-1M — Cisco 1M Stacking Cable",
+      "STACK-CAB-1M= — Cisco 1M Stacking Cable",
+      "STACK-CAB-3M — Cisco 3M Stacking Cable",
+      "STACK-CAB-3M-NH — Cisco 3M Non-Halogen Lead Free Stacking Cable",
+      "STACK-CAB-3M-NH= — Cisco 3M Non-Halogen Lead Free Stacking Cable",
+      "STACK-CAB-3M= — Cisco 3M Stacking Cable"
      ],
      "rules": {
-      "label": 41,
+      "label": 11,
       "sku": 22
      }
     },
     {
      "series": "Catalyst 1000",
-     "parts": 84,
+     "role": "access",
+     "parts": 78,
      "kinds": {
       "switch": 72,
-      "power-cord": 4,
-      "power": 6,
-      "mechanical": 2
+      "power": 6
+     },
+     "roles": {
+      "access": 72
      },
      "samples": [
       "C1000-16FP-2G-IN — Catalyst 1000 16port GE, Full POE, 2x1G SFP",
@@ -703,15 +789,19 @@
      ],
      "rules": {
       "sku": 72,
-      "label": 12
+      "label": 6
      }
     },
     {
      "series": "Catalyst 1200",
+     "role": "smb",
      "parts": 18,
      "kinds": {
       "switch": 17,
       "power": 1
+     },
+     "roles": {
+      "smb": 17
      },
      "samples": [
       "C1200-16P-2G — Cisco C1200-16P-2G Catalyst-1200-Managed-Switch (L2, Linux) ",
@@ -728,12 +818,14 @@
     },
     {
      "series": "Catalyst 1300",
-     "parts": 44,
+     "role": "smb",
+     "parts": 40,
      "kinds": {
       "switch": 38,
-      "cable": 2,
-      "power": 2,
-      "mechanical": 2
+      "power": 2
+     },
+     "roles": {
+      "smb": 38
      },
      "samples": [
       "C1300-12XS — Cisco C1300-12XS Catalyst-1300-Managed-Switch (L3) – 10× 10G",
@@ -745,17 +837,21 @@
      ],
      "rules": {
       "sku": 38,
-      "label": 6
+      "label": 2
      }
     },
     {
      "series": "Catalyst Micro",
+     "role": "access",
      "parts": 27,
      "kinds": {
       "switch": 6,
       "mechanical": 12,
       "accessory": 2,
       "power": 7
+     },
+     "roles": {
+      "access": 6
      },
      "samples": [
       "CMICR-4PC — Cisco CMICR-4PC Catalyst-Micro gemanagter Layer-2-Switch (Ci",
@@ -772,11 +868,15 @@
     },
     {
      "series": "Catalyst Digital Building",
+     "role": "access",
      "parts": 16,
      "kinds": {
       "switch": 8,
       "mechanical": 5,
       "accessory": 3
+     },
+     "roles": {
+      "access": 8
      },
      "samples": [
       "CDB-3850-24U-L — Cisco Digital Building Catalyst 3850 24 Port UPOE Bundle",
@@ -792,11 +892,13 @@
     },
     {
      "series": "Catalyst PON",
+     "role": "access",
      "parts": 20,
      "kinds": {
       "switch": 12,
       "power": 8
      },
+     "roles": {},
      "samples": [
       "CGP-OLT — Cisco CGP-OLT",
       "CGP-OLT-16T — Catalyst PON 16-port GPON OLT, 4 GE Combo ports (Copper RJ45",
@@ -812,33 +914,60 @@
     },
     {
      "series": "Redundant Power System",
-     "parts": 16,
+     "role": null,
+     "parts": 20,
      "kinds": {
       "mechanical": 2,
+      "accessory": 2,
+      "fan": 1,
       "power": 11,
-      "power-cord": 3
+      "cable": 4
      },
+     "roles": {},
      "samples": [
       "ACC-RPS2300= — Spare Accessory Kit for Cisco Redundant Power System 2300",
+      "BLNK-RPS2300 — Bay Insert for Cisco Redundant Power System 2300",
+      "BLNK-RPS2300= — Spare bay insert for Cisco Redundant Power System 2300 for C",
+      "BLWR-RPS2300= — Spare 45CFM Blower for Cisco Redundant Power System 2300",
       "C3K-PWR-1150WAC — Catalyst 3750-E / 3560-E 1150WAC power supply",
-      "C3K-PWR-1150WAC= — Catalyst 3750-E/3560-E/RPS 2300 1150WAC power supply spare",
-      "C3K-PWR-750WAC — Catalyst 3750-E / 3560-E 750WAC power supply",
-      "C3K-PWR-750WAC= — RPS 2300 750W AC power supply spare for Cisco Catalyst 2960 ",
-      "CAB-7513AC — AC Power Cord, North America (110V)"
+      "C3K-PWR-1150WAC= — Catalyst 3750-E/3560-E/RPS 2300 1150WAC power supply spare"
      ],
      "rules": {
-      "sku": 13,
-      "label": 3
+      "sku": 20
+     }
+    },
+    {
+     "series": "Catalyst shared parts",
+     "role": null,
+     "parts": 240,
+     "kinds": {
+      "mechanical": 38,
+      "power-cord": 155,
+      "cable": 29,
+      "stack-cable": 18
+     },
+     "roles": {},
+     "samples": [
+      "4PT-KIT-T1= — Extension rails and brackets for four-point mounting for Cis",
+      "4PT-KIT-T2= — 4 Point rack mount kit New",
+      "ACC-KIT-T1= — Accessory kit for Cisco Catalyst 3650 Series",
+      "CAB-16AWG-AC — AC Power Cord (US, Canada), C13, NEMA 5-15P, 2.5m",
+      "CAB-3KX-250VAC-JP — Japan 250V AC Power Cord",
+      "CAB-3KX-250VAC-JP= — Japan 250V AC Power Cord for Cisco Catalyst 3K-X (Japan)"
+     ],
+     "rules": {
+      "accessory": 240
      }
     }
    ]
   },
   {
    "line": "Nexus",
-   "parts": 1873,
+   "parts": 1867,
    "series": [
     {
      "series": "Nexus 2000 Fabric Extenders",
+     "role": "datacenter",
      "parts": 212,
      "kinds": {
       "fan": 23,
@@ -847,6 +976,7 @@
       "fex": 163,
       "accessory": 6
      },
+     "roles": {},
      "samples": [
       "CN3248-FAN — Inspur CN3248TP GE FEX Fan, Std airflow (Port side exhaust)",
       "CN3248-FAN-B — Inspur CN3248TP GE FEX Fan Module, Back-to-front airflow",
@@ -861,10 +991,14 @@
     },
     {
      "series": "Nexus 3550",
+     "role": "datacenter",
      "parts": 6,
      "kinds": {
       "switch": 2,
       "linecard": 4
+     },
+     "roles": {
+      "datacenter": 2
      },
      "samples": [
       "N35-F-48X — Nexus 3550-F Modular Layer 1 Matrix Switch",
@@ -880,9 +1014,13 @@
     },
     {
      "series": "Nexus 3500",
+     "role": "datacenter",
      "parts": 21,
      "kinds": {
       "switch": 21
+     },
+     "roles": {
+      "datacenter": 21
      },
      "samples": [
       "C1-N3K-C3524X — Cisco ONE Nexus 3524X, 24 SFP+ ports",
@@ -898,9 +1036,13 @@
     },
     {
      "series": "Nexus 3600",
+     "role": "datacenter",
      "parts": 3,
      "kinds": {
       "switch": 3
+     },
+     "roles": {
+      "datacenter": 3
      },
      "samples": [
       "N3K-C36180YC-R — Cisco N3K-C36180YC-R 36180YC-R Data-Center-Switch (NX-OS, L3",
@@ -913,15 +1055,19 @@
     },
     {
      "series": "Nexus 3000",
-     "parts": 223,
+     "role": "datacenter",
+     "parts": 221,
      "kinds": {
       "switch": 192,
       "accessory": 3,
-      "mechanical": 9,
+      "mechanical": 7,
       "fan": 8,
       "chassis": 3,
       "power": 4,
       "linecard": 4
+     },
+     "roles": {
+      "datacenter": 192
      },
      "samples": [
       "C1-N3K-C3048TP — Cisco ONE Nexus 3048TP-1GE 1RU 48x10/100/1K and 4x10GE ports",
@@ -933,11 +1079,12 @@
      ],
      "rules": {
       "sku": 209,
-      "label": 14
+      "label": 12
      }
     },
     {
      "series": "Nexus 5500",
+     "role": "datacenter",
      "parts": 151,
      "kinds": {
       "switch": 80,
@@ -945,6 +1092,9 @@
       "mechanical": 13,
       "power": 14,
       "fan": 10
+     },
+     "roles": {
+      "datacenter": 80
      },
      "samples": [
       "C1-N5548UP-B-S32 — Cisco ONE N5548UP Storage Sol Bun,32 port storage serv lic",
@@ -960,6 +1110,7 @@
     },
     {
      "series": "Nexus 5600",
+     "role": "datacenter",
      "parts": 114,
      "kinds": {
       "switch": 73,
@@ -967,6 +1118,9 @@
       "mechanical": 14,
       "module": 11,
       "fan": 12
+     },
+     "roles": {
+      "datacenter": 73
      },
      "samples": [
       "C1-N5624-B-24Q — Cisco ONE Nexus 5624Q Chassis 24x40GEPorts/FCoEBun,2PS,3 FAN",
@@ -982,28 +1136,30 @@
     },
     {
      "series": "Nexus 5000",
-     "parts": 10,
+     "role": "datacenter",
+     "parts": 6,
      "kinds": {
-      "cable": 2,
-      "power-cord": 2,
       "switch": 4,
       "power": 2
      },
+     "roles": {
+      "datacenter": 4
+     },
      "samples": [
-      "CAB-04X-07 — Cisco 4XIB Cable, 7m",
-      "CAB-04X-07= — ^Cisco 4XIB Cable, 7m",
-      "CAB-AC-250V/13A — North America, NEMA L6-20 250V/20A plug-IEC320/C13 receptacl",
-      "CAB-AC-L620-C13= — North America, NEMA L6-20-C13 (2.0 meter)",
       "N5K-BUN-NFAS — Nexus 5548UP Chassis, 8p storage license, FC Transceiver",
-      "N5K-C5010P-BF — Cisco N5K-C5010P-BF 5010 Data-Center-Switch (NX-OS, L2) – 20"
+      "N5K-C5010P-BF — Cisco N5K-C5010P-BF 5010 Data-Center-Switch (NX-OS, L2) – 20",
+      "N5K-C5020P-BF — Cisco N5K-C5020P-BF 5020 Data-Center-Switch (NX-OS, L2) – 40",
+      "N5K-PAC-750W — Nexus 5020 PSU module, 100-240VAC 750W",
+      "N5K-PAC-750W= — ^Nexus 5020 PSU module, 100-240VAC 750W",
+      "N5K-UCS5548UP-FA — Nexus 5548 UP Chassis, 32 10GbE Ports, 2 PS, 2 Fans"
      ],
      "rules": {
-      "label": 4,
       "sku": 6
      }
     },
     {
      "series": "Nexus 6000",
+     "role": "datacenter",
      "parts": 84,
      "kinds": {
       "switch": 53,
@@ -1012,6 +1168,9 @@
       "fan": 8,
       "chassis": 3,
       "power": 2
+     },
+     "roles": {
+      "datacenter": 53
      },
      "samples": [
       "C1-N6001-64P — Cisco ONE Nexus 6001,1RUswitch,fixed48p 10G SFP+ and 4pQSFP+",
@@ -1027,6 +1186,7 @@
     },
     {
      "series": "Nexus 7700",
+     "role": "datacenter",
      "parts": 193,
      "kinds": {
       "chassis": 10,
@@ -1038,6 +1198,9 @@
       "fabric": 14,
       "linecard": 32,
       "supervisor": 4
+     },
+     "roles": {
+      "datacenter": 53
      },
      "samples": [
       "C1-N7702 — Cisco ONE Nexus 7700 2 Slot Chassis NoPwrSupplies Fans incl",
@@ -1053,18 +1216,22 @@
     },
     {
      "series": "Nexus 7000",
-     "parts": 236,
+     "role": "datacenter",
+     "parts": 223,
      "kinds": {
       "switch": 55,
       "chassis": 10,
-      "power-cord": 18,
       "mechanical": 50,
       "power": 17,
       "fan": 10,
       "fabric": 10,
+      "power-cord": 5,
       "accessory": 9,
       "linecard": 48,
       "supervisor": 9
+     },
+     "roles": {
+      "datacenter": 55
      },
      "samples": [
       "C1-N7004-S2 — Cisco ONE Nexus 7004 Bundle (Chassis,1xSUP2),NoPowSup",
@@ -1075,15 +1242,18 @@
       "C1-N7009-B2S2-R — Cisco ONE Nexus 7009 Bundle (Chassis,2xSUP2,5xFAB2),NoPowSup"
      ],
      "rules": {
-      "sku": 223,
-      "label": 13
+      "sku": 223
      }
     },
     {
      "series": "Nexus 9200",
+     "role": "datacenter",
      "parts": 31,
      "kinds": {
       "switch": 31
+     },
+     "roles": {
+      "datacenter": 31
      },
      "samples": [
       "C1-N9K-C92160-B18Q — Cisco ONE 2 Nexus 92160YC-X with 8 QSFP-40G-SR-BD",
@@ -1099,11 +1269,15 @@
     },
     {
      "series": "Nexus 9300",
+     "role": "datacenter",
      "parts": 202,
      "kinds": {
       "switch": 187,
       "mechanical": 3,
       "fan": 12
+     },
+     "roles": {
+      "datacenter": 187
      },
      "samples": [
       "9364E-SG2 — Cisco 9364E-SG2",
@@ -1119,6 +1293,7 @@
     },
     {
      "series": "Nexus 9400",
+     "role": "datacenter",
      "parts": 6,
      "kinds": {
       "mechanical": 2,
@@ -1127,6 +1302,7 @@
       "linecard": 1,
       "chassis": 1
      },
+     "roles": {},
      "samples": [
       "N9K-C9400-ACK — Cisco N9408 accessory kit",
       "N9K-C9400-FAN-PI — Cisco N9408 fan (port-side intake)",
@@ -1141,6 +1317,7 @@
     },
     {
      "series": "Nexus 9500",
+     "role": "datacenter",
      "parts": 157,
      "kinds": {
       "chassis": 9,
@@ -1150,6 +1327,9 @@
       "fabric": 33,
       "supervisor": 10,
       "linecard": 77
+     },
+     "roles": {
+      "datacenter": 15
      },
      "samples": [
       "C1-N9K-C9504 — Cisco ONE Nexus 9504 Chassis with 4 linecard slots",
@@ -1165,6 +1345,7 @@
     },
     {
      "series": "Nexus 9800",
+     "role": "datacenter",
      "parts": 25,
      "kinds": {
       "mechanical": 12,
@@ -1173,6 +1354,7 @@
       "fan": 3,
       "fabric": 5
      },
+     "roles": {},
      "samples": [
       "N9800-ADJ-RAIL — Cisco N9800 adjustable-rail kit",
       "N9800-DC-TRAY — Cisco N9800 power tray for 48V 60A DC power supply",
@@ -1187,9 +1369,13 @@
     },
     {
      "series": "Nexus 9100",
+     "role": "datacenter",
      "parts": 2,
      "kinds": {
       "switch": 2
+     },
+     "roles": {
+      "datacenter": 2
      },
      "samples": [
       "N9164E-NS4-O — Cisco N9100 64p 800G switch w/ OSFP",
@@ -1201,29 +1387,55 @@
     },
     {
      "series": "Nexus 9000 shared parts",
-     "parts": 197,
+     "role": null,
+     "parts": 171,
      "kinds": {
-      "mechanical": 26,
-      "power-cord": 17,
-      "cable": 6,
+      "cable": 5,
       "fan": 34,
       "switch": 1,
       "module": 8,
-      "power": 100,
+      "power": 99,
       "linecard": 4,
+      "mechanical": 19,
       "accessory": 1
      },
+     "roles": {
+      "datacenter": 1
+     },
      "samples": [
-      "8K-2RU-2P-KIT — Cisco installation kit 2 posts",
-      "8K-2RU-2P-KIT= — Cisco installation kit 2 posts, spare",
-      "8K-2RU-KIT-L — Cisco 2RU fixed system installation kit long",
-      "8K-2RU-KIT-L= — Cisco 2RU fixed system installation kit long, spare",
-      "8K-2RU-KIT-S — Cisco 2RU fixed system installation kit short",
-      "8K-2RU-KIT-S= — Cisco 2RU fixed system installation kit short, spare"
+      "CAT5E — Copper cable for 1G",
+      "CAT6A — Copper cable for 10G",
+      "CB-LC-LC-SMF — Cable, duplex LC-LC patch cord, SMF, various lengths",
+      "CB-M12-4LC-SMF — Cable, MPO12-4X duplex LC, breakout cable, SMF, various leng",
+      "CB-M12-M12-SMF — Cable, MPO12-MPO12, trunk cable, TYPE B, SMF, various length",
+      "FAN-1RU-PI-V2= — Cisco aux fan tray, port-side intake airflow, spare"
      ],
      "rules": {
-      "label": 59,
+      "label": 33,
       "sku": 138
+     }
+    },
+    {
+     "series": "Nexus shared parts",
+     "role": null,
+     "parts": 39,
+     "kinds": {
+      "cable": 3,
+      "power-cord": 32,
+      "mechanical": 3,
+      "power": 1
+     },
+     "roles": {},
+     "samples": [
+      "CAB-04X-07 — Cisco 4XIB Cable, 7m",
+      "CAB-04X-07= — ^Cisco 4XIB Cable, 7m",
+      "CAB-AC-16A-AUS — Power Cord, 250 VAC, 16A, Australia C19",
+      "CAB-AC-16A-CH — 16A AC Power Cord, China",
+      "CAB-AC-16A-SG-AR — Cisco CAB-AC-16A-SG-AR",
+      "CAB-AC-16A-SG-AZ — Cisco CAB-AC-16A-SG-AZ"
+     ],
+     "rules": {
+      "accessory": 39
      }
     }
    ]
@@ -1234,9 +1446,13 @@
    "series": [
     {
      "series": "IE 1000",
+     "role": "industrial",
      "parts": 4,
      "kinds": {
       "switch": 4
+     },
+     "roles": {
+      "industrial": 4
      },
      "samples": [
       "IE-1000-4P2S-LM — Cisco IE-1000-4P2S-LM Industrial-Ethernet-IE1000 lüfterloser",
@@ -1250,11 +1466,14 @@
     },
     {
      "series": "IE 2000U",
-     "parts": 9,
+     "role": "industrial",
+     "parts": 8,
      "kinds": {
       "switch": 7,
-      "accessory": 1,
-      "mechanical": 1
+      "accessory": 1
+     },
+     "roles": {
+      "industrial": 7
      },
      "samples": [
       "IE-2000U-16TC-G — IE2000U with 16FE Copper ports, 2GE + 2FE Combo (Lan Base)",
@@ -1266,16 +1485,20 @@
      ],
      "rules": {
       "sku": 7,
-      "label": 2
+      "label": 1
      }
     },
     {
      "series": "IE 2000",
+     "role": "industrial",
      "parts": 33,
      "kinds": {
       "switch": 30,
       "power": 2,
       "accessory": 1
+     },
+     "roles": {
+      "industrial": 30
      },
      "samples": [
       "IE-2000-16PTC-G-E — Cisco IE-2000-16PTC-G-E IE2000 lüfterloser Layer-2-Industrie",
@@ -1292,13 +1515,17 @@
     },
     {
      "series": "IE 3000",
-     "parts": 20,
+     "role": "industrial",
+     "parts": 19,
      "kinds": {
-      "accessory": 4,
+      "accessory": 3,
       "mechanical": 3,
       "switch": 4,
       "module": 6,
       "power": 3
+     },
+     "roles": {
+      "industrial": 4
      },
      "samples": [
       "BMP-IE3000= — Spare Bumper Pack, IE 3000",
@@ -1309,39 +1536,46 @@
       "IE-3000-4TC-E — Cisco IE-3000-4TC-E Industrial-Ethernet-IE3000 lüfterloser L"
      ],
      "rules": {
-      "label": 10,
+      "label": 9,
       "sku": 10
      }
     },
     {
      "series": "IE 3010",
-     "parts": 11,
+     "role": "industrial",
+     "parts": 10,
      "kinds": {
-      "cable": 1,
       "switch": 2,
       "mechanical": 1,
       "power": 7
      },
+     "roles": {
+      "industrial": 2
+     },
      "samples": [
-      "CAB-CONSOLE-USB= — Spare console cable 6 ft with USB Type A and mini-B",
       "IE-3010-16S-8PC — Rugged Industrial Ethernet switch 16 Fast Ethernet SFP ports",
       "IE-3010-24TC — Rugged Industrial Ethernet switch 24 10/100BASETX ports and ",
       "MEM-SD-COVER-RGD= — SD Flash cover for Cisco CGS2520",
       "PWR-RGD-AC-DC-U= — IE 3010 Power Supply",
-      "PWR-RGD-AC-DC/IA — High AC/DC (88-300VDC/85-264VAC) power supply module for the"
+      "PWR-RGD-AC-DC/IA — High AC/DC (88-300VDC/85-264VAC) power supply module for the",
+      "PWR-RGD-AC-DC/IA= — IE 3010 Power Supply"
      ],
      "rules": {
-      "label": 9,
-      "sku": 2
+      "sku": 2,
+      "label": 8
      }
     },
     {
      "series": "IE 3100",
+     "role": "industrial",
      "parts": 21,
      "kinds": {
       "switch": 13,
       "power": 5,
       "accessory": 3
+     },
+     "roles": {
+      "industrial": 13
      },
      "samples": [
       "IE-3100-18T2C-CC-E — Cisco IE-3100-18T2C-CC-E Catalyst IE3100 Rugged Industrie-Sw",
@@ -1358,9 +1592,13 @@
     },
     {
      "series": "IE 3200",
+     "role": "industrial",
      "parts": 2,
      "kinds": {
       "switch": 2
+     },
+     "roles": {
+      "industrial": 2
      },
      "samples": [
       "IE-3200-8P2S-E — Cisco IE-3200-8P2S-E Catalyst IE3200 Rugged Industrie-Switch",
@@ -1372,10 +1610,14 @@
     },
     {
      "series": "IE 3300",
+     "role": "industrial",
      "parts": 24,
      "kinds": {
       "switch": 8,
       "module": 16
+     },
+     "roles": {
+      "industrial": 8
      },
      "samples": [
       "IE-3300-8P2S-A — Cisco IE-3300-8P2S-A Catalyst IE3300 lüfterloser Layer-3-Ind",
@@ -1391,34 +1633,41 @@
     },
     {
      "series": "IE 3400H",
-     "parts": 21,
+     "role": "industrial",
+     "parts": 20,
      "kinds": {
-      "cable": 1,
       "switch": 18,
       "power": 1,
       "accessory": 1
      },
+     "roles": {
+      "industrial": 18
+     },
      "samples": [
-      "CAB-CONSOLE-M12= — Console Cable 6ft with M12 and DB9F for Cisco Catalyst IE340",
       "IE-3400H-16FT — Cisco IE-3400H-16FT",
       "IE-3400H-16FT-A — Cisco IE-3400H-16FT-A Industrial-Ethernet-IE3400H lüfterlose",
       "IE-3400H-16FT-E — Cisco IE-3400H-16FT-E Industrial-Ethernet-IE3400H lüfterlose",
       "IE-3400H-16T — Cisco IE-3400H-16T",
-      "IE-3400H-16T-A — Cisco IE-3400H-16T-A Industrial-Ethernet-IE3400H lüfterloser"
+      "IE-3400H-16T-A — Cisco IE-3400H-16T-A Industrial-Ethernet-IE3400H lüfterloser",
+      "IE-3400H-16T-E — Cisco IE-3400H-16T-E Industrial-Ethernet-IE3400H lüfterloser"
      ],
      "rules": {
-      "label": 3,
-      "sku": 18
+      "sku": 18,
+      "label": 2
      }
     },
     {
      "series": "IE 3400",
+     "role": "industrial",
      "parts": 17,
      "kinds": {
       "switch": 4,
       "module": 6,
       "power": 6,
       "mechanical": 1
+     },
+     "roles": {
+      "industrial": 4
      },
      "samples": [
       "IE-3400-8P2S-A — Cisco IE-3400-8P2S-A Catalyst IE3400 lüfterloser Layer-3-Ind",
@@ -1435,9 +1684,13 @@
     },
     {
      "series": "IE 3500H",
+     "role": "industrial",
      "parts": 21,
      "kinds": {
       "switch": 21
+     },
+     "roles": {
+      "industrial": 21
      },
      "samples": [
       "IE-3500H-12FT4T — Cisco IE-3500H-12FT4T",
@@ -1453,10 +1706,14 @@
     },
     {
      "series": "IE 3500",
+     "role": "industrial",
      "parts": 37,
      "kinds": {
       "switch": 21,
       "module": 16
+     },
+     "roles": {
+      "industrial": 21
      },
      "samples": [
       "IE-3500-8P3S — Cisco IE-3500-8P3S",
@@ -1472,9 +1729,13 @@
     },
     {
      "series": "IE 4010",
+     "role": "industrial",
      "parts": 4,
      "kinds": {
       "switch": 4
+     },
+     "roles": {
+      "industrial": 4
      },
      "samples": [
       "IE-4010-16S12P — IE4010 with 12GE SFP, 12GE Copper PoE+ and 4GE SFP uplink po",
@@ -1488,9 +1749,13 @@
     },
     {
      "series": "IE 4000",
+     "role": "industrial",
      "parts": 12,
      "kinds": {
       "switch": 12
+     },
+     "roles": {
+      "industrial": 12
      },
      "samples": [
       "IE-4000-16GT4G-E — Cisco IE-4000-16GT4G-E IE4000 lüfterloser Layer-2-Industrie-",
@@ -1506,9 +1771,13 @@
     },
     {
      "series": "IE 5000",
+     "role": "industrial",
      "parts": 4,
      "kinds": {
       "switch": 4
+     },
+     "roles": {
+      "industrial": 4
      },
      "samples": [
       "IE-5000-12S12P-10G — Cisco IE-5000-12S12P-10G Industrial-Ethernet-IE5000 lüfterlo",
@@ -1522,34 +1791,41 @@
     },
     {
      "series": "IE 9300",
-     "parts": 46,
+     "role": "industrial",
+     "parts": 44,
      "kinds": {
-      "stack-cable": 2,
       "switch": 32,
       "power": 8,
       "mechanical": 3,
       "accessory": 1
      },
+     "roles": {
+      "industrial": 32
+     },
      "samples": [
-      "CAB-STK-0.5M= — Cisco 0.5M stack cable",
-      "CAB-STK-1M= — Cisco 1M stack cable",
       "IE-9310-16P8S4X — Cisco IE-9310-16P8S4X Catalyst IE9300 Rugged Industrie-Switc",
       "IE-9310-16P8S4X-A — Cisco Catalyst IE9300 w/ 16 Ports GE PoE+ and 8 Ports SFP Do",
       "IE-9310-16P8S4X-E — Cisco Catalyst IE9300 w/ 16 Ports GE PoE+ and 8 Ports SFP Do",
-      "IE-9310-16P8S4X-E/-A — Cisco IE-9310-16P8S4X-E/-A"
+      "IE-9310-16P8S4X-E/-A — Cisco IE-9310-16P8S4X-E/-A",
+      "IE-9310-26S2C — Cisco IE-9310-26S2C Catalyst IE9300 Rugged Industrie-Switch ",
+      "IE-9310-26S2C-A — Catalyst IE9300 w/ 24 Ports GE SFP Downlinks and 4 Ports GE "
      ],
      "rules": {
-      "label": 14,
-      "sku": 32
+      "sku": 32,
+      "label": 12
      }
     },
     {
      "series": "CGS 2500 Connected Grid",
+     "role": "industrial",
      "parts": 9,
      "kinds": {
       "switch": 6,
       "mechanical": 2,
       "accessory": 1
+     },
+     "roles": {
+      "industrial": 6
      },
      "samples": [
       "CGS-2520-16S-8PC — CGS2520 16FE SFP, 8FE Copper PoE+ & 2GE combo uplinks",
@@ -1563,6 +1839,29 @@
       "sku": 8,
       "label": 1
      }
+    },
+    {
+     "series": "Industrial Ethernet shared parts",
+     "role": null,
+     "parts": 6,
+     "kinds": {
+      "cable": 2,
+      "stack-cable": 2,
+      "mechanical": 1,
+      "accessory": 1
+     },
+     "roles": {},
+     "samples": [
+      "CAB-CONSOLE-M12= — Console Cable 6ft with M12 and DB9F for Cisco Catalyst IE340",
+      "CAB-CONSOLE-USB= — Spare console cable 6 ft with USB Type A and mini-B",
+      "CAB-STK-0.5M= — Cisco 0.5M stack cable",
+      "CAB-STK-1M= — Cisco 1M stack cable",
+      "STK-RACKMNT-2955 — 19 in. DIN rail mount kit",
+      "STK-RACKMNT-2955= — Cisco STK-RACKMNT-2955="
+     ],
+     "rules": {
+      "accessory": 6
+     }
     }
    ]
   },
@@ -1572,9 +1871,13 @@
    "series": [
     {
      "series": "ESS 2020",
+     "role": "industrial",
      "parts": 10,
      "kinds": {
       "switch": 10
+     },
+     "roles": {
+      "industrial": 10
      },
      "samples": [
       "ESS-2020-16TC-CON — Embedded Service 2020 Switch, Expansion board, Conduction co",
@@ -1590,9 +1893,13 @@
     },
     {
      "series": "ESS 3300",
+     "role": "industrial",
      "parts": 8,
      "kinds": {
       "switch": 8
+     },
+     "roles": {
+      "industrial": 8
      },
      "samples": [
       "ESS-3300-24T-CON-A — ESS 3300 mainboard + Expansion board, with cooling plate, Ne",
@@ -1608,9 +1915,13 @@
     },
     {
      "series": "ESS 9300",
+     "role": "industrial",
      "parts": 1,
      "kinds": {
       "switch": 1
+     },
+     "roles": {
+      "industrial": 1
      },
      "samples": [
       "ESS-9300-10X-E — ESS9300 board, no cooling plate, Network Essentials software"
@@ -1622,14 +1933,18 @@
    ]
   },
   {
-   "line": "Cisco Business",
-   "parts": 1748,
+   "line": "Small Business",
+   "parts": 962,
    "series": [
     {
-     "series": "Business 95 Unmanaged",
+     "series": "Small Business 95 Unmanaged (SF95/SG95)",
+     "role": "smb",
      "parts": 43,
      "kinds": {
       "switch": 43
+     },
+     "roles": {
+      "smb": 43
      },
      "samples": [
       "SF95-24-AS — SF95-24 24-Port 10/100 Switch",
@@ -1644,64 +1959,80 @@
      }
     },
     {
-     "series": "Business 110 Unmanaged",
-     "parts": 144,
+     "series": "Small Business 110 Unmanaged (SF110/SG110)",
+     "role": "smb",
+     "parts": 89,
      "kinds": {
-      "switch": 144
+      "switch": 89
+     },
+     "roles": {
+      "smb": 89
      },
      "samples": [
-      "CBS110-16PP — ● 16 10/100/1000 ports (8 support PoE with 64W power budget)",
-      "CBS110-16PP-AU — Cisco CBS110-16PP-AU",
-      "CBS110-16PP-EU — Cisco CBS110-16PP-EU",
-      "CBS110-16PP-NA — Cisco CBS110-16PP-NA",
-      "CBS110-16PP-UK — Cisco CBS110-16PP-UK",
-      "CBS110-16PP-xx — Cisco CBS110-16PP-xx"
+      "SF110-16-AU — SF110-16 16-Port 10/100 Switch",
+      "SF110-16-EU — SF110-16 16-Port 10/100 Switch",
+      "SF110-16-NA — SF110-16 16-Port 10/100 Switch",
+      "SF110-16-UK — SF110-16 16-Port 10/100 Switch",
+      "SF110-24-AR — SF110-24 24-Port 10/100 Switch",
+      "SF110-24-AU — SF110-24 24-Port 10/100 Switch"
      ],
      "rules": {
-      "sku": 144
+      "sku": 89
      }
     },
     {
-     "series": "Business 220 Smart",
-     "parts": 138,
+     "series": "Small Business 220 Smart (SF220/SG220)",
+     "role": "smb",
+     "parts": 69,
      "kinds": {
-      "switch": 138
+      "switch": 69
+     },
+     "roles": {
+      "smb": 69
      },
      "samples": [
-      "CBS220-16P-2G — 16 10/100/1000 ports with 130W power budget 2 Gigabit SFP",
-      "CBS220-16P-2G-xx — Cisco CBS220-16P-2G-xx",
-      "CBS220-16T-2G — 16 10/100/1000 ports 2 Gigabit SFP",
-      "CBS220-16T-2G-xx — Cisco CBS220-16T-2G-xx",
-      "CBS220-24FP-4G — 24 10/100/1000 ports with 382W power budget 4 Gigabit SFP",
-      "CBS220-24FP-4G-AU — Cisco CBS220-24FP-4G-AU"
+      "SF220-24 — 24 10/100 ports 2 Gigabit RJ45/SFP combo port",
+      "SF220-24-K9-CN — SF220-24 24-Port 10/100 Smart Switch",
+      "SF220-24-K9-EU — SF220-24 24-Port 10/100 Smart Switch",
+      "SF220-24-K9-NA — SF220-24 24-Port 10/100 Smart Switch",
+      "SF220-24-K9-UK — SF220-24 24-Port 10/100 Smart Switch",
+      "SF220-24-K9-xx — Cisco SF220-24-K9-xx"
      ],
      "rules": {
-      "sku": 138
+      "sku": 69
      }
     },
     {
-     "series": "Business 250 Smart",
-     "parts": 375,
+     "series": "Small Business 250 Smart (SF250/SG250)",
+     "role": "smb",
+     "parts": 146,
      "kinds": {
-      "switch": 375
+      "switch": 146
+     },
+     "roles": {
+      "smb": 146
      },
      "samples": [
-      "CBS250-16P-2G — ● 16 10/100/1000 PoE+ ports with 120W power budget ● 2 Gigab",
-      "CBS250-16P-2G-AR — CBS250 Smart 16-port GE, PoE, 2x1G SFP",
-      "CBS250-16P-2G-AU — CBS250 Smart 16-port GE, PoE, 2x1G SFP",
-      "CBS250-16P-2G-BR — CBS250 Smart 16-port GE, PoE, 2x1G SFP",
-      "CBS250-16P-2G-EU — CBS250 Smart 16-port GE, PoE, 2x1G SFP",
-      "CBS250-16P-2G-IN — CBS250 Smart 16-port GE, PoE, 2x1G SFP"
+      "SF250-24 — ● 24 10/100 ports ● 2 Gigabit copper/SFP combo + 2 SFP ports",
+      "SF250-24-K9-AR — Cisco SF250-24 24-Port 10/100 Smart Switch",
+      "SF250-24-K9-BR — Cisco SF250-24 24-Port 10/100 Smart Switch",
+      "SF250-24-K9-EU — Cisco SF250-24 24-Port 10/100 Smart Switch",
+      "SF250-24-K9-NA — Cisco SF250-24 24-Port 10/100 Smart Switch",
+      "SF250-24-K9-UK — Cisco SF250-24 24-Port 10/100 Smart Switch"
      ],
      "rules": {
-      "sku": 375
+      "sku": 146
      }
     },
     {
-     "series": "Business 350X Stackable",
+     "series": "Small Business 350X Stackable (SG350X/SX350X)",
+     "role": "smb",
      "parts": 194,
      "kinds": {
       "switch": 194
+     },
+     "roles": {
+      "smb": 194
      },
      "samples": [
       "SG350X-12PMV — Cisco SG350X-12PMV 350X-Series stapelbarer Managed Switch (L",
@@ -1716,28 +2047,36 @@
      }
     },
     {
-     "series": "Business 350 Managed",
-     "parts": 658,
+     "series": "Small Business 350 Managed (SF350/SG350)",
+     "role": "smb",
+     "parts": 225,
      "kinds": {
-      "switch": 658
+      "switch": 225
+     },
+     "roles": {
+      "smb": 225
      },
      "samples": [
-      "CBS350-12NP-4X — ● 12 x 100M/1G/2.5G/5G PoE+ ports (8 support 60W PoE) ● 4 x ",
-      "CBS350-12NP-4X-AR — CBS350 Managed 12-port 5GE, PoE, 4x10G SFP+",
-      "CBS350-12NP-4X-AU — CBS350 Managed 12-port 5GE, PoE, 4x10G SFP+",
-      "CBS350-12NP-4X-BR — CBS350 Managed 12-port 5GE, PoE, 4x10G SFP+",
-      "CBS350-12NP-4X-EU — CBS350 Managed 12-port 5GE, PoE, 4x10G SFP+",
-      "CBS350-12NP-4X-IN — CBS350 Managed 12-port 5GE, PoE, 4x10G SFP+"
+      "SF350-08 — Cisco SF350-08 350-Series Managed Switch (L2, SB-OS) – 8× FE",
+      "SF350-08-K9-CN — Cisco SF350-08 8-port 10/100 Managed Switch",
+      "SF350-08-K9-EU — Cisco SF350-08 8-port 10/100 Managed Switch",
+      "SF350-08-K9-NA — Cisco SF350-08 8-port 10/100 Managed Switch",
+      "SF350-08-K9-UK — Cisco SF350-08 8-port 10/100 Managed Switch",
+      "SF350-08-K9-xx — Cisco SF350-08-K9-xx"
      ],
      "rules": {
-      "sku": 658
+      "sku": 225
      }
     },
     {
-     "series": "Business 550X Stackable",
+     "series": "Small Business 550X Stackable (SF550X/SG550X/SX550X)",
+     "role": "smb",
      "parts": 196,
      "kinds": {
       "switch": 196
+     },
+     "roles": {
+      "smb": 196
      },
      "samples": [
       "SF550X-24 — Cisco SF550X-24 550X-Series stapelbarer Layer-3-Managed-Swit",
@@ -1754,222 +2093,382 @@
    ]
   },
   {
+   "line": "Cisco Business",
+   "parts": 786,
+   "series": [
+    {
+     "series": "Business 110 Unmanaged (CBS110)",
+     "role": "smb",
+     "parts": 55,
+     "kinds": {
+      "switch": 55
+     },
+     "roles": {
+      "smb": 55
+     },
+     "samples": [
+      "CBS110-16PP — ● 16 10/100/1000 ports (8 support PoE with 64W power budget)",
+      "CBS110-16PP-AU — Cisco CBS110-16PP-AU",
+      "CBS110-16PP-EU — Cisco CBS110-16PP-EU",
+      "CBS110-16PP-NA — Cisco CBS110-16PP-NA",
+      "CBS110-16PP-UK — Cisco CBS110-16PP-UK",
+      "CBS110-16PP-xx — Cisco CBS110-16PP-xx"
+     ],
+     "rules": {
+      "sku": 55
+     }
+    },
+    {
+     "series": "Business 220 Smart (CBS220)",
+     "role": "smb",
+     "parts": 69,
+     "kinds": {
+      "switch": 69
+     },
+     "roles": {
+      "smb": 69
+     },
+     "samples": [
+      "CBS220-16P-2G — 16 10/100/1000 ports with 130W power budget 2 Gigabit SFP",
+      "CBS220-16P-2G-xx — Cisco CBS220-16P-2G-xx",
+      "CBS220-16T-2G — 16 10/100/1000 ports 2 Gigabit SFP",
+      "CBS220-16T-2G-xx — Cisco CBS220-16T-2G-xx",
+      "CBS220-24FP-4G — 24 10/100/1000 ports with 382W power budget 4 Gigabit SFP",
+      "CBS220-24FP-4G-AU — Cisco CBS220-24FP-4G-AU"
+     ],
+     "rules": {
+      "sku": 69
+     }
+    },
+    {
+     "series": "Business 250 Smart (CBS250)",
+     "role": "smb",
+     "parts": 229,
+     "kinds": {
+      "switch": 229
+     },
+     "roles": {
+      "smb": 229
+     },
+     "samples": [
+      "CBS250-16P-2G — ● 16 10/100/1000 PoE+ ports with 120W power budget ● 2 Gigab",
+      "CBS250-16P-2G-AR — CBS250 Smart 16-port GE, PoE, 2x1G SFP",
+      "CBS250-16P-2G-AU — CBS250 Smart 16-port GE, PoE, 2x1G SFP",
+      "CBS250-16P-2G-BR — CBS250 Smart 16-port GE, PoE, 2x1G SFP",
+      "CBS250-16P-2G-EU — CBS250 Smart 16-port GE, PoE, 2x1G SFP",
+      "CBS250-16P-2G-IN — CBS250 Smart 16-port GE, PoE, 2x1G SFP"
+     ],
+     "rules": {
+      "sku": 229
+     }
+    },
+    {
+     "series": "Business 350 Managed (CBS350)",
+     "role": "smb",
+     "parts": 433,
+     "kinds": {
+      "switch": 433
+     },
+     "roles": {
+      "smb": 433
+     },
+     "samples": [
+      "CBS350-12NP-4X — ● 12 x 100M/1G/2.5G/5G PoE+ ports (8 support 60W PoE) ● 4 x ",
+      "CBS350-12NP-4X-AR — CBS350 Managed 12-port 5GE, PoE, 4x10G SFP+",
+      "CBS350-12NP-4X-AU — CBS350 Managed 12-port 5GE, PoE, 4x10G SFP+",
+      "CBS350-12NP-4X-BR — CBS350 Managed 12-port 5GE, PoE, 4x10G SFP+",
+      "CBS350-12NP-4X-EU — CBS350 Managed 12-port 5GE, PoE, 4x10G SFP+",
+      "CBS350-12NP-4X-IN — CBS350 Managed 12-port 5GE, PoE, 4x10G SFP+"
+     ],
+     "rules": {
+      "sku": 433
+     }
+    }
+   ]
+  },
+  {
    "line": "Meraki MS",
-   "parts": 73,
+   "parts": 178,
    "series": [
     {
      "series": "MS120",
-     "parts": 8,
+     "role": "access",
+     "parts": 17,
      "kinds": {
-      "switch": 8
+      "switch": 17
+     },
+     "roles": {
+      "access": 17
      },
      "samples": [
+      "MS120 — Cisco MS120",
+      "MS120-24 — Cisco MS120-24",
       "MS120-24-HW — Cisco Meraki MS120-24-HW cloud-gemanagter Layer-2-Access-Swi",
+      "MS120-24P — Cisco MS120-24P",
       "MS120-24P-HW — Cisco Meraki MS120-24P-HW cloud-gemanagter Layer-2-Access-Sw",
-      "MS120-48-HW — Cisco Meraki MS120-48-HW cloud-gemanagter Layer-2-Access-Swi",
-      "MS120-48FP-HW — Cisco Meraki MS120-48FP-HW cloud-gemanagter Layer-2-Access-S",
-      "MS120-48LP-HW — Cisco Meraki MS120-48LP-HW cloud-gemanagter Layer-2-Access-S",
-      "MS120-8-HW — Cisco Meraki MS120-8-HW cloud-gemanagter Layer-2-Access-Swit"
+      "MS120-48 — Cisco MS120-48"
      ],
      "rules": {
-      "sku": 8
+      "sku": 17
      }
     },
     {
      "series": "MS125",
-     "parts": 5,
+     "role": "access",
+     "parts": 11,
      "kinds": {
-      "switch": 5
+      "switch": 11
+     },
+     "roles": {
+      "access": 11
      },
      "samples": [
+      "MS125 — Cisco MS125",
+      "MS125-24 — Cisco MS125-24",
       "MS125-24-HW — Cisco Meraki MS125-24-HW cloud-gemanagter Layer-2-Access-Swi",
+      "MS125-24P — Cisco MS125-24P",
       "MS125-24P-HW — Cisco Meraki MS125-24P-HW cloud-gemanagter Layer-2-Access-Sw",
-      "MS125-48-HW — Cisco Meraki MS125-48-HW cloud-gemanagter Layer-2-Access-Swi",
-      "MS125-48FP-HW — Cisco Meraki MS125-48FP-HW cloud-gemanagter Layer-2-Access-S",
-      "MS125-48LP-HW — Cisco Meraki MS125-48LP-HW cloud-gemanagter Layer-2-Access-S"
+      "MS125-48 — Cisco MS125-48"
      ],
      "rules": {
-      "sku": 5
+      "sku": 11
      }
     },
     {
      "series": "MS130",
-     "parts": 12,
+     "role": "access",
+     "parts": 30,
      "kinds": {
-      "switch": 12
+      "switch": 30
+     },
+     "roles": {
+      "access": 30
      },
      "samples": [
+      "MS130 — Cisco MS130",
+      "MS130-12X — 300 W power adapter",
       "MS130-12X-HW — Cisco Meraki MS130-12X-HW cloud-gemanagter Layer-2-Access-Sw",
+      "MS130-24 — Cisco MS130-24",
       "MS130-24-HW — Cisco Meraki MS130-24-HW cloud-gemanagter Layer-2-Access-Swi",
-      "MS130-24P-HW — Cisco Meraki MS130-24P-HW cloud-gemanagter Layer-2-Access-Sw",
-      "MS130-24X-HW — Cisco Meraki MS130-24X-HW cloud-gemanagter Layer-2-Access-Sw",
-      "MS130-48-HW — Cisco Meraki MS130-48-HW cloud-gemanagter Layer-2-Access-Swi",
-      "MS130-48P-HW — Cisco Meraki MS130-48P-HW cloud-gemanagter Layer-2-Access-Sw"
+      "MS130-24A — Cisco MS130-24A"
      ],
      "rules": {
-      "sku": 12
+      "sku": 30
      }
     },
     {
      "series": "MS150",
-     "parts": 12,
+     "role": "access",
+     "parts": 29,
      "kinds": {
-      "switch": 12
+      "switch": 29
+     },
+     "roles": {
+      "access": 29
      },
      "samples": [
+      "MS150 — Cisco MS150",
+      "MS150-24 — Cisco MS150-24",
+      "MS150-24A — Cisco MS150-24A",
+      "MS150-24MP-4X — Cisco MS150-24MP-4X",
       "MS150-24MP-4X-HW — Cisco Meraki MS150-24MP-4X-HW cloud-gemanagter stapelbarer L",
-      "MS150-24P-4G-HW — Cisco Meraki MS150-24P-4G-HW cloud-gemanagter stapelbarer La",
-      "MS150-24P-4X-HW — Cisco Meraki MS150-24P-4X-HW cloud-gemanagter stapelbarer La",
-      "MS150-24T-4G-HW — Cisco Meraki MS150-24T-4G-HW cloud-gemanagter stapelbarer La",
-      "MS150-24T-4X-HW — Cisco Meraki MS150-24T-4X-HW cloud-gemanagter stapelbarer La",
-      "MS150-48FP-4G-HW — Cisco Meraki MS150-48FP-4G-HW cloud-gemanagter stapelbarer L"
+      "MS150-24P-4G — Cisco MS150-24P-4G"
      ],
      "rules": {
-      "sku": 12
+      "sku": 29
      }
     },
     {
      "series": "MS210",
-     "parts": 5,
+     "role": "access",
+     "parts": 11,
      "kinds": {
-      "switch": 5
+      "switch": 11
+     },
+     "roles": {
+      "access": 11
      },
      "samples": [
+      "MS210 — Cisco MS210",
+      "MS210-24 — Cisco MS210-24",
       "MS210-24-HW — Cisco Meraki MS210-24-HW cloud-gemanagter stapelbarer Layer-",
+      "MS210-24P — Cisco MS210-24P",
       "MS210-24P-HW — Cisco Meraki MS210-24P-HW cloud-gemanagter stapelbarer Layer",
-      "MS210-48-HW — Cisco Meraki MS210-48-HW cloud-gemanagter stapelbarer Layer-",
-      "MS210-48FP-HW — Cisco Meraki MS210-48FP-HW cloud-gemanagter stapelbarer Laye",
-      "MS210-48LP-HW — Cisco Meraki MS210-48LP-HW cloud-gemanagter stapelbarer Laye"
+      "MS210-48 — Cisco MS210-48"
      ],
      "rules": {
-      "sku": 5
+      "sku": 11
      }
     },
     {
      "series": "MS225",
-     "parts": 5,
+     "role": "access",
+     "parts": 11,
      "kinds": {
-      "switch": 5
+      "switch": 11
+     },
+     "roles": {
+      "access": 11
      },
      "samples": [
+      "MS225 — Cisco MS225",
+      "MS225-24 — Cisco MS225-24",
       "MS225-24-HW — Cisco Meraki MS225-24-HW cloud-gemanagter stapelbarer Layer-",
+      "MS225-24P — Cisco MS225-24P",
       "MS225-24P-HW — Cisco Meraki MS225-24P-HW cloud-gemanagter stapelbarer Layer",
-      "MS225-48-HW — Cisco Meraki MS225-48-HW cloud-gemanagter stapelbarer Layer-",
-      "MS225-48FP-HW — Cisco Meraki MS225-48FP-HW cloud-gemanagter stapelbarer Laye",
-      "MS225-48LP-HW — Cisco Meraki MS225-48LP-HW cloud-gemanagter stapelbarer Laye"
+      "MS225-48 — Cisco MS225-48"
      ],
      "rules": {
-      "sku": 5
+      "sku": 11
      }
     },
     {
      "series": "MS250",
+     "role": "access",
+     "parts": 11,
+     "kinds": {
+      "switch": 11
+     },
+     "roles": {
+      "access": 11
+     },
+     "samples": [
+      "MS250 — Cisco MS250",
+      "MS250-24 — Cisco MS250-24",
+      "MS250-24-HW — Cisco Meraki MS250-24-HW cloud-gemanagter stapelbarer Layer-",
+      "MS250-24P — Cisco MS250-24P",
+      "MS250-24P-HW — Cisco Meraki MS250-24P-HW cloud-gemanagter stapelbarer Layer",
+      "MS250-48 — Cisco MS250-48"
+     ],
+     "rules": {
+      "sku": 11
+     }
+    },
+    {
+     "series": "MS350",
+     "role": "access",
+     "parts": 13,
+     "kinds": {
+      "switch": 13
+     },
+     "roles": {
+      "access": 13
+     },
+     "samples": [
+      "MS350 — Cisco MS350",
+      "MS350-24 — Cisco MS350-24",
+      "MS350-24-HW — Cisco Meraki MS350-24-HW cloud-gemanagter stapelbarer Layer-",
+      "MS350-24P — Cisco MS350-24P",
+      "MS350-24P-HW — Cisco Meraki MS350-24P-HW cloud-gemanagter stapelbarer Layer",
+      "MS350-24X — Cisco MS350-24X"
+     ],
+     "rules": {
+      "sku": 13
+     }
+    },
+    {
+     "series": "MS355",
+     "role": "access",
+     "parts": 9,
+     "kinds": {
+      "switch": 9
+     },
+     "roles": {
+      "access": 9
+     },
+     "samples": [
+      "MS355 — Cisco MS355",
+      "MS355-24X — Cisco MS355-24X",
+      "MS355-24X-HW — Cisco Meraki MS355-24X-HW cloud-gemanagter stapelbarer Layer",
+      "MS355-24X2 — Cisco MS355-24X2",
+      "MS355-24X2-HW — Cisco Meraki MS355-24X2-HW cloud-gemanagter stapelbarer Laye",
+      "MS355-48X — Cisco MS355-48X"
+     ],
+     "rules": {
+      "sku": 9
+     }
+    },
+    {
+     "series": "MS390",
+     "role": "core-agg",
+     "parts": 23,
+     "kinds": {
+      "switch": 23
+     },
+     "roles": {
+      "core-agg": 23
+     },
+     "samples": [
+      "MS390 — Cisco MS390",
+      "MS390-24 — Cisco MS390-24",
+      "MS390-24-HW — Cisco Meraki MS390-24-HW cloud-gemanagter stapelbarer Layer-",
+      "MS390-24A — Cisco MS390-24A",
+      "MS390-24E — Cisco MS390-24E",
+      "MS390-24P — Cisco MS390-24P"
+     ],
+     "rules": {
+      "sku": 23
+     }
+    },
+    {
+     "series": "MS410",
+     "role": "core-agg",
      "parts": 5,
      "kinds": {
       "switch": 5
      },
+     "roles": {
+      "core-agg": 5
+     },
      "samples": [
-      "MS250-24-HW — Cisco Meraki MS250-24-HW cloud-gemanagter stapelbarer Layer-",
-      "MS250-24P-HW — Cisco Meraki MS250-24P-HW cloud-gemanagter stapelbarer Layer",
-      "MS250-48-HW — Cisco Meraki MS250-48-HW cloud-gemanagter stapelbarer Layer-",
-      "MS250-48FP-HW — Cisco Meraki MS250-48FP-HW cloud-gemanagter stapelbarer Laye",
-      "MS250-48LP-HW — Cisco Meraki MS250-48LP-HW cloud-gemanagter stapelbarer Laye"
+      "MS410 — Cisco MS410",
+      "MS410-16 — Cisco MS410-16",
+      "MS410-16-HW — Cisco Meraki MS410-16-HW cloud-gemanagter stapelbarer Layer-",
+      "MS410-32 — Cisco MS410-32",
+      "MS410-32-HW — Cisco Meraki MS410-32-HW cloud-gemanagter stapelbarer Layer-"
      ],
      "rules": {
       "sku": 5
      }
     },
     {
-     "series": "MS350",
-     "parts": 6,
-     "kinds": {
-      "switch": 6
-     },
-     "samples": [
-      "MS350-24-HW — Cisco Meraki MS350-24-HW cloud-gemanagter stapelbarer Layer-",
-      "MS350-24P-HW — Cisco Meraki MS350-24P-HW cloud-gemanagter stapelbarer Layer",
-      "MS350-24X-HW — Cisco Meraki MS350-24X-HW cloud-gemanagter stapelbarer Layer",
-      "MS350-48-HW — Cisco Meraki MS350-48-HW cloud-gemanagter stapelbarer Layer-",
-      "MS350-48FP-HW — Cisco Meraki MS350-48FP-HW cloud-gemanagter stapelbarer Laye",
-      "MS350-48LP-HW — Cisco Meraki MS350-48LP-HW cloud-gemanagter stapelbarer Laye"
-     ],
-     "rules": {
-      "sku": 6
-     }
-    },
-    {
-     "series": "MS355",
-     "parts": 4,
-     "kinds": {
-      "switch": 4
-     },
-     "samples": [
-      "MS355-24X-HW — Cisco Meraki MS355-24X-HW cloud-gemanagter stapelbarer Layer",
-      "MS355-24X2-HW — Cisco Meraki MS355-24X2-HW cloud-gemanagter stapelbarer Laye",
-      "MS355-48X-HW — Cisco Meraki MS355-48X-HW cloud-gemanagter stapelbarer Layer",
-      "MS355-48X2-HW — Cisco Meraki MS355-48X2-HW cloud-gemanagter stapelbarer Laye"
-     ],
-     "rules": {
-      "sku": 4
-     }
-    },
-    {
-     "series": "MS390",
-     "parts": 6,
-     "kinds": {
-      "switch": 6
-     },
-     "samples": [
-      "MS390-24-HW — Cisco Meraki MS390-24-HW cloud-gemanagter stapelbarer Layer-",
-      "MS390-24P-HW — Cisco Meraki MS390-24P-HW cloud-gemanagter stapelbarer Layer",
-      "MS390-24U-HW — Cisco Meraki MS390-24U-HW cloud-gemanagter stapelbarer Layer",
-      "MS390-48-HW — Cisco Meraki MS390-48-HW cloud-gemanagter stapelbarer Layer-",
-      "MS390-48P-HW — Cisco Meraki MS390-48P-HW cloud-gemanagter stapelbarer Layer",
-      "MS390-48U-HW — Cisco Meraki MS390-48U-HW cloud-gemanagter stapelbarer Layer"
-     ],
-     "rules": {
-      "sku": 6
-     }
-    },
-    {
-     "series": "MS410",
-     "parts": 2,
-     "kinds": {
-      "switch": 2
-     },
-     "samples": [
-      "MS410-16-HW — Cisco Meraki MS410-16-HW cloud-gemanagter stapelbarer Layer-",
-      "MS410-32-HW — Cisco Meraki MS410-32-HW cloud-gemanagter stapelbarer Layer-"
-     ],
-     "rules": {
-      "sku": 2
-     }
-    },
-    {
      "series": "MS425",
-     "parts": 2,
+     "role": "core-agg",
+     "parts": 5,
      "kinds": {
-      "switch": 2
+      "switch": 5
+     },
+     "roles": {
+      "core-agg": 5
      },
      "samples": [
+      "MS425 — Cisco MS425",
+      "MS425-16 — Cisco MS425-16",
       "MS425-16-HW — Cisco Meraki MS425-16-HW cloud-gemanagter stapelbarer Layer-",
+      "MS425-32 — Cisco MS425-32",
       "MS425-32-HW — Cisco Meraki MS425-32-HW cloud-gemanagter stapelbarer Layer-"
      ],
      "rules": {
-      "sku": 2
+      "sku": 5
      }
     },
     {
      "series": "MS450",
-     "parts": 1,
+     "role": "core-agg",
+     "parts": 3,
      "kinds": {
-      "switch": 1
+      "switch": 3
+     },
+     "roles": {
+      "core-agg": 3
      },
      "samples": [
+      "MS450 — Cisco MS450",
+      "MS450-12 — Cisco MS450-12",
       "MS450-12-HW — Cisco Meraki MS450-12-HW cloud-gemanagter stapelbarer Layer-"
      ],
      "rules": {
-      "sku": 1
+      "sku": 3
      }
     }
    ]
@@ -1980,11 +2479,15 @@
    "series": [
     {
      "series": "ME 3400",
-     "parts": 22,
+     "role": "access",
+     "parts": 19,
      "kinds": {
       "switch": 11,
       "power": 6,
-      "mechanical": 5
+      "mechanical": 2
+     },
+     "roles": {
+      "access": 11
      },
      "samples": [
       "B-3400EG12-T — ME3400 System, 10x1G RTU License and ANA",
@@ -1995,35 +2498,75 @@
       "ME-3400E-2CS-BUN — Bundle for ME3400-2CS"
      ],
      "rules": {
-      "sku": 19,
-      "label": 3
+      "sku": 19
      }
     },
     {
-     "series": "ME 3600X and 3800X",
-     "parts": 2,
+     "series": "ME 3600X",
+     "role": "access",
+     "parts": 1,
      "kinds": {
-      "switch": 2
+      "switch": 1
+     },
+     "roles": {
+      "access": 1
      },
      "samples": [
-      "ME-3600X-24FS-M — Cisco ME-3600X-24FS-M",
+      "ME-3600X-24FS-M — Cisco ME-3600X-24FS-M"
+     ],
+     "rules": {
+      "sku": 1
+     }
+    },
+    {
+     "series": "ME 3800X",
+     "role": "core-agg",
+     "parts": 1,
+     "kinds": {
+      "switch": 1
+     },
+     "roles": {
+      "core-agg": 1
+     },
+     "samples": [
       "ME-3800X-24FS-M — Cisco ME-3800X-24FS-M"
      ],
      "rules": {
-      "sku": 2
+      "sku": 1
      }
     },
     {
      "series": "ME 4900",
+     "role": "core-agg",
      "parts": 1,
      "kinds": {
       "switch": 1
+     },
+     "roles": {
+      "core-agg": 1
      },
      "samples": [
       "ME-4924-10GE — ME4924 Switch - 24x 1GE SFP + 4x SFP or 2x 10GE X2, No PS"
      ],
      "rules": {
       "sku": 1
+     }
+    },
+    {
+     "series": "Metro Ethernet shared parts",
+     "role": null,
+     "parts": 3,
+     "kinds": {
+      "mechanical": 3
+     },
+     "roles": {},
+     "samples": [
+      "RCKMNT-19IN-1RU= — 19-in. NEBS rack-mount kit for all the Cisco ME3400 Series p",
+      "RCKMNT-23IN-1RU= — 23-in. NEBS rack-mount kit for Cisco ME 3400EG-12CS-M and Ci",
+      "RCKMNT-ETSI-1RU= — ETSI rack-mount kit for Cisco ME 3400EG-12CS-M and Cisco ME "
+     ],
+     "rules": {
+      "accessory": 3
      }
     }
    ]
@@ -2392,6 +2935,22 @@
    "reason": "datasheet cell or bare family name enumerated as a part"
   },
   {
+   "sku": "2KWAC",
+   "name": "Cisco 2KWAC",
+   "series_label": "C9610",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell (a PSU wattage string, no document, no fact) — same rule as 1025WAC"
+  },
+  {
+   "sku": "2KWDC",
+   "name": "Cisco 2KWDC",
+   "series_label": "C9610",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell (a PSU wattage string, no document, no fact) — same rule as 1025WAC"
+  },
+  {
    "sku": "350W-P",
    "name": "Cisco 350W-P",
    "series_label": "Catalyst 9300",
@@ -2406,6 +2965,14 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
+  },
+  {
+   "sku": "3KWAC",
+   "name": "Cisco 3KWAC",
+   "series_label": "C9610",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell (a PSU wattage string, no document, no fact) — same rule as 1025WAC"
   },
   {
    "sku": "640WAC",
@@ -2598,6 +3165,54 @@
    "action": "move",
    "to": "routers",
    "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
+  },
+  {
+   "sku": "8K-2RU-2P-KIT",
+   "name": "Cisco installation kit 2 posts",
+   "series_label": "Nexus 9000",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label"
+  },
+  {
+   "sku": "8K-2RU-2P-KIT=",
+   "name": "Cisco installation kit 2 posts, spare",
+   "series_label": "Nexus 9000",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label"
+  },
+  {
+   "sku": "8K-2RU-KIT-L",
+   "name": "Cisco 2RU fixed system installation kit long",
+   "series_label": "Nexus 9000",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label"
+  },
+  {
+   "sku": "8K-2RU-KIT-L=",
+   "name": "Cisco 2RU fixed system installation kit long, spare",
+   "series_label": "Nexus 9000",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label"
+  },
+  {
+   "sku": "8K-2RU-KIT-S",
+   "name": "Cisco 2RU fixed system installation kit short",
+   "series_label": "Nexus 9000",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label"
+  },
+  {
+   "sku": "8K-2RU-KIT-S=",
+   "name": "Cisco 2RU fixed system installation kit short, spare",
+   "series_label": "Nexus 9000",
+   "action": "move",
+   "to": "routers",
+   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label"
   },
   {
    "sku": "9300-GX2A/B",
@@ -3904,6 +4519,25 @@
    "reason": "pluggable optic filed as a switch"
   }
  ],
- "unplaced": [],
- "done": true
+ "unplaced": [
+  {
+   "sku": "MS100",
+   "name": "Cisco MS100",
+   "series_label": "Meraki",
+   "kind": "switch"
+  },
+  {
+   "sku": "MS320-1025WAC",
+   "name": "Cisco MS320-1025WAC",
+   "series_label": "Meraki",
+   "kind": "power"
+  },
+  {
+   "sku": "MS320-48",
+   "name": "Cisco MS320-48",
+   "series_label": "Meraki",
+   "kind": "switch"
+  }
+ ],
+ "done": false
 }

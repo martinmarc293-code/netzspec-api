@@ -11,6 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
 import { partKind } from "../src/core/partKind.js";
+import { deployRole } from "../src/core/deployRole.js";
 import { lineFilePath, loadLineFile, placePart } from "../src/core/productLine.js";
 import { closePool, query } from "../src/store/db.js";
 
@@ -49,7 +50,7 @@ type Plan = { sku: string; category: string; action: string; to: string; reason?
 const planFile = path.join(REPO_ROOT, "data", "reference", "kind-layer-plans-2026-09-13.json");
 const planOf = new Map<string, Plan>((fs.existsSync(planFile) ? JSON.parse(fs.readFileSync(planFile, "utf8")) as Plan[] : []).map((x) => [`${x.category}|${x.sku.trim().toUpperCase()}`, x]));
 
-type SeriesNode = { series: string; parts: number; kinds: Record<string, number>; samples: string[]; rules: Record<string, number> };
+type SeriesNode = { series: string; role: string | null; parts: number; kinds: Record<string, number>; roles: Record<string, number>; samples: string[]; rules: Record<string, number> };
 type Tree = {
   vendor: string; category: string; built_at: string; mapping_file: string | null; parts: number;
   lines: { line: string; parts: number; series: SeriesNode[] }[];
@@ -67,7 +68,7 @@ function build(cat: string): Tree {
   const tree: Tree = { vendor, category: cat, built_at: new Date().toISOString(), mapping_file: loaded ? path.relative(REPO_ROOT, lineFilePath(vendor, cat)).replace(/\\/g, "/") : null,
     parts: mine.length, lines: [], not_this_category: [], pending_plans: [], unplaced: [], done: false };
   // lines appear in the mapping file's order, series too (a reader's order, not a count order)
-  if (loaded) for (const l of loaded.file.lines) { const m = new Map<string, SeriesNode>(); for (const s of l.series) m.set(s.series, { series: s.series, parts: 0, kinds: {}, samples: [], rules: {} }); lines.set(l.line, m); }
+  if (loaded) for (const l of loaded.file.lines) { const m = new Map<string, SeriesNode>(); for (const s of l.series) m.set(s.series, { series: s.series, role: s.role ?? null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {} }); lines.set(l.line, m); }
   for (const r of mine) {
     const kind = partKind(cat, r.sku, r.name ?? undefined) ?? "(none)";
     const plan = planOf.get(`${cat}|${r.sku.trim().toUpperCase()}`);
@@ -75,8 +76,13 @@ function build(cat: string): Tree {
     const p = placePart(vendor, cat, r, loaded);
     if (!p) { tree.unplaced.push({ sku: r.sku, name: r.name, series_label: r.series, kind }); continue; }
     if (p.line === "(not this category)") { tree.not_this_category.push({ sku: r.sku, name: r.name, series_label: r.series, why: (p as { why: string }).why, belongs: (p as { belongs: string | null }).belongs }); continue; }
-    const node = lines.get(p.line)!.get(p.series)!;
+    const lm = lines.get(p.line)!;
+    if (!lm.has(p.series)) lm.set(p.series, { series: p.series, role: null, parts: 0, kinds: {}, roles: {}, samples: [], rules: {} }); // "<line> shared parts"
+    const node = lm.get(p.series)!;
     node.parts++;
+    // the role the CUP ENGINE gives this part (deployRole, which reads the series table first) — shown beside the series role
+    const role = deployRole(cat, kind, r.sku, r.name);
+    if (role !== null) node.roles[role] = (node.roles[role] ?? 0) + 1;
     node.kinds[kind] = (node.kinds[kind] ?? 0) + 1;
     const ruleKind = p.rule.split(" ")[0];
     node.rules[ruleKind] = (node.rules[ruleKind] ?? 0) + 1;
@@ -103,14 +109,15 @@ function categoryPage(t: Tree): string {
       : `<div class="banner b-bad"><b>IN PROGRESS</b> — ${t.unplaced.length} of ${t.parts} parts not placed yet.</div>`;
   let body = `<p><a href="index.html">all categories</a></p><h1>${esc(t.vendor)} · ${esc(t.category)} — layer 2 product lines, layer 3 series</h1>${status}
 <p class=m>Built ${esc(t.built_at)} from the live store · mapping ${esc(t.mapping_file ?? "none")} · part type (switch / power / linecard…) shown beside each series, unchanged.</p>`;
-  body += `<h2>Summary</h2><table><tr><th>layer 2 — product line</th><th>layer 3 — series</th><th>parts</th></tr>` +
-    t.lines.map((l) => `<tr><td><b>${esc(l.line)}</b></td><td>${l.series.length} series</td><td class=r>${l.parts.toLocaleString("en-US")}</td></tr>`).join("") +
+  const roleTotals = (l: Tree["lines"][number]) => { const m: Record<string, number> = {}; for (const s of l.series) for (const [r, n] of Object.entries(s.roles)) m[r] = (m[r] ?? 0) + n; return Object.entries(m).sort((a, b) => b[1] - a[1]).map(([r, n]) => `${esc(r)} ${n}`).join(", ") || "<span class=m>—</span>"; };
+  body += `<h2>Summary</h2><table><tr><th>layer 2 — product line</th><th>layer 3 — series</th><th>parts</th><th>deploy_role totals (parts whose type carries a role)</th></tr>` +
+    t.lines.map((l) => `<tr><td><b>${esc(l.line)}</b></td><td>${l.series.length} series</td><td class=r>${l.parts.toLocaleString("en-US")}</td><td>${roleTotals(l)}</td></tr>`).join("") +
     `<tr><td class=warn>(not this category)</td><td>listed below with reasons</td><td class=r>${t.not_this_category.length}</td></tr>` +
     `<tr><td class=warn>(pending move / class change)</td><td>planned, listed below</td><td class=r>${t.pending_plans.length}</td></tr>` +
     `<tr><td class=bad>(unplaced)</td><td></td><td class=r>${t.unplaced.length}</td></tr></table>`;
   for (const l of t.lines) {
-    body += `<h2>${esc(l.line)} — ${l.parts.toLocaleString("en-US")} parts</h2><table><tr><th>series</th><th>parts</th><th>part types</th><th>examples</th></tr>` +
-      l.series.map((s) => `<tr><td><b>${esc(s.series)}</b></td><td class=r>${s.parts}</td><td>${Object.entries(s.kinds).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${esc(k)} ${n}`).join(", ")}</td><td class=m>${s.samples.map(esc).join("<br>")}</td></tr>`).join("") + `</table>`;
+    body += `<h2>${esc(l.line)} — ${l.parts.toLocaleString("en-US")} parts</h2><p class=m>deploy_role totals: ${roleTotals(l)}</p><table><tr><th>series</th><th>deploy_role (series table)</th><th>parts</th><th>part types</th><th>role as the cup engine assigns it</th><th>examples</th></tr>` +
+      l.series.map((s) => `<tr><td><b>${esc(s.series)}</b></td><td>${s.role ? esc(s.role) : "<span class=m>none (no role)</span>"}</td><td class=r>${s.parts}</td><td>${Object.entries(s.kinds).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${esc(k)} ${n}`).join(", ")}</td><td>${Object.entries(s.roles).map(([r, n]) => `${esc(r)} ${n}`).join(", ") || "<span class=m>—</span>"}</td><td class=m>${s.samples.map(esc).join("<br>")}</td></tr>`).join("") + `</table>`;
   }
   if (t.not_this_category.length) body += `<h2 class=warn>Not this category — ${t.not_this_category.length}</h2><table><tr><th>SKU</th><th>name</th><th>why</th><th>belongs</th></tr>` +
     t.not_this_category.map((x) => `<tr><td>${esc(x.sku)}</td><td>${esc(x.name)}</td><td>${esc(x.why)}</td><td>${esc(x.belongs ?? "")}</td></tr>`).join("") + `</table>`;

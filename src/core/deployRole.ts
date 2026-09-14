@@ -20,6 +20,8 @@
 // a router): its role is null and it is reported as a kind issue, never as an unresolved role.
 // Order matters: issues first, then roles, first match wins. No rule uses a word-boundary escape.
 
+import { placePart } from "./productLine.js";
+
 export type Rule = {
   id: string;
   kind: "switch" | "ap" | "router" | "phone";
@@ -168,8 +170,32 @@ export function deployRoleRule(axis: Rule["kind"], sku: string, name: string | n
   return { role: null, rule: null, issue: null };
 }
 
-/** The derived `deploy_role` of one part, or null (no role axis for its kind, a kind issue, or no rule places it). */
+/** The product-line file that holds each axis's SERIES -> ROLE table (data/reference/product-lines/cisco-<category>.json). */
+const SERIES_TABLE_OF_AXIS: Readonly<Record<Rule["kind"], string>> = { switch: "switches", ap: "wireless", router: "routers", phone: "collaboration-endpoints" };
+
+/**
+ * The derived `deploy_role` of one part, or null (no role axis for its kind, a kind issue, or no rule places it).
+ *
+ * ONE TABLE (reviewer, switches layers review 14 Sep 2026, item 8): the series -> role table in the product-line file is
+ * read FIRST, so the layers page and the cup engine cannot disagree. Order: an ISSUE rule of this module still wins (the
+ * row is not this kind: role null, exactly as before); then the role of the series the part's SKU or name places it in;
+ * then this module's own rules for a part no series rule places (or a series with no role, such as shared parts).
+ */
 export function deployRole(category: string, kind: string | null | undefined, sku: string, name?: string | null): string | null {
+  return deployRoleResult(category, kind, sku, name).role;
+}
+
+export function deployRoleResult(category: string, kind: string | null | undefined, sku: string, name?: string | null): RoleResult {
   const axis = roleAxisOf(category, kind);
-  return axis ? deployRoleRule(axis, sku, name).role : null;
+  if (!axis) return { role: null, rule: null, issue: null };
+  const legacy = deployRoleRule(axis, sku, name);
+  if (legacy.issue) return legacy;
+  const table = SERIES_TABLE_OF_AXIS[axis];
+  const placed = placePart("cisco", table, { sku, name });
+  const seriesRole = placed && placed.line !== "(not this category)" && "role" in placed ? placed.role ?? null : null;
+  if (placed && seriesRole) {
+    if (!ROLE_DOMAINS[axis].includes(seriesRole)) throw new Error(`series "${placed.series}" in ${table} carries role "${seriesRole}", outside the ${axis} domain`);
+    return { role: seriesRole, rule: `series:${placed.series}`, issue: null };
+  }
+  return legacy;
 }
