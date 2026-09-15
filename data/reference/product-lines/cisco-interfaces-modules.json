@@ -102,12 +102,12 @@
      "series": "SM-X and SM Service Modules",
      "sku": [
       "^SM-X",
-      "^SM-(?!X)",
+      "^SM-(?!X|[0-9]{2}$)",
       "^C-SM-",
       "^UCS-E",
       "^SVC-E"
      ],
-     "note": "UCS-E / SVC-E are compute modules in the SM-X form factor: kind module, flagged compute module (pre-ruling C3; the server cups are a parked cup-side decision). SVC-E places the three service spares planned in from servers-unified-computing"
+     "note": "UCS-E / SVC-E are compute modules in the SM-X form factor: kind module, flagged compute module (pre-ruling C3; the server cups are a parked cup-side decision). SVC-E places the three service spares planned in from servers-unified-computing. ^SM-(?!X|[0-9]{2}$) (layers round 3, security round): the rule claimed SM-40 / SM-48 / SM-56, the Firepower 9300 security modules in security"
     },
     {
      "series": "ISM / EM Internal Service Modules",
@@ -116,6 +116,13 @@
       "^EM-"
      ],
      "note": "ISM-SRE-300 and ISM-VPN-29 / -39 are engines without network ports: kind module (pre-ruling C2); the EM voice expansion modules are interface cards"
+    },
+    {
+     "series": "AIM (Advanced Integration Modules)",
+     "sku": [
+      "^AIM-"
+     ],
+     "note": "layers round 3, security round: Cisco's Advanced Integration Modules, the internal module slot of the 1800 / 2600 / 2800 / 3600 / 3700 / 3800 routers (the ISM's predecessor). AIM-DES/BP 'DES Crypto AIM for Cisco 2600' arrives from security and AIM-VOICE-30 from routers, both by plan (A.3 rule 1: multi-platform router cards live here)"
     },
     {
      "series": "EHWIC / HWIC / VWIC / WIC",

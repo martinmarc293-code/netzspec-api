@@ -664,6 +664,20 @@
    ],
    "status": "decided-home",
    "reason": "an R42610 rack part or PDU (RACK-BLANK-001, RACK-CBLMGT-001 …, RP208-30-2P-U-2) sold on the HyperFlex price list and filed in hyperconverged-systems' shared parts; servers-unified-computing's rack series reads it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "security",
+   "claimed_by": "servers-unified-computing",
+   "series": "Drives and storage",
+   "rule": "sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)",
+   "rows": 8,
+   "examples": [
+    "UCS-HD12TB10K12N=",
+    "UCS-HD18TB10K4KN=",
+    "UCS-HD600G10K12N="
+   ],
+   "status": "decided-home",
+   "reason": "UCS drive spares (UCS-HD12TB10K12N=, UCS-HD600G10K12N=, UCS-SD960GM2NK9= …) filed in security under the Secure Network Analytics and Identity Services Engine labels — the drives of the Stealthwatch and SNS appliances, which Cisco builds on UCS C-Series servers; servers-unified-computing's drive series reads the same PIDs by design. One home per SKU: the category the row is filed in (the servers round's decision-pending question 2 asks the same of generic UCS parts filed outside servers; layers round 3, security round)"
   }
  ]
 }

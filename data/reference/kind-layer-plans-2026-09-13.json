@@ -38476,5 +38476,192 @@
   "reason": "a part of the Services Ready Engine (SRE) router service modules — SM-SRE-700 / 710 / 900 / 910, whose modules interfaces-modules holds (SM-X and SM Service Modules, with SM-DSK-SATA-500GB= 'Spare 50-GB hard disk for SM-SRE-900-K9'): A.3 rule 1 puts a platform-bound part with its platform. SRE is not the UCS E-Series, so the E-Series home question does not decide it (layers round 3, servers + hyperconverged round)",
   "evidence": "name \"4GB very low profile SDRAM upgrade for SRE (for total 8GB)\" · label \"UCS E-Series\" · today layered in UCS E-Series (sku ^SM-MEM)",
   "planned_by": "parent 15 Sep 2026 (layers round 3, servers + hyperconverged block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "AIM-DES/BP",
+  "category": "security",
+  "action": "move",
+  "to": "interfaces-modules",
+  "run_id": null,
+  "expected_kind_after": "module",
+  "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)",
+  "evidence": "name \"DES Crypto AIM for Cisco 2600 - Base Performance\" · label \"FirePOWER 7000 Appliances\" · today not_this_category (exclude ^(SM-EC-|AIM-DES))",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "SM-EC-3DES",
+  "category": "security",
+  "action": "move",
+  "to": "interfaces-modules",
+  "run_id": null,
+  "expected_kind_after": "module",
+  "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)",
+  "evidence": "name \"Service Module for 168-bit DES Encryption\" · label \"FirePOWER 7000 Appliances\" · today not_this_category (exclude ^(SM-EC-|AIM-DES))",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "SM-EC-3DES=",
+  "category": "security",
+  "action": "move",
+  "to": "interfaces-modules",
+  "run_id": null,
+  "expected_kind_after": "module",
+  "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)",
+  "evidence": "name \"^Service Module for 168-bit DES Encryption, Spare\" · label \"FirePOWER 7000 Appliances\" · today not_this_category (exclude ^(SM-EC-|AIM-DES))",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "SM-EC-DES",
+  "category": "security",
+  "action": "move",
+  "to": "interfaces-modules",
+  "run_id": null,
+  "expected_kind_after": "module",
+  "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)",
+  "evidence": "name \"Service Module for 56-bit DES Encryption\" · label \"FirePOWER 7000 Appliances\" · today not_this_category (exclude ^(SM-EC-|AIM-DES))",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "NM-DES/MP",
+  "category": "security",
+  "action": "move",
+  "to": "interfaces-modules",
+  "run_id": null,
+  "expected_kind_after": "module",
+  "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)",
+  "evidence": "name \"DES Crypto NM for Cisco 3620/40 - Mid Performance\" · label \"FirePOWER 7000 Appliances\" · today layered in Secure Firewall and Firepower shared parts (label-unsupported (label FirePOWER 7000 Appliances; was FirePOWER 7000 / 8000 (legacy)): no platform token (7000, 8000) in the SKU or name, no compatible part placed in the series)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "MEM-7100-CFL128M",
+  "category": "security",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "drive",
+  "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)",
+  "evidence": "name \"Cisco 7160 Compact Flash Disk, 128 MB\" · label \"FirePOWER 7000 Appliances\" · today layered in FirePOWER 7000 / 8000 (legacy) (label FirePOWER 7000 Appliances)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "MEM-7120/40-128P",
+  "category": "security",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "memory",
+  "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)",
+  "evidence": "name \"Cisco 7100 128 MB SDRAM Packet Memory\" · label \"FirePOWER 7000 Appliances\" · today layered in FirePOWER 7000 / 8000 (legacy) (label FirePOWER 7000 Appliances)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "MEM-71XX-1024S",
+  "category": "security",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "memory",
+  "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)",
+  "evidence": "name \"Cisco 7160 1024 MB SDRAM System Memory\" · label \"FirePOWER 7000 Appliances\" · today layered in FirePOWER 7000 / 8000 (legacy) (label FirePOWER 7000 Appliances)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "MEM-71XX-256S",
+  "category": "security",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "memory",
+  "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)",
+  "evidence": "name \"Cisco 7160 256 MB SDRAM System Memory (default)\" · label \"FirePOWER 7000 Appliances\" · today layered in FirePOWER 7000 / 8000 (legacy) (label FirePOWER 7000 Appliances)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "PWR-2XAC-71XX",
+  "category": "security",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "power",
+  "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)",
+  "evidence": "name \"Cisco 7160 Dual AC Power Supply\" · label \"FirePOWER 7000 Appliances\" · today layered in FirePOWER 7000 / 8000 (legacy) (label FirePOWER 7000 Appliances)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "PWR-AC-71XX",
+  "category": "security",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "power",
+  "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)",
+  "evidence": "name \"Cisco 7160 Single AC Power Supply (default)\" · label \"FirePOWER 7000 Appliances\" · today layered in FirePOWER 7000 / 8000 (legacy) (label FirePOWER 7000 Appliances)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "PWR-BLANK-71XX",
+  "category": "security",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "mechanical",
+  "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)",
+  "evidence": "name \"Cisco 7160 blank for power supply\" · label \"FirePOWER 7000 Appliances\" · today layered in Secure Firewall and Firepower shared parts (accessory BLANK (label FirePOWER 7000 Appliances))",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "SM-71XX-BLANK",
+  "category": "security",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "accessory",
+  "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)",
+  "evidence": "name \"Cisco 7160 Service Module Blank Face Plate\" · label \"FirePOWER 7000 Appliances\" · today layered in Secure Firewall and Firepower shared parts (accessory BLANK (label FirePOWER 7000 Appliances))",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "5515-X",
+  "category": "security",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)",
+  "evidence": "name \"Cisco 5515-X\" · label \"ASA 5500 Series Next Generation\" · today layered in ASA and ISA shared parts (label ASA 5500 Series Next Generation) · no fact; cited only by the Adaptive Security Appliance FAQ (qa_c67-731962); the orderable PIDs are ASA5515-K9 …",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "5525-X",
+  "category": "security",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)",
+  "evidence": "name \"Cisco 5525-X\" · label \"ASA 5500 Series Next Generation\" · today layered in ASA and ISA shared parts (label ASA 5500 Series Next Generation) · no fact; cited only by the Adaptive Security Appliance FAQ (qa_c67-731962); the orderable PIDs are ASA5525-K9 …",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "5545-X",
+  "category": "security",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)",
+  "evidence": "name \"Cisco 5545-X\" · label \"ASA 5500 Series Next Generation\" · today layered in ASA and ISA shared parts (label ASA 5500 Series Next Generation) · no fact; cited only by the Adaptive Security Appliance FAQ (qa_c67-731962); the orderable PIDs are ASA5545-K9 …",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "AIM-VOICE-30",
+  "category": "routers",
+  "action": "move",
+  "to": "interfaces-modules",
+  "run_id": null,
+  "expected_kind_after": "module",
+  "reason": "an Advanced Integration Module (AIM), the internal module slot of the 2600XM / 2800 / 3700 / 3800 routers: A.3 rule 1 puts a multi-platform router card in interfaces-modules, whose series 'AIM (Advanced Integration Modules)' also receives AIM-DES/BP from security (layers round 3, security round)",
+  "evidence": "name \"Cisco AIM-VOICE-30\" · label \"2900 ISR\" · today layered in ISR (Integrated Services Routers) shared parts (label-unsupported (label 2900 ISR; was ISR 2900): no platform token (2900) in the SKU or name, no compatible part placed in the series)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
  }
 ]

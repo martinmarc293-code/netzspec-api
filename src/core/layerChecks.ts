@@ -28,7 +28,10 @@ export type LayerRow = Record<string, string>;
 // with `chassis`, already here). On joining they named 148 rows in the three UCS categories' shared parts: servers and fabric
 // interconnects whose series the mappings lacked (C420 M3, the Scalable M4 blade modules, XE130c, 6600), datasheet cells and
 // placeholders, and a few parts the kind axis reads as machines.
-export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance", "device", "ont", "olt", "ap", "wlc", "backhaul", "sensor", "server", "fabric-interconnect"]);
+// Layers round 3, security round: securityKind's SEC_BOX joins — `firewall`, `ips`, `email-gateway`, `web-gateway`, `management`,
+// `analytics`, `identity` (`appliance` was already here). Only the security axis returns these words.
+export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance", "device", "ont", "olt", "ap", "wlc", "backhaul", "sensor", "server", "fabric-interconnect",
+  "firewall", "ips", "email-gateway", "web-gateway", "management", "analytics", "identity"]);
 export function deviceInSharedParts(rows: LayerRow[]): LayerRow[] {
   return rows.filter((r) => /shared parts$/.test(r.series ?? "") && DEVICE_KINDS.has(r.kind ?? ""));
 }

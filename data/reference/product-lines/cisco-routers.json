@@ -460,9 +460,17 @@
      "sku": [
       "^(CISCO)?730[0-9](?![0-9])"
      ]
+    },
+    {
+     "series": "Cisco 7100 VPN routers (7120 / 7140 / 7160)",
+     "role": "edge",
+     "sku": [
+      "^(MEM-71(00|20/40|XX)-|PWR-(2XAC|AC|BLANK)-71XX$|SM-71XX-BLANK$)"
+     ],
+     "note": "layers round 3, security round: the Cisco 7100 Series VPN Router parts — MEM-7100-CFL128M 'Cisco 7160 Compact Flash Disk', MEM-7120/40-128P, MEM-71XX-1024S / 256S, PWR-AC-71XX / PWR-2XAC-71XX / PWR-BLANK-71XX, SM-71XX-BLANK — arrive from security, where Cisco's 'Cisco Select 7100 components' end-of-sale notice (published in the FirePOWER 7000 collateral) had filed them. No 7100 chassis is in the catalogue; the series holds the parts, role edge with the other legacy routers"
     }
    ],
-   "no_family_reason": "Cisco names the 7200, 7300 and 7600 as separate series"
+   "no_family_reason": "Cisco names the 7100, 7200, 7300 and 7600 as separate series"
   },
   {
    "line": "NCS (Network Convergence System)",

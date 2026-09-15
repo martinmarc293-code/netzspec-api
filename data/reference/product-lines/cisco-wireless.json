@@ -359,12 +359,13 @@
     {
      "series": "Ultra-Reliable Wireless Backhaul (Fluidmesh)",
      "sku": [
-      "^FM-?[0-9A-Z]",
+      "^FM(?!C)-?[0-9A-Z]",
       "^FLMESH-"
      ],
      "labels": [
       "Ultra-Reliable Wireless Backhaul"
-     ]
+     ],
+     "note": "^FM(?!C) (layers round 3, security round): the Fluidmesh rule claimed the 77 FMC- rows of security (Firepower Management Center appliances and their parts); no Fluidmesh PID starts FMC"
     },
     {
      "series": "IEC6400 edge compute (URWB)",

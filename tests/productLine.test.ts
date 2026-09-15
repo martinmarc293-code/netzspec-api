@@ -263,7 +263,30 @@ witness("security", [
   ["TG5004-CHAS", "Cisco Threat Grid 5004/5504 Chasis", "Secure Malware Analytics", "Secure Malware Analytics", "Malware Analytics (Threat Grid) appliances"],
   ["S696", "Cisco S696", "Secure Web Appliance", "Secure Email and Web", "Secure Web Appliance (WSA)"],
   ["SM-EC-3DES", "Service Module for 168-bit DES Encryption", "FirePOWER 7000 Appliances", "(not this category)", "interfaces-modules"],
+  // layers round 3, security round
+  ["SM-48", "Cisco SM-48", "Firepower 9300 Series", "Secure Firewall and Firepower", "Firepower 9300"],                 // the SKU names no 9300
+  ["ST-DN6300-K9", "Cisco Secure Network Analytics Data Node 6300", "Secure Network Analytics", "Secure Network Analytics (Stealthwatch)", "Data Store"],
+  ["ST-TB2400-K9", "Cisco ST-TB2400-K9", "Secure Network Analytics", "Secure Network Analytics (Stealthwatch)", "Telemetry Broker"],
+  ["PRSM-HW1-25-K9", "Prime Security Manager - HW C220M3 - 25 Device Management", "ASA 5500 Series Next Generation", "Security Manager and Secure Workload", "Prime Security Manager (PRSM) appliances"],
+  ["ASA-VPN-15K-BUN", "Cisco Recommended ASA VPN Bundle for 15K users", "Firepower NGFW", "Secure Firewall and Firepower", "Firepower 4100"], // not ASA shared parts
+  ["UCSC-PSU1-1200W-D=", "1200W Power Supply Spare for FMC1800, 2800, 4800", "Identity Services Engine", "Secure Firewall Management Center", "Management Center / FireSIGHT appliances"], // by name
+  ["MEM-71XX-256S", "Cisco 7160 256 MB SDRAM System Memory (default)", "FirePOWER 7000 Appliances", "(not this category)", "routers"],   // a 7100 VPN router part
+  ["NM-DES/MP", "DES Crypto NM for Cisco 3620/40 - Mid Performance", "FirePOWER 7000 Appliances", "(not this category)", "interfaces-modules"],
 ]);
+witness("routers", [
+  ["MEM-71XX-256S", "Cisco 7160 256 MB SDRAM System Memory (default)", "FirePOWER 7000 Appliances", "Legacy Service Routers", "Cisco 7100 VPN routers (7120 / 7140 / 7160)"], // arriving from security
+]);
+witness("interfaces-modules", [
+  ["AIM-DES/BP", "DES Crypto AIM for Cisco 2600 - Base Performance", "FirePOWER 7000 Appliances", "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)", "AIM (Advanced Integration Modules)"], // arriving from security
+]);
+for (const [cat, sku, name, not] of [
+  ["wireless", "FMC1600-K9", "Cisco Firepower Management Center 1600 Chassis", "Ultra-Reliable Wireless Backhaul (Fluidmesh)"],
+  ["interfaces-modules", "SM-48", "Cisco SM-48", "SM-X and SM Service Modules"],
+  ["security", "FP7120-K9", "Cisco FirePOWER 7120 Appliance", "(not this category)"],   // the 7100-router exclusion is exact: a FirePOWER 7120 stays
+]) {
+  const p = placePart("cisco", cat, { sku, name, series: "" });
+  check(`security round REFUSAL: ${cat} does not place ${sku} in ${not}`, p?.series !== not && p?.line !== not, `${p?.line} / ${p?.series} (${p?.rule})`);
+}
 
 // ---- hyperconverged-systems (HyperFlex) and hyperconverged-infrastructure (Nutanix / vSAN), done 14 Sep 2026 ----
 witness("hyperconverged-systems", [
