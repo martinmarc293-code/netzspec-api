@@ -555,12 +555,12 @@ C890-M5-THERM=	Void: Not Used	UCS B-Series	server	pending_plan								class non_
 C890-M5-TPM	C890 M5 Trusted Platform Module	UCS B-Series	server	layered	UCS C-Series Rack Servers		UCS C890 M5	sku ^C890						
 C890-M5-TPM=	C890 M5 Trusted Platform Module	UCS B-Series	server	layered	UCS C-Series Rack Servers		UCS C890 M5	sku ^C890						
 CAAPL-RAID10	^Enable RAID 10 Setting	UCS C-Series	unknown	pending_plan								class non_product		
-CAB-250V-10A-AR=	Cisco CAB-250V-10A-AR=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
-CAB-250V-10A-CN=	Cisco CAB-250V-10A-CN=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
-CAB-250V-10A-ID=	Cisco CAB-250V-10A-ID=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
-CAB-250V-10A-IS=	Cisco CAB-250V-10A-IS=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
-CAB-449FC=	RS-449 Cable, DCE, Female, 10 Feet	UCS E-Series	cable	layered	UCS E-Series Server Modules	(shared across the line)	UCS E-Series Server Modules shared parts	accessory ^CAB- (label UCS E-Series)						
-CAB-449MT=	RS-449 Cable, DTE, Male, 10 Feet	UCS E-Series	cable	layered	UCS E-Series Server Modules	(shared across the line)	UCS E-Series Server Modules shared parts	accessory ^CAB- (label UCS E-Series)						
+CAB-250V-10A-AR=	Cisco CAB-250V-10A-AR=	UCS C-Series	cable	pending_plan								move routers		
+CAB-250V-10A-CN=	Cisco CAB-250V-10A-CN=	UCS C-Series	cable	pending_plan								move routers		
+CAB-250V-10A-ID=	Cisco CAB-250V-10A-ID=	UCS C-Series	cable	pending_plan								move storage-networking		
+CAB-250V-10A-IS=	Cisco CAB-250V-10A-IS=	UCS C-Series	cable	pending_plan								move routers		
+CAB-449FC=	RS-449 Cable, DCE, Female, 10 Feet	UCS E-Series	cable	pending_plan								move routers		
+CAB-449MT=	RS-449 Cable, DTE, Male, 10 Feet	UCS E-Series	cable	pending_plan								move routers		
 CAB-48DC-40A-8AWG1	Cisco CAB-48DC-40A-8AWG1	UCS B-Series	cable	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	accessory ^CAB- (label UCS B-Series)						
 CAB-48DC-40A-8AWG=	Cisco CAB-48DC-40A-8AWG=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
 CAB-48DC-40A-AS-D	Cisco CAB-48DC-40A-AS-D	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
@@ -574,18 +574,18 @@ CAB-9K10A-KOR1	Cisco CAB-9K10A-KOR1	UCS C-Series	cable	layered	UCS C-Series Rack
 CAB-9K12A-NA1	Cisco CAB-9K12A-NA1	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
 CAB-AC-L620-C13-D	Cisco CAB-AC-L620-C13-D	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
 CAB-AC-L620-C13-D=	Cisco CAB-AC-L620-C13-D=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
-CAB-ACTW=	Cisco CAB-ACTW=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
+CAB-ACTW=	Cisco CAB-ACTW=	UCS C-Series	cable	pending_plan								move routers		
 CAB-C13-C14-1M	UCSW Whiptail Power Cord Jumper, C13-C14 Connectors, 1 Meter	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
 CAB-C13-C14-1M=	UCSW Whiptail Power Cord Jumper, C13-C14 Connectors, 1 Meter	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
 CAB-C13-C14-2M-JP	Cisco CAB-C13-C14-2M-JP	UCS X-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)						
 CAB-C13-C14-2M-JP=	Cisco CAB-C13-C14-2M-JP=	UCS C-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)						
-CAB-C13-C14-2M=	Cisco CAB-C13-C14-2M=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
+CAB-C13-C14-2M=	Cisco CAB-C13-C14-2M=	UCS C-Series	cable	pending_plan								move routers		
 CAB-C13-C14-3M-IN	Cisco CAB-C13-C14-3M-IN	UCS X-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)						
 CAB-C13-C14-3M-IN=	Cisco CAB-C13-C14-3M-IN=	UCS C-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)						
-CAB-C13-C14-AC=	Cisco CAB-C13-C14-AC=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
+CAB-C13-C14-AC=	Cisco CAB-C13-C14-AC=	UCS C-Series	cable	pending_plan								move switches		
 CAB-C13-C14-IN	Cisco CAB-C13-C14-IN	UCS X-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)						
 CAB-C13-C14-IN=	Cisco CAB-C13-C14-IN=	UCS C-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)						
-CAB-C13-CBN=	Cisco CAB-C13-CBN=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
+CAB-C13-CBN=	Cisco CAB-C13-CBN=	UCS C-Series	cable	pending_plan								move routers		
 CAB-C13C142M-JP-D	Cisco CAB-C13C142M-JP-D	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
 CAB-C13C142M-JP-D=	Cisco CAB-C13C142M-JP-D=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
 CAB-C14-C9-10A-EU	Power Cord C14-C19 10A EU	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
@@ -594,11 +594,11 @@ CAB-C14C19-10A-EU	Cisco CAB-C14C19-10A-EU	UCS C-Series	cable	layered	UCS C-Serie
 CAB-C14C19-10A-EU=	Cisco CAB-C14C19-10A-EU=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
 CAB-C19-C20-IND-D	Cisco CAB-C19-C20-IND-D	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
 CAB-C19C203M-JP-D	Cisco CAB-C19C203M-JP-D	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
-CAB-C2316-C19-IT=	Cisco CAB-C2316-C19-IT=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
-CAB-IR2073-C19-AR=	Cisco CAB-IR2073-C19-AR=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
+CAB-C2316-C19-IT=	Cisco CAB-C2316-C19-IT=	UCS C-Series	cable	pending_plan								move switches		
+CAB-IR2073-C19-AR=	Cisco CAB-IR2073-C19-AR=	UCS C-Series	cable	pending_plan								move switches		
 CAB-JPN-3PIN	Cisco CAB-JPN-3PIN	UCS X-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)						
 CAB-JPN-3PIN=	Cisco CAB-JPN-3PIN=	UCS C-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)						
-CAB-N5K6A-NA=	Cisco CAB-N5K6A-NA=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
+CAB-N5K6A-NA=	Cisco CAB-N5K6A-NA=	UCS C-Series	cable	pending_plan								move routers		
 CAB-S132-C19-ISRL=	Cisco CAB-S132-C19-ISRL=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
 CAB-SABS-C19-IND=	Cisco CAB-SABS-C19-IND=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
 CAB-US515P-C19-US=	Cisco CAB-US515P-C19-US=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)						
@@ -920,14 +920,14 @@ E180DM2-SVC	CANIS SERVICES ONLY SPARE	UCS E-Series	server	layered	UCS E-Series S
 E3.S	Cisco E3.S	UCS C-Series	unknown	pending_plan								class non_product		
 E3A-UFAB-SW-AD	Cisco Unified Fabric License	UCS 6300 Series Fabric Interconnects	unknown	pending_plan								class license		
 EL224-C19	Cisco EL224-C19	UCS C-Series	unknown	pending_plan								class non_product		
-EM3-AF-480G-4T	480GB SSD + 4TB SSD Combo	UCS C-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-						
-EM3-MEM-16G	16 GB 1200MHz VLP RDIMM/PC4-2400 2R for UCS-E M3	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-						
-EM3-MEM-16G=	16 GB 1200MHz VLP RDIMM/PC4-2400 2R for UCS-E M3	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-						
-EM3-MEM-32G	32 GB 1200MHz VLP RDIMM/PC4-2400 2R for UCS-E M3	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-						
-EM3-MEM-32G=	32 GB 1200MHz VLP RDIMM/PC4-2400 2R for UCS-E M3	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-						
-EM3-MEM-8G	8 GB 1200MHz VLP RDIMM/PC4-2400 1R for UCS-E M3	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-						
-EM3-MEM-8G=	8 GB 1200MHz VLP RDIMM/PC4-2400 1R for UCS-E M3	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-						
-EM3-MEM-8U16G	Not sold. 8 to 16 GB upgrade, 1200MHz VLP RDIMM/PC4-2400 1R	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-						
+EM3-AF-480G-4T	480GB SSD + 4TB SSD Combo	UCS C-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-(?!HDA)						
+EM3-MEM-16G	16 GB 1200MHz VLP RDIMM/PC4-2400 2R for UCS-E M3	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-(?!HDA)						
+EM3-MEM-16G=	16 GB 1200MHz VLP RDIMM/PC4-2400 2R for UCS-E M3	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-(?!HDA)						
+EM3-MEM-32G	32 GB 1200MHz VLP RDIMM/PC4-2400 2R for UCS-E M3	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-(?!HDA)						
+EM3-MEM-32G=	32 GB 1200MHz VLP RDIMM/PC4-2400 2R for UCS-E M3	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-(?!HDA)						
+EM3-MEM-8G	8 GB 1200MHz VLP RDIMM/PC4-2400 1R for UCS-E M3	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-(?!HDA)						
+EM3-MEM-8G=	8 GB 1200MHz VLP RDIMM/PC4-2400 1R for UCS-E M3	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-(?!HDA)						
+EM3-MEM-8U16G	Not sold. 8 to 16 GB upgrade, 1200MHz VLP RDIMM/PC4-2400 1R	UCS E-Series	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^EM3-(?!HDA)						
 FIPS140-2	Cisco FIPS140-2	UCS C-Series	fabric-interconnect	pending_plan								class non_product		
 FL-SRE-V-HOST	Permanent paper license for VMware ESXi on UCSE MAX 32GB RAM	UCS E-Series	unknown	pending_plan								class license		
 FL-SRE-V-HOST=	Paper PAC for SRE VMware ESXi - MAX 32GB RAM W/ LICENSE	UCS E-Series	unknown	pending_plan								class license		
@@ -1939,8 +1939,8 @@ IMM-MANAGED	Cisco IMM-MANAGED	UCS X-Series	unknown	pending_plan								class non
 INSTALL-OS-FLASH	Cisco INSTALL-OS-FLASH	UCS E-Series	unknown	pending_plan								class non_product		
 INSTALL-OS-HDD	Cisco INSTALL-OS-HDD	UCS E-Series	unknown	pending_plan								class non_product		
 ISM-MANAGED	Cisco ISM-MANAGED	UCS C-Series	unknown	pending_plan								class non_product		
-ISM-SRE-300-BUN-K9	Services Ready Engine (SRE) 300 ISM for VSEC-SRE bundle	UCS E-Series	non-product	pending_plan								move interfaces-modules		
-ISM-SRE-300-K9=	Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)	UCS E-Series	unknown	pending_plan								move interfaces-modules		
+ISM-SRE-300-BUN-K9	Services Ready Engine (SRE) 300 ISM for VSEC-SRE bundle	UCS E-Series	server	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^ISM-SRE-						
+ISM-SRE-300-K9=	Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)	UCS E-Series	server	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^ISM-SRE-						
 KIN-BBLKD-L2	M5 KIN Appliances LFF drive blanking panel	UCS C-Series	mechanical	layered	Cisco Appliances on UCS		Kinetic appliance	sku ^KIN-						
 KIN-BBLKD-L2=	M5 KIN Appliances LFF drive blanking panel	UCS C-Series	mechanical	layered	Cisco Appliances on UCS		Kinetic appliance	sku ^KIN-						
 KIN-BBLKD-S2	Kinetic UCS C-Series M5 SFF drive blanking panel	UCS C-Series	mechanical	layered	Cisco Appliances on UCS		Kinetic appliance	sku ^KIN-						
@@ -1979,20 +1979,20 @@ MPI=13.2	Cisco MPI=13.2	UCS C-Series	unknown	pending_plan								class non_produ
 MPI=6.39	Cisco MPI=6.39	UCS C-Series	unknown	pending_plan								class non_product		
 N01-MMIRROR	Cisco N01-MMIRROR	UCS B-Series	unknown	pending_plan								class non_product		
 N01-MMIRRORD	Cisco N01-MMIRRORD	UCS C-Series	unknown	pending_plan								class non_product		
-N01-UAC1	Single phase AC power module for UCS 5108	UCS C-Series	power	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series						
-N01-UAC1=	Single phase AC power module for UCS 5108	UCS C-Series	power	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series						
+N01-UAC1	Single phase AC power module for UCS 5108	UCS C-Series	power	layered	UCS B-Series Blade Servers		UCS 5108 blade chassis	sku ^N01-UAC1$						
+N01-UAC1=	Single phase AC power module for UCS 5108	UCS C-Series	power	layered	UCS B-Series Blade Servers		UCS 5108 blade chassis	sku ^N01-UAC1$						
 N1K-VSG-UCS-BUN	Cisco N1K-VSG-UCS-BUN	UCS B-Series	bundle	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	label UCS B-Series						
 N20-AC0002	Cisco N20-AC0002	UCS C-Series	unknown	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series						
 N20-AC0002=	Cisco N20-AC0002=	UCS C-Series	unknown	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series						
 N20-AI0102	Cisco UCS CNA M61KR-I Intel Converged Network Adapter	UCS C-Series	nic	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series						
 N20-AI0102=	Cisco UCS CNA M61KR-I Intel Converged Network Adapter	UCS C-Series	nic	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series						
-N20-BBFLA	UCS B440 M2 and M1 air baffle	UCS B-Series	mechanical	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	sku ^N20-B						
-N20-BBFLA-230	UCS B230 M2 and M1 air baffle for CPUs	UCS B-Series	mechanical	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	sku ^N20-B						
-N20-BBFLA-230=	UCS B230 M2 and M1 air baffle for CPUs	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	sku ^N20-B						
-N20-BBFLA=	UCS B440 M2 and M1 air baffle	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	sku ^N20-B						
-N20-BBFLB=	UCS B250 M2 and M1 air baffle kit	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	sku ^N20-B						
-N20-BBLKD-7MM	UCS 7MM SSD Blank Filler	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	sku ^N20-B						
-N20-BBLKD-7MM=	UCS B230 M2 and M1 7mm SSD blanking panel	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	sku ^N20-B						
+N20-BBFLA	UCS B440 M2 and M1 air baffle	UCS B-Series	mechanical	layered	UCS B-Series Blade Servers		UCS B420 / B440 / B460 / B480	sku ^N20-BBFLA$						
+N20-BBFLA-230	UCS B230 M2 and M1 air baffle for CPUs	UCS B-Series	mechanical	layered	UCS B-Series Blade Servers		UCS B230	sku ^N20-BBFLA-230$						
+N20-BBFLA-230=	UCS B230 M2 and M1 air baffle for CPUs	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers		UCS B230	sku ^N20-BBFLA-230$						
+N20-BBFLA=	UCS B440 M2 and M1 air baffle	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers		UCS B420 / B440 / B460 / B480	sku ^N20-BBFLA$						
+N20-BBFLB=	UCS B250 M2 and M1 air baffle kit	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers		UCS B250	sku ^N20-BBFLB$						
+N20-BBLKD-7MM	UCS 7MM SSD Blank Filler	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers		UCS B230	sku ^N20-BBLKD-7MM$						
+N20-BBLKD-7MM=	UCS B230 M2 and M1 7mm SSD blanking panel	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers		UCS B230	sku ^N20-BBLKD-7MM$						
 N20-BBLKD2	HDD slot blanking panel for UCS C210/250 Servers	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	sku ^N20-B						
 N20-BBLKD2=	UCS C250 M2 and M1 HDD blanking panel	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	sku ^N20-B						
 N20-BBLKD=	UCS 2.5 inch HDD blanking panel	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	sku ^N20-B						
@@ -2136,7 +2136,7 @@ R250-PSUBLKP	Power supply unit blanking panel for UCS 250 M1 Rack Server	UCS C-S
 R250-PSUBLKP=	Power supply unit blanking panel for UCS C250 Rack Server	UCS C-Series	mechanical	layered	UCS C-Series Rack Servers		UCS C200 / C210 / C250 / C260 (M1/M2)	sku ^R2[015]0-						
 R2X0-ML002	LSI 1064E (4-port SAS 3.0G RAID 0, 1, 1E ) Mezz Card	UCS C-Series	storage-controller	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series						
 R2X0-ML002=	LSI 1064E (4-port SAS) Mezz Card w/ 1-SAS Cable - C200 ONLY	UCS C-Series	storage-controller	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series						
-R2XX-DMYMPWRCORD=	Cisco R2XX-DMYMPWRCORD=	UCS C-Series	non-product	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series						
+R2XX-DMYMPWRCORD=	Cisco R2XX-DMYMPWRCORD=	UCS C-Series	non-product	pending_plan								class non_product		
 R2XX-LBBU2	Battery Back-up	UCS C-Series	server	layered	UCS C-Series Rack Servers		UCS C200 / C210 / C250 / C260 (M1/M2)	sku ^R2XX-(?!DMYMPWRCORD)						
 R2XX-PL002	LSI MegaRAID SAS 8708EM2	UCS C-Series	storage-controller	layered	UCS C-Series Rack Servers		UCS C200 / C210 / C250 / C260 (M1/M2)	sku ^R2XX-(?!DMYMPWRCORD)						
 R2XX-PL002=	LSI MegaRAID SAS 8708EM2 w/256MB WC and 1-SAS Cable for C200	UCS C-Series	storage-controller	layered	UCS C-Series Rack Servers		UCS C200 / C210 / C250 / C260 (M1/M2)	sku ^R2XX-(?!DMYMPWRCORD)						
@@ -2291,14 +2291,14 @@ SCALITY-DCS-1YR	Dedicated Care Service; Extended; Annual Fee	UCS C-Series	unknow
 SCALITY-DCS-F-1YR	Dedicated Care Service; Fundamental; Annual Fee	UCS C-Series	unknown	pending_plan								class service		
 SCALITY-PS-POC	Proof of Concept (5 days on site up to 10 days)	UCS C-Series	unknown	pending_plan								class service		
 SCALITY-PS-SOW=	Custom Statement of Work (SOW) - Requires BU Approval	UCS C-Series	unknown	pending_plan								class service		
-SM-DSK-COVER	Hard disk drive face plate cover for SRE 700 and 900	UCS E-Series	mechanical	pending_plan								move interfaces-modules		
-SM-HDD-SATA-500GB	500 GB hard disk drive for SRE 710 and 910	UCS E-Series	drive	pending_plan								move interfaces-modules		
-SM-HDD-SATA-500GB=	500 GB hard disk drive for SRE 710 and 910	UCS E-Series	drive	pending_plan								move interfaces-modules		
-SM-HDDB-SATA500GB	500 GB hard disk drive for SRE 710 and 910	UCS E-Series	drive	pending_plan								move interfaces-modules		
-SM-MEM-VLP-2GB	2GB very low profile SDRAM for SRE service modules	UCS E-Series	memory	pending_plan								move interfaces-modules		
-SM-MEM-VLP-2GB=	2GB very low profile SDRAM for SRE service modules	UCS E-Series	memory	pending_plan								move interfaces-modules		
-SM-MEM-VLP-4GB	4GB very low profile SDRAM upgrade for SRE (for total 8GB)	UCS E-Series	memory	pending_plan								move interfaces-modules		
-SM-MEM-VLP-4GB=	4GB very low profile SDRAM upgrade for SRE (for total 8GB)	UCS E-Series	memory	pending_plan								move interfaces-modules		
+SM-DSK-COVER	Hard disk drive face plate cover for SRE 700 and 900	UCS E-Series	mechanical	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)						
+SM-HDD-SATA-500GB	500 GB hard disk drive for SRE 710 and 910	UCS E-Series	drive	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)						
+SM-HDD-SATA-500GB=	500 GB hard disk drive for SRE 710 and 910	UCS E-Series	drive	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)						
+SM-HDDB-SATA500GB	500 GB hard disk drive for SRE 710 and 910	UCS E-Series	drive	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)						
+SM-MEM-VLP-2GB	2GB very low profile SDRAM for SRE service modules	UCS E-Series	memory	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)						
+SM-MEM-VLP-2GB=	2GB very low profile SDRAM for SRE service modules	UCS E-Series	memory	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)						
+SM-MEM-VLP-4GB	4GB very low profile SDRAM upgrade for SRE (for total 8GB)	UCS E-Series	memory	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)						
+SM-MEM-VLP-4GB=	4GB very low profile SDRAM upgrade for SRE (for total 8GB)	UCS E-Series	memory	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)						
 SM7-UCSE	Configuration container for UCS Express on SRE 700	UCS E-Series	unknown	pending_plan								class non_product		
 SM9-UCSE	Configuration container for UCS Express on SRE 900	UCS E-Series	unknown	pending_plan								class non_product		
 SMD=0.875	Cisco SMD=0.875	UCS C-Series	unknown	pending_plan								class non_product		
@@ -2319,9 +2319,9 @@ SSTACK-MC-PRIV-T2	Cisco SSTACK-MC-PRIV-T2	UCS C-Series	unknown	pending_plan					
 SSTACK-MC-PRIV-T3	Cisco SSTACK-MC-PRIV-T3	UCS C-Series	unknown	pending_plan								class software		
 SSTACK-MC-PRIV-T4	Cisco SSTACK-MC-PRIV-T4	UCS C-Series	unknown	pending_plan								class software		
 START-BNDL-EXP	Expand Option	UCS C-Series	non-product	pending_plan								class non_product		
-SVC-E1120D-M3	Cisco Internal. E1120D-M3 Service Spare	UCS E-Series	unknown	pending_plan								move interfaces-modules		
-SVC-E160S-M3	UCS-E, SingleWide, 6 Core CPU, 8 GB Flash	UCS E-Series	unknown	pending_plan								move interfaces-modules		
-SVC-E180D-M3	Cisco Internal. E180D-M3 Service Spare	UCS E-Series	unknown	pending_plan								move interfaces-modules		
+SVC-E1120D-M3	Cisco Internal. E1120D-M3 Service Spare	UCS E-Series	unknown	layered	UCS E-Series Server Modules		UCS E-Series	sku ^SVC-E						
+SVC-E160S-M3	UCS-E, SingleWide, 6 Core CPU, 8 GB Flash	UCS E-Series	unknown	layered	UCS E-Series Server Modules		UCS E-Series	sku ^SVC-E						
+SVC-E180D-M3	Cisco Internal. E180D-M3 Service Spare	UCS E-Series	unknown	layered	UCS E-Series Server Modules		UCS E-Series	sku ^SVC-E						
 TG5500-C220M3S-K9	Cisco TG5500-C220M3S-K9	UCS C-Series	server	pending_plan								move security		
 UCS-220CBLMR4	C220 M4 RAID controller cable (1) for 4HDD bckpln chassis	UCS C-Series	cable	layered	UCS C-Series Rack Servers		UCS C220	sku ^UCS-220CBL						
 UCS-220CBLMR4=	C220 M4 RAID controller cable (1) for 4HDD bckpln chassis	UCS C-Series	cable	layered	UCS C-Series Rack Servers		UCS C220	sku ^UCS-220CBL						

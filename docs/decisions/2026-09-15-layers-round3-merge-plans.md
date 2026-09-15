@@ -59,9 +59,10 @@ Draft `next.config.ts` `redirects()` for the two (from III.0 §1.3, trimmed):
 Both source hubs are `noindex` and in no sitemap; the redirects serve bookmarks, inbound links and the nav.
 
 ## 4. Before any run or redirect (order; none done)
-1. **Decide which product classes move** (decision pending). The plans move hardware only; that leaves conferencing with 3,680 licences /
-   software / non-product rows and data-center-networking with 11, the category pages stay live, and **no redirect is correct**. The
-   redirect map applies only if every class moves.
+1. **Decide which product classes move** — DECIDED (operator, 15 Sep 2026, re-audit Q-24): **every class**. 3,691 move plans added for the
+   non-hardware rows (conferencing 3,680 → collaboration-endpoints: licence 3,658, software 13, non_product 9; data-center-networking 11 →
+   switches: licence 8, software 3), each carrying `product_class`; the 90 hardware merge plans now say "(every class)". C-CPM, one of the
+   69, is a class plan now, not a move (F-7: "SolutionsPlus: Vyopta CPM Cloud Subscription", class software). The redirect map applies.
 2. **netzspec.com must follow a category change** (the site lane): `scripts/sync-from-api.mjs` writes `category` only at stub insert, so a
    moved part keeps its old breadcrumb (III.0 §0.1). A redirect added before the site's category is rewritten hides the only page that
    lists those parts. Then `CATEGORY_META` (the nav's top 14 includes data-center-networking), then the redirects, one deploy.
@@ -75,6 +76,13 @@ Both source hubs are `noindex` and in no sitemap; the redirects serve bookmarks,
 4. **Run** the move plans (`move-category`, recorded runs), then rebuild the pages and record the new cross-claims the arrivals create:
    the servers mapping's B200 / 5108 / 6324 / C240 rules read CIT3-B200-*, CIT3-5108-PKG-HW, CIT3-FI-M-6324 and UCSC-C240-M8-CL(-G) in
    collaboration-endpoints — decided-home, the Business Edition precedent (UCSC-C220-M3SBE= in unified-communications).
+5. **Reviewer re-audit of collaboration-endpoints and switches by row; then republish** (re-audit F-9, added 15 Sep 2026: the operator's
+   re-audit of every run's pages sits between the run and the redirects).
+6. **Redirects, sitemap and hreflang in one deploy** (re-audit Q-25, 15 Sep 2026). Checked live the same day: `/en/category/conferencing`
+   and `/de/category/data-center-networking` answer 200 with `robots noindex, follow`; their only hreflang tags are their own
+   self-alternates (en / de / x-default) in the page head, written by `alternatesFor()` in `app/[locale]/category/[slug]/page.tsx:34`;
+   `sitemap.xml` lists neither hub (it lists the 8 primary hubs, `app/sitemap.xml/route.ts:31`). A 301 / 308 removes the page and its tags
+   together, so there is nothing else to remove; after the deploy, assert both hub URLs redirect and no page or sitemap names them.
 
 ## Measured
 - **Row diffs against `f1ba8e7`:** 14 pages 0; switches 2 rows (the two spares → Nexus 9000 shared parts); unified-communications 3
@@ -84,8 +92,8 @@ Both source hubs are `noindex` and in no sitemap; the redirects serve bookmarks,
   the 5 known reds identical; typecheck clean.
 
 ## Decision pending
-1. **Which product classes move** in each merge (hardware only as planned, or every class so the categories close and the redirects apply).
-   Recommendation: every class — spec II.16 / II.17 say these are "not categories", and a live licence-only category keeps the old slug.
+1. ~~**Which product classes move**~~ — closed 15 Sep 2026 (re-audit Q-24): every class; see §4 item 1 and
+   `docs/decisions/2026-09-15-layers-round3-reaudit-decisions.md`.
 2. **The netzspec.com sync following `category`** — the site lane's change, before any redirect.
 3. Observation, not re-opened: Meeting Server and TMS appliances are UCS-based collaboration servers, as the Business Edition and Expressway
    appliances in unified-communications are; rule 5 sends them to collaboration-endpoints.

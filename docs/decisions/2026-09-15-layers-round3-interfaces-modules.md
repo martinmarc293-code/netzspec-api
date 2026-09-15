@@ -94,6 +94,12 @@ pre-rulings C1–C10 (`cisco-layers-round3-reviewer-answer-transceiver-2026-09-1
 The move counts are `move-category.mts --plans` selectors (checked against its own dry run for transceiver 2, security 26 and switches → IM 1).
 
 ## Decision pending (questions for the operator)
+**Closed 15 Sep 2026** (operator's decisions on the re-audit, `docs/decisions/2026-09-15-layers-round3-reaudit-decisions.md`): 1 keep in
+interfaces-modules; 2 a Routed PON line in switches (series 10G Routed PON ONT); 3 keep in security; 4 "vendor not identified"; 5 keep
+unidentified; **6 both connector kits in CGR 1000 — this reverses the operator's earlier "WPAN with the CGR antennas"**; 7 keep in the SPA
+series; 8 hold flagged; 9 keep the legacy line. Also Q-13: the UCS-E modules and the SRE engines this category held are planned to
+servers-unified-computing (reverses pre-ruling C3).
+
 1. **SB-PWR home:** keep the 47 Small Business adapters / injectors and RPS1000 in interfaces-modules (Cisco's filing, no compatibility), or plan them to switches / routers / collaboration by platform?
 2. **ENC-10G-ONT:** keep the Routed PON ONTs in switches' Catalyst PON series, or open a Routed PON series?
 3. **NAM 2400 in security** (C5, medium confidence): keep the new line "Network Analysis Module (NAM) appliances"?

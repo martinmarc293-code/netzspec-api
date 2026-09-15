@@ -20,16 +20,16 @@ BRKT-12X-MONITR	Bracket mounting for 12x PHD camera to screen	TelePresence Preci
 BRKT-12X-MONITR=	Spare bracket mounting for 12x PHD camera to monitor	TelePresence Precision Cameras (P60)	mechanical	layered	Cameras	(shared across the line)	Cameras shared parts	accessory BRKT (label TelePresence Precision Cameras (P60))						
 BRKT-P40-MONITR	Bracket mounting for P40 camera to screen	TelePresence Precision Cameras (P60)	mechanical	layered	Cameras	(shared across the line)	Cameras shared parts	accessory BRKT (label TelePresence Precision Cameras (P60))						
 BRKT-P40-MONITR=	Bracket mounting for P40 camera to screen	TelePresence Precision Cameras (P60)	mechanical	layered	Cameras	(shared across the line)	Cameras shared parts	accessory BRKT (label TelePresence Precision Cameras (P60))						
-BRKT-PHD2X-MONITR	^Not Used	TelePresence MX Series	mechanical	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory BRKT (label TelePresence MX Series)						
-BRKT-PHD2X-MONITR=	^Not Used	TelePresence MX Series	mechanical	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory BRKT (label TelePresence MX Series)						
-BRKT-PHDX-WMK	^Not Used	TelePresence MX Series	mechanical	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory BRKT (label TelePresence MX Series)						
-BRKT-PHDX-WMK=	^Not Used	TelePresence MX Series	mechanical	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory BRKT (label TelePresence MX Series)						
+BRKT-PHD2X-MONITR	^Not Used	TelePresence MX Series	mechanical	pending_plan								class non_product		
+BRKT-PHD2X-MONITR=	^Not Used	TelePresence MX Series	mechanical	pending_plan								class non_product		
+BRKT-PHDX-WMK	^Not Used	TelePresence MX Series	mechanical	pending_plan								class non_product		
+BRKT-PHDX-WMK=	^Not Used	TelePresence MX Series	mechanical	pending_plan								class non_product		
 BRKT-QCAM2-WMK-	Wall-mount bracket for Cisco Quad Camera (only in Quad Camera bundles)	Room Series	mechanical	layered	Cameras		Room Vision PTZ and Quad Camera	sku ^BRKT-QCAM						
 BRKT-SX10-SMK	Screen Mount Kit for SX10 Quick Set	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-						
 BRKT-SX10-SMK+	SX10 Screen Mount Kit	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-						
 BRKT-SX10-SMK=	SX10 Screen Mount Kit	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-						
 BRKT-SX10-WMK	Wall Mount Kit for SX10 Quick Set	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-						
-BRKT-SX10-WMK-	Not used	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-						
+BRKT-SX10-WMK-	Not used	TelePresence SX Series (QuickSet)	mechanical	pending_plan								class non_product		
 BRKT-SX10-WMK=	SX10 Wall Mount	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-						
 BRKT-SX20-MONITOR	Bracket for SX20 and HD monitor	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-						
 BRKT-SX20-MONITOR=	PID not used	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-						
@@ -45,7 +45,7 @@ CAB-2DC4MINI-0.3M-	4-PIN MINI DIN, 0.3 meters for MX700	TelePresence MX Series	p
 CAB-2DC4MINI-0.3M=	4-PIN MINI DIN, 0.3 meters for MX700	TelePresence MX Series	power-cord	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)						
 CAB-2HDMI-1.26M-	HDMI to HDMI Cable, 1.26 meters long for ROOM 70	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
 CAB-2HDMI-1.26M=	HDMI to HDMI Cable, 1.26 meters long for ROOM 70	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
-CAB-2HDMI-1.5M-	Not used	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
+CAB-2HDMI-1.5M-	Not used	Room Series	cable	pending_plan								class non_product		
 CAB-2HDMI-1.5M-GR	Second screen 1.5 m HDMI 2.0 certified cable	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
 CAB-2HDMI-1.5M-GR-	HDMI 2.0 Cable - 1.5 meter - Gray (for one monitor)	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
 CAB-2HDMI-1.5M-GR=	HDMI 2.0 Cable - 1.5 meter - Gray - SPARE (for monitors)	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
@@ -97,18 +97,18 @@ CAB-2HDMILK-2.82M-	HDMI to HDMI Cable, 2.82 meters long for ROOM 70	Room Series	
 CAB-2HDMILK-2.82M=	HDMI to HDMI Cable, 2.82 meters long for ROOM 70	Room Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)						
 CAB-2VGA-6M	VGA to VGA Cable 6m	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)						
 CAB-2VGA-6M=	VGA to VGA Cable 6m	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)						
-CAB-AC2=	AC Power Cord N. America for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	accessory ^CAB- (label 7900 - Unified IP Phone)						
+CAB-AC2=	AC Power Cord N. America for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	pending_plan								move routers		
 CAB-AC2AUS=	AC Power Cord Australia for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	accessory ^CAB- (label 7900 - Unified IP Phone)						
 CAB-AC2CHI=	AC Power Cord China for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	accessory ^CAB- (label 7900 - Unified IP Phone)						
-CAB-AC2E=	AC Power Cord Europe for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	accessory ^CAB- (label 7900 - Unified IP Phone)						
+CAB-AC2E=	AC Power Cord Europe for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	pending_plan								move routers		
 CAB-AC2J=	AC Power Cord Japan for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	accessory ^CAB- (label 7900 - Unified IP Phone)						
-CAB-AC2UK=	AC Power Cord United Kingdom for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	accessory ^CAB- (label 7900 - Unified IP Phone)						
+CAB-AC2UK=	AC Power Cord United Kingdom for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	pending_plan								move routers		
 CAB-CAT5E-12M	12 meter round gray Ethernet cable for Cisco Devices	Spark Board	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)						
 CAB-CAT5E-12M=	Ethernet CAT5E Round Cable - 12 meter - Gray - SPARE (for Room Navigator)	Spark Board	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)						
 CAB-CAT5E-4M	4 meter round gray Ethernet cable for Cisco Devices	Spark Board	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)						
 CAB-CAT5E-4M=	Ethernet CAT5E Round Cable - 4 meter - Gray - SPARE (for Room Navigator)	Spark Board	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)						
 CAB-CAT5E-8M	8 meter round gray Ethernet cable for Cisco Devices	Spark Board	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)						
-CAB-CAT5E-8M-	Ethernet CAT5E Round Cable - 8 meter - Gray - SPARE (for Room Navigator)	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
+CAB-CAT5E-8M-	Ethernet CAT5E Round Cable - 8 meter - Gray - SPARE (for Room Navigator)	Room Series	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)						
 CAB-CAT5E-8M=	Ethernet CAT5E Round Cable - 8 meter - Gray - SPARE (for Room Navigator)	Spark Board	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)						
 CAB-CAT5E-CMP-20M	Ethernet CAT5E Plenum Rated - 20 meter - Gray	Microphones	cable	layered	Microphones	(shared across the line)	Microphones shared parts	accessory ^CAB- (label Microphones)						
 CAB-CAT5E-CMP-20M=	Ethernet CAT5E Plenum Rated - 20 meter - Gray - SPARE	Spark Board	cable	layered	Microphones	(shared across the line)	Microphones shared parts	accessory ^CAB- (label Microphones)						
@@ -147,7 +147,7 @@ CAB-ETH-3M-GR	Ethernet cable 3 m/10 ft, gray	Room Series	cable	layered	Webex Roo
 CAB-ETH-3M-GR=	Ethernet cable (3 meters, grey)	Desk Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
 CAB-ETH-5M	Ethernet cable (5m) for auto expand	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)						
 CAB-ETH-5M-GR	Ethernet CAT5E Cable - 5m - Gray	Spark Board	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)						
-CAB-ETH-5M-GR-	Ethernet CAT5E Round Cable - 5 meter - Gray - SPARE (for network connection)	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
+CAB-ETH-5M-GR-	Ethernet CAT5E Round Cable - 5 meter - Gray - SPARE (for network connection)	Room Series	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)						
 CAB-ETH-5M-GR=	Ethernet CAT5E Round Cable - 5 meter - Gray - SPARE (for network connection)	Spark Board	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)						
 CAB-ETH-5M=	Ethernet Cable - 5M	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)						
 CAB-ETH-8M-GR-	Ethernet CAT5E Network Cable, 8M length	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
@@ -229,7 +229,7 @@ CAB-PRES-2HDMI-GR	Presentation cable 8 m/26 ft Gray HDMI 1.4b (with repeater)	Sp
 CAB-PRES-2HDMI-GR+	Presentation cable 8m GREY HDMI 1.4b (W/ REPEATER)	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
 CAB-PRES-2HDMI-GR=	Presentation cable HDMI 1.4b (with repeater) - 8 meter - Gray - SPARE	Spark Board	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)						
 CAB-PRESO-2HDMI	Presentation cable, HDMI to HDMI, 8 meter, gray	TelePresence SX Series (QuickSet)	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence SX Series (QuickSet))						
-CAB-PRESO-2HDMI-	Presentation cable, HDMI to HDMI, 8 meter, gray	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)						
+CAB-PRESO-2HDMI-	Presentation cable, HDMI to HDMI, 8 meter, gray	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence SX Series (QuickSet))						
 CAB-PRESO-2HDMI=	Presentation cable, HDMI to HDMI, 8 meter, gray	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence SX Series (QuickSet))						
 CAB-PWR-2WR-AUS	Power Cord, 250VAC 2.5A, C7 coupler, BS 1363 plug, AUS	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
 CAB-PWR-2WR-AUS=	Power Cord, 250VAC 2.5A, C7 coupler, BS 1363 plug, AUS	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
@@ -253,7 +253,7 @@ CAB-PWR-C15-BRA-A	Power Cord, C15, Black, 2.5m, 10A, Brazil	Room Series	power-co
 CAB-PWR-C15-BRA-A=	Power Cord, C15, Black, 2.5m, 10A, Brazil	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
 CAB-PWR-C15-CHE-A	Power Cord, C15, Black, 2.5m, 10A, Switzerland	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
 CAB-PWR-C15-CHE-A=	Power Cord, C15, Black, 2.5m, 10A, Switzerland	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
-CAB-PWR-C15-CHN-A=	Power Cord, C15, Black, 2.5m, 10A, China	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
+CAB-PWR-C15-CHN-A=	Power Cord, C15, Black, 2.5m, 10A, China	Room Series	power-cord	pending_plan								move switches		
 CAB-PWR-C15-DNK-A	Power Cord, C15, Black, 2.5m, 10A, Denmark	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
 CAB-PWR-C15-DNK-A=	Power Cord, C15, Black, 2.5m, 10A, Denmark	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
 CAB-PWR-C15-EUR-A	Power Cord, C15, Black, 2.5m, 10A, Europe	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)						
@@ -1101,7 +1101,7 @@ CP-PWR-CORD-SA=	Cisco CP-PWR-CORD-SA=	Desk Phone 9800 Series	power-cord	layered	
 CP-PWR-CORD-SW=	● Power Cord Switzerland	IP Phone 8800 Series	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-						
 CP-PWR-CORD-TW=	Cisco CP-PWR-CORD-TW=	Desk Phone 9800 Series	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-						
 CP-PWR-CORD-UK=	● Power Cord United Kingdom	IP Phone 8800 Series	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-						
-CP-PWR-CORD-xx=	Cisco Unified IP Phone Power Country Cord	IP Phone 8800 Series	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-						
+CP-PWR-CORD-xx=	Cisco Unified IP Phone Power Country Cord	IP Phone 8800 Series	power-cord	pending_plan								class non_product		
 CP-PWR-CUBE-3	IP Phone power transformer for the 7900 phone series	7900 - Unified IP Phone	power	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-						
 CP-PWR-CUBE-3=	Local power adapter for sites where PoE is not available; refer to Table 5 for the right power cord part number for your region	IP Phone 8800 Series	power	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-						
 CP-PWR-CUBE-4	Cisco Power Cube 4	IP Phone 8800 Series	power	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-						
@@ -2379,7 +2379,7 @@ CTS-ST-INT-PLATE-=	^Interface plate CAM-P60 to Speaker Track 60	SpeakerTrack 60	
 CTS-ST-INT-PLATE=	Interface plate CAM-P60 to Speaker Track 60	SpeakerTrack 60	mechanical	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	sku ^CTS-						
 CTS-SX10-K9	SX10 HD w/ wall mount, int 5x cam and mic	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
 CTS-SX10CODEC+	SX10 Codec	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
-CTS-SX10CODEC-	Not used	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
+CTS-SX10CODEC-	Not used	TelePresence SX Series (QuickSet)	video-codec	pending_plan								class non_product		
 CTS-SX10CODEC=	SX10 HD w/ int 5x Cam Spare	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
 CTS-SX10N-AU	Non-Encrypted SX10 w/ wall mount, int 5x cam, mic and PSU	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
 CTS-SX10N-K9	SX10 HD w/ wall mount, int 5x cam, mic and power supply	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
@@ -2397,7 +2397,7 @@ CTS-SX20CODEC	SX20 Codec - no encryption	TelePresence SX Series (QuickSet)	video
 CTS-SX20CODEC-K9	SX20 Codec - encrypted	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
 CTS-SX20CODEC-K9=	SPARE SX20 Codec encrypted	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
 CTS-SX20CODEC=	SX20 Codec - no encryption	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
-CTS-SX20G2-K9+	^Not used	TelePresence MX Series	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
+CTS-SX20G2-K9+	^Not used	TelePresence MX Series	video-codec	pending_plan								class non_product		
 CTS-SX20G2-K9+=	^SX20 Codec - encrypted	TelePresence MX Series	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
 CTS-SX20N-12X-K9	SX20 w/ 12x Cam, 1 mic, remote and CE9 - Lead time extended	TelePresence Precision Cameras (P60)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
 CTS-SX20N-C-12X-K9	SX20 Quick Set w/ 12X cam, 1 mic, remote cntrl	TelePresence Precision Cameras (P60)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]						
@@ -2533,7 +2533,7 @@ HS-WL-980-EC2-C=	Ear cushion spares – Black Anthracite	900 Series Bang & Olufs
 HS-WL-980-EC2-L=	Ear cushion spares – First Light	900 Series Bang & Olufsen Headsets	headset	layered	Headsets		Bang & Olufsen 900 (950 / 980)	sku ^HS-WL-9						
 HS-WL-980-L	B&O Cisco 980 Wireless Over-ear Headset - First Light	900 Series Bang & Olufsen Headsets	headset	layered	Headsets		Bang & Olufsen 900 (950 / 980)	sku ^HS-WL-9						
 HS-WL-980-L=	Spare B&O Cisco 980 Wireless, Over-Ear Headset in First Light finish with travel case, USB-A and 3.5mm cables	900 Series Bang & Olufsen Headsets	headset	layered	Headsets		Bang & Olufsen 900 (950 / 980)	sku ^HS-WL-9						
-HS-WL-ADPT-USBA	NOT USED Cisco Headset Wireless Bluetooth USB-A HD Adapter	Headset 700 Series	accessory	layered	Headsets	(shared across the line)	Headsets shared parts	sku ^HS-						
+HS-WL-ADPT-USBA	NOT USED Cisco Headset Wireless Bluetooth USB-A HD Adapter	Headset 700 Series	accessory	pending_plan								class non_product		
 HS-WL-ADPT-USBA=	Headset Wireless Bluetooth USB-A HD Adapter - SPARE	Headset 700 Series	accessory	layered	Headsets	(shared across the line)	Headsets shared parts	sku ^HS-						
 HS-WL-ADPT-USBC=	Cisco Headset Wireless Bluetooth USB-C Adapter with USB-C to A converter	Headset 700 Series	accessory	layered	Headsets	(shared across the line)	Headsets shared parts	sku ^HS-						
 MB100	Wall-mount brackets for SPA 300, SPA 500, CP 500, and SPA 900 Series	SPA300 IP Phones	mechanical	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^MB100$						
@@ -2549,7 +2549,7 @@ POE-WW=	Device PoE Adapter (Worldwide - 12W)	Webex Share	power	layered	Webex Sha
 PSU-12VDC-120W=	Power supply - AC/DC, 12V, 120W	Room Series	power	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						
 PSU-12VDC-40W2=	Webex PTZ 4K Camera Power Supply	Room Series	power	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						
 PSU-12VDC-70W-GR+	Power adapter for Cisco Quad Camera (only in Quad Camera bundles)	Room Series	power	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						
-PSU-12VDC-70W-GR-	Power adapter for Cisco Desk	Desk Series	power	layered	Webex Desk Series	(shared across the line)	Webex Desk Series shared parts	label Desk Series						
+PSU-12VDC-70W-GR-	Power adapter for Cisco Desk	Desk Series	power	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						
 PSU-12VDC-70W-GR=	Power supply 12VDC 70W for Quad Camera SPARE	Room Series	power	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						
 PSU-12VDC-86W-	Power Supply - AC/DC, 12V, 7.0A, 86.1W Grey	Room Series	power	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						
 PSU-12VDC-86W=	Power Supply - AC/DC, 12V, 7.0A, 86.1W grey	Room Series	power	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						

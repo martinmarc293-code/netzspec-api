@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "optical-networking",
- "built_at": "2026-09-15T13:11:00.705Z",
- "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
+ "built_at": "2026-09-15T18:46:57.994Z",
+ "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
  "parts": 1186,
@@ -145,7 +145,7 @@
       "label": 1
      },
      "pending_in": {
-      "interfaces-modules": 12,
+      "interfaces-modules": 10,
       "routers": 2,
       "transceiver": 12
      }
@@ -179,7 +179,7 @@
   },
   {
    "line": "ONS 15216 / 15200 DWDM passives",
-   "parts": 429,
+   "parts": 428,
    "series": [
     {
      "series": "ONS 15200 (15201 / 15252) CLIP and NAM modules",
@@ -213,9 +213,9 @@
      "family": null,
      "role": null,
      "note": "^15216(?!-GBIC) (layers round 3, optical round): 15216-GBIC-1510(=) is a GBIC the transceiver round filed in GBIC (legacy); the rule claimed it",
-     "parts": 308,
+     "parts": 307,
      "kinds": {
-      "mux": 229,
+      "mux": 228,
       "cable": 15,
       "unknown": 5,
       "dcu": 48,
@@ -234,7 +234,7 @@
       "15216-AD1-2-31.9= — ITU-200 GHz 1-channel, 2 path OADM ch. 1531.90nm"
      ],
      "rules": {
-      "sku": 308
+      "sku": 307
      },
      "pending_in": {
       "interfaces-modules": 9
@@ -355,6 +355,14 @@
  ],
  "not_this_category": [],
  "pending_plans": [
+  {
+   "sku": "15216-MD-48-",
+   "name": "Cisco 15216-MD-48-",
+   "series_label": "ONS 15200 Series DWDM Systems",
+   "action": "class",
+   "to": "non_product",
+   "reason": "truncated PID ending in '-' (name is the SKU, no twin, no document, no fact) — the routers precedent; a '-' row WITH a twin is its twin's component PID and shares its placement (re-audit decisions, operator, 15 Sep 2026, N-1)"
+  },
   {
    "sku": "15454-QWEST-EXPAND",
    "name": "15454 QWEST LOCAL BUNDLE EXPANSION CLASS",

@@ -1,0 +1,83 @@
+# Layers round 3 — the operator's decisions on the verified re-audit, applied — 15 Sep 2026
+
+**Status: MAPPINGS, PLANS, CHECKS AND RECORDS — NO RUN.** Rules committed at `1c0ea75`, pages rebuilt at that commit
+(`uncommitted_rule_files: []` on all 17). No database write, no cup-side edit (profiles, required cups, derivations, dictionary untouched). Inputs: the reviewer's re-audit of the published pages at `3fa3624`, its row-by-row verification
+(`D:\tmp\cisco-layers-round3-reaudit-answer-verified-2026-09-15.md`), and the operator's decisions of 15 Sep 2026 (N-1 … N-3, Q-1 … Q-29,
+the bookkeeping list, the runs gate). Runs start only on the operator's yes, one group at a time, with dry-run counts first.
+
+## 1. What was applied, by decision
+
+| decision | applied |
+|---|---|
+| **N-1 twin rule** | `X`, `X=`, `X-`, `X--` share placement and kind. `twinKey` / `twinRank` in `productLine.ts`; `placeWithSpareRule` places a twin group on its best-evidenced member (ties: informative name, then base, spare, component PID, customized model); `pairDisagreements` compares every member with the group's reference; the build shares label evidence across the group. The three collab pairs now sit together: CAB-CAT5E-8M- and CAB-ETH-5M-GR- in **Webex Board Series shared parts** (with their base and spare), PSU-12VDC-70W-GR- in **Webex Room Series shared parts** (with its `=` and `+`). NM-HDV- (NM / NME, beside NM-HDV=) and CPAK-100G-LR4- (40G / 100G CFP, CFP2, CPAK and CXP) lose their class plans. The truncated tokens with no twin, `15216-MD-48-` and `C9600-PWR-`, get class non_product "truncated PID". The four collab `-` / `--` rows first read as tokens (CS-DESKP-C-FG-, CS-DESKP-C-STAND-, CS-KIT-EQ-4K-K9--, CS-KIT-EQ-K9--) all have twins: no plan. |
+| **N-2 / Q-23** facts OR documents | 23 class plans removed; the rows are placed: wireless AP1572EAC / EC / IC (Aironet 1570), CW9162 / CW9166, MR36 / MR46 (Meraki MR indoor), 9800-L / C9800-L (Catalyst 9800-L), C9105, C9130AXE / AXI; transceiver DWDM-X2, DWDM-SFP10G, X2-10G-DWDM, QSFP-100G-AOC, SFP-10G-AOC, SFP-H10GB-ACU, SFP-H10GB-CU (`^SFP-H10GB-CU$` added to the DAC series — the length-glued rule needs a digit); security 5515-X / 5525-X / 5545-X (`^55(1[256]\|25\|45\|55)-X$` in ASA 5500-X); interfaces-modules NM-HDV-. C9105AXI and the 35 empty placeholders keep their plans. |
+| **N-3** "Not used" | 13 class non_product "not orderable", each read first (all 13 are listed in a Cisco end-of-sale notice; AIR-ANT5175V-N carries 1 fact). Six of them have a live twin (BRKT-SX10-WMK, CTS-SX10CODEC=, CTS-SX20G2-K9+=, HS-WL-ADPT-USBA=, FP-NMSB-40G- / =, AIR-ANT5175V-N=): recorded twin exceptions, the VOID precedent. |
+| **Q-10** region placeholder, all 254 | 208 class plans added (switches 191, wireless 14 upper-case `-X` named by SKU with the ordering-guide / EWC-FAQ evidence, interfaces-modules 2, collab 1); the 46 wireless plans' reason says decided. Standing check: no layered row anywhere matches `-x{1,2}(-\|=?$)` case-sensitively or the 14 named SKUs; the plan count is 254; sabotage: ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X, C6880-X= are not stand-ins. **79 of the 254 carry a fact (53) or only a document (26)** — held in the gate, §4. |
+| **Q-13** E-Series → servers | servers: `^SVC-E` back, `^EM3-(?!HDA)`; new series **Services Ready Engine (ISM-SRE / SM-SRE)** under UCS E-Series Server Modules; the 13 servers → interfaces-modules plans for SVC-E and SRE removed. interfaces-modules: `^UCS-E` / `^SVC-E` removed, `^SM-` and `^ISM-` fenced from SRE; move plans to servers for the 4 UCS-E modules and the 6 SRE rows it held. routers: 10 UCS E-Series parts planned to servers. Kinds: SRE engines `server` (ucsKind PRE_RULE); the arriving E100 bracket / KVM dongle / UDIMM and the SRE spare disk keep the kinds they read today (exact rules). |
+| **Q-18** | the 3 DEVICE_EXCEPTIONS carry the operator's reason ("Cisco names no series; device kept out of shared-parts semantics by exception"). |
+| **Q-6** (reverses "WPAN with the CGR antennas") | `^CGR-N-CONN-` in CGR 1000; removed from Industrial and IoT Routers shared parts. CGR-N-CONN-WIMAX is SKU-placed; the WPAN arrival lands in CGR 1000. |
+| **Q-11** | the 3 wireless PWR-CH1 rows (750ACR, 750WACR, 950WDCR) planned to routers; wireless power rule fenced; `^PWR-CH1-(750W?ACR\|950WDCR)` in Catalyst 8500. |
+| **Q-12** | series **MobileAccessVE** in AireOS Wireless LAN Controllers (`^AIR-330-`, `^AIR-VAP`, `^AIR-VCU-`), 14 rows; `VAP` out of the Aironet shared-parts rule. |
+| **Q-2** | line **Routed PON**, series **10G Routed PON ONT** (`^ENC-10G-ONT`), no role; the six ONTs' plans to switches land there. |
+| **Q-14 / Q-17** | 28 cross-claims entries `pending-decision:Q-14`, 1 `pending-decision:Q-17` (F-6); 45 cross-category twin groups named pending Q-14 (34) / Q-17 (11) in the new check. The list measurement is the separate block. |
+| **Q-15** | R2XX-DMYMPWRCORD (HCI; 8 facts from the C225 M8 spec sheet — an ordering option's table row) and R2XX-DMYMPWRCORD= (servers): class non_product. |
+| **Q-19 / Q-20** | the 4 collab cords planned to the base's category; the cross-category twin check (`crossCategoryTwins`) over every page; 35 further plans join the other splits (§2.4). Arrivals are twin-aware: a spare planned in beside its layered twin lands with it. |
+| **Q-24** every class | 3,691 move plans for the merge candidates' non-hardware rows (conferencing 3,680 → collaboration-endpoints; data-center-networking 11 → switches), each with `product_class`; the 90 hardware merge plans say "(every class)"; checks: the recorded counts, and no non-hardware plan names a hardware row. |
+| **Q-25** | hreflang checked live (merge record §4 item 6): the hubs' only hreflang tags are their own head alternates; the sitemap lists neither; a redirect removes them with the page. |
+| **Bookkeeping** | F-7 C-CPM → class software; F-8 reason "vendor not identified" (5 plans); F-9 re-audit step in the merge record; E-5 / E-6 (44 → 35, 578 → 577) in the collaboration-endpoints record; band placeholders 15454-AD-1B-xx= / 15454-AD-4B-xx= → class non_product (channel placeholder), not moves; F-1: SSP modules and ASA 5500-X interface cards (`^ASA-CX[0-9]+-INC-K8`, `^ASA-IC-6GE`), MDS fans / supplies / bracket (`^DS-6SL[0O]T-`, `^DS-9SL0T-`, `^DS-2SLOT-`, `^DS-1RU-FAN`, `^DS-C24-300AC`), N01-UAC1 → UCS 5108, the B-Series baffles and the B230 blanking panel by exact SKU. |
+
+## 2. Where the application goes beyond the decision text — each for the operator to confirm
+
+1. **Kinds `device` (Q-12) and `ont` (Q-2) are not applied.** Neither is a noun of its axis (wireless: ap, sensor, wlc, antenna, backhaul,
+   appliance, module, …; switches has no ONT noun — CGP-ONT reads `switch` with a flag). A new noun needs its cup set, which is cup-side,
+   so the kind change waits for the parked kind rebuild (Q-28). The series changes are applied; the MobileAccessVE units stay `unknown`,
+   the ONTs will read `switch` + CGP-ONT's flag after their move.
+2. **Q-13 reaches six more rows and sends one elsewhere.** The series you named, "Services Ready Engine (ISM-SRE / SM-SRE)", holds engines
+   interfaces-modules had: ISM-SRE-300-K9 (the base of the ISM-SRE-300-K9= that stays in servers), ISM-SRE-300-K9++=, -RS-K9=,
+   SM-SRE-700-K9, SM-SRE-900-K9 and SM-DSK-SATA-500GB= ("Spare … hard disk for SM-SRE-900-K9", A.3 rule 1) — planned to servers.
+   **EM3-HDA-8FXS goes to interfaces-modules, not servers:** it is a voice / fax expansion module of the EM-HDA family (EM-HDA-8FXS sits in
+   ISM / EM Internal Service Modules); servers' `^EM3-` rule was meant for the UCS-E M3 memory and SSDs and is fenced.
+3. **Kinds of the Q-13 arrivals.** The E100 prefix reads `server` in servers, so the arriving E100-FCPLT-BRKT(=), E100S-CON-DGL(=),
+   E100S-MEM-UDIMM8G(=) would have become servers; exact rules keep them `mechanical` / `accessory` / `memory`, and SM-DSK-SATA-500GB= `drive`.
+   **36 E100 parts already in servers read `server`** (memory, SD cards, PCIe cards, SED drives: E100-4-8-MEM-UPG … E100S-SED-12T=) — listed
+   for the Q-28 rebuild, not changed.
+4. **Q-20 joined 35 splits you did not list one by one:** 32 spares to their base's category by the Q-19 rule — generic cords and cables
+   (CAB-250V-10A-AR / CN / IS / ID, CAB-9K16A-* ×6, CAB-9K20A-NA, CAB-C13-C14-2M / -AC, CAB-C13-CBN / C15-CBN / C19-CBN, CAB-C2316-C19-IT,
+   CAB-IR2073-C19-AR, CAB-N5K6A-NA, CAB-ACTW, CAB-ACSA, CAB-AC-L620-C13, CAB-CONSOLE-RJ45, CAB-449FC / MT, CAB-E1-RJ45BNC / TWIN,
+   CAB-HD8-ASYNC / KIT, CAB-OCT-V35-FC), FAN-1RU-PI-V2= (no document names one platform) and MEM-C4K-FLD128M= (Catalyst 4500, A.3) — and
+   3 bases to the platform's category: CAB-48DC-40A-8AWG ("C-Series -48VDC PSU Power Cord") → servers, PWR-IE50W-AC / -IEC → switches, where
+   the PWR-IE family's other 17 rows sit. CAB-BS1363-C19-UK (base in HCI) waits with Q-14.
+5. **Q-10 vs Q-23:** see §4.
+
+## 3. Measured
+- **Rows against the published pages (`3fa3624`):** series changed 54 (security 18, wireless 14, storage 10, servers 9, collab 3); plans
+  added 288 and removed 37 on the hardware pages; kinds changed 2 (ISM-SRE-300-BUN-K9 non-product → server, ISM-SRE-300-K9= unknown →
+  server); placed_by text only 150 (fenced rule texts, one twin label). meraki, unified-communications 0. Label-placed: wireless 30 → 28,
+  security 16 → 14, routers 440 → 430, switches 376 → 374 (rows now SKU-placed or planned).
+- **Plans** 3,607 → 7,549 (not run 3,206 → 7,148); **cross-claims** 38 → 32 (6 closed by Q-13 / Q-11: 28 pending-decision:Q-14,
+  1 pending-decision:Q-17, 3 decided-home).
+- **Checks:** layersStanding 850 / 0 (was 686); productLine 449 / 0 (was 413); ucsKind 343 / 0 (5 new sabotage probes); `npm test` 66/71 with
+  the 5 known reds — completeness, cupLedger, securityShapes, source-fields identical; arrangementFreeze's kind line 5,723 → 5,724 moved
+  (the SRE engine kind, Q-13); typecheck clean. Arrivals: 0 unplaced over all move plans.
+- **Sabotage on the real files** (backed up, planted, restored, byte-compared): a joined cord losing its plan → the cross-category twin check;
+  a named Q-14 split resolved → the stale-name check; a region placeholder left layered → the Q-10 check; a status naming a closed question →
+  the status check; a non-hardware merge plan losing its class → the count and arrival checks; CPAK-100G-LR4- moved off its twin's series →
+  the twin check. 6 of 6 caught.
+
+## 4. The runs gate after these decisions
+87 groups, 7,148 plans not run: **GO 3,288**, **HOLD 79**, **merges last 3,781**. Order: licence / software / service classes → non_product
+classes → moves small to large → the two HX / HCI moves → the merges (after every other run and the operator's re-audit of the pages).
+The full table is in the morning report; the holds:
+- **interfaces-modules class non_product: GO 66, HOLD 2** — HWIC-AP-AG-x / HWIC-AP-G-x (1 fact each);
+- **switches class non_product: GO 315, HOLD 17** — the SF95D / SF110D / SG95D / SG110 unmanaged-switch `-xx` model rows (8–9 facts and
+  the series data sheet each), CGP-ONT-4TVCW-x (13 facts), PWRADPT-WM-18-xx (9 facts);
+- **wireless class non_product: GO 21, HOLD 60** — the 46 regulatory placeholders already planned (30 carry facts, 16 a document) and the
+  14 `-X` rows (4 facts, 10 a document).
+
+**Question (Q-10 vs Q-23):** Q-23 keeps a bare model row that carries a fact or a document ("classing the row orphans it"); 79 of the 254
+region placeholders are that shape. Keep them as the family's rows until inheritance (79 plans removed), or class them as decided?
+
+## 5. Not in this block
+Q-14's exact list (a separate 2–3 h block); Q-26 / Q-27 after the runs; Q-28 with the parked kind rebuild (now also: `device` for the
+MobileAccessVE units, `ont` for the Routed PON ONTs, the 36 E100 parts); **Q-29** (the enumeration filter learning the six documentation
+shapes and a check for documentation-sourced rows with no document and no fact) — decided, queued, not built in this block.

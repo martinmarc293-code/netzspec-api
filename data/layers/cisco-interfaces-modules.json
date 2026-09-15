@@ -1,15 +1,15 @@
 {
  "vendor": "cisco",
  "category": "interfaces-modules",
- "built_at": "2026-09-15T13:11:00.514Z",
- "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
+ "built_at": "2026-09-15T18:46:57.846Z",
+ "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-interfaces-modules.json",
  "parts": 1400,
  "lines": [
   {
    "line": "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)",
-   "parts": 841,
+   "parts": 829,
    "series": [
     {
      "series": "NIM (Network Interface Modules)",
@@ -41,14 +41,12 @@
      "series": "SM-X and SM Service Modules",
      "family": null,
      "role": null,
-     "note": "UCS-E / SVC-E are compute modules in the SM-X form factor: kind module, flagged compute module (pre-ruling C3; the server cups are a parked cup-side decision). SVC-E places the three service spares planned in from servers-unified-computing. ^SM-(?!X|[0-9]{2}$) (layers round 3, security round): the rule claimed SM-40 / SM-48 / SM-56, the Firepower 9300 security modules in security",
-     "parts": 76,
+     "note": "^SM-(?!X|[0-9]{2}$) (layers round 3, security round): the rule claimed SM-40 / SM-48 / SM-56, the Firepower 9300 security modules in security. Re-audit decisions (operator, 15 Sep 2026, Q-13): the UCS E-Series is a server sold as a router module and lives in servers-unified-computing, kind server (reverses pre-ruling C3) — ^UCS-E and ^SVC-E are removed and the four UCS-E modules carry move plans to servers; the Services Ready Engine follows (SM-SRE-700 / 900, their disks, memory and cover), so the rule is fenced from SRE-, DSK-, HDD-SATA and MEM-VLP",
+     "parts": 69,
      "kinds": {
       "interface": 59,
       "mechanical": 7,
-      "memory": 1,
-      "accessory": 3,
-      "module": 6
+      "accessory": 3
      },
      "roles": {},
      "samples": [
@@ -60,11 +58,10 @@
       "C-SM-NIM-ADPT= — Cisco C-SM-NIM-ADPT="
      ],
      "rules": {
-      "sku": 76
+      "sku": 69
      },
      "pending_in": {
       "unified-communications": 7,
-      "servers-unified-computing": 11,
       "security": 3
      }
     },
@@ -72,11 +69,11 @@
      "series": "ISM / EM Internal Service Modules",
      "family": null,
      "role": null,
-     "note": "ISM-SRE-300 and ISM-VPN-29 / -39 are engines without network ports: kind module (pre-ruling C2); the EM voice expansion modules are interface cards",
-     "parts": 12,
+     "note": "ISM-VPN-29 / -39 are engines without network ports: kind module (pre-ruling C2); the EM voice expansion modules are interface cards. Re-audit decisions (operator, 15 Sep 2026): the ISM-SRE-300 engines follow the Services Ready Engine to servers-unified-computing (Q-13), so ^ISM- is fenced from SRE; ^EM3-HDA- places EM3-HDA-8FXS, the voice expansion module planned in from routers beside EM-HDA-8FXS (servers' ^EM3- rule, meant for the UCS-E M3 memory and SSDs, had claimed it as an E-Series part)",
+     "parts": 9,
      "kinds": {
       "interface": 5,
-      "module": 7
+      "module": 4
      },
      "roles": {},
      "samples": [
@@ -85,14 +82,14 @@
       "EM-HDA-3FXS/4FXO — 7-port voice/fax expansion module - 3FXS/4FXO",
       "EM-HDA-3FXS/4FXO= — 7-port voice/fax expansion module - 3FXS/4FXO",
       "EM-HDA-8FXS — Cisco EM-HDA-8FXS",
-      "ISM-SRE-300-K9 — Internal Services Module (ISM) with Services Ready Engine"
+      "ISM-VPN-29 — 3DES/AES/SUITE-B VPN Encryption module"
      ],
      "rules": {
-      "sku": 12
+      "sku": 9
      },
      "pending_in": {
       "unified-communications": 1,
-      "servers-unified-computing": 2
+      "routers": 1
      }
     },
     {
@@ -115,11 +112,11 @@
      "family": null,
      "role": null,
      "note": "ILPM-4= / ILPM-8= are the inline-power daughter modules of the EtherSwitch HWICs (data sheet 'Cisco EtherSwitch 4- and 9-Port High-Speed WAN Interface Cards'). The label's platform supplies, antennas and datasheet tokens are planned out (layers round 3)",
-     "parts": 156,
+     "parts": 154,
      "kinds": {
       "interface": 84,
       "cellular": 51,
-      "radio": 16,
+      "radio": 14,
       "mechanical": 3,
       "power": 2
      },
@@ -133,7 +130,7 @@
       "EHWIC-3G-EVDO-S — 3G EHWIC EDVO for Sprint with GPS"
      ],
      "rules": {
-      "sku": 156
+      "sku": 154
      },
      "pending_in": {
       "unified-communications": 6
@@ -144,9 +141,9 @@
      "family": null,
      "role": null,
      "note": "GE-DCARD-ESW(=) is the Gigabit daughter card of the EtherSwitch network modules (its name: 'daughtercard for Etherswitch NM')",
-     "parts": 69,
+     "parts": 70,
      "kinds": {
-      "interface": 60,
+      "interface": 61,
       "module": 9
      },
      "roles": {},
@@ -159,7 +156,7 @@
       "NM-16ESW= — 1 16 port 10/100 EtherSwitch NM"
      ],
      "rules": {
-      "sku": 69
+      "sku": 70
      },
      "pending_in": {
       "switches": 1,
@@ -366,10 +363,10 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 35,
+     "parts": 34,
      "kinds": {
       "mechanical": 2,
-      "cable": 33
+      "cable": 32
      },
      "roles": {},
      "samples": [
@@ -382,9 +379,11 @@
      ],
      "rules": {
       "label-unsupported": 2,
-      "accessory": 33
+      "accessory": 32
      },
-     "pending_in": {}
+     "pending_in": {
+      "routers": 4
+     }
     }
    ]
   },
@@ -617,17 +616,17 @@
    "sku": "15454-AD-1B-xx=",
    "name": "1-band OADM, C-band, 100-GHz, LC connectors, includes two 2-m LC/LC fiber-optic cables",
    "series_label": "WDM Transmission Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
+   "action": "class",
+   "to": "non_product",
+   "reason": "channel placeholder: not an orderable PID — the band 'xx' stands for the orderable OADM bands (the datasheet-cell rule, transceiver decision 2; re-audit decisions, operator, 15 Sep 2026: a class plan, not a move to optical-networking)"
   },
   {
    "sku": "15454-AD-4B-xx=",
    "name": "4-band OADM, C-band, 100-GHz, LC connectors, includes two 2-m LC/LC fiber-optic cables",
    "series_label": "WDM Transmission Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
+   "action": "class",
+   "to": "non_product",
+   "reason": "channel placeholder: not an orderable PID — the band 'xx' stands for the orderable OADM bands (the datasheet-cell rule, transceiver decision 2; re-audit decisions, operator, 15 Sep 2026: a class plan, not a move to optical-networking)"
   },
   {
    "sku": "15454-CONSOLE-02",
@@ -1606,6 +1605,14 @@
    "reason": "Catalyst 6500-E chassis bundle with an ACE30 blade"
   },
   {
+   "sku": "CAB-OCT-V35-FC=",
+   "name": "8 Lead Octal Cable and 8 Female V35DCE Connectors",
+   "series_label": "Port Adapters",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic cord or cable whose base sits in routers ISR (Integrated Services Routers) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
    "sku": "CGM-WIMAX-1.4GHZ",
    "name": "Connected Grid Module - IEEE 802.16e WiMAX 1.4 GHz",
    "series_label": "Connected Grid Modules",
@@ -1683,7 +1690,7 @@
    "series_label": "Transceiver Modules",
    "action": "class",
    "to": "non_product",
-   "reason": "third-party (Corning, by the EDGE8 module number shape ECM8-UM08-…; no held document names the vendor): not a Cisco orderable PID (decision 3); CM8-* is the same number with its first letter lost"
+   "reason": "third-party (vendor not identified; EDGE8-shaped module number ECM8-UM08-…, no held document names a vendor — re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8): not a Cisco orderable PID (decision 3); CM8-* is the same number with its first letter lost"
   },
   {
    "sku": "CM8-UM08-05-E5Q-ULL",
@@ -1691,7 +1698,7 @@
    "series_label": "Transceiver Modules",
    "action": "class",
    "to": "non_product",
-   "reason": "third-party (Corning, by the EDGE8 module number shape ECM8-UM08-…; no held document names the vendor): not a Cisco orderable PID (decision 3); CM8-* is the same number with its first letter lost"
+   "reason": "third-party (vendor not identified; EDGE8-shaped module number ECM8-UM08-…, no held document names a vendor — re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8): not a Cisco orderable PID (decision 3); CM8-* is the same number with its first letter lost"
   },
   {
    "sku": "CMPH1",
@@ -2211,7 +2218,7 @@
    "series_label": "Transceiver Modules",
    "action": "class",
    "to": "non_product",
-   "reason": "third-party (Corning, by the EDGE8 module number shape ECM8-UM08-…; no held document names the vendor): not a Cisco orderable PID (decision 3); CM8-* is the same number with its first letter lost"
+   "reason": "third-party (vendor not identified; EDGE8-shaped module number ECM8-UM08-…, no held document names a vendor — re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8): not a Cisco orderable PID (decision 3); CM8-* is the same number with its first letter lost"
   },
   {
    "sku": "ECM8-UM08-04-E8G-ULL",
@@ -2219,7 +2226,7 @@
    "series_label": "Transceiver Modules",
    "action": "class",
    "to": "non_product",
-   "reason": "third-party (Corning, by the EDGE8 module number shape ECM8-UM08-…; no held document names the vendor): not a Cisco orderable PID (decision 3); CM8-* is the same number with its first letter lost"
+   "reason": "third-party (vendor not identified; EDGE8-shaped module number ECM8-UM08-…, no held document names a vendor — re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8): not a Cisco orderable PID (decision 3); CM8-* is the same number with its first letter lost"
   },
   {
    "sku": "ECM8-UM08-05-E5Q-ULL",
@@ -2227,7 +2234,7 @@
    "series_label": "Transceiver Modules",
    "action": "class",
    "to": "non_product",
-   "reason": "third-party (Corning, by the EDGE8 module number shape ECM8-UM08-…; no held document names the vendor): not a Cisco orderable PID (decision 3); CM8-* is the same number with its first letter lost"
+   "reason": "third-party (vendor not identified; EDGE8-shaped module number ECM8-UM08-…, no held document names a vendor — re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8): not a Cisco orderable PID (decision 3); CM8-* is the same number with its first letter lost"
   },
   {
    "sku": "EDGE8",
@@ -2662,6 +2669,46 @@
    "reason": "unidentified datasheet token: no linked document names it as a Cisco PID (pre-ruling C8, layers round 3)"
   },
   {
+   "sku": "HWIC-AP-AG-x",
+   "name": "IEEE 802.11 A/B/G Access Point HWIC (High Speed WLAN Interface Card)",
+   "series_label": "High-Speed WAN Interface Cards",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
+  },
+  {
+   "sku": "HWIC-AP-G-x",
+   "name": "IEEE 802.11 B/G Access Point HWIC (High Speed WLAN Interface Card)",
+   "series_label": "High-Speed WAN Interface Cards",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
+  },
+  {
+   "sku": "ISM-SRE-300-K9",
+   "name": "Internal Services Module (ISM) with Services Ready Engine",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Services Ready Engine (the UCS E-Series' predecessor in the ISR G2): follows the E-Series to servers-unified-computing, series Services Ready Engine (ISM-SRE / SM-SRE), engines kind server, their disks as components (re-audit decisions, operator, 15 Sep 2026, Q-13: 'the SRE rows follow')"
+  },
+  {
+   "sku": "ISM-SRE-300-K9++=",
+   "name": "Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)",
+   "series_label": "4000 ISR",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Services Ready Engine (the UCS E-Series' predecessor in the ISR G2): follows the E-Series to servers-unified-computing, series Services Ready Engine (ISM-SRE / SM-SRE), engines kind server, their disks as components (re-audit decisions, operator, 15 Sep 2026, Q-13: 'the SRE rows follow')"
+  },
+  {
+   "sku": "ISM-SRE-300-RS-K9=",
+   "name": "ISM 300 module for VPN software",
+   "series_label": "4000 ISR",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Services Ready Engine (the UCS E-Series' predecessor in the ISR G2): follows the E-Series to servers-unified-computing, series Services Ready Engine (ISM-SRE / SM-SRE), engines kind server, their disks as components (re-audit decisions, operator, 15 Sep 2026, Q-13: 'the SRE rows follow')"
+  },
+  {
    "sku": "LDP7AA46.017",
    "name": "Cisco LDP7AA46.017",
    "series_label": "High-Speed WAN Interface Cards",
@@ -2812,14 +2859,6 @@
    "action": "move",
    "to": "optical-networking",
    "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "NM-HDV-",
-   "name": "High Density Voice Network Module",
-   "series_label": "Network Modules",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: the bare NM-HDV- prefix that the orderable NM-HDV-1T1-12 / -1E1-30 / -2T1-48 … extend, cut from an EoL table (the datasheet-cell rule, extended in layers round 3); NM-HDV itself is its own row"
   },
   {
    "sku": "NSLT-A",
@@ -3022,6 +3061,30 @@
    "reason": "Catalyst 4500 Supervisor 8-E SD / USB storage: bound to the Catalyst 4500 (A.3 rule 1) — their spares SD-X45-2GB-E= / USB-X45-4GB-E= are already in switches Catalyst 4500 (X and X= split across categories); filed here by the label 'Network Modules'"
   },
   {
+   "sku": "SM-DSK-SATA-500GB=",
+   "name": "Spare 50-GB hard disk for SM-SRE-900-K9",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Services Ready Engine (the UCS E-Series' predecessor in the ISR G2): follows the E-Series to servers-unified-computing, series Services Ready Engine (ISM-SRE / SM-SRE), engines kind server, their disks as components (re-audit decisions, operator, 15 Sep 2026, Q-13: 'the SRE rows follow')"
+  },
+  {
+   "sku": "SM-SRE-700-K9",
+   "name": "2-GB DRAM, 512-MB flash storage, 500GB hard disk, field- replaceable hard disk",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Services Ready Engine (the UCS E-Series' predecessor in the ISR G2): follows the E-Series to servers-unified-computing, series Services Ready Engine (ISM-SRE / SM-SRE), engines kind server, their disks as components (re-audit decisions, operator, 15 Sep 2026, Q-13: 'the SRE rows follow')"
+  },
+  {
+   "sku": "SM-SRE-900-K9",
+   "name": "4GB DRAM, 2GB flash storage, 2 x 500GB hard disk (1 TB storage), embedded cryptography chip, RAID 0/1 support, hot swappable hard disk.",
+   "series_label": "Network Modules",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "Services Ready Engine (the UCS E-Series' predecessor in the ISR G2): follows the E-Series to servers-unified-computing, series Services Ready Engine (ISM-SRE / SM-SRE), engines kind server, their disks as components (re-audit decisions, operator, 15 Sep 2026, Q-13: 'the SRE rows follow')"
+  },
+  {
    "sku": "SMLT-A",
    "name": "Cisco SMLT-A",
    "series_label": "High-Speed WAN Interface Cards",
@@ -3140,6 +3203,38 @@
    "action": "move",
    "to": "servers-unified-computing",
    "reason": "UCS 6536 / 6600 fabric interconnect accessory kit, fan module or power supply: goes with the fabric interconnect in servers-unified-computing (A.3 rule 1); filed here by the label 'Unified Computing System Adapters'"
+  },
+  {
+   "sku": "UCS-E1100D-M6/K9",
+   "name": "UCS-E, double-wide, Intel Icelake 10-core CPU; up to 128 GB RAM, 1-4 SSD",
+   "series_label": "Catalyst 8300",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series server module: the E-Series lives in servers-unified-computing, series UCS E-Series, kind server (re-audit decisions, operator, 15 Sep 2026, Q-13 — reverses pre-ruling C3)"
+  },
+  {
+   "sku": "UCS-E1120D-M3/K9",
+   "name": "UCS-E, double-wide, Intel Broadwell 12-core CPU; up to 128 GB RAM, 1-4 HDD",
+   "series_label": "Catalyst 8300",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series server module: the E-Series lives in servers-unified-computing, series UCS E-Series, kind server (re-audit decisions, operator, 15 Sep 2026, Q-13 — reverses pre-ruling C3)"
+  },
+  {
+   "sku": "UCS-E160S-M3/K9",
+   "name": "UCS-E, single-wide, Intel Broadwell 6-core CPU; up to 64 GB RAM, 1-2 HDD",
+   "series_label": "Catalyst 8300",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series server module: the E-Series lives in servers-unified-computing, series UCS E-Series, kind server (re-audit decisions, operator, 15 Sep 2026, Q-13 — reverses pre-ruling C3)"
+  },
+  {
+   "sku": "UCS-E180D-M3/K9",
+   "name": "UCS-E, double-wide, Intel Broadwell 8-core CPU; up to 128 GB RAM, 1-4 HDD",
+   "series_label": "Catalyst 8300",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series server module: the E-Series lives in servers-unified-computing, series UCS E-Series, kind server (re-audit decisions, operator, 15 Sep 2026, Q-13 — reverses pre-ruling C3)"
   },
   {
    "sku": "UCS-FAN-6536",

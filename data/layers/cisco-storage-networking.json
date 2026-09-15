@@ -1,15 +1,15 @@
 {
  "vendor": "cisco",
  "category": "storage-networking",
- "built_at": "2026-09-15T13:11:00.944Z",
- "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
+ "built_at": "2026-09-15T18:46:58.184Z",
+ "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-storage-networking.json",
  "parts": 598,
  "lines": [
   {
    "line": "MDS 9000 Multilayer SAN Switches",
-   "parts": 596,
+   "parts": 587,
    "series": [
     {
      "series": "MDS 9700 directors (9706 / 9710 / 9718) and modules",
@@ -73,12 +73,12 @@
      "series": "MDS 9500 directors (9506 / 9509 / 9513)",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 80,
+     "note": "^DS-6SL[0O]T- and ^DS-9SL0T- (re-audit decisions, operator, 15 Sep 2026, F-1): DS-6SLOT-FAN= / DS-6SL0T-FAN= 'MDS 9506 Fan Tray', DS-6SLOT-CAB= 'MDS 9506 Rack Mount and Cable Mgmt Brackets' and DS-9SL0T-FAN= 'MDS 9509 Fan Tray' (Cisco's SKUs print a zero for the O) name one director each; they sat in MDS shared parts by ^DS-, while DS-9SLOT-FAN= and DS-9SLOT-CAB= already sat here",
+     "parts": 84,
      "kinds": {
       "fabric": 4,
-      "fan": 5,
-      "mechanical": 25,
+      "fan": 8,
+      "mechanical": 26,
       "supervisor": 8,
       "director": 34,
       "linecard": 2,
@@ -94,7 +94,7 @@
       "DS-13SLT-FAN-F= — MDS 9513 front installed fan tray, Spare"
      ],
      "rules": {
-      "sku": 80
+      "sku": 84
      },
      "pending_in": {
       "interfaces-modules": 7
@@ -130,26 +130,26 @@
      "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
      "family": null,
      "role": null,
-     "note": "^(?=DS-|MDS-) (layers round 3, storage round): the 35 rows the rule decides are DS- PIDs and MDS-9222I-75-PPT; unfenced it claimed the Nexus 92160 rows in switches, the UCSC-RAID-9220 controllers in servers and the Prisma II 9220F-DIFL option in video. ^SAN50C-R$ (same round): 'IBM SAN50C-R', the IBM-branded MDS 9250i that Cisco's 'MDS 9250i Multiservice Fabric Switch' end-of-sale notice lists; the label check found no platform token and held it for review (a whole switch)",
-     "parts": 38,
+     "note": "^(?=DS-|MDS-) (layers round 3, storage round): the 35 rows the rule decides are DS- PIDs and MDS-9222I-75-PPT; unfenced it claimed the Nexus 92160 rows in switches, the UCSC-RAID-9220 controllers in servers and the Prisma II 9220F-DIFL option in video. ^SAN50C-R$ (same round): 'IBM SAN50C-R', the IBM-branded MDS 9250i that Cisco's 'MDS 9250i Multiservice Fabric Switch' end-of-sale notice lists; the label check found no platform token and held it for review (a whole switch). ^DS-2SLOT- (re-audit decisions, operator, 15 Sep 2026, F-1): DS-2SLOT-FAN= 'MDS 9216 Fan Tray' names the 9216 alone; it sat in MDS shared parts by ^DS-",
+     "parts": 39,
      "kinds": {
+      "fan": 3,
       "mechanical": 6,
       "power": 3,
-      "fan": 2,
       "fc-switch": 26,
       "unknown": 1
      },
      "roles": {},
      "samples": [
+      "DS-2SLOT-FAN= — MDS 9216 Fan Tray, Spare",
       "DS-9250I-KITCCO — MDS 9250i Accessory Kit for Cisco",
       "DS-9250I-KITCCO= — MDS 9200 Accessory Kit for Cisco, spare",
       "DS-9250I-KITEMC — MDS 9250i Accessory Kit for EMC",
       "DS-9250I-KITHDS — MDS 9250i Accessory Kit for HDS",
-      "DS-9250I-KITHP — MDS 9250i Accessory Kit for HP",
-      "DS-9250I-KITIBM — MDS 9250i Accessory Kit for IBM"
+      "DS-9250I-KITHP — MDS 9250i Accessory Kit for HP"
      ],
      "rules": {
-      "sku": 38
+      "sku": 39
      },
      "pending_in": {
       "switches": 2
@@ -159,24 +159,26 @@
      "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
      "family": null,
      "role": null,
-     "note": "^(?=DS-) (layers round 3, storage round): the 169 rows the rule decides are DS- PIDs; unfenced it claimed 212 Catalyst 9120 / 9124 access points in wireless and 6 AMD EPYC 9124 processors in servers",
-     "parts": 164,
+     "note": "^(?=DS-) (layers round 3, storage round): the 169 rows the rule decides are DS- PIDs; unfenced it claimed 212 Catalyst 9120 / 9124 access points in wireless and 6 AMD EPYC 9124 processors in servers. ^DS-1RU-FAN and ^DS-C24-300AC (re-audit decisions, operator, 15 Sep 2026, F-1): DS-1RU-FAN(=) 'Cisco MDS 9100 Series Fan Tray' and DS-C24-300AC(=, -IBM=) 'MDS 9124 Power Supply' / 'Cisco MDS 91x4 300W AC power supply' name this series alone; they sat in MDS shared parts by ^DS-",
+     "parts": 169,
      "kinds": {
+      "fan": 2,
       "mechanical": 44,
       "fc-switch": 119,
+      "power": 3,
       "accessory": 1
      },
      "roles": {},
      "samples": [
+      "DS-1RU-FAN — MDS 1RU Fan Tray",
+      "DS-1RU-FAN= — Cisco MDS 9100 Series Fan Tray (spare)",
       "DS-9124-KIT-CSCO — MDS 9124 Accessory kit for Cisco",
       "DS-9124-KIT-CSCO= — Accessory Kit for MDS 9124 Cisco, spare",
       "DS-9124-KIT-EMC — MDS 9124 Accessory kit for EMC",
-      "DS-9124-KIT-HDS — MDS 9124 Accessory Kit for HDS",
-      "DS-9124-KIT-HP — MDS 9124 Accessory Kit for HP",
-      "DS-9124-KIT-IBM — MDS 9124 Accessory Kit for IBM"
+      "DS-9124-KIT-HDS — MDS 9124 Accessory Kit for HDS"
      ],
      "rules": {
-      "sku": 164
+      "sku": 169
      },
      "pending_in": {
       "switches": 5
@@ -208,12 +210,12 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 153,
+     "parts": 134,
      "kinds": {
-      "cable": 74,
-      "fan": 15,
-      "mechanical": 10,
-      "power": 46,
+      "cable": 65,
+      "mechanical": 9,
+      "fan": 9,
+      "power": 43,
       "accessory": 6,
       "linecard": 2
      },
@@ -227,12 +229,13 @@
       "CAB-1900W-INT= — Power Cord 250VAC 16A, International, Src Plug IEC 309, Spar"
      ],
      "rules": {
-      "accessory": 72,
-      "sku": 77,
+      "accessory": 63,
+      "sku": 67,
       "label-unsupported": 2,
       "label": 2
      },
      "pending_in": {
+      "servers-unified-computing": 1,
       "interfaces-modules": 2
      }
     }
@@ -248,6 +251,78 @@
    "action": "class",
    "to": "non_product",
    "reason": "a Cisco collateral document number (C97-) enumerated as a part (III.0 item 6)"
+  },
+  {
+   "sku": "CAB-9K16A-AUS=",
+   "name": "Power cord 250VAC 16A, Australia, source plug AU20S3 , Spare",
+   "series_label": "MDS 9700 Series Multilayer Directors",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Catalyst shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-9K16A-CH=",
+   "name": "Power cord 250VAC 16A, China, source plug GB16C , Spare",
+   "series_label": "MDS 9700 Series Multilayer Directors",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Catalyst shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-9K16A-EU=",
+   "name": "Power cord 250VAC 16A, Europe, source plug CEE 7/7 , Spare",
+   "series_label": "MDS 9700 Series Multilayer Directors",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Catalyst shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-9K16A-INT=",
+   "name": "Power cord 250VAC 16A, international, source plug IEC 309 , Spare",
+   "series_label": "MDS 9700 Series Multilayer Directors",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Catalyst shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-9K16A-SW=",
+   "name": "Power cord 250VAC 16A, Switzerland, source plug SEV 5934-2 Type 23 , Spare",
+   "series_label": "MDS 9700 Series Multilayer Directors",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Catalyst shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-9K16A-US2=",
+   "name": "Power cord 250VAC 16A, United States/Japan, source plug NEMA L6-20 , Spare",
+   "series_label": "MDS 9700 Series Multilayer Directors",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Catalyst shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-9K20A-NA=",
+   "name": "Power Cord, 125VAC 20A NEMA 5-20 Plug, North America/Japan , Spare",
+   "series_label": "MDS 9700 Series Multilayer Directors",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Catalyst shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-C15-CBN=",
+   "name": "Cabinet Jumper Power Cord, 250 VAC 13A, C14-C15 Connectors, spare",
+   "series_label": "MDS 9300 Series Multilayer Fabric",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Catalyst shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-C19-CBN=",
+   "name": "Cabinet Jumper Power Cord, 250 VAC 16A, C20-C19 Connectors , Spare",
+   "series_label": "MDS 9700 Series Multilayer Directors",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Catalyst shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
   },
   {
    "sku": "DS-FC-SW-4PK=",

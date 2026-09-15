@@ -59,7 +59,7 @@ CPAK-100G-ER4F=	CPAK module, 100G for applications 40km	Transceiver Modules	plug
 CPAK-100G-ER4L	Cisco CPAK-100G-ER4L 100GBASE-ER4 Lite CPAK Modul — 25 km SMF, SC	Cisco	pluggable	layered	Ethernet transceivers		40G / 100G CFP, CFP2, CPAK and CXP	sku ^CPAK						
 CPAK-100G-FR	Cisco CPAK-100G-FR CPAK Modul — 100G FR PAM4, 2 km SMF, LC	Cisco	pluggable	layered	Ethernet transceivers		40G / 100G CFP, CFP2, CPAK and CXP	sku ^CPAK						
 CPAK-100G-LR4	CPAK-100G-LR4 Transceiver module, 10km SMF	Cisco	pluggable	layered	Ethernet transceivers		40G / 100G CFP, CFP2, CPAK and CXP	sku ^CPAK						
-CPAK-100G-LR4-	Cisco CPAK-100G-LR4-	Network Convergence System 2000 Series	pluggable	pending_plan								class non_product		
+CPAK-100G-LR4-	Cisco CPAK-100G-LR4-	Network Convergence System 2000 Series	pluggable	layered	Ethernet transceivers		40G / 100G CFP, CFP2, CPAK and CXP	sku ^CPAK						
 CPAK-100G-LR4-2K	Cisco CPAK-100G-LR4-2K 100GBASE-LR4 CPAK Modul — SMF, 1310 nm, SC	Cisco	pluggable	layered	Ethernet transceivers		40G / 100G CFP, CFP2, CPAK and CXP	sku ^CPAK						
 CPAK-100G-LR4=	CPAK-100G-LR4 Transceiver module, 10km SMF	Network Convergence System 4000 Series	pluggable	layered	Ethernet transceivers		40G / 100G CFP, CFP2, CPAK and CXP	sku ^CPAK						
 CPAK-100G-LR=	Cisco CPAK-100G-LR=	Network Convergence System 4000 Series	pluggable	layered	Ethernet transceivers		40G / 100G CFP, CFP2, CPAK and CXP	sku ^CPAK						
@@ -413,7 +413,7 @@ DWDM-SFP-6061	Cisco DWDM-SFP-6061	1000	pluggable	layered	WDM transceivers		DWDM 
 DWDM-SFP-6061=	Cisco 1560.61 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP, Spare	MDS 9500 Series Multilayer Directors	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)						
 DWDM-SFP-6141	DWDM SFP 1561.42 nm SFP (100 GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)						
 DWDM-SFP-6141=	DWDM SFP 1561.42 nm SFP (100 GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)						
-DWDM-SFP10G	Cisco DWDM-SFP10G	Catalyst 8200	pluggable	pending_plan								class non_product		
+DWDM-SFP10G	Cisco DWDM-SFP10G	Catalyst 8200	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)						
 DWDM-SFP10G-30.33	10GBASE-DWDM 1530.33 nm SFP10G (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)						
 DWDM-SFP10G-30.33=	10GBASE-DWDM 1530.33 nm SFP10G (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)						
 DWDM-SFP10G-3033	Cisco DWDM-SFP10G-3033	Catalyst IE3300 Rugged Series	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)						
@@ -467,7 +467,7 @@ DWDM-SFP10G-E-I	10GBASE-DWDM tunable SFP+, Limiting Interface 50Ghz ITU grid)	Ci
 DWDM-SFP10G-E-I=	10GBASE-DWDM tunable SFP+, Limiting Interface 50Ghz ITU grid)	Transceiver Modules	tunable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)						
 DWDM-SFP10G-xx.xx	Cisco multirate (LAN/WAN/OTU2/OTU2E) 10GBASE-DWDM single wavelength SFP+ module (100-GHz ITU grid) – 40 individual wavelength pluggable modules	ASR 920 Series Aggregation Services Router	pluggable	pending_plan								class non_product		
 DWDM-SFP10G-xx.xx=	Cisco multi-rate (LAN/WAN/OTU2/OTU2E) 10GBASE-DWDM single wavelength SFP+ module (100-GHz ITU grid) – 40 individual wavelength pluggable modules	ASR 900	pluggable	pending_plan								class non_product		
-DWDM-X2	10GB DWDM X2 module with DOM support	4900	pluggable	pending_plan								class non_product		
+DWDM-X2	10GB DWDM X2 module with DOM support	4900	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)						
 DWDM-X2-30.33	10GBASE-DWDM 1530.33 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)						
 DWDM-X2-30.33=	10GBASE-DWDM 1530.33 nm X2 (100-GHz ITU grid)	Transceiver Modules	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)						
 DWDM-X2-31.12	10GBASE-DWDM 1531.12 nm X2 (100-GHz ITU grid)	Cisco	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)						
@@ -1510,7 +1510,7 @@ QDD4ZQ100-CU2M	Cisco QDD4ZQ100-CU2M	Transceiver Modules	breakout-cable	layered	E
 QSFP-100-FR-s	Cisco QSFP-100-FR-s	UCS C-Series	pluggable	layered	Ethernet transceivers		100G QSFP28	sku ^QSFP-?100						
 QSFP-100G-4W10-I	Cisco QSFP-100G-4W10-I	Transceiver Modules	pluggable	layered	Ethernet transceivers		100G QSFP28	sku ^QSFP-?100						
 QSFP-100G-4W40-I	Cisco QSFP-100G-4W40-I 100G WDM-40 QSFP28 Modul — 1295–1309 nm SMF, 40 km, industriell	Cisco	pluggable	layered	Ethernet transceivers		100G QSFP28	sku ^QSFP-?100						
-QSFP-100G-AOC	Cisco QSFP-100G-AOC 100G QSFP28 Active Optical Cable — werkseitig terminiert	Cisco	cable	pending_plan								class non_product		
+QSFP-100G-AOC	Cisco QSFP-100G-AOC 100G QSFP28 Active Optical Cable — werkseitig terminiert	Cisco	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*AOC						
 QSFP-100G-AOC10M	Cisco QSFP-100G-AOC10M 100G QSFP28 Active Optical Cable (AOC) — 10 m	Cisco	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*AOC						
 QSFP-100G-AOC10M=	Cisco QSFP-100G-AOC10M=	Transceiver Modules	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*AOC						
 QSFP-100G-AOC15M	Cisco QSFP-100G-AOC15M 100G QSFP28 Active Optical Cable (AOC) — 15 m	Cisco	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*AOC						
@@ -1785,7 +1785,7 @@ SFP-10/25G-LR-S	Cisco SFP-10/25G-LR-S 10/25GBASE-LR SFP28 Modul — 1310 nm SMF,
 SFP-10/25G-LR-S2	Cisco SFP-10/25G-LR-S2	UCS B-Series	pluggable	pending_plan								class non_product		
 SFP-10/25GCSR-S	Cisco SFP-10/25GCSR-S	Transceiver Modules	pluggable	layered	Ethernet transceivers		25G SFP28	sku ^SFP-10/25						
 SFP-10/25GLR-S	Cisco SFP-10/25GLR-S	Transceiver Modules	pluggable	layered	Ethernet transceivers		25G SFP28	sku ^SFP-10/25						
-SFP-10G-AOC	SFP active optical breakout cables (Length - 1M to 10M)	Network Convergence System 5000 Series	cable	pending_plan								class non_product		
+SFP-10G-AOC	SFP active optical breakout cables (Length - 1M to 10M)	Network Convergence System 5000 Series	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*AOC						
 SFP-10G-AOC10M	Cisco SFP-10G-AOC10M SFP+ Active Optical Cable (AOC) — 10 m, 10GbE Glasfaser	Cisco	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*AOC						
 SFP-10G-AOC1M	Cisco SFP-10G-AOC1M SFP+ Active Optical Cable (AOC) — 1 m, 10GbE Glasfaser	Cisco	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*AOC						
 SFP-10G-AOC1M-10M	10GBASE-AOC SFP+ Cable 1 Meter – 10 Meter	Nexus 3000	cable	pending_plan								class non_product		
@@ -1907,7 +1907,7 @@ SFP-GPON-C=	GPON Class C+ SFP OLT Trcvr Module, 1490Tx, 1310Rx	Transceiver Modul
 SFP-H10G-CU1M=	Cisco SFP-H10G-CU1M=	IE3500 Heavy Duty Series	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*(?<!E)CU[0-9]						
 SFP-H10G-CU3M=	Cisco SFP-H10G-CU3M=	IE3500 Heavy Duty Series	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*(?<!E)CU[0-9]						
 SFP-H10G-CU5M=	Cisco SFP-H10G-CU5M=	IE3500 Heavy Duty Series	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*(?<!E)CU[0-9]						
-SFP-H10GB-ACU	10G SFP+ Twinax cable assembly, active (Length - 7M, 10M)	Network Convergence System 5000 Series	cable	pending_plan								class non_product		
+SFP-H10GB-ACU	10G SFP+ Twinax cable assembly, active (Length - 7M, 10M)	Network Convergence System 5000 Series	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^Q?SFP-.*ACU						
 SFP-H10GB-ACU-10M	Cisco SFP-H10GB-ACU-10M	Catalyst 8200	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^Q?SFP-.*ACU						
 SFP-H10GB-ACU-7M	Cisco SFP-H10GB-ACU-7M	Catalyst 8200	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^Q?SFP-.*ACU						
 SFP-H10GB-ACU10M	10GBASE-CU SFP+ Active Copper Cable 10 Meter (supported only with DS-X9708-K9)	Cisco	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*(?<!E)CU[0-9]						
@@ -1916,7 +1916,7 @@ SFP-H10GB-ACU7M	10GBASE-CU SFP+ Active Copper Cable 7 Meter (supported only with
 SFP-H10GB-ACU7M=	10GBASE-CU SFP+ Active Copper Cable 7 Meter, Spare (supported only with DS-X9708-K9)	MDS 9700 Series Multilayer Directors	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*(?<!E)CU[0-9]						
 SFP-H10GB-ACUxM=	Cisco SFP-H10GB-ACUxM=	Catalyst ESS9300 Embedded	cable	pending_plan								class non_product		
 SFP-H10GB-ACUxx=	Active Twinax cable assembly	Storage Networking Modules	cable	pending_plan								class non_product		
-SFP-H10GB-CU	10G SFP+ Twinax cable assembly, passive (Length - 1M to 5M)	Network Convergence System 5000 Series	cable	pending_plan								class non_product		
+SFP-H10GB-CU	10G SFP+ Twinax cable assembly, passive (Length - 1M to 5M)	Network Convergence System 5000 Series	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^SFP-H10GB-CU$						
 SFP-H10GB-CU1-5M	10GBASE-CU SFP+ Cable 1.5 Meter (V02 and above)	Cisco	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*(?<!E)CU[0-9]						
 SFP-H10GB-CU1-5M=	10GBASE-CU SFP+ Cable 1.5 Meter (V02 and above)	MDS 9200 Series Multiservice	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*(?<!E)CU[0-9]						
 SFP-H10GB-CU1.5M	10GBASE CU SFP+ cable, 1.5m (passive Twinax cable)	Catalyst 9800 Series Wireless Controllers	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*(?<!E)CU[0-9]						
@@ -2004,7 +2004,7 @@ WS-G5486=	Cisco 1000BASE-LX/LH GBIC transceiver module for SMF and MMF, 1300-nm 
 WS-G5487	Cisco WS-G5487 1000BASE-ZX GBIC — Singlemode, 1550 nm, bis 100 km, SC	Cisco	pluggable	layered	Ethernet transceivers		GBIC (legacy)	sku ^WS-G548						
 WSP-Q40GLR4L	Cisco WSP-Q40GLR4L 40GBASE-LR4-Lite QSFP+ Modul — 1310 nm SMF, Duplex LC, 2 km, DOM	Cisco	pluggable	layered	Ethernet transceivers		40G QSFP+	sku ^WSP-Q40G						
 WSP-Q40GLRL	Cisco WSP-Q40GLRL	Transceiver Modules	pluggable	layered	Ethernet transceivers		40G QSFP+	sku ^WSP-Q40G						
-X2-10G-DWDM	32 wavelengths over single strand of single-mode fiber; 80 km	Catalyst 6500	pluggable	pending_plan								class non_product		
+X2-10G-DWDM	32 wavelengths over single strand of single-mode fiber; 80 km	Catalyst 6500	pluggable	layered	Ethernet transceivers		10G X2 / XENPAK / XFP (legacy)	sku ^X2-						
 X2-10GB-CX4	10GBASE-CX4 X2 Module	Cisco	pluggable	layered	Ethernet transceivers		10G X2 / XENPAK / XFP (legacy)	sku ^X2-						
 X2-10GB-CX4=	10GBASE-CX4 X2 Module	Transceiver Modules	pluggable	layered	Ethernet transceivers		10G X2 / XENPAK / XFP (legacy)	sku ^X2-						
 X2-10GB-ER	10GBASE-ER X2 Module	Cisco	pluggable	layered	Ethernet transceivers		10G X2 / XENPAK / XFP (legacy)	sku ^X2-						

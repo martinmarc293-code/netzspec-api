@@ -1,15 +1,15 @@
 {
  "vendor": "cisco",
  "category": "security",
- "built_at": "2026-09-15T13:11:00.127Z",
- "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
+ "built_at": "2026-09-15T18:46:57.556Z",
+ "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-security.json",
  "parts": 1990,
  "lines": [
   {
    "line": "Secure Firewall and Firepower",
-   "parts": 651,
+   "parts": 648,
    "series": [
     {
      "series": "Secure Firewall 200",
@@ -208,12 +208,12 @@
      "family": null,
      "role": null,
      "note": "^ASA-VPN-15K-BUN$ (layers round 3, security round): 'Cisco Recommended ASA VPN Bundle for 15K users' is sold in the Firepower 4100 Series end-of-sale notice (firepower-4100-series-security-appliances-eol); it sat in ASA and ISA shared parts by ^ASA with kind firewall",
-     "parts": 124,
+     "parts": 122,
      "kinds": {
       "firewall": 73,
       "mechanical": 16,
       "fan": 5,
-      "module": 18,
+      "module": 16,
       "power": 4,
       "drive": 8
      },
@@ -227,7 +227,7 @@
       "FPR-4100-FIPS-KIT — Firepower 4000 FIPS Kit"
      ],
      "rules": {
-      "sku": 124
+      "sku": 122
      },
      "pending_in": {}
     },
@@ -267,11 +267,11 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 116,
+     "parts": 115,
      "kinds": {
       "ips": 48,
       "mechanical": 18,
-      "module": 26,
+      "module": 25,
       "cable": 2,
       "power": 17,
       "accessory": 3,
@@ -287,7 +287,7 @@
       "AMP8370-K9 — Cisco FirePOWER AMP8370 Chassis, 6U, 5 Slots (40Gbps Ready)"
      ],
      "rules": {
-      "sku": 116
+      "sku": 115
      },
      "pending_in": {}
     },
@@ -324,18 +324,18 @@
   },
   {
    "line": "ASA and ISA",
-   "parts": 422,
+   "parts": 423,
    "series": [
     {
      "series": "ASA 5585-X",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 146,
+     "note": "^ASA-CX[0-9]+-INC-K8 (re-audit decisions, operator, 15 Sep 2026, F-1): ASA-CX10 / 20 / 40 / 60-INC-K8 'ASA 5585-X CX SSP-10 … SSP-60' are security service processors of this platform alone (A.3 rule 1); they sat in ASA and ISA shared parts by ^ASA",
+     "parts": 150,
      "kinds": {
+      "security-module": 54,
       "ips-module": 12,
       "accessory": 2,
-      "security-module": 50,
       "mechanical": 11,
       "firewall": 54,
       "power": 6,
@@ -345,15 +345,15 @@
      },
      "roles": {},
      "samples": [
+      "ASA-CX10-INC-K8 — ASA 5585-X CX SSP-10 with 8GE, DES",
+      "ASA-CX20-INC-K8 — ASA 5585-X CX SSP-20 with 8GE, DES",
+      "ASA-CX40-INC-K8 — ASA 5585-X CX SSP-40 with 6GE,4SFP+, DES",
+      "ASA-CX60-INC-K8 — ASA 5585-X CX SSP-60 with 6GE,4SFP+, DES",
       "ASA-IPS-10-INC-K9 — ASA 5585-X IPS Security Services Processor-10 with 8GE",
-      "ASA-IPS-20-INC-K9 — ASA 5585-X IPS Security Services Processor-20 with 8GE",
-      "ASA-IPS-40-INC-K9 — ASA 5585-X IPS Security Services Processor-40 with 6GE, 4SFP",
-      "ASA-IPS-60-INC-K9 — ASA 5585-X IPS Security Services Processor-60 with 6GE, 4SFP",
-      "ASA-IPS-BLANK — ^ASA IPS Part Number with which PCB Serial is associated",
-      "ASA-SSP-10-INC — ASA 5585-X SSP-10 with 8GE,2SFP, incl with bundle"
+      "ASA-IPS-20-INC-K9 — ASA 5585-X IPS Security Services Processor-20 with 8GE"
      ],
      "rules": {
-      "sku": 146
+      "sku": 150
      },
      "pending_in": {}
     },
@@ -384,25 +384,26 @@
      "series": "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 147,
+     "note": "re-audit decisions (operator, 15 Sep 2026): ^ASA-IC-6GE (F-1) places the ASA-IC-6GE-CU / -SFP / -6GECU-INC interface cards 'for ASA 5512-X / 5515-X / 5525-X / 5545-X / 5555-X', cards of this series alone (A.3 rule 1), which sat in ASA and ISA shared parts by ^ASA; their blank slot covers (ASA-IC-A / B / C-BLANK) are accessories and wait for the reverse label check (Q-27). ^55(1[256]|25|45|55)-X$ (Q-23): the bare model rows 5515-X / 5525-X / 5545-X carry a document each, so they stay as the family's rows (class plans removed)",
+     "parts": 164,
      "kinds": {
-      "firewall": 124,
+      "firewall": 127,
+      "module": 14,
       "mechanical": 13,
       "power": 4,
       "drive": 6
      },
      "roles": {},
      "samples": [
+      "5515-X — Cisco 5515-X",
+      "5525-X — Cisco 5525-X",
+      "5545-X — Cisco 5545-X",
       "ASA-5506 — Cisco ASA-5506",
       "ASA-5508 — Cisco ASA-5508",
-      "ASA-5516 — Cisco ASA-5516",
-      "ASA-5525 — Cisco ASA-5525",
-      "ASA-5545 — Cisco ASA-5545",
-      "ASA-5555 — Cisco ASA-5555"
+      "ASA-5516 — Cisco ASA-5516"
      ],
      "rules": {
-      "sku": 147
+      "sku": 164
      },
      "pending_in": {}
     },
@@ -461,26 +462,25 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "^CSC-SSM- (layers round 3): CSC-SSM-10 / -20, the ASA 5500 Content Security and Control SSMs planned in from interfaces-modules, land beside the ASA-SSM / ASA-SSC modules planned with them (their series inside ASA 5500 is the security round's)",
-     "parts": 51,
+     "parts": 31,
      "kinds": {
-      "power": 7,
+      "power": 5,
       "mechanical": 14,
-      "security-module": 9,
-      "module": 16,
+      "security-module": 5,
+      "module": 2,
       "drive": 5
      },
      "roles": {},
      "samples": [
       "ASA-180W-PWR-AC= — Cisco ASA 180W AC power supply",
       "ASA-BRACKETS= — Cisco ASA 5512-X, 5515-X, 5525-X brackets for rack mounting",
-      "ASA-CX10-INC-K8 — ASA 5585-X CX SSP-10 with 8GE, DES",
-      "ASA-CX20-INC-K8 — ASA 5585-X CX SSP-20 with 8GE, DES",
-      "ASA-CX40-INC-K8 — ASA 5585-X CX SSP-40 with 6GE,4SFP+, DES",
-      "ASA-CX60-INC-K8 — ASA 5585-X CX SSP-60 with 6GE,4SFP+, DES"
+      "ASA-HD-BLANK — ^ASA 5512-X - 5555-X Hard Drive Blank Slot Cover",
+      "ASA-HD-BLANK= — ^ASA 5512-X - 5555-X Hard Drive Blank Slot Cover (Spare)",
+      "ASA-IC-A-BLANK — ^ASA 5512-X/5515-X Interface Card Blank Slot Cover",
+      "ASA-IC-A-BLANK= — ^ASA 5512-X/5515-X Interface Card Blank Slot Cover(Spare)"
      ],
      "rules": {
-      "sku": 44,
-      "label-unsupported": 2,
+      "sku": 26,
       "label": 5
      },
      "pending_in": {
@@ -1201,30 +1201,6 @@
  "not_this_category": [],
  "pending_plans": [
   {
-   "sku": "5515-X",
-   "name": "Cisco 5515-X",
-   "series_label": "ASA 5500 Series Next Generation",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "5525-X",
-   "name": "Cisco 5525-X",
-   "series_label": "ASA 5500 Series Next Generation",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "5545-X",
-   "name": "Cisco 5545-X",
-   "series_label": "ASA 5500 Series Next Generation",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
    "sku": "AIM-DES/BP",
    "name": "DES Crypto AIM for Cisco 2600 - Base Performance",
    "series_label": "FirePOWER 7000 Appliances",
@@ -1263,6 +1239,30 @@
    "action": "class",
    "to": "license",
    "reason": "Cisco ACS application licence / upgrade for an SNS appliance, not the appliance"
+  },
+  {
+   "sku": "FP-NMSB-40G",
+   "name": "Do Not Use - FirePOWER 40G Switch Module for 40Gbps Net Mods",
+   "series_label": "Firepower 9300 Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
+  },
+  {
+   "sku": "FPR4K-NM-4X40G-F",
+   "name": "DO NOT USE",
+   "series_label": "Firepower NGFW",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
+  },
+  {
+   "sku": "FPR4K-NM-4X40G-F=",
+   "name": "DO NOT USE",
+   "series_label": "Firepower NGFW",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
   },
   {
    "sku": "FS4K-RAID5",
@@ -1345,6 +1345,22 @@
    "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)"
   },
   {
+   "sku": "PWR-IE50W-AC",
+   "name": "Cisco PWR-IE50W-AC",
+   "series_label": "3000 Series Industrial Security Appliances (ISA)",
+   "action": "move",
+   "to": "switches",
+   "reason": "the Industrial Ethernet 50 W supply: its spare and 16 more PWR-IE supplies sit in switches Industrial Ethernet (the family's home); the base, placed in ASA and ISA shared parts by the label check, joins them (A.3 rule 1; re-audit decisions, operator, 15 Sep 2026, Q-20)"
+  },
+  {
+   "sku": "PWR-IE50W-AC-IEC",
+   "name": "Cisco PWR-IE50W-AC-IEC",
+   "series_label": "3000 Series Industrial Security Appliances (ISA)",
+   "action": "move",
+   "to": "switches",
+   "reason": "the Industrial Ethernet 50 W supply with IEC connector: its spare and 16 more PWR-IE supplies sit in switches Industrial Ethernet (the family's home); the base joins them (A.3 rule 1; re-audit decisions, operator, 15 Sep 2026, Q-20)"
+  },
+  {
    "sku": "SM-71XX-BLANK",
    "name": "Cisco 7160 Service Module Blank Face Plate",
    "series_label": "FirePOWER 7000 Appliances",
@@ -1388,10 +1404,10 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 16,
+  "label_placed": 14,
   "by_kind": {
    "name": 1,
-   "none": 14,
+   "none": 12,
    "sku-token": 1
   },
   "moved": [
@@ -1434,22 +1450,6 @@
     "from_series": "Firepower 4100",
     "to_series": "Secure Firewall and Firepower shared parts",
     "why": "no platform token (4100) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWR-IE50W-AC",
-    "name": "Cisco PWR-IE50W-AC",
-    "series_label": "3000 Series Industrial Security Appliances (ISA)",
-    "from_series": "ISA 3000",
-    "to_series": "ASA and ISA shared parts",
-    "why": "no platform token (3000) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWR-IE50W-AC-IEC",
-    "name": "Cisco PWR-IE50W-AC-IEC",
-    "series_label": "3000 Series Industrial Security Appliances (ISA)",
-    "from_series": "ISA 3000",
-    "to_series": "ASA and ISA shared parts",
-    "why": "no platform token (3000) in the SKU or name, no compatible part placed in the series"
    },
    {
     "sku": "UCS-NVMEG4-M960-D=",

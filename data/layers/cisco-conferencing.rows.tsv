@@ -1,6 +1,6 @@
 sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	deploy_role	role_rule	role_issue	plan	belongs	label_evidence
 AIPOD-COLLAB	Cisco AI PODs for Collaboration (Hardware)	AI PODs for Collaboration	server	pending_plan								move collaboration-endpoints		
-C-CPM	Cisco C-CPM	Meeting Server	unknown	pending_plan								move collaboration-endpoints		
+C-CPM	Cisco C-CPM	Meeting Server	unknown	pending_plan								class software		
 CIT3-5108-PKG-HW	UCS 5108 Packaging for chassis with half width blades.	Meeting Server	mechanical	pending_plan								move collaboration-endpoints		
 CIT3-B200-M4	UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz	Meeting Server	server	pending_plan								move collaboration-endpoints		
 CIT3-B200-M4-CON	UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz	Meeting Server	server	pending_plan								move collaboration-endpoints		

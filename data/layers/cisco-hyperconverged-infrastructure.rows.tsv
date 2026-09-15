@@ -682,7 +682,7 @@ NTX-SW-LO	Cisco NTX-SW-LO	Compute Hyperconverged Nutanix	unknown	pending_plan			
 NTX-SW-PS	Cisco NTX-SW-PS	Compute Hyperconverged Nutanix	unknown	pending_plan								class software		
 P5620	Cisco P5620	Compute Hyperconverged Nutanix	unknown	pending_plan								class non_product		
 PRO-	Cisco PRO-	Compute Hyperconverged Nutanix	unknown	pending_plan								class non_product		
-R2XX-DMYMPWRCORD	Cisco R2XX-DMYMPWRCORD	Compute Hyperconverged with Nutanix	non-product	layered	Compute Hyperconverged with Nutanix	(shared across the line)	Compute Hyperconverged with Nutanix shared parts	label Compute Hyperconverged with Nutanix						
+R2XX-DMYMPWRCORD	Cisco R2XX-DMYMPWRCORD	Compute Hyperconverged with Nutanix	non-product	pending_plan								class non_product		
 RJ45	Cisco RJ45	Compute Hyperconverged Nutanix	unknown	pending_plan								class non_product		
 S132	Cisco S132	Compute Hyperconverged with Nutanix	unknown	pending_plan								class non_product		
 TOOL-LESS	Cisco TOOL-LESS	Compute Hyperconverged Nutanix	unknown	pending_plan								class non_product		

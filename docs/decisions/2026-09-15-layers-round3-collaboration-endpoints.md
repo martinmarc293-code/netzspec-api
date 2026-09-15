@@ -11,10 +11,10 @@ family layer with reasons).
 | rows | 2,835 | 2,835 |
 | layered / not-this-category / pending plan / unplaced | 2,818 / 0 / 17 / 0 | 2,817 / 0 / 18 / 0 |
 | lines / series | 9 / 58 | 9 / 60 |
-| rows in a line's shared parts | 826 | 578 |
+| rows in a line's shared parts | 826 | 577 (578 at `9e39957`; `7098042` moved CP-800-USBCH= to Wireless Phone 840 / 860 — corrected 15 Sep 2026, re-audit E-6) |
 | whole devices (DEVICE_KINDS) in shared parts | 98 (video-codec 36, video-device 21, camera 19, microphone 11, expansion-module 6, display 5) | 3, each decision pending |
 | label check | not applied | applied: 46 judged — 19 kept (12 SKU token, 7 name), 27 moved to their line's shared parts; 0 held |
-| families | not assigned | none: `family_layer: "assigned"`, "—" 2,239, shared across the line 578 |
+| families | not assigned | none: `family_layer: "assigned"`, "—" 2,239, shared across the line 577 (see the row above) |
 
 ## What changed
 - **Family layer:** `family_layer: "assigned"`; Cisco names the Headsets, the Desk / Board / Room Series products, the cameras, the legacy
@@ -70,7 +70,8 @@ family layer with reasons).
 - **Cross-claims** 44 → 43 (− the SPA302D entry; the routers ← wireless entry re-keyed to the fenced rule).
 - **Not a standing check, measured once:** base / spare pairs filed in DIFFERENT categories (the spare = base check compares rows of one
   page). Over all 17 pages: 278 pairs, **94 with no move plan joining them** — most are the UCS component question already pending
-  (servers ↔ HyperFlex ↔ HCI 44, routers → servers 10, servers → security 9, switches → storage 9). List:
+  (servers ↔ HyperFlex ↔ HCI 35 — this record said 44 until the re-audit's E-5 correction of 15 Sep 2026; the pairs file counts 35 —,
+  routers → servers 10, servers → security 9, switches → storage 9). List:
   `D:\tmp\cisco-layers-cross-category-pairs-2026-09-15.txt`. The four touching this category are below.
 - **Left for a name-rule pass:** 73 rows in collab shared parts whose NAME alone names one series (SKU without a token): MX cables "for
   MX700 / MX800", "MX - Pwr cable" cords, Room 70 / Room 55D HDMI and USB cables, Room Panorama wall structures, the 7920 CAB-AC2 cords,

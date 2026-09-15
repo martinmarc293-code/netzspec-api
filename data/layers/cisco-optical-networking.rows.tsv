@@ -217,7 +217,7 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 15216-MD-40-EVEN=	ONS 15216 40ch Mux Demux Patch Panel Even	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives		ONS 15216 filters, OADM, mux/demux and DCU	sku ^15216(?!-GBIC)						
 15216-MD-40-ODD	Cisco 15216-MD-40-ODD	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives		ONS 15216 filters, OADM, mux/demux and DCU	sku ^15216(?!-GBIC)						
 15216-MD-40-ODD=	ONS 15216 40ch Mux Demux Patch Panel Odd	ONS 15454 Series Multiservice Transport Platforms	mux	layered	ONS 15216 / 15200 DWDM passives		ONS 15216 filters, OADM, mux/demux and DCU	sku ^15216(?!-GBIC)						
-15216-MD-48-	Cisco 15216-MD-48-	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives		ONS 15216 filters, OADM, mux/demux and DCU	sku ^15216(?!-GBIC)						
+15216-MD-48-	Cisco 15216-MD-48-	ONS 15200 Series DWDM Systems	mux	pending_plan								class non_product		
 15216-MD-48-CM=	Cisco ONS 15216 48-Channel 50-GHz De-Interleaver with Coupler	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives		ONS 15216 filters, OADM, mux/demux and DCU	sku ^15216(?!-GBIC)						
 15216-MD-48-CME=	Cisco 15216-MD-48-CME=	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives		ONS 15216 filters, OADM, mux/demux and DCU	sku ^15216(?!-GBIC)						
 15216-MD-48-EVEN	Cisco 15216-MD-48-EVEN	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives		ONS 15216 filters, OADM, mux/demux and DCU	sku ^15216(?!-GBIC)						

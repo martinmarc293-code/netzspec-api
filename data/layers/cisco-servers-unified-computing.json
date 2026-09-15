@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "servers-unified-computing",
- "built_at": "2026-09-15T13:10:57.640Z",
- "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
+ "built_at": "2026-09-15T18:46:54.871Z",
+ "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
  "parts": 9579,
@@ -402,18 +402,19 @@
   },
   {
    "line": "UCS E-Series Server Modules",
-   "parts": 166,
+   "parts": 177,
    "series": [
     {
      "series": "UCS E-Series",
      "family": null,
      "role": null,
-     "note": "layers round 3: ^FL-UCSE and ^SVC-E removed — they placed no row (the SVC-E service spares carry plans to interfaces-modules). ^E1[0-9]{2}(DP?|S)M[0-9](-10G)?-SVC$ places the ten E140D / E140DP / E140S / E160D / E160DP / E180D service spares ('CANIS SERVICES ONLY SPARE'), which the label check had moved to shared parts for want of name evidence: their SKU names the module. ^SM-MEM removed (same round): SM-MEM-VLP-2GB / 4GB are SDRAM 'for SRE service modules', and they and the SRE disks and disk cover (SM-HDD-SATA-500GB, SM-HDDB-SATA500GB, SM-DSK-COVER) carry plans to interfaces-modules, which holds the SM-SRE modules (A.3 rule 1; SRE is not the E-Series). Decision pending: UCS E-Series home — this series holds the UCS-E rows while interfaces-modules holds 4 UCS-E modules (pre-ruling C3, kind module) and plans the SVC-E / ISM-SRE rows in; each mapping's rule claims the other's rows (recorded)",
-     "parts": 164,
+     "note": "layers round 3: ^FL-UCSE removed — it placed no row. ^E1[0-9]{2}(DP?|S)M[0-9](-10G)?-SVC$ places the ten E140D / E140DP / E140S / E160D / E160DP / E180D service spares ('CANIS SERVICES ONLY SPARE'), which the label check had moved to shared parts for want of name evidence: their SKU names the module. Re-audit decisions (operator, 15 Sep 2026, Q-13): the UCS E-Series lives here, kind server — it reverses pre-ruling C3. The four UCS-E modules in interfaces-modules and the routers' E100 / E-SSD parts carry move plans in; ^SVC-E is back (the three SVC-E service spares stay, their plans to interfaces-modules removed); ^EM3-(?!HDA) keeps the UCS-E M3 memory and SSDs (EM3-MEM-, EM3-AF-) and lets EM3-HDA-8FXS, a voice expansion module, go to interfaces-modules",
+     "parts": 167,
      "kinds": {
       "drive": 64,
       "server": 92,
-      "memory": 8
+      "memory": 8,
+      "unknown": 3
      },
      "roles": {},
      "samples": [
@@ -425,28 +426,40 @@
       "E-SSD-SATA-480G= — 480 GB, SATA SSD drive for UCS-E M6 spare"
      ],
      "rules": {
-      "sku": 164
+      "sku": 167
      },
-     "pending_in": {}
+     "pending_in": {
+      "routers": 10,
+      "interfaces-modules": 4
+     }
     },
     {
-     "series": "UCS E-Series Server Modules shared parts",
-     "family": "(shared across the line)",
+     "series": "Services Ready Engine (ISM-SRE / SM-SRE)",
+     "family": null,
      "role": null,
-     "note": null,
-     "parts": 2,
+     "note": "re-audit decisions (operator, 15 Sep 2026, Q-13): the Services Ready Engine, the UCS E-Series' predecessor in the ISR G2, follows the E-Series into servers-unified-computing — the engines kind server, their drives, memory and disk cover as components. The ten SRE rows this category had planned to interfaces-modules stay (plans removed: ISM-SRE-300-BUN-K9, ISM-SRE-300-K9=, SM-DSK-COVER, SM-HDD-SATA-500GB(=), SM-HDDB-SATA500GB, SM-MEM-VLP-2GB(=) / 4GB(=)); the six SRE rows interfaces-modules holds (ISM-SRE-300-K9, -K9++=, -RS-K9=, SM-SRE-700-K9, SM-SRE-900-K9, SM-DSK-SATA-500GB=) carry move plans in",
+     "parts": 10,
      "kinds": {
-      "cable": 2
+      "server": 2,
+      "mechanical": 1,
+      "drive": 3,
+      "memory": 4
      },
      "roles": {},
      "samples": [
-      "CAB-449FC= — RS-449 Cable, DCE, Female, 10 Feet",
-      "CAB-449MT= — RS-449 Cable, DTE, Male, 10 Feet"
+      "ISM-SRE-300-BUN-K9 — Services Ready Engine (SRE) 300 ISM for VSEC-SRE bundle",
+      "ISM-SRE-300-K9= — Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)",
+      "SM-DSK-COVER — Hard disk drive face plate cover for SRE 700 and 900",
+      "SM-HDD-SATA-500GB — 500 GB hard disk drive for SRE 710 and 910",
+      "SM-HDD-SATA-500GB= — 500 GB hard disk drive for SRE 710 and 910",
+      "SM-HDDB-SATA500GB — 500 GB hard disk drive for SRE 710 and 910"
      ],
      "rules": {
-      "accessory": 2
+      "sku": 10
      },
-     "pending_in": {}
+     "pending_in": {
+      "interfaces-modules": 6
+     }
     }
    ]
   },
@@ -916,7 +929,7 @@
   },
   {
    "line": "UCS B-Series Blade Servers",
-   "parts": 410,
+   "parts": 412,
    "series": [
     {
      "series": "UCS B200",
@@ -973,10 +986,11 @@
      "series": "UCS B230",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 7,
+     "note": "re-audit decisions (operator, 15 Sep 2026, F-1): N20-BBFLA-230(=) 'UCS B230 M2 and M1 air baffle for CPUs' and N20-BBLKD-7MM(=) 'UCS B230 M2 and M1 7mm SSD blanking panel' name this blade alone (A.3 rule 1); they sat in B-Series shared parts by ^N20-B",
+     "parts": 11,
      "kinds": {
-      "server": 7
+      "server": 7,
+      "mechanical": 4
      },
      "roles": {},
      "samples": [
@@ -988,7 +1002,7 @@
       "B230-BASE-M2UPG — UCS B230 M2 Blade Server w/o CPU, memory, SSD, mezzanine"
      ],
      "rules": {
-      "sku": 7
+      "sku": 11
      },
      "pending_in": {}
     },
@@ -996,17 +1010,18 @@
      "series": "UCS B250",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 1,
+     "note": "re-audit decisions (operator, 15 Sep 2026, F-1): N20-BBFLB= 'UCS B250 M2 and M1 air baffle kit' names this blade alone; it sat in B-Series shared parts by ^N20-B",
+     "parts": 2,
      "kinds": {
-      "mechanical": 1
+      "mechanical": 2
      },
      "roles": {},
      "samples": [
+      "N20-BBFLB= — UCS B250 M2 and M1 air baffle kit",
       "UCSB-BAFF-B250-M3= — Air Baffles for B250 M3, Two baffles, left and right"
      ],
      "rules": {
-      "sku": 1
+      "sku": 2
      },
      "pending_in": {}
     },
@@ -1037,11 +1052,11 @@
      "series": "UCS B420 / B440 / B460 / B480",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 25,
+     "note": "re-audit decisions (operator, 15 Sep 2026, F-1): N20-BBFLA(=) 'UCS B440 M2 and M1 air baffle' names the B440 alone; it sat in B-Series shared parts by ^N20-B",
+     "parts": 27,
      "kinds": {
       "server": 23,
-      "mechanical": 2
+      "mechanical": 4
      },
      "roles": {},
      "samples": [
@@ -1053,7 +1068,7 @@
       "B440-BASE-M2UPG — UCS B440 M2 Blade Server w/o CPU, memory, HDD, mezzanine"
      ],
      "rules": {
-      "sku": 25
+      "sku": 27
      },
      "pending_in": {}
     },
@@ -1061,25 +1076,25 @@
      "series": "UCS 5108 blade chassis",
      "family": null,
      "role": null,
-     "note": "^VCE-UCS-CH-6508 (layers round 3): 'VCE UCS 5108 Blade Svr AC Chassis' sat in C-Series shared parts by its label — a chassis in shared parts",
-     "parts": 52,
+     "note": "^VCE-UCS-CH-6508 (layers round 3): 'VCE UCS 5108 Blade Svr AC Chassis' sat in C-Series shared parts by its label — a chassis in shared parts. ^N01-UAC1$ (re-audit decisions, operator, 15 Sep 2026, F-1): N01-UAC1(=) 'Single phase AC power module for UCS 5108' sat in C-Series Rack Servers shared parts by the label 'UCS C-Series' — the wrong line",
+     "parts": 54,
      "kinds": {
       "chassis": 24,
+      "power": 12,
       "mechanical": 16,
-      "fan": 2,
-      "power": 10
+      "fan": 2
      },
      "roles": {},
      "samples": [
       "C6508-BUN1 — ^DISTIonly: UCS 5108 Chassis, 8fans, 2 FEX, 2PSUs, Rack kit",
+      "N01-UAC1 — Single phase AC power module for UCS 5108",
+      "N01-UAC1= — Single phase AC power module for UCS 5108",
       "N20-C6508 — ^UCS 5108 Blade Svr AC Chassis/0 PSU/8 fans/0 fabric extende",
       "N20-C6508-CH2 — ^DISTI:UCS 5108 Blade Svr AC Chassis/0 PSU/8 fan/0 fab extdr",
-      "N20-C6508-UPG — ^UCS 5108 Blade Svr AC Chassis/0 PSU/8 fans/0 fabric extende",
-      "N20-C6508= — ^UCS 5108 Blade Svr AC Chassis/0 PSU/8 fans/0 fabric extende",
-      "N20-CAK — Accessory kit for UCS 5108 Blade Server Chassis"
+      "N20-C6508-UPG — ^UCS 5108 Blade Svr AC Chassis/0 PSU/8 fans/0 fabric extende"
      ],
      "rules": {
-      "sku": 52
+      "sku": 54
      },
      "pending_in": {}
     },
@@ -1111,13 +1126,13 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 206,
+     "parts": 199,
      "kinds": {
       "cpu": 24,
       "cable": 3,
       "drive": 73,
       "bundle": 1,
-      "mechanical": 44,
+      "mechanical": 37,
       "storage-controller": 7,
       "power": 5,
       "accessory": 8,
@@ -1135,7 +1150,7 @@
       "A01-X0105= — 2.66GHz Xeon X5650 95W CPU/12MB cache/DDR3 1333MHz"
      ],
      "rules": {
-      "sku": 193,
+      "sku": 186,
       "accessory": 1,
       "label": 12
      },
@@ -1145,7 +1160,7 @@
   },
   {
    "line": "UCS C-Series Rack Servers",
-   "parts": 1871,
+   "parts": 1857,
    "series": [
     {
      "series": "UCS C880A M8 (AI)",
@@ -1514,21 +1529,20 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 815,
+     "parts": 801,
      "kinds": {
       "mechanical": 64,
       "pdu": 1,
       "accessory": 41,
-      "cable": 108,
+      "cable": 97,
       "fan": 4,
       "memory": 32,
       "bundle": 6,
-      "power": 60,
       "unknown": 18,
       "nic": 186,
+      "power": 58,
       "io-module": 5,
       "storage-controller": 65,
-      "non-product": 1,
       "drive": 144,
       "cpu": 3,
       "gpu": 77
@@ -1538,16 +1552,18 @@
       "A04-BTHP3= — Replacement Thermal Pad for UCS B440/B230",
       "C16-2PDU — AddOn-Bullion 2PDU",
       "C16-CB16 — AddOn-Bullion 8 Module Connecting Box CB16",
-      "CAB-250V-10A-AR= — Cisco CAB-250V-10A-AR=",
-      "CAB-250V-10A-CN= — Cisco CAB-250V-10A-CN=",
-      "CAB-250V-10A-ID= — Cisco CAB-250V-10A-ID="
+      "CAB-48DC-40A-8AWG= — Cisco CAB-48DC-40A-8AWG=",
+      "CAB-48DC-40A-AS-D — Cisco CAB-48DC-40A-AS-D",
+      "CAB-48DC-40A-AS-D= — Cisco CAB-48DC-40A-AS-D="
      ],
      "rules": {
-      "label": 41,
-      "accessory": 52,
+      "label": 38,
+      "accessory": 41,
       "sku": 722
      },
-     "pending_in": {}
+     "pending_in": {
+      "routers": 1
+     }
     }
    ]
   },
@@ -2762,6 +2778,110 @@
    "action": "class",
    "to": "non_product",
    "reason": "an ordering setting, option, test or programme label that ships nothing"
+  },
+  {
+   "sku": "CAB-250V-10A-AR=",
+   "name": "Cisco CAB-250V-10A-AR=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-250V-10A-CN=",
+   "name": "Cisco CAB-250V-10A-CN=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-250V-10A-ID=",
+   "name": "Cisco CAB-250V-10A-ID=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "storage-networking",
+   "reason": "the spare of a generic cord or cable whose base sits in storage-networking MDS 9000 Multilayer SAN Switches shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-250V-10A-IS=",
+   "name": "Cisco CAB-250V-10A-IS=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-449FC=",
+   "name": "RS-449 Cable, DCE, Female, 10 Feet",
+   "series_label": "UCS E-Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic cord or cable whose base sits in routers ISR (Integrated Services Routers) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-449MT=",
+   "name": "RS-449 Cable, DTE, Male, 10 Feet",
+   "series_label": "UCS E-Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic cord or cable whose base sits in routers ISR (Integrated Services Routers) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-ACTW=",
+   "name": "Cisco CAB-ACTW=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-C13-C14-2M=",
+   "name": "Cisco CAB-C13-C14-2M=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-C13-C14-AC=",
+   "name": "Cisco CAB-C13-C14-AC=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Nexus shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-C13-CBN=",
+   "name": "Cisco CAB-C13-CBN=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-C2316-C19-IT=",
+   "name": "Cisco CAB-C2316-C19-IT=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Nexus shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-IR2073-C19-AR=",
+   "name": "Cisco CAB-IR2073-C19-AR=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Nexus shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-N5K6A-NA=",
+   "name": "Cisco CAB-N5K6A-NA=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
   },
   {
    "sku": "CAI-P-N7D200GF",
@@ -11380,22 +11500,6 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
-   "sku": "ISM-SRE-300-BUN-K9",
-   "name": "Services Ready Engine (SRE) 300 ISM for VSEC-SRE bundle",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "an ISR Services Ready Engine module bundle — retargeted to interfaces-modules (closing items at aa1143f (14 Sep 2026), item 2): the router module cards (NIM / SM-X / ISM / EM) live there since runs #1068 / #1069 and the routers move-out line is removed"
-  },
-  {
-   "sku": "ISM-SRE-300-K9=",
-   "name": "Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "an ISR Services Ready Engine / UCS-E service module is a router module — retargeted to interfaces-modules (closing items at aa1143f (14 Sep 2026), item 2): the router module cards (NIM / SM-X / ISM / EM) live there since runs #1068 / #1069 and the routers move-out line is removed"
-  },
-  {
    "sku": "L6-20",
    "name": "Cisco L6-20",
    "series_label": "UCS C-Series",
@@ -11636,6 +11740,14 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
+   "sku": "R2XX-DMYMPWRCORD=",
+   "name": "Cisco R2XX-DMYMPWRCORD=",
+   "series_label": "UCS C-Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering setting that ships nothing — 'no power cord' (kind non-product on a hardware row contradicts itself; re-audit decisions, operator, 15 Sep 2026, Q-15)"
+  },
+  {
    "sku": "S3260",
    "name": "Cisco S3260",
    "series_label": "S-Series Storage",
@@ -11674,70 +11786,6 @@
    "action": "class",
    "to": "service",
    "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "SM-DSK-COVER",
-   "name": "Hard disk drive face plate cover for SRE 700 and 900",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "a part of the Services Ready Engine (SRE) router service modules — SM-SRE-700 / 710 / 900 / 910, whose modules interfaces-modules holds (SM-X and SM Service Modules, with SM-DSK-SATA-500GB= 'Spare 50-GB hard disk for SM-SRE-900-K9'): A.3 rule 1 puts a platform-bound part with its platform. SRE is not the UCS E-Series, so the E-Series home question does not decide it (layers round 3, servers + hyperconverged round)"
-  },
-  {
-   "sku": "SM-HDD-SATA-500GB",
-   "name": "500 GB hard disk drive for SRE 710 and 910",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "a part of the Services Ready Engine (SRE) router service modules — SM-SRE-700 / 710 / 900 / 910, whose modules interfaces-modules holds (SM-X and SM Service Modules, with SM-DSK-SATA-500GB= 'Spare 50-GB hard disk for SM-SRE-900-K9'): A.3 rule 1 puts a platform-bound part with its platform. SRE is not the UCS E-Series, so the E-Series home question does not decide it (layers round 3, servers + hyperconverged round)"
-  },
-  {
-   "sku": "SM-HDD-SATA-500GB=",
-   "name": "500 GB hard disk drive for SRE 710 and 910",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "a part of the Services Ready Engine (SRE) router service modules — SM-SRE-700 / 710 / 900 / 910, whose modules interfaces-modules holds (SM-X and SM Service Modules, with SM-DSK-SATA-500GB= 'Spare 50-GB hard disk for SM-SRE-900-K9'): A.3 rule 1 puts a platform-bound part with its platform. SRE is not the UCS E-Series, so the E-Series home question does not decide it (layers round 3, servers + hyperconverged round)"
-  },
-  {
-   "sku": "SM-HDDB-SATA500GB",
-   "name": "500 GB hard disk drive for SRE 710 and 910",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "a part of the Services Ready Engine (SRE) router service modules — SM-SRE-700 / 710 / 900 / 910, whose modules interfaces-modules holds (SM-X and SM Service Modules, with SM-DSK-SATA-500GB= 'Spare 50-GB hard disk for SM-SRE-900-K9'): A.3 rule 1 puts a platform-bound part with its platform. SRE is not the UCS E-Series, so the E-Series home question does not decide it (layers round 3, servers + hyperconverged round)"
-  },
-  {
-   "sku": "SM-MEM-VLP-2GB",
-   "name": "2GB very low profile SDRAM for SRE service modules",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "a part of the Services Ready Engine (SRE) router service modules — SM-SRE-700 / 710 / 900 / 910, whose modules interfaces-modules holds (SM-X and SM Service Modules, with SM-DSK-SATA-500GB= 'Spare 50-GB hard disk for SM-SRE-900-K9'): A.3 rule 1 puts a platform-bound part with its platform. SRE is not the UCS E-Series, so the E-Series home question does not decide it (layers round 3, servers + hyperconverged round)"
-  },
-  {
-   "sku": "SM-MEM-VLP-2GB=",
-   "name": "2GB very low profile SDRAM for SRE service modules",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "a part of the Services Ready Engine (SRE) router service modules — SM-SRE-700 / 710 / 900 / 910, whose modules interfaces-modules holds (SM-X and SM Service Modules, with SM-DSK-SATA-500GB= 'Spare 50-GB hard disk for SM-SRE-900-K9'): A.3 rule 1 puts a platform-bound part with its platform. SRE is not the UCS E-Series, so the E-Series home question does not decide it (layers round 3, servers + hyperconverged round)"
-  },
-  {
-   "sku": "SM-MEM-VLP-4GB",
-   "name": "4GB very low profile SDRAM upgrade for SRE (for total 8GB)",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "a part of the Services Ready Engine (SRE) router service modules — SM-SRE-700 / 710 / 900 / 910, whose modules interfaces-modules holds (SM-X and SM Service Modules, with SM-DSK-SATA-500GB= 'Spare 50-GB hard disk for SM-SRE-900-K9'): A.3 rule 1 puts a platform-bound part with its platform. SRE is not the UCS E-Series, so the E-Series home question does not decide it (layers round 3, servers + hyperconverged round)"
-  },
-  {
-   "sku": "SM-MEM-VLP-4GB=",
-   "name": "4GB very low profile SDRAM upgrade for SRE (for total 8GB)",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "a part of the Services Ready Engine (SRE) router service modules — SM-SRE-700 / 710 / 900 / 910, whose modules interfaces-modules holds (SM-X and SM Service Modules, with SM-DSK-SATA-500GB= 'Spare 50-GB hard disk for SM-SRE-900-K9'): A.3 rule 1 puts a platform-bound part with its platform. SRE is not the UCS E-Series, so the E-Series home question does not decide it (layers round 3, servers + hyperconverged round)"
   },
   {
    "sku": "SM7-UCSE",
@@ -11858,30 +11906,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "programme or solution label (round-7 family \"solution-or-programme-label-only\")"
-  },
-  {
-   "sku": "SVC-E1120D-M3",
-   "name": "Cisco Internal. E1120D-M3 Service Spare",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "an ISR Services Ready Engine / UCS-E service module is a router module — retargeted to interfaces-modules (closing items at aa1143f (14 Sep 2026), item 2): the router module cards (NIM / SM-X / ISM / EM) live there since runs #1068 / #1069 and the routers move-out line is removed"
-  },
-  {
-   "sku": "SVC-E160S-M3",
-   "name": "UCS-E, SingleWide, 6 Core CPU, 8 GB Flash",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "an ISR Services Ready Engine / UCS-E service module is a router module — retargeted to interfaces-modules (closing items at aa1143f (14 Sep 2026), item 2): the router module cards (NIM / SM-X / ISM / EM) live there since runs #1068 / #1069 and the routers move-out line is removed"
-  },
-  {
-   "sku": "SVC-E180D-M3",
-   "name": "Cisco Internal. E180D-M3 Service Spare",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "an ISR Services Ready Engine / UCS-E service module is a router module — retargeted to interfaces-modules (closing items at aa1143f (14 Sep 2026), item 2): the router module cards (NIM / SM-X / ISM / EM) live there since runs #1068 / #1069 and the routers move-out line is removed"
   },
   {
    "sku": "TG5500-C220M3S-K9",

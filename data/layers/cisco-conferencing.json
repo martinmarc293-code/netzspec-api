@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "conferencing",
- "built_at": "2026-09-15T13:11:01.120Z",
- "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
+ "built_at": "2026-09-15T18:46:58.322Z",
+ "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-conferencing.json",
  "parts": 69,
@@ -58,15 +58,15 @@
    "series_label": "AI PODs for Collaboration",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "C-CPM",
    "name": "Cisco C-CPM",
    "series_label": "Meeting Server",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "action": "class",
+   "to": "software",
+   "reason": "a third-party cloud subscription, not hardware: 'SolutionsPlus: Vyopta CPM Cloud Subscription', the replacement PID for V-CLOUD in Cisco's 'End-of-Sale and End-of-Life Announcement for the Cisco Vyopta vAnalytics' (c51-742914, under the Meeting Server end-of-life notices) — precedent: 'software, a subscription or a software option' (re-audit decisions, operator, 15 Sep 2026, F-7)"
   },
   {
    "sku": "CIT3-5108-PKG-HW",
@@ -74,7 +74,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-B200-M4",
@@ -82,7 +82,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-B200-M4-CON",
@@ -90,7 +90,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-B200-M5",
@@ -98,7 +98,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-B200-M5-CON",
@@ -106,7 +106,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-B200-M5V2",
@@ -114,7 +114,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-B200-M5V2-CON",
@@ -122,7 +122,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-B200-M6",
@@ -130,7 +130,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-B200-M6-CON",
@@ -138,7 +138,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-CPU-6140",
@@ -146,7 +146,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-CPU-E52695E",
@@ -154,7 +154,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-CPU-I6240",
@@ -162,7 +162,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-CPU-I6240=",
@@ -170,7 +170,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-CPU-I6336Y",
@@ -178,7 +178,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-FAN5",
@@ -186,7 +186,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-FI-M-6324",
@@ -194,7 +194,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-HD300G10K12G",
@@ -202,7 +202,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-HD300G10K12N",
@@ -210,7 +210,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-LSTOR-BK",
@@ -218,7 +218,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-MLOM-40G-03",
@@ -226,7 +226,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-MLOM-40G-04",
@@ -234,7 +234,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-MLOM-PT-01",
@@ -242,7 +242,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-MR-1X081RV-A",
@@ -250,7 +250,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-MR-X16G1RS-H",
@@ -258,7 +258,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-MR-X16G1RT-H",
@@ -266,7 +266,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-MR-X16G1RW",
@@ -274,7 +274,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-MRAID12G",
@@ -282,7 +282,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-PSU-2500ACDV",
@@ -290,7 +290,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-PSU1-1050W",
@@ -298,7 +298,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-PSU1-1200W",
@@ -306,7 +306,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-PSU1-770W",
@@ -314,7 +314,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-PSUT2500ACDV",
@@ -322,7 +322,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-RAID-220M6",
@@ -330,7 +330,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-RAID-M5",
@@ -338,7 +338,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-RAID12G-M6",
@@ -346,7 +346,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-SD960G61X-EV",
@@ -354,7 +354,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-SD960G6S1X-EV",
@@ -362,7 +362,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-SD960G6SB-EV",
@@ -370,7 +370,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-SD960GBKS4-EV",
@@ -378,7 +378,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-SD960GS26-EV",
@@ -386,7 +386,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-SDB960SA1V",
@@ -394,7 +394,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-SDC960SA1V",
@@ -402,7 +402,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-TPM-002C",
@@ -410,7 +410,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-TPM2-002",
@@ -418,7 +418,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-UAC1",
@@ -426,7 +426,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CIT3-UCSB-MRAID12G",
@@ -434,7 +434,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CMS-M-M8-K9",
@@ -442,7 +442,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CMS-S-M7-K9",
@@ -450,7 +450,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-ATP-TMS-APL-K9",
@@ -458,7 +458,7 @@
    "series_label": "TelePresence Management Suite (TMS)",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS-1000-K9",
@@ -466,7 +466,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS-1000-M5-K9",
@@ -474,7 +474,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS-1K-BUN-K9",
@@ -482,7 +482,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS-1K-M5V2-K9",
@@ -490,7 +490,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS-1K-M6-K9",
@@ -498,7 +498,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS-2000-K9",
@@ -506,7 +506,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS-2000-M5-K9",
@@ -514,7 +514,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS-2K-BUN-K9",
@@ -522,7 +522,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS-2K-M5V2-K9",
@@ -530,7 +530,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS-2K-M6-K9",
@@ -538,7 +538,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS1KM5-BUN-K9",
@@ -546,7 +546,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS1KM52BUN-K9",
@@ -554,7 +554,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS2KM5-BUN-K9",
@@ -562,7 +562,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-CMS2KM52BUN-K9",
@@ -570,7 +570,7 @@
    "series_label": "Meeting Server",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-TMS-APL-K9",
@@ -578,7 +578,7 @@
    "series_label": "TelePresence Management Suite (TMS)",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "CTI-TMS-APL-K9=",
@@ -586,7 +586,7 @@
    "series_label": "TelePresence Management Suite (TMS)",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "UCSC-C240-M8-CL",
@@ -594,7 +594,7 @@
    "series_label": "AI PODs for Collaboration",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   },
   {
    "sku": "UCSC-C240-M8-CL-G",
@@ -602,7 +602,7 @@
    "series_label": "AI PODs for Collaboration",
    "action": "move",
    "to": "collaboration-endpoints",
-   "reason": "category merge: conferencing -> collaboration-endpoints (hardware only)"
+   "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
   }
  ],
  "unplaced": [],

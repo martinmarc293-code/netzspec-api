@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-15T13:10:58.989Z",
- "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
+ "built_at": "2026-09-15T18:46:56.404Z",
+ "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5093,
@@ -148,7 +148,7 @@
   },
   {
    "line": "Catalyst 8000 Edge",
-   "parts": 222,
+   "parts": 210,
    "series": [
     {
      "series": "Catalyst 8200 Edge uCPE",
@@ -294,7 +294,7 @@
      "series": "Catalyst 8500",
      "family": null,
      "role": "edge",
-     "note": null,
+     "note": "^PWR-CH1-(750W?ACR|950WDCR) (re-audit decisions, operator, 15 Sep 2026, Q-11): the 750 W AC and 950 W DC supplies are the Catalyst 8500's (the spares here are named 'Cisco C8500 750W AC Power, Spare'); the three wireless rows PWR-CH1-750ACR / 750WACR / 950WDCR, named for the Catalyst wireless controller or for no platform, carry move plans in and land here by SKU",
      "parts": 35,
      "kinds": {
       "router": 5,
@@ -317,24 +317,25 @@
       "C8500-4PT-KIT — Cisco Catalyst 8500 Edge accessory kit – 4-post kit"
      ],
      "rules": {
-      "sku": 25,
-      "name": 10
+      "sku": 27,
+      "name": 8
      },
-     "pending_in": {}
+     "pending_in": {
+      "wireless": 3
+     }
     },
     {
      "series": "Catalyst 8000 Edge shared parts",
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 52,
+     "parts": 40,
      "kinds": {
-      "mechanical": 11,
+      "mechanical": 9,
       "module": 1,
-      "accessory": 7,
-      "cable": 3,
-      "drive": 24,
-      "memory": 2,
+      "accessory": 5,
+      "cable": 1,
+      "drive": 20,
       "power": 4
      },
      "roles": {},
@@ -347,8 +348,8 @@
       "C-M2-BLANK= — Cisco Catalyst M.2 Disk Blank Spare"
      ],
      "rules": {
-      "accessory": 13,
-      "label-unsupported": 30,
+      "accessory": 9,
+      "label-unsupported": 22,
       "name": 9
      },
      "pending_in": {}
@@ -357,7 +358,7 @@
   },
   {
    "line": "ISR (Integrated Services Routers)",
-   "parts": 1268,
+   "parts": 1265,
    "series": [
     {
      "series": "ISR 1100",
@@ -686,15 +687,15 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 188,
+     "parts": 185,
      "kinds": {
       "fan": 1,
       "antenna": 36,
-      "cable": 75,
+      "cable": 74,
       "mechanical": 13,
-      "power-cord": 9,
+      "power-cord": 8,
       "bundle": 1,
-      "module": 11,
+      "module": 10,
       "accessory": 1,
       "flash": 14,
       "memory": 2,
@@ -711,16 +712,20 @@
       "3G-AE015-R — Single Unit antenna Extension Base (15 foot cable included)"
      ],
      "rules": {
-      "label-unsupported": 55,
-      "accessory": 133
+      "label-unsupported": 54,
+      "accessory": 131
      },
-     "pending_in": {}
+     "pending_in": {
+      "servers-unified-computing": 2,
+      "collaboration-endpoints": 3,
+      "interfaces-modules": 1
+     }
     }
    ]
   },
   {
    "line": "ASR (Aggregation Services Routers)",
-   "parts": 1075,
+   "parts": 1074,
    "series": [
     {
      "series": "ASR 901",
@@ -906,10 +911,10 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 46,
+     "parts": 45,
      "kinds": {
       "mechanical": 18,
-      "cable": 14,
+      "cable": 13,
       "accessory": 5,
       "drive": 4,
       "processor": 2,
@@ -926,7 +931,7 @@
       "CAB-9AS-M — 4-port EIA-232 DTE cable, 68-pin port, 10 ft. length, male D"
      ],
      "rules": {
-      "accessory": 30,
+      "accessory": 29,
       "label-unsupported": 16
      },
      "pending_in": {}
@@ -1244,13 +1249,16 @@
       "accessory": 16,
       "label-unsupported": 18
      },
-     "pending_in": {}
+     "pending_in": {
+      "servers-unified-computing": 7,
+      "switches": 1
+     }
     }
    ]
   },
   {
    "line": "Cisco 8000",
-   "parts": 192,
+   "parts": 191,
    "series": [
     {
      "series": "Cisco 8000",
@@ -1287,7 +1295,7 @@
      },
      "pending_in": {
       "interfaces-modules": 3,
-      "switches": 6,
+      "switches": 7,
       "data-center-networking": 1
      }
     },
@@ -1296,9 +1304,9 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 59,
+     "parts": 58,
      "kinds": {
-      "power-cord": 16,
+      "power-cord": 15,
       "accessory": 12,
       "mechanical": 7,
       "fan": 8,
@@ -1306,15 +1314,15 @@
      },
      "roles": {},
      "samples": [
-      "CAB-48DC-40A-8AWG — C-Series -48VDC PSU Power Cord, 3.5M, 3 Wire, 8AWG, 40A",
       "CAB-AC-ARG — Power Cord - Argentina, 10A, 250V, 2500 mm, –40C to +85C",
       "CAB-AC-AUS — Power Cord - Australia, 10A, 250V, 2500 mm, –40C to +85C",
       "CAB-AC-BRA — Power Cord - Brazil, 10A, 250V, 2500 mm, –40C to +85C",
       "CAB-AC-CHI — Power Cord - China, 10A, 250V, 2500 mm, –40C to +85C",
-      "CAB-AC-EUR — Power Cord - Europe, 16/10A, 250V, 2500 mm, –40C to +85C"
+      "CAB-AC-EUR — Power Cord - Europe, 16/10A, 250V, 2500 mm, –40C to +85C",
+      "CAB-AC-IND — Power Cord - India, 16/10A, 250V, 2500 mm, –40C to +85C"
      ],
      "rules": {
-      "accessory": 34,
+      "accessory": 33,
       "label-unsupported": 25
      },
      "pending_in": {}
@@ -1556,7 +1564,7 @@
      "series": "CGR 1000 Connected Grid",
      "family": "Connected Grid Routers",
      "role": "industrial-iot",
-     "note": null,
+     "note": "^CGR-N-CONN- (re-audit decisions, operator, 15 Sep 2026, Q-6 — this REVERSES the operator's earlier 'WPAN with the CGR antennas'): both CGR 1000 connector kits, CGR-N-CONN-WIMAX (here by its label until now) and CGR-N-CONN-WPAN (planned in from interfaces-modules), sit in this series by SKU",
      "parts": 59,
      "kinds": {
       "module": 37,
@@ -1579,11 +1587,11 @@
       "CGM-3G-EVDO-V= — Connected Grid Module - 3G Verizon EV-DO Rev A/0/1xRTT"
      ],
      "rules": {
-      "sku": 45,
-      "label": 14
+      "sku": 46,
+      "label": 13
      },
      "pending_in": {
-      "interfaces-modules": 7
+      "interfaces-modules": 8
      }
     },
     {
@@ -1715,7 +1723,7 @@
      "series": "Industrial and IoT Routers shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": "layers round 3: the rows planned in from interfaces-modules land here by SKU — the Connected Grid WiMAX panel antennas and the WPAN connector (operator: CGR antennas -> routers Industrial shared parts; the WiMAX connector CGR-N-CONN-WIMAX stays in CGR 1000 by its label), and the 4G antennas ANT-4G-PNL-OUT-N / ANT-4G-SR-OUT-TNC, whose spare and siblings already sit in this shared parts. The line's other shared parts still arrive through the accessory rule",
+     "note": "layers round 3: the rows planned in from interfaces-modules land here by SKU — the Connected Grid WiMAX panel antennas (operator: CGR antennas -> routers Industrial shared parts), and the 4G antennas ANT-4G-PNL-OUT-N / ANT-4G-SR-OUT-TNC, whose spare and siblings already sit in this shared parts. The line's other shared parts still arrive through the accessory rule. ^CGR-N-CONN-WPAN removed (re-audit decisions, operator, 15 Sep 2026, Q-6): the WPAN connector kit goes to CGR 1000 beside its WiMAX sibling",
      "parts": 101,
      "kinds": {
       "antenna": 43,
@@ -1741,7 +1749,7 @@
       "sku": 1
      },
      "pending_in": {
-      "interfaces-modules": 10
+      "interfaces-modules": 9
      }
     }
    ]
@@ -1832,7 +1840,7 @@
   },
   {
    "line": "ENCS (Enterprise Network Compute)",
-   "parts": 67,
+   "parts": 66,
    "series": [
     {
      "series": "ENCS 5000",
@@ -1860,24 +1868,6 @@
      "rules": {
       "sku": 48,
       "label": 18
-     },
-     "pending_in": {}
-    },
-    {
-     "series": "ENCS (Enterprise Network Compute) shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 1,
-     "kinds": {
-      "cable": 1
-     },
-     "roles": {},
-     "samples": [
-      "CAB-E1-RJ45BNC= — E1 Cable RJ45 to dual BNC (unbalanced), Spare"
-     ],
-     "rules": {
-      "accessory": 1
      },
      "pending_in": {}
     }
@@ -2449,6 +2439,62 @@
    "reason": "promo-bundle: a region-restricted, time-limited migration ordering PID ('<region> Only - Bundle <model> for N months Migration'); the hardware is its base PID (C899G-LTE-GA-K9 / C881G-4G-GA-K9 / C887VA-K9), which stays a router"
   },
   {
+   "sku": "CAB-48DC-40A-8AWG",
+   "name": "C-Series -48VDC PSU Power Cord, 3.5M, 3 Wire, 8AWG, 40A",
+   "series_label": "8000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "'C-Series -48VDC PSU Power Cord, 3.5M, 3 Wire, 8AWG, 40A' names the UCS C-Series supply it feeds, and its spare sits in servers UCS C-Series shared parts: the base goes to the platform's category (A.3 rule 1; re-audit decisions, operator, 15 Sep 2026, Q-20)"
+  },
+  {
+   "sku": "CAB-ACSA=",
+   "name": "^AC Power Cord (South Africa), C13, BS 546, 1.8m",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Catalyst shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-CONSOLE-RJ45=",
+   "name": "Console cable: 6 ft with RJ-45 and DB9F (spare)",
+   "series_label": "ASR 901",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic cord or cable whose base sits in switches Catalyst shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-E1-RJ45BNC=",
+   "name": "E1 Cable RJ45 to dual BNC (unbalanced), Spare",
+   "series_label": "5000 Enterprise Network Compute",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "the spare of a generic cord or cable whose base sits in interfaces-modules Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-E1-RJ45TWIN=",
+   "name": "E1 Cable RJ45 to Twinax (balanced), Spare",
+   "series_label": "800",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "the spare of a generic cord or cable whose base sits in interfaces-modules Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-HD8-ASYNC=",
+   "name": "High Density 8-port EIA-232 Async Cable",
+   "series_label": "Catalyst 8200",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "the spare of a generic cord or cable whose base sits in interfaces-modules Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
+   "sku": "CAB-HD8-KIT=",
+   "name": "High Density 8-port Async Cable w/ 8 DB-25 Modem Connectors",
+   "series_label": "Catalyst 8200",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "the spare of a generic cord or cable whose base sits in interfaces-modules Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
+  },
+  {
    "sku": "CAT18",
    "name": "Cisco CAT18",
    "series_label": "8100 Series Secure",
@@ -2809,12 +2855,92 @@
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
   },
   {
+   "sku": "E-SSD-U2N-2TB",
+   "name": "2 TB, NVME SSD drive for UCS-E M6",
+   "series_label": "Catalyst 8300 Series Edge uCPE",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series part (the E100 module's faceplate bracket, KVM dongle and memory; the U.2 NVMe SSDs 'for UCS-E M6'): with the E-Series in servers-unified-computing, placed by its ^E1[0-9]{2}[A-Z]?- / ^E-SSD rules (re-audit decisions, operator, 15 Sep 2026, Q-13)"
+  },
+  {
+   "sku": "E-SSD-U2N-2TB=",
+   "name": "2 TB, U.2 NVME SSD drive for UCS-E M6 Spare",
+   "series_label": "Catalyst 8300 Series Edge uCPE",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series part (the E100 module's faceplate bracket, KVM dongle and memory; the U.2 NVMe SSDs 'for UCS-E M6'): with the E-Series in servers-unified-computing, placed by its ^E1[0-9]{2}[A-Z]?- / ^E-SSD rules (re-audit decisions, operator, 15 Sep 2026, Q-13)"
+  },
+  {
+   "sku": "E-SSD-U2N-4TB",
+   "name": "4 TB, U.2 NVME SSD drive for UCS-E M6",
+   "series_label": "Catalyst 8300 Series Edge uCPE",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series part (the E100 module's faceplate bracket, KVM dongle and memory; the U.2 NVMe SSDs 'for UCS-E M6'): with the E-Series in servers-unified-computing, placed by its ^E1[0-9]{2}[A-Z]?- / ^E-SSD rules (re-audit decisions, operator, 15 Sep 2026, Q-13)"
+  },
+  {
+   "sku": "E-SSD-U2N-4TB=",
+   "name": "4 TB, U.2 NVME SSD drive for UCS-E M6 Spare",
+   "series_label": "Catalyst 8300 Series Edge uCPE",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series part (the E100 module's faceplate bracket, KVM dongle and memory; the U.2 NVMe SSDs 'for UCS-E M6'): with the E-Series in servers-unified-computing, placed by its ^E1[0-9]{2}[A-Z]?- / ^E-SSD rules (re-audit decisions, operator, 15 Sep 2026, Q-13)"
+  },
+  {
    "sku": "E.67.15.1",
    "name": "Cisco E.67.15.1",
    "series_label": "800",
    "action": "class",
    "to": "software",
    "reason": "software image / firmware / software product PID"
+  },
+  {
+   "sku": "E100-FCPLT-BRKT",
+   "name": "Bracket Used To Attach Faceplate to E100 Series Module",
+   "series_label": "Catalyst 8200 Edge uCPE",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series part (the E100 module's faceplate bracket, KVM dongle and memory; the U.2 NVMe SSDs 'for UCS-E M6'): with the E-Series in servers-unified-computing, placed by its ^E1[0-9]{2}[A-Z]?- / ^E-SSD rules (re-audit decisions, operator, 15 Sep 2026, Q-13)"
+  },
+  {
+   "sku": "E100-FCPLT-BRKT=",
+   "name": "Bracket Used To Attach Faceplate to E100 Series Module",
+   "series_label": "Catalyst 8200 Edge uCPE",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series part (the E100 module's faceplate bracket, KVM dongle and memory; the U.2 NVMe SSDs 'for UCS-E M6'): with the E-Series in servers-unified-computing, placed by its ^E1[0-9]{2}[A-Z]?- / ^E-SSD rules (re-audit decisions, operator, 15 Sep 2026, Q-13)"
+  },
+  {
+   "sku": "E100S-CON-DGL",
+   "name": "KVM Dongle",
+   "series_label": "Catalyst 8200 Edge uCPE",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series part (the E100 module's faceplate bracket, KVM dongle and memory; the U.2 NVMe SSDs 'for UCS-E M6'): with the E-Series in servers-unified-computing, placed by its ^E1[0-9]{2}[A-Z]?- / ^E-SSD rules (re-audit decisions, operator, 15 Sep 2026, Q-13)"
+  },
+  {
+   "sku": "E100S-CON-DGL=",
+   "name": "KVM Dongle",
+   "series_label": "Catalyst 8200 Edge uCPE",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series part (the E100 module's faceplate bracket, KVM dongle and memory; the U.2 NVMe SSDs 'for UCS-E M6'): with the E-Series in servers-unified-computing, placed by its ^E1[0-9]{2}[A-Z]?- / ^E-SSD rules (re-audit decisions, operator, 15 Sep 2026, Q-13)"
+  },
+  {
+   "sku": "E100S-MEM-UDIMM8G",
+   "name": "8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E",
+   "series_label": "Catalyst 8200 Edge uCPE",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series part (the E100 module's faceplate bracket, KVM dongle and memory; the U.2 NVMe SSDs 'for UCS-E M6'): with the E-Series in servers-unified-computing, placed by its ^E1[0-9]{2}[A-Z]?- / ^E-SSD rules (re-audit decisions, operator, 15 Sep 2026, Q-13)"
+  },
+  {
+   "sku": "E100S-MEM-UDIMM8G=",
+   "name": "8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E",
+   "series_label": "Catalyst 8200 Edge uCPE",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "UCS E-Series part (the E100 module's faceplate bracket, KVM dongle and memory; the U.2 NVMe SSDs 'for UCS-E M6'): with the E-Series in servers-unified-computing, placed by its ^E1[0-9]{2}[A-Z]?- / ^E-SSD rules (re-audit decisions, operator, 15 Sep 2026, Q-13)"
   },
   {
    "sku": "EDN312xi",
@@ -2847,6 +2973,14 @@
    "action": "class",
    "to": "non_product",
    "reason": "truncated PID ending in '-' (name is the SKU, no document)"
+  },
+  {
+   "sku": "EM3-HDA-8FXS",
+   "name": "Cisco EM3-HDA-8FXS",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "voice / fax expansion module of the EM-HDA family (EM-HDA-8FXS sits in interfaces-modules ISM / EM Internal Service Modules): the router module cards (NIM / SM-X / ISM / EM) live there. Servers' ^EM3- rule, meant for the UCS-E M3 memory and SSDs, had claimed it as an E-Series part; fenced (re-audit decisions, Q-13)"
   },
   {
    "sku": "ENCS5400-PF",
@@ -4484,11 +4618,11 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 440,
+  "label_placed": 430,
   "by_kind": {
-   "none": 192,
+   "none": 183,
    "name": 137,
-   "family": 20,
+   "family": 19,
    "sku-token": 91
   },
   "moved": [
@@ -4691,78 +4825,6 @@
     "from_series": "CGR 1000 Connected Grid",
     "to_series": "Industrial and IoT Routers shared parts",
     "why": "no platform token (1000) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "E-SSD-U2N-2TB",
-    "name": "2 TB, NVME SSD drive for UCS-E M6",
-    "series_label": "Catalyst 8300 Series Edge uCPE",
-    "from_series": "Catalyst 8300 Edge uCPE",
-    "to_series": "Catalyst 8000 Edge shared parts",
-    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "E-SSD-U2N-2TB=",
-    "name": "2 TB, U.2 NVME SSD drive for UCS-E M6 Spare",
-    "series_label": "Catalyst 8300 Series Edge uCPE",
-    "from_series": "Catalyst 8300 Edge uCPE",
-    "to_series": "Catalyst 8000 Edge shared parts",
-    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "E-SSD-U2N-4TB",
-    "name": "4 TB, U.2 NVME SSD drive for UCS-E M6",
-    "series_label": "Catalyst 8300 Series Edge uCPE",
-    "from_series": "Catalyst 8300 Edge uCPE",
-    "to_series": "Catalyst 8000 Edge shared parts",
-    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "E-SSD-U2N-4TB=",
-    "name": "4 TB, U.2 NVME SSD drive for UCS-E M6 Spare",
-    "series_label": "Catalyst 8300 Series Edge uCPE",
-    "from_series": "Catalyst 8300 Edge uCPE",
-    "to_series": "Catalyst 8000 Edge shared parts",
-    "why": "no platform token (8300) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "E100S-CON-DGL",
-    "name": "KVM Dongle",
-    "series_label": "Catalyst 8200 Edge uCPE",
-    "from_series": "Catalyst 8200 Edge uCPE",
-    "to_series": "Catalyst 8000 Edge shared parts",
-    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "E100S-CON-DGL=",
-    "name": "KVM Dongle",
-    "series_label": "Catalyst 8200 Edge uCPE",
-    "from_series": "Catalyst 8200 Edge uCPE",
-    "to_series": "Catalyst 8000 Edge shared parts",
-    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "E100S-MEM-UDIMM8G",
-    "name": "8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E",
-    "series_label": "Catalyst 8200 Edge uCPE",
-    "from_series": "Catalyst 8200 Edge uCPE",
-    "to_series": "Catalyst 8000 Edge shared parts",
-    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "E100S-MEM-UDIMM8G=",
-    "name": "8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E",
-    "series_label": "Catalyst 8200 Edge uCPE",
-    "from_series": "Catalyst 8200 Edge uCPE",
-    "to_series": "Catalyst 8000 Edge shared parts",
-    "why": "no platform token (8200) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "EM3-HDA-8FXS",
-    "name": "Cisco EM3-HDA-8FXS",
-    "series_label": "2900 ISR",
-    "from_series": "ISR 2900",
-    "to_series": "ISR (Integrated Services Routers) shared parts",
-    "why": "no platform token (2900) in the SKU or name, no compatible part placed in the series"
    },
    {
     "sku": "EVM-HD-8FXS/DID",

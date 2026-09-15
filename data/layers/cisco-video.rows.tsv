@@ -2655,7 +2655,7 @@ IRPD-1X2=	Remoty Phy Device 1X2 Compatible with iNODE	GS7000 Nodes	system	layere
 JMPR-12S-3-P-MA-SA-F9-001	MPO to SC/APC Fan-out Jumper Cable, 1 meter	GS7000 Nodes	cable	layered	GS7000 Nodes and Optical Hubs	(shared across the line)	GS7000 Nodes and Optical Hubs shared parts	accessory JMPR (label GS7000 Nodes)						
 JMPR-SSB-1.6-S-SA-SA-0.5	SCA-SCA Jumper Cable, bend-insensitive, 0.5 meter	GS7000 Nodes	cable	layered	GS7000 Nodes and Optical Hubs	(shared across the line)	GS7000 Nodes and Optical Hubs shared parts	accessory JMPR (label GS7000 Nodes)						
 JMPR-SSB-1.6-S-SA-SA-001	SCA-SCA Jumper Cable, bend-insensitive, 1 meter	GS7000 Nodes	cable	layered	GS7000 Nodes and Optical Hubs	(shared across the line)	GS7000 Nodes and Optical Hubs shared parts	accessory JMPR (label GS7000 Nodes)						
-MEM-C4K-FLD128M=	Cat 4500 IOS-based Supervisor, Compact Flash, 128MB Spare	RF Gateway Series	accessory	layered	RF Gateway	(shared across the line)	RF Gateway shared parts	label RF Gateway Series						
+MEM-C4K-FLD128M=	Cat 4500 IOS-based Supervisor, Compact Flash, 128MB Spare	RF Gateway Series	accessory	pending_plan								move switches		
 MEM-RFGW-167MHZ=	RFGW Series DDR2 64Mx72 167 MHz Memory Spare	RF Gateway Series	accessory	layered	RF Gateway	(shared across the line)	RF Gateway shared parts	sku ^MEM-RFGW						
 MEM-RFGW-533MHZ=	RFGW Series DDR 64Mx72 533 MHz Memory Spare	RF Gateway Series	accessory	layered	RF Gateway	(shared across the line)	RF Gateway shared parts	sku ^MEM-RFGW						
 OPCAS-MD08-2027-SA	8 CH-ITU 20—27 DTP-UG-EXP- SC/APC	Optical Passive Components	passive	layered	Optical Passive Components		Mux / demux, OADM and WDM filters	sku ^OP(LGX|CAS)						

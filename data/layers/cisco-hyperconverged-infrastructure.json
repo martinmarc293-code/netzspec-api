@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "hyperconverged-infrastructure",
- "built_at": "2026-09-15T13:11:00.852Z",
- "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
+ "built_at": "2026-09-15T18:46:58.120Z",
+ "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-hyperconverged-infrastructure.json",
  "parts": 786,
@@ -39,7 +39,7 @@
   },
   {
    "line": "Compute Hyperconverged with Nutanix",
-   "parts": 721,
+   "parts": 720,
    "series": [
     {
      "series": "HCI XE-Series (XE130c / XE9305)",
@@ -201,7 +201,7 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 623,
+     "parts": 622,
      "kinds": {
       "cable": 16,
       "cpu": 168,
@@ -216,8 +216,7 @@
       "mechanical": 2,
       "tpm": 11,
       "io-module": 4,
-      "unknown": 2,
-      "non-product": 1
+      "unknown": 2
      },
      "roles": {},
      "samples": [
@@ -231,7 +230,7 @@
      "rules": {
       "accessory": 14,
       "sku": 512,
-      "label": 97
+      "label": 96
      },
      "pending_in": {
       "servers-unified-computing": 463
@@ -625,6 +624,14 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "R2XX-DMYMPWRCORD",
+   "name": "Cisco R2XX-DMYMPWRCORD",
+   "series_label": "Compute Hyperconverged with Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "an ordering setting that ships nothing — 'no power cord' (kind non-product on a hardware row contradicts itself; re-audit decisions, operator, 15 Sep 2026, Q-15)"
   },
   {
    "sku": "RJ45",

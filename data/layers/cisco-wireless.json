@@ -1,15 +1,15 @@
 {
  "vendor": "cisco",
  "category": "wireless",
- "built_at": "2026-09-15T13:10:59.464Z",
- "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
+ "built_at": "2026-09-15T18:46:56.879Z",
+ "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-wireless.json",
  "parts": 4010,
  "lines": [
   {
    "line": "Catalyst Wireless Access Points",
-   "parts": 43,
+   "parts": 42,
    "series": [
     {
      "series": "Catalyst CW9163E (outdoor, Wi-Fi 6E)",
@@ -51,23 +51,23 @@
      "family": null,
      "role": "indoor",
      "note": null,
-     "parts": 11,
+     "parts": 10,
      "kinds": {
-      "ap": 11
+      "ap": 10
      },
      "roles": {
-      "indoor": 11
+      "indoor": 10
      },
      "samples": [
+      "CW9162 — Cisco CW9162",
       "CW9162I — Cisco CW9162I",
       "CW9162I-MR — Cisco Catalyst 9162I Access Point, Wi-Fi 6E, internal antenn",
       "CW9164 — Cisco CW9164",
       "CW9164I-MR — Cisco Catalyst 9164I Access Point, Wi-Fi 6E, internal antenn",
-      "CW9164I-X — Cisco Catalyst 9164I Access Point, Wi-Fi 6E, internal antenn",
-      "CW9166D1 — Cisco CW9166D1"
+      "CW9166 — Cisco CW9166"
      ],
      "rules": {
-      "sku": 11
+      "sku": 10
      },
      "pending_in": {}
     },
@@ -134,20 +134,20 @@
   },
   {
    "line": "Catalyst 9100 Access Points",
-   "parts": 590,
+   "parts": 582,
    "series": [
     {
      "series": "Catalyst 9124AX (outdoor)",
      "family": null,
      "role": "outdoor",
      "note": null,
-     "parts": 40,
+     "parts": 37,
      "kinds": {
       "mechanical": 1,
-      "ap": 39
+      "ap": 36
      },
      "roles": {
-      "outdoor": 39
+      "outdoor": 36
      },
      "samples": [
       "C9124-CVR1= — Paintable cover for Catalyst 9124AX",
@@ -158,7 +158,7 @@
       "C9124AXD-EWC-E — Wi-Fi 6 Outdoor AP w/EWC,Directional Ant,-E Regulatory Dom"
      ],
      "rules": {
-      "sku": 40
+      "sku": 37
      },
      "pending_in": {}
     },
@@ -167,24 +167,24 @@
      "family": null,
      "role": "indoor",
      "note": null,
-     "parts": 109,
+     "parts": 110,
      "kinds": {
-      "ap": 105,
+      "ap": 106,
       "mechanical": 4
      },
      "roles": {
-      "indoor": 105
+      "indoor": 106
      },
      "samples": [
+      "C9105 — Cisco C9105",
       "C9105AXI-A — Cisco Catalyst 9105AX Series",
       "C9105AXI-B — Cisco Catalyst 9105AX Series",
       "C9105AXI-B++ — Cisco Catalyst 9105AX Series",
       "C9105AXI-B-EDU — Cisco Catalyst 9105AX Series - EDU",
-      "C9105AXI-B1 — Cisco Catalyst 9105AX Series",
-      "C9105AXI-C — Cisco Catalyst 9105AX Series"
+      "C9105AXI-B1 — Cisco Catalyst 9105AX Series"
      ],
      "rules": {
-      "sku": 109
+      "sku": 110
      },
      "pending_in": {}
     },
@@ -193,12 +193,12 @@
      "family": null,
      "role": "indoor",
      "note": null,
-     "parts": 112,
+     "parts": 110,
      "kinds": {
-      "ap": 112
+      "ap": 110
      },
      "roles": {
-      "indoor": 112
+      "indoor": 110
      },
      "samples": [
       "C9115AXE-A — Cisco Catalyst 9115AX Series",
@@ -209,7 +209,7 @@
       "C9115AXE-C — Cisco Catalyst 9115AX Series"
      ],
      "rules": {
-      "sku": 112
+      "sku": 110
      },
      "pending_in": {}
     },
@@ -218,12 +218,12 @@
      "family": null,
      "role": "indoor",
      "note": null,
-     "parts": 42,
+     "parts": 41,
      "kinds": {
-      "ap": 42
+      "ap": 41
      },
      "roles": {
-      "indoor": 42
+      "indoor": 41
      },
      "samples": [
       "C9117AXI-A — Cisco Catalyst 9117AX Series",
@@ -234,7 +234,7 @@
       "C9117AXI-C — Cisco Catalyst 9117AX Series"
      ],
      "rules": {
-      "sku": 42
+      "sku": 41
      },
      "pending_in": {}
     },
@@ -243,12 +243,12 @@
      "family": null,
      "role": "indoor",
      "note": null,
-     "parts": 172,
+     "parts": 169,
      "kinds": {
-      "ap": 172
+      "ap": 169
      },
      "roles": {
-      "indoor": 172
+      "indoor": 169
      },
      "samples": [
       "C9120AXE-A — C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig;USB;RHL",
@@ -259,7 +259,7 @@
       "C9120AXE-C — C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig;USB;RHL"
      ],
      "rules": {
-      "sku": 172
+      "sku": 169
      },
      "pending_in": {}
     },
@@ -276,12 +276,12 @@
       "indoor": 115
      },
      "samples": [
+      "C9130AXE — Cisco C9130AXE",
       "C9130AXE-A — Cisco Catalyst 9130AX Series",
       "C9130AXE-B — Cisco Catalyst 9130AX Series",
       "C9130AXE-B++ — Cisco Catalyst 9130AX Series",
       "C9130AXE-B-EDU — Cisco Catalyst 9130AX Series - EDU",
-      "C9130AXE-B1 — Cisco Catalyst 9130AX Series",
-      "C9130AXE-C — Cisco Catalyst 9130AX Series"
+      "C9130AXE-B1 — Cisco Catalyst 9130AX Series"
      ],
      "rules": {
       "sku": 115
@@ -292,7 +292,7 @@
   },
   {
    "line": "Aironet Access Points",
-   "parts": 1768,
+   "parts": 1767,
    "series": [
     {
      "series": "Aironet 1800s Active Sensor",
@@ -637,13 +637,13 @@
      "family": null,
      "role": "outdoor",
      "note": "the bare 1570 rule claimed the CWDM 1570 nm optics (CWDM-SFP-1570 …); fenced to the AIR- mount kits in layers round 3 (operator: claimant-rule-too-broad, fixed in the wireless round)",
-     "parts": 82,
+     "parts": 85,
      "kinds": {
       "mechanical": 11,
-      "ap": 71
+      "ap": 74
      },
      "roles": {
-      "outdoor": 71
+      "outdoor": 74
      },
      "samples": [
       "AIR-ACCPMK1570-1 — Vertical pole only (2 to 6 inches in diameter). Does not req",
@@ -654,7 +654,7 @@
       "AIR-ACCSMK1570-1 — Default SMK. Does not offer any allowance for data cable und"
      ],
      "rules": {
-      "sku": 82
+      "sku": 85
      },
      "pending_in": {}
     },
@@ -741,11 +741,11 @@
      "series": "Aironet Access Points shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module). AP(?!-VBLE) leaves AIR-AP-VBLE-ADPTR= to the VBLE series below",
-     "parts": 109,
+     "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module). AP(?!-VBLE) leaves AIR-AP-VBLE-ADPTR= to the VBLE series below. VAP removed from the first rule (re-audit decisions, operator, 15 Sep 2026, Q-12): the AIR-VAP- access pods and mounting kits are MobileAccessVE rows, placed in their own series",
+     "parts": 105,
      "kinds": {
-      "unknown": 8,
-      "mechanical": 59,
+      "unknown": 6,
+      "mechanical": 57,
       "module": 10,
       "power": 22,
       "accessory": 8,
@@ -763,7 +763,7 @@
      ],
      "rules": {
       "label-unsupported": 13,
-      "sku": 96
+      "sku": 92
      },
      "pending_in": {
       "interfaces-modules": 29
@@ -1143,7 +1143,7 @@
   },
   {
    "line": "Meraki MR Access Points",
-   "parts": 42,
+   "parts": 44,
    "series": [
     {
      "series": "Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)",
@@ -1174,23 +1174,23 @@
      "family": null,
      "role": "indoor",
      "note": "MR11-MR62 older indoor models extend the III.0 rule (MR36/44/46/56/57) (14 Sep 2026)",
-     "parts": 10,
+     "parts": 12,
      "kinds": {
-      "ap": 10
+      "ap": 12
      },
      "roles": {
-      "indoor": 10
+      "indoor": 12
      },
      "samples": [
+      "MR36 — Cisco MR36",
       "MR36-HW — Meraki MR36 Wi-Fi 6 Indoor AP",
       "MR36H — Cisco MR36H",
       "MR36H-HW — Meraki MR36H Wi-Fi 6 Cloud Managed AP",
       "MR44 — Cisco MR44",
-      "MR44-HW — Meraki MR44 WiFi 6 Indoor AP",
-      "MR46-HW — Meraki MR46 Wi-Fi 6 Indoor AP"
+      "MR44-HW — Meraki MR44 WiFi 6 Indoor AP"
      ],
      "rules": {
-      "sku": 10
+      "sku": 12
      },
      "pending_in": {
       "meraki": 21
@@ -1225,7 +1225,7 @@
   },
   {
    "line": "Catalyst 9800 Wireless Controllers",
-   "parts": 53,
+   "parts": 55,
    "series": [
     {
      "series": "Catalyst 9800-80",
@@ -1278,24 +1278,24 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 10,
+     "parts": 12,
      "kinds": {
-      "wlc": 6,
+      "wlc": 8,
       "accessory": 1,
       "mechanical": 2,
       "power": 1
      },
      "roles": {},
      "samples": [
+      "9800-L — Cisco 9800-L",
+      "C9800-L — Cisco C9800-L",
       "C9800-L-C-CA-K9 — Cisco 9800-L Wireless Controller copper service",
       "C9800-L-C-K9 — Cisco Catalyst 9800-L-C Wireless Controller Copper Uplink (s",
       "C9800-L-F-CA-K9 — Cisco 9800-L Wireless Controller fiber service",
-      "C9800-L-F-K9 — Cisco Catalyst 9800-L-F Wireless Controller_Fiber Uplink (sh",
-      "CW9800L — Cisco CW9800L Wireless Controller (ships with one AC power a",
-      "CW9800L++ — Trade Agreements Act (TAA) Compliant Cisco CW9800L Wireless "
+      "C9800-L-F-K9 — Cisco Catalyst 9800-L-F Wireless Controller_Fiber Uplink (sh"
      ],
      "rules": {
-      "sku": 10
+      "sku": 12
      },
      "pending_in": {}
     },
@@ -1369,7 +1369,7 @@
   },
   {
    "line": "AireOS Wireless LAN Controllers",
-   "parts": 214,
+   "parts": 218,
    "series": [
     {
      "series": "2500 (2504)",
@@ -1498,15 +1498,14 @@
      "pending_in": {}
     },
     {
-     "series": "AireOS Wireless LAN Controllers shared parts",
-     "family": "(shared across the line)",
+     "series": "MobileAccessVE",
+     "family": null,
      "role": null,
-     "note": null,
-     "parts": 17,
+     "note": "re-audit decisions (operator, 15 Sep 2026, Q-12 / F-12): Cisco MobileAccessVE, the in-building cellular units sold as AIR- PIDs — the main, remote and expansion building units (AIR-330-), the access pods for CELL / PCS bands (AIR-VAP-CELLPCS) with their mounting kits (AIR-VAPMNTG-H / -V-KIT=) and the 12-port control unit (AIR-VCU-CELLPCS12). They sat in the AireOS controllers' and the Aironet access points' shared parts with kind unknown. The series carries no vendor in its name (the rows name none). Kind: the operator decided `device` for the units; `device` is not a noun of the wireless kind axis and a new noun needs its cup set, so the kind change waits for the parked kind rebuild (Q-28) and the units stay `unknown` until then",
+     "parts": 14,
      "kinds": {
-      "unknown": 10,
-      "module": 6,
-      "power": 1
+      "unknown": 12,
+      "mechanical": 2
      },
      "roles": {},
      "samples": [
@@ -1518,8 +1517,32 @@
       "AIR-330-MB-2= — MobileAccessVE Two-link Main Building Unit"
      ],
      "rules": {
-      "sku": 11,
-      "label-unsupported": 6
+      "sku": 14
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "AireOS Wireless LAN Controllers shared parts",
+     "family": "(shared across the line)",
+     "role": null,
+     "note": null,
+     "parts": 7,
+     "kinds": {
+      "module": 6,
+      "power": 1
+     },
+     "roles": {},
+     "samples": [
+      "AIR-CT6870-NIC-K9 — PCIe Network Interface 20G",
+      "AIR-CT6880-NIC-K9 — PCIe Network Interface 40G",
+      "AIR-SD240G0KS2-EV — 240GB 2.5 inch Enterprise Value 6G SATA SSD",
+      "AIR-SD240G0KS2-EV= — Spare SSD for Cisco Wireless Controller 5520 and 8540",
+      "AIR-SRVR-300GB-HD= — Field replaceable 300GB HD for wireless/management servers",
+      "AIR-SRVR-PWR= — Field replaceable AC power supply for wireless appliances"
+     ],
+     "rules": {
+      "sku": 3,
+      "label-unsupported": 4
      },
      "pending_in": {}
     }
@@ -1655,17 +1678,17 @@
   },
   {
    "line": "Wireless Antennas and Accessories",
-   "parts": 301,
+   "parts": 297,
    "series": [
     {
      "series": "Antennas",
      "family": null,
      "role": null,
      "note": "^ANT- removed (layers round 3): it placed no wireless row (the two it matched, ANT-ROOM70-KIT, are Webex Room 70 parts excluded to collaboration-endpoints) and claimed 34 routers antennas. ^AIR-ANT also places the 7 Aironet antennas planned in from routers, beside their spares",
-     "parts": 142,
+     "parts": 141,
      "kinds": {
       "cable": 1,
-      "antenna": 140,
+      "antenna": 139,
       "mechanical": 1
      },
      "roles": {},
@@ -1678,7 +1701,7 @@
       "AIR-ANT1728 — 2.4 GHz, 5.2 dBi Ceiling Omni Ant. w/RP-TNC Connector"
      ],
      "rules": {
-      "sku": 142
+      "sku": 141
      },
      "pending_in": {
       "interfaces-modules": 2,
@@ -1689,11 +1712,11 @@
      "series": "Power injectors, supplies and cords",
      "family": null,
      "role": null,
-     "note": "^PWR- fenced to the wireless rows it holds (layers round 3; operator: claimant-rule-too-broad, fixed in the wireless round): the 3504 / 2504 controller supplies, the Catalyst wireless controller 750 W / 950 W supplies PWR-CH1-750ACR / 750WACR / 950WDCR (the other PWR-CH1- supplies are routers'), the internal C13-C14 cords and PWR-RPS-DC1=. The INT cords are fenced to the 0.7 m length wireless holds (collaboration-endpoints round): the 0.2 / 0.22 / 0.6 / 1.3 / 1.4 / 1.45 / 1.85 / 3.0 m INT cords are Room and TelePresence parts (Room Panorama and Room Kit EQX amp-to-camera cables, TelePresence C13-C14 jumpers) and stay in collaboration-endpoints",
-     "parts": 99,
+     "note": "^PWR- fenced to the wireless rows it holds (layers round 3; operator: claimant-rule-too-broad, fixed in the wireless round): the 3504 / 2504 controller supplies, the internal C13-C14 cords and PWR-RPS-DC1=. CH1-(750W?ACR|950WDCR) removed (re-audit decisions, operator, 15 Sep 2026, Q-11): the PWR-CH1 750 W / 950 W supplies are the Catalyst 8500's (their spares in routers are named 'Cisco C8500 750W AC Power'); the three wireless rows PWR-CH1-750ACR / 750WACR / 950WDCR carry move plans to routers Catalyst 8500. The INT cords are fenced to the 0.7 m length wireless holds (collaboration-endpoints round): the 0.2 / 0.22 / 0.6 / 1.3 / 1.4 / 1.45 / 1.85 / 3.0 m INT cords are Room and TelePresence parts (Room Panorama and Room Kit EQX amp-to-camera cables, TelePresence C13-C14 jumpers) and stay in collaboration-endpoints",
+     "parts": 96,
      "kinds": {
       "cable": 65,
-      "power": 21,
+      "power": 18,
       "power-injector": 13
      },
      "roles": {},
@@ -1706,7 +1729,7 @@
       "AIR-PWR-5500-AC — Cisco 5500 Series Wireless Controller Redundant Power Supply"
      ],
      "rules": {
-      "sku": 99
+      "sku": 96
      },
      "pending_in": {
       "collaboration-endpoints": 1
@@ -1773,7 +1796,7 @@
    "series_label": "Business 100",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "3-CBW240AC-x",
@@ -1781,7 +1804,7 @@
    "series_label": "Business 200",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "5-CBW140AC-x",
@@ -1789,7 +1812,7 @@
    "series_label": "Business 100",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "5-CBW240AC-x",
@@ -1797,15 +1820,7 @@
    "series_label": "Business 200",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
-  },
-  {
-   "sku": "9800-L",
-   "name": "Cisco 9800-L",
-   "series_label": "Catalyst 9800 Series Wireless Controllers",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-ACCAMK1520-3",
@@ -1824,6 +1839,14 @@
    "reason": "not orderable: the catalogue row itself says 'Do not use' / 'invalid PID' / 'not used yet' (the datasheet-cell rule of round 2c: a SKU that is not an orderable PID)"
   },
   {
+   "sku": "AIR-ANT5175V-N",
+   "name": "NOT USED 4.9 GHz-5.8 GHz Omni with N Connector",
+   "series_label": "Antennas/Accessories",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
+  },
+  {
    "sku": "AIR-AP-NO-BRACKET",
    "name": "Select this option if no bracket is required",
    "series_label": "Catalyst 9163",
@@ -1837,7 +1860,7 @@
    "series_label": "Aironet 1540",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1542I-x-K9",
@@ -1845,7 +1868,7 @@
    "series_label": "Aironet 1540",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1562D-x-K9",
@@ -1853,7 +1876,7 @@
    "series_label": "Aironet 1560",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1562E-x-K9",
@@ -1861,7 +1884,7 @@
    "series_label": "Aironet 1560",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1562I-x-K9",
@@ -1869,7 +1892,7 @@
    "series_label": "Aironet 1560",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1572EAC-UXK9",
@@ -1885,7 +1908,7 @@
    "series_label": "Aironet 1570",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1572EC1-UXK9",
@@ -1901,7 +1924,7 @@
    "series_label": "Aironet 1570",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1572EC2-UXK9",
@@ -1917,7 +1940,7 @@
    "series_label": "Aironet 1570",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1572EC3-UXK9",
@@ -1933,7 +1956,7 @@
    "series_label": "Aironet 1570",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1572EC4-x-K9",
@@ -1941,7 +1964,7 @@
    "series_label": "Aironet 1570",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1572IC1-UXK9",
@@ -1957,7 +1980,7 @@
    "series_label": "Aironet 1570",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1572IC2-UXK9",
@@ -1973,7 +1996,7 @@
    "series_label": "Aironet 1570",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1572IC3-UXK9",
@@ -1989,7 +2012,7 @@
    "series_label": "Aironet 1570",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-AP1572IC4-x-K9",
@@ -1997,7 +2020,7 @@
    "series_label": "Aironet 1570",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-CAP1552H-x-K9",
@@ -2005,7 +2028,7 @@
    "series_label": "Aironet 1550",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "AIR-PROMO-2-2011",
@@ -2030,30 +2053,6 @@
    "action": "move",
    "to": "collaboration-endpoints",
    "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "AP1572EAC",
-   "name": "Cisco AP1572EAC",
-   "series_label": "Aironet 1570",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "AP1572EC",
-   "name": "Cisco AP1572EC",
-   "series_label": "Aironet 1570",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "AP1572IC",
-   "name": "Cisco AP1572IC",
-   "series_label": "Aironet 1570",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
   },
   {
    "sku": "ASR5000-CHS-SP-K9=",
@@ -2872,14 +2871,6 @@
    "reason": "Catalyst 4948E front and rear mount brackets filed under a Catalyst 9163 label: goes with the Catalyst 4900 in switches (A.3 rule 1; the exclusion's reason, now a plan)"
   },
   {
-   "sku": "C9105",
-   "name": "Cisco C9105",
-   "series_label": "Catalyst 9105AX",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
    "sku": "C9105AXI",
    "name": "Cisco C9105AXI",
    "series_label": "Catalyst 9105AX",
@@ -2893,7 +2884,7 @@
    "series_label": "Catalyst 9800 Series Wireless Controllers",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "C9105AXI-x",
@@ -2901,7 +2892,7 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "C9105AXW-KIT",
@@ -2925,7 +2916,15 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
+  },
+  {
+   "sku": "C9115AXE-EWC-X",
+   "name": "Cisco Catalyst 9115AXE Access Point, external antenna",
+   "series_label": "Catalyst Embedded Controller",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
   },
   {
    "sku": "C9115AXE-x",
@@ -2933,7 +2932,15 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
+  },
+  {
+   "sku": "C9115AXI-EWC-X",
+   "name": "Cisco Catalyst 9115AXI Access Point, internal antenna",
+   "series_label": "Catalyst Embedded Controller",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
   },
   {
    "sku": "C9115AXI-x",
@@ -2941,7 +2948,23 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
+  },
+  {
+   "sku": "C9117AXI-EWC-X",
+   "name": "Cisco Catalyst 9117AXI Access Point, internal antenna",
+   "series_label": "Catalyst Embedded Controller",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
+  },
+  {
+   "sku": "C9120AXE-EWC-X",
+   "name": "Cisco Catalyst 9120AXE Access Point, external antenna",
+   "series_label": "Catalyst Embedded Controller",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
   },
   {
    "sku": "C9120AXE-x",
@@ -2949,7 +2972,15 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
+  },
+  {
+   "sku": "C9120AXI-EWC-X",
+   "name": "Cisco Catalyst 9120AXI Access Point, internal antenna",
+   "series_label": "Catalyst Embedded Controller",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
   },
   {
    "sku": "C9120AXI-x",
@@ -2957,7 +2988,15 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
+  },
+  {
+   "sku": "C9120AXP-EWC-X",
+   "name": "Cisco Embedded Wireless Controller on Catalyst Access Points: Indoor, professional installations. (Regulatory domains: (x = regulatory domain).",
+   "series_label": "Catalyst Embedded Controller",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
   },
   {
    "sku": "C9120AXP-x",
@@ -2965,7 +3004,15 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
+  },
+  {
+   "sku": "C9124AXD-EWC-X",
+   "name": "Cisco Catalyst 9124AX Series Access point with Embedded wireless controller (internal directionalantenna)",
+   "series_label": "Catalyst 9800 Series Wireless Controllers",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
   },
   {
    "sku": "C9124AXD-x",
@@ -2973,7 +3020,15 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
+  },
+  {
+   "sku": "C9124AXE-EWC-X",
+   "name": "Cisco Catalyst 9124AX Series Access point with Embedded wireless controller (External Antenna)",
+   "series_label": "Catalyst 9800 Series Wireless Controllers",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
   },
   {
    "sku": "C9124AXE-x",
@@ -2981,7 +3036,7 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "C9124AXI-EWC-C",
@@ -2992,20 +3047,28 @@
    "reason": "not orderable: the catalogue row itself says 'Do not use' / 'invalid PID' / 'not used yet' (the datasheet-cell rule of round 2c: a SKU that is not an orderable PID)"
   },
   {
+   "sku": "C9124AXI-EWC-X",
+   "name": "Cisco Catalyst 9124AX Series Access point with Embedded wireless controller (internal omnidirectionalantenna)",
+   "series_label": "Catalyst 9800 Series Wireless Controllers",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
+  },
+  {
    "sku": "C9124AXI-x",
    "name": "Cisco Catalyst 9124AX Outdoor Access Point, internal omnidirectional antenna; Wi-Fi 6; 4x4:4 MIMO",
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
-   "sku": "C9130AXE",
-   "name": "Cisco C9130AXE",
-   "series_label": "Catalyst 9105AX",
+   "sku": "C9130AXE-EWC-X",
+   "name": "Cisco Catalyst 9130AXE Access Point, external antenna",
+   "series_label": "Catalyst Embedded Controller",
    "action": "class",
    "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
   },
   {
    "sku": "C9130AXE-STA-x",
@@ -3013,7 +3076,7 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "C9130AXE-x",
@@ -3021,15 +3084,15 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
-   "sku": "C9130AXI",
-   "name": "Cisco C9130AXI",
-   "series_label": "Catalyst 9105AX",
+   "sku": "C9130AXI-EWC-X",
+   "name": "Cisco Catalyst 9130AXI Access Point, internal antenna",
+   "series_label": "Catalyst Embedded Controller",
    "action": "class",
    "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
   },
   {
    "sku": "C9130AXI-x",
@@ -3037,7 +3100,7 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "C9136I-x",
@@ -3045,15 +3108,7 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
-  },
-  {
-   "sku": "C9800-L",
-   "name": "Cisco C9800-L",
-   "series_label": "Catalyst 9800 Series Wireless Controllers",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "CAB-2DC-BRL-0.93M-",
@@ -3237,7 +3292,7 @@
    "series_label": "Business 100",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "CBW141ACM-x-xx",
@@ -3245,7 +3300,7 @@
    "series_label": "Business 100 Series Mesh Extenders",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "CBW142ACM-x-xx",
@@ -3253,7 +3308,7 @@
    "series_label": "Business 100 Series Mesh Extenders",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "CBW143ACM-x-xx",
@@ -3261,7 +3316,7 @@
    "series_label": "Business 100 Series Mesh Extenders",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "CBW145AC-x",
@@ -3269,7 +3324,7 @@
    "series_label": "Business 100",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "CBW240AC-x",
@@ -3277,7 +3332,7 @@
    "series_label": "Business 200",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "COUNTRYPOWERCAAV3",
@@ -3536,20 +3591,12 @@
    "reason": "TelePresence room-system part filed in wireless"
   },
   {
-   "sku": "CW9162",
-   "name": "Cisco CW9162",
-   "series_label": "Catalyst 9800 Series Wireless Controllers",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
    "sku": "CW9162I-x",
    "name": "Cisco Catalyst 9162I Access Point, Wi-Fi 6E, internal antennas, 2x2+2x2+2x2 MIMO, 2.5G mGig with Reg-X.",
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "CW9163E-x",
@@ -3557,15 +3604,31 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
-   "sku": "CW9166",
-   "name": "Cisco CW9166",
-   "series_label": "Catalyst 9800 Series Wireless Controllers",
+   "sku": "CW9164I-X",
+   "name": "Cisco Catalyst 9164I Access Point, Wi-Fi 6E, internal antennas, 2x2+4x4+4x4 MIMO, 2.5G mGig with Reg-X.",
+   "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
+  },
+  {
+   "sku": "CW9166D1-X",
+   "name": "Cisco Catalyst 9166DI Access Point, Wi-Fi 6E, integrated directional antenna, 4x4+4x4+4x4 MIMO with XOR radio, 5G mGig, with Reg-X.",
+   "series_label": "Catalyst 9163",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
+  },
+  {
+   "sku": "CW9166I-X",
+   "name": "Cisco Catalyst 9166I Access Point, Wi-Fi 6E, internal antennas, 4x4+4x4+4x4 MIMO with XOR radio, 5G mGig with Reg-X",
+   "series_label": "Catalyst 9163",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain placeholder written in upper case, named by SKU (re-audit decisions, operator, 15 Sep 2026, Q-10): Cisco's Wireless Ordering Guide prints the same PID as CW9166I-x and CW9166I-X with the same text and says \"'x' is a placeholder for the regulatory domain designator\" (example CW9166I-B); the Embedded Wireless Controller FAQ writes C9115AXI-EWC-x beside C9124AXI-EWC-X. Upper-case -X is also a model name elsewhere (ASR1001-X, N9K-C92160YC-X, SFP-10G-LR-X), so the rule is never case-insensitive"
   },
   {
    "sku": "MA-PWR-30W-xx",
@@ -3573,7 +3636,7 @@
    "series_label": "Catalyst 9163",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "MEM-SAMI-6P-2GB",
@@ -3720,22 +3783,6 @@
    "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
   },
   {
-   "sku": "MR36",
-   "name": "Cisco MR36",
-   "series_label": "Catalyst 9800 Series Wireless Controllers",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MR46",
-   "name": "Cisco MR46",
-   "series_label": "Catalyst 9800 Series Wireless Controllers",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
    "sku": "PI-MSE-PRMO-INSRT",
    "name": "Insert, Packout - PI-MSE",
    "series_label": "Aironet 1550",
@@ -3776,6 +3823,30 @@
    "reason": "licence promotion"
   },
   {
+   "sku": "PWR-CH1-750ACR",
+   "name": "Cisco Catalyst Wireless Controller 750W AC Power Supply",
+   "series_label": "Catalyst 9800 Series Wireless Controllers",
+   "action": "move",
+   "to": "routers",
+   "reason": "Catalyst 8500 750 W AC / 950 W DC supply: its spares sit in routers Catalyst 8500 named 'Cisco C8500 … Power, Spare'; one home, routers (re-audit decisions, operator, 15 Sep 2026, Q-11)"
+  },
+  {
+   "sku": "PWR-CH1-750WACR",
+   "name": "Cisco Catalyst wireless controller 750W AC Power Supply",
+   "series_label": "Catalyst 9800 Series Wireless Controllers",
+   "action": "move",
+   "to": "routers",
+   "reason": "Catalyst 8500 750 W AC / 950 W DC supply: its spares sit in routers Catalyst 8500 named 'Cisco C8500 … Power, Spare'; one home, routers (re-audit decisions, operator, 15 Sep 2026, Q-11)"
+  },
+  {
+   "sku": "PWR-CH1-950WDCR",
+   "name": "Cisco 950W DC power adapter",
+   "series_label": "Catalyst 9800 Series Wireless Controllers",
+   "action": "move",
+   "to": "routers",
+   "reason": "Catalyst 8500 750 W AC / 950 W DC supply: its spares sit in routers Catalyst 8500 named 'Cisco C8500 … Power, Spare'; one home, routers (re-audit decisions, operator, 15 Sep 2026, Q-11)"
+  },
+  {
    "sku": "SB-PWR-48V",
    "name": "Cisco Small Business 48V Power Adapter",
    "series_label": "Small Business 500",
@@ -3789,7 +3860,7 @@
    "series_label": "Small Business 300",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "SB-PWR-INJ1-xx",
@@ -3797,7 +3868,7 @@
    "series_label": "Small Business 100",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "SB-PWR-INJ2-xx",
@@ -3805,7 +3876,7 @@
    "series_label": "Small Business 100",
    "action": "class",
    "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks (ordering-guide cell), not an orderable PID — the datasheet-cell rule, extended in layers round 3; decision pending: a new placeholder shape beside length / channel / family"
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "SOFTWAREAAV1",
@@ -3843,9 +3914,9 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 30,
+  "label_placed": 28,
   "by_kind": {
-   "none": 19,
+   "none": 17,
    "sku-token": 2,
    "name": 9
   },
@@ -3953,22 +4024,6 @@
     "from_series": "Aironet 1550",
     "to_series": "Aironet Access Points shared parts",
     "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-VCU-CELLPCS12",
-    "name": "MobileAccessVE Control Unit for CELL/PCS bands, 12 ports",
-    "series_label": "5500",
-    "from_series": "5500 (5508 / 5520 / 5540)",
-    "to_series": "AireOS Wireless LAN Controllers shared parts",
-    "why": "no platform token (5500, 5508, 5520, 5540) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-VCU-CELLPCS12=",
-    "name": "MobileAccessVE Control Unit for CELL/PCS bands, 12 ports",
-    "series_label": "5500",
-    "from_series": "5500 (5508 / 5520 / 5540)",
-    "to_series": "AireOS Wireless LAN Controllers shared parts",
-    "why": "no platform token (5500, 5508, 5520, 5540) in the SKU or name, no compatible part placed in the series"
    },
    {
     "sku": "AP-MIGR-PRM",

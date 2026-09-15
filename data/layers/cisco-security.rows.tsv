@@ -2,9 +2,9 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 1210CE	Cisco 1210CE	Secure Firewall 1200 Series	firewall	layered	Secure Firewall and Firepower		Secure Firewall 1200	sku ^12[0-9]0C[EPX]						
 1210CP	Cisco 1210CP	Secure Firewall 1200 Series	firewall	layered	Secure Firewall and Firepower		Secure Firewall 1200	sku ^12[0-9]0C[EPX]						
 1220CX	Cisco 1220CX	Secure Firewall 1200 Series	firewall	layered	Secure Firewall and Firepower		Secure Firewall 1200	sku ^12[0-9]0C[EPX]						
-5515-X	Cisco 5515-X	ASA 5500 Series Next Generation	firewall	pending_plan								class non_product		
-5525-X	Cisco 5525-X	ASA 5500 Series Next Generation	firewall	pending_plan								class non_product		
-5545-X	Cisco 5545-X	ASA 5500 Series Next Generation	firewall	pending_plan								class non_product		
+5515-X	Cisco 5515-X	ASA 5500 Series Next Generation	firewall	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^55(1[256]|25|45|55)-X$						
+5525-X	Cisco 5525-X	ASA 5500 Series Next Generation	firewall	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^55(1[256]|25|45|55)-X$						
+5545-X	Cisco 5545-X	ASA 5500 Series Next Generation	firewall	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^55(1[256]|25|45|55)-X$						
 71XX-PA-SM-BLANK	Cisco 7160 Port Adapter and Service Module blank face plate	FirePOWER 7000 Appliances	accessory	layered	Secure Firewall and Firepower	(shared across the line)	Secure Firewall and Firepower shared parts	accessory BLANK (label FirePOWER 7000 Appliances)						
 AIM-DES/BP	DES Crypto AIM for Cisco 2600 - Base Performance	FirePOWER 7000 Appliances	module	pending_plan								move interfaces-modules		
 AMP-S800GK3X-EP	Cisco Secure Endpoint Cloud 800GB SSD	Fireamp Endpoints	drive	layered	Secure Endpoint Private Cloud		Secure Endpoint (AMP) private cloud appliances	sku ^AMP-S						
@@ -46,26 +46,26 @@ ASA-5525	Cisco ASA-5525	ASA 5500 Series Next Generation	firewall	layered	ASA and
 ASA-5545	Cisco ASA-5545	ASA 5500 Series Next Generation	firewall	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-?55(0[68]|1[256]|25|45|55)						
 ASA-5555	Cisco ASA-5555	ASA 5500 Series Next Generation	firewall	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-?55(0[68]|1[256]|25|45|55)						
 ASA-BRACKETS=	Cisco ASA 5512-X, 5515-X, 5525-X brackets for rack mounting	ASA 5500 Series Next Generation	mechanical	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-CX10-INC-K8	ASA 5585-X CX SSP-10 with 8GE, DES	ASA 5500 Series Next Generation	security-module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-CX20-INC-K8	ASA 5585-X CX SSP-20 with 8GE, DES	ASA 5500 Series Next Generation	security-module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-CX40-INC-K8	ASA 5585-X CX SSP-40 with 6GE,4SFP+, DES	ASA 5500 Series Next Generation	security-module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-CX60-INC-K8	ASA 5585-X CX SSP-60 with 6GE,4SFP+, DES	ASA 5500 Series Next Generation	security-module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
+ASA-CX10-INC-K8	ASA 5585-X CX SSP-10 with 8GE, DES	ASA 5500 Series Next Generation	security-module	layered	ASA and ISA		ASA 5585-X	sku ^ASA-CX[0-9]+-INC-K8						
+ASA-CX20-INC-K8	ASA 5585-X CX SSP-20 with 8GE, DES	ASA 5500 Series Next Generation	security-module	layered	ASA and ISA		ASA 5585-X	sku ^ASA-CX[0-9]+-INC-K8						
+ASA-CX40-INC-K8	ASA 5585-X CX SSP-40 with 6GE,4SFP+, DES	ASA 5500 Series Next Generation	security-module	layered	ASA and ISA		ASA 5585-X	sku ^ASA-CX[0-9]+-INC-K8						
+ASA-CX60-INC-K8	ASA 5585-X CX SSP-60 with 6GE,4SFP+, DES	ASA 5500 Series Next Generation	security-module	layered	ASA and ISA		ASA 5585-X	sku ^ASA-CX[0-9]+-INC-K8						
 ASA-HD-BLANK	^ASA 5512-X - 5555-X Hard Drive Blank Slot Cover	5500-X ASA with Firepower	mechanical	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
 ASA-HD-BLANK=	^ASA 5512-X - 5555-X Hard Drive Blank Slot Cover (Spare)	ASA 5500 Series Next Generation	mechanical	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GE-CU-A	Cisco ASA Interface Card with 6 copper Gigabit Ethernet data ports for ASA 5512-X and ASA 5515-X	ASA 5500 Series Next Generation	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GE-CU-A=	Cisco ASA Interface Card with 6 copper Gigabit Ethernet data ports for ASA 5512-X and ASA 5515-X (spare)	ASA 5500 Series Next Generation	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GE-CU-B	Cisco ASA Interface Card with 6 copper Gigabit Ethernet data ports for ASA 5525-X	ASA 5500 Series Next Generation	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GE-CU-B=	Cisco ASA Interface Card with 6 copper Gigabit Ethernet data ports for ASA 5525-X (spare)	ASA 5500 Series Next Generation	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GE-CU-C	Cisco ASA Interface Card with 6 copper Gigabit Ethernet data ports for ASA 5545-X and ASA 5555-X	ASA 5500 Series Next Generation	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GE-CU-C=	Cisco ASA Interface Card with 6 copper Gigabit Ethernet data ports for ASA 5545-X and ASA 5555-X (spare)	ASA 5500 Series Next Generation	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GE-SFP-A	Cisco ASA Interface Card with 6 SFP Gigabit Ethernet data ports (SX, LH, LX) for ASA 5512-X and ASA 5515-X	ASA 5500 Series Next Generation	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GE-SFP-A=	Cisco ASA Interface Card with 6 SFP Gigabit Ethernet data ports (SX, LH, LX) for ASA 5512-X and ASA 5515-X (spare)	ASA 5500 Series Next Generation	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GE-SFP-B	Cisco ASA Interface Card with 6 SFP Gigabit Ethernet data ports (SX, LH, LX) for ASA 5525-X	ASA 5500 Series Next Generation	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GE-SFP-B=	Cisco ASA Interface Card with 6 SFP Gigabit Ethernet data ports (SX, LH, LX) for ASA 5525-X (spare)	ASA 5500 Series Next Generation	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GE-SFP-C	Cisco ASA Interface Card with 6 SFP Gigabit Ethernet data ports (SX, LH, LX) for ASA 5545-X and ASA 5555-X	ASA 5500 Series Next Generation	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GE-SFP-C=	Cisco ASA Interface Card with 6 SFP Gigabit Ethernet data ports (SX, LH, LX) for ASA 5545-X and ASA 5555-X (spare)	ASA 5500 Series Next Generation	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GECU-INC-B	^ASA 5525-X Intf. Card 6-port 10/100/1000 (Incl. w/ Bundle)	5500-X ASA with Firepower	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
-ASA-IC-6GECU-INC-C	^ASA 5545-X/5555-X Intf Card 6-port 10/100/1000 (Incl w/ Bdl)	5500-X ASA with Firepower	module	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
+ASA-IC-6GE-CU-A	Cisco ASA Interface Card with 6 copper Gigabit Ethernet data ports for ASA 5512-X and ASA 5515-X	ASA 5500 Series Next Generation	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GE-CU-A=	Cisco ASA Interface Card with 6 copper Gigabit Ethernet data ports for ASA 5512-X and ASA 5515-X (spare)	ASA 5500 Series Next Generation	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GE-CU-B	Cisco ASA Interface Card with 6 copper Gigabit Ethernet data ports for ASA 5525-X	ASA 5500 Series Next Generation	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GE-CU-B=	Cisco ASA Interface Card with 6 copper Gigabit Ethernet data ports for ASA 5525-X (spare)	ASA 5500 Series Next Generation	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GE-CU-C	Cisco ASA Interface Card with 6 copper Gigabit Ethernet data ports for ASA 5545-X and ASA 5555-X	ASA 5500 Series Next Generation	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GE-CU-C=	Cisco ASA Interface Card with 6 copper Gigabit Ethernet data ports for ASA 5545-X and ASA 5555-X (spare)	ASA 5500 Series Next Generation	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GE-SFP-A	Cisco ASA Interface Card with 6 SFP Gigabit Ethernet data ports (SX, LH, LX) for ASA 5512-X and ASA 5515-X	ASA 5500 Series Next Generation	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GE-SFP-A=	Cisco ASA Interface Card with 6 SFP Gigabit Ethernet data ports (SX, LH, LX) for ASA 5512-X and ASA 5515-X (spare)	ASA 5500 Series Next Generation	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GE-SFP-B	Cisco ASA Interface Card with 6 SFP Gigabit Ethernet data ports (SX, LH, LX) for ASA 5525-X	ASA 5500 Series Next Generation	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GE-SFP-B=	Cisco ASA Interface Card with 6 SFP Gigabit Ethernet data ports (SX, LH, LX) for ASA 5525-X (spare)	ASA 5500 Series Next Generation	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GE-SFP-C	Cisco ASA Interface Card with 6 SFP Gigabit Ethernet data ports (SX, LH, LX) for ASA 5545-X and ASA 5555-X	ASA 5500 Series Next Generation	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GE-SFP-C=	Cisco ASA Interface Card with 6 SFP Gigabit Ethernet data ports (SX, LH, LX) for ASA 5545-X and ASA 5555-X (spare)	ASA 5500 Series Next Generation	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GECU-INC-B	^ASA 5525-X Intf. Card 6-port 10/100/1000 (Incl. w/ Bundle)	5500-X ASA with Firepower	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
+ASA-IC-6GECU-INC-C	^ASA 5545-X/5555-X Intf Card 6-port 10/100/1000 (Incl w/ Bdl)	5500-X ASA with Firepower	module	layered	ASA and ISA		ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)	sku ^ASA-IC-6GE						
 ASA-IC-A-BLANK	^ASA 5512-X/5515-X Interface Card Blank Slot Cover	5500-X ASA with Firepower	mechanical	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
 ASA-IC-A-BLANK=	^ASA 5512-X/5515-X Interface Card Blank Slot Cover(Spare)	5500-X ASA with Firepower	mechanical	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
 ASA-IC-B-BLANK	^ASA 5525-X Interface Card Blank Slot Cover	5500-X ASA with Firepower	mechanical	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	sku ^ASA						
@@ -767,7 +767,7 @@ FP-NMSB-10G-	Cisco FirePOWER LCD 10G Switch - 2U	Firepower 9300 Series	module	la
 FP-NMSB-10G=	Cisco FirePOWER LCD 10G Switch - 2U	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB						
 FP-NMSB-1U-10G-	Cisco FirePOWER LCD 10G Switch - 1U	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB						
 FP-NMSB-1U-10G=	Cisco FirePOWER LCD 10G Switch - 1U	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB						
-FP-NMSB-40G	Do Not Use - FirePOWER 40G Switch Module for 40Gbps Net Mods	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB						
+FP-NMSB-40G	Do Not Use - FirePOWER 40G Switch Module for 40Gbps Net Mods	Firepower 9300 Series	module	pending_plan								class non_product		
 FP-NMSB-40G-	Cisco FirePOWER 40G Switch Module to support 40Gbps Net Mods	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB						
 FP-NMSB-40G=	Cisco FirePOWER 40G Switch Module to support 40Gbps Net Mods	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB						
 FP-NMSB-CABLE	Cisco FirePOWER Stacking Module Cables	FirePOWER 8000 Appliances	cable	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB						
@@ -1192,8 +1192,8 @@ FPR4K-NM-2X100G=	Cisco FirePower 2 port 100G Network Module	4100 Firepower	modul
 FPR4K-NM-2X40G-F	Cisco Firepower 2-port 40G SR FTW Network Module	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K						
 FPR4K-NM-2X40G-F=	Cisco Firepower 2-port 40G SR FTW Network Module (Spare)	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K						
 FPR4K-NM-4X40G	Cisco Firepower 4-port QSFP+ Network Module	4100 Firepower	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K						
-FPR4K-NM-4X40G-F	DO NOT USE	Firepower NGFW	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K						
-FPR4K-NM-4X40G-F=	DO NOT USE	Firepower NGFW	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K						
+FPR4K-NM-4X40G-F	DO NOT USE	Firepower NGFW	module	pending_plan								class non_product		
+FPR4K-NM-4X40G-F=	DO NOT USE	Firepower NGFW	module	pending_plan								class non_product		
 FPR4K-NM-4X40G=	Cisco Firepower 4-port QSFP+ Network Module	4100 Firepower	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K						
 FPR4K-NM-6X10LR-F	Cisco Firepower 6-port 10G LR FTW Network Module	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K						
 FPR4K-NM-6X10LR-F=	Cisco Firepower 6-port 10G LR FTW Network Module (Spare)	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K						
@@ -1589,8 +1589,8 @@ PWR-AC-71XX	Cisco 7160 Single AC Power Supply (default)	FirePOWER 7000 Appliance
 PWR-BLANK-71XX	Cisco 7160 blank for power supply	FirePOWER 7000 Appliances	mechanical	pending_plan								move routers		
 PWR-DT-150W-AC=	Power supply, desktop, 150W, AC input	4100 Firepower	power	layered	Secure Firewall and Firepower	(shared across the line)	Secure Firewall and Firepower shared parts	label-unsupported (label 4100 Firepower; was Firepower 4100): no platform token (4100) in the SKU or name, no compatible part placed in the series						none: no platform token (4100) in the SKU or name, no compatible part placed in the series
 PWR-DT-30W-AC=	Power supply, compact, 30W, AC input	4100 Firepower	power	layered	Secure Firewall and Firepower	(shared across the line)	Secure Firewall and Firepower shared parts	label-unsupported (label 4100 Firepower; was Firepower 4100): no platform token (4100) in the SKU or name, no compatible part placed in the series						none: no platform token (4100) in the SKU or name, no compatible part placed in the series
-PWR-IE50W-AC	Cisco PWR-IE50W-AC	3000 Series Industrial Security Appliances (ISA)	power	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	label-unsupported (label 3000 Series Industrial Security Appliances (ISA); was ISA 3000): no platform token (3000) in the SKU or name, no compatible part placed in the series						none: no platform token (3000) in the SKU or name, no compatible part placed in the series
-PWR-IE50W-AC-IEC	Cisco PWR-IE50W-AC-IEC	3000 Series Industrial Security Appliances (ISA)	power	layered	ASA and ISA	(shared across the line)	ASA and ISA shared parts	label-unsupported (label 3000 Series Industrial Security Appliances (ISA); was ISA 3000): no platform token (3000) in the SKU or name, no compatible part placed in the series						none: no platform token (3000) in the SKU or name, no compatible part placed in the series
+PWR-IE50W-AC	Cisco PWR-IE50W-AC	3000 Series Industrial Security Appliances (ISA)	power	pending_plan								move switches		
+PWR-IE50W-AC-IEC	Cisco PWR-IE50W-AC-IEC	3000 Series Industrial Security Appliances (ISA)	power	pending_plan								move switches		
 S170	Cisco S170	Secure Web Appliance	web-gateway	layered	Secure Email and Web		Secure Web Appliance (WSA)	sku ^S[0-9]{3}(?![0-9])						
 S196	Cisco S196	Secure Web Appliance	web-gateway	layered	Secure Email and Web		Secure Web Appliance (WSA)	sku ^S[0-9]{3}(?![0-9])						
 S380	Cisco S380	Secure Web Appliance	web-gateway	layered	Secure Email and Web		Secure Web Appliance (WSA)	sku ^S[0-9]{3}(?![0-9])						

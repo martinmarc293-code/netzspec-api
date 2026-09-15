@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "video",
- "built_at": "2026-09-15T13:10:59.663Z",
- "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
+ "built_at": "2026-09-15T18:46:57.081Z",
+ "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-video.json",
  "parts": 3319,
@@ -493,7 +493,7 @@
   },
   {
    "line": "RF Gateway",
-   "parts": 383,
+   "parts": 382,
    "series": [
     {
      "series": "RFGW-10",
@@ -561,12 +561,12 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 44,
+     "parts": 43,
      "kinds": {
       "cable": 11,
       "plug-in": 1,
       "unknown": 1,
-      "accessory": 3,
+      "accessory": 2,
       "linecard": 18,
       "mechanical": 10
      },
@@ -580,7 +580,7 @@
       "9270F-DIFL — Cisco 9270F-DIFL"
      ],
      "rules": {
-      "label": 7,
+      "label": 6,
       "accessory": 3,
       "sku": 34
      },
@@ -669,6 +669,14 @@
  ],
  "not_this_category": [],
  "pending_plans": [
+  {
+   "sku": "MEM-C4K-FLD128M=",
+   "name": "Cat 4500 IOS-based Supervisor, Compact Flash, 128MB Spare",
+   "series_label": "RF Gateway Series",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of the Catalyst 4500 supervisor Compact Flash (named 'Cat 4500 IOS-based Supervisor, Compact Flash'), whose base sits in switches Catalyst 4500-E: a platform part goes with its platform (A.3 rule 1; re-audit decisions, operator, 15 Sep 2026, Q-20)"
+  },
   {
    "sku": "RPHY-S10G-20K-200=",
    "name": "Cisco RPHY-S10G-20K-200=",

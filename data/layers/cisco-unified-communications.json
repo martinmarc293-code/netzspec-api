@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "unified-communications",
- "built_at": "2026-09-15T13:11:01.023Z",
- "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
+ "built_at": "2026-09-15T18:46:58.249Z",
+ "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",
  "parts": 497,

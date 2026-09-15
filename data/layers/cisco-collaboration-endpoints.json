@@ -1,15 +1,15 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
- "built_at": "2026-09-15T13:10:59.799Z",
- "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
+ "built_at": "2026-09-15T18:46:57.221Z",
+ "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
  "parts": 2835,
  "lines": [
   {
    "line": "Headsets",
-   "parts": 97,
+   "parts": 96,
    "series": [
     {
      "series": "Headset 320",
@@ -112,9 +112,9 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 13,
+     "parts": 12,
      "kinds": {
-      "accessory": 5,
+      "accessory": 4,
       "mechanical": 1,
       "cable": 7
      },
@@ -128,7 +128,7 @@
       "CP-HS-W-USBC — Cisco QD USB-C Headset Adapter (optional accessory) for 530 "
      ],
      "rules": {
-      "sku": 13
+      "sku": 12
      },
      "pending_in": {}
     }
@@ -136,7 +136,7 @@
   },
   {
    "line": "Webex Desk Series",
-   "parts": 125,
+   "parts": 124,
    "series": [
     {
      "series": "Desk Pro",
@@ -239,11 +239,11 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 16,
+     "parts": 15,
      "kinds": {
       "cable": 6,
       "accessory": 2,
-      "power": 4,
+      "power": 3,
       "power-cord": 4
      },
      "roles": {},
@@ -257,7 +257,7 @@
      ],
      "rules": {
       "accessory": 10,
-      "label": 6
+      "label": 5
      },
      "pending_in": {}
     }
@@ -265,7 +265,7 @@
   },
   {
    "line": "Webex Board Series",
-   "parts": 233,
+   "parts": 235,
    "series": [
     {
      "series": "Board Pro G2 (55 / 75)",
@@ -345,9 +345,9 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 26,
+     "parts": 28,
      "kinds": {
-      "cable": 24,
+      "cable": 26,
       "mechanical": 2
      },
      "roles": {},
@@ -357,10 +357,10 @@
       "CAB-CAT5E-4M — 4 meter round gray Ethernet cable for Cisco Devices",
       "CAB-CAT5E-4M= — Ethernet CAT5E Round Cable - 4 meter - Gray - SPARE (for Roo",
       "CAB-CAT5E-8M — 8 meter round gray Ethernet cable for Cisco Devices",
-      "CAB-CAT5E-8M= — Ethernet CAT5E Round Cable - 8 meter - Gray - SPARE (for Roo"
+      "CAB-CAT5E-8M- — Ethernet CAT5E Round Cable - 8 meter - Gray - SPARE (for Roo"
      ],
      "rules": {
-      "accessory": 24,
+      "accessory": 26,
       "label": 2
      },
      "pending_in": {}
@@ -369,7 +369,7 @@
   },
   {
    "line": "Webex Room Series",
-   "parts": 653,
+   "parts": 650,
    "series": [
     {
      "series": "Room Bar Pro",
@@ -589,28 +589,28 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "layers round 3 (wireless round): the USB A-B cables 'for ROOM 70 / MX800 Dual' and the grey right-angled C7 power cords, planned in from wireless — shared by several Room devices. ^CS-ROOM removed (collaboration-endpoints round): every CS-ROOM row it matched is now decided by a named Room series above it (Room Kit, Room Panorama, Room 70), so the rule decided nothing",
-     "parts": 167,
+     "parts": 164,
      "kinds": {
-      "cable": 50,
-      "power-cord": 84,
+      "cable": 47,
+      "power-cord": 83,
       "accessory": 8,
       "mechanical": 10,
-      "power": 12,
+      "power": 13,
       "unknown": 3
      },
      "roles": {},
      "samples": [
       "CAB-2HDMI-1.26M- — HDMI to HDMI Cable, 1.26 meters long for ROOM 70",
       "CAB-2HDMI-1.26M= — HDMI to HDMI Cable, 1.26 meters long for ROOM 70",
-      "CAB-2HDMI-1.5M- — Not used",
       "CAB-2HDMI-1.5M-GR — Second screen 1.5 m HDMI 2.0 certified cable",
       "CAB-2HDMI-1.5M-GR- — HDMI 2.0 Cable - 1.5 meter - Gray (for one monitor)",
-      "CAB-2HDMI-1.5M-GR= — HDMI 2.0 Cable - 1.5 meter - Gray - SPARE (for monitors)"
+      "CAB-2HDMI-1.5M-GR= — HDMI 2.0 Cable - 1.5 meter - Gray - SPARE (for monitors)",
+      "CAB-2HDMI-1.71M- — HDMI to HDMI Cable, 1.71 meters long for ROOM 55D"
      ],
      "rules": {
-      "accessory": 102,
+      "accessory": 98,
       "sku": 29,
-      "label": 36
+      "label": 37
      },
      "pending_in": {
       "wireless": 8
@@ -809,7 +809,7 @@
   },
   {
    "line": "TelePresence (legacy)",
-   "parts": 658,
+   "parts": 651,
    "series": [
     {
      "series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
@@ -850,11 +850,11 @@
      "family": null,
      "role": null,
      "note": "^CTS-CC-SX10 (layers round 3, collaboration round): 'SX10 HD w/ screen mount, int 5x cam and mic' sat in the line's shared parts by ^CTS-; so did the 'SX10 / SX20 / SX80 NAL label for China', the SX10 screen and wall mount kits, 'Bracket for SX20 and HD monitor' and 'Serial Cable for SX20'. CAB-SX80-IPQC 'Audio Cable Quad Camera to SX80' names the Quad Camera as well and stays in shared parts",
-     "parts": 65,
+     "parts": 62,
      "kinds": {
-      "mechanical": 12,
+      "mechanical": 11,
       "cable": 2,
-      "video-codec": 43,
+      "video-codec": 41,
       "accessory": 3,
       "power": 5
      },
@@ -864,11 +864,11 @@
       "BRKT-SX10-SMK+ — SX10 Screen Mount Kit",
       "BRKT-SX10-SMK= — SX10 Screen Mount Kit",
       "BRKT-SX10-WMK — Wall Mount Kit for SX10 Quick Set",
-      "BRKT-SX10-WMK- — Not used",
-      "BRKT-SX10-WMK= — SX10 Wall Mount"
+      "BRKT-SX10-WMK= — SX10 Wall Mount",
+      "BRKT-SX20-MONITOR — Bracket for SX20 and HD monitor"
      ],
      "rules": {
-      "sku": 62,
+      "sku": 59,
       "label": 3
      },
      "pending_in": {}
@@ -955,9 +955,9 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "^AVIZ-CA(300|750) (layers round 3, collaboration-endpoints round): the Avizia CA300 / CA750 clinical carts and their cabinets, trays and cords (SolutionsPlus), labelled TelePresence MX Series by the generic collaboration end-of-sale notice. The label check kept them in TelePresence MX on the cart's own model number — CA300 read as the MX300 token, CA750 as a 7xx model of MX700 — which names no MX; with AVIZ-EDU=, AVIZ-SYN= and AVIZ-TAC-K9 they are Avizia products no document ties to one system. AVIZ-MXCART= 'Avizia MX Cart' names MX and stays there. — decision pending: CTS-LAPT-DISP / CTS-LAPT-DISP= 'TelePresence Laptop Display' and CTS-VX-EDUCATOR-K9 'VX Educator package' are whole products (kinds display / video-device) that no document ties to a TelePresence series — only the generic 'HW Collaboration PIDs' / 'Collaboration PIDs' end-of-sale notices name them, under the TelePresence MX Series label, and the catalogue holds no other VX row. Kept here (recommendation) until a series is named (layers round 3, collaboration-endpoints round)",
-     "parts": 245,
+     "parts": 241,
      "kinds": {
-      "mechanical": 15,
+      "mechanical": 11,
       "accessory": 18,
       "cable": 71,
       "power-cord": 122,
@@ -978,7 +978,7 @@
      "rules": {
       "sku": 46,
       "label-unsupported": 6,
-      "accessory": 193
+      "accessory": 189
      },
      "pending_in": {
       "wireless": 2
@@ -988,7 +988,7 @@
   },
   {
    "line": "IP Phones",
-   "parts": 847,
+   "parts": 843,
    "series": [
     {
      "series": "IP Phone 3900",
@@ -1535,9 +1535,9 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "^CIUS-BATTERY (layers round 3, servers round): CIUS-BATTERY=, the Cius tablet endpoint's battery planned in from servers-unified-computing; the catalogue holds no Cius endpoint to give it a series. ^MB100$ (collaboration-endpoints round): 'Wall-mount brackets for SPA 300, SPA 500, CP 500, and SPA 900 Series' names two series of this line and two outside it; the label check kept it in SPA300 IP Phones because a sibling's three-digit token (500) is too weak to contradict a label, but a part named for several series is what the line's shared parts hold",
-     "parts": 61,
+     "parts": 57,
      "kinds": {
-      "power-cord": 20,
+      "power-cord": 16,
       "accessory": 7,
       "mechanical": 3,
       "power": 30,
@@ -1545,16 +1545,16 @@
      },
      "roles": {},
      "samples": [
-      "CAB-AC2= — AC Power Cord N. America for Cisco Unified Wireless IP Phone",
       "CAB-AC2AUS= — AC Power Cord Australia for Cisco Unified Wireless IP Phone ",
       "CAB-AC2CHI= — AC Power Cord China for Cisco Unified Wireless IP Phone 7920",
-      "CAB-AC2E= — AC Power Cord Europe for Cisco Unified Wireless IP Phone 792",
       "CAB-AC2J= — AC Power Cord Japan for Cisco Unified Wireless IP Phone 7920",
-      "CAB-AC2UK= — AC Power Cord United Kingdom for Cisco Unified Wireless IP P"
+      "CP-DX-CORD= — ● Spare Handset Cord for Cisco IP Phone 8800, DX600 Series, ",
+      "CP-DX-HS-NB= — Replacement Narrowband Handset for Cisco 6800 and 7811-SPARE",
+      "CP-DX-HS= — ● Spare Handset for Cisco IP Phone 7800, 8800, DX600 Series,"
      ],
      "rules": {
-      "accessory": 6,
-      "sku": 54,
+      "accessory": 3,
+      "sku": 53,
       "label-unsupported": 1
      },
      "pending_in": {
@@ -1652,7 +1652,7 @@
      "samples": [],
      "rules": {},
      "pending_in": {
-      "conferencing": 25
+      "conferencing": 24
      }
     },
     {
@@ -1711,6 +1711,86 @@
    "reason": "Aironet 802.3at power injector: its spare AIR-PWRINJ6= is filed in wireless (series 'Power injectors, supplies and cords'), and a base goes with its spare (spare = base)"
   },
   {
+   "sku": "BRKT-PHD2X-MONITR",
+   "name": "^Not Used",
+   "series_label": "TelePresence MX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
+  },
+  {
+   "sku": "BRKT-PHD2X-MONITR=",
+   "name": "^Not Used",
+   "series_label": "TelePresence MX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
+  },
+  {
+   "sku": "BRKT-PHDX-WMK",
+   "name": "^Not Used",
+   "series_label": "TelePresence MX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
+  },
+  {
+   "sku": "BRKT-PHDX-WMK=",
+   "name": "^Not Used",
+   "series_label": "TelePresence MX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
+  },
+  {
+   "sku": "BRKT-SX10-WMK-",
+   "name": "Not used",
+   "series_label": "TelePresence SX Series (QuickSet)",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
+  },
+  {
+   "sku": "CAB-2HDMI-1.5M-",
+   "name": "Not used",
+   "series_label": "Room Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
+  },
+  {
+   "sku": "CAB-AC2=",
+   "name": "AC Power Cord N. America for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare",
+   "series_label": "7900 - Unified IP Phone",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic AC power cord whose base sits in routers ISR shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-19 / F-10)"
+  },
+  {
+   "sku": "CAB-AC2E=",
+   "name": "AC Power Cord Europe for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare",
+   "series_label": "7900 - Unified IP Phone",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic AC power cord whose base sits in routers ISR shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-19 / F-10)"
+  },
+  {
+   "sku": "CAB-AC2UK=",
+   "name": "AC Power Cord United Kingdom for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare",
+   "series_label": "7900 - Unified IP Phone",
+   "action": "move",
+   "to": "routers",
+   "reason": "the spare of a generic AC power cord whose base sits in routers ISR shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-19 / F-10)"
+  },
+  {
+   "sku": "CAB-PWR-C15-CHN-A=",
+   "name": "Power Cord, C15, Black, 2.5m, 10A, China",
+   "series_label": "Room Series",
+   "action": "move",
+   "to": "switches",
+   "reason": "the spare of a generic C15 power cord whose base sits in switches Nexus shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-19 / F-10)"
+  },
+  {
    "sku": "CP-6841-3PW-NA-MK9",
    "name": "MLB Subscription - 6841",
    "series_label": "6800 - IP Phone w/Multiplatform Firmware",
@@ -1751,6 +1831,14 @@
    "reason": "device subscription (MLB)"
   },
   {
+   "sku": "CP-PWR-CORD-xx=",
+   "name": "Cisco Unified IP Phone Power Country Cord",
+   "series_label": "IP Phone 8800 Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
+  },
+  {
    "sku": "CS-BOARD55S-SUB-K9",
    "name": "MLB for Subscription - Board 55",
    "series_label": "Spark Board",
@@ -1789,6 +1877,22 @@
    "action": "class",
    "to": "license",
    "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CTS-SX10CODEC-",
+   "name": "Not used",
+   "series_label": "TelePresence SX Series (QuickSet)",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
+  },
+  {
+   "sku": "CTS-SX20G2-K9+",
+   "name": "^Not used",
+   "series_label": "TelePresence MX Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
   },
   {
    "sku": "DOC-MX700-DDC-FSK",
@@ -1837,6 +1941,14 @@
    "action": "class",
    "to": "non_product",
    "reason": "installation sheet"
+  },
+  {
+   "sku": "HS-WL-ADPT-USBA",
+   "name": "NOT USED Cisco Headset Wireless Bluetooth USB-A HD Adapter",
+   "series_label": "Headset 700 Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
   },
   {
    "sku": "MISC-SHIP-FPO",
