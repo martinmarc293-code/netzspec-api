@@ -50,6 +50,14 @@ the kind differs): UCS-MAN-S72A2T0V0 (base `server`, spare `bundle`), UCSW-MSX-P
 tray is neither), 15454-M2-DDR and 15454-M2-WM (`accessory` / `mechanical`), CBR-PS-BLANK (`power` / `accessory`), P2-HD-EDR-SA (`unknown` /
 `plug-in`), ASA5585-REAR-RACK (`mechanical` / `accessory`).
 
+**Two the moves of 16 Sep brought onto one page** (unattended block, `docs/decisions/2026-09-16-layers-round3-unattended-block.md`):
+- **UCS-ACC-6536** arrived in servers from interfaces-modules (run #1158) and reads `mechanical` from its name "UCS 6536 chassis accessory
+  kit", while its spare UCS-ACC-6536= — named only by its SKU — stays `accessory`. UCS-ACC-6652 and UCS-ACC-6664 read `mechanical` the same
+  way and have no spare row to disagree with, so only the 6536 pair shows it.
+- **ASA-SSC-AIP-5-K9=** arrived in security from interfaces-modules (run #1159) and `securityKind` reads the AIP-SSC-5 CARD as `appliance`, a
+  device noun, inside ASA and ISA shared parts. **The security round predicted this before the move ran** ("after that run it would be a
+  device kind in ASA shared parts"); its interfaces-modules plan records the expected kind `module`. The row is right and the kind is wrong.
+
 ## 3. What the rebuild owes each entry
 - a noun: the axis entry, its cup set in the profile, `DEVICE_KINDS` when it is a device, and a witness per row listed in §1;
 - a wrong kind: the rule fixed in its axis with a witness per row and a refusal for the shape it must not reach (the E100 arrivals' exact

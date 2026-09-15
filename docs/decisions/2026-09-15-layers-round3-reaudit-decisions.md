@@ -1,7 +1,8 @@
 # Layers round 3 — the operator's decisions on the verified re-audit, applied — 15 Sep 2026
 
 **Status: batch 1 RAN (§7: class-change runs #1079–#1092, recomputes #1093–#1101, pages published at `e9b8f58`); batch 2 PREPARED, NOT RUN
-(§8: the retraction tool and the dry runs) — it waits for the operator's re-audit of the batch 1 pages.** §1–§6 below are the decisions
+(§8: the retraction tool and the dry runs) — it waited for the operator's re-audit of the batch 1 pages. IT THEN RAN, with batch 3a and the
+moves, in the 12-hour unattended block of 16 Sep 2026: `docs/decisions/2026-09-16-layers-round3-unattended-block.md`.** §1–§6 below are the decisions
 block as applied before any run. Rules committed at `1c0ea75`, pages rebuilt at that commit
 (`uncommitted_rule_files: []` on all 17). No database write, no cup-side edit (profiles, required cups, derivations, dictionary untouched). Inputs: the reviewer's re-audit of the published pages at `3fa3624`, its row-by-row verification
 (`D:\tmp\cisco-layers-round3-reaudit-answer-verified-2026-09-15.md`), and the operator's decisions of 15 Sep 2026 (N-1 … N-3, Q-1 … Q-29,

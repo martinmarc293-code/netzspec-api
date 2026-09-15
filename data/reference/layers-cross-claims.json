@@ -27,7 +27,7 @@
     "UCSC-10C220M4S-LI"
    ],
    "status": "pending-decision:Q-14",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision — count 69 -> 70 on 16 Sep: the interfaces-modules -> servers move (run #1162) brought one more UCSC- row under the same claim"
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision — count 69 -> 70 on 16 Sep: the interfaces-modules -> servers move (run #1156, UCSC-C220-M5SX= from routers) brought one more UCSC- row under the same claim"
   },
   {
    "category": "servers-unified-computing",
@@ -442,7 +442,7 @@
     "CWDM-MUX-4="
    ],
    "status": "decided-home",
-   "reason": "passive CWDM mux / demux / OADM plug-ins and their chassis, which the transceiver -> optical-networking move of 16 Sep (run #1168) put in optical-networking, where the CWDM mux series holds them; the transceiver CWDM rule matches any CWDM- PID that is not a GBIC, so it also claims them — one home per SKU, and the home is optical-networking (implementer, operator's 12-hour delegation, 16 Sep 2026)"
+   "reason": "passive CWDM mux / demux / OADM plug-ins and their chassis, which the transceiver -> optical-networking move of 16 Sep (run #1167) put in optical-networking, where the CWDM mux series holds them; the transceiver CWDM rule matches any CWDM- PID that is not a GBIC, so it also claims them — one home per SKU, and the home is optical-networking (implementer, operator's 12-hour delegation, 16 Sep 2026)"
   },
   {
    "category": "routers",

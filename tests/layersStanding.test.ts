@@ -53,7 +53,7 @@ const DEVICE_EXCEPTIONS: Record<string, string> = {
   "collaboration-endpoints|CTS-LAPT-DISP": "Cisco names no series; device kept out of shared-parts semantics by exception (Q-18) — 'TelePresence Laptop Display' (label TelePresence MX Series; only the generic 'HW Collaboration PIDs' end-of-sale notice names it), in TelePresence (legacy) shared parts",
   "collaboration-endpoints|CTS-LAPT-DISP=": "Cisco names no series; device kept out of shared-parts semantics by exception (Q-18) — the spare of CTS-LAPT-DISP 'TelePresence Laptop Display'",
   "collaboration-endpoints|CTS-VX-EDUCATOR-K9": "Cisco names no series; device kept out of shared-parts semantics by exception (Q-18) — 'VX Educator package' (label TelePresence MX Series; the generic 'Collaboration PIDs' end-of-sale notice), in TelePresence (legacy) shared parts",
-  // the interfaces-modules -> security move of 16 Sep (run #1152) brought this card to the page its platform sits on, and the kind axis
+  // the interfaces-modules -> security move of 16 Sep (run #1159) brought this card to the page its platform sits on, and the kind axis
   // reads it as a device — the security round predicted exactly this ("securityKind: ASA-SSC-AIP-5-K9= reads appliance … after that run it
   // would be a device kind in ASA shared parts"). It is a CARD (the interfaces-modules plan records expected kind `module`), so the row is
   // right and the KIND is wrong: listed for the Q-28 rebuild, kept as an exception until the kind axis is fixed
@@ -327,7 +327,7 @@ const CARRIER_SKUS: ReadonlySet<string> = new Set(CARRIERS.map((c) => c.sku));
     bad.slice(0, 6).map((c) => { const r = rowsBySku.get(c.sku); return `${c.sku}: ${r ? `${r.bucket} "${r.plan}" flag=${r.family_carrier}` : "not a row"}`; }).join("; "));
   const flagged = [...rowsBySku.values()].filter((r) => r.family_carrier === "true" && !CARRIER_SKUS.has(r.sku));
   check(`family carriers: no row outside the list carries the flag`, flagged.length === 0, flagged.slice(0, 6).map((r) => r.sku).join(", "));
-  // counted whether or not they have RUN (all 13 ran on 16 Sep): a carrier may carry no plan but a MOVE to its family's category — never a
+  // counted whether or not they have RUN (the 3 SB-PWR in run #1145, the 10 IW in run #1164): a carrier may carry no plan but a MOVE to its family's category — never a
   // class plan — and a count of pending plans alone would read "0 plans on carriers" as a pass once they ran
   const moves = (PLANS as { sku: string; action: string; to: string; run_id: unknown }[]).filter((p) => CARRIER_SKUS.has(p.sku));
   const sbPwr = moves.filter((p) => /^SB-PWR-/.test(p.sku) && p.to === "interfaces-modules");
@@ -562,7 +562,7 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   // N-3, Q-10, Q-15, Q-19 / Q-20, F-7
   ranClass("security", "FPR4K-NM-4X40G-F=", "non_product");
   at("wireless", "CW9166I-X", "Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)");   // a family carrier (Q-10 vs Q-23)
-  ranMove("wireless", "SB-PWR-48V-xx", "interfaces-modules");                    // a carrier, moved to its family's category (run #1164)
+  ranMove("wireless", "SB-PWR-48V-xx", "interfaces-modules");                    // a carrier, moved to its family's category (run #1145)
   at("switches", "SF110D-05-xx", "Small Business 110 Unmanaged (SF110/SG110)");  // a carrier: 9 facts and the 110 Series data sheet
   planned("switches", "CBS350-8XT-xx", "class non_product");
   ranClass("collaboration-endpoints", "CP-PWR-CORD-xx=", "non_product");
