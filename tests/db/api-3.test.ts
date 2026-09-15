@@ -235,7 +235,9 @@ async function main(): Promise<void> {
     check("members page of 2 with a cursor, ordered by sku", r.body?.members?.length === 2 && r.body.members[0].sku === "C9200L-24P-4G" && r.body.members[1].sku === "C9200L-48P-4G" && typeof r.body?.next_cursor === "string", r.body?.members?.map((m: Json) => m.sku));
     const p2 = await get(`/v1/families/cisco/${enc(FAM_9200)}?limit=2&cursor=${enc(r.body?.next_cursor ?? "")}`);
     check("second members page completes the family (licence included) with no overlap", p2.body?.members?.map((m: Json) => m.sku).join("|") === "C9200L-48PXG-4X|L-C9200-NE" && p2.body?.next_cursor === null, p2.body?.members?.map((m: Json) => m.sku));
-    check("member items are part summaries", sameKeys(r.body?.members?.[0], ["vendor", "sku", "slug", "category", "series", "family", "product_class", "name", "lifecycle_status", "fact_count", "completeness_pct", "has_image", "updated_at"]), Object.keys(r.body?.members?.[0] ?? {}));
+    // `kind` and `deploy_role` joined the part summary in earlier rounds and this list had not followed — the check was red for a reason
+    // nobody was reading (corrected 16 Sep 2026)
+    check("member items are part summaries", sameKeys(r.body?.members?.[0], ["vendor", "sku", "slug", "category", "series", "family", "product_class", "kind", "deploy_role", "name", "lifecycle_status", "fact_count", "completeness_pct", "has_image", "updated_at"]), Object.keys(r.body?.members?.[0] ?? {}));
 
     const r2 = await get(`/v1/families/cisco/${enc(FAM_9300)}`);
     const shared2 = (r2.body?.shared_facts ?? []).map((s: Json) => s.key);
@@ -295,7 +297,7 @@ async function main(): Promise<void> {
     check("siblings ranked by shared rendered values: B (3) before C (2)", JSON.stringify(skus) === JSON.stringify(["C9200L-48P-4G:3", "C9200L-48PXG-4X:2"]), skus);
     check("SABOTAGE the part itself and the licence in its family are excluded", !r.body?.items?.some((x: Json) => x.sku === "C9200L-24P-4G" || x.sku === "L-C9200-NE"), skus);
     const c = r.body?.items?.find((x: Json) => x.sku === "C9200L-48PXG-4X") ?? {};
-    check("similar item is a part summary plus shared_facts and differs", sameKeys(c, ["vendor", "sku", "slug", "category", "series", "family", "product_class", "name", "lifecycle_status", "fact_count", "completeness_pct", "has_image", "updated_at", "shared_facts", "differs"]), Object.keys(c));
+    check("similar item is a part summary plus shared_facts and differs", sameKeys(c, ["vendor", "sku", "slug", "category", "series", "family", "product_class", "kind", "deploy_role", "name", "lifecycle_status", "fact_count", "completeness_pct", "has_image", "updated_at", "shared_facts", "differs"]), Object.keys(c));
     check("C differs from A in exactly poe_budget: value 370 vs other 740", c.differs?.length === 1 && sameKeys(c.differs[0], ["key", "label_en", "label_de", "type", "unit", "value", "other"]) && c.differs[0].key === "poe_budget" && c.differs[0].value === 370 && c.differs[0].other === 740 && c.differs[0].unit === "W", c.differs);
     const b = r.body?.items?.find((x: Json) => x.sku === "C9200L-48P-4G") ?? {};
     check("B differs from A in nothing rendered", Array.isArray(b.differs) && b.differs.length === 0, b.differs);

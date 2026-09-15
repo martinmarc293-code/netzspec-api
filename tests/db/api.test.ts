@@ -21,6 +21,7 @@ import { resetStatsCache } from "../../src/api/queries/stats.js";
 import { resetFacetsCache } from "../../src/api/queries/facets.js";
 import pg from "pg";
 import { pgTextToIso } from "../../src/api/queries/shared.js";
+import { PartRecord } from "../../src/api/schemas.js";
 
 if (process.env.NETZSPEC_DB !== "test") {
   console.error("MISS  refusing to run: NETZSPEC_DB=test is required");
@@ -158,8 +159,16 @@ async function main(): Promise<void> {
   }
 
   // ---- part record -----------------------------------------------------------------------------
-  const DOCUMENTED_KEYS = ["vendor", "sku", "slug", "category", "family", "product_class", "name", "description", "datasheet_url",
+  // The record's top-level keys, kept in step with the schema. This list had gone STALE: `series`, `kind` and `deploy_role` were added to
+  // the record in earlier rounds and never added here, so both checks below had been failing for reasons nobody was reading, and the two
+  // new keys of 16 Sep (family_carrier, family_carrier_reason) arrived into an already-red check. The line after it is the guard against
+  // the same drift: the list and the published schema must name the same keys, so a key added to one without the other fails HERE.
+  const DOCUMENTED_KEYS = ["vendor", "sku", "slug", "category", "series", "family", "product_class", "name", "description", "datasheet_url",
+    "kind", "deploy_role", "family_carrier", "family_carrier_reason",
     "lifecycle", "facts", "relations", "images", "completeness", "sources", "updated_at"].sort();
+  check("the documented key list and the published PartRecord schema name the same keys",
+    JSON.stringify(Object.keys((PartRecord as { properties: Record<string, unknown> }).properties).sort()) === JSON.stringify(DOCUMENTED_KEYS),
+    Object.keys((PartRecord as { properties: Record<string, unknown> }).properties).sort());
   const FACT_KEYS = ["key", "label_en", "label_de", "type", "value", "unit", "raw", "state", "tier", "method", "inherited", "inherited_from", "source", "evidence_count"].sort();
   let etag = "";
   {

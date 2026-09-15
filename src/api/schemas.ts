@@ -140,6 +140,9 @@ export const PartRecord = Type.Object({
   category: Type.Object({ slug: Type.String(), name_en: Type.String(), name_de: Type.String() }),
   series: Nullable(Type.String()), family: Nullable(Type.String()), product_class: Type.String(), name: Nullable(Type.String()), description: Nullable(Type.String()),
   datasheet_url: Nullable(Type.String()),
+  /** Q-10 vs Q-23 (operator, 15 Sep 2026): true = the family's model row, which carries the family's facts or document and is NOT
+   *  orderable — a shop feed must filter it out. `family_carrier_reason` names the decision that set it. */
+  family_carrier: Type.Boolean(), family_carrier_reason: Nullable(Type.String()),
   /** round-7 ask F (12 Sep 2026): the derived kind the profile gates on — the same value /v1/parts items carry. */
   kind: Nullable(Type.String()),
   /** kind-layer infra (13 Sep 2026): layer 3, the derived deploy_role — the same value /v1/parts items carry. */

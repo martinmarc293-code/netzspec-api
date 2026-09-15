@@ -93,6 +93,9 @@ export type PartRecord = {
   vendor: string; sku: string; slug: string;
   category: { slug: string; name_en: string; name_de: string };
   series: string | null; family: string | null; product_class: string; name: string | null; description: string | null; datasheet_url: string | null;
+  /** Q-10 vs Q-23 (operator, 15 Sep 2026): true = the family's MODEL row, which carries the family's facts or document and is not
+   *  orderable. A shop feed must not list it. The reason names the decision that set it. */
+  family_carrier: boolean; family_carrier_reason: string | null;
   /** round-7 ask F (12 Sep 2026): the derived kind the category's profile gates on (partKind); null where the category derives none. */
   kind: string | null;
   /** kind-layer infra (13 Sep 2026): layer 3 — the derived deploy_role (deployRole.ts); null where the kind has no role axis or no rule places the part. */
@@ -147,6 +150,7 @@ function groupBy<T>(rows: T[], key: (r: T) => number): Map<number, T[]> {
 type HeadRow = {
   id: number; vendor: string; sku: string; slug: string; cat_slug: string; name_en: string; name_de: string; series: string | null; family: string | null;
   product_class: string; name: string | null; description: string | null; datasheet_url: string | null; updated_at: Date;
+  family_carrier: boolean; family_carrier_reason: string | null;
 } & { [K in keyof LifecycleFull]: LifecycleFull[K] | null };
 type RelationRow = RelationItem & { part_id: number };
 type ImageRow = { id: number; part_id: number; role: string; storage_path: string; width: number | null; height: number | null; alt_en: string | null; alt_de: string | null };
@@ -167,7 +171,7 @@ export async function partRecords(ids: number[], states: FactState[], publicBase
   const [heads, facts, relations, images, variants, completeness, sources] = await Promise.all([
     query<HeadRow>(`
       SELECT p.id, v.slug AS vendor, p.sku, p.slug, c.slug AS cat_slug, c.name_en, c.name_de, p.series, p.family, p.product_class::text AS product_class,
-             p.name, p.description, p.datasheet_url, p.updated_at, ${LIFECYCLE_COLUMNS}
+             p.name, p.description, p.datasheet_url, p.updated_at, p.family_carrier, p.family_carrier_reason, ${LIFECYCLE_COLUMNS}
         FROM parts p
         JOIN vendors v ON v.id = p.vendor_id
         JOIN categories c ON c.id = p.category_id
@@ -213,6 +217,7 @@ export async function partRecords(ids: number[], states: FactState[], publicBase
       vendor: h.vendor, sku: h.sku, slug: h.slug,
       category: { slug: h.cat_slug, name_en: h.name_en, name_de: h.name_de },
       series: h.series, family: h.family, product_class: h.product_class, name: h.name, description: h.description, datasheet_url: h.datasheet_url,
+      family_carrier: h.family_carrier === true, family_carrier_reason: h.family_carrier_reason,
       // The same call /v1/parts items and the ledger builder make, WITH the name: a UCS programme SKU's kind is read
       // from its name (bundleFamily.ts), so a caller that dropped it would report a different kind here.
       // kind-layer infra (13 Sep 2026): kind and deploy_role by the one helper /v1/parts items use (shared.kindAndRole).
