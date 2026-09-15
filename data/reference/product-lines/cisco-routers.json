@@ -30,11 +30,6 @@
    "belongs": "wireless"
   },
   {
-   "sku": "^CG113-4GW6X$",
-   "why": "a licence row (Cisco DNA On-Prem licence for the remote-worker gateway), not router hardware",
-   "belongs": "license (class)"
-  },
-  {
    "sku": "^CW-SFP-KIT",
    "why": "SFP installation kit for the IE-3500H industrial switch",
    "belongs": "switches"

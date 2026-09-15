@@ -816,6 +816,22 @@
    "facts": 11,
    "docs": 2,
    "note": "regional placeholder carrying its family's facts; planned to interfaces-modules beside its variants"
+  },
+  {
+   "sku": "CG113-4GW6x",
+   "category": "routers",
+   "decision": "Q-23 (glued-x stand-in)",
+   "facts": 7,
+   "docs": 1,
+   "note": "region stand-in glued to the model (no dash before the x, so the Q-10 pattern cannot see it), carrying the CG113 data sheet's facts; the orderables are CG113-4GW6A / B / E / H / Z and CG113-W6A / B / E / H / Z (implementer, operator's 12-hour delegation, 16 Sep 2026); its stored name is a run-together DNA licence cell, which is what planned it as a licence"
+  },
+  {
+   "sku": "CG113-W6x",
+   "category": "routers",
+   "decision": "Q-23 (glued-x stand-in)",
+   "facts": 7,
+   "docs": 1,
+   "note": "region stand-in glued to the model (no dash before the x, so the Q-10 pattern cannot see it), carrying the CG113 data sheet's facts; the orderables are CG113-4GW6A / B / E / H / Z and CG113-W6A / B / E / H / Z (implementer, operator's 12-hour delegation, 16 Sep 2026)"
   }
  ]
 }

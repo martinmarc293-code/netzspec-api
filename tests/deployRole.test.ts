@@ -76,7 +76,7 @@ const CASES: Case[] = [
   ["router", "ENCS5412/K9", "Cisco ENCS 5412", "issue:appliance"],
   ["router", "RV340-K9", "Cisco RV340 Dual WAN Gigabit VPN Router", "smb"],
   ["router", "CG113-4GW6E", "Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE", "branch"],
-  ["router", "CG113-4GW6x", "Cisco DNA On-Prem Lic for Remote-worker gateway", "issue:licence"],
+  ["router", "CG113-4GW6x", "Cisco DNA On-Prem Lic for Remote-worker gateway", "branch"],       // a region stand-in and family carrier (16 Sep 2026), whatever its stored name says
   ["router", "MCS0", "Cisco MCS0", "issue:datasheet cell"],
   ["router", "C8455-G2", "Cisco 8400 Secure Router", "branch"],                                              // operator ruling; item 3 null
   ["phone", "CP-8865-K9", "Cisco IP Phone 8865, Charcoal", "desk"],                             // spec said wireless

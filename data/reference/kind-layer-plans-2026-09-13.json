@@ -2500,10 +2500,10 @@
   "sku": "NDB-FX-SWT-K9",
   "category": "switches",
   "action": "class",
-  "to": "software",
+  "to": "license",
   "run_id": null,
   "expected_kind_after": null,
-  "reason": "software image / release PID",
+  "reason": "licence: the name states \"NDB license for 1 Cisco Nexus fixed switch\" — a right-to-use licence, not a software image (implementer, operator's 12-hour delegation, 16 Sep 2026; was class software)",
   "evidence": "item 3 (sw.issue.licence): \"NDB license for 1 Cisco Nexus fixed switch ● Cisco Nexus 9300 ● Cisco Nexus 3500\" · series \"Nexus 3000\" · docs 7, fact keys 9",
   "planned_by": "agent 1-switches"
  },
@@ -5541,17 +5541,6 @@
   "expected_kind_after": null,
   "reason": "software image / firmware / software product PID",
   "evidence": "III.0 item 3 rule rt.issue.licence: licence/software/planning PID; item 4 §7a 'software / licence / planning PID -> class software or non_product' (class split by name shape in this session — the productClass table decides the final class) | name: Cisco OEM PRI Load for MC7430",
-  "planned_by": "agent 2-routers"
- },
- {
-  "sku": "CG113-4GW6x",
-  "category": "routers",
-  "action": "class",
-  "to": "license",
-  "run_id": null,
-  "expected_kind_after": null,
-  "reason": "licence / right-to-use / subscription PID",
-  "evidence": "III.0 item 3 rule rt.issue.licence-name: licence/software/planning PID; item 4 §7a 'software / licence / planning PID -> class software or non_product' (class split by name shape in this session — the productClass table decides the final class) | name: Cisco DNA On-Prem Lic for Remote-worker gateway – 3Y Cisco DNA Cloud Lic for Remote-worker gateway – 3Y Cisco DNA On-Prem Lic for Remote-worker gateway – 5Y Cisco DNA Cloud Lic for Remote-worker gateway – 5Y Cisco DNA On-Prem Lic for Remote-worker gateway – 7Y Cisco DNA Cloud Lic for Remote-worker gateway – 7Y",
   "planned_by": "agent 2-routers"
  },
  {

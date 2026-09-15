@@ -286,11 +286,17 @@ const CARRIER_SKUS: ReadonlySet<string> = new Set(CARRIERS.map((c) => c.sku));
 }
 
 // FAMILY CARRIERS (re-audit decisions, operator, 15 Sep 2026): the 102 rows that carry their family's facts or document (Q-23 23, Q-10 vs Q-23
-// 79) keep their rows — no class plan, a move only to their family's category — and the page flags each one, and nothing else, `family_carrier`
+// 79) keep their rows — no class plan, a move only to their family's category — and the page flags each one, and nothing else, `family_carrier`.
+// 16 Sep 2026 (implementer, under the operator's 12-hour delegation): + the two glued-x CG113 stand-ins, the Q-23 rule applied to a shape the
+// Q-10 pattern cannot see (CG113-4GW6x had been planned a licence from its stored name, a run-together licence cell)
 {
   const rowsBySku = new Map<string, LayerRow & { page: string }>();
   for (const c of CATS) for (const r of readLayerRows(c)) rowsBySku.set(r.sku, { ...r, page: c });
-  check(`family carriers: the list holds 102 (Q-23 23, Q-10 vs Q-23 79), no SKU twice`, CARRIERS.length === 102 && CARRIER_SKUS.size === 102 && CARRIERS.filter((c) => c.decision === "Q-23").length === 23);
+  check(`family carriers: the list holds 104 (Q-23 23, Q-10 vs Q-23 79, Q-23 glued-x 2), no SKU twice`, CARRIERS.length === 104 && CARRIER_SKUS.size === 104 && CARRIERS.filter((c) => c.decision === "Q-23").length === 23
+    && CARRIERS.filter((c) => c.decision === "Q-23 (glued-x stand-in)").map((c) => c.sku).sort().join() === "CG113-4GW6x,CG113-W6x");
+  check(`family carriers: CG113-4GW6x is a layered, flagged routers row with no plan (not the licence its stored name reads as)`,
+    rowsBySku.get("CG113-4GW6x")?.page === "routers" && rowsBySku.get("CG113-4GW6x")?.bucket === "layered" && rowsBySku.get("CG113-4GW6x")?.family_carrier === "true" && rowsBySku.get("CG113-4GW6x")?.plan === "",
+    JSON.stringify(rowsBySku.get("CG113-4GW6x")));
   const bad = CARRIERS.filter((c) => { const r = rowsBySku.get(c.sku); return !r || r.family_carrier !== "true" || r.plan.startsWith("class ") || (r.bucket !== "layered" && !r.plan.startsWith("move ")) || c.facts + c.docs === 0; });
   check(`family carriers: every listed carrier is a row, flagged, carrying a fact or a document, layered or planned to move (never classed)`, bad.length === 0,
     bad.slice(0, 6).map((c) => { const r = rowsBySku.get(c.sku); return `${c.sku}: ${r ? `${r.bucket} "${r.plan}" flag=${r.family_carrier}` : "not a row"}`; }).join("; "));
@@ -532,6 +538,11 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   // the upper-case -X model names stay hardware rows (Q-10 is never case-insensitive)
   at("routers", "ASR1001-X", "ASR 1000");
   at("transceiver", "SFP-10G-LR-X", "10G SFP+");
+  // batch 2 reading (16 Sep 2026, implementer under the operator's 12-hour delegation): the two glued-x CG113 stand-ins sit in their series
+  // as carriers, and NDB-FX-SWT-K9 ("NDB license for 1 Cisco Nexus fixed switch") is planned a licence, not a software image
+  at("routers", "CG113-4GW6x", "Catalyst Wireless Gateway CG113");
+  at("routers", "CG113-W6x", "Catalyst Wireless Gateway CG113");
+  planned("switches", "NDB-FX-SWT-K9", "class license");
 }
 
 // SABOTAGE: each check sees a planted defect, for the stated reason.
