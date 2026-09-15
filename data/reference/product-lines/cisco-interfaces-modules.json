@@ -188,8 +188,9 @@
     {
      "series": "WP pluggable modules (IoT routers)",
      "sku": [
-      "^WP-"
-     ]
+      "^WP-(?!9821)"
+     ],
+     "note": "fenced (layers round 3, collaboration-endpoints round): WP-9821- is the Webex Wireless Phone 9821 and its batteries, chargers and cases (17 rows in collaboration-endpoints), not an IoT router pluggable module"
     },
     {
      "series": "Cellular and WAN interface modules (MC / PCEX / WIM)",

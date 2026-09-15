@@ -282,6 +282,48 @@ witness("unified-communications", [
   ["UCSC-C220-M3SBE=", "UCS C220 M3 SFF TRC2 Server", "Business Edition 6000", "Business Edition", "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)"],
   ["SPA302D-G1", "Mobility Enhanced Cordless Handset", "Small Business Voice Gateways and ATAs", "Analog Telephone Adapters and SPA", "SPA302D DECT handset"], // not SPA232D
 ]);
+// layers round 3, collaboration-endpoints round: accessories whose SKU names their product leave the line's shared parts
+witness("collaboration-endpoints", [
+  ["CP-BATT-8821=", "Cisco CP-BATT-8821=", "IP Phone 8800 Series", "IP Phones", "Wireless IP Phone 8821"],                       // model mid-SKU
+  ["CP-8821-K9-BUN", "Cisco Unified Wireless IP Phone 8821, World Mode Bundle", "IP Phone 8800 Series", "IP Phones", "Wireless IP Phone 8821"],
+  ["CP-PWR-DC7925G-NA=", "Cisco 7925G Desk Top Charger Power Supply For North America", "7900 - Unified IP Phone", "IP Phones", "Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926"], // not 7900
+  ["CP-WMK-C-6900=", "Cisco CP-WMK-C-6900=", "Unified IP Phone 6900 Series", "IP Phones", "Unified IP Phone 6900"],
+  ["SPA303-G2", "3 Line IP Phone w/ Display and PC Port, Europe Power Adapter", "SPA300 IP Phones", "IP Phones", "SPA300 IP Phones"],
+  ["PA100-AS", "Power Supply for Linksys VoIP Products - 5V/2A (AS)", "SPA500 IP Phones", "IP Phones", "SPA500 IP Phones"],        // with its plug siblings
+  ["MB100", "Wall-mount brackets for SPA 300, SPA 500, CP 500, and SPA 900 Series", "SPA300 IP Phones", "IP Phones", "IP Phones shared parts"], // names several series
+  ["AVIZ-CA750-1-K9", "SolutionsPlus:Avizia ClinicalCart CA750 1 screen-drawer mod", "TelePresence MX Series", "TelePresence (legacy)", "TelePresence (legacy) shared parts"], // CA750 is no MX700
+  ["CTS-NAL-MX300G2", "MX300 NAL label for China - for auto expand only", "TelePresence MX Series", "TelePresence (legacy)", "TelePresence MX (MX200 / MX300 / MX700 / MX800)"],
+  ["CAB-MX800-L-SPKR=", "Left Speaker Cable for MX800", "TelePresence MX Series", "TelePresence (legacy)", "TelePresence MX (MX200 / MX300 / MX700 / MX800)"],
+  ["BRKT-SX10-WMK=", "SX10 Wall Mount", "TelePresence SX Series (QuickSet)", "TelePresence (legacy)", "TelePresence SX (SX10 / SX20 / SX80)"],
+  ["SPVAC-H5610-S-US=", "Cisco SPVAC-H5610-S-US=", "Virtualization Experience Media Engine", "Webex Share and Media Engines", "Virtualization Experience Media Engine"],
+  ["SPBOARD-WS-SCRW=", "Screw kit for Cisco Webex Board Wall Stand", "TelePresence MX Series", "Webex Board Series", "Webex Board 55 / 70 / 85 (Spark Board)"], // label says MX
+  ["CS-BRD85-FRM=", "Cisco Webex Board - Spare transport frame for Webex Board 85", "Spark Board", "Webex Board Series", "Webex Board 55 / 70 / 85 (Spark Board)"],
+  ["CAB-PANO-L-SPKR=", "Left Speaker Cable for Room Panorama - 6 speakers + 2 bass", "Room Series", "Webex Room Series", "Room Panorama"],
+  ["CAB-EQX-SPKR=", "Room Kit EQX Complete set of Speaker Cables", "Room Series", "Webex Room Series", "Room Kit (Kit / Mini / Plus / Pro / EQ)"],
+  ["CS-CODPL2-ANT=", "Codec Plus 2 Antennas - for auto expand only", "Room Series", "Webex Room Series", "Codec Plus / Pro / EQ"],
+  ["CTS-NAL-ROOM55", "CS Room 55 NAL label for China, TTC60-21", "Room Series", "Webex Room Series", "Room 55 / 55D"],             // not TelePresence (legacy)
+  ["CAB-DV10-8M+", "Flat Ethernet Cable for Room Navigator, Grey 8m", "Room Series", "Webex Room Series", "Room Navigator and Touch 10"],
+  ["CS-R-USB-T10-KIT", "Touch 10 Kit for Room USB Upgrade", "Room Series", "Webex Room Series", "Room Navigator and Touch 10"],  // not Room Kit (Room USB)
+  ["CTS-NAL-CP-DX80", "DX80 NAL label for China", "Room Series", "Webex Desk Series", "DX70 / DX80"],
+  ["CS-PTZ4K-CLNGMNT=", "Cisco PTZ 4K Camera Ceiling Mount - SPARE", "Spark Board", "Cameras", "Room Vision PTZ and Quad Camera"],
+  ["BRKT-QCAM2-WMK-", "Wall-mount bracket for Cisco Quad Camera (only in Quad Camera bundles)", "Room Series", "Cameras", "Room Vision PTZ and Quad Camera"],
+  ["CAB-ETH-ST-SHORT=", "Two Ethernet cables (0.35m&0.2m) for SpeakerTrack 60 Spare", "SpeakerTrack 60", "Cameras", "SpeakerTrack 60"],
+  ["CD-CBL-USBC-USBA=", "Spare USB 3.0 C-to-A cable for Desk Camera series", "Desk Series", "Cameras", "Desk Camera"],
+]);
+for (const [cat, sku, name, not] of [
+  // the fences: another category's rule, or a collaboration rule, that must not take these rows
+  ["interfaces-modules", "WP-9821-BATT=", "Cisco WP-9821-BATT=", "WP pluggable modules (IoT routers)"],
+  ["wireless", "PWR-CAB-INT-1.3M=", "Internal Power cable Room Panorama - Amp to camera", "Power injectors, supplies and cords"],
+  ["collaboration-endpoints", "SPA302D-G1", "Mobility Enhanced Cordless Handset", "SPA300 IP Phones"],
+  ["collaboration-endpoints", "CAB-SX80-IPQC", "Audio Cable Quad Camera to SX80", "TelePresence SX (SX10 / SX20 / SX80)"],       // names the Quad Camera too
+  ["collaboration-endpoints", "CS-BRD-PENKITSOFT", "Cisco Board Pen Kit - 3 pens with fixed soft tips", "Webex Board 55 / 70 / 85 (Spark Board)"],
+  ["collaboration-endpoints", "CAB-AC2=", "AC Power Cord N. America for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare", "Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926"],
+  ["collaboration-endpoints", "CP-DX-HS-NB=", "Replacement Narrowband Handset for Cisco 6800 and 7811-SPARE", "IP Phone 6800 (6821 / 6841 / 6851 / 6861 / 6871)"],
+  ["collaboration-endpoints", "CP-PWR-CUBE-3", "IP Phone power transformer for the 7900 phone series", "Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926"], // no 792x in the SKU
+]) {
+  const p = placePart("cisco", cat, { sku, name, series: "" });
+  check(`collaboration round REFUSAL: ${cat} does not place ${sku} in ${not}`, p?.series !== not, `${p?.series} (${p?.rule})`);
+}
 for (const [cat, sku, name, not] of [
   ["unified-communications", "CE-10GSFP-SR", "10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR", "TelePresence VCS appliances"],
   ["unified-communications", "EXP-1GSFP-T", "1 Gigabit Ethernet SFP Module 10/100/1000BASE-T", "Expressway appliances (CE1100 / CE1200)"],

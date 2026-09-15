@@ -38949,5 +38949,27 @@
   "reason": "a blank cover for a double-wide service-module slot — the slot of the ISR G2 2900 / 3900 routers and the VG350 gateway built on them; A.3 rule 1 puts a multi-platform router slot part in interfaces-modules, which holds the SM slot blanks SM-S-BLANK and SM-BLANK-KIT= (layers round 3, unified-communications round)",
   "evidence": "name \"Double Wide Service Module Blank Cover\" · label \"VG Series Gateways\" · listed in the 'Select VG350 Software Licenses' end-of-sale notice · today layered in Voice Gateways shared parts (accessory BLANK (label VG Series Gateways))",
   "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "AIR-PWRINJ6",
+  "category": "collaboration-endpoints",
+  "action": "move",
+  "to": "wireless",
+  "run_id": null,
+  "expected_kind_after": "power-injector",
+  "reason": "Aironet 802.3at power injector: its spare AIR-PWRINJ6= is filed in wireless (series 'Power injectors, supplies and cords'), and a base goes with its spare (spare = base)",
+  "evidence": "name \"Power injector\" · spare AIR-PWRINJ6= \"Power injector, 802.3at, indoor\" in wireless · today layered in Webex Room Series shared parts (shared accessory), claimed by wireless sku ^AIR-PWR",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, collaboration-endpoints block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "CP-BATT-7925G-EXT=",
+  "category": "servers-unified-computing",
+  "action": "move",
+  "to": "collaboration-endpoints",
+  "run_id": null,
+  "expected_kind_after": "power",
+  "reason": "Unified Wireless IP Phone 7925G extended battery filed in servers under the label 'Mini Series': its base CP-BATT-7925G-EXT and CP-BATT-7925G-STD= are in collaboration-endpoints (Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926), and a spare goes with its base",
+  "evidence": "name \"Cisco 7925G Battery, Extended\" · doc 'End-of-Sale and End-of-Life Announcement for the Cisco Wireless Phones 792X Series Extended Battery' (collaboration-endpoints/unified-wireless-ip-phone-7925g) · today layered in UCS Fabric Interconnects shared parts (accessory BATT, label Mini Series); claimed by collaboration-endpoints sku ^CP-.*(?<![0-9])792[0156]G?(?![0-9])",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, collaboration-endpoints block — operator instructions of 14 Sep 2026 night, unattended)"
  }
 ]

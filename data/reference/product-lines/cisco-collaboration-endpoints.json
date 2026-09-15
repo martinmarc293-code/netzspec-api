@@ -1,6 +1,7 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
+ "family_layer": "assigned",
  "_about": "Layer 2 (product line) and layer 3 (series) of Cisco collaboration endpoints, 14 Sep 2026: Webex Room / Board / Desk devices, cameras, microphones, legacy TelePresence, IP phones, headsets. The series ROLE is the phone deploy_role the cup engine reads (deployRole.ts, axis phone — unified-communications phones read this table too); each role reproduces the III.0 SKU rules (7920-7926 / 8821 / 840 / 860 / 9821 / SLINK wireless; 7832 / 7935-7937 / 8831 / 8832 / Room Phone conference; 6823 / 6825 / SPA302D dect; the rest desk). Headsets and Desk devices come before the IP-phone shared-parts rule because their SKUs also start CP-.",
  "lines": [
   {
@@ -49,7 +50,8 @@
       "^HS-"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the Headset 320, 500, 700 and Bang & Olufsen 900 series directly under Cisco Headsets, with no family between"
   },
   {
    "line": "Webex Desk Series",
@@ -58,8 +60,10 @@
      "series": "Desk Pro",
      "sku": [
       "^CS-DESKPRO",
-      "^CS-DESKP-"
-     ]
+      "^CS-DESKP-",
+      "^CS-DSKPRO"
+     ],
+     "note": "^CS-DSKPRO (layers round 3, collaboration round): the customized-model Desk Pro PIDs CS-DSKPRO-MM-K9 / -MM-NR-K9 / -NR-K9--= sat in the line's shared parts by their label (video devices in shared parts)"
     },
     {
      "series": "Desk Mini",
@@ -76,8 +80,11 @@
     {
      "series": "DX70 / DX80",
      "sku": [
-      "^CP-DX[0-9]{2}"
-     ]
+      "^CP-DX[0-9]{2}",
+      "^CS-DX[0-9]{2}",
+      "^CTS-NAL-CP-DX[78]0"
+     ],
+     "note": "^CS-DX (layers round 3, collaboration round): CS-DX70-K9= / CS-DX80-K9=, the Webex-registration spares, sat in the line's shared parts by their label. ^CTS-NAL-CP-DX[78]0 (same round): the 'DX70 / DX80 NAL label for China' sat in TelePresence (legacy) shared parts by ^CTS-"
     },
     {
      "series": "Webex Desk Series shared parts",
@@ -85,7 +92,8 @@
       "Desk Series"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names Desk Pro, Desk Mini, Desk and the DX70 / DX80 directly under the Desk Series, with no family between"
   },
   {
    "line": "Webex Board Series",
@@ -106,8 +114,13 @@
      "series": "Webex Board 55 / 70 / 85 (Spark Board)",
      "sku": [
       "^(CS|SPARK)-BOARD",
-      "^CS-BRD[0-9]{2}S"
-     ]
+      "^CS-BRD[0-9]{2}S",
+      "^CS-BRD-PENTIPS",
+      "^SPBOARD-",
+      "^CS-BRD85-",
+      "^CS-BRD-PENKIT(?!SOFT)"
+     ],
+     "note": "^CS-BRD-PENTIPS (layers round 3, collaboration round): 'Cisco Webex Board S Pen Tips - 30 tips for stylus', sold in the 'Webex Board S TAA and MM' end-of-sale notice; it sat in the line's shared parts with kind video-device (a kind-layer defect, listed). ^SPBOARD- (same round): SPBOARD-CBLMGMT(=) 'Cisco Spark Board, Cable Management Kit' sat in Webex Room Series shared parts by the label Room Series, and SPBOARD-WS-SCRW= 'Screw kit for Cisco Webex Board Wall Stand' in TelePresence (legacy) shared parts by the label TelePresence MX Series; the Spark Board is this series. ^CS-BRD85- and ^CS-BRD-PENKIT(?!SOFT) (same round): 'Spare transport frame for Webex Board 85' and 'Webex Board S Pen Kit' sat in Webex Board Series shared parts by their label; the soft-tip pen kit (CS-BRD-PENKITSOFT, 'Cisco Board Pen Kit') names no board and stays there"
     },
     {
      "series": "Webex Board Series shared parts",
@@ -115,7 +128,8 @@
       "Spark Board"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names Board Pro G2, Board Pro and the Webex Board 55 / 70 / 85 directly under the Board Series, with no family between"
   },
   {
    "line": "Webex Room Series",
@@ -135,28 +149,43 @@
     {
      "series": "Room Kit (Kit / Mini / Plus / Pro / EQ)",
      "sku": [
-      "^CS-KIT"
-     ]
+      "^CS-KIT",
+      "^CS-KPRO",
+      "^CS-EQX",
+      "^CS-ROOM-USB",
+      "^CAB-EQX-"
+     ],
+     "note": "layers round 3, collaboration round — rows that sat in the line's shared parts by their label: CS-KPRO-Q / -Z 'Cisco Room Kit Pro G2 / Room Kit Vision PTZ', CS-EQX-* 'Room Kit EQX' (no codec, centre and side modules), CS-ROOM-USB-K9(=) 'Room USB' (its spare 'Room Kit Mini/Room USB (unit)'; Cisco's Room USB end-of-sale notice, successor CS-BAR-T); CAB-EQX-SPKR= 'Room Kit EQX Complete set of Speaker Cables' (SKU token EQX), which sat in the line's shared parts"
     },
     {
      "series": "Codec Plus / Pro / EQ",
      "sku": [
       "^CS-CODEC",
-      "^CS-CPRO"
-     ]
+      "^CS-CPRO",
+      "^CS-RCOD(PLUS|PRO)",
+      "^CS-CODPL2-"
+     ],
+     "note": "^CS-RCOD(PLUS|PRO) (layers round 3, collaboration round): the 15 'Cisco Room CodecPLUS' / 'Room Codec PRO' PIDs sat in the line's shared parts by their label (video codecs in shared parts). ^CS-CODPL2- (same round): 'Antennas for Codec Plus 2' sat in the line's shared parts"
     },
     {
      "series": "Room Panorama",
      "sku": [
       "^CS-PANO",
-      "^CS-ROOM-PANO"
-     ]
+      "^CS-ROOM-PANO",
+      "^CS-ROOM-P85",
+      "^CS-RPQUADCAM",
+      "^CAB-PANO-"
+     ],
+     "note": "layers round 3, collaboration round: CS-ROOM-P85-NR-K7 / -K9 'Webex Room Panorama 85' (placed in shared parts by ^CS-ROOM), CS-RPQUADCAM(+/=) 'Fully automatic quadcamera for Room Panorama' (by their label) and CAB-PANO-L / -R-SPKR 'Left / Right Speaker Cable for Room Panorama' (SKU token PANO)"
     },
     {
      "series": "Room 55 / 55D",
      "sku": [
-      "^CS-ROOM55"
-     ]
+      "^CS-ROOM55",
+      "^CS-R55-",
+      "^CTS-NAL-ROOM55"
+     ],
+     "note": "^CS-R55- (layers round 3, collaboration round): the six 'Cisco Webex Room 55 Main Unit' PIDs sat in the line's shared parts by their label. ^CTS-NAL-ROOM55 (same round): 'CS Room 55 NAL label for China' sat in TelePresence (legacy) shared parts by ^CTS-"
     },
     {
      "series": "Room 70 / 70S / 70D",
@@ -172,25 +201,28 @@
      "sku": [
       "^CS-T10",
       "^CTS-CTRL",
-      "^CS-TOUCH10"
+      "^CS-TOUCH10",
+      "^CAB-DV10-",
+      "^CS-R-USB-T10"
      ],
      "labels": [
       "Room Navigator",
       "Touch"
-     ]
+     ],
+     "note": "^CAB-DV10- and ^CS-R-USB-T10 (layers round 3, collaboration-endpoints round): the flat grey Ethernet cables 'for Touch 10' / 'for Room Navigator' (4 / 8 / 12.5 m) and 'Touch 10 Kit for Room USB Upgrade' sat in Webex Room Series shared parts"
     },
     {
      "series": "Webex Room Series shared parts",
      "sku": [
-      "^CS-ROOM",
       "^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)"
      ],
      "labels": [
       "Room Series"
      ],
-     "note": "layers round 3 (wireless round): the USB A-B cables 'for ROOM 70 / MX800 Dual' and the grey right-angled C7 power cords, planned in from wireless — shared by several Room devices"
+     "note": "layers round 3 (wireless round): the USB A-B cables 'for ROOM 70 / MX800 Dual' and the grey right-angled C7 power cords, planned in from wireless — shared by several Room devices. ^CS-ROOM removed (collaboration-endpoints round): every CS-ROOM row it matched is now decided by a named Room series above it (Room Kit, Room Panorama, Room 70), so the rule decided nothing"
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the Room Bars, Room Kits, codecs, Panorama, Room 55 / 70 and the Room Navigator directly under the Room Series, with no family between"
   },
   {
    "line": "Cameras",
@@ -198,34 +230,52 @@
     {
      "series": "SpeakerTrack 60",
      "sku": [
-      "ST60"
+      "ST60",
+      "^CTS-SPKER-TRACK60",
+      "^CTS-ST-ARRAY60",
+      "^CAB-(ETH|PWR)-ST-"
      ],
      "labels": [
       "SpeakerTrack 60"
-     ]
+     ],
+     "note": "layers round 3, collaboration round: CTS-SPKER-TRACK60 'Cisco TelePresence Speaker Track 60 Kit' and CTS-ST-ARRAY60(+/=) 'Speaker Track 60 Microphone Array' sat in TelePresence (legacy) shared parts by ^CTS- (their SKUs spell TRACK60 / ARRAY60, not ST60); CAB-ETH-ST-SHORT / CAB-PWR-ST-SHORT 'Two Ethernet / 12V power cables … for SpeakerTrack 60' sat in Cameras shared parts"
     },
     {
-     "series": "Precision 60 / PrecisionHD cameras",
+     "series": "Precision 40 / 60 / PrecisionHD cameras",
      "sku": [
       "^CTS-CAM-P60",
-      "^CTS-PHD"
+      "^CTS-PHD",
+      "^CTS-CAM-P40"
      ],
      "labels": [
       "TelePresence Precision Cameras (P60)",
       "TelePresence PrecisionHD Cameras"
-     ]
+     ],
+     "note": "^CTS-CAM-P40 (layers round 3, collaboration round): 'Precision 40 Camera with 8x zoom' (label TelePresence Precision Cameras) sat in TelePresence (legacy) shared parts by ^CTS-; the series name gains Precision 40"
+    },
+    {
+     "series": "Desk Camera",
+     "sku": [
+      "^CD-DSKCAM",
+      "^CD-CBL-"
+     ],
+     "note": "layers round 3, collaboration round: 'Cisco Desk Camera 4K' and 'Desk Camera 1080p' (carbon black / platinum, US / worldwide) sat in Webex Desk Series shared parts by their label (cameras in shared parts); Cisco sells the Desk Camera as a product of its own. Named 'Desk Camera' without its resolutions: a series name's digits are platform tokens to the label check, and '1080' contradicted ACC-PHD1080P= 'Cable Accessories Kit for PrecisionHD Camera 1080p12x' out of the Precision series. ^CD-CBL- (same round): the 'Spare USB 3.0 C-to-A / C-to-C cable for Desk Camera series' sat in Webex Desk Series shared parts"
     },
     {
      "series": "Room Vision PTZ and Quad Camera",
      "sku": [
       "^CS-CAM",
-      "^CS-QUADCAM"
+      "^CS-QUADCAM",
+      "^CS-PTZ4K-",
+      "^BRKT-QCAM"
      ],
      "labels": [
       "Conferencing Cameras"
-     ]
+     ],
+     "note": "^CS-PTZ4K- and ^BRKT-QCAM (layers round 3, collaboration-endpoints round): the 'PTZ 4K Camera' wall and ceiling mounting brackets and the 'Wall-mount bracket for Cisco Quad Camera' sat in Webex Room Series shared parts"
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names SpeakerTrack 60, the Precision cameras, Room Vision PTZ / Quad Camera and the Desk Camera as separate camera products, with no family between"
   },
   {
    "line": "Microphones",
@@ -235,11 +285,13 @@
      "sku": [
       "^CS-MIC",
       "^CTS-MIC",
-      "^CAB-MIC"
+      "^CAB-MIC",
+      "^CTS-QSC20-MIC"
      ],
      "labels": [
       "Microphones"
-     ]
+     ],
+     "note": "^CTS-QSC20-MIC (layers round 3, collaboration round): 'Performance Microphone 20' (and the auto-expand variants) of the QuickSet C20 sat in TelePresence (legacy) shared parts with kind video-codec (a kind-layer defect, listed)"
     }
    ]
   },
@@ -249,46 +301,71 @@
     {
      "series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
      "sku": [
-      "^CTS-MX[0-9]"
+      "^CTS-MX[0-9]",
+      "^CTS-MXCAM",
+      "^CTS-MXCODEC",
+      "^CTS-(NAL|ATP)-MX[0-9]",
+      "^CAB-MX[0-9]{3}-"
      ],
      "labels": [
       "TelePresence MX Series"
-     ]
+     ],
+     "note": "layers round 3, collaboration round: CTS-MXCAM-D / -S 'Dual / Single Camera option for MX700/MX800' and CTS-MXCODEC 'Codec for MX700/MX800' sat in the line's shared parts by ^CTS-; so did the 'MX200 / MX300 NAL label for China' and the 'ATP Demo' MX200 / MX300 units (^CTS-(NAL|ATP)-MX), and the 'Left / Right Speaker Cable for MX700 / MX800' (^CAB-MX)"
     },
     {
      "series": "TelePresence SX (SX10 / SX20 / SX80)",
      "sku": [
       "^CTS-SX[0-9]",
-      "^PWR-SX10"
+      "^PWR-SX10",
+      "^CTS-CC-SX10",
+      "^CTS-NAL-SX[0-9]",
+      "^BRKT-SX(10|20)-",
+      "^CAB-SX20-"
      ],
      "labels": [
       "TelePresence SX Series (QuickSet)"
-     ]
+     ],
+     "note": "^CTS-CC-SX10 (layers round 3, collaboration round): 'SX10 HD w/ screen mount, int 5x cam and mic' sat in the line's shared parts by ^CTS-; so did the 'SX10 / SX20 / SX80 NAL label for China', the SX10 screen and wall mount kits, 'Bracket for SX20 and HD monitor' and 'Serial Cable for SX20'. CAB-SX80-IPQC 'Audio Cable Quad Camera to SX80' names the Quad Camera as well and stays in shared parts"
     },
     {
      "series": "TelePresence IX5000",
      "sku": [
       "^CTS-5K",
       "^CTS-IX",
-      "^CTS-LAPCONN"
+      "^CTS-LAPCONN",
+      "^CTS-MON-"
      ],
      "labels": [
       "TelePresence IX5000 Series"
-     ]
+     ],
+     "note": "^CTS-MON- (layers round 3, collaboration round): 'Cisco TelePresence 42 / 55 Inch Auxiliary Display', sold in the 'TelePresence IX5000 Series' end-of-sale notice, sat in the line's shared parts by ^CTS-"
     },
     {
      "series": "TelePresence C-series codecs",
      "sku": [
-      "^CTS-C[0-9]{2}"
-     ]
+      "^CTS-C[0-9]{2}",
+      "^CTS-ATP-C[0-9]{2}",
+      "^CTS-QSC20(?!-MIC)"
+     ],
+     "note": "layers round 3, collaboration round: CTS-ATP-C60 / C90-K9 'ATP Demo - Codec C60 / C90' and the QuickSet C20 packages CTS-QSC20-K9 / -W4 / -W12 / QSC20SD (a C20 codec with camera, microphone and remote) sat in the line's shared parts by ^CTS-"
+    },
+    {
+     "series": "TelePresence MXP (1700 MXP / Integrator Package 6000 MXP)",
+     "sku": [
+      "^CTS-(1700|INTP6000)"
+     ],
+     "note": "layers round 3, collaboration round: CTS-1700-PR-K9 'MXP 1700 Promotion' and CTS-INTP6000-WP-K9 'IntPkg 6000 MXP - PAL, Encrypted, BW, PrecisionHD Cam, Mic', the legacy TelePresence MXP systems named by their rows, sat in the line's shared parts (a video device and a codec in shared parts)"
     },
     {
      "series": "TelePresence (legacy) shared parts",
      "sku": [
-      "^CTS-"
-     ]
+      "^CTS-",
+      "^AVIZ-CA(300|750)"
+     ],
+     "note": "^AVIZ-CA(300|750) (layers round 3, collaboration-endpoints round): the Avizia CA300 / CA750 clinical carts and their cabinets, trays and cords (SolutionsPlus), labelled TelePresence MX Series by the generic collaboration end-of-sale notice. The label check kept them in TelePresence MX on the cart's own model number — CA300 read as the MX300 token, CA750 as a 7xx model of MX700 — which names no MX; with AVIZ-EDU=, AVIZ-SYN= and AVIZ-TAC-K9 they are Avizia products no document ties to one system. AVIZ-MXCART= 'Avizia MX Cart' names MX and stays there. — decision pending: CTS-LAPT-DISP / CTS-LAPT-DISP= 'TelePresence Laptop Display' and CTS-VX-EDUCATOR-K9 'VX Educator package' are whole products (kinds display / video-device) that no document ties to a TelePresence series — only the generic 'HW Collaboration PIDs' / 'Collaboration PIDs' end-of-sale notices name them, under the TelePresence MX Series label, and the catalogue holds no other VX row. Kept here (recommendation) until a series is named (layers round 3, collaboration-endpoints round)"
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the TelePresence MX, SX, IX5000, C-series codecs and MXP systems as separate legacy series, with no family between"
   },
   {
    "line": "IP Phones",
@@ -334,11 +411,13 @@
      "series": "Unified IP Phone 6900",
      "role": "desk",
      "sku": [
-      "^CP-69"
+      "^CP-69",
+      "^CP-WMK-[A-Z]+-6900"
      ],
      "labels": [
       "Unified IP Phone 6900 Series"
-     ]
+     ],
+     "note": "^CP-WMK-[A-Z]+-6900 (layers round 3, collaboration-endpoints round): the 6900 wall-mount kits CP-WMK-AW-6900= / CP-WMK-C-6900= (named only by their PIDs) sat in IP Phones shared parts by ^CP-"
     },
     {
      "series": "IP Conference Phone 7832",
@@ -362,8 +441,10 @@
      "series": "Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926",
      "role": "wireless",
      "sku": [
-      "^CP-792[0-6]"
-     ]
+      "^CP-792[0-6]",
+      "^CP-.*(?<![0-9])792[0156]G?(?![0-9])"
+     ],
+     "note": "^CP-.*792x (layers round 3, collaboration-endpoints round): the handsets' batteries, cases, holsters, clips, lock sets, USB cables, desktop and multi-chargers and their power supplies (CP-BATT-7921G-STD=, CP-PWR-DC7925G-NA=, CP-MCHGR-7925G-BUN …) carry the phone's model mid-SKU and sat in IP Phones shared parts by ^CP-. The CAB-AC2 cords 'for … 7920/7921G Multi-Charger' name the phone only in their names and stay in shared parts"
     },
     {
      "series": "Unified IP Conference Station 7935 / 7936 / 7937",
@@ -386,26 +467,32 @@
      "series": "Wireless IP Phone 8821",
      "role": "wireless",
      "sku": [
-      "^CP-8821"
-     ]
+      "^CP-8821",
+      "^CP-.*(?<![0-9])8821(?![0-9])"
+     ],
+     "note": "^CP-.*8821 (layers round 3, collaboration-endpoints round): the 8821 / 8821-EX battery, desktop and multi-chargers, wall-mount kit and regional power supplies (CP-BATT-8821=, CP-DSKCH-8821-EX=, CP-PWR-DC8821-UK …) carry the model mid-SKU and sat in IP Phones shared parts by ^CP-"
     },
     {
      "series": "IP Conference Phone 8831 / 8832",
      "role": "conference",
      "sku": [
-      "^CP-883[12]"
-     ]
+      "^CP-883[12]",
+      "^CP-MIC-(WIRED|WRLS)-S"
+     ],
+     "note": "^CP-MIC-(WIRED|WRLS)-S (layers round 3, collaboration round): 'Cisco 8831 Wired Microphone Kit' and the 'Spare 8831 Wireless Microphone' PIDs sat in IP Phones shared parts by ^CP- (microphones in shared parts); a microphone carries no phone role"
     },
     {
      "series": "IP Phone 8800 (8811 - 8875)",
      "role": "desk",
      "sku": [
-      "^CP-88"
+      "^CP-88",
+      "^CP-BEKEM"
      ],
      "labels": [
       "IP Phone 8800 Series",
       "IP Phone 8800 Series with Multiplatform Firmware"
-     ]
+     ],
+     "note": "^CP-BEKEM (layers round 3, collaboration round): the 'Cisco IP Phone 8800 Key Expansion Module' PIDs sat in IP Phones shared parts by ^CP-; an expansion module carries no phone role"
     },
     {
      "series": "Wireless Phone 840 / 860",
@@ -442,32 +529,27 @@
      ]
     },
     {
-     "series": "SPA302D DECT handset",
-     "role": "dect",
-     "sku": [
-      "^SPA302D"
-     ],
-     "note": "no SPA302D row in this category: the series carries the dect role for the SPA302D rows in unified-communications, which read this table"
-    },
-    {
      "series": "SPA300 IP Phones",
      "role": "desk",
      "sku": [
-      "^SPA3"
+      "^SPA3(?!02D)"
      ],
      "labels": [
       "SPA300 IP Phones"
-     ]
+     ],
+     "note": "^SPA3 fenced (layers round 3, collaboration-endpoints round): SPA302D is the Multi-Line DECT handset, filed in unified-communications beside its SPA232D base. The empty 'SPA302D DECT handset' series that used to sit here only to give those rows a dect role is removed; with the fence, deployRole finds no role-bearing series for SPA302D here and its own ph.dect rule gives dect"
     },
     {
      "series": "SPA500 IP Phones",
      "role": "desk",
      "sku": [
-      "^SPA5"
+      "^SPA5",
+      "^PA100-"
      ],
      "labels": [
       "SPA500 IP Phones"
-     ]
+     ],
+     "note": "^PA100- (layers round 3, collaboration-endpoints round): the PA100 5V / 2A supply in five plug variants. Four names say 'Power supply for SPA500, CP500, and SPA 900 Series' and the label check kept them here; PA100-AS says only 'Linksys VoIP Products' and was moved to IP Phones shared parts, splitting one supply across two series by the wording of one plug variant"
     },
     {
      "series": "Webex Room Phone",
@@ -483,11 +565,13 @@
      "series": "IP Phones shared parts",
      "sku": [
       "^CP-",
-      "^CIUS-BATTERY"
+      "^CIUS-BATTERY",
+      "^MB100$"
      ],
-     "note": "^CIUS-BATTERY (layers round 3, servers round): CIUS-BATTERY=, the Cius tablet endpoint's battery planned in from servers-unified-computing; the catalogue holds no Cius endpoint to give it a series"
+     "note": "^CIUS-BATTERY (layers round 3, servers round): CIUS-BATTERY=, the Cius tablet endpoint's battery planned in from servers-unified-computing; the catalogue holds no Cius endpoint to give it a series. ^MB100$ (collaboration-endpoints round): 'Wall-mount brackets for SPA 300, SPA 500, CP 500, and SPA 900 Series' names two series of this line and two outside it; the label check kept it in SPA300 IP Phones because a sibling's three-digit token (500) is too weak to contradict a label, but a part named for several series is what the line's shared parts hold"
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names each IP phone series (3900, 6800, 6900, 7800, 7900, 8800, 9800, the wireless and DECT phones, SPA300 / SPA500) directly under Cisco IP Phones; the deploy role, not a family, groups them"
   },
   {
    "line": "Webex Share and Media Engines",
@@ -500,9 +584,13 @@
     },
     {
      "series": "Virtualization Experience Media Engine",
+     "sku": [
+      "^SPVAC-(C7416|H5610|UC725)"
+     ],
      "labels": [
       "Virtualization Experience Media Engine"
-     ]
+     ],
+     "note": "^SPVAC-(C7416|H5610|UC725) (layers round 3, collaboration-endpoints round): the nine SolutionsPlus accessory PIDs listed by Cisco's 'Virtualization Experience Media Engine Accessories Data Sheet' (c78-702849, under collaboration-endpoints/virtualization-experience-media-engine); their names are bare placeholders ('Cisco <PID>'), so the label check could not read a series token and moved them to the line's shared parts, leaving the series empty. The other SPVAC- rows (SPVAC-H450, a Jabra handset for TelePresence MX) are not on that sheet and are not matched"
     }
    ]
   }

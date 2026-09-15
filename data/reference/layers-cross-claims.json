@@ -87,7 +87,7 @@
    "category": "routers",
    "claimed_by": "wireless",
    "series": "Power injectors, supplies and cords",
-   "rule": "sku ^PWR-(CAB-(JPN|INT)-|115W-AC|2504-AC|750WACR-RED|CH1-(750W?ACR|950WDCR)|RPS-DC1)",
+   "rule": "sku ^PWR-(CAB-(JPN-|INT-0[.]7M)|115W-AC|2504-AC|750WACR-RED|CH1-(750W?ACR|950WDCR)|RPS-DC1)",
    "rows": 2,
    "examples": [
     "PWR-CH1-750WACR=",
@@ -542,20 +542,6 @@
    ],
    "status": "pending-round",
    "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E100S-CON-DGL, E100S-MEM-UDIMM8G, E-SSD-U2N-2TB / 4TB, EM3-HDA-8FXS); servers-unified-computing's UCS E-Series rules read them. Decision pending: UCS E-Series home — the servers round keeps the UCS-E rows where they are filed and carries the question to the operator (layers round 3)"
-  },
-  {
-   "category": "unified-communications",
-   "claimed_by": "collaboration-endpoints",
-   "series": "SPA302D DECT handset",
-   "rule": "sku ^SPA302D",
-   "rows": 7,
-   "examples": [
-    "SPA302D-G1",
-    "SPA302D-G1-1",
-    "SPA302D-G7"
-   ],
-   "status": "decided-home",
-   "reason": "the SPA302D Multi-Line DECT handsets and kits are filed in unified-communications (series 'SPA302D DECT handset', with the SPA232D base they pair with); collaboration-endpoints keeps a same-named series with no row of its own to carry the phone axis's dect deploy_role for these rows, so its rule reads them by design (layers round 3, unified-communications round)"
   },
   {
    "category": "unified-communications",

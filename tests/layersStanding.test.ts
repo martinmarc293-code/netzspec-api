@@ -11,7 +11,7 @@ import { REPO_ROOT } from "../src/config.js";
 import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence } from "../src/core/labelEvidence.js";
 
-export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications"];
+export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints"];
 // spare = base exceptions, each read against the built row
 const PAIR_EXCEPTIONS: Record<string, string> = {
   "switches|N5K-C5696Q-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan; its base is the live 'Nexus 5696Q Chassis with license and SW image'",
@@ -37,6 +37,13 @@ const PAIR_EXCEPTIONS: Record<string, string> = {
   "hyperconverged-systems|HXAF-E-240-M5SX":"the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'Cisco HyperFlex All Flash Edge 240 Full Capacity M5 system' in HyperFlex Edge",
 };
 
+// device-in-shared-parts exceptions (collaboration round): a whole product with no series and no document naming one — each is a decision pending
+const DEVICE_EXCEPTIONS: Record<string, string> = {
+  "collaboration-endpoints|CTS-LAPT-DISP": "decision pending: 'TelePresence Laptop Display' (label TelePresence MX Series; only the generic 'HW Collaboration PIDs' end-of-sale notice names it) — no document ties it to a TelePresence system, so it stays in TelePresence (legacy) shared parts",
+  "collaboration-endpoints|CTS-LAPT-DISP=": "decision pending: the spare of CTS-LAPT-DISP 'TelePresence Laptop Display' — same as its base",
+  "collaboration-endpoints|CTS-VX-EDUCATOR-K9": "decision pending: 'VX Educator package' (label TelePresence MX Series; the generic 'Collaboration PIDs' end-of-sale notice) — the catalogue holds no other TelePresence VX row to give it a series, so it stays in TelePresence (legacy) shared parts",
+};
+
 // THE LABEL CHECK, per category (layers round 3, operator: the round-2 floor "more than 100 label-placed rows" failed by construction
 // on a category every row of which a SKU rule places). `min`: a floor that proves the check computed evidence where labels place
 // rows; `exactly`: the category's measured count, so a mapping change that starts placing rows by label is a visible change.
@@ -53,6 +60,7 @@ const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string
   "storage-networking": { exactly: 2, why:"MDS rows are placed by SKU; 2 are judged on a stored label and moved to the line's shared parts — M9XT-FC1632 / = 'MDS 32G FC Port Expansion module' (label MDS 9100, no platform token); SAN50C-R, held for review as a whole switch, is SKU-placed from the MDS 9250i end-of-sale notice (layers round 3)" },
   "optical-networking": { exactly: 12, why:"optical rows are placed by SKU; 12 are judged on a stored label — CISCO-15454-M6 kept by the SKU token 15454, 11 moved to their line's shared parts (4X100G-LR-S, internal 800- numbers, customer-variant CO- transponders, two MPO cables); the family placeholders 40-SMR1 / 40-SMR2 carry class plans (layers round 3)" },
   video: { exactly: 1, why:"cable-access rows are placed by SKU or by the family their name states; one row is judged on a stored label and moved to its line's shared parts — PWR-CAB-AC-BLK (a power cord, label cBR-8); 4035899, which the check had moved for want of name evidence, is SKU-placed from its end-of-sale notice (layers round 3)" },
+  "collaboration-endpoints": { exactly: 46, why:"endpoints and their parts are placed by SKU; 46 rows are judged on a stored label — 19 kept (the CS-MX / ACC-MX200 / SX rows by their SKU tokens, AVIZ-MXCART= 'Avizia MX Cart', PHD-KIT=, PSU-CAM-V=, ACC-PHD1080P= and the Webex Share rows by name), 27 moved to their line's shared parts (the Webex Share power adapters and clips, the SpeakerTrack 60 12 V supply, three Avizia and three Jabra SolutionsPlus rows, ADPT-HDMI-DVID=, WBP54G). The Avizia CA300 / CA750 carts the check had kept on their own model numbers are SKU-placed in TelePresence (legacy) shared parts (layers round 3)" },
   security: { exactly: 16, why:"security appliances are placed by SKU; 16 rows are judged on a stored label — CAB-CONS-USB-C= kept by the name token 1200, ISE-SNS-ACCYKIT by the SKU token SNS, 14 moved to their line's shared parts (UCS spares filed under ISE, desktop and IE power supplies, CSACS-ACCYKIT, PRIME-ACC-REG); 9 rows on labels mapped directly to shared parts are not judged (pre-ruling C1, layers round 3)" },
 };
 // THE FAMILY LAYER, per category: "in-use" where Cisco names families over series (switches, routers); "none" where Cisco names none
@@ -70,7 +78,9 @@ const FAMILY_EXPECT: Record<string, "in-use" | "none"> = { switches: "in-use", r
   // storage round: MDS 9000 is the family and the line; directors and fabric switches are kinds
   "storage-networking": "none",
   // UC round: the VG gateways, ATAs, Business Edition, Expressway / VCS, Unity and paging products are named under each line directly
-  "unified-communications": "none" };
+  "unified-communications": "none",
+  // collaboration round: the Room / Desk / Board Series, Headsets, Cameras, legacy TelePresence and IP Phones name their series directly
+  "collaboration-endpoints": "none" };
 // ARRIVALS (layers round 3): a not-run move plan out of a reviewed category must land placed in its target's mapping. These four
 // plans predate the check (switches + routers rounds) and their targets cannot place them yet; each is listed with the round that
 // owns the target's rule. A listed row that now places is a stale exception and fails. (Operator, layers round 3: 11 -> 4 — the
@@ -169,8 +179,10 @@ for (const cat of REVIEWED) {
   const empty = summary.lines.flatMap((l: any) => l.series.filter((x: any) => x.parts === 0).map((x: any) => ({ line: l.line, ...x })));
   const deadEmpty = deadPlaceholders(summary);
   check(`placeholders ${cat}: every series with 0 parts carries "pending N from <category>" (${empty.length} placeholder(s))`, deadEmpty.length === 0, deadEmpty.join("; "));
-  const dev = deviceInSharedParts(rows);
+  const dev = deviceInSharedParts(rows).filter((r) => !DEVICE_EXCEPTIONS[`${cat}|${r.sku}`]);
   check(`devices ${cat}: 0 whole-device rows (${[...DEVICE_KINDS].join(" / ")}) in any shared parts series`, dev.length === 0, dev.slice(0, 6).map((r) => `${r.sku} (${r.kind}) ${r.series}`).join("; "));
+  for (const k of Object.keys(DEVICE_EXCEPTIONS).filter((x) => x.startsWith(`${cat}|`)))
+    check(`devices ${cat}: the recorded exception ${k.split("|")[1]} is still a device in shared parts (a stale exception is a hole)`, deviceInSharedParts(rows).some((r) => r.sku === k.split("|")[1]));
   check(`devices ${cat}: 0 rows pending review, and the page lists exactly the rows in that bucket`, rows.filter((r) => r.bucket === "pending_review").length === (summary.pending_review?.length ?? -1) && (summary.pending_review?.length ?? -1) === 0, `rows ${rows.filter((r) => r.bucket === "pending_review").length}, page ${summary.pending_review?.length}`);
   const withEv = rows.filter((r) => r.label_evidence).length, moved = rows.filter((r) => r.bucket === "layered" && (r.placed_by ?? "").startsWith("label-unsupported")).length;
   check(`label check ${cat}: applied, and the page's counts are the rows' (label-placed ${withEv}, moved ${moved})`,
@@ -378,6 +390,13 @@ for (const cat of REVIEWED) {
     dvsec.length === 7 && dvsec.every((r) => secBox.includes(r.kind)), JSON.stringify(dvsec.map((r) => r.kind)));
   check("SABOTAGE devices (servers round): a server and a fabric interconnect in shared parts are caught, a storage controller and a bundle there are not",
     dvs.map((r) => r.sku).join() === "UCSC-C420-M3,UCS-FI-6652=" && DEVICE_KINDS.has("server") && DEVICE_KINDS.has("fabric-interconnect"), JSON.stringify(dvs.map((r) => r.sku)));
+  // collaboration-endpoints round: the whole endpoints and room peripherals Cisco sells as products join; their mounts, cables and supplies do not
+  const collabBox = ["video-device", "video-codec", "dect-base", "camera", "microphone", "speaker", "headset", "touch-panel", "display", "expansion-module"];
+  const dvcol = deviceInSharedParts([...collabBox.map((k, i) => row(`ZZ-COL-${i}`, { kind: k, series: "TelePresence (legacy) shared parts" })),
+    row("ZZ-COL-MECH", { kind: "mechanical", series: "Webex Room Series shared parts" }), row("ZZ-COL-CAB", { kind: "cable", series: "Cameras shared parts" }),
+    row("ZZ-COL-PWR", { kind: "power", series: "IP Phones shared parts" }), row("ZZ-COL-ACC", { kind: "accessory", series: "Headsets shared parts" })]);
+  check("SABOTAGE devices (collaboration round): a video device / codec, DECT base, camera, microphone, speaker, headset, touch panel, display and key expansion module in shared parts are caught, a mount, a cable, a supply and an accessory are not",
+    dvcol.length === 10 && dvcol.every((r) => collabBox.includes(r.kind)), JSON.stringify(dvcol.map((r) => r.kind)));
 
   // round 3: the transceiver cable contract, the label expectation and the arrivals check, each refusing for its stated reason
   const cc = cableContract([row("SFP-H25G-CU1M", { kind: "cable", series: TX_DAC_SERIES, product_line: "Direct-attach and active optical cables" }),
