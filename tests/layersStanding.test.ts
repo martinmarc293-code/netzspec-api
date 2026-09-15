@@ -11,7 +11,7 @@ import { REPO_ROOT } from "../src/config.js";
 import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence } from "../src/core/labelEvidence.js";
 
-export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints"];
+export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints", "meraki"];
 // spare = base exceptions, each read against the built row
 const PAIR_EXCEPTIONS: Record<string, string> = {
   "switches|N5K-C5696Q-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan; its base is the live 'Nexus 5696Q Chassis with license and SW image'",
@@ -60,6 +60,7 @@ const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string
   "storage-networking": { exactly: 2, why:"MDS rows are placed by SKU; 2 are judged on a stored label and moved to the line's shared parts — M9XT-FC1632 / = 'MDS 32G FC Port Expansion module' (label MDS 9100, no platform token); SAN50C-R, held for review as a whole switch, is SKU-placed from the MDS 9250i end-of-sale notice (layers round 3)" },
   "optical-networking": { exactly: 12, why:"optical rows are placed by SKU; 12 are judged on a stored label — CISCO-15454-M6 kept by the SKU token 15454, 11 moved to their line's shared parts (4X100G-LR-S, internal 800- numbers, customer-variant CO- transponders, two MPO cables); the family placeholders 40-SMR1 / 40-SMR2 carry class plans (layers round 3)" },
   video: { exactly: 1, why:"cable-access rows are placed by SKU or by the family their name states; one row is judged on a stored label and moved to its line's shared parts — PWR-CAB-AC-BLK (a power cord, label cBR-8); 4035899, which the check had moved for want of name evidence, is SKU-placed from its end-of-sale notice (layers round 3)" },
+  meraki: { exactly: 0, why: "every Meraki row is placed by its model's SKU rule; the mapping has no labels (layers round 3)" },
   "collaboration-endpoints": { exactly: 46, why:"endpoints and their parts are placed by SKU; 46 rows are judged on a stored label — 19 kept (the CS-MX / ACC-MX200 / SX rows by their SKU tokens, AVIZ-MXCART= 'Avizia MX Cart', PHD-KIT=, PSU-CAM-V=, ACC-PHD1080P= and the Webex Share rows by name), 27 moved to their line's shared parts (the Webex Share power adapters and clips, the SpeakerTrack 60 12 V supply, three Avizia and three Jabra SolutionsPlus rows, ADPT-HDMI-DVID=, WBP54G). The Avizia CA300 / CA750 carts the check had kept on their own model numbers are SKU-placed in TelePresence (legacy) shared parts (layers round 3)" },
   security: { exactly: 16, why:"security appliances are placed by SKU; 16 rows are judged on a stored label — CAB-CONS-USB-C= kept by the name token 1200, ISE-SNS-ACCYKIT by the SKU token SNS, 14 moved to their line's shared parts (UCS spares filed under ISE, desktop and IE power supplies, CSACS-ACCYKIT, PRIME-ACC-REG); 9 rows on labels mapped directly to shared parts are not judged (pre-ruling C1, layers round 3)" },
 };
@@ -80,7 +81,10 @@ const FAMILY_EXPECT: Record<string, "in-use" | "none"> = { switches: "in-use", r
   // UC round: the VG gateways, ATAs, Business Edition, Expressway / VCS, Unity and paging products are named under each line directly
   "unified-communications": "none",
   // collaboration round: the Room / Desk / Board Series, Headsets, Cameras, legacy TelePresence and IP Phones name their series directly
-  "collaboration-endpoints": "none" };
+  "collaboration-endpoints": "none",
+  // meraki round: the MV camera generations Cisco's documents name ('Second Generation MV Cameras', 'Third-generation MV cameras') group
+  // the MV series; MX, Z, MG and MT name their models directly
+  meraki: "in-use" };
 // ARRIVALS (layers round 3): a not-run move plan out of a reviewed category must land placed in its target's mapping. These four
 // plans predate the check (switches + routers rounds) and their targets cannot place them yet; each is listed with the round that
 // owns the target's rule. A listed row that now places is a stale exception and fails. (Operator, layers round 3: 11 -> 4 — the
@@ -345,8 +349,9 @@ for (const cat of REVIEWED) {
   check("SABOTAGE a planted base/spare kind split is reported, naming the field", pairs.length === 1 && pairs[0].fields.join() === "kind", JSON.stringify(pairs));
   const tw = twinGroups([row("C9200L-48P-4G"), row("C9200L-48P- 4G"), row("c9200l-48p-4g=")]);
   check("SABOTAGE a planted whitespace twin is one group of two (the spare is a different part)", tw.length === 1 && tw[0].length === 2, JSON.stringify(tw));
-  const planted = crossClaims("switches", [row("MS120-24P", { name: "Cisco MS120-24P" })], CATS);
-  check("SABOTAGE a Meraki MS row is seen as claimed by the meraki mapping (the leakage scan is live)", planted.some((g) => g.claimed_by === "meraki"), JSON.stringify(planted));
+  // (was a planted MS120-24P claimed by the meraki mapping's MS series; the meraki round removed that series — the switches hold Meraki MS)
+  const planted = crossClaims("switches", [row("MV63-HW", { name: "Cisco MV63-HW" })], CATS);
+  check("SABOTAGE a Meraki MV camera planted in switches is seen as claimed by the meraki mapping (the leakage scan is live)", planted.some((g) => g.claimed_by === "meraki" && g.series === "MV63"), JSON.stringify(planted));
   const noRow = classifyRules(ruleUse("switches", [], []));
   check("SABOTAGE with no rows every SKU rule is dead (the dead-rule count is live)", noRow.dead.length > 100, `${noRow.dead.length}`);
 
@@ -397,6 +402,12 @@ for (const cat of REVIEWED) {
     row("ZZ-COL-PWR", { kind: "power", series: "IP Phones shared parts" }), row("ZZ-COL-ACC", { kind: "accessory", series: "Headsets shared parts" })]);
   check("SABOTAGE devices (collaboration round): a video device / codec, DECT base, camera, microphone, speaker, headset, touch panel, display and key expansion module in shared parts are caught, a mount, a cable, a supply and an accessory are not",
     dvcol.length === 10 && dvcol.every((r) => collabBox.includes(r.kind)), JSON.stringify(dvcol.map((r) => r.kind)));
+  // meraki round: merakiKind's device nouns, the access point among them
+  const merakiBox = ["access-point", "camera", "appliance", "gateway", "sensor", "switch"];
+  const dvmk = deviceInSharedParts([...merakiBox.map((k, i) => row(`ZZ-MK-${i}`, { kind: k, series: "Meraki MV Smart Cameras shared parts" })),
+    row("ZZ-MK-ACC", { kind: "accessory", series: "Meraki MG Cellular Gateways shared parts" }), row("ZZ-MK-UNK", { kind: "unknown", series: "Meraki MT Sensors shared parts" })]);
+  check("SABOTAGE devices (meraki round): an access point, camera, appliance, gateway, sensor and switch in shared parts are caught, an accessory and an unknown are not",
+    dvmk.length === 6 && dvmk.every((r) => merakiBox.includes(r.kind)), JSON.stringify(dvmk.map((r) => r.kind)));
 
   // round 3: the transceiver cable contract, the label expectation and the arrivals check, each refusing for its stated reason
   const cc = cableContract([row("SFP-H25G-CU1M", { kind: "cable", series: TX_DAC_SERIES, product_line: "Direct-attach and active optical cables" }),

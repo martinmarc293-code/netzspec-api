@@ -546,11 +546,26 @@ witness("unified-communications", [
   ["SP-ATLAS-I128SYS=", "Atlas I128SYS Ceiling Tile IP speaker", "Paging Server", "Paging", "Atlas IP paging speakers and enclosures"],
   ["CP-6921-C-K9-APACP", "Cisco UC Phone 6921", "Unified Communications Manager (CallManager)", "(not this category)", "collaboration-endpoints"],
 ]);
+// layers round 3, meraki round: one product line per Meraki product, Cisco's model series under it; the MR / CW access points go to wireless
 witness("meraki", [
-  ["MV63-HW", "Cisco MV63-HW", "Meraki", "Meraki", "Meraki MV smart cameras"],
-  ["MX95", "Cisco MX95", "Meraki", "Meraki", "Meraki MX and Z security appliances"],
-  ["MR84", "Cisco MR84", "Meraki", "Meraki", "Meraki MR access points"],
+  ["MV63-HW", "Cisco MV63-HW", "Meraki", "Meraki MV Smart Cameras", "MV63"],
+  ["MV2", "Cisco MV2", "Meraki", "Meraki MV Smart Cameras", "MV2"],                        // not MV21 / MV22
+  ["MV21", "Cisco MV21", "Meraki", "Meraki MV Smart Cameras", "MV21"],
+  ["MV12WE", "Cisco MV12WE", "Meraki", "Meraki MV Smart Cameras", "MV12"],
+  ["MX95", "Cisco MX95", "Meraki", "Meraki MX Security and SD-WAN Appliances", "MX95"],
+  ["MX67C", "Cisco MX67C", "Meraki", "Meraki MX Security and SD-WAN Appliances", "MX67"],
+  ["MX105", "Cisco MX105", "Meraki", "Meraki MX Security and SD-WAN Appliances", "MX105"],   // not MX100
+  ["Z4C-HW", "Meraki Z4C Cloud Managed Teleworker Gateway", "Meraki", "Meraki Z Teleworker Gateways", "Z4C"], // not Z4
+  ["Z4-HW", "Meraki Z4 Cloud Managed Teleworker Gateway", "Meraki", "Meraki Z Teleworker Gateways", "Z4"],
+  ["MG21E-HW-NA", "Meraki MG21E Cellular Gateway External Antennas – North America", "Meraki", "Meraki MG Cellular Gateways", "MG21 / MG21E"],
+  ["MT40-HW", "Cisco MT40-HW", "Meraki", "Meraki MT Sensors", "MT40"],
 ]);
+witness("wireless", [["MR84", "Cisco MR84", "Meraki", "Meraki MR Access Points", "Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)"]]);
+for (const [sku, name] of [["MR84", "Cisco MR84"], ["CW9172", "Cisco CW9172"], ["MS120-24P", "Cisco MS120-24P"], ["MX650", "Cisco MX650"], ["MV10", "Cisco MV10"]]) {
+  // the access points and switches are wireless' and switches'; MX650 is no MX65 and MV10 no MV1x series (page tokens with class plans)
+  const p = placePart("cisco", "meraki", { sku, name, series: "Meraki" });
+  check(`meraki round REFUSAL: the meraki mapping does not place ${sku}`, p === null || p.line === "(not this category)", `${p?.line} / ${p?.series} (${p?.rule})`);
+}
 witness("data-center-networking", [["HF6100-32D", "Cisco Hyperfabric switch", "Nexus Hyperfabric", "Nexus Hyperfabric", "Nexus Hyperfabric HF6100"]]);
 check("every one of the 17 categories has a mapping file that validates", files.filter((f) => f.startsWith("cisco-") && !f.includes("zz-")).length === 17);
 

@@ -170,13 +170,13 @@
     {
      "series": "Room Panorama",
      "sku": [
-      "^CS-PANO",
+      "^CS-PANO(?!-SWITCH)",
       "^CS-ROOM-PANO",
       "^CS-ROOM-P85",
       "^CS-RPQUADCAM",
       "^CAB-PANO-"
      ],
-     "note": "layers round 3, collaboration round: CS-ROOM-P85-NR-K7 / -K9 'Webex Room Panorama 85' (placed in shared parts by ^CS-ROOM), CS-RPQUADCAM(+/=) 'Fully automatic quadcamera for Room Panorama' (by their label) and CAB-PANO-L / -R-SPKR 'Left / Right Speaker Cable for Room Panorama' (SKU token PANO)"
+     "note": "layers round 3, collaboration round: CS-ROOM-P85-NR-K7 / -K9 'Webex Room Panorama 85' (placed in shared parts by ^CS-ROOM), CS-RPQUADCAM(+/=) 'Fully automatic quadcamera for Room Panorama' (by their label) and CAB-PANO-L / -R-SPKR 'Left / Right Speaker Cable for Room Panorama' (SKU token PANO). ^CS-PANO fenced (meraki round, the collaboration round's recorded claimant fix): CS-PANO-SWITCH+ / SWITCH2+ are whole Catalyst 3560-CX / C1000 switches that stay in switches (layers review round 2, A.6)"
     },
     {
      "series": "Room 55 / 55D",
@@ -330,7 +330,7 @@
     {
      "series": "TelePresence IX5000",
      "sku": [
-      "^CTS-5K",
+      "^CTS-5K(?!-(LC|UI)-SWITCH)",
       "^CTS-IX",
       "^CTS-LAPCONN",
       "^CTS-MON-"
@@ -338,7 +338,7 @@
      "labels": [
       "TelePresence IX5000 Series"
      ],
-     "note": "^CTS-MON- (layers round 3, collaboration round): 'Cisco TelePresence 42 / 55 Inch Auxiliary Display', sold in the 'TelePresence IX5000 Series' end-of-sale notice, sat in the line's shared parts by ^CTS-"
+     "note": "^CTS-MON- (layers round 3, collaboration round): 'Cisco TelePresence 42 / 55 Inch Auxiliary Display', sold in the 'TelePresence IX5000 Series' end-of-sale notice, sat in the line's shared parts by ^CTS-. ^CTS-5K fenced (meraki round, the collaboration round's recorded claimant fix): CTS-5K-LC-SWITCH / CTS-5K-UI-SWITCH are whole Catalyst 2960-C switches that stay in switches (layers review round 2, A.6)"
     },
     {
      "series": "TelePresence C-series codecs",

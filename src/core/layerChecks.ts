@@ -42,7 +42,10 @@ export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router",
   // Layers round 3, collaboration-endpoints round: the rest of collabKind's COLLAB_ENDPOINT ("a whole product with its own specification
   // sheet") joins — video devices and codecs, DECT bases, and the cameras, microphones, speakers, headsets, touch panels, displays and
   // key expansion modules Cisco sells as products of their own.
-  "video-device", "video-codec", "dect-base", "camera", "microphone", "speaker", "headset", "touch-panel", "display", "expansion-module"]);
+  "video-device", "video-codec", "dect-base", "camera", "microphone", "speaker", "headset", "touch-panel", "display", "expansion-module",
+  // Layers round 3, meraki round: merakiKind names an access point `access-point` (wireless's kind is `ap`); its camera, appliance,
+  // gateway, sensor and switch nouns are already here.
+  "access-point"]);
 export function deviceInSharedParts(rows: LayerRow[]): LayerRow[] {
   return rows.filter((r) => /shared parts$/.test(r.series ?? "") && DEVICE_KINDS.has(r.kind ?? ""));
 }

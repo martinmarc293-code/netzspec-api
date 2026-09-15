@@ -2,46 +2,6 @@
  "_about": "Cross-claims the layers standing check accepts (tests/layersStanding.test.ts): a layered row of <category> that <claimed_by>'s mapping also places by a SKU rule. Each group is recorded with its exact row count — a new group, a grown or shrunk count, or a stale entry fails the check. Statuses: claimant-rule-too-broad (fix in that category's round), decided-home (a decision placed the family here), pending-round (the home is decided in the named round).",
  "entries": [
   {
-   "category": "switches",
-   "claimed_by": "meraki",
-   "series": "Meraki MS switches",
-   "rule": "sku ^MS[0-9]",
-   "rows": 180,
-   "examples": [
-    "MS120",
-    "MS120-24",
-    "MS120-24-HW"
-   ],
-   "status": "decided-home",
-   "reason": "Meraki MS switches live in switches: run #1061 (move-category meraki -> switches, 14 Sep 2026) executed the decision; the meraki mapping keeps its MS series for the rows that remain there"
-  },
-  {
-   "category": "switches",
-   "claimed_by": "collaboration-endpoints",
-   "series": "Room Panorama",
-   "rule": "sku ^CS-PANO",
-   "rows": 2,
-   "examples": [
-    "CS-PANO-SWITCH+",
-    "CS-PANO-SWITCH2+"
-   ],
-   "status": "decided-home",
-   "reason": "whole Catalyst switches sold as Room / IX5000 options stay in switches (layers review round 2, A.6; run #1024 moved them); the collab SKU rule is wider than its room parts — fix it in the collaboration-endpoints round"
-  },
-  {
-   "category": "switches",
-   "claimed_by": "collaboration-endpoints",
-   "series": "TelePresence IX5000",
-   "rule": "sku ^CTS-5K",
-   "rows": 2,
-   "examples": [
-    "CTS-5K-LC-SWITCH",
-    "CTS-5K-UI-SWITCH"
-   ],
-   "status": "decided-home",
-   "reason": "whole Catalyst switches sold as Room / IX5000 options stay in switches (layers review round 2, A.6; run #1024 moved them); the collab SKU rule is wider than its room parts — fix it in the collaboration-endpoints round"
-  },
-  {
    "category": "interfaces-modules",
    "claimed_by": "servers-unified-computing",
    "series": "UCS E-Series",
@@ -54,34 +14,6 @@
    ],
    "status": "decided-home",
    "reason": "pre-ruling C3, applied by the operator (layers round 3): the UCS E-Series server modules in the SM-X form factor live in interfaces-modules, kind module, and the SVC-E service spares are planned in from servers-unified-computing; the servers mapping's UCS E-Series rule is fenced in its round"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "meraki",
-   "series": "Catalyst Wireless in Meraki mode (CW)",
-   "rule": "sku ^CW9",
-   "rows": 34,
-   "examples": [
-    "CW9162I",
-    "CW9162I-MR",
-    "CW9163"
-   ],
-   "status": "pending-round",
-   "reason": "Catalyst Wireless CW916x / CW917x access points, including their Meraki-managed -MR SKUs, filed in wireless; the meraki mapping's CW series claims them — which category holds the Meraki-mode SKUs is decided in the meraki round (layers round 3, wireless round)"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "meraki",
-   "series": "Meraki MR access points",
-   "rule": "sku ^MR[0-9]",
-   "rows": 13,
-   "examples": [
-    "MR36-HW",
-    "MR36H",
-    "MR36H-HW"
-   ],
-   "status": "pending-round",
-   "reason": "Meraki MR access points filed in wireless beside the meraki category's own MR rows; the home of Meraki MR hardware is decided in the meraki round (the switches precedent: Meraki MS moved to switches, run #1061) — layers round 3, wireless round"
   },
   {
    "category": "routers",
