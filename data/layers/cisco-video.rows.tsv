@@ -131,7 +131,7 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 187149	Cisco 187149	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)	Optical Passive Components shared parts	label Optical Passive Components						
 187150	Cisco 187150	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)	Optical Passive Components shared parts	label Optical Passive Components						
 187151	Cisco 187151	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)	Optical Passive Components shared parts	label Optical Passive Components						
-1RU-DRF-XFP=	1RU Chassis for 12 XFP Tx; NC and BC port;CCB3 Control	Prisma II Products	chassis	layered	Prisma II Optical Transport	(shared across the line)	Prisma II Optical Transport shared parts	label Prisma II Products						
+1RU-DRF-XFP=	1RU Chassis for 12 XFP Tx; NC and BC port;CCB3 Control	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	sku ^1RU-DRF-XFP						
 207340	Pwr Cord (Argentina)	Prisma II Products	cable	layered	Prisma II Optical Transport	(shared across the line)	Prisma II Optical Transport shared parts	label Prisma II Products						
 254606	Cisco 254606	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)	Optical Passive Components shared parts	label Optical Passive Components						
 254607	Cisco 254607	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)	Optical Passive Components shared parts	label Optical Passive Components						
@@ -274,7 +274,7 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 4008668	Kit, Fan Fltr, Replacements, Frt Acc (Box/10)	Prisma II Products	fan	layered	Prisma II Optical Transport	(shared across the line)	Prisma II Optical Transport shared parts	label Prisma II Products						
 4008668.001.000.BA	Fltr, Replacements, Frt Acc, 1/Box	Prisma II Products	mechanical	layered	Prisma II Optical Transport	(shared across the line)	Prisma II Optical Transport shared parts	label Prisma II Products						
 4008669	Kit, Fan Fltr, Replacements, Rear Acc (Box/20)	Prisma II Products	fan	layered	Prisma II Optical Transport	(shared across the line)	Prisma II Optical Transport shared parts	label Prisma II Products						
-4008670	Faceplate, Chassis	Prisma II Products	chassis	layered	Prisma II Optical Transport	(shared across the line)	Prisma II Optical Transport shared parts	label Prisma II Products						
+4008670	Faceplate, Chassis	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	sku ^4008670$						
 4008778	Cisco 4008778	GS7000 Nodes	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)	GS7000 Nodes and Optical Hubs shared parts	label GS7000 Nodes						
 4008779	Cisco 4008779	GS7000 Nodes	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)	GS7000 Nodes and Optical Hubs shared parts	label GS7000 Nodes						
 4008780	Cisco 4008780	GS7000 Nodes	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)	GS7000 Nodes and Optical Hubs shared parts	label GS7000 Nodes						
@@ -319,12 +319,12 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 4010485.123.000.AA	(P2-EDFA-FPST-12x22.0-LA) Opt Post Amp, 12/22.0, 0dBm, LA	Prisma II Products	amplifier	layered	Prisma II Optical Transport		Prisma II	name [(]P2-						
 4010485.124.000.AA	(P2-EDFA-FPST-10x23.0-LA) Opt Post Amp, 10/23.0, 0dBm, LA	Prisma II Products	amplifier	layered	Prisma II Optical Transport		Prisma II	name [(]P2-						
 4010485.125.000.AA	(P2-EDFA-FPST-8x24.0-LA)Opt Post Amp, 8/24.0, 0dBm, LA	Prisma II Products	amplifier	layered	Prisma II Optical Transport		Prisma II	name [(]P2-						
-4011176	Chassis, Frt Acc, No RF, 2/DC Pwr	Prisma II Products	chassis	layered	Prisma II Optical Transport	(shared across the line)	Prisma II Optical Transport shared parts	label Prisma II Products						
-4011176.003.000.AB	(P2-CH-F-X-00-R-DDS) Chassis, Frt Acc	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	name [(]P2-						
-4011176.004.000.AB	(P2-CH-F-F-28-R-DDS) Chassis, Rear Ac	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	name [(]P2-						
-4011176.010.000.AB	(P2-CH-F-X-00-R-DDS) (NO RF) Chassis, Frt Acc, 2/DC, NMS	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	name [(]P2-						
-4011176.012.000.AA	(P2-CH-F-F-28-R-DDS) Chassis, Frt Acc, 28F, 2/-48VDC, NMS	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	name [(]P2-						
-4011176.012.000.AB	(P2-CH-F-F-28-R-DDS) Chassis, Frt Acc, 28F, 2/-48VDC, NMS	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	name [(]P2-						
+4011176	Chassis, Frt Acc, No RF, 2/DC Pwr	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	sku ^4011176(?![0-9])						
+4011176.003.000.AB	(P2-CH-F-X-00-R-DDS) Chassis, Frt Acc	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	sku ^4011176(?![0-9])						
+4011176.004.000.AB	(P2-CH-F-F-28-R-DDS) Chassis, Rear Ac	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	sku ^4011176(?![0-9])						
+4011176.010.000.AB	(P2-CH-F-X-00-R-DDS) (NO RF) Chassis, Frt Acc, 2/DC, NMS	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	sku ^4011176(?![0-9])						
+4011176.012.000.AA	(P2-CH-F-F-28-R-DDS) Chassis, Frt Acc, 28F, 2/-48VDC, NMS	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	sku ^4011176(?![0-9])						
+4011176.012.000.AB	(P2-CH-F-F-28-R-DDS) Chassis, Frt Acc, 28F, 2/-48VDC, NMS	Prisma II Products	chassis	layered	Prisma II Optical Transport		Prisma II	sku ^4011176(?![0-9])						
 4011335.001.000.AA	(P2-ICIM2) ICIM2	Prisma II Products	plug-in	layered	Prisma II Optical Transport		Prisma II	name [(]P2-						
 4011335.100.000.AA	P2-ICIM2, COMMUNICATION INTERFACE	Prisma II Products	plug-in	layered	Prisma II Optical Transport		Prisma II	name ^P2-						
 4011485	Cisco 4011485	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)	Optical Passive Components shared parts	label Optical Passive Components						
@@ -778,7 +778,7 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 4035081	DPON PS, 230VAC/50-60Hz, 12VDC/1A, Wall-mt LS, EUR	Prisma D-PON	power	layered	Prisma II Optical Transport		Prisma D-PON	name DPON						
 4035082	DPON PS, 230-240VAC/50-60Hz, 12VDC/1A, Wall-mt LS, w/BS-1363, UK	Prisma D-PON	power	layered	Prisma II Optical Transport		Prisma D-PON	name DPON						
 4035083	DPON PS, 100-120VAC/50-60Hz, 12VDC/1A, Wall-mt LS, NA	Prisma D-PON	power	layered	Prisma II Optical Transport		Prisma D-PON	name DPON						
-4035899	Cisco 4035899	Prisma D-PON	unknown	layered	Prisma II Optical Transport		Prisma D-PON	label Prisma D-PON						
+4035899	Cisco 4035899	Prisma D-PON	unknown	layered	Prisma II Optical Transport		Prisma D-PON	sku ^4035899$						
 4036053	(P2-EDFA-MOD-1x13-SA) 1550 EDFA Opt Amp, 13dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport		Prisma II	name [(]P2-						
 4036054	(P2-EDFA-MOD-1x16-SA) 1550 EDFA Opt Amp, 16dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport		Prisma II	name [(]P2-						
 4036055	(P2-EDFA-MOD-1x17-SA)1550 EDFA Opt Amp, 17dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport		Prisma II	name [(]P2-						
@@ -2889,7 +2889,7 @@ P2HD1.2G15TXQP60I=	1.2 GHZ HYBRID QAM TRANSMITTER, ITU60 iWDM	Prisma II Products
 P2HD1.2G15TXQP61I=	1.2 GHZ HYBRID QAM TRANSMITTER, ITU61 iWDM	Prisma II Products	transmitter	layered	Prisma II Optical Transport		Prisma II HD	sku ^P2-?HD						
 P2HD1.2G15TXQP62I=	1.2 GHZ HYBRID QAM TRANSMITTER, ITU62 iWDM	Prisma II Products	transmitter	layered	Prisma II Optical Transport		Prisma II HD	sku ^P2-?HD						
 PS-HM	Cisco PS-HM	Prisma II Products	power	layered	Prisma II Optical Transport	(shared across the line)	Prisma II Optical Transport shared parts	label Prisma II Products						
-PWR-CAB-AC-BLK	Power Cord, 20A, C20-C21, BLK	CBR Series Converged Broadband	cable	layered	cBR-8 Converged Broadband Router		cBR-8	label CBR Series Converged Broadband						
+PWR-CAB-AC-BLK	Power Cord, 20A, C20-C21, BLK	CBR Series Converged Broadband	cable	layered	cBR-8 Converged Broadband Router	(shared across the line)	cBR-8 Converged Broadband Router shared parts	label-unsupported (label CBR Series Converged Broadband; was cBR-8): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series
 RFGW-1	RFGW-1-D CHASSIS,FPD,I/O,FANs, 2 PS AND 6 QAM MODULE SLOTS	RF Gateway Series	chassis	layered	RF Gateway		RFGW-1	sku ^RFGW-?1(?![0-9])						
 RFGW-1-AC-CORD-G	Cisco RFGW-1-AC-CORD-G	RF Gateway Series	cable	layered	RF Gateway		RFGW-1	sku ^RFGW-?1(?![0-9])						
 RFGW-1-AC-CORD-G=	RFGW-1 UNITED KINGDOM AC POWER CORD SPARE	RF Gateway Series	cable	layered	RF Gateway		RFGW-1	sku ^RFGW-?1(?![0-9])						
@@ -3298,23 +3298,23 @@ RPHY-S10G-80K-360=	Cisco RPHY-S10G-80K-360=	GS7000 Nodes	optic	pending_plan					
 RPHY-S10G-80K-370=	Cisco RPHY-S10G-80K-370=	GS7000 Nodes	optic	pending_plan								move transceiver		
 RPHY-S10G-80K-380=	Cisco RPHY-S10G-80K-380=	GS7000 Nodes	optic	pending_plan								move transceiver		
 RPHY-S10G-80K-390=	Cisco RPHY-S10G-80K-390=	GS7000 Nodes	optic	pending_plan								move transceiver		
-RPHYSHELF_3X6	Remote PHY Compact Shelf 3x6 Configured PID	CBR Series Converged Broadband	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHYSHELF_6X12	Remote PHY Compact Shelf 6x12 Configured PID	CBR Series Converged Broadband	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHYSHLF_3X6=	RPHY Shelf Spare, 3 1x2 RPD, NO power supplies	Remote PHY Shelves	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHYSHLF_3X6AC=	Smart PHY 300 Shelf pre-Configured System, 3 1x2 RPD, 2AC Supplies	CBR Series Converged Broadband	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHYSHLF_3X6DC=	Smart PHY 300 Shelf pre-Configured System, 3 1x2 RPD, 2DC Supplies	CBR Series Converged Broadband	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHYSHLF_6X12=	RPHY Shelf Spare, 6 1x2 RPD, No power Supplies	Remote PHY Shelves	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHYSHLF_6X12AC=	Smart PHY 600 Shelf pre-Configured System, 6 1x2 RPD, 2AC Supplies	CBR Series Converged Broadband	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHYSHLF_6X12DC=	Smart PHY 600 Shelf pre-Configured System, 6 1x2 RPD, 2DC Supplies	CBR Series Converged Broadband	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHY_CAB_DS_3X6	3x6 RPHY Shelf DS to RF Plant Quad-Shield RF Cable	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHY_CAB_DS_3X6=	3x6 RPHY Shelf DS to RF Plant Quad-Shield RF Cable	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHY_CAB_DS_6X12	6X12 RPHY Shelf DS to RF Plant Quad-Shield RF Cable	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHY_CAB_DS_6X12=	6X12 RPHY Shelf DS to RF Plant Quad-Shield RF Cable Spare	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHY_CAB_US_3X6	3x6 RPHY Shelf US to RF Plant Quad-Shield RF Cable	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHY_CAB_US_3X6=	3x6 RPHY Shelf US to RF Plant Quad-Shield RF Cable	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHY_CAB_US_6X12	6x12 RPHY Shelf US to RF Plant Quad-Shield RF Cable	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHY_CAB_US_6X12=	6x12 RPHY Shelf US to RF Plant Quad-Shield RF Cable Spare	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHY_SHELF_3X6	RPHY Shelf 3DSx6US, includes Shelf, 3xRPDs, Fan Controller	Remote PHY Shelves	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHY_SHELF_3X6=	RPHY Shelf 3DSx6US, includes Shelf, 3xRPDs, FCC, Spare	Remote PHY Shelves	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHY_SHELF_6X12	RPHY Shelf 6DSx12US, includes Shelf, 6xRPDs, Fan Controller	Remote PHY Shelves	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
-RPHY_SHELF_6X12=	RPHY Shelf 6DSx12US, includes Shelf, 6xRPDs, FCC, Spare	Remote PHY Shelves	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY						
+RPHYSHELF_3X6	Remote PHY Compact Shelf 3x6 Configured PID	CBR Series Converged Broadband	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHYSHELF_6X12	Remote PHY Compact Shelf 6x12 Configured PID	CBR Series Converged Broadband	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHYSHLF_3X6=	RPHY Shelf Spare, 3 1x2 RPD, NO power supplies	Remote PHY Shelves	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHYSHLF_3X6AC=	Smart PHY 300 Shelf pre-Configured System, 3 1x2 RPD, 2AC Supplies	CBR Series Converged Broadband	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHYSHLF_3X6DC=	Smart PHY 300 Shelf pre-Configured System, 3 1x2 RPD, 2DC Supplies	CBR Series Converged Broadband	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHYSHLF_6X12=	RPHY Shelf Spare, 6 1x2 RPD, No power Supplies	Remote PHY Shelves	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHYSHLF_6X12AC=	Smart PHY 600 Shelf pre-Configured System, 6 1x2 RPD, 2AC Supplies	CBR Series Converged Broadband	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHYSHLF_6X12DC=	Smart PHY 600 Shelf pre-Configured System, 6 1x2 RPD, 2DC Supplies	CBR Series Converged Broadband	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHY_CAB_DS_3X6	3x6 RPHY Shelf DS to RF Plant Quad-Shield RF Cable	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHY_CAB_DS_3X6=	3x6 RPHY Shelf DS to RF Plant Quad-Shield RF Cable	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHY_CAB_DS_6X12	6X12 RPHY Shelf DS to RF Plant Quad-Shield RF Cable	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHY_CAB_DS_6X12=	6X12 RPHY Shelf DS to RF Plant Quad-Shield RF Cable Spare	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHY_CAB_US_3X6	3x6 RPHY Shelf US to RF Plant Quad-Shield RF Cable	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHY_CAB_US_3X6=	3x6 RPHY Shelf US to RF Plant Quad-Shield RF Cable	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHY_CAB_US_6X12	6x12 RPHY Shelf US to RF Plant Quad-Shield RF Cable	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHY_CAB_US_6X12=	6x12 RPHY Shelf US to RF Plant Quad-Shield RF Cable Spare	Remote PHY Shelves	cable	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHY_SHELF_3X6	RPHY Shelf 3DSx6US, includes Shelf, 3xRPDs, Fan Controller	Remote PHY Shelves	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHY_SHELF_3X6=	RPHY Shelf 3DSx6US, includes Shelf, 3xRPDs, FCC, Spare	Remote PHY Shelves	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHY_SHELF_6X12	RPHY Shelf 6DSx12US, includes Shelf, 6xRPDs, Fan Controller	Remote PHY Shelves	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						
+RPHY_SHELF_6X12=	RPHY Shelf 6DSx12US, includes Shelf, 6xRPDs, FCC, Spare	Remote PHY Shelves	system	layered	Remote PHY		Remote PHY shelves and cabling	sku ^RPHY(?!-S10G-)						

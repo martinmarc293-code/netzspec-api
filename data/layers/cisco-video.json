@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "video",
- "built_at": "2026-09-15T10:32:13.781Z",
- "commit": "9e2285e0cfaed89ec3dd87048ef1879e331d11c9",
+ "built_at": "2026-09-15T10:45:20.485Z",
+ "commit": "4bbc9fb03a996ea73f16677f9cda0e0e82221a16",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-video.json",
  "parts": 3319,
@@ -267,7 +267,7 @@
      "series": "Prisma D-PON",
      "family": null,
      "role": null,
-     "note": null,
+     "note": "^4035899$ (layers round 3, video round): named only 'Cisco 4035899', so the label check found no evidence and moved it to shared parts; Cisco's 'Prisma D-PON Optical Network Terminal and Accessories' end-of-sale notice lists it as CYL-BWDM-DPON-13101490/15501610-900-SA, a D-PON BWDM filter",
      "parts": 11,
      "kinds": {
       "power": 6,
@@ -285,7 +285,7 @@
      ],
      "rules": {
       "name": 10,
-      "label": 1
+      "sku": 1
      },
      "pending_in": {}
     },
@@ -293,13 +293,13 @@
      "series": "Prisma II",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 267,
+     "note": "layers round 3, video round: three chassis rows sat in the line's shared parts by the label 'Prisma II Products' — 4011176 'Chassis, Frt Acc, No RF, 2/DC Pwr' (the base number of the 4011176.xxx '(P2-CH-F-…) Chassis' rows this series holds; Cisco's 'Prisma II Full Height Chassis and modules' end-of-sale notice), 4008670 'Faceplate, Chassis' (the same notice; a faceplate the kind axis reads as a chassis — listed for the kind layer) and 1RU-DRF-XFP= '1RU Chassis for 12 XFP Tx' (the Prisma II XFP QAM transmitters' end-of-sale notice)",
+     "parts": 270,
      "kinds": {
+      "chassis": 41,
       "amplifier": 59,
       "plug-in": 13,
       "rf-amplifier": 2,
-      "chassis": 38,
       "power": 5,
       "accessory": 1,
       "mechanical": 5,
@@ -310,16 +310,16 @@
      },
      "roles": {},
      "samples": [
+      "1RU-DRF-XFP= — 1RU Chassis for 12 XFP Tx; NC and BC port;CCB3 Control",
       "4000770 — (P2-EDFA-FPST-4X17-SA) Opt Post Amp, 4/17dBm, Cnstnt Unfrmty",
       "4002241 — (P2-OPSW-SA-LOINPUT) Opt Sw, LO In, 1310/1550nm, SA",
       "4002630 — (P2-EDFA-FPST-4X18.5-SA) FTTH Post Amp, 25.5dBm, 4/18.5dBm, ",
       "4002676 — (P2-EDFA-MOD-2x21-SA) Opt Amp, Dual Pumped, 2/21dBm, SA",
-      "4002787 — (P2-EDFA-MOD-9X17-SA) Con Opt Amp, 9/17dBm, SA",
-      "4003421 — (P2-EDFA-MOD-4X17-E2) Opt Amp, Dual Pumped, 4/17dBm, EA"
+      "4002787 — (P2-EDFA-MOD-9X17-SA) Con Opt Amp, 9/17dBm, SA"
      ],
      "rules": {
-      "name": 200,
-      "sku": 67
+      "sku": 75,
+      "name": 195
      },
      "pending_in": {}
     },
@@ -328,11 +328,10 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 90,
+     "parts": 87,
      "kinds": {
       "cable": 8,
       "unknown": 55,
-      "chassis": 3,
       "transmitter": 2,
       "fan": 2,
       "mechanical": 14,
@@ -345,13 +344,13 @@
      "samples": [
       "1000897 — Pwr Cord (Australia)",
       "1545-1548 — Cisco 1545-1548",
-      "1RU-DRF-XFP= — 1RU Chassis for 12 XFP Tx; NC and BC port;CCB3 Control",
       "207340 — Pwr Cord (Argentina)",
       "3750136 — 64607E Opt Tx, 1310nm, 870MHz, 13dBm, 20mW, FA",
-      "3989835 — Cisco 3989835"
+      "3989835 — Cisco 3989835",
+      "3989836 — Pwr Cord (UK)"
      ],
      "rules": {
-      "label": 89,
+      "label": 86,
       "accessory": 1
      },
      "pending_in": {}
@@ -367,7 +366,7 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 123,
+     "parts": 122,
      "kinds": {
       "linecard": 68,
       "system": 3,
@@ -375,7 +374,7 @@
       "power": 13,
       "accessory": 7,
       "mechanical": 21,
-      "cable": 6,
+      "cable": 5,
       "fan": 2
      },
      "roles": {},
@@ -388,8 +387,25 @@
       "CBR-4LC-BUN — CBR System Bundle, 4 Line Cards, 2 Supervisors, Fan Assembly"
      ],
      "rules": {
-      "sku": 122,
-      "label": 1
+      "sku": 122
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "cBR-8 Converged Broadband Router shared parts",
+     "family": "(shared across the line)",
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "cable": 1
+     },
+     "roles": {},
+     "samples": [
+      "PWR-CAB-AC-BLK — Power Cord, 20A, C20-C21, BLK"
+     ],
+     "rules": {
+      "label-unsupported": 1
      },
      "pending_in": {}
     }
@@ -453,7 +469,7 @@
      "series": "Remote PHY shelves and cabling",
      "family": null,
      "role": null,
-     "note": null,
+     "note": "^RPHY(?!-S10G-) (operator decision, layers round 3): the RPHY-S10G-<reach>-<channel> rows are the Remote PHY SFPs Cisco's end-of-sale bulletin names — transceivers; the rule claimed 63 of them in transceiver and the 57 filed here carry plans to it",
      "parts": 20,
      "kinds": {
       "system": 12,
@@ -1112,10 +1128,21 @@
  ],
  "unplaced": [],
  "label_check": {
-  "applied": false,
-  "label_placed": 0,
-  "by_kind": {},
-  "moved": []
+  "applied": true,
+  "label_placed": 1,
+  "by_kind": {
+   "none": 1
+  },
+  "moved": [
+   {
+    "sku": "PWR-CAB-AC-BLK",
+    "name": "Power Cord, 20A, C20-C21, BLK",
+    "series_label": "CBR Series Converged Broadband",
+    "from_series": "cBR-8",
+    "to_series": "cBR-8 Converged Broadband Router shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   }
+  ]
  },
  "pending_review": [],
  "inbound_unplaced": {},
