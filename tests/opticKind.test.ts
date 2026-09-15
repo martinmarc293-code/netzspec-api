@@ -182,6 +182,42 @@ for (const [sku, want, why, name] of CABLE13_REFUSALS) eq(`kind-layer REFUSAL ${
   eq("SABOTAGE accessory rule without the MDS CWDM shapes: DS-CWDMOADM4A= is a pluggable again", opticKind("DS-CWDMOADM4A="), "pluggable");
   RULES[a] = { kind: "accessory", re: saveA };
 }
+// layers round 3 (14 Sep 2026): the 29 transceiver rows the layer read found in the wrong kind, each alternative with a witness, a
+// refusal that states what the alternative must not take, and a sabotage that removes it and watches the witness fall back.
+{
+  const R3: [string, string][] = [
+    ["SFP-H25GCU1M", "cable"], ["SFP-H25GCU2.5M", "cable"], ["SFP-25GAOC10M", "cable"], ["SFP-H10GBACU10M", "cable"],
+    ["ONS-XC-10G-C=", "tunable"], ["ONS-XC-10G-96C=", "tunable"], ["ONS-C2-WDM-DE-1HL", "tunable"],
+    ["S10G-BD-PM-D-I", "bidi"], ["S10G-BU-PM-D-I", "bidi"],
+    ["CWDM-OADM1-1530=", "accessory"], ["CWDM-OADM4-1=", "accessory"],
+    ["QSFP100GMX1-2-BUN", "tunable"], ["QSFP100GMX2-20-BUN", "tunable"],
+  ];
+  for (const [sku, want] of R3) eq(`round 3: ${sku} is ${want}`, opticKind(sku), want);
+  const R3_REFUSALS: [string, string, string][] = [
+    ["ZZ-GCU1M", "pluggable", "a G with no speed digits before it is not a speed suffix"],
+    ["ONS-XC-10G-S1=", "pluggable", "an OC-192 short-reach XFP: the C-band token must stand alone"],
+    ["ONS-XC-10G-1510=", "pluggable", "a fixed-wavelength CWDM XFP"],
+    ["S10G-SR-PM-D-I", "pluggable", "the duplex SR sibling of the BiDi pair"],
+    ["QSFP-40G-SR-BD", "pluggable", "a duplex BiDi: -BD alone is not single-fibre"],
+    ["CWDM-SFP-1530", "pluggable", "a CWDM optic, not the OADM plug-in"],
+    ["CWDM-GBIC-1530", "pluggable", "a CWDM GBIC optic"],
+  ];
+  for (const [sku, want, why] of R3_REFUSALS) eq(`round 3 REFUSAL ${sku} stays ${want} — ${why}`, opticKind(sku), want);
+  const swap = (kind: string, re: RegExp, run: () => void) => { const i = RULES.findIndex((r) => r.kind === kind); const keep = RULES[i].re; RULES[i] = { kind: kind as never, re }; run(); RULES[i] = { kind: kind as never, re: keep }; };
+  swap("cable", /(?:-|(?<=[0-9]))(?:A?CU|AOC)(?:\d|X|-\d|=|$)|^MA-CBL-|^ONS-CCC-|(?:^|-)(?:DAC|AOC)(?:\d|-|=|$)/, () =>
+    eq("SABOTAGE cable rule without the speed-glued lookbehind: SFP-H25GCU1M is a pluggable again", opticKind("SFP-H25GCU1M"), "pluggable"));
+  swap("tunable", /^DP0\d|^CFP2-WDM-|^ONS-CFP2|^QDD-400G-ZRP?-|^DWDM-(?:SFP10G|SFP|XFP|X2)-[CE](?:-|=|$)|^ONS-S[CI]\+?-10G-C(?:-|=|$)|^XFP-RF-T(?:-|=|$)/, () => {
+    eq("SABOTAGE tunable rule without the XFP C-band spelling: ONS-XC-10G-C= is a pluggable again", opticKind("ONS-XC-10G-C="), "pluggable");
+    eq("SABOTAGE tunable rule without the C2 spelling: ONS-C2-WDM-DE-1HL is a pluggable again", opticKind("ONS-C2-WDM-DE-1HL"), "pluggable");
+    eq("SABOTAGE tunable rule without the MX bundles: QSFP100GMX1-2-BUN is a pluggable again", opticKind("QSFP100GMX1-2-BUN"), "pluggable");
+  });
+  eq("round 3 REFUSAL QSFP-100G-LR4-S stays pluggable — a fixed 100G QSFP28, not the MX DCO bundle prefix", opticKind("QSFP-100G-LR4-S"), "pluggable");
+  swap("bidi", /(?:^|-)\d*BX(?:\d+)?[UD]?A?(?:-|=|$)|(?:^|-)B\d{2}[UD]\d?(?:-|=|$)|GPON|XGS-?PON|(?:^|-)OLT\d*(?:-|=|$)|^CGP-/, () =>
+    eq("SABOTAGE bidi rule without the S10G pair: S10G-BD-PM-D-I is a pluggable again", opticKind("S10G-BD-PM-D-I"), "pluggable"));
+  swap("accessory", /(?:^|-)(?:BRKT|BRACKET|TRAY|MUX|DEMUX|MUXDEMUX)(?:-|=|\d|$)|^DS-CWDM(?:OADM|CHASSIS)/, () =>
+    eq("SABOTAGE accessory rule without the CWDM OADM plug-ins: CWDM-OADM4-1= is a pluggable again", opticKind("CWDM-OADM4-1="), "pluggable"));
+  eq("control: round-3 rules restored", [opticKind("SFP-H25GCU1M"), opticKind("ONS-XC-10G-C="), opticKind("S10G-BD-PM-D-I"), opticKind("CWDM-OADM4-1=")].join(), "cable,tunable,bidi,accessory");
+}
 eq(`kind "cable" is not an optic module (it is asked a length, not a transmit power)`, (OPT_MODULE as readonly string[]).includes("cable"), false);
 // kind-layer (13 Sep 2026): the question sets as kindQuestionSet resolves them (today's required set + the library's
 // proposed required cups; the parent decides each on the printed measurement).

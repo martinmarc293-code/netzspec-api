@@ -8,14 +8,52 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, type LayerRow } from "../src/core/layerChecks.js";
+import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence } from "../src/core/labelEvidence.js";
 
-export const REVIEWED = ["switches", "routers"];
+export const REVIEWED = ["switches", "routers", "transceiver"];
 // spare = base exceptions, each read against the built row
 const PAIR_EXCEPTIONS: Record<string, string> = {
   "switches|N5K-C5696Q-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan; its base is the live 'Nexus 5696Q Chassis with license and SW image'",
 };
+
+// THE LABEL CHECK, per category (layers round 3, operator: the round-2 floor "more than 100 label-placed rows" failed by construction
+// on a category every row of which a SKU rule places). `min`: a floor that proves the check computed evidence where labels place
+// rows; `exactly`: the category's measured count, so a mapping change that starts placing rows by label is a visible change.
+const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string }> = {
+  switches: { min: 100, why: "hundreds of rows are placed by a stored series label" },
+  routers: { min: 100, why: "hundreds of rows are placed by a stored series label" },
+  transceiver: { exactly: 0, why: "every transceiver row is placed by its SKU's form-factor and speed family; the mapping's labels place nothing (layers round 3)" },
+};
+// THE FAMILY LAYER, per category: "in-use" where Cisco names families over series (switches, routers); "none" where Cisco names none
+// and every line of 3+ series says why (layers round 3: optics and modules, operator — "—" with a no_family_reason is the expected result).
+const FAMILY_EXPECT: Record<string, "in-use" | "none"> = { switches: "in-use", routers: "in-use", transceiver: "none" };
+// ARRIVALS (layers round 3): a not-run move plan out of a reviewed category must land placed in its target's mapping. These four
+// plans predate the check (switches + routers rounds) and their targets cannot place them yet; each is listed with the round that
+// owns the target's rule. A listed row that now places is a stale exception and fails. (Operator, layers round 3: 11 -> 4 — the
+// IC3000 series in routers and CW-SFP-KIT1 in switches were added, the nine TA-* plans were cancelled: those rows are Nexus switches.)
+const ARRIVAL_EXCEPTIONS: Record<string, string> = {
+  "switches|AIR-BR1310G": "Aironet 1310 outdoor bridge: wireless places it in its round (next)",
+  "switches|CWWLSE-1130-19-K9": "CiscoWorks Wireless LAN Solution Engine appliance: wireless places it in its round (next)",
+  "routers|XRV-PCIE-C40Q-03": "PCIe NIC for the XRv appliance: servers-unified-computing places it in its round",
+  "routers|XRV-PCIE-IQ10GF": "PCIe NIC for the XRv appliance: servers-unified-computing places it in its round",
+};
+// transceiver (operator, layers round 3): the same-cage cable series holds only cables, and a breakout cable sits in its host cage's
+// speed series, never in the DAC series
+const TX_DAC_SERIES = "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)";
+const cableContract = (rows: LayerRow[]) => ({
+  notCableInDac: rows.filter((r) => r.bucket === "layered" && r.series === TX_DAC_SERIES && r.kind !== "cable"),
+  breakoutOutsideSpeed: rows.filter((r) => r.bucket === "layered" && r.kind === "breakout-cable" && (r.series === TX_DAC_SERIES || r.product_line !== "Ethernet transceivers")),
+});
+const labelExpectMiss = (cat: string, labelPlaced: number): string | null => {
+  const e = LABEL_EXPECT[cat];
+  if (!e) return `no label expectation recorded for ${cat}`;
+  if (e.exactly !== undefined && labelPlaced !== e.exactly) return `label-placed ${labelPlaced}, expected exactly ${e.exactly} (${e.why})`;
+  if (e.min !== undefined && labelPlaced <= e.min) return `label-placed ${labelPlaced}, expected more than ${e.min} (${e.why})`;
+  return null;
+};
+/** a family found on a layered row (the shared-across marker and "" are not families) */
+const familiesInUse = (rows: LayerRow[]) => rows.filter((r) => r.bucket === "layered" && r.product_family && !r.product_family.startsWith("("));
 
 /** series with 0 parts that say nothing about what they wait for */
 const deadPlaceholders = (summary: { lines: { line: string; series: { series: string; parts: number; pending_in?: Record<string, number> }[] }[] }) =>
@@ -92,8 +130,22 @@ for (const cat of REVIEWED) {
   check(`devices ${cat}: 0 rows pending review, and the page lists exactly the rows in that bucket`, rows.filter((r) => r.bucket === "pending_review").length === (summary.pending_review?.length ?? -1) && (summary.pending_review?.length ?? -1) === 0, `rows ${rows.filter((r) => r.bucket === "pending_review").length}, page ${summary.pending_review?.length}`);
   const withEv = rows.filter((r) => r.label_evidence).length, moved = rows.filter((r) => r.bucket === "layered" && (r.placed_by ?? "").startsWith("label-unsupported")).length;
   check(`label check ${cat}: applied, and the page's counts are the rows' (label-placed ${withEv}, moved ${moved})`,
-    summary.label_check?.applied === true && summary.label_check.label_placed === withEv && summary.label_check.moved.length === moved && withEv > 100,
+    summary.label_check?.applied === true && summary.label_check.label_placed === withEv && summary.label_check.moved.length === moved,
     JSON.stringify({ applied: summary.label_check?.applied, label_placed: summary.label_check?.label_placed, moved: summary.label_check?.moved?.length }));
+  const lem = labelExpectMiss(cat, withEv);
+  check(`label check ${cat}: the label-placed count meets the category's recorded expectation`, lem === null, lem ?? "");
+  // every row placed through a label carries the evidence it was judged on (a label placement without evidence is the check not running)
+  const unjudged = rows.filter((r) => r.bucket === "layered" && /^label[ -]/.test(r.placed_by ?? "") && !r.label_evidence);
+  check(`label check ${cat}: 0 label-placed rows without recorded evidence`, unjudged.length === 0, unjudged.slice(0, 5).map((r) => r.sku).join(", "));
+
+  // arrivals: every not-run move plan out of this category lands placed in its target's mapping (layers round 3)
+  {
+    const arr = unplacedArrivals(cat, rows, PLANS);
+    const unexcused = arr.filter((a) => !ARRIVAL_EXCEPTIONS[`${cat}|${a.sku}`]);
+    check(`arrivals ${cat}: every planned move lands placed in its target mapping (${arr.length - unexcused.length} recorded exception(s))`, unexcused.length === 0, unexcused.slice(0, 6).map((a) => `${a.sku} -> ${a.to}: ${a.why}`).join("; "));
+    for (const k of Object.keys(ARRIVAL_EXCEPTIONS).filter((x) => x.startsWith(`${cat}|`)))
+      check(`arrivals ${cat}: the recorded exception ${k.split("|")[1]} still fails to place (a stale exception is a hole)`, arr.some((a) => a.sku === k.split("|")[1]));
+  }
   check(`provenance ${cat}: the built page names its commit`, typeof summary.commit === "string" && /^[0-9a-f]{40}$/.test(summary.commit), `commit ${summary.commit}`);
   check(`provenance ${cat}: the page lists its uncommitted rule files (an array, possibly empty)`, Array.isArray(summary.uncommitted_rule_files));
 }
@@ -109,8 +161,20 @@ for (const cat of REVIEWED) {
     const wrong = readLayerRows(cat).filter((r) => r.bucket === "layered").filter((r) =>
       r.product_family !== (r.series === SHARED_PARTS(r.product_line) ? "(shared across the line)" : famOf.get(r.series) ?? ""));
     check(`family layer ${cat}: every layered row carries its series' family (or the shared-across marker)`, wrong.length === 0, wrong.slice(0, 5).map((r) => `${r.sku} ${r.series} [${r.product_family}]`).join("; "));
-    check(`family layer ${cat}: at least one family is in use (the column is live)`, readLayerRows(cat).some((r) => r.product_family && !r.product_family.startsWith("(")));
+    const expect = FAMILY_EXPECT[cat];
+    check(`family layer ${cat}: an expectation is recorded ("in-use" or "none")`, expect === "in-use" || expect === "none", `${expect}`);
+    const used = familiesInUse(readLayerRows(cat));
+    if (expect === "in-use") check(`family layer ${cat}: at least one family is in use (the column is live)`, used.length > 0);
+    if (expect === "none") {
+      check(`family layer ${cat}: Cisco names no family here, so no layered row carries one`, used.length === 0, used.slice(0, 5).map((r) => `${r.sku} [${r.product_family}]`).join("; "));
+      const silent = loaded.file.lines.filter((l) => l.series.filter((s) => !/shared parts$/.test(s.series)).length >= 3 && !(l.no_family_reason ?? "").trim());
+      check(`family layer ${cat}: every line of 3+ series says why it has no family`, silent.length === 0, silent.map((l) => l.line).join("; "));
+      check(`family layer ${cat}: the mapping declares no family at all`, loaded.file.lines.every((l) => l.series.every((s) => !s.family)));
+    }
   }
+  // sabotage: the per-category expectations refuse for their stated reasons
+  check("SABOTAGE family expectation: a family on a layered row of a 'none' category is found", familiesInUse([{ sku: "ZZ", bucket: "layered", product_family: "Cisco Optics" } as LayerRow]).length === 1);
+  check("SABOTAGE family expectation: the shared-across marker is not a family", familiesInUse([{ sku: "ZZ", bucket: "layered", product_family: "(shared across the line)" } as LayerRow]).length === 0);
   const base = (): Parameters<typeof validateLineFile>[0] => ({ vendor: "cisco", category: "zz", family_layer: "assigned", lines: [{ line: "Nexus", series: [
     { series: "Nexus 7004 / 7009", sku: ["^N7K"], family: "Nexus 7000" }, { series: "Nexus 7700", sku: ["^N77"], family: "Nexus 7000" }, { series: "Nexus 6000", sku: ["^N6K"] }] }] });
   const errsOf = (mut: (f: ReturnType<typeof base>) => void) => { const f = base(); mut(f); return validateLineFile(f).join(" | "); };
@@ -128,6 +192,23 @@ for (const cat of REVIEWED) {
   for (const sku of ["N5548UPM-4FEX", "N3K-C3172TQ-10PK", "C4500E-7R-S8E-UPOE", "ACI-C9336-B3-EAL", "N2232PP-4FEX", "N5672UP-4FEX-10G"]) check(`A.4 switches page: ${sku} is bundle`, sw.get(sku)?.kind === "bundle", `got ${sw.get(sku)?.kind}`);
   for (const sku of ["CRS-16-FC140/M-8P", "ASR1000-RP3-32G-2P", "ISR4330U-MEM-MSATA"]) check(`A.4 routers page: ${sku} is bundle`, rt.get(sku)?.kind === "bundle", `got ${rt.get(sku)?.kind}`);
   for (const sku of ["3900-FANASSY", "3900-FANASSY=", "3900-FANASSY-NEBS", "3900-FANASSY-NEBS="]) check(`residual: ${sku} is under ISR 3900`, rt.get(sku)?.series === "ISR 3900", `got ${rt.get(sku)?.series}`);
+}
+
+// transceiver on the built rows (layers round 3): the cable contract, and the operator's witnesses are where the decisions put them
+{
+  const tx = readLayerRows("transceiver");
+  const { notCableInDac, breakoutOutsideSpeed } = cableContract(tx);
+  check("transceiver: the DAC and AOC series holds only kind cable", notCableInDac.length === 0, notCableInDac.slice(0, 6).map((r) => `${r.sku} (${r.kind})`).join("; "));
+  check("transceiver: every breakout cable sits in an Ethernet speed series", breakoutOutsideSpeed.length === 0, breakoutOutsideSpeed.slice(0, 6).map((r) => `${r.sku} ${r.series}`).join("; "));
+  const breakouts = tx.filter((r) => r.bucket === "layered" && r.kind === "breakout-cable").length;
+  check(`transceiver: the contract has rows to judge (${breakouts} breakout cables on the page)`, breakouts >= 50, `${breakouts}`);
+  const t = new Map(tx.map((r) => [r.sku, r]));
+  for (const sku of ["SFP-H25GCU1M", "SFP-25GAOC10M", "SFP-H10GBACU10M"]) check(`transceiver page: glued ${sku} is a cable in the DAC series`, t.get(sku)?.kind === "cable" && t.get(sku)?.series === TX_DAC_SERIES, `got ${t.get(sku)?.kind} / ${t.get(sku)?.series}`);
+  for (const [sku, series] of [["QSFP-4SFP25G-CU1M", "100G QSFP28"], ["QSFP-4X10G-AOC1M", "40G QSFP+"], ["QDD-4ZQ100-CU1M", "200G / 400G QSFP-DD, QSFP112 and QSFP56"]])
+    check(`transceiver page: breakout ${sku} is in ${series}`, t.get(sku)?.series === series && t.get(sku)?.kind === "breakout-cable", `got ${t.get(sku)?.kind} / ${t.get(sku)?.series}`);
+  for (const sku of ["DWDM-GBIC-30.33", "CWDM-GBIC-1530", "15216-GBIC-1510", "WS-G5484"]) check(`transceiver page: ${sku} is in GBIC (legacy)`, t.get(sku)?.series === "GBIC (legacy)", `got ${t.get(sku)?.series}`);
+  const gbic = tx.filter((r) => r.bucket === "layered" && /^(DWDM|CWDM|15216)-GBIC-/.test(r.sku)).length;
+  check(`transceiver page: the 42 WDM GBICs are layered (operator: a GBIC rule that matches its 42 rows)`, gbic === 42, `${gbic}`);
 }
 
 // SABOTAGE: each check sees a planted defect, for the stated reason.
@@ -158,6 +239,22 @@ for (const cat of REVIEWED) {
   check("SABOTAGE placeholders: an empty series with nothing pending is reported, one pending rows from routers is not", dp.join() === "Nexus / Nexus 9800", JSON.stringify(dp));
   const dv = deviceInSharedParts([row("CVR328W-K9-CN", { kind: "router", product_line: "Small Business Routers", series: "Small Business Routers shared parts" }), row("PWR-60W-AC", { kind: "power", series: "ISR shared parts" })]);
   check("SABOTAGE devices: a router in shared parts is caught, a power supply there is not", dv.length === 1 && dv[0].sku === "CVR328W-K9-CN", JSON.stringify(dv));
+  const dv3 = deviceInSharedParts(["device", "ont", "olt"].map((k, i) => row(`ZZ-DEV-${i}`, { kind: k, series: "Cables and accessories shared parts" })));
+  check("SABOTAGE devices (round 3): a whole device of kind device / ont / olt in shared parts is caught", dv3.length === 3 && ["device", "ont", "olt"].every((k) => DEVICE_KINDS.has(k)), JSON.stringify(dv3.map((r) => r.kind)));
+
+  // round 3: the transceiver cable contract, the label expectation and the arrivals check, each refusing for its stated reason
+  const cc = cableContract([row("SFP-H25G-CU1M", { kind: "cable", series: TX_DAC_SERIES, product_line: "Direct-attach and active optical cables" }),
+    row("QSFP-4SFP25G-CU1M", { kind: "breakout-cable", series: TX_DAC_SERIES, product_line: "Direct-attach and active optical cables" }),
+    row("QSFP-4X10G-AOC1M", { kind: "breakout-cable", series: "40G QSFP+", product_line: "Ethernet transceivers" })]);
+  check("SABOTAGE cable contract: a breakout in the DAC series is caught by both halves; a cable there and a breakout in 40G QSFP+ are not",
+    cc.notCableInDac.map((r) => r.sku).join() === "QSFP-4SFP25G-CU1M" && cc.breakoutOutsideSpeed.map((r) => r.sku).join() === "QSFP-4SFP25G-CU1M", JSON.stringify(cc));
+  check("SABOTAGE label expectation: transceiver with 3 label-placed rows is refused against its recorded exactly-0", /expected exactly 0/.test(labelExpectMiss("transceiver", 3) ?? ""));
+  check("SABOTAGE label expectation: switches with 40 label-placed rows is refused against its floor", /more than 100/.test(labelExpectMiss("switches", 40) ?? ""));
+  check("SABOTAGE label expectation: a category with no recorded expectation is refused", /no label expectation/.test(labelExpectMiss("zz-category", 0) ?? ""));
+  const ua = unplacedArrivals("zz", [row("15454-SFP-GE+-LX=", { name: "Cisco 15454-SFP-GE+-LX=", series_label: "" }), row("ZZ-NO-RULE-9", { name: "Cisco ZZ-NO-RULE-9", series_label: "" })],
+    [{ sku: "15454-SFP-GE+-LX=", category: "zz", action: "move", to: "optical-networking", run_id: null }, { sku: "ZZ-NO-RULE-9", category: "zz", action: "move", to: "optical-networking", run_id: null },
+      { sku: "15454-SFP-GE+-LX=", category: "zz", action: "move", to: "routers", run_id: 1234 }]);
+  check("SABOTAGE arrivals: a planned SKU no target rule places is reported; a placed one and a plan that ran are not", ua.length === 1 && ua[0].sku === "ZZ-NO-RULE-9" && /no rule of optical-networking/.test(ua[0].why), JSON.stringify(ua));
 
   // the label check on built rows: a bare label in a series, and a moved row left in its series, are each refused
   const lv = labelViolations([

@@ -64,7 +64,10 @@ export const RULES: { kind: OpticKind; re: RegExp }[] = [
   // — DS-CWDMOADM4A= "4-channel (1470, 1490, 1510, and 1530 nm) optical add/drop multiplexer", DS-CWDMOADM4B=,
   // DS-CWDMOADM4x=, and DS-CWDMCHASSIS= "2-slot chassis for Cisco OADM and multiplexer/demultiplexer". Every row this
   // rule names is a passive with no transceiver kind to be; the move plan sends them to optical-networking (report).
-  { kind: "accessory", re: /(?:^|-)(?:BRKT|BRACKET|TRAY|MUX|DEMUX|MUXDEMUX)(?:-|=|\d|$)|^DS-CWDM(?:OADM|CHASSIS)/ },
+  // layers round 3 (14 Sep 2026): the Catalyst CWDM OADM plug-ins were `pluggable` for the same reason in another spelling —
+  // CWDM-OADM1-1530= "Dual single channel OADM Module (1530nm)", CWDM-OADM4-1= "4-channels CWDM OADM Module (1470, 1490, 1510,
+  // 1530)": 10 rows, every one a passive for CWDM-CHASSIS-2, planned to optical-networking with the MUX rows above.
+  { kind: "accessory", re: /(?:^|-)(?:BRKT|BRACKET|TRAY|MUX|DEMUX|MUXDEMUX)(?:-|=|\d|$)|^DS-CWDM(?:OADM|CHASSIS)|^CWDM-OADM\d/ },
   // BREAKOUT CABLES, 12 Sep 2026 (round-6 B4c). A QSFP28-to-4xSFP28 cable has TWO cages, and
   // `form_factor` holds one: specNormalize already refuses such a value by name ("names two different
   // cages ... neither end is chosen"), which is where the 37 refusals came from. The reviewer's decision
@@ -100,7 +103,10 @@ export const RULES: { kind: OpticKind; re: RegExp }[] = [
   // THE REFUSALS the token shape carries: SFP-CU-RJ45= and SFP-RFGW1-CU-RJ45= put a LETTER after -CU- (a copper SFP
   // module, not a cable), X2-10GB-CX4 has no CU token at all, and JNP-QSFP-DACBO-5MA / JNP-QSFP-AOCBO-10M glue BO
   // ("break out") onto the token, which the `(?:\d|X|-\d|=|$)` tail refuses.
-  { kind: "cable", re: /(?:-|(?<=[0-9]))(?:A?CU|AOC)(?:\d|X|-\d|=|$)|^MA-CBL-|^ONS-CCC-|(?:^|-)(?:DAC|AOC)(?:\d|-|=|$)/ },
+  // layers round 3 (14 Sep 2026, operator): the token glued onto the SPEED — SFP-H25GCU1M, SFP-25GAOC10M, SFP-H10GBACU10M — was
+  // refused by the dash-or-digit lookbehind (a `G` or `GB` precedes it) and 14 Cisco cables stayed `pluggable`. The speed suffix is
+  // accepted only right after its digits (`25G`, `10GB`), so a letter-led token elsewhere in a SKU still does not read as a cable.
+  { kind: "cable", re: /(?:-|(?<=[0-9])|(?<=[0-9]GB?))(?:A?CU|AOC)(?:\d|X|-\d|=|$)|^MA-CBL-|^ONS-CCC-|(?:^|-)(?:DAC|AOC)(?:\d|-|=|$)/ },
   // Converters and adapters: QSA (CVR-QSFP-SFP10G), TwinGig (CVR-X2-SFP), OneX (CVR-X2-SFP10G), CPAK-to-QSFP,
   // the 4xSFP-to-QSFP reverse adapter and the 2xQSFP-to-8xSFP converter. The hyphen after CVR is required.
   { kind: "adapter", re: /^CVR-/ },
@@ -113,13 +119,20 @@ export const RULES: { kind: OpticKind; re: RegExp }[] = [
   //                  limiting-interface SFP+ (DWDM-SFP10G-E-I "10GBASE-DWDM tunable SFP+")
   //   ONS-S[CI]+-10G-C   C-band tunable SFP+
   //   XFP-RF-T       "XFP-RF QAM Transmitter APC Tunable ITU 20 - ITU 62"
-  { kind: "tunable", re: /^DP0\d|^CFP2-WDM-|^ONS-CFP2|^QDD-400G-ZRP?-|^DWDM-(?:SFP10G|SFP|XFP|X2)-[CE](?:-|=|$)|^ONS-S[CI]\+?-10G-C(?:-|=|$)|^XFP-RF-T(?:-|=|$)/ },
+  //   ONS-XC-10G-C / -96C   "XFP -10G MultiRate Full C Band Tuneable DWDM XFP" (layers round 3: the XFP spelling of ONS-SC+-10G-C)
+  //   ONS-C2-WDM-    the CFP2 DCO pluggable spelled without "FP" (ONS-C2-WDM-DE-1HL "200G, 100G, WDM Digital CFP2 pluggable")
+  //   QSFP100GMX     "Routed Optical Networking 2x100G / 20x100G C-Band MX1-A1 / MX2-A1 QSFP Bundle": packs of the DP01QS28-MX1 / MX2 DCO
+  //                  QSFP28, which are tunable; a pack keeps its unit's kind (operator, layers round 3 — pack_quantity is parked, cup side)
+  { kind: "tunable", re: /^DP0\d|^CFP2-WDM-|^ONS-CFP2|^ONS-C2-WDM-|^QDD-400G-ZRP?-|^DWDM-(?:SFP10G|SFP|XFP|X2)-[CE](?:-|=|$)|^ONS-S[CI]\+?-10G-C(?:-|=|$)|^ONS-XC-10G-(?:96)?C(?:-|=|$)|^XFP-RF-T(?:-|=|$)|^QSFP100GMX/ },
   // Single-fibre bidirectional. A segment that IS a BX token (BX, BXD, BXU, BX40, BX40U, BX80, 2BX, 100BX),
   // the 100G QSFP28 BiDi pairs (B20D4 / B20U4 / B40D / B40U), and PON OLT optics, which are single-fibre
   // BiDi by construction (SFP-GPON-C "1490Tx/1310Rx", CGP-SFP-OC, and the XGS-PON SFP-10G-OLT20-X "Tx 1577 nm /
   // Rx 1270 nm" — the one single-fibre part the first census missed: its SKU names neither BX nor GPON, and it
   // was found only by asking which parts' OWN FACTS state a Tx/Rx pair or a single-fibre connector: 33 do).
-  { kind: "bidi", re: /(?:^|-)\d*BX(?:\d+)?[UD]?A?(?:-|=|$)|(?:^|-)B\d{2}[UD]\d?(?:-|=|$)|GPON|XGS-?PON|(?:^|-)OLT\d*(?:-|=|$)|^CGP-/ },
+  // layers round 3 (14 Sep 2026): the performance-monitoring 10 km pair S10G-BD-PM-D-I / S10G-BU-PM-D-I "LR-BiDi, SM, 1330/1270nm"
+  // — the 40 km siblings (S10G-B40D-PM-D-I) already matched through their reach digits. Named by family: a bare `-BD` is the
+  // DUPLEX BiDi of QSFP-40G-SR-BD (see the header), which must stay `pluggable`.
+  { kind: "bidi", re: /(?:^|-)\d*BX(?:\d+)?[UD]?A?(?:-|=|$)|(?:^|-)B\d{2}[UD]\d?(?:-|=|$)|^S10G-B[DU]-|GPON|XGS-?PON|(?:^|-)OLT\d*(?:-|=|$)|^CGP-/ },
 ];
 
 // ---- kind-layer (13 Sep 2026): the NAME, for the other vendors' cables (III.0 item 5) --------------------------------

@@ -18,10 +18,33 @@ import { labelEvidence } from "./labelEvidence.js";
 
 export type LayerRow = Record<string, string>;
 
-/** closing items at aa1143f, item 1: a device is never a shared part */
-export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance"]);
+/** closing items at aa1143f, item 1: a device is never a shared part. Layers round 3 (operator, 14 Sep 2026): every whole-device
+ * kind joins — `device` (interfaces-modules' marker for a whole device filed among cards), `ont` and `olt`. One set, read by
+ * scripts/build-layers.mts (the pending_review hold) and by the standing check. */
+export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance", "device", "ont", "olt"]);
 export function deviceInSharedParts(rows: LayerRow[]): LayerRow[] {
   return rows.filter((r) => /shared parts$/.test(r.series ?? "") && DEVICE_KINDS.has(r.kind ?? ""));
+}
+
+/**
+ * Rows a reviewed category plans to MOVE out that the target category's mapping would not place (layers round 3, operator: "every
+ * target mapping must place every arrival"). Read from the source's built rows (name and stored label as the page has them) and
+ * the target's mapping file; plans that ran are history and are not judged.
+ */
+export function unplacedArrivals(category: string, rows: LayerRow[], plans: readonly { sku: string; category: string; action: string; to: string; run_id?: number | string | null }[], vendor = "cisco"): { sku: string; to: string; why: string }[] {
+  const bySku = new Map(rows.map((r) => [r.sku, r]));
+  const out: { sku: string; to: string; why: string }[] = [];
+  for (const p of plans) {
+    if (p.category !== category || p.action !== "move" || (p.run_id ?? null) !== null) continue;
+    const r = bySku.get(p.sku);
+    if (!r) { out.push({ sku: p.sku, to: p.to, why: `the planned SKU is not a row of ${category}'s built rows` }); continue; }
+    const loaded = loadLineFile(vendor, p.to);
+    if (!loaded) { out.push({ sku: p.sku, to: p.to, why: `${p.to} has no mapping file` }); continue; }
+    const q = placePart(vendor, p.to, { sku: r.sku, name: r.name, series: r.series_label }, loaded);
+    if (!q) out.push({ sku: p.sku, to: p.to, why: `no rule of ${p.to} places it` });
+    else if (q.line === "(not this category)") out.push({ sku: p.sku, to: p.to, why: `${p.to} lists it as not this category (${(q as { why: string }).why})` });
+  }
+  return out;
 }
 
 type SeriesEntry = { series: string; family: string | null; parts: number; kinds: Record<string, number>; roles: Record<string, number> };

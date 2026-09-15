@@ -87,34 +87,6 @@
   },
   {
    "category": "switches",
-   "claimed_by": "transceiver",
-   "series": "DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)",
-   "rule": "sku ACU",
-   "rows": 5,
-   "examples": [
-    "CAB-7513ACU=",
-    "CAB-7KACU=",
-    "CAB-ACU"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the transceiver round"
-  },
-  {
-   "category": "switches",
-   "claimed_by": "transceiver",
-   "series": "GBIC (legacy)",
-   "rule": "sku GBIC",
-   "rows": 5,
-   "examples": [
-    "WS-X6408A-GBIC",
-    "WS-X6416-GBIC",
-    "WS-X6516-GBIC"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the transceiver round"
-  },
-  {
-   "category": "switches",
    "claimed_by": "collaboration-endpoints",
    "series": "Room Panorama",
    "rule": "sku ^CS-PANO",
@@ -233,20 +205,6 @@
   },
   {
    "category": "routers",
-   "claimed_by": "transceiver",
-   "series": "DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC",
-   "rule": "sku DWDM",
-   "rows": 19,
-   "examples": [
-    "1-100GE-DWDM/C",
-    "1-100GE-DWDM/C++=",
-    "1-100GE-DWDM/C="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the transceiver round"
-  },
-  {
-   "category": "routers",
    "claimed_by": "interfaces-modules",
    "series": "Cisco 12000 / XR 12000 SIP and line cards",
    "rule": "sku ^[0-9]{1,2}(GE|CHOC|X10GE)",
@@ -316,19 +274,6 @@
   },
   {
    "category": "routers",
-   "claimed_by": "transceiver",
-   "series": "800G OSFP / QSFP-DD800",
-   "rule": "sku 800G",
-   "rows": 2,
-   "examples": [
-    "800G2-POE-2",
-    "800G2-POE-2="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the transceiver round"
-  },
-  {
-   "category": "routers",
    "claimed_by": "wireless",
    "series": "Aironet 1520 / 1530",
    "rule": "sku 15[23]0",
@@ -386,6 +331,114 @@
    ],
    "status": "claimant-rule-too-broad",
    "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers-unified-computing round"
+  },
+  {
+   "category": "transceiver",
+   "claimed_by": "wireless",
+   "series": "Aironet 1520 / 1530",
+   "rule": "sku 15[23]0",
+   "rows": 16,
+   "examples": [
+    "CWDM-GBIC-1530",
+    "CWDM-SFP-1530",
+    "CWDM-SFP-1530="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the wireless mapping reads the CWDM wavelength 1530 nm (CWDM-SFP-1530, CWDM-GBIC-1530, DS-CWDM-1530=, ONS-SE-2G-1530) as the Aironet 1530 model number; the rows are optics and correctly filed here — fix in the wireless round (operator, layers round 3)"
+  },
+  {
+   "category": "transceiver",
+   "claimed_by": "wireless",
+   "series": "Aironet 1550",
+   "rule": "sku 1550",
+   "rows": 16,
+   "examples": [
+    "CWDM-GBIC-1550",
+    "CWDM-SFP-1550",
+    "CWDM-SFP-1550="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the wireless mapping reads the CWDM wavelength 1550 nm (CWDM-SFP-1550, CWDM-GBIC-1550, DS-CWDM-1550=, ONS-SE-2G-1550) as the Aironet 1550 model number; the rows are optics and correctly filed here — fix in the wireless round (operator, layers round 3)"
+  },
+  {
+   "category": "transceiver",
+   "claimed_by": "wireless",
+   "series": "Aironet 1570",
+   "rule": "sku 1570",
+   "rows": 16,
+   "examples": [
+    "CWDM-GBIC-1570",
+    "CWDM-SFP-1570",
+    "CWDM-SFP-1570="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the wireless mapping reads the CWDM wavelength 1570 nm (CWDM-SFP-1570, CWDM-GBIC-1570, DS-CWDM-1570=, ONS-SE-2G-1570) as the Aironet 1570 model number; the rows are optics and correctly filed here — fix in the wireless round (operator, layers round 3)"
+  },
+  {
+   "category": "transceiver",
+   "claimed_by": "unified-communications",
+   "series": "TelePresence VCS appliances",
+   "rule": "sku ^CE-",
+   "rows": 4,
+   "examples": [
+    "CE-10GSFP-SR",
+    "CE-10GSFP-SR=",
+    "CE-1GSFP-T"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "CE-10GSFP-SR ('10GBASE-SR SFP+ SR Optics') and CE-1GSFP-T ('1000BASE-T SFP') are the optics sold for the VCS / Expressway CE appliances, correctly filed here; the unified-communications ^CE- rule is wider than the appliance family — fix in the unified-communications round"
+  },
+  {
+   "category": "transceiver",
+   "claimed_by": "unified-communications",
+   "series": "Expressway appliances (CE1100 / CE1200)",
+   "rule": "sku ^EXP-",
+   "rows": 2,
+   "examples": [
+    "EXP-1GSFP-T",
+    "EXP-1GSFP-T="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "EXP-1GSFP-T ('1 Gigabit Ethernet SFP Module 10/100/1000BASE-T') is the Expressway appliance's copper SFP, correctly filed here; the unified-communications ^EXP- rule is wider than the appliance family — fix in the unified-communications round"
+  },
+  {
+   "category": "transceiver",
+   "claimed_by": "optical-networking",
+   "series": "ONS 15216 filters, OADM, mux/demux and DCU",
+   "rule": "sku ^15216",
+   "rows": 2,
+   "examples": [
+    "15216-GBIC-1510",
+    "15216-GBIC-1510="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "15216-GBIC-1510 is a WDM GBIC, filed in GBIC (legacy) by the operator's round-3 decision; optical-networking's ^15216 names the 15216 passive family and also takes the GBIC — fix in the optical-networking round"
+  },
+  {
+   "category": "transceiver",
+   "claimed_by": "optical-networking",
+   "series": "MPO / LC patchcords, attenuators and patch panels",
+   "rule": "sku ^ONS-(FMPO|12MPO|CXP2)",
+   "rows": 1,
+   "examples": [
+    "ONS-CXP2-SR25"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "ONS-CXP2-SR25 is a CXP2 300G SR transceiver (its spare ONS-CXP2-SR25= is already planned from optical-networking into transceiver); optical-networking's CXP2 alternative is meant for the ONS-CXP2-MPO patch cords — fix in the optical-networking round"
+  },
+  {
+   "category": "transceiver",
+   "claimed_by": "video",
+   "series": "Remote PHY shelves and cabling",
+   "rule": "sku ^RPHY",
+   "rows": 63,
+   "examples": [
+    "RPHY-S10G-20K-400=",
+    "RPHY-S10G-40K-330=",
+    "RPHY-S10G-80K-590="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "operator decision, layers round 3: the RPHY-S10G-<reach>-<channel>= rows are transceivers — Cisco's own bulletin 'End-of-Sale and End-of-Life Announcement for the Cisco Remote PHY Shelf 7200 and Remote PHY SFPs' names them SFPs, and the Remote PHY shelves, RPDs and cabling are already in video. The video ^RPHY rule is fenced in the video round; the 57 video rows planned into transceiver run after the re-audit"
   }
  ]
 }

@@ -363,11 +363,12 @@
      "series": "Secure Workload (Tetration)",
      "sku": [
       "TETRA",
-      "^TA-"
+      "^TA-(?!(N9K-)?C9[23])"
      ],
      "labels": [
       "Secure Workload"
-     ]
+     ],
+     "note": "the TA- rule refuses the Nexus 9300 / 9200 switch PIDs of Tetration clusters (TA-C93180YC-FX, TA-N9K-C9372PX-E …), which are switches (operator, layers round 3); the clusters TA-CL-39U-M6-K9 / TA-CL-8U-M6-K9 stay here"
     },
     {
      "series": "Secure Client (AnyConnect)",

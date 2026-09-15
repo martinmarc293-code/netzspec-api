@@ -1,24 +1,21 @@
 {
  "vendor": "cisco",
  "category": "transceiver",
- "_about": "Layer 2 (product line) and layer 3 (series) of Cisco pluggable optics and cables, 14 Sep 2026. The stored series labels name the HOST platform ('Catalyst 6500', 'MDS 9500', 'Cisco') and say nothing about the optic, so every series is decided by the SKU's form-factor and speed family, in Cisco's own transceiver taxonomy. Order is load-bearing: direct-attach / active optical cables first (SFP-10G-AOC is a cable, not an SFP+), then Meraki, cable-access, Fibre Channel, ONS/NCS 2000, coherent, DWDM, CWDM, SONET, then Ethernet from the highest speed down. No role axis.",
+ "_about": "Layer 2 (product line), layer 3 (family: none — Cisco names no family over its optics series) and layer 4 (series) of Cisco pluggable optics and cables, 14 Sep 2026 (layers round 3, transceiver + interfaces-modules). The stored series labels name the HOST platform ('Catalyst 6500', 'MDS 9500', 'Transceiver Modules') and say nothing about the optic, so every series is decided by the SKU's form-factor and speed family, in Cisco's own transceiver taxonomy. Order is load-bearing: same-cage direct-attach / active optical cables first (SFP-10G-AOC is a cable, not an SFP+) — a BREAKOUT cable is refused there and goes to its host cage's speed series (operator, round 3) — then Meraki, cable-access, Fibre Channel, ONS/NCS 2000, coherent, DWDM, CWDM, SONET, then Ethernet from the highest speed down. Round 3 fixed the four SKU rules the switches + routers review recorded as too broad (ACU took UK power cords, GBIC Catalyst 6500 line cards, DWDM router line cards, 800G an ISR 880 PoE module). No role axis.",
+ "family_layer": "assigned",
  "lines": [
   {
    "line": "Direct-attach and active optical cables",
    "series": [
     {
-     "series": "DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)",
+     "series": "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)",
      "sku": [
-      "AOC",
-      "-?CU[0-9]",
-      "ACU",
-      "-CI[0-9]M",
-      "^SFP-H(10|25)G",
-      "^QSFP-H(10|40)G",
-      "^PQSF2P",
-      "-AC([0-9]+|X)M"
+      "^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*AOC",
+      "^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*CU[0-9]",
+      "^Q?SFP-.*ACU",
+      "^PQSF2P"
      ],
-     "note": "14 of these rows are glued cable SKUs (SFP-H25GCU1M, SFP-25GAOC1M, SFP-H10GBACU10M) that the kind classifier calls pluggable: a kind finding, not a layer one"
+     "note": "same-cage cables only. A breakout (one QSFP / QSFP-DD host cage fanned out to 2 or 4 smaller cages: QSFP-4SFP25G-CU1M, QSFP-4X10G-AOC1M, QDD-4ZQ100-CU1M) is refused by the lookahead and placed in its host cage's speed series with kind breakout-cable (operator, layers round 3); the standing check asserts no breakout-cable row sits here"
     }
    ]
   },
@@ -38,12 +35,14 @@
   },
   {
    "line": "Cable access and PON optics",
+   "no_family_reason": "three optic families sold with three different platforms (Remote PHY devices and shelves, Prisma II / RF Gateway, Catalyst PON and ME 4600 OLTs); Cisco names no family over them",
    "series": [
     {
      "series": "Remote PHY SFP+ optics",
      "sku": [
       "^RPHY-"
-     ]
+     ],
+     "note": "decided home (operator, layers round 3): the 120 RPHY-S10G-<reach>-<channel>= rows are transceivers — Cisco's own bulletin calls them 'Remote PHY SFPs'; the Remote PHY shelves, RPDs and cabling stay in video. The 57 video rows carry move plans in (run after the re-audit); video's ^RPHY rule is recorded as too broad and fenced in the video round"
     },
     {
      "series": "XFP-RF QAM transmitters (Prisma)",
@@ -52,15 +51,17 @@
      ]
     },
     {
-     "series": "GPON / RF Gateway SFPs",
+     "series": "GPON / XGS-PON OLT and RF Gateway SFPs",
      "sku": [
-      "GPON",
+      "(?:^|-)GPON",
       "^CGP-SFP",
-      "^SFP-RFG"
+      "^SFP-RFG",
+      "^SFP-10G-OLT"
      ],
      "labels": [
       "PON Series"
-     ]
+     ],
+     "note": "SFP-10G-OLT20-X (an XGS-PON OLT SFP+) was in 10G SFP+ by its speed prefix; a PON OLT optic is sold with the PON line (layers round 3)"
     }
    ]
   },
@@ -70,8 +71,11 @@
     {
      "series": "MDS Fibre Channel SFP / X2 / CWDM",
      "sku": [
-      "^DS-(SFP|X2|CWDM)"
-     ]
+      "^DS-(SFP|X2)",
+      "^DS-CWDM(?!-?MUX|OADM|CHASSIS)",
+      "^DS-FC-SW"
+     ],
+     "note": "^DS-FC-SW places DS-FC-SW-4PK= (a 4-pack of FC SFPs) planned in from storage-networking. The DS-CWDM rule refuses the MDS CWDM passives (DS-CWDM-MUX8A=, DS-CWDMOADM4A=, DS-CWDMCHASSIS=), which are planned to optical-networking and must not fall back to an optic series if a plan is withdrawn (reviewer A-11, layers round 3)"
     }
    ]
   },
@@ -81,11 +85,10 @@
     {
      "series": "ONS 15454 / NCS 2000 pluggables",
      "sku": [
-      "^ONS-",
-      "^15454E?-SFP",
-      "^15327-SFP",
-      "^15216-GBIC"
-     ]
+      "^ONS-(S[CEI]\\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)",
+      "^15327-SFP"
+     ],
+     "note": "the ONS rule names the optic and cable-assembly tokens opticalKind names, not every ONS- SKU: the bare prefix claimed the patch cord ONS-CAB-CS-LC-5= in interfaces-modules (reviewer A-11, layers round 3). The twelve 15454-SFP / 15454E-SFP rows are planned to optical-networking (operator: ^15454 goes with the ONS 15454 platform, and the asymmetry with the ONS-prefixed optics that stay here is intended); the 15216-GBIC rows sit in GBIC (legacy)"
     }
    ]
   },
@@ -98,8 +101,9 @@
       "^DP0[148]",
       "^CFP2-WDM",
       "^QDD-400G-ZR",
-      "^Q100-ZR"
-     ]
+      "^QSFP100GMX"
+     ],
+     "note": "QSFP100GMX1/MX2-2/-20-BUN are Routed Optical Networking bundles of the DP01QS28-MX1/MX2 100G DCO QSFP28 (were in 100G QSFP28 by prefix); Q100-ZR4-S-EA= is a fixed 80 km 100GBASE-ZR4 QSFP28, not coherent, and moved to 100G QSFP28 (layers round 3)"
     }
    ]
   },
@@ -107,19 +111,20 @@
    "line": "WDM transceivers",
    "series": [
     {
-     "series": "DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC",
+     "series": "DWDM SFP / SFP+ / XFP / X2 / XENPAK",
      "sku": [
-      "^DWDM-",
-      "DWDM",
+      "^DWDM-(?!GBIC)",
       "^WDM-XENPAK",
       "^SFP-WDM"
-     ]
+     ],
+     "note": "the unanchored DWDM token took CRS / ASR 9000 / NCS 5500 DWDM line cards in routers (review record: fix in the transceiver round) and is gone; the one transceiver row it named, X2-10G-DWDM, is a family placeholder with a class plan (operator, layers round 3). DWDM-GBIC rows sit in GBIC (legacy)"
     },
     {
-     "series": "CWDM SFP / SFP+ / GBIC and OADM",
+     "series": "CWDM SFP / SFP+",
      "sku": [
-      "^CWDM-"
-     ]
+      "^CWDM-(?!GBIC)"
+     ],
+     "note": "CWDM-GBIC rows sit in GBIC (legacy); the CWDM-OADM1 / OADM4 plug-ins are planned to optical-networking with the CWDM-MUX rows (layers round 3)"
     }
    ]
   },
@@ -140,13 +145,15 @@
   },
   {
    "line": "Ethernet transceivers",
+   "no_family_reason": "Cisco sells Ethernet optics by form factor and speed (SFP, SFP+, SFP28, SFP56, QSFP+, QSFP28, QSFP-DD, OSFP, CFP / CPAK, X2 / XENPAK / XFP, GBIC); each series is that form-factor family and Cisco names no family grouping them",
    "series": [
     {
      "series": "800G OSFP / QSFP-DD800",
      "sku": [
       "^OSFPR?-",
-      "800G"
-     ]
+      "^QDD-(2X400G|8X100G)"
+     ],
+     "note": "QDD-2X400G-FR4 and QDD-8X100G-FR are QSFP-DD800 modules by their own names (were in 200G / 400G by the QDD prefix); the bare 800G token took the ISR 880 PoE module 800G2-POE-2 (review record) and is gone (layers round 3)"
     },
     {
      "series": "200G / 400G QSFP-DD, QSFP112 and QSFP56",
@@ -154,31 +161,35 @@
       "^QDD",
       "^QSFP-400G",
       "^QSFP-200",
-      "^QSFP-2Q200"
-     ]
+      "^QSFP-2Q200",
+      "^QSFP-4S50"
+     ],
+     "note": "QSFP-4S50-CU1M / 2M / 3M (a 200G QSFP56 host fanned out to 4 x 50G SFP56) sit here by their host cage like every other breakout (reviewer A-2, layers round 3; they were in 50G SFP56 by the fan-out end)"
     },
     {
      "series": "100G QSFP28",
      "sku": [
       "^QSFP-?100",
-      "^QSFP-40/100G",
+      "^QSFP-40/100",
       "^QSFP-4SFP25G?",
-      "^Q-4SFP25G"
-     ]
+      "^Q-4SFP25G",
+      "^Q100-ZR4"
+     ],
+     "note": "QSFP-40/100-SRBD (dual-rate 40/100G BiDi QSFP28) was in 40G QSFP+: the rule named only the QSFP-40/100G spelling (layers round 3)"
     },
     {
-     "series": "100G CFP / CFP2 / CPAK / CXP",
+     "series": "40G / 100G CFP, CFP2, CPAK and CXP",
      "sku": [
       "^CFP",
       "^CPAK",
       "^CXP"
-     ]
+     ],
+     "note": "was '100G CFP / CFP2 / CPAK / CXP'; the series also holds the CFP-40G modules and the CPAK 10x10G"
     },
     {
      "series": "50G SFP56",
      "sku": [
-      "^SFP-50G",
-      "^QSFP-4S50"
+      "^SFP-50G"
      ]
     },
     {
@@ -207,11 +218,14 @@
       "^SFP-10G",
       "^S10G-",
       "^CE-10GSFP",
-      "^FET-10G"
+      "^FET-10G",
+      "^CSP-SFP",
+      "^EXP-10GSFP"
      ],
      "labels": [
       "10G SFP+ Modules"
-     ]
+     ],
+     "note": "CSP-SFP-1WSR / 1WLR are 10GE SFP+ for the CSP 2100's Intel NICs (were in 1G by prefix); EXP-10GSFP places the Expressway SFP+ planned in from unified-communications (layers round 3)"
     },
     {
      "series": "10G X2 / XENPAK / XFP (legacy)",
@@ -232,7 +246,6 @@
       "^CE-1GSFP",
       "^EXP-1GSFP",
       "^MGB",
-      "^CSP-SFP",
       "^VIP-SFP",
       "^SFP-CU"
      ],
@@ -244,8 +257,9 @@
      "series": "GBIC (legacy)",
      "sku": [
       "^WS-G548",
-      "GBIC"
-     ]
+      "^(DWDM|CWDM|15216)-GBIC-"
+     ],
+     "note": "every GBIC form-factor optic outside a platform line: the 1000BASE GBICs WS-G548x and the WDM GBICs DWDM-GBIC (32), CWDM-GBIC (8) and 15216-GBIC (2) (operator, layers round 3). The bare GBIC token took Catalyst 6500 GBIC line cards (review record) and is gone. ONS-GC-GE-* GBICs stay with the ONS / NCS 2000 platform line"
     }
    ]
   },

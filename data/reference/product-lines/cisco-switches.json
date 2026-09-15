@@ -15,8 +15,8 @@
    "belongs": "collaboration-endpoints"
   },
   {
-   "sku": "^TA-|^C1-TAAS|^TETRATION",
-   "why": "Tetration Analytics appliance",
+   "sku": "^TA-(?!(N9K-)?C9[23])|^C1-TAAS|^TETRATION",
+   "why": "Tetration Analytics appliance (the TA- Nexus 9300 / 9200 switch PIDs are switches and are refused here — operator, layers round 3)",
    "belongs": "servers-unified-computing"
   },
   {
@@ -507,11 +507,12 @@
      "series": "Catalyst PON",
      "role": "access",
      "sku": [
-      "^CGP-"
+      "^CGP-(OLT|ONT)"
      ],
      "labels": [
       "PON Series"
-     ]
+     ],
+     "note": "the rule names the OLT and ONT devices: the bare ^CGP- also claimed the Catalyst PON OLT optic CGP-SFP-OC(=), which is a transceiver (reviewer A-8, layers round 3)"
     },
     {
      "series": "Redundant Power System",
@@ -693,12 +694,14 @@
      "series": "Nexus 9200",
      "role": "datacenter",
      "sku": [
-      "^(C1-)?N9K-C92"
+      "^(C1-)?N9K-C92",
+      "^TA-N9K-C92"
      ],
      "labels": [
       "Nexus9200"
      ],
-     "family": "Nexus 9000"
+     "family": "Nexus 9000",
+     "note": "Tetration Analytics PIDs: TA-N9K-C9236C is the Nexus 9236C sold as part of a Tetration cluster — a switch under an appliance PID stays a switch (operator, layers round 3; its servers plan is cancelled)"
     },
     {
      "series": "Nexus 9300",
@@ -711,8 +714,10 @@
       "^N9K-93[0-9]",
       "^N9300",
       "^N93[0-9]",
-      "^(C1-)?N9K-M(6PQ|4PC|12PQ)"
+      "^(C1-)?N9K-M(6PQ|4PC|12PQ)",
+      "^TA-(N9K-)?C93"
      ],
+     "note": "Tetration Analytics PIDs: TA-C93180YC-FX(-NR / 3 / =) and TA-N9K-C9372PX-E(=) / TA-N9K-C9372TX-E(=) are the Nexus 9300 switches sold in Tetration clusters — a switch under an appliance PID stays a switch (operator, layers round 3; their servers plans are cancelled)",
      "labels": [
       "N9300",
       "Nexus9300 EX FX",
@@ -972,6 +977,13 @@
      "labels": [
       "CGS 2500 Connected Grid"
      ]
+    },
+    {
+     "series": "Industrial Ethernet shared parts",
+     "sku": [
+      "^CW-SFP-KIT"
+     ],
+     "note": "CW-SFP-KIT1 'SFP Installation Kit for IE-3500H-12P2MU2X', planned in from routers (operator, layers round 3: an arrival in a reviewed category). The rows the label check or the accessory rule send to this line's shared parts land here too"
     }
    ],
    "no_family_reason": "Cisco names each Industrial Ethernet model line (IE 1000 … IE 9300) and the CGS 2500 as its own series; checked for 'IE3x00' as a family: 0 document titles in the index contain it (14 Sep 2026)"

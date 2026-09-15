@@ -26,6 +26,8 @@ const CASES: [string, string][] = [
   ["15454-10E-L1-C=", "transponder"], ["15454-40E-MXP-C=", "transponder"], ["NCS1K4-QXP-K9=", "transponder"], ["CIM8-C-K9=", "transponder"],
   ["NCS2K-100G-CK-C", "transponder"], ["CO-40TDL40-X1001=", "transponder"], ["NCS4K-2H-W", "transponder"], ["NCS1K14-2.4T-K9=", "transponder"],
   ["15454-M-10X10G-LC=", "linecard"], ["NCS4K-20T-O-S", "linecard"],
+  // layers round 3 (14 Sep 2026): arrivals planned in from transceiver — the 15454 SFP spellings and the glued MDS CWDM passives
+  ["15454-SFP-GE+-LX=", "pluggable"], ["15454E-SFP-L.16.1=", "pluggable"], ["DS-CWDMOADM4x=", "mux"], ["DS-CWDMCHASSIS=", "chassis"],
   // kind-layer (13 Sep 2026): the 14 CWDM mux / OADM plug-ins III.0 item 6 found in transceiver.accessory must land on `mux`
   // if their row move runs; witnesses for the three SKU shapes (spaced, channel-glued, add/drop).
   ["CWDM-MUX-4-SF2=", "mux"], ["DS-CWDM-MUX8A=", "mux"], ["CWDM-MUX8A=", "mux"], ["CWDM-MUX-AD-1510=", "mux"],
@@ -114,6 +116,11 @@ const REFUSALS: [string, string, string][] = [
   ["15454E-OPT-BST", "amplifier", "the ETSI 15454E prefix"],
   ["15252-N3/UPGRADE=", "accessory", "'Upgrade kit from MCU with Plenum to MCU FAN' — a kit, not a fan"],
   ["ONS15252", "chassis", "'Multi-Channel Unit, Mechanics, Covers' — the 15252 unit itself"],
+  // layers round 3 (14 Sep 2026): what the widened 15454 SFP and the glued MDS CWDM rules must not take
+  ["15454-SC-SC-2=", "cable", "'SC to SC fiber patchcord' — S after the platform prefix is not SFP"],
+  ["15454-SMR2-LIC=", "roadm", "'SM ROADM 2-PRE-AMP-BST' licence row — S after the platform prefix is not SFP"],
+  ["DS-CWDM-1470=", "unknown", "an MDS CWDM SFP optic: only the glued OADM / CHASSIS passives are named"],
+  ["DS-CWDM8G1610=", "unknown", "the 8G spelling of the same MDS CWDM optic"],
 ];
 for (const [sku, want, why] of REFUSALS) eq(`${sku} stays ${want} (${why})`, opticalKind(sku), want);
 eq(`refusals (${REFUSALS.length}) are at least as many as positives (${CASES.length})`, REFUSALS.length >= CASES.length, true);

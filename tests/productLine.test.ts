@@ -187,12 +187,16 @@ witness("collaboration-endpoints", [
 
 // ---- transceiver (done 14 Sep 2026) — the label names the HOST platform; the series is the optic's family ----
 witness("transceiver", [
-  ["SFP-10G-AOC7M", "SFP active optical cable", "Network Convergence System 5000 Series", "Direct-attach and active optical cables", "DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)"], // a cable, not an SFP+
+  ["SFP-10G-AOC7M", "SFP active optical cable", "Network Convergence System 5000 Series", "Direct-attach and active optical cables", "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)"], // a cable, not an SFP+
   ["SFP-10G-SR", "10GBASE-SR SFP Module", "Catalyst 6500", "Ethernet transceivers", "10G SFP+"],
-  ["QSFP-4X10G-AC7M", "QSFP to 4 SFP+ active copper breakout", "Cisco", "Direct-attach and active optical cables", "DAC and AOC cables (SFP+ / SFP28 / QSFP / QSFP-DD, incl. breakouts)"],
+  // layers round 3 (operator): a BREAKOUT beats the same-cage DAC rule and sits in its host cage's speed series
+  ["QSFP-4X10G-AC7M", "QSFP to 4 SFP+ active copper breakout", "Cisco", "Ethernet transceivers", "40G QSFP+"],
+  ["QSFP-4SFP25G-CU1M", "100G QSFP28 to 4x25G SFP28 breakout", "Cisco", "Ethernet transceivers", "100G QSFP28"],
   ["QSFP-4X10G-LR-S=", "QSFP 4x10G transceiver module, SM", "Network Convergence System 2000 Series", "Ethernet transceivers", "40G QSFP+"],
-  ["DWDM-SFP10G-38.19=", "10GBASE-DWDM 1538.19 nm SFP10G", "Network Convergence System 500", "WDM transceivers", "DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC"],
-  ["DWDM-GBIC-40.56", "1000BASE-DWDM GBIC", "Cisco", "WDM transceivers", "DWDM SFP / SFP+ / XFP / X2 / XENPAK / GBIC"],          // DWDM before GBIC
+  ["DWDM-SFP10G-38.19=", "10GBASE-DWDM 1538.19 nm SFP10G", "Network Convergence System 500", "WDM transceivers", "DWDM SFP / SFP+ / XFP / X2 / XENPAK"],
+  // layers round 3 (operator): every WDM GBIC is a GBIC — the legacy GBIC series' rule matches its 42 rows, before the DWDM / CWDM rules
+  ["DWDM-GBIC-40.56", "1000BASE-DWDM GBIC", "Cisco", "Ethernet transceivers", "GBIC (legacy)"],
+  ["CWDM-GBIC-1550", "1000BASE-CWDM GBIC 1550 nm (yellow)", "Cisco", "Ethernet transceivers", "GBIC (legacy)"],
   ["DS-CWDM8G1470=", "CWDM 8G FC SFP", "MDS 9000 Series Multilayer", "Fibre Channel transceivers (MDS)", "MDS Fibre Channel SFP / X2 / CWDM"], // FC before CWDM
   ["ONS-SC-4G-31.9=", "SFP - 4G FC 1531.90", "MDS 9500 Series Multilayer Directors", "Optical networking pluggables (ONS / NCS 2000)", "ONS 15454 / NCS 2000 pluggables"],
   ["QDD-400G-ZR-S", "400G QSFP-DD ZR", "Transceiver Modules", "Coherent and digital-coherent pluggables", "400G / 800G ZR, ZR+ and CFP2 DCO"],
@@ -201,6 +205,11 @@ witness("transceiver", [
   ["MA-SFP-10GB-ER", "Meraki MA-SFP-10GB-ER", "Meraki", "Meraki transceivers and cables", "Meraki MA-SFP / MA-QSFP / MA-CBL"],
   ["GLC-TE", "1000BASE-T SFP", "1G SFP Modules", "Ethernet transceivers", "1G and 100M SFP"],
 ]);
+// layers round 3: the four transceiver SKU rules the switches + routers review recorded as too broad no longer take those rows
+for (const [sku, name, label] of [["WS-X6516-GBIC", "16 port CEF256 GbE module; requires GBICs", "Catalyst 6500"], ["CAB-ACU", "AC Power Cord (UK), C13, BS 1363, 2.5m", "Catalyst 3850"],
+  ["A9K-400G-DWDM-TR", "ASR9000 400G IPoDWDM Packet Transport Optimized LC", "ASR 9000"], ["800G2-POE-2", "2 Port PoE Module for 880 Series Router", "880"]])
+  check(`transceiver REFUSAL: ${sku} (${name}) is not placed by the transceiver mapping`, placePart("cisco", "transceiver", { sku, name, series: label }) === null,
+    `got ${JSON.stringify(placePart("cisco", "transceiver", { sku, name, series: label }))}`);
 
 // ---- security (done 14 Sep 2026) ----
 witness("security", [

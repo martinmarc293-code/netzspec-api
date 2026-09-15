@@ -73,8 +73,9 @@ type Plan = { sku: string; category: string; action: string; to: string; reason?
 const planFile = path.join(REPO_ROOT, "data", "reference", "kind-layer-plans-2026-09-13.json");
 const allPlans: Plan[] = fs.existsSync(planFile) ? JSON.parse(fs.readFileSync(planFile, "utf8")) as Plan[] : [];
 const planOf = new Map<string, Plan>(allPlans.map((x) => [`${x.category}|${x.sku.trim().toUpperCase()}`, x]));
-// closing items at aa1143f, item 1: a DEVICE never sits in shared parts — a device the label evidence does not support is held for review
-const DEVICE_KINDS = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance"]);
+// closing items at aa1143f, item 1: a DEVICE never sits in shared parts — a device the label evidence does not support is held for review.
+// The set is the standing check's own (src/core/layerChecks.ts), so the build and the check cannot disagree on what a device is.
+import { DEVICE_KINDS } from "../src/core/layerChecks.js";
 
 /** pending_in (closing items at aa1143f, item 2): rows other categories plan to move INTO this category that this mapping places in the
  *  series, by source category — so a placeholder series (0 parts today) says what it is waiting for, in the JSON and on the page */

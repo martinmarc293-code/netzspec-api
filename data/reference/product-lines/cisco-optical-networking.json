@@ -69,6 +69,19 @@
    ]
   },
   {
+   "line": "CWDM passives (CWDM-CHASSIS-2 system)",
+   "series": [
+    {
+     "series": "CWDM mux/demux, OADM plug-ins and chassis (CWDM-MUX / CWDM-OADM / DS-CWDM)",
+     "sku": [
+      "^CWDM-(MUX|OADM)",
+      "^DS-CWDM(-MUX|MUX|OADM|CHASSIS)"
+     ],
+     "note": "the home of the 28 passive CWDM mux/demux, OADM plug-ins and the 2-slot chassis planned in from transceiver (18 in the kind layer, 10 CWDM-OADM1 / OADM4 in layers round 3, 14 Sep 2026). The MDS CWDM SFP optics (DS-CWDM-1470=, DS-CWDM8G1610=) are transceivers and are not matched"
+    }
+   ]
+  },
+  {
    "line": "NCS 4000",
    "series": [
     {
@@ -106,8 +119,10 @@
      "series": "MPO / LC patchcords, attenuators and patch panels",
      "sku": [
       "^ONS-(FMPO|12MPO|CXP2)",
-      "MPO-MPO"
-     ]
+      "MPO-MPO",
+      "^ONS-CAB-"
+     ],
+     "note": "^ONS-CAB- places ONS-CAB-CS-LC-5= 'Duplex optical patchcord, LC to CS connectors, 5m', planned in from interfaces-modules (layers round 3, A-11)"
     }
    ]
   }

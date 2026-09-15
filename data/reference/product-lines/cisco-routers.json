@@ -686,9 +686,17 @@
      "labels": [
       "Catalyst Cellular Gateways"
      ]
+    },
+    {
+     "series": "IC3000 Industrial Compute Gateway",
+     "role": "industrial-iot",
+     "sku": [
+      "^IC3000"
+     ],
+     "note": "IC3000-2C2F-K9= / IC3000-2C2F-K9++ planned in from switches: an edge-compute appliance (IOx) of the IoT line, kind appliance (operator, layers round 3: an arrival in a reviewed category)"
     }
    ],
-   "no_family_reason": "Cisco names IR 1101, 1800, 8100, 8300, 800, IR 500 WPAN and the Catalyst / LoRaWAN gateways as separate series"
+   "no_family_reason": "Cisco names IR 1101, 1800, 8100, 8300, 800, IR 500 WPAN, the Catalyst / LoRaWAN gateways and the IC3000 compute gateway as separate series"
   },
   {
    "line": "Small Business Routers",

@@ -95,7 +95,10 @@ const RULES: { kind: OpticalKind; re: RegExp }[] = [
   // Pluggable optics (then split by opticKind below). The hyphen after each family token is required:
   // ONS-CCC-100G-10 is a CXP-CFP CABLE and ONS-CXP2-MPO-30 a patch cord, not the ONS-CC / ONS-CXP optics.
   // ONS-CXP2-SR25 is a CXP2 transceiver and ONS-CXP2-MPO-30 a patch cord for one, hence the look-ahead.
-  { kind: "pluggable", re: /^ONS-(?:S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2)|^15454-SFP\d|^15216-GBIC-|^DP0\d|^CFP2-WDM-|^QDD-/ },
+  // layers round 3 (14 Sep 2026): `^15454-SFP\d` named only the OC-n sizes (15454-SFP3-1-IR=); the twelve 15454 SFPs planned in from
+  // transceiver also spell 15454-SFP-GE+-LX=, 15454-SFP-LC-LX/LH=, 15454-SFP-200= and 15454E-SFP-L.16.1=, and four of them (names that
+  // are the bare SKU) would have arrived as `unknown`.
+  { kind: "pluggable", re: /^ONS-(?:S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2)|^15454E?-SFP|^15216-GBIC-|^DP0\d|^CFP2-WDM-|^QDD-/ },
   // Cables: patch cords (LC-LC, MU-LC, MPO-MPO, foldable MPO, CXP-CFP), power / DC / alarm / sync / USB cables,
   // TDM cable kits. NCS2006-CAB-DEFL is an air deflector and is named by the accessory rule first.
   { kind: "accessory", re: /-CAB-DEFL$/ },
@@ -147,11 +150,14 @@ const RULES: { kind: OpticalKind; re: RegExp }[] = [
     // kind-layer (13 Sep 2026): + a channel count GLUED to MUX — DS-CWDM-MUX8A= "8-channel multiplexer/demultiplexer" and
     // CWDM-MUX8A=, two of the 14 CWDM mux/OADM plug-ins III.0 item 6 found in transceiver.accessory. If that row move runs,
     // all 14 must land on `mux` here; the other twelve (CWDM-MUX-4=, CWDM-MUX-AD-1510=, CWDM-MUX-4-SF1=) already did.
-    re: /(?:^|-)(?:MD\d*|AD\d*|\d+AD|OADM\d*|FL[A-E]|EF|SMR[0-9A-Z]*|WSS|WXC|CCMD|\d*CCOFS|\d*(?:MUX|DMX|DEMUX)|MUX\d+[A-Z]?|BRK|MMU|PSM|YCM|ID|SC|CS|V)(?:-|=|$)|^N[PU]\/|^NCS2K-MF-/,
+    // layers round 3 (14 Sep 2026): the OADM token glued the same way — DS-CWDMOADM4A= / 4B= reached `mux` only through their names,
+    // and DS-CWDMOADM4x=, whose name is the bare SKU, would have arrived `unknown`. Named by SKU now.
+    re: /(?:^|-)(?:MD\d*|AD\d*|\d+AD|OADM\d*|FL[A-E]|EF|SMR[0-9A-Z]*|WSS|WXC|CCMD|\d*CCOFS|\d*(?:MUX|DMX|DEMUX)|MUX\d+[A-Z]?|BRK|MMU|PSM|YCM|ID|SC|CS|V)(?:-|=|$)|^N[PU]\/|^NCS2K-MF-|^DS-CWDMOADM/,
   },
   // Shelves and systems: shelf assemblies (-SA, -SA-AC/DC), assemble-to-order systems (-SYS, CISCO-15454-M6),
   // bare NCS 1000 chassis (NCS1004, NCS1014, NCS1002-K9), the three-shelf bay assemblies, and the 15252 unit.
-  { kind: "chassis", re: /-SA(?:-|=|$)|-SYS(?:-|$)|^NCS10\d\d(?:-K9|-2)?$|^NCS1K\d*-SYS|^CISCO-?15\d{3}|^ONS15252$|^15454-\dSA/ },
+  // layers round 3: DS-CWDMCHASSIS= "2-slot chassis for Cisco OADM and multiplexer/demultiplexer", planned in from transceiver.
+  { kind: "chassis", re: /-SA(?:-|=|$)|-SYS(?:-|$)|^NCS10\d\d(?:-K9|-2)?$|^NCS1K\d*-SYS|^CISCO-?15\d{3}|^ONS15252$|^15454-\dSA|^DS-CWDMCHASSIS/ },
   // kind-layer (13 Sep 2026): TRANSPONDERS, before the line-card rule that used to take them. A transponder,
   // muxponder or crossponder turns client signals into a DWDM line wavelength, and its sheet prints that line side
   // (nominal wavelength, modulation format, CD tolerance); a client or CEM line card does not. By family:
