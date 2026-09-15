@@ -937,7 +937,7 @@ ADSL2	Cisco ADSL2	900 ISR	router	pending_plan						rt.issue.placeholder	datashee
 ADSL2+	Cisco ADSL2+	900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 ADSL2+M	Cisco ADSL2+M	900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
 ADSL2/2+	Cisco ADSL2/2+	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product		
-AIM-VOICE-30	Cisco AIM-VOICE-30	2900 ISR	module	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 2900 ISR; was ISR 2900): no platform token (2900) in the SKU or name, no compatible part placed in the series						none: no platform token (2900) in the SKU or name, no compatible part placed in the series
+AIM-VOICE-30	Cisco AIM-VOICE-30	2900 ISR	module	pending_plan								move interfaces-modules		
 AIR-ACC1530-PMK1	Standard pole/wall mount kit for AP1530/1560 Series	Wireless Gateway for LoRaWAN	mechanical	pending_plan								move wireless		
 AIR-ACC370-NF-NF	Cisco AIR-ACC370-NF-NF	Catalyst IR1800 Rugged	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series
 AIR-ANT2513P4M-N/NS	2.4GHz/5GHz 13dBi Patch Antenna 4port, Nconn	3800 Series Integrated Services Routers ISR	antenna	pending_plan								move wireless		

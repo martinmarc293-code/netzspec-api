@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-15T10:08:29.089Z",
- "commit": "559872d6c2208280b56044c28bc503c091e43b85",
+ "built_at": "2026-09-15T10:32:13.142Z",
+ "commit": "9e2285e0cfaed89ec3dd87048ef1879e331d11c9",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5093,
@@ -357,7 +357,7 @@
   },
   {
    "line": "ISR (Integrated Services Routers)",
-   "parts": 1269,
+   "parts": 1268,
    "series": [
     {
      "series": "ISR 1100",
@@ -686,15 +686,15 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 189,
+     "parts": 188,
      "kinds": {
       "fan": 1,
       "antenna": 36,
       "cable": 75,
       "mechanical": 13,
-      "module": 12,
       "power-cord": 9,
       "bundle": 1,
+      "module": 11,
       "accessory": 1,
       "flash": 14,
       "memory": 2,
@@ -711,7 +711,7 @@
       "3G-AE015-R — Single Unit antenna Extension Base (15 foot cable included)"
      ],
      "rules": {
-      "label-unsupported": 56,
+      "label-unsupported": 55,
       "accessory": 133
      },
      "pending_in": {}
@@ -1005,6 +1005,20 @@
      },
      "pending_in": {
       "interfaces-modules": 20
+     }
+    },
+    {
+     "series": "Cisco 7100 VPN routers (7120 / 7140 / 7160)",
+     "family": null,
+     "role": "edge",
+     "note": "layers round 3, security round: the Cisco 7100 Series VPN Router parts — MEM-7100-CFL128M 'Cisco 7160 Compact Flash Disk', MEM-7120/40-128P, MEM-71XX-1024S / 256S, PWR-AC-71XX / PWR-2XAC-71XX / PWR-BLANK-71XX, SM-71XX-BLANK — arrive from security, where Cisco's 'Cisco Select 7100 components' end-of-sale notice (published in the FirePOWER 7000 collateral) had filed them. No 7100 chassis is in the catalogue; the series holds the parts, role edge with the other legacy routers",
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {},
+     "pending_in": {
+      "security": 8
      }
     }
    ]
@@ -2270,6 +2284,14 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "AIM-VOICE-30",
+   "name": "Cisco AIM-VOICE-30",
+   "series_label": "2900 ISR",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "an Advanced Integration Module (AIM), the internal module slot of the 2600XM / 2800 / 3700 / 3800 routers: A.3 rule 1 puts a multi-platform router card in interfaces-modules, whose series 'AIM (Advanced Integration Modules)' also receives AIM-DES/BP from security (layers round 3, security round)"
   },
   {
    "sku": "AIR-ACC1530-PMK1",
@@ -4459,9 +4481,9 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 441,
+  "label_placed": 440,
   "by_kind": {
-   "none": 193,
+   "none": 192,
    "name": 137,
    "family": 20,
    "sku-token": 91
@@ -4538,14 +4560,6 @@
     "from_series": "Wireless Gateway for LoRaWAN",
     "to_series": "Industrial and IoT Routers shared parts",
     "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIM-VOICE-30",
-    "name": "Cisco AIM-VOICE-30",
-    "series_label": "2900 ISR",
-    "from_series": "ISR 2900",
-    "to_series": "ISR (Integrated Services Routers) shared parts",
-    "why": "no platform token (2900) in the SKU or name, no compatible part placed in the series"
    },
    {
     "sku": "AIR-ACC370-NF-NF",
